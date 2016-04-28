@@ -456,7 +456,7 @@ function request_audio(asset) {
         m_util.panic("Unsupported request type for audio element");
     }
     var audio = document.createElement("audio");
-    if (cfg_def.allow_cors || cfg_def.cors_chrome_hack)
+    if (cfg_def.allow_cors)
         audio.crossOrigin = "Anonymous";
     
     audio.addEventListener("loadeddata", function() {

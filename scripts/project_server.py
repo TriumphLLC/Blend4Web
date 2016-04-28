@@ -94,6 +94,7 @@ def create_server(root, port, allow_ext_requests, python_path, blender_path, B4W
         (r"/export/hide_b4w/?$", ExportHideHandler),
         (r"/run_blender/(.*)$", RunBlenderHandler),
         (r"/tests/send_req/?$", TestSendReq),
+        (r"/tests/time_of_day/?$", TestTimeOfDay),
         (r"/(.*)$", StaticFileHandlerNoCache,
             { "path": root, "default_filename": DEFAULT_FILENAME}),
     ])
@@ -217,7 +218,7 @@ class TestSendReq(tornado.web.RequestHandler):
     def post(self):
         req = json.loads(self.request.body.decode("utf-8"))
         if req["f"]["f1"]["field1"] == 1 and req["f"]["f2"]["field2"][2] == "2":
-            resp = {"resp": 2}
+            resp = {"resp" : 2}
         else:
             resp = {}
         self.write(resp)
@@ -235,6 +236,17 @@ class TestSendReq(tornado.web.RequestHandler):
                     }
         }
         self.write(json)
+
+class TestTimeOfDay(tornado.web.RequestHandler):
+    def post(self):
+        req = json.loads(self.request.body.decode("utf-8"))
+        time = req["hours"]
+        hours = int(time.split(':', 2)[0])
+        if hours > 9 and hours < 19:
+            resp = {"time_of_day" : "day"}
+        else:
+            resp = {"time_of_day" : "night"}
+        self.write(resp)
 
 class ProjectManagerCli():
     """Abstraction layer to project manager cli"""

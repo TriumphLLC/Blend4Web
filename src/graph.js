@@ -251,7 +251,7 @@ exports.replace_edge_attr = function(graph, id1, id2, attr_old, attr_new) {
  * @param {Edge[]} subgraph_graph_edges subgraph->graph inter-graph edges
  * @param {Edge[]} graph_subgraph_edges graph->subgraph inter-graph edges
  */
-exports.append_subgraph = function(subgraph, graph, 
+exports.append_subgraph = function(subgraph, graph,
         subgraph_graph_edges, graph_subgraph_edges) {
 
     subgraph_graph_edges = subgraph_graph_edges || [];
@@ -934,6 +934,17 @@ function compatible_node(node_comp, graph1, node1, graph2, node2) {
         return true;
     else
         return false;
+}
+
+exports.get_node_id = function(graph, attr) {
+    var nodes = graph.nodes;
+
+    for (var i = 1; i < nodes.length; i+=2) {
+        if (nodes[i] == attr)
+            return nodes[i-1];
+    }
+
+    return null;
 }
 
 exports.get_node_attr = get_node_attr;

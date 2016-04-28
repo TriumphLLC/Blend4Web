@@ -4,15 +4,14 @@
 # Manual package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-28 15:00+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2016-04-25 17:26+0300\n"
+"PO-Revision-Date: 2016-04-12 23:46+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,158 +19,203 @@ msgstr ""
 
 #: ../objects.rst:6
 msgid "Objects"
-msgstr ""
+msgstr "物体"
 
 #: ../objects.rst
 msgid "Table of Contents"
-msgstr ""
+msgstr "目录"
 
 #: ../objects.rst:12
 msgid ""
 "Objects are intended to position components of different types (meshes, "
 "cameras, lamps etc) in a 3D scene space."
-msgstr ""
+msgstr "物体是在3D场景空间中放置的不同类型（网格，照相机，灯等）的组件。"
 
 #: ../objects.rst:15
 msgid "Types"
-msgstr ""
+msgstr "类型"
 
 #: ../objects.rst:17
 msgid "The engine supports objects of the following types:"
-msgstr ""
+msgstr "该引擎支持以下类型的物体："
 
 #: ../objects.rst:19
 msgid ":ref:`meshes (mesh) <meshes>`"
-msgstr ""
+msgstr ":ref:`网格(mesh) <meshes>`"
 
 #: ../objects.rst:20
 msgid "camera"
-msgstr ""
+msgstr "摄像机"
 
 #: ../objects.rst:21
 msgid "lamp"
-msgstr ""
+msgstr "灯"
 
 #: ../objects.rst:22
 msgid "empty"
-msgstr ""
+msgstr "空物体"
 
 #: ../objects.rst:23
 msgid "armature"
-msgstr ""
+msgstr "骨架"
 
 #: ../objects.rst:24
 msgid "speaker"
-msgstr ""
+msgstr "扬声器"
 
 #: ../objects.rst:25
 msgid "curve"
-msgstr ""
+msgstr "曲线"
 
 #: ../objects.rst:26
 msgid "text"
-msgstr ""
+msgstr "文本"
 
 #: ../objects.rst:27
 msgid "metaball"
-msgstr ""
+msgstr "融球"
 
 #: ../objects.rst:28
 msgid "surface"
-msgstr ""
+msgstr "曲面"
 
-#: ../objects.rst:34
-msgid "Static and Dynamic Objects"
+#: ../objects.rst:30
+msgid ""
+"During the scene export, ``CURVE``, ``TEXT``, ``METABALL`` and "
+"``SURFACE`` type objects are converted into ``MESH`` type objects."
 msgstr ""
 
 #: ../objects.rst:36
-msgid ""
-"**Static objects** are objects which can be merged together if they have "
-"the same material."
-msgstr ""
+msgid "Static and Dynamic Objects"
+msgstr "静态和动态物体"
 
 #: ../objects.rst:38
-msgid "**Dynamic objects** are objects which cannot be combined with each other."
+msgid "An object can be either static or dynamic."
 msgstr ""
 
 #: ../objects.rst:40
 msgid ""
-"Only ``MESH``, ``CAMERA`` and ``ARMATURE`` type objects can be dynamic. "
-"All other object types are static."
+"**Static objects** are objects that cannot be moved, animated or changed "
+"in any other way while running the application. For performance purposes,"
+" such objects can be merged together if they have the same material."
 msgstr ""
 
 #: ../objects.rst:42
 msgid ""
-"The objects which have animation, physics or a parent, which is a dynamic"
-" object, are considered dynamic."
+"**Dynamic objects** can be moved, animated or changed in other ways while"
+" running the application. They can also interact with other objects, "
+"including static ones. Dynamic objects are never combined with each other"
+" or with static objects."
 msgstr ""
 
 #: ../objects.rst:44
 msgid ""
-"Object movement via API is possible only for dynamic objects. In order to"
-" make the movement of the object without dynamic settings possible, it is"
-" necessary to activate ``Force Dynamic Object`` option in its settings."
+"Only ``MESH`` and ``EMPTY`` type objects can be either static or dynamic."
+" All other object types, such as ``CAMERA`` and ``ARMATURE``, are always "
+"dynamic."
 msgstr ""
 
-#: ../objects.rst:49
-msgid "Settings"
+#: ../objects.rst:46
+msgid ""
+"Static ``MESH`` objects are rendered much faster then the dynamic ones, "
+"so, for better performance, it is advised to keep the number of dynamic "
+"meshes to a minimum. Objects of any other type, both static and dynamic, "
+"do not significantly affect performance."
+msgstr ""
+
+#: ../objects.rst:48
+msgid ""
+"The objects which have animation, physics or a parent, which is a dynamic"
+" object, are considered dynamic, as well as the objects controlled by the"
+" following logic nodes:"
+msgstr ""
+
+#: ../objects.rst:50
+msgid "``Play Animation``"
 msgstr ""
 
 #: ../objects.rst:51
+msgid "``Transform Object``"
+msgstr ""
+
+#: ../objects.rst:52
+msgid "``Move To``"
+msgstr ""
+
+#: ../objects.rst:53
+msgid "``Inherit Material``"
+msgstr ""
+
+#: ../objects.rst:55
+msgid ""
+"API methods that concern object movement, copying and animation (both "
+"object and node material) can only be applied to dynamic objects. In "
+"order to make the movement of the object without dynamic settings "
+"possible, it is necessary to activate ``Force Dynamic Object`` option in "
+"its settings."
+msgstr ""
+
+#: ../objects.rst:60
+msgid "Settings"
+msgstr "设置"
+
+#: ../objects.rst:62
 msgid ""
 "The following is supported for all types of objects: transform, data "
 "reference, parent object, group membership and a set of the Blend4Web’s "
 "special properties."
-msgstr ""
+msgstr "以下是功能支持所有类型的物体：变换，数据引用，父物体，组成员和一套Blend4Web的特殊属性。"
 
-#: ../objects.rst:54
+#: ../objects.rst:65
 msgid "Object Tab"
-msgstr ""
+msgstr "物体选项卡"
 
-#: ../objects.rst:63
+#: ../objects.rst:74
 msgid "*Transform > Location*"
-msgstr ""
+msgstr "*变换 > 位置*"
 
-#: ../objects.rst:63
+#: ../objects.rst:74
 msgid "Position coordinates."
-msgstr ""
+msgstr "位置坐标。"
 
-#: ../objects.rst:66
+#: ../objects.rst:77
 msgid "*Transform > Rotation*"
-msgstr ""
+msgstr "*变换 > 旋转*"
 
-#: ../objects.rst:66
+#: ../objects.rst:77
 msgid ""
 "Rotation angles. For the object rotation all available modes can be used "
 "(``Rotation Mode``). However only ``Quaternion (WXYZ)`` and ``XYZ Euler``"
 " are supported for :ref:`object animation <whole_object_anim>`."
 msgstr ""
+"旋转角度。对于物体的旋转所有可用的模式可以使用（``旋转Mode``）。但是，只有 ``四元（WXYZ）`` 和 ``XYZ Euler`` "
+"都支持 :ref:`物体动画 <whole_object_anim>`."
 
-#: ../objects.rst:69
+#: ../objects.rst:80
 msgid "*Transform > Scale*"
-msgstr ""
+msgstr "*变换 > 缩放*"
 
-#: ../objects.rst:69
+#: ../objects.rst:80
 msgid ""
 "Scaling. All 3 components (x, y, z) should be the same. Scaling for "
 "physics objects is not supported."
-msgstr ""
+msgstr "缩放。所有3分量（X，Y，Z）应该是相同的。缩放不支持物理物体。"
 
-#: ../objects.rst:80
+#: ../objects.rst:91
 msgid "*Relations > Parent*"
-msgstr ""
+msgstr "*关系 > 父级*"
 
-#: ../objects.rst:72
+#: ../objects.rst:83
 msgid "Reference to the parent object."
-msgstr ""
+msgstr "参照父物体。"
 
-#: ../objects.rst:74
+#: ../objects.rst:85
 msgid ""
 "If the parent object is a camera, ``Viewport Alignment`` settings will be"
-" avalible."
-msgstr ""
+" available."
+msgstr "如果父物体是一个摄像头，``Viewport Alignment`` 设置将可见。"
 
-#: ../objects.rst:80
+#: ../objects.rst:91
 msgid ""
 "The ``Alignment`` parameter specifies to what side of the viewport an "
 "object will be aligned (``Center`` by default). The ``Distance`` "
@@ -180,296 +224,298 @@ msgid ""
 "the aligned object look in the Blender viewport same way it will look in "
 "the engine."
 msgstr ""
+"该 ``Alignment`` 参数指定物体将对准视口的哪一方的（ 默认 ``Center``）。在 ``Distance`` "
+"参数指定对齐的物体和摄像机（10默认情况下）之间的距离。该 ``适合Camera`` 按钮的对齐物体效果在引擎和Blender中都是一样的。"
 
-#: ../objects.rst:84
+#: ../objects.rst:95
 msgid "*Groups*"
-msgstr ""
+msgstr "*组*"
 
-#: ../objects.rst:83
+#: ../objects.rst:94
 msgid "Objects’ groups to which this object belongs."
-msgstr ""
+msgstr "物体所属的物体组"
 
-#: ../objects.rst:92
+#: ../objects.rst:103
 msgid "*Levels of Detail > LOD Transition Ratio*"
-msgstr ""
+msgstr "*细节层次 > LOD 转换速率*"
 
-#: ../objects.rst:92
+#: ../objects.rst:103
 msgid ""
 "Parameter for smoothing the switching between the LOD objects. It defines"
 " the additional distance at which the LOD objects are still rendered "
 "before getting replaced by the next LOD objects. Assigned for the main "
 "object. Measured in fractions of the object’s bounding sphere radius."
-msgstr ""
+msgstr "参数用于平滑LOD物体之间的切换。它定义在该LOD物体由下一LOD物体更换前仍然渲染的额外距离。分配到主要物体。测量值为在物体的边界球半径的分数。"
 
-#: ../objects.rst:95
+#: ../objects.rst:106
 msgid "*Special Effects > Disable Fogging*"
-msgstr ""
+msgstr "*特殊效果 > 关闭雾效*"
 
-#: ../objects.rst:95
+#: ../objects.rst:106
 msgid "Disable fog for the object."
-msgstr ""
+msgstr "禁用物体的雾。"
 
-#: ../objects.rst:98
+#: ../objects.rst:109
 msgid "*Special Effects > Caustics*"
-msgstr ""
+msgstr "*特殊效果 > 焦散*"
 
-#: ../objects.rst:98
+#: ../objects.rst:109
 msgid "The object will render caustics effects from the adjacent water."
-msgstr ""
+msgstr "该物体将渲染自附近水的焦散效果。"
 
-#: ../objects.rst:101
+#: ../objects.rst:112
 msgid "*Export Options > Do Not Export*"
-msgstr ""
+msgstr "*导出选项 > 不导出*"
 
-#: ../objects.rst:101
+#: ../objects.rst:112
 msgid "Do not export this object."
-msgstr ""
+msgstr "不要导出此物体。"
 
-#: ../objects.rst:106
+#: ../objects.rst:117
 msgid "*Export Options > Apply Modifiers*"
-msgstr ""
+msgstr "*导出选项 > 应用修改器*"
 
-#: ../objects.rst:106
+#: ../objects.rst:117
 msgid ""
 "Apply the object’s modifiers upon export. If the ``SKIN`` modifier is "
 "used we recommend to apply it before the export because it resets vertex "
 "color and UV layers which may result in errors."
-msgstr ""
+msgstr "应用导出物体的修改器。如果使用 ``SKIN`` 修改器，我们建议导出前应用掉它，因为它会重置顶点颜色和UV层可能会导致错误。"
 
-#: ../objects.rst:109
+#: ../objects.rst:120
 msgid "*Export Options > Apply Scale and Modifiers*"
-msgstr ""
+msgstr "*导出选项 > 应用缩放和修改器*"
 
-#: ../objects.rst:109
+#: ../objects.rst:120
 msgid "Upon export, apply scale and modifiers for the object."
-msgstr ""
+msgstr "一旦导出，应用物体的缩放和修改器。"
 
-#: ../objects.rst:112
+#: ../objects.rst:123
 msgid "*Export Options > Export Vertex Animation*"
-msgstr ""
+msgstr "*导出选项 > 导出顶点动画*"
 
-#: ../objects.rst:112
+#: ../objects.rst:123
 msgid ""
 "Export previously created and saved vertex animation. Applicable for "
 "``MESH`` type objects only."
-msgstr ""
+msgstr "导出以前创建并保存的顶点动画。只适用于 ``MESH`` 类型物体。"
 
-#: ../objects.rst:115
+#: ../objects.rst:126
 msgid "*Export Options > Export Shape Keys*"
-msgstr ""
+msgstr "*导出选项 > 导出形变键*"
 
-#: ../objects.rst:115
+#: ../objects.rst:126
 msgid "Export shape keys. Applicable to ``MESH`` type objects only."
-msgstr ""
+msgstr "导出形变键。只适用于 ``MESH`` 类型物体。"
 
-#: ../objects.rst:119
+#: ../objects.rst:130
 msgid ""
 "The following properties are mutually exclusive: *Apply Modifiers*, "
 "*Apply Scale and Modifiers*, *Export Vertex Animation* and *Export Shape "
 "Keys*."
-msgstr ""
+msgstr "以下属性是相互排斥的：*应用修改器*，*应用缩放及修改器*，*导出顶点动画* 和 *导出形变键* 。"
 
-#: ../objects.rst:122
+#: ../objects.rst:133
 msgid "*Animation > Apply Default Animation*"
-msgstr ""
+msgstr "*动画 > 应用默认动画*"
 
-#: ../objects.rst:122
+#: ../objects.rst:133
 msgid ""
 "Upon loading into the engine start playback of the animation assigned to "
 "the object."
-msgstr ""
+msgstr "传到引擎开始后播放物体的动画。"
 
-#: ../objects.rst:125
+#: ../objects.rst:136
 msgid "*Animation > Animation Blending*"
-msgstr ""
+msgstr "*动画 > 动画混合*"
 
-#: ../objects.rst:125
+#: ../objects.rst:136
 msgid "Only for armature objects. Allows blending between skeletal animations."
-msgstr ""
+msgstr "只对骨骼物体。允许骨骼动画之间进行混合。"
 
-#: ../objects.rst:128
+#: ../objects.rst:139
 msgid "*Animation > Behavior*"
-msgstr ""
+msgstr "*动画 > 行为*"
 
-#: ../objects.rst:128
+#: ../objects.rst:139
 msgid ""
 "Animation behavior when the last frame is reached: ``Finish Stop`` - "
 "stop, ``Finish Reset`` - stop and go to the zero frame, ``Loop`` - repeat"
 " forever."
-msgstr ""
+msgstr "到达最后一帧时动画的行为：``完成停止``  - 停止  ``完成重置``  - 停止并跳到零帧，``Loop``  - 永远重复。"
 
-#: ../objects.rst:131
+#: ../objects.rst:142
 msgid "*Rendering Properties > Do Not Render*"
-msgstr ""
+msgstr "*渲染属性 > 不要渲染*"
 
-#: ../objects.rst:131
+#: ../objects.rst:142
 msgid "Disable object rendering (for example useful for a physics object)."
-msgstr ""
+msgstr "禁止物体的渲染（例如用于有用的物理物体）。"
 
-#: ../objects.rst:134
+#: ../objects.rst:145
 msgid "*Rendering Properties > Disable Frustum Culling*"
-msgstr ""
+msgstr "*渲染属性 > 禁止视椎体剔除*"
 
-#: ../objects.rst:134
+#: ../objects.rst:145
 msgid "Disable frustum culling optimization."
-msgstr ""
+msgstr "禁用视椎体剔除优化。"
 
-#: ../objects.rst:137
+#: ../objects.rst:148
 msgid "*Rendering Properties > Force Dynamic Object*"
-msgstr ""
+msgstr "*渲染属性 > 强制动态物体*"
 
-#: ../objects.rst:137
+#: ../objects.rst:148
 msgid ""
 "Force the object to become a :ref:`dynamic object "
 "<static_dynamic_objects>`."
-msgstr ""
+msgstr "强制物体变成了 :ref:`动态物体 <static_dynamic_objects>`."
 
-#: ../objects.rst:142
+#: ../objects.rst:153
 msgid "*Rendering Properties > Dynamic Geometry*"
-msgstr ""
+msgstr "*渲染属性 > 动态几何体*"
 
-#: ../objects.rst:142
+#: ../objects.rst:153
 msgid "Allow overriding of the object’s geometry through Blend4Web API."
-msgstr ""
+msgstr "允许通过Blend4Web API来重载物体的几何形状。"
 
-#: ../objects.rst:145
+#: ../objects.rst:156
 msgid "*Shadows > Cast*"
-msgstr ""
+msgstr "*阴影 > 投射*"
 
-#: ../objects.rst:145
+#: ../objects.rst:156
 msgid "The object will cast shadows."
-msgstr ""
+msgstr "该物体将投射阴影。"
 
-#: ../objects.rst:148
+#: ../objects.rst:159
 msgid "*Shadows> Cast Only*"
-msgstr ""
+msgstr "*阴影> 仅投射*"
 
-#: ../objects.rst:148
+#: ../objects.rst:159
 msgid ""
 "The object will cast shadows but will remain invisible itself. Becomes "
 "available after enabling ``Shadows > Cast``."
-msgstr ""
+msgstr "该物体将投射阴影，但仍然看不到自己。成启用 ``阴影> 投射`` 后可用。"
 
-#: ../objects.rst:151
+#: ../objects.rst:162
 msgid "*Shadows > Receive*"
-msgstr ""
+msgstr "*阴影 > 接受*"
 
-#: ../objects.rst:151
+#: ../objects.rst:162
 msgid "The object will receive shadows from other adjacent objects."
-msgstr ""
+msgstr "该物体将接收来自其他相邻物体的阴影。"
 
-#: ../objects.rst:154
+#: ../objects.rst:165
 msgid "*Reflections > Reflexible*"
-msgstr ""
+msgstr "*反射 > 被反射*"
 
-#: ../objects.rst:154
+#: ../objects.rst:165
 msgid "When enabled the object is reflected in the dynamic mirror surfaces."
-msgstr ""
+msgstr "启用后物体被会在动态镜面中被反射。"
 
-#: ../objects.rst:157
+#: ../objects.rst:168
 msgid "*Reflections > Reflexible Only*"
-msgstr ""
+msgstr "*反射 > 仅被反射*"
 
-#: ../objects.rst:157
+#: ../objects.rst:168
 msgid ""
 "The object will be reflected but will remain invisible itself. Becomes "
 "available after enabling ``Reflections > Reflexible``."
-msgstr ""
+msgstr "物体被反射但仍将看不见自身。开启 ``反射 > 反射性`` 后可用。"
 
-#: ../objects.rst:160
+#: ../objects.rst:171
 msgid "*Reflections > Reflective*"
-msgstr ""
+msgstr "*反射 > 反射*"
 
-#: ../objects.rst:160
+#: ../objects.rst:171
 msgid "When enabled the object surface reflects other objects."
-msgstr ""
+msgstr "当启用时该物体表面反射的其他物体。"
 
-#: ../objects.rst:163
+#: ../objects.rst:174
 msgid "*Reflections > Reflection Plane*"
-msgstr ""
+msgstr "*反射 > 反射面*"
 
-#: ../objects.rst:163
+#: ../objects.rst:174
 msgid ""
 "Text field for name of an empty object which defines the reflection "
 "plane. Becomes available after enabling ``Reflections > Reflective``."
-msgstr ""
+msgstr "对于一个空物体定义了反射面的Name文本字段。启用 ``反射 > 反射`` 后可用。"
 
-#: ../objects.rst:166
+#: ../objects.rst:177
 msgid "*Selection and Outlining > Selectable*"
-msgstr ""
+msgstr "*选择和外轮廓 > 可选择*"
 
-#: ../objects.rst:166
+#: ../objects.rst:177
 msgid ""
 "Enable :ref:`object selection <mesh_selection>` with the mouse or another"
 " input device."
-msgstr ""
+msgstr "启用 :ref:`物体选择 <mesh_selection>` ，用鼠标或其他输入设备。"
 
-#: ../objects.rst:169
+#: ../objects.rst:180
 msgid "*Selection and Outlining > Enable Outlining*"
-msgstr ""
+msgstr "*选择和外轮廓 > 启用外轮廓*"
 
-#: ../objects.rst:169
+#: ../objects.rst:180
 msgid "Enable :ref:`outline glow <outline>` for the object."
-msgstr ""
+msgstr "启用物体的 :ref:`外轮廓发光 <outline>`  。"
 
-#: ../objects.rst:184
+#: ../objects.rst:195
 msgid "*Meta Tags*"
-msgstr ""
+msgstr "*元标签*"
 
-#: ../objects.rst:172
+#: ../objects.rst:183
 msgid "Interface for adding meta tags to the object:"
-msgstr ""
+msgstr "添加物体的元标签的接口："
 
-#: ../objects.rst:175
+#: ../objects.rst:186
 msgid "*Meta Tags > Title*"
-msgstr ""
+msgstr "*元标签 > 标题*"
 
-#: ../objects.rst:175
+#: ../objects.rst:186
 msgid "Object's title."
-msgstr ""
+msgstr "物体的标题。"
 
-#: ../objects.rst:178
+#: ../objects.rst:189
 msgid "*Meta Tags > Category*"
-msgstr ""
+msgstr "*元标签 > 类别*"
 
-#: ../objects.rst:178
+#: ../objects.rst:189
 msgid "Object's category."
-msgstr ""
+msgstr "物体的类别。"
 
-#: ../objects.rst:181
+#: ../objects.rst:192
 msgid "*Meta Tags > Description*"
-msgstr ""
+msgstr "*元标签 > 描述*"
 
-#: ../objects.rst:181
+#: ../objects.rst:192
 msgid ""
 "Description for the object. Depending on ``Description Source``, this "
 "field accepts either description text itself, or the name of a file where"
 " this description is contained."
-msgstr ""
+msgstr "物体描述。根据 ``说明源``，此字段接受描述文本本身，或包含的文件的名称。"
 
-#: ../objects.rst:184
+#: ../objects.rst:195
 msgid "*Meta Tags > Description Source*"
-msgstr ""
+msgstr "*元标签 > 描述源*"
 
-#: ../objects.rst:184
+#: ../objects.rst:195
 msgid "Source type for the description: text or text file."
-msgstr ""
+msgstr "为说明来源类型：文本或文本文件。"
 
-#: ../objects.rst:198
+#: ../objects.rst:209
 msgid "*Anchors > Enable Anchor*"
-msgstr ""
+msgstr "*锚 > 启用锚*"
 
-#: ../objects.rst:189
+#: ../objects.rst:200
 msgid ""
 "Available for ``EMPTY`` objects only. Interface for adding anchors (2D "
 "tags) to objects:"
-msgstr ""
+msgstr "只可用于 ``EMPTY`` 物体。添加锚（2D标签）物体的接口："
 
-#: ../objects.rst:192
+#: ../objects.rst:203
 msgid "*Anchors > Type*"
-msgstr ""
+msgstr "*锚 > 类型*"
 
-#: ../objects.rst:192
+#: ../objects.rst:203
 msgid ""
 "Anchor type. ``Annotation`` - the content is obtained from the meta tags "
 "assigned to the object and displayed in a collapsible window of standard "
@@ -477,65 +523,67 @@ msgid ""
 "page is used as anchor. ``Generic`` - anchor’s position can be detected "
 "using ``anchors`` API module."
 msgstr ""
+"锚类型。 ``Annotation``  - 标准设计的可折叠窗口中显示的元标记中得到的内容。 ``自定义Element``  - "
+"从当前网页任意的HTML元素被用来作为锚。 ``Generic``  - 锚的位置，可以使用 ``anchors`` API模块检测。"
 
-#: ../objects.rst:195
+#: ../objects.rst:206
 msgid "*Anchors > Detect Visibility*"
-msgstr ""
+msgstr "*锚 > 可见检测*"
 
-#: ../objects.rst:195
+#: ../objects.rst:206
 msgid ""
 "Detect whether the anchor object is overlapped by other objects. Turning "
 "this option on decreases performance and should be used only when "
 "necessary."
-msgstr ""
+msgstr "检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要时使用。"
 
-#: ../objects.rst:198
+#: ../objects.rst:209
 msgid "*Anchors > Max Width*"
-msgstr ""
+msgstr "*锚 > 最大宽度*"
 
-#: ../objects.rst:198
+#: ../objects.rst:209
 msgid ""
 "Applicable to annotation anchors. This limits the expanding info window "
 "by a predefined value (measured in CSS pixels)."
-msgstr ""
+msgstr "用于注释锚。通过预定值（以CSS像素为单位），限制了展开的信息窗口大小。"
 
-#: ../objects.rst:201
+#: ../objects.rst:212
 msgid "*Wind Bending*"
-msgstr ""
+msgstr "*风弯曲*"
 
-#: ../objects.rst:201
+#: ../objects.rst:212
 msgid ""
 "Enables wind bending procedural animation. Thoroughly described at the "
 ":ref:`outdoor rendering <wind_bending>` page."
-msgstr ""
+msgstr "启用风弯曲程序动画。在  :ref:`室外渲染 <wind_bending>` 页有完整的描述.。"
 
-#: ../objects.rst:206
+#: ../objects.rst:217
 msgid "*Billboard*"
-msgstr ""
+msgstr "*看板*"
 
-#: ../objects.rst:206
+#: ../objects.rst:217
 msgid ""
 "Use the object as a billboard (i.e. automatically orient relative to the "
 "camera)."
-msgstr ""
+msgstr "使用物体作为看板（即自动定向面对摄像机）。"
 
-#: ../objects.rst:211
+#: ../objects.rst:222
 msgid "*Billboard > Preserve Global Orientation and Scale*"
-msgstr ""
+msgstr "*看板 > 保留全局方向和缩放*"
 
-#: ../objects.rst:211
+#: ../objects.rst:222
 msgid ""
 "Take into account rotation and scale of the billboard object (in the "
 "world space). The object will be directed toward the camera with its side"
 " which is visible when viewing along the Y axis in Blender. Becomes "
 "available after enabling the ``Billboard`` checkbox."
-msgstr ""
+msgstr "考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看时将朝明显的被引导到相机。启用 ``看板`` 复选框后可用。"
 
-#: ../objects.rst:215
+#: ../objects.rst:226
 msgid "*Billboard > Billboard Type*"
-msgstr ""
+msgstr "*看板 > 看板类型*"
 
-#: ../objects.rst:214
+#: ../objects.rst:225
 msgid ""
 "Billboard orientation mode. ``Spherical`` (by default) - the object is "
 "always oriented with one side toward the camera, regardless of view "
@@ -543,399 +591,424 @@ msgid ""
 "limited to Blender’s world Z axis. Becomes available after enabling "
 "Billboard"
 msgstr ""
+"看板方向模式。 ``Spherical``（默认） - 物体一面始终朝向相机，不管视角，``Cylindrical``  - "
+"类似于``Spherical``，但旋转仅限于Blender的世界Z轴。启用看板后变得可用。"
 
-#: ../objects.rst:218
+#: ../objects.rst:229
 msgid "Physics Tab"
-msgstr ""
+msgstr "物理标签"
 
-#: ../objects.rst:227
+#: ../objects.rst:238
 msgid "*Detect Collisions*"
-msgstr ""
+msgstr "*检测碰撞*"
 
-#: ../objects.rst:227
+#: ../objects.rst:238
 msgid "Activate the object’s physics."
-msgstr ""
+msgstr "激活物体的物理。"
 
-#: ../objects.rst:230
+#: ../objects.rst:241
 msgid "*Floating*"
-msgstr ""
+msgstr "*飘浮*"
 
-#: ../objects.rst:230
+#: ../objects.rst:241
 msgid ""
 "Make the object floating. The settings for floating objects are described"
 " in detail in the :ref:`physics <physics>` section."
-msgstr ""
+msgstr "使物体漂浮。在 :ref:`physics <physics>` 一节对飘浮物体的设置进行了详细描述。"
 
-#: ../objects.rst:233
+#: ../objects.rst:244
 msgid "*Vehicle*"
-msgstr ""
+msgstr "*载具*"
 
-#: ../objects.rst:233
+#: ../objects.rst:244
 msgid ""
 "Use the object as part of a vehicle. The vehicle settings are described "
 "in detail in the :ref:`physics <physics>` section."
-msgstr ""
+msgstr "使用物体作为车辆的一部分。该车辆设置中详细的描述在 :ref:`物理 <physics>` 一节。"
 
-#: ../objects.rst:237
+#: ../objects.rst:248
 msgid "*Character*"
-msgstr ""
+msgstr "*角色*"
 
-#: ../objects.rst:236
+#: ../objects.rst:247
 msgid ""
 "Use the object for character physics. The character settings are "
 "described in detail in the :ref:`physics <physics>` section."
-msgstr ""
+msgstr "启用物体的角色物理特性。角色设置详细描述在  :ref:`物理 <physics>` 一节.。"
 
-#: ../objects.rst:242 ../objects.rst:239
+#: ../objects.rst:253 ../objects.rst:250
 msgid "Object Transform API"
-msgstr ""
+msgstr "物体变换API"
 
-#: ../objects.rst:246
+#: ../objects.rst:257
 msgid ""
 "Make sure that the object you are trying to transform is a :ref:`dynamic "
 "object <static_dynamic_objects>`."
-msgstr ""
+msgstr "请确保您要变换的物体是 :ref:`动态物体 <static_dynamic_objects>`."
 
-#: ../objects.rst:248
+#: ../objects.rst:259
 msgid ""
 "Use the following methods of the :b4wmod:`transform` module to move "
 "objects in the engine:"
-msgstr ""
+msgstr "使用 :b4wmod:`transform` 模块的下列方法在引擎中移动物体："
 
-#: ../objects.rst:251
+#: ../objects.rst:262
 msgid ":b4wref:`transform.get_translation()`"
-msgstr ""
+msgstr ":b4wref:`transform.get_translation()`"
 
-#: ../objects.rst:251
+#: ../objects.rst:262
 msgid ""
 "Get the coordinates of the object’s center in world space. The method "
 "with a single argument returns a new vector (i.e. this is a non-optimized"
 " option) while the method with two arguments requires an additional "
 "vector to write the result down."
-msgstr ""
+msgstr "获得在世界空间的物体中心坐标。带一个参数的方法返回一个新向量（一个非优化选项），同时用两个参数的方法需要一个额外的矢量记录结果。"
 
-#: ../objects.rst:254
+#: ../objects.rst:265
 msgid ":b4wref:`transform.get_translation_rel()`"
-msgstr ""
+msgstr ":b4wref:`transform.get_translation_rel()`"
 
-#: ../objects.rst:254
+#: ../objects.rst:265
 msgid ""
 "Similar to the ``get_translation()`` method, but if this object has a "
 "parent, the obtained coordinates are measured in the parent’s space."
-msgstr ""
+msgstr "类似于 ``get_translation（）`` 方法，但如果此物体有父级，得到的坐标在父级的空间测量。"
 
-#: ../objects.rst:257
+#: ../objects.rst:268
 msgid ""
 ":b4wref:`transform.set_translation()`, "
 ":b4wref:`transform.set_translation_v()`"
 msgstr ""
+":b4wref:`transform.set_translation()`, "
+":b4wref:`transform.set_translation_v()`"
 
-#: ../objects.rst:257
+#: ../objects.rst:268
 msgid ""
 "Move the object’s center into the specified location. The first method "
 "takes separate coordinates as arguments while the second one takes a "
 "three-component vector (``Array`` or ``Float32Array``)."
-msgstr ""
+msgstr "移动物体的中心到指定的位置。第一种方法需要单独的坐标作为参数，而第二个需要三元矢量（``Array`` 或 ``Float32Array``）。"
 
-#: ../objects.rst:260
+#: ../objects.rst:271
 msgid ""
 ":b4wref:`transform.set_translation_rel()`, "
 ":b4wref:`transform.set_translation_rel_v()`"
 msgstr ""
+":b4wref:`transform.set_translation_rel()`, "
+":b4wref:`transform.set_translation_rel_v()`"
 
-#: ../objects.rst:260
+#: ../objects.rst:271
 msgid ""
 "Similar to ``set_translation()`` and ``set_translation_v()``, but if this"
 " object has a parent, the set coordinates are measured in the parent’s "
 "space."
 msgstr ""
+"类似 ``set_translation()`` 和 "
+"``set_translation_v()``，但如果这个物体有父级，设定坐标为测量父级的空间。"
 
-#: ../objects.rst:263
+#: ../objects.rst:274
 msgid ":b4wref:`transform.get_rotation()`"
-msgstr ""
+msgstr ":b4wref:`transform.get_rotation()`"
 
-#: ../objects.rst:263
+#: ../objects.rst:274
 msgid ""
 "Get the object’s rotation quaternion in world space. Similar to "
 "``get_translation()``, there are two options for calling this function."
-msgstr ""
+msgstr "获取在世界空间的物体的旋转四元数。类似 ``get_translation()``，调用此函数也有两种选择。"
 
-#: ../objects.rst:266
+#: ../objects.rst:277
 msgid ":b4wref:`transform.get_rotation_rel()`"
-msgstr ""
+msgstr ":b4wref:`transform.get_rotation_rel()`"
 
-#: ../objects.rst:266
+#: ../objects.rst:277
 msgid ""
 "Get the object’s rotation quaternion measured in its parent’s space. "
 "Similar to ``get_translation_rel()``, there are two options for calling "
 "this function."
-msgstr ""
+msgstr "获取物体的在其父级空间的旋转四元。类似  ``get_translation_rel()``，调用此函数也有两种选择。"
 
-#: ../objects.rst:269
+#: ../objects.rst:280
 msgid ":b4wref:`transform.set_rotation()`, :b4wref:`transform.set_rotation_v()`"
-msgstr ""
+msgstr ":b4wref:`transform.set_rotation()`, :b4wref:`transform.set_rotation_v()`"
 
-#: ../objects.rst:269
+#: ../objects.rst:280
 msgid ""
 "Set the object’s rotation quaternion in world space. The first function "
 "takes separate coordinates as arguments while the second one takes a "
 "four-component vector (``Array`` or ``Float32Array``)."
 msgstr ""
+"设置在世界空间物体的旋转四元数。第一个功能需要单独的坐标参数，而第二个需要一个四元矢量（``Array`` 或 ``Float32Array`` "
+"）。"
 
-#: ../objects.rst:272
+#: ../objects.rst:283
 msgid ""
 ":b4wref:`transform.set_rotation_rel()`, "
 ":b4wref:`transform.set_rotation_rel_v()`"
 msgstr ""
+":b4wref:`transform.set_rotation_rel()`, "
+":b4wref:`transform.set_rotation_rel_v()`"
 
-#: ../objects.rst:272
+#: ../objects.rst:283
 msgid ""
 "Set the object’s rotation quaternion measured in its parent’s space. The "
 "first function takes separate coordinates as arguments while the second "
 "one takes a four-component vector (``Array`` or ``Float32Array``)."
 msgstr ""
+"设置物体在其父的空间中的旋转四元数。第一个功能需要单独的坐标参数，而第二个需要一个四元矢量（``Array`` 或 "
+"``Float32Array``）。"
 
-#: ../objects.rst:275
+#: ../objects.rst:286
 msgid ":b4wref:`transform.get_scale()`"
-msgstr ""
+msgstr ":b4wref:`transform.get_scale()`"
 
-#: ../objects.rst:275
+#: ../objects.rst:286
 msgid "Get the object’s scale in world space."
-msgstr ""
+msgstr "获取物体在世界空间的缩放。"
 
-#: ../objects.rst:278
+#: ../objects.rst:289
 msgid ":b4wref:`transform.get_scale_rel()`"
-msgstr ""
+msgstr ":b4wref:`transform.get_scale_rel()`"
 
-#: ../objects.rst:278
+#: ../objects.rst:289
 msgid "Get the object’s scale in its parent’s space."
-msgstr ""
+msgstr "获取物体在其父的空间的缩放。"
 
-#: ../objects.rst:281
+#: ../objects.rst:292
 msgid ":b4wref:`transform.set_scale()`"
-msgstr ""
+msgstr ":b4wref:`transform.set_scale()`"
 
-#: ../objects.rst:281
+#: ../objects.rst:292
 msgid ""
 "Set the object’s scale in world space. Unity corresponds to the original "
 "scale of the object. Values less than unity mean scaling down, bigger "
 "than unity - scaling up. Note that not all objects can be scaled. "
 "Particularly, scaling is not allowed for physics objects."
 msgstr ""
+"设置物体在世界空间的缩放。统一对应于物体的原始缩放。值小于统一值是平均缩小，比统一值大 - "
+"扩大。注意，不是所有的物体可以被缩放。特别是不允许物理物体缩放。"
 
-#: ../objects.rst:284
+#: ../objects.rst:295
 msgid ":b4wref:`transform.set_scale_rel()`"
-msgstr ""
+msgstr ":b4wref:`transform.set_scale_rel()`"
 
-#: ../objects.rst:284
+#: ../objects.rst:295
 msgid "Set the object’s scale in its parent’s space."
-msgstr ""
+msgstr "设置物体在其父的空间的缩放。"
 
-#: ../objects.rst:287
+#: ../objects.rst:298
 msgid ""
 ":b4wref:`transform.set_rotation_euler()`, "
 ":b4wref:`transform.set_rotation_euler_v()`"
 msgstr ""
+":b4wref:`transform.set_rotation_euler()`, "
+":b4wref:`transform.set_rotation_euler_v()`"
 
-#: ../objects.rst:287
+#: ../objects.rst:298
 msgid ""
 "Set the object’s rotation using Euler angles. An **intrinsic** YZX "
 "rotation system is used (that means the angles follow in the YZX order "
 "and the origin of coordinates rotates and takes up a new position for "
 "every angle)."
 msgstr ""
+"使用欧拉角设置物体的旋转。一个 **intrinsic** YZX "
+"系统被使用（这意味着角遵循YZX顺序和坐标原点旋转，并且每角采取了一个新的位置）。"
 
-#: ../objects.rst:290
+#: ../objects.rst:301
 msgid ""
 ":b4wref:`transform.set_rotation_euler_rel()`, "
 ":b4wref:`transform.set_rotation_euler_rel_v()`"
 msgstr ""
+":b4wref:`transform.set_rotation_euler_rel()`, "
+":b4wref:`transform.set_rotation_euler_rel_v()`"
 
-#: ../objects.rst:290
+#: ../objects.rst:301
 msgid ""
 "Set the object’s rotation using Euler angles measured in its parent’s "
 "space."
-msgstr ""
+msgstr "使用欧拉角在其父的空间中设置物体的旋转。"
 
-#: ../objects.rst:293
+#: ../objects.rst:304
 msgid ":b4wref:`transform.move_local()`"
-msgstr ""
+msgstr ":b4wref:`transform.move_local()`"
 
-#: ../objects.rst:293
+#: ../objects.rst:304
 msgid "Move the object relative to its original position (in local space)."
-msgstr ""
+msgstr "相对移动到原来的位置的对象（在局部空间）。"
 
-#: ../objects.rst:296
+#: ../objects.rst:307
 msgid ""
 ":b4wref:`transform.rotate_x_local()`, "
 ":b4wref:`transform.rotate_y_local()`, "
 ":b4wref:`transform.rotate_z_local()`"
 msgstr ""
+":b4wref:`transform.rotate_x_local()`, "
+":b4wref:`transform.rotate_y_local()`, "
+":b4wref:`transform.rotate_z_local()`"
 
-#: ../objects.rst:296
+#: ../objects.rst:307
 msgid "Rotate the object relative to its original position (in local space)."
-msgstr ""
-
-#: ../objects.rst:301
-msgid "Get object API"
-msgstr ""
-
-#: ../objects.rst:303
-msgid ""
-"To perform any operation with an object, you first need to get it (i.e. "
-"recieve the link to it). There are several API functions for doing this. "
-"A link to an object has ``Object3D`` type."
-msgstr ""
+msgstr "相对于物体原来位置的（在本地空间）旋转。"
 
 #: ../objects.rst:312
+msgid "Get object API"
+msgstr "获取物体API"
+
+#: ../objects.rst:314
+msgid ""
+"To perform any operation with an object, you first need to get it (i.e. "
+"receive the link to it). There are several API functions for doing this. "
+"A link to an object has ``Object3D`` type."
+msgstr "对物体执行任何操作，您首先需要得到它（找到到它的链接）。有几个API函数是做这个的。有链接的物体具有 ``Object3D`` 类型。"
+
+#: ../objects.rst:323
 msgid ":b4wref:`scenes.get_object_by_name()`"
-msgstr ""
+msgstr ":b4wref:`scenes.get_object_by_name()`"
 
-#: ../objects.rst:306
+#: ../objects.rst:317
 msgid "Get object by name."
-msgstr ""
+msgstr "按名称获取物体。"
 
-#: ../objects.rst:321
+#: ../objects.rst:332
 msgid ":b4wref:`scenes.get_object_by_dupli_name()`"
-msgstr ""
+msgstr ":b4wref:`scenes.get_object_by_dupli_name()`"
 
-#: ../objects.rst:315
+#: ../objects.rst:326
 msgid "Get the duplicated object by empty name and dupli name."
-msgstr ""
+msgstr "通过空名称和DUPLI名称找复制物体。"
 
-#: ../objects.rst:330
+#: ../objects.rst:341
 msgid ":b4wref:`scenes.get_object_by_dupli_name_list()`"
-msgstr ""
+msgstr ":b4wref:`scenes.get_object_by_dupli_name_list()`"
 
-#: ../objects.rst:324
+#: ../objects.rst:335
 msgid ""
 "Get the duplicated object by empty name and dupli name list (an array of "
 "``String`` type elements)."
-msgstr ""
+msgstr "通过空名称和DUPLI名单（``String`` 类型元素的数组）获得复制物体。"
 
-#: ../objects.rst:340
+#: ../objects.rst:351
 msgid ":b4wref:`scenes.get_object_name_hierarchy()`"
-msgstr ""
+msgstr ":b4wref:`scenes.get_object_name_hierarchy()`"
 
-#: ../objects.rst:333
+#: ../objects.rst:344
 msgid ""
 "Returns the object names hierarchy array (from the highest parent to the "
 "object itself) for a given object."
-msgstr ""
+msgstr "用一个给定的物体，返回物体名层次队列（从最高层的父物体到物体本身）。"
 
-#: ../objects.rst:349
+#: ../objects.rst:360
 msgid ":b4wref:`scenes.check_object_by_name()`"
-msgstr ""
+msgstr ":b4wref:`scenes.check_object_by_name()`"
 
-#: ../objects.rst:343
+#: ../objects.rst:354
 msgid "Check if object with given name is present on scene."
-msgstr ""
+msgstr "检查是否具有给定名称的物体在场景存在。"
 
-#: ../objects.rst:358
+#: ../objects.rst:369
 msgid ":b4wref:`scenes.check_object_by_dupli_name()`"
-msgstr ""
+msgstr ":b4wref:`scenes.check_object_by_dupli_name()`"
 
-#: ../objects.rst:352
+#: ../objects.rst:363
 msgid ""
 "Check if duplicated object is present on scene by empty name and dupli "
 "name."
-msgstr ""
+msgstr "检查复制物体是空的名字和DUPLI名字出现在场景。"
 
-#: ../objects.rst:367
+#: ../objects.rst:378
 msgid ":b4wref:`scenes.check_object_by_dupli_name_list()`"
-msgstr ""
+msgstr ":b4wref:`scenes.check_object_by_dupli_name_list()`"
 
-#: ../objects.rst:361
+#: ../objects.rst:372
 msgid ""
 "Check if duplicated object is present on scene by empty name and dupli "
 "name list (an array of ``String`` type elements)."
-msgstr ""
+msgstr "检查复制物体是空的名字和DUPLI名单（``String`` 类型元素的数组）出现在场景。"
 
-#: ../objects.rst:376
+#: ../objects.rst:387
 msgid ":b4wref:`scenes.get_object_name()`"
-msgstr ""
-
-#: ../objects.rst:370
-msgid "Get the object’s name."
-msgstr ""
+msgstr ":b4wref:`scenes.get_object_name()`"
 
 #: ../objects.rst:381
-msgid "Quaternions"
-msgstr ""
+msgid "Get the object’s name."
+msgstr "获取物体的名称。"
 
-#: ../objects.rst:383
+#: ../objects.rst:392
+msgid "Quaternions"
+msgstr "四元数"
+
+#: ../objects.rst:394
 msgid ""
 "Quaternion is a four-component vector used to perform rotating. "
 "Quaternions have a number of advantages over other rotation methods such "
 "as:"
-msgstr ""
+msgstr "四元数是用于执行旋转的四分量矢量。四元数优于其它旋转方法，例如："
 
-#: ../objects.rst:385
+#: ../objects.rst:396
 msgid ""
-"A quaternion isn’t ambiguant and doesn’t depend on the rotation order as "
-"the Euler angles."
-msgstr ""
+"A quaternion has no ambiguity and doesn’t depend on the rotation order as"
+" the Euler angles."
+msgstr "四元数没有多解，并且不像欧拉角依赖于的旋转顺序。"
 
-#: ../objects.rst:386
+#: ../objects.rst:397
 msgid ""
 "Quaternion’s memory usage is more effective (2-4 times less depending on "
 "the matrix used)."
-msgstr ""
+msgstr "四元数的内存使用是更有效的（少2-4倍，取决于所使用的矩阵）。"
 
-#: ../objects.rst:387
+#: ../objects.rst:398
 msgid ""
 "Better computing efficiency than for matrices in case of a series of "
 "rotations."
-msgstr ""
+msgstr "在一系列旋转的情况下，比矩阵有更好的计算效率。"
 
-#: ../objects.rst:388
+#: ../objects.rst:399
 msgid ""
 "Numeric stability - compensation for multiplication errors arising from "
 "float number inaccuracy."
 msgstr ""
 
-#: ../objects.rst:389
+#: ../objects.rst:400
 msgid "Convenient interpolation method."
-msgstr ""
+msgstr "便捷的插值方法。"
 
-#: ../objects.rst:393
+#: ../objects.rst:404
 msgid "Quaternions have some drawbacks:"
-msgstr ""
+msgstr "四元有一些缺点："
 
-#: ../objects.rst:392
+#: ../objects.rst:403
 msgid ""
 "Rotating a vector with a quaternion is more computationally expensive "
 "than rotating with a matrix."
-msgstr ""
+msgstr "用四元数来旋转向量比用矩阵来旋转向量要浪费计算成本。"
 
-#: ../objects.rst:393
+#: ../objects.rst:404
 msgid ""
 "It is difficult to use quaternions for non-rotation transformations (such"
 " as perspective or orthogonal projection)."
-msgstr ""
+msgstr "很难将四元数用到非旋转变换上（例如透视或正交投影）。"
 
-#: ../objects.rst:395
+#: ../objects.rst:406
 msgid ""
 "The engine has a number of functions to make it more convenient to work "
 "with quaternions:"
-msgstr ""
+msgstr "该引擎具有许多功能，能更方便地跟四元数工作："
 
-#: ../objects.rst:398
+#: ../objects.rst:409
 msgid "*quat.multiply*"
-msgstr ""
+msgstr "*quat.multiply*"
 
-#: ../objects.rst:398
+#: ../objects.rst:409
 msgid ""
 "Quaternion multiplication. Note that left-multiplying A quaternion by B "
 "quaternion A*B is a rotation by A. I.e. the object already has some "
 "rotation B which we supplement with a new rotation by A."
-msgstr ""
+msgstr "四元数乘法。需要注意的是用B四元数左乘A四元数A * B  是用A旋转物体。比如，物体已经具有一定的旋转B上，我们加了新的A旋转。"
 
-#: ../objects.rst:401
+#: ../objects.rst:412
 msgid "*quat.setAxisAngle*"
-msgstr ""
+msgstr "*quat.setAxisAngle*"
 
-#: ../objects.rst:401
+#: ../objects.rst:412
 msgid ""
 "A quaternion is an alternative presentation of rotation by an arbitrary "
 "angle relative to the arbitrary axis (vector). Positive direction of "
@@ -945,120 +1018,157 @@ msgid ""
 "degrees (anticlockwise if viewing from the X axis’ end) relative to the X"
 " axis."
 msgstr ""
+"四元数是任意相对于任意轴（矢量）的任意角度旋转的另一种表现。从向量的末端来观看时旋转的正方向定义为逆时针。例如  "
+":code`quat.setAxisAngle([1, 0, 0], Math.PI/2, quat)`  "
+"用四元数对物体相对于X轴旋转了90度（如果从X轴末端查看是逆时针）。 "
 
-#: ../objects.rst:404
+#: ../objects.rst:415
 msgid "*quat.slerp*"
-msgstr ""
+msgstr "*quat.slerp*"
 
-#: ../objects.rst:404
+#: ../objects.rst:415
 msgid ""
 "Spherical interpolation of quaternions. Used for smoothing the object’s "
 "rotation and animation."
-msgstr ""
+msgstr "四元数球面插值。用于平滑物体的旋转和动画。"
 
-#: ../objects.rst:408
+#: ../objects.rst:419
 msgid "*util.euler_to_quat, util.quat_to_euler*."
-msgstr ""
+msgstr "*util.euler_to_quat, util.quat_to_euler*."
 
-#: ../objects.rst:407
+#: ../objects.rst:418
 msgid "Conversion from Euler angles and back."
-msgstr ""
+msgstr "从欧拉角转换到和转换回欧拉角。"
 
-#: ../objects.rst:411
+#: ../objects.rst:422
 msgid "Quaternion Example"
-msgstr ""
+msgstr "四元数例子"
 
-#: ../objects.rst:413
+#: ../objects.rst:424
 msgid ""
 "We need to rotate the object by 60 degrees in a horizontal plane to the "
 "right. We have a model named “Cessna” in Blender."
-msgstr ""
+msgstr "我们需要在水平面向右旋转物体60度。我们有一个在Blender里有个名为 “Cessna” 的模型。"
 
-#: ../objects.rst:421
-msgid "Lets save a reference to the object in the **aircraft** variable:"
-msgstr ""
+#: ../objects.rst:432
+msgid "Let's save a reference to the object in the **aircraft** variable:"
+msgstr "让我们在 **aircraft** 变量保存引用："
 
-#: ../objects.rst:428
-msgid "Lets rotate it:"
-msgstr ""
+#: ../objects.rst:439
+msgid "Let's rotate it:"
+msgstr "旋转："
 
-#: ../objects.rst:430
+#: ../objects.rst:441
 msgid ""
 "The orientation of coordinate axes is different in Blender and in the "
 "engine. Upon export there will be a transformation [X Y Z] (Blender) -> "
 "[X -Z Y] (the engine). Therefore we need to rotate the object relative to"
 " the Y axis and not the Z axis."
 msgstr ""
+"坐标轴的方向在Blender和在引擎中是不同的。在导出时会有变换[X Y Z] (Blender) -> [X -Z Y] "
+"(引擎)。因此，我们需要相对于Y轴，而不是Z轴旋转物体。"
 
-#: ../objects.rst:431
+#: ../objects.rst:442
 msgid ""
 "A clockwise rotation corresponds to the rotation to the right (i.e. in "
 "the negative direction)."
-msgstr ""
+msgstr "顺时针转动对应于旋转到右侧（即在负方向）。"
 
-#: ../objects.rst:432
+#: ../objects.rst:443
 msgid "60 degrees = :math:`\\pi/3` radians."
-msgstr ""
+msgstr "60 度 = :math:`\\pi/3` 弧度."
 
-#: ../objects.rst:434
+#: ../objects.rst:445
 msgid "As a result we get:"
-msgstr ""
+msgstr "因此，我们得到："
 
-#: ../objects.rst:451
+#: ../objects.rst:462
 msgid "The optimized version which does not create new objects:"
-msgstr ""
+msgstr "优化的版本不创建新的物体："
 
-#: ../objects.rst:470
+#: ../objects.rst:481
 msgid "Differences Between Coordinate Systems of Blender and Blend4Web"
-msgstr ""
+msgstr "Blender和Blend4Web的坐标系之间的差异"
 
-#: ../objects.rst:472
+#: ../objects.rst:483
 msgid ""
 "In Blender’s coordinate system the ``UP`` vector, which points upwards, "
 "is co-directional with the Z axis. Blend4Web uses Y axis for this "
 "purpose, as it is customary in OpenGL. Thus the engine’s coordinates are "
 "rotated by 90° around the X axis relative to Blender."
 msgstr ""
+"在Blender的坐标系统中的 ``UP`` 矢量，它指向向上，是同向的Z轴。 "
+"Blend4Web使用Y轴用于此目的，因为是使用OpenGL习惯。因而引擎的坐标由相对Blender的X轴周围旋转90°。"
 
-#: ../objects.rst:479
+#: ../objects.rst:490
 msgid ""
 "API methods use the engine’s coordinates, so they can work differently in"
 " comparison with setting Blender’s parameters."
-msgstr ""
+msgstr "API方法使用引擎的坐标，这样他们就跟设定Blender的参数不相同。"
 
-#: ../objects.rst:483
+#: ../objects.rst:494
 msgid "Moving via TSR Vectors"
-msgstr ""
+msgstr "通过TSR矢量移动"
 
-#: ../objects.rst:485
+#: ../objects.rst:496
 msgid ""
 "It is sometimes convenient to move objects using vectors of the following"
 " format:"
-msgstr ""
+msgstr "有时用下面格式的矢量来移动物体是很方便的："
 
-#: ../objects.rst:487
+#: ../objects.rst:498
 msgid ":math:`[T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]`"
-msgstr ""
+msgstr ":math:`[T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]`"
 
-#: ../objects.rst:489
+#: ../objects.rst:500
 msgid ""
 "Here :math:`T_x, T_y, T_z` - the components of the translation vector, "
 ":math:`S` - scale factor, :math:`R_x, R_y, R_z, R_w` - the components of "
 "the quaternion vector. Hence the name of this vector: TSR or TSR-8."
 msgstr ""
+"在这里 :math:`T_x, T_y, T_z` - 位移向量的分量，:math:`S` - 比例系数， :math:`R_x, R_y, "
+"R_z, R_w` - 四元数向量的分量。这个向量故名：TSR或TSR-8。"
 
-#: ../objects.rst:491
+#: ../objects.rst:502
 msgid ""
 "This vector can be operated via `tsr` module, as well as via "
 "`set_tsr()`/`get_tsr()` methods of the `transform` module."
-msgstr ""
+msgstr "该向量可通过 `tsr` 模块以及经由 `transform` 模块的  `set_tsr()`/`get_tsr()`  的方法操作。"
 
-#: ../objects.rst:298
+#: ../objects.rst:309
 msgid "get object"
-msgstr ""
+msgstr "获取物体"
 
-#: ../objects.rst:378
+#: ../objects.rst:389
 msgid "quaternion"
-msgstr ""
+msgstr "四元数"
 
+#~ msgid ""
+#~ "**Static objects** are objects which can"
+#~ " be merged together if they have "
+#~ "the same material."
+#~ msgstr "**静态物体** 具有相同的材质的物体可以合并。"
+
+#~ msgid ""
+#~ "**Dynamic objects** are objects which "
+#~ "cannot be combined with each other."
+#~ msgstr "**动态物体** 是不可以合并的物体。"
+
+#~ msgid ""
+#~ "Object movement via API is possible "
+#~ "only for dynamic objects. In order "
+#~ "to make the movement of the object"
+#~ " without dynamic settings possible, it "
+#~ "is necessary to activate ``Force Dynamic"
+#~ " Object`` option in its settings."
+#~ msgstr "只有动态物体才能通过API来移动。为了使物体的无动态设置也可以运动，必须激活它的  ``Force Dynamic Object`` 选项。"
+
+#~ msgid ""
+#~ "Нейтрализация ошибок умножения, возникающих "
+#~ "вследствие неточности чисел с плавающей "
+#~ "запятой."
+#~ msgstr "数字稳定 - 从浮点数不准确而产生乘法错误的补偿"
+
+#~ msgid "кватернион"
+#~ msgstr "кватернион"
 

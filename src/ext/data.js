@@ -44,7 +44,6 @@ b4w.module["data"] = function(exports, require) {
 var m_data   = require("__data");
 var m_loader = require("__loader");
 var m_print  = require("__print");
-var m_util   = require("__util");
 
 /**
  * Load data from the json file exported from Blender.

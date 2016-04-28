@@ -70,22 +70,22 @@ The camera settings are specified in the "Properties" panel under the
    cursor position into this value.
 
 *Depth of Field*
-   Described in the Depth of Field section.
+   Described in the 景深 section.
 
 Velocity settings are available for camera movement.
 
 *Camera Move Style > Camera Velocities > Translation Velocity*
-   Avalible for the "Target", "Eye" and "Hover" type cameras. Sets the
-   velocity of the camera translation. Possible value interval:
+   Available for the "Target", "Eye" and "Hover" type cameras. Sets
+   the velocity of the camera translation. Possible value interval:
    \left[0,\ \infty \right). Default value is 1.
 
 *Camera Move Style > Camera Velocities > Rotation Velocity*
-   Avalible for the "Target", "Eye" and "Hover" type cameras. Sets the
-   camera rotation speed. Possible value interval: \left[0,\ \infty
-   \right). Default value is 1.
+   Available for the "Target", "Eye" and "Hover" type cameras. Sets
+   the camera rotation speed. Possible value interval: \left[0,\
+   \infty \right). Default value is 1.
 
 *Camera Move Style > Camera Velocities > Zoom Velocity*
-   Avalible for the "Target" and "Hover" type cameras. Set the
+   Available for the "Target" and "Hover" type cameras. Set the
    velocity of the camera approaching the pivot point. Possible value
    interval: \left[0,\ 0.99\right]. Default value is 0.1.
 
@@ -271,9 +271,9 @@ Control Mode Setup
 
 To change the control mode and to completely define a camera's
 behavior, the following methods can be used: static_setup(),
-eye_setup(), target_setup() and hover_setup(). These methods recieve
+eye_setup(), target_setup() and hover_setup(). These methods receive
 an object that contains a set of optional parameters, which can be
-used to set the camera's position, rotation, avalible limits and so
+used to set the camera's position, rotation, available limits and so
 on.
 
    var camera = m_scenes.get_active_camera();
@@ -359,7 +359,7 @@ get_move_style() methods:
        console.log("EYE camera!");
 
 注解: If you need to change only some aspects of the camera's
-  behavior, you can you the methods described below.
+  behavior, you can use the methods described below.
 
 
 Translation and Rotation
@@ -435,15 +435,15 @@ Additional camera translation methods:
 * static_set_look_at(), eye_set_look_at() - sets the camera's
   position and point of sight simultaneously;
 
-注解: Besause a camera is a scene object, transform module methods
-  can also be used. But, as every control mode infulences camera
+注解: Because a camera is a scene object, transform module methods
+  can also be used. But, as every control mode influences camera
   movement differently, results may differ from those expected.
 
 
 Limit Setup
 -----------
 
-Camera limits are avalible for the "EYE", "TARGET" and "HOVER" type
+Camera limits are available for the "EYE", "TARGET" and "HOVER" type
 cameras. To set a specific limit, you need to use a specific method:
 
 +------------------------------------------------+---------------------------------------------------+---------------------------------------------------+
@@ -488,7 +488,7 @@ has_horizontal_trans_limits() and has_vertical_trans_limits() methods.
 
   * "Vertical Translation Limits" - Z axis
 
-注解: Enabled camera limits can infulence its position and spatial
+注解: Enabled camera limits can influence its position and spatial
   orientation set by the API functions.
 
 

@@ -28,7 +28,6 @@ b4w.module["__compat"] = function(exports, require) {
 var m_cfg   = require("__config");
 var m_ext   = require("__extensions");
 var m_print = require("__print");
-var m_util  = require("__util");
 
 var MIN_VARYINGS_REQUIRED = 10;
 var MIN_FRAGMENT_UNIFORMS_SUPPORTED = 128;
@@ -37,6 +36,8 @@ var AMD_MESA_RENDER_NAMES = ["R600", "RV610", "RV630", "RV620", "RV635", "RV670"
         "JUNIPER", "CYPRESS", "PALM (Wrestler/Ontario)", "SUMO (Llano)",
         "SUMO2 (Llano)", "ARUBA (Trinity/Richland)", "BARTS", "TURKS", "CAICOS",
         "CAYMAN"];
+
+exports.NVIDIA_OLD_GPU_CUBEMAP_MAX_SIZE = 256;
 
 var cfg_anim = m_cfg.animation;
 var cfg_def = m_cfg.defaults;
@@ -211,7 +212,7 @@ exports.set_hardware_defaults = function(gl) {
                 || renderer.match(/NVIDIA GeForce( (G|GT|GTS|GTX))? 2../))) {
             m_print.warn("Chrome / Windows / NVIDIA GeForce 8/9/200 series detected, " +
                          "setting max cubemap size to 256, use canvas for resizing.");
-            cfg_def.max_cube_map_size = 256;
+            cfg_def.max_cube_map_size = exports.NVIDIA_OLD_GPU_CUBEMAP_MAX_SIZE;
             cfg_def.resize_cubemap_canvas_hack = true;
         }
 
@@ -277,7 +278,6 @@ exports.set_hardware_defaults = function(gl) {
 
     if (check_user_agent("Chrome") && !check_user_agent("Edge")) {
         m_print.log("Chrome detected. Some of deprecated functions related to the Doppler effect won't be called.");
-        cfg_def.cors_chrome_hack = true;
     }
 
     if ((check_user_agent("Chrome") && !check_user_agent("Edge")) ||

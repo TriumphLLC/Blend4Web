@@ -22,8 +22,8 @@ void shade_fog(inout vec3 color, in float eye_dist, in float height,
     if (u_fog_params.w > 0.0) {
         if (height > u_fog_params.w)
             fac = 0.0;
-        else if (height > 0.0){
-            float hi = (u_fog_params.w - height) / u_fog_params.w;
+        else {
+            float hi = (u_fog_params.w - max(height, 0.0)) / u_fog_params.w;
             fac *= hi * hi;
         }
     }

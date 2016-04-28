@@ -10,7 +10,7 @@ Textures
     :depth: 3
     :backlinks: entry
 
-Textures are hand-made or procedurally generated images that can be applied to the model surfaces to add more detail. As a rule, the image pixels are assigned to the 3D surface points using texture mapping. For this reason they sometimes are referred to as maps.
+Textures are hand-made or procedurally generated images that can be applied to the model surfaces to add more detail. As a rule, the image pixels are assigned to the 3D surface points using texture mapping. For this reason they are sometimes referred to as maps.
 
 Usually the textures are placed into :ref:`material <materials>` texture slots. They can be also used for :ref:`particle systems <particles_textures>` parametrization and for creating the :ref:`skydome <skydome_texture>`.
 
@@ -22,6 +22,14 @@ Texture Types
 The ``Type`` drop-down menu (for selecting texture type) is located under the ``Textures`` tab. The engine supports the following texture types:
 
 #. ``Image or Movie``
+    
+    In this case, the texture is defined by an image or a video file. Following file formats are supported:
+
+        - ``.PNG``
+        - ``.JPG``
+        
+    It can be used for the following purposes:
+
     - :ref:`diffuse map <diffuse_map>`
     - :ref:`specular map <specular_map>`, this can also be packed into the alpha channel of a diffuse texture
     - :ref:`normal map <normal_map>`
@@ -63,8 +71,10 @@ Generic Settings
 *Export Options > Do Not Export*
     Do not export the texture.
 
+.. _texture_disable_compression:
+
 *Export Options > Disable Compression*
-    Disable texture compression for this texture. Used in cases when texture compression deteriorates the image quality.For example it's recommended to disable compression for mask textures used to mix different parts of materials.
+    Disable texture compression for this texture. Used in cases when :ref:`texture compression <dds>` deteriorates the image quality. For example it's recommended to disable compression for mask textures used to mix different parts of materials.
 
 *Export Options > Shore Distance Map*
     Used in :ref:`outdoor rendering <outdoor_rendering>`.
@@ -176,7 +186,7 @@ Additional Settings
     Influence factor for the relief surface effect. The default value is 0.03.
 
 *Parallax > Parallax Steps*
-    The number of iterations for the relief surface calculations. Bigger value leads to better quality but is more computationaly expensive.
+    The number of iterations for the relief surface calculations. Bigger value leads to better quality but is more computationally expensive.
 
 *Parallax > Parallax LOD distance*
     Distance at which the parallax effect is observed.
@@ -305,7 +315,7 @@ The peculiarities for mobile devices are as follows:
 
 #. Normal operation of video textures on iPhones is not possible because these devices play back videos via the standard iOS video player. For these devices you need to convert your videos to special ``.seq`` format by using our :ref:`converter <converter>`.
 #. some devices only support playing back only one video file.
-#. stable operation is not garanteed if the ``Offset`` value is not zero.
+#. stable operation is not guaranteed if the ``Offset`` value is not zero.
 #. not all devices support changing the video playback rate.
 #. iPad and iPhone do not provide the possibility to control the audio volume for video, and so the audio track should be removed from the video before the file is added to Blender.
 

@@ -27,21 +27,32 @@ The engine supports objects of the following types:
     - metaball
     - surface
 
+During the scene export, ``CURVE``, ``TEXT``, ``METABALL`` and ``SURFACE`` type objects are converted into ``MESH`` type objects.
+
 
 .. _static_dynamic_objects:
 
 Static and Dynamic Objects
 ==========================
 
-**Static objects** are objects which can be merged together if they have the same material.
+An object can be either static or dynamic.
 
-**Dynamic objects** are objects which cannot be combined with each other.
+**Static objects** are objects that cannot be moved, animated or changed in any other way while running the application. For performance purposes, such objects can be merged together if they have the same material.
 
-Only ``MESH``, ``CAMERA`` and ``ARMATURE`` type objects can be dynamic. All other object types are static.
+**Dynamic objects** can be moved, animated or changed in other ways while running the application. They can also interact with other objects, including static ones. Dynamic objects are never combined with each other or with static objects.
 
-The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic.
+Only ``MESH`` and ``EMPTY`` type objects can be either static or dynamic. All other object types, such as ``CAMERA`` and ``ARMATURE``, are always dynamic.
 
-Object movement via API is possible only for dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate ``Force Dynamic Object`` option in its settings.
+Static ``MESH`` objects are rendered much faster then the dynamic ones, so, for better performance, it is advised to keep the number of dynamic meshes to a minimum. Objects of any other type, both static and dynamic, do not significantly affect performance.
+
+The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic, as well as the objects controlled by the following logic nodes:
+
+    * ``Play Animation``
+    * ``Transform Object``
+    * ``Move To``
+    * ``Inherit Material``
+
+API methods that concern object movement, copying and animation (both object and node material) can only be applied to dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate ``Force Dynamic Object`` option in its settings.
 
 .. _object_settings:
 
@@ -71,7 +82,7 @@ Object Tab
 *Relations > Parent*
     Reference to the parent object.
 
-    If the parent object is a camera, ``Viewport Alignment`` settings will be avalible.
+    If the parent object is a camera, ``Viewport Alignment`` settings will be available.
 
     .. image:: src_images/objects/objects_viewport_alignment.png
        :align: center
@@ -300,7 +311,7 @@ Use the following methods of the :b4wmod:`transform` module to move objects in t
 Get object API
 ==============
 
-To perform any operation with an object, you first need to get it (i.e. recieve the link to it). There are several API functions for doing this. A link to an object has ``Object3D`` type.
+To perform any operation with an object, you first need to get it (i.e. receive the link to it). There are several API functions for doing this. A link to an object has ``Object3D`` type.
 
 :b4wref:`scenes.get_object_by_name()`
     Get object by name.
@@ -382,7 +393,7 @@ Quaternions
 
 Quaternion is a four-component vector used to perform rotating. Quaternions have a number of advantages over other rotation methods such as:
 
-    - A quaternion isn’t ambiguant and doesn’t depend on the rotation order as the Euler angles.
+    - A quaternion has no ambiguity and doesn’t depend on the rotation order as the Euler angles.
     - Quaternion’s memory usage is more effective (2-4 times less depending on the matrix used).
     - Better computing efficiency than for matrices in case of a series of rotations.
     - Numeric stability - compensation for multiplication errors arising from float number inaccuracy.
@@ -418,14 +429,14 @@ We need to rotate the object by 60 degrees in a horizontal plane to the right. W
 
 |
 
-Lets save a reference to the object in the **aircraft** variable:
+Let's save a reference to the object in the **aircraft** variable:
 
 .. code-block:: javascript
 
     var aircraft = m_scenes.get_object_by_name("Cessna");
 
 
-Lets rotate it:
+Let's rotate it:
 
     * The orientation of coordinate axes is different in Blender and in the engine. Upon export there will be a transformation [X Y Z] (Blender) -> [X -Z Y] (the engine). Therefore we need to rotate the object relative to the Y axis and not the Z axis.
     * A clockwise rotation corresponds to the rotation to the right (i.e. in the negative direction).

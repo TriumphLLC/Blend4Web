@@ -93,6 +93,9 @@
  * <dt>precision
  * <dd>String, preferred GLSL floating point precision (use the CUSTOM profile
  * in order to change this parameter).
+ * <dt>prevent_caching
+ * <dd>Boolean, prevent assets caching by appending timestamp suffix to their
+ * URLs (default) or not.
  * <dt>quality
  * <dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
  * P_ULTRA, P_CUSTOM enums).
@@ -115,6 +118,8 @@
  * <dd>String, stereoscopic mode: "ANAGLYPH", "HMD" or "NONE".
  * <dt>wireframe_debug
  * <dd>Boolean, enable wireframe debug mode.
+ * <dt>gl_debug
+ * <dd>Boolean, enable gl errors check. Very slow.
  * </dl>
  * @module config
  * @local QualityProfile
@@ -125,10 +130,10 @@
  * @cc_externs console_verbose do_not_load_resources enable_selectable
  * @cc_externs enable_outlining gyro_use media_auto_activation outlining_overview_mode
  * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
- * @cc_externs precision quality
+ * @cc_externs precision prevent_caching quality
  * @cc_externs sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
- * @cc_externs wireframe_debug url_params stereo
+ * @cc_externs wireframe_debug url_params stereo gl_debug
  */
 b4w.module["config"] = function(exports, require) {
 

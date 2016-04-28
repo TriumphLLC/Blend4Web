@@ -1,0 +1,455 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Engine Features &mdash; Blend4Web 16.04 User Manual</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="About these documents"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.04 User Manual" href="index.html"/>
+        <link rel="next" title="Installing and Updating" href="setup.html"/>
+        <link rel="prev" title="Overview" href="about.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. User Manual
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.04
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. User Manual</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Engine Features</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="engine-features"></span><div class="section" id="index-0">
+<span id="id1"></span><h1>Engine Features<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><img alt="_images/export.png" class="first last" src="_images/export.png" />
+</td>
+<td><p class="first"><strong>BLENDER INTEGRATION</strong></p>
+<p>Creating interactive applications has never been easier!
+You can simply create a 3D scene in Blender
+and then use it in Blend4Web with the help of the following features:</p>
+<ul class="last simple">
+<li>Fast and Convenient Scene Export</li>
+<li>One-Click Scene Preview</li>
+<li>Full Support for Blender&#8217;s Environment and Material Settings</li>
+<li>Tools for Creating and Managing Projects</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><p class="first"><strong>RENDERING</strong></p>
+<p>Blend4Web offers a great many features to make your creations look amazing.</p>
+<p>Some of them include:</p>
+<ul class="last simple">
+<li>3D Scenes of Any Complexity</li>
+<li>Cascaded Shadow Mapping</li>
+<li>Dynamic Foliage</li>
+<li>Particle Systems</li>
+<li>Level of Detail</li>
+<li>Post-processing Effects</li>
+<li>VR Support</li>
+</ul>
+</td>
+<td><a class="first last reference internal image-reference" href="_images/render1.png"><img alt="_images/render1.png" src="_images/render1.png" style="width: 100%;" /></a>
+</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="first last reference internal image-reference" href="_images/materials.png"><img alt="_images/materials.png" src="_images/materials.png" style="width: 100%;" /></a>
+</td>
+<td><p class="first"><strong>MATERIALS</strong></p>
+<p>Powerful and easy-to-use material creation system makes it possible to create any
+material you might need, from a simple cartoon-like to an almost photo-real one.</p>
+<p>Some of the features:</p>
+<ul class="last simple">
+<li>Node Materials</li>
+<li>Parallax Offset Mapping</li>
+<li>Render-To-Texture</li>
+<li>Video Textures</li>
+<li>Full Support for Blender Material Nodes</li>
+<li>Refractions and Reflections</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="58%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><p class="first"><strong>ANIMATION</strong></p>
+<p>Blend4web supports almost every animation technique available in Blender, including:</p>
+<ul class="last simple">
+<li>Skeletal Animation</li>
+<li>Vertex Animation</li>
+<li>Object Animation</li>
+<li>Wind Bending</li>
+<li>Material Animation</li>
+<li>Animation Baking</li>
+<li>Flow Control Using API or Logic Editor</li>
+</ul>
+</td>
+<td><img alt="_images/animation.png" class="first last" src="_images/animation.png" />
+</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><img alt="_images/physics.png" class="first last" src="_images/physics.png" />
+</td>
+<td><p class="first"><strong>PHYSICS</strong></p>
+<p>If you are creating a physical simulation or simply want your scene to behave
+realistically, then Blend4Web&#8217;s powerful physics system is at your service.</p>
+<p>Its features include:</p>
+<ul class="last simple">
+<li>Collisions</li>
+<li>Rigid Body Physics</li>
+<li>Joint System</li>
+<li>Ray Casting</li>
+<li>Floating Objects</li>
+<li>Vehicles</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="58%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><p class="first"><strong>SOUND</strong></p>
+<p>Sound is important in making scenes and applications feel more responsve
+to user&#8217;s actions and generally more alive.</p>
+<p>Here are some of the means that Blend4Web offers you to control how
+your creations will sound:</p>
+<ul class="last simple">
+<li>Flexible Playback Control</li>
+<li>3D Positioning</li>
+<li>Doppler Effect</li>
+<li>Dynamic Compressor</li>
+<li>Cross-fade Sound Animation</li>
+<li>Real-Time Mixing</li>
+</ul>
+</td>
+<td><img alt="_images/audio.png" class="first last" src="_images/audio.png" />
+</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><img alt="_images/logic.png" class="first last" src="_images/logic.png" />
+</td>
+<td><p class="first"><strong>LOGIC EDITOR</strong></p>
+<p>Using this visual editor, you can create logic node trees to control the behavior
+of your scenes and to add interactivity without writing single line of code!</p>
+<p>Logic Node Editor features:</p>
+<ul class="last simple">
+<li>Object Picking</li>
+<li>Animation Control</li>
+<li>Variables and Computations</li>
+<li>Server Data Exchange</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="58%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><p class="first"><strong>SCRIPTING</strong></p>
+<p>Blend4Web uses JavaScript scenarios to control every aspect of an application.</p>
+<p>Some Blend4Web&#8217;s JavaScript API features include:</p>
+<ul class="last simple">
+<li>Module Structure</li>
+<li>Event-Driven Model</li>
+<li>GLSL Shaders</li>
+<li>Code Minification and Obfuscation</li>
+</ul>
+</td>
+<td><img alt="_images/code.png" class="first last" src="_images/code.png" />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="setup.html" class="btn btn-neutral float-right" title="Installing and Updating" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="about.html" class="btn btn-neutral" title="Overview" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Triumph.
+      Last updated on 2016-04-28.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.04',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

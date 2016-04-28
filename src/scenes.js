@@ -28,10 +28,8 @@ b4w.module["__scenes"] = function(exports, require) {
 var m_batch      = require("__batch");
 var m_bounds     = require("__boundings");
 var m_cam        = require("__camera");
-var m_compat     = require("__compat");
 var m_cfg        = require("__config");
 var m_cont       = require("__container");
-var m_cstr       = require("__constraints");
 var m_debug      = require("__debug");
 var m_geom       = require("__geometry");
 var m_graph      = require("__graph");
@@ -71,26 +69,31 @@ var VALID_OBJ_TYPES_SECONDARY = ["ARMATURE", "EMPTY", "MESH", "SPEAKER"];
 // add objects
 var OBJECT_SUBSCENE_TYPES = ["GRASS_MAP", "SHADOW_CAST", "MAIN_OPAQUE",
     "MAIN_BLEND", "MAIN_XRAY", "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
+    "MAIN_PLANE_REFLECT_BLEND", "MAIN_CUBE_REFLECT_BLEND",
     "COLOR_PICKING", "COLOR_PICKING_XRAY", "SHADOW_RECEIVE", "OUTLINE_MASK", "WIREFRAME"];
 exports.OBJECT_SUBSCENE_TYPES = OBJECT_SUBSCENE_TYPES;
 // need light update
 var LIGHT_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY", "MAIN_GLOW",
     "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT", "GOD_RAYS", "GOD_RAYS_COMBINE", "SKY",
+    "MAIN_PLANE_REFLECT_BLEND", "MAIN_CUBE_REFLECT_BLEND",
     "LUMINANCE_TRUNCED", "SHADOW_RECEIVE", "SHADOW_CAST", "COLOR_PICKING", "COLOR_PICKING_XRAY",
     "OUTLINE_MASK"];
 
 var FOG_SUBSCENE_TYPES = ["MAIN_OPAQUE", "SSAO", "MAIN_BLEND", "MAIN_XRAY",
-    "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT"];
+    "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
+    "MAIN_PLANE_REFLECT_BLEND", "MAIN_CUBE_REFLECT_BLEND"];
 
 // need time update
 var TIME_SUBSCENE_TYPES = ["SHADOW_CAST", "MAIN_OPAQUE", "MAIN_BLEND",
     "MAIN_XRAY", "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
+    "MAIN_PLANE_REFLECT_BLEND", "MAIN_CUBE_REFLECT_BLEND",
     "COLOR_PICKING", "COLOR_PICKING_XRAY", "SHADOW_RECEIVE", "GOD_RAYS", "OUTLINE_MASK",
     "WIREFRAME"];
 
 // need camera water distance update
 var MAIN_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY",
-                           "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT"];
+                           "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
+                           "MAIN_PLANE_REFLECT_BLEND", "MAIN_CUBE_REFLECT_BLEND"];
 
 var SHORE_DIST_COMPAT = 100;
 
@@ -305,6 +308,7 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     bpy_scene._nla = null;
 
     var render = bpy_scene._render;
+    var cam_scene_data = m_obj_util.get_scene_data(bpy_scene._camera, bpy_scene);
     var cam_render = bpy_scene._camera.render;
 
     render.video_textures = [];
@@ -317,9 +321,11 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     render.world_light_set   = get_world_light_set(world, render.sky_params);
     render.world_fog_set     = get_world_fog_set(world);
     render.anchor_visibility = check_anchor_visibility_objects(bpy_scene, bpy_empty_objs);
-    render.hmd_stereo_use    = check_hmd_stereo_use(cam_render);
-    render.anaglyph_use      = check_anaglyph_use(cam_render);
-    render.reflection_params = extract_reflections_params(bpy_scene, scene_objects);
+    render.hmd_stereo_use    = !bpy_scene._render_to_textures.length &&
+                               check_hmd_stereo_use(cam_scene_data);
+    render.anaglyph_use      = !bpy_scene._render_to_textures.length &&
+                               check_anaglyph_use(cam_scene_data);
+    render.reflection_params = extract_reflections_params(bpy_scene, scene_objects, bpy_mesh_objs);
     render.bloom_params      = extract_bloom_params(bpy_scene);
     render.mb_params         = extract_mb_params(bpy_scene);
     render.cc_params         = extract_cc_params(bpy_scene);
@@ -340,6 +346,7 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     render.ssao_params       = extract_ssao_params(bpy_scene);
 
     var materials_params     = get_material_params(bpy_mesh_objs)
+    render.materials_params  = materials_params;
     render.refractions       = check_refraction(bpy_scene, materials_params);
     render.shadow_params     = extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs);
     render.water_params      = get_water_params(bpy_mesh_objs);
@@ -417,7 +424,8 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     }
 
     var rtt_sorted = bpy_scene._render_to_textures.sort(rtt_sort_fun);
-    render.graph = m_scgraph.create_rendering_graph(render, cam_render, rtt_sorted);
+    render.graph = m_scgraph.create_rendering_graph(render, cam_scene_data,
+                cam_render, rtt_sorted);
 
     render.queue = [];
 
@@ -724,18 +732,18 @@ function get_material_params(bpy_objects) {
     return materials_properties_existance;
 }
 
-function check_anaglyph_use(cam_render) {
+function check_anaglyph_use(cam_scene_data) {
     // NOTE: disable anaglyph stereo for the non-PERSP camera
-    if (cam_render.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.stereo == "ANAGLYPH") {
+    if (cam_scene_data.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.stereo == "ANAGLYPH") {
         m_print.warn("Anaglyph stereo is disabled for the non-perspective camera");
         return false;
     } else
         return cfg_def.stereo == "ANAGLYPH";
 }
 
-function check_hmd_stereo_use(cam_render) {
+function check_hmd_stereo_use(cam_scene_data) {
     // NOTE: disable head-mounted display stereo for the non-PERSP camera
-    if (cam_render.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.stereo == "HMD") {
+    if (cam_scene_data.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.stereo == "HMD") {
         m_print.warn("Head-mounted display stereo is disabled for the non-perspective camera");
         return false;
     } else
@@ -746,7 +754,7 @@ function check_hmd_stereo_use(cam_render) {
  * Check if reflections are required for the given scene.
  * Returns an array of reflection planes and cube reflectibe objs on the scene.
  */
-function extract_reflections_params(bpy_scene, scene_objects) {
+function extract_reflections_params(bpy_scene, scene_objects, bpy_mesh_objs) {
 
     if (cfg_def.reflections) {
         switch (bpy_scene["b4w_render_reflections"]) {
@@ -759,6 +767,7 @@ function extract_reflections_params(bpy_scene, scene_objects) {
 
     var refl_plane_objs = [];
     var num_cube_refl = 0;
+    var has_blend_reflexible = false;
 
     for (var i = 0; i < scene_objects.length; i++) {
         var obj = scene_objects[i];
@@ -780,13 +789,41 @@ function extract_reflections_params(bpy_scene, scene_objects) {
             if (refl_plane_id == null)
                 refl_plane_objs.push(obj);
         }
+
     }
+
+    for (var i = 0; i < bpy_mesh_objs.length; i++)
+        if (check_blend_reflexible(bpy_mesh_objs[i]))
+            has_blend_reflexible = true;
 
     return {refl_plane_objs: refl_plane_objs,
             num_cube_refl:   num_cube_refl,
             cube_refl_subs:  [],
-            plane_refl_subs: []
+            cube_refl_subs_blend:  [],
+            plane_refl_subs: [],
+            plane_refl_subs_blend: [],
+            has_blend_reflexible: has_blend_reflexible
            };
+}
+
+function check_blend_reflexible(obj) {
+
+    if (!obj["b4w_reflexible"])
+        return;
+
+    var mesh = obj["data"]
+    var materials = mesh["materials"];
+
+    for (var i = 0; i < materials.length; i++) {
+        var mat = materials[i];
+        var gs = mat["game_settings"];
+        var alpha_blend = gs["alpha_blend"];
+        if (alpha_blend != "OPAQUE"
+                && alpha_blend != "CLIP")
+            return true;
+    }
+
+    return false;
 }
 
 /**
@@ -1500,7 +1537,11 @@ function add_object_sub(subs, obj, graph, bpy_scene, copy) {
         break;
     case "MAIN_PLANE_REFLECT":
     case "MAIN_CUBE_REFLECT":
-        add_object_subs_reflect(subs, obj, graph, bpy_scene, copy);
+        add_object_subs_reflect(subs, obj, graph, false, bpy_scene, copy);
+        break;
+    case "MAIN_PLANE_REFLECT_BLEND":
+    case "MAIN_CUBE_REFLECT_BLEND":
+        add_object_subs_reflect(subs, obj, graph, true, bpy_scene, copy);
         break;
     case "SHADOW_RECEIVE":
         add_object_subs_shadow_receive(subs, obj, graph, bpy_scene, copy);
@@ -1987,7 +2028,7 @@ function add_object_subs_shadow(subs, obj, graph, scene, copy) {
     }
 }
 
-function add_object_subs_reflect(subs, obj, graph, scene, copy) {
+function add_object_subs_reflect(subs, obj, graph, is_blend_subs, scene, copy) {
     var obj_render = obj.render;
     var sc_data = m_obj_util.get_scene_data(obj, scene);
     var batches = sc_data.batches;
@@ -2001,8 +2042,12 @@ function add_object_subs_reflect(subs, obj, graph, scene, copy) {
         if (batch.subtype != "REFLECT")
             continue;
 
+        if (batch.blend != is_blend_subs)
+            continue;
+
         // do not render reflected object on itself
-        if (subs.type == "MAIN_PLANE_REFLECT") {
+        if (subs.type == "MAIN_PLANE_REFLECT" ||
+                subs.type == "MAIN_PLANE_REFLECT_BLEND") {
             var refl_id = get_plane_refl_id_by_subs(scene, subs);
             if (refl_id == obj_render.plane_reflection_id)
                 continue;
@@ -2081,8 +2126,7 @@ function enable_outline_draw(scene) {
     });
 }
 
-exports.update_shadow_billboard_view = function(cam, graph) {
-    var cam_main = cam.render.cameras[0];
+exports.update_shadow_billboard_view = function(cam_main, graph) {
     m_graph.traverse(graph, function(node, attr) {
         var subs = attr;
         if (subs.type === "SHADOW_CAST") {
@@ -2128,6 +2172,7 @@ function update_subs_shadow(subs, scene, cam_main, cast_bundles, sh_params,
             // calculate world center and radius
             var center = m_vec3.copy(cam_main.csm_centers[subs.csm_index], _vec3_tmp);
             var main_view_inv = m_mat4.invert(cam_main.view_matrix, _mat4_tmp);
+
             m_util.positions_multiply_matrix(center, main_view_inv, center);
 
             // transform sphere center to light view space
@@ -2402,9 +2447,11 @@ function add_object_subs_grass_map(subs, obj, scene, copy) {
 
         // NOTE: issue for partially plain meshes near top or bottom
         var map_margin = (high - low) * GRASS_MAP_MARGIN;
+        low = low - map_margin;
+        high = high + map_margin;
 
-        subs.grass_map_dim[0] = low - map_margin;
-        subs.grass_map_dim[1] = high + map_margin;
+        subs.grass_map_dim[0] = low;
+        subs.grass_map_dim[1] = high;
         // subs.grass_map_dim[2] stays intact
 
         m_cam.set_frustum(cam, size/2, -high, -low, size/2);
@@ -2447,14 +2494,11 @@ function change_visibility_rec(obj, hide) {
 
     change_visibility(obj, hide);
 
-    for (var i = 0; i < obj.scenes_data.length; i++) {
-
-        var scene_objects = m_obj.get_scene_objs(obj.scenes_data[i].scene,
-                                                 "ALL", m_obj.DATA_ID_ALL);
-        for (var j = 0; j < scene_objects.length; j++)
-            if (scene_objects[j].parent == obj)
-                change_visibility_rec(scene_objects[j], hide);
-    }
+    // TODO: cons_descends array must be replaced with another container for
+    // child objects
+    for (var i = 0; i < obj.cons_descends.length; i++)
+        if (obj.cons_descends[i].parent == obj)
+            change_visibility_rec(obj.cons_descends[i], hide);
 }
 
 exports.change_visibility = change_visibility;
@@ -2545,6 +2589,7 @@ exports.update_lamp_scene = update_lamp_scene;
  */
 function update_lamp_scene(lamp, scene) {
 
+    //TODO: better precache this array
     var subs_arr = subs_array(scene, LIGHT_SUBSCENE_TYPES);
 
     var light = lamp.light;
@@ -2647,12 +2692,10 @@ function reset_shadow_cam_vm(bpy_scene) {
 }
 
 function update_sky(scene, subs) {
+    m_prerender.prerender_subs(subs);
     m_render.draw(subs);
     if (subs.need_fog_update) {
-        var main_subs = subs_array(scene, ["MAIN_OPAQUE",
-                                           "MAIN_BLEND",
-                                           "MAIN_XRAY",
-                                           "MAIN_GLOW"]);
+        var main_subs = subs_array(scene, FOG_SUBSCENE_TYPES);
         for (var i = 0; i < main_subs.length; i++) {
             var m_subs = main_subs[i];
             var bundles = m_subs.bundles;
@@ -2782,7 +2825,8 @@ exports.setup_scene_dim = setup_scene_dim;
  */
 function setup_scene_dim(scene, width, height) {
     var sc_render = scene._render;
-    var upd_cameras = scene._camera.render.cameras;
+    var cam_scene_data = m_obj_util.get_scene_data(scene._camera, scene);
+    var upd_cameras = cam_scene_data.cameras;
     for (var i = 0; i < upd_cameras.length; i++) {
         var cam = upd_cameras[i];
 
@@ -4168,25 +4212,32 @@ exports.assign_scene_data_subs = function(scene, scene_objs, lamps) {
     var use_ssao = cfg_def.ssao && scene["b4w_enable_ssao"];
     var shadow_lamps = m_obj_util.get_shadow_lamps(lamps, use_ssao);
 
-    for (var i = 0; i < scene_objs.length; i++) {
-        var obj = scene_objs[i];
-        var sc_data = m_obj_util.get_scene_data(obj, scene);
+    if (reflection_params)
+        for (var i = 0; i < scene_objs.length; i++) {
+            var obj = scene_objs[i];
+            var sc_data = m_obj_util.get_scene_data(obj, scene);
 
-        if (reflection_params)
             if (obj.render.plane_reflection_id != null) {
                 var plane_refl_subs = reflection_params.plane_refl_subs;
-                if (plane_refl_subs.length) {
-                    var refl_id = obj.render.plane_reflection_id;
+                var plane_refl_subs_blend = reflection_params.plane_refl_subs_blend;
+                var refl_id = obj.render.plane_reflection_id;
+
+                if (plane_refl_subs_blend.length)
+                    sc_data.plane_refl_subs = plane_refl_subs_blend[refl_id];
+                else if (plane_refl_subs.length)
                     sc_data.plane_refl_subs = plane_refl_subs[refl_id];
-                }
+
             } else if (obj.render.cube_reflection_id != null) {
                 var cube_refl_subs = reflection_params.cube_refl_subs;
-                if (cube_refl_subs.length) {
-                    var refl_id = obj.render.cube_reflection_id;
+                var cube_refl_subs_blend = reflection_params.cube_refl_subs_blend;
+                var refl_id = obj.render.cube_reflection_id;
+
+                if (cube_refl_subs_blend.length)
+                    sc_data.cube_refl_subs = cube_refl_subs_blend[refl_id];
+                else if (cube_refl_subs.length)
                     sc_data.cube_refl_subs = cube_refl_subs[refl_id];
-                }
             }
-    }
+        }
 
     for (var i = 0; i < shadow_lamps.length; i++) {
         var sc_data = m_obj_util.get_scene_data(shadow_lamps[i], scene);
@@ -4207,6 +4258,12 @@ function get_plane_refl_id_by_subs(scene, subs) {
             if (refl_subs[i][j] == subs)
                 return i;
     }
+    var refl_subs_blend = scene._render.reflection_params.plane_refl_subs_blend;
+    for (var i = 0; i < refl_subs_blend.length; i++) {
+        for (var j = 0; j < refl_subs_blend[i].length; j++)
+            if (refl_subs_blend[i][j] == subs)
+                return i;
+    }
     return null;
 }
 
@@ -4218,6 +4275,11 @@ function get_cube_refl_id_by_subs(scene, subs) {
     var refl_subs = scene._render.reflection_params.cube_refl_subs;
     for (var i = 0; i < refl_subs.length; i++) {
         if (refl_subs[i] == subs)
+            return i;
+    }
+    var refl_subs_blend = scene._render.reflection_params.cube_refl_subs_blend;
+    for (var i = 0; i < refl_subs_blend.length; i++) {
+        if (refl_subs_blend[i] == subs)
             return i;
     }
     return null;
@@ -4260,6 +4322,17 @@ exports.set_hmd_params = function(hmd_params) {
     if (hmd_params.enable_hmd_stereo) {
         subs_stereo.enable_hmd_stereo = hmd_params.enable_hmd_stereo;
         subs_stereo.need_perm_uniforms_update = true;
+    }
+}
+
+exports.multiply_size_mult = function(multiplier_x, multiplier_y) {
+    var scenes = get_all_scenes();
+
+    for (var i = 0; i < scenes.length; i++) {
+        var scene = scenes[i];
+        var graph = exports.get_graph(scene);
+
+        m_scgraph.multiply_size_mult_by_graph(graph, multiplier_x, multiplier_y);
     }
 }
 

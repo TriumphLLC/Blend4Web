@@ -181,7 +181,7 @@ Normal maps and shadows are ignored in the reflected image for optimization purp
 Fresnel effect for reflection
 -----------------------------
 
-The Fresnel effect manifests itself as the dependency of the intencity of passing and reflected light on the incidence angle. If the angle of incidence is close to zero (i.e. light falls almost at right angle to the surface) the passing light portion is large and the reflected light portion is small. On the contrary if the angle of incidence is close to 90 degrees (i.e. light falls almost parallel to the surface) almost all light is reflected.
+The Fresnel effect manifests itself as the dependency of the intensity of passing and reflected light on the incidence angle. If the angle of incidence is close to zero (i.e. light falls almost at right angle to the surface) the passing light portion is large and the reflected light portion is small. On the contrary if the angle of incidence is close to 90 degrees (i.e. light falls almost parallel to the surface) almost all light is reflected.
 
 The engine uses the approximate Schlick’s formula:
 
@@ -227,7 +227,7 @@ Rendering Properties
     Disable rendering of this object.
 
 *Material > Rendering Options > Backface Culling*
-    When enabled, poligons’ back faces are not rendered by the engine. Enabled by default.
+    When enabled, polygons’ back faces are not rendered by the engine. Enabled by default.
 
 *Material > Rendering Options > Wettable*
     Water wetting effect is activated for the material.
@@ -235,7 +235,7 @@ Rendering Properties
     .. seealso:: :ref:`water`
 
 *Material > Rendering Options > Render Above All*
-    Material is rendered on top of all scene objects. Transparency type with a gradient is requred (``Add``, Alpha Blend`` or ``Alpha Sort``).
+    Material is rendered on top of all scene objects. Transparency type with a gradient is required (``Add``, Alpha Blend`` or ``Alpha Sort``).
 
 *Material > Rendering Options > Vertex Color Paint*
     Mesh vertex color is used instead of the material diffuse color when the checkbox is enabled.

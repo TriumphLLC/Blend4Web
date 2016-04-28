@@ -4,12 +4,11 @@
 # Manual package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-28 15:00+0300\n"
+"POT-Creation-Date: 2016-04-06 16:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +45,7 @@ msgid ""
 msgstr ""
 
 #: ../developers_advanced.rst:30
-msgid "4 spaces are used for identation (no tabs allowed)."
+msgid "4 spaces are used for indentation (no tabs allowed)."
 msgstr ""
 
 #: ../developers_advanced.rst:33
@@ -410,8 +409,8 @@ msgstr ""
 
 #: ../developers_advanced.rst:213
 msgid ""
-"add/remove a temporary property to the already existing properies of the "
-"same kind"
+"add/remove a temporary property to the already existing properties of the"
+" same kind"
 msgstr ""
 
 #: ../developers_advanced.rst:216
@@ -474,10 +473,10 @@ msgstr ""
 msgid ""
 "The structure of the current render graph can be saved in the DOT format "
 "using the ``b4w.debug.scenegraph_to_dot()`` call, for example, in the "
-"browser console. After calling this method save the console's output into"
-" the file with the .gv extension. To get the graph in a visual form the "
-"`graphviz <http://www.graphviz.org/>`_ utilities are required. Converting"
-" to the SVG format is performed using the command:"
+"browser console. After calling this method, save the console's output "
+"into the file with the .gv extension. To get the graph in a visual form "
+"the `graphviz <http://www.graphviz.org/>`_ utilities are required. "
+"Converting to the SVG format is performed using the command:"
 msgstr ""
 
 #: ../developers_advanced.rst:248
@@ -490,8 +489,8 @@ msgstr ""
 
 #: ../developers_advanced.rst:258
 msgid ""
-"All shaders used in the engine are processed by a compilator. The "
-"compilator performs the following three main procedures:"
+"All shaders used in the engine are processed by a compiler. The compiler "
+"performs the following three main procedures:"
 msgstr ""
 
 #: ../developers_advanced.rst:260
@@ -508,7 +507,7 @@ msgstr ""
 
 #: ../developers_advanced.rst:264
 msgid ""
-"In order to run the compilator, execute one of the following commands in "
+"In order to run the compiler, execute one of the following commands in "
 "the SDK root:"
 msgstr ""
 
@@ -556,7 +555,7 @@ msgstr ""
 
 #: ../developers_advanced.rst:289
 msgid ""
-"The compilator performs the following procedures related to shader code "
+"The compiler performs the following procedures related to shader code "
 "validation:"
 msgstr ""
 
@@ -573,7 +572,7 @@ msgid "checking the conformance of shaders to the import/export mechanism,"
 msgstr ""
 
 #: ../developers_advanced.rst:294
-msgid "removing odd or repeatitive tokens: spaces, endlines and semicolons."
+msgid "removing odd or repetitive tokens: spaces, endlines and semicolons."
 msgstr ""
 
 #: ../developers_advanced.rst:300
@@ -582,14 +581,14 @@ msgstr ""
 
 #: ../developers_advanced.rst:302
 msgid ""
-"Obfuscation minifies the GLSL code and makes it diffucult to understand "
+"Obfuscation minifies the GLSL code and makes it difficult to understand "
 "it. So far the following procedure is implemented:"
 msgstr ""
 
 #: ../developers_advanced.rst:304
 msgid ""
-"replacing the user-defined identifiers with shorter single-symboled, two-"
-"symboled etc names (with support of the import/export mechanism)."
+"replacing the user-defined identifiers with shorter single-symbol, two-"
+"symbol etc. names (with support of the import/export mechanism)."
 msgstr ""
 
 #: ../developers_advanced.rst:310
@@ -662,7 +661,7 @@ msgstr ""
 
 #: ../developers_advanced.rst:380
 msgid ""
-"Therefore the shader which uses the include file must have all the "
+"Therefore, the shader which uses the include file must have all the "
 "declarations necessary for import before the place of linking, and can "
 "use the exported ids after it."
 msgstr ""
@@ -682,8 +681,8 @@ msgstr ""
 #: ../developers_advanced.rst:391
 msgid ""
 "Because of the following reasons: preprocessing, the need to process "
-"multiple shaders and include files and due to the compilator's features -"
-" its possible to garantee the work of the output code only if a number of"
+"multiple shaders and include files and due to the compiler's features - "
+"its possible to guarantee the work of the output code only if a number of"
 " rules and limitations are respected with regard to the shader source "
 "code:"
 msgstr ""
@@ -691,7 +690,7 @@ msgstr ""
 #: ../developers_advanced.rst:393
 msgid ""
 "In order to describe constants which are defined by the engine at run, "
-"it's neccessary to use the ``#var`` special directive. For example:"
+"it's necessary to use the ``#var`` special directive. For example:"
 msgstr ""
 
 #: ../developers_advanced.rst:400
@@ -700,7 +699,7 @@ msgid ""
 "#var directive is that the value which it defines allows to parse the "
 "initial shader. It's irrelevant what exactly it will be (e.g. 'uniform' "
 "or 'attribute' in the above example), because at this level it's unknown "
-"anyway. Nevertheless it's better to specify a more or less suitable "
+"anyway. Nevertheless, it's better to specify a more or less suitable "
 "description and not something arbitrary."
 msgstr ""
 
@@ -740,7 +739,7 @@ msgid ""
 "The usage of the #include directive should not lead to ambiguity during "
 "the obfuscation of the include file. This can happen when multiple "
 "shaders are included into the same file and the above defined directives "
-"(like #var or #define) can have influence on any of them. Also it's "
+"(like #var or #define) can have influence on any of them. Also, it's "
 "better not to use undeclared functions and variables in the include file."
 msgstr ""
 
@@ -785,7 +784,7 @@ msgstr ""
 msgid ""
 "Compilation may depend on WebGL extensions being used if they somehow "
 "influence the shading language. At the moment the following extensions "
-"are supported by the compilator:"
+"are supported by the compiler:"
 msgstr ""
 
 #: ../developers_advanced.rst:448
@@ -798,38 +797,38 @@ msgstr ""
 
 #: ../developers_advanced.rst:456
 msgid ""
-"In case of an error the compilator will output the corresponding message "
-"in the console."
+"In case of an error the compiler will output the corresponding message in"
+" the console."
 msgstr ""
 
 #: ../developers_advanced.rst:458
 msgid "Table of possible errors:"
 msgstr ""
 
-#: ../developers_advanced.rst:478
+#: ../developers_advanced.rst:461
 msgid "Error message"
 msgstr ""
 
-#: ../developers_advanced.rst:478
+#: ../developers_advanced.rst:461
 msgid "Cause"
 msgstr ""
 
-#: ../developers_advanced.rst:480
+#: ../developers_advanced.rst:463
 msgid "Error! Ambiguous obfuscation in include file 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:480
+#: ../developers_advanced.rst:463
 msgid "Ambiguous obfuscation in the 'FILE_NAME' include file."
 msgstr ""
 
-#: ../developers_advanced.rst:483
+#: ../developers_advanced.rst:466
 msgid ""
 "Error! Bad preprocessing collision while obfuscation identifier: "
 "\\'NAME'. Varying/uniform or varying/attribute qualifiers combination. "
 "File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:483
+#: ../developers_advanced.rst:466
 msgid ""
 "Error in the FILE_NAME file. Its impossible to obfuscate the NAME "
 "variable because of redefining at preprocessing. Redefining the same "
@@ -837,110 +836,110 @@ msgid ""
 "varying/uniform, varying/attribute."
 msgstr ""
 
-#: ../developers_advanced.rst:491
+#: ../developers_advanced.rst:474
 msgid "Error! Extension NAME is unsupported in obfuscator. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:491
+#: ../developers_advanced.rst:474
 msgid ""
 "The NAME WebGL extension used in the FILE_NAME file is not supported by "
 "the obfuscator."
 msgstr ""
 
-#: ../developers_advanced.rst:495
+#: ../developers_advanced.rst:478
 msgid "Error! Include 'FILE_NAME' not found."
 msgstr ""
 
-#: ../developers_advanced.rst:495
+#: ../developers_advanced.rst:478
 msgid "The FILE_NAME include file could not be found."
 msgstr ""
 
-#: ../developers_advanced.rst:498
+#: ../developers_advanced.rst:481
 msgid "Error! Undeclared TYPE: 'NAME'. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:498
+#: ../developers_advanced.rst:481
 msgid ""
 "Error in FILE_NAME file. Undeclared identifier NAME of type TYPE "
 "(variable, function, structure etc)."
 msgstr ""
 
-#: ../developers_advanced.rst:502
+#: ../developers_advanced.rst:485
 msgid "Error! Undeclared TYPE: 'NAME'. Importing data missed. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:502
+#: ../developers_advanced.rst:485
 msgid ""
 "Undeclared identifier NAME of type TYPE (variable, function, structure "
 "etc). Declaration missing for the identifier required in the FILE_NAME "
 "include file according to the ``#import`` directive."
 msgstr ""
 
-#: ../developers_advanced.rst:508
+#: ../developers_advanced.rst:491
 msgid ""
 "Error! Undeclared TYPE: 'NAME'. Possibly exporting needed in include file"
 " 'INCLUDE_NAME'. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:508
+#: ../developers_advanced.rst:491
 msgid ""
 "Error in FILE_NAME file. Undeclared identifier NAME of type TYPE "
 "(variable, function, structure etc). Possibly its export into the "
 "INCLUDE_NAME include file should be allowed."
 msgstr ""
 
-#: ../developers_advanced.rst:514
+#: ../developers_advanced.rst:497
 msgid ""
 "Error! Undeclared TYPE: 'NAME'. Possibly importing needed. File: "
 "'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:514
+#: ../developers_advanced.rst:497
 msgid ""
 "Undeclared identifier NAME of type TYPE (variable, function, structure "
 "etc). Possibly it should be specified as imported in the FILE_NAME "
 "include file."
 msgstr ""
 
-#: ../developers_advanced.rst:519
+#: ../developers_advanced.rst:502
 msgid "Error! Unused export token 'NAME' in include file 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:519
+#: ../developers_advanced.rst:502
 msgid ""
 "Undeclared identifier NAME is allowed for export in the FILE_NAME include"
 " file."
 msgstr ""
 
-#: ../developers_advanced.rst:522
+#: ../developers_advanced.rst:505
 msgid "Error! Using reserved word in TYPE 'NAME'. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:522
+#: ../developers_advanced.rst:505
 msgid ""
 "Error in FILE_NAME file. A reserved id is used for declaring the "
 "identifier NAME of type TYPE (variable, function, structure etc)."
 msgstr ""
 
-#: ../developers_advanced.rst:527
+#: ../developers_advanced.rst:510
 msgid ""
 "Error! 'all' extension cannot have BEHAVIOR_TYPE behavior. File: "
 "'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:527
+#: ../developers_advanced.rst:510
 msgid ""
 "The ``#extension`` directive specified for ``all`` WebGL extensions in "
 "the FILE_NAME file does not support the behavior BEHAVIOR_TYPE."
 msgstr ""
 
-#: ../developers_advanced.rst:532
+#: ../developers_advanced.rst:515
 msgid ""
 "Syntax Error. ERROR_MESSAGE. File: FILE_NAME, line: LINE_NUMBER, column: "
 "COL_NUMBER."
 msgstr ""
 
-#: ../developers_advanced.rst:532
+#: ../developers_advanced.rst:515
 msgid ""
 "Syntax error in line LINE_NUMBER column COL_NUMBER during parsing the "
 "FILE_NAME shader. The initial error description is quoted in the "
@@ -949,73 +948,73 @@ msgid ""
 "specify the line which is a little bit after the actual error."
 msgstr ""
 
-#: ../developers_advanced.rst:542
+#: ../developers_advanced.rst:525
 msgid ""
 "Warning! Function 'NAME' is declared in [include ]file FILE_NAME, but "
 "never used."
 msgstr ""
 
-#: ../developers_advanced.rst:542
+#: ../developers_advanced.rst:525
 msgid "An unused function NAME is declared in the FILE_NAME file."
 msgstr ""
 
-#: ../developers_advanced.rst:546
+#: ../developers_advanced.rst:529
 msgid ""
 "Warning! Include file 'FILE_NAME' not used in any shader, would be "
 "omitted!"
 msgstr ""
 
-#: ../developers_advanced.rst:546
+#: ../developers_advanced.rst:529
 msgid ""
 "The FILE_NAME include file is not used in any of the shaders and so it "
 "will be excluded from the obfuscated version."
 msgstr ""
 
-#: ../developers_advanced.rst:550
+#: ../developers_advanced.rst:533
 msgid "Warning! Unused import token 'NAME' in include file 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:550
+#: ../developers_advanced.rst:533
 msgid "An unused id NAME is imported in the FILE_NAME include file."
 msgstr ""
 
-#: ../developers_advanced.rst:553
+#: ../developers_advanced.rst:536
 msgid ""
 "Warning! Variable 'NAME' is declared in include file FILE_NAME, but never"
 " used."
 msgstr ""
 
-#: ../developers_advanced.rst:553
+#: ../developers_advanced.rst:536
 msgid "An unused variable NAME is declared in the FILE_NAME file."
 msgstr ""
 
-#: ../developers_advanced.rst:560
+#: ../developers_advanced.rst:543
 msgid "Updating Add-on Translations"
 msgstr ""
 
-#: ../developers_advanced.rst:562
+#: ../developers_advanced.rst:545
 msgid ""
 "If you need to update all existing .po files, run the script "
 "*translator.py* in the SDK/scripts directory without arguments:"
 msgstr ""
 
-#: ../developers_advanced.rst:568
+#: ../developers_advanced.rst:551
 msgid ""
 "In order to update an existing .po file, run the script with a supported "
 "language code as an argument:"
 msgstr ""
 
-#: ../developers_advanced.rst:574
+#: ../developers_advanced.rst:557
 msgid ""
 "In order to view the list of supported languages, run the script as "
 "follows:"
 msgstr ""
 
-#: ../developers_advanced.rst:580
+#: ../developers_advanced.rst:563
 msgid "In any case, the file *empty.po* will be updated upon running the script."
 msgstr ""
 
-#: ../developers_advanced.rst:582
+#: ../developers_advanced.rst:565
 msgid "After updates, the .po files can be edited/translated as usual."
 msgstr ""
 
@@ -1042,4 +1041,132 @@ msgstr ""
 #: ../developers_advanced.rst:451
 msgid "errors"
 msgstr ""
+
+#~ msgid "4 spaces are used for identation (no tabs allowed)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "add/remove a temporary property to the"
+#~ " already existing properies of the "
+#~ "same kind"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The structure of the current render "
+#~ "graph can be saved in the DOT "
+#~ "format using the ``b4w.debug.scenegraph_to_dot()``"
+#~ " call, for example, in the browser"
+#~ " console. After calling this method "
+#~ "save the console's output into the "
+#~ "file with the .gv extension. To "
+#~ "get the graph in a visual form "
+#~ "the `graphviz <http://www.graphviz.org/>`_ utilities"
+#~ " are required. Converting to the SVG"
+#~ " format is performed using the "
+#~ "command:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "All shaders used in the engine are"
+#~ " processed by a compilator. The "
+#~ "compilator performs the following three "
+#~ "main procedures:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In order to run the compilator, "
+#~ "execute one of the following commands"
+#~ " in the SDK root:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The compilator performs the following "
+#~ "procedures related to shader code "
+#~ "validation:"
+#~ msgstr ""
+
+#~ msgid "removing odd or repeatitive tokens: spaces, endlines and semicolons."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Obfuscation minifies the GLSL code and"
+#~ " makes it diffucult to understand it."
+#~ " So far the following procedure is"
+#~ " implemented:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "replacing the user-defined identifiers "
+#~ "with shorter single-symboled, two-"
+#~ "symboled etc names (with support of "
+#~ "the import/export mechanism)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Therefore the shader which uses the "
+#~ "include file must have all the "
+#~ "declarations necessary for import before "
+#~ "the place of linking, and can use"
+#~ " the exported ids after it."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Because of the following reasons: "
+#~ "preprocessing, the need to process "
+#~ "multiple shaders and include files and"
+#~ " due to the compilator's features -"
+#~ " its possible to garantee the work"
+#~ " of the output code only if a"
+#~ " number of rules and limitations are"
+#~ " respected with regard to the shader"
+#~ " source code:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In order to describe constants which "
+#~ "are defined by the engine at run,"
+#~ " it's neccessary to use the ``#var``"
+#~ " special directive. For example:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The syntax here is similar to the"
+#~ " #define directive. The point of the"
+#~ " #var directive is that the value "
+#~ "which it defines allows to parse "
+#~ "the initial shader. It's irrelevant what"
+#~ " exactly it will be (e.g. 'uniform'"
+#~ " or 'attribute' in the above "
+#~ "example), because at this level it's "
+#~ "unknown anyway. Nevertheless it's better "
+#~ "to specify a more or less suitable"
+#~ " description and not something arbitrary."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The usage of the #include directive "
+#~ "should not lead to ambiguity during "
+#~ "the obfuscation of the include file. "
+#~ "This can happen when multiple shaders"
+#~ " are included into the same file "
+#~ "and the above defined directives (like"
+#~ " #var or #define) can have influence"
+#~ " on any of them. Also it's "
+#~ "better not to use undeclared functions"
+#~ " and variables in the include file."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Compilation may depend on WebGL "
+#~ "extensions being used if they somehow"
+#~ " influence the shading language. At "
+#~ "the moment the following extensions are"
+#~ " supported by the compilator:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In case of an error the compilator"
+#~ " will output the corresponding message "
+#~ "in the console."
+#~ msgstr ""
 

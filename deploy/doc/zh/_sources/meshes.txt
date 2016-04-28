@@ -1,156 +1,133 @@
 
-Meshes
-******
+网格
+****
 
 
-Table of Content
-^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Meshes
+* 网格
 
-  * Static and Dynamic Objects
+  * 静态和动态物体
 
-  * Settings
+  * 设置
 
-    * Override Bounding Volumes
+    * 覆盖包围体积
 
-  * Copying Objects (Instancing)
+  * 复制物体（实例化）
 
-    * Making a Simple Copy
+    * 制作一个简单的复制
 
-    * Making a Deep Copy
+    * 制作深复制
 
-    * Removing Objects
+    * 删除物体
 
-  * Object Selection
+  * 物体选择
 
-  * Morphing
-
-
-Static and Dynamic Objects
-==========================
-
-All "MESH" objects can be divided into static and dynamic objects.
-
-**Static objects** are objects, the meshes of which can be merged
-together if they have the same material.
-
-**Dynamic objects** are objects, the meshes of which cannot be
-combined with each other.
-
-Merging of static objects - so called batching - is performed
-automatically when the scene is loaded in order to optimize the number
-of draw calls. The conversion is performed even if there is just one
-object in the scene. The center of the resulting mesh is located in
-the origin.
-
-The objects which have animation, physics or a parent, which is a
-dynamic object, are considered dynamic.
-
-Object movement via API is possible only for dynamic objects. In order
-to make the movement of the object without dynamic settings possible,
-it is necessary to activate "Force Dynamic Object" option in its
-settings.
+  * 变形
 
 
-Settings
-========
+静态和动态物体
+==============
 
-Meshes have all settings of the objects and several additional
-settings.
+所有``MESH`` 物体可分为静态和动态物体。
+
+**静态物体** 是物体，具有相同的材质的网格可以合并在一起。
+
+**动态物体** 是物体，网格不可以互相合并。
+
+讲静态物体合并 - 所谓的批量处理 -会在场景在绘制调用优化的时候会自动的
+执行。该转换在只有一个物体在场景的时候也会进行。所产生的网格的中心位于
+原点。
+
+具有动画，物理或父级关系的物体，是一个动态物体，都被认为是动态的。
+
+只有动态物体才能通过API来移动。为了使物体的无动态设置也可以运动，必须
+激活它的  "Force Dynamic Object" 选项。
 
 
-Override Bounding Volumes
--------------------------
+设置
+====
 
-This section is used to override bounding volumes. Such volumes are
-used to check object’s visibility, to handle collisions and physics
-interaction. By editing them, you can achieve various effects.
+网格含有 物体 所有的设置和一些额外的设置。
+
+
+覆盖包围体积
+------------
+
+这部分是用来覆盖包围盒。这样体积盒用于检查物体的可见性，来处理碰撞和物
+理交互。通过编辑它们，可以实现各种效果。
 
 [图片]
 
-The "Override Bounding Volumes" section can be found on the
-"Blend4Web" panel (beside the normals editor.).
+该 "覆盖包围体积" 部分可以在 "Blend4Web" 面板上找到（在 法线编辑器 旁
+边）。
 
-*Show Boundings*
-
-   [图片]
-
-   Show the bounding volumes in the Blender viewport. This option
-   works only if the "Override Mesh Boundings" parameter is enabled.
-   The volume can be rendered as a rectangular cuboid or as a
-   combination of circles or ellises. More then one method of
-   rendering can be active at the same time (even all three methods
-   can be enabled simultaneously).
-
-注解: The selected rendering method does not affect the bounding
-  volume shape, only the way it is represented in the viewport.
-
-
-
-*Override Mesh Boundings*
+*显示包围*
 
    [图片]
 
-   This button enables the override of the basic mesh boundings. The
-   bounding volume always has the shape of a rectangular cuboid with a
-   center in the object’s pivot point.
+   显示在Blender视口中的包围盒。只有当 "覆盖网格包围" 参数开启，启用该
+   选项。包围盒可以呈现为长方体或为圆形或椭圆的组合。多个渲染方式可以
+   在同一时间是启用（甚至所有三种方法可以同时启用）。
+
+注解: 所选渲染方法不会影响包围盒的形状，只是影响它在视口中展示的方式
+  。
+
+
+
+*覆盖网格包围*
+
+   [图片]
+
+   此按钮可以使基本网格包围覆盖。包围盒总是一个长方体并以物体的枢轴点
+   为中心。
 
 *MinX and  MaxX*
-   The volume’s X dimensions. By default, *MinX* = -1, *MaxX* = 1
+   包围盒的X尺寸。默认情况下， *MinX* = -1, *MaxX* = 1
 
 *MinY and  MaxY*
-   The volume’s Y dimensions. By default, *MinY* = -1, *MaxY* = 1.
+   包围盒的Y尺寸。缺省情况下，*MinY* = -1, *MaxY* = 1.
 
 *MinZ and  MaxZ*
-   The volume’s Z dimensions. By default, *MinZ* = -1, *MaxZ* = 1
+   包围盒的z方向。缺省情况下，*MinZ* = -1, *MaxZ* = 1
 
 
-Copying Objects (Instancing)
-============================
+复制物体（实例化）
+==================
 
-It is often required to copy (to make instances of) objects during
-application work.
+在应用程序工作中经常需要复制（使实例）物体。
 
-Copying objects has its limitations:
-   * only "MESH" objects can be copied
+复制物体有其局限性：
+   * 只有 "MESH" 物体可以被复制
 
-   * the object should be dynamic (enable "Rendering Properties >
-     Force Dynamic Object")
+   * 物体应该是 动态 （启用 "渲染属性>强制动态物体"）
 
-   * the source object should belong to the active scene
+   * 源物体应该属于主控场景
 
 
-Making a Simple Copy
---------------------
-
-In case of simple copying the new object will share the mesh with the
-original object. Thus, if the the original object’s mesh is changed,
-the copied object’s mesh will be changed too. To make simple copying
-possible, it’s enough to turn on the "Blend4Web > Force Dynamic
-Object" setting in the source object’s properties.
-
-
-Making a Deep Copy
+制作一个简单的复制
 ------------------
 
-In case of deep copying, the new object will have unique properties,
-namely it will have its own mesh. Thus, if the original object’s mesh
-is changed, the copied object’s mesh will not be changed. Also, the
-canvas textures on the copied objects are different textures and not
-one and the same like it is the case with the simple copying. To make
-deep copying possible, it is required to enable the Rendering
-Properties > Dynamic Geometry checkbox for the source object. |
+在简单复制的情况下，新的物体将与原始物体共享网格。因此，如果原始物体的
+网格被改变，则复制的物体的网格也将被改变。为了让简单复制可行，只需要打
+开源物体属性设置的 "Blend4Web>强制动态物体"。
 
-Copying objects in runtime can be performed with the "copy" method of
-the "objects.js" module. This method requires three arguments: the id
-of the source object, a unique name for the new object and the boolean
-value to specify the copy mode (i.e. simple or deep). By default
-simple copying will be performed.
 
-The newly created object should be added to the scene. This can be
-performed with the "append_object" method of the "scenes.js" module.
-The new object should be passed to it as an argument.
+制作深复制
+----------
+
+在深度复制的情况下，新物体将具有自己的属性，即它会有自己的网格。因此，
+就算原始物体的网格被改变，复制的物体的网格也不被改变。同样，与简单复制
+的情况不一样的是深度复制物体的画布纹理是和原始物体的纹理不是一个。为了
+使用深度复制，启用源物体的  选人属性 > 动态几何体 复选框。 |
+
+在运行状态复制物体可以使用 "objects.js" 模块的 "copy" 方法。此方法需要
+三个参数：源物体的id，新物体一个唯一的名称和指定复印模式（即简单或深）
+的布尔值。默认简单复制将被执行。
+
+新创建的物体需要添加到场景。可以用 "scenes.js" 模块的 "append_object"
+方法。新物体应该被作为参数传递给它。
 
    // ...
    var new_obj = m_objects.copy(obj, "New_name", true);
@@ -159,31 +136,27 @@ The new object should be passed to it as an argument.
    // ...
 
 
-Removing Objects
-----------------
+删除物体
+--------
 
-To remove objects, use the "remove_object" method of the "scenes.js"
-module. Pass the object to it as an argument. Dynamic mesh- and empty-
-type objects can be removed this way.
+要删除物体，请使用 "scenes.js" 模块的 "remove_object" 方法。传递物体作
+为参数。动态网格和空类型的物体可以用这种方式删除。
 
    // ...
    m_objects.remove_object(new_obj);
    // ...
 
 
-Object Selection
-================
+物体选择
+========
 
-In order to enable selection of a certain object, it is required to
-enable the "Selectable" checkbox on the "Selection and Outlining"
-panel.
+为了使一个特定的物体的选择启用，需要开启 "选择与轮廓线" 面板上的 "可选
+择" 复选框。
 
-注解: Make sure that the status on the "Scene > Object Outlining"
-  panel is set to "ON" or "AUTO".
+注解: 确保 "场景状态>物体轮廓" 面板被设置为 "ON" 或 "AUTO" 。
 
-Object selection is possible programmatically via API, for example, in
-the "scenes.js" module there is the "pick_object" function which
-selects an object based on canvas 2D coordinates,
+物体选择也可以通过API编程方式实现，例如，在 "scenes.js" 模块有基于二维
+画布坐标进行选择物体的 "pick_object" 函数，
 
    // ...
    var x = event.clientX;
@@ -192,30 +165,30 @@ selects an object based on canvas 2D coordinates,
    var obj = m_scenes.pick_object(x, y);
    // ...
 
-or using the NLA Script.
+或使用 NLA 脚本.
 
-If the selectable object has enabled "Enable Outlining" and "Outline
-on Select" checkboxes on the "Object > Selection" and Outlining panel,
-then the "pick_object" function call will activate outline glow
-animation.
+如果选择的物体已启用了 "启用外轮廓" 和 "物体 > 选择" 和 大纲面板上的 "
+轮廓选择" 复选框，那么 "pick_object" 函数调用将激活 外轮廓辉光动画.
+
+注解: If the selected object is transparent ("Blend", "Add" and
+  "Sort" transparency types), outline glow will only be visible on the
+  parts that have "Alpha" value higher than 0.5.
 
 
-Morphing
-========
+变形
+====
 
-Morph targets can be added using Blender’s standard "Mesh > Shape
-keys" interface.
+变形目标可以用Blender的标准 "网格 > 形变键" 界面进行添加。
 
 [图片]
 
 
 
-The engine supports all shape key options under the “Relative” type.
+该引擎支持所有 “相对” 类型下的形变键选项。
 
-To set a shape key value, use the "apply_shape_key" method of the
-"geometry.js" module.
+要设置一个形变键值，使用 "geometry.js" 模块的 "apply_shape_key" 方法。
 
-注解: The object must have "Export Shape Keys" parameter enabled.
+注解: 该物体必须具有 "导出形变键" 参数启用。
 
    // ...
    var obj = m_scenes.get_object_by_name("Object");

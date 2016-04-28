@@ -1,672 +1,599 @@
 
-Textures
-********
+纹理
+****
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Textures
+* 纹理
 
-  * Texture Types
+  * 纹理类型
 
-  * Generic Settings
+  * 通用设置
 
-  * Diffuse Map
+  * 漫射贴图
 
-    * Activation
+    * 激活
 
-    * Additional Settings
+    * 附加设置
 
-  * Specular Map
+  * 高光贴图
 
-    * Activation
+    * 激活
 
-    * Additional Settings
+    * 附加设置
 
-  * Normal Map
+  * 法线贴图
 
-    * Activation
+    * 激活
 
-    * Additional Settings
+    * 附加设置
 
-  * Height Map. Parallax Mapping
+  * 高度图。视差贴图
 
-    * Activation
+    * 激活
 
-    * Additional Settings
+    * 附加设置
 
-  * Stencil Map
+  * 蒙版贴图
 
-    * Activation
+    * 激活
 
-    * Additional Settings
+    * 附加设置
 
-    * Limitations
+    * 限制条件
 
-    * Example
+    * 示例
 
-  * Video Textures
+  * 视频贴图
 
-    * Supported formats (containers):
+    * 支持的格式 （容器） ︰
 
-    * Setting up the Texture
+    * 设置纹理
 
-    * Specifics of Mobile Devices
+    * 移动设备的细节
 
-  * Environment Map
+  * 环境贴图
 
-    * Making Environment Maps
+    * 制作环境贴图
 
-  * Mirror Map
+  * 镜面贴图
 
-    * Activation
+    * 激活
 
-    * Additional Settings
+    * 附加设置
 
-  * Skydome
+  * 天穹
 
-    * Activation
+    * 激活
 
-    * Additional Settings
+    * 附加设置
 
-  * Special Texture Types
+  * 特殊的纹理类型
 
-    * 3D scene
+    * 3D场景
 
-    * Canvas
+    * 画布
 
-Textures are hand-made or procedurally generated images that can be
-applied to the model surfaces to add more detail. As a rule, the image
-pixels are assigned to the 3D surface points using texture mapping.
-For this reason they sometimes are referred to as maps.
+纹理是手工制作的或程序上生成的图像，可应用于模型表面，以添加更多的细节
+。依据规则，图像像素使用纹理映射的方法被分配到三维表面上。有时它们统称
+为贴图。
 
-Usually the textures are placed into material texture slots. They can
-be also used for particle systems parametrization and for creating the
-skydome.
+通常的纹理被放入  材质  纹理插槽。他们可以也被用于  粒子系统 参数化和
+用于创建  天空纹理.
 
 
-Texture Types
-=============
+纹理类型
+========
 
-The "Type" drop-down menu (for selecting texture type) is located
-under the "Textures" tab. The engine supports the following texture
-types:
+"类型" 下拉菜单 （用于选择纹理类型） 位于 "纹理" 选项卡下。引擎支持以
+下的纹理类型 ︰
 
-1. "Image or Movie"
+1. "图像或影片"
 
-      * diffuse map
+      In this case, the texture is defined by an image or a video
+      file. Following file formats are supported:
 
-      * specular map, this can also be packed into the alpha channel
-        of a diffuse texture
+         * ".PNG"
 
-      * normal map
+         * ".JPG"
 
-      * height map; this must be packed into the alpha channel of a
-        normal map; it is used for visualization of relief surfaces
-        (parallax mapping).
+      It can be used for the following purposes:
 
-      * stencil map
+      * 漫射贴图
 
-      * video texture
+      * 高光贴图, 这个也可以打包进漫射纹理的alpha通道
 
-2. "Environment Map"
+      * 法线
 
-      * mirror map
+      * 高度图;这必须打包进法线贴图的 alpha 通道;它用于可视化的浮雕
+        表 面  (视差贴图).
 
-      * skydome texture
+      * 蒙版贴图
 
-      * used for implementation of an environment lighting method
+      * 视频纹理
 
-3. "None"
+2. "环境贴图"
 
-      * applied to the Blender's default scene cube. It is also used
-        for rendering a scene to texture and for rendering canvas
-        textures.
+      * 镜面贴图
 
-4. "Blend", gradient
+      * 天空纹理
 
-      * is used in particle systems
+      * 用于实现  环境照明  方法
 
+3. "无"
 
-Generic Settings
-================
+      * 适用于Blender的默认场景的立方体。它也用于  渲染场景到纹理
+        和 渲染画布纹理.
 
-*Dimensions*
-   Bitmap dimensions for image textures (image width and height in
-   pixels) should be a 2^N number, i.e. 4, 8, 16, 32, 64, 128, 256,
-   512, 1024, 2048, 4096 px. Using textures with other dimensions (so-
-   called NPOT) is supported but is not recommended. Dimensions should
-   be at least 4 pixels for the correct texture compression. Normally
-   square images are used (e.g. 512 x 512 px), however rectangular
-   ones can be used too (e.g. 4 x 128 px). Using images bigger than
-   2048 px is not recommended.
+4. "混合"， 梯度
 
-*Image Mapping > Extension*
-   Texture coordinates interpretation mode (Wrap Mode in WebGL). This
-   is available for "Image or Movie" texture type. In case of "Repeat"
-   value the engine sets the "REPEAT" mode for the texture. In this
-   case the integer part of the texture coordinates is ignored and the
-   fractional part is used. In all other cases (for example "Extend")
-   the engine sets the "CLAMP_TO_EDGE" mode. In this case the texture
-   coordinates are limited by the [0, 1] segment. The default value is
-   "Repeat".
+      * 使用在  粒子系统
 
-*Mapping > Coordinates*
-   Texture coordinates type. Supported types are "UV" (use UV map),
-   "Normal" (use direction at the camera; available only for diffuse
-   maps; used for the creation of **material capture**, **matcap**)
-   and "Generated". The default value is "Generated".
 
-*Mapping > Size*
-   Scaling the UV map along respective axes. The default values are
-   1.0.
+通用设置
+========
 
-*Export Options > Do Not Export*
-   Do not export the texture.
+*尺寸*
+   图像纹理的位图尺寸 （图像宽度和高度，以像素为单位） 应为 2^N，即 4
+   、 8、 16、 32、 64、 128、 256、 512、 1024，2048、 4096 px。与其
+   他尺寸的 (所谓 NPOT) 纹理是支持但不是建议使用。为纹理压缩图像至少 4
+   像素。通常使用方形图像 (例如 512 x 512 px)，但是也可以使用矩形的 (
+   如 4 x 128 px)。不推荐使用图像大于 2048 像素的图。
 
-*Export Options > Disable Compression*
-   Disable texture compression for this texture. Used in cases when
-   texture compression deteriorates the image quality.For example it's
-   recommended to disable compression for mask textures used to mix
-   different parts of materials.
+*图像贴图 > 扩展*
+   纹理坐标解释模式 （在 WebGL 交换模式）。这是可用于 "图像或电影" 纹
+   理类型。在 "重复" 值设定的情况下由引擎设置纹理的 "重复" 模式。在这
+   种情况下纹理坐标的整数部分被忽略、小数部分被使用。在所有其他情况下
+   （例如 "扩展"） 引擎设置 "CLAMP_TO_EDGE"  模式。在这种情况下纹理坐
+   标限制到 [0，1] 段。默认值是 "重复".
 
-*Export Options > Shore Distance Map*
-   Used in outdoor rendering.
+*贴图 > 坐标*
+   纹理坐标类型。支持的类型是 "UV``（使用 UV 映射），``法线" (直对相机
+   ，只供的漫反射贴图，用于创造 **材质捕捉**, **matcap**) 和  "生成"
+   。默认值是 "生成" 。
 
-*Export Options > Anisotropic Filtering*
-   Anisotropic filtering factor for the individual texture. It has
-   priority over the similar parameter for the scene. The default
-   value is "DEFAULT" (i.e. use the scene settings).
+*贴图 > 大小*
+   沿着各自的轴缩放 UV 贴图。默认值是 1.0。
 
-*Water Foam*
-   The foam texture. Used by the water rendering material.
+*导出选项 > 不导出*
+   不导出纹理。
 
-注解: Texture compression is disabled for textures used as normal
-  maps.
+*导出选项 > 禁用压缩*
+   禁用这个纹理的纹理压缩。在 纹理压缩 恶化图像质量情况下使用。例如用
+   于混合材质的不同部分建议禁用压缩遮罩纹理。
 
+*导出选项 > 海岸距离贴图*
+   使用在  室外渲染.
 
-Diffuse Map
-===========
+*导出选项 > 各向异性过滤*
+   各向异性过滤单独对纹理进行影响。对场景其他类似的参数有更高优先级别
+   。默认值是 "默认" （即使用场景设置）。
 
-A diffuse map is used for specifying scattered light distribution (the
-Lambert model).
+*水泡沫*
+   泡沫的纹理。在水的材质中使用。
 
+注解: 纹理使用法线贴图时纹理压缩被禁用。
 
-Activation
-----------
 
-Enable the "Diffuse > Color" checkbox on the "Textures > Influence"
-panel.
+漫射贴图
+========
 
+漫射贴图用于指定散射光的分布 （Lambert 模型）。
 
-Additional Settings
--------------------
 
-*Influence > Diffuse > Color*
-   Influence of the texture on the diffuse color. The default value is
-   1.0.
+激活
+----
 
-*Influence > Blend*
-   The type of the interaction with the material color ("Material >
-   Diffuse > Color"), or with the vertex color if the "Vertex Color
-   Paint" checkbox is enabled. The following types are supported:
-   "Mix" (mixes with the color), "Multiply" (multiplies by the color).
-   The default value is "Mix".
+启用 "纹理 > 影响" 面板上的 "漫射 > 颜色" 复选框。
 
 
-Specular Map
-============
-
-The specular map is used for specifying the reflected light color
-distribution (the Phong model).
-
-
-Activation
-----------
-
-Enable the "Specular > Color" checkbox on the "Textures > Influence"
-panel.
-
-
-Additional Settings
--------------------
-
-*Influence > Specular > Color*
-   The influence of the texture on the reflected light color. The
-   default value is 1.0.
-
-*Influence > Blend*
-   The type of interaction with the reflected light color of the
-   material ("Material > Specular > Color"). "Mix" (mixes with the
-   color) is the only supported type. The default value is "Mix".
-
-The specular map can be packed to the alpha channel of a diffuse
-texture for optimization purposes. In such case it is required for the
-texture to enable the "Diffuse > Color" and "Specular > Color"
-checkboxes simultaneously. The color range is limited by gray tints.
-
-
-Normal Map
-==========
-
-A normal map is used for specifying the distribution of surface
-normals (perpendiculars) with the purpose of the relief detalization.
-The information about the normals should be stored in the texture
-space of coordinates. Normal maps baked in the object space of
-coordinates are not supported.
-
-
-Activation
-----------
-
-Enable the "Geometry > Normal" checkbox on the "Textures > Influence"
-panel.
-
-
-Additional Settings
--------------------
-
-*Influence > Geometry > Normal*
-   Normal map influence on the resulting normals calculation. The
-   default value is 1.0.
-
-
-Height Map. Parallax Mapping
-============================
-
-A height map contains information about the distribution of relative
-relief heights. The higher the surface level is, the brighter is its
-color. A height map combined with a normal map is required for the
-implementation of relief surface effect (parallax mapping). A height
-map should be present in the alpha channel of a normal map.
-
-[图片]
-
-
-Activation
-----------
-
-For the normal map enable the "Parallax" panel in addition to the
-"Geometry > Normal" checkbox.
-
-
-Additional Settings
--------------------
-
-*Parallax > Parallax Scale*
-   Influence factor for the relief surface effect. The default value
-   is 0.03.
-
-*Parallax > Parallax Steps*
-   The number of iterations for the relief surface calculations.
-   Bigger value leads to better quality but is more computationaly
-   expensive.
-
-*Parallax > Parallax LOD distance*
-   Distance at which the parallax effect is observed.
-
-[图片]
-
-
-
-
-Stencil Map
-===========
-
-The special purpose texture (colorful or grayscale) contains
-information about the distribution of other texture surfaces.
-
-
-Activation
-----------
-
-1. In case of node materials a stencil map should be used in the
-   corresponding node structure.
-
-2. In case of generic materials a stencil map should be located in
-   a texture slot between two mixed diffuse textures. A stencil map
-   requires to set both the "RGB to Intensity" and the "Stencil"
-   checkboxes on the "Textures > Influence" panel.
-
-
-Additional Settings
--------------------
-
-In the case of generic materials one of the mixed diffuse textures can
-have the "Normal" ("matcap") texture coordinates type.
-
-
-Limitations
------------
-
-In case of generic materials the engine only interprets the red
-channel of a stencil map. Specular maps or normal maps (if any) are
-not being mixed. The "Mapping > Size" setting is extracted from the
-first texture and is applied to all remaining textures.
-
-
-Example
--------
-
-The apple model material has the following textures: a normal map, a
-diffuse texture with a specular map in its alpha channel, a stencil
-map, a diffuse "matcap" map, an environment map.
-
-[图片]
-
-
- [图片]
-
-
-
-
-Video Textures
-==============
-
-A video file can be used as a texture if "Image or Movie" texture type
-is selected.
-
-注解: Video textures support playing back just video tracks. Audio
-  tracks should be played back by using a "SPEAKER" object.
-
-
-Supported formats (containers):
--------------------------------
-
-* webm, VP8 codec (Chrome, Firefox)
-
-* m4v, H.264 codec (Chrome, Safari, IE)
-
-* ogv, Theora codec (Chrome, Firefox)
-
-We recommend to use *WebM* as a basic format. It is an open standard
-supported by the majority of browsers and offers good picture quality.
-
-注解: Files saved in mp4 and ogg formats have different extensions
-  for audio and video data: *.mp4* and *.ogg* extensions are used for
-  sounds, *.m4v* and *.ogv* - for video.
-
-Converting resources between different formats is described in the
-corresponding section.
-
-
-Setting up the Texture
-----------------------
-
-The following settings are available for video textures on the
-"Texture > Image" panel:
-
-*Image > Frames*
-   Length of the played fragment in frames.
-
-*Image > Offset*
-   The number of the frame from which the video playback starts.
-
-*Image > Cyclic*
-   Start video playback afresh each time it finishes.
-
-*Image > Allow NLA*
-   Play back the texture as part of an NLA track. Additionally, enable
-   NLA in the global scene settings through activating "Scene > NLA".
-   Enabled by default.
-
-For NLA-controlled textures the following option is also applicable:
-
-*Image > Start*
-   Video playback delay (in frames) when using non-linear animation.
-
-For non-NLA-controlled textures the following option is also
-applicable:
-
-*Image > Auto Refresh*
-   Play back the video immediately after the scene is loaded.
-
-[图片]
-
-
-
-The video playback rate can be increased. To do this set "Scene >
-Dimensions > Frame rate" to a value which is different from the FPS
-value for the videos. Video playback rate is increased proportionally
-to the ratio of the scene's FPS and the video's FPS.
-
-[图片]
-
-注解: When video textures are used together with NLA, the video
-  playback can be not corresponding with Blender settings. Namely,
-  there can be observed some lagging withing 5-6 frames due to
-  starting/pausing delay of the <video> HTML element.
-
-
-Specifics of Mobile Devices
----------------------------
-
-The peculiarities for mobile devices are as follows:
-
-1. Normal operation of video textures on iPhones is not possible
-   because these devices play back videos via the standard iOS video
-   player. For these devices you need to convert your videos to
-   special ".seq" format by using our converter.
-
-2. some devices only support playing back only one video file.
-
-3. stable operation is not garanteed if the "Offset" value is not
-   zero.
-
-4. not all devices support changing the video playback rate.
-
-5. iPad and iPhone do not provide the possibility to control the
-   audio volume for video, and so the audio track should be removed
-   from the video before the file is added to Blender.
-
-
-Environment Map
-===============
-
-An environment map can be used as a mirror map, as a static sky
-texture (skydome) and also for implementation of an environment
-lighting method.
-
-The engine considers it as a cube texture. Environment map bitmaps
-should contain 6 projected environment images, packed in 2 rows 3
-pieces in each (a Blender format). Bitmap dimensions for each image
-should follow the 2^N rule (512, 1024 etc).
-
-It is recommended to use the lossless format (PNG) in order to avoid
-seams.
-
-[图片]
-
-
-Making Environment Maps
------------------------
-
-Blender has an option for baking a scene into an environment map. To
-do this:
-
-1. Create a scene for baking.
-
-2. Add an empty object in the supposed point of view ("Add >
-   Empty").
-
-3. Go to the "World" tab then to the "Textures" tab and create a
-   new texture with the "Environment Map" type.
-
-4. On the "Environment Map" panel select the "Static" source, then
-   select the empty object in the "Viewport Object" field, then set
-   the 2^N dimension (512, 1024 etc).
-
-5. Render the scene by pressing "F12" (a camera is required).
-
-6. Save the environment map into a file.
-
-[图片]
-
-
- [图片]
-
-
-Mirror Map
-==========
-
-A mirror map is used to visualize the surface reflection. This is an
-environment map.
-
-
-Activation
-----------
-
-Select the "Environment Map" texture type ("Type"). Enable the
-"Shading > Mirror" checkbox on the "Textures > Influence" panel.
-
-
-Additional Settings
--------------------
-
-*Influence > Shading > Mirror*
-   The degree to which the mirror map affects the reflection. The
-   default value is 1.0.
-
-参见: Static reflection.
-
-
-Skydome
-=======
-
-A skydome is used to visualize an infinitely far environment (for
-example the sky). This is an environment map.
-
-Can be also used to implement one of the environment lighting methods.
-
-
-Activation
-----------
-
-Create a world texture of "Environment Map" type. Select the "Export
-Options > Sky Texture Usage > SKYDOME" option. Enable "World > Render
-Sky" under the "World" tab.
-
-注解: The behavior of the texture is intentionally made as close as
-  possible to the Blender internal render. That's why the texture may
-  not be displayed upon its default settings. In order to make the
-  texture visible, enable the "Influence > Horizon" checkbox on its
-  panel and set the "Horizon" value to 1.0.
-
-注解: To imitate environment lighting you can select the "Export
-  Options > Sky Texture Usage > ENVIRONMENT_LIGHTING" option. Also,
-  you should select the corresponding option in the world settings:
-  "Environment Lighting > Sky Texture".To use the world texture both
-  for skydome and for environment lighting, select "Export Options >
-  Sky Texture Usage > BOTH".
-
-[图片]
-
-
-Additional Settings
--------------------
-
-The engine also supports parameters from the world texture's
-"Influence" panel which are used for sky rendering. Mixing of the
-world texture with color depends on the "World > Horizon Color" and
-"World > Zenith Color" parameters, as well as on the "Paper Sky",
-"Blend Sky" and "Real Sky" options. All mixing options are supported
-("Mix", "Add", "Multiply" etc).
-
-[图片]
-
-注解: The "Influence" panel parameters only affect the sky
-  rendering. They do not affect environment lighting by any means.
-
-
-
-
-Special Texture Types
-=====================
-
-In order to use such textures, select "None" type under the "Textures"
-tab.
-
-[图片]
-
-
-
-On the "Textures > Export Options" panel, you can set up properties
-for these textures:
-
-*Export Options > Source Type*
-   Select texture type: "Scene" - for rendering a 3D scene into the
-   texture, "Canvas" - for using <canvas> HTML element and "None" -
-   for indicating of its absence.
-
-*Export Options > Source ID*
-   The name of the scene which will be rendered into the texture (for
-   "Scene"), or ID of the <canvas> HTML element (for "Canvas").
-
-*Export Options > Source Size*
-   Texture resolution.
-
-*Export Options > Extension*
-   Texture coordinates interpretation mode. Default is "Repeat".
-
-*Export Options > Enable Mipmapping*
-   Enable mipmapping for the Canvas texture. Enabled by default.
-
-[图片]
-
-
-3D scene
+附加设置
 --------
 
-A 3D scene's real-time rendered image can be used as a texture by an
-object from another scene ("main" scene).
+*影响 > 漫射 > 颜色*
+   对漫反射颜色上的纹理的影响。默认值是 1.0。
 
-1. Create an additional source scene.
+*影响 > 混合*
+   与材质颜色相互作用的类型 ("材质 > 漫反射 > 颜色")，或与顶点颜色如果
+   启用了 "顶点颜色绘制" 选框。支持以下类型: "混合``（混合的颜色），``
+   相乘" （乘以颜色）。默认值是``混合`` 。
 
-2. Rename it for convenience.
 
-3. Create a "World".
+高光贴图
+========
 
-4. Add the objects you need.
+高光贴图用于指定反射光的颜色分布 （Phong 模型）。
 
-5. Setup the camera view.
 
-6. Create a UV map for the target object in the main scene.
+激活
+----
 
-7. Set the "None" type for a texture of the target object.
+启用 "纹理 > 影响" 面板上的 "镜面 > 颜色" 复选框。
 
-8. Select the "Scene" type in the "Export Options > Source Type"
-   menu.
 
-9. Specify the name of the source scene in the "Export Options >
-   Source ID" field.
+附加设置
+--------
 
-10. Set the texture size in the "Export Options > Source Size"
-    field (in pixels).
+*影响 > 镜面 > 颜色*
+   对反射光颜色纹理的影响。默认值是 1.0。
+
+*影响 > 混合*
+   反射光的颜色与材质的交互作用的类型 ("材质 > 镜面 > 颜色")。"混合``
+   （用颜色混合） 是唯一受支持的类型。默认值是 ``混合" 。
+
+出于优化的目的高光贴图可以打包到的漫射纹理的 alpha 通道中。在这种情况
+下是纹理同时启用  "漫射 > 颜色"  和 "镜面 > 颜色" 复选框。颜色范围被限
+制在灰色色调。
+
+
+法线贴图
+========
+
+法线贴图用于指定的表面法线 （垂线） 分布为了立体的细节。关于法线信息应
+存储在纹理空间的坐标。法线贴图不支持在对象空间坐标的烘焙。
+
+
+激活
+----
+
+启用 "纹理 > 影响" 面板上的 "几何 > 法线" 复选框
+
+
+附加设置
+--------
+
+*影响 > 几何 > 法线*
+   法线贴图影响产生的法线计算。默认值是 1.0。
+
+
+高度图。视差贴图
+================
+
+高度图包含相对宽缓的高度分布信息。表面的高度越高，颜色越明亮。高度图结
+合法线贴图都能展示立体效果 （视差贴图） 的实现。高度图应该出现在法线贴
+图的 alpha 通道。
+
+[图片]
+
+
+激活
+----
+
+对于法线贴图在 "几何 > 正常" 复选框的 "视差" 面板启用。
+
+
+附加设置
+--------
+
+*视差 > 视差缩放*
+   表面立体效果的影响因素。默认值为 0.03。
+
+*视差 > 视差步*
+   为立体表面计算的迭代次数。更大的值导致更好的质量但更多更昂贵的计算
+   。
+
+*视差 > 视差 LOD 距离*
+   观察者的距离视差效应。
 
 [图片]
 
 
 
-The engine also supports the cyclic rendering of scenes to each other.
 
-   注解: A project should contain at least one scene which is not
-     rendered by any other scenes.
+蒙版贴图
+========
+
+特殊用途纹理 (彩色或灰度) 包含有关其他纹理表面的分布信息。
 
 
-Canvas
+激活
+----
+
+1. 如果节点材质蒙版贴图应该用于相应的节点结构。
+
+2. 在通用材质的情况下蒙版贴图应位于两个混合弥漫纹理之间的纹理插槽。
+   蒙 版贴图要求同时启用 "纹理 > 影响" 面板上设置  "RGB到强度" 和 "蒙
+   版" 复选框。
+
+
+附加设置
+--------
+
+有一个混合的漫射纹理的通用的材质可以有 "法线" ("matcap") 纹理坐标类型
+。
+
+
+限制条件
+--------
+
+在通用材质的情况下，引擎只是使用蒙版贴图的红色通道。高光贴图或法线贴图
+（如果有） 不能混合在一起。"映射 > 尺寸" 设置从第一个纹理提取并应用于
+所有剩余的纹理。
+
+
+示例
+----
+
+苹果模型材质具有以下的纹理 ︰ 法线贴图， alpha 通道有反射贴图的漫射贴
+图，蒙版贴图、 漫射 "matcap" 贴图，环境贴图纹理。
+
+[图片]
+
+
+ [图片]
+
+
+
+
+视频贴图
+========
+
+如果选择了 "图像或电影" 纹理类型，视频文件可以用作纹理。
+
+注解: 视频纹理只是视频轨道支持播放。音频轨道应使用的 "扬声器" 物体来
+  播放。
+
+
+支持的格式 （容器） ︰
+----------------------
+
+* webm VP8 编解码器 （Chrome、 火狐浏览器）
+
+* m4v，H.264 编解码器 (Chrome，Safari，IE)
+
+* ogv，Theora 编解码器 （Chrome、 火狐浏览器）
+
+我们推荐使用 *WebM* 作为基本的格式。它是绝大多数浏览器所支持的开放标准
+，并提供不错的画质。
+
+注解: 保存为 mp4 和 ogg 格式的文件有不同的音频和视频数据的扩展:
+  *.mp4* 和 *.ogg* 扩展用于声音，*.m4v* 和 *.ogv* - 是视频。
+
+不同格式之间的资源转换的描述在  相应章节.
+
+
+设置纹理
+--------
+
+下面是  "纹理 > 图像" 面板上的视频纹理可设置项 :
+
+*图像 > 帧数*
+   在帧中播放片段的长度。
+
+*图像 > 偏移*
+   开始播放视频的帧数。
+
+*图像 > 循环*
+   完成每次重新启动视频播放。
+
+*图像 > 允许 NLA*
+   作为 NLA 轨道部分的播放出来的纹理。此外，在通过激活 "场景 > NLA" 全
+   局场景设置中启用 NLA。默认情况下启用。
+
+NLA 控制纹理以下选项也是适用的 ︰
+
+*图像 > 开始*
+   视频播放延迟 （帧） 时使用的非线性动画。
+
+对于非 NLA 控制纹理以下选项也是适用的 ︰
+
+*图像 > 自动刷新*
+   场景加载后立即播放视频。
+
+[图片]
+
+
+
+可以增加视频播放速率。要这样做需设置 "场景 > 尺寸 > 帧速率" 和视频的
+FPS 值是不同的值。视频播放率是按比例增加到场景的 FPS 和视频的 FPS 的比
+例。
+
+[图片]
+
+注解: 当视频纹理与 NLA 一起使用时，视频播放可以不对应与Blender设置。
+  即，可 能观察到5 6 帧延迟是由于 <video>HTML 元素的开始/暂停的延迟。
+
+
+移动设备的细节
+--------------
+
+移动设备特点如下 ︰
+
+1. 视频纹理在 Iphone 上的正常运行是不可能的，因为这些设备播放视频通
+   过 标准 iOS 视频播放器。你需要将你的视频转换为特殊的 '.seq ' 格式在
+   这 些设备上用，通过使用我们  转换器.
+
+2. 有些设备只支持播放一种视频文件。
+
+3. 如果 "偏移值" 不为零不能保证稳定运行。
+
+4. 不是所有设备都支持更改视频播放速率。
+
+5. iPad 和 iPhone 不能控制视频的音频音量，在将文件添加到Blender前，
+   音 频轨道应从视频中删除。
+
+
+环境贴图
+========
+
+环境贴图可以用作 镜面贴图, 作为一个静态 天空纹理 (天穹) 也可以实现  环
+境照明 方法。
+
+引擎就默认作为立方体的纹理。环境贴图的位图应该包含环境图像6个方向投影
+，封装在 2 行 每行3 件 Blender格式）。为每个图像的位图大小应遵循 2^N
+规则 (512、 1024 等)。
+
+为了避免接缝，建议使用无损格式 (PNG) 。
+
+[图片]
+
+
+制作环境贴图
+------------
+
+Blender有烘焙场景到环境映射选项。要此操作 ︰
+
+1. 创建一个场景进行烘焙。
+
+2. 在视图默认点中添加一个空对象  ("添加 > 空物体").
+
+3. 转到 "世界" 选项卡，然后到 "纹理" 选项卡，用 "环境贴图" 类型创建
+   一 个新的纹理。
+
+4. "环境贴图" 面板上选择 "静态" 的源，然后在 "视口物体" 栏选择空物
+   体， 然后设置 2^N  维度 (512、 1024等)。
+
+5. 按 'f12 键 ' （相机是必需有的） 渲染场景。
+
+6. 将环境映射保存到一个文件。
+
+[图片]
+
+
+ [图片]
+
+
+镜面贴图
+========
+
+镜子贴图用于表面反射可视化。这是一个 环境贴图.
+
+
+激活
+----
+
+选择 "环境贴图" 纹理类型 （类型）。启用 "纹理 > 影响" 面板上的 "光影
+> 镜子" 复选框。
+
+
+附加设置
+--------
+
+*影响 > 光影 > 镜子*
+   镜面贴图影响反射程度。默认值是 1.0。
+
+参见: 静态反射.
+
+
+天穹
+====
+
+天穹用于无穷远的环境可视化（例如天空）。这是  环境贴图.
+
+也可用来实现  环境照明  方法。
+
+
+激活
+----
+
+用 "环境贴图" 类型创建世界纹理。选择 "导出选项 > 天空纹理使用 > 天穹"
+选项。启用 "世界" 选项卡下 "世界 > 渲染天空" 。
+
+注解: 纹理的行为是故意作出尽可能跟的Blender渲染器一致的效果。这就是
+  为什么 纹理可能不会显示在其默认设置。为使纹理可见，设置面板上的 "影
+  响 > 地 平线" 复选框，将 "地平线" 值设置为 1.0。
+
+注解: 模仿  环境光照 你可以选择 "导出选项 > 天空纹理使用 > 环境光照"
+  选项 。此外，你应该在世界设置选中相应的选项 "环境照明 > 天空纹理".为
+  天穹 和环境照明都使用世界纹理，请选择 "导出选项 > 天空纹理使用 > 同
+  时" 。
+
+[图片]
+
+
+附加设置
+--------
+
+引擎还支持世界纹理的 "影响" 面板的参数用于天空渲染。混合的世界纹理与颜
+色取决于 "世界 > 地平线颜色" 和 "世界 > 天顶颜色" 的参数，并且在 "纸天
+空" 、"混合天空" 和 "真正的天空" 选项。支持所有的混合选项 （"混合" 、
+"添加" 、"乘" 等）。
+
+[图片]
+
+注解: "影响" 面板参数只影响天空渲染。他们不会以任何方式影响  环境照
+  明
+
+
+
+
+特殊的纹理类型
+==============
+
+为了使用这种纹理，选择 "无" 类型下的 "纹理" 选项卡。
+
+[图片]
+
+
+
+在 "纹理 > 导出选项" 面板上，您可以对这些纹理设置属性 ︰
+
+*导出选项 > 源类型*
+   选择纹理类型: "场景" - 用于渲染 3D 场景成为纹理，"画布" -使用
+   <canvas>HTML 元素和``无`` - 用于指明没有类型。
+
+*导出选项 > 源 ID*
+   要渲染到纹理的场景名称 （为 "场景"） 或 <canvas> 的 HTML 元素ID 的
+   名称（为 "画布"）。
+
+*导出选项 > 源大小*
+   纹理分辨率。
+
+*导出选项 > 扩展*
+   纹理坐标解释模式. 默认值是重复。
+
+*导出选项 > 启用纹理多级映射（Mipmap）*
+   为画布纹理启用纹理多级映射。默认情况下启用。
+
+[图片]
+
+
+3D场景
 ------
 
-A <canvas> HTML element can be used as a texture. It can be modified
-via API.
+三维场景实时渲染的图像可以用作其他场景（"主"场景）的物体纹理。
 
-Set the "None" type for the texture of the target object on the main
-scene, and select the "Canvas" type in the "Export Options > Source
-Type" menu. Set the texture size in the "Export Options > Source Size"
-field (in pixels).
+1. 创建一个附加源场景。
 
-Use the "textures" module to handle such textures. See the example
-below.
+2. 为了方便重命名它。
+
+3. 创建一个 "世界" 。
+
+4. 添加您需要的物体。
+
+5. 设置相机视图。
+
+6. 在主场景中创建目标物体的 UV 贴图。
+
+7. 设置目标物体的纹理为 "无" 类型。
+
+8. 在 "导出选项 > 源类型" 菜单中选择 "场景" 类型。
+
+9. 在 "导出选项 > 源 ID" 字段中指定源场景的名称。
+
+10. 在 "导出选项 > 源大小" 字段 （以像素为单位） 设置纹理的大小。
+
+[图片]
+
+
+
+引擎还支持场景相互循环渲染。
+
+   注解: 项目应包含至少一个场景，不由任何其他场景渲染完成。
+
+
+画布
+----
+
+一个 <canvas>HTML 元素可以用作纹理。它可以通过 API 修改。
+
+设置主场景目标物体为 "无" 类型的纹理，在 "导出选项 > 源类型" 菜单中选
+择 "画布" 类型。在 "导出选项 > 源字号" 字段 （以像素为单位） 设置纹理
+的大小。
+
+使用 "纹理" 模块来处理这种纹理。请参阅下面的示例。
 
    var m_tex = require("textures");
    ...
@@ -677,16 +604,12 @@ below.
    ...
    m_tex.update_canvas_ctx(obj, "TEXTURE_NAME");
 
-Use "get_canvas_texture_context()" to obtain a context - this method
-requires the "canvas_id" identifier which should be defined in
-Blender. After operations with the context, the "update_canvas_ctx()"
-function has to be called which will render modifications of the
-"canvas_id" element.
+使用 "get_canvas_texture_context()"  来获取上下文-此方法需要的
+"canvas_id" 标识符应在Blender中定义。当 *与上下文操作
+<http://www.w3.org/TR/2014/CR-2dcontext-20140821/>* _,
+"update_canvas_ctx()"  功能被调用，渲染  "canvas_id" 元素的修改。
 
-   注解: If one Canvas type texture is assigned in Blender to
-     several different objects, then after engine loading it still
-     will be one texture and not several different ones. Any changes
-     applied to it will be applied to all objects using this texture,
-     which can be useful for optimization purposes. In case this
-     effect is not needed, you should assign different textures in
-     Blender or use deep copy after engine startup.
+   注解: 如果在Blender中画布类型材质分配给了几个不同的物体，待引擎加
+     载后它 仍然将一个纹理而不是几个不同的。应用于它的任何更改将应用于
+     所有使 用此纹理的物体，可用于优化的目的。万一不需要这种效果，你在
+     Blender 中应指派不同的纹理，或在引擎启动后使用  深度复制 。

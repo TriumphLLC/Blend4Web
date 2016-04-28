@@ -18,6 +18,12 @@
 #import v_texcoord;
 #import v_vertex_random;
 
+#if NUM_RINGS > NUM_LINES
+    const int rand_arr_length = NUM_RINGS;
+#else
+    const int rand_arr_length = NUM_LINES;
+#endif
+
 #export halo_color
 
 float mod001(float x) {
@@ -25,11 +31,12 @@ float mod001(float x) {
 }
 
 #if NUM_RINGS
-void generate_rings(inout float ringf, in float radist) {
+void generate_rings(inout float ringf, in float randoms[rand_arr_length],
+                     in float radist) {
     for (int a = 0; a < NUM_RINGS; a++) {
 
         // random number for every halo and every line (-40..0)
-        float rand_ring = 40.0 * fract(v_vertex_random / float(a + 1)) - 1.0;
+        float rand_ring = 40.0 * randoms[a];
 
         // ring size randomization
         float size_rand = 300.0 * (mod001(rand_ring) - 0.005);
@@ -44,15 +51,18 @@ void generate_rings(inout float ringf, in float radist) {
 #endif
 
 #if NUM_LINES
-void generate_lines(inout float linef, in float dist) {
+void generate_lines(inout float linef, in float randoms[rand_arr_length],
+                     in float dist) {
     for (int a = 0; a < NUM_LINES; a++) {
 
         // random number for every halo and every line (-1..0)
-        float rand_line = fract(v_vertex_random / float(a + 1)) - 1.0;
+        float rand_line = randoms[a];
+
         // line x coordinate randomization
         float x_random = rand_line;
         // line y coordinate randomization
         float y_random = 1000.0 * (mod001(rand_line) - 0.005);
+
         // line visibility factor
         float fac = 20.0 * abs(x_random * v_texcoord.x + y_random * v_texcoord.y);
         linef += 1.0 - min(fac, 1.0); // if (fac < 1.0) linef += (1.0 - fac);
@@ -94,14 +104,22 @@ vec4 halo_color(void) {
 
     float alpha = u_diffuse_color.a;
 
+#if NUM_RINGS || NUM_LINES
+    // generate array of random numbers long enough for both lines and rings
+    float randoms[rand_arr_length];
+    for (int i = 0; i < rand_arr_length; i++) {
+        randoms[i] =  fract(v_vertex_random / float(i + 1)) - 1.0;
+    }
+#endif
+
 #if NUM_RINGS
     float ringf = 0.0;
-    generate_rings(ringf, radist);
+    generate_rings(ringf, randoms, radist);
 #endif
 
 #if NUM_LINES
     float linef = 0.0;
-    generate_lines(linef, dist);
+    generate_lines(linef, randoms, dist);
 #endif
 
 #if NUM_STARS

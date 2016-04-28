@@ -30,7 +30,6 @@ var m_bounds   = require("__boundings");
 var m_cfg      = require("__config");
 var m_cons     = require("__constraints");
 var m_cont     = require("__container");
-var m_mat3     = require("__mat3");
 var m_mat4     = require("__mat4");
 var m_math     = require("__math");
 var m_obj_util = require("__obj_util");
@@ -42,7 +41,6 @@ var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
 var m_vec4     = require("__vec4");
-var m_phy      = require("__physics");
 
 var cfg_ctl = m_cfg.controls;
 var cfg_def = m_cfg.defaults;
@@ -139,6 +137,12 @@ exports.camera_object_to_camera = function(bpy_camobj, camobj) {
     }
 
     cam.name = camobj.name;
+    var cam_scenes_data = camobj.scenes_data;
+    cam_scenes_data[0].cameras.push(cam);
+    for (var i = 1; i < cam_scenes_data.length; i++) {
+        var new_cam =  m_util.clone_object_r(cam);
+        cam_scenes_data[i].cameras.push(new_cam);
+    }
 
     render.underwater                = false;
     render.move_style                = move_style_bpy_to_b4w(camobj_data["b4w_move_style"]);
@@ -151,8 +155,6 @@ exports.camera_object_to_camera = function(bpy_camobj, camobj) {
     render.dof_rear                  = camobj_data["b4w_dof_rear"];
     render.dof_power                 = camobj_data["b4w_dof_power"];
 
-    render.cameras  = [cam];
-    render.shadow_cameras = [];
     render.velocity_trans = camobj_data["b4w_trans_velocity"];
     render.velocity_rot   = camobj_data["b4w_rot_velocity"];
     render.velocity_zoom  = camobj_data["b4w_zoom_velocity"];
@@ -422,19 +424,22 @@ function init_hover_pivot(camobj, zero_level, dest) {
 exports.init_ortho_props = init_ortho_props;
 function init_ortho_props(camobj) {
     var render = camobj.render;
-    if (render.cameras[0].type == exports.TYPE_ORTHO)    
-        switch (render.move_style) {
-        case exports.MS_TARGET_CONTROLS:
-            var trans = m_tsr.get_trans_view(render.world_tsr);
-            render.init_dist = m_vec3.dist(trans, render.pivot);
-            render.init_top = render.cameras[0].top;
-            break;
-        case exports.MS_HOVER_CONTROLS:
-            var trans = m_tsr.get_trans_view(render.world_tsr);
-            render.init_dist = m_vec3.dist(trans, render.hover_pivot);
-            render.init_top = render.cameras[0].top;
-            break;
-        }
+    for (var i = 0; i < camobj.scenes_data.length; i++) {
+        var main_cam = camobj.scenes_data[i].cameras[0];
+        if (main_cam.type == exports.TYPE_ORTHO)    
+            switch (render.move_style) {
+            case exports.MS_TARGET_CONTROLS:
+                var trans = m_tsr.get_trans_view(render.world_tsr);
+                render.init_dist = m_vec3.dist(trans, render.pivot);
+                render.init_top = main_cam.top;
+                break;
+            case exports.MS_HOVER_CONTROLS:
+                var trans = m_tsr.get_trans_view(render.world_tsr);
+                render.init_dist = m_vec3.dist(trans, render.hover_pivot);
+                render.init_top = main_cam.top;
+                break;
+            }
+    }
 }
 
 /**
@@ -675,7 +680,9 @@ function set_stereo_params(cam, conv_dist, eye_dist) {
         var sh_params = active_scene._render.shadow_params;
 
         if (sh_params) {
-            var upd_cameras = m_scenes.get_camera(active_scene).render.cameras;
+            var cam_scene_data = m_obj_util.get_scene_data(m_scenes.get_camera(active_scene),
+                        active_scene);
+            var upd_cameras = cam_scene_data.cameras;
             for (var i = 0; i < upd_cameras.length; i++)
                 update_camera_shadows(upd_cameras[i], sh_params);
         }
@@ -1036,14 +1043,14 @@ function set_look_at_corrected(camobj, trans, look_at) {
  * uses _vec3_tmp
  */
 exports.update_camera_transform = update_camera_transform;
-function update_camera_transform(obj) {
+function update_camera_transform(obj, cam_scene_data) {
     var render = obj.render;
-    var cameras = render.cameras;
+    var cameras = cam_scene_data.cameras;
 
     if (!cameras)
         throw "Wrong object";
 
-    var shadow_cameras = render.shadow_cameras;
+    var shadow_cameras = cam_scene_data.shadow_cameras;
     for (var i = 0; i < shadow_cameras.length; i++) {
         var cam = shadow_cameras[i];
         m_vec3.copy(m_tsr.get_trans_view(render.world_tsr), cam.lod_eye);
@@ -1077,15 +1084,17 @@ exports.update_camera = function(obj) {
         var quat  = m_tsr.get_quat_view(render.world_tsr);
         m_cons.rotate_to(trans, quat, render.pivot);
 
+        for (var j = 0; j < obj.scenes_data.length; j++) {
         // use pivot to set convergence plane for anaglyph stereo view
-        var cams = render.cameras;
-        for (var i = 0; i < cams.length; i++) {
-            var cam = cams[i];
+            var cams = obj.scenes_data[j].cameras;
+            for (var i = 0; i < cams.length; i++) {
+                var cam = cams[i];
 
-            if (cam.type == exports.TYPE_STEREO_LEFT || 
-                    cam.type == exports.TYPE_STEREO_RIGHT)
-                set_stereo_params(cam, m_vec3.dist(trans, render.pivot),
-                        cam.stereo_eye_dist);
+                if (cam.type == exports.TYPE_STEREO_LEFT || 
+                        cam.type == exports.TYPE_STEREO_RIGHT)
+                    set_stereo_params(cam, m_vec3.dist(trans, render.pivot),
+                            cam.stereo_eye_dist);
+            }
         }
 
         m_cons.correct_up(obj, render.vertical_axis);
@@ -1312,32 +1321,34 @@ function update_ortho_scale(obj) {
     if (!m_obj_util.is_camera(obj))
         return;
 
-    var cams = render.cameras;
+    var scenes_data = obj.scenes_data;
+    for (var j = 0; j < scenes_data.length; j++) {
+        var cams = scenes_data[j].cameras;
+        if (cams[0].type === exports.TYPE_ORTHO) {
+            switch (render.move_style) {
+            case exports.MS_TARGET_CONTROLS:
+                var trans = m_tsr.get_trans_view(render.world_tsr);
+                var dir_dist = m_vec3.dist(trans, render.pivot);
+                var new_scale = dir_dist / render.init_dist * render.init_top;
+                break;
+            case exports.MS_HOVER_CONTROLS:
+                var trans = m_tsr.get_trans_view(render.world_tsr);
+                var dir_dist = m_vec3.distance(trans, render.hover_pivot);
+                var new_scale = dir_dist / render.init_dist * render.init_top;  
+                break;
+            default:
+                var new_scale = cams[0].top;
+                break;
+            }
+            
+            for (var i = 0; i < cams.length; i++) {
+                var cam = cams[i];
+                cam.top = new_scale;
+                set_projection(cam, cam.aspect);
+            }
 
-    if (cams[0].type === exports.TYPE_ORTHO) {
-        switch (render.move_style) {
-        case exports.MS_TARGET_CONTROLS:
-            var trans = m_tsr.get_trans_view(render.world_tsr);
-            var dir_dist = m_vec3.dist(trans, render.pivot);
-            var new_scale = dir_dist / render.init_dist * render.init_top;
-            break;
-        case exports.MS_HOVER_CONTROLS:
-            var trans = m_tsr.get_trans_view(render.world_tsr);
-            var dir_dist = m_vec3.distance(trans, render.hover_pivot);
-            var new_scale = dir_dist / render.init_dist * render.init_top;  
-            break;
-        default:
-            var new_scale = cams[0].top;
-            break;
+            update_camera_transform(obj, scenes_data[j]);
         }
-        
-        for (var i = 0; i < cams.length; i++) {
-            var cam = cams[i];
-            cam.top = new_scale;
-            set_projection(cam, cam.aspect);
-        }
-
-        update_camera_transform(obj);
     }
 }
 
@@ -1667,9 +1678,7 @@ exports.is_float_aspect = function(cam) {
 /**
  * Return camera angular diameter, calculated from FOV
  */
-exports.get_angular_diameter  = function(camobj) {
-    // NOTE: is it really ok? 
-    var cam = camobj.render.cameras[0];
+exports.get_angular_diameter  = function(cam) {
 
     switch (cam.type) {
     case exports.TYPE_PERSP:
@@ -2023,7 +2032,7 @@ function is_hover_camera(obj) {
 
 exports.is_ortho_camera = function(obj) {
     return m_obj_util.is_camera(obj) && obj.render 
-            && obj.render.cameras[0].type == exports.TYPE_ORTHO;
+            && obj.scenes_data[0].cameras[0].type == exports.TYPE_ORTHO;
 }
 
 exports.update_camera_shadows = update_camera_shadows;
@@ -2110,7 +2119,7 @@ function get_cascade_interpolation(val_first, val_last, casc_count, casc_index) 
  * uses _vec4_tmp
  */
 exports.project_point = function(camobj, point, dest) {
-    var cam = camobj.render.cameras[0];
+    var cam = camobj.scenes_data[0].cameras[0];
 
     switch (cam.type) {
     case exports.TYPE_PERSP:
@@ -2152,7 +2161,7 @@ exports.project_point = function(camobj, point, dest) {
 }
 
 exports.get_first_cam = function(camobj) {
-    return camobj.render.cameras[0];
+    return camobj.scenes_data[0].cameras[0];
 }
 
 
@@ -2353,8 +2362,7 @@ exports.wipe_move_style = function(camobj) {
     render.enable_hover_hor_rotation = true;
 }
 
-exports.set_eye_distance = function(camobj, eye_dist) {
-    var cameras = camobj.render.cameras;
+exports.set_eye_distance = function(cameras, eye_dist) {
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
         if (cam.type == TYPE_STEREO_LEFT ||
@@ -2366,7 +2374,9 @@ exports.set_eye_distance = function(camobj, eye_dist) {
 }
 
 exports.set_hmd_fov = function(camobj, hmd_left_fov, hmd_right_fov) {
-    var cameras = camobj.render.cameras;
+    var active_scene = m_scenes.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cameras = cam_scene_data.cameras;
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
 

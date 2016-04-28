@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-03-29 11:52+0300\n"
-"PO-Revision-Date: 2016-03-26 12:24+0800\n"
+"POT-Creation-Date: 2016-04-25 17:26+0300\n"
+"PO-Revision-Date: 2016-04-01 16:26+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -320,7 +320,8 @@ msgid "high quality sound looping"
 msgstr "高品质的声音循环"
 
 #: ../features.rst:111
-msgid "randomizing sound parameters to improve loop percepetion"
+#, fuzzy
+msgid "randomizing sound parameters to improve loop perception"
 msgstr "随机声音参数，以提高循环感知"
 
 #: ../features.rst:112
@@ -386,11 +387,10 @@ msgid "Visual Programming"
 msgstr "可视化编程"
 
 #: ../features.rst:136
-#, fuzzy
 msgid ""
 "the Logic Editor tool allows to create interactive apps by constructing "
 "the logic chains from basic blocks"
-msgstr "NLA（非线性动画）脚本工具允许从基本模块构建逻辑链来创建交互式应用程序"
+msgstr "逻辑编辑器工具允许使用基本模块组合逻辑链来创建交互式应用程序"
 
 #: ../features.rst:139
 msgid "Other"

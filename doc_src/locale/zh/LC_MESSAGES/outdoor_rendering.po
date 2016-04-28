@@ -4,12 +4,11 @@
 # Manual package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-28 14:22+0300\n"
+"POT-Creation-Date: 2016-04-06 16:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,8 +57,9 @@ msgstr ""
 
 #: ../outdoor_rendering.rst:31
 msgid ""
-"It is recommended to enable the gradient transparency ``Transparency > "
-"Alpha Blend`` and to tweak the ``Alpha`` value."
+"It is recommended to enable the gradient transparency (set the "
+"``Transparency > Type`` parameter to the ``Alpha Blend`` value) and to "
+"tweak the ``Alpha`` value."
 msgstr ""
 
 #: ../outdoor_rendering.rst:34
@@ -482,8 +482,8 @@ msgstr ""
 #: ../outdoor_rendering.rst:252
 msgid ""
 "Upon script execution some system properties are saved in the water "
-"material. Therefore the scene must be saved after the script has finished"
-" working."
+"material. Therefore, the scene must be saved after the script has "
+"finished working."
 msgstr ""
 
 #: ../outdoor_rendering.rst:258
@@ -774,7 +774,7 @@ msgid "*Detail Bending > Bending Frequency*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:413
-msgid "Detail bendind frequency. The default value is 1.0."
+msgid "Detail bending frequency. The default value is 1.0."
 msgstr ""
 
 #: ../outdoor_rendering.rst:416
@@ -823,4 +823,18 @@ msgstr ""
 #: ../outdoor_rendering.rst:241
 msgid "shoreline"
 msgstr ""
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Upon script execution some system "
+#~ "properties are saved in the water "
+#~ "material. Therefore the scene must be"
+#~ " saved after the script has finished"
+#~ " working."
+#~ msgstr ""
+
+#~ msgid "Detail bendind frequency. The default value is 1.0."
+#~ msgstr ""
 

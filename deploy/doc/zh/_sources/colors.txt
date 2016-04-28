@@ -1,262 +1,228 @@
 
-Color Management
-****************
+色彩管理
+********
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Color Management
+* 色彩管理
 
-  * Gamma Overview
+  * Gamma概述
 
-  * Human Vision and Monitors
+  * 人类视觉和显示器
 
-  * Gamma Formula
+  * 伽玛公式
 
-  * Gamma in Node Materials
+  * 伽马在节点材质中
 
-    * Nodes for Colouring
+    * 为颜色的节点
 
-    * Nodes for Masking
+    * 为遮罩的节点
 
-    * Normal Maps
+    * 法线贴图
 
-    * Summary Table
+    * 汇总表
 
-  * Alpha Compositing
+  * alpha合成
 
-    * Overview
+    * 概述
 
-    * Implementation
+    * 实现
 
-  * Color Correction
+  * 色彩校正
 
-    * Activation
+    * 激活
 
-    * Additional settings
+    * 其他设置
 
 
-Gamma Overview
-==============
+Gamma概述
+=========
 
-The essence of gamma correction is packing the image brightness
-channel into  8 bits of information.
+伽马校正的实质是将图像亮度通道打包进8比特信息中。
 
-Standard (non-HDR) images are always stored in non-linear color space
-where the darker components are encoded using more bits than the
-brighter ones. That means that a bigger RGB value corresponds to 0.5
-of the real light intensity (a physical quantity called illuminance) -
-in a simplest  case this value equals to 0.5 ^ (1/2.2) = 0.73.
+标准（非HDR）图像总是存储在较暗的部分比亮的那些部分使用更多的比特编码
+的非线性颜色空间。这意味着，较大的RGB值对应于实际的光强度（物理量称为
+照度）的0.5  - 在简单的情况该值等于0.5 ^（1 / 2.2）= 0.73。
 
-Overwise, 8 bit of information will not be enough to encode the light
-intensity. This will result in incorrect rendering of darker tones.
-For example, dark  gradients will look stepped.
+否则，光强的8位的信息将不足以进行编码。这将导致深色调的不正确渲染。例
+如，深色渐变会显得加强。
 
-Therefore, web browsers, as well as many other programs for viewing
-and manipulating images, work in non-linear space. However, 3D engines
-and renderers work in linear space, because it is the only correct way
-to represent light behavior in the real world. For example, the
-illuminance from two identical lamps exceeds the illuminance from one
-lamp exactly by two times.
+因此，网络浏览器和其他软件一样，也是在非线性空间观看和处理图像。但是，
+3D引擎和渲染器在线性空间的工作，这是表现现实世界中光的行为的唯一正确途
+径。例如，来自两个相同的灯的照度超过了从一个灯完全照度两倍。
 
-Undoubtedly, 8 bit of information will not be enough in this case.
-This can be clearly seen from the table in which approximate
-illuminance values for some real light sources are shown.
+无疑，在这种情况下8位的信息是不足够的。这可以从一些真实光源的近似照度
+值示表中清楚地看到。
 
 +-----------------------+--------------------+
-| Description           | Illuminance, lux   |
+| 描述                  | 照度，光通量       |
 +=======================+====================+
-| Summer noon           | 17 000             |
+| 夏季中午              | 17 000             |
 +-----------------------+--------------------+
-| Winter noon           | 5 000              |
+| 冬季中午              | 5 000              |
 +-----------------------+--------------------+
-| Dull day              | 1 000              |
+| 日常天                | 1 000              |
 +-----------------------+--------------------+
-| In a light room       | 100                |
+| 在明亮房间            | 100                |
 +-----------------------+--------------------+
-| Full moon by night    | 0.2                |
+| 月圆夜                | 0.2                |
 +-----------------------+--------------------+
-| Moonless light        | 0.001              |
+| 没有月亮的光          | 0.001              |
 +-----------------------+--------------------+
 
 
 
-When the "Color Management > Display Device > sRGB" option is enabled
-for a scene, Blender works in a linear space. Material colors and lamp
-settings correspond to physical values. For texture images (except
-normal maps) it is required to select the "Image > Input Color Space >
-sRGB" option. In this case an automatic image unpacking (sRGB ->
-Linear) is performed at the time of rendering.
+当  "Color Management > Display Device > sRGB" 选项为场景启用时，
+Blender工作于线性空间。材质的颜色和灯设置对应到相应的物理值。对于纹理
+图像（除法线贴图），则需要选择  "Image > Input Color Space > sRGB"  选
+项。在这种情况下，在渲染的时候执行自动图象解包（sRGB的 -> 直线）。
 
 
-Human Vision and Monitors
-=========================
+人类视觉和显示器
+================
 
-While the human vision is non-linear (a human recognizes the darker
-light tints better than the brighter ones), the light coming into the
-eye still obeys the physical laws (see the lamps example).
+尽管人的视觉是非线性（人识别较暗光色调比亮的要好），进入眼睛的光仍然服
+从物理定律（参照灯的例子）。
 
-In CRT monitors the brightness is dependent non-linearly upon the
-electric voltage applied to the monitor’s input (the voltage itself is
-determined by the color channel value in the video memory). LCD
-monitors mimic the same characteristics. Nevertheless the light
-emitted by such monitors obeys the physical laws. For example the
-addition of a second light source to a virtual scene should cause the
-brightness to double (in the perfect case).
+在CRT显示器的亮度是根据施加到显示器的输入非线性地施加到显示屏的电压（
+由在显存中的色彩通道值确定的电压）。液晶显示器模仿相同的特性。但是这类
+显示器发出的光服从物理定律。例如将第二光源到虚拟场景会引起亮度加倍（在
+完美的情况）。
 
-Therefore, the perception characteristics of the human eye are the
-reason due to which it is possible to pack color channels. At the same
-time, the technical characteristics of monitors have a secondary
-significance for gamma correction.
+因此，人眼的感知特性是能够打包颜色通道的原因。同时，显示器的技术特征有
+二次伽马校正的意义。
 
 
-Gamma Formula
-=============
+伽玛公式
+========
 
-Used in the following simplified formula:
+采用以下简化公式：
 
    V_out = V_in^γ
 
-γ < 1 - packing gamma, γ > 1 - unpacking gamma. In the simplest case
-1/2.2  and 2.2 values are used respectively. Hereinafter the “packing”
-(Linear -> sRGB) and “unpacking” (sRGB -> Linear) terms are used
-instead of “gamma correction”.
+γ<1  - 打包伽玛值，γ> 1  - 拆包伽马。在最简单的情况 1/2.2  和 2.2 的值
+被分别使用。在下文中，用术语  “打包” (Linear -> sRGB) 和 “解包” (sRGB
+-> Linear) 的术语用来代替 “伽马校正”.
 
 [图片]
 
 
-Gamma in Node Materials
-=======================
+伽马在节点材质中
+================
 
 
-Nodes for Colouring
--------------------
+为颜色的节点
+------------
 
-Unpacking (sRGB -> Linear) is required when textures and vertex colors
-are used for colouring (not for masking). The texture node and Vertex
-Color output of Geometry node implement unpacking automatically.
+当纹理和顶点颜色用于色彩（不用于遮罩）拆包（sRGB -> 线性） 是必需的。
+纹理节点和几何节点的顶点颜色输出实现自动拆包。
 
-Note that the alpha channel of a texture node is not corrected. Its
-values are in the linear space.
+需要注意的是纹理节点的alpha通道没有得到纠正。它的值是线性空间。
 
 
-Nodes for Masking
------------------
+为遮罩的节点
+------------
 
-Textures and vertex colors can be used as masks i.e. input data for
-some mathematical operations. In such a case the packing operation is
-required.
+纹理和顶点颜色可作为遮罩即对于一些数学运算的输入数据可以使用。在这样的
+情况下，需要打包操作。
 
-Keep in mind that a texture node and *Vertex Color* output of
-*Geometry* node implement unpacking automatically. This results in
-necessity of the additional transformation back to the non-linear
-space, for which the *LINEAR_TO_SRGB* or *GAMMA* node with γ = 1/2.2
-is used.
+请记住，一个纹理节点和 *几何* 节点的 *顶点色* 输出实现自动拆包。这导致
+了额外回到非线性空间中的转换，需要使用 *LINEAR_TO_SRGB* 或 γ= 1 / 2.2
+*GAMMA* 节点。
 
-注解: *LINEAR_TO_SRGB* and *SRGB_TO_LINEAR* nodes are deprecated.
-  *GAMMA* node should be used instead.
+注解: *LINEAR_TO_SRGB* 和 *SRGB_TO_LINEAR* 节点已被弃用。 应使用
+  *GAMMA* 节点。
 
 
-Normal Maps
------------
-
-No transformations are performed for normal maps.
-
-
-Summary Table
--------------
-
-+-------------------------------+-------------------------------+
-| Use case                      | Correction                    |
-+===============================+===============================+
-| Texture for colouring         | implemented automatically in  |
-|                               | the texture node (the alpha   |
-|                               | channel is not corrected)     |
-+-------------------------------+-------------------------------+
-| Texture for masking           | GAMMA with γ = 0.45           |
-+-------------------------------+-------------------------------+
-| Vertex color for colouring    | implemented automatically     |
-+-------------------------------+-------------------------------+
-| Vertex color for masking      | GAMMA with γ = 0.45           |
-+-------------------------------+-------------------------------+
-| Normal map                    | not required                  |
-+-------------------------------+-------------------------------+
-
-
-Alpha Compositing
-=================
-
-
-Overview
+法线贴图
 --------
 
-Physically correct alpha compositing is performed according to the
-formula [*source* <http://wwwnew.cs.princeton.edu/courses/archive/spr
-ing05/cos426/papers/smith95a.pdf>`_]:
+法线贴图无任何转换。
+
+
+汇总表
+------
+
++-------------------------------+-------------------------------+
+| 使用案例                      | 校正                          |
++===============================+===============================+
+| 纹理着色                      | 在纹理节点自动执行（Alpha通道 |
+|                               | 不校正）                      |
++-------------------------------+-------------------------------+
+| 纹理遮罩                      | GAMMA 值  γ = 0.45            |
++-------------------------------+-------------------------------+
+| 顶点颜色着色                  | 自动实现                      |
++-------------------------------+-------------------------------+
+| 作为遮罩顶点的颜色            | GAMMA 值  γ = 0.45            |
++-------------------------------+-------------------------------+
+| 法线                          | 不需要                        |
++-------------------------------+-------------------------------+
+
+
+alpha合成
+=========
+
+
+概述
+----
+
+物理正确的alpha合成是根据下式进行的 [*source* <http://wwwnew.cs.princ
+eton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:
 
    C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a).
 
-This formula differs from the classic mix operation (aka convex
-combination) because it has the \alpha_b multiplier in the second
-summand. Therefore not only the \alpha_a value of the source pixel
-should be known for alpha compositing, but also the \alpha_b value of
-the pixel over which the rendering is performed.
+这个方程和经典的混合操作（又名凸包合成）不同，因为它在第二被加数具有
+\alpha_b 乘数。因此渲染的时候不仅是原始像素的 \alpha_a  值应该是已知的
+用于alpha合成，而且要叠合的像素的  \alpha_b 也是一样。
 
-In case of preliminary multiplication of the \alpha values by the
-color channels (so called premultiplied alpha) the formula becomes as
-following:
+公式在预乘的情况下颜色通道的  \alpha  值（称为预乘alpha） 就变成下面：
 
    C_o = C_a + C_b (1 - \alpha_a).
 
-The last formula is used also to calculate the resulting \alpha_o
-value:
+最后一个公式用于计算出  \alpha_o 值：
 
    \alpha_o = \alpha_a + \alpha_b (1 - \alpha_a).
 
-Preliminary multiplication of the color channels by the \alpha  values
-allows to save two multiplication operations. The more significant
-thing is that the derived formula can be used repeatedly without the
-need to divide the C_o color by the αoαo value on each consequent
-iteration.
+将颜色通道预乘 \alpha  值允许保留2个乘法运算。更明显的是，衍生公式可以
+重复进行而不需要在每个迭代都去用 C_o 颜色值去除 \alpha_o 的值.
 
 
-Implementation
---------------
+实现
+----
 
-The blending function used in Blend4Web is the following:
+在Blend4Web使用的混合功能如下：
 
    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-WebGL context initialization is performed using the premultipliedAlpha
-= true parameter (that is the default value). Also multiplication of
-all the color channels by the \alpha value is performed on the output
-of the shaders.
+WebGL的上下文初始化是使用 premultipliedAlpha = true 参数（即默认值）进
+行的。由所有颜色通道相乘  \alpha 值在着色器进行输出。
 
 
-Color Correction
-================
+色彩校正
+========
 
 [图片]
 
 
-Activation
-----------
+激活
+----
 
-Activate the "Color Correction" panel under the "Render" tab.
+激活 "Render" 选项卡下的 "颜色校正" 面板。
 
 
-Additional settings
--------------------
+其他设置
+--------
 
-*Brightness*
-   The default value is 0.0.
+*亮度*
+   默认值是 0.0。
 
-*Contrast*
-   The default value is 0.0.
+*对比度*
+   默认值是 0.0。
 
-*Exposure*
-   The default value is 1.0.
+*曝光度*
+   默认值是 1.0。
 
-*Saturation*
-   The default value is 1.0.
+*饱和度*
+   默认值是 1.0。

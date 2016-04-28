@@ -26,8 +26,10 @@
  */
 b4w.module["__textures"] = function(exports, require) {
 
+var m_compat    = require("__compat");
 var m_cfg       = require("__config");
 var m_dds       = require("__dds");
+var m_debug     = require("__debug");
 var m_ext       = require("__extensions");
 var m_print     = require("__print");
 var m_time      = require("__time");
@@ -911,6 +913,15 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
                 resize_cube_map_canvas(texture, image_data, img_dim, tex_dim, infos);
             else
                 resize_cube_map(texture, image_data, tex_dim, img_dim);
+
+            if (m_debug.check_ff_cubemap_out_of_memory()) {
+                // NOTE: the state of the context and/or objects is undefined 
+                // after the GL_OUT_OF_MEMORY error;
+                // see: https://www.opengl.org/wiki/OpenGL_Error#Side_effects
+                m_print.warn("Firefox detected, setting max cubemap size to 256, use canvas for resizing.");
+                resize_cube_map_canvas(texture, image_data, img_dim, 
+                        m_compat.NVIDIA_OLD_GPU_CUBEMAP_MAX_SIZE, infos);
+            }
 
             texture.width = 3 * tex_dim;
             texture.height = 2 * tex_dim;

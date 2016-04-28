@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Engine Developers &mdash; Blend4Web 16.03 User Manual</title>
+  <title>For Engine Developers &mdash; Blend4Web 16.04 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.03 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.04 User Manual" href="index.html"/>
         <link rel="next" title="Team Work. Using Git" href="git_short_manual.html"/>
         <link rel="prev" title="For Application Developers" href="developers.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.03
+              v16.04
             </div>
           
         
@@ -84,7 +84,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
@@ -220,7 +220,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>4 spaces are used for identation (no tabs allowed).</p>
+<p>4 spaces are used for indentation (no tabs allowed).</p>
 <div class="section" id="examples">
 <h3><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <p>The underscore symbol is used in function and variable names:</p>
@@ -411,7 +411,7 @@ documentation</td>
 <dt><em>attach_/detach_</em></dt>
 <dd>add/remove a temporary object property</dd>
 <dt><em>append_/remove_</em></dt>
-<dd>add/remove a temporary property to the already existing properies of the same kind</dd>
+<dd>add/remove a temporary property to the already existing properties of the same kind</dd>
 <dt><em>insert_/pop_</em></dt>
 <dd>add/remove an array element (accessed by index)</dd>
 <dt><em>switch_</em></dt>
@@ -429,7 +429,7 @@ documentation</td>
 <div class="section" id="debugging">
 <span id="id3"></span><h2><a class="toc-backref" href="#id11">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
 <p>Engine debugging is performed with the <code class="docutils literal"><span class="pre">debug.js</span></code> module methods.</p>
-<p>The structure of the current render graph can be saved in the DOT format using the <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code> call, for example, in the browser console. After calling this method save the console&#8217;s output into the file with the .gv extension. To get the graph in a visual form the <a class="reference external" href="http://www.graphviz.org/">graphviz</a> utilities are required. Converting to the SVG format is performed using the command:</p>
+<p>The structure of the current render graph can be saved in the DOT format using the <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code> call, for example, in the browser console. After calling this method, save the console&#8217;s output into the file with the .gv extension. To get the graph in a visual form the <a class="reference external" href="http://www.graphviz.org/">graphviz</a> utilities are required. Converting to the SVG format is performed using the command:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; dot -Tsvg graph.gv -o graph.svg
 </pre></div>
 </div>
@@ -437,13 +437,13 @@ documentation</td>
 <span class="target" id="shaders"></span></div>
 <div class="section" id="shader-compilation">
 <span id="index-0"></span><h2><a class="toc-backref" href="#id12">Shader Compilation</a><a class="headerlink" href="#shader-compilation" title="Permalink to this headline">¶</a></h2>
-<p>All shaders used in the engine are processed by a compilator. The compilator performs the following three main procedures:</p>
+<p>All shaders used in the engine are processed by a compiler. The compiler performs the following three main procedures:</p>
 <ul class="simple">
 <li>validation of the shader code,</li>
 <li>its obfuscation and</li>
 <li>optimization.</li>
 </ul>
-<p>In order to run the compilator, execute one of the following commands in the SDK root:</p>
+<p>In order to run the compiler, execute one of the following commands in the SDK root:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; make compile_shaders
 &gt; make verify_shaders
 </pre></div>
@@ -461,19 +461,19 @@ documentation</td>
 </ul>
 <div class="section" id="validation">
 <span id="index-1"></span><h3><a class="toc-backref" href="#id13">Validation</a><a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h3>
-<p>The compilator performs the following procedures related to shader code validation:</p>
+<p>The compiler performs the following procedures related to shader code validation:</p>
 <ul class="simple">
 <li>reporting about unused variables and functions (dead code),</li>
 <li>checking the syntax of shaders,</li>
 <li>checking the conformance of shaders to the import/export mechanism,</li>
-<li>removing odd or repeatitive tokens: spaces, endlines and semicolons.</li>
+<li>removing odd or repetitive tokens: spaces, endlines and semicolons.</li>
 </ul>
 </div>
 <div class="section" id="obfuscation">
 <span id="index-2"></span><h3><a class="toc-backref" href="#id14">Obfuscation</a><a class="headerlink" href="#obfuscation" title="Permalink to this headline">¶</a></h3>
-<p>Obfuscation minifies the GLSL code and makes it diffucult to understand it. So far the following procedure is implemented:</p>
+<p>Obfuscation minifies the GLSL code and makes it difficult to understand it. So far the following procedure is implemented:</p>
 <ul class="simple">
-<li>replacing the user-defined identifiers with shorter single-symboled, two-symboled etc names (with support of the import/export mechanism).</li>
+<li>replacing the user-defined identifiers with shorter single-symbol, two-symbol etc. names (with support of the import/export mechanism).</li>
 </ul>
 </div>
 <div class="section" id="optimization">
@@ -531,20 +531,20 @@ documentation</td>
 </div>
 <p>The <code class="docutils literal"><span class="pre">#import</span></code> directive defines a set of ids which are declared outside the include file but can be accessed from inside it. There is a limitation though: such ids must necessarily be declared somewhere above the place where the include file is linked.</p>
 <p>The <code class="docutils literal"><span class="pre">#export</span></code> directive defines a set of ids which can be accessed from outside this file. Such ids must necessarily be declared in this file.</p>
-<p>Therefore the shader which uses the include file must have all the declarations necessary for import before the place of linking, and can use the exported ids after it.</p>
+<p>Therefore, the shader which uses the include file must have all the declarations necessary for import before the place of linking, and can use the exported ids after it.</p>
 <p>Ids can be both variable names and function names. If there are no import/export directives it&#8217;s considered by default that the include file does not use external declarations and does not allow the using of internal ones.</p>
 </div>
 <div class="section" id="recommendations-and-limitations">
 <span id="index-5"></span><h3><a class="toc-backref" href="#id17">Recommendations and Limitations</a><a class="headerlink" href="#recommendations-and-limitations" title="Permalink to this headline">¶</a></h3>
-<p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compilator&#8217;s features - its possible to garantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:</p>
+<p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compiler&#8217;s features - its possible to guarantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:</p>
 <ol class="arabic simple">
-<li>In order to describe constants which are defined by the engine at run, it&#8217;s neccessary to use the <code class="docutils literal"><span class="pre">#var</span></code> special directive. For example:</li>
+<li>In order to describe constants which are defined by the engine at run, it&#8217;s necessary to use the <code class="docutils literal"><span class="pre">#var</span></code> special directive. For example:</li>
 </ol>
 <div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var AU_QUALIFIER uniform</span>
 <span class="n">AU_QUALIFIER</span> <span class="k">float</span> <span class="n">a</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The syntax here is similar to the #define directive. The point of the #var directive is that the value which it defines allows to parse the initial shader. It&#8217;s irrelevant what exactly it will be (e.g. &#8216;uniform&#8217; or &#8216;attribute&#8217; in the above example), because at this level it&#8217;s unknown anyway. Nevertheless it&#8217;s better to specify a more or less suitable description and not something arbitrary.</p>
+<p>The syntax here is similar to the #define directive. The point of the #var directive is that the value which it defines allows to parse the initial shader. It&#8217;s irrelevant what exactly it will be (e.g. &#8216;uniform&#8217; or &#8216;attribute&#8217; in the above example), because at this level it&#8217;s unknown anyway. Nevertheless, it&#8217;s better to specify a more or less suitable description and not something arbitrary.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The #var directive is not necessary for constants used not in the shader code but in the preprocessor expressions.</p>
@@ -563,7 +563,7 @@ documentation</td>
 </pre></div>
 </div>
 <ol class="arabic simple" start="6">
-<li>The usage of the #include directive should not lead to ambiguity during the obfuscation of the include file. This can happen when multiple shaders are included into the same file and the above defined directives (like #var or #define) can have influence on any of them. Also it&#8217;s better not to use undeclared functions and variables in the include file.</li>
+<li>The usage of the #include directive should not lead to ambiguity during the obfuscation of the include file. This can happen when multiple shaders are included into the same file and the above defined directives (like #var or #define) can have influence on any of them. Also, it&#8217;s better not to use undeclared functions and variables in the include file.</li>
 <li>Multi-level includes or multiple inclusion of the same include into the same shader is not supported.</li>
 <li>The shader&#8217;s malfunction can also be caused by nontrivial using of preprocessing, for example, creating an invalid GLSL code:</li>
 </ol>
@@ -584,7 +584,7 @@ documentation</td>
 </div>
 <div class="section" id="webgl-extensions">
 <span id="index-6"></span><h3><a class="toc-backref" href="#id18">WebGL Extensions</a><a class="headerlink" href="#webgl-extensions" title="Permalink to this headline">¶</a></h3>
-<p>Compilation may depend on WebGL extensions being used if they somehow influence the shading language. At the moment the following extensions are supported by the compilator:</p>
+<p>Compilation may depend on WebGL extensions being used if they somehow influence the shading language. At the moment the following extensions are supported by the compiler:</p>
 <blockquote>
 <div><ul class="simple">
 <li>OES_standard_derivatives</li>
@@ -593,7 +593,7 @@ documentation</td>
 </div>
 <div class="section" id="compilation-errors">
 <span id="index-7"></span><h3><a class="toc-backref" href="#id19">Compilation Errors</a><a class="headerlink" href="#compilation-errors" title="Permalink to this headline">¶</a></h3>
-<p>In case of an error the compilator will output the corresponding message in the console.</p>
+<p>In case of an error the compiler will output the corresponding message in the console.</p>
 <p>Table of possible errors:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -769,7 +769,7 @@ the FILE_NAME file.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-03-31.
+      Last updated on 2016-04-28.
 
     </p>
   </div>
@@ -792,7 +792,7 @@ the FILE_NAME file.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.03',
+            VERSION:'v16.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

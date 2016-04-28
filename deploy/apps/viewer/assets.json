@@ -369,6 +369,10 @@
                 "load_file": "materials/alpha.json"
             },
             {
+                "name": "Alpha Reflection",
+                "load_file": "materials/alpha_reflection.json"
+            },
+            {
                 "name": "Checker",
                 "load_file": "materials/checker.json"
             },
@@ -447,6 +451,10 @@
     {
         "name": "Demos - Particles",
         "items": [
+            {
+                "name": "Billboard Tilt",
+                "load_file": "particles/billboard_tilt.json"
+            },
             {
                 "name": "Particles Node Material",
                 "load_file": "particles/particles_node_material.json"

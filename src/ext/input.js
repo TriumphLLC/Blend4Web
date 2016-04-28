@@ -30,9 +30,8 @@ b4w.module["input"] = function(exports, require) {
 var m_input   = require("__input");
 var m_cam     = require("__camera");
 var m_cont    = require("__container");
+var m_obj_util= require("__obj_util");
 var m_print   = require("__print");
-var m_quat    = require("__quat");
-var m_scgraph = require("__scenegraph");
 var m_scs     = require("__scenes");
 var m_vec4    = require("__vec4");
 
@@ -48,6 +47,92 @@ var _vec4_tmp2 = m_vec4.create();
  * Type of the names of the asynchronous parameter of a device.
  * @typedef {Number} DeviceParameterAsync
  */
+
+/**
+ * Gamepad D-pad up button ID.
+ * @const {Number} module:input.DPAD_UP_GAMEPAD_BTN
+ */
+exports.DPAD_UP_GAMEPAD_BTN = m_input.DPAD_UP_GAMEPAD_BTN;
+/**
+ * Gamepad D-pad down button ID.
+ * @const {Number} module:input.DPAD_DOWN_GAMEPAD_BTN
+ */
+exports.DPAD_DOWN_GAMEPAD_BTN = m_input.DPAD_DOWN_GAMEPAD_BTN;
+/**
+ * Gamepad D-pad right button ID.
+ * @const {Number} module:input.DPAD_RIGHT_GAMEPAD_BTN
+ */
+exports.DPAD_RIGHT_GAMEPAD_BTN = m_input.DPAD_RIGHT_GAMEPAD_BTN;
+/**
+ * Gamepad D-pad left button ID.
+ * @const {Number} module:input.DPAD_LEFT_GAMEPAD_BTN
+ */
+exports.DPAD_LEFT_GAMEPAD_BTN = m_input.DPAD_LEFT_GAMEPAD_BTN;
+/**
+ * Gamepad face panel up button ID.
+ * @const {Number} module:input.FACE_UP_GAMEPAD_BTN
+ */
+exports.FACE_UP_GAMEPAD_BTN = m_input.FACE_UP_GAMEPAD_BTN;
+/**
+ * Gamepad face panel down button ID.
+ * @const {Number} module:input.FACE_DOWN_GAMEPAD_BTN
+ */
+exports.FACE_DOWN_GAMEPAD_BTN = m_input.FACE_DOWN_GAMEPAD_BTN;
+/**
+ * Gamepad face panel right button ID.
+ * @const {Number} module:input.FACE_RIGHT_GAMEPAD_BTN
+ */
+exports.FACE_RIGHT_GAMEPAD_BTN = m_input.FACE_RIGHT_GAMEPAD_BTN;
+/**
+ * Gamepad face panel left button ID.
+ * @const {Number} module:input.FACE_LEFT_GAMEPAD_BTN
+ */
+exports.FACE_LEFT_GAMEPAD_BTN = m_input.FACE_LEFT_GAMEPAD_BTN;
+/**
+ * Gamepad right top shoulder button ID.
+ * @const {Number} module:input.R1_GAMEPAD_BTN
+ */
+exports.R1_GAMEPAD_BTN = m_input.R1_GAMEPAD_BTN;
+/**
+ * Gamepad right bottom shoulder button ID.
+ * @const {Number} module:input.R2_GAMEPAD_BTN
+ */
+exports.R2_GAMEPAD_BTN = m_input.R2_GAMEPAD_BTN;
+/**
+ * Gamepad left top shoulder button ID.
+ * @const {Number} module:input.L1_GAMEPAD_BTN
+ */
+exports.L1_GAMEPAD_BTN = m_input.L1_GAMEPAD_BTN;
+/**
+ * Gamepad left bottom shoulder button ID.
+ * @const {Number} module:input.L2_GAMEPAD_BTN
+ */
+exports.L2_GAMEPAD_BTN = m_input.L2_GAMEPAD_BTN;
+/**
+ * Gamepad select/back button ID.
+ * @const {Number} module:input.SELECT_GAMEPAD_BTN
+ */
+exports.SELECT_GAMEPAD_BTN = m_input.SELECT_GAMEPAD_BTN;
+/**
+ * Gamepad start/forward button ID.
+ * @const {Number} module:input.START_GAMEPAD_BTN
+ */
+exports.START_GAMEPAD_BTN = m_input.START_GAMEPAD_BTN;
+/**
+ * Gamepad left analog button ID.
+ * @const {Number} module:input.LEFT_ANALOG_GAMEPAD_BTN
+ */
+exports.LEFT_ANALOG_GAMEPAD_BTN = m_input.LEFT_ANALOG_GAMEPAD_BTN;
+/**
+ * Gamepad right analog button ID.
+ * @const {Number} module:input.RIGHT_ANALOG_GAMEPAD_BTN
+ */
+exports.RIGHT_ANALOG_GAMEPAD_BTN = m_input.RIGHT_ANALOG_GAMEPAD_BTN;
+/**
+ * Gamepad main button ID.
+ * @const {Number} module:input.MAIN_GAMEPAD_BTN
+ */
+exports.MAIN_GAMEPAD_BTN = m_input.MAIN_GAMEPAD_BTN;
 
 /**
  * Parameter of HMD orientation quaternion.
@@ -300,8 +385,12 @@ exports.enable_split_screen = function(camobj) {
         m_cam.set_hmd_fov(camobj, hmd_left_fov, hmd_right_fov);
 
     var eye_distance = m_input.get_value_param(hmd_device, m_input.HDM_EYE_DISTANCE);
-    if (eye_distance)
-        m_cam.set_eye_distance(camobj, eye_distance);
+    if (eye_distance) {
+        var active_scene = m_scs.get_active();
+        var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+        var cameras = cam_scene_data.cameras;
+        m_cam.set_eye_distance(cameras, eye_distance);
+    }
 
     var hmd_params = {};
     hmd_params.distortion_coefs = [
@@ -331,7 +420,7 @@ exports.enable_split_screen = function(camobj) {
 
     m_scs.set_hmd_params(hmd_params);
     var distortion_scale = (1 + hmd_device.distortion_coefs[0] + hmd_device.distortion_coefs[1]);
-    m_scgraph.multiply_size_mult(distortion_scale, distortion_scale);
+    m_scs.multiply_size_mult(distortion_scale, distortion_scale);
 
     var canvas_container_elem = m_cont.get_container();
     var ccw = canvas_container_elem.clientWidth;
@@ -365,5 +454,61 @@ exports.disable_split_screen = function() {
     m_cont.resize(ccw, cch, true);
     return true;
 }
+/**
+ * Set gamepad button key value.
+ * @method module:input.set_gamepad_btn_key
+ * @param {Number} gamepad_id Connected gamepad number.
+ * @param {Number} btn Button identifier.
+ * @param {Number} key Button key value.
+ */
+exports.set_gamepad_btn_key = function(gamepad_id, btn, key) {
+    var gmps_num = check_enable_gamepad_indices().length;
 
+    if (gamepad_id > gmps_num - 1) {
+        m_print.error("Wrong gamepad number. Available gamepads: " + gmps_num);
+        return;
+    }
+
+    switch(gamepad_id) {
+    case 0:
+        var type = m_input.DEVICE_GAMEPAD0;
+        break;
+    case 1:
+        var type = m_input.DEVICE_GAMEPAD1;
+        break;
+    case 2:
+        var type = m_input.DEVICE_GAMEPAD2;
+        break;
+    case 3:
+        var type = m_input.DEVICE_GAMEPAD3;
+        break;
+    default:
+        var type = m_input.DEVICE_GAMEPAD0;
+    }
+    var device = m_input.get_device_by_type_element(type);
+    m_input.set_gamepad_btn_key(device, btn, key);
+};
+/**
+ * Get pressed button key value.
+ * @method module:input.get_pressed_gmpd_btn
+ * @param {Number} gamepad_id Gamepad identifier (Connected device number 0-3).
+ * @returns {Number} Pressed button key value.
+ */
+exports.get_pressed_gmpd_btn = m_input.get_pressed_gmpd_btn;
+/**
+ * Check available gamepads indices.
+ * @method module:input.check_enable_gamepad_indices
+ * @returns {Array} Numeric array with indices
+ * @cc_externs getGamepads webkitGetGamepads
+ */
+exports.check_enable_gamepad_indices = check_enable_gamepad_indices;
+function check_enable_gamepad_indices() {
+    var gamepads = navigator.getGamepads ? navigator.getGamepads() :
+            (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+    var indices = [];
+    for (var i = 0; i < gamepads.length; i++)
+        if (gamepads[i])
+            indices.push(i);
+    return indices;
+}
 }

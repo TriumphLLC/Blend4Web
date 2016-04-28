@@ -25,7 +25,6 @@
  */
 b4w.module["__tsr"] = function(exports, require) {
 
-var m_mat3 = require("__mat3");
 var m_mat4 = require("__mat4");
 var m_quat = require("__quat");
 var m_util = require("__util");

@@ -85,7 +85,7 @@ Main features of the normal editor:
 #. native Blender storage is used as a container for edited vertices normals directions (it appeared in Blender 2.74);
 #. normals editing and shading visualization are processed in ``Edit Mode`` now;
 #. all changes are being saved automatically;
-#. selected vertex normal rotation can be performed directly in the Viewport window with ``Shift+Ctrl+R`` hotkey, similary to other rotation operations in Blender;
+#. selected vertex normal rotation can be performed directly in the Viewport window with ``Shift+Ctrl+R`` hotkey, similarly to other rotation operations in Blender;
 #. edited normals are being exported automatically.
 
 Interface of the Vertex Normal Editor
@@ -371,7 +371,7 @@ Performed in the ``Object Data`` tab when a lamp object is selected.
 *Spot Shape > Blend*
     Parameter for blurring light spot edges. It is applicable to the ``Spot`` light source type. The default value is 0.15.
 
-*Dynamic Intesity*
+*Dynamic Intensity*
     Use this light source for calculating the time of day. Applicable only to the ``Sun`` light source type. Disabled by default.
 
 *Shadow > Shadow*
@@ -406,10 +406,10 @@ Setup
     Environment lighting intensity. The default value is 1.0.
 
 *World > Environment Lighting > Environment Color*
-    Selection of the environment lighting simulation method: ``White`` - flat white lighting, ``Sky Color`` - hemisperical model, ``Sky Texture`` - lighting using an :ref:`environment map <environment_map>`. The default value is ``White``.
+    Selection of the environment lighting simulation method: ``White`` - flat white lighting, ``Sky Color`` - hemispherical model, ``Sky Texture`` - lighting using an :ref:`environment map <environment_map>`. The default value is ``White``.
 
 *World > Horizon Color* and *World > Zenith Color*
-    If the hemisperical model (``Sky Color``) is selected the horizon and zenith colors can be specified by means of the ``World > Horizon Color`` and ``World > Zenith Color`` color pickers. It is recommended to activate the ``World > Blend Sky`` option for better color selection.
+    If the hemispherical model (``Sky Color``) is selected the horizon and zenith colors can be specified by means of the ``World > Horizon Color`` and ``World > Zenith Color`` color pickers. It is recommended to activate the ``World > Blend Sky`` option for better color selection.
 
 
 Environment map method
@@ -487,7 +487,7 @@ The following additional settings are located on the ``Shadows`` panel of the ``
 *Self-Shadow Normal Offset*
     Coefficient for shifting polygons along their normals. The default value is 0.010.
 
-The last two parameters can be used to reduce self-shadowing artifacts. These artifacts appear for the objects that cast and receive shadows at the same time. The ``Self-Shadow Polygon Offset`` parameter is more effective for fighting against artifacts in inner areas of poligons while ``Self-Shadow Normal Offset`` is better for the boundary areas. Both these parameters lead to shadow distortions so we recommend to set them as low as possible.
+The last two parameters can be used to reduce self-shadowing artifacts. These artifacts appear for the objects that cast and receive shadows at the same time. The ``Self-Shadow Polygon Offset`` parameter is more effective for fighting against artifacts in inner areas of polygons while ``Self-Shadow Normal Offset`` is better for the boundary areas. Both these parameters lead to shadow distortions so we recommend to set them as low as possible.
 
 .. image:: src_images/lighting/self_shadow_artifacts.png
    :align: center
@@ -515,13 +515,13 @@ This option allows to choose between the following shadow generation models:
 
 |
 
-Softened shadows can improve visual quality and realism. They hide the jugged edges inevitable when using image-based techniques, that is especially noticable for low-resolution shadow maps. The using of softened shadows often allows to decrease resolution without substantial quality loss.
+Softened shadows can improve visual quality and realism. They hide the jugged edges inevitable when using image-based techniques, that is especially noticeable for low-resolution shadow maps. The using of softened shadows often allows to decrease resolution without substantial quality loss.
 
 
 Generic shadows
 ...............
 
-This option suits well smaller scenes with a limited number of objects. Thanks to optimizations applied for such scenes, one can achieve better shadow quality as compared with cascaded shadows. Also this option is simpler and faster for setting up, while using a single shadow map greatly improves the performance.
+This option suits well smaller scenes with a limited number of objects. Thanks to optimizations applied for such scenes, one can achieve better shadow quality as compared with cascaded shadows. Also, this option is simpler and faster for setting up, while using a single shadow map greatly improves the performance.
 
 
 Shadow cascades
@@ -531,7 +531,7 @@ Shadow cascades
 
     These settings are supported only for ``Sun`` light sources. Cascades are turned off for other types of light sources.
 
-In order to provide acceptable shadow quality and to cover considerable space at the same time it is required to use multiple stages for shadow generation (cascades). Thus the best quality cascades are situated near the observer while the worst quality cascades are in the distance. This option suits well middle-to-large scenes, e.g. game levels.
+In order to provide acceptable shadow quality and to cover considerable space at the same time it is required to use multiple stages for shadow generation (cascades). Thus, the best quality cascades are situated near the observer while the worst quality cascades are in the distance. This option suits well middle-to-large scenes, e.g. game levels.
 
 When enabled the following extended settings are revealed:
 
@@ -553,7 +553,7 @@ The sizes of the intermediate cascades are interpolated between the two above-me
 
 .. note::
 
-    When setting up the shadows keep in mind that the bigger the cascade size is, the worse and less detailed are the shadows inside it. On the other hand, reducing the ``CSM First Cascade Border`` parameter makes the subsequent less detailed cascades closer to the camera and thus more noticeable. Reducing the ``CSM Last Cascade Border`` parameter forces shadows to disappear at more close distance from the camera. However when softened shadows are used the overall quality will improve thanks to blurring at the edges.
+    When setting up the shadows keep in mind that the bigger the cascade size is, the worse and less detailed are the shadows inside it. On the other hand, reducing the ``CSM First Cascade Border`` parameter makes the subsequent less detailed cascades closer to the camera and thus more noticeable. Reducing the ``CSM Last Cascade Border`` parameter forces shadows to disappear at more close distance from the camera. However, when softened shadows are used the overall quality will improve thanks to blurring at the edges.
 
 .. image:: src_images/lighting/csm_cascade_distance.png
    :align: center

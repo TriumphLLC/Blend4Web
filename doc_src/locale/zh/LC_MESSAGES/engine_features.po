@@ -1,0 +1,317 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-25 15:08+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../engine_features.rst:7
+msgid "Engine Features"
+msgstr ""
+
+#: ../engine_features.rst:12
+msgid "**BLENDER INTEGRATION**"
+msgstr ""
+
+#: ../engine_features.rst:14
+msgid ""
+"Creating interactive applications has never been easier! You can simply "
+"create a 3D scene in Blender and then use it in Blend4Web with the help "
+"of the following features:"
+msgstr ""
+
+#: ../engine_features.rst:18
+msgid "Fast and Convenient Scene Export"
+msgstr ""
+
+#: ../engine_features.rst:19
+msgid "One-Click Scene Preview"
+msgstr ""
+
+#: ../engine_features.rst:20
+msgid "Full Support for Blender's Environment and Material Settings"
+msgstr ""
+
+#: ../engine_features.rst:21
+msgid "Tools for Creating and Managing Projects"
+msgstr ""
+
+#: ../engine_features.rst:27
+msgid "**RENDERING**"
+msgstr ""
+
+#: ../engine_features.rst:29
+msgid ""
+"Blend4Web offers a great many features to make your creations look "
+"amazing."
+msgstr ""
+
+#: ../engine_features.rst:31
+msgid "Some of them include:"
+msgstr ""
+
+#: ../engine_features.rst:33
+msgid "3D Scenes of Any Complexity"
+msgstr ""
+
+#: ../engine_features.rst:34
+msgid "Cascaded Shadow Mapping"
+msgstr ""
+
+#: ../engine_features.rst:35
+msgid "Dynamic Foliage"
+msgstr ""
+
+#: ../engine_features.rst:36
+msgid "Particle Systems"
+msgstr ""
+
+#: ../engine_features.rst:37
+msgid "Level of Detail"
+msgstr ""
+
+#: ../engine_features.rst:38
+msgid "Post-processing Effects"
+msgstr ""
+
+#: ../engine_features.rst:39
+msgid "VR Support"
+msgstr ""
+
+#: ../engine_features.rst:45
+msgid "**MATERIALS**"
+msgstr ""
+
+#: ../engine_features.rst:47
+msgid ""
+"Powerful and easy-to-use material creation system makes it possible to "
+"create any material you might need, from a simple cartoon-like to an "
+"almost photo-real one."
+msgstr ""
+
+#: ../engine_features.rst:50
+msgid "Some of the features:"
+msgstr ""
+
+#: ../engine_features.rst:52
+msgid "Node Materials"
+msgstr ""
+
+#: ../engine_features.rst:53
+msgid "Parallax Offset Mapping"
+msgstr ""
+
+#: ../engine_features.rst:54
+msgid "Render-To-Texture"
+msgstr ""
+
+#: ../engine_features.rst:55
+msgid "Video Textures"
+msgstr ""
+
+#: ../engine_features.rst:56
+msgid "Full Support for Blender Material Nodes"
+msgstr ""
+
+#: ../engine_features.rst:57
+msgid "Refractions and Reflections"
+msgstr ""
+
+#: ../engine_features.rst:63
+msgid "**ANIMATION**"
+msgstr ""
+
+#: ../engine_features.rst:65
+msgid ""
+"Blend4web supports almost every animation technique available in Blender,"
+" including:"
+msgstr ""
+
+#: ../engine_features.rst:67
+msgid "Skeletal Animation"
+msgstr ""
+
+#: ../engine_features.rst:68
+msgid "Vertex Animation"
+msgstr ""
+
+#: ../engine_features.rst:69
+msgid "Object Animation"
+msgstr ""
+
+#: ../engine_features.rst:70
+msgid "Wind Bending"
+msgstr ""
+
+#: ../engine_features.rst:71
+msgid "Material Animation"
+msgstr ""
+
+#: ../engine_features.rst:72
+msgid "Animation Baking"
+msgstr ""
+
+#: ../engine_features.rst:73
+msgid "Flow Control Using API or Logic Editor"
+msgstr ""
+
+#: ../engine_features.rst:79
+msgid "**PHYSICS**"
+msgstr ""
+
+#: ../engine_features.rst:81
+msgid ""
+"If you are creating a physical simulation or simply want your scene to "
+"behave realistically, then Blend4Web's powerful physics system is at your"
+" service."
+msgstr ""
+
+#: ../engine_features.rst:84
+msgid "Its features include:"
+msgstr ""
+
+#: ../engine_features.rst:86
+msgid "Collisions"
+msgstr ""
+
+#: ../engine_features.rst:87
+msgid "Rigid Body Physics"
+msgstr ""
+
+#: ../engine_features.rst:88
+msgid "Joint System"
+msgstr ""
+
+#: ../engine_features.rst:89
+msgid "Ray Casting"
+msgstr ""
+
+#: ../engine_features.rst:90
+msgid "Floating Objects"
+msgstr ""
+
+#: ../engine_features.rst:91
+msgid "Vehicles"
+msgstr ""
+
+#: ../engine_features.rst:97
+msgid "**SOUND**"
+msgstr ""
+
+#: ../engine_features.rst:99
+msgid ""
+"Sound is important in making scenes and applications feel more responsve "
+"to user's actions and generally more alive."
+msgstr ""
+
+#: ../engine_features.rst:102
+msgid ""
+"Here are some of the means that Blend4Web offers you to control how your "
+"creations will sound:"
+msgstr ""
+
+#: ../engine_features.rst:105
+msgid "Flexible Playback Control"
+msgstr ""
+
+#: ../engine_features.rst:106
+msgid "3D Positioning"
+msgstr ""
+
+#: ../engine_features.rst:107
+msgid "Doppler Effect"
+msgstr ""
+
+#: ../engine_features.rst:108
+msgid "Dynamic Compressor"
+msgstr ""
+
+#: ../engine_features.rst:109
+msgid "Cross-fade Sound Animation"
+msgstr ""
+
+#: ../engine_features.rst:110
+msgid "Real-Time Mixing"
+msgstr ""
+
+#: ../engine_features.rst:116
+msgid "**LOGIC EDITOR**"
+msgstr ""
+
+#: ../engine_features.rst:118
+msgid ""
+"Using this visual editor, you can create logic node trees to control the "
+"behavior of your scenes and to add interactivity without writing single "
+"line of code!"
+msgstr ""
+
+#: ../engine_features.rst:121
+msgid "Logic Node Editor features:"
+msgstr ""
+
+#: ../engine_features.rst:123
+msgid "Object Picking"
+msgstr ""
+
+#: ../engine_features.rst:124
+msgid "Animation Control"
+msgstr ""
+
+#: ../engine_features.rst:125
+msgid "Variables and Computations"
+msgstr ""
+
+#: ../engine_features.rst:126
+msgid "Server Data Exchange"
+msgstr ""
+
+#: ../engine_features.rst:132
+msgid "**SCRIPTING**"
+msgstr ""
+
+#: ../engine_features.rst:134
+msgid ""
+"Blend4Web uses JavaScript scenarios to control every aspect of an "
+"application."
+msgstr ""
+
+#: ../engine_features.rst:136
+msgid "Some Blend4Web's JavaScript API features include:"
+msgstr ""
+
+#: ../engine_features.rst:138
+msgid "Module Structure"
+msgstr ""
+
+#: ../engine_features.rst:139
+msgid "Event-Driven Model"
+msgstr ""
+
+#: ../engine_features.rst:140
+msgid "GLSL Shaders"
+msgstr ""
+
+#: ../engine_features.rst:141
+msgid "Code Minification and Obfuscation"
+msgstr ""
+
+#: ../engine_features.rst:3
+msgid "engine features"
+msgstr ""
+
+#~ msgid "|pic01|"
+#~ msgstr ""
+

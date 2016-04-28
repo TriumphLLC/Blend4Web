@@ -10,6 +10,78 @@ Addon
     :depth: 3
     :backlinks: entry
 
+.. _local_development_server:
+
+Local Development Server
+------------------------
+
+Settings for the local development server can be found in :file:`File > User Preferences...` (hot keys :file:`Ctrl-Alt-U`). Here you can change the port number to be used to run the development server (6687 by default), and also enable its launching upon Blender startup. To do this, enable ``Run on Startup`` option in the add-on settings.
+
+.. image:: src_images/setup/server_setup.png
+   :align: center
+   :width: 100%
+
+|
+
+After changing local development server settings in it required to restart Blender.
+
+It is possible for the local server to process external requests. To do that enable the option ``Enable External Requests``.
+
+If you chose not to start the server automatically, you can always do it manually: go to the ``Render`` tab and press the ``Start Server`` button on the ``Development Server`` panel:
+
+.. image:: src_images/setup/server_start.png
+   :align: center
+   :width: 100%
+
+|
+
+.. note::
+
+    If the path to the Blend4Web SDK is not specified, the local development server cannot be launched. In this case the corresponding message will be displayed instead of the ``Start Server`` button.
+
+    If the server is failed to run, an error message will be shown describing the reason:
+
+    .. image:: src_images/setup/error.png
+       :align: center
+
+    This error can arise if the server port is already used by some other application.
+
+Press the ``SDK Index`` button to open the index web page of the Blend4Web SDK in the browser. This page is available at http://localhost:6687.
+
+.. image:: src_images/setup/server_open.png
+   :align: center
+   :width: 100%
+
+|
+
+As a result, the default browser for your operating system will be launched.
+
+The ``Project Manager`` button can be used to open :ref:`project manager <project_management>`.
+
+The ``Fast Preview`` button loads the scene that is currently open in Blender, into the :ref:`viewer <viewer>`.
+
+The server can be stopped by pressing the ``Stop Server`` button. It also stops when Blender is closed.
+
+
+.. index:: viewer; launch
+
+.. _getting_started_launching_viewer:
+
+Running Viewer and Demos
+------------------------
+
+The index page contains links for launching the scene viewer and the demo applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is required to run these apps.
+
+.. image:: src_images/setup/setup_sdk_index.png
+   :align: center
+   :width: 100%
+
+|
+
+.. note::
+
+   If the SDK apps are not displayed correctly, or error messages are shown, follow the instructions in the :ref:`renderer_not_working` section.
+
 .. _export_formats:
 
 Export Formats
@@ -74,7 +146,7 @@ Export Options
 |
 
 *Export Converted Media*
-    This option is available for HTML export. When this option is enabled, the converted mediafiles of different formats are written in the HTML file. Using different mediafiles is essential to create cross-browser and cross-platform applications while using HTML export. These files can be created by the :ref:`converter <converter>`.
+    This option is available for HTML export. When this option is enabled, the converted media files of different formats are written in the HTML file. Using different media files is essential to create cross-browser and cross-platform applications while using HTML export. These files can be created by the :ref:`converter <converter>`.
 
 .. image:: src_images/addon/addon_media_data.png
    :align: center
@@ -89,7 +161,7 @@ Export Options
 
     When using the :ref:`local development server <local_development_server>`, there is a possibility to open the exported ``.json`` scene in the Scene Viewer. To do this, select any path inside the Blend4Web SDK file structure upon export.
     
-    A directory inside the SDK should be used for export. If not, this option will not be displayed in the menu. Also it will not be displayed if the local development server is down.
+    A directory inside the SDK should be used for export. If not, this option will not be displayed in the menu. Also, it will not be displayed if the local development server is down.
 
 .. image:: src_images/addon/addon_run_in_viewer.png
    :align: center
@@ -134,7 +206,7 @@ Initialization errors can arise upon installation of the add-on or when a scene 
 Compatibility Errors
 ====================
 
-Compatibility errors may arize when trying to view a scene in a browser, in the following cases: if version of the add-on used to export the scene differs from version of the Blend4Web engine which tries to load the scene, or if .bin file does not correspond to the .json file.
+Compatibility errors may arise when trying to view a scene in a browser, in the following cases: if version of the add-on used to export the scene differs from version of the Blend4Web engine which tries to load the scene, or if .bin file does not correspond to the .json file.
 
 
 
@@ -210,7 +282,7 @@ In case of export errors a ``BLEND4WEB EXPORT ERROR`` dialog box describing of t
 
     ``NAME`` - component name.
 
-    ``ERROR`` - short description of the occured problem.
+    ``ERROR`` - short description of the occurred problem.
 
 .. image:: src_images/addon/addon_error_message.png
    :align: center
@@ -393,7 +465,7 @@ In contrast to the above-listed critical export errors, these errors do not proh
 +-------------------------------------+-------------------------------------------+
 | Ignoring LODs after empty LOD for   | All LOD objects that follow the empty     |
 | the NAME object.                    | slot were ignored (in the LOD objects     | 
-|                                     | list forthe NAME object).                 |
+|                                     | list for the NAME object).                |
 +-------------------------------------+-------------------------------------------+
 | Incomplete mesh NAME; Dynamic grass | The ``Dynamic grass size`` and/or         |
 | vertex colors required              | ``Dynamic grass color`` options are used  |
@@ -449,7 +521,7 @@ In contrast to the above-listed critical export errors, these errors do not proh
 |                                     | this file and convert it.                 |
 +-------------------------------------+-------------------------------------------+
 | Particle system error for \"NAME\"; | The NAME vertex color is specified in     |
-| The \"NAME\" vertex color specified | the ``from`` field but it not present     |
+| The \"NAME\" vertex color specified | the ``from`` field but it's not presented |
 | in the ``from`` field is missing in | in the OBJECT_NAME emitter.               |
 | the last of the \"OBJECT_NAME\"     |                                           |
 | object's vertex colors              |                                           |
@@ -507,9 +579,9 @@ In contrast to the above-listed critical export errors, these errors do not proh
 | object. Material: NAME.             | ``LAMP`` node.                            |
 +-------------------------------------+-------------------------------------------+
 | The NAME node is not supported.     | The engine does not support the node with |
-| The NAME material will be rendered  | the this name, and so the node material   |
-| without nodes. Material: NAME.      | will be turned off. Often this happens    |
-|                                     | when Cycles nodes are used.               |
+| The NAME material will be rendered  | this name, and so the node material will  |
+| without nodes. Material: NAME.      | be turned off. Often this happens when    |
+|                                     | Cycles nodes are used.                    |
 +-------------------------------------+-------------------------------------------+
 | The NAME object has NAME armature   | An object should be in the same group as  |
 | modifier which references the wrong | an armature, or both these objects should |

@@ -29,7 +29,6 @@
  */
 b4w.module["debug"] = function(exports, require) {
 
-var m_batch    = require("__batch");
 var m_cfg      = require("__config");
 var m_ctl      = require("__controls");
 var m_cont     = require("__container");
@@ -367,10 +366,13 @@ exports.num_draw_calls = function() {
     }
 
     var reflect_subs = m_scenes.subs_array(scene, ["MAIN_PLANE_REFLECT",
-                                                   "MAIN_CUBE_REFLECT"]);
+                                                   "MAIN_PLANE_REFLECT_BLEND",
+                                                   "MAIN_CUBE_REFLECT",
+                                                   "MAIN_CUBE_REFLECT_BLEND"]);
     for (var i = 0; i < reflect_subs.length; i++) {
         var subs = reflect_subs[i];
-        if (subs.type == "MAIN_PLANE_REFLECT")
+        if (subs.type == "MAIN_PLANE_REFLECT" ||
+                    subs.type == "MAIN_PLANE_REFLECT_BLEND")
             number += subs.bundles.length;
         else
             number += 6 * subs.bundles.length;

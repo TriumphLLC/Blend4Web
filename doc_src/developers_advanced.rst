@@ -27,7 +27,7 @@ The `K&R style <http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style>`_ i
         // ...
     } 
 
-4 spaces are used for identation (no tabs allowed).
+4 spaces are used for indentation (no tabs allowed).
 
 Examples
 --------
@@ -210,7 +210,7 @@ When creating new functions and variables it is recommended to use the following
     add/remove a temporary object property
 
 *append_/remove_*
-    add/remove a temporary property to the already existing properies of the same kind
+    add/remove a temporary property to the already existing properties of the same kind
 
 *insert_/pop_*
     add/remove an array element (accessed by index)
@@ -239,7 +239,7 @@ Debugging
 
 Engine debugging is performed with the ``debug.js`` module methods.
 
-The structure of the current render graph can be saved in the DOT format using the ``b4w.debug.scenegraph_to_dot()`` call, for example, in the browser console. After calling this method save the console's output into the file with the .gv extension. To get the graph in a visual form the `graphviz <http://www.graphviz.org/>`_ utilities are required. Converting to the SVG format is performed using the command:
+The structure of the current render graph can be saved in the DOT format using the ``b4w.debug.scenegraph_to_dot()`` call, for example, in the browser console. After calling this method, save the console's output into the file with the .gv extension. To get the graph in a visual form the `graphviz <http://www.graphviz.org/>`_ utilities are required. Converting to the SVG format is performed using the command:
 
 .. code-block:: bash
 
@@ -255,13 +255,13 @@ where ``graph.gv`` is the name of the file with the saved graph.
 Shader Compilation
 ==================
 
-All shaders used in the engine are processed by a compilator. The compilator performs the following three main procedures:
+All shaders used in the engine are processed by a compiler. The compiler performs the following three main procedures:
 
 * validation of the shader code,
 * its obfuscation and
 * optimization.
 
-In order to run the compilator, execute one of the following commands in the SDK root:
+In order to run the compiler, execute one of the following commands in the SDK root:
 
 .. code-block:: bash
 
@@ -286,12 +286,12 @@ The location of the main files in the repository:
 Validation
 ----------
 
-The compilator performs the following procedures related to shader code validation:
+The compiler performs the following procedures related to shader code validation:
 
 * reporting about unused variables and functions (dead code),
 * checking the syntax of shaders,
 * checking the conformance of shaders to the import/export mechanism,
-* removing odd or repeatitive tokens: spaces, endlines and semicolons.
+* removing odd or repetitive tokens: spaces, endlines and semicolons.
 
 
 .. index:: compiling shaders; obfuscation
@@ -299,9 +299,9 @@ The compilator performs the following procedures related to shader code validati
 Obfuscation
 -----------
 
-Obfuscation minifies the GLSL code and makes it diffucult to understand it. So far the following procedure is implemented:
+Obfuscation minifies the GLSL code and makes it difficult to understand it. So far the following procedure is implemented:
 
-* replacing the user-defined identifiers with shorter single-symboled, two-symboled etc names (with support of the import/export mechanism).
+* replacing the user-defined identifiers with shorter single-symbol, two-symbol etc. names (with support of the import/export mechanism).
 
 
 .. index:: compiling shaders; optimization
@@ -377,7 +377,7 @@ The ``#import`` directive defines a set of ids which are declared outside the in
 
 The ``#export`` directive defines a set of ids which can be accessed from outside this file. Such ids must necessarily be declared in this file.
 
-Therefore the shader which uses the include file must have all the declarations necessary for import before the place of linking, and can use the exported ids after it.
+Therefore, the shader which uses the include file must have all the declarations necessary for import before the place of linking, and can use the exported ids after it.
 
 Ids can be both variable names and function names. If there are no import/export directives it's considered by default that the include file does not use external declarations and does not allow the using of internal ones.
 
@@ -388,16 +388,16 @@ Ids can be both variable names and function names. If there are no import/export
 Recommendations and Limitations
 -------------------------------
 
-Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compilator's features - its possible to garantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:
+Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compiler's features - its possible to guarantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:
 
-1. In order to describe constants which are defined by the engine at run, it's neccessary to use the ``#var`` special directive. For example:
+1. In order to describe constants which are defined by the engine at run, it's necessary to use the ``#var`` special directive. For example:
 
 .. code-block:: glsl
 
     #var AU_QUALIFIER uniform
     AU_QUALIFIER float a;
 
-The syntax here is similar to the #define directive. The point of the #var directive is that the value which it defines allows to parse the initial shader. It's irrelevant what exactly it will be (e.g. 'uniform' or 'attribute' in the above example), because at this level it's unknown anyway. Nevertheless it's better to specify a more or less suitable description and not something arbitrary.
+The syntax here is similar to the #define directive. The point of the #var directive is that the value which it defines allows to parse the initial shader. It's irrelevant what exactly it will be (e.g. 'uniform' or 'attribute' in the above example), because at this level it's unknown anyway. Nevertheless, it's better to specify a more or less suitable description and not something arbitrary.
 
 .. note::
 
@@ -417,7 +417,7 @@ For example:
     a *EQUAL b;
     ...
 
-6. The usage of the #include directive should not lead to ambiguity during the obfuscation of the include file. This can happen when multiple shaders are included into the same file and the above defined directives (like #var or #define) can have influence on any of them. Also it's better not to use undeclared functions and variables in the include file.
+6. The usage of the #include directive should not lead to ambiguity during the obfuscation of the include file. This can happen when multiple shaders are included into the same file and the above defined directives (like #var or #define) can have influence on any of them. Also, it's better not to use undeclared functions and variables in the include file.
 
 7. Multi-level includes or multiple inclusion of the same include into the same shader is not supported.
 8. The shader's malfunction can also be caused by nontrivial using of preprocessing, for example, creating an invalid GLSL code:
@@ -443,7 +443,7 @@ For example:
 WebGL Extensions
 ----------------
 
-Compilation may depend on WebGL extensions being used if they somehow influence the shading language. At the moment the following extensions are supported by the compilator:
+Compilation may depend on WebGL extensions being used if they somehow influence the shading language. At the moment the following extensions are supported by the compiler:
 
     * OES_standard_derivatives
 
@@ -453,26 +453,9 @@ Compilation may depend on WebGL extensions being used if they somehow influence 
 Compilation Errors
 ------------------
 
-In case of an error the compilator will output the corresponding message in the console.
+In case of an error the compiler will output the corresponding message in the console.
 
 Table of possible errors:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 +-------------------------------------+-------------------------------------------+
 | Error message                       | Cause                                     |

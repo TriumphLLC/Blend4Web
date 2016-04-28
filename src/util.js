@@ -1483,13 +1483,25 @@ function hash_code(a, init_val) {
         return hash_code_number(0, hash);
     case "object":
         if (a) {
-            var is_arr = a instanceof Array;
+            // NOTE: some additional props could be added to GL-type objs
+            // so don't build hash code for them
+            switch (a.constructor) {
+            case WebGLUniformLocation:
+            case WebGLProgram:
+            case WebGLShader:
+            case WebGLFramebuffer:
+            case WebGLTexture:
+            case WebGLBuffer:
+                return hash_code_number(0, hash);
+            }
+
             var is_typed_arr = a.buffer instanceof ArrayBuffer
                     && a.byteLength !== "undefined";
+
             if (is_typed_arr)
                 for (var i = 0; i < a.length; i++)
                     hash = hash_code_number(a[i], hash);
-            else if (is_arr)
+            else if (a instanceof Array)
                 for (var i = 0; i < a.length; i++)
                     hash = hash_code(a[i], hash);
             else
@@ -1497,9 +1509,7 @@ function hash_code(a, init_val) {
                     hash = hash_code(a[prop], hash);
         } else
             hash = hash_code_number(0, hash);
-        return hash;
     }
-
     return hash;
 }
 
@@ -2141,12 +2151,15 @@ function objs_is_equal(a, b) {
     if (a && b) {
         // array checking
         var a_is_arr = a instanceof Array;
+        var b_is_arr = b instanceof Array;
+        if (a_is_arr != b_is_arr)
+            return false;
+
         var a_is_typed_arr = a.buffer instanceof ArrayBuffer
                 && a.byteLength !== "undefined";
-        var b_is_arr = b instanceof Array;
         var b_is_typed_arr = b.buffer instanceof ArrayBuffer
                 && b.byteLength !== "undefined";
-        if (a_is_arr != b_is_arr || a_is_typed_arr != b_is_typed_arr)
+        if (a_is_typed_arr != b_is_typed_arr)
             return false;
 
         if (a_is_arr) {
@@ -2162,9 +2175,22 @@ function objs_is_equal(a, b) {
                 if (a[i] != b[i])
                     return false;
         } else {
-            for (var prop in a)
+            // NOTE: some additional props could be added to GL-type objs
+            // so don't iterate over their props
+            switch (a.constructor) {
+            case WebGLUniformLocation:
+            case WebGLProgram:
+            case WebGLShader:
+            case WebGLFramebuffer:
+            case WebGLTexture:
+            case WebGLBuffer:
+                return a == b;
+            }
+
+            for (var prop in a) {
                 if (!vars_is_equal(a[prop], b[prop]))
                     return false;
+            }
             for (var prop in b)
                 if (!(prop in a))
                     return false;

@@ -26,37 +26,7 @@
 
   * 显卡和驱动程序
 
-* 功能
-
-  * 通用
-
-  * 纹理
-
-  * 材质
-
-  * 照明
-
-  * 阴影
-
-  * 粒子系统
-
-  * 额外场景渲染
-
-  * 后处理效果
-
-  * 动画
-
-  * 优化
-
-  * 音频
-
-  * 物理
-
-  * 事件驱动模型
-
-  * 可视化编程
-
-  * 其他
+* Engine Features
 
 * 安装和更新
 
@@ -110,21 +80,13 @@
 
 * 插件
 
-  * 输出格式
+  * Local Development Server
 
-  * 导出选项
+  * Running Viewer and Demos
 
-  * 初始化错误
+  * JSON
 
-  * 兼容性错误
-
-  * 关键导出错误
-
-  * 非致命导出的错误
-
-  * 其他消息
-
-  * 插件翻译
+  * HTML
 
 * 场景设置
 
@@ -134,35 +96,35 @@
 
   * 世界环境面板
 
-* Objects
+* 物体
 
-  * Types
+  * 类型
 
-  * Static and Dynamic Objects
+  * 静态和动态物体
 
-  * Settings
+  * 设置
 
-  * Object Transform API
+  * 物体变换API
 
-  * Get object API
+  * 获取物体API
 
-  * Quaternions
+  * 四元数
 
-  * Differences Between Coordinate Systems of Blender and Blend4Web
+  * Blender和Blend4Web的坐标系之间的差异
 
-  * Moving via TSR Vectors
+  * 通过TSR矢量移动
 
-* Meshes
+* 网格
 
-  * Static and Dynamic Objects
+  * 静态和动态物体
 
-  * Settings
+  * 设置
 
-  * Copying Objects (Instancing)
+  * 复制物体（实例化）
 
-  * Object Selection
+  * 物体选择
 
-  * Morphing
+  * 变形
 
 * Camera
 
@@ -172,27 +134,27 @@
 
   * Camera Controls API
 
-* Materials
+* 材质
 
-  * Lighting Parameters
+  * 灯光参数
 
-  * Transparency
+  * 透明
 
-  * Reflection
+  * 反射
 
-  * Rendering Properties
+  * 渲染属性
 
-  * Viewport Properties
+  * 视图属性
 
-  * Engine Specific Parameters
+  * 引擎特定参数
 
-  * Halo Materials
+  * 光晕材质
 
-* Node Materials
+* 节点材质
 
-  * Standard Nodes
+  * 标准节点
 
-  * Engine Specific Nodes
+  * 游戏引擎特定节点
 
 * Logic Nodes
 
@@ -214,6 +176,8 @@
 
   * Debug
 
+  * Deprecated
+
   * Layout
 
   * Debugging
@@ -232,23 +196,23 @@
 
   * Background
 
-* Postprocessing Effects
+* 后期处理效果
 
-  * Motion Blur
+  * 运动模糊
 
-  * Depth of Field
+  * 景深
 
-  * Screen-Space Ambient Occlusion
+  * 屏幕空间环境光遮蔽
 
-  * God Rays
+  * 上帝光芒
 
-  * Bloom
+  * 泛光效果
 
-  * Outlining
+  * 物体外轮廓
 
-  * Glow
+  * 晕光
 
-  * Anti-Aliasing
+  * 抗锯齿
 
 * 立体渲染
 
@@ -256,31 +220,31 @@
 
   * 附加设置
 
-* Textures
+* 纹理
 
-  * Texture Types
+  * 纹理类型
 
-  * Generic Settings
+  * 通用设置
 
-  * Diffuse Map
+  * 漫射贴图
 
-  * Specular Map
+  * 高光贴图
 
-  * Normal Map
+  * 法线贴图
 
-  * Height Map. Parallax Mapping
+  * 高度图。视差贴图
 
-  * Stencil Map
+  * 蒙版贴图
 
-  * Video Textures
+  * 视频贴图
 
-  * Environment Map
+  * 环境贴图
 
-  * Mirror Map
+  * 镜面贴图
 
-  * Skydome
+  * 天穹
 
-  * Special Texture Types
+  * 特殊的纹理类型
 
 * Particle System. Fluids
 
@@ -298,23 +262,23 @@
 
   * Tree Leaves
 
-* Animation
+* 动画
 
-  * Animation Control
+  * 动画控制
 
-  * Object Animation
+  * 物体动画
 
-  * Skinning and Skeletal Animation
+  * 蒙皮和骨骼动画
 
-  * Vertex Animation
+  * 顶点动画
 
-  * Default Animation
+  * 默认动画
 
-  * Non-Linear Animation
+  * 非线性动画
 
-  * Audio Source Parametrization
+  * 音频源参数
 
-  * Animation of Value and RGB Nodes
+  * 值和 RGB 节点的动画
 
 * Outdoor Effects
 
@@ -324,19 +288,19 @@
 
   * Wind
 
-* Color Management
+* 色彩管理
 
-  * Gamma Overview
+  * Gamma概述
 
-  * Human Vision and Monitors
+  * 人类视觉和显示器
 
-  * Gamma Formula
+  * 伽玛公式
 
-  * Gamma in Node Materials
+  * 伽马在节点材质中
 
-  * Alpha Compositing
+  * alpha合成
 
-  * Color Correction
+  * 色彩校正
 
 * 音频
 
@@ -402,29 +366,29 @@
 
   * Updating Add-on Translations
 
-* Team Work. Using Git
+* 团队工作。使用 Git
 
-  * Overview
+  * 概述
 
-  * Typical Workflow
+  * 典型的工作流
 
-  * Individual Settings
+  * 单独设置
 
-  * Checking the Status
+  * 检查状态
 
-  * Before the Commit
+  * 在提交前
 
-  * Preparing for Commit
+  * 准备提交
 
-  * Commit
+  * 提交
 
-  * Syncing Between Repositories
+  * 存储库之间同步
 
-  * Resolving Conflicts
+  * 解决冲突
 
-  * Tags
+  * 标签
 
-  * Other Useful Commands
+  * 其他有用的命令
 
 * 存在的问题及解决方案
 
@@ -435,6 +399,8 @@
   * 已知问题
 
 * Release Notes
+
+  * v16.04
 
   * v16.03
 

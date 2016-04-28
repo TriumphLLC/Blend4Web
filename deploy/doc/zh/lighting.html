@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lighting, Shadows and Background &mdash; Blend4Web 16.03 用户手册</title>
+  <title>Lighting, Shadows and Background &mdash; Blend4Web 16.04 用户手册</title>
   
 
   
@@ -32,8 +32,8 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
-        <link rel="next" title="Postprocessing Effects" href="postprocessing_effects.html"/>
+    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
+        <link rel="next" title="后期处理效果" href="postprocessing_effects.html"/>
         <link rel="prev" title="Logic Nodes" href="logic_editor.html"/> 
 
   
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.03
+              v16.04
             </div>
           
         
@@ -84,7 +84,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
@@ -92,11 +92,11 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
-<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Lighting, Shadows and Background</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#shading-types">Shading Types</a></li>
@@ -137,19 +137,19 @@
 <li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
@@ -279,7 +279,7 @@
 <li>native Blender storage is used as a container for edited vertices normals directions (it appeared in Blender 2.74);</li>
 <li>normals editing and shading visualization are processed in <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code> now;</li>
 <li>all changes are being saved automatically;</li>
-<li>selected vertex normal rotation can be performed directly in the Viewport window with <code class="docutils literal"><span class="pre">Shift+Ctrl+R</span></code> hotkey, similary to other rotation operations in Blender;</li>
+<li>selected vertex normal rotation can be performed directly in the Viewport window with <code class="docutils literal"><span class="pre">Shift+Ctrl+R</span></code> hotkey, similarly to other rotation operations in Blender;</li>
 <li>edited normals are being exported automatically.</li>
 </ol>
 </div>
@@ -406,7 +406,7 @@
 <dd>Cone angle in degrees. It is applicable to the <code class="docutils literal"><span class="pre">Spot</span></code> light source type. The default value is 45º.</dd>
 <dt><em>Spot Shape &gt; Blend</em></dt>
 <dd>Parameter for blurring light spot edges. It is applicable to the <code class="docutils literal"><span class="pre">Spot</span></code> light source type. The default value is 0.15.</dd>
-<dt><em>Dynamic Intesity</em></dt>
+<dt><em>Dynamic Intensity</em></dt>
 <dd>Use this light source for calculating the time of day. Applicable only to the <code class="docutils literal"><span class="pre">Sun</span></code> light source type. Disabled by default.</dd>
 <dt><em>Shadow &gt; Shadow</em></dt>
 <dd>Use this light source for shadow calculation. Should be used when multiple light sources are present. Disabled by default.</dd>
@@ -432,9 +432,9 @@
 <dt><em>World &gt; Environment Lighting &gt; Energy</em></dt>
 <dd>Environment lighting intensity. The default value is 1.0.</dd>
 <dt><em>World &gt; Environment Lighting &gt; Environment Color</em></dt>
-<dd>Selection of the environment lighting simulation method: <code class="docutils literal"><span class="pre">White</span></code> - flat white lighting, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - hemisperical model, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - lighting using an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a>. The default value is <code class="docutils literal"><span class="pre">White</span></code>.</dd>
+<dd>Selection of the environment lighting simulation method: <code class="docutils literal"><span class="pre">White</span></code> - flat white lighting, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - hemispherical model, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - lighting using an <a class="reference internal" href="textures.html#environment-map"><span>environment map</span></a>. The default value is <code class="docutils literal"><span class="pre">White</span></code>.</dd>
 <dt><em>World &gt; Horizon Color</em> and <em>World &gt; Zenith Color</em></dt>
-<dd>If the hemisperical model (<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>) is selected the horizon and zenith colors can be specified by means of the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> and <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> color pickers. It is recommended to activate the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code> option for better color selection.</dd>
+<dd>If the hemispherical model (<code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>) is selected the horizon and zenith colors can be specified by means of the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> and <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> color pickers. It is recommended to activate the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code> option for better color selection.</dd>
 </dl>
 </div>
 <div class="section" id="environment-map-method">
@@ -493,7 +493,7 @@
 <dt><em>Self-Shadow Normal Offset</em></dt>
 <dd>Coefficient for shifting polygons along their normals. The default value is 0.010.</dd>
 </dl>
-<p>The last two parameters can be used to reduce self-shadowing artifacts. These artifacts appear for the objects that cast and receive shadows at the same time. The <code class="docutils literal"><span class="pre">Self-Shadow</span> <span class="pre">Polygon</span> <span class="pre">Offset</span></code> parameter is more effective for fighting against artifacts in inner areas of poligons while <code class="docutils literal"><span class="pre">Self-Shadow</span> <span class="pre">Normal</span> <span class="pre">Offset</span></code> is better for the boundary areas. Both these parameters lead to shadow distortions so we recommend to set them as low as possible.</p>
+<p>The last two parameters can be used to reduce self-shadowing artifacts. These artifacts appear for the objects that cast and receive shadows at the same time. The <code class="docutils literal"><span class="pre">Self-Shadow</span> <span class="pre">Polygon</span> <span class="pre">Offset</span></code> parameter is more effective for fighting against artifacts in inner areas of polygons while <code class="docutils literal"><span class="pre">Self-Shadow</span> <span class="pre">Normal</span> <span class="pre">Offset</span></code> is better for the boundary areas. Both these parameters lead to shadow distortions so we recommend to set them as low as possible.</p>
 <a class="reference internal image-reference" href="_images/self_shadow_artifacts.png"><img alt="_images/self_shadow_artifacts.png" class="align-center" src="_images/self_shadow_artifacts.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -519,10 +519,10 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Softened shadows can improve visual quality and realism. They hide the jugged edges inevitable when using image-based techniques, that is especially noticable for low-resolution shadow maps. The using of softened shadows often allows to decrease resolution without substantial quality loss.</p>
+<p>Softened shadows can improve visual quality and realism. They hide the jugged edges inevitable when using image-based techniques, that is especially noticeable for low-resolution shadow maps. The using of softened shadows often allows to decrease resolution without substantial quality loss.</p>
 <div class="section" id="generic-shadows">
 <h4>Generic shadows<a class="headerlink" href="#generic-shadows" title="永久链接至标题">¶</a></h4>
-<p>This option suits well smaller scenes with a limited number of objects. Thanks to optimizations applied for such scenes, one can achieve better shadow quality as compared with cascaded shadows. Also this option is simpler and faster for setting up, while using a single shadow map greatly improves the performance.</p>
+<p>This option suits well smaller scenes with a limited number of objects. Thanks to optimizations applied for such scenes, one can achieve better shadow quality as compared with cascaded shadows. Also, this option is simpler and faster for setting up, while using a single shadow map greatly improves the performance.</p>
 </div>
 <div class="section" id="shadow-cascades">
 <h4>Shadow cascades<a class="headerlink" href="#shadow-cascades" title="永久链接至标题">¶</a></h4>
@@ -530,7 +530,7 @@
 <p class="first admonition-title">注解</p>
 <p class="last">These settings are supported only for <code class="docutils literal"><span class="pre">Sun</span></code> light sources. Cascades are turned off for other types of light sources.</p>
 </div>
-<p>In order to provide acceptable shadow quality and to cover considerable space at the same time it is required to use multiple stages for shadow generation (cascades). Thus the best quality cascades are situated near the observer while the worst quality cascades are in the distance. This option suits well middle-to-large scenes, e.g. game levels.</p>
+<p>In order to provide acceptable shadow quality and to cover considerable space at the same time it is required to use multiple stages for shadow generation (cascades). Thus, the best quality cascades are situated near the observer while the worst quality cascades are in the distance. This option suits well middle-to-large scenes, e.g. game levels.</p>
 <p>When enabled the following extended settings are revealed:</p>
 <img alt="_images/lighting_cascades.png" class="align-center" src="_images/lighting_cascades.png" />
 <div class="line-block">
@@ -547,7 +547,7 @@
 <p>The sizes of the intermediate cascades are interpolated between the two above-mentioned parameters.</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">When setting up the shadows keep in mind that the bigger the cascade size is, the worse and less detailed are the shadows inside it. On the other hand, reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">First</span> <span class="pre">Cascade</span> <span class="pre">Border</span></code> parameter makes the subsequent less detailed cascades closer to the camera and thus more noticeable. Reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">Last</span> <span class="pre">Cascade</span> <span class="pre">Border</span></code> parameter forces shadows to disappear at more close distance from the camera. However when softened shadows are used the overall quality will improve thanks to blurring at the edges.</p>
+<p class="last">When setting up the shadows keep in mind that the bigger the cascade size is, the worse and less detailed are the shadows inside it. On the other hand, reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">First</span> <span class="pre">Cascade</span> <span class="pre">Border</span></code> parameter makes the subsequent less detailed cascades closer to the camera and thus more noticeable. Reducing the <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">Last</span> <span class="pre">Cascade</span> <span class="pre">Border</span></code> parameter forces shadows to disappear at more close distance from the camera. However, when softened shadows are used the overall quality will improve thanks to blurring at the edges.</p>
 </div>
 <a class="reference internal image-reference" href="_images/csm_cascade_distance.png"><img alt="_images/csm_cascade_distance.png" class="align-center" src="_images/csm_cascade_distance.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -618,7 +618,7 @@
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="colors.html#alpha-compositing"><span>Alpha Compositing</span></a></p>
+<p class="last"><a class="reference internal" href="colors.html#alpha-compositing"><span>alpha合成</span></a></p>
 </div>
 </div></blockquote>
 </li>
@@ -633,7 +633,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="postprocessing_effects.html" class="btn btn-neutral float-right" title="Postprocessing Effects" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="postprocessing_effects.html" class="btn btn-neutral float-right" title="后期处理效果" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="logic_editor.html" class="btn btn-neutral" title="Logic Nodes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -646,7 +646,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-03-31.
+      最后更新于 2016-04-28.
 
     </p>
   </div>
@@ -669,7 +669,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.03',
+            VERSION:'v16.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

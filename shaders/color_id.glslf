@@ -249,8 +249,11 @@ void main(void) {
     float alpha = u_diffuse_color.a;
 #  endif
 # endif // NODES
+# if ALPHA_CLIP
     if (alpha < 0.5)
         discard;
+    alpha = 1.0;
+# endif
 #endif
 
 #if USE_OUTLINE

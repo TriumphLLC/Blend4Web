@@ -29,9 +29,6 @@ var m_bounds    = require("__boundings");
 var m_cam       = require("__camera");
 var m_cons      = require("__constraints");
 var m_lights    = require("__lights");
-var m_mat3      = require("__mat3");
-var m_mat4      = require("__mat4");
-var m_particles = require("__particles");
 var m_quat      = require("__quat");
 var m_scs       = require("__scenes");
 var m_sfx       = require("__sfx");
@@ -318,6 +315,10 @@ function update_transform(obj) {
     case "SPEAKER":
         m_sfx.speaker_update_transform(obj, _elapsed);
         break;
+    case "CAMERA":
+        for (var i = 0; i < scenes_data.length; i++)
+            m_cam.update_camera_transform(obj, scenes_data[i]);
+        break;
     case "MESH":
         var armobj = obj.armobj;
         if (armobj) {
@@ -328,16 +329,6 @@ function update_transform(obj) {
                      render.arm_rel_trans);
             m_quat.set(_tsr_tmp[4], _tsr_tmp[5], _tsr_tmp[6], _tsr_tmp[7],
                      render.arm_rel_quat);
-        }
-        break;
-    case "CAMERA":
-        m_cam.update_camera_transform(obj);
-        // listener only for active scene camera
-        if (m_scs.check_active()) {
-            var active_scene = m_scs.get_active();
-            if (m_scs.get_camera(active_scene) == obj)
-                m_sfx.listener_update_transform(active_scene, trans, quat,
-                                                _elapsed);
         }
         break;
     case "LAMP":
@@ -362,9 +353,14 @@ function update_transform(obj) {
                     // camera movement only influence csm shadows
                     if (sc_render.shadow_params.enable_csm)
                         m_scs.schedule_shadow_update(scene);
-                    m_scs.update_shadow_billboard_view(obj, sc_render.graph);
+                    var cam_scene_data = m_obj_util.get_scene_data(obj, scene);
+                    var cam_main = cam_scene_data.cameras[0];
+                    m_scs.update_shadow_billboard_view(cam_main, sc_render.graph);
                 }
-                   
+                // listener only for active scene camera
+                if (m_scs.get_active() == scene)
+                    m_sfx.listener_update_transform(scene, trans, quat,
+                                                _elapsed);  
                 break;
             case "MESH":
                 if (render.bb_local && render.bb_world) {

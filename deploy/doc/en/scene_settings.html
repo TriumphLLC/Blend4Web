@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene Settings &mdash; Blend4Web 16.03 User Manual</title>
+  <title>Scene Settings &mdash; Blend4Web 16.04 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.03 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.04 User Manual" href="index.html"/>
         <link rel="next" title="Objects" href="objects.html"/>
         <link rel="prev" title="Addon" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.03
+              v16.04
             </div>
           
         
@@ -84,7 +84,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
@@ -258,7 +258,7 @@
 <dt><em>Refraction</em></dt>
 <dd>Refraction effect settings. Can be set to <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>. Set to <code class="docutils literal"><span class="pre">AUTO</span></code> by default.</dd>
 <dt><em>Quality</em></dt>
-<dd>Quality settings for the reflection effect. Can be set to <code class="docutils literal"><span class="pre">HIGH</span></code> (highest reflection quality), <code class="docutils literal"><span class="pre">MEDIUM</span></code> (medium quality) or to <code class="docutils literal"><span class="pre">LOW</span></code> (lowest quality). Set to <code class="docutils literal"><span class="pre">MEDIUM</span></code> by default.</dd>
+<dd>Quality settings for the reflection effect. Can be set to <code class="docutils literal"><span class="pre">HIGH</span></code> (the highest reflection quality), <code class="docutils literal"><span class="pre">MEDIUM</span></code> (medium quality) or to <code class="docutils literal"><span class="pre">LOW</span></code> (the lowest quality). Set to <code class="docutils literal"><span class="pre">MEDIUM</span></code> by default.</dd>
 </dl>
 </div>
 <div class="section" id="motion-blur">
@@ -273,7 +273,7 @@
 </div>
 <div class="section" id="color-correction">
 <span id="render-color-correction"></span><h3><a class="toc-backref" href="#id9">Color Correction</a><a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h3>
-<p>Color correction settings. Described throughly in <a class="reference internal" href="colors.html#color-correction"><span>its own section</span></a>.</p>
+<p>Color correction settings. Described thoroughly in <a class="reference internal" href="colors.html#color-correction"><span>its own section</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_color_correction.png"><img alt="_images/render_color_correction.png" class="align-center" src="_images/render_color_correction.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="glow-materials">
@@ -308,7 +308,7 @@
 </div>
 <div class="section" id="development-server">
 <span id="render-development-server"></span><h3><a class="toc-backref" href="#id16">Development Server</a><a class="headerlink" href="#development-server" title="Permalink to this headline">¶</a></h3>
-<p>Development Server settings. Described thoroughly in <a class="reference internal" href="setup.html#local-development-server"><span>its own section</span></a>.</p>
+<p>Development Server settings. Described thoroughly in <a class="reference internal" href="addon.html#local-development-server"><span>its own section</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_development_server.png"><img alt="_images/render_development_server.png" class="align-center" src="_images/render_development_server.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="timeline">
@@ -350,16 +350,16 @@
 <dl class="docutils">
 <dt><em>Dynamic Compressor</em></dt>
 <dd>Compress audio signal&#8217;s dynamic range. This feature can be used to make the sound more rich and even. Disabled by default.</dd>
-<dt><em>Treshold</em></dt>
+<dt><em>Threshold</em></dt>
 <dd>If the amplitude of the audio signal exceeds the value specified by this parameter, the compressor will reduce its level. Set to -24 dB by default.</dd>
 <dt><em>Knee</em></dt>
-<dd>The interval below the threshold where the responce curve switches to the decreasing mode. Set to 30 by default.</dd>
+<dd>The interval below the threshold where the response curve switches to the decreasing mode. Set to 30 by default.</dd>
 <dt><em>Ratio</em></dt>
 <dd>Amount of gain reduction. Set to 12 by default.</dd>
 <dt><em>Attack</em></dt>
 <dd>Time (in seconds) that takes the compressor to reduce gain by 10 dB. Set to 0.003 by default.</dd>
 <dt><em>Release</em></dt>
-<dd>Time (in seconds) that takes the compressor to increase gain by 10 dB. Set to 0.25 by defaault.</dd>
+<dd>Time (in seconds) that takes the compressor to increase gain by 10 dB. Set to 0.25 by default.</dd>
 </dl>
 </div>
 <div class="section" id="logic-editor">
@@ -460,7 +460,7 @@
 <dt><em>Render Sky</em></dt>
 <dd>If this parameter is enabled, the engine will render sky in the scene.</dd>
 <dt><em>Paper Sky</em></dt>
-<dd>If this parameter is enabled, sky gradient will always be drawn from the top of the screen to the bottom, regargless of the camera&#8217;s position and angles.</dd>
+<dd>If this parameter is enabled, sky gradient will always be drawn from the top of the screen to the bottom, regardless of the camera&#8217;s position and angles.</dd>
 <dt><em>Blend Sky</em></dt>
 <dd>Smooth transition between the horizon and zenith colors.</dd>
 <dt><em>Real Sky</em></dt>
@@ -490,17 +490,17 @@
 <dt><em>Minimum</em></dt>
 <dd>Minimum intensity of the mist. Set to zero by default.</dd>
 <dt><em>Depth</em></dt>
-<dd>At this distance from the camera the mist effect reaches maximum intesity. Set to 25 by default.</dd>
+<dd>At this distance from the camera the mist effect reaches maximum intensity. Set to 25 by default.</dd>
 <dt><em>Start</em></dt>
 <dd>The mist effect starts to appear at this distance from the camera. Set to 5 by default.</dd>
 <dt><em>Height</em></dt>
-<dd>This parameter specifies how fast mist intensity decreases as the the camera&#8217;s altitude increases. Set to 0 by default.</dd>
+<dd>This parameter specifies how fast mist intensity decreases as the camera&#8217;s altitude increases. Set to 0 by default.</dd>
 <dt><em>Fall Out</em></dt>
 <dd>This parameter specifies the rule, according to which the density of the mist changes between the borders (specified by the <code class="docutils literal"><span class="pre">Start</span></code> and <code class="docutils literal"><span class="pre">Depth</span></code> parameters). Can have one of the following values: <code class="docutils literal"><span class="pre">Quadratic</span></code>, <code class="docutils literal"><span class="pre">Linear</span></code>,  <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Quadratic</span></code>. Set to <code class="docutils literal"><span class="pre">Quadratic</span></code> by default.</dd>
 <dt><em>Use Custom Colors</em></dt>
 <dd>Can be used to set the color of the mist. Enabled by default. If this parameter is disabled, standard (0.5, 0.5, 0.5) color will be used.</dd>
 <dt><em>Fog Color</em></dt>
-<dd>The color of the mist. Can be changed, if the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">custom</span> <span class="pre">colors</span></code> parameter is enabled. Light grey (0.5, 0.5, 0.5) color is used by default.</dd>
+<dd>The color of the mist. Can be changed, if the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">custom</span> <span class="pre">colors</span></code> parameter is enabled. Light gray (0.5, 0.5, 0.5) color is used by default.</dd>
 </dl>
 </div>
 <div class="section" id="procedural-sky">
@@ -541,7 +541,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-03-31.
+      Last updated on 2016-04-28.
 
     </p>
   </div>
@@ -564,7 +564,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.03',
+            VERSION:'v16.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

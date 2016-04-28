@@ -523,9 +523,9 @@ commit, working directory clean".
 Текстовые файлы
 ---------------
 
-At this stage Git introduces both local and remote changes to the
-conflicting text files, in a special format. Such text files are not
-workable as a rule
+На данном этапе в конфликтующие текстовые файлы Git'ом вносятся как
+локальные, так и удаленные изменения одновременно, в особом формате.
+Такие текстовые файлы как правило, не работоспособны.
 
 Пример. Один участник разработки изменил имя сцены с "Blue Lizard" на
 "Green Lizard" в файле приложения и загрузил изменения в центральный

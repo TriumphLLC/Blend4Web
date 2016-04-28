@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Release Notes &mdash; Blend4Web 16.03 用户手册</title>
+  <title>Release Notes &mdash; Blend4Web 16.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
         <link rel="prev" title="存在的问题及解决方案" href="problems_and_solutions.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.03
+              v16.04
             </div>
           
         
@@ -83,7 +83,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
@@ -91,157 +91,163 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
-<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#v16-03">v16.03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-04">v16.04</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#new-features">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changes">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fixes">Fixes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-02">v16.02</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-03">v16.03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">Fixes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v16-02">v16.02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Fixes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#known-issues">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v16-01">v16.01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-12">v15.12</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-11">v15.11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id14">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id17">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-10">v15.10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id19">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id20">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id21">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id22">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-09">v15.09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id24">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id25">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id26">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-08">v15.08</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id28">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id30">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id31">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-07">v15.07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id32">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id33">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id34">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id35">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id35">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id36">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id37">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id38">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-06">v15.06</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id36">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id37">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id38">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id39">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id39">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id40">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id41">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id42">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-05">v15.05</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id41">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id42">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id43">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id44">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id44">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id46">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id47">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-04">v15.04</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id45">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id46">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id47">Fixes</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#v15-03">v15.03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id48">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id49">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id50">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id51">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v15-03">v15.03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id51">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id52">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id53">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id54">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-02">v15.02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id52">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id53">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id54">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id55">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id55">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id56">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id57">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id58">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-01">v15.01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id56">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id57">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id58">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id59">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id59">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id60">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-12">v14.12</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id60">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id61">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id62">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id63">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id64">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id65">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id66">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-11">v14.11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id64">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id65">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id66">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id67">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id67">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id68">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id69">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id70">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-10">v14.10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id68">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id69">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id70">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id71">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id71">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id72">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id73">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id74">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id72">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id73">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id74">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id75">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id75">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id76">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id77">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id78">Known Issues</a></li>
 </ul>
 </li>
 </ul>
@@ -289,10 +295,107 @@
             
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="永久链接至标题">¶</a></h1>
-<div class="section" id="v16-03">
-<span id="index-0"></span><h2>v16.03<a class="headerlink" href="#v16-03" title="永久链接至标题">¶</a></h2>
+<div class="section" id="v16-04">
+<span id="index-0"></span><h2>v16.04<a class="headerlink" href="#v16-04" title="永久链接至标题">¶</a></h2>
 <div class="section" id="new-features">
 <h3>New Features<a class="headerlink" href="#new-features" title="永久链接至标题">¶</a></h3>
+<ul>
+<li><p class="first">Support for gamepads and controllers.</p>
+<p>It&#8217;s possible now to use gamepads and controllers as input devices. New functions have been added to work with these devices. The first one is <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_btns_sensor">create_gamepad_btns_sensor</a>. It handles gamepad buttons. The second one is <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_axes_sensor">create_gamepad_axes_sensor</a>. It handles gamepad axes.</p>
+</li>
+<li><p class="first">Node Logic Editor improvements.</p>
+<blockquote>
+<div><p>Logic node <cite>JS Callback</cite> has been added. It allows to call custom JavaScript callback defined in your B4W application. Input and output parameters are supported for callbacks.</p>
+<p>An option <code class="docutils literal"><span class="pre">Run</span> <span class="pre">From</span> <span class="pre">Script</span></code> has been added to <code class="docutils literal"><span class="pre">Entry</span> <span class="pre">Point</span></code> node.</p>
+<p>Module <a class="reference external" href="https://www.blend4web.com/api_doc/module-logic_nodes.html">logic_nodes</a> has been added to API. It contains methods to control Node Logic Editor.</p>
+<p>Method <a class="reference external" href="https://www.blend4web.com/api_doc/module-logic_nodes.html#.append_custom_callback">append_custom_callback</a> has been added. It allows to register custom JavaScript callbacks to be used in <cite>JS Callback</cite> logic node.</p>
+<p>Method <a class="reference external" href="https://www.blend4web.com/api_doc/module-logic_nodes.html#.remove_custom_callback">remove_custom_callback</a> has been added. It allows to remove registered custom JavaScript callback.</p>
+<p>Method <a class="reference external" href="https://www.blend4web.com/api_doc/module-logic_nodes.html#.run_entrypoint">run_entrypoint</a> has been added. It allows to activate <code class="docutils literal"><span class="pre">Entry</span> <span class="pre">Point</span></code> node from API.</p>
+</div></blockquote>
+</li>
+<li><p class="first">A new function has been added into the <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a> module: <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_hmd_position_sensor">create_hmd_position_sensor</a>.</p>
+<blockquote>
+<div><p>This function allows to create a special sensor, which can track the position of an HMD device.</p>
+</div></blockquote>
+</li>
+<li><p class="first">The options <code class="docutils literal"><span class="pre">Tilt</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Tilt</span> <span class="pre">Random</span></code> are now supported for the <code class="docutils literal"><span class="pre">Emitter</span></code> particle systems.</p>
+</li>
+<li><p class="first">Reflection for transparent objects.</p>
+<blockquote>
+<div><p>Before this release only opaque objects could be reflected. Now, transparent objects are also supported.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Updated math modules.</p>
+<blockquote>
+<div><p>Math modules <a class="reference external" href="https://www.blend4web.com/api_doc/module-vec3.html">vec3</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-vec4.html">vec4</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-quat.html">quat</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-mat3.html">mat3</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-mat4.html">mat4</a> are now based on glMatrix v2.3.1. This new version introduces <a class="reference external" href="https://www.blend4web.com/api_doc/module-vec3.html#.hermite">hermite</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-vec3.html#.bezier">bezier</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-quat.html#.sqlerp">sqlerp</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-mat4.html#.fromRotationTranslationScale">fromRotationTranslationScale</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mat4.html#.fromRotationTranslationScaleOrigin">fromRotationTranslationScaleOrigin</a> methods.</p>
+</div></blockquote>
+</li>
+<li><p class="first">A new flag <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">only</span> <span class="pre">deform</span> <span class="pre">bones</span></code> has been added to the Skeletal Animation Baker.</p>
+<blockquote>
+<div><p>Previously, it was impossible to bake bones without the <code class="docutils literal"><span class="pre">deform</span></code> flag. This feature can be helpful in cases when some object is parented to the non-deforming bone.</p>
+</div></blockquote>
+</li>
+<li><p class="first">New <code class="docutils literal"><span class="pre">GL</span> <span class="pre">Debug</span></code> switch in the Viewer app.</p>
+<blockquote>
+<div><p>Viewer application now has the <code class="docutils literal"><span class="pre">GL</span> <span class="pre">Debug</span></code> switch which allows to disable GL error checking. This increases the performance and can be useful while profiling a scene.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Enable WebGL 2.0 for Firefox browser.</p>
+<blockquote>
+<div><p>It&#8217;s now possible to use experimental WebGL 2.0 context in Firefox browser.</p>
+</div></blockquote>
+</li>
+<li><p class="first">New <code class="docutils literal"><span class="pre">prevent_caching</span></code> engine configuration option.</p>
+<blockquote>
+<div><p>This option enables/disables assets caching.</p>
+</div></blockquote>
+</li>
+<li><p class="first">New physics function has been added.</p>
+<blockquote>
+<div><p><a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.apply_force_world">apply_force_world</a> function applies a constant force to the
+object in the world space.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="changes">
+<h3>Changes<a class="headerlink" href="#changes" title="永久链接至标题">¶</a></h3>
+<ul>
+<li><p class="first">Viewer&#8217;s <code class="docutils literal"><span class="pre">HUD</span> <span class="pre">Info</span></code> now has detailed info on each column.</p>
+</li>
+<li><p class="first">Node Logic Editor changes.</p>
+<blockquote>
+<div><ul class="simple">
+<li>An option to select between <code class="docutils literal"><span class="pre">Number</span></code> and <code class="docutils literal"><span class="pre">String</span></code> operand types has been added to the <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code> node.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">The activation of the VR mode from now automatically changes the camera type to <code class="docutils literal"><span class="pre">EYE</span></code> for better user experience.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="fixes">
+<h3>Fixes<a class="headerlink" href="#fixes" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li>Fixed anchors behavior.</li>
+<li>Fixed a cubemap issue for some old NVIDIA GPUs in Firefox.</li>
+<li>Fixed the bug for particle systems with the &#8220;Length&#8221; vertex group specified when the emitter mesh has the &#8220;Apply Modifers&#8221; option checked.</li>
+<li>Fixed the behavior of the B4W_GLOW_OUTPUT node for transparent materials.</li>
+<li>Fixed grass map for a single flat grass terrain object.</li>
+<li>Refraction vectors for stack and node materials now use correct view normal.</li>
+<li>Fixed God Rays Blender interface tab.</li>
+<li>Viewer Sky parameters updates have been fixed.</li>
+<li>Fixed incorrect stereo (anaglyph and HMD) rendering in specific cases.</li>
+<li>The <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> node bug, which always wrote result to the variable <code class="docutils literal"><span class="pre">R1</span></code>, has been fixed.</li>
+<li>Updating variable&#8217;s scope in Node Logic Editor has been fixed.</li>
+<li>Fixed crash with dynamically loaded scenes while using <code class="docutils literal"><span class="pre">Move</span> <span class="pre">Camera</span></code> logic node.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v16-03">
+<h2>v16.03<a class="headerlink" href="#v16-03" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h3>New Features<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Node Logic Editor improvements.</p>
 <blockquote>
@@ -347,8 +450,8 @@ For more information see API documentation on the <a class="reference external" 
 </li>
 </ul>
 </div>
-<div class="section" id="changes">
-<h3>Changes<a class="headerlink" href="#changes" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id3">
+<h3>Changes<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">API changes.</p>
 <blockquote>
@@ -389,8 +492,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="fixes">
-<h3>Fixes<a class="headerlink" href="#fixes" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id4">
+<h3>Fixes<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Fixed webplayer menu behavior.</li>
 <li>Fixed rare development server crash when the response headers contained a specific date (29Feb).</li>
@@ -403,8 +506,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v16-02">
 <h2>v16.02<a class="headerlink" href="#v16-02" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id2">
-<h3>New Features<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id5">
+<h3>New Features<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Extended support of Emitter type particle systems.</p>
 <blockquote>
@@ -436,14 +539,14 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Improvements in the Web Player HTML and Web Player JSON type projects.</p>
 <blockquote>
-<div><p>Now, during the creation of these projects, you can set the Web Player application parameters such as FPS counter, automatic camera rotation, turining off social network buttons and so on.</p>
+<div><p>Now, during the creation of these projects, you can set the Web Player application parameters such as FPS counter, automatic camera rotation, turning off social network buttons and so on.</p>
 <p>Also, projects of these types can now be created with a <code class="docutils literal"><span class="pre">bundle</span></code> option which means that all application resources will be located in the same directory.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Graphical interface improvements.</p>
 <blockquote>
 <div><p>An option to add and show application icons has been added to make navigation easier and to give users a quick preview of an application in development.</p>
-<p>An option to view project info. By clicking the <code class="docutils literal"><span class="pre">[info]</span></code> link located at theright side of the project name, a list of detailed information regarding the project can be accessed.</p>
+<p>An option to view project info. By clicking the <code class="docutils literal"><span class="pre">[info]</span></code> link located at the right side of the project name, a list of detailed information regarding the project can be accessed.</p>
 <p>For convenience, the type of a project is now indicated by the prefix at the right side of the link: <code class="docutils literal"><span class="pre">player:</span></code> for Web Player HTML or Web Player JSON type projects, <code class="docutils literal"><span class="pre">dev:</span></code> for projects under development and <code class="docutils literal"><span class="pre">build:</span></code> for compiled (obfuscated) version of an application.</p>
 <p>The elements of the Project Manager interface now have pop-up tips.</p>
 </div></blockquote>
@@ -463,7 +566,7 @@ as long as they are dynamic.</p>
 <div><p>An option to set the limits for vertical movement of camera&#8217;s pivot point has been added. This function is also available via the API by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_pivot_limits">target_set_pivot_limits()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_get_pivot_limits">target_get_pivot_limits()</a> methods.</p>
 <p>The new <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_setup">static_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_setup">eye_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup_rel">hover_setup_rel()</a> methods have been added for changing and complete setup of the camera behavior. At the same time, the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_move_style">set_move_style()</a> has been declared deprecated.</p>
 <p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_switch_panning">target_switch_panning()</a> method has been added for controlling camera panning, and the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_view_vector">get_view_vector()</a> method has been added for retrieving the camera&#8217;s line of sight vector.</p>
-<p>The examples of use the camera API are now desribed in the <a class="reference internal" href="camera.html#camera-api-notes"><span>corresponding chapter of the documentation</span></a>. This chapter can also be accessed from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera.js API module documentation</a> page.</p>
+<p>The examples of use the camera API are now described in the <a class="reference internal" href="camera.html#camera-api-notes"><span>corresponding chapter of the documentation</span></a>. This chapter can also be accessed from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera.js API module documentation</a> page.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Node Logic Editor improvements.</p>
@@ -482,8 +585,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>Changes<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id6">
+<h3>Changes<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Generate</span> <span class="pre">Shadows</span></code> light source parameter has been renamed to <code class="docutils literal"><span class="pre">Shadow</span></code> and now also enables shadow rendering in the Blender Viewport.</p>
 </li>
@@ -504,18 +607,18 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Changes in the naming rules for the files of the projects under development.</p>
 <blockquote>
-<div><p>Now, the html files of the projects under development (located in the <em>apps_dev</em> directory) do not include the <em>_dev</em> suffix in their names. To distinguish these projects from the compiled ones, prefixes has been added to the <em>Project Manager</em>.</p>
+<div><p>Now, the HTML files of the projects under development (located in the <em>apps_dev</em> directory) do not include the <em>_dev</em> suffix in their names. To distinguish these projects from the compiled ones, prefixes has been added to the <em>Project Manager</em>.</p>
 </div></blockquote>
 </li>
 <li><p class="first">When you open the SDK main page, presence of the local development server is checked. If it starts from the local file system, an appropriate warning is shown.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>Fixes<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id7">
+<h3>Fixes<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Incorrect behavior of the <code class="docutils literal"><span class="pre">canvas_resolution_factor</span></code> engine parameter on Apple iOS devices has been fixed.</li>
-<li>Engine error that occured in case of absence of the selected object in the <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Object</span></code> and <code class="docutils literal"><span class="pre">Hide</span> <span class="pre">Object</span></code> logic nodes has been fixed.</li>
+<li>Engine error that occurred in case of absence of the selected object in the <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Object</span></code> and <code class="docutils literal"><span class="pre">Hide</span> <span class="pre">Object</span></code> logic nodes has been fixed.</li>
 <li>The incorrect coordinate rounding along the Y- and Z-axis while using variables as parameters in the <code class="docutils literal"><span class="pre">Transform</span> <span class="pre">Object</span></code> logic node has been fixed.</li>
 <li>Node logic blocking in case some nodes are not linked with the <code class="docutils literal"><span class="pre">Entry</span> <span class="pre">Point</span></code> node has been fixed.</li>
 <li>The issue with the rendering of dynamic objects the RTT-scenes has been fixed.</li>
@@ -531,8 +634,8 @@ as long as they are dynamic.</p>
 <li>Now, <code class="docutils literal"><span class="pre">HAIR</span></code> type particle system will not be rendered if the emitter object has the <code class="docutils literal"><span class="pre">Do</span> <span class="pre">Not</span> <span class="pre">Render</span></code> parameter enabled.</li>
 <li>The work of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera_anim.html#.auto_rotate">auto_rotate()</a> method for <code class="docutils literal"><span class="pre">EYE</span></code> type cameras has been fixed.</li>
 <li>The export of <code class="docutils literal"><span class="pre">Hair</span></code> type particles from non-active scenes in Blender has been fixed.</li>
-<li>Runtime libraries for Windows have been added to fix the resource convertion error.</li>
-<li>Shader generation error that occured in case there were more than 10 textures in the material has been fixed.</li>
+<li>Runtime libraries for Windows have been added to fix the resource conversion error.</li>
+<li>Shader generation error that occurred in case there were more than 10 textures in the material has been fixed.</li>
 </ul>
 </div>
 <div class="section" id="known-issues">
@@ -543,8 +646,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v16-01">
 <h2>v16.01<a class="headerlink" href="#v16-01" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id5">
-<h3>New Features<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id8">
+<h3>New Features<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Line rendering.</p>
 <blockquote>
@@ -572,7 +675,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Rendering quality improvements for Head-Mounted Displays (HMD).</p>
 <blockquote>
-<div><p>Means to correct distortion and disable chromatic aberration while using Head-Mounted Displays have been added. Use <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.set_hmd_params">set_hmd_params()</a> function to set up this parameters.</p>
+<div><p>Means to correct distortion and disable chromatic aberration while using Head-Mounted Displays have been added. Use <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.set_hmd_params">set_hmd_params()</a> function to set up these parameters.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Two new sensors have been added to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a> module.</p>
@@ -581,7 +684,7 @@ as long as they are dynamic.</p>
 <p><em>Callback</em> (<a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_callback_sensor">create_callback_sensor()</a> method) is a sensor whose value is defined by a callback function called every frame.</p>
 </div></blockquote>
 </li>
-<li><p class="first">Resource converter utilty improvements.</p>
+<li><p class="first">Resource converter utility improvements.</p>
 <blockquote>
 <div><p>The <cite>&#8211;verbose</cite> and <cite>&#8211;jobs</cite> parameters have been added to the <a class="reference internal" href="developers.html#converter"><span>resource converter utility</span></a> <em>converter.py</em>, which can be used to output detailed information and to set maximum number of the parallel processes during conversion, respectively.</p>
 </div></blockquote>
@@ -597,8 +700,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>Changes<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id9">
+<h3>Changes<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Using cubic reflections has been simplified.</p>
 <blockquote>
@@ -626,7 +729,7 @@ as long as they are dynamic.</p>
 <div><p>The <em>Mass Reexporter</em> tool panel has been removed, as automatic scene reexport function is already present in the <em>Project Manager</em> (<code class="docutils literal"><span class="pre">re-export</span> <span class="pre">scenes</span></code> operation).</p>
 </div></blockquote>
 </li>
-<li><p class="first">Deprecated funcionality.</p>
+<li><p class="first">Deprecated functionality.</p>
 <blockquote>
 <div><p>The following methods: <code class="docutils literal"><span class="pre">mouse.enable_mouse_hover_glow()</span></code>, <code class="docutils literal"><span class="pre">mouse.disable_mouse_hover_glow()</span></code>, <code class="docutils literal"><span class="pre">anim.get_actions()</span></code>, <code class="docutils literal"><span class="pre">anim.get_current_action()</span></code>, <code class="docutils literal"><span class="pre">anim.set_current_frame_float()</span></code>, <code class="docutils literal"><span class="pre">anim.get_current_frame_float()</span></code>, <code class="docutils literal"><span class="pre">anim.get_frame_range()</span></code>, <code class="docutils literal"><span class="pre">anim.cyclic()</span></code>, <code class="docutils literal"><span class="pre">anim.is_cyclic()</span></code>, <code class="docutils literal"><span class="pre">anim.update_object_animation()</span></code>, <code class="docutils literal"><span class="pre">controls.remove_sensor_manifolds()</span></code>, <code class="docutils literal"><span class="pre">main.redraw()</span></code>, <code class="docutils literal"><span class="pre">scenes.set_glow_intensity()</span></code>, <code class="docutils literal"><span class="pre">scenes.get_glow_intensity()</span></code>, <code class="docutils literal"><span class="pre">scenes.apply_glow_anim()</span></code>, <code class="docutils literal"><span class="pre">scenes.apply_glow_anim_def()</span></code>, <code class="docutils literal"><span class="pre">scenes.clear_glow_anim()</span></code>, <code class="docutils literal"><span class="pre">scenes.set_glow_color()</span></code>, <code class="docutils literal"><span class="pre">scenes.get_glow_color()</span></code>, <code class="docutils literal"><span class="pre">sfx.speaker_play()</span></code>, <code class="docutils literal"><span class="pre">sfx.speaker_stop()</span></code>, <code class="docutils literal"><span class="pre">sfx.speaker_playback_rate()</span></code>, <code class="docutils literal"><span class="pre">sfx.get_speakers()</span></code>, <code class="docutils literal"><span class="pre">trans.set_rotation_quat()</span></code>, <code class="docutils literal"><span class="pre">trans.set_rotation_quat_v()</span></code>, <code class="docutils literal"><span class="pre">trans.get_rotation_quat()</span></code> have been removed.</p>
 <p>The <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.set_camera_move_style">set_camera_move_style()</a> method and <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.SPACE_WORLD">SPACE_WORLD</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.SPACE_LOCAL">SPACE_LOCAL</a> constants have been declared deprecated.</p>
@@ -635,8 +738,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>Fixes<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id10">
+<h3>Fixes<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Positioning and flickering of the particle systems with world coordinates have been fixed.</p>
 </li>
@@ -669,12 +772,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>Known Issues<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id11">
+<h3>Known Issues<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first">NVIDIA 331 driver in Linux can cause WebGL errors.</p>
@@ -686,7 +789,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Some devices with Mail GPU require manual WebGL activation in browser settings.</p>
 </li>
-<li><p class="first">For the local developement server to work on Apple OS X and Blender 2.76, you may need to install <a class="reference external" href="https://www.python.org/downloads/release/python-343/">Python 3.4</a>. This is due to a bug in Blender <a class="reference external" href="https://developer.blender.org/T46623">https://developer.blender.org/T46623</a>. This bug has been fixed in Blender 2.76b, so updating it is advised.</p>
+<li><p class="first">For the local development server to work on Apple OS X and Blender 2.76, you may need to install <a class="reference external" href="https://www.python.org/downloads/release/python-343/">Python 3.4</a>. This is due to a bug in Blender <a class="reference external" href="https://developer.blender.org/T46623">https://developer.blender.org/T46623</a>. This bug has been fixed in Blender 2.76b, so updating it is advised.</p>
 </li>
 <li><p class="first">Skeletal animation can work incorrectly while using Nouveau drivers.</p>
 </li>
@@ -695,8 +798,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-12">
 <h2>v15.12<a class="headerlink" href="#v15-12" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id9">
-<h3>New Features<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id12">
+<h3>New Features<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Support for shadows from multiple sources.</p>
 <blockquote>
@@ -705,7 +808,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><a class="reference internal" href="stereo_rendering.html#stereo"><span>Experimental support of the HMD (Head-mounted display).</span></a></p>
 <blockquote>
-<div><p>Experimental support fot the head-mounted displays with the WebVR API has been added. For now, using this technology requires a web browser with WebVR support and an Oculus Rift device. More details in the documentation.</p>
+<div><p>Experimental support for the head-mounted displays with the WebVR API has been added. For now, using this technology requires a web browser with WebVR support and an Oculus Rift device. More details in the documentation.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Aligning objects with the camera in the viewport.</p>
@@ -716,12 +819,12 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">An option to show camera limits in Blender viewport.</p>
 <blockquote>
-<div><p>To make the task of setting camera limits up simplier, the <code class="docutils literal"><span class="pre">Display</span> <span class="pre">limtis</span> <span class="pre">in</span> <span class="pre">viewport</span></code> option has been added to the <code class="docutils literal"><span class="pre">Data</span></code> panel of the camera object. When enabled, it will show the limits right in the Blender viewport. Default settings of the limits has also been changed.</p>
+<div><p>To make the task of setting camera limits up simpler, the <code class="docutils literal"><span class="pre">Display</span> <span class="pre">limits</span> <span class="pre">in</span> <span class="pre">viewport</span></code> option has been added to the <code class="docutils literal"><span class="pre">Data</span></code> panel of the camera object. When enabled, it will show the limits right in the Blender viewport. Default settings of the limits has also been changed.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Anaglyph rendering improvements.</p>
 <blockquote>
-<div><p>New anaglyph rendering algorythm has been implemented. It has better color rendering. Also, plane of convergence of the left and right image for a TARGET type camera will now be calculated automatically based on a point around which the camera is rotated.</p>
+<div><p>New anaglyph rendering algorithm has been implemented. It has better color rendering. Also, plane of convergence of the left and right image for a TARGET type camera will now be calculated automatically based on a point around which the camera is rotated.</p>
 </div></blockquote>
 </li>
 <li><p class="first">New logic editor nodes.</p>
@@ -754,7 +857,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">A new method to initialize media resources for mobile devices has been added.</p>
 <blockquote>
-<div><p>Before, forced canvas block was used as a workaround of the mobile browsers restriction of loading media resources (video and audio), and a user had to click a popup icon to start the application. Now, you can manually initialize media resources by using <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.activate_media">activate_media</a> method. this function can be useful if the application already have elements that require user input, such as Start button, sound mute button and so on.</p>
+<div><p>Before, forced canvas block was used as a workaround of the mobile browsers restriction of loading media resources (video and audio), and a user had to click a popup icon to start the application. Now, you can manually initialize media resources by using <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.activate_media">activate_media</a> method. This function can be useful if the application already have elements that require user input, such as Start button, sound mute button and so on.</p>
 </div></blockquote>
 </li>
 <li><p class="first">New sensor manifold type - <code class="docutils literal"><span class="pre">CT_POSITIVE</span></code></p>
@@ -764,12 +867,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>Changes<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id13">
+<h3>Changes<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button has been duplicated in the UI low panel.</p>
 <blockquote>
-<div><p>This button can be used to preview the scene without switching to the <code class="docutils literal"><span class="pre">Developement</span> <span class="pre">Server</span></code> scene settings panel.</p>
+<div><p>This button can be used to preview the scene without switching to the <code class="docutils literal"><span class="pre">Development</span> <span class="pre">Server</span></code> scene settings panel.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Canvas texture API has been changed.</p>
@@ -784,12 +887,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>Fixes<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id14">
+<h3>Fixes<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Incorrect physics of a copied object has been fixed.</p>
 <blockquote>
-<div><p>Incorrect physics behavior of a copied object (which occured if the object was moved before being added to the scene) has been fixed.</p>
+<div><p>Incorrect physics behavior of a copied object (which occurred if the object was moved before being added to the scene) has been fixed.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Incorrect fog behavior if a water plane was added to the scene has been fixed.</p>
@@ -804,12 +907,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>Known Issues<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id15">
+<h3>Known Issues<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first">NVIDIA 331 driver in Linux can cause WebGL errors.</p>
@@ -826,15 +929,15 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Some devices with Mail GPU require manual WebGL activation in browser settings.</p>
 </li>
-<li><p class="first">For the local developement server to work on Apple OS X and Blender 2.76, you may need to install <a class="reference external" href="https://www.python.org/downloads/release/python-343/">Python 3.4</a>. This is due to a bug in Blender <a class="reference external" href="https://developer.blender.org/T46623">https://developer.blender.org/T46623</a>. This bug has been fixed in Blender 2.76b, so updating it is advised.</p>
+<li><p class="first">For the local development server to work on Apple OS X and Blender 2.76, you may need to install <a class="reference external" href="https://www.python.org/downloads/release/python-343/">Python 3.4</a>. This is due to a bug in Blender <a class="reference external" href="https://developer.blender.org/T46623">https://developer.blender.org/T46623</a>. This bug has been fixed in Blender 2.76b, so updating it is advised.</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="section" id="v15-11">
 <h2>v15.11<a class="headerlink" href="#v15-11" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id14">
-<h3>New Features<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id17">
+<h3>New Features<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Initial support of WebGL 2.0 technology.</p>
 <blockquote>
@@ -874,7 +977,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">MSAA support</p>
 <blockquote>
-<div><p>This antialiasing algorithm is used in systems compatible with WebGL 2.0. For now, it allows highest image quality on the ULTRA settings by using 16x MSAA algorithm.</p>
+<div><p>This antialiasing algorithm is used in systems compatible with WebGL 2.0. For now, it allows the highest image quality on the ULTRA settings by using 16x MSAA algorithm.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Viewer interface improvements.</p>
@@ -898,8 +1001,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>Changes<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id18">
+<h3>Changes<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Cursor</span> <span class="pre">Location</span></code> button has been renamed to <code class="docutils literal"><span class="pre">Look</span> <span class="pre">At</span> <span class="pre">Cursor</span></code>, and its behavior has also been changed.</p>
 <blockquote>
@@ -911,11 +1014,11 @@ as long as they are dynamic.</p>
 <div><p>For compatibility with third-party applications,:b4wref:<cite>transform.set_matrix</cite>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_matrix">get_matrix</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_matrix_rel">set_matrix_rel</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_matrix_rel">get_matrix_rel</a> methods has been added, but for optimization purposes, using <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_tsr">set_tsr</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_tsr">get_tsr</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.set_tsr_rel">set_tsr_rel</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html#.get_tsr_rel">get_tsr_rel</a> methods is recommended.</p>
 <p>Now the <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.hide_object">hide_object</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.show_object">show_object</a> functions will, by default, change the visibility of an object and all its children. To change only the current object&#8217;s visibility, <code class="docutils literal"><span class="pre">ignore_children</span></code> parameter with <code class="docutils literal"><span class="pre">true</span></code> value should be sent.</p>
 <p>The following method has been declared deprecated and will be removed in further releases: <a class="reference external" href="https://www.blend4web.com/api_doc/module-tsr.html#.create_sep">create_sep()</a> (<a class="reference external" href="https://www.blend4web.com/api_doc/module-tsr.html">tsr</a> module). <a class="reference external" href="https://www.blend4web.com/api_doc/module-tsr.html">tsr</a> module&#8217;s <a class="reference external" href="https://www.blend4web.com/api_doc/module-tsr.html#.set_sep">set_sep()</a> method should be used instead of it.</p>
-<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> module API has been changed considerably. Deprecated methods <cite>is_camera()</cite>, <cite>rotate_pivot()</cite>, <cite>rotate_hover_cam()</cite>, <cite>get_hover_cam_angle()</cite>, <cite>set_hover_cam_angle()</cite>, <cite>translate_hover_cam_v()</cite>, <cite>set_eye_params()</cite>, <cite>rotate()</cite>, <cite>get_angles()</cite> have been removed. The following methods have also been declared deprecated: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_look_at">set_look_at</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_eye_camera">rotate_eye_camera</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_target_camera">rotate_target_camera</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_trans_pivot">set_trans_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.zoom_object">zoom_object</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_pivot">set_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_hover_camera">rotate_hover_camera</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_hover_cam_pivot">get_hover_cam_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_eye">get_eye</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_pivot">get_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_cam_set_translation">hover_cam_set_translation</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_hover_pivot">set_hover_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_hover_angle_limits">get_hover_angle_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_cam_dist_limits">get_cam_dist_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.apply_vertical_limits">apply_vertical_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.clear_hover_angle_limits">clear_hover_angle_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.apply_hover_angle_limits">apply_hover_angle_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.apply_distance_limits">apply_distance_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.clear_distance_limits">clear_distance_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_vertical_limits">get_vertical_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.apply_horizontal_limits">apply_horizontal_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_horizontal_limits">get_horizontal_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.clear_vertical_limits">clear_vertical_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.clear_horizontal_limits">clear_horizontal_limits</a>. In their place, we recommend using methods starting with camera type prefix: <code class="docutils literal"><span class="pre">target_...</span></code>, <code class="docutils literal"><span class="pre">eye_...</span></code>, <code class="docutils literal"><span class="pre">static_...</span></code>, <code class="docutils literal"><span class="pre">hover_...</span></code>. Methods <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_velocity_params">set_velocity_params</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_velocity_params">get_velocity_params</a> have also been declared deprecated, and instead of them, using <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_velocities">set_velocities</a> and  b4wref:<cite>camera.get_velocities</cite>, respecitively, is recommended</p>
+<p><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> module API has been changed considerably. Deprecated methods <cite>is_camera()</cite>, <cite>rotate_pivot()</cite>, <cite>rotate_hover_cam()</cite>, <cite>get_hover_cam_angle()</cite>, <cite>set_hover_cam_angle()</cite>, <cite>translate_hover_cam_v()</cite>, <cite>set_eye_params()</cite>, <cite>rotate()</cite>, <cite>get_angles()</cite> have been removed. The following methods have also been declared deprecated: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_look_at">set_look_at</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_eye_camera">rotate_eye_camera</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_target_camera">rotate_target_camera</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_trans_pivot">set_trans_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.zoom_object">zoom_object</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_pivot">set_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_hover_camera">rotate_hover_camera</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_hover_cam_pivot">get_hover_cam_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_eye">get_eye</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_pivot">get_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_cam_set_translation">hover_cam_set_translation</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_hover_pivot">set_hover_pivot</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_hover_angle_limits">get_hover_angle_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_cam_dist_limits">get_cam_dist_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.apply_vertical_limits">apply_vertical_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.clear_hover_angle_limits">clear_hover_angle_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.apply_hover_angle_limits">apply_hover_angle_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.apply_distance_limits">apply_distance_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.clear_distance_limits">clear_distance_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_vertical_limits">get_vertical_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.apply_horizontal_limits">apply_horizontal_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_horizontal_limits">get_horizontal_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.clear_vertical_limits">clear_vertical_limits</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.clear_horizontal_limits">clear_horizontal_limits</a>. In their place, we recommend using methods starting with camera type prefix: <code class="docutils literal"><span class="pre">target_...</span></code>, <code class="docutils literal"><span class="pre">eye_...</span></code>, <code class="docutils literal"><span class="pre">static_...</span></code>, <code class="docutils literal"><span class="pre">hover_...</span></code>. Methods <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_velocity_params">set_velocity_params</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_velocity_params">get_velocity_params</a> have also been declared deprecated, and instead of them, using <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_velocities">set_velocities</a> and  b4wref:<cite>camera.get_velocities</cite>, respectively, is recommended</p>
 <p>For working with the distance between the current TARGET or HOVER camera and the pivot point, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_get_distance">target_get_distance</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_distance">target_set_distance</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_get_distance">hover_get_distance</a> methods have been added</p>
 </div></blockquote>
 </li>
-<li><p class="first">In the Viewer, <code class="docutils literal"><span class="pre">Play</span> <span class="pre">All</span></code> and <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">All</span></code> buttons have been added for playing and stopping all animations, respecitively.</p>
+<li><p class="first">In the Viewer, <code class="docutils literal"><span class="pre">Play</span> <span class="pre">All</span></code> and <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">All</span></code> buttons have been added for playing and stopping all animations, respectively.</p>
 </li>
 <li><p class="first">Logic editor changes:</p>
 <blockquote>
@@ -940,13 +1043,13 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>Fixes<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id19">
+<h3>Fixes<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Project Manager errors were fixed.</p>
 <blockquote>
 <div><p>Links to the developer&#8217;s applications included in the project are now showing in the list.</p>
-<p>Formatting in the compiled applications&#8217; html files has been fixed.</p>
+<p>Formatting in the compiled applications&#8217; HTML files has been fixed.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Skinning on the mobile platforms has been improved.</p>
@@ -973,12 +1076,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id17">
-<h3>Known Issues<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id20">
+<h3>Known Issues<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first">NVIDIA 331 driver in Linux can cause WebGL errors.</p>
@@ -1002,8 +1105,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-10">
 <h2>v15.10<a class="headerlink" href="#v15-10" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id19">
-<h3>New Features<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id22">
+<h3>New Features<a class="headerlink" href="#id22" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">New Project Manager features.</p>
 <blockquote>
@@ -1016,7 +1119,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Anti-aliasing improvements.</p>
 <blockquote>
-<div><p>A new option <code class="docutils literal"><span class="pre">AA</span> <span class="pre">Quality</span></code> has been added to the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Anti-Aliasing</span></code> panel in Blender. This options allows you to select quality level of <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>anti-aliasing</span></a>. Also, the anti-aliasing algorithm is now based on FXAA 3.11, which increases both quality and performance especially for HIGH and ULTRA quality profiles.</p>
+<div><p>A new option <code class="docutils literal"><span class="pre">AA</span> <span class="pre">Quality</span></code> has been added to the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Anti-Aliasing</span></code> panel in Blender. This option allows you to select quality level of <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>anti-aliasing</span></a>. Also, the anti-aliasing algorithm is now based on FXAA 3.11, which increases both quality and performance especially for HIGH and ULTRA quality profiles.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Node Logic Editor improvements.</p>
@@ -1066,10 +1169,10 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id20">
-<h3>Changes<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id23">
+<h3>Changes<a class="headerlink" href="#id23" title="永久链接至标题">¶</a></h3>
 <ul>
-<li><p class="first">Project Manager inteface has been improved.</p>
+<li><p class="first">Project Manager interface has been improved.</p>
 <blockquote>
 <div><p>Improved UI, added <code class="docutils literal"><span class="pre">Development</span> <span class="pre">Server</span> <span class="pre">&gt;</span> <span class="pre">Project</span> <span class="pre">Manager</span></code> button to run the Project Manager in the default browser.</p>
 </div></blockquote>
@@ -1098,8 +1201,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id21">
-<h3>Fixes<a class="headerlink" href="#id21" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id24">
+<h3>Fixes<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Project Manager errors were fixed.</p>
 </li>
@@ -1112,20 +1215,20 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">An error related to annotations being added to a scene has been fixed.</p>
 <blockquote>
-<div><p>Fixed an error which occured when annotations without the <em>Object -&gt; Meta Tags</em> property were added to the scene.</p>
+<div><p>Fixed an error which occurred when annotations without the <em>Object -&gt; Meta Tags</em> property were added to the scene.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Fixed an error with incorrect audio playback during browser tabs switch.</p>
 </li>
 <li><p class="first">Several video texture errors have been fixed.</p>
 </li>
-<li><p class="first">Fixed an error occured when an empty node group was used inside a node material.</p>
+<li><p class="first">Fixed an error occurred when an empty node group was used inside a node material.</p>
 </li>
 <li><p class="first">Fixed an error with a particle system which use an object with LOD as a particle.</p>
 </li>
 <li><p class="first">The Delay node error when using a variable as a parameter has been fixed in the logic editor.</p>
 </li>
-<li><p class="first">Fixed an error in the logic editor which occured upon deleting an <code class="docutils literal"><span class="pre">Entry</span> <span class="pre">Point</span></code> node.</p>
+<li><p class="first">Fixed an error in the logic editor which occurred upon deleting an <code class="docutils literal"><span class="pre">Entry</span> <span class="pre">Point</span></code> node.</p>
 </li>
 <li><p class="first">Fixed an error in the logic editor with duplicated variables in the dropdown list.</p>
 </li>
@@ -1135,12 +1238,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id22">
-<h3>Known Issues<a class="headerlink" href="#id22" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id25">
+<h3>Known Issues<a class="headerlink" href="#id25" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first">NVIDIA 331 driver in Linux can cause WebGL errors.</p>
@@ -1164,8 +1267,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-09">
 <h2>v15.09<a class="headerlink" href="#v15-09" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id24">
-<h3>New Features<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id27">
+<h3>New Features<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Project Management.</p>
 <blockquote>
@@ -1187,7 +1290,7 @@ as long as they are dynamic.</p>
 <li><p class="first">Controlling armature bones.</p>
 <blockquote>
 <div><p>Enhanced features to control armature objects.</p>
-<p>Added a new <a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html">armature</a> module which includes methods to get or assign bone positions both in armature coordinate space (<a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html#.get_bone_tsr">get_bone_tsr()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html#.set_bone_tsr">set_bone_tsr()</a>) and in bone-relative coordinate space (<a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html#.get_bone_tsr_rel">get_bone_tsr_rel()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html#.set_bone_tsr_rel">set_bone_tsr_rel()</a>). By using this methods, it&#8217;s possible to program armature behavior. For example, animate interactive characters or create sophisticated armature-based objects with multple moving parts.</p>
+<p>Added a new <a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html">armature</a> module which includes methods to get or assign bone positions both in armature coordinate space (<a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html#.get_bone_tsr">get_bone_tsr()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html#.set_bone_tsr">set_bone_tsr()</a>) and in bone-relative coordinate space (<a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html#.get_bone_tsr_rel">get_bone_tsr_rel()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-armature.html#.set_bone_tsr_rel">set_bone_tsr_rel()</a>). By using these methods, it&#8217;s possible to program armature behavior. For example, animate interactive characters or create sophisticated armature-based objects with multiple moving parts.</p>
 <p>Support for <code class="docutils literal"><span class="pre">COPY_TRANSFORMS</span></code> constraints on bones. This allows bones to follow movements of any objects located on the scene, e.g create physically simulated &#8220;Ragdoll&#8221; objects.</p>
 </div></blockquote>
 </li>
@@ -1223,12 +1326,12 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">New app compilation type <code class="docutils literal"><span class="pre">update</span></code> has been added to <em>project.py</em> utility.</p>
 <blockquote>
-<div><p>This type of app compilation allows one to update the engine inside a project directory.The app itself is not compiled with this option. The feature is useful for basic applications and tutorials.</p>
+<div><p>This type of app compilation allows one to update the engine inside a project directory. The app itself is not compiled with this option. The feature is useful for basic applications and tutorials.</p>
 </div></blockquote>
 </li>
 <li><p class="first">New features in the <em>app</em> module.</p>
 <blockquote>
-<div><p>A new param <code class="docutils literal"><span class="pre">disable_zoom</span></code> has been added to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.enable_camera_controls">enable_camera_controls()</a> method. This param disables zoom movements of the camera.</p>
+<div><p>A new param <code class="docutils literal"><span class="pre">disable_zoom</span></code> has been added to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.enable_camera_controls">enable_camera_controls()</a> method. This parameter disables zoom movements of the camera.</p>
 <p>A new method <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html#.queue_animate">queue_animate()</a> has been added to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html">app</a> module.</p>
 </div></blockquote>
 </li>
@@ -1244,8 +1347,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id25">
-<h3>Changes<a class="headerlink" href="#id25" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id28">
+<h3>Changes<a class="headerlink" href="#id28" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Add-ons (such as <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html">app</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html">mouse</a> and others) are now a part of the compiled engine version:</p>
 <blockquote>
@@ -1310,15 +1413,15 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Licensing information was added to the distribution sources.</p>
 </li>
-<li><p class="first">Now texture slots with Environment Maps containing videotextures are not exported.</p>
+<li><p class="first">Now texture slots with Environment Maps containing video textures are not exported.</p>
 <blockquote>
 <div><p>A <a class="reference internal" href="addon.html#export-errors-warnings"><span>non-critical export error</span></a>, stating that a video cannot be used as an Environment Map, was added.</p>
 </div></blockquote>
 </li>
 </ul>
 </div>
-<div class="section" id="id26">
-<h3>Fixes<a class="headerlink" href="#id26" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id29">
+<h3>Fixes<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><code class="docutils literal"><span class="pre">Render</span> <span class="pre">Above</span> <span class="pre">All</span></code> option now works correctly with node materials.</p>
 </li>
@@ -1333,7 +1436,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Fixed the bug that appeared while copying physical objects.</p>
 </li>
-<li><p class="first">Fixed the bug with <code class="docutils literal"><span class="pre">Orco</span></code> vector output when an object has zero scalein one or several axes.</p>
+<li><p class="first">Fixed the bug with <code class="docutils literal"><span class="pre">Orco</span></code> vector output when an object has zero scale in one or several axes.</p>
 </li>
 <li><p class="first">Fixed the bug in particle emitters: it appeared when an object with physics settings was chosen as a particle.</p>
 </li>
@@ -1343,7 +1446,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Fixed the bug in calculations of  <code class="docutils literal"><span class="pre">Normal</span></code> vector output in node <code class="docutils literal"><span class="pre">Geometry</span></code> on the back side of a polygon.</p>
 </li>
-<li><p class="first">Fixed the bug of <code class="docutils literal"><span class="pre">Orco</span></code> vector output in node <code class="docutils literal"><span class="pre">Geometry</span></code> that appearedif object was translated relatively to its origin in Blender.</p>
+<li><p class="first">Fixed the bug of <code class="docutils literal"><span class="pre">Orco</span></code> vector output in node <code class="docutils literal"><span class="pre">Geometry</span></code> that appeared if object was translated relatively to its origin in Blender.</p>
 </li>
 <li><p class="first">Fixed calculation of the last frame of NLA animation for video textures.</p>
 </li>
@@ -1359,12 +1462,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h3>Known Issues<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id30">
+<h3>Known Issues<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first">NVIDIA 331 driver in Linux can cause WebGL errors.</p>
@@ -1381,8 +1484,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-08">
 <h2>v15.08<a class="headerlink" href="#v15-08" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id28">
-<h3>New Features<a class="headerlink" href="#id28" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id31">
+<h3>New Features<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Node-based logic editor.</p>
 <blockquote>
@@ -1391,7 +1494,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Support for various shading models inside <code class="docutils literal"><span class="pre">MATERIAL</span></code> and <code class="docutils literal"><span class="pre">MATERIAL_EXT</span></code> nodes.</p>
 <blockquote>
-<div><p>Now the diffuse and specualar shading models are selected based on materials inside such nodes. This is different from the previous behavior when the shading was the same for all nodes and was assigned by node material itself. This feature allows mixing different basic materials (non-textured) inside node-based ones.</p>
+<div><p>Now the diffuse and specular shading models are selected based on materials inside such nodes. This is different from the previous behavior when the shading was the same for all nodes and was assigned by node material itself. This feature allows mixing different basic materials (non-textured) inside node-based ones.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Improvements in transformation API.</p>
@@ -1421,7 +1524,7 @@ as long as they are dynamic.</p>
 <li><p class="first">Documentation improvements.</p>
 <blockquote>
 <div><p>A new theme has been selected for the user manual. This theme improves documentation readability on displays with different screen resolutions.</p>
-<p>Greatly improved and extended documenation for <a class="reference internal" href="developers.html#developers"><span>application developers</span></a>.</p>
+<p>Greatly improved and extended documentation for <a class="reference internal" href="developers.html#developers"><span>application developers</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first">New APIs in <em>camera_anim</em> module.</p>
@@ -1436,8 +1539,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id29">
-<h3>Changes<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id32">
+<h3>Changes<a class="headerlink" href="#id32" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Changes in node material editor.</p>
 <blockquote>
@@ -1454,12 +1557,12 @@ as long as they are dynamic.</p>
 <div><p>The following methods are now deprecated and will be removed in future engine releases: <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_dg_parent">get_object_dg_parent()</a> (<a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html">scenes</a> module), <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html#.get_parent">get_parent()</a> (<a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints</a> module). Instead, it is recommended to use <a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html#.get_parent">get_parent()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html#.get_dg_parent">get_dg_parent()</a> from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-objects.html">objects</a> module.</p>
 </div></blockquote>
 </li>
-<li><p class="first">Improved interaction between the development server and miltiple Blender instances.</p>
+<li><p class="first">Improved interaction between the development server and multiple Blender instances.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id30">
-<h3>Fixes<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id33">
+<h3>Fixes<a class="headerlink" href="#id33" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>Fixed a compilation error in the <em>project.py</em> utility when a project is compiled to some external directory.</li>
 <li>Fixed a web server error which could arise due corrupted Windows registry.</li>
@@ -1472,8 +1575,8 @@ as long as they are dynamic.</p>
 <li>Fixed a bug with touch events in the Microsoft Edge browser.</li>
 </ul>
 </div>
-<div class="section" id="id31">
-<h3>Known Issues<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id34">
+<h3>Known Issues<a class="headerlink" href="#id34" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li>In the logic editor, some of looped links are highlighted in red. This issue has only cosmetic effect and can be safely ignored.</li>
 </ul>
@@ -1481,8 +1584,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-07">
 <h2>v15.07<a class="headerlink" href="#v15-07" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id32">
-<h3>New Features<a class="headerlink" href="#id32" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id35">
+<h3>New Features<a class="headerlink" href="#id35" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Support for <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> transparency for node materials.</p>
 <blockquote>
@@ -1521,12 +1624,12 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">A new option to assign materials to objects.</p>
 <blockquote>
-<div><p>Until now it has not been possible to assign meterials on objects using <code class="docutils literal"><span class="pre">Object</span></code> property. Now, this feature is supported.</p>
+<div><p>Until now it has not been possible to assign materials on objects using <code class="docutils literal"><span class="pre">Object</span></code> property. Now, this feature is supported.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Support for external requests to the local development server.</p>
 <blockquote>
-<div><p>This feature is enabled by the <em>Enable external requests</em> property in addon prefrences.</p>
+<div><p>This feature is enabled by the <em>Enable external requests</em> property in addon preferences.</p>
 </div></blockquote>
 </li>
 <li><p class="first">New method <a class="reference external" href="https://www.blend4web.com/api_doc/module-time.html#.clear_animation">clear_animation()</a> in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-time.html">time</a> module.</p>
@@ -1549,8 +1652,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id33">
-<h3>Changes<a class="headerlink" href="#id33" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id36">
+<h3>Changes<a class="headerlink" href="#id36" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Various usability improvements in the addon interface.</p>
 </li>
@@ -1613,8 +1716,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id34">
-<h3>Fixes<a class="headerlink" href="#id34" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id37">
+<h3>Fixes<a class="headerlink" href="#id37" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Fixed a bug with incorrect Canvas element size appeared on the engine&#8217;s startup.</p>
 </li>
@@ -1650,12 +1753,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id35">
-<h3>Known Issues<a class="headerlink" href="#id35" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id38">
+<h3>Known Issues<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first">NVIDIA 331 driver in Linux can cause WebGL errors.</p>
@@ -1680,8 +1783,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-06">
 <h2>v15.06<a class="headerlink" href="#v15-06" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id36">
-<h3>New Features<a class="headerlink" href="#id36" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id39">
+<h3>New Features<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">New add-on user interface.</p>
 <blockquote>
@@ -1710,7 +1813,7 @@ as long as they are dynamic.</p>
 <blockquote>
 <div><p>Code for collision detection has been rewritten. Now it is possible to determine colliding objects, and also the coordinates and the normal at the collision point.</p>
 <p>Improved ray casting API. In particular, one can specify an option to perform an automatic cleanup of the ray test object and also another option to cast a ray through multiple objects. As in the case of collision detection, this new API allows to determine the target object and the position/normal of the hit point. There is also a new possibility to cast rays from point to point in global space, without requirement to specify a source object.</p>
-<p>Extended possibilites of <cite>Collision</cite> and <cite>Ray</cite> sensors.</p>
+<p>Extended possibilities of <cite>Collision</cite> and <cite>Ray</cite> sensors.</p>
 <p>Support for deleting physics objects and automatic recalculation of collision/ray tests after physics objects have been added/removed.</p>
 </div></blockquote>
 </li>
@@ -1741,7 +1844,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">New API to change Canvas resolution.</p>
 <blockquote>
-<div><p>To change Canvas resolution it&#8217;s sufficient to execute method <code class="docutils literal"><span class="pre">set()</span></code> from <code class="docutils literal"><span class="pre">config.js</span></code> module with the following parameters: <code class="docutils literal"><span class="pre">canvas_resolution_factor</span></code> and <code class="docutils literal"><span class="pre">value</span></code>, where <code class="docutils literal"><span class="pre">value</span></code> is the new resolution of Canvas. This feature is particulary useful for creating high-definition screenshots.</p>
+<div><p>To change Canvas resolution it&#8217;s sufficient to execute method <code class="docutils literal"><span class="pre">set()</span></code> from <code class="docutils literal"><span class="pre">config.js</span></code> module with the following parameters: <code class="docutils literal"><span class="pre">canvas_resolution_factor</span></code> and <code class="docutils literal"><span class="pre">value</span></code>, where <code class="docutils literal"><span class="pre">value</span></code> is the new resolution of Canvas. This feature is particularly useful for creating high-definition screenshots.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Support for <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Groups</span> <span class="pre">-&gt;</span> <span class="pre">Length</span></code> option in <em>Hair</em> particle system.</p>
@@ -1777,12 +1880,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id37">
-<h3>Changes<a class="headerlink" href="#id37" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id40">
+<h3>Changes<a class="headerlink" href="#id40" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">New API spec for collision detection and ray casting.</p>
 <blockquote>
-<div><p>Methods <code class="docutils literal"><span class="pre">append_collision_test()</span></code> and <code class="docutils literal"><span class="pre">append_ray_test()</span></code>, as well as <code class="docutils literal"><span class="pre">create_collision_sensor()</span></code> and <code class="docutils literal"><span class="pre">create_ray_sensor()</span></code> are now have new spec, which is incompatible with the previous versions of Blend4Web engine. All developers should consider upgrading their applications to match this new behavior.</p>
+<div><p>Methods <code class="docutils literal"><span class="pre">append_collision_test()</span></code> and <code class="docutils literal"><span class="pre">append_ray_test()</span></code>, as well as <code class="docutils literal"><span class="pre">create_collision_sensor()</span></code> and <code class="docutils literal"><span class="pre">create_ray_sensor()</span></code> now have new spec, which is incompatible with the previous versions of Blend4Web engine. All developers should consider upgrading their applications to match this new behavior.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Rendering to texture changes.</p>
@@ -1797,7 +1900,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Changed <em>Hemi</em> lamp behavior.</p>
 <blockquote>
-<div><p>If the object is being illuminated by the <em>Hemi</em> lamp, the <em>Lambert</em> shading model will allways be applied to it&#8217;s materials. This is done to match the Blender&#8217;s behavior.</p>
+<div><p>If the object is being illuminated by the <em>Hemi</em> lamp, the <em>Lambert</em> shading model will always be applied to its materials. This is done to match the Blender&#8217;s behavior.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Support for exported-to-HTML video textures in Firefox browser.</p>
@@ -1827,7 +1930,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first">Changed <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> inheritance on particle systems.</p>
 <blockquote>
-<div><p>If <em>Wind Bending Inheritance</em> property is set to <code class="docutils literal"><span class="pre">Instance</span></code> then <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">beinding</span></code> property for emitter object is not switched of anymore.</p>
+<div><p>If <em>Wind Bending Inheritance</em> property is set to <code class="docutils literal"><span class="pre">Instance</span></code> then <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">bending</span></code> property for emitter object is not switched off anymore.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Updated messages about addon/engine version incompatibilities.</p>
@@ -1844,17 +1947,17 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id38">
-<h3>Fixes<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id41">
+<h3>Fixes<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Fixes in <code class="docutils literal"><span class="pre">screenshooter.js</span></code> addon.</p>
 <blockquote>
-<div><p>Fixed an error with impossibilty to take a screenshot.</p>
+<div><p>Fixed an error with impossibility to take a screenshot.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Fixed a bug in <code class="docutils literal"><span class="pre">set_frame()</span></code> method from <code class="docutils literal"><span class="pre">nla.js</span></code> module.</p>
 <blockquote>
-<div><p>Fixed <code class="docutils literal"><span class="pre">set_frame()</span></code> inaccurancy.</p>
+<div><p>Fixed <code class="docutils literal"><span class="pre">set_frame()</span></code> inaccuracy.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Improved exported stability.</p>
@@ -1884,12 +1987,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id39">
-<h3>Known Issues<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id42">
+<h3>Known Issues<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first">NVIDIA 331 driver in Linux can cause WebGL errors.</p>
@@ -1904,8 +2007,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-05">
 <h2>v15.05<a class="headerlink" href="#v15-05" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id41">
-<h3>New Features<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id44">
+<h3>New Features<a class="headerlink" href="#id44" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Glow effect</em>.</p>
 <blockquote>
@@ -1914,7 +2017,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>The local development server runs automatically.</em></p>
 <blockquote>
-<div><p>A new option has been added to the addon settings. This option turns on automatic start of <a class="reference internal" href="setup.html#local-development-server"><span>local development server</span></a> upon opening Blender. With the help of this functional web applications in development can be run without any preparations.</p>
+<div><p>A new option has been added to the addon settings. This option turns on automatic start of <a class="reference internal" href="addon.html#local-development-server"><span>local development server</span></a> upon opening Blender. With the help of this functional web applications in development can be run without any preparations.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Cube reflections.</em></p>
@@ -1943,7 +2046,7 @@ as long as they are dynamic.</p>
 <div><p>Now the engine fully supports the state of particles set in Blender. In particular not only location and scale are supported now, but rotation as well.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><em>Some demos for postprocessing effects demostration were added.</em></p>
+<li><p class="first"><em>Some demos for postprocessing effects demonstration were added.</em></p>
 <blockquote>
 <div><p>Examples were prepared for the following effects: Bloom, Depth of Field, God Rays, Motion Blur and SSAO.</p>
 </div></blockquote>
@@ -1965,8 +2068,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id42">
-<h3>Changes<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id45">
+<h3>Changes<a class="headerlink" href="#id45" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Reorganized SDK&#8217;s scene list.</em></p>
 <blockquote>
@@ -2014,8 +2117,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id43">
-<h3>Fixes<a class="headerlink" href="#id43" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id46">
+<h3>Fixes<a class="headerlink" href="#id46" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>The error that led to the wrong height of the description element in module &#8220;anchors.js&#8221; has been fixed.</em></p>
 </li>
@@ -2026,7 +2129,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Gestures on Internet Explorer 11 were disabled for Microsoft Windows touch devices.</em></p>
 <blockquote>
-<div><p>Previously, gestures usage (Windows Touch Gestures) was leading to unnecessary HTML-elements scaling and movement on such configurations. It is expected that correct gestures behavior will be supported in further browser releases.</p>
+<div><p>Previously, gestures usage (Windows Touch Gestures) was leading to unnecessary HTML-elements scaling and movement on such configurations. It is expected that correct gestures&#8217; behavior will be supported in further browser releases.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Vertex animation with animated armature bake error was fixed.</em></p>
@@ -2039,12 +2142,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id44">
-<h3>Known Issues<a class="headerlink" href="#id44" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id47">
+<h3>Known Issues<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 </ul>
@@ -2052,8 +2155,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-04">
 <h2>v15.04<a class="headerlink" href="#v15-04" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id45">
-<h3>New Features<a class="headerlink" href="#id45" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id48">
+<h3>New Features<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Deformations by using Shape Keys (Morphing).</em></p>
 <blockquote>
@@ -2097,7 +2200,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>The new module to perform transformations: &#8220;tsr.js&#8221;.</em></p>
 <blockquote>
-<div><p>This new module makes it possible to apply a variety of tranformations to objects by using versatile TSR vectors. Each TSR vector combines translation, scale and rotation (hence the name). These vectors may be used instead of matrices as a more convenient and effective way to apply transformations.</p>
+<div><p>This new module makes it possible to apply a variety of transformations to objects by using versatile TSR vectors. Each TSR vector combines translation, scale and rotation (hence the name). These vectors may be used instead of matrices as a more convenient and effective way to apply transformations.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The possibility to exclude any directories from being converted by the resource converter.</em></p>
@@ -2107,8 +2210,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id46">
-<h3>Changes<a class="headerlink" href="#id46" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id49">
+<h3>Changes<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>The API documentation has changed its appearance. Links for quick access to methods and properties were added.</em></p>
 </li>
@@ -2141,7 +2244,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Local Development Server in Blender changes.</em></p>
 <blockquote>
-<div><p>Now, instead of the standard Python SimpleHTTPServer, the Tornado web server is used as the <a class="reference internal" href="setup.html#local-development-server"><span>local development server</span></a>. The new server has greater performance and it also offers more options to disable browser cache.</p>
+<div><p>Now, instead of the standard Python SimpleHTTPServer, the Tornado web server is used as the <a class="reference internal" href="addon.html#local-development-server"><span>local development server</span></a>. The new server has greater performance and it also offers more options to disable browser cache.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Keyboard controls for sliders in the Viewer application were added.</em></p>
@@ -2186,35 +2289,35 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id47">
-<h3>Fixes<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id50">
+<h3>Fixes<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed a bug in the &#8220;anchors.js&#8221; module which caused objects&#8217; descriptions to disappear.</em></p>
 </li>
-<li><p class="first"><em>Fixed a bug in the Animation Baker script that occured when there were armature objects in hidden layers.</em></p>
+<li><p class="first"><em>Fixed a bug in the Animation Baker script that occurred when there were armature objects in hidden layers.</em></p>
 </li>
 <li><p class="first"><em>Fixed the camera&#8217;s behavior while using &#8220;append_semi_stiff_cam&#8221; method of the &#8220;constraints.js&#8221; module.</em></p>
 <blockquote>
-<div><p>Fixed correction of the camera&#8217;s vertical axis relative to the parent object. Also the original camera orientation is now being taken into account. This can require some adjusments of the camera&#8217;s rotation limits that are passed to this function.</p>
+<div><p>Fixed correction of the camera&#8217;s vertical axis relative to the parent object. Also the original camera orientation is now being taken into account. This can require some adjustments of the camera&#8217;s rotation limits that are passed to this function.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Fixed a bug with reloading of the playlist when it was empty.</em></p>
 </li>
-<li><p class="first"><em>Fixed the buggy behavior of physical objects that occured after deleting at least one of them from the scene.</em></p>
+<li><p class="first"><em>Fixed the buggy behavior of physical objects that occurred after deleting at least one of them from the scene.</em></p>
 </li>
-<li><p class="first"><em>Fixed a bug that occured when there were zero-scaled objects instanced through DupliGroups.</em></p>
+<li><p class="first"><em>Fixed a bug that occurred when there were zero-scaled objects instanced through DupliGroups.</em></p>
 </li>
-<li><p class="first"><em>Fixed a compilation error of the water shader occured on Windows and some mobile devices.</em></p>
+<li><p class="first"><em>Fixed a compilation error of the water shader occurred on Windows and some mobile devices.</em></p>
 </li>
-<li><p class="first"><em>Fixed a bug that occured when there were duplicates of animation keyframes.</em></p>
+<li><p class="first"><em>Fixed a bug that occurred when there were duplicates of animation keyframes.</em></p>
 </li>
 <li><p class="first"><em>Actions from different files sharing one name can be now used for NLA animation.</em></p>
 </li>
-<li><p class="first"><em>Fixed duplication of event listeners that occured when the &#8220;pointerlock&#8221; function was repeatedly called.</em></p>
+<li><p class="first"><em>Fixed duplication of event listeners that occurred when the &#8220;pointerlock&#8221; function was repeatedly called.</em></p>
 </li>
 <li><p class="first"><em>Fixed behavior of the &#8220;Alpha sort&#8221; transparency type for dynamic objects.</em></p>
 </li>
-<li><p class="first"><em>Fixed an add-on compilation error that occured on Windows without C++ 2010 runtime installed.</em></p>
+<li><p class="first"><em>Fixed an add-on compilation error that occurred on Windows without C++ 2010 runtime installed.</em></p>
 </li>
 <li><p class="first"><em>Fixed a bug with billboard rendering on iPad.</em></p>
 </li>
@@ -2223,8 +2326,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-03">
 <h2>v15.03<a class="headerlink" href="#v15-03" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id48">
-<h3>New Features<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id51">
+<h3>New Features<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>New tool for adding annotations to 3D objects.</em></p>
 <blockquote>
@@ -2261,7 +2364,7 @@ as long as they are dynamic.</p>
 <div><p>In case of incorrect usage of the B4W_PARALLAX node, an <a class="reference internal" href="addon.html#export-errors-warnings"><span>export error warning</span></a> is generated.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><em>New options in the applications builder.</em></p>
+<li><p class="first"><em>New options in the application&#8217;s builder.</em></p>
 <blockquote>
 <div><p>There are now new options in the application builder: <code class="docutils literal"><span class="pre">-j</span></code> and <code class="docutils literal"><span class="pre">-c</span></code>. They add scripts and styles correspondingly to the exceptions in order to be not compiled.</p>
 </div></blockquote>
@@ -2273,8 +2376,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id49">
-<h3>Changes<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id52">
+<h3>Changes<a class="headerlink" href="#id52" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Origin for counting off the camera limits has been changed.</em></p>
 <blockquote>
@@ -2300,10 +2403,10 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>The HTML layout method was changed for apps using the app module.</em></p>
 <blockquote>
-<div><p>Now, upon initializing an application using the <code class="docutils literal"><span class="pre">app.js</span></code> module, the dimensions of the created <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element are completely determined by the size of the container element. Thus, if a <code class="docutils literal"><span class="pre">&lt;div&gt;</span></code> element is used as a container, the size of <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> will be zero by default since div&#8217;s default size is zero. You can set correct params for the container with CSS and inline-style. Also, you have to use <em>resize_to_container()</em> method from the <em>app</em> module when the container is changed. The same effect may be achieved if the <em>autoresize</em> option is set upon initializing the application (in the <em>app.init()</em> function). The low level method for changing the element&#8217;s dimensions with <em>main.resize()</em> function is still supported.</p>
+<div><p>Now, upon initializing an application using the <code class="docutils literal"><span class="pre">app.js</span></code> module, the dimensions of the created <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element are completely determined by the size of the container element. Thus, if a <code class="docutils literal"><span class="pre">&lt;div&gt;</span></code> element is used as a container, the size of <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> will be zero by default since div&#8217;s default size is zero. You can set correct parameters for the container with CSS and inline-style. Also, you have to use <em>resize_to_container()</em> method from the <em>app</em> module when the container is changed. The same effect may be achieved if the <em>autoresize</em> option is set upon initializing the application (in the <em>app.init()</em> function). The low level method for changing the element&#8217;s dimensions with <em>main.resize()</em> function is still supported.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><em>Now, the enable_controls() function from the app module should be called without any params.</em></p>
+<li><p class="first"><em>Now, the enable_controls() function from the app module should be called without any parameters.</em></p>
 </li>
 <li><p class="first"><em>Deprecated API methods were removed.</em></p>
 <blockquote>
@@ -2339,8 +2442,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id50">
-<h3>Fixes<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id53">
+<h3>Fixes<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><em>Fixed camera autorotate feature of the web player.</em></li>
 <li><em>Fixed an error related to the fullscreen mode in the Web Player.</em></li>
@@ -2348,21 +2451,21 @@ as long as they are dynamic.</p>
 <li><em>Fixed an error with camera autorotation if the horizontal limits are enabled.</em></li>
 <li><em>Fixed an error when Blend4Web-specific nodes were being added multiple times to a .blend file.</em></li>
 <li><em>Fixed a bug with replacing materials by using the &#8220;inherit_material&#8221; function from the &#8220;material.js&#8221; module.</em></li>
-<li><em>Fixed an error occured while rendering reflections on an object which has been changed through the &#8220;material.js&#8221; module APIs.</em></li>
+<li><em>Fixed an error occurred while rendering reflections on an object which has been changed through the &#8220;material.js&#8221; module APIs.</em></li>
 <li><em>Fixed generation of the debugging wireframe spheres.</em></li>
 <li><em>Fixed optimization of the TEXTURE nodes in node materials.</em></li>
 <li><em>Fixed &#8220;Clamp&#8221; option behavior in the MixRGB (Linear Light) node.</em></li>
-<li><em>Fixed an export error occured when an object shares its mesh with another object and one of the following flags is set to true: &#8220;Apply Scale&#8221;, &#8220;Apply Modifiers&#8221;, &#8220;Export Vertex Animation&#8221; or &#8220;Export Edited Normals&#8221;.</em></li>
+<li><em>Fixed an export error occurred when an object shares its mesh with another object and one of the following flags is set to true: &#8220;Apply Scale&#8221;, &#8220;Apply Modifiers&#8221;, &#8220;Export Vertex Animation&#8221; or &#8220;Export Edited Normals&#8221;.</em></li>
 <li><em>Fixed an error with &#8220;Blend4Web &gt; Preserve Global Orientation and Scale&#8221; option on some mobile devices.</em></li>
 <li><em>Fixed fog rendering error in some versions of Chrome/Firefox under Windows.</em></li>
 </ul>
 </div>
-<div class="section" id="id51">
-<h3>Known Issues<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id54">
+<h3>Known Issues<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Video textures do not work in Firefox for scenes exported as HTML files.</em></p>
@@ -2372,12 +2475,12 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-02">
 <h2>v15.02<a class="headerlink" href="#v15-02" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id52">
-<h3>New Features<a class="headerlink" href="#id52" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id55">
+<h3>New Features<a class="headerlink" href="#id55" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>The local development server can be run from Blender.</em></p>
 <blockquote>
-<div><p>It&#8217;s possible now to run <a class="reference internal" href="setup.html#local-development-server"><span>local development server</span></a> when using Blend4Web SDK. This server allows fast access to the Blend4Web SDK content and also make it possible to <a class="reference internal" href="addon.html#run-in-viewer"><span>automatically open exported scenes</span></a> in the Viewer application.</p>
+<div><p>It&#8217;s possible now to run <a class="reference internal" href="addon.html#local-development-server"><span>local development server</span></a> when using Blend4Web SDK. This server allows fast access to the Blend4Web SDK content and also make it possible to <a class="reference internal" href="addon.html#run-in-viewer"><span>automatically open exported scenes</span></a> in the Viewer application.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for Spot lights shadows.</em></p>
@@ -2427,7 +2530,7 @@ as long as they are dynamic.</p>
 <div><p>At first this functionality was released in Blender 2.73, and now it&#8217;s also supported in the engine.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><em>Considerable imporovements in rendering quality on systems without depth-texture support.</em></p>
+<li><p class="first"><em>Considerable improvements in rendering quality on systems without depth-texture support.</em></p>
 <blockquote>
 <div><p>Supported rendering features on systems without depth-texture support were extended. There are such effects available now: reflections, bloom, glow, motion blur, anti-aliasing.</p>
 </div></blockquote>
@@ -2439,7 +2542,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Support for several engine instances on the same web page.</em></p>
 <blockquote>
-<div><p>Several engine instances can now work simultaniously, by specifying the namespace on engine&#8217;s initialization stage.</p>
+<div><p>Several engine instances can now work simultaneously, by specifying the namespace on engine&#8217;s initialization stage.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Possibility to use SDK on Apple OS X.</em></p>
@@ -2459,8 +2562,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id53">
-<h3>Changes<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id56">
+<h3>Changes<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Now it is possible to add options with the same names via browser address bar.</em></p>
 <blockquote>
@@ -2498,8 +2601,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id54">
-<h3>Fixes<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id57">
+<h3>Fixes<a class="headerlink" href="#id57" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Corrected behavior of the preloader for the Web Player.</em></p>
 <blockquote>
@@ -2522,12 +2625,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id55">
-<h3>Known Issues<a class="headerlink" href="#id55" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id58">
+<h3>Known Issues<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Video textures do not work in Firefox for scenes exported as HTML files.</em></p>
@@ -2537,8 +2640,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-01">
 <h2>v15.01<a class="headerlink" href="#v15-01" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id56">
-<h3>New Features<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id59">
+<h3>New Features<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Support for panning on touchscreen devices.</em></p>
 <blockquote>
@@ -2552,7 +2655,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Extended support for the NLA Script tool.</em></p>
 <blockquote>
-<div><p>Added new logic slots: <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Object</span></code> and <code class="docutils literal"><span class="pre">Hide</span> <span class="pre">Object</span></code> used for hiding and showing the obects, <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Redirect</span></code> - for redirecting to other webpages , <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> - for storing any webpage parameter in given numerical register. Simplified usage of <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Jump</span></code> and <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> slots. Now it&#8217;s not required to specify <code class="docutils literal"><span class="pre">Selectable</span></code> property on selectable objects.</p>
+<div><p>Added new logic slots: <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Object</span></code> and <code class="docutils literal"><span class="pre">Hide</span> <span class="pre">Object</span></code> used for hiding and showing the objects, <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Redirect</span></code> - for redirecting to other webpages , <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> - for storing any webpage parameter in given numerical register. Simplified usage of <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Jump</span></code> and <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> slots. Now it&#8217;s not required to specify <code class="docutils literal"><span class="pre">Selectable</span></code> property on selectable objects.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for high definition displays (HIDPI, Retina).</em></p>
@@ -2570,9 +2673,9 @@ as long as they are dynamic.</p>
 <div><p><a class="reference internal" href="web_player.html#webplayer-attributes"><span>The option</span></a> autorotate is used to turn on the automatic camera rotation as soon as the scene loads.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><em>Simplied keyboard control mode has been added to function &#8220;enable_camera_controls.</em></p>
+<li><p class="first"><em>Simplified keyboard control mode has been added to function &#8220;enable_camera_controls.</em></p>
 <blockquote>
-<div><p>The mode is enabled by passing the optional parameter <code class="docutils literal"><span class="pre">disable_letter_controls</span></code> Thus, the keyboard controls with letter keys (WASD and so on) will be turned off.This feature can be used in cases when you need to use the letter keys for purposes other than moving the camera.</p>
+<div><p>The mode is enabled by passing the optional parameter <code class="docutils literal"><span class="pre">disable_letter_controls</span></code> Thus, the keyboard controls with letter keys (WASD and so on) will be turned off. This feature can be used in cases when you need to use the letter keys for purposes other than moving the camera.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for gyroscope on mobile devices.</em></p>
@@ -2622,8 +2725,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id57">
-<h3>Changes<a class="headerlink" href="#id57" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id60">
+<h3>Changes<a class="headerlink" href="#id60" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>SDK file hierarchy was simplified.</em></p>
 <blockquote>
@@ -2657,8 +2760,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id58">
-<h3>Fixes<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id61">
+<h3>Fixes<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><em>When using &#8220;Panoramic&#8221; camera type in Blender the camera automatically obtains &#8220;Perspective&#8221; type when exported.</em></li>
 <li><em>Fixed bug with &#8220;Target&#8221; camera dragging in rare cases.</em></li>
@@ -2670,12 +2773,12 @@ as long as they are dynamic.</p>
 <li><em>Fixed rendering issue in node materials with ``REFRACTION`` node.</em></li>
 </ul>
 </div>
-<div class="section" id="id59">
-<h3>Known Issues<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id62">
+<h3>Known Issues<a class="headerlink" href="#id62" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Video textures do not work in Firefox for scenes exported as HTML files.</em></p>
@@ -2690,8 +2793,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-12">
 <h2>v14.12<a class="headerlink" href="#v14-12" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id60">
-<h3>New Features<a class="headerlink" href="#id60" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id63">
+<h3>New Features<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Camera velocity settings are now available.</em></p>
 <blockquote>
@@ -2720,8 +2823,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id61">
-<h3>Changes<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id64">
+<h3>Changes<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Removed support for deprecated &#8220;UV translation velocity&#8221; texture settings.</em></p>
 <blockquote>
@@ -2757,10 +2860,10 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id62">
-<h3>Fixes<a class="headerlink" href="#id62" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id65">
+<h3>Fixes<a class="headerlink" href="#id65" title="永久链接至标题">¶</a></h3>
 <ul>
-<li><p class="first"><em>Fixed audio playback error occured when using NLA.</em></p>
+<li><p class="first"><em>Fixed audio playback error occurred when using NLA.</em></p>
 <blockquote>
 <div><p>This happened due to insufficient float number precision.</p>
 </div></blockquote>
@@ -2774,7 +2877,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Node material rendering error has been fixed.</em></p>
 <blockquote>
-<div><p>The error occured when a <code class="docutils literal"><span class="pre">MATERIAL</span></code> node (or <code class="docutils literal"><span class="pre">MATERIAL_EXT</span></code>) with a linked (from another .blend file) material was used.</p>
+<div><p>The error occurred when a <code class="docutils literal"><span class="pre">MATERIAL</span></code> node (or <code class="docutils literal"><span class="pre">MATERIAL_EXT</span></code>) with a linked (from another .blend file) material was used.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Animation baker (&#8220;B4W Animation Bake&#8221; operator) no longer resets an armature pose.</em></p>
@@ -2786,16 +2889,16 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Fixed error with incorrect determination of the camera&#8217;s horizontal movement limits.</em></p>
 </li>
-<li><p class="first"><em>Fixed error occured when unused textures were exported.</em></p>
+<li><p class="first"><em>Fixed error occurred when unused textures were exported.</em></p>
 </li>
 </ul>
 </div>
-<div class="section" id="id63">
-<h3>Known Issues<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id66">
+<h3>Known Issues<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Video textures do not work in Firefox for scenes exported as HTML files.</em></p>
@@ -2805,8 +2908,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-11">
 <h2>v14.11<a class="headerlink" href="#v14-11" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id64">
-<h3>New Features<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id67">
+<h3>New Features<a class="headerlink" href="#id67" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Video textures support.</em></p>
 <blockquote>
@@ -2833,7 +2936,7 @@ as long as they are dynamic.</p>
 <div><p>The <code class="docutils literal"><span class="pre">Hover</span></code> mode is now available when the camera is gliding over the horizontal plane (including zooming in and out). This camera mode makes it possible to realize scenarios for a convenient viewing of scenes which are spread in two dimensions (rooms, game levels).</p>
 </div></blockquote>
 </li>
-<li><p class="first"><em>The SDK now contains a root index.html webpage for simplifying navigation within the distribution.</em></p>
+<li><p class="first"><em>The SDK now contains a root index HTML webpage for simplifying navigation within the distribution.</em></p>
 </li>
 <li><p class="first"><em>The resource converter now has the ability to convert videos.</em></p>
 </li>
@@ -2848,12 +2951,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id65">
-<h3>Changes<a class="headerlink" href="#id65" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id68">
+<h3>Changes<a class="headerlink" href="#id68" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>The webplayer&#8217;s &#8220;bg&#8221; parameter is renamed to &#8220;fallback_image&#8221;.</em></p>
 <blockquote>
-<div><p>This option also has changed its behavior. If the <code class="docutils literal"><span class="pre">fallback_image</span></code> is defined the error message that WebGL is unavailable is not shown any more, instead the user sees just the image.</p>
+<div><p>This option also has changed its behavior. If the <code class="docutils literal"><span class="pre">fallback_image</span></code> is defined the error message that WebGL is unavailable is not shown anymore, instead the user sees just the image.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>If there are no sound sources in the scene the sound mute button is no longer shown in the webplayer.</em></p>
@@ -2866,8 +2969,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id66">
-<h3>Fixes<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id69">
+<h3>Fixes<a class="headerlink" href="#id69" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Normal maps now work with Generated and Normal texture coordinates.</em></p>
 <blockquote>
@@ -2883,12 +2986,12 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id67">
-<h3>Known Issues<a class="headerlink" href="#id67" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id70">
+<h3>Known Issues<a class="headerlink" href="#id70" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 </ul>
@@ -2896,8 +2999,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-10">
 <h2>v14.10<a class="headerlink" href="#v14-10" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id68">
-<h3>New Features<a class="headerlink" href="#id68" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id71">
+<h3>New Features<a class="headerlink" href="#id71" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>A new Web Player.</em></p>
 <blockquote>
@@ -2931,7 +3034,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Scene export process simplified.</em></p>
 <blockquote>
-<div><p>The range of material export errors are now not blocking the export. Instead this material will be highlighted pink at scene loading. Detailed error descriptions can be found in the <a class="reference internal" href="addon.html#export-errors-warnings"><span>manual</span></a>.</p>
+<div><p>The range of material export errors are now not blocking the export. Instead, this material will be highlighted pink at scene loading. Detailed error descriptions can be found in the <a class="reference internal" href="addon.html#export-errors-warnings"><span>manual</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Added support for the &#8220;Do not export&#8221; option for particle systems.</em></p>
@@ -2940,8 +3043,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id69">
-<h3>Changes<a class="headerlink" href="#id69" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id72">
+<h3>Changes<a class="headerlink" href="#id72" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Changed SDK path setting for HTML export.</em></p>
 <blockquote>
@@ -2957,18 +3060,18 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Removed &#8220;Blend4Web &gt; Animation &gt; Cyclic&#8221; option from the object properties panel</em>.</p>
 <blockquote>
-<div><p>Instead one should use <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Behavior</span></code> option located in the same place. Scenes with default animations may work incorrectly, so they need behavior property to be set to <code class="docutils literal"><span class="pre">Cyclic</span></code>.</p>
+<div><p>Instead, one should use <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Behavior</span></code> option located in the same place. Scenes with default animations may work incorrectly, so they need behavior property to be set to <code class="docutils literal"><span class="pre">Cyclic</span></code>.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><em>Modified SSAO algorythm realisation.</em></p>
+<li><p class="first"><em>Modified SSAO algorithm realization.</em></p>
 <blockquote>
 <div><p>The new implementation is much faster and shows better quality. The settings of the algorithm are changed too. For more info see the <a class="reference internal" href="postprocessing_effects.html#ssao"><span>manual section</span></a>.</p>
 </div></blockquote>
 </li>
 </ul>
 </div>
-<div class="section" id="id70">
-<h3>Fixes<a class="headerlink" href="#id70" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id73">
+<h3>Fixes<a class="headerlink" href="#id73" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed rendering error for HALO materials.</em></p>
 </li>
@@ -2987,18 +3090,18 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Fixed errors of shaders compilation on devices with mobile graphics Qualcomm Adreno 305.</em></p>
 </li>
-<li><p class="first"><em>Fixed rendering error when using REFRACTION nodes in transparent meterials.</em></p>
+<li><p class="first"><em>Fixed rendering error when using REFRACTION nodes in transparent materials.</em></p>
 </li>
-<li><p class="first"><em>Fixed an issue in &#8220;B4W Vertex Anim Baker&#8221; tool when current frame reset was occured after using bake.</em></p>
+<li><p class="first"><em>Fixed an issue in &#8220;B4W Vertex Anim Baker&#8221; tool when current frame reset was occurred after using bake.</em></p>
 </li>
 </ul>
 </div>
-<div class="section" id="id71">
-<h3>Known Issues<a class="headerlink" href="#id71" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id74">
+<h3>Known Issues<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Normal maps don&#8217;t work for Generated texture type.</em></p>
@@ -3011,8 +3114,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-09">
 <h2>v14.09<a class="headerlink" href="#v14-09" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id72">
-<h3>New Features<a class="headerlink" href="#id72" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id75">
+<h3>New Features<a class="headerlink" href="#id75" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>ABSOLUTE type support for the MATH node.</em></p>
 </li>
@@ -3036,7 +3139,7 @@ as long as they are dynamic.</p>
 <div><p>The rendering result for a certain stage can be now output above the main picture. This can be set up in the <code class="docutils literal"><span class="pre">config.js</span></code> module through the <code class="docutils literal"><span class="pre">debug_subs</span></code> options.</p>
 </div></blockquote>
 </li>
-<li><p class="first"><em>The logic for controling Blender&#8217;s NLA animation using a visual editor has been implemented.</em></p>
+<li><p class="first"><em>The logic for controlling Blender&#8217;s NLA animation using a visual editor has been implemented.</em></p>
 <blockquote>
 <div><p>The NLA Script tool has been added to Blender&#8217;s interface to allow the implementing of simple scenarios using visual blocks, for example playing an animation in response to the user actions.</p>
 </div></blockquote>
@@ -3053,7 +3156,7 @@ as long as they are dynamic.</p>
 </li>
 <li><p class="first"><em>Skeletal animation mixing is now supported.</em></p>
 <blockquote>
-<div><p>The <code class="docutils literal"><span class="pre">animation.js</span></code> module now contains API for smooth transitions betweeen skeletal animations: get_skel_mix_factor() - for getting the current mixing factor value and set_skel_mix_factor() - for setting it.</p>
+<div><p>The <code class="docutils literal"><span class="pre">animation.js</span></code> module now contains API for smooth transitions between skeletal animations: get_skel_mix_factor() - for getting the current mixing factor value and set_skel_mix_factor() - for setting it.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The Value node can now be animated in node materials.</em></p>
@@ -3077,24 +3180,24 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id73">
-<h3>Changes<a class="headerlink" href="#id73" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id76">
+<h3>Changes<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first"><em>Shadow rendering improved.</em></p>
 <blockquote>
-<div><p>Shadow rendering system is significantly changed: it is now based on the <code class="docutils literal"><span class="pre">Stable</span> <span class="pre">Cascaded</span> <span class="pre">Shadow</span> <span class="pre">Maps</span></code> technique. This technique allows to greatly diminish the flickering of shadow edges when the camera moves. Smoothing is implemented between cascades. Also shadows of the last cascade fade out at distancing. Softened shadows are rendered using the <code class="docutils literal"><span class="pre">Percentage</span> <span class="pre">Closer</span> <span class="pre">Shadows</span></code> technique. The shadows&#8217; user settings are reworked and simplified. Now its possible to tweak the size of shadow maps, blur ratio and the setting for removing self-shadowing artefacts. The new settings are <a class="reference internal" href="lighting.html#shadows"><span>documented</span></a> in detail.</p>
+<div><p>Shadow rendering system is significantly changed: it is now based on the <code class="docutils literal"><span class="pre">Stable</span> <span class="pre">Cascaded</span> <span class="pre">Shadow</span> <span class="pre">Maps</span></code> technique. This technique allows to greatly diminish the flickering of shadow edges when the camera moves. Smoothing is implemented between cascades. Also shadows of the last cascade fade out at distancing. Softened shadows are rendered using the <code class="docutils literal"><span class="pre">Percentage</span> <span class="pre">Closer</span> <span class="pre">Shadows</span></code> technique. The shadows&#8217; user settings are reworked and simplified. Now its possible to tweak the size of shadow maps, blur ratio and the setting for removing self-shadowing artifacts. The new settings are <a class="reference internal" href="lighting.html#shadows"><span>documented</span></a> in detail.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>In the Web Player graphics quality settings are now saved independently for each scene.</em></p>
 </li>
 <li><p class="first"><em>The behavior of the app configuration parameters has been changed: physics_uranium_path, smaa_search_texture_path and smaa_area_texture_path.</em></p>
 <blockquote>
-<div><p>These parameters are now calculated automatically depending on the running HTML files location, if they haven&#8217;t been overriden during the app&#8217;s initialization.</p>
+<div><p>These parameters are now calculated automatically depending on the running HTML files location, if they haven&#8217;t been overridden during the app&#8217;s initialization.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Transition is completed to the system of modules which are linked via b4w.require() call.</em></p>
 <blockquote>
-<div><p>This also means that starting form the current version its impossible to call modules in the engine&#8217;s release version using the old <code class="docutils literal"><span class="pre">b4w.&lt;module&gt;</span></code> namespaces. For compatibility purposes the <code class="docutils literal"><span class="pre">ns_compat.js</span></code> add-on has been implemeted, the linking of which allows to restore the old behavior.</p>
+<div><p>This also means that starting form the current version its impossible to call modules in the engine&#8217;s release version using the old <code class="docutils literal"><span class="pre">b4w.&lt;module&gt;</span></code> namespaces. For compatibility purposes the <code class="docutils literal"><span class="pre">ns_compat.js</span></code> add-on has been implemented, the linking of which allows to restore the old behavior.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The Web Player&#8217;s control panel can now be hidden.</em></p>
@@ -3108,10 +3211,10 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id74">
-<h3>Fixes<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id77">
+<h3>Fixes<a class="headerlink" href="#id77" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li><em>The preloader didn&#8217;t diappear in case of a loading error (texture or sound file).</em></li>
+<li><em>The preloader didn&#8217;t disappear in case of a loading error (texture or sound file).</em></li>
 <li><em>Lagging during scaling and turning on mobile devices is fixed.</em></li>
 <li><em>TARGET-type camera shimmering has been removed for small turnings.</em></li>
 <li><em>EYE-type camera controls was fixed for mobile devices.</em></li>
@@ -3122,17 +3225,17 @@ as long as they are dynamic.</p>
 <li><em>The particle system error when the object being instanced is parented to another object, has been fixed.</em></li>
 </ul>
 </div>
-<div class="section" id="id75">
-<h3>Known Issues<a class="headerlink" href="#id75" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id78">
+<h3>Known Issues<a class="headerlink" href="#id78" title="永久链接至标题">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
-<div><p>It&#8217;s strongly adviced to restart Blender after installing a newer version of Addon/SDK.</p>
+<div><p>It&#8217;s strongly advised to restart Blender after installing a newer version of Addon/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Armature animation mixing doesn&#8217;t work with some browsers.</em></p>
 <blockquote>
-<div><p>If skeletal animation mixing API brings unexpected errors, it is neccessary to override standard Math.sign function as follows:</p>
+<div><p>If skeletal animation mixing API brings unexpected errors, it is necessary to override standard Math.sign function as follows:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_util</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;util&quot;</span><span class="p">);</span>
 <span class="nb">Math</span><span class="p">.</span><span class="nx">sign</span> <span class="o">=</span> <span class="nx">m_util</span><span class="p">.</span><span class="nx">sign</span><span class="p">;</span>
 </pre></div>
@@ -3162,7 +3265,7 @@ as long as they are dynamic.</p>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-03-31.
+      最后更新于 2016-04-28.
 
     </p>
   </div>
@@ -3185,7 +3288,7 @@ as long as they are dynamic.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.03',
+            VERSION:'v16.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

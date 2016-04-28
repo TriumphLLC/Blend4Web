@@ -127,7 +127,6 @@ var _limits_tmp = {};
  * @param {AppInitCallback} [options.callback=function(){}] Initialization callback.
  * @param {Boolean}  [options.error_purge_elements=null] Remove interface
  * elements after error.
- * @param {Boolean}  [options.gl_debug=false] Enable WebGL debugging.
  * @param {Boolean}  [options.show_hud_debug_info=false] Show HUD with
  * developer info.
  * @param {Boolean}  [options.show_fps=false] Show FPS counter.
@@ -143,7 +142,7 @@ var _limits_tmp = {};
  * match the size of container element.
  * @param {Number}  [options.force_container_ratio=0] Automatically resize
  * canvas container height, based on its width and passed ratio value.
- * @cc_externs canvas_container_id callback gl_debug show_hud_debug_info
+ * @cc_externs canvas_container_id callback show_hud_debug_info
  * @cc_externs sfx_mix_mode show_fps fps_elem_id error_purge_elements
  * @cc_externs report_init_failure pause_invisible key_pause_enabled
  * @cc_externs alpha alpha_sort_threshold assets_dds_available
@@ -163,7 +162,6 @@ exports.init = function(options) {
     var fps_elem_id = null;
     var force_container_ratio = 0;
     var fps_wrapper_id = null;
-    var gl_debug = false;
     var key_pause_enabled = true;
     var pause_invisible = true;
     var report_init_failure = true;
@@ -184,9 +182,6 @@ exports.init = function(options) {
             break;
         case "do_not_use_onload":
             // ignore deprecated option
-            break;
-        case "gl_debug":
-            gl_debug = options.gl_debug;
             break;
         case "show_hud_debug_info":
             show_hud_debug_info = options.show_hud_debug_info;
@@ -259,8 +254,6 @@ exports.init = function(options) {
         var canvas_container_elem = m_cont.get_container();
 
         resize_to_container();
-
-        m_main.set_check_gl_errors(gl_debug);
 
         if (show_fps) {
             create_fps_logger_elem(fps_elem_id, fps_wrapper_id);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. Руководство пользователя v16.01\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-28 12:33+0300\n"
+"POT-Creation-Date: 2016-04-14 15:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,8 +27,8 @@ msgstr "Содержание"
 
 #: ../project_manager.rst:11
 msgid ""
-"Since version 15.09, the SDK includes a project managment feature, which "
-"makes it possible to:"
+"Since version 15.09, the SDK includes a project management feature, which"
+" makes it possible to:"
 msgstr ""
 "Начиная с версии 15.09, SDK включает систему управления проектами, "
 "которая позволяет:"
@@ -164,8 +164,8 @@ msgid "Re-export blend files from the project."
 msgstr "Реэкспорт блендеровских сцен в проекте."
 
 #: ../project_manager.rst:64
-msgid "Convert media resources."
-msgstr "Конвертация медиа ресурсов."
+msgid ":ref:`Convert media resources. <converter>`"
+msgstr ":ref:`Конвертация медиа ресурсов. <converter>`"
 
 #: ../project_manager.rst:65
 msgid "Export and download a project archive."
@@ -176,7 +176,7 @@ msgid "Remove the project."
 msgstr "Удаление проекта со всеми зависимостями."
 
 #: ../project_manager.rst:70
-msgid "All project paths are retreived from its .b4w_project file."
+msgid "All project paths are retrieved from its .b4w_project file."
 msgstr "Все пути берутся из конфигурационного файла .b4w_project."
 
 #: ../project_manager.rst:72
@@ -522,8 +522,8 @@ msgstr "Импорт проектов"
 
 #: ../project_manager.rst:195
 msgid ""
-"Tools for importing projects are avalible by the ``[Import Project(s)]`` "
-"link."
+"Tools for importing projects are available by the ``[Import Project(s)]``"
+" link."
 msgstr "Средства импорта проектов вызываются по ссылке ``[Import Project(s)]``."
 
 #: ../project_manager.rst:197

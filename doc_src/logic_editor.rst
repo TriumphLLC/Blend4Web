@@ -40,9 +40,9 @@ Then select the required node tree:
 
 Nodes are created by using standard Blender keyboard shortcut ``Shift+A``.
 
-The nodes themselves are logic blocks that are executed from the ``Entry Point`` node which has no inputs and only one output. All other nodes have both inputs and outputs, and can be inserted in any place of a logic tree. The exception is ``Page Redirect`` node, which can be inserted only to the end of the node tree. The nodes which have two outputs allow braching, thus the next leave is selected based on condition specified for such nodes.
+The nodes themselves are logic blocks that are executed from the ``Entry Point`` node which has no inputs and only one output. All other nodes have both inputs and outputs, and can be inserted in any place of a logic tree. The exception is ``Page Redirect`` node, which can be inserted only to the end of the node tree. The nodes which have two outputs allow branching, thus the next leave is selected based on condition specified for such nodes.
 
-For implementing complicated logic there are numeric variables called registers. Each of 8 registers can store a single numeric value. The registers can be used for storing some scene state (e.g. this can be a counter of animation playbacks, character’s health points etc).
+For implementing complicated logic there are variables that can have either numeric or string values. The variables can be used for storing some scene state (e.g. this can be a counter of animation playbacks, character’s health points etc).
 
 Logic Editor usage example:
 
@@ -50,7 +50,7 @@ Logic Editor usage example:
    :align: center
    :width: 100%
 
-All avalible nodes are described below.
+All available nodes are described below.
 
 Control Flow
 ============
@@ -60,7 +60,7 @@ Control Flow
 Entry Point
 -----------
 
-This is where the script starts. By using multple entry points you can create multi-threaded applications.
+This is where the script starts. By using multiple entry points you can create multi-threaded applications.
 
 .. image:: src_images/logic_editor/logic_editor_entry.png
     :align: center
@@ -141,14 +141,14 @@ Internal Parameters
 ...................
 
 *Value*
-    Time (in seconds) that will pass before the activation of the next node. Set to zero by default. Can be set manually or through a register (if the ``Variable`` parameter is enabled).
+    Time (in seconds) that will pass before the activation of the next node. Set to zero by default. Can be set manually or through a variable (if the ``Variable`` parameter is enabled).
 
 .. _nla_jump:
 
 Conditional Jump
 ----------------
 
-Go to the specified node if the certain condition is met. The parameters (operands) can also be registers that are activated using the corresponding switches.
+Go to the specified node if the certain condition is met. The parameters (operands) can also be variables that are activated using the corresponding switches.
 
 .. image:: src_images/logic_editor/logic_editor_conditional_jump.png
     :align: center
@@ -176,41 +176,63 @@ Internal Parameters
     Logical condition. Can have one of the following types:
 
     * *Equal* - first operand is equal to the second.
-    * *Not Equal* - frist operand is not equal to the second.
+    * *Not Equal* - first operand is not equal to the second.
     * *Less Than* - first operand is less than the second.
-    * *Greater Than* - first operan is greater than the second.
+    * *Greater Than* - first operand is greater than the second.
     * *Less Than Or Equal* - first operand is less than or equal to the second.
     * *Greater Than Or Equal* - first operand is greater than or equal to the second.
 
 *Operand1*
-    First operand of the logical condition. Should have a numeric value. Can be specified in the node or can be a link to one of the eight registers.
+    First operand of the logical condition. Should have a numeric value. Can be specified in the node or can be a link to one of the variables.
 
 *Operand2*
     Second operand of the logical condition. Works the same way as the first.
 
-Select (Deprecated)
--------------------
-.. note::
+JS Callback
+-----------
 
-    Deprecated! Isn’t recommended to use. Instead, using a ``Switch Select`` node is recommended.
+Can be used to call custom JavaScript callback defined in your Blend4Web application.
 
-It is similar to the ``Select & Play`` node, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results.
+.. image:: src_images/logic_editor/logic_editor_js_callback.png
+    :align: center
+    :width: 100%
 
-Select & Play Timeline (Deprecated)
------------------------------------
-.. note::
+Input Parameters
+................
 
-    Deprecated! Isn’t recommended to use. Instead, using a combination of ``Switch Select`` and ``Play Timeline`` nodes is recommended.
+*Previous*
+    Previous node.
 
-Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the ``Play Timeline`` node. If any other object is selected - then immediately transfer control to the next node.
+Output Parameters
+.................
 
-Select & Play Animation (Deprecated)
-------------------------------------
-.. note::
+*Next*
+    Next node.
 
-    Deprecated! Isn’t recommended to use. Instead, using a combination of ``Switch Select`` and ``Play Timeline`` nodes is recommended.
+Internal Parameters
+...................
 
-Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the ``Play Animation`` node. If any other object is selected - then immediately transfer control to the next node.
+*Callback ID*
+    The ID of a JavaScript function that will be called by the node.
+
+*In Params*
+    A list of the input parameters of the function. Each parameter can be either a variable or a link to a scene object. The number of the input parameters can be adjusted. By default, this list is empty.
+    
+    Input parameters are transferred to the callback function as an array that servers as the first argument of the function.
+
+*Param <param_number>*
+    Specifies an input parameter. This parameter can be a variable (``R1`` by default) or a link to a scene object, depending on the value of the ``Type`` parameter (each one of these parameters always has a corresponding ``Type`` parameter).
+
+*Type*
+    The type of the corresponding input parameter. It can have one of the two values: ``Variable`` (in this case, one of the variables will be used as the parameter) and ``Object`` (a link to a scene object).
+
+*Out Params*
+    A list of the output parameters. Empty by default. The number of the output parameters can be adjusted.
+
+    An array that consists of the output parameters serves as the second argument of the callback function.
+
+*Param <param_number>*
+    Specifies one of the variables that will be used as an output parameter. By default, ``R1`` varaible is used.
 
 Animation
 =========
@@ -220,7 +242,7 @@ Animation
 Play Timeline and Stop Timeline
 -------------------------------
 
-Can be used to control NLA animations. The ``Play Timeline`` node plays NLA fragment starting with a frame specified by the marker. Animation plays until next marker is encounterd, or to the end of the scene’s timeline. After that, control passes on to the next node. The ``Stop Timeline`` node stops the playback.
+Can be used to control NLA animations. The ``Play Timeline`` node plays NLA fragment starting with a frame specified by the marker. Animation plays until next marker is encountered, or to the end of the scene’s timeline. After that, control passes on to the next node. The ``Stop Timeline`` node stops the playback.
 
 .. image:: src_images/logic_editor/logic_editor_timeline.png
    :align: center
@@ -252,7 +274,7 @@ Internal Parameters
 Get Timeline
 ------------
 
-This node can be used to get the currect frame of an NLA animation or a timeline.
+This node can be used to get the current frame of an NLA animation or a timeline.
 
 .. image:: src_images/logic_editor/logic_editor_get_timeline.png
    :align: center
@@ -277,7 +299,7 @@ Internal Parameters
     If this parameter is enabled, the node will return the current frame of an NLA animation. If it is disabled, the node will return the current frame of the timeline. Enabled by default.
 
 *Destination*
-    Specifies a register to store the number of the current frame. Set to ``R1`` by default.
+    Specifies a variable to store the number of the current frame. Set to ``R1`` by default.
 
 .. _nla_select_play:
 
@@ -396,7 +418,7 @@ Internal Parameters
     The camera will point in the direction of this object after being moved.
 
 *Duration*
-    Time (in seconds) that the camera will spend being moved to a new location. Set to zero by default (and in this case the camera doesn’t actually move, it simply changes its position). It can be specified manually or as a link to a register (if the ``Variable`` parameter is enabled).
+    Time (in seconds) that the camera will spend being moved to a new location. Set to zero by default (and in this case the camera doesn’t actually move, it simply changes its position). It can be specified manually or as a link to a variable (if the ``Variable`` parameter is enabled).
 
 Object
 ======
@@ -486,20 +508,26 @@ Internal Parameters
 *Object*
     An object that needs to be translated.
 
-*Relative*
-    If this parameter is enabled, the transformation will be relative, if it isn’t, it will be absolute.
+*Space*
+    This parameter defines the coordinate space that will be used to transform the object. It can have one of the following values:
+
+    * ``World`` - global coordinate space.
+    * ``Parent`` - local coordinate system of the parent of the object specified by the ``Object`` parameter. Parent object's origin point is used as the center of coordinates, while its angles of rotation define the directions of the coordinate axes. 
+    * ``Local`` - local coordinate space of the selected object. Similar to the ``Parent`` coordinate space, but in this case, the origin point of the object itelf is used as the origin of coordinates.
+
+    Set to ``World`` by default.
 
 *Location*
-    How the object will move along the ``X``, ``Y`` and ``Z`` axes. By default, all three parameters are set to zero. Values can be specified in the node itself or through the regisers (if the ``Variable`` option is enabled).
+    How the object will move along the ``X``, ``Y`` and ``Z`` axes. By default, all three parameters are set to zero. Values can be specified in the node itself or through the variables (if the ``Variable`` option is enabled).
 
 *Rotation*
-    Object’s rotation around the ``X``, ``Y`` and ``Z`` axes. All three valueas are set to zero by default. Can be specified directly in the node or through the registers (if the ``Variable`` option is enabled).
+    Object’s rotation around the ``X``, ``Y`` and ``Z`` axes. All three values are set to zero by default. Can be specified directly in the node or through the variables (if the ``Variable`` option is enabled).
 
 *Scale*
-    Object’s size. Can be specified directly or through a register (if the ``Variable`` parameter is enabled). Set to zero by default.
+    Object’s size. Can be specified directly or through a variable (if the ``Variable`` parameter is enabled). Set to 1 by default.
 
 *Duration*
-    Time (in seconds) that the transformation will take. It can be specified both directly or with a register (to do this, the ``Variable`` parameter should be enabled). Set to zero by default.
+    Time (in seconds) that the transformation will take. It can be specified both directly or with a variable (to do this, the ``Variable`` parameter should be enabled). Set to zero by default.
 
 .. _nla_move_to:
 
@@ -534,7 +562,7 @@ Internal Parameters
     A target (another object or a light source, camera or anything else) to which the selected object will move. The object’s coordinated will be the same as the target’s after the movement is finished.
 
 *Duration*
-    Time (in seconds) that the object will spend moving to the new location. By default, this parameter is set to zero (and in this case, the object doesn’t actually move, it just changes it’s position in a moment). It can be set manually or with a register (avalible only if the ``Variable`` parameter is enabled).
+    Time (in seconds) that the object will spend moving to the new location. By default, this parameter is set to zero (and in this case, the object doesn’t actually move, it just changes its position in a moment). It can be set manually or with a variable (available only if the ``Variable`` parameter is enabled).
 
 .. _nla_shape_key:
 
@@ -569,7 +597,7 @@ Internal Parameters
     Shape key that will be applied to the object.
 
 *Value*
-    How much the shape key will influence the object. This value can be set in the node or in a register. The value should be between 0 and 1.
+    How much the shape key will influence the object. This value can be set directly in the node or using a variable. The value should be between 0 and 1.
 
 .. _nla_outline:
 
@@ -608,7 +636,7 @@ Internal Parameters
     * *INTENSITY* can be used to set intensity of the object’s outline
 
 *Intensity*
-    Outline intensity. This parameter is only avalible if the ``Operation`` parameter is set to ``INTENSITY``. The value can be set manually or via register (if the ``Variable`` parameter is enabled).
+    Outline intensity. This parameter is only available if the ``Operation`` parameter is set to ``INTENSITY``. The value can be set manually or via variable (if the ``Variable`` parameter is enabled).
 
 .. _nla_shader_node:
 
@@ -646,7 +674,7 @@ Internal Parameters
     A node that has parameters that can be changed. For now, only ``Value`` and ``RGB`` nodes are supported.
 
 *Parameters*
-    Editable parameters of the selected node. They can be set in the node itself or through the registers (if the ``Variable`` parameter is enabled).
+    Editable parameters of the selected node. They can be set in the node itself or through the variables (if the ``Variable`` parameter is enabled).
 
 .. _nla_inherit_material:
 
@@ -716,16 +744,16 @@ Internal Parameters
 ...................
 
 *Var. name.*
-    Name of the variable. Can be selected from the list of eight registers or specified manually (if the ``New variable`` parameter is enabled).
+    Name of the variable. Can be selected from the list of variables or specified manually (if the ``New variable`` parameter is enabled).
 
 *Var. type*
     Variable’s type. This parameter can have one of two values: ``Number`` (for numerical variables) and ``String`` (for string variables).
 
 *New Variable*
-    If this parameter is enabled, you can manually input a variable’s name and not just select one of the registers. This can be used to transfer the data between the application and the server.
+    If this parameter is enabled, you can manually input a variable’s name and not just select one of the variables. This can be used to transfer the data between the application and the server.
 
 *Global*
-    Enabling this parameter makes the variable global. Avalible only if the ``New Variable`` parameter has been enabled.
+    Enabling this parameter makes the variable global. Available only if the ``New Variable`` parameter has been enabled.
 
     .. image:: src_images/logic_editor/logic_editor_variable_global.png
         :align: center
@@ -739,7 +767,7 @@ Internal Parameters
 Math Operation
 --------------
 
-Perform a math operation and save the result in the register. Any of parameters (operands) can be either a numeric value or a register.
+Perform a math operation and store the result in the variables. Any of parameters (operands) can be either a numeric value or a variables.
 
 .. image:: src_images/logic_editor/logic_editor_math_operation.png
     :align: center
@@ -765,25 +793,25 @@ Internal Parameters
 
     * *Random* generates random value greater than the first operand and less than the second.
     * *Add* sums the operands.
-    * *Multiply* multyplies the operands.
+    * *Multiply* multiplies the operands.
     * *Subtract* subtracts the second operand from the first.
     * *Divide* divides first operand by the second.
 
 *Operand1*
-    First operand. It can be specified in the node or it can be a link to one of the registers (if the ``Variable`` parameter is enabled).
+    First operand. It can be specified in the node or it can be a link to one of the variables (if the ``Variable`` parameter is enabled).
 
 *Operand2*
     Second operand. Works the same way as the first.
 
 *Destination*
-    The result of the operation will be saved in the register specified by this parameter.
+    The result of the operation will be saved in the variable specified by this parameter.
 
 .. _nla_string:
 
 String Operation
 ----------------
 
-Can be used to perform an operation with two strings and save the result to a register.
+Can be used to perform an operation with two strings and save the result to a variable.
 
 .. image:: src_images/logic_editor/logic_editor_string.png
     :align: center
@@ -808,28 +836,28 @@ Internal Parameters
     An operation that you need to perform with two strings, which can have one of the following values:
 
     * *Join* - joins two strings into one.
-    * *Find* - writes the index of the first occurence of the second string in the first string to the register. If there is no occurences, the value of -1 will be written. It should be noted that the first symbol of a string has an index of 0, not 1.
-    * *Replace* replaces first occurence of the second string in the first string with the third one.
-    * *Split* splits the first string in two using the first occurence of the second string as a splitting mark.
-    * *Compare* compares two strings. For this operation, you need to specify a logical condition. If this condition is met, a value of 1 will be outputted to the ``Destination`` register, if it isn’t, zero will be outputted.
+    * *Find* - writes the index of the first occurrence of the second string in the first string to the variable. If there is no occurrences, the value of -1 will be written. It should be noted that the first symbol of a string has an index of 0, not 1.
+    * *Replace* replaces first occurrence of the second string in the first string with the third one.
+    * *Split* splits the first string in two using the first occurrence of the second string as a splitting mark.
+    * *Compare* compares two strings. For this operation, you need to specify a logical condition. If this condition is met, a value of 1 will be outputted to the ``Destination`` variable, if it isn’t, zero will be outputted.
 
 *Condition*
-    A logical condition to compare two strings. This parameter is avalible only if the ``Operation`` parameter is set to ``Compare``. Works the same way as the ``Condition`` parameter of the ``Conditional Jump`` node.
+    A logical condition to compare two strings. This parameter is available only if the ``Operation`` parameter is set to ``Compare``. Works the same way as the ``Condition`` parameter of the ``Conditional Jump`` node.
 
 *Operand1*
-    The first string. Can be specified in the node itself or with a register.
+    The first string. Can be specified in the node itself or with a variable.
 
 *Operand2*
     The second string. Works the same way as the first.
 
 *Operand3*
-    This parameter is avalible only if the ``Operation`` parameter is set to ``Replace``. Can be used to specify the third string, which will replace the first occurence of the second one.
+    This parameter is available only if the ``Operation`` parameter is set to ``Replace``. Can be used to specify the third string, which will replace the first occurrence of the second one.
 
 *Destination*
-    A register to save the operation’s result.
+    A variable to save the operation’s result.
 
 *Destination2*
-    This parameter is avalible only if the ``Operation`` parameter is set to ``Split``. Specifies the register to save the second half of the string that has been split (the first half will be saved to the register specified by the ``Destination`` parameter).
+    This parameter is available only if the ``Operation`` parameter is set to ``Split``. Specifies the variable to save the second half of the string that has been split (the first half will be saved to the variable specified by the ``Destination`` parameter).
 
 Sound
 =====
@@ -933,13 +961,13 @@ Internal Parameters
     Set to ``GET`` by default.
 
 *Url*
-    A web adress to send request to. Set to “https://www.blend4web.com” by default.
+    A web address to send request to. Set to “https://www.blend4web.com” by default.
 
 *Response Params*
-    Specifies the register to save the data recieved from the server.
+    Specifies the variable to save the data received from the server.
 
 .. note::
-    The data recieved from the server should look like this:
+    The data received from the server should look like this:
 
     .. code-block:: json
 
@@ -953,7 +981,7 @@ Internal Parameters
     Indicates the media type of the message content. Consists of a type and a subtype, for example: ``text/plain``. Set to ``Auto`` by default. Can be used to reassign the title of the HTTP request.
 
 *Request Params*
-    Specifies the register that contains a JSON object that will be sent to the server.  Avalible only if the ``Method`` parameter is set to ``POST``. Default value is ``R1``.
+    Specifies the variable that contains a JSON object that will be sent to the server.  Available only if the ``Method`` parameter is set to ``POST``. Default value is ``R1``.
 
 .. _nla_json:
 
@@ -988,14 +1016,14 @@ Internal Parameters
     An operation you need to perform with the JSON object specified by the ``JSON`` parameter. Can have one of two values: ``ENCODE`` to encode the JSON object and ``PARSE`` to decode it. Set to ``ENCODE`` by default.
 
 *Members*
-    A list of variables that will be used to either store the decoded data or to encode a JSON object ( depending on the value of the ``JSON Operation`` parameter). The variables always have names like ``var0``, ``var1`` and so on, and their quantity can be adjusted.
+    A list of variables that will be used to either store the decoded data or to encode a JSON object (depending on the value of the ``JSON Operation`` parameter). The variables always have names like ``var0``, ``var1`` and so on, and their quantity can be adjusted.
 
 .. _nla_page_param:
 
 Page Param
 ----------
 
-Allows to store any web page parameter in a given register.
+Allows to store any web page parameter in a given variable.
 
 .. image:: src_images/logic_editor/logic_editor_page_param.png
     :align: center
@@ -1020,14 +1048,14 @@ Internal Parameters
     The name of the web page parameter.
 
 *Destination*
-    A register that will be used to save the parameter.
+    A variable that will be used to save the parameter.
 
 .. _nla_page_redirect:
 
 Page Redirect
 -------------
 
-Can be used to redirect the browser to another page. This node always marks the end of the node tree and doest’t have any output parameters.
+Can be used to redirect the browser to another page. This node always marks the end of the node tree and doesn’t have any output parameters.
 
 .. image:: src_images/logic_editor/logic_editor_page_redirect.png
     :align: center
@@ -1048,7 +1076,7 @@ Internal Parameters
 ...................
 
 *Url*
-    Web adress of a page that will be opened. Set to “https://www.blend4web.com” by default.
+    Web address of a page that will be opened. Set to “https://www.blend4web.com” by default.
 
 Debug
 =====
@@ -1082,8 +1110,35 @@ Internal Parameters
 *Message*
     A message that will be printed to the console along with the values.
 
-<register name>
-    A register that will be printed to the console. By default, a ``Console Print`` node has one such parameter, but you can add new and delete existing ones (the node might not even have such parameters at all).
+<variable name>
+    A variable that will be printed to the console. By default, a ``Console Print`` node has one such parameter, but you can add new and delete existing ones (the node might not even have such parameters at all).
+
+Deprecated
+==========
+
+Select (Deprecated)
+-------------------
+.. note::
+
+    Deprecated! Isn’t recommended to use. Instead, using a ``Switch Select`` node is recommended.
+
+It is similar to the ``Select & Play`` node, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results.
+
+Select & Play Timeline (Deprecated)
+-----------------------------------
+.. note::
+
+    Deprecated! Isn’t recommended to use. Instead, using a combination of ``Switch Select`` and ``Play Timeline`` nodes is recommended.
+
+Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the ``Play Timeline`` node. If any other object is selected - then immediately transfer control to the next node.
+
+Select & Play Animation (Deprecated)
+------------------------------------
+.. note::
+
+    Deprecated! Isn’t recommended to use. Instead, using a combination of ``Switch Select`` and ``Play Timeline`` nodes is recommended.
+
+Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If the object, which is specified in this node, is selected - then start the animation similar to the ``Play Animation`` node. If any other object is selected - then immediately transfer control to the next node.
 
 Layout
 ======

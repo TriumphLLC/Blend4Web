@@ -26,14 +26,11 @@
 b4w.module["__physics"] = function(exports, require) {
 
 var m_cfg      = require("__config");
-var m_cons     = require("__constraints");
 var m_debug    = require("__debug");
 var m_ipc      = require("__ipc");
-var m_mat4     = require("__mat4");
 var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_quat     = require("__quat");
-var m_render   = require("__renderer");
 var m_scs      = require("__scenes");
 var m_trans    = require("__transform");
 var m_tsr      = require("__tsr");
@@ -1461,10 +1458,15 @@ function vector_to_world(obj, vx_local, vy_local, vz_local, dest) {
  * Move the object by applying the force in the world space.
  */
 exports.apply_force = apply_force;
-function apply_force(obj, fx_local, fy_local, fz_local) {
+function apply_force(obj, fx_local, fy_local, fz_local, use_world) {
 
     var f_world = _vec3_tmp;
-    vector_to_world(obj, fx_local, fy_local, fz_local, f_world);
+    if (use_world) {
+        f_world[0] = fx_local;
+        f_world[1] = fy_local;
+        f_world[2] = fz_local;
+    } else
+        vector_to_world(obj, fx_local, fy_local, fz_local, f_world);
 
     var body_id = obj.physics.body_id;
 

@@ -29,7 +29,6 @@ b4w.module["__particles"] = function(exports, require) {
 var m_cfg    = require("__config");
 var m_batch  = require("__batch");
 var m_geom   = require("__geometry");
-var m_scenes = require("__scenes");
 var m_tex    = require("__textures");
 var m_time   = require("__time");
 var m_tsr    = require("__tsr");
@@ -82,7 +81,10 @@ function create_particles_data(name, type) {
         delay_attrs: null,
         delay_attrs_masked: null,
         emitter_tsr_snapshots: null,
-        p_data: null
+        p_data: null,
+
+        tilt: 0,
+        tilt_rand: 0
     }
 
     return pdata;
@@ -285,6 +287,9 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     var ang_vel_factor = psystem["settings"]["angular_velocity_factor"];
     var is_rand_delay = psystem["settings"]["b4w_randomize_emission"];
     var cyclic = psystem["settings"]["b4w_cyclic"];
+
+    pdata.tilt = psystem["settings"]["billboard_tilt"];
+    pdata.tilt_rand = psystem["settings"]["billboard_tilt_random"];
 
     init_particle_rand(psystem["seed"]);
 

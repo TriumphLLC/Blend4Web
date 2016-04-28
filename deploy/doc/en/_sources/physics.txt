@@ -116,7 +116,7 @@ The model of a vehicle must consist of 6 separate objects - a chassis, 4 wheels 
 
 For all 6 objects: select the ``Part``, specify the same id in the ``Vehicle Name`` field, select the right object type - ``Chassis``, ``Steering Wheel``, ``Back Right Wheel`` and so on. The ``Suspension Rest Length`` setting is also available for the wheels.
 
-It is neccessary to specify a realistic mass for the chassis (because the default value is only 1 kg). To do this go to the physics settings, choose the ``Rigid Body`` value for the ``Physics Type`` option and specify the required value (for example, 1000 kg) in the ``Mass`` field.
+It is necessary to specify a realistic mass for the chassis (because the default value is only 1 kg). To do this go to the physics settings, choose the ``Rigid Body`` value for the ``Physics Type`` option and specify the required value (for example, 1000 kg) in the ``Mass`` field.
 
 Chassis Settings
 ----------------
@@ -145,11 +145,11 @@ Chassis Settings
 *Max Suspension Travel Cm*
     Maximum suspension travel in centimeters.
 
-For the ``Steering Wheel`` it is necessary to specify the maximum steering angle (``Steering Max``) and the ratio between the turn of the steering wheel and the turn of the wheels  (``Steering Ratio``). The maximum steering angle value is specified in revolutions. A single revolution equals to 360 degrees. Therefore if ``Steering Max`` is equal to one and ``Steering Ratio`` is equal to 10, the maximum turn of the steering wheel will be 360 degrees and the maximum turn of the front wheels will be 36 degrees.
+For the ``Steering Wheel`` it is necessary to specify the maximum steering angle (``Steering Max``) and the ratio between the turn of the steering wheel and the turn of the wheels  (``Steering Ratio``). The maximum steering angle value is specified in revolutions. A single revolution equals to 360 degrees. Therefore, if ``Steering Max`` is equal to one and ``Steering Ratio`` is equal to 10, the maximum turn of the steering wheel will be 360 degrees and the maximum turn of the front wheels will be 36 degrees.
 
 On this stage you can export and load the scene into the engine. We recommend to create a road surface with a physics material. To choose the controlled object press the ``Q`` key in the Viewer and select the chassis. Use the ``W``, ``A``, ``S``, ``D`` keys as controls.
 
-We can additionally tweak the ``Damping`` of ``Translation`` and ``Rotation``. This will influence the speed and inertion of the vehicle.
+We can additionally tweak the ``Damping`` of ``Translation`` and ``Rotation``. This will influence the speed and inertia of the vehicle.
 
 The friction and elasticity of the road surface material do not influence the vehicle's behavior.
 
@@ -163,7 +163,7 @@ Floating Objects
 
 |
 
-In order for the object to float on the water surface (an object with the ``Water`` material), it is neccessary to enable the ``Floater`` panel. There are two types of floating objects: ``Main Body`` - the floating object itself and ``Bob`` - an auxiallary bob-object onto which the buoyancy will be acting. A floating object can have an unlimited number of ``Bob`` objects. This can be both meshes or ``Empty`` objects.
+In order for the object to float on the water surface (an object with the ``Water`` material), it is necessary to enable the ``Floater`` panel. There are two types of floating objects: ``Main Body`` - the floating object itself and ``Bob`` - an auxiliary bob-object onto which the buoyancy will be acting. A floating object can have an unlimited number of ``Bob`` objects. This can be both meshes or ``Empty`` objects.
 
 All objects that are part of the same floating object must have the same name in the ``Floater Name`` field.
 
@@ -174,10 +174,10 @@ Floating Object Settings
     Buoyancy coefficient.
 
 *Water Linear Damping*
-    Linear velocity damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.
+    Linear velocity damping when the object is on the water surface (or under water). When the object is not in water, the physics settings are used.
 
 *Water Rotation Damping*
-    Rotation damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.
+    Rotation damping when the object is on the water surface (or under water). When the object is not in water, the physics settings are used.
 
 Floating Vehicles aka Watercrafts
 =================================
@@ -188,7 +188,7 @@ Floating Vehicles aka Watercrafts
 
 |
 
-Watercrafts use some parameters from the ``Vehicle`` settings and all the settings which are similar to ``Floater`` setting. It is neccessary to set the ``Part`` type ``Hull`` on the main object. Similar to a floating object a watercraft requires auxillary ``Bob`` objects.
+Watercrafts use some parameters from the ``Vehicle`` settings and all the settings which are similar to ``Floater`` setting. It is necessary to set the ``Part`` type ``Hull`` on the main object. Similar to a floating object a watercraft requires auxiliary ``Bob`` objects.
 
 Watercraft Settings
 -------------------
@@ -203,10 +203,10 @@ Watercraft Settings
     Buoyancy coefficient.
 
 *Water Linear Damping*
-    Linear velocity damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.
+    Linear velocity damping when the object is on the water surface (or under water). When the object is not in water, the physics settings are used.
 
 *Water Rotation Damping*
-    Rotation damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.
+    Rotation damping when the object is on the water surface (or under water). When the object is not in water, the physics settings are used.
 
 Use in Applications
 ===================

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-28 15:00+0300\n"
-"PO-Revision-Date: 2016-03-29 11:42+0300\n"
+"POT-Creation-Date: 2016-04-25 17:26+0300\n"
+"PO-Revision-Date: 2016-03-28 15:47+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,8 +27,8 @@ msgstr "目录"
 
 #: ../project_manager.rst:11
 msgid ""
-"Since version 15.09, the SDK includes a project managment feature, which "
-"makes it possible to:"
+"Since version 15.09, the SDK includes a project management feature, which"
+" makes it possible to:"
 msgstr "自版本 15.09，SDK 中包含一种项目管理功能，使它成为可能 ︰"
 
 #: ../project_manager.rst:13
@@ -144,8 +144,8 @@ msgid "Re-export blend files from the project."
 msgstr "从项目重新导出blend文件。"
 
 #: ../project_manager.rst:64
-msgid "Convert media resources."
-msgstr "转换媒体资源。"
+msgid ":ref:`Convert media resources. <converter>`"
+msgstr ":ref:`转换媒体资源。<converter>`"
 
 #: ../project_manager.rst:65
 msgid "Export and download a project archive."
@@ -156,7 +156,7 @@ msgid "Remove the project."
 msgstr "移除项目"
 
 #: ../project_manager.rst:70
-msgid "All project paths are retreived from its .b4w_project file."
+msgid "All project paths are retrieved from its .b4w_project file."
 msgstr "项目的所有路径都是从它的.b4w_project 文件中检索。"
 
 #: ../project_manager.rst:72
@@ -439,7 +439,6 @@ msgid "*JavaScript Obfuscation Level*"
 msgstr "*JavaScript 混淆级别*"
 
 #: ../project_manager.rst:179
-#, fuzzy
 msgid "JavaScript optimization level."
 msgstr "Javascript 优化级别。"
 
@@ -473,8 +472,8 @@ msgstr "项目导入"
 
 #: ../project_manager.rst:195
 msgid ""
-"Tools for importing projects are avalible by the ``[Import Project(s)]`` "
-"link."
+"Tools for importing projects are available by the ``[Import Project(s)]``"
+" link."
 msgstr "导入项目工具是在 ``[Import Project(s)]`` 链接"
 
 #: ../project_manager.rst:197
@@ -494,7 +493,6 @@ msgid ""
 msgstr "项目输出窗口可以通过 ``[Export Project(s)]`` 链接访问。"
 
 #: ../project_manager.rst:214
-#, fuzzy
 msgid "Returns to the Project Manager’s main page."
 msgstr "返回到项目管理的主页面。"
 
@@ -548,4 +546,9 @@ msgstr "*档案名称*"
 msgid "The name of an archive to which exported projects are packed."
 msgstr "导出的项目打包的档案名称。"
 
+#~ msgid "Уровень оптимизации JavaScript."
+#~ msgstr "Уровень оптимизации JavaScript。"
+
+#~ msgid "Возвращает на главную страницу менеджера проектов."
+#~ msgstr "ВОЗВРАЩАЕТ НА ГЛАВНУЮ СТРАНИЦУ МЕНЕДЖЕРА ПРОЕКТОВ。"
 

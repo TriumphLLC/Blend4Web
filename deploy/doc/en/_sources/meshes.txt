@@ -40,7 +40,7 @@ Override Bounding Volumes
 
 This section is used to override bounding volumes. Such volumes are used to check object’s visibility, to handle collisions and physics interaction. By editing them, you can achieve various effects.
 
-.. image:: src_images/objects/objects_override_bounding_volumes.png
+.. image:: src_images/meshes/meshes_override_bounding_volumes.png
    :align: center
    :width: 100%
 
@@ -49,11 +49,11 @@ The ``Override Bounding Volumes`` section can be found on the ``Blend4Web`` pane
 *Show Boundings*
 
 
-    .. image:: src_images/objects/objects_show_boundings.png
+    .. image:: src_images/meshes/meshes_show_boundings.png
        :align: center
        :width: 100%
 
-    Show the bounding volumes in the Blender viewport. This option works only if the ``Override Mesh Boundings`` parameter is enabled. The volume can be rendered as a rectangular cuboid or as a combination of circles or ellises. More then one method of rendering can be active at the same time (even all three methods can be enabled simultaneously).
+    Show the bounding volumes in the Blender viewport. This option works only if the ``Override Mesh Boundings`` parameter is enabled. The volume can be rendered as a rectangular cuboid or as a combination of circles or ellipses. More than one method of rendering can be active at the same time (even all three methods can be enabled simultaneously).
 
 .. note::
     The selected rendering method does not affect the bounding volume shape, only the way it is represented in the viewport.
@@ -63,7 +63,7 @@ The ``Override Bounding Volumes`` section can be found on the ``Blend4Web`` pane
 *Override Mesh Boundings*
 
 
-    .. image:: src_images/objects/objects_override_mesh_boundings.png
+    .. image:: src_images/meshes/meshes_override_mesh_boundings.png
        :align: center
        :width: 100%
 
@@ -93,7 +93,7 @@ Copying objects has its limitations:
 Making a Simple Copy
 --------------------
 
-In case of simple copying the new object will share the mesh with the original object. Thus, if the the original object’s mesh is changed, the copied object’s mesh will be changed too. To make simple copying possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object`` setting in the source object’s properties.
+In case of simple copying the new object will share the mesh with the original object. Thus, if the original object’s mesh is changed, the copied object’s mesh will be changed too. To make simple copying possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object`` setting in the source object’s properties.
 
 Making a Deep Copy
 ------------------
@@ -101,7 +101,7 @@ Making a Deep Copy
 In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the :ref:`Rendering Properties > Dynamic Geometry <dynamic_geom>` checkbox for the source object.
 |
 
-Copying objects in runtime can be performed with the ``copy`` method of the ``objects.js`` module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default simple copying will be performed.
+Copying objects in runtime can be performed with the ``copy`` method of the ``objects.js`` module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default, simple copying will be performed.
 
 The newly created object should be added to the scene. This can be performed with the ``append_object`` method of the ``scenes.js`` module. The new object should be passed to it as an argument.
 
@@ -150,6 +150,8 @@ or using the :ref:`NLA Script <nla_select_play>`.
 
 If the selectable object has enabled ``Enable Outlining`` and ``Outline on Select`` checkboxes on the ``Object > Selection`` and Outlining panel, then the ``pick_object`` function call will activate :ref:`outline glow animation <outline>`.
 
+.. note::
+    If the selected object is transparent (``Blend``, ``Add`` and ``Sort`` transparency types), outline glow will only be visible on the parts that have ``Alpha`` value higher than 0.5.
 
 .. _mesh_morphing:
 
@@ -158,7 +160,7 @@ Morphing
 
 Morph targets can be added using Blender’s standard ``Mesh > Shape keys`` interface.
 
-.. image:: src_images/objects/morphing.png
+.. image:: src_images/meshes/meshes_morphing.png
    :align: center
 
 |

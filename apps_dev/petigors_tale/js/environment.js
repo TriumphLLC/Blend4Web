@@ -18,11 +18,16 @@ var m_conf = require("game_config");
 var m_bonuses = require("bonuses");
 
 var _level_conf = null; // specified during initialization
-var falling_time = {};
+var _rock_wrappers = [];
 
+var RAY_START = [0,0,0];
 
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp_2 = new Float32Array(3);
+
+var TT_NONE = -1;
+var TT_LAVA = 0;
+var TT_GROUND = 1;
 
 exports.init = function(elapsed_sensor, level_conf) {
     _level_conf = level_conf;
@@ -69,37 +74,63 @@ function setup_random_bonus_spawn(level_conf) {
                                  [timer], null, bonus_spawn_cb);
 }
 
+function init_rock_wrapper(rock, mark, burst, speaker) {
+    var rock_wrapper = {
+        rock: rock,
+        mark: mark,
+        burst: burst,
+        speaker: speaker,
+        lava_height: _level_conf.ROCK_RAY_LENGTH,
+        ground_height: _level_conf.ROCK_RAY_LENGTH,
+        terrain_type: TT_NONE,
+        falling_time: 0
+    }
+    return rock_wrapper;
+}
+
 function setup_falling_rocks(elapsed_sensor, level_conf) {
 
-    function rock_fall_cb(obj, id, pulse, rock_height_sens) {
+    function rock_fall_cb(obj, id, pulse, rock_wrapper) {
         var elapsed = m_ctl.get_sensor_value(obj, id, 0);
-        var rock_name = m_scs.get_object_name(obj);
-        falling_time[rock_name] += elapsed;
+        var mark = rock_wrapper.mark;
+        m_trans.set_scale(mark, 0);
 
-        if (falling_time[rock_name] <= _level_conf.ROCK_FALL_DELAY)
+        rock_wrapper.falling_time += elapsed;
+
+        if (rock_wrapper.falling_time <= _level_conf.ROCK_FALL_DELAY) {
+            rock_wrapper.terrain_type = TT_NONE;
             return;
+        }
 
         var rock_pos = _vec3_tmp;
+        var mark_pos = _vec3_tmp_2;
+
         m_trans.get_translation(obj, rock_pos);
+        m_trans.get_translation(mark, mark_pos);
+
         rock_pos[1] -= _level_conf.ROCK_SPEED * elapsed;
         m_trans.set_translation_v(obj, rock_pos);
-        if (rock_pos[1] < -5)
-            m_ctl.set_custom_sensor(rock_height_sens, 1);
-        else
-            m_ctl.set_custom_sensor(rock_height_sens, 0);
+
+        var mark_scale = 1 - Math.abs((rock_pos[1] - mark_pos[1])) /
+                             _level_conf.ROCK_RAY_LENGTH;
+        m_trans.set_scale(mark, mark_scale);
+
+        if (rock_pos[1] <= mark_pos[1])
+            rock_crash(rock_wrapper)
     }
 
-    function rock_crush_cb(obj, id, pulse, params) {
+    function rock_crash(rock_wrapper) {
         var char_pos = _vec3_tmp;
-        var burst_emitter = params[0];
-        var crush_speaker = params[1];
+        var burst_emitter = rock_wrapper.burst;
+        var crush_speaker = rock_wrapper.speaker;
+        var mark = rock_wrapper.mark;
 
         var char_wrapper = m_char.get_wrapper();
         m_trans.get_translation(char_wrapper.phys_body, char_pos);
 
-        var sensor_id = m_ctl.get_sensor_value(obj, id, 0)? 0: 1;
+        var collision_pt = _vec3_tmp_2;
+        m_trans.get_translation(mark, collision_pt);
 
-        var collision_pt = m_ctl.get_sensor_payload(obj, id, sensor_id).coll_pos;
         var dist_to_rock = m_vec3.distance(char_pos, collision_pt);
 
         m_trans.set_translation_v(burst_emitter, collision_pt);
@@ -115,36 +146,14 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
             }
         }
 
-        set_random_rock_position(obj);
-
-        var rock_name = m_scs.get_object_name(obj);
-        falling_time[rock_name] = 0;
-
         var should_spawn_bonus = Math.random() < m_conf.BONUS_SPAWN_CHANCE;
 
         // spawn bonus only for ground collision
-        should_spawn_bonus = should_spawn_bonus && sensor_id == 0;
-        if (should_spawn_bonus)
+        if (rock_wrapper.terrain_type == TT_GROUND && should_spawn_bonus)
             m_bonuses.spawn(collision_pt);
 
         m_sfx.play_def(crush_speaker);
-    }
-
-    function mark_pos_cb(obj, id, pulse, mark) {
-
-        var sensor_id = m_ctl.get_sensor_value(obj, id, 0)? 0: 1;
-        var ray_dist = m_ctl.get_sensor_payload(obj, id, sensor_id).hit_fract;
-
-        var mark_pos = _vec3_tmp;
-        var rock_name = m_scs.get_object_name(obj);
-
-        if (falling_time[rock_name] <= _level_conf.ROCK_FALL_DELAY) {
-            m_trans.get_translation(obj, mark_pos);
-            mark_pos[1] -= ray_dist * _level_conf.ROCK_RAY_LENGTH - 0.01;
-            m_trans.set_translation_v(mark, mark_pos);
-        }
-
-        m_trans.set_scale(mark, 1 - ray_dist);
+        set_random_rock_position(rock_wrapper);
     }
 
     for (var i = 0; i < _level_conf.ROCK_EMPTIES.length; i++) {
@@ -158,65 +167,82 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
             var mark_name  = _level_conf.MARK_NAMES[j];
 
             var rock  = m_scs.get_object_by_dupli_name(dupli_name, rock_name);
-            var burst = m_scs.get_object_by_dupli_name(dupli_name, burst_name);
             var mark  = m_scs.get_object_by_dupli_name(dupli_name, mark_name);
+            var burst = m_scs.get_object_by_dupli_name(dupli_name, burst_name);
             var speaker = m_scs.get_object_by_dupli_name(dupli_name,
                                                          _level_conf.ROCK_HIT_SPEAKERS[j]);
 
-            var coll_sens_lava = m_ctl.create_collision_sensor(rock, "LAVA", true);
-            var coll_sens_island = m_ctl.create_collision_sensor(rock, "GROUND", true);
-            var rock_height_sens = m_ctl.create_custom_sensor(0);
-
-            var ray_sens_island = m_ctl.create_ray_sensor(rock, [0, 0, 0],
-                                        [0, -_level_conf.ROCK_RAY_LENGTH, 0], "GROUND", true);
-            var ray_sens_lava = m_ctl.create_ray_sensor(rock, [0, 0, 0],
-                                        [0, -_level_conf.ROCK_RAY_LENGTH, 0], "LAVA", true);
+            var rock_wrapper = init_rock_wrapper(rock, mark, burst, speaker);
 
             m_ctl.create_sensor_manifold(rock, "ROCK_FALL", m_ctl.CT_CONTINUOUS,
-                                     [elapsed_sensor], null, rock_fall_cb, rock_height_sens);
+                                     [elapsed_sensor], null, rock_fall_cb,
+                                     rock_wrapper);
 
-            m_ctl.create_sensor_manifold(rock, "ROCK_CRASH", m_ctl.CT_SHOT,
-                                         [coll_sens_island, coll_sens_lava, rock_height_sens],
-                    function(s){return s[0] || s[1] || s[2]}, rock_crush_cb, [burst, speaker]);
+            set_random_rock_position(rock_wrapper);
+            append_ray_tests(rock_wrapper);
 
-            m_ctl.create_sensor_manifold(rock, "MARK_POS", m_ctl.CT_CONTINUOUS,
-                                        [ray_sens_island, ray_sens_lava],
-                    function(s){return s[0] || s[1]}, mark_pos_cb, mark);
-
-            set_random_rock_position(rock);
-            falling_time[rock_name] = 0;
+            _rock_wrappers.push(rock_wrapper);
         }
     }
 }
 
+function append_ray_tests(rock_wrapper) {
+    var rock = rock_wrapper.rock;
+    var mark = rock_wrapper.mark;
+    var ROCK_POS = [0, -_level_conf.ROCK_RAY_LENGTH, 0];
+
+    m_phy.append_ray_test_ext(rock, RAY_START, ROCK_POS, "LAVA",
+                              function(id, fract, obj, time, pos, norm) {
+                                  rock_wrapper.lava_height = pos[1];
+                                  if (rock_wrapper.terrain_type == TT_NONE) {
+                                      rock_wrapper.terrain_type = TT_LAVA;
+                                      set_mark(mark, pos, fract);
+                                  }
+                              },
+                              false, false, true, true);
+
+    m_phy.append_ray_test_ext(rock, RAY_START, ROCK_POS, "GROUND",
+                              function(id, fract, obj, time, pos, norm) {
+                                  rock_wrapper.ground_height = pos[1];
+                                  if (rock_wrapper.terrain_type != TT_GROUND) {
+                                      rock_wrapper.terrain_type = TT_GROUND;
+                                      set_mark(mark, pos, fract);
+                                  }
+                              },
+                              false, false, true, true);
+}
+
 exports.reset = function(elapsed_sensor) {
-    if (_level_conf.LEVEL_NAME == "volcano")
-        for (var i = 0; i < _level_conf.ROCK_EMPTIES.length; i++) {
-            var dupli_name = _level_conf.ROCK_EMPTIES[i];
-            for (var j = 0; j < _level_conf.ROCK_NAMES.length; j++) {
-                var rock_name  = _level_conf.ROCK_NAMES[j];
-                var rock  = m_scs.get_object_by_dupli_name(dupli_name, rock_name);
-                set_random_rock_position(rock);
-                falling_time[rock_name] = 0
-            }
-        }
+    if (_level_conf.ROCK_EMPTIES)
+        for (var i = 0; i < _rock_wrappers.length; i++)
+            set_random_rock_position(_rock_wrappers[i]);
     setup_lava(elapsed_sensor);
 }
 
-function set_random_rock_position(rock) {
+function set_random_rock_position(rock_wrapper) {
     var pos = _vec3_tmp;
+    var rock = rock_wrapper.rock;
+
     pos[0] = 4 * 8 * Math.random() - 16;
     pos[1] = 4 * 4 * Math.random() + 8;
     pos[2] = 4 * 8 * Math.random() - 16;
     m_trans.set_translation_v(rock, pos);
+
+    rock_wrapper.falling_time = 0;
+    rock_wrapper.terrain_type = TT_NONE;
 }
 
+function set_mark(mark, pos, ray_dist) {
+    pos[1] += 0.1;
+    m_trans.set_translation_v(mark, pos);
+    m_trans.set_scale(mark, 1 - ray_dist);
+}
 
 function setup_lava(elapsed_sensor) {
     var time_in_lava = 0;
     var char_wrapper = m_char.get_wrapper();
 
-    function lava_cb(obj, id, pulse, param) {
+    function lava_cb(obj, id, pulse) {
         if (pulse == 1) {
             m_scs.show_object(char_wrapper.foot_smoke);
             var elapsed = m_ctl.get_sensor_value(obj, id, 1);
@@ -261,20 +287,15 @@ function setup_lava(elapsed_sensor) {
 }
 
 exports.disable_environment = function () {
-    if (_level_conf.ROCK_EMPTIES) {
-        for (var i = 0; i < _level_conf.ROCK_EMPTIES.length; i++) {
-            var dupli_name = _level_conf.ROCK_EMPTIES[i];
-            for (var j = 0; j < _level_conf.ROCK_NAMES.length; j++) {
-                var rock_name  = _level_conf.ROCK_NAMES[j];
-                var mark_name  = _level_conf.MARK_NAMES[j];
-                var rock  = m_scs.get_object_by_dupli_name(dupli_name, rock_name);
-                var mark  = m_scs.get_object_by_dupli_name(dupli_name, mark_name);
-                m_ctl.remove_sensor_manifold(rock);
-                set_random_rock_position(rock);
-                m_trans.set_translation_v(mark, m_conf.DEFAULT_POS);
-            }
-        }
+    for (var i = 0; i < _rock_wrappers.length; i++) {
+        var rock_wrapper = _rock_wrappers[i];
+        var rock = rock_wrapper.rock;
+        var mark = rock_wrapper.mark;
+        m_ctl.remove_sensor_manifold(rock);
+        set_random_rock_position(rock_wrapper);
+        m_trans.set_translation_v(mark, m_conf.DEFAULT_POS);
     }
+    _rock_wrappers.length = 0;
 }
 
 })

@@ -459,5 +459,14 @@ exports.deg_to_rad = m_util.deg_to_rad;
  * @returns {Number} Angle in degrees.
  */
 exports.rad_to_deg = m_util.rad_to_deg;
+/**
+ * Convert directional vector to quaternion.
+ * @method module:util.dir_to_quat
+ * @param {Vec3} dir Directional vector.
+ * @param {Vec3} ident Identity vector
+ * @param {Quat} [dest] Destination quaternion
+ * @returns {Quat} Destination quaternion
+ */
+exports.dir_to_quat = m_util.dir_to_quat;
 
 }

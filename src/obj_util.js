@@ -90,8 +90,6 @@ function create_render(type) {
         pivot_limits: null,
 
         enable_hover_hor_rotation: true,
-        cameras: null,
-        shadow_cameras: null,
         
         outline_anim_settings_default: {
             outline_duration: 1,
@@ -447,7 +445,9 @@ function init_scene_data(scene) {
         cube_refl_subs: null,
         shadow_subscenes: [],
         light_index: 0,
-        obj_has_nla_on_scene: false
+        obj_has_nla_on_scene: false,
+        cameras: [],
+        shadow_cameras: []
     }
     return sc_data;
 }

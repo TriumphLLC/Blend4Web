@@ -7,6 +7,8 @@
 #define BILLBOARD_ALIGN_YZ 3
 #define BILLBOARD_ALIGN_ZX 4
 
+#define M_PI 3.14159265359
+
 /*============================================================================
                                   ATTRIBUTES
 ============================================================================*/
@@ -43,6 +45,9 @@ uniform float u_p_mass;
 uniform float u_p_wind_fac;
 
 uniform float u_p_max_lifetime;
+
+uniform float u_p_tilt;
+uniform float u_p_tilt_rand;
 
 #if REFLECTION_PASS
 uniform mat4 u_view_matrix;
@@ -160,14 +165,19 @@ void main(void) {
     }
 
     vec4 pos_local = vec4(a_p_bb_vertex * 2.0 * pp.size * u_p_size, 0.0, 1.0);
-    vec4 pos_world = bb_matrix * rotation_z(rotation_angle) * pos_local;
+
+    float bb_random_val = a_p_data[2];
+    float random_tilt = u_p_tilt * u_p_tilt_rand * (2.0 * bb_random_val - 1.0);
+    float init_rot_angle = (random_tilt + u_p_tilt) * M_PI;
+
+    vec4 pos_world = bb_matrix * rotation_z(init_rot_angle + rotation_angle) * pos_local;
 
     vec4 pos_view = view_matrix * pos_world;
 
     vec4 pos_clip = u_proj_matrix * pos_view;
 
 #if HALO_PARTICLES
-    v_vertex_random = a_p_data[2];
+    v_vertex_random = bb_random_val;
 #endif
 
 #if NODES

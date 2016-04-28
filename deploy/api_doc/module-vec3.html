@@ -65,6 +65,10 @@
 
         
             
+<li> <a href="#.bezier">bezier<span class="signature">(a, b, c, d, t, out)</span><span class="type-signature"> &rarr; {Vec3}</span></a></li>
+
+        
+            
 <li> <a href="#.clone">clone<span class="signature">(a)</span><span class="type-signature"> &rarr; {Vec3}</span></a></li>
 
         
@@ -106,6 +110,10 @@
         
             
 <li> <a href="#.fromValues">fromValues<span class="signature">(x, y, z)</span><span class="type-signature"> &rarr; {Vec3}</span></a></li>
+
+        
+            
+<li> <a href="#.hermite">hermite<span class="signature">(a, b, c, d, t, out)</span><span class="type-signature"> &rarr; {Vec3}</span></a></li>
 
         
             
@@ -412,7 +420,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line120">line 120</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line121">line 121</a>
     </li></ul></dd>
     
 
@@ -592,7 +600,279 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line675">line 675</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line730">line 730</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".bezier">bezier<span class="signature">(a, b, c, d, t, out)</span><span class="type-signature"> &rarr; {<a href="global.html#Vec3">Vec3</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Performs a bezier interpolation with two control points
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the first operand</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the second operand</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>c</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the third operand</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>d</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the fourth operand</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>t</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">interpolation amount between the two inputs</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>out</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the receiving vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line487">line 487</a>
     </li></ul></dd>
     
 
@@ -749,7 +1029,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line56">line 56</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -929,7 +1209,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line88">line 88</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -1037,7 +1317,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line42">line 42</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line43">line 43</a>
     </li></ul></dd>
     
 
@@ -1240,7 +1520,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line421">line 421</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line422">line 422</a>
     </li></ul></dd>
     
 
@@ -1326,7 +1606,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line285">line 285</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line286">line 286</a>
     </li></ul></dd>
     
 
@@ -1506,7 +1786,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line270">line 270</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line271">line 271</a>
     </li></ul></dd>
     
 
@@ -1592,7 +1872,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line198">line 198</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line199">line 199</a>
     </li></ul></dd>
     
 
@@ -1795,7 +2075,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line182">line 182</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line183">line 183</a>
     </li></ul></dd>
     
 
@@ -1975,7 +2255,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line409">line 409</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line410">line 410</a>
     </li></ul></dd>
     
 
@@ -2299,7 +2579,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line633">line 633</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line688">line 688</a>
     </li></ul></dd>
     
 
@@ -2502,7 +2782,279 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line71">line 71</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line72">line 72</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".hermite">hermite<span class="signature">(a, b, c, d, t, out)</span><span class="type-signature"> &rarr; {<a href="global.html#Vec3">Vec3</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Performs a hermite interpolation with two control points
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the first operand</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the second operand</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>c</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the third operand</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>d</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the fourth operand</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>t</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">interpolation amount between the two inputs</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>out</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the receiving vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line461">line 461</a>
     </li></ul></dd>
     
 
@@ -2682,7 +3234,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line371">line 371</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
@@ -2768,7 +3320,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line328">line 328</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line329">line 329</a>
     </li></ul></dd>
     
 
@@ -2925,7 +3477,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line314">line 314</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line315">line 315</a>
     </li></ul></dd>
     
 
@@ -3151,7 +3703,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line440">line 440</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line441">line 441</a>
     </li></ul></dd>
     
 
@@ -3354,7 +3906,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line221">line 221</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -3557,7 +4109,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line205">line 205</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -3643,7 +4195,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line175">line 175</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line176">line 176</a>
     </li></ul></dd>
     
 
@@ -3846,7 +4398,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line159">line 159</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line160">line 160</a>
     </li></ul></dd>
     
 
@@ -4026,7 +4578,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line356">line 356</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line357">line 357</a>
     </li></ul></dd>
     
 
@@ -4206,7 +4758,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line386">line 386</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line387">line 387</a>
     </li></ul></dd>
     
 
@@ -4406,7 +4958,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line460">line 460</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line515">line 515</a>
     </li></ul></dd>
     
 
@@ -4632,7 +5184,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line546">line 546</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line601">line 601</a>
     </li></ul></dd>
     
 
@@ -4858,7 +5410,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line575">line 575</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line630">line 630</a>
     </li></ul></dd>
     
 
@@ -5084,7 +5636,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line604">line 604</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line659">line 659</a>
     </li></ul></dd>
     
 
@@ -5287,7 +5839,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line237">line 237</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line238">line 238</a>
     </li></ul></dd>
     
 
@@ -5513,7 +6065,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line253">line 253</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -5739,7 +6291,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line103">line 103</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line104">line 104</a>
     </li></ul></dd>
     
 
@@ -5825,7 +6377,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line307">line 307</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line308">line 308</a>
     </li></ul></dd>
     
 
@@ -5911,7 +6463,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line349">line 349</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line350">line 350</a>
     </li></ul></dd>
     
 
@@ -6091,7 +6643,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line292">line 292</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -6248,7 +6800,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line335">line 335</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line336">line 336</a>
     </li></ul></dd>
     
 
@@ -6405,7 +6957,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line699">line 699</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line754">line 754</a>
     </li></ul></dd>
     
 
@@ -6491,7 +7043,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line152">line 152</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -6694,7 +7246,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line136">line 136</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line137">line 137</a>
     </li></ul></dd>
     
 
@@ -6897,7 +7449,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line501">line 501</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line556">line 556</a>
     </li></ul></dd>
     
 
@@ -7101,7 +7653,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line481">line 481</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line536">line 536</a>
     </li></ul></dd>
     
 
@@ -7304,7 +7856,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line518">line 518</a>
+        <a href="libs_gl-matrix2.js.html">libs/gl-matrix2.js</a>, <a href="libs_gl-matrix2.js.html#line573">line 573</a>
     </li></ul></dd>
     
 
@@ -7335,13 +7887,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Mar 31 2016 11:41:55 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Apr 28 2016 16:47:02 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
 </footer>
 

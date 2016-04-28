@@ -220,7 +220,7 @@ New Project]" 按钮执行。
    URL 参数 列表用来启动应用程序。
 
 *JavaScript 混淆级别*
-   JavaScript optimization level.
+   Javascript 优化级别。
 
 *JavaScript 编译忽略列表*
    项目脚本编译中的例外列表。
@@ -252,7 +252,7 @@ New Project]" 按钮执行。
 ----
 
 *回到项目*
-   Returns to the Project Manager’s main page.
+   返回到项目管理的主页面。
 
 *隐藏项目*
    隐藏项目。如果已经隐藏了此类项目，则此命令替换为   "[显示项目]" 命

@@ -29,7 +29,6 @@
 
 b4w.module["__logic_nodes"] = function(exports, require) {
 var m_obj       = require("__objects");
-var m_obj_util       = require("__obj_util");
 var m_scs       = require("__scenes");
 var m_print     = require("__print");
 var m_nla       = require("__nla");
@@ -43,17 +42,17 @@ var m_geom      = require("__geometry");
 var m_time      = require("__time");
 var m_cam       = require("__camera");
 var m_vec3      = require("__vec3");
-var m_vec4      = require("__vec4");
 var m_phy       = require("__physics");
 var m_trans     = require("__transform");
 var m_sfx       = require("__sfx");
-var m_cons      = require("__constraints");
 var m_mat3      = require("__mat3");
 var m_mat4      = require("__mat4");
 var m_tsr       = require("__tsr");
 var m_quat      = require("__quat");
 
 var _logic_arr = [];
+
+var _logic_custom_cb_arr = {};
 
 /**
  * State
@@ -64,45 +63,73 @@ var RUNNING        = 2;
 var STOPPED        = 3;
 var PAUSED         = 4;
 
-var _vec4_tmp = new Float32Array(4);
+var _vec4_tmp  = new Float32Array(4);
 var _vec4_tmp1 = new Float32Array(4);
-var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp1 = new Float32Array(3);
-var _vec2_tmp = new Float32Array(2);
-var _mat3_tmp = new Float32Array(9);
-var _mat4_tmp = new Float32Array(16);
+var _vec2_tmp  = new Float32Array(2);
+var _mat3_tmp  = new Float32Array(9);
+var _mat4_tmp  = new Float32Array(16);
 
-//formats for convert_variable
+/**
+ *formats for convert_variable
+ */
 var NT_NUMBER = 0;
 var NT_STRING = 1;
+exports.NT_NUMBER = NT_NUMBER;
+exports.NT_STRING = NT_STRING;
 
-//keep node constants synchronized with:
-// exporter.py : process_scene_nla
-// reformer.js : assign_logic_nodes_object_params
+/**
+ * Keep node constants synchronized with:
+ *   exporter.py : process_scene_nla
+ *   reformer.js : assign_logic_nodes_object_params
+ */
 
-//node string operations
-var NSO_JOIN = 0;
-var NSO_FIND = 1;
+/**
+ * Node string operations
+ */
+var NSO_JOIN    = 0;
+var NSO_FIND    = 1;
 var NSO_REPLACE = 2;
-var NSO_SPLIT = 3;
+var NSO_SPLIT   = 3;
 var NSO_COMPARE = 4;
 
-//node json operations
-var NJO_PARSE = 0;
+/**
+ * Node json operations
+ */
+var NJO_PARSE  = 0;
 var NJO_ENCODE = 1;
 
-//node conditions
-var NC_GEQUAL = 0;
-var NC_LEQUAL = 1;
-var NC_GREATER = 2;
-var NC_LESS = 3;
+/**
+ * Node conditions
+ */
+var NC_GEQUAL   = 0;
+var NC_LEQUAL   = 1;
+var NC_GREATER  = 2;
+var NC_LESS     = 3;
 var NC_NOTEQUAL = 4;
-var NC_EQUAL = 5;
+var NC_EQUAL    = 5;
+exports.NC_GEQUAL = NC_GEQUAL;
+exports.NC_LEQUAL = NC_LEQUAL;
+exports.NC_GREATER = NC_GREATER;
+exports.NC_LESS = NC_LESS;
+exports.NC_NOTEQUAL = NC_NOTEQUAL;
+exports.NC_EQUAL = NC_EQUAL;
 
-//node space type
-var NST_WORLD = 0;
+/**
+ * Node space type
+ */
+var NST_WORLD  = 0;
 var NST_PARENT = 1;
-var NST_LOCAL = 2;
+var NST_LOCAL  = 2;
+
+/**
+ * Node cb param type
+ */
+var NCPT_OBJECT  = 0;
+var NCPT_VARIABLE = 1;
+exports.NCPT_OBJECT = NCPT_OBJECT;
+exports.NCPT_VARIABLE = NCPT_VARIABLE;
 
 /**
  * Add your node to _nodes_handlers
@@ -139,7 +166,8 @@ var _nodes_handlers = {
     "CONSOLE_PRINT": console_print_handler,
     "STRING": string_handler,
     "GET_TIMELINE": get_timeline_handler,
-    "JSON": json_handler
+    "JSON": json_handler,
+    "JS_CALLBACK": js_callback_handler
 };
 
 function get_var(var_desc, global_vars, local_vars) {
@@ -200,6 +228,32 @@ exports.update = function(timeline, elapsed) {
         process_logic(i, timeline, elapsed, start_time);
     }
 };
+
+exports.append_custom_cb = function(cb_id, cb) {
+    _logic_custom_cb_arr[cb_id] = cb;
+}
+
+exports.remove_custom_cb = function(cb_id) {
+    delete _logic_custom_cb_arr[cb_id];
+}
+
+exports.run_ep = function(scene_name, ep_name) {
+    for (var i = 0; i < _logic_arr.length; i++) {
+        if (_logic_arr[i].scene_name == scene_name) {
+            var logic = _logic_arr[i];
+            for (var j = 0; j < logic.logic_threads.length; j++) {
+                var ep = logic.logic_threads[j].nodes[0];
+                if (ep.name == ep_name) {
+                    if(ep.bools["js"])
+                        ep.mute  = false;
+                    break;
+                }
+            }
+            break;
+        }
+        process_logic(i, timeline, elapsed, start_time);
+    }
+}
 
 function reset_play(thread) {
     var script = thread.nodes;
@@ -561,7 +615,9 @@ function stop_timeline_handler(node, logic, thread_state, timeline, elapsed, sta
 function redirect_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     switch (logic.state) {
     case RUNNING:
-        window.location.href = node.url;
+        var url = node.bools["url"] ? convert_variable(
+                get_var(node.vars['url'], logic.variables, thread_state.variables), NT_STRING) : node.strings["url"];
+        window.location.href = url;
         logic.state = STOPPED;
         break;
     }
@@ -580,19 +636,21 @@ function send_req_handler(node, logic, thread_state, timeline, elapsed, start_ti
         switch (node.state) {
         case -1:
             node.state = 0;
+            var url = node.bools["url"] ? convert_variable(
+                    get_var(node.vars['url'], logic.variables, thread_state.variables), NT_STRING) : node.strings["url"];
 
             var header = {};
             if (node.bools["ct"])
                 header["Content-Type"] = node.strings["ct"];
             if (node.common_usage_names["request_type"] == "GET") {
-                m_assets.enqueue([{id:node.url, type:m_assets.AT_JSON, url:node.url, overwrite_header: header,
+                m_assets.enqueue([{id:url, type:m_assets.AT_JSON, url:url, overwrite_header: header,
                     param:[node, thread_state.variables]}], asset_cb, null, null, null);
             }
             else if (node.common_usage_names["request_type"] == "POST") {
                     var req = convert_variable(
                         get_var(node.vars["dst1"], logic.variables, thread_state.variables), NT_STRING);
 
-                    m_assets.enqueue([{id:node.url, type:m_assets.AT_JSON, url:node.url, overwrite_header: header,
+                    m_assets.enqueue([{id:url, type:m_assets.AT_JSON, url:url, overwrite_header: header,
                         request:"POST", post_type:m_assets.AT_JSON, post_data:req,
                         param:[node, thread_state.variables]}], asset_cb, null, null, null);
             }
@@ -825,20 +883,22 @@ function move_camera_handler(node, logic, thread_state, timeline, elapsed, start
 
             node.state = 0;
             var trans_animator = m_time.animate(0, 1, dur * 1000, function(e) {
-                if (move_style == m_cam.MS_STATIC || move_style == m_cam.MS_EYE_CONTROLS) {
-                    m_tsr.interpolate(node.camera_state.tsr_start, node.camera_state.tsr_end,
-                        m_util.smooth_step(e), node.camera_state.interp_tsr);
+                if (m_scs.check_active()) {
+                    if (move_style == m_cam.MS_STATIC || move_style == m_cam.MS_EYE_CONTROLS) {
+                        m_tsr.interpolate(node.camera_state.tsr_start, node.camera_state.tsr_end,
+                            m_util.smooth_step(e), node.camera_state.interp_tsr);
+                    }
+                    else {
+                        node.camera_state.interp_target = m_vec3.lerp(node.camera_state.target_start,
+                            node.camera_state.target_end, m_util.smooth_step(e), node.camera_state.interp_target);
+                        node.camera_state.interp_trans = m_vec3.lerp(node.camera_state.trans_start,
+                            node.camera_state.trans_end, m_util.smooth_step(e), node.camera_state.interp_trans);
+                    }
+                    move_cam(cam, node.camera_state.interp_trans, node.camera_state.interp_target,
+                        node.camera_state.interp_tsr);
+                    if (e == 1)
+                       node.state = 1;
                 }
-                else {
-                    node.camera_state.interp_target = m_vec3.lerp(node.camera_state.target_start,
-                        node.camera_state.target_end, m_util.smooth_step(e), node.camera_state.interp_target);
-                    node.camera_state.interp_trans = m_vec3.lerp(node.camera_state.trans_start,
-                        node.camera_state.trans_end, m_util.smooth_step(e), node.camera_state.interp_trans);
-                }
-                move_cam(cam, node.camera_state.interp_trans, node.camera_state.interp_target,
-                    node.camera_state.interp_tsr);
-                if (e == 1)
-                   node.state = 1;
             });
             break;
         case 0:
@@ -912,13 +972,15 @@ function move_to_handler(node, logic, thread_state, timeline, elapsed, start_tim
 
             node.state = 0;
             var trans_animator = m_time.animate(0, 1, dur * 1000, function(e) {
-                node.obj_state.interp_dest = m_tsr.interpolate(node.obj_state.dest_tsr_start,
-                        node.obj_state.dest_tsr_end, m_util.smooth_step(e), node.obj_state.interp_tsr_dest);
+                if (m_scs.check_active()) {
+                    node.obj_state.interp_dest = m_tsr.interpolate(node.obj_state.dest_tsr_start,
+                            node.obj_state.dest_tsr_end, m_util.smooth_step(e), node.obj_state.interp_tsr_dest);
 
-                move_to(obj, node.obj_state.interp_tsr_dest);
+                    move_to(obj, node.obj_state.interp_tsr_dest);
 
-                if (e == 1)
-                   node.state = 1;
+                    if (e == 1)
+                       node.state = 1;
+               }
             });
             break;
         case 0:
@@ -1030,13 +1092,15 @@ function transform_object_handler(node, logic, thread_state, timeline, elapsed, 
 
             node.state = 0;
             var trans_animator = m_time.animate(0, 1, dur * 1000, function(e) {
-                m_tsr.interpolate(node.obj_state.tsr_start, node.obj_state.tsr_end,
-                        m_util.smooth_step(e), node.obj_state.interp_tsr);
+                if (m_scs.check_active()) {
+                    m_tsr.interpolate(node.obj_state.tsr_start, node.obj_state.tsr_end,
+                            m_util.smooth_step(e), node.obj_state.interp_tsr);
 
-                transform_obj(obj, node.obj_state.interp_tsr, node.obj_state.space);
+                    transform_obj(obj, node.obj_state.interp_tsr, node.obj_state.space);
 
-                if (e == 1)
-                   node.state = 1;
+                    if (e == 1)
+                       node.state = 1;
+               }
             });
             break;
         case 0:
@@ -1151,9 +1215,9 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
 function math_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     switch (logic.state) {
     case RUNNING:
-        var val1 = (node.vars["v1"][1] == -1) ? node.inp1 : convert_variable(
+        var val1 = (node.vars["v1"][1] == -1) ? node.floats["inp1"] : convert_variable(
             get_var(node.vars["v1"], logic.variables, thread_state.variables), NT_NUMBER);
-        var val2 = (node.vars["v2"][1] == -1) ? node.inp2 : convert_variable(
+        var val2 = (node.vars["v2"][1] == -1) ? node.floats["inp2"] : convert_variable(
             get_var(node.vars["v2"], logic.variables, thread_state.variables), NT_NUMBER);
         var result = 0;
         switch (node.op) {
@@ -1186,13 +1250,16 @@ function math_handler(node, logic, thread_state, timeline, elapsed, start_time) 
 function conditional_jump_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     switch (logic.state) {
     case RUNNING:
-        var val1 = (node.vars["v1"][1] == -1) ? node.inp1 : convert_variable(
-            get_var(node.vars["v1"], logic.variables, thread_state.variables), NT_NUMBER);
-        var val2 = (node.vars["v2"][1] == -1) ? node.inp2 : convert_variable(
-            get_var(node.vars["v2"], logic.variables, thread_state.variables), NT_NUMBER);
+        var arg_type = node.bools["str"] ? NT_STRING : NT_NUMBER;
+        var arg_arr = node.bools["str"] ? node.strings : node.floats;
+
+        var val1 = (node.vars["v1"][1] == -1) ? arg_arr["inp1"] : convert_variable(
+            get_var(node.vars["v1"], logic.variables, thread_state.variables), arg_type);
+        var val2 = (node.vars["v2"][1] == -1) ? arg_arr["inp2"] : convert_variable(
+            get_var(node.vars["v2"], logic.variables, thread_state.variables), arg_type);
         var cond_result = false;
 
-        switch (node.floats["cnd"]) {
+        switch (node.common_usage_names["condition"]) {
         case NC_EQUAL:
             if (val1 == val2)
                 cond_result = true;
@@ -1231,7 +1298,8 @@ function conditional_jump_handler(node, logic, thread_state, timeline, elapsed, 
 function regstore_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     switch (logic.state) {
     case RUNNING:
-        set_var([node.bools["gl"] || node.vars["vd"][0], node.vars["vd"][1]], logic.variables, thread_state.variables, node.inp1);
+        var arg_arr = node.common_usage_names["variable_type"] == NT_STRING ? node.strings : node.floats;
+        set_var([node.bools["gl"] || node.vars["vd"][0], node.vars["vd"][1]], logic.variables, thread_state.variables, arg_arr["inp1"]);
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
@@ -1375,7 +1443,7 @@ function string_handler(node, logic, thread_state, timeline, elapsed, start_time
             }
             break;        
         case NSO_COMPARE:
-            switch (node.floats["cnd"]) {
+            switch (node.common_usage_names["condition"]) {
             case NC_EQUAL:
                 result = op1 == op2 ? 1 : 0;
                 break;
@@ -1493,6 +1561,51 @@ function json_handler(node, logic, thread_state, timeline, elapsed, start_time) 
     }
 }
 
+function js_callback_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+    switch (logic.state) {
+    case RUNNING:
+        var cb_id = node.bools["cb"] ? convert_variable(
+            get_var(node.vars["cb"], logic.variables, thread_state.variables), NT_STRING) : node.strings["cb"];
+
+        var in_params = [];
+        var index = 0;
+        var key = "id" + index;
+        var param;
+        var in_types_dict = node["common_usage_names"]["js_cb_params"];
+        while (key in in_types_dict) {
+            if (in_types_dict[key] == NCPT_OBJECT)
+                param =  m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths[key], 0);
+            else
+                param = get_var(node.vars[key], logic.variables, thread_state.variables);
+
+            in_params.push(param);
+            index++;
+            key = "id" + index;
+        }
+
+        var out_params = [];
+        index = 0;
+        key = "out" + index;
+        while (key in node["vars"]) {
+            param = get_var(node.vars[key], logic.variables, thread_state.variables);
+            out_params.push(param);
+            index++;
+            key = "out" + index;
+        }
+
+        _logic_custom_cb_arr[cb_id](in_params, out_params);
+
+        for(var i = 0; i < out_params.length; i++) {
+            key = "out" + i;
+            if (key in node["vars"])
+                set_var(node.vars[key], logic.variables, thread_state.variables, convert_b4w_type(out_params[i]));
+        }
+
+        thread_state.curr_node = node.slot_idx_order;
+        break;
+    }
+}
+
 function process_logic_thread(thread, logic, timeline, elapsed, start_time) {
     var script =  thread.nodes;
     if (!script.length)
@@ -1556,6 +1669,7 @@ function prepare_logic(scene, logic) {
         for (var i = 0; i < subtree.length; i++) {
             var snode = subtree[i];
             var node = {
+                name: snode["name"],
                 type: snode["type"],
                 label: snode["label"],
                 slot_idx_order: snode["slot_idx_order"],
@@ -1567,10 +1681,6 @@ function prepare_logic(scene, logic) {
                 state: -1,
                 sel_objs_len: -1,
                 sel_obj_idx: -1,
-                //cond: snode["condition"],
-                inp1: snode["input1"],
-                inp2: snode["input2"],
-                url: snode["url"],
                 param_name: snode["param_name"],
                 op: snode["operation"],
                 mute: snode["mute"],
@@ -1646,6 +1756,7 @@ function convert_b4w_type(variable) {
 }
 
 exports.cleanup = function() {
-    _logic_arr = [];
+    _logic_arr.length = 0;
+    _logic_custom_cb_arr = {};
 }
 }

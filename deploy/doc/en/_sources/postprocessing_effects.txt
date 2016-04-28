@@ -5,7 +5,7 @@ Postprocessing Effects
 **********************
 
 .. contents:: Table of Contents
-    :depth: 3
+    :depth: 2
     :backlinks: entry
 
 .. index:: motion blur
@@ -94,13 +94,13 @@ Additional settings
 -------------------
 
 *Radius Increase*
-    The spherical sampling radius multiply factor when transfering from the internal sampling ring to the external one. The default value is 3.0.
+    The spherical sampling radius multiply factor when transferring from the internal sampling ring to the external one. The default value is 3.0.
 
 *Use Hemisphere*
-    Use a hemispherical sampling for shading instead of a spherical. Besides it uses different shading law.
+    Use a hemispherical sampling for shading instead of a spherical. Besides, it uses different shading law.
 
 *Use Blur Depth Test*
-    Use edge-preserving blur to SSAO if flag will be turned on. Otherwise it uses blur which averages a 4x4 rectangle around each pixel.
+    Use edge-preserving blur to SSAO if flag will be turned on. Otherwise, it uses blur which averages a 4x4 rectangle around each pixel.
 
 *Blur Depth Test Discard Value*
     Influence of depth difference between samples on blur weight. It uses with ``Use Blur Depth Test`` activated flag. The default value is 1.0.
@@ -191,7 +191,7 @@ As a result of the outline glow effect, a luminous colored halo will be displaye
 Activation
 ----------
 
-The outlining is activated programmatically via API. Different animation models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the outlining effect on a certain object, make sure that the ``Render > Object Outlining`` panel's ``Enable`` property is set to ``ON`` or ``AUTO``.
+The outlining is activated programmatically via API. Different animation models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the outlining effect on a certain object, make sure that the ``Render > Object Selection`` panel's ``Enable`` property is set to ``ON`` or ``AUTO``.
 
 Additional settings
 -------------------
@@ -265,7 +265,7 @@ Additional settings
 Anti-Aliasing
 =============
 
-Anti-aliasing is used to reduce undesirable rendering artefacts (poor pixelization). 
+Anti-aliasing is used to reduce undesirable rendering artifacts (poor pixelization). 
 
 .. image:: src_images/postprocessing_effects/effects_antialiasing.png
    :align: center

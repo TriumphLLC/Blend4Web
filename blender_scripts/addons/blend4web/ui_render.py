@@ -204,7 +204,7 @@ class B4W_RenderGodRays(RenderButtonsPanel, bpy.types.Panel):
         layout.prop(god_rays, "max_ray_length", text=_("Maximum Ray Length"))
         layout.prop(god_rays, "steps_per_pass", text=_("Steps per Pass"))
 
-class B4W_RenderGodRays(RenderButtonsPanel, bpy.types.Panel):
+class B4W_RenderDynamicGrass(RenderButtonsPanel, bpy.types.Panel):
     bl_label = _("Dynamic Grass")
     bl_idname = "RENDER_PT_b4w_DynGrass"
     bl_options = {'DEFAULT_CLOSED'}

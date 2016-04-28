@@ -9,7 +9,7 @@ Workflow
     :backlinks: entry
 
 Developing any product is a creative process with many participants who have
-different skills and experience. However no matter how complex it is and
+different skills and experience. However, no matter how complex it is and
 what is the target it's always possible to separate the production stage in
 which the bulk of assets and source code is authored.
 
@@ -65,7 +65,7 @@ and export options are described in the :ref:`Export Formats
 
 To export the scene, select ``Blend4Web (.json)`` or ``Blend4Web (.html)``
 option from the ``File > Export`` menu, or type ``b4w export`` in the
-operatop search menu (available by pressing ``Spacebar``).
+operator search menu (available by pressing ``Spacebar``).
 
 .. note::
     If the scene uses Blender features not yet supported by the Blend4Web engine, errors may occur during export. Export errors are listed in :ref:`this table <export_errors>`.

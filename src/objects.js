@@ -857,6 +857,9 @@ function copy_object(obj, new_name, deep_copy) {
     new_obj.parent_is_dupli = obj.parent_is_dupli;
     new_obj.parent_bone = obj.parent_bone;
 
+    new_obj.vertex_anim = m_obj_util.copy_bpy_object_props_by_link(obj.vertex_anim);
+    new_obj.anim_behavior_def = obj.anim_behavior_def;
+
     // copied object can't be a vehicle, floater or character
     if (obj.physics && !(obj.is_vehicle || obj.is_character 
             || obj.is_floating)) {

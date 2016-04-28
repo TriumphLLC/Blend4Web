@@ -40,8 +40,8 @@ Follow the instructions listed in the :ref:`webgl_not_working` section.
 
 .. _webgl_not_working:
 
-WebGL Failed to Init
-====================
+WebGL Failed to Initialize
+==========================
 
 The http://get.webgl.org/ page tells about problems when viewing it in recent Chrome or Firefox. What can I do?
 
@@ -105,7 +105,7 @@ Known Issues
 
 * Problems with updating of the add-on.
 
-    It’s strongly adviced to restart Blender after installing a newer version of Addon/SDK.
+    It’s strongly advised to restart Blender after installing a newer version of Addon/SDK.
 
 * NVIDIA 331 driver in Linux can cause WebGL errors.
 
@@ -115,7 +115,7 @@ Known Issues
 
 * Some devices with Mail GPU require manual WebGL activation in browser settings.
 
-* For the local developement server to work on Apple OS X and Blender 2.76, you may need to install `Python 3.4 <https://www.python.org/downloads/release/python-343/>`. This is due to a bug in Blender https://developer.blender.org/T46623. This bug has been fixed in Blender 2.76b, so updating it is advised.
+* For the local development server to work on Apple OS X and Blender 2.76, you may need to install `Python 3.4 <https://www.python.org/downloads/release/python-343/>`. This is due to a bug in Blender https://developer.blender.org/T46623. This bug has been fixed in Blender 2.76b, so updating it is advised.
 
 * Skeletal animation may work incorrectly while using Nouveau drivers.
 

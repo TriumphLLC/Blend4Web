@@ -67,7 +67,7 @@ Control elements list in top-to-bottom order
     A tool to control Non-Linear Animation (if it is present in the scene). For this panel to work, NLA option should be enabled in the scene's settings.
 
 **Shape Keys**
-    Shape Keys control. When viewing models that has shape keys, you can select an object, one of its shape keys and the infuence that the key has on the object.
+    Shape Keys control. When viewing models that has shape keys, you can select an object, one of its shape keys and the influence that the key has on the object.
 
 **Materials**
     Material properties setup. A material can be selected using the drop-down menu. For now, only a limited number of properties is supported.
@@ -115,7 +115,7 @@ Control elements list in top-to-bottom order
     There is a mixing mode switch on the panel. After it is enabled the mixer interface becomes visible (only for scenes with sound sources).
 
 **Stereo View**
-    There is a stereoscopy mode switch on the panel.
+    There is a stereoscopic mode switch on the panel.
 
 **Gyroscope**
     Gyroscope settings for mobile devices can be controlled from this panel.

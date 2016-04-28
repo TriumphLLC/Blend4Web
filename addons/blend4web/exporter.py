@@ -593,8 +593,12 @@ def scenes_store_select_all_layers():
     _scene_active_layers = {}
 
     curr_scene = bpy.context.screen.scene
+    active_cam = curr_scene.camera
 
     for scene in bpy.data.scenes:
+        if (not scene.camera and active_cam and curr_scene != scene
+                and not active_cam.name in scene.objects):
+            scene.objects.link(active_cam)
         bpy.context.screen.scene = scene 
                
         if scene.name not in _scene_active_layers:
@@ -606,6 +610,9 @@ def scenes_store_select_all_layers():
         for i in range(len(scene.layers)):
             layers.append(scene.layers[i])
             scene.layers[i] = True
+        if (not scene.camera and active_cam and curr_scene != scene
+                    and not active_cam.name in scene.objects):
+            scene.objects.unlink(active_cam)
 
     bpy.context.screen.scene = curr_scene
 
@@ -1185,15 +1192,18 @@ def process_scene_nla(scene, scene_data):
     scene_data["b4w_logic_nodes"] = []
     scene_data["b4w_use_logic_editor"] = scene.b4w_use_logic_editor
 
-    def get_url(slot, slot_data):
-        if slot['param_url']:
-            slot_data["url"] = slot['param_url']
-            return True
+    def check_url(slot):
+        if slot["bools"]["url"]:
+            if slot["variables_names"]["url"] != "":
+                return True
         else:
-            err("Incorrect Logic script node " + "\"" + slot_data["name"] \
-                 + "\"" + ", falling back to simple sequential NLA.")
-            scene_data["b4w_logic_nodes"] = []
-            return False
+            if slot["strings"]["url"] != "":
+                return True
+
+        err("Incorrect Logic script node " + "\"" + slot_data["name"] \
+             + "\"" + ", falling back to simple sequential NLA.")
+        scene_data["b4w_logic_nodes"] = []
+        return False
 
     if not scene.b4w_use_logic_editor:
         return
@@ -1222,10 +1232,6 @@ def process_scene_nla(scene, scene_data):
             slot_data["frame_range"] = [0,0]
             slot_data["object"] = None
             slot_data["operation"] = ""
-            #slot_data["condition"] = ""
-            slot_data["input1"] = 0
-            slot_data["input2"] = 0
-            slot_data["url"] = ""
             slot_data["param_name"] = ""
             slot_data["mute"] = slot["mute"]
             slot_data["anim_name"] = slot["param_anim_name"]
@@ -1314,49 +1320,27 @@ def process_scene_nla(scene, scene_data):
                 slot_data["slot_idx_jump"] = get_node_idx_by_name(script, slot['link_jump'])
 
                 if slot['type'] == "CONDJUMP":
-                    if slot['param_condition'] == "GEQUAL":
-                        slot_data["floats"]["cnd"] = 0
-                    elif slot['param_condition'] == "LEQUAL":
-                        slot_data["floats"]["cnd"] = 1
-                    elif slot['param_condition'] == "GREATER":
-                        slot_data["floats"]["cnd"] = 2
-                    elif slot['param_condition'] == "LESS":
-                        slot_data["floats"]["cnd"] = 3
-                    elif slot['param_condition'] == "NOTEQUAL":
-                        slot_data["floats"]["cnd"] = 4
-                    elif slot['param_condition'] == "EQUAL":
-                        slot_data["floats"]["cnd"] = 5
-
                     if not slot['param_var_flag1']:
-                        slot_data["input1"] = round_num(slot['param_number1'], 6)
                         slot_data["variables"]["v1"][1] = -1
 
                     if not slot['param_var_flag2']:
-                        slot_data["input2"] = round_num(slot['param_number2'], 6)
                         slot_data["variables"]["v2"][1] = -1
 
             elif slot['type'] == "REGSTORE":
                 if slot['param_var_flag1']:
                     slot_data["variables"]["vd"] = slot['param_var_define']
 
-                if slot['param_variable_type'] == "Number":
-                    slot_data["input1"] = round_num(slot['param_number1'], 6)
-                else:
-                    slot_data["input1"] = slot['param_string1']
-
             elif slot['type'] == "MATH":
                 slot_data["operation"] = slot['param_operation']
                 if not slot['param_var_flag1']:
                     slot_data["variables"]["v1"][1] = -1
-                    slot_data["input1"] = round_num(slot['param_number1'], 6)
                 if not slot['param_var_flag2']:
                     slot_data["variables"]["v2"][1] = -1
-                    slot_data["input2"] = round_num(slot['param_number2'], 6)
             elif slot['type'] == "REDIRECT":
-                if not get_url(slot, slot_data):
+                if not check_url(slot):
                     return
             elif slot['type'] == "SEND_REQ":
-                if not get_url(slot, slot_data):
+                if not check_url(slot):
                     return
             elif slot['type'] == "SHOW" or slot['type'] == "HIDE":
                 obj = logic_node_tree.object_by_path(bpy.data.objects, slot['objects_paths']["id0"])
@@ -1371,7 +1355,7 @@ def process_scene_nla(scene, scene_data):
                 else:
                     force_mute_node(slot_data, "Bad param name")
 
-                if slot['param_variable_type'] == "Number":
+                if slot['param_variable_type'] == "NUMBER":
                     slot_data["floats"]["ptp"] = 0
                 else:
                     slot_data["floats"]["ptp"] = 1
@@ -1416,19 +1400,6 @@ def process_scene_nla(scene, scene_data):
                     slot_data["floats"]["sop"] = 3
                 elif slot['param_string_operation'] == "COMPARE":
                     slot_data["floats"]["sop"] = 4
-                    if slot['param_condition'] == "GEQUAL":
-                        slot_data["floats"]["cnd"] = 0
-                    elif slot['param_condition'] == "LEQUAL":
-                        slot_data["floats"]["cnd"] = 1
-                    elif slot['param_condition'] == "GREATER":
-                        slot_data["floats"]["cnd"] = 2
-                    elif slot['param_condition'] == "LESS":
-                        slot_data["floats"]["cnd"] = 3
-                    elif slot['param_condition'] == "NOTEQUAL":
-                        slot_data["floats"]["cnd"] = 4
-                    elif slot['param_condition'] == "EQUAL":
-                        slot_data["floats"]["cnd"] = 5
-
             elif slot['type'] == "SPEAKER_PLAY" or slot['type'] == "SPEAKER_STOP":
                 check_objects_paths(slot, slot_data)
 
@@ -1688,7 +1659,7 @@ def process_object(obj, is_curve=False, is_hair=False):
     if not is_hair:
         obj_data["constraints"] = process_constraints(obj.constraints,
                                         "object: \"" + obj.name + "\"")
-        obj_data["particle_systems"] = process_object_particle_systems(obj)
+        obj_data["particle_systems"] = process_object_particle_systems(obj, data)
     else:
         obj_data["constraints"] = []
         obj_data["particle_systems"] = []
@@ -3488,6 +3459,9 @@ def process_particle(particle):
 
     part_data["b4w_billboard_align"] = bb_align
 
+    part_data["billboard_tilt"] = particle.billboard_tilt
+    part_data["billboard_tilt_random"] = particle.billboard_tilt_random
+
     part_data["b4w_coordinate_system"] = particle.b4w_coordinate_system
 
     part_data["b4w_enable_soft_particles"] = particle.b4w_enable_soft_particles
@@ -3914,7 +3888,7 @@ def obj_cons_target(cons, const_holder_name):
 
     return target_uuid
 
-def get_particle_system_scale(obj, psys, vert_group_name):
+def get_particle_system_scale(obj, obj_data, psys, vert_group_name):
     indices = []
     vertex_influence = []
     scales_data_bytearray = b4w_bin.calc_particle_scale(psys.as_pointer())
@@ -3929,25 +3903,36 @@ def get_particle_system_scale(obj, psys, vert_group_name):
             scales_data_bytearray["face_ver_num"])
     vg_index = obj.vertex_groups[vert_group_name].index
     scales = []
+
+    # NOTE: object's vertex groups refer to object's mesh when trying to 
+    # extract vertex weight, so it needs to assign the actual mesh to the 
+    # current object in case of "to_mesh()" operation, which generates another mesh
+    old_mesh = obj.data
+    obj.data = obj_data
+
     for i in range(len(psys.particles)):
         if psys.settings.emit_from != "VERT":
-            vert = obj.data.tessfaces[indices[i]].vertices
+            vert = obj_data.tessfaces[indices[i]].vertices
             scale = 0
+
             for j in range(0, len(vert)):
-                vert_num = vert[j].numerator
+                vert_index = vert[j]
                 weight = 0
-                for v_group in obj.data.vertices[vert_num].groups:
+                for v_group in obj_data.vertices[vert_index].groups:
                     if v_group.group == vg_index:
-                        weight = obj.vertex_groups[vert_group_name].weight(vert_num)
+                        weight = obj.vertex_groups[vert_group_name].weight(vert_index)
                 scale += weight * vertex_influence[i * 4 + j]
         else:
             scale = obj.vertex_groups[vert_group_name].weight(indices[i])
 
         scale = max(min(scale, 1), 0)
         scales.append(scale)
+
+    obj.data = old_mesh
+
     return scales
 
-def process_object_particle_systems(obj):
+def process_object_particle_systems(obj, obj_data):
     psystems_data = []
     for m in obj.modifiers:
         if m.type == 'PARTICLE_SYSTEM' and m.particle_system:
@@ -3959,8 +3944,8 @@ def process_object_particle_systems(obj):
                 psys_data["name"] = psys.name
                 psys_data["seed"] = psys.seed
 
-                if not len(obj.data.tessfaces):
-                    obj.data.calc_tessface()
+                if not len(obj_data.tessfaces):
+                    obj_data.calc_tessface()
                 # export particle transforms for hairs
                 # [x0,y0,z0,scale0,x1...]
                 if (psys.settings.type == "HAIR" and not
@@ -3975,7 +3960,7 @@ def process_object_particle_systems(obj):
 
                     vert_group_name = psys.vertex_group_length
                     if vert_group_name:
-                        scales = get_particle_system_scale(obj, psys, vert_group_name)
+                        scales = get_particle_system_scale(obj, obj_data, psys, vert_group_name)
 
                     for i in range(len(psys.particles)):
                         particle = psys.particles[i]

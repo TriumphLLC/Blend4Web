@@ -7,13 +7,13 @@
 Stereo Rendering
 ****************
 
-.. contents:: TAble of Contents
+.. contents:: Table of Contents
     :depth: 3
     :backlinks: entry
 
 The stereoscopic rendering mode is intended for viewing the content using special glasses. It is activated by an application via API.
 
-Blend4Web supports two techniques of the stereo image rendering - anagliph image and the HMD (head-mounted display).
+Blend4Web supports two techniques of the stereo image rendering - anaglyph image and the HMD (head-mounted display).
 
 Anaglyph:
 
@@ -32,7 +32,7 @@ HMD is an experimental feature, for now it works only with the ``Eye`` type came
 Activation
 ----------
 
-To use HMD stereo rendering, you need to install Oculus's `runtime utility <https://developer.oculus.com/downloads/>`_. Windows and MacOS versions can be found on the Oculus web site in binary format, while Linux version should be compiled from the source code.
+To use HMD stereo rendering, you need to install Oculus's `runtime utility <https://developer.oculus.com/downloads/>`_. Windows and MacOS versions can be found on the Oculus website in binary format, while Linux version should be compiled from the source code.
 
 For now, the HMD is supported by the `Chromium experimental builds <http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html>`_ and in the `Firefox nightly builds <https://nightly.mozilla.org/>`_.
 

@@ -8,7 +8,7 @@ Project Manager
     :depth: 3
     :backlinks: entry
 
-Since version 15.09, the SDK includes a project managment feature, which makes it possible to:
+Since version 15.09, the SDK includes a project management feature, which makes it possible to:
 
     * browse the full list and file structure of the projects;
 
@@ -61,13 +61,13 @@ Commands for managing a specific project is located at its right.
 
 1) Compile project (not available for WebPlayer JSON and WebPlayer HTML projects).
 2) Re-export blend files from the project.
-3) Convert media resources.
+3) :ref:`Convert media resources. <converter>`
 4) Export and download a project archive.
 5) Remove the project.
 
 .. note::
 
-    All project paths are retreived from its .b4w_project file.
+    All project paths are retrieved from its .b4w_project file.
 
 Beside the project's name, a link to the :ref:`project information page  <project_info>` is located. The application type is also specified there. An application can have one of the following types:
 
@@ -192,7 +192,7 @@ Project Parameters
 Project Import
 --------------
 
-Tools for importing projects are avalible by the ``[Import Project(s)]`` link.
+Tools for importing projects are available by the ``[Import Project(s)]`` link.
 
 Clicking this link opens standard Open File dialog where you can select the project you need to import.
 

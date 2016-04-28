@@ -37,6 +37,9 @@ var m_vec3   = require("vec3");
 
 var _last_cam_quat = m_quat.create();
 var _yaw_cam_angle = 0;
+var _was_target_camera = false;
+var _was_hover_camera = false;
+var _was_static_camera = false;
 
 var _vec3_tmp  = m_vec3.create();
 var _vec3_tmp2 = m_vec3.create();
@@ -134,15 +137,27 @@ function process_hmd(control_type, sensor) {
     if (!sensor)
         return;
 
+    var cam_obj = m_scenes.get_active_camera();
+    if (!cam_obj)
+        return;
+    else
+        if (!m_cam.is_eye_camera(cam_obj)) {
+            _was_target_camera = m_cam.is_target_camera(cam_obj);
+            _was_hover_camera = m_cam.is_hover_camera(cam_obj);
+            _was_static_camera = m_cam.is_static_camera(cam_obj);
+
+            m_cam.eye_setup(cam_obj);
+        }
+
     var elapsed = m_ctl.create_elapsed_sensor();
 
     var updated_eye_data = false;
     var move_cam_cb = function(obj, id, pulse) {
-        var cam_obj = m_scenes.get_active_camera();
-        if (!cam_obj)
-            return;
-
         if (pulse > 0) {
+            var cam_obj = m_scenes.get_active_camera();
+            if (!cam_obj)
+                return;
+
             // NOTE: init part
             if (!updated_eye_data && m_input.enable_split_screen(cam_obj)) {
                 _last_cam_quat = m_trans.get_rotation(cam_obj, _last_cam_quat);
@@ -238,6 +253,13 @@ exports.disable_hmd = function() {
     m_input.disable_split_screen();
 
     var cam_obj = m_scenes.get_active_camera();
+    if (_was_target_camera)
+        m_cam.target_setup(cam_obj);
+    else if (_was_hover_camera)
+        m_cam.hover_setup(cam_obj);
+    else if (_was_static_camera)
+        m_cam.static_setup(cam_obj);
+
     // correct up camera (non-vr mode)
     m_cam.set_vertical_axis(cam_obj, m_util.AXIS_Y);
     // TODO: update_transform

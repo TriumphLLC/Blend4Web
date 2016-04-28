@@ -1,541 +1,497 @@
 
-Objects
-*******
+物体
+****
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Objects
+* 物体
 
-  * Types
+  * 类型
 
-  * Static and Dynamic Objects
+  * 静态和动态物体
 
-  * Settings
+  * 设置
 
-    * Object Tab
+    * 物体选项卡
 
-    * Physics Tab
+    * 物理标签
 
-  * Object Transform API
+  * 物体变换API
 
-  * Get object API
+  * 获取物体API
 
-  * Quaternions
+  * 四元数
 
-    * Quaternion Example
+    * 四元数例子
 
-  * Differences Between Coordinate Systems of Blender and Blend4Web
+  * Blender和Blend4Web的坐标系之间的差异
 
-  * Moving via TSR Vectors
+  * 通过TSR矢量移动
 
-Objects are intended to position components of different types
-(meshes, cameras, lamps etc) in a 3D scene space.
-
-
-Types
-=====
-
-The engine supports objects of the following types:
-
-   * meshes (mesh)
-
-   * camera
-
-   * lamp
-
-   * empty
-
-   * armature
-
-   * speaker
-
-   * curve
-
-   * text
-
-   * metaball
-
-   * surface
+物体是在3D场景空间中放置的不同类型（网格，照相机，灯等）的组件。
 
 
-Static and Dynamic Objects
-==========================
+类型
+====
 
-**Static objects** are objects which can be merged together if they
-have the same material.
+该引擎支持以下类型的物体：
 
-**Dynamic objects** are objects which cannot be combined with each
-other.
+   * 网格(mesh)
 
-Only "MESH", "CAMERA" and "ARMATURE" type objects can be dynamic. All
-other object types are static.
+   * 摄像机
+
+   * 灯
+
+   * 空物体
+
+   * 骨架
+
+   * 扬声器
+
+   * 曲线
+
+   * 文本
+
+   * 融球
+
+   * 曲面
+
+During the scene export, "CURVE", "TEXT", "METABALL" and "SURFACE"
+type objects are converted into "MESH" type objects.
+
+
+静态和动态物体
+==============
+
+An object can be either static or dynamic.
+
+**Static objects** are objects that cannot be moved, animated or
+changed in any other way while running the application. For
+performance purposes, such objects can be merged together if they have
+the same material.
+
+**Dynamic objects** can be moved, animated or changed in other ways
+while running the application. They can also interact with other
+objects, including static ones. Dynamic objects are never combined
+with each other or with static objects.
+
+Only "MESH" and "EMPTY" type objects can be either static or dynamic.
+All other object types, such as "CAMERA" and "ARMATURE", are always
+dynamic.
+
+Static "MESH" objects are rendered much faster then the dynamic ones,
+so, for better performance, it is advised to keep the number of
+dynamic meshes to a minimum. Objects of any other type, both static
+and dynamic, do not significantly affect performance.
 
 The objects which have animation, physics or a parent, which is a
-dynamic object, are considered dynamic.
+dynamic object, are considered dynamic, as well as the objects
+controlled by the following logic nodes:
 
-Object movement via API is possible only for dynamic objects. In order
-to make the movement of the object without dynamic settings possible,
-it is necessary to activate "Force Dynamic Object" option in its
-settings.
+   * "Play Animation"
+
+   * "Transform Object"
+
+   * "Move To"
+
+   * "Inherit Material"
+
+API methods that concern object movement, copying and animation (both
+object and node material) can only be applied to dynamic objects. In
+order to make the movement of the object without dynamic settings
+possible, it is necessary to activate "Force Dynamic Object" option in
+its settings.
 
 
-Settings
-========
+设置
+====
 
-The following is supported for all types of objects: transform, data
-reference, parent object, group membership and a set of the
-Blend4Web’s special properties.
+以下是功能支持所有类型的物体：变换，数据引用，父物体，组成员和一套
+Blend4Web的特殊属性。
 
 
-Object Tab
+物体选项卡
 ----------
 
 [图片]
 
 
 
-*Transform > Location*
-   Position coordinates.
+*变换 > 位置*
+   位置坐标。
 
-*Transform > Rotation*
-   Rotation angles. For the object rotation all available modes can be
-   used ("Rotation Mode"). However only "Quaternion (WXYZ)" and "XYZ
-   Euler" are supported for object animation.
+*变换 > 旋转*
+   旋转角度。对于物体的旋转所有可用的模式可以使用（"旋转Mode"）。但是
+   ，只有 "四元（WXYZ）" 和 "XYZ Euler" 都支持 物体动画.
 
-*Transform > Scale*
-   Scaling. All 3 components (x, y, z) should be the same. Scaling for
-   physics objects is not supported.
+*变换 > 缩放*
+   缩放。所有3分量（X，Y，Z）应该是相同的。缩放不支持物理物体。
 
-*Relations > Parent*
-   Reference to the parent object.
+*关系 > 父级*
+   参照父物体。
 
-   If the parent object is a camera, "Viewport Alignment" settings
-   will be avalible.
+   如果父物体是一个摄像头，"Viewport Alignment" 设置将可见。
 
    [图片]
 
-   The "Alignment" parameter specifies to what side of the viewport an
-   object will be aligned ("Center" by default). The "Distance"
-   parameter specifies the distance between the aligned object and the
-   camera (10 by default). The "Fit to Camera" button can be used to
-   make the aligned object look in the Blender viewport same way it
-   will look in the engine.
+   该 "Alignment" 参数指定物体将对准视口的哪一方的（ 默认 "Center"）。
+   在 "Distance" 参数指定对齐的物体和摄像机（10默认情况下）之间的距离
+   。该 "适合Camera" 按钮的对齐物体效果在引擎和Blender中都是一样的。
 
-*Groups*
-   Objects’ groups to which this object belongs.
+*组*
+   物体所属的物体组
 
 [图片]
 
 
 
-*Levels of Detail > LOD Transition Ratio*
-   Parameter for smoothing the switching between the LOD objects. It
-   defines the additional distance at which the LOD objects are still
-   rendered before getting replaced by the next LOD objects. Assigned
-   for the main object. Measured in fractions of the object’s bounding
-   sphere radius.
+*细节层次 > LOD 转换速率*
+   参数用于平滑LOD物体之间的切换。它定义在该LOD物体由下一LOD物体更换前
+   仍然渲染的额外距离。分配到主要物体。测量值为在物体的边界球半径的分
+   数。
 
-*Special Effects > Disable Fogging*
-   Disable fog for the object.
+*特殊效果 > 关闭雾效*
+   禁用物体的雾。
 
-*Special Effects > Caustics*
-   The object will render caustics effects from the adjacent water.
+*特殊效果 > 焦散*
+   该物体将渲染自附近水的焦散效果。
 
-*Export Options > Do Not Export*
-   Do not export this object.
+*导出选项 > 不导出*
+   不要导出此物体。
 
-*Export Options > Apply Modifiers*
-   Apply the object’s modifiers upon export. If the "SKIN" modifier is
-   used we recommend to apply it before the export because it resets
-   vertex color and UV layers which may result in errors.
+*导出选项 > 应用修改器*
+   应用导出物体的修改器。如果使用 "SKIN" 修改器，我们建议导出前应用掉
+   它，因为它会重置顶点颜色和UV层可能会导致错误。
 
-*Export Options > Apply Scale and Modifiers*
-   Upon export, apply scale and modifiers for the object.
+*导出选项 > 应用缩放和修改器*
+   一旦导出，应用物体的缩放和修改器。
 
-*Export Options > Export Vertex Animation*
-   Export previously created and saved vertex animation. Applicable
-   for "MESH" type objects only.
+*导出选项 > 导出顶点动画*
+   导出以前创建并保存的顶点动画。只适用于 "MESH" 类型物体。
 
-*Export Options > Export Shape Keys*
-   Export shape keys. Applicable to "MESH" type objects only.
+*导出选项 > 导出形变键*
+   导出形变键。只适用于 "MESH" 类型物体。
 
-注解: The following properties are mutually exclusive: *Apply
-  Modifiers*, *Apply Scale and Modifiers*, *Export Vertex Animation*
-  and *Export Shape Keys*.
+注解: 以下属性是相互排斥的：*应用修改器*，*应用缩放及修改器*，*导出
+  顶点动 画* 和 *导出形变键* 。
 
-*Animation > Apply Default Animation*
-   Upon loading into the engine start playback of the animation
-   assigned to the object.
+*动画 > 应用默认动画*
+   传到引擎开始后播放物体的动画。
 
-*Animation > Animation Blending*
-   Only for armature objects. Allows blending between skeletal
-   animations.
+*动画 > 动画混合*
+   只对骨骼物体。允许骨骼动画之间进行混合。
 
-*Animation > Behavior*
-   Animation behavior when the last frame is reached: "Finish Stop" -
-   stop, "Finish Reset" - stop and go to the zero frame, "Loop" -
-   repeat forever.
+*动画 > 行为*
+   到达最后一帧时动画的行为："完成停止"  - 停止  "完成重置"  - 停止并
+   跳到零帧，"Loop"  - 永远重复。
 
-*Rendering Properties > Do Not Render*
-   Disable object rendering (for example useful for a physics object).
+*渲染属性 > 不要渲染*
+   禁止物体的渲染（例如用于有用的物理物体）。
 
-*Rendering Properties > Disable Frustum Culling*
-   Disable frustum culling optimization.
+*渲染属性 > 禁止视椎体剔除*
+   禁用视椎体剔除优化。
 
-*Rendering Properties > Force Dynamic Object*
-   Force the object to become a dynamic object.
+*渲染属性 > 强制动态物体*
+   强制物体变成了 动态物体.
 
-*Rendering Properties > Dynamic Geometry*
-   Allow overriding of the object’s geometry through Blend4Web API.
+*渲染属性 > 动态几何体*
+   允许通过Blend4Web API来重载物体的几何形状。
 
-*Shadows > Cast*
-   The object will cast shadows.
+*阴影 > 投射*
+   该物体将投射阴影。
 
-*Shadows> Cast Only*
-   The object will cast shadows but will remain invisible itself.
-   Becomes available after enabling "Shadows > Cast".
+*阴影> 仅投射*
+   该物体将投射阴影，但仍然看不到自己。成启用 "阴影> 投射" 后可用。
 
-*Shadows > Receive*
-   The object will receive shadows from other adjacent objects.
+*阴影 > 接受*
+   该物体将接收来自其他相邻物体的阴影。
 
-*Reflections > Reflexible*
-   When enabled the object is reflected in the dynamic mirror
-   surfaces.
+*反射 > 被反射*
+   启用后物体被会在动态镜面中被反射。
 
-*Reflections > Reflexible Only*
-   The object will be reflected but will remain invisible itself.
-   Becomes available after enabling "Reflections > Reflexible".
+*反射 > 仅被反射*
+   物体被反射但仍将看不见自身。开启 "反射 > 反射性" 后可用。
 
-*Reflections > Reflective*
-   When enabled the object surface reflects other objects.
+*反射 > 反射*
+   当启用时该物体表面反射的其他物体。
 
-*Reflections > Reflection Plane*
-   Text field for name of an empty object which defines the reflection
-   plane. Becomes available after enabling "Reflections > Reflective".
+*反射 > 反射面*
+   对于一个空物体定义了反射面的Name文本字段。启用 "反射 > 反射" 后可用
+   。
 
-*Selection and Outlining > Selectable*
-   Enable object selection with the mouse or another input device.
+*选择和外轮廓 > 可选择*
+   启用 物体选择 ，用鼠标或其他输入设备。
 
-*Selection and Outlining > Enable Outlining*
-   Enable outline glow for the object.
+*选择和外轮廓 > 启用外轮廓*
+   启用物体的 外轮廓发光  。
 
-*Meta Tags*
-   Interface for adding meta tags to the object:
+*元标签*
+   添加物体的元标签的接口：
 
-   *Meta Tags > Title*
-      Object's title.
+   *元标签 > 标题*
+      物体的标题。
 
-   *Meta Tags > Category*
-      Object's category.
+   *元标签 > 类别*
+      物体的类别。
 
-   *Meta Tags > Description*
-      Description for the object. Depending on "Description Source",
-      this field accepts either description text itself, or the name
-      of a file where this description is contained.
+   *元标签 > 描述*
+      物体描述。根据 "说明源"，此字段接受描述文本本身，或包含的文件的
+      名称。
 
-   *Meta Tags > Description Source*
-      Source type for the description: text or text file.
+   *元标签 > 描述源*
+      为说明来源类型：文本或文本文件。
 
-*Anchors > Enable Anchor*
-   Available for "EMPTY" objects only. Interface for adding anchors
-   (2D tags) to objects:
+*锚 > 启用锚*
+   只可用于 "EMPTY" 物体。添加锚（2D标签）物体的接口：
 
-   *Anchors > Type*
-      Anchor type. "Annotation" - the content is obtained from the
-      meta tags assigned to the object and displayed in a collapsible
-      window of standard design. "Custom Element" - arbitrary HTML
-      element from the current web page is used as anchor. "Generic" -
-      anchor’s position can be detected using "anchors" API module.
+   *锚 > 类型*
+      锚类型。 "Annotation"  - 标准设计的可折叠窗口中显示的元标记中得
+      到的内容。 "自定义Element"  - 从当前网页任意的HTML元素被用来作为
+      锚。 "Generic"  - 锚的位置，可以使用 "anchors" API模块检测。
 
-   *Anchors > Detect Visibility*
-      Detect whether the anchor object is overlapped by other objects.
-      Turning this option on decreases performance and should be used
-      only when necessary.
+   *锚 > 可见检测*
+      检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要
+      时使用。
 
-   *Anchors > Max Width*
-      Applicable to annotation anchors. This limits the expanding info
-      window by a predefined value (measured in CSS pixels).
+   *锚 > 最大宽度*
+      用于注释锚。通过预定值（以CSS像素为单位），限制了展开的信息窗口
+      大小。
 
-*Wind Bending*
-   Enables wind bending procedural animation. Thoroughly described at
-   the outdoor rendering page.
+*风弯曲*
+   启用风弯曲程序动画。在  室外渲染 页有完整的描述.。
 
-*Billboard*
-   Use the object as a billboard (i.e. automatically orient relative
-   to the camera).
+*看板*
+   使用物体作为看板（即自动定向面对摄像机）。
 
-*Billboard > Preserve Global Orientation and Scale*
-   Take into account rotation and scale of the billboard object (in
-   the world space). The object will be directed toward the camera
-   with its side which is visible when viewing along the Y axis in
-   Blender. Becomes available after enabling the "Billboard" checkbox.
+*看板 > 保留全局方向和缩放*
+   考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看
+   时将朝明显的被引导到相机。启用 "看板" 复选框后可用。
 
-*Billboard > Billboard Type*
-   Billboard orientation mode. "Spherical" (by default) - the object
-   is always oriented with one side toward the camera, regardless of
-   view angle, "Cylindrical" - similar to "Spherical", but rotation is
-   limited to Blender’s world Z axis. Becomes available after enabling
-   Billboard
+*看板 > 看板类型*
+   看板方向模式。 "Spherical``（默认） - 物体一面始终朝向相机，不管视
+   角，``Cylindrical"  - 类似于``Spherical``，但旋转仅限于Blender的世
+   界Z轴。启用看板后变得可用。
 
 
-Physics Tab
------------
+物理标签
+--------
 
 [图片]
 
 
 
-*Detect Collisions*
-   Activate the object’s physics.
+*检测碰撞*
+   激活物体的物理。
 
-*Floating*
-   Make the object floating. The settings for floating objects are
-   described in detail in the physics section.
+*飘浮*
+   使物体漂浮。在 physics 一节对飘浮物体的设置进行了详细描述。
 
-*Vehicle*
-   Use the object as part of a vehicle. The vehicle settings are
-   described in detail in the physics section.
+*载具*
+   使用物体作为车辆的一部分。该车辆设置中详细的描述在 物理 一节。
 
-*Character*
-   Use the object for character physics. The character settings are
-   described in detail in the physics section.
+*角色*
+   启用物体的角色物理特性。角色设置详细描述在  物理 一节.。
 
 
-Object Transform API
-====================
+物体变换API
+===========
 
-注解: Make sure that the object you are trying to transform is a
-  dynamic object.
+注解: 请确保您要变换的物体是 动态物体.
 
-Use the following methods of the transform module to move objects in
-the engine:
+使用 transform 模块的下列方法在引擎中移动物体：
 
 get_translation()
-   Get the coordinates of the object’s center in world space. The
-   method with a single argument returns a new vector (i.e. this is a
-   non-optimized option) while the method with two arguments requires
-   an additional vector to write the result down.
+   获得在世界空间的物体中心坐标。带一个参数的方法返回一个新向量（一个
+   非优化选项），同时用两个参数的方法需要一个额外的矢量记录结果。
 
 get_translation_rel()
-   Similar to the "get_translation()" method, but if this object has a
-   parent, the obtained coordinates are measured in the parent’s
-   space.
+   类似于 "get_translation（）" 方法，但如果此物体有父级，得到的坐标在
+   父级的空间测量。
 
 set_translation(), set_translation_v()
-   Move the object’s center into the specified location. The first
-   method takes separate coordinates as arguments while the second one
-   takes a three-component vector ("Array" or "Float32Array").
+   移动物体的中心到指定的位置。第一种方法需要单独的坐标作为参数，而第
+   二个需要三元矢量（"Array" 或 "Float32Array"）。
 
 set_translation_rel(), set_translation_rel_v()
-   Similar to "set_translation()" and "set_translation_v()", but if
-   this object has a parent, the set coordinates are measured in the
-   parent’s space.
+   类似 "set_translation()" 和 "set_translation_v()"，但如果这个物体有
+   父级，设定坐标为测量父级的空间。
 
 get_rotation()
-   Get the object’s rotation quaternion in world space. Similar to
-   "get_translation()", there are two options for calling this
-   function.
+   获取在世界空间的物体的旋转四元数。类似 "get_translation()"，调用此
+   函数也有两种选择。
 
 get_rotation_rel()
-   Get the object’s rotation quaternion measured in its parent’s
-   space. Similar to "get_translation_rel()", there are two options
-   for calling this function.
+   获取物体的在其父级空间的旋转四元。类似  "get_translation_rel()"，调
+   用此函数也有两种选择。
 
 set_rotation(), set_rotation_v()
-   Set the object’s rotation quaternion in world space. The first
-   function takes separate coordinates as arguments while the second
-   one takes a four-component vector ("Array" or "Float32Array").
+   设置在世界空间物体的旋转四元数。第一个功能需要单独的坐标参数，而第
+   二个需要一个四元矢量（"Array" 或 "Float32Array" ）。
 
 set_rotation_rel(), set_rotation_rel_v()
-   Set the object’s rotation quaternion measured in its parent’s
-   space. The first function takes separate coordinates as arguments
-   while the second one takes a four-component vector ("Array" or
-   "Float32Array").
+   设置物体在其父的空间中的旋转四元数。第一个功能需要单独的坐标参数，
+   而第二个需要一个四元矢量（"Array" 或 "Float32Array"）。
 
 get_scale()
-   Get the object’s scale in world space.
+   获取物体在世界空间的缩放。
 
 get_scale_rel()
-   Get the object’s scale in its parent’s space.
+   获取物体在其父的空间的缩放。
 
 set_scale()
-   Set the object’s scale in world space. Unity corresponds to the
-   original scale of the object. Values less than unity mean scaling
-   down, bigger than unity - scaling up. Note that not all objects can
-   be scaled. Particularly, scaling is not allowed for physics
-   objects.
+   设置物体在世界空间的缩放。统一对应于物体的原始缩放。值小于统一值是
+   平均缩小，比统一值大 - 扩大。注意，不是所有的物体可以被缩放。特别是
+   不允许物理物体缩放。
 
 set_scale_rel()
-   Set the object’s scale in its parent’s space.
+   设置物体在其父的空间的缩放。
 
 set_rotation_euler(), set_rotation_euler_v()
-   Set the object’s rotation using Euler angles. An **intrinsic** YZX
-   rotation system is used (that means the angles follow in the YZX
-   order and the origin of coordinates rotates and takes up a new
-   position for every angle).
+   使用欧拉角设置物体的旋转。一个 **intrinsic** YZX 系统被使用（这意味
+   着角遵循YZX顺序和坐标原点旋转，并且每角采取了一个新的位置）。
 
 set_rotation_euler_rel(), set_rotation_euler_rel_v()
-   Set the object’s rotation using Euler angles measured in its
-   parent’s space.
+   使用欧拉角在其父的空间中设置物体的旋转。
 
 move_local()
-   Move the object relative to its original position (in local space).
+   相对移动到原来的位置的对象（在局部空间）。
 
 rotate_x_local(), rotate_y_local(), rotate_z_local()
-   Rotate the object relative to its original position (in local
-   space).
+   相对于物体原来位置的（在本地空间）旋转。
 
 
-Get object API
-==============
+获取物体API
+===========
 
-To perform any operation with an object, you first need to get it
-(i.e. recieve the link to it). There are several API functions for
-doing this. A link to an object has "Object3D" type.
+对物体执行任何操作，您首先需要得到它（找到到它的链接）。有几个API函数
+是做这个的。有链接的物体具有 "Object3D" 类型。
 
 get_object_by_name()
-   Get object by name.
+   按名称获取物体。
 
       // ...
       var obj = m_scenes.get_object_by_name("Object");
       // ...
 
 get_object_by_dupli_name()
-   Get the duplicated object by empty name and dupli name.
+   通过空名称和DUPLI名称找复制物体。
 
       // ...
       var obj = m_scenes.get_object_by_dupli_name("Empty", "Object");
       // ...
 
 get_object_by_dupli_name_list()
-   Get the duplicated object by empty name and dupli name list (an
-   array of "String" type elements).
+   通过空名称和DUPLI名单（"String" 类型元素的数组）获得复制物体。
 
       // ...
       var obj = m_scenes.get_object_by_dupli_name_list(["Empty1", "Empty2", "Object"]);
       // ...
 
 get_object_name_hierarchy()
-   Returns the object names hierarchy array (from the highest parent
-   to the object itself) for a given object.
+   用一个给定的物体，返回物体名层次队列（从最高层的父物体到物体本身）
+   。
 
       // ...
       var names = m_scenes.get_object_name_hierarchy(obj);
       // ...
 
 check_object_by_name()
-   Check if object with given name is present on scene.
+   检查是否具有给定名称的物体在场景存在。
 
       // ...
       var object_exists = m_scenes.check_object_by_name("Cube");
       // ...
 
 check_object_by_dupli_name()
-   Check if duplicated object is present on scene by empty name and
-   dupli name.
+   检查复制物体是空的名字和DUPLI名字出现在场景。
 
       // ...
       var object_exists = m_scenes.check_object_by_dupli_name("Empty", "Cube");
       // ...
 
 check_object_by_dupli_name_list()
-   Check if duplicated object is present on scene by empty name and
-   dupli name list (an array of "String" type elements).
+   检查复制物体是空的名字和DUPLI名单（"String" 类型元素的数组）出现在
+   场景。
 
       // ...
       var object_exists = m_scenes.check_object_by_dupli_name_list(["Empty1", "Empty2", "Object"]);
       // ...
 
 get_object_name()
-   Get the object’s name.
+   获取物体的名称。
 
       // ...
       var object_name = m_scenes.get_object_name(obj);
       // ...
 
 
-Quaternions
-===========
+四元数
+======
 
-Quaternion is a four-component vector used to perform rotating.
-Quaternions have a number of advantages over other rotation methods
-such as:
+四元数是用于执行旋转的四分量矢量。四元数优于其它旋转方法，例如：
 
-   * A quaternion isn’t ambiguant and doesn’t depend on the rotation
-     order as the Euler angles.
+   * 四元数没有多解，并且不像欧拉角依赖于的旋转顺序。
 
-   * Quaternion’s memory usage is more effective (2-4 times less
-     depending on the matrix used).
+   * 四元数的内存使用是更有效的（少2-4倍，取决于所使用的矩阵）。
 
-   * Better computing efficiency than for matrices in case of a
-     series of rotations.
+   * 在一系列旋转的情况下，比矩阵有更好的计算效率。
 
    * Numeric stability - compensation for multiplication errors
      arising from float number inaccuracy.
 
-   * Convenient interpolation method.
+   * 便捷的插值方法。
 
-Quaternions have some drawbacks:
-   * Rotating a vector with a quaternion is more computationally
-     expensive than rotating with a matrix.
+四元有一些缺点：
+   * 用四元数来旋转向量比用矩阵来旋转向量要浪费计算成本。
 
-   * It is difficult to use quaternions for non-rotation
-     transformations (such as perspective or orthogonal projection).
+   * 很难将四元数用到非旋转变换上（例如透视或正交投影）。
 
-The engine has a number of functions to make it more convenient to
-work with quaternions:
+该引擎具有许多功能，能更方便地跟四元数工作：
 
 *quat.multiply*
-   Quaternion multiplication. Note that left-multiplying A quaternion
-   by B quaternion A*B is a rotation by A. I.e. the object already has
-   some rotation B which we supplement with a new rotation by A.
+   四元数乘法。需要注意的是用B四元数左乘A四元数A * B  是用A旋转物体。
+   比如，物体已经具有一定的旋转B上，我们加了新的A旋转。
 
 *quat.setAxisAngle*
-   A quaternion is an alternative presentation of rotation by an
-   arbitrary angle relative to the arbitrary axis (vector). Positive
-   direction of rotation is defined as anticlockwise when viewing from
-   the vector’s end. For example the :code`quat.setAxisAngle([1, 0,
-   0], Math.PI/2, quat)` call forms a quaternion which can be used for
-   rotating the object by 90 degrees (anticlockwise if viewing from
-   the X axis’ end) relative to the X axis.
+   四元数是任意相对于任意轴（矢量）的任意角度旋转的另一种表现。从向量
+   的末端来观看时旋转的正方向定义为逆时针。例如
+   :code`quat.setAxisAngle([1, 0, 0], Math.PI/2, quat)`  用四元数对物
+   体相对于X轴旋转了90度（如果从X轴末端查看是逆时针）。
 
 *quat.slerp*
-   Spherical interpolation of quaternions. Used for smoothing the
-   object’s rotation and animation.
+   四元数球面插值。用于平滑物体的旋转和动画。
 
 *util.euler_to_quat, util.quat_to_euler*.
-   Conversion from Euler angles and back.
+   从欧拉角转换到和转换回欧拉角。
 
 
-Quaternion Example
-------------------
+四元数例子
+----------
 
-We need to rotate the object by 60 degrees in a horizontal plane to
-the right. We have a model named “Cessna” in Blender.
+我们需要在水平面向右旋转物体60度。我们有一个在Blender里有个名为
+“Cessna” 的模型。
 
 [图片]
 
 
 
-Lets save a reference to the object in the **aircraft** variable:
+让我们在 **aircraft** 变量保存引用：
 
    var aircraft = m_scenes.get_object_by_name("Cessna");
 
-Lets rotate it:
+旋转：
 
-   * The orientation of coordinate axes is different in Blender and
-     in the engine. Upon export there will be a transformation [X Y Z]
-     (Blender) -> [X -Z Y] (the engine). Therefore we need to rotate
-     the object relative to the Y axis and not the Z axis.
+   * 坐标轴的方向在Blender和在引擎中是不同的。在导出时会有变换[X Y
+     Z] (Blender) -> [X -Z Y] (引擎)。因此，我们需要相对于Y轴，而不是Z
+     轴 旋转物体。
 
-   * A clockwise rotation corresponds to the rotation to the right
-     (i.e. in the negative direction).
+   * 顺时针转动对应于旋转到右侧（即在负方向）。
 
-   * 60 degrees = \pi/3 radians.
+   * 60 度 = \pi/3 弧度.
 
-As a result we get:
+因此，我们得到：
 
    // compose quaternion
    var quat_60_Y_neg = m_quat.setAxisAngle([0, 1, 0], -Math.PI/3, m_quat.create());
@@ -549,7 +505,7 @@ As a result we get:
    // set new rotation
    m_transform.set_rotation_v(aircraft, quat_new);
 
-The optimized version which does not create new objects:
+优化的版本不创建新的物体：
 
    // cache arrays as global vars
    var AXIS_Y = new Float32Array([0, 1, 0])
@@ -563,33 +519,29 @@ The optimized version which does not create new objects:
    m_transform.set_rotation_v(aircraft, quat_tmp);
 
 
-Differences Between Coordinate Systems of Blender and Blend4Web
-===============================================================
+Blender和Blend4Web的坐标系之间的差异
+====================================
 
-In Blender’s coordinate system the "UP" vector, which points upwards,
-is co-directional with the Z axis. Blend4Web uses Y axis for this
-purpose, as it is customary in OpenGL. Thus the engine’s coordinates
-are rotated by 90° around the X axis relative to Blender.
+在Blender的坐标系统中的 "UP" 矢量，它指向向上，是同向的Z轴。 Blend4Web
+使用Y轴用于此目的，因为是使用OpenGL习惯。因而引擎的坐标由相对Blender的
+X轴周围旋转90°。
 
 [图片]
 
 
 
-API methods use the engine’s coordinates, so they can work differently
-in comparison with setting Blender’s parameters.
+API方法使用引擎的坐标，这样他们就跟设定Blender的参数不相同。
 
 
-Moving via TSR Vectors
-======================
+通过TSR矢量移动
+===============
 
-It is sometimes convenient to move objects using vectors of the
-following format:
+有时用下面格式的矢量来移动物体是很方便的：
 
    [T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]
 
-Here T_x, T_y, T_z - the components of the translation vector, S -
-scale factor, R_x, R_y, R_z, R_w - the components of the quaternion
-vector. Hence the name of this vector: TSR or TSR-8.
+在这里 T_x, T_y, T_z - 位移向量的分量，S - 比例系数， R_x, R_y, R_z,
+R_w - 四元数向量的分量。这个向量故名：TSR或TSR-8。
 
-This vector can be operated via *tsr* module, as well as via
-*set_tsr()*/*get_tsr()* methods of the *transform* module.
+该向量可通过 *tsr* 模块以及经由 *transform* 模块的
+*set_tsr()*/*get_tsr()*  的方法操作。

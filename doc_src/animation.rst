@@ -35,7 +35,7 @@ Animation Control
 There are two ways to control animation in the engine:
 
 #. Automatically, activating the ``Animation`` panel and choosing the 
-   ``Behaviour`` parameter in the object's properties. In this case an
+   ``Behavior`` parameter in the object's properties. In this case an
    appropriate animation method will be chosen by the engine and the
    object's animation playback will start just after a scene is loaded.
    In case of skeletal animation the action which is assigned to the
@@ -78,7 +78,7 @@ The following keyframe types are supported:
 
 * *RotScale* -- a combination of *Rotation* and *Scale*.
 
-If a mesh object is animated it is required to activate the ``Force Dynamic Object`` option on the ``Rendering Propetries`` panel under the object properties tab.
+If a mesh object is animated it is required to activate the ``Force Dynamic Object`` option on the ``Rendering Properties`` panel under the object properties tab.
 
 .. _skeletal_animation:
 
@@ -114,7 +114,7 @@ Baking parameters
 
 Baking is performed with the armature object selected.
 
-The actors that will be baked are listed in the window with the list of actors.If the list is empty, all avalible actors will be baked.
+The actors that will be baked are listed in the window with the list of actors. If the list is empty, all available actors will be baked.
 
 *Name*
     The current action name from the list of actions being baked.
@@ -131,11 +131,11 @@ The actors that will be baked are listed in the window with the list of actors.I
     Perform baking. If the process is completed successfully, actions with names of
     *B4W_BAKED_ACTOR_NAME* type appear in the scene. These actions can be assigned
     to the armature object and played back in the engine. It's worth noting that appropriate
-    functioning of such actions in Blender is not garanteed.
+    functioning of such actions in Blender is not guaranteed.
 
 .. note::
     The engine supports up to 4 vertex groups per vertex. If the number of vertex groups
-    exceeds 4 the vertex groups with the most influence are selected. When the scene is loaded
+    exceeds 4, the vertex groups with the most influence are selected. When the scene is loaded,
     the vertex weights are normalized i.e. their sum is reduced to 1.
 
     To remove vertex groups which are not used by armature, use button ``Remove Clean Unused Vertex Groups``.
@@ -254,7 +254,7 @@ The *NLA > Cyclic NLA* scene setting activates the cyclic NLA animation mode.
 Limitations
 ...........
 
-* A simultanious playback of differnet types of animation for the same object is not supported. 
+* A simultaneous playback of different types of animation for the same object is not supported. 
 
 Controlling via API
 --------------------
@@ -290,7 +290,7 @@ In addition the following animation key types are supported for the speaker obje
 
 * *Pitch*
 
-Audio sources parametering in essence follows object animation.
+Audio sources parametrization in essence follows object animation.
 
 
 .. _node_anim:

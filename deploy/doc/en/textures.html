@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Textures &mdash; Blend4Web 16.03 User Manual</title>
+  <title>Textures &mdash; Blend4Web 16.04 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.03 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.04 User Manual" href="index.html"/>
         <link rel="next" title="Particle System. Fluids" href="particles.html"/>
         <link rel="prev" title="Stereo Rendering" href="stereo_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.03
+              v16.04
             </div>
           
         
@@ -84,7 +84,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
@@ -275,15 +275,23 @@
 </li>
 </ul>
 </div>
-<p>Textures are hand-made or procedurally generated images that can be applied to the model surfaces to add more detail. As a rule, the image pixels are assigned to the 3D surface points using texture mapping. For this reason they sometimes are referred to as maps.</p>
+<p>Textures are hand-made or procedurally generated images that can be applied to the model surfaces to add more detail. As a rule, the image pixels are assigned to the 3D surface points using texture mapping. For this reason they are sometimes referred to as maps.</p>
 <p>Usually the textures are placed into <a class="reference internal" href="materials.html#materials"><span>material</span></a> texture slots. They can be also used for <a class="reference internal" href="particles.html#particles-textures"><span>particle systems</span></a> parametrization and for creating the <a class="reference internal" href="#skydome-texture"><span>skydome</span></a>.</p>
 <div class="section" id="texture-types">
 <span id="index-1"></span><h2><a class="toc-backref" href="#id21">Texture Types</a><a class="headerlink" href="#texture-types" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">Type</span></code> drop-down menu (for selecting texture type) is located under the <code class="docutils literal"><span class="pre">Textures</span></code> tab. The engine supports the following texture types:</p>
 <ol class="arabic">
-<li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code></dt>
-<dd><ul class="first last simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code></p>
+<blockquote>
+<div><p>In this case, the texture is defined by an image or a video file. Following file formats are supported:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">.PNG</span></code></li>
+<li><code class="docutils literal"><span class="pre">.JPG</span></code></li>
+</ul>
+</div></blockquote>
+<p>It can be used for the following purposes:</p>
+<ul class="simple">
 <li><a class="reference internal" href="#diffuse-map"><span>diffuse map</span></a></li>
 <li><a class="reference internal" href="#specular-map"><span>specular map</span></a>, this can also be packed into the alpha channel of a diffuse texture</li>
 <li><a class="reference internal" href="#normal-map"><span>normal map</span></a></li>
@@ -291,8 +299,7 @@
 <li><a class="reference internal" href="#stencil-map"><span>stencil map</span></a></li>
 <li><a class="reference internal" href="#video-texture"><span>video texture</span></a></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code></dt>
@@ -339,8 +346,10 @@
 <dd>Scaling the UV map along respective axes. The default values are 1.0.</dd>
 <dt><em>Export Options &gt; Do Not Export</em></dt>
 <dd>Do not export the texture.</dd>
+</dl>
+<dl class="docutils" id="texture-disable-compression">
 <dt><em>Export Options &gt; Disable Compression</em></dt>
-<dd>Disable texture compression for this texture. Used in cases when texture compression deteriorates the image quality.For example it&#8217;s recommended to disable compression for mask textures used to mix different parts of materials.</dd>
+<dd>Disable texture compression for this texture. Used in cases when <a class="reference internal" href="developers.html#dds"><span>texture compression</span></a> deteriorates the image quality. For example it&#8217;s recommended to disable compression for mask textures used to mix different parts of materials.</dd>
 <dt><em>Export Options &gt; Shore Distance Map</em></dt>
 <dd>Used in <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span>outdoor rendering</span></a>.</dd>
 <dt><em>Export Options &gt; Anisotropic Filtering</em></dt>
@@ -417,7 +426,7 @@
 <dt><em>Parallax &gt; Parallax Scale</em></dt>
 <dd>Influence factor for the relief surface effect. The default value is 0.03.</dd>
 <dt><em>Parallax &gt; Parallax Steps</em></dt>
-<dd>The number of iterations for the relief surface calculations. Bigger value leads to better quality but is more computationaly expensive.</dd>
+<dd>The number of iterations for the relief surface calculations. Bigger value leads to better quality but is more computationally expensive.</dd>
 <dt><em>Parallax &gt; Parallax LOD distance</em></dt>
 <dd>Distance at which the parallax effect is observed.</dd>
 </dl>
@@ -519,7 +528,7 @@
 <ol class="arabic simple">
 <li>Normal operation of video textures on iPhones is not possible because these devices play back videos via the standard iOS video player. For these devices you need to convert your videos to special <code class="docutils literal"><span class="pre">.seq</span></code> format by using our <a class="reference internal" href="developers.html#converter"><span>converter</span></a>.</li>
 <li>some devices only support playing back only one video file.</li>
-<li>stable operation is not garanteed if the <code class="docutils literal"><span class="pre">Offset</span></code> value is not zero.</li>
+<li>stable operation is not guaranteed if the <code class="docutils literal"><span class="pre">Offset</span></code> value is not zero.</li>
 <li>not all devices support changing the video playback rate.</li>
 <li>iPad and iPhone do not provide the possibility to control the audio volume for video, and so the audio track should be removed from the video before the file is added to Blender.</li>
 </ol>
@@ -693,7 +702,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-03-31.
+      Last updated on 2016-04-28.
 
     </p>
   </div>
@@ -716,7 +725,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.03',
+            VERSION:'v16.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

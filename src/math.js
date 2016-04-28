@@ -26,7 +26,6 @@
 b4w.module["__math"] = function(exports, require) {
 
 var m_vec3     = require("__vec3");
-var m_util     = require("__util");
 var m_mat3     = require("__mat3");
 
 var _vec3_tmp = new Float32Array(3);

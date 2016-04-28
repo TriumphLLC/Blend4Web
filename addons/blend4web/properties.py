@@ -1651,6 +1651,7 @@ def remove_obj_props():
     del bpy.types.Object.b4w_character
     del bpy.types.Object.b4w_character_settings
     del bpy.types.Object.b4w_anim_clean_keys
+    del bpy.types.Object.b4w_bake_only_deform
     del bpy.types.Object.b4w_loc_export_vertex_anim
     del bpy.types.Object.b4w_lod_transition
     del bpy.types.Object.b4w_detail_bend_colors
@@ -2543,6 +2544,13 @@ def add_object_properties():
     obj_type.b4w_anim_clean_keys = bpy.props.BoolProperty(
         name = _("B4W: animation clean keys"),
         description = _("Perform clean keyframes optimization after animation baking"),
+        default = True
+    )
+
+    # not exported
+    obj_type.b4w_bake_only_deform = bpy.props.BoolProperty(
+        name = _("B4W: bake only deform bones"),
+        description = _("Bake only deform bones or bones with deform children"),
         default = True
     )
 

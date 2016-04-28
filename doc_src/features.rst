@@ -108,7 +108,7 @@ Audio
 * flexible control of playback volume, speed and latency
 * fade-in, fade-out, duck
 * high quality sound looping
-* randomizing sound parameters to improve loop percepetion
+* randomizing sound parameters to improve loop perception
 * cross-fader sound animation support
 * dynamic compressor
 * efficient long soundtrack storage and playback

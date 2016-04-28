@@ -60,7 +60,7 @@ function loaded_callback(data_id) {
     }
 
     _canvas_elem.style.display = "block";
-    m_app.enable_camera_controls(false, false, false, _canvas_elem, true);
+    m_app.enable_camera_controls(false, false, true, _canvas_elem, true);
 
     enable_timeout();
 

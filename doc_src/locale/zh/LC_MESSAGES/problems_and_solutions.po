@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-30 17:24+0300\n"
+"POT-Creation-Date: 2016-04-25 17:26+0300\n"
 "PO-Revision-Date: 2016-03-26 16:43+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -80,7 +80,7 @@ msgid "You are using an outdated operating system, such as Windows XP."
 msgstr "您正在使用过时的操作系统，如Windows XP。"
 
 #: ../problems_and_solutions.rst:44
-msgid "WebGL Failed to Init"
+msgid "WebGL Failed to Initialize"
 msgstr "WebGL的无法初始化"
 
 #: ../problems_and_solutions.rst:46
@@ -173,7 +173,7 @@ msgstr "更新插件时候的问题。"
 
 #: ../problems_and_solutions.rst:108
 msgid ""
-"It’s strongly adviced to restart Blender after installing a newer version"
+"It’s strongly advised to restart Blender after installing a newer version"
 " of Addon/SDK."
 msgstr "强烈地建议安装插件/ SDK的更新版本后重新启动Blender。"
 
@@ -199,8 +199,8 @@ msgstr "使用Mali GPU的有些设备需要在浏览器设置手动激活的WebG
 
 #: ../problems_and_solutions.rst:118
 msgid ""
-"For the local developement server to work on Apple OS X and Blender 2.76,"
-" you may need to install `Python 3.4 "
+"For the local development server to work on Apple OS X and Blender 2.76, "
+"you may need to install `Python 3.4 "
 "<https://www.python.org/downloads/release/python-343/>`. This is due to a"
 " bug in Blender https://developer.blender.org/T46623. This bug has been "
 "fixed in Blender 2.76b, so updating it is advised."

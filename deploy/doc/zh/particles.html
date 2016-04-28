@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Particle System. Fluids &mdash; Blend4Web 16.03 用户手册</title>
+  <title>Particle System. Fluids &mdash; Blend4Web 16.04 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
         <link rel="next" title="Particle System. Instancing" href="particles_instancing.html"/>
-        <link rel="prev" title="Textures" href="textures.html"/> 
+        <link rel="prev" title="纹理" href="textures.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.03
+              v16.04
             </div>
           
         
@@ -84,7 +84,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
@@ -92,49 +92,49 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
-<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Particle System. Fluids</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#necessary-steps">Necessary steps</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#recommended-additional-settings">Recommended additional settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#necessary-steps">Necessary Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#recommended-additional-settings">Recommended Additional Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#basic-settings">Basic settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#emission-settings">Emission settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#direction-settings">Direction settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#rotation-settings">Rotation settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#physics-settings">Physics settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#rendering-settings">Rendering settings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#supported-settings-for-force-fields-influence">Supported settings for force fields influence</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#engine-specific-settings">Engine specific settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-settings">Basic Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#emission-settings">Emission Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#direction-settings">Direction Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rotation-settings">Rotation Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#physics-settings">Physics Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rendering-settings">Rendering Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-settings-for-force-field-influence">Supported Settings for Force Field Influence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#engine-specific-settings">Engine Specific Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#textures-in-particle-systems">Textures in Particle Systems</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#textures-of-the-particle-s-material">Textures of the particle&#8217;s material</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#textures-of-particle-systems">Textures of particle systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#textures-of-the-particle-s-material">Textures of the Particle&#8217;s Material</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#textures-of-particle-systems">Textures of Particle Systems</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
@@ -185,24 +185,24 @@
 <ul class="simple">
 <li><a class="reference internal" href="#particle-system-fluids" id="id1">Particle System. Fluids</a><ul>
 <li><a class="reference internal" href="#usage" id="id2">Usage</a><ul>
-<li><a class="reference internal" href="#necessary-steps" id="id3">Necessary steps</a></li>
-<li><a class="reference internal" href="#recommended-additional-settings" id="id4">Recommended additional settings</a></li>
+<li><a class="reference internal" href="#necessary-steps" id="id3">Necessary Steps</a></li>
+<li><a class="reference internal" href="#recommended-additional-settings" id="id4">Recommended Additional Settings</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#setup" id="id5">Setup</a><ul>
-<li><a class="reference internal" href="#basic-settings" id="id6">Basic settings</a></li>
-<li><a class="reference internal" href="#emission-settings" id="id7">Emission settings</a></li>
-<li><a class="reference internal" href="#direction-settings" id="id8">Direction settings</a></li>
-<li><a class="reference internal" href="#rotation-settings" id="id9">Rotation settings</a></li>
-<li><a class="reference internal" href="#physics-settings" id="id10">Physics settings</a></li>
-<li><a class="reference internal" href="#rendering-settings" id="id11">Rendering settings</a></li>
-<li><a class="reference internal" href="#supported-settings-for-force-fields-influence" id="id12">Supported settings for force fields influence</a></li>
-<li><a class="reference internal" href="#engine-specific-settings" id="id13">Engine specific settings</a></li>
+<li><a class="reference internal" href="#basic-settings" id="id6">Basic Settings</a></li>
+<li><a class="reference internal" href="#emission-settings" id="id7">Emission Settings</a></li>
+<li><a class="reference internal" href="#direction-settings" id="id8">Direction Settings</a></li>
+<li><a class="reference internal" href="#rotation-settings" id="id9">Rotation Settings</a></li>
+<li><a class="reference internal" href="#physics-settings" id="id10">Physics Settings</a></li>
+<li><a class="reference internal" href="#rendering-settings" id="id11">Rendering Settings</a></li>
+<li><a class="reference internal" href="#supported-settings-for-force-field-influence" id="id12">Supported Settings for Force Field Influence</a></li>
+<li><a class="reference internal" href="#engine-specific-settings" id="id13">Engine Specific Settings</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#textures-in-particle-systems" id="id14">Textures in Particle Systems</a><ul>
-<li><a class="reference internal" href="#textures-of-the-particle-s-material" id="id15">Textures of the particle&#8217;s material</a></li>
-<li><a class="reference internal" href="#textures-of-particle-systems" id="id16">Textures of particle systems</a></li>
+<li><a class="reference internal" href="#textures-of-the-particle-s-material" id="id15">Textures of the Particle&#8217;s Material</a></li>
+<li><a class="reference internal" href="#textures-of-particle-systems" id="id16">Textures of Particle Systems</a></li>
 </ul>
 </li>
 </ul>
@@ -210,7 +210,7 @@
 </ul>
 </div>
 <p>The particle system is intended to visualize phenomena which are caused by the movement of numerous small objects such as smoke, fire, water splashes and other.</p>
-<a class="reference internal image-reference" href="_images/particles_smoke.jpg"><img alt="_images/particles_smoke.jpg" class="align-center" src="_images/particles_smoke.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_smoke.png"><img alt="_images/particles_smoke.png" class="align-center" src="_images/particles_smoke.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -218,7 +218,7 @@
 <div class="section" id="usage">
 <h2><a class="toc-backref" href="#id2">Usage</a><a class="headerlink" href="#usage" title="永久链接至标题">¶</a></h2>
 <div class="section" id="necessary-steps">
-<h3><a class="toc-backref" href="#id3">Necessary steps</a><a class="headerlink" href="#necessary-steps" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id3">Necessary Steps</a><a class="headerlink" href="#necessary-steps" title="永久链接至标题">¶</a></h3>
 <ol class="arabic">
 <li><p class="first">Add a mesh emitter to the scene.</p>
 </li>
@@ -237,22 +237,22 @@
 </ol>
 </div>
 <div class="section" id="recommended-additional-settings">
-<h3><a class="toc-backref" href="#id4">Recommended additional settings</a><a class="headerlink" href="#recommended-additional-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">Recommended Additional Settings</a><a class="headerlink" href="#recommended-additional-settings" title="永久链接至标题">¶</a></h3>
 <ol class="arabic simple">
 <li>Set the <code class="docutils literal"><span class="pre">Add</span></code> transparency type for the particles&#8217; material.</li>
 <li>Disable emitter rendering if needed using the <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></code> checkbox.</li>
 <li>If an emitter is required on a scene use additional materials for it. In this case select the particles&#8217; material in the <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Material</span></code> menu on the particles settings panel.</li>
 <li>If the <code class="docutils literal"><span class="pre">Surface</span></code> material type is used it is required to add a diffuse texture (normally with the alpha channel) to this material. Select  <code class="docutils literal"><span class="pre">UV</span></code> in the <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> menu.  Make sure that the emitter&#8217;s mesh has a UV layer.</li>
 </ol>
-<a class="reference internal image-reference" href="_images/particles_first_steps.jpg"><img alt="_images/particles_first_steps.jpg" class="align-center" src="_images/particles_first_steps.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_first_steps.png"><img alt="_images/particles_first_steps.png" class="align-center" src="_images/particles_first_steps.png" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="setup">
 <h2><a class="toc-backref" href="#id5">Setup</a><a class="headerlink" href="#setup" title="永久链接至标题">¶</a></h2>
 <p>The particle system parameters can be set up under the <code class="docutils literal"><span class="pre">Particles</span></code> tab. Multiple particle systems per emitter are supported.</p>
-<a class="reference internal image-reference" href="_images/particles_settings_panel.jpg"><img alt="_images/particles_settings_panel.jpg" class="align-center" src="_images/particles_settings_panel.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_settings_panel.png"><img alt="_images/particles_settings_panel.png" class="align-center" src="_images/particles_settings_panel.png" style="width: 100%;" /></a>
 <div class="section" id="basic-settings">
-<h3><a class="toc-backref" href="#id6">Basic settings</a><a class="headerlink" href="#basic-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Basic Settings</a><a class="headerlink" href="#basic-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Name</em></dt>
 <dd>Particle system name. The default name is &#8220;ParticleSystem&#8221;.</dd>
@@ -265,7 +265,8 @@
 </dl>
 </div>
 <div class="section" id="emission-settings">
-<h3><a class="toc-backref" href="#id7">Emission settings</a><a class="headerlink" href="#emission-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Emission Settings</a><a class="headerlink" href="#emission-settings" title="永久链接至标题">¶</a></h3>
+<a class="reference internal image-reference" href="_images/particles_settings.png"><img alt="_images/particles_settings.png" class="align-center" src="_images/particles_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Emission &gt; Number</em></dt>
 <dd>Number of particles. The default value is 1000.</dd>
@@ -274,9 +275,9 @@
 <dt><em>Emission &gt; End</em></dt>
 <dd>The last frame after which the emission of particles ends. The default value is 200.0.</dd>
 <dt><em>Emission &gt; Lifetime</em></dt>
-<dd>The life time of particles measured in frames. The default value is 50.0.</dd>
+<dd>The lifetime of particles measured in frames. The default value is 50.0.</dd>
 <dt><em>Emission &gt; Lifetime &gt; Random</em></dt>
-<dd>The random factor for the life time. The default value is 0.0.</dd>
+<dd>The random factor for the lifetime. The default value is 0.0.</dd>
 <dt><em>Emission &gt; Emit From</em></dt>
 <dd>Emission source type. The following types are supported: <code class="docutils literal"><span class="pre">Verts</span></code> (emit from vertices), <code class="docutils literal"><span class="pre">Faces</span></code> (emit from polygons). The default is <code class="docutils literal"><span class="pre">Faces</span></code>.</dd>
 <dt><em>Emission &gt; Cyclic emission</em></dt>
@@ -286,10 +287,9 @@
 <dt><em>Emission &gt; Emit From &gt; Distribution</em></dt>
 <dd>Emission distribution settings: <code class="docutils literal"><span class="pre">Jittered</span></code>, <code class="docutils literal"><span class="pre">Random</span></code>, <code class="docutils literal"><span class="pre">Grid</span></code>. Ignored by the engine. Internally the engine always uses <code class="docutils literal"><span class="pre">Random</span></code> distribution. The default is <code class="docutils literal"><span class="pre">Jittered</span></code>.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/particles_settings.jpg"><img alt="_images/particles_settings.jpg" class="align-center" src="_images/particles_settings.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="direction-settings">
-<h3><a class="toc-backref" href="#id8">Direction settings</a><a class="headerlink" href="#direction-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Direction Settings</a><a class="headerlink" href="#direction-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Velocity &gt; Emitter Geometry &gt; Normal</em></dt>
 <dd>Factor influencing the emission along the emitter&#8217;s mesh normals. The default value is 1.0.</dd>
@@ -298,7 +298,7 @@
 </dl>
 </div>
 <div class="section" id="rotation-settings">
-<h3><a class="toc-backref" href="#id9">Rotation settings</a><a class="headerlink" href="#rotation-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">Rotation Settings</a><a class="headerlink" href="#rotation-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Rotation &gt; Angular Velocity &gt; Mode</em></dt>
 <dd>Mode for particle billboards self-rotating. <code class="docutils literal"><span class="pre">Hair</span></code> particle system supports all the types of rotation and <code class="docutils literal"><span class="pre">Emitter</span></code> supports only <code class="docutils literal"><span class="pre">Velocity</span></code>.</dd>
@@ -307,7 +307,8 @@
 </dl>
 </div>
 <div class="section" id="physics-settings">
-<h3><a class="toc-backref" href="#id10">Physics settings</a><a class="headerlink" href="#physics-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id10">Physics Settings</a><a class="headerlink" href="#physics-settings" title="永久链接至标题">¶</a></h3>
+<a class="reference internal image-reference" href="_images/particles_settings2.png"><img alt="_images/particles_settings2.png" class="align-center" src="_images/particles_settings2.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Physics &gt; Type</em></dt>
 <dd>Physics calculation type: <code class="docutils literal"><span class="pre">No</span></code>, <code class="docutils literal"><span class="pre">Newtonian</span></code>, <code class="docutils literal"><span class="pre">Keyed</span></code>, <code class="docutils literal"><span class="pre">Boids</span></code>, <code class="docutils literal"><span class="pre">Fluid</span></code>. Ignored by the engine. <code class="docutils literal"><span class="pre">Newtonian</span></code> physics is always used. The default is <code class="docutils literal"><span class="pre">Newtonian</span></code>.</dd>
@@ -318,10 +319,10 @@
 <dt><em>Physics &gt; Forces &gt; Brownian</em></dt>
 <dd>Exported but not used by the engine.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/particles_settings2.jpg"><img alt="_images/particles_settings2.jpg" class="align-center" src="_images/particles_settings2.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="rendering-settings">
-<h3><a class="toc-backref" href="#id11">Rendering settings</a><a class="headerlink" href="#rendering-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">Rendering Settings</a><a class="headerlink" href="#rendering-settings" title="永久链接至标题">¶</a></h3>
+<a class="reference internal image-reference" href="_images/particles_rendering.png"><img alt="_images/particles_rendering.png" class="align-center" src="_images/particles_rendering.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Render &gt; Material</em></dt>
 <dd>Menu for selecting the particle&#8217;s material. Used for referencing to the particle&#8217; material in case multiple materials are used by the emitter. The default value is <code class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></code>.</dd>
@@ -331,6 +332,15 @@
 <dd>Particle rendering mode: <code class="docutils literal"><span class="pre">None</span></code>, <code class="docutils literal"><span class="pre">Halo</span></code>, <code class="docutils literal"><span class="pre">Line</span></code>, <code class="docutils literal"><span class="pre">Path</span></code>, <code class="docutils literal"><span class="pre">Object</span></code>, <code class="docutils literal"><span class="pre">Group</span></code>, <code class="docutils literal"><span class="pre">Billboard</span></code>. The engine supports the <code class="docutils literal"><span class="pre">Object</span></code> and the <code class="docutils literal"><span class="pre">Group</span></code> modes which are used for objects and groups instancing respectively. Other modes are ignored. It is recommended to use the <code class="docutils literal"><span class="pre">Billboard</span></code> mode for convenient display of billboards. The default is <code class="docutils literal"><span class="pre">Halo</span></code>.</dd>
 <dt><em>Render &gt; Billboard Align</em></dt>
 <dd>The way billboards are oriented: <code class="docutils literal"><span class="pre">View</span></code> - follow the camera, <code class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></code> - align to the corresponding plane (in the world coordinate system of Blender). The default is <code class="docutils literal"><span class="pre">View</span></code>.</dd>
+<dt><em>Render &gt; Tilt</em></dt>
+<dd><p class="first">This group of parameters controls the initial tilt of the billboard planes. It consists of two parameters:</p>
+<dl class="last docutils">
+<dt><em>Angle</em></dt>
+<dd>Rotation angle of the billboard planes. Its value can vary from -1 to 1. The value of 1 rotates by 180 degrees (i.e. turns the billboard upside down). Set to zero by default.</dd>
+<dt><em>Random</em></dt>
+<dd>Random variation of tilt. Its value can change from zero to 1 and is set to zero by default.</dd>
+</dl>
+</dd>
 <dt>Render &gt; Dissolve intervals &gt; Fade-in* and <em>Fade-out</em></dt>
 <dd>Starting and ending intervals (measured in frames) for gradually increasing and decreasing the particles&#8217; transparency.</dd>
 <dt><em>Render &gt; Coordinate System</em></dt>
@@ -339,8 +349,8 @@
 <dd>Support for soft particles, billboards of which smoothly dissolve when contacting with surfaces. Use the <code class="docutils literal"><span class="pre">Particle</span> <span class="pre">Softness</span></code> slider to tweak this effect.</dd>
 </dl>
 </div>
-<div class="section" id="supported-settings-for-force-fields-influence">
-<span id="particles-force-fields"></span><h3><a class="toc-backref" href="#id12">Supported settings for force fields influence</a><a class="headerlink" href="#supported-settings-for-force-fields-influence" title="永久链接至标题">¶</a></h3>
+<div class="section" id="supported-settings-for-force-field-influence">
+<span id="particles-force-fields"></span><h3><a class="toc-backref" href="#id12">Supported Settings for Force Field Influence</a><a class="headerlink" href="#supported-settings-for-force-field-influence" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Field Weights &gt; Gravity</em></dt>
 <dd>Gravity influence factor (Earth&#8217;s attraction). The default value is 1.0.</dd>
@@ -349,7 +359,7 @@
 </dl>
 </div>
 <div class="section" id="engine-specific-settings">
-<h3><a class="toc-backref" href="#id13">Engine specific settings</a><a class="headerlink" href="#engine-specific-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id13">Engine Specific Settings</a><a class="headerlink" href="#engine-specific-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><em>Export Options &gt; Do not export</em></dt>
 <dd>Don&#8217;t export.</dd>
@@ -358,24 +368,24 @@
 </div>
 <div class="section" id="textures-in-particle-systems">
 <span id="particles-textures"></span><h2><a class="toc-backref" href="#id14">Textures in Particle Systems</a><a class="headerlink" href="#textures-in-particle-systems" title="永久链接至标题">¶</a></h2>
-<p>Particle systems support both standard and node materials. Supported  material types are <code class="docutils literal"><span class="pre">Surface</span></code> and <code class="docutils literal"><span class="pre">Halo</span></code>. All additional settings of the <code class="docutils literal"><span class="pre">Halo</span></code> type materilas, such as <code class="docutils literal"><span class="pre">Rings</span></code>, <code class="docutils literal"><span class="pre">Lines</span></code> and <code class="docutils literal"><span class="pre">Star</span> <span class="pre">Tips</span></code>, are also supported.</p>
+<p>Particle systems support both standard and node materials. Supported  material types are <code class="docutils literal"><span class="pre">Surface</span></code> and <code class="docutils literal"><span class="pre">Halo</span></code>. All additional settings of the <code class="docutils literal"><span class="pre">Halo</span></code> type materials, such as <code class="docutils literal"><span class="pre">Rings</span></code>, <code class="docutils literal"><span class="pre">Lines</span></code> and <code class="docutils literal"><span class="pre">Star</span> <span class="pre">Tips</span></code>, are also supported.</p>
 <div class="section" id="textures-of-the-particle-s-material">
-<h3><a class="toc-backref" href="#id15">Textures of the particle&#8217;s material</a><a class="headerlink" href="#textures-of-the-particle-s-material" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">Textures of the Particle&#8217;s Material</a><a class="headerlink" href="#textures-of-the-particle-s-material" title="永久链接至标题">¶</a></h3>
 <p>For the <code class="docutils literal"><span class="pre">Surface</span></code> particle&#8217;s materials it is <strong>required</strong> to have a diffuse texture (normally with an alpha-channel). In the <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> menu choose the <code class="docutils literal"><span class="pre">UV</span></code> option.  Make sure that the emitter&#8217;s mesh has a UV layer.</p>
 <p>For the <code class="docutils literal"><span class="pre">Halo</span></code> particle&#8217;s materials it is <strong>possible</strong> to use a <code class="docutils literal"><span class="pre">Blend</span></code> texture with a <code class="docutils literal"><span class="pre">Linear</span></code> gradient. In the <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> menu choose the <code class="docutils literal"><span class="pre">Strand</span> <span class="pre">/</span> <span class="pre">Particle</span></code> option. It is required to enable <code class="docutils literal"><span class="pre">Ramp</span></code> on a texture.</p>
-<a class="reference internal image-reference" href="_images/particles_settings_ramp_color.jpg"><img alt="_images/particles_settings_ramp_color.jpg" class="align-center" src="_images/particles_settings_ramp_color.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_settings_ramp_color.png"><img alt="_images/particles_settings_ramp_color.png" class="align-center" src="_images/particles_settings_ramp_color.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="textures-of-particle-systems">
-<h3><a class="toc-backref" href="#id16">Textures of particle systems</a><a class="headerlink" href="#textures-of-particle-systems" title="永久链接至标题">¶</a></h3>
-<p>Textures can also be used for setting up the behaviour of particle systems. Unlike textures for particle materials such textures belong to the particle system datablock, not to the material datablock. To create a texture for the particle system it is required to go <strong>from</strong> the <code class="docutils literal"><span class="pre">Particles</span></code> tab to the <code class="docutils literal"><span class="pre">Textures</span></code> tab and then to click the <code class="docutils literal"><span class="pre">New</span></code> button.</p>
+<h3><a class="toc-backref" href="#id16">Textures of Particle Systems</a><a class="headerlink" href="#textures-of-particle-systems" title="永久链接至标题">¶</a></h3>
+<p>Textures can also be used for setting up the behavior of particle systems. Unlike textures for particle materials such textures belong to the particle system datablock, not to the material datablock. To create a texture for the particle system it is required to go <strong>from</strong> the <code class="docutils literal"><span class="pre">Particles</span></code> tab to the <code class="docutils literal"><span class="pre">Textures</span></code> tab and then to click the <code class="docutils literal"><span class="pre">New</span></code> button.</p>
 <p>The only supported type of textures is <code class="docutils literal"><span class="pre">Blend</span></code> with a <code class="docutils literal"><span class="pre">Linear</span></code> gradient. <code class="docutils literal"><span class="pre">Ramp</span></code> should be enabled on the texture. Up to 4 gradient control points are supported.</p>
 <p>On the <code class="docutils literal"><span class="pre">Influence</span></code> panel choose the parameter which is influenced by the texture. At the moment the only supported parameter is <code class="docutils literal"><span class="pre">Size</span></code>.</p>
-<a class="reference internal image-reference" href="_images/particles_settings_ramp_size.jpg"><img alt="_images/particles_settings_ramp_size.jpg" class="align-center" src="_images/particles_settings_ramp_size.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_settings_ramp_size.png"><img alt="_images/particles_settings_ramp_size.png" class="align-center" src="_images/particles_settings_ramp_size.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>The result of using gradient textures on the particle material and the particle system:</p>
-<a class="reference internal image-reference" href="_images/particles_gun.jpg"><img alt="_images/particles_gun.jpg" class="align-center" src="_images/particles_gun.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_gun.png"><img alt="_images/particles_gun.png" class="align-center" src="_images/particles_gun.png" style="width: 100%;" /></a>
 <p><a class="reference external" href="http://www.blendswap.com/blends/view/13977">The original model was taken from here</a></p>
 </div>
 </div>
@@ -391,7 +401,7 @@
         <a href="particles_instancing.html" class="btn btn-neutral float-right" title="Particle System. Instancing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="textures.html" class="btn btn-neutral" title="Textures" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="textures.html" class="btn btn-neutral" title="纹理" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -401,7 +411,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-03-31.
+      最后更新于 2016-04-28.
 
     </p>
   </div>
@@ -424,7 +434,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.03',
+            VERSION:'v16.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

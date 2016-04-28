@@ -28,7 +28,7 @@ Basic Settings
 --------------
 
 *Transparency*
-    It is recommended to enable the gradient transparency ``Transparency > Alpha Blend`` and to tweak the ``Alpha`` value. 
+    It is recommended to enable the gradient transparency (set the ``Transparency > Type`` parameter to the ``Alpha Blend`` value) and to tweak the ``Alpha`` value. 
 
 *Lighting parameters*
     Lighting parameters for the water material can be set up as described in the :ref:`material_lighting_params` section.
@@ -249,7 +249,7 @@ On the tools panel (hotkey “T”) under the ``Blend4Web`` tab open the ``Bake 
  
 Depending on the texture size and the number of vertices in the processed meshes the execution time of the script may vary from a fraction of a second up to several minutes. Make sure that the texture named ``ShoreDistance`` is created for the water mesh.
 
-Upon script execution some system properties are saved in the water material. Therefore the scene must be saved after the script has finished working. 
+Upon script execution some system properties are saved in the water material. Therefore, the scene must be saved after the script has finished working. 
 
 
 .. _atmosphere:
@@ -410,7 +410,7 @@ The interface panel becomes visible after turning on the ``Wind Bending`` panel.
     Angle amplitude of the branch deviation caused by the influence of wind (in degrees). The default value is 0.3.
 
 *Detail Bending > Bending Frequency*
-    Detail bendind frequency. The default value is 1.0.
+    Detail bending frequency. The default value is 1.0.
 
 *Detail Bending > Leaves Stiffness (R)*
     Text field for specifying the name of the vertex color layer which contains the information about the stiffness of leaves. Can be left empty. 

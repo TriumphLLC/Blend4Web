@@ -1,411 +1,361 @@
 
-Materials
-*********
+材质
+****
 
 
-Table of Content
-^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Materials
+* 材质
 
-  * Lighting Parameters
+  * 灯光参数
 
-  * Transparency
+  * 透明
 
-    * Types
+    * 类型
 
-    * Additional Settings
+    * 附加设置
 
-  * Reflection
+  * 反射
 
-    * Static Reflection
+    * 静态反射
 
-    * Dynamic Reflection
+    * 动态反射
 
-    * Fresnel effect for reflection
+    * 菲涅耳反射效果
 
-  * Rendering Properties
+  * 渲染属性
 
-  * Viewport Properties
+  * 视图属性
 
-  * Engine Specific Parameters
+  * 引擎特定参数
 
-  * Halo Materials
+  * 光晕材质
 
-    * Activation
+    * 激活
 
-    * Additional Settings
+    * 附加设置
 
-Materials describe the object surface’s response to light and also
-contain information about its transparency, reflectivity, physical
-parameters and so on.
+材质是描述物体表面对光的反应，还包含有关其透明度、 反射率、 物理参数等
+信息。
 
-Meshes can have one or more materials. In case of multiple materials
-they can be assigned to different polygons in the "Edit Mode". To do
-this select the needed polygons, select the needed material from the
-list and click the "Assign" button.
+网格可以有一个或多个材质。在多个材质的情况下，他们可以分配给不同多边形
+在编辑模式。要做这个选择所需的多边形，从列表中选择所需的材质，然后单击
+分配按钮。
 
-The following material types are supported: "Surface", "Halo".
+支持以下材质类型: "Surface" , "光晕" .
 
 
-Lighting Parameters
-===================
+灯光参数
+========
 
 [图片]
 
-*Diffuse > Color*
-   Diffuse light color. The default value is (0.8, 0.8, 0.8). It may
-   interact with the diffuse map color.
+*漫射 > 颜色*
+   漫反射光的颜色。默认值为 0.8，0.8 （0.8）。它可能与漫射映射贴图颜色
+   进行交互。
 
-*Diffuse > Intensity*
-   Diffuse light intensity. The default value is 0.8.
+*漫射 > 强度*
+   漫反射光的强度。默认值为 0.8。
 
-*Diffuse > Shader*
-   Diffuse shading algorithm. The default value is "Lambert".
+*漫射 > 着色*
+   漫反射着色算法。默认值为 "兰伯特".
 
-*Specular > Color*
-   Specular light color. The default value is (1.0, 1.0, 1.0). It may
-   interact with the specular map color.
+*反射 > 颜色*
+   反射光的颜色。默认值是 1.0，1.0 （1.0）。它可能与高光贴图颜色进行交
+   互。
 
-*Specular > Intensity*
-   Specular light intensity. The default value is 0.5.
+*反射 > 强度*
+   镜面反射光的强度。默认值是 0.5。
 
-*Specular > Hardness*
-   Exponent in the specular shading calculation formula. The default
-   value is 50. Note that the formula used in the engine differs
-   slightly from the Blender’s one.
+*反射 > 硬度*
+   反射着色计算公式中的指数。默认值为 50。请注意，在引擎中使用的公式和
+   Blender中的略有不同。
 
-*Specular > Shader*
-   Specular shading algorithm. The default value is "CookTorr".
+*反射 > 着色*
+   高光着色算法。默认值为  "CookTorr".
 
-*Shading > Emit*
-   Emission intensity. The default value is 0.0.
+*着色 > Emit*
+   发光强度。默认值为 0.0。
 
-*Shading > Ambient*
-   Ambient influence factor on material. The default value is 1.0.
+*着色 > 环境*
+   影响材质的环境因素。默认值是 1.0。
 
-*Shading > Shadeless*
-   When enabled, a material doesn’t react to light. Disabled by
-   default.
+*着色 > 无光影*
+   当启用时，材质不会对光起反应。默认为禁用。
 
-*Shading > Double-Sided Lighting*
-   Enables the double-sided lighting mode. This option is useful for
-   non-transparent objects with a single-layered mesh.
+*着色 > 双面光照*
+   启用双面照明模式。此选项是适用于非透明物体的单层网格。
 
 
-Transparency
+透明
+====
+
+[图片]
+
+
+类型
+----
+
+"属性 > 材质" 面板菜单中的 "透明" ，可以选择透明度的类型。
+
+引擎支持以下的透明度实现类型 （按性能升序排序） ︰
+
+*Alpha 排序*
+   带渐变透明。引擎按三角与相机间的距离进行排序来正确渲染重叠的透明表
+   面。此操作计算代价昂贵。建议将此功能用于封闭透明几何 （瓶、 汽车玻
+   璃等）。
+
+*Alpha 混合*
+   带渐变透明。不执行三角形排序。建议在无封闭透明几何体 （水表面，贴花
+   ） 使用此功能。
+
+*添加*
+   带渐变透明。不执行三角形排序。引擎将禁用导致透明曲面以任意顺序渲染
+   的深度缓冲区写入。建议在效果中 （粒子系统，辉光） 中使用此功能。
+
+*Alpha 剪切*
+   没有渐变透明。如果 alpha 小于 0.5，引擎丢弃像素。不执行三角形排序。
+   建议使用此功能与遮罩纹理一起用来渲染小细节 （树的树叶、 草）。
+
+*不透明*
+   非透明。Alpha 将被忽略。这是默认值。
+
+[图片]
+
+
+附加设置
+--------
+
+*透明度 > 显示透明度*
+   启用透明度复选框是可以在Blender中查看透明物体。引擎忽略此选项- 引擎
+   要用 "Alpha Blend" 选项。
+
+*透明度 > 阿尔法*
+   材质的透明度级别。引擎忽略此参数 （与Blender相反），如果有漫射纹理
+   - 改为使用纹理的 alpha 通道值。
+
+*透明度 > 阿尔法*
+   此选项明确指定带有深度排序相关的 **不同** 材质物体的相对定位顺序。
+   该选项可以有正负值。越遥远的物体用较小的参数值更能被正确的渲染。默
+   认值为 0.0。
+
+
+反射
+====
+
+[图片]
+
+
+静态反射
+--------
+
+无论环境如何变化，表面任然渲染同样的一张图。只需使用 mirror map 便可激
+活。
+
+参见: 菲涅耳反射效果
+
+
+动态反射
+--------
+
+表面反射了他们当前的位置中的选定的物体。引擎支持平面和球面反射。
+
+
+激活
+~~~~
+
+1. 检查 "Render > Reflections"  和折射面板上的  "Reflections" 设置
+   。
+
+2. 对 *反射* 物体，启用 "Object > Reflections" 面板上的
+   "Reflective" 选项。
+
+   * 对平面的反射， "Object > Reflections > Type"  属性设置为
+     "Plane" 。然后，添加一个空物体用作反射平面，例如通过执行``Add >
+     Empty > Single Arrow``。为方便起见重命名，在反射物体 "Reflection
+     plane" 字段中指定其名称。
+
+   * 用方块贴图反射， "Object > Reflections > Type" 属性设置为
+     "Cube".
+
+3. *反射* 物体如需要材质，设置 "材质 > Mirror > Reflectivity" 值。
+
+   * 在Blender中显示的物体上的反射需要设置 "Mirror > Reflectivity >
+     Show Reflectivity"  。引擎将忽略此选项。
+
+4. 对 *反射性* 物体，启用 "Object > Reflections" 面板上的
+   "Reflexible" 复选框。
+
+注解: 建议启用 "World > Environment Lighting" 复选框。
+
+
+限制条件
+~~~~~~~~
+
+因为优化性能的原因法线贴图和阴影在反射图像中将被忽略。
+
+参见: 菲涅耳反射效果
+
+
+菲涅耳反射效果
+--------------
+
+菲涅耳效应表现为依赖和反射光的入射角来表现反射的强弱。如果入射角是接近
+零 （即光入射几乎表面成直角） 光传递部分较大然而反射光部分小。相反如果
+入射角是接近 90 度 （即光入射几乎平行于表面） 几乎所有的光反射。
+
+本引擎采用近似 Schlick 公式 ︰
+
+   R = R_0 + (1 − R_0)(1 - cos θ)^N, 在
+
+   R - 反射系数
+
+   R_0 - 在成直角的表面中观看的右夹角下的反射系数 (即当 θ = 0)，
+
+   θ - 入射角 （即等于反射角度下的光进入相机），它由引擎实时计算，
+
+   N-指数。
+
+
+设置
+~~~~
+
+菲涅耳效应可以设置静态和动态的反射。
+
+*材质 > Mirror > Fresnel* 反射的菲涅尔指数。 Schlick方程中的N指数。在
+blender中被限制在0到5的值。设置为零的时候菲涅尔效应无法被观察到，所有
+的反射都是正常的。大于零的时候，在角度这是接近正确的角度观看时表面材料
+是弱反射性的。参数值越大，可以看到菲涅尔效应的观察角度越大。
+
+*材质 > 镜面 > 混合*
+   菲涅耳反射系数。在Schlick公式中通过下面的表达式 R_0 = 1 - "Blend" /
+   5 它减少到  R_0 。在Blender中它仅限于值从 0 到 5。此参数定义了菲涅
+   耳效应强度:  "Blend" 因子越大，更多的菲涅耳效应影响。如果它是等于零
+   的菲涅耳影响观察不到。
+
+[图片]
+
+
+
+
+渲染属性
+========
+
+[图片]
+
+*材质 > 渲染选项 > 不要渲染*
+   禁用渲染此物体。
+
+*材质 > 渲染选项 > 背面剔除*
+   当启用时，引擎不会渲染多边形背面。默认情况下启用。
+
+*材质 > 渲染选项 > 湿润*
+   为材质激活水润湿效果。
+
+   参见: Water
+
+*材质 > 渲染选项 > 渲染以上全部*
+   材质被渲染在场景的所有物体的顶层。要求使用渐变透明度类型  ("Add",
+   Alpha Blend`` 或者 "Alpha Sort").
+
+*材质 > 渲染选项 > 顶点色绘制*
+   复选框启用时，使用网格顶点颜色而不是物质的漫反射颜色。
+
+*材质 > 渲染选项 > 折射性*
+   使物体折射。摄动因素可以设置 "Refraction Settings" 面板上的
+   "Refraction Bump" 选项设置。默认值为 0.001。
+
+   注解: 为了使用这种效果， "Render > Reflections and Refractions >
+     Refractions" 面板上选择``ON`` 或者 "AUTO" 。该物体必须具有 "Alpha
+     Blend" 透明类型。
+
+   参见: 透明
+
+
+
+
+视图属性
+========
+
+"Viewport" 部分可以在 "Blend4Web" 面板上发现。
+
+[图片]
+
+*更新材质动画*
+
+   在Blender视口更新动画着色。
+
+
+
+
+引擎特定参数
 ============
 
 [图片]
 
 
-Types
------
 
-Transparency implementation type can be selected in the "Transparency"
-menu on the "Properties > Material" panel.
+*材质 > 水*
+   特殊材质 水渲染.
 
-The engine supports the following transparency implementation types
-(sorted in the ascending order by performance):
+*材质 > 地面动态草*
+   材质用于 草渲染.
 
-*Alpha Sort*
-   Transparent with a gradient. The engine sorts the triangles by
-   camera distance in order to render overlapping transparent surfaces
-   correctly. This operation is computationally expensive. It is
-   recommended to use this feature for closed transparent geometry
-   (bottle, car glass etc).
-
-*Alpha Blend*
-   Transparent with a gradient. The sorting of triangles is not
-   performed. It is recommended to use this feature for unclosed
-   transparent geometry (water surface, decals).
-
-*Add*
-   Transparent with a gradient. The sorting of triangles is not
-   performed. The engine disables writing to the depth buffer which
-   causes transparent surfaces to be rendered in arbitrary order. It
-   is recommended to use this feature for effects (particle systems,
-   glowing beams).
-
-*Alpha Clip*
-   Transparent without a gradient. The engine discards pixels if their
-   alpha is less than 0.5. The sorting of triangles is not performed.
-   It is recommended to use this feature with a mask texture to
-   visualize smaller details (tree leaves, grass).
-
-*Opaque*
-   Non-transparent. Alpha is ignored. This is the default value.
-
-[图片]
-
-
-Additional Settings
--------------------
-
-*Transparency > Show Transparency*
-   Enabling the transparency checkbox is required for viewing
-   transparent objects in Blender. The engine ignores this option -
-   the "Alpha Blend" option is used instead.
-
-*Transparency > Alpha*
-   Material transparency level. The engine ignores this parameter (in
-   contrast to Blender) if there is a diffuse texture - the alpha
-   channel values of a texture are used instead.
-
-*Transparency > Z Offset*
-   This option explicitly specifies relative positioning order of
-   objects with **different** materials with the purpose of depth
-   sorting. The option can take both negative and positive values. The
-   more distant the object is the lesser parameter value should be to
-   provide correct rendering. The default value is 0.0.
-
-
-Reflection
-==========
-
-[图片]
-
-
-Static Reflection
------------------
-
-A surface reflects the same image no matter how the environment
-changes. For activation simply use the mirror map.
-
-参见: Fresnel effect for reflection
-
-
-Dynamic Reflection
-------------------
-
-A surface reflects the selected objects in their current position. The
-engine supports planar and spherical reflections.
-
-
-Activation
-~~~~~~~~~~
-
-1. Check "Reflections" setting on the "Render > Reflections" and
-   Refractions panel.
-
-2. For *reflective* objects enable the "Reflective" option on the
-   "Object > Reflections" panel.
-
-   * For planar reflections, set the "Object > Reflections > Type"
-     property to "Plane". After that, add an empty object to be used
-     as a reflection plane by executing for example "Add > Empty >
-     Single Arrow". Rename it for convenience and specify its name in
-     the "Reflection plane" field of the reflective object.
-
-   * For cube-mapped reflections, set the "Object > Reflections >
-     Type" property to "Cube".
-
-3. For the needed materials of the *reflective* objects, set the
-   "Material > Mirror > Reflectivity" value.
-
-   * "Mirror > Reflectivity > Show Reflectivity" is required for
-     displaying reflections on objects in Blender. The engine ignores
-     this option.
-
-4. For the *reflexible* objects, enable the "Reflexible" checkbox
-   on the "Object > Reflections" panel.
-
-注解: It is also recommended to enable the "World > Environment
-  Lighting" checkbox.
-
-
-Limitations
-~~~~~~~~~~~
-
-Normal maps and shadows are ignored in the reflected image for
-optimization purposes.
-
-参见: Fresnel effect for reflection
-
-
-Fresnel effect for reflection
------------------------------
-
-The Fresnel effect manifests itself as the dependency of the intencity
-of passing and reflected light on the incidence angle. If the angle of
-incidence is close to zero (i.e. light falls almost at right angle to
-the surface) the passing light portion is large and the reflected
-light portion is small. On the contrary if the angle of incidence is
-close to 90 degrees (i.e. light falls almost parallel to the surface)
-almost all light is reflected.
-
-The engine uses the approximate Schlick’s formula:
-
-   R = R_0 + (1 − R_0)(1 - cos θ)^N, where
-
-   R - reflection coefficient,
-
-   R_0 - reflection coefficient in case of viewing at a right angle to
-   the surface (i.e. when θ = 0),
-
-   θ - angle of incidence (which is equal to the angle of reflection
-   under which light enters the camera), it is calculated by the
-   engine in real-time,
-
-   N - exponent.
-
-
-Settings
-~~~~~~~~
-
-Fresnel effect can be set up both for static and dynamic reflection.
-
-*Material > Mirror > Fresnel* Fresnel power for reflection. This is
-the N exponent in the Schlick’s formula. In Blender it is limited to
-values from 0 to 5. If this parameter is equal to zero the Fresnel
-effect is not observed and the *full* reflection at all angles occurs.
-If this parameter is greater than zero, the material is less
-reflective when viewing surfaces at angles which are close to the
-right angle. The bigger this parameter is the bigger is the angle
-deviation from the right angle for which the Fresnel effect is
-observed.
-
-*Material > Mirror > Blend*
-   Fresnel factor for reflection. It is reduced to R_0 in the
-   Schlick’s formula by the following expression: R_0 = 1 - "Blend" /
-   5. In Blender it is limited to values from 0 to 5. This parameter
-   defines the Fresnel effect intensity: the bigger the "Blend" factor
-   is, the more is the Fresnel effect influence. If it is equal to
-   zero the Fresnel effect is not observed.
-
-[图片]
-
-
-
-
-Rendering Properties
-====================
-
-[图片]
-
-*Material > Rendering Options > Do not Render*
-   Disable rendering of this object.
-
-*Material > Rendering Options > Backface Culling*
-   When enabled, poligons’ back faces are not rendered by the engine.
-   Enabled by default.
-
-*Material > Rendering Options > Wettable*
-   Water wetting effect is activated for the material.
-
-   参见: Water
-
-*Material > Rendering Options > Render Above All*
-   Material is rendered on top of all scene objects. Transparency type
-   with a gradient is requred ("Add", Alpha Blend`` or "Alpha Sort").
-
-*Material > Rendering Options > Vertex Color Paint*
-   Mesh vertex color is used instead of the material diffuse color
-   when the checkbox is enabled.
-
-*Material > Rendering Options > Refractive*
-   Make object refractive. Perturbation factor can be set with the
-   option "Refraction Bump" on the "Refraction Settings" panel. The
-   default value is 0.001.
-
-   注解: In order to use this effect, select "ON" or "AUTO" on the
-     "Render > Reflections and Refractions > Refractions" panel. The
-     object must have "Alpha Blend" transparency type.
-
-   参见: Transparency
-
-
-
-
-Viewport Properties
-===================
-
-The "Viewport" section can be found on the "Blend4Web" panel.
-
-[图片]
-
-*Update Material Animation*
-
-   Update animated shader in Blender Viewport.
-
-
-
-
-Engine Specific Parameters
-==========================
-
-[图片]
-
-
-
-*Material > Water*
-   Special material for water rendering.
-
-*Material > Terrain Dynamic Grass*
-   Material is used for grass rendering.
-
-*Material > Collision*
-   A special material for collision geometry.
+*材质 > 碰撞*
+   碰撞几何体的一种特殊材质。
 
    参见: Physics
 
-*Material > Export Options > Do Not Export*
-   Material is not to be exported.
+*材质 > 导出选项 > 不要导出*
+   材质不导出。
 
 
-Halo Materials
-==============
+光晕材质
+========
 
-Halo materials are used in particle systems and in static meshes.
-Using the halo in static meshes is described below.
+光晕材质在粒子系统和静态网格中使用。使用静态网格中的光晕是如下所述。
 
 
-Activation
-----------
+激活
+----
 
-Select the "Halo" type under the "Materials" tab. It’s also
-recommended to select the transparency type with a gradient ("Add",
-"Alpha Blend" or "Alpha Sort").
+在``Materials`` 选项卡下选择 "光晕" 类型 。建议也选择使用渐变的透明度
+类型 ("Add", "Alpha Blend" 或者 "Alpha Sort").
 
 [图片]
 
 
-Additional Settings
--------------------
+附加设置
+--------
 
-*Halo > Alpha*
-   Material transparency factor. The default value is 1.0 (non-
-   transparent).
+*光晕 > Alpha*
+   材质透明度的参数。默认值是 1.0 （不透明）。
 
-*Halo > Color*
-   Material color. The default value is (0.8, 0.8, 0.8) (almost
-   white).
+*光晕 > 颜色*
+   材质的颜色。默认值是 (0.8, 0.8, 0.8) （基本是白色）。
 
-*Halo > Size*
-   Particle size. The default value is 0.5.
+*光晕 > 大小*
+   粒子大小。默认值是 0.5。
 
-*Halo > Hardness*
-   Exponent for computing the gradient. Affects visible dimensions of
-   particles. The default value is 50.
+*光晕 > 硬度*
+   计算渐变的指数。影响粒子的可见尺寸。默认值为 50。
 
-*Halo > Rings*
-   Use rings. Relative quantity and color can be set up.
+*光晕 > 环*
+   使用环。可以设置相对数量和颜色。
 
-*Halo > Lines*
-   Use lines. Relative quantity and color can be set up.
+*光晕 > 线*
+   使用线。可以设置相对数量和颜色。
 
-*Halo > Star Tips*
-   Use stars. The quantity of edges can be set up.
+*光晕 > 星点*
+   使用星星。可以设置边的数量。
 
-*Halo > Special: Stars*
-   Enables the starry sky rendering mode. The mesh is fixed relative
-   to the camera. For the "Sun" lamp it is also required to enable the
-   "Lamp > Dynamic Intensity" checkbox. Applications should set up the
-   hours of darkness via API.
+*光晕 > 特殊: 星*
+   启用星空渲染模式。网格被固定的相对于相机。  还需启用 "Sun" 的 "Lamp
+   > Dynamic Intensity" 复选框。应用程序应通过 API设置黑暗的时间长度。
 
-*Halo > Blending Height*
-   Height range for the fading of stars.
+*光晕 > 混合高度*
+   褪色的星星的高度范围。
 
-*Halo > Minimum Height*
-   Minimum height in the object’s local space at which stars are
-   visible.
+*光晕 > 最小高度*
+   物体的局部坐标系中使星星可见的最小高度。

@@ -122,7 +122,7 @@ exports.draw = function(subscene) {
         m_debug.render_time_start(subscene);
         prepare_subscene(subscene);
 
-        if (subscene.type == "MAIN_CUBE_REFLECT")
+        if (subscene.type == "MAIN_CUBE_REFLECT" || subscene.type == "MAIN_CUBE_REFLECT_BLEND")
             draw_cube_reflection_subs(subscene);
         else
             draw_subs(subscene);
@@ -169,10 +169,18 @@ function draw_resolve(subscene) {
     _gl.bindFramebuffer(_gl.READ_FRAMEBUFFER, camera.framebuffer_prev);
     _gl.bindFramebuffer(_gl.DRAW_FRAMEBUFFER, camera.framebuffer);
 
+    var blit_mask = 0;
+
+    if (camera.color_attachment)
+        blit_mask |= _gl.COLOR_BUFFER_BIT;
+
+    if (camera.depth_attachment)
+        blit_mask |= _gl.DEPTH_BUFFER_BIT;
+
     _gl.blitFramebuffer(
             0, 0, camera.width, camera.height,
             0, 0, camera.width, camera.height,
-            _gl.COLOR_BUFFER_BIT | _gl.DEPTH_BUFFER_BIT, _gl.NEAREST);
+            blit_mask, _gl.NEAREST);
 }
 
 function draw_copy(subscene) {
@@ -222,7 +230,7 @@ function prepare_subscene(subscene) {
 
     _gl.viewport(0, 0, camera.width, camera.height);
 
-    if (subscene.type != "MAIN_CUBE_REFLECT")
+    if (subscene.type != "MAIN_CUBE_REFLECT" && subscene.type != "MAIN_CUBE_REFLECT_BLEND")
         clear_binded_framebuffer(subscene);
 
     if (subscene.blend)
@@ -249,6 +257,7 @@ function prepare_subscene(subscene) {
         _gl.cullFace(_gl.BACK);
         break;
     case "MAIN_PLANE_REFLECT":
+    case "MAIN_PLANE_REFLECT_BLEND":
         _gl.disable(_gl.POLYGON_OFFSET_FILL);
         _gl.cullFace(_gl.FRONT);
         break;
@@ -361,9 +370,8 @@ function draw_bundle(subscene, camera, obj_render, batch) {
         shader.need_uniforms_update = false;
     }
 
-    // disable color mask if requested
-    var cm = batch.color_mask;
-    _gl.colorMask(cm, cm, cm, cm);
+    //var cm = batch.color_mask;
+    //_gl.colorMask(cm, cm, cm, cm);
     _gl.depthMask(batch.depth_mask);
 
     if (USE_BACKFACE_CULLING) {
@@ -1353,6 +1361,20 @@ function assign_uniform_setters(shader) {
         case "u_p_time":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.particles_data.time);
+            }
+            transient_uni = true;
+            break;
+
+        case "u_p_tilt":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.particles_data.tilt);
+            }
+            transient_uni = true;
+            break;
+
+        case "u_p_tilt_rand":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.particles_data.tilt_rand);
             }
             transient_uni = true;
             break;

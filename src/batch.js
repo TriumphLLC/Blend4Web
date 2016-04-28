@@ -26,13 +26,11 @@
 b4w.module["__batch"] = function(exports, require) {
 
 var m_bounds     = require("__boundings");
-var m_cam        = require("__camera");
 var m_cfg        = require("__config");
 var m_print      = require("__print");
 var m_extensions = require("__extensions");
 var m_geometry   = require("__geometry");
 var m_graph      = require("__graph");
-var m_lights     = require("__lights");
 var m_nodemat    = require("__nodemat");
 var m_obj_util   = require("__obj_util");
 var m_particles  = require("__particles");
@@ -50,7 +48,6 @@ var m_vec3       = require("__vec3");
 var m_vec4       = require("__vec4");
 
 var cfg_def = m_cfg.defaults;
-var cfg_scs = m_cfg.scenes;
 
 var DEBUG_SAVE_SUBMESHES = false;
 var DEBUG_KEEP_BUFS_DATA_ARRAYS = false;
@@ -266,17 +263,26 @@ exports.generate_main_batches = function(scene, bpy_mesh_objects, lamps,
                                         batch.material_names.join("%") + "%");
             var meta_obj = m_obj_util.create_object(unique_name, "MESH");
 
-            meta_obj.render = metabatches[i].render;
+            meta_obj.render = m_util.clone_object_r(metabatches[i].render);
+
             m_obj_util.append_scene_data(meta_obj, scene);
             m_obj_util.append_batch(meta_obj, scene, batch);
             meta_objects.push(meta_obj);
 
-            if (batch.type == "MAIN")
-                for (var j = 0; j < metabatches[i].rel_bpy_objects.length; j++) {
-                    var bpy_obj = metabatches[i].rel_bpy_objects[j];
-                    var obj = bpy_obj._object;
+            var bounding_verts = [];
+            for (var j = 0; j < metabatches[i].rel_bpy_objects.length; j++) {
+                var bpy_obj = metabatches[i].rel_bpy_objects[j];
+                var obj = bpy_obj._object;
+
+                m_bounds.extract_bb_corners(obj.render.bb_world, _bb_corners_tmp);
+                for (var k = 0; k < _bb_corners_tmp.length; k++)
+                    bounding_verts.push(_bb_corners_tmp[k])
+
+                if (batch.type == "MAIN")
                     obj.meta_objects.push(meta_obj);
-                }
+            }
+            meta_obj.render.be_world = m_bounds.create_bounding_ellipsoid_by_bb(bounding_verts);
+            m_bounds.update_be_local(meta_obj.render);
 
         } else {
             // attach dynamic batches and static COLOR_ID batches to objects
@@ -492,7 +498,7 @@ exports.create_forked_batches = function(obj, graph, scene) {
 
         if ((batch_src.type == "MAIN" || batch_src.type == "PARTICLES")
                 && (main_reflect_subs || cube_reflect_subs)
-                && !batch_src.blend && batch_src.reflexible) {
+                && batch_src.reflexible) {
             batch = copy_forked_batch(batch_src);
             batch.subtype = "REFLECT";
             batch.particles_data = batch_src.particles_data;
@@ -850,7 +856,8 @@ function make_particles_metabatches(bpy_obj, render, graph, render_id, emitter_v
                 var batch = init_batch("PARTICLES");
                 var pmaterial = select_psys_material(psys, mesh["materials"]);
                 
-                if (psys["settings"]["render_type"] === "HALO")
+                if (psys["settings"]["render_type"] === "HALO"
+                        && pmaterial["type"] === "HALO")
                     batch.halo_particles = true;
 
                 update_batch_material(batch, pmaterial);
@@ -869,8 +876,7 @@ function make_particles_metabatches(bpy_obj, render, graph, render_id, emitter_v
                 m_particles.update_particles_submesh(submesh, batch, pset["count"],
                         pmaterial);
                 m_particles.update_particles_objs_cache(obj);
-                if (batch.use_nodes)
-                    update_batch_render(batch, obj.render);
+                update_batch_render(batch, obj.render);
 
                 metabatches.push({
                     batch: batch,
@@ -3961,13 +3967,9 @@ function create_object_clusters(bpy_static_objs, grid_size) {
         render.branch_bending_amp = 0;
         render.hide = false;
 
-        var bounding_verts = [];
         // calculate bounding box/sphere
         for (var i = 0; i < bpy_objects.length; i++) {
             var obj = bpy_objects[i]._object;
-            m_bounds.extract_bb_corners(obj.render.bb_world, _bb_corners_tmp);
-            for (var j = 0; j < _bb_corners_tmp.length; j++)
-                bounding_verts.push(_bb_corners_tmp[j])
             // do not expand for first object
             if (i == 0) {
                 render.bb_world = m_util.clone_object_r(obj.render.bb_world);
@@ -3977,8 +3979,8 @@ function create_object_clusters(bpy_static_objs, grid_size) {
                 m_bounds.expand_bounding_sphere(render.bs_world, obj.render.bs_world);
             }
         }
-        render.be_world = m_bounds.create_bounding_ellipsoid_by_bb(bounding_verts);
-        m_bounds.update_be_local(render);
+        render.be_world = m_bounds.zero_bounding_ellipsoid();
+        render.be_local = m_bounds.zero_bounding_ellipsoid();
 
         // same as world because initial batch has identity tranform
         render.bb_local = m_util.clone_object_r(render.bb_world);

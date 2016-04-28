@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-25 14:44+0300\n"
+"POT-Creation-Date: 2016-04-08 11:34+0300\n"
 "PO-Revision-Date: 2015-07-28 15:16+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,24 +25,15 @@ msgstr "Установка и обновление"
 msgid "Table of Contents"
 msgstr "Содержание"
 
-#: ../setup.rst:11
-msgid ""
-"Before installation, please download and install the compatible Blender "
-"version, according to this `table "
-"<https://www.blend4web.com/downloads/>`_."
-msgstr ""
-"Перед установкой необходимо загрузить и установить совместимую версию "
-"Blender, согласно `таблице <https://www.blend4web.com/downloads/>`_."
+#: ../setup.rst:12
+msgid "Installation"
+msgstr "Установка"
 
-#: ../setup.rst:14
-msgid "Installation Order"
-msgstr "Порядок установки"
-
-#: ../setup.rst:19
+#: ../setup.rst:17
 msgid "Installing Blender"
 msgstr "Установка программы Blender"
 
-#: ../setup.rst:21
+#: ../setup.rst:19
 msgid ""
 "Authoring 3D scenes is carried out directly in `Blender "
 "<http://en.wikipedia.org/wiki/Blender_(software)>`_ which is open source "
@@ -51,6 +42,15 @@ msgstr ""
 "Создание 3D сцен осуществляется в графическом пакете `Blender "
 "<http://ru.wikipedia.org/wiki/Blender>`_, который является программным "
 "продуктом с открытым исходным кодом и распространяется бесплатно."
+
+#: ../setup.rst:21
+msgid ""
+"Before installation, please download and install the compatible Blender "
+"version, according to this `table "
+"<https://www.blend4web.com/downloads/>`_."
+msgstr ""
+"Перед установкой необходимо загрузить и установить совместимую версию "
+"Blender, согласно `таблице <https://www.blend4web.com/downloads/>`_."
 
 #: ../setup.rst:23
 msgid ""
@@ -77,11 +77,11 @@ msgstr ""
 "распаковать данный архив в любое место на диске."
 
 #: ../setup.rst:36
-msgid "SDK Installation Order"
-msgstr "Порядок установки SDK"
+msgid "Installing Blend4Web SDK"
+msgstr "Установка Blend4Web SDK"
 
 #: ../setup.rst:38
-msgid "Open Blender."
+msgid "Run Blender."
 msgstr "Открыть Blender."
 
 #: ../setup.rst:40
@@ -100,15 +100,35 @@ msgstr "В поле :file:`Scripts` прописать путь к директ�
 msgid "Click the :file:`Save User Settings` button."
 msgstr "Нажать :file:`Save User Settings`"
 
-#: ../setup.rst:48
+#: ../setup.rst:52
 msgid "Restart Blender."
 msgstr "Перезапустить Blender."
 
 #: ../setup.rst:54
-msgid "*To verify it worked:*"
+msgid ""
+"Once again, open the User Preferences panel :file:`File > User "
+"Preferences...`."
 msgstr ""
+"Ещё раз вызвать окно пользовательских настроек :file:`File > User "
+"Preferences...`."
 
 #: ../setup.rst:56
+msgid "Open the :file:`Add-ons` tab."
+msgstr "Открыть вкладку :file:`Add-ons`."
+
+#: ../setup.rst:58
+msgid "Enable the `Blend4Web` add-on."
+msgstr "Активировать аддон `Blend4Web`."
+
+#: ../setup.rst:60
+msgid "Once again, click the :file:`Save User Settings` button."
+msgstr "Ещё раз нажать :file:`Save User Settings`"
+
+#: ../setup.rst:66
+msgid "*To verify it worked:*"
+msgstr "*Проверка:*"
+
+#: ../setup.rst:68
 msgid ""
 "In the :file:`File > Export` menu, the :file:`Blend4Web (.json)` and "
 ":file:`Blend4Web (.html)` options should appear."
@@ -116,7 +136,7 @@ msgstr ""
 "В меню :file:`File > Export` должны появиться опции :file:`Blend4Web "
 "(.json)` и :file:`Blend4Web (.html)`."
 
-#: ../setup.rst:60
+#: ../setup.rst:72
 msgid ""
 "If you are planning to use only the normal editor, you might consider "
 "installing the :ref:`Blend4Web addon <addon>` instead of the SDK."
@@ -124,12 +144,11 @@ msgstr ""
 "Если вы используете только редактор нормалей, вы можете использовать "
 ":ref:`аддон Blend4Web <addon>` вместо SDK."
 
-#: ../setup.rst:62
-#, fuzzy
+#: ../setup.rst:74
 msgid ""
 "The addon can only export scenes to :ref:`HTML format <export_scene>` and"
 " has limited functionality (for example, it doesn't have the "
-":ref:`project manger <project_management>`, example scenes, user manual "
+":ref:`project manager <project_management>`, example scenes, user manual "
 "and so on), but still it has everything you might need to create a simple"
 " application."
 msgstr ""
@@ -139,7 +158,7 @@ msgstr ""
 " и пр.), но располагает всем необходимым для создания простого "
 "приложения."
 
-#: ../setup.rst:64
+#: ../setup.rst:76
 msgid ""
 "It can be installed the same way as any other `Blender addon "
 "<https://www.blender.org/manual/advanced/scripting/python/add_ons.html?highlight=addon"
@@ -149,156 +168,23 @@ msgstr ""
 "<https://www.blender.org/manual/advanced/scripting/python/add_ons.html?highlight=addon"
 "#installation-of-a-3rd-party-add-on>`_."
 
-#: ../setup.rst:71
-msgid "Blend4Web Mode"
-msgstr "Профиль Blend4Web"
+#: ../setup.rst:83
+msgid "Switching to Blend4Web Mode"
+msgstr "Переключение в режим Blend4Web"
 
-#: ../setup.rst:73
+#: ../setup.rst:85
 msgid "To reveal the engine settings, select Blend4Web from the upper panel menu:"
 msgstr "Выберите профиль настроек Blend4Web в выпадающем меню верхней панели:"
 
-#: ../setup.rst:83
-msgid "Local Development Server"
-msgstr "Локальный сервер разработки"
-
-#: ../setup.rst:85
-msgid ""
-"Settings for the local development server can be found in :file:`File > "
-"User Preferences...` (hot keys :file:`Ctrl-Alt-U`). Here you can change "
-"the port number to be used to run the development server (6687 by "
-"default), and also enable its launching upon Blender startup. To do this,"
-" enable ``Run on Startup`` option in the add-on settings."
-msgstr ""
-"Настройки локального сервера разработки находятся в меню :file:`File > "
-"User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Здесь можно "
-"изменить номер порта, используемый при создании локального сервера "
-"разработки (6687 по умолчанию), или включить автоматический запуск "
-"сервера при запуске Blender'a: для этого достаточно включить опцию ``Run "
-"on Startup`` в настройках аддона."
-
 #: ../setup.rst:93
-msgid ""
-"After changing local development server settings in it required to "
-"restart Blender."
-msgstr ""
-"После изменения настроек локального сервера разработчика требуется "
-"перезапуск Blender'a."
-
-#: ../setup.rst:95
-msgid ""
-"It is possible for the local server to process external requests. To do "
-"that enable the option ``Enable External Requests``."
-msgstr ""
-"Имеется возможность сделать локальный сервер доступным из внешней сети. "
-"Для этого достаточно включить свойство ``Enable External Requests``."
-
-#: ../setup.rst:97
-msgid ""
-"If you chose not to start the server automatically, you can always do it "
-"manually: go to the ``Render`` tab and press the ``Start Server`` button "
-"on the ``Development Server`` panel:"
-msgstr ""
-"Если не был настроен автоматический запуск сервера, то его можно "
-"стартовать вручную по кнопке ``Start Server`` во вкладке "
-"``Render->Developement Server``:"
-
-#: ../setup.rst:107
-msgid ""
-"If the path to the Blend4Web SDK is not specified, the local development "
-"server cannot be launched. In this case the corresponding message will be"
-" displayed instead of the ``Start Server`` button."
-msgstr ""
-"Если путь к Blend4Web SDK не был указан, запуск локального сервера "
-"невозможен. При этом вместо кнопки ``Start Server`` будет выведено "
-"соответствующее сообщение."
-
-#: ../setup.rst:109
-msgid ""
-"If the server is failed to run, an error message will be shown describing"
-" the reason:"
-msgstr "В случае ошибки запуска сервера будет показано окно с описанием причины:"
-
-#: ../setup.rst:114
-msgid ""
-"This error can arise if the server port is already used by some other "
-"application."
-msgstr ""
-"Чаще всего ошибка возникает из-за того, что указанный серверу адрес уже "
-"используется другим приложением."
-
-#: ../setup.rst:116
-msgid ""
-"Press the ``SDK Index`` button to open the index web page of the "
-"Blend4Web SDK in the browser. This page is available at "
-"http://localhost:6687."
-msgstr ""
-"Нажмите кнопку ``SDK Index`` для запуска в браузере обзорной веб-страницы"
-" Blend4Web SDK, доступной по адресу http://localhost:6687."
-
-#: ../setup.rst:124
-msgid ""
-"As a result, the default browser for your operating system will be "
-"launched."
-msgstr ""
-"При этом будет автоматически запущен браузер, используемой в операционной"
-" системе по умолчанию."
-
-#: ../setup.rst:126
-msgid ""
-"The ``Project Manager`` button can be used to open :ref:`project manager "
-"<project_management>`."
-msgstr ""
-"Кнопка ``Project Manager`` открывает :ref:`менеджер проектов "
-"<project_management>`."
-
-#: ../setup.rst:128
-msgid ""
-"The ``Fast Preview`` button loads the scene that is currently open in "
-"Blender, into the :ref:`viewer <viewer>`."
-msgstr ""
-"Кнопка ``Fast Preview`` вызывает :ref:`просмотрщик сцен <viewer>` и "
-"загружает в него сцену, открытую в Blender на данный момент."
-
-#: ../setup.rst:130
-msgid ""
-"The server can be stopped by pressing the ``Stop Server`` button. It also"
-" stops when Blender is closed."
-msgstr ""
-"Сервер может быть остановлен по нажатию на кнопку ``Stop Server``. Сервер"
-" также прекращает работу при закрытии программы Blender."
-
-#: ../setup.rst:138
-msgid "Running Viewer and Demos"
-msgstr "Запуск просмотрщика сцен и демо-приложений"
-
-#: ../setup.rst:140
-msgid ""
-"The index page contains links for launching the scene viewer and the demo"
-" applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is "
-"required to run these apps."
-msgstr ""
-"На обзорной странице имеются ссылки для запуска просмотрщика сцен и "
-"демо-приложений. Для их запуска необходим :ref:`браузер с поддержкой "
-"WebGL <browser_webgl_support>`."
-
-#: ../setup.rst:150
-msgid ""
-"If the SDK apps are not displayed correctly, or error messages are shown,"
-" follow the instructions in the :ref:`renderer_not_working` section."
-msgstr ""
-"Если приложения SDK не отображаются корректно, или появляются сообщения "
-"об ошибках, необходимо предпринять действия, описанные в разделе "
-":ref:`renderer_not_working`."
-
-#: ../setup.rst:153
 msgid "Updating"
 msgstr "Обновление"
 
-#: ../setup.rst:156
+#: ../setup.rst:96
 msgid "Updating the SDK"
 msgstr "Обновление SDK"
 
-#: ../setup.rst:158
+#: ../setup.rst:98
 msgid ""
 "Before updating, we recommend to backup all projects in development using"
 " the :ref:`project export <export_projects>` tools."
@@ -307,11 +193,11 @@ msgstr ""
 "разрабатываемых проектов с помощью :ref:`средств экспорта "
 "<export_projects>`."
 
-#: ../setup.rst:160
+#: ../setup.rst:100
 msgid "There are two methods to update the SDK."
 msgstr "Обновление может производиться одним из двух способов."
 
-#: ../setup.rst:162
+#: ../setup.rst:102
 msgid ""
 "Firstly, you can completely delete the SDK folder and, after that, "
 "extract the new version folder and set the path to it in the Blender "
@@ -321,7 +207,7 @@ msgstr ""
 "распаковать каталог с новой версией и прописать путь к ней в настройках "
 "Blender, как если бы вы устанавливали SDK с нуля."
 
-#: ../setup.rst:164
+#: ../setup.rst:104
 msgid ""
 "Secondly, you can simply overwrite the outdated SDK files with the new "
 "ones. This method is considered less \"pure\", but in most cases it "
@@ -331,19 +217,20 @@ msgstr ""
 "Этот подход считается менее \"чистым\", но в большинстве случаев не "
 "должен приводить к проблемам."
 
-#: ../setup.rst:166
+#: ../setup.rst:106
 msgid ""
 "After updating is complete, you can import all saved projects using the "
 ":ref:`project import <import_projects>` tools."
 msgstr ""
 "После того, как обновление выполнено, сохранённые проекты можно "
-"импортировать с помощью средств :ref:`импорта проектов <import_projects>`."
+"импортировать с помощью средств :ref:`импорта проектов "
+"<import_projects>`."
 
-#: ../setup.rst:173
+#: ../setup.rst:113
 msgid "Exporting and Viewing Scenes"
 msgstr "Экспорт и просмотр сцены"
 
-#: ../setup.rst:175
+#: ../setup.rst:115
 msgid ""
 "The created scenes can be exported in HTML format. To do this use the "
 ":file:`File > Export > Blend4Web (.html)` or :file:`File > Export > "
@@ -357,22 +244,193 @@ msgstr ""
 "Экспорт сцен подробно описан в :ref:`отдельной главе <addon>`. Полученный"
 " файл можно открыть любым браузером, поддерживающим технологию WebGL."
 
-#: ../setup.rst:177
+#: ../setup.rst:117
 msgid ":ref:`browser_webgl_support`"
 msgstr ""
 
-#: ../setup.rst:133
-msgid "viewer"
-msgstr "просмотрщик"
-
-#: ../setup.rst:133
-msgid "launch"
-msgstr "запуск"
-
-#: ../setup.rst:168
+#: ../setup.rst:108
 msgid "export"
 msgstr "экспорт"
 
 #~ msgid "*To check:*"
 #~ msgstr "*Для проверки:*"
+
+#~ msgid "Open the User Preferences panel :file:`Add-ons > Import-Export`."
+#~ msgstr "Вызвать окно пользовательских настроек :file:`Add-ons > Import-Export`."
+
+#~ msgid "SDK Installation Order"
+#~ msgstr "Порядок установки SDK"
+
+#~ msgid "Blend4Web Mode"
+#~ msgstr "Профиль Blend4Web"
+
+#~ msgid "Local Development Server"
+#~ msgstr "Локальный сервер разработки"
+
+#~ msgid ""
+#~ "Settings for the local development "
+#~ "server can be found in :file:`File "
+#~ "> User Preferences...` (hot keys :file"
+#~ ":`Ctrl-Alt-U`). Here you can change "
+#~ "the port number to be used to "
+#~ "run the development server (6687 by "
+#~ "default), and also enable its launching"
+#~ " upon Blender startup. To do this,"
+#~ " enable ``Run on Startup`` option in"
+#~ " the add-on settings."
+#~ msgstr ""
+#~ "Настройки локального сервера разработки "
+#~ "находятся в меню :file:`File > User "
+#~ "Preferences...` (горячие клавиши :file:`Ctrl-"
+#~ "Alt-U`). Здесь можно изменить номер "
+#~ "порта, используемый при создании локального"
+#~ " сервера разработки (6687 по умолчанию),"
+#~ " или включить автоматический запуск сервера"
+#~ " при запуске Blender'a: для этого "
+#~ "достаточно включить опцию ``Run on "
+#~ "Startup`` в настройках аддона."
+
+#~ msgid ""
+#~ "After changing local development server "
+#~ "settings in it required to restart "
+#~ "Blender."
+#~ msgstr ""
+#~ "После изменения настроек локального сервера"
+#~ " разработчика требуется перезапуск Blender'a."
+
+#~ msgid ""
+#~ "It is possible for the local "
+#~ "server to process external requests. To"
+#~ " do that enable the option ``Enable"
+#~ " External Requests``."
+#~ msgstr ""
+#~ "Имеется возможность сделать локальный сервер"
+#~ " доступным из внешней сети. Для этого"
+#~ " достаточно включить свойство ``Enable "
+#~ "External Requests``."
+
+#~ msgid ""
+#~ "If you chose not to start the "
+#~ "server automatically, you can always do"
+#~ " it manually: go to the ``Render``"
+#~ " tab and press the ``Start Server``"
+#~ " button on the ``Development Server`` "
+#~ "panel:"
+#~ msgstr ""
+#~ "Если не был настроен автоматический "
+#~ "запуск сервера, то его можно стартовать"
+#~ " вручную по кнопке ``Start Server`` "
+#~ "во вкладке ``Render->Developement Server``:"
+
+#~ msgid ""
+#~ "If the path to the Blend4Web SDK"
+#~ " is not specified, the local "
+#~ "development server cannot be launched. "
+#~ "In this case the corresponding message"
+#~ " will be displayed instead of the "
+#~ "``Start Server`` button."
+#~ msgstr ""
+#~ "Если путь к Blend4Web SDK не был"
+#~ " указан, запуск локального сервера "
+#~ "невозможен. При этом вместо кнопки "
+#~ "``Start Server`` будет выведено "
+#~ "соответствующее сообщение."
+
+#~ msgid ""
+#~ "If the server is failed to run,"
+#~ " an error message will be shown "
+#~ "describing the reason:"
+#~ msgstr ""
+#~ "В случае ошибки запуска сервера будет"
+#~ " показано окно с описанием причины:"
+
+#~ msgid ""
+#~ "This error can arise if the server"
+#~ " port is already used by some "
+#~ "other application."
+#~ msgstr ""
+#~ "Чаще всего ошибка возникает из-за того,"
+#~ " что указанный серверу адрес уже "
+#~ "используется другим приложением."
+
+#~ msgid ""
+#~ "Press the ``SDK Index`` button to "
+#~ "open the index web page of the "
+#~ "Blend4Web SDK in the browser. This "
+#~ "page is available at http://localhost:6687."
+#~ msgstr ""
+#~ "Нажмите кнопку ``SDK Index`` для запуска"
+#~ " в браузере обзорной веб-страницы Blend4Web"
+#~ " SDK, доступной по адресу "
+#~ "http://localhost:6687."
+
+#~ msgid ""
+#~ "As a result, the default browser "
+#~ "for your operating system will be "
+#~ "launched."
+#~ msgstr ""
+#~ "При этом будет автоматически запущен "
+#~ "браузер, используемой в операционной системе"
+#~ " по умолчанию."
+
+#~ msgid ""
+#~ "The ``Project Manager`` button can be"
+#~ " used to open :ref:`project manager "
+#~ "<project_management>`."
+#~ msgstr ""
+#~ "Кнопка ``Project Manager`` открывает "
+#~ ":ref:`менеджер проектов <project_management>`."
+
+#~ msgid ""
+#~ "The ``Fast Preview`` button loads the"
+#~ " scene that is currently open in "
+#~ "Blender, into the :ref:`viewer <viewer>`."
+#~ msgstr ""
+#~ "Кнопка ``Fast Preview`` вызывает "
+#~ ":ref:`просмотрщик сцен <viewer>` и загружает"
+#~ " в него сцену, открытую в Blender "
+#~ "на данный момент."
+
+#~ msgid ""
+#~ "The server can be stopped by "
+#~ "pressing the ``Stop Server`` button. It"
+#~ " also stops when Blender is closed."
+#~ msgstr ""
+#~ "Сервер может быть остановлен по нажатию"
+#~ " на кнопку ``Stop Server``. Сервер "
+#~ "также прекращает работу при закрытии "
+#~ "программы Blender."
+
+#~ msgid "Running Viewer and Demos"
+#~ msgstr "Запуск просмотрщика сцен и демо-приложений"
+
+#~ msgid ""
+#~ "The index page contains links for "
+#~ "launching the scene viewer and the "
+#~ "demo applications. A :ref:`WebGL-capable "
+#~ "browser <browser_webgl_support>` is required "
+#~ "to run these apps."
+#~ msgstr ""
+#~ "На обзорной странице имеются ссылки для"
+#~ " запуска просмотрщика сцен и "
+#~ "демо-приложений. Для их запуска необходим "
+#~ ":ref:`браузер с поддержкой WebGL "
+#~ "<browser_webgl_support>`."
+
+#~ msgid ""
+#~ "If the SDK apps are not displayed"
+#~ " correctly, or error messages are "
+#~ "shown, follow the instructions in the"
+#~ " :ref:`renderer_not_working` section."
+#~ msgstr ""
+#~ "Если приложения SDK не отображаются "
+#~ "корректно, или появляются сообщения об "
+#~ "ошибках, необходимо предпринять действия, "
+#~ "описанные в разделе :ref:`renderer_not_working`."
+
+#~ msgid "viewer"
+#~ msgstr "просмотрщик"
+
+#~ msgid "launch"
+#~ msgstr "запуск"
 

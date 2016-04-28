@@ -122,7 +122,7 @@ Cycles nodes are only partially supported: in most cases they will not work in B
     |                   | into Hue, Saturation    |                            |                      |
     |                   | and Value               |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
-    | Separave RGB      | Separates a given color | Full                       | High                 |
+    | Separate RGB      | Separates a given color | Full                       | High                 |
     |                   | into red, green and     |                            |                      |
     |                   | blue channels           |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
@@ -174,7 +174,7 @@ The node replaces the inputs depending on the working environment (i.e. Blender 
    :align: center
    :width: 100%
 
-As a rule it is used for normal mapping. Blender’s node materials do not support a tangent space of coordinates. Therefore the only possible method to display normal maps in the viewport correctly is their usage inside the ``Material`` nodes.
+As a rule it is used for normal mapping. Blender’s node materials do not support a tangent space of coordinates. Therefore, the only possible method to display normal maps in the viewport correctly is their usage inside the ``Material`` nodes.
 
 Input Parameters
 ................
@@ -243,7 +243,7 @@ Output Parameters
 Vector View (B4W_VECTOR_VIEW)
 -----------------------------
 
-The node transforms a vector into the camera’s space of coordinates. Transformation is necessary because the engine defines most of vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the ``Material`` or ``Extended Material`` nodes.
+The node transforms a vector into the camera’s space of coordinates. Transformation is necessary because the engine defines most vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the ``Material`` or ``Extended Material`` nodes.
 
 .. image:: src_images/node_materials/node_materials_vector_view.png
    :align: center
@@ -326,7 +326,7 @@ Input Parameters
     Light spot blurring factor. The bigger this value is the smaller is the spot and the sharper are the spot edges. The default value is 1000.
 
 *Spot Intensity*
-    Light spot intesity. The bigger this value is the brighter is the light spot. The default value is 1.
+    Light spot intensity. The bigger this value is the brighter is the light spot. The default value is 1.
 
 *Spot Diffuse Factor*
     Material diffuse color influence on the light spot color.
@@ -361,7 +361,7 @@ Input Parameters
 ................
 
 *Normal*
-    Normal map for adding perturbations.
+    A normal vector in camera space for adding perturbations.
 
 *Refraction Bump*
     Value of perturbation strength.
@@ -376,7 +376,7 @@ Output Parameters
 
 .. note::
 
-    It’s neccessary to set the ``Refractions`` option from the ``Render > Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The object’s transparency type must be set to ``Alpha Blend``.
+    It’s necessary to set the ``Refractions`` option from the ``Render > Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The object’s transparency type must be set to ``Alpha Blend``.
 .. seealso:: :ref:`alpha_blend`
 
 .. _node_quality:
@@ -468,9 +468,6 @@ Input Parameters
     * *Factor = 0* - no glow.
     * *Factor* :math:`\in (0, 1]` - there is a glow, colored with *Glow Color*.
 
-.. note::
-
-  The ``Transparency->Type`` parameters of the material don’t affect behavior of the glow effect. It always corresponds to the transparent material (not the ``Alpha Clip`` type).
 
 .. _node_reflect:
 
@@ -503,7 +500,7 @@ Output Parameters
 Linear to SRGB and SRGB to Linear (Deprecated)
 ----------------------------------------------
 
-Converts colors from linear space to sRGB or vice versa. This function has been declared deprecated sicne the version 15.04. In the newer versions, the native ``Gamma`` node with the value of 2.200 should be used to convert color from sRGB to linear space, and the same node with the value of 0.455 to convert color from linear space to sRGB.
+Converts colors from linear space to sRGB or vice versa. This function has been declared deprecated since the version 15.04. In the newer versions, the native ``Gamma`` node with the value of 2.200 should be used to convert color from sRGB to linear space, and the same node with the value of 0.455 to convert color from linear space to sRGB.
 
 .. image:: src_images/node_materials/node_materials_gamma.png
    :align: center

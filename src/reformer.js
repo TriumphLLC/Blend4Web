@@ -35,6 +35,7 @@ var m_quat   = require("__quat");
 var m_util   = require("__util");
 var m_vec3   = require("__vec3");
 var m_vec4   = require("__vec4");
+var m_logn   = require("__logic_nodes");
 
 var REPORT_COMPATIBILITY_ISSUES = true;
 
@@ -1806,12 +1807,12 @@ exports.check_bpy_data = function(bpy_data) {
 
             if (!("use_rotation_dupli" in pset)) {
                 pset["use_rotation_dupli"] = false;
-                report("object", pset, "use_rotation_dupli");
+                report("particle_settings", pset, "use_rotation_dupli");
             }
 
             if (!("use_whole_group" in pset)) {
                 pset["use_whole_group"] = false;
-                report("object", pset, "use_whole_group");
+                report("particle_settings", pset, "use_whole_group");
             }
 
             if (!psys["transforms"]) {
@@ -1917,6 +1918,16 @@ exports.check_bpy_data = function(bpy_data) {
             if (!("b4w_particles_softness" in pset)) {
                 pset["b4w_particles_softness"] = 1.0;
                 report("particle_settings", pset, "b4w_particles_softness");
+            }
+
+            if (!("billboard_tilt" in pset)) {
+                pset["billboard_tilt"] = 0.0;
+                report("particle_settings", pset, "billboard_tilt");
+            }
+
+            if (!("billboard_tilt_random" in pset)) {
+                pset["billboard_tilt_random"] = 0.0;
+                report("particle_settings", pset, "billboard_tilt_random");
             }
         }
 
@@ -2684,29 +2695,30 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 set_bpy_objs_props(snode["objects_paths"], {"b4w_outlining": true});
                 break;
             case "CONDJUMP":
-                if (snode["condition"]) {
-                    if (!snode["floats"])
-                        snode["floats"] = {};
+                if (snode["condition"])
+                    snode["common_usage_names"]["condition"] = snode["condition"];
 
-                    switch(snode["condition"]){
+                if ("cnd" in snode["floats"])
+                    snode["common_usage_names"]["condition"] = snode["floats"]["cnd"];
+                else {
+                    switch(snode["common_usage_names"]["condition"]){
                     case "GEQUAL":
-                        snode["floats"]["cnd"] = 0;
+                        snode["common_usage_names"]["condition"] = m_logn.NC_GEQUAL;
                         break;
                     case "LEQUAL":
-                        snode["floats"]["cnd"] = 1;
+                        snode["common_usage_names"]["condition"] = m_logn.NC_LEQUAL;
                         break;
                     case "GREATER":
-                        snode["floats"]["cnd"] = 2;
+                        snode["common_usage_names"]["condition"] = m_logn.NC_GREATER;
                         break;
                     case "LESS":
-                        snode["floats"]["cnd"] = 3;
+                        snode["common_usage_names"]["condition"] = m_logn.NC_LESS;
                         break;
                     case "NOTEQUAL":
-                        snode["floats"]["cnd"] = 4;
+                        snode["common_usage_names"]["condition"] = m_logn.NC_NOTEQUAL;
                         break;
                     case "EQUAL":
-                        snode["floats"]["cnd"] = 5;
-                        
+                        snode["common_usage_names"]["condition"] = m_logn.NC_EQUAL;
                         break;
                     }
                 }
@@ -2714,24 +2726,66 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                     snode["input1"] = snode["number1"];
                 if (snode["number2"] != undefined)
                     snode["input2"] = snode["number2"];
+                if (!snode["bools"])
+                        snode["bools"] = {};
+                if (snode["bools"]["str"] === undefined) {
+                    snode["bools"]["str"] = false;
+                    snode["floats"]["inp1"] = snode["input1"];
+                    snode["floats"]["inp2"] = snode["input2"];
+                }
                 break;
             case "SEND_REQ":
                 if (!snode["bools"])
                     snode["bools"] = {};
+                if (!snode["strings"])
+                    snode["strings"] = {};
+
                 if (snode["bools"]["ct"] === undefined)
                     snode["bools"]["ct"] = false;
+                if (snode["url"] != undefined) {
+                    snode["bools"]["url"] = false;
+                    snode["strings"]["url"] = snode["url"];
+                }
+
                 break;
             case "MATH":
                 if (snode["number1"] != undefined)
                     snode["input1"] = snode["number1"];
                 if (snode["number2"] != undefined)
                     snode["input2"] = snode["number2"];
+                if (snode["input1"] != undefined)
+                    snode["floats"]["inp1"] = snode["input1"];
+                if (snode["input2"] != undefined)
+                    snode["floats"]["inp2"] = snode["input2"];
                 break;
             case "REGSTORE":
+                if (!snode["floats"])
+                        snode["floats"] = {};
+                if (!snode["strings"])
+                        snode["strings"] = {};
+
                 if (snode["number1"] != undefined)
                     snode["input1"] = snode["number1"];
-                if (snode["number2"] != undefined)
-                    snode["input2"] = snode["number2"];
+                if (snode["input1"] != undefined)
+                    switch (typeof(snode["input1"])) {
+                    case "number":
+                        snode["floats"]["inp1"] = snode["input1"];
+                        snode["common_usage_names"]["variable_type"] = "NUMBER";
+                        break;
+                    default:
+                        snode["strings"]["inp1"] = snode["input1"];
+                        snode["common_usage_names"]["variable_type"] = "STRING";
+                    }
+
+                switch(snode["common_usage_names"]["variable_type"]) {
+                case "NUMBER":
+                    snode["common_usage_names"]["variable_type"] = m_logn.NT_NUMBER;
+                    break;
+                case "STRING":
+                    snode["common_usage_names"]["variable_type"] = m_logn.NT_STRING;
+                    break;
+                }
+
                 break;
             case "PAGEPARAM":
                 if (!snode["bools"])
@@ -2756,6 +2810,61 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                     snode["bools"] = {};
                 if (snode["bools"]["env"] === undefined)
                     snode["bools"]["env"] = false;
+                break;
+            case "STRING":
+                if ("cnd" in snode["floats"])
+                    snode["common_usage_names"]["condition"] = snode["floats"]["cnd"];
+                else {
+                    switch(snode["common_usage_names"]["condition"]){
+                    case "GEQUAL":
+                        snode["common_usage_names"]["condition"] = m_logn.NC_GEQUAL;
+                        break;
+                    case "LEQUAL":
+                        snode["common_usage_names"]["condition"] = m_logn.NC_LEQUAL;
+                        break;
+                    case "GREATER":
+                        snode["common_usage_names"]["condition"] = m_logn.NC_GREATER;
+                        break;
+                    case "LESS":
+                        snode["common_usage_names"]["condition"] = m_logn.NC_LESS;
+                        break;
+                    case "NOTEQUAL":
+                        snode["common_usage_names"]["condition"] = m_logn.NC_NOTEQUAL;
+                        break;
+                    case "EQUAL":
+                        snode["common_usage_names"]["condition"] = m_logn.NC_EQUAL;
+                        break;
+                    }
+                }
+
+                break;
+            case "REDIRECT":
+                if (snode["url"] != undefined) {
+                    snode["bools"]["url"] = false;
+                    snode["strings"]["url"] = snode["url"];
+                }
+                break;
+            case "ENTRYPOINT":
+                if (!snode["bools"])
+                    snode["bools"] = {};
+                if (snode["bools"]["js"] === undefined)
+                    snode["bools"]["js"] = false;
+
+                if (snode["bools"]["js"])
+                    snode["mute"] = true;
+                break;
+            case "JS_CALLBACK":
+                var cb_params_dict = snode["common_usage_names"]["js_cb_params"];
+                for (var key in cb_params_dict)
+                    switch(cb_params_dict[key]) {
+                        case "OBJECT":
+                            cb_params_dict[key] = m_logn.NCPT_OBJECT;
+                            break;
+                        case "VARIABLE":
+                            cb_params_dict[key] = m_logn.NCPT_VARIABLE;
+                            break;
+                    }
+                break;
             }
         }
     }

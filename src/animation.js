@@ -1176,11 +1176,11 @@ function animate(obj, elapsed, slot_num, force_update) {
         var quat = get_anim_rotation(anim_slot, 0, finfo, _quat4_tmp);
         var scale = get_anim_scale(anim_slot, 0, finfo);
         if (obj.parent && obj.pinverse_tsr) {
-            var tsr = m_tsr.create();
+            var tsr = _tsr_tmp;
             m_tsr.set_sep(trans, scale, quat, tsr);
             m_tsr.multiply(obj.pinverse_tsr, tsr, tsr);
-            trans = m_tsr.get_trans_view(tsr);
-            quat = m_tsr.get_quat_view(tsr);
+            m_tsr.get_trans_value(tsr, trans);
+            m_tsr.get_quat_value(tsr, quat);
             scale = m_tsr.get_scale(tsr);
         }
 

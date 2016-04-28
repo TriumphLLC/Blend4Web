@@ -605,7 +605,21 @@ exports.PL_MULTITOUCH_MOVE_PAN  = m_ctl.PL_MULTITOUCH_MOVE_PAN;
  * @const module:controls.PL_MULTITOUCH_MOVE_ROTATE
  */
 exports.PL_MULTITOUCH_MOVE_ROTATE  = m_ctl.PL_MULTITOUCH_MOVE_ROTATE;
-
+/**
+ * Create a gamepad button sensor.
+ * @method module:controls.create_gamepad_btns_sensor
+ * @param {Number} number Connected gamepad number
+ * @param {Number} ind Button number
+ * @returns {Sensor} Sensor object
+ */
+exports.create_gamepad_btns_sensor = m_ctl.create_gamepad_btns_sensor;
+/**
+ * Create a gamepad axes sensor.
+ * @method module:controls.create_gamepad_axes_sensor
+ * @param {Number} number Connected gamepad number
+ * @returns {Sensor} Sensor object
+ */
+exports.create_gamepad_axes_sensor = m_ctl.create_gamepad_axes_sensor;
 /**
  * Create a custom sensor.
  * A custom sensor can be controlled manually by using the get_custom_sensor()
@@ -817,6 +831,14 @@ exports.create_gyro_delta_sensor = m_ctl.create_gyro_delta_sensor;
  * @returns {Sensor} Sensor object
  */
 exports.create_hmd_quat_sensor = m_ctl.create_hmd_quat_sensor;
+
+/**
+ * Create a HMD position sensor.
+ * The sensor's payload stores the vector of HMD position.
+ * @method module:controls.create_hmd_position_sensor
+ * @returns {Sensor} Sensor object
+ */
+exports.create_hmd_position_sensor = m_ctl.create_hmd_position_sensor;
 
 /**
  * Create a timer sensor.

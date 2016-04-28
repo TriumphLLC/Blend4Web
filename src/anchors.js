@@ -34,23 +34,18 @@ var m_render = require("__renderer");
 var m_scenes = require("__scenes");
 var m_time   = require("__time");
 var m_tsr    = require("__tsr");
-var m_util   = require("__util");
-
-var cfg_def = require("__config").defaults;
 
 var _anchors      = [];
 var _is_paused    = false;
 var _clicked_elem = null;
 var _in_use       = false;
+var _is_anim      = false;
 
 var _anchor_batch_pos = new Float32Array(0);
 var _pixels           = new Uint8Array(16);
 
 var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
-
-var anchor_descr_cache = {}
-
 
 exports.append = function(obj) {
     if (has_anchor_obj(obj))
@@ -113,6 +108,9 @@ function add_click_listener() {
     var canvas_cont = m_cont.get_container();
 
     canvas_cont.addEventListener("mouseup", function(e) {
+        if (_is_anim)
+            return;
+
         if (_is_paused)
             return;
 
@@ -151,10 +149,16 @@ function add_click_listener() {
         if (descr_height == parent_height)
             anchor_descr.style.height = descr_height + "px";
 
-        if (descr_width != parent_width)
+        if (descr_width != parent_width) {
+            width_anim = true;
+            _is_anim = true
+
             m_time.animate(parent_width, descr_width, 200, function(e) {
                 if (e == descr_width) {
                     width_anim = false;
+
+                    if (!height_anim)
+                        _is_anim = false;
 
                     if (is_anim)
                         descr_body.style.visibility = "visible";
@@ -162,13 +166,19 @@ function add_click_listener() {
 
                 anchor_descr.style.width = e + "px";
             });
-        else
+        } else
             width_anim = false;
 
-        if (descr_height != parent_height)
+        if (descr_height != parent_height) {
+            height_anim = true;
+            _is_anim = true;
+
             m_time.animate(parent_height, descr_height, 200, function(e) {
                 if (e == descr_height) {
                     height_anim = false;
+
+                    if (!width_anim)
+                        _is_anim = false;
 
                     if (is_anim)
                         descr_body.style.visibility = "visible";
@@ -176,7 +186,7 @@ function add_click_listener() {
 
                 anchor_descr.style.height = e + "px";
             });
-        else
+        } else
             height_anim = false;
 
         function is_anim() {
@@ -302,6 +312,9 @@ function create_anchor_descr_elem(anchor_desc, anchor_cont, max_width) {
     anchor_cont.appendChild(desc_elem);
 
     anchor_cont.addEventListener("mousedown", function(e) {
+        if (_is_anim)
+            return;
+
         if (anchor_cont == _clicked_elem)
             return;
 

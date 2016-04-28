@@ -67,7 +67,7 @@ uniform vec4 u_sun_quaternion;
 #endif
 
 
-#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE
+#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE
 uniform mat3 u_view_tsr_frag;
 #endif
 
@@ -306,8 +306,11 @@ void main(void) {
     mat3 tbn_matrix = mat3(v_tangent.xyz, binormal, sided_normal);
 #endif
 
-#if NORMAL_TEXCOORD
+#if NORMAL_TEXCOORD || REFRACTIVE
     mat4 view_matrix = tsr_to_mat4(u_view_tsr_frag);
+#endif
+
+#if NORMAL_TEXCOORD
     vec2 texcoord_norm = normalize(view_matrix * vec4(v_normal, 0.0)).st;
     texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
 #endif
@@ -546,7 +549,9 @@ void main(void) {
 #endif  // ALPHA
 
 #if REFRACTIVE
-    color = mix(material_refraction(v_tex_pos_clip, normal.xz * u_refr_bump), color, alpha);
+    vec2 normal_view = -(view_matrix * vec4(normal, 0.0)).xy;
+    color = mix(material_refraction(v_tex_pos_clip, normal_view * u_refr_bump),
+                color, alpha);
     alpha = 1.0;
 #endif
 

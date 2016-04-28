@@ -90,7 +90,7 @@ float HALF_VALUE_NODES = 0.5;
 vec3 refraction_node(in vec3 normal_in, in float refr_bump) {
     vec3 refract_color = vec3(ZERO_VALUE_NODES);
 # if USE_REFRACTION
-    refract_color = material_refraction(v_tex_pos_clip, normal_in.xz * refr_bump);
+    refract_color = material_refraction(v_tex_pos_clip, normal_in.xy * refr_bump);
 # else
     refract_color = texture2D(u_refractmap, v_tex_pos_clip.xy/v_tex_pos_clip.z).rgb;
     srgb_to_lin(refract_color);
@@ -397,11 +397,11 @@ vec2 vec_to_uv(vec3 vec)
 #endnode
 
 #node B4W_VECTOR_VIEW
-    #node_in vec3 normal_in
-    #node_out vec3 normal
+    #node_in vec3 vec_world
+    #node_out vec3 vec_view
 
     // NOTE: (-) mimic blender behavior
-    normal = -(nin_view_matrix * vec4(normal_in, ZERO_VALUE_NODES)).xyz;
+    vec_view = -(nin_view_matrix * vec4(vec_world, ZERO_VALUE_NODES)).xyz;
 #endnode
 
 #node BSDF_ANISOTROPIC

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. Руководство пользователя v16.01\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-25 11:16+0300\n"
+"POT-Creation-Date: 2016-04-06 16:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,9 +47,8 @@ msgstr ""
 "изображения."
 
 #: ../scene_settings.rst:30
-#, fuzzy
 msgid "Reflections and Refractions"
-msgstr "Настройка эффектов отражения и преломления."
+msgstr ""
 
 #: ../scene_settings.rst:32
 msgid "Reflection and refraction effect settings."
@@ -85,9 +84,9 @@ msgstr ""
 
 #: ../scene_settings.rst:45
 msgid ""
-"Quality settings for the reflection effect. Can be set to ``HIGH`` "
-"(highest reflection quality), ``MEDIUM`` (medium quality) or to ``LOW`` "
-"(lowest quality). Set to ``MEDIUM`` by default."
+"Quality settings for the reflection effect. Can be set to ``HIGH`` (the "
+"highest reflection quality), ``MEDIUM`` (medium quality) or to ``LOW`` "
+"(the lowest quality). Set to ``MEDIUM`` by default."
 msgstr ""
 "Настройки качества эффекта отражения (и преломления?). Может иметь "
 "значения ``HIGH`` (высокое качество), ``MEDIUM`` (среднее) и ``LOW`` "
@@ -123,7 +122,7 @@ msgstr ""
 
 #: ../scene_settings.rst:76
 msgid ""
-"Color correction settings. Described throughly in :ref:`its own section "
+"Color correction settings. Described thoroughly in :ref:`its own section "
 "<color_correction>`."
 msgstr ""
 "Настройки цветокоррекции. Подробно описаны в :ref:`соответствующем "
@@ -260,9 +259,8 @@ msgstr ""
 "числе настройки звука, физики, анимации и пр."
 
 #: ../scene_settings.rst:199
-#, fuzzy
 msgid "Scene"
-msgstr "сцена"
+msgstr ""
 
 #: ../scene_settings.rst:201
 msgid "Scene settings."
@@ -306,7 +304,7 @@ msgstr ""
 "По умолчанию отключено."
 
 #: ../scene_settings.rst:236
-msgid "*Treshold*"
+msgid "*Threshold*"
 msgstr ""
 
 #: ../scene_settings.rst:236
@@ -324,7 +322,7 @@ msgstr ""
 
 #: ../scene_settings.rst:239
 msgid ""
-"The interval below the threshold where the responce curve switches to the"
+"The interval below the threshold where the response curve switches to the"
 " decreasing mode. Set to 30 by default."
 msgstr ""
 "Интервал над порогом (``Treshold``), где кривая громкости переходит в "
@@ -357,7 +355,7 @@ msgstr ""
 #: ../scene_settings.rst:248
 msgid ""
 "Time (in seconds) that takes the compressor to increase gain by 10 dB. "
-"Set to 0.25 by defaault."
+"Set to 0.25 by default."
 msgstr ""
 "Время (в секундах) для повышения громкости на 10 дБ. По умолчанию равно "
 "0.25."
@@ -602,7 +600,7 @@ msgstr ""
 #: ../scene_settings.rst:408
 msgid ""
 "If this parameter is enabled, sky gradient will always be drawn from the "
-"top of the screen to the bottom, regargless of the camera's position and "
+"top of the screen to the bottom, regardless of the camera's position and "
 "angles."
 msgstr ""
 "Если эта опция включена, градиент неба всегда будет отрисовываться сверху"
@@ -665,9 +663,8 @@ msgid "Render the sky *only* while rendering reflections."
 msgstr "Отображать небо *только* при рассчёте отражений."
 
 #: ../scene_settings.rst:434
-#, fuzzy
 msgid "Environment Lighting"
-msgstr "Предварительный просмотр окружения."
+msgstr ""
 
 #: ../scene_settings.rst:436
 msgid ""
@@ -700,7 +697,7 @@ msgstr ""
 #: ../scene_settings.rst:458
 msgid ""
 "At this distance from the camera the mist effect reaches maximum "
-"intesity. Set to 25 by default."
+"intensity. Set to 25 by default."
 msgstr ""
 "Расстояние от камеры, на котором эффект тумана достигает наибольшей "
 "интенсивности. По умолчанию равно 25."
@@ -723,7 +720,7 @@ msgstr ""
 
 #: ../scene_settings.rst:464
 msgid ""
-"This parameter specifies how fast mist intensity decreases as the the "
+"This parameter specifies how fast mist intensity decreases as the "
 "camera's altitude increases. Set to 0 by default."
 msgstr ""
 "Определяет, насколько быстро плотность тумана падает с ростом высоты. По "
@@ -765,7 +762,7 @@ msgstr ""
 #: ../scene_settings.rst:473
 msgid ""
 "The color of the mist. Can be changed, if the ``Use custom colors`` "
-"parameter is enabled. Light grey (0.5, 0.5, 0.5) color is used by "
+"parameter is enabled. Light gray (0.5, 0.5, 0.5) color is used by "
 "default."
 msgstr ""
 "Цвет тумана. Может быть настроен, если активирована опция ``Use custom "
@@ -796,4 +793,7 @@ msgstr "Игнорировать настройки окружения при э
 #: ../scene_settings.rst:1
 msgid "scene"
 msgstr "сцена"
+
+#~ msgid "*Treshold*"
+#~ msgstr ""
 

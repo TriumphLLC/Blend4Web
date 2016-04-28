@@ -46,7 +46,7 @@ var _mat3_tmp4 = new Float32Array(9);
 
 var ELL_EPS = 0.000000001;
 var MATRIX_PRES = 0.0005;
-var MIN_SEMIAXIS_LEN = 0.00002;
+var MIN_SEMIAXIS_LEN = 0.00000001;
 
 exports.copy_bb = function(bb_from, bb_to) {
     bb_to.min_x = bb_from.min_x;
@@ -377,7 +377,10 @@ exports.expand_bounding_sphere = function(bs, bs_exp) {
             m_vec3.create());
     bs.radius = m_vec3.length(m_vec3.subtract(max, min, m_vec3.create())) / 2;
 }
-
+/**
+ * see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
+ * Third Edition. Chapter 8.1.4 Bounding Ellipsoid Construction
+ **/
 exports.create_bounding_ellipsoid_by_bb = function(points) {
 
     var center = m_math.calk_average_position(points, _vec3_tmp4);
@@ -462,69 +465,49 @@ exports.create_bounding_ellipsoid_by_bb = function(points) {
     }
 
     var scale_mat = m_mat3.identity(_mat3_tmp2);
-    scale_mat[0] = a > MIN_SEMIAXIS_LEN ? 1 / a : 0;
-    scale_mat[4] = b > MIN_SEMIAXIS_LEN ? 1 / b : 0;
-    scale_mat[8] = c > MIN_SEMIAXIS_LEN ? 1 / c : 0;
+    scale_mat[0] = a != 0.0 ? 1 / a : 1 / MIN_SEMIAXIS_LEN;
+    scale_mat[4] = b != 0.0 ? 1 / b : 1 / MIN_SEMIAXIS_LEN;
+    scale_mat[8] = c != 0.0 ? 1 / c : 1 / MIN_SEMIAXIS_LEN;
     m_mat3.transpose(t_mat, _mat3_tmp3);
     // transform vertex set into cube
 
-    _vec3_tmp[0] = points[max_lm];
-    _vec3_tmp[1] = points[max_lm + 1];
-    _vec3_tmp[2] = points[max_lm + 2];
+    _vec3_tmp[0] = points[0];
+    _vec3_tmp[1] = points[1];
+    _vec3_tmp[2] = points[2];
 
     m_vec3.transformMat3(_vec3_tmp, _mat3_tmp3, _vec3_tmp);
     m_vec3.transformMat3(_vec3_tmp, scale_mat, _vec3_tmp);
     m_vec3.transformMat3(_vec3_tmp, t_mat, _vec3_tmp);
 
-    _vec3_tmp2[0] = points[min_lm];
-    _vec3_tmp2[1] = points[min_lm + 1];
-    _vec3_tmp2[2] = points[min_lm + 2];
+    var max_x = _vec3_tmp[0], min_x = _vec3_tmp[0];
+    var max_y = _vec3_tmp[1], min_y = _vec3_tmp[1]
+    var max_z = _vec3_tmp[2], min_z = _vec3_tmp[2]
 
-    m_vec3.transformMat3(_vec3_tmp2, _mat3_tmp3, _vec3_tmp2);
-    m_vec3.transformMat3(_vec3_tmp2, scale_mat, _vec3_tmp2);
-    m_vec3.transformMat3(_vec3_tmp2, t_mat, _vec3_tmp2);
-    // find sphere center in scaled space
-
-    m_vec3.add(_vec3_tmp, _vec3_tmp2, _vec3_tmp3);
-    m_vec3.scale(_vec3_tmp3, 0.5, _vec3_tmp3);
-    var s_center = _vec3_tmp3;
-
-    m_vec3.transformMat3(center, _mat3_tmp3, center);
-    m_vec3.transformMat3(center, scale_mat, center);
-    m_vec3.transformMat3(center, t_mat, center);
-
-    if (max_dot_x + min_dot_x == 0 || max_dot_z + min_dot_z == 0)
-        s_center[1] = center[1];
-    if (max_dot_y + min_dot_y == 0 || max_dot_z + min_dot_z == 0)
-        s_center[0] = center[0];
-    if (max_dot_x + min_dot_x == 0 || max_dot_y + min_dot_y == 0)
-        s_center[2] = center[2];
-
-    m_vec3.subtract(_vec3_tmp, s_center, _vec3_tmp);
-    var r = m_vec3.length(_vec3_tmp);
-
-    for (var i = 0; i < points.length; i = i + 3) {
-
-        if (i == min_lm || i == max_lm)
-            continue;
-
+    for (var i = 3; i < points.length; i = i + 3) {
         _vec3_tmp[0] = points[i];
         _vec3_tmp[1] = points[i + 1];
         _vec3_tmp[2] = points[i + 2];
         m_vec3.transformMat3(_vec3_tmp, _mat3_tmp3, _vec3_tmp);
         m_vec3.transformMat3(_vec3_tmp, scale_mat, _vec3_tmp);
         m_vec3.transformMat3(_vec3_tmp, t_mat, _vec3_tmp);
-        m_vec3.subtract(_vec3_tmp, s_center, _vec3_tmp2);
-        var r1 = m_vec3.length(_vec3_tmp2);
-        if (r1 > r) {
-            m_vec3.scale(_vec3_tmp2, r / r1, _vec3_tmp2);
-            m_vec3.subtract(s_center, _vec3_tmp2, _vec3_tmp2);
-            m_vec3.add(_vec3_tmp2, _vec3_tmp, s_center);
-            m_vec3.scale(s_center, 0.5, s_center);
-            m_vec3.subtract(_vec3_tmp, s_center, _vec3_tmp);
-            r = m_vec3.length(_vec3_tmp);
-        }
+
+        max_x = Math.max(max_x, _vec3_tmp[0]);
+        min_x = Math.min(min_x, _vec3_tmp[0]);
+
+        max_y = Math.max(max_y, _vec3_tmp[1]);
+        min_y = Math.min(min_y, _vec3_tmp[1]);
+
+        max_z = Math.max(max_z, _vec3_tmp[2]);
+        min_z = Math.min(min_z, _vec3_tmp[2]);
     }
+    var r = Math.sqrt((max_x - min_x) * (max_x - min_x)
+            + (max_y - min_y) * (max_y - min_y)
+            + (max_z - min_z) * (max_z - min_z)) / 2;
+
+    _vec3_tmp3[0] = (max_x + min_x) / 2;
+    _vec3_tmp3[1] = (max_y + min_y) / 2;
+    _vec3_tmp3[2] = (max_z + min_z) / 2;
+    var s_center = _vec3_tmp3;
 
     var scale_mat = m_mat3.identity(_mat3_tmp2);
     scale_mat[0] = a;

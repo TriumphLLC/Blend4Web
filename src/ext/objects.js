@@ -30,7 +30,6 @@ var m_batch    = require("__batch");
 var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_scenes   = require("__scenes");
-var m_util     = require("__util");
 
 /**
  * @typedef ObjectMetaTags

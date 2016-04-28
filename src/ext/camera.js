@@ -27,8 +27,8 @@
  * present camera limits.
  * <p>
  * <b>API examples for this module</b>: 
- * {@link https://www.blend4web.com/doc/en/camera.html#api|English}, 
- * {@link https://www.blend4web.com/doc/ru/camera.html#api|Russian}.
+ * {@link https://www.blend4web.com/doc/en/camera.html#camera-controls-api|English}, 
+ * {@link https://www.blend4web.com/doc/ru/camera.html#camera-controls-api|Russian}.
  * </p>
  * @module camera
  * @local DistanceLimits
@@ -47,12 +47,12 @@ var m_cam      = require("__camera");
 var m_cfg      = require("__config");
 var m_cons     = require("__constraints");
 var m_cont     = require("__container");
-var m_mat3     = require("__mat3");
 var m_mat4     = require("__mat4");
 var m_math     = require("__math");
 var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
+var m_scs      = require("__scenes");
 var m_trans    = require("__transform");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
@@ -754,7 +754,10 @@ exports.target_zoom_object = function(camobj, obj) {
     var center = m_trans.get_object_center(obj, false, _vec3_tmp);
 
     var radius = m_trans.get_object_size(obj);
-    var ang_radius = m_cam.get_angular_diameter(camobj) / 2;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var main_camera = cam_scene_data.cameras[0];
+    var ang_radius = m_cam.get_angular_diameter(main_camera) / 2;
     var dist_need = radius / Math.sin(ang_radius);
     var dist_current = m_trans.obj_point_distance(camobj, center);
 
@@ -1479,7 +1482,9 @@ function is_hmd_camera(camobj) {
         return false;
     }
 
-    var cameras = camobj.render.cameras;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cameras = cam_scene_data.cameras;
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
 
@@ -1742,7 +1747,9 @@ exports.set_stereo_distance = function(camobj, conv_dist) {
         return;
     }
 
-    var cameras = camobj.render.cameras;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cameras = cam_scene_data.cameras;
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
         if (cam.type == m_cam.TYPE_STEREO_LEFT ||
@@ -1762,7 +1769,9 @@ exports.get_stereo_distance = function(camobj) {
         return 0;
     }
 
-    var cameras = camobj.render.cameras;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cameras = cam_scene_data.cameras;
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
         if (cam.type == m_cam.TYPE_STEREO_LEFT ||
@@ -1784,8 +1793,10 @@ exports.set_eye_distance = function(camobj, eye_dist) {
         m_print.error("set_eye_distance(): Wrong camera object");
         return;
     }
-
-    m_cam.set_eye_distance(camobj, eye_dist);
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cameras = cam_scene_data.cameras;
+    m_cam.set_eye_distance(cameras, eye_dist);
 }
 
 /**
@@ -1800,7 +1811,9 @@ exports.get_eye_distance = function(camobj) {
         return 0;
     }
 
-    var cameras = camobj.render.cameras;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cameras = cam_scene_data.cameras;
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
         if (cam.type == m_cam.TYPE_STEREO_LEFT ||
@@ -1871,7 +1884,9 @@ exports.translate_view = function(camobj, x, y, angle) {
         return;
     }
 
-    var cameras = camobj.render.cameras;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cameras = cam_scene_data.cameras;
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
 
@@ -1924,8 +1939,10 @@ exports.get_fov = function(camobj) {
         m_print.error("get_fov(): Wrong camera object");
         return 0;
     }
-
-    return m_util.deg_to_rad(camobj.render.cameras[0].fov);
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cameras = cam_scene_data.cameras;
+    return m_util.deg_to_rad(cameras[0].fov);
 }
 
 /**
@@ -1940,7 +1957,9 @@ exports.set_fov = function(camobj, fov) {
         return;
     }
 
-    var cameras = camobj.render.cameras;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cameras = cam_scene_data.cameras;
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
 
@@ -2017,9 +2036,12 @@ exports.set_ortho_scale = function(camobj, ortho_scale) {
         var trans = m_tsr.get_trans_view(render.world_tsr);
         var dir_dist = m_vec3.distance(trans, render.hover_pivot);
         render.init_top = ortho_scale / 2 * render.init_dist / dir_dist;
-    } else
+    } else {
+        var active_scene = m_scs.get_active();
+        var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
         // hover camera without distance limits, EYE or STATIC camera
-        camobj.render.cameras[0].top = ortho_scale / 2;
+        cam_scene_data.cameras[0].top = ortho_scale / 2;
+    }
 
     m_cam.update_ortho_scale(camobj);
 }
@@ -2035,8 +2057,9 @@ exports.get_ortho_scale = function(camobj) {
         m_print.error("get_ortho_scale(): Wrong camera object");
         return 0;
     }
-
-    return camobj.render.cameras[0].top * 2;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    return cam_scene_data.cameras[0].top * 2;
 }
 
 /**
@@ -2069,8 +2092,9 @@ exports.calc_ray = function(camobj, canvas_x, canvas_y, dest) {
         m_print.error("calc_ray(): Wrong camera object");
         return null;
     }
-
-    var cam = camobj.render.cameras[0];
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var cam = cam_scene_data.cameras[0];
     // NOTE: It's for compatibility.
     if (dest && dest.length == 3)
         m_print.error_once("dest parameter in the function \"calc_ray\" " +
@@ -2504,7 +2528,10 @@ exports.zoom_object = function(camobj, obj) {
     m_trans.update_transform(camobj);
 
     var radius = m_trans.get_object_size(obj);
-    var ang_radius = m_cam.get_angular_diameter(camobj) / 2;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var main_camera = cam_scene_data.cameras[0];
+    var ang_radius = m_cam.get_angular_diameter(main_camera) / 2;
 
     var dist_need = radius / Math.sin(ang_radius);
     var dist_current = m_trans.obj_point_distance(camobj, center);
@@ -2949,7 +2976,9 @@ exports.get_frustum_planes = function(camobj, planes) {
         m_print.error("get_frustum_planes(): Wrong camera object");
         return null;
     }
-    var fr_planes = camobj.render.cameras[0].frustum_planes;
+    var active_scene = m_scs.get_active();
+    var cam_scene_data = m_obj_util.get_scene_data(camobj, active_scene);
+    var fr_planes = cam_scene_data.cameras[0].frustum_planes;
     m_vec4.copy(fr_planes.left, planes.left);
     m_vec4.copy(fr_planes.right, planes.right);
     m_vec4.copy(fr_planes.top, planes.top);

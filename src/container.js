@@ -28,7 +28,6 @@ var m_anchors = require("__anchors");
 var m_cfg     = require("__config");
 var m_data    = require("__data");
 var m_hud     = require("__hud");
-var m_obj     = require("__objects");
 var m_print   = require("__print");
 var m_scenes  = require("__scenes");
 var m_time    = require("__time");

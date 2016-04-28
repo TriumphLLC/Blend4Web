@@ -31,7 +31,7 @@ var m_print = require("__print");
 var START_POINT_X = 30;
 var START_POINT_Y = 80;
 var LINE_WIDTH = 20;
-var OFFSETS = [5, 19, 3, 10, 4, 3, 5];
+var OFFSETS = [5, 24, 7, 10, 4, 3, 6];
 
 var _canvas_context = null;
 
@@ -103,6 +103,7 @@ exports.show_debug_info = function(scenes, elapsed) {
 function show_debug_info_scene(scene) {
 
     print(" SCENE \"" + scene["name"] + "\"");
+    print(" Active        Subscene       Lamps      Size   RenderCalls  Time");
 
     if (!scene._render) {
         print("No INFO")
@@ -123,25 +124,29 @@ function show_debug_info_scene(scene) {
         var subs = attr;
 
         // fictional type
-        if (subs.type == "SINK") {
-            print(" (F)", subs.type);
+        if (subs.type == "SINK")
             return;
-        }
 
         var type = subs.type;
         var size = Math.round(subs.camera.width) + "x" + Math.round(subs.camera.height);
         var bundles = subs.bundles.length;
         var rcalls = subs.debug_render_calls;
 
-        if (subs.type == "MAIN_CUBE_REFLECT")
+        if (subs.type == "MAIN_CUBE_REFLECT" ||
+                subs.type == "MAIN_CUBE_REFLECT_BLEND")
             bundles *= 6;
 
         // active/passive
-        var is_active = subs.enqueue && subs.do_render;
+        var is_active = subs.do_render;
 
         var render_time = is_active ? subs.debug_render_time : 0;
 
-        var activity_prefix = is_active ? " (A)" : " (P)";
+        // NOTE: clear render time for non-enqueued subscenes, BTW they 
+        // shouldn't be active if they're not rendered
+        if (!subs.enqueue)
+            subs.debug_render_time = 0;
+
+        var activity_prefix = is_active ? " (\u2713)" : " (\u2715)";
         print(activity_prefix, type, subs.num_lights, size, rcalls, "of",
                 bundles, "  ", render_time.toFixed(3));
 

@@ -165,7 +165,7 @@
 
 * 高品质的声音循环
 
-* 随机声音参数，以提高循环感知
+* randomizing sound parameters to improve loop perception
 
 * 交叉推杆有声动画的支持
 
@@ -203,8 +203,7 @@
 可视化编程
 ==========
 
-* the Logic Editor tool allows to create interactive apps by
-  constructing the logic chains from basic blocks
+* 逻辑编辑器工具允许使用基本模块组合逻辑链来创建交互式应用程序
 
 
 其他

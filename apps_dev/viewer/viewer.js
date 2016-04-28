@@ -84,7 +84,7 @@ exports.init = function() {
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
         autoresize: false,
-        gl_debug: true,
+        gl_debug: get_enable_gl_debug_config(),
         show_hud_debug_info: get_show_hud_debug_info_config(),
         sfx_mix_mode: get_mix_mode_config(),
         show_fps: true,
@@ -487,10 +487,11 @@ function init_ui() {
     bind_control(set_debug_params, "wireframe_mode", "string");
     bind_colpick(set_debug_params, "wireframe_edge_color", "object");
     bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info", "bool"); //TODO
+    bind_control(set_enable_gl_debug_and_reload, "enable_gl_debug", "bool");
     bind_control(set_outlining_overview_mode, "outlining_overview_mode", "bool");
     refresh_outlining_overview_mode_ui();
     m_app.set_onclick("make_screenshot", make_screenshot_clicked);
-    refresh_hud_debug_info_ui();
+    refresh_debug_info_ui();
 
     assign_sliders_controls();
 }
@@ -1122,6 +1123,13 @@ function get_show_hud_debug_info_config() {
         return false;
 }
 
+function get_enable_gl_debug_config() {
+    if (m_storage.get("enable_gl_debug") == "")
+        return true;
+    else
+        return m_storage.get("enable_gl_debug") === "true";
+}
+
 function set_stereo_view_config() {
     m_cfg.set("stereo", m_storage.get("stereo") || "NONE");
 }
@@ -1137,14 +1145,26 @@ function set_gyro_cam_rotate_config() {
     m_cfg.set("gyro_use", m_storage.get("gyro_use") === "true");
 }
 
-function refresh_hud_debug_info_ui() {
+function refresh_debug_info_ui() {
     var opt_index = Number(m_storage.get("show_hud_debug_info") === "true");
     document.getElementById("show_hud_debug_info").options[opt_index].selected = true;
     $("#show_hud_debug_info").slider("refresh");
+
+    if (m_storage.get("enable_gl_debug") == "")
+        var opt_index = 1;
+    else
+        var opt_index = Number(m_storage.get("enable_gl_debug") === "true");
+    document.getElementById("enable_gl_debug").options[opt_index].selected = true;
+    $("#enable_gl_debug").slider("refresh");
 }
 
 function set_hud_debug_info_and_reload(value) {
     m_storage.set("show_hud_debug_info", value.show_hud_debug_info);
+    window.location.reload();
+}
+
+function set_enable_gl_debug_and_reload(value) {
+    m_storage.set("enable_gl_debug", value.enable_gl_debug);
     window.location.reload();
 }
 

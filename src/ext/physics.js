@@ -217,7 +217,7 @@ exports.set_transform = function(obj, trans, quat) {
         m_print.error("No physics for object " + obj.name);
         return;
     }
-    m_phy.set_transform.apply(this, arguments);
+    m_phy.set_transform(obj, trans, quat);
 }
 
 /**
@@ -241,12 +241,12 @@ exports.sync_transform = function(obj) {
  * @param {Number} vy_local Vy local space velocity
  * @param {Number} vz_local Vz local space velocity 
  */
-exports.apply_velocity = function(obj) {
+exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
     if (!m_phy.obj_has_physics(obj)) {
         m_print.error("No physics for object " + obj.name);
         return;
     }
-    m_phy.apply_velocity.apply(this, arguments);
+    m_phy.apply_velocity(obj, vx_local, vy_local, vz_local);
 }
 /**
  * Apply velocity to the object (in the world space)
@@ -256,12 +256,12 @@ exports.apply_velocity = function(obj) {
  * @param {Number} vy Vy world space velocity
  * @param {Number} vz Vz world space velocity
  */
-exports.apply_velocity_world = function(obj) {
+exports.apply_velocity_world = function(obj, vx, vy, vz) {
     if (!m_phy.obj_has_physics(obj)) {
         m_print.error("No physics for object " + obj.name);
         return;
     }
-    m_phy.apply_velocity_world.apply(this, arguments);
+    m_phy.apply_velocity_world(obj, vx, vy, vz);
 }
 /**
  * Apply a constant force to the object (in the local space).
@@ -277,7 +277,24 @@ exports.apply_force = function(obj, fx_local, fy_local, fz_local) {
         m_print.error("No physics for object " + obj.name);
         return;
     }
-    m_phy.apply_force.apply(this, arguments);
+    m_phy.apply_force(obj, fx_local, fy_local, fz_local, false);
+}
+
+/**
+ * Apply a constant force to the object (in the world space).
+ * Pass zero values to remove applied force.
+ * @method module:physics.apply_force_world
+ * @param {Object3D} obj Object 3D
+ * @param {Number} fx_world Fx force in the world space
+ * @param {Number} fy_world Fy force in the world space
+ * @param {Number} fz_world Fz force in the world space 
+ */
+exports.apply_force_world = function(obj, fx_world, fy_world, fz_world) {
+    if (!m_phy.obj_has_physics(obj)) {
+        m_print.error("No physics for object " + obj.name);
+        return;
+    }
+    m_phy.apply_force(obj, fx_world, fy_world, fz_world, true);
 }
 
 /**
@@ -294,7 +311,7 @@ exports.apply_torque = function(obj, tx_local, ty_local, tz_local) {
         m_print.error("No physics for object " + obj.name);
         return;
     }
-    m_phy.apply_torque.apply(this, arguments);
+    m_phy.apply_torque(obj, tx_local, ty_local, tz_local);
 }
 /**
  * Apply throttle to vehicle.

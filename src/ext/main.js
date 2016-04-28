@@ -52,6 +52,7 @@ var m_data      = require("__data");
 var m_debug     = require("__debug");
 var m_ext       = require("__extensions");
 var m_geom      = require("__geometry");
+var m_input     = require("__input");
 var m_hud       = require("__hud");
 var m_nla       = require("__nla");
 var m_lnodes    = require("__logic_nodes")
@@ -65,7 +66,6 @@ var m_shaders   = require("__shaders");
 var m_textures  = require("__textures");
 var m_time      = require("__time");
 var m_trans     = require("__transform");
-var m_armat     = require("__armature");
 var m_util      = require("__util");
 var m_version   = require("__version");
 var m_particles = require("__particles");
@@ -152,8 +152,9 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
     m_compat.apply_context_alpha_hack();
 
-    // allow WebGL 2 only in Chrome
-    if (!m_compat.check_user_agent("Chrome"))
+    // allow WebGL 2 only in Chrome and Firefox
+    if (!(m_compat.check_user_agent("Chrome") ||
+                m_compat.check_user_agent("Firefox")))
         cfg_def.webgl2 = false;
 
     var gl = get_context(elem_canvas_webgl, cfg_def.webgl2);
@@ -268,16 +269,6 @@ function init_context(canvas, canvas_hud, gl) {
     _fps_counter = init_fps_counter();
 
     loop();
-}
-
-/**
- * Whether to perform the checks of WebGL errors during rendering or not.
- * Note: additional checks can slow down the engine.
- * @param {Boolean} val Check flag
- * @method module:main.set_check_gl_errors
- */
-exports.set_check_gl_errors = function(val) {
-    m_debug.set_check_gl_errors(val);
 }
 
 /**
@@ -462,6 +453,8 @@ function frame(timeline, delta) {
     if (!m_data.is_primary_loaded())
         return;
 
+    //inputs should be updated before controls
+    m_input.update();
     // controls
     m_ctl.update(timeline, delta);
 

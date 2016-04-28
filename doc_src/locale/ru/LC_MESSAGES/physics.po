@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-25 11:16+0300\n"
+"POT-Creation-Date: 2016-04-06 16:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -253,8 +253,8 @@ msgstr ""
 
 #: ../physics.rst:119
 msgid ""
-"It is neccessary to specify a realistic mass for the chassis (because the"
-" default value is only 1 kg). To do this go to the physics settings, "
+"It is necessary to specify a realistic mass for the chassis (because the "
+"default value is only 1 kg). To do this go to the physics settings, "
 "choose the ``Rigid Body`` value for the ``Physics Type`` option and "
 "specify the required value (for example, 1000 kg) in the ``Mass`` field."
 msgstr ""
@@ -292,18 +292,16 @@ msgid "Damping coefficient for suspension stretching."
 msgstr "Коэффициент демпфирования при растяжении подвески."
 
 #: ../physics.rst:134
-#, fuzzy
 msgid "*Suspension Stiffness*"
-msgstr "Коэффициент жесткости подвески."
+msgstr ""
 
 #: ../physics.rst:134
 msgid "Suspension stiffness coefficient."
 msgstr "Коэффициент жесткости подвески."
 
 #: ../physics.rst:137
-#, fuzzy
 msgid "*Suspension Damping*"
-msgstr "Коэффициент амортизации подвески."
+msgstr ""
 
 #: ../physics.rst:137
 msgid "Suspension damping coefficient."
@@ -337,9 +335,8 @@ msgstr ""
 "физическое поведение)."
 
 #: ../physics.rst:146
-#, fuzzy
 msgid "*Max Suspension Travel Cm*"
-msgstr "Максимальный ход подвески в сантиметрах."
+msgstr ""
 
 #: ../physics.rst:146
 msgid "Maximum suspension travel in centimeters."
@@ -351,8 +348,8 @@ msgid ""
 "steering angle (``Steering Max``) and the ratio between the turn of the "
 "steering wheel and the turn of the wheels  (``Steering Ratio``). The "
 "maximum steering angle value is specified in revolutions. A single "
-"revolution equals to 360 degrees. Therefore if ``Steering Max`` is equal "
-"to one and ``Steering Ratio`` is equal to 10, the maximum turn of the "
+"revolution equals to 360 degrees. Therefore, if ``Steering Max`` is equal"
+" to one and ``Steering Ratio`` is equal to 10, the maximum turn of the "
 "steering wheel will be 360 degrees and the maximum turn of the front "
 "wheels will be 36 degrees."
 msgstr ""
@@ -379,7 +376,7 @@ msgstr ""
 #: ../physics.rst:152
 msgid ""
 "We can additionally tweak the ``Damping`` of ``Translation`` and "
-"``Rotation``. This will influence the speed and inertion of the vehicle."
+"``Rotation``. This will influence the speed and inertia of the vehicle."
 msgstr ""
 "Дополнительно можно настроить демпфирование ``Damping`` перемещения "
 "(``Translation``) и вращения (``Rotation``). Свойство влияет на скорость "
@@ -400,9 +397,9 @@ msgstr "Плавающие объекты"
 #: ../physics.rst:166
 msgid ""
 "In order for the object to float on the water surface (an object with the"
-" ``Water`` material), it is neccessary to enable the ``Floater`` panel. "
+" ``Water`` material), it is necessary to enable the ``Floater`` panel. "
 "There are two types of floating objects: ``Main Body`` - the floating "
-"object itself and ``Bob`` - an auxiallary bob-object onto which the "
+"object itself and ``Bob`` - an auxiliary bob-object onto which the "
 "buoyancy will be acting. A floating object can have an unlimited number "
 "of ``Bob`` objects. This can be both meshes or ``Empty`` objects."
 msgstr ""
@@ -428,9 +425,8 @@ msgid "Floating Object Settings"
 msgstr "Параметры настройки плавающего объекта"
 
 #: ../physics.rst:174 ../physics.rst:203
-#, fuzzy
 msgid "*Floating Factor*"
-msgstr "Плавающие объекты"
+msgstr ""
 
 #: ../physics.rst:174 ../physics.rst:203
 msgid "Buoyancy coefficient."
@@ -443,7 +439,7 @@ msgstr ""
 #: ../physics.rst:177 ../physics.rst:206
 msgid ""
 "Linear velocity damping when the object is on the water surface (or under"
-" water). When the object is not in water the physics settings are used."
+" water). When the object is not in water, the physics settings are used."
 msgstr ""
 "Демпфирование линейной скорости при нахождении объекта на поверхности "
 "воды (или под водой). Когда объект находится вне воды, используется "
@@ -456,7 +452,7 @@ msgstr ""
 #: ../physics.rst:180 ../physics.rst:209
 msgid ""
 "Rotation damping when the object is on the water surface (or under "
-"water). When the object is not in water the physics settings are used."
+"water). When the object is not in water, the physics settings are used."
 msgstr ""
 "Демпфирование вращения при нахождении объекта на поверхности воды (или "
 "под водой). Когда объект находится вне воды, используется значение из "
@@ -469,9 +465,9 @@ msgstr "Плавающие транспортные средства"
 #: ../physics.rst:191
 msgid ""
 "Watercrafts use some parameters from the ``Vehicle`` settings and all the"
-" settings which are similar to ``Floater`` setting. It is neccessary to "
+" settings which are similar to ``Floater`` setting. It is necessary to "
 "set the ``Part`` type ``Hull`` on the main object. Similar to a floating "
-"object a watercraft requires auxillary ``Bob`` objects."
+"object a watercraft requires auxiliary ``Bob`` objects."
 msgstr ""
 "Плавающие транспортные средства используют часть параметров из настроек "
 "колесных транспортных средств ``Vehicle`` и все настройки как у объектов "

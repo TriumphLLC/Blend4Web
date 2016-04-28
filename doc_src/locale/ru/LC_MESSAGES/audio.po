@@ -220,9 +220,8 @@ msgid "ogg, Vorbis codec (Chrome, Firefox)"
 msgstr "ogg, кодек Vorbis (Chrome, Firefox)"
 
 #: ../audio.rst:107
-#, fuzzy
 msgid "mp3 (Chrome, Safari)"
-msgstr "mp4, кодек AAC (Chrome, Safari)"
+msgstr "mp3 (Chrome, Safari)"
 
 #: ../audio.rst:108
 msgid "mp4, AAC codec (Chrome, Safari)"

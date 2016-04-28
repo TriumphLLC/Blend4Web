@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <title>Blend4Web Viewer</title>
     <link rel='shortcut icon' href='images/favicon.png' />
-    <link type='text/css' rel='stylesheet' href='viewer.min.css?v=16.03'/>
-    <script type='text/javascript' src='../common/b4w.simple.min.js?v=16.03'></script>
-    <script type='text/javascript' src='jquery-2.2.0.min.js'></script>
-    <script type='text/javascript' src='viewer.min.js?v=16.03'></script>
+    <link type='text/css' rel='stylesheet' href='viewer.min.css?v=16.04'/>
+    <script type='text/javascript' src='../common/b4w.simple.min.js?v=16.04'></script>
+    <script src='jquery-2.2.0.min.js' type='text/javascript'></script>
+    <script type='text/javascript' src='viewer.min.js?v=16.04'></script>
 </head>
 <body>
 
@@ -838,6 +838,13 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="show_hud_debug_info">HUD Info:</label>
                     <select id="show_hud_debug_info" data-role="slider" data-mini="true">
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="enable_gl_debug">GL Debug:</label>
+                    <select id="enable_gl_debug" data-role="slider" data-mini="true">
                         <option value="0" selected>No</option>
                         <option value="1">Yes</option>
                     </select>

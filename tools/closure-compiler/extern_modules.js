@@ -29,6 +29,10 @@ WebGLRenderingContext.renderbufferStorageMultisample;
 // missing WebVR API stuff
 Navigator.prototype.getVRDevices;
 
+// missing gamepad API stuff
+Navigator.prototype.getGamepads;
+Navigator.prototype.webkitGetGamepads;
+
 var HMDVRDevice;
 // HMDVRDevice properties
 // HMDVRDevice.prototype.deviceId;

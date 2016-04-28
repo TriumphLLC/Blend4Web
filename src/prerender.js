@@ -36,9 +36,11 @@ var m_vec3   = require("__vec3");
 var cfg_def = m_cfg.defaults;
 
 var USE_FRUSTUM_CULLING = true;
-var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_PLANE_REFLECT",
-        "MAIN_CUBE_REFLECT", "MAIN_GLOW", "SHADOW_CAST", "SHADOW_RECEIVE", "OUTLINE_MASK",
-        "WIREFRAME", "COLOR_PICKING", "MAIN_XRAY", "COLOR_PICKING_XRAY"];
+var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND",
+        "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT", "MAIN_PLANE_REFLECT_BLEND",
+        "MAIN_CUBE_REFLECT_BLEND", "MAIN_GLOW", "SHADOW_CAST", "SHADOW_RECEIVE",
+        "OUTLINE_MASK", "WIREFRAME", "COLOR_PICKING", "MAIN_XRAY",
+        "COLOR_PICKING_XRAY"];
 
 var _vec3_tmp = new Float32Array(3);
 
@@ -53,7 +55,8 @@ exports.prerender_subs = function(subs) {
         for (var i = 0; i < bundles.length; i++) {
             var bundle = bundles[i];
             var batch = bundle.batch;
-            if (subs.type == "MAIN_CUBE_REFLECT") {
+            if (subs.type == "MAIN_CUBE_REFLECT"
+                    || subs.type == "MAIN_CUBE_REFLECT_BLEND") {
                 for (var j = 0; j < 6; j++) {
                     subs.camera.frustum_planes = subs.cube_cam_frustums[j];
                     bundle.do_render_cube[j] = prerender_bundle(bundle, subs);
@@ -80,9 +83,10 @@ exports.prerender_subs = function(subs) {
             // NOTE: wireframe subs rendered optionally
             break;
         default:
-            // prevent rare bugs when blend is only one rendered
+            // prevent bugs when blend is only one rendered
             if (subs.type === "MAIN_OPAQUE" || subs.type === "SHADOW_RECEIVE" 
-                    || subs.type === "MAIN_GLOW" || has_render_bundles)
+                    || subs.type === "MAIN_GLOW" || subs.type === "MAIN_PLANE_REFLECT"
+                    || subs.type === "MAIN_CUBE_REFLECT" || has_render_bundles)
                 subs.do_render = true;
             else {
                 // clear subscene if it switches "do_render" flag to false

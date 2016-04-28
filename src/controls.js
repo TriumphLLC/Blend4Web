@@ -36,6 +36,7 @@ var m_time  = require("__time");
 var m_tsr   = require("__tsr");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
+var m_vec4  = require("__vec4");
 
 var cfg_ctl = m_cfg.controls;
 var cfg_dft = m_cfg.defaults;
@@ -80,7 +81,10 @@ var ST_GYRO_DELTA        = 180;
 var ST_GYRO_ANGLES       = 190;
 var ST_GYRO_QUAT         = 200;
 var ST_HMD_QUAT          = 210;
-var ST_CALLBACK          = 220;
+var ST_HMD_POSITION      = 220;
+var ST_CALLBACK          = 230;
+var ST_GAMEPAD_BTNS      = 240;
+var ST_GAMEPAD_AXES      = 250;
 
 // control types
 exports.CT_POSITIVE   = 10;
@@ -119,7 +123,6 @@ exports.update = function(timeline, elapsed) {
             manifold.update_counter = _update_counter;
 
             var pulse = manifold_gen_pulse(manifold);
-
             if (pulse) {
                 var cb_obj = (obj == _global_object) ? null : obj;
                 _manifolds_updated = false;
@@ -232,6 +235,9 @@ function init_sensor(type, element) {
 
         // for ST_SELECTION
         auto_release: false,
+
+        // for ST_GAMEPAD_BTNS
+        gamepad_id: 0,
 
         // for ST_CALLBACK
         callback: function() {}
@@ -523,52 +529,52 @@ function unregister_accum_value(accum, value_name) {
     switch (value_name) {
     case "orientation_quat":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
-        m_input.detach_param_cb(device, "orientation_quat", accum.orientation_quat_cb);
+        m_input.detach_param_cb(device, m_input.GYRO_ORIENTATION_QUAT, accum.orientation_quat_cb);
         break;
     case "orientation_angles":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
-        m_input.detach_param_cb(device, "orientation_angles", accum.orientation_angles_cb);
+        m_input.detach_param_cb(device, m_input.GYRO_ORIENTATION_ANGLES, accum.orientation_angles_cb);
         break;
     case "mouse_wheel":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, "mouse_wheel", accum.mouse_wheel_cb);
+        m_input.detach_param_cb(device, m_input.MOUSE_WHEEL, accum.mouse_wheel_cb);
         break;
     case "mouse_down_which":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, "mouse_down_which", accum.mouse_down_which_cb);
+        m_input.detach_param_cb(device, m_input.MOUSE_DOWN_WHICH, accum.mouse_down_which_cb);
         break;
     case "mouse_select":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, "mouse_down_which", accum.mouse_select_cb);
+        m_input.detach_param_cb(device, m_input.MOUSE_DOWN_WHICH, accum.mouse_select_cb);
         break;
     case "touch_select":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.detach_param_cb(device, "touch_start", accum.touch_select_cb);
+        m_input.detach_param_cb(device, m_input.TOUCH_START, accum.touch_select_cb);
         break;
     case "mouse_up_which":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, "mouse_up_which", accum.mouse_up_which_cb);
+        m_input.detach_param_cb(device, m_input.MOUSE_UP_WHICH, accum.mouse_up_which_cb);
         break;
     case "mouse_location":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, "mouse_location", accum.mouse_location_cb);
+        m_input.detach_param_cb(device, m_input.MOUSE_LOCATION, accum.mouse_location_cb);
         break;
     case "keyboard_downed_keys":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD, accum.element);
-        m_input.detach_param_cb(device, "keyboard_down", accum.keyboard_down_keys_cb);
-        m_input.detach_param_cb(device, "keyboard_up", accum.keyboard_up_keys_cb);
+        m_input.detach_param_cb(device, m_input.KEYBOARD_DOWN, accum.keyboard_down_keys_cb);
+        m_input.detach_param_cb(device, m_input.KEYBOARD_UP, accum.keyboard_up_keys_cb);
         break;
     case "touch_start":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.detach_param_cb(device, "touch_start", accum.touch_start_cb);
+        m_input.detach_param_cb(device, m_input.TOUCH_START, accum.touch_start_cb);
         break;
     case "touch_move":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.detach_param_cb(device, "touch_move", accum.touch_move_cb);
+        m_input.detach_param_cb(device, m_input.TOUCH_MOVE, accum.touch_move_cb);
         break;
     case "touch_end":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.detach_param_cb(device, "touch_end", accum.touch_end_cb);
+        m_input.detach_param_cb(device, m_input.TOUCH_END, accum.touch_end_cb);
         break;
     }
 }
@@ -577,6 +583,23 @@ exports.create_keyboard_sensor = function(key) {
     var element = document;
     var sensor = init_sensor(ST_KEYBOARD, element);
     sensor.key = key;
+    sensor.do_activation = true;
+    return sensor;
+}
+
+exports.create_gamepad_btns_sensor = function(id, btn) {
+    var element = document;
+    var sensor = init_sensor(ST_GAMEPAD_BTNS, element);
+    sensor.gamepad_id = id;
+    sensor.key = btn;
+    sensor.do_activation = true;
+    return sensor;
+}
+
+exports.create_gamepad_axes_sensor = function(id) {
+    var element = document;
+    var sensor = init_sensor(ST_GAMEPAD_AXES, element);
+    sensor.gamepad_id = id;
     sensor.do_activation = true;
     return sensor;
 }
@@ -866,6 +889,18 @@ exports.create_hmd_quat_sensor = function() {
     return sensor;
 }
 
+exports.create_hmd_position_sensor = function() {
+    var sensor = init_sensor(ST_HMD_POSITION, window);
+    sensor.payload = m_vec3.create();
+    var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+    if (device)
+        sensor_set_value(sensor, 1);
+    else
+        sensor_set_value(sensor, 0);
+    sensor.do_activation = true;
+    return sensor;
+}
+
 exports.create_timeline_sensor = function() {
     var sensor = init_sensor(ST_TIMELINE);
     return sensor;
@@ -898,7 +933,6 @@ function manifold_logic_result(manifold) {
     var values = manifold.sensor_values;
     for (var i = 0; i < sensors.length; i++)
         values[i] = sensors[i].value;
-
     var logic_result = manifold.logic_fun(values);
 
     return logic_result;
@@ -1053,6 +1087,34 @@ function update_sensor(sensor, timeline, elapsed) {
     case ST_HMD_QUAT:
         var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
         m_input.get_vector_param(device, m_input.HMD_ORIENTATION_QUAT, sensor.payload);
+        break;
+
+    case ST_HMD_POSITION:
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+        m_input.get_vector_param(device, m_input.HMD_POSITION, sensor.payload);
+        break;
+
+    case ST_GAMEPAD_BTNS:
+        if (sensor.gamepad_id == 0)
+            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD0);
+        else if (sensor.gamepad_id == 1)
+            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD1);
+        else if (sensor.gamepad_id == 2)
+            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD2);
+        else
+            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD3);
+        sensor.value = m_input.get_gamepad_btn_value(device, sensor.key);
+        break;
+    case ST_GAMEPAD_AXES:
+        if (sensor.gamepad_id == 0)
+            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD0);
+        else if (sensor.gamepad_id == 1)
+            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD1);
+        else if (sensor.gamepad_id == 2)
+            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD2);
+        else
+            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD3);
+        m_vec4.copy(device.gamepad_axes, sensor.payload);
         break;
 
     case ST_CALLBACK:
@@ -1213,7 +1275,6 @@ function manifold_gen_pulse(manifold) {
     case exports.CT_CONTINUOUS:
         var last_pulse = manifold.last_pulse;
         var logic_result = manifold_logic_result(manifold);
-
         if (logic_result) {
             pulse = 1;
             manifold.last_pulse = 1;
@@ -1520,6 +1581,19 @@ function activate_sensor(sensor) {
             var accumulator = get_accumulator(sensor.element);
             register_accum_value(accumulator, "orientation_quat");
             break;
+        case ST_GAMEPAD_BTNS:
+            if (sensor.gamepad_id == 0)
+                m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD0);
+            else if (sensor.gamepad_id == 1)
+                m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD1);
+            else if (sensor.gamepad_id == 2)
+                m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD2);
+            else
+                m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD3);
+            break;
+        case ST_GAMEPAD_AXES:
+            sensor.payload = [0, 0, 0, 0];
+            break;
         }
 
         sensor.do_activation = false;
@@ -1695,7 +1769,7 @@ function deactivate_sensor(sensor) {
         sensor.do_activation = true;
         break;
     case ST_HMD_QUAT:
-        // TODO: unregister HMD device
+    case ST_HMD_POSITION:
         sensor.do_activation = true;
         break;
     }

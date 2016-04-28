@@ -44,13 +44,20 @@ var DEVICE_HMD = 20;
 var DEVICE_MOUSE = 30;
 var DEVICE_KEYBOARD = 40;
 var DEVICE_TOUCH = 50;
+var DEVICE_GAMEPAD0 = 60;
+var DEVICE_GAMEPAD1 = 70;
+var DEVICE_GAMEPAD2 = 80;
+var DEVICE_GAMEPAD3 = 90;
 
 exports.DEVICE_GYRO = DEVICE_GYRO;
 exports.DEVICE_HMD = DEVICE_HMD;
 exports.DEVICE_MOUSE = DEVICE_MOUSE;
 exports.DEVICE_KEYBOARD = DEVICE_KEYBOARD;
 exports.DEVICE_TOUCH = DEVICE_TOUCH;
-
+exports.DEVICE_GAMEPAD0 = DEVICE_GAMEPAD0;
+exports.DEVICE_GAMEPAD1 = DEVICE_GAMEPAD1;
+exports.DEVICE_GAMEPAD2 = DEVICE_GAMEPAD2;
+exports.DEVICE_GAMEPAD3 = DEVICE_GAMEPAD3;
 
 var HMD_ORIENTATION_QUAT = 10;
 var HMD_POSITION = 20;
@@ -86,6 +93,24 @@ exports.TOUCH_MOVE = TOUCH_MOVE;
 exports.TOUCH_END = TOUCH_END;
 exports.GYRO_ORIENTATION_QUAT = GYRO_ORIENTATION_QUAT;
 exports.GYRO_ORIENTATION_ANGLES = GYRO_ORIENTATION_ANGLES;
+
+exports.DPAD_UP_GAMEPAD_BTN = 12;
+exports.DPAD_DOWN_GAMEPAD_BTN = 13;
+exports.DPAD_RIGHT_GAMEPAD_BTN = 15;
+exports.DPAD_LEFT_GAMEPAD_BTN = 14;
+exports.FACE_UP_GAMEPAD_BTN = 3;
+exports.FACE_DOWN_GAMEPAD_BTN = 0;
+exports.FACE_RIGHT_GAMEPAD_BTN = 1;
+exports.FACE_LEFT_GAMEPAD_BTN = 2;
+exports.R1_GAMEPAD_BTN = 5;
+exports.R2_GAMEPAD_BTN = 7;
+exports.L1_GAMEPAD_BTN = 4;
+exports.L2_GAMEPAD_BTN = 6;
+exports.SELECT_GAMEPAD_BTN = 8;
+exports.START_GAMEPAD_BTN = 9;
+exports.LEFT_ANALOG_GAMEPAD_BTN = 10;
+exports.RIGHT_ANALOG_GAMEPAD_BTN = 11;
+exports.MAIN_GAMEPAD_BTN = 16;
 
 var _quat_tmp = m_quat.create();
 var _quat_tmp2 = m_quat.create();
@@ -187,6 +212,12 @@ function init_device(type, element) {
         width_dist                 : 0.0,
         height_dist                : 0.0,
         bevel_dist                 : 0.0,
+
+        // gamepad properties
+        gamepad_btns               : [],
+        gamepad_axes               : [0, 0, 0, 0],
+        gamepad_config             : {}
+
     };
 
     // default value
@@ -218,9 +249,34 @@ function get_device_by_type_element(type, element) {
             return _devices[i];
 
     var device = init_device(type, element);
+
+    if (type == DEVICE_GAMEPAD0 || type == DEVICE_GAMEPAD1 ||
+            type == DEVICE_GAMEPAD2 || type == DEVICE_GAMEPAD3)
+        set_gamepad_btns_configs(device);
+
     if (device)
         _devices.push(device);
     return device;
+}
+
+function set_gamepad_btns_configs(device) {
+    device.gamepad_config[exports.DPAD_UP_GAMEPAD_BTN] = exports.DPAD_UP_GAMEPAD_BTN;
+    device.gamepad_config[exports.DPAD_DOWN_GAMEPAD_BTN] = exports.DPAD_DOWN_GAMEPAD_BTN;
+    device.gamepad_config[exports.DPAD_RIGHT_GAMEPAD_BTN] = exports.DPAD_RIGHT_GAMEPAD_BTN;
+    device.gamepad_config[exports.DPAD_LEFT_GAMEPAD_BTN] = exports.DPAD_LEFT_GAMEPAD_BTN;
+    device.gamepad_config[exports.FACE_UP_GAMEPAD_BTN] = exports.FACE_UP_GAMEPAD_BTN;
+    device.gamepad_config[exports.FACE_DOWN_GAMEPAD_BTN] = exports.FACE_DOWN_GAMEPAD_BTN;
+    device.gamepad_config[exports.FACE_RIGHT_GAMEPAD_BTN] = exports.FACE_RIGHT_GAMEPAD_BTN;
+    device.gamepad_config[exports.FACE_LEFT_GAMEPAD_BTN] = exports.FACE_LEFT_GAMEPAD_BTN;
+    device.gamepad_config[exports.R1_GAMEPAD_BTN] = exports.R1_GAMEPAD_BTN;
+    device.gamepad_config[exports.R2_GAMEPAD_BTN] = exports.R2_GAMEPAD_BTN;
+    device.gamepad_config[exports.L1_GAMEPAD_BTN] = exports.L1_GAMEPAD_BTN;
+    device.gamepad_config[exports.L2_GAMEPAD_BTN] = exports.L2_GAMEPAD_BTN;
+    device.gamepad_config[exports.SELECT_GAMEPAD_BTN] = exports.SELECT_GAMEPAD_BTN;
+    device.gamepad_config[exports.START_GAMEPAD_BTN] = exports.START_GAMEPAD_BTN;
+    device.gamepad_config[exports.LEFT_ANALOG_GAMEPAD_BTN] = exports.LEFT_ANALOG_GAMEPAD_BTN;
+    device.gamepad_config[exports.RIGHT_ANALOG_GAMEPAD_BTN] = exports.RIGHT_ANALOG_GAMEPAD_BTN;
+    device.gamepad_config[exports.MAIN_GAMEPAD_BTN] = exports.MAIN_GAMEPAD_BTN;
 }
 
 function get_devices_by_element(element) {
@@ -456,6 +512,57 @@ exports.get_value_param = function(device, param) {
     case HDM_EYE_DISTANCE:
         return get_eye_distance(device);
     }
+}
+
+exports.get_gamepad_btn_value = function(device, btn) {
+    if (btn < device.gamepad_btns.length)
+        return device.gamepad_btns[get_gamepad_btn_key(device, btn)];
+    else
+        return false;
+}
+
+exports.update = function() {
+    var gamepads = navigator.getGamepads ? navigator.getGamepads() :
+            (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+    for (var i = 0; i < _devices.length; i++) {
+        var device = _devices[i];
+        switch(device.type) {
+        case DEVICE_GAMEPAD0:
+            clear_gamepad_device(device);
+            update_gamepad_device(gamepads[0], device);
+            break;
+        case DEVICE_GAMEPAD1:
+            clear_gamepad_device(device);
+            update_gamepad_device(gamepads[1], device);
+            break;
+        case DEVICE_GAMEPAD2:
+            clear_gamepad_device(device);
+            update_gamepad_device(gamepads[2], device);
+            break;
+        case DEVICE_GAMEPAD3:
+            clear_gamepad_device(device);
+            update_gamepad_device(gamepads[3], device);
+            break;
+        }
+    }
+}
+
+function update_gamepad_device(gamepad, device) {
+    if (gamepad) {
+        for (var i = 0; i < gamepad["buttons"].length; i++)
+            device.gamepad_btns[i] = gamepad["buttons"][i]["pressed"];
+        if (gamepad["axes"] && gamepad["axes"].length >= 4)
+            m_vec4.copy(gamepad["axes"], device.gamepad_axes);
+    }
+}
+
+function clear_gamepad_device(device) {
+    for (var i = 0; i < device.gamepad_btns; i++)
+        device.gamepad_btns[i] = false;
+    device.gamepad_axes[0] = 0;
+    device.gamepad_axes[1] = 0;
+    device.gamepad_axes[2] = 0;
+    device.gamepad_axes[3] = 0;
 }
 
 exports.attach_param_cb = function(device, param, cb) {
@@ -729,7 +836,10 @@ function get_orientation_quat(device, dest) {
         if (device.webvr_sensor_devices) {
             for (var i = 0; i < device.webvr_sensor_devices.length; i++) {
                 var webvr_sensor_device = device.webvr_sensor_devices[i];
-                var webvr_state = webvr_sensor_device.getImmediateState();
+                var webvr_state = webvr_sensor_device.getState &&
+                        webvr_sensor_device.getState() ||
+                        webvr_sensor_device.getImmediateState &&
+                        webvr_sensor_device.getImmediateState();
                 if (webvr_state.orientation) {
                     dest[0] = webvr_state.orientation["x"];
                     dest[1] = webvr_state.orientation["y"];
@@ -756,7 +866,10 @@ function get_position(device, dest) {
         if (device.webvr_sensor_devices) {
             for (var i = 0; i < device.webvr_sensor_devices.length; i++) {
                 var webvr_sensor_device = device.webvr_sensor_devices[i];
-                var webvr_state = device.webvr_sensor_devices.getImmediateState();
+                var webvr_state = webvr_sensor_device.getState &&
+                        webvr_sensor_device.getState() ||
+                        webvr_sensor_device.getImmediateState &&
+                        webvr_sensor_device.getImmediateState();
 
                 if (webvr_state.position) {
                     dest[0] = webvr_state.position["x"];
@@ -1011,6 +1124,38 @@ exports.cleanup = function() {
     }
 
     _devices.length = 0;
+}
+
+exports.set_gamepad_btn_key = function(device, btn, key) {
+    device.gamepad_config[btn] = key;
+}
+
+exports.get_pressed_gmpd_btn = function(gamepad_id) {
+    switch(gamepad_id) {
+    case 0:
+        var type = DEVICE_GAMEPAD0;
+        break;
+    case 1:
+        var type = DEVICE_GAMEPAD1;
+        break;
+    case 2:
+        var type = DEVICE_GAMEPAD2;
+        break;
+    case 3:
+        var type = DEVICE_GAMEPAD3;
+        break;
+    default:
+        var type = DEVICE_GAMEPAD0;
+    }
+    var device = get_device_by_type_element(type);
+    for (var i = 0; i < device.gamepad_btns.length; i++)
+        if (device.gamepad_btns[i])
+            return i;
+    return -1;
+}
+
+function get_gamepad_btn_key(device, btn) {
+    return device.gamepad_config[btn];
 }
 
 }

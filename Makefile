@@ -6,7 +6,7 @@ SCRIPTSDIR = scripts
 TUTORIALS_DIR = deploy/tutorials
 
 # exec "VERPREFIX=_new_prefix make -e" to override
-VERPREFIX=
+VERPREFIX=_rc
 VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION`
 
 .PHONY: all
@@ -41,16 +41,17 @@ compile_apps:
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/capri compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/code_snippets compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/dairy_plant compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/debugger compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/fashion compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/firstperson compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/flight compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/new_year compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/petigors_tale compile -v $(VERSION)
+	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/space_disaster compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/victory_day_2015 compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/viewer compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/webplayer compile -v $(VERSION)
-	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/debugger compile -v $(VERSION)
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/website compile -v $(VERSION)
-	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/petigors_tale compile -v $(VERSION)
 
 .PHONY: build_tutorials
 build_tutorials:

@@ -4,15 +4,14 @@
 # Manual package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-28 15:00+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2016-04-25 17:26+0300\n"
+"PO-Revision-Date: 2016-04-12 15:24+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,31 +19,31 @@ msgstr ""
 
 #: ../meshes.rst:6
 msgid "Meshes"
-msgstr ""
+msgstr "网格"
 
 #: ../meshes.rst
 msgid "Table of Content"
-msgstr ""
+msgstr "目录"
 
 #: ../meshes.rst:15
 msgid "Static and Dynamic Objects"
-msgstr ""
+msgstr "静态和动态物体"
 
 #: ../meshes.rst:17
 msgid "All ``MESH`` objects can be divided into static and dynamic objects."
-msgstr ""
+msgstr "所有``MESH`` 物体可分为静态和动态物体。"
 
 #: ../meshes.rst:19
 msgid ""
 "**Static objects** are objects, the meshes of which can be merged "
 "together if they have the same material."
-msgstr ""
+msgstr "**静态物体** 是物体，具有相同的材质的网格可以合并在一起。"
 
 #: ../meshes.rst:21
 msgid ""
 "**Dynamic objects** are objects, the meshes of which cannot be combined "
 "with each other."
-msgstr ""
+msgstr "**动态物体** 是物体，网格不可以互相合并。"
 
 #: ../meshes.rst:23
 msgid ""
@@ -53,76 +52,82 @@ msgid ""
 " draw calls. The conversion is performed even if there is just one object"
 " in the scene. The center of the resulting mesh is located in the origin."
 msgstr ""
+"讲静态物体合并 - 所谓的批量处理 "
+"-会在场景在绘制调用优化的时候会自动的执行。该转换在只有一个物体在场景的时候也会进行。所产生的网格的中心位于原点。"
 
 #: ../meshes.rst:25
 msgid ""
 "The objects which have animation, physics or a parent, which is a dynamic"
 " object, are considered dynamic."
-msgstr ""
+msgstr "具有动画，物理或父级关系的物体，是一个动态物体，都被认为是动态的。"
 
 #: ../meshes.rst:27
 msgid ""
 "Object movement via API is possible only for dynamic objects. In order to"
 " make the movement of the object without dynamic settings possible, it is"
 " necessary to activate ``Force Dynamic Object`` option in its settings."
-msgstr ""
+msgstr "只有动态物体才能通过API来移动。为了使物体的无动态设置也可以运动，必须激活它的  ``Force Dynamic Object`` 选项。"
 
 #: ../meshes.rst:32
 msgid "Settings"
-msgstr ""
+msgstr "设置"
 
 #: ../meshes.rst:34
 msgid ""
 "Meshes have all settings of the :ref:`objects <object_settings>` and "
 "several additional settings."
-msgstr ""
+msgstr "网格含有 :ref:`物体 <object_settings>` 所有的设置和一些额外的设置。"
 
 #: ../meshes.rst:39
 msgid "Override Bounding Volumes"
-msgstr ""
+msgstr "覆盖包围体积"
 
 #: ../meshes.rst:41
 msgid ""
 "This section is used to override bounding volumes. Such volumes are used "
 "to check object’s visibility, to handle collisions and physics "
 "interaction. By editing them, you can achieve various effects."
-msgstr ""
+msgstr "这部分是用来覆盖包围盒。这样体积盒用于检查物体的可见性，来处理碰撞和物理交互。通过编辑它们，可以实现各种效果。"
 
 #: ../meshes.rst:47
 msgid ""
 "The ``Override Bounding Volumes`` section can be found on the "
 "``Blend4Web`` panel (beside the :ref:`normals editor <normals_editor>`.)."
 msgstr ""
+"该 ``覆盖包围体积`` 部分可以在 ``Blend4Web`` 面板上找到（在 :ref:`法线编辑器 <normals_editor>` "
+"旁边）。"
 
 #: ../meshes.rst:49
 msgid "*Show Boundings*"
-msgstr ""
+msgstr "*显示包围*"
 
 #: ../meshes.rst:56
 msgid ""
 "Show the bounding volumes in the Blender viewport. This option works only"
 " if the ``Override Mesh Boundings`` parameter is enabled. The volume can "
 "be rendered as a rectangular cuboid or as a combination of circles or "
-"ellises. More then one method of rendering can be active at the same time"
-" (even all three methods can be enabled simultaneously)."
+"ellipses. More than one method of rendering can be active at the same "
+"time (even all three methods can be enabled simultaneously)."
 msgstr ""
+"显示在Blender视口中的包围盒。只有当 ``覆盖网格包围`` "
+"参数开启，启用该选项。包围盒可以呈现为长方体或为圆形或椭圆的组合。多个渲染方式可以在同一时间是启用（甚至所有三种方法可以同时启用）。"
 
 #: ../meshes.rst:59
 msgid ""
 "The selected rendering method does not affect the bounding volume shape, "
 "only the way it is represented in the viewport."
-msgstr ""
+msgstr "所选渲染方法不会影响包围盒的形状，只是影响它在视口中展示的方式。"
 
 #: ../meshes.rst:63
 msgid "*Override Mesh Boundings*"
-msgstr ""
+msgstr "*覆盖网格包围*"
 
 #: ../meshes.rst:70
 msgid ""
 "This button enables the override of the basic mesh boundings. The "
 "bounding volume always has the shape of a rectangular cuboid with a "
 "center in the object’s pivot point."
-msgstr ""
+msgstr "此按钮可以使基本网格包围覆盖。包围盒总是一个长方体并以物体的枢轴点为中心。"
 
 #: ../meshes.rst:73
 msgid "*MinX and  MaxX*"
@@ -130,7 +135,7 @@ msgstr ""
 
 #: ../meshes.rst:73
 msgid "The volume’s X dimensions. By default, *MinX* = -1, *MaxX* = 1"
-msgstr ""
+msgstr "包围盒的X尺寸。默认情况下， *MinX* = -1, *MaxX* = 1"
 
 #: ../meshes.rst:76
 msgid "*MinY and  MaxY*"
@@ -138,7 +143,7 @@ msgstr ""
 
 #: ../meshes.rst:76
 msgid "The volume’s Y dimensions. By default, *MinY* = -1, *MaxY* = 1."
-msgstr ""
+msgstr "包围盒的Y尺寸。缺省情况下，*MinY* = -1, *MaxY* = 1."
 
 #: ../meshes.rst:79
 msgid "*MinZ and  MaxZ*"
@@ -146,52 +151,54 @@ msgstr ""
 
 #: ../meshes.rst:79
 msgid "The volume’s Z dimensions. By default, *MinZ* = -1, *MaxZ* = 1"
-msgstr ""
+msgstr "包围盒的z方向。缺省情况下，*MinZ* = -1, *MaxZ* = 1"
 
 #: ../meshes.rst:84
 msgid "Copying Objects (Instancing)"
-msgstr ""
+msgstr "复制物体（实例化）"
 
 #: ../meshes.rst:86
 msgid ""
 "It is often required to copy (to make instances of) objects during "
 "application work."
-msgstr ""
+msgstr "在应用程序工作中经常需要复制（使实例）物体。"
 
 #: ../meshes.rst:91
 msgid "Copying objects has its limitations:"
-msgstr ""
+msgstr "复制物体有其局限性："
 
 #: ../meshes.rst:89
 msgid "only ``MESH`` objects can be copied"
-msgstr ""
+msgstr "只有 ``MESH`` 物体可以被复制"
 
 #: ../meshes.rst:90
 msgid ""
 "the object should be :ref:`dynamic <static_dynamic_objects>` (enable "
 "``Rendering Properties > Force Dynamic Object``)"
-msgstr ""
+msgstr "物体应该是 :ref:`动态 <static_dynamic_objects>` （启用 ``渲染属性>强制动态物体``）"
 
 #: ../meshes.rst:91
 msgid "the source object should belong to the active scene"
-msgstr ""
+msgstr "源物体应该属于主控场景"
 
 #: ../meshes.rst:94
 msgid "Making a Simple Copy"
-msgstr ""
+msgstr "制作一个简单的复制"
 
 #: ../meshes.rst:96
 msgid ""
 "In case of simple copying the new object will share the mesh with the "
-"original object. Thus, if the the original object’s mesh is changed, the "
+"original object. Thus, if the original object’s mesh is changed, the "
 "copied object’s mesh will be changed too. To make simple copying "
 "possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object``"
 " setting in the source object’s properties."
 msgstr ""
+"在简单复制的情况下，新的物体将与原始物体共享网格。因此，如果原始物体的网格被改变，则复制的物体的网格也将被改变。为了让简单复制可行，只需要打开源物体属性设置的"
+" ``Blend4Web>强制动态物体``。"
 
 #: ../meshes.rst:99
 msgid "Making a Deep Copy"
-msgstr ""
+msgstr "制作深复制"
 
 #: ../meshes.rst:101
 msgid ""
@@ -203,26 +210,30 @@ msgid ""
 "possible, it is required to enable the :ref:`Rendering Properties > "
 "Dynamic Geometry <dynamic_geom>` checkbox for the source object. |"
 msgstr ""
+"在深度复制的情况下，新物体将具有自己的属性，即它会有自己的网格。因此，就算原始物体的网格被改变，复制的物体的网格也不被改变。同样，与简单复制的情况不一样的是深度复制物体的画布纹理是和原始物体的纹理不是一个。为了使用深度复制，启用源物体的"
+"  :ref:`选人属性 > 动态几何体 <dynamic_geom>` 复选框。 |"
 
 #: ../meshes.rst:104
 msgid ""
 "Copying objects in runtime can be performed with the ``copy`` method of "
 "the ``objects.js`` module. This method requires three arguments: the id "
 "of the source object, a unique name for the new object and the boolean "
-"value to specify the copy mode (i.e. simple or deep). By default simple "
+"value to specify the copy mode (i.e. simple or deep). By default, simple "
 "copying will be performed."
 msgstr ""
+"在运行状态复制物体可以使用 ``objects.js`` 模块的 ``copy`` "
+"方法。此方法需要三个参数：源物体的id，新物体一个唯一的名称和指定复印模式（即简单或深）的布尔值。默认简单复制将被执行。"
 
 #: ../meshes.rst:106
 msgid ""
 "The newly created object should be added to the scene. This can be "
 "performed with the ``append_object`` method of the ``scenes.js`` module. "
 "The new object should be passed to it as an argument."
-msgstr ""
+msgstr "新创建的物体需要添加到场景。可以用 ``scenes.js`` 模块的 ``append_object`` 方法。新物体应该被作为参数传递给它。"
 
 #: ../meshes.rst:118
 msgid "Removing Objects"
-msgstr ""
+msgstr "删除物体"
 
 #: ../meshes.rst:119
 msgid ""
@@ -230,23 +241,25 @@ msgid ""
 "module. Pass the object to it as an argument. Dynamic mesh- and empty-"
 "type objects can be removed this way."
 msgstr ""
+"要删除物体，请使用 ``scenes.js`` 模块的 ``remove_object`` "
+"方法。传递物体作为参数。动态网格和空类型的物体可以用这种方式删除。"
 
 #: ../meshes.rst:131
 msgid "Object Selection"
-msgstr ""
+msgstr "物体选择"
 
 #: ../meshes.rst:133
 msgid ""
 "In order to enable selection of a certain object, it is required to "
 "enable the ``Selectable`` checkbox on the ``Selection and Outlining`` "
 "panel."
-msgstr ""
+msgstr "为了使一个特定的物体的选择启用，需要开启 ``选择与轮廓线`` 面板上的 ``可选择`` 复选框。"
 
 #: ../meshes.rst:136
 msgid ""
 "Make sure that the status on the ``Scene > Object Outlining`` panel is "
 "set to ``ON`` or ``AUTO``."
-msgstr ""
+msgstr "确保 ``场景状态>物体轮廓`` 面板被设置为 ``ON`` 或 ``AUTO`` 。"
 
 #: ../meshes.rst:138
 msgid ""
@@ -254,10 +267,12 @@ msgid ""
 "the ``scenes.js`` module there is the ``pick_object`` function which "
 "selects an object based on canvas 2D coordinates,"
 msgstr ""
+"物体选择也可以通过API编程方式实现，例如，在 ``scenes.js`` 模块有基于二维画布坐标进行选择物体的 ``pick_object`` "
+"函数，"
 
 #: ../meshes.rst:149
 msgid "or using the :ref:`NLA Script <nla_select_play>`."
-msgstr ""
+msgstr "或使用 :ref:`NLA 脚本 <nla_select_play>`."
 
 #: ../meshes.rst:151
 msgid ""
@@ -266,29 +281,46 @@ msgid ""
 " then the ``pick_object`` function call will activate :ref:`outline glow "
 "animation <outline>`."
 msgstr ""
+"如果选择的物体已启用了 ``启用外轮廓`` 和 ``物体 > 选择`` 和 大纲面板上的 ``轮廓选择`` 复选框，那么 "
+"``pick_object`` 函数调用将激活 :ref:`外轮廓辉光动画 <outline>`."
 
-#: ../meshes.rst:157
-msgid "Morphing"
+#: ../meshes.rst:154
+msgid ""
+"If the selected object is transparent (``Blend``, ``Add`` and ``Sort`` "
+"transparency types), outline glow will only be visible on the parts that "
+"have ``Alpha`` value higher than 0.5."
 msgstr ""
 
 #: ../meshes.rst:159
+msgid "Morphing"
+msgstr "变形"
+
+#: ../meshes.rst:161
 msgid ""
 "Morph targets can be added using Blender’s standard ``Mesh > Shape keys``"
 " interface."
-msgstr ""
-
-#: ../meshes.rst:166
-msgid "The engine supports all shape key options under the “Relative” type."
-msgstr ""
+msgstr "变形目标可以用Blender的标准 ``网格 > 形变键`` 界面进行添加。"
 
 #: ../meshes.rst:168
+msgid "The engine supports all shape key options under the “Relative” type."
+msgstr "该引擎支持所有 “相对” 类型下的形变键选项。"
+
+#: ../meshes.rst:170
 msgid ""
 "To set a shape key value, use the ``apply_shape_key`` method of the "
 "``geometry.js`` module."
-msgstr ""
+msgstr "要设置一个形变键值，使用 ``geometry.js`` 模块的 ``apply_shape_key`` 方法。"
 
-#: ../meshes.rst:172
+#: ../meshes.rst:174
 msgid "The object must have ``Export Shape Keys`` parameter enabled."
-msgstr ""
+msgstr "该物体必须具有 ``导出形变键`` 参数启用。"
 
+#~ msgid "*MinX и MaxX*"
+#~ msgstr "*MinX и MaxX*"
+
+#~ msgid "*MinY и MaxY*"
+#~ msgstr "*MinY и MaxY*"
+
+#~ msgid "*MinZ и MaxZ*"
+#~ msgstr "*MinZ и MaxZ*"
 

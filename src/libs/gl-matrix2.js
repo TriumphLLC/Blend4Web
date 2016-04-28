@@ -50,6 +50,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
+
 /**
  * @module 3 Dimensional Vector
  * @name vec3
@@ -475,6 +476,60 @@ vec3.lerp = function (a, b, t, out) {
 };
 
 /**
+ * Performs a hermite interpolation with two control points
+ *
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
+ * @param {Vec3} c the third operand
+ * @param {Vec3} d the fourth operand
+ * @param {Number} t interpolation amount between the two inputs
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
+ * @method module:vec3.hermite
+ */
+vec3.hermite = function (a, b, c, d, t, out) {
+  var factorTimes2 = t * t,
+      factor1 = factorTimes2 * (2 * t - 3) + 1,
+      factor2 = factorTimes2 * (t - 2) + t,
+      factor3 = factorTimes2 * (t - 1),
+      factor4 = factorTimes2 * (3 - 2 * t);
+  
+  out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
+  out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
+  out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
+  
+  return out;
+};
+
+/**
+ * Performs a bezier interpolation with two control points
+ *
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
+ * @param {Vec3} c the third operand
+ * @param {Vec3} d the fourth operand
+ * @param {Number} t interpolation amount between the two inputs
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
+ * @method module:vec3.bezier
+ */
+vec3.bezier = function (a, b, c, d, t, out) {
+  var inverseFactor = 1 - t,
+      inverseFactorTimesTwo = inverseFactor * inverseFactor,
+      factorTimes2 = t * t,
+      factor1 = inverseFactorTimesTwo * inverseFactor,
+      factor2 = 3 * t * inverseFactorTimesTwo,
+      factor3 = 3 * factorTimes2 * inverseFactor,
+      factor4 = factorTimes2 * t;
+  
+  out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
+  out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
+  out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
+  
+  return out;
+};
+
+/**
  * Generates a random vector with the given scale
  *
  * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
@@ -724,9 +779,6 @@ vec3.str = function (a) {
     return 'vec3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ')';
 };
 
-if(typeof(exports) !== 'undefined') {
-    exports.vec3 = vec3;
-}
 }
 
 b4w.module["vec3"] = b4w.module["__vec3"];
@@ -758,6 +810,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
+
 
 /**
  * @module 4 Dimensional Vector
@@ -1146,10 +1199,10 @@ vec4.normalize = function(a, out) {
     var len = x*x + y*y + z*z + w*w;
     if (len > 0) {
         len = 1 / Math.sqrt(len);
-        out[0] = a[0] * len;
-        out[1] = a[1] * len;
-        out[2] = a[2] * len;
-        out[3] = a[3] * len;
+        out[0] = x * len;
+        out[1] = y * len;
+        out[2] = z * len;
+        out[3] = w * len;
     }
     return out;
 };
@@ -1307,9 +1360,6 @@ vec4.str = function (a) {
     return 'vec4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
 };
 
-if(typeof(exports) !== 'undefined') {
-    exports.vec4 = vec4;
-}
 }
 
 b4w.module["vec4"] = b4w.module["__vec4"];
@@ -1344,6 +1394,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
+
 
 /**
  * @module Quaternion
@@ -1736,6 +1787,31 @@ quat.slerp = function (a, b, t, out) {
 };
 
 /**
+ * Performs a spherical linear interpolation with two control points
+ *
+ * @param {Quat} a the first operand
+ * @param {Quat} b the second operand
+ * @param {Quat} c the third operand
+ * @param {Quat} d the fourth operand
+ * @param {Number} t interpolation amount
+ * @returns {Quat} out
+ * @param {Quat} out the receiving quaternion
+ * @method module:quat.sqlerp
+ */
+quat.sqlerp = (function () {
+  var temp1 = quat.create();
+  var temp2 = quat.create();
+  
+  return function (a, b, c, d, t, out) {
+    quat.slerp(a, d, t, temp1); /* NOTE: CUSTOM REORDER: */
+    quat.slerp(b, c, t, temp2); /* NOTE: CUSTOM REORDER: */
+    quat.slerp(temp1, temp2, 2 * t * (1 - t), out); /* NOTE: CUSTOM REORDER:*/
+    
+    return out;
+  };
+}());
+
+/**
  * Calculates the inverse of a quat
  *
  * @param {Quat} a quat to calculate inverse of
@@ -1877,9 +1953,6 @@ quat.str = function (a) {
     return 'quat(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
 };
 
-if(typeof(exports) !== 'undefined') {
-    exports.quat = quat;
-}
 }
 
 b4w.module["quat"] = b4w.module["__quat"];
@@ -1911,6 +1984,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
+
 
 /**
  * @module 3x3 Matrix
@@ -2476,9 +2550,6 @@ mat3.frob = function (a) {
 };
 
 
-if(typeof(exports) !== 'undefined') {
-    exports.mat3 = mat3;
-}
 }
 
 b4w.module["mat3"] = b4w.module["__mat3"];
@@ -2510,6 +2581,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
+
 
 /**
  * @module 4x4 Matrix
@@ -3382,6 +3454,130 @@ mat4.fromRotationTranslation = function (q, v, out) {
     return out;
 };
 
+/**
+ * Creates a matrix from a quaternion rotation, vector translation and vector scale
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.translate(dest, vec);
+ *     var quatMat = mat4.create();
+ *     quat4.toMat4(quat, quatMat);
+ *     mat4.multiply(dest, quatMat);
+ *     mat4.scale(dest, scale)
+ *
+ * @param {quat4} q Rotation quaternion
+ * @param {Vec3} v Translation vector
+ * @param {Vec3} s Scaling vector
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 receiving operation result
+ * @method module:mat4.fromRotationTranslationScale
+ */
+mat4.fromRotationTranslationScale = function (q, v, s, out) {
+    // Quaternion math
+    var x = q[0], y = q[1], z = q[2], w = q[3],
+        x2 = x + x,
+        y2 = y + y,
+        z2 = z + z,
+
+        xx = x * x2,
+        xy = x * y2,
+        xz = x * z2,
+        yy = y * y2,
+        yz = y * z2,
+        zz = z * z2,
+        wx = w * x2,
+        wy = w * y2,
+        wz = w * z2,
+        sx = s[0],
+        sy = s[1],
+        sz = s[2];
+
+    out[0] = (1 - (yy + zz)) * sx;
+    out[1] = (xy + wz) * sx;
+    out[2] = (xz - wy) * sx;
+    out[3] = 0;
+    out[4] = (xy - wz) * sy;
+    out[5] = (1 - (xx + zz)) * sy;
+    out[6] = (yz + wx) * sy;
+    out[7] = 0;
+    out[8] = (xz + wy) * sz;
+    out[9] = (yz - wx) * sz;
+    out[10] = (1 - (xx + yy)) * sz;
+    out[11] = 0;
+    out[12] = v[0];
+    out[13] = v[1];
+    out[14] = v[2];
+    out[15] = 1;
+    
+    return out;
+};
+
+/**
+ * Creates a matrix from a quaternion rotation, vector translation and vector scale, rotating and scaling around the given origin
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.translate(dest, vec);
+ *     mat4.translate(dest, origin);
+ *     var quatMat = mat4.create();
+ *     quat4.toMat4(quat, quatMat);
+ *     mat4.multiply(dest, quatMat);
+ *     mat4.scale(dest, scale)
+ *     mat4.translate(dest, negativeOrigin);
+ *
+ * @param {quat4} q Rotation quaternion
+ * @param {Vec3} v Translation vector
+ * @param {Vec3} s Scaling vector
+ * @param {Vec3} o The origin vector around which to scale and rotate
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 receiving operation result
+ * @method module:mat4.fromRotationTranslationScaleOrigin
+ */
+mat4.fromRotationTranslationScaleOrigin = function (q, v, s, o, out) {
+  // Quaternion math
+  var x = q[0], y = q[1], z = q[2], w = q[3],
+      x2 = x + x,
+      y2 = y + y,
+      z2 = z + z,
+
+      xx = x * x2,
+      xy = x * y2,
+      xz = x * z2,
+      yy = y * y2,
+      yz = y * z2,
+      zz = z * z2,
+      wx = w * x2,
+      wy = w * y2,
+      wz = w * z2,
+      
+      sx = s[0],
+      sy = s[1],
+      sz = s[2],
+
+      ox = o[0],
+      oy = o[1],
+      oz = o[2];
+      
+  out[0] = (1 - (yy + zz)) * sx;
+  out[1] = (xy + wz) * sx;
+  out[2] = (xz - wy) * sx;
+  out[3] = 0;
+  out[4] = (xy - wz) * sy;
+  out[5] = (1 - (xx + zz)) * sy;
+  out[6] = (yz + wx) * sy;
+  out[7] = 0;
+  out[8] = (xz + wy) * sz;
+  out[9] = (yz - wx) * sz;
+  out[10] = (1 - (xx + yy)) * sz;
+  out[11] = 0;
+  out[12] = v[0] + ox - (out[0] * ox + out[4] * oy + out[8] * oz);
+  out[13] = v[1] + oy - (out[1] * ox + out[5] * oy + out[9] * oz);
+  out[14] = v[2] + oz - (out[2] * ox + out[6] * oy + out[10] * oz);
+  out[15] = 1;
+        
+  return out;
+};
+
 mat4.fromQuat = function (q, out) {
     var x = q[0], y = q[1], z = q[2], w = q[3],
         x2 = x + x,
@@ -3679,9 +3875,6 @@ mat4.frob = function (a) {
 };
 
 
-if(typeof(exports) !== 'undefined') {
-    exports.mat4 = mat4;
-}
 }
 
 b4w.module["mat4"] = b4w.module["__mat4"];

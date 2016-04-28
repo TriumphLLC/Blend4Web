@@ -10,33 +10,33 @@ Table of Contents
 
   * Usage
 
-    * Necessary steps
+    * Necessary Steps
 
-    * Recommended additional settings
+    * Recommended Additional Settings
 
   * Setup
 
-    * Basic settings
+    * Basic Settings
 
-    * Emission settings
+    * Emission Settings
 
-    * Direction settings
+    * Direction Settings
 
-    * Rotation settings
+    * Rotation Settings
 
-    * Physics settings
+    * Physics Settings
 
-    * Rendering settings
+    * Rendering Settings
 
-    * Supported settings for force fields influence
+    * Supported Settings for Force Field Influence
 
-    * Engine specific settings
+    * Engine Specific Settings
 
   * Textures in Particle Systems
 
-    * Textures of the particle's material
+    * Textures of the Particle's Material
 
-    * Textures of particle systems
+    * Textures of Particle Systems
 
 The particle system is intended to visualize phenomena which are
 caused by the movement of numerous small objects such as smoke, fire,
@@ -54,7 +54,7 @@ Usage
 =====
 
 
-Necessary steps
+Necessary Steps
 ---------------
 
 1. Add a mesh emitter to the scene.
@@ -75,7 +75,7 @@ Necessary steps
         Default Animation" option for the emitter.
 
 
-Recommended additional settings
+Recommended Additional Settings
 -------------------------------
 
 1. Set the "Add" transparency type for the particles' material.
@@ -105,7 +105,7 @@ tab. Multiple particle systems per emitter are supported.
 [图片]
 
 
-Basic settings
+Basic Settings
 --------------
 
 *Name*
@@ -126,8 +126,10 @@ Basic settings
    system generation. The default value is 0.
 
 
-Emission settings
+Emission Settings
 -----------------
+
+[图片]
 
 *Emission > Number*
    Number of particles. The default value is 1000.
@@ -141,11 +143,11 @@ Emission settings
    default value is 200.0.
 
 *Emission > Lifetime*
-   The life time of particles measured in frames. The default value is
+   The lifetime of particles measured in frames. The default value is
    50.0.
 
 *Emission > Lifetime > Random*
-   The random factor for the life time. The default value is 0.0.
+   The random factor for the lifetime. The default value is 0.0.
 
 *Emission > Emit From*
    Emission source type. The following types are supported: "Verts"
@@ -167,10 +169,8 @@ Emission settings
    Ignored by the engine. Internally the engine always uses "Random"
    distribution. The default is "Jittered".
 
-[图片]
 
-
-Direction settings
+Direction Settings
 ------------------
 
 *Velocity > Emitter Geometry > Normal*
@@ -182,7 +182,7 @@ Direction settings
    is 0.0.
 
 
-Rotation settings
+Rotation Settings
 -----------------
 
 *Rotation > Angular Velocity > Mode*
@@ -195,8 +195,10 @@ Rotation settings
    value is 0.0.
 
 
-Physics settings
+Physics Settings
 ----------------
+
+[图片]
 
 *Physics > Type*
    Physics calculation type: "No", "Newtonian", "Keyed", "Boids",
@@ -213,11 +215,11 @@ Physics settings
 *Physics > Forces > Brownian*
    Exported but not used by the engine.
 
-[图片]
 
-
-Rendering settings
+Rendering Settings
 ------------------
+
+[图片]
 
 *Render > Material*
    Menu for selecting the particle's material. Used for referencing to
@@ -240,6 +242,19 @@ Rendering settings
    plane", "YZ plane", "ZX plane" - align to the corresponding plane
    (in the world coordinate system of Blender). The default is "View".
 
+*Render > Tilt*
+   This group of parameters controls the initial tilt of the billboard
+   planes. It consists of two parameters:
+
+   *Angle*
+      Rotation angle of the billboard planes. Its value can vary from
+      -1 to 1. The value of 1 rotates by 180 degrees (i.e. turns the
+      billboard upside down). Set to zero by default.
+
+   *Random*
+      Random variation of tilt. Its value can change from zero to 1
+      and is set to zero by default.
+
 Render > Dissolve intervals > Fade-in* and *Fade-out*
    Starting and ending intervals (measured in frames) for gradually
    increasing and decreasing the particles' transparency.
@@ -255,8 +270,8 @@ Render > Dissolve intervals > Fade-in* and *Fade-out*
    to tweak this effect.
 
 
-Supported settings for force fields influence
----------------------------------------------
+Supported Settings for Force Field Influence
+--------------------------------------------
 
 *Field Weights > Gravity*
    Gravity influence factor (Earth's attraction). The default value is
@@ -269,7 +284,7 @@ Supported settings for force fields influence
    value is 1.0.
 
 
-Engine specific settings
+Engine Specific Settings
 ------------------------
 
 *Export Options > Do not export*
@@ -281,11 +296,11 @@ Textures in Particle Systems
 
 Particle systems support both standard and node materials. Supported
 material types are "Surface" and "Halo". All additional settings of
-the "Halo" type materilas, such as "Rings", "Lines" and "Star Tips",
+the "Halo" type materials, such as "Rings", "Lines" and "Star Tips",
 are also supported.
 
 
-Textures of the particle's material
+Textures of the Particle's Material
 -----------------------------------
 
 For the "Surface" particle's materials it is **required** to have a
@@ -301,10 +316,10 @@ required to enable "Ramp" on a texture.
 [图片]
 
 
-Textures of particle systems
+Textures of Particle Systems
 ----------------------------
 
-Textures can also be used for setting up the behaviour of particle
+Textures can also be used for setting up the behavior of particle
 systems. Unlike textures for particle materials such textures belong
 to the particle system datablock, not to the material datablock. To
 create a texture for the particle system it is required to go **from**

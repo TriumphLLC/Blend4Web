@@ -4,6 +4,7 @@ apps_dev/flight
 apps_dev/new_year
 apps_dev/petigors_tale
 apps_dev/project.py
+apps_dev/space_disaster
 apps_dev/victory_day_2015
 apps_dev/viewer
 apps_dev/website
@@ -30,6 +31,7 @@ blender/particles
 blender/petigors_tale
 blender/physics
 blender/postprocessing
+blender/space_disaster
 blender/victory_day_2015
 blender/website
 
@@ -43,6 +45,7 @@ deploy/apps/common
 deploy/apps/flight
 deploy/apps/new_year
 deploy/apps/petigors_tale
+deploy/apps/space_disaster
 deploy/apps/victory_day_2015
 deploy/apps/viewer
 deploy/apps/webplayer
@@ -73,6 +76,7 @@ deploy/assets/particles
 deploy/assets/petigors_tale
 deploy/assets/physics
 deploy/assets/postprocessing
+deploy/assets/space_disaster
 deploy/assets/tutorials
 deploy/assets/victory_day_2015
 deploy/assets/website

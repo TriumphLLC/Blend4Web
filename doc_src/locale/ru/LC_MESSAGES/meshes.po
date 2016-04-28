@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. Руководство пользователя v16.01\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-28 14:19+0300\n"
+"POT-Creation-Date: 2016-04-06 16:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,8 +125,8 @@ msgid ""
 "Show the bounding volumes in the Blender viewport. This option works only"
 " if the ``Override Mesh Boundings`` parameter is enabled. The volume can "
 "be rendered as a rectangular cuboid or as a combination of circles or "
-"ellises. More then one method of rendering can be active at the same time"
-" (even all three methods can be enabled simultaneously)."
+"ellipses. More than one method of rendering can be active at the same "
+"time (even all three methods can be enabled simultaneously)."
 msgstr ""
 "Отобразить ограничивающий объём во вьюпорте Blender.  Работает только "
 "если активирована опция ``Override Mesh Boundings``. Объём может быть "
@@ -225,7 +225,7 @@ msgstr "Простое копирование"
 #: ../meshes.rst:96
 msgid ""
 "In case of simple copying the new object will share the mesh with the "
-"original object. Thus, if the the original object’s mesh is changed, the "
+"original object. Thus, if the original object’s mesh is changed, the "
 "copied object’s mesh will be changed too. To make simple copying "
 "possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object``"
 " setting in the source object’s properties."
@@ -262,7 +262,7 @@ msgid ""
 "Copying objects in runtime can be performed with the ``copy`` method of "
 "the ``objects.js`` module. This method requires three arguments: the id "
 "of the source object, a unique name for the new object and the boolean "
-"value to specify the copy mode (i.e. simple or deep). By default simple "
+"value to specify the copy mode (i.e. simple or deep). By default, simple "
 "copying will be performed."
 msgstr ""
 "Для копирования объектов в модуле ``objects.js`` предусмотрена функция "
@@ -342,11 +342,21 @@ msgstr ""
 "Select``, то вызов функции ``pick_object`` приведет к активации "
 ":ref:`Outline-анимации <outline>`."
 
-#: ../meshes.rst:157
+#: ../meshes.rst:154
+msgid ""
+"If the selected object is transparent (``Blend``, ``Add`` and ``Sort`` "
+"transparency types), outline glow will only be visible on the parts that "
+"have ``Alpha`` value higher than 0.5."
+msgstr ""
+"Если выделяемый объект полупрозрачен (имеет тип прозрачности ``Blend`` "
+"``Add`` или ``Sort``), outline-анимация будет видна только на тех частях "
+"объекта, для которых значение прозрачности ``Alpha`` выше 0.5."
+
+#: ../meshes.rst:159
 msgid "Morphing"
 msgstr "Морфинг"
 
-#: ../meshes.rst:159
+#: ../meshes.rst:161
 msgid ""
 "Morph targets can be added using Blender’s standard ``Mesh > Shape keys``"
 " interface."
@@ -354,11 +364,11 @@ msgstr ""
 "Для создания ключей деформации (опорных фигур) перейдите во вкладку "
 "``Mesh > Shape keys``."
 
-#: ../meshes.rst:166
+#: ../meshes.rst:168
 msgid "The engine supports all shape key options under the “Relative” type."
 msgstr "Движком поддерживаются все опции типа \"Relative\" для ключей деформации."
 
-#: ../meshes.rst:168
+#: ../meshes.rst:170
 msgid ""
 "To set a shape key value, use the ``apply_shape_key`` method of the "
 "``geometry.js`` module."
@@ -366,7 +376,7 @@ msgstr ""
 "Для изменения значения ключа деформации, существует функция "
 "``apply_shape_key`` в модуле ``geometry.js``."
 
-#: ../meshes.rst:172
+#: ../meshes.rst:174
 msgid "The object must have ``Export Shape Keys`` parameter enabled."
 msgstr "На объекте должно стоять свойство *Export Shape Keys*."
 

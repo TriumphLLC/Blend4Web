@@ -10,7 +10,7 @@ Table of Contents
     :maxdepth: 2
 
     about.rst
-    features.rst
+    engine_features.rst
     setup.rst
     workflow.rst
     project_manager.rst

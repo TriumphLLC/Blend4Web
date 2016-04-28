@@ -148,8 +148,6 @@ exports.defaults = {
 
     disable_doppler_hack       : false,
 
-    cors_chrome_hack           : false,
-
     init_wa_context_hack       : false,
 
     clear_procedural_sky_hack  : false,
@@ -202,7 +200,11 @@ exports.defaults = {
 
     mac_os_shadow_hack         : false,
 
-    allow_shaders_debug_ext    : false
+    allow_shaders_debug_ext    : false,
+
+    gl_debug                   : false,
+
+    gamepad_setting_cont       : ""
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -605,6 +607,9 @@ function set(prop, value) {
     case "gyro_use":
         exports.defaults.gyro_use = value;
         break;
+    case "gamepad_setting_cont":
+        exports.defaults.gamepad_setting_cont = value;
+        break;
     case "stereo":
         exports.defaults.stereo = value;
         break;
@@ -625,6 +630,9 @@ function set(prop, value) {
         break;
     case "precision":
         exports.defaults.precision = value;
+        break;
+    case "prevent_caching":
+        exports.assets.prevent_caching = value;
         break;
     case "quality":
         exports.defaults.quality = value;
@@ -664,6 +672,9 @@ function set(prop, value) {
         break;
     case "url_params":
         exports.defaults.url_params = value;
+        break;
+    case "gl_debug":
+        exports.defaults.gl_debug = value;
         break;
     default:
         m_print.error("Unknown config property: " + prop);
@@ -707,6 +718,8 @@ exports.get = function(prop) {
         return exports.defaults.do_not_load_resources;
     case "gyro_use":
         return exports.defaults.gyro_use;
+    case "gamepad_setting_cont":
+        return exports.defaults.gamepad_setting_cont;
     case "is_mobile_device":
         return exports.defaults.is_mobile_device;
     case "stereo":
@@ -723,6 +736,8 @@ exports.get = function(prop) {
         return exports.physics.use_workers;
     case "precision":
         return exports.defaults.precision;
+    case "prevent_caching":
+        return exports.assets.prevent_caching;
     case "quality":
         return exports.defaults.quality;
     case "sfx_mix_mode":
@@ -749,6 +764,8 @@ exports.get = function(prop) {
         return exports.defaults.glow_materials;
     case "url_params":
         return exports.defaults.url_params;
+    case "gl_debug":
+        return exports.defaults.gl_debug;
     default:
         m_print.error("Unknown config property: " + prop);
         break;

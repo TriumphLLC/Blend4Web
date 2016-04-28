@@ -1,371 +1,298 @@
 
-Postprocessing Effects
-**********************
+后期处理效果
+************
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Postprocessing Effects
+* 后期处理效果
 
-  * Motion Blur
+  * 运动模糊
 
-    * Activation
+  * 景深
 
-    * Additional settings
+  * 屏幕空间环境光遮蔽
 
-  * Depth of Field
+  * 上帝光芒
 
-    * Activation
+  * 泛光效果
 
-    * Additional settings
+  * 物体外轮廓
 
-  * Screen-Space Ambient Occlusion
+  * 晕光
 
-    * Activation
+  * 抗锯齿
 
-    * Additional settings
 
-  * God Rays
-
-    * Activation
-
-    * Additional settings
-
-  * Bloom
-
-    * Activation
-
-    * Additional settings
-
-  * Outlining
-
-    * Activation
-
-    * Additional settings
-
-  * Glow
-
-    * Activation
-
-    * Additional settings
-
-  * Anti-Aliasing
-
-    * Activation
-
-    * Additional settings
-
-
-Motion Blur
-===========
-
-The motion blur effect can be used to improve the realism of an
-interactive scene. It is displayed as picture blurring when the camera
-or objects move.
-
-[图片]
-
-
-Activation
-----------
-
-Activate the "Motion Blur" panel on the "Render" tab.
-
-
-Additional settings
--------------------
-
-*Factor*
-   Effect appearance ratio. The higher this value is the stronger is
-   the motion blur.
-
-*Decay Threshold*
-   Blur fade-out ratio. The higher this value is the more distinct is
-   the effect. The default value is 0.01.
-
-
-Depth of Field
-==============
-
-The depth of field effect (DOF) can be used to accentuate a part of a
-scene. It is displayed as picture blurring nearer and further from the
-camera focus.
-
-[图片]
-
-
-Activation
-----------
-
-1. Select an active camera and go to its settings panel "Camera"
-   ("Object Data").
-
-2. Then two options are available:
-
-      * Select an object to use as the camera's focus in the "Focus"
-        option of the "Depth of Field" panel. In this case moving away
-        or approaching this object will cause a corresponding
-        correction of the camera focus.
-
-      * Set a non-zero value for the "Distance" on the same panel
-        (in Blender units = meters). In this case the camera focus
-        will be located at this distance from the camera and will move
-        together with it.
-
-
-Additional settings
--------------------
-
-*Front*
-   The distance from the focus to the nearest plane (relative to the
-   camera) behind which full blurring occurs (in meters). The default
-   value is 1.0.
-
-*Rear*
-   The distance from the focus to the furthest plane (relative to the
-   camera) behind which full blurring occurs (in meters). The default
-   value is 1.0.
-
-*Power*
-   Blurring ratio. The default value is 3.0.
-
-
-Screen-Space Ambient Occlusion
-==============================
-
-The screen-space ambient occlusion (SSAO) effect can be used to fake
-complex light reflections from objects. The basis of this effect is
-that the space between close objects is less accessible for diffused
-light and hence is darker.
-
-[图片]
-
-
-Activation
-----------
-
-Activate the "Ambient Occlusion SSAO" panel under the "Render" tab and
-set the "Render Shadows" parameter to "AUTO" or "ON"  on the "Rander >
-Shadows" panel.
-
-
-Additional settings
--------------------
-
-*Radius Increase*
-   The spherical sampling radius multiply factor when transfering from
-   the internal sampling ring to the external one. The default value
-   is 3.0.
-
-*Use Hemisphere*
-   Use a hemispherical sampling for shading instead of a spherical.
-   Besides it uses different shading law.
-
-*Use Blur Depth Test*
-   Use edge-preserving blur to SSAO if flag will be turned on.
-   Otherwise it uses blur which averages a 4x4 rectangle around each
-   pixel.
-
-*Blur Depth Test Discard Value*
-   Influence of depth difference between samples on blur weight. It
-   uses with "Use Blur Depth Test" activated flag. The default value
-   is 1.0.
-
-*Influence*
-   SSAO appearance factor. The default value is 0.7.
-
-*Distance Factor*
-   Factor of SSAO decay with distance. The default value is 0.0 (i.e.
-   no decay).
-
-*Samples*
-   Number of samples (the more samples there are the better is the
-   quality but the poorer is the performance). The default value is
-   16.
-
-
-God Rays
+运动模糊
 ========
 
-The god rays effect (aka crepuscular rays) simulates well-known
-natural phenomenon - the shining of illuminated air parts.
+运动模糊效果可以用来改善交互式场景的真实感。当相机或物体移动，显示为画
+面模糊。
 
 [图片]
 
 
-Activation
-----------
+激活
+----
 
-Activate the "God Rays" panel under the "Render" tab.
-
-
-Additional settings
--------------------
-
-*Intensity*
-   The effect appearance factor. The default value is 0.7.
-
-*Maximum Ray Length*
-   Rays length factor. Defines the step between samples of radial
-   blurring. The default value is 1.0.
-
-*Steps Per Pass*
-   Number of steps per single sample. The default value is 10.0.
+激活  "Render" 选项卡上的 "Motion Blur" 面板。
 
 
-Bloom
-=====
+其他设置
+--------
 
-Bloom appears when a picture has elements with a very different
-brightness. A glowing halo is created around the bright details.
+*因子*
+   外观的影响比例。此值越高越强的运动模糊。
 
-[图片]
-
-
-Activation
-----------
-
-Activate the "Bloom" panel under the "Render" tab.
+*衰减阈值*
+   模糊淡出率。较高的这个值有更鲜明的效果。默认值是0.01。
 
 
-Additional settings
--------------------
-
-*Key*
-   Bloom intensity.
-
-*Blur*
-   Bloom blurriness factor.
-
-*Edge Luminance*
-   The boundary value of an element's relative brightness above which
-   the bloom effect appears.
-
-
-Outlining
-=========
-
-As a result of the outline glow effect, a luminous colored halo will
-be displayed around the object.
-
-[图片]
-
-
-Activation
-----------
-
-The outlining is activated programmatically via API. Different
-animation models can be applied such as constant glow, fading out
-glow, pulsatory glow and any other. In order to enable the outlining
-effect on a certain object, make sure that the "Render > Object
-Outlining" panel's "Enable" property is set to "ON" or "AUTO".
-
-
-Additional settings
--------------------
-
-On the "Object > Selection and Outlining" panel:
-
-*Enable Outlining*
-   Permit using the outline glow effect on this object.
-
-*Duration*
-   Duration of glow animation, seconds. The default value is 1.
-
-*Period*
-   Repeat period of glow animation, seconds. The default value is 1.
-
-*Relapses*
-   The number of iterations of glow animation. If zero, animation is
-   repeated forever. The default value is 0.
-
-*Outline on Select*
-   Activate glow animation upon selecting the object. In this case the
-   "Selectable" option must be enabled. In case of a user-defined glow
-   animation model, this option must be disabled in order to avoid
-   conflict.
-
-On the "Render > Object Outlining" panel:
-
-*Factor*
-   When this parameter decreases so does the thickness and the
-   brightness of the halo around the object. The default value is 1.
-
-The "Render > Object Outlining" settings are taken as default when the
-glow effect is initiated via API.
-
-
-Glow
+景深
 ====
 
-Effect of halo which is observed around emissive objects due to light
-scattering in the atmosphere and inside the human eye.
+场景深度效应（DOF）可以用于强调场景的一部分。从相机对焦点之外的地方开
+始图像模糊 。
 
 [图片]
 
 
-Activation
-----------
+激活
+----
 
-Add a B4W_GLOW_OUTPUT node to a node material. The "Enable Glow
-Materials" option on the "Render > Glow Materials" panel should be set
-to "ON" or "AUTO".
+1. 选择一个主控摄像头，并转到它的设置面板 "Camera" ("Object Data").
 
+2. 然后有两种选择：
 
-Additional settings
--------------------
+      * 在  "Depth of Field"  面板的 "Focus"  选项选择一个物体作为相
+        机 的对焦点。在这种情况下移动或接近这个物体，会导致相机的焦点
+        相应 的修正。
 
-*Small Mask: Intensity*
-   Intensity of glow obtained through the smaller mask. The default
-   value is 2.0.
-
-*Small Mask: Width*
-   Width of glow obtained through the smaller mask. The default value
-   is 2.0.
-
-*Large Mask: Intensity*
-   Intensity of glow obtained through the larger mask. The default
-   value is 2.0.
-
-*Large Mask: Width*
-   Width of glow obtained through the larger mask. The default value
-   is 6.0.
-
-*Render Glow Over Transparent Objects*
-   Render the glow effect over transparent objects.
+      * 同一面板上为 "Distance" 设置一个非零值（Blender中单位=米）。
+        在 这种情况下，相机焦点在相机的这个距离值，并与相机一起移动。
 
 
-Anti-Aliasing
-=============
+其他设置
+--------
 
-Anti-aliasing is used to reduce undesirable rendering artefacts (poor
-pixelization).
+*前*
+   从焦点到后面发生充分模糊（米）的最接近的平面（相对于相机）的距离。
+   缺省值为1.0。
+
+*后*
+   从焦点到后面发生充分模糊（米）的最远的面（相对于相机）的距离。缺省
+   值为1.0。
+
+*指数*
+   模糊比。默认值是3.0。
+
+
+屏幕空间环境光遮蔽
+==================
+
+屏幕空间环境光遮蔽（SSAO）效果，可用于仿造在物体周围复杂的光线反射。这
+种效果的基础是，近处的物体之间的空间为漫射光不易进入的，因而是更暗。
 
 [图片]
 
 
-Activation
-----------
+激活
+----
 
-Select quality profile using "AA Quality" menu located on the "Render
-> Anti-Aliasing" panel.
-
-   * *None* - disable anti-aliasing,
-
-   * *Low*, *Medium*, *High* - enable anti-aliasing with the given
-     quality profile.
-
-*Medium* profile is used by default.
+激活 "Render``标签下 ``Ambient Occlusion SSAO" 面板，设置  "Render
+Shadows" 参数 "AUTO` `或 ``ON" 在``Rander> Shadows``面板。
 
 
-Additional settings
--------------------
+其他设置
+--------
 
-The anti-aliasing method is assigned simultaneously with the selection
-of the engine performance profile:
+*半径增加*
+   从内部采样环到外部采样环的球形采样半径的乘法系数。默认值是3.0。
 
-   * *low quality* - no anti-aliasing,
+*使用半球*
+   使用半球形采样着色，而不是球形。它使用不同的着色方法。
 
-   * *high quality* and *ultra quality* - use the FXAA 3.11
-     algorithm (Fast Approximate Anti-Aliasing by Nvidia).
+*使用模糊深度测试*
+   使用边缘保持模糊到SSAO如果标志将被打开。否则，它采用模糊平均为每个
+   像素周围的4×4的矩形。
+
+*模糊深度测试丢弃值*
+   对模糊量的采样之间的深度差异的影响。它采用 "Use Blur Depth Test" 启
+   动标志。缺省值为1.0。
+
+*影响*
+   SSAO外观系数。默认值是0.7。
+
+*距离系数*
+   SSAO衰减的距离系数。默认值是0.0（即没有衰减）。
+
+*采样*
+   采样数（越多采样有更好的是质量，但较差是性能）。默认值是16。
+
+
+上帝光芒
+========
+
+神光芒的效果（又名曙暮辉）模拟著名的自然现象 - 空气照明部分的闪耀。
+
+[图片]
+
+
+激活
+----
+
+激活 "Render" 选项卡下的 "God Rays"  面板。
+
+
+其他设置
+--------
+
+*强度*
+   影响外观的系数。默认值是0.7。
+
+*最大长度光线*
+   光线长度的系数。限定径向模糊的样本之间的步长。缺省值为1.0。
+
+*每通道步值*
+   每个单个样本步长。默认值是10.0。
+
+
+泛光效果
+========
+
+泛光出现在画面中有一个非常不同的亮度元素。生成一个发光的光环围绕着明亮
+的细节。
+
+[图片]
+
+
+激活
+----
+
+激活 "Render" 选项卡下的 "Bloom" 面板。
+
+
+其他设置
+--------
+
+*调*
+   泛光强度。
+
+*模糊*
+   泛光模糊的系数。
+
+*边缘亮度*
+   泛光效果出现时一个元素的相对亮度的边界值。
+
+
+物体外轮廓
+==========
+
+作为轮廓辉光效应，围绕物体显示发光的光晕。
+
+[图片]
+
+
+激活
+----
+
+外轮廓是通过API编程激活。不同的动画模型可以应用，如不断晕光，淡出的光
+晕，光晕脉动和任何其他。为了使某一物体上勾勒的效果，确保 "Render >
+Object Outlining" 面板的 "Enable" 属性设置为 "ON" 或 "AUTO" 。
+
+
+其他设置
+--------
+
+在  "Object > Selection and Outlining" 面板：
+
+*启用外轮廓*
+   允许使用此物体的轮廓发光效果。
+
+*持续*
+   辉光动画的持续时间，单位为秒。默认值是1。
+
+*周期*
+   辉光动画的重复周期，单位为秒。默认值是1。
+
+*重复*
+   辉光动画迭代次数。如果为零，动画将永远重复。缺省值是0。
+
+*选择时外轮廓*
+   在选择物体时激活辉光动画。在这种情况下，"Selectable" 选项必须启用。
+   在用户定义的辉光动画模型的情况下，以避免冲突此选项必须被禁用。
+
+在  "Render > Object Outlining" 面板：
+
+*因子*
+   当这个参数减小围绕物体的辉光的厚度亮度也减小。默认值是1。
+
+当通过API初始化辉光效果时 "Render > Object Outlining" 被作为默认值。
+
+
+晕光
+====
+
+晕光的效果是通过观测发射光的物体在大气中的光散射进入人眼内后的成像。
+
+[图片]
+
+
+激活
+----
+
+添加 B4W_GLOW_OUTPUT 节点到节点材质。在  "Render > Glow Materials" 面
+板的 "Enable Glow Materials" 选项应设置为 "ON" 或 "AUTO" 。
+
+
+其他设置
+--------
+
+*小遮罩：强度*
+   通过较小的遮罩晕光获得的强度。默认值是2.0。
+
+*小遮罩：宽*
+   通过较小的遮罩晕光获得的宽度。默认值是2.0。
+
+*大遮罩：强度*
+   通过较大遮罩晕光获得的强度。默认值是2.0。
+
+*大遮罩：宽*
+   通过较大遮罩晕光获得的宽度。默认值是6.0。
+
+*在透明的物体渲染辉光*
+   渲染透明物体的辉光效果。
+
+
+抗锯齿
+======
+
+抗锯齿用于减少不良渲染表现（像素化差）。
+
+[图片]
+
+
+激活
+----
+
+使用位于 "Render > Anti-Aliasing" 面板上的 "AA Quality" 菜单中选择质量
+配置文件。
+
+   * *无*  - 关闭抗锯齿，
+
+   * *低*，*中*，*高*  - 用给定质量配置文件启用抗锯齿。
+
+*中* 配置文件默认情况下使用。
+
+
+其他设置
+--------
+
+抗锯齿方法是在引擎性能配置文件选择时同时匹配的：
+
+   * *低质量*  - 无抗锯齿，
+
+   * *高品质*和*超高品质*  - 使用FXAA 3.11算法（Nvidia公司的快速近似
+     抗 锯齿）。

@@ -4,12 +4,11 @@
 # Manual package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-28 14:22+0300\n"
+"POT-Creation-Date: 2016-04-06 16:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,8 +112,8 @@ msgstr ""
 
 #: ../camera.rst:48
 msgid ""
-"Avalible for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets the"
-" velocity of the camera translation. Possible value interval: "
+"Available for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets "
+"the velocity of the camera translation. Possible value interval: "
 ":math:`\\left[0,\\ \\infty \\right)`. Default value is 1."
 msgstr ""
 
@@ -124,8 +123,8 @@ msgstr ""
 
 #: ../camera.rst:51
 msgid ""
-"Avalible for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets the"
-" camera rotation speed. Possible value interval: :math:`\\left[0,\\ "
+"Available for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets "
+"the camera rotation speed. Possible value interval: :math:`\\left[0,\\ "
 "\\infty \\right)`. Default value is 1."
 msgstr ""
 
@@ -135,8 +134,8 @@ msgstr ""
 
 #: ../camera.rst:54
 msgid ""
-"Avalible for the ``Target`` and ``Hover`` type cameras. Set the velocity "
-"of the camera approaching the pivot point. Possible value interval: "
+"Available for the ``Target`` and ``Hover`` type cameras. Set the velocity"
+" of the camera approaching the pivot point. Possible value interval: "
 ":math:`\\left[0,\\ 0.99\\right]`. Default value is 0.1."
 msgstr ""
 
@@ -407,9 +406,9 @@ msgid ""
 "To change the control mode and to completely define a camera's behavior, "
 "the following methods can be used: :b4wref:`camera.static_setup()`, "
 ":b4wref:`camera.eye_setup()`, :b4wref:`camera.target_setup()` and "
-":b4wref:`camera.hover_setup()`. These methods recieve an object that "
+":b4wref:`camera.hover_setup()`. These methods receive an object that "
 "contains a set of optional parameters, which can be used to set the "
-"camera's position, rotation, avalible limits and so on."
+"camera's position, rotation, available limits and so on."
 msgstr ""
 
 #: ../camera.rst:375
@@ -435,7 +434,7 @@ msgstr ""
 #: ../camera.rst:406
 msgid ""
 "If you need to change only some aspects of the camera's behavior, you can"
-" you the methods described below."
+" use the methods described below."
 msgstr ""
 
 #: ../camera.rst:409
@@ -501,8 +500,8 @@ msgstr ""
 
 #: ../camera.rst:479
 msgid ""
-"Besause a camera is a scene object, :b4wmod:`transform` module methods "
-"can also be used. But, as every control mode infulences camera movement "
+"Because a camera is a scene object, :b4wmod:`transform` module methods "
+"can also be used. But, as every control mode influences camera movement "
 "differently, results may differ from those expected."
 msgstr ""
 
@@ -512,8 +511,8 @@ msgstr ""
 
 #: ../camera.rst:484
 msgid ""
-"Camera limits are avalible for the ``EYE``, ``TARGET`` and ``HOVER`` type"
-" cameras. To set a specific limit, you need to use a specific method:"
+"Camera limits are available for the ``EYE``, ``TARGET`` and ``HOVER`` "
+"type cameras. To set a specific limit, you need to use a specific method:"
 msgstr ""
 
 #: ../camera.rst:487
@@ -594,7 +593,7 @@ msgstr ""
 
 #: ../camera.rst:543
 msgid ""
-"Enabled camera limits can infulence its position and spatial orientation "
+"Enabled camera limits can influence its position and spatial orientation "
 "set by the API functions."
 msgstr ""
 
@@ -616,4 +615,72 @@ msgstr ""
 #: ../camera.rst:566
 msgid "For the ``EYE`` camera:"
 msgstr ""
+
+#~ msgid ""
+#~ "Avalible for the ``Target``, ``Eye`` and"
+#~ " ``Hover`` type cameras. Sets the "
+#~ "velocity of the camera translation. "
+#~ "Possible value interval: :math:`\\left[0,\\ "
+#~ "\\infty \\right)`. Default value is 1."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Avalible for the ``Target``, ``Eye`` and"
+#~ " ``Hover`` type cameras. Sets the "
+#~ "camera rotation speed. Possible value "
+#~ "interval: :math:`\\left[0,\\ \\infty \\right)`. "
+#~ "Default value is 1."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Avalible for the ``Target`` and "
+#~ "``Hover`` type cameras. Set the velocity"
+#~ " of the camera approaching the pivot"
+#~ " point. Possible value interval: "
+#~ ":math:`\\left[0,\\ 0.99\\right]`. Default value "
+#~ "is 0.1."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To change the control mode and to"
+#~ " completely define a camera's behavior, "
+#~ "the following methods can be used: "
+#~ ":b4wref:`camera.static_setup()`, :b4wref:`camera.eye_setup()`,"
+#~ " :b4wref:`camera.target_setup()` and "
+#~ ":b4wref:`camera.hover_setup()`. These methods "
+#~ "recieve an object that contains a "
+#~ "set of optional parameters, which can"
+#~ " be used to set the camera's "
+#~ "position, rotation, avalible limits and "
+#~ "so on."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you need to change only some"
+#~ " aspects of the camera's behavior, "
+#~ "you can you the methods described "
+#~ "below."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Besause a camera is a scene "
+#~ "object, :b4wmod:`transform` module methods can"
+#~ " also be used. But, as every "
+#~ "control mode infulences camera movement "
+#~ "differently, results may differ from "
+#~ "those expected."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Camera limits are avalible for the "
+#~ "``EYE``, ``TARGET`` and ``HOVER`` type "
+#~ "cameras. To set a specific limit, "
+#~ "you need to use a specific method:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enabled camera limits can infulence its"
+#~ " position and spatial orientation set "
+#~ "by the API functions."
+#~ msgstr ""
 

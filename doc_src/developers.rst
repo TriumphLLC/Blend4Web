@@ -24,12 +24,12 @@ Advanced Project Management
 
 Advanced project management is used by experienced developers which require more flexibility and need to automate process of project development.
 
-For advanced project management use the *project.py* script and manually edit *.b4w_project* config files.
+For advanced project management use the *project.py* script and manually edit *.b4w_project* configuration files.
 
 Dependencies
 ------------
 
-The project managment system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:
+The project management system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:
 
 .. code-block:: bash
 
@@ -89,13 +89,13 @@ This app consists of 4 different directories.
 #. deploy/assets/myproject. Contains exported files of project's scenes.
 #. deploy/apps/myproject. Contains exported files of project's scenes.
 
-Additionally, the deploy command can create yet another directory, but it usually is placed outside of the SDK and its name and path depend on directory structure on the target server.
+Additionally, the deploy command can create yet another directory, but it's usually placed outside of the SDK and its name and path depend on directory structure on the target server.
 
 
-``.b4w_project`` Config File
-----------------------------
+``.b4w_project`` Configuration File
+-----------------------------------
 
-If you did not use any arguments upon executing the *project.py* script, then they will be taken from the config file.
+If you did not use any arguments upon executing the *project.py* script, then they will be taken from the configuration file.
 
 ::
 
@@ -324,19 +324,19 @@ The console will print the list of modules - copy them and paste into the main H
     </head>
 
 
-To eliminate API incompatibilities you may require refactoring of your app.All changes are described in :ref:`release notes <release_notes>`.
+To eliminate API incompatibilities you may require refactoring of your app. All changes are described in :ref:`release notes <release_notes>`.
 
 
 Path to Loaded Application Assets
 ---------------------------------
 
-To load .json-files you should use ``get_std_assets_path()`` method frome the *config.js* module:
+To load .json-files you should use ``get_std_assets_path()`` method from the *config.js* module:
 
 .. code-block:: javascript
 
     m_data.load(m_config.get_std_assets_path() + "example/example.json", load_cb);
 
-After building the finished app, the paths to assets will change. Thus, using ``get_std_assets_path()`` wil allow you to avoid problems with incorrect paths.
+After building the finished app, the paths to assets will change. Thus, using ``get_std_assets_path()`` will allow you to avoid problems with incorrect paths.
 
 
 Application Programming
@@ -377,7 +377,7 @@ To load a 3D scene you need:
 
 #. Place a ``<canvas>`` element on a page for rendering.
 
-#. Call the ``m_main.init()`` function with the created element id to init the WebGL context after the page is loaded.
+#. Call the ``m_main.init()`` function with the created element id to initialize the WebGL context after the page is loaded.
 
 #. Call the ``m_data.load()`` function to load a 3D scene.
 
@@ -486,7 +486,7 @@ In this case the ``app`` module will create a ``<canvas>`` element inside the co
 
 Then the some_scene.json scene is loaded similar to the previous example. The only difference is that after the scene is loaded, the control system is initialized and camera movement with keyboard and mouse (or sensor screen) becomes possible.
 
-In case when the ``app`` module is used, it is necessary to explicitely specify dimensions of the container element. Otherwise the created ``<canvas>`` element will have zero dimensions.
+In case when the ``app`` module is used, it is necessary to explicitly specify dimensions of the container element. Otherwise, the created ``<canvas>`` element will have zero dimensions.
 
 
 .. _converter:
@@ -496,9 +496,17 @@ Resource Conversion
 
 Currently, browsers do not fully support all possible media formats, so in order to create cross-browser applications (and also for optimization purposes) we recommend you to use the resource converter.
 
-To support a wider range of platforms, a Python script (scripts/converter.py) for converting the source files into other formats is included into the distribution.
+To support a wider range of platforms, a Python script (*scripts/converter.py*) for converting the source files into other formats is included into the distribution.
 
-This script can be run automatically using the project mangment system, or manually:
+There are two ways to run this script.
+
+Firstly, you can run it automatically using the project mangement system. The ``Convert Resources`` button can be found in the main page of the :ref:`Project Manager <project_management>`, in the ``Operations`` tab at the right side of the screen. 
+
+.. image:: src_images/developers/developers_convert_resources.png
+   :align: center
+   :width: 100%
+
+Secondly, you can run the script manually:
 
 .. code-block:: bash
 
@@ -635,13 +643,31 @@ For the purpose of optimizing application performance it's possible to use ``min
         // . . .
     }
 
+.. _dds:
+
+``DDS`` textures require less memory (4 times less for ``RGBA`` data and 6 times for ``RGB`` data), but using them has following downsides:
+
+    * ``DDS`` textures might not work on some devices, especially the mobile ones, as not all of them support the ``WEBGL_compressed_texture_s3tc`` extension;
+
+    * as ``DDS`` is a lossy compression format, compression artifacts might be visible, especially on :ref:`normal <normal_map>` and :ref:`stencil <stencil_map>` maps; it is recommended to :ref:`disable compression <texture_disable_compression>` for such textures.
+
+    .. image:: src_images/developers/compression_artifacts.png
+        :align: center
+        :width: 100%
+
+    An example of the ``DDS`` compression artifacts, particularly visible on the edges of the shadow.
+
+During exporting the scene from Blender to the ``JSON`` format (but not the ``HTML`` format), ``DDS`` textures will be plugged in automatically, if they are present.
+
+Textures can be converted to the ``DDS`` format using the :ref:`project manger <project_management>` or the *scripts/converter.py* script described above.
+
 .. _seq:
 
 The ``.seq`` file format is used for sequential video. This is applied for IE 11 and iPhone because they are currently missing support for standard video formats for textures. Using dds format for images is more optimal compared to other formats.
 
-The engine can use files which are manually created by a user if they have the following names: ``file_name.altconv.m4v``, ``file_name.altconv.mp3`` and so on. Such files should be placed in the same directory as the mediafiles used in Blender.
+The engine can use files which are manually created by a user if they have the following names: ``file_name.altconv.m4v``, ``file_name.altconv.mp3`` and so on. Such files should be placed in the same directory as the media files used in Blender.
 
-You can also use the free and cross-platform application `Miro Video Converter <http://www.mirovideoconverter.com/>`_ to convert mediafiles.
+You can also use the free and cross-platform application `Miro Video Converter <http://www.mirovideoconverter.com/>`_ to convert media files.
 
 
 
@@ -673,7 +699,7 @@ The Code Snippets application is available at ``SDK/apps_dev/code_snippets/code_
 Event-Driven Model
 ==================
 
-The event-driven model provides a universal interface for describing the 3D scene's change of state. It simpifies the processing of physics events and user actions.
+The event-driven model provides a universal interface for describing the 3D scene's change of state. It simplifies the processing of physics events and user actions.
 
 .. index:: sensor
 
@@ -684,10 +710,10 @@ The basic unit of the event-driven model is a sensor. A sensor is a programming 
 
 .. index:: sensor; manifold
 
-Users cannot directly control sensors via the external API. Instead all sensors must be present in one or multiple collections - so called sensor manifolds. A manifold is a logic container associated with a scene object. It generates a response to a defined set of sensor events by executing a callback function. To define the manifold it is required to have the following information (see also the API documenation for decription of the ``controls.create_sensor_manifold`` function):
+Users cannot directly control sensors via the external API. Instead, all sensors must be present in one or multiple collections - so called sensor manifolds. A manifold is a logic container associated with a scene object. It generates a response to a defined set of sensor events by executing a callback function. To define the manifold it is required to have the following information (see also the API documentation for description of the ``controls.create_sensor_manifold`` function):
 
 * An object to carry the manifold (e.g. a thrown object).
-* An unique id of the manifold (e.g. "IMPACT").
+* A unique id of the manifold (e.g. "IMPACT").
 * Callback execution mode (the options are: ``CT_POSITIVE`` - logic function positive result, ``CT_CONTINUOUS`` - every frame with a positive logic function result and once with a zero result, ``CT_LEVEL`` - any logic, function result change, ``CT_SHOT`` - one-stage logic function result change, ``CT_TRIGGER`` - logic function result switch, ``CT_CHANGE`` - any sensor value change).
 * An array of sensors.
 * A logic function to define the combination of the sensor states for which the callback function is executed.
@@ -699,10 +725,10 @@ You can read more about engine API in the :b4wmod:`controls` module documentatio
 Example
 -------
 
-Lets consider the task to insonify the impact of a thrown stone. A distinctive sound should be produced for impacting different media (for example terrain and wall). There are collision meshes with physical materials in the Blender scene, material ids are "TERRAIN" and "WALL". There is also a physical object being thrown in the scene, the object is named "Stone".
+Let's consider the task to insonify the impact of a thrown stone. A distinctive sound should be produced for impacting different media (for example terrain and wall). There are collision meshes with physical materials in the Blender scene, material ids are "TERRAIN" and "WALL". There is also a physical object being thrown in the scene, the object is named "Stone".
 
 
-Lets define a collision sensor for each medium, by the type of the sound produced.
+Let's define a collision sensor for each medium, by the type of the sound produced.
 
 
 .. code-block:: javascript
@@ -794,7 +820,7 @@ SDK File Structure
         the sources files of the Viewer application
 
         **assets.json**
-            meta data with information about scenes loaded by the Viewer
+            metadata with information about scenes loaded by the Viewer
 
     **webplayer**
         source files of the Web Player app
@@ -827,7 +853,7 @@ SDK File Structure
         downloadable resources: scenes, textures and sounds
 
     **doc**
-        the current user manual in HTML format, built autamatically from *doc_src*
+        the current user manual in HTML format, built automatically from *doc_src*
 
     **globals_detect**
         utility code for detecting global variables
@@ -890,7 +916,7 @@ SDK File Structure
         script for automatic reexport of all scenes from the SDK
 
     **remove_alpha_channel.sh**
-        script for removing the images alpha channel
+        script for removing the images' alpha channel
 
     **screencast.sh**
         script for screen video recording
@@ -1003,7 +1029,7 @@ The Canvas element, to which the rendering is performed, can change its position
 
 In most cases this will not affect the performance of the app by any means. However, some DOM events related to mouse cursor or touch position may carry incorrect information. This occurs because the coordinates obtained from the corresponding events are measured relative to the origin of the browser window, while the engine works with the coordinate space of the Canvas element itself (its origin is located in the top left corner).
 
-1) If the top left corner of the Canvas element matches the top left corner of the browser window and is fixed in it's position (non-movable) then it's sufficient to use event.clientX and event.clientY coordinates of the input events or :b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()` methods.
+1) If the top left corner of the Canvas element matches the top left corner of the browser window and is fixed in its position (non-movable) then it's sufficient to use event.clientX and event.clientY coordinates of the input events or :b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()` methods.
 
 .. code-block:: javascript
 

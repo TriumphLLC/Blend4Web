@@ -26,15 +26,14 @@
  */
 b4w.module["__debug"] = function(exports, require) {
 
-var m_cfg   = require("__config");
-var m_ext   = require("__extensions");
-var m_print = require("__print");
-var m_tex   = require("__textures");
-var m_time  = require("__time");
-var m_util  = require("__util");
-var m_graph = require("__graph");
-var m_scenes = require("__scenes");
-var m_render = require("__renderer");
+var m_compat = require("__compat");
+var m_cfg    = require("__config");
+var m_ext    = require("__extensions");
+var m_print  = require("__print");
+var m_tex    = require("__textures");
+var m_time   = require("__time");
+var m_util   = require("__util");
+var m_graph  = require("__graph");
 
 var cfg_def = m_cfg.defaults;
 
@@ -49,7 +48,6 @@ var FAKE_LOAD_END_PERCENTAGE   = 100;
 var _gl = null;
 
 // NOTE: possible cleanup needed
-var _check_errors = false;
 var _exec_counters = {};
 var _telemetry_messages = [];
 var _depth_only_issue = -1;
@@ -91,7 +89,7 @@ exports.setup_context = function(gl) {
  * Get GL error, throw exception if any.
  */
 exports.check_gl = function(msg) {
-    if (!_check_errors)
+    if (!cfg_def.gl_debug)
         return;
 
     var error = _gl.getError();
@@ -110,7 +108,7 @@ exports.check_gl = function(msg) {
  */
 exports.check_bound_fb = function() {
 
-    if (!_check_errors) 
+    if (!cfg_def.gl_debug)
         return true;
 
     switch (_gl.checkFramebufferStatus(_gl.FRAMEBUFFER)) {
@@ -167,6 +165,20 @@ exports.check_depth_only_issue = function() {
     return _depth_only_issue;
 }
 
+/**
+ * Check for Firefox cubemap issue found on some old GPUs.
+ * (Found on NVIDIA 8000/9000/200 series).
+ */
+exports.check_ff_cubemap_out_of_memory = function() {
+    if (m_compat.check_user_agent("Firefox") 
+            && _gl.getError() == _gl.OUT_OF_MEMORY) {
+        m_print.warn("Firefox/old GPUs cubemap issue was found.");
+        return true;
+    }
+
+    return false;
+
+}
 
 /**
  * Get shader compile status, throw exception if compilation failed.
@@ -177,7 +189,7 @@ exports.check_depth_only_issue = function() {
  */
 exports.check_shader_compiling = function(shader, shader_id, shader_text) {
 
-    if (!_check_errors) 
+    if (!cfg_def.gl_debug)
         return;
 
     if (!_gl.getShaderParameter(shader, _gl.COMPILE_STATUS)) {
@@ -213,7 +225,7 @@ function supply_line_numbers(text) {
 exports.check_shader_linking = function(program, shader_id, vshader, fshader, 
     vshader_text, fshader_text) {
 
-    if (!_check_errors) 
+    if (!cfg_def.gl_debug)
         return;
 
     if (!_gl.getProgramParameter(program, _gl.LINK_STATUS)) {
@@ -233,10 +245,6 @@ exports.check_shader_linking = function(program, shader_id, vshader, fshader,
 
         throw "Engine failed: see above for error messages";
     }
-}
-
-exports.set_check_gl_errors = function(val) {
-    _check_errors = val;
 }
 
 /**

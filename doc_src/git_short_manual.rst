@@ -15,10 +15,10 @@ Team Work. Using Git
 Overview
 ========
 
-In order to organize team work a Git version control system can be used. Using Git has a number of benifits as compared with other ways to collaborate:
+In order to organize team work a Git version control system can be used. Using Git has a number of benefits as compared with other ways to collaborate:
 
-* saving the history of changes with the possibility to roll back to prevoius versions
-* syncronizing changes between users and automatic merging of changes
+* saving the history of changes with the possibility to roll back to previous versions
+* synchronizing changes between users and automatic merging of changes
 * working with large binary files is possible
 
 Git is a distributed system and every developer or designer has his own local repository (storage). Syncing between the local repositories can be performed via the central ("shared") storage, which can be located on a dedicated machine (server). Access to the server can be organized through SSH protocol.
@@ -32,10 +32,10 @@ Typical Workflow
 ================
 
 #. Files can be created, added or deleted during the work process in the local repositories.
-#. After a certain logical period of work is finished it is necessary to fix (commit) the changes and/or syncronize with your team mates.
+#. After a certain logical period of work is finished it is necessary to fix (commit) the changes and/or synchronize with your team mates.
 #. Files are prepared for commit i.e. the accounting of changed, new and deleted files and also the resetting of changes.
 #. Commit is performed.
-#. Local changes are uploaded into the shared storage and become available for the collegues.
+#. Local changes are uploaded into the shared storage and become available for the colleagues.
 
 A limited set of Git commands recommended for authoring applications and their graphical resources is described below. 
 
@@ -154,14 +154,14 @@ A possible result of the ``git diff`` command for a text file:
 Rolling back files
 ------------------
 
-If the file was changed or deleted but it is necessary to recover it (to the latest commited state) use the command:
+If the file was changed or deleted but it is necessary to recover it (to the latest committed state) use the command:
 
 .. code-block:: none
 
     > git checkout doc_src/git_short_manual.rst
     > git checkout 123.txt
 
-The introduced changes will be cancelled - this is why this command should be performed with caution.
+The introduced changes will be canceled - this is why this command should be performed with caution.
 
 
 Unwanted files
@@ -255,7 +255,7 @@ Perform commit with the command:
 
     > git commit
 
-A text editor window will show up (for example, **nano** or **vim**), in which it's nesessary to enter the commit comment in English.
+A text editor window will show up (for example, **nano** or **vim**), in which it's necessary to enter the commit comment in English.
 
 .. code-block:: none
 
@@ -297,7 +297,7 @@ Syncing Between Repositories
 From the remote - to the local
 ------------------------------
 
-After all the commits are performed it's nesessary to load the changes from the remote ("shared") repository to the local one:
+After all the commits are performed it's necessary to load the changes from the remote ("shared") repository to the local one:
 
 .. code-block:: none
 
@@ -331,7 +331,7 @@ Result of the ``git pull`` command if the remote repository contains changes and
      19 files changed, 1452 insertions(+), 2767 deletions(-) 
      create mode 100644    deploy/assets/location_agriculture/textures/rotonda_02_diff.png 
 
-If you wish it's possible to look up the changes made by your collegues using the following command:
+If you wish it's possible to look up the changes made by your colleagues using the following command:
 
 .. code-block:: none
 
@@ -431,7 +431,7 @@ Typical cases:
 #. different changes were introduced to the same line of the same text file
 #. one developer has changed the file while the other has moved it and so on.
 
-Although synchronization conflicts are normal, if they happen too often it slows down the work. It is recommended to notify your team mates about start of working with the shared binary files, and also to perform synchronization more often. It is nesessary to effectively distribute the work between developers to reduce the number of such shared files. This can be achieved particularly through linking of all the scene's resources from the separate blend files into the master file.
+Although synchronization conflicts are normal, if they happen too often it slows down the work. It is recommended to notify your team mates about start of working with the shared binary files, and also to perform synchronization more often. It is necessary to effectively distribute the work between developers to reduce the number of such shared files. This can be achieved particularly through linking of all the scene's resources from the separate blend files into the master file.
 
 
 The steps to be taken
@@ -483,7 +483,7 @@ Select the local version of the file again (**- -ours**).
 
     > git checkout --ours blender/landscape_objects/Fallen_tree.blend
  
-Eventually you have to stick to the right version of the file. In case there is a threat of loosing the work you may save the discarded file outside the repository.
+Eventually you have to stick to the right version of the file. In case there is a threat of losing the work you may save the discarded file outside the repository.
 
 
 Text files

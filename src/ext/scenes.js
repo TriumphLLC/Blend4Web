@@ -38,7 +38,6 @@ var m_phy      = require("__physics");
 var m_print    = require("__print");
 var m_scenes   = require("__scenes");
 var m_util     = require("__util");
-var m_vec4     = require("__vec4");
 
 /**
  * Color correction params.
@@ -464,7 +463,8 @@ exports.set_shadow_params = function(shadow_params) {
         subs_shadow_receive.need_perm_uniforms_update = true;
     }
 
-    var upd_cameras = active_scene._camera.render.cameras;
+    var cam_scene_data = m_obj_util.get_scene_data(active_scene._camera, active_scene);
+    var upd_cameras = cam_scene_data.cameras;
     for (var i = 0; i < upd_cameras.length; i++)
         m_cam.update_camera_shadows(upd_cameras[i], shs);
 

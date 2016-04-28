@@ -13,7 +13,7 @@ Gamma Overview
 
 The essence of gamma correction is packing the image brightness channel into  8 bits of information.
 
-Standard (non-HDR) images are always stored in non-linear color space where the darker components are encoded using more bits than the brighter ones. That means that a bigger RGB value corresponds to 0.5 of the real light intensity (a physical quantity called illuminance) - in a simplest  case this value equals to 0.5 ^ (1/2.2) = 0.73.
+Standard (non-HDR) images are always stored in non-linear color space where the darker components are encoded using more bits than the brighter ones. That means that a bigger RGB value corresponds to 0.5 of the real light intensity (a physical quantity called illuminance) - in the simplest case this value equals to 0.5 ^ (1/2.2) = 0.73.
 
 Overwise, 8 bit of information will not be enough to encode the light intensity. This will result in incorrect rendering of darker tones. For example, dark  gradients will look stepped.
 
@@ -47,7 +47,7 @@ Human Vision and Monitors
 
 While the human vision is non-linear (a human recognizes the darker light tints better than the brighter ones), the light coming into the eye still obeys the physical laws (see the lamps example).
 
-In CRT monitors the brightness is dependent non-linearly upon the electric voltage applied to the monitor’s input (the voltage itself is determined by the color channel value in the video memory). LCD monitors mimic the same characteristics. Nevertheless the light emitted by such monitors obeys the physical laws. For example the addition of a second light source to a virtual scene should cause the brightness to double (in the perfect case).
+In CRT monitors the brightness is dependent non-linearly upon the electric voltage applied to the monitor’s input (the voltage itself is determined by the color channel value in the video memory). LCD monitors mimic the same characteristics. Nevertheless, the light emitted by such monitors obeys the physical laws. For example the addition of a second light source to a virtual scene should cause the brightness to double (in the perfect case).
 
 Therefore, the perception characteristics of the human eye are the reason due to which it is possible to pack color channels. At the same time, the technical characteristics of monitors have a secondary significance for gamma correction.
 
@@ -71,10 +71,10 @@ Used in the following simplified formula:
 Gamma in Node Materials
 =======================
 
-Nodes for Colouring
+Nodes for Coloring
 -------------------
 
-Unpacking (sRGB -> Linear) is required when textures and vertex colors are used for colouring (not for masking). The texture node and Vertex Color output of Geometry node implement unpacking automatically.
+Unpacking (sRGB -> Linear) is required when textures and vertex colors are used for coloring (not for masking). The texture node and Vertex Color output of Geometry node implement unpacking automatically.
 
 Note that the alpha channel of a texture node is not corrected. Its values are in the linear space. 
 
@@ -101,13 +101,13 @@ Summary Table
 +-----------------------------+-----------------------------+
 | Use case                    | Correction                  |
 +=============================+=============================+
-| Texture for colouring       | implemented automatically in|
+| Texture for coloring        | implemented automatically in|
 |                             | the texture node (the alpha |
 |                             | channel is not corrected)   |
 +-----------------------------+-----------------------------+
 | Texture for masking         | GAMMA with γ = 0.45         |
 +-----------------------------+-----------------------------+
-| Vertex color for colouring  | implemented automatically   |
+| Vertex color for coloring   | implemented automatically   |
 +-----------------------------+-----------------------------+
 | Vertex color for masking    | GAMMA with γ = 0.45         |
 +-----------------------------+-----------------------------+
@@ -126,7 +126,7 @@ Physically correct alpha compositing is performed according to the formula [`sou
 
     :math:`C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)`.
 
-This formula differs from the classic mix operation (aka convex combination) because it has the :math:`\alpha_b` multiplier in the second summand. Therefore not only the :math:`\alpha_a` value of the source pixel should be known for alpha compositing, but also the :math:`\alpha_b` value of the pixel over which the rendering is performed.
+This formula differs from the classic mix operation (aka convex combination) because it has the :math:`\alpha_b` multiplier in the second summand. Therefore, not only the :math:`\alpha_a` value of the source pixel should be known for alpha compositing, but also the :math:`\alpha_b` value of the pixel over which the rendering is performed.
 
 In case of preliminary multiplication of the :math:`\alpha` values by the color channels (so called premultiplied alpha) the formula becomes as following:
 

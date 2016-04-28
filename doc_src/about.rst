@@ -11,7 +11,7 @@ Overview
 What's Blend4Web
 ===================
 
-Blend4Web is a web-oriented 3D engine - a software framework for authoring and interactive rendering of three-dimensional graphics and audio in "browsers.
+Blend4Web is a web-oriented 3D engine - a software framework for authoring and interactive rendering of three-dimensional graphics and audio in browsers.
 
 The platform is intended for visualizations, presentations, online-shops, games and other rich internet applications.
 
@@ -31,7 +31,7 @@ The Blend4Web 3D engine has been developed by Triumph LLC employees since 2010. 
 
 An engine is a separate part of software code which is used by external applications for implementing the required functionality.
 
-Engine examples are: site engine, blog engine, online shop engine, wiki engine, search egine, game engine etc. The economical reason for the existance of software engines is multiple usage of the same functionality. For example developers may create relatively cheap online shops or games using one or another engine.
+Engine examples are: site engine, blog engine, online shop engine, wiki engine, search engine, game engine etc. The economical reason for the existence of software engines is multiple usage of the same functionality. For example developers may create relatively cheap online shops or games using one or another engine.
 
 
 .. index:: graphics engine, three-dimensional engine
@@ -205,7 +205,7 @@ Graphics interactivity is achieved by utilizing a frequent change of images, so 
 Video Cards and Drivers
 =======================
 
-Interactive graphics is provided by a special-purpose hardware part of modern computers so called graphics processor which can be implemeted as a discrete device (video card) or as a part of the central processing unit.
+Interactive graphics is provided by a special-purpose hardware part of modern computers so called graphics processor which can be implemented as a discrete device (video card) or as a part of the central processing unit.
 
 Main graphics processors vendors for desktop computers are:  - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are specified in brackets).
 

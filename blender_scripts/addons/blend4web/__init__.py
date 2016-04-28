@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (16, 3, 0),
+    "version": (16, 4, 0),
     "blender": (2, 77, 0),
     "b4w_format_version": "5.07",
     "location": "File > Import-Export",
@@ -316,6 +316,19 @@ def logic_nodetree_reform(arg):
                             node.strings.add()
                             node.strings[-1].name = "ct"
 
+                    if node.type in ["SEND_REQ", "REDIRECT"]:
+                        if not "url" in node.strings:
+                            node.strings.add()
+                            node.strings[-1].name = "url"
+                            def_url = "https://www.blend4web.com" if "param_url" not in node else node["param_url"]
+                            node.strings[-1].string = def_url
+                        if not "url" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "url"
+                        if not "url" in node.variables_names:
+                            node.variables_names.add()
+                            node.variables_names[-1].name = "url"        
+
                     if node.type == "PAGEPARAM":
                         if not "hsh" in node.bools:
                             node.bools.add()
@@ -349,6 +362,27 @@ def logic_nodetree_reform(arg):
                             node.variables_names[-1].variable = var
                             if "param_var_dest" in node:
                                 del node["param_var_dest"]
+                    if node.type in ["MATH", "CONDJUMP", "REGSTORE"]:
+                        if not "inp1" in node.floats:
+                            node.floats.add()
+                            node.floats[-1].name = "inp1"
+                            node.floats[-1].float = 0 if "param_number1" not in node else node["param_number1"]
+                            if "param_number1" in node:
+                                del node["param_number1"]
+                    if node.type in ["MATH", "CONDJUMP"]:
+                        if not "inp2" in node.floats:
+                            node.floats.add()
+                            node.floats[-1].name = "inp2"
+                            node.floats[-1].float = 0 if "param_number2" not in node else node["param_number2"]
+                            if "param_number2" in node:
+                                del node["param_number2"]
+                    if node.type in ["REGSTORE"]:
+                        if not "inp1" in node.strings:
+                            node.strings.add()
+                            node.strings[-1].name = "inp1"
+                            node.strings[-1].string = "" if "param_string1" not in node else node["param_string1"]
+                            if "param_string1" in node:
+                                del node["param_string1"]
 
                     if node.type == "GET_TIMELINE":
                         if not "nla" in node.bools:
@@ -360,6 +394,22 @@ def logic_nodetree_reform(arg):
                         if not "env" in node.bools:
                             node.bools.add()
                             node.bools[-1].name = "env"
+
+                    if node.type == "CONDJUMP":
+                        if not "str" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "str"
+                        if not "inp1" in node.strings:
+                            node.strings.add()
+                            node.strings[-1].name = "inp1"
+                        if not "inp2" in node.strings:
+                            node.strings.add()
+                            node.strings[-1].name = "inp2"
+
+                    if node.type == "ENTRYPOINT":
+                        if not "js" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "js"
 
 def init_runtime_addon_data():
     p = bpy.context.user_preferences.addons[__package__].preferences

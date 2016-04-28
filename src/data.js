@@ -29,15 +29,12 @@ var m_anchors   = require("__anchors");
 var m_anim      = require("__animation");
 var m_assets    = require("__assets");
 var m_batch     = require("__batch");
-var m_cam       = require("__camera");
 var m_cfg       = require("__config");
 var m_ctl       = require("__controls");
 var m_dds       = require("__dds");
 var m_ext       = require("__extensions");
 var m_input     = require("__input");
-var m_lights    = require("__lights");
 var m_loader    = require("__loader");
-var m_mat4      = require("__mat4");
 var m_md5       = require("__md5");
 var m_nla       = require("__nla");
 var m_lnodes    = require("__logic_nodes");
@@ -2258,8 +2255,7 @@ function prepare_bpy_lods(bpy_data) {
 
         for (var j = 0; j < scene_objs.length; j++) {
             var bpy_obj = scene_objs[j];
-
-            prepare_bpy_obj_lods(scene_objs, bpy_obj, added_objs,
+            prepare_bpy_obj_lods(scene_objs, bpy_obj, null, added_objs,
                     removed_objs);
 
             var dupli_group = bpy_obj["dupli_group"];
@@ -2269,7 +2265,7 @@ function prepare_bpy_lods(bpy_data) {
                 for (var k = 0; k < dg_objects.length; k++) {
                     var dg_obj = dg_objects[k];
 
-                    prepare_bpy_obj_lods(dg_objects, dg_obj,
+                    prepare_bpy_obj_lods(dg_objects, dg_obj, bpy_obj,
                             added_objs, removed_objs);
                 }
             }
@@ -2283,15 +2279,15 @@ function prepare_bpy_lods(bpy_data) {
     }
 }
 
-function prepare_bpy_obj_lods(container, bpy_obj, added_objs, removed_objs) {
+function prepare_bpy_obj_lods(container, lod_parent_bpy, dg_parent_bpy, added_objs, removed_objs) {
 
-    if (!(bpy_obj["lod_levels"] && bpy_obj["lod_levels"].length))
+    if (!(lod_parent_bpy["lod_levels"] && lod_parent_bpy["lod_levels"].length))
         return;
 
-    var lods_num = bpy_obj["lod_levels"].length;
+    var lods_num = lod_parent_bpy["lod_levels"].length;
 
     for (var i = 0; i < lods_num; i++) {
-        var lod = bpy_obj["lod_levels"][i];
+        var lod = lod_parent_bpy["lod_levels"][i];
         var lod_obj = lod["object"];
 
         if (!lod_obj)
@@ -2299,12 +2295,15 @@ function prepare_bpy_obj_lods(container, bpy_obj, added_objs, removed_objs) {
 
         var lod_obj_new = m_util.clone_object_nr(lod_obj);
 
-        lod_obj_new["name"] = bpy_obj["name"] + "_LOD_" +
+        lod_obj_new["name"] = lod_parent_bpy["name"] + "_LOD_" +
                 String(i + 1);
 
         assign_bpy_obj_id(lod_obj_new);
 
         lod_obj_new["lod_levels"] = [];
+
+        if (dg_parent_bpy)
+            lod_obj_new["dg_parent"] = dg_parent_bpy;
 
         added_objs.push([container, lod_obj_new]);
         removed_objs.push(lod_obj);

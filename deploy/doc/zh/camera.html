@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Camera &mdash; Blend4Web 16.03 用户手册</title>
+  <title>Camera &mdash; Blend4Web 16.04 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
-        <link rel="next" title="Materials" href="materials.html"/>
-        <link rel="prev" title="Meshes" href="meshes.html"/> 
+    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
+        <link rel="next" title="材质" href="materials.html"/>
+        <link rel="prev" title="网格" href="meshes.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.03
+              v16.04
             </div>
           
         
@@ -84,7 +84,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
@@ -92,8 +92,8 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
-<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Camera</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#move-styles-and-general-settings">Move Styles and General Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#limiting-the-camera-movement">Limiting the Camera Movement</a><ul>
@@ -111,23 +111,23 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
@@ -235,16 +235,16 @@
 <dt><em>Look At Cursor &gt; Target Location</em></dt>
 <dd>Available for the <code class="docutils literal"><span class="pre">Target</span></code> mode. This is the position of the camera pivot point. The <code class="docutils literal"><span class="pre">Look</span> <span class="pre">At</span> <span class="pre">Cursor</span></code> button copies the current 3D cursor position into this value.</dd>
 <dt><em>Depth of Field</em></dt>
-<dd>Described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span>Depth of Field</span></a> section.</dd>
+<dd>Described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span>景深</span></a> section.</dd>
 </dl>
 <p id="camera-velocity">Velocity settings are available for camera movement.</p>
 <dl class="docutils">
 <dt><em>Camera Move Style &gt; Camera Velocities &gt; Translation Velocity</em></dt>
-<dd>Avalible for the <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code> and <code class="docutils literal"><span class="pre">Hover</span></code> type cameras. Sets the velocity of the camera translation. Possible value interval: <span class="math">\(\left[0,\ \infty \right)\)</span>. Default value is 1.</dd>
+<dd>Available for the <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code> and <code class="docutils literal"><span class="pre">Hover</span></code> type cameras. Sets the velocity of the camera translation. Possible value interval: <span class="math">\(\left[0,\ \infty \right)\)</span>. Default value is 1.</dd>
 <dt><em>Camera Move Style &gt; Camera Velocities &gt; Rotation Velocity</em></dt>
-<dd>Avalible for the <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code> and <code class="docutils literal"><span class="pre">Hover</span></code> type cameras. Sets the camera rotation speed. Possible value interval: <span class="math">\(\left[0,\ \infty \right)\)</span>. Default value is 1.</dd>
+<dd>Available for the <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code> and <code class="docutils literal"><span class="pre">Hover</span></code> type cameras. Sets the camera rotation speed. Possible value interval: <span class="math">\(\left[0,\ \infty \right)\)</span>. Default value is 1.</dd>
 <dt><em>Camera Move Style &gt; Camera Velocities &gt; Zoom Velocity</em></dt>
-<dd>Avalible for the <code class="docutils literal"><span class="pre">Target</span></code> and <code class="docutils literal"><span class="pre">Hover</span></code> type cameras. Set the velocity of the camera approaching the pivot point. Possible value interval: <span class="math">\(\left[0,\ 0.99\right]\)</span>. Default value is 0.1.</dd>
+<dd>Available for the <code class="docutils literal"><span class="pre">Target</span></code> and <code class="docutils literal"><span class="pre">Hover</span></code> type cameras. Set the velocity of the camera approaching the pivot point. Possible value interval: <span class="math">\(\left[0,\ 0.99\right]\)</span>. Default value is 0.1.</dd>
 </dl>
 </div>
 <div class="section" id="limiting-the-camera-movement">
@@ -378,7 +378,7 @@
 <p>Main functions for camera control are located in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> module. Some of them (intended for a specific control mode) have names which start with an appropriate prefix: <code class="docutils literal"><span class="pre">static_</span></code>, <code class="docutils literal"><span class="pre">eye_</span></code>, <code class="docutils literal"><span class="pre">target_</span></code> and <code class="docutils literal"><span class="pre">hover_</span></code>. Other functions can be used in any mode.</p>
 <div class="section" id="control-mode-setup">
 <span id="camera-move-style-change"></span><h3><a class="toc-backref" href="#id9">Control Mode Setup</a><a class="headerlink" href="#control-mode-setup" title="永久链接至标题">¶</a></h3>
-<p>To change the control mode and to completely define a camera&#8217;s behavior, the following methods can be used: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_setup">static_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_setup">eye_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>. These methods recieve an object that contains a set of optional parameters, which can be used to set the camera&#8217;s position, rotation, avalible limits and so on.</p>
+<p>To change the control mode and to completely define a camera&#8217;s behavior, the following methods can be used: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_setup">static_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_setup">eye_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>. These methods receive an object that contains a set of optional parameters, which can be used to set the camera&#8217;s position, rotation, available limits and so on.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">POS</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">LOOK_AT</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
@@ -456,7 +456,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">If you need to change only some aspects of the camera&#8217;s behavior, you can you the methods described below.</p>
+<p class="last">If you need to change only some aspects of the camera&#8217;s behavior, you can use the methods described below.</p>
 </div>
 </div>
 <div class="section" id="translation-and-rotation">
@@ -519,12 +519,12 @@
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Besause a camera is a scene object, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html">transform</a> module methods can also be used. But, as every control mode infulences camera movement differently, results may differ from those expected.</p>
+<p class="last">Because a camera is a scene object, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html">transform</a> module methods can also be used. But, as every control mode influences camera movement differently, results may differ from those expected.</p>
 </div>
 </div>
 <div class="section" id="limit-setup">
 <h3><a class="toc-backref" href="#id11">Limit Setup</a><a class="headerlink" href="#limit-setup" title="永久链接至标题">¶</a></h3>
-<p>Camera limits are avalible for the <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> type cameras. To set a specific limit, you need to use a specific method:</p>
+<p>Camera limits are available for the <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> type cameras. To set a specific limit, you need to use a specific method:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="32%" />
@@ -591,7 +591,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Enabled camera limits can infulence its position and spatial orientation set by the API functions.</p>
+<p class="last">Enabled camera limits can influence its position and spatial orientation set by the API functions.</p>
 </div>
 </div>
 <div class="section" id="angular-coordinates-count">
@@ -616,10 +616,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="materials.html" class="btn btn-neutral float-right" title="Materials" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="materials.html" class="btn btn-neutral float-right" title="材质" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="meshes.html" class="btn btn-neutral" title="Meshes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="meshes.html" class="btn btn-neutral" title="网格" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -629,7 +629,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-03-31.
+      最后更新于 2016-04-28.
 
     </p>
   </div>
@@ -652,7 +652,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.03',
+            VERSION:'v16.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

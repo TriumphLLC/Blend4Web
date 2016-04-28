@@ -23,6 +23,8 @@ var m_util   = require("util");
 var m_nla    = require("nla");
 var m_trans  = require("transform");
 var m_version = require("version");
+var m_phy   = require("physics");
+var m_math  = require("math");
 
 var m_vec3  = require("vec3");
 var m_quat  = require("quat");
@@ -41,6 +43,12 @@ var _disable_plalist = false;
 var _intro_spk = null;
 var _playlist_spks = [];
 var _end_spk = null;
+
+var _ray_id = null;
+
+var _cam_from = new Float32Array(3);
+var _cam_to = new Float32Array(3);
+var _cam_pline = m_math.create_pline();
 
 var _canvas_elem = null;
 var _mouse_x = 0;
@@ -80,17 +88,19 @@ function init_cb(canvas_elem, success) {
     //m_data.load(json_path,
     //            function(data_id) {
     //                game_main.level_load_cb(data_id, level_name, preloader_cb,
-    //                                        load_cb, load_level);
+    //                                        intro_load_cb, load_level);
     //            },
     //            preloader_cb, true);
 
     if (m_main.detect_mobile())
-        m_data.load(ASSETS_PATH + "intro_LQ.json", load_cb, preloader_cb, true);
+        m_data.load(ASSETS_PATH + "intro_LQ.json", intro_load_cb, preloader_cb,
+                    true);
     else
-        m_data.load(ASSETS_PATH + "intro_HQ.json", load_cb, preloader_cb, true);
+        m_data.load(ASSETS_PATH + "intro_HQ.json", intro_load_cb, preloader_cb,
+                    true);
 }
 
-function load_cb(data_id) {
+function intro_load_cb(data_id) {
 
     _hq_loaded = false;
     _button_clicked = false;
@@ -105,19 +115,44 @@ function load_cb(data_id) {
     var camobj = m_scs.get_active_camera();
     m_cam.get_camera_angles(camobj, _default_cam_rot);
 
-
     setTimeout(function(){
             var canvas_cont = m_cont.get_container();
             canvas_cont.style.opacity = 1;
         }, 1000);
     
     if (!m_main.detect_mobile()) {
+
+        var ray_test_cb = function(sens_obj, id, pulse) {
+            var sens_val = m_ctl.get_sensor_value(sens_obj, id, 0);
+            var payload = m_ctl.get_sensor_payload(sens_obj, id, 0);
+            var obj = payload.obj_hit;
+            _ray_id = payload.ray_test_id;
+
+            if (!sens_val) {
+                _selected_obj = null;
+                return;
+            }
+
+            if (obj != _selected_obj) {
+                _selected_obj = obj;
+                var binfo = _buttons_info[obj.name];
+                if (binfo && binfo.speaker)
+                    m_sfx.play_def(binfo.speaker);
+            }
+        }
+
+        var ray_sens = m_ctl.create_ray_sensor(camobj, _cam_from, _cam_to, "BUTTON",
+                                         true, false, true);
+        m_ctl.create_sensor_manifold(null, "BUTTON_HOVER", m_ctl.CT_CONTINUOUS,
+                                    [ray_sens], function(s){return true}, ray_test_cb);
+
         _canvas_elem.addEventListener("mousedown", main_canvas_click, false);
         _canvas_elem.addEventListener("mousemove", main_canvas_mouse_move, false);
         setTimeout(function() {
             if (!_hq_loaded && !_button_clicked)
                 load_HQ_elements();
         }, 10000)
+
     } else
         _canvas_elem.addEventListener("touchstart", main_canvas_touch, false);
 }
@@ -244,6 +279,7 @@ function setup_music(config) {
 
 function button_glow_cb(obj, id, pulse) {
     var elapsed = m_ctl.get_sensor_value(obj, id, 0);
+
     for (var objname in _buttons_info) {
         var binfo = _buttons_info[objname];
 
@@ -322,20 +358,16 @@ function main_canvas_mouse_move(e) {
     var x = e.clientX;
     var y = e.clientY;
 
-    var obj = m_scs.pick_object(x, y);
-
-    // outline
-    if (obj && obj != _selected_obj) {
-        _selected_obj = obj;
-        var binfo = _buttons_info[obj.name];
-        if (binfo && binfo.speaker)
-            m_sfx.play_def(binfo.speaker);
-    } else if (!obj && _selected_obj) {
-        _selected_obj = null;
-    }
-
     _mouse_x = x;
     _mouse_y = y;
+
+    if (_ray_id !== null) {
+        var camobj = m_scs.get_active_camera();
+        m_cam.calc_ray(camobj, x, y, _cam_pline);
+        m_math.get_pline_directional_vec(_cam_pline, _cam_to);
+        m_vec3.scale(_cam_to, 100, _cam_to);
+        m_phy.change_ray_test_from_to(_ray_id, _cam_from, _cam_to);
+    }
 }
 
 function main_canvas_touch(e) {
@@ -391,6 +423,7 @@ function start_intro() {
         load_HQ_elements();
 
     m_ctl.remove_sensor_manifold(null, "ROT_CAMERA");
+    m_ctl.remove_sensor_manifold(null, "BUTTON_HOVER");
     m_ctl.create_sensor_manifold(null, "TIMELINE_CHECK",
                  m_ctl.CT_SHOT,
                 [m_ctl.create_elapsed_sensor()],
@@ -437,7 +470,7 @@ function load_level(level_name) {
     m_data.load(json_path,
                 function(data_id) {
                     game_main.level_load_cb(data_id, level_name, preloader_cb,
-                                            load_cb, load_level);
+                                            intro_load_cb, load_level);
                 },
                 preloader_cb, true);
 }

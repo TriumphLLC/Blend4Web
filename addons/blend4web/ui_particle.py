@@ -712,6 +712,12 @@ class B4W_PARTICLE_PT_render(ParticleButtonsPanel, Panel):
             row.prop(pset, "b4w_billboard_align", text=_("Billboard Align"))
 
             row = layout.row()
+            row.label(text="Tilt:")
+            col = row.column(align=True)
+            col.prop(pset, "billboard_tilt", text="Angle", slider=True)
+            col.prop(pset, "billboard_tilt_random", text="Random", slider=True)
+
+            row = layout.row()
             row.label(text=_("Dissolve Intervals:"))
 
             row = layout.row(align=True)

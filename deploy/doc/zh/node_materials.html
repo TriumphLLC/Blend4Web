@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Node Materials &mdash; Blend4Web 16.03 用户手册</title>
+  <title>节点材质 &mdash; Blend4Web 16.04 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
         <link rel="next" title="Logic Nodes" href="logic_editor.html"/>
-        <link rel="prev" title="Materials" href="materials.html"/> 
+        <link rel="prev" title="材质" href="materials.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.03
+              v16.04
             </div>
           
         
@@ -84,7 +84,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
@@ -92,87 +92,87 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
-<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Node Materials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#standard-nodes">Standard Nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#engine-specific-nodes">Engine Specific Nodes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#replace-b4w-replace">Replace (B4W_REPLACE)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#input-parameters">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#output-parameters">Output Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">节点材质</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#standard-nodes">标准节点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#engine-specific-nodes">游戏引擎特定节点</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#replace-b4w-replace">替换（B4W_REPLACE）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#input-parameters">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#output-parameters">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#clamp-b4w-clamp">Clamp (B4W_CLAMP)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id2">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id3">Output Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clamp-b4w-clamp">钳制（B4W_CLAMP）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#time-b4w-time">Time (B4W_TIME)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id4">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id5">Output Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#time-b4w-time">时间（B4W_TIME）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#vector-view-b4w-vector-view">Vector View (B4W_VECTOR_VIEW)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id6">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id7">Output Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vector-view-b4w-vector-view">矢量视图（B4W_VECTOR_VIEW）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#parallax-b4w-parallax">Parallax (B4W_PARALLAX)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id8">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id9">Output Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parallax-b4w-parallax">视差（B4W_PARALLAX）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#translucency-b4w-translucency">Translucency (B4W_TRANSLUCENCY)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id10">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id11">Output Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#translucency-b4w-translucency">半透明（B4W_TRANSLUCENCY）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#refraction-b4w-refraction">Refraction (B4W_REFRACTION)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id12">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">Output Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#refraction-b4w-refraction">折射（B4W_REFRACTION）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#levels-of-quality-b4w-levels-of-quality">Levels of Quality (B4W_LEVELS_OF_QUALITY)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id14">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id15">Output Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#levels-of-quality-b4w-levels-of-quality">质量层级（B4W_LEVELS_OF_QUALITY）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#smoothstep-b4w-smoothstep">Smoothstep (B4W_SMOOTHSTEP)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id16">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id17">Output Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#smoothstep-b4w-smoothstep">平滑步进（B4W_SMOOTHSTEP）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#glow-output-b4w-glow-output">Glow Output (B4W_GLOW_OUTPUT)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id18">Input Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#glow-output-b4w-glow-output">夜光输出（B4W_GLOW_OUTPUT）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">输入参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#reflect-b4w-reflect">Reflect (B4W_REFLECT)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id19">Input Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id20">Output Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reflect-b4w-reflect">反射 (B4W_REFLECT)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">输入参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">输出参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#linear-to-srgb-and-srgb-to-linear-deprecated">Linear to SRGB and SRGB to Linear (Deprecated)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linear-to-srgb-and-srgb-to-linear-deprecated">线性到 SRGB和SRGB线性（已取消）</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
@@ -204,7 +204,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Node Materials</li>
+    <li>节点材质</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -217,38 +217,38 @@
            <div itemprop="articleBody">
             
   <div class="section" id="node-materials">
-<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id21">Node Materials</a><a class="headerlink" href="#node-materials" title="永久链接至标题">¶</a></h1>
+<span id="index-0"></span><span id="id1"></span><h1><a class="toc-backref" href="#id21">节点材质</a><a class="headerlink" href="#node-materials" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-content">
-<p class="topic-title first">Table of Content</p>
+<p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#node-materials" id="id21">Node Materials</a><ul>
-<li><a class="reference internal" href="#standard-nodes" id="id22">Standard Nodes</a></li>
-<li><a class="reference internal" href="#engine-specific-nodes" id="id23">Engine Specific Nodes</a><ul>
-<li><a class="reference internal" href="#replace-b4w-replace" id="id24">Replace (B4W_REPLACE)</a></li>
-<li><a class="reference internal" href="#clamp-b4w-clamp" id="id25">Clamp (B4W_CLAMP)</a></li>
-<li><a class="reference internal" href="#time-b4w-time" id="id26">Time (B4W_TIME)</a></li>
-<li><a class="reference internal" href="#vector-view-b4w-vector-view" id="id27">Vector View (B4W_VECTOR_VIEW)</a></li>
-<li><a class="reference internal" href="#parallax-b4w-parallax" id="id28">Parallax (B4W_PARALLAX)</a></li>
-<li><a class="reference internal" href="#translucency-b4w-translucency" id="id29">Translucency (B4W_TRANSLUCENCY)</a></li>
-<li><a class="reference internal" href="#refraction-b4w-refraction" id="id30">Refraction (B4W_REFRACTION)</a></li>
-<li><a class="reference internal" href="#levels-of-quality-b4w-levels-of-quality" id="id31">Levels of Quality (B4W_LEVELS_OF_QUALITY)</a></li>
-<li><a class="reference internal" href="#smoothstep-b4w-smoothstep" id="id32">Smoothstep (B4W_SMOOTHSTEP)</a></li>
-<li><a class="reference internal" href="#glow-output-b4w-glow-output" id="id33">Glow Output (B4W_GLOW_OUTPUT)</a></li>
-<li><a class="reference internal" href="#reflect-b4w-reflect" id="id34">Reflect (B4W_REFLECT)</a></li>
-<li><a class="reference internal" href="#linear-to-srgb-and-srgb-to-linear-deprecated" id="id35">Linear to SRGB and SRGB to Linear (Deprecated)</a></li>
+<li><a class="reference internal" href="#node-materials" id="id21">节点材质</a><ul>
+<li><a class="reference internal" href="#standard-nodes" id="id22">标准节点</a></li>
+<li><a class="reference internal" href="#engine-specific-nodes" id="id23">游戏引擎特定节点</a><ul>
+<li><a class="reference internal" href="#replace-b4w-replace" id="id24">替换（B4W_REPLACE）</a></li>
+<li><a class="reference internal" href="#clamp-b4w-clamp" id="id25">钳制（B4W_CLAMP）</a></li>
+<li><a class="reference internal" href="#time-b4w-time" id="id26">时间（B4W_TIME）</a></li>
+<li><a class="reference internal" href="#vector-view-b4w-vector-view" id="id27">矢量视图（B4W_VECTOR_VIEW）</a></li>
+<li><a class="reference internal" href="#parallax-b4w-parallax" id="id28">视差（B4W_PARALLAX）</a></li>
+<li><a class="reference internal" href="#translucency-b4w-translucency" id="id29">半透明（B4W_TRANSLUCENCY）</a></li>
+<li><a class="reference internal" href="#refraction-b4w-refraction" id="id30">折射（B4W_REFRACTION）</a></li>
+<li><a class="reference internal" href="#levels-of-quality-b4w-levels-of-quality" id="id31">质量层级（B4W_LEVELS_OF_QUALITY）</a></li>
+<li><a class="reference internal" href="#smoothstep-b4w-smoothstep" id="id32">平滑步进（B4W_SMOOTHSTEP）</a></li>
+<li><a class="reference internal" href="#glow-output-b4w-glow-output" id="id33">夜光输出（B4W_GLOW_OUTPUT）</a></li>
+<li><a class="reference internal" href="#reflect-b4w-reflect" id="id34">反射 (B4W_REFLECT)</a></li>
+<li><a class="reference internal" href="#linear-to-srgb-and-srgb-to-linear-deprecated" id="id35">线性到 SRGB和SRGB线性（已取消）</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<p>Shader nodes extend significantly the potential of Blender’s standard materials by means of presenting shading as a batch of basic transformations.</p>
+<p>着色器节点通过将现有的着色器进行基本变换和批处理，显著地扩展了Blender的标准材质的潜力。</p>
 <a class="reference internal image-reference" href="_images/node_materials_title.png"><img alt="_images/node_materials_title.png" class="align-center" src="_images/node_materials_title.png" style="width: 100%;" /></a>
 <div class="section" id="standard-nodes">
-<span id="generic-node-materials"></span><h2><a class="toc-backref" href="#id22">Standard Nodes</a><a class="headerlink" href="#standard-nodes" title="永久链接至标题">¶</a></h2>
-<p id="index-1">Blend4Web supports all standard Blender nodes, but some of them do not work fast enough and are not recommended to use in real time applications. Creating very complex materials, especially using large numbers of <code class="docutils literal"><span class="pre">Geometry</span></code> and <code class="docutils literal"><span class="pre">Texture</span></code> nodes, is also not recommended.</p>
-<p>Cycles nodes are only partially supported: in most cases they will not work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using Cycles nodes will not cause instabilities in the application workflow.</p>
-<p id="node-performance">Standard node performance and degree of support is described in the table.</p>
+<span id="generic-node-materials"></span><h2><a class="toc-backref" href="#id22">标准节点</a><a class="headerlink" href="#standard-nodes" title="永久链接至标题">¶</a></h2>
+<p id="index-1">Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不够快，因此不建议在实时应用程序中使用。创建非常复杂的材质，尤其是使用大量的 <code class="docutils literal"><span class="pre">Geometry</span></code> 和 <code class="docutils literal"><span class="pre">Texture</span></code> 节点，也不推荐。</p>
+<p>Cycles节点仅部分支持：在大多数情况下，他们在Blend4Web工作的方式跟他们在Blender的方式也不同。他们也可能不会完全工作，甚至导致使用它们的材质无法正常工作。然而，使用Cycles的节点不会在应用程序工作流中导致不稳定。</p>
+<p id="node-performance">标准节点的性能和支持度在表中说明。</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="20%" />
@@ -257,206 +257,256 @@
 <col width="23%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Node&#8217;s Name</th>
-<th class="head">Function</th>
-<th class="head">Support</th>
-<th class="head">Performance</th>
+<tr class="row-odd"><th class="head"><p class="first last">节点名称</p>
+</th>
+<th class="head"><p class="first last">功能</p>
+</th>
+<th class="head"><p class="first last">支持</p>
+</th>
+<th class="head"><p class="first last">性能</p>
+</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Camera Data</td>
-<td>Used to obtain data
-from an active camera</td>
-<td>Full</td>
-<td>Average</td>
+<tr class="row-even"><td><p class="first last">摄像机数据</p>
+</td>
+<td><p class="first last">用于从活动的摄像头获取的数据</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
 <tr class="row-odd"><td>ColorRamp</td>
-<td>Used to generate
-gradient</td>
-<td><code class="docutils literal"><span class="pre">B-Spline</span></code>, <code class="docutils literal"><span class="pre">Cardinal</span></code>
-and <code class="docutils literal"><span class="pre">Ease</span></code> interpolation
-modes are not supported</td>
-<td>Average</td>
+<td><p class="first last">用来产生梯度</p>
+</td>
+<td><p class="first last"><code class="docutils literal"><span class="pre">B-Spline</span></code>，<code class="docutils literal"><span class="pre">Cardinal</span></code> 和``Ease`` 插值模式不支持</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
-<tr class="row-even"><td>Combine HSV</td>
-<td>Combines a color from
-the given Hue, Value
-and Saturation</td>
-<td>Full</td>
-<td>Average</td>
+<tr class="row-even"><td><p class="first last">HSV合并</p>
+</td>
+<td><p class="first last">从给定的色相，明度和饱和度合成颜色</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Combine RGB</td>
-<td>Combines a color from
-the given red, green
-and blue channel
-values</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-odd"><td><p class="first last">RGB合并</p>
+</td>
+<td><p class="first last">从给定的红色，绿色和蓝色通道值组合彩色</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-even"><td>Extended Material</td>
-<td>Used to add a material
-to the node program.
-Has more input and
-output channels than
-the basic <code class="docutils literal"><span class="pre">Material</span></code>
-node</td>
-<td><code class="docutils literal"><span class="pre">Ambient</span></code> and <code class="docutils literal"><span class="pre">SpecTra</span></code>
-inputs are not supported.
-<code class="docutils literal"><span class="pre">AO</span></code> output is not
-supported.</td>
-<td>Average</td>
+<tr class="row-even"><td><p class="first last">扩展材质</p>
+</td>
+<td><p class="first last">用于将材质添加到节点程序。具有比基本 <code class="docutils literal"><span class="pre">Material</span></code> 节点更多的输入和输出通道</p>
+</td>
+<td><p class="first last"><code class="docutils literal"><span class="pre">Ambient</span></code> 和 <code class="docutils literal"><span class="pre">SpecTra</span></code> 输入不支持。 <code class="docutils literal"><span class="pre">AO</span></code> 输出不支持。</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Gamma</td>
-<td>Used to set gamma
-of a given color</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-odd"><td><p class="first last">伽玛</p>
+</td>
+<td><p class="first last">用于设置给定的彩色的伽马</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-even"><td>Geometry</td>
-<td>Used to obtain
-information about
-object&#8217;s geometry</td>
-<td><code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code> output
-is not supported</td>
-<td>Using large numbers
-of these nodes is
-not recommended</td>
+<tr class="row-even"><td><p class="first last">几何体</p>
+</td>
+<td><p class="first last">用于获取有关物体的几何信息</p>
+</td>
+<td><p class="first last"><code class="docutils literal"><span class="pre">顶点色Alpha</span></code> 输出不支持</p>
+</td>
+<td><p class="first last">不推荐大量使用这些节点</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Hue/Saturation</td>
-<td>Used to control Hue and
-Saturation of a given
-color</td>
-<td>Full</td>
-<td>Low</td>
+<tr class="row-odd"><td><p class="first last">色调/饱和度</p>
+</td>
+<td><p class="first last">用于控制一个给定颜色的色相和饱和度</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">底</p>
+</td>
 </tr>
-<tr class="row-even"><td>Invert</td>
-<td>Inverts a given color</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-even"><td><p class="first last">反转</p>
+</td>
+<td><p class="first last">反转给定的颜色</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Lamp Data</td>
-<td>Used to obtain
-information from a
-given light source</td>
-<td><code class="docutils literal"><span class="pre">Shadow</span></code> output
-is not supported</td>
-<td>Average</td>
+<tr class="row-odd"><td><p class="first last">灯光数据</p>
+</td>
+<td><p class="first last">用于从特定光源获取信息</p>
+</td>
+<td><p class="first last"><code class="docutils literal"><span class="pre">Shadow</span></code> 输出不支持</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
-<tr class="row-even"><td>Mapping</td>
-<td>Used to transform
-texture coordinates</td>
-<td>Full</td>
-<td>Average</td>
+<tr class="row-even"><td><p class="first last">贴图映射</p>
+</td>
+<td><p class="first last">用于转换纹理坐标</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Material</td>
-<td>Used to add a standard
-material to the
-node program</td>
-<td>Full</td>
-<td>Average</td>
+<tr class="row-odd"><td><p class="first last">材质</p>
+</td>
+<td><p class="first last">用于一个标准的材质添加到节点程序</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
-<tr class="row-even"><td>Math</td>
-<td>Used to perform
-mathematical operations
-with given values</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-even"><td><p class="first last">数学</p>
+</td>
+<td><p class="first last">用于与给定的值进行数学运算</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-odd"><td>MixRGB</td>
-<td>Mixes two given colors</td>
-<td>Full</td>
-<td>Low in the
-<code class="docutils literal"><span class="pre">Burn</span></code>,
-<code class="docutils literal"><span class="pre">Dodge</span></code>,
-<code class="docutils literal"><span class="pre">Value</span></code>,
-<code class="docutils literal"><span class="pre">Saturation</span></code>,
-<code class="docutils literal"><span class="pre">Hue</span></code>
-and <code class="docutils literal"><span class="pre">Color</span></code> modes,
-high in the rest
-of the modes</td>
+<tr class="row-odd"><td><p class="first last">混合RGB</p>
+</td>
+<td><p class="first last">混合两个给定的颜色</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last"><code class="docutils literal"><span class="pre">Burn</span></code>，<code class="docutils literal"><span class="pre">Dodge</span></code>，<code class="docutils literal"><span class="pre">Value</span></code>，<code class="docutils literal"><span class="pre">Saturation</span></code>，<code class="docutils literal"><span class="pre">Hue</span></code> 和 <code class="docutils literal"><span class="pre">Color</span></code> 模式性能低，其余模式性能高。</p>
+</td>
 </tr>
-<tr class="row-even"><td>Normal</td>
-<td>Used to generate a
-normal vector</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-even"><td><p class="first last">法线</p>
+</td>
+<td><p class="first last">用于生成法线矢量</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Output</td>
-<td>Outputs the result
-of the node program</td>
-<td>Full</td>
-<td>Average</td>
+<tr class="row-odd"><td><p class="first last">输出</p>
+</td>
+<td><p class="first last">输出节点程序的结果</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
-<tr class="row-even"><td>Particle Info</td>
-<td>Used to obtain
-information about
-particle system</td>
-<td>In the materials of the
-<code class="docutils literal"><span class="pre">Emitter</span></code> type
-particle systems</td>
-<td>Average</td>
+<tr class="row-even"><td><p class="first last">粒子信息</p>
+</td>
+<td><p class="first last">用于获取有关粒子系统信息</p>
+</td>
+<td><p class="first last">在 <code class="docutils literal"><span class="pre">Emitter</span></code> 型粒子系统的材质</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
 <tr class="row-odd"><td>RGB</td>
-<td>Generates an RGB color</td>
-<td>Full</td>
-<td>High</td>
+<td><p class="first last">生成一个RGB颜色</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-even"><td>RGB Curves</td>
-<td>Sets a curve to modify
-a given color</td>
-<td>Full</td>
-<td>Average</td>
+<tr class="row-even"><td><p class="first last">RGB 曲线节点</p>
+</td>
+<td><p class="first last">设置一个曲线以修改一个给定的色</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
-<tr class="row-odd"><td>RGB to BW</td>
-<td>Desaturates a given
-RGB color</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-odd"><td><p class="first last">RGB到BW</p>
+</td>
+<td><p class="first last">给定的RGB颜色去饱和</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-even"><td>Separate HSV</td>
-<td>Separates a given color
-into Hue, Saturation
-and Value</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-even"><td><p class="first last">HSV拆分</p>
+</td>
+<td><p class="first last">拆分给定的颜色为色调，饱和度和值</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Separave RGB</td>
-<td>Separates a given color
-into red, green and
-blue channels</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-odd"><td>Separate RGB</td>
+<td><p class="first last">分离给定颜色为红，绿和兰通道</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-even"><td>Squeeze Value</td>
-<td>Squeezes given value</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-even"><td><p class="first last">挤压值</p>
+</td>
+<td><p class="first last">挤压给定值</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Texture</td>
-<td>Sets a texture</td>
-<td>Full</td>
-<td>Using large numbers
-of these nodes is
-not recommended</td>
+<tr class="row-odd"><td><p class="first last">纹理（Texture）</p>
+</td>
+<td><p class="first last">设置纹理</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">不推荐大量使用这些节点</p>
+</td>
 </tr>
-<tr class="row-even"><td>Value</td>
-<td>Generates a numeric
-value</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-even"><td><p class="first last">数值</p>
+</td>
+<td><p class="first last">生成一个数值</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Vector Curves</td>
-<td>Sets a curve to modify
-a given vector</td>
-<td>Full</td>
-<td>Average</td>
+<tr class="row-odd"><td><p class="first last">矢量曲线</p>
+</td>
+<td><p class="first last">设置一个曲线以修改一个给定的矢量</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">平均</p>
+</td>
 </tr>
-<tr class="row-even"><td>Vector Math</td>
-<td>Used to perform
-mathematical operations
-with two given vectors</td>
-<td>Full</td>
-<td>High</td>
+<tr class="row-even"><td><p class="first last">矢量数学</p>
+</td>
+<td><p class="first last">用于与给定的两个向量进行数学运算</p>
+</td>
+<td><p class="first last">全部</p>
+</td>
+<td><p class="first last">高</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -465,296 +515,330 @@ with two given vectors</td>
 </div>
 </div>
 <div class="section" id="engine-specific-nodes">
-<span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id23">Engine Specific Nodes</a><a class="headerlink" href="#engine-specific-nodes" title="永久链接至标题">¶</a></h2>
-<p id="index-2">Engine-specific nodes extend functionality of the standard nodes to support extra features. These nodes are created as node groups (<code class="docutils literal"><span class="pre">Node</span> <span class="pre">Groups</span></code> or <code class="docutils literal"><span class="pre">Node</span> <span class="pre">Tree</span></code>) with specially determined names and input formats. For convenience, all special nodes are added to a blend file when it is opened.</p>
+<span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id23">游戏引擎特定节点</a><a class="headerlink" href="#engine-specific-nodes" title="永久链接至标题">¶</a></h2>
+<p id="index-2">引擎特定的节点扩展标准节点以支持额外的功能。这些节点采用特殊命名的名称和输入格式创建为节点组（<code class="docutils literal"><span class="pre">节点组</span></code> 或 <code class="docutils literal"><span class="pre">节点树</span></code>）。为方便起见，被打开时，所有的特殊节点已经添加到Blend文件。</p>
 <img alt="_images/node_materials_nodes.png" class="align-center" src="_images/node_materials_nodes.png" />
 <div class="section" id="replace-b4w-replace">
-<span id="node-replace"></span><h3><a class="toc-backref" href="#id24">Replace (B4W_REPLACE)</a><a class="headerlink" href="#replace-b4w-replace" title="永久链接至标题">¶</a></h3>
-<p>The node replaces the inputs depending on the working environment (i.e. Blender viewport or Blend4Web). When working in Blender the <code class="docutils literal"><span class="pre">Color1</span></code> input is connected to the <code class="docutils literal"><span class="pre">Color</span></code> output and the <code class="docutils literal"><span class="pre">Color2</span></code> input is ignored. On the contrary when working in the engine the inputs are interchanged (the <code class="docutils literal"><span class="pre">Color1</span></code> one is ignored and the <code class="docutils literal"><span class="pre">Color2</span></code> one is connected to the output). The node is intended to display one node structure in the viewport and another - in the engine.</p>
+<span id="node-replace"></span><h3><a class="toc-backref" href="#id24">替换（B4W_REPLACE）</a><a class="headerlink" href="#replace-b4w-replace" title="永久链接至标题">¶</a></h3>
+<p>节点替换取决于工作环境（即Blender视口或Blend4Web）的输入。在Blender工作时，<code class="docutils literal"><span class="pre">Color1</span></code> 输入被连接到``Color`` 输出和 <code class="docutils literal"><span class="pre">Color2</span></code> 输入被忽略。相反在引擎中输入被替换时（这时 <code class="docutils literal"><span class="pre">Color1</span></code> 被忽略，<code class="docutils literal"><span class="pre">Color2</span></code> 被连接到输出）。节点意欲在视口中显示的一个节点的结构和其他 - 在引擎中。</p>
 <a class="reference internal image-reference" href="_images/node_materials_replace.png"><img alt="_images/node_materials_replace.png" class="align-center" src="_images/node_materials_replace.png" style="width: 100%;" /></a>
-<p>As a rule it is used for normal mapping. Blender’s node materials do not support a tangent space of coordinates. Therefore the only possible method to display normal maps in the viewport correctly is their usage inside the <code class="docutils literal"><span class="pre">Material</span></code> nodes.</p>
+<p>作为一项规则是用于法线贴图。 Blender的节点材质不支持坐标的切线空间。因此，唯一可能的在视口中来显示法线贴图正确的方法是在 <code class="docutils literal"><span class="pre">Material</span></code> 节点内的使用。</p>
 <div class="section" id="input-parameters">
-<h4>Input Parameters<a class="headerlink" href="#input-parameters" title="永久链接至标题">¶</a></h4>
+<h4>输入参数<a class="headerlink" href="#input-parameters" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color1</em></dt>
-<dd>Node setup that will be visible in the Blender viewport.</dd>
+<dd><p class="first last">节点的设置，这将是在Blender视口中可见。</p>
+</dd>
 <dt><em>Color2</em></dt>
-<dd>Node setup that will be visible in the Blend4Web engine.</dd>
+<dd><p class="first last">节点设置，就可以在Blend4Web引擎可见。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="output-parameters">
-<h4>Output Parameters<a class="headerlink" href="#output-parameters" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#output-parameters" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd>Should be connected to the <code class="docutils literal"><span class="pre">Color</span></code> socket of the <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node.</dd>
+<dd><p class="first last">应连接到 <code class="docutils literal"><span class="pre">Material</span></code> 或 <code class="docutils literal"><span class="pre">扩展Material</span></code> 节点的 <code class="docutils literal"><span class="pre">Color</span></code> 插座。</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="clamp-b4w-clamp">
-<span id="node-clamp"></span><h3><a class="toc-backref" href="#id25">Clamp (B4W_CLAMP)</a><a class="headerlink" href="#clamp-b4w-clamp" title="永久链接至标题">¶</a></h3>
-<p>The node limits the output value. As a result all the output vector components take values from 0 to 1 inclusive.</p>
+<span id="node-clamp"></span><h3><a class="toc-backref" href="#id25">钳制（B4W_CLAMP）</a><a class="headerlink" href="#clamp-b4w-clamp" title="永久链接至标题">¶</a></h3>
+<p>节点限制输出值。其结果是所有的输出矢量分量取从0到1中间的值。</p>
 <a class="reference internal image-reference" href="_images/node_materials_clamp.png"><img alt="_images/node_materials_clamp.png" class="align-center" src="_images/node_materials_clamp.png" style="width: 100%;" /></a>
 <div class="section" id="id2">
-<h4>Input Parameters<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h4>
+<h4>输入参数<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Image</em></dt>
-<dd>Incident vector.</dd>
+<dt><em>图像</em></dt>
+<dd><p class="first last">关联向量</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="id3">
-<h4>Output Parameters<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Image</em></dt>
-<dd>Clamped vector.</dd>
+<dt><em>图像</em></dt>
+<dd><p class="first last">钳制向量</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="time-b4w-time">
-<span id="node-time"></span><h3><a class="toc-backref" href="#id26">Time (B4W_TIME)</a><a class="headerlink" href="#time-b4w-time" title="永久链接至标题">¶</a></h3>
-<p>Provides the timeline counting from the engine start (in seconds). Can be used for animating any parameters in node materials, such as UV coordinates, mixing factors, transparency etc.</p>
+<span id="node-time"></span><h3><a class="toc-backref" href="#id26">时间（B4W_TIME）</a><a class="headerlink" href="#time-b4w-time" title="永久链接至标题">¶</a></h3>
+<p>提供时间表，从引擎起动计数（以秒计）。可用于在节点的材质，如UV坐标动画任何参数，混合的因子，透明度等。</p>
 <img alt="_images/node_time.png" class="align-center" src="_images/node_time.png" />
 <div class="section" id="id4">
-<h4>Input Parameters<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h4>
-<p>None.</p>
+<h4>输入参数<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h4>
+<p>无</p>
 </div>
 <div class="section" id="id5">
-<h4>Output Parameters<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Value</em></dt>
-<dd>Time (in seconds) elapsed from the engine startup.</dd>
+<dt><em>值</em></dt>
+<dd><p class="first last">从引擎起动开始经过的时间（秒）。</p>
+</dd>
 </dl>
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="animation.html#node-anim"><span>Animation of Value and RGB Nodes</span></a></p>
+<p class="last"><a class="reference internal" href="animation.html#node-anim"><span>值和 RGB 节点的动画</span></a></p>
 </div>
 </div>
 </div>
 <div class="section" id="vector-view-b4w-vector-view">
-<span id="node-vector-view"></span><h3><a class="toc-backref" href="#id27">Vector View (B4W_VECTOR_VIEW)</a><a class="headerlink" href="#vector-view-b4w-vector-view" title="永久链接至标题">¶</a></h3>
-<p>The node transforms a vector into the camera’s space of coordinates. Transformation is necessary because the engine defines most of vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> nodes.</p>
+<span id="node-vector-view"></span><h3><a class="toc-backref" href="#id27">矢量视图（B4W_VECTOR_VIEW）</a><a class="headerlink" href="#vector-view-b4w-vector-view" title="永久链接至标题">¶</a></h3>
+<p>该节点将一个向量坐标转换到相机的空间。转换是必要的，因为引擎定义矢量坐标系在世界空间。如果正常矢量是由该节点转变它应该只对影响，不用于连接到 <code class="docutils literal"><span class="pre">Material</span></code> 或 <code class="docutils literal"><span class="pre">扩展Material</span></code> 节点的输出。</p>
 <a class="reference internal image-reference" href="_images/node_materials_vector_view.png"><img alt="_images/node_materials_vector_view.png" class="align-center" src="_images/node_materials_vector_view.png" style="width: 100%;" /></a>
 <div class="section" id="id6">
-<h4>Input Parameters<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h4>
+<h4>输入参数<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Vector</em></dt>
-<dd>Vector coordinates in the world-space.</dd>
+<dt><em>矢量</em></dt>
+<dd><p class="first last">向量的坐标在世界空间。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="id7">
-<h4>Output Parameters<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Vector</em></dt>
-<dd>Vector coordinates in the camera-space.</dd>
+<dt><em>矢量</em></dt>
+<dd><p class="first last">矢量坐标在摄像机空间。</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="parallax-b4w-parallax">
-<span id="node-parallax"></span><h3><a class="toc-backref" href="#id28">Parallax (B4W_PARALLAX)</a><a class="headerlink" href="#parallax-b4w-parallax" title="永久链接至标题">¶</a></h3>
-<p>The node implements the texture coordinates offset using a height map.</p>
+<span id="node-parallax"></span><h3><a class="toc-backref" href="#id28">视差（B4W_PARALLAX）</a><a class="headerlink" href="#parallax-b4w-parallax" title="永久链接至标题">¶</a></h3>
+<p>该节点使用高度贴图实现纹理坐标偏移。</p>
 <a class="reference internal image-reference" href="_images/node_materials_parallax.png"><img alt="_images/node_materials_parallax.png" class="align-center" src="_images/node_materials_parallax.png" style="width: 100%;" /></a>
 <div class="section" id="id8">
-<h4>Input Parameters<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h4>
+<h4>输入参数<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>UV</em></dt>
-<dd>Source texture coordinates.</dd>
-<dt><em>Height Map</em></dt>
-<dd>RGBA texture with a height map packed into the alpha channel.</dd>
-<dt><em>Scale</em></dt>
-<dd>Texture coordinates offset factor.</dd>
-<dt><em>Steps</em></dt>
-<dd>The number of steps for iterative generation of texture coordinates offset. The bigger this value is the better is the final quality.</dd>
-<dt><em>Lod Distance</em></dt>
-<dd>Maximum distance from camera at which the effect is observed.</dd>
+<dd><p class="first last">源纹理坐标。</p>
+</dd>
+<dt><em>高度贴图</em></dt>
+<dd><p class="first last">RGBA纹理压缩到alpha通道的高度图。</p>
+</dd>
+<dt><em>缩放</em></dt>
+<dd><p class="first last">纹理坐标偏移的因子。</p>
+</dd>
+<dt><em>步进</em></dt>
+<dd><p class="first last">迭代产生纹理的步数坐标偏移。这个值越大最后的质量越好。</p>
+</dd>
+<dt><em>LOD距离</em></dt>
+<dd><p class="first last">从相距距离最远开始，效果能被观察到。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="id9">
-<h4>Output Parameters<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>UV</em></dt>
-<dd>Resulting texture coordinates which are used as input for the texture nodes.</dd>
+<dd><p class="first last">结果是纹理坐标用着输入纹理节点。</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="translucency-b4w-translucency">
-<span id="node-translucency"></span><h3><a class="toc-backref" href="#id29">Translucency (B4W_TRANSLUCENCY)</a><a class="headerlink" href="#translucency-b4w-translucency" title="永久链接至标题">¶</a></h3>
-<p>The node implements a translucency effect (with respect to light sources only) for thin objects such as cloth, leaves, paper etc. The effect consists of two parts: 1) brightening of the object side which is opposite to the light source and 2) appearance of a light spot right in the light source place.</p>
+<span id="node-translucency"></span><h3><a class="toc-backref" href="#id29">半透明（B4W_TRANSLUCENCY）</a><a class="headerlink" href="#translucency-b4w-translucency" title="永久链接至标题">¶</a></h3>
+<p>节点实现了一个半透明效果（只对于光源）的薄的物体，如布，树叶，纸张等的效果，由两部分组成：1）物体侧的增亮这是相对的光源和2）光点就在光源处的外观。</p>
 <a class="reference internal image-reference" href="_images/node_materials_translucency.png"><img alt="_images/node_materials_translucency.png" class="align-center" src="_images/node_materials_translucency.png" style="width: 100%;" /></a>
 <div class="section" id="id10">
-<h4>Input Parameters<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h4>
+<h4>输入参数<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd>One-channel texture which defines material heterogeneity - the white color denotes maximum translucency effect while the black color denotes its absence. White color is used by default.</dd>
-<dt><em>Backside Factor</em></dt>
-<dd><p class="first">Material color correction coefficient for the side which is opposite to the light source. It describes the color richness effect for the translucent areas.</p>
-<ul class="simple">
-<li><em>Backside Factor &lt; 1</em> - brightening</li>
-<li><em>Backside Factor = 1</em> - no correction</li>
-<li><em>Backside Factor &gt; 1</em> - darkening</li>
-</ul>
-<p class="last">The default value is 1.</p>
+<dd><p class="first last">它定义了材质异质性单通道纹理 - 白色表示最大的半透明效果，而黑色代表不存在。白色默认情况下使用。</p>
 </dd>
-<dt><em>Spot Hardness</em></dt>
-<dd>Light spot blurring factor. The bigger this value is the smaller is the spot and the sharper are the spot edges. The default value is 1000.</dd>
-<dt><em>Spot Intensity</em></dt>
-<dd>Light spot intesity. The bigger this value is the brighter is the light spot. The default value is 1.</dd>
-<dt><em>Spot Diffuse Factor</em></dt>
-<dd><p class="first">Material diffuse color influence on the light spot color.</p>
+<dt><em>背面因子</em></dt>
+<dd><p class="first">为这是相对的光源侧的材质颜色校正系数。它描述了半透明区域的颜色丰富性的效果。</p>
 <ul class="simple">
-<li><em>Spot Diffuse Factor = 0</em> - the light spot has the diffuse color</li>
-<li><em>Spot Diffuse Factor = 1</em> - the light spot color is white</li>
+<li><p class="first"><em>背面系数&lt;1</em>  - 增亮</p>
+</li>
+<li><p class="first"><em>背面系数= 1</em>  - 无修正</p>
+</li>
+<li><p class="first"><em>背面系数&gt; 1</em>  - 变黑</p>
+</li>
 </ul>
-<p class="last">The default value is 1.</p>
+<p class="last">默认值是0</p>
+</dd>
+<dt><em>光点硬度</em></dt>
+<dd><p class="first last">光点模糊的系数。这个值越大就越小，当场和更清晰的现货边缘。缺省值为1000。</p>
+</dd>
+<dt><em>斑点强度</em></dt>
+<dd><p class="first last">光斑强度。这个值越亮越大，光点。默认值是1。</p>
+</dd>
+<dt><em>光斑漫射系数</em></dt>
+<dd><p class="first">光斑的颜色材质漫反射颜色影响。</p>
+<ul class="simple">
+<li><p class="first"><em>光斑漫射系数 = 0</em>  - 光斑有漫反射颜色</p>
+</li>
+<li><p class="first"><em>光斑漫射系数 = 1</em>  - 光斑颜色为白色</p>
+</li>
+</ul>
+<p class="last">默认值是0</p>
 </dd>
 </dl>
 </div>
 <div class="section" id="id11">
-<h4>Output Parameters<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Translucency</em></dt>
-<dd>The output should be connected to the <code class="docutils literal"><span class="pre">Translucency</span></code> input of the <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node.</dd>
+<dt><em>半透明</em></dt>
+<dd><p class="first last">输出应被连接到 <code class="docutils literal"><span class="pre">扩展Material</span></code> 节点的 <code class="docutils literal"><span class="pre">Translucency</span></code> 输入。</p>
+</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">This node can work incorrectly, if the <a class="reference internal" href="lighting.html#normals-editor"><span>mesh normals were edited</span></a>.</p>
+<p class="last">如果  <a class="reference internal" href="lighting.html#normals-editor"><span>网格法线被编辑了</span></a> ，这个节点不会正常工作。</p>
 </div>
 </div>
 </div>
 <div class="section" id="refraction-b4w-refraction">
-<span id="node-refraction"></span><h3><a class="toc-backref" href="#id30">Refraction (B4W_REFRACTION)</a><a class="headerlink" href="#refraction-b4w-refraction" title="永久链接至标题">¶</a></h3>
-<p>Applies refraction effect to an object. This effect works only in the Blend4Web engine and not in the Blender’s viewport.</p>
+<span id="node-refraction"></span><h3><a class="toc-backref" href="#id30">折射（B4W_REFRACTION）</a><a class="headerlink" href="#refraction-b4w-refraction" title="永久链接至标题">¶</a></h3>
+<p>一个物体产生折射效果。这种效果仅在Blend4Web引擎，而不是在Blender的视口。</p>
 <a class="reference internal image-reference" href="_images/node_materials_refraction.png"><img alt="_images/node_materials_refraction.png" class="align-center" src="_images/node_materials_refraction.png" style="width: 100%;" /></a>
 <div class="section" id="id12">
-<h4>Input Parameters<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h4>
+<h4>输入参数<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Normal</em></dt>
-<dd>Normal map for adding perturbations.</dd>
-<dt><em>Refraction Bump</em></dt>
-<dd><p class="first">Value of perturbation strength.</p>
-<p class="last">The default value is 0.001.</p>
+<dt><em>法线</em></dt>
+<dd>A normal vector in camera space for adding perturbations.</dd>
+<dt><em>折射凹凸</em></dt>
+<dd><p class="first">扰动强度值。</p>
+<p class="last">默认值是0</p>
 </dd>
 </dl>
 </div>
 <div class="section" id="id13">
-<h4>Output Parameters<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd>Rendered texture behind object with perturbations.</dd>
+<dd><p class="first last">对物体后面的材质产生扰动。</p>
+</dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">It’s neccessary to set the <code class="docutils literal"><span class="pre">Refractions</span></code> option from the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code> panel to value <code class="docutils literal"><span class="pre">AUTO</span></code> or <code class="docutils literal"><span class="pre">ON</span></code>. The object’s transparency type must be set to <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>.</p>
+<p class="last">需要在 <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reflections</span> <span class="pre">and</span> <span class="pre">Refractions</span></code> 面板设置 <code class="docutils literal"><span class="pre">Refractions</span></code> 选项值为 <code class="docutils literal"><span class="pre">AUTO</span></code> 或 <code class="docutils literal"><span class="pre">ON</span></code> 。物体的透明度类型必须设置为 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>.</p>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><span>Transparency</span></a></p>
+<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><span>透明</span></a></p>
 </div>
 </div>
 </div>
 <div class="section" id="levels-of-quality-b4w-levels-of-quality">
-<span id="node-quality"></span><h3><a class="toc-backref" href="#id31">Levels of Quality (B4W_LEVELS_OF_QUALITY)</a><a class="headerlink" href="#levels-of-quality-b4w-levels-of-quality" title="永久链接至标题">¶</a></h3>
-<p>Sets up the output color based on the current image quality settings. Can be used to, for example, replace complex material with more simple one if the application is running on a mobile device.</p>
+<span id="node-quality"></span><h3><a class="toc-backref" href="#id31">质量层级（B4W_LEVELS_OF_QUALITY）</a><a class="headerlink" href="#levels-of-quality-b4w-levels-of-quality" title="永久链接至标题">¶</a></h3>
+<p>设置根据当前的图像质量设置输出颜色。可用于，例如，与如果应用程序在移动装置上运行用更简单材质的更换复杂材质。</p>
 <a class="reference internal image-reference" href="_images/node_materials_levels_of_quality.png"><img alt="_images/node_materials_levels_of_quality.png" class="align-center" src="_images/node_materials_levels_of_quality.png" style="width: 100%;" /></a>
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
 <p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Quality Profiles</span></a></p>
 </div>
 <div class="section" id="id14">
-<h4>Input Parameters<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h4>
+<h4>输入参数<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>HIGH</em></dt>
-<dd>Node links this parameter to <code class="docutils literal"><span class="pre">Color</span></code> parameter in case of high and maximum quality usage.</dd>
-<dt><em>LOW</em></dt>
-<dd>Node links this parameter to <code class="docutils literal"><span class="pre">Color</span></code> parameter in case of low quality usage.</dd>
-<dt><em>Fac</em></dt>
-<dd>This value specifies what quality setting (<code class="docutils literal"><span class="pre">HIGH</span></code> or <code class="docutils literal"><span class="pre">LOW</span></code>) will be visible in the Blender viewport. Can change from 0 to 1. If the value is lower than 0.5, the <code class="docutils literal"><span class="pre">HIGH</span></code> setting will be visible, if it is 0.5 or higher, the <code class="docutils literal"><span class="pre">LOW</span></code> setting will be visible.</dd>
+<dt><em>高质量</em></dt>
+<dd><p class="first last">节点链接这个参数到 <code class="docutils literal"><span class="pre">Color</span></code> 参数高，最高的质量使用的情况。</p>
+</dd>
+<dt><em>低</em></dt>
+<dd><p class="first last">节点链接这个参数到 <code class="docutils literal"><span class="pre">Color</span></code> 参数低质量的使用情况。</p>
+</dd>
+<dt><em>系数</em></dt>
+<dd><p class="first last">此值指定什么质量设置（<code class="docutils literal"><span class="pre">HIGH</span></code> 或 <code class="docutils literal"><span class="pre">LOW</span></code>）将在Blender视口中可见。可以从0变化到1，如果该值低于0.5时，<code class="docutils literal"><span class="pre">HIGH</span></code> 设置将是可见的，如果它是0.5或更高时，<code class="docutils literal"><span class="pre">LOW</span></code> 设置将是可见的。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="id15">
-<h4>Output Parameters<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>Color</em></dt>
-<dd>Output color.</dd>
+<dd><p class="first last">输出颜色。</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="smoothstep-b4w-smoothstep">
-<span id="node-smoothstep"></span><h3><a class="toc-backref" href="#id32">Smoothstep (B4W_SMOOTHSTEP)</a><a class="headerlink" href="#smoothstep-b4w-smoothstep" title="永久链接至标题">¶</a></h3>
-<p>Performs smooth interpolation between two input values based on first value.</p>
+<span id="node-smoothstep"></span><h3><a class="toc-backref" href="#id32">平滑步进（B4W_SMOOTHSTEP）</a><a class="headerlink" href="#smoothstep-b4w-smoothstep" title="永久链接至标题">¶</a></h3>
+<p>进行基于第一值的两个输入值之间的平滑内插。</p>
 <a class="reference internal image-reference" href="_images/node_materials_smoothstep.png"><img alt="_images/node_materials_smoothstep.png" class="align-center" src="_images/node_materials_smoothstep.png" style="width: 100%;" /></a>
 <div class="section" id="id16">
-<h4>Input Parameters<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h4>
+<h4>输入参数<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Value</em></dt>
-<dd>Value which determines interpolation smoothness.</dd>
+<dt><em>值</em></dt>
+<dd><p class="first last">决定插值的平滑度的值。</p>
+</dd>
 <dt><em>Edge0</em></dt>
-<dd>First interpolation value.</dd>
+<dd><p class="first last">首个插值。</p>
+</dd>
 <dt><em>Edge1</em></dt>
-<dd>Second interpolation value.</dd>
+<dd><p class="first last">第二插值。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="id17">
-<h4>Output Parameters<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Value</em></dt>
-<dd>Interpolated value.</dd>
-</dl>
-<div class="admonition note">
-<p class="first admonition-title">注解</p>
-<p class="last">For the correct interpolation input <code class="docutils literal"><span class="pre">Value</span></code> had to be between <code class="docutils literal"><span class="pre">Edge0</span></code> and <code class="docutils literal"><span class="pre">Edge1</span></code>.</p>
-</div>
-</div>
-</div>
-<div class="section" id="glow-output-b4w-glow-output">
-<span id="glow-output"></span><h3><a class="toc-backref" href="#id33">Glow Output (B4W_GLOW_OUTPUT)</a><a class="headerlink" href="#glow-output-b4w-glow-output" title="永久链接至标题">¶</a></h3>
-<p>Applies the <a class="reference internal" href="postprocessing_effects.html#glow"><span>Glow effect</span></a> to the node material. Besides the <em>B4W_GLOW_OUTPUT</em> node, the node material should have the <em>Output</em> node.</p>
-<a class="reference internal image-reference" href="_images/node_materials_glow_output.png"><img alt="_images/node_materials_glow_output.png" class="align-center" src="_images/node_materials_glow_output.png" style="width: 100%;" /></a>
-<div class="section" id="id18">
-<h4>Input Parameters<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h4>
-<dl class="docutils">
-<dt><em>Glow Color</em></dt>
-<dd>Glow color.</dd>
-<dt><em>Factor</em></dt>
-<dd><p class="first">Glow ratio. <em>Factor</em> <span class="math">\(\in [0, 1]\)</span>.</p>
-<ul class="last simple">
-<li><em>Factor = 0</em> - no glow.</li>
-<li><em>Factor</em> <span class="math">\(\in (0, 1]\)</span> - there is a glow, colored with <em>Glow Color</em>.</li>
-</ul>
+<dt><em>值</em></dt>
+<dd><p class="first last">插值。</p>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">The <code class="docutils literal"><span class="pre">Transparency-&gt;Type</span></code> parameters of the material don’t affect behavior of the glow effect. It always corresponds to the transparent material (not the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> type).</p>
+<p class="last">对于正确的插值，输入``Value`` 必须在 <code class="docutils literal"><span class="pre">Edge0</span></code> 和 <code class="docutils literal"><span class="pre">Edge1</span></code> 之间。</p>
 </div>
+</div>
+</div>
+<div class="section" id="glow-output-b4w-glow-output">
+<span id="glow-output"></span><h3><a class="toc-backref" href="#id33">夜光输出（B4W_GLOW_OUTPUT）</a><a class="headerlink" href="#glow-output-b4w-glow-output" title="永久链接至标题">¶</a></h3>
+<p>应用  <a class="reference internal" href="postprocessing_effects.html#glow"><span>发光效果</span></a> 到节点材质。除了 <em>B4W_GLOW_OUTPUT</em> 节点，该节点材质应具有 <em>输出</em> 节点。</p>
+<a class="reference internal image-reference" href="_images/node_materials_glow_output.png"><img alt="_images/node_materials_glow_output.png" class="align-center" src="_images/node_materials_glow_output.png" style="width: 100%;" /></a>
+<div class="section" id="id18">
+<h4>输入参数<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>发光颜色</em></dt>
+<dd><p class="first last">发光颜色</p>
+</dd>
+<dt><em>系数</em></dt>
+<dd><p class="first">发光的比例。 <em>系数</em>  <span class="math">\(\in [0, 1]\)</span>.</p>
+<ul class="last simple">
+<li><p class="first"><em>系数 = 0</em>  - 没有发光。</p>
+</li>
+<li><p class="first"><em>Factor</em> <span class="math">\(\in (0, 1]\)</span> - 有一个发光，与 <em>发光颜色</em> 同色。</p>
+</li>
+</ul>
+</dd>
+</dl>
 </div>
 </div>
 <div class="section" id="reflect-b4w-reflect">
-<span id="node-reflect"></span><h3><a class="toc-backref" href="#id34">Reflect (B4W_REFLECT)</a><a class="headerlink" href="#reflect-b4w-reflect" title="永久链接至标题">¶</a></h3>
-<p>Calculates the reflection direction for an incident vector and a normal vector. Can be used to apply a cubemap to an object.</p>
+<span id="node-reflect"></span><h3><a class="toc-backref" href="#id34">反射 (B4W_REFLECT)</a><a class="headerlink" href="#reflect-b4w-reflect" title="永久链接至标题">¶</a></h3>
+<p>计算入射矢量和法线矢量之间的反射方向。可用方块贴图应用到物体。</p>
 <a class="reference internal image-reference" href="_images/node_materials_reflect.png"><img alt="_images/node_materials_reflect.png" class="align-center" src="_images/node_materials_reflect.png" style="width: 100%;" /></a>
 <div class="section" id="id19">
-<h4>Input Parameters<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h4>
+<h4>输入参数<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Vector</em></dt>
-<dd>Incident vector. Should be connected to the <code class="docutils literal"><span class="pre">View</span></code> socket of the <code class="docutils literal"><span class="pre">Geometry</span></code> node.</dd>
-<dt><em>Vector</em></dt>
-<dd>Normal vector. Should be normalized in order to achieve the desired result. Should be connected to the <code class="docutils literal"><span class="pre">Normal</span></code> socket of the <code class="docutils literal"><span class="pre">Geometry</span></code> node.</dd>
+<dt><em>矢量</em></dt>
+<dd><p class="first last">入射向量。应连接至 <code class="docutils literal"><span class="pre">Geometry</span></code> 节点的 <code class="docutils literal"><span class="pre">View</span></code> 插座。</p>
+</dd>
+<dt><em>矢量</em></dt>
+<dd><p class="first last">法向量。需要进行归一化以达到所期望的结果。应连接至 <code class="docutils literal"><span class="pre">Geometry</span></code> 节点的 <code class="docutils literal"><span class="pre">Normal</span></code> 插座。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="id20">
-<h4>Output Parameters<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h4>
+<h4>输出参数<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
-<dt><em>Vector</em></dt>
-<dd>Reflected vector. Should be connected to the <code class="docutils literal"><span class="pre">Vector</span></code> socket of the <code class="docutils literal"><span class="pre">Texture</span></code> node that contains the cubemap.</dd>
+<dt><em>矢量</em></dt>
+<dd><p class="first last">反射向量。应该连接到包含立方贴图的 <code class="docutils literal"><span class="pre">Texture</span></code> 节点的 <code class="docutils literal"><span class="pre">Vector</span></code> 插座。</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="linear-to-srgb-and-srgb-to-linear-deprecated">
-<span id="node-gamma"></span><h3><a class="toc-backref" href="#id35">Linear to SRGB and SRGB to Linear (Deprecated)</a><a class="headerlink" href="#linear-to-srgb-and-srgb-to-linear-deprecated" title="永久链接至标题">¶</a></h3>
-<p>Converts colors from linear space to sRGB or vice versa. This function has been declared deprecated sicne the version 15.04. In the newer versions, the native <code class="docutils literal"><span class="pre">Gamma</span></code> node with the value of 2.200 should be used to convert color from sRGB to linear space, and the same node with the value of 0.455 to convert color from linear space to sRGB.</p>
+<span id="node-gamma"></span><h3><a class="toc-backref" href="#id35">线性到 SRGB和SRGB线性（已取消）</a><a class="headerlink" href="#linear-to-srgb-and-srgb-to-linear-deprecated" title="永久链接至标题">¶</a></h3>
+<p>从sRGB到线性空间转换颜色反之亦然。 从版本15.04这个功能已经被宣布弃用。在较新的版本，具有2.200的数值内置 <code class="docutils literal"><span class="pre">Gamma</span></code> 节点应使用将颜色从sRGB转换为线性空间，并用0.455的值相同的节点将颜色从线性空间转换为sRGB。</p>
 <img alt="_images/node_materials_gamma.png" class="align-center" src="_images/node_materials_gamma.png" />
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="colors.html#gamma-node-materials"><span>Gamma in Node Materials</span></a></p>
+<p class="last"><a class="reference internal" href="colors.html#gamma-node-materials"><span>伽马在节点材质中</span></a></p>
 </div>
 </div>
 </div>
@@ -770,7 +854,7 @@ with two given vectors</td>
         <a href="logic_editor.html" class="btn btn-neutral float-right" title="Logic Nodes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="materials.html" class="btn btn-neutral" title="Materials" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="materials.html" class="btn btn-neutral" title="材质" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -780,7 +864,7 @@ with two given vectors</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-03-31.
+      最后更新于 2016-04-28.
 
     </p>
   </div>
@@ -803,7 +887,7 @@ with two given vectors</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.03',
+            VERSION:'v16.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

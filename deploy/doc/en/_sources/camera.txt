@@ -45,13 +45,13 @@ The camera settings are specified in the ``Properties`` panel under the ``Camera
 Velocity settings are available for camera movement.
 
 *Camera Move Style > Camera Velocities > Translation Velocity*
-    Avalible for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets the velocity of the camera translation. Possible value interval: :math:`\left[0,\ \infty \right)`. Default value is 1.
+    Available for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets the velocity of the camera translation. Possible value interval: :math:`\left[0,\ \infty \right)`. Default value is 1.
 
 *Camera Move Style > Camera Velocities > Rotation Velocity*
-    Avalible for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets the camera rotation speed. Possible value interval: :math:`\left[0,\ \infty \right)`. Default value is 1.
+    Available for the ``Target``, ``Eye`` and ``Hover`` type cameras. Sets the camera rotation speed. Possible value interval: :math:`\left[0,\ \infty \right)`. Default value is 1.
 
 *Camera Move Style > Camera Velocities > Zoom Velocity*
-    Avalible for the ``Target`` and ``Hover`` type cameras. Set the velocity of the camera approaching the pivot point. Possible value interval: :math:`\left[0,\ 0.99\right]`. Default value is 0.1.
+    Available for the ``Target`` and ``Hover`` type cameras. Set the velocity of the camera approaching the pivot point. Possible value interval: :math:`\left[0,\ 0.99\right]`. Default value is 0.1.
 
 Limiting the Camera Movement
 ============================
@@ -319,7 +319,7 @@ Main functions for camera control are located in the :b4wmod:`camera` module. So
 Control Mode Setup
 ------------------
 
-To change the control mode and to completely define a camera's behavior, the following methods can be used: :b4wref:`camera.static_setup()`, :b4wref:`camera.eye_setup()`, :b4wref:`camera.target_setup()` and :b4wref:`camera.hover_setup()`. These methods recieve an object that contains a set of optional parameters, which can be used to set the camera's position, rotation, avalible limits and so on.
+To change the control mode and to completely define a camera's behavior, the following methods can be used: :b4wref:`camera.static_setup()`, :b4wref:`camera.eye_setup()`, :b4wref:`camera.target_setup()` and :b4wref:`camera.hover_setup()`. These methods receive an object that contains a set of optional parameters, which can be used to set the camera's position, rotation, available limits and so on.
 
 .. code-block:: javascript
 
@@ -403,7 +403,7 @@ The current camera mode can be checked with the :b4wref:`camera.is_static_camera
 
 .. note::
 
-    If you need to change only some aspects of the camera's behavior, you can you the methods described below.
+    If you need to change only some aspects of the camera's behavior, you can use the methods described below.
 
 Translation and Rotation
 ------------------------
@@ -476,12 +476,12 @@ Additional camera translation methods:
 
 .. note::
 
-    Besause a camera is a scene object, :b4wmod:`transform` module methods can also be used. But, as every control mode infulences camera movement differently, results may differ from those expected.
+    Because a camera is a scene object, :b4wmod:`transform` module methods can also be used. But, as every control mode influences camera movement differently, results may differ from those expected.
 
 Limit Setup
 ---------------
 
-Camera limits are avalible for the ``EYE``, ``TARGET`` and ``HOVER`` type cameras. To set a specific limit, you need to use a specific method:
+Camera limits are available for the ``EYE``, ``TARGET`` and ``HOVER`` type cameras. To set a specific limit, you need to use a specific method:
 
 +----------------------------------------------+-------------------------------------------------+-------------------------------------------------+
 | EYE                                          | TARGET                                          | HOVER                                           |
@@ -540,7 +540,7 @@ Limit presence can be checked by using the :b4wref:`camera.has_distance_limits()
 
 .. note::
 
-    Enabled camera limits can infulence its position and spatial orientation set by the API functions.
+    Enabled camera limits can influence its position and spatial orientation set by the API functions.
 
 .. _camera_spherical_coordinates:
   

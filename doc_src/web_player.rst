@@ -35,7 +35,7 @@ Usage
 
 You can copy the directory containing the web player files, namely
 ``deploy/apps/webplayer``, from the Blend4Web SDK distribution and deploy it
-on your web site. You can place the exported scene files on your web site
+on your website. You can place the exported scene files on your website
 and specify the path to them (absolute or relative) with the ``load`` web
 player parameter.
 
@@ -47,7 +47,7 @@ Navigation
 ----------
 
 The camera (in the ``Target`` and ``Eye`` modes) is controlled by the mouse
-with it's button pressed or with the keys: ``W``, ``A``, ``S``, ``D``,
+with its button pressed or with the keys: ``W``, ``A``, ``S``, ``D``,
 ``R``, ``F`` (forward, left, back, right, up, down). The ``numpad`` keys are
 also supported.
 

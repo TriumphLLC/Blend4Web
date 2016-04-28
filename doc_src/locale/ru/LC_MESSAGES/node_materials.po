@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-25 11:16+0300\n"
+"POT-Creation-Date: 2016-04-28 17:49+0300\n"
 "PO-Revision-Date: 2016-03-24 11:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -330,7 +330,7 @@ msgid "Separates a given color into Hue, Saturation and Value"
 msgstr "Разделяет заданный цвет на тон, насыщенность и яркость"
 
 #: ../node_materials.rst:125
-msgid "Separave RGB"
+msgid "Separate RGB"
 msgstr ""
 
 #: ../node_materials.rst:125
@@ -430,7 +430,7 @@ msgstr ""
 #: ../node_materials.rst:177
 msgid ""
 "As a rule it is used for normal mapping. Blender’s node materials do not "
-"support a tangent space of coordinates. Therefore the only possible "
+"support a tangent space of coordinates. Therefore, the only possible "
 "method to display normal maps in the viewport correctly is their usage "
 "inside the ``Material`` nodes."
 msgstr ""
@@ -444,7 +444,7 @@ msgstr ""
 #: ../node_materials.rst:276 ../node_materials.rst:311
 #: ../node_materials.rst:361 ../node_materials.rst:396
 #: ../node_materials.rst:426 ../node_materials.rst:460
-#: ../node_materials.rst:487
+#: ../node_materials.rst:484
 msgid "Input Parameters"
 msgstr "Входные параметры"
 
@@ -468,7 +468,7 @@ msgstr "Конструкция нод, видимая объекта в движ
 #: ../node_materials.rst:234 ../node_materials.rst:259
 #: ../node_materials.rst:294 ../node_materials.rst:340
 #: ../node_materials.rst:372 ../node_materials.rst:408
-#: ../node_materials.rst:439 ../node_materials.rst:496
+#: ../node_materials.rst:439 ../node_materials.rst:493
 msgid "Output Parameters"
 msgstr "Выходные параметры"
 
@@ -547,9 +547,9 @@ msgstr ""
 #: ../node_materials.rst:246
 msgid ""
 "The node transforms a vector into the camera’s space of coordinates. "
-"Transformation is necessary because the engine defines most of vectors in"
-" the world space of coordinates. If normal vector is being transformed by"
-" this node it should be used only for effects and not for connecting to "
+"Transformation is necessary because the engine defines most vectors in "
+"the world space of coordinates. If normal vector is being transformed by "
+"this node it should be used only for effects and not for connecting to "
 "the output of the ``Material`` or ``Extended Material`` nodes."
 msgstr ""
 "Осуществить преобразование вектора в пространство камеры. Преобразование "
@@ -560,8 +560,8 @@ msgstr ""
 "входу ноды ``Material`` или ``Extended Material``."
 
 #: ../node_materials.rst:256 ../node_materials.rst:262
-#: ../node_materials.rst:490 ../node_materials.rst:493
-#: ../node_materials.rst:499
+#: ../node_materials.rst:487 ../node_materials.rst:490
+#: ../node_materials.rst:496
 msgid "*Vector*"
 msgstr ""
 
@@ -709,7 +709,7 @@ msgstr ""
 
 #: ../node_materials.rst:329
 msgid ""
-"Light spot intesity. The bigger this value is the brighter is the light "
+"Light spot intensity. The bigger this value is the brighter is the light "
 "spot. The default value is 1."
 msgstr ""
 "Интенсивность светового пятна. При увеличении становится более ярким. "
@@ -768,8 +768,8 @@ msgid "*Normal*"
 msgstr ""
 
 #: ../node_materials.rst:364
-msgid "Normal map for adding perturbations."
-msgstr "Карта нормалей, по которой происходит возмущение (сдвиг)."
+msgid "A normal vector in camera space for adding perturbations."
+msgstr "Вектор нормали в пространстве камеры, по которому происходит возмущение (сдвиг)."
 
 #: ../node_materials.rst:369
 msgid "*Refraction Bump*"
@@ -789,7 +789,7 @@ msgstr "Текстура сцены позади объекта с внесён�
 
 #: ../node_materials.rst:379
 msgid ""
-"It’s neccessary to set the ``Refractions`` option from the ``Render > "
+"It’s necessary to set the ``Refractions`` option from the ``Render > "
 "Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The "
 "object’s transparency type must be set to ``Alpha Blend``."
 msgstr ""
@@ -927,7 +927,7 @@ msgstr ""
 msgid "Glow color."
 msgstr "Цвет свечения."
 
-#: ../node_materials.rst:469
+#: ../node_materials.rst:470
 msgid "*Factor*"
 msgstr ""
 
@@ -943,21 +943,11 @@ msgstr "*Factor = 0* - свечение отсутствует."
 msgid "*Factor* :math:`\\in (0, 1]` - there is a glow, colored with *Glow Color*."
 msgstr "*Factor* :math:`\\in (0, 1]` - свечение цветом *Glow Color*."
 
-#: ../node_materials.rst:473
-msgid ""
-"The ``Transparency->Type`` parameters of the material don’t affect "
-"behavior of the glow effect. It always corresponds to the transparent "
-"material (not the ``Alpha Clip`` type)."
-msgstr ""
-"Настройки материала ``Transparency->Type`` не влияют на поведение "
-"glow-эффекта. Он всегда будет соответствовать прозрачному не ``Alpha "
-"Clip`` материалу."
-
-#: ../node_materials.rst:478
+#: ../node_materials.rst:475
 msgid "Reflect (B4W_REFLECT)"
 msgstr ""
 
-#: ../node_materials.rst:480
+#: ../node_materials.rst:477
 msgid ""
 "Calculates the reflection direction for an incident vector and a normal "
 "vector. Can be used to apply a cubemap to an object."
@@ -965,7 +955,7 @@ msgstr ""
 "Вычисляет отражение заданного вектора относительно заданной нормали. "
 "Может применяться для наложения кубической карты (cubemap) на объект."
 
-#: ../node_materials.rst:490
+#: ../node_materials.rst:487
 msgid ""
 "Incident vector. Should be connected to the ``View`` socket of the "
 "``Geometry`` node."
@@ -973,7 +963,7 @@ msgstr ""
 "Заданный вектор. Должен быть подключён ко входу ``View`` ноды "
 "``Geometry``."
 
-#: ../node_materials.rst:493
+#: ../node_materials.rst:490
 msgid ""
 "Normal vector. Should be normalized in order to achieve the desired "
 "result. Should be connected to the ``Normal`` socket of the ``Geometry`` "
@@ -982,7 +972,7 @@ msgstr ""
 "Заданная нормаль. Для получения желаемого результата, вектор должен быть "
 "нормирован. Должен быть подключён ко входу ``Normal`` ноды ``Geometry``."
 
-#: ../node_materials.rst:499
+#: ../node_materials.rst:496
 msgid ""
 "Reflected vector. Should be connected to the ``Vector`` socket of the "
 "``Texture`` node that contains the cubemap."
@@ -990,14 +980,14 @@ msgstr ""
 "Отражённый вектор. Следует подключать к входному параметру ``Vector`` "
 "ноды ``Texture``, содержащего кубическую карту."
 
-#: ../node_materials.rst:504
+#: ../node_materials.rst:501
 msgid "Linear to SRGB and SRGB to Linear (Deprecated)"
 msgstr "Linear to SRGB и SRGB to Linear (Deprecated)"
 
-#: ../node_materials.rst:506
+#: ../node_materials.rst:503
 msgid ""
 "Converts colors from linear space to sRGB or vice versa. This function "
-"has been declared deprecated sicne the version 15.04. In the newer "
+"has been declared deprecated since the version 15.04. In the newer "
 "versions, the native ``Gamma`` node with the value of 2.200 should be "
 "used to convert color from sRGB to linear space, and the same node with "
 "the value of 0.455 to convert color from linear space to sRGB."
@@ -1009,7 +999,7 @@ msgstr ""
 "преобразования из линейного пространства в sRGB - ту же ноду со значением"
 " 0.455."
 
-#: ../node_materials.rst:512
+#: ../node_materials.rst:509
 msgid ":ref:`gamma_node_materials`"
 msgstr ""
 
@@ -1020,4 +1010,16 @@ msgstr "материалы"
 #: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:158
 msgid "nodes"
 msgstr "ноды"
+
+#~ msgid "Separave RGB"
+#~ msgstr ""
+
+#~ msgid "Using large numbers of these nodes is not recommended*"
+#~ msgstr "Не рекомендуется использовать большое количество этих нод"
+
+#~ msgid "There is a limitation..."
+#~ msgstr ""
+
+#~ msgid ""
+#~ msgstr ""
 

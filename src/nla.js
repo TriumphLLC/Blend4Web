@@ -26,11 +26,7 @@
 b4w.module["__nla"] = function(exports, require) {
 
 var m_anim      = require("__animation");
-var m_cam       = require("__camera");
-var m_ctl       = require("__controls");
 var m_cfg       = require("__config");
-var m_lights    = require("__lights");
-var m_loader    = require("__loader");
 var m_obj       = require("__objects");
 var m_obj_util  = require("__obj_util");
 var m_print     = require("__print");
@@ -686,9 +682,9 @@ function get_curr_action_frame(frame, ev) {
     if (frame == ev.frame_end) {
         var action_frame = ev.action_frame_final;
     } else {
-        var track_frame = frame - ev.frame_start;
-        var track_len = (ev.action_frame_end - ev.action_frame_start) * ev.scale;
-        var action_frame_offset = (track_frame % track_len) / ev.scale;
+        var track_frame = (frame - ev.frame_start) / ev.scale;
+        var track_len = ev.action_frame_end - ev.action_frame_start;
+        var action_frame_offset = track_frame % track_len;
 
         var action_frame = ev.action_frame_start + action_frame_offset;
     }

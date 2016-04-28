@@ -26,7 +26,6 @@
 b4w.module["mixer"] = function(exports, require) {
 
 var m_ctl    = require("controls");
-var m_debug  = require("debug");
 var m_hud    = require("hud");
 var m_scenes = require("scenes");
 var m_sfx    = require("sfx");

@@ -86,6 +86,7 @@
     <script type="text/javascript" src="../../src/ext/hud.js"></script>
     <script type="text/javascript" src="../../src/ext/input.js"></script>
     <script type="text/javascript" src="../../src/ext/lights.js"></script>
+    <script type="text/javascript" src="../../src/ext/logic_nodes.js"></script>
     <script type="text/javascript" src="../../src/ext/main.js"></script>
     <script type="text/javascript" src="../../src/ext/material.js"></script>
     <script type="text/javascript" src="../../src/ext/math.js"></script>
@@ -950,6 +951,13 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="show_hud_debug_info">HUD Info:</label>
                     <select id="show_hud_debug_info" data-role="slider" data-mini="true">
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="enable_gl_debug">GL Debug:</label>
+                    <select id="enable_gl_debug" data-role="slider" data-mini="true">
                         <option value="0" selected>No</option>
                         <option value="1">Yes</option>
                     </select>

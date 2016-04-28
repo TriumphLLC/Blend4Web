@@ -1,145 +1,132 @@
 
-Team Work. Using Git
-********************
+团队工作。使用 Git
+******************
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Team Work. Using Git
+* 团队工作。使用 Git
 
-  * Overview
+  * 概述
 
-  * Typical Workflow
+  * 典型的工作流
 
-  * Individual Settings
+  * 单独设置
 
-  * Checking the Status
+  * 检查状态
 
-  * Before the Commit
+  * 在提交前
 
-    * Checking changes (of the text files)
+    * 检查 （文本文件） 的变化
 
-    * Rolling back files
+    * 回滚文件
 
-    * Unwanted files
+    * 不需要的文件
 
-  * Preparing for Commit
+  * 准备提交
 
-    * Adding files
+    * 添加文件
 
-    * Removing files
+    * 删除文件
 
-  * Commit
+  * 提交
 
-  * Syncing Between Repositories
+  * 存储库之间同步
 
-    * From the remote - to the local
+    * 从远程到本地
 
-    * From the local - to the remote
+    * 从本地到远程
 
-  * Resolving Conflicts
+  * 解决冲突
 
-    * Overview
+    * 概述
 
-    * The steps to be taken
+    * 可采取的步骤
 
-    * Binary files
+    * 二进制文件
 
-    * Text files
+    * 文本文件
 
-    * Correcting commit
+    * 纠正提交
 
-  * Tags
+  * 标签
 
-  * Other Useful Commands
-
-
-Overview
-========
-
-In order to organize team work a Git version control system can be
-used. Using Git has a number of benifits as compared with other ways
-to collaborate:
-
-* saving the history of changes with the possibility to roll back to
-  prevoius versions
-
-* syncronizing changes between users and automatic merging of
-  changes
-
-* working with large binary files is possible
-
-Git is a distributed system and every developer or designer has his
-own local repository (storage). Syncing between the local repositories
-can be performed via the central ("shared") storage, which can be
-located on a dedicated machine (server). Access to the server can be
-organized through SSH protocol.
-
-Although there are many GUIs for Git beginners, here the work with the
-"git" standard console utility is explained.
+  * 其他有用的命令
 
 
-Typical Workflow
-================
+概述
+====
 
-1. Files can be created, added or deleted during the work process
-   in the local repositories.
+为了组织团队工作可以使用 Git 版本控制系统。使用 Git 与其他的方式进行协
+作相比有大量的好处 ︰
 
-2. After a certain logical period of work is finished it is
-   necessary to fix (commit) the changes and/or syncronize with your
-   team mates.
+* 保存更改历史，方便的回滚到以前版本
 
-3. Files are prepared for commit i.e. the accounting of changed,
-   new and deleted files and also the resetting of changes.
+* 同步用户间的修改，自动合并修改
 
-4. Commit is performed.
+* 可以用于大型的二进制文件
 
-5. Local changes are uploaded into the shared storage and become
-   available for the collegues.
+Git 是一个分布式的系统，每个开发人员或设计师有他自己的本地存储库 （存
+储）。可以在本地存储库之间同步，通过中央的 （"共享"） 存储，放在于一个
+专用的机器 （服务器）。对服务器的访问可以通过 SSH 协议进行。
 
-A limited set of Git commands recommended for authoring applications
-and their graphical resources is described below.
+尽管有很多图形用户界面为 Git 初学者准备，但这里解释如何使用标准控制台
+的 "git" 如何工作。
 
-It's necessary to switch to the repository before executing the
-commands, e.g.:
+
+典型的工作流
+============
+
+1. 可以在本地仓库创建、 添加或删除文件。
+
+2. 当一段确定的工作完结后需要将修改 修复 （提交） 和/或 同步到你同
+   事那 。
+
+3. 文件已准备好提交，即已更改的审计、 新的和已删除的文件和也全部为
+   更改 重置了。
+
+4. 执行提交。
+
+5. 本地更改上载到共享存储并提供给同事。
+
+一组有限的 Git 命令，建议作为创作应用程序和它们的图形资源，展示如下。
+
+非常有必要在执行命令前切换代码库，例如 ︰
 
    > cd ~/blend4web
 
 
-Individual Settings
-===================
+单独设置
+========
 
-A new user can set up his name and email using the commands:
+新用户可以使用这个命令设置他的姓名和电子邮件 ︰
 
    > git config --global user.name "Ivan Petrov"
    > git config --global user.email ipetrov@blend4web.com
 
-The set up data will be used in the changelog.
+设置数据将用于更新日志。
 
 
-Checking the Status
-===================
+检查状态
+========
 
-It's recommended to check the state of the repository before, in
-progress and after performing all the operations.
+建议在执行的所有操作之前,、 在进步和之后都检查存储库状态。
 
-Use this command to check the status:
+使用此命令可以检查状态 ︰
 
    > git status
 
-The result of the "git status" command if all the commits were
-performed and there are no new files:
+如果所有提交了都执行并且没有新的文件 "git status" 命令的结果 ︰
 
    # On branch master
    # Your branch is ahead of 'origin/master' by 2 commits.
    #
    nothing to commit (working directory clean)
 
-Possible result of "git status" if there are changes. For example the
-"apps_dev/firstperson/firstperson.js" and
-"doc_src/git_short_manual.rst" files are changed and a new file
-"123.txt" is created:
+如果有变化可能的  "git status" 结果。例如:
+"apps_dev/firstperson/firstperson.js" 和
+"doc_src/git_short_manual.rst"  文件更和创建了新文件 "123.txt" ：
 
    # On branch master
    # Changes not staged for commit:
@@ -156,25 +143,24 @@ Possible result of "git status" if there are changes. For example the
    no changes added to commit (use "git add" and/or "git commit -a")
 
 
-Before the Commit
-=================
+在提交前
+========
 
 
-Checking changes (of the text files)
-------------------------------------
+检查 （文本文件） 的变化
+------------------------
 
-In case of text files it is recommended to view the introduced changes
-before performing the commit.
+如果是文本文件的情况下，建议在执行提交之前查看介绍了的变化。
 
-Check what was changed in the whole directory:
+检查在整个目录中的更改内容 ︰
 
    > git diff
 
-or in a specific file only:
+或者特定的文件 ︰
 
    > git diff apps_dev/firstperson/firstperson.js
 
-A possible result of the "git diff" command for a text file:
+一个文本文件的 "git diff" 命令可能的结果 ︰
 
    diff --git a/apps_dev/firstperson/firstperson.js b/apps_dev/firstperson/firstperson.js
    index 4381c99..44b3b15 100644
@@ -191,46 +177,41 @@ A possible result of the "git diff" command for a text file:
         }
 
 
-Rolling back files
-------------------
+回滚文件
+--------
 
-If the file was changed or deleted but it is necessary to recover it
-(to the latest commited state) use the command:
+如果文件被更改或删除，但需要恢复 （到最新的提交状态），请使用命令 ︰
 
    > git checkout doc_src/git_short_manual.rst
    > git checkout 123.txt
 
-The introduced changes will be cancelled - this is why this command
-should be performed with caution.
+引起的变更将会被取消 - 这就是为什么应谨慎执行此命令。
 
 
-Unwanted files
---------------
-
-If a file is listed in the "Untracked files" ("git status"), but
-version control is not needed for it, it should be deleted or moved
-beyond the working directory.
-
-
-Preparing for Commit
-====================
-
-
-Adding files
+不需要的文件
 ------------
 
-If you are happy with the changes, add the needed changed and/or new
-files for commit.
+如果文件列在 "未跟踪文件"  （"git 状态"），但它不需要版本控制，它应删
+除或移到工作目录之外。
+
+
+准备提交
+========
+
+
+添加文件
+--------
+
+如果你对所做的更改满意，添加所需的改变 和/或 新文件到提交。
 
    > git add apps_dev/firstperson/firstperson.js
    > git add 123.txt
 
-Check the status again:
+再次检查状态 ︰
 
    > git status
 
-Possible result of the "git status" command after adding some files
-with the "git add" command:
+"git status" 命令后用 "git add" 添加一些文件的可能的结果 ︰
 
    # On branch master
    # Changes to be committed:
@@ -246,18 +227,15 @@ with the "git add" command:
    #   modified:   doc_src/git_short_manual.rst
    #
 
-You can see that the "apps_dev/firstperson/firstperson.js" and
-"123.txt" files were added for commit and the
-"doc_src/git_short_manual.rst" file was not added. To make things
-easier it is recommended to either add such files for commit or cancel
-their changes with the "git checkout" command.
+你可以看到  "apps_dev/firstperson/firstperson.js" 和 "123.txt" 文件添
+加到提交  "doc_src/git_short_manual.rst"  文件不添加。为了使事情更容易
+，建议使用 "git checkout" 添加此类文件的提交或取消其更改。
 
 
-Removing files
---------------
+删除文件
+--------
 
-Some files can be marked as deleted from Git after performing the "git
-status" command, for example:
+在执行了 "git status" 命令后，一些文件可以被标记为删除，例如 ︰
 
    # On branch master
    # Your branch is ahead of 'origin/master' by 2 commits.
@@ -270,24 +248,23 @@ status" command, for example:
    #
    no changes added to commit (use "git add" and/or "git commit -a")
 
-In this case if deleting the file should be recorded (i.e. enter the
-commit), perform the "git rm" command, for example:
+在此情况下，如果删除该文件应该被记录下来 （即输入提交），执行  "git
+rm" 命令，例如 ︰
 
    > git rm 123.txt
 
-If the file was deleted by accident and its necessary to recover it,
-use the "git checkout" command.
+如果该文件被意外删除，需要恢复它，使用 "git checkout" 命令。
 
 
-Commit
-======
+提交
+====
 
-Perform commit with the command:
+执行提交命令 ︰
 
    > git commit
 
-A text editor window will show up (for example, **nano** or **vim**),
-in which it's nesessary to enter the commit comment in English.
+文本编辑器窗口会显示 (例如，**nano** 或 **vim**)，必须在其中输入英文的
+提交评论。
 
      GNU nano 2.2.6                                    File: .git/COMMIT_EDITMSG
 
@@ -311,33 +288,31 @@ in which it's nesessary to enter the commit comment in English.
    ^G Get Help               ^O WriteOut               ^R Read File              ^Y Prev Page
    ^X Exit                   ^J Justify                ^W Where Is               ^V Next Page
 
-Save the changes and quit the editor (in **nano** Ctrl+O, then Ctrl+X;
-in **vim** ZZ, or ESC :wq).
+保存更改并退出编辑器 (在 **nano** 是 Ctrl + O，然后 Ctrl + X; 在
+**vim**  ZZ，或按 ESC: wq)。
 
-After commit it's recommended to recheck the status. Commit is
-performed correctly if the "git status" command returns "nothing to
-commit, working directory clean".
-
-
-Syncing Between Repositories
-============================
+在提交后它建议重新检查状态。如果 "git status" 命令将返回 "无可提交的东
+西，工作文件夹干净".
 
 
-From the remote - to the local
-------------------------------
+存储库之间同步
+==============
 
-After all the commits are performed it's nesessary to load the changes
-from the remote ("shared") repository to the local one:
+
+从远程到本地
+------------
+
+所有提交执行后，需要从远程 （"共享"） 资源库中加载所做的更改到本地库
+︰
 
    > git pull
 
-Result of the "git pull" command if there are no changes in the remote
-repository:
+如果远程资源库中的任何更改 "git pull"  命令的结果 ︰
 
    Already up-to-date.
 
-Result of the "git pull" command if the remote repository contains
-changes and syncing was successful:
+如果远程资源库中包含的更改、同步的结果是成功的话，"git pull" 命令的结
+果︰
 
    remote: Counting objects: 151, done.
    remote: Compressing objects: 100% (101/101), done.
@@ -357,22 +332,19 @@ changes and syncing was successful:
     19 files changed, 1452 insertions(+), 2767 deletions(-)
     create mode 100644    deploy/assets/location_agriculture/textures/rotonda_02_diff.png
 
-If you wish it's possible to look up the changes made by your
-collegues using the following command:
+如果你希望查找你同事所做的更改，使用下面的命令 ︰
 
    > git diff dbf3877..9f9700c
 
-The parameter of this command - in this case dbf3877..9f9700c - shows
-between which commits exactly the changes were made. This parameter
-can be conveniently selected in the console in the "git pull" results
-and pasted with a mouse click (middle button) where you need.
+此命令的参数 - 在案例  dbf3877..9f9700c  -显示哪些提交之间确切地进行了
+更改。此参数可以方便地在控制台的  "git pull"  结果中选择再用鼠标点击
+（中间的按钮）粘贴到需要的地方。
 
-You can also view the changelog:
+还可以查看更新日志 ︰
 
    > git log
 
-The "git pull" command does not always lead to a successful
-synchronization. The result of "git pull" when there are conflicts:
+"git pull" 命令并不总是能同步成功。当有冲突时 "git pull" 的结果 ︰
 
    remote: Counting objects: 11, done.
    remote: Compressing objects: 100% (6/6), done.
@@ -386,25 +358,22 @@ synchronization. The result of "git pull" when there are conflicts:
    CONFLICT (content): Merge conflict in blender/landscape_objects/Fallen_tree.blend
    Automatic merge failed; fix conflicts and then commit the result.
 
-The steps to be taken at conflicts are described below.
+在冲突时所采取的步骤如下 ︰
 
 
-From the local - to the remote
-------------------------------
+从本地到远程
+------------
 
-After that the changes should be uploaded from the local repository to
-the remote ("shared") one to make the changes available for team
-mates.
+在那之后所做的更改，应从本地资源库上载到远程库 （"共享"）， 一个能为同
+事提供所做的更改的库。
 
    > git push
 
-The result of the "git push" command if the remote repository already
-contains all the local changes:
+如果远程资源库中已经包含了所有的本地更改的 "git push" 命令的结果 ︰
 
    Everything up-to-date
 
-The result of the "git push" command if synchronization was
-successful:
+如果同步成功后  "git push" 命令的结果 ︰
 
    Counting objects: 25, done.
    Delta compression using up to 8 threads.
@@ -414,8 +383,8 @@ successful:
    To gfxteam@lixer:blend4web.git
       9f9700c..fa1d6ac  master -> master
 
-The result of the "git push" command if synchronization was not
-successful because the "git pull" command was not executed first:
+如果同步不成功是因为 "git pull" 命令没有首先执行时，"git push" 的结果
+︰
 
    To gfxteam@lixer:blend4web.git
     ! [rejected]        master -> master (non-fast-forward)
@@ -424,55 +393,44 @@ successful because the "git pull" command was not executed first:
    Merge the remote changes (e.g. 'git pull') before pushing again.  See the
    'Note about fast-forwards' section of 'git push --help' for details.
 
-You should execute the "git pull" command.
+你应该执行 "git pull" 命令。
 
-The changes uploaded into the central repository can be received by
-other developers with the "git pull" command.
-
-
-Resolving Conflicts
-===================
+其他开发人员可以使用 "git pull" 命令收到上传到中央存储库中的更改。
 
 
-Overview
---------
-
-Synchronization conflicts occur if both conditions are met
-
-1. the same file was changed both in the local and remote
-   repositories, and
-
-2. automatic merging of the changes didn't occur because the
-   changes are in the same place of the file.
-
-Typical cases:
-
-1. a binary file (texture, blend file) was independently changed by
-   two developers
-
-2. different changes were introduced to the same line of the same
-   text file
-
-3. one developer has changed the file while the other has moved it
-   and so on.
-
-Although synchronization conflicts are normal, if they happen too
-often it slows down the work. It is recommended to notify your team
-mates about start of working with the shared binary files, and also to
-perform synchronization more often. It is nesessary to effectively
-distribute the work between developers to reduce the number of such
-shared files. This can be achieved particularly through linking of all
-the scene's resources from the separate blend files into the master
-file.
+解决冲突
+========
 
 
-The steps to be taken
----------------------
+概述
+----
 
-It's not recommended to perform any files operations (modifying,
-deleting) while the repository is in a conflict state.
+如果这两个条件都满足，就会发生同步冲突
 
-The first thing to do is to perform the "git status" command.
+1. 同一文件同时在本地和远程资源库中更改，并
+
+2. 所做的更改的自动合并没有发生因为所做的更改在文件的同一个地方。
+
+典型案例 ︰
+
+1. 二进制文件 （纹理，blend文件） 已被两个开发人员独立修改
+
+2. 引起的修改在同一文本文件的同一行
+
+3. 一位开发已修改该文件，而另一位又移动它，等等。
+
+虽然同步冲突是正常，单如果太过频繁发生会导致工作缓慢。在开始共享二进制
+文件，处理有关，执行更多的同步时建议要通知你的同事。需要将工作分开分发
+给开发人员能够减少这种共享的文件数目之间的工作。要做到这一点可以特别地
+将场景的资源从独自的各个blend文件链接到一个主文件中。
+
+
+可采取的步骤
+------------
+
+存储库处于冲突状态时，不建议执行任何文件操作 （修改、 删除） 。
+
+第一件事是要执行 "git status" 命令。
 
    # On branch master
    # Your branch and 'origin/master' have diverged,
@@ -485,59 +443,46 @@ The first thing to do is to perform the "git status" command.
    #
    no changes added to commit (use "git add" and/or "git commit -a")
 
-A list of conflicting files can be found in the "Unmerged paths"
-section.
+冲突的文件的列表可以在``Unmerged paths``  一节中找到。
 
-The order of the following steps is different for binary and text
-files.
+以下步骤的顺序在二进制文件和文本文件之间是不同的。
 
 
-Binary files
-------------
+二进制文件
+----------
 
-At this stage the conflicting binary files are in the same state as
-they were in the local repository before the synchronization attempt.
-The files are fully functional (for example they can be opened by
-graphics editors).
+在这个阶段，冲突的二进制文件是和尝试同步本地资源库之前处于相同的状态。
+文件是完全功能的 （例如他们可以被图形编辑器打开）。
 
-In case of conflicting binary files it's necessary to sort out (with
-the team mates or by yourself) which of the files should be left and
-which should be discarded. Selecting can be performed with the "git
-checkout" command.
+有冲突的二进制文件的情况下，需要整理 （与同事或自己） 哪个文件应该留下
+，哪个要丢弃。选择可以使用 "git checkout" 命令执行。
 
-Select the local version of the file (**- -ours**). To make sure that
-it's local you can open it.
+选择该文件的本地版本 (**- -我们的**). 要确保本地可以打开它。
 
    > git checkout --ours blender/landscape_objects/Fallen_tree.blend
 
-Select the remote version of the file (**- -theirs**). To make sure
-that it's remote you can open it.
+选择该文件的远程版本 (**- -他们的**).确保远程可以打开它。
 
    > git checkout --theirs blender/landscape_objects/Fallen_tree.blend
 
-Select the local version of the file again (**- -ours**).
+再次选择该文件的本地版本 (**- -我们的**).
 
    > git checkout --ours blender/landscape_objects/Fallen_tree.blend
 
-Eventually you have to stick to the right version of the file. In case
-there is a threat of loosing the work you may save the discarded file
-outside the repository.
+最终你必须坚持正确的文件版本。万一这样对你的工作可能有风险，可以在存储
+库之外保存废弃的工作文件。
 
 
-Text files
-----------
+文本文件
+--------
 
-At this stage Git introduces both local and remote changes to the
-conflicting text files, in a special format. Such text files are not
-workable as a rule
+在这一阶段 Git 特别指出了冲突文本格式的文件本地和远程的变化。此类文本
+的文件并不可行作为一项规则
 
-Example. One developer changed the scene name from "Blue Lizard" to
-"Green Lizard" in the application file and uploaded the changes into
-the central repository. Another developer changed "Blue Lizard" to
-"Red Lizard" in the same line, performed commit and executed the "git
-pull" command. As a result this very developer will be responsible for
-resolving the conflict. The following lines will be present in his
-version of the application file:
+示例。一个开发人员在应用程序文件中更改场景名称从 "蓝蜥蜴" 到 "绿蜥蜴"
+并将更改上传到中央存储库中。另一个开发人员在同一行更改 "蓝蜥蜴" 为 "红
+蜥蜴"，执行提交和执行 "git pull" 命令。最后来提交修改的开发人员将负责
+解决冲突。他的版本的应用程序文件会有下面这根线 ︰
 
    <<<<<<< HEAD
                    "name": "Red Lizard",
@@ -545,23 +490,20 @@ version of the application file:
                    "name": "Green Lizard",
    >>>>>>> 81bf4e2d5610d500ad4d2a2605ee7e61f759f201
 
-In case of conflicting text files the following steps can be taken.
-Files with source code should be edited with or without respect to the
-changes introduced by both parties. On the other hand, it is easier to
-reexport the exported scene text files (ending with **.json**).
+在文本文件冲突的情况下，可以采取下列步骤。有更改和没更改的编辑源代码的
+文件的两部分。另一方面，很容易重新导出已导出的场景文本文件(后缀名为
+**.json**).
 
 
-Correcting commit
------------------
+纠正提交
+--------
 
-After selecting the required files or editing the changes, add them
-for commit:
+选择所需的文件或编辑所做的更改后，请将它们添加为提交 ︰
 
    > git add blender/landscape_objects/Fallen_tree.blend
    > git status
 
-Possible result of "git status" command after adding the conflicting
-files for commit:
+添加冲突文件提交后，"git status" 命令可能的结果 ︰
 
    # On branch master
    # Your branch and 'origin/master' have diverged,
@@ -569,7 +511,7 @@ files for commit:
    #
    nothing to commit (working directory clean)
 
-Perform commit. It is recommended to leave the default comment:
+执行提交。建议留下默认注释 ︰
 
    > git commit
    > git status
@@ -579,52 +521,49 @@ Perform commit. It is recommended to leave the default comment:
    #
    nothing to commit (working directory clean)
 
-Conflicts are resolved, the changes from the remote repository are
-successfully applied in the local repository. Now the changes in the
-local repository - including the just resolved conflict - can be
-uploaded to the remote repository with the "git push" command.
+解决冲突后，从远程资源库中的更改成功应用到本地资源库。现在-包括刚解决
+的冲突的本地存储库中的更改可以上载到远程资源库中，使用  "git push" 命
+令。
 
 
-Tags
+标签
 ====
 
-Tags are intended for pointing at a certain commit, for example, to
-specify a stable product version.
+标签用于指向一个确切的提交，例如，指定到一个稳定的产品版本。
 
-View the list of tags:
+查看标记的列表 ︰
 
    > git tag
 
-Create a tag for the release from June 3, 2013, pointing to the commit
-with a stable product version:
+从 2013 年 6 月 3 日创建一个标记为发行，指向同一个稳定的产品版本提交
+︰
 
    > git tag R130603 67bb597f7ed1643ed0220d57e894f28662e614e5
 
-Check the commit tag information:
+检查提交标签信息 ︰
 
    > git show --shortstat R130603
 
-Roll back to the tag...
+回滚到该标记...
 
    > git checkout R130603
 
-...and return:
+...并回车：
 
    > git checkout master
 
-Synchronize the tags with the remote repository:
+从远程资源库中同步标签 ︰
 
    > git push --tags
 
-Delete the tag (if created by mistake):
+删除标记 （如果错误地创建） ︰
 
    > git tag -d R130603
 
 
-Other Useful Commands
-=====================
+其他有用的命令
+==============
 
-Check the log for January, 2012, show file names without merging
-commits:
+检查2012 年 1 月日志，显示文件名称但不合并提交︰
 
    > git log --after={2012-01-01} --before={2012-01-31} --name-only --no-merges

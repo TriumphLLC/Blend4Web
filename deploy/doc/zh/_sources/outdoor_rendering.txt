@@ -75,12 +75,13 @@ Basic Settings
 --------------
 
 *Transparency*
-   It is recommended to enable the gradient transparency "Transparency
-   > Alpha Blend" and to tweak the "Alpha" value.
+   It is recommended to enable the gradient transparency (set the
+   "Transparency > Type" parameter to the "Alpha Blend" value) and to
+   tweak the "Alpha" value.
 
 *Lighting parameters*
    Lighting parameters for the water material can be set up as
-   described in the Lighting Parameters section.
+   described in the 灯光参数 section.
 
 
 Waves Dynamics
@@ -103,7 +104,7 @@ Reflection and Fresnel Effect
 -----------------------------
 
 For the water material both static and dynamic reflection is supported
-as well as the Fresnel effect. See the Reflection section.
+as well as the Fresnel effect. See the 反射 section.
 
 [图片]
 
@@ -313,7 +314,7 @@ fraction of a second up to several minutes. Make sure that the texture
 named "ShoreDistance" is created for the water mesh.
 
 Upon script execution some system properties are saved in the water
-material. Therefore the scene must be saved after the script has
+material. Therefore, the scene must be saved after the script has
 finished working.
 
 
@@ -405,7 +406,7 @@ day can be set using the "Lighting" interface of the Scene viewer.
 Stars
 -----
 
-Stars setup is described in the Halo Materials section.
+Stars setup is described in the 光晕材质 section.
 
 [图片]
 
@@ -484,7 +485,7 @@ Bending" panel.
    wind (in degrees). The default value is 0.3.
 
 *Detail Bending > Bending Frequency*
-   Detail bendind frequency. The default value is 1.0.
+   Detail bending frequency. The default value is 1.0.
 
 *Detail Bending > Leaves Stiffness (R)*
    Text field for specifying the name of the vertex color layer which

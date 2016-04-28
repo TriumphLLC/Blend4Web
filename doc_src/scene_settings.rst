@@ -42,7 +42,7 @@ Reflection and refraction effect settings.
     Refraction effect settings. Can be set to ``ON``, ``OFF`` or ``AUTO``. Set to ``AUTO`` by default.
 
 *Quality*
-    Quality settings for the reflection effect. Can be set to ``HIGH`` (highest reflection quality), ``MEDIUM`` (medium quality) or to ``LOW`` (lowest quality). Set to ``MEDIUM`` by default.
+    Quality settings for the reflection effect. Can be set to ``HIGH`` (the highest reflection quality), ``MEDIUM`` (medium quality) or to ``LOW`` (the lowest quality). Set to ``MEDIUM`` by default.
 
 .. _render_motion_blur:
 
@@ -73,7 +73,7 @@ Bloom effect settings. Described thoroughly in :ref:`its own section <bloom>`.
 Color Correction
 ----------------
 
-Color correction settings. Described throughly in :ref:`its own section <color_correction>`.
+Color correction settings. Described thoroughly in :ref:`its own section <color_correction>`.
 
 .. image:: src_images/scene_settings/render_color_correction.png
    :align: center
@@ -232,11 +232,11 @@ Audio settings. Enabled by default.
 *Dynamic Compressor*
     Compress audio signal's dynamic range. This feature can be used to make the sound more rich and even. Disabled by default.
 
-*Treshold*
+*Threshold*
     If the amplitude of the audio signal exceeds the value specified by this parameter, the compressor will reduce its level. Set to -24 dB by default.
 
 *Knee*
-    The interval below the threshold where the responce curve switches to the decreasing mode. Set to 30 by default.
+    The interval below the threshold where the response curve switches to the decreasing mode. Set to 30 by default.
 
 *Ratio*
     Amount of gain reduction. Set to 12 by default.
@@ -245,7 +245,7 @@ Audio settings. Enabled by default.
     Time (in seconds) that takes the compressor to reduce gain by 10 dB. Set to 0.003 by default.
 
 *Release*
-    Time (in seconds) that takes the compressor to increase gain by 10 dB. Set to 0.25 by defaault.
+    Time (in seconds) that takes the compressor to increase gain by 10 dB. Set to 0.25 by default.
 
 .. _scene_logic_editor:
 
@@ -405,7 +405,7 @@ Sky settings.
     If this parameter is enabled, the engine will render sky in the scene.
 
 *Paper Sky*
-    If this parameter is enabled, sky gradient will always be drawn from the top of the screen to the bottom, regargless of the camera's position and angles.
+    If this parameter is enabled, sky gradient will always be drawn from the top of the screen to the bottom, regardless of the camera's position and angles.
 
 *Blend Sky*
     Smooth transition between the horizon and zenith colors.
@@ -455,13 +455,13 @@ Mist settings.
     Minimum intensity of the mist. Set to zero by default.
 
 *Depth*
-    At this distance from the camera the mist effect reaches maximum intesity. Set to 25 by default.
+    At this distance from the camera the mist effect reaches maximum intensity. Set to 25 by default.
 
 *Start*
     The mist effect starts to appear at this distance from the camera. Set to 5 by default.
 
 *Height*
-    This parameter specifies how fast mist intensity decreases as the the camera's altitude increases. Set to 0 by default.
+    This parameter specifies how fast mist intensity decreases as the camera's altitude increases. Set to 0 by default.
 
 *Fall Out*
     This parameter specifies the rule, according to which the density of the mist changes between the borders (specified by the ``Start`` and ``Depth`` parameters). Can have one of the following values: ``Quadratic``, ``Linear``,  ``Inverse Quadratic``. Set to ``Quadratic`` by default.
@@ -470,7 +470,7 @@ Mist settings.
     Can be used to set the color of the mist. Enabled by default. If this parameter is disabled, standard (0.5, 0.5, 0.5) color will be used.
 
 *Fog Color*
-    The color of the mist. Can be changed, if the ``Use custom colors`` parameter is enabled. Light grey (0.5, 0.5, 0.5) color is used by default.
+    The color of the mist. Can be changed, if the ``Use custom colors`` parameter is enabled. Light gray (0.5, 0.5, 0.5) color is used by default.
 
 .. _world_procedural_sky:
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-25 11:46+0300\n"
+"POT-Creation-Date: 2016-04-06 16:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,11 +61,13 @@ msgstr "*Прозрачность*"
 
 #: ../outdoor_rendering.rst:31
 msgid ""
-"It is recommended to enable the gradient transparency ``Transparency > "
-"Alpha Blend`` and to tweak the ``Alpha`` value."
+"It is recommended to enable the gradient transparency (set the "
+"``Transparency > Type`` parameter to the ``Alpha Blend`` value) and to "
+"tweak the ``Alpha`` value."
 msgstr ""
-"Рекомендуется включить прозрачность с градиентом ``Transparency > Alpha "
-"Blend`` и настроить значение ``Alpha``."
+"Рекомендуется включить прозрачность с градиентом (установить значение "
+"``Alpha Blend`` для параметра ``Transparency > Type``) и настроить "
+"значение ``Alpha``."
 
 #: ../outdoor_rendering.rst:34
 msgid "*Lighting parameters*"
@@ -530,8 +532,8 @@ msgstr ""
 #: ../outdoor_rendering.rst:252
 msgid ""
 "Upon script execution some system properties are saved in the water "
-"material. Therefore the scene must be saved after the script has finished"
-" working."
+"material. Therefore, the scene must be saved after the script has "
+"finished working."
 msgstr ""
 "При вызове скрипта в материале воды сохраняются некоторые системные "
 "свойства. Поэтому, после его работы обязательно нужно сохранять сцену."
@@ -861,7 +863,7 @@ msgid "*Detail Bending > Bending Frequency*"
 msgstr ""
 
 #: ../outdoor_rendering.rst:413
-msgid "Detail bendind frequency. The default value is 1.0."
+msgid "Detail bending frequency. The default value is 1.0."
 msgstr "Частота колебаний ветвей. Значение по умолчанию 1.0."
 
 #: ../outdoor_rendering.rst:416

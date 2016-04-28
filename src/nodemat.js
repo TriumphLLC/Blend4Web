@@ -159,8 +159,7 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
     return graph_out;
 }
 
-exports.create_lighting_graph = create_lighting_graph;
-function create_lighting_graph(source_id, mat_name, data) {
+exports.create_lighting_graph = function(source_id, mat_name, data) {
     var active_scene = m_scenes.get_active();
     var ntree_graph_id = generate_graph_id(source_id, "MAIN", active_scene["uuid"]);
 

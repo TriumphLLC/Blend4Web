@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Color Management &mdash; Blend4Web 16.03 用户手册</title>
+  <title>色彩管理 &mdash; Blend4Web 16.04 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.03 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
         <link rel="next" title="音频" href="audio.html"/>
         <link rel="prev" title="Outdoor Effects" href="outdoor_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.03
+              v16.04
             </div>
           
         
@@ -84,7 +84,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">功能</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
@@ -92,39 +92,39 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
-<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
-<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Color Management</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#gamma-overview">Gamma Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#human-vision-and-monitors">Human Vision and Monitors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gamma-formula">Gamma Formula</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gamma-in-node-materials">Gamma in Node Materials</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#nodes-for-colouring">Nodes for Colouring</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#nodes-for-masking">Nodes for Masking</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#normal-maps">Normal Maps</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#summary-table">Summary Table</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">色彩管理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gamma-overview">Gamma概述</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#human-vision-and-monitors">人类视觉和显示器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gamma-formula">伽玛公式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gamma-in-node-materials">伽马在节点材质中</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nodes-for-coloring">为颜色的节点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nodes-for-masking">为遮罩的节点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#normal-maps">法线贴图</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#summary-table">汇总表</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#alpha-compositing">Alpha Compositing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alpha-compositing">alpha合成</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#implementation">实现</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#color-correction">Color Correction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#activation">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#additional-settings">Additional settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#color-correction">色彩校正</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#activation">激活</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-settings">其他设置</a></li>
 </ul>
 </li>
 </ul>
@@ -133,7 +133,7 @@
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
@@ -165,7 +165,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Color Management</li>
+    <li>色彩管理</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -178,29 +178,29 @@
            <div itemprop="articleBody">
             
   <div class="section" id="color-management">
-<span id="gamma"></span><h1><a class="toc-backref" href="#id3">Color Management</a><a class="headerlink" href="#color-management" title="永久链接至标题">¶</a></h1>
+<span id="gamma"></span><h1><a class="toc-backref" href="#id3">色彩管理</a><a class="headerlink" href="#color-management" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Table of Contents</p>
+<p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#color-management" id="id3">Color Management</a><ul>
-<li><a class="reference internal" href="#gamma-overview" id="id4">Gamma Overview</a></li>
-<li><a class="reference internal" href="#human-vision-and-monitors" id="id5">Human Vision and Monitors</a></li>
-<li><a class="reference internal" href="#gamma-formula" id="id6">Gamma Formula</a></li>
-<li><a class="reference internal" href="#gamma-in-node-materials" id="id7">Gamma in Node Materials</a><ul>
-<li><a class="reference internal" href="#nodes-for-colouring" id="id8">Nodes for Colouring</a></li>
-<li><a class="reference internal" href="#nodes-for-masking" id="id9">Nodes for Masking</a></li>
-<li><a class="reference internal" href="#normal-maps" id="id10">Normal Maps</a></li>
-<li><a class="reference internal" href="#summary-table" id="id11">Summary Table</a></li>
+<li><a class="reference internal" href="#color-management" id="id3">色彩管理</a><ul>
+<li><a class="reference internal" href="#gamma-overview" id="id4">Gamma概述</a></li>
+<li><a class="reference internal" href="#human-vision-and-monitors" id="id5">人类视觉和显示器</a></li>
+<li><a class="reference internal" href="#gamma-formula" id="id6">伽玛公式</a></li>
+<li><a class="reference internal" href="#gamma-in-node-materials" id="id7">伽马在节点材质中</a><ul>
+<li><a class="reference internal" href="#nodes-for-coloring" id="id8">为颜色的节点</a></li>
+<li><a class="reference internal" href="#nodes-for-masking" id="id9">为遮罩的节点</a></li>
+<li><a class="reference internal" href="#normal-maps" id="id10">法线贴图</a></li>
+<li><a class="reference internal" href="#summary-table" id="id11">汇总表</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#alpha-compositing" id="id12">Alpha Compositing</a><ul>
-<li><a class="reference internal" href="#overview" id="id13">Overview</a></li>
-<li><a class="reference internal" href="#implementation" id="id14">Implementation</a></li>
+<li><a class="reference internal" href="#alpha-compositing" id="id12">alpha合成</a><ul>
+<li><a class="reference internal" href="#overview" id="id13">概述</a></li>
+<li><a class="reference internal" href="#implementation" id="id14">实现</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#color-correction" id="id15">Color Correction</a><ul>
-<li><a class="reference internal" href="#activation" id="id16">Activation</a></li>
-<li><a class="reference internal" href="#additional-settings" id="id17">Additional settings</a></li>
+<li><a class="reference internal" href="#color-correction" id="id15">色彩校正</a><ul>
+<li><a class="reference internal" href="#activation" id="id16">激活</a></li>
+<li><a class="reference internal" href="#additional-settings" id="id17">其他设置</a></li>
 </ul>
 </li>
 </ul>
@@ -208,39 +208,47 @@
 </ul>
 </div>
 <div class="section" id="gamma-overview">
-<h2><a class="toc-backref" href="#id4">Gamma Overview</a><a class="headerlink" href="#gamma-overview" title="永久链接至标题">¶</a></h2>
-<p>The essence of gamma correction is packing the image brightness channel into  8 bits of information.</p>
-<p>Standard (non-HDR) images are always stored in non-linear color space where the darker components are encoded using more bits than the brighter ones. That means that a bigger RGB value corresponds to 0.5 of the real light intensity (a physical quantity called illuminance) - in a simplest  case this value equals to 0.5 ^ (1/2.2) = 0.73.</p>
-<p>Overwise, 8 bit of information will not be enough to encode the light intensity. This will result in incorrect rendering of darker tones. For example, dark  gradients will look stepped.</p>
-<p>Therefore, web browsers, as well as many other programs for viewing and manipulating images, work in non-linear space. However, 3D engines and renderers work in linear space, because it is the only correct way to represent light behavior in the real world. For example, the illuminance from two identical lamps exceeds the illuminance from one lamp exactly by two times.</p>
-<p>Undoubtedly, 8 bit of information will not be enough in this case. This can be clearly seen from the table in which approximate illuminance values for some real light sources are shown.</p>
+<h2><a class="toc-backref" href="#id4">Gamma概述</a><a class="headerlink" href="#gamma-overview" title="永久链接至标题">¶</a></h2>
+<p>伽马校正的实质是将图像亮度通道打包进8比特信息中。</p>
+<p>标准（非HDR）图像总是存储在较暗的部分比亮的那些部分使用更多的比特编码的非线性颜色空间。这意味着，较大的RGB值对应于实际的光强度（物理量称为照度）的0.5  - 在简单的情况该值等于0.5 ^（1 / 2.2）= 0.73。</p>
+<p>否则，光强的8位的信息将不足以进行编码。这将导致深色调的不正确渲染。例如，深色渐变会显得加强。</p>
+<p>因此，网络浏览器和其他软件一样，也是在非线性空间观看和处理图像。但是，3D引擎和渲染器在线性空间的工作，这是表现现实世界中光的行为的唯一正确途径。例如，来自两个相同的灯的照度超过了从一个灯完全照度两倍。</p>
+<p>无疑，在这种情况下8位的信息是不足够的。这可以从一些真实光源的近似照度值示表中清楚地看到。</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="54%" />
 <col width="46%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Description</th>
-<th class="head">Illuminance, lux</th>
+<tr class="row-odd"><th class="head"><p class="first last">描述</p>
+</th>
+<th class="head"><p class="first last">照度，光通量</p>
+</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Summer noon</td>
+<tr class="row-even"><td><p class="first last">夏季中午</p>
+</td>
 <td>17 000</td>
 </tr>
-<tr class="row-odd"><td>Winter noon</td>
+<tr class="row-odd"><td><p class="first last">冬季中午</p>
+</td>
 <td>5 000</td>
 </tr>
-<tr class="row-even"><td>Dull day</td>
+<tr class="row-even"><td><p class="first last">日常天</p>
+</td>
 <td>1 000</td>
 </tr>
-<tr class="row-odd"><td>In a light room</td>
+<tr class="row-odd"><td><p class="first last">在明亮房间</p>
+</td>
 <td>100</td>
 </tr>
-<tr class="row-even"><td>Full moon by night</td>
+<tr class="row-even"><td><p class="first last">月圆夜</p>
+</td>
 <td>0.2</td>
 </tr>
-<tr class="row-odd"><td>Moonless light</td>
+<tr class="row-odd"><td><p class="first last">没有月亮的光</p>
+</td>
 <td>0.001</td>
 </tr>
 </tbody>
@@ -248,119 +256,133 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>When the <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Management</span> <span class="pre">&gt;</span> <span class="pre">Display</span> <span class="pre">Device</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></code> option is enabled for a scene, Blender works in a linear space. Material colors and lamp settings correspond to physical values. For texture images (except normal maps) it is required to select the <code class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Input</span> <span class="pre">Color</span> <span class="pre">Space</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></code> option. In this case an automatic image unpacking (sRGB -&gt; Linear) is performed at the time of rendering.</p>
+<p>当  <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Management</span> <span class="pre">&gt;</span> <span class="pre">Display</span> <span class="pre">Device</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></code> 选项为场景启用时，Blender工作于线性空间。材质的颜色和灯设置对应到相应的物理值。对于纹理图像（除法线贴图），则需要选择  <code class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Input</span> <span class="pre">Color</span> <span class="pre">Space</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></code>  选项。在这种情况下，在渲染的时候执行自动图象解包（sRGB的 -&gt; 直线）。</p>
 </div>
 <div class="section" id="human-vision-and-monitors">
-<h2><a class="toc-backref" href="#id5">Human Vision and Monitors</a><a class="headerlink" href="#human-vision-and-monitors" title="永久链接至标题">¶</a></h2>
-<p>While the human vision is non-linear (a human recognizes the darker light tints better than the brighter ones), the light coming into the eye still obeys the physical laws (see the lamps example).</p>
-<p>In CRT monitors the brightness is dependent non-linearly upon the electric voltage applied to the monitor’s input (the voltage itself is determined by the color channel value in the video memory). LCD monitors mimic the same characteristics. Nevertheless the light emitted by such monitors obeys the physical laws. For example the addition of a second light source to a virtual scene should cause the brightness to double (in the perfect case).</p>
-<p>Therefore, the perception characteristics of the human eye are the reason due to which it is possible to pack color channels. At the same time, the technical characteristics of monitors have a secondary significance for gamma correction.</p>
+<h2><a class="toc-backref" href="#id5">人类视觉和显示器</a><a class="headerlink" href="#human-vision-and-monitors" title="永久链接至标题">¶</a></h2>
+<p>尽管人的视觉是非线性（人识别较暗光色调比亮的要好），进入眼睛的光仍然服从物理定律（参照灯的例子）。</p>
+<p>在CRT显示器的亮度是根据施加到显示器的输入非线性地施加到显示屏的电压（由在显存中的色彩通道值确定的电压）。液晶显示器模仿相同的特性。但是这类显示器发出的光服从物理定律。例如将第二光源到虚拟场景会引起亮度加倍（在完美的情况）。</p>
+<p>因此，人眼的感知特性是能够打包颜色通道的原因。同时，显示器的技术特征有二次伽马校正的意义。</p>
 </div>
 <div class="section" id="gamma-formula">
-<h2><a class="toc-backref" href="#id6">Gamma Formula</a><a class="headerlink" href="#gamma-formula" title="永久链接至标题">¶</a></h2>
-<p>Used in the following simplified formula:</p>
+<h2><a class="toc-backref" href="#id6">伽玛公式</a><a class="headerlink" href="#gamma-formula" title="永久链接至标题">¶</a></h2>
+<p>采用以下简化公式：</p>
 <blockquote>
 <div>V<sub>out</sub> = V<sub>in</sub><sup>γ</sup></div></blockquote>
-<p>γ &lt; 1 - packing gamma, γ &gt; 1 - unpacking gamma. In the simplest case 1/2.2  and 2.2 values are used respectively. Hereinafter the “packing” (Linear -&gt; sRGB) and “unpacking” (sRGB -&gt; Linear) terms are used instead of “gamma correction”.</p>
+<p>γ&lt;1  - 打包伽玛值，γ&gt; 1  - 拆包伽马。在最简单的情况 1/2.2  和 2.2 的值被分别使用。在下文中，用术语  “打包” (Linear -&gt; sRGB) 和 “解包” (sRGB -&gt; Linear) 的术语用来代替 “伽马校正”.</p>
 <a class="reference internal image-reference" href="_images/gamma.jpg"><img alt="_images/gamma.jpg" class="align-center" src="_images/gamma.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="gamma-in-node-materials">
-<span id="gamma-node-materials"></span><h2><a class="toc-backref" href="#id7">Gamma in Node Materials</a><a class="headerlink" href="#gamma-in-node-materials" title="永久链接至标题">¶</a></h2>
-<div class="section" id="nodes-for-colouring">
-<h3><a class="toc-backref" href="#id8">Nodes for Colouring</a><a class="headerlink" href="#nodes-for-colouring" title="永久链接至标题">¶</a></h3>
-<p>Unpacking (sRGB -&gt; Linear) is required when textures and vertex colors are used for colouring (not for masking). The texture node and Vertex Color output of Geometry node implement unpacking automatically.</p>
-<p>Note that the alpha channel of a texture node is not corrected. Its values are in the linear space.</p>
+<span id="gamma-node-materials"></span><h2><a class="toc-backref" href="#id7">伽马在节点材质中</a><a class="headerlink" href="#gamma-in-node-materials" title="永久链接至标题">¶</a></h2>
+<div class="section" id="nodes-for-coloring">
+<h3><a class="toc-backref" href="#id8">为颜色的节点</a><a class="headerlink" href="#nodes-for-coloring" title="永久链接至标题">¶</a></h3>
+<p>当纹理和顶点颜色用于色彩（不用于遮罩）拆包（sRGB -&gt; 线性） 是必需的。纹理节点和几何节点的顶点颜色输出实现自动拆包。</p>
+<p>需要注意的是纹理节点的alpha通道没有得到纠正。它的值是线性空间。</p>
 </div>
 <div class="section" id="nodes-for-masking">
-<h3><a class="toc-backref" href="#id9">Nodes for Masking</a><a class="headerlink" href="#nodes-for-masking" title="永久链接至标题">¶</a></h3>
-<p>Textures and vertex colors can be used as masks i.e. input data for some mathematical operations. In such a case the packing operation is required.</p>
-<p>Keep in mind that a texture node and <cite>Vertex Color</cite> output of <cite>Geometry</cite> node implement unpacking automatically. This results in necessity of the additional transformation back to the non-linear space, for which the <cite>LINEAR_TO_SRGB</cite> or <cite>GAMMA</cite> node with γ = 1/2.2 is used.</p>
+<h3><a class="toc-backref" href="#id9">为遮罩的节点</a><a class="headerlink" href="#nodes-for-masking" title="永久链接至标题">¶</a></h3>
+<p>纹理和顶点颜色可作为遮罩即对于一些数学运算的输入数据可以使用。在这样的情况下，需要打包操作。</p>
+<p>请记住，一个纹理节点和 <cite>几何</cite> 节点的 <cite>顶点色</cite> 输出实现自动拆包。这导致了额外回到非线性空间中的转换，需要使用 <cite>LINEAR_TO_SRGB</cite> 或 γ= 1 / 2.2 <cite>GAMMA</cite> 节点。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last"><cite>LINEAR_TO_SRGB</cite> and <cite>SRGB_TO_LINEAR</cite> nodes are deprecated. <cite>GAMMA</cite> node should be used instead.</p>
+<p class="last"><cite>LINEAR_TO_SRGB</cite> 和 <cite>SRGB_TO_LINEAR</cite> 节点已被弃用。 应使用 <cite>GAMMA</cite> 节点。</p>
 </div>
 </div>
 <div class="section" id="normal-maps">
-<h3><a class="toc-backref" href="#id10">Normal Maps</a><a class="headerlink" href="#normal-maps" title="永久链接至标题">¶</a></h3>
-<p>No transformations are performed for normal maps.</p>
+<h3><a class="toc-backref" href="#id10">法线贴图</a><a class="headerlink" href="#normal-maps" title="永久链接至标题">¶</a></h3>
+<p>法线贴图无任何转换。</p>
 </div>
 <div class="section" id="summary-table">
-<h3><a class="toc-backref" href="#id11">Summary Table</a><a class="headerlink" href="#summary-table" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">汇总表</a><a class="headerlink" href="#summary-table" title="永久链接至标题">¶</a></h3>
 <table border="1" class="docutils">
 <colgroup>
 <col width="50%" />
 <col width="50%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Use case</th>
-<th class="head">Correction</th>
+<tr class="row-odd"><th class="head"><p class="first last">使用案例</p>
+</th>
+<th class="head"><p class="first last">校正</p>
+</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Texture for colouring</td>
-<td>implemented automatically in
-the texture node (the alpha
-channel is not corrected)</td>
+<tr class="row-even"><td><p class="first last">纹理着色</p>
+</td>
+<td><p class="first last">在纹理节点自动执行（Alpha通道不校正）</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Texture for masking</td>
-<td>GAMMA with γ = 0.45</td>
+<tr class="row-odd"><td><p class="first last">纹理遮罩</p>
+</td>
+<td><p class="first last">GAMMA 值  γ = 0.45</p>
+</td>
 </tr>
-<tr class="row-even"><td>Vertex color for colouring</td>
-<td>implemented automatically</td>
+<tr class="row-even"><td><p class="first last">顶点颜色着色</p>
+</td>
+<td><p class="first last">自动实现</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Vertex color for masking</td>
-<td>GAMMA with γ = 0.45</td>
+<tr class="row-odd"><td><p class="first last">作为遮罩顶点的颜色</p>
+</td>
+<td><p class="first last">GAMMA 值  γ = 0.45</p>
+</td>
 </tr>
-<tr class="row-even"><td>Normal map</td>
-<td>not required</td>
+<tr class="row-even"><td><p class="first last">法线</p>
+</td>
+<td><p class="first last">不需要</p>
+</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="section" id="alpha-compositing">
-<span id="id1"></span><h2><a class="toc-backref" href="#id12">Alpha Compositing</a><a class="headerlink" href="#alpha-compositing" title="永久链接至标题">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id12">alpha合成</a><a class="headerlink" href="#alpha-compositing" title="永久链接至标题">¶</a></h2>
 <div class="section" id="overview">
-<h3><a class="toc-backref" href="#id13">Overview</a><a class="headerlink" href="#overview" title="永久链接至标题">¶</a></h3>
-<p>Physically correct alpha compositing is performed according to the formula [<cite>source</cite> &lt;<a class="reference external" href="http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf">http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf</a>&gt;`_]:</p>
+<h3><a class="toc-backref" href="#id13">概述</a><a class="headerlink" href="#overview" title="永久链接至标题">¶</a></h3>
+<p>物理正确的alpha合成是根据下式进行的 [<cite>source</cite> &lt;<a class="reference external" href="http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf">http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf</a>&gt;`_]:</p>
 <blockquote>
 <div><span class="math">\(C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
-<p>This formula differs from the classic mix operation (aka convex combination) because it has the <span class="math">\(\alpha_b\)</span> multiplier in the second summand. Therefore not only the <span class="math">\(\alpha_a\)</span> value of the source pixel should be known for alpha compositing, but also the <span class="math">\(\alpha_b\)</span> value of the pixel over which the rendering is performed.</p>
-<p>In case of preliminary multiplication of the <span class="math">\(\alpha\)</span> values by the color channels (so called premultiplied alpha) the formula becomes as following:</p>
+<p>这个方程和经典的混合操作（又名凸包合成）不同，因为它在第二被加数具有  <span class="math">\(\alpha_b\)</span> 乘数。因此渲染的时候不仅是原始像素的 <span class="math">\(\alpha_a\)</span>  值应该是已知的用于alpha合成，而且要叠合的像素的  <span class="math">\(\alpha_b\)</span> 也是一样。</p>
+<p>公式在预乘的情况下颜色通道的  <span class="math">\(\alpha\)</span>  值（称为预乘alpha） 就变成下面：</p>
 <blockquote>
 <div><span class="math">\(C_o = C_a + C_b (1 - \alpha_a)\)</span>.</div></blockquote>
-<p>The last formula is used also to calculate the resulting <span class="math">\(\alpha_o\)</span> value:</p>
+<p>最后一个公式用于计算出  <span class="math">\(\alpha_o\)</span> 值：</p>
 <blockquote>
 <div><span class="math">\(\alpha_o = \alpha_a + \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
-<p>Preliminary multiplication of the color channels by the <span class="math">\(\alpha\)</span>  values allows to save two multiplication operations. The more significant thing is that the derived formula can be used repeatedly without the need to divide the <span class="math">\(C_o\)</span> color by the αoαo value on each consequent iteration.</p>
+<p>将颜色通道预乘 <span class="math">\(\alpha\)</span>  值允许保留2个乘法运算。更明显的是，衍生公式可以重复进行而不需要在每个迭代都去用 <span class="math">\(C_o\)</span> 颜色值去除 <span class="math">\(\alpha_o\)</span> 的值.</p>
 </div>
 <div class="section" id="implementation">
-<h3><a class="toc-backref" href="#id14">Implementation</a><a class="headerlink" href="#implementation" title="永久链接至标题">¶</a></h3>
-<p>The blending function used in Blend4Web is the following:</p>
+<h3><a class="toc-backref" href="#id14">实现</a><a class="headerlink" href="#implementation" title="永久链接至标题">¶</a></h3>
+<p>在Blend4Web使用的混合功能如下：</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 </pre></div>
 </div>
-<p>WebGL context initialization is performed using the premultipliedAlpha = true parameter (that is the default value). Also multiplication of all the color channels by the <span class="math">\(\alpha\)</span> value is performed on the output of the shaders.</p>
+<p>WebGL的上下文初始化是使用 premultipliedAlpha = true 参数（即默认值）进行的。由所有颜色通道相乘  <span class="math">\(\alpha\)</span> 值在着色器进行输出。</p>
 </div>
 </div>
 <div class="section" id="color-correction">
-<span id="index-0"></span><span id="id2"></span><h2><a class="toc-backref" href="#id15">Color Correction</a><a class="headerlink" href="#color-correction" title="永久链接至标题">¶</a></h2>
+<span id="index-0"></span><span id="id2"></span><h2><a class="toc-backref" href="#id15">色彩校正</a><a class="headerlink" href="#color-correction" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/effects_color_correction.png"><img alt="_images/effects_color_correction.png" class="align-center" src="_images/effects_color_correction.png" style="width: 100%;" /></a>
 <div class="section" id="activation">
-<h3><a class="toc-backref" href="#id16">Activation</a><a class="headerlink" href="#activation" title="永久链接至标题">¶</a></h3>
-<p>Activate the <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Correction</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab.</p>
+<h3><a class="toc-backref" href="#id16">激活</a><a class="headerlink" href="#activation" title="永久链接至标题">¶</a></h3>
+<p>激活 <code class="docutils literal"><span class="pre">Render</span></code> 选项卡下的 <code class="docutils literal"><span class="pre">颜色校正</span></code> 面板。</p>
 </div>
 <div class="section" id="additional-settings">
-<h3><a class="toc-backref" href="#id17">Additional settings</a><a class="headerlink" href="#additional-settings" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">其他设置</a><a class="headerlink" href="#additional-settings" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
-<dt><em>Brightness</em></dt>
-<dd>The default value is 0.0.</dd>
-<dt><em>Contrast</em></dt>
-<dd>The default value is 0.0.</dd>
-<dt><em>Exposure</em></dt>
-<dd>The default value is 1.0.</dd>
-<dt><em>Saturation</em></dt>
-<dd>The default value is 1.0.</dd>
+<dt><em>亮度</em></dt>
+<dd><p class="first last">默认值是 0.0。</p>
+</dd>
+<dt><em>对比度</em></dt>
+<dd><p class="first last">默认值是 0.0。</p>
+</dd>
+<dt><em>曝光度</em></dt>
+<dd><p class="first last">默认值是 1.0。</p>
+</dd>
+<dt><em>饱和度</em></dt>
+<dd><p class="first last">默认值是 1.0。</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -386,7 +408,7 @@ channel is not corrected)</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-03-31.
+      最后更新于 2016-04-28.
 
     </p>
   </div>
@@ -409,7 +431,7 @@ channel is not corrected)</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.03',
+            VERSION:'v16.04',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
