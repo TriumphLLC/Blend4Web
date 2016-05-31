@@ -30,7 +30,7 @@ If the required effect is impossible to achieve with the standard tools, you can
 
 The result of applying different shading types and using the normals editor:
 
-.. image:: src_images/lighting/different_shadings_comparison.jpg
+.. image:: src_images/lighting/different_shadings_comparison.png
    :align: center
    :width: 100%
 
@@ -39,276 +39,6 @@ The result of applying different shading types and using the normals editor:
 #. Smooth Shading
 #. Smooth Shading + bevel
 #. Smooth Shading + bevel + editing normals
-
-
-.. _normals_editor:
-
-.. index:: normals, normals; editor
-
-Normal Editor
-=============
-
-Editing the selected normals is a pretty easy and effective way to customize 3d model shading without complicating its geometry.
-
-In some cases, using the normal editor you may achieve the effect which is similar to the result of using :ref:`normal maps <normal_map>`. At the same  time, editing normals is preferred because it is more computationally effective and consumes less video memory.
-
-Normal editor workflow example:
-
-    .. image:: src_images/lighting/vnt_img01.jpg
-       :align: center
-       :width: 100%
-
-Simple geometry shading is to the left, a tree with edited normals is to the right.
-
-
-    .. image:: src_images/lighting/vnt_img02.jpg
-       :align: center
-       :width: 100%
-
-To the left - gates with common shading; at the center - gates with edited normals; to the right - gates geometry with a wireframe.
-
-    .. image:: src_images/lighting/vnt_img03.jpg
-       :align: center
-       :width: 100%
-
-To the left - common grass geometry shading; to the right - grass with edited normals.
-
-    .. image:: src_images/lighting/vnt_img04.jpg
-       :align: center
-       :width: 100%
-
-To the left - glasses with common shading; to the right - geometry with edited normals shading.
-
-Main features of the normal editor:
------------------------------------
-
-#. native Blender storage is used as a container for edited vertices normals directions (it appeared in Blender 2.74);
-#. normals editing and shading visualization are processed in ``Edit Mode`` now;
-#. all changes are being saved automatically;
-#. selected vertex normal rotation can be performed directly in the Viewport window with ``Shift+Ctrl+R`` hotkey, similarly to other rotation operations in Blender;
-#. edited normals are being exported automatically.
-
-Interface of the Vertex Normal Editor
--------------------------------------
-
-The interface of the normal editor is located on the tools panel ``Blend4Web > Normal Editor``. The ``Shading: Smooth`` mode should be enabled and ``Activate`` button should be pressed or ``Auto Smooth`` flag should be enabled in the mesh settings, before starting to work with the editor.
-
-.. image:: src_images/lighting/vnt_img05.jpg
-   :align: center
-   :width: 100%
-
-Activate
---------
-
-*Description*
-
-The new ``Activate`` button turns on vertex normal editing mode.
-
-*Usage*
-
-You can just press ``Activate`` button while in ``Edit Mode`` and start editing vertex normals. As it is active, object shading and its export would be processed taking edited vertex normals into account. In other words, after making some changes, this button should be left active if you want to see the changes in the Blender Viewport and in the Blend4Web engine.
-
-Show Normals
-------------
-
-*Description*
-
-This button actually duplicates the original Blender's button. It turns on displaying the normals in the viewport, while the Size field allows you to set their length.
-
-*Usage*
-
-You just need to push the Show Normals button either on the normal editor panel or on the Blender's right panel in the Mesh Display section. You can also set the convenient length of normals by tweaking the Size.
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img07.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img07.gif
-       :align: center
-       :width: 100%
-
-Rotation
---------
-
-*Description*
-
-Using these instruments you can change direction of the normals.
-
-The Rotate function is also available through the Shift+Ctrl+R hotkeys, which allows rotation of vertex normals similarly to Blender.
-
-*Usage*
-
-Select one or more vertices that you want to edit and then rotate their normals using the visual sphere or specify the direction as numerical values.
-
-The Rotate button provides a more convenient way to manipulate normals. The rotation is performed in the screen space. Nevertheless, as with any other rotations in Blender, you can isolate the desired axis during rotation (by typing X, Y or Z).
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img08.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img08.gif
-       :align: center
-       :width: 100%
-
-Split Normals
--------------
-
-*Description*
-
-The ``Split Normals`` mode allows to edit vertex normals separately for each ``face`` that form the ``vertex``. Index allows you to navigate between the split normals.
-
-Usage
-
-Turn on the ``Split Normals`` mode, select the vertex and change the direction of its normals. Firstly, the normal which has the zero index in the queue will be modified. Then, by switching between indexes you can go to the next normal of this vertex and edit it, then to the next and so on.
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img09.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img09.gif
-       :align: center
-       :width: 100%
-
-Average Split
--------------
-
-*Description*
-
-The ``Average Split`` button averages the direction of the vertex normals which was modified in the ``Split Normals`` mode.
-
-*Usage*
-
-To combine several split vertex normals into one, in order to obtain the average direction of these normals, you just need to select the desired vertex and press the ``Average Split`` button.
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img10.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img10.gif
-       :align: center
-       :width: 100%
-
-Restore
--------
-
-*Description*
-
-The ``Restore`` button restores the original direction of normals for the selected vertices.
-
-*Usage*
-
-In order to restore the normal's direction to its original (which is calculated on the basis of face normals), you need to select the desired vertices and click the Restore button.
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img11.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img11.gif
-       :align: center
-       :width: 100%
-
-Tree, Foliage and Face
-----------------------
-
-*Description*
-
-The ``Tree`` button directs the normals of the selected vertices away from the 3D cursor. The ``Foliage`` button directs the normals of the vertices strictly up. The ``Face`` button directs the normals of the selected face parallel to the normal of this face.
-
-Usage
-
-In order to use the ``Tree`` function, select the desired vertices and place the 3D cursor in the desired position. Then click the ``Tree`` button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point.
-
-The ``Foliage`` function is very easy to use: just select the vertices and press the button, so the function will direct their normals straight up.
-
-In order to direct the normals parallel to the face normal, just select the desired face and click the ``Face`` button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img12_01.jpg
-       :align: center
-       :width: 100%
-
-    .. image:: src_images/lighting/vnt_img12_02.jpg
-       :align: center
-       :width: 100%
-
-    .. image:: src_images/lighting/vnt_img12_03.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img12.gif
-       :align: center
-       :width: 100%
-
-Copy/Paste
-----------
-
-*Description*
-
-Copies the normal direction from one vertex to another.
-
-*Usage*
-
-Select the vertex you want to copy from and click the ``Copy`` button. Then, select the vertex you want to copy to and click the ``Paste`` button. You may copy information from one selected vertex to many different vertices. The buttons are not active in the ``Split Mode`` and do not copy data of split vertices.
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img13.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img13.gif
-       :align: center
-       :width: 100%
-
-Copy From Mesh
---------------
-
-*Description*
-
-This function allows you to copy the normals from one object to another. There are two modes: ``Matched Vertices`` and ``Nearest Vertices``.
-
-The ``Matched Vertices`` mode copies the normals from the vertices of one object to another object's vertices only if they have the same coordinates; the other vertices are ignored. The ``Nearest Vertices`` mode copies the normals of the nearest vertices of the source object.
-
-*Usage*
-
-This function works in Blender's object mode. At first, you need to select the object you need to copy from, then the object you need to copy to. It is also necessary to select the target object's vertices to which normals are copied.
-
-.. only:: latex
-
-    .. image:: src_images/lighting/vnt_img14.jpg
-       :align: center
-       :width: 100%
-
-.. only:: html
-
-    .. image:: src_images/lighting/vnt_img14.gif
-       :align: center
-       :width: 100%
 
 .. index:: light sources
 
@@ -341,7 +71,7 @@ Light source setup
 
 Performed in the ``Object Data`` tab when a lamp object is selected.
 
-.. image:: src_images/lighting/lighting_setup.jpg
+.. image:: src_images/lighting/lighting_setup.png
    :align: center
    :width: 100%
 
@@ -394,7 +124,7 @@ Activation
 
 Enable the ``Environment Lighting`` checkbox on the ``World`` tab.
 
-.. image:: src_images/lighting/lighting_environment.jpg
+.. image:: src_images/lighting/lighting_environment.png
    :align: center
    :width: 100%
 
@@ -424,7 +154,7 @@ To use an environment map for environment lighting:
 #. For the environment map select ``ENVIRONMENT_LIGHTING`` or ``BOTH`` as the ``Sky Texture Usage`` value on the ``Export Options`` panel (the ``BOTH`` option also enables using this texture as a :ref:`skydome texture <skydome_texture>`).
 
 
-.. image:: src_images/lighting/lighting_environment_texture.jpg
+.. image:: src_images/lighting/lighting_environment_texture.png
    :align: center
    :width: 100%
 
@@ -456,7 +186,7 @@ Activation
 
     Objects, which have :ref:`transparent materials with a gradient <alpha_blend>`, do not cast shadows.
 
-    .. image:: src_images/lighting/alpha_shadows.jpg
+    .. image:: src_images/lighting/alpha_shadows.png
        :align: center
        :width: 100%
 
@@ -599,7 +329,7 @@ You can change the background in the following ways:
 
 3. Place a surface with a material and an optional texture in front of the camera. Parent it to the camera. If required, tweak the distance to this surface, starting and ending clipping planes for the camera.
 
-.. image:: src_images/lighting/parented_background.jpg
+.. image:: src_images/lighting/parented_background.png
    :align: center
    :width: 100%
 

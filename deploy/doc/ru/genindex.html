@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Алфавитный указатель &mdash; Руководство пользователя Blend4Web 16.04</title>
+  <title>Алфавитный указатель &mdash; Руководство пользователя Blend4Web 16.05</title>
   
 
   
@@ -33,7 +33,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.04" href="index.html"/> 
+    <link rel="top" title="Руководство пользователя Blend4Web 16.05" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -89,10 +89,11 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -163,6 +164,7 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
@@ -264,6 +266,22 @@
   <dt><a href="textures.html#index-3">material capture</a>
   </dt>
 
+  </dl></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="normal_editor.html#index-0">normals</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="normal_editor.html#index-0">editor</a>
+  </dt>
+
+      </dl></dd>
   </dl></td>
 </tr></table>
 
@@ -460,7 +478,7 @@
   </dt>
 
       
-  <dt><a href="lighting.html#index-3">источники света</a>
+  <dt><a href="lighting.html#index-2">источники света</a>
   </dt>
 
   </dl></td>
@@ -538,16 +556,6 @@
 
         
   <dt><a href="materials.html#index-11">специальные параметры</a>
-  </dt>
-
-      </dl></dd>
-      
-  <dt><a href="lighting.html#index-2">нормали</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="lighting.html#index-2">редактор</a>
   </dt>
 
       </dl></dd>
@@ -695,7 +703,7 @@
   </dt>
 
       
-  <dt><a href="lighting.html#index-4">цвет фона</a>
+  <dt><a href="lighting.html#index-3">цвет фона</a>
   </dt>
 
       
@@ -727,15 +735,48 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-04-28.
+      Обновлено: 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -750,7 +791,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

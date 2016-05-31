@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Table of Contents &mdash; Blend4Web 16.04 User Manual</title>
+  <title>Table of Contents &mdash; Blend4Web 16.05 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 User Manual" href="#"/>
+    <link rel="top" title="Blend4Web 16.05 User Manual" href="#"/>
         <link rel="next" title="Overview" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -93,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -225,24 +226,40 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#types">Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#static-and-dynamic-objects">Static and Dynamic Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#settings">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#anchor-settings">Anchor Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#object-transform-api">Object Transform API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#get-object-api">Get object API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#get-object-api">Get Object API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#object-selection">Object Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#copying-objects-instancing">Copying Objects (Instancing)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#quaternions">Quaternions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#differences-between-coordinate-systems-of-blender-and-blend4web">Differences Between Coordinate Systems of Blender and Blend4Web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#moving-via-tsr-vectors">Moving via TSR Vectors</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="meshes.html#static-and-dynamic-objects">Static and Dynamic Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meshes.html#static-and-dynamic-meshes">Static and Dynamic Meshes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="meshes.html#settings">Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="meshes.html#copying-objects-instancing">Copying Objects (Instancing)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="meshes.html#object-selection">Object Selection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="meshes.html#morphing">Morphing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#main-features-of-the-normal-editor">Main Features of the Normal Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#interface-of-the-vertex-normal-editor">Interface of the Vertex Normal Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#activate">Activate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#show-normals">Show Normals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#rotation">Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#split-normals">Split Normals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#average-split">Average Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#restore">Restore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#tree-foliage-and-face">Tree, Foliage and Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-paste">Copy/Paste</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-from-mesh">Copy From Mesh</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="camera.html#move-styles-and-general-settings">Move Styles and General Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="camera.html#limiting-the-camera-movement">Limiting the Camera Movement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#viewport-alignment">Viewport Alignment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="camera.html#camera-controls-api">Camera Controls API</a></li>
 </ul>
 </li>
@@ -278,7 +295,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#shading-types">Shading Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lighting.html#normal-editor">Normal Editor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#lighting-with-light-sources">Lighting with Light Sources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#environment-lighting-ambient">Environment Lighting (Ambient)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#shadows">Shadows</a></li>
@@ -409,12 +425,15 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl-support">WebGL Support</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#problems-upon-startup">Problems Upon Startup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl-failed-to-initialize">WebGL Failed to Initialize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#more-in-depth-troubleshooting">More In-Depth Troubleshooting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#known-issues">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-05">v16.05</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-04">v16.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-03">v16.03</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-02">v16.02</a></li>
@@ -463,15 +482,48 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-04-28.
+      Last updated on 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -486,7 +538,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

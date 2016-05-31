@@ -9,22 +9,26 @@ Meshes
     :depth: 3
     :backlinks: entry
 
+Meshes are a subclass of :ref:`objects <objects>`. Meshes are different from objects of the other types in a sence that they have geometric structure that is visible in the scene. All objects user can see in a scene are either meshes or convertet to meshes on export (like the ``CURVE``, ``TEXT``, ``METABALL`` and ``SURFACE`` type objects).
+
+:ref:`Blend4Web addon <addon>` has several tools for mesh editing, including the :ref:`normal editor <normals_editor>`.
+
+This chapter provides an overview of the ``MESH`` type object parameters and settings, as well as the API functions to work with them.
+
 .. _static_dynamic_meshes:
 
-Static and Dynamic Objects
-==========================
+Static and Dynamic Meshes
+=========================
 
-All ``MESH`` objects can be divided into static and dynamic objects.
+All ``MESH`` objects can be divided into static and dynamic.
 
-**Static objects** are objects, the meshes of which can be merged together if they have the same material.
+**Static meshes** are meshes that can be merged together if they have the same material.
 
-**Dynamic objects** are objects, the meshes of which cannot be combined with each other.
+**Dynamic meshes** are meshes that cannot be combined with each other.
 
-Merging of static objects - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.
+Merging of static meshes - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.
 
-The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic.
-
-Object movement via API is possible only for dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate ``Force Dynamic Object`` option in its settings.
+Meshes that have animation, physics or a parent, which is a dynamic object, are considered dynamic.
 
 .. _mesh_settings:
 
@@ -77,81 +81,6 @@ The ``Override Bounding Volumes`` section can be found on the ``Blend4Web`` pane
 
 *MinZ and  MaxZ*
     The volume’s Z dimensions. By default, *MinZ* = -1, *MaxZ* = 1
-
-.. _mesh_copy:
-
-Copying Objects (Instancing)
-============================
-
-It is often required to copy (to make instances of) objects during application work.
-
-Copying objects has its limitations:
-    * only ``MESH`` objects can be copied
-    * the object should be :ref:`dynamic <static_dynamic_objects>` (enable ``Rendering Properties > Force Dynamic Object``)
-    * the source object should belong to the active scene
-
-Making a Simple Copy
---------------------
-
-In case of simple copying the new object will share the mesh with the original object. Thus, if the original object’s mesh is changed, the copied object’s mesh will be changed too. To make simple copying possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object`` setting in the source object’s properties.
-
-Making a Deep Copy
-------------------
-
-In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the :ref:`Rendering Properties > Dynamic Geometry <dynamic_geom>` checkbox for the source object.
-|
-
-Copying objects in runtime can be performed with the ``copy`` method of the ``objects.js`` module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default, simple copying will be performed.
-
-The newly created object should be added to the scene. This can be performed with the ``append_object`` method of the ``scenes.js`` module. The new object should be passed to it as an argument.
-
-.. code-block:: javascript
-
-    // ...
-    var new_obj = m_objects.copy(obj, "New_name", true);
-    m_scenes.append_object(new_obj);
-    m_transform.set_translation(new_obj, 2, 0, 2);
-    // ...
-
-
-Removing Objects
-----------------
-To remove objects, use the ``remove_object`` method of the ``scenes.js`` module. Pass the object to it as an argument. Dynamic mesh- and empty-type objects can be removed this way.
-
-.. code-block:: javascript
-
-    // ...
-    m_objects.remove_object(new_obj);
-    // ...
-
-
-.. _mesh_selection:
-
-Object Selection
-================
-
-In order to enable selection of a certain object, it is required to enable the ``Selectable`` checkbox on the ``Selection and Outlining`` panel.
-
-.. note::
-    Make sure that the status on the ``Scene > Object Outlining`` panel is set to ``ON`` or ``AUTO``.
-
-Object selection is possible programmatically via API, for example, in the ``scenes.js`` module there is the ``pick_object`` function which selects an object based on canvas 2D coordinates,
-
-.. code-block:: javascript
-
-    // ...
-    var x = event.clientX;
-    var y = event.clientY;
-
-    var obj = m_scenes.pick_object(x, y);
-    // ...
-
-or using the :ref:`NLA Script <nla_select_play>`.
-
-If the selectable object has enabled ``Enable Outlining`` and ``Outline on Select`` checkboxes on the ``Object > Selection`` and Outlining panel, then the ``pick_object`` function call will activate :ref:`outline glow animation <outline>`.
-
-.. note::
-    If the selected object is transparent (``Blend``, ``Add`` and ``Sort`` transparency types), outline glow will only be visible on the parts that have ``Alpha`` value higher than 0.5.
 
 .. _mesh_morphing:
 

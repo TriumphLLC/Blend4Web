@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 16:12+0300\n"
+"POT-Creation-Date: 2016-05-25 14:04+0300\n"
 "PO-Revision-Date: 2015-11-26 20:40+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -456,14 +456,140 @@ msgid "Vertical limits by the example of the TARGET camera:"
 msgstr "Ограничения по вертикали на примере TARGET камеры:"
 
 #: ../camera.rst:309
+msgid "Viewport Alignment"
+msgstr "Привязка к камере"
+
+#: ../camera.rst:311
+msgid ""
+"If an object is parented to a camera, the set of parameters known as "
+"*Viewport Alignment* are available under the ``Relations`` tab on the "
+"``Object`` panel."
+msgstr ""
+"Если родителем объекта является камера, для него доступен набор "
+"параметров, известный как *Viewport Alignment*. Эти параметры находятся "
+"во вкладке ``Relations`` на панели ``Object``."
+
+#: ../camera.rst:317
+msgid ""
+"Using these settings, the object can be aligned to the active camera, so "
+"that the object will remain in the same place of the screen regardless of"
+" the position and rotation of the camera. This is especially useful for "
+"creating UI elements."
+msgstr ""
+"С их помощью объект можно выровнять относительно камеры таким образом, "
+"что он всегда будет оставаться в одной и той же точке экрана, вне "
+"зависимости от движения или поворота камеры. Может применяться, в "
+"частности, для создания элементов интерфейса."
+
+#: ../camera.rst:322
+msgid ""
+"This picture shows an example of how the Viewport Alignment option can be"
+" used."
+msgstr "Пример использования возможностей Viewport Alignment."
+
+#: ../camera.rst:325
+msgid "*Viewport Alignment*"
+msgstr ""
+
+#: ../camera.rst:325
+msgid ""
+"This parameter enables and disables all the following parameters. It is "
+"disabled by default."
+msgstr ""
+"Этот параметр включает и выключает использование всех нижеперечисленных "
+"параметров. По умолчанию деактивирован."
+
+#: ../camera.rst:340
+msgid "*Alignment*"
+msgstr ""
+
+#: ../camera.rst:328
+msgid ""
+"This parameter specifies what side of the screen the object will be "
+"aligned with. It can have one of the following values."
+msgstr ""
+"Этот параметр определяет, к какой точке экрана будет привязан объект. "
+"Может иметь одно из следующих значений:"
+
+#: ../camera.rst:330
+msgid "``Top-Left`` - aligns the object in the top left corner of the viewport"
+msgstr "``Top-Left`` - привязывает объект к левому верхнему углу экрана"
+
+#: ../camera.rst:331
+msgid "``Top`` - aligns the object in the top of the viewport"
+msgstr "``Top`` - привязывает объект к верхней границе экрана"
+
+#: ../camera.rst:332
+msgid "``Top-Right`` - aligns the object in the top right corner of the viewport"
+msgstr "``Top-Right`` - привязывает объект к правому верхнему углу экрана"
+
+#: ../camera.rst:333
+msgid "``Left`` - aligns the object in the left side of the viewport"
+msgstr "``Left`` - привязывает объект к левой стороне экрана"
+
+#: ../camera.rst:334
+msgid "``Center`` - aligns the object in the center of the viewport"
+msgstr "``Center`` - привязывает объект к центру экрана"
+
+#: ../camera.rst:335
+msgid "``Right`` - aligns the object in the right side of the viewport"
+msgstr "``Right`` - привязывает объект к правой стороне экрана"
+
+#: ../camera.rst:336
+msgid ""
+"``Bottom-Left`` - aligns the object in the bottom left corner of the "
+"viewport"
+msgstr "``Bottom-Left`` - привязывает объект к левому нижнему углу экрана"
+
+#: ../camera.rst:337
+msgid "``Bottom`` - aligns the object in the bottom of the viewport"
+msgstr "``Bottom`` - привязывает объект к нижней границе экрана"
+
+#: ../camera.rst:338
+msgid ""
+"``Bottom-Right`` - aligns the object in the bottom right corner of the "
+"viewport."
+msgstr "``Bottom-Right`` - привязывает объект к правому нижнему углу экрана"
+
+#: ../camera.rst:340
+msgid "Default value is ``Center``."
+msgstr "Значение по умолчанию: ``Center``."
+
+#: ../camera.rst:343
+msgid "*Distance*"
+msgstr ""
+
+#: ../camera.rst:343
+msgid ""
+"This specifies the distance between the aligned object and the camera. It"
+" is set to 10 by default."
+msgstr ""
+"Расстояние между камерой и объектом, привязанным к ней. По умолчанию "
+"равно 10."
+
+#: ../camera.rst:346
+msgid "*Fit to Camera*"
+msgstr ""
+
+#: ../camera.rst:346
+msgid ""
+"By pressing this button, you can make the aligned object look the same "
+"way in the Blender viewport as it will look in the engine. It can be used"
+" to preview alignment results."
+msgstr ""
+"Нажатие на эту кнопку раположит объект относительно камеры так, как он "
+"будет располагаться в движке. Может использоваться для предварительного "
+"просмотра результатов привязки."
+
+#: ../camera.rst:351
 msgid "Camera Controls API"
 msgstr "Управление через API"
 
-#: ../camera.rst:311
+#: ../camera.rst:353
 msgid "Detailed API module documentation: :b4wmod:`link camera`."
 msgstr "Подробная документация API модуля: :b4wmod:`ссылка camera`."
 
-#: ../camera.rst:313
+#: ../camera.rst:355
 msgid ""
 "A camera's position and its spatial orientation are defined by the "
 "control mode. In the ``EYE``, ``TARGET`` and ``HOVER`` modes, control "
@@ -481,7 +607,7 @@ msgstr ""
 "поэтому она лучше подходит в случаях, когда нужен более полный контроль, "
 "например, при процедурной анимации."
 
-#: ../camera.rst:315
+#: ../camera.rst:357
 msgid ""
 "Main functions for camera control are located in the :b4wmod:`camera` "
 "module. Some of them (intended for a specific control mode) have names "
@@ -493,11 +619,11 @@ msgstr ""
 "соответствующих префиксов: ``static_``, ``eye_``, ``target_`` и "
 "``hover_``. Остальные методы применимы для всех режимов."
 
-#: ../camera.rst:320
+#: ../camera.rst:362
 msgid "Control Mode Setup"
 msgstr "Задание режима управления"
 
-#: ../camera.rst:322
+#: ../camera.rst:364
 msgid ""
 "To change the control mode and to completely define a camera's behavior, "
 "the following methods can be used: :b4wref:`camera.static_setup()`, "
@@ -513,7 +639,7 @@ msgstr ""
 "опциональных параметров, позволяющих задать положение камеры, поворот, "
 "наличие лимитов и т.д:"
 
-#: ../camera.rst:375
+#: ../camera.rst:417
 msgid ""
 "The main characteristic of the ``HOVER`` type camera is the fact that the"
 " distance and elevation angle limits define a certain :ref:`path "
@@ -534,7 +660,7 @@ msgstr ""
 "находилось на некой траектории, то можно воспользоваться методом "
 ":b4wref:`camera.hover_setup_rel()` для относительного задания лимитов."
 
-#: ../camera.rst:390
+#: ../camera.rst:432
 msgid ""
 "The current camera mode can be checked with the "
 ":b4wref:`camera.is_static_camera()`, :b4wref:`camera.is_eye_camera()`, "
@@ -546,7 +672,7 @@ msgstr ""
 ":b4wref:`camera.is_target_camera()`, :b4wref:`camera.is_hover_camera()` "
 "или :b4wref:`camera.get_move_style()`:"
 
-#: ../camera.rst:406
+#: ../camera.rst:448
 msgid ""
 "If you need to change only some aspects of the camera's behavior, you can"
 " use the methods described below."
@@ -554,11 +680,11 @@ msgstr ""
 "Если требуется изменить лишь некоторые аспекты поведения камеры, то стоит"
 " воспользоваться отдельными методами, описанными ниже."
 
-#: ../camera.rst:409
+#: ../camera.rst:451
 msgid "Translation and Rotation"
 msgstr "Перемещение и поворот"
 
-#: ../camera.rst:411
+#: ../camera.rst:453
 msgid ""
 "To rotate a ``STATIC`` type camera, you need to use the "
 ":b4wref:`camera.static_get_rotation()` and "
@@ -570,7 +696,7 @@ msgstr ""
 ":b4wref:`camera.static_set_rotation()` - в них поворот описывается "
 "кватернионом:"
 
-#: ../camera.rst:425
+#: ../camera.rst:467
 msgid ""
 "For the ``EYE``, ``TARGET`` and ``HOVER`` type cameras, rotation is "
 "performed in :ref:`spherical coordinates <camera_spherical_coordinates>` "
@@ -583,7 +709,7 @@ msgstr ""
 ":b4wref:`camera.eye_rotate()`, :b4wref:`camera.target_rotate()`, "
 ":b4wref:`camera.hover_rotate()` и :b4wref:`camera.rotate_camera()`:"
 
-#: ../camera.rst:439
+#: ../camera.rst:481
 msgid ""
 "Current spherical coordinates of the camera can be obtained by using the "
 ":b4wref:`camera.get_camera_angles()` method:"
@@ -591,7 +717,7 @@ msgstr ""
 "Текущие сферические координаты камеры можно получить, используя метод "
 ":b4wref:`camera.get_camera_angles()`:"
 
-#: ../camera.rst:453
+#: ../camera.rst:495
 msgid ""
 "Access to the position of the camera can be obtained by using the "
 ":b4wref:`camera.get_translation()` and :b4wref:`camera.set_translation()`"
@@ -604,11 +730,11 @@ msgstr ""
 "При этом для режимов TARGET и HOVER перемещение означает параллельный "
 "перенос всей модели, включающей позицию камеры и опорную точку."
 
-#: ../camera.rst:469
+#: ../camera.rst:511
 msgid "Additional camera translation methods:"
 msgstr "Дополнительные методы для перемещения камеры:"
 
-#: ../camera.rst:471
+#: ../camera.rst:513
 msgid ""
 ":b4wref:`camera.target_set_trans_pivot()`, "
 ":b4wref:`camera.target_set_pivot_translation()`, "
@@ -620,7 +746,7 @@ msgstr ""
 ":b4wref:`camera.hover_set_pivot_translation()` - одновременное задание "
 "позиции и опорной точки камеры;"
 
-#: ../camera.rst:473
+#: ../camera.rst:515
 msgid ""
 ":b4wref:`camera.target_get_distance()`, "
 ":b4wref:`camera.target_set_distance()` - translation based on the "
@@ -630,7 +756,7 @@ msgstr ""
 ":b4wref:`camera.target_set_distance()` - смещение по расстоянию до "
 "опорной точки;"
 
-#: ../camera.rst:475
+#: ../camera.rst:517
 msgid ""
 ":b4wref:`camera.static_set_look_at()`, :b4wref:`camera.eye_set_look_at()`"
 " - sets the camera's position and point of sight simultaneously;"
@@ -638,7 +764,7 @@ msgstr ""
 ":b4wref:`camera.static_set_look_at()`, :b4wref:`camera.eye_set_look_at()`"
 " - одновременное задание позиции и точки взгляда камеры;"
 
-#: ../camera.rst:479
+#: ../camera.rst:521
 msgid ""
 "Because a camera is a scene object, :b4wmod:`transform` module methods "
 "can also be used. But, as every control mode influences camera movement "
@@ -649,11 +775,11 @@ msgstr ""
 " не всегда соответствовать ожиданиям из-за вмешательства модели поведения"
 " камеры в каждом конкретном режиме."
 
-#: ../camera.rst:482
+#: ../camera.rst:524
 msgid "Limit Setup"
 msgstr "Задание лимитов"
 
-#: ../camera.rst:484
+#: ../camera.rst:526
 msgid ""
 "Camera limits are available for the ``EYE``, ``TARGET`` and ``HOVER`` "
 "type cameras. To set a specific limit, you need to use a specific method:"
@@ -661,19 +787,19 @@ msgstr ""
 "Лимиты камеры присутствуют в режимах EYE, TARGET и HOVER. Для назначения "
 "конкретного лимита следует воспользоваться соответствующим методом:"
 
-#: ../camera.rst:487
+#: ../camera.rst:529
 msgid "EYE"
 msgstr ""
 
-#: ../camera.rst:487
+#: ../camera.rst:529
 msgid "TARGET"
 msgstr ""
 
-#: ../camera.rst:487
+#: ../camera.rst:529
 msgid "HOVER"
 msgstr ""
 
-#: ../camera.rst:489
+#: ../camera.rst:531
 msgid ""
 ":b4wref:`camera.eye_get_horizontal_limits()` "
 ":b4wref:`camera.eye_set_horizontal_limits()` "
@@ -681,7 +807,7 @@ msgid ""
 ":b4wref:`camera.eye_set_vertical_limits()`"
 msgstr ""
 
-#: ../camera.rst:489
+#: ../camera.rst:531
 msgid ""
 ":b4wref:`camera.target_get_distance_limits()` "
 ":b4wref:`camera.target_set_distance_limits()` "
@@ -693,7 +819,7 @@ msgid ""
 ":b4wref:`camera.target_set_pivot_limits`"
 msgstr ""
 
-#: ../camera.rst:489
+#: ../camera.rst:531
 msgid ""
 ":b4wref:`camera.hover_get_distance_limits()` "
 ":b4wref:`camera.hover_set_distance_limits()` "
@@ -705,7 +831,7 @@ msgid ""
 ":b4wref:`camera.hover_set_vert_trans_limits()`"
 msgstr ""
 
-#: ../camera.rst:513
+#: ../camera.rst:555
 msgid ""
 "Limit presence can be checked by using the "
 ":b4wref:`camera.has_distance_limits()`, "
@@ -721,7 +847,7 @@ msgstr ""
 ":b4wref:`camera.has_horizontal_trans_limits()` и "
 ":b4wref:`camera.has_vertical_trans_limits()`."
 
-#: ../camera.rst:517
+#: ../camera.rst:559
 msgid ""
 "In ``HOVER`` mode, the camera always has distance and elevation angle "
 "limits. In case these limits were not set, they are automatically "
@@ -733,7 +859,7 @@ msgstr ""
 "так, чтобы зафиксировать камеру в текущем положении относительно опорной "
 "точки."
 
-#: ../camera.rst:523
+#: ../camera.rst:565
 msgid ""
 "When setting translation limits for the ``HOVER`` camera, the values for "
 "the limits will correspond to the engine's coordinate axis as follows:"
@@ -741,15 +867,15 @@ msgstr ""
 "При выставлении лимитов перемещения для камеры типа ``HOVER`` значения "
 "лимитов будут соответствовать осям системы координат движка:"
 
-#: ../camera.rst:525
+#: ../camera.rst:567
 msgid "``Horizontal Translation Limits`` - X axis"
 msgstr "``Horizontal Translation Limits`` - ось X"
 
-#: ../camera.rst:527
+#: ../camera.rst:569
 msgid "``Vertical Translation Limits`` - Z axis"
 msgstr "``Vertical Translation Limits`` - ось Z"
 
-#: ../camera.rst:543
+#: ../camera.rst:585
 msgid ""
 "Enabled camera limits can influence its position and spatial orientation "
 "set by the API functions."
@@ -757,11 +883,11 @@ msgstr ""
 "Присутствующие на камере лимиты могут влиять на её позицию и ориентацию, "
 "выставляемые через API."
 
-#: ../camera.rst:548
+#: ../camera.rst:590
 msgid "Angular Coordinates Count"
 msgstr "Отсчет угловых координат"
 
-#: ../camera.rst:550
+#: ../camera.rst:592
 msgid ""
 "When working with the camera's APIs (rotation, setting limits), all "
 "angles are defined in the :ref:`engine's coordinate system "
@@ -771,11 +897,23 @@ msgstr ""
 " угловых координат ведется в :ref:`системе координат движка "
 "<b4w_blender_coordinates>` следующим образом:"
 
-#: ../camera.rst:552
+#: ../camera.rst:594
 msgid "For the ``TARGET/HOVER`` camera:"
 msgstr "Для типов ``TARGET/HOVER``:"
 
-#: ../camera.rst:566
+#: ../camera.rst:608
 msgid "For the ``EYE`` camera:"
 msgstr "Для типа ``EYE``:"
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid "Alignment"
+#~ msgstr ""
+
+#~ msgid "Distance"
+#~ msgstr ""
+
+#~ msgid "Fit to Camera"
+#~ msgstr ""
 

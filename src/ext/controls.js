@@ -607,19 +607,20 @@ exports.PL_MULTITOUCH_MOVE_PAN  = m_ctl.PL_MULTITOUCH_MOVE_PAN;
 exports.PL_MULTITOUCH_MOVE_ROTATE  = m_ctl.PL_MULTITOUCH_MOVE_ROTATE;
 /**
  * Create a gamepad button sensor.
- * @method module:controls.create_gamepad_btns_sensor
- * @param {Number} number Connected gamepad number
+ * @method module:controls.create_gamepad_btn_sensor
  * @param {Number} ind Button number
+ * @param {Number} [number] Connected gamepad number
  * @returns {Sensor} Sensor object
  */
-exports.create_gamepad_btns_sensor = m_ctl.create_gamepad_btns_sensor;
+exports.create_gamepad_btn_sensor = m_ctl.create_gamepad_btn_sensor;
 /**
- * Create a gamepad axes sensor.
- * @method module:controls.create_gamepad_axes_sensor
- * @param {Number} number Connected gamepad number
+ * Create a gamepad an axis sensor.
+ * @method module:controls.create_gamepad_axis_sensor
+ * @param {Number} axis Axis number
+ * @param {Number} [number] Connected gamepad number
  * @returns {Sensor} Sensor object
  */
-exports.create_gamepad_axes_sensor = m_ctl.create_gamepad_axes_sensor;
+exports.create_gamepad_axis_sensor = m_ctl.create_gamepad_axis_sensor;
 /**
  * Create a custom sensor.
  * A custom sensor can be controlled manually by using the get_custom_sensor()
@@ -632,6 +633,11 @@ exports.create_custom_sensor = m_ctl.create_custom_sensor;
 
 /**
  * Create a keyboard sensor.
+ * This sensor carries the following payload values:
+ * 0 --- button wasn't pressed at the last frame, and it wasn't pressed at the current frame,
+ * 1 --- button wasn't pressed at the last frame, but it was pressed at the current frame,
+ * 2 --- button was pressed at the last frame, and it was pressed at the current frame,
+ * 3 --- button was pressed at the last frame, and it wasn't pressed at the current frame.
  * @method module:controls.create_keyboard_sensor
  * @param {Number} key Sensor key KEY_*
  * @param {HTMLElement} [element=Canvas container element] HTML element

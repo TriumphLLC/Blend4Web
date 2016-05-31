@@ -114,12 +114,12 @@ function add_click_listener() {
         if (_is_paused)
             return;
 
-        var anchor_cont  = _clicked_elem;
+        var anchor_cont = _clicked_elem;
 
         if (!anchor_cont)
             return;
 
-        if (anchor_cont.style.visibility == "hidden") {
+        if (anchor_cont.lastElementChild.style.visibility == "visible") {
             close_descr();
 
             _clicked_elem = null;
@@ -130,11 +130,10 @@ function add_click_listener() {
         if (anchor_cont.style.opacity != 1.0)
             return;
 
-        var anchor_descr = anchor_cont.querySelector("div");
-        var descr_body   = anchor_descr.querySelector("span");
+        var anchor_descr = anchor_cont.lastElementChild;
+        var descr_body   = anchor_descr.firstElementChild;
         var body_text    = descr_body.innerHTML;
 
-        anchor_cont.style.visibility  = "hidden";
         anchor_descr.style.visibility = "visible";
 
         var descr_width  = Math.min(parseInt(anchor_descr.style.width) || 200, str_width(body_text) - 24)
@@ -206,9 +205,10 @@ function has_anchor_obj(obj) {
 }
 
 function close_descr() {
-    _clicked_elem.querySelector("div").style.visibility = "hidden";
-    _clicked_elem.querySelector("div").querySelector("span").style.visibility = "hidden";
-    _clicked_elem.style.visibility = "visible";
+    var last_child = _clicked_elem.lastElementChild;
+
+    last_child.style.visibility = "hidden";
+    last_child.firstElementChild.style.visibility = "hidden";
 }
 
 function create_annotation(obj, max_width) {
@@ -324,11 +324,11 @@ function create_anchor_descr_elem(anchor_desc, anchor_cont, max_width) {
         if (_is_paused)
             return;
 
-        if (_clicked_elem && _clicked_elem.style.visibility == "hidden")
+        if (_clicked_elem && _clicked_elem.lastElementChild.style.visibility == "visible")
             close_descr();
 
         _clicked_elem = anchor_cont;
-    });
+    })
 }
 
 function str_width(str) {
@@ -512,17 +512,6 @@ exports.update_visibility = function() {
 
                 if (element.children.length)
                     element.children[0].style.visibility = "hidden";
-
-                // hide description div
-                if (anchor.type == "ANNOTATION" && element.children.length > 1) {
-                    var child = element.children[1];
-
-                    child.style.visibility = "hidden";
-
-                    if (child.children.length)
-                        child.children[0].style.visibility = "hidden";
-                }
-
             } else if (appearance == "visible") {
                 element.style.visibility = "visible";
 

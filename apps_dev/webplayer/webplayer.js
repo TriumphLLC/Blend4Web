@@ -9,6 +9,7 @@ var m_cont        = require("container");
 var m_ctl         = require("controls");
 var m_data        = require("data");
 var m_hmd         = require("hmd");
+var m_hmd_conf    = require("hmd_conf");
 var m_input       = require("input");
 var m_main        = require("main");
 var m_scs         = require("scenes");
@@ -85,9 +86,9 @@ var _player_buttons = [
 
     {type:              "trigger_button",
      id:                "sound_on_button",
-     callback:          play_sound,
+     callback:          stop_sound,
      replace_button_id: "sound_off_button",
-     replace_button_cb: stop_sound},
+     replace_button_cb: play_sound},
 
     {type:                   "menu_button",
      id:                     "stereo_buttons_container",
@@ -227,7 +228,7 @@ function display_no_webgl_bg() {
         _preloader_container.style.display = "none";
     } else
         report_app_error("Browser could not initialize WebGL", "For more info visit",
-                      "https://www.blend4web.com/troubleshooting")
+                      "https://www.blend4web.com/doc/en/problems_and_solutions.html")
 }
 
 function define_dom_elems() {
@@ -310,8 +311,7 @@ function set_stereo_button() {
     case "HMD":
         _stereo_buttons_container.className = "control_panel_button hmd_mode_button";
         if (m_input.can_use_device(m_input.DEVICE_HMD)) {
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
-            m_input.register_device(device);
+            m_hmd_conf.update();
         }
         break;
     }
@@ -501,7 +501,7 @@ function play_sound(e) {
     if (is_anim_in_process())
         return;
 
-    m_sfx.mute(null, true);
+    m_sfx.mute(null, false);
     update_button(e.target);
 }
 
@@ -509,7 +509,7 @@ function stop_sound(e) {
     if (is_anim_in_process())
         return;
 
-    m_sfx.mute(null, false);
+    m_sfx.mute(null, true);
     update_button(e.target);
 }
 
@@ -1195,8 +1195,6 @@ function set_stereo_config() {
     var stereo = m_storage.get("stereo") || DEFAULT_STEREO;
 
     m_cfg.set("stereo", stereo);
-    if (m_cfg.get("stereo") == "HMD")
-        m_cfg.set("gyro_use", true);
 }
 
 function report_app_error(text_message, link_message, link) {

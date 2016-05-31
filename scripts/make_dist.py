@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import getopt, json, os, sys, zipfile, re, shutil
+import getopt, json, os, sys, time, zipfile, re, shutil
 
 # for UNIX-like OSes only
 import fnmatch
@@ -109,16 +109,10 @@ def process_dist_list(dist_path, version, force):
                         path_root_rel == "deploy/apps/viewer/assets.json"):
                     assets = assets_cleanup(path_curr_rel, pos_patterns,
                             neg_patterns)
-                    # modify access rights
-                    info = zipfile.ZipInfo(path_arc)
-                    info.external_attr = 0o664 << 16
-                    z.writestr(info, assets)
+                    zip_str(z, path_arc, assets)
                 elif path_root_rel == "index.html":
                     index = index_cleanup(path_curr_rel, basename_dest, version)
-                    # modify access rights
-                    info = zipfile.ZipInfo(path_arc)
-                    info.external_attr = 0o664 << 16
-                    z.writestr(info, index)
+                    zip_str(z, path_arc, index)
                 else:
                     src = None
                     for rule in LICENSE_PATHS:
@@ -134,10 +128,7 @@ def process_dist_list(dist_path, version, force):
                                     src = insert_license(path_curr_rel, rule["file_type"], EULA_TEMPLATE)
 
                     if src:
-                        # modify access rights
-                        info = zipfile.ZipInfo(path_arc)
-                        info.external_attr = 0o664 << 16
-                        z.writestr(info, src)
+                        zip_str(z, path_arc, src)
                     else:
                         z.write(path_curr_rel, path_arc)
 
@@ -146,6 +137,14 @@ def process_dist_list(dist_path, version, force):
     remove_blender_scripts_dir()
 
     print("Archive created: " + str(path_dest))
+
+def zip_str(zfile, path, data):
+    info = zipfile.ZipInfo(path, time.localtime(time.time())[:6])
+    # modify access rights
+    info.external_attr = 0o664 << 16
+    # default is ZIP_STORED
+    info.compress_type = zipfile.ZIP_DEFLATED
+    zfile.writestr(info, data)
 
 def insert_license(path, file_type, license_path):
     try:

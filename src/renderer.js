@@ -597,6 +597,24 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
+        case "u_view_zup_tsr":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                if (camera.reflection_plane)
+                    gl.uniformMatrix3fv(loc, false, camera.real_view_zup_tsr);
+                else
+                    gl.uniformMatrix3fv(loc, false, camera.view_zup_tsr);
+            }
+            transient_uni = true;
+            break;
+        case "u_view_zup_tsr_inverse":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                if (camera.reflection_plane)
+                    gl.uniformMatrix3fv(loc, false, camera.real_view_inv_zup_tsr);
+                else
+                    gl.uniformMatrix3fv(loc, false, camera.view_inv_zup_tsr);
+            }
+            transient_uni = true;
+            break;
         case "u_shadow_cast_billboard_view_tsr":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniformMatrix3fv(loc, false, camera.shadow_cast_billboard_view_tsr);
@@ -847,6 +865,18 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
+        case "u_model_zup_tsr":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniformMatrix3fv(loc, false, obj_render.world_zup_tsr);
+            }
+            transient_uni = true;
+            break;
+        case "u_model_zup_tsr_inverse":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniformMatrix3fv(loc, false, obj_render.world_inv_zup_tsr);
+            }
+            transient_uni = true;
+            break;
         case "u_transb":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, obj_render.trans_before);
@@ -1043,15 +1073,32 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_wireframe_mode":
+        case "u_debug_view_mode":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1i(loc, batch.wireframe_mode);
+                gl.uniform1i(loc, batch.debug_view_mode);
+            }
+            break;
+        case "u_debug_colors_seed":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, subscene.debug_colors_seed);
             }
             break;
         case "u_wireframe_edge_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, batch.wireframe_edge_color);
             }
+            break;
+        case "u_cluster_id":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.cluster_id);
+            }
+            transient_uni = true;
+            break;
+        case "u_batch_debug_id":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.debug_id);
+            }
+            transient_uni = true;
             break;
         case "u_subpixel_jitter":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {

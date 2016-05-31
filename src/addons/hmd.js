@@ -97,12 +97,16 @@ exports.HMD_ALL_AXES_MOUSE_YAW = HMD_ALL_AXES_MOUSE_YAW;
  */
 exports.enable_hmd = function(control_type) {
     var sensor = null;
-    if (m_input.can_use_device(m_input.DEVICE_GYRO))
-        sensor = m_ctl.create_gyro_quat_sensor();
-    else if (m_input.can_use_device(m_input.DEVICE_HMD))
-        sensor = m_ctl.create_hmd_quat_sensor();
-
-    process_hmd(control_type, sensor);
+    var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+    if (device) {
+        if (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) ==
+                m_input.HMD_WEBVR_DESKTOP)
+            sensor = m_ctl.create_hmd_quat_sensor();
+        else
+            // m_input.HMD_WEBVR_TYPE in {m_input.HMD_NON_WEBVR, m_input.HMD_WEBVR_MOBILE}
+            sensor = m_ctl.create_gyro_quat_sensor();
+        process_hmd(control_type, sensor);
+    }
 }
 
 /**

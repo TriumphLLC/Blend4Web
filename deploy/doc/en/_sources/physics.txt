@@ -40,7 +40,7 @@ One or multiple physics materials can be assigned to a mesh. Under the ``Materia
 
 The ``Ghost`` option excludes the material from physical interactions but still notifies the application about the contact with it. An example - detecting that the character is located on a vertical ladder.
 
-.. image:: src_images/physics/water_tower.jpg
+.. image:: src_images/physics/water_tower.png
    :align: center
    :width: 100%
 
@@ -59,7 +59,7 @@ Dynamic Physics Type
 
 Intended for rigid body movement simulation.
 
-.. image:: src_images/physics/physics_dynamic.jpg
+.. image:: src_images/physics/physics_dynamic.png
    :align: center
    :width: 100%
 
@@ -88,7 +88,7 @@ Constraints
 
 Physical constraints are used for limiting the objects' degrees of freedom.
 
-.. image:: src_images/physics/physics_constraints.jpg
+.. image:: src_images/physics/physics_constraints.png
    :align: center
    :width: 100%
    
@@ -108,7 +108,7 @@ Wheeled Vehicles
 
 The model of a vehicle must consist of 6 separate objects - a chassis, 4 wheels and a steering wheel. The chassis' mesh center should correspond to the mass center. The centers of the wheels' and the steering wheel's meshes should be located on the rotation axes. The steering wheel should be oriented in the local space of coordinates - X - the rotation axis, Y - to the right and Z - upwards. The object can have any names.
 
-.. image:: src_images/physics/physics_vehicle_wheeled.jpg
+.. image:: src_images/physics/physics_vehicle_wheeled.png
    :align: center
    :width: 100%
 
@@ -157,7 +157,7 @@ The friction and elasticity of the road surface material do not influence the ve
 Floating Objects
 ================
 
-.. image:: src_images/physics/physics_floater.jpg
+.. image:: src_images/physics/physics_floater.png
    :align: center
    :width: 100%
 
@@ -182,7 +182,7 @@ Floating Object Settings
 Floating Vehicles aka Watercrafts
 =================================
 
-.. image:: src_images/physics/physics_boat.jpg
+.. image:: src_images/physics/physics_boat.png
    :align: center
    :width: 100%
 

@@ -6,7 +6,7 @@ SCRIPTSDIR = scripts
 TUTORIALS_DIR = deploy/tutorials
 
 # exec "VERPREFIX=_new_prefix make -e" to override
-VERPREFIX=_rc
+VERPREFIX=_pre
 VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION`
 
 .PHONY: all

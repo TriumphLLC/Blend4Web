@@ -104,9 +104,15 @@
 
   * 设置
 
+  * 设置
+
   * 物体变换API
 
-  * 获取物体API
+  * Get Object API
+
+  * Object Selection
+
+  * Copying Objects (Instancing)
 
   * 四元数
 
@@ -116,21 +122,43 @@
 
 * 网格
 
-  * 静态和动态物体
+  * Static and Dynamic Meshes
 
   * 设置
 
-  * 复制物体（实例化）
-
-  * 物体选择
-
   * 变形
+
+* Normal Editor
+
+  * Main Features of the Normal Editor
+
+  * Interface of the Vertex Normal Editor
+
+  * Activate
+
+  * Show Normals
+
+  * Rotation
+
+  * Split Normals
+
+  * Average Split
+
+  * Restore
+
+  * Tree, Foliage and Face
+
+  * Copy/Paste
+
+  * Copy From Mesh
 
 * Camera
 
   * Move Styles and General Settings
 
   * Limiting the Camera Movement
+
+  * Viewport Alignment
 
   * Camera Controls API
 
@@ -185,8 +213,6 @@
 * Lighting, Shadows and Background
 
   * Shading Types
-
-  * Normal Editor
 
   * Lighting with Light Sources
 
@@ -392,13 +418,19 @@
 
 * 存在的问题及解决方案
 
+  * WebGL Support
+
   * 启动时的问题
 
   * WebGL的无法初始化
 
+  * More In-Depth Troubleshooting
+
   * 已知问题
 
 * Release Notes
+
+  * v16.05
 
   * v16.04
 

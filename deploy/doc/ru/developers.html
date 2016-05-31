@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 16.04</title>
+  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 16.05</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.04" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.05" href="index.html"/>
         <link rel="next" title="Разработчикам движка" href="developers_advanced.html"/>
         <link rel="prev" title="Физика" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -90,10 +90,11 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -257,17 +258,17 @@
 <div class="section" id="dependencies">
 <h3><a class="toc-backref" href="#id8">Зависимости</a><a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Система управления проектами работает на всех операционных системах, однако для некоторых операций может потребоваться установка дополнительных зависимостей. Проверить, установлены ли необходимые зависимости, можно с помощью команды:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py check_deps
+<div class="highlight-bash"><div class="highlight"><pre>./project.py check_deps
 </pre></div>
 </div>
 <p>Для пользователей ОС Windows:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python project.py check_deps</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">python project.py check_deps</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="projects-list">
 <h3><a class="toc-backref" href="#id9">Список проектов</a><a class="headerlink" href="#projects-list" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject list
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject list
 </pre></div>
 </div>
 <p>Выводит список проектов, находящихся в SDK.</p>
@@ -275,7 +276,7 @@
 <div class="section" id="project-structure">
 <h3><a class="toc-backref" href="#id10">Структура проекта</a><a class="headerlink" href="#project-structure" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Типовое приложение, разрабатываемая с помощью системы управления проектами имеет вид:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>blend4web/
+<div class="highlight-python"><div class="highlight"><pre>blend4web/
     apps_dev/
         myproject/
             project.py
@@ -314,10 +315,11 @@
 <div class="section" id="b4w-project-configuration-file">
 <h3><a class="toc-backref" href="#id11">Конфигурационный файл <code class="docutils literal"><span class="pre">.b4w_project</span></code></a><a class="headerlink" href="#b4w-project-configuration-file" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Если при запуске скрипта <em>project.py</em> не были заданы параметры проекта, то они берутся из конфигурационного файла.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
+<div class="highlight-python"><div class="highlight"><pre>[info]
 author =
 name =
 title =
+icon =
 
 [paths]
 assets_dirs =
@@ -337,6 +339,7 @@ use_smaa_textures =
 version =
 
 [deploy]
+assets_path_dest =
 assets_path_prefix =
 remove_exist_ext_dir =
 </pre></div>
@@ -344,7 +347,7 @@ remove_exist_ext_dir =
 </div>
 <div class="section" id="id2">
 <h3><a class="toc-backref" href="#id12">Расширенное управление проектами</a><a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init myproject
+<div class="highlight-bash"><div class="highlight"><pre>./project.py init myproject
 </pre></div>
 </div>
 <p>Команда создает проект с указанной именем в текущей директории. По умолчанию в директории проекта будет находиться только конфигурационный файл.</p>
@@ -368,12 +371,12 @@ remove_exist_ext_dir =
 </li>
 </ul>
 <p>Пример:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
+<div class="highlight-bash"><div class="highlight"><pre>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
 </pre></div>
 </div>
 <p>Данная команда создаст директорию <em>myproject</em>, в которой будут находиться файлы: <em>myproject.js</em>, <em>myproject.css</em>, <em>myproject_dev.html</em> и <em>.b4w_project</em>.</p>
 <p>Файл .b4w_project будет выглядеть следущим образом:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
+<div class="highlight-python"><div class="highlight"><pre>[info]
 author = Blend4Web
 name = myproject
 title = MyProject
@@ -404,7 +407,7 @@ remove_exist_ext_dir =
 <div class="section" id="developing-multiple-apps-inside-a-project">
 <h3><a class="toc-backref" href="#id13">Разработка нескольких приложений в составе проекта</a><a class="headerlink" href="#developing-multiple-apps-inside-a-project" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В проекте может содержаться несколько приложений. Для этого необходимо в конфигурационном файле указать соответствующие HTML-файлы через точку с запятой:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">...</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
 <span class="p">[</span><span class="nb">compile</span><span class="p">]</span>
 <span class="n">apps</span> <span class="o">=</span> <span class="n">myapp1</span><span class="p">;</span><span class="n">myapp2</span><span class="p">;</span>
 <span class="o">...</span>
@@ -413,7 +416,7 @@ remove_exist_ext_dir =
 </div>
 <div class="section" id="building-projects">
 <h3><a class="toc-backref" href="#id14">Сборка проекта</a><a class="headerlink" href="#building-projects" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject compile
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject compile
 </pre></div>
 </div>
 <p>Собирает проект в директории <code class="docutils literal"><span class="pre">deploy/apps/myproject</span></code>.</p>
@@ -446,13 +449,13 @@ remove_exist_ext_dir =
 </div>
 <div class="section" id="automatic-re-export">
 <h3><a class="toc-backref" href="#id15">Автоматический экспорт ресурсов</a><a class="headerlink" href="#automatic-re-export" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject reexport
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject reexport
 </pre></div>
 </div>
 <p>This command will re-export blend files in JSON and HTML formats.</p>
 <p>Доступные опции:</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-b</span> <span class="pre">|</span> <span class="pre">--blender_exec&quot;</span></code> путь к исполняемому файлу blender.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-b</span> <span class="pre">|</span> <span class="pre">--blender-exec&quot;</span></code> путь к исполняемому файлу blender.</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> определяет директорию с ресурсами сцены.</p>
 </li>
@@ -460,7 +463,7 @@ remove_exist_ext_dir =
 </div>
 <div class="section" id="resource-conversion">
 <h3><a class="toc-backref" href="#id16">Конвертация ресурсов</a><a class="headerlink" href="#resource-conversion" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject convert_resources
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject convert_resources
 </pre></div>
 </div>
 <p>Конвертирует внешние ресурсы (текстуры, звуковые и видео-файлы) проекта в альтернативные форматы для обеспечения кроссбраузерности и кроссплатформенности.</p>
@@ -473,27 +476,27 @@ remove_exist_ext_dir =
 </div>
 <div class="section" id="deploying-projects">
 <h3><a class="toc-backref" href="#id17">Развертывание проекта</a><a class="headerlink" href="#deploying-projects" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject deploy
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject deploy DIRECTORY
 </pre></div>
 </div>
 <p>Сохраняет проект во внешнюю директорию со всеми необходимыми зависимостями.</p>
 <p>Доступные опции:</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-d</span> <span class="pre">|</span> <span class="pre">--dir&quot;</span></code> директория для развертывания проекта.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-e</span> <span class="pre">|</span> <span class="pre">--assets-dest&quot;</span></code> задаёт директорию для файлов ресурсов (по умолчанию &#8220;assets&#8221;)</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-e</span> <span class="pre">|</span> <span class="pre">--assets-path&quot;</span></code> путь к файлам ресурсов.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-E</span> <span class="pre">|</span> <span class="pre">--assets-prefix&quot;</span></code> задаёт URL-префикс для файлов ресурсов (по умолчанию &#8220;assets&#8221;)</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-o</span> <span class="pre">|</span> <span class="pre">--override&quot;</span></code> (необязательная) удаляет директорию, если она существует.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-o</span> <span class="pre">|</span> <span class="pre">--override&quot;</span></code> удаляет директорию, если она существует.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> определяет директорию с ресурсами сцены.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-e</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> записывет в конфигурационный файл путь к файлам ресурсов.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-t</span> <span class="pre">|</span> <span class="pre">--engine-type&quot;</span></code> (необязательная) определяет тип развертываемого приложения.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-t</span> <span class="pre">|</span> <span class="pre">--engine-type&quot;</span></code> (необязательная) записывает в конфигурационный файл тип движка.</p>
 </li>
 </ul>
 </div>
 <div class="section" id="remove-project">
 <h3><a class="toc-backref" href="#id18">Удаление проекта</a><a class="headerlink" href="#remove-project" title="Ссылка на этот заголовок">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject remove
+<div class="highlight-bash"><div class="highlight"><pre>python3 project.py -p myproject remove
 </pre></div>
 </div>
 <p>Удаляет проект. Удаляемые директории берутся из конфигурационного файла.</p>
@@ -508,11 +511,11 @@ remove_exist_ext_dir =
 </li>
 </ol>
 <p>Для того, чтобы обновить список модулей, подключаемых в необфусцированной версии приложений, необходимо перейти в директорию с исходными файлами приложений <code class="docutils literal"><span class="pre">apps_dev/my_project</span></code>. Затем необходимо вызвать скрипт, генерирующий пути к файлам движка:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ../../scripts/mod_list.py
+<div class="highlight-bash"><div class="highlight"><pre>python3 ../../scripts/mod_list.py
 </pre></div>
 </div>
 <p>Для пользователей ОС Windows:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python ..\..\scripts\mod_list.py</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">python ..\..\scripts\mod_list.py</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -520,7 +523,7 @@ remove_exist_ext_dir =
 <p class="last">Стоит отдельно отметить, что для запуска скриптов требуется интерпретатор языка Python версии 3.x</p>
 </div>
 <p>В консоли появится список модулей, которые необходимо скопировать и вставить в главный HTML-файл:</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/b4w.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -539,7 +542,7 @@ remove_exist_ext_dir =
 <div class="section" id="path-to-loaded-application-assets">
 <h3><a class="toc-backref" href="#id20">Пути к загружаемым ресурсам приложения</a><a class="headerlink" href="#path-to-loaded-application-assets" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При загрузке .json-файлов необходимо использовать функцию <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> из модуля <em>config.js</em>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;example/example.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;example/example.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>После сборки готового приложения путь к данным изменится, а использование функции <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> позволит избежать возникновения проблемы с неверным путем.</p>
@@ -550,7 +553,7 @@ remove_exist_ext_dir =
 <div class="section" id="hello-world-application">
 <h3><a class="toc-backref" href="#id22">Приложение Hello world!</a><a class="headerlink" href="#hello-world-application" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Простейшее приложение на основе Blend4Web может иметь вид:</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -581,7 +584,7 @@ remove_exist_ext_dir =
 <li><p class="first">Вызвать функцию <code class="docutils literal"><span class="pre">m_data.load()</span></code> для загрузки трёхмерной сцены.</p>
 </li>
 </ol>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -612,7 +615,7 @@ remove_exist_ext_dir =
 <p>While the engine gives an app programmer an API in the scale of dozens of modules, it occupies a single <code class="docutils literal"><span class="pre">b4w</span></code> namespace. To call a module’s method import it first with the <code class="docutils literal"><span class="pre">b4w.require()</span></code> function.</p>
 <p>Допустима регистрация сторонних модулей, если их имена не пересекаются с имеющимися. Регистрация происходит посредством вызова <code class="docutils literal"><span class="pre">b4w.register()</span></code>. Проверка наличия модуля с некоторым именем может быть осуществлена с помощью <code class="docutils literal"><span class="pre">b4w.module_check()</span></code>.</p>
 <p>Пример:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// check if module exists</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// check if module exists</span>
 <span class="k">if</span> <span class="p">(</span><span class="nx">b4w</span><span class="p">.</span><span class="nx">module_check</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">))</span>
     <span class="k">throw</span> <span class="s2">&quot;Failed to register module: my_module&quot;</span><span class="p">;</span>
 
@@ -640,7 +643,7 @@ remove_exist_ext_dir =
 <div class="section" id="creating-apps-quickly">
 <h3><a class="toc-backref" href="#id25">Быстрое создание приложений</a><a class="headerlink" href="#creating-apps-quickly" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поскольку создание приложения с нуля может быть достаточно сложной операцей, особенно для начинающих пользователей, в движке существует специальное дополнение <code class="docutils literal"><span class="pre">app</span></code>:</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -685,11 +688,12 @@ remove_exist_ext_dir =
 <p>Во-первых, вы можете воспользоваться менеджером проектов. Кнопка <code class="docutils literal"><span class="pre">Convert</span> <span class="pre">Resources</span></code> находится на главной странице <a class="reference internal" href="project_manager.html#project-management"><span>менеджера проектов</span></a>, в разделе <code class="docutils literal"><span class="pre">Operations</span></code>, расположенном в правой части экрана.</p>
 <a class="reference internal image-reference" href="_images/developers_convert_resources.png"><img alt="_images/developers_convert_resources.png" class="align-center" src="_images/developers_convert_resources.png" style="width: 100%;" /></a>
 <p>Во-вторых, вы можете запустить скрипт вручную:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py <span class="o">[</span>options<span class="o">]</span> resize_textures <span class="p">|</span> convert_dds <span class="p">|</span> convert_media
+<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> &lt;path_to_sdk&gt;/scripts
+&gt; python3 converter.py <span class="o">[</span>options<span class="o">]</span> resize_textures <span class="p">|</span> convert_dds <span class="p">|</span> convert_media
 </pre></div>
 </div>
 <p>Для пользователей ОС Windows:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cd &lt;path_to_sdk&gt;\scripts</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">cd &lt;path_to_sdk&gt;\scripts</span>
 <span class="go">python converter.py [options] resize_textures | convert_dds | convert_media</span>
 </pre></div>
 </div>
@@ -703,7 +707,7 @@ remove_exist_ext_dir =
 <div class="section" id="id4">
 <h3><a class="toc-backref" href="#id27">Зависимости</a><a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Убедитесь, что у вас установлены все необходимые для конвертации программы. Это можно сделать следующей командой:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
+<div class="highlight-bash"><div class="highlight"><pre>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
 </div>
 <p>Если какая-либо программа отсутствует, то будет выведено сообщения вида:</p>
@@ -746,21 +750,21 @@ remove_exist_ext_dir =
 <p><strong>Mac OS</strong></p>
 <p>Пользователи Mac OS могут установить менеджер пакетов <a class="reference external" href="http://www.brew.sh/">brew</a>, а затем с его помощью установить некоторые недостающие пакеты.</p>
 <p>Перед началом установки пакетов произведите установку библиотек libpng и libjpeg, выполнив следующие команды в консоле:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; brew install libpng
+<div class="highlight-bash"><div class="highlight"><pre>&gt; brew install libpng
 &gt; brew install libjpeg
 </pre></div>
 </div>
 <p>Теперь можно приступать к установке необходимых зависимостей:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; brew install imagemagick
+<div class="highlight-bash"><div class="highlight"><pre>&gt; brew install imagemagick
 &gt; brew install --with-theora --with-libvpx --with-fdk-aac ffmpeg
 </pre></div>
 </div>
 <p>Для установки NVIDIA Texture Tools необходимо склонировать репозиторий, выполнив следующую команду:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; git clone https://github.com/TriumphLLC/NvidiaTextureTools.git
+<div class="highlight-bash"><div class="highlight"><pre>&gt; git clone https://github.com/TriumphLLC/NvidiaTextureTools.git
 </pre></div>
 </div>
 <p>Теперь можно произвести сборку и установку пакета:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; <span class="nb">cd</span> NvidiaTextureTools
+<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> NvidiaTextureTools
 &gt; ./configure
 &gt; make
 &gt; make install
@@ -803,7 +807,7 @@ remove_exist_ext_dir =
 </dl>
 <p>Пример файла на входе: <code class="docutils literal"><span class="pre">file_name.jpg</span></code>, пример файла на выходе: <code class="docutils literal"><span class="pre">file_name.jpg.dds</span></code>.</p>
 <p>В целях оптимизации работы приложения существует возможность использования <code class="docutils literal"><span class="pre">min50</span></code> (уменьшенных вдвое) и <code class="docutils literal"><span class="pre">DDS</span></code> текстур. Для этого при инициализации приложения необходимо передать следующие параметры:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
         <span class="c1">// . . .</span>
         <span class="nx">assets_dds_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
@@ -893,7 +897,7 @@ remove_exist_ext_dir =
 <h3><a class="toc-backref" href="#id32">Пример</a><a class="headerlink" href="#example" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поставлена задача озвучить удар бросаемого камня так, чтобы при ударе о различные среды (например, земля и стена) выводился характерный звук. На сцене в Blender&#8217;е имеются ограничивающие меши с физическими материалами, их идентификаторы &#8220;TERRAIN&#8221; и &#8220;WALL&#8221;. На сцене также присутствует бросаемый физический объект с названием &#8220;Stone&#8221;.</p>
 <p>Определим по одному сенсору соударения (Collision Sensor) для каждой среды, по типу издаваемого звука.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// import the modules</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// import the modules</span>
 <span class="kd">var</span> <span class="nx">m_scenes</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_controls</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
 
@@ -906,7 +910,7 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 <p>Добавим сенсоры в массив. В качестве логической функции используем логическое <code class="docutils literal"><span class="pre">ИЛИ</span></code>. В обработчике напишем код для воспроизведения звука. Создадим множество сенсоров с идентификатором &#8220;IMPACT&#8221; и типом <code class="docutils literal"><span class="pre">CT_SHOT</span></code> (одномоментный).</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// array of the sensors</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// array of the sensors</span>
 <span class="kd">var</span> <span class="nx">impact_sens_array</span> <span class="o">=</span> <span class="p">[</span><span class="nx">sensor_impact_terrain</span><span class="p">,</span> <span class="nx">sensor_impact_wall</span><span class="p">];</span>
 
 <span class="c1">// manifold logic function</span>
@@ -1164,7 +1168,7 @@ remove_exist_ext_dir =
 <div class="line"><br /></div>
 </div>
 <p>Переключение профилей качества осуществляется программно, до инициализации контекста WebGL. Профиль по умолчанию <code class="docutils literal"><span class="pre">P_HIGH</span></code>.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_LOW</span><span class="p">);</span>
@@ -1172,7 +1176,7 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 <p>Разработчики приложений могут также установить параметр <strong>quality</strong> при инициализации движка с использованием дополнения <code class="docutils literal"><span class="pre">app.js</span></code>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
 
 <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
@@ -1190,7 +1194,7 @@ remove_exist_ext_dir =
 <li><p class="first">Если верхний левый угол Canvas&#8217;а совпадает с верхним левым углом окна браузера, и его местоположение не будет изменяться, то достаточно использовать координаты event.clientX и event.clientY соответствующего события либо функции API <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a>:</p>
 </li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_mouse</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
 
 <span class="c1">// . . .</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
@@ -1205,7 +1209,7 @@ remove_exist_ext_dir =
 <li><p class="first">Если на странице присутствует только скроллинг окна браузера, то достаточно использовать координаты event.pageX и event.pageY:</p>
 </li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// . . .</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// . . .</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageX</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageY</span><span class="p">;</span>
 <span class="c1">// . . .</span>
@@ -1215,7 +1219,7 @@ remove_exist_ext_dir =
 <li><p class="first">В случае более сложных манипуляций с положением элемента Canvas (скроллинг отдельных элементов страницы, смещение относительно левого верхнего угла окна браузера, манипуляции с DOM-деревом) требуется корректный пересчет координат. Чтобы получить координаты, подходящие для использования в движке, можно провести преобразование при помощи метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.client_to_canvas_coords">client_to_canvas_coords()</a>:</p>
 </li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cont</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 <span class="c1">// . . .</span>
 <span class="kd">var</span> <span class="nx">canvas_xy</span> <span class="o">=</span> <span class="nx">m_cont</span><span class="p">.</span><span class="nx">client_to_canvas_coords</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">,</span> <span class="nx">_vec2_tmp</span><span class="p">);</span>
@@ -1228,7 +1232,7 @@ remove_exist_ext_dir =
 <blockquote>
 <div><p>Для получения координат в системе отсчета Canvas элемента, движок должен знать его положение относительно окна браузера. Однако, если оно будет меняться во время работы приложения (тот же скроллинг), то необходимо будет как-то пересчитывать позицию Canvas&#8217;а. Для того, чтобы это происходило автоматически, нужно выставить настройку <code class="docutils literal"><span class="pre">track_container_position</span></code> при инициализации приложения:</p>
 </div></blockquote>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
         <span class="c1">// . . .</span>
         <span class="nx">track_container_position</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
@@ -1244,7 +1248,7 @@ remove_exist_ext_dir =
 <blockquote>
 <div><p>При её использовании в некоторых браузерах (например, Firefox) возможно незначительное снижение производительности вследствие частого обращения к DOM-дереву. Если этот момент критичен, то вместо флага <code class="docutils literal"><span class="pre">track_container_position</span></code> можно пользоваться методами <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.force_offsets_updating">force_offsets_updating()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.update_canvas_offsets">update_canvas_offsets()</a> или более низкоуровневым <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.set_canvas_offsets">set_canvas_offsets()</a> для обновления положения элемента Canvas вручную, когда это действительно необходимо:</p>
 </div></blockquote>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
 <span class="c1">// . . .</span>
 <span class="nx">m_cont</span><span class="p">.</span><span class="nx">force_offsets_updating</span><span class="p">();</span>
 <span class="c1">// . . .</span>
@@ -1261,7 +1265,7 @@ remove_exist_ext_dir =
 <li><p class="first">Возможность масштабирования всей веб-страницы на мобильных устройствах также может приводить к смещению элемента Canvas. Описанные выше решения годятся и для этого случая, однако, в качестве альтернативы можно запретить масштабирование вовсе и избежать подобных проблем. Для этого достаточно в заголовке страницы добавить следующий мета-тег:</p>
 </li>
 </ol>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;user-scalable=no&quot;</span><span class="p">&gt;</span>
+<div class="highlight-html"><div class="highlight"><pre><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;user-scalable=no&quot;</span><span class="p">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -1287,15 +1291,48 @@ remove_exist_ext_dir =
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-04-28.
+      Обновлено: 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -1310,7 +1347,7 @@ remove_exist_ext_dir =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

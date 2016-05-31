@@ -62,8 +62,6 @@ exports.defaults = {
 
     background_color           : [0.0, 0.0, 0.0, 0.0],
 
-    lod_transition_ratio       : 0.01,
-
     canvas_resolution_factor   : 1.0,
 
     texture_min_filter         : 3,
@@ -104,7 +102,7 @@ exports.defaults = {
 
     smaa                       : false,
 
-    wireframe_debug            : false,
+    debug_view                 : false,
 
     water_wireframe_debug      : false,
 
@@ -158,8 +156,6 @@ exports.defaults = {
 
     allow_hidpi                : false,
 
-    gyro_use                   : false,
-
     firefox_shadows_slink_hack : false,
 
     mobile_firefox_media_hack  : false,
@@ -193,6 +189,8 @@ exports.defaults = {
     safari_canvas_alpha_hack   : false,
 
     resize_cubemap_canvas_hack : false,
+
+    chrome_html_bkg_music_hack : false,
 
     media_auto_activation      : true,
 
@@ -252,56 +250,19 @@ exports.paths = {
 }
 
 exports.hmd_params = {
-    "oculus": {
+    "webvr": {
         distortion_coefs : [0.22, 0.28],
         chromatic_aberration_coefs : [-0.015, 0.02, 0.025, 0.02]
     },
-    "cardboard_1": {
-        inter_lens_dist: 0.060,
-        base_line_dist: 0.035,
-        screen_to_lens_dist: 0.042,
-        distortion_coefs: [0.441, 0.156],
-        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
-    },
-    "cardboard_2": {
+    "nonwebvr": {
         inter_lens_dist: 0.064,
         base_line_dist: 0.035,
         screen_to_lens_dist: 0.039,
-        distortion_coefs: [0.34, 0.55],
-        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
-    },
-    "default": {
-        inter_lens_dist: 0.064,
-        base_line_dist: 0.035,
-        screen_to_lens_dist: 0.039,
-        distortion_coefs : [0.0, 0.0],
-        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0]
-    }
-}
-
-exports.devices_params = {
-    "Nexus6": {
-        expr_user_agent: /Nexus 6 /,
-        width_dist: 0.132,
-        height_dist: 0.074,
-        bevel_dist: 0.004
-    },
-    "GalaxyNote4": {
-        expr_user_agent: /SM-N910C/,
-        width_dist: 0.126,
-        height_dist: 0.071,
-        bevel_dist: 0.004
-    },
-    "YotaPhone2": {
-        expr_user_agent: /YD201/,
+        distortion_coefs : [0.34, 0.55],
+        chromatic_aberration_coefs : [0.0, 0.0, 0.0, 0.0],
         width_dist: 0.110,
         height_dist: 0.062,
-        bevel_dist: 0.004
-    },
-    "default": {
-        width_dist: 0.110,
-        height_dist: 0.062,
-        bevel_dist: 0.004
+        bevel_size: 0.004
     }
 }
 
@@ -604,9 +565,6 @@ function set(prop, value) {
     case "do_not_load_resources":
         exports.defaults.do_not_load_resources = value;
         break;
-    case "gyro_use":
-        exports.defaults.gyro_use = value;
-        break;
     case "gamepad_setting_cont":
         exports.defaults.gamepad_setting_cont = value;
         break;
@@ -655,8 +613,8 @@ function set(prop, value) {
     case "smaa_area_texture_path":
         exports.paths.smaa_area_texture_path = value;
         break;
-    case "wireframe_debug":
-        exports.defaults.wireframe_debug = value;
+    case "debug_view":
+        exports.defaults.debug_view = value;
         break;
     case "enable_selectable":
         exports.defaults.enable_selectable = value;
@@ -716,8 +674,6 @@ exports.get = function(prop) {
         return exports.defaults.console_verbose;
     case "do_not_load_resources":
         return exports.defaults.do_not_load_resources;
-    case "gyro_use":
-        return exports.defaults.gyro_use;
     case "gamepad_setting_cont":
         return exports.defaults.gamepad_setting_cont;
     case "is_mobile_device":
@@ -752,8 +708,8 @@ exports.get = function(prop) {
         return exports.paths.smaa_search_texture_path;
     case "smaa_area_texture_path":
         return exports.paths.smaa_area_texture_path;
-    case "wireframe_debug":
-        return exports.defaults.wireframe_debug;
+    case "debug_view":
+        return exports.defaults.debug_view;
     case "enable_selectable":
         return exports.defaults.enable_selectable;
     case "enable_outlining":

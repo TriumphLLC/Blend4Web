@@ -70,7 +70,7 @@ var VALID_OBJ_TYPES_SECONDARY = ["ARMATURE", "EMPTY", "MESH", "SPEAKER"];
 var OBJECT_SUBSCENE_TYPES = ["GRASS_MAP", "SHADOW_CAST", "MAIN_OPAQUE",
     "MAIN_BLEND", "MAIN_XRAY", "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
     "MAIN_PLANE_REFLECT_BLEND", "MAIN_CUBE_REFLECT_BLEND",
-    "COLOR_PICKING", "COLOR_PICKING_XRAY", "SHADOW_RECEIVE", "OUTLINE_MASK", "WIREFRAME"];
+    "COLOR_PICKING", "COLOR_PICKING_XRAY", "SHADOW_RECEIVE", "OUTLINE_MASK", "DEBUG_VIEW"];
 exports.OBJECT_SUBSCENE_TYPES = OBJECT_SUBSCENE_TYPES;
 // need light update
 var LIGHT_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY", "MAIN_GLOW",
@@ -88,7 +88,7 @@ var TIME_SUBSCENE_TYPES = ["SHADOW_CAST", "MAIN_OPAQUE", "MAIN_BLEND",
     "MAIN_XRAY", "MAIN_GLOW", "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT",
     "MAIN_PLANE_REFLECT_BLEND", "MAIN_CUBE_REFLECT_BLEND",
     "COLOR_PICKING", "COLOR_PICKING_XRAY", "SHADOW_RECEIVE", "GOD_RAYS", "OUTLINE_MASK",
-    "WIREFRAME"];
+    "DEBUG_VIEW"];
 
 // need camera water distance update
 var MAIN_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_XRAY",
@@ -266,7 +266,7 @@ exports.get_rendered_scenes = function() {
                 if (batch) {
                     batch.textures = [];
                     batch.texture_names = [];
-                    m_batch.update_batch_material_debug(batch, null);
+                    m_batch.update_batch_material_error(batch, null);
                     m_batch.update_shader(batch);
                 }
             }
@@ -1240,7 +1240,7 @@ exports.generate_auxiliary_batches = function(graph) {
             break;
         case "GOD_RAYS":
             var subs_input = m_scgraph.find_input(graph, subs, "RESOLVE") ||
-                             m_scgraph.find_input(graph, subs, "WIREFRAME") ||
+                             m_scgraph.find_input(graph, subs, "DEBUG_VIEW") ||
                              m_scgraph.find_input(graph, subs, "MAIN_BLEND") ||
                              m_scgraph.find_input(graph, subs, "GOD_RAYS");
 
@@ -1258,7 +1258,7 @@ exports.generate_auxiliary_batches = function(graph) {
         case "GOD_RAYS_COMBINE":
 
             var subs_input = m_scgraph.find_input(graph, subs, "RESOLVE") ||
-                             m_scgraph.find_input(graph, subs, "WIREFRAME") ||
+                             m_scgraph.find_input(graph, subs, "DEBUG_VIEW") ||
                              m_scgraph.find_input(graph, subs, "MAIN_BLEND");
 
             var subs_god_rays = m_scgraph.find_input(graph, subs, "GOD_RAYS");
@@ -1482,6 +1482,7 @@ exports.append_object = function(scene, obj, copy) {
     switch (type) {
     case "MESH":
     case "LINE":
+    case "WORLD":
         var graph = scene._render.graph;
         var obj_render = obj.render;
 
@@ -1561,8 +1562,8 @@ function add_object_sub(subs, obj, graph, bpy_scene, copy) {
     case "GRASS_MAP":
         add_object_subs_grass_map(subs, obj, bpy_scene, copy);
         break;
-    case "WIREFRAME":
-        add_object_subs_wireframe(subs, obj, graph, bpy_scene, copy);
+    case "DEBUG_VIEW":
+        add_object_subs_debug_view(subs, obj, graph, bpy_scene, copy);
         break;
     default:
         break;
@@ -1757,7 +1758,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
             // it's safe, honestly - it's being checked in the get_world_light_set()
             var tex = null;
             if (wls.environment_texture_slot)
-                tex = m_batch.get_batch_texture(wls.environment_texture_slot, false);
+                tex = m_tex.get_batch_texture(wls.environment_texture_slot, false);
             else
                 tex = subs_sky.camera.color_attachment;
             m_shaders.set_directive(shaders_info, "SKY_TEXTURE", 1);
@@ -2367,7 +2368,7 @@ function add_object_subs_color_picking(subs, obj, graph, scene, copy) {
     }
 }
 
-function add_object_subs_wireframe(subs, obj, graph, scene, copy) {
+function add_object_subs_debug_view(subs, obj, graph, scene, copy) {
 
     var obj_render = obj.render;
     var sc_data = m_obj_util.get_scene_data(obj, scene);
@@ -2376,16 +2377,16 @@ function add_object_subs_wireframe(subs, obj, graph, scene, copy) {
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
-        if (batch.type != "WIREFRAME")
+        if (batch.type != "DEBUG_VIEW")
             continue;
 
-        append_wireframe_batch(subs, obj_render, graph, copy, batch);
+        append_debug_view_batch(subs, obj_render, graph, copy, batch);
     }
 
 }
 
-exports.append_wireframe_batch = append_wireframe_batch;
-function append_wireframe_batch(subs, obj_render, graph, copy, batch) {
+exports.append_debug_view_batch = append_debug_view_batch;
+function append_debug_view_batch(subs, obj_render, graph, copy, batch) {
     if (!copy) {
         if (batch.dynamic_grass) {
             var subs_grass_map = m_scgraph.find_subs(graph, "GRASS_MAP");
@@ -2773,7 +2774,7 @@ exports.make_frustum_shot = function(cam, subscene, color) {
     var radius = render.bs_world.radius;
     render.be_world = render.be_local = m_bounds.create_bounding_ellipsoid(
             [radius, 0, 0], [0, radius, 0], [0, 0, radius],
-            render.bs_world.center, [0, 0, 0, 1])
+            render.bs_world.center);
 
     var batch = m_batch.create_shadeless_batch(submesh, color, 0.5);
 
@@ -4089,23 +4090,28 @@ function update_scene_permanent_uniforms(scene) {
     });
 }
 
-exports.set_wireframe_mode = function(subs_wireframe, mode) {
+exports.set_debug_view_mode = function(subs_debug_view, mode) {
 
-    subs_wireframe.do_render = mode != m_debug.WM_NONE;
-    for (var i = 0; i < subs_wireframe.bundles.length; i++) {
-        var batch = subs_wireframe.bundles[i].batch;
-        batch.wireframe_mode = mode;
+    subs_debug_view.do_render = mode != m_debug.DV_NONE;
+    for (var i = 0; i < subs_debug_view.bundles.length; i++) {
+        var batch = subs_debug_view.bundles[i].batch;
+        batch.debug_view_mode = mode;
     }
 
-    subs_wireframe.blend = (mode == m_debug.WM_TRANSPARENT_WIREFRAME);
-    subs_wireframe.need_perm_uniforms_update = true;
+    subs_debug_view.blend = (mode == m_debug.DV_TRANSPARENT_WIREFRAME);
+    subs_debug_view.need_perm_uniforms_update = true;
 }
 
-exports.set_wireframe_edge_color = function(subs_wireframe, color) {
-    for (var i = 0; i < subs_wireframe.bundles.length; i++) {
-        var batch = subs_wireframe.bundles[i].batch;
+exports.set_debug_colors_seed = function(subs_debug_view, seed) {
+    subs_debug_view.debug_colors_seed = seed;
+    subs_debug_view.need_perm_uniforms_update = true;
+}
+
+exports.set_wireframe_edge_color = function(subs_debug_view, color) {
+    for (var i = 0; i < subs_debug_view.bundles.length; i++) {
+        var batch = subs_debug_view.bundles[i].batch;
         batch.wireframe_edge_color = color;
-        subs_wireframe.need_perm_uniforms_update = true;
+        subs_debug_view.need_perm_uniforms_update = true;
     }
 }
 

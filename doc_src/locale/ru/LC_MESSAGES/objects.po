@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-12 15:12+0300\n"
+"POT-Creation-Date: 2016-05-27 16:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,24 +46,24 @@ msgid ":ref:`meshes (mesh) <meshes>`"
 msgstr ":ref:`меш (mesh) <meshes>`"
 
 #: ../objects.rst:20
-msgid "camera"
-msgstr "камера (camera)"
+msgid ":ref:`camera <camera>`"
+msgstr ":ref:`камера (camera) <camera>`"
 
 #: ../objects.rst:21
-msgid "lamp"
-msgstr "лампа (lamp)"
+msgid ":ref:`lamp <lighting>`"
+msgstr ":ref:`источник света (lamp) <lighting>`"
 
 #: ../objects.rst:22
 msgid "empty"
 msgstr "пустой (empty)"
 
 #: ../objects.rst:23
-msgid "armature"
-msgstr "скелет (armature)"
+msgid ":ref:`armature <skeletal_animation>`"
+msgstr ":ref:`скелет (armature) <skeletal_animation>`"
 
 #: ../objects.rst:24
-msgid "speaker"
-msgstr "источник звука (speaker)"
+msgid ":ref:`speaker <audio>`"
+msgstr ":ref:`источник звука (speaker) <audio>`"
 
 #: ../objects.rst:25
 msgid "curve"
@@ -104,9 +104,9 @@ msgid ""
 " such objects can be merged together if they have the same material."
 msgstr ""
 "**Статические объекты** - объекты, которые невозможно перемещать, "
-"анимировать или изменять любым другим способом во время работы приложения. "
-"Для повышения быстродействия, такие объекты могут объединены друг с другом, "
-"если они имеют одинаковый материал."
+"анимировать или изменять любым другим способом во время работы "
+"приложения. Для повышения быстродействия, такие объекты могут объединены "
+"друг с другом, если они имеют одинаковый материал."
 
 #: ../objects.rst:42
 msgid ""
@@ -115,10 +115,11 @@ msgid ""
 "including static ones. Dynamic objects are never combined with each other"
 " or with static objects."
 msgstr ""
-"**Динамические объекты** можно перемещать, анимировать и изменять другими "
-"способами во время работы приложения. Такие объекты также могут взаимодействовать "
-"с другими объектами, в том числе со статическими. Динамические объекты никогда не "
-"объединяются друг с другом или со статическими объектами."
+"**Динамические объекты** можно перемещать, анимировать и изменять другими"
+" способами во время работы приложения. Такие объекты также могут "
+"взаимодействовать с другими объектами, в том числе со статическими. "
+"Динамические объекты никогда не объединяются друг с другом или со "
+"статическими объектами."
 
 #: ../objects.rst:44
 msgid ""
@@ -138,9 +139,10 @@ msgid ""
 "do not significantly affect performance."
 msgstr ""
 "Статические объекты типа ``MESH`` рендерятся значительно быстрее "
-"динамических, поэтому для повышения производительности рекомендуется сводить "
-"количество динамических мешей к минимуму. Объекты других типов, как статические, "
-"так и динамические, не оказывают существенного влияния на производительность."
+"динамических, поэтому для повышения производительности рекомендуется "
+"сводить количество динамических мешей к минимуму. Объекты других типов, "
+"как статические, так и динамические, не оказывают существенного влияния "
+"на производительность."
 
 #: ../objects.rst:48
 msgid ""
@@ -149,8 +151,8 @@ msgid ""
 " following logic nodes:"
 msgstr ""
 "Объекты, имеющие анимацию, физику или родителя, являющегося динамическим "
-"объектом, рассматриваются как динамические. Динамическими считаются также "
-"объекты, контролируемые следующими логическими нодами:"
+"объектом, рассматриваются как динамические. Динамическими считаются также"
+" объекты, контролируемые следующими логическими нодами:"
 
 #: ../objects.rst:50
 msgid "``Play Animation``"
@@ -179,8 +181,8 @@ msgstr ""
 "Методы API для перемещения, копирования и анимации (как самого объекта, "
 "так и его нодового материала) объектов могут применяться только к "
 "динамическим объектам. Чтобы обеспечить движение объекта, не имеющего "
-"настроек динамического объекта, в его настройках следует "
-"активировать опцию ``Force Dynamic Object``."
+"настроек динамического объекта, в его настройках следует активировать "
+"опцию ``Force Dynamic Object``."
 
 #: ../objects.rst:60
 msgid "Settings"
@@ -234,7 +236,7 @@ msgstr ""
 "Масштабирование. Все 3 компонента (x, y, z) должны быть одинаковы. Для "
 "физических объектов масштабирование не поддерживается."
 
-#: ../objects.rst:91
+#: ../objects.rst:93
 msgid "*Relations > Parent*"
 msgstr ""
 
@@ -244,40 +246,33 @@ msgstr "Указатель на родительский объект."
 
 #: ../objects.rst:85
 msgid ""
-"If the parent object is a camera, ``Viewport Alignment`` settings will be"
-" available."
+"If the parent object is a camera, ``Viewport Alignment`` settings are "
+"available."
 msgstr ""
 "Если в качестве родительского объекта выбрана камера, становятся "
 "доступными настройки ``Viewport Alignment``."
 
-#: ../objects.rst:91
+#: ../objects.rst:93
 msgid ""
-"The ``Alignment`` parameter specifies to what side of the viewport an "
-"object will be aligned (``Center`` by default). The ``Distance`` "
-"parameter specifies the distance between the aligned object and the "
-"camera (10 by default). The ``Fit to Camera`` button can be used to make "
-"the aligned object look in the Blender viewport same way it will look in "
-"the engine."
+"These settings can be used to align the object to an active camera. They "
+"are described in the :ref:`Camera chapter <camera_viewport_alignment>`."
 msgstr ""
-"Параметр ``Alignment`` определяет, с какой стороны от камеры будет "
-"находиться привязанный к ней объект (по умолчанию ``Center``). Параметр "
-"``Distance`` задаёт расстояние объекта до камеры (по умолчанию 10). Чтобы"
-" привязанный объект отображался в Blender так же, как и в движке, нужно "
-"нажать кнопку ``Fit to Camera``."
+"Они могут применяться для привязывания объекта к текущей камере. Описаны "
+"в :ref:`главе \\\"Камера\\\" <camera_viewport_alignment>`."
 
-#: ../objects.rst:95
+#: ../objects.rst:97
 msgid "*Groups*"
 msgstr ""
 
-#: ../objects.rst:94
+#: ../objects.rst:96
 msgid "Objects’ groups to which this object belongs."
 msgstr "Группы объектов, которым принадлежит данный объект."
 
-#: ../objects.rst:103
+#: ../objects.rst:105
 msgid "*Levels of Detail > LOD Transition Ratio*"
 msgstr ""
 
-#: ../objects.rst:103
+#: ../objects.rst:105
 msgid ""
 "Parameter for smoothing the switching between the LOD objects. It defines"
 " the additional distance at which the LOD objects are still rendered "
@@ -289,35 +284,35 @@ msgstr ""
 "последующими LOD объектами. Назначается для главного объекта. Измеряется "
 "в долях от радиуса охватывающей сферы объекта."
 
-#: ../objects.rst:106
+#: ../objects.rst:108
 msgid "*Special Effects > Disable Fogging*"
 msgstr ""
 
-#: ../objects.rst:106
+#: ../objects.rst:108
 msgid "Disable fog for the object."
 msgstr "Отключить туман для объекта."
 
-#: ../objects.rst:109
+#: ../objects.rst:111
 msgid "*Special Effects > Caustics*"
 msgstr ""
 
-#: ../objects.rst:109
+#: ../objects.rst:111
 msgid "The object will render caustics effects from the adjacent water."
 msgstr "На объекте будут видны эффекты от прилегающей к нему воды (каустика)."
 
-#: ../objects.rst:112
+#: ../objects.rst:114
 msgid "*Export Options > Do Not Export*"
 msgstr ""
 
-#: ../objects.rst:112
+#: ../objects.rst:114
 msgid "Do not export this object."
 msgstr "Не экспортировать."
 
-#: ../objects.rst:117
+#: ../objects.rst:119
 msgid "*Export Options > Apply Modifiers*"
 msgstr ""
 
-#: ../objects.rst:117
+#: ../objects.rst:119
 msgid ""
 "Apply the object’s modifiers upon export. If the ``SKIN`` modifier is "
 "used we recommend to apply it before the export because it resets vertex "
@@ -328,19 +323,19 @@ msgstr ""
 "слои вертексных цветов и UV-текстур, что может привести к ошибкам "
 "экспорта."
 
-#: ../objects.rst:120
+#: ../objects.rst:122
 msgid "*Export Options > Apply Scale and Modifiers*"
 msgstr ""
 
-#: ../objects.rst:120
+#: ../objects.rst:122
 msgid "Upon export, apply scale and modifiers for the object."
 msgstr "Применить масштабирование и модификаторы объекта при экспорте."
 
-#: ../objects.rst:123
+#: ../objects.rst:125
 msgid "*Export Options > Export Vertex Animation*"
 msgstr ""
 
-#: ../objects.rst:123
+#: ../objects.rst:125
 msgid ""
 "Export previously created and saved vertex animation. Applicable for "
 "``MESH`` type objects only."
@@ -348,17 +343,17 @@ msgstr ""
 "Экспортировать предварительно созданную и сохраненную вертексную "
 "анимацию. Актуально только для объектов типа ``MESH``."
 
-#: ../objects.rst:126
+#: ../objects.rst:128
 msgid "*Export Options > Export Shape Keys*"
 msgstr ""
 
-#: ../objects.rst:126
+#: ../objects.rst:128
 msgid "Export shape keys. Applicable to ``MESH`` type objects only."
 msgstr ""
 "Экспортировать ключи деформации. Актуально только для объектов типа "
 "``MESH``."
 
-#: ../objects.rst:130
+#: ../objects.rst:132
 msgid ""
 "The following properties are mutually exclusive: *Apply Modifiers*, "
 "*Apply Scale and Modifiers*, *Export Vertex Animation* and *Export Shape "
@@ -367,31 +362,31 @@ msgstr ""
 "Свойства *Apply Modifiers*, *Apply Scale And Modifiers*, *Export Vertex "
 "Animation*, и *Export Shape Keys* взаимоисключают друг друга."
 
-#: ../objects.rst:133
+#: ../objects.rst:135
 msgid "*Animation > Apply Default Animation*"
 msgstr ""
 
-#: ../objects.rst:133
+#: ../objects.rst:135
 msgid ""
 "Upon loading into the engine start playback of the animation assigned to "
 "the object."
 msgstr "Начать воспроизведение в движке связанной с объектом анимации."
 
-#: ../objects.rst:136
+#: ../objects.rst:138
 msgid "*Animation > Animation Blending*"
 msgstr ""
 
-#: ../objects.rst:136
+#: ../objects.rst:138
 msgid "Only for armature objects. Allows blending between skeletal animations."
 msgstr ""
 "Только для арматурных объектов. Разрешить плавный переход от одной "
 "скелетной анимации к другой."
 
-#: ../objects.rst:139
+#: ../objects.rst:141
 msgid "*Animation > Behavior*"
 msgstr ""
 
-#: ../objects.rst:139
+#: ../objects.rst:141
 msgid ""
 "Animation behavior when the last frame is reached: ``Finish Stop`` - "
 "stop, ``Finish Reset`` - stop and go to the zero frame, ``Loop`` - repeat"
@@ -401,53 +396,53 @@ msgstr ""
 "остановить, ``Finish Reset`` - остановить и сбросить в нулевой кадр, "
 "``Loop`` - циклически повторять."
 
-#: ../objects.rst:142
+#: ../objects.rst:144
 msgid "*Rendering Properties > Do Not Render*"
 msgstr ""
 
-#: ../objects.rst:142
+#: ../objects.rst:144
 msgid "Disable object rendering (for example useful for a physics object)."
 msgstr "Отключить рендеринг объекта (например, вспомогательный объект физики)."
 
-#: ../objects.rst:145
+#: ../objects.rst:147
 msgid "*Rendering Properties > Disable Frustum Culling*"
 msgstr ""
 
-#: ../objects.rst:145
+#: ../objects.rst:147
 msgid "Disable frustum culling optimization."
 msgstr "Отключить оптимизацию отсечением по зоне видимости."
 
-#: ../objects.rst:148
+#: ../objects.rst:150
 msgid "*Rendering Properties > Force Dynamic Object*"
 msgstr ""
 
-#: ../objects.rst:148
+#: ../objects.rst:150
 msgid ""
 "Force the object to become a :ref:`dynamic object "
 "<static_dynamic_objects>`."
 msgstr "Принудительно сделать объект :ref:`динамическим <static_dynamic_objects>`."
 
-#: ../objects.rst:153
+#: ../objects.rst:155
 msgid "*Rendering Properties > Dynamic Geometry*"
 msgstr ""
 
-#: ../objects.rst:153
+#: ../objects.rst:155
 msgid "Allow overriding of the object’s geometry through Blend4Web API."
 msgstr "Разрешить изменение геометрии объекта через API Blend4Web."
 
-#: ../objects.rst:156
+#: ../objects.rst:158
 msgid "*Shadows > Cast*"
 msgstr ""
 
-#: ../objects.rst:156
+#: ../objects.rst:158
 msgid "The object will cast shadows."
 msgstr "Объект будет отбрасывать тени."
 
-#: ../objects.rst:159
+#: ../objects.rst:161
 msgid "*Shadows> Cast Only*"
 msgstr ""
 
-#: ../objects.rst:159
+#: ../objects.rst:161
 msgid ""
 "The object will cast shadows but will remain invisible itself. Becomes "
 "available after enabling ``Shadows > Cast``."
@@ -455,27 +450,27 @@ msgstr ""
 "Объект будет отбрасывать тени, при этом сам будет оставаться невидимым. "
 "Становится доступным после включения ``Shadows > Cast``."
 
-#: ../objects.rst:162
+#: ../objects.rst:164
 msgid "*Shadows > Receive*"
 msgstr ""
 
-#: ../objects.rst:162
+#: ../objects.rst:164
 msgid "The object will receive shadows from other adjacent objects."
 msgstr "Разрешить затенение от прилегающих объектов (получение теней) на объекте."
 
-#: ../objects.rst:165
+#: ../objects.rst:167
 msgid "*Reflections > Reflexible*"
 msgstr ""
 
-#: ../objects.rst:165
+#: ../objects.rst:167
 msgid "When enabled the object is reflected in the dynamic mirror surfaces."
 msgstr "При включении объект будет отражаться от зеркальных поверхностей."
 
-#: ../objects.rst:168
+#: ../objects.rst:170
 msgid "*Reflections > Reflexible Only*"
 msgstr ""
 
-#: ../objects.rst:168
+#: ../objects.rst:170
 msgid ""
 "The object will be reflected but will remain invisible itself. Becomes "
 "available after enabling ``Reflections > Reflexible``."
@@ -484,19 +479,19 @@ msgstr ""
 "невидимым. Становится доступным после включения ``Reflections > "
 "Reflexible``."
 
-#: ../objects.rst:171
+#: ../objects.rst:173
 msgid "*Reflections > Reflective*"
 msgstr ""
 
-#: ../objects.rst:171
+#: ../objects.rst:173
 msgid "When enabled the object surface reflects other objects."
 msgstr "При включении объект будет отражать своей поверхностью другие объекты."
 
-#: ../objects.rst:174
+#: ../objects.rst:176
 msgid "*Reflections > Reflection Plane*"
 msgstr ""
 
-#: ../objects.rst:174
+#: ../objects.rst:176
 msgid ""
 "Text field for name of an empty object which defines the reflection "
 "plane. Becomes available after enabling ``Reflections > Reflective``."
@@ -505,11 +500,11 @@ msgstr ""
 "отражения. Становится доступным после включения ``Reflections > "
 "Reflective``."
 
-#: ../objects.rst:177
+#: ../objects.rst:179
 msgid "*Selection and Outlining > Selectable*"
 msgstr ""
 
-#: ../objects.rst:177
+#: ../objects.rst:179
 msgid ""
 "Enable :ref:`object selection <mesh_selection>` with the mouse or another"
 " input device."
@@ -517,43 +512,43 @@ msgstr ""
 "Разрешить :ref:`выделение объекта <mesh_selection>` с помощью мыши или "
 "другого устройства ввода."
 
-#: ../objects.rst:180
+#: ../objects.rst:182
 msgid "*Selection and Outlining > Enable Outlining*"
 msgstr ""
 
-#: ../objects.rst:180
+#: ../objects.rst:182
 msgid "Enable :ref:`outline glow <outline>` for the object."
 msgstr "Разрешить подсвечивание объекта (:ref:`эффект Outline <outline>`)."
 
-#: ../objects.rst:195
+#: ../objects.rst:199
 msgid "*Meta Tags*"
 msgstr ""
 
-#: ../objects.rst:183
+#: ../objects.rst:187
 msgid "Interface for adding meta tags to the object:"
 msgstr "Интерфейс добавления мета-тегов на объект:"
 
-#: ../objects.rst:186
+#: ../objects.rst:190
 msgid "*Meta Tags > Title*"
 msgstr ""
 
-#: ../objects.rst:186
+#: ../objects.rst:190
 msgid "Object's title."
 msgstr "Заголовок объекта."
 
-#: ../objects.rst:189
+#: ../objects.rst:193
 msgid "*Meta Tags > Category*"
 msgstr ""
 
-#: ../objects.rst:189
+#: ../objects.rst:193
 msgid "Object's category."
 msgstr "Категория объекта."
 
-#: ../objects.rst:192
+#: ../objects.rst:196
 msgid "*Meta Tags > Description*"
 msgstr ""
 
-#: ../objects.rst:192
+#: ../objects.rst:196
 msgid ""
 "Description for the object. Depending on ``Description Source``, this "
 "field accepts either description text itself, or the name of a file where"
@@ -563,77 +558,33 @@ msgstr ""
 " в это поле заносится либо текст описания непосредственно, либо имя "
 "файла, в котором содержится описание."
 
-#: ../objects.rst:195
+#: ../objects.rst:199
 msgid "*Meta Tags > Description Source*"
 msgstr ""
 
-#: ../objects.rst:195
+#: ../objects.rst:199
 msgid "Source type for the description: text or text file."
 msgstr "Тип (источник) описания объекта: текст либо файл с текстом."
 
-#: ../objects.rst:209
+#: ../objects.rst:206
 msgid "*Anchors > Enable Anchor*"
 msgstr ""
 
-#: ../objects.rst:200
+#: ../objects.rst:202
 msgid ""
-"Available for ``EMPTY`` objects only. Interface for adding anchors (2D "
-"tags) to objects:"
+"This parameter enables interface for adding anchors (2D tags) to objects."
+" Available for ``EMPTY`` objects only. Described in the "
+":ref:`corresponding section <objects_anchors>`."
 msgstr ""
-"Опция доступна только для объектов типа ``EMPTY``. Интерфейс добавления "
-"графических меток (якорей) к объектам:"
-
-#: ../objects.rst:203
-msgid "*Anchors > Type*"
-msgstr ""
-
-#: ../objects.rst:203
-msgid ""
-"Anchor type. ``Annotation`` - the content is obtained from the meta tags "
-"assigned to the object and displayed in a collapsible window of standard "
-"design. ``Custom Element`` - arbitrary HTML element from the current web "
-"page is used as anchor. ``Generic`` - anchor’s position can be detected "
-"using ``anchors`` API module."
-msgstr ""
-"Тип якоря. Аннотация (``Annotation``) - информация из мета-тегов объектов"
-" отображается в раскрывающихся информационных окнах стандартного дизайна."
-" Элемент (``Custom Element``) - в качестве якоря можно назначить "
-"произвольный HTML-элемент с текущей веб-страницы. Общий (``Generic``) - "
-"якорь, положение которого можно определить с помощью API модуля "
-"*anchors*."
-
-#: ../objects.rst:206
-msgid "*Anchors > Detect Visibility*"
-msgstr ""
-
-#: ../objects.rst:206
-msgid ""
-"Detect whether the anchor object is overlapped by other objects. Turning "
-"this option on decreases performance and should be used only when "
-"necessary."
-msgstr ""
-"Определять видимость якоря, т.е. реагировать на перекрытие объекта-якоря "
-"другими объектами. Активация опции приводит к падению производельности "
-"рендеринга и должна рассматриваться только в случае реальной "
-"необходимости."
+"Активирует интерфейс добавления якорей (двухмерных меток) к объектам. "
+"Доступно только для объектов типа ``EMPTY``. Якоря подробно описаны в "
+":ref:`соответствующем разделе <objects_anchors>`."
 
 #: ../objects.rst:209
-msgid "*Anchors > Max Width*"
-msgstr ""
-
-#: ../objects.rst:209
-msgid ""
-"Applicable to annotation anchors. This limits the expanding info window "
-"by a predefined value (measured in CSS pixels)."
-msgstr ""
-"Используется для якорей-аннотаций. Ограничить всплывающее информационное "
-"окно аннотации выбранным значением (в CSS пикселях)."
-
-#: ../objects.rst:212
 msgid "*Wind Bending*"
 msgstr ""
 
-#: ../objects.rst:212
+#: ../objects.rst:209
 msgid ""
 "Enables wind bending procedural animation. Thoroughly described at the "
 ":ref:`outdoor rendering <wind_bending>` page."
@@ -641,11 +592,11 @@ msgstr ""
 "Включить процедурную анимацию под действием ветра. Подробно описана в "
 "разделе, посвященном :ref:`рендерингу наружных сцен <wind_bending>`."
 
-#: ../objects.rst:217
+#: ../objects.rst:214
 msgid "*Billboard*"
 msgstr ""
 
-#: ../objects.rst:217
+#: ../objects.rst:214
 msgid ""
 "Use the object as a billboard (i.e. automatically orient relative to the "
 "camera)."
@@ -653,11 +604,11 @@ msgstr ""
 "Использовать объект в качестве билборда (т.е. автоматически ориентировать"
 " его относительно камеры)."
 
-#: ../objects.rst:222
+#: ../objects.rst:219
 msgid "*Billboard > Preserve Global Orientation and Scale*"
 msgstr ""
 
-#: ../objects.rst:222
+#: ../objects.rst:219
 msgid ""
 "Take into account rotation and scale of the billboard object (in the "
 "world space). The object will be directed toward the camera with its side"
@@ -669,11 +620,11 @@ msgstr ""
 "видна при взгляде на него вдоль направления оси Y в системе координат "
 "Blender'а. Становится доступным после включения ``Billboard``."
 
-#: ../objects.rst:226
+#: ../objects.rst:222
 msgid "*Billboard > Billboard Type*"
 msgstr ""
 
-#: ../objects.rst:225
+#: ../objects.rst:222
 msgid ""
 "Billboard orientation mode. ``Spherical`` (by default) - the object is "
 "always oriented with one side toward the camera, regardless of view "
@@ -687,23 +638,23 @@ msgstr ""
 "осью Z мирового пространства в Blender. Становится доступным после "
 "включения ``Billboard``."
 
-#: ../objects.rst:229
+#: ../objects.rst:225
 msgid "Physics Tab"
 msgstr "Вкладка Physics"
 
-#: ../objects.rst:238
+#: ../objects.rst:234
 msgid "*Detect Collisions*"
 msgstr ""
 
-#: ../objects.rst:238
+#: ../objects.rst:234
 msgid "Activate the object’s physics."
 msgstr "Активировать связанную с объектом физику."
 
-#: ../objects.rst:241
+#: ../objects.rst:237
 msgid "*Floating*"
 msgstr ""
 
-#: ../objects.rst:241
+#: ../objects.rst:237
 msgid ""
 "Make the object floating. The settings for floating objects are described"
 " in detail in the :ref:`physics <physics>` section."
@@ -711,11 +662,11 @@ msgstr ""
 "Сделать объект плавучим. Подробное описание настроек плавучих объектов "
 "можно найти в разделе :ref:`физика <physics>`."
 
-#: ../objects.rst:244
+#: ../objects.rst:240
 msgid "*Vehicle*"
 msgstr ""
 
-#: ../objects.rst:244
+#: ../objects.rst:240
 msgid ""
 "Use the object as part of a vehicle. The vehicle settings are described "
 "in detail in the :ref:`physics <physics>` section."
@@ -724,11 +675,11 @@ msgstr ""
 "транспортного средства. Подробное описание настроек транспортных средств "
 "можно найти в разделе :ref:`физика <physics>`."
 
-#: ../objects.rst:248
+#: ../objects.rst:243
 msgid "*Character*"
 msgstr ""
 
-#: ../objects.rst:247
+#: ../objects.rst:243
 msgid ""
 "Use the object for character physics. The character settings are "
 "described in detail in the :ref:`physics <physics>` section."
@@ -737,11 +688,131 @@ msgstr ""
 "игрового персонажа. Подробное описание настроек персонажа можно найти в "
 "разделе :ref:`физика <physics>`."
 
-#: ../objects.rst:253 ../objects.rst:250
+#: ../objects.rst:248
+msgid "Anchor Settings"
+msgstr "Настройки якорей"
+
+#: ../objects.rst:250
+msgid ""
+"Anchors can be used to attach annotations to 3D objects. The annotation "
+"is displayed near the object regardless of the camera position and even "
+"follows it throughout the animation."
+msgstr ""
+"Якоря могут применяться для добавления поясняющих надписей к 3D-объектам."
+" Вне зависимости от позиции камеры, надпись всегда располагается рядом с "
+"объектом и следует за ним в случае его анимации."
+
+#: ../objects.rst:256
+msgid ""
+"Annotations can be created entirely in Blender. All you need to do is to "
+"place an ``Empty`` object in the required position and enable the "
+"``Anchor`` property. The text for the annotations can be assigned in the "
+"``Title`` and ``Description`` fields on the ``Meta Tags`` panel."
+msgstr ""
+"Аннотация может быть полностью создана в Blender. Для этого достаточно "
+"разместить в нужном месте объект  типа ``Empty`` и включить его "
+"использование в качестве \\\"якоря\\\". Текст аннотации можно изменить в "
+"полях ``Title`` и ``Description``, доступных на вкладке ``Meta Tags``."
+
+#: ../objects.rst:263
+msgid "*Enable Anchor*"
+msgstr ""
+
+#: ../objects.rst:263
+#, fuzzy
+msgid ""
+"This parameter enables the interface for adding anchors (2D tags) to "
+"objects. This is available for ``EMPTY`` objects only."
+msgstr ""
+"Активирует интерфейс добавления якорей (двухмерных меток) к объектам. "
+"Доступно только для объектов типа ``EMPTY``. Якоря подробно описаны в "
+":ref:`соответствующем разделе <objects_anchors>`."
+
+#: ../objects.rst:274
+msgid "*Type*"
+msgstr ""
+
+#: ../objects.rst:266
+msgid "Anchor type"
+msgstr "Тип якоря"
+
+#: ../objects.rst:268
+msgid ""
+"``Annotation`` - content is obtained from the :ref:`meta tags "
+"<objects_meta_tags>` assigned to the object and displayed in the standard"
+" section."
+msgstr ""
+"``Annotation`` - информация из :ref:`мета-тегов <objects_meta_tags>` "
+"объектов отображается в раскрывающихся информационных окнах стандартного "
+"дизайна. "
+
+#: ../objects.rst:270
+msgid ""
+"``Custom Element`` - an arbitrary HTML element from the current web page "
+"is used as an anchor."
+msgstr ""
+"``Custom Element`` - в качестве якоря можно назначить произвольный "
+"HTML-элемент с текущей веб-страницы"
+
+#: ../objects.rst:272
+msgid ""
+"``Generic`` - an anchor’s position can be detected using the ``anchors`` "
+"API module."
+msgstr ""
+"``Generic`` - якорь, положение которого можно определить с помощью API "
+"модуля ``anchors``."
+
+#: ../objects.rst:274
+msgid "Default value is ``Annotation``."
+msgstr "Значение по умолчанию - ``Annotation``"
+
+#: ../objects.rst:277
+msgid "*HTML Element ID*"
+msgstr ""
+
+#: ../objects.rst:277
+msgid ""
+"This specifies the ID of the HTML element that will be used as the "
+"anchor. This is available only if the ``Type`` parameter is set to "
+"``Custom Element``."
+msgstr ""
+"Задаёт ID HTML-элемента, который будет использоваться в качестве якоря. "
+"Доступно только если параметр ``Type`` имеет значение ``Custom Element``."
+
+#: ../objects.rst:280
+msgid "*Detect Visibility*"
+msgstr ""
+
+#: ../objects.rst:280
+msgid ""
+"Detect whether the anchor object is overlapped by other objects. This is "
+"disabled by default. Turning this option on decreases performance and "
+"should be used only when necessary."
+msgstr ""
+"Определять видимость якоря, т.е. реагировать на перекрытие объекта-якоря "
+"другими объектами. Активация опции приводит к падению производельности "
+"рендеринга и должна рассматриваться только в случае реальной "
+"необходимости."
+
+#: ../objects.rst:283
+msgid "*Max Width*"
+msgstr ""
+
+#: ../objects.rst:283
+msgid ""
+"This parameter limits the expanding info window by a predefined value "
+"(measured in CSS pixels). This is available only if the ``Type`` "
+"parameter is set to ``Annotation``, and it is set to 250 by default."
+msgstr ""
+"Ограничить всплывающее информационное окно аннотации выбранным значением "
+"(в CSS пикселях). Доступно только если параметр ``Type`` имеет значение "
+"``Annotation``. Значение по умолчанию - 250."
+
+#: ../objects.rst:288 ../objects.rst:285
 msgid "Object Transform API"
 msgstr "Управление перемещением объектов"
 
-#: ../objects.rst:257
+#: ../objects.rst:292
 msgid ""
 "Make sure that the object you are trying to transform is a :ref:`dynamic "
 "object <static_dynamic_objects>`."
@@ -749,7 +820,7 @@ msgstr ""
 "Необходимо обеспечить, чтобы объект, над которым выполняется "
 "преобразование, был :ref:`динамическим <static_dynamic_objects>`."
 
-#: ../objects.rst:259
+#: ../objects.rst:294
 msgid ""
 "Use the following methods of the :b4wmod:`transform` module to move "
 "objects in the engine:"
@@ -757,11 +828,11 @@ msgstr ""
 "Для управления перемещением объектов в движке предусмотрены следующие "
 "базовые функции модуля :b4wmod:`transform`:"
 
-#: ../objects.rst:262
+#: ../objects.rst:297
 msgid ":b4wref:`transform.get_translation()`"
 msgstr ""
 
-#: ../objects.rst:262
+#: ../objects.rst:297
 msgid ""
 "Get the coordinates of the object’s center in world space. The method "
 "with a single argument returns a new vector (i.e. this is a non-optimized"
@@ -772,11 +843,11 @@ msgstr ""
 " одним параметром возвращает новый вектор (неоптимизированный вариант), "
 "вариант с двумя требует отдельного вектора для записи результата."
 
-#: ../objects.rst:265
+#: ../objects.rst:300
 msgid ":b4wref:`transform.get_translation_rel()`"
 msgstr ""
 
-#: ../objects.rst:265
+#: ../objects.rst:300
 msgid ""
 "Similar to the ``get_translation()`` method, but if this object has a "
 "parent, the obtained coordinates are measured in the parent’s space."
@@ -785,13 +856,13 @@ msgstr ""
 "имеется родительский объект, координаты берутся в относительной системе "
 "координат, связанной с этим родительским объектом."
 
-#: ../objects.rst:268
+#: ../objects.rst:303
 msgid ""
 ":b4wref:`transform.set_translation()`, "
 ":b4wref:`transform.set_translation_v()`"
 msgstr ""
 
-#: ../objects.rst:268
+#: ../objects.rst:303
 msgid ""
 "Move the object’s center into the specified location. The first method "
 "takes separate coordinates as arguments while the second one takes a "
@@ -801,13 +872,13 @@ msgstr ""
 "качестве параметров отдельные координаты, вторая - трёхмерный вектор "
 "(``Array`` или ``Float32Array``)."
 
-#: ../objects.rst:271
+#: ../objects.rst:306
 msgid ""
 ":b4wref:`transform.set_translation_rel()`, "
 ":b4wref:`transform.set_translation_rel_v()`"
 msgstr ""
 
-#: ../objects.rst:271
+#: ../objects.rst:306
 msgid ""
 "Similar to ``set_translation()`` and ``set_translation_v()``, but if this"
 " object has a parent, the set coordinates are measured in the parent’s "
@@ -818,11 +889,11 @@ msgstr ""
 "задаются в относительной системе координат, связанной с этим родительским"
 " объектом."
 
-#: ../objects.rst:274
+#: ../objects.rst:309
 msgid ":b4wref:`transform.get_rotation()`"
 msgstr ""
 
-#: ../objects.rst:274
+#: ../objects.rst:309
 msgid ""
 "Get the object’s rotation quaternion in world space. Similar to "
 "``get_translation()``, there are two options for calling this function."
@@ -830,11 +901,11 @@ msgstr ""
 "Получить кватернион поворота объекта в мировой системе координат. По "
 "аналогии с ``get_translation()`` имеется два варианта вызова функции."
 
-#: ../objects.rst:277
+#: ../objects.rst:312
 msgid ":b4wref:`transform.get_rotation_rel()`"
 msgstr ""
 
-#: ../objects.rst:277
+#: ../objects.rst:312
 msgid ""
 "Get the object’s rotation quaternion measured in its parent’s space. "
 "Similar to ``get_translation_rel()``, there are two options for calling "
@@ -844,11 +915,11 @@ msgstr ""
 "родительским объектом. По аналогии с ``get_translation_rel()`` имеется "
 "два варианта вызова функции."
 
-#: ../objects.rst:280
+#: ../objects.rst:315
 msgid ":b4wref:`transform.set_rotation()`, :b4wref:`transform.set_rotation_v()`"
 msgstr ""
 
-#: ../objects.rst:280
+#: ../objects.rst:315
 msgid ""
 "Set the object’s rotation quaternion in world space. The first function "
 "takes separate coordinates as arguments while the second one takes a "
@@ -858,13 +929,13 @@ msgstr ""
 "Первая функция принимает в качестве параметров отдельные координаты, "
 "вторая - четырёхмерный вектор (``Array`` или ``Float32Array``)."
 
-#: ../objects.rst:283
+#: ../objects.rst:318
 msgid ""
 ":b4wref:`transform.set_rotation_rel()`, "
 ":b4wref:`transform.set_rotation_rel_v()`"
 msgstr ""
 
-#: ../objects.rst:283
+#: ../objects.rst:318
 msgid ""
 "Set the object’s rotation quaternion measured in its parent’s space. The "
 "first function takes separate coordinates as arguments while the second "
@@ -875,31 +946,31 @@ msgstr ""
 "отдельные координаты, вторая - четырёхмерный вектор (``Array`` или "
 "``Float32Array``)."
 
-#: ../objects.rst:286
+#: ../objects.rst:321
 msgid ":b4wref:`transform.get_scale()`"
 msgstr ""
 
-#: ../objects.rst:286
+#: ../objects.rst:321
 msgid "Get the object’s scale in world space."
 msgstr ""
 "Получить значение коэффициента увеличения объекта в мировой системе "
 "координат."
 
-#: ../objects.rst:289
+#: ../objects.rst:324
 msgid ":b4wref:`transform.get_scale_rel()`"
 msgstr ""
 
-#: ../objects.rst:289
+#: ../objects.rst:324
 msgid "Get the object’s scale in its parent’s space."
 msgstr ""
 "Установить коэффициент увеличения объекта в системе координат, связанной "
 "с родительским объектом."
 
-#: ../objects.rst:292
+#: ../objects.rst:327
 msgid ":b4wref:`transform.set_scale()`"
 msgstr ""
 
-#: ../objects.rst:292
+#: ../objects.rst:327
 msgid ""
 "Set the object’s scale in world space. Unity corresponds to the original "
 "scale of the object. Values less than unity mean scaling down, bigger "
@@ -912,23 +983,23 @@ msgstr ""
 "быть увеличены. В частности, увеличение невозможно для физических "
 "объектов."
 
-#: ../objects.rst:295
+#: ../objects.rst:330
 msgid ":b4wref:`transform.set_scale_rel()`"
 msgstr ""
 
-#: ../objects.rst:295
+#: ../objects.rst:330
 msgid "Set the object’s scale in its parent’s space."
 msgstr ""
 "Установить коэффициент увеличения объекта в системе координат, связанной "
 "с родительским объектом."
 
-#: ../objects.rst:298
+#: ../objects.rst:333
 msgid ""
 ":b4wref:`transform.set_rotation_euler()`, "
 ":b4wref:`transform.set_rotation_euler_v()`"
 msgstr ""
 
-#: ../objects.rst:298
+#: ../objects.rst:333
 msgid ""
 "Set the object’s rotation using Euler angles. An **intrinsic** YZX "
 "rotation system is used (that means the angles follow in the YZX order "
@@ -940,13 +1011,13 @@ msgstr ""
 "последовательности YZX, сама система отсчёта при этом вращается и "
 "занимает каждый раз новое положение)."
 
-#: ../objects.rst:301
+#: ../objects.rst:336
 msgid ""
 ":b4wref:`transform.set_rotation_euler_rel()`, "
 ":b4wref:`transform.set_rotation_euler_rel_v()`"
 msgstr ""
 
-#: ../objects.rst:301
+#: ../objects.rst:336
 msgid ""
 "Set the object’s rotation using Euler angles measured in its parent’s "
 "space."
@@ -954,34 +1025,34 @@ msgstr ""
 "Установить поворот объекта с помощью углов Эйлера в системе координат, "
 "связанной с родительским объектом."
 
-#: ../objects.rst:304
+#: ../objects.rst:339
 msgid ":b4wref:`transform.move_local()`"
 msgstr ""
 
-#: ../objects.rst:304
+#: ../objects.rst:339
 msgid "Move the object relative to its original position (in local space)."
 msgstr ""
 "Переместить объект относительно своего первоначального положения (в "
 "локальной системе координат)."
 
-#: ../objects.rst:307
+#: ../objects.rst:342
 msgid ""
 ":b4wref:`transform.rotate_x_local()`, "
 ":b4wref:`transform.rotate_y_local()`, "
 ":b4wref:`transform.rotate_z_local()`"
 msgstr ""
 
-#: ../objects.rst:307
+#: ../objects.rst:342
 msgid "Rotate the object relative to its original position (in local space)."
 msgstr ""
 "Повернуть объект относительно своего первоначального положения (в "
 "локальной системе координат)."
 
-#: ../objects.rst:312
-msgid "Get object API"
+#: ../objects.rst:347
+msgid "Get Object API"
 msgstr "Выбор объектов"
 
-#: ../objects.rst:314
+#: ../objects.rst:349
 msgid ""
 "To perform any operation with an object, you first need to get it (i.e. "
 "receive the link to it). There are several API functions for doing this. "
@@ -991,30 +1062,30 @@ msgstr ""
 " необходимо получить ссылку на него. Для этого используется ряд функций "
 "API. Ссылка на объект имеет тип ``Object3D``."
 
-#: ../objects.rst:323
+#: ../objects.rst:358
 msgid ":b4wref:`scenes.get_object_by_name()`"
 msgstr ""
 
-#: ../objects.rst:317
+#: ../objects.rst:352
 msgid "Get object by name."
 msgstr "Получить ссылку на объект, основываясь на известном имени объекта."
 
-#: ../objects.rst:332
+#: ../objects.rst:367
 msgid ":b4wref:`scenes.get_object_by_dupli_name()`"
 msgstr ""
 
-#: ../objects.rst:326
+#: ../objects.rst:361
 msgid "Get the duplicated object by empty name and dupli name."
 msgstr ""
 "Получить ссылку на скопированный объект, используя имя скопированного "
 "объекта и имя объекта типа ``EMPTY``, который использовался для "
 "копирования."
 
-#: ../objects.rst:341
+#: ../objects.rst:376
 msgid ":b4wref:`scenes.get_object_by_dupli_name_list()`"
 msgstr ""
 
-#: ../objects.rst:335
+#: ../objects.rst:370
 msgid ""
 "Get the duplicated object by empty name and dupli name list (an array of "
 "``String`` type elements)."
@@ -1023,11 +1094,11 @@ msgstr ""
 "элементов типа ``String``) имён скопированных объектов и объектов типа "
 "``EMPTY``, использованных для копирования."
 
-#: ../objects.rst:351
+#: ../objects.rst:386
 msgid ":b4wref:`scenes.get_object_name_hierarchy()`"
 msgstr ""
 
-#: ../objects.rst:344
+#: ../objects.rst:379
 msgid ""
 "Returns the object names hierarchy array (from the highest parent to the "
 "object itself) for a given object."
@@ -1035,19 +1106,19 @@ msgstr ""
 "Возвращает список (массив) имён предков заданного объекта, начиная от "
 "старшего предка и заканчивая самим объектом."
 
-#: ../objects.rst:360
+#: ../objects.rst:395
 msgid ":b4wref:`scenes.check_object_by_name()`"
 msgstr ""
 
-#: ../objects.rst:354
+#: ../objects.rst:389
 msgid "Check if object with given name is present on scene."
 msgstr "Проверить, существует ли в сцене объект с указанным именем."
 
-#: ../objects.rst:369
+#: ../objects.rst:404
 msgid ":b4wref:`scenes.check_object_by_dupli_name()`"
 msgstr ""
 
-#: ../objects.rst:363
+#: ../objects.rst:398
 msgid ""
 "Check if duplicated object is present on scene by empty name and dupli "
 "name."
@@ -1056,11 +1127,11 @@ msgstr ""
 " заданным именем объекта типа ``EMPTY``, который использовался для "
 "копирования."
 
-#: ../objects.rst:378
+#: ../objects.rst:413
 msgid ":b4wref:`scenes.check_object_by_dupli_name_list()`"
 msgstr ""
 
-#: ../objects.rst:372
+#: ../objects.rst:407
 msgid ""
 "Check if duplicated object is present on scene by empty name and dupli "
 "name list (an array of ``String`` type elements)."
@@ -1069,19 +1140,185 @@ msgstr ""
 "(массивы элементов типа ``String``) имён скопированных объектов и "
 "объектов типа ``EMPTY``, использованных для копирования."
 
-#: ../objects.rst:387
+#: ../objects.rst:422
 msgid ":b4wref:`scenes.get_object_name()`"
 msgstr ""
 
-#: ../objects.rst:381
+#: ../objects.rst:416
 msgid "Get the object’s name."
 msgstr "Получить имя объекта, основываясь на известной ссылке на этот объект."
 
-#: ../objects.rst:392
+#: ../objects.rst:427
+msgid "Object Selection"
+msgstr "Выделение объектов"
+
+#: ../objects.rst:429
+msgid ""
+"In order to enable selection of a certain object, it is required to "
+"enable the ``Selectable`` checkbox on the ``Selection and Outlining`` "
+"panel."
+msgstr ""
+"Чтобы разрешить выделение конкретного объекта, необходимо установить флаг"
+" ``Selectable`` в панели ``Selection and Outlining``."
+
+#: ../objects.rst:432
+msgid ""
+"Make sure that the status on the ``Scene > Object Outlining`` panel is "
+"set to ``ON`` or ``AUTO``."
+msgstr ""
+"Следует убедится в том, что в панели ``Scene > Object Outlining`` "
+"установлено состояние ``ON`` или ``AUTO``."
+
+#: ../objects.rst:434
+msgid ""
+"Object selection is possible programmatically via API, for example, in "
+"the ``scenes.js`` module there is the ``pick_object`` function which "
+"selects an object based on canvas 2D coordinates,"
+msgstr ""
+"Выделение объекта возможно программно через API, например, в модуле "
+"``scenes.js`` имеется функция ``pick_object``, которая по координатам в "
+"canvas’е выделяет объект,"
+
+#: ../objects.rst:445
+msgid "or using the :ref:`Logic Editor <nla_switch_select>`."
+msgstr "или с использованием :ref:`редактора логики <nla_switch_select>`."
+
+#: ../objects.rst:447
+msgid ""
+"If the selectable object has enabled ``Enable Outlining`` and ``Outline "
+"on Select`` checkboxes on the ``Object > Selection`` and Outlining panel,"
+" then the ``pick_object`` function call will activate :ref:`outline glow "
+"animation <outline>`."
+msgstr ""
+"Если для выделяемого объекта в панели ``Object > Selection and "
+"Outlining`` установлены флаги ``Enable Outlining`` и ``Outline on "
+"Select``, то вызов функции ``pick_object`` приведет к активации "
+":ref:`Outline-анимации <outline>`."
+
+#: ../objects.rst:450
+msgid ""
+"If the selected object is transparent (``Blend``, ``Add`` and ``Sort`` "
+"transparency types), outline glow will only be visible on the parts that "
+"have ``Alpha`` value higher than 0.5."
+msgstr ""
+"Если выделяемый объект полупрозрачен (имеет тип прозрачности ``Blend "
+"Add`` или ``Sort``), outline-анимация будет видна только на тех частях "
+"объекта, для которых значение прозрачности ``Alpha`` выше 0.5."
+
+#: ../objects.rst:455
+msgid "Copying Objects (Instancing)"
+msgstr "Копирование объектов (инстансинг)"
+
+#: ../objects.rst:457
+msgid ""
+"It is often required to copy (to make instances of) objects during "
+"application work."
+msgstr ""
+"Часто возникает необходимость копирования объектов (инстансинг) во время "
+"работы приложения."
+
+#: ../objects.rst:462
+msgid "Copying objects has its limitations:"
+msgstr "Существует ряд ограничений на копируемые объекты:"
+
+#: ../objects.rst:460
+msgid "only ``MESH`` objects can be copied"
+msgstr "тип объекта должен быть ``MESH``"
+
+#: ../objects.rst:461
+msgid ""
+"the object should be :ref:`dynamic <static_dynamic_objects>` (enable "
+"``Rendering Properties > Force Dynamic Object``)"
+msgstr ""
+"объект должен быть :ref:`динамическим <static_dynamic_objects>` (включить"
+" настройку ``Rendering Properties > Force Dynamic Object``)"
+
+#: ../objects.rst:462
+msgid "the source object should belong to the active scene"
+msgstr "объект должен принадлежать активной сцене"
+
+#: ../objects.rst:465
+msgid "Making a Simple Copy"
+msgstr "Простое копирование"
+
+#: ../objects.rst:467
+msgid ""
+"In case of simple copying the new object will share the mesh with the "
+"original object. Thus, if the original object’s mesh is changed, the "
+"copied object’s mesh will be changed too. To make simple copying "
+"possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object``"
+" setting in the source object’s properties."
+msgstr ""
+"В случае простого копирования для объекта-копии будет использоваться "
+"геометрия объекта, с которого осуществлялось копирование. При изменении "
+"геометрии на исходном объекте, геометрия изменится и на объекте-копии."
+
+#: ../objects.rst:470
+msgid "Making a Deep Copy"
+msgstr "Глубокое копирование"
+
+#: ../objects.rst:472
+msgid ""
+"In case of deep copying, the new object will have unique properties, "
+"namely it will have its own mesh. Thus, if the original object’s mesh is "
+"changed, the copied object’s mesh will not be changed. Also, the canvas "
+"textures on the copied objects are different textures and not one and the"
+" same like it is the case with the simple copying. To make deep copying "
+"possible, it is required to enable the :ref:`Rendering Properties > "
+"Dynamic Geometry <dynamic_geom>` checkbox for the source object. |"
+msgstr ""
+"При глубоком копировании новый объект будет обладать уникальными для него"
+" свойствами, а именно, он будет иметь свою собственную геометрию. То есть"
+" при изменении геометрии на объекте-оригинале у объекта-копии геометрия "
+"изменяться не будет. Также при глубоком копировании canvas-текстуры на "
+"копиях - именно разные текстуры, в то время как при простом копировании -"
+" одна и та же. Для такого типа копирования на исходном объекте нужно "
+"дополнительно выставить опцию :ref:`Rendering Properties > Dynamic "
+"Geometry <dynamic_geom>`."
+
+#: ../objects.rst:475
+msgid ""
+"Copying objects in runtime can be performed with the ``copy`` method of "
+"the ``objects.js`` module. This method requires three arguments: the id "
+"of the source object, a unique name for the new object and the boolean "
+"value to specify the copy mode (i.e. simple or deep). By default, simple "
+"copying will be performed."
+msgstr ""
+"Для копирования объектов в модуле ``objects.js`` предусмотрена функция "
+"``copy``, в которую надо передать идентификатор копируемого объекта, "
+"уникальное имя нового объекта и булеву переменную, определяющую тип "
+"копирования: ``true`` - глубокое, ``false`` - простое. По умолчанию будет"
+" осуществлено простое копирование."
+
+#: ../objects.rst:477
+msgid ""
+"The newly created object should be added to the scene. This can be "
+"performed with the ``append_object`` method of the ``scenes.js`` module. "
+"The new object should be passed to it as an argument."
+msgstr ""
+"Созданный при копировании объект необходимо добавить на сцену. Для этого "
+"в модуле ``scenes.js`` существует функция ``append_object``, куда нужно "
+"передать объект, полученный копированием."
+
+#: ../objects.rst:489
+msgid "Removing Objects"
+msgstr "Удаление объектов"
+
+#: ../objects.rst:490
+msgid ""
+"To remove objects, use the ``remove_object`` method of the ``scenes.js`` "
+"module. Pass the object to it as an argument. Dynamic mesh- and empty-"
+"type objects can be removed this way."
+msgstr ""
+"Для удаления объектов, в модуле ``scenes.js`` предусмотрена функция "
+"``remove_object``, куда надо передать объект. Возможно удаление "
+"динамических mesh- и empty-объектов."
+
+#: ../objects.rst:502
 msgid "Quaternions"
 msgstr "Кватернионы"
 
-#: ../objects.rst:394
+#: ../objects.rst:504
 msgid ""
 "Quaternion is a four-component vector used to perform rotating. "
 "Quaternions have a number of advantages over other rotation methods such "
@@ -1091,7 +1328,7 @@ msgstr ""
 "осуществления поворотов. Использование кватернионов обладает рядом "
 "преимуществ перед другими способами представления поворотов:"
 
-#: ../objects.rst:396
+#: ../objects.rst:506
 msgid ""
 "A quaternion has no ambiguity and doesn’t depend on the rotation order as"
 " the Euler angles."
@@ -1099,7 +1336,7 @@ msgstr ""
 "Не имеет неоднозначности и зависимости от порядка применения поворотов, "
 "которые имеют место в случае использования углов Эйлера."
 
-#: ../objects.rst:397
+#: ../objects.rst:507
 msgid ""
 "Quaternion’s memory usage is more effective (2-4 times less depending on "
 "the matrix used)."
@@ -1107,7 +1344,7 @@ msgstr ""
 "Более эффективное использование памяти (от 2-х до 4-х раз меньше в "
 "зависимости от типа используемой матрицы)."
 
-#: ../objects.rst:398
+#: ../objects.rst:508
 msgid ""
 "Better computing efficiency than for matrices in case of a series of "
 "rotations."
@@ -1115,21 +1352,23 @@ msgstr ""
 "Высокая эффективность вычисления серии поворотов, чем при использовании "
 "матриц."
 
-#: ../objects.rst:399
+#: ../objects.rst:509
 msgid ""
 "Numeric stability - compensation for multiplication errors arising from "
 "float number inaccuracy."
 msgstr ""
+"Численная устойчивость - компенсация ошибок умножения, возникающих из-за "
+"неточности вычислений с плавающей запятой."
 
-#: ../objects.rst:400
+#: ../objects.rst:510
 msgid "Convenient interpolation method."
 msgstr "Удобный метод интерполяции."
 
-#: ../objects.rst:404
+#: ../objects.rst:514
 msgid "Quaternions have some drawbacks:"
 msgstr "Кватернионы имеют ряд недостатков:"
 
-#: ../objects.rst:403
+#: ../objects.rst:513
 msgid ""
 "Rotating a vector with a quaternion is more computationally expensive "
 "than rotating with a matrix."
@@ -1137,7 +1376,7 @@ msgstr ""
 "Поворот вектора с помощью кватерниона более сложная в вычислительном "
 "плане операция чем поворот с использованием матрицы."
 
-#: ../objects.rst:404
+#: ../objects.rst:514
 msgid ""
 "It is difficult to use quaternions for non-rotation transformations (such"
 " as perspective or orthogonal projection)."
@@ -1145,17 +1384,17 @@ msgstr ""
 "Использование кватернионов для представления отличных от поворота "
 "преобразований (перспективная или ортогональная проекция) затруднено."
 
-#: ../objects.rst:406
+#: ../objects.rst:516
 msgid ""
 "The engine has a number of functions to make it more convenient to work "
 "with quaternions:"
 msgstr "Для удобства работы с кватернионами в движке имеется ряд функций:"
 
-#: ../objects.rst:409
+#: ../objects.rst:519
 msgid "*quat.multiply*"
 msgstr ""
 
-#: ../objects.rst:409
+#: ../objects.rst:519
 msgid ""
 "Quaternion multiplication. Note that left-multiplying A quaternion by B "
 "quaternion A*B is a rotation by A. I.e. the object already has some "
@@ -1165,11 +1404,11 @@ msgstr ""
 " является поворотом на A. То есть у объекта уже имеется некий поворот Б, "
 "который мы дополняем новым поворотом на A."
 
-#: ../objects.rst:412
+#: ../objects.rst:522
 msgid "*quat.setAxisAngle*"
 msgstr ""
 
-#: ../objects.rst:412
+#: ../objects.rst:522
 msgid ""
 "A quaternion is an alternative presentation of rotation by an arbitrary "
 "angle relative to the arbitrary axis (vector). Positive direction of "
@@ -1187,11 +1426,11 @@ msgstr ""
 "для осуществления поворота относительно оси X на 60 градусов (против "
 "часовой стрелки, если смотреть с конца оси X)."
 
-#: ../objects.rst:415
+#: ../objects.rst:525
 msgid "*quat.slerp*"
 msgstr ""
 
-#: ../objects.rst:415
+#: ../objects.rst:525
 msgid ""
 "Spherical interpolation of quaternions. Used for smoothing the object’s "
 "rotation and animation."
@@ -1199,19 +1438,19 @@ msgstr ""
 "Сферическая интерполяция кватернионов. Используется для осуществления "
 "плавного разворота объектов и анимации."
 
-#: ../objects.rst:419
+#: ../objects.rst:529
 msgid "*util.euler_to_quat, util.quat_to_euler*."
 msgstr ""
 
-#: ../objects.rst:418
+#: ../objects.rst:528
 msgid "Conversion from Euler angles and back."
 msgstr "Преобразование из углов Эйлера и наоборот."
 
-#: ../objects.rst:422
+#: ../objects.rst:532
 msgid "Quaternion Example"
 msgstr "Пример работы с кватернионами"
 
-#: ../objects.rst:424
+#: ../objects.rst:534
 msgid ""
 "We need to rotate the object by 60 degrees in a horizontal plane to the "
 "right. We have a model named “Cessna” in Blender."
@@ -1220,15 +1459,15 @@ msgstr ""
 "вправо. В программе Blender имеется соответствующая модель с названием "
 "\"Cessna\"."
 
-#: ../objects.rst:432
+#: ../objects.rst:542
 msgid "Let's save a reference to the object in the **aircraft** variable:"
 msgstr "Сохраним ссылку на объект в движке в переменной **aircraft**:"
 
-#: ../objects.rst:439
+#: ../objects.rst:549
 msgid "Let's rotate it:"
 msgstr "Осуществим поворот:"
 
-#: ../objects.rst:441
+#: ../objects.rst:551
 msgid ""
 "The orientation of coordinate axes is different in Blender and in the "
 "engine. Upon export there will be a transformation [X Y Z] (Blender) -> "
@@ -1239,7 +1478,7 @@ msgstr ""
 "экспорте произойдет преобразование: [X Y Z] (Blender) -> [X -Z Y] "
 "(движок). Поэтому поворот нужно осуществлять относительно оси Y, а не Z."
 
-#: ../objects.rst:442
+#: ../objects.rst:552
 msgid ""
 "A clockwise rotation corresponds to the rotation to the right (i.e. in "
 "the negative direction)."
@@ -1247,23 +1486,23 @@ msgstr ""
 "Повороту вправо соответствует поворот по часовой стрелке, т.е. в "
 "отрицательном направлении."
 
-#: ../objects.rst:443
+#: ../objects.rst:553
 msgid "60 degrees = :math:`\\pi/3` radians."
 msgstr "60 градусов = :math:`\\pi/3` радиан."
 
-#: ../objects.rst:445
+#: ../objects.rst:555
 msgid "As a result we get:"
 msgstr "В итоге получаем:"
 
-#: ../objects.rst:462
+#: ../objects.rst:572
 msgid "The optimized version which does not create new objects:"
 msgstr "Оптимизированный вариант, не приводящий к созданию новых объектов:"
 
-#: ../objects.rst:481
+#: ../objects.rst:591
 msgid "Differences Between Coordinate Systems of Blender and Blend4Web"
 msgstr "Отличия систем координат Blender'а и Blend4Web"
 
-#: ../objects.rst:483
+#: ../objects.rst:593
 msgid ""
 "In Blender’s coordinate system the ``UP`` vector, which points upwards, "
 "is co-directional with the Z axis. Blend4Web uses Y axis for this "
@@ -1276,7 +1515,7 @@ msgstr ""
 "система координат движка оказывается повернутой относительно системы "
 "координат Blender'а на 90 градусов вокруг оси X."
 
-#: ../objects.rst:490
+#: ../objects.rst:600
 msgid ""
 "API methods use the engine’s coordinates, so they can work differently in"
 " comparison with setting Blender’s parameters."
@@ -1284,11 +1523,11 @@ msgstr ""
 "Методы API используют именно систему координат движка, поэтому работа с "
 "API может отличаться от работы с настройками непосредственно в Blender'е."
 
-#: ../objects.rst:494
+#: ../objects.rst:604
 msgid "Moving via TSR Vectors"
 msgstr "Перемещение с помощью векторов TSR"
 
-#: ../objects.rst:496
+#: ../objects.rst:606
 msgid ""
 "It is sometimes convenient to move objects using vectors of the following"
 " format:"
@@ -1296,11 +1535,11 @@ msgstr ""
 "Удобным способом управления перемещением объектов является использование "
 "специальных векторов, имеющих следующий формат:"
 
-#: ../objects.rst:498
+#: ../objects.rst:608
 msgid ":math:`[T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]`"
 msgstr ""
 
-#: ../objects.rst:500
+#: ../objects.rst:610
 msgid ""
 "Here :math:`T_x, T_y, T_z` - the components of the translation vector, "
 ":math:`S` - scale factor, :math:`R_x, R_y, R_z, R_w` - the components of "
@@ -1310,7 +1549,7 @@ msgstr ""
 " масштаб, :math:`R_x, R_y, R_z, R_w` - компоненты кватерниона поворота. "
 "Отсюда следует название вектора: TSR или TSR-8."
 
-#: ../objects.rst:502
+#: ../objects.rst:612
 msgid ""
 "This vector can be operated via `tsr` module, as well as via "
 "`set_tsr()`/`get_tsr()` methods of the `transform` module."
@@ -1318,11 +1557,11 @@ msgstr ""
 "Для работы с данными векторами существует специальный модуль `tsr`, а "
 "также методы `set_tsr()`/`get_tsr()` модуля `transform`."
 
-#: ../objects.rst:309
+#: ../objects.rst:344
 msgid "get object"
 msgstr "Выбор объектов"
 
-#: ../objects.rst:389
+#: ../objects.rst:499
 msgid "quaternion"
 msgstr "Кватернионы"
 
@@ -1341,31 +1580,30 @@ msgstr "Кватернионы"
 #~ msgid "кватернион"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "**Dynamic objects** can be moved, "
-#~ "animated or changed in other ways "
-#~ "while running the application. They can"
-#~ " also interact with other objects, "
-#~ "including static ones. Such objects "
-#~ "cannot be combined with each other."
+#~ msgid "camera"
+#~ msgstr "камера (camera)"
+
+#~ msgid "lamp"
+#~ msgstr "лампа (lamp)"
+
+#~ msgid "speaker"
+#~ msgstr "источник звука (speaker)"
+
+#~ msgid "Get object API"
+#~ msgstr "Выбор объектов"
+
+#~ msgid "*Anchors > Type*"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "Static object are rendered much faster"
-#~ " then the dynamic ones, so, for "
-#~ "better performance, it is advised to "
-#~ "keep the number of dynamic objects "
-#~ "to a minimum."
+#~ msgid "*Anchors > Detect Visibility*"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "API methods that concern object "
-#~ "movement, copying and animation (both "
-#~ "object and node material) can only "
-#~ "be applied to dynamic objects.In order"
-#~ " to make the movement of the "
-#~ "object without dynamic settings possible, "
-#~ "it is necessary to activate ``Force "
-#~ "Dynamic Object`` option in its settings."
+#~ msgid "*Anchors > Max Width*"
 #~ msgstr ""
+
+#~ msgid "Anchors Tab"
+#~ msgstr "Вкладка Anchors"
+
+#~ msgid "armature"
+#~ msgstr "скелет (armature)"
 

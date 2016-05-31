@@ -84,7 +84,7 @@ var ST_HMD_QUAT          = 210;
 var ST_HMD_POSITION      = 220;
 var ST_CALLBACK          = 230;
 var ST_GAMEPAD_BTNS      = 240;
-var ST_GAMEPAD_AXES      = 250;
+var ST_GMPD_AXIS         = 250;
 
 // control types
 exports.CT_POSITIVE   = 10;
@@ -150,16 +150,7 @@ exports.update = function(timeline, elapsed) {
     // update sensor accumulators state after ALL callback exec
     for (var i = 0; i < _accumulators_cache.length; i++) {
         var accum = _accumulators_cache[i];
-
-        accum.wheel_delta = 0;
-        // accum.selected_obj = null;
-        accum.mouse_last_x = accum.mouse_curr_x;
-        accum.mouse_last_y = accum.mouse_curr_y;
-        accum.downed_keys[0] = false;
-
-        accum.touches_last_x.set(accum.touches_curr_x);
-        accum.touches_last_y.set(accum.touches_curr_y);
-        accum.touch_zoom_last_dist = accum.touch_zoom_curr_dist;
+        update_accumulator(accum);
     }
 
     _update_counter++;
@@ -246,17 +237,48 @@ function init_sensor(type, element) {
     return sensor;
 }
 
+function update_accumulator(accum) {
+    // is_updated_keyboard is used for optimization
+    if (!accum.is_updated_keyboard) {
+        for (var i = 0; i < accum.downed_keys.length; i++) {
+            if (accum.downed_keys[i] == 1)
+                accum.downed_keys[i] = 2;
+            else if (accum.downed_keys[i] == 3)
+                accum.downed_keys[i] = 0;
+        }
+        accum.is_updated_keyboard = true;
+    }
+
+    accum.wheel_delta = 0;
+    accum.mouse_last_x = accum.mouse_curr_x;
+    accum.mouse_last_y = accum.mouse_curr_y;
+    accum.downed_keys[0] = false;
+
+    accum.touches_last_x.set(accum.touches_curr_x);
+    accum.touches_last_y.set(accum.touches_curr_y);
+    accum.touch_zoom_last_dist = accum.touch_zoom_curr_dist;
+
+    accum.gyro_gamma_last = accum.gyro_gamma_new;
+    accum.gyro_beta_last = accum.gyro_beta_new;
+    accum.gyro_alpha_last = accum.gyro_alpha_new;
+
+    accum.is_updated_gyro_quat = false;
+}
+
 function get_accumulator(element) {
     if (!element)
         element = m_cont.get_container();
 
-    for (var i = 0; i < _accumulators_cache.length; i++)
-        if (element == _accumulators_cache[i].element)
-            return _accumulators_cache[i];
+    for (var i = 0; i < _accumulators_cache.length; i++) {
+        var accumulator = _accumulators_cache[i];
+        if (element == accumulator.element)
+            return accumulator;
+    }
 
     var accumulator = {
         element: element,
 
+        is_updated_keyboard: true,
         is_mouse_downed: false,
         is_touch_ended: true,
         // for ST_MOUSE_MOVE sensor
@@ -275,7 +297,7 @@ function get_accumulator(element) {
         touch_start_rot: 0,
 
         // for ST_KEYBOARD sensor
-        downed_keys: {},
+        downed_keys: new Uint8Array(256),
 
         // for ST_MOUSE_WHEEL sensor
         wheel_delta: 0,
@@ -284,6 +306,7 @@ function get_accumulator(element) {
         selected_obj: null,
 
         // for ST_GYRO_QUAT sensor
+        is_updated_gyro_quat: false,
         gyro_quat: m_quat.create(),
 
         // for ST_GYRO_ANGLES, ST_GYRO_DELTA sensor
@@ -294,7 +317,8 @@ function get_accumulator(element) {
         // for ST_GYRO_DELTA sensor
         gyro_gamma_last : 0.0,
         gyro_beta_last : 0.0,
-        gyro_alpha_last : -1000,
+        // random unattainable value for initialization
+        gyro_alpha_last : Infinity,
 
         // callbacks
         orientation_quat_cb: null,
@@ -313,8 +337,12 @@ function get_accumulator(element) {
         registered_accum_values: {},
     };
 
-    accumulator.orientation_quat_cb = function(quat) {
-        m_quat.copy(quat, accumulator.gyro_quat);
+    accumulator.orientation_quat_cb = function(angles) {
+        // calculate gyro_quat only one time per frame
+        if (!accumulator.is_updated_gyro_quat) {
+            m_input.gyro_angles_to_quat(angles, accumulator.gyro_quat);
+            accumulator.is_updated_gyro_quat = true;
+        }
     }
 
     accumulator.orientation_angles_cb = function(quat) {
@@ -323,7 +351,7 @@ function get_accumulator(element) {
         accumulator.gyro_beta_new = euler_angles[1];
         accumulator.gyro_gamma_new = euler_angles[2];
 
-        if (accumulator.gyro_alpha_last == -1000) {
+        if (accumulator.gyro_alpha_last == Infinity) {
             accumulator.gyro_alpha_last = euler_angles[0];
             accumulator.gyro_beta_last = euler_angles[1];
             accumulator.gyro_gamma_last = euler_angles[2];
@@ -375,27 +403,18 @@ function get_accumulator(element) {
     }
 
     accumulator.keyboard_down_keys_cb = function(key) {
-        // accumulator.downed_keys[key] = true;
-        for (var i = 0; i < _sensors_cache.length; i++) {
-            var sensor = _sensors_cache[i];
-
-            if (sensor.type == ST_KEYBOARD && key == sensor.key)
-                sensor_set_value(sensor, 1);
+        if (accumulator.downed_keys[key] != 2) {
+            accumulator.downed_keys[key] = 1;
+            accumulator.is_updated_keyboard = false;
         }
     }
 
     accumulator.keyboard_up_keys_cb = function(key) {
-        // accumulator.downed_keys[key] = false;
-        for (var i = 0; i < _sensors_cache.length; i++) {
-            var sensor = _sensors_cache[i];
-
-            // NOTE: hack to prevent wrong keyup with chrome/webkit
-            if (sensor.type == ST_KEYBOARD && key == 0 &&
-                    sensor.key == KEY_SHIFT)
-                sensor_set_value(sensor, 0);
-
-            if (sensor.type == ST_KEYBOARD && key == sensor.key)
-                sensor_set_value(sensor, 0);
+        if (accumulator.downed_keys[key] == 1)
+            accumulator.downed_keys[key] = 0;
+        else {
+            accumulator.is_updated_keyboard &= false;
+            accumulator.downed_keys[key] = 3;
         }
     }
 
@@ -465,52 +484,88 @@ function register_accum_value(accum, value_name) {
     switch (value_name) {
     case "orientation_quat":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
-        m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_QUAT, accum.orientation_quat_cb);
+        if (device)
+            m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_ANGLES,
+                    accum.orientation_quat_cb);
         break;
     case "orientation_angles":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
-        m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_ANGLES, accum.orientation_angles_cb);
+        if (device)
+            m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_ANGLES,
+                    accum.orientation_angles_cb);
         break;
     case "mouse_wheel":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.attach_param_cb(device, m_input.MOUSE_WHEEL, accum.mouse_wheel_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.attach_param_cb(device, m_input.MOUSE_WHEEL,
+                    accum.mouse_wheel_cb);
         break;
     case "mouse_down_which":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.attach_param_cb(device, m_input.MOUSE_DOWN_WHICH, accum.mouse_down_which_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.attach_param_cb(device, m_input.MOUSE_DOWN_WHICH,
+                    accum.mouse_down_which_cb);
         break;
     case "mouse_select":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.attach_param_cb(device, m_input.MOUSE_DOWN_WHICH, accum.mouse_select_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.attach_param_cb(device, m_input.MOUSE_DOWN_WHICH,
+                    accum.mouse_select_cb);
         break;
     case "touch_select":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.attach_param_cb(device, m_input.TOUCH_START, accum.touch_select_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
+                accum.element);
+        if (device)
+            m_input.attach_param_cb(device, m_input.TOUCH_START,
+                    accum.touch_select_cb);
         break;
     case "mouse_up_which":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.attach_param_cb(device, m_input.MOUSE_UP_WHICH, accum.mouse_up_which_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.attach_param_cb(device, m_input.MOUSE_UP_WHICH,
+                    accum.mouse_up_which_cb);
         break;
     case "mouse_location":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.attach_param_cb(device, m_input.MOUSE_LOCATION, accum.mouse_location_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.attach_param_cb(device, m_input.MOUSE_LOCATION,
+                    accum.mouse_location_cb);
         break;
     case "keyboard_downed_keys":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD, accum.element);
-        m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN, accum.keyboard_down_keys_cb);
-        m_input.attach_param_cb(device, m_input.KEYBOARD_UP, accum.keyboard_up_keys_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD,
+                accum.element);
+        if (device) {
+            m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN,
+                    accum.keyboard_down_keys_cb);
+            m_input.attach_param_cb(device, m_input.KEYBOARD_UP,
+                    accum.keyboard_up_keys_cb);
+        }
         break;
     case "touch_start":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.attach_param_cb(device, m_input.TOUCH_START, accum.touch_start_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
+                accum.element);
+        if (device)
+            m_input.attach_param_cb(device, m_input.TOUCH_START,
+                    accum.touch_start_cb);
         break;
     case "touch_move":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.attach_param_cb(device, m_input.TOUCH_MOVE, accum.touch_move_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
+                accum.element);
+        if (device)
+            m_input.attach_param_cb(device, m_input.TOUCH_MOVE,
+                    accum.touch_move_cb);
         break;
     case "touch_end":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.attach_param_cb(device, m_input.TOUCH_END, accum.touch_end_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
+                accum.element);
+        if (device)
+            m_input.attach_param_cb(device, m_input.TOUCH_END,
+                    accum.touch_end_cb);
         break;
     }
 }
@@ -529,52 +584,88 @@ function unregister_accum_value(accum, value_name) {
     switch (value_name) {
     case "orientation_quat":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
-        m_input.detach_param_cb(device, m_input.GYRO_ORIENTATION_QUAT, accum.orientation_quat_cb);
+        if (device)
+            m_input.detach_param_cb(device, m_input.GYRO_ORIENTATION_QUAT,
+                    accum.orientation_quat_cb);
         break;
     case "orientation_angles":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
-        m_input.detach_param_cb(device, m_input.GYRO_ORIENTATION_ANGLES, accum.orientation_angles_cb);
+        if (device)
+            m_input.detach_param_cb(device, m_input.GYRO_ORIENTATION_ANGLES,
+                    accum.orientation_angles_cb);
         break;
     case "mouse_wheel":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, m_input.MOUSE_WHEEL, accum.mouse_wheel_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.detach_param_cb(device, m_input.MOUSE_WHEEL,
+                    accum.mouse_wheel_cb);
         break;
     case "mouse_down_which":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, m_input.MOUSE_DOWN_WHICH, accum.mouse_down_which_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.detach_param_cb(device, m_input.MOUSE_DOWN_WHICH,
+                    accum.mouse_down_which_cb);
         break;
     case "mouse_select":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, m_input.MOUSE_DOWN_WHICH, accum.mouse_select_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.detach_param_cb(device, m_input.MOUSE_DOWN_WHICH,
+                    accum.mouse_select_cb);
         break;
     case "touch_select":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.detach_param_cb(device, m_input.TOUCH_START, accum.touch_select_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
+                accum.element);
+        if (device)
+            m_input.detach_param_cb(device, m_input.TOUCH_START,
+                    accum.touch_select_cb);
         break;
     case "mouse_up_which":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, m_input.MOUSE_UP_WHICH, accum.mouse_up_which_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.detach_param_cb(device, m_input.MOUSE_UP_WHICH,
+                    accum.mouse_up_which_cb);
         break;
     case "mouse_location":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, accum.element);
-        m_input.detach_param_cb(device, m_input.MOUSE_LOCATION, accum.mouse_location_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accum.element);
+        if (device)
+            m_input.detach_param_cb(device, m_input.MOUSE_LOCATION,
+                    accum.mouse_location_cb);
         break;
     case "keyboard_downed_keys":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD, accum.element);
-        m_input.detach_param_cb(device, m_input.KEYBOARD_DOWN, accum.keyboard_down_keys_cb);
-        m_input.detach_param_cb(device, m_input.KEYBOARD_UP, accum.keyboard_up_keys_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD,
+                accum.element);
+        if (device) {
+            m_input.detach_param_cb(device, m_input.KEYBOARD_DOWN,
+                    accum.keyboard_down_keys_cb);
+            m_input.detach_param_cb(device, m_input.KEYBOARD_UP,
+                    accum.keyboard_up_keys_cb);
+        }
         break;
     case "touch_start":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.detach_param_cb(device, m_input.TOUCH_START, accum.touch_start_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
+                accum.element);
+        if (device)
+            m_input.detach_param_cb(device, m_input.TOUCH_START,
+                    accum.touch_start_cb);
         break;
     case "touch_move":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.detach_param_cb(device, m_input.TOUCH_MOVE, accum.touch_move_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
+                accum.element);
+        if (device)
+            m_input.detach_param_cb(device, m_input.TOUCH_MOVE,
+                    accum.touch_move_cb);
         break;
     case "touch_end":
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, accum.element);
-        m_input.detach_param_cb(device, m_input.TOUCH_END, accum.touch_end_cb);
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
+                accum.element);
+        if (device)
+            m_input.detach_param_cb(device, m_input.TOUCH_END,
+                    accum.touch_end_cb);
         break;
     }
 }
@@ -587,19 +678,24 @@ exports.create_keyboard_sensor = function(key) {
     return sensor;
 }
 
-exports.create_gamepad_btns_sensor = function(id, btn) {
+exports.create_gamepad_btn_sensor = function(btn, id) {
     var element = document;
     var sensor = init_sensor(ST_GAMEPAD_BTNS, element);
+
+    id = id || m_input.get_first_gmpd_id();
     sensor.gamepad_id = id;
     sensor.key = btn;
     sensor.do_activation = true;
     return sensor;
 }
 
-exports.create_gamepad_axes_sensor = function(id) {
+exports.create_gamepad_axis_sensor = function(axis, id) {
     var element = document;
-    var sensor = init_sensor(ST_GAMEPAD_AXES, element);
+    var sensor = init_sensor(ST_GMPD_AXIS, element);
+
+    id = id == undefined ? m_input.get_first_gmpd_id() : id;
     sensor.gamepad_id = id;
+    sensor.key = axis;
     sensor.do_activation = true;
     return sensor;
 }
@@ -1066,10 +1162,6 @@ function update_sensor(sensor, timeline, elapsed) {
         sensor.payload[0] = accum.gyro_gamma_new - accum.gyro_gamma_last;
         sensor.payload[1] = accum.gyro_beta_new - accum.gyro_beta_last;
         sensor.payload[2] = accum.gyro_alpha_new - accum.gyro_alpha_last;
-
-        accum.gyro_gamma_last = accum.gyro_gamma_new;
-        accum.gyro_beta_last = accum.gyro_beta_new;
-        accum.gyro_alpha_last = accum.gyro_alpha_new;
         break;
 
     case ST_GYRO_ANGLES:
@@ -1095,28 +1187,13 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
 
     case ST_GAMEPAD_BTNS:
-        if (sensor.gamepad_id == 0)
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD0);
-        else if (sensor.gamepad_id == 1)
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD1);
-        else if (sensor.gamepad_id == 2)
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD2);
-        else
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD3);
+        var device = get_gmpd_device_by_id(sensor.gamepad_id);
         sensor.value = m_input.get_gamepad_btn_value(device, sensor.key);
         break;
-    case ST_GAMEPAD_AXES:
-        if (sensor.gamepad_id == 0)
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD0);
-        else if (sensor.gamepad_id == 1)
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD1);
-        else if (sensor.gamepad_id == 2)
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD2);
-        else
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD3);
-        m_vec4.copy(device.gamepad_axes, sensor.payload);
+    case ST_GMPD_AXIS:
+        var device = get_gmpd_device_by_id(sensor.gamepad_id);
+        sensor.value = m_input.get_gamepad_axis_value(device, sensor.key);
         break;
-
     case ST_CALLBACK:
         sensor_set_value(sensor, sensor.callback());
         break;
@@ -1163,15 +1240,15 @@ function update_sensor(sensor, timeline, elapsed) {
             sensor_set_value(sensor, 1);
         break;
     case ST_KEYBOARD:
-        // var accum = get_accumulator(sensor.element);
+        var accum = get_accumulator(sensor.element);
 
-        // // NOTE: accum.downed_keys[0] && sensor.key == KEY_SHIFT --- hack to
-        // // prevent wrong keyup with chrome/webkit
-        // if (accum.downed_keys[sensor.key] ||
-        //         accum.downed_keys[0] && sensor.key == KEY_SHIFT)
-        //     sensor_set_value(sensor, 1);
-        // else
-        //     sensor_set_value(sensor, 0);
+        // NOTE: accum.downed_keys[0] && sensor.key == KEY_SHIFT --- hack to
+        // prevent wrong keyup with chrome/webkit
+        sensor.payload = accum.downed_keys[sensor.key];
+        if (sensor.payload == 1 || accum.downed_keys[0] && sensor.key == KEY_SHIFT)
+            sensor_set_value(sensor, 1);
+        else if (!sensor.payload || sensor.payload == 3)
+            sensor_set_value(sensor, 0);
         break;
     case ST_TOUCH_MOVE:
         var accum = get_accumulator(sensor.element);
@@ -1591,9 +1668,6 @@ function activate_sensor(sensor) {
             else
                 m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD3);
             break;
-        case ST_GAMEPAD_AXES:
-            sensor.payload = [0, 0, 0, 0];
-            break;
         }
 
         sensor.do_activation = false;
@@ -1630,7 +1704,7 @@ function remove_sensor_manifold(obj, id) {
                     } else
                         m_util.panic("Sensors cache is corrupted");
                 } else if (sens_users.length > 1)
-                    sens_users.splice(sens_users.indexOf(manifold, 1));
+                    sens_users.splice(sens_users.indexOf(manifold), 1);
             }
 
             delete manifolds[id];
@@ -1834,6 +1908,19 @@ function touch_rotation(touches) {
         y = touch1.clientY - touch2.clientY;
 
     return Math.atan2(y,x);
+}
+
+function get_gmpd_device_by_id(gamepad_id) {
+    if (gamepad_id == 0)
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD0);
+    else if (gamepad_id == 1)
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD1);
+    else if (gamepad_id == 2)
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD2);
+    else
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_GAMEPAD3);
+
+    return device;
 }
 
 }

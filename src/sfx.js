@@ -227,7 +227,13 @@ function create_wa_context() {
 
     var AudioContext = window.AudioContext || window.webkitAudioContext;
     if (AudioContext) {
-        var ctx = new AudioContext();
+        try {
+            var ctx = new AudioContext();
+        } catch (e) {
+            m_print.error("Unable to initialize AudioContext: \"" + e + "\". The audio is disabled.");
+            return null;
+        }
+
         // simple WebAudio version check
         if (ctx.createGain) {
             return ctx;
@@ -318,7 +324,7 @@ exports.update_object = function(bpy_obj, obj) {
         sfx.behavior = _wa ? speaker["b4w_behavior"] : "NONE";
         break;
     case "BACKGROUND_MUSIC":
-        sfx.behavior = _wa ? (check_media_element_node() ?
+        sfx.behavior = _wa ? (check_media_element_node() && !cfg_def.chrome_html_bkg_music_hack ?
                 "BACKGROUND_MUSIC" : "BACKGROUND_SOUND") : "NONE";
         break;
     default:

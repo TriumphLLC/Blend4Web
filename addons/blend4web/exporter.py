@@ -31,6 +31,7 @@ import blend4web
 
 b4w_modules =  ["binary_module_hook",
                 "anim_baker",
+                "clusterer",
                 "logic_node_tree",
                 "server",
                 "init_validation",
@@ -503,19 +504,45 @@ def get_component_export_path(component):
 def obj_to_mesh_needed(obj):
     """Check if object require copy of obj.data during export"""
     if (obj.type == "CURVE" or obj.type == "SURFACE" or obj.type == "META" 
-            or obj.type == "FONT" or obj.type == "MESH" 
+            or obj.type == "FONT"):
+        return True
+    elif (obj.type == "MESH"
             and (obj.b4w_apply_modifiers or obj.b4w_loc_export_vertex_anim 
             or use_split_normals(obj) or obj.b4w_shape_keys
-            or obj.b4w_apply_scale)):
+            or obj.b4w_apply_scale
+            or obj_auto_apply_modifiers(obj))):
         return True
     else:
         return False
 
+def obj_auto_apply_scale(obj):
+    if ('b4w_apply_scale' in obj.keys()
+            or obj.parent
+            or find_modifier(obj, "ARMATURE")
+            or obj.b4w_loc_export_vertex_anim):
+        return False
+    else:
+        return obj_has_nonuniform_scale(obj)
+
+def obj_has_nonuniform_scale(obj):
+    return not (obj.scale[0] == obj.scale[1] and obj.scale[1] == obj.scale[2])
+
+def obj_auto_apply_modifiers(obj):
+    if ('b4w_apply_modifiers' in obj.keys()
+            or find_modifier(obj, "ARMATURE")
+            or obj.b4w_loc_export_vertex_anim):
+        return False
+    else:
+        return obj_has_modifiers(obj) or obj_has_nonuniform_scale(obj)
+
+def obj_has_modifiers(obj):
+    return len(obj.modifiers) > 0
+
 def get_obj_data(obj, scene):
     data = None
     if obj.data:
-        if obj_to_mesh_needed(obj):            
-            data = obj.to_mesh(scene, obj.b4w_apply_modifiers or obj.b4w_apply_scale, "PREVIEW")
+        if obj_to_mesh_needed(obj):
+            data = obj.to_mesh(scene, obj.b4w_apply_modifiers or obj.b4w_apply_scale or obj_auto_apply_modifiers(obj), "PREVIEW")
             if data:
                 if obj.type == "META":
                     for slot in obj.material_slots:
@@ -523,13 +550,13 @@ def get_obj_data(obj, scene):
                             data.materials.append(slot.material)
 
                 new_name = None
-                if obj.b4w_apply_modifiers:
+                if obj.b4w_apply_modifiers or obj_auto_apply_modifiers(obj):
                     new_name = obj.name + "_MODIFIERS_APPLIED"
                 elif obj.b4w_loc_export_vertex_anim:
                     new_name = obj.name + "_VERTEX_ANIM"
                 elif use_split_normals(obj):
                     new_name = obj.name + "_VERTEX_NORMALS"
-                elif obj.b4w_apply_scale:
+                elif obj.b4w_apply_scale or obj_auto_apply_scale(obj):
                     new_name = obj.name + "_NONUNIFORM_SCALE_APPLIED"
                 elif obj.b4w_shape_keys:
                     new_name = obj.name + "_SHAPE_KEYS"
@@ -1032,7 +1059,10 @@ def process_scene(scene):
     scene_data["b4w_enable_god_rays"] = scene.b4w_enable_god_rays
     scene_data["b4w_enable_glow_materials"] = scene.b4w_enable_glow_materials
     scene_data["b4w_enable_ssao"] = scene.b4w_enable_ssao
-    scene_data["b4w_batch_grid_size"] = round_num(scene.b4w_batch_grid_size, 2)
+
+    # NOTE: temporary backward compatibility, should be removed after some time
+    scene_data["b4w_batch_grid_size"] = 0
+
     scene_data["b4w_anisotropic_filtering"] = scene.b4w_anisotropic_filtering
     scene_data["b4w_enable_bloom"] = scene.b4w_enable_bloom
     scene_data["b4w_enable_motion_blur"] = scene.b4w_enable_motion_blur
@@ -1097,6 +1127,9 @@ def process_scene(scene):
     check_scene_data(scene_data, scene)
     _curr_stack["scenes"].pop()
 
+    if scene.b4w_enable_cluster_batching:
+        clusterer.run(_export_uuid_cache, _bpy_uuid_cache, scene_data, 
+                scene.b4w_cluster_size)
 
 def get_tags_description(tags):
     if tags.desc_source == "TEXT":
@@ -1650,10 +1683,13 @@ def process_object(obj, is_curve=False, is_hair=False):
     obj_data["parent_type"] = obj.parent_type
     obj_data["parent_bone"] = obj.parent_bone
 
+    obj_data["b4w_cluster_data"] = OrderedDict()
+    obj_data["b4w_cluster_data"]["cluster_id"] = -1
 
     # NOTE: give more freedom to objs with edited normals
     obj_data["modifiers"] = []
-    if (obj_data["type"] == "MESH" and not (obj.b4w_apply_modifiers or obj.b4w_apply_scale)):
+    if (obj_data["type"] == "MESH"
+            and not (obj.b4w_apply_modifiers or obj.b4w_apply_scale or obj_auto_apply_modifiers(obj))):
         process_object_modifiers(obj_data["modifiers"], obj.modifiers, obj)
 
     if not is_hair:
@@ -1813,7 +1849,7 @@ def process_object(obj, is_curve=False, is_hair=False):
 
     rot = get_rotation_quat(obj)
     loc = obj.location
-    if (not (obj_data["type"] == "MESH" and obj.b4w_apply_scale)
+    if (not (obj_data["type"] == "MESH" and (obj.b4w_apply_scale or obj_auto_apply_scale(obj)))
         and not(obj_data["type"] == "EMPTY" and obj.type == "META")):
         sca = obj.scale
     else:
@@ -1827,7 +1863,7 @@ def process_object(obj, is_curve=False, is_hair=False):
         pinv_rotation_quat = mat_inv_parent.to_quaternion()
         pinv_translation = mat_inv_parent.to_translation()
         loc = mat_inv_parent * loc
-        if obj.parent.b4w_apply_scale:
+        if obj.parent.b4w_apply_scale or obj_auto_apply_scale(obj.parent):
             pinv_scale = list(map(operator.mul, sca_parent, pinv_scale))
             loc = list(map(operator.mul, sca_parent, loc))
 
@@ -2684,8 +2720,8 @@ def process_mesh(mesh, obj_user):
 
     # update needed from bmesh introduction (blender >= 2.63)
     # also note change faces -> tessfaces, uv_textures -> tessface_uv_textures
-    mesh.calc_tessface()
     mesh.update()
+    mesh.calc_tessface()
 
     mesh_data = OrderedDict()
     mesh_data["name"] = mesh.name
@@ -2759,7 +2795,7 @@ def process_mesh(mesh, obj_user):
     vertex_colors = bool(mesh.vertex_colors)
     shape_keys = bool(obj_user.b4w_shape_keys) and "key_blocks" in dir(mesh.shape_keys)
 
-    if obj_user.b4w_apply_scale:
+    if obj_user.b4w_apply_scale or obj_auto_apply_scale(obj_user):
         sca_obj = obj_user.scale
         for v_index in range(len(mesh.vertices)):
             vert = mesh.vertices[v_index]
@@ -2768,9 +2804,7 @@ def process_mesh(mesh, obj_user):
             vert.co.z *= sca_obj[2]
 
     mesh_ptr = mesh.as_pointer()
-    bounding_data = b4w_bin.calc_bounding_data(mesh_ptr);
 
-    process_mesh_boundings(mesh_data, mesh, bounding_data)
     process_mesh_shape_keys(mesh_data, obj_user, mesh)
     if shape_keys:
         if not mesh.shape_keys.use_relative:
@@ -2810,16 +2844,21 @@ def process_mesh(mesh, obj_user):
                     disab_flat = True
                 else:
                     disab_flat = False
-                submesh_data = export_submesh(mesh, mesh_ptr, obj_user, \
-                        obj_ptr, mat_index, disab_flat, vertex_animation, \
-                        edited_normals, shape_keys, vertex_groups, vertex_colors, \
-                        bounding_data)
+                submesh_data = export_submesh(mesh, mesh_ptr, obj_user,
+                        obj_ptr, mat_index, disab_flat, vertex_animation,
+                        edited_normals, shape_keys, vertex_groups, vertex_colors,
+                        mesh_data)
                 mesh_data["submeshes"].append(submesh_data)
     else:
-        submesh_data = export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, -1, \
-                False, vertex_animation, edited_normals, shape_keys, vertex_groups, \
-                vertex_colors, bounding_data)
+        submesh_data = export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, -1,
+                False, vertex_animation, edited_normals, shape_keys, vertex_groups,
+                vertex_colors, mesh_data)
         mesh_data["submeshes"].append(submesh_data)
+
+    if len(mesh_data["materials"]) > 1:
+        mesh.calc_tessface()
+        bounding_data = b4w_bin.calc_bounding_data(mesh_ptr, -1)
+        process_mesh_boundings(mesh_data, mesh, bounding_data, "b4w_")
 
     _export_data["meshes"].append(mesh_data)
     _export_uuid_cache[mesh_data["uuid"]] = mesh_data
@@ -2828,7 +2867,7 @@ def process_mesh(mesh, obj_user):
 
     return mesh_data["uuid"]
 
-def process_mesh_boundings(mesh_data, mesh, bounding_data):
+def process_mesh_boundings(mesh_data, mesh, bounding_data, pref):
     if (mesh.b4w_override_boundings):
         bounding_box = mesh.b4w_boundings
 
@@ -2839,7 +2878,7 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data):
             raise ExportError("Wrong overrided bounding box", mesh, \
                               "Check the mesh's bounding box values")
 
-        dct = mesh_data["b4w_bounding_box"] = OrderedDict()
+        dct = mesh_data[pref + "bounding_box"] = OrderedDict()
         dct["max_x"] = round_num(bounding_box.max_x, 5)
         dct["min_x"] = round_num(bounding_box.min_x, 5)
 
@@ -2855,23 +2894,23 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data):
         x_cen = (bounding_box.max_x + bounding_box.min_x) / 2
         y_cen = (bounding_box.max_y + bounding_box.min_y) / 2
         z_cen = (bounding_box.max_z + bounding_box.min_z) / 2
-
-        srad = math.sqrt(x_width * x_width + y_width * y_width + z_width * z_width)
-        crad = math.sqrt(x_width * x_width + y_width * y_width)
-        mesh_data["b4w_bounding_sphere_radius"] = round_num(srad, 5)
-        mesh_data["b4w_bounding_cylinder_radius"] = round_num(crad, 5)
-
         bounding_center = round_iterable([x_cen, z_cen, -y_cen], 5)
-        mesh_data["b4w_bounding_sphere_center"] = bounding_center
-        mesh_data["b4w_bounding_cylinder_center"] = bounding_center
 
         # calculate ellipsoid boundings
         sq3 = math.sqrt(3)
-        mesh_data["b4w_bounding_ellipsoid_axes"] = round_iterable([sq3 * x_width, sq3 * z_width, sq3 * y_width], 5)
-        mesh_data["b4w_bounding_ellipsoid_center"] = bounding_center
+        mesh_data[pref + "bounding_ellipsoid_axes"] = round_iterable([sq3 * x_width, sq3 * z_width, sq3 * y_width], 5)
+        mesh_data[pref + "bounding_ellipsoid_center"] = bounding_center
 
+        if pref:
+            srad = math.sqrt(x_width * x_width + y_width * y_width + z_width * z_width)
+            crad = math.sqrt(x_width * x_width + y_width * y_width)
+            mesh_data[pref + "bounding_sphere_radius"] = round_num(srad, 5)
+            mesh_data[pref + "bounding_cylinder_radius"] = round_num(crad, 5)
+
+            mesh_data[pref + "bounding_sphere_center"] = bounding_center
+            mesh_data[pref + "bounding_cylinder_center"] = bounding_center
     else:
-        dct = mesh_data["b4w_bounding_box"] = OrderedDict()
+        dct = mesh_data[pref + "bounding_box"] = OrderedDict()
         dct["max_x"] = round_num(bounding_data["max_x"], 5)
         dct["max_y"] = round_num(bounding_data["max_y"], 5)
         dct["max_z"] = round_num(bounding_data["max_z"], 5)
@@ -2879,38 +2918,39 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data):
         dct["min_y"] = round_num(bounding_data["min_y"], 5)
         dct["min_z"] = round_num(bounding_data["min_z"], 5)
 
-        mesh_data["b4w_bounding_sphere_radius"] \
-                = round_num(bounding_data["srad"], 5)
-        mesh_data["b4w_bounding_cylinder_radius"] \
-                = round_num(bounding_data["crad"], 5)
-        mesh_data["b4w_bounding_sphere_center"] = round_iterable([
-            bounding_data["scen_x"],
-            bounding_data["scen_y"],
-            bounding_data["scen_z"]
-        ], 5)
-        mesh_data["b4w_bounding_cylinder_center"] = round_iterable([
-            bounding_data["ccen_x"],
-            bounding_data["ccen_y"],
-            bounding_data["ccen_z"]
-        ], 5)
-
-        mesh_data["b4w_bounding_ellipsoid_axes"] = round_iterable([
+        mesh_data[pref + "bounding_ellipsoid_axes"] = round_iterable([
             bounding_data["eaxis_x"],
             bounding_data["eaxis_y"],
             bounding_data["eaxis_z"]
         ], 5)
-        mesh_data["b4w_bounding_ellipsoid_center"] = round_iterable([
+        mesh_data[pref + "bounding_ellipsoid_center"] = round_iterable([
             bounding_data["ecen_x"],
             bounding_data["ecen_y"],
             bounding_data["ecen_z"]
         ], 5)
-    mesh_data["b4w_bounding_box_source"] = OrderedDict()
-    mesh_data["b4w_bounding_box_source"]["max_x"] = round_num(bounding_data["max_x"], 5)
-    mesh_data["b4w_bounding_box_source"]["max_y"] = round_num(bounding_data["max_y"], 5)
-    mesh_data["b4w_bounding_box_source"]["max_z"] = round_num(bounding_data["max_z"], 5)
-    mesh_data["b4w_bounding_box_source"]["min_x"] = round_num(bounding_data["min_x"], 5)
-    mesh_data["b4w_bounding_box_source"]["min_y"] = round_num(bounding_data["min_y"], 5)
-    mesh_data["b4w_bounding_box_source"]["min_z"] = round_num(bounding_data["min_z"], 5)
+        if pref:
+            mesh_data[pref + "bounding_sphere_radius"] \
+                    = round_num(bounding_data["srad"], 5)
+            mesh_data[pref + "bounding_cylinder_radius"] \
+                    = round_num(bounding_data["crad"], 5)
+            mesh_data[pref + "bounding_sphere_center"] = round_iterable([
+                bounding_data["scen_x"],
+                bounding_data["scen_y"],
+                bounding_data["scen_z"]
+            ], 5)
+            mesh_data[pref + "bounding_cylinder_center"] = round_iterable([
+                bounding_data["ccen_x"],
+                bounding_data["ccen_y"],
+                bounding_data["ccen_z"]
+            ], 5)
+    if pref:
+        mesh_data["b4w_bounding_box_source"] = OrderedDict()
+        mesh_data["b4w_bounding_box_source"]["max_x"] = round_num(bounding_data["max_x"], 5)
+        mesh_data["b4w_bounding_box_source"]["max_y"] = round_num(bounding_data["max_y"], 5)
+        mesh_data["b4w_bounding_box_source"]["max_z"] = round_num(bounding_data["max_z"], 5)
+        mesh_data["b4w_bounding_box_source"]["min_x"] = round_num(bounding_data["min_x"], 5)
+        mesh_data["b4w_bounding_box_source"]["min_y"] = round_num(bounding_data["min_y"], 5)
+        mesh_data["b4w_bounding_box_source"]["min_z"] = round_num(bounding_data["min_z"], 5)
 
 def get_mat_vc_channel_usage(mesh, mat_index, obj_user):
     vc_channel_usage = {}
@@ -3073,9 +3113,9 @@ def rgb_channels_to_mask(channel_name):
         mask |= 0b001
     return mask
 
-def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
-        vertex_animation, edited_normals, shape_keys, vertex_groups, vertex_colors, \
-        bounding_data):
+def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat,
+        vertex_animation, edited_normals, shape_keys, vertex_groups, vertex_colors,
+        mesh_data):
 
     if vertex_animation:
         if len(obj_user.b4w_vertex_anim) == 0:
@@ -3091,10 +3131,20 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
                             mesh, "It doesn't match with the mesh vertices " + \
                             "count for \"" + anim.name + "\"")
 
+    submesh_data = OrderedDict()
+    mesh.calc_tessface()
+    submesh_bounding_data = b4w_bin.calc_bounding_data(mesh_ptr, mat_index)
+    submesh_data["boundings"] = OrderedDict()
+    process_mesh_boundings(submesh_data["boundings"], mesh, submesh_bounding_data,
+            "")
+
+    if len(mesh_data["materials"]) <= 1:
+        process_mesh_boundings(mesh_data, mesh, submesh_bounding_data, "b4w_")
+
     is_degenerate_mesh = not bool(max( \
-            abs(bounding_data["max_x"] - bounding_data["min_x"]), \
-            abs(bounding_data["max_y"] - bounding_data["min_y"]), \
-            abs(bounding_data["max_z"] - bounding_data["min_z"])))
+            abs(submesh_bounding_data["max_x"] - submesh_bounding_data["min_x"]), \
+            abs(submesh_bounding_data["max_y"] - submesh_bounding_data["min_y"]), \
+            abs(submesh_bounding_data["max_z"] - submesh_bounding_data["min_z"])))
 
     vc_channel_usage = get_mat_vc_channel_usage(mesh, mat_index, obj_user)
     vc_mask_buffer = bytearray()
@@ -3114,7 +3164,6 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
     except Exception as ex:
         raise ExportError("Incorrect mesh", mesh, str(ex))
 
-    submesh_data = OrderedDict()
     submesh_data["base_length"] = submesh["base_length"]
 
     int_props = ["indices"]
@@ -4190,6 +4239,11 @@ def process_node_tree(data, tree_source):
                 raise MaterialError("The \"" + node.name + "\" LAMP node has no lamp object.")
             else:
                 node_data["lamp"] = gen_uuid_dict(node.lamp_object)
+
+        elif node.type == "VECT_TRANSFORM":
+            node_data["vector_type"] = node.vector_type
+            node_data["convert_from"] = node.convert_from
+            node_data["convert_to"] = node.convert_to
 
         dct["nodes"].append(node_data)
 

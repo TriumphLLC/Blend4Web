@@ -281,9 +281,10 @@ function resize(width, height, update_canvas_css) {
         ch *= window.devicePixelRatio;
     }
 
-    if (m_data.is_primary_loaded()) {
-        var scene = m_scenes.get_active();
-        var sc_render = scene._render;
+    // use only main scene for the canvas resizing
+    var main_scene = m_scenes.get_main();
+    if (main_scene) {
+        var sc_render = main_scene._render;
         cw = Math.floor(cw * sc_render.resolution_factor);
         ch = Math.floor(ch * sc_render.resolution_factor);
     }

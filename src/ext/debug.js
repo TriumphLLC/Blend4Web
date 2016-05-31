@@ -20,7 +20,7 @@
 /**
  * Engine debugging API.
  * @module debug
- * @local DebugWireframeMode
+ * @local DebugViewMode
  * @local StageloadCallback
  * @local LoadedCallback
  * @local CodeTestCallback
@@ -58,8 +58,8 @@ var _tested_func_name = "";
 var _test_result = true;
 var _vec2_tmp = new Float32Array(2);
 /**
- * Debug wireframe mode.
- * @typedef DebugWireframeMode
+ * Debug view mode.
+ * @typedef DebugViewMode
  * @type {Number}
  */
 
@@ -96,34 +96,46 @@ var _vec2_tmp = new Float32Array(2);
 
 
 /**
- * Debug wireframe mode: turn off wireframe view.
- * @const {DebugWireframeMode} module:debug.WM_NONE
+ * Debug view mode: turn off debug view.
+ * @const {DebugViewMode} module:debug.DV_NONE
  */
-exports.WM_NONE = m_debug.WM_NONE;
+exports.DV_NONE = m_debug.DV_NONE;
 
 /**
- * Debug wireframe mode: turn on the black-and-white wireframe view.
- * @const {DebugWireframeMode} module:debug.WM_OPAQUE_WIREFRAME
+ * Debug view mode: turn on the black-and-white wireframe view.
+ * @const {DebugViewMode} module:debug.DV_OPAQUE_WIREFRAME
  */
-exports.WM_OPAQUE_WIREFRAME = m_debug.WM_OPAQUE_WIREFRAME;
+exports.DV_OPAQUE_WIREFRAME = m_debug.DV_OPAQUE_WIREFRAME;
 
 /**
- * Debug wireframe mode: turn on the transparent (superimposed on the source color) wireframe view.
- * @const {DebugWireframeMode} module:debug.WM_TRANSPARENT_WIREFRAME
+ * Debug view mode: turn on the transparent (superimposed on the source color) wireframe view.
+ * @const {DebugViewMode} module:debug.DV_TRANSPARENT_WIREFRAME
  */
-exports.WM_TRANSPARENT_WIREFRAME = m_debug.WM_TRANSPARENT_WIREFRAME;
+exports.DV_TRANSPARENT_WIREFRAME = m_debug.DV_TRANSPARENT_WIREFRAME;
 
 /**
- * Debug wireframe mode: turn on the wireframe view with the front/back faces coloration.
- * @const {DebugWireframeMode} module:debug.WM_FRONT_BACK_VIEW
+ * Debug view mode: turn on the wireframe view with the front/back faces coloration.
+ * @const {DebugViewMode} module:debug.DV_FRONT_BACK_VIEW
  */
-exports.WM_FRONT_BACK_VIEW = m_debug.WM_FRONT_BACK_VIEW;
+exports.DV_FRONT_BACK_VIEW = m_debug.DV_FRONT_BACK_VIEW;
 
 /**
- * Debug wireframe mode: turn on the debug spheres view.
- * @const {DebugWireframeMode} module:debug.WM_DEBUG_SPHERES
+ * Debug view mode: turn on the debug spheres view.
+ * @const {DebugViewMode} module:debug.DV_DEBUG_SPHERES
  */
-exports.WM_DEBUG_SPHERES = m_debug.WM_DEBUG_SPHERES;
+exports.DV_DEBUG_SPHERES = m_debug.DV_DEBUG_SPHERES;
+
+/**
+ * Debug view mode: turn on the clusters view.
+ * @const {DebugViewMode} module:debug.DV_CLUSTERS_VIEW
+ */
+exports.DV_CLUSTERS_VIEW = m_debug.DV_CLUSTERS_VIEW;
+
+/**
+ * Debug view mode: turn on the batches view.
+ * @const {DebugViewMode} module:debug.DV_BATCHES_VIEW
+ */
+exports.DV_BATCHES_VIEW = m_debug.DV_BATCHES_VIEW;
 
 /**
  * Print info about the physics worker.
@@ -406,7 +418,7 @@ exports.geometry_stats = function() {
 
         var subs = subscenes[i];
 
-        if (subs.type == "SINK" || subs.type == "WIREFRAME")
+        if (subs.type == "SINK" || subs.type == "DEBUG_VIEW")
             continue;
 
         var bundles = subs.bundles;
@@ -741,31 +753,35 @@ exports.check_finite = function(o) {
  * Set debugging parameters.
  * @method module:debug.set_debug_params
  * @param {DebugParams} params Debug parameters
- * @cc_externs wireframe_mode wireframe_edge_color
+ * @cc_externs debug_view_mode wireframe_edge_color debug_colors_seed
  */
 exports.set_debug_params = function(params) {
     var active_scene = m_scenes.get_active();
-    var subs_wireframe = m_scenes.get_subs(active_scene, "WIREFRAME");
+    var subs_debug_view = m_scenes.get_subs(active_scene, "DEBUG_VIEW");
 
-    if (subs_wireframe) {
-        if (typeof params.wireframe_mode == "number") {
-            switch (params.wireframe_mode) {
-            case m_debug.WM_NONE:
-            case m_debug.WM_OPAQUE_WIREFRAME:
-            case m_debug.WM_TRANSPARENT_WIREFRAME:
-            case m_debug.WM_FRONT_BACK_VIEW:
-            case m_debug.WM_DEBUG_SPHERES:
-                m_scenes.set_wireframe_mode(subs_wireframe, params.wireframe_mode);
+    if (subs_debug_view) {
+        if (typeof params.debug_view_mode == "number") {
+            switch (params.debug_view_mode) {
+            case m_debug.DV_NONE:
+            case m_debug.DV_OPAQUE_WIREFRAME:
+            case m_debug.DV_TRANSPARENT_WIREFRAME:
+            case m_debug.DV_FRONT_BACK_VIEW:
+            case m_debug.DV_DEBUG_SPHERES:
+            case m_debug.DV_CLUSTERS_VIEW:
+            case m_debug.DV_BATCHES_VIEW:
+                m_scenes.set_debug_view_mode(subs_debug_view, params.debug_view_mode);
                 break;
             default:
-                m_print.error("set_debug_params(): Wrong wireframe mode");
+                m_print.error("set_debug_params(): Wrong debug view mode");
                 break;
             }
         }
+        if (typeof params.debug_colors_seed == "number")
+            m_scenes.set_debug_colors_seed(subs_debug_view, params.debug_colors_seed);
         if (typeof params.wireframe_edge_color == "object")
-            m_scenes.set_wireframe_edge_color(subs_wireframe, params.wireframe_edge_color);
+            m_scenes.set_wireframe_edge_color(subs_debug_view, params.wireframe_edge_color);
     } else
-        throw("Wireframe subscene not found.");
+        throw("Debug view subscene not found.");
 }
 
 exports.get_error_quantity = function() {
@@ -1089,10 +1105,11 @@ exports.test = function(test_name, callback) {
     }
 }
 
-exports.pix = function(color_data, subs_type) {
-    var scene = m_scenes.get_active();
-    var subs = m_scenes.get_subs(scene, subs_type);
-
+/**
+ * Compare color picked at the center of the screen with reference RGBA vector.
+ * @param {RGBA} ref_color Reference RGBA vector to compare with.
+ */
+exports.pix = function(ref_color) {
     var canvas_w = m_cont.get_viewport_width();
     var canvas_h = m_cont.get_viewport_height();
 
@@ -1101,17 +1118,21 @@ exports.pix = function(color_data, subs_type) {
 
     m_cont.resize(canvas_w, canvas_h, false);
 
-    if (subs) {
-        var cam = subs.camera;
-        var viewport_xy = m_cont.canvas_to_viewport_coords(canvas_x, canvas_y,
-                _vec2_tmp, subs.camera);
+    var scene = m_scenes.get_active();
+    var graph = scene._render.graph;
+    var subs = m_scgraph.find_on_screen(graph);
+    if (!subs)
+        m_util.panic("Couldn't find onscreen subscene");
 
-        viewport_xy[1] = cam.height - viewport_xy[1];
-        var color = m_render.read_pixels(cam.framebuffer, viewport_xy[0],
-                viewport_xy[1]);
-        eqv(color_data, color);
-    } else
-        throw "Couldn't find subscene \"" + subs_type + "\".";
+    var cam = subs.camera;
+    var viewport_xy = m_cont.canvas_to_viewport_coords(canvas_x, canvas_y,
+            _vec2_tmp, subs.camera);
+
+    viewport_xy[1] = cam.height - viewport_xy[1];
+    var color = m_render.read_pixels(cam.framebuffer, viewport_xy[0],
+            viewport_xy[1]);
+
+    eqv(ref_color, color);
 }
 
 exports.eqs = function(result, exp_result) {

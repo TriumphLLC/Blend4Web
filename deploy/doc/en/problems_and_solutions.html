@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Problems and Solutions &mdash; Blend4Web 16.04 User Manual</title>
+  <title>Problems and Solutions &mdash; Blend4Web 16.05 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.05 User Manual" href="index.html"/>
         <link rel="next" title="Release Notes" href="release_notes.html"/>
         <link rel="prev" title="Team Work. Using Git" href="git_short_manual.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -113,8 +114,10 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Problems and Solutions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#webgl-support">WebGL Support</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problems-upon-startup">Problems Upon Startup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-failed-to-initialize">WebGL Failed to Initialize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-in-depth-troubleshooting">More In-Depth Troubleshooting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#known-issues">Known Issues</a></li>
 </ul>
 </li>
@@ -161,20 +164,50 @@
            <div itemprop="articleBody">
             
   <div class="section" id="problems-and-solutions">
-<span id="id1"></span><h1><a class="toc-backref" href="#id2">Problems and Solutions</a><a class="headerlink" href="#problems-and-solutions" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id3">Problems and Solutions</a><a class="headerlink" href="#problems-and-solutions" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#problems-and-solutions" id="id2">Problems and Solutions</a><ul>
-<li><a class="reference internal" href="#problems-upon-startup" id="id3">Problems Upon Startup</a></li>
-<li><a class="reference internal" href="#webgl-failed-to-initialize" id="id4">WebGL Failed to Initialize</a></li>
-<li><a class="reference internal" href="#known-issues" id="id5">Known Issues</a></li>
+<li><a class="reference internal" href="#problems-and-solutions" id="id3">Problems and Solutions</a><ul>
+<li><a class="reference internal" href="#webgl-support" id="id4">WebGL Support</a></li>
+<li><a class="reference internal" href="#problems-upon-startup" id="id5">Problems Upon Startup</a></li>
+<li><a class="reference internal" href="#webgl-failed-to-initialize" id="id6">WebGL Failed to Initialize</a></li>
+<li><a class="reference internal" href="#more-in-depth-troubleshooting" id="id7">More In-Depth Troubleshooting</a></li>
+<li><a class="reference internal" href="#known-issues" id="id8">Known Issues</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<p>As WebGL is still a relatively new technology, it may not work perfectly with every combination of software and hardware. This chapter covers common problems that users of the Blend4Web engine may encounter and provides solutions for these problems.</p>
+<div class="section" id="webgl-support">
+<span id="id2"></span><h2><a class="toc-backref" href="#id4">WebGL Support</a><a class="headerlink" href="#webgl-support" title="Permalink to this headline">¶</a></h2>
+<p>If you are using a desktop or laptop computer, your system must have a GPU that supports DirectX 9.0c and OpenGL 2.1, such as:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Nvidia GeForce 6xxx series or higher.</li>
+<li>AMD/ATi Radeon R500 (X1xxx) series or higher.</li>
+<li>Intel GMA 950 or higher.</li>
+</ul>
+</div></blockquote>
+<p>If you are using WebGL on a mobile device, please check whether your device is on the <a class="reference external" href="http://mobilehtml5.org/">compatibility list</a>.</p>
+<p>You also need to have a web browser that supports WebGL technology.</p>
+<p>The following web browsers support WebGL:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Google Chrome (v. 9 or higher)</li>
+<li>Mozilla Firefox (v 4.0 or higher)</li>
+<li>Safari (v. 8.0 or higher)</li>
+<li>Chrome for Android (v. 25 or higher)</li>
+<li>Internet Explorer (v. 11 or higher)</li>
+<li>Microsoft Edge</li>
+<li>Opera (v. 12 or higher)</li>
+<li>UC Browser (experimental)</li>
+</ul>
+</div></blockquote>
+<p>We also recommend to use the most recent version of the web browser to avoid compatibility problems.</p>
+</div>
 <div class="section" id="problems-upon-startup">
-<span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id3">Problems Upon Startup</a><a class="headerlink" href="#problems-upon-startup" title="Permalink to this headline">¶</a></h2>
+<span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id5">Problems Upon Startup</a><a class="headerlink" href="#problems-upon-startup" title="Permalink to this headline">¶</a></h2>
 <p><em>1. The &#8220;Browser could not initialize WebGL&#8221; message is shown</em>.</p>
 <a class="reference internal image-reference" href="_images/no_webgl.png"><img alt="_images/no_webgl.png" class="align-center" src="_images/no_webgl.png" style="width: 100%;" /></a>
 <p>Follow the instructions listed in the <a class="reference internal" href="#webgl-not-working"><span>WebGL Failed to Initialize</span></a> section.</p>
@@ -182,8 +215,6 @@
 <blockquote>
 <div><p>Possible causes:</p>
 <ul>
-<li><p class="first">A local web server is not used or the browser is not set up for loading local resources. See the <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Loading Local Resources</span></a> section.</p>
-</li>
 <li><p class="first">The engine tries to load resource files which were moved or deleted.</p>
 </li>
 <li><p class="first">You are using the old versions of video drivers.</p>
@@ -195,14 +226,16 @@
 </li>
 <li><p class="first">You are using an outdated operating system, such as Windows XP.</p>
 </li>
+<li><p class="first">Browser is not set up for loading local resources. In this case, the problem can be fixed by using local web server. See the <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Loading Local Resources</span></a> section.</p>
+</li>
 </ul>
 </div></blockquote>
 </div>
 <div class="section" id="webgl-failed-to-initialize">
-<span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id4">WebGL Failed to Initialize</a><a class="headerlink" href="#webgl-failed-to-initialize" title="Permalink to this headline">¶</a></h2>
+<span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id6">WebGL Failed to Initialize</a><a class="headerlink" href="#webgl-failed-to-initialize" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> page tells about problems when viewing it in recent Chrome or Firefox. What can I do?</p>
 <ol class="arabic simple">
-<li>Install the latest updates for your system (for MS Windows see <a class="reference external" href="http://support.microsoft.com/kb/311047">the guide</a>). In case of MS Windows install the latest <a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=35">DirectX runtime</a>. Reboot.</li>
+<li>Install the latest updates for your system (for MS Windows see <a class="reference external" href="http://support.microsoft.com/kb/311047">the guide</a>). In case of MS Windows install the latest <a class="reference external" href="https://www.microsoft.com/en-us/Download/confirmation.aspx?id=35">DirectX runtime</a>. Reboot.</li>
 <li>It is recommended to timely update video card drivers. To detect your video card and its vendor please type <strong>about:gpu</strong> (or <strong>chrome://gpu</strong>) to the address bar of Chrome browser...</li>
 </ol>
 <a class="reference internal image-reference" href="_images/chrome_gpu.png"><img alt="_images/chrome_gpu.png" class="align-center" src="_images/chrome_gpu.png" style="width: 100%;" /></a>
@@ -215,7 +248,28 @@
 <div class="line"><br /></div>
 </div>
 <p>For Windows, you can run the DirectX Diagnostic Tool called <strong>dxdiag</strong>.</p>
-<a class="reference internal image-reference" href="_images/dxdiag.png"><img alt="_images/dxdiag.png" class="align-center" src="_images/dxdiag.png" style="width: 100%;" /></a>
+<p>To do it, please follow these steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Select the <code class="docutils literal"><span class="pre">Run</span></code> command from the Start menu</li>
+<li>Type <em>dxdiag</em> to the <code class="docutils literal"><span class="pre">Open</span></code> field and press <code class="docutils literal"><span class="pre">Enter</span></code> to open DirectX Diagnostic Tool</li>
+<li>Open the <code class="docutils literal"><span class="pre">Display</span></code> panel. There you can find manufacturer, model and other information regarding your video card.</li>
+</ol>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/problems_dxdiag.png"><img alt="_images/problems_dxdiag.png" class="align-center" src="_images/problems_dxdiag.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>For MacOS X, you can check System Report.</p>
+<p>To do it, please follow these steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Select <code class="docutils literal"><span class="pre">About</span> <span class="pre">This</span> <span class="pre">Mac</span></code> from the <code class="docutils literal"><span class="pre">Apple</span></code> menu.</li>
+<li>Click <code class="docutils literal"><span class="pre">System</span> <span class="pre">Report</span></code> button.</li>
+<li>Select <code class="docutils literal"><span class="pre">Graphics/Displays</span></code> in the <code class="docutils literal"><span class="pre">Hardware</span></code> section.</li>
+</ol>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/problems_osx.png"><img alt="_images/problems_osx.png" class="align-center" src="_images/problems_osx.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -235,9 +289,16 @@
 <p><em>For Firefox</em>:</p>
 <p>Enter <strong>about:config</strong> into the browser&#8217;s address bar, search for the <code class="docutils literal"><span class="pre">webgl.force-enabled</span></code> parameter and double-click on it to switch from <code class="docutils literal"><span class="pre">false</span></code> to <code class="docutils literal"><span class="pre">true</span></code>.</p>
 <a class="reference internal image-reference" href="_images/about_config_force_webgl.png"><img alt="_images/about_config_force_webgl.png" class="align-center" src="_images/about_config_force_webgl.png" style="width: 100%;" /></a>
+<p><em>For Safari</em></p>
+<p>Select <code class="docutils literal"><span class="pre">Preferences</span></code> from Safari menu, select the <code class="docutils literal"><span class="pre">Security</span></code> tab and make sure that <code class="docutils literal"><span class="pre">Allow</span> <span class="pre">WebGL</span></code> checkbox is enabled.</p>
+<a class="reference internal image-reference" href="_images/safari_force_webgl.png"><img alt="_images/safari_force_webgl.png" class="align-center" src="_images/safari_force_webgl.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="more-in-depth-troubleshooting">
+<h2><a class="toc-backref" href="#id7">More In-Depth Troubleshooting</a><a class="headerlink" href="#more-in-depth-troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>If nothing mentioned above helped you solve the issues you are experiencing, please visit the Blend4Web <a class="reference external" href="https://www.blend4web.com/en/forums/">community forum</a> and leave a message in the <a class="reference external" href="https://www.blend4web.com/en/forums/forum/17/">Bug Report</a> thread. Our team will be sure to help you.</p>
 </div>
 <div class="section" id="known-issues">
-<span id="known-problems"></span><h2><a class="toc-backref" href="#id5">Known Issues</a><a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
+<span id="known-problems"></span><h2><a class="toc-backref" href="#id8">Known Issues</a><a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -267,6 +328,16 @@
 <div><p>This issue is caused by incompatibility of Chromium sandbox and NVIDIA&#8217;s latest drivers. The solution is to downgrade drivers to the 340xx version.</p>
 </div></blockquote>
 </li>
+<li><p class="first">WebAudio issues.</p>
+<blockquote>
+<div><p>Audio doesn&#8217;t work in some versions of Google Chrome for the &#8220;Background Music&#8221; speakers in case of HTML export. Currently, speaker type is automatically changed to &#8220;Background Sound&#8221; as a workaround.</p>
+<p>There is an audio context error when running too many instances (&gt;6) of b4w engine (for example, many browser tabs or many iframes on one page) in Google Chrome. The error is prevented by disabling the audio for an application if the audio context cannot be created for it.</p>
+</div></blockquote>
+</li>
+<li><p class="first">QQ Browser doesn&#8217;t support WebGL at the moment.</p>
+</li>
+<li><p class="first">WebGL is unstable and sometimes crashes on Mesa 11.x drivers in Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can help.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -291,15 +362,48 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-04-28.
+      Last updated on 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -314,7 +418,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,11 +8,59 @@
 
 * 存在的问题及解决方案
 
+  * WebGL Support
+
   * 启动时的问题
 
   * WebGL的无法初始化
 
+  * More In-Depth Troubleshooting
+
   * 已知问题
+
+As WebGL is still a relatively new technology, it may not work
+perfectly with every combination of software and hardware. This
+chapter covers common problems that users of the Blend4Web engine may
+encounter and provides solutions for these problems.
+
+
+WebGL Support
+=============
+
+If you are using a desktop or laptop computer, your system must have a
+GPU that supports DirectX 9.0c and OpenGL 2.1, such as:
+
+   * Nvidia GeForce 6xxx series or higher.
+
+   * AMD/ATi Radeon R500 (X1xxx) series or higher.
+
+   * Intel GMA 950 or higher.
+
+If you are using WebGL on a mobile device, please check whether your
+device is on the compatibility list.
+
+You also need to have a web browser that supports WebGL technology.
+
+The following web browsers support WebGL:
+
+   * Google Chrome (v. 9 or higher)
+
+   * Mozilla Firefox (v 4.0 or higher)
+
+   * Safari (v. 8.0 or higher)
+
+   * Chrome for Android (v. 25 or higher)
+
+   * Internet Explorer (v. 11 or higher)
+
+   * Microsoft Edge
+
+   * Opera (v. 12 or higher)
+
+   * UC Browser (experimental)
+
+We also recommend to use the most recent version of the web browser to
+avoid compatibility problems.
 
 
 启动时的问题
@@ -29,9 +77,6 @@ http://get.webgl.org/ * 网站和其他 WebGL 应用正常工作.*
 
    可能的原因：
 
-   * 本地Web服务器未使用或浏览器没有设置加载本地资源。请参阅
-     Loading Local Resources  部分。
-
    * 该引擎尝试加载移动或删除的资源文件。
 
    * 您正在使用旧版本的视频驱动程序。
@@ -43,6 +88,10 @@ http://get.webgl.org/ * 网站和其他 WebGL 应用正常工作.*
 
    * 您正在使用过时的操作系统，如Windows XP。
 
+   * Browser is not set up for loading local resources. In this
+     case, the problem can be fixed by using local web server. See the
+     Loading Local Resources section.
+
 
 WebGL的无法初始化
 =================
@@ -50,8 +99,9 @@ WebGL的无法初始化
 使用最近的Chrome或Firefox浏览 http://get.webgl.org/ 页时出现的问题。我
 能做什么？
 
-1. 安装适用于您的系统的最新更新（用于MS Windows见 指南). 在微软
-   Windows 下安装最新的  DirectX 运行时 。重新启动。
+1. Install the latest updates for your system (for MS Windows see
+   the guide). In case of MS Windows install the latest DirectX
+   runtime. Reboot.
 
 2. 建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入
    **about:gpu** (或 **chrome://gpu**) ，在Chrome浏览器的地址栏中...
@@ -67,6 +117,30 @@ WebGL的无法初始化
 
 
 对于Windows，您可以运行DirectX诊断工具叫  **dxdiag**.
+
+To do it, please follow these steps:
+
+   1. Select the "Run" command from the Start menu
+
+   2. Type *dxdiag* to the "Open" field and press "Enter" to open
+      DirectX Diagnostic Tool
+
+   3. Open the "Display" panel. There you can find manufacturer,
+      model and other information regarding your video card.
+
+[图片]
+
+
+
+For MacOS X, you can check System Report.
+
+To do it, please follow these steps:
+
+   1. Select "About This Mac" from the "Apple" menu.
+
+   2. Click "System Report" button.
+
+   3. Select "Graphics/Displays" in the "Hardware" section.
 
 [图片]
 
@@ -95,6 +169,21 @@ WebGL的无法初始化
 数，并在其上双击从 "false" 切换到值为 "True" 。
 
 [图片]
+
+*For Safari*
+
+Select "Preferences" from Safari menu, select the "Security" tab and
+make sure that "Allow WebGL" checkbox is enabled.
+
+[图片]
+
+
+More In-Depth Troubleshooting
+=============================
+
+If nothing mentioned above helped you solve the issues you are
+experiencing, please visit the Blend4Web community forum and leave a
+message in the Bug Report thread. Our team will be sure to help you.
 
 
 已知问题
@@ -132,3 +221,22 @@ WebGL的无法初始化
      This issue is caused by incompatibility of Chromium sandbox and
      NVIDIA's latest drivers. The solution is to downgrade drivers to
      the 340xx version.
+
+* WebAudio issues.
+
+     Audio doesn't work in some versions of Google Chrome for the
+     "Background Music" speakers in case of HTML export. Currently,
+     speaker type is automatically changed to "Background Sound" as a
+     workaround.
+
+     There is an audio context error when running too many instances
+     (>6) of b4w engine (for example, many browser tabs or many
+     iframes on one page) in Google Chrome. The error is prevented by
+     disabling the audio for an application if the audio context
+     cannot be created for it.
+
+* QQ Browser doesn't support WebGL at the moment.
+
+* WebGL is unstable and sometimes crashes on Mesa 11.x drivers in
+  Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can
+  help.

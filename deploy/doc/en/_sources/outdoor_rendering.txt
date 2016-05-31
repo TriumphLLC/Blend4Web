@@ -50,7 +50,7 @@ Reflection and Fresnel Effect
 For the water material both static and dynamic reflection is supported as well as the Fresnel effect. See the :ref:`material_mirror` section.
 
 
-.. image:: src_images/outdoor_rendering/water_reflection_dynamic.jpg
+.. image:: src_images/outdoor_rendering/water_reflection_dynamic.png
    :align: center
    :width: 100%
 
@@ -87,7 +87,7 @@ Refraction
 
 Under the ``Render`` tab in the ``Reflections and Refractions`` panel set the ``Refractions`` option to ``ON`` or ``AUTO``.
 
-.. image:: src_images/outdoor_rendering/water_refraction.jpg
+.. image:: src_images/outdoor_rendering/water_refraction.png
    :align: center
    :width: 100%
 
@@ -130,7 +130,7 @@ Caustics and Chromatic Aberration
 
 To create the caustics effect turn on the ``Caustics`` option on the water material. Also, there has to be at least one ``Sun`` on the scene.
 
-.. image:: src_images/outdoor_rendering/water_caustics.jpg
+.. image:: src_images/outdoor_rendering/water_caustics.png
    :align: center
    :width: 100%
 
@@ -143,7 +143,7 @@ To create the caustics effect turn on the ``Caustics`` option on the water mater
 Underwater Environment
 ----------------------
 
-.. image:: src_images/outdoor_rendering/underwater.jpg
+.. image:: src_images/outdoor_rendering/underwater.png
    :align: center
    :width: 100%
 
@@ -162,7 +162,7 @@ The :ref:`god rays <god_rays>` effect settings are also applied.
 .. note::
     The ``Rendering Options > Backface Culling`` option must be turned off for the correct water surface rendering.
 
-.. image:: src_images/outdoor_rendering/water_border.jpg
+.. image:: src_images/outdoor_rendering/water_border.png
    :align: center
    :width: 100%
 
@@ -176,7 +176,7 @@ Activation
 
 To enable procedural waves the ``Waves`` option must be turned on.
 
-.. image:: src_images/outdoor_rendering/water_waves.jpg
+.. image:: src_images/outdoor_rendering/water_waves.png
    :align: center
    :width: 100%
 
@@ -267,7 +267,7 @@ Enable ``World > Render Sky``, then activate ``Procedural Sky`` panel under the 
     Also, a procedural sky texture can be used to imitate scattered :ref:`environment lighting <environment_lighting>` similar to the :ref:`static skydome texture <skydome_texture>`. To do this, enable the ``Procedural Sky > Use as Environment Lighting`` and ``Environment Lighting > Sky Texture`` options. If the world texture for environment lighting already exists, it will be replaced.
 
 
-.. image:: src_images/outdoor_rendering/skydome_procedural.jpg
+.. image:: src_images/outdoor_rendering/skydome_procedural.png
    :align: center
    :width: 100%
 
@@ -328,7 +328,7 @@ Enable the ``Dynamic Intensity`` options for the lamp.
 
 Time of day can be set by applications via API. Particularly time of day can be set using the ``Lighting`` interface of the :ref:`Scene viewer <viewer>`. 
 
-.. image:: src_images/outdoor_rendering/sunset.jpg
+.. image:: src_images/outdoor_rendering/sunset.png
    :align: center
    :width: 100%
 
@@ -338,7 +338,7 @@ Stars
 
 Stars setup is described in the :ref:`material_halo` section.
 
-.. image:: src_images/outdoor_rendering/stars.jpg
+.. image:: src_images/outdoor_rendering/stars.png
    :align: center
    :width: 100%
 
@@ -388,7 +388,7 @@ Setting up
 
 The interface panel becomes visible after turning on the ``Wind Bending`` panel.
 
-.. image:: src_images/outdoor_rendering/wind_bending_setup.jpg
+.. image:: src_images/outdoor_rendering/wind_bending_setup.png
    :align: center
    :width: 80%
 
@@ -423,7 +423,7 @@ The interface panel becomes visible after turning on the ``Wind Bending`` panel.
 
 Vertex color layers should be present in the mesh if their names are specified.
 
-.. image:: src_images/outdoor_rendering/wind_bending_vcolors.jpg
+.. image:: src_images/outdoor_rendering/wind_bending_vcolors.png
    :align: center
    :width: 100%
 

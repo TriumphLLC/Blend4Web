@@ -13,7 +13,7 @@ Basics
 
 Visual programming is performed by creating logic node tree in the node editor area in Blender. These nodes can extend the scene functionality significantly without any coding.
 
-.. image:: src_images/logic_editor/logic_editor_app_example.jpg
+.. image:: src_images/logic_editor/logic_editor_app_example.png
    :align: center
    :width: 100%
 
@@ -80,7 +80,8 @@ Output Parameters
 Internal Parameters
 ...................
 
-None.
+*Run From Script*
+    If this parameter is enabled, the entry point can be triggered via API by using the :b4wref:`logic_nodes.run_entrypoint` method.
 
 .. _nla_switch_select:
 
@@ -1143,6 +1144,34 @@ Wait until the user selects an object (on desktops - with a mouse click, on mobi
 Layout
 ======
 
+.. _nla_empty:
+
+Empty
+-----
+
+This is a simple pass-through node that does not perform any operations on its own. It can be used to combine several logic threads into one or simply to make the logic node setup easier to read and understand.
+
+.. image:: src_images/logic_editor/logic_editor_empty.png
+    :align: center
+    :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node (or several nodes).
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+None.
+
 .. _nla_reroute:
 
 Reroute
@@ -1150,13 +1179,14 @@ Reroute
 
 Logic Editor also has ``Reroute`` elements, the nodes that don’t do anything aside from passing the control to the next node or to the next ``Reroute`` element. Such elements can be used to create cyclic structures or to make the node tree easier to read and understand.
 
+Unlike the ``Empty`` node, ``Reroute`` element can only handle a single logic thread.
+
 .. image:: src_images/logic_editor/logic_editor_reroute.png
     :align: center
     :width: 100%
 
 .. note::
     Output parameter can’t be connected to the same node’s input parameter. If you need to do this (to make a cycle, for example), you should use ``Reroute`` elements.
-
 
 .. _nla_debug:
 

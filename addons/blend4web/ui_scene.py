@@ -270,15 +270,19 @@ class B4W_ScenePhysics(SceneButtonsPanel, Panel):
         layout = self.layout
         layout.prop(scene, "b4w_enable_physics", text=_("Enable Physics"))
 
-class B4W_SceneBatching(SceneButtonsPanel, Panel):
-    bl_label = _("Batching")
-    bl_idname = "SCENE_PT_b4w_batching"
+class B4W_SceneClusterBatching(SceneButtonsPanel, Panel):
+    bl_label = _("Cluster Batching")
+    bl_idname = "SCENE_PT_b4w_cluster_batching"
     bl_options = {'DEFAULT_CLOSED'}
+
+    def draw_header(self, context):
+        self.layout.prop(context.scene, "b4w_enable_cluster_batching", text="")
 
     def draw(self, context):
         scene = context.scene
         layout = self.layout
-        layout.prop(scene, "b4w_batch_grid_size", text=_("Batch Grid Size"))
+        layout.active = getattr(scene, "b4w_enable_cluster_batching")
+        layout.prop(scene, "b4w_cluster_size", text=_("Cluster Size"))
 
 class B4W_SceneObjsSelection(SceneButtonsPanel, Panel):
     bl_label = _("Objects Selection")

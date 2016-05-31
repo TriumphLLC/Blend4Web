@@ -73,8 +73,6 @@
  * <dd>Boolean, enable selecting of objects.
  * <dt>enable_outlining
  * <dd>Boolean, enable outlining of object.
- * <dt>gyro_use
- * <dd>Boolean, enable gyroscope.
  * <dt>media_auto_activation
  * <dd>Boolean, activate media data context on mobile devices using popup dialog.
  * <dt>outlining_overview_mode
@@ -116,8 +114,8 @@
  * directory with the engine's sources.
  * <dt>stereo
  * <dd>String, stereoscopic mode: "ANAGLYPH", "HMD" or "NONE".
- * <dt>wireframe_debug
- * <dd>Boolean, enable wireframe debug mode.
+ * <dt>debug_view
+ * <dd>Boolean, enable debug view mode.
  * <dt>gl_debug
  * <dd>Boolean, enable gl errors check. Very slow.
  * </dl>
@@ -128,12 +126,12 @@
  * @cc_externs antialiasing assets_dds_available assets_min50_available audio
  * @cc_externs background_color built_in_module_name canvas_resolution_factor
  * @cc_externs console_verbose do_not_load_resources enable_selectable
- * @cc_externs enable_outlining gyro_use media_auto_activation outlining_overview_mode
+ * @cc_externs enable_outlining media_auto_activation outlining_overview_mode
  * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
  * @cc_externs precision prevent_caching quality
  * @cc_externs sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
- * @cc_externs wireframe_debug url_params stereo gl_debug
+ * @cc_externs debug_view url_params stereo gl_debug
  */
 b4w.module["config"] = function(exports, require) {
 

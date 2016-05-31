@@ -17,11 +17,11 @@ Types
 The engine supports objects of the following types:
 
     - :ref:`meshes (mesh) <meshes>`
-    - camera
-    - lamp
+    - :ref:`camera <camera>`
+    - :ref:`lamp <lighting>`
     - empty
-    - armature
-    - speaker
+    - :ref:`armature <skeletal_animation>`
+    - :ref:`speaker <audio>`
     - curve
     - text
     - metaball
@@ -82,13 +82,15 @@ Object Tab
 *Relations > Parent*
     Reference to the parent object.
 
-    If the parent object is a camera, ``Viewport Alignment`` settings will be available.
+    If the parent object is a camera, ``Viewport Alignment`` settings are available.
 
     .. image:: src_images/objects/objects_viewport_alignment.png
        :align: center
        :width: 100%
 
-    The ``Alignment`` parameter specifies to what side of the viewport an object will be aligned (``Center`` by default). The ``Distance`` parameter specifies the distance between the aligned object and the camera (10 by default). The ``Fit to Camera`` button can be used to make the aligned object look in the Blender viewport same way it will look in the engine.
+    |
+
+    These settings can be used to align the object to an active camera. They are described in the :ref:`Camera chapter <camera_viewport_alignment>`.
 
 *Groups*
     Objects’ groups to which this object belongs.
@@ -179,6 +181,8 @@ Object Tab
 *Selection and Outlining > Enable Outlining*
     Enable :ref:`outline glow <outline>` for the object.
 
+.. _objects_meta_tags:
+
 *Meta Tags*
     Interface for adding meta tags to the object:
 
@@ -194,19 +198,12 @@ Object Tab
     *Meta Tags > Description Source*
         Source type for the description: text or text file.
 
-.. _objects_anchors:
-
 *Anchors > Enable Anchor*
-    Available for ``EMPTY`` objects only. Interface for adding anchors (2D tags) to objects:
+    This parameter enables interface for adding anchors (2D tags) to objects. Available for ``EMPTY`` objects only. Described in the :ref:`corresponding section <objects_anchors>`.
 
-    *Anchors > Type*
-        Anchor type. ``Annotation`` - the content is obtained from the meta tags assigned to the object and displayed in a collapsible window of standard design. ``Custom Element`` - arbitrary HTML element from the current web page is used as anchor. ``Generic`` - anchor’s position can be detected using ``anchors`` API module.
-
-    *Anchors > Detect Visibility*
-        Detect whether the anchor object is overlapped by other objects. Turning this option on decreases performance and should be used only when necessary.
-
-    *Anchors > Max Width*
-        Applicable to annotation anchors. This limits the expanding info window by a predefined value (measured in CSS pixels).
+    .. image:: src_images/objects/objects_enable_anchors.png
+        :align: center
+        :width: 100%
 
 *Wind Bending*
     Enables wind bending procedural animation. Thoroughly described at the :ref:`outdoor rendering <wind_bending>` page.
@@ -223,7 +220,6 @@ Object Tab
 
 *Billboard > Billboard Type*
     Billboard orientation mode. ``Spherical`` (by default) - the object is always oriented with one side toward the camera, regardless of view angle, ``Cylindrical`` - similar to ``Spherical``, but rotation is limited to Blender’s world Z axis. Becomes available after enabling Billboard
-
 
 Physics Tab
 -----------
@@ -246,6 +242,45 @@ Physics Tab
 *Character*
     Use the object for character physics. The character settings are described in detail in the :ref:`physics <physics>` section.
 
+.. _objects_anchors:
+
+Anchor Settings
+===============
+
+Anchors can be used to attach annotations to 3D objects. The annotation is displayed near the object regardless of the camera position and even follows it throughout the animation.
+
+.. image:: src_images/objects/objects_anchors_example.png
+    :align: center
+    :width: 100%
+
+Annotations can be created entirely in Blender. All you need to do is to place an ``Empty`` object in the required position and enable the ``Anchor`` property. The text for the annotations can be assigned in the ``Title`` and ``Description`` fields on the ``Meta Tags`` panel.
+
+.. image:: src_images/objects/objects_anchors_settings.png
+    :align: center
+    :width: 100%
+
+*Enable Anchor*
+    This parameter enables the interface for adding anchors (2D tags) to objects. This is available for ``EMPTY`` objects only.
+
+*Type*
+    Anchor type
+
+    * ``Annotation`` - content is obtained from the :ref:`meta tags <objects_meta_tags>` assigned to the object and displayed in the standard section.
+
+    * ``Custom Element`` - an arbitrary HTML element from the current web page is used as an anchor.
+
+    * ``Generic`` - an anchor’s position can be detected using the ``anchors`` API module.
+
+    Default value is ``Annotation``.
+
+*HTML Element ID*
+    This specifies the ID of the HTML element that will be used as the anchor. This is available only if the ``Type`` parameter is set to ``Custom Element``.
+
+*Detect Visibility*
+    Detect whether the anchor object is overlapped by other objects. This is disabled by default. Turning this option on decreases performance and should be used only when necessary.
+
+*Max Width*
+    This parameter limits the expanding info window by a predefined value (measured in CSS pixels). This is available only if the ``Type`` parameter is set to ``Annotation``, and it is set to 250 by default.
 
 .. index:: Object Transform API
 
@@ -308,7 +343,7 @@ Use the following methods of the :b4wmod:`transform` module to move objects in t
 
 .. index:: get object
 
-Get object API
+Get Object API
 ==============
 
 To perform any operation with an object, you first need to get it (i.e. receive the link to it). There are several API functions for doing this. A link to an object has ``Object3D`` type.
@@ -385,6 +420,81 @@ To perform any operation with an object, you first need to get it (i.e. receive 
         // ...        
         var object_name = m_scenes.get_object_name(obj);
         // ...
+
+.. _mesh_selection:
+
+Object Selection
+================
+
+In order to enable selection of a certain object, it is required to enable the ``Selectable`` checkbox on the ``Selection and Outlining`` panel.
+
+.. note::
+    Make sure that the status on the ``Scene > Object Outlining`` panel is set to ``ON`` or ``AUTO``.
+
+Object selection is possible programmatically via API, for example, in the ``scenes.js`` module there is the ``pick_object`` function which selects an object based on canvas 2D coordinates,
+
+.. code-block:: javascript
+
+    // ...
+    var x = event.clientX;
+    var y = event.clientY;
+
+    var obj = m_scenes.pick_object(x, y);
+    // ...
+
+or using the :ref:`Logic Editor <nla_switch_select>`.
+
+If the selectable object has enabled ``Enable Outlining`` and ``Outline on Select`` checkboxes on the ``Object > Selection`` and Outlining panel, then the ``pick_object`` function call will activate :ref:`outline glow animation <outline>`.
+
+.. note::
+    If the selected object is transparent (``Blend``, ``Add`` and ``Sort`` transparency types), outline glow will only be visible on the parts that have ``Alpha`` value higher than 0.5.
+
+.. _mesh_copy:
+
+Copying Objects (Instancing)
+============================
+
+It is often required to copy (to make instances of) objects during application work.
+
+Copying objects has its limitations:
+    * only ``MESH`` objects can be copied
+    * the object should be :ref:`dynamic <static_dynamic_objects>` (enable ``Rendering Properties > Force Dynamic Object``)
+    * the source object should belong to the active scene
+
+Making a Simple Copy
+--------------------
+
+In case of simple copying the new object will share the mesh with the original object. Thus, if the original object’s mesh is changed, the copied object’s mesh will be changed too. To make simple copying possible, it’s enough to turn on the ``Blend4Web > Force Dynamic Object`` setting in the source object’s properties.
+
+Making a Deep Copy
+------------------
+
+In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the :ref:`Rendering Properties > Dynamic Geometry <dynamic_geom>` checkbox for the source object.
+|
+
+Copying objects in runtime can be performed with the ``copy`` method of the ``objects.js`` module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default, simple copying will be performed.
+
+The newly created object should be added to the scene. This can be performed with the ``append_object`` method of the ``scenes.js`` module. The new object should be passed to it as an argument.
+
+.. code-block:: javascript
+
+    // ...
+    var new_obj = m_objects.copy(obj, "New_name", true);
+    m_scenes.append_object(new_obj);
+    m_transform.set_translation(new_obj, 2, 0, 2);
+    // ...
+
+
+Removing Objects
+----------------
+To remove objects, use the ``remove_object`` method of the ``scenes.js`` module. Pass the object to it as an argument. Dynamic mesh- and empty-type objects can be removed this way.
+
+.. code-block:: javascript
+
+    // ...
+    m_objects.remove_object(new_obj);
+    // ...
+
 
 .. index:: quaternion
 
@@ -500,5 +610,6 @@ It is sometimes convenient to move objects using vectors of the following format
 Here :math:`T_x, T_y, T_z` - the components of the translation vector, :math:`S` - scale factor, :math:`R_x, R_y, R_z, R_w` - the components of the quaternion vector. Hence the name of this vector: TSR or TSR-8.
 
 This vector can be operated via `tsr` module, as well as via `set_tsr()`/`get_tsr()` methods of the `transform` module.
+
 
 

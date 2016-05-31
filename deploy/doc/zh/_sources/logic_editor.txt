@@ -110,7 +110,9 @@ Output Parameters
 Internal Parameters
 ~~~~~~~~~~~~~~~~~~~
 
-None.
+*Run From Script*
+   If this parameter is enabled, the entry point can be triggered via
+   API by using the run_entrypoint method.
 
 
 Switch Select
@@ -1359,6 +1361,37 @@ Layout
 ======
 
 
+Empty
+-----
+
+This is a simple pass-through node that does not perform any
+operations on its own. It can be used to combine several logic threads
+into one or simply to make the logic node setup easier to read and
+understand.
+
+[图片]
+
+
+Input Parameters
+~~~~~~~~~~~~~~~~
+
+*Previous*
+   Previous node (or several nodes).
+
+
+Output Parameters
+~~~~~~~~~~~~~~~~~
+
+*Next*
+   Next node.
+
+
+Internal Parameters
+~~~~~~~~~~~~~~~~~~~
+
+None.
+
+
 Reroute
 -------
 
@@ -1366,6 +1399,9 @@ Logic Editor also has "Reroute" elements, the nodes that don’t do
 anything aside from passing the control to the next node or to the
 next "Reroute" element. Such elements can be used to create cyclic
 structures or to make the node tree easier to read and understand.
+
+Unlike the "Empty" node, "Reroute" element can only handle a single
+logic thread.
 
 [图片]
 

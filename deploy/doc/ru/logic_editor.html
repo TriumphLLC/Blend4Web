@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Логические ноды &mdash; Руководство пользователя Blend4Web 16.04</title>
+  <title>Логические ноды &mdash; Руководство пользователя Blend4Web 16.05</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.04" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.05" href="index.html"/>
         <link rel="next" title="Освещение, тени и фон" href="lighting.html"/>
         <link rel="prev" title="Нодовые материалы" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -90,10 +90,11 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -298,6 +299,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#layout">Layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#empty">Empty</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id82">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id83">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id84">Внутренние параметры</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#reroute">Reroute</a></li>
 </ul>
 </li>
@@ -362,31 +369,31 @@
            <div itemprop="articleBody">
             
   <div class="section" id="logic-nodes">
-<span id="logic-editor"></span><h1><a class="toc-backref" href="#id82">Логические ноды</a><a class="headerlink" href="#logic-nodes" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="logic-editor"></span><h1><a class="toc-backref" href="#id85">Логические ноды</a><a class="headerlink" href="#logic-nodes" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-content">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#logic-nodes" id="id82">Логические ноды</a><ul>
-<li><a class="reference internal" href="#basics" id="id83">Основы</a></li>
-<li><a class="reference internal" href="#control-flow" id="id84">Control Flow</a></li>
-<li><a class="reference internal" href="#animation" id="id85">Animation</a></li>
-<li><a class="reference internal" href="#camera" id="id86">Camera</a></li>
-<li><a class="reference internal" href="#object" id="id87">Object</a></li>
-<li><a class="reference internal" href="#operations" id="id88">Operations</a></li>
-<li><a class="reference internal" href="#sound" id="id89">Sound</a></li>
-<li><a class="reference internal" href="#network" id="id90">Network</a></li>
-<li><a class="reference internal" href="#debug" id="id91">Debug</a></li>
-<li><a class="reference internal" href="#deprecated" id="id92">Deprecated</a></li>
-<li><a class="reference internal" href="#layout" id="id93">Layout</a></li>
-<li><a class="reference internal" href="#debugging" id="id94">Отладка</a></li>
+<li><a class="reference internal" href="#logic-nodes" id="id85">Логические ноды</a><ul>
+<li><a class="reference internal" href="#basics" id="id86">Основы</a></li>
+<li><a class="reference internal" href="#control-flow" id="id87">Control Flow</a></li>
+<li><a class="reference internal" href="#animation" id="id88">Animation</a></li>
+<li><a class="reference internal" href="#camera" id="id89">Camera</a></li>
+<li><a class="reference internal" href="#object" id="id90">Object</a></li>
+<li><a class="reference internal" href="#operations" id="id91">Operations</a></li>
+<li><a class="reference internal" href="#sound" id="id92">Sound</a></li>
+<li><a class="reference internal" href="#network" id="id93">Network</a></li>
+<li><a class="reference internal" href="#debug" id="id94">Debug</a></li>
+<li><a class="reference internal" href="#deprecated" id="id95">Deprecated</a></li>
+<li><a class="reference internal" href="#layout" id="id96">Layout</a></li>
+<li><a class="reference internal" href="#debugging" id="id97">Отладка</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="basics">
-<h2><a class="toc-backref" href="#id83">Основы</a><a class="headerlink" href="#basics" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id86">Основы</a><a class="headerlink" href="#basics" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Визуальное программирование осуществляется путем создания нодового дерева логики в окне нодового редактора. С помощью <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code> можно существенно расширить функциональность сцены, не прибегая при этом к программированию.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_app_example.jpg"><img alt="_images/logic_editor_app_example.jpg" class="align-center" src="_images/logic_editor_app_example.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/logic_editor_app_example.png"><img alt="_images/logic_editor_app_example.png" class="align-center" src="_images/logic_editor_app_example.png" style="width: 100%;" /></a>
 <p>Для активации логики, на вкладке настроек сцены Blender необходимо установить галочку <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code> и добавить/выбрать активное нодовое дерево:</p>
 <a class="reference internal image-reference" href="_images/logic_editor_activation.png"><img alt="_images/logic_editor_activation.png" class="align-center" src="_images/logic_editor_activation.png" style="width: 100%;" /></a>
 <p>Для редактирования дерева логики необходимо перейти в <code class="docutils literal"><span class="pre">Редактор</span> <span class="pre">Нод</span></code> (Node Editor) выбрать тип нодового дерева <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">logic</span></code>:</p>
@@ -404,7 +411,7 @@
 <p>Ниже перечисленны все доступные ноды.</p>
 </div>
 <div class="section" id="control-flow">
-<h2><a class="toc-backref" href="#id84">Control Flow</a><a class="headerlink" href="#control-flow" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id87">Control Flow</a><a class="headerlink" href="#control-flow" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="entry-point">
 <span id="nla-entry"></span><h3>Entry Point<a class="headerlink" href="#entry-point" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Является точкой начала выполнения скрипта. Использование нескольких точек входа позволяет эмулировать многопоточное выполнение.</p>
@@ -423,7 +430,11 @@
 </div>
 <div class="section" id="internal-parameters">
 <h4>Внутренние параметры<a class="headerlink" href="#internal-parameters" title="Ссылка на этот заголовок">¶</a></h4>
-<p>Отсутствуют.</p>
+<dl class="docutils">
+<dt><em>Run From Script</em></dt>
+<dd><p class="first last">Если этот параметр активирован, точка входа может быть запущена с помощью API, используя метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-logic_nodes.html#.run_entrypoint">run_entrypoint</a>.</p>
+</dd>
+</dl>
 </div>
 </div>
 <div class="section" id="switch-select">
@@ -587,7 +598,7 @@
 </div>
 </div>
 <div class="section" id="animation">
-<h2><a class="toc-backref" href="#id85">Animation</a><a class="headerlink" href="#animation" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id88">Animation</a><a class="headerlink" href="#animation" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="play-timeline-and-stop-timeline">
 <span id="nla-play-timeline"></span><h3>Play Timeline и Stop Timeline<a class="headerlink" href="#play-timeline-and-stop-timeline" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяют управлять NLA анимацией. <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> проигрывать участок NLA, начиная с кадра, на который указывает маркер. Анимация воспроизводится до следующего маркера, либо до конца шкалы времени сцены, после чего управление переходит к следующей ноде. <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> останавливает воспроизведение.</p>
@@ -733,7 +744,7 @@
 </div>
 </div>
 <div class="section" id="camera">
-<h2><a class="toc-backref" href="#id86">Camera</a><a class="headerlink" href="#camera" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id89">Camera</a><a class="headerlink" href="#camera" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="move-camera">
 <span id="nla-move-camera"></span><h3>Move Camera<a class="headerlink" href="#move-camera" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет перемещать камеру, в том числе с плавной интерполяцией положения.</p>
@@ -774,7 +785,7 @@
 </div>
 </div>
 <div class="section" id="object">
-<h2><a class="toc-backref" href="#id87">Object</a><a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id90">Object</a><a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="show-object">
 <span id="nla-show-object"></span><h3>Show Object<a class="headerlink" href="#show-object" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Используется для отображения объектов.</p>
@@ -1077,7 +1088,7 @@
 </div>
 </div>
 <div class="section" id="operations">
-<h2><a class="toc-backref" href="#id88">Operations</a><a class="headerlink" href="#operations" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id91">Operations</a><a class="headerlink" href="#operations" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="variable-store">
 <span id="nla-var-store"></span><h3>Variable Store<a class="headerlink" href="#variable-store" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Сохраняет числовое или строковое значение в переменную.</p>
@@ -1231,7 +1242,7 @@
 </div>
 </div>
 <div class="section" id="sound">
-<h2><a class="toc-backref" href="#id89">Sound</a><a class="headerlink" href="#sound" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id92">Sound</a><a class="headerlink" href="#sound" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="play-sound">
 <span id="nla-play-sound"></span><h3>Play Sound<a class="headerlink" href="#play-sound" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет воспроизводить звук спикера.</p>
@@ -1295,7 +1306,7 @@
 </div>
 </div>
 <div class="section" id="network">
-<h2><a class="toc-backref" href="#id90">Network</a><a class="headerlink" href="#network" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id93">Network</a><a class="headerlink" href="#network" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="send-request">
 <span id="nla-send-request"></span><h3>Send Request<a class="headerlink" href="#send-request" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет отправить HTTP GET запрос на указанный URL и поместить значения полей ответа в переменную.</p>
@@ -1339,7 +1350,7 @@
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p>Информация, полученная с сервера, должна иметь следующий вид:</p>
-<div class="last highlight-json"><div class="highlight"><pre><span></span>{&quot;var0&quot;: 1,
+<div class="last highlight-json"><div class="highlight"><pre>{&quot;var0&quot;: 1,
 &quot;var1&quot;: 10,
 &quot;var2&quot;: 144,
 ...
@@ -1451,7 +1462,7 @@
 </div>
 </div>
 <div class="section" id="debug">
-<h2><a class="toc-backref" href="#id91">Debug</a><a class="headerlink" href="#debug" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id94">Debug</a><a class="headerlink" href="#debug" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="console-print">
 <span id="nla-console-print"></span><h3>Console Print<a class="headerlink" href="#console-print" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет выводить значения переменных и дополнительную информацию в консоли браузе. Может использоваться для отладки логики.</p>
@@ -1486,7 +1497,7 @@
 </div>
 </div>
 <div class="section" id="deprecated">
-<h2><a class="toc-backref" href="#id92">Deprecated</a><a class="headerlink" href="#deprecated" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id95">Deprecated</a><a class="headerlink" href="#deprecated" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="select-deprecated">
 <h3>Select (Deprecated)<a class="headerlink" href="#select-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="admonition note">
@@ -1513,10 +1524,36 @@
 </div>
 </div>
 <div class="section" id="layout">
-<h2><a class="toc-backref" href="#id93">Layout</a><a class="headerlink" href="#layout" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id96">Layout</a><a class="headerlink" href="#layout" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="empty">
+<span id="nla-empty"></span><h3>Empty<a class="headerlink" href="#empty" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Простая нода, не выполняющая никаких действий кроме передачи управления следующей ноде. Может применяться для объединения нескольких логических нитей в одну или для того, чтобы сделать логическое дерево более простым для понимания.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_empty.png"><img alt="_images/logic_editor_empty.png" class="align-center" src="_images/logic_editor_empty.png" style="width: 100%;" /></a>
+<div class="section" id="id82">
+<h4>Входные параметры<a class="headerlink" href="#id82" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd><p class="first last">Предыдущая нода (либо несколько нод).</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id83">
+<h4>Выходные параметры<a class="headerlink" href="#id83" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd><p class="first last">Следующая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id84">
+<h4>Внутренние параметры<a class="headerlink" href="#id84" title="Ссылка на этот заголовок">¶</a></h4>
+<p>Отсутствуют.</p>
+</div>
+</div>
 <div class="section" id="reroute">
 <span id="nla-reroute"></span><h3>Reroute<a class="headerlink" href="#reroute" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В редакторе логики также присутствуют элементы <code class="docutils literal"><span class="pre">Reroute</span></code> - специальные ноды, который не выполняют никаких операций, а только передают управление следующей ноде (или следующему элементу <code class="docutils literal"><span class="pre">Reroute</span></code>). Они могут применяться для создания циклических структур или для того, чтобы сделать логическую цепочку более понятной и лёгкой для восприятия.</p>
+<p>В отличие от ноды <code class="docutils literal"><span class="pre">Empty</span></code>, через элемент <code class="docutils literal"><span class="pre">Reroute</span></code> может проходить только одна логическая нить.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_reroute.png"><img alt="_images/logic_editor_reroute.png" class="align-center" src="_images/logic_editor_reroute.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -1525,7 +1562,7 @@
 </div>
 </div>
 <div class="section" id="debugging">
-<span id="nla-debug"></span><h2><a class="toc-backref" href="#id94">Отладка</a><a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="nla-debug"></span><h2><a class="toc-backref" href="#id97">Отладка</a><a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для отладки имеется возможность отключения (muting) нод. Для этого необходимо выделить ноду и нажать горячую клавишу <code class="docutils literal"><span class="pre">M</span></code>. Отключенная нода не выполняется, но при этом передает управление следующей ноде. Если у отключенной ноды имеется несколько выходов, то будет происходить выполнение ветки со стороны выхода отрицательного результата (<code class="docutils literal"><span class="pre">Miss</span></code>, <code class="docutils literal"><span class="pre">False</span></code>).</p>
 </div>
 </div>
@@ -1550,15 +1587,48 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-04-28.
+      Обновлено: 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -1573,7 +1643,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

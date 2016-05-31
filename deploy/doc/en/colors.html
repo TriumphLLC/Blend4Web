@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Color Management &mdash; Blend4Web 16.04 User Manual</title>
+  <title>Color Management &mdash; Blend4Web 16.05 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.05 User Manual" href="index.html"/>
         <link rel="next" title="Audio" href="audio.html"/>
         <link rel="prev" title="Outdoor Effects" href="outdoor_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -262,7 +263,7 @@
 <blockquote>
 <div>V<sub>out</sub> = V<sub>in</sub><sup>γ</sup></div></blockquote>
 <p>γ &lt; 1 - packing gamma, γ &gt; 1 - unpacking gamma. In the simplest case 1/2.2  and 2.2 values are used respectively. Hereinafter the “packing” (Linear -&gt; sRGB) and “unpacking” (sRGB -&gt; Linear) terms are used instead of “gamma correction”.</p>
-<a class="reference internal image-reference" href="_images/gamma.jpg"><img alt="_images/gamma.jpg" class="align-center" src="_images/gamma.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/gamma.png"><img alt="_images/gamma.png" class="align-center" src="_images/gamma.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="gamma-in-node-materials">
 <span id="gamma-node-materials"></span><h2><a class="toc-backref" href="#id7">Gamma in Node Materials</a><a class="headerlink" href="#gamma-in-node-materials" title="Permalink to this headline">¶</a></h2>
@@ -337,7 +338,7 @@ channel is not corrected)</td>
 <div class="section" id="implementation">
 <h3><a class="toc-backref" href="#id14">Implementation</a><a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
 <p>The blending function used in Blend4Web is the following:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+<div class="highlight-none"><div class="highlight"><pre>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 </pre></div>
 </div>
 <p>WebGL context initialization is performed using the premultipliedAlpha = true parameter (that is the default value). Also multiplication of all the color channels by the <span class="math">\(\alpha\)</span> value is performed on the output of the shaders.</p>
@@ -386,15 +387,48 @@ channel is not corrected)</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-04-28.
+      Last updated on 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -409,7 +443,7 @@ channel is not corrected)</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

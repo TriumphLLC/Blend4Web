@@ -7,6 +7,7 @@ var m_cfg   = require("config");
 var m_ctl   = require("controls");
 var m_data  = require("data");
 var m_main  = require("main");
+var m_scs   = require("scenes");
 
 var CANVAS_CONTAINER_ID  = "main_canvas_container";
 var CANVAS_REPLACMENT    = "no_webgl_logo";
@@ -60,7 +61,14 @@ function loaded_callback(data_id) {
     }
 
     _canvas_elem.style.display = "block";
-    m_app.enable_camera_controls(false, false, true, _canvas_elem, true);
+    m_app.enable_camera_controls(false, true, true, _canvas_elem, true);
+
+    var cam = m_scs.get_active_camera();
+
+    m_ctl.remove_sensor_manifold(cam, "ROT_UP");
+    m_ctl.remove_sensor_manifold(cam, "ROT_DOWN");
+    m_ctl.remove_sensor_manifold(cam, "ROT_LEFT");
+    m_ctl.remove_sensor_manifold(cam, "ROT_RIGHT");
 
     enable_timeout();
 

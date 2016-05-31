@@ -22,7 +22,6 @@ exports.init = function() {
         alpha: true,
         show_fps: true,
         autoresize: true,
-        gyro_use: true,
         console_verbose: true
     });
 }
@@ -41,7 +40,6 @@ function load() {
 }
 
 function load_cb(data_id) {
-    var obj = m_scenes.get_object_by_name("Plane");
     m_app.enable_camera_controls();
     var obj = m_scenes.get_object_by_name("Plane");
     create_obj_rotation_sensors(obj);
@@ -62,7 +60,7 @@ function create_obj_rotation_sensors(obj) {
 
 function clamp_delta(values) {
     for (var i = 0; i < values.length; i++)
-        if (Math.abs(values[i]) > UP_THRESHOLD 
+        if (Math.abs(values[i]) > UP_THRESHOLD
                 || Math.abs(values[i]) < DOWN_THRESHOLD)
             values[i] = 0;
 }

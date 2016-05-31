@@ -8,6 +8,38 @@ Problems and Solutions
     :depth: 3
     :backlinks: entry
 
+As WebGL is still a relatively new technology, it may not work perfectly with every combination of software and hardware. This chapter covers common problems that users of the Blend4Web engine may encounter and provides solutions for these problems.
+
+.. _webgl_support:
+
+WebGL Support
+=============
+
+If you are using a desktop or laptop computer, your system must have a GPU that supports DirectX 9.0c and OpenGL 2.1, such as:
+
+    * Nvidia GeForce 6xxx series or higher.
+
+    * AMD/ATi Radeon R500 (X1xxx) series or higher.
+
+    * Intel GMA 950 or higher.
+
+If you are using WebGL on a mobile device, please check whether your device is on the `compatibility list <http://mobilehtml5.org/>`_.
+
+You also need to have a web browser that supports WebGL technology.
+
+The following web browsers support WebGL:
+
+    * Google Chrome (v. 9 or higher)
+    * Mozilla Firefox (v 4.0 or higher)
+    * Safari (v. 8.0 or higher)
+    * Chrome for Android (v. 25 or higher)
+    * Internet Explorer (v. 11 or higher)
+    * Microsoft Edge
+    * Opera (v. 12 or higher)
+    * UC Browser (experimental)
+
+We also recommend to use the most recent version of the web browser to avoid compatibility problems.
+
 .. _renderer_not_working:
 
 Problems Upon Startup
@@ -25,8 +57,6 @@ Follow the instructions listed in the :ref:`webgl_not_working` section.
 
     Possible causes:
 
-    * A local web server is not used or the browser is not set up for loading local resources. See the :ref:`browser_for_local_loading` section.
-
     * The engine tries to load resource files which were moved or deleted.
 
     * You are using the old versions of video drivers.
@@ -37,6 +67,8 @@ Follow the instructions listed in the :ref:`webgl_not_working` section.
 
     * You are using an outdated operating system, such as Windows XP.
 
+    * Browser is not set up for loading local resources. In this case, the problem can be fixed by using local web server. See the :ref:`browser_for_local_loading` section.
+
 
 .. _webgl_not_working:
 
@@ -46,7 +78,7 @@ WebGL Failed to Initialize
 The http://get.webgl.org/ page tells about problems when viewing it in recent Chrome or Firefox. What can I do?
 
 
-1. Install the latest updates for your system (for MS Windows see `the guide <http://support.microsoft.com/kb/311047>`_). In case of MS Windows install the latest `DirectX runtime <http://www.microsoft.com/en-us/download/details.aspx?id=35>`_. Reboot.
+1. Install the latest updates for your system (for MS Windows see `the guide <http://support.microsoft.com/kb/311047>`_). In case of MS Windows install the latest `DirectX runtime <https://www.microsoft.com/en-us/Download/confirmation.aspx?id=35>`_. Reboot.
 
 2. It is recommended to timely update video card drivers. To detect your video card and its vendor please type **about:gpu** (or **chrome://gpu**) to the address bar of Chrome browser...
 
@@ -66,12 +98,35 @@ or Firefox...
 
 For Windows, you can run the DirectX Diagnostic Tool called **dxdiag**.
 
-.. image:: src_images/problems_and_solutions/dxdiag.png
+To do it, please follow these steps:
+
+    #. Select the ``Run`` command from the Start menu
+
+    #. Type *dxdiag* to the ``Open`` field and press ``Enter`` to open DirectX Diagnostic Tool
+
+    #. Open the ``Display`` panel. There you can find manufacturer, model and other information regarding your video card.
+
+.. image:: src_images/problems_and_solutions/problems_dxdiag.png
    :align: center
    :width: 100%
 
 |
 
+For MacOS X, you can check System Report.
+
+To do it, please follow these steps:
+
+    #. Select ``About This Mac`` from the ``Apple`` menu.
+
+    #. Click ``System Report`` button.
+
+    #. Select ``Graphics/Displays`` in the ``Hardware`` section.
+
+.. image:: src_images/problems_and_solutions/problems_osx.png
+   :align: center
+   :width: 100%
+
+|
 
 Download the drivers from the corresponding support center (for example `Intel <http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia <http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI <http://support.amd.com/en-us/download>`_). Reboot the system after the drivers are installed.
 
@@ -97,6 +152,19 @@ Enter **about:config** into the browser's address bar, search for the ``webgl.fo
 .. image:: src_images/problems_and_solutions/about_config_force_webgl.png
    :align: center
    :width: 100%
+
+*For Safari*
+
+Select ``Preferences`` from Safari menu, select the ``Security`` tab and make sure that ``Allow WebGL`` checkbox is enabled.
+
+.. image:: src_images/problems_and_solutions/safari_force_webgl.png
+   :align: center
+   :width: 100%
+
+More In-Depth Troubleshooting
+=============================
+
+If nothing mentioned above helped you solve the issues you are experiencing, please visit the Blend4Web `community forum <https://www.blend4web.com/en/forums/>`_ and leave a message in the `Bug Report <https://www.blend4web.com/en/forums/forum/17/>`_ thread. Our team will be sure to help you. 
 
 .. _known_problems:
 
@@ -126,3 +194,13 @@ Known Issues
 * WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series GPUs with drivers later than 355.
     
     This issue is caused by incompatibility of Chromium sandbox and NVIDIA's latest drivers. The solution is to downgrade drivers to the 340xx version.
+
+* WebAudio issues.
+
+    Audio doesn't work in some versions of Google Chrome for the "Background Music" speakers in case of HTML export. Currently, speaker type is automatically changed to "Background Sound" as a workaround.
+
+    There is an audio context error when running too many instances (>6) of b4w engine (for example, many browser tabs or many iframes on one page) in Google Chrome. The error is prevented by disabling the audio for an application if the audio context cannot be created for it.
+
+* QQ Browser doesn't support WebGL at the moment.
+
+* WebGL is unstable and sometimes crashes on Mesa 11.x drivers in Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can help.

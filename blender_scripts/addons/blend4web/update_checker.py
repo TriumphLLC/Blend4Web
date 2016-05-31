@@ -12,7 +12,7 @@ from blend4web.translator import _, p_
 
 def check_for_update(blender_version, b4w_version):
     try:
-        r = urllib.request.urlopen('https://www.blend4web.com/get_versions/', timeout=1).readall()
+        r = urllib.request.urlopen('https://www.blend4web.com/get_versions/', timeout=1).read()
     except urllib.error.URLError as e:
         print("B4W Can't check for updates: %s" % e)
         return None

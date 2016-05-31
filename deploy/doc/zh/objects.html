@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物体 &mdash; Blend4Web 16.04 用户手册</title>
+  <title>物体 &mdash; Blend4Web 16.05 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.05 用户手册" href="index.html"/>
         <link rel="next" title="网格" href="meshes.html"/>
         <link rel="prev" title="场景设置" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -100,8 +100,16 @@
 <li class="toctree-l3"><a class="reference internal" href="#physics-tab">物理标签</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#anchor-settings">设置</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#object-transform-api">物体变换API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#get-object-api">获取物体API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-object-api">Get Object API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-selection">Object Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#copying-objects-instancing">Copying Objects (Instancing)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#making-a-simple-copy">Making a Simple Copy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-a-deep-copy">Making a Deep Copy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removing-objects">Removing Objects</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#quaternions">四元数</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#quaternion-example">四元数例子</a></li>
 </ul>
@@ -111,6 +119,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
@@ -185,14 +194,22 @@
 <li><a class="reference internal" href="#physics-tab" id="id7">物理标签</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#object-transform-api" id="id8">物体变换API</a></li>
-<li><a class="reference internal" href="#get-object-api" id="id9">获取物体API</a></li>
-<li><a class="reference internal" href="#quaternions" id="id10">四元数</a><ul>
-<li><a class="reference internal" href="#quaternion-example" id="id11">四元数例子</a></li>
+<li><a class="reference internal" href="#anchor-settings" id="id8">设置</a></li>
+<li><a class="reference internal" href="#object-transform-api" id="id9">物体变换API</a></li>
+<li><a class="reference internal" href="#get-object-api" id="id10">Get Object API</a></li>
+<li><a class="reference internal" href="#object-selection" id="id11">Object Selection</a></li>
+<li><a class="reference internal" href="#copying-objects-instancing" id="id12">Copying Objects (Instancing)</a><ul>
+<li><a class="reference internal" href="#making-a-simple-copy" id="id13">Making a Simple Copy</a></li>
+<li><a class="reference internal" href="#making-a-deep-copy" id="id14">Making a Deep Copy</a></li>
+<li><a class="reference internal" href="#removing-objects" id="id15">Removing Objects</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web" id="id12">Blender和Blend4Web的坐标系之间的差异</a></li>
-<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id13">通过TSR矢量移动</a></li>
+<li><a class="reference internal" href="#quaternions" id="id16">四元数</a><ul>
+<li><a class="reference internal" href="#quaternion-example" id="id17">四元数例子</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web" id="id18">Blender和Blend4Web的坐标系之间的差异</a></li>
+<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id19">通过TSR矢量移动</a></li>
 </ul>
 </li>
 </ul>
@@ -205,16 +222,12 @@
 <div><ul class="simple">
 <li><p class="first"><a class="reference internal" href="meshes.html#meshes"><span>网格(mesh)</span></a></p>
 </li>
-<li><p class="first">摄像机</p>
-</li>
-<li><p class="first">灯</p>
-</li>
+<li><a class="reference internal" href="camera.html#camera"><span>camera</span></a></li>
+<li><a class="reference internal" href="lighting.html#lighting"><span>lamp</span></a></li>
 <li><p class="first">空物体</p>
 </li>
-<li><p class="first">骨架</p>
-</li>
-<li><p class="first">扬声器</p>
-</li>
+<li><a class="reference internal" href="animation.html#skeletal-animation"><span>armature</span></a></li>
+<li><a class="reference internal" href="audio.html#audio"><span>speaker</span></a></li>
 <li><p class="first">曲线</p>
 </li>
 <li><p class="first">文本</p>
@@ -268,7 +281,10 @@
 <dd><p class="first">参照父物体。</p>
 <p>如果父物体是一个摄像头，<code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Alignment</span></code> 设置将可见。</p>
 <a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
-<p class="last">该 <code class="docutils literal"><span class="pre">Alignment</span></code> 参数指定物体将对准视口的哪一方的（ 默认 <code class="docutils literal"><span class="pre">Center</span></code>）。在 <code class="docutils literal"><span class="pre">Distance</span></code> 参数指定对齐的物体和摄像机（10默认情况下）之间的距离。该 <code class="docutils literal"><span class="pre">适合Camera</span></code> 按钮的对齐物体效果在引擎和Blender中都是一样的。</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="last">These settings can be used to align the object to an active camera. They are described in the <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>Camera chapter</span></a>.</p>
 </dd>
 <dt><em>组</em></dt>
 <dd><p class="first last">物体所属的物体组</p>
@@ -356,11 +372,13 @@
 <dd><p class="first last">对于一个空物体定义了反射面的Name文本字段。启用 <code class="docutils literal"><span class="pre">反射</span> <span class="pre">&gt;</span> <span class="pre">反射</span></code> 后可用。</p>
 </dd>
 <dt><em>选择和外轮廓 &gt; 可选择</em></dt>
-<dd><p class="first last">启用 <a class="reference internal" href="meshes.html#mesh-selection"><span>物体选择</span></a> ，用鼠标或其他输入设备。</p>
+<dd><p class="first last">启用 <a class="reference internal" href="#mesh-selection"><span>物体选择</span></a> ，用鼠标或其他输入设备。</p>
 </dd>
 <dt><em>选择和外轮廓 &gt; 启用外轮廓</em></dt>
 <dd><p class="first last">启用物体的 <a class="reference internal" href="postprocessing_effects.html#outline"><span>外轮廓发光</span></a>  。</p>
 </dd>
+</dl>
+<dl class="docutils" id="objects-meta-tags">
 <dt><em>元标签</em></dt>
 <dd><p class="first">添加物体的元标签的接口：</p>
 <dl class="last docutils">
@@ -378,21 +396,9 @@
 </dd>
 </dl>
 </dd>
-</dl>
-<dl class="docutils" id="objects-anchors">
 <dt><em>锚 &gt; 启用锚</em></dt>
-<dd><p class="first">只可用于 <code class="docutils literal"><span class="pre">EMPTY</span></code> 物体。添加锚（2D标签）物体的接口：</p>
-<dl class="last docutils">
-<dt><em>锚 &gt; 类型</em></dt>
-<dd><p class="first last">锚类型。 <code class="docutils literal"><span class="pre">Annotation</span></code>  - 标准设计的可折叠窗口中显示的元标记中得到的内容。 <code class="docutils literal"><span class="pre">自定义Element</span></code>  - 从当前网页任意的HTML元素被用来作为锚。 <code class="docutils literal"><span class="pre">Generic</span></code>  - 锚的位置，可以使用 <code class="docutils literal"><span class="pre">anchors</span></code> API模块检测。</p>
-</dd>
-<dt><em>锚 &gt; 可见检测</em></dt>
-<dd><p class="first last">检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要时使用。</p>
-</dd>
-<dt><em>锚 &gt; 最大宽度</em></dt>
-<dd><p class="first last">用于注释锚。通过预定值（以CSS像素为单位），限制了展开的信息窗口大小。</p>
-</dd>
-</dl>
+<dd><p class="first">This parameter enables interface for adding anchors (2D tags) to objects. Available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only. Described in the <a class="reference internal" href="#objects-anchors"><span>corresponding section</span></a>.</p>
+<a class="last reference internal image-reference" href="_images/objects_enable_anchors.png"><img alt="_images/objects_enable_anchors.png" class="align-center" src="_images/objects_enable_anchors.png" style="width: 100%;" /></a>
 </dd>
 <dt><em>风弯曲</em></dt>
 <dd><p class="first last">启用风弯曲程序动画。在  <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>室外渲染</span></a> 页有完整的描述.。</p>
@@ -434,8 +440,35 @@
 </dl>
 </div>
 </div>
+<div class="section" id="anchor-settings">
+<span id="objects-anchors"></span><h2><a class="toc-backref" href="#id8">设置</a><a class="headerlink" href="#anchor-settings" title="永久链接至标题">¶</a></h2>
+<p>Anchors can be used to attach annotations to 3D objects. The annotation is displayed near the object regardless of the camera position and even follows it throughout the animation.</p>
+<a class="reference internal image-reference" href="_images/objects_anchors_example.png"><img alt="_images/objects_anchors_example.png" class="align-center" src="_images/objects_anchors_example.png" style="width: 100%;" /></a>
+<p>Annotations can be created entirely in Blender. All you need to do is to place an <code class="docutils literal"><span class="pre">Empty</span></code> object in the required position and enable the <code class="docutils literal"><span class="pre">Anchor</span></code> property. The text for the annotations can be assigned in the <code class="docutils literal"><span class="pre">Title</span></code> and <code class="docutils literal"><span class="pre">Description</span></code> fields on the <code class="docutils literal"><span class="pre">Meta</span> <span class="pre">Tags</span></code> panel.</p>
+<a class="reference internal image-reference" href="_images/objects_anchors_settings.png"><img alt="_images/objects_anchors_settings.png" class="align-center" src="_images/objects_anchors_settings.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>启用锚</em></dt>
+<dd>This parameter enables the interface for adding anchors (2D tags) to objects. This is available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only.</dd>
+<dt><em>Type</em></dt>
+<dd><p class="first"><em>类型</em></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Annotation</span></code> - content is obtained from the <a class="reference internal" href="#objects-meta-tags"><span>meta tags</span></a> assigned to the object and displayed in the standard section.</li>
+<li><code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code> - an arbitrary HTML element from the current web page is used as an anchor.</li>
+<li><code class="docutils literal"><span class="pre">Generic</span></code> - an anchor’s position can be detected using the <code class="docutils literal"><span class="pre">anchors</span></code> API module.</li>
+</ul>
+<p class="last">Default value is <code class="docutils literal"><span class="pre">Annotation</span></code>.</p>
+</dd>
+<dt><em>HTML Element ID</em></dt>
+<dd>This specifies the ID of the HTML element that will be used as the anchor. This is available only if the <code class="docutils literal"><span class="pre">Type</span></code> parameter is set to <code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code>.</dd>
+<dt><em>可见检测</em></dt>
+<dd><p class="first last">检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要时使用。</p>
+</dd>
+<dt><em>Max Width</em></dt>
+<dd>This parameter limits the expanding info window by a predefined value (measured in CSS pixels). This is available only if the <code class="docutils literal"><span class="pre">Type</span></code> parameter is set to <code class="docutils literal"><span class="pre">Annotation</span></code>, and it is set to 250 by default.</dd>
+</dl>
+</div>
 <div class="section" id="object-transform-api">
-<span id="index-0"></span><h2><a class="toc-backref" href="#id8">物体变换API</a><a class="headerlink" href="#object-transform-api" title="永久链接至标题">¶</a></h2>
+<span id="index-0"></span><h2><a class="toc-backref" href="#id9">物体变换API</a><a class="headerlink" href="#object-transform-api" title="永久链接至标题">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">请确保您要变换的物体是 <a class="reference internal" href="#static-dynamic-objects"><span>动态物体</span></a>.</p>
@@ -493,12 +526,12 @@
 </dl>
 </div>
 <div class="section" id="get-object-api">
-<span id="index-1"></span><h2><a class="toc-backref" href="#id9">获取物体API</a><a class="headerlink" href="#get-object-api" title="永久链接至标题">¶</a></h2>
+<span id="index-1"></span><h2><a class="toc-backref" href="#id10">Get Object API</a><a class="headerlink" href="#get-object-api" title="永久链接至标题">¶</a></h2>
 <p>对物体执行任何操作，您首先需要得到它（找到到它的链接）。有几个API函数是做这个的。有链接的物体具有 <code class="docutils literal"><span class="pre">Object3D</span></code> 类型。</p>
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
 <dd><p class="first">按名称获取物体。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -506,7 +539,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name">get_object_by_dupli_name()</a></dt>
 <dd><p class="first">通过空名称和DUPLI名称找复制物体。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -514,7 +547,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_dupli_name_list">get_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">通过空名称和DUPLI名单（<code class="docutils literal"><span class="pre">String</span></code> 类型元素的数组）获得复制物体。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -522,7 +555,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name_hierarchy">get_object_name_hierarchy()</a></dt>
 <dd><p class="first">用一个给定的物体，返回物体名层次队列（从最高层的父物体到物体本身）。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name_hierarchy</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -530,7 +563,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_name">check_object_by_name()</a></dt>
 <dd><p class="first">检查是否具有给定名称的物体在场景存在。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -538,7 +571,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name">check_object_by_dupli_name()</a></dt>
 <dd><p class="first">检查复制物体是空的名字和DUPLI名字出现在场景。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name</span><span class="p">(</span><span class="s2">&quot;Empty&quot;</span><span class="p">,</span> <span class="s2">&quot;Cube&quot;</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -546,7 +579,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_dupli_name_list">check_object_by_dupli_name_list()</a></dt>
 <dd><p class="first">检查复制物体是空的名字和DUPLI名单（<code class="docutils literal"><span class="pre">String</span></code> 类型元素的数组）出现在场景。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_exists</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">check_object_by_dupli_name_list</span><span class="p">([</span><span class="s2">&quot;Empty1&quot;</span><span class="p">,</span> <span class="s2">&quot;Empty2&quot;</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">]);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -554,7 +587,7 @@
 </dd>
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_name">get_object_name()</a></dt>
 <dd><p class="first">获取物体的名称。</p>
-<div class="last highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">object_name</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_name</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
 </pre></div>
@@ -562,8 +595,71 @@
 </dd>
 </dl>
 </div>
+<div class="section" id="object-selection">
+<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id11">Object Selection</a><a class="headerlink" href="#object-selection" title="永久链接至标题">¶</a></h2>
+<p>In order to enable selection of a certain object, it is required to enable the <code class="docutils literal"><span class="pre">Selectable</span></code> checkbox on the <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> panel.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">Make sure that the status on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> panel is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+</div>
+<p>Object selection is possible programmatically via API, for example, in the <code class="docutils literal"><span class="pre">scenes.js</span></code> module there is the <code class="docutils literal"><span class="pre">pick_object</span></code> function which selects an object based on canvas 2D coordinates,</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">pick_object</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>or using the <a class="reference internal" href="logic_editor.html#nla-switch-select"><span>Logic Editor</span></a>.</p>
+<p>If the selectable object has enabled <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> and <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> checkboxes on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> and Outlining panel, then the <code class="docutils literal"><span class="pre">pick_object</span></code> function call will activate <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow animation</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">If the selected object is transparent (<code class="docutils literal"><span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Add</span></code> and <code class="docutils literal"><span class="pre">Sort</span></code> transparency types), outline glow will only be visible on the parts that have <code class="docutils literal"><span class="pre">Alpha</span></code> value higher than 0.5.</p>
+</div>
+</div>
+<div class="section" id="copying-objects-instancing">
+<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id12">Copying Objects (Instancing)</a><a class="headerlink" href="#copying-objects-instancing" title="永久链接至标题">¶</a></h2>
+<p>It is often required to copy (to make instances of) objects during application work.</p>
+<dl class="docutils">
+<dt>Copying objects has its limitations:</dt>
+<dd><ul class="first last simple">
+<li>only <code class="docutils literal"><span class="pre">MESH</span></code> objects can be copied</li>
+<li>the object should be <a class="reference internal" href="#static-dynamic-objects"><span>dynamic</span></a> (enable <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</li>
+<li>the source object should belong to the active scene</li>
+</ul>
+</dd>
+</dl>
+<div class="section" id="making-a-simple-copy">
+<h3><a class="toc-backref" href="#id13">Making a Simple Copy</a><a class="headerlink" href="#making-a-simple-copy" title="永久链接至标题">¶</a></h3>
+<p>In case of simple copying the new object will share the mesh with the original object. Thus, if the original object’s mesh is changed, the copied object’s mesh will be changed too. To make simple copying possible, it’s enough to turn on the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> setting in the source object’s properties.</p>
+</div>
+<div class="section" id="making-a-deep-copy">
+<h3><a class="toc-backref" href="#id14">Making a Deep Copy</a><a class="headerlink" href="#making-a-deep-copy" title="永久链接至标题">¶</a></h3>
+<p>In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Dynamic Geometry</span></a> checkbox for the source object.
+|</p>
+<p>Copying objects in runtime can be performed with the <code class="docutils literal"><span class="pre">copy</span></code> method of the <code class="docutils literal"><span class="pre">objects.js</span></code> module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default, simple copying will be performed.</p>
+<p>The newly created object should be added to the scene. This can be performed with the <code class="docutils literal"><span class="pre">append_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. The new object should be passed to it as an argument.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">new_obj</span> <span class="o">=</span> <span class="nx">m_objects</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;New_name&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nx">m_scenes</span><span class="p">.</span><span class="nx">append_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_translation</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="removing-objects">
+<h3><a class="toc-backref" href="#id15">Removing Objects</a><a class="headerlink" href="#removing-objects" title="永久链接至标题">¶</a></h3>
+<p>To remove objects, use the <code class="docutils literal"><span class="pre">remove_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. Pass the object to it as an argument. Dynamic mesh- and empty-type objects can be removed this way.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="quaternions">
-<span id="index-2"></span><h2><a class="toc-backref" href="#id10">四元数</a><a class="headerlink" href="#quaternions" title="永久链接至标题">¶</a></h2>
+<span id="index-2"></span><h2><a class="toc-backref" href="#id16">四元数</a><a class="headerlink" href="#quaternions" title="永久链接至标题">¶</a></h2>
 <p>四元数是用于执行旋转的四分量矢量。四元数优于其它旋转方法，例如：</p>
 <blockquote>
 <div><ul class="simple">
@@ -604,14 +700,14 @@
 </dd>
 </dl>
 <div class="section" id="quaternion-example">
-<h3><a class="toc-backref" href="#id11">四元数例子</a><a class="headerlink" href="#quaternion-example" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">四元数例子</a><a class="headerlink" href="#quaternion-example" title="永久链接至标题">¶</a></h3>
 <p>我们需要在水平面向右旋转物体60度。我们有一个在Blender里有个名为 “Cessna” 的模型。</p>
 <a class="reference internal image-reference" href="_images/objects_aircraft.png"><img alt="_images/objects_aircraft.png" class="align-center" src="_images/objects_aircraft.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>让我们在 <strong>aircraft</strong> 变量保存引用：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>旋转：</p>
@@ -626,7 +722,7 @@
 </ul>
 </div></blockquote>
 <p>因此，我们得到：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// compose quaternion</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// compose quaternion</span>
 <span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
@@ -640,7 +736,7 @@
 </pre></div>
 </div>
 <p>优化的版本不创建新的物体：</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// cache arrays as global vars</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// cache arrays as global vars</span>
 <span class="kd">var</span> <span class="nx">AXIS_Y</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="kd">var</span> <span class="nx">quat_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
@@ -655,7 +751,7 @@
 </div>
 </div>
 <div class="section" id="differences-between-coordinate-systems-of-blender-and-blend4web">
-<span id="b4w-blender-coordinates"></span><h2><a class="toc-backref" href="#id12">Blender和Blend4Web的坐标系之间的差异</a><a class="headerlink" href="#differences-between-coordinate-systems-of-blender-and-blend4web" title="永久链接至标题">¶</a></h2>
+<span id="b4w-blender-coordinates"></span><h2><a class="toc-backref" href="#id18">Blender和Blend4Web的坐标系之间的差异</a><a class="headerlink" href="#differences-between-coordinate-systems-of-blender-and-blend4web" title="永久链接至标题">¶</a></h2>
 <p>在Blender的坐标系统中的 <code class="docutils literal"><span class="pre">UP</span></code> 矢量，它指向向上，是同向的Z轴。 Blend4Web使用Y轴用于此目的，因为是使用OpenGL习惯。因而引擎的坐标由相对Blender的X轴周围旋转90°。</p>
 <img alt="_images/axes.png" class="align-center" src="_images/axes.png" />
 <div class="line-block">
@@ -664,7 +760,7 @@
 <p>API方法使用引擎的坐标，这样他们就跟设定Blender的参数不相同。</p>
 </div>
 <div class="section" id="moving-via-tsr-vectors">
-<h2><a class="toc-backref" href="#id13">通过TSR矢量移动</a><a class="headerlink" href="#moving-via-tsr-vectors" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id19">通过TSR矢量移动</a><a class="headerlink" href="#moving-via-tsr-vectors" title="永久链接至标题">¶</a></h2>
 <p>有时用下面格式的矢量来移动物体是很方便的：</p>
 <blockquote>
 <div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
@@ -693,15 +789,48 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-04-28.
+      最后更新于 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -716,7 +845,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

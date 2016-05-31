@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Meshes &mdash; Blend4Web 16.04 User Manual</title>
+  <title>Meshes &mdash; Blend4Web 16.05 User Manual</title>
   
 
   
@@ -32,8 +32,8 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 User Manual" href="index.html"/>
-        <link rel="next" title="Camera" href="camera.html"/>
+    <link rel="top" title="Blend4Web 16.05 User Manual" href="index.html"/>
+        <link rel="next" title="Normal Editor" href="normal_editor.html"/>
         <link rel="prev" title="Objects" href="objects.html"/> 
 
   
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -94,21 +94,15 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Meshes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-objects">Static and Dynamic Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-meshes">Static and Dynamic Meshes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#override-bounding-volumes">Override Bounding Volumes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#copying-objects-instancing">Copying Objects (Instancing)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#making-a-simple-copy">Making a Simple Copy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#making-a-deep-copy">Making a Deep Copy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#removing-objects">Removing Objects</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#object-selection">Object Selection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#morphing">Morphing</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -176,31 +170,26 @@
 <p class="topic-title first">Table of Content</p>
 <ul class="simple">
 <li><a class="reference internal" href="#meshes" id="id3">Meshes</a><ul>
-<li><a class="reference internal" href="#static-and-dynamic-objects" id="id4">Static and Dynamic Objects</a></li>
+<li><a class="reference internal" href="#static-and-dynamic-meshes" id="id4">Static and Dynamic Meshes</a></li>
 <li><a class="reference internal" href="#settings" id="id5">Settings</a><ul>
 <li><a class="reference internal" href="#override-bounding-volumes" id="id6">Override Bounding Volumes</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#copying-objects-instancing" id="id7">Copying Objects (Instancing)</a><ul>
-<li><a class="reference internal" href="#making-a-simple-copy" id="id8">Making a Simple Copy</a></li>
-<li><a class="reference internal" href="#making-a-deep-copy" id="id9">Making a Deep Copy</a></li>
-<li><a class="reference internal" href="#removing-objects" id="id10">Removing Objects</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#object-selection" id="id11">Object Selection</a></li>
-<li><a class="reference internal" href="#morphing" id="id12">Morphing</a></li>
+<li><a class="reference internal" href="#morphing" id="id7">Morphing</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="static-and-dynamic-objects">
-<span id="static-dynamic-meshes"></span><h2><a class="toc-backref" href="#id4">Static and Dynamic Objects</a><a class="headerlink" href="#static-and-dynamic-objects" title="Permalink to this headline">¶</a></h2>
-<p>All <code class="docutils literal"><span class="pre">MESH</span></code> objects can be divided into static and dynamic objects.</p>
-<p><strong>Static objects</strong> are objects, the meshes of which can be merged together if they have the same material.</p>
-<p><strong>Dynamic objects</strong> are objects, the meshes of which cannot be combined with each other.</p>
-<p>Merging of static objects - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.</p>
-<p>The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic.</p>
-<p>Object movement via API is possible only for dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option in its settings.</p>
+<p>Meshes are a subclass of <a class="reference internal" href="objects.html#objects"><span>objects</span></a>. Meshes are different from objects of the other types in a sence that they have geometric structure that is visible in the scene. All objects user can see in a scene are either meshes or convertet to meshes on export (like the <code class="docutils literal"><span class="pre">CURVE</span></code>, <code class="docutils literal"><span class="pre">TEXT</span></code>, <code class="docutils literal"><span class="pre">METABALL</span></code> and <code class="docutils literal"><span class="pre">SURFACE</span></code> type objects).</p>
+<p><a class="reference internal" href="addon.html#addon"><span>Blend4Web addon</span></a> has several tools for mesh editing, including the <a class="reference internal" href="normal_editor.html#normals-editor"><span>normal editor</span></a>.</p>
+<p>This chapter provides an overview of the <code class="docutils literal"><span class="pre">MESH</span></code> type object parameters and settings, as well as the API functions to work with them.</p>
+<div class="section" id="static-and-dynamic-meshes">
+<span id="static-dynamic-meshes"></span><h2><a class="toc-backref" href="#id4">Static and Dynamic Meshes</a><a class="headerlink" href="#static-and-dynamic-meshes" title="Permalink to this headline">¶</a></h2>
+<p>All <code class="docutils literal"><span class="pre">MESH</span></code> objects can be divided into static and dynamic.</p>
+<p><strong>Static meshes</strong> are meshes that can be merged together if they have the same material.</p>
+<p><strong>Dynamic meshes</strong> are meshes that cannot be combined with each other.</p>
+<p>Merging of static meshes - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.</p>
+<p>Meshes that have animation, physics or a parent, which is a dynamic object, are considered dynamic.</p>
 </div>
 <div class="section" id="settings">
 <span id="mesh-settings"></span><h2><a class="toc-backref" href="#id5">Settings</a><a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
@@ -209,7 +198,7 @@
 <span id="id2"></span><h3><a class="toc-backref" href="#id6">Override Bounding Volumes</a><a class="headerlink" href="#override-bounding-volumes" title="Permalink to this headline">¶</a></h3>
 <p>This section is used to override bounding volumes. Such volumes are used to check object’s visibility, to handle collisions and physics interaction. By editing them, you can achieve various effects.</p>
 <a class="reference internal image-reference" href="_images/meshes_override_bounding_volumes.png"><img alt="_images/meshes_override_bounding_volumes.png" class="align-center" src="_images/meshes_override_bounding_volumes.png" style="width: 100%;" /></a>
-<p>The <code class="docutils literal"><span class="pre">Override</span> <span class="pre">Bounding</span> <span class="pre">Volumes</span></code> section can be found on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel (beside the <a class="reference internal" href="lighting.html#normals-editor"><span>normals editor</span></a>.).</p>
+<p>The <code class="docutils literal"><span class="pre">Override</span> <span class="pre">Bounding</span> <span class="pre">Volumes</span></code> section can be found on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel (beside the <a class="reference internal" href="normal_editor.html#normals-editor"><span>normals editor</span></a>.).</p>
 <p><em>Show Boundings</em></p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/meshes_show_boundings.png"><img alt="_images/meshes_show_boundings.png" class="align-center" src="_images/meshes_show_boundings.png" style="width: 100%;" /></a>
@@ -237,71 +226,8 @@
 </dl>
 </div>
 </div>
-<div class="section" id="copying-objects-instancing">
-<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id7">Copying Objects (Instancing)</a><a class="headerlink" href="#copying-objects-instancing" title="Permalink to this headline">¶</a></h2>
-<p>It is often required to copy (to make instances of) objects during application work.</p>
-<dl class="docutils">
-<dt>Copying objects has its limitations:</dt>
-<dd><ul class="first last simple">
-<li>only <code class="docutils literal"><span class="pre">MESH</span></code> objects can be copied</li>
-<li>the object should be <a class="reference internal" href="objects.html#static-dynamic-objects"><span>dynamic</span></a> (enable <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</li>
-<li>the source object should belong to the active scene</li>
-</ul>
-</dd>
-</dl>
-<div class="section" id="making-a-simple-copy">
-<h3><a class="toc-backref" href="#id8">Making a Simple Copy</a><a class="headerlink" href="#making-a-simple-copy" title="Permalink to this headline">¶</a></h3>
-<p>In case of simple copying the new object will share the mesh with the original object. Thus, if the original object’s mesh is changed, the copied object’s mesh will be changed too. To make simple copying possible, it’s enough to turn on the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> setting in the source object’s properties.</p>
-</div>
-<div class="section" id="making-a-deep-copy">
-<h3><a class="toc-backref" href="#id9">Making a Deep Copy</a><a class="headerlink" href="#making-a-deep-copy" title="Permalink to this headline">¶</a></h3>
-<p>In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the <a class="reference internal" href="objects.html#dynamic-geom"><span>Rendering Properties &gt; Dynamic Geometry</span></a> checkbox for the source object.
-|</p>
-<p>Copying objects in runtime can be performed with the <code class="docutils literal"><span class="pre">copy</span></code> method of the <code class="docutils literal"><span class="pre">objects.js</span></code> module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default, simple copying will be performed.</p>
-<p>The newly created object should be added to the scene. This can be performed with the <code class="docutils literal"><span class="pre">append_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. The new object should be passed to it as an argument.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
-<span class="kd">var</span> <span class="nx">new_obj</span> <span class="o">=</span> <span class="nx">m_objects</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;New_name&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nx">m_scenes</span><span class="p">.</span><span class="nx">append_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
-<span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_translation</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-<span class="c1">// ...</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="removing-objects">
-<h3><a class="toc-backref" href="#id10">Removing Objects</a><a class="headerlink" href="#removing-objects" title="Permalink to this headline">¶</a></h3>
-<p>To remove objects, use the <code class="docutils literal"><span class="pre">remove_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. Pass the object to it as an argument. Dynamic mesh- and empty-type objects can be removed this way.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
-<span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
-<span class="c1">// ...</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="object-selection">
-<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id11">Object Selection</a><a class="headerlink" href="#object-selection" title="Permalink to this headline">¶</a></h2>
-<p>In order to enable selection of a certain object, it is required to enable the <code class="docutils literal"><span class="pre">Selectable</span></code> checkbox on the <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> panel.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Make sure that the status on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> panel is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
-</div>
-<p>Object selection is possible programmatically via API, for example, in the <code class="docutils literal"><span class="pre">scenes.js</span></code> module there is the <code class="docutils literal"><span class="pre">pick_object</span></code> function which selects an object based on canvas 2D coordinates,</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
-<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
-
-<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">pick_object</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
-<span class="c1">// ...</span>
-</pre></div>
-</div>
-<p>or using the <a class="reference internal" href="logic_editor.html#nla-select-play"><span>NLA Script</span></a>.</p>
-<p>If the selectable object has enabled <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> and <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> checkboxes on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> and Outlining panel, then the <code class="docutils literal"><span class="pre">pick_object</span></code> function call will activate <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow animation</span></a>.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If the selected object is transparent (<code class="docutils literal"><span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Add</span></code> and <code class="docutils literal"><span class="pre">Sort</span></code> transparency types), outline glow will only be visible on the parts that have <code class="docutils literal"><span class="pre">Alpha</span></code> value higher than 0.5.</p>
-</div>
-</div>
 <div class="section" id="morphing">
-<span id="mesh-morphing"></span><h2><a class="toc-backref" href="#id12">Morphing</a><a class="headerlink" href="#morphing" title="Permalink to this headline">¶</a></h2>
+<span id="mesh-morphing"></span><h2><a class="toc-backref" href="#id7">Morphing</a><a class="headerlink" href="#morphing" title="Permalink to this headline">¶</a></h2>
 <p>Morph targets can be added using Blender’s standard <code class="docutils literal"><span class="pre">Mesh</span> <span class="pre">&gt;</span> <span class="pre">Shape</span> <span class="pre">keys</span></code> interface.</p>
 <img alt="_images/meshes_morphing.png" class="align-center" src="_images/meshes_morphing.png" />
 <div class="line-block">
@@ -313,7 +239,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">The object must have <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Shape</span> <span class="pre">Keys</span></code> parameter enabled.</p>
 </div>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
 <span class="nx">m_geometry</span><span class="p">.</span><span class="nx">apply_shape_key</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;Key 1&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
 <span class="c1">// ...</span>
@@ -329,7 +255,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="camera.html" class="btn btn-neutral float-right" title="Camera" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="normal_editor.html" class="btn btn-neutral float-right" title="Normal Editor" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="objects.html" class="btn btn-neutral" title="Objects" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -342,15 +268,48 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-04-28.
+      Last updated on 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -365,7 +324,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

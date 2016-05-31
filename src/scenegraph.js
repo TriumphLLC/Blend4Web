@@ -915,7 +915,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         var subs_color_picking = null;
 
     // refraction subscene
-    if (mat_params.refractions && !rtt) {
+    if ((mat_params.refractions || refractions) && !rtt) {
         if (!msaa) {
             var subs_refr = create_subs_copy();
             m_graph.append_node_attr(graph, subs_refr);
@@ -924,11 +924,12 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
             m_graph.append_edge_attr(graph, prev_level[0], subs_refr, slink_refr_in);
         } else
             var subs_refr = subs_res_opaque;
+
+        var slink_refr = create_slink("COLOR", "u_refractmap", 1, 1, 1, true);
     } else
         var subs_refr = null;
 
-    if (depth_tex && ((mat_params.refractions && refractions)
-                || shore_smoothing || soft_particles)) {
+    if (depth_tex && (refractions || shore_smoothing || soft_particles)) {
 
         var cam_depth_pack = cam_copy(main_cam);
         cam_scene_data.cameras.push(cam_depth_pack);
@@ -1007,10 +1008,8 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
             }
         }
 
-        if (subs_refr) {
-            var slink_refr = create_slink("COLOR", "u_refractmap", 1, 1, 1, true);
+        if (subs_refr)
             m_graph.append_edge_attr(graph, subs_refr, subs_main, slink_refr);
-        }
 
         return subs_main;
     }
@@ -1031,6 +1030,12 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         var subs_main_glow = create_subs_main("GLOW", cam_glow, false, water_params,
                 num_lights, wfs_params, wls_params);
         m_graph.append_node_attr(graph, subs_main_glow);
+
+        if (subs_depth_pack)
+            m_graph.append_edge_attr(graph, subs_depth_pack, subs_main_glow,
+                    slink_depth_pack_out);
+        if (subs_refr)
+            m_graph.append_edge_attr(graph, subs_refr, subs_main_glow, slink_refr);
 
         m_graph.append_edge_attr(graph, msaa ? subs_res_opaque : subs_main_opaque,
                 subs_main_glow, msaa ? slink_depth_resolve_o : slink_depth_o);
@@ -1080,7 +1085,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
 
         if (sc_render.glow_over_blend) {
             if (msaa) {
-                // NOTE: redundant resolve, place the scene below wireframe or so
+                // NOTE: redundant resolve, place the scene below debug_view or so
                 var subs_res_blend = create_subs_resolve();
                 m_graph.append_node_attr(graph, subs_res_blend);
 
@@ -1123,23 +1128,23 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         curr_level = [];
     }
 
-    // wireframe stuff
-    if (cfg_def.wireframe_debug) {
+    // debug view stuff: wireframe, clustering
+    if (cfg_def.debug_view) {
         var cam = cam_copy(main_cam);
         cam_scene_data.cameras.push(cam);
 
-        var subs_wireframe = create_subs_wireframe(cam);
-        curr_level.push(subs_wireframe);
-        m_graph.append_node_attr(graph, subs_wireframe);
-        m_graph.append_edge_attr(graph, prev_level[0], subs_wireframe,
+        var subs_debug_view = create_subs_debug_view(cam);
+        curr_level.push(subs_debug_view);
+        m_graph.append_node_attr(graph, subs_debug_view);
+        m_graph.append_edge_attr(graph, prev_level[0], subs_debug_view,
                 slink_color_o);
-        m_graph.append_edge_attr(graph, prev_level[0], subs_wireframe,
+        m_graph.append_edge_attr(graph, prev_level[0], subs_debug_view,
                 slink_depth_o);
 
         if (subs_grass_map) {
-            m_graph.append_edge_attr(graph, subs_grass_map, subs_wireframe,
+            m_graph.append_edge_attr(graph, subs_grass_map, subs_debug_view,
                     slink_grass_map_d);
-            m_graph.append_edge_attr(graph, subs_grass_map, subs_wireframe,
+            m_graph.append_edge_attr(graph, subs_grass_map, subs_debug_view,
                     slink_grass_map_c);
         }
 
@@ -2039,7 +2044,6 @@ function init_subs(type) {
         slinks_internal: [],
         textures_internal: [],
         wind: new Float32Array(3),
-        zsort_eye_last: new Float32Array(3),
         grass_map_dim: new Float32Array(3),
         fog_color_density: new Float32Array(4),
         fog_params: new Float32Array(4),
@@ -2151,7 +2155,9 @@ function init_subs(type) {
         chromatic_aberration_coefs: new Float32Array(4),
         enable_hmd_stereo: false,
 
-        shadow_lamp_index: 0
+        shadow_lamp_index: 0,
+
+        debug_colors_seed: 0
     }
 
     // setting default values
@@ -2509,9 +2515,9 @@ function create_subs_color_picking(cam, xray, num_lights) {
     return subs;
 }
 
-function create_subs_wireframe(cam) {
+function create_subs_debug_view(cam) {
 
-    var subs = init_subs("WIREFRAME");
+    var subs = init_subs("DEBUG_VIEW");
     subs.do_render = false;
     subs.clear_color = false;
     subs.clear_depth = false;

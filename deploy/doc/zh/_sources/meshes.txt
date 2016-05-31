@@ -8,42 +8,45 @@
 
 * 网格
 
-  * 静态和动态物体
+  * Static and Dynamic Meshes
 
   * 设置
 
     * 覆盖包围体积
 
-  * 复制物体（实例化）
-
-    * 制作一个简单的复制
-
-    * 制作深复制
-
-    * 删除物体
-
-  * 物体选择
-
   * 变形
 
+Meshes are a subclass of objects. Meshes are different from objects of
+the other types in a sence that they have geometric structure that is
+visible in the scene. All objects user can see in a scene are either
+meshes or convertet to meshes on export (like the "CURVE", "TEXT",
+"METABALL" and "SURFACE" type objects).
 
-静态和动态物体
-==============
+Blend4Web addon has several tools for mesh editing, including the
+normal editor.
 
-所有``MESH`` 物体可分为静态和动态物体。
+This chapter provides an overview of the "MESH" type object parameters
+and settings, as well as the API functions to work with them.
 
-**静态物体** 是物体，具有相同的材质的网格可以合并在一起。
 
-**动态物体** 是物体，网格不可以互相合并。
+Static and Dynamic Meshes
+=========================
 
-讲静态物体合并 - 所谓的批量处理 -会在场景在绘制调用优化的时候会自动的
-执行。该转换在只有一个物体在场景的时候也会进行。所产生的网格的中心位于
-原点。
+All "MESH" objects can be divided into static and dynamic.
 
-具有动画，物理或父级关系的物体，是一个动态物体，都被认为是动态的。
+**Static meshes** are meshes that can be merged together if they have
+the same material.
 
-只有动态物体才能通过API来移动。为了使物体的无动态设置也可以运动，必须
-激活它的  "Force Dynamic Object" 选项。
+**Dynamic meshes** are meshes that cannot be combined with each other.
+
+Merging of static meshes - so called batching - is performed
+automatically when the scene is loaded in order to optimize the number
+of draw calls. The conversion is performed even if there is just one
+object in the scene. The center of the resulting mesh is located in
+the origin.
+
+Meshes that have animation, physics or a parent, which is a dynamic
+object, are considered dynamic.
 
 
 设置
@@ -91,88 +94,6 @@
 
 *MinZ and  MaxZ*
    包围盒的z方向。缺省情况下，*MinZ* = -1, *MaxZ* = 1
-
-
-复制物体（实例化）
-==================
-
-在应用程序工作中经常需要复制（使实例）物体。
-
-复制物体有其局限性：
-   * 只有 "MESH" 物体可以被复制
-
-   * 物体应该是 动态 （启用 "渲染属性>强制动态物体"）
-
-   * 源物体应该属于主控场景
-
-
-制作一个简单的复制
-------------------
-
-在简单复制的情况下，新的物体将与原始物体共享网格。因此，如果原始物体的
-网格被改变，则复制的物体的网格也将被改变。为了让简单复制可行，只需要打
-开源物体属性设置的 "Blend4Web>强制动态物体"。
-
-
-制作深复制
-----------
-
-在深度复制的情况下，新物体将具有自己的属性，即它会有自己的网格。因此，
-就算原始物体的网格被改变，复制的物体的网格也不被改变。同样，与简单复制
-的情况不一样的是深度复制物体的画布纹理是和原始物体的纹理不是一个。为了
-使用深度复制，启用源物体的  选人属性 > 动态几何体 复选框。 |
-
-在运行状态复制物体可以使用 "objects.js" 模块的 "copy" 方法。此方法需要
-三个参数：源物体的id，新物体一个唯一的名称和指定复印模式（即简单或深）
-的布尔值。默认简单复制将被执行。
-
-新创建的物体需要添加到场景。可以用 "scenes.js" 模块的 "append_object"
-方法。新物体应该被作为参数传递给它。
-
-   // ...
-   var new_obj = m_objects.copy(obj, "New_name", true);
-   m_scenes.append_object(new_obj);
-   m_transform.set_translation(new_obj, 2, 0, 2);
-   // ...
-
-
-删除物体
---------
-
-要删除物体，请使用 "scenes.js" 模块的 "remove_object" 方法。传递物体作
-为参数。动态网格和空类型的物体可以用这种方式删除。
-
-   // ...
-   m_objects.remove_object(new_obj);
-   // ...
-
-
-物体选择
-========
-
-为了使一个特定的物体的选择启用，需要开启 "选择与轮廓线" 面板上的 "可选
-择" 复选框。
-
-注解: 确保 "场景状态>物体轮廓" 面板被设置为 "ON" 或 "AUTO" 。
-
-物体选择也可以通过API编程方式实现，例如，在 "scenes.js" 模块有基于二维
-画布坐标进行选择物体的 "pick_object" 函数，
-
-   // ...
-   var x = event.clientX;
-   var y = event.clientY;
-
-   var obj = m_scenes.pick_object(x, y);
-   // ...
-
-或使用 NLA 脚本.
-
-如果选择的物体已启用了 "启用外轮廓" 和 "物体 > 选择" 和 大纲面板上的 "
-轮廓选择" 复选框，那么 "pick_object" 函数调用将激活 外轮廓辉光动画.
-
-注解: If the selected object is transparent ("Blend", "Add" and
-  "Sort" transparency types), outline glow will only be visible on the
-  parts that have "Alpha" value higher than 0.5.
 
 
 变形

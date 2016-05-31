@@ -520,7 +520,7 @@ class B4W_AnimBakerPanel(bpy.types.Panel):
         row.prop(obj, "b4w_anim_clean_keys", text=_("Optimize Keyframes"))
 
         row = layout.row()
-        row.prop(obj, "b4w_bake_only_deform", text=_("Bake only deform bones"))
+        row.prop(obj, "b4w_bake_only_deform", text=_("Bake Only Deform Bones"))
 
         row = layout.row()
         row.prop(obj, "b4w_use_bpy_anim_baker",

@@ -96,7 +96,7 @@ The engine supports the following transparency implementation types (sorted in t
 *Opaque*
     Non-transparent. Alpha is ignored. This is the default value.
 
-.. image:: src_images/materials/alpha_types.jpg
+.. image:: src_images/materials/alpha_types.png
    :align: center
    :width: 100%
 
@@ -207,7 +207,7 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
 *Material > Mirror > Blend*
     Fresnel factor for reflection. It is reduced to R\ :sub:`0` in the Schlick’s formula by the following expression: R\ :sub:`0` = 1 - ``Blend`` / 5. In Blender it is limited to values from 0 to 5. This parameter defines the Fresnel effect intensity: the bigger the ``Blend`` factor is, the more is the Fresnel effect influence. If it is equal to zero the Fresnel effect is not observed.
 
-.. image:: src_images/materials/reflection_dynamic_and_fresnel.jpg
+.. image:: src_images/materials/reflection_dynamic_and_fresnel.png
    :align: center
    :width: 100%
 
@@ -309,7 +309,7 @@ Activation
 
 Select the ``Halo`` type under the ``Materials`` tab. It’s also recommended to select the transparency type with a gradient (``Add``, ``Alpha Blend`` or ``Alpha Sort``).
 
-.. image:: src_images/materials/halo.jpg
+.. image:: src_images/materials/halo.png
    :align: center
    :width: 100%
 

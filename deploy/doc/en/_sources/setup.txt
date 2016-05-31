@@ -22,7 +22,7 @@ Before installation, please download and install the compatible Blender version,
 
 A current stable version of Blender should be used. It can be downloaded from the `official site <http://www.blender.org/download>`_.
 
-.. image:: src_images/first_steps/blender_first_run.png
+.. image:: src_images/setup/blender_first_run.png
    :align: center
    :width: 100%
 
@@ -84,7 +84,7 @@ Switching to Blend4Web Mode
 
 To reveal the engine settings, select Blend4Web from the upper panel menu:
 
-.. image:: src_images/first_steps/first_steps_selecting_engine.png
+.. image:: src_images/setup/first_steps_selecting_engine.png
    :align: center
    :width: 100%
 

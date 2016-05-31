@@ -6,6 +6,154 @@ Release Notes
 
 .. index:: release notes
 
+v16.05
+======
+
+New Features
+------------
+
+* Experimental HMD configurator.
+
+    Add-on ``hmd_conf.js`` has been added. It allows users to set up HMD parameters manually. For now, this configurator has been implemented in the Viewer app and can be executed by the button located on the *Stereo View* panel. For more information see API documentation on the :b4wmod:`hmd_conf` module.
+
+* Experimental configurator for gamepads and other game controllers.
+
+    Add-on :b4wmod:`gp_conf` has been added to API. It contains two main functions: :b4wref:`gp_conf.show` and :b4wref:`gp_conf.hide`. For now it supports controllers and steering devices.
+
+    To test this configurator in the Viewer app activate the *Gamepad Settings* check box on the *Input Devices* panel.
+
+* New code snippets.
+
+    New code snippet demos have been added. Their names are Gamepad,
+    Webcam and Change Image. The first one can help you to integrate gamepads into
+    your project, the second shows you the Camera API in action and the third one
+    is the implementation of the new texture functions.
+
+* A new ``Vector Transform`` material node.
+  
+    This node can be used to convert input data between object, world and camera coordinate spaces.
+
+* A new ``Empty`` logic node.
+  
+    This node can be used to simplify rerouting complex logic node configurations.
+
+* Dynamic replacement of texture images.
+
+    A new method :b4wref:`textures.change_image` has been added. It's possible now to replace textures and cubemap bitmaps via API.
+
+* Batching based on a new clustering algorithm.
+
+    Batching, that is, the process of combining similar objects for performance reasons, is now based on a new clustering algorithm applied at export. This improves the whole batching process by making it "smarter" and more optimized in comparison with the old regular grid batching.
+
+* Project Manager improvements.
+
+    To maintain naming consistency all command line options in *project.py* utility are now specified with ``-`` symbol instead of underscore, e.g ``--engine_type`` option has become ``--engine-type``.
+
+    Added the new ``--assets-dest`` command property to *project.py* utility. This option allows users to specify a destination directory for storing assets in deployed projects.
+
+* New materials in Material Library
+
+    4 new materials have been added to the Pro SDK Material Library: Gold, Ribbed Glass, Silk and Velvet. 
+
+
+Changes
+-------
+
+* UI and export usability improvements for objects with no option from the ``Export Options`` list selected.
+
+    ``Export Shape Keys`` is selected automatically after adding a shape key.
+
+    ``Export Vertex Animation`` is selected automatically after baking vertex animation.
+
+    ``Apply Scale and Modifiers`` is automatically used during the export process for non-uniform scaled objects, which meet the following requirements:
+
+         Has no vertex animation.
+
+         Has no parent object.
+
+         Has no skinning.
+
+         Object physics is disabled.
+
+    ``Apply Modifiers`` is automatically used during the export process for objects, which have modifiers and meet the following requirements:
+
+        Has no vertex animation.
+
+        Has no skinning.
+
+* Z sorting in ``Alpha Sort`` materials is now performed based on the sizes of objects.
+  
+    This can lead to more frequent sorting updates which impairs performance, but fixes sorting issues on small objects.
+
+* New frustum culling algorithm.
+
+    Now we calculate frustum culling using specific mesh materials instead of objects.
+
+* Gamepad sensor changes.
+
+    New button and axis identifiers have been added to the :b4wmod:`input` module. Also, gamepad sensors have been renamed as :b4wref:`controls.create_gamepad_btn_sensor` and :b4wref:`controls.create_gamepad_axis_sensor`.
+
+* ``Entry Point`` logic nodes with the ``Run From Script`` option selected can now be called from API multiple times.
+
+* API changes.
+
+    The :b4wref:`preloader.create_rotation_preloader` method  of the :b4wmod:`preloader` module has been declared deprecated and will be removed in further releases.
+
+    The :b4wref:`preloader.create_advanced_preloader` method of the :b4wmod:`preloader` module has been declared deprecated and will be removed in further releases.
+
+    The :b4wref:`input.set_config` method has been added to the :b4wmod:`input` module.
+
+    The :b4wref:`input.register_device` method of the :b4wmod:`input` module has been declared deprecated and will be removed in further releases.
+
+    The `gyro_use` flag of the :b4wmod:`config` module has been removed (not needed anymore).
+
+    Now functions of the :b4wmod:`storage` module have an optional last parameter.
+
+    The :b4wref:`util.is_ie11` method has been added to the :b4wmod:`util` module.
+
+* Now the state of a keyboard button is stored in the payload of the keyboard sensor.
+
+    For more information see API documentation on the :b4wref:`controls.create_keyboard_sensor` method.
+
+* The link to the troubleshooting page in the WebPlayer "Browser could not initialize WebGL" message has been changed to a more appropriate one.
+
+    Now it refers one to the "Problems and Solutions" page in the documentation.
+
+* The documentation has been considerably expanded with detailed descriptions for Anchor and Viewport Alignment features.
+
+Fixes
+-----
+
+* Fixed issue with incorrect automatic updates in addon.
+
+* Fixed anchors behavior with logic nodes.
+
+* Fixed ``JS Callback`` logic node obfuscation.
+
+* Fixed issue with incorrect sensor removal in ``controls.remove_sensor_manifolds`` method.
+
+* Fixed issue with incorrect age and compression ratio in distribution zip files.
+
+* Fixed multi-sampling issue in Firefox browsers.
+
+    Disabled partially supported multi-sampling in Firefox WebGL 2.0 implementation.
+
+* Fixed error when canvas resolution wouldn't change when Anti-Aliasing quality settings were changed.
+
+* Fixed error when the diffuse intensity value would be applied to shadeless materials.
+
+* Fixed engine crash in the case when ``B4W_GLOW_OUTPUT`` and ``B4W_REFRACTION`` nodes were used in the same material.
+
+* Fixed the duplication of the ``Custom Properties`` panel in Blender's interface for the ``Font``, ``Curve``, ``Lattice``, ``Armature`` and ``MetaBall`` data types.
+
+* Fixed some errors in the compiled version of the engine.
+
+* Fixed issues with ``input`` and ``controls`` modules.
+
+* Fixed issue when node materials using the ``ColorRamp`` node were incorrectly batched.
+
+* Fixed incorrect HTTP server shutdown.
+
 v16.04
 ======
 
@@ -80,6 +228,7 @@ Changes
 
 Fixes
 -----
+
 * Fixed anchors behavior.
 
 * Fixed a cubemap issue for some old NVIDIA GPUs in Firefox.

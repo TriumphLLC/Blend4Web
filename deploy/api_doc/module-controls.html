@@ -520,11 +520,11 @@ listeners by using register_* methods.</p></div>
 
         
             
-<li> <a href="#.create_gamepad_axes_sensor">create_gamepad_axes_sensor<span class="signature">(number)</span><span class="type-signature"> &rarr; {Sensor}</span></a></li>
+<li> <a href="#.create_gamepad_axis_sensor">create_gamepad_axis_sensor<span class="signature">(axis, number<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Sensor}</span></a></li>
 
         
             
-<li> <a href="#.create_gamepad_btns_sensor">create_gamepad_btns_sensor<span class="signature">(number, ind)</span><span class="type-signature"> &rarr; {Sensor}</span></a></li>
+<li> <a href="#.create_gamepad_btn_sensor">create_gamepad_btn_sensor<span class="signature">(ind, number<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Sensor}</span></a></li>
 
         
             
@@ -6349,7 +6349,7 @@ for single-finger pan gestures.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line992">line 992</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line998">line 998</a>
     </li></ul></dd>
     
 
@@ -6518,7 +6518,7 @@ for single-finger pan gestures.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line982">line 982</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line988">line 988</a>
     </li></ul></dd>
     
 
@@ -6731,7 +6731,7 @@ The given callback is executed every frame and its return value is copied into t
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line881">line 881</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line887">line 887</a>
     </li></ul></dd>
     
 
@@ -6890,7 +6890,7 @@ by velocity) applied to the object at the collision point.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line646">line 646</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line652">line 652</a>
     </li></ul></dd>
     
 
@@ -7148,7 +7148,7 @@ collision position/normal/distance or not.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line625">line 625</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line631">line 631</a>
     </li></ul></dd>
     
 
@@ -7307,7 +7307,7 @@ and set_custom_sensor() methods.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line606">line 606</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line607">line 607</a>
     </li></ul></dd>
     
 
@@ -7416,7 +7416,7 @@ The sensor's value is the time elapsed from the previous frame.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line851">line 851</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line857">line 857</a>
     </li></ul></dd>
     
 
@@ -7438,7 +7438,7 @@ The sensor's value is the time elapsed from the previous frame.
 
     
 
-    <h4 class="name" id=".create_gamepad_axes_sensor">create_gamepad_axes_sensor<span class="signature">(number)</span><span class="type-signature"> &rarr; {<a href="global.html#Sensor">Sensor</a>}</span></h4>
+    <h4 class="name" id=".create_gamepad_axis_sensor">create_gamepad_axis_sensor<span class="signature">(axis, number<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Sensor">Sensor</a>}</span></h4>
 
     
 
@@ -7446,7 +7446,7 @@ The sensor's value is the time elapsed from the previous frame.
 <div class="item_description">
 
 <div class="description">
-    Create a gamepad axes sensor.
+    Create a gamepad an axis sensor.
 </div>
 
 
@@ -7470,6 +7470,8 @@ The sensor's value is the time elapsed from the previous frame.
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -7478,6 +7480,37 @@ The sensor's value is the time elapsed from the previous frame.
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>axis</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Axis number</td>
+        </tr>
+
     
 
         <tr>
@@ -7494,6 +7527,16 @@ The sensor's value is the time elapsed from the previous frame.
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -7595,7 +7638,7 @@ The sensor's value is the time elapsed from the previous frame.
 
     
 
-    <h4 class="name" id=".create_gamepad_btns_sensor">create_gamepad_btns_sensor<span class="signature">(number, ind)</span><span class="type-signature"> &rarr; {<a href="global.html#Sensor">Sensor</a>}</span></h4>
+    <h4 class="name" id=".create_gamepad_btn_sensor">create_gamepad_btn_sensor<span class="signature">(ind, number<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Sensor">Sensor</a>}</span></h4>
 
     
 
@@ -7627,6 +7670,8 @@ The sensor's value is the time elapsed from the previous frame.
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -7635,29 +7680,6 @@ The sensor's value is the time elapsed from the previous frame.
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>number</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Connected gamepad number</td>
-        </tr>
-
     
 
         <tr>
@@ -7675,10 +7697,51 @@ The sensor's value is the time elapsed from the previous frame.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">Button number</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Connected gamepad number</td>
         </tr>
 
     
@@ -7863,7 +7926,7 @@ of a mobile device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line783">line 783</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line789">line 789</a>
     </li></ul></dd>
     
 
@@ -7973,7 +8036,7 @@ current orientation and the previous orientation of a mobile device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line801">line 801</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line807">line 807</a>
     </li></ul></dd>
     
 
@@ -8083,7 +8146,7 @@ of a mobile device.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line792">line 792</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line798">line 798</a>
     </li></ul></dd>
     
 
@@ -8192,7 +8255,7 @@ The sensor's payload stores the vector of HMD position.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line818">line 818</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line824">line 824</a>
     </li></ul></dd>
     
 
@@ -8301,7 +8364,7 @@ The sensor's payload stores the quaternion of orientation of a HMD.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line810">line 810</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line816">line 816</a>
     </li></ul></dd>
     
 
@@ -8608,7 +8671,7 @@ the global object</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line958">line 958</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line964">line 964</a>
     </li></ul></dd>
     
 
@@ -8639,6 +8702,11 @@ the global object</td>
 
 <div class="description">
     Create a keyboard sensor.
+This sensor carries the following payload values:
+0 --- button wasn't pressed at the last frame, and it wasn't pressed at the current frame,
+1 --- button wasn't pressed at the last frame, but it was pressed at the current frame,
+2 --- button was pressed at the last frame, and it was pressed at the current frame,
+3 --- button was pressed at the last frame, and it wasn't pressed at the current frame.
 </div>
 
 
@@ -8820,7 +8888,7 @@ the global object</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line616">line 616</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line617">line 617</a>
     </li></ul></dd>
     
 
@@ -9074,7 +9142,7 @@ radians per second</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line758">line 758</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line764">line 764</a>
     </li></ul></dd>
     
 
@@ -9251,7 +9319,7 @@ radians per second</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line693">line 693</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line699">line 699</a>
     </li></ul></dd>
     
 
@@ -9469,7 +9537,7 @@ coordinate(s).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line710">line 710</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line716">line 716</a>
     </li></ul></dd>
     
 
@@ -9647,7 +9715,7 @@ The sensor's value is 1 for a single wheel notch scrolled away from the user.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line701">line 701</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line707">line 707</a>
     </li></ul></dd>
     
 
@@ -10058,7 +10126,7 @@ during ray casting.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line656">line 656</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line662">line 662</a>
     </li></ul></dd>
     
 
@@ -10273,7 +10341,7 @@ another object is selected.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line867">line 867</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line873">line 873</a>
     </li></ul></dd>
     
 
@@ -10610,7 +10678,7 @@ the global object.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line935">line 935</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line941">line 941</a>
     </li></ul></dd>
     
 
@@ -10719,7 +10787,7 @@ The sensor's value is the value of the global engine timeline.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line859">line 859</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line865">line 865</a>
     </li></ul></dd>
     
 
@@ -10935,7 +11003,7 @@ short intervals.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line826">line 826</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line832">line 832</a>
     </li></ul></dd>
     
 
@@ -11113,7 +11181,7 @@ The sensor's value is 1 for a touched fouchscreen.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line749">line 749</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line755">line 755</a>
     </li></ul></dd>
     
 
@@ -11330,7 +11398,7 @@ The sensor's value is a number of pixels.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line721">line 721</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line727">line 727</a>
     </li></ul></dd>
     
 
@@ -11508,7 +11576,7 @@ The sensor's value is the angle from -PI to PI.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line740">line 740</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line746">line 746</a>
     </li></ul></dd>
     
 
@@ -11686,7 +11754,7 @@ The sensor's value is the distance difference in pixels.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line731">line 731</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line737">line 737</a>
     </li></ul></dd>
     
 
@@ -11901,7 +11969,7 @@ units (meters) per second</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line771">line 771</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line777">line 777</a>
     </li></ul></dd>
     
 
@@ -12058,7 +12126,7 @@ units (meters) per second</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line903">line 903</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line909">line 909</a>
     </li></ul></dd>
     
 
@@ -12290,7 +12358,7 @@ is identified by its index in the manifold's array of sensors.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line924">line 924</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line930">line 930</a>
     </li></ul></dd>
     
 
@@ -12522,7 +12590,7 @@ identified by its index in the manifold's array of sensors.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line913">line 913</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line919">line 919</a>
     </li></ul></dd>
     
 
@@ -12610,7 +12678,7 @@ identified by its index in the manifold's array of sensors.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1073">line 1073</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1079">line 1079</a>
     </li></ul></dd>
     
 
@@ -12772,7 +12840,7 @@ registered events.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1018">line 1018</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1024">line 1024</a>
     </li></ul></dd>
     
 
@@ -13003,7 +13071,7 @@ even when the mouse is leaving the HTML element</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1031">line 1031</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1037">line 1037</a>
     </li></ul></dd>
     
 
@@ -13165,7 +13233,7 @@ registered events.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1060">line 1060</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1066">line 1066</a>
     </li></ul></dd>
     
 
@@ -13327,7 +13395,7 @@ registered events.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1047">line 1047</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1053">line 1053</a>
     </li></ul></dd>
     
 
@@ -13521,7 +13589,7 @@ manifolds</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1001">line 1001</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1007">line 1007</a>
     </li></ul></dd>
     
 
@@ -13608,7 +13676,7 @@ Calling this method is discouraged, use remove_sensor_manifold() instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1011">line 1011</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1017">line 1017</a>
     </li></ul></dd>
     
 
@@ -13812,7 +13880,7 @@ Calling this method is discouraged, use remove_sensor_manifold() instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line841">line 841</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line847">line 847</a>
     </li></ul></dd>
     
 
@@ -13970,7 +14038,7 @@ Calling this method is discouraged, use remove_sensor_manifold() instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line893">line 893</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line899">line 899</a>
     </li></ul></dd>
     
 
@@ -14059,7 +14127,7 @@ the DOM window.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1125">line 1125</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1131">line 1131</a>
     </li></ul></dd>
     
 
@@ -14196,7 +14264,7 @@ the DOM window.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1082">line 1082</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1088">line 1088</a>
     </li></ul></dd>
     
 
@@ -14334,7 +14402,7 @@ from the HTML element.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1092">line 1092</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1098">line 1098</a>
     </li></ul></dd>
     
 
@@ -14472,7 +14540,7 @@ element.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1114">line 1114</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1120">line 1120</a>
     </li></ul></dd>
     
 
@@ -14610,7 +14678,7 @@ the HTML element.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1103">line 1103</a>
+        <a href="ext_controls.js.html">ext/controls.js</a>, <a href="ext_controls.js.html#line1109">line 1109</a>
     </li></ul></dd>
     
 
@@ -15657,14 +15725,47 @@ its return value is copied into the sensor value. Should return a numeric value.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Apr 28 2016 16:47:01 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue May 31 2016 15:33:56 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
 </footer>
 
 <script> prettyPrint(); </script>

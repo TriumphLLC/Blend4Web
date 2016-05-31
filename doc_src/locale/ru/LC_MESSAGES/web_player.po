@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.07\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 16:12+0300\n"
+"POT-Creation-Date: 2016-05-17 15:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,50 +100,54 @@ msgid "fullscreen mode on / off;"
 msgstr "включение / выключение полноэкранного режима;"
 
 #: ../web_player.rst:65
+msgid "stereo rendering on / off;"
+msgstr "включение / выключение стереоизображения;"
+
+#: ../web_player.rst:66
 msgid "set the scene quality;"
 msgstr "установка качества сцены;"
 
-#: ../web_player.rst:66
+#: ../web_player.rst:67
 msgid "sound on / off;"
 msgstr "включение / выключение звука;"
 
-#: ../web_player.rst:67
+#: ../web_player.rst:68
 msgid "camera auto rotation mode on / off;"
 msgstr "включение / выключение автоматического поворота камеры вокруг сцены;"
 
-#: ../web_player.rst:68
+#: ../web_player.rst:69
 msgid "run / stop the engine;"
 msgstr "запуск / остановка движка;"
 
-#: ../web_player.rst:69
+#: ../web_player.rst:70
 msgid "open the help window;"
 msgstr "открытие окно помощи;"
 
-#: ../web_player.rst:70
+#: ../web_player.rst:71
 msgid "tweet;"
 msgstr "кнопка Твиттер;"
 
-#: ../web_player.rst:71
+#: ../web_player.rst:72
 msgid "share via Facebook;"
 msgstr "кнопка Facebook;"
 
-#: ../web_player.rst:72
+#: ../web_player.rst:73
 msgid "share via Google+;"
 msgstr "кнопка Google+;"
 
-#: ../web_player.rst:73
+#: ../web_player.rst:74
 msgid "share via VK."
 msgstr "кнопка ВКонтакте."
 
-#: ../web_player.rst:78
+#: ../web_player.rst:79
 msgid "Attributes"
 msgstr "Атрибуты"
 
-#: ../web_player.rst:80
+#: ../web_player.rst:81
 msgid "Web player accepts attributes from the browser address line:"
 msgstr "Веб-плеер принимает атрибуты из адресной строки браузера:"
 
-#: ../web_player.rst:88
+#: ../web_player.rst:89
 msgid ""
 "the special attribute ``load`` is used to load the scene, this attribute "
 "contains relative path to a JSON file."
@@ -151,7 +155,7 @@ msgstr ""
 "для загрузки сцены используется обязательный атрибут ``load``, в который "
 "помещается относительный путь к JSON файлу."
 
-#: ../web_player.rst:89
+#: ../web_player.rst:90
 msgid ""
 "in case of a WebGL error the optional ``fallback_image`` attribute is "
 "used to setup the background image instead of 3D content."
@@ -159,7 +163,7 @@ msgstr ""
 "необязательный атрибут ``fallback_image`` используется для установки "
 "фона, заменяющего сцену при возникновении ошибки WebGL."
 
-#: ../web_player.rst:90
+#: ../web_player.rst:91
 msgid ""
 "in case of a WebGL error the optional ``fallback_video`` attribute is "
 "used to setup the background video instead of 3D content. Can be used "
@@ -170,7 +174,7 @@ msgstr ""
 "использоваться неоднократно с целью добавления видео файлов различных "
 "форматов."
 
-#: ../web_player.rst:92
+#: ../web_player.rst:93
 msgid ""
 "the optional ``show_fps`` attribute is used to display the FPS counter in"
 " the player's top right corner."
@@ -178,7 +182,7 @@ msgstr ""
 "необязательный атрибут ``show_fps`` применяется для отображения счетчика "
 "кадров в секунду в правом верхнем углу плеера."
 
-#: ../web_player.rst:93
+#: ../web_player.rst:94
 msgid ""
 "optional parameter ``autorotate`` is used to enable automatic camera "
 "rotation just after the scene loads."
@@ -186,7 +190,7 @@ msgstr ""
 "необязательный атрибут ``autorotate`` используется для включения "
 "автоматического вращения камеры сразу после загрузки сцены."
 
-#: ../web_player.rst:94
+#: ../web_player.rst:95
 msgid ""
 "the ``compressed_textures`` optional parameter is used to enable loading "
 "of minified and compressed textures (in DDS format)."
@@ -194,7 +198,7 @@ msgstr ""
 "необязательный атрибут ``compressed_textures`` используется для включения"
 " загрузки уменьшенных текстур и текстур в формате с компрессией (DDS)."
 
-#: ../web_player.rst:95
+#: ../web_player.rst:96
 msgid ""
 "optional ``alpha`` parameter is used to enable transparency for the "
 "rendering area."
@@ -202,7 +206,7 @@ msgstr ""
 "необязательный атрибут ``alpha`` используется для установки прозрачности "
 "области отрисовки."
 
-#: ../web_player.rst:96
+#: ../web_player.rst:97
 msgid ""
 "the optional ``no_social`` attribute is used to disable social networks "
 "buttons on the control panel."
@@ -210,7 +214,7 @@ msgstr ""
 "необязательный атрибут ``no_social`` используется для отключения кнопок "
 "социальных сетей на панели управления."
 
-#: ../web_player.rst:100
+#: ../web_player.rst:101
 msgid ""
 "If both ``fallback_image`` and ``fallback_video`` parameters are "
 "specified, the ``fallback_image`` parameter is used."
@@ -218,11 +222,11 @@ msgstr ""
 "Если указаны параметры ``fallback_image`` и ``fallback_video``, приоритет"
 " имеет ``fallback_image``."
 
-#: ../web_player.rst:105
+#: ../web_player.rst:106
 msgid "Scene Name as Title"
 msgstr "Название сцены в заголовке"
 
-#: ../web_player.rst:107
+#: ../web_player.rst:108
 msgid ""
 "By default the Web Player has the ``Blend4Web Web Player`` title. "
 "Assigning the meta tag ``title`` on the scene in Blender you can change "
@@ -232,17 +236,17 @@ msgstr ""
 " Player``. С помощью мета-тега ``title`` в настройках сцены можно "
 "изменить значение по умолчанию."
 
-#: ../web_player.rst:114
+#: ../web_player.rst:115
 msgid "Scene Errors"
 msgstr "Ошибки сцены"
 
-#: ../web_player.rst:116
+#: ../web_player.rst:117
 msgid "If the player is used incorrectly it displays the corresponding errors."
 msgstr ""
 "В случае некорректного использования веб-плеера выводятся сообщения об "
 "ошибках."
 
-#: ../web_player.rst:119
+#: ../web_player.rst:120
 msgid ""
 "the ``load`` attribute specifies a wrong path to the JSON file or the "
 "file is corrupt;"
@@ -250,11 +254,11 @@ msgstr ""
 "атрибутом ``load`` указан неверный путь к JSON файлу или данный файл "
 "неисправен;"
 
-#: ../web_player.rst:127
+#: ../web_player.rst:128
 msgid "the ``load`` attribute is not found or is void;"
 msgstr "атрибут ``load`` не найден или его значение пустое;"
 
-#: ../web_player.rst:135
+#: ../web_player.rst:136
 msgid "WebGL initialization error."
 msgstr "ошибка инициализации WebGL."
 

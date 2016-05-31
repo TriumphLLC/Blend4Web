@@ -25,6 +25,7 @@
  */
 b4w.module["__util"] = function(exports, require) {
 
+var m_bounds= require("__boundings");
 var m_mat3  = require("__mat3");
 var m_mat4  = require("__mat4");
 var m_math  = require("__math");
@@ -793,7 +794,13 @@ exports.create_empty_submesh = function(name) {
         indices: null,
         va_frames: [],
         va_common: va_common,
-        shape_keys: []
+        shape_keys: [],
+        submesh_bd: {
+            bb_world : m_bounds.zero_bounding_box(),
+            be_world : m_bounds.zero_bounding_ellipsoid(),
+            bb_local : m_bounds.zero_bounding_box(),
+            be_local : m_bounds.zero_bounding_ellipsoid()
+        }
     };
 }
 
@@ -819,9 +826,14 @@ exports.clone_object_r = function(obj) {
     var Constructor = obj.constructor;
 
     switch (Constructor) {
-    case Float32Array:
-    case Uint32Array:
+    case Int8Array:
+    case Uint8Array:
+    case Int16Array:
     case Uint16Array:
+    case Int32Array:
+    case Uint32Array:
+    case Float32Array:
+    case Float64Array:
         obj_clone = new Constructor(obj);
         break;
     case Array:
@@ -856,9 +868,14 @@ exports.clone_object_nr = function(obj) {
             var Constructor = obj[prop].constructor;
 
             switch (Constructor) {
-            case Float32Array:
-            case Uint32Array:
+            case Int8Array:
+            case Uint8Array:
+            case Int16Array:
             case Uint16Array:
+            case Int32Array:
+            case Uint32Array:
+            case Float32Array:
+            case Float64Array:
                 new_obj[prop] = new Constructor(obj[prop]);
                 break;
             case Array:
@@ -2513,6 +2530,20 @@ function normpath(path) {
 
 exports.check_npot = function(num) {
     return parseInt(num.toString(2).substr(1), 2) != 0;
+}
+
+exports.ellipsoid_axes_to_mat3 = function(axis_x, axis_y, axis_z, dest) {
+    dest[0] = axis_x[0];
+    dest[1] = axis_y[0];
+    dest[2] = axis_z[0];
+    dest[3] = axis_x[1];
+    dest[4] = axis_y[1];
+    dest[5] = axis_z[1];
+    dest[6] = axis_x[2];
+    dest[7] = axis_y[2];
+    dest[8] = axis_z[2];
+
+    return dest;
 }
 
 }

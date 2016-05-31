@@ -339,6 +339,7 @@ exports.resize = function(texture, width, height) {
         _gl.renderbufferStorageMultisample(_gl.RENDERBUFFER,
                 cfg_def.msaa_samples, _gl.RGBA8,
                 width, height);
+
         _gl.bindRenderbuffer(_gl.RENDERBUFFER, null);
         break;
     case exports.TT_RB_DEPTH_MS:
@@ -699,7 +700,8 @@ function setup_resized_tex_data(w_target) {
  * @param {vec4|HTMLImageElement} image_data Color or image element to load into
  * texture object
  */
-exports.update_texture = function(texture, image_data, is_dds, filepath, thread_id) {
+exports.update_texture = update_texture;
+function update_texture(texture, image_data, is_dds, filepath, thread_id) {
     var tex_type = texture.source;
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
@@ -1128,7 +1130,8 @@ function check_cube_map_size(size) {
     return size > cfg_def.max_cube_map_size;
 }
 
-exports.generate_texture = function(type, subs, name) {
+exports.generate_texture = generate_texture;
+function generate_texture(type, subs, name) {
     var texture = null;
     switch (type) {
     case "SSAO_TEXTURE":
@@ -1689,6 +1692,47 @@ exports.create_vec_curve_texture = function(nodes, points_num) {
         }
     }
     return new Uint8Array(tex);
+}
+
+exports.change_image = function(object, texture_name, image) {
+    var texture = get_texture_by_name(object, texture_name);
+    if (texture) {
+        update_texture(texture, image, false, image.src, 0);
+        return true;
+    } else
+        return false;
+}
+
+exports.get_batch_texture = get_batch_texture;
+/**
+ * Extract b4w texture from slot and apply color
+ * @param texture_slot Texture slot
+ * @param {vec4} [color=null] Default texture color
+ */
+function get_batch_texture(texture_slot, color) {
+
+    var bpy_texture = texture_slot["texture"];
+
+    var render = bpy_texture._render;
+    var image = bpy_texture["image"];
+
+    if (render && color && image)
+        update_texture(render, color, image._is_dds,
+            image["filepath"]);
+
+    return render;
+}
+
+exports.generate_batch_texure =function (image_data, size) {
+    var texture = generate_texture("NODE_TEX", null);
+    var texture_slot = { "texture": texture };
+    var tex_data = {
+        width: size,
+        height: image_data.length / (size * 4),
+        data: image_data
+    };
+
+    return get_batch_texture(texture_slot, tex_data);
 }
 
 }

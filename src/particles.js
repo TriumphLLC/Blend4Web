@@ -272,9 +272,10 @@ exports.init_particles_data = function(batch, psystem, pmaterial) {
  * process particle from each emitter vertex
  */
 exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
-        psystem, tsr) {
+        psystem, render) {
 
     var pdata = batch.particles_data;
+    var tsr = render.world_tsr;
 
     var pcount = psystem["settings"]["count"];
     var time_start = psystem["settings"]["frame_start"] / m_time.get_framerate();
@@ -294,7 +295,7 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     init_particle_rand(psystem["seed"]);
 
     var emitter_submesh = m_geom.extract_submesh_all_mats(emitter_mesh,
-            ["a_position", "a_normal"], null);
+            ["a_position", "a_normal"], null, render);
 
     var pos_norm = distribute_positions_normals(pcount, emit_from,
             emitter_submesh);

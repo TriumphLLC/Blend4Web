@@ -127,27 +127,38 @@ def stop_server():
     tornado.ioloop.IOLoop.instance().stop()
 
 class GetScenesListHandler(tornado.web.RequestHandler):
-    def get(self):
-        assets_root = os.path.join(get_sdk_root(), "deploy", "assets")
-        scenes_data = OrderedDict()
+    """
+    scenes data list has the following format:
 
-        def check_dir_r(curr_dir):
-            scenes_data[curr_dir] = []
+    [dirname1, file1, [dirname2, file2, file3], file4, file5, [dirname3, file6, file7]]
+
+    so first item in the list is a name of the current directory
+    """
+    def get(self):
+        root = get_sdk_root()
+
+        proj_util = get_proj_util_mod(root)
+        assets_root = os.path.join(root, "deploy", "assets")
+
+        def gen_dir_scene_data(curr_dir):
+            scenes_data = [proj_util.unix_path(relpath(curr_dir, root))]
             listdir = os.listdir(curr_dir)
             listdir.sort()
+
             for f in listdir:
                 f_abs_path = os.path.join(curr_dir, f)
                 if os.path.isdir(f_abs_path):
-                    if len(f) > 4 and f[0 : 4] == "dev_":
-                        check_dir_r(f_abs_path)
+                    scenes_data.append(gen_dir_scene_data(f_abs_path))
                 else:
                     file_type = f.split(".")[-1]
                     bin_file = f.split(".")[-2] + ".bin"
                     if file_type == "json" and os.path.isfile(os.path.join(curr_dir, bin_file)):
-                        scenes_data[curr_dir].append(f_abs_path)
-                        scenes_data[curr_dir].sort()
+                        scenes_data.append(proj_util.unix_path(relpath(f_abs_path, root)))
+                        #scenes_data.sort()
 
-        check_dir_r(assets_root)
+            return scenes_data
+
+        scenes_data = gen_dir_scene_data(assets_root)
         self.write(json.dumps(scenes_data))
 
 class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
@@ -155,6 +166,7 @@ class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
         # Disable cache
         self.set_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
         self.set_header("Expires", "0")
+        self.set_header("Access-Control-Allow-Origin", "*")
         now = datetime.datetime.now()
         exp = datetime.datetime(now.year - 1, 1, 1)
         self.set_header("Last-Modified", exp)

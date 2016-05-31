@@ -114,6 +114,16 @@ var AT_MATERIAL = exports.AT_MATERIAL = 4;
 var AT_LIGHT = exports.AT_LIGHT = 5;
 var AT_ENVIRONMENT = exports.AT_ENVIRONMENT = 6;
 
+//action environment mask elements
+var AEM_ENERGY          = 0;
+var AEM_HORIZON_COLOR   = 1;
+var AEM_ZENITH_COLOR    = 2;
+var AEM_FOG_INTENSITY   = 3;
+var AEM_FOG_DEPTH       = 4;
+var AEM_FOG_START       = 5;
+var AEM_FOG_HEIGHT      = 6;
+var AEM_FOG_COLOR       = 7;
+
 var _frame_info_tmp = new Array(3);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
@@ -145,7 +155,7 @@ function create_action_render() {
         bones: null,
         bflags: null,
         
-        channels_mask: new Int8Array(3)
+        channels_mask: new Int8Array(8)
     }
     return render;
 }
@@ -261,7 +271,7 @@ function init_anim(obj, slot_num) {
         action_frame_range: null,
         action_step: 0,
         action_bflags: null,
-        channels_mask: new Int8Array(3),
+        channels_mask: new Int8Array(8),
 
         quats: null,
         trans: null,
@@ -289,6 +299,14 @@ function init_anim(obj, slot_num) {
 
         color: null,
         energy: null,
+
+        zenith_color: null,
+        horizon_color: null,
+        fog_intensity: null,
+        fog_depth: null,
+        fog_start: null,
+        fog_height: null,
+        fog_color: null,
 
         nodemat_values: [],
         node_value_inds: [],
@@ -702,6 +720,9 @@ exports.bpy_obj_is_animatable = function(bpy_obj, obj) {
     if (armobj)
         return true;
 
+    if (obj.type == "WORLD")
+        return true;
+
     for (var i = 0; i < obj.actions.length; i++) {
         var act_type = obj.actions[i]._render.type;
 
@@ -715,9 +736,6 @@ exports.bpy_obj_is_animatable = function(bpy_obj, obj) {
         return true;
 
     if (obj.type == "MESH" && bpy_obj["data"]["b4w_vertex_anim"].length)
-        return true;
-
-    if (obj.type == "WORLD")
         return true;
 
     return false;
@@ -845,21 +863,13 @@ function apply_action(obj, action, slot_num) {
         //check meta_object WORLD
         if (m_obj_util.is_world(obj)) {
             anim_slot.energy = act_render.params["light_settings.environment_energy"] || null;
-            anim_slot.is_energy = Boolean(act_render.params["light_settings.environment_energy"]);
             anim_slot.horizon_color = act_render.params["horizon_color"] || null;
-            anim_slot.is_horizon_color = Boolean(act_render.params["horizon_color"]);
             anim_slot.zenith_color = act_render.params["zenith_color"] || null;
-            anim_slot.is_zenith_color = Boolean(act_render.params["zenith_color"]);
             anim_slot.fog_intensity = act_render.params["mist_settings.intensity"] || null;
-            anim_slot.is_fog_intensity = Boolean(act_render.params["mist_settings.intensity"]);
             anim_slot.fog_depth = act_render.params["mist_settings.depth"] || null;
-            anim_slot.is_fog_depth = Boolean(act_render.params["mist_settings.depth"]);
             anim_slot.fog_start = act_render.params["mist_settings.start"] || null;
-            anim_slot.is_fog_start = Boolean(act_render.params["mist_settings.start"]);
             anim_slot.fog_height = act_render.params["mist_settings.height"] || null;
-            anim_slot.is_fog_height = Boolean(act_render.params["mist_settings.height"]);
             anim_slot.fog_color = act_render.params["b4w_fog_color"] || null;
-            anim_slot.is_fog_color = Boolean(act_render.params["b4w_fog_color"]);
             anim_slot.type = OBJ_ANIM_TYPE_ENVIRONMENT;
         }
         break;
@@ -1313,83 +1323,85 @@ function animate(obj, elapsed, slot_num, force_update) {
         var fn = finfo[1];
         var ff = finfo[2];
 
+        var mask = anim_slot.channels_mask;
+
         var scenes_data = obj.scenes_data;
 
         var subs = m_scs.get_subs(scenes_data[0].scene, "MAIN_OPAQUE");
 
         var energy = anim_slot.energy;
-        if (anim_slot.is_energy) {
-            energy = (1-ff) * energy[fc] + ff * energy[fn];
+        if (mask[AEM_ENERGY]) {
+            var energy_value = (1-ff) * energy[fc] + ff * energy[fn];
         }
         else {
-            energy = subs.energy;
+            var energy_value = subs.energy;
         }
 
         var horizon_color = anim_slot.horizon_color;
-        if (anim_slot.is_horizon_color) {
+        if (mask[AEM_HORIZON_COLOR]) {
             _vec3_tmp[0] = (1-ff) * horizon_color[3 * fc]     + ff * horizon_color[3 * fn];
             _vec3_tmp[1] = (1-ff) * horizon_color[3 * fc + 1] + ff * horizon_color[3 * fn + 1];
             _vec3_tmp[2] = (1-ff) * horizon_color[3 * fc + 2] + ff * horizon_color[3 * fn + 2];
-            horizon_color = _vec3_tmp;
+            var horizon_color_value = _vec3_tmp;
         }
         else {
-            horizon_color = subs.horizon_color;
+            var horizon_color_value = subs.horizon_color;
         }
 
         var zenith_color = anim_slot.zenith_color;
-        if (anim_slot.is_zenith_color) {
+        if (mask[AEM_ZENITH_COLOR]) {
             _vec3_tmp2[0] = (1-ff) * zenith_color[3 * fc]     + ff * zenith_color[3 * fn];
             _vec3_tmp2[1] = (1-ff) * zenith_color[3 * fc + 1] + ff * zenith_color[3 * fn + 1];
             _vec3_tmp2[2] = (1-ff) * zenith_color[3 * fc + 2] + ff * zenith_color[3 * fn + 2];
-            zenith_color = _vec3_tmp2;
+            var zenith_color_value = _vec3_tmp2;
         }
         else{
-            zenith_color = subs.zenith_color;
+            var zenith_color_value = subs.zenith_color;
         }
 
         var fog_intensity = anim_slot.fog_intensity;
-        if (anim_slot.is_fog_intensity) {
-            fog_intensity = (1-ff) * fog_intensity[fc] + ff * fog_intensity[fn];
+        if (mask[AEM_FOG_INTENSITY]) {
+            var fog_intensity_value = (1-ff) * fog_intensity[fc] + ff * fog_intensity[fn];
         }
 
         var fog_depth = anim_slot.fog_depth;
-        if (anim_slot.is_fog_depth) {
-            fog_depth = (1-ff) * fog_depth[fc] + ff * fog_depth[fn];
+        if (mask[AEM_FOG_DEPTH]) {
+            var fog_depth_value = (1-ff) * fog_depth[fc] + ff * fog_depth[fn];
         }
 
         var fog_start = anim_slot.fog_start;
-        if (anim_slot.is_fog_start) {
-            fog_start = (1-ff) * fog_start[fc] + ff * fog_start[fn];
+        if (mask[AEM_FOG_START]) {
+            var fog_start_value = (1-ff) * fog_start[fc] + ff * fog_start[fn];
         }
 
         var fog_height = anim_slot.fog_height;
-        if (anim_slot.is_fog_height) {
-            fog_height = (1-ff) * fog_height[fc] + ff * fog_height[fn];
+        if (mask[AEM_FOG_HEIGHT]) {
+            var fog_height_value = (1-ff) * fog_height[fc] + ff * fog_height[fn];
         }
 
         var fog_color = anim_slot.fog_color;
-        if (anim_slot.is_fog_color) {
+        if (mask[AEM_FOG_COLOR]) {
             _quat4_tmp[0] = (1-ff) * fog_color[3 * fc]     + ff * fog_color[3 * fn];
             _quat4_tmp[1] = (1-ff) * fog_color[3 * fc + 1] + ff * fog_color[3 * fn + 1];
             _quat4_tmp[2] = (1-ff) * fog_color[3 * fc + 2] + ff * fog_color[3 * fn + 2];
-            fog_color = _quat4_tmp;
+            var fog_color_value = _quat4_tmp;
         }
 
         for (var i = 0; i < scenes_data.length; i++) {
             var scene = obj.scenes_data[i].scene;
 
-            if (anim_slot.is_energy || anim_slot.is_horizon_color || anim_slot.is_zenith_color)
-                m_scs.set_environment_colors(scene, energy, horizon_color, zenith_color);
-            if (anim_slot.is_fog_intensity)
-                m_scs.set_fog_intensity(scene, fog_intensity);
-            if (anim_slot.is_fog_depth)
-                m_scs.set_fog_depth(scene, fog_depth);
-            if (anim_slot.is_fog_start)
-                m_scs.set_fog_start(scene, fog_start);
-            if (anim_slot.is_fog_height)
-                m_scs.set_fog_height(scene, fog_height);
-            if (anim_slot.is_fog_color)
-                m_scs.set_fog_color_density(scene, fog_color);
+            if (mask[AEM_ENERGY] || mask[AEM_HORIZON_COLOR] || mask[AEM_ZENITH_COLOR])
+                m_scs.set_environment_colors(scene, energy_value, horizon_color_value, zenith_color_value);
+            if (mask[AEM_FOG_INTENSITY])
+                m_scs.set_fog_intensity(scene, fog_intensity_value);
+            if (mask[AEM_FOG_DEPTH])
+                m_scs.set_fog_depth(scene, fog_depth_value);
+            if (mask[AEM_FOG_START])
+                m_scs.set_fog_start(scene, fog_start_value);
+            if (mask[AEM_FOG_HEIGHT])
+                m_scs.set_fog_height(scene, fog_height_value);
+            if (mask[AEM_FOG_COLOR])
+                m_scs.set_fog_color_density(scene, fog_color_value);
         }
 
         break;
@@ -1937,6 +1949,17 @@ exports.append_action = function(action) {
     if ("color" in params || "energy" in params)
         set_lamp_act_channels_mask(fcurves, act_render.channels_mask);
 
+    if ("light_settings.environment_energy" in params
+            || "horizon_color"              in params
+            || "zenith_color"               in params
+            || "mist_settings.intensity"    in params
+            || "mist_settings.depth"        in params
+            || "mist_settings.start"        in params
+            || "mist_settings.height"       in params
+            || "b4w_fog_color"              in params
+        )
+        set_environment_act_channels_mask(fcurves, act_render.channels_mask);
+
     update_action_type(action);
 
     _actions.push(action);
@@ -1959,18 +1982,12 @@ function update_action_type(action) {
             act_render.type = AT_MATERIAL;
         else if (is_light_action(action))
             act_render.type = AT_LIGHT;
-        else if ("light_settings.environment_energy" in act_render.params
-                    || "horizon_color" in act_render.params
-                    || "zenith_color" in act_render.params
-                    || "mist_settings.intensity" in act_render.params
-                    || "mist_settings.depth" in act_render.params
-                    || "mist_settings.start" in act_render.params
-                    || "mist_settings.height" in act_render.params
-                    || "b4w_fog_color" in act_render.params
-                )
+        else if (is_environment_action(action))
             act_render.type = AT_ENVIRONMENT;
-        else
+        else if (is_object_action(action))
             act_render.type = AT_OBJECT;
+        else
+            act_render.type = AT_NONE;
     } else
         act_render.type = AT_NONE;
 }
@@ -1999,6 +2016,38 @@ function is_light_action(action) {
     return false;
 }
 
+function is_environment_action(action) {
+    var params = action._render.params;
+
+    if ("light_settings.environment_energy" in params
+            || "horizon_color"              in params
+            || "zenith_color"               in params
+            || "mist_settings.intensity"    in params
+            || "mist_settings.depth"        in params
+            || "mist_settings.start"        in params
+            || "mist_settings.height"       in params
+            || "b4w_fog_color"              in params
+        )
+        return true;
+
+    return false;
+}
+
+function is_object_action(action) {
+    var params = action._render.params;
+
+    if (params) {
+        var fcurves = action["fcurves"];
+        for (var param in fcurves)
+            if (param == "location"
+                    || param == "rotation_quaternion"
+                    || param == "scale"
+                )
+                return true;
+    }
+    return false;
+}
+
 function set_tsr_act_channels_mask(fcurves, mask) {
     mask[0] = mask[1] = mask[2] = 0;
     for (var data_path in fcurves) {
@@ -2020,6 +2069,31 @@ function set_lamp_act_channels_mask(fcurves, mask) {
             mask[0] = 1;
         else if (data_path == "color")
             mask[1] = 1;
+    }
+}
+
+function set_environment_act_channels_mask(fcurves, mask) {
+    mask[AEM_ENERGY] = mask[AEM_HORIZON_COLOR] = mask[AEM_ZENITH_COLOR] = 0;
+    mask[AEM_FOG_INTENSITY] = mask[AEM_FOG_DEPTH] = mask[AEM_FOG_START] = 0;
+    mask[AEM_FOG_HEIGHT] = mask[AEM_FOG_COLOR] = 0;
+    for (var data_path in fcurves) {
+        var channels = fcurves[data_path];
+        if (data_path == "light_settings.environment_energy")
+            mask[AEM_ENERGY] = 1;
+        else if (data_path == "horizon_color")
+            mask[AEM_HORIZON_COLOR] = 1;
+        else if (data_path == "zenith_color")
+            mask[AEM_ZENITH_COLOR] = 1;
+        else if (data_path == "mist_settings.intensity")
+            mask[AEM_FOG_INTENSITY] = 1;
+        else if (data_path == "mist_settings.depth")
+            mask[AEM_FOG_DEPTH] = 1;
+        else if (data_path == "mist_settings.start")
+            mask[AEM_FOG_START] = 1;
+        else if (data_path == "mist_settings.height")
+            mask[AEM_FOG_HEIGHT] = 1;
+        else if (data_path == "b4w_fog_color")
+            mask[AEM_FOG_COLOR] = 1;
     }
 }
 

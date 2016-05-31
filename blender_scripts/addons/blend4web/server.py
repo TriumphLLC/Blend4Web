@@ -175,9 +175,9 @@ class B4WLocalServer():
             cls.waiting_for_shutdown = True
             try:
                 if cls.server is not None:
-                    cls.server.stop()
                     proj_serv = cls.get_proj_serv()
-                    proj_serv.stop_server() 
+                    proj_serv.stop_server()
+                    cls.server.stop()
                 cls.server_process = None
                 cls.server = None
                 cls.wait_loop()

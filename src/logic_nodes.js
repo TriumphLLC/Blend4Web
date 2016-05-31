@@ -167,7 +167,8 @@ var _nodes_handlers = {
     "STRING": string_handler,
     "GET_TIMELINE": get_timeline_handler,
     "JSON": json_handler,
-    "JS_CALLBACK": js_callback_handler
+    "JS_CALLBACK": js_callback_handler,
+    "EMPTY": do_nothing_handler
 };
 
 function get_var(var_desc, global_vars, local_vars) {
@@ -246,12 +247,12 @@ exports.run_ep = function(scene_name, ep_name) {
                 if (ep.name == ep_name) {
                     if(ep.bools["js"])
                         ep.mute  = false;
+                        logic.logic_threads[j].thread_state.curr_node = 0;
                     break;
                 }
             }
             break;
         }
-        process_logic(i, timeline, elapsed, start_time);
     }
 }
 
@@ -1571,7 +1572,7 @@ function js_callback_handler(node, logic, thread_state, timeline, elapsed, start
         var index = 0;
         var key = "id" + index;
         var param;
-        var in_types_dict = node["common_usage_names"]["js_cb_params"];
+        var in_types_dict = node.common_usage_names["js_cb_params"];
         while (key in in_types_dict) {
             if (in_types_dict[key] == NCPT_OBJECT)
                 param =  m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST, node.objects_paths[key], 0);
@@ -1586,7 +1587,7 @@ function js_callback_handler(node, logic, thread_state, timeline, elapsed, start
         var out_params = [];
         index = 0;
         key = "out" + index;
-        while (key in node["vars"]) {
+        while (key in node.vars) {
             param = get_var(node.vars[key], logic.variables, thread_state.variables);
             out_params.push(param);
             index++;
@@ -1597,7 +1598,7 @@ function js_callback_handler(node, logic, thread_state, timeline, elapsed, start
 
         for(var i = 0; i < out_params.length; i++) {
             key = "out" + i;
-            if (key in node["vars"])
+            if (key in node.vars)
                 set_var(node.vars[key], logic.variables, thread_state.variables, convert_b4w_type(out_params[i]));
         }
 

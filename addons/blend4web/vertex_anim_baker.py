@@ -227,6 +227,9 @@ class B4W_VertexAnimBakeOperator(bpy.types.Operator):
 
             if self.bake(obj, va[va_index]):
                 self.report({"INFO"}, _("Bake finish"))
+                # auto enable vertex animation export and usage
+                if not "b4w_loc_export_vertex_anim" in obj.keys():
+                    obj.b4w_loc_export_vertex_anim = True
             else:
                 self.report({"ERROR"}, _("Bake error"))
 
