@@ -51,15 +51,18 @@ var _gl = null;
 var _exec_counters = {};
 var _telemetry_messages = [];
 var _depth_only_issue = -1;
+var _multisample_issue = -1;
 
 var _assert_struct_last_obj = null;
 var _assert_struct_init = false;
 
-exports.WM_NONE = 0;
-exports.WM_OPAQUE_WIREFRAME = 1;
-exports.WM_TRANSPARENT_WIREFRAME = 2;
-exports.WM_FRONT_BACK_VIEW = 3;
-exports.WM_DEBUG_SPHERES = 4;
+exports.DV_NONE = 0;
+exports.DV_OPAQUE_WIREFRAME = 1;
+exports.DV_TRANSPARENT_WIREFRAME = 2;
+exports.DV_FRONT_BACK_VIEW = 3;
+exports.DV_DEBUG_SPHERES = 4;
+exports.DV_CLUSTERS_VIEW = 5;
+exports.DV_BATCHES_VIEW = 6;
 
 /**
  * Setup WebGL context
@@ -137,7 +140,7 @@ exports.check_bound_fb = function() {
  * found on some old GPUs. (Found on Intel, AMD and NVIDIA)
  */
 exports.check_depth_only_issue = function() {
-    // use cache result
+    // use cached result
     if (_depth_only_issue != -1)
         return _depth_only_issue;
 
@@ -163,6 +166,37 @@ exports.check_depth_only_issue = function() {
     _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 
     return _depth_only_issue;
+}
+
+/**
+ * Check for issue with failing multisample renderbuffers.
+ * Found on Firefox 46.
+ */
+exports.check_multisample_issue = function() {
+    // use cached result
+    if (_multisample_issue != -1)
+        return _multisample_issue;
+
+    var rb = _gl.createRenderbuffer();
+    _gl.bindRenderbuffer(_gl.RENDERBUFFER, rb);
+    _gl.renderbufferStorageMultisample(_gl.RENDERBUFFER, cfg_def.msaa_samples,
+            _gl.RGBA8, 1, 1);
+
+    var num_samples = _gl.getRenderbufferParameter(_gl.RENDERBUFFER,
+            _gl.RENDERBUFFER_SAMPLES);
+
+    if (num_samples != cfg_def.msaa_samples) {
+        _multisample_issue = true;
+        m_print.warn("multisample issue was found: requested " +
+                cfg_def.msaa_samples + ", got " + num_samples);
+        if (_gl.getError() == _gl.INVALID_OPERATION)
+            m_print.warn("the error from multisample issue detected, ignoring");
+    } else
+        _multisample_issue = false;
+
+    _gl.bindRenderbuffer(_gl.RENDERBUFFER, null);
+
+    return _multisample_issue;
 }
 
 /**
@@ -590,16 +624,81 @@ exports.fake_load = function(stageload_cb, interval, start, end, loaded_cb) {
     })
 }
 
-exports.nodegraph_to_dot = function(graph) {
-    var nodes_label_cb = function (id, attr) {
-        return attr.type;
-    }
-    var edges_label_cb = function (id1, id2, attr) {
-        var node1 = m_graph.get_node_attr(graph, id1);
-        var node2 = m_graph.get_node_attr(graph, id2);
-        var out1 = node1.outputs[attr[0]];
-        var in2 = node2.inputs[attr[1]];
-        return out1.identifier + "\n==>\n" + in2.identifier;
+exports.nodegraph_to_dot = function(graph, detailed_print) {
+
+    if (detailed_print) {
+        var get_data_info = function(attr) {
+            var data_info = "";
+            switch (attr.type) {
+            case "GEOMETRY_UV":
+                data_info = "\nuv_layer: " + attr.data.value;
+                break;
+            case "TEXTURE_COLOR":
+            case "TEXTURE_NORMAL":
+                data_info = "\ntexture: " + attr.data.value.name + "\n(" 
+                        + attr.data.value.image.filepath + ")";
+                break;
+            }
+
+            if (data_info == "")
+                data_info = "\n---";
+
+            return data_info;
+        }
+
+        var nodes_label_cb = function (id, attr) {
+            var node_text = attr.type + "(" + attr.name + ")";
+
+            var inputs = attr.inputs;
+            node_text += "\n\nINPUTS:";
+            if (inputs.length)
+                for (var i = 0; i < inputs.length; i++) {
+                    node_text += "\n" + inputs[i].identifier + ": ";
+                    if (inputs[i].is_linked) {
+                        node_text += "linked";
+                    } else
+                        node_text += inputs[i].default_value;
+                }
+            else
+                node_text += "\n---";
+
+            var outputs = attr.outputs;
+            node_text += "\n\nOUTPUTS:";
+            if (outputs.length)
+                for (var i = 0; i < outputs.length; i++) {
+                    node_text += "\n" + outputs[i].identifier + ": ";
+                    if (outputs[i].is_linked) {
+                        node_text += "linked(default " + outputs[i].default_value + ")";
+                    } else
+                        node_text += "not used";
+                }
+            else
+                node_text += "\n---";
+
+            node_text += "\n\nDATA:";
+            node_text += get_data_info(attr);
+
+            return node_text;
+        }
+
+        var edges_label_cb = function (id1, id2, attr) {
+            var node1 = m_graph.get_node_attr(graph, id1);
+            var node2 = m_graph.get_node_attr(graph, id2);
+            var out1 = node1.outputs[attr[0]];
+            var in2 = node2.inputs[attr[1]];
+            return out1.identifier + "\n==>\n" + in2.identifier;
+        }
+    } else {
+        var nodes_label_cb = function (id, attr) {
+            return attr.type;
+        }
+        var edges_label_cb = function (id1, id2, attr) {
+            var node1 = m_graph.get_node_attr(graph, id1);
+            var node2 = m_graph.get_node_attr(graph, id2);
+            var out1 = node1.outputs[attr[0]];
+            var in2 = node2.inputs[attr[1]];
+            return out1.identifier + "\n==>\n" + in2.identifier;
+        }
     }
 
     return m_graph.debug_dot(graph, nodes_label_cb, edges_label_cb);

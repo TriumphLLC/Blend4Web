@@ -18,6 +18,8 @@ Table of Contents
 
     * **Hover Type Camera**
 
+  * Viewport Alignment
+
   * Camera Controls API
 
     * Control Mode Setup
@@ -245,6 +247,67 @@ Default value: "Camera Space".
 Horizontal limits by the example of the TARGET camera:
 
 Vertical limits by the example of the TARGET camera:
+
+
+Viewport Alignment
+==================
+
+If an object is parented to a camera, the set of parameters known as
+*Viewport Alignment* are available under the "Relations" tab on the
+"Object" panel.
+
+[图片]
+
+Using these settings, the object can be aligned to the active camera,
+so that the object will remain in the same place of the screen
+regardless of the position and rotation of the camera. This is
+especially useful for creating UI elements.
+
+   [图片]
+
+This picture shows an example of how the Viewport Alignment option can
+be used.
+
+*Viewport Alignment*
+   This parameter enables and disables all the following parameters.
+   It is disabled by default.
+
+*Alignment*
+   This parameter specifies what side of the screen the object will be
+   aligned with. It can have one of the following values.
+
+   * "Top-Left" - aligns the object in the top left corner of the
+     viewport
+
+   * "Top" - aligns the object in the top of the viewport
+
+   * "Top-Right" - aligns the object in the top right corner of the
+     viewport
+
+   * "Left" - aligns the object in the left side of the viewport
+
+   * "Center" - aligns the object in the center of the viewport
+
+   * "Right" - aligns the object in the right side of the viewport
+
+   * "Bottom-Left" - aligns the object in the bottom left corner of
+     the viewport
+
+   * "Bottom" - aligns the object in the bottom of the viewport
+
+   * "Bottom-Right" - aligns the object in the bottom right corner
+     of the viewport.
+
+   Default value is "Center".
+
+*Distance*
+   This specifies the distance between the aligned object and the
+   camera. It is set to 10 by default.
+
+*Fit to Camera*
+   By pressing this button, you can make the aligned object look the
+   same way in the Blender viewport as it will look in the engine. It
+   can be used to preview alignment results.
 
 
 Camera Controls API

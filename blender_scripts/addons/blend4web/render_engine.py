@@ -31,6 +31,11 @@ _OBJECT_PT_motion_paths = bpy.types.OBJECT_PT_motion_paths
 _OBJECT_PT_custom_props = bpy.types.OBJECT_PT_custom_props
 _OBJECT_PT_constraints = bpy.types.OBJECT_PT_constraints
 
+_DATA_PT_custom_props_curve = bpy.types.DATA_PT_custom_props_curve
+_DATA_PT_custom_props_lattice = bpy.types.DATA_PT_custom_props_lattice
+_DATA_PT_custom_props_arm = bpy.types.DATA_PT_custom_props_arm
+_DATA_PT_custom_props_metaball = bpy.types.DATA_PT_custom_props_metaball
+
 _PHYSICS_PT_add = bpy.types.PHYSICS_PT_add
 _PHYSICS_PT_cloth = bpy.types.PHYSICS_PT_cloth
 _PHYSICS_PT_cloth_collision = bpy.types.PHYSICS_PT_cloth_collision
@@ -155,14 +160,14 @@ def get_supported_native_panels():
         # "DATA_PT_shadow",
         # "DATA_PT_area",
         # "DATA_PT_spot",
-        "DATA_PT_falloff_curve",
+        # "DATA_PT_falloff_curve",
         #"DATA_PT_custom_props_lamp",
         #"DATA_PT_custom_props_lattice",
         "DATA_PT_context_mesh",
         # "DATA_PT_normals",
         # "DATA_PT_texture_space",
         "DATA_PT_vertex_groups",
-        "DATA_PT_shape_keys",
+        # "DATA_PT_shape_keys",
         "DATA_PT_uv_texture",
         "DATA_PT_vertex_colors",
         "DATA_PT_customdata",
@@ -654,6 +659,11 @@ def register():
     global _OBJECT_PT_custom_props
     global _OBJECT_PT_constraints
 
+    global _DATA_PT_custom_props_curve
+    global _DATA_PT_custom_props_lattice
+    global _DATA_PT_custom_props_arm
+    global _DATA_PT_custom_props_metaball
+
     global _PHYSICS_PT_add
     global _PHYSICS_PT_cloth
     global _PHYSICS_PT_cloth_collision
@@ -717,6 +727,11 @@ def register():
     bpy.utils.unregister_class(_OBJECT_PT_custom_props)
     bpy.utils.unregister_class(_OBJECT_PT_constraints)
 
+    bpy.utils.unregister_class(_DATA_PT_custom_props_curve)
+    bpy.utils.unregister_class(_DATA_PT_custom_props_lattice)
+    bpy.utils.unregister_class(_DATA_PT_custom_props_arm)
+    bpy.utils.unregister_class(_DATA_PT_custom_props_metaball)
+
     bpy.utils.unregister_class(_PHYSICS_PT_add)
     # cloth
     bpy.utils.unregister_class(_PHYSICS_PT_cloth)
@@ -779,6 +794,11 @@ def unregister():
     global _OBJECT_PT_custom_props
     global _OBJECT_PT_constraints
 
+    global _DATA_PT_custom_props_curve
+    global _DATA_PT_custom_props_lattice
+    global _DATA_PT_custom_props_arm
+    global _DATA_PT_custom_props_metaball
+
     global _PHYSICS_PT_add
     global _PHYSICS_PT_cloth
     global _PHYSICS_PT_cloth_collision
@@ -835,6 +855,11 @@ def unregister():
     bpy.utils.register_class(_OBJECT_PT_motion_paths)
     bpy.utils.register_class(_OBJECT_PT_custom_props)
     bpy.utils.register_class(_OBJECT_PT_constraints)
+
+    bpy.utils.register_class(_DATA_PT_custom_props_curve)
+    bpy.utils.register_class(_DATA_PT_custom_props_lattice)
+    bpy.utils.register_class(_DATA_PT_custom_props_arm)
+    bpy.utils.register_class(_DATA_PT_custom_props_metaball)
 
     bpy.utils.register_class(_PHYSICS_PT_add)
     # cloth

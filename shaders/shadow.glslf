@@ -70,6 +70,19 @@ uniform vec3 u_camera_eye_frag;
 uniform mat3 u_view_tsr_frag;
 # endif
 
+# if USE_ZUP_VIEW_MATRIX
+uniform mat3 u_view_zup_tsr;
+# endif
+# if USE_ZUP_VIEW_MATRIX_INVERSE
+uniform mat3 u_view_zup_tsr_inverse;
+# endif
+# if USE_ZUP_MODEL_MATRIX
+uniform mat3 u_model_zup_tsr;
+# endif
+# if USE_ZUP_MODEL_MATRIX_INVERSE
+uniform mat3 u_model_zup_tsr_inverse;
+# endif
+
 # if USE_ENVIRONMENT_LIGHT && SKY_TEXTURE
 uniform samplerCube u_sky_texture;
 # elif USE_ENVIRONMENT_LIGHT && SKY_COLOR
@@ -241,25 +254,40 @@ void main(void) {
     vec4 nout_shadow_factor;
     float nout_alpha;
 
+    mat4 nin_view_matrix = mat4(0.0);
+    mat4 nin_zup_view_matrix = mat4(0.0);
+    mat4 nin_zup_view_matrix_inverse = mat4(0.0);
+    mat4 nin_zup_model_matrix = mat4(0.0);
+    mat4 nin_zup_model_matrix_inverse = mat4(0.0);
+
 #  if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
-    mat4 nin_view_matrix = tsr_to_mat4(u_view_tsr_frag);
+        nin_view_matrix = tsr_to_mat4(u_view_tsr_frag);
+#  endif
+
+#  if USE_ZUP_VIEW_MATRIX
+        nin_zup_view_matrix = tsr_to_mat4(u_view_zup_tsr);
+#  endif
+#  if USE_ZUP_VIEW_MATRIX_INVERSE
+        nin_zup_view_matrix_inverse = tsr_to_mat4(u_view_zup_tsr_inverse);
+#  endif
+#  if USE_ZUP_MODEL_MATRIX
+        nin_zup_model_matrix = tsr_to_mat4(u_model_zup_tsr);
+#  endif
+#  if USE_ZUP_MODEL_MATRIX_INVERSE
+        nin_zup_model_matrix_inverse = tsr_to_mat4(u_model_zup_tsr_inverse);
+#  endif
 
     nodes_main(nin_eye_dir,
             nin_view_matrix,
+            nin_zup_view_matrix,
+            nin_zup_view_matrix_inverse,
+            nin_zup_model_matrix,
+            nin_zup_model_matrix_inverse,
             nout_color,
             nout_specular_color,
             nout_normal,
             nout_shadow_factor,
             nout_alpha);
-#  else
-    nodes_main(nin_eye_dir,
-            mat4(0.0),
-            nout_color,
-            nout_specular_color,
-            nout_normal,
-            nout_shadow_factor,
-            nout_alpha);
-#  endif
 
     float alpha = nout_alpha;
 # else // NODES

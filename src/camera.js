@@ -483,7 +483,11 @@ function init_camera(type) {
         sky_vp_inv_matrix     : new Float32Array(16),
 
         view_tsr                       : m_tsr.create_ext(),
+        view_zup_tsr                   : m_tsr.create_ext(),
+        view_inv_zup_tsr               : m_tsr.create_ext(),
         real_view_tsr                  : m_tsr.create_ext(), // for reflections
+        real_view_zup_tsr              : m_tsr.create_ext(),
+        real_view_inv_zup_tsr          : m_tsr.create_ext(),
         shadow_cast_billboard_view_tsr : m_tsr.create_ext(),
 
         // dof stuff
@@ -849,14 +853,18 @@ function set_view(cam, camobj) {
         cam.view_matrix[12] -= cam.stereo_eye_dist/2;
 
     if (cam.reflection_plane) {
-        // store original view tsr before reflecting the view matrix
+        // store original view tsr and view zup tsr before reflecting the view matrix
         m_tsr.from_mat4(cam.view_matrix, cam.real_view_tsr);
+        m_tsr.to_zup_view(cam.real_view_tsr, cam.real_view_zup_tsr);
+        m_tsr.invert(cam.real_view_zup_tsr, cam.real_view_inv_zup_tsr);
         reflect_view_matrix(cam);
         reflect_proj_matrix(cam);
     }
 
-    // update view tsr
+    // update view tsr and view zup tsr
     m_tsr.from_mat4(cam.view_matrix, cam.view_tsr);
+    m_tsr.to_zup_view(cam.view_tsr, cam.view_zup_tsr);
+    m_tsr.invert(cam.view_zup_tsr, cam.view_inv_zup_tsr);
 
     // update view projection matrix and inversed view projection matrix
     calc_view_proj_inverse(cam);

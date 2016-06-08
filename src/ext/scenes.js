@@ -62,8 +62,8 @@ var m_util     = require("__util");
  * @property {Boolean} enable_hmd_stereo Enable hmd stereo
  * @property {Array} distortion_coefs Distortion coefficient list
  * @property {Array} chromatic_aberration_coefs Chromatic aberration coefficient list
- * @property {Number} base_line_factor Distortion offset
- * @property {Number} inter_lens_factor Distortion offset
+ * @property {Number} base_line_factor Tray to lens-center distance divided by screen height
+ * @property {Number} inter_lens_factor Inter-lens distance divided by screen width
  */
 
 /**

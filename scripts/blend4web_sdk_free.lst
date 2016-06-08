@@ -4,7 +4,7 @@ apps_dev/flight
 apps_dev/new_year
 apps_dev/petigors_tale
 apps_dev/project.py
-apps_dev/space_disaster
+#apps_dev/space_disaster
 apps_dev/victory_day_2015
 apps_dev/viewer
 apps_dev/website
@@ -22,7 +22,17 @@ blender/flight_over_island
 blender/geometry
 blender/interactivity
 blender/lighting
-blender/material_library
+
+blender/material_library/b4w_object_mat.blend
+blender/material_library/free_material_library.blend
+blender/material_library/auto/rubber.blend
+blender/material_library/glass/clean_glass.blend
+blender/material_library/metal/chrome.blend
+blender/material_library/metal/bronze.blend
+blender/material_library/natural/gypsum.blend
+blender/material_library/plastic/glossy_plastic.blend
+blender/material_library/plastic/rought_plastic.blend
+
 blender/materials
 blender/media
 blender/misc/logo*
@@ -31,7 +41,7 @@ blender/particles
 blender/petigors_tale
 blender/physics
 blender/postprocessing
-blender/space_disaster
+#blender/space_disaster
 blender/victory_day_2015
 blender/website
 
@@ -45,7 +55,7 @@ deploy/apps/common
 deploy/apps/flight
 deploy/apps/new_year
 deploy/apps/petigors_tale
-deploy/apps/space_disaster
+#deploy/apps/space_disaster
 deploy/apps/victory_day_2015
 deploy/apps/viewer
 deploy/apps/webplayer
@@ -67,7 +77,21 @@ deploy/assets/geometry
 deploy/assets/interactivity
 deploy/assets/lighting
 deploy/assets/location_agriculture/textures/buildings/house_walls_*
-deploy/assets/material_library
+
+deploy/assets/material_library/free_material_library.bin
+deploy/assets/material_library/free_material_library.json
+deploy/assets/material_library/ao_dirt_worn_masks.png
+deploy/assets/material_library/cubemap_rought.png
+deploy/assets/material_library/cubemap_sharp.png
+deploy/assets/material_library/cubemap_sharp_fake.png
+deploy/assets/material_library/matcap.png
+deploy/assets/material_library/matcap_matte.png
+deploy/assets/material_library/glass/glass_normal.jpg
+deploy/assets/material_library/mask/
+deploy/assets/material_library/natural/gypsum_normal.png
+deploy/assets/material_library/plastic/normal_noise.png
+deploy/assets/material_library/promo/gridline.png
+
 deploy/assets/materials
 deploy/assets/media
 deploy/assets/misc/logo*
@@ -76,7 +100,7 @@ deploy/assets/particles
 deploy/assets/petigors_tale
 deploy/assets/physics
 deploy/assets/postprocessing
-deploy/assets/space_disaster
+#deploy/assets/space_disaster
 deploy/assets/tutorials
 deploy/assets/victory_day_2015
 deploy/assets/website
@@ -166,3 +190,6 @@ VERSION
 !blender/website/contest/
 !deploy/assets/website/contest/
 
+# only pro sdk
+!blender/material_library/glass/gem*
+!deploy/assets/material_library/glass/gem*

@@ -573,10 +573,35 @@ vec2 vec_to_uv(vec3 vec)
 
 #node VECT_TRANSFORM
     #node_in vec3 vec_in
-    #node_out vec3 vec
-    vec[0] = vec[1] = vec[2] = ZERO_VALUE_NODES;
-    // NOTE: using unused variable to pass shader verification
-    vec_in;
+    #node_out vec3 vec_out
+#node_if CONVERT_TYPE == WORLD_TO_WORLD  || CONVERT_TYPE == OBJECT_TO_OBJECT || CONVERT_TYPE == CAMERA_TO_CAMERA
+    vec_out = vec_in;
+#node_else
+# node_if VECTOR_TYPE == VT_POINT
+    vec4 vec_from = vec4(vec_in, UNITY_VALUE_NODES);
+# node_else
+    vec4 vec_from = vec4(vec_in, ZERO_VALUE_NODES);
+# node_endif
+
+# node_if CONVERT_TYPE == VT_WORLD_TO_CAMERA
+    vec_out = (nin_zup_view_matrix * vec_from).xyz;
+# node_elif CONVERT_TYPE == VT_WORLD_TO_OBJECT
+    vec_out = (nin_zup_model_matrix_inverse * vec_from).xyz;
+# node_elif CONVERT_TYPE == VT_OBJECT_TO_WORLD
+    vec_out = (nin_zup_model_matrix * vec_from).xyz;
+# node_elif CONVERT_TYPE == VT_OBJECT_TO_CAMERA
+    vec_out = (nin_zup_view_matrix * nin_zup_model_matrix * vec_from).xyz;
+# node_elif CONVERT_TYPE == VT_CAMERA_TO_WORLD
+    vec_out = (nin_zup_view_matrix_inverse * vec_from).xyz;
+# node_elif CONVERT_TYPE == VT_CAMERA_TO_OBJECT
+    vec_out = (nin_zup_model_matrix_inverse * nin_zup_view_matrix_inverse * vec_from).xyz;
+# node_endif
+
+# node_if VECTOR_TYPE == VT_NORMAL
+    vec_out = normalize(vec_out);
+# node_endif
+
+#node_endif
 #endnode
 
 #node BLACKBODY
@@ -2529,6 +2554,10 @@ reflect_factor;
 
 void nodes_main(in vec3 nin_eye_dir,
         in mat4 nin_view_matrix,
+        in mat4 nin_zup_view_matrix,
+        in mat4 nin_zup_view_matrix_inverse,
+        in mat4 nin_zup_model_matrix,
+        in mat4 nin_zup_model_matrix_inverse,
         out vec3 nout_color,
         out vec3 nout_specular_color,
         out vec3 nout_normal,

@@ -39,7 +39,7 @@ var USE_FRUSTUM_CULLING = true;
 var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND",
         "MAIN_PLANE_REFLECT", "MAIN_CUBE_REFLECT", "MAIN_PLANE_REFLECT_BLEND",
         "MAIN_CUBE_REFLECT_BLEND", "MAIN_GLOW", "SHADOW_CAST", "SHADOW_RECEIVE",
-        "OUTLINE_MASK", "WIREFRAME", "COLOR_PICKING", "MAIN_XRAY",
+        "OUTLINE_MASK", "DEBUG_VIEW", "COLOR_PICKING", "MAIN_XRAY",
         "COLOR_PICKING_XRAY"];
 
 var _vec3_tmp = new Float32Array(3);
@@ -79,8 +79,8 @@ exports.prerender_subs = function(subs) {
         subs.need_perm_uniforms_update = false;
 
         switch (subs.type) {
-        case "WIREFRAME":
-            // NOTE: wireframe subs rendered optionally
+        case "DEBUG_VIEW":
+            // NOTE: debug view subs rendered optionally
             break;
         default:
             // prevent bugs when blend is only one rendered
@@ -119,36 +119,40 @@ function zsort(subs) {
 
     var eye = m_tsr.get_trans_value(subs.camera.world_tsr, _vec3_tmp);
 
-    // update if coords changed more than for 1 unit
-    var cam_updated =
-        m_vec3.dist(eye, subs.zsort_eye_last) > cfg_def.alpha_sort_threshold;
-
     for (var i = 0; i < subs.bundles.length; i++) {
-        var bundle = subs.bundles[i];
-        var obj_render = bundle.obj_render;
 
-        if (!obj_render.force_zsort && !cam_updated)
+        var bundle = subs.bundles[i];
+        if (!bundle.do_render)
             continue;
 
+        var obj_render = bundle.obj_render;
         var batch = bundle.batch;
 
-        if (batch && batch.blend && batch.zsort_type != m_geom.ZSORT_DISABLED) {
+        if (batch && batch.z_sort) {
             var bufs_data = batch.bufs_data;
 
-            if (!bufs_data || !bundle.do_render)
+            if (!bufs_data)
                 continue;
 
             var info = bufs_data.info_for_z_sort_updates;
-            if (info && info.type == m_geom.ZSORT_BACK_TO_FRONT) {
-                m_geom.update_buffers_movable(bufs_data, obj_render.world_tsr, eye);
-            }
+
+            // update if camera shifted enough
+            var cam_shift = m_vec3.dist(eye, info.zsort_eye_last);
+
+            // take batch geometry size into account
+            var shift_param = cfg_def.alpha_sort_threshold * Math.min(info.bb_min_side, 1);
+            var batch_cam_updated = cam_shift > shift_param;
+
+            if (!batch_cam_updated && !obj_render.force_zsort)
+                continue;
+
+            m_geom.update_buffers_movable(bufs_data, obj_render.world_tsr, eye);
+
+            // remember new coords
+            m_vec3.copy(eye, info.zsort_eye_last);
         }
         obj_render.force_zsort = false;
     }
-
-    // remember new coords
-    if (cam_updated)
-        m_vec3.copy(eye, subs.zsort_eye_last);
 }
 
 /**
@@ -158,6 +162,7 @@ function zsort(subs) {
 function prerender_bundle(bundle, subs) {
 
     var obj_render = bundle.obj_render;
+    var batch = bundle.batch;
 
     obj_render.is_visible = false;
 
@@ -179,11 +184,11 @@ function prerender_bundle(bundle, subs) {
     if (subs.type == "OUTLINE_MASK" && !Boolean(obj_render.outline_intensity))
         return false;
 
-    if (USE_FRUSTUM_CULLING && is_out_of_frustum(obj_render, cam.frustum_planes))
+    if (USE_FRUSTUM_CULLING && is_out_of_frustum(obj_render, cam.frustum_planes, batch))
         return false;
 
-    if (subs.type == "WIREFRAME")
-        if (bundle.batch.wireframe_mode == m_debug.WM_DEBUG_SPHERES)
+    if (subs.type == "DEBUG_VIEW")
+        if (bundle.batch.debug_view_mode == m_debug.DV_DEBUG_SPHERES)
             return bundle.batch.debug_sphere;
         else
             return !bundle.batch.debug_sphere;
@@ -191,12 +196,12 @@ function prerender_bundle(bundle, subs) {
     return true;
 }
 
-function is_out_of_frustum(obj_render, planes) {
+function is_out_of_frustum(obj_render, planes, batch) {
 
     if (obj_render.do_not_cull)
         return false;
 
-    var be = obj_render.be_world;
+    var be = batch.be_world;
     var pt = be.center;
     var axis_x = be.axis_x;
     var axis_y = be.axis_y;
@@ -207,6 +212,7 @@ function is_out_of_frustum(obj_render, planes) {
 }
 
 function is_lod_visible(obj_render, eye) {
+
     var center = obj_render.bs_world.center;
 
     var dist_min = obj_render.lod_dist_min;

@@ -1333,7 +1333,7 @@ exports.enforce_acyclic = function(graph, main_node) {
     if (!main_node)
         var main_node = get_sink_nodes(graph)[0];
     var edges = graph.edges;
-    if (!edges.length)
+    if (!edges.length || edges.indexOf(main_node) == -1)
         return graph;
     var graph_data = {};
     var count = 0;

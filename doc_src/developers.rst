@@ -103,6 +103,7 @@ If you did not use any arguments upon executing the *project.py* script, then th
  author = 
  name = 
  title = 
+ icon = 
  
  [paths]
  assets_dirs = 
@@ -122,6 +123,7 @@ If you did not use any arguments upon executing the *project.py* script, then th
  version = 
  
  [deploy]
+ assets_path_dest =
  assets_path_prefix = 
  remove_exist_ext_dir = 
 
@@ -234,7 +236,7 @@ This command will re-export blend files in JSON and HTML formats.
 
 Available parameters:
 
-* ``"-b | --blender_exec"`` path to the blender executable.
+* ``"-b | --blender-exec"`` path to the blender executable.
 * ``"-s | --assets"`` specify directory with scene assets.
 
 
@@ -259,17 +261,17 @@ Deploying Projects
 
 .. code-block:: bash
 
-    python3 project.py -p myproject deploy
+    python3 project.py -p myproject deploy DIRECTORY
 
 Save a project to an external directory together with all dependencies.
 
 Available parameters:
 
-* ``"-d | --dir"`` directory for deploying the project.
-* ``"-e | --assets-path"`` path to asset files.
+* ``"-e | --assets-dest"`` destination assets directory ("assets" by default).
+* ``"-E | --assets-prefix"`` assets URL prefix ("assets" by default).
 * ``"-o | --override"`` remove directory if it exists.
-* ``"-s | --assets"`` specify directory with scene assets.
-* ``"-t | --engine-type"`` (optional) determine a type of the deployed application.
+* ``"-s | --assets"`` override project's assets directory(s).
+* ``"-t | --engine-type"`` override project's engine type config.
 
 
 Remove Project
@@ -510,7 +512,8 @@ Secondly, you can run the script manually:
 
 .. code-block:: bash
 
-    > python3 <path_to_sdk>/scripts/converter.py [options] resize_textures | convert_dds | convert_media
+    > cd <path_to_sdk>/scripts
+    > python3 converter.py [options] resize_textures | convert_dds | convert_media
 
 For MS Windows users:
 

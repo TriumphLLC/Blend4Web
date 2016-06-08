@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 16.04</title>
+  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 16.05</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.04" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.05" href="index.html"/>
         <link rel="next" title="Замечания к релизам" href="release_notes.html"/>
         <link rel="prev" title="Работа в команде с использованием Git" href="git_short_manual.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -90,10 +90,11 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -113,8 +114,10 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Проблемы и решения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#webgl-support">Поддержка WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problems-upon-startup">Проблемы при запуске движка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-failed-to-initialize">Ошибка инициализации WebGL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-in-depth-troubleshooting">Если ничего не помогло...</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#known-issues">Известные проблемы</a></li>
 </ul>
 </li>
@@ -161,20 +164,60 @@
            <div itemprop="articleBody">
             
   <div class="section" id="problems-and-solutions">
-<span id="id1"></span><h1><a class="toc-backref" href="#id2">Проблемы и решения</a><a class="headerlink" href="#problems-and-solutions" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id3">Проблемы и решения</a><a class="headerlink" href="#problems-and-solutions" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#problems-and-solutions" id="id2">Проблемы и решения</a><ul>
-<li><a class="reference internal" href="#problems-upon-startup" id="id3">Проблемы при запуске движка</a></li>
-<li><a class="reference internal" href="#webgl-failed-to-initialize" id="id4">Ошибка инициализации WebGL</a></li>
-<li><a class="reference internal" href="#known-issues" id="id5">Известные проблемы</a></li>
+<li><a class="reference internal" href="#problems-and-solutions" id="id3">Проблемы и решения</a><ul>
+<li><a class="reference internal" href="#webgl-support" id="id4">Поддержка WebGL</a></li>
+<li><a class="reference internal" href="#problems-upon-startup" id="id5">Проблемы при запуске движка</a></li>
+<li><a class="reference internal" href="#webgl-failed-to-initialize" id="id6">Ошибка инициализации WebGL</a></li>
+<li><a class="reference internal" href="#more-in-depth-troubleshooting" id="id7">Если ничего не помогло...</a></li>
+<li><a class="reference internal" href="#known-issues" id="id8">Известные проблемы</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<p>Поскольку на сегодняшний день WebGL - всё ещё достаточно новая технология, она может работать некорректно с некоторыми комбинациями программного и аппаратного обеспечения. В этой главе перечислены наиболее распространённые проблемы, с которыми может столкнуться пользователь движка Blend4Web, и приведены способы их исправления.</p>
+<div class="section" id="webgl-support">
+<span id="id2"></span><h2><a class="toc-backref" href="#id4">Поддержка WebGL</a><a class="headerlink" href="#webgl-support" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Если вы используете настольный компьютер или ноутбук, вам требуется видеокарта с поддержкой DirectX 9.0c и OpenGL 2.1, такая, как:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">Nvidia GeForce серии 6xxx или выше.</p>
+</li>
+<li><p class="first">AMD/ATi Radeon серии R500 (X1xxx) или выше.</p>
+</li>
+<li><p class="first">Intel GMA 950 или выше.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Если вы используете WebGL на мобильном устройстве, проверьте, присутствует ли ваше устройство в <a class="reference external" href="http://mobilehtml5.org/">списке совместимости</a>.</p>
+<p>Вам также потребуется веб-браузер с поддержкой технолгии WebGL.</p>
+<p>WebGL поддерживают следующие веб-браузеры:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">Google Chrome (начиная с версии 9)</p>
+</li>
+<li><p class="first">Mozilla Firefox (начиная с версии 4.0)</p>
+</li>
+<li><p class="first">Safari (начиная с версии 8.0)</p>
+</li>
+<li><p class="first">Chrome for Android (начиная с версии 25)</p>
+</li>
+<li><p class="first">Internet Explorer (начиная с версии 11)</p>
+</li>
+<li>Microsoft Edge</li>
+<li><p class="first">Opera (начиная с версии 12)</p>
+</li>
+<li><p class="first">UC Browser (экспериментальная поддержка)</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Мы также рекомендуем использовать новейшие версии веб-браузеров для предотвращения проблем с совместимостью.</p>
+</div>
 <div class="section" id="problems-upon-startup">
-<span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id3">Проблемы при запуске движка</a><a class="headerlink" href="#problems-upon-startup" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id5">Проблемы при запуске движка</a><a class="headerlink" href="#problems-upon-startup" title="Ссылка на этот заголовок">¶</a></h2>
 <p><em>1. Появляется сообщение &#8220;Browser could not initialize WebGL.&#8221;</em></p>
 <a class="reference internal image-reference" href="_images/no_webgl.png"><img alt="_images/no_webgl.png" class="align-center" src="_images/no_webgl.png" style="width: 100%;" /></a>
 <p>Следует выполнить действия, описанные в разделе <a class="reference internal" href="#webgl-not-working"><span>Ошибка инициализации WebGL</span></a>.</p>
@@ -182,8 +225,6 @@
 <blockquote>
 <div><p>Вероятные причины:</p>
 <ul>
-<li><p class="first">Не используется локальный веб-сервер или браузер не настроен для работы с локальными ресурсами. См. раздел <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Загрузка локальных ресурсов</span></a>.</p>
-</li>
 <li><p class="first">Файлы ресурсов, которые пытается загрузить движок, были перемещены или удалены.</p>
 </li>
 <li><p class="first">Используются старые версии драйверов.</p>
@@ -195,14 +236,16 @@
 </li>
 <li><p class="first">Используется устаревшая операционная система, такая как Windows XP.</p>
 </li>
+<li><p class="first">Браузер не настроен для работы с локальными ресурсами. В этом случае проблема может быть решена использованием локального веб-сервера. См. раздел <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Загрузка локальных ресурсов</span></a>.</p>
+</li>
 </ul>
 </div></blockquote>
 </div>
 <div class="section" id="webgl-failed-to-initialize">
-<span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id4">Ошибка инициализации WebGL</a><a class="headerlink" href="#webgl-failed-to-initialize" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id6">Ошибка инициализации WebGL</a><a class="headerlink" href="#webgl-failed-to-initialize" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Сайт <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> при просмотре в браузерах Chrome или Firefox последней версии сообщает о проблемах. Что делать?</p>
 <ol class="arabic simple">
-<li><p class="first">Установить доступные обновления для системы (для Windows см. <a class="reference external" href="http://support.microsoft.com/kb/311047/ru">инструкцию</a>). В случае Windows установить последнюю версию <a class="reference external" href="http://www.microsoft.com/ru-ru/download/details.aspx?id=35">DirectX</a>. Перезагрузить систему.</p>
+<li><p class="first">Установить доступные обновления для системы (для Windows см. <a class="reference external" href="http://support.microsoft.com/kb/311047">инструкцию</a>). В случае Windows установить последнюю версию <a class="reference external" href="http://www.microsoft.com/ru-ru/download/details.aspx?id=35">DirectX</a>. Перезагрузить систему.</p>
 </li>
 <li><p class="first">Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести <strong>about:gpu</strong> (или <strong>chrome://gpu</strong>) в адресную строку браузера Chrome...</p>
 </li>
@@ -217,7 +260,34 @@
 <div class="line"><br /></div>
 </div>
 <p>Для операционных систем семейства Windows можно воспользоваться средством диагностики DirectX <strong>dxdiag</strong>.</p>
-<a class="reference internal image-reference" href="_images/dxdiag.png"><img alt="_images/dxdiag.png" class="align-center" src="_images/dxdiag.png" style="width: 100%;" /></a>
+<p>Для этого выполните следующие действия:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p class="first">Выберете команду <code class="docutils literal"><span class="pre">Run</span></code> из стартового меню</p>
+</li>
+<li><p class="first">В окне <code class="docutils literal"><span class="pre">Open</span></code> введите <em>dxdiag</em> и нажмите <code class="docutils literal"><span class="pre">Enter</span></code> чтобы вызвать утилиту диагностики DirectX</p>
+</li>
+<li><p class="first">Откройте панель <code class="docutils literal"><span class="pre">Display</span></code>. Там вы можете найти информацию о производителе, модели и других параметрах вашей видеокарты.</p>
+</li>
+</ol>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/problems_dxdiag.png"><img alt="_images/problems_dxdiag.png" class="align-center" src="_images/problems_dxdiag.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>В MacOS X вам следует ознакомиться с System Report.</p>
+<p>Для этого выполните следующие действия:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p class="first">Выберете <code class="docutils literal"><span class="pre">About</span> <span class="pre">This</span> <span class="pre">Mac</span></code> из меню <code class="docutils literal"><span class="pre">Apple</span></code>.</p>
+</li>
+<li><p class="first">Нажмите кнопку <code class="docutils literal"><span class="pre">System</span> <span class="pre">Report</span></code>.</p>
+</li>
+<li><p class="first">Выберете пункт <code class="docutils literal"><span class="pre">Graphics/Displays</span></code> из раздела <code class="docutils literal"><span class="pre">Hardware</span></code>.</p>
+</li>
+</ol>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/problems_osx.png"><img alt="_images/problems_osx.png" class="align-center" src="_images/problems_osx.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -238,9 +308,16 @@
 <p><em>В Firefox</em>:</p>
 <p>Ввести <strong>about:config</strong> в адресную строку браузера, найти параметр <code class="docutils literal"><span class="pre">webgl.force-enabled</span></code> и переключить его двойным щелчком мыши из <code class="docutils literal"><span class="pre">false</span></code> в <code class="docutils literal"><span class="pre">true</span></code>.</p>
 <a class="reference internal image-reference" href="_images/about_config_force_webgl.png"><img alt="_images/about_config_force_webgl.png" class="align-center" src="_images/about_config_force_webgl.png" style="width: 100%;" /></a>
+<p><em>Для Safari</em></p>
+<p>Выберете пункт <code class="docutils literal"><span class="pre">Preferences</span></code> из меню Safari, затем выберете вкладку <code class="docutils literal"><span class="pre">Security</span></code> и убедитесь, что опция <code class="docutils literal"><span class="pre">Allow</span> <span class="pre">WebGL</span></code> включена.</p>
+<a class="reference internal image-reference" href="_images/safari_force_webgl.png"><img alt="_images/safari_force_webgl.png" class="align-center" src="_images/safari_force_webgl.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="more-in-depth-troubleshooting">
+<h2><a class="toc-backref" href="#id7">Если ничего не помогло...</a><a class="headerlink" href="#more-in-depth-troubleshooting" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Если ни один из перечисленных выше способов не помог вам устранить проблемы, посетите <a class="reference external" href="https://www.blend4web.com/ru/forums/">форум сообщества</a> Blend4Web и оставьте сообщение в разделе <a class="reference external" href="https://www.blend4web.com/ru/forums/forum/8/">&#8220;Ошибки&#8221;</a>. Наша команда сделает всё возможное, чтобы помочь вам.</p>
 </div>
 <div class="section" id="known-issues">
-<span id="known-problems"></span><h2><a class="toc-backref" href="#id5">Известные проблемы</a><a class="headerlink" href="#known-issues" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="known-problems"></span><h2><a class="toc-backref" href="#id8">Известные проблемы</a><a class="headerlink" href="#known-issues" title="Ссылка на этот заголовок">¶</a></h2>
 <ul>
 <li><p class="first">Проблемы с обновлением старых версий аддона.</p>
 <blockquote>
@@ -270,6 +347,16 @@
 <div><p>Проблема вызвана несовместимостью последних драйверов Nvidia с сэндбоксом Chromium. В качестве решения рекомендуется понизить версию драйверов до 340-х.</p>
 </div></blockquote>
 </li>
+<li><p class="first">Проблемы WebAudio.</p>
+<blockquote>
+<div><p>В некторых версиях Google Chrome звук не воспроизводится для источников звука с типом &#8220;Background Music&#8221;, если используется экспорт в HTML. В качестве решения в настоящий момент тип источника звука автоматически меняется на &#8220;Background Sound&#8221;.</p>
+<p>Ошибка аудиоконтекста проявляется, если запущено много (болше 6) копий движка Blend4Web (например, на нескольких вкладках браузера или в нескольких iframe&#8217;ах на одной странице). Ошибку можно предотвратить, отключив звук в приложении, если для него не может быть создан аудиоконтекст.</p>
+</div></blockquote>
+</li>
+<li><p class="first">QQ Browser на данный момент не поддерживает WebGL.</p>
+</li>
+<li><p class="first">WebGL может работать нестабильно и давать сбои при использовании драйверов Mesa 11.x в Linux/Chrome на видеокартах Intel. Понижение версии драйверов до 10.х может решить проблему.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -294,15 +381,48 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-04-28.
+      Обновлено: 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -317,7 +437,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

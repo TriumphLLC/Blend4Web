@@ -169,7 +169,6 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
         return null;
 
     m_print.log("%cINIT WEBGL " + (cfg_def.webgl2 ? "2" : "1"), "color: #00a");
-    window.gl = gl;
 
     _gl = gl;
 

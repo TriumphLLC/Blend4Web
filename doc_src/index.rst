@@ -20,6 +20,7 @@ Table of Contents
     scene_settings.rst
     objects.rst
     meshes.rst
+    normal_editor.rst
     camera.rst
     materials.rst   
     node_materials.rst

@@ -12,7 +12,7 @@ Particle System. Instancing
 
 A particle system can be used to create multiple object copies (so called instancing). This technique simplifies scene authoring and also reduces loading time and memory consumption as compared to the using of single objects.
 
-.. image:: src_images/particles_instancing/particles_instancing_example.jpg
+.. image:: src_images/particles_instancing/particles_instancing_example.png
    :align: center
    :width: 100%
 
@@ -32,17 +32,17 @@ Particle System Setup
 
 .. only:: html
 
-    .. image:: src_images/particles_instancing/particles_settings_panel.jpg
+    .. image:: src_images/particles_instancing/particles_settings_panel.png
        :align: center
        :width: 100%
 
 .. only:: latex
 
-    .. image:: src_images/particles_instancing/particles_settings_panel_01.jpg
+    .. image:: src_images/particles_instancing/particles_settings_panel_01.png
        :align: center
        :width: 100%
 
-    .. image:: src_images/particles_instancing/particles_settings_panel_02.jpg
+    .. image:: src_images/particles_instancing/particles_settings_panel_02.png
        :align: center
        :width: 100%
 
@@ -58,7 +58,7 @@ Activation
 
 #. In order to display correct sizes in the viewport, set the ``Emission > Hair Length`` and ``Render > Size`` parameters to 1.0.
 
-.. image:: src_images/particles_instancing/particles_instancing_setup.jpg
+.. image:: src_images/particles_instancing/particles_instancing_setup.png
    :align: center
    :width: 100%
 
@@ -188,7 +188,7 @@ Grass
 
 Instancing of objects can be used for visualizing vast grass. In this case grass is rendered near the camera when it moves through the landscape.
 
-.. image:: src_images/particles_instancing/dynamic_grass.jpg
+.. image:: src_images/particles_instancing/dynamic_grass.png
    :align: center
    :width: 100%
 
@@ -215,7 +215,7 @@ Vertex color layers with such names should exist in the landscape mesh.
 
 It is also recommended to disable rendering of the emitter (the ``Render > Emitter`` option).
 
-.. image:: src_images/particles_instancing/dynamic_grass_setup.jpg
+.. image:: src_images/particles_instancing/dynamic_grass_setup.png
    :align: center
    :width: 100%
 
@@ -227,7 +227,7 @@ Tree Leaves
 
 Instancing suits the rendering of tree leaves well and allows to get a better level of detail.
 
-.. image:: src_images/particles_instancing/tree_leaves.jpg
+.. image:: src_images/particles_instancing/tree_leaves.png
    :align: center
    :width: 100%
 
@@ -275,6 +275,6 @@ In order to create dependency between the size of particles and vertex group wei
 
 The influence can be tweaked by setting weights in the selected vertex group.
 
-.. image:: src_images/particles_instancing/particle_settings.jpg
+.. image:: src_images/particles_instancing/particle_settings.png
    :align: center
    :width: 100%

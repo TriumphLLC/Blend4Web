@@ -26,6 +26,7 @@
 b4w.module["__nodemat"] = function(exports, require) {
 
 var m_cfg     = require("__config");
+var m_debug   = require("__debug");
 var m_graph   = require("__graph");
 var m_mat3    = require("__mat3");
 var m_mat4    = require("__mat4");
@@ -35,6 +36,7 @@ var m_shaders = require("__shaders");
 var m_scenes  = require("__scenes");
 var m_util    = require("__util");
 var m_vec3    = require("__vec3");
+var m_tex     = require("__textures");
 
 var _shader_ident_counters = {};
 var _composed_node_graphs = {};
@@ -46,8 +48,38 @@ var _vec4_tmp = new Float32Array(4);
 
 var cfg_def = m_cfg.defaults;
 
+var DEBUG_NODE_GRAPHS = false;
+
 var VECTOR_VALUE = 0;
 var SCALAR_VALUE = 1;
+
+var CURVE_POINT_EPS = 0.01;
+
+// NOTE: keep VT constants synchronized with:
+//          shaders/include/std_enums.glsl
+//          src/batch.js : update_batch_material_nodes
+var VT_POINT  = 0;
+var VT_VECTOR = 1;
+var VT_NORMAL = 2;
+
+var VT_WORLD_TO_WORLD   = 0;
+var VT_WORLD_TO_OBJECT  = 1;
+var VT_WORLD_TO_CAMERA  = 2;
+var VT_OBJECT_TO_WORLD  = 3;
+var VT_OBJECT_TO_OBJECT = 4;
+var VT_OBJECT_TO_CAMERA = 5;
+var VT_CAMERA_TO_WORLD  = 6;
+var VT_CAMERA_TO_OBJECT = 7;
+var VT_CAMERA_TO_CAMERA = 8;
+exports.VT_WORLD_TO_WORLD   = VT_WORLD_TO_WORLD;
+exports.VT_WORLD_TO_OBJECT  = VT_WORLD_TO_OBJECT;
+exports.VT_WORLD_TO_CAMERA  = VT_WORLD_TO_CAMERA;
+exports.VT_OBJECT_TO_WORLD  = VT_OBJECT_TO_WORLD;
+exports.VT_OBJECT_TO_OBJECT = VT_OBJECT_TO_OBJECT;
+exports.VT_OBJECT_TO_CAMERA = VT_OBJECT_TO_CAMERA;
+exports.VT_CAMERA_TO_WORLD  = VT_CAMERA_TO_WORLD;
+exports.VT_CAMERA_TO_OBJECT = VT_CAMERA_TO_OBJECT;
+exports.VT_CAMERA_TO_CAMERA = VT_CAMERA_TO_CAMERA;
 
 exports.compose_nmat_graph = compose_nmat_graph;
 function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
@@ -134,6 +166,7 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
         optimize_geometry_vcol(graph_out);
 
         fix_socket_types(graph_out, mat_name, shader_type);
+        create_node_textures(graph_out);
     } else {
         var main_graph = compose_nmat_graph(node_tree, source_id, is_node_group,
                                             mat_name, "MAIN")
@@ -156,6 +189,9 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
 
     }
     _composed_node_graphs[ntree_graph_id] = graph_out;
+
+    if (DEBUG_NODE_GRAPHS)
+        print_node_graph(graph_out, mat_name);
     return graph_out;
 }
 
@@ -1264,7 +1300,6 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
     case "VOLUME_SCATTER":
     case "BUMP":
     case "NORMAL_MAP":
-    case "VECT_TRANSFORM":
     case "BLACKBODY":
     case "WAVELENGTH":
     case "SEPXYZ":
@@ -1348,6 +1383,23 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         break;
     case "CURVE_RGB":
     case "CURVE_VEC":
+        if (type == "CURVE_RGB") {
+            if (check_curve_usage(bpy_node, 0, 0.0, 1.0))
+                dirs.push(["READ_R", 1]);
+            if (check_curve_usage(bpy_node, 1, 0.0, 1.0))
+                dirs.push(["READ_G", 1]);
+            if (check_curve_usage(bpy_node, 2, 0.0, 1.0))
+                dirs.push(["READ_B", 1]);
+            if (check_curve_usage(bpy_node, 3, 0.0, 1.0))
+                dirs.push(["READ_A", 1]);
+        } else {
+            if (check_curve_usage(bpy_node, 0, -1.0, 1.0))
+                dirs.push(["READ_R", 1]);
+            if (check_curve_usage(bpy_node, 1, -1.0, 1.0))
+                dirs.push(["READ_G", 1]);
+            if (check_curve_usage(bpy_node, 2, -1.0, 1.0))
+                dirs.push(["READ_B", 1]);
+        }
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
         data = {
@@ -2353,6 +2405,74 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         outputs = node_outputs_bpy_to_b4w(bpy_node);
 
         break;
+    case "VECT_TRANSFORM":
+        switch (bpy_node["vector_type"]) {
+        case "POINT":
+            dirs.push(["VECTOR_TYPE", m_shaders.glsl_value(VT_POINT)]);
+            break;
+        case "VECTOR":
+            dirs.push(["VECTOR_TYPE", m_shaders.glsl_value(VT_VECTOR)]);
+            break;
+        case "NORMAL":
+            dirs.push(["VECTOR_TYPE", m_shaders.glsl_value(VT_NORMAL)]);
+            break;
+        default:
+            m_print.error("Unsupported VECT_TRANSFORM vector_type: " +
+                    bpy_node["vector_type"]);
+            return null;
+        }
+        var convert_from = bpy_node["convert_from"];
+        var convert_to = bpy_node["convert_to"];
+
+        if (convert_from == "WORLD") {
+            if (convert_to == "WORLD")
+                var conv_type = VT_WORLD_TO_WORLD;
+            else if (convert_to == "OBJECT")
+                var conv_type = VT_WORLD_TO_OBJECT;
+            else if (convert_to == "CAMERA")
+                var conv_type = VT_WORLD_TO_CAMERA;
+            else {
+                m_print.error("Unsupported VECT_TRANSFORM convert_to: " +
+                     bpy_node["convert_to"]);
+                return null;
+            }
+        } else if (convert_from == "OBJECT") {
+            if (convert_to == "WORLD")
+                var conv_type = VT_OBJECT_TO_WORLD;
+            else if (convert_to == "OBJECT")
+                var conv_type = VT_OBJECT_TO_OBJECT;
+            else if (convert_to == "CAMERA")
+                var conv_type = VT_OBJECT_TO_CAMERA;
+            else {
+                m_print.error("Unsupported VECT_TRANSFORM convert_to: " +
+                        bpy_node["convert_to"]);
+                return null;
+            }
+        } else if (convert_from == "CAMERA") {
+            if (convert_to == "WORLD")
+                var conv_type = VT_CAMERA_TO_WORLD;
+            else if (convert_to == "OBJECT")
+                var conv_type = VT_CAMERA_TO_OBJECT;
+            else if (convert_to == "CAMERA")
+                var conv_type = VT_CAMERA_TO_CAMERA;
+            else {
+                m_print.error("Unsupported VECT_TRANSFORM convert_to: " +
+                        bpy_node["convert_to"]);
+                return null;
+            }
+        } else {
+            m_print.error("Unsupported VECT_TRANSFORM convert_from: " +
+                    bpy_node["convert_from"]);
+            return null;
+        }
+
+        dirs.push(["CONVERT_TYPE", m_shaders.glsl_value(conv_type)]);
+
+        inputs = node_inputs_bpy_to_b4w(bpy_node);
+        outputs = node_outputs_bpy_to_b4w(bpy_node);
+
+        break;
+
     default:
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
@@ -3107,6 +3227,12 @@ exports.check_material_glow_output = function(mat) {
     return false;
 }
 
+function print_node_graph(node_graph, mat_name) {
+    m_print.log("\n================ MATERIAL: " + mat_name + " ================"
+            + "\n" + m_debug.nodegraph_to_dot(node_graph, true)
+            + "\n============================================================");
+}
+
 exports.cleanup = cleanup;
 function cleanup() {
     for (var graph_id in _composed_node_graphs) {
@@ -3120,6 +3246,72 @@ function cleanup() {
         delete _lamp_indexes[key];
     _lamp_index = 0;
     _material_index = 0;
+}
+
+function create_node_textures(nmat_graph) {
+    var color_ramp_nodes = [];
+    var curves_nodes = [];
+    m_graph.traverse(nmat_graph, function(node, attr) {
+        switch (attr.type) {
+        case "VALTORGB":
+            color_ramp_nodes.push(attr);
+            break;
+        case "CURVE_VEC":
+        case "CURVE_RGB":
+            curves_nodes.push(attr);
+            break;
+        };
+    });
+    var row = 0;
+    var color_ramp_id = null;
+    var curve_id = null;
+    var length = color_ramp_nodes.length + curves_nodes.length;
+    if (color_ramp_nodes.length) {
+        color_ramp_id = m_tex.create_color_ramp_texture(color_ramp_nodes,
+                m_tex.COLORRAMP_TEXT_SIZE);
+        for (var i = 0; i < color_ramp_nodes.length; i++) {
+            color_ramp_nodes[i].dirs.push(["NODE_TEX_ROW", m_shaders.glsl_value((row + 0.5) / 
+                    length)]);
+            row++;
+        }
+    }
+    if (curves_nodes.length) {
+        curve_id = m_tex.create_vec_curve_texture(curves_nodes,
+                m_tex.CURVE_NODES_TEXT_SIZE);
+        for (var i = 0; i < curves_nodes.length; i++) {
+            curves_nodes[i].dirs.push(["NODE_TEX_ROW", m_shaders.glsl_value((row + 0.5) / 
+                    length)]);
+            row++;
+        }
+    }
+    var image_data = null;
+    if (color_ramp_id && curve_id) {
+        image_data = new Uint8Array(color_ramp_id.length + curve_id.length);
+        image_data.set(color_ramp_id);
+        image_data.set(curve_id, color_ramp_id.length);
+    } else if (color_ramp_id)
+        image_data = color_ramp_id;
+    else
+        image_data = curve_id;
+    if (image_data)
+        var tex = m_tex.generate_batch_texure(image_data, m_tex.CURVE_NODES_TEXT_SIZE);
+    else
+        var tex = null;
+
+    for (var i = 0; i < color_ramp_nodes.length; i++)
+        color_ramp_nodes[i].data.texture = tex;
+    for (var i = 0; i < curves_nodes.length; i++)
+        curves_nodes[i].data.texture = tex;
+}
+
+function check_curve_usage(bpy_node, ind, start, end) {
+    var curve = bpy_node["curve_mapping"]["curves_data"][ind];
+    if (curve.length == 2 && curve[0][0] < start + CURVE_POINT_EPS
+            && curve[0][1] < start + CURVE_POINT_EPS 
+            && curve[1][0] > end - CURVE_POINT_EPS
+            && curve[1][1] > end - CURVE_POINT_EPS)
+        return false;
+    return true;
 }
 
 }

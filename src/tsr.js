@@ -30,6 +30,9 @@ var m_quat = require("__quat");
 var m_util = require("__util");
 var m_vec3 = require("__vec3");
 
+var ZUP_SIN = Math.sin(-Math.PI/4);
+var ZUP_COS = -ZUP_SIN;
+
 var _vec3_tmp = new Float32Array(3);
 var _quat_tmp = new Float32Array(4);
 var _mat4_tmp = new Float32Array(16);
@@ -76,7 +79,8 @@ exports.from_values_ext = function(x, y, z, s, qx, qy, qz, qw) {
     return tsr;
 }
 
-exports.copy = function(tsr, dest) {
+exports.copy = copy
+function copy(tsr, dest) {
     // faster than .set()
 
     dest[0] = tsr[0];
@@ -667,6 +671,38 @@ function tsr_quat_normalize(tsr, dest) {
         dest[6] = tsr[6] * len;
         dest[7] = tsr[7] * len;
     }
+}
+
+exports.to_zup_view = function(tsr, dest) {
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
+
+    dest[3] = tsr[3];
+
+    // rotation around global X-axis
+    // sin/cos -PI/4 for -PI/2 rotation
+    var ax = tsr[4], ay = tsr[5], az = tsr[6], aw = tsr[7];
+    var bx = ZUP_SIN, bw = ZUP_COS;
+
+    dest[4] = ax * bw + aw * bx;
+    dest[5] = ay * bw + az * bx;
+    dest[6] = az * bw - ay * bx;
+    dest[7] = aw * bw - ax * bx;
+}
+
+exports.to_zup_model = function(tsr, dest) {
+    //location
+    dest[0] = tsr[0];
+    dest[1] = -tsr[2];
+    dest[2] = tsr[1];
+    //scale
+    dest[3] = tsr[3];
+    //rot quaternion
+    dest[4] = tsr[4];
+    dest[5] = -tsr[6];
+    dest[6] = tsr[5];
+    dest[7] = tsr[7];
 }
 
 }

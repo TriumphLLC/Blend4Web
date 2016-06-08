@@ -1,0 +1,426 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Редактор нормалей &mdash; Руководство пользователя Blend4Web 16.05</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="Об этих документах"
+              href="about.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.05" href="index.html"/>
+        <link rel="next" title="Камера" href="camera.html"/>
+        <link rel="prev" title="Меши" href="meshes.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. Руководство пользователя
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.05
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Возможности движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Редактор нормалей</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#main-features-of-the-normal-editor">Основные особенности редактора нормалей:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interface-of-the-vertex-normal-editor">Интерфейс редактора вертексных нормалей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#activate">Activate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#show-normals">Show Normals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rotation">Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#split-normals">Split Normals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#average-split">Average Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#restore">Restore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tree-foliage-and-face">Tree, Foliage и Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#copy-paste">Copy/Paste</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#copy-from-mesh">Copy From Mesh</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">Работа с цветом</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. Руководство пользователя</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Редактор нормалей</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="normals-editor"></span><div class="section" id="normal-editor">
+<span id="index-0"></span><h1><a class="toc-backref" href="#id1">Редактор нормалей</a><a class="headerlink" href="#normal-editor" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#normal-editor" id="id1">Редактор нормалей</a><ul>
+<li><a class="reference internal" href="#main-features-of-the-normal-editor" id="id2">Основные особенности редактора нормалей:</a></li>
+<li><a class="reference internal" href="#interface-of-the-vertex-normal-editor" id="id3">Интерфейс редактора вертексных нормалей</a></li>
+<li><a class="reference internal" href="#activate" id="id4">Activate</a></li>
+<li><a class="reference internal" href="#show-normals" id="id5">Show Normals</a></li>
+<li><a class="reference internal" href="#rotation" id="id6">Rotation</a></li>
+<li><a class="reference internal" href="#split-normals" id="id7">Split Normals</a></li>
+<li><a class="reference internal" href="#average-split" id="id8">Average Split</a></li>
+<li><a class="reference internal" href="#restore" id="id9">Restore</a></li>
+<li><a class="reference internal" href="#tree-foliage-and-face" id="id10">Tree, Foliage и Face</a></li>
+<li><a class="reference internal" href="#copy-paste" id="id11">Copy/Paste</a></li>
+<li><a class="reference internal" href="#copy-from-mesh" id="id12">Copy From Mesh</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Редактирование нормалей - достаточно простой и эффективный способ изменить собственное затенение трехмерной модели, не усложняя ее геометрию.</p>
+<p>С помощью редактора нормалей, в некоторых случаях, можно достичь результатов, аналогичных применению <a class="reference internal" href="textures.html#normal-map"><span>карт нормалей</span></a>. При этом метод редактирования нормалей является более предпочтительным с точки зрения потребления вычислительных ресурсов и видео-памяти.</p>
+<p>Пример работы редактора нормалей:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/normal_editor_example.png"><img alt="_images/normal_editor_example.png" class="align-center" src="_images/normal_editor_example.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>Слева - обычное затенение геометрии, справа - дерево с редактированными нормалями.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/simple_geometry.png"><img alt="_images/simple_geometry.png" class="align-center" src="_images/simple_geometry.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>Слева - ворота с обычным затенением, в центре - ворота с редактированными нормалями, справа - геометрия модели ворот с сеткой.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/grass.png"><img alt="_images/grass.png" class="align-center" src="_images/grass.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>Слева - обычное затенение геометрии травы, справа - трава с редактированными нормалями.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/glasses.png"><img alt="_images/glasses.png" class="align-center" src="_images/glasses.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>Слева - очки с обычным затенением, справа - затенение геометрии с редактированными нормалями.</p>
+<div class="section" id="main-features-of-the-normal-editor">
+<h2><a class="toc-backref" href="#id2">Основные особенности редактора нормалей:</a><a class="headerlink" href="#main-features-of-the-normal-editor" title="Ссылка на этот заголовок">¶</a></h2>
+<ol class="arabic simple">
+<li><p class="first">для хранилища массива данных с направлениями вертексных нормалей используется “родной” блок данных Blender (появился в версии 2.74);</p>
+</li>
+<li><p class="first">редактирование нормалей и отображение затенения теперь происходит в режиме редактирования (<code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code>);</p>
+</li>
+<li><p class="first">все изменения записываются сразу же автоматически;</p>
+</li>
+<li><p class="first">вращение нормали выделенного вертекса можно производить непосредственно в окне Viewport’a по горячим клавишам <code class="docutils literal"><span class="pre">Shift+Ctrl+R</span></code>, подобно остальным операциям вращения в Blender;</p>
+</li>
+<li><p class="first">редактированные нормали экспортируются автоматически.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="interface-of-the-vertex-normal-editor">
+<h2><a class="toc-backref" href="#id3">Интерфейс редактора вертексных нормалей</a><a class="headerlink" href="#interface-of-the-vertex-normal-editor" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Интерфейс редактора нормалей располагается на панели инструментов <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Normal</span> <span class="pre">Editor</span></code>. Перед началом работы редактора для объекта необходимо включить режим затенения <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code> и нажать кнопку <code class="docutils literal"><span class="pre">Activate</span></code> на панели редактора нормалей или выставить галочку <code class="docutils literal"><span class="pre">Auto</span> <span class="pre">Smooth</span></code> в настройках меша.</p>
+<a class="reference internal image-reference" href="_images/normal_editor_interface.png"><img alt="_images/normal_editor_interface.png" class="align-center" src="_images/normal_editor_interface.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="activate">
+<h2><a class="toc-backref" href="#id4">Activate</a><a class="headerlink" href="#activate" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Кнопка <code class="docutils literal"><span class="pre">Activate</span></code> включает режим редактирования вертекных нормалей.</p>
+<p>Достаточно в режиме <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code> нажать кнопу <code class="docutils literal"><span class="pre">Activate</span></code>, и можно приступать к редактированию вертексных нормалей. Пока она остаётся в активном режиме, затенение объекта и его экспорт будут осуществляться с учетом редактированных вертексных нормалей. Другими словами, после внесения изменений, для их отображения во Viewport’е Blender и в движке Blend4Web кнопка должна быть оставлена активной.</p>
+</div>
+<div class="section" id="show-normals">
+<h2><a class="toc-backref" href="#id5">Show Normals</a><a class="headerlink" href="#show-normals" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для удобства в панель продублирована оригинальная кнопка Blender, включающая отображение маркеров вертексных нормалей во Viewport’е, а так же настройка их длины.</p>
+<p>Достаточно просто включить кнопку <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Normals</span></code> прямо на панели редактора вертексных нормалей Blend4Web или в правой панели Blender в разделе <code class="docutils literal"><span class="pre">Mesh</span> <span class="pre">Display</span></code> и настроить комфортную длину маркера в поле <code class="docutils literal"><span class="pre">Size</span></code>.</p>
+<a class="reference internal image-reference" href="_images/show_normals.gif"><img alt="_images/show_normals.gif" class="align-center" src="_images/show_normals.gif" style="width: 100%;" /></a>
+</div>
+<div class="section" id="rotation">
+<h2><a class="toc-backref" href="#id6">Rotation</a><a class="headerlink" href="#rotation" title="Ссылка на этот заголовок">¶</a></h2>
+<p>При помощи этого инструментария можно вращать нормаль каждого вертекса индивидуально. Функция <code class="docutils literal"><span class="pre">Rotate</span></code> также доступна по горячим клавишам <code class="docutils literal"><span class="pre">Shift+Ctrl+R</span></code> и позволяет вращать вертексные нормали в привычном для пользователя Blender режиме.</p>
+<a class="reference internal image-reference" href="_images/rotation.gif"><img alt="_images/rotation.gif" class="align-center" src="_images/rotation.gif" style="width: 100%;" /></a>
+<p>Выделив один или несколько вертексов, которые хотите изменить, вращайте их, используя визуальную сферу на панели редактора вертексных нормалей Blend4Web, или задайте направление каждой координате в цифровом значении.</p>
+<p>Более удобный вариант манипуляции с вертексными нормалями предоставляет кнопка <code class="docutils literal"><span class="pre">Rotate</span></code>. Вращение происходит по координатам в пространстве экрана, но, как и при обычном вращении объектов в Blender, можно изолировать нужную ось координат и вращать только по ней (нажав <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> или <code class="docutils literal"><span class="pre">Z</span></code>).</p>
+</div>
+<div class="section" id="split-normals">
+<h2><a class="toc-backref" href="#id7">Split Normals</a><a class="headerlink" href="#split-normals" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Режим <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> позволяет редактировать вертексные нормали индивидуально для каждой грани (<code class="docutils literal"><span class="pre">Face</span></code> в Blender), образующей редактируемую вершину (<code class="docutils literal"><span class="pre">Vertex</span></code> в Blender). Переключатель вертексных индексов позволяет перемещаться между нормалями разделенного вертекса.</p>
+<a class="reference internal image-reference" href="_images/split_normals.gif"><img alt="_images/split_normals.gif" class="align-center" src="_images/split_normals.gif" style="width: 100%;" /></a>
+<p>Перейдя в режим <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code>, выберите нужный вертекc и измените направление его нормали. Прежде всего подвергнется модификации та нормаль, которая имеет наименьший индекс в очереди (то есть 0) редактируемого вертекса. Далее, перемещаясь по индексам, перейдите на следующую нормаль этого вертекса и редактируйте ее.</p>
+</div>
+<div class="section" id="average-split">
+<h2><a class="toc-backref" href="#id8">Average Split</a><a class="headerlink" href="#average-split" title="Ссылка на этот заголовок">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">Average</span> <span class="pre">Split</span></code> усредняет направление вертексной нормали, исходя из направлений нормалей, разделенных функцией <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code>.</p>
+<a class="reference internal image-reference" href="_images/average_split.gif"><img alt="_images/average_split.gif" class="align-center" src="_images/average_split.gif" style="width: 100%;" /></a>
+<p>Для того, чтобы объединить несколько разделенных вертексных нормалей в одну так, чтобы она имела их среднее направление, достаточно выделить нужный вертекс и нажать Average <code class="docutils literal"><span class="pre">Split</span></code>.</p>
+</div>
+<div class="section" id="restore">
+<h2><a class="toc-backref" href="#id9">Restore</a><a class="headerlink" href="#restore" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Кнопка <code class="docutils literal"><span class="pre">Restore</span></code> восстанавливает исходное направление нормалей выделенных вертексов.</p>
+<a class="reference internal image-reference" href="_images/restore.gif"><img alt="_images/restore.gif" class="align-center" src="_images/restore.gif" style="width: 100%;" /></a>
+<p>Для того, чтобы восстановить нормали к исходному направлению (которое раcсчитывается на основе нормалей полигонов), нужно выделить нужные вертексы и нажать кнопку <code class="docutils literal"><span class="pre">Restore</span></code>.</p>
+</div>
+<div class="section" id="tree-foliage-and-face">
+<h2><a class="toc-backref" href="#id10">Tree, Foliage и Face</a><a class="headerlink" href="#tree-foliage-and-face" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Функция <code class="docutils literal"><span class="pre">Tree</span></code> направляет нормали выделенных вертексов в сторону от 3D-курсора. <code class="docutils literal"><span class="pre">Foliage</span></code> направляет нормали вертекcов строго вверх по глобальной оси <code class="docutils literal"><span class="pre">Z</span></code>. <code class="docutils literal"><span class="pre">Face</span></code> направляет нормали вертексов выделенного полигона параллельно нормали этого полигона.</p>
+<a class="reference internal image-reference" href="_images/tree_foliage_face.gif"><img alt="_images/tree_foliage_face.gif" class="align-center" src="_images/tree_foliage_face.gif" style="width: 100%;" /></a>
+<p>Чтобы воспользоваться функцией <code class="docutils literal"><span class="pre">Tree</span></code>, выделите нужные вертексы и расположите курсор в нужном вам месте. После нажатия кнопки <code class="docutils literal"><span class="pre">Tree</span></code> все выделенные вертексы будут направлены в сторону от курсора, как будто бы они выстреливают из одной точки.</p>
+<p>Функция <code class="docutils literal"><span class="pre">Foliage</span></code> очень проста в использовании: выделите нужные вертексы и нажмите кнопку, и функция направит их строго вверх.</p>
+<p>Чтобы направить нормали вертексов параллельно нормали полигона, выделите нужный полигон и нажмите <code class="docutils literal"><span class="pre">Face</span></code>. Все нормали вертексов, образующих этот полигон, будут направлены параллельно нормали самого полигона. Эта функция работает только с одним выделенным полигоном одновременно.</p>
+</div>
+<div class="section" id="copy-paste">
+<h2><a class="toc-backref" href="#id11">Copy/Paste</a><a class="headerlink" href="#copy-paste" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Копирует направление нормали с одного вертекса на другой.</p>
+<a class="reference internal image-reference" href="_images/copy_paste.gif"><img alt="_images/copy_paste.gif" class="align-center" src="_images/copy_paste.gif" style="width: 100%;" /></a>
+<p>Выделите вертекс для копирования и нажмите <code class="docutils literal"><span class="pre">Copy</span></code>. Затем выделите вертекс, на который хотите копировать результат, и нажмите <code class="docutils literal"><span class="pre">Paste</span></code>. Вставлять скопированную информацию можно на множество разных вертексов. Кнопки не активны в режиме <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Mode</span></code> и не переносят данные уже “разделенных” нормалей на другие вертексы.</p>
+</div>
+<div class="section" id="copy-from-mesh">
+<h2><a class="toc-backref" href="#id12">Copy From Mesh</a><a class="headerlink" href="#copy-from-mesh" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Эта функция позволяет копировать направление вертексных нормалей с одной геометрии на другую. Существует два режима копирования, <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> и <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code>.</p>
+<p>В режиме <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> копируются направления нормалей с вертекса одной модели на вертекс другой, если у них одинаковые координаты; прочие вертексы игнорируются. В режиме <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code> копируются нормали с ближайших вертексов другой модели.</p>
+<a class="reference internal image-reference" href="_images/copy_from_mesh.gif"><img alt="_images/copy_from_mesh.gif" class="align-center" src="_images/copy_from_mesh.gif" style="width: 100%;" /></a>
+<p>Работа с этой функцией производится в объектном режиме. Первым нужно выделить объект, с которого будет происходить копирование, далее объект, на который будет происходить копирование. Необходимо также выделить вертексы целевого объекта, на которые необходимо произвести перенос направления нормалей.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="camera.html" class="btn btn-neutral float-right" title="Камера" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="meshes.html" class="btn btn-neutral" title="Меши" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Триумф.
+      Обновлено: 2016-05-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.05',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>

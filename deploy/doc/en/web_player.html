@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Web Player &mdash; Blend4Web 16.04 User Manual</title>
+  <title>Web Player &mdash; Blend4Web 16.05 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.05 User Manual" href="index.html"/>
         <link rel="next" title="Addon" href="addon.html"/>
         <link rel="prev" title="Scene Viewer" href="viewer.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -102,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -182,12 +183,12 @@
 <p>The web player is a special application for rendering models and scenes in a
 demonstration mode.</p>
 <p>Desktop version:</p>
-<a class="reference internal image-reference" href="_images/web_player_example.jpg"><img alt="_images/web_player_example.jpg" class="align-center" src="_images/web_player_example.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/web_player_example.png"><img alt="_images/web_player_example.png" class="align-center" src="_images/web_player_example.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Mobile version:</p>
-<a class="reference internal image-reference" href="_images/web_player_example_mobile.jpg"><img alt="_images/web_player_example_mobile.jpg" class="align-center" src="_images/web_player_example_mobile.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/web_player_example_mobile.png"><img alt="_images/web_player_example_mobile.png" class="align-center" src="_images/web_player_example_mobile.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -211,10 +212,11 @@ also supported.</p>
 <div class="section" id="control-panel">
 <h2><a class="toc-backref" href="#id5">Control Panel</a><a class="headerlink" href="#control-panel" title="Permalink to this headline">¶</a></h2>
 <p>The web player&#8217;s control panel is shown below.</p>
-<a class="reference internal image-reference" href="_images/web_player_interface.jpg"><img alt="_images/web_player_interface.jpg" class="align-center" src="_images/web_player_interface.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/web_player_interface.png"><img alt="_images/web_player_interface.png" class="align-center" src="_images/web_player_interface.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
 <li>show / hide control panel;</li>
 <li>fullscreen mode on / off;</li>
+<li>stereo rendering on / off;</li>
 <li>set the scene quality;</li>
 <li>sound on / off;</li>
 <li>camera auto rotation mode on / off;</li>
@@ -229,7 +231,7 @@ also supported.</p>
 <div class="section" id="attributes">
 <span id="webplayer-attributes"></span><h2><a class="toc-backref" href="#id6">Attributes</a><a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h2>
 <p>Web player accepts attributes from the browser address line:</p>
-<a class="reference internal image-reference" href="_images/player_params.jpg"><img alt="_images/player_params.jpg" class="align-center" src="_images/player_params.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/player_params.png"><img alt="_images/player_params.png" class="align-center" src="_images/player_params.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -252,7 +254,7 @@ Can be used many times to add more video formats.</li>
 <div class="section" id="scene-name-as-title">
 <span id="wp-title"></span><h2><a class="toc-backref" href="#id7">Scene Name as Title</a><a class="headerlink" href="#scene-name-as-title" title="Permalink to this headline">¶</a></h2>
 <p>By default the Web Player has the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Web</span> <span class="pre">Player</span></code> title. Assigning the meta tag <code class="docutils literal"><span class="pre">title</span></code> on the scene in Blender you can change that value to something else.</p>
-<a class="reference internal image-reference" href="_images/title.jpg"><img alt="_images/title.jpg" class="align-center" src="_images/title.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/title.png"><img alt="_images/title.png" class="align-center" src="_images/title.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="scene-errors">
 <h2><a class="toc-backref" href="#id8">Scene Errors</a><a class="headerlink" href="#scene-errors" title="Permalink to this headline">¶</a></h2>
@@ -260,21 +262,21 @@ Can be used many times to add more video formats.</li>
 <ol class="arabic simple">
 <li>the <code class="docutils literal"><span class="pre">load</span></code> attribute specifies a wrong path to the JSON file or the file is corrupt;</li>
 </ol>
-<a class="reference internal image-reference" href="_images/error_wrong_json_path.jpg"><img alt="_images/error_wrong_json_path.jpg" class="align-center" src="_images/error_wrong_json_path.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_wrong_json_path.png"><img alt="_images/error_wrong_json_path.png" class="align-center" src="_images/error_wrong_json_path.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="2">
 <li>the <code class="docutils literal"><span class="pre">load</span></code> attribute is not found or is void;</li>
 </ol>
-<a class="reference internal image-reference" href="_images/error_not_load_attr.jpg"><img alt="_images/error_not_load_attr.jpg" class="align-center" src="_images/error_not_load_attr.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_not_load_attr.png"><img alt="_images/error_not_load_attr.png" class="align-center" src="_images/error_not_load_attr.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="3">
 <li>WebGL initialization error.</li>
 </ol>
-<a class="reference internal image-reference" href="_images/error_webgl.jpg"><img alt="_images/error_webgl.jpg" class="align-center" src="_images/error_webgl.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_webgl.png"><img alt="_images/error_webgl.png" class="align-center" src="_images/error_webgl.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -301,15 +303,48 @@ Can be used many times to add more video formats.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-04-28.
+      Last updated on 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -324,7 +359,7 @@ Can be used many times to add more video formats.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -20,7 +20,6 @@
 /**
  * Math functions.
  * @module math
- * @local ParametricLine
  * @local Plane
  */
 b4w.module["math"] = function(exports, require) {
@@ -30,12 +29,6 @@ var m_util     = require("__util");
 var m_math     = require("__math");
 
 var _vec3_tmp = new Float32Array(3);
-
-/**
- * Line set in parametric form
- * @typedef ParametricLine
- * @type {Float32Array(6)}
-*/
 
 /**
  * Plane represented as vec3 normal and distance to the origin.

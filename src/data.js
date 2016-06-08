@@ -1058,6 +1058,7 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         // var bpy_scene_objs = get_bpy_cache_scene(thread.id, scene_dst, "ALL");
         var bpy_mesh_objs = get_bpy_cache_scene(thread.id, scene_dst, "MESH");
         var bpy_empty_objs = get_bpy_cache_scene(thread.id, scene_dst, "EMPTY");
+        var bpy_world_objs = get_bpy_cache_scene(thread.id, scene_dst, "WORLD");
 
         if (thread.is_primary)
             m_scenes.append_scene(scene_dst, scene_objs, lamps, bpy_mesh_objs, 
@@ -1080,8 +1081,9 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
             // generate sky batch
             var sky = scene_dst._render.sky_params;
             if (sky.render_sky || sky.procedural_skydome) {
-                var meta_obj = m_batch.generate_sky_meta_obj(scene_dst, sky);
-                metaobjects.push(meta_obj);
+                var world = scene_dst["world"]._object;
+                m_batch.append_sky_batch_to_world(scene_dst, sky, world);
+                m_batch.create_forked_batches(world, scene_graph, scene_dst);
             }
             m_scenes.generate_auxiliary_batches(scene_graph);
         }
@@ -1099,10 +1101,14 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         m_scenes.assign_scene_data_subs(scene_dst, scene_objs, lamps);
 
         // update boundings for shape keys objs
+        // and props for zup tsrs
         for (var j = 0; j < scene_objs.length; j++) {
             var obj = scene_objs[j];
             if (obj.render.use_shape_keys)
                 m_obj.update_boundings(obj);
+
+            if (m_obj_util.check_inv_zup_tsr_is_needed(obj))
+                obj.need_inv_zup_tsr = true;
         }
     }
 
@@ -1298,7 +1304,7 @@ function duplicate_objects(bpy_data, thread, stage, cb_param, cb_finish,
 
     for (var i = 0; i < scenes.length; i++) {
         var scene = scenes[i];
-        duplicate_objects_iter(scene["objects"], null, obj_ids, grp_ids);
+        duplicate_objects_iter(scene["objects"], null, obj_ids, grp_ids, null);
     }
 
     for (var id in grp_ids)
@@ -1312,7 +1318,7 @@ function duplicate_objects(bpy_data, thread, stage, cb_param, cb_finish,
     cb_finish(thread, stage);
 }
 
-function duplicate_objects_iter(obj_links, origin_obj, obj_ids, grp_ids) {
+function duplicate_objects_iter(obj_links, origin_obj, obj_ids, grp_ids, cluster_data) {
 
     var proxy_source_ids = [];
 
@@ -1385,6 +1391,9 @@ function duplicate_objects_iter(obj_links, origin_obj, obj_ids, grp_ids) {
             obj_ids[bpy_obj_new["uuid"]] = bpy_obj_new;
             obj_id_overrides[obj_link["uuid"]] = bpy_obj_new["uuid"];
             obj_link["uuid"] = bpy_obj_new["uuid"];
+
+            if (cluster_data && cluster_data[bpy_obj["uuid"]])
+                bpy_obj_new["b4w_cluster_data"] = cluster_data[bpy_obj["uuid"]];
         }
     }
 
@@ -1405,7 +1414,9 @@ function duplicate_objects_iter(obj_links, origin_obj, obj_ids, grp_ids) {
             grp_link["uuid"] = grp_new["uuid"];
 
             var dg_obj_links = grp_new["objects"];
-            duplicate_objects_iter(dg_obj_links, bpy_obj, obj_ids, grp_ids);
+
+            duplicate_objects_iter(dg_obj_links, bpy_obj, obj_ids, grp_ids, 
+                    bpy_obj["b4w_cluster_data"]);
         }
     }
 
@@ -2297,6 +2308,8 @@ function prepare_bpy_obj_lods(container, lod_parent_bpy, dg_parent_bpy, added_ob
 
         lod_obj_new["name"] = lod_parent_bpy["name"] + "_LOD_" +
                 String(i + 1);
+
+        lod_obj_new["b4w_cluster_data"] = lod_parent_bpy["b4w_cluster_data"];
 
         assign_bpy_obj_id(lod_obj_new);
 

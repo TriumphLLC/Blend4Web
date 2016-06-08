@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>插件 &mdash; Blend4Web 16.04 用户手册</title>
+  <title>插件 &mdash; Blend4Web 16.05 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.05 用户手册" href="index.html"/>
         <link rel="next" title="场景设置" href="scene_settings.html"/>
         <link rel="prev" title="网络播放器" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -112,6 +112,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
@@ -447,8 +448,17 @@ forbidden</td>
 a shared mesh; The OBJECT_NAME
 object has both vertex groups and
 a shared mesh</td>
-<td><p class="first last">不兼容的对象有一个共享的网格。不允许导出的对象既具有共享网格和顶点组。例外：导出是可能的，如果一个对象具有 <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></code>, <code class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></code>, <code class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></code>, <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></code> 选项打开（因为在这些情况下，网格的完全复制时）。</p>
-</td>
+<td>Incompatible objects with a shared mesh.
+Export of an object with both a shared
+mesh and vertex groups is not allowed.
+Exceptions: export is possible if an
+object has the
+<code class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></code>,
+<code class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></code>,
+<code class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></code>,
+<code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Scale</span> <span class="pre">and</span> <span class="pre">Modifiers</span></code>
+options turned on (because in these cases
+a full copying of meshes occurs).</td>
 </tr>
 <tr class="row-odd"><td>Incomplete mesh; Material slot is
 empty</td>
@@ -1149,15 +1159,48 @@ PERSPECTIVE type.&#8221;</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-04-28.
+      最后更新于 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -1172,7 +1215,7 @@ PERSPECTIVE type.&#8221;</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

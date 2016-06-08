@@ -10,7 +10,7 @@ Audio
 
 Audio sources are created in Blender. The standard ``Speaker`` object is used.
 
-.. image:: src_images/audio/speaker.jpg
+.. image:: src_images/audio/speaker.png
    :align: center
    :width: 100%
 

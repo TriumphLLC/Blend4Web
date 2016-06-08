@@ -1810,8 +1810,18 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     return result;
 }
 
-void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
-    int i;
+void find_max_min_bb(struct BoundingData *bdata, float x, float y, float z) {
+    bdata->max_x = MAX(bdata->max_x, x);
+    bdata->max_y = MAX(bdata->max_y, y);
+    bdata->max_z = MAX(bdata->max_z, z);
+    bdata->min_x = MIN(bdata->min_x, x);
+    bdata->min_y = MIN(bdata->min_y, y);
+    bdata->min_z = MIN(bdata->min_z, z);
+}
+
+void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
+    int i,j;
+    int v1, v2, v3, v4, v;
     float x,y,z;
     float x_width;
     float y_width;
@@ -1823,32 +1833,37 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
     float g[3];
     float tmp_scen[3];
     MVert *vertices;
-
+    MFace *mface = mesh->mface;
     if (mesh->totvert > 0) {
         vertices = mesh->mvert;
 
         // NOTE: rotate by 90 degrees around X axis
-        x = vertices[0].co[0];
-        y = vertices[0].co[2];
-        z = -vertices[0].co[1];
-        bdata->max_x = x;
-        bdata->min_x = x;
-        bdata->max_y = y;
-        bdata->min_y = y;
-        bdata->max_z = z;
-        bdata->min_z = z;
+        for (i = 0; i < mesh->totface; i++) {
+            if (mat_index != -1 && mface[i].mat_nr != mat_index)
+                continue;
+            v1 = mface[i].v1;
+            bdata->max_x = vertices[v1].co[0];
+            bdata->min_x = vertices[v1].co[0];
+            bdata->max_y = vertices[v1].co[2];
+            bdata->min_y = vertices[v1].co[2];
+            bdata->max_z = -vertices[v1].co[1];
+            bdata->min_z = -vertices[v1].co[1];
+            break;
+        }
 
-        for (i = 1; i < mesh->totvert; i++) {
-            x = vertices[i].co[0];
-            y = vertices[i].co[2];
-            z = -vertices[i].co[1];
-
-            bdata->max_x = MAX(bdata->max_x, x);
-            bdata->max_y = MAX(bdata->max_y, y);
-            bdata->max_z = MAX(bdata->max_z, z);
-            bdata->min_x = MIN(bdata->min_x, x);
-            bdata->min_y = MIN(bdata->min_y, y);
-            bdata->min_z = MIN(bdata->min_z, z);
+        for (i = 0; i < mesh->totface; i++) {
+            if (mat_index != -1 && mface[i].mat_nr != mat_index)
+                continue;
+            v1 = mface[i].v1;
+            v2 = mface[i].v2;
+            v3 = mface[i].v3;
+            find_max_min_bb(bdata, vertices[v1].co[0], vertices[v1].co[2], -vertices[v1].co[1]);
+            find_max_min_bb(bdata, vertices[v2].co[0], vertices[v2].co[2], -vertices[v2].co[1]);
+            find_max_min_bb(bdata, vertices[v3].co[0], vertices[v3].co[2], -vertices[v3].co[1]);
+            if (mface[i].v4) {
+                v4 = mface[i].v4;
+                find_max_min_bb(bdata, vertices[v4].co[0], vertices[v4].co[2], -vertices[v4].co[1]);
+            }
         }
 
         x_width = bdata->max_x - bdata->min_x;
@@ -1876,71 +1891,87 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
         // Third Edition. Chapter 8.1.3 Bounding Sphere Construction.
         // NOTE: bounding sphere (center and radius) won't be absolutely optimal, 
         // because of using approximate algorithm here
-        for (i = 0; i < mesh->totvert; i++) {
-            x = vertices[i].co[0];
-            y = vertices[i].co[2];
-            z = -vertices[i].co[1];
+        for (i = 0; i < mesh->totface; i++) {
+            if (mat_index != -1 && mface[i].mat_nr != mat_index)
+                continue;
 
-            scen_dist = sqrt(pow(bdata->scen_x - x, 2)
-                           + pow(bdata->scen_y - y, 2)
-                           + pow(bdata->scen_z - z, 2));
+            for (j = 0; j < 4; j++) {
+                if (j == 0)
+                    v = mface[i].v1;
+                else if (j == 1)
+                    v = mface[i].v2;
+                else if (j == 2)
+                    v = mface[i].v3;
+                else if (j == 3 && mface[i].v4)
+                    v = mface[i].v4;
+                else
+                    continue;
 
-            if (scen_dist > bdata->srad) {
+                x = vertices[v].co[0];
+                y = vertices[v].co[2];
+                z = -vertices[v].co[1];
 
-                g[0] = bdata->scen_x - bdata->srad * (x - bdata->scen_x)
-                                       / scen_dist;
-                g[1] = bdata->scen_y - bdata->srad * (y - bdata->scen_y)
-                                       / scen_dist;
-                g[2] = bdata->scen_z - bdata->srad * (z - bdata->scen_z)
-                                       / scen_dist;
+                scen_dist = sqrt(pow(bdata->scen_x - x, 2)
+                               + pow(bdata->scen_y - y, 2)
+                               + pow(bdata->scen_z - z, 2));
 
-                bdata->scen_x = (g[0] + x) / 2.0;
-                bdata->scen_y = (g[1] + y) / 2.0;
-                bdata->scen_z = (g[2] + z) / 2.0;
-                bdata->srad = sqrt(pow(bdata->scen_x - x, 2)
-                                 + pow(bdata->scen_y - y, 2)
-                                 + pow(bdata->scen_z - z, 2));
-            }
+                if (scen_dist > bdata->srad) {
 
-            ccen_dist = sqrt(pow(bdata->ccen_x - x, 2)
-                           + pow(bdata->ccen_z - z, 2));
+                    g[0] = bdata->scen_x - bdata->srad * (x - bdata->scen_x)
+                                           / scen_dist;
+                    g[1] = bdata->scen_y - bdata->srad * (y - bdata->scen_y)
+                                           / scen_dist;
+                    g[2] = bdata->scen_z - bdata->srad * (z - bdata->scen_z)
+                                           / scen_dist;
 
-            if (ccen_dist > bdata->crad) {
+                    bdata->scen_x = (g[0] + x) / 2.0;
+                    bdata->scen_y = (g[1] + y) / 2.0;
+                    bdata->scen_z = (g[2] + z) / 2.0;
+                    bdata->srad = sqrt(pow(bdata->scen_x - x, 2)
+                                     + pow(bdata->scen_y - y, 2)
+                                     + pow(bdata->scen_z - z, 2));
+                }
 
-                g[0] = bdata->ccen_x - bdata->crad * (x - bdata->ccen_x)
-                                       / ccen_dist;
-                g[2] = bdata->ccen_z - bdata->crad * (z - bdata->ccen_z)
-                                       / ccen_dist;
+                ccen_dist = sqrt(pow(bdata->ccen_x - x, 2)
+                               + pow(bdata->ccen_z - z, 2));
 
-                bdata->ccen_x = (g[0] + x) / 2.0;
-                bdata->ccen_z = (g[2] + z) / 2.0;
-                bdata->crad = sqrt(pow(bdata->ccen_x - x, 2)
-                                 + pow(bdata->ccen_z - z, 2));
-            }
+                if (ccen_dist > bdata->crad) {
 
-            x /= (x_width? x_width: 1.0);
-            y /= (y_width? y_width: 1.0);
-            z /= (z_width? z_width: 1.0);
+                    g[0] = bdata->ccen_x - bdata->crad * (x - bdata->ccen_x)
+                                           / ccen_dist;
+                    g[2] = bdata->ccen_z - bdata->crad * (z - bdata->ccen_z)
+                                           / ccen_dist;
 
-            scen_tmp_dist = sqrt(pow(tmp_scen[0] - x, 2)
-                               + pow(tmp_scen[1] - y, 2)
-                               + pow(tmp_scen[2] - z, 2));
+                    bdata->ccen_x = (g[0] + x) / 2.0;
+                    bdata->ccen_z = (g[2] + z) / 2.0;
+                    bdata->crad = sqrt(pow(bdata->ccen_x - x, 2)
+                                     + pow(bdata->ccen_z - z, 2));
+                }
 
-            if (scen_tmp_dist > tmp_rad) {
+                x /= (x_width? x_width: 1.0);
+                y /= (y_width? y_width: 1.0);
+                z /= (z_width? z_width: 1.0);
 
-                g[0] = tmp_scen[0] - tmp_rad * (x - tmp_scen[0])
-                                    / scen_tmp_dist;
-                g[1] = tmp_scen[1] - tmp_rad * (y - tmp_scen[1])
-                                    / scen_tmp_dist;
-                g[2] = tmp_scen[2] - tmp_rad * (z - tmp_scen[2])
-                                    / scen_tmp_dist;
+                scen_tmp_dist = sqrt(pow(tmp_scen[0] - x, 2)
+                                   + pow(tmp_scen[1] - y, 2)
+                                   + pow(tmp_scen[2] - z, 2));
 
-                tmp_scen[0] = (g[0] + x) / 2.0;
-                tmp_scen[1] = (g[1] + y) / 2.0;
-                tmp_scen[2] = (g[2] + z) / 2.0;
-                tmp_rad = sqrt(pow(tmp_scen[0] - x, 2)
-                             + pow(tmp_scen[1] - y, 2)
-                             + pow(tmp_scen[2] - z, 2));
+                if (scen_tmp_dist > tmp_rad) {
+
+                    g[0] = tmp_scen[0] - tmp_rad * (x - tmp_scen[0])
+                                        / scen_tmp_dist;
+                    g[1] = tmp_scen[1] - tmp_rad * (y - tmp_scen[1])
+                                        / scen_tmp_dist;
+                    g[2] = tmp_scen[2] - tmp_rad * (z - tmp_scen[2])
+                                        / scen_tmp_dist;
+
+                    tmp_scen[0] = (g[0] + x) / 2.0;
+                    tmp_scen[1] = (g[1] + y) / 2.0;
+                    tmp_scen[2] = (g[2] + z) / 2.0;
+                    tmp_rad = sqrt(pow(tmp_scen[0] - x, 2)
+                                 + pow(tmp_scen[1] - y, 2)
+                                 + pow(tmp_scen[2] - z, 2));
+                }
             }
         }
 
@@ -2042,13 +2073,15 @@ static PyObject *b4w_bin_calc_bounding_data(PyObject *self, PyObject *args) {
     bdata.ecen_y = 0;
     bdata.ecen_z = 0;
 
-    if (!PyArg_ParseTuple(args, "K", &mesh_ptr))
+    int mat_index;
+
+    if (!PyArg_ParseTuple(args, "Ki", &mesh_ptr, &mat_index))
         return NULL;
 
     result = PyDict_New();
     mesh = (Mesh *)mesh_ptr;
 
-    calc_bounding_data(&bdata, mesh);
+    calc_bounding_data(&bdata, mesh, mat_index);
 
     PyDict_SetItemString(result, "max_x", PyFloat_FromDouble(bdata.max_x));
     PyDict_SetItemString(result, "max_y", PyFloat_FromDouble(bdata.max_y));

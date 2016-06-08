@@ -502,6 +502,10 @@ Table of possible errors:
 | Error! Unused export token 'NAME'   | Undeclared identifier NAME is allowed     |
 | in include file 'FILE_NAME'.        | for export in the FILE_NAME include file. |
 +-------------------------------------+-------------------------------------------+
+
+|
+
++-------------------------------------+-------------------------------------------+
 | Error! Using reserved word in TYPE  | Error in FILE_NAME file. A reserved id    |
 | 'NAME'. File: 'FILE_NAME'.          | is used for declaring the identifier      |
 |                                     | NAME of type TYPE (variable, function,    |

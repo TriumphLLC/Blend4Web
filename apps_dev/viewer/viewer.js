@@ -13,6 +13,8 @@ var m_cont     = require("container");
 var m_ctl      = require("controls");
 var m_data     = require("data");
 var m_debug    = require("debug");
+var m_gp_conf  = require("gp_conf");
+var m_hmd_conf = require("hmd_conf");
 var m_geom     = require("geometry");
 var m_gyro     = require("gyroscope");
 var m_input    = require("input");
@@ -43,7 +45,7 @@ var TO_RAD = Math.PI/180;
 var TO_DEG = 180/Math.PI;
 
 var DEC_SLIDER = 188;
-var INC_SLIDER = 190; 
+var INC_SLIDER = 190;
 
 var ANIM_OBJ_DEFAULT_INDEX = 0;
 var ANIM_NAME_DEFAULT_INDEX = 0;
@@ -77,7 +79,6 @@ exports.init = function() {
     m_storage.init("b4w_viewer");
     set_quality_config();
     set_stereo_view_config();
-    set_gyro_cam_rotate_config();
     set_outlining_overview_mode_config();
 
     m_app.init({
@@ -97,7 +98,7 @@ exports.init = function() {
         assets_min50_available: !DEBUG,
         console_verbose: true,
         physics_enabled: true,
-        wireframe_debug: true
+        debug_view: true
     });
 
 }
@@ -129,7 +130,10 @@ function init_cb(canvas_elem, success) {
     window.dispatchEvent(tmp_event);
 
     if (!m_main.detect_mobile())
-        forbid_params(["gyro_use"], "disable");
+        forbid_elem(["gyro_use_tmp"], "disable");
+
+    if (!m_hmd_conf.check())
+        forbid_elem(["hmd_conf_tmp"], "disable");
 
     var url_params = m_app.get_url_params();
 
@@ -459,10 +463,16 @@ function init_ui() {
     bind_control(set_stereo_view_and_reload, "stereo", "string");
     refresh_stereo_view_ui();
 
+    // HMD settings
+    m_app.set_onclick("hmd_settings", show_hmd_config);
+
     // gyroscope use
     bind_control(set_gyro_cam_rotate_reload, "gyro_use", "bool");
     refresh_gyro_use_ui();
-    
+
+    //gamepads
+    bind_control(hide_show_gmpd_config, "gmpd_settings", "bool");
+
     // wind
     bind_control(set_wind_params, "wind_dir", "number");
     bind_control(set_wind_params, "wind_strength", "number");
@@ -484,7 +494,8 @@ function init_ui() {
 
     // debug
     bind_control(set_canvas_resolution_factor, "canvas_rf", "number");
-    bind_control(set_debug_params, "wireframe_mode", "string");
+    bind_control(set_debug_params, "debug_view_mode", "string");
+    m_app.set_onclick("debug_change_colors", debug_change_colors_clicked);
     bind_colpick(set_debug_params, "wireframe_edge_color", "object");
     bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info", "bool"); //TODO
     bind_control(set_enable_gl_debug_and_reload, "enable_gl_debug", "bool");
@@ -584,7 +595,7 @@ function reset_settings_to_default() {
             _lights_elem.children[i].style.visibility = "hidden";
 
     var url_params = m_app.get_url_params();
-    
+
     if (url_params && url_params["load"]) {
         var elems = url_params["load"].split("/");
         _settings = {
@@ -676,12 +687,11 @@ function loaded_callback(data_id) {
     if (get_mix_mode_config())
         m_mixer.enable_mixer_controls();
 
-    if (m_cfg.get("gyro_use"))
+    if (m_storage.get("gyro_use") === "true")
         m_gyro.enable_camera_rotation();
 
     if (m_cfg.get("stereo") == "HMD") {
-        var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
-        m_input.register_device(device);
+        m_hmd_conf.update();
         m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
     }
 
@@ -795,7 +805,7 @@ function add_error_tooltip() {
     if (warnings || errors)
         _lights_elem.setAttribute("title",
                                   "Errors: " + errors + ", " +
-                                  "Warnings: " + warnings + "\n" +  
+                                  "Warnings: " + warnings + "\n" +
                                   "See browser console for more info");
     else
         _lights_elem.setAttribute("title", "Loaded OK");
@@ -808,7 +818,7 @@ function display_scene_stats() {
     var shaders = m_debug.num_shaders();
 
     document.getElementById("info_right_up").innerHTML =
-        verts + " verts" + ", " + tris + " tris" + ", " + 
+        verts + " verts" + ", " + tris + " tris" + ", " +
         calls + " draw calls" + ", " + shaders + " shaders";
 
     var gstats = m_debug.geometry_stats();
@@ -1006,7 +1016,7 @@ function render_callback(elapsed, current_time) {
             elem_status.innerHTML = "STOPPED";
     }
     if (m_nla.check_nla()) {
-        
+
         if (!m_nla.check_nla_scripts()) {
             var elem_status = document.getElementById("nla_status");
             if (m_nla.is_play())
@@ -1141,10 +1151,6 @@ function set_outlining_overview_mode_config() {
         m_cfg.set("outlining_overview_mode", m_storage.get("outlining_overview_mode") === "true");
 }
 
-function set_gyro_cam_rotate_config() {
-    m_cfg.set("gyro_use", m_storage.get("gyro_use") === "true");
-}
-
 function refresh_debug_info_ui() {
     var opt_index = Number(m_storage.get("show_hud_debug_info") === "true");
     document.getElementById("show_hud_debug_info").options[opt_index].selected = true;
@@ -1195,9 +1201,6 @@ function refresh_stereo_view_ui() {
 
     $("#stereo").val(st_type).selectmenu("refresh");
     $( "#stereo" ).selectmenu( "refresh", true );
-
-    if (st_type == "HMD")
-        m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
 }
 
 function refresh_outlining_overview_mode_ui() {
@@ -1222,9 +1225,20 @@ function set_stereo_view_and_reload(value) {
     window.location.reload();
 }
 
+function show_hmd_config(value) {
+    m_hmd_conf.show("hmd_container");
+}
+
 function set_gyro_cam_rotate_reload(value) {
     m_storage.set("gyro_use", value.gyro_use);
     window.location.reload();
+}
+
+function hide_show_gmpd_config(value) {
+    if (value.gmpd_settings)
+        m_gp_conf.show();
+    else
+        m_gp_conf.hide();
 }
 
 function set_outlining_overview_mode(value) {
@@ -1490,7 +1504,7 @@ function update_nla_info() {
 
 function update_anim_info(obj, slot_num) {
     // cyclic
-    set_slider("anim_cyclic", Number(m_anim.get_behavior(obj, slot_num) 
+    set_slider("anim_cyclic", Number(m_anim.get_behavior(obj, slot_num)
             == m_anim.AB_CYCLIC));
 
     // frame range
@@ -1825,30 +1839,45 @@ function set_ambient_params(value) {
 function set_debug_params(value) {
     var debug_params = {};
 
-    if (typeof value.wireframe_mode == "string") {
-        var mode_str = get_sel_val(document.getElementById("wireframe_mode"));
+    if (typeof value.debug_view_mode == "string") {
+        var mode_str = get_sel_val(document.getElementById("debug_view_mode"));
         switch (mode_str) {
-        case "WM_NONE":
-            debug_params["wireframe_mode"] = m_debug.WM_NONE;
+        case "DV_NONE":
+            debug_params["debug_view_mode"] = m_debug.DV_NONE;
             break;
-        case "WM_OPAQUE_WIREFRAME":
-            debug_params["wireframe_mode"] = m_debug.WM_OPAQUE_WIREFRAME;
+        case "DV_OPAQUE_WIREFRAME":
+            debug_params["debug_view_mode"] = m_debug.DV_OPAQUE_WIREFRAME;
             break;
-        case "WM_TRANSPARENT_WIREFRAME":
-            debug_params["wireframe_mode"] = m_debug.WM_TRANSPARENT_WIREFRAME;
+        case "DV_TRANSPARENT_WIREFRAME":
+            debug_params["debug_view_mode"] = m_debug.DV_TRANSPARENT_WIREFRAME;
             break;
-        case "WM_FRONT_BACK_VIEW":
-            debug_params["wireframe_mode"] = m_debug.WM_FRONT_BACK_VIEW;
+        case "DV_FRONT_BACK_VIEW":
+            debug_params["debug_view_mode"] = m_debug.DV_FRONT_BACK_VIEW;
             break;
-        case "WM_DEBUG_SPHERES":
-            debug_params["wireframe_mode"] = m_debug.WM_DEBUG_SPHERES;
+        case "DV_DEBUG_SPHERES":
+            debug_params["debug_view_mode"] = m_debug.DV_DEBUG_SPHERES;
+            break;
+        case "DV_CLUSTERS_VIEW":
+            debug_params["debug_view_mode"] = m_debug.DV_CLUSTERS_VIEW;
+            break;
+        case "DV_BATCHES_VIEW":
+            debug_params["debug_view_mode"] = m_debug.DV_BATCHES_VIEW;
             break;
         }
+
+        if (mode_str == "DV_CLUSTERS_VIEW" || mode_str == "DV_BATCHES_VIEW")
+            forbid_params(["debug_change_colors"], "enable");
+        else
+            forbid_params(["debug_change_colors"], "disable");
     }
     if (typeof value.wireframe_edge_color == "object")
         debug_params["wireframe_edge_color"] = value["wireframe_edge_color"];
 
     m_debug.set_debug_params(debug_params);
+}
+
+function debug_change_colors_clicked() {
+    m_debug.set_debug_params({ "debug_colors_seed": Math.random() });
 }
 
 function make_screenshot_clicked() {
@@ -2192,7 +2221,7 @@ function get_lighting_params(light_obj) {
             if ("light_spot_blend" in lparams)
                 set_slider("light_spot_blend", lparams["light_spot_blend"]);
             if ("light_spot_size" in lparams)
-                set_slider("light_spot_size", Math.round(lparams["light_spot_size"] * TO_DEG));   
+                set_slider("light_spot_size", Math.round(lparams["light_spot_size"] * TO_DEG));
         } else
             forbid_params(["light_spot_blend", "light_spot_size"], "disable");
         if (lparams["light_type"] == "SPOT" || lparams["light_type"] == "POINT") {
@@ -2201,7 +2230,7 @@ function get_lighting_params(light_obj) {
                 set_slider("light_distance", lparams["light_distance"]);
         } else
             forbid_params(["light_distance"], "disable");
-    }       
+    }
 }
 
 function set_lighting_params(value) {
@@ -2368,8 +2397,10 @@ function forbid_material_params() {
 }
 
 function forbid_debug_params() {
-    $("#wireframe_mode").val("WM_NONE");
-    $("#wireframe_mode").selectmenu("refresh", true);
+    $("#debug_view_mode").val("DV_NONE");
+    $("#debug_view_mode").selectmenu("refresh", true);
+
+    forbid_params(["debug_change_colors"], "disable");
 
     $("#wireframe_edge_color div").css('backgroundColor', '#333');
 }
@@ -2395,7 +2426,7 @@ function get_dof_params() {
         set_slider("dof_front", dof_params["dof_front"]);
         set_slider("dof_rear", dof_params["dof_rear"]);
         set_slider("dof_power", dof_params["dof_power"]);
-        
+
         $("#" + "dof_distance").parent().parent().parent().removeClass('ui-disabled');
         if (dof_params["dof_object"]) {
             set_label("dof_object", object_to_interface_name(dof_params["dof_object"]));
@@ -2405,7 +2436,7 @@ function get_dof_params() {
         } else {
             set_slider("dof_distance", dof_params["dof_distance"]);
             dof_param_names.splice(1, 1);
-            $("#" + "dof_distance").parent().removeClass('ui-disabled'); 
+            $("#" + "dof_distance").parent().removeClass('ui-disabled');
             $("#" + "dof_object").parent().addClass('ui-disabled');
         }
         forbid_params(dof_param_names, "enable");
@@ -2691,6 +2722,20 @@ function forbid_params(params, state) {
 
     for (var i = 0; i < params.length; i++) {
         var elem = $("#" + params[i]).parent().parent();
+
+        if (state == "enable")
+            elem.removeClass('ui-disabled');
+        else if (state == "disable")
+            elem.addClass('ui-disabled');
+    }
+}
+
+function forbid_elem(params, state) {
+    if (!params)
+        return null;
+
+    for (var i = 0; i < params.length; i++) {
+        var elem = $("#" + params[i]);
 
         if (state == "enable")
             elem.removeClass('ui-disabled');

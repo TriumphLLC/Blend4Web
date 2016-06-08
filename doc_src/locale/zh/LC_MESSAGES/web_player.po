@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-04-25 17:26+0300\n"
+"POT-Creation-Date: 2016-05-17 15:43+0300\n"
 "PO-Revision-Date: 2016-03-26 15:16+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -91,99 +91,104 @@ msgid "fullscreen mode on / off;"
 msgstr "开/关全屏模式;"
 
 #: ../web_player.rst:65
+#, fuzzy
+msgid "stereo rendering on / off;"
+msgstr "声音开/关;"
+
+#: ../web_player.rst:66
 msgid "set the scene quality;"
 msgstr "设置场景的质量;"
 
-#: ../web_player.rst:66
+#: ../web_player.rst:67
 msgid "sound on / off;"
 msgstr "声音开/关;"
 
-#: ../web_player.rst:67
+#: ../web_player.rst:68
 msgid "camera auto rotation mode on / off;"
 msgstr "开启/关闭相机自动旋转模式;"
 
-#: ../web_player.rst:68
+#: ../web_player.rst:69
 msgid "run / stop the engine;"
 msgstr "运行/停止引擎;"
 
-#: ../web_player.rst:69
+#: ../web_player.rst:70
 msgid "open the help window;"
 msgstr "打开帮助窗口;"
 
-#: ../web_player.rst:70
+#: ../web_player.rst:71
 msgid "tweet;"
 msgstr "通过推特分享;"
 
-#: ../web_player.rst:71
+#: ../web_player.rst:72
 msgid "share via Facebook;"
 msgstr "通过Facebook分享;"
 
-#: ../web_player.rst:72
+#: ../web_player.rst:73
 msgid "share via Google+;"
 msgstr "通过Google+分享;"
 
-#: ../web_player.rst:73
+#: ../web_player.rst:74
 msgid "share via VK."
 msgstr "通过VK分享。"
 
-#: ../web_player.rst:78
+#: ../web_player.rst:79
 msgid "Attributes"
 msgstr "属性"
 
-#: ../web_player.rst:80
+#: ../web_player.rst:81
 msgid "Web player accepts attributes from the browser address line:"
 msgstr "网络播放器接收来自浏览器地址栏中的属性："
 
-#: ../web_player.rst:88
+#: ../web_player.rst:89
 msgid ""
 "the special attribute ``load`` is used to load the scene, this attribute "
 "contains relative path to a JSON file."
 msgstr "特殊的属性 ``load`` 用于加载场景，这个属性包含相对路径JSON文件。"
 
-#: ../web_player.rst:89
+#: ../web_player.rst:90
 msgid ""
 "in case of a WebGL error the optional ``fallback_image`` attribute is "
 "used to setup the background image instead of 3D content."
 msgstr "在发生错误的WebGL的可选 ``fallback_image`` 属性用于设置的背景图像，而不是3D内容。"
 
-#: ../web_player.rst:90
+#: ../web_player.rst:91
 msgid ""
 "in case of a WebGL error the optional ``fallback_video`` attribute is "
 "used to setup the background video instead of 3D content. Can be used "
 "many times to add more video formats."
 msgstr "在发生错误的WebGL的可选 ``fallback_video`` 属性用于设置背景视频，而不是3D内容。可用于多次添加更多的视频格式。"
 
-#: ../web_player.rst:92
+#: ../web_player.rst:93
 msgid ""
 "the optional ``show_fps`` attribute is used to display the FPS counter in"
 " the player's top right corner."
 msgstr "可选 ``show_fps`` 属性是用来显示在玩家的右上角的FPS计数器。"
 
-#: ../web_player.rst:93
+#: ../web_player.rst:94
 msgid ""
 "optional parameter ``autorotate`` is used to enable automatic camera "
 "rotation just after the scene loads."
 msgstr "可选参数 ``autorotate`` 时，使用了场景加载后使自动相机旋转。"
 
-#: ../web_player.rst:94
+#: ../web_player.rst:95
 msgid ""
 "the ``compressed_textures`` optional parameter is used to enable loading "
 "of minified and compressed textures (in DDS format)."
 msgstr "该 ``compressed_textures`` 可选参数用于启用加载精缩和压缩纹理（在DDS格式）。"
 
-#: ../web_player.rst:95
+#: ../web_player.rst:96
 msgid ""
 "optional ``alpha`` parameter is used to enable transparency for the "
 "rendering area."
 msgstr "可选 ``alpha`` 参数用于启用对描画区域的透明度。"
 
-#: ../web_player.rst:96
+#: ../web_player.rst:97
 msgid ""
 "the optional ``no_social`` attribute is used to disable social networks "
 "buttons on the control panel."
 msgstr "可选的 ``no_social`` 属性用于在控制面板上禁用社交网络按钮。 "
 
-#: ../web_player.rst:100
+#: ../web_player.rst:101
 msgid ""
 "If both ``fallback_image`` and ``fallback_video`` parameters are "
 "specified, the ``fallback_image`` parameter is used."
@@ -191,11 +196,11 @@ msgstr ""
 "如果同时 ``fallback_image`` 和 ``fallback_video`` 参数指定 ``fallback_image`` "
 "参数被使用。"
 
-#: ../web_player.rst:105
+#: ../web_player.rst:106
 msgid "Scene Name as Title"
 msgstr "场景名称为标题"
 
-#: ../web_player.rst:107
+#: ../web_player.rst:108
 msgid ""
 "By default the Web Player has the ``Blend4Web Web Player`` title. "
 "Assigning the meta tag ``title`` on the scene in Blender you can change "
@@ -204,25 +209,25 @@ msgstr ""
 "默认情况下，网络播放器具有 ``Blend4Web Web Player`` 称号。在Blender的场景中分配的meta标签 ``title``"
 " ，您可以更改该值为别的东西。"
 
-#: ../web_player.rst:114
+#: ../web_player.rst:115
 msgid "Scene Errors"
 msgstr "场景错误"
 
-#: ../web_player.rst:116
+#: ../web_player.rst:117
 msgid "If the player is used incorrectly it displays the corresponding errors."
 msgstr "如果播放器使用不当，它会显示相应的错误。"
 
-#: ../web_player.rst:119
+#: ../web_player.rst:120
 msgid ""
 "the ``load`` attribute specifies a wrong path to the JSON file or the "
 "file is corrupt;"
 msgstr "在 ``load`` 属性指定一个错误的路径JSON文件或文件已损坏;"
 
-#: ../web_player.rst:127
+#: ../web_player.rst:128
 msgid "the ``load`` attribute is not found or is void;"
 msgstr "在 ``load`` 属性未找到或无效的;"
 
-#: ../web_player.rst:135
+#: ../web_player.rst:136
 msgid "WebGL initialization error."
 msgstr "WebGL的初始化错误。"
 

@@ -22,5 +22,6 @@ use_smaa_textures = False
 version = 
 
 [deploy]
-assets_path_prefix = /static/blend4web/3d/website/
+assets_path_dest = assets
+assets_path_prefix = /static/blend4web/3d/website/assets
 override = True

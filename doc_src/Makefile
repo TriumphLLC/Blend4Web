@@ -35,9 +35,9 @@ clean:
 	-rm -rf $(BUILDDIR)/*
 
 html:
-	$(SPHINXBUILD) -b html $(RUOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/ru
-	$(SPHINXBUILD) -b html $(ENOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/en
-	$(SPHINXBUILD) -b html $(ZHOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/zh
+	$(SPHINXBUILD) -b html $(RUOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/ru -j 4
+	$(SPHINXBUILD) -b html $(ENOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/en -j 4
+	$(SPHINXBUILD) -b html $(ZHOPT) $(ALLSPHINXOPTS) $(BUILDDIR)/zh -j 4
 	#$(SPHINXBUILD) -b html $(FROPT) $(ALLSPHINXOPTS) $(BUILDDIR)/fr
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)."
@@ -47,7 +47,7 @@ latexpdf:
 
 	mkdir -p $(PUBDIR)
 
-	$(SPHINXBUILD) -b latex $(RUOPT) $(ALLSPHINXOPTS) latex
+	$(SPHINXBUILD) -b latex $(RUOPT) $(ALLSPHINXOPTS) latex -j 4
 	sed -e "/DeclareUnicodeCharacter/d" latex/b4w_tmp.tex > latex/b4w_tmp.tex~ 
 	mv latex/b4w_tmp.tex~ latex/b4w_tmp.tex  
 	@echo "Running LaTeX files through pdflatex..."
@@ -57,7 +57,7 @@ latexpdf:
 
 	rm -r latex/*
 
-	$(SPHINXBUILD) -b latex $(ENOPT) $(ALLSPHINXOPTS) latex
+	$(SPHINXBUILD) -b latex $(ENOPT) $(ALLSPHINXOPTS) latex -j 4
 	sed -e "/DeclareUnicodeCharacter/d" latex/b4w_tmp.tex > latex/b4w_tmp.tex~ 
 	mv latex/b4w_tmp.tex~ latex/b4w_tmp.tex  
 	@echo "Running LaTeX files through pdflatex..."
@@ -76,7 +76,7 @@ latexpdf:
 	#mv latex/b4w_tmp.pdf $(PUBDIR)/b4w_manual_zh.pdf
 
 gettext:
-	$(SPHINXBUILD) -b gettext $(ENOPT) $(I18NSPHINXOPTS) locale
+	$(SPHINXBUILD) -b gettext $(ENOPT) $(I18NSPHINXOPTS) locale -j 4
 	@echo
 	@echo "Build finished. The message catalogs are in locale."
 
@@ -94,9 +94,9 @@ sorttext:
 	python3 ../scripts/sort_doc_texts.py
 
 text:
-	$(SPHINXBUILD) -b text -c conf_ru . ../deploy/doc/ru/_sources/
+	$(SPHINXBUILD) -b text -c conf_ru . ../deploy/doc/ru/_sources/ -j 4
 	@echo "Build ru search pages."
-	$(SPHINXBUILD) -b text -c conf_zh . ../deploy/doc/zh/_sources/
+	$(SPHINXBUILD) -b text -c conf_zh . ../deploy/doc/zh/_sources/ -j 4
 	@echo "Build zh search pages."
 	#$(SPHINXBUILD) -b text -c conf_fr . ../deploy/doc/fr/_sources/
 	#@echo "Build fr search pages."

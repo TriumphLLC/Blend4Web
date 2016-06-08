@@ -176,7 +176,9 @@ class B4W_PARTICLE_PT_context_particles(ParticleButtonsPanel, Panel):
                     else:
                         layout.operator("particle.disconnect_hair")
             else:
-                layout.label(text=_("Enable emission with Object->Animation->Apply default animation."))
+                if not ob.b4w_use_default_animation:
+                    layout.label(text=_("Particle emission is disabled."), icon="ERROR")
+                    layout.label(text=_("Enable it with Object->Animation->Apply default animation."))
 
 
 class B4W_PARTICLE_PT_emission(ParticleButtonsPanel, Panel):

@@ -23,6 +23,7 @@
  */
 b4w.module["util"] = function(exports, require) {
 
+var m_compat   = require("__compat");
 var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_quat     = require("__quat");
@@ -468,5 +469,11 @@ exports.rad_to_deg = m_util.rad_to_deg;
  * @returns {Quat} Destination quaternion
  */
 exports.dir_to_quat = m_util.dir_to_quat;
+
+/**
+ * Check if Internet Explorer 11 is using.
+ * @returns {Boolean} Check result.
+ */
+exports.is_ie11 = m_compat.is_ie11;
 
 }

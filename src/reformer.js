@@ -195,6 +195,22 @@ function reform_node(node) {
             break;
         }
         break;
+    case "VECT_TRANSFORM":
+        if (!("convert_from" in node)) {
+            node["convert_from"] = "WORLD";
+            report("node " + node["type"], node, "convert_from");
+        }
+
+        if (!("convert_to" in node)) {
+            node["convert_to"] = "WORLD";
+            report("node " + node["type"], node, "convert_to");
+        }
+
+        if (!("vector_type" in node)) {
+            node["vector_type"] = "POINT";
+            report("node " + node["type"], node, "vector_type");
+        }
+        break;
     }
 }
 
@@ -787,6 +803,28 @@ exports.check_bpy_data = function(bpy_data) {
             mesh["b4w_shape_keys"] = [];
             report("mesh", mesh, "b4w_shape_keys");
         }
+
+        var submesh_is_ok = true;
+        for (var k = 0; k < mesh["submeshes"].length; k++) {
+            var submesh = mesh["submeshes"][k];
+            if (!("boundings" in submesh)) {
+                submesh_is_ok = false;
+                submesh["boundings"] = {
+                    "bounding_ellipsoid_axes" : mesh["b4w_bounding_ellipsoid_axes"],
+                    "bounding_ellipsoid_center" : mesh["b4w_bounding_ellipsoid_center"],
+                    "bounding_box" : {
+                        "max_x" : mesh["b4w_bounding_box"]["max_x"],
+                        "max_y" : mesh["b4w_bounding_box"]["max_y"],
+                        "max_z" : mesh["b4w_bounding_box"]["max_z"],
+                        "min_x" : mesh["b4w_bounding_box"]["min_x"],
+                        "min_y" : mesh["b4w_bounding_box"]["min_y"],
+                        "min_z" : mesh["b4w_bounding_box"]["min_z"]
+                    }
+                };
+            }
+        }
+        if (!submesh_is_ok)
+            report("mesh", mesh, "submesh_bd");
 
         check_export_props(mesh);
 
@@ -1982,6 +2020,11 @@ exports.check_bpy_data = function(bpy_data) {
             report("object", bpy_obj, "pinverse_tsr");
         }
 
+        if (!("b4w_cluster_data" in bpy_obj)) {
+            bpy_obj["b4w_cluster_data"] = { "cluster_id": -1 };
+            report("object", bpy_obj, "b4w_cluster_data");
+        }
+
         if (check_negative_scale(bpy_obj))
             report_raw("negative scale for object \"" + bpy_obj["name"] + "\", can lead to some errors");
 
@@ -2179,7 +2222,6 @@ exports.apply_mesh_modifiers = function(bpy_obj) {
         return null;
 
     var mesh = mesh_copy(bpy_obj["data"], bpy_obj["data"]["name"] + "_MOD");
-
     var modifiers = bpy_obj["modifiers"];
     for (var i = 0; i < modifiers.length; i++) {
         var mod = modifiers[i];
@@ -2197,7 +2239,6 @@ exports.apply_mesh_modifiers = function(bpy_obj) {
         }
         m_bounds.recalculate_mesh_boundings(mesh);
     }
-
     return mesh;
 }
 
@@ -2533,7 +2574,6 @@ function mesh_copy(mesh, new_name) {
         var submesh_new = m_util.clone_object_nr(submesh);
         mesh_new["submeshes"].push(submesh_new);
     }
-
     return mesh_new;
 }
 
@@ -2553,7 +2593,7 @@ function mesh_join(mesh, mesh2) {
         submesh["base_length"] += submesh2["base_length"];
 
         for (var prop in submesh) {
-            if (prop == "base_length")
+            if (prop == "base_length" || prop == "boundings")
                 continue;
 
             if (prop == "indices") {

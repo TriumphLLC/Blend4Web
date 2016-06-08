@@ -177,6 +177,7 @@ Table of Contents
    author =
    name =
    title =
+   icon =
 
    [paths]
    assets_dirs =
@@ -196,6 +197,7 @@ Table of Contents
    version =
 
    [deploy]
+   assets_path_dest =
    assets_path_prefix =
    remove_exist_ext_dir =
 
@@ -338,7 +340,7 @@ This command will re-export blend files in JSON and HTML formats.
 
 Доступные опции:
 
-* ""-b | --blender_exec"" путь к исполняемому файлу blender.
+* ""-b | --blender-exec"" путь к исполняемому файлу blender.
 
 * ""-s | --assets"" определяет директорию с ресурсами сцены.
 
@@ -363,24 +365,26 @@ This command will re-export blend files in JSON and HTML formats.
 Развертывание проекта
 ---------------------
 
-   python3 project.py -p myproject deploy
+   python3 project.py -p myproject deploy DIRECTORY
 
 Сохраняет проект во внешнюю директорию со всеми необходимыми
 зависимостями.
 
 Доступные опции:
 
-* ""-d | --dir"" директория для развертывания проекта.
+* ""-e | --assets-dest"" задаёт директорию для файлов ресурсов (по
+  умолчанию "assets")
 
-* ""-e | --assets-path"" путь к файлам ресурсов.
+* ""-E | --assets-prefix"" задаёт URL-префикс для файлов ресурсов
+  (по умолчанию "assets")
 
-* ""-o | --override"" (необязательная) удаляет директорию, если она
-  существует.
+* ""-o | --override"" удаляет директорию, если она существует.
 
-* ""-s | --assets"" определяет директорию с ресурсами сцены.
+* ""-e | --assets"" записывет в конфигурационный файл путь к файлам
+  ресурсов.
 
-* ""-t | --engine-type"" (необязательная) определяет тип
-  развертываемого приложения.
+* ""-t | --engine-type"" (необязательная) записывает в
+  конфигурационный файл тип движка.
 
 
 Удаление проекта
@@ -643,7 +647,8 @@ method import it first with the "b4w.require()" function.
 
 Во-вторых, вы можете запустить скрипт вручную:
 
-   > python3 <path_to_sdk>/scripts/converter.py [options] resize_textures | convert_dds | convert_media
+   > cd <path_to_sdk>/scripts
+   > python3 converter.py [options] resize_textures | convert_dds | convert_media
 
 Для пользователей ОС Windows:
 

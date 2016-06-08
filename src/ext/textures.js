@@ -20,6 +20,7 @@
 /**
  * API to control dynamic (canvas/video) textures.
  * @module textures
+ * @local TexChangingFinishCallback
  */
 b4w.module["textures"] = function(exports, require) {
 
@@ -27,6 +28,13 @@ var m_print    = require("__print");
 var m_scenes   = require("__scenes");
 var m_textures = require("__textures");
 var m_obj_util = require("__obj_util");
+var m_assets   = require("__assets");
+
+/**
+ * Texture changing finish callback.
+ * @callback TexChangingFinishCallback
+ */
+
 
 /**
  * Returns canvas texture context.
@@ -159,6 +167,34 @@ exports.update_canvas_ctx = function(obj, text_name) {
         m_print.error("Couldn't find canvas texture with this name: " + text_name);
     }
     return false;
+}
+/**
+ * Update texture image.
+ * @method module:textures.change_image
+ * @param {Object3D} obj Object 3D
+ * @param {String} text_name Texture name
+ * @param {String} image_path Path to image
+ * @param {TexChangingFinishCallback} [callback] Callback to execute on finished changing
+ */
+exports.change_image = function(obj, text_name, image_path, callback) {
+    callback = callback || function() {};
+    var asset = {
+        id: image_path,
+        type: m_assets.AT_IMAGE_ELEMENT,
+        url: image_path,
+        request: "GET",
+        post_type: null,
+        post_data: null,
+        optional_param: null
+    };
+    var asset_cb = function(data, iru, type, filepath, optional_param) {
+        if (data)
+            if (m_textures.change_image(obj, text_name, data))
+                callback();
+            else
+                m_print.error("Couldn't find texture with this name: " + text_name);
+    }
+    m_assets.enqueue([asset], asset_cb, null, null);
 }
 
 }

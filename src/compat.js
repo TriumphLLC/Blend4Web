@@ -26,6 +26,7 @@
 b4w.module["__compat"] = function(exports, require) {
 
 var m_cfg   = require("__config");
+var m_debug = require("__debug");
 var m_ext   = require("__extensions");
 var m_print = require("__print");
 
@@ -64,6 +65,9 @@ exports.set_hardware_defaults = function(gl) {
     else
         cfg_def.msaa_samples = Math.min(cfg_def.msaa_samples,
                 gl.getParameter(gl.MAX_SAMPLES));
+
+    if (cfg_def.webgl2 && m_debug.check_multisample_issue())
+        cfg_def.msaa_samples = 1;
 
     var depth_tex_available = Boolean(m_ext.get_depth_texture());
     // HACK: fix depth issue in Firefox 28
@@ -107,6 +111,12 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.clear_procedural_sky_hack = true;
     }
 
+    if (check_user_agent("Chrome") && !detect_mobile() && m_cfg.is_built_in_data()) {
+        m_print.warn("Chrome (non-mobile) was detected for a single HTML-exported " 
+                + "file. \"Background Music\" speakers were changed to \"Background Sound\".");
+        cfg_def.chrome_html_bkg_music_hack = true;
+    }
+
     if (check_user_agent("Mac OS X")) {
         cfg_def.mac_os_shadow_hack = true;
         m_print.warn("OS X detected, applying shadows hack.");
@@ -139,9 +149,9 @@ exports.set_hardware_defaults = function(gl) {
     }
 
     if (check_user_agent("Windows Phone")) {
-        m_print.warn("Windows Phone detected. Disable wireframe mode, "
+        m_print.warn("Windows Phone detected. Disable debug view mode, "
                     + "glow materials, ssao, smaa, shadows, reflections, refractions.");
-        cfg_def.wireframe_debug = false;
+        cfg_def.debug_view = false;
         cfg_def.precision = "highp";
         cfg_def.glow_materials = false;
         cfg_def.ssao = false;
@@ -151,7 +161,8 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.refractions = false;
         cfg_def.quality_aa_method = false;
     }
-    if (check_user_agent("Firefox") && cfg_def.is_mobile_device) {
+
+    if (check_user_agent("UCBrowser") || check_user_agent("Firefox") && cfg_def.is_mobile_device) {
         m_print.warn("Mobile Firefox detected, disable workers.");
         cfg_phy.use_workers = false;
     }

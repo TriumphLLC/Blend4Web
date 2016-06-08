@@ -59,7 +59,7 @@ var TARGET_EYE_MOUSE_ROT_MULT_PX = 0.003;
 var TARGET_EYE_MOUSE_PAN_MULT_PX = 0.00075;
 var TARGET_EYE_TOUCH_ROT_MULT_PX = 0.003;
 var TARGET_EYE_TOUCH_PAN_MULT_PX = 0.00075;
-var TARGET_EYE_KEY_ROT_FACTOR    = 2.0;
+var TARGET_EYE_KEY_ROT_FACTOR    = 0.75;
 
 // Constants used for the hover camera
 var HOVER_MOUSE_PAN_MULT_PX        = 0.003;
@@ -89,6 +89,13 @@ var CHAR_HEAD_POSITION          = 0.5;
 // NOTE: EPSILON_DELTA << EPSILON_DISTANCE to prevent camera freezing near pivot
 var EPSILON_DISTANCE = 0.001;
 var EPSILON_DELTA    = 0.00001;
+
+var FRAME_WAITING_PER = 10;
+
+var AXIS_THRESHOLD = 0.1;
+
+var TRANS_GMPD_KOEF = 0.002;
+var ZOOM_GMPD_KOEF = 0.05;
 
 // Cached HTML elements
 var _fps_logger_elem = null;
@@ -260,8 +267,10 @@ exports.init = function(options) {
             m_main.set_fps_callback(fps_callback);
         }
 
-        if (pause_invisible)
+        if (pause_invisible) {
             handle_page_visibility();
+            handle_position_visibility();
+        }
 
         if (force_container_ratio) {
             m_main.append_loop_cb(function() {
@@ -316,6 +325,31 @@ function handle_page_visibility() {
     document.addEventListener("visibilitychange", visibility_change, false);
 }
 
+function handle_position_visibility() {
+    var frame_counter = 0;
+    var container = m_cont.get_container();
+    var was_paused = m_main.is_paused();
+    var check_paused = true;
+
+    var visibility_change = function() {
+        if (frame_counter % FRAME_WAITING_PER == 0) {
+            var coords = container.getBoundingClientRect();
+            if (coords.top > window.innerHeight
+                    || coords.bottom < 0) {
+                if (check_paused)
+                    was_paused = m_main.is_paused();
+                m_main.pause();
+                check_paused = false;
+            } else if (!was_paused && !check_paused) {
+                m_main.resume();
+                check_paused = true;
+            }
+        }
+        frame_counter++;
+    }
+    m_main.append_loop_cb(visibility_change);
+}
+
 function setup_canvas(canvas_container_id, init_hud_canvas,
         report_init_failure, purge_elements) {
 
@@ -352,7 +386,7 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
     if (!m_main.init(canvas_elem, canvas_elem_hud)) {
         if (report_init_failure)
             report_app_error("Browser could not initialize WebGL", "For more info visit",
-                      "https://www.blend4web.com/troubleshooting", purge_elements);
+                    "https://www.blend4web.com/doc/en/problems_and_solutions.html", purge_elements);
         return false;
     }
 
@@ -740,73 +774,105 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
         }
     }
 
+    var gmpd_indices = m_input.check_enable_gamepad_indices();
+    if (gmpd_indices.length)
+        var gamepad_id = gmpd_indices[gmpd_indices.length - 1];
+    else
+        var gamepad_id = 0;
+
+    var key_w, key_s, key_a, key_d, key_r, key_f, gmpd_btn_6, gmpd_btn_7;
     if (!disable_letter_controls) {
-        var key_w = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
-        var key_s = m_ctl.create_keyboard_sensor(m_ctl.KEY_S);
-        var key_a = m_ctl.create_keyboard_sensor(m_ctl.KEY_A);
-        var key_d = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
-        var key_r = m_ctl.create_keyboard_sensor(m_ctl.KEY_R);
-        var key_f = m_ctl.create_keyboard_sensor(m_ctl.KEY_F);
-    } else {
-        var key_w = key_s = key_a = key_d = key_r = key_f = m_ctl.create_custom_sensor(0);
-    }
+        key_w = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
+        key_s = m_ctl.create_keyboard_sensor(m_ctl.KEY_S);
+        key_a = m_ctl.create_keyboard_sensor(m_ctl.KEY_A);
+        key_d = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
+        key_r = m_ctl.create_keyboard_sensor(m_ctl.KEY_R);
+        key_f = m_ctl.create_keyboard_sensor(m_ctl.KEY_F);
+        gmpd_btn_6 = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_BUTTON_6,
+                gamepad_id);
+        gmpd_btn_7 = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_BUTTON_7,
+                gamepad_id);
+    } else
+        key_w = key_s = key_a = key_d = key_r = key_f = gmpd_btn_6 =
+                gmpd_btn_7 = m_ctl.create_custom_sensor(0);
 
     var key_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
     var key_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
     var key_left = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT);
     var key_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT);
 
+    var lh_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_0, gmpd_indices);
+    var lv_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_1, gmpd_indices);
+
+    var rh_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_2, gmpd_indices);
+    var rv_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_3, gmpd_indices);
+
     var key_single_logic = null;
     var key_double_logic = function(s) {
         return s[0] && (s[1] || s[2]);
     }
+     var key_triple_logic = function(s) {
+        return s[0] && (s[1] || s[2] || s[3]);
+    }
+    var key_double_pos_logic = function(s) {
+        return s[0] && (s[1] || s[2] > AXIS_THRESHOLD);
+    }
+    var key_double_neg_logic = function(s) {
+        return s[0] && (s[1] || s[2] < -AXIS_THRESHOLD);
+    }
+    var key_triple_pos_logic = function(s) {
+        return s[0] && (s[1] || s[2] || s[3] > AXIS_THRESHOLD);
+    }
+    var key_triple_neg_logic = function(s) {
+        return s[0] && (s[1] || s[2] || s[3] < -AXIS_THRESHOLD);
+    }
 
     if (!use_hover) {
         m_ctl.create_sensor_manifold(obj, "FORWARD", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_w], key_single_logic, key_cb);
+                [elapsed, key_w, lv_axis], key_double_neg_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "BACKWARD", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_s], key_single_logic, key_cb);
+                [elapsed, key_s, lv_axis], key_double_pos_logic, key_cb);
     }
 
     if (use_pivot) {
         m_ctl.create_sensor_manifold(obj, "ROT_UP", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_up, key_r], key_double_logic, key_cb);
+                [elapsed, key_up, key_r, rv_axis], key_triple_neg_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "ROT_DOWN", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_down, key_f], key_double_logic, key_cb);
+                [elapsed, key_down, key_f, rv_axis], key_triple_pos_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "ROT_LEFT", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_left, key_a], key_double_logic, key_cb);
+                [elapsed, key_left, key_a, rh_axis], key_triple_neg_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "ROT_RIGHT", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_right, key_d], key_double_logic, key_cb);
+                [elapsed, key_right, key_d, rh_axis], key_triple_pos_logic, key_cb);
     } else if (use_hover) {
         m_ctl.create_sensor_manifold(obj, "LEFT", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_left, key_a], key_double_logic, key_cb);
+                [elapsed, key_left, key_a, lh_axis], key_triple_neg_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "RIGHT", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_right, key_d], key_double_logic, key_cb);
+                [elapsed, key_right, key_d, lh_axis], key_triple_pos_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "FORWARD", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_up, key_w], key_double_logic, key_cb);
+                [elapsed, key_up, key_w, lv_axis], key_triple_neg_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "BACKWARD", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_down, key_s], key_double_logic, key_cb);
+                [elapsed, key_down, key_s, lv_axis], key_triple_pos_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "UP", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_f], key_double_logic, key_cb);
+                [elapsed, key_f, rv_axis], key_double_pos_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "DOWN", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_r], key_double_logic, key_cb);
+                [elapsed, key_r, rv_axis], key_double_neg_logic, key_cb);
     } else {
         m_ctl.create_sensor_manifold(obj, "UP", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_r], key_double_logic, key_cb);
+                [elapsed, key_r, gmpd_btn_6], key_triple_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "DOWN", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_f], key_double_logic, key_cb);
+                [elapsed, key_f, gmpd_btn_7], key_triple_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "LEFT", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_a], key_double_logic, key_cb);
+                [elapsed, key_a, lh_axis], key_double_neg_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "RIGHT", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_d], key_double_logic, key_cb);
+                [elapsed, key_d, lh_axis], key_double_pos_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "ROT_UP", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_up], key_double_logic, key_cb);
+                [elapsed, key_up, rv_axis], key_double_neg_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "ROT_DOWN", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_down], key_double_logic, key_cb);
+                [elapsed, key_down, rv_axis], key_double_pos_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "ROT_LEFT", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_left], key_double_logic, key_cb);
+                [elapsed, key_left, rh_axis], key_double_neg_logic, key_cb);
         m_ctl.create_sensor_manifold(obj, "ROT_RIGHT", m_ctl.CT_CONTINUOUS,
-                [elapsed, key_right], key_double_logic, key_cb);
+                [elapsed, key_right, rh_axis], key_double_pos_logic, key_cb);
     }
 
     if (!disable_zoom) {
@@ -921,6 +987,43 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
         }
     }
 
+    // camera panning with gamepad
+    var dest_pan_x_gmpd = 0;
+    var dest_pan_y_gmpd = 0;
+
+    var gmpd_panning_x_pos_cb = function(obj, id, pulse) {
+        m_cam.get_velocities(obj, velocity);
+        dest_pan_x_gmpd += velocity.trans * TRANS_GMPD_KOEF;
+    }
+    var gmpd_panning_y_pos_cb = function(obj, id, pulse) {
+        m_cam.get_velocities(obj, velocity);
+        dest_pan_y_gmpd += velocity.zoom * ZOOM_GMPD_KOEF;
+    }
+    var gmpd_panning_x_neg_cb = function(obj, id, pulse) {
+        m_cam.get_velocities(obj, velocity);
+        dest_pan_x_gmpd -= velocity.trans * TRANS_GMPD_KOEF;
+    }
+    var gmpd_panning_y_neg_cb = function(obj, id, pulse) {
+        m_cam.get_velocities(obj, velocity);
+        dest_pan_y_gmpd -= velocity.zoom * ZOOM_GMPD_KOEF;
+    }
+
+    if (use_pivot) {
+        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_Y_POS", m_ctl.CT_CONTINUOUS,
+                [gmpd_btn_6], null, gmpd_panning_y_pos_cb);
+        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_Y_NEG", m_ctl.CT_CONTINUOUS,
+                [gmpd_btn_7], null, gmpd_panning_y_neg_cb);
+        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_POS", m_ctl.CT_CONTINUOUS,
+                [lh_axis], function(s) {return s[0] < -AXIS_THRESHOLD}, gmpd_panning_x_neg_cb);
+        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_NEG", m_ctl.CT_CONTINUOUS,
+                [lh_axis], function(s) {return s[0] > AXIS_THRESHOLD}, gmpd_panning_x_pos_cb);
+    } else if (use_hover) {
+        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_POS", m_ctl.CT_CONTINUOUS,
+                [rh_axis], function(s) {return s[0] < -AXIS_THRESHOLD}, gmpd_panning_x_neg_cb);
+        m_ctl.create_sensor_manifold(obj, "GMPD_PAN_X_NEG", m_ctl.CT_CONTINUOUS,
+                [rh_axis], function(s) {return s[0] > AXIS_THRESHOLD}, gmpd_panning_x_pos_cb);
+    }
+
     if (allow_element_exit) {
         var mouse_move_x = m_ctl.create_mouse_move_sensor("X", window);
         var mouse_move_y = m_ctl.create_mouse_move_sensor("Y", window);
@@ -1002,7 +1105,9 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
                 Math.abs(dest_pan_x_mouse) > EPSILON_DELTA ||
                 Math.abs(dest_pan_y_mouse) > EPSILON_DELTA ||
                 Math.abs(dest_pan_x_touch) > EPSILON_DELTA ||
-                Math.abs(dest_pan_y_touch) > EPSILON_DELTA) {
+                Math.abs(dest_pan_y_touch) > EPSILON_DELTA ||
+                Math.abs(dest_pan_x_gmpd) > EPSILON_DELTA ||
+                Math.abs(dest_pan_y_gmpd) > EPSILON_DELTA) {
 
             var value = m_ctl.get_sensor_value(obj, id, 0);
 
@@ -1038,14 +1143,22 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
             dest_pan_x_touch -= trans_x_touch;
             dest_pan_y_touch -= trans_y_touch;
 
+            var trans_x_gmpd = m_util.smooth(dest_pan_x_gmpd, 0,
+                    value, smooth_coeff_rot_trans_mouse());
+            var trans_y_gmpd = m_util.smooth(dest_pan_y_gmpd, 0,
+                    value, smooth_coeff_rot_trans_mouse());
+
+            dest_pan_x_gmpd -= trans_x_gmpd;
+            dest_pan_y_gmpd -= trans_y_gmpd;
+
             if (use_pivot) {
                 m_cam.target_rotate(obj, x_mouse + x_touch,
                         y_mouse + y_touch);
 
                 var dist = m_cam.target_get_distance(obj);
                 m_cam.target_pan_pivot(obj,
-                        dist * (trans_x_mouse + trans_x_touch),
-                        dist * (trans_y_mouse + trans_y_touch));
+                        dist * (trans_x_mouse + trans_x_touch + trans_x_gmpd),
+                        dist * (trans_y_mouse + trans_y_touch + trans_y_gmpd));
             } else if (use_hover) {
                 if (x_mouse + x_touch) {
                     trans_hover_cam_horiz_local(obj, m_util.AXIS_X,
@@ -1060,7 +1173,7 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
                             * HOVER_MOUSE_TOUCH_TRANS_FACTOR);
                 }
 
-                m_cam.hover_rotate(obj, trans_x_mouse + trans_x_touch, 0);
+                m_cam.hover_rotate(obj, trans_x_mouse + trans_x_touch + trans_x_gmpd, 0);
             } else {
                 m_cam.eye_rotate(obj, (x_mouse + x_touch) * EYE_ROTATION_DECREMENT,
                         (y_mouse + y_touch) * EYE_ROTATION_DECREMENT);

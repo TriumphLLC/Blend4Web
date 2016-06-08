@@ -143,6 +143,13 @@ Cycles nodes are only partially supported: in most cases they will not work in B
     |                   | mathematical operations |                            |                      |
     |                   | with two given vectors  |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+   
+    | Vector            | Converts Vertor, Point  | Full                       | Average              |
+    | Transform [#f1]_  | or Normal between       |                            |                      |
+    |                   | World, Camera and       |                            |                      |
+    |                   | Object coordinte spaces |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+
+
+.. [#f1] If at least one of the internal parameters, ``Space to convert from...`` or ``Space to convert to...`` is set to ``Object``, then any object that uses the material will be considered :ref:`dynamic <static_dynamic_objects>`.
 
 |
 

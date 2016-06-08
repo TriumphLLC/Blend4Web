@@ -58,6 +58,8 @@ var DEFAULT_LOD_DIST_MAX = 1000000;
 
 var _all_objects = {"ALL": []};
 
+var _bb_corners_tmp = new Float32Array(24);
+
 var _color_id_counter = 0;
 var _cube_refl_counter = 0;
 var _refl_plane_objs = [];
@@ -702,17 +704,43 @@ function calc_mesh_is_dynamic(bpy_obj, obj) {
 
     return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch
             || is_collision || is_vehicle_part || has_shape_keys
-            || is_floater_part || has_lens_flares_mat(bpy_obj)
-            || dyn_grass_emitter || is_character || has_nla
-            || has_dynamic_geometry;
+            || is_floater_part || dyn_grass_emitter || is_character
+            || has_nla || has_dynamic_geometry || has_dynamic_mat(bpy_obj);
 }
 
-function has_lens_flares_mat(bpy_obj) {
+function has_dynamic_mat(bpy_obj) {
     var mesh = bpy_obj["data"];
 
-    for (var i = 0; i < mesh["materials"].length; i++)
-        if (mesh["materials"][i]["name"] === "LENS_FLARES")
+    for (var i = 0; i < mesh["materials"].length; i++) {
+        var mat = mesh["materials"][i];
+
+        if (mat["name"] == "LENS_FLARES")
             return true;
+        if (has_dynamic_nodes(mat["node_tree"]))
+            return true;
+    }
+
+    return false;
+}
+
+function has_dynamic_nodes(node_tree) {
+    if (!node_tree)
+        return false;
+
+    var nodes = node_tree["nodes"];
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node["type"] == "VECT_TRANSFORM") {
+            var convert_from =  node["convert_from"];
+            var convert_to   =  node["convert_to"];
+            var output = node.outputs[0];
+            if (output.is_linked
+                    && !(convert_from == "WORLD" && convert_to == "CAMERA")
+                    && !(convert_from == "CAMERA" && convert_to == "WORLD")
+                    && !(convert_from == "OBJECT" && convert_to == "OBJECT"))
+                return true;
+        }
+    }
 
     return false;
 }
@@ -924,7 +952,7 @@ function copy_batches(obj, new_obj, deep_copy) {
             m_tex.share_batch_canvas_textures(new_batches);
 
         } else
-            new_sc_data.batches = m_obj_util.copy_bpy_object_props_by_link(batches);
+            new_sc_data.batches = m_obj_util.copy_batches_props_by_link_nr(batches);
     }
 }
 
@@ -1112,48 +1140,75 @@ exports.update_boundings = function(obj) {
     //TODO: process all scenes_data
     var batches = obj.scenes_data[0].batches;
     var max_x, max_y, max_z, min_x, min_y, min_z;
-
-    for (var i = 0; i < batches.length; i++) {
-
-        if (batches[i].type != "MAIN")
-            continue;
-
-        var vbo_array = batches[i].bufs_data.vbo_array;
-        var pos_offset = batches[i].bufs_data.pointers["a_position"].offset;
-
-        max_x = min_x = vbo_array[pos_offset];
-        max_y = min_y = vbo_array[pos_offset + 1];
-        max_z = min_z = vbo_array[pos_offset + 2];
-
-        break;
-    }
+    var bmax_x, bmax_y, bmax_z, bmin_x, bmin_y, bmin_z;
+    var bounding_verts = [];
 
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
+        if (batch.type == "MAIN") {
+            var vbo_array = batches[0].bufs_data.vbo_array;
+            var pos_offset = batches[0].bufs_data.pointers["a_position"].offset;
+            max_x = min_x = vbo_array[pos_offset];
+            max_y = min_y = vbo_array[pos_offset + 1];
+            max_z = min_z = vbo_array[pos_offset + 2];
+        }
+    }
 
-        if (batch.type != "MAIN")
+    for (var i = 0; i < batches.length; i++) {
+
+        var batch = batches[i];
+
+        if (!batch.bufs_data || !(batch.be_world && batch.bb_world))
             continue;
 
         var vbo_array = batch.bufs_data.vbo_array;
+        var pos_offset = batch.bufs_data.pointers["a_position"].offset;
+        var pos_length = batch.bufs_data.pointers["a_position"].length + pos_offset;
 
-        var pointers = batches[i].bufs_data.pointers;
-
-        var pos_offset = pointers["a_position"].offset;
-        var pos_length = pointers["a_position"].length + pos_offset;
+        bmax_x = bmin_x = vbo_array[pos_offset];
+        bmax_y = bmin_y = vbo_array[pos_offset + 1];
+        bmax_z = bmin_z = vbo_array[pos_offset + 2];
 
         for (var j = pos_offset; j < pos_length; j = j + 3) {
             var x = vbo_array[j];
             var y = vbo_array[j + 1];
             var z = vbo_array[j + 2];
 
-            max_x = Math.max(x, max_x);
-            max_y = Math.max(y, max_y);
-            max_z = Math.max(z, max_z);
+            bmax_x = Math.max(x, bmax_x);
+            bmax_y = Math.max(y, bmax_y);
+            bmax_z = Math.max(z, bmax_z);
 
-            min_x = Math.min(x, min_x);
-            min_y = Math.min(y, min_y);
-            min_z = Math.min(z, min_z);
+            bmin_x = Math.min(x, bmin_x);
+            bmin_y = Math.min(y, bmin_y);
+            bmin_z = Math.min(z, bmin_z);
+        }
 
+        batch.bb_local.max_x = bmax_x.toFixed(3);
+        batch.bb_local.max_y = bmax_y.toFixed(3);
+        batch.bb_local.max_z = bmax_z.toFixed(3);
+        batch.bb_local.min_x = bmin_x.toFixed(3);
+        batch.bb_local.min_y = bmin_y.toFixed(3);
+        batch.bb_local.min_z = bmin_z.toFixed(3);
+
+        m_bounds.bounding_box_transform(batch.bb_local, render.world_tsr,
+                batch.bb_world);
+        m_bounds.extract_bb_corners(batch.bb_world, _bb_corners_tmp);
+        bounding_verts.length = 0;
+        for (var k = 0; k < _bb_corners_tmp.length; k++)
+            bounding_verts.push(_bb_corners_tmp[k])
+        batch.be_world = m_bounds.create_bounding_ellipsoid_by_bb(
+                bounding_verts, true);
+        batch.be_local = m_bounds.calc_be_local_by_tsr(batch.be_world,
+                render.world_tsr);
+
+        if (batch.type == "MAIN") {
+            max_x = Math.max(bmax_x, max_x);
+            max_y = Math.max(bmax_y, max_y);
+            max_z = Math.max(bmax_z, max_z);
+
+            min_x = Math.min(bmin_x, min_x);
+            min_y = Math.min(bmin_y, min_y);
+            min_z = Math.min(bmin_z, min_z);
         }
     }
 
@@ -1297,16 +1352,14 @@ exports.update_boundings = function(obj) {
 
     // bounding ellipsoid
     var be_local = m_bounds.create_bounding_ellipsoid(
-            [be_axes[0], 0, 0], [0, be_axes[1], 0], [0, 0, be_axes[2]], be_center,
-                    [0, 0, 0, 1]);
+            [be_axes[0], 0, 0], [0, be_axes[1], 0], [0, 0, be_axes[2]], be_center);
     render.be_local = be_local;
 
     m_trans.update_transform(obj);
 
-    if (cfg_def.wireframe_debug)
+    if (cfg_def.debug_view)
         for (var i = 0; i < batches.length; i++) {
-
-            if (batches[i].type === "WIREFRAME" && batches[i].debug_sphere) {
+            if (batches[i].type === "DEBUG_VIEW" && batches[i].debug_sphere) {
                 var submesh = m_primitives.generate_uv_sphere(16, 8, 1, be_local.center,
                         false, false);
                 var scale = [be_local.axis_x[0], be_local.axis_y[1], be_local.axis_z[2]];

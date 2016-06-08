@@ -97,7 +97,8 @@ slot_type_enum = [
         ("STRING", _("String Operation"), _("Perform a string operation"), 31),
         ("GET_TIMELINE", _("Get Timeline"), _("Get timeline current frame"), 32),
         ("JSON", _("JSON"), _("Perform a JSON operation"), 33),
-        ("JS_CALLBACK", _("JS Callback"), _("Perform custom JavaScipt callback"), 34)
+        ("JS_CALLBACK", _("JS Callback"), _("Perform custom JavaScipt callback"), 34),
+        ("EMPTY", _("Empty"), _("Empty node for rerouting"), 35)
     ]
 
 operation_type_enum = [
@@ -1127,7 +1128,7 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             self.width = 250
         if self.type in ["REGSTORE"]:
             self.width = 200
-        if self.type in ["JUMP"]:
+        if self.type in ["JUMP", "EMPTY"]:
             self.width = 100
         if self.type in ["STRING", "JSON", "JS_CALLBACK"]:
             self.width = 280
@@ -2505,11 +2506,11 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             for key in keys:
                 index = key[2:]
                 if self.js_cb_params[key].type == "OBJECT":
-                    self.draw_selector(row, index, "Param"+str(index), None, "ob")
+                    self.draw_selector(row, index, str(index) + ":", None, "ob")
                 else:
                     if "entryp" in self:
                         row.prop_search(self.variables_names[key], "variable",
-                                        self.id_data.nodes[self["entryp"]], "variables", text = "Param"+str(index))
+                                        self.id_data.nodes[self["entryp"]], "variables", text = str(index))
                     else:
                         row.label(no_var_source_msg)
                 row.prop(self.js_cb_params[key], "type", text="")
@@ -2533,7 +2534,7 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
                 index = key[3:]
                 if "entryp" in self:
                     row.prop_search(self.variables_names[key], "variable",
-                                    self.id_data.nodes[self["entryp"]], "variables", text = "Param"+str(index))
+                                    self.id_data.nodes[self["entryp"]], "variables", text = str(index))
                 else:
                     row.label(no_var_source_msg)
                 op = row.operator("node.b4w_js_cb_param_remove", icon='ZOOMOUT', text="")
@@ -2621,6 +2622,7 @@ node_categories = [
     B4W_LogicNodeCategory("Layout", _("Layout"), items=[
         NodeItem("NodeFrame"),
         NodeItem("NodeReroute"),
+        NodeItem("B4W_logic_node", label=_("Empty"),settings={"type": repr("EMPTY")}),
     ])
     ]
 

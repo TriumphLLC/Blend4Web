@@ -14,8 +14,9 @@ uniform int u_enable_hmd_stereo;
 uniform vec4 u_distortion_params;
 uniform vec4 u_chromatic_aberration_coefs;
 
-void hmd_distorsion(vec2 texcoord, vec2 center, sampler2D sampler) {
+void hmd_distorsion(vec2 texcoord, vec2 center, float size, sampler2D sampler) {
     vec2 theta = (texcoord - center) * 2.0;
+    theta /= size;
     float rsquare = theta.x * theta.x + theta.y * theta.y;
     vec2 rvector = theta * (1.0 + u_distortion_params[0] * rsquare
             + u_distortion_params[1] * rsquare * rsquare);
@@ -39,7 +40,7 @@ void hmd_distorsion(vec2 texcoord, vec2 center, sampler2D sampler) {
             gl_FragColor[3] = orig_rgba.w;
         }
     } else {
-        tc += center;
+        tc = tc * size + center;
         if (clamp(tc, 0.0, 1.0) != tc) {
             gl_FragColor = vec4(0.0);
         } else {
@@ -86,8 +87,9 @@ void main(void) {
 # if DISABLE_DISTORTION_CORRECTION
             gl_FragColor = texture2D(u_sampler_left, texcoord);
 # else
-            vec2 center = vec2(0.5 - u_distortion_params[3], u_distortion_params[2]);
-            hmd_distorsion(texcoord, center, u_sampler_left);
+            vec2 center = vec2(0.5 - (u_distortion_params[3] - 0.5) / 2.0, u_distortion_params[2]);
+            float size = 2.0 * u_distortion_params[3];
+            hmd_distorsion(texcoord, center, size, u_sampler_left);
 # endif
         } else {
             // right eye
@@ -95,8 +97,9 @@ void main(void) {
 # if DISABLE_DISTORTION_CORRECTION
             gl_FragColor = texture2D(u_sampler_right, texcoord);
 # else
-            vec2 center = vec2(0.5 + u_distortion_params[3], u_distortion_params[2]);
-            hmd_distorsion(texcoord, center, u_sampler_right);
+            vec2 center = vec2(0.5 + (u_distortion_params[3] - 0.5) / 2.0, u_distortion_params[2]);
+            float size = 2.0 * u_distortion_params[3];
+            hmd_distorsion(texcoord, center, size, u_sampler_right);
 # endif
         }
     } else {

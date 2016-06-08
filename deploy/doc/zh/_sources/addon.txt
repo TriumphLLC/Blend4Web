@@ -301,12 +301,15 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 +---------------------------------------+---------------------------------------------+
 | Export to different disk is forbidden | 导出到位于不同的磁盘上的目录被禁止          |
 +---------------------------------------+---------------------------------------------+
-| Incompatible objects with a shared    | 不兼容的对象有一个共享的网格。不允许导出的  |
-| mesh; The OBJECT_NAME object has both | 对象既具有共享网格和顶点组。 例外：导出是可 |
-| vertex groups and a shared mesh       | 能的，如果一个对象具有 "Apply modifiers",   |
-|                                       | "Export vertex animation", "Export edited   |
-|                                       | normals", "Apply scale" 选项打开（因为在这  |
-|                                       | 些情况下，网格的完全复制时）。              |
+| Incompatible objects with a shared    | Incompatible objects with a shared mesh.    |
+| mesh; The OBJECT_NAME object has both | Export of an object with both a shared mesh |
+| vertex groups and a shared mesh       | and vertex groups is not allowed.           |
+|                                       | Exceptions: export is possible if an object |
+|                                       | has the "Apply modifiers", "Export vertex   |
+|                                       | animation", "Export edited normals", "Apply |
+|                                       | Scale and Modifiers" options turned on      |
+|                                       | (because in these cases a full copying of   |
+|                                       | meshes occurs).                             |
 +---------------------------------------+---------------------------------------------+
 | Incomplete mesh; Material slot is     | 材质插槽是空的。                            |
 | empty                                 |                                             |

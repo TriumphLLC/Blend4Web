@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>存在的问题及解决方案 &mdash; Blend4Web 16.04 用户手册</title>
+  <title>存在的问题及解决方案 &mdash; Blend4Web 16.05 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.05 用户手册" href="index.html"/>
         <link rel="next" title="Release Notes" href="release_notes.html"/>
         <link rel="prev" title="团队工作。使用 Git" href="git_short_manual.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
@@ -113,8 +114,10 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">存在的问题及解决方案</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#webgl-support">WebGL Support</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problems-upon-startup">启动时的问题</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-failed-to-initialize">WebGL的无法初始化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-in-depth-troubleshooting">More In-Depth Troubleshooting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#known-issues">已知问题</a></li>
 </ul>
 </li>
@@ -161,20 +164,50 @@
            <div itemprop="articleBody">
             
   <div class="section" id="problems-and-solutions">
-<span id="id1"></span><h1><a class="toc-backref" href="#id2">存在的问题及解决方案</a><a class="headerlink" href="#problems-and-solutions" title="永久链接至标题">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id3">存在的问题及解决方案</a><a class="headerlink" href="#problems-and-solutions" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#problems-and-solutions" id="id2">存在的问题及解决方案</a><ul>
-<li><a class="reference internal" href="#problems-upon-startup" id="id3">启动时的问题</a></li>
-<li><a class="reference internal" href="#webgl-failed-to-initialize" id="id4">WebGL的无法初始化</a></li>
-<li><a class="reference internal" href="#known-issues" id="id5">已知问题</a></li>
+<li><a class="reference internal" href="#problems-and-solutions" id="id3">存在的问题及解决方案</a><ul>
+<li><a class="reference internal" href="#webgl-support" id="id4">WebGL Support</a></li>
+<li><a class="reference internal" href="#problems-upon-startup" id="id5">启动时的问题</a></li>
+<li><a class="reference internal" href="#webgl-failed-to-initialize" id="id6">WebGL的无法初始化</a></li>
+<li><a class="reference internal" href="#more-in-depth-troubleshooting" id="id7">More In-Depth Troubleshooting</a></li>
+<li><a class="reference internal" href="#known-issues" id="id8">已知问题</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<p>As WebGL is still a relatively new technology, it may not work perfectly with every combination of software and hardware. This chapter covers common problems that users of the Blend4Web engine may encounter and provides solutions for these problems.</p>
+<div class="section" id="webgl-support">
+<span id="id2"></span><h2><a class="toc-backref" href="#id4">WebGL Support</a><a class="headerlink" href="#webgl-support" title="永久链接至标题">¶</a></h2>
+<p>If you are using a desktop or laptop computer, your system must have a GPU that supports DirectX 9.0c and OpenGL 2.1, such as:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Nvidia GeForce 6xxx series or higher.</li>
+<li>AMD/ATi Radeon R500 (X1xxx) series or higher.</li>
+<li>Intel GMA 950 or higher.</li>
+</ul>
+</div></blockquote>
+<p>If you are using WebGL on a mobile device, please check whether your device is on the <a class="reference external" href="http://mobilehtml5.org/">compatibility list</a>.</p>
+<p>You also need to have a web browser that supports WebGL technology.</p>
+<p>The following web browsers support WebGL:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Google Chrome (v. 9 or higher)</li>
+<li>Mozilla Firefox (v 4.0 or higher)</li>
+<li>Safari (v. 8.0 or higher)</li>
+<li>Chrome for Android (v. 25 or higher)</li>
+<li>Internet Explorer (v. 11 or higher)</li>
+<li>Microsoft Edge</li>
+<li>Opera (v. 12 or higher)</li>
+<li>UC Browser (experimental)</li>
+</ul>
+</div></blockquote>
+<p>We also recommend to use the most recent version of the web browser to avoid compatibility problems.</p>
+</div>
 <div class="section" id="problems-upon-startup">
-<span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id3">启动时的问题</a><a class="headerlink" href="#problems-upon-startup" title="永久链接至标题">¶</a></h2>
+<span id="renderer-not-working"></span><h2><a class="toc-backref" href="#id5">启动时的问题</a><a class="headerlink" href="#problems-upon-startup" title="永久链接至标题">¶</a></h2>
 <p><em>1. &#8220;浏览器无法初始化 WebGL&#8221; 消息显示</em>.</p>
 <a class="reference internal image-reference" href="_images/no_webgl.png"><img alt="_images/no_webgl.png" class="align-center" src="_images/no_webgl.png" style="width: 100%;" /></a>
 <p>请按照 <a class="reference internal" href="#webgl-not-working"><span>WebGL的无法初始化</span></a> 章节列出的说明.</p>
@@ -182,8 +215,6 @@
 <blockquote>
 <div><p>可能的原因：</p>
 <ul>
-<li><p class="first">本地Web服务器未使用或浏览器没有设置加载本地资源。请参阅  <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Loading Local Resources</span></a>  部分。</p>
-</li>
 <li><p class="first">该引擎尝试加载移动或删除的资源文件。</p>
 </li>
 <li><p class="first">您正在使用旧版本的视频驱动程序。</p>
@@ -195,15 +226,16 @@
 </li>
 <li><p class="first">您正在使用过时的操作系统，如Windows XP。</p>
 </li>
+<li><p class="first">Browser is not set up for loading local resources. In this case, the problem can be fixed by using local web server. See the <a class="reference internal" href="developers.html#browser-for-local-loading"><span>Loading Local Resources</span></a> section.</p>
+</li>
 </ul>
 </div></blockquote>
 </div>
 <div class="section" id="webgl-failed-to-initialize">
-<span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id4">WebGL的无法初始化</a><a class="headerlink" href="#webgl-failed-to-initialize" title="永久链接至标题">¶</a></h2>
+<span id="webgl-not-working"></span><h2><a class="toc-backref" href="#id6">WebGL的无法初始化</a><a class="headerlink" href="#webgl-failed-to-initialize" title="永久链接至标题">¶</a></h2>
 <p>使用最近的Chrome或Firefox浏览 <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> 页时出现的问题。我能做什么？</p>
 <ol class="arabic simple">
-<li><p class="first">安装适用于您的系统的最新更新（用于MS Windows见 <a class="reference external" href="http://support.microsoft.com/kb/311047">指南</a>). 在微软Windows下安装最新的  <a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=35">DirectX 运行时</a> 。重新启动。</p>
-</li>
+<li>Install the latest updates for your system (for MS Windows see <a class="reference external" href="http://support.microsoft.com/kb/311047">the guide</a>). In case of MS Windows install the latest <a class="reference external" href="https://www.microsoft.com/en-us/Download/confirmation.aspx?id=35">DirectX runtime</a>. Reboot.</li>
 <li><p class="first">建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入 <strong>about:gpu</strong> (或 <strong>chrome://gpu</strong>) ，在Chrome浏览器的地址栏中...</p>
 </li>
 </ol>
@@ -217,7 +249,28 @@
 <div class="line"><br /></div>
 </div>
 <p>对于Windows，您可以运行DirectX诊断工具叫  <strong>dxdiag</strong>.</p>
-<a class="reference internal image-reference" href="_images/dxdiag.png"><img alt="_images/dxdiag.png" class="align-center" src="_images/dxdiag.png" style="width: 100%;" /></a>
+<p>To do it, please follow these steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Select the <code class="docutils literal"><span class="pre">Run</span></code> command from the Start menu</li>
+<li>Type <em>dxdiag</em> to the <code class="docutils literal"><span class="pre">Open</span></code> field and press <code class="docutils literal"><span class="pre">Enter</span></code> to open DirectX Diagnostic Tool</li>
+<li>Open the <code class="docutils literal"><span class="pre">Display</span></code> panel. There you can find manufacturer, model and other information regarding your video card.</li>
+</ol>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/problems_dxdiag.png"><img alt="_images/problems_dxdiag.png" class="align-center" src="_images/problems_dxdiag.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>For MacOS X, you can check System Report.</p>
+<p>To do it, please follow these steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Select <code class="docutils literal"><span class="pre">About</span> <span class="pre">This</span> <span class="pre">Mac</span></code> from the <code class="docutils literal"><span class="pre">Apple</span></code> menu.</li>
+<li>Click <code class="docutils literal"><span class="pre">System</span> <span class="pre">Report</span></code> button.</li>
+<li>Select <code class="docutils literal"><span class="pre">Graphics/Displays</span></code> in the <code class="docutils literal"><span class="pre">Hardware</span></code> section.</li>
+</ol>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/problems_osx.png"><img alt="_images/problems_osx.png" class="align-center" src="_images/problems_osx.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -238,9 +291,16 @@
 <p><em>对于Firefox</em>：</p>
 <p>输入 <strong>about:config</strong>  到浏览器的地址栏，搜索 <code class="docutils literal"><span class="pre">webgl.force-enabled</span></code> 参数，并在其上双击从 <code class="docutils literal"><span class="pre">false</span></code> 切换到值为 <code class="docutils literal"><span class="pre">True</span></code> 。</p>
 <a class="reference internal image-reference" href="_images/about_config_force_webgl.png"><img alt="_images/about_config_force_webgl.png" class="align-center" src="_images/about_config_force_webgl.png" style="width: 100%;" /></a>
+<p><em>For Safari</em></p>
+<p>Select <code class="docutils literal"><span class="pre">Preferences</span></code> from Safari menu, select the <code class="docutils literal"><span class="pre">Security</span></code> tab and make sure that <code class="docutils literal"><span class="pre">Allow</span> <span class="pre">WebGL</span></code> checkbox is enabled.</p>
+<a class="reference internal image-reference" href="_images/safari_force_webgl.png"><img alt="_images/safari_force_webgl.png" class="align-center" src="_images/safari_force_webgl.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="more-in-depth-troubleshooting">
+<h2><a class="toc-backref" href="#id7">More In-Depth Troubleshooting</a><a class="headerlink" href="#more-in-depth-troubleshooting" title="永久链接至标题">¶</a></h2>
+<p>If nothing mentioned above helped you solve the issues you are experiencing, please visit the Blend4Web <a class="reference external" href="https://www.blend4web.com/en/forums/">community forum</a> and leave a message in the <a class="reference external" href="https://www.blend4web.com/en/forums/forum/17/">Bug Report</a> thread. Our team will be sure to help you.</p>
 </div>
 <div class="section" id="known-issues">
-<span id="known-problems"></span><h2><a class="toc-backref" href="#id5">已知问题</a><a class="headerlink" href="#known-issues" title="永久链接至标题">¶</a></h2>
+<span id="known-problems"></span><h2><a class="toc-backref" href="#id8">已知问题</a><a class="headerlink" href="#known-issues" title="永久链接至标题">¶</a></h2>
 <ul>
 <li><p class="first">更新插件时候的问题。</p>
 <blockquote>
@@ -270,6 +330,16 @@
 <div><p>This issue is caused by incompatibility of Chromium sandbox and NVIDIA&#8217;s latest drivers. The solution is to downgrade drivers to the 340xx version.</p>
 </div></blockquote>
 </li>
+<li><p class="first">WebAudio issues.</p>
+<blockquote>
+<div><p>Audio doesn&#8217;t work in some versions of Google Chrome for the &#8220;Background Music&#8221; speakers in case of HTML export. Currently, speaker type is automatically changed to &#8220;Background Sound&#8221; as a workaround.</p>
+<p>There is an audio context error when running too many instances (&gt;6) of b4w engine (for example, many browser tabs or many iframes on one page) in Google Chrome. The error is prevented by disabling the audio for an application if the audio context cannot be created for it.</p>
+</div></blockquote>
+</li>
+<li><p class="first">QQ Browser doesn&#8217;t support WebGL at the moment.</p>
+</li>
+<li><p class="first">WebGL is unstable and sometimes crashes on Mesa 11.x drivers in Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can help.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -294,15 +364,48 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-04-28.
+      最后更新于 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -317,7 +420,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

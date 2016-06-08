@@ -18,9 +18,21 @@
 
     * 物理标签
 
+  * 设置
+
   * 物体变换API
 
-  * 获取物体API
+  * Get Object API
+
+  * Object Selection
+
+  * Copying Objects (Instancing)
+
+    * Making a Simple Copy
+
+    * Making a Deep Copy
+
+    * Removing Objects
 
   * 四元数
 
@@ -40,15 +52,15 @@
 
    * 网格(mesh)
 
-   * 摄像机
+   * camera
 
-   * 灯
+   * lamp
 
    * 空物体
 
-   * 骨架
+   * armature
 
-   * 扬声器
+   * speaker
 
    * 曲线
 
@@ -136,9 +148,10 @@ Blend4Web的特殊属性。
 
    [图片]
 
-   该 "Alignment" 参数指定物体将对准视口的哪一方的（ 默认 "Center"）。
-   在 "Distance" 参数指定对齐的物体和摄像机（10默认情况下）之间的距离
-   。该 "适合Camera" 按钮的对齐物体效果在引擎和Blender中都是一样的。
+
+
+   These settings can be used to align the object to an active camera.
+   They are described in the Camera chapter.
 
 *组*
    物体所属的物体组
@@ -244,20 +257,11 @@ Blend4Web的特殊属性。
       为说明来源类型：文本或文本文件。
 
 *锚 > 启用锚*
-   只可用于 "EMPTY" 物体。添加锚（2D标签）物体的接口：
+   This parameter enables interface for adding anchors (2D tags) to
+   objects. Available for "EMPTY" objects only. Described in the
+   corresponding section.
 
-   *锚 > 类型*
-      锚类型。 "Annotation"  - 标准设计的可折叠窗口中显示的元标记中得
-      到的内容。 "自定义Element"  - 从当前网页任意的HTML元素被用来作为
-      锚。 "Generic"  - 锚的位置，可以使用 "anchors" API模块检测。
-
-   *锚 > 可见检测*
-      检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要
-      时使用。
-
-   *锚 > 最大宽度*
-      用于注释锚。通过预定值（以CSS像素为单位），限制了展开的信息窗口
-      大小。
+   [图片]
 
 *风弯曲*
    启用风弯曲程序动画。在  室外渲染 页有完整的描述.。
@@ -293,6 +297,56 @@ Blend4Web的特殊属性。
 
 *角色*
    启用物体的角色物理特性。角色设置详细描述在  物理 一节.。
+
+
+设置
+====
+
+Anchors can be used to attach annotations to 3D objects. The
+annotation is displayed near the object regardless of the camera
+position and even follows it throughout the animation.
+
+[图片]
+
+Annotations can be created entirely in Blender. All you need to do is
+to place an "Empty" object in the required position and enable the
+"Anchor" property. The text for the annotations can be assigned in the
+"Title" and "Description" fields on the "Meta Tags" panel.
+
+[图片]
+
+*启用锚*
+   This parameter enables the interface for adding anchors (2D tags)
+   to objects. This is available for "EMPTY" objects only.
+
+*Type*
+   *类型*
+
+   * "Annotation" - content is obtained from the meta tags assigned
+     to the object and displayed in the standard section.
+
+   * "Custom Element" - an arbitrary HTML element from the current
+     web page is used as an anchor.
+
+   * "Generic" - an anchor’s position can be detected using the
+     "anchors" API module.
+
+   Default value is "Annotation".
+
+*HTML Element ID*
+   This specifies the ID of the HTML element that will be used as the
+   anchor. This is available only if the "Type" parameter is set to
+   "Custom Element".
+
+*可见检测*
+   检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要时
+   使用。
+
+*Max Width*
+   This parameter limits the expanding info window by a predefined
+   value (measured in CSS pixels). This is available only if the
+   "Type" parameter is set to "Annotation", and it is set to 250 by
+   default.
 
 
 物体变换API
@@ -362,8 +416,8 @@ rotate_x_local(), rotate_y_local(), rotate_z_local()
    相对于物体原来位置的（在本地空间）旋转。
 
 
-获取物体API
-===========
+Get Object API
+==============
 
 对物体执行任何操作，您首先需要得到它（找到到它的链接）。有几个API函数
 是做这个的。有链接的物体具有 "Object3D" 类型。
@@ -425,6 +479,104 @@ get_object_name()
       // ...
       var object_name = m_scenes.get_object_name(obj);
       // ...
+
+
+Object Selection
+================
+
+In order to enable selection of a certain object, it is required to
+enable the "Selectable" checkbox on the "Selection and Outlining"
+panel.
+
+注解: Make sure that the status on the "Scene > Object Outlining"
+  panel is set to "ON" or "AUTO".
+
+Object selection is possible programmatically via API, for example, in
+the "scenes.js" module there is the "pick_object" function which
+selects an object based on canvas 2D coordinates,
+
+   // ...
+   var x = event.clientX;
+   var y = event.clientY;
+
+   var obj = m_scenes.pick_object(x, y);
+   // ...
+
+or using the Logic Editor.
+
+If the selectable object has enabled "Enable Outlining" and "Outline
+on Select" checkboxes on the "Object > Selection" and Outlining panel,
+then the "pick_object" function call will activate outline glow
+animation.
+
+注解: If the selected object is transparent ("Blend", "Add" and
+  "Sort" transparency types), outline glow will only be visible on the
+  parts that have "Alpha" value higher than 0.5.
+
+
+Copying Objects (Instancing)
+============================
+
+It is often required to copy (to make instances of) objects during
+application work.
+
+Copying objects has its limitations:
+   * only "MESH" objects can be copied
+
+   * the object should be dynamic (enable "Rendering Properties >
+     Force Dynamic Object")
+
+   * the source object should belong to the active scene
+
+
+Making a Simple Copy
+--------------------
+
+In case of simple copying the new object will share the mesh with the
+original object. Thus, if the original object’s mesh is changed, the
+copied object’s mesh will be changed too. To make simple copying
+possible, it’s enough to turn on the "Blend4Web > Force Dynamic
+Object" setting in the source object’s properties.
+
+
+Making a Deep Copy
+------------------
+
+In case of deep copying, the new object will have unique properties,
+namely it will have its own mesh. Thus, if the original object’s mesh
+is changed, the copied object’s mesh will not be changed. Also, the
+canvas textures on the copied objects are different textures and not
+one and the same like it is the case with the simple copying. To make
+deep copying possible, it is required to enable the Rendering
+Properties > Dynamic Geometry checkbox for the source object. |
+
+Copying objects in runtime can be performed with the "copy" method of
+the "objects.js" module. This method requires three arguments: the id
+of the source object, a unique name for the new object and the boolean
+value to specify the copy mode (i.e. simple or deep). By default,
+simple copying will be performed.
+
+The newly created object should be added to the scene. This can be
+performed with the "append_object" method of the "scenes.js" module.
+The new object should be passed to it as an argument.
+
+   // ...
+   var new_obj = m_objects.copy(obj, "New_name", true);
+   m_scenes.append_object(new_obj);
+   m_transform.set_translation(new_obj, 2, 0, 2);
+   // ...
+
+
+Removing Objects
+----------------
+
+To remove objects, use the "remove_object" method of the "scenes.js"
+module. Pass the object to it as an argument. Dynamic mesh- and empty-
+type objects can be removed this way.
+
+   // ...
+   m_objects.remove_object(new_obj);
+   // ...
 
 
 四元数

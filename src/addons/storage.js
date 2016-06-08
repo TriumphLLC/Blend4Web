@@ -28,7 +28,7 @@ b4w.module["storage"] = function(exports, require) {
 
 var m_print = require("__print");
 
-var _prefix = "";
+var _prefix = "b4w";
 var _storage = null;
 
 /**
@@ -38,11 +38,17 @@ var _storage = null;
  */
 exports.init = init;
 function init(prefix) {
-    _prefix = prefix;
+    if (prefix)
+        if (prefix !== "b4w")
+            _prefix = prefix;
+        else
+            m_print.error("b4w prefix denied");
+    else
+        m_print.warn("Prefix should be a string. " +
+                "Last declared storage prefix will be used.");
+}
 
-    if (_storage) // storage was initialized previously
-        return;
-
+function init_storage() {
     try {
         _storage = window.localStorage;
         try {
@@ -67,50 +73,56 @@ function init(prefix) {
  * Save the value in the local storage.
  * @param {String} key Key
  * @param {String} value Value
+ * @param {?String} prefix Storage prefix.
  */
-exports.set = function(key, value) {
-    var b4w_st = get_b4w_storage();
+exports.set = function(key, value, prefix) {
+    var b4w_st = get_b4w_storage(prefix);
     b4w_st[key] = String(value);
-    set_b4w_storage(b4w_st);
+    set_b4w_storage(b4w_st, prefix);
 }
 
-function get_b4w_storage() {
-
-    if (_storage[_prefix])
-        return JSON.parse(_storage[_prefix]);
+function get_b4w_storage(prefix) {
+    if (_storage[prefix? prefix: _prefix])
+        return JSON.parse(_storage[prefix? prefix: _prefix]);
     else
         return {};
 }
 
-function set_b4w_storage(b4w_storage) {
-    _storage[_prefix] = JSON.stringify(b4w_storage);
+function set_b4w_storage(b4w_storage, prefix) {
+    _storage[prefix? prefix: _prefix] = JSON.stringify(b4w_storage);
 }
 
 /**
  * Perform local storage cleanup.
+ * @param {?String} prefix Storage prefix.
  */
-exports.cleanup = function() {
-    delete _storage[_prefix];
+exports.cleanup = function(prefix) {
+    delete _storage[prefix? prefix: _prefix];
 }
 
 /**
  * Get the value from the local storage.
  * @param {String} key Key
+ * @param {?String} prefix Storage prefix.
  * @returns {String} Value
  */
-exports.get = function(key) {
-    var b4w_st = get_b4w_storage();
+exports.get = function(key, prefix) {
+    var b4w_st = get_b4w_storage(prefix);
     if (b4w_st[key])
         return b4w_st[key];
     else
         return "";
 }
 
-exports.debug = function() {
-    m_print.log(get_b4w_storage());
+/**
+ * Print the local storage.
+ * @param {?String} prefix Storage prefix.
+ */
+exports.debug = function(prefix) {
+    m_print.log(get_b4w_storage(prefix? prefix: _prefix));
 }
 
 // NOTE: initialize with default prefix for compatibility reasons
-init("b4w");
+init_storage();
 
 }

@@ -53,6 +53,10 @@ Cycles节点仅部分支持：在大多数情况下，他们在Blend4Web工作�
 在Blender的方式也不同。他们也可能不会完全工作，甚至导致使用它们的材质
 无法正常工作。然而，使用Cycles的节点不会在应用程序工作流中导致不稳定。
 
+[1] If at least one of the internal parameters, "Space to convert
+    from..." or "Space to convert to..." is set to "Object", then any
+    object that uses the material will be considered dynamic.
+
 
 
 

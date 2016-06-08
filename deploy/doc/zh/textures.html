@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>纹理 &mdash; Blend4Web 16.04 用户手册</title>
+  <title>纹理 &mdash; Blend4Web 16.05 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.05 用户手册" href="index.html"/>
         <link rel="next" title="Particle System. Fluids" href="particles.html"/>
         <link rel="prev" title="立体渲染" href="stereo_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
@@ -727,7 +728,7 @@
 <p>一个 &lt;canvas&gt;HTML 元素可以用作纹理。它可以通过 API 修改。</p>
 <p>设置主场景目标物体为 <code class="docutils literal"><span class="pre">无</span></code> 类型的纹理，在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源类型</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">画布</span></code> 类型。在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源字号</span></code> 字段 （以像素为单位） 设置纹理的大小。</p>
 <p>使用 <code class="docutils literal"><span class="pre">纹理</span></code> 模块来处理这种纹理。请参阅下面的示例。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
@@ -741,7 +742,7 @@
 <blockquote>
 <div><div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">如果在Blender中画布类型材质分配给了几个不同的物体，待引擎加载后它仍然将一个纹理而不是几个不同的。应用于它的任何更改将应用于所有使用此纹理的物体，可用于优化的目的。万一不需要这种效果，你在Blender中应指派不同的纹理，或在引擎启动后使用  <a class="reference internal" href="meshes.html#mesh-copy"><span>深度复制</span></a> 。</p>
+<p class="last">如果在Blender中画布类型材质分配给了几个不同的物体，待引擎加载后它仍然将一个纹理而不是几个不同的。应用于它的任何更改将应用于所有使用此纹理的物体，可用于优化的目的。万一不需要这种效果，你在Blender中应指派不同的纹理，或在引擎启动后使用  <a class="reference internal" href="objects.html#mesh-copy"><span>深度复制</span></a> 。</p>
 </div>
 </div></blockquote>
 </div>
@@ -768,15 +769,48 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-04-28.
+      最后更新于 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -791,7 +825,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

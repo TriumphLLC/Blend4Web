@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Textures &mdash; Blend4Web 16.04 User Manual</title>
+  <title>Textures &mdash; Blend4Web 16.05 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.04 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.05 User Manual" href="index.html"/>
         <link rel="next" title="Particle System. Fluids" href="particles.html"/>
         <link rel="prev" title="Stereo Rendering" href="stereo_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -661,7 +662,7 @@
 <p>A &lt;canvas&gt; HTML element can be used as a texture. It can be modified via API.</p>
 <p>Set the <code class="docutils literal"><span class="pre">None</span></code> type for the texture of the target object on the main scene, and select the <code class="docutils literal"><span class="pre">Canvas</span></code> type in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> menu. Set the texture size in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> field (in pixels).</p>
 <p>Use the <code class="docutils literal"><span class="pre">textures</span></code> module to handle such textures. See the example below.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
@@ -675,7 +676,7 @@
 <blockquote>
 <div><div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If one Canvas type texture is assigned in Blender to several different objects, then after engine loading it still will be one texture and not several different ones. Any changes applied to it will be applied to all objects using this texture, which can be useful for optimization purposes. In case this effect is not needed, you should assign different textures in Blender or use <a class="reference internal" href="meshes.html#mesh-copy"><span>deep copy</span></a> after engine startup.</p>
+<p class="last">If one Canvas type texture is assigned in Blender to several different objects, then after engine loading it still will be one texture and not several different ones. Any changes applied to it will be applied to all objects using this texture, which can be useful for optimization purposes. In case this effect is not needed, you should assign different textures in Blender or use <a class="reference internal" href="objects.html#mesh-copy"><span>deep copy</span></a> after engine startup.</p>
 </div>
 </div></blockquote>
 </div>
@@ -702,15 +703,48 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-04-28.
+      Last updated on 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -725,7 +759,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

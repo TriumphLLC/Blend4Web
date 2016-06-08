@@ -146,6 +146,7 @@ exports.create_simple_preloader = function(options) {
  * @param {String} [options.frame_class] CSS frame class.
  * @param {String} [options.anim_elem_class] Animated element class.
  * @cc_externs frame_bg_color frame_class anim_elem_class
+ * @deprecated Use custom preloader or {@link module:preloader.create_simple_preloader|preloader.create_simple_preloader}.
  */
 exports.create_rotation_preloader = function(options) {
     var canvas_container_id = null;
@@ -255,6 +256,7 @@ exports.create_rotation_preloader = function(options) {
  * @param {Number} options.preloader_width Preloader width.
  * @cc_externs fill_band_id preloader_bar_id preloader_caption_id
  * @cc_externs preloader_container_id img_width preloader_width
+ * @deprecated Use custom preloader or {@link module:preloader.create_simple_preloader|preloader.create_simple_preloader}.
  */
 exports.create_advanced_preloader = function(options) {
     var img_width = options.img_width;

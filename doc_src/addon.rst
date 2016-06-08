@@ -311,7 +311,7 @@ In case of export errors a ``BLEND4WEB EXPORT ERROR`` dialog box describing of t
 |                                     | ``Apply modifiers``,                      |
 |                                     | ``Export vertex animation``,              |
 |                                     | ``Export edited normals``,                |
-|                                     | ``Apply scale``                           |
+|                                     | ``Apply Scale and Modifiers``             |
 |                                     | options turned on (because in these cases |
 |                                     | a full copying of meshes occurs).         |
 +-------------------------------------+-------------------------------------------+

@@ -61,7 +61,7 @@ Used in the following simplified formula:
 
 γ < 1 - packing gamma, γ > 1 - unpacking gamma. In the simplest case 1/2.2  and 2.2 values are used respectively. Hereinafter the \“packing\” (Linear -> sRGB) and \“unpacking\” (sRGB -> Linear) terms are used instead of \“gamma correction\”.
 
-.. image:: src_images/gamma_alpha/gamma.jpg
+.. image:: src_images/colors/gamma.png
    :align: center
    :width: 100%
 
@@ -157,7 +157,7 @@ WebGL context initialization is performed using the premultipliedAlpha = true pa
 Color Correction
 ================
 
-.. image:: src_images/postprocessing_effects/effects_color_correction.png
+.. image:: src_images/colors/effects_color_correction.png
    :align: center
    :width: 100%
 

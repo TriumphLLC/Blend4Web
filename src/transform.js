@@ -230,7 +230,6 @@ exports.get_object_size = function(obj) {
 }
 
 exports.get_object_center = function(obj, calc_bs_center, dest) {
-
     if (!dest)
         var dest = new Float32Array(3);
 
@@ -311,6 +310,16 @@ function update_transform(obj) {
                                              render.be_world)
     }
 
+    for (var i = 0; i < obj.scenes_data.length; i++) {
+        var batches = obj.scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var batch = batches[j];
+            m_bounds.bounding_box_transform(batch.bb_local, render.world_tsr, batch.bb_world);
+            m_bounds.bounding_ellipsoid_transform(batch.be_local, render.world_tsr,
+                                                  batch.be_world);
+        }
+    }
+
     switch (obj_type) {
     case "SPEAKER":
         m_sfx.speaker_update_transform(obj, _elapsed);
@@ -320,6 +329,11 @@ function update_transform(obj) {
             m_cam.update_camera_transform(obj, scenes_data[i]);
         break;
     case "MESH":
+        // used in some node materials
+        m_tsr.to_zup_model(obj.render.world_tsr, obj.render.world_zup_tsr);
+        if (obj.need_inv_zup_tsr)
+            m_tsr.invert(obj.render.world_zup_tsr, obj.render.world_inv_zup_tsr);
+
         var armobj = obj.armobj;
         if (armobj) {
             var armobj_tsr = armobj.render.world_tsr;
@@ -330,6 +344,9 @@ function update_transform(obj) {
             m_quat.set(_tsr_tmp[4], _tsr_tmp[5], _tsr_tmp[6], _tsr_tmp[7],
                      render.arm_rel_quat);
         }
+
+        render.force_zsort = true;
+
         break;
     case "LAMP":
         m_lights.update_light_transform(obj);
@@ -403,8 +420,6 @@ function update_transform(obj) {
         var bone_name = cons_armat_desc[1];
         m_cons.update_bone_constraint(armobj, bone_name);
     }
-
-    render.force_zsort = true;
 }
 
 exports.distance = function(obj1, obj2) {

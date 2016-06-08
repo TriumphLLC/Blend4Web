@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Содержание &mdash; Руководство пользователя Blend4Web 16.04</title>
+  <title>Содержание &mdash; Руководство пользователя Blend4Web 16.05</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.04" href="#"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.05" href="#"/>
         <link rel="next" title="Общие сведения" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.04
+              v16.05
             </div>
           
         
@@ -89,10 +89,11 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -208,7 +209,7 @@
 <li class="toctree-l2"><a class="reference internal" href="web_player.html#scene-errors">Ошибки сцены</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Адд-он</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#local-development-server">Локальный сервер разработки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#running-viewer-and-demos">Запуск просмотрщика сцен и демо-приложений</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#json">JSON</a></li>
@@ -225,24 +226,40 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#types">Типы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#static-and-dynamic-objects">Статические и динамические объекты</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#settings">Настройка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#anchor-settings">Настройки якорей</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#object-transform-api">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#get-object-api">Выбор объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#object-selection">Выделение объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#copying-objects-instancing">Копирование объектов (инстансинг)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#quaternions">Кватернионы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#differences-between-coordinate-systems-of-blender-and-blend4web">Отличия систем координат Blender&#8217;а и Blend4Web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#moving-via-tsr-vectors">Перемещение с помощью векторов TSR</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="meshes.html#static-and-dynamic-objects">Статические и динамические объекты</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meshes.html#static-and-dynamic-meshes">Статические и динамические меши</a></li>
 <li class="toctree-l2"><a class="reference internal" href="meshes.html#settings">Настройка</a></li>
-<li class="toctree-l2"><a class="reference internal" href="meshes.html#copying-objects-instancing">Копирование объектов (инстансинг)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="meshes.html#object-selection">Выделение объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="meshes.html#morphing">Морфинг</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#main-features-of-the-normal-editor">Основные особенности редактора нормалей:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#interface-of-the-vertex-normal-editor">Интерфейс редактора вертексных нормалей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#activate">Activate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#show-normals">Show Normals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#rotation">Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#split-normals">Split Normals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#average-split">Average Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#restore">Restore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#tree-foliage-and-face">Tree, Foliage и Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-paste">Copy/Paste</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-from-mesh">Copy From Mesh</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="camera.html#move-styles-and-general-settings">Режимы управления и общие настройки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="camera.html#limiting-the-camera-movement">Ограничения движения камеры</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#viewport-alignment">Привязка к камере</a></li>
 <li class="toctree-l2"><a class="reference internal" href="camera.html#camera-controls-api">Управление через API</a></li>
 </ul>
 </li>
@@ -278,11 +295,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#shading-types">Типы затенения</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lighting.html#normal-editor">Редактор нормалей</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#lighting-with-light-sources">Освещение от источников света</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#environment-lighting-ambient">Освещение от окружающей среды</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#shadows">Тени</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lighting.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lighting.html#background">Цвет фона</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a><ul>
@@ -409,12 +425,15 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl-support">Поддержка WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#problems-upon-startup">Проблемы при запуске движка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl-failed-to-initialize">Ошибка инициализации WebGL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#more-in-depth-troubleshooting">Если ничего не помогло...</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#known-issues">Известные проблемы</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-05">v16.05</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-04">v16.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-03">v16.03</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-02">v16.02</a></li>
@@ -463,15 +482,48 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-04-28.
+      Обновлено: 2016-05-31.
 
     </p>
   </div>
 
   <a href="https://www.blend4web.com">www.blend4web.com</a>
 
-</footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
 
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
         </div>
       </div>
 
@@ -486,7 +538,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.04',
+            VERSION:'v16.05',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

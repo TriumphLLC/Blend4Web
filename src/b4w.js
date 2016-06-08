@@ -41,6 +41,12 @@
  */
 
 /**
+ * Line set in parametric form
+ * @typedef ParametricLine
+ * @type {Float32Array(6)}
+*/
+
+/**
  * Typed four-dimensional vector. Can be created with {@link module:vec4.create}.
  * @typedef {Float32Array} Vec4
  */

@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (16, 4, 0),
+    "version": (16, 5, 0),
     "blender": (2, 77, 0),
     "b4w_format_version": "5.07",
     "location": "File > Import-Export",
@@ -126,22 +126,6 @@ def fix_cam_limits_storage(arg):
             cam.b4w_use_target_distance_limits = cam["b4w_use_distance_limits"]
             cam.b4w_use_zooming = cam["b4w_use_distance_limits"]
             del cam["b4w_use_distance_limits"]            
-
-# NOTE: for compatibility with old versions
-@bpy.app.handlers.persistent
-def fix_obj_export_props(arg):
-    for obj in bpy.data.objects:
-        if obj.type == "MESH":
-            if obj.b4w_apply_scale:
-                obj.b4w_apply_scale = True
-            elif obj.b4w_apply_modifiers:
-                obj.b4w_apply_modifiers = True
-            elif "b4w_export_edited_normals" in obj.keys():
-                obj["b4w_export_edited_normals"] = True
-            elif obj.b4w_loc_export_vertex_anim:
-                obj.b4w_loc_export_vertex_anim = True
-            elif obj.b4w_shape_keys:
-                obj.b4w_shape_keys = True
 
 @bpy.app.handlers.persistent
 def old_edited_normals_convert(arg):
@@ -453,7 +437,6 @@ def register():
     bpy.app.handlers.load_post.append(add_asset_file)
     bpy.app.handlers.load_post.append(add_node_tree)
     bpy.app.handlers.load_post.append(fix_cam_limits_storage)
-    bpy.app.handlers.load_post.append(fix_obj_export_props)
     bpy.app.handlers.scene_update_pre.append(init_validation.check_addon_dir)
     bpy.app.handlers.load_post.append(old_edited_normals_convert)
     bpy.app.handlers.load_post.append(logic_nodetree_reform)

@@ -16,7 +16,7 @@ demonstration mode.
 
 Desktop version:
 
-.. image:: src_images/web_player/web_player_example.jpg
+.. image:: src_images/web_player/web_player_example.png
    :align: center
    :width: 100%
 
@@ -24,7 +24,7 @@ Desktop version:
 
 Mobile version:
 
-.. image:: src_images/web_player/web_player_example_mobile.jpg
+.. image:: src_images/web_player/web_player_example_mobile.png
    :align: center
    :width: 100%
 
@@ -56,21 +56,22 @@ Control Panel
 
 The web player's control panel is shown below.
 
-.. image:: src_images/web_player/web_player_interface.jpg
+.. image:: src_images/web_player/web_player_interface.png
    :align: center
    :width: 100%
 
 1) show / hide control panel;
 2) fullscreen mode on / off;
-3) set the scene quality;
-4) sound on / off;
-5) camera auto rotation mode on / off;
-6) run / stop the engine;
-7) open the help window;
-8) tweet;
-9) share via Facebook;
-10) share via Google+;
-11) share via VK.
+3) stereo rendering on / off;
+4) set the scene quality;
+5) sound on / off;
+6) camera auto rotation mode on / off;
+7) run / stop the engine;
+8) open the help window;
+9) tweet;
+10) share via Facebook;
+11) share via Google+;
+12) share via VK.
 
 .. _webplayer_attributes:
 
@@ -79,7 +80,7 @@ Attributes
 
 Web player accepts attributes from the browser address line:
 
-.. image:: src_images/web_player/player_params.jpg
+.. image:: src_images/web_player/player_params.png
    :align: center
    :width: 100%
 
@@ -106,7 +107,7 @@ Scene Name as Title
 
 By default the Web Player has the ``Blend4Web Web Player`` title. Assigning the meta tag ``title`` on the scene in Blender you can change that value to something else.
 
-.. image:: src_images/web_player/title.jpg
+.. image:: src_images/web_player/title.png
    :align: center
    :width: 100%
 
@@ -118,7 +119,7 @@ If the player is used incorrectly it displays the corresponding errors.
 
 1) the ``load`` attribute specifies a wrong path to the JSON file or the file is corrupt;
 
-.. image:: src_images/web_player/error_wrong_json_path.jpg
+.. image:: src_images/web_player/error_wrong_json_path.png
    :align: center
    :width: 100%
 
@@ -126,7 +127,7 @@ If the player is used incorrectly it displays the corresponding errors.
 
 2) the ``load`` attribute is not found or is void;
 
-.. image:: src_images/web_player/error_not_load_attr.jpg
+.. image:: src_images/web_player/error_not_load_attr.png
    :align: center
    :width: 100%
 
@@ -134,7 +135,7 @@ If the player is used incorrectly it displays the corresponding errors.
 
 3) WebGL initialization error.
 
-.. image:: src_images/web_player/error_webgl.jpg
+.. image:: src_images/web_player/error_webgl.png
    :align: center
    :width: 100%
 

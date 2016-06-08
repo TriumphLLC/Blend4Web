@@ -54,7 +54,7 @@ Object Animation
 
 The parameters that can be animated are the center coordinates (``Location``), ``Rotation`` and ``Scale``.
 
-.. image:: src_images/animation/wind_generator.jpg
+.. image:: src_images/animation/wind_generator.png
    :align: center
    :width: 100%
 
@@ -85,7 +85,7 @@ If a mesh object is animated it is required to activate the ``Force Dynamic Obje
 Skinning and Skeletal Animation
 ===============================
 
-.. image:: src_images/animation/rig.jpg
+.. image:: src_images/animation/rig.png
    :align: center
    :width: 100%
 
@@ -149,7 +149,7 @@ Blend4Web also has initial support of the armature constraints. For now, the onl
 Vertex Animation
 ================
 
-.. image:: src_images/animation/flag.jpg
+.. image:: src_images/animation/flag.png
    :align: center
    :width: 100%
 
@@ -216,7 +216,7 @@ NLA Editor
 
 The Blender's non-linear editor lets us set the scene's behavior in a comfortable way. With its help we can implement simple scenarios. This way coding is not needed for simple scenes and applications.
 
-.. image:: src_images/nla/simple_machinima.jpg
+.. image:: src_images/animation/simple_machinima.png
    :align: center
    :width: 100%
 
@@ -230,7 +230,7 @@ The engine supports controlling the following entities:
 
 * Particles emission (in the form of a connection with the global timeline)
 
-.. image:: src_images/nla/nla_editor.jpg
+.. image:: src_images/animation/nla_editor.png
    :align: center
    :width: 100%
    
@@ -300,7 +300,7 @@ Animation of Value and RGB Nodes
 
 Playback of keyframes inserted on ``Value`` and ``RGB`` nodes is supported in node materials.
 
-.. image:: src_images/animation/node_value_anim.jpg
+.. image:: src_images/animation/node_value_anim.png
    :align: center
 
 |

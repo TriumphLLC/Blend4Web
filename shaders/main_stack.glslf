@@ -456,11 +456,11 @@ void main(void) {
 # endif
 #endif  // TEXTURE_COLOR0_CO
 
-    vec3 D = u_diffuse_intensity * diffuse_color.rgb;
-
 #if SHADELESS
-    vec3 color = D;
+    vec3 color = diffuse_color.rgb;
 #else // SHADELESS
+
+    vec3 D = u_diffuse_intensity * diffuse_color.rgb;
 
     // ambient
     vec3 environment_color = u_environment_energy * get_environment_color(normal);

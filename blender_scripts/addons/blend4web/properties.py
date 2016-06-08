@@ -1668,7 +1668,7 @@ def remove_scenes_props():
     del bpy.types.Scene.b4w_glow_settings
     del bpy.types.Scene.b4w_enable_ssao
     del bpy.types.Scene.b4w_ssao_settings
-    del bpy.types.Scene.b4w_batch_grid_size
+    del bpy.types.Scene.b4w_cluster_size
     del bpy.types.Scene.b4w_anisotropic_filtering
     del bpy.types.Scene.b4w_enable_bloom
     del bpy.types.Scene.b4w_bloom_settings
@@ -2020,16 +2020,22 @@ def add_scene_properties():
         type = B4W_SSAOSettings
     )
 
-    b4w_batch_grid_size = bpy.props.FloatProperty(
-        name = _("B4W: batch grid size"),
-        description = _("Batch grid size in meters, pass zero value to " +
-                "prevent grid use"),
-        default = 0.0,
+    b4w_enable_cluster_batching = bpy.props.BoolProperty(
+        name = _("B4W: enable cluster batching"),
+        description = _("Use clustering algorithm for batching"),
+        default = False
+    )
+    scene_type.b4w_enable_cluster_batching = b4w_enable_cluster_batching
+
+    b4w_cluster_size = bpy.props.FloatProperty(
+        name = _("B4W: cluster size"),
+        description = _("Cluster size in meters. Specifies the maximum edge length of a cluster's bounding box."),
+        default = 30.0,
         min = 0.0,
         soft_max = 1000.0,
-        precision = 2
+        precision = 1
     )
-    scene_type.b4w_batch_grid_size = b4w_batch_grid_size
+    scene_type.b4w_cluster_size = b4w_cluster_size
 
     # see also b4w_anisotropic_filtering for texture
     b4w_anisotropic_filtering = bpy.props.EnumProperty(

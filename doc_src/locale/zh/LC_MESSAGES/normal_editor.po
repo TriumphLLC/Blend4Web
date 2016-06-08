@@ -1,0 +1,328 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014-2016, Triumph
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Blend4Web. User Manual v16.04\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-05 17:10+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.2.0\n"
+
+#: ../normal_editor.rst:7
+msgid "Normal Editor"
+msgstr ""
+
+#: ../normal_editor.rst
+msgid "Table of Contents"
+msgstr ""
+
+#: ../normal_editor.rst:13
+msgid ""
+"Editing the selected normals is a pretty easy and effective way to "
+"customize 3d model shading without complicating its geometry."
+msgstr ""
+
+#: ../normal_editor.rst:15
+msgid ""
+"In some cases, using the normal editor you may achieve the effect which "
+"is similar to the result of using :ref:`normal maps <normal_map>`. At the"
+" same  time, editing normals is preferred because it is more "
+"computationally effective and consumes less video memory."
+msgstr ""
+
+#: ../normal_editor.rst:17
+msgid "Normal editor workflow example:"
+msgstr ""
+
+#: ../normal_editor.rst:23
+msgid ""
+"Simple geometry shading is to the left, a tree with edited normals is to "
+"the right."
+msgstr ""
+
+#: ../normal_editor.rst:30
+msgid ""
+"To the left - gates with common shading; at the center - gates with "
+"edited normals; to the right - gates geometry with a wireframe."
+msgstr ""
+
+#: ../normal_editor.rst:36
+msgid ""
+"To the left - common grass geometry shading; to the right - grass with "
+"edited normals."
+msgstr ""
+
+#: ../normal_editor.rst:42
+msgid ""
+"To the left - glasses with common shading; to the right - geometry with "
+"edited normals shading."
+msgstr ""
+
+#: ../normal_editor.rst:45
+msgid "Main Features of the Normal Editor"
+msgstr ""
+
+#: ../normal_editor.rst:47
+msgid ""
+"native Blender storage is used as a container for edited vertices normals"
+" directions (it appeared in Blender 2.74);"
+msgstr ""
+
+#: ../normal_editor.rst:48
+msgid ""
+"normals editing and shading visualization are processed in ``Edit Mode`` "
+"now;"
+msgstr ""
+
+#: ../normal_editor.rst:49
+msgid "all changes are being saved automatically;"
+msgstr ""
+
+#: ../normal_editor.rst:50
+msgid ""
+"selected vertex normal rotation can be performed directly in the Viewport"
+" window with ``Shift+Ctrl+R`` hotkey, similarly to other rotation "
+"operations in Blender;"
+msgstr ""
+
+#: ../normal_editor.rst:51
+msgid "edited normals are being exported automatically."
+msgstr ""
+
+#: ../normal_editor.rst:54
+msgid "Interface of the Vertex Normal Editor"
+msgstr ""
+
+#: ../normal_editor.rst:56
+msgid ""
+"The interface of the normal editor is located on the tools panel "
+"``Blend4Web > Normal Editor``. The ``Shading: Smooth`` mode should be "
+"enabled and ``Activate`` button should be pressed or ``Auto Smooth`` flag"
+" should be enabled in the mesh settings, before starting to work with the"
+" editor."
+msgstr ""
+
+#: ../normal_editor.rst:63
+msgid "Activate"
+msgstr ""
+
+#: ../normal_editor.rst:65
+msgid "The ``Activate`` button turns on vertex normal editing mode."
+msgstr ""
+
+#: ../normal_editor.rst:67
+msgid ""
+"You can just press ``Activate`` button while in ``Edit Mode`` and start "
+"editing vertex normals. As it is active, object shading and its export "
+"would be processed taking edited vertex normals into account. In other "
+"words, after making some changes, this button should be left active if "
+"you want to see the changes in the Blender Viewport and in the Blend4Web "
+"engine."
+msgstr ""
+
+#: ../normal_editor.rst:70
+msgid "Show Normals"
+msgstr ""
+
+#: ../normal_editor.rst:72
+msgid ""
+"This button actually duplicates the original Blender's button. It turns "
+"on displaying the normals in the viewport, while the Size field allows "
+"you to set their length."
+msgstr ""
+
+#: ../normal_editor.rst:74
+msgid ""
+"You just need to push the Show Normals button either on the normal editor"
+" panel or on the Blender's right panel in the Mesh Display section. You "
+"can also set the convenient length of normals by tweaking the Size."
+msgstr ""
+
+#: ../normal_editor.rst:89
+msgid "Rotation"
+msgstr ""
+
+#: ../normal_editor.rst:91
+msgid ""
+"Using these instruments you can change direction of the normals. The "
+"``Rotate`` function is also available through the ``Shift+Ctrl+R`` "
+"hotkeys, which allows rotation of vertex normals similarly to Blender."
+msgstr ""
+
+#: ../normal_editor.rst:105
+msgid ""
+"Select one or more vertices that you want to edit and then rotate their "
+"normals using the visual sphere or specify the direction as numerical "
+"values."
+msgstr ""
+
+#: ../normal_editor.rst:107
+msgid ""
+"The ``Rotate`` button provides a more convenient way to manipulate "
+"normals. The rotation is performed in the screen space. Nevertheless, as "
+"with any other rotations in Blender, you can isolate the desired axis "
+"during rotation (by typing ``X``, ``Y`` or ``Z``)."
+msgstr ""
+
+#: ../normal_editor.rst:110
+msgid "Split Normals"
+msgstr ""
+
+#: ../normal_editor.rst:112
+msgid ""
+"The ``Split Normals`` mode allows to edit vertex normals separately for "
+"each ``face`` that form the ``vertex``. Index allows you to navigate "
+"between the split normals."
+msgstr ""
+
+#: ../normal_editor.rst:126
+msgid ""
+"Turn on the ``Split Normals`` mode, select the vertex and change the "
+"direction of its normals. Firstly, the normal which has the zero index in"
+" the queue will be modified. Then, by switching between indexes you can "
+"go to the next normal of this vertex and edit it, then to the next and so"
+" on."
+msgstr ""
+
+#: ../normal_editor.rst:129
+msgid "Average Split"
+msgstr ""
+
+#: ../normal_editor.rst:131
+msgid ""
+"The ``Average Split`` button averages the direction of the vertex normals"
+" which was modified in the ``Split Normals`` mode."
+msgstr ""
+
+#: ../normal_editor.rst:145
+msgid ""
+"To combine several split vertex normals into one, in order to obtain the "
+"average direction of these normals, you just need to select the desired "
+"vertex and press the ``Average Split`` button."
+msgstr ""
+
+#: ../normal_editor.rst:148
+msgid "Restore"
+msgstr ""
+
+#: ../normal_editor.rst:150
+msgid ""
+"The ``Restore`` button restores the original direction of normals for the"
+" selected vertices."
+msgstr ""
+
+#: ../normal_editor.rst:164
+msgid ""
+"In order to restore the normal's direction to its original (which is "
+"calculated on the basis of face normals), you need to select the desired "
+"vertices and click the Restore button."
+msgstr ""
+
+#: ../normal_editor.rst:167
+msgid "Tree, Foliage and Face"
+msgstr ""
+
+#: ../normal_editor.rst:169
+msgid ""
+"The ``Tree`` button directs the normals of the selected vertices away "
+"from the 3D cursor. The ``Foliage`` button directs the normals of the "
+"vertices strictly up. The ``Face`` button directs the normals of the "
+"selected face parallel to the normal of this face."
+msgstr ""
+
+#: ../normal_editor.rst:191
+msgid ""
+"In order to use the ``Tree`` function, select the desired vertices and "
+"place the 3D cursor in the desired position. Then click the ``Tree`` "
+"button so all the selected vertices will turn their direction away from "
+"the cursor, as if they were shot from one point."
+msgstr ""
+
+#: ../normal_editor.rst:193
+msgid ""
+"The ``Foliage`` function is very easy to use: just select the vertices "
+"and press the button, so the function will direct their normals straight "
+"up."
+msgstr ""
+
+#: ../normal_editor.rst:195
+msgid ""
+"In order to direct the normals parallel to the face normal, just select "
+"the desired face and click the ``Face`` button. The normals of the "
+"vertices which form the face will be directed parallel to the face "
+"normal. This function works only with one selected face at a time."
+msgstr ""
+
+#: ../normal_editor.rst:198
+msgid "Copy/Paste"
+msgstr ""
+
+#: ../normal_editor.rst:200
+msgid "Copies the normal direction from one vertex to another."
+msgstr ""
+
+#: ../normal_editor.rst:214
+msgid ""
+"Select the vertex you want to copy from and click the ``Copy`` button. "
+"Then, select the vertex you want to copy to and click the ``Paste`` "
+"button. You may copy information from one selected vertex to many "
+"different vertices. The buttons are not active in the ``Split Mode`` and "
+"do not copy data of split vertices."
+msgstr ""
+
+#: ../normal_editor.rst:217
+msgid "Copy From Mesh"
+msgstr ""
+
+#: ../normal_editor.rst:219
+msgid ""
+"This function allows you to copy the normals from one object to another. "
+"There are two modes: ``Matched Vertices`` and ``Nearest Vertices``."
+msgstr ""
+
+#: ../normal_editor.rst:221
+msgid ""
+"The ``Matched Vertices`` mode copies the normals from the vertices of one"
+" object to another object's vertices only if they have the same "
+"coordinates; the other vertices are ignored. The ``Nearest Vertices`` "
+"mode copies the normals of the nearest vertices of the source object."
+msgstr ""
+
+#: ../normal_editor.rst:235
+msgid ""
+"This function works in Blender's object mode. At first, you need to "
+"select the object you need to copy from, then the object you need to copy"
+" to. It is also necessary to select the target object's vertices to which"
+" normals are copied."
+msgstr ""
+
+#: ../normal_editor.rst:3
+msgid "normals"
+msgstr ""
+
+#: ../normal_editor.rst:3
+msgid "editor"
+msgstr ""
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Using these instruments you can change"
+#~ " direction of the normals. The "
+#~ "``Rotate`` function is also available "
+#~ "through the Shift+Ctrl+R hotkeys, which "
+#~ "allows rotation of vertex normals "
+#~ "similarly to Blender."
+#~ msgstr ""
+

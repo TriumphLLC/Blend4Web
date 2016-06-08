@@ -38,7 +38,7 @@ DEFAULT_ENGINE_TYPE_OPT = "external"
 DEFAULT_JS_OPTIMIZATION_OPT = "simple"
 
 DEFAULT_PHYS_USING_OPT = True
-DEFAULT_SMAA_USING_OPT = True
+DEFAULT_SMAA_USING_OPT = False
 
 URANIUM_FILE_NAME      = "uranium.js"
 URANIUM_FILE_NAME_BIN  = "uranium.js.mem"
@@ -513,7 +513,8 @@ def run_init(args):
     ])
 
     b4w_proj_cfg["deploy"] = OrderedDict([
-        ("assets_path_prefix", ""),
+        ("assets_path_dest", "assets"),
+        ("assets_path_prefix", "assets"),
         ("override", "")
     ])
 
@@ -792,20 +793,26 @@ def run_compile(args, proj_path):
         opts, args = getopt.getopt(args,
                             "ht:o:a:v:j:c:fm",
                            ["help",
+                            "engine-type=",
                             "engine_type=",
                             "optimization=",
                             "app=",
                             "version=",
+                            "js-ignore=",
                             "js_ignore=",
+                            "css-ignore=",
                             "css_ignore=",
+                            "use-physics",
                             "use_physics",
+                            "use-smaa-textures"
                             "use_smaa_textures"])
     except getopt.GetoptError as err:
         help_compile("Incorrect command line arguments")
         sys.exit(1)
 
+    # NOTE: underscores are only for compatibility, remove ASAP
     for o, a in opts:
-        if o == "--engine_type" or o == "-t":
+        if o == "--engine-type" or o == "--engine_type" or o == "-t":
             engine_type = get_engine_type(a)
         elif o == "--optimization" or o == "-o":
             opt_level = get_opt_level(a)
@@ -813,13 +820,13 @@ def run_compile(args, proj_path):
             app_html_files.append(cwd_rel_to_abs(a))
         elif o == "--version" or o == "-v":
             version = a
-        elif o == "--js_ignore" or o == "-j":
+        elif o == "--js-ignore" or o == "--js_ignore" or o == "-j":
             js_ignore.append(a)
-        elif o == "--css_ignore" or o == "-c":
+        elif o == "--css-ignore" or o == "--css_ignore" or o == "-c":
             css_ignore.append(a)
-        elif o == "--use_physics" or o == "-f":
+        elif o == "--use-physics" or o == "--use_physics" or o == "-f":
             use_physics = a
-        elif o == "--use_smaa_textures" or o == "-m":
+        elif o == "--use-smaa-textures" or o == "--use_smaa_textures" or o == "-m":
             use_smaa_textures = a
         elif o == "--help" or o == "-h":
             help_compile()
@@ -1165,10 +1172,10 @@ def compile_html(**kwargs):
 
     if engine_type != "EXTERNAL":
         if use_physics:
-            copy_smaa_to_proj_path(build_proj_path);
+            copy_phys_to_proj_path(build_proj_path);
 
         if use_smaa_textures:
-            copy_phys_to_proj_path(build_proj_path);
+            copy_smaa_to_proj_path(build_proj_path);
 
         if engine_type == "COPY":
             engine_src = engine_file_name
@@ -1270,7 +1277,7 @@ def change_assets_path(new_engine_path, assets_path):
         file_data = engine_file.read()
         engine_file.close()
         new_data = file_data.replace("ASSETS=../../assets/",
-                                     "ASSETS=" + assets_path + "assets/")
+                                     "ASSETS=" + assets_path + "/")
 
         engine_file = open(str(js_file), "w")
         engine_file.write(new_data)
@@ -1607,10 +1614,10 @@ Compile the project's application(s).
 
 Options:
     -a, --app=APP             specify source application html file
-    -c, --css_ignore          skip css file
-    -j, --js_ignore           skip js file
+    -c, --css-ignore          skip css file
+    -j, --js-ignore           skip js file
     -o, --optimization=TYPE   set javaScript optimization type
-    -t, --engine_type=TYPE    specify b4w engine type (external, copy, compile, update)
+    -t, --engine-type=TYPE    specify b4w engine type (external, copy, compile, update)
     -v, --version             add version to js and css urls
     -h, --help                show this help and exit""")
 
@@ -1661,7 +1668,7 @@ Usage: project.py [-p|--project PROJECT] convert_resources [OPTION]...
 Convert project resources (textures/audio/video) to alternative formats.
 
 Options:
-    -s, --assets   specify source assets directory
+    -s, --assets   source assets directory
     -h, --help     show this help and exit""")
 
 
@@ -1671,7 +1678,7 @@ def run_reexport(args, proj_path):
     """
     try:
         opts, args = getopt.getopt(args, "hs:b:",
-                ["help", "assets=", "blender_exec="])
+                ["help", "assets=", "blender-exec=", "blender_exec="])
     except getopt.GetoptError as err:
         help_reexport("Incorrect command line arguments")
         sys.exit(1)
@@ -1688,7 +1695,7 @@ def run_reexport(args, proj_path):
             sys.exit(0)
         elif o == "--assets" or o == "-s":
             assets_dirs.append(cwd_rel_to_abs(a))
-        elif o == "--blender_exec" or o == "-b":
+        elif o == "--blender-exec" or o == "--blender_exec" or o == "-b":
             blender_exec = a
 
     if not len(assets_dirs):
@@ -1715,7 +1722,7 @@ Rexport project *.blend files.
 
 Options:
     -s, --assets         specify source assets directory
-    -b, --blender_exec   path to blender executable
+    -b, --blender-exec   path to blender executable
     -h, --help           show this help and exit""")
 
 
@@ -1763,11 +1770,12 @@ def run_deploy(args, proj_path):
 
     try:
         opts, args = getopt.getopt(args,
-                                   "e:s:ot:h",
-                                   ["assets_path=",
-                                    "assets=",
+                                    "e:E:os:t:h",
+                                   ["assets-dest=",
+                                    "assets-prefix=",
                                     "override",
-                                    "engine_type=",
+                                    "assets=",
+                                    "engine-type=",
                                     "help"])
     except getopt.GetoptError as err:
         help_deploy("Incorrect command line arguments")
@@ -1779,25 +1787,35 @@ def run_deploy(args, proj_path):
     if deploy_rel_path:
         deploy_abs_path = normpath(join(_base_dir, deploy_rel_path))
 
-    assets_paths         = proj_cfg_value(proj_cfg, "paths", "assets_dirs", [])
+    assets_path_dest     = proj_cfg_value(proj_cfg, "deploy",
+            "assets_path_dest", "assets")
+    assets_path_prefix   = proj_cfg_value(proj_cfg, "deploy",
+            "assets_path_prefix", "assets")
     remove_exist_ext_dir = proj_cfg_value(proj_cfg, "deploy", "override", False)
-    assets_path_prefix   = proj_cfg_value(proj_cfg, "deploy", "assets_path_prefix", "")
     build_proj_path      = sdk_rel_to_abs(proj_cfg_value(proj_cfg, "paths",
                            "build_dir", normpath(join(_base_dir, "deploy", "apps",
                            basename(proj_path)))))
 
+    assets_dirs = []
+
     for o, a in opts:
-        if o == "--assets_path" or o == "-e":
+        if o == "--assets-dest" or o == "-e":
+            assets_path_dest = unix_path(normpath(a))
+        elif o == "--assets-prefix" or o == "-E":
             assets_path_prefix = a
-        elif o == "--assets" or o == "-s":
-            assets_paths.append(cwd_rel_to_abs(a))
         elif o == "--override" or o == "-o":
             remove_exist_ext_dir = True
-        elif o == "--engine_type" or o == "-t":
+        elif o == "--assets" or o == "-s":
+            assets_dirs.append(cwd_rel_to_abs(a))
+        elif o == "--engine-type" or o == "-t":
             engine_type = a
         elif o == "--help" or o == "-h":
             help_deploy()
             sys.exit(0)
+
+    if not len(assets_dirs):
+        assets_dirs = sdk_rel_to_abs_paths(proj_cfg_value(proj_cfg, "paths",
+                "assets_dirs", []))
 
     if len(args):
         deploy_abs_path = cwd_rel_to_abs(args[0])
@@ -1828,11 +1846,10 @@ def run_deploy(args, proj_path):
     shutil.copytree(build_proj_path, deploy_abs_path,
             ignore=shutil.ignore_patterns(*COMP_DEPL_IGNORE))
 
-    for assets_path in assets_paths:
-        if exists(join(_base_dir, assets_path)):
-            shutil.copytree(join(_base_dir, assets_path),
-                            join(deploy_abs_path, "assets",
-                                 basename(normpath(assets_path))))
+    for assets_dir in assets_dirs:
+        if exists(assets_dir):
+            shutil.copytree(assets_dir, join(deploy_abs_path, assets_path_dest,
+                    basename(normpath(assets_dir))))
 
 
     if engine_type == "external":
@@ -1862,10 +1879,13 @@ Usage: project.py [-p|--project PROJECT] deploy [OPTION]... [DIRECTORY]
 Deploy the project into the given directory.
 
 Options:
-    -s, --assets        specify source assets directory
-    -e, --assets_path   specify assets url
-    -o, --override      remove deploy dir if its exists
-    -h, --help          display this help and exit""")
+    -e, --assets-dest       destination assets directory ("assets" by default)
+    -E, --assets-prefix     assets URL prefix ("assets" by default)
+    -o, --override          remove deploy dir if it exists
+    -s, --assets            override project's assets directory(s)
+    -t, --engine-type=TYPE  override project's engine type config
+                            (external, copy, compile, update)
+    -h, --help              display this help and exit""")
 
 
 def run_check_deps(args):

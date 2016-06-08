@@ -32,7 +32,9 @@ CURRENT_DATE = "new Date({d.year}, {d.month}-1, {d.day}, {d.hour}, {d.minute}, {
 
 ADDONS            = ["src/addons/app.js",
                      "src/addons/camera_anim.js",
+                     "src/addons/gp_conf.js",
                      "src/addons/gyroscope.js",
+                     "src/addons/hmd_conf.js",
                      "src/addons/hmd.js",
                      "src/addons/mixer.js",
                      "src/addons/npc_ai.js",

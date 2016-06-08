@@ -191,9 +191,9 @@ void main(void) {
 
     diffuse_color.rgb *= v_color;
 
-    vec3 D = u_diffuse_intensity * diffuse_color.rgb;
-
 #  if !PARTICLES_SHADELESS
+    vec3 D = u_diffuse_intensity * diffuse_color.rgb;
+    
     vec3 E = u_emit * diffuse_color.rgb;
 
     vec3 normal = vec3(0.0, 1.0, 0.0);
@@ -216,12 +216,8 @@ void main(void) {
             u_diffuse_params, vec4(1.0), 0.0, vec4(0.0), color, specular);
         
 #  else // !PARTICLES_SHADELESS
-        vec3 color = D;
+        vec3 color = diffuse_color.rgb;
 #  endif // !PARTICLES_SHADELESS
-
-# if !DISABLE_FOG
-    fog(color, length(v_pos_view), eye_dir, 1.0);
-# endif
 
     float alpha = diffuse_color.a * v_alpha;
 

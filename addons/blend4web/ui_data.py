@@ -219,6 +219,97 @@ class B4W_DATA_PT_cone(SpeakerPanel, Panel):
         col.label(text=_("Volume:"))
         col.prop(spk, "cone_volume_outer", text=_("Outer"))
 
+class B4W_DATA_PT_shape_keys(MeshButtonsPanel, Panel):
+    bl_label = "Shape Keys"
+
+    @classmethod
+    def poll(cls, context):
+        engine = context.scene.render.engine
+        obj = context.object
+        return (obj and obj.type in {'MESH', 'LATTICE', 'CURVE', 'SURFACE'} and (engine in cls.COMPAT_ENGINES))
+
+    def draw(self, context):
+        layout = self.layout
+
+        ob = context.object
+        key = ob.data.shape_keys
+        kb = ob.active_shape_key
+
+        enable_edit = ob.mode != 'EDIT'
+        enable_edit_value = False
+
+        if ob.show_only_shape_key is False:
+            if enable_edit or (ob.type == 'MESH' and ob.use_shape_key_edit_mode):
+                enable_edit_value = True
+
+        row = layout.row()
+
+        rows = 2
+        if kb:
+            rows = 4
+        row.template_list("MESH_UL_shape_keys", "", key, "key_blocks", ob, "active_shape_key_index", rows=rows)
+
+        col = row.column()
+
+        sub = col.column(align=True)
+        sub.operator("object.b4w_shape_key_add", icon='ZOOMIN', text="")
+        sub.operator("object.shape_key_remove", icon='ZOOMOUT', text="").all = False
+        sub.menu("MESH_MT_shape_key_specials", icon='DOWNARROW_HLT', text="")
+
+        if kb:
+            col.separator()
+
+            sub = col.column(align=True)
+            sub.operator("object.shape_key_move", icon='TRIA_UP', text="").type = 'UP'
+            sub.operator("object.shape_key_move", icon='TRIA_DOWN', text="").type = 'DOWN'
+
+            split = layout.split(percentage=0.4)
+            row = split.row()
+            row.enabled = enable_edit
+            row.prop(key, "use_relative")
+
+            row = split.row()
+            row.alignment = 'RIGHT'
+
+            sub = row.row(align=True)
+            sub.label()  # XXX, for alignment only
+            subsub = sub.row(align=True)
+            subsub.active = enable_edit_value
+            subsub.prop(ob, "show_only_shape_key", text="")
+            sub.prop(ob, "use_shape_key_edit_mode", text="")
+
+            sub = row.row()
+            if key.use_relative:
+                sub.operator("object.shape_key_clear", icon='X', text="")
+            else:
+                sub.operator("object.shape_key_retime", icon='RECOVER_LAST', text="")
+
+            if key.use_relative:
+                if ob.active_shape_key_index != 0:
+                    row = layout.row()
+                    row.active = enable_edit_value
+                    row.prop(kb, "value")
+
+                    split = layout.split()
+
+                    col = split.column(align=True)
+                    col.active = enable_edit_value
+                    col.label(text="Range:")
+                    col.prop(kb, "slider_min", text="Min")
+                    col.prop(kb, "slider_max", text="Max")
+
+                    col = split.column(align=True)
+                    col.active = enable_edit_value
+                    col.label(text="Blend:")
+                    col.prop_search(kb, "vertex_group", ob, "vertex_groups", text="")
+                    col.prop_search(kb, "relative_key", key, "key_blocks", text="")
+
+            else:
+                layout.prop(kb, "interpolation")
+                row = layout.column()
+                row.active = enable_edit_value
+                row.prop(key, "eval_time")
+
 class B4W_DATA_PT_normals(MeshButtonsPanel, Panel):
     bl_label = _("Normals")
 
@@ -257,7 +348,13 @@ class B4W_DATA_PT_lamp(LampPanel, Panel):
 
             if lamp.type in {'POINT', 'SPOT'}:
                 sub.label(text=_("Falloff:"))
-                sub.prop(lamp, "distance")
+                sub.prop(lamp, "falloff_type", text="")
+                if lamp.falloff_type != "INVERSE_SQUARE":
+                    row = layout.row()
+                    row.label(_("%s type is not supported.") % lamp.falloff_type,
+                            icon="ERROR")
+                else:
+                    sub.prop(lamp, "distance")
 
             if lamp.type == 'AREA':
                 col.prop(lamp, "distance")
@@ -482,5 +579,26 @@ class B4W_DATA_PT_custom_props(DataButtonsPanel, PropertyPanel, Panel):
             cls._property_type = bpy.types.Speaker
         elif context.armature:
             cls._property_type = bpy.types.Armature
+        elif context.curve:
+            cls._property_type = bpy.types.Curve
+        elif context.lattice:
+            cls._property_type = bpy.types.Lattice
+        elif context.lamp:
+            cls._property_type = bpy.types.Lamp
+        elif context.meta_ball:
+            cls._property_type = bpy.types.MetaBall
 
         return context.scene.render.engine in cls.COMPAT_ENGINES
+
+class OperatorAddShapeKey(bpy.types.Operator):
+    bl_idname  = "object.b4w_shape_key_add"
+    bl_label   = p_("Add shape key to the object", "Operator")
+    bl_options = {"INTERNAL"}
+
+    def execute(self, context):
+        obj = context.active_object
+        # auto apply default animaton
+        if not "b4w_shape_keys" in obj.keys():
+            obj.b4w_shape_keys = True
+
+        return bpy.ops.object.shape_key_add(from_mix=False)

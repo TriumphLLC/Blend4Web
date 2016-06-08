@@ -78,3 +78,21 @@
 #define SPOT  2
 #define POINT 3
 #define SUN   4
+
+// NOTE: keep VT constants synchronized with:
+//              src/nodemat.js : append_nmat_node
+//              src/batch.js   : update_batch_material_nodes
+// for vector transform
+#define VT_WORLD_TO_WORLD    0
+#define VT_WORLD_TO_OBJECT   1
+#define VT_WORLD_TO_CAMERA   2
+#define VT_OBJECT_TO_WORLD   3
+#define VT_OBJECT_TO_OBJECT  4
+#define VT_OBJECT_TO_CAMERA  5
+#define VT_CAMERA_TO_WORLD   6
+#define VT_CAMERA_TO_OBJECT  7
+#define VT_CAMERA_TO_CAMERA  8
+
+#define VT_POINT    0
+#define VT_VECTOR   1
+#define VT_NORMAL   2

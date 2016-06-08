@@ -511,12 +511,8 @@
         "name": "Material Library",
         "items": [
             {
-                "name": "All Materials",
-                "load_file": "material_library/material_library.json"
-            },
-            {
-                "name": "Promo",
-                "load_file": "material_library/promo/promo.json"
+                "name": "Free Materials",
+                "load_file": "material_library/free_material_library.json"
             }
         ]
     },

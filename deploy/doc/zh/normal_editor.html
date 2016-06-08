@@ -1,0 +1,420 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Normal Editor &mdash; Blend4Web 16.05 用户手册</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="author" title="关于这些文档"
+              href="about.html"/>
+    <link rel="top" title="Blend4Web 16.05 用户手册" href="index.html"/>
+        <link rel="next" title="Camera" href="camera.html"/>
+        <link rel="prev" title="网格" href="meshes.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Blend4Web. 用户手册
+        
+
+        
+        </a>
+
+        
+          
+          
+            <div class="version">
+              v16.05
+            </div>
+          
+        
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Normal Editor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#main-features-of-the-normal-editor">Main Features of the Normal Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interface-of-the-vertex-normal-editor">Interface of the Vertex Normal Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#activate">Activate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#show-normals">Show Normals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rotation">Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#split-normals">Split Normals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#average-split">Average Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#restore">Restore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tree-foliage-and-face">Tree, Foliage and Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#copy-paste">Copy/Paste</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#copy-from-mesh">Copy From Mesh</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Blend4Web. 用户手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div id="lang_cont">
+          <a href="#">RU</a>
+          <a href="#">EN</a>
+          <a href="#">ZH</a>
+        </div>
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Normal Editor</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="normals-editor"></span><div class="section" id="normal-editor">
+<span id="index-0"></span><h1><a class="toc-backref" href="#id1">Normal Editor</a><a class="headerlink" href="#normal-editor" title="永久链接至标题">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#normal-editor" id="id1">Normal Editor</a><ul>
+<li><a class="reference internal" href="#main-features-of-the-normal-editor" id="id2">Main Features of the Normal Editor</a></li>
+<li><a class="reference internal" href="#interface-of-the-vertex-normal-editor" id="id3">Interface of the Vertex Normal Editor</a></li>
+<li><a class="reference internal" href="#activate" id="id4">Activate</a></li>
+<li><a class="reference internal" href="#show-normals" id="id5">Show Normals</a></li>
+<li><a class="reference internal" href="#rotation" id="id6">Rotation</a></li>
+<li><a class="reference internal" href="#split-normals" id="id7">Split Normals</a></li>
+<li><a class="reference internal" href="#average-split" id="id8">Average Split</a></li>
+<li><a class="reference internal" href="#restore" id="id9">Restore</a></li>
+<li><a class="reference internal" href="#tree-foliage-and-face" id="id10">Tree, Foliage and Face</a></li>
+<li><a class="reference internal" href="#copy-paste" id="id11">Copy/Paste</a></li>
+<li><a class="reference internal" href="#copy-from-mesh" id="id12">Copy From Mesh</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Editing the selected normals is a pretty easy and effective way to customize 3d model shading without complicating its geometry.</p>
+<p>In some cases, using the normal editor you may achieve the effect which is similar to the result of using <a class="reference internal" href="textures.html#normal-map"><span>normal maps</span></a>. At the same  time, editing normals is preferred because it is more computationally effective and consumes less video memory.</p>
+<p>Normal editor workflow example:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/normal_editor_example.png"><img alt="_images/normal_editor_example.png" class="align-center" src="_images/normal_editor_example.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>Simple geometry shading is to the left, a tree with edited normals is to the right.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/simple_geometry.png"><img alt="_images/simple_geometry.png" class="align-center" src="_images/simple_geometry.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>To the left - gates with common shading; at the center - gates with edited normals; to the right - gates geometry with a wireframe.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/grass.png"><img alt="_images/grass.png" class="align-center" src="_images/grass.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>To the left - common grass geometry shading; to the right - grass with edited normals.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/glasses.png"><img alt="_images/glasses.png" class="align-center" src="_images/glasses.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>To the left - glasses with common shading; to the right - geometry with edited normals shading.</p>
+<div class="section" id="main-features-of-the-normal-editor">
+<h2><a class="toc-backref" href="#id2">Main Features of the Normal Editor</a><a class="headerlink" href="#main-features-of-the-normal-editor" title="永久链接至标题">¶</a></h2>
+<ol class="arabic simple">
+<li>native Blender storage is used as a container for edited vertices normals directions (it appeared in Blender 2.74);</li>
+<li>normals editing and shading visualization are processed in <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code> now;</li>
+<li>all changes are being saved automatically;</li>
+<li>selected vertex normal rotation can be performed directly in the Viewport window with <code class="docutils literal"><span class="pre">Shift+Ctrl+R</span></code> hotkey, similarly to other rotation operations in Blender;</li>
+<li>edited normals are being exported automatically.</li>
+</ol>
+</div>
+<div class="section" id="interface-of-the-vertex-normal-editor">
+<h2><a class="toc-backref" href="#id3">Interface of the Vertex Normal Editor</a><a class="headerlink" href="#interface-of-the-vertex-normal-editor" title="永久链接至标题">¶</a></h2>
+<p>The interface of the normal editor is located on the tools panel <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Normal</span> <span class="pre">Editor</span></code>. The <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code> mode should be enabled and <code class="docutils literal"><span class="pre">Activate</span></code> button should be pressed or <code class="docutils literal"><span class="pre">Auto</span> <span class="pre">Smooth</span></code> flag should be enabled in the mesh settings, before starting to work with the editor.</p>
+<a class="reference internal image-reference" href="_images/normal_editor_interface.png"><img alt="_images/normal_editor_interface.png" class="align-center" src="_images/normal_editor_interface.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="activate">
+<h2><a class="toc-backref" href="#id4">Activate</a><a class="headerlink" href="#activate" title="永久链接至标题">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Activate</span></code> button turns on vertex normal editing mode.</p>
+<p>You can just press <code class="docutils literal"><span class="pre">Activate</span></code> button while in <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code> and start editing vertex normals. As it is active, object shading and its export would be processed taking edited vertex normals into account. In other words, after making some changes, this button should be left active if you want to see the changes in the Blender Viewport and in the Blend4Web engine.</p>
+</div>
+<div class="section" id="show-normals">
+<h2><a class="toc-backref" href="#id5">Show Normals</a><a class="headerlink" href="#show-normals" title="永久链接至标题">¶</a></h2>
+<p>This button actually duplicates the original Blender&#8217;s button. It turns on displaying the normals in the viewport, while the Size field allows you to set their length.</p>
+<p>You just need to push the Show Normals button either on the normal editor panel or on the Blender&#8217;s right panel in the Mesh Display section. You can also set the convenient length of normals by tweaking the Size.</p>
+<a class="reference internal image-reference" href="_images/show_normals.gif"><img alt="_images/show_normals.gif" class="align-center" src="_images/show_normals.gif" style="width: 100%;" /></a>
+</div>
+<div class="section" id="rotation">
+<h2><a class="toc-backref" href="#id6">Rotation</a><a class="headerlink" href="#rotation" title="永久链接至标题">¶</a></h2>
+<p>Using these instruments you can change direction of the normals. The <code class="docutils literal"><span class="pre">Rotate</span></code> function is also available through the <code class="docutils literal"><span class="pre">Shift+Ctrl+R</span></code> hotkeys, which allows rotation of vertex normals similarly to Blender.</p>
+<a class="reference internal image-reference" href="_images/rotation.gif"><img alt="_images/rotation.gif" class="align-center" src="_images/rotation.gif" style="width: 100%;" /></a>
+<p>Select one or more vertices that you want to edit and then rotate their normals using the visual sphere or specify the direction as numerical values.</p>
+<p>The <code class="docutils literal"><span class="pre">Rotate</span></code> button provides a more convenient way to manipulate normals. The rotation is performed in the screen space. Nevertheless, as with any other rotations in Blender, you can isolate the desired axis during rotation (by typing <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">Y</span></code> or <code class="docutils literal"><span class="pre">Z</span></code>).</p>
+</div>
+<div class="section" id="split-normals">
+<h2><a class="toc-backref" href="#id7">Split Normals</a><a class="headerlink" href="#split-normals" title="永久链接至标题">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode allows to edit vertex normals separately for each <code class="docutils literal"><span class="pre">face</span></code> that form the <code class="docutils literal"><span class="pre">vertex</span></code>. Index allows you to navigate between the split normals.</p>
+<a class="reference internal image-reference" href="_images/split_normals.gif"><img alt="_images/split_normals.gif" class="align-center" src="_images/split_normals.gif" style="width: 100%;" /></a>
+<p>Turn on the <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode, select the vertex and change the direction of its normals. Firstly, the normal which has the zero index in the queue will be modified. Then, by switching between indexes you can go to the next normal of this vertex and edit it, then to the next and so on.</p>
+</div>
+<div class="section" id="average-split">
+<h2><a class="toc-backref" href="#id8">Average Split</a><a class="headerlink" href="#average-split" title="永久链接至标题">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Average</span> <span class="pre">Split</span></code> button averages the direction of the vertex normals which was modified in the <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Normals</span></code> mode.</p>
+<a class="reference internal image-reference" href="_images/average_split.gif"><img alt="_images/average_split.gif" class="align-center" src="_images/average_split.gif" style="width: 100%;" /></a>
+<p>To combine several split vertex normals into one, in order to obtain the average direction of these normals, you just need to select the desired vertex and press the <code class="docutils literal"><span class="pre">Average</span> <span class="pre">Split</span></code> button.</p>
+</div>
+<div class="section" id="restore">
+<h2><a class="toc-backref" href="#id9">Restore</a><a class="headerlink" href="#restore" title="永久链接至标题">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Restore</span></code> button restores the original direction of normals for the selected vertices.</p>
+<a class="reference internal image-reference" href="_images/restore.gif"><img alt="_images/restore.gif" class="align-center" src="_images/restore.gif" style="width: 100%;" /></a>
+<p>In order to restore the normal&#8217;s direction to its original (which is calculated on the basis of face normals), you need to select the desired vertices and click the Restore button.</p>
+</div>
+<div class="section" id="tree-foliage-and-face">
+<h2><a class="toc-backref" href="#id10">Tree, Foliage and Face</a><a class="headerlink" href="#tree-foliage-and-face" title="永久链接至标题">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Tree</span></code> button directs the normals of the selected vertices away from the 3D cursor. The <code class="docutils literal"><span class="pre">Foliage</span></code> button directs the normals of the vertices strictly up. The <code class="docutils literal"><span class="pre">Face</span></code> button directs the normals of the selected face parallel to the normal of this face.</p>
+<a class="reference internal image-reference" href="_images/tree_foliage_face.gif"><img alt="_images/tree_foliage_face.gif" class="align-center" src="_images/tree_foliage_face.gif" style="width: 100%;" /></a>
+<p>In order to use the <code class="docutils literal"><span class="pre">Tree</span></code> function, select the desired vertices and place the 3D cursor in the desired position. Then click the <code class="docutils literal"><span class="pre">Tree</span></code> button so all the selected vertices will turn their direction away from the cursor, as if they were shot from one point.</p>
+<p>The <code class="docutils literal"><span class="pre">Foliage</span></code> function is very easy to use: just select the vertices and press the button, so the function will direct their normals straight up.</p>
+<p>In order to direct the normals parallel to the face normal, just select the desired face and click the <code class="docutils literal"><span class="pre">Face</span></code> button. The normals of the vertices which form the face will be directed parallel to the face normal. This function works only with one selected face at a time.</p>
+</div>
+<div class="section" id="copy-paste">
+<h2><a class="toc-backref" href="#id11">Copy/Paste</a><a class="headerlink" href="#copy-paste" title="永久链接至标题">¶</a></h2>
+<p>Copies the normal direction from one vertex to another.</p>
+<a class="reference internal image-reference" href="_images/copy_paste.gif"><img alt="_images/copy_paste.gif" class="align-center" src="_images/copy_paste.gif" style="width: 100%;" /></a>
+<p>Select the vertex you want to copy from and click the <code class="docutils literal"><span class="pre">Copy</span></code> button. Then, select the vertex you want to copy to and click the <code class="docutils literal"><span class="pre">Paste</span></code> button. You may copy information from one selected vertex to many different vertices. The buttons are not active in the <code class="docutils literal"><span class="pre">Split</span> <span class="pre">Mode</span></code> and do not copy data of split vertices.</p>
+</div>
+<div class="section" id="copy-from-mesh">
+<h2><a class="toc-backref" href="#id12">Copy From Mesh</a><a class="headerlink" href="#copy-from-mesh" title="永久链接至标题">¶</a></h2>
+<p>This function allows you to copy the normals from one object to another. There are two modes: <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> and <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">Matched</span> <span class="pre">Vertices</span></code> mode copies the normals from the vertices of one object to another object&#8217;s vertices only if they have the same coordinates; the other vertices are ignored. The <code class="docutils literal"><span class="pre">Nearest</span> <span class="pre">Vertices</span></code> mode copies the normals of the nearest vertices of the source object.</p>
+<a class="reference internal image-reference" href="_images/copy_from_mesh.gif"><img alt="_images/copy_from_mesh.gif" class="align-center" src="_images/copy_from_mesh.gif" style="width: 100%;" /></a>
+<p>This function works in Blender&#8217;s object mode. At first, you need to select the object you need to copy from, then the object you need to copy to. It is also necessary to select the target object&#8217;s vertices to which normals are copied.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="camera.html" class="btn btn-neutral float-right" title="Camera" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="meshes.html" class="btn btn-neutral" title="网格" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2014-2016, Triumph.
+      最后更新于 2016-05-31.
+
+    </p>
+  </div>
+
+  <a href="https://www.blend4web.com">www.blend4web.com</a>
+
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v16.05',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+
+          var lang_cont = $("#lang_cont");
+          var links = lang_cont.children();
+
+          var link_ru = links[0];
+          var link_en = links[1];
+          var link_zh = links[2];
+
+          var loc = document.location.href;
+
+          var href_ru = loc;
+          var href_en = loc;
+          var href_zh = loc; 
+
+          if (loc.search("/ru/") != -1) {
+              href_en = loc.replace("/ru/", "/en/");
+              href_zh = loc.replace("/ru/", "/zh/");
+          } else if (loc.search("/en/") != -1) {
+              href_ru = loc.replace("/en/", "/ru/");
+              href_zh = loc.replace("/en/", "/zh/");
+          } else {
+              href_ru = loc.replace("/zh/", "/ru/");
+              href_en = loc.replace("/zh/", "/en/");
+          }
+
+          link_ru.href = href_ru;
+          link_en.href = href_en;
+          link_zh.href = href_zh;
+
+          lang_cont.css("display", "inline-block")
+      });
+  </script>
+   
+
+</body>
+</html>
