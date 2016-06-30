@@ -61,6 +61,7 @@ function load_cb(data_id) {
     prepare_anim();
     create_interface();
     create_gmpd_sensors();
+    m_gp_cf.update();
 }
 
 function prepare_anim() {

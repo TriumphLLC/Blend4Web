@@ -193,7 +193,7 @@ exports.get_world_by_name = function(name, data_id) {
  * @returns {Number} data_id Data ID property
  */
 exports.get_object_data_id = function(obj) {
-    return m_scenes.get_object_data_id(obj);
+    return m_obj_util.get_object_data_id(obj);
 }
 
 /**
@@ -1223,11 +1223,11 @@ exports.remove_object = function(obj) {
                 "dynamic and type of MESH or EMPTY.");
         return;
     }
-    var scenes_data = obj.scenes_data;
-    for (var j = 0; j < scenes_data.length; j++) {
-        var scene = scenes_data[j].scene;
-        m_data.prepare_object_unloading(scene, obj, false);
-    }
+
+    // cleanup only vbo/ibo buffers for deep copied objects
+    m_obj.obj_switch_cleanup_flags(obj, false, obj.render.is_copied_deep, false, false);
+    m_data.prepare_object_unloading(obj);
+    m_obj.obj_switch_cleanup_flags(obj, true, true, true, true);
     m_obj.remove_object(obj);
 }
 /**

@@ -223,6 +223,16 @@ void main(void) {
 
 #endif // HALO_PARTICLES
 
+#if ALPHA
+# if ALPHA_CLIP
+    if (alpha < 0.5)
+        discard;
+    alpha = 1.0; // prevent blending with html content
+# endif  // ALPHA CLIP
+#else  // ALPHA
+    alpha = 1.0;
+#endif  // ALPHA
+
 #if !DISABLE_FOG
     fog(color, length(v_pos_view), eye_dir, 1.0);
 #endif

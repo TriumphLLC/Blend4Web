@@ -383,7 +383,11 @@ function is_paused() {
 }
 
 function loop() {
-    _requestAnimFrame(loop);
+    var vr_display = cfg_def.stereo === "HMD" && m_input.get_webvr_display();
+    if (vr_display)
+        vr_display.requestAnimationFrame(loop);
+    else
+        _requestAnimFrame(loop);
 
     // float sec
     var abstime = performance.now() / 1000;
@@ -420,6 +424,9 @@ function loop() {
     }
 
     _last_abs_time = abstime;
+
+    if (vr_display && vr_display.isPresenting)
+        vr_display.submitFrame();
 }
 
 function frame(timeline, delta) {
@@ -453,7 +460,7 @@ function frame(timeline, delta) {
         return;
 
     //inputs should be updated before controls
-    m_input.update();
+    m_input.update(timeline);
     // controls
     m_ctl.update(timeline, delta);
 

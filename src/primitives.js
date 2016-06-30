@@ -366,7 +366,7 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
 exports.generate_from_triangles = function(verts) {
     var len = verts.length;
     if (len % 3)
-        throw "Wrong array";
+        m_util.panic("Wrong array");
 
     var indices   = [];
     var positions = [];
@@ -409,7 +409,7 @@ function generate_from_quads(verts) {
 
     var len = verts.length;
     if (len % 4)
-        throw "Wrong array";
+        m_util.panic("Wrong array");
 
     var indices   = [];
     var positions = [];

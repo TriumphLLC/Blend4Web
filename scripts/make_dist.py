@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import getopt, json, os, sys, time, zipfile, re, shutil
+import getopt, json, os, sys, time, zipfile, re
 
 # for UNIX-like OSes only
 import fnmatch
@@ -17,13 +17,13 @@ LICENSE_PATHS=[
     {
         "paths": [os.path.join("src", "*.js")], 
         "file_type": ".js", 
-        "license_type": set(("free", "pro")), 
+        "license_type": set(("ce", "pro")), 
         "except_paths": []
     },
     {
         "paths": [os.path.join(ADDON_PATH, "*.py")], 
         "file_type": ".py", 
-        "license_type": set(("free",)), 
+        "license_type": set(("ce",)), 
         "except_paths": [os.path.join(ADDON_PATH, "lib", "*.py")]
     },
 ]
@@ -31,21 +31,9 @@ LICENSE_PATHS=[
 def help():
     print("Usage: make_dist.py [-v version] [-f] DIST_FILE")
 
-def create_blender_scripts_dir():
-    path_to_blender_scripts = os.path.join(SRC, "blender_scripts", "addons")
-    if os.path.isdir(path_to_blender_scripts):
-        remove_blender_scripts_dir()
-    path_to_addons = os.path.join(SRC, "addons")
-    shutil.copytree(path_to_addons, path_to_blender_scripts)
 
-def remove_blender_scripts_dir():
-    path_to_blender_scripts = os.path.join(SRC, "blender_scripts")
-    shutil.rmtree(path_to_blender_scripts)
-
-def process_dist_list(dist_path, version, force):
+def process_dist_list(dist_path, dist_root, version, force):
     print("Creating a distribution archive from " + str(dist_path))
-
-    create_blender_scripts_dir()
 
     try:
         dist_file = open(dist_path, "r")
@@ -72,6 +60,9 @@ def process_dist_list(dist_path, version, force):
 
     basename_dest = os.path.basename(dist_path).split(".lst")[0]
 
+    if not dist_root:
+        dist_root = basename_dest
+
     if version:
         dest_version_suffix = "_" + version.replace(".", "_")
     else:
@@ -97,7 +88,7 @@ def process_dist_list(dist_path, version, force):
             path_root_rel = os.path.relpath(path_curr_rel, SRC)
             if check_path(path_root_rel, pos_patterns, neg_patterns):
                 try:
-                    path_arc = os.path.join(basename_dest, 
+                    path_arc = os.path.join(dist_root, 
                             find_file_path(path_root_rel, pos_patterns))
                 except ValueError as err:
                     print("Failed to create file: " + str(err))
@@ -122,7 +113,7 @@ def process_dist_list(dist_path, version, force):
                             if basename_dest.split("_")[-1] == "pro" and "pro" in rule["license_type"]:
                                 src = insert_license(path_curr_rel, rule["file_type"], EULA_TEMPLATE)
                             else:
-                                if "free" in rule["license_type"]:
+                                if "ce" in rule["license_type"]:
                                     src = insert_license(path_curr_rel, rule["file_type"], GPL_TEMPLATE)
                                 elif "pro" in rule["license_type"]:
                                     src = insert_license(path_curr_rel, rule["file_type"], EULA_TEMPLATE)
@@ -133,8 +124,6 @@ def process_dist_list(dist_path, version, force):
                         z.write(path_curr_rel, path_arc)
 
     z.close()
-
-    remove_blender_scripts_dir()
 
     print("Archive created: " + str(path_dest))
 
@@ -325,7 +314,7 @@ def index_cleanup(index_path, basename_dist, version):
 if __name__ == "__main__":
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "fv:", ["version="])
+        opts, args = getopt.getopt(sys.argv[1:], "fr:v:", ["dist-root=", "version="])
     except getopt.GetoptError as err:
         help()
         exit(1)
@@ -336,15 +325,18 @@ if __name__ == "__main__":
 
     dist = args[0]
     version = ""
+    dist_root = ""
     force = False
 
     for opt, val in opts:
         if opt in ("-v", "--version"):
             version = val
+        elif opt in ("-r", "--dist-root"):
+            dist_root = val
         elif opt == "-f":
             force = True
         else:
             help()
             exit(0)
 
-    process_dist_list(dist, version, force)
+    process_dist_list(dist, dist_root, version, force)

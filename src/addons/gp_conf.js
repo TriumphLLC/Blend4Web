@@ -474,7 +474,7 @@ function get_gamepads() {
 }
 
 function save_config_to_local_mem(red_btn_val, pressed_btn_key) {
-    var gmpd_stngs_str = m_storage.get(_selected_gamepad_num + "gmpd_stngs", "b4w") || "{}";
+    var gmpd_stngs_str = m_storage.get(_selected_gamepad_num + "_gmpd_stngs", "b4w") || "{}";
     var gmpd_stngs = JSON.parse(gmpd_stngs_str);
     gmpd_stngs[red_btn_val] = pressed_btn_key;
     m_storage.set(_selected_gamepad_num + "_gmpd_stngs", JSON.stringify(gmpd_stngs), "b4w");
@@ -498,6 +498,15 @@ function set_gmpd_config(gamepad_id) {
     } else {
         init_gmpd_stngs(gamepad_id);
     }
+}
+
+/**
+ * Update gamepad device config without showing configurator
+ * @method module:gp_conf.update
+ */
+exports.update = function() {
+   for(var i = 0; i < 4; i++)
+       set_gmpd_config(i);
 }
 
 function create_pad_interface(main_div) {

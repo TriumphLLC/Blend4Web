@@ -107,6 +107,12 @@ Performed in the ``Object Data`` tab when a lamp object is selected.
 *Shadow > Shadow*
     Use this light source for shadow calculation. Should be used when multiple light sources are present. Disabled by default.
 
+*Shadow > Clip Start*
+    This parameter specifies a distance from the light source, below which objects do not generate shadows. Default value is 1.001.
+
+*Shadow > Clip End*
+    This parameter specifies a distance from the light source, beyond which objects do not generate shadows. Default value is 30.002.
+
 
 .. _environment_lighting:
 

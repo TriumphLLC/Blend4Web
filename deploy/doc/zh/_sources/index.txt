@@ -178,13 +178,21 @@
 
   * 光晕材质
 
+* Material Library
+
+  * Libarary Structure
+
+  * Material Structure
+
+  * Adding Material to a Scene
+
 * 节点材质
 
   * 标准节点
 
   * 游戏引擎特定节点
 
-* Logic Nodes
+* Logic Editor
 
   * Basics
 
@@ -245,6 +253,8 @@
   * 激活
 
   * 附加设置
+
+  * HMD Settings
 
 * 纹理
 
@@ -429,6 +439,8 @@
   * 已知问题
 
 * Release Notes
+
+  * v16.06
 
   * v16.05
 

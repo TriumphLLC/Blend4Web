@@ -454,8 +454,12 @@ exports.update = function() {
     for (var i = 0; i < _anchors.length; i++) {
         var anchor = _anchors[i];
 
-        if (anchor.type != "GENERIC")
-            anchor.element.style.zIndex = i;
+        if (anchor.type != "GENERIC") {
+            if (_clicked_elem == anchor.element)
+                anchor.element.style.zIndex = _anchors.length;
+            else
+                anchor.element.style.zIndex = i;
+        }
     }
 
     if (det_vis_cnt > 0) {

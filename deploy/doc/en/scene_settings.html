@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene Settings &mdash; Blend4Web 16.05 User Manual</title>
+  <title>Scene Settings &mdash; Blend4Web 16.06 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.05 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.06 User Manual" href="index.html"/>
         <link rel="next" title="Objects" href="objects.html"/>
         <link rel="prev" title="Addon" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.05
+              v16.06
             </div>
           
         
@@ -115,7 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#nla">NLA</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#meta-tags">Meta Tags</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#physics">Physics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#batching">Batching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cluster-batching">Cluster Batching</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#objects-selection">Objects Selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#anchors">Anchors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#export-options">Export Options</a></li>
@@ -137,8 +137,9 @@
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
@@ -225,7 +226,7 @@
 <li><a class="reference internal" href="#nla" id="id23">NLA</a></li>
 <li><a class="reference internal" href="#meta-tags" id="id24">Meta Tags</a></li>
 <li><a class="reference internal" href="#physics" id="id25">Physics</a></li>
-<li><a class="reference internal" href="#batching" id="id26">Batching</a></li>
+<li><a class="reference internal" href="#cluster-batching" id="id26">Cluster Batching</a></li>
 <li><a class="reference internal" href="#objects-selection" id="id27">Objects Selection</a></li>
 <li><a class="reference internal" href="#anchors" id="id28">Anchors</a></li>
 <li><a class="reference internal" href="#export-options" id="id29">Export Options</a></li>
@@ -403,13 +404,17 @@
 <dd>Allow using physics in the application. Enabled by default.</dd>
 </dl>
 </div>
-<div class="section" id="batching">
-<span id="scene-batching"></span><h3><a class="toc-backref" href="#id26">Batching</a><a class="headerlink" href="#batching" title="Permalink to this headline">¶</a></h3>
-<p>The size of the grid used to batch the object with the same materials can be specified here. This parameter can be used for optimization purposes.</p>
-<a class="reference internal image-reference" href="_images/scene_batching.png"><img alt="_images/scene_batching.png" class="align-center" src="_images/scene_batching.png" style="width: 100%;" /></a>
+<div class="section" id="cluster-batching">
+<span id="scene-batching"></span><h3><a class="toc-backref" href="#id26">Cluster Batching</a><a class="headerlink" href="#cluster-batching" title="Permalink to this headline">¶</a></h3>
+<p>This parameter enables the use of cluster batching. It can be used for optimization purposes. This is disabled by default.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If this parameter is disabled, the engine will try to combine all static objects into one.</p>
+</div>
+<a class="reference internal image-reference" href="_images/scene_cluster_batching.png"><img alt="_images/scene_cluster_batching.png" class="align-center" src="_images/scene_cluster_batching.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Batch Grid Size</em></dt>
-<dd>The size of the grid in meters. Set to zero by default (in such case, the grid isn&#8217;t used).</dd>
+<dt><em>Cluster Size</em></dt>
+<dd>The size of the cluster used for batching (in meters). Set to 30 by default. If this parameter is set to zero, objects will not be combined.</dd>
 </dl>
 </div>
 <div class="section" id="objects-selection">
@@ -542,7 +547,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-05-31.
+      Last updated on 2016-06-30.
 
     </p>
   </div>
@@ -598,7 +603,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.05',
+            VERSION:'v16.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

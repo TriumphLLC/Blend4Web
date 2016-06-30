@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-12 15:00+0300\n"
+"POT-Creation-Date: 2016-06-06 14:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Generated-By: Babel 2.2.0\n"
 
 #: ../logic_editor.rst:5
-msgid "Logic Nodes"
+msgid "Logic Editor"
 msgstr ""
 
 #: ../logic_editor.rst
@@ -1509,5 +1509,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "An ID of the JavaScript function that will be called by the node."
+#~ msgstr ""
+
+#~ msgid "Logic Nodes"
 #~ msgstr ""
 

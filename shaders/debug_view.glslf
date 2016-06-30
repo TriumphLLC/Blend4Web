@@ -5,6 +5,7 @@
 #define DV_DEBUG_SPHERES 4
 #define DV_CLUSTERS_VIEW 5
 #define DV_BATCHES_VIEW 6
+#define DV_RENDER_TIME 7
 
 /*============================================================================
                                    INCLUDES
@@ -20,8 +21,10 @@
 #if !DEBUG_SPHERE
 uniform int u_debug_view_mode;
 uniform float u_cluster_id;
-uniform float u_batch_debug_id;
+uniform float u_batch_debug_id_color;
+uniform float u_batch_debug_main_render_time;
 uniform float u_debug_colors_seed;
+uniform float u_debug_render_time_threshold;
 uniform vec3 u_wireframe_edge_color;
 #endif
 
@@ -47,6 +50,10 @@ const vec3 DEBUG_SPHERE_COLOR = vec3(0.05, 0.05, 1.0);
 const vec3 FRONT_COLOR = vec3(0.4, 0.4, 1.0);
 const vec3 BACK_COLOR = vec3(1.0, 0.4, 0.4);
 const vec3 FACE_COLOR_OPAQUE = vec3(1.0, 1.0, 1.0);
+
+// just eyes-friendly pretty colors
+const vec3 GREEN = vec3(0.0, 133.0/255.0, 66.0/255.0);
+const vec3 RED = vec3(160.0/255.0, 38.0/255.0, 33.0/255.0);
 #endif
 
 #if !DEBUG_SPHERE
@@ -114,10 +121,24 @@ void main() {
         color = vec3(fract(val * 19.73), fract(val * 6.34), fract(val * 1.56));
         alpha = 1.0;
     } else if (u_debug_view_mode == DV_BATCHES_VIEW) {
-        float val = u_batch_debug_id + u_debug_colors_seed;
+        float val = u_batch_debug_id_color + u_debug_colors_seed;
 
         // random color
         color = vec3(fract(val * 19.73), fract(val * 6.34), fract(val * 1.56));
+        alpha = 1.0;
+    } else if (u_debug_view_mode == DV_RENDER_TIME) {
+        float render_time;
+        if (u_debug_render_time_threshold > 0.0)
+            render_time = clamp(u_batch_debug_main_render_time, 0.0, 
+                    u_debug_render_time_threshold) / u_debug_render_time_threshold;
+        else
+            render_time = 1.0;
+            
+        float r_coeff = clamp(2.0 * render_time, 0.0, 1.0);
+        float g_coeff = clamp(2.0 * render_time - 1.0, 0.0, 1.0);
+        float b_coeff = render_time;
+
+        color = mix(GREEN, RED, vec3(r_coeff, g_coeff, b_coeff));
         alpha = 1.0;
     }
 #endif

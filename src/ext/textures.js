@@ -35,41 +35,6 @@ var m_assets   = require("__assets");
  * @callback TexChangingFinishCallback
  */
 
-
-/**
- * Returns canvas texture context.
- * @method module:textures.get_canvas_texture_context
- * @param {String} id Canvas texture name
- * @param {Number} [data_id=0] ID of loaded data
- * @returns {CanvasRenderingContext2D} Canvas texture context
- * @deprecated use {@link module:textures.get_canvas_ctx|textures.get_canvas_ctx} instead.
- */
-exports.get_canvas_texture_context = function(id, data_id) {
-    m_print.error_deprecated("get_canvas_texture_context", "get_canvas_ctx");
-    if (!data_id)
-        data_id = 0;
-    var canvas_context = m_textures.get_canvas_context(id, data_id);
-    if (canvas_context)
-        return canvas_context;
-    else
-        m_print.error("Canvas texture with ID \"" + id + "\" not found!");
-}
-
-/**
- * Update canvas texture context.
- * @method module:textures.update_canvas_texture_context
- * @param {String} id Canvas texture name
- * @param {Number} [data_id=0] ID of loaded data
- * @deprecated use {@link module:textures.update_canvas_ctx|textures.update_canvas_ctx} instead.
- */
-exports.update_canvas_texture_context = function(id, data_id) {
-    m_print.error_deprecated("update_canvas_texture_context", "update_canvas_ctx");
-    if (!data_id)
-        data_id = 0;
-    if (!m_textures.update_canvas_context(id, data_id))
-        m_print.error("Canvas texture with ID \"" + id + "\" not found!");
-}
-
 /**
  * Play video.
  * @see https://www.blend4web.com/doc/en/textures.html#video-texture

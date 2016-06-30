@@ -84,7 +84,7 @@ uniform float u_node_values[NUM_VALUES];
 uniform vec3 u_node_rgbs[NUM_RGBS];
 #endif
 
-#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_VECTOR_VIEW
+#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW
 uniform mat3 u_view_tsr_frag;
 #endif
 
@@ -168,7 +168,7 @@ void main(void) {
     mat4 nin_zup_model_matrix = mat4(0.0);
     mat4 nin_zup_model_matrix_inverse = mat4(0.0);
 
-#if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
+#if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW
     nin_view_matrix = tsr_to_mat4(u_view_tsr_frag);
 #endif
 

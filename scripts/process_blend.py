@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 
 import os,sys,subprocess,json, multiprocessing, platform, queue, time, getopt
+
+from os.path import join, normpath
 from html.parser import HTMLParser
 
-ROOT_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), ".."))
-DEPLOY_DIR = os.path.join(ROOT_DIR, "deploy")
-ASSETS_DIR = os.path.join(ROOT_DIR, "deploy", "assets")
-BLENDER_CLI_DIR = os.path.join(ROOT_DIR, "scripts", "blender")
+ROOT_DIR = normpath(join(os.path.abspath(os.path.dirname(__file__)), ".."))
+DEPLOY_DIR = join(ROOT_DIR, "deploy")
+BLENDER_CLI_DIR = join(ROOT_DIR, "scripts", "blender")
 
-MANIFEST = os.path.join(ROOT_DIR, "apps_dev", "viewer", "assets.json")
-
-REEXPORTER = os.path.join(BLENDER_CLI_DIR, "cli_exporter.py")
-RESAVER = os.path.join(BLENDER_CLI_DIR, "cli_resaver.py")
-HTML_REEXPORTER = os.path.join(BLENDER_CLI_DIR, "cli_html_exporter.py")
-GET_EXPORT_PATH = os.path.join(BLENDER_CLI_DIR, "cli_get_export_path.py")
-GET_EXPORT_HTML_PATH = os.path.join(BLENDER_CLI_DIR, "cli_get_export_html_path.py")
+REEXPORTER = join(BLENDER_CLI_DIR, "cli_exporter.py")
+RESAVER = join(BLENDER_CLI_DIR, "cli_resaver.py")
+HTML_REEXPORTER = join(BLENDER_CLI_DIR, "cli_html_exporter.py")
+GET_EXPORT_PATH = join(BLENDER_CLI_DIR, "cli_get_export_path.py")
+GET_EXPORT_HTML_PATH = join(BLENDER_CLI_DIR, "cli_get_export_html_path.py")
 
 # colors
 BLACK = "\033[90m"
@@ -35,11 +34,6 @@ _blender_report_op = None
 _process_html = True
 _process_json = True
 _operation = "reexport"
-
-_manifest = None
-_assets_file = open(MANIFEST)
-_assets_data = json.load(_assets_file)
-_assets_file.close()
 
 _queue = multiprocessing.Queue()
 
@@ -130,12 +124,10 @@ def process_json(path):
 
         if not ("get" in dir(data) and data.get("b4w_format_version") is not None 
                     and float(data.get("b4w_format_version")) > 0):
-            report("INFO", "[SKIP JSON]", path)
+            report("INFO", "[SKIP]", path)
             return
 
-        b2w_blend_path = data.get("b2w_filepath_blend")
-        b4w_blend_path = data.get("b4w_filepath_blend")
-        blend_path = b4w_blend_path or b2w_blend_path
+        blend_path = data.get("b4w_filepath_blend")
 
         if blend_path == "":
             report("ERROR", "[UNSAVED BLEND]", path)
@@ -146,55 +138,49 @@ def process_json(path):
             return
 
         # use absolute paths to get blender happy
-        blend = os.path.abspath(os.path.normpath(os.path.join(os.path.dirname(path), blend_path)))
+        blend = os.path.abspath(normpath(join(os.path.dirname(path), blend_path)))
 
         if not os.path.isfile(blend):
             report("ERROR", "[NO BLEND]", path)
             return
 
-        ret = subprocess.check_output([_blender_exec, "-b", blend, "-P", GET_EXPORT_PATH], stderr=subprocess.STDOUT)
-        ret = ret.decode("utf-8").split("B4W Export Path = ")[1].splitlines()[0]
+        ret = subprocess.check_output([_blender_exec, "-b", blend, "-P",
+                GET_EXPORT_PATH], stderr=subprocess.STDOUT)
+        output = ret.decode("utf-8")
 
-        saved_path = os.path.normpath(ret)
+        if _operation == "report":
+            report_blender_warnings(output, blend)
+
+        saved_path = normpath(output.split("B4W Export Path = ")[1].splitlines()[0])
 
         if not saved_path == os.path.abspath(path):
             report("ERROR", "[WRONG PATH]", path, blend)
             return
 
-        if _manifest:
-            coincidence = False
-            file_abs_path = os.path.abspath(os.path.normpath(path))
-
-            for items in _assets_data:
-
-                if coincidence:
-                    break
-
-                for item in items.get("items"):
-                    assets_abs_path = os.path.abspath(os.path.normpath(os.path.join(ASSETS_DIR, item.get("load_file"))))
-
-                    if assets_abs_path == file_abs_path:
-                        coincidence = True
-                        break
-
-            if not coincidence:
-                report("WARN", "[NOT IN MANIFEST]", path, blend)
-
         try:
             if _operation == "reexport":
                 ret = subprocess.check_output([_blender_exec, "-b", blend, "-P",
                         REEXPORTER, "--", saved_path], stderr=subprocess.STDOUT)
-                if ret.decode("utf-8").find("EXPORT OK") == -1:
-                    report("ERROR", "[EXPORT FAILURE]", path, blend)
+                output = ret.decode("utf-8")
+                if output.find("EXPORT OK") == -1:
+                    report("ERROR", "[EXPORT FAILURE]", blend, path)
                 else:
                     report("GOOD", "[OK]", path)
             elif _operation == "resave":
                 resave(blend)
         except:
-            report("ERROR", "[BLENDER CRASH]", path, blend)
+            report("ERROR", "[BLENDER CRASH]", blend, path)
 
     except Exception as e:
-        report("ERROR", "[UNKNOWN ERROR]", path)
+        report("ERROR", "[UNKNOWN ERROR]", path, str(e))
+
+def report_blender_warnings(output, blend):
+    for line in output.splitlines():
+        if "Warning: " in line:
+            report("WARN", "[WARNING]", blend, line.split("Warning: ")[1])
+        elif "Error: " in line:
+            # also handle RuntimeError:
+            report("WARN", "[ERROR]", blend, line.split("Error: ")[-1])
 
 def process_html(path):
     html_file = open(path)
@@ -214,16 +200,20 @@ def process_html(path):
         report("ERROR", "[EMPTY META CONTENT]", path)
         return
 
-    blend = os.path.abspath(os.path.normpath(os.path.join(os.path.dirname(path), blend_path)))
+    blend = os.path.abspath(normpath(join(os.path.dirname(path), blend_path)))
 
     if not os.path.isfile(blend):
-        report("ERROR", " [NO BLEND]", path)
+        report("ERROR", "[NO BLEND]", path)
         return
 
     ret = subprocess.check_output([_blender_exec, "-b", blend, "-P",
             GET_EXPORT_HTML_PATH], stderr=subprocess.STDOUT)
-    ret = ret.decode("utf-8").split("B4W Export HTML Path = ")[1].split("\n")[0]
-    saved_path = os.path.normpath(ret)
+    output = ret.decode("utf-8")
+
+    if _operation == "report":
+        report_blender_warnings(output, blend)
+
+    saved_path = normpath(output.split("B4W Export HTML Path = ")[1].split("\n")[0])
 
     if not saved_path == os.path.abspath(path):
         report("ERROR", "[WRONG PATH]", path, blend)
@@ -233,29 +223,31 @@ def process_html(path):
         try:
             if _operation == "reexport" or _operation == "reexport_conv_media":
                 ret = subprocess.check_output([_blender_exec, "-b", blend, "-P",
-                        HTML_REEXPORTER, "--", saved_path, "-o", _operation], stderr=subprocess.STDOUT)
-                if ret.decode("utf-8").find("EXPORT OK") == -1:
-                    report("ERROR", "[EXPORT FAILURE]", saved_path, blend)
+                        HTML_REEXPORTER, "--", saved_path, "-o", _operation],
+                        stderr=subprocess.STDOUT)
+                output = ret.decode("utf-8")
+                if output.find("EXPORT OK") == -1:
+                    report("ERROR", "[EXPORT FAILURE]", blend, saved_path)
                 else:
                     report("GOOD", "[OK]", path)
             elif _operation == "resave":
                 resave(blend)
         except:
-            report("ERROR", "[BLENDER CRASH]", path, blend)
+            report("ERROR", "[BLENDER CRASH]", blend, path)
 
 def resave(blend):
     ret = subprocess.check_output(["blender", "-b", blend, "-P",
             RESAVER], stderr=subprocess.STDOUT)
-    r = ret.decode("utf-8")
+    output = ret.decode("utf-8")
 
     failed = False
     for s in SAVE_FAIL_STRINGS:
-        if r.find(s) != -1:
+        if output.find(s) != -1:
             failed = True
 
-    if r.find("RESAVE OK") == -1 and failed:
+    if output.find("RESAVE OK") == -1 and failed:
         report("ERROR", "[SAVE FAILURE]", blend)
-        print(ret)
+        print(output)
     else:
         report("GOOD", "[OK]", blend)
 
@@ -279,7 +271,7 @@ def process_files(blender_exec, json_dir, html_dir, blender_report_op=None):
             for f in files:
                 ext = os.path.splitext(f)[1]
                 if ext == ".json":
-                    path = os.path.join(root, f)
+                    path = join(root, f)
                     filepathes.append(path)
 
     if _process_html:
@@ -287,7 +279,7 @@ def process_files(blender_exec, json_dir, html_dir, blender_report_op=None):
             for f in files:
                 ext = os.path.splitext(f)[1]
                 if ext == ".html":
-                    path = os.path.join(root, f)
+                    path = join(root, f)
                     html_filepathes.append(path)
 
     # no multiprocessing on window
@@ -348,16 +340,6 @@ if __name__ == "__main__":
             exit(0)
 
     start = time.time()
-
-    # read manifest
-    if _process_json:
-        try:
-            manifest_file = open(MANIFEST, "r")
-            _manifest = manifest_file.read()
-            manifest_file.close()
-            report("GOOD", "[MANIFEST FOUND]", MANIFEST)
-        except:
-            report("ERROR", "[MANIFEST NOT FOUND]", MANIFEST)
 
     process_files("blender", DEPLOY_DIR, ROOT_DIR)
 

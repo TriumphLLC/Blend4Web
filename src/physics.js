@@ -142,7 +142,7 @@ exports.append_object = function(obj, scene) {
 
     var render = obj.render;
     if (!render)
-        throw "No object render: " + obj.name;
+        m_util.panic("No object render: " + obj.name);
 
     var phy_set = obj.physics_settings;
 
@@ -1069,7 +1069,7 @@ function init_floater(obj, worker) {
 exports.enable_simulation = function(obj) {
     var phy = obj.physics;
     if (!phy)
-        throw "No object physics";
+        m_util.panic("No object physics");
 
     // prevent issues with recurrent exec
     if (phy.simulated)
@@ -1084,7 +1084,7 @@ exports.enable_simulation = function(obj) {
 exports.disable_simulation = function(obj) {
     var phy = obj.physics;
     if (!phy)
-        throw "No object physics";
+        m_util.panic("No object physics");
 
     // prevent issues with recurrent exec
     if (!phy.simulated)
@@ -1869,7 +1869,7 @@ function get_unique_ray_test_id() {
 function collision_id_to_body_ids(collision_id, bpy_scene, dest_arr, dest_obj) {
 
     if (!dest_arr && !dest_obj)
-        throw "At least one destination required";
+        m_util.panic("At least one destination required");
 
     for (var i = 0; i < bpy_scene._physics.bundles.length; i++) {
         var bundle = bpy_scene._physics.bundles[i];

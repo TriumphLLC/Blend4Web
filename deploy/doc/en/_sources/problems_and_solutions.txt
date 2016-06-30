@@ -195,12 +195,20 @@ Known Issues
     
     This issue is caused by incompatibility of Chromium sandbox and NVIDIA's latest drivers. The solution is to downgrade drivers to the 340xx version.
 
-* WebAudio issues.
+* Audio issues.
 
     Audio doesn't work in some versions of Google Chrome for the "Background Music" speakers in case of HTML export. Currently, speaker type is automatically changed to "Background Sound" as a workaround.
 
     There is an audio context error when running too many instances (>6) of b4w engine (for example, many browser tabs or many iframes on one page) in Google Chrome. The error is prevented by disabling the audio for an application if the audio context cannot be created for it.
 
+    Pausing the audio may not work on such mobile devices as Nexus 6 and Nexus 9 in Google Chrome 50-52 versions. It should work again in Chrome 53. More info here: `https://bugs.chromium.org/p/chromium/issues/detail?id=616772 <https://bugs.chromium.org/p/chromium/issues/detail?id=616772>`_.
+
 * QQ Browser doesn't support WebGL at the moment.
 
 * WebGL is unstable and sometimes crashes on Mesa 11.x drivers in Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can help.
+
+* Using canvas textures can lead to incorrect rendering results in Firefox 46-47 versions on Linux. It should work as expected again in Firefox 48. More info can be found here: `https://bugzilla.mozilla.org/show_bug.cgi?id=1276996 <https://bugzilla.mozilla.org/show_bug.cgi?id=1276996>`_.
+
+* Information about moving fingers on GearVR touch sensor in VR-mode is not available.
+
+    Samsung Internet browser doesn't fire any events about moving fingers on touch sensor in VR-mode.

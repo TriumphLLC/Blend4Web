@@ -747,7 +747,7 @@ class B4W_BloomSettings(bpy.types.PropertyGroup):
 
     key = bpy.props.FloatProperty(
         name = _("key"),
-        description = _("Key multiplier"),
+        description = _("Intensity multiplier"),
         default = 1.0,
         min = 0.0,
         max = 5.0,
@@ -1089,13 +1089,6 @@ def add_b4w_props():
         default = False
     )
 
-    # deprecated
-    b4w_export_path = bpy.props.StringProperty(
-        name = _("B4W: component export path"),
-        description = _("Exported file path relative to the blend file"),
-        default = ""
-    )
-
     class_names = [
         'Action',
         'Armature',
@@ -1128,11 +1121,6 @@ def add_b4w_props():
     for class_name in class_names_do_not_export:
         cl = getattr(bpy.types, class_name)
         cl.b4w_do_not_export = b4w_do_not_export
-
-    for class_name in class_names:
-        cl = getattr(bpy.types, class_name)
-        # deprecated
-        cl.b4w_export_path   = b4w_export_path
 
     b4w_export_path_json = bpy.props.StringProperty(
         name = _("B4W: export path json"),
@@ -3091,6 +3079,11 @@ def add_material_properties():
     mat_type.b4w_do_not_render = bpy.props.BoolProperty(
         name = _("B4W: do not render"),
         description = _("Do not render material"),
+        default = False
+    )
+    mat_type.b4w_lens_flares = bpy.props.BoolProperty(
+        name = _("B4W: lens flare"),
+        description = _("Special material for lens flare object"),
         default = False
     )
     mat_type.b4w_use_ghost = bpy.props.BoolProperty(

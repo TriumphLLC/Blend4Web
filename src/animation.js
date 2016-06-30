@@ -105,15 +105,6 @@ exports.AB_CYCLIC = AB_CYCLIC;
 exports.AB_FINISH_RESET = AB_FINISH_RESET;
 exports.AB_FINISH_STOP = AB_FINISH_STOP;
 
-// action types
-var AT_NONE = exports.AT_NONE = 0;
-var AT_ARMATURE = exports.AT_ARMATURE = 1;
-var AT_SPEAKER = exports.AT_SPEAKER = 2;
-var AT_OBJECT = exports.AT_OBJECT = 3;
-var AT_MATERIAL = exports.AT_MATERIAL = 4;
-var AT_LIGHT = exports.AT_LIGHT = 5;
-var AT_ENVIRONMENT = exports.AT_ENVIRONMENT = 6;
-
 //action environment mask elements
 var AEM_ENERGY          = 0;
 var AEM_HORIZON_COLOR   = 1;
@@ -147,7 +138,7 @@ exports.frame_to_sec = function(frame) {
 
 function create_action_render() {
     var render = {
-        type: AT_NONE,
+        type: OBJ_ANIM_TYPE_NONE,
         num_pierced: 0,
         pierce_step: 0,
 
@@ -443,20 +434,20 @@ function get_actions(obj) {
         var action = _actions[i];
         var act_render = action._render;
 
-        if (act_render.type == AT_OBJECT)
+        if (act_render.type == OBJ_ANIM_TYPE_OBJECT)
             act_list.push(action);
-        else if (act_render.type == AT_ARMATURE && obj.type == "ARMATURE")
+        else if (act_render.type == OBJ_ANIM_TYPE_ARMATURE && obj.type == "ARMATURE")
             act_list.push(action);
-        else if (act_render.type == AT_SPEAKER && obj.type == "SPEAKER")
+        else if (act_render.type == OBJ_ANIM_TYPE_SOUND && obj.type == "SPEAKER")
             act_list.push(action);
-        else if (act_render.type == AT_ENVIRONMENT && obj.type == "WORLD")
+        else if (act_render.type == OBJ_ANIM_TYPE_ENVIRONMENT && obj.type == "WORLD")
             act_list.push(action);
     }
 
     if (obj.type == "MESH")
         for (var i = 0; i < obj.actions.length; i++) {
             var action = obj.actions[i];
-            if (action._render.type == AT_MATERIAL)
+            if (action._render.type == OBJ_ANIM_TYPE_MATERIAL)
                 act_list.push(action);       
         }
 
@@ -493,7 +484,7 @@ function get_node_tree_actions_r(node_tree, container) {
     if (node_tree["animation_data"]) {
         var anim_data = node_tree["animation_data"];
         var action = anim_data["action"];
-        if (action && action._render.type == AT_MATERIAL)
+        if (action && action._render.type == OBJ_ANIM_TYPE_MATERIAL)
             container.push(action);
     }
 
@@ -695,10 +686,10 @@ exports.obj_is_animatable = function(obj) {
 
     for (var i = 0; i < obj.actions.length; i++) {
         var act_type = obj.actions[i]._render.type;
-        if (act_type == AT_OBJECT || act_type == AT_ARMATURE
-                || act_type == AT_SPEAKER && obj.type == "SPEAKER"
-                || act_type == AT_LIGHT && obj.type == "LAMP"
-                || act_type == AT_MATERIAL && obj.type == "MESH")
+        if (act_type == OBJ_ANIM_TYPE_OBJECT || act_type == OBJ_ANIM_TYPE_ARMATURE
+                || act_type == OBJ_ANIM_TYPE_SOUND && obj.type == "SPEAKER"
+                || act_type == OBJ_ANIM_TYPE_LIGHT && obj.type == "LAMP"
+                || act_type == OBJ_ANIM_TYPE_MATERIAL && obj.type == "MESH")
             return true;
     }
 
@@ -726,9 +717,9 @@ exports.bpy_obj_is_animatable = function(bpy_obj, obj) {
     for (var i = 0; i < obj.actions.length; i++) {
         var act_type = obj.actions[i]._render.type;
 
-        if (act_type == AT_OBJECT || act_type == AT_ARMATURE 
-                || act_type == AT_SPEAKER && obj.type == "SPEAKER"
-                || act_type == AT_MATERIAL && obj.type == "MESH")
+        if (act_type == OBJ_ANIM_TYPE_OBJECT || act_type == OBJ_ANIM_TYPE_ARMATURE
+                || act_type == OBJ_ANIM_TYPE_SOUND && obj.type == "SPEAKER"
+                || act_type == OBJ_ANIM_TYPE_MATERIAL && obj.type == "MESH")
             return true;
     }
 
@@ -778,7 +769,7 @@ function apply_action(obj, action, slot_num) {
     var bones = act_render.bones;
 
     switch (act_render.type) {
-    case AT_ARMATURE:
+    case OBJ_ANIM_TYPE_ARMATURE:
         if (m_obj_util.is_armature(obj)) {
             anim_slot.type = OBJ_ANIM_TYPE_ARMATURE;
 
@@ -796,7 +787,7 @@ function apply_action(obj, action, slot_num) {
         }
         break;
 
-    case AT_SPEAKER:
+    case OBJ_ANIM_TYPE_SOUND:
         if (m_obj_util.is_speaker(obj)) {
             anim_slot.volume = act_render.params["volume"] || null;
             anim_slot.pitch = act_render.params["pitch"] || null;
@@ -804,7 +795,7 @@ function apply_action(obj, action, slot_num) {
         }
         break;
 
-    case AT_LIGHT:
+    case OBJ_ANIM_TYPE_LIGHT:
         if (m_obj_util.is_lamp(obj)) {
             anim_slot.color = act_render.params["color"] || null;
             anim_slot.energy = act_render.params["energy"] || null;
@@ -812,7 +803,7 @@ function apply_action(obj, action, slot_num) {
         }
         break;
 
-    case AT_MATERIAL:
+    case OBJ_ANIM_TYPE_MATERIAL:
         if (obj.type == "MESH") {
             anim_slot.type = OBJ_ANIM_TYPE_MATERIAL;
 
@@ -832,7 +823,7 @@ function apply_action(obj, action, slot_num) {
         }
         break;
 
-    case AT_OBJECT:
+    case OBJ_ANIM_TYPE_OBJECT:
         var tsr = act_render.params["tsr"];
         if (tsr) {
 
@@ -859,7 +850,7 @@ function apply_action(obj, action, slot_num) {
             return false;
         }
         break;
-    case AT_ENVIRONMENT:
+    case OBJ_ANIM_TYPE_ENVIRONMENT:
         //check meta_object WORLD
         if (m_obj_util.is_world(obj)) {
             anim_slot.energy = act_render.params["light_settings.environment_energy"] || null;
@@ -875,7 +866,7 @@ function apply_action(obj, action, slot_num) {
         break;
     }
 
-    if (m_obj_util.is_armature(obj) && act_render.type != AT_ARMATURE)
+    if (m_obj_util.is_armature(obj) && act_render.type != OBJ_ANIM_TYPE_ARMATURE)
         recalculate_armature_anim_slots(obj, slot_num);
     return true;
 }
@@ -1968,28 +1959,28 @@ exports.append_action = function(action) {
 /**
  * Update action type.
  * Zero fcurves means no params and no bones therefore action will have
- * AT_NONE type.
+ * OBJ_ANIM_TYPE_NONE type.
  */
 function update_action_type(action) {
     var act_render = action._render;
 
     if (act_render.bones)
-        act_render.type = AT_ARMATURE;
+        act_render.type = OBJ_ANIM_TYPE_ARMATURE;
     else if (act_render.params) {
         if ("volume" in act_render.params || "pitch" in act_render.params)
-            act_render.type = AT_SPEAKER;
+            act_render.type = OBJ_ANIM_TYPE_SOUND;
         else if (is_material_action(action))
-            act_render.type = AT_MATERIAL;
+            act_render.type = OBJ_ANIM_TYPE_MATERIAL;
         else if (is_light_action(action))
-            act_render.type = AT_LIGHT;
+            act_render.type = OBJ_ANIM_TYPE_LIGHT;
         else if (is_environment_action(action))
-            act_render.type = AT_ENVIRONMENT;
+            act_render.type = OBJ_ANIM_TYPE_ENVIRONMENT;
         else if (is_object_action(action))
-            act_render.type = AT_OBJECT;
+            act_render.type = OBJ_ANIM_TYPE_OBJECT;
         else
-            act_render.type = AT_NONE;
+            act_render.type = OBJ_ANIM_TYPE_NONE;
     } else
-        act_render.type = AT_NONE;
+        act_render.type = OBJ_ANIM_TYPE_NONE;
 }
 
 function is_material_action(action) {
@@ -2463,7 +2454,7 @@ exports.validate_action_by_name = function(obj, name) {
             m_util.keysearch("name", name + "_B4W_BAKED", _actions);
 
     if (action) {
-        if (action._render.type == AT_NONE)
+        if (action._render.type == OBJ_ANIM_TYPE_NONE)
             return false;    
     } else {
 
@@ -2637,5 +2628,42 @@ function get_bpy_armobj(bpy_obj) {
 
     return null;
 }
+
+exports.slot_by_anim_type = slot_by_anim_type;
+function slot_by_anim_type(obj, anim_name) {
+
+    var first_free_slot = SLOT_7;
+    var anim_type = OBJ_ANIM_TYPE_NONE;
+
+    for (var i = 0; i < _actions.length; i++) {
+        var action = _actions[i];
+        if (action["name"] == anim_name) {
+            anim_type = action._render.type;
+            break;
+        }
+    }
+
+    if (anim_type == OBJ_ANIM_TYPE_NONE) {
+        if (get_vertex_anim_by_name(obj, anim_name))
+            anim_type = OBJ_ANIM_TYPE_VERTEX;
+        else {
+            var pdata = get_particles_data_by_name(obj, name);
+            if (pdata && pdata.p_type == "EMITTER")
+                anim_type = OBJ_ANIM_TYPE_PARTICLES;
+        }
+    }
+
+    for (var i = 0; i < 8; i++) {
+        var anim_slot = obj.anim_slots[i];
+        if (anim_slot) {
+            if (anim_slot.type == anim_type)
+                return i;
+        } else if (i < first_free_slot)
+            first_free_slot = i;
+    }
+
+    return first_free_slot;
+}
+
 
 }

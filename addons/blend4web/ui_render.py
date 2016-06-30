@@ -23,7 +23,7 @@ import bgl
 
 import blend4web
 
-b4w_modules = ["server", "translator"]
+b4w_modules = ["server", "addon_prefs", "translator"]
 for m in b4w_modules:
     exec(blend4web.load_module_script.format(m))
 
@@ -92,7 +92,7 @@ class B4W_RenderBloom(RenderButtonsPanel, bpy.types.Panel):
         layout = self.layout
         layout.active = getattr(scene, "b4w_enable_bloom")
 
-        layout.prop(bloom, "key", text=_("Key"))
+        layout.prop(bloom, "key", text=_("Intensity"))
         layout.prop(bloom, "blur", text=_("Blur"))
         layout.prop(bloom, "edge_lum", text=_("Edge Luminance"))
 
@@ -309,7 +309,7 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
-        if server.has_valid_sdk_dir():
+        if addon_prefs.has_valid_sdk_path():
             is_started = server.B4WLocalServer.get_server_status() == server.SUB_THREAD_START_SERV_OK
             is_waiting_for_shutdown = server.B4WLocalServer.is_waiting_for_shutdown()
             allow_actions = server.B4WLocalServer.allow_actions()

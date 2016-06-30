@@ -305,7 +305,9 @@ function init_bufs_data() {
         vbo: null,
         ibo: null,
         info_for_z_sort_updates: null,
-        shape_keys: null
+        shape_keys: null,
+
+        cleanup_gl_data_on_unload: true
     }
 }
 
@@ -366,7 +368,7 @@ function extract_array(bufs_data, name) {
     if (pointer)
         return vbo_array.subarray(pointer.offset, pointer.offset + pointer.length);
     else
-        throw "extract_array() failed; invalid name: " + name;
+        m_util.panic("extract_array() failed; invalid name: " + name);
 }
 
 /**
@@ -401,7 +403,7 @@ function update_draw_mode(bufs_data, draw_mode) {
         usage = _gl.STATIC_DRAW;
         break;
     default:
-        throw "Wrong draw_mode";
+        m_util.panic("Wrong draw_mode");
     }
 
     bufs_data.mode = mode;
@@ -628,7 +630,7 @@ function submesh_apply_particle_transform(submesh, transform) {
 
         au_center_pos.set(cen_pos_transformed);
     } else
-        throw "Attribute \"au_center_pos\" is missing in particle submesh";
+        m_util.panic("Attribute \"au_center_pos\" is missing in particle submesh");
 
     return submesh;
 }
@@ -918,7 +920,7 @@ exports.make_clone_submesh = function(src_submesh, params, transforms, em_obj) {
                             new_submesh.va_frames[i][param_name], v_offset);
                     break;
                 default:
-                    throw "Wrong attribute name: " + param_name;
+                    m_util.panic("Wrong attribute name: " + param_name);
                     break;
                 }
             }
@@ -1567,8 +1569,8 @@ function num_comp(array, base_length) {
     var factor = array_length / base_length;
 
     if (factor != Math.floor(factor))
-        throw "Array size mismatch during geometry calculation: array length=" +
-            array_length + ", base length=" + base_length;
+        m_util.panic("Array size mismatch during geometry calculation: array length=" +
+            array_length + ", base length=" + base_length);
 
     return factor;
 }

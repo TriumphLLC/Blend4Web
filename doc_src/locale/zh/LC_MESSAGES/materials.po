@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 17:26+0300\n"
+"POT-Creation-Date: 2016-06-29 16:12+0300\n"
 "PO-Revision-Date: 2016-04-23 15:47+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -220,7 +220,7 @@ msgstr "*不透明*"
 msgid "Non-transparent. Alpha is ignored. This is the default value."
 msgstr "非透明。Alpha 将被忽略。这是默认值。"
 
-#: ../materials.rst:107 ../materials.rst:318
+#: ../materials.rst:107 ../materials.rst:326
 msgid "Additional Settings"
 msgstr "附加设置"
 
@@ -275,7 +275,7 @@ msgid ""
 "For activation simply use the :ref:`mirror map <mirror_map>`."
 msgstr "无论环境如何变化，表面任然渲染同样的一张图。只需使用 :ref:`mirror map <mirror_map>` 便可激活。"
 
-#: ../materials.rst:139 ../materials.rst:174
+#: ../materials.rst:139 ../materials.rst:177
 msgid ":ref:`fresnel`"
 msgstr ":ref:`fresnel`"
 
@@ -289,23 +289,30 @@ msgid ""
 "engine supports planar and spherical reflections."
 msgstr "表面反射了他们当前的位置中的选定的物体。引擎支持平面和球面反射。"
 
-#: ../materials.rst:149 ../materials.rst:308
+#: ../materials.rst:149
+msgid ""
+"If you are using :ref:`node materials <node_materials>`, dynamic "
+"reflection will only work if a ``Material`` or ``Extended Material`` node"
+" is present in the node tree."
+msgstr ""
+
+#: ../materials.rst:152 ../materials.rst:316
 msgid "Activation"
 msgstr "激活"
 
-#: ../materials.rst:151
+#: ../materials.rst:154
 msgid ""
 "Check ``Reflections`` setting on the ``Render > Reflections`` and "
 "Refractions panel."
 msgstr "检查 ``Render > Reflections``  和折射面板上的  ``Reflections`` 设置。"
 
-#: ../materials.rst:152
+#: ../materials.rst:155
 msgid ""
 "For *reflective* objects enable the ``Reflective`` option on the ``Object"
 " > Reflections`` panel."
 msgstr "对 *反射* 物体，启用 ``Object > Reflections`` 面板上的 ``Reflective`` 选项。"
 
-#: ../materials.rst:154
+#: ../materials.rst:157
 msgid ""
 "For planar reflections, set the ``Object > Reflections > Type`` property "
 "to ``Plane``. After that, add an empty object to be used as a reflection "
@@ -317,19 +324,19 @@ msgstr ""
 "``Plane``。然后，添加一个空物体用作反射平面，例如通过执行``Add > Empty > Single "
 "Arrow``。为方便起见重命名，在反射物体 ``Reflection plane`` 字段中指定其名称。"
 
-#: ../materials.rst:155
+#: ../materials.rst:158
 msgid ""
 "For cube-mapped reflections, set the ``Object > Reflections > Type`` "
 "property to ``Cube``."
 msgstr "用方块贴图反射， ``Object > Reflections > Type`` 属性设置为 ``Cube``."
 
-#: ../materials.rst:157
+#: ../materials.rst:160
 msgid ""
 "For the needed materials of the *reflective* objects, set the ``Material "
 "> Mirror > Reflectivity`` value."
 msgstr "*反射* 物体如需要材质，设置 ``材质 > Mirror > Reflectivity`` 值。"
 
-#: ../materials.rst:159
+#: ../materials.rst:162
 msgid ""
 "``Mirror > Reflectivity > Show Reflectivity`` is required for displaying "
 "reflections on objects in Blender. The engine ignores this option."
@@ -337,33 +344,33 @@ msgstr ""
 "在Blender中显示的物体上的反射需要设置 ``Mirror > Reflectivity > Show Reflectivity``  "
 "。引擎将忽略此选项。"
 
-#: ../materials.rst:161
+#: ../materials.rst:164
 msgid ""
 "For the *reflexible* objects, enable the ``Reflexible`` checkbox on the "
 "``Object > Reflections`` panel."
 msgstr "对 *反射性* 物体，启用 ``Object > Reflections`` 面板上的 ``Reflexible`` 复选框。"
 
-#: ../materials.rst:165
+#: ../materials.rst:168
 msgid ""
 "It is also recommended to enable the ``World > Environment Lighting`` "
 "checkbox."
 msgstr "建议启用 ``World > Environment Lighting`` 复选框。"
 
-#: ../materials.rst:169
+#: ../materials.rst:172
 msgid "Limitations"
 msgstr "限制条件"
 
-#: ../materials.rst:171
+#: ../materials.rst:174
 msgid ""
 "Normal maps and shadows are ignored in the reflected image for "
 "optimization purposes."
 msgstr "因为优化性能的原因法线贴图和阴影在反射图像中将被忽略。"
 
-#: ../materials.rst:182
+#: ../materials.rst:185
 msgid "Fresnel effect for reflection"
 msgstr "菲涅耳反射效果"
 
-#: ../materials.rst:184
+#: ../materials.rst:187
 msgid ""
 "The Fresnel effect manifests itself as the dependency of the intensity of"
 " passing and reflected light on the incidence angle. If the angle of "
@@ -376,44 +383,44 @@ msgstr ""
 "菲涅耳效应表现为依赖和反射光的入射角来表现反射的强弱。如果入射角是接近零 （即光入射几乎表面成直角） "
 "光传递部分较大然而反射光部分小。相反如果入射角是接近 90 度 （即光入射几乎平行于表面） 几乎所有的光反射。"
 
-#: ../materials.rst:186
+#: ../materials.rst:189
 msgid "The engine uses the approximate Schlick’s formula:"
 msgstr "本引擎采用近似 Schlick 公式 ︰"
 
-#: ../materials.rst:188
+#: ../materials.rst:191
 msgid "R = R\\ :sub:`0` + (1 − R\\ :sub:`0`)(1 - cos θ)\\ :sup:`N`, where"
 msgstr "R = R\\ :sub:`0` + (1 − R\\ :sub:`0`)(1 - cos θ)\\ :sup:`N`, 在"
 
-#: ../materials.rst:190
+#: ../materials.rst:193
 msgid "R - reflection coefficient,"
 msgstr "R - 反射系数"
 
-#: ../materials.rst:192
+#: ../materials.rst:195
 msgid ""
 "R\\ :sub:`0` - reflection coefficient in case of viewing at a right angle"
 " to the surface (i.e. when θ = 0),"
 msgstr "R\\ :sub:`0` - 在成直角的表面中观看的右夹角下的反射系数 (即当 θ = 0)，"
 
-#: ../materials.rst:194
+#: ../materials.rst:197
 msgid ""
 "θ - angle of incidence (which is equal to the angle of reflection under "
 "which light enters the camera), it is calculated by the engine in real-"
 "time,"
 msgstr "θ - 入射角 （即等于反射角度下的光进入相机），它由引擎实时计算，"
 
-#: ../materials.rst:196
+#: ../materials.rst:199
 msgid "N - exponent."
 msgstr "N-指数。"
 
-#: ../materials.rst:200
+#: ../materials.rst:203
 msgid "Settings"
 msgstr "设置"
 
-#: ../materials.rst:202
+#: ../materials.rst:205
 msgid "Fresnel effect can be set up both for static and dynamic reflection."
 msgstr "菲涅耳效应可以设置静态和动态的反射。"
 
-#: ../materials.rst:204
+#: ../materials.rst:207
 msgid ""
 "*Material > Mirror > Fresnel* Fresnel power for reflection. This is the N"
 " exponent in the Schlick’s formula. In Blender it is limited to values "
@@ -427,11 +434,11 @@ msgstr ""
 "*材质 > Mirror > Fresnel* 反射的菲涅尔指数。 "
 "Schlick方程中的N指数。在blender中被限制在0到5的值。设置为零的时候菲涅尔效应无法被观察到，所有的反射都是正常的。大于零的时候，在角度这是接近正确的角度观看时表面材料是弱反射性的。参数值越大，可以看到菲涅尔效应的观察角度越大。"
 
-#: ../materials.rst:208
+#: ../materials.rst:211
 msgid "*Material > Mirror > Blend*"
 msgstr "*材质 > 镜面 > 混合*"
 
-#: ../materials.rst:208
+#: ../materials.rst:211
 msgid ""
 "Fresnel factor for reflection. It is reduced to R\\ :sub:`0` in the "
 "Schlick’s formula by the following expression: R\\ :sub:`0` = 1 - "
@@ -444,65 +451,74 @@ msgstr ""
 ":sub:`0` 。在Blender中它仅限于值从 0 到 5。此参数定义了菲涅耳效应强度:  ``Blend`` "
 "因子越大，更多的菲涅耳效应影响。如果它是等于零的菲涅耳影响观察不到。"
 
-#: ../materials.rst:220
+#: ../materials.rst:225
 msgid "Rendering Properties"
 msgstr "渲染属性"
 
-#: ../materials.rst:227
+#: ../materials.rst:232
 msgid "*Material > Rendering Options > Do not Render*"
 msgstr "*材质 > 渲染选项 > 不要渲染*"
 
-#: ../materials.rst:227
+#: ../materials.rst:232
 msgid "Disable rendering of this object."
 msgstr "禁用渲染此物体。"
 
-#: ../materials.rst:230
+#: ../materials.rst:235
 msgid "*Material > Rendering Options > Backface Culling*"
 msgstr "*材质 > 渲染选项 > 背面剔除*"
 
-#: ../materials.rst:230
+#: ../materials.rst:235
 msgid ""
 "When enabled, polygons’ back faces are not rendered by the engine. "
 "Enabled by default."
 msgstr "当启用时，引擎不会渲染多边形背面。默认情况下启用。"
 
-#: ../materials.rst:235
+#: ../materials.rst:240
 msgid "*Material > Rendering Options > Wettable*"
 msgstr "*材质 > 渲染选项 > 湿润*"
 
-#: ../materials.rst:233
+#: ../materials.rst:238
 msgid "Water wetting effect is activated for the material."
 msgstr "为材质激活水润湿效果。"
 
-#: ../materials.rst:235
+#: ../materials.rst:240
 msgid ":ref:`water`"
 msgstr ":ref:`water`"
 
-#: ../materials.rst:238
+#: ../materials.rst:243
+#, fuzzy
+msgid "*Material > Rendering Options > Lens Flare*"
+msgstr "*材质 > 渲染选项 > 折射性*"
+
+#: ../materials.rst:243
+msgid "Enabling this parameter activates Lens Flare effect for the material."
+msgstr ""
+
+#: ../materials.rst:246
 msgid "*Material > Rendering Options > Render Above All*"
 msgstr "*材质 > 渲染选项 > 渲染以上全部*"
 
-#: ../materials.rst:238
+#: ../materials.rst:246
 msgid ""
 "Material is rendered on top of all scene objects. Transparency type with "
 "a gradient is required (``Add``, Alpha Blend`` or ``Alpha Sort``)."
 msgstr "材质被渲染在场景的所有物体的顶层。要求使用渐变透明度类型  (``Add``, Alpha Blend`` 或者 ``Alpha Sort``)."
 
-#: ../materials.rst:241
+#: ../materials.rst:249
 msgid "*Material > Rendering Options > Vertex Color Paint*"
 msgstr "*材质 > 渲染选项 > 顶点色绘制*"
 
-#: ../materials.rst:241
+#: ../materials.rst:249
 msgid ""
 "Mesh vertex color is used instead of the material diffuse color when the "
 "checkbox is enabled."
 msgstr "复选框启用时，使用网格顶点颜色而不是物质的漫反射颜色。"
 
-#: ../materials.rst:250
+#: ../materials.rst:258
 msgid "*Material > Rendering Options > Refractive*"
 msgstr "*材质 > 渲染选项 > 折射性*"
 
-#: ../materials.rst:244
+#: ../materials.rst:252
 msgid ""
 "Make object refractive. Perturbation factor can be set with the option "
 "``Refraction Bump`` on the ``Refraction Settings`` panel. The default "
@@ -511,7 +527,7 @@ msgstr ""
 "使物体折射。摄动因素可以设置 ``Refraction Settings`` 面板上的 ``Refraction Bump`` 选项设置。默认值为"
 " 0.001。"
 
-#: ../materials.rst:248
+#: ../materials.rst:256
 msgid ""
 "In order to use this effect, select ``ON`` or ``AUTO`` on the ``Render > "
 "Reflections and Refractions > Refractions`` panel. The object must have "
@@ -520,77 +536,77 @@ msgstr ""
 "为了使用这种效果， ``Render > Reflections and Refractions > Refractions`` "
 "面板上选择``ON`` 或者 ``AUTO`` 。该物体必须具有 ``Alpha Blend`` 透明类型。"
 
-#: ../materials.rst:250
+#: ../materials.rst:258
 msgid ":ref:`alpha_blend`"
 msgstr ":ref:`alpha_blend`"
 
-#: ../materials.rst:257
+#: ../materials.rst:265
 msgid "Viewport Properties"
 msgstr "视图属性"
 
-#: ../materials.rst:259
+#: ../materials.rst:267
 msgid "The ``Viewport`` section can be found on the ``Blend4Web`` panel."
 msgstr "``Viewport`` 部分可以在 ``Blend4Web`` 面板上发现。"
 
-#: ../materials.rst:265
+#: ../materials.rst:273
 msgid "*Update Material Animation*"
 msgstr "*更新材质动画*"
 
-#: ../materials.rst:267
+#: ../materials.rst:275
 msgid "Update animated shader in Blender Viewport."
 msgstr "在Blender视口更新动画着色。"
 
-#: ../materials.rst:274
+#: ../materials.rst:282
 msgid "Engine Specific Parameters"
 msgstr "引擎特定参数"
 
-#: ../materials.rst:284
+#: ../materials.rst:292
 msgid "*Material > Water*"
 msgstr "*材质 > 水*"
 
-#: ../materials.rst:284
+#: ../materials.rst:292
 msgid "Special material for :ref:`water rendering <water>`."
 msgstr "特殊材质 :ref:`水渲染 <water>`."
 
-#: ../materials.rst:287
+#: ../materials.rst:295
 msgid "*Material > Terrain Dynamic Grass*"
 msgstr "*材质 > 地面动态草*"
 
-#: ../materials.rst:287
+#: ../materials.rst:295
 msgid "Material is used for :ref:`grass rendering <particles_grass>`."
 msgstr "材质用于 :ref:`草渲染 <particles_grass>`."
 
-#: ../materials.rst:292
+#: ../materials.rst:300
 msgid "*Material > Collision*"
 msgstr "*材质 > 碰撞*"
 
-#: ../materials.rst:290
+#: ../materials.rst:298
 msgid "A special material for collision geometry."
 msgstr "碰撞几何体的一种特殊材质。"
 
-#: ../materials.rst:292
+#: ../materials.rst:300
 msgid ":ref:`physics`"
 msgstr ":ref:`physics`"
 
-#: ../materials.rst:295
+#: ../materials.rst:303
 msgid "*Material > Export Options > Do Not Export*"
 msgstr "*材质 > 导出选项 > 不要导出*"
 
-#: ../materials.rst:295
+#: ../materials.rst:303
 msgid "Material is not to be exported."
 msgstr "材质不导出。"
 
-#: ../materials.rst:302
+#: ../materials.rst:310
 msgid "Halo Materials"
 msgstr "光晕材质"
 
-#: ../materials.rst:304
+#: ../materials.rst:312
 msgid ""
 "Halo materials are used in particle systems and in static meshes. Using "
 "the halo in static meshes is described below."
 msgstr "光晕材质在粒子系统和静态网格中使用。使用静态网格中的光晕是如下所述。"
 
-#: ../materials.rst:310
+#: ../materials.rst:318
 msgid ""
 "Select the ``Halo`` type under the ``Materials`` tab. It’s also "
 "recommended to select the transparency type with a gradient (``Add``, "
@@ -599,69 +615,69 @@ msgstr ""
 "在``Materials`` 选项卡下选择 ``光晕`` 类型 。建议也选择使用渐变的透明度类型 (``Add``, ``Alpha "
 "Blend`` 或者 ``Alpha Sort``)."
 
-#: ../materials.rst:321
+#: ../materials.rst:329
 msgid "*Halo > Alpha*"
 msgstr "*光晕 > Alpha*"
 
-#: ../materials.rst:321
+#: ../materials.rst:329
 msgid "Material transparency factor. The default value is 1.0 (non-transparent)."
 msgstr "材质透明度的参数。默认值是 1.0 （不透明）。"
 
-#: ../materials.rst:324
+#: ../materials.rst:332
 msgid "*Halo > Color*"
 msgstr "*光晕 > 颜色*"
 
-#: ../materials.rst:324
+#: ../materials.rst:332
 msgid "Material color. The default value is (0.8, 0.8, 0.8) (almost white)."
 msgstr "材质的颜色。默认值是 (0.8, 0.8, 0.8) （基本是白色）。"
 
-#: ../materials.rst:327
+#: ../materials.rst:335
 msgid "*Halo > Size*"
 msgstr "*光晕 > 大小*"
 
-#: ../materials.rst:327
+#: ../materials.rst:335
 msgid "Particle size. The default value is 0.5."
 msgstr "粒子大小。默认值是 0.5。"
 
-#: ../materials.rst:330
+#: ../materials.rst:338
 msgid "*Halo > Hardness*"
 msgstr "*光晕 > 硬度*"
 
-#: ../materials.rst:330
+#: ../materials.rst:338
 msgid ""
 "Exponent for computing the gradient. Affects visible dimensions of "
 "particles. The default value is 50."
 msgstr "计算渐变的指数。影响粒子的可见尺寸。默认值为 50。"
 
-#: ../materials.rst:333
+#: ../materials.rst:341
 msgid "*Halo > Rings*"
 msgstr "*光晕 > 环*"
 
-#: ../materials.rst:333
+#: ../materials.rst:341
 msgid "Use rings. Relative quantity and color can be set up."
 msgstr "使用环。可以设置相对数量和颜色。"
 
-#: ../materials.rst:336
+#: ../materials.rst:344
 msgid "*Halo > Lines*"
 msgstr "*光晕 > 线*"
 
-#: ../materials.rst:336
+#: ../materials.rst:344
 msgid "Use lines. Relative quantity and color can be set up."
 msgstr "使用线。可以设置相对数量和颜色。"
 
-#: ../materials.rst:339
+#: ../materials.rst:347
 msgid "*Halo > Star Tips*"
 msgstr "*光晕 > 星点*"
 
-#: ../materials.rst:339
+#: ../materials.rst:347
 msgid "Use stars. The quantity of edges can be set up."
 msgstr "使用星星。可以设置边的数量。"
 
-#: ../materials.rst:342
+#: ../materials.rst:350
 msgid "*Halo > Special: Stars*"
 msgstr "*光晕 > 特殊: 星*"
 
-#: ../materials.rst:342
+#: ../materials.rst:350
 msgid ""
 "Enables the starry sky rendering mode. The mesh is fixed relative to the "
 "camera. For the ``Sun`` lamp it is also required to enable the ``Lamp > "
@@ -671,25 +687,25 @@ msgstr ""
 "启用星空渲染模式。网格被固定的相对于相机。  还需启用 ``Sun`` 的 ``Lamp > Dynamic Intensity`` "
 "复选框。应用程序应通过 API设置黑暗的时间长度。"
 
-#: ../materials.rst:345
+#: ../materials.rst:353
 msgid "*Halo > Blending Height*"
 msgstr "*光晕 > 混合高度*"
 
-#: ../materials.rst:345
+#: ../materials.rst:353
 msgid "Height range for the fading of stars."
 msgstr "褪色的星星的高度范围。"
 
-#: ../materials.rst:347
+#: ../materials.rst:355
 msgid "*Halo > Minimum Height*"
 msgstr "*光晕 > 最小高度*"
 
-#: ../materials.rst:348
+#: ../materials.rst:356
 msgid "Minimum height in the object’s local space at which stars are visible."
 msgstr "物体的局部坐标系中使星星可见的最小高度。"
 
 #: ../materials.rst:3 ../materials.rst:19 ../materials.rst:64
-#: ../materials.rst:119 ../materials.rst:217 ../materials.rst:254
-#: ../materials.rst:271 ../materials.rst:297
+#: ../materials.rst:119 ../materials.rst:220 ../materials.rst:262
+#: ../materials.rst:279 ../materials.rst:305
 msgid "materials"
 msgstr "材质"
 
@@ -714,7 +730,7 @@ msgid "settings"
 msgstr "设置"
 
 #: ../materials.rst:119 ../materials.rst:130 ../materials.rst:141
-#: ../materials.rst:177
+#: ../materials.rst:180
 msgid "reflection"
 msgstr "反射"
 
@@ -726,23 +742,23 @@ msgstr ""
 msgid "dynamic"
 msgstr "动态"
 
-#: ../materials.rst:177
+#: ../materials.rst:180
 msgid "fresnel effect"
 msgstr "菲涅尔效应"
 
-#: ../materials.rst:217
+#: ../materials.rst:220
 msgid "rendering properties"
 msgstr "渲染属性"
 
-#: ../materials.rst:254
+#: ../materials.rst:262
 msgid "viewport properties"
 msgstr "视图属性"
 
-#: ../materials.rst:271
+#: ../materials.rst:279
 msgid "specific parameters"
 msgstr "具体参数"
 
-#: ../materials.rst:297
+#: ../materials.rst:305
 msgid "halo"
 msgstr "光晕"
 
@@ -757,4 +773,7 @@ msgstr "光晕"
 
 #~ msgid "статическое"
 #~ msgstr "СТАТИЧЕСКОЕ"
+
+#~ msgid ""
+#~ msgstr ""
 

@@ -39,7 +39,7 @@ var m_vec3    = require("__vec3");
 var m_tex     = require("__textures");
 
 var _shader_ident_counters = {};
-var _composed_node_graphs = {};
+var _composed_ngraph_proxies = {};
 var _composed_stack_graphs = {};
 var _lamp_indexes = {};
 var _lamp_index = 0;
@@ -81,14 +81,28 @@ exports.VT_CAMERA_TO_WORLD  = VT_CAMERA_TO_WORLD;
 exports.VT_CAMERA_TO_OBJECT = VT_CAMERA_TO_OBJECT;
 exports.VT_CAMERA_TO_CAMERA = VT_CAMERA_TO_CAMERA;
 
-exports.compose_nmat_graph = compose_nmat_graph;
-function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
+exports.get_ngraph_proxy_cached = function(ngraph_id) {
+    return _composed_ngraph_proxies[ngraph_id];
+}
+
+exports.cleanup_ngraph_proxy = function(ngraph_id) {
+    delete _composed_ngraph_proxies[ngraph_id];   
+}
+
+exports.compose_ngraph_proxy = compose_ngraph_proxy;
+function compose_ngraph_proxy(node_tree, source_id, is_node_group, mat_name,
                             shader_type) {
     var active_scene = m_scenes.get_active();
     var ntree_graph_id = generate_graph_id(source_id, shader_type, active_scene["uuid"]);
 
-    if (ntree_graph_id in _composed_node_graphs)
-        return _composed_node_graphs[ntree_graph_id];
+    if (ntree_graph_id in _composed_ngraph_proxies)
+        return _composed_ngraph_proxies[ntree_graph_id];
+
+    var ngraph_proxy = {
+        graph: null,
+        id: ntree_graph_id,
+        cleanup_on_unload: true
+    }
 
     if (shader_type != "SHADOW" && shader_type != "COLOR_ID") {
         var graph = m_graph.create();
@@ -99,23 +113,25 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
             var bpy_node = bpy_nodes[i];
             if (append_nmat_node(graph, bpy_node, 0, mat_name,
                                  shader_type) == null) {
-                _composed_node_graphs[ntree_graph_id] = null;
-                return null;
+                _composed_ngraph_proxies[ntree_graph_id] = null;
+                return ngraph_proxy;
             }
         }
 
         if (is_node_group)
             if (find_node_id(node_tree, graph, "GROUP_OUTPUT", "group") == -1)
-                return null;
+                return ngraph_proxy;
 
         var node_groups = trace_group_nodes(graph);
         // NOTE: don't change source node_tree (node_group_tree is already copied)
         var links = is_node_group ? node_tree["links"] : node_tree["links"].slice();
         if (!append_node_groups_graphs(graph, links, node_groups))
-            return null;
+            return ngraph_proxy;
 
-        if (is_node_group)
-            return graph;
+        if (is_node_group) {
+            ngraph_proxy.graph = graph;
+            return ngraph_proxy;
+        }
 
         for (var i = 0; i < links.length; i++) {
             var link = links[i];
@@ -135,8 +151,8 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
 
                     if (!append_nmat_edge(graph, node_id1, node_id2,
                             node_attr1, node_attr2, link)) {
-                        _composed_node_graphs[ntree_graph_id] = null;
-                        return null;
+                        _composed_ngraph_proxies[ntree_graph_id] = null;
+                        return ngraph_proxy;
                     }
                 }
             }
@@ -163,13 +179,13 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
 
         merge_nodes(graph_out);
 
-        optimize_geometry_vcol(graph_out);
+        optimize_geometry(graph_out);
 
         fix_socket_types(graph_out, mat_name, shader_type);
         create_node_textures(graph_out);
     } else {
-        var main_graph = compose_nmat_graph(node_tree, source_id, is_node_group,
-                                            mat_name, "MAIN")
+        var main_ngraph_proxy = compose_ngraph_proxy(node_tree, source_id, is_node_group,
+                mat_name, "MAIN");
 
         var nodes_cb = function(node) {
             var new_node = m_util.clone_object_nr(node);
@@ -178,7 +194,7 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
             return new_node;
         }
 
-        var ntree_graph = m_graph.clone(main_graph, nodes_cb);
+        var ntree_graph = m_graph.clone(main_ngraph_proxy.graph, nodes_cb);
         var output_id = find_node_id(node_tree, ntree_graph, "OUTPUT",
                                      "material", false, true);
         remove_color_output(ntree_graph, output_id);
@@ -188,11 +204,14 @@ function compose_nmat_graph(node_tree, source_id, is_node_group, mat_name,
         clean_sockets_linked_property(graph_out);
 
     }
-    _composed_node_graphs[ntree_graph_id] = graph_out;
+
+
+    ngraph_proxy.graph = graph_out;
+    _composed_ngraph_proxies[ntree_graph_id] = ngraph_proxy;
 
     if (DEBUG_NODE_GRAPHS)
-        print_node_graph(graph_out, mat_name);
-    return graph_out;
+        print_node_graph(ngraph_proxy.graph, mat_name);
+    return ngraph_proxy;
 }
 
 exports.create_lighting_graph = function(source_id, mat_name, data) {
@@ -609,7 +628,7 @@ function nmat_node_ids(bpy_node, graph) {
     if (node_ids.length)
         return node_ids;
     else
-        throw "Node not found";
+        m_util.panic("Node not found");
 }
 
 function nmat_cleanup_graph(graph) {
@@ -893,48 +912,47 @@ function merge_geometry(graph) {
     }
 }
 
-// NOTE: non unique ascendants
-function get_attrs_ascendants(graph) {
-    var attrs_ascendants = {};
+function get_nodes_ascendants(graph) {
+    var nodes_ascendants = {};
 
     for (var i = 0; i < graph.nodes.length; i += 2) {
         var id = graph.nodes[i];
-        attrs_ascendants[id] = [];
+        nodes_ascendants[id] = { ascs_ids: {}, is_completed: false };
     }
 
+    // collect nearest parent for each node
     for (var i = 0; i < graph.edges.length; i += 3) {
         var id_from = graph.edges[i];
         var id_to = graph.edges[i + 1];
-
-        insert_id_ascendant_lists(attrs_ascendants[id_to], id_from);
-        merge_ascendant_lists(attrs_ascendants[id_to], attrs_ascendants[id_from]);
+        nodes_ascendants[id_to].ascs_ids[id_from] = true;
     }
-    return attrs_ascendants;
+
+    // collect all the ascendants
+    for (var id in nodes_ascendants)
+        collect_node_ascs(id, nodes_ascendants);
+
+    for (var id in nodes_ascendants)
+        nodes_ascendants[id] = Object.keys(nodes_ascendants[id].ascs_ids).map(function(str){return parseInt(str)});
+
+    return nodes_ascendants;
 }
 
-function insert_id_ascendant_lists(list, id) {
-    for (var i = 0; i <= list.length; i++) {
-        if (i >= list.length || list[i] > id) 
-            list.splice(i, 0, id);
-        else if (list[i] != id)
-            continue;
-        return;
-    }
-}
+function collect_node_ascs(node_id, nodes_ascendants) {
+    var node = nodes_ascendants[node_id];
 
-function merge_ascendant_lists(list1, list2) {
-    var index1 = 0;
-    var index2 = 0;
-    var result_length = list1.length + list2.length;
-    var result_list = [];
-    for (var i = 0; i < result_length; i++) {
-        if (index1 > list1.length || list1[index1] > list2[index2]) {
-            result_list.push(list2[index2++])
-        } else {
-            result_list.push(list1[index1++])
+    if (!node.is_completed) {
+        var node_clone = m_util.clone_object_r(node);
+        
+        for (var asc_id in node.ascs_ids) {
+            collect_node_ascs(asc_id, nodes_ascendants);
+            var asc_node = nodes_ascendants[asc_id];
+            for (var asc_asc_id in asc_node.ascs_ids)
+                node_clone.ascs_ids[asc_asc_id] = true;
         }
+
+        node_clone.is_completed = true;
+        nodes_ascendants[node_id] = node_clone;
     }
-    list1 = result_list;
 }
 
 function merge_textures(graph) {
@@ -948,7 +966,7 @@ function merge_textures(graph) {
     if (!id_attr.length)
         return;
 
-    var ascs = get_attrs_ascendants(graph);
+    var ascs = get_nodes_ascendants(graph);
 
     var unique_nodes = [];
 
@@ -1123,16 +1141,25 @@ function can_merge_nodes_uv(attr1, attr2) {
     return false;
 }
 
-function optimize_geometry_vcol(graph) {
-    var id_attr = [];
+function optimize_geometry(graph) {
+    var id_attr_vc = [];
+    var id_attr_vw = [];
+
     m_graph.traverse(graph, function(id, attr) {
         if (attr.type == "GEOMETRY_VC")
-            id_attr.push(id, attr);
+            id_attr_vc.push(id, attr);
+        if (attr.type == "GEOMETRY_VW")
+            id_attr_vw.push(id, attr);
     });
 
-    for (var i = 0; i < id_attr.length; i+=2) {
-        var geom_id = id_attr[i];
-        var geom_attr = id_attr[i+1];
+    optimize_geometry_vcol(graph, id_attr_vc);
+    optimize_geometry_view(graph, id_attr_vw);
+}
+
+function optimize_geometry_vcol(graph, id_attr_vc) {
+    for (var i = 0; i < id_attr_vc.length; i+=2) {
+        var geom_id = id_attr_vc[i];
+        var geom_attr = id_attr_vc[i+1];
 
         var need_optimize = false;
         var removed_edges = [];
@@ -1218,6 +1245,60 @@ function optimize_geometry_vcol(graph) {
             }
         }
 
+    }
+}
+
+function optimize_geometry_view(graph, id_attr_vw) {
+    for (var i = 0; i < id_attr_vw.length; i+=2) {
+        var geom_id = id_attr_vw[i];
+        var geom_attr = id_attr_vw[i+1];
+
+        var need_remove_geom_vw = true;
+        var optimized_node_pairs = [];
+
+        var geometry_out_num = m_graph.out_edge_count(graph, geom_id);
+        for (var j = 0; j < geometry_out_num; j++) {
+            var out_id = m_graph.get_out_edge(graph, geom_id, j);
+            var out_node = m_graph.get_node_attr(graph, out_id);
+
+            // delete GEOMETRY_VW if it has only B4W_REFLECT nodes as outputs
+            if (out_node.type == "B4W_REFLECT") {
+                // maximum two edges between GEOMETRY_VC and B4W_REFLECT
+                var edge_attr1 = m_graph.get_edge_attr(graph, geom_id, out_id, 0);
+                var edge_attr2 = m_graph.get_edge_attr(graph, geom_id, out_id, 1);
+
+                // optimize if GEOMETRY_VC used only in the first B4W_REFLECT input
+                if (edge_attr1 && edge_attr1[1] == 1 || edge_attr2 && edge_attr2[1] == 1)
+                    need_remove_geom_vw = false;
+                else
+                    optimized_node_pairs.push(geom_id, out_id);
+            } else
+                need_remove_geom_vw = false;
+        }
+
+        // optimize B4W_REFLECT nodes
+        for (var j = 0; j < optimized_node_pairs.length; j += 2)
+            optimize_reflect_node(graph, optimized_node_pairs[j], optimized_node_pairs[j+1]);
+
+        // remove GEOMETRY_VW node
+        if (need_remove_geom_vw)
+            m_graph.remove_node(graph, geom_id);
+    }
+}
+
+function optimize_reflect_node(graph, geom_id, refl_id) {
+    var refl_node = m_graph.get_node_attr(graph, refl_id);
+    refl_node.type += "_WORLD";
+
+    // remove unused edge
+    m_graph.remove_edge(graph, geom_id, refl_id, 0);
+
+    // remove unused node input and correct the second edge
+    refl_node.inputs.splice(0, 1);
+    var in_id = m_graph.get_in_edge(graph, refl_id, 0);
+    if (in_id != m_graph.NULL_NODE) {
+        var edge_attr = m_graph.get_edge_attr(graph, in_id, refl_id, 0);
+        edge_attr[1] = 0;
     }
 }
 
@@ -1905,13 +1986,16 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         inputs.push(input);
 
         // MATERIAL BEGIN INPUT 2
-        // NOTE: Blender doesn't update identifier and default value of this node
-        // var input = node_input_by_ident(bpy_node, "DiffuseIntensity");
-        // if (input)
-        //     material_begin_inputs.push(input);
-        // else
-            material_begin_inputs.push(default_node_inout("DiffuseIntensity",
-                    "DiffuseIntensity", bpy_node["diffuse_intensity"]));
+        var input = node_input_by_ident(bpy_node, "DiffuseIntensity");
+
+        // NOTE: Blender doesn't update the identifier of this node for old files
+        if (!input)
+            input = node_input_by_ident(bpy_node, "Refl");
+
+        // NOTE: Blender doesn't the default value of this node for old files
+        input.default_value = bpy_node["diffuse_intensity"];
+                
+        material_begin_inputs.push(input);
         inputs.push(input);
 
         // MATERIAL BEGIN INPUT 3
@@ -2564,11 +2648,10 @@ function process_node_group(bpy_node, mat_name, shader_type) {
     }
 
     rename_node_group_nodes(bpy_node["name"], node_tree);
-    var node_group_graph = compose_nmat_graph(node_tree,
-                                              bpy_node["node_group"]["uuid"],
-                                              true, mat_name, shader_type);
+    var ngraph_proxy_group = compose_ngraph_proxy(node_tree,
+            bpy_node["node_group"]["uuid"], true, mat_name, shader_type);
     var data = {
-        node_group_graph: node_group_graph,
+        node_group_graph: ngraph_proxy_group.graph,
         node_group_links: node_tree["links"]
     };
     return data;
@@ -2748,7 +2831,7 @@ function texture_node_type(bpy_node) {
             node_value = true;
             break;
         default:
-            throw "Unknown texture output";
+            m_util.panic("Unknown texture output");
         }
     }
 
@@ -3235,8 +3318,8 @@ function print_node_graph(node_graph, mat_name) {
 
 exports.cleanup = cleanup;
 function cleanup() {
-    for (var graph_id in _composed_node_graphs) {
-        delete _composed_node_graphs[graph_id];
+    for (var graph_id in _composed_ngraph_proxies) {
+        delete _composed_ngraph_proxies[graph_id];
     }
     for (var graph_id in _composed_stack_graphs) {
         delete _composed_stack_graphs[graph_id];

@@ -31,6 +31,7 @@ var m_geom   = require("__geometry");
 var m_render = require("__renderer");
 var m_tsr    = require("__tsr");
 var m_util   = require("__util");
+var m_obj    = require("__objects");
 var m_vec3   = require("__vec3");
 
 var cfg_def = m_cfg.defaults;
@@ -188,7 +189,7 @@ function prerender_bundle(bundle, subs) {
         return false;
 
     if (subs.type == "DEBUG_VIEW")
-        if (bundle.batch.debug_view_mode == m_debug.DV_DEBUG_SPHERES)
+        if (subs.debug_view_mode == m_debug.DV_DEBUG_SPHERES)
             return bundle.batch.debug_sphere;
         else
             return !bundle.batch.debug_sphere;
@@ -222,13 +223,19 @@ function is_lod_visible(obj_render, eye) {
             (center[1] - eye[1])*(center[1] - eye[1]) +
             (center[2] - eye[2])*(center[2] - eye[2]));
 
+    if (dist < dist_min)
+        return false;
+    // for objects with no lods or with infinite lod_dist_max
+    if (dist_max == m_obj.DEFAULT_LOD_DIST_MAX)
+        return true;
+
     // additional interval for transition, fixes LOD flickering
     var tr_int = obj_render.lod_transition_ratio * obj_render.bs_world.radius;
 
-    if (dist >= dist_min && dist < (dist_max + tr_int))
+    if (dist < (dist_max + tr_int))
         return true;
-    else
-        return false;
+
+    return false;
 }
 
 function update_particles_buffers(batch) {

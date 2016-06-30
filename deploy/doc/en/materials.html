@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Materials &mdash; Blend4Web 16.05 User Manual</title>
+  <title>Materials &mdash; Blend4Web 16.06 User Manual</title>
   
 
   
@@ -32,8 +32,8 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.05 User Manual" href="index.html"/>
-        <link rel="next" title="Node Materials" href="node_materials.html"/>
+    <link rel="top" title="Blend4Web 16.06 User Manual" href="index.html"/>
+        <link rel="next" title="Material Library" href="material_library.html"/>
         <link rel="prev" title="Camera" href="camera.html"/> 
 
   
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.05
+              v16.06
             </div>
           
         
@@ -120,14 +120,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#viewport-properties">Viewport Properties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#engine-specific-parameters">Engine Specific Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#halo-materials">Halo Materials</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Activation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Additional Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Additional Settings</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
@@ -186,29 +187,29 @@
            <div itemprop="articleBody">
             
   <span class="target" id="materials"></span><div class="section" id="index-0">
-<span id="id1"></span><h1><a class="toc-backref" href="#id4">Materials</a><a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id5">Materials</a><a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-content">
 <p class="topic-title first">Table of Content</p>
 <ul class="simple">
-<li><a class="reference internal" href="#index-0" id="id4">Materials</a><ul>
-<li><a class="reference internal" href="#lighting-parameters" id="id5">Lighting Parameters</a></li>
-<li><a class="reference internal" href="#transparency" id="id6">Transparency</a><ul>
-<li><a class="reference internal" href="#types" id="id7">Types</a></li>
-<li><a class="reference internal" href="#additional-settings" id="id8">Additional Settings</a></li>
+<li><a class="reference internal" href="#index-0" id="id5">Materials</a><ul>
+<li><a class="reference internal" href="#lighting-parameters" id="id6">Lighting Parameters</a></li>
+<li><a class="reference internal" href="#transparency" id="id7">Transparency</a><ul>
+<li><a class="reference internal" href="#types" id="id8">Types</a></li>
+<li><a class="reference internal" href="#additional-settings" id="id9">Additional Settings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#reflection" id="id9">Reflection</a><ul>
-<li><a class="reference internal" href="#static-reflection" id="id10">Static Reflection</a></li>
-<li><a class="reference internal" href="#dynamic-reflection" id="id11">Dynamic Reflection</a></li>
-<li><a class="reference internal" href="#fresnel-effect-for-reflection" id="id12">Fresnel effect for reflection</a></li>
+<li><a class="reference internal" href="#reflection" id="id10">Reflection</a><ul>
+<li><a class="reference internal" href="#static-reflection" id="id11">Static Reflection</a></li>
+<li><a class="reference internal" href="#dynamic-reflection" id="id12">Dynamic Reflection</a></li>
+<li><a class="reference internal" href="#fresnel-effect-for-reflection" id="id13">Fresnel effect for reflection</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#rendering-properties" id="id13">Rendering Properties</a></li>
-<li><a class="reference internal" href="#viewport-properties" id="id14">Viewport Properties</a></li>
-<li><a class="reference internal" href="#engine-specific-parameters" id="id15">Engine Specific Parameters</a></li>
-<li><a class="reference internal" href="#halo-materials" id="id16">Halo Materials</a><ul>
-<li><a class="reference internal" href="#id2" id="id17">Activation</a></li>
-<li><a class="reference internal" href="#id3" id="id18">Additional Settings</a></li>
+<li><a class="reference internal" href="#rendering-properties" id="id14">Rendering Properties</a></li>
+<li><a class="reference internal" href="#viewport-properties" id="id15">Viewport Properties</a></li>
+<li><a class="reference internal" href="#engine-specific-parameters" id="id16">Engine Specific Parameters</a></li>
+<li><a class="reference internal" href="#halo-materials" id="id17">Halo Materials</a><ul>
+<li><a class="reference internal" href="#id3" id="id18">Activation</a></li>
+<li><a class="reference internal" href="#id4" id="id19">Additional Settings</a></li>
 </ul>
 </li>
 </ul>
@@ -219,7 +220,7 @@
 <p>Meshes can have one or more materials. In case of multiple materials they can be assigned to different polygons in the <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Mode</span></code>. To do this select the needed polygons, select the needed material from the list and click the <code class="docutils literal"><span class="pre">Assign</span></code> button.</p>
 <p>The following material types are supported: <code class="docutils literal"><span class="pre">Surface</span></code>, <code class="docutils literal"><span class="pre">Halo</span></code>.</p>
 <div class="section" id="lighting-parameters">
-<span id="material-lighting-params"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id5">Lighting Parameters</a><a class="headerlink" href="#lighting-parameters" title="Permalink to this headline">¶</a></h2>
+<span id="material-lighting-params"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id6">Lighting Parameters</a><a class="headerlink" href="#lighting-parameters" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_shading.png"><img alt="_images/panel_shading.png" class="align-center" src="_images/panel_shading.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Diffuse &gt; Color</em></dt>
@@ -247,10 +248,10 @@
 </dl>
 </div>
 <div class="section" id="transparency">
-<span id="alpha-blend"></span><span id="index-2"></span><h2><a class="toc-backref" href="#id6">Transparency</a><a class="headerlink" href="#transparency" title="Permalink to this headline">¶</a></h2>
+<span id="alpha-blend"></span><span id="index-2"></span><h2><a class="toc-backref" href="#id7">Transparency</a><a class="headerlink" href="#transparency" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_transparency.png"><img alt="_images/panel_transparency.png" class="align-center" src="_images/panel_transparency.png" style="width: 100%;" /></a>
 <div class="section" id="types">
-<span id="index-3"></span><h3><a class="toc-backref" href="#id7">Types</a><a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h3>
+<span id="index-3"></span><h3><a class="toc-backref" href="#id8">Types</a><a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h3>
 <p>Transparency implementation type can be selected in the <code class="docutils literal"><span class="pre">Transparency</span></code> menu on the <code class="docutils literal"><span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Material</span></code> panel.</p>
 <p>The engine supports the following transparency implementation types (sorted in the ascending order by performance):</p>
 <dl class="docutils">
@@ -268,7 +269,7 @@
 <a class="reference internal image-reference" href="_images/alpha_types.png"><img alt="_images/alpha_types.png" class="align-center" src="_images/alpha_types.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="additional-settings">
-<span id="index-4"></span><h3><a class="toc-backref" href="#id8">Additional Settings</a><a class="headerlink" href="#additional-settings" title="Permalink to this headline">¶</a></h3>
+<span id="index-4"></span><h3><a class="toc-backref" href="#id9">Additional Settings</a><a class="headerlink" href="#additional-settings" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Transparency &gt; Show Transparency</em></dt>
 <dd>Enabling the transparency checkbox is required for viewing transparent objects in Blender. The engine ignores this option - the <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> option is used instead.</dd>
@@ -280,10 +281,10 @@
 </div>
 </div>
 <div class="section" id="reflection">
-<span id="material-mirror"></span><span id="index-5"></span><h2><a class="toc-backref" href="#id9">Reflection</a><a class="headerlink" href="#reflection" title="Permalink to this headline">¶</a></h2>
+<span id="material-mirror"></span><span id="index-5"></span><h2><a class="toc-backref" href="#id10">Reflection</a><a class="headerlink" href="#reflection" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_mirror.png"><img alt="_images/panel_mirror.png" class="align-center" src="_images/panel_mirror.png" style="width: 100%;" /></a>
 <div class="section" id="static-reflection">
-<span id="reflection-static"></span><span id="index-6"></span><h3><a class="toc-backref" href="#id10">Static Reflection</a><a class="headerlink" href="#static-reflection" title="Permalink to this headline">¶</a></h3>
+<span id="reflection-static"></span><span id="index-6"></span><h3><a class="toc-backref" href="#id11">Static Reflection</a><a class="headerlink" href="#static-reflection" title="Permalink to this headline">¶</a></h3>
 <p>A surface reflects the same image no matter how the environment changes. For activation simply use the <a class="reference internal" href="textures.html#mirror-map"><span>mirror map</span></a>.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
@@ -291,8 +292,12 @@
 </div>
 </div>
 <div class="section" id="dynamic-reflection">
-<span id="index-7"></span><h3><a class="toc-backref" href="#id11">Dynamic Reflection</a><a class="headerlink" href="#dynamic-reflection" title="Permalink to this headline">¶</a></h3>
+<span id="index-7"></span><h3><a class="toc-backref" href="#id12">Dynamic Reflection</a><a class="headerlink" href="#dynamic-reflection" title="Permalink to this headline">¶</a></h3>
 <p>A surface reflects the selected objects in their current position. The engine supports planar and spherical reflections.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are using <a class="reference internal" href="node_materials.html#node-materials"><span>node materials</span></a>, dynamic reflection will only work if a <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node is present in the node tree.</p>
+</div>
 <div class="section" id="activation">
 <h4>Activation<a class="headerlink" href="#activation" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
@@ -323,7 +328,7 @@
 </div>
 </div>
 <div class="section" id="fresnel-effect-for-reflection">
-<span id="fresnel"></span><span id="index-8"></span><h3><a class="toc-backref" href="#id12">Fresnel effect for reflection</a><a class="headerlink" href="#fresnel-effect-for-reflection" title="Permalink to this headline">¶</a></h3>
+<span id="fresnel"></span><span id="index-8"></span><h3><a class="toc-backref" href="#id13">Fresnel effect for reflection</a><a class="headerlink" href="#fresnel-effect-for-reflection" title="Permalink to this headline">¶</a></h3>
 <p>The Fresnel effect manifests itself as the dependency of the intensity of passing and reflected light on the incidence angle. If the angle of incidence is close to zero (i.e. light falls almost at right angle to the surface) the passing light portion is large and the reflected light portion is small. On the contrary if the angle of incidence is close to 90 degrees (i.e. light falls almost parallel to the surface) almost all light is reflected.</p>
 <p>The engine uses the approximate Schlick’s formula:</p>
 <blockquote>
@@ -350,7 +355,7 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
 </div>
 </div>
 <div class="section" id="rendering-properties">
-<span id="index-9"></span><h2><a class="toc-backref" href="#id13">Rendering Properties</a><a class="headerlink" href="#rendering-properties" title="Permalink to this headline">¶</a></h2>
+<span id="index-9"></span><span id="id2"></span><h2><a class="toc-backref" href="#id14">Rendering Properties</a><a class="headerlink" href="#rendering-properties" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_render_options.png"><img alt="_images/panel_render_options.png" class="align-center" src="_images/panel_render_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Material &gt; Rendering Options &gt; Do not Render</em></dt>
@@ -364,6 +369,8 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
 <p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span>Water</span></a></p>
 </div>
 </dd>
+<dt><em>Material &gt; Rendering Options &gt; Lens Flare</em></dt>
+<dd>Enabling this parameter activates Lens Flare effect for the material.</dd>
 <dt><em>Material &gt; Rendering Options &gt; Render Above All</em></dt>
 <dd>Material is rendered on top of all scene objects. Transparency type with a gradient is required (<code class="docutils literal"><span class="pre">Add</span></code>, Alpha Blend`` or <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</dd>
 <dt><em>Material &gt; Rendering Options &gt; Vertex Color Paint</em></dt>
@@ -385,7 +392,7 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
 </div>
 </div>
 <div class="section" id="viewport-properties">
-<span id="index-10"></span><h2><a class="toc-backref" href="#id14">Viewport Properties</a><a class="headerlink" href="#viewport-properties" title="Permalink to this headline">¶</a></h2>
+<span id="index-10"></span><h2><a class="toc-backref" href="#id15">Viewport Properties</a><a class="headerlink" href="#viewport-properties" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">Viewport</span></code> section can be found on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel.</p>
 <a class="reference internal image-reference" href="_images/update_material_anim.png"><img alt="_images/update_material_anim.png" class="align-center" src="_images/update_material_anim.png" style="width: 100%;" /></a>
 <p><em>Update Material Animation</em></p>
@@ -396,7 +403,7 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
 </div>
 </div>
 <div class="section" id="engine-specific-parameters">
-<span id="index-11"></span><h2><a class="toc-backref" href="#id15">Engine Specific Parameters</a><a class="headerlink" href="#engine-specific-parameters" title="Permalink to this headline">¶</a></h2>
+<span id="index-11"></span><h2><a class="toc-backref" href="#id16">Engine Specific Parameters</a><a class="headerlink" href="#engine-specific-parameters" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/panel_b4w.png"><img alt="_images/panel_b4w.png" class="align-center" src="_images/panel_b4w.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -418,15 +425,15 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
 </dl>
 </div>
 <div class="section" id="halo-materials">
-<span id="material-halo"></span><span id="index-12"></span><h2><a class="toc-backref" href="#id16">Halo Materials</a><a class="headerlink" href="#halo-materials" title="Permalink to this headline">¶</a></h2>
+<span id="material-halo"></span><span id="index-12"></span><h2><a class="toc-backref" href="#id17">Halo Materials</a><a class="headerlink" href="#halo-materials" title="Permalink to this headline">¶</a></h2>
 <p>Halo materials are used in particle systems and in static meshes. Using the halo in static meshes is described below.</p>
-<div class="section" id="id2">
-<h3><a class="toc-backref" href="#id17">Activation</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3><a class="toc-backref" href="#id18">Activation</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Select the <code class="docutils literal"><span class="pre">Halo</span></code> type under the <code class="docutils literal"><span class="pre">Materials</span></code> tab. It’s also recommended to select the transparency type with a gradient (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> or <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</p>
 <a class="reference internal image-reference" href="_images/halo.png"><img alt="_images/halo.png" class="align-center" src="_images/halo.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id3">
-<h3><a class="toc-backref" href="#id18">Additional Settings</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id19">Additional Settings</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Halo &gt; Alpha</em></dt>
 <dd>Material transparency factor. The default value is 1.0 (non-transparent).</dd>
@@ -460,7 +467,7 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="node_materials.html" class="btn btn-neutral float-right" title="Node Materials" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="material_library.html" class="btn btn-neutral float-right" title="Material Library" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="camera.html" class="btn btn-neutral" title="Camera" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -473,7 +480,7 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-05-31.
+      Last updated on 2016-06-30.
 
     </p>
   </div>
@@ -529,7 +536,7 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.05',
+            VERSION:'v16.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

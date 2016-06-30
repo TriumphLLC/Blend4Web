@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 14:11+0300\n"
+"POT-Creation-Date: 2016-06-20 15:44+0300\n"
 "PO-Revision-Date: 2016-03-24 11:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -285,7 +285,7 @@ msgstr ""
 msgid "Activate the ``God Rays`` panel under the ``Render`` tab."
 msgstr "Активировать панель ``God Rays`` во вкладке ``Render``."
 
-#: ../postprocessing_effects.rst:140
+#: ../postprocessing_effects.rst:140 ../postprocessing_effects.rst:169
 msgid "*Intensity*"
 msgstr ""
 
@@ -329,10 +329,6 @@ msgstr ""
 #: ../postprocessing_effects.rst:163
 msgid "Activate the ``Bloom`` panel under the ``Render`` tab."
 msgstr "Активировать панель ``Bloom`` во вкладке ``Render``."
-
-#: ../postprocessing_effects.rst:169
-msgid "*Key*"
-msgstr ""
 
 #: ../postprocessing_effects.rst:169
 msgid "Bloom intensity."
@@ -619,4 +615,7 @@ msgstr "подсветка контура (outline glow)"
 #: ../postprocessing_effects.rst:261
 msgid "anti-aliasing"
 msgstr "сглаживание"
+
+#~ msgid "*Key*"
+#~ msgstr ""
 

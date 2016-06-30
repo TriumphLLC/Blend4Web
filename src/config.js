@@ -37,7 +37,8 @@ exports.P_CUSTOM = 4;  // use exports.defaults
 exports.context = {
     alpha              : true,
     antialias          : false,
-    premultipliedAlpha : true
+    premultipliedAlpha : true,
+    preserveDrawingBuffer : true
 }
 exports.context_save = m_util.clone_object_r(exports.context);
 
@@ -113,8 +114,6 @@ exports.defaults = {
 
     dynamic_grass              : true,
 
-    procedural_fog             : true,
-
     water_dynamic              : true,
 
     shore_smoothing            : true,
@@ -170,7 +169,7 @@ exports.defaults = {
 
     ie11_edge_touchscreen_hack : false,
 
-    macos_tex_reuse_hack       : false,
+    firefox_tex_reuse_hack     : false,
 
     loaded_data_version        : [0, 0],
 
@@ -202,7 +201,9 @@ exports.defaults = {
 
     gl_debug                   : false,
 
-    gamepad_setting_cont       : ""
+    gamepad_setting_cont       : "",
+
+    check_framebuffer_hack     : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -352,8 +353,6 @@ exports.apply_quality = function() {
 
         cfg_def.dynamic_grass = true;
 
-        cfg_def.procedural_fog = true;
-
         cfg_scs.grass_tex_size = 4.0*512;
 
         cfg_def.texture_min_filter = 3;
@@ -412,8 +411,6 @@ exports.apply_quality = function() {
 
         cfg_def.dynamic_grass = true;
 
-        cfg_def.procedural_fog = true;
-
         cfg_scs.grass_tex_size = 2*512;
 
         cfg_def.texture_min_filter = 3;
@@ -471,8 +468,6 @@ exports.apply_quality = function() {
         cfg_def.parallax = false;
 
         cfg_def.dynamic_grass = false;
-
-        cfg_def.procedural_fog = false;
 
         cfg_scs.grass_tex_size = 1*512;
 

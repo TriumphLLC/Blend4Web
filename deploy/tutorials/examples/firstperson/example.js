@@ -53,7 +53,7 @@ function load_cb(data_id) {
 }
 
 function resize() {
-    m_app.resize_to_container();
+    m_cont.resize_to_container();
 }
 
 function setup_movement() {

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>目录 &mdash; Blend4Web 16.05 用户手册</title>
+  <title>目录 &mdash; Blend4Web 16.06 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.05 用户手册" href="#"/>
+    <link rel="top" title="Blend4Web 16.06 用户手册" href="#"/>
         <link rel="next" title="概述" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.05
+              v16.06
             </div>
           
         
@@ -96,8 +96,9 @@
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
@@ -273,12 +274,18 @@
 <li class="toctree-l2"><a class="reference internal" href="materials.html#halo-materials">光晕材质</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="material_library.html#libarary-structure">Libarary Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="material_library.html#material-structure">Material Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="material_library.html#adding-material-to-a-scene">Adding Material to a Scene</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#standard-nodes">标准节点</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#engine-specific-nodes">游戏引擎特定节点</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#basics">Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#control-flow">Control Flow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logic_editor.html#animation">Animation</a></li>
@@ -315,6 +322,7 @@
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#activation">激活</a></li>
 <li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#additional-settings">附加设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stereo_rendering.html#hmd-settings">HMD Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a><ul>
@@ -433,6 +441,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-06">v16.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-05">v16.05</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-04">v16.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-03">v16.03</a></li>
@@ -482,7 +491,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-05-31.
+      最后更新于 2016-06-30.
 
     </p>
   </div>
@@ -538,7 +547,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.05',
+            VERSION:'v16.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

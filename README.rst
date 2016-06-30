@@ -16,7 +16,7 @@ The major distinguishing features of Blend4Web are:
 * It is available as a fully functional open source version or as under a paid commercial license.
 * It does not depend on any non-free components or cloud services.
 
-This repo mirrors the free SDK distribution which can be also `downloaded from the official site <https://www.blend4web.com/en/downloads/>`_.
+This repo mirrors the community edition SDK distribution which can be also `downloaded from the official site <https://www.blend4web.com/en/downloads/>`_.
 
 -----
 
@@ -110,7 +110,7 @@ Support
 We are always happy to answer your questions on the `Blend4Web forums <https://www.blend4web.com/en/forums/>`_.
 
 
-.. |latest_version| image:: https://img.shields.io/badge/latest%20version-16.05-blue.svg
+.. |latest_version| image:: https://img.shields.io/badge/latest%20version-16.06-blue.svg
     :target: https://www.blend4web.com/en/downloads/
     :alt: Latest Version of Blend4Web
 

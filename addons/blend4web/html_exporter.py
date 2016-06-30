@@ -87,7 +87,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         return False
 
     def invoke(self, context, event):
-        self.filepath = get_default_path()
+        self.filepath = exporter.get_default_path(True)
         wm = context.window_manager
         wm.fileselect_add(self)
         return {"RUNNING_MODAL"}
@@ -181,7 +181,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
                 f.write(app_str)
                 f.close()
                 if self.save_export_path:
-                    set_default_path(export_filepath)
+                    exporter.set_default_path(export_filepath, True)
                 print("HTML file saved to " + export_filepath)
                 print("HTML EXPORT OK")
         else:
@@ -198,26 +198,9 @@ class B4W_ExportHTMLPathGetter(bpy.types.Operator):
     bl_options = {'INTERNAL'}
 
     def execute(self, context):
-        print("B4W Export HTML Path = " + get_default_path())
+        print("B4W Export HTML Path = " + exporter.get_default_path(True))
 
         return {"FINISHED"}
-
-def get_default_path():
-    scene = bpy.data.scenes[0]
-    if scene.b4w_export_path_html is not "":
-        return bpy.path.abspath(scene.b4w_export_path_html)
-
-    blend_path = os.path.splitext(bpy.data.filepath)[0]
-    if len(blend_path) > 0:
-        return blend_path + ".html"
-    else:
-        return "untitled.html"
-
-def set_default_path(path):
-    if bpy.data.filepath != "":
-        path = bpy.path.relpath(path)
-    for i in range(len(bpy.data.scenes)):
-        bpy.data.scenes[i].b4w_export_path_html = exporter.guard_slashes(path)
 
 def get_html_template(path):
     tpl_file = open(path, "r")
@@ -361,7 +344,7 @@ def autosave():
 
 def b4w_html_export_menu_func(self, context):
     self.layout.operator(B4W_HTMLExportProcessor.bl_idname, \
-        text=_("Blend4Web (.html)")).filepath = get_default_path()
+        text=_("Blend4Web (.html)")).filepath = exporter.get_default_path(True)
 
 def register():
     bpy.types.INFO_MT_file_export.append(b4w_html_export_menu_func)

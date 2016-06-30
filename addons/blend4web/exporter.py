@@ -33,6 +33,7 @@ b4w_modules =  ["binary_module_hook",
                 "anim_baker",
                 "clusterer",
                 "logic_node_tree",
+                "addon_prefs",
                 "server",
                 "init_validation",
                 "translator"]
@@ -108,6 +109,7 @@ _bpy_uuid_cache = None
 _overrided_meshes = []
 
 _is_html_export = False
+_is_fast_preview = False
 
 _export_filepath = None
 _export_error = None
@@ -492,15 +494,6 @@ def particle_object_is_valid(obj):
     data = obj.data
     return obj.type == "MESH" and not (data is None or not len(data.polygons))
 
-def get_component_export_path(component):
-    # deprecated but may be stored in older files
-    if component.get("b4w_export_path", None) is not None:
-        b4w_export_path = component.b4w_export_path
-        if len(b4w_export_path) > 0:
-            return b4w_export_path
-
-    return ""
-
 def obj_to_mesh_needed(obj):
     """Check if object require copy of obj.data during export"""
     if (obj.type == "CURVE" or obj.type == "SURFACE" or obj.type == "META" 
@@ -802,7 +795,7 @@ def process_action(action):
     act_data["fcurves"] = OrderedDict()
 
     if len(action.fcurves) == 0:
-        warn("The action \"%s\" has no fcurves." % action.name)
+        warn("The action \"%s\" has no fcurves." % action.name + ".")
 
     # collect fcurves indices
     fc_indices = OrderedDict()
@@ -1188,7 +1181,7 @@ def get_logic_nodetree_name(scene):
 
     # check tree name, allow empty name
     if (not tree_name in bpy.data.node_groups) or tree_name == "":
-        warn("Wrong name of active logic node tree:'%s'" % str(tree_name))
+        warn("Wrong name of active logic node tree:'%s'" % str(tree_name) + ".")
         # Try to force set tree
         # firstly try to get active tree
         tree_name = ""
@@ -1210,9 +1203,9 @@ def get_logic_nodetree_name(scene):
                     tree_name = t.name
 
         if tree_name == "":
-            err("Fail to force set of active logic node tree")
+            err("Fail to force set of active logic node tree.")
         else:
-            warn("Force to use '%s' as active logic node tree" % str(tree_name))
+            warn("Force to use '%s' as active logic node tree" % str(tree_name) + ".")
 
     return tree_name
 
@@ -1250,7 +1243,7 @@ def process_scene_nla(scene, scene_data):
 
         if len(errors) != 0:
             for name, mes in errors:
-                err("Logic Editor wrong syntax in '%s': %s" % (name, mes))
+                err("Logic Editor wrong syntax in '%s': %s" % (name, mes) + ".")
 
     for script in scripts:
         scene_data["b4w_logic_nodes"].append([])
@@ -1313,7 +1306,8 @@ def process_scene_nla(scene, scene_data):
                     ind += 1
 
             elif slot['type'] == "PLAY_ANIM" or slot['type'] == "STOP_ANIM":
-                if not slot["bools"]["env"]:
+                # NOTE: temporary compatibility fix for deprecated SELECT_PLAY_ANIM node
+                if "env" not in slot["bools"] or not slot["bools"]["env"]:
                     obj = logic_node_tree.object_by_path(bpy.data.objects, slot['objects_paths']["id0"])
 
                     if (obj and do_export(obj) and object_is_valid(obj)):
@@ -2313,8 +2307,12 @@ def process_lamp(lamp):
 
     if (lamp.type == "POINT" or lamp.type == "SPOT"):
         lamp_data["falloff_type"] = lamp.falloff_type
+        lamp_data["clip_start"] = lamp.shadow_buffer_clip_start
+        lamp_data["clip_end"] = lamp.shadow_buffer_clip_end
     else:
         lamp_data["falloff_type"] = None
+        lamp_data["clip_start"] = 0.1
+        lamp_data["clip_end"] = 30.0
 
     if (lamp.type == "SPOT"):
         lamp_data["spot_size"] = round_num(lamp.spot_size, 5)
@@ -2451,6 +2449,13 @@ def process_material(material, uuid = None):
                 "\" Dynamic grass vertex colors required by material settings.")
 
     mat_data["b4w_do_not_render"] = material.b4w_do_not_render
+    use_textures = check_available_textures(material)
+    if material.b4w_lens_flares and not use_textures:
+        mat_data["b4w_lens_flares"] = False
+        warn("Unsupported texture type or texture is missing for Lens Flare material \""
+                + material.name + "\".")
+    else:
+        mat_data["b4w_lens_flares"] = material.b4w_lens_flares
     mat_data["b4w_collision"] = material.b4w_collision
     mat_data["b4w_use_ghost"] = material.b4w_use_ghost
     mat_data["b4w_collision_id"] = material.b4w_collision_id
@@ -2530,6 +2535,14 @@ def process_material_physics(mat_data, material):
     dct = mat_data["physics"] = OrderedDict()
     dct["friction"] = round_num(phy.friction, 3)
     dct["elasticity"] = round_num(phy.elasticity, 3)
+
+def check_available_textures(material):
+    for slot in material.texture_slots:
+        if slot and slot.use and slot.texture and not slot.texture.b4w_do_not_export:
+            if slot.texture.type == "IMAGE":
+                return True
+    return False
+
 
 def process_texture(texture, uuid = None):
     if "export_done" in texture and texture["export_done"] and uuid is None:
@@ -2707,8 +2720,11 @@ def get_json_relative_filepath(path):
     try:
         path_relative = os.path.relpath(path_res, os.path.dirname(path_exp))
     except ValueError as exp:
-        _file_error = exp
-        raise FileError("Loading of resources from different disk is forbidden")
+        if _is_fast_preview:
+            return path_res
+        else:
+            _file_error = exp
+            raise FileError("Loading of resources from different disk is forbidden")
     # clean
     return guard_slashes(os.path.normpath(path_relative))
 
@@ -3443,6 +3459,7 @@ def process_particle(particle):
     # rotation
 
     # 'NONE, 'RAND', 'VELOCITY'
+    part_data["use_rotations"] = particle.use_rotations
     part_data["angular_velocity_mode"] = particle.angular_velocity_mode
     part_data["angular_velocity_factor"] \
             = round_num(particle.angular_velocity_factor, 3)
@@ -4463,26 +4480,42 @@ def round_num(n, level=0):
 def round_iterable(num_list, level=0):
     return [round_num(item, level) for item in num_list]
 
-def get_default_path():
+def get_default_path(is_html=False):
     scene = bpy.data.scenes[0]
-    if not (scene.b4w_export_path_json == ""):
-        return bpy.path.abspath(scene.b4w_export_path_json)
+    ext = ""
 
-    # if it was already exported reuse that path e.g. from objects
-    objects = bpy.data.objects
-    for obj in objects:
-        if not obj.library and not obj.proxy and do_export(obj): # we want only objects in main
-            path = get_component_export_path(obj)
-            if len(path) > 0:
-                return bpy.path.abspath(path)
+    if is_html:
+        if scene.b4w_export_path_html != "":
+            return bpy.path.abspath(scene.b4w_export_path_html)
+        ext = ".html"
+    else:
+        if scene.b4w_export_path_json != "":
+            return bpy.path.abspath(scene.b4w_export_path_json)
+        ext = ".json"
 
     blend_path = os.path.splitext(bpy.data.filepath)[0]
-    if len(blend_path) > 0:
-        return blend_path + ".json"
-    else:
-        return "untitled.json"
+    if len(blend_path) == 0:
+        return "untitled" + ext
 
-def set_default_path(path):
+    # try to detect standard assets path 
+    if addon_prefs.has_valid_sdk_path():
+        sdk_blender_path = addon_prefs.sdk_path("blender")
+
+        try:
+            rel_filepath = os.path.relpath(blend_path, sdk_blender_path)
+        except ValueError as exp:
+            # different disk
+            pass
+        else:
+            if rel_filepath.find("..") == -1:
+                assets_path = os.path.join(addon_prefs.sdk_path(), "deploy",
+                        "assets", rel_filepath)
+                if os.path.exists(os.path.dirname(assets_path)):
+                    return assets_path + ext
+
+    return blend_path + ext
+
+def set_default_path(path, is_html=False):
     if bpy.data.filepath != "":
         try:
             path = bpy.path.relpath(path)
@@ -4490,7 +4523,10 @@ def set_default_path(path):
             _file_error = exp
             raise FileError("Export to different disk is forbidden")
     for i in range(len(bpy.data.scenes)):
-        bpy.data.scenes[i].b4w_export_path_json = guard_slashes(path)
+        if is_html:
+            bpy.data.scenes[i].b4w_export_path_html = guard_slashes(path)
+        else:
+            bpy.data.scenes[i].b4w_export_path_json = guard_slashes(path)
 
 class B4W_ExportProcessor(bpy.types.Operator):
     """Export for Blend4Web (.json)"""
@@ -4532,6 +4568,12 @@ class B4W_ExportProcessor(bpy.types.Operator):
     is_html_export = bpy.props.BoolProperty(
         name = _("Is HTML export"),
         description = _("Is html export"),
+        default = False
+    )
+
+    is_fast_preview = bpy.props.BoolProperty(
+        name = _("Fast preview"),
+        description = _("Fast preview"),
         default = False
     )
 
@@ -4614,7 +4656,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
         _export_data = OrderedDict()
 
         global _main_json_str
-        _main_json_str = ""
+        _main_json_str = "{}"
 
         global _curr_stack
         _curr_stack = {
@@ -4651,6 +4693,9 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         global _is_html_export
         _is_html_export = self.is_html_export
+
+        global _is_fast_preview
+        _is_fast_preview = self.is_fast_preview
 
         global _b4w_export_warnings
         _b4w_export_warnings = []
@@ -4928,11 +4973,11 @@ def check_scene_data(scene_data, scene):
     # need camera
     if scene_data["camera"] is None:
         create_fallback_camera(scene_data)
-        warn("Missing active camera or wrong active camera object", M_PRIMARY)
+        warn("Missing active camera or wrong active camera object.", M_PRIMARY)
 
     if scene_data["world"] is None:
         create_fallback_world(scene_data)
-        warn("Missing world or wrong active world object", M_PRIMARY)
+        warn("Missing world or wrong active world object.", M_PRIMARY)
 
 
 def get_exported_obj_first_rec(objects, obj_type = "ALL"):
@@ -5014,7 +5059,7 @@ def check_obj_particle_systems(obj_data, obj):
                     "\" The \"" + pset_data["b4w_vcol_from_name"] +
                     "\" vertex color specified in the \"from\" field is " +
                     "missing in the list of the \"" + obj_data["name"]
-                    + "\" object's vertex colors")
+                    + "\" object's vertex colors.")
             pset_data["b4w_vcol_from_name"] = ""
 
         if pset_data["render_type"] == "OBJECT":
@@ -5027,7 +5072,7 @@ def check_obj_particle_systems(obj_data, obj):
                         "\" The \"" + pset_data["b4w_vcol_to_name"] +
                         "\" vertex color specified in the \"to\" field is " +
                         "missing in the list of the \"" + dobj_data["name"]
-                        + "\" object's vertex colors")
+                        + "\" object's vertex colors.")
                 pset_data["b4w_vcol_to_name"] = ""
 
         elif pset_data["render_type"] == "GROUP":
@@ -5043,7 +5088,7 @@ def check_obj_particle_systems(obj_data, obj):
                             "\" The \"" + pset_data["b4w_vcol_to_name"] +
                             "\" vertex color specified in the \"to\" field is " +
                             "missing in the \"" + dgobj_data["name"] +
-                            "\" object (\"" + dg_data["name"] + "\" dupli group)")
+                            "\" object (\"" + dg_data["name"] + "\" dupli group).")
                     pset_data["b4w_vcol_to_name"] = ""
 
     obj_data["particle_systems"] = [ps for ps in obj_data["particle_systems"] if ps is not None]

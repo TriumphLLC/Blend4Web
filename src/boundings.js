@@ -430,38 +430,25 @@ function create_bounding_ellipsoid_by_bb(points, use_rotation) {
         _vec3_tmp[0] = points[i];
         _vec3_tmp[1] = points[i + 1];
         _vec3_tmp[2] = points[i + 2];
+
         m_vec3.transformMat3(_vec3_tmp, t_mat, _vec3_tmp);
 
         var dot_x = _vec3_tmp[0];
         var dot_y = _vec3_tmp[1];
         var dot_z = _vec3_tmp[2];
 
-        if (dot_x > max_dot_x) {
+        if (dot_x > max_dot_x)
             max_dot_x = dot_x;
-            max_x = i;
-        }
-        if (dot_x < min_dot_x) {
+        if (dot_x < min_dot_x)
             min_dot_x = dot_x;
-            min_x = i;
-        }
-
-        if (dot_y > max_dot_y) {
+        if (dot_y > max_dot_y)
             max_dot_y = dot_y;
-            max_y = i;
-        }
-        if (dot_y < min_dot_y) {
+        if (dot_y < min_dot_y)
             min_dot_y = dot_y;
-            min_y = i;
-        }
-
-        if (dot_z > max_dot_z) {
+        if (dot_z > max_dot_z)
             max_dot_z = dot_z;
-            max_z = i;
-        }
-        if (dot_z < min_dot_z) {
+        if (dot_z < min_dot_z)
             min_dot_z = dot_z;
-            min_z = i;
-        }
     }
 
     var a = max_dot_x - min_dot_x;
@@ -471,18 +458,6 @@ function create_bounding_ellipsoid_by_bb(points, use_rotation) {
     a = Math.max(a, ELL_EPS);
     b = Math.max(b, ELL_EPS);
     c = Math.max(c, ELL_EPS);
-
-    var max_semi_axis = Math.max(a, b, c);
-    if (max_semi_axis == a) {
-        var max_lm = max_x;
-        var min_lm = min_x;
-    } else if (max_semi_axis == b) {
-        var max_lm = max_y;
-        var min_lm = min_y;
-    } else {
-        var max_lm = max_z;
-        var min_lm = min_z;
-    }
 
     var scale_mat = m_mat3.identity(_mat3_tmp2);
     scale_mat[0] = a != 0.0 ? 1 / a : 1 / MIN_SEMIAXIS_LEN;
@@ -495,21 +470,21 @@ function create_bounding_ellipsoid_by_bb(points, use_rotation) {
     _vec3_tmp[1] = points[1];
     _vec3_tmp[2] = points[2];
 
-    m_vec3.transformMat3(_vec3_tmp, _mat3_tmp3, _vec3_tmp);
-    m_vec3.transformMat3(_vec3_tmp, scale_mat, _vec3_tmp);
     m_vec3.transformMat3(_vec3_tmp, t_mat, _vec3_tmp);
+    m_vec3.transformMat3(_vec3_tmp, scale_mat, _vec3_tmp);
+    m_vec3.transformMat3(_vec3_tmp, _mat3_tmp3, _vec3_tmp);
 
     var max_x = _vec3_tmp[0], min_x = _vec3_tmp[0];
-    var max_y = _vec3_tmp[1], min_y = _vec3_tmp[1]
-    var max_z = _vec3_tmp[2], min_z = _vec3_tmp[2]
+    var max_y = _vec3_tmp[1], min_y = _vec3_tmp[1];
+    var max_z = _vec3_tmp[2], min_z = _vec3_tmp[2];
 
     for (var i = 3; i < points.length; i = i + 3) {
         _vec3_tmp[0] = points[i];
         _vec3_tmp[1] = points[i + 1];
         _vec3_tmp[2] = points[i + 2];
-        m_vec3.transformMat3(_vec3_tmp, _mat3_tmp3, _vec3_tmp);
-        m_vec3.transformMat3(_vec3_tmp, scale_mat, _vec3_tmp);
         m_vec3.transformMat3(_vec3_tmp, t_mat, _vec3_tmp);
+        m_vec3.transformMat3(_vec3_tmp, scale_mat, _vec3_tmp);
+        m_vec3.transformMat3(_vec3_tmp, _mat3_tmp3, _vec3_tmp);
 
         max_x = Math.max(max_x, _vec3_tmp[0]);
         min_x = Math.min(min_x, _vec3_tmp[0]);
@@ -520,6 +495,7 @@ function create_bounding_ellipsoid_by_bb(points, use_rotation) {
         max_z = Math.max(max_z, _vec3_tmp[2]);
         min_z = Math.min(min_z, _vec3_tmp[2]);
     }
+
     var r = Math.sqrt((max_x - min_x) * (max_x - min_x)
             + (max_y - min_y) * (max_y - min_y)
             + (max_z - min_z) * (max_z - min_z)) / 2;
@@ -535,9 +511,9 @@ function create_bounding_ellipsoid_by_bb(points, use_rotation) {
     scale_mat[4] = b;
     scale_mat[8] = c;
 
-    m_vec3.transformMat3(s_center, _mat3_tmp3, s_center);
-    m_vec3.transformMat3(s_center, scale_mat, s_center);
     m_vec3.transformMat3(s_center, t_mat, s_center);
+    m_vec3.transformMat3(s_center, scale_mat, s_center);
+    m_vec3.transformMat3(s_center, _mat3_tmp3, s_center);
 
     var axis_x = [t_mat[0], t_mat[3], t_mat[6]];
     var axis_y = [t_mat[1], t_mat[4], t_mat[7]];

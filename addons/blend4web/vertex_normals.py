@@ -481,9 +481,11 @@ class B4W_ApproxNormalsFromMesh(bpy.types.Operator):
                             + pow(vert_dst.co[1]-vert_src.co[1],2)
                             + pow(vert_dst.co[2]-vert_src.co[2],2))
                     if distance<min_distance:
-                        min_distance = distance
-                        min_index = vert_src.index
+                        if vert_src.index in src_vert_to_loops_map: # vertex must be connected
+                            min_distance = distance
+                            min_index = vert_src.index
                 n = mathutils.Vector()
+
                 for l in src_vert_to_loops_map[min_index]:
                     n = n + mathutils.Vector(src_loops_normals[l])
                 n = n / len(src_vert_to_loops_map[min_index])

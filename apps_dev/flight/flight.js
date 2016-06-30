@@ -7,6 +7,7 @@ var m_arm       = require("armature");
 var m_app       = require("app");
 var m_cam       = require("camera");
 var m_cfg       = require("config");
+var m_cont      = require("container");
 var m_data      = require("data");
 var m_main      = require("main");
 var m_preloader = require("preloader");
@@ -112,7 +113,7 @@ function init_cb(canvas_elem, success) {
 }
 
 function on_resize() {
-    m_app.resize_to_container();
+    m_cont.resize_to_container();
 };
 
 function load_stuff() {

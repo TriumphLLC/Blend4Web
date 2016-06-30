@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <title>Blend4Web Viewer</title>
     <link rel='shortcut icon' href='images/favicon.png' />
-    <link type='text/css' rel='stylesheet' href='viewer.min.css?v=16.05'/>
-    <script type='text/javascript' src='../common/b4w.simple.min.js?v=16.05'></script>
-    <script type='text/javascript' src='jquery-2.2.0.min.js'></script>
-    <script type='text/javascript' src='viewer.min.js?v=16.05'></script>
+    <link type='text/css' rel='stylesheet' href='viewer.min.css?v=16.06'/>
+    <script type='text/javascript' src='../common/b4w.simple.min.js?v=16.06'></script>
+    <script src='jquery-2.2.0.min.js' type='text/javascript'></script>
+    <script type='text/javascript' src='viewer.min.js?v=16.06'></script>
 </head>
 <body>
 
@@ -842,9 +842,14 @@
                         <option value="DV_DEBUG_SPHERES">DEBUG SPHERES</option>
                         <option value="DV_CLUSTERS_VIEW">CLUSTERS VIEW</option>
                         <option value="DV_BATCHES_VIEW">BATCHES VIEW</option>
+                        <option value="DV_RENDER_TIME">RENDER TIME</option>
                     </select>
                     <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                         <input type="button" value="Change colors" id="debug_change_colors" data-inline="true" data-icon="arrow-r" data-mini="true" />
+                    </div>
+                    <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                        <label for="render_time_threshold">Render Time Threshold (ms):</label>
+                        <input id="render_time_threshold" data-highlight="true" value="0.5" min="0" max="10" type="range" step="0.01">
                     </div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">

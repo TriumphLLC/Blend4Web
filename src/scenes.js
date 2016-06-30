@@ -35,6 +35,7 @@ var m_geom       = require("__geometry");
 var m_graph      = require("__graph");
 var m_hud        = require("__hud");
 var m_lights     = require("__lights");
+var m_input      = require("__input");
 var m_mat4       = require("__mat4");
 var m_nodemat    = require("__nodemat");
 var m_obj        = require("__objects");
@@ -217,7 +218,7 @@ exports.get_active = get_active;
  */
 function get_active() {
     if (!_active_scene)
-        throw "No active scene available";
+        m_util.panic("No active scene available");
     return _active_scene;
 }
 
@@ -320,11 +321,12 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     render.sky_params        = extract_sky_params(world, render.sun_exist);
     render.world_light_set   = get_world_light_set(world, render.sky_params);
     render.world_fog_set     = get_world_fog_set(world);
-    render.anchor_visibility = check_anchor_visibility_objects(bpy_scene, bpy_empty_objs);
     render.hmd_stereo_use    = !bpy_scene._render_to_textures.length &&
                                check_hmd_stereo_use(cam_scene_data);
     render.anaglyph_use      = !bpy_scene._render_to_textures.length &&
                                check_anaglyph_use(cam_scene_data);
+    render.anchor_visibility = !render.hmd_stereo_use && !render.anaglyph_use &&
+                               check_anchor_visibility_objects(bpy_scene, bpy_empty_objs);
     render.reflection_params = extract_reflections_params(bpy_scene, scene_objects, bpy_mesh_objs);
     render.bloom_params      = extract_bloom_params(bpy_scene);
     render.mb_params         = extract_mb_params(bpy_scene);
@@ -354,7 +356,8 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     render.soft_particles    = check_soft_particles(bpy_mesh_objs);
     render.shore_smoothing   = check_shore_smoothing(bpy_mesh_objs);
     render.dynamic_grass     = check_dynamic_grass(bpy_scene, bpy_mesh_objs);
-    render.color_picking     = check_selectable_objects(bpy_scene, bpy_mesh_objs);
+    render.color_picking     = !render.hmd_stereo_use && !render.anaglyph_use &&
+                                check_selectable_objects(bpy_scene, bpy_mesh_objs);
     render.outline           = check_outlining_objects(bpy_scene, bpy_mesh_objs);
     render.glow_materials    = check_glow_materials(bpy_scene, bpy_mesh_objs);
 
@@ -484,11 +487,15 @@ function extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs) {
     rshs.lamp_types = [];
     rshs.spot_sizes = [];
     rshs.distances = [];
+    rshs.clip_start = [];
+    rshs.clip_end = [];
 
     for (var i = 0; i < shadow_lamps.length; i++) {
         rshs.lamp_types.push(shadow_lamps[i].light.type);
         rshs.spot_sizes.push(shadow_lamps[i].light.spot_size);
         rshs.distances.push(shadow_lamps[i].light.distance);
+        rshs.clip_start.push(shadow_lamps[i].light.clip_start);
+        rshs.clip_end.push(shadow_lamps[i].light.clip_end);
         if ((rshs.lamp_types[i] == "SPOT" || rshs.lamp_types[i] == "POINT") &&
                 rshs.enable_csm) {
             m_print.warn("Generating shadows for SPOT " +
@@ -605,6 +612,9 @@ function check_soft_particles(bpy_objects) {
  */
 function get_water_params(bpy_objects) {
 
+    // TODO: Now returns only parameters from a water obj which is considered
+    // to be the most important one. Need to collect info from other water
+    // objects.
     var mats = get_objs_materials(bpy_objects);
     var water_params = [];
 
@@ -736,6 +746,7 @@ function check_anaglyph_use(cam_scene_data) {
     // NOTE: disable anaglyph stereo for the non-PERSP camera
     if (cam_scene_data.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.stereo == "ANAGLYPH") {
         m_print.warn("Anaglyph stereo is disabled for the non-perspective camera");
+        cfg_def.stereo = "NONE";
         return false;
     } else
         return cfg_def.stereo == "ANAGLYPH";
@@ -743,11 +754,19 @@ function check_anaglyph_use(cam_scene_data) {
 
 function check_hmd_stereo_use(cam_scene_data) {
     // NOTE: disable head-mounted display stereo for the non-PERSP camera
-    if (cam_scene_data.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.stereo == "HMD") {
-        m_print.warn("Head-mounted display stereo is disabled for the non-perspective camera");
-        return false;
-    } else
-        return cfg_def.stereo == "HMD";
+    if (cfg_def.stereo == "HMD") {
+        if (cam_scene_data.cameras[0].type != m_cam.TYPE_PERSP) {
+            m_print.warn("Head-mounted display stereo is disabled for the non-perspective camera");
+            cfg_def.stereo = "NONE";
+            return false;
+        }
+        if (!m_input.can_use_device(m_input.DEVICE_HMD)) {
+            m_print.warn("Head-mounted display stereo is disabled for the non-WebVR and non-mobile devices");
+            cfg_def.stereo = "NONE";
+            return false;
+        }
+    }
+    return cfg_def.stereo == "HMD";
 }
 
 /**
@@ -1412,7 +1431,7 @@ function connect_textures(graph, subs, batch) {
         case "MAIN_CUBE_REFLECT":
             return;
         default:
-            throw "Wrong slink";
+            m_util.panic("Wrong slink");
         }
 
         switch (slink.to) {
@@ -1431,10 +1450,10 @@ function connect_textures(graph, subs, batch) {
         default:
 
             if (!tex)
-                throw "Connection of SCREEN is forbidden";
+                m_util.panic("Connection of SCREEN is forbidden");
 
             if (tex.w_renderbuffer)
-                throw "Batch texture can't use renderbuffer";
+                m_util.panic("Batch texture can't use renderbuffer");
 
             if (m_shaders.check_uniform(batch.shader, slink.to))
                 m_batch.append_texture(batch, tex, slink.to);
@@ -1461,7 +1480,7 @@ function connect_textures(graph, subs, batch) {
         default:
 
             if (tex.w_renderbuffer)
-                throw "Batch texture can't use renderbuffer";
+                m_util.panic("Batch texture can't use renderbuffer");
 
             if (m_shaders.check_uniform(batch.shader, slink.to))
                 m_batch.append_texture(batch, tex, slink.to);
@@ -1653,7 +1672,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
             shadow_usage = "SHADOW_MASK_GENERATION";
             break;
         default:
-            throw "Wrong subscene type";
+            m_util.panic("Wrong subscene type");
         }
         for (var i = 0; i < subs_cast_arr.length; i++)
             m_batch.assign_shadow_receive_dirs(batch, bpy_scene._render.shadow_params, subs_cast_arr[i]);
@@ -1692,7 +1711,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     if (wp && subs.caustics && obj_render.caustics) {
         m_shaders.set_directive(shaders_info, "CAUSTICS", 1);
 
-        var sh_params = bpy_scene._render.shadow_params;
+        var sh_params = sc_render.shadow_params;
         if (sh_params) {
             var ltypes = sh_params.lamp_types;
             var sun_num = 0;
@@ -1740,18 +1759,16 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
         if (batch.procedural_sky) {
             var tex = subs_sky.camera.color_attachment;
             m_batch.append_texture(batch, tex, "u_sky");
-        } else if (cfg_def.procedural_fog) {
+        } else {
             // by link
             batch.cube_fog = subs_sky.cube_fog;
             m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 1);
-        } else {
-            m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 0);
         }
     } else {
         m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 0);
     }
 
-    var wls = bpy_scene._render.world_light_set;
+    var wls = sc_render.world_light_set;
     if (wls.use_environment_light) {
         m_shaders.set_directive(shaders_info, "USE_ENVIRONMENT_LIGHT", 1);
         if (wls.environment_color == "SKY_TEXTURE") {
@@ -1767,28 +1784,31 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
             m_shaders.set_directive(shaders_info, "SKY_COLOR", 1);
     }
 
-    var wfs = bpy_scene._render.world_fog_set;
+    var wfs = sc_render.world_fog_set;
     if (wfs.use_fog) {
         m_shaders.set_directive(shaders_info, "USE_FOG", 1);
         m_shaders.set_directive(shaders_info, "FOG_TYPE", wfs.falloff);
     }
 
     if (batch.refractive && batch.blend) {
+        // TODO: Too many directives. Refactoring needed
         if (cfg_def.depth_tex_available)
             m_shaders.set_directive(shaders_info, "USE_REFRACTION_CORRECTION", 1);
         if (batch.type == "MAIN" && batch.has_nodes
                 || batch.type == "NODES_GLOW") {
             m_shaders.set_directive(shaders_info, "REFRACTIVE", 1);
-            if (bpy_scene._render.refractions)
+            if (sc_render.refractions)
                 m_shaders.set_directive(shaders_info, "USE_REFRACTION", 1);
             else
                 m_shaders.set_directive(shaders_info, "USE_REFRACTION", 0);
         } else {
-            if (bpy_scene._render.refractions)
+            if (sc_render.refractions)
                 m_shaders.set_directive(shaders_info, "REFRACTIVE", 1);
             else
                 m_shaders.set_directive(shaders_info, "REFRACTIVE", 0);
         }
+        if (sc_render.materials_params.refractions || sc_render.refractions)
+            m_shaders.set_directive(shaders_info, "HAS_REFRACT_TEXTURE", 1);
     } else {
         m_shaders.set_directive(shaders_info, "REFRACTIVE", 0);
         m_shaders.set_directive(shaders_info, "USE_REFRACTION", 0);
@@ -2347,17 +2367,12 @@ function add_object_subs_color_picking(subs, obj, graph, scene, copy) {
         if (batch.type != "COLOR_ID")
             continue;
 
-        if (!copy) {
-            update_batch_subs(batch, subs, obj, graph, "COLOR_ID", scene);
-            m_batch.update_shader(batch);
-            validate_batch(batch);
-        }
-
         if (!(subs.type == "COLOR_PICKING" && batch.subtype == "COLOR_ID" ||
                 subs.type == "COLOR_PICKING_XRAY" && batch.subtype == "COLOR_ID_XRAY"))
             continue;
 
         if (!copy) {
+            update_batch_subs(batch, subs, obj, graph, "COLOR_ID", scene);
             m_batch.set_batch_directive(batch, "USE_OUTLINE", 0);
             m_batch.update_shader(batch);
             validate_batch(batch);
@@ -2479,6 +2494,7 @@ function add_object_subs_outline_mask(subs, obj, graph, scene, copy) {
             continue;
 
         if (!copy) {
+            update_batch_subs(batch, subs, obj, graph, "COLOR_ID", scene);
             m_batch.set_batch_directive(batch, "USE_OUTLINE", 1);
             m_batch.update_shader(batch);
             validate_batch(batch);
@@ -2527,19 +2543,22 @@ exports.is_hidden = function(obj) {
  * Remove object bundles.
  * @methodOf scenes
  */
-exports.remove_object_bundles = function(scene, obj, clean_buffs) {
-    var render = obj.render;
+exports.remove_object_bundles = function(obj) {
 
-    var subscenes = subs_array(scene, OBJECT_SUBSCENE_TYPES);
-    for (var i = 0; i < subscenes.length; i++) {
-        var bundles = subscenes[i].bundles;
+    for (var i = 0; i < obj.scenes_data.length; i++) {
+        var scene = obj.scenes_data[i].scene;
+        var subscenes = subs_array(scene, OBJECT_SUBSCENE_TYPES);
+        
+        for (var i = 0; i < subscenes.length; i++) {
+            var bundles = subscenes[i].bundles;
 
-        for (var j = bundles.length - 1; j >= 0; j--) {
-            var bundle = bundles[j];
-            if (bundle.obj_render == render) {
-                if (bundle.batch && clean_buffs)
-                    m_geom.cleanup_bufs_data(bundle.batch.bufs_data);
-                bundles.splice(j, 1);
+            for (var j = bundles.length - 1; j >= 0; j--) {
+                var bundle = bundles[j];
+                if (bundle.obj_render == obj.render) {
+                    if (bundle.batch)
+                        m_batch.clear_batch(bundle.batch);
+                    bundles.splice(j, 1);
+                }
             }
         }
     }
@@ -4010,7 +4029,7 @@ function update_motion_blur_subscenes(graph, elapsed) {
             return;
 
         if (!subs.slinks_internal[0] || !subs.textures_internal[0])
-            throw "Wrong MOTION_BLUR subscene";
+            m_util.panic("Wrong MOTION_BLUR subscene");
 
         var slink = subs.slinks_internal[0];
         var tex = subs.textures_internal[0];
@@ -4039,7 +4058,7 @@ function update_smaa_resolve_subscene(graph) {
             return;
 
         if (!subs.slinks_internal[0] || !subs.textures_internal[0])
-            throw "Wrong SMAA RESOLVE subscene";
+            m_util.panic("Wrong SMAA RESOLVE subscene");
 
         var tex = subs.textures_internal[0];
 
@@ -4077,10 +4096,6 @@ exports.get_cam_water_depth = function() {
     return subs.cam_water_depth;
 }
 
-exports.get_object_data_id = function(obj) {
-    return obj.render.data_id;
-}
-
 exports.update_scene_permanent_uniforms = update_scene_permanent_uniforms;
 function update_scene_permanent_uniforms(scene) {
     var graph = scene._render.graph;
@@ -4091,19 +4106,26 @@ function update_scene_permanent_uniforms(scene) {
 }
 
 exports.set_debug_view_mode = function(subs_debug_view, mode) {
-
+    subs_debug_view.debug_view_mode = mode;
     subs_debug_view.do_render = mode != m_debug.DV_NONE;
-    for (var i = 0; i < subs_debug_view.bundles.length; i++) {
-        var batch = subs_debug_view.bundles[i].batch;
-        batch.debug_view_mode = mode;
-    }
-
     subs_debug_view.blend = (mode == m_debug.DV_TRANSPARENT_WIREFRAME);
     subs_debug_view.need_perm_uniforms_update = true;
+
+    var active_scene = get_active();
+    for (var i = 0; i < MAIN_SUBSCENE_TYPES.length; i++) {
+        var subs = get_subs(active_scene, MAIN_SUBSCENE_TYPES[i]);
+        if (subs)
+            subs.do_not_debug = (mode == m_debug.DV_RENDER_TIME);
+    }
 }
 
 exports.set_debug_colors_seed = function(subs_debug_view, seed) {
     subs_debug_view.debug_colors_seed = seed;
+    subs_debug_view.need_perm_uniforms_update = true;
+}
+
+exports.set_render_time_threshold = function(subs_debug_view, threshold) {
+    subs_debug_view.debug_render_time_threshold = threshold;
     subs_debug_view.need_perm_uniforms_update = true;
 }
 
@@ -4128,7 +4150,9 @@ exports.update_force_scene = function(scene, obj) {
         var subs_arr = subs_array(scene, TIME_SUBSCENE_TYPES);
         for (var j = 0; j < subs_arr.length; j++)
             subs_arr[j].wind.set(sc_wind);
+        return true;
     }
+    return false;
 }
 
 exports.pick_color = function(scene, canvas_x, canvas_y) {

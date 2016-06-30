@@ -67,8 +67,8 @@ function init_cb(canvas_elem, success) {
     canvas_elem.addEventListener("mousemove", main_canvas_move);
     canvas_elem.addEventListener("touchmove", main_canvas_move);
 
-    window.onresize = m_app.resize_to_container;
-    m_app.resize_to_container();
+    window.onresize = m_cont.resize_to_container;
+    m_cont.resize_to_container();
     load();
 }
 

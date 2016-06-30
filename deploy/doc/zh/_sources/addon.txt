@@ -144,8 +144,18 @@ HTML文件不仅包含场景本身，而且还材质，声音Blend4Web引擎和�
 player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览器的任何移动
 设备上执行。
 
-不能使用HTML文件做进一步的开发，但你也并不需要任何额外的操作来运行它们
-。这种格式对开发中等规模的相对简单的应用非常有用（？）。
+You can't use HTML files for further development, but you also don't
+need any additional actions to run them. This format is useful for
+developing relatively simple applications of moderate size.
+
+It should be noted, however, that HTML applications do not support
+following features:
+
+   * Physics
+
+   * DDS textures
+
+   * min50 textures
 
 
 导出选项
@@ -607,6 +617,10 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 | The "NAME" camera has unsupported     | 不支持全景相机。立体模式来代替。            |
 | PANORAMIC type. Changed to            |                                             |
 | PERSPECTIVE type."                    |                                             |
++---------------------------------------+---------------------------------------------+
+| Unsupported texture type or texture   | There are no textures on the material or    |
+| is missing for Lens Flare material    | unsupported texture type is used for        |
+| "NAME"                                | material "NAME".                            |
 +---------------------------------------+---------------------------------------------+
 
 

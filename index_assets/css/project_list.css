@@ -59,6 +59,12 @@ td:last-child {
     border-right: 1px solid rgba(0, 142, 204, 0.2);
 }
 
+td:last-child > a {
+    font-size: 14px;
+    display: block;
+    line-height: 1.5;
+}
+
 div.action_cont {
     text-align: right;
 }

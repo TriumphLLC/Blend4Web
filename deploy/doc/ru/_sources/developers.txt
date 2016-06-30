@@ -742,11 +742,11 @@ method import it first with the "b4w.require()" function.
 Преобразование происходит по схеме:
 
 для аудио (convert_media):
-   * ogg -> mp4
+   * ogg, oga -> mp4
 
    * mp3 -> ogg
 
-   * mp4 -> ogg
+   * mp4, m4a -> ogg
 
 Рекомендуется использовать в качестве базового формата "ogg", в этом
 случае для обеспечения кросс-браузерной совместимости потребуется
@@ -756,15 +756,15 @@ method import it first with the "b4w.require()" function.
 для видео (convert_media):
    * webm -> m4v
 
-   * m4v -> webm
+   * mp4, m4v -> webm
 
-   * ogv -> webm
+   * ogg, ogv -> webm
 
    * webm -> seq
 
-   * m4v -> seq
+   * mp4, m4v -> seq
 
-   * ogv -> seq
+   * ogg, ogv -> seq
 
 Рекомендуется использовать в качестве базового формата "WebM", в этом
 случае для обеспечения кросс-браузерной совместимости потребуется
@@ -776,6 +776,10 @@ iPhone). Пример файла на входе: "file_name.webm", пример
    * png -> dds
 
    * jpg -> dds
+
+   * bmp -> dds
+
+   * gif -> dds
 
 Пример файла на входе: "file_name.jpg", пример файла на выходе:
 "file_name.jpg.dds".

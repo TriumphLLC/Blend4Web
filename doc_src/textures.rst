@@ -64,6 +64,9 @@ Generic Settings
 
 *Mapping > Coordinates*
     Texture coordinates type. Supported types are ``UV`` (use UV map), ``Normal`` (use direction at the camera; available only for diffuse maps; used for the creation of **material capture**, **matcap**) and ``Generated``. The default value is ``Generated``.
+ 
+    .. note::
+        Blend4Web engine currently supports no more than two UV maps per material. If the material has more than two UV maps, additional maps will be ignored during the export.
 
 *Mapping > Size*
     Scaling the UV map along respective axes. The default values are 1.0.
@@ -467,7 +470,7 @@ On the ``Textures > Export Options`` panel, you can set up properties for these 
 3D scene
 --------
 
-A 3D scene's real-time rendered image can be used as a texture by an object from another scene ("main" scene).
+A 3D scene's real-time rendered image can be used as a texture by an object from another scene ("main" scene). This technique is known as `render-to-texture` (RTT) and can be activated by following these steps:
 
 #. Create an additional source scene.
 #. Rename it for convenience.

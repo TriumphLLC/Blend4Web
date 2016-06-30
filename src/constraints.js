@@ -233,7 +233,7 @@ function assign_parent_descendant(obj_parent, obj) {
     if (obj_parent.cons_descends.indexOf(obj) == -1)
         obj_parent.cons_descends.push(obj);
     else
-        throw "Descendant object override is forbidden";
+        m_util.panic("Descendant object override is forbidden");
 }
 
 exports.remove_parent_descendant = remove_parent_descendant;
@@ -242,7 +242,7 @@ function remove_parent_descendant(obj_parent, obj) {
     if (ind != -1)
         obj_parent.cons_descends.splice(ind, 1);
     else
-        throw "No descendant object";
+        m_util.panic("No descendant object");
 }
 
 /**
@@ -695,7 +695,7 @@ function update_cons(obj, cons, elapsed) {
     }
 
     if (obj.render.type == "CAMERA") {
-        var corr_axis = m_util.AXIS_Y;
+        var corr_axis = obj.render.vertical_axis;
         if (cons.type == CONS_TYPE_SEMI_STIFF_CAM_OBJ) {
             var p_quat = m_tsr.get_quat_view(cons.obj_parent.render.world_tsr);
             corr_axis = m_vec3.transformQuat(corr_axis, p_quat, _parent_y_axis);

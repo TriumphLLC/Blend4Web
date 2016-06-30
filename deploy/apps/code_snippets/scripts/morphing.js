@@ -7,6 +7,7 @@ var m_data      = require("data");
 var m_scenes    = require("scenes");
 var m_geom      = require("geometry");
 var m_cfg       = require("config");
+var m_obj       = require("objects");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/morphing/";
 
@@ -70,6 +71,7 @@ function create_slider(obj, key_name, slider_name) {
 
     function slider_changed(e) {
         m_geom.set_shape_key_value(obj, key_name, slider.value);
+        m_obj.update_boundings(obj);
         value_label.textContent = slider.value;
     }
 

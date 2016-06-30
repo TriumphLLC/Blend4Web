@@ -22,7 +22,8 @@ Table of Contents
     meshes.rst
     normal_editor.rst
     camera.rst
-    materials.rst   
+    materials.rst
+    material_library.rst   
     node_materials.rst
     logic_editor.rst
     lighting.rst

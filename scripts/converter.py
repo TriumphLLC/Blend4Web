@@ -2,7 +2,7 @@
 
 import copy
 import math
-import os,sys,subprocess, multiprocessing, re, getopt, platform
+import os,sys,subprocess, multiprocessing, re, getopt, platform, errno
 import shutil
 import struct
 import hashlib
@@ -17,7 +17,7 @@ PATH_TO_UTILS_WIN = os.path.join(BASE_DIR, "..", "tools", "converter_utils", "wi
 
 NO_CONV_NAME = ".b4w_no_conv"
 
-DEPENDENCIES = ["avconv", "identify", "nvcompress", "convert", "ffmpeg"]
+DEPENDENCIES = ["avconv", "identify", "nvcompress", "convert", "ffmpeg", "ffprobe"]
 
 WHITE  = "\033[97m"
 YELLOW = "\033[93m"
@@ -71,6 +71,8 @@ def check_dependencies(dependencies):
             needed_progs["Libav or FFmpeg"] = True
         elif dep == "identify" or dep == "convert":
             needed_progs["ImageMagick"] = True
+        elif dep == "identify" or dep == "convert":
+            needed_progs["FFprobe"] = True
         elif dep == "nvcompress":
             needed_progs["NVIDIA Texture Tools"] = True
         elif dep == "qt-faststart":
@@ -99,7 +101,9 @@ def resize_textures_handler(args):
     head_ext = os.path.splitext(filename)
     head = head_ext[0]
     ext = head_ext[1]
-    if head.find(".min50") == -1 and (ext == ".jpg" or ext == ".jpeg" or ext == ".png"):
+    ext_low = ext.lower()
+    if head.find(".min50") == -1 and (ext_low == ".jpg" or ext_low == ".jpeg" or ext_low == ".png" or \
+            ext_low == ".gif" or ext_low == ".bmp"):
         path_from = os.path.join(root, filename)
         path_to = os.path.join(root, head + ".min50" + ext)
 
@@ -142,10 +146,12 @@ def convert_dds_handler(args):
     head_ext = os.path.splitext(filename)
     head = head_ext[0]
     ext = head_ext[1]
+    ext_low = ext.lower()
 
     verbose = args["verbose"]
 
-    if ext == ".jpg" or ext == ".jpeg" or ext == ".png":
+    if ext_low == ".jpg" or ext_low == ".jpeg" or ext_low == ".png" or \
+            ext_low == ".gif" or ext_low == ".bmp":
         path_from = os.path.join(root, filename)
         path_to = path_from + ".dds"
         proc = subprocess.Popen([identify, "-format", "%w %h", "-quiet", \
@@ -170,14 +176,18 @@ def convert_dds_handler(args):
         if verbose:
             print("flipping", path_from)
 
-        path_flipped = os.path.join(root, head + ".flipped" + ext)
+        #can't convert from gif and bmp to dds directly
+        if ext_low == ".gif" or ext_low == ".bmp":
+            path_flipped = os.path.join(root, head + ".flipped" + ".png")
+        else:
+            path_flipped = os.path.join(root, head + ".flipped" + ext)
 
         if verbose:
             sp_stdout = None
         else:
             sp_stdout = subprocess.DEVNULL
 
-        if ext == ".png":
+        if ext_low == ".png":
             # force PNG32 format to protect greyscale images from darkening
             subprocess.call([convert, path_from, "-flip",
                 "PNG32:"+path_flipped])
@@ -201,9 +211,16 @@ def convert_dds_handler(args):
 
         if verbose:
             print("removing flipped", path_from, "\n")
-        os.remove(path_flipped)
+        remove_if_exist(path_flipped)
 
         print_flush()
+
+def remove_if_exist(filename):
+    try:
+        os.remove(filename)
+    except OSError as e:
+        if e.errno != errno.ENOENT: # errno.ENOENT = no such file or directory
+            raise
 
 def check_non_multiple_of_4(width, height):
     return bool(width % 4 or height % 4)
@@ -226,7 +243,9 @@ def check_alpha_usage(path, ext, convert, identify):
     proc = subprocess.check_output([identify, "-format", '%A', path])
     use_alpha = proc.decode("utf-8")
 
-    if 'True' in use_alpha:
+    if 'True' in use_alpha or 'Blend' in use_alpha:
+        # HACK: Temporary alpha scale workaround
+        return True
         proc = subprocess.check_output([convert, path, "-scale", "1x1", "txt:-"])
         image_info_str = proc.decode("utf-8")
 
@@ -269,102 +288,134 @@ def convert_media_handler(args):
     filename = args["filename"]
 
     media_converter = args["media_converter"]
+    media_data = args["media_data"]
     faststart = args["faststart"]
 
     head_ext = os.path.splitext(filename)
     head = head_ext[0]
     ext = head_ext[1]
+    ext_low = ext.lower()
 
     verbose = args["verbose"]
 
     if (head.find(".altconv") == -1 and
-            (ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
-        path_from = os.path.join(root, filename)
-
-        new_ext = ".seq"
-
-        path_to = os.path.join(root, head + ".altconv" + new_ext)
-
-        if not is_older(path_from, path_to):
-            print("converting media", path_from, "(seq)")
-
-            if sequential_video_file_conv(path_from, path_to, media_converter,
-                    verbose):
-                print("conversion error", file=sys.stderr)
-                sys.exit(1)
-
-    if (head.find(".altconv") == -1 and
-            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4" or 
-             ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
+            (ext_low == ".ogg" or ext_low == ".mp3" or ext_low == ".mp4" or
+            ext_low == ".ogv" or ext_low == ".webm" or ext_low == ".m4v" or
+            ext_low == ".oga" or ext_low == ".m4a")):
 
         path_from = os.path.join(root, filename)
 
-        if ext == ".ogg":
-            new_ext = ".mp4"
-        elif ext == ".mp3":
-            new_ext = ".ogg"
-        elif ext == ".mp4":
-            new_ext = ".ogg"
-
-        elif ext == ".ogv":
-            new_ext = ".m4v"
-        elif ext == ".webm":
-            new_ext = ".m4v"
-        elif ext == ".m4v":
-            new_ext = ".webm"
-
-        path_to = os.path.join(root, head + ".altconv" + new_ext)
-
-        # optimization: only convert modified src files (like make)
-        if is_older(path_from, path_to):
-            return
+        has_audio, has_video = has_streams(media_data, path_from)
 
         print("converting media", path_from)
 
-        if media_conv(path_from, path_to, media_converter, verbose):
-            print("conversion error", file=sys.stderr)
-            sys.exit(1)
+        if has_audio:
+            if ext_low == ".ogg" or ext_low == ".ogv" or ext_low == ".oga":
+                new_ext = ".m4a"
+            elif ext_low == ".mp3":
+                new_ext = ".oga"
+            elif ext_low == ".mp4" or ext_low == ".m4v" or ext_low == ".m4a":
+                new_ext = ".oga"
+            elif ext == ".webm":
+                new_ext = ".m4a"
 
-        if check_dependencies(["qt-faststart"]):
-            result = qt_faststart_conv(path_to, faststart, verbose)
-            if result is not None:
-                if result:
-                    print("conversion error (qt_faststart)", file=sys.stderr)
+            path_to = os.path.join(root, head + ".altconv" + new_ext)
+
+            # optimization: only convert modified src files (like make)
+            if is_older(path_from, path_to):
+                return
+
+            if media_conv(path_from, path_to, media_converter, verbose,
+                    has_video, False):
+                print("conversion error", file=sys.stderr)
+                sys.exit(1)
+
+            qt_faststart_conv(path_to, faststart, verbose)
+
+        if has_video:
+            if ext_low == ".ogg" or ext_low == ".ogv" or ext_low == ".oga":
+                new_ext = ".m4v"
+            elif ext_low == ".webm":
+                new_ext = ".m4v"
+            elif ext_low == ".mp3":
+                new_ext = ".webm"
+            elif ext_low == ".mp4" or ext_low == ".m4v" or ext_low == ".m4a":
+                new_ext = ".webm"
+
+            path_to = os.path.join(root, head + ".altconv" + new_ext)
+
+            # optimization: only convert modified src files (like make)
+            if not is_older(path_from, path_to):
+                if media_conv(path_from, path_to, media_converter, verbose, False,
+                        True):
+                    print("conversion error", file=sys.stderr)
                     sys.exit(1)
-                else:
-                    os.remove(path_to)
-                    os.rename(path_to + ".tmp", path_to)
+
+                qt_faststart_conv(path_to, faststart, verbose)
+
+            new_ext = ".seq"
+            path_to = os.path.join(root, head + ".altconv" + new_ext)
+
+            if not is_older(path_from, path_to):
+                print("converting media", path_from, "(seq)")
+
+                if sequential_video_file_conv(path_from, path_to, media_converter,
+                        verbose):
+                    print("conversion error", file=sys.stderr)
+                    sys.exit(1)
 
         print_flush()
 
-def media_conv(path_from, path_to, media_converter, verbose):
+def qt_faststart_conv(path_to, faststart, verbose):
+    if check_dependencies(["qt-faststart"]):
+        result = qt_faststart(path_to, faststart, verbose)
+        if result is not None:
+            if result:
+                print("conversion error (qt_faststart)", file=sys.stderr)
+                # sys.exit(1)
+            else:
+                os.remove(path_to)
+                os.rename(path_to + ".tmp", path_to)
+
+def media_conv(path_from, path_to, media_converter, verbose, cut_video, is_video):
 
     ext_to = os.path.splitext(path_to)[1]
     args = [media_converter, "-y", "-i", path_from]
 
-    if ext_to == ".ogg":
-        args += ["-acodec", "libvorbis"]
-    elif ext_to == ".mp3":
-        args += ["-acodec", "mp3"]
-    elif ext_to == ".mp4" or ext_to == ".m4v":
+    if cut_video:
+        args += ["-vn"]
+    else:
+        if ext_to == ".ogg":
+            args += ["-acodec", "libvorbis"]
+        elif ext_to == ".mp3":
+            args += ["-acodec", "mp3"]
+        # remove audio stream
+        if is_video:
+            args += ["-an"]
+    if ext_to == ".mp4" or ext_to == ".m4v" or ext_to == ".m4a":
         # NOTE: use -strict experimental to allow AAC in avconv
         # NOTE: resample all to 48000 (96000 is incompatible with AAC)
         args += ["-acodec", "aac", "-strict", "experimental", "-ar", "48000"]
 
-    if verbose:
-        args += ["-loglevel", "info"]
-        print(" ".join(args))
-    else:
-        args += ["-loglevel", "warning"]
+        if verbose:
+            args += ["-loglevel", "info"]
+            print(" ".join(args))
+        else:
+            args += ["-loglevel", "warning"]
 
     args += [path_to]
 
     return subprocess.call(args)
 
-def qt_faststart_conv(path, faststart, verbose):
+def has_streams(media_data, path):
+    args = [media_data, "-show_streams", path]
+    ret = str(subprocess.check_output(args))
+    return ret.find("audio") > 0, ret.find("video") > 0
+
+def qt_faststart(path, faststart, verbose):
     ext_to = os.path.splitext(path)[1]
 
-    if ext_to == ".mp4" or ext_to == ".m4v":
+    if ext_to == ".mp4" or ext_to == ".m4v" or ext_to == ".m4a":
         if verbose:
             sp_stdout = None
         else:
@@ -455,9 +506,11 @@ def cleanup_media_handler(args):
     filename = args["filename"]
 
     ext = os.path.splitext(filename)[1]
+    ext_low = ext.lower()
     if (".seq" in filename or ".altconv" in filename and
-            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4" or
-            ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
+            (ext_low == ".ogg" or ext_low == ".mp3" or ext_low == ".mp4" or
+            ext_low == ".ogv" or ext_low == ".webm" or ext_low == ".m4v" or
+            ext_low == ".oga" or ext_low == ".m4a")):
         print("removing", os.path.join(root, filename))
         os.remove(os.path.join(root, filename))
 
@@ -468,7 +521,9 @@ def cleanup_textures_handler(args):
     filename = args["filename"]
 
     ext = os.path.splitext(filename)[1]
-    if (ext == ".jpg" or ext == ".jpeg" or ext == ".png") and ".min50" in filename:
+    ext_low = ext.lower()
+    if (ext_low == ".jpg" or ext_low == ".jpeg" or ext_low == ".png" or ext_low == ".gif" or ext_low == ".bmp") and \
+            ".min50" in filename:
         print("removing", os.path.join(root, filename))
         os.remove(os.path.join(root, filename))
 
@@ -477,9 +532,10 @@ def cleanup_textures_handler(args):
 def cleanup_dds_handler(args):
     root = args["root"]
     filename = args["filename"]
+    filename_low = filename.lower()
 
-    if (".jpg.dds" in filename or ".jpeg.dds" in filename or
-            ".png.dds" in filename):
+    if (".jpg.dds" in filename_low or ".jpeg.dds" in filename_low or
+            ".png.dds" in filename_low or ".gif.dds" in filename_low or ".bmp.dds" in filename_low):
         print("removing", os.path.join(root, filename))
         os.remove(os.path.join(root, filename))
 
@@ -531,7 +587,7 @@ if __name__ == "__main__":
     task = args[0]
 
     if task == "convert_media":
-        if not check_dependencies(["ffmpeg", "avconv"]):
+        if not check_dependencies(["ffmpeg", "avconv", "ffprobe"]):
             sys.exit(1)
         handler = convert_media_handler
 
@@ -568,6 +624,7 @@ if __name__ == "__main__":
         handler_args["identify"] = "identify"
 
         handler_args["dds_convert"] = "nvcompress"
+        handler_args["media_data"] = "ffprobe"
 
         missing_progs = get_missing_progs(DEPENDENCIES)
         if not "ffmpeg" in missing_progs:
@@ -586,6 +643,8 @@ if __name__ == "__main__":
 
         handler_args["media_converter"] = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN,
                 "ffmpeg", "ffmpeg.exe"))
+        handler_args["media_data"] = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN,
+                "ffmpeg", "ffprobe.exe"))
         handler_args["faststart"] = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN,
                 "qt-faststart", "qt-faststart.exe"))
 

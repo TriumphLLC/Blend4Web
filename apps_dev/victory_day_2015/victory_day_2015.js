@@ -8,6 +8,7 @@ var m_app      = require("app");
 var m_cam      = require("camera");
 var m_cfg      = require("config");
 var m_cons     = require("constraints");
+var m_cont     = require("container");
 var m_ctl      = require("controls");
 var m_data     = require("data");
 var m_lights   = require("lights");
@@ -1025,7 +1026,7 @@ function get_tsr_offset(origin_tsr, delta_x, delta_y, delta_z, angle, dest) {
 }
 
 function resize() {
-    m_app.resize_to_container();
+    m_cont.resize_to_container();
     set_camera_action();
 }
 

@@ -100,7 +100,9 @@ exports.enable_hmd = function(control_type) {
     var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
     if (device) {
         if (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) ==
-                m_input.HMD_WEBVR_DESKTOP)
+                m_input.HMD_WEBVR_DESKTOP
+                || m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) ==
+                        m_input.HMD_WEBVR1)
             sensor = m_ctl.create_hmd_quat_sensor();
         else
             // m_input.HMD_WEBVR_TYPE in {m_input.HMD_NON_WEBVR, m_input.HMD_WEBVR_MOBILE}

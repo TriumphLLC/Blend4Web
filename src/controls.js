@@ -409,6 +409,14 @@ function get_accumulator(element) {
         }
     }
 
+    accumulator.keyboard_down_mod_keys_cb = function(key) {
+        for(var i = 0; i < accumulator.downed_keys.length; i++)
+            if (accumulator.downed_keys[i] != 0) {
+                accumulator.downed_keys[i] = 3;
+                accumulator.is_updated_keyboard = false;
+            }
+    }
+
     accumulator.keyboard_up_keys_cb = function(key) {
         if (accumulator.downed_keys[key] == 1)
             accumulator.downed_keys[key] = 0;
@@ -542,6 +550,8 @@ function register_accum_value(accum, value_name) {
         if (device) {
             m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN,
                     accum.keyboard_down_keys_cb);
+            m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN_MODIFIERED,
+                    accum.keyboard_down_mod_keys_cb);
             m_input.attach_param_cb(device, m_input.KEYBOARD_UP,
                     accum.keyboard_up_keys_cb);
         }
@@ -642,6 +652,8 @@ function unregister_accum_value(accum, value_name) {
         if (device) {
             m_input.detach_param_cb(device, m_input.KEYBOARD_DOWN,
                     accum.keyboard_down_keys_cb);
+            m_input.detach_param_cb(device, m_input.KEYBOARD_DOWN_MODIFIERED,
+                    accum.keyboard_down_mod_keys_cb);
             m_input.detach_param_cb(device, m_input.KEYBOARD_UP,
                     accum.keyboard_up_keys_cb);
         }

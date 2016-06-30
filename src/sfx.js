@@ -142,24 +142,33 @@ exports.init = function() {
         if (audio.canPlayType("audio/ogg") != "") {
             _supported_audio.push("ogg");
             _supported_audio.push("ogv");
+            _supported_audio.push("oga");
         }
         if (audio.canPlayType("audio/mpeg") != "")
             _supported_audio.push("mp3");
         if (audio.canPlayType("audio/mp4") != "") {
             _supported_audio.push("mp4");
             _supported_audio.push("m4v");
+            _supported_audio.push("m4a");
         }
         if (audio.canPlayType("audio/webm") != "")
             _supported_audio.push("webm");
     }
 
     if (video.canPlayType) {
-        if (video.canPlayType("video/ogg") != "")
+        if (video.canPlayType("video/ogg") != "") {
             _supported_video.push("ogv");
-        if (video.canPlayType("video/mp4") != "")
+            _supported_video.push("ogg");
+            _supported_video.push("oga");
+        }
+        if (video.canPlayType("video/mp4") != "") {
             _supported_video.push("m4v");
+            _supported_video.push("mp4");
+        }
         if (video.canPlayType("video/webm") != "")
             _supported_video.push("webm");
+        if (video.canPlayType("video/mpeg") != "")
+            _supported_video.push("mp3");
     }
 
     // NOTE: register context once and reuse for all loaded scenes to prevent
@@ -252,57 +261,36 @@ exports.set_active_scene = function(scene) {
     _active_scene = scene;
 }
 
-exports.detect_audio_container = function(hint) {
-    if (!hint)
-        var hint = "ogg";
+exports.detect_audio_container = function(extension) {
+    if (!extension)
+        var extension = "ogg";
 
     // only one fallback required in most cases
 
     // requested hint is supported
-    if (_supported_audio.indexOf(hint) > -1)
-        return hint;
-    // ogg -> mp4
-    else if (hint == "ogg" && _supported_audio.indexOf("mp4") > -1)
-        return "mp4";
-    // mp3 -> ogg
-    else if (hint == "mp3" && _supported_audio.indexOf("ogg") > -1)
-        return "ogg";
-    // mp4 -> ogg
-    else if (hint == "mp4" && _supported_audio.indexOf("ogg") > -1)
-        return "ogg";
-    // ogv -> m4v
-    else if (hint == "ogv" && _supported_audio.indexOf("m4v") > -1)
-        return "m4v";
-    // webm -> m4v
-    else if (hint == "webm" && _supported_audio.indexOf("m4v") > -1)
-        return "m4v";
-    // m4v -> webm
-    else if (hint == "m4v" && _supported_audio.indexOf("webm") > -1)
-        return "webm";
-    // unsupported and no fallback
+    if (_supported_audio.indexOf(extension) > -1)
+        return extension;
+    else if (_supported_audio.indexOf("m4a") > -1)
+        return "m4a";
+    else if (_supported_audio.indexOf("oga") > -1)
+        return "oga";
     else
         return "";
 }
 
-exports.detect_video_container = function(hint) {
-    if (!hint)
-        var hint = "webm";
+exports.detect_video_container = function(extension) {
+    if (!extension)
+        var extension = "webm";
 
     // only one fallback required in most cases
 
     // requested hint is supported
-    if (_supported_video.indexOf(hint) > -1)
-        return hint;
-    // ogv -> m4v
-    else if (hint == "ogv" && _supported_video.indexOf("m4v") > -1)
+    if (_supported_video.indexOf(extension) > -1)
+        return extension;
+    else if (_supported_video.indexOf("m4v") > -1)
         return "m4v";
-    // webm -> m4v
-    else if (hint == "webm" && _supported_video.indexOf("m4v") > -1)
-        return "m4v";
-    // m4v -> webm
-    else if (hint == "m4v" && _supported_video.indexOf("webm") > -1)
+    else if (_supported_video.indexOf("webm") > -1)
         return "webm";
-    // unsupported and no fallback
     else
         return "";
 }
@@ -328,7 +316,7 @@ exports.update_object = function(bpy_obj, obj) {
                 "BACKGROUND_MUSIC" : "BACKGROUND_SOUND") : "NONE";
         break;
     default:
-        throw "Wrong speaker behavior";
+        m_util.panic("Wrong speaker behavior");
         break;
     }
 
@@ -378,7 +366,7 @@ function check_media_element_node() {
  */
 exports.source_type = function(obj) {
     if (obj.type != "SPEAKER")
-        throw "Wrong object type";
+        m_util.panic("Wrong object type");
 
     switch(obj.sfx.behavior) {
     case "POSITIONAL":
@@ -390,7 +378,7 @@ exports.source_type = function(obj) {
     case "NONE":
         return exports.AST_NONE;
     default:
-        throw "Wrong speaker behavior";
+        m_util.panic("Wrong speaker behavior");
     }
 }
 
@@ -413,7 +401,7 @@ exports.update_spkobj = function(obj, sound_data) {
     case "NONE":
         break;
     default:
-        throw "Wrong speaker behavior";
+        m_util.panic("Wrong speaker behavior");
     }
 }
 
@@ -927,7 +915,7 @@ exports.stop = stop;
  */
 function stop(sobj) {
     if (sobj.type != "SPEAKER")
-        throw "Wrong object type";
+        m_util.panic("Wrong object type");
 
     var sfx = sobj.sfx;
 

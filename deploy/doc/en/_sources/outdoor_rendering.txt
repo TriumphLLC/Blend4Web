@@ -18,7 +18,8 @@ Water
 Activation
 ----------
 
-For the supposed water material activate the ``Water`` panel option under the ``Material`` tab. 
+For the supposed water material activate the ``Water`` panel option under the ``Material`` tab.
+
 
 .. image:: src_images/outdoor_rendering/water_material_setup.png
    :align: center
@@ -63,7 +64,7 @@ The effect affects the water near the shoreline - it becomes more transparent.
     Enable smoothing.
 
 *Water > Absorb Factor*
-    Light absorption coefficient for the water. The higher it is the more transparent is the water.
+    This is the light absorption coefficient for water. The higher it is the more transparent the water is. This value can vary from 0 to 100. The default value is 6.
 
 
 Color Gradient
@@ -71,16 +72,16 @@ Color Gradient
 For color gradient the water material must have a texture with the ``Export Options > Shore Distance Map`` option enabled. This texture can be generated using the script for :ref:`baking shoreline parameters <shore_distance_bake>`.
 
 *Shallow Water > Color*
-    Shallow water color.
+    This sets the color of shallow water. By default, blue (0.008, 0.222, 0.8) is used.
 
 *Shallow Water > Factor*
-    Shallow water color mixing factor.
+    This sets the mixing factor for the color of shallow water. This value can vary from 0 to 2, and is set to 1 by default.
 
 *Shore Water > Color*
-    Water color just at the shore line.
+    This determines the color of the water just at the shore line. By default, dark blue (0.003, 0.19, 0.57) is used.
 
 *Shore Water > Factor*
-    Factor for mixing water color just near the shoreline.
+    This sets the mixing factor for the color of the water just near the shoreline. This value can vary from 0 to 2, and is set to 0.5 by default.
 
 Refraction
 ----------
@@ -107,9 +108,6 @@ For creating foam add a diffuse texture into the water material slot. Every RGB 
 
 Setting up the Textures
 .......................
-
-*Influence > Color*
-    Texture color influence factor. The default value is 1.0.
 
 *Water Foam > UV Frequency*
     Oscillation frequency of the animated UV coordinates. The default value is (1.0, 1.0).
@@ -176,7 +174,10 @@ Activation
 
 To enable procedural waves the ``Waves`` option must be turned on.
 
-.. image:: src_images/outdoor_rendering/water_waves.png
+.. note::
+    Procedural waves will work only if a ``Wind`` force field is present in the scene.
+
+.. image:: src_images/outdoor_rendering/outdoor_rendering_volumetric_waves.png
    :align: center
    :width: 100%
 
@@ -184,58 +185,58 @@ Setting up
 ..........
 
 *Wave Height*
-    Wave height. The default value is 0.0.
+    Wave height can vary from 0 to 5. The default value is 1.0.
 
 *Wave Length*
-    Wave length. The default value is 10.0.
+    Wave length can vary from 0.01 to 200. The default value is 10.0.
 
 *Noise Dist Scale 0*
-    Size of the first component of the open water waves.
+    This is the size of the first component of the open water waves. This parameter can vary from 0 to 1. Default value is 0.05.
 
 *Noise Dist Scale 1*
-    Size of the second component of the open water waves.
+    This is the size of the second component of the open water waves. This parameter can vary from 0 to 1. Default value is 0.03.
 
 *Noise Dist Freq 0*
-    Frequency of the first component of the open water waves.
+    This sets the frequency of the first component of the open water waves. This parameter can vary from 0 to 10. Default value is 1.3.
 
 *Noise Dist Freq 1*
-    Frequency of the second component of the open water waves.
+    This sets the frequency of the second component of the open water waves. This parameter can vary from 0 to 10 and is set to 1 by default.
 
 *Min Dir Shore Fac*
-    Minimum height decrease coefficient of the shore waves.
+    This is the minimum height decrease coefficient of the shore waves. This parameter can vary from 0 to 1 and is set to 0.4 by default.
 
 *Dir Frequency*
-    Frequency of the rolling of the shore waves.
+    This sets the frequency of the rolling of the shore waves. This parameter can vary from 0 to 10 and is set to 0.5 by default.
 
 *Noise Dir Scale*
-    Noise size for the shore waves.
+    This specifies the size of the noise for the shore waves. This parameter can vary from 0 to 1 and is set to 0.05 by default.
 
 *Noise Dir Freq*
-    Noise frequency for the shore waves.
+    This describes the fequency of the noise for the shore waves. This parameter can vary from 0 to 1. Default value is 0.07.
 
 *Min Dir Noise Fac*
-    Noise minimum for the shore waves.
+    This is the noise minimum for the shore waves. This parameter can vary from 0 to 1. Default value is 0.5.
     
 *Min Dist Fac*
-    Minimum coefficient of mixing for open water waves.
+    This sets the minimum coefficient of mixing open water waves. This parameter can vary from 0 to 1. Default value is 0.2.
 
 *Horizontal Factor*
-    Coefficient that shows how much the shore waves are shifted in the shoreline direction.
+    This coefficient shows how much the shore waves are shifted in the direction of the shoreline. This parameter can vary from 0 to 10. Default value is 5.
 
 Settings for Surface Generation
 -------------------------------
 
 *Generate Mesh*
-    Enable generated surface.
+    This enables a generated surface.
 
 *Cascades Number*
-    Number of cascades in the generated surface.
+    This describes the number of cascades on the generated surface. This parameter's value can vary from 1 to 20. Default value is 5.
 
 *Subdivisions*
-    Generated mesh subdivisions.
+    This is the number of subdivisions in generated mesh. Default value is 64. The lowes possible value for this parameter is 2, while the highest possible value is 512.
 
 *Detailed Distance*
-    Maximum distance from camera to the last cascades edge.
+    This specifies the maximum distance from the camera to the edge of the last cascade. The value of this parameter can vary from 1 to 5000. Default value is 1000.
 
 
 .. index:: shoreline data, shoreline

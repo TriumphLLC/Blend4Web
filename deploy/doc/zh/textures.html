@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>纹理 &mdash; Blend4Web 16.05 用户手册</title>
+  <title>纹理 &mdash; Blend4Web 16.06 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.05 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.06 用户手册" href="index.html"/>
         <link rel="next" title="Particle System. Fluids" href="particles.html"/>
         <link rel="prev" title="立体渲染" href="stereo_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.05
+              v16.06
             </div>
           
         
@@ -97,8 +97,9 @@
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
@@ -355,7 +356,11 @@
 </dl>
 <dl class="docutils" id="index-3">
 <dt><em>贴图 &gt; 坐标</em></dt>
-<dd><p class="first last">纹理坐标类型。支持的类型是 <code class="docutils literal"><span class="pre">UV``（使用</span> <span class="pre">UV</span> <span class="pre">映射），``法线</span></code> (直对相机，只供的漫反射贴图，用于创造 <strong>材质捕捉</strong>, <strong>matcap</strong>) 和  <code class="docutils literal"><span class="pre">生成</span></code> 。默认值是 <code class="docutils literal"><span class="pre">生成</span></code> 。</p>
+<dd><p class="first">纹理坐标类型。支持的类型是 <code class="docutils literal"><span class="pre">UV``（使用</span> <span class="pre">UV</span> <span class="pre">映射），``法线</span></code> (直对相机，只供的漫反射贴图，用于创造 <strong>材质捕捉</strong>, <strong>matcap</strong>) 和  <code class="docutils literal"><span class="pre">生成</span></code> 。默认值是 <code class="docutils literal"><span class="pre">生成</span></code> 。</p>
+<div class="last admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">Blend4Web engine currently supports no more than two UV maps per material. If the material has more than two UV maps, additional maps will be ignored during the export.</p>
+</div>
 </dd>
 <dt><em>贴图 &gt; 大小</em></dt>
 <dd><p class="first last">沿着各自的轴缩放 UV 贴图。默认值是 1.0。</p>
@@ -688,7 +693,7 @@
 <img alt="_images/canvas_tex.png" class="align-center" src="_images/canvas_tex.png" />
 <div class="section" id="d-scene">
 <span id="render-to-texture-scene"></span><h3><a class="toc-backref" href="#id53">3D场景</a><a class="headerlink" href="#d-scene" title="永久链接至标题">¶</a></h3>
-<p>三维场景实时渲染的图像可以用作其他场景（&#8221;主&#8221;场景）的物体纹理。</p>
+<p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene). This technique is known as <cite>render-to-texture</cite> (RTT) and can be activated by following these steps:</p>
 <ol class="arabic simple">
 <li><p class="first">创建一个附加源场景。</p>
 </li>
@@ -728,7 +733,7 @@
 <p>一个 &lt;canvas&gt;HTML 元素可以用作纹理。它可以通过 API 修改。</p>
 <p>设置主场景目标物体为 <code class="docutils literal"><span class="pre">无</span></code> 类型的纹理，在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源类型</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">画布</span></code> 类型。在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源字号</span></code> 字段 （以像素为单位） 设置纹理的大小。</p>
 <p>使用 <code class="docutils literal"><span class="pre">纹理</span></code> 模块来处理这种纹理。请参阅下面的示例。</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
@@ -769,7 +774,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-05-31.
+      最后更新于 2016-06-30.
 
     </p>
   </div>
@@ -825,7 +830,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.05',
+            VERSION:'v16.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

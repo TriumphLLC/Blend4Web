@@ -31,12 +31,6 @@ from blend4web.translator import _, p_
 # WARN: The following lines is for translator.py
 _("Child Node:"), _("Dupli Child:")
 
-# for converting from slots
-slot_node_joint_props = ['param_marker_start', 'param_marker_end',
-             'param_register1', 'param_register2', 'param_register_dest',
-             'param_register_flag1', 'param_register_flag2',
-             'param_operation', 'param_condition', 'param_name']
-
 # result
 node_props = ['param_marker_start', 'param_marker_end',
               'param_var_define', 'param_var_flag1', 'param_var_flag2',
@@ -675,16 +669,6 @@ def node_by_bpy_collect_path(ntree, path):
         nd = nd.node_tree.nodes[path[i].name]
     return nd
 
-def get_slot_type(slot):
-    for t in slot_type_enum:
-        if "type" in slot:
-            type = slot["type"]
-        else:
-            # default Play
-            type = 7
-        if t[3] == type:
-            return t[0]
-
 def node_by_ob_mt_nd( ob_item, mt_item, nd_item):
     ob = object_by_bpy_collect_path(bpy.data.objects, ob_item.path_arr)
     nd = None
@@ -909,135 +893,6 @@ class B4W_LogicNodeTree(NodeTree):
             if n.bl_idname == "B4W_logic_node":
                 if n.label2 == label2:
                     return n
-
-    def import_slots(self, scene):
-        ntree = self
-        ntree.nodes.clear()
-        ntree.links.clear()
-
-        node_start_x = -1000
-        node_start_y = 0
-
-        node_x = node_start_x
-        prev_node = None
-
-        cyclic = False
-        if "b4w_nla_cyclic" in scene:
-            cyclic = scene["b4w_nla_cyclic"]
-
-        # Algorithm
-        # 1) make slots copy
-        # 2) add order
-        # 3) remove jumps
-        # 4) remove noops
-        # 5) make links
-
-        def rm_jump(b4w_slots):
-            for i in range(len(b4w_slots)):
-                if get_slot_type(b4w_slots[i]) == "JUMP":
-                    b4w_slots[i-1]["order"] = b4w_slots[i]["param_slot"]
-                    for s in b4w_slots:
-                        if "param_slot" in s:
-                            if s["param_slot"] == b4w_slots[i]["label"]:
-                                s["param_slot"] = b4w_slots[i]["param_slot"]
-                    del b4w_slots[i]
-                    return True
-            return False
-
-        def rm_noop(b4w_slots):
-            for i in range(len(b4w_slots)):
-                if get_slot_type(b4w_slots[i]) == "NOOP":
-                    order = None
-                    if "order" in b4w_slots[i]:
-                        order = b4w_slots[i]["order"]
-                    if order:
-                        for s in b4w_slots:
-                            if "param_slot" in s:
-                                if s["param_slot"] == b4w_slots[i]["label"]:
-                                    s["param_slot"] = order
-                            if s["order"] == b4w_slots[i]["label"]:
-                                s["order"] = order
-                    del b4w_slots[i]
-                    return True
-            return False
-
-
-        # working copy
-        b4w_slots = scene['b4w_nla_script']
-
-        if cyclic:
-            b4w_slots[-1]["order"] =  b4w_slots[0]["label"]
-
-        # store order link
-        for i in range(len(b4w_slots)-1):
-            b4w_slots[i]["order"] = b4w_slots[i+1]["label"]
-
-        # remove jumps
-        search_jump = True
-        while search_jump:
-            search_jump = rm_jump(b4w_slots)
-
-        # remove noops
-        search_noop = True
-        while search_noop:
-            search_noop = rm_noop(b4w_slots)
-
-        # make nodes
-        for i in range(len(b4w_slots)):
-            node = ntree.nodes.new("B4W_logic_node")
-            copy_slot_to_node(b4w_slots[i], node)
-            node.location = (node_x, node_start_y)
-            node_x = node_x + node.width + 50
-
-        # make entry point node
-        entry = ntree.nodes.new("B4W_logic_node")
-        entry.type = "ENTRYPOINT"
-        entry["order"] = b4w_slots[0]["label"]
-        entry.location = (node_start_x - entry.width - 50, node_start_y)
-
-        for i in range(len(ntree.nodes)):
-            if ntree.nodes[i].bl_idname == "B4W_logic_node":
-                # make order links
-                n = self.get_node_by_label2(ntree.nodes, ntree.nodes[i]["order"])
-                if not n:
-                    continue
-                x0,y0 = ntree.nodes[i].location
-                x1,y1 = n.location
-                if "Order_Output_Socket" in ntree.nodes[i].outputs:
-                    if x1 - x0 <= 0:
-                        reroute1 = ntree.nodes.new("NodeReroute")
-                        reroute1.location = (x0+ntree.nodes[i].width+20, y0- 300)
-                        reroute2 = ntree.nodes.new("NodeReroute")
-                        reroute2.location = (x1 - 20, y1- 300)
-                        ntree.links.new(ntree.nodes[i].outputs["Order_Output_Socket"], reroute1.inputs[0])
-                        ntree.links.new(reroute1.outputs[0], reroute2.inputs[0])
-                        ntree.links.new(reroute2.outputs[0], n.inputs["Order_Input_Socket"])
-                    else:
-                        ntree.links.new(ntree.nodes[i].outputs["Order_Output_Socket"], n.inputs["Order_Input_Socket"])
-
-                # make jump links
-                if ntree.nodes[i].type in ["CONDJUMP", "SELECT"]:
-                    n = self.get_node_by_label2(ntree.nodes, ntree.nodes[i].param_slot)
-                    x0,y0 = ntree.nodes[i].location
-                    x1,y1 = n.location
-                    if x1 - x0 <= 0:
-                        reroute1 = ntree.nodes.new("NodeReroute")
-                        reroute1.location = (x0+ntree.nodes[i].width+20, y0- 300)
-                        reroute2 = ntree.nodes.new("NodeReroute")
-                        reroute2.location = (x1 - 20, y1- 300)
-                        ntree.links.new(ntree.nodes[i].outputs["Jump_Output_Socket"], reroute1.inputs[0])
-                        ntree.links.new(reroute1.outputs[0], reroute2.inputs[0])
-                        ntree.links.new(reroute2.outputs[0], n.inputs["Order_Input_Socket"])
-                    else:
-                        ntree.links.new(ntree.nodes[i].outputs["Jump_Output_Socket"], n.inputs["Order_Input_Socket"])
-
-        self.clear_errors()
-        entrypoints = check_entry_point(ntree)
-        if entrypoints:
-            check_connectivity(ntree, entrypoints)
-        check_nodes(ntree)
-
-        return{'FINISHED'}
 
 class B4W_LogicEditorNode:
     @classmethod
@@ -2630,11 +2485,11 @@ node_categories = [
     B4W_LogicNodeCategory("Debug", _("Debug"), items=[
         NodeItem("B4W_logic_node", label=_("Console Print"),settings={"type": repr("CONSOLE_PRINT")})
     ]),
-    B4W_LogicNodeCategory("Deprecared", _("Deprecated"), items=[
-        NodeItem("B4W_logic_node", label=_("Select (Deprecated)"),settings={"type": repr("SELECT")}),
-        NodeItem("B4W_logic_node", label=_("Select & Play Timeline (Deprecated)"),settings={"type": repr("SELECT_PLAY")}),
-        NodeItem("B4W_logic_node", label=_("Select & Play Animation (Deprecated)"),settings={"type": repr("SELECT_PLAY_ANIM")}),
-    ]),
+    # B4W_LogicNodeCategory("Deprecared", _("Deprecated"), items=[
+    #     #NodeItem("B4W_logic_node", label=_("Select (Deprecated)"),settings={"type": repr("SELECT")}),
+    #     #NodeItem("B4W_logic_node", label=_("Select & Play Timeline (Deprecated)"),settings={"type": repr("SELECT_PLAY")}),
+    #     #NodeItem("B4W_logic_node", label=_("Select & Play Animation (Deprecated)"),settings={"type": repr("SELECT_PLAY_ANIM")}),
+    # ]),
     B4W_LogicNodeCategory("Layout", _("Layout"), items=[
         NodeItem("NodeFrame"),
         NodeItem("NodeReroute"),
@@ -2776,42 +2631,6 @@ def clear_links_err(ntree):
 def get_target_input_node(ntree, socket):
     l = get_link_by_FROM_socket(ntree, socket)
     return link_get_forward_target(ntree, l)
-
-def copy_slot_to_node(slot, node):
-    order = 0
-    if "order" in slot:
-        order =  slot["order"]
-    node["order"] = order
-    node.label2 = slot['label']
-    if 'param_object' in slot:
-        names = slot['param_object'].split("*", maxsplit=1)
-        if len(names)>1:
-            node['ob0'] = names[0]
-            node['ob1'] = names[1]
-        else:
-            node['ob0'] = names[0]
-    if 'param_slot' in slot:
-        node.param_slot = slot['param_slot']
-
-    node.type = get_slot_type(slot)
-    for p in slot_node_joint_props:
-        if p in slot:
-            if p in ['param_register1', 'param_register2','param_register_dest']:
-                setattr(node, p, reg_items[slot[p]][0])
-            elif p in ["type"]:
-                for t in slot_type_enum:
-                    if t[3] == slot[p]:
-                        setattr(node, p, t[0])
-            elif p in ["param_operation"]:
-                setattr(node, p, operation_type_enum[slot[p]][0])
-            elif p in ["param_string_operation"]:
-                setattr(node, p, string_operation_type_enum[slot[p]][0])
-            elif p in ["param_condition"]:
-                setattr(node, p, condition_type_enum[slot[p]][0])
-            elif p in ['param_register_flag1', 'param_register_flag2']:
-                node[p] = slot[p]
-            else:
-                setattr(node, p, slot[p])
 
 class OperatorMuteNode(bpy.types.Operator):
     bl_idname = "node.b4w_logic_node_mute_toggle"

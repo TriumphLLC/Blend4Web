@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 16.05</title>
+  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 16.06</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.05" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.06" href="index.html"/>
         <link rel="next" title="Замечания к релизам" href="release_notes.html"/>
         <link rel="prev" title="Работа в команде с использованием Git" href="git_short_manual.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.05
+              v16.06
             </div>
           
         
@@ -97,8 +97,9 @@
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Библиотека материалов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
@@ -347,15 +348,23 @@
 <div><p>Проблема вызвана несовместимостью последних драйверов Nvidia с сэндбоксом Chromium. В качестве решения рекомендуется понизить версию драйверов до 340-х.</p>
 </div></blockquote>
 </li>
-<li><p class="first">Проблемы WebAudio.</p>
+<li><p class="first">Audio issues.</p>
 <blockquote>
 <div><p>В некторых версиях Google Chrome звук не воспроизводится для источников звука с типом &#8220;Background Music&#8221;, если используется экспорт в HTML. В качестве решения в настоящий момент тип источника звука автоматически меняется на &#8220;Background Sound&#8221;.</p>
 <p>Ошибка аудиоконтекста проявляется, если запущено много (болше 6) копий движка Blend4Web (например, на нескольких вкладках браузера или в нескольких iframe&#8217;ах на одной странице). Ошибку можно предотвратить, отключив звук в приложении, если для него не может быть создан аудиоконтекст.</p>
+<p>Pausing the audio may not work on such mobile devices as Nexus 6 and Nexus 9 in Google Chrome 50-52 versions. It should work again in Chrome 53. More info here: <a class="reference external" href="https://bugs.chromium.org/p/chromium/issues/detail?id=616772">https://bugs.chromium.org/p/chromium/issues/detail?id=616772</a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first">QQ Browser на данный момент не поддерживает WebGL.</p>
 </li>
 <li><p class="first">WebGL может работать нестабильно и давать сбои при использовании драйверов Mesa 11.x в Linux/Chrome на видеокартах Intel. Понижение версии драйверов до 10.х может решить проблему.</p>
+</li>
+<li><p class="first">Использование Canvas-текстур в браузере Firefox версий 46-47 для Linux может приводить к ошибкам рендеринга. В Firefox версии 48 проблем наблюдаться не должно. Более подробная информация доступна по ссылке: <a class="reference external" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1276996">https://bugzilla.mozilla.org/show_bug.cgi?id=1276996</a>.</p>
+</li>
+<li><p class="first">При использовании тач-сенсора GearVR в VR-режиме недоступна информация о движениях пальцев.</p>
+<blockquote>
+<div><p>Samsung Internet Browser не регистрирует события, связанные с движением пальцев на тач-сенсоре в режиме VR.</p>
+</div></blockquote>
 </li>
 </ul>
 </div>
@@ -381,7 +390,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-05-31.
+      Обновлено: 2016-06-30.
 
     </p>
   </div>
@@ -437,7 +446,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.05',
+            VERSION:'v16.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

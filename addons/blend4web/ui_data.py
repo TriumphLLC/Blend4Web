@@ -377,6 +377,11 @@ class B4W_DataLampShadows(LampPanel, Panel):
         layout = self.layout
         lmp = context.lamp
         layout.prop(lmp, "use_shadow", text=_("Shadow"))
+        if lmp.type == "SPOT" or lmp.type == "POINT":
+            row = layout.row()
+            row.active = lmp.use_shadow
+            row.prop(lmp, "shadow_buffer_clip_start", text=_("Clip Start"))
+            row.prop(lmp, "shadow_buffer_clip_end", text=_("Clip End"))
 
 class B4W_DATA_PT_spot(LampPanel, Panel):
     bl_label = _("Spot Shape")

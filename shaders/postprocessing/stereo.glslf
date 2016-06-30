@@ -9,7 +9,6 @@ varying vec2 v_texcoord;
 #if !ANAGLYPH
 uniform int u_enable_hmd_stereo;
 
-# if !DISABLE_DISTORTION_CORRECTION
 // u_distortion_params = [distortion_coef_1, distortion_coef_2, base_line_factor, inter_lens_factor]
 uniform vec4 u_distortion_params;
 uniform vec4 u_chromatic_aberration_coefs;
@@ -48,8 +47,7 @@ void hmd_distorsion(vec2 texcoord, vec2 center, float size, sampler2D sampler) {
         }
     }
 }
-# endif // !DISABLE_DISTORTION_CORRECTION
-#endif // !ANAGLYPH && !DISABLE_DISTORTION_CORRECTION
+#endif // !ANAGLYPH
 
 void main(void) {
 #if ANAGLYPH
@@ -84,23 +82,15 @@ void main(void) {
         if (v_texcoord[0] < 0.5) {
             // left eye
             vec2 texcoord = vec2(2.0 * v_texcoord[0], v_texcoord[1]);
-# if DISABLE_DISTORTION_CORRECTION
-            gl_FragColor = texture2D(u_sampler_left, texcoord);
-# else
             vec2 center = vec2(0.5 - (u_distortion_params[3] - 0.5) / 2.0, u_distortion_params[2]);
             float size = 2.0 * u_distortion_params[3];
             hmd_distorsion(texcoord, center, size, u_sampler_left);
-# endif
         } else {
             // right eye
             vec2 texcoord = vec2(2.0 * (v_texcoord[0] - 0.5), v_texcoord[1]);
-# if DISABLE_DISTORTION_CORRECTION
-            gl_FragColor = texture2D(u_sampler_right, texcoord);
-# else
             vec2 center = vec2(0.5 + (u_distortion_params[3] - 0.5) / 2.0, u_distortion_params[2]);
             float size = 2.0 * u_distortion_params[3];
             hmd_distorsion(texcoord, center, size, u_sampler_right);
-# endif
         }
     } else {
         gl_FragColor = texture2D(u_sampler_left, v_texcoord);

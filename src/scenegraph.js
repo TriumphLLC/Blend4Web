@@ -70,10 +70,9 @@ function cam_copy(cam) {
 }
 
 /**
- * Enforce uniqueness, slinks compliance, etc
+ * Enforce uniqueness
  */
-function enforce_graph_consistency(graph, depth_tex) {
-
+function enforce_slink_uniqueness(graph, depth_tex) {
     var slinks = [];
 
     // make inter-subscene slinks unique
@@ -104,6 +103,15 @@ function enforce_graph_consistency(graph, depth_tex) {
             else
                 slinks.push(slink);
         }
+    });
+}
+
+/**
+ * Slinks compliance, etc
+ */
+function enforce_graph_consistency(graph, depth_tex) {
+    m_graph.traverse(graph, function(id, attr) {
+        var subs = attr;
 
         // assign linear filtering to MOTION_BLUR accumulator
         // if such subscene connected to ANTIALIASING
@@ -393,7 +401,7 @@ function tex_aquire(storage, slink, slink_id) {
         }
     }
 
-    if (storage_item_free && !(DEBUG_DISABLE_TEX_REUSE || cfg_def.macos_tex_reuse_hack)) {
+    if (storage_item_free && !(DEBUG_DISABLE_TEX_REUSE || cfg_def.firefox_tex_reuse_hack)) {
         storage_item_free.ref++;
         return storage_item_free.tex;
     } else {
@@ -441,7 +449,7 @@ function tex_create_for_slink(slink) {
     case "NONE":
         return null;
     default:
-        throw "Wrong slink param: " + slink.from;
+        m_util.panic("Wrong slink param: " + slink.from);
     }
 }
 
@@ -1031,11 +1039,35 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
                 num_lights, wfs_params, wls_params);
         m_graph.append_node_attr(graph, subs_main_glow);
 
+        // link some uniforms likewise for the MAIN_OPAQUE subscene
         if (subs_depth_pack)
             m_graph.append_edge_attr(graph, subs_depth_pack, subs_main_glow,
                     slink_depth_pack_out);
         if (subs_refr)
             m_graph.append_edge_attr(graph, subs_refr, subs_main_glow, slink_refr);
+
+        if (subs_grass_map) {
+            m_graph.append_edge_attr(graph, subs_grass_map, subs_main_glow,
+                    slink_grass_map_d);
+            m_graph.append_edge_attr(graph, subs_grass_map, subs_main_glow,
+                    slink_grass_map_c);
+        }
+
+        if (reflect_subscenes.length) {
+            var num_refl_subs = reflect_subscenes.length;
+            for (var j = 0; j < num_refl_subs; j++) {
+                m_graph.append_edge_attr(graph,
+                                         reflect_subscenes[j], subs_main_glow,
+                                         reflect_links[j]);
+            }
+        }
+
+        if (cube_refl_subscenes.length) {
+            for (var j = 0; j < cube_refl_subscenes.length; j++) {
+                m_graph.append_edge_attr(graph, cube_refl_subscenes[j], subs_main_glow,
+                        cube_reflect_links[j]);
+            }
+        }
 
         m_graph.append_edge_attr(graph, msaa ? subs_res_opaque : subs_main_opaque,
                 subs_main_glow, msaa ? slink_depth_resolve_o : slink_depth_o);
@@ -1147,6 +1179,8 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
             m_graph.append_edge_attr(graph, subs_grass_map, subs_debug_view,
                     slink_grass_map_c);
         }
+
+        m_debug.set_debug_view_subs(subs_debug_view);
 
         prev_level = curr_level;
         curr_level = [];
@@ -1445,6 +1479,15 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         curr_level = [];
     }
 
+    enforce_slink_uniqueness(graph, depth_tex);
+    if ((sc_render.anaglyph_use || sc_render.hmd_stereo_use) && !rtt) {
+        var subs_stereo = make_stereo(graph, sc_render, cam_scene_data, prev_level[0]);
+        curr_level.push(subs_stereo);
+
+        prev_level = curr_level;
+        curr_level = [];
+    }
+
     // compositing
     if (compositing && !rtt) {
 
@@ -1582,9 +1625,6 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         curr_level = [];
     }
 
-    // NOTE: from anaglyph
-    curr_level.push(prev_level[0]);
-
     // special precautions needed to prevent subscenes with through-going
     // attachments from on-screen or RTT (!!!) rendering
     // NOTE: it's not possible to resolve (blit) directly on screen framebuffer
@@ -1611,10 +1651,13 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         m_graph.append_edge_attr(graph, prev_level[0], subs_pp_copy,
                 create_slink("COLOR", "u_color", 1, 1, 1, true));
 
+        curr_level.push(subs_pp_copy);
         prev_level = curr_level;
         curr_level = [];
-        curr_level.push(subs_pp_copy);
     }
+
+    // NOTE: from anaglyph
+    curr_level.push(prev_level[0]);
 
     //
     // filling up the last level
@@ -1702,11 +1745,8 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
                 m_graph.node_by_attr(graph, subs_res_opaque));
         m_graph.cleanup_loose_edges(graph);
     }
-
+    enforce_slink_uniqueness(graph, depth_tex);
     enforce_graph_consistency(graph, depth_tex);
-
-    if ((sc_render.anaglyph_use || sc_render.hmd_stereo_use) && !rtt)
-        make_stereo(graph, sc_render, cam_scene_data);
 
     if (cfg_dbg.enabled) {
         var subs_from = find_debug_subs(graph);
@@ -1762,12 +1802,32 @@ function assign_debug_subscene(graph, subs_to_debug) {
         }
     });
 
+    var has_multisample = subs_check_multisample(subs_to_debug, graph);
+
     m_graph.traverse_edges(graph, function(edge_from, edge_to, edge_attr) {
         if (edge_from == node_to_debug) {
+
+            if (has_multisample) {
+                var subs_res_geom = create_subs_resolve();
+                m_graph.append_node_attr(graph, subs_res_geom);
+
+                var slink_resolve_in_c = create_slink("COLOR", "RESOLVE", 1, 1, 1, true);
+                slink_resolve_in_c.multisample = true;
+                slink_resolve_in_c.use_renderbuffer = true;
+                var slink_resolve_in_d = create_slink("DEPTH", "RESOLVE", 1, 1, 1, true);
+                slink_resolve_in_d.multisample = true;
+                slink_resolve_in_d.use_renderbuffer = true;
+
+                m_graph.append_edge_attr(graph, subs_to_debug, subs_res_geom, slink_resolve_in_c);
+                m_graph.append_edge_attr(graph, subs_to_debug, subs_res_geom, slink_resolve_in_d);
+
+                subs_to_debug = subs_res_geom;
+            }
+
             m_graph.append_edge_attr(graph, subs_to_debug, subs_debug_view,
                     create_slink(cfg_dbg.slink_type, "u_color", edge_attr.size,
-                        edge_attr.size_mult_x, edge_attr.size_mult_y,
-                        edge_attr.update_dim));
+                    edge_attr.size_mult_x, edge_attr.size_mult_y,
+                    edge_attr.update_dim));
             return true;
         }
     });
@@ -1776,39 +1836,36 @@ function assign_debug_subscene(graph, subs_to_debug) {
             create_slink("SCREEN", "NONE", 0.5, 0.5, 0.5, true));
 }
 
-function make_stereo(graph, sc_render, cam_scene_data) {
+function subs_check_multisample(subs, graph) {
+    var has_multisample = false;
+
+    var node = m_graph.node_by_attr(graph, subs);
+
+    // node without output edges has not multisampling
+    if (m_graph.out_edge_count(graph, node)) {
+        var node_out = m_graph.get_out_edge(graph, node, 0);
+        var edge_attr = m_graph.get_edge_attr(graph, node, node_out, 0);
+
+        if (edge_attr.from == "COLOR" && edge_attr.to == "COLOR" 
+                || edge_attr.from == "DEPTH" && edge_attr.to == "DEPTH") {
+            var attr_out = m_graph.get_node_attr(graph, node_out);
+            has_multisample = subs_check_multisample(attr_out, graph);
+        } else
+            has_multisample = edge_attr.to == "RESOLVE";
+    }
+
+    return has_multisample;
+}
+
+function make_stereo(graph, sc_render, cam_scene_data, prev_subs) {
     var cams = cam_scene_data.cameras;
     var antialiasing = sc_render.antialiasing;
     var hmd_stereo_use = sc_render.hmd_stereo_use;
     var plane_refl_subs = sc_render.reflection_params.plane_refl_subs;
     var plane_refl_subs_blend = sc_render.reflection_params.plane_refl_subs_blend;
 
-    var nid_sink;
-    var nid_pre_sink;
-    var subs_pre_sink;
-
-    if (hmd_stereo_use && antialiasing) {
-        m_graph.traverse(graph, function(id, subs) {
-            if (subs.type == "ANTIALIASING") {
-                var compos_subs = find_upper_subs(graph, subs, "COMPOSITING");
-                if (compos_subs)
-                    nid_sink = m_graph.get_node_id(graph, compos_subs);
-                else
-                    nid_sink = id;
-            } else if (subs.type == "COMPOSITING")
-                nid_sink = id;
-        });
-    } else {
-        nid_sink = m_graph.get_sink_nodes(graph)[0];
-    }
-
-    m_graph.traverse_inputs(graph, nid_sink, function(nid_in, subs_in, slink) {
-        if (has_upper_subs(graph, subs_in, "MAIN_OPAQUE")){
-            nid_pre_sink = nid_in;
-            subs_pre_sink = subs_in;
-            return true;
-        }
-    });
+    var nid_pre_sink = m_graph.get_node_id(graph, prev_subs);
+    var subs_pre_sink = prev_subs;
 
     var subgraph_right = m_graph.subgraph_node_conn(graph, nid_pre_sink,
             m_graph.BACKWARD_DIR);
@@ -1899,17 +1956,14 @@ function make_stereo(graph, sc_render, cam_scene_data) {
     m_graph.cleanup_loose_edges(subgraph_right);
 
     var subs_stereo = create_subs_stereo(hmd_stereo_use);
-
-    var nid_anaglyph = m_graph.append_node_attr(graph, subs_stereo);
-
-    m_graph.reconnect_edges(graph, nid_pre_sink, nid_sink, nid_anaglyph, nid_sink);
+    var nid_stereo = m_graph.append_node_attr(graph, subs_stereo);
 
     // HACK: fix subs texture reusage of last left subs
     var left_clone = create_subs_copy();
     m_graph.append_node_attr(graph, left_clone);
 
-    var slink_copy = create_slink("COLOR", "COPY", 1, 1, 1, true);
-    m_graph.append_edge_attr(graph, subs_pre_sink, left_clone, slink_copy);
+    var slink_left_copy = create_slink("COLOR", "COPY", 1, 1, 1, true);
+    m_graph.append_edge_attr(graph, subs_pre_sink, left_clone, slink_left_copy);
 
     var slink_left = create_slink("COLOR", "u_sampler_left", 1, 1, 1, true);
     slink_left.unique_texture = true;
@@ -1918,12 +1972,21 @@ function make_stereo(graph, sc_render, cam_scene_data) {
 
     m_graph.append_edge_attr(graph, left_clone, subs_stereo, slink_left);
 
+    if (!subs_pre_sink.is_pp) {
+        var right_clone = create_subs_copy();
+        m_graph.append_node_attr(subgraph_right, right_clone);
+        var slink_right_copy = create_slink("COLOR", "COPY", 1, 1, 1, true);
+        slink_right_copy.parent_slink = slink_left_copy;
+        var nid_right_sink = m_graph.get_sink_nodes(subgraph_right)[0];
+        var right_sink = m_graph.get_node_attr(subgraph_right, nid_right_sink);
+        m_graph.append_edge_attr(subgraph_right, right_sink, right_clone, slink_right_copy);
+    }
+
     var slink_right = create_slink("COLOR", "u_sampler_right", 1, 1, 1, true);
     slink_right.min_filter = m_tex.TF_LINEAR;
     slink_right.mag_filter = m_tex.TF_LINEAR;
-    slink_right.parent_slink = slink_copy;
     m_graph.append_subgraph(subgraph_right, graph,
-            [m_graph.get_sink_nodes(subgraph_right)[0], nid_anaglyph,
+            [m_graph.get_sink_nodes(subgraph_right)[0], nid_stereo,
             slink_right]
     );
 
@@ -1942,6 +2005,8 @@ function make_stereo(graph, sc_render, cam_scene_data) {
     // resize subs texture for hmd
     if (hmd_stereo_use)
         multiply_size_mult_by_graph(graph, 0.5, 1);
+
+    return subs_stereo;
 }
 
 exports.multiply_size_mult_by_graph = multiply_size_mult_by_graph;
@@ -1995,9 +2060,8 @@ function create_subs_shadow_cast(csm_index, lamp_index, shadow_params, num_light
     case "POINT":
         subs.camera = m_cam.create_camera(m_cam.TYPE_PERSP);
         var fov  = m_util.rad_to_deg(shadow_params.spot_sizes[lamp_index]);
-        var near = 0.1;
-        // distance where light has half intensity -> multiply with "2"
-        var far  = 2 * shadow_params.distances[lamp_index];
+        var near = shadow_params.clip_start[lamp_index];
+        var far  = shadow_params.clip_end[lamp_index];
         m_cam.set_frustum(subs.camera, fov, near, far);
         break;
     default:
@@ -2036,6 +2100,13 @@ function init_subs(type) {
         debug_render_calls: 0,
         debug_render_time: 0,
         debug_render_time_queries: [],
+        
+        // properties for DEBUG_VIEW subs
+        debug_view_mode: 0,
+        debug_colors_seed: 0,
+        debug_render_time_threshold: 1,
+        
+        do_not_debug: false,
         time: 0,
         camera: null,
         cube_view_matrices: null,
@@ -2130,6 +2201,7 @@ function init_subs(type) {
         p_light_matrix: null,
 
         // other postprocessing properties
+        is_pp: false,
         bloom_key: 0,
         bloom_blur: 0,
         bloom_edge_lum: 0,
@@ -2156,8 +2228,6 @@ function init_subs(type) {
         enable_hmd_stereo: false,
 
         shadow_lamp_index: 0,
-
-        debug_colors_seed: 0
     }
 
     // setting default values
@@ -2172,7 +2242,7 @@ function init_subs(type) {
     subs.texel_mask[1] = 1;
 
     subs.distortion_params[2] = 0.5;
-    subs.distortion_params[3] = 0.0;
+    subs.distortion_params[3] = 0.5;
 
     return subs;
 }
@@ -2299,6 +2369,7 @@ function create_subs_postprocessing(pp_effect) {
     pp_subs.clear_color = false;
     pp_subs.clear_depth = false;
     pp_subs.depth_test = false;
+    pp_subs.is_pp = true;
 
     pp_subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
     pp_subs.pp_effect = pp_effect;
@@ -2337,7 +2408,7 @@ function create_subs_postprocessing(pp_effect) {
         pp_subs.texel_mask[1] = 1;
         break;
     default:
-        throw "Wrong postprocessing effect: " + pp_effect;
+        m_util.panic("Wrong postprocessing effect: " + pp_effect);
         break;
     }
 
@@ -2357,6 +2428,7 @@ function create_subs_bloom_blur(graph, subs_input, pp_effect) {
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
     subs.pp_effect = pp_effect;
+    subs.is_pp = true;
 
     switch(pp_effect) {
     case "X_BLUR":
@@ -2368,7 +2440,7 @@ function create_subs_bloom_blur(graph, subs_input, pp_effect) {
         subs.texel_mask[1] = 1;
         break;
     default:
-        throw "Wrong postprocessing effect for bloom blur: " + pp_effect;
+        m_util.panic("Wrong postprocessing effect for bloom blur: " + pp_effect);
         break;
     }
 
@@ -2387,6 +2459,7 @@ function create_subs_glow_combine(cam, sc_render) {
     subs.large_glow_mask_width = sc_render.glow_params.large_glow_mask_width;
 
     subs.camera = cam;
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2429,7 +2502,7 @@ function create_subs_main(main_type, cam, opaque_do_clear_depth,
         subs.clear_depth = false;
         subs.blend = true;
     } else
-        throw "wrong main subscene type";
+        m_util.panic("wrong main subscene type");
 
     if (subs.blend && shadow_params)
         subs.self_shadow_normal_offset = shadow_params.self_shadow_normal_offset;
@@ -2483,6 +2556,7 @@ function assign_water_params(subs, water_params, sun_exist) {
 
 function create_subs_resolve() {
     var subs = init_subs("RESOLVE");
+    subs.is_pp = true;
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
     return subs;
 }
@@ -2560,6 +2634,7 @@ function create_subs_depth_pack(cam) {
     subs.clear_depth = false;
 
     subs.camera = cam;
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2583,6 +2658,8 @@ function create_subs_ssao(cam, wfs_params, ssao_params) {
     subs.ssao_dist_factor = ssao_params.dist_factor; // how much ao decreases with distance
     subs.ssao_samples = ssao_params.samples; // number of samples aka quality
 
+    subs.is_pp = true;
+
     return subs;
 }
 
@@ -2596,6 +2673,8 @@ function create_subs_ssao_blur(cam, ssao_params) {
 
     subs.ssao_blur_depth = ssao_params.blur_depth;
     subs.ssao_blur_discard_value = ssao_params.blur_discard_value;
+
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2611,6 +2690,8 @@ function create_subs_aa(sc_render) {
     subs.fxaa_quality = sc_render.aa_quality;
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
+
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2633,6 +2714,8 @@ function create_subs_smaa(pass, sc_render) {
     if (pass == "SMAA_BLENDING_WEIGHT_CALCULATION")
         subs.jitter_subsample_ind = new Float32Array(4);
 
+    subs.is_pp = true;
+
     return subs;
 }
 
@@ -2648,6 +2731,8 @@ function create_subs_compositing(brightness, contrast, exposure, saturation) {
     subs.contrast   = contrast;
     subs.exposure   = exposure;
     subs.saturation = saturation;
+
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2665,6 +2750,8 @@ function create_subs_motion_blur(mb_decay_threshold, mb_factor) {
     mb_subs.mb_decay_threshold = mb_decay_threshold;
     mb_subs.mb_factor = mb_factor;
 
+    mb_subs.is_pp = true;
+
     return mb_subs;
 }
 
@@ -2677,6 +2764,8 @@ function create_subs_dof(cam) {
 
     subs.camera = cam;
     subs.texel_size_multiplier = subs.camera.dof_power;
+
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2705,6 +2794,7 @@ function create_subs_outline(outline_params) {
     subs.depth_test = false;
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2746,6 +2836,8 @@ function create_subs_god_rays_comb(intensity, num_lights) {
     subs.god_rays_intensity = intensity;
 
     add_light_attributes(subs, num_lights);
+
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2803,6 +2895,7 @@ function create_subs_copy() {
     subs.clear_depth = false;
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2815,6 +2908,7 @@ function create_subs_stereo(is_hmd_stereo) {
     subs.subtype = is_hmd_stereo? "HMD" : "ANAGLYPH";
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2826,6 +2920,7 @@ function create_subs_luminance() {
     subs.clear_depth = false;
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2837,6 +2932,7 @@ function create_subs_av_luminance() {
     subs.clear_depth = false;
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2854,6 +2950,7 @@ function create_subs_luminance_trunced(bloom_key, edge_lum, num_lights, cam) {
     subs.camera = cam;
 
     add_light_attributes(subs, num_lights);
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2866,6 +2963,7 @@ function create_subs_bloom_combine(blur) {
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
     subs.bloom_blur = blur;
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2877,6 +2975,7 @@ function create_subs_veloctity(cam) {
     subs.clear_depth = false;
 
     subs.camera = cam;
+    subs.is_pp = true;
 
     return subs;
 }
@@ -2918,6 +3017,7 @@ exports.create_performance_graph = function() {
 
 function create_subs_perf() {
     var subs_sink = init_subs("PERFORMANCE");
+    subs.is_pp = true;
     return subs_sink;
 }
 
@@ -3012,7 +3112,7 @@ exports.get_inputs = get_inputs;
 function get_inputs(graph, subs) {
     var node = m_graph.node_by_attr(graph, subs);
     if (node == m_graph.NULL_NODE)
-        throw "Subscene not in graph";
+        m_util.panic("Subscene not in graph");
 
     var inputs = [];
 
@@ -3029,7 +3129,7 @@ exports.get_outputs = get_outputs;
 function get_outputs(graph, subs) {
     var node = m_graph.node_by_attr(graph, subs);
     if (node == m_graph.NULL_NODE)
-        throw "Subscene not in graph";
+        m_util.panic("Subscene not in graph");
 
     var outputs = [];
 

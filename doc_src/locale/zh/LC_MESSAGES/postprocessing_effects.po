@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 17:26+0300\n"
+"POT-Creation-Date: 2016-06-20 15:44+0300\n"
 "PO-Revision-Date: 2016-04-23 18:04+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -243,7 +243,7 @@ msgstr "神光芒的效果（又名曙暮辉）模拟著名的自然现象 - 空
 msgid "Activate the ``God Rays`` panel under the ``Render`` tab."
 msgstr "激活 ``Render`` 选项卡下的 ``God Rays``  面板。"
 
-#: ../postprocessing_effects.rst:140
+#: ../postprocessing_effects.rst:140 ../postprocessing_effects.rst:169
 msgid "*Intensity*"
 msgstr "*强度*"
 
@@ -282,10 +282,6 @@ msgstr "泛光出现在画面中有一个非常不同的亮度元素。生成一
 #: ../postprocessing_effects.rst:163
 msgid "Activate the ``Bloom`` panel under the ``Render`` tab."
 msgstr "激活 ``Render`` 选项卡下的 ``Bloom`` 面板。"
-
-#: ../postprocessing_effects.rst:169
-msgid "*Key*"
-msgstr "*调*"
 
 #: ../postprocessing_effects.rst:169
 msgid "Bloom intensity."
@@ -539,4 +535,7 @@ msgstr "轮廓辉光"
 #: ../postprocessing_effects.rst:261
 msgid "anti-aliasing"
 msgstr "抗锯齿"
+
+#~ msgid "*Key*"
+#~ msgstr "*调*"
 

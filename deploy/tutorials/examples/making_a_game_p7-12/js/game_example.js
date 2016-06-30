@@ -75,7 +75,7 @@ function init_cb(canvas_elem, success) {
 }
 
 function on_resize() {
-    m_app.resize_to_container();
+    m_cont.resize_to_container();
 }
 
 function load() {

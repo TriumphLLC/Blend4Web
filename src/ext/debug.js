@@ -138,6 +138,12 @@ exports.DV_CLUSTERS_VIEW = m_debug.DV_CLUSTERS_VIEW;
 exports.DV_BATCHES_VIEW = m_debug.DV_BATCHES_VIEW;
 
 /**
+ * Debug view mode: turn on the render time view.
+ * @const {DebugViewMode} module:debug.DV_RENDER_TIME
+ */
+exports.DV_RENDER_TIME = m_debug.DV_RENDER_TIME;
+
+/**
  * Print info about the physics worker.
  * @method module:debug.physics_stats
  */
@@ -769,6 +775,7 @@ exports.set_debug_params = function(params) {
             case m_debug.DV_DEBUG_SPHERES:
             case m_debug.DV_CLUSTERS_VIEW:
             case m_debug.DV_BATCHES_VIEW:
+            case m_debug.DV_RENDER_TIME:
                 m_scenes.set_debug_view_mode(subs_debug_view, params.debug_view_mode);
                 break;
             default:
@@ -778,10 +785,12 @@ exports.set_debug_params = function(params) {
         }
         if (typeof params.debug_colors_seed == "number")
             m_scenes.set_debug_colors_seed(subs_debug_view, params.debug_colors_seed);
+        if (typeof params.render_time_threshold == "number")
+            m_scenes.set_render_time_threshold(subs_debug_view, params.render_time_threshold);
         if (typeof params.wireframe_edge_color == "object")
             m_scenes.set_wireframe_edge_color(subs_debug_view, params.wireframe_edge_color);
     } else
-        throw("Debug view subscene not found.");
+        m_print.error("Debugging is not available on the scene.");
 }
 
 exports.get_error_quantity = function() {

@@ -50,7 +50,7 @@
 
     * 物理
 
-    * 批量
+    * Cluster Batching
 
     * 选择物体
 
@@ -308,16 +308,21 @@ Meta标签
    允许在应用程序中使用物理。默认情况下启用。
 
 
-批量
-----
+Cluster Batching
+----------------
 
-用于批量设置网格的尺寸的具有相同的材料物体的可以在这里指定。这个参数可
-用于优化目的。
+This parameter enables the use of cluster batching. It can be used for
+optimization purposes. This is disabled by default.
+
+注解: If this parameter is disabled, the engine will try to combine
+  all static objects into one.
 
 [图片]
 
-*批量网格大小*
-   网格以米为单位。默认设置为零（在这种情况下，网格不使用）。
+*Cluster Size*
+   The size of the cluster used for batching (in meters). Set to 30 by
+   default. If this parameter is set to zero, objects will not be
+   combined.
 
 
 选择物体

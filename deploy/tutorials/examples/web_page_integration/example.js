@@ -4,6 +4,7 @@ b4w.register("example_main", function(exports, require) {
 
 var m_anim   = require("animation");
 var m_app    = require("app");
+var m_cont   = require("container");
 var m_data   = require("data");
 var m_main   = require("main");
 var m_scs    = require("scenes");
@@ -37,7 +38,7 @@ function init_cb(canvas_elem, success) {
 }
 
 function resize() {
-    m_app.resize_to_container();
+    m_cont.resize_to_container();
 }
 
 function load_cb(root) {

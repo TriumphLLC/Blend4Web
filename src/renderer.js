@@ -58,6 +58,9 @@ var JITTER = [new Float32Array([0.25, -0.25]),
 var SUBSAMPLE_IND = [new Float32Array([1, 1, 1, 0]),
                      new Float32Array([2, 2, 2, 0])];
 
+// DEBUG_VIEW render time calculation
+var DEBUG_VIEW_RT_SMOOTH_INTERVALS = 15;
+
 var _gl = null;
 var _subpixel_index = 0;
 
@@ -107,19 +110,19 @@ exports.draw = function(subscene) {
         return;
 
     if (subscene.type == "RESOLVE") {
-        m_debug.render_time_start(subscene);
+        m_debug.render_time_start_subs(subscene);
         draw_resolve(subscene);
-        m_debug.render_time_stop(subscene);
+        m_debug.render_time_stop_subs(subscene);
 
         m_debug.check_gl("draw resolve");
     } else if (subscene.type == "COPY") {
-        m_debug.render_time_start(subscene);
+        m_debug.render_time_start_subs(subscene);
         draw_copy(subscene);
-        m_debug.render_time_stop(subscene);
+        m_debug.render_time_stop_subs(subscene);
 
         m_debug.check_gl("draw copy");
     } else {
-        m_debug.render_time_start(subscene);
+        m_debug.render_time_start_subs(subscene);
         prepare_subscene(subscene);
 
         if (subscene.type == "MAIN_CUBE_REFLECT" || subscene.type == "MAIN_CUBE_REFLECT_BLEND")
@@ -127,7 +130,7 @@ exports.draw = function(subscene) {
         else
             draw_subs(subscene);
 
-        m_debug.render_time_stop(subscene);
+        m_debug.render_time_stop_subs(subscene);
 
         m_debug.check_gl("draw subscene: " + subscene.type);
         // NOTE: fix for strange issue with skydome rendering
@@ -204,7 +207,18 @@ function draw_subs(subscene) {
         if (bundle.do_render) {
             var obj_render = bundle.obj_render;
             var batch = bundle.batch;
+
+            m_debug.render_time_start_batch(batch);
+            if (m_debug.is_debug_view_render_time_mode() && batch.type == "DEBUG_VIEW")
+                batch.debug_main_batch_render_time = m_util.smooth(
+                        m_batch.batch_get_debug_storage(batch.debug_main_batch_id),
+                        batch.debug_main_batch_render_time, 1, DEBUG_VIEW_RT_SMOOTH_INTERVALS);
+
             draw_bundle(subscene, camera, obj_render, batch);
+            
+            m_debug.render_time_stop_batch(batch);
+            if (m_debug.is_debug_view_render_time_mode() && batch.type == "MAIN")
+                m_batch.batch_set_debug_storage(batch.id, batch.debug_render_time);
         }
     }
 }
@@ -260,6 +274,12 @@ function prepare_subscene(subscene) {
     case "MAIN_PLANE_REFLECT_BLEND":
         _gl.disable(_gl.POLYGON_OFFSET_FILL);
         _gl.cullFace(_gl.FRONT);
+        break;
+    case "DEBUG_VIEW":
+        // to overlap other batches
+        _gl.enable(_gl.POLYGON_OFFSET_FILL);
+        _gl.polygonOffset(-4, -4);
+        _gl.cullFace(_gl.BACK);
         break;
     case "MAIN_GLOW":
         if (cfg_def.msaa_samples > 1) {
@@ -1075,12 +1095,17 @@ function assign_uniform_setters(shader) {
             break;
         case "u_debug_view_mode":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1i(loc, batch.debug_view_mode);
+                gl.uniform1i(loc, subscene.debug_view_mode);
             }
             break;
         case "u_debug_colors_seed":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.debug_colors_seed);
+            }
+            break;
+        case "u_debug_render_time_threshold":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, subscene.debug_render_time_threshold);
             }
             break;
         case "u_wireframe_edge_color":
@@ -1094,9 +1119,15 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_batch_debug_id":
+        case "u_batch_debug_id_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, batch.debug_id);
+                gl.uniform1f(loc, batch.debug_id_color);
+            }
+            transient_uni = true;
+            break;
+        case "u_batch_debug_main_render_time":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.debug_main_batch_render_time);
             }
             transient_uni = true;
             break;

@@ -66,7 +66,7 @@ uniform vec4 u_light_factors[NUM_LFACTORS];
 
 uniform vec3 u_camera_eye_frag;
 
-# if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
+# if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW
 uniform mat3 u_view_tsr_frag;
 # endif
 
@@ -157,7 +157,7 @@ uniform sampler2D u_shadow_mask;
 
 #if USE_NODE_B4W_REFRACTION
 uniform sampler2D u_refractmap;
-# if USE_REFRACTION
+# if USE_REFRACTION && USE_REFRACTION_CORRECTION
 uniform PRECISION sampler2D u_scene_depth;
 # endif
 #endif
@@ -260,7 +260,7 @@ void main(void) {
     mat4 nin_zup_model_matrix = mat4(0.0);
     mat4 nin_zup_model_matrix_inverse = mat4(0.0);
 
-#  if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
+#  if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW
         nin_view_matrix = tsr_to_mat4(u_view_tsr_frag);
 #  endif
 

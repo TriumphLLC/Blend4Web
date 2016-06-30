@@ -311,17 +311,20 @@ Physics settings.
 
 .. _scene_batching:
 
-Batching
---------
+Cluster Batching
+----------------
 
-The size of the grid used to batch the object with the same materials can be specified here. This parameter can be used for optimization purposes.
+This parameter enables the use of cluster batching. It can be used for optimization purposes. This is disabled by default.
 
-.. image:: src_images/scene_settings/scene_batching.png
+.. note::
+    If this parameter is disabled, the engine will try to combine all static objects into one.
+
+.. image:: src_images/scene_settings/scene_cluster_batching.png
    :align: center
    :width: 100%
 
-*Batch Grid Size*
-    The size of the grid in meters. Set to zero by default (in such case, the grid isn't used).
+*Cluster Size*
+    The size of the cluster used for batching (in meters). Set to 30 by default. If this parameter is set to zero, objects will not be combined.
 
 .. _scene_objects_selection:
 

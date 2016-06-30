@@ -165,7 +165,7 @@ Activate the ``Bloom`` panel under the ``Render`` tab.
 Additional settings
 -------------------
 
-*Key*
+*Intensity*
     Bloom intensity.
 
 *Blur*

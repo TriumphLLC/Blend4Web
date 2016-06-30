@@ -46,7 +46,6 @@ function load_cb(data_id, success) {
         return;
     }
     var error_cap = m_scn.get_object_by_name("Text");
-    m_scn.hide_object(error_cap);
     m_app.enable_camera_controls();
 
     if (Boolean(get_user_media()))
@@ -98,7 +97,6 @@ function start_video() {
 
     var fail_cb = function() {
         var error_cap = m_scn.get_object_by_name("Text");
-        m_scn.show_object(error_cap);
         _cam_waiting_handle = setTimeout(start_video, WAITING_DELAY);
     };
 

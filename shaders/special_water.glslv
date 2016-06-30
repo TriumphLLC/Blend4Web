@@ -23,6 +23,7 @@
                                   INCLUDES
 ============================================================================*/
 
+#include <std_enums.glsl>
 #include <math.glslv>
 #include <to_world.glslv>
 #include <scale_texcoord.glslv>

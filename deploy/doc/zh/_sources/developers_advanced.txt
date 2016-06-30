@@ -120,9 +120,9 @@ please execute the following command (in the SDK root):
 
    make compile
 
-The full building that includes converting the resources (textures,
-sounds and videos), compilation and converting the docs, can be
-performed with the following command:
+The full building that includes converting resources (textures, sounds
+and videos), compilation and converting the docs, can be performed
+with the following command:
 
    make build
 
@@ -188,13 +188,13 @@ importance.
 +---------------------------------+---------------------------------+------------------------------+
 | Emscripten                      | from EMSDK source code          | building Uranium             |
 +---------------------------------+---------------------------------+------------------------------+
-| ImageMagick                     | imagemagick                     | converting the resources     |
+| ImageMagick                     | imagemagick                     | converting resources         |
 +---------------------------------+---------------------------------+------------------------------+
-| NVIDIA Texture Tools            | libnvtt-bin                     | converting the resources     |
+| NVIDIA Texture Tools            | libnvtt-bin                     | converting resources         |
 +---------------------------------+---------------------------------+------------------------------+
 | NVIDIA Cg Toolkit               | nvidia-cg-toolkit               | debugging shaders            |
 +---------------------------------+---------------------------------+------------------------------+
-| Libav                           | libav-tools                     | converting the resources     |
+| Libav                           | libav-tools                     | converting resources         |
 +---------------------------------+---------------------------------+------------------------------+
 | Gnuplot                         | gnuplot                         | debugging                    |
 +---------------------------------+---------------------------------+------------------------------+

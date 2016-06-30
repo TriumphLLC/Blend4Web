@@ -1,0 +1,27 @@
+[info]
+author = Blend4Web
+name = space_disaster
+title = Space disaster
+icon = .b4w_icon.png
+
+[paths]
+assets_dirs = deploy/assets/space_disaster;
+blend_dirs = blender/space_disaster;
+blender_exec = blender
+build_dir = deploy/apps/space_disaster
+deploy_dir = 
+
+[compile]
+apps = 
+css_ignore = 
+engine_type = external
+js_ignore = 
+optimization = simple
+use_physics = 
+use_smaa_textures = 
+version = 
+
+[deploy]
+assets_path_prefix = 
+override = 
+

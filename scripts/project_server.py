@@ -557,25 +557,30 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
                     ["external", "copy", "compile", "update"]):
                 elem_ins["ops"] += ('<a href=/project/-p/' +
                         quote(normpath(path), safe="") +
-                        '/compile/ title="Compile project app(s)">compile project</a><br>')
+                        '/compile/ title="Compile project app(s)">compile project</a>')
+
+                if proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", None) != 'update':
+                    elem_ins["ops"] += ('<a href=/project/-p/' +
+                            quote(normpath(path), safe="") +
+                            '/check_modules/ title="Check project modules">check modules</a>')
 
             elem_ins["ops"] += ('<a href=/project/-p/' +
                     quote(normpath(path), safe="") +
                     '/reexport/-b/' +
                     quote(_blender_path, safe="") +
-                    '/ title="Re-export all scene files">re-export scenes</a><br>')
+                    '/ title="Re-export all scene files">re-export scenes</a>')
 
             elem_ins["ops"] += ('<a href=/project/-p/' +
                     quote(normpath(path), safe="") +
                     '/convert_resources/ ' +
                     'title="Convert project resources to alternative formats">' +
-                    'convert resources</a><br>')
+                    'convert resources</a>')
 
             elem_ins["ops"] += ('<a href=/project/-p/' +
                     quote(normpath(path), safe="") +
                     '/deploy/' +
                     quote(join("tmp", "downloads", name + ".zip"), safe="") +
-                    ' title="Generate archive with deployed project">deploy project</a><br>')
+                    ' title="Generate archive with deployed project">deploy project</a>')
 
             elem_ins["ops"] += ('<a onclick="show_confirm_window(this);return false;" href=/project/-p/' +
                     quote(normpath(path), safe="") +
@@ -753,7 +758,10 @@ class ProjectInfoHandler(tornado.web.RequestHandler):
         optimization = proj_util.proj_cfg_value(proj_cfg, "compile", "optimization", "")
         js_ignore = proj_util.proj_cfg_value(proj_cfg, "compile", "js_ignore", "")
         css_ignore = proj_util.proj_cfg_value(proj_cfg, "compile", "css_ignore", "")
+        compilation_ignore = proj_util.proj_cfg_value(proj_cfg, "compile", "ignore", "")
+        assets_path_dest = proj_util.proj_cfg_value(proj_cfg, "deploy", "assets_path_dest", "")
         assets_path_prefix = proj_util.proj_cfg_value(proj_cfg, "deploy", "assets_path_prefix", "")
+        deployment_ignore = proj_util.proj_cfg_value(proj_cfg, "deploy", "ignore", "")
 
         # size of all project directories
         dirs = [path]
@@ -801,7 +809,10 @@ class ProjectInfoHandler(tornado.web.RequestHandler):
             "optimization": optimization,
             "js_ignore": "<br>".join(js_ignore),
             "css_ignore": "<br>".join(css_ignore),
-            "assets_path_prefix": assets_path_prefix
+            "compilation_ignore": compilation_ignore,
+            "assets_path_dest": assets_path_dest,
+            "assets_path_prefix": assets_path_prefix,
+            "deployment_ignore": deployment_ignore
         }
 
         html_str = string.Template(tpl_html_str).substitute(html_insertions)

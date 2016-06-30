@@ -396,7 +396,7 @@ function param_inc_dec(dir) {
         m_sfx.set_compressor_params(cparams);
         break;
     default:
-        throw "Unknown strip param";
+        m_util.panic("Unknown strip param");
         break;
     }
 }

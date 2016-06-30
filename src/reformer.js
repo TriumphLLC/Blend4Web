@@ -36,6 +36,7 @@ var m_util   = require("__util");
 var m_vec3   = require("__vec3");
 var m_vec4   = require("__vec4");
 var m_logn   = require("__logic_nodes");
+var m_anim   = require("__animation");
 
 var REPORT_COMPATIBILITY_ISSUES = true;
 
@@ -1001,6 +1002,16 @@ exports.check_bpy_data = function(bpy_data) {
             lamp["use_specular"] = true;
             report("lamp", lamp, "use_specular");
         }
+
+        if (!("clip_start" in lamp)) {
+            lamp["clip_start"] = 0.1;
+            report("lamp", lamp, "clip_start");
+        }
+
+        if (!("clip_end" in lamp)) {
+            lamp["clip_end"] = 30.0;
+            report("lamp", lamp, "clip_end");
+        }
     }
 
     /* object data - speakers */
@@ -1169,6 +1180,18 @@ exports.check_bpy_data = function(bpy_data) {
 
         if ("b4w_procedural_skydome" in mat) {
             report_deprecated("material", mat, "b4w_procedural_skydome");
+        }
+
+        if (!("b4w_lens_flares" in mat)) {
+            mat["b4w_lens_flares"] = false;
+            report("material", mat, "b4w_lens_flares");
+        }
+
+        if (mat["name"] === "LENS_FLARES") {
+            if (!mat["b4w_lens_flares"])
+                m_print.warn("\"LENS_FLARES\" material name has been found. Enable " +
+                        "the \"Lens Flare\" property for this material.");
+            mat["b4w_lens_flares"] = true;
         }
 
         if (mat["b4w_water"]) {
@@ -1612,6 +1635,8 @@ exports.check_bpy_data = function(bpy_data) {
                 //report("object", bpy_obj, "collision_mask");
             }
 
+            check_collision_bounds_type(bpy_obj);
+
             if ("b4w_vehicle_settings" in bpy_obj) {
                 if (bpy_obj["b4w_vehicle_settings"]) {
                     if (!("steering_ratio" in bpy_obj["b4w_vehicle_settings"])) {
@@ -1967,6 +1992,11 @@ exports.check_bpy_data = function(bpy_data) {
                 pset["billboard_tilt_random"] = 0.0;
                 report("particle_settings", pset, "billboard_tilt_random");
             }
+
+            if (!("use_rotations" in pset)) {
+                pset["use_rotations"] = false;
+                report("particle_settings", pset, "use_rotations");
+            }
         }
 
         if (!("constraints" in bpy_obj)) {
@@ -2096,6 +2126,22 @@ function check_export_props(bpy_obj) {
                     + bpy_obj["name"] + "\" has been set to \"false\". Foreground property \""
                     + prop_found + "\" already exists.");
             }
+    }
+}
+
+function check_collision_bounds_type(bpy_obj) {
+    var game = bpy_obj["game"];
+    var bounds_type = game["collision_bounds_type"];
+    if (game["use_collision_bounds"] && bounds_type != "BOX"
+            && bounds_type != "CYLINDER" && bounds_type != "CONE"
+            && bounds_type != "SPHERE" && bounds_type != "CAPSULE"
+            && bounds_type != "EMPTY") {
+        m_print.error("Wrong collision bounds type " + bounds_type +
+                ". Disable physics for object " + bpy_obj["name"]);
+        bpy_obj["b4w_collision"] = false;
+        bpy_obj["b4w_floating"] = false;
+        bpy_obj["b4w_vehicle"] = false;
+        bpy_obj["b4w_character"] = false;
     }
 }
 
@@ -2431,7 +2477,7 @@ function deform_axis_index(deform_axis) {
     case "NEG_Z":
         return 2;
     default:
-        throw "Wrong deform axis value " + deform_axis;
+        m_util.panic("Wrong deform axis value " + deform_axis);
     }
 }
 
@@ -2844,6 +2890,11 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                     snode["bools"] = {};
                 if (snode["bools"]["env"] === undefined)
                     snode["bools"]["env"] = false;
+
+                var behavior = snode["common_usage_names"]["param_anim_behavior"];
+                if(!behavior)
+                     behavior = "FINISH_STOP";
+                snode["common_usage_names"]["param_anim_behavior"] = m_anim.anim_behavior_bpy_b4w(behavior);
                 break;
             case "STOP_ANIM":
                 if (!snode["bools"])

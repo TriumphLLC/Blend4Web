@@ -1,12 +1,12 @@
 
-Logic Nodes
-***********
+Logic Editor
+************
 
 
 Table of Content
 ^^^^^^^^^^^^^^^^
 
-* Logic Nodes
+* Logic Editor
 
   * Basics
 

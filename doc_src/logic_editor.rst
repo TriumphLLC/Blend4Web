@@ -1,8 +1,8 @@
 .. _logic_editor:
 
-***********
-Logic Nodes
-***********
+************
+Logic Editor
+************
 
 .. contents:: Table of Content
     :depth: 2

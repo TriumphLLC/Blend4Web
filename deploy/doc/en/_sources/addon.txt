@@ -112,7 +112,13 @@ HTML
 
 Exporting the scene to this format pack all scene resources into one file with the HTML extension. This HTML file contains not only the scene itself, but also textures, sounds, Blend4Web engine and standard :ref:`web player <web_player>`. A file like this can be executed on any computer and any mobile device that have a web browser with WebGL support.
 
-You can't use HTML files for further development, but you also don't need any additional actions to run them. This format is useful for developing relatively simple applications of moderate size (?).
+You can't use HTML files for further development, but you also don't need any additional actions to run them. This format is useful for developing relatively simple applications of moderate size.
+
+It should be noted, however, that HTML applications do not support following features:
+
+    * :ref:`Physics <physics>`
+    * :ref:`DDS textures <converter_data_format>`
+    * :ref:`min50 textures <converter>`
 
 .. _export_opts:
 
@@ -656,6 +662,10 @@ These messages can be viewed in the browser console (opens with ``F12``) when a 
 | The \"NAME\" camera has unsupported | Panoramic cameras are not supported.      |
 | PANORAMIC type. Changed to          | Perspective mode is used instead.         |
 | PERSPECTIVE type."                  |                                           |
++-------------------------------------+-------------------------------------------+
+| Unsupported texture type or texture | There are no textures on the material     |
+| is missing for Lens Flare material  | or unsupported texture type is used       |
+| \"NAME\"                            | for material \"NAME\".                    |
 +-------------------------------------+-------------------------------------------+
 
 .. _translator:

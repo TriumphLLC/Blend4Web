@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Освещение, тени и фон &mdash; Руководство пользователя Blend4Web 16.05</title>
+  <title>Освещение, тени и фон &mdash; Руководство пользователя Blend4Web 16.06</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.05" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.06" href="index.html"/>
         <link rel="next" title="Спецэффекты" href="postprocessing_effects.html"/>
-        <link rel="prev" title="Логические ноды" href="logic_editor.html"/> 
+        <link rel="prev" title="Редактор логики" href="logic_editor.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.05
+              v16.06
             </div>
           
         
@@ -97,8 +97,9 @@
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Библиотека материалов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Освещение, тени и фон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#shading-types">Типы затенения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lighting-with-light-sources">Освещение от источников света</a><ul>
@@ -285,6 +286,12 @@
 </dd>
 <dt><em>Shadow &gt; Shadow</em></dt>
 <dd><p class="first last">Источник света используется для расчета падающих теней. Применяется в случае наличия нескольких источников света. По умолчанию отключено.</p>
+</dd>
+<dt><em>Shadow &gt; Clip Start</em></dt>
+<dd><p class="first last">Расстояние между источником света и ближней плоскостью отсечения. Используется при генерации теней. Значение по умолчанию - 1.001.</p>
+</dd>
+<dt><em>Shadow &gt; Clip End</em></dt>
+<dd><p class="first last">Расстояние между источником света и дальней плоскостью отсечения. Используется при генерации теней Значение по умолчанию - 30.002.</p>
 </dd>
 </dl>
 </div>
@@ -502,7 +509,7 @@
 </li>
 <li><p class="first">Установить параметр движка <code class="docutils literal"><span class="pre">background_color</span></code>, используя программный метод <code class="docutils literal"><span class="pre">config.set()</span></code>, предварительно отключив опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> на вкладке <code class="docutils literal"><span class="pre">World</span></code> в Blender. Установленное значение используется в качестве аргумента метода WebGL <code class="docutils literal"><span class="pre">clearColor()</span></code>. Для получения корректных результатов рекомендуется отключить прозрачность контекста WebGL (параметр <code class="docutils literal"><span class="pre">alpha</span></code>). Такая конфигурация используется по умолчанию в стандартном веб-плеере движка.</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="c1">// gray</span>
@@ -516,7 +523,7 @@
 </li>
 <li><p class="first">В качестве фона можно использовать любой HTML контент, находящийся позади элемента <code class="docutils literal"><span class="pre">canvas</span></code>, который используется для рендеринга. Для это необходимо активировать прозрачность контекста WebGL (параметр <code class="docutils literal"><span class="pre">alpha</span></code>), предварительно отключив опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> на вкладке <code class="docutils literal"><span class="pre">World</span></code> в Blender. Для получения корректных результатов рекомендуется выставить полностью прозрачный черный цвет фона. Такая конфигурация используется по умолчанию в стандартном <a class="reference internal" href="viewer.html#viewer"><span>просмотрщике сцен</span></a> SDK движка.</p>
 <blockquote>
-<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
 
 <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;background_color&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]));</span>
@@ -545,7 +552,7 @@
         <a href="postprocessing_effects.html" class="btn btn-neutral float-right" title="Спецэффекты" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="logic_editor.html" class="btn btn-neutral" title="Логические ноды" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="logic_editor.html" class="btn btn-neutral" title="Редактор логики" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -555,7 +562,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-05-31.
+      Обновлено: 2016-06-30.
 
     </p>
   </div>
@@ -611,7 +618,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.05',
+            VERSION:'v16.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

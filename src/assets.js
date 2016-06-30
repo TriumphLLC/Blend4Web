@@ -718,6 +718,18 @@ function get_video_mime_type(file_path) {
     return mime_type;
 }
 
+exports.check_image_extension = function(ext) {
+    if (ext == "png"
+            || ext == "jpg"
+            || ext == "jpeg"
+            || ext == "gif"
+            || ext == "bmp"
+            || ext == "dds")
+        return true;
+
+    return false;
+}
+
 /**
  * Find loaded packs, exec callback and remove from queue
  */

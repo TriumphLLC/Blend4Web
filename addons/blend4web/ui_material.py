@@ -323,6 +323,10 @@ class B4W_MATERIAL_PT_rendering_options(MaterialButtonsPanel, Panel):
         col = split.column()
         col.prop(mat, "b4w_wettable", text=_("Wettable"))
 
+        split = layout.split()
+        col = split.column()
+        col.prop(mat, "b4w_lens_flares", text=_("Lens Flare"))
+
         col = split.column()
         col.active = not mat.use_nodes
         col.prop(mat, "b4w_refractive", text = _("Refractive"))

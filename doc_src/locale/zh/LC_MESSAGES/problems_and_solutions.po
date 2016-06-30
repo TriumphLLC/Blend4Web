@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-31 11:28+0300\n"
+"POT-Creation-Date: 2016-06-28 14:01+0300\n"
 "PO-Revision-Date: 2016-03-26 16:43+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -390,7 +390,7 @@ msgid ""
 msgstr ""
 
 #: ../problems_and_solutions.rst:198
-msgid "WebAudio issues."
+msgid "Audio issues."
 msgstr ""
 
 #: ../problems_and_solutions.rst:200
@@ -409,13 +409,43 @@ msgid ""
 msgstr ""
 
 #: ../problems_and_solutions.rst:204
-msgid "QQ Browser doesn't support WebGL at the moment."
+msgid ""
+"Pausing the audio may not work on such mobile devices as Nexus 6 and "
+"Nexus 9 in Google Chrome 50-52 versions. It should work again in Chrome "
+"53. More info here: "
+"`https://bugs.chromium.org/p/chromium/issues/detail?id=616772 "
+"<https://bugs.chromium.org/p/chromium/issues/detail?id=616772>`_."
 msgstr ""
 
 #: ../problems_and_solutions.rst:206
+msgid "QQ Browser doesn't support WebGL at the moment."
+msgstr ""
+
+#: ../problems_and_solutions.rst:208
 msgid ""
 "WebGL is unstable and sometimes crashes on Mesa 11.x drivers in "
 "Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can help."
+msgstr ""
+
+#: ../problems_and_solutions.rst:210
+msgid ""
+"Using canvas textures can lead to incorrect rendering results in Firefox "
+"46-47 versions on Linux. It should work as expected again in Firefox 48. "
+"More info can be found here: "
+"`https://bugzilla.mozilla.org/show_bug.cgi?id=1276996 "
+"<https://bugzilla.mozilla.org/show_bug.cgi?id=1276996>`_."
+msgstr ""
+
+#: ../problems_and_solutions.rst:212
+msgid ""
+"Information about moving fingers on GearVR touch sensor in VR-mode is not"
+" available."
+msgstr ""
+
+#: ../problems_and_solutions.rst:214
+msgid ""
+"Samsung Internet browser doesn't fire any events about moving fingers on "
+"touch sensor in VR-mode."
 msgstr ""
 
 #~ msgid "To use WebGL, your system must support DirectX 9.0c and OpenGL 2.1."
@@ -467,5 +497,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "The following web browsers fully support WebGL:"
+#~ msgstr ""
+
+#~ msgid "WebAudio issues."
 #~ msgstr ""
 

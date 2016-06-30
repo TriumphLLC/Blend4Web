@@ -58,6 +58,9 @@ function init_light(type) {
         spot_size: 0,
         spot_blend: 0,
 
+        clip_start: 0.1,
+        clip_end: 30.0,
+
         falloff_type: "",
 
         generate_shadows: false,
@@ -104,6 +107,9 @@ exports.lamp_to_light = function(bpy_obj, obj) {
     update_color_intensity(light);
 
     light.distance = data["distance"];
+
+    light.clip_start = data["clip_start"];
+    light.clip_end = data["clip_end"];
 
     if (light.type === "POINT" || light.type === "SPOT")
         light.distance = data["distance"];
@@ -172,9 +178,6 @@ exports.update_light_transform = update_light_transform;
  * @methodOf lights 
  */
 function update_light_transform(obj) {
-
-    if (obj.type != "LAMP")
-        throw "Wrong light object";
 
     var light = obj.light;
     if (!light)

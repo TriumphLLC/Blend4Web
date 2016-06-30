@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 16:12+0300\n"
+"POT-Creation-Date: 2016-06-03 14:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,9 +95,9 @@ msgstr ""
 
 #: ../developers_advanced.rst:95
 msgid ""
-"The full building that includes converting the resources (textures, "
-"sounds and videos), compilation and converting the docs, can be performed"
-" with the following command:"
+"The full building that includes converting resources (textures, sounds "
+"and videos), compilation and converting the docs, can be performed with "
+"the following command:"
 msgstr ""
 
 #: ../developers_advanced.rst:101
@@ -245,7 +245,7 @@ msgstr ""
 
 #: ../developers_advanced.rst:162 ../developers_advanced.rst:164
 #: ../developers_advanced.rst:168
-msgid "converting the resources"
+msgid "converting resources"
 msgstr ""
 
 #: ../developers_advanced.rst:164
@@ -911,35 +911,35 @@ msgid ""
 " file."
 msgstr ""
 
-#: ../developers_advanced.rst:505
+#: ../developers_advanced.rst:509
 msgid "Error! Using reserved word in TYPE 'NAME'. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:505
+#: ../developers_advanced.rst:509
 msgid ""
 "Error in FILE_NAME file. A reserved id is used for declaring the "
 "identifier NAME of type TYPE (variable, function, structure etc)."
 msgstr ""
 
-#: ../developers_advanced.rst:510
+#: ../developers_advanced.rst:514
 msgid ""
 "Error! 'all' extension cannot have BEHAVIOR_TYPE behavior. File: "
 "'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:510
+#: ../developers_advanced.rst:514
 msgid ""
 "The ``#extension`` directive specified for ``all`` WebGL extensions in "
 "the FILE_NAME file does not support the behavior BEHAVIOR_TYPE."
 msgstr ""
 
-#: ../developers_advanced.rst:515
+#: ../developers_advanced.rst:519
 msgid ""
 "Syntax Error. ERROR_MESSAGE. File: FILE_NAME, line: LINE_NUMBER, column: "
 "COL_NUMBER."
 msgstr ""
 
-#: ../developers_advanced.rst:515
+#: ../developers_advanced.rst:519
 msgid ""
 "Syntax error in line LINE_NUMBER column COL_NUMBER during parsing the "
 "FILE_NAME shader. The initial error description is quoted in the "
@@ -948,73 +948,73 @@ msgid ""
 "specify the line which is a little bit after the actual error."
 msgstr ""
 
-#: ../developers_advanced.rst:525
+#: ../developers_advanced.rst:529
 msgid ""
 "Warning! Function 'NAME' is declared in [include ]file FILE_NAME, but "
 "never used."
 msgstr ""
 
-#: ../developers_advanced.rst:525
+#: ../developers_advanced.rst:529
 msgid "An unused function NAME is declared in the FILE_NAME file."
 msgstr ""
 
-#: ../developers_advanced.rst:529
+#: ../developers_advanced.rst:533
 msgid ""
 "Warning! Include file 'FILE_NAME' not used in any shader, would be "
 "omitted!"
 msgstr ""
 
-#: ../developers_advanced.rst:529
+#: ../developers_advanced.rst:533
 msgid ""
 "The FILE_NAME include file is not used in any of the shaders and so it "
 "will be excluded from the obfuscated version."
 msgstr ""
 
-#: ../developers_advanced.rst:533
+#: ../developers_advanced.rst:537
 msgid "Warning! Unused import token 'NAME' in include file 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:533
+#: ../developers_advanced.rst:537
 msgid "An unused id NAME is imported in the FILE_NAME include file."
 msgstr ""
 
-#: ../developers_advanced.rst:536
+#: ../developers_advanced.rst:540
 msgid ""
 "Warning! Variable 'NAME' is declared in include file FILE_NAME, but never"
 " used."
 msgstr ""
 
-#: ../developers_advanced.rst:536
+#: ../developers_advanced.rst:540
 msgid "An unused variable NAME is declared in the FILE_NAME file."
 msgstr ""
 
-#: ../developers_advanced.rst:543
+#: ../developers_advanced.rst:547
 msgid "Updating Add-on Translations"
 msgstr ""
 
-#: ../developers_advanced.rst:545
+#: ../developers_advanced.rst:549
 msgid ""
 "If you need to update all existing .po files, run the script "
 "*translator.py* in the SDK/scripts directory without arguments:"
 msgstr ""
 
-#: ../developers_advanced.rst:551
+#: ../developers_advanced.rst:555
 msgid ""
 "In order to update an existing .po file, run the script with a supported "
 "language code as an argument:"
 msgstr ""
 
-#: ../developers_advanced.rst:557
+#: ../developers_advanced.rst:561
 msgid ""
 "In order to view the list of supported languages, run the script as "
 "follows:"
 msgstr ""
 
-#: ../developers_advanced.rst:563
+#: ../developers_advanced.rst:567
 msgid "In any case, the file *empty.po* will be updated upon running the script."
 msgstr ""
 
-#: ../developers_advanced.rst:565
+#: ../developers_advanced.rst:569
 msgid "After updates, the .po files can be edited/translated as usual."
 msgstr ""
 
@@ -1046,127 +1046,19 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid ""
-#~ "add/remove a temporary property to the"
-#~ " already existing properies of the "
-#~ "same kind"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The structure of the current render "
-#~ "graph can be saved in the DOT "
-#~ "format using the ``b4w.debug.scenegraph_to_dot()``"
-#~ " call, for example, in the browser"
-#~ " console. After calling this method "
-#~ "save the console's output into the "
-#~ "file with the .gv extension. To "
-#~ "get the graph in a visual form "
-#~ "the `graphviz <http://www.graphviz.org/>`_ utilities"
-#~ " are required. Converting to the SVG"
-#~ " format is performed using the "
-#~ "command:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "All shaders used in the engine are"
-#~ " processed by a compilator. The "
-#~ "compilator performs the following three "
-#~ "main procedures:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "In order to run the compilator, "
-#~ "execute one of the following commands"
-#~ " in the SDK root:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The compilator performs the following "
-#~ "procedures related to shader code "
-#~ "validation:"
 #~ msgstr ""
 
 #~ msgid "removing odd or repeatitive tokens: spaces, endlines and semicolons."
 #~ msgstr ""
 
 #~ msgid ""
-#~ "Obfuscation minifies the GLSL code and"
-#~ " makes it diffucult to understand it."
-#~ " So far the following procedure is"
-#~ " implemented:"
+#~ "The full building that includes "
+#~ "converting the resources (textures, sounds "
+#~ "and videos), compilation and converting "
+#~ "the docs, can be performed with "
+#~ "the following command:"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "replacing the user-defined identifiers "
-#~ "with shorter single-symboled, two-"
-#~ "symboled etc names (with support of "
-#~ "the import/export mechanism)."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Therefore the shader which uses the "
-#~ "include file must have all the "
-#~ "declarations necessary for import before "
-#~ "the place of linking, and can use"
-#~ " the exported ids after it."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Because of the following reasons: "
-#~ "preprocessing, the need to process "
-#~ "multiple shaders and include files and"
-#~ " due to the compilator's features -"
-#~ " its possible to garantee the work"
-#~ " of the output code only if a"
-#~ " number of rules and limitations are"
-#~ " respected with regard to the shader"
-#~ " source code:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "In order to describe constants which "
-#~ "are defined by the engine at run,"
-#~ " it's neccessary to use the ``#var``"
-#~ " special directive. For example:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The syntax here is similar to the"
-#~ " #define directive. The point of the"
-#~ " #var directive is that the value "
-#~ "which it defines allows to parse "
-#~ "the initial shader. It's irrelevant what"
-#~ " exactly it will be (e.g. 'uniform'"
-#~ " or 'attribute' in the above "
-#~ "example), because at this level it's "
-#~ "unknown anyway. Nevertheless it's better "
-#~ "to specify a more or less suitable"
-#~ " description and not something arbitrary."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The usage of the #include directive "
-#~ "should not lead to ambiguity during "
-#~ "the obfuscation of the include file. "
-#~ "This can happen when multiple shaders"
-#~ " are included into the same file "
-#~ "and the above defined directives (like"
-#~ " #var or #define) can have influence"
-#~ " on any of them. Also it's "
-#~ "better not to use undeclared functions"
-#~ " and variables in the include file."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Compilation may depend on WebGL "
-#~ "extensions being used if they somehow"
-#~ " influence the shading language. At "
-#~ "the moment the following extensions are"
-#~ " supported by the compilator:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "In case of an error the compilator"
-#~ " will output the corresponding message "
-#~ "in the console."
+#~ msgid "converting the resources"
 #~ msgstr ""
 

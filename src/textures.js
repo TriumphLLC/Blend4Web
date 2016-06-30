@@ -169,7 +169,9 @@ function init_texture() {
         use_cyclic : false,
         use_nla: false,
 
-        repeat: true
+        repeat: true,
+
+        cleanup_gl_data_on_unload: true
     };
 }
 
@@ -548,7 +550,7 @@ function update_canvas_props(name, size, texture) {
 function update_texture_canvas(texture) {
 
     if (texture.source != "CANVAS")
-        throw "Wrong texture";
+        m_util.panic("Wrong texture");
 
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
@@ -987,7 +989,7 @@ function get_image2d_format(texture) {
         format = _gl.DEPTH_COMPONENT;
         break;
     default:
-        throw "Wrong texture type";
+        m_util.panic("Wrong texture type");
         break;
     }
 
@@ -1018,7 +1020,7 @@ function get_image2d_iformat(texture) {
         format = cfg_def.webgl2 ? _gl.DEPTH_COMPONENT24 : _gl.DEPTH_COMPONENT;
         break;
     default:
-        throw "Wrong texture type";
+        m_util.panic("Wrong texture type");
         break;
     }
 
@@ -1050,7 +1052,7 @@ function get_image2d_type(texture) {
         type = _gl.UNSIGNED_INT;
         break;
     default:
-        throw "Wrong texture type";
+        m_util.panic("Wrong texture type");
         break;
     }
 
@@ -1658,14 +1660,18 @@ exports.create_vec_curve_texture = function(nodes, points_num) {
                     texture.push(m_curve.bezier(curr_position, left_elem[1], left_elem[2],
                             right_elem[0], right_elem[1], BEZIER_ROOT_PRECISION));
                 else if (right_elem && !left_elem)
-                        if (type == "EXTRAPOLATED")
-                            texture.push(m_curve.linear(curr_position, right_elem[1], right_elem[2]));
-                        else
+                        if (type == "EXTRAPOLATED") {
+                            var val = right_elem[1][0] == right_elem[2][0] ? right_elem[1][1]
+                                    : m_curve.linear(curr_position, right_elem[1], right_elem[2]);
+                            texture.push(val);
+                        } else
                             texture.push(right_elem[1][1]);
                     else if (left_elem && !right_elem)
-                        if (type == "EXTRAPOLATED")
-                            texture.push(m_curve.linear(curr_position, left_elem[0], left_elem[1]));
-                        else
+                        if (type == "EXTRAPOLATED") {
+                            var val = left_elem[0][0] == left_elem[1][0] ? left_elem[1][1]
+                                    : m_curve.linear(curr_position, left_elem[0], left_elem[1]);
+                            texture.push(val);
+                        } else
                             texture.push(left_elem[1][1]);
             }
             channels.push(texture);

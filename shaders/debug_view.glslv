@@ -130,9 +130,6 @@ varying vec3 v_barycentric;
 ============================================================================*/
 
 void main() {
-    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
-
-    mat4 model_mat = tsr_to_mat4(u_model_tsr);
 
     if (a_polyindex == 0.0)
         v_barycentric = vec3(1.0, 0.0, 0.0);
@@ -141,63 +138,70 @@ void main() {
     else if (a_polyindex == 2.0)
         v_barycentric = vec3(0.0, 0.0, 1.0);
 
+#if DEBUG_VIEW_SPECIAL_SKYDOME
+    gl_Position = vec4(a_position.xy, 0.9999999, 1.0);
+#else
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+
     vec3 position = a_position;
     vec3 normal = a_normal;
 
-#if DEBUG_SPHERE
+# if DEBUG_SPHERE
     vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
             model_mat);
-#else
-# if VERTEX_ANIM
+# else
+#  if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
-#endif
+#  endif
 
-# if SKINNED
+#  if SKINNED
     vec3 tangent = vec3(0.0);
     vec3 binormal = vec3(0.0);
     skin(position, tangent, binormal, normal);
-#endif
+#  endif
 
-# if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
+#  if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
     vec3 center = au_center_pos;
-# else
+#  else
     vec3 center = vec3(0.0);
-# endif
+#  endif
 
-# if DYNAMIC_GRASS
+#  if DYNAMIC_GRASS
     vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0),
             center, u_grass_map_depth, u_grass_map_color,
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
             view_matrix);
-# else
-#  if BILLBOARD
+#  else
+#   if BILLBOARD
     vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
 
-#   if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
+#    if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
             view_matrix, model_mat);
-#   else
+#    else
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, view_matrix);
-#   endif
+#    endif
 
-#   if WIND_BEND && BILLBOARD_JITTERED
+#    if WIND_BEND && BILLBOARD_JITTERED
     vec3 vec_seed = (model_mat * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);
-#   endif
+#    endif
     vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0),
             vec3(0.0), model_matrix);
     world.center = wcen;
-#  else
+#   else
     vertex world = to_world(position, center, vec3(0.0), vec3(0.0), vec3(0.0),
             model_mat);
+#   endif
 #  endif
-# endif
 
-# if WIND_BEND
+#  if WIND_BEND
     bend_vertex(world.position, world.center, normal);
-# endif
-#endif // DEBUG_SPHERE
+#  endif
+# endif // DEBUG_SPHERE
 
     gl_Position = u_proj_matrix * view_matrix * vec4(world.position, 1.0);
+#endif // DEBUG_VIEW_SPECIAL_SKYDOME
 }

@@ -91,7 +91,7 @@ function create_particles_data(name, type) {
 }
 
 var _rand = function() {
-    throw "_rand() undefined";
+    m_util.panic("_rand() undefined");
 }
 
 exports.update = function() {
@@ -284,11 +284,18 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     var lifetime_random = psystem["settings"]["lifetime_random"];
     var emit_from = psystem["settings"]["emit_from"];
     var vel_factor_rand = psystem["settings"]["factor_random"];
-    var ang_vel_mode = psystem["settings"]["angular_velocity_mode"];
-    var ang_vel_factor = psystem["settings"]["angular_velocity_factor"];
+
+    if (psystem["settings"]["use_rotations"]) {
+        var ang_vel_mode = psystem["settings"]["angular_velocity_mode"];
+        var ang_vel_factor = psystem["settings"]["angular_velocity_factor"];
+    } else {
+        var ang_vel_mode = "NONE";
+        var ang_vel_factor = 0;
+    }
+
     var is_rand_delay = psystem["settings"]["b4w_randomize_emission"];
     var cyclic = psystem["settings"]["b4w_cyclic"];
-
+    
     pdata.tilt = psystem["settings"]["billboard_tilt"];
     pdata.tilt_rand = psystem["settings"]["billboard_tilt_random"];
 
@@ -514,10 +521,10 @@ function distribute_positions_normals(pcount, emit_from, emitter_submesh) {
 
         break;
     case "VOLUME":
-        throw "Particle emission from volume is not supported";
+        m_util.panic("Particle emission from volume is not supported");
         break;
     default:
-        throw "Wrong emit from option";
+        m_util.panic("Wrong emit from option");
         break;
     }
 
@@ -635,8 +642,7 @@ function gen_part_data(pcount, lifetimes, delay_attrs) {
  * Generate array of particles'es linear and angular speed
  * vec4(linear_x, linear_y, linear_z, angular)
  */
-function gen_velocities(pcount, vel_factor_rand, ang_vel_mode, ang_vel_factor)
-{
+function gen_velocities(pcount, vel_factor_rand, ang_vel_mode, ang_vel_factor) {
     var varr = [];
     for (var i = 0; i < pcount; i++) {
 
@@ -660,8 +666,9 @@ function gen_velocities(pcount, vel_factor_rand, ang_vel_mode, ang_vel_factor)
             varr.push(ang_vel_factor*2*(_rand() - 0.5));
             break;
         default:
-            throw("Undefined velocity factor");
+            m_util.panic("Undefined velocity factor");
         }
+
         var last = varr.slice(-4);
         for (var j = 0; j < 12; j++) {
             varr.push(last[j % 4]);

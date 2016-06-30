@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 16:12+0300\n"
+"POT-Creation-Date: 2016-06-03 14:44+0300\n"
 "PO-Revision-Date: 2016-03-24 11:54+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -112,9 +112,9 @@ msgstr ""
 
 #: ../developers_advanced.rst:95
 msgid ""
-"The full building that includes converting the resources (textures, "
-"sounds and videos), compilation and converting the docs, can be performed"
-" with the following command:"
+"The full building that includes converting resources (textures, sounds "
+"and videos), compilation and converting the docs, can be performed with "
+"the following command:"
 msgstr ""
 "Полная сборка, включающая конвертацию ресурсов (текстур, звуков и видео),"
 " компиляцию и подготовку документации вызывается командой:"
@@ -274,7 +274,7 @@ msgstr ""
 
 #: ../developers_advanced.rst:162 ../developers_advanced.rst:164
 #: ../developers_advanced.rst:168
-msgid "converting the resources"
+msgid "converting resources"
 msgstr "конвертация ресурсов"
 
 #: ../developers_advanced.rst:164
@@ -1057,11 +1057,11 @@ msgstr ""
 "Ошибка! В include-файле FILE_NAME разрешен для экспорта необъявленный "
 "идентификатор с именем NAME."
 
-#: ../developers_advanced.rst:505
+#: ../developers_advanced.rst:509
 msgid "Error! Using reserved word in TYPE 'NAME'. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:505
+#: ../developers_advanced.rst:509
 msgid ""
 "Error in FILE_NAME file. A reserved id is used for declaring the "
 "identifier NAME of type TYPE (variable, function, structure etc)."
@@ -1070,13 +1070,13 @@ msgstr ""
 "объявлении идентификатора типа TYPE (переменная, функция, структура, ...)"
 " с именем NAME."
 
-#: ../developers_advanced.rst:510
+#: ../developers_advanced.rst:514
 msgid ""
 "Error! 'all' extension cannot have BEHAVIOR_TYPE behavior. File: "
 "'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:510
+#: ../developers_advanced.rst:514
 msgid ""
 "The ``#extension`` directive specified for ``all`` WebGL extensions in "
 "the FILE_NAME file does not support the behavior BEHAVIOR_TYPE."
@@ -1085,13 +1085,13 @@ msgstr ""
 "WebGL-расширений в файле FILE_NAME, не поддерживает поведение "
 "BEHAVIOR_TYPE."
 
-#: ../developers_advanced.rst:515
+#: ../developers_advanced.rst:519
 msgid ""
 "Syntax Error. ERROR_MESSAGE. File: FILE_NAME, line: LINE_NUMBER, column: "
 "COL_NUMBER."
 msgstr ""
 
-#: ../developers_advanced.rst:515
+#: ../developers_advanced.rst:519
 msgid ""
 "Syntax error in line LINE_NUMBER column COL_NUMBER during parsing the "
 "FILE_NAME shader. The initial error description is quoted in the "
@@ -1105,23 +1105,23 @@ msgstr ""
 "(следует учитывать особенность pegjs-парсеров, указывающих чуть далее "
 "места, вызвавшего ошибку)."
 
-#: ../developers_advanced.rst:525
+#: ../developers_advanced.rst:529
 msgid ""
 "Warning! Function 'NAME' is declared in [include ]file FILE_NAME, but "
 "never used."
 msgstr ""
 
-#: ../developers_advanced.rst:525
+#: ../developers_advanced.rst:529
 msgid "An unused function NAME is declared in the FILE_NAME file."
 msgstr "В файле FILE_NAME объявлена функция NAME, которая нигде не используется."
 
-#: ../developers_advanced.rst:529
+#: ../developers_advanced.rst:533
 msgid ""
 "Warning! Include file 'FILE_NAME' not used in any shader, would be "
 "omitted!"
 msgstr ""
 
-#: ../developers_advanced.rst:529
+#: ../developers_advanced.rst:533
 msgid ""
 "The FILE_NAME include file is not used in any of the shaders and so it "
 "will be excluded from the obfuscated version."
@@ -1129,33 +1129,33 @@ msgstr ""
 "Include-файл FILE_NAME не используется ни в одном из шейдеров, поэтому "
 "будет исключен из закомпиленной версии."
 
-#: ../developers_advanced.rst:533
+#: ../developers_advanced.rst:537
 msgid "Warning! Unused import token 'NAME' in include file 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:533
+#: ../developers_advanced.rst:537
 msgid "An unused id NAME is imported in the FILE_NAME include file."
 msgstr ""
 "Идентификатор с именем NAME импортируется в include-файле FILE_NAME, но "
 "нигде не используется."
 
-#: ../developers_advanced.rst:536
+#: ../developers_advanced.rst:540
 msgid ""
 "Warning! Variable 'NAME' is declared in include file FILE_NAME, but never"
 " used."
 msgstr ""
 
-#: ../developers_advanced.rst:536
+#: ../developers_advanced.rst:540
 msgid "An unused variable NAME is declared in the FILE_NAME file."
 msgstr ""
 "В файле FILE_NAME объявлена переменная NAME, которая нигде не "
 "используется."
 
-#: ../developers_advanced.rst:543
+#: ../developers_advanced.rst:547
 msgid "Updating Add-on Translations"
 msgstr "Обновление переводов аддона"
 
-#: ../developers_advanced.rst:545
+#: ../developers_advanced.rst:549
 msgid ""
 "If you need to update all existing .po files, run the script "
 "*translator.py* in the SDK/scripts directory without arguments:"
@@ -1163,7 +1163,7 @@ msgstr ""
 "При необходимости обновить все существующие .po файлы, запустите скрипт "
 "*translator.py* из директории SDK/scripts без параметра:"
 
-#: ../developers_advanced.rst:551
+#: ../developers_advanced.rst:555
 msgid ""
 "In order to update an existing .po file, run the script with a supported "
 "language code as an argument:"
@@ -1171,7 +1171,7 @@ msgstr ""
 "Для обновления существующего .po файла необходимо вызвать скрипт с "
 "передачей ему одного из поддерживаемых языков:"
 
-#: ../developers_advanced.rst:557
+#: ../developers_advanced.rst:561
 msgid ""
 "In order to view the list of supported languages, run the script as "
 "follows:"
@@ -1179,11 +1179,11 @@ msgstr ""
 "Для просмотра списка поддерживаемых языков вызовите скрипт следующим "
 "образом:"
 
-#: ../developers_advanced.rst:563
+#: ../developers_advanced.rst:567
 msgid "In any case, the file *empty.po* will be updated upon running the script."
 msgstr "При вызове скрипта в любом случае будет обновлен файл *empty.po*."
 
-#: ../developers_advanced.rst:565
+#: ../developers_advanced.rst:569
 msgid "After updates, the .po files can be edited/translated as usual."
 msgstr "После обновления .po файлы могут быть отредактированы/переведены."
 

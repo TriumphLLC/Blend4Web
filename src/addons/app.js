@@ -260,7 +260,7 @@ exports.init = function(options) {
 
         var canvas_container_elem = m_cont.get_container();
 
-        resize_to_container();
+        m_cont.resize_to_container();
 
         if (show_fps) {
             create_fps_logger_elem(fps_elem_id, fps_wrapper_id);
@@ -279,16 +279,8 @@ exports.init = function(options) {
             });
         }
 
-        if (autoresize) {
-            m_main.append_loop_cb(function() {
-                var ccw = canvas_container_elem.clientWidth;
-                var cch = canvas_container_elem.clientHeight;
-
-                if (ccw != canvas_elem.clientWidth ||
-                        cch != canvas_elem.clientHeight)
-                    m_cont.resize(ccw, cch, true);
-            });
-        }
+        if (autoresize)
+            m_main.append_loop_cb(m_cont.resize_to_container);
 
         if (track_container_position) {
             m_main.append_loop_cb(function() {
@@ -438,17 +430,14 @@ function elem_cloned(elem_id) {
     return new_element;
 }
 
-exports.resize_to_container = resize_to_container;
 /**
  * Fit canvas elements to match the size of container element.
+ * @method module:app.resize_to_container
+ * @deprecated use {@link module:container.resize_to_container} instead.
  */
-function resize_to_container() {
-    var canvas_container_elem = m_cont.get_container();
-
-    var w = canvas_container_elem.clientWidth;
-    var h = canvas_container_elem.clientHeight;
-
-    m_cont.resize(w, h, true);
+exports.resize_to_container = function() {
+    m_print.error_deprecated("app.resize_to_container", "container.resize_to_container");
+    m_cont.resize_to_container();
 }
 
 exports.set_onclick = function(elem_id, callback) {
@@ -1447,8 +1436,10 @@ function request_fullscreen(elem, enabled_cb, disabled_cb) {
     elem.requestFullScreen = elem.requestFullScreen ||
             elem.webkitRequestFullScreen || elem.mozRequestFullScreen
             || elem.msRequestFullscreen;
-
-    elem.requestFullScreen();
+    if (elem.requestFullScreen)
+        elem.requestFullScreen();
+    else
+        m_print.error("B4W App: request fullscreen method is not supported");
 }
 
 exports.exit_fullscreen = exit_fullscreen;
@@ -1462,7 +1453,7 @@ function exit_fullscreen() {
             document.mozCancelFullScreen || document.msExitFullscreen;
 
     if (typeof exit_fs != "function")
-        throw "B4W App: exit fullscreen method is not supported";
+        m_print.error("B4W App: exit fullscreen method is not supported");
 
     exit_fs.apply(document);
 }

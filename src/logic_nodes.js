@@ -171,6 +171,56 @@ var _nodes_handlers = {
     "EMPTY": do_nothing_handler
 };
 
+function init_node(snode, logic_script) {
+
+    var node = {
+        name: snode["name"],
+        type: snode["type"],
+        label: snode["label"],
+        slot_idx_order: snode["slot_idx_order"],
+        slot_idx_jump: snode["slot_idx_jump"],
+        frame_start: snode["frame_range"][0],
+        frame_end: snode["frame_range"][1],
+        frame_start_mask: snode["frame_range_mask"] ? snode["frame_range_mask"][0] : true,
+        frame_end_mask: snode["frame_range_mask"] ? snode["frame_range_mask"][1] : true,
+        state: -1,
+        sel_objs_len: -1,
+        sel_obj_idx: -1,
+        param_name: snode["param_name"],
+        op: snode["operation"],
+        mute: snode["mute"],
+        dupli_name_list: snode["object"],
+        obj: null,
+        obj_state: null,
+        camera_state: null,
+        objects: {},
+        anim_name: snode["anim_name"],
+        anim_slot: m_anim.SLOT_0,
+        parse_json_vars: snode["parse_json_vars"],
+        parse_json_paths: snode["parse_json_paths"],
+        objects_paths: snode["objects_paths"],
+        nodes_paths: snode["nodes_paths"],
+        floats: snode["floats"],
+        bools: snode["bools"],
+        vars: snode["variables"],
+        strings: snode["strings"],
+        materials_names: snode["materials_names"],
+        shader_nd_type: snode["shader_nd_type"],
+        common_usage_names: snode["common_usage_names"],
+        encode_json_vars: snode["encode_json_vars"],
+        encode_json_paths: snode["encode_json_paths"],
+        thread: logic_script,
+        process_node: _nodes_handlers[snode["type"]] ? _nodes_handlers[snode["type"]] : unknown_node_handler,
+        processed: false,
+        timer: 0,
+        sel_obj_idxs: null,
+        links_dict: snode["links"],
+        links_idxs: []
+    };
+
+    return node;
+}
+
 function get_var(var_desc, global_vars, local_vars) {
     return var_desc[0]?global_vars[var_desc[1]]:local_vars[var_desc[1]];
 }
@@ -919,7 +969,7 @@ function move_camera_handler(node, logic, thread_state, timeline, elapsed, start
 function set_camera_move_style_handler(node, logic, thread_state, timeline, elapsed, start_time) {
     switch (logic.state) {
     case INITIALIZATION:
-        node.tmp1 = m_cam.move_style_bpy_to_b4w(node.common_usage_names["camera_move_style"]);
+        //node.tmp1 = m_cam.move_style_bpy_to_b4w(node.common_usage_names["camera_move_style"]);
         break;
     case RUNNING:
         var cam = m_scs.get_camera(thread_state.scene);
@@ -1307,6 +1357,7 @@ function regstore_handler(node, logic, thread_state, timeline, elapsed, start_ti
 }
 
 function play_anim_handler(node, logic, thread_state, timeline, elapsed, start_time) {
+
     function check_anim(obj, anim_name) {
         var status = 0;
         for (var i = 0; i < 8; i++) {
@@ -1324,24 +1375,16 @@ function play_anim_handler(node, logic, thread_state, timeline, elapsed, start_t
         else
             return false;
     }
-    var slot = m_anim.SLOT_ALL;
-    if (!node.anim_name == "")
-        slot = m_anim.SLOT_0;
+
     switch (logic.state) {
     case INITIALIZATION:
         node.obj = node.bools["env"] ? get_world(node) : get_object(node);
-        var behavior = node.common_usage_names["param_anim_behavior"];
-        if(!behavior) {
-            behavior = "FINISH_STOP";
-        }
-        node.tmp1 = m_anim.anim_behavior_bpy_b4w(behavior);
-
         break;
     case RUNNING:
-        if (!m_anim.is_play(node.obj, slot)) {
-            if (node.state == 0)
-                node.state = 1;
-        }
+
+        if (node.state == 0 && !m_anim.is_play(node.obj, node.anim_slot))
+            node.state = 1;
+
         switch (node.state) {
         case -1:
             // this node is not playing
@@ -1354,22 +1397,23 @@ function play_anim_handler(node, logic, thread_state, timeline, elapsed, start_t
                         node2.state = 1;
                 }
             }
+
+            var behavior = node.common_usage_names["param_anim_behavior"];
             if (node.anim_name == "") {
                 // TODO make check_anim for default animation
                 m_anim.apply_def(node.obj);
-                m_anim.set_behavior(node.obj, node.tmp1, slot);
-            } else {
-                if (!check_anim(node.obj, node.anim_name)) {
-                    m_anim.apply(node.obj, node.anim_name, slot);
-                    m_anim.set_behavior(node.obj, node.tmp1, slot);
-                }
+                m_anim.set_behavior(node.obj, behavior, node.anim_slot);
+            } else if (!check_anim(node.obj, node.anim_name)) {
+                node.anim_slot = m_anim.slot_by_anim_type(node.obj, node.anim_name);
+                m_anim.apply(node.obj, node.anim_name, node.anim_slot);
+                m_anim.set_behavior(node.obj, behavior, node.anim_slot);
             }
 
             // blocking selection
             if (!node.bools["not_wait"])
                 thread_state.in_progress = true;
 
-            m_anim.play(node.obj, null, slot);
+            m_anim.play(node.obj, null, node.anim_slot);
             node.state = 0;
 
             // if we can we must switch to the next node immediately
@@ -1594,13 +1638,17 @@ function js_callback_handler(node, logic, thread_state, timeline, elapsed, start
             key = "out" + index;
         }
 
-        _logic_custom_cb_arr[cb_id](in_params, out_params);
+        if (cb_id in _logic_custom_cb_arr) {
 
-        for(var i = 0; i < out_params.length; i++) {
-            key = "out" + i;
-            if (key in node.vars)
-                set_var(node.vars[key], logic.variables, thread_state.variables, convert_b4w_type(out_params[i]));
-        }
+            _logic_custom_cb_arr[cb_id](in_params, out_params);
+
+            for(var i = 0; i < out_params.length; i++) {
+                key = "out" + i;
+                if (key in node.vars)
+                    set_var(node.vars[key], logic.variables, thread_state.variables, convert_b4w_type(out_params[i]));
+            }
+        } else
+            m_print.error("logic script error: no custom callback with id " + cb_id);
 
         thread_state.curr_node = node.slot_idx_order;
         break;
@@ -1669,49 +1717,7 @@ function prepare_logic(scene, logic) {
         var subtree = bpy_logic_threads[k];
         for (var i = 0; i < subtree.length; i++) {
             var snode = subtree[i];
-            var node = {
-                name: snode["name"],
-                type: snode["type"],
-                label: snode["label"],
-                slot_idx_order: snode["slot_idx_order"],
-                slot_idx_jump: snode["slot_idx_jump"],
-                frame_start: snode["frame_range"][0],
-                frame_end: snode["frame_range"][1],
-                frame_start_mask: snode["frame_range_mask"] ? snode["frame_range_mask"][0] : true,
-                frame_end_mask: snode["frame_range_mask"] ? snode["frame_range_mask"][1] : true,
-                state: -1,
-                sel_objs_len: -1,
-                sel_obj_idx: -1,
-                param_name: snode["param_name"],
-                op: snode["operation"],
-                mute: snode["mute"],
-                dupli_name_list: snode["object"],
-                obj: null,
-                objects: {},
-                anim_name: snode["anim_name"],
-                parse_json_vars: snode["parse_json_vars"],
-                parse_json_paths: snode["parse_json_paths"],
-                objects_paths: snode["objects_paths"],
-                nodes_paths: snode["nodes_paths"],
-                floats: snode["floats"],
-                bools: snode["bools"],
-                vars: snode["variables"],
-                strings: snode["strings"],
-                materials_names: snode["materials_names"],
-                shader_nd_type: snode["shader_nd_type"],
-                common_usage_names: snode["common_usage_names"],
-                encode_json_vars: snode["encode_json_vars"],
-                encode_json_paths: snode["encode_json_paths"],
-                thread: logic_script,
-                process_node: _nodes_handlers[snode["type"]] ? _nodes_handlers[snode["type"]] : unknown_node_handler,
-                processed: false,
-                timer: 0,
-                tmp1: 0,
-                camera_state: null,
-                sel_obj_idxs: null,
-                links_dict: snode["links"],
-                links_idxs: []
-            };
+            var node = init_node(snode, logic_script);
             // just copy all
             logic_script.nodes.push(node);
         }

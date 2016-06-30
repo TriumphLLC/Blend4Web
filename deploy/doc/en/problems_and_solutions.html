@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Problems and Solutions &mdash; Blend4Web 16.05 User Manual</title>
+  <title>Problems and Solutions &mdash; Blend4Web 16.06 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.05 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.06 User Manual" href="index.html"/>
         <link rel="next" title="Release Notes" href="release_notes.html"/>
         <link rel="prev" title="Team Work. Using Git" href="git_short_manual.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.05
+              v16.06
             </div>
           
         
@@ -97,8 +97,9 @@
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Nodes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Stereo Rendering</a></li>
@@ -328,15 +329,23 @@
 <div><p>This issue is caused by incompatibility of Chromium sandbox and NVIDIA&#8217;s latest drivers. The solution is to downgrade drivers to the 340xx version.</p>
 </div></blockquote>
 </li>
-<li><p class="first">WebAudio issues.</p>
+<li><p class="first">Audio issues.</p>
 <blockquote>
 <div><p>Audio doesn&#8217;t work in some versions of Google Chrome for the &#8220;Background Music&#8221; speakers in case of HTML export. Currently, speaker type is automatically changed to &#8220;Background Sound&#8221; as a workaround.</p>
 <p>There is an audio context error when running too many instances (&gt;6) of b4w engine (for example, many browser tabs or many iframes on one page) in Google Chrome. The error is prevented by disabling the audio for an application if the audio context cannot be created for it.</p>
+<p>Pausing the audio may not work on such mobile devices as Nexus 6 and Nexus 9 in Google Chrome 50-52 versions. It should work again in Chrome 53. More info here: <a class="reference external" href="https://bugs.chromium.org/p/chromium/issues/detail?id=616772">https://bugs.chromium.org/p/chromium/issues/detail?id=616772</a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first">QQ Browser doesn&#8217;t support WebGL at the moment.</p>
 </li>
 <li><p class="first">WebGL is unstable and sometimes crashes on Mesa 11.x drivers in Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can help.</p>
+</li>
+<li><p class="first">Using canvas textures can lead to incorrect rendering results in Firefox 46-47 versions on Linux. It should work as expected again in Firefox 48. More info can be found here: <a class="reference external" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1276996">https://bugzilla.mozilla.org/show_bug.cgi?id=1276996</a>.</p>
+</li>
+<li><p class="first">Information about moving fingers on GearVR touch sensor in VR-mode is not available.</p>
+<blockquote>
+<div><p>Samsung Internet browser doesn&#8217;t fire any events about moving fingers on touch sensor in VR-mode.</p>
+</div></blockquote>
 </li>
 </ul>
 </div>
@@ -362,7 +371,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-05-31.
+      Last updated on 2016-06-30.
 
     </p>
   </div>
@@ -418,7 +427,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.05',
+            VERSION:'v16.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

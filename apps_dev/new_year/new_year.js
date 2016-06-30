@@ -12,6 +12,7 @@ var m_scenes    = require("scenes");
 var m_anim      = require("animation");
 var m_cam       = require("camera");
 var m_vec3      = require("vec3");
+var m_cont      = require("container");
 var m_controls  = require("controls");
 var m_trans     = require("transform");
 var m_utils     = require("util");
@@ -390,7 +391,7 @@ function send_button_click_cb() {
 
 function on_resize() {
 
-    m_app.resize_to_container();
+    m_cont.resize_to_container();
 
     var h = window.innerHeight;
     var w = window.innerWidth;

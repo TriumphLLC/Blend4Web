@@ -62,9 +62,19 @@ exports.set_hardware_defaults = function(gl) {
 
     if (!cfg_def.webgl2)
         cfg_def.msaa_samples = 1;
-    else
+    else {
         cfg_def.msaa_samples = Math.min(cfg_def.msaa_samples,
                 gl.getParameter(gl.MAX_SAMPLES));
+        if (check_user_agent("Firefox")) {
+            m_print.warn("Firefox and WebGL 2 detected, applying framebuffer hack");
+            cfg_def.check_framebuffer_hack = true;
+        }
+    }
+
+    if (check_user_agent("Firefox") && cfg_def.stereo !== "NONE") {
+        m_print.warn("Firefox and Stereo rendering detected, disable texture reusage");
+        cfg_def.firefox_tex_reuse_hack = true;
+    }
 
     if (cfg_def.webgl2 && m_debug.check_multisample_issue())
         cfg_def.msaa_samples = 1;
@@ -81,8 +91,7 @@ exports.set_hardware_defaults = function(gl) {
         if (check_user_agent("iPad") || check_user_agent("iPhone")) {
             m_print.warn("iOS detected, applying alpha hack, applying vertex "
                     + "animation mix normals hack, disable smaa. Disable ssao " 
-                    + "for performance. Disable video textures. Initialize " 
-                    + "WebAudio context with empty sound.");
+                    + "for performance. Initialize WebAudio context with empty sound.");
             if (!cfg_ctx.alpha)
                 cfg_def.background_color[3] = 1.0;
             cfg_def.vert_anim_mix_normals_hack = true;
@@ -163,7 +172,7 @@ exports.set_hardware_defaults = function(gl) {
     }
 
     if (check_user_agent("UCBrowser") || check_user_agent("Firefox") && cfg_def.is_mobile_device) {
-        m_print.warn("Mobile Firefox detected, disable workers.");
+        m_print.warn("Mobile Firefox or UCBrowser detected, disable workers.");
         cfg_phy.use_workers = false;
     }
 
@@ -249,7 +258,6 @@ exports.set_hardware_defaults = function(gl) {
 
     if (!depth_tex_available) {
         cfg_def.foam =            false;
-        cfg_def.parallax =        false;
         cfg_def.dynamic_grass =   false;
         cfg_def.water_dynamic =   false;
         cfg_def.shore_smoothing = false;

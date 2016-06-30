@@ -12,6 +12,14 @@
 
   * 附加设置
 
+  * HMD Settings
+
+    * Profile
+
+    * Rendering Settings
+
+    * Other control tools
+
 立体渲染模式适用于使用特殊眼镜观看的内容。它是应用程序通过API来激活。
 
 Blend4Web支持立体图像渲染的两种技术 -  立体图像（红/蓝）和HMD（头戴式
@@ -20,6 +28,8 @@ Blend4Web支持立体图像渲染的两种技术 -  立体图像（红/蓝）和
 立体图（红/蓝）
 
 [图片]
+
+
 
 HMD：
 
@@ -31,11 +41,15 @@ HMD是一个实验性的功能，现在它只能用于 "Eye" 类型摄像机。
 激活
 ====
 
-要使用HMD立体渲染，您需要安装 Oculus 的 运行时工具.  Windows和MacOS的
-二进制格式版本，可以在Oculus公司的网站上找到，而Linux版本应该从源代码
-进行编译。
+To use HMD stereo rendering, you need to install Oculus's runtime
+utility (two versions are supported: the *chromium_webvr_v1_win64.7z*
+in the root directory and the one in the *Deprecated API* folder).
+Windows and MacOS versions can be found on the Oculus website in
+binary format, while Linux version should be compiled from the source
+code.
 
-就目前而言，HMD的支持在 Chromium实验性版本 和 Firefox 每日版.
+For now, the HMD is supported by the Chromium experimental builds and
+in the Firefox nightly builds.
 
 Chromium 设置.
 
@@ -53,3 +67,94 @@ Firefox 设置.
 ========
 
 无
+
+
+HMD Settings
+============
+
+[图片]
+
+This group of settings allows a user to change various parameters in
+order to adjust whatever VR device they have to better view a certain
+3D application or scene. There are two ways these settings can be
+accessed:
+
+Firstly, it can be found in the Blend4Web Viewer application under the
+Stereo View tab.
+
+And secondly, it can also be shown in an application by using the show
+method of the hmd_conf module, but doing this requires some
+programming. Examples of this method can be found in the "viewer.js"
+and "webplayer.js" applications (in the "m_hmd_conf" object).
+
+
+Profile
+-------
+
+This allows user to select a profile for a specific device. Currently,
+the following profiles are available:
+
+   * Custom
+
+   * Cardboard (2014)
+
+   * Cardboard (2015)
+
+By default, *Custom* profile is selected.
+
+
+Rendering Settings
+------------------
+
+*Tray to lens-center distance*
+   This parameter specifies the distance between the phone frame and
+   the center of the camera lenses.
+
+   This value can vary from 0 to 50. Default value is 32.
+
+*Interpupillary distance*
+   This parameter specifies the distance between the pupils of the
+   user's eyes. Measured in millimeters.
+
+   This value can vary from 0 to 100. Default value is 64.
+
+*Screen to lense distance*
+   This specifies the distance between the screen of the phone and the
+   camera lenses.
+
+   This value can vary from 0 to 100. Default value is 50.
+
+*Screen height*
+   The height of the screen.
+
+   This value can vary from 0 to 150. Default value is 63.
+
+*Screen width*
+   The width of the screen.
+
+   This value can vary from 0 to 200. Default value is 107.
+
+*Bevel width*
+   The thickness of the border around the image.
+
+   This value can vary from 0 to 20. Default value is 3.
+
+*Distortion coefficients*
+   This is used in order to compensate image distortion produced by
+   the VR device lenses.
+
+   Both values can vary from 0 to 1. Default values are 0.34 for the
+   first parameter and 0.55 for the second one.
+
+
+Other control tools
+-------------------
+
+*Save*
+   Saves the settings.
+
+*Cancel*
+   Closes the setting interface without saving the settings.
+
+*Reset*
+   Restores default settings.

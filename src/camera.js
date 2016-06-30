@@ -547,7 +547,7 @@ function move_style_bpy_to_b4w(bpy_move_style) {
         return exports.MS_HOVER_CONTROLS;
         break;
     default:
-        throw "Unknown move style";
+        m_util.panic("Unknown move style");
     }
 }
 
@@ -579,10 +579,10 @@ function create_camera(type) {
     case exports.TYPE_STEREO_RIGHT:
     case exports.TYPE_HMD_LEFT:
     case exports.TYPE_HMD_RIGHT:
-        throw "Stereo camera may only be created from perspective one";
+        m_util.panic("Stereo camera may only be created from perspective one");
         break;
     default:
-        throw "Unknown camera type";
+        m_util.panic("Unknown camera type");
         break;
     }
 
@@ -599,7 +599,7 @@ exports.check_attachment = function(cam, type) {
     case "SCREEN":
         return (!Boolean(cam.color_attachment) && !Boolean(cam.depth_attachment));
     default:
-        throw "Wrong attachment type: " + type;
+        m_util.panic("Wrong attachment type: " + type);
         break;
     }
 }
@@ -618,7 +618,7 @@ exports.set_attachment = function(cam, type, tex) {
         cam.depth_attachment = null;
         break;
     default:
-        throw "Wrong attachment type: " + type;
+        m_util.panic("Wrong attachment type: " + type);
         break;
     }
 }
@@ -633,7 +633,7 @@ exports.get_attachment = function(cam, type) {
     case "SCREEN":
         return null;
     default:
-        throw "Wrong attachment type: " + type;
+        m_util.panic("Wrong attachment type: " + type);
         break;
     }
 }
@@ -651,7 +651,7 @@ exports.make_stereo = function(cam, type) {
             type == exports.TYPE_STEREO_RIGHT ||
             type == exports.TYPE_HMD_LEFT ||
             type == exports.TYPE_HMD_RIGHT)))
-        throw "make_stereo(): wrong camera type";
+        m_util.panic("make_stereo(): wrong camera type");
 
     cam.type = type;
 
@@ -668,7 +668,7 @@ function set_stereo_params(cam, conv_dist, eye_dist) {
                 cam.type == exports.TYPE_STEREO_RIGHT ||
                 cam.type == exports.TYPE_HMD_LEFT ||
                 cam.type == exports.TYPE_HMD_RIGHT))
-        throw "set_stereo_params(): wrong camera type";
+        m_util.panic("set_stereo_params(): wrong camera type");
 
     if (cam.type == exports.TYPE_STEREO_LEFT ||
             cam.type == exports.TYPE_STEREO_RIGHT)
@@ -1056,7 +1056,7 @@ function update_camera_transform(obj, cam_scene_data) {
     var cameras = cam_scene_data.cameras;
 
     if (!cameras)
-        throw "Wrong object";
+        m_util.panic("Wrong object");
 
     var shadow_cameras = cam_scene_data.shadow_cameras;
     for (var i = 0; i < shadow_cameras.length; i++) {
@@ -1711,7 +1711,7 @@ function set_projection(cam, aspect, keep_proj_view) {
     switch (cam.type) {
     case exports.TYPE_PERSP:
         if (!aspect)
-            throw "No aspect ratio";
+            m_util.panic("No aspect ratio");
         cam.aspect = aspect;
         // continue
     case exports.TYPE_PERSP_ASPECT:
@@ -1721,7 +1721,7 @@ function set_projection(cam, aspect, keep_proj_view) {
 
     case exports.TYPE_ORTHO:
         if (!aspect)
-            throw "No aspect ratio";
+            m_util.panic("No aspect ratio");
         cam.aspect = aspect;
         // continue
     case exports.TYPE_ORTHO_ASPECT:
@@ -1739,7 +1739,7 @@ function set_projection(cam, aspect, keep_proj_view) {
     case exports.TYPE_STEREO_LEFT:
     case exports.TYPE_STEREO_RIGHT:
         if (!aspect)
-            throw "No aspect ratio";
+            m_util.panic("No aspect ratio");
         cam.aspect = aspect;
         set_projection_stereo(cam);
         break;
@@ -1751,7 +1751,7 @@ function set_projection(cam, aspect, keep_proj_view) {
     case exports.TYPE_NONE:
         return;
     default:
-        throw "Wrong camera type: " + cam.type;
+        m_util.panic("Wrong camera type: " + cam.type);
     }
 
     // update view projection matrix
@@ -1801,10 +1801,10 @@ function set_projection_hmd(cam, aspect) {
     var subs_stereo = m_scenes.get_subs(active_scene, "STEREO");
     if (subs_stereo && subs_stereo.enable_hmd_stereo) {
         // VR mode
-        var up_fov_tan    = Math.tan(m_util.deg_to_rad(cam.hmd_fov[0]) / 2);
-        var right_fov_tan = Math.tan(m_util.deg_to_rad(cam.hmd_fov[1]) / 2);
-        var down_fov_tan  = Math.tan(m_util.deg_to_rad(cam.hmd_fov[2]) / 2);
-        var left_fov_tan  = Math.tan(m_util.deg_to_rad(cam.hmd_fov[3]) / 2);
+        var up_fov_tan    = Math.tan(m_util.deg_to_rad(cam.hmd_fov[0]));
+        var right_fov_tan = Math.tan(m_util.deg_to_rad(cam.hmd_fov[1]));
+        var down_fov_tan  = Math.tan(m_util.deg_to_rad(cam.hmd_fov[2]));
+        var left_fov_tan  = Math.tan(m_util.deg_to_rad(cam.hmd_fov[3]));
 
         // NOTE: save for extraction
         cam.top    = cam.near * up_fov_tan;
@@ -1866,7 +1866,7 @@ function extract_frustum_corners(cam, near, far, corners, is_world_space) {
     switch (cam.type) {
 
     case exports.TYPE_NONE:
-        throw "Extraction from NONE camera is not possible";
+        m_util.panic("Extraction from NONE camera is not possible");
         break;
 
     case exports.TYPE_PERSP:
@@ -1942,7 +1942,7 @@ function extract_frustum_corners(cam, near, far, corners, is_world_space) {
         break;
 
     default:
-        throw "Wrong camera type: " + cam.type;
+        m_util.panic("Wrong camera type: " + cam.type);
     }
 
     // near 1,2,3,4 CCW from zero point of view
@@ -2223,13 +2223,13 @@ exports.get_edge = function(cam, edge_type) {
     case exports.TYPE_HMD_RIGHT:
         switch (edge_type) {
         case "LEFT":
-            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[3]) / 2);
+            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[3]));
         case "RIGHT":
-            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[1]) / 2);
+            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[1]));
         case "TOP":
-            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[0]) / 2);
+            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[0]));
         case "BOTTOM":
-            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[2]) / 2);
+            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[2]));
         }
         break;
     default:

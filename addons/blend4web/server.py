@@ -37,12 +37,12 @@ import shutil
 import tempfile
 import json
 
-from os.path import basename, exists, join, normpath, relpath
+from os.path import basename, exists, join, normpath, relpath, abspath, split, isabs
 
 from urllib.parse import quote, unquote
 
 import blend4web
-b4w_modules =  ["translator"]
+b4w_modules =  ["addon_prefs", "translator"]
 for m in b4w_modules:
     exec(blend4web.load_module_script.format(m))
 
@@ -330,9 +330,13 @@ class B4WPreviewScene(bpy.types.Operator):
         tmpdir = join(root, "tmp")
         if not exists(tmpdir):
             os.mkdir(tmpdir)
+        previewdir = join(tmpdir, "preview")
+        if not exists(previewdir):
+            os.mkdir(previewdir)
         bpy.ops.export_scene.b4w_json(do_autosave = False, run_in_viewer = True,
-                override_filepath=join(tmpdir, "preview.json"),
-                save_export_path = False)
+                override_filepath=join(previewdir, "preview.json"),
+                save_export_path = False, is_fast_preview=True)
+        correct_resources_path(previewdir)
         return {"FINISHED"}
 
 def open_browser(url):
@@ -348,17 +352,50 @@ def init_server(arg):
     if init_server in bpy.app.handlers.scene_update_pre:
         bpy.app.handlers.scene_update_pre.remove(init_server)
 
-    if has_valid_sdk_dir():
+    if addon_prefs.has_valid_sdk_path():
         already_started = B4WLocalServer.update_server_existed()
         if (bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start
                 and not already_started):
             bpy.ops.b4w.start_server()
 
-def has_valid_sdk_dir():
-    b4w_src_path = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
-    path_to_index = join(b4w_src_path, "index.html")
-    normpath(path_to_index)
-    return b4w_src_path != "" and exists(path_to_index)
+def correct_resources_path(previewdir):
+    res_dir_path = join(previewdir, "resources")
+    guard_slashes = blend4web.exporter.guard_slashes
+    if exists(res_dir_path):
+        shutil.rmtree(res_dir_path)
+    os.mkdir(res_dir_path)
+    root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+    json_path = join(previewdir, "preview.json")
+
+    json_parsed = json.loads(blend4web.exporter.get_main_json_data())
+
+    if "images" in json_parsed:
+        for img in json_parsed["images"]:
+            if isabs(img["filepath"]) or len(img["filepath"].split("..")) > 3:
+                file_name = copy_resource(img["filepath"], previewdir)
+                img["filepath"] = guard_slashes(join("resources", file_name))
+    if "sounds" in json_parsed:
+        for sound in json_parsed["sounds"]:
+            if isabs(sound["filepath"]) or len(sound["filepath"].split("..")) > 3:
+                file_name = copy_resource(sound["filepath"], previewdir)
+                sound["filepath"] = guard_slashes(join("resources", file_name))
+    if len(os.listdir(res_dir_path)):
+        try:
+            f  = open(json_path, "w")
+        except IOError as exp:
+            raise FileError("Permission denied")
+        else:
+            f.write(json.dumps(json_parsed))
+            f.close()
+
+def copy_resource(resource_path, previewdir):
+    abs_path = abspath(join(previewdir, resource_path))
+    file_name = split(resource_path)[-1]
+    res_dir_path = join(previewdir, "resources")
+    new_abs_path = join(res_dir_path, file_name)
+    if os.path.isfile(abs_path):
+        shutil.copy(abs_path, new_abs_path)
+    return file_name
 
 def register():
     bpy.app.handlers.scene_update_pre.append(init_server)

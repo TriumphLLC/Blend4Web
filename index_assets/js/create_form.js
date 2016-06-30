@@ -51,6 +51,10 @@
                 if (input.checked && !input.disabled)
                     form.action += "-A/";
                 break;
+            case "project_copy_mat_library":
+                if (input.checked && !input.disabled)
+                    form.action += "-m/";
+                break;
             case "project_copy_scene_templates":
                 if (input.checked)
                     form.action += "-S/";

@@ -359,8 +359,10 @@ void main(void) {
     v_tex_pos_clip = clip_to_tex(pos_clip);
 # endif
 
+// NOTE: this can never be, because refraction needs a blend material, which 
+// doesn't receive shadows 
 # if USE_NODE_B4W_REFRACTION && REFRACTIVE
-    v_view_depth = -v_pos_view.z / u_view_max_depth;
+    v_view_depth = -pos_view.z / u_view_max_depth;
 # endif
     nodes_main();
 #else

@@ -43,6 +43,7 @@ b4w.module["input"] = function(exports, require) {
 
 var m_input   = require("__input");
 var m_cam     = require("__camera");
+var m_cfg     = require("__config");
 var m_cont    = require("__container");
 var m_obj_util= require("__obj_util");
 var m_print   = require("__print");
@@ -53,6 +54,8 @@ var _vec4_tmp = m_vec4.create();
 var _vec4_tmp2 = m_vec4.create();
 
 var _splited_screen = false;
+
+var cfg_dbg = m_cfg.debug_subs;
 
 /**
  * Type of the names of the synchronous vector parameter of a device.
@@ -289,13 +292,13 @@ exports.HMD_POSITION = m_input.HMD_POSITION;
 exports.HMD_WEBVR_TYPE = m_input.HMD_WEBVR_TYPE;
 
 /**
- * WebVR desktop HMD
+ * WebVR (old) desktop HMD
  * @const {DeviceHMDType} module:input.HMD_WEBVR_DESKTOP
  */
 exports.HMD_WEBVR_DESKTOP = m_input.HMD_WEBVR_DESKTOP;
 
 /**
- * WebVR mobile HMD
+ * WebVR (old) mobile HMD
  * @const {DeviceHMDType} module:input.HMD_WEBVR_MOBILE
  */
 exports.HMD_WEBVR_MOBILE = m_input.HMD_WEBVR_MOBILE;
@@ -305,6 +308,12 @@ exports.HMD_WEBVR_MOBILE = m_input.HMD_WEBVR_MOBILE;
  * @const {DeviceHMDType} module:input.HMD_NON_WEBVR
  */
 exports.HMD_NON_WEBVR = m_input.HMD_NON_WEBVR;
+
+/**
+ * WebVR API 1.0
+ * @const {DeviceHMDType} module:input.HMD_WEBVR1
+ */
+exports.HMD_WEBVR1 = m_input.HMD_WEBVR1;
 
 /**
  * Parameter of HMD eye distance.
@@ -604,20 +613,64 @@ exports.set_config = function(device, config, value) {
         m_print.error("device hasn't config: ", config);
 }
 
+exports.request_fullscreen_hmd = function() {
+    if (m_scs.check_active()) {
+         var cam_obj = m_scs.get_camera(m_scs.get_active());
+         if (!cam_obj)
+             return;
+    } else
+        return;
+
+    enable_split_screen(cam_obj);
+
+    var hmd_device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+    if (hmd_device) {
+        var webvr_display = hmd_device.webvr_display;
+        // TODO: add "&amp;&amp; !webvr_display.isPresenting" to "if" (optimization).
+        // Right now webvr_display.isPresenting is allways "true" after
+        // first requestPresent.
+        if (webvr_display) {
+            var capabilities = webvr_display.capabilities;
+            if (!capabilities.canPresent)
+                m_print.error("HMD fullscreen request failed.");
+            else {
+                var canvas = m_cont.get_canvas();
+                webvr_display.requestPresent([{source: canvas}]).then(function () {
+                    // TODO: uncomment code
+                    // There is strange behavior Samsung Internet on GearVR
+
+                    // var left_eye = webvr_display.getEyeParameters("left");
+                    // var right_eye = webvr_display.getEyeParameters("right");
+                    //
+                    // m_cont.resize(
+                    //         Math.max(left_eye.renderWidth, right_eye.renderWidth) * 2,
+                    //         Math.max(left_eye.renderHeight, right_eye.renderHeight));
+                }, function () {
+                    m_print.error("HMD fullscreen request failed.");
+                });
+            }
+        }
+    }
+}
+
 /**
  * Enable "split screen" mode.
  * @method module:input.enable_split_screen
  * @param {Object3D} camobj Camera 3D-object.
  * @returns {Boolean} "Split screen" mode is enabled.
  */
-exports.enable_split_screen = function(camobj) {
+exports.enable_split_screen = enable_split_screen;
+function enable_split_screen(camobj) {
     var hmd_device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
     if (!hmd_device || !hmd_device.registered)
         return false;
+
+    if (_splited_screen)
+        return true;
+
     var hmd_left_fov = m_input.get_vector_param(hmd_device, m_input.HMD_FOV_LEFT, _vec4_tmp);
     var hmd_right_fov = m_input.get_vector_param(hmd_device, m_input.HMD_FOV_RIGHT, _vec4_tmp2);
-    if (hmd_left_fov &amp;&amp; hmd_left_fov)
-        m_cam.set_hmd_fov(camobj, hmd_left_fov, hmd_right_fov);
+    m_cam.set_hmd_fov(camobj, hmd_left_fov, hmd_right_fov);
 
     var eye_distance = m_input.get_value_param(hmd_device, HMD_EYE_DISTANCE);
     if (eye_distance) {
@@ -628,40 +681,41 @@ exports.enable_split_screen = function(camobj) {
     }
 
     var hmd_params = {};
-    hmd_params.distortion_coefs = [
-        hmd_device.distortion_coefs[0],
-        hmd_device.distortion_coefs[1]
-    ];
-
-    hmd_params.chromatic_aberration_coefs = [
-        hmd_device.chromatic_aberration_coefs[0],
-        hmd_device.chromatic_aberration_coefs[1],
-        hmd_device.chromatic_aberration_coefs[2],
-        hmd_device.chromatic_aberration_coefs[3]
-    ];
-
-    hmd_params.enable_hmd_stereo = true;
     hmd_params.base_line_factor = 0.5;
-    if (!hmd_device.webvr_hmd_device)
-        if (hmd_device.base_line_dist &amp;&amp; hmd_device.height_dist &amp;&amp; hmd_device.bevel_size)
-            hmd_params.base_line_factor = (hmd_device.base_line_dist - hmd_device.bevel_size) /
-                    hmd_device.height_dist;
-        else if (!hmd_device.bevel_size)
-            hmd_params.base_line_factor = hmd_device.base_line_dist / hmd_device.height_dist;
-
     hmd_params.inter_lens_factor = 0.5;
-    if (hmd_device.inter_lens_dist &amp;&amp; hmd_device.width_dist &amp;&amp; !hmd_device.webvr_hmd_device)
-        hmd_params.inter_lens_factor = hmd_device.inter_lens_dist /
-                hmd_device.width_dist;
+    hmd_params.enable_hmd_stereo = true;
+    if (m_input.get_value_param(m_input.HMD_WEBVR_TYPE) !== m_input.HMD_WEBVR1) {
+        hmd_params.distortion_coefs = [
+            hmd_device.distortion_coefs[0],
+            hmd_device.distortion_coefs[1]
+        ];
+        hmd_params.chromatic_aberration_coefs = [
+            hmd_device.chromatic_aberration_coefs[0],
+            hmd_device.chromatic_aberration_coefs[1],
+            hmd_device.chromatic_aberration_coefs[2],
+            hmd_device.chromatic_aberration_coefs[3]
+        ];
+        if (!hmd_device.webvr_hmd_device)
+            if (hmd_device.base_line_dist &amp;&amp; hmd_device.height_dist &amp;&amp; hmd_device.bevel_size)
+                hmd_params.base_line_factor = (hmd_device.base_line_dist - hmd_device.bevel_size) /
+                        hmd_device.height_dist;
+            else if (!hmd_device.bevel_size)
+                hmd_params.base_line_factor = hmd_device.base_line_dist / hmd_device.height_dist;
+        if (hmd_device.inter_lens_dist &amp;&amp; hmd_device.width_dist &amp;&amp; !hmd_device.webvr_hmd_device)
+            hmd_params.inter_lens_factor = hmd_device.inter_lens_dist /
+                    hmd_device.width_dist;
 
+        // NOTE: prevent crash in case of difference of slink's dimensions.
+        // For example: "debug" slink ~ 0.5 X 1.0,
+        //              "origin" slink ~ distortion_scale * 0.5 X distortion_scale * 1.0
+        if (!cfg_dbg.enabled) {
+            var distortion_scale = (1 + hmd_device.distortion_coefs[0] + hmd_device.distortion_coefs[1]);
+            m_scs.multiply_size_mult(distortion_scale, distortion_scale);
+        }
+    }
     m_scs.set_hmd_params(hmd_params);
-    var distortion_scale = (1 + hmd_device.distortion_coefs[0] + hmd_device.distortion_coefs[1]);
-    m_scs.multiply_size_mult(distortion_scale, distortion_scale);
 
-    var canvas_container_elem = m_cont.get_container();
-    var ccw = canvas_container_elem.clientWidth;
-    var cch = canvas_container_elem.clientHeight;
-    m_cont.resize(ccw, cch, true);
+    m_cont.resize_to_container(true);
 
     m_input.reset_device(hmd_device);
 
@@ -687,10 +741,7 @@ exports.disable_split_screen = function() {
     var distortion_scale = 1 / (1 + hmd_device.distortion_coefs[0] + hmd_device.distortion_coefs[1]);
     m_scs.multiply_size_mult(distortion_scale, distortion_scale);
     // resize screen to canvas resolution (non-vr mode)
-    var canvas_container_elem = m_cont.get_container();
-    var ccw = canvas_container_elem.clientWidth;
-    var cch = canvas_container_elem.clientHeight;
-    m_cont.resize(ccw, cch, true);
+    m_cont.resize_to_container();
     return true;
 }
 /**
@@ -769,7 +820,7 @@ function check_enable_gamepad_indices() {
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue May 31 2016 15:33:56 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Jun 30 2016 15:03:05 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

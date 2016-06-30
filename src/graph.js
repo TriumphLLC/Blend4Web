@@ -68,7 +68,7 @@ exports.create = function() {
             edges.push(node_edge[0], node_edge[1], node_edge[2]);
             break;
         default:
-            throw "Wrong graph constructor params";
+            m_util.panic("Wrong graph constructor params");
             break;
         }
     }
@@ -136,7 +136,7 @@ function append_node(graph, id, attr) {
         attr = null;
 
     if (has_node(graph, id))
-        throw "Graph already has node with given ID";
+        m_util.panic("Graph already has node with given ID");
     else
         graph.nodes.push(id, attr);
 }
@@ -161,7 +161,7 @@ function append_edge(graph, id1, id2, attr) {
         attr = null;
 
     if (!has_node(graph, id1) || !has_node(graph, id2))
-        throw "Wrong node IDs";
+        m_util.panic("Wrong node IDs");
     else
         graph.edges.push(id1, id2, attr);
 }
@@ -169,7 +169,7 @@ function append_edge(graph, id1, id2, attr) {
 exports.remove_node = remove_node;
 function remove_node(graph, id) {
     if (!has_node(graph, id))
-        throw "Node not found";
+        m_util.panic("Node not found");
 
     var nodes = graph.nodes;
 
@@ -183,7 +183,7 @@ function remove_node(graph, id) {
 exports.remove_edge = remove_edge;
 function remove_edge(graph, id1, id2, edge_num) {
     if (!has_edge(graph, id1, id2))
-        throw "Edge not found";
+        m_util.panic("Edge not found");
 
     var edges = graph.edges;
     var count = 0;
@@ -207,7 +207,7 @@ function remove_edge(graph, id1, id2, edge_num) {
 exports.remove_edge_by_attr = remove_edge_by_attr;
 function remove_edge_by_attr(graph, id1, id2, attr) {
     if (!has_edge(graph, id1, id2))
-        throw "Edge not found";
+        m_util.panic("Edge not found");
     var edges = graph.edges;
 
     for (var i = 0; i < edges.length; i+=3) {
@@ -231,7 +231,7 @@ exports.append_node_attr = function(graph, attr) {
         append_node(graph, node_id, attr);
         return node_id;
     } else
-        throw "Non-unique attribute";
+        m_util.panic("Non-unique attribute");
 }
 
 /**
@@ -335,7 +335,7 @@ exports.append_edge_attr = function(graph, attr_node1, attr_node2, attr_edge) {
     if (id1 != NULL_NODE && id2 != NULL_NODE)
         append_edge(graph, id1, id2, attr_edge);
     else
-        throw "Attributes not found";
+        m_util.panic("Attributes not found");
 }
 
 /**
@@ -471,7 +471,7 @@ exports.is_connected = function(graph) {
  */
 exports.subgraph_node_conn = function(graph, node_id, dir) {
     if (!has_node(graph, node_id))
-        throw "No such node";
+        m_util.panic("No such node");
 
     var visit_state = {};
     set_unvisited(graph, visit_state);
@@ -923,7 +923,7 @@ function state_is_feasible_pair(state, node1, node2) {
 // NOTE: temporary debug solution
 function assert(expr) {
     if (!expr)
-        throw "Assertion failed";
+        m_util.panic("Assertion failed");
 }
 
 /**
@@ -1315,7 +1315,7 @@ exports.replace = function(graph, rnode_ids, new_node_attr) {
  */
 exports.reconnect_edges = function(graph, id1, id2, new_id1, new_id2) {
     if (!has_edge(graph, id1, id2))
-        throw "Edge not found";
+        m_util.panic("Edge not found");
 
     var edges = graph.edges;
 

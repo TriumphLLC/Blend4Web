@@ -53,6 +53,8 @@ var _telemetry_messages = [];
 var _depth_only_issue = -1;
 var _multisample_issue = -1;
 
+var _debug_view_subs = null;
+
 var _assert_struct_last_obj = null;
 var _assert_struct_init = false;
 
@@ -63,6 +65,7 @@ exports.DV_FRONT_BACK_VIEW = 3;
 exports.DV_DEBUG_SPHERES = 4;
 exports.DV_CLUSTERS_VIEW = 5;
 exports.DV_BATCHES_VIEW = 6;
+exports.DV_RENDER_TIME = 7;
 
 /**
  * Setup WebGL context
@@ -88,6 +91,16 @@ exports.setup_context = function(gl) {
     _gl = gl;
 }
 
+exports.set_debug_view_subs = set_debug_view_subs;
+function set_debug_view_subs(subs) {
+    _debug_view_subs = subs;
+}
+
+exports.get_debug_view_subs = get_debug_view_subs;
+function get_debug_view_subs() {
+    return _debug_view_subs;
+}
+
 /**
  * Get GL error, throw exception if any.
  */
@@ -111,7 +124,7 @@ exports.check_gl = function(msg) {
  */
 exports.check_bound_fb = function() {
 
-    if (!cfg_def.gl_debug)
+    if (!cfg_def.gl_debug && !cfg_def.check_framebuffer_hack)
         return true;
 
     switch (_gl.checkFramebufferStatus(_gl.FRAMEBUFFER)) {
@@ -128,6 +141,9 @@ exports.check_bound_fb = function() {
         return false;
     case _gl.FRAMEBUFFER_UNSUPPORTED:
         m_print.error("Incomplete framebuffer: FRAMEBUFFER_UNSUPPORTED");
+        return false;
+    case _gl.FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+        m_print.error("Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
         return false;
     default:
         m_print.error("FRAMEBUFFER CHECK FAILED");
@@ -237,7 +253,7 @@ exports.check_shader_compiling = function(shader, shader_id, shader_text) {
         m_print.error("shader compilation failed:\n" + shader_text + "\n" + 
             _gl.getShaderInfoLog(shader) + " (" + shader_id + ")");
 
-        throw "Engine failed: see above for error messages";
+        m_util.panic("Engine failed: see above for error messages");
     }
 }
 
@@ -277,85 +293,112 @@ exports.check_shader_linking = function(program, shader_id, vshader, fshader,
             fshader_text + "\n" + 
             _gl.getProgramInfoLog(program) + " (" + shader_id + ")");
 
-        throw "Engine failed: see above for error messages";
+        m_util.panic("Engine failed: see above for error messages");
     }
 }
 
-/**
- * Start calculation of rendering time.
- * use HUD to display subscene rendering time
- */
-exports.render_time_start = function(subs) {
+exports.render_time_start_subs = function(subs) {
     if (!(cfg_def.show_hud_debug_info || subs.type == "PERFORMANCE"))
         return;
 
+    if (subs.do_not_debug)
+        return;
+
+    subs.debug_render_time_queries.push(create_render_time_query());
+}
+
+exports.render_time_start_batch = function(batch) {
+    if (!(batch.type == "MAIN" && is_debug_view_render_time_mode()))
+        return;
+
+    batch.debug_render_time_queries.push(create_render_time_query());   
+}
+
+function create_render_time_query() {
     var ext = m_ext.get_disjoint_timer_query();
 
     if (ext) {
         var query = ext.createQueryEXT();
-        subs.debug_render_time_queries.push(query);
         ext.beginQueryEXT(ext.TIME_ELAPSED_EXT, query);
     } else
-        subs.debug_render_time_queries.push(performance.now());
+        var query = performance.now();
+
+    return query;
 }
 
-/**
- * Stop calculation of rendering time.
- * use HUD to display subscene rendering time
- */
-exports.render_time_stop = function(subs) {
+exports.render_time_stop_subs = function(subs) {
     if (!(cfg_def.show_hud_debug_info || subs.type == "PERFORMANCE"))
         return;
 
-    var ext = m_ext.get_disjoint_timer_query();
+    if (subs.do_not_debug)
+        return;
 
-    if (ext) {
-        ext.endQueryEXT(ext.TIME_ELAPSED_EXT);
-        process_timer_queries(subs);
-    } else {
-        var queries = subs.debug_render_time_queries;
-        var render_time = performance.now() - queries.pop();
-        // init value
-        if (!subs.debug_render_time)
-            subs.debug_render_time = render_time;
-        else
-            subs.debug_render_time = m_util.smooth(render_time,
-                    subs.debug_render_time, 1, RENDER_TIME_SMOOTH_INTERVALS);
-    }
+    var render_time = calc_render_time(subs.debug_render_time_queries, 
+            subs.debug_render_time);
+    if (render_time)
+        subs.debug_render_time = render_time;
+}
+
+exports.render_time_stop_batch = function(batch) {
+    if (!(batch.type == "MAIN" && is_debug_view_render_time_mode()))
+        return;
+
+    var render_time = calc_render_time(batch.debug_render_time_queries, 
+            batch.debug_render_time);
+    if (render_time)
+        batch.debug_render_time = render_time;
+}
+
+exports.is_debug_view_render_time_mode = is_debug_view_render_time_mode;
+function is_debug_view_render_time_mode() {
+    var subs_debug_view = get_debug_view_subs();
+    return subs_debug_view && subs_debug_view.debug_view_mode == exports.DV_RENDER_TIME;
 }
 
 /**
- * External method is for debugging purposes
+ * External method for debugging purposes
  */
 exports.process_timer_queries = process_timer_queries;
 function process_timer_queries(subs) {
-    var ext = m_ext.get_disjoint_timer_query();
-    var queries = subs.debug_render_time_queries;
-
-    for (var i = 0; i < queries.length; i++) {
-        var query = queries[i];
-
-        var available = ext.getQueryObjectEXT(query,
-                ext.QUERY_RESULT_AVAILABLE_EXT);
-        var disjoint = _gl.getParameter(ext.GPU_DISJOINT_EXT);
-
-        if (available && !disjoint) {
-            var elapsed = ext.getQueryObjectEXT(query, ext.QUERY_RESULT_EXT);
-            var render_time = elapsed / 1000000;
-
-            // init value
-            if (!subs.debug_render_time)
-                subs.debug_render_time = render_time;
-            else
-                subs.debug_render_time = m_util.smooth(render_time,
-                        subs.debug_render_time, 1, RENDER_TIME_SMOOTH_INTERVALS);
-
-            queries.splice(i, 1);
-            i--;
-        }
-    }
+    var render_time = calc_render_time(subs.debug_render_time_queries, 
+            subs.debug_render_time);
+    if (render_time)
+        subs.debug_render_time = render_time;
 }
 
+function calc_render_time(queries, prev_render_time) {
+    var ext = m_ext.get_disjoint_timer_query();
+    var render_time = 0;
+
+    if (ext) {
+        ext.endQueryEXT(ext.TIME_ELAPSED_EXT);
+        for (var i = 0; i < queries.length; i++) {
+            var query = queries[i];
+
+            var available = ext.getQueryObjectEXT(query,
+                    ext.QUERY_RESULT_AVAILABLE_EXT);
+            var disjoint = _gl.getParameter(ext.GPU_DISJOINT_EXT);
+
+            if (available && !disjoint) {
+                var elapsed = ext.getQueryObjectEXT(query, ext.QUERY_RESULT_EXT);
+                render_time = elapsed / 1000000;
+                if (prev_render_time)
+                    render_time = m_util.smooth(render_time,
+                            prev_render_time, 1, RENDER_TIME_SMOOTH_INTERVALS);
+
+                queries.splice(i, 1);
+                i--;
+            }
+        }
+    } else {
+        render_time = performance.now() - queries.pop();
+        if (prev_render_time)
+            render_time = m_util.smooth(render_time,
+                    prev_render_time, 1, RENDER_TIME_SMOOTH_INTERVALS);
+    }
+
+    return render_time;
+}
 
 /**
  * Print number of executions per frame.
@@ -702,6 +745,10 @@ exports.nodegraph_to_dot = function(graph, detailed_print) {
     }
 
     return m_graph.debug_dot(graph, nodes_label_cb, edges_label_cb);
+}
+
+exports.cleanup = function() {
+    _debug_view_subs = null;
 }
 
 }

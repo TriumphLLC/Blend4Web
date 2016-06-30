@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Аддон &mdash; Руководство пользователя Blend4Web 16.05</title>
+  <title>Аддон &mdash; Руководство пользователя Blend4Web 16.06</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.05" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.06" href="index.html"/>
         <link rel="next" title="Параметры сцены" href="scene_settings.html"/>
         <link rel="prev" title="Веб-плеер" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.05
+              v16.06
             </div>
           
         
@@ -115,8 +115,9 @@
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a></li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">Библиотека материалов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Логические ноды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Редактор логики</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Спецэффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">Стереоизображение</a></li>
@@ -262,8 +263,19 @@
 </div>
 <div class="section" id="html">
 <h2><a class="toc-backref" href="#id10">HTML</a><a class="headerlink" href="#html" title="Ссылка на этот заголовок">¶</a></h2>
-<p>При экспорте в этот формат все ресурсы сцены упаковываются в один файл, имеющий расширение HTML. HTML-файл включает не только сцену, но и текстуры, звуки, сам движок Blend4Web и стандартный <a class="reference internal" href="web_player.html#web-player"><span>веб-плеер</span></a>. Такой файл может быть воспроизведен на любом компьютере или мобильном устройстве, имеющем браузер с поддержкой WebGL (список).</p>
+<p>При экспорте в этот формат все ресурсы сцены упаковываются в один файл, имеющий расширение HTML. HTML-файл включает не только сцену, но и текстуры, звуки, сам движок Blend4Web и стандартный <a class="reference internal" href="web_player.html#web-player"><span>веб-плеер</span></a>. Такой файл может быть воспроизведен на любом компьютере или мобильном устройстве, имеющем браузер с поддержкой WebGL.</p>
 <p>HTML-файлы не могут применяться для дальнейшей разработки, но и не требуют никаких дополнительных действий для запуска. Этот формат рекомендуется применять для относительно простых проектов небольшого размера.</p>
+<p>Однако следует заметить, что HTML-приложения не поддерживают следующие возможности:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><a class="reference internal" href="physics.html#physics"><span>Физику</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="developers.html#converter-data-format"><span>текстуры формата DDS</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="developers.html#converter"><span>текстуры min50</span></a></p>
+</li>
+</ul>
+</div></blockquote>
 <div class="section" id="export-options">
 <span id="export-opts"></span><h3><a class="toc-backref" href="#id11">Опции экспорта</a><a class="headerlink" href="#export-options" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
@@ -945,6 +957,12 @@ PERSPECTIVE type.&#8221;</td>
 <td><p class="first last">Панорамная камера не поддерживается. Будет использована перспективная камера.</p>
 </td>
 </tr>
+<tr class="row-odd"><td>Unsupported texture type or texture
+is missing for Lens Flare material
+&#8220;NAME&#8221;</td>
+<td><p class="first last">Текстура для материала Lens Flare с именем &#8220;NAME&#8221; отсутствует или имеет неподдерживаемый формат.</p>
+</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1118,7 +1136,7 @@ PERSPECTIVE type.&#8221;</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-05-31.
+      Обновлено: 2016-06-30.
 
     </p>
   </div>
@@ -1174,7 +1192,7 @@ PERSPECTIVE type.&#8221;</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.05',
+            VERSION:'v16.06',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

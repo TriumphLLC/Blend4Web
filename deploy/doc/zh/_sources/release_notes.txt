@@ -3,6 +3,205 @@ Release Notes
 *************
 
 
+v16.06
+======
+
+
+New Features
+------------
+
+* Fast Preview improvements.
+
+     If necessary, the development server copies all external
+     resources into the tmp directory. This allows previewing scenes
+     which are placed outside the SDK (another directory, flash drive,
+     etc).
+
+* Project Manager improvements.
+
+     Support for material library. A new project option has been added
+     allowing users to copy the material library sources into the
+     project directory.
+
+     Added the new "--ignore" command property to the *project.py*
+     utility. This option allows users to ignore files during
+     compilation or deployment.
+
+     Added the new "check_modules" command to the *project.py*
+     utility. This command allows users to check missing or no longer
+     required modules.
+
+* Experimental support of the GearVR virtual reality headset.
+
+     Support for new WebVR API 1.0 has been added to the engine
+     allowing the use of GearVR devices.
+
+* Support for GIF and BMP textures.
+
+     Non-animated GIF and BMP images can now be used as textures.
+
+* Resource Converter improvements.
+
+     Now many more media extensions are supported. For detailed
+     information see the documentation.
+
+* Automatic export path determination in Blender addon.
+
+     When projects, created using Project Manager, are exported for
+     the first time, a path to the assets directory is automatically
+     resolved.
+
+* Support for parallel animations in the Logic Editor.
+
+     It is now possible to apply several parallel animations with the
+     Logic Editor. Previously, only one animation per object was
+     allowed in the Logic Editor. Now, an object can have one
+     animation of each type. The maximum number of possible animations
+     is 8.
+
+* Improved Viewer profiling capabilities.
+
+     Added a special mode for profiling objects' rendering time in the
+     Viewer application.
+
+* "Lens Flare" material property.
+
+     A new material property has been appended to the material render
+     panel. Note, that this works only when there is a "Sun" light
+     source in a scene.
+
+* Clip Start and Clip End options for light sources.
+
+     The Clip Start and Clip End properties have been supported for
+     the shadow settings of "Point" and "Spot" lamps.
+
+* HTML meta elements in Web Player app.
+
+     New HTML meta elements have been added into the WebPlayer HTML
+     templates for compatibility with different social networks.
+
+
+Changes
+-------
+
+* Several material nodes are now using Blender's viewport world
+  space.
+
+     * "Geometry"
+
+          The "Normal" output provides data in Blender's world
+          coordinate space.
+
+          The "View" output provides data in Blender's view coordinate
+          space.
+
+     * "Texture"
+
+          The "Vector" input  for environment textures receives data
+          in Blender's world coordinate space.
+
+          The "Normal" output provides data in Blender's world
+          coordinate space.
+
+     * "Material"
+
+          The "Normal" input receives data in Blender's world
+          coordinate space.
+
+          The "Normal" output provides data in Blender's world
+          coordinate space.
+
+     * "Lamp Data"
+
+          The "Light Vector" output provides data in Blender's world
+          coordinate space.
+
+     * "B4W Vector View"
+
+          The node's input receives data in Blender's world coordinate
+          space.
+
+     * "B4W Reflect"
+
+          The first node's input (used for view vectors) receives data
+          in Blender’s view coordinate space.
+
+          The second node's input (used for normals) takes data in
+          Blender’s world coordinate space.
+
+          The node's output provides data in Blender's world
+          coordinate space.
+
+* Now color picking and anchors are disabled in stereo-mode.
+
+* Now keyboard sensors do not active when using browser shortcuts.
+
+* API changes.
+
+     The resize_to_container method of the app module has been
+     declared deprecated and will be removed in future releases.
+     container module's resize_to_container() method should be used in
+     its stead.
+
+* The Bloom "Key" option has been renamed "Intensity".
+
+* Deprecated functionality.
+
+     The following methods: "textures.get_canvas_texture_context()",
+     "textures.update_canvas_texture_context()" have been removed.
+
+     The following logic nodes: "Select", "Select & Play Timeline",
+     "Select & Play Animation" have been removed.
+
+* Export errors and warnings now include links to the documentation.
+
+* Proper reporting of incorrect addon directory.
+
+     An incorrect addon directory name now generates a corresponding
+     warning message.
+
+* Dealing with cases when water is used without wind.
+
+     If the water shader is used without wind, a warning message
+     appears.
+
+* Debug console error messages for unsupported image, video and
+  audio formats have been added.
+
+
+Fixes
+-----
+
+* Fixed decreased performance in stereo-mode.
+
+* Fixed "window.screen.orientation.angle" obfuscation.
+
+* Fixed rendering issue in Firefox browsers with enabled WebGL 2.0
+  context.
+
+* Fixed right-eye rendering in stereo-mode.
+
+* Fixed rendering for glow materials with the "Terrain Dynamic
+  Grass" option enabled.
+
+* Removed redundant angular velocity of particles if the "Rotation"
+  option is disabled.
+
+* Fixed rendering particles with non-node, non-Opaque materials.
+
+* Fixed several GPU memory leaks.
+
+* Fixed engine crash when using wrong callback id in the "JS
+  Callback" logic node.
+
+* Fixed engine crash in the rare case, when a node material has
+  several "Texture" nodes with the same texture.
+
+* Fixed the bug which caused the "Diffuse Intensity" input of the
+  "Material" and "Extended Material" nodes to ignore the incoming
+  link.
+
+
 v16.05
 ======
 

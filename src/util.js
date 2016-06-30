@@ -1224,12 +1224,12 @@ exports.flatten = function(array, dest) {
 
     var len = array.length;
     if (!len)
-        throw "flatten(): Wrong or empty array";
+        panic("flatten(): Wrong or empty array");
 
     var len0 = array[0].length;
     // already required array
     if (!len0)
-        throw "flatten(): Wrong or empty subarray";
+        panic("flatten(): Wrong or empty subarray");
 
     if (!dest)
         var dest = new Float32Array(len * len0);
@@ -2094,10 +2094,11 @@ exports.transformQuatFast = function(a, q, out) {
 
 exports.assert = function(cond) {
     if (!cond)
-        throw new Error("Assertion failed");
+        panic("Assertion failed");
 }
 
-exports.panic = function(s) {
+exports.panic = panic;
+function panic(s) {
     if (s)
         m_print.error.apply(m_print, arguments);
     throw "engine panic:\n" +

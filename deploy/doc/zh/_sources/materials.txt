@@ -161,6 +161,10 @@
 
 表面反射了他们当前的位置中的选定的物体。引擎支持平面和球面反射。
 
+注解: If you are using node materials, dynamic reflection will only
+  work if a "Material" or "Extended Material" node is present in the
+  node tree.
+
 
 激活
 ~~~~
@@ -254,6 +258,10 @@ blender中被限制在0到5的值。设置为零的时候菲涅尔效应无法�
    为材质激活水润湿效果。
 
    参见: Water
+
+*Material > Rendering Options > Lens Flare*
+   Enabling this parameter activates Lens Flare effect for the
+   material.
 
 *材质 > 渲染选项 > 渲染以上全部*
    材质被渲染在场景的所有物体的顶层。要求使用渐变透明度类型  ("Add",

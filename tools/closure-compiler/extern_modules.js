@@ -97,3 +97,79 @@ VRPositionState.prototype.angularVelocity;
 // VRPositionState.prototype.hasOrientation;
 // VRPositionState.prototype.angularVelocity;
 // VRPositionState.prototype.angularAcceleration;
+
+
+// WebVR API 1.0
+// methods
+Navigator.prototype.getVRDisplays;
+// properties
+Navigator.prototype.activeVRDisplays;
+
+var VRDisplay;
+// VRDisplay properties
+VRDisplay.prototype.isConnected;
+VRDisplay.prototype.isPresenting;
+VRDisplay.prototype.capabilities;
+VRDisplay.prototype.stageParameters;
+VRDisplay.prototype.displayId;
+VRDisplay.prototype.displayName;
+VRDisplay.prototype.depthNear;
+VRDisplay.prototype.depthFar;
+
+// VRDisplay methods
+VRDisplay.prototype.getEyeParameters;
+VRDisplay.prototype.getPose;
+VRDisplay.prototype.getImmediatePose;
+VRDisplay.prototype.resetPose;
+VRDisplay.prototype.requestAnimationFrame;
+VRDisplay.prototype.cancelAnimationFrame;
+VRDisplay.prototype.requestPresent;
+VRDisplay.prototype.exitPresent;
+VRDisplay.prototype.getLayers;
+VRDisplay.prototype.submitFrame;
+
+var VRLayer;
+// VRLayer properties
+VRLayer.prototype.source;
+VRLayer.prototype.leftBounds;
+VRLayer.prototype.rightBounds;
+
+var VRDisplayCapabilities;
+// VRDisplayCapabilities properties
+VRDisplayCapabilities.prototype.hasPosition;
+VRDisplayCapabilities.prototype.hasOrientation;
+VRDisplayCapabilities.prototype.hasExternalDisplay;
+VRDisplayCapabilities.prototype.canPresent;
+VRDisplayCapabilities.prototype.maxLayers;
+
+var VREye;
+
+var VRFieldOfView;
+// VRFieldOfView properties
+VRFieldOfView.prototype.upDegrees;
+VRFieldOfView.prototype.rightDegrees;
+VRFieldOfView.prototype.downDegrees;
+VRFieldOfView.prototype.leftDegrees;
+
+var VRPose;
+// VRPose properties
+VRPose.prototype.timestamp;
+VRPose.prototype.position;
+VRPose.prototype.linearVelocity;
+VRPose.prototype.linearAcceleration;
+VRPose.prototype.orientation;
+VRPose.prototype.angularVelocity;
+VRPose.prototype.angularAcceleration;
+
+var VREyeParameters;
+// VREyeParameters properties
+VREyeParameters.prototype.offset;
+VREyeParameters.prototype.fieldOfView;
+VREyeParameters.prototype.renderWidth;
+VREyeParameters.prototype.renderHeight;
+
+var VRStageParameters;
+// VRStageParameters properties
+VRStageParameters.prototype.sittingToStandingTransform;
+VRStageParameters.prototype.sizeX;
+VRStageParameters.prototype.sizeZ;

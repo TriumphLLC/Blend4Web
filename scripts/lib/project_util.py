@@ -37,6 +37,7 @@ def proj_cfg_value(cfg_parser, section, option, fallback=None):
     if (option == "blend_dirs" or
         option == "assets_dirs" or
         option == "apps" or
+        option == "ignore" or
         option == "js_ignore" or
         option == "css_ignore"):
 
@@ -84,7 +85,6 @@ def dict_to_csv_str(d):
 
     return ",".join(items)
 
-
 def calc_proj_size(dirs_in, root):
 
     # copy and normalize
@@ -114,3 +114,6 @@ def calc_proj_size(dirs_in, root):
 
     return total_size
 
+def print_flush():
+    sys.stdout.flush()
+    sys.stderr.flush()

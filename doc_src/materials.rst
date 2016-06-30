@@ -145,6 +145,9 @@ Dynamic Reflection
 
 A surface reflects the selected objects in their current position. The engine supports planar and spherical reflections.
 
+.. note::
+    If you are using :ref:`node materials <node_materials>`, dynamic reflection will only work if a ``Material`` or ``Extended Material`` node is present in the node tree.
+
 Activation
 ..........
 
@@ -216,6 +219,8 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
 
 .. index:: materials; rendering properties
 
+.. _rendering_properties:
+
 Rendering Properties
 ====================
 
@@ -233,6 +238,9 @@ Rendering Properties
     Water wetting effect is activated for the material.
 
     .. seealso:: :ref:`water`
+
+*Material > Rendering Options > Lens Flare*
+    Enabling this parameter activates Lens Flare effect for the material.
 
 *Material > Rendering Options > Render Above All*
     Material is rendered on top of all scene objects. Transparency type with a gradient is required (``Add``, Alpha Blend`` or ``Alpha Sort``).

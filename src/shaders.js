@@ -220,8 +220,8 @@ exports.set_default_directives = function(sinfo) {
         "CSM_SECTION3",
         "DEBUG_SPHERE",
         "DEBUG_SPHERE_DYNAMIC",
+        "DEBUG_VIEW_SPECIAL_SKYDOME",
         "DEPTH_RGBA",
-        "DISABLE_DISTORTION_CORRECTION",
         "DISABLE_FOG",
         "DOUBLE_SIDED_LIGHTING",
         "DYNAMIC",
@@ -307,7 +307,8 @@ exports.set_default_directives = function(sinfo) {
         "MAC_OS_SHADOW_HACK",
         "USE_COLOR_RAMP",
         "HALO_PARTICLES",
-        "PARTICLE_BATCH"
+        "PARTICLE_BATCH",
+        "HAS_REFRACT_TEXTURE"
     ];
 
     for (var i = 0; i < dir_names.length; i++) {
@@ -327,8 +328,8 @@ exports.set_default_directives = function(sinfo) {
         case "CSM_SECTION3":
         case "DEBUG_SPHERE":
         case "DEBUG_SPHERE_DYNAMIC":
+        case "DEBUG_VIEW_SPECIAL_SKYDOME":
         case "DEPTH_RGBA":
-        case "DISABLE_DISTORTION_CORRECTION":
         case "DISABLE_FOG":
         case "DOUBLE_SIDED_LIGHTING":
         case "DYNAMIC":
@@ -398,6 +399,7 @@ exports.set_default_directives = function(sinfo) {
         case "USE_COLOR_RAMP":
         case "HALO_PARTICLES":
         case "PARTICLE_BATCH":
+        case "HAS_REFRACT_TEXTURE":
             val = 0;
             break;
 
@@ -694,7 +696,7 @@ function preprocess_shader(type, ast, shaders_info) {
                 process_textline(pelem);
                 break;
             default:
-                throw "Unknown element type: " + pelem.type;
+                m_util.panic("Unknown element type: " + pelem.type);
                 break;
             }
         }
@@ -915,7 +917,7 @@ function preprocess_shader(type, ast, shaders_info) {
     }
     function process_error(elem) {
         var tokens = elem.tokens;
-        throw "Shader error: #error " + tokens.join(" ");
+        m_util.panic("Shader error: #error " + tokens.join(" "));
     }
     function process_pragma(elem) {
         // return back to shader
@@ -1240,7 +1242,10 @@ function init_shader(gl, vshader_text, fshader_text,
         transient_uniform_setters : [],
 
         // NOTE: for debug purposes
-        shaders_info: shaders_info
+        shaders_info: m_util.clone_object_json(shaders_info),
+
+        shader_id: shader_id,
+        cleanup_gl_data_on_unload: true
     };
 
     var att_count = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES);
@@ -1308,24 +1313,23 @@ exports.get_compiled_shaders = function() {
 }
 
 exports.cleanup = cleanup;
-
 function cleanup() {
-
-    for (var shader_id in _compiled_shaders) {
-        var shader = _compiled_shaders[shader_id];
-        _gl.deleteProgram(shader.program);
-        // shaders automatically detached here
-
-        _gl.deleteShader(shader.vshader);
-        _gl.deleteShader(shader.fshader);
-        delete _compiled_shaders[shader_id];
-    }
+    for (var shader_id in _compiled_shaders)
+        cleanup_shader(_compiled_shaders[shader_id]);
 
     for (var id in _shader_ast_cache)
         delete _shader_ast_cache[id];
 
     for (var hc in _debug_hash_codes)
         delete _debug_hash_codes[hc];
+}
+
+exports.cleanup_shader = cleanup_shader;
+function cleanup_shader(shader) {
+    _gl.deleteProgram(shader.program);
+    _gl.deleteShader(shader.vshader);
+    _gl.deleteShader(shader.fshader);
+    delete _compiled_shaders[shader.shader_id];
 }
 
 exports.debug_shaders_info = function(shaders_info) {
@@ -1379,7 +1383,7 @@ function glsl_value(value, dim) {
                 glsl_float(value[14]) + "," + glsl_float(value[15]) + ")";
         break;
     default:
-        throw "Wrong glsl value dimension";
+        m_util.panic("Wrong glsl value dimension");
         break;
     }
 }

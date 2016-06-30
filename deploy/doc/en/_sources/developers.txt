@@ -604,31 +604,35 @@ Now you can build and install the package:
     > make
     > make install
 
+.. _converter_data_format:
+
 Data Format
 -----------
 
 The conversion is performed as follows:
 
 for audio (convert_media):
-    * ogg -> mp4
+    * ogg, oga -> mp4
     * mp3 -> ogg
-    * mp4 -> ogg
+    * mp4, m4a -> ogg
 
 We recommend to use ``ogg`` as a base format. In this case the only conversion required for cross-browser compatibility will be ``ogg`` to ``mp4``. Example of an input file: ``file_name.ogg``, example of an output file: ``file_name.altconv.mp4``.
 
 for video (convert_media):
     * webm -> m4v
-    * m4v -> webm
-    * ogv -> webm
+    * mp4, m4v -> webm
+    * ogg, ogv -> webm
     * webm -> seq
-    * m4v -> seq
-    * ogv -> seq
+    * mp4, m4v -> seq
+    * ogg, ogv -> seq
 
 We recommend to use ``WebM`` as a base format. In this case the only conversion required for cross-browser compatibility will be ``webm`` to ``m4v`` (``webm`` to ``seq`` for iPhone). Example of an input file: ``file_name.webm``, example of an output file: ``file_name.altconv.m4v``.
 
 for images (convert_dds):
     * png -> dds
     * jpg -> dds
+    * bmp -> dds
+    * gif -> dds
 
 Example of an input file: ``file_name.jpg``, example of an output file: ``file_name.altconv.jpg.dds``.
 

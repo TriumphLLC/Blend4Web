@@ -91,6 +91,8 @@ function main_canvas_clicked_cb(e) {
             }
             _napkin_flag = !_napkin_flag;
             break;
+        default:
+            return;
         }
         _wait_for_image_loading = true;
     }

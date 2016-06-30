@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 17:26+0300\n"
+"POT-Creation-Date: 2016-06-28 14:01+0300\n"
 "PO-Revision-Date: 2016-03-31 22:12+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -184,7 +184,7 @@ msgstr ""
 "``重复`` 模式。在这种情况下纹理坐标的整数部分被忽略、小数部分被使用。在所有其他情况下 （例如 ``扩展``） 引擎设置 "
 "``CLAMP_TO_EDGE``  模式。在这种情况下纹理坐标限制到 [0，1] 段。默认值是 ``重复``."
 
-#: ../textures.rst:66
+#: ../textures.rst:69
 msgid "*Mapping > Coordinates*"
 msgstr "*贴图 > 坐标*"
 
@@ -199,106 +199,112 @@ msgstr ""
 "**matcap**) 和  ``生成`` 。默认值是 ``生成`` 。"
 
 #: ../textures.rst:69
+msgid ""
+"Blend4Web engine currently supports no more than two UV maps per "
+"material. If the material has more than two UV maps, additional maps will"
+" be ignored during the export."
+msgstr ""
+
+#: ../textures.rst:72
 msgid "*Mapping > Size*"
 msgstr "*贴图 > 大小*"
 
-#: ../textures.rst:69
+#: ../textures.rst:72
 msgid "Scaling the UV map along respective axes. The default values are 1.0."
 msgstr "沿着各自的轴缩放 UV 贴图。默认值是 1.0。"
 
-#: ../textures.rst:72
+#: ../textures.rst:75
 msgid "*Export Options > Do Not Export*"
 msgstr "*导出选项 > 不导出*"
 
-#: ../textures.rst:72
+#: ../textures.rst:75
 msgid "Do not export the texture."
 msgstr "不导出纹理。"
 
-#: ../textures.rst:77
+#: ../textures.rst:80
 msgid "*Export Options > Disable Compression*"
 msgstr "*导出选项 > 禁用压缩*"
 
-#: ../textures.rst:77
+#: ../textures.rst:80
 msgid ""
 "Disable texture compression for this texture. Used in cases when "
 ":ref:`texture compression <dds>` deteriorates the image quality. For "
 "example it's recommended to disable compression for mask textures used to"
 " mix different parts of materials."
-msgstr ""
-"禁用这个纹理的纹理压缩。在 :ref:`纹理压缩 <dds>` 恶化图像质量情况下使用。例如用于混合材质的不同部分建议禁用压缩遮罩纹理。"
+msgstr "禁用这个纹理的纹理压缩。在 :ref:`纹理压缩 <dds>` 恶化图像质量情况下使用。例如用于混合材质的不同部分建议禁用压缩遮罩纹理。"
 
-#: ../textures.rst:80
+#: ../textures.rst:83
 msgid "*Export Options > Shore Distance Map*"
 msgstr "*导出选项 > 海岸距离贴图*"
 
-#: ../textures.rst:80
+#: ../textures.rst:83
 msgid "Used in :ref:`outdoor rendering <outdoor_rendering>`."
 msgstr "使用在  :ref:`室外渲染 <outdoor_rendering>`."
 
-#: ../textures.rst:83
+#: ../textures.rst:86
 msgid "*Export Options > Anisotropic Filtering*"
 msgstr "*导出选项 > 各向异性过滤*"
 
-#: ../textures.rst:83
+#: ../textures.rst:86
 msgid ""
 "Anisotropic filtering factor for the individual texture. It has priority "
 "over the similar parameter for the scene. The default value is "
 "``DEFAULT`` (i.e. use the scene settings)."
 msgstr "各向异性过滤单独对纹理进行影响。对场景其他类似的参数有更高优先级别。默认值是 ``默认`` （即使用场景设置）。"
 
-#: ../textures.rst:86
+#: ../textures.rst:89
 msgid "*Water Foam*"
 msgstr "*水泡沫*"
 
-#: ../textures.rst:86
+#: ../textures.rst:89
 msgid "The foam texture. Used by the water rendering material."
 msgstr "泡沫的纹理。在水的材质中使用。"
 
-#: ../textures.rst:90
+#: ../textures.rst:93
 msgid "Texture compression is disabled for textures used as normal maps."
 msgstr "纹理使用法线贴图时纹理压缩被禁用。"
 
-#: ../textures.rst:98
+#: ../textures.rst:101
 msgid "Diffuse Map"
 msgstr "漫射贴图"
 
-#: ../textures.rst:100
+#: ../textures.rst:103
 msgid ""
 "A diffuse map is used for specifying scattered light distribution (the "
 "Lambert model)."
 msgstr "漫射贴图用于指定散射光的分布 （Lambert 模型）。"
 
-#: ../textures.rst:103 ../textures.rst:127 ../textures.rst:153
-#: ../textures.rst:178 ../textures.rst:211 ../textures.rst:372
-#: ../textures.rst:398
+#: ../textures.rst:106 ../textures.rst:130 ../textures.rst:156
+#: ../textures.rst:181 ../textures.rst:214 ../textures.rst:375
+#: ../textures.rst:401
 msgid "Activation"
 msgstr "激活"
 
-#: ../textures.rst:105
+#: ../textures.rst:108
 msgid ""
 "Enable the ``Diffuse > Color`` checkbox on the ``Textures > Influence`` "
 "panel."
 msgstr "启用 ``纹理 > 影响`` 面板上的 ``漫射 > 颜色`` 复选框。"
 
-#: ../textures.rst:108 ../textures.rst:132 ../textures.rst:158
-#: ../textures.rst:183 ../textures.rst:217 ../textures.rst:377
-#: ../textures.rst:418
+#: ../textures.rst:111 ../textures.rst:135 ../textures.rst:161
+#: ../textures.rst:186 ../textures.rst:220 ../textures.rst:380
+#: ../textures.rst:421
 msgid "Additional Settings"
 msgstr "附加设置"
 
-#: ../textures.rst:111
+#: ../textures.rst:114
 msgid "*Influence > Diffuse > Color*"
 msgstr "*影响 > 漫射 > 颜色*"
 
-#: ../textures.rst:111
+#: ../textures.rst:114
 msgid "Influence of the texture on the diffuse color. The default value is 1.0."
 msgstr "对漫反射颜色上的纹理的影响。默认值是 1.0。"
 
-#: ../textures.rst:115 ../textures.rst:138
+#: ../textures.rst:118 ../textures.rst:141
 msgid "*Influence > Blend*"
 msgstr "*影响 > 混合*"
 
-#: ../textures.rst:114
+#: ../textures.rst:117
 msgid ""
 "The type of the interaction with the material color (``Material > Diffuse"
 " > Color``), or with the vertex color if the ``Vertex Color Paint`` "
@@ -309,40 +315,40 @@ msgstr ""
 "与材质颜色相互作用的类型 (``材质 > 漫反射 > 颜色``)，或与顶点颜色如果启用了 ``顶点颜色绘制`` 选框。支持以下类型: "
 "``混合``（混合的颜色），``相乘`` （乘以颜色）。默认值是``混合`` 。"
 
-#: ../textures.rst:122
+#: ../textures.rst:125
 msgid "Specular Map"
 msgstr "高光贴图"
 
-#: ../textures.rst:124
+#: ../textures.rst:127
 msgid ""
 "The specular map is used for specifying the reflected light color "
 "distribution (the Phong model)."
 msgstr "高光贴图用于指定反射光的颜色分布 （Phong 模型）。"
 
-#: ../textures.rst:129
+#: ../textures.rst:132
 msgid ""
 "Enable the ``Specular > Color`` checkbox on the ``Textures > Influence`` "
 "panel."
 msgstr "启用 ``纹理 > 影响`` 面板上的 ``镜面 > 颜色`` 复选框。"
 
-#: ../textures.rst:135
+#: ../textures.rst:138
 msgid "*Influence > Specular > Color*"
 msgstr "*影响 > 镜面 > 颜色*"
 
-#: ../textures.rst:135
+#: ../textures.rst:138
 msgid ""
 "The influence of the texture on the reflected light color. The default "
 "value is 1.0."
 msgstr "对反射光颜色纹理的影响。默认值是 1.0。"
 
-#: ../textures.rst:138
+#: ../textures.rst:141
 msgid ""
 "The type of interaction with the reflected light color of the material "
 "(``Material > Specular > Color``). ``Mix`` (mixes with the color) is the "
 "only supported type. The default value is ``Mix``."
 msgstr "反射光的颜色与材质的交互作用的类型 (``材质 > 镜面 > 颜色``)。``混合``（用颜色混合） 是唯一受支持的类型。默认值是 ``混合`` 。"
 
-#: ../textures.rst:140
+#: ../textures.rst:143
 msgid ""
 "The specular map can be packed to the alpha channel of a diffuse texture "
 "for optimization purposes. In such case it is required for the texture to"
@@ -352,11 +358,11 @@ msgstr ""
 "出于优化的目的高光贴图可以打包到的漫射纹理的 alpha 通道中。在这种情况下是纹理同时启用  ``漫射 > 颜色``  和 ``镜面 > "
 "颜色`` 复选框。颜色范围被限制在灰色色调。"
 
-#: ../textures.rst:148
+#: ../textures.rst:151
 msgid "Normal Map"
 msgstr "法线贴图"
 
-#: ../textures.rst:150
+#: ../textures.rst:153
 msgid ""
 "A normal map is used for specifying the distribution of surface normals "
 "(perpendiculars) with the purpose of the relief detalization. The "
@@ -365,27 +371,27 @@ msgid ""
 " supported."
 msgstr "法线贴图用于指定的表面法线 （垂线） 分布为了立体的细节。关于法线信息应存储在纹理空间的坐标。法线贴图不支持在对象空间坐标的烘焙。"
 
-#: ../textures.rst:155
+#: ../textures.rst:158
 msgid ""
 "Enable the ``Geometry > Normal`` checkbox on the ``Textures > Influence``"
 " panel."
 msgstr "启用 ``纹理 > 影响`` 面板上的 ``几何 > 法线`` 复选框"
 
-#: ../textures.rst:162
+#: ../textures.rst:165
 msgid "*Influence > Geometry > Normal*"
 msgstr "*影响 > 几何 > 法线*"
 
-#: ../textures.rst:161
+#: ../textures.rst:164
 msgid ""
 "Normal map influence on the resulting normals calculation. The default "
 "value is 1.0."
 msgstr "法线贴图影响产生的法线计算。默认值是 1.0。"
 
-#: ../textures.rst:169
+#: ../textures.rst:172
 msgid "Height Map. Parallax Mapping"
 msgstr "高度图。视差贴图"
 
-#: ../textures.rst:171
+#: ../textures.rst:174
 msgid ""
 "A height map contains information about the distribution of relative "
 "relief heights. The higher the surface level is, the brighter is its "
@@ -396,55 +402,55 @@ msgstr ""
 "高度图包含相对宽缓的高度分布信息。表面的高度越高，颜色越明亮。高度图结合法线贴图都能展示立体效果 （视差贴图） 的实现。高度图应该出现在法线贴图的"
 " alpha 通道。"
 
-#: ../textures.rst:180
+#: ../textures.rst:183
 msgid ""
 "For the normal map enable the ``Parallax`` panel in addition to the "
 "``Geometry > Normal`` checkbox."
 msgstr "对于法线贴图在 ``几何 > 正常`` 复选框的 ``视差`` 面板启用。"
 
-#: ../textures.rst:186
+#: ../textures.rst:189
 msgid "*Parallax > Parallax Scale*"
 msgstr "*视差 > 视差缩放*"
 
-#: ../textures.rst:186
+#: ../textures.rst:189
 msgid "Influence factor for the relief surface effect. The default value is 0.03."
 msgstr "表面立体效果的影响因素。默认值为 0.03。"
 
-#: ../textures.rst:189
+#: ../textures.rst:192
 msgid "*Parallax > Parallax Steps*"
 msgstr "*视差 > 视差步*"
 
-#: ../textures.rst:189
+#: ../textures.rst:192
 msgid ""
 "The number of iterations for the relief surface calculations. Bigger "
 "value leads to better quality but is more computationally expensive."
 msgstr "为立体表面计算的迭代次数。更大的值导致更好的质量但更多更昂贵的计算。"
 
-#: ../textures.rst:192
+#: ../textures.rst:195
 msgid "*Parallax > Parallax LOD distance*"
 msgstr "*视差 > 视差 LOD 距离*"
 
-#: ../textures.rst:192
+#: ../textures.rst:195
 msgid "Distance at which the parallax effect is observed."
 msgstr "观察者的距离视差效应。"
 
-#: ../textures.rst:206
+#: ../textures.rst:209
 msgid "Stencil Map"
 msgstr "蒙版贴图"
 
-#: ../textures.rst:208
+#: ../textures.rst:211
 msgid ""
 "The special purpose texture (colorful or grayscale) contains information "
 "about the distribution of other texture surfaces."
 msgstr "特殊用途纹理 (彩色或灰度) 包含有关其他纹理表面的分布信息。"
 
-#: ../textures.rst:213
+#: ../textures.rst:216
 msgid ""
 "In case of node materials a stencil map should be used in the "
 "corresponding node structure."
 msgstr "如果节点材质蒙版贴图应该用于相应的节点结构。"
 
-#: ../textures.rst:214
+#: ../textures.rst:217
 msgid ""
 "In case of generic materials a stencil map should be located in a texture"
 " slot between two mixed diffuse textures. A stencil map requires to set "
@@ -454,17 +460,17 @@ msgstr ""
 "在通用材质的情况下蒙版贴图应位于两个混合弥漫纹理之间的纹理插槽。蒙版贴图要求同时启用 ``纹理 > 影响`` 面板上设置  ``RGB到强度`` "
 "和 ``蒙版`` 复选框。"
 
-#: ../textures.rst:219
+#: ../textures.rst:222
 msgid ""
 "In the case of generic materials one of the mixed diffuse textures can "
 "have the ``Normal`` (\"matcap\") texture coordinates type."
 msgstr "有一个混合的漫射纹理的通用的材质可以有 ``法线`` (\"matcap\") 纹理坐标类型。"
 
-#: ../textures.rst:222
+#: ../textures.rst:225
 msgid "Limitations"
 msgstr "限制条件"
 
-#: ../textures.rst:224
+#: ../textures.rst:227
 msgid ""
 "In case of generic materials the engine only interprets the red channel "
 "of a stencil map. Specular maps or normal maps (if any) are not being "
@@ -474,56 +480,56 @@ msgstr ""
 "在通用材质的情况下，引擎只是使用蒙版贴图的红色通道。高光贴图或法线贴图（如果有） 不能混合在一起。``映射 > 尺寸`` "
 "设置从第一个纹理提取并应用于所有剩余的纹理。"
 
-#: ../textures.rst:227
+#: ../textures.rst:230
 msgid "Example"
 msgstr "示例"
 
-#: ../textures.rst:229
+#: ../textures.rst:232
 msgid ""
 "The apple model material has the following textures: a normal map, a "
 "diffuse texture with a specular map in its alpha channel, a stencil map, "
 "a diffuse \"matcap\" map, an environment map."
 msgstr "苹果模型材质具有以下的纹理 ︰ 法线贴图， alpha 通道有反射贴图的漫射贴图，蒙版贴图、 漫射 \"matcap\" 贴图，环境贴图纹理。"
 
-#: ../textures.rst:247
+#: ../textures.rst:250
 msgid "Video Textures"
 msgstr "视频贴图"
 
-#: ../textures.rst:249
+#: ../textures.rst:252
 msgid ""
 "A video file can be used as a texture if ``Image or Movie`` texture type "
 "is selected."
 msgstr "如果选择了 ``图像或电影`` 纹理类型，视频文件可以用作纹理。"
 
-#: ../textures.rst:253
+#: ../textures.rst:256
 msgid ""
 "Video textures support playing back just video tracks. Audio tracks "
 "should be played back by using a ``SPEAKER`` object."
 msgstr "视频纹理只是视频轨道支持播放。音频轨道应使用的 ``扬声器`` 物体来播放。"
 
-#: ../textures.rst:256
+#: ../textures.rst:259
 msgid "Supported formats (containers):"
 msgstr "支持的格式 （容器） ︰"
 
-#: ../textures.rst:258
+#: ../textures.rst:261
 msgid "webm, VP8 codec (Chrome, Firefox)"
 msgstr "webm VP8 编解码器 （Chrome、 火狐浏览器）"
 
-#: ../textures.rst:259
+#: ../textures.rst:262
 msgid "m4v, H.264 codec (Chrome, Safari, IE)"
 msgstr "m4v，H.264 编解码器 (Chrome，Safari，IE)"
 
-#: ../textures.rst:260
+#: ../textures.rst:263
 msgid "ogv, Theora codec (Chrome, Firefox)"
 msgstr "ogv，Theora 编解码器 （Chrome、 火狐浏览器）"
 
-#: ../textures.rst:262
+#: ../textures.rst:265
 msgid ""
 "We recommend to use *WebM* as a basic format. It is an open standard "
 "supported by the majority of browsers and offers good picture quality."
 msgstr "我们推荐使用 *WebM* 作为基本的格式。它是绝大多数浏览器所支持的开放标准，并提供不错的画质。"
 
-#: ../textures.rst:266
+#: ../textures.rst:269
 msgid ""
 "Files saved in mp4 and ogg formats have different extensions for audio "
 "and video data: *.mp4* and *.ogg* extensions are used for sounds, *.m4v* "
@@ -532,82 +538,82 @@ msgstr ""
 "保存为 mp4 和 ogg 格式的文件有不同的音频和视频数据的扩展: *.mp4* 和 *.ogg* 扩展用于声音，*.m4v* 和 *.ogv*"
 " - 是视频。"
 
-#: ../textures.rst:268
+#: ../textures.rst:271
 msgid ""
 "Converting resources between different formats is described in the "
 ":ref:`corresponding section <converter>`."
 msgstr "不同格式之间的资源转换的描述在  :ref:`相应章节 <converter>`."
 
-#: ../textures.rst:271
+#: ../textures.rst:274
 msgid "Setting up the Texture"
 msgstr "设置纹理"
 
-#: ../textures.rst:273
+#: ../textures.rst:276
 msgid ""
 "The following settings are available for video textures on the ``Texture "
 "> Image`` panel:"
 msgstr "下面是  ``纹理 > 图像`` 面板上的视频纹理可设置项 :"
 
-#: ../textures.rst:276
+#: ../textures.rst:279
 msgid "*Image > Frames*"
 msgstr "*图像 > 帧数*"
 
-#: ../textures.rst:276
+#: ../textures.rst:279
 msgid "Length of the played fragment in frames."
 msgstr "在帧中播放片段的长度。"
 
-#: ../textures.rst:279
+#: ../textures.rst:282
 msgid "*Image > Offset*"
 msgstr "*图像 > 偏移*"
 
-#: ../textures.rst:279
+#: ../textures.rst:282
 msgid "The number of the frame from which the video playback starts."
 msgstr "开始播放视频的帧数。"
 
-#: ../textures.rst:282
+#: ../textures.rst:285
 msgid "*Image > Cyclic*"
 msgstr "*图像 > 循环*"
 
-#: ../textures.rst:282
+#: ../textures.rst:285
 msgid "Start video playback afresh each time it finishes."
 msgstr "完成每次重新启动视频播放。"
 
-#: ../textures.rst:285
+#: ../textures.rst:288
 msgid "*Image > Allow NLA*"
 msgstr "*图像 > 允许 NLA*"
 
-#: ../textures.rst:285
+#: ../textures.rst:288
 msgid ""
 "Play back the texture as part of an NLA track. Additionally, enable NLA "
 "in the global scene settings through activating ``Scene > NLA``. Enabled "
 "by default."
 msgstr "作为 NLA 轨道部分的播放出来的纹理。此外，在通过激活 ``场景 > NLA`` 全局场景设置中启用 NLA。默认情况下启用。"
 
-#: ../textures.rst:287
+#: ../textures.rst:290
 msgid "For NLA-controlled textures the following option is also applicable:"
 msgstr "NLA 控制纹理以下选项也是适用的 ︰"
 
-#: ../textures.rst:290
+#: ../textures.rst:293
 msgid "*Image > Start*"
 msgstr "*图像 > 开始*"
 
-#: ../textures.rst:290
+#: ../textures.rst:293
 msgid "Video playback delay (in frames) when using non-linear animation."
 msgstr "视频播放延迟 （帧） 时使用的非线性动画。"
 
-#: ../textures.rst:292
+#: ../textures.rst:295
 msgid "For non-NLA-controlled textures the following option is also applicable:"
 msgstr "对于非 NLA 控制纹理以下选项也是适用的 ︰"
 
-#: ../textures.rst:295
+#: ../textures.rst:298
 msgid "*Image > Auto Refresh*"
 msgstr "*图像 > 自动刷新*"
 
-#: ../textures.rst:295
+#: ../textures.rst:298
 msgid "Play back the video immediately after the scene is loaded."
 msgstr "场景加载后立即播放视频。"
 
-#: ../textures.rst:302
+#: ../textures.rst:305
 msgid ""
 "The video playback rate can be increased. To do this set ``Scene > "
 "Dimensions > Frame rate`` to a value which is different from the FPS "
@@ -617,7 +623,7 @@ msgstr ""
 "可以增加视频播放速率。要这样做需设置 ``场景 > 尺寸 > 帧速率`` 和视频的 FPS 值是不同的值。视频播放率是按比例增加到场景的 FPS "
 "和视频的 FPS 的比例。"
 
-#: ../textures.rst:309
+#: ../textures.rst:312
 msgid ""
 "When video textures are used together with NLA, the video playback can be"
 " not corresponding with Blender settings. Namely, there can be observed "
@@ -627,15 +633,15 @@ msgstr ""
 "当视频纹理与 NLA 一起使用时，视频播放可以不对应与Blender设置。即，可能观察到5 6 帧延迟是由于 <video>HTML "
 "元素的开始/暂停的延迟。"
 
-#: ../textures.rst:312
+#: ../textures.rst:315
 msgid "Specifics of Mobile Devices"
 msgstr "移动设备的细节"
 
-#: ../textures.rst:314
+#: ../textures.rst:317
 msgid "The peculiarities for mobile devices are as follows:"
 msgstr "移动设备特点如下 ︰"
 
-#: ../textures.rst:316
+#: ../textures.rst:319
 msgid ""
 "Normal operation of video textures on iPhones is not possible because "
 "these devices play back videos via the standard iOS video player. For "
@@ -645,30 +651,30 @@ msgstr ""
 "视频纹理在 Iphone 上的正常运行是不可能的，因为这些设备播放视频通过标准 iOS 视频播放器。你需要将你的视频转换为特殊的 '.seq ' "
 "格式在这些设备上用，通过使用我们  :ref:`转换器 <converter>`."
 
-#: ../textures.rst:317
+#: ../textures.rst:320
 msgid "some devices only support playing back only one video file."
 msgstr "有些设备只支持播放一种视频文件。"
 
-#: ../textures.rst:318
+#: ../textures.rst:321
 msgid "stable operation is not guaranteed if the ``Offset`` value is not zero."
 msgstr "如果 ``偏移值`` 不为零不能保证稳定运行。"
 
-#: ../textures.rst:319
+#: ../textures.rst:322
 msgid "not all devices support changing the video playback rate."
 msgstr "不是所有设备都支持更改视频播放速率。"
 
-#: ../textures.rst:320
+#: ../textures.rst:323
 msgid ""
 "iPad and iPhone do not provide the possibility to control the audio "
 "volume for video, and so the audio track should be removed from the video"
 " before the file is added to Blender."
 msgstr "iPad 和 iPhone 不能控制视频的音频音量，在将文件添加到Blender前，音频轨道应从视频中删除。"
 
-#: ../textures.rst:327
+#: ../textures.rst:330
 msgid "Environment Map"
 msgstr "环境贴图"
 
-#: ../textures.rst:329
+#: ../textures.rst:332
 msgid ""
 "An environment map can be used as a :ref:`mirror map <mirror_map>`, as a "
 "static :ref:`sky texture (skydome) <skydome_texture>` and also for "
@@ -678,7 +684,7 @@ msgstr ""
 "环境贴图可以用作 :ref:`镜面贴图 <mirror_map>`, 作为一个静态 :ref:`天空纹理 (天穹) "
 "<skydome_texture>` 也可以实现  :ref:`环境照明  <environment_lighting>` 方法。 "
 
-#: ../textures.rst:331
+#: ../textures.rst:334
 msgid ""
 "The engine considers it as a cube texture. Environment map bitmaps should"
 " contain 6 projected environment images, packed in 2 rows 3 pieces in "
@@ -688,37 +694,37 @@ msgstr ""
 "引擎就默认作为立方体的纹理。环境贴图的位图应该包含环境图像6个方向投影，封装在 2 行 每行3 件 "
 "Blender格式）。为每个图像的位图大小应遵循 2\\ :sup:`N` 规则 (512、 1024 等)。"
 
-#: ../textures.rst:333
+#: ../textures.rst:336
 msgid ""
 "It is recommended to use the lossless format (PNG) in order to avoid "
 "seams."
 msgstr "为了避免接缝，建议使用无损格式 (PNG) 。"
 
-#: ../textures.rst:341
+#: ../textures.rst:344
 msgid "Making Environment Maps"
 msgstr "制作环境贴图"
 
-#: ../textures.rst:343
+#: ../textures.rst:346
 msgid ""
 "Blender has an option for baking a scene into an environment map. To do "
 "this:"
 msgstr "Blender有烘焙场景到环境映射选项。要此操作 ︰"
 
-#: ../textures.rst:345
+#: ../textures.rst:348
 msgid "Create a scene for baking."
 msgstr "创建一个场景进行烘焙。"
 
-#: ../textures.rst:346
+#: ../textures.rst:349
 msgid "Add an empty object in the supposed point of view (``Add > Empty``)."
 msgstr "在视图默认点中添加一个空对象  (``添加 > 空物体``)."
 
-#: ../textures.rst:347
+#: ../textures.rst:350
 msgid ""
 "Go to the ``World`` tab then to the ``Textures`` tab and create a new "
 "texture with the ``Environment Map`` type."
 msgstr "转到 ``世界`` 选项卡，然后到 ``纹理`` 选项卡，用 ``环境贴图`` 类型创建一个新的纹理。"
 
-#: ../textures.rst:348
+#: ../textures.rst:351
 msgid ""
 "On the ``Environment Map`` panel select the ``Static`` source, then "
 "select the empty object in the ``Viewport Object`` field, then set the "
@@ -727,61 +733,61 @@ msgstr ""
 "``环境贴图`` 面板上选择 ``静态`` 的源，然后在 ``视口物体`` 栏选择空物体，然后设置 2\\ :sup:`N`  维度 (512、 "
 "1024等)。"
 
-#: ../textures.rst:349
+#: ../textures.rst:352
 msgid "Render the scene by pressing ``F12`` (a camera is required)."
 msgstr "按 'f12 键 ' （相机是必需有的） 渲染场景。"
 
-#: ../textures.rst:350
+#: ../textures.rst:353
 msgid "Save the environment map into a file."
 msgstr "将环境映射保存到一个文件。"
 
-#: ../textures.rst:367
+#: ../textures.rst:370
 msgid "Mirror Map"
 msgstr "镜面贴图"
 
-#: ../textures.rst:369
+#: ../textures.rst:372
 msgid ""
 "A mirror map is used to visualize the surface reflection. This is an "
 ":ref:`environment map <environment_map>`."
 msgstr "镜子贴图用于表面反射可视化。这是一个 :ref:`环境贴图 <environment_map>`."
 
-#: ../textures.rst:374
+#: ../textures.rst:377
 msgid ""
 "Select the ``Environment Map`` texture type (``Type``). Enable the "
 "``Shading > Mirror`` checkbox on the ``Textures > Influence`` panel."
 msgstr "选择 ``环境贴图`` 纹理类型 （类型）。启用 ``纹理 > 影响`` 面板上的 ``光影  > 镜子`` 复选框。"
 
-#: ../textures.rst:381
+#: ../textures.rst:384
 msgid "*Influence > Shading > Mirror*"
 msgstr "*影响 > 光影 > 镜子*"
 
-#: ../textures.rst:380
+#: ../textures.rst:383
 msgid ""
 "The degree to which the mirror map affects the reflection. The default "
 "value is 1.0."
 msgstr "镜面贴图影响反射程度。默认值是 1.0。"
 
-#: ../textures.rst:383
+#: ../textures.rst:386
 msgid ":ref:`Static reflection <reflection_static>`."
 msgstr ":ref:`静态反射 <reflection_static>`."
 
-#: ../textures.rst:391
+#: ../textures.rst:394
 msgid "Skydome"
 msgstr "天穹"
 
-#: ../textures.rst:393
+#: ../textures.rst:396
 msgid ""
 "A skydome is used to visualize an infinitely far environment (for example"
 " the sky). This is an :ref:`environment map <environment_map>`."
 msgstr "天穹用于无穷远的环境可视化（例如天空）。这是  :ref:`环境贴图  <environment_map>`."
 
-#: ../textures.rst:395
+#: ../textures.rst:398
 msgid ""
 "Can be also used to implement one of the :ref:`environment lighting "
 "<environment_lighting>` methods."
 msgstr "也可用来实现  :ref:`环境照明 <environment_lighting>`  方法。"
 
-#: ../textures.rst:400
+#: ../textures.rst:403
 msgid ""
 "Create a world texture of ``Environment Map`` type. Select the ``Export "
 "Options > Sky Texture Usage > SKYDOME`` option. Enable ``World > Render "
@@ -790,7 +796,7 @@ msgstr ""
 "用 ``环境贴图`` 类型创建世界纹理。选择 ``导出选项 > 天空纹理使用 > 天穹`` 选项。启用 ``世界`` 选项卡下 ``世界 > "
 "渲染天空`` 。"
 
-#: ../textures.rst:404
+#: ../textures.rst:407
 msgid ""
 "The behavior of the texture is intentionally made as close as possible to"
 " the Blender internal render. That's why the texture may not be displayed"
@@ -801,7 +807,7 @@ msgstr ""
 "纹理的行为是故意作出尽可能跟的Blender渲染器一致的效果。这就是为什么纹理可能不会显示在其默认设置。为使纹理可见，设置面板上的 ``影响 > "
 "地平线`` 复选框，将 ``地平线`` 值设置为 1.0。"
 
-#: ../textures.rst:408
+#: ../textures.rst:411
 msgid ""
 "To imitate :ref:`environment lighting <environment_lighting>` you can "
 "select the ``Export Options > Sky Texture Usage > ENVIRONMENT_LIGHTING`` "
@@ -811,13 +817,13 @@ msgstr ""
 "模仿  :ref:`环境光照 <environment_lighting>` 你可以选择 ``导出选项 > 天空纹理使用 > 环境光照`` "
 "选项。此外，你应该在世界设置选中相应的选项 ``环境照明 > 天空纹理``."
 
-#: ../textures.rst:410
+#: ../textures.rst:413
 msgid ""
 "To use the world texture both for skydome and for environment lighting, "
 "select ``Export Options > Sky Texture Usage > BOTH``."
 msgstr "为天穹和环境照明都使用世界纹理，请选择 ``导出选项 > 天空纹理使用 > 同时`` 。"
 
-#: ../textures.rst:420
+#: ../textures.rst:423
 msgid ""
 "The engine also supports parameters from the world texture's "
 "``Influence`` panel which are used for sky rendering. Mixing of the world"
@@ -830,34 +836,34 @@ msgstr ""
 "天顶颜色`` 的参数，并且在 ``纸天空`` 、``混合天空`` 和 ``真正的天空`` 选项。支持所有的混合选项 （``混合`` 、 "
 "``添加`` 、``乘`` 等）。"
 
-#: ../textures.rst:427
+#: ../textures.rst:430
 msgid ""
 "The ``Influence`` panel parameters only affect the sky rendering. They do"
 " not affect :ref:`environment lighting <environment_lighting>` by any "
 "means."
 msgstr "``影响`` 面板参数只影响天空渲染。他们不会以任何方式影响  :ref:`环境照明  <environment_lighting>`  "
 
-#: ../textures.rst:436
+#: ../textures.rst:439
 msgid "Special Texture Types"
 msgstr "特殊的纹理类型"
 
-#: ../textures.rst:438
+#: ../textures.rst:441
 msgid ""
 "In order to use such textures, select ``None`` type under the "
 "``Textures`` tab."
 msgstr "为了使用这种纹理，选择 ``无`` 类型下的 ``纹理`` 选项卡。"
 
-#: ../textures.rst:445
+#: ../textures.rst:448
 msgid ""
 "On the ``Textures > Export Options`` panel, you can set up properties for"
 " these textures:"
 msgstr "在 ``纹理 > 导出选项`` 面板上，您可以对这些纹理设置属性 ︰"
 
-#: ../textures.rst:448
+#: ../textures.rst:451
 msgid "*Export Options > Source Type*"
 msgstr "*导出选项 > 源类型*"
 
-#: ../textures.rst:448
+#: ../textures.rst:451
 msgid ""
 "Select texture type: ``Scene`` - for rendering a 3D scene into the "
 "texture, ``Canvas`` - for using <canvas> HTML element and ``None`` - for "
@@ -866,117 +872,119 @@ msgstr ""
 "选择纹理类型: ``场景`` - 用于渲染 3D 场景成为纹理，``画布`` -使用<canvas>HTML 元素和``无`` - "
 "用于指明没有类型。"
 
-#: ../textures.rst:451
+#: ../textures.rst:454
 msgid "*Export Options > Source ID*"
 msgstr "*导出选项 > 源 ID*"
 
-#: ../textures.rst:451
+#: ../textures.rst:454
 msgid ""
 "The name of the scene which will be rendered into the texture (for "
 "``Scene``), or ID of the <canvas> HTML element (for ``Canvas``)."
 msgstr "要渲染到纹理的场景名称 （为 ``场景``） 或 <canvas> 的 HTML 元素ID 的名称（为 ``画布``）。 "
 
-#: ../textures.rst:454
+#: ../textures.rst:457
 msgid "*Export Options > Source Size*"
 msgstr "*导出选项 > 源大小*"
 
-#: ../textures.rst:454
+#: ../textures.rst:457
 msgid "Texture resolution."
 msgstr "纹理分辨率。"
 
-#: ../textures.rst:457
+#: ../textures.rst:460
 msgid "*Export Options > Extension*"
 msgstr "*导出选项 > 扩展*"
 
-#: ../textures.rst:457
+#: ../textures.rst:460
 msgid ""
 ":ref:`Texture coordinates interpretation mode <texture_extension>`. "
 "Default is ``Repeat``."
 msgstr ":ref:`纹理坐标解释模式 <texture_extension>`. 默认值是重复。"
 
-#: ../textures.rst:460
+#: ../textures.rst:463
 msgid "*Export Options > Enable Mipmapping*"
 msgstr "*导出选项 > 启用纹理多级映射（Mipmap）*"
 
-#: ../textures.rst:460
+#: ../textures.rst:463
 msgid "Enable mipmapping for the Canvas texture. Enabled by default."
 msgstr "为画布纹理启用纹理多级映射。默认情况下启用。"
 
-#: ../textures.rst:468
+#: ../textures.rst:471
 msgid "3D scene"
 msgstr "3D场景"
 
-#: ../textures.rst:470
+#: ../textures.rst:473
+#, fuzzy
 msgid ""
 "A 3D scene's real-time rendered image can be used as a texture by an "
-"object from another scene (\"main\" scene)."
+"object from another scene (\"main\" scene). This technique is known as "
+"`render-to-texture` (RTT) and can be activated by following these steps:"
 msgstr "三维场景实时渲染的图像可以用作其他场景（\"主\"场景）的物体纹理。"
 
-#: ../textures.rst:472
+#: ../textures.rst:475
 msgid "Create an additional source scene."
 msgstr "创建一个附加源场景。"
 
-#: ../textures.rst:473
+#: ../textures.rst:476
 msgid "Rename it for convenience."
 msgstr "为了方便重命名它。"
 
-#: ../textures.rst:474
+#: ../textures.rst:477
 msgid "Create a ``World``."
 msgstr "创建一个 ``世界`` 。"
 
-#: ../textures.rst:475
+#: ../textures.rst:478
 msgid "Add the objects you need."
 msgstr "添加您需要的物体。"
 
-#: ../textures.rst:476
+#: ../textures.rst:479
 msgid "Setup the camera view."
 msgstr "设置相机视图。"
 
-#: ../textures.rst:477
+#: ../textures.rst:480
 msgid "Create a UV map for the target object in the main scene."
 msgstr "在主场景中创建目标物体的 UV 贴图。"
 
-#: ../textures.rst:478
+#: ../textures.rst:481
 msgid "Set the ``None`` type for a texture of the target object."
 msgstr "设置目标物体的纹理为 ``无`` 类型。"
 
-#: ../textures.rst:479
+#: ../textures.rst:482
 msgid "Select the ``Scene`` type in the ``Export Options > Source Type`` menu."
 msgstr "在 ``导出选项 > 源类型`` 菜单中选择 ``场景`` 类型。"
 
-#: ../textures.rst:480
+#: ../textures.rst:483
 msgid ""
 "Specify the name of the source scene in the ``Export Options > Source "
 "ID`` field."
 msgstr "在 ``导出选项 > 源 ID`` 字段中指定源场景的名称。"
 
-#: ../textures.rst:481
+#: ../textures.rst:484
 msgid ""
 "Set the texture size in the ``Export Options > Source Size`` field (in "
 "pixels)."
 msgstr "在 ``导出选项 > 源大小`` 字段 （以像素为单位） 设置纹理的大小。"
 
-#: ../textures.rst:489
+#: ../textures.rst:492
 msgid "The engine also supports the cyclic rendering of scenes to each other."
 msgstr "引擎还支持场景相互循环渲染。"
 
-#: ../textures.rst:493
+#: ../textures.rst:496
 msgid ""
 "A project should contain at least one scene which is not rendered by any "
 "other scenes."
 msgstr "项目应包含至少一个场景，不由任何其他场景渲染完成。"
 
-#: ../textures.rst:499
+#: ../textures.rst:502
 msgid "Canvas"
 msgstr "画布"
 
-#: ../textures.rst:501
+#: ../textures.rst:504
 msgid ""
 "A <canvas> HTML element can be used as a texture. It can be modified via "
 "API."
 msgstr "一个 <canvas>HTML 元素可以用作纹理。它可以通过 API 修改。"
 
-#: ../textures.rst:503
+#: ../textures.rst:506
 msgid ""
 "Set the ``None`` type for the texture of the target object on the main "
 "scene, and select the ``Canvas`` type in the ``Export Options > Source "
@@ -986,13 +994,13 @@ msgstr ""
 "设置主场景目标物体为 ``无`` 类型的纹理，在 ``导出选项 > 源类型`` 菜单中选择 ``画布`` 类型。在 ``导出选项 > 源字号`` "
 "字段 （以像素为单位） 设置纹理的大小。"
 
-#: ../textures.rst:505
+#: ../textures.rst:508
 msgid ""
 "Use the ``textures`` module to handle such textures. See the example "
 "below."
 msgstr "使用 ``纹理`` 模块来处理这种纹理。请参阅下面的示例。"
 
-#: ../textures.rst:519
+#: ../textures.rst:522
 msgid ""
 "Use ``get_canvas_texture_context()`` to obtain a context - this method "
 "requires the \"canvas_id\" identifier which should be defined in Blender."
@@ -1005,7 +1013,7 @@ msgstr ""
 "2dcontext-20140821/>` _,  ``update_canvas_ctx()``  功能被调用，渲染  "
 "\"canvas_id\" 元素的修改。"
 
-#: ../textures.rst:523
+#: ../textures.rst:526
 msgid ""
 "If one Canvas type texture is assigned in Blender to several different "
 "objects, then after engine loading it still will be one texture and not "
@@ -1018,10 +1026,10 @@ msgstr ""
 "如果在Blender中画布类型材质分配给了几个不同的物体，待引擎加载后它仍然将一个纹理而不是几个不同的。应用于它的任何更改将应用于所有使用此纹理的物体，可用于优化的目的。万一不需要这种效果，你在Blender中应指派不同的纹理，或在引擎启动后使用"
 "  :ref:`深度复制 <mesh_copy>` 。"
 
-#: ../textures.rst:3 ../textures.rst:17 ../textures.rst:48 ../textures.rst:95
-#: ../textures.rst:119 ../textures.rst:145 ../textures.rst:166
-#: ../textures.rst:203 ../textures.rst:324 ../textures.rst:362
-#: ../textures.rst:386 ../textures.rst:432
+#: ../textures.rst:3 ../textures.rst:17 ../textures.rst:48 ../textures.rst:98
+#: ../textures.rst:122 ../textures.rst:148 ../textures.rst:169
+#: ../textures.rst:206 ../textures.rst:327 ../textures.rst:365
+#: ../textures.rst:389 ../textures.rst:435
 msgid "textures"
 msgstr "纹理"
 
@@ -1041,59 +1049,59 @@ msgstr "材质捕捉"
 msgid "matcap"
 msgstr "材质捕捉（matcap）"
 
-#: ../textures.rst:95
+#: ../textures.rst:98
 msgid "diffuse"
 msgstr "漫反射"
 
-#: ../textures.rst:95
+#: ../textures.rst:98
 msgid "diffuse map"
 msgstr "漫射贴图"
 
-#: ../textures.rst:119
+#: ../textures.rst:122
 msgid "specular map"
 msgstr "高光贴图"
 
-#: ../textures.rst:145
+#: ../textures.rst:148
 msgid "normal map"
 msgstr "法线贴图"
 
-#: ../textures.rst:166
+#: ../textures.rst:169
 msgid "height map"
 msgstr "高度贴图"
 
-#: ../textures.rst:166
+#: ../textures.rst:169
 msgid "parallax mapping"
 msgstr "视差贴图"
 
-#: ../textures.rst:203
+#: ../textures.rst:206
 msgid "stencil map"
 msgstr "蒙版贴图"
 
-#: ../textures.rst:324
+#: ../textures.rst:327
 msgid "environment map"
 msgstr "环境贴图"
 
-#: ../textures.rst:362
+#: ../textures.rst:365
 msgid "mirror map"
 msgstr "镜面贴图"
 
-#: ../textures.rst:386
+#: ../textures.rst:389
 msgid "sky"
 msgstr "天空"
 
-#: ../textures.rst:386
+#: ../textures.rst:389
 msgid "skydome"
 msgstr "天穹"
 
-#: ../textures.rst:432
+#: ../textures.rst:435
 msgid "render to"
 msgstr "渲染到"
 
-#: ../textures.rst:432
+#: ../textures.rst:435
 msgid "render-to-texture"
 msgstr "渲染到纹理"
 
-#: ../textures.rst:432
+#: ../textures.rst:435
 msgid "RTT"
 msgstr "RTT"
 

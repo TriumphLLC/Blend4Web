@@ -102,4 +102,15 @@ class B4WPreferences(AddonPreferences):
             row = layout.row()
             row.label(m, icon="ERROR")
 
+def get_prefs():
+    return bpy.context.user_preferences.addons[__package__].preferences
+
+def sdk_path(append_path=""):
+    b4w_src_path = get_prefs().b4w_src_path
+    return os.path.normpath(os.path.join(b4w_src_path, append_path))
+
+def has_valid_sdk_path():
+    b4w_src_path = get_prefs().b4w_src_path
+    path_to_index = os.path.join(b4w_src_path, "index.html")
+    return b4w_src_path != "" and os.path.exists(path_to_index)
 

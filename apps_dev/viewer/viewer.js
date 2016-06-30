@@ -496,6 +496,7 @@ function init_ui() {
     bind_control(set_canvas_resolution_factor, "canvas_rf", "number");
     bind_control(set_debug_params, "debug_view_mode", "string");
     m_app.set_onclick("debug_change_colors", debug_change_colors_clicked);
+    bind_control(set_render_time_threshold, "render_time_threshold", "number");
     bind_colpick(set_debug_params, "wireframe_edge_color", "object");
     bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info", "bool"); //TODO
     bind_control(set_enable_gl_debug_and_reload, "enable_gl_debug", "bool");
@@ -892,7 +893,7 @@ function prepare_scenes(global_settings) {
     get_glow_material_params();
     check_lighting_params();
     forbid_material_params();
-    forbid_debug_params();
+    prepare_debug_params();
 
     var date = new Date(document.getElementById("date").value);
     set_time_date({"date": date});
@@ -1253,7 +1254,7 @@ function start_auto_view() {
 
 function on_resize(e) {
 
-    m_app.resize_to_container();
+    m_cont.resize_to_container();
 
     var canvas = m_cont.get_canvas();
 
@@ -1863,12 +1864,20 @@ function set_debug_params(value) {
         case "DV_BATCHES_VIEW":
             debug_params["debug_view_mode"] = m_debug.DV_BATCHES_VIEW;
             break;
+        case "DV_RENDER_TIME":
+            debug_params["debug_view_mode"] = m_debug.DV_RENDER_TIME;
+            break;
         }
 
         if (mode_str == "DV_CLUSTERS_VIEW" || mode_str == "DV_BATCHES_VIEW")
             forbid_params(["debug_change_colors"], "enable");
         else
             forbid_params(["debug_change_colors"], "disable");
+
+        if (mode_str == "DV_RENDER_TIME")
+            forbid_params(["render_time_threshold"], "enable");
+        else
+            forbid_params(["render_time_threshold"], "disable");
     }
     if (typeof value.wireframe_edge_color == "object")
         debug_params["wireframe_edge_color"] = value["wireframe_edge_color"];
@@ -1878,6 +1887,11 @@ function set_debug_params(value) {
 
 function debug_change_colors_clicked() {
     m_debug.set_debug_params({ "debug_colors_seed": Math.random() });
+}
+
+function set_render_time_threshold(value) {
+    if ("render_time_threshold" in value)
+        m_debug.set_debug_params({ "render_time_threshold": value.render_time_threshold });       
 }
 
 function make_screenshot_clicked() {
@@ -2396,13 +2410,15 @@ function forbid_material_params() {
     forbid_params(water_param_names, "disable");
 }
 
-function forbid_debug_params() {
+function prepare_debug_params() {
     $("#debug_view_mode").val("DV_NONE");
     $("#debug_view_mode").selectmenu("refresh", true);
 
     forbid_params(["debug_change_colors"], "disable");
+    forbid_params(["render_time_threshold"], "disable");
 
     $("#wireframe_edge_color div").css('backgroundColor', '#333');
+    $("#render_time_threshold").trigger("change");
 }
 
 function stop_sun_clicked() {

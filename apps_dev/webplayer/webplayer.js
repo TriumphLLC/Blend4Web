@@ -8,6 +8,7 @@ var m_cfg         = require("config");
 var m_cont        = require("container");
 var m_ctl         = require("controls");
 var m_data        = require("data");
+var m_gp_conf     = require("gp_conf");
 var m_hmd         = require("hmd");
 var m_hmd_conf    = require("hmd_conf");
 var m_input       = require("input");
@@ -118,6 +119,8 @@ exports.init = function() {
     m_cfg.set("background_color", [0.224, 0.224, 0.224, 1.0]);
 
     var is_debug = (m_version.type() == "DEBUG");
+    var is_html = b4w.module_check(m_cfg.get("built_in_module_name"));
+    
     var show_fps = false;
     var alpha = false;
     var dds_available = false;
@@ -147,7 +150,6 @@ exports.init = function() {
     set_stereo_config();
     set_quality_config();
 
-    var is_html = b4w.module_check(m_cfg.get("built_in_module_name"));
     // disable physics in HTML version
     m_app.init({
         canvas_container_id: "main_canvas_container",
@@ -186,6 +188,8 @@ function init_cb(canvas_element, success) {
     set_stereo_button();
 
     init_control_buttons();
+
+    m_gp_conf.update();
 
     var file = search_file();
 
@@ -542,7 +546,13 @@ function enter_fullscreen(e) {
     if (is_anim_in_process())
         return;
 
-    m_app.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb);
+    var hmd_device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+    if (hmd_device &&
+            m_input.get_value_param(hmd_device, m_input.HMD_WEBVR_TYPE) ==
+            m_input.HMD_WEBVR1)
+        m_input.request_fullscreen_hmd();
+    else
+        m_app.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb);
 }
 
 function exit_fullscreen() {
@@ -932,7 +942,7 @@ function open_stereo_menu(e, button) {
 }
 
 function on_resize() {
-    m_app.resize_to_container();
+    m_cont.resize_to_container();
 }
 
 function get_selected_object() {

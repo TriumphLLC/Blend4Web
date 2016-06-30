@@ -61,6 +61,7 @@ function create_render(type) {
         init_dist: 0,
         init_top: 0,
         is_copied: false,
+        is_copied_deep: false,
 
         color_id: null,
         outline_intensity: 0,
@@ -339,6 +340,7 @@ function copy_object_props_by_value(obj) {
     var textures = null;
     var texture_names = null;
     var shape_keys = null;
+    var shader = null;
 
     if (obj.textures) {
         textures = obj.textures;
@@ -351,6 +353,10 @@ function copy_object_props_by_value(obj) {
     if (obj.shape_keys) {
         shape_keys = obj.shape_keys;
         obj.shape_keys = null;
+    }
+    if (obj.shader) {
+        shader = obj.shader;
+        obj.shader = null;
     }
 
     var obj_clone;
@@ -399,7 +405,6 @@ function copy_object_props_by_value(obj) {
         obj_clone.textures = textures;
         obj.textures = textures;
     }
-
     if (texture_names) {
         obj_clone.texture_names = texture_names;
         obj.texture_names = texture_names;
@@ -407,6 +412,10 @@ function copy_object_props_by_value(obj) {
     if (shape_keys) {
         obj_clone.shape_keys = shape_keys;
         obj.shape_keys = shape_keys;
+    }
+    if (shader) {
+        obj_clone.shader = shader;
+        obj.shader = shader;
     }
 
     return obj_clone;
@@ -562,6 +571,10 @@ exports.get_dg_objects = function(dg_parent, objects) {
             dg_objs.push(obj);
     }
     return dg_objs;
+}
+
+exports.get_object_data_id = function(obj) {
+    return obj.render.data_id;
 }
 
 exports.is_mesh = function(obj) {

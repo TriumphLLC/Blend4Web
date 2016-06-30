@@ -28,6 +28,7 @@ var m_anchors = require("__anchors");
 var m_cfg     = require("__config");
 var m_data    = require("__data");
 var m_hud     = require("__hud");
+var m_input   = require("__input");
 var m_print   = require("__print");
 var m_scenes  = require("__scenes");
 var m_time    = require("__time");
@@ -325,6 +326,21 @@ function resize(width, height, update_canvas_css) {
 
     // anchors
     m_anchors.update_visibility();
+}
+
+exports.resize_to_container = function(force) {
+    var container = get_container();
+    var canvas = get_canvas();
+
+    var w = container.clientWidth;
+    var h = container.clientHeight;
+
+    if (force || w != canvas.clientWidth || h != canvas.clientHeight) {
+        var vr_display = cfg_def.stereo === "HMD" && m_input.get_webvr_display();
+        // NOTE: don't resize in case of HMD fullscreen (WebVR API 1.0)
+        if (!vr_display || !vr_display.isPresenting)
+            resize(w, h, true);
+    }
 }
 
 }

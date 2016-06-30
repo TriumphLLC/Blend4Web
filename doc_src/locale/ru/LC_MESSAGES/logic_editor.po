@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. Руководство пользователя v15.08\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-12 15:00+0300\n"
+"POT-Creation-Date: 2016-06-06 14:12+0300\n"
 "PO-Revision-Date: 2015-11-26 21:22+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Generated-By: Babel 2.2.0\n"
 
 #: ../logic_editor.rst:5
-msgid "Logic Nodes"
-msgstr "Логические ноды"
+msgid "Logic Editor"
+msgstr "Редактор логики"
 
 #: ../logic_editor.rst
 msgid "Table of Content"
@@ -1662,7 +1662,8 @@ msgid ""
 msgstr ""
 "Простая нода, не выполняющая никаких действий кроме передачи управления "
 "следующей ноде. Может применяться для объединения нескольких логических "
-"нитей в одну или для того, чтобы сделать логическое дерево более простым для понимания."
+"нитей в одну или для того, чтобы сделать логическое дерево более простым "
+"для понимания."
 
 #: ../logic_editor.rst:1162
 msgid "Previous node (or several nodes)."
@@ -1743,4 +1744,7 @@ msgstr ""
 
 #~ msgid "An ID of the JavaScript function that will be called by the node."
 #~ msgstr ""
+
+#~ msgid "Logic Nodes"
+#~ msgstr "Логические ноды"
 

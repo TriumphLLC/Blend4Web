@@ -34,6 +34,7 @@ var m_cons       = require("__constraints");
 var m_geom       = require("__geometry");
 var m_lights     = require("__lights");
 var m_nla        = require("__nla");
+var m_nodemat    = require("__nodemat");
 var m_obj_util   = require("__obj_util");
 var m_particles  = require("__particles");
 var m_phy        = require("__physics");
@@ -54,7 +55,8 @@ var cfg_def = m_cfg.defaults;
 var cfg_out = m_cfg.outlining;
 
 var DEBUG_DISABLE_STATIC_OBJS = false;
-var DEFAULT_LOD_DIST_MAX = 1000000;
+var DEFAULT_LOD_DIST_MAX = -1;
+exports.DEFAULT_LOD_DIST_MAX = DEFAULT_LOD_DIST_MAX;
 
 var _all_objects = {"ALL": []};
 
@@ -714,7 +716,7 @@ function has_dynamic_mat(bpy_obj) {
     for (var i = 0; i < mesh["materials"].length; i++) {
         var mat = mesh["materials"][i];
 
-        if (mat["name"] == "LENS_FLARES")
+        if (mat["b4w_lens_flares"])
             return true;
         if (has_dynamic_nodes(mat["node_tree"]))
             return true;
@@ -799,7 +801,7 @@ function prepare_skinning_info(bpy_obj, obj, armobj) {
 
 function prepare_shape_keys(bpy_obj, obj) {
     if (bpy_obj["type"] != "MESH")
-        throw("Wrong object type: " + bpy_obj["name"]);
+        m_util.panic("Wrong object type: " + bpy_obj["name"]);
 
     var render = obj.render;
     if (bpy_obj["data"]["b4w_shape_keys"].length) {
@@ -817,7 +819,7 @@ function prepare_shape_keys(bpy_obj, obj) {
 
 function first_mesh_material(bpy_obj) {
     if (bpy_obj["type"] !== "MESH")
-        throw "Wrong object";
+        m_util.panic("Wrong object");
 
     return bpy_obj["data"]["materials"][0];
 }
@@ -837,6 +839,7 @@ exports.cleanup = function() {
 exports.copy = function(obj, name, deep_copy) {
     var new_obj = copy_object(obj, name, deep_copy);
     new_obj.render.is_copied = true;
+    new_obj.render.is_copied_deep = deep_copy;
     new_obj.render.color_id = m_util.gen_color_id(_color_id_counter);
     _color_id_counter++;
 
@@ -1081,10 +1084,10 @@ function prepare_default_actions(bpy_obj, obj) {
     if (obj_anim_data && obj_anim_data["action"]) {
         var action = obj_anim_data["action"];
 
-        if (action._render.type == m_anim.AT_OBJECT || 
-                action._render.type == m_anim.AT_ARMATURE && obj.type == "ARMATURE" ||
-                action._render.type == m_anim.AT_LIGHT && obj.type == "LAMP" ||
-                action._render.type == m_anim.AT_ENVIRONMENT && obj.type == "WORLD")
+        if (action._render.type == m_anim.OBJ_ANIM_TYPE_OBJECT ||
+                action._render.type == m_anim.OBJ_ANIM_TYPE_ARMATURE && obj.type == "ARMATURE" ||
+                action._render.type == m_anim.OBJ_ANIM_TYPE_LIGHT && obj.type == "LAMP" ||
+                action._render.type == m_anim.OBJ_ANIM_TYPE_ENVIRONMENT && obj.type == "WORLD")
             obj.actions.push(action);
     }
 
@@ -1481,6 +1484,33 @@ exports.update_all_mesh_shaders = function(scene) {
                 continue;
             m_batch.update_batch_lights(batch, lamps, scene);
             m_batch.update_shader(batch);
+        }
+    }
+}
+
+exports.obj_switch_cleanup_flags = function(obj, cleanup_tex, cleanup_bufs, 
+        cleanup_shader, cleanup_nodemat) {
+    for (var i = 0; i < obj.scenes_data.length; i++) {
+        var batches = obj.scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var batch = batches[j];
+
+            // tex
+            for (var k = 0; k < batch.textures.length; k++)
+                batch.textures[k].cleanup_gl_data_on_unload = cleanup_tex;
+
+            // ibo/vbo buffs
+            batch.bufs_data.cleanup_gl_data_on_unload = cleanup_bufs;
+
+            // shader
+            batch.shader.cleanup_gl_data_on_unload = cleanup_shader;
+
+            // nodemat graph
+            if (batch.ngraph_proxy_id !== "") {
+                var ngraph_proxy = m_nodemat.get_ngraph_proxy_cached(batch.ngraph_proxy_id);
+                if (ngraph_proxy)
+                    ngraph_proxy.cleanup_on_unload = cleanup_nodemat
+            }
         }
     }
 }

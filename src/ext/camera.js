@@ -1753,7 +1753,9 @@ exports.set_stereo_distance = function(camobj, conv_dist) {
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
         if (cam.type == m_cam.TYPE_STEREO_LEFT ||
-                cam.type == m_cam.TYPE_STEREO_RIGHT)
+                cam.type == m_cam.TYPE_STEREO_RIGHT ||
+                cam.type == m_cam.TYPE_HMD_LEFT ||
+                cam.type == m_cam.TYPE_HMD_RIGHT)
             m_cam.set_stereo_params(cam, conv_dist, cam.stereo_eye_dist);
     }
 }

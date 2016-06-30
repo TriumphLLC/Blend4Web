@@ -91,7 +91,7 @@ vec3 refraction_node(in vec3 normal_in, in float refr_bump) {
     vec3 refract_color = vec3(ZERO_VALUE_NODES);
 # if USE_REFRACTION
     refract_color = material_refraction(v_tex_pos_clip, normal_in.xy * refr_bump);
-# else
+# elif HAS_REFRACT_TEXTURE
     refract_color = texture2D(u_refractmap, v_tex_pos_clip.xy/v_tex_pos_clip.z).rgb;
     srgb_to_lin(refract_color);
 # endif
@@ -243,7 +243,9 @@ vec2 vec_to_uv(vec3 vec)
 #node GEOMETRY_NO
     #node_out vec3 normal_out
 
-    normal_out = nin_geom_normal;
+    // to Zup (Blender) world coordinate space
+    normal_out = nin_geom_normal.xzy;
+    normal_out.y *= -1.0;
 #endnode
 
 #node GEOMETRY_FB
@@ -260,11 +262,9 @@ vec2 vec_to_uv(vec3 vec)
 
 #node GEOMETRY_VW
     #node_out vec3 view_out
-    // view_out[0] = nin_pos_view[0];
-    // view_out[1] = nin_pos_view[1];
-    // view_out[2] = nin_pos_view[2];
-    // view_out = normalize(view_out);
-    view_out = nin_eye_dir;
+
+    //to WebGL view space
+    view_out = -(nin_view_matrix * vec4(nin_eye_dir, 0.0)).xyz;
 #endnode
 
 #node GEOMETRY_LO
@@ -348,7 +348,7 @@ vec2 vec_to_uv(vec3 vec)
     float lamp_dist = llf.z;
     if (lamp_dist != -UNITY_VALUE_NODES) { // point and spot
 
-        light_vec_out = llp - v_pos_world;
+        light_vec_out = v_pos_world - llp;
         distance_out = length(light_vec_out);
         light_vec_out = normalize(light_vec_out);
 
@@ -358,7 +358,7 @@ vec2 vec_to_uv(vec3 vec)
         float spot_size = llf.x;
         float spot_blend = llf.y;
         if (spot_size > -UNITY_VALUE_NODES) {
-            float spot_factor = dot(light_vec_out, lld);
+            float spot_factor = dot(-light_vec_out, lld);
             spot_factor *= smoothstep(ZERO_VALUE_NODES, UNITY_VALUE_NODES,
                     (spot_factor - spot_size) / spot_blend);
             visibility_factor_out *= spot_factor;
@@ -378,6 +378,11 @@ vec2 vec_to_uv(vec3 vec)
         visibility_factor_out = UNITY_VALUE_NODES;
 # node_endif
     }
+
+# node_if USE_OUT_light_vec_out
+    // to Zup (Blender) world coordinate space
+    light_vec_out.yz = vec2(-light_vec_out.z, light_vec_out.y);
+# node_endif
 #endnode
 
 #node NORMAL
@@ -401,7 +406,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 vec_view
 
     // NOTE: (-) mimic blender behavior
-    vec_view = -(nin_view_matrix * vec4(vec_world, ZERO_VALUE_NODES)).xyz;
+    vec_view = -(nin_zup_view_matrix * vec4(vec_world, ZERO_VALUE_NODES)).xyz;
 #endnode
 
 #node BSDF_ANISOTROPIC
@@ -1647,6 +1652,8 @@ vec2 vec_to_uv(vec3 vec)
 
 # node_if USE_MATERIAL_NORMAL
     normal = normalize(normal_in);
+    // to Yup (WebGL) world coordinate space
+    normal.yz = vec2(normal.z, -normal.y);
 # node_else
     normal = nin_normal;
 # node_endif
@@ -1718,6 +1725,8 @@ vec2 vec_to_uv(vec3 vec)
 // normal_out
 # node_if USE_OUT_normal_out
     normal_out = normal;
+    // to Zup (Blender) world coordinate space
+    normal_out.yz = vec2(-normal_out.z, normal_out.y);
 # node_endif
 
 # node_if MATERIAL_EXT
@@ -2221,7 +2230,9 @@ vec2 vec_to_uv(vec3 vec)
     #node_out optional float value
     #node_param uniform samplerCube texture
 
-    vec4 texval = textureCube(texture, coords);
+    // to Yup (WebGL) world coordinate space
+    vec3 yup_coords = vec3(coords.x, coords.z, -coords.y);
+    vec4 texval = textureCube(texture, yup_coords);
 
 # node_if USE_OUT_color
     color = texval.xyz;
@@ -2309,6 +2320,8 @@ vec2 vec_to_uv(vec3 vec)
     vec4 texval = texture2D(texture, vec_to_uv(uv));
 # node_if USE_OUT_normal
     normal = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
+    // to Zup (Blender) world coordinate space
+    normal.yz = vec2(-normal.z, normal.y);
 # node_endif
 # node_if USE_OUT_value
     value = texval.w;
@@ -2318,6 +2331,8 @@ vec2 vec_to_uv(vec3 vec)
     texval = texture2D(texture, vec_to_uv(uv2));
 #  node_if USE_OUT_normal2
     normal2 = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
+    // to Zup (Blender) world coordinate space
+    normal2.yz = vec2(-normal2.z, normal2.y);
 #  node_endif
 #  node_if USE_OUT_value2
     value2 = texval.w;
@@ -2328,6 +2343,8 @@ vec2 vec_to_uv(vec3 vec)
     texval = texture2D(texture, vec_to_uv(uv3));
 #  node_if USE_OUT_normal3
     normal3 = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
+    // to Zup (Blender) world coordinate space
+    normal3.yz = vec2(-normal3.z, normal3.y);
 #  node_endif
 #  node_if USE_OUT_value3
     value3 = texval.w;
@@ -2338,6 +2355,8 @@ vec2 vec_to_uv(vec3 vec)
     texval = texture2D(texture, vec_to_uv(uv4));
 #  node_if USE_OUT_normal4
     normal4 = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
+    // to Zup (Blender) world coordinate space
+    normal4.yz = vec2(-normal4.z, normal4.y);
 #  node_endif
 #  node_if USE_OUT_value4
     value4 = texval.w;
@@ -2428,7 +2447,19 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec3 vec_in2
     #node_out vec3 vec_out
 
-    vec_out = reflect(-vec_in1, vec_in2);
+    // the first operand is moved to Zup (Blender) world space
+    vec_out = reflect((nin_zup_view_matrix_inverse * vec4(vec_in1, 0.0)).xyz, vec_in2);
+#endnode
+
+#node B4W_REFLECT_WORLD
+    #node_in vec3 vec_in2
+    #node_out vec3 vec_out
+
+    // the first operand is moved to Zup (Blender) world space
+    // + flipped to mimic the Blender's behaviour
+    vec3 zup_eye_dir = vec3(-nin_eye_dir.x, nin_eye_dir.z, -nin_eye_dir.y);
+
+    vec_out = reflect(zup_eye_dir, vec_in2);
 #endnode
 
 #node B4W_PARALLAX
