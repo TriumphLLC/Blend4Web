@@ -93,6 +93,8 @@ class B4W_DATA_PT_camera_dof(CameraButtonsPanel, Panel):
         row.prop(cam, "b4w_dof_front", text=_("Front"))
         row.prop(cam, "b4w_dof_rear", text=_("Rear"))
         row.prop(cam, "b4w_dof_power", text=_("Power"))
+        row = layout.row()
+        row.prop(cam, "b4w_dof_bokeh", text=_("Bokeh"))
 
 class B4W_DATA_PT_camera(CameraButtonsPanel, Panel):
     bl_label = _("Camera")
@@ -140,6 +142,8 @@ class B4W_DATA_PT_speaker(SpeakerPanel, Panel):
 
         row = layout.row()
         col = row.column()
+        # NOTE: temporary until <audio> pitch implementation
+        col.active = not bg_mus
         col.prop(spk, "pitch")
         col = row.column()
         col.active = not bg_mus
@@ -152,7 +156,10 @@ class B4W_DATA_PT_speaker(SpeakerPanel, Panel):
 
         row = layout.row()
         row.active = pos_snd
-        row.prop(spk, "b4w_disable_doppler", text=_("Disable Doppler"))
+        row.prop(spk, "b4w_enable_doppler", text=_("Enable Doppler"))
+
+        row = layout.row()
+        row.prop(spk, "b4w_auto_play", text=_("Auto-play"))
 
         row = layout.row()
         row.prop(spk, "b4w_cyclic_play", text=_("Cyclic Play"))
@@ -164,18 +171,10 @@ class B4W_DATA_PT_speaker(SpeakerPanel, Panel):
         row = layout.row()
         row.prop(spk, "b4w_loop", text=_("Loop"))
 
-        # NOTE: not implemented
-        #row = layout.row()
-        #row.active = getattr(spk, "b4w_loop")
-        #row.prop(spk, "b4w_loop_count", text=_("Loop Count"))
-
-        #row = layout.row()
-        #row.active = getattr(spk, "b4w_loop")
-        #row.prop(spk, "b4w_loop_count_random", text=_("Random Loop Count"))
-
-        #row = layout.row()
-        #row.active = False
-        #row.prop(spk, "b4w_playlist_id", text=_("Playlist ID"))
+        row = layout.row()
+        row.active = getattr(spk, "b4w_loop") and not bg_mus
+        row.prop(spk, "b4w_loop_start", text=_("Loop Start"))
+        row.prop(spk, "b4w_loop_end", text=_("Loop End"))
 
 class B4W_DATA_PT_distance(SpeakerPanel, Panel):
     bl_label = _("Distance")

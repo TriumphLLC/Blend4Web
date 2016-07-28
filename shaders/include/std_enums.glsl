@@ -96,3 +96,7 @@
 #define VT_POINT    0
 #define VT_VECTOR   1
 #define VT_NORMAL   2
+
+// dof
+#define DOF_SIMPLE  0
+#define DOF_BOKEH   1

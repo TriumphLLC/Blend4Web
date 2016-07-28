@@ -67,6 +67,8 @@ in order to change this parameter).
 instead.
 <dt>animation_framerate
 <dd>Number, animation framerate.
+<dt> anisotropic_filtering
+<dd>Boolean, enable anisotropic filtering
 <dt>antialiasing
 <dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
 in order to change this parameter).
@@ -87,12 +89,26 @@ canvas.
 <dd>Boolean, set the resolution factor for the canvas.
 <dt>console_verbose
 <dd>Boolean, print more debug info in the browser console.
+<dt>dof
+<dd>Boolean, enable DOF
+<dt>god_rays
+<dd>Boolean, enable god rays
+<dt>bloom
+<dd>Boolean, enable bloom
+<dt>motion_blur
+<dd>Boolean, enable motion_blur
 <dt>do_not_load_resources
 <dd>Boolean, disable loading of assets (textures and sounds).
 <dt>enable_selectable
 <dd>Boolean, enable selecting of objects.
 <dt>enable_outlining
 <dd>Boolean, enable outlining of object.
+<dt>is_mobile_device
+<dd>Boolean, check mobile device.
+<dt>max_fps
+<dd>Number, maximum FPS limit
+<dt>max_fps_physics
+<dd>Number, maximum physics FPS limit
 <dt>media_auto_activation
 <dd>Boolean, activate media data context on mobile devices using popup dialog.
 <dt>outlining_overview_mode
@@ -116,10 +132,16 @@ URLs (default) or not.
 <dt>quality
 <dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
 P_ULTRA, P_CUSTOM enums).
+<dt>reflections
+<dd>Boolean, enable reflections
+<dt>refractions
+<dd>Boolean, enable refractions
 <dt>sfx_mix_mode
 <dd>Boolean, enable the mixer mode in the SFX subsystem.
 <dt>shaders_dir
 <dd>String, path to the shaders directory (developer version only).
+<dt>shadows
+<dd>Boolean, enable shadows
 <dt>show_hud_debug_info
 <dd>Boolean, show HUD with debug information.
 <dt>smaa
@@ -131,10 +153,14 @@ the directory with the engine's sources.
 <dt>smaa_area_texture_path
 <dd>String, path to the SMAA "area" texture. If not specified, search in the
 directory with the engine's sources.
+<dt>ssao
+<dd>Boolean, enable SSAO
 <dt>stereo
 <dd>String, stereoscopic mode: "ANAGLYPH", "HMD" or "NONE".
 <dt>debug_view
 <dd>Boolean, enable debug view mode.
+<dt>use_min50
+<dd>Boolean, enable min50 textures.
 <dt>gl_debug
 <dd>Boolean, enable gl errors check. Very slow.
 </dl></div>
@@ -347,7 +373,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line148">line 148</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line176">line 176</a>
     </li></ul></dd>
     
 
@@ -424,7 +450,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line136">line 136</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line164">line 164</a>
     </li></ul></dd>
     
 
@@ -501,7 +527,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line130">line 130</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line158">line 158</a>
     </li></ul></dd>
     
 
@@ -578,7 +604,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line142">line 142</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -743,7 +769,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line162">line 162</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line190">line 190</a>
     </li></ul></dd>
     
 
@@ -852,7 +878,7 @@ is developed inside the SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line176">line 176</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line204">line 204</a>
     </li></ul></dd>
     
 
@@ -938,7 +964,7 @@ is developed inside the SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line170">line 170</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line198">line 198</a>
     </li></ul></dd>
     
 
@@ -1096,7 +1122,7 @@ is developed inside the SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line154">line 154</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line182">line 182</a>
     </li></ul></dd>
     
 
@@ -1176,7 +1202,7 @@ is developed inside the SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line124">line 124</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -1214,7 +1240,7 @@ is developed inside the SDK.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Jun 30 2016 15:03:05 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Jul 26 2016 15:18:54 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

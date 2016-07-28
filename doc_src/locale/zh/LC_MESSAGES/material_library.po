@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.06\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-30 11:46+0300\n"
+"POT-Creation-Date: 2016-07-21 16:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 
 #: ../material_library.rst:16
-msgid "Libarary Structure"
+msgid "Library Structure"
 msgstr ""
 
 #: ../material_library.rst:18
@@ -317,5 +317,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "The Core of the Material"
+#~ msgstr ""
+
+#~ msgid "Libarary Structure"
 #~ msgstr ""
 

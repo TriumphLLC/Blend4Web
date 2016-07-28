@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>音频 &mdash; Blend4Web 16.06 用户手册</title>
+  <title>音频 &mdash; Blend4Web 16.07 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.07 用户手册" href="index.html"/>
         <link rel="next" title="Physics" href="physics.html"/>
         <link rel="prev" title="色彩管理" href="colors.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.06
+              v16.07
             </div>
           
         
@@ -110,7 +110,12 @@
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">音频</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#audio-source-settings">音源设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#audio-source-settings">音源设置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sound-tab">Sound Tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distance-tab">Distance Tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cone-tab">Cone Tab</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#processing-and-decoding">处理和解码</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-formats-containers">支持的格式 （容器） ︰</a></li>
 </ul>
@@ -170,9 +175,14 @@
 <p class="topic-title first">目录</p>
 <ul class="simple">
 <li><a class="reference internal" href="#audio" id="id2">音频</a><ul>
-<li><a class="reference internal" href="#audio-source-settings" id="id3">音源设置</a></li>
-<li><a class="reference internal" href="#processing-and-decoding" id="id4">处理和解码</a><ul>
-<li><a class="reference internal" href="#supported-formats-containers" id="id5">支持的格式 （容器） ︰</a></li>
+<li><a class="reference internal" href="#audio-source-settings" id="id3">音源设置</a><ul>
+<li><a class="reference internal" href="#sound-tab" id="id4">Sound Tab</a></li>
+<li><a class="reference internal" href="#distance-tab" id="id5">Distance Tab</a></li>
+<li><a class="reference internal" href="#cone-tab" id="id6">Cone Tab</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#processing-and-decoding" id="id7">处理和解码</a><ul>
+<li><a class="reference internal" href="#supported-formats-containers" id="id8">支持的格式 （容器） ︰</a></li>
 </ul>
 </li>
 </ul>
@@ -187,11 +197,17 @@
 <div class="section" id="audio-source-settings">
 <h2><a class="toc-backref" href="#id3">音源设置</a><a class="headerlink" href="#audio-source-settings" title="永久链接至标题">¶</a></h2>
 <p>扬声器参数可以在 <code class="docutils literal"><span class="pre">属性</span></code> 面板的 <code class="docutils literal"><span class="pre">物体数据</span></code>  选项卡下设置。</p>
+<a class="reference internal image-reference" href="_images/speaker_settings.png"><img alt="_images/speaker_settings.png" class="align-center" src="_images/speaker_settings.png" style="width: 100%;" /></a>
 <p>引擎支持标准的所有Blender声音参数和一些引擎特定设置。</p>
+<div class="section" id="sound-tab">
+<h3><a class="toc-backref" href="#id4">Sound Tab</a><a class="headerlink" href="#sound-tab" title="永久链接至标题">¶</a></h3>
+<p><em>Mute</em></p>
+<blockquote>
+<div>Enabling this parameter mutes the speaker.</div></blockquote>
 <p><em>扬声器行为</em>:</p>
 <blockquote>
 <div><p>音频源的行为。</p>
-<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; 高质量的声音指向性 （锥度） 与空间定位。用Web 音频 API 进行声音渲染。这种声音的播放性能是最小，所以只在短的样品里使用。</p>
+<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples. This is the default value.</p>
 <p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; 高质量全方位声音没有空间定位。用Web 音频 API 进行声音渲染。它是更好的性能，但对音乐不是有效。</p>
 <p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; 用来播放音乐。最大的性能，因为使用的音频 HTML 标记，但具有最低限度的灵活性。</p>
 </div></blockquote>
@@ -220,14 +236,26 @@
 <blockquote>
 <div><p>淡出的时间间隔。</p>
 </div></blockquote>
-<p><em>禁用多普勒</em></p>
+<p><em>Enable Doppler</em></p>
 <blockquote>
-<div><p>忽略移动源时的频移。</p>
-</div></blockquote>
+<div>Turn on the source&#8217;s frequency shift upon its moving.</div></blockquote>
+<p><em>Auto-play</em></p>
+<blockquote>
+<div>This option enables default playback.</div></blockquote>
 <p><em>循环播放</em></p>
 <blockquote>
 <div><p>循环的声音播放功能。</p>
 </div></blockquote>
+<p><em>循环</em></p>
+<blockquote>
+<div><p>循环的声音播放功能。与 <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code> 选项相反，它保证零延迟后重复。选项仅可用于声源的 <code class="docutils literal"><span class="pre">Positional</span></code> 或 <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> 的行为。</p>
+</div></blockquote>
+<p><em>Loop Start</em></p>
+<blockquote>
+<div>Marks the starting point of the source fragment that will be looped. This value is measured in second counted from the start of the source file.</div></blockquote>
+<p><em>Loop End</em></p>
+<blockquote>
+<div>Marks the end point of the source fragment. This value is also measured in seconds.</div></blockquote>
 <p><em>延迟</em></p>
 <blockquote>
 <div><p>声音播放开始前的延迟。</p>
@@ -236,19 +264,45 @@
 <blockquote>
 <div><p>额外的延迟随机化。根据公式计算所得的值 <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</p>
 </div></blockquote>
-<p><em>循环</em></p>
+</div>
+<div class="section" id="distance-tab">
+<h3><a class="toc-backref" href="#id5">Distance Tab</a><a class="headerlink" href="#distance-tab" title="永久链接至标题">¶</a></h3>
+<p><em>Attenuation</em></p>
 <blockquote>
-<div><p>循环的声音播放功能。与 <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code> 选项相反，它保证零延迟后重复。选项仅可用于声源的 <code class="docutils literal"><span class="pre">Positional</span></code> 或 <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> 的行为。</p>
+<div>This parameter defines how strong the distance affects the volume. Default value is 1.0.</div></blockquote>
+<p><em>Maximum</em></p>
+<blockquote>
+<div>Maximum distance for volume calculation.</div></blockquote>
+<p><em>Reference</em></p>
+<blockquote>
+<div>This sets the reference distance at which volume is 100%.</div></blockquote>
+</div>
+<div class="section" id="cone-tab">
+<h3><a class="toc-backref" href="#id6">Cone Tab</a><a class="headerlink" href="#cone-tab" title="永久链接至标题">¶</a></h3>
+<p>Angle group of parameters:</p>
+<blockquote>
+<div><p><em>Outer</em></p>
+<blockquote>
+<div>Angle of the outer cone in degrees. Outside this cone the volume is the outer cone volume. Between the inner and outer cone the volume is interpolated.</div></blockquote>
+<p><em>Inner</em></p>
+<blockquote>
+<div>Angle of the inner cone in degrees. Inside the cone the volume is 100%.</div></blockquote>
 </div></blockquote>
-<a class="reference internal image-reference" href="_images/speaker_settings.png"><img alt="_images/speaker_settings.png" class="align-center" src="_images/speaker_settings.png" style="width: 100%;" /></a>
+<p>Volume group of parameters:</p>
+<blockquote>
+<div><p><em>Outer</em></p>
+<blockquote>
+<div>This sets the volume outside the outer cone.</div></blockquote>
+</div></blockquote>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
 <div class="section" id="processing-and-decoding">
-<span id="encoding"></span><h2><a class="toc-backref" href="#id4">处理和解码</a><a class="headerlink" href="#processing-and-decoding" title="永久链接至标题">¶</a></h2>
+<span id="encoding"></span><h2><a class="toc-backref" href="#id7">处理和解码</a><a class="headerlink" href="#processing-and-decoding" title="永久链接至标题">¶</a></h2>
 <div class="section" id="supported-formats-containers">
-<h3><a class="toc-backref" href="#id5">支持的格式 （容器） ︰</a><a class="headerlink" href="#supported-formats-containers" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">支持的格式 （容器） ︰</a><a class="headerlink" href="#supported-formats-containers" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
 <li><p class="first">ogg Vorbis 编码解码器 （Chrome、 火狐浏览器）</p>
 </li>
@@ -283,7 +337,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-06-30.
+      最后更新于 2016-07-26.
 
     </p>
   </div>
@@ -339,7 +393,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.06',
+            VERSION:'v16.07',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

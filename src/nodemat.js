@@ -601,7 +601,8 @@ function complete_edges(graph) {
         switch (attr.type) {
         case "B4W_TRANSLUCENCY":
             m_graph.traverse_edges(graph, function(edge_from, edge_to, edge_attr) {
-                if (edge_from == id) {
+                var attr_to = m_graph.get_node_attr(graph, edge_to);
+                if (edge_from == id && attr_to.type == "MATERIAL_EXT") {
                     var from_socket_index = edge_attr[0];
                     if (attr.outputs[from_socket_index].name == "Translucency")
                         appended_edges.push(edge_from, edge_to, [edge_attr[0] + 1,
@@ -2362,7 +2363,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         outputs = [];
         break;
     case "RGB":
-        var param_name = mat_name + "%join%" + bpy_node["name"];
+        var param_name = bpy_node["name"];
         var param = {
             name: "-1",
             value: param_name
@@ -2450,7 +2451,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
 
         type = "VALUE";
 
-        var param_name = mat_name + "%join%" + bpy_node["name"];
+        var param_name = bpy_node["name"];
         var param = {
             name: "-1",
             value: param_name
@@ -3018,7 +3019,8 @@ exports.compose_node_elements = function(graph) {
         var elem2_inputs = node_elem_map[id2].inputs;
         // name after (unique) node output
         var name = elem1_outputs[attr[0]] ||
-                shader_ident("out_" + node1.type + "_" + out1.identifier);
+                shader_ident("out_" + node1.type + "_" 
+                        + normalize_socket_ident(out1.identifier));
 
         elem1_outputs[attr[0]] = name;
         elem2_inputs[attr[1]] = name;
@@ -3045,7 +3047,8 @@ function init_node_elem(mat_node) {
             finputs.push(null);
             finput_values.push(null);
         } else {
-            finputs.push(shader_ident("in_" + mat_node.type + "_" + input.identifier));
+            finputs.push(shader_ident("in_" + mat_node.type + "_" 
+                    + normalize_socket_ident(input.identifier)));
 
             var input_val = m_shaders.glsl_value(input.default_value, 0);
             // HACK: too many vertex shader constants issue
@@ -3074,7 +3077,8 @@ function init_node_elem(mat_node) {
         if (output.is_linked)
             foutputs.push(null);
         else
-            foutputs.push(shader_ident("out_" + mat_node.type + "_" + output.identifier));
+            foutputs.push(shader_ident("out_" + mat_node.type + "_" 
+                    + normalize_socket_ident(output.identifier)));
     }
 
     for (var i = 0; i < mat_node.params.length; i++) {
@@ -3100,6 +3104,12 @@ function init_node_elem(mat_node) {
     }
 
     return elem;
+}
+
+function normalize_socket_ident(node_identifier) {
+    // NOTE: sometimes node sockets may have identifiers with the ".00N" postfix 
+    // for an unknown reason, make it just "00N"
+    return node_identifier.replace(/\./g, "");
 }
 
 function create_new_name(type, group_name, name) {

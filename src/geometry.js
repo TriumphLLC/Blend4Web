@@ -37,6 +37,8 @@ var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
 
+var _tsr_tmp = new Float32Array(8);
+
 var _bb_corners_tmp = new Float32Array(24);
 
 var MAX_SUBMESH_LENGTH = 256*256;
@@ -89,14 +91,13 @@ exports.delete_buffers = function(geometry_id) {
 /**
  * Convert mesh/material object to gl buffer data
  */
-exports.submesh_to_bufs_data = function(submesh, z_sort, draw_mode, vc_usage) {
+exports.submesh_to_bufs_data = function(submesh, z_sort, draw_mode, vc_usage, batch) {
     if (is_long_submesh(submesh))
         submesh_drop_indices(submesh);
 
     var indices = submesh.indices;
     var base_length = submesh.base_length;
     var va_frames = submesh.va_frames;
-
     var va_common = {};
     for (var attr_name in submesh.va_common)
         if (!(attr_name in vc_usage) || vc_usage[attr_name].generate_buffer)
@@ -104,7 +105,8 @@ exports.submesh_to_bufs_data = function(submesh, z_sort, draw_mode, vc_usage) {
     var bufs_data = init_bufs_data();
     if (submesh.shape_keys.length > 0)
         submesh_init_shape_keys(submesh, va_frames[0]);
-    generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, base_length);
+    generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common,
+            base_length, submesh.instanced_array_data);
     update_draw_mode(bufs_data, draw_mode);
     update_gl_buffers(bufs_data);
 
@@ -306,6 +308,9 @@ function init_bufs_data() {
         ibo: null,
         info_for_z_sort_updates: null,
         shape_keys: null,
+        offset_buffer: null,
+        tsr_data_buff: null,
+        instance_count: 1,
 
         cleanup_gl_data_on_unload: true
     }
@@ -419,7 +424,8 @@ exports.make_dynamic = function(bufs_data) {
     bufs_data.usage = _gl.DYNAMIC_DRAW;
 }
 
-function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, base_length) {
+function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common,
+        base_length, inst_ar_data) {
 
     if (indices.length) {
         var count = indices.length;
@@ -437,7 +443,8 @@ function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, bas
     }
 
     var vbo_array_length = calc_vbo_length(va_frames, va_common);
-    var vbo_array = new Float32Array(vbo_array_length);
+    var inst_arr_length = calc_inst_array_length(inst_ar_data);
+    var vbo_array = new Float32Array(vbo_array_length + inst_arr_length);
 
     var offset = 0; // in elements
     var pointers = {};
@@ -458,7 +465,9 @@ function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, bas
             num_comp: num_comp(arr, base_length),
             offset: offset,
             frames: 1,
-            length: len
+            length: len,
+            stride: 0,
+            divisor: 0
         };
 
         offset += len;
@@ -478,7 +487,9 @@ function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, bas
             num_comp: ncomp,
             offset: offset,
             frames: frames_count,
-            length: len
+            length: len,
+            stride: 0,
+            divisor: 0
         };
 
         if (frames_count > 1) {
@@ -486,7 +497,9 @@ function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, bas
                 num_comp: ncomp,
                 offset: offset + len,
                 frames: frames_count,
-                length: len
+                length: len,
+                stride: 0,
+                divisor: 0
             };
         }
 
@@ -501,12 +514,117 @@ function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, bas
             offset += len;
         }
     }
+    if (inst_ar_data) {
+        append_inst_array_data(inst_ar_data, pointers, vbo_array, vbo_array_length);
+        bufs_data.instance_count = inst_ar_data.tsr_array.length;
+    }
 
     bufs_data.count     = count;
     bufs_data.ibo_array = ibo_array;
     bufs_data.vbo_array = vbo_array;
     bufs_data.ibo_type  = ibo_type;
     bufs_data.pointers  = pointers;
+}
+
+function calc_inst_array_length(inst_ar_data) {
+    var len = 0;
+    if (inst_ar_data) {
+        var tsr_array = inst_ar_data.tsr_array;
+        var num_comp = tsr_array.length;
+        len += num_comp * 8;
+        var part_inh_attrs = inst_ar_data.part_inh_attrs;
+        for (var name in part_inh_attrs)
+            len += part_inh_attrs[name].num_comp * num_comp;
+        var submesh_params = inst_ar_data.submesh_params;
+        for (var name in submesh_params)
+            len += num_comp;
+    }
+    return len;
+}
+
+function append_inst_array_data(inst_ar_data, pointers, vbo_array, vbo_array_length) {
+    var tsr_array = inst_ar_data.tsr_array;
+    var tsr_data = [];
+    var em_tsr = inst_ar_data.stat_part_em_tsr;
+    var part_inh_attrs = inst_ar_data.part_inh_attrs;
+    var submesh_params = inst_ar_data.submesh_params;
+
+    var tsr_array = inst_ar_data.tsr_array;
+    var em_tsr = inst_ar_data.stat_part_em_tsr;
+    var part_inh_attrs = inst_ar_data.part_inh_attrs;
+    var submesh_params = inst_ar_data.submesh_params;
+    var static_hair = inst_ar_data.static_hair;
+    for (var i = 0; i < tsr_array.length; i++) {
+        var tsr = tsr_array[i];
+        if (static_hair && em_tsr && !inst_ar_data.dyn_grass)
+            tsr = m_tsr.multiply(em_tsr, tsr_array[i], _tsr_tmp);
+        tsr_data.push(tsr[0], tsr[1], tsr[2], tsr[3],
+                tsr[4], tsr[5], tsr[6], tsr[7]);
+        for (var name in part_inh_attrs) {
+            var len = part_inh_attrs[name].num_comp;
+            for (var j = 0; j < len; j++)
+                tsr_data.push(part_inh_attrs[name].data[i * len + j]);
+        }
+        for (var name in submesh_params)
+            tsr_data.push(submesh_params[name][0]);
+    }
+
+    var stride = 8;
+    for (var name in part_inh_attrs)
+        stride += part_inh_attrs[name].num_comp;
+    for (var name in submesh_params)
+        stride++;
+
+    vbo_array.set(tsr_data, vbo_array_length);
+
+    var trans_scale_pointer = {
+        divisor: 1,
+        num_comp: 4,
+        stride: stride,
+        offset: vbo_array_length,
+        frames: 1,
+        length: 0
+    };
+
+    var rot_pointer = {
+        divisor: 1,
+        num_comp: 4,
+        stride: stride,
+        offset: vbo_array_length + 4,
+        frames: 1,
+        length: 0
+    };
+
+    pointers["a_part_ts"] = trans_scale_pointer;
+    pointers["a_part_r"] = rot_pointer;
+
+    var offset = 8;
+    for (var name in part_inh_attrs) {
+        var len = part_inh_attrs[name].num_comp;
+        var pointer = {
+            divisor: 1,
+            num_comp: len,
+            stride: stride,
+            offset: vbo_array_length + offset,
+            frames: 1,
+            length: 0
+        };
+        pointers[name] = pointer;
+        offset += len;
+    }
+
+    for (var name in submesh_params) {
+        var pointer = {
+            divisor: 1,
+            num_comp: 1,
+            stride: stride,
+            offset: vbo_array_length + offset,
+            frames: 1,
+            length: 0
+        };
+        pointers[name] = pointer;
+        offset++;
+    }
 }
 
 /**
@@ -617,7 +735,6 @@ function submesh_apply_transform(submesh, transform) {
  */
 exports.submesh_apply_particle_transform = submesh_apply_particle_transform;
 function submesh_apply_particle_transform(submesh, transform) {
-
     var au_center_pos = submesh.va_common["au_center_pos"];
 
     if (au_center_pos && au_center_pos.length) {
@@ -626,8 +743,9 @@ function submesh_apply_particle_transform(submesh, transform) {
 
         for (var i = 0; i < submesh.va_frames.length; i++)
             for (var j = 0; j < cen_pos_transformed.length; j++)
-                submesh.va_frames[i]["a_position"][j] += cen_pos_transformed[j] - au_center_pos[j];
-
+                submesh.va_frames[i]["a_position"][j] += cen_pos_transformed[j]
+                        - au_center_pos[j];
+                
         au_center_pos.set(cen_pos_transformed);
     } else
         m_util.panic("Attribute \"au_center_pos\" is missing in particle submesh");
@@ -643,7 +761,6 @@ exports.submesh_apply_params = submesh_apply_params;
 function submesh_apply_params(submesh, params) {
 
     var base_length = submesh.base_length;
-
     // additional params
     for (var param in params) {
         var param_len = params[param].length;
@@ -694,6 +811,10 @@ function submesh_list_join(submeshes) {
     var v_ind_offset = 0;
     var keys = {};
     var bounding_verts = [];
+    var new_tsr_array = [];
+    var new_submesh_params = {};
+    var new_part_inh_attrs = {};
+
     for (var i = 0; i < submeshes.length; i++) {
         var submesh = submeshes[i];
         var indices = submesh.indices;
@@ -705,34 +826,65 @@ function submesh_list_join(submeshes) {
         for (var k = 0; k < _bb_corners_tmp.length; k++)
             bounding_verts.push(_bb_corners_tmp[k])
 
-        // indices
-        for (var j = 0; j < indices.length; j++) {
-            var ind = indices[j];
-            new_submesh.indices[i_offset + j] = ind + v_ind_offset;
-        }
-        i_offset += indices.length;
+        var inst_ar_data = submeshes[i].instanced_array_data;
+        if (inst_ar_data) {
+            var tsr_array = inst_ar_data.tsr_array;
+            var em_tsr = inst_ar_data.stat_part_em_tsr;
+            for (var j = 0; j < tsr_array.length; j++) {
+                var tsr = tsr_array[j];
+                if (!inst_ar_data.dyn_grass)
+                    tsr = m_tsr.multiply(em_tsr, tsr_array[j], m_tsr.create());
+                new_tsr_array.push(tsr);
+            }
 
-        for (var param_name in va_common) {
-            var arr = va_common[param_name];
+            var submesh_params = inst_ar_data.submesh_params;
+            for (var name in submesh_params)
+                if (!(name in new_submesh_params))
+                    new_submesh_params[name] = [submesh_params[name][0]];
 
-            var offset = v_ind_offset * num_comp(arr, base_length);
-            new_submesh.va_common[param_name].set(arr, offset);
-        }
+            var part_inh_attrs = inst_ar_data.part_inh_attrs;
+            for (var name in part_inh_attrs) {
+                if (!(name in new_part_inh_attrs))
+                    new_part_inh_attrs[name] = {
+                        num_comp: part_inh_attrs[name].num_comp,
+                        data: []
+                    };
+                var part_inh_data = part_inh_attrs[name].data;
+                var new_part_inh_data = new_part_inh_attrs[name].data;
+                for (var j = 0; j < part_inh_data.length; j++)
+                    new_part_inh_data.push(part_inh_data[j]);
+            }
+        } else {
 
-        for (var j = 0; j < submesh.va_frames.length; j++) {
+            // indices
+            for (var j = 0; j < indices.length; j++) {
+                var ind = indices[j];
+                new_submesh.indices[i_offset + j] = ind + v_ind_offset;
+            }
+            i_offset += indices.length;
 
-            var va_frame = submesh.va_frames[j];
-            var new_va_frame = new_submesh.va_frames[j];
-
-            for (var param_name in va_frame) {
-
-                var arr = va_frame[param_name];
+            for (var param_name in va_common) {
+                var arr = va_common[param_name];
 
                 var offset = v_ind_offset * num_comp(arr, base_length);
-                new_va_frame[param_name].set(arr, offset);
+                new_submesh.va_common[param_name].set(arr, offset);
             }
+
+            for (var j = 0; j < submesh.va_frames.length; j++) {
+
+                var va_frame = submesh.va_frames[j];
+                var new_va_frame = new_submesh.va_frames[j];
+
+                for (var param_name in va_frame) {
+
+                    var arr = va_frame[param_name];
+
+                    var offset = v_ind_offset * num_comp(arr, base_length);
+                    new_va_frame[param_name].set(arr, offset);
+                }
+            }
+            v_ind_offset += base_length;
         }
-        v_ind_offset += base_length;
     }
     new_submesh.submesh_bd.be_world = m_bounds.create_bounding_ellipsoid_by_bb(
             bounding_verts, true);
@@ -754,17 +906,31 @@ function submesh_list_join(submeshes) {
                 a_tan_offset += cur_key_geom["a_tangent"].length;
             }
         }
-
+    if (new_tsr_array.length)
+        new_submesh.instanced_array_data = {
+            tsr_array : new_tsr_array,
+            stat_part_em_tsr : null,
+            static_hair : true,
+            submesh_params : new_submesh_params,
+            part_inh_attrs : new_part_inh_attrs,
+            dyn_grass : submesh0.instanced_array_data.dyn_grass
+        };
     return new_submesh;
 }
 
 function submesh_list_join_prepare_dest(submeshes) {
 
+    var submesh0 = submeshes[0];
+    if (submesh0.instanced_array_data) {
+        var new_submesh = m_util.clone_object_r(submesh0);
+        new_submesh.name = "INSTANCED_ARRAY_SUBMESH";
+        return new_submesh;
+    }
+
     var new_submesh = m_util.create_empty_submesh("JOIN_" + submeshes.length
             + "_SUBMESHES");
 
     var len = 0;
-
     for (var i = 0; i < submeshes.length; i++)
         len += submeshes[i].indices.length;
     new_submesh.indices = new Uint32Array(len);
@@ -799,8 +965,6 @@ function submesh_list_join_prepare_dest(submeshes) {
     for (var i = 0; i < submeshes.length; i++)
         len += submeshes[i].base_length;
     new_submesh.base_length = len;
-
-    var submesh0 = submeshes[0];
 
     for (var param_name in submesh0.va_common) {
 
@@ -864,11 +1028,6 @@ exports.make_clone_submesh = function(src_submesh, params, transforms, em_obj) {
 
     new_submesh.indices = new Uint32Array(indices.length * count);
 
-    var submesh_bd = new_submesh.submesh_bd;
-    var bb_tmp = m_bounds.zero_bounding_box();
-    var bs_tmp = m_bounds.zero_bounding_sphere();
-    var bounding_verts = [];
-
     for (var i = 0; i < count; i++) {
         var i_offset = indices.length * i;
         var v_offset = base_length * i;
@@ -927,10 +1086,19 @@ exports.make_clone_submesh = function(src_submesh, params, transforms, em_obj) {
         }
     }
 
+    calc_unit_boundings(em_obj, src_submesh, new_submesh, transforms);
+
+    return new_submesh;
+}
+
+exports.calc_unit_boundings = calc_unit_boundings;
+function calc_unit_boundings(em_obj, src_submesh, new_submesh, transforms) {
     var submesh_bd = new_submesh.submesh_bd;
     var bb_tmp = m_bounds.zero_bounding_box();
+    if (!submesh_bd.bb_world)
+        submesh_bd.bb_world = m_bounds.zero_bounding_box();
     var bounding_verts = [];
-
+    var count = transforms.length;
     for (var i = 0; i < count; i++) {
         bb_tmp = m_bounds.bounding_box_transform(src_submesh.submesh_bd.bb_local,
                 transforms[i], bb_tmp);
@@ -945,8 +1113,6 @@ exports.make_clone_submesh = function(src_submesh, params, transforms, em_obj) {
     submesh_bd.be_world = m_bounds.create_bounding_ellipsoid_by_bb(bounding_verts, true);
     submesh_bd.be_local = m_bounds.calc_be_local_by_tsr(submesh_bd.be_world,
         em_obj.render.world_tsr);
-
-    return new_submesh;
 }
 
 

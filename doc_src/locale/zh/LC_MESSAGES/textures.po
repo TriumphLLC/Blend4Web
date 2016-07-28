@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-28 14:01+0300\n"
+"POT-Creation-Date: 2016-07-11 15:28+0300\n"
 "PO-Revision-Date: 2016-03-31 22:12+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -226,11 +226,12 @@ msgid "*Export Options > Disable Compression*"
 msgstr "*导出选项 > 禁用压缩*"
 
 #: ../textures.rst:80
+#, fuzzy
 msgid ""
-"Disable texture compression for this texture. Used in cases when "
-":ref:`texture compression <dds>` deteriorates the image quality. For "
-"example it's recommended to disable compression for mask textures used to"
-" mix different parts of materials."
+"Disable texture compression (using ``DDS`` texture format) for this "
+"texture. Used in cases when :ref:`texture compression <dds>` deteriorates"
+" the image quality. For example it's recommended to disable compression "
+"for mask textures used to mix different parts of materials."
 msgstr "禁用这个纹理的纹理压缩。在 :ref:`纹理压缩 <dds>` 恶化图像质量情况下使用。例如用于混合材质的不同部分建议禁用压缩遮罩纹理。"
 
 #: ../textures.rst:83

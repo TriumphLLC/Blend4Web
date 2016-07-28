@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Audio &mdash; Blend4Web 16.06 User Manual</title>
+  <title>Audio &mdash; Blend4Web 16.07 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.06 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.07 User Manual" href="index.html"/>
         <link rel="next" title="Physics" href="physics.html"/>
         <link rel="prev" title="Color Management" href="colors.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.06
+              v16.07
             </div>
           
         
@@ -110,7 +110,12 @@
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">Color Management</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Audio</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#audio-source-settings">Audio Source Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#audio-source-settings">Audio Source Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sound-tab">Sound Tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distance-tab">Distance Tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cone-tab">Cone Tab</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#processing-and-decoding">Processing and Decoding</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-formats-containers">Supported formats (containers):</a></li>
 </ul>
@@ -170,9 +175,14 @@
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#audio" id="id2">Audio</a><ul>
-<li><a class="reference internal" href="#audio-source-settings" id="id3">Audio Source Settings</a></li>
-<li><a class="reference internal" href="#processing-and-decoding" id="id4">Processing and Decoding</a><ul>
-<li><a class="reference internal" href="#supported-formats-containers" id="id5">Supported formats (containers):</a></li>
+<li><a class="reference internal" href="#audio-source-settings" id="id3">Audio Source Settings</a><ul>
+<li><a class="reference internal" href="#sound-tab" id="id4">Sound Tab</a></li>
+<li><a class="reference internal" href="#distance-tab" id="id5">Distance Tab</a></li>
+<li><a class="reference internal" href="#cone-tab" id="id6">Cone Tab</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#processing-and-decoding" id="id7">Processing and Decoding</a><ul>
+<li><a class="reference internal" href="#supported-formats-containers" id="id8">Supported formats (containers):</a></li>
 </ul>
 </li>
 </ul>
@@ -187,11 +197,17 @@
 <div class="section" id="audio-source-settings">
 <h2><a class="toc-backref" href="#id3">Audio Source Settings</a><a class="headerlink" href="#audio-source-settings" title="Permalink to this headline">¶</a></h2>
 <p>Speaker parameters can be set up on the <code class="docutils literal"><span class="pre">Properties</span></code> panel under the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> tab.</p>
+<a class="reference internal image-reference" href="_images/speaker_settings.png"><img alt="_images/speaker_settings.png" class="align-center" src="_images/speaker_settings.png" style="width: 100%;" /></a>
 <p>The engine supports all the standard Blender sound parameters and some engine-specific settings.</p>
+<div class="section" id="sound-tab">
+<h3><a class="toc-backref" href="#id4">Sound Tab</a><a class="headerlink" href="#sound-tab" title="Permalink to this headline">¶</a></h3>
+<p><em>Mute</em></p>
+<blockquote>
+<div>Enabling this parameter mutes the speaker.</div></blockquote>
 <p><em>Speaker Behavior</em>:</p>
 <blockquote>
 <div><p>The behavior of the audio source.</p>
-<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples.</p>
+<p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples. This is the default value.</p>
 <p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; high-quality omnidirectional sound without spatial positioning. The Web Audio API is used for sound rendering. It is more performant but is not effective for music.</p>
 <p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; used for music playback. It has maximum performance due to the use of the Audio HTML tag, but has minimum flexibility.</p>
 </div></blockquote>
@@ -214,30 +230,69 @@
 <p><em>Fade-Out</em></p>
 <blockquote>
 <div>Fade-out time interval.</div></blockquote>
-<p><em>Disable Doppler</em></p>
+<p><em>Enable Doppler</em></p>
 <blockquote>
-<div>Ignore source&#8217;s frequency shift upon its moving.</div></blockquote>
+<div>Turn on the source&#8217;s frequency shift upon its moving.</div></blockquote>
+<p><em>Auto-play</em></p>
+<blockquote>
+<div>This option enables default playback.</div></blockquote>
 <p><em>Cyclic Play</em></p>
 <blockquote>
 <div>Loop the sound playback.</div></blockquote>
+<p><em>Loop</em></p>
+<blockquote>
+<div>Loop the sound playback. Contrary to the <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code> option it guarantees a zero delay upon repeat. The option is available only for sound sources with <code class="docutils literal"><span class="pre">Positional</span></code> or <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> behavior.</div></blockquote>
+<p><em>Loop Start</em></p>
+<blockquote>
+<div>Marks the starting point of the source fragment that will be looped. This value is measured in second counted from the start of the source file.</div></blockquote>
+<p><em>Loop End</em></p>
+<blockquote>
+<div>Marks the end point of the source fragment. This value is also measured in seconds.</div></blockquote>
 <p><em>Delay</em></p>
 <blockquote>
 <div>Delay before sound playback starts.</div></blockquote>
 <p><em>Random Delay</em></p>
 <blockquote>
 <div>Additional delay randomization. The resulting value is calculated according to the formula <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</div></blockquote>
-<p><em>Loop</em></p>
+</div>
+<div class="section" id="distance-tab">
+<h3><a class="toc-backref" href="#id5">Distance Tab</a><a class="headerlink" href="#distance-tab" title="Permalink to this headline">¶</a></h3>
+<p><em>Attenuation</em></p>
 <blockquote>
-<div>Loop the sound playback. Contrary to the <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code> option it guarantees a zero delay upon repeat. The option is available only for sound sources with <code class="docutils literal"><span class="pre">Positional</span></code> or <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> behavior.</div></blockquote>
-<a class="reference internal image-reference" href="_images/speaker_settings.png"><img alt="_images/speaker_settings.png" class="align-center" src="_images/speaker_settings.png" style="width: 100%;" /></a>
+<div>This parameter defines how strong the distance affects the volume. Default value is 1.0.</div></blockquote>
+<p><em>Maximum</em></p>
+<blockquote>
+<div>Maximum distance for volume calculation.</div></blockquote>
+<p><em>Reference</em></p>
+<blockquote>
+<div>This sets the reference distance at which volume is 100%.</div></blockquote>
+</div>
+<div class="section" id="cone-tab">
+<h3><a class="toc-backref" href="#id6">Cone Tab</a><a class="headerlink" href="#cone-tab" title="Permalink to this headline">¶</a></h3>
+<p>Angle group of parameters:</p>
+<blockquote>
+<div><p><em>Outer</em></p>
+<blockquote>
+<div>Angle of the outer cone in degrees. Outside this cone the volume is the outer cone volume. Between the inner and outer cone the volume is interpolated.</div></blockquote>
+<p><em>Inner</em></p>
+<blockquote>
+<div>Angle of the inner cone in degrees. Inside the cone the volume is 100%.</div></blockquote>
+</div></blockquote>
+<p>Volume group of parameters:</p>
+<blockquote>
+<div><p><em>Outer</em></p>
+<blockquote>
+<div>This sets the volume outside the outer cone.</div></blockquote>
+</div></blockquote>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
+</div>
 <div class="section" id="processing-and-decoding">
-<span id="encoding"></span><h2><a class="toc-backref" href="#id4">Processing and Decoding</a><a class="headerlink" href="#processing-and-decoding" title="Permalink to this headline">¶</a></h2>
+<span id="encoding"></span><h2><a class="toc-backref" href="#id7">Processing and Decoding</a><a class="headerlink" href="#processing-and-decoding" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="supported-formats-containers">
-<h3><a class="toc-backref" href="#id5">Supported formats (containers):</a><a class="headerlink" href="#supported-formats-containers" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Supported formats (containers):</a><a class="headerlink" href="#supported-formats-containers" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>ogg, Vorbis codec (Chrome, Firefox)</li>
 <li>mp3 (Chrome, Safari)</li>
@@ -269,7 +324,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-06-30.
+      Last updated on 2016-07-26.
 
     </p>
   </div>
@@ -325,7 +380,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.06',
+            VERSION:'v16.07',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

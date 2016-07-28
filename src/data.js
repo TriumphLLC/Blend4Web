@@ -625,6 +625,8 @@ function prepare_bpy_data(bpy_data, thread, stage, cb_param, cb_finish,
     prepare_bpy_worlds(bpy_data, thread);
     prepare_bpy_logic_nodes_objects_params(bpy_data);
 
+    prepare_bpy_scenes_audio(bpy_data, thread);
+
     if (DEBUG_BPYDATA)
         m_print.log("%cDEBUG BPYDATA:", "color: #a0a", bpy_data);
 
@@ -674,13 +676,6 @@ function prepare_bpy_scenes(bpy_data, thread) {
                  (!m_phy.scene_has_physics(_primary_scene) &&
                   scene == m_scenes.find_main_scene(bpy_data))))
             m_phy.init_scene_physics(scene);
-
-        if (thread.is_primary) {
-            if (scene["b4w_enable_audio"])
-                m_sfx.attach_scene_sfx(scene);
-        } else
-            if (scene["b4w_enable_audio"] && !_primary_scene._sfx)
-                m_sfx.attach_scene_sfx(_primary_scene);
     }
 }
 
@@ -752,6 +747,11 @@ function combine_scene_bpy_objects(bpy_scene, type) {
         type = "ALL";
 
     var scene_objs_arr = [];
+
+    // HACK: camera can be linked from another scene or group so append it here
+    if (bpy_scene["objects"].indexOf(bpy_scene["camera"]) == -1)
+        bpy_scene["objects"].push(bpy_scene["camera"]);
+
     combine_scene_bpy_objects_iter(bpy_scene["objects"], type, scene_objs_arr);
     return scene_objs_arr;
 }
@@ -821,6 +821,19 @@ function prepare_bpy_logic_nodes_objects_params(bpy_data) {
     }
 }
 
+function prepare_bpy_scenes_audio(bpy_data, thread) {
+    for (var i = 0; i < bpy_data["scenes"].length; i++) {
+        var scene = bpy_data["scenes"][i];
+        var scene_dst = thread.is_primary ? scene : _primary_scene;
+
+        // NOTE: not the fastest way to check speaker existence
+        var has_spks = Boolean(get_bpy_cache_scene(thread.id, scene_dst, "SPEAKER").length);
+
+        if (has_spks && !scene_dst._sfx)
+            m_sfx.attach_scene_sfx(scene_dst);
+    }
+}
+
 /**
  * Update all objects hierarchical cache using breadth-first search algorithm.
  * NOTE: do proper cache update to prevent mysterious bugs
@@ -833,7 +846,7 @@ function process_bpy_objects_hierarchy(bpy_data, thread) {
 
     for (var i = 0; i < scenes.length; i++) {
         var scene_objs = scenes[i]["objects"];
-        process_bpy_objects_hierarchy_iter(scene_objs, 0, thread.is_primary, 
+        process_bpy_objects_hierarchy_iter(scene_objs, 0, thread.is_primary,
                 object_levels);
     }
 
@@ -1110,7 +1123,7 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
             m_obj.objects_storage_add(metaobjects[j]);
         }
 
-        // original and meta objects both        
+        // original and meta objects both
         var scene_objs = m_obj.get_scene_objs(scene_dst, "ALL", thread.id);
         m_scenes.assign_scene_data_subs(scene_dst, scene_objs, lamps);
 
@@ -2212,8 +2225,8 @@ function speakers_play(scene, data_id, force_init) {
         if (!m_obj_util.is_speaker(sobj))
             continue;
 
-        // NOTE: autostart cyclic or init for mobile devices
-        if (m_sfx.is_cyclic(sobj) || force_init)
+        // NOTE: autostart or init for mobile devices
+        if (m_sfx.is_autoplay(sobj) || force_init)
             m_sfx.play_def(sobj);
     }
 }
@@ -3054,7 +3067,7 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
         var rate = ++cb_param.obj_counter / obj_data.length;
 
         var cube_refl_subs = sc_data.cube_refl_subs;
-        if (obj.render.cube_reflection_id != null && cube_refl_subs){
+        if (obj.render.cube_reflection_id != -1 && cube_refl_subs){
             var center = m_vec3.copy(obj.render.bs_world.center, _vec3_tmp);
             m_scenes.update_cube_reflect_subs(cube_refl_subs, center);
         }
@@ -3114,11 +3127,11 @@ function synchronize_media(bpy_data, thread, stage, cb_param, cb_finish,
     if (thread.is_primary)
         for (var i = 0; i < bpy_data["scenes"].length; i++) {
             video_play(bpy_data["scenes"][i], thread.id);
-            speakers_play(bpy_data["scenes"][i], thread.id);
+            speakers_play(bpy_data["scenes"][i], thread.id, false);
         }
     else { 
         video_play(_primary_scene, thread.id);
-        speakers_play(_primary_scene, thread.id); 
+        speakers_play(_primary_scene, thread.id, false); 
     }
 
     cb_finish(thread, stage);

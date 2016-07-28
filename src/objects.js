@@ -325,7 +325,7 @@ exports.update_object = function(bpy_obj, obj) {
         obj.sfx = m_sfx.create_sfx();
         var is_enabled = false;
         for (var i = 0; i < obj.scenes_data.length; i++)
-            if (obj.scenes_data[i].scene["b4w_enable_audio"]) {
+            if (obj.scenes_data[i].scene._sfx) {
                 var is_enabled = true;
                 break;
             }
@@ -1088,17 +1088,19 @@ function prepare_default_actions(bpy_obj, obj) {
                 action._render.type == m_anim.OBJ_ANIM_TYPE_ARMATURE && obj.type == "ARMATURE" ||
                 action._render.type == m_anim.OBJ_ANIM_TYPE_LIGHT && obj.type == "LAMP" ||
                 action._render.type == m_anim.OBJ_ANIM_TYPE_ENVIRONMENT && obj.type == "WORLD")
-            obj.actions.push(action);
+            obj.def_action_slots.push(m_anim.init_action_slot(null, action));
     }
 
     if (data_anim_data && data_anim_data["action"] && (obj.type == "SPEAKER"
                                                     || obj.type == "LAMP"))
-        obj.actions.push(data_anim_data["action"]);
+        obj.def_action_slots.push(m_anim.init_action_slot(null,
+                                    data_anim_data["action"]));
 
     // NOTE: nla material tracks are considered during the nla's object updating
-    // and aren't presented in the actions property
+    // and aren't present in the def_action_slots property
     if (obj.type == "MESH")
-        obj.actions.push.apply(obj.actions, m_anim.get_bpy_material_actions(bpy_obj));
+        obj.def_action_slots.push.apply(obj.def_action_slots,
+                                    m_anim.get_bpy_material_actions(bpy_obj));
 }
 
 function prepare_vertex_anim(bpy_obj, obj) {

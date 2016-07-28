@@ -90,7 +90,8 @@ exports.copy = function(obj, name, deep_copy) {
  * @method module:objects.set_nodemat_value
  * @param {Object3D} obj Object 3D
  * @param {String[]} name_list List consisting of the material name, the names of
- * nested node groups (if any) and the name of the Value node itself
+ * nested node groups (if any) and the name of the Value node itself. Should
+ * have at least 2 elements ["Mat","Node"]
  * @param {Number} value The value to set the Value node to
  */
 exports.set_nodemat_value = function(obj, name_list, value) {
@@ -101,7 +102,23 @@ exports.set_nodemat_value = function(obj, name_list, value) {
         return;
     }
 
-    m_batch.set_nodemat_value(obj, name_list, value)
+    var mat_name = name_list[0];
+    var batch_main = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    if (batch_main === null) {
+        m_print.error("Material \"" + mat_name +
+                      "\" was not found in the object \"" + obj.name + "\".");
+        return null;
+    }
+
+    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
+                                                name_list);
+    if (ind === null) {
+        m_print.error("Value node \"" + name_list[name_list.length - 1] +
+        "\" was not found in the object \"" + obj.name + "\".");
+        return null;
+    }
+
+    m_batch.set_nodemat_value(obj, mat_name, ind, value)
 }
 
 /**
@@ -109,7 +126,8 @@ exports.set_nodemat_value = function(obj, name_list, value) {
  * @method module:objects.get_nodemat_value
  * @param {Object3D} obj Object 3D
  * @param {String[]} name_list List consisting of the material name, the names of
- * nested node groups (if any) and the name of the Value node itself
+ * nested node groups (if any) and the name of the Value node itself. Should
+ * have at least 2 elements ["Mat","Node"]
  * @returns {Number} Value.
  */
 exports.get_nodemat_value = function(obj, name_list) {
@@ -120,7 +138,23 @@ exports.get_nodemat_value = function(obj, name_list) {
         return null;
     }
 
-    return m_batch.get_nodemat_value(obj, name_list);
+    var mat_name = name_list[0];
+    var batch_main = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    if (batch_main === null) {
+        m_print.error("Material \"" + mat_name +
+                      "\" was not found in the object \"" + obj.name + "\".");
+        return null;
+    }
+
+    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
+                                                name_list);
+    if (ind === null) {
+        m_print.error("Value node \"" + name_list[name_list.length - 1] +
+        "\" was not found in the object \"" + obj.name + "\".");
+        return null;
+    }
+
+    return m_batch.get_nodemat_value(batch_main, ind);
 }
 
 /**
@@ -129,9 +163,9 @@ exports.get_nodemat_value = function(obj, name_list) {
  * @param {Object3D} obj Object 3D
  * @param {String[]} name_list List consisting of the material name, the names of
  * nested node groups (if any) and the name of the RGB node itself
- * @param {Number} r The value to set the red channel of the RGB node to
- * @param {Number} g The value to set the green channel of the RGB node to
- * @param {Number} b The value to set the blue channel of the RGB node to
+ * @param {Number} r The value to set the red channel of the RGB node to [0..1]
+ * @param {Number} g The value to set the green channel of the RGB node to [0..1]
+ * @param {Number} b The value to set the blue channel of the RGB node to [0..1]
  */
 exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
 
@@ -141,7 +175,24 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
         return;
     }
 
-    m_batch.set_nodemat_rgb(obj, name_list, r, g, b);
+    var mat_name = name_list[0];
+    var batch_main = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    if (batch_main === null) {
+        m_print.error("Material \"" + mat_name +
+                      "\" was not found in the object \"" + obj.name + "\".");
+        return;
+    }
+
+    // node index is assumed to be similar for all batches with the same material
+    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
+                                                name_list);
+    if (ind === null) {
+        m_print.error("RGB node \"" + name_list[name_list.length - 1] +
+                      "\" was not found in the object \"" + obj.name + "\".");
+        return;
+    }
+
+    m_batch.set_nodemat_rgb(obj, mat_name, ind, r, g, b);
 }
 
 /**
@@ -151,7 +202,7 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
  * @param {String[]} name_list List consisting of the material name, the names of
  * nested node groups (if any) and the name of the RGB node itself
  * @param {Vec3} [dest] Destination color
- * @returns {Vec3} Destination color
+ * @returns {RGB} Destination color
  */
 exports.get_nodemat_rgb = function(obj, name_list, dest) {
 
@@ -161,10 +212,26 @@ exports.get_nodemat_rgb = function(obj, name_list, dest) {
         return null;
     }
 
+    var mat_name = name_list[0];
+    var batch_main = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    if (batch_main === null) {
+        m_print.error("Material \"" + mat_name +
+                      "\" was not found in the object \"" + obj.name + "\".");
+        return null;
+    }
+
+    var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
+                                                name_list);
+    if (ind === null) {
+        m_print.error("RGB node \"" + name_list[name_list.length - 1] +
+                      "\" was not found in the object \"" + obj.name + "\".");
+        return null;
+    }
+
     if (!dest)
         dest = new Float32Array(3);
 
-    return m_batch.get_nodemat_rgb(obj, name_list, dest);
+    return m_batch.get_nodemat_rgb(batch_main, ind, dest);
 }
 
 /**

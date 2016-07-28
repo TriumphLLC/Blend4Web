@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 16:12+0300\n"
+"POT-Creation-Date: 2016-07-22 17:49+0300\n"
 "PO-Revision-Date: 2015-11-26 21:18+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -139,17 +139,28 @@ msgstr "Экспорт может осуществляться в два фор�
 
 #: ../workflow.rst:61
 msgid ""
-"The JSON format is used for complex projects that require programming, "
-"while HTML is used for more simple, stand-alone applications. Format "
-"differences and export options are described in the :ref:`Export Formats "
-"<export_formats>` chapter."
+"The HTML format is used for simple stand-alone applications, where all "
+"the resources are packed into one HTML file that can then be easily "
+"deployed to a web page."
 msgstr ""
-"Формат JSON применяется для сложных проектов, в которых требуется "
-"написание программного кода, HTML - для простых, самодостаточных "
-"проектов. Различия между форматами и особенности экспорта описаны в "
-"разделе :ref:`\"Форматы экспорта\" <export_formats>`."
+"Формат HTML применяется для простых, самодостаточных проектов, в которых "
+"все ресурсы упакованы в один файл, который легко можно разместить на "
+"веб-странице."
 
-#: ../workflow.rst:66
+#: ../workflow.rst:63
+msgid ""
+"The JSON format can be used for creating such projects as well, but it "
+"also offers numerous extra features making it possible to create complex "
+"projects that require programming. Format differences and export options "
+"are described in the :ref:`Export Formats <export_formats>` chapter."
+msgstr ""
+"Формат JSON также может применяться для создания подобных проектов, но "
+"также он предлагает множество дополнительных возможностей для создания "
+"сложных проектов, требующих программирования. Различия между форматами и "
+"настройки экспорта описаны в разделе :ref:`\"Форматы экспорта\" "
+"<export_formats>`."
+
+#: ../workflow.rst:65
 msgid ""
 "To export the scene, select ``Blend4Web (.json)`` or ``Blend4Web "
 "(.html)`` option from the ``File > Export`` menu, or type ``b4w export`` "
@@ -159,7 +170,7 @@ msgstr ""
 "(.json)`` или ``Blend4Web (.html)`` либо наберите ``b4w export`` в меню "
 "поиска команд (вызывается по клавише ``ПРОБЕЛ``)."
 
-#: ../workflow.rst:71
+#: ../workflow.rst:70
 msgid ""
 "If the scene uses Blender features not yet supported by the Blend4Web "
 "engine, errors may occur during export. Export errors are listed in "
@@ -169,7 +180,7 @@ msgstr ""
 "Blend4Web, при экспорте могут возникнуть ошибки. Ошибки экспорта "
 "перечислены в :ref:`этой таблице <export_errors>`."
 
-#: ../workflow.rst:73
+#: ../workflow.rst:72
 msgid ""
 "Export options are described in detail in the :ref:`corresponding section"
 " <export_opts>`."
@@ -177,11 +188,11 @@ msgstr ""
 "Опции экспорта подробно описаны в :ref:`соответствующем разделе "
 "<export_opts>`."
 
-#: ../workflow.rst:81
+#: ../workflow.rst:80
 msgid "Displaying Scenes in the Viewer"
 msgstr "Отображение сцен в просмотрщике"
 
-#: ../workflow.rst:83
+#: ../workflow.rst:82
 msgid ""
 "When using the :ref:`local development server <local_development_server>`"
 " it's possible to preview current scene using ``Fast Preview`` button, "
@@ -196,7 +207,7 @@ msgstr ""
 "автоматический экспорт сцены во временное хранилище с последующей "
 "загрузкой в просмотрщике."
 
-#: ../workflow.rst:89
+#: ../workflow.rst:88
 msgid ""
 "The other method is using :ref:`Run in Viewer <run_in_viewer>` export "
 "option. In this case the scene will be displayed in the Viewer app "
@@ -206,7 +217,7 @@ msgstr ""
 "<run_in_viewer>`. В этом случая сцена показывается в просмотрщике сразу "
 "после экспорта."
 
-#: ../workflow.rst:93
+#: ../workflow.rst:92
 msgid ""
 "For the long-term storage of the scene in the scene list of the viewer, "
 "it's required to manually add the entry to the "
@@ -218,17 +229,17 @@ msgstr ""
 "``apps_dev/viewer/assets.json``, который доступен при открытии Blender'a "
 "при использовании Blend4Web SDK."
 
-#: ../workflow.rst:98
+#: ../workflow.rst:97
 msgid "Use the \\\"Text Editor\\\" to modify it:"
 msgstr "Для редактирования файла откройте \"Text Editor\":"
 
-#: ../workflow.rst:105
+#: ../workflow.rst:104
 msgid "Then select the ``assets.json`` file in the window to edit it:"
 msgstr ""
 "В появившемся окне вы сможете выбрать файл ``assets.json`` и "
 "отредактировать его:"
 
-#: ../workflow.rst:112
+#: ../workflow.rst:111
 msgid ""
 "To add a new scene you need to know the category in which it should be "
 "displayed. The category normally corresponds to the project name and to "
@@ -238,11 +249,11 @@ msgstr ""
 "отображаться. Категория обычно соответствует названию проекта и имени "
 "директории, где хранятся соответствующие файлы."
 
-#: ../workflow.rst:118
+#: ../workflow.rst:117
 msgid "Example"
 msgstr "Пример"
 
-#: ../workflow.rst:120
+#: ../workflow.rst:119
 msgid ""
 "For example below you can see a part of ``assets.json``. In this file "
 "there are two projects - \\\"Capri\\\" and \\\"Fridge\\\" each with "
@@ -252,7 +263,7 @@ msgstr ""
 " два проекта \\\"Capri\\\" и \\\"Fridge\\\" с соответствующими сценами в "
 "каждом проекте::"
 
-#: ../workflow.rst:150
+#: ../workflow.rst:149
 msgid ""
 "To add a new scene you can copy and paste a similar scene's description "
 "to the required category and then edit its name and path to the exported "
@@ -262,7 +273,7 @@ msgstr ""
 "сцены в нужной категории и последующим редактированием ее названия и пути"
 " к экспортному файлу."
 
-#: ../workflow.rst:153
+#: ../workflow.rst:152
 msgid ""
 "A successfully added scene should appear in the scenes' list of the "
 "viewer in the required category"
@@ -270,11 +281,11 @@ msgstr ""
 "В случае успешного добавления сцена должна появиться в списке сцен "
 "просмотрщика в нужной категории."
 
-#: ../workflow.rst:161
+#: ../workflow.rst:160
 msgid "Application Development"
 msgstr "Разработка приложения"
 
-#: ../workflow.rst:163
+#: ../workflow.rst:162
 msgid ""
 "At this stage an application is created. Logic for scene loading and user"
 " interaction is written using JavaScript. The application developer notes"
@@ -289,11 +300,11 @@ msgstr ""
 msgid "export"
 msgstr "экспорт"
 
-#: ../workflow.rst:76
+#: ../workflow.rst:75
 msgid "viewer"
 msgstr "просмотрщик"
 
-#: ../workflow.rst:76
+#: ../workflow.rst:75
 msgid "adding scenes"
 msgstr "добавление сцен"
 

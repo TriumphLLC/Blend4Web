@@ -30,6 +30,13 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
+    // ignore right-click on the canvas element
+    canvas_elem.oncontextmenu = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    };
+
     load();
 }
 

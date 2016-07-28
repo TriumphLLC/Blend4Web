@@ -99,9 +99,10 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
 3) Project author’s name.
 4) Add application templates. Standard application templates: html file, css file, js file will be added to the project directory "apps_dev/project_name".
 5) Add scene templates. Standard json file will be added to the "deploy/assets/project_name" directory; blend file will be added to the "blender/project_name" directory.
-6) Copy project manager script. The project.py script will be copied to the project directory.
-7) All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only "update" project type is available for this option.
-8) Project’s type. Several options are available:
+6) Use Material Library. Blend files of the material library will be copied to the project directory "blender/project_name", while the asset files will be copied to "deploy/assets/project_name" folder.
+7) Copy project manager script. The project.py script will be copied to the project directory.
+8) All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only "update" project type is available for this option.
+9) Project’s type. Several options are available:
 
     * "External" - engine will be taken from the "deploy/apps/common/" directory. Only application files will be compiled;
     * "Copy" - engine is copied into the compiled application directory. Only application files are compiled;
@@ -110,11 +111,81 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
     * "Webplayer JSON" - json-file placed inside the project is run with the help of web-player inside SDK;
     * "Webplayer HTML" - project is packed into single html-file, containing all required resources.
 
-9) Javascript optimization level.
+10) Javascript optimization level.
 
     * "Simple" - variable names are replaced in the code;
     * "Advanced" - code optimization is performed;
     * "Whitespace Only" - only whitespaces are removed from the code.
+
+
+11) Web Player URL attributes. This tab is available only if ``Engine Binding Type`` parameter is set to ``WebPlayer JSON`` or ``WebPlayer HTML``.
+
+    * "Show FPS" is used to display the FPS counter in the player’s top right corner.
+    * "Auto-rotate camera" enables automatic camera rotation just after the scene loads.
+    * "Disable social network buttons" disables social networks buttons on the control panel.
+    * "Background transparency" enables transparency for the rendering area.
+    * "Use compressed textures" enables loading of minified and compressed textures (in DDS format).
+
+Creating a Web Player Application
+---------------------------------
+
+The main advantage of WebPlayer applications is the ease of deploying such applications on a website.
+
+.. image:: src_images/project_manager/project_manager_create_web_player_project.png
+       :align: center
+       :width: 100%
+
+Creating a Web Player application is simple. All you have to do when creating a new project is select the WebPlayer JSON or WebPlayer HTML option under the Engine Binding Type tab.
+
+The parameters that are available for a WebPlayer project are mostly the same as for any other type of project. The only exception is the group of parameter known as the Web Player Params.
+
+Project Settings
+................
+
+.. image:: src_images/project_manager/project_manager_web_player_parameters.png
+       :align: center
+       :width: 100%
+
+This panel is only available if the WebPlayer JSON or WebPlayer HTML option has been enabled. The parameters listed here are in essence URL attributes that the Web Player application will use while running the project.
+
+Deploying the Project
+.....................
+
+After you have completed your project, select the ``deploy project`` option from the ``Operations`` panel on the Project Manager main page. The project will be exported, packed into a single archive and downloaded to the folder where your web browser stores all dowloaded files.
+
+To place the project on a webpage, you have to extract this archive and upload its files (the ``html`` file and the ``assets`` directory) to a web server using FTP, SSH or any other protocols supported by the server.
+
+.. note::
+    The internal structure of the archive and relative paths to its files should be retained after uploading the project files to a web server.
+
+A WebPlayer HTML application can then be placed on any webpage by using an ``iframe`` container.
+Here is an example of HTML code that can be used for this:
+
+.. code-block:: html
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>An Example Application</title>
+    </head>
+    <body>
+        <iframe width="800" height="500" allowfullscreen src="/tutorials/examples/web_page_integration/example_scene.html"></iframe>
+    </body>
+    </html>
+
+Deploying a JSON project is performed similarly, but instead of a single HTML file it uses a combination of the Web Player app and a JSON file that contains the actual scene.
+
+.. code-block:: html
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Another Example Application</title>
+    </head>
+    <body>
+        <iframe width="800" height="500" allowfullscreen src="/apps/webplayer/webplayer.html?load=/tutorials/examples/web_page_integration/example_scene.json&show_fps"></iframe>
+    </body>
+    </html>
 
 .. _project_info:
 

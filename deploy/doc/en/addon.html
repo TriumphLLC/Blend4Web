@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Addon &mdash; Blend4Web 16.06 User Manual</title>
+  <title>Addon &mdash; Blend4Web 16.07 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.06 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.07 User Manual" href="index.html"/>
         <link rel="next" title="Scene Settings" href="scene_settings.html"/>
         <link rel="prev" title="Web Player" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.06
+              v16.07
             </div>
           
         
@@ -92,21 +92,19 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Addon</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#local-development-server">Local Development Server</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-viewer-and-demos">Running Viewer and Demos</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#export-formats">Export Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-viewer-and-demos">Running Viewer and Demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export-formats">Export Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#html">HTML</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#json">JSON</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#html">HTML</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#export-options">Export Options</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#index-2">Initialization Errors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#compatibility-errors">Compatibility Errors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#critical-export-errors">Critical Export Errors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#non-critical-export-errors">Non-Critical Export Errors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#other-messages">Other Messages</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#add-on-translations">Add-on Translations</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#export-options">Export Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-2">Initialization Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compatibility-errors">Compatibility Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#critical-export-errors">Critical Export Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-critical-export-errors">Non-Critical Export Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-messages">Other Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-on-translations">Add-on Translations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
@@ -182,12 +180,12 @@
 <ul class="simple">
 <li><a class="reference internal" href="#index-0" id="id5">Addon</a><ul>
 <li><a class="reference internal" href="#local-development-server" id="id6">Local Development Server</a></li>
-<li><a class="reference internal" href="#running-viewer-and-demos" id="id7">Running Viewer and Demos</a><ul>
-<li><a class="reference internal" href="#export-formats" id="id8">Export Formats</a></li>
+<li><a class="reference internal" href="#running-viewer-and-demos" id="id7">Running Viewer and Demos</a></li>
+<li><a class="reference internal" href="#export-formats" id="id8">Export Formats</a><ul>
+<li><a class="reference internal" href="#json" id="id9">JSON</a></li>
+<li><a class="reference internal" href="#html" id="id10">HTML</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#json" id="id9">JSON</a></li>
-<li><a class="reference internal" href="#html" id="id10">HTML</a><ul>
 <li><a class="reference internal" href="#export-options" id="id11">Export Options</a></li>
 <li><a class="reference internal" href="#index-2" id="id12">Initialization Errors</a></li>
 <li><a class="reference internal" href="#compatibility-errors" id="id13">Compatibility Errors</a></li>
@@ -195,8 +193,6 @@
 <li><a class="reference internal" href="#non-critical-export-errors" id="id15">Non-Critical Export Errors</a></li>
 <li><a class="reference internal" href="#other-messages" id="id16">Other Messages</a></li>
 <li><a class="reference internal" href="#add-on-translations" id="id17">Add-on Translations</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -243,16 +239,15 @@
 <p class="first admonition-title">Note</p>
 <p class="last">If the SDK apps are not displayed correctly, or error messages are shown, follow the instructions in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>Problems Upon Startup</span></a> section.</p>
 </div>
+</div>
 <div class="section" id="export-formats">
-<span id="id3"></span><h3><a class="toc-backref" href="#id8">Export Formats</a><a class="headerlink" href="#export-formats" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h2><a class="toc-backref" href="#id8">Export Formats</a><a class="headerlink" href="#export-formats" title="Permalink to this headline">¶</a></h2>
 <p>After the scene is finished, you need to convert it into a format supported by the Blend4Web engine.</p>
 <p>For now, two formats are supported: JSON and HTML.</p>
-</div>
-</div>
 <div class="section" id="json">
-<h2><a class="toc-backref" href="#id9">JSON</a><a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h2>
+<h3><a class="toc-backref" href="#id9">JSON</a><a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h3>
 <p>Exporting the scene to this format creates a <code class="docutils literal"><span class="pre">.json</span></code> (JavaScript Object Notation) file that contains all exported data structures and links to external resources (images, sounds and such), and also a <code class="docutils literal"><span class="pre">.bin</span></code> file that contains model data arrays in binary format.</p>
-<p>If media resources are <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">packed into the .blend file</a>, they will be unpacked during the export and placed to the hidden <code class="docutils literal"><span class="pre">../tmp/</span></code> folder in the project&#8217;s directory (inside the SDK directory). It should be noted that the names of such files will be automatically changed, which can complicate working with them.</p>
+<p>If media resources are <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">packed into the .blend file</a>, they will be unpacked during the export and placed in the project&#8217;s directory (inside the SDK directory). It should be noted that the names of such files will be automatically changed, which can complicate working with them.</p>
 <p>It is recommended to store all the resources in a dedicated folder inside the SDK directory, it can be called <code class="docutils literal"><span class="pre">deploy/assets/project_name</span></code> for example.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -262,7 +257,7 @@
 <p>This is the main format for complex projects that include multiple scenes and require JavaScript programming. Project development is further described in the  <a class="reference internal" href="developers.html#developers"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="html">
-<h2><a class="toc-backref" href="#id10">HTML</a><a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h2>
+<h3><a class="toc-backref" href="#id10">HTML</a><a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h3>
 <p>Exporting the scene to this format pack all scene resources into one file with the HTML extension. This HTML file contains not only the scene itself, but also textures, sounds, Blend4Web engine and standard <a class="reference internal" href="web_player.html#web-player"><span>web player</span></a>. A file like this can be executed on any computer and any mobile device that have a web browser with WebGL support.</p>
 <p>You can&#8217;t use HTML files for further development, but you also don&#8217;t need any additional actions to run them. This format is useful for developing relatively simple applications of moderate size.</p>
 <p>It should be noted, however, that HTML applications do not support following features:</p>
@@ -273,8 +268,10 @@
 <li><a class="reference internal" href="developers.html#converter"><span>min50 textures</span></a></li>
 </ul>
 </div></blockquote>
+</div>
+</div>
 <div class="section" id="export-options">
-<span id="export-opts"></span><h3><a class="toc-backref" href="#id11">Export Options</a><a class="headerlink" href="#export-options" title="Permalink to this headline">¶</a></h3>
+<span id="export-opts"></span><h2><a class="toc-backref" href="#id11">Export Options</a><a class="headerlink" href="#export-options" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><em>Autosave blend File</em></dt>
 <dd>Autosaving the file from which export occurs. <strong>Enabled by default</strong>. Autosaving is performed right after the export to guarantee conformity between the current blend file and the exported file contents. In addition, the relative path to the exported file is saved for convenience.</dd>
@@ -318,7 +315,7 @@
 </div>
 <span class="target" id="initialization-errors"></span></div>
 <div class="section" id="index-2">
-<span id="id4"></span><h3><a class="toc-backref" href="#id12">Initialization Errors</a><a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h2><a class="toc-backref" href="#id12">Initialization Errors</a><a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
 <p>Initialization errors can arise upon installation of the add-on or when a scene is opened in Blender. In this case a dialog window with the error description is showed.</p>
 <a class="reference internal image-reference" href="_images/addon_init_error_message.png"><img alt="_images/addon_init_error_message.png" class="align-center" src="_images/addon_init_error_message.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -351,11 +348,17 @@ It is recommended to use VER_REQUIRED
 Blender version. The current version is
 VER_CURRENT.</td>
 </tr>
+<tr class="row-even"><td>Incorrect addon directory name.</td>
+<td>Incorrect name of the addon directory.
+Addon structure in the archive has been
+damaged, or entirety of the archive has
+been disrupted.</td>
+</tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="compatibility-errors">
-<span id="version-errors"></span><span id="index-3"></span><h3><a class="toc-backref" href="#id13">Compatibility Errors</a><a class="headerlink" href="#compatibility-errors" title="Permalink to this headline">¶</a></h3>
+<span id="version-errors"></span><span id="index-3"></span><h2><a class="toc-backref" href="#id13">Compatibility Errors</a><a class="headerlink" href="#compatibility-errors" title="Permalink to this headline">¶</a></h2>
 <p>Compatibility errors may arise when trying to view a scene in a browser, in the following cases: if version of the add-on used to export the scene differs from version of the Blend4Web engine which tries to load the scene, or if .bin file does not correspond to the .json file.</p>
 <p>Engine version is too old as compared to version of the add-on with which the scene was exported. The scene will not be loaded. We recommend you to use the latest versions of the engine and the add-on.</p>
 <table border="1" class="docutils">
@@ -444,7 +447,7 @@ recommend you to reexport yor scene.</td>
 </table>
 </div>
 <div class="section" id="critical-export-errors">
-<span id="export-errors"></span><span id="index-4"></span><h3><a class="toc-backref" href="#id14">Critical Export Errors</a><a class="headerlink" href="#critical-export-errors" title="Permalink to this headline">¶</a></h3>
+<span id="export-errors"></span><span id="index-4"></span><h2><a class="toc-backref" href="#id14">Critical Export Errors</a><a class="headerlink" href="#critical-export-errors" title="Permalink to this headline">¶</a></h2>
 <p>In case of export errors a <code class="docutils literal"><span class="pre">BLEND4WEB</span> <span class="pre">EXPORT</span> <span class="pre">ERROR</span></code> dialog box describing of the problem appears:</p>
 <blockquote>
 <div><p><code class="docutils literal"><span class="pre">COMPONENT</span></code> - type of component (object, mesh, material, texture etc) that has caused the export error.</p>
@@ -685,7 +688,7 @@ solution is to &#8220;re-bake&#8221; the animation.</td>
 </table>
 <span class="target" id="export-errors-warnings"></span></div>
 <div class="section" id="non-critical-export-errors">
-<span id="index-5"></span><h3><a class="toc-backref" href="#id15">Non-Critical Export Errors</a><a class="headerlink" href="#non-critical-export-errors" title="Permalink to this headline">¶</a></h3>
+<span id="index-5"></span><h2><a class="toc-backref" href="#id15">Non-Critical Export Errors</a><a class="headerlink" href="#non-critical-export-errors" title="Permalink to this headline">¶</a></h2>
 <p>In contrast to the above-listed critical export errors, these errors do not prohibit the export, but can make scenes displayed incorrectly. These messages can be viewed in the browser console (opens with <code class="docutils literal"><span class="pre">F12</span></code>) when a scene is loaded. The message looks like this:</p>
 <blockquote>
 <div><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT</span> <span class="pre">ERROR:</span> <span class="pre">Error</span> <span class="pre">message</span></code></div></blockquote>
@@ -985,7 +988,7 @@ supported for image textures: <code class="docutils literal"><span class="pre">U
 </table>
 </div>
 <div class="section" id="other-messages">
-<span id="export-errors-other"></span><h3><a class="toc-backref" href="#id16">Other Messages</a><a class="headerlink" href="#other-messages" title="Permalink to this headline">¶</a></h3>
+<span id="export-errors-other"></span><h2><a class="toc-backref" href="#id16">Other Messages</a><a class="headerlink" href="#other-messages" title="Permalink to this headline">¶</a></h2>
 <p>These messages can be viewed in the browser console (opens with <code class="docutils literal"><span class="pre">F12</span></code>) when a scene is loaded. The message looks like this:</p>
 <blockquote>
 <div><code class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">Export</span> <span class="pre">message</span> <span class="pre">which</span> <span class="pre">requires</span> <span class="pre">the</span> <span class="pre">user's</span> <span class="pre">attention</span></code></div></blockquote>
@@ -1044,7 +1047,7 @@ for material &#8220;NAME&#8221;.</td>
 </table>
 </div>
 <div class="section" id="add-on-translations">
-<span id="translator"></span><h3><a class="toc-backref" href="#id17">Add-on Translations</a><a class="headerlink" href="#add-on-translations" title="Permalink to this headline">¶</a></h3>
+<span id="translator"></span><h2><a class="toc-backref" href="#id17">Add-on Translations</a><a class="headerlink" href="#add-on-translations" title="Permalink to this headline">¶</a></h2>
 <p>There is the possibility to translate the add-on to a language supported by Blender. In order to do this, rename the file &#8220;empty.po&#8221;, which located in the directory SDK/blender_scripts/addons/blend4web/locales, to one of the names in the following table:</p>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -1189,7 +1192,6 @@ for material &#8220;NAME&#8221;.</td>
 <p>When translations are ready, you may contact us to include them as part of the add-on.</p>
 </div>
 </div>
-</div>
 
 
            </div>
@@ -1211,7 +1213,7 @@ for material &#8220;NAME&#8221;.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-06-30.
+      Last updated on 2016-07-26.
 
     </p>
   </div>
@@ -1267,7 +1269,7 @@ for material &#8220;NAME&#8221;.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.06',
+            VERSION:'v16.07',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

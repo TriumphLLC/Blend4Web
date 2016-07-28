@@ -30,7 +30,7 @@ A current stable version of Blender should be used. It can be downloaded from th
 Unpacking the Archive
 ---------------------
 
-Stable versions of the distribution are available as an archive (``blend4web_sdk_free_YY_MM.zip`` -- free SDK, ``blend4web_sdk_pro_YY_MM.zip`` -- commercial SDK). Simply unpack this archive somewhere.
+Stable versions of the distribution are available as an archive (``blend4web_ce_YY_MM.zip`` -- free SDK, ``blend4web_pro_YY_MM.zip`` -- commercial SDK). Simply unpack this archive somewhere.
 
 Installing Blend4Web SDK
 ------------------------
@@ -73,7 +73,7 @@ In the :file:`File > Export` menu, the :file:`Blend4Web (.json)` and :file:`Blen
 
     The addon can only export scenes to :ref:`HTML format <export_scene>` and has limited functionality (for example, it doesn't have the :ref:`project manager <project_management>`, example scenes, user manual and so on), but still it has everything you might need to create a simple application.
 
-    It can be installed the same way as any other `Blender addon <https://www.blender.org/manual/advanced/scripting/python/add_ons.html?highlight=addon#installation-of-a-3rd-party-add-on>`_.
+    It can be installed the same way as any other `Blender addon <https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon#installation-of-a-3rd-party-add-on>`_.
 
 
 |

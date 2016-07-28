@@ -223,11 +223,41 @@ Sets the measurement units used in the scene.
 Audio
 -----
 
-Audio settings. Enabled by default.
+Audio settings.
 
 .. image:: src_images/scene_settings/scene_audio.png
    :align: center
    :width: 100%
+
+*Volume*
+    The master volume of the sound in the application. This value can vary between 0 and 100. Default value is 1.0.
+
+*Distance Model*
+    The distance model used for calculating distance attenuation. Following models are supported by the engine:
+
+    ``None`` - no distance model is used, the sound has constant volume regardless of the distance.
+
+    ``Exponent Clamped`` - a clamped exponential distance model.
+
+    ``Linear Clamped`` - a clamped linear distance model.
+
+    ``Inverse Clamped`` - a clamped inverse distance model.
+
+    The following models are partially supported (work the same way the corresponding *Clamped*-type models):
+
+    ``Exponent``
+
+    ``Linear``
+
+    ``Inverse``
+
+    This parameter is set to ``Inverse Clamped`` by default.
+
+*Speed*
+    This parameter sets the speed of sound used for Doppler effect calculation. Its value is measured in meters per second and is set to 343.3 by default.
+
+*Doppler*
+    This sets the pitch factor for Doppler effect calculation. Its default value if 1.0.
 
 *Dynamic Compressor*
     Compress audio signal's dynamic range. This feature can be used to make the sound more rich and even. Disabled by default.

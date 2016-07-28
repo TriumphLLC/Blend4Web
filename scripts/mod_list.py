@@ -7,7 +7,7 @@ from os.path import join
 ROOT_DIR = ".."
 SRC_DIR = "src"
 
-IGNORE_MODULES = ["shader_texts.js"]
+IGNORE_MODULES = ["shader_texts.js", "begin.js", "end.js"]
 FIRST_MODULES = ["b4w.js"]
 LAST_MODULES = ["ns_compat.js"]
 

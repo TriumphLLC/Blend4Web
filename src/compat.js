@@ -29,6 +29,7 @@ var m_cfg   = require("__config");
 var m_debug = require("__debug");
 var m_ext   = require("__extensions");
 var m_print = require("__print");
+var m_render= require("__renderer");
 
 var MIN_VARYINGS_REQUIRED = 10;
 var MIN_FRAGMENT_UNIFORMS_SUPPORTED = 128;
@@ -79,6 +80,8 @@ exports.set_hardware_defaults = function(gl) {
     if (cfg_def.webgl2 && m_debug.check_multisample_issue())
         cfg_def.msaa_samples = 1;
 
+    m_render.set_draw_data();
+
     var depth_tex_available = Boolean(m_ext.get_depth_texture());
     // HACK: fix depth issue in Firefox 28
     if (check_user_agent("Firefox/28.0") &&
@@ -91,9 +94,11 @@ exports.set_hardware_defaults = function(gl) {
         if (check_user_agent("iPad") || check_user_agent("iPhone")) {
             m_print.warn("iOS detected, applying alpha hack, applying vertex "
                     + "animation mix normals hack, disable smaa. Disable ssao " 
-                    + "for performance. Initialize WebAudio context with empty sound.");
+                    + "for performance. Initialize WebAudio context with empty sound. "
+                    + "Applying glow hack.");
             if (!cfg_ctx.alpha)
                 cfg_def.background_color[3] = 1.0;
+            cfg_def.safari_glow_hack = true;
             cfg_def.vert_anim_mix_normals_hack = true;
             cfg_def.smaa = false;
             cfg_def.ssao = false;
@@ -297,11 +302,6 @@ exports.set_hardware_defaults = function(gl) {
 
     if (check_user_agent("Chrome") && !check_user_agent("Edge")) {
         m_print.log("Chrome detected. Some of deprecated functions related to the Doppler effect won't be called.");
-    }
-
-    if ((check_user_agent("Chrome") && !check_user_agent("Edge")) ||
-            check_user_agent("Firefox")) {
-        cfg_def.disable_doppler_hack = true;
     }
 
     if (detect_mobile() && check_user_agent("Firefox")) {

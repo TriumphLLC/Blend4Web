@@ -1,9 +1,11 @@
+import sphinx
 from docutils import nodes
 
 def setup(app):
     app.add_role('b4wmod', autolink('https://www.blend4web.com/api_doc/module-%s.html'))
     app.add_role('b4wref',
             autolink('https://www.blend4web.com/api_doc/module-%s.html#.%s'))
+    return {'version': sphinx.__display_version__, 'parallel_read_safe': True}
 
 '''
  Autolink usage:

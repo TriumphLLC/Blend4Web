@@ -730,7 +730,7 @@ exports.disable_split_screen = function() {
     var distortion_scale = 1 / (1 + hmd_device.distortion_coefs[0] + hmd_device.distortion_coefs[1]);
     m_scs.multiply_size_mult(distortion_scale, distortion_scale);
     // resize screen to canvas resolution (non-vr mode)
-    m_cont.resize_to_container();
+    m_cont.resize_to_container(true);
     return true;
 }
 /**

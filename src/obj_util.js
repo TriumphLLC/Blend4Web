@@ -99,8 +99,8 @@ function create_render(type) {
             outline_relapses: 0
         },
         
-        cube_reflection_id: null,
-        plane_reflection_id: null,
+        cube_reflection_id: -1,
+        plane_reflection_id: -1,
         reflection_plane: new Float32Array(4),
 
         // game/physics/lod properties
@@ -294,7 +294,7 @@ function create_object(name, type, origin_name) {
         },
 
         anim_behavior_def: 0,
-        actions: [],
+        def_action_slots: [], // slot: {String dest(e.g. material+group), action}
 
         need_update_transform: false, // used for armature bones constraints
         need_inv_zup_tsr: false, // for MESH only, used in some node materials

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>目录 &mdash; Blend4Web 16.06 用户手册</title>
+  <title>目录 &mdash; Blend4Web 16.07 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.06 用户手册" href="#"/>
+    <link rel="top" title="Blend4Web 16.07 用户手册" href="#"/>
         <link rel="next" title="概述" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.06
+              v16.07
             </div>
           
         
@@ -190,6 +190,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#id1">项目管理器</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-creation-wizard">项目创建向导</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_manager.html#creating-a-web-player-application">Creating a Web Player Application</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-information">项目信息</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-import">项目导入</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-export">项目导出</a></li>
@@ -213,8 +214,14 @@
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#local-development-server">Local Development Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#running-viewer-and-demos">Running Viewer and Demos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#json">JSON</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#html">HTML</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#export-formats">输出格式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#export-options">导出选项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#index-2">初始化错误</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#compatibility-errors">兼容性错误</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#critical-export-errors">关键导出错误</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#non-critical-export-errors">非致命导出的错误</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#other-messages">其他消息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#add-on-translations">插件翻译</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a><ul>
@@ -275,7 +282,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="material_library.html#libarary-structure">Libarary Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="material_library.html#library-structure">Library Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="material_library.html#material-structure">Material Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="material_library.html#adding-material-to-a-scene">Adding Material to a Scene</a></li>
 </ul>
@@ -366,6 +373,7 @@
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#water">Water</a></li>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#atmosphere">Atmosphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#lens-flare">Lens Flare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#wind">Wind</a></li>
 </ul>
 </li>
@@ -391,6 +399,7 @@
 <li class="toctree-l2"><a class="reference internal" href="physics.html#wheeled-vehicles">Wheeled Vehicles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#floating-objects">Floating Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#floating-vehicles-aka-watercrafts">Floating Vehicles aka Watercrafts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#character-objects">Character Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#use-in-applications">Use in Applications</a></li>
 </ul>
 </li>
@@ -441,6 +450,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-07">v16.07</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-06">v16.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-05">v16.05</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-04">v16.04</a></li>
@@ -491,7 +501,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-06-30.
+      最后更新于 2016-07-26.
 
     </p>
   </div>
@@ -547,7 +557,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.06',
+            VERSION:'v16.07',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

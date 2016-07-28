@@ -50,6 +50,8 @@
 
   * 项目创建向导
 
+  * Creating a Web Player Application
+
   * 项目信息
 
   * 项目导入
@@ -84,9 +86,21 @@
 
   * Running Viewer and Demos
 
-  * JSON
+  * 输出格式
 
-  * HTML
+  * 导出选项
+
+  * 初始化错误
+
+  * 兼容性错误
+
+  * 关键导出错误
+
+  * 非致命导出的错误
+
+  * 其他消息
+
+  * 插件翻译
 
 * 场景设置
 
@@ -180,7 +194,7 @@
 
 * Material Library
 
-  * Libarary Structure
+  * Library Structure
 
   * Material Structure
 
@@ -322,6 +336,8 @@
 
   * Atmosphere
 
+  * Lens Flare
+
   * Wind
 
 * 色彩管理
@@ -359,6 +375,8 @@
   * Floating Objects
 
   * Floating Vehicles aka Watercrafts
+
+  * Character Objects
 
   * Use in Applications
 
@@ -439,6 +457,8 @@
   * 已知问题
 
 * Release Notes
+
+  * v16.07
 
   * v16.06
 

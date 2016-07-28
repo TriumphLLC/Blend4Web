@@ -994,7 +994,8 @@ Several quality profiles are implemented in order to support platforms with diff
 
     * *low quality* (``P_LOW``) - a range of functions is turned off (such as shadows, dynamic reflection, postprocessing), the size of textures is halved when using a release version, anti-aliasing is disabled
     * *high quality* (``P_HIGH``) - all features requested by the scene are used, the anti-aliasing method is FXAA
-    * *maximum quality* (``P_ULTRA``) - rendering resolution is doubled, resolution of shadow maps is increased, the anti-aliasing method is SMAA
+    * *maximum quality* (``P_ULTRA``) - rendering resolution is doubled, resolution of shadow maps is increased, the anti-aliasing method is FXAA (uses higher quality settings and works slower).
+    * *custom quality* (``P_CUSTOM``) - any quality parameter can be set to any possible value. This option is used when you need to set certain quality parameters manually. By default, it uses the same settings as ``High`` quality profile.
 
 
 .. image:: src_images/developers/developers_quality.png

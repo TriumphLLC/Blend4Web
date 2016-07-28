@@ -32,7 +32,7 @@ var m_trans    = require("__transform");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 
-var _tsr_tmp = new Float32Array(4);
+var _tsr_tmp = m_tsr.create();
 var _vec3_tmp = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 

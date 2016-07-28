@@ -12,25 +12,25 @@
 
   * Running Viewer and Demos
 
-    * 输出格式
+  * 输出格式
 
-  * JSON
+    * JSON
 
-  * HTML
+    * HTML
 
-    * 导出选项
+  * 导出选项
 
-    * 初始化错误
+  * 初始化错误
 
-    * 兼容性错误
+  * 兼容性错误
 
-    * 关键导出错误
+  * 关键导出错误
 
-    * 非致命导出的错误
+  * 非致命导出的错误
 
-    * 其他消息
+  * 其他消息
 
-    * 插件翻译
+  * 插件翻译
 
 
 Local Development Server
@@ -103,7 +103,7 @@ apps.
 
 
 输出格式
---------
+========
 
 场景制作完成后，需要将其转换成由Blend4Web引擎所支持的格式。
 
@@ -111,15 +111,17 @@ apps.
 
 
 JSON
-====
+----
 
 导出场景到这种格式会创建一个 ".json" （JavaScript对象符号）文件，其中
 包含所有导出的数据结构和链接到外部资源（图片，声音等等），还有一个
 ".bin" 文件包含二进制格式的模型数据阵列。
 
-如果媒体资源被 打包到.blend文件, 他们会在导出过程中解压，并在项目的目
-录放置在隐藏的 "../tmp/" 文件夹中（SDK目录内）。应当注意的是，这样的话
-文件的名称将被自动地改变，工作的时候可能变得复杂。
+If media resources are packed into the .blend file, they will be
+unpacked during the export and placed in the project's directory
+(inside the SDK directory). It should be noted that the names of such
+files will be automatically changed, which can complicate working with
+them.
 
 建议将所有资源存储在SDK目录中一个专门的文件夹，它可以被称为
 ``deploy/assets/项目名`` 。
@@ -137,7 +139,7 @@ Data > Make All Paths Relative"  命令，否则在其他电脑上打开这个�
 
 
 HTML
-====
+----
 
 导出场景到这种格式会打包场景的所有的资源投入到一个文件带HTML扩展。这个
 HTML文件不仅包含场景本身，而且还材质，声音Blend4Web引擎和标准 web
@@ -159,7 +161,7 @@ following features:
 
 
 导出选项
---------
+========
 
 *自动保存Blend文件*
    自动保存从导出的实际文件。 **默认情况下启用** 。自动保存正在执行的
@@ -209,7 +211,7 @@ following features:
 
 
 初始化错误
-----------
+==========
 
 可能出现安装的加载项或当一个场景是在Blender打开时初始化错误。在这种情
 况下，一个对话窗口，显示错误的描述。
@@ -234,10 +236,15 @@ following features:
 | compatible with the PLATFORM          |                                             |
 | platform.）                           |                                             |
 +---------------------------------------+---------------------------------------------+
+| Incorrect addon directory name.       | Incorrect name of the addon directory.      |
+|                                       | Addon structure in the archive has been     |
+|                                       | damaged, or entirety of the archive has     |
+|                                       | been disrupted.                             |
++---------------------------------------+---------------------------------------------+
 
 
 兼容性错误
-----------
+==========
 
 当试图在浏览器中查看一个场景，在下列情况下兼容性错误可能出现：如果版本
 的附加用于导出场景不同版本Blend4Web引擎，它尝试加载的场景，或者.bin文
@@ -286,7 +293,7 @@ following features:
 
 
 关键导出错误
-------------
+============
 
 在导出的情况下错误的 "BLEND4WEB EXPORT ERROR" 对话框出现描述该问题：
 
@@ -419,7 +426,7 @@ following features:
 
 
 非致命导出的错误
-----------------
+================
 
 在对比上述所列临界导出错误，这些错误不会禁止导出，但可以使显示不正确的
 场景。这些消息可以在浏览器的控制台中查看（与打开 "F12") 当一个场景被加
@@ -587,7 +594,7 @@ following features:
 
 
 其他消息
---------
+========
 
 这些消息可以在浏览器的控制台中查看（与打开 "F12" 一样) 当一个场景被加
 载。该消息是这样的：
@@ -625,7 +632,7 @@ following features:
 
 
 插件翻译
---------
+========
 
 还有就是可以翻译插件到Blender所支持的语言。为了做到这一点，重命名文件
 “empty.po”，它位于目录SDK/blender_scripts/addons/blend4web/locales,下

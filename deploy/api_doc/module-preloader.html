@@ -142,6 +142,10 @@ Provides API to create various types of standard preloaders.</div>
 
         
             
+<li> <a href="#.create_preloader">create_preloader<span class="signature">(options)</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.create_rotation_preloader">create_rotation_preloader<span class="signature">(options)</span><span class="type-signature"></span></a></li>
 
         
@@ -479,7 +483,7 @@ Provides API to create various types of standard preloaders.</div>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use custom preloader or <a href="module-preloader.html#.create_simple_preloader">preloader.create_simple_preloader</a>.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use custom preloader or <a href="module-preloader.html#.create_preloader">preloader.create_preloader</a>.</li></ul></dd>
     
 
     
@@ -493,7 +497,302 @@ Provides API to create various types of standard preloaders.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_preloader.js.html">addons/preloader.js</a>, <a href="addons_preloader.js.html#line244">line 244</a>
+        <a href="addons_preloader.js.html">addons/preloader.js</a>, <a href="addons_preloader.js.html#line336">line 336</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".create_preloader">create_preloader<span class="signature">(options)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Create a preloader.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Initialization options.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>container_color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The CSS background color of the preloader container.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bar_color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The CSS background color of the preloader bar.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>frame_color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The CSS color of the preloader frame border.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>font_color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The CSS color of the preloader font.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_preloader.js.html">addons/preloader.js</a>, <a href="addons_preloader.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -840,7 +1139,7 @@ Provides API to create various types of standard preloaders.</div>
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use custom preloader or <a href="module-preloader.html#.create_simple_preloader">preloader.create_simple_preloader</a>.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use custom preloader or <a href="module-preloader.html#.create_preloader">preloader.create_preloader</a>.</li></ul></dd>
     
 
     
@@ -854,7 +1153,7 @@ Provides API to create various types of standard preloaders.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_preloader.js.html">addons/preloader.js</a>, <a href="addons_preloader.js.html#line134">line 134</a>
+        <a href="addons_preloader.js.html">addons/preloader.js</a>, <a href="addons_preloader.js.html#line226">line 226</a>
     </li></ul></dd>
     
 
@@ -1135,6 +1434,8 @@ Provides API to create various types of standard preloaders.</div>
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use custom preloader or <a href="module-preloader.html#.create_preloader">preloader.create_preloader</a>.</li></ul></dd>
+    
 
     
 
@@ -1147,7 +1448,7 @@ Provides API to create various types of standard preloaders.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_preloader.js.html">addons/preloader.js</a>, <a href="addons_preloader.js.html#line26">line 26</a>
+        <a href="addons_preloader.js.html">addons/preloader.js</a>, <a href="addons_preloader.js.html#line119">line 119</a>
     </li></ul></dd>
     
 
@@ -1282,7 +1583,7 @@ Provides API to create various types of standard preloaders.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_preloader.js.html">addons/preloader.js</a>, <a href="addons_preloader.js.html#line275">line 275</a>
+        <a href="addons_preloader.js.html">addons/preloader.js</a>, <a href="addons_preloader.js.html#line367">line 367</a>
     </li></ul></dd>
     
 
@@ -1319,7 +1620,7 @@ Provides API to create various types of standard preloaders.</div>
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Jun 30 2016 15:03:06 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Jul 26 2016 15:18:54 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

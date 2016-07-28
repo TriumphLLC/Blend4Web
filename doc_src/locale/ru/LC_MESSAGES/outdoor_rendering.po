@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-28 14:01+0300\n"
+"POT-Creation-Date: 2016-07-21 16:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,8 +38,8 @@ msgid "Water"
 msgstr "Вода"
 
 #: ../outdoor_rendering.rst:19 ../outdoor_rendering.rst:99
-#: ../outdoor_rendering.rst:173 ../outdoor_rendering.rst:358
-#: ../outdoor_rendering.rst:382
+#: ../outdoor_rendering.rst:173 ../outdoor_rendering.rst:412
+#: ../outdoor_rendering.rst:436
 msgid "Activation"
 msgstr "Активация"
 
@@ -152,8 +152,8 @@ msgid ""
 "more transparent the water is. This value can vary from 0 to 100. The "
 "default value is 6."
 msgstr ""
-"Коэффициент поглощения света водой. Чем он выше, тем прозрачнее вода."
-"Значение этого параметра может находиться в пределах от 0 до 100. "
+"Коэффициент поглощения света водой. Чем он выше, тем прозрачнее "
+"вода.Значение этого параметра может находиться в пределах от 0 до 100. "
 "Значение по умолчанию - 6."
 
 #: ../outdoor_rendering.rst:71
@@ -205,8 +205,8 @@ msgid ""
 "This determines the color of the water just at the shore line. By "
 "default, dark blue (0.003, 0.19, 0.57) is used."
 msgstr ""
-"Цвет воды непосредственно у береговой линии. По умолчанию "
-"используется тёмно-синий (0.003, 0.19, 0.57) цвет."
+"Цвет воды непосредственно у береговой линии. По умолчанию используется "
+"тёмно-синий (0.003, 0.19, 0.57) цвет."
 
 #: ../outdoor_rendering.rst:84
 msgid "*Shore Water > Factor*"
@@ -372,8 +372,8 @@ msgstr ""
 "Объёмные волны будут работать только в том случае, если в сцене "
 "присутствует силовое поле типа ``Wind``."
 
-#: ../outdoor_rendering.rst:185 ../outdoor_rendering.rst:364
-#: ../outdoor_rendering.rst:388
+#: ../outdoor_rendering.rst:185 ../outdoor_rendering.rst:418
+#: ../outdoor_rendering.rst:442
 msgid "Setting up"
 msgstr "Настройка"
 
@@ -391,7 +391,9 @@ msgstr ""
 
 #: ../outdoor_rendering.rst:191
 msgid "Wave length can vary from 0.01 to 200. The default value is 10.0."
-msgstr "Длина волн. Возможные значения - от 0.01 до 200. Значение по умолчанию 10.0."
+msgstr ""
+"Длина волн. Возможные значения - от 0.01 до 200. Значение по умолчанию "
+"10.0."
 
 #: ../outdoor_rendering.rst:194
 msgid "*Noise Dist Scale 0*"
@@ -402,8 +404,8 @@ msgid ""
 "This is the size of the first component of the open water waves. This "
 "parameter can vary from 0 to 1. Default value is 0.05."
 msgstr ""
-"Размер первого компонента волн, удаленных от берега. Этот параметр "
-"может принимать значения от 0 до 1. Значение по умолчанию - 0.05."
+"Размер первого компонента волн, удаленных от берега. Этот параметр может "
+"принимать значения от 0 до 1. Значение по умолчанию - 0.05."
 
 #: ../outdoor_rendering.rst:197
 msgid "*Noise Dist Scale 1*"
@@ -414,8 +416,8 @@ msgid ""
 "This is the size of the second component of the open water waves. This "
 "parameter can vary from 0 to 1. Default value is 0.03."
 msgstr ""
-"Размер второго компонента волн, удаленных от берега. Возможные значения "
-"- от 0 до 1. Значение по умолчанию - 0.03."
+"Размер второго компонента волн, удаленных от берега. Возможные значения -"
+" от 0 до 1. Значение по умолчанию - 0.03."
 
 #: ../outdoor_rendering.rst:200
 msgid "*Noise Dist Freq 0*"
@@ -426,8 +428,8 @@ msgid ""
 "This sets the frequency of the first component of the open water waves. "
 "This parameter can vary from 0 to 10. Default value is 1.3."
 msgstr ""
-"Частота первого компонента волн, удалённых от берега. Этот параметр может "
-"принимать значения от 0 до 10. Значение по умолчанию - 1.3."
+"Частота первого компонента волн, удалённых от берега. Этот параметр может"
+" принимать значения от 0 до 10. Значение по умолчанию - 1.3."
 
 #: ../outdoor_rendering.rst:203
 msgid "*Noise Dist Freq 1*"
@@ -474,8 +476,8 @@ msgid ""
 "This specifies the size of the noise for the shore waves. This parameter "
 "can vary from 0 to 1 and is set to 0.05 by default."
 msgstr ""
-"Размер шума на прибрежных волнах. Возможные значения - от 0 до 1, значение "
-"по умолчанию - 0.05."
+"Размер шума на прибрежных волнах. Возможные значения - от 0 до 1, "
+"значение по умолчанию - 0.05."
 
 #: ../outdoor_rendering.rst:215
 msgid "*Noise Dir Freq*"
@@ -486,8 +488,8 @@ msgid ""
 "This describes the fequency of the noise for the shore waves. This "
 "parameter can vary from 0 to 1. Default value is 0.07."
 msgstr ""
-"Частота шума на прибрежных волнах. Возможные значения - от "
-"0 до 1. Значение по умолчанию - 0.07."
+"Частота шума на прибрежных волнах. Возможные значения - от 0 до 1. "
+"Значение по умолчанию - 0.07."
 
 #: ../outdoor_rendering.rst:218
 msgid "*Min Dir Noise Fac*"
@@ -510,8 +512,8 @@ msgid ""
 "This sets the minimum coefficient of mixing open water waves. This "
 "parameter can vary from 0 to 1. Default value is 0.2."
 msgstr ""
-"Минимальный коэффициент примешивания волн, удаленных от берега. "
-"Значение этого параметра может меняться от 0 до 1 и по умолчанию равно 0.2."
+"Минимальный коэффициент примешивания волн, удаленных от берега. Значение "
+"этого параметра может меняться от 0 до 1 и по умолчанию равно 0.2."
 
 #: ../outdoor_rendering.rst:224
 msgid "*Horizontal Factor*"
@@ -523,9 +525,8 @@ msgid ""
 "direction of the shoreline. This parameter can vary from 0 to 10. Default"
 " value is 5."
 msgstr ""
-"Коэффициент смещения прибрежных волн в направлении к берегу. "
-"Этот параметр может принимать значения от 0 до 10 и равен 5 "
-"по умолчанию."
+"Коэффициент смещения прибрежных волн в направлении к берегу. Этот "
+"параметр может принимать значения от 0 до 10 и равен 5 по умолчанию."
 
 #: ../outdoor_rendering.rst:227
 msgid "Settings for Surface Generation"
@@ -561,8 +562,8 @@ msgid ""
 "64. The lowes possible value for this parameter is 2, while the highest "
 "possible value is 512."
 msgstr ""
-"Количество подразделений в генерируемой поверхности. Значение по умолчанию "
-"- 64. Минимальное возможное знаение для этого параметра - 2, а "
+"Количество подразделений в генерируемой поверхности. Значение по "
+"умолчанию - 64. Минимальное возможное знаение для этого параметра - 2, а "
 "максимальное - 512."
 
 #: ../outdoor_rendering.rst:240
@@ -575,9 +576,9 @@ msgid ""
 "last cascade. The value of this parameter can vary from 1 to 5000. "
 "Default value is 1000."
 msgstr ""
-"Этот параметр задаёт максимальное расстояние от камеры до края последнего "
-"каскада. Значение параметра может меняться от 1 до 5000. "
-"Значение по умолчанию - 1000."
+"Этот параметр задаёт максимальное расстояние от камеры до края последнего"
+" каскада. Значение параметра может меняться от 1 до 5000. Значение по "
+"умолчанию - 1000."
 
 #: ../outdoor_rendering.rst:247
 msgid "Baking Shoreline Data to Texture"
@@ -807,22 +808,128 @@ msgid "Stars setup is described in the :ref:`material_halo` section."
 msgstr "Настройка данного эффекта описывается в разделе :ref:`material_halo`."
 
 #: ../outdoor_rendering.rst:349
+msgid "Lens Flare"
+msgstr ""
+
+#: ../outdoor_rendering.rst:355
+msgid ""
+"This feature can be enabled by the ``Lens Flare`` check-box located in "
+"the ``Rendering Options`` of the ``Material`` panel."
+msgstr ""
+"Включается с помощью опции ``Lens Flare`` на вкладке ``Rendering "
+"Options`` панели ``Material``."
+
+#: ../outdoor_rendering.rst:362
+msgid ""
+"The effect works only if a ``Sun`` type light source is present in the "
+"scene."
+msgstr ""
+"Этот эффект работает только в том случае, если в сцене присутствует "
+"источник света типа ``Sun``."
+
+#: ../outdoor_rendering.rst:365
+msgid "Lens Flare Settings"
+msgstr "Настройки эффекта"
+
+#: ../outdoor_rendering.rst:368
+msgid "Lens Flare Object"
+msgstr "Объект для бликов линз"
+
+#: ../outdoor_rendering.rst:374
+msgid ""
+"Lens Flare object is used for the actual rendering of the effect. In "
+"essence, such an object consists of several planes with each plane "
+"containing one element of the flare. The normal vector of each plane "
+"should be pointed in the ``-Y`` direction. Every element can slide across"
+" the screen in relation to camera rotation with the sole exception being "
+"the central plane (bright white \"star\" on the picture above). This "
+"plane serves as a center of the lens flare object and should have a "
+"*local* ``Y`` coordinate set to 1."
+msgstr ""
+"Объект используется при визуализации эффекта. По сути, такой объект "
+"представляет собой набор плоскостей, каждая из которых содержит один из "
+"элементов блика. Нормаль каждой плоскости должна быть направлена в "
+"сторону ``-Y``. Каждый элемент блика может двигаться по экрану с "
+"поворотом камеры, единственным исключением является центральный элемент "
+"(яркая белая \"звезда\" на изображении выше). Эта плоскость считается "
+"центром объекта, и её *локальная* координата ``Y`` должна быть равна 1."
+
+#: ../outdoor_rendering.rst:376
+msgid ""
+"The placement and spatial orientation of the object itself are not taken "
+"into account during rendering."
+msgstr ""
+"Расположение и пространственная ориентация самого объекта при "
+"визуализации не учитываются."
+
+#: ../outdoor_rendering.rst:378
+msgid ""
+"For lens flare object to work correctly, the ``Disable Frustum Culling`` "
+"option should be activated."
+msgstr ""
+"Для корректной работы объекта следует включить опцию ``Disable Frustum "
+"Culling``."
+
+#: ../outdoor_rendering.rst:380
+msgid ""
+"An example of such object can be seen, for example, in our **Island** "
+"demo."
+msgstr ""
+"Пример использования подобного объекта можно увидеть в нашем демо "
+"**Island**."
+
+#: ../outdoor_rendering.rst:383
+msgid "Material Settings"
+msgstr "Настройки материала"
+
+#: ../outdoor_rendering.rst:385
+msgid ""
+"The material used for the lens flare object should have the ``Alpha "
+"Blend`` transparency type. ``Alpha`` parameter should be set to zero."
+msgstr ""
+"Материал объекта для бликов линз должен иметь тип прозрачности ``Alpha "
+"Blend``. Значение параметра ``Alpha`` должно быть равно нулю."
+
+#: ../outdoor_rendering.rst:387
+msgid ":ref:`Node materials <node_materials>` are not supported."
+msgstr ":ref:`Нодовые материалы <node_materials>` не поддерживаются."
+
+#: ../outdoor_rendering.rst:390
+msgid "Texture Settings"
+msgstr "Настройки текстуры"
+
+#: ../outdoor_rendering.rst:396
+msgid "An example of texture used to generate Lens Flare effect."
+msgstr "Пример использования текстуры для создания эффекта линз."
+
+#: ../outdoor_rendering.rst:398
+msgid ""
+"The texture used for the Lens Flare object should contain all elements "
+"used to form the shape of the flare in an actual application. The texture"
+" image should use ``Alpha`` channel and influence both ``Color`` and "
+"``Alpha`` values."
+msgstr ""
+"Все элементы, используемые для изображения блика в приложении, должны "
+"находиться на одной текстуре. Текстура должна обладать каналом "
+"прозрачности и влиять на значения ``Color`` и ``Alpha``."
+
+#: ../outdoor_rendering.rst:403
 msgid "Wind"
 msgstr "Ветер"
 
-#: ../outdoor_rendering.rst:355
+#: ../outdoor_rendering.rst:409
 msgid "Wind strength and direction affect:"
 msgstr "Сила и направление ветра оказывает воздействие на:"
 
-#: ../outdoor_rendering.rst:352
+#: ../outdoor_rendering.rst:406
 msgid ":ref:`grass and tree leaves animation <wind_bending>`"
 msgstr ":ref:`анимацию травы и крон деревьев <wind_bending>`"
 
-#: ../outdoor_rendering.rst:353
+#: ../outdoor_rendering.rst:407
 msgid ":ref:`particle system dynamics <particles_force_fields>`"
 msgstr ":ref:`динамику систем частиц <particles_force_fields>`"
 
-#: ../outdoor_rendering.rst:354
+#: ../outdoor_rendering.rst:408
 msgid ""
 ":ref:`water waves rolling frequency <water_volumetric_waves>` (at the "
 "moment only strength is taken into account)"
@@ -830,23 +937,23 @@ msgstr ""
 ":ref:`частоту колебаний волн воды <water_volumetric_waves>` (в настоящий "
 "момент влияет только сила)"
 
-#: ../outdoor_rendering.rst:360
+#: ../outdoor_rendering.rst:414
 msgid "Add a force field object of the ``Wind`` type."
 msgstr "Добавить на сцену объект - силовое поле типа ``Wind``."
 
-#: ../outdoor_rendering.rst:367
+#: ../outdoor_rendering.rst:421
 msgid "*Direction*"
 msgstr "*Направление*"
 
-#: ../outdoor_rendering.rst:367
+#: ../outdoor_rendering.rst:421
 msgid "Direction can be set by rotating the force field object."
 msgstr "Направление задается посредством вращения объекта - силового поля."
 
-#: ../outdoor_rendering.rst:371
+#: ../outdoor_rendering.rst:425
 msgid "*Force Fields > Strength*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:370
+#: ../outdoor_rendering.rst:424
 msgid ""
 "Wind strength. Located under the ``Physics`` tab. The default value is "
 "1.0."
@@ -854,11 +961,11 @@ msgstr ""
 "Сила ветра. Располагается во вкладке ``Physics``. Значение по умолчанию "
 "1.0."
 
-#: ../outdoor_rendering.rst:376
+#: ../outdoor_rendering.rst:430
 msgid "Animation of Grass and Tree Leaves"
 msgstr "Анимация травы и крон деревьев"
 
-#: ../outdoor_rendering.rst:378
+#: ../outdoor_rendering.rst:432
 msgid ""
 "Authoring resources for grass rendering is described in the "
 ":ref:`particles_grass` section."
@@ -866,21 +973,21 @@ msgstr ""
 "Подготовка ресурсов для рендеринга травы описана в разделе "
 ":ref:`particles_grass`."
 
-#: ../outdoor_rendering.rst:384
+#: ../outdoor_rendering.rst:438
 msgid "Enable the ``Wind Bending`` panel for the grass or tree object."
 msgstr "На объекте травы или дерева активировать панель ``Wind Bending``."
 
-#: ../outdoor_rendering.rst:390
+#: ../outdoor_rendering.rst:444
 msgid ""
 "The interface panel becomes visible after turning on the ``Wind Bending``"
 " panel."
 msgstr "Интерфейс для настроек появляется после активации панели ``Wind Bending``."
 
-#: ../outdoor_rendering.rst:399
+#: ../outdoor_rendering.rst:453
 msgid "*Main Bending > Angle*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:399
+#: ../outdoor_rendering.rst:453
 msgid ""
 "Angle amplitude of the “main” deviation under the influence of wind (in "
 "degrees). The default value is 10.0."
@@ -888,11 +995,11 @@ msgstr ""
 "Амплитуда угла \"основного\" отклонения под действием ветра (в градусах)."
 " Значение по умолчанию 10.0."
 
-#: ../outdoor_rendering.rst:402
+#: ../outdoor_rendering.rst:456
 msgid "*Main Bending > Frequency*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:402
+#: ../outdoor_rendering.rst:456
 msgid ""
 "Frequency of the “main” deviation under the influence of wind. The "
 "default value is 0.25."
@@ -900,11 +1007,11 @@ msgstr ""
 "Частота \"основного\" отклонения под действием ветра. Значение по "
 "умолчанию 0.25."
 
-#: ../outdoor_rendering.rst:405
+#: ../outdoor_rendering.rst:459
 msgid "*Main Bending > Main Stiffness (A)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:405
+#: ../outdoor_rendering.rst:459
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the stiffness of the “main” deviation. Can"
@@ -914,11 +1021,11 @@ msgstr ""
 "информацию о жесткости \"основного\" отклонения. Может быть оставлено "
 "пустым."
 
-#: ../outdoor_rendering.rst:408
+#: ../outdoor_rendering.rst:462
 msgid "*Detail Bending > Amplitude*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:408
+#: ../outdoor_rendering.rst:462
 msgid ""
 "Angle amplitude of the “detail” deviation caused by the influence of wind"
 " (in degrees). The default value is 0.1."
@@ -926,11 +1033,11 @@ msgstr ""
 "Амплитуда угла \"детализованного\" отклонения под действием ветра (в "
 "градусах). Значение по умолчанию 0.1."
 
-#: ../outdoor_rendering.rst:411
+#: ../outdoor_rendering.rst:465
 msgid "*Detail Bending > Branch Amplitude*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:411
+#: ../outdoor_rendering.rst:465
 msgid ""
 "Angle amplitude of the branch deviation caused by the influence of wind "
 "(in degrees). The default value is 0.3."
@@ -938,19 +1045,19 @@ msgstr ""
 "Амплитуда угла отклонения ветвей под действием ветра (в градусах). "
 "Значение по умолчанию 0.3."
 
-#: ../outdoor_rendering.rst:414
+#: ../outdoor_rendering.rst:468
 msgid "*Detail Bending > Bending Frequency*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:414
+#: ../outdoor_rendering.rst:468
 msgid "Detail bending frequency. The default value is 1.0."
 msgstr "Частота колебаний ветвей. Значение по умолчанию 1.0."
 
-#: ../outdoor_rendering.rst:417
+#: ../outdoor_rendering.rst:471
 msgid "*Detail Bending > Leaves Stiffness (R)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:417
+#: ../outdoor_rendering.rst:471
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the stiffness of leaves. Can be left "
@@ -959,11 +1066,11 @@ msgstr ""
 "Текстовое поле для названия слоя вертексного цвета, содержащего "
 "информацию о жесткости листвы. Может быть оставлено пустым."
 
-#: ../outdoor_rendering.rst:420
+#: ../outdoor_rendering.rst:474
 msgid "*Detail Bending > Leaves Phase (G)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:420
+#: ../outdoor_rendering.rst:474
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the phase of leaves deviation. Can be left"
@@ -972,11 +1079,11 @@ msgstr ""
 "Текстовое поле для названия слоя вертексного цвета, содержащего "
 "информацию о фазе отклонения листвы. Может быть оставлено пустым."
 
-#: ../outdoor_rendering.rst:423
+#: ../outdoor_rendering.rst:477
 msgid "*Detail Bending > Overall Stiffness (B)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:423
+#: ../outdoor_rendering.rst:477
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the overall stiffness of leaves. Can be "
@@ -985,7 +1092,7 @@ msgstr ""
 "Текстовое поле для названия слоя вертексного цвета, содержащего "
 "информацию об общей жесткости листвы. Может быть оставлено пустым."
 
-#: ../outdoor_rendering.rst:425
+#: ../outdoor_rendering.rst:479
 msgid ""
 "Vertex color layers should be present in the mesh if their names are "
 "specified."
@@ -1060,4 +1167,7 @@ msgstr "береговая линия"
 
 #~ msgid "Maximum distance from camera to the last cascades edge."
 #~ msgstr "Максимальное расстояние от камеры до края последнего каскада."
+
+#~ msgid "Lens Flares"
+#~ msgstr ""
 

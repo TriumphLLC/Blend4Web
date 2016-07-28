@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 16:12+0300\n"
+"POT-Creation-Date: 2016-07-15 15:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -366,10 +366,117 @@ msgid "Watercraft Settings"
 msgstr ""
 
 #: ../physics.rst:212
+msgid "Character Objects"
+msgstr ""
+
+#: ../physics.rst:218
+msgid ""
+"This feature can be activated by clicking the ``Character`` check-box in "
+"the title of the eponymous tab on the ``Physics`` panel."
+msgstr ""
+
+#: ../physics.rst:220
+msgid ""
+"From the engine standpoint, the character itself is a proper physical "
+"object that can collide with other physical objects or be influenced by "
+"physical forces such as gravity and bouyant force."
+msgstr ""
+
+#: ../physics.rst:222
+msgid ""
+"Character object can be easily controlled using several API methods with "
+"a `character` keyword in their names. All such methods reside in the "
+":b4wmod:`physics` API module."
+msgstr ""
+
+#: ../physics.rst:225
+msgid "Character Settings"
+msgstr ""
+
+#: ../physics.rst:231
+msgid ""
+"All the settings listed here become available after activating the "
+"``Character`` tab."
+msgstr ""
+
+#: ../physics.rst:236
+msgid "*Walk Speed*"
+msgstr ""
+
+#: ../physics.rst:234
+msgid ""
+"This parameter sets the speed of a character walking (measured in meters "
+"per second). The lowest possible value of this parameter is zero, while "
+"the highest is 10."
+msgstr ""
+
+#: ../physics.rst:236
+msgid "Its default value is 4."
+msgstr ""
+
+#: ../physics.rst:241
+msgid "*Run Speed*"
+msgstr ""
+
+#: ../physics.rst:239
+msgid ""
+"This is the speed of the character running (measured in meters per "
+"second). Its value can vary from zero to 20."
+msgstr ""
+
+#: ../physics.rst:241
+msgid "This parameter is set to 8 by default."
+msgstr ""
+
+#: ../physics.rst:246
+msgid "*Step Height*"
+msgstr ""
+
+#: ../physics.rst:244
+msgid ""
+"This is the maximum height of an obstacle that character can overstep (in"
+" meters). The value of this parameter can vary from zero to 1."
+msgstr ""
+
+#: ../physics.rst:246
+msgid "Default value of this parameter is 0.250."
+msgstr ""
+
+#: ../physics.rst:251
+msgid "*Jump Strength*"
+msgstr ""
+
+#: ../physics.rst:249
+msgid ""
+"This parameter sets the strength of the character jumping. Its minimum "
+"value is zero, while its maximum value is 50."
+msgstr ""
+
+#: ../physics.rst:251
+msgid "Set to 5 by default."
+msgstr ""
+
+#: ../physics.rst:256
+msgid "*Waterline*"
+msgstr ""
+
+#: ../physics.rst:254
+msgid ""
+"This parameter sets up the waterline for the character object. The "
+"waterline is measured from the center of the physical shape of the object"
+" (not the object's mesh). If an object is submerged into the water below "
+"this line, it will float. Its value can vary from -2 to 2."
+msgstr ""
+
+#: ../physics.rst:256
+msgid "It is set to zero by default."
+msgstr ""
+
+#: ../physics.rst:259
 msgid "Use in Applications"
 msgstr ""
 
-#: ../physics.rst:214
+#: ../physics.rst:261
 msgid ""
 "The physics system is implemented in the **uranium.js** module and loaded"
 " separately from the engine's main code. The **uranium.js** module itself"
@@ -380,20 +487,20 @@ msgid ""
 "application."
 msgstr ""
 
-#: ../physics.rst:216
+#: ../physics.rst:263
 msgid ""
 "Another way is to explicitly specify the loading path of the "
 "**uranium.js** module by using the following API method:"
 msgstr ""
 
-#: ../physics.rst:224
+#: ../physics.rst:271
 msgid ""
 "When applications are developed :ref:`within the SDK "
 "<project_management>`, the path to the physics engine is detected "
 "automatically."
 msgstr ""
 
-#: ../physics.rst:226
+#: ../physics.rst:273
 msgid ""
 "If your application does not use physics, we recommend you to turn off "
 "the ``Enable Physics`` flag in the ``Physics`` panel under the scene tab "
@@ -403,81 +510,39 @@ msgid ""
 msgstr ""
 
 #~ msgid ""
-#~ "It is neccessary to specify a "
-#~ "realistic mass for the chassis (because"
-#~ " the default value is only 1 "
-#~ "kg). To do this go to the "
-#~ "physics settings, choose the ``Rigid "
-#~ "Body`` value for the ``Physics Type``"
-#~ " option and specify the required "
-#~ "value (for example, 1000 kg) in "
-#~ "the ``Mass`` field."
+#~ msgstr ""
+
+#~ msgid "The line of the water (?). Can vary from -2 to 2."
+#~ msgstr ""
+
+#~ msgid "Characters"
+#~ msgstr ""
+
+#~ msgid "Set to 4 by default."
+#~ msgstr ""
+
+#~ msgid "Set to 8 by default."
+#~ msgstr ""
+
+#~ msgid "Set to 0.250 by default."
+#~ msgstr ""
+
+#~ msgid "The line of the water. Its value can vary from -2 to 2."
+#~ msgstr ""
+
+#~ msgid "Set to zero by default."
 #~ msgstr ""
 
 #~ msgid ""
-#~ "For the ``Steering Wheel`` it is "
-#~ "necessary to specify the maximum "
-#~ "steering angle (``Steering Max``) and "
-#~ "the ratio between the turn of the"
-#~ " steering wheel and the turn of "
-#~ "the wheels  (``Steering Ratio``). The "
-#~ "maximum steering angle value is "
-#~ "specified in revolutions. A single "
-#~ "revolution equals to 360 degrees. "
-#~ "Therefore if ``Steering Max`` is equal"
-#~ " to one and ``Steering Ratio`` is "
-#~ "equal to 10, the maximum turn of"
-#~ " the steering wheel will be 360 "
-#~ "degrees and the maximum turn of "
-#~ "the front wheels will be 36 "
-#~ "degrees."
+#~ "This feature can be activated by "
+#~ "clicking the Character check-box on "
+#~ "the tab of the same name on "
+#~ "the Physics panel."
 #~ msgstr ""
 
 #~ msgid ""
-#~ "We can additionally tweak the "
-#~ "``Damping`` of ``Translation`` and "
-#~ "``Rotation``. This will influence the "
-#~ "speed and inertion of the vehicle."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "In order for the object to float"
-#~ " on the water surface (an object "
-#~ "with the ``Water`` material), it is "
-#~ "neccessary to enable the ``Floater`` "
-#~ "panel. There are two types of "
-#~ "floating objects: ``Main Body`` - the"
-#~ " floating object itself and ``Bob`` -"
-#~ " an auxiallary bob-object onto which"
-#~ " the buoyancy will be acting. A "
-#~ "floating object can have an unlimited"
-#~ " number of ``Bob`` objects. This can"
-#~ " be both meshes or ``Empty`` objects."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Linear velocity damping when the object"
-#~ " is on the water surface (or "
-#~ "under water). When the object is "
-#~ "not in water the physics settings "
-#~ "are used."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Rotation damping when the object is "
-#~ "on the water surface (or under "
-#~ "water). When the object is not in"
-#~ " water the physics settings are used."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Watercrafts use some parameters from the"
-#~ " ``Vehicle`` settings and all the "
-#~ "settings which are similar to "
-#~ "``Floater`` setting. It is neccessary to"
-#~ " set the ``Part`` type ``Hull`` on"
-#~ " the main object. Similar to a "
-#~ "floating object a watercraft requires "
-#~ "auxillary ``Bob`` objects."
+#~ "All the settings listed here become "
+#~ "available after activating the Character "
+#~ "tab."
 #~ msgstr ""
 

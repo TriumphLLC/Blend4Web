@@ -2,18 +2,19 @@
 
 b4w.register("cartoon_interior", function(exports, require) {
 
-var m_app    = require("app");
-var m_cam    = require("camera");
-var m_cont   = require("container");
-var m_ctl    = require("controls");
-var m_data   = require("data");
-var m_mouse  = require("mouse");
-var m_math   = require("math");
-var m_obj    = require("objects");
-var m_phy    = require("physics");
-var m_scenes = require("scenes");
-var m_trans  = require("transform");
-var m_util   = require("util");
+var m_app       = require("app");
+var m_cam       = require("camera");
+var m_cont      = require("container");
+var m_ctl       = require("controls");
+var m_data      = require("data");
+var m_mouse     = require("mouse");
+var m_math      = require("math");
+var m_obj       = require("objects");
+var m_phy       = require("physics");
+var m_preloader = require("preloader");
+var m_scenes    = require("scenes");
+var m_trans     = require("transform");
+var m_util      = require("util");
 
 var m_quat = require("quat");
 
@@ -58,6 +59,8 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
+    m_preloader.create_preloader();
+
     canvas_elem.addEventListener("mousedown", main_canvas_down);
     canvas_elem.addEventListener("touchstart", main_canvas_down);
 
@@ -72,8 +75,12 @@ function init_cb(canvas_elem, success) {
     load();
 }
 
+function preloader_cb(percentage) {
+    m_preloader.update_preloader(percentage);
+}
+
 function load() {
-    m_data.load("blend_data/environment.json", load_cb);
+    m_data.load("blend_data/environment.json", load_cb, preloader_cb);
 }
 
 function load_cb(data_id) {

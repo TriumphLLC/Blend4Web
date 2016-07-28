@@ -122,7 +122,7 @@ Alpha Compositing
 Overview
 --------
 
-Physically correct alpha compositing is performed according to the formula [`source` <http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:
+Physically correct alpha compositing is performed according to the formula [`source <http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf>`_]:
 
     :math:`C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)`.
 

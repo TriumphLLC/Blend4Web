@@ -41,6 +41,7 @@ div#scroll_panel {
     top: 0px;
     height: 205px;
     overflow: hidden;
+    opacity: 0;
     z-index: 2;
     background-image: url(icons/background_control.png);
     background-repeat: no-repeat;
@@ -67,14 +68,14 @@ div.controls_button {
     background-size: cover;
 }
 
-div#fill_band {
+div#pl_fill {
     background-color: #fff;
     height: 30px;
     width: 100%;
     float: right;
 }
 
-div#preloader_container {
+div#pl_cont {
     z-index: 4;
     width: 100%;
     height: 100%;
@@ -83,7 +84,8 @@ div#preloader_container {
     padding: 0;
 }
 
-div#preloader_frame {
+div#pl_frame {
+    z-index: 2;
     position:absolute;
     left: 50%;
     top: 50%;
@@ -91,10 +93,10 @@ div#preloader_frame {
     height: 134px;
     margin-left: -300px;
     margin-top: -80px;
-    visibility: hidden;
+    opacity: 0;
 }
 
-div#preloader_bar {
+div#pl_bar {
     position: relative;
     float: left;
     background-image: url(icons/preloader_caption.png);
@@ -134,7 +136,7 @@ div#plane_icon {
     height: 134px;
 }
 
-div#fill_container {
+div.fill_container {
     width: 314px;
     position: absolute;
     left: 170px;
@@ -142,7 +144,7 @@ div#fill_container {
     top: 52px;
 }
 
-div#preloader_caption {
+div#pl_caption {
     position:absolute;
     top: 57px;
     width: 70px;
@@ -187,8 +189,7 @@ div#glow {
     background-position: center;
 }
 
-div#background_image_container {
-    z-index: 3;
+div#bg_img_cont {
     width: 100%;
     height: 100%;
     position: absolute;

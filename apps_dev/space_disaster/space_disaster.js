@@ -19,6 +19,7 @@ var m_input     = require("input");
 var m_mouse     = require("mouse");
 var m_quat      = require("quat");
 var m_obj       = require("objects");
+var m_preloader = require("preloader");;
 var m_print     = require("print");
 var m_phy       = require("physics");
 var m_scs       = require("scenes");
@@ -123,14 +124,20 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
+    m_preloader.create_preloader();
+
     load();
+}
+
+function preloader_cb(percentage) {
+    m_preloader.update_preloader(percentage);
 }
 
 /**
  * load the scene data
  */
 function load() {
-    m_data.load(APP_ASSETS_PATH + "space_disaster.json", load_cb);
+    m_data.load(APP_ASSETS_PATH + "space_disaster.json", load_cb, preloader_cb);
 }
 
 function int_to_str_length(num, length) {

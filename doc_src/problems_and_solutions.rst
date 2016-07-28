@@ -212,3 +212,7 @@ Known Issues
 * Information about moving fingers on GearVR touch sensor in VR-mode is not available.
 
     Samsung Internet browser doesn't fire any events about moving fingers on touch sensor in VR-mode.
+
+* Particles emitted by particle systems placed on inactive (hidden) layers can have their positions set to zero as inactive layers are not updated by Blender.
+
+    This problem can be solved by activating layers before exporting a scene or by simply clicking the layers to make Blender update them.

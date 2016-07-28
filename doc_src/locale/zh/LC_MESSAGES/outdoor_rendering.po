@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-28 14:01+0300\n"
+"POT-Creation-Date: 2016-07-21 16:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,8 +36,8 @@ msgid "Water"
 msgstr ""
 
 #: ../outdoor_rendering.rst:19 ../outdoor_rendering.rst:99
-#: ../outdoor_rendering.rst:173 ../outdoor_rendering.rst:358
-#: ../outdoor_rendering.rst:382
+#: ../outdoor_rendering.rst:173 ../outdoor_rendering.rst:412
+#: ../outdoor_rendering.rst:436
 msgid "Activation"
 msgstr ""
 
@@ -318,8 +318,8 @@ msgid ""
 "the scene."
 msgstr ""
 
-#: ../outdoor_rendering.rst:185 ../outdoor_rendering.rst:364
-#: ../outdoor_rendering.rst:388
+#: ../outdoor_rendering.rst:185 ../outdoor_rendering.rst:418
+#: ../outdoor_rendering.rst:442
 msgid "Setting up"
 msgstr ""
 
@@ -691,162 +691,246 @@ msgid "Stars setup is described in the :ref:`material_halo` section."
 msgstr ""
 
 #: ../outdoor_rendering.rst:349
-msgid "Wind"
+msgid "Lens Flare"
 msgstr ""
 
 #: ../outdoor_rendering.rst:355
+msgid ""
+"This feature can be enabled by the ``Lens Flare`` check-box located in "
+"the ``Rendering Options`` of the ``Material`` panel."
+msgstr ""
+
+#: ../outdoor_rendering.rst:362
+msgid ""
+"The effect works only if a ``Sun`` type light source is present in the "
+"scene."
+msgstr ""
+
+#: ../outdoor_rendering.rst:365
+msgid "Lens Flare Settings"
+msgstr ""
+
+#: ../outdoor_rendering.rst:368
+msgid "Lens Flare Object"
+msgstr ""
+
+#: ../outdoor_rendering.rst:374
+msgid ""
+"Lens Flare object is used for the actual rendering of the effect. In "
+"essence, such an object consists of several planes with each plane "
+"containing one element of the flare. The normal vector of each plane "
+"should be pointed in the ``-Y`` direction. Every element can slide across"
+" the screen in relation to camera rotation with the sole exception being "
+"the central plane (bright white \"star\" on the picture above). This "
+"plane serves as a center of the lens flare object and should have a "
+"*local* ``Y`` coordinate set to 1."
+msgstr ""
+
+#: ../outdoor_rendering.rst:376
+msgid ""
+"The placement and spatial orientation of the object itself are not taken "
+"into account during rendering."
+msgstr ""
+
+#: ../outdoor_rendering.rst:378
+msgid ""
+"For lens flare object to work correctly, the ``Disable Frustum Culling`` "
+"option should be activated."
+msgstr ""
+
+#: ../outdoor_rendering.rst:380
+msgid ""
+"An example of such object can be seen, for example, in our **Island** "
+"demo."
+msgstr ""
+
+#: ../outdoor_rendering.rst:383
+msgid "Material Settings"
+msgstr ""
+
+#: ../outdoor_rendering.rst:385
+msgid ""
+"The material used for the lens flare object should have the ``Alpha "
+"Blend`` transparency type. ``Alpha`` parameter should be set to zero."
+msgstr ""
+
+#: ../outdoor_rendering.rst:387
+msgid ":ref:`Node materials <node_materials>` are not supported."
+msgstr ""
+
+#: ../outdoor_rendering.rst:390
+msgid "Texture Settings"
+msgstr ""
+
+#: ../outdoor_rendering.rst:396
+msgid "An example of texture used to generate Lens Flare effect."
+msgstr ""
+
+#: ../outdoor_rendering.rst:398
+msgid ""
+"The texture used for the Lens Flare object should contain all elements "
+"used to form the shape of the flare in an actual application. The texture"
+" image should use ``Alpha`` channel and influence both ``Color`` and "
+"``Alpha`` values."
+msgstr ""
+
+#: ../outdoor_rendering.rst:403
+msgid "Wind"
+msgstr ""
+
+#: ../outdoor_rendering.rst:409
 msgid "Wind strength and direction affect:"
 msgstr ""
 
-#: ../outdoor_rendering.rst:352
+#: ../outdoor_rendering.rst:406
 msgid ":ref:`grass and tree leaves animation <wind_bending>`"
 msgstr ""
 
-#: ../outdoor_rendering.rst:353
+#: ../outdoor_rendering.rst:407
 msgid ":ref:`particle system dynamics <particles_force_fields>`"
 msgstr ""
 
-#: ../outdoor_rendering.rst:354
+#: ../outdoor_rendering.rst:408
 msgid ""
 ":ref:`water waves rolling frequency <water_volumetric_waves>` (at the "
 "moment only strength is taken into account)"
 msgstr ""
 
-#: ../outdoor_rendering.rst:360
+#: ../outdoor_rendering.rst:414
 msgid "Add a force field object of the ``Wind`` type."
 msgstr ""
 
-#: ../outdoor_rendering.rst:367
+#: ../outdoor_rendering.rst:421
 msgid "*Direction*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:367
+#: ../outdoor_rendering.rst:421
 msgid "Direction can be set by rotating the force field object."
 msgstr ""
 
-#: ../outdoor_rendering.rst:371
+#: ../outdoor_rendering.rst:425
 msgid "*Force Fields > Strength*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:370
+#: ../outdoor_rendering.rst:424
 msgid ""
 "Wind strength. Located under the ``Physics`` tab. The default value is "
 "1.0."
 msgstr ""
 
-#: ../outdoor_rendering.rst:376
+#: ../outdoor_rendering.rst:430
 msgid "Animation of Grass and Tree Leaves"
 msgstr ""
 
-#: ../outdoor_rendering.rst:378
+#: ../outdoor_rendering.rst:432
 msgid ""
 "Authoring resources for grass rendering is described in the "
 ":ref:`particles_grass` section."
 msgstr ""
 
-#: ../outdoor_rendering.rst:384
+#: ../outdoor_rendering.rst:438
 msgid "Enable the ``Wind Bending`` panel for the grass or tree object."
 msgstr ""
 
-#: ../outdoor_rendering.rst:390
+#: ../outdoor_rendering.rst:444
 msgid ""
 "The interface panel becomes visible after turning on the ``Wind Bending``"
 " panel."
 msgstr ""
 
-#: ../outdoor_rendering.rst:399
+#: ../outdoor_rendering.rst:453
 msgid "*Main Bending > Angle*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:399
+#: ../outdoor_rendering.rst:453
 msgid ""
 "Angle amplitude of the “main” deviation under the influence of wind (in "
 "degrees). The default value is 10.0."
 msgstr ""
 
-#: ../outdoor_rendering.rst:402
+#: ../outdoor_rendering.rst:456
 msgid "*Main Bending > Frequency*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:402
+#: ../outdoor_rendering.rst:456
 msgid ""
 "Frequency of the “main” deviation under the influence of wind. The "
 "default value is 0.25."
 msgstr ""
 
-#: ../outdoor_rendering.rst:405
+#: ../outdoor_rendering.rst:459
 msgid "*Main Bending > Main Stiffness (A)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:405
+#: ../outdoor_rendering.rst:459
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the stiffness of the “main” deviation. Can"
 " be left empty."
 msgstr ""
 
-#: ../outdoor_rendering.rst:408
+#: ../outdoor_rendering.rst:462
 msgid "*Detail Bending > Amplitude*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:408
+#: ../outdoor_rendering.rst:462
 msgid ""
 "Angle amplitude of the “detail” deviation caused by the influence of wind"
 " (in degrees). The default value is 0.1."
 msgstr ""
 
-#: ../outdoor_rendering.rst:411
+#: ../outdoor_rendering.rst:465
 msgid "*Detail Bending > Branch Amplitude*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:411
+#: ../outdoor_rendering.rst:465
 msgid ""
 "Angle amplitude of the branch deviation caused by the influence of wind "
 "(in degrees). The default value is 0.3."
 msgstr ""
 
-#: ../outdoor_rendering.rst:414
+#: ../outdoor_rendering.rst:468
 msgid "*Detail Bending > Bending Frequency*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:414
+#: ../outdoor_rendering.rst:468
 msgid "Detail bending frequency. The default value is 1.0."
 msgstr ""
 
-#: ../outdoor_rendering.rst:417
+#: ../outdoor_rendering.rst:471
 msgid "*Detail Bending > Leaves Stiffness (R)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:417
+#: ../outdoor_rendering.rst:471
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the stiffness of leaves. Can be left "
 "empty."
 msgstr ""
 
-#: ../outdoor_rendering.rst:420
+#: ../outdoor_rendering.rst:474
 msgid "*Detail Bending > Leaves Phase (G)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:420
+#: ../outdoor_rendering.rst:474
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the phase of leaves deviation. Can be left"
 " empty."
 msgstr ""
 
-#: ../outdoor_rendering.rst:423
+#: ../outdoor_rendering.rst:477
 msgid "*Detail Bending > Overall Stiffness (B)*"
 msgstr ""
 
-#: ../outdoor_rendering.rst:423
+#: ../outdoor_rendering.rst:477
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the overall stiffness of leaves. Can be "
 "left empty."
 msgstr ""
 
-#: ../outdoor_rendering.rst:425
+#: ../outdoor_rendering.rst:479
 msgid ""
 "Vertex color layers should be present in the mesh if their names are "
 "specified."
@@ -864,12 +948,6 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Detail bendind frequency. The default value is 1.0."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Light absorption coefficient for the "
-#~ "water. The higher it is the more"
-#~ " transparent is the water."
 #~ msgstr ""
 
 #~ msgid "Shallow water color."
@@ -926,12 +1004,6 @@ msgstr ""
 #~ msgid "Minimum coefficient of mixing for open water waves."
 #~ msgstr ""
 
-#~ msgid ""
-#~ "Coefficient that shows how much the "
-#~ "shore waves are shifted in the "
-#~ "shoreline direction."
-#~ msgstr ""
-
 #~ msgid "Enable generated surface."
 #~ msgstr ""
 
@@ -942,5 +1014,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Maximum distance from camera to the last cascades edge."
+#~ msgstr ""
+
+#~ msgid "Lens Flares"
 #~ msgstr ""
 

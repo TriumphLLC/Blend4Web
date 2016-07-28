@@ -6,7 +6,7 @@ SCRIPTSDIR = scripts
 TUTORIALS_DIR = deploy/tutorials
 
 # exec "VERPREFIX=_new_prefix make -e" to override
-VERPREFIX=
+VERPREFIX=_pre
 VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION`
 
 .PHONY: all
@@ -130,8 +130,15 @@ dist_force:
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web_ce.lst
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web_pro.lst
 
-dist_addon_force:
-	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -r blend4web -v $(VERSION) $(SCRIPTSDIR)/blend4web_addon.lst
+.PHONY: dist_pro
+dist_pro:
+	@echo "Creating $(VERSION) family of PRO distribution"
+	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -v $(VERSION) $(SCRIPTSDIR)/blend4web_pro.lst
+
+.PHONY: dist_pro_force
+dist_pro_force:
+	@echo "Creating $(VERSION) family of PRO distribution (overwrite mode)"
+	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web_pro.lst
 
 resave:
 	@$(SH) ./$(SCRIPTSDIR)/process_blend.py -jh resave

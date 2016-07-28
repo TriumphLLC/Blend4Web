@@ -8,6 +8,7 @@ var m_anim      = require("animation");
 var m_app       = require("app");
 var m_data      = require("data");
 var m_mouse     = require("mouse");
+var m_preloader = require("preloader");
 var m_scenes    = require("scenes");
 
 var _previous_selected_obj = null;
@@ -35,17 +36,23 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
+    m_preloader.create_preloader();
+
     canvas_elem.addEventListener("mousedown", main_canvas_click, false);
     canvas_elem.addEventListener("touchstart", main_canvas_click, false);
 
     load();
 }
 
+function preloader_cb(percentage) {
+    m_preloader.update_preloader(percentage);
+}
+
 /**
  * load the scene data
  */
 function load() {
-    m_data.load("simple_app.json", load_cb);
+    m_data.load("simple_app.json", load_cb, preloader_cb);
 }
 
 /**

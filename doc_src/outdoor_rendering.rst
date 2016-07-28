@@ -343,6 +343,60 @@ Stars setup is described in the :ref:`material_halo` section.
    :align: center
    :width: 100%
 
+.. _lens_flare:
+
+Lens Flare
+==========
+
+.. image:: src_images/outdoor_rendering/outdoor_rendering_lens_flare_example.png
+   :align: center
+   :width: 100%
+
+This feature can be enabled by the ``Lens Flare`` check-box located in the ``Rendering Options`` of the ``Material`` panel.
+
+.. image:: src_images/outdoor_rendering/outdoor_rendering_lens_flare.png
+   :align: center
+   :width: 100%
+
+.. note::
+    The effect works only if a ``Sun`` type light source is present in the scene.
+
+Lens Flare Settings
+-------------------
+
+Lens Flare Object
+-----------------
+
+.. image:: src_images/outdoor_rendering/outdoor_rendering_lens_flare_object.png
+   :align: center
+   :width: 100%
+
+Lens Flare object is used for the actual rendering of the effect. In essence, such an object consists of several planes with each plane containing one element of the flare. The normal vector of each plane should be pointed in the ``-Y`` direction. Every element can slide across the screen in relation to camera rotation with the sole exception being the central plane (bright white "star" on the picture above). This plane serves as a center of the lens flare object and should have a *local* ``Y`` coordinate set to 1.
+
+The placement and spatial orientation of the object itself are not taken into account during rendering.
+
+For lens flare object to work correctly, the ``Disable Frustum Culling`` option should be activated.
+
+An example of such object can be seen, for example, in our **Island** demo.
+
+Material Settings
+.................
+
+The material used for the lens flare object should have the ``Alpha Blend`` transparency type. ``Alpha`` parameter should be set to zero.
+
+:ref:`Node materials <node_materials>` are not supported.
+
+Texture Settings
+................
+
+.. image:: src_images/outdoor_rendering/outdoor_rendering_lens_texture.png
+   :align: center
+   :width: 100%
+
+An example of texture used to generate Lens Flare effect.
+
+The texture used for the Lens Flare object should contain all elements used to form the shape of the flare in an actual application. The texture image should use ``Alpha`` channel and influence both ``Color`` and ``Alpha`` values.
+
 .. _wind:
 
 Wind

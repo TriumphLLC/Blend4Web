@@ -26,6 +26,11 @@ attribute vec3 a_position;
 attribute vec3 a_normal;
 #endif
 
+#if USE_INSTANCED_PARTCLS
+    attribute vec4 a_part_ts;
+    attribute vec4 a_part_r;
+#endif
+
 #if NODES && ALPHA && CALC_TBN_SPACE
 attribute vec4 a_tangent;
 #endif
@@ -34,7 +39,7 @@ attribute vec4 a_tangent;
 attribute vec4 a_influence;
 #endif
 
-#if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
+#if (WIND_BEND || DYNAMIC_GRASS || BILLBOARD) && !USE_INSTANCED_PARTCLS
 AU_QUALIFIER vec3 au_center_pos;
 #endif
 
@@ -241,7 +246,6 @@ varying float v_view_depth;
 
 void main(void) {
     mat4 view_matrix = tsr_to_mat4(u_view_tsr);
-
     vec3 position = a_position;
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION || CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN \
@@ -279,11 +283,26 @@ void main(void) {
     skin(position, tangent, binormal, normal);
 #endif
 
-#if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
+# if USE_INSTANCED_PARTCLS
+    mat3 model_tsr = mat3(a_part_ts[0], a_part_ts[1], a_part_ts[2],
+                        a_part_ts[3], a_part_r[0], a_part_r[1],
+                        a_part_r[2], a_part_r[3], 1.0);
+# if STATIC_BATCH
+    mat4 model_mat = tsr_to_mat4(model_tsr);
+# else
+    mat4 model_mat = tsr_to_mat4(tsr_multiply(u_model_tsr, model_tsr));
+# endif
+# endif
+
+#if (WIND_BEND || DYNAMIC_GRASS || BILLBOARD) && !USE_INSTANCED_PARTCLS
     vec3 center = au_center_pos;
+#elif DYNAMIC_GRASS && USE_INSTANCED_PARTCLS
+    vec3 center = a_part_ts.xyz;
+    position = (model_mat * vec4(position, 1.0)).xyz;
 #else
     vec3 center = vec3(0.0);
 #endif
+
 
 #if DYNAMIC_GRASS
     vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), normal, center,
@@ -291,23 +310,25 @@ void main(void) {
             u_camera_eye, u_camera_quat, view_matrix);
 #else
 
+# if !USE_INSTANCED_PARTCLS
     mat4 model_mat = tsr_to_mat4(u_model_tsr);
+# endif
 
 # if BILLBOARD
     vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
 // NOTE: only for non-particles geometry on SHADOW_CAST subscene
-# if !HAIR_BILLBOARD && SHADOW_USAGE == SHADOW_CASTING
+#  if !HAIR_BILLBOARD && SHADOW_USAGE == SHADOW_CASTING
     mat4 bill_view_matrix = tsr_to_mat4(u_shadow_cast_billboard_view_tsr);
-# else
+#  else
     mat4 bill_view_matrix = view_matrix;
-# endif
+#  endif
 
-# if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
+#  if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH || USE_INSTANCED_PARTCLS
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
             bill_view_matrix, model_mat);
-# else
+#  else
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, bill_view_matrix);
-# endif
+#  endif
 
 #  if WIND_BEND && BILLBOARD_JITTERED
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,

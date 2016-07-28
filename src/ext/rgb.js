@@ -20,7 +20,7 @@
 /**
  * RGB colors API.
  * Colors in Blend4Web are always stored in linear space, for more info check
- * {@link https://www.blend4web.com/doc/en/gamma_alpha.html documentation}.
+ * {@link https://www.blend4web.com/doc/en/colors.html documentation}.
  * @module rgb
  */
 b4w.module["rgb"] = function(exports, require) {
@@ -141,7 +141,7 @@ exports.rgb_to_css_hex = function(rgb) {
 /**
  * RGBA colors API.
  * Colors in Blend4Web are always stored in linear space, for more info check
- * {@link https://www.blend4web.com/doc/en/gamma_alpha.html documentation}.
+ * {@link https://www.blend4web.com/doc/en/colors.html documentation}.
  * @module rgba
  */
 b4w.module["rgba"] = function(exports, require) {

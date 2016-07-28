@@ -7,6 +7,7 @@
 #export tsr_translate_inv
 #export clip_to_tex
 #export tsr_to_mat4
+#export tsr_multiply
 
 float ZERO_VALUE_MATH = 0.0;
 float UNITY_VALUE_MATH = 1.0;
@@ -174,3 +175,22 @@ mat4 tsr_to_mat4(mat3 t) {
 
     return matrix;
 }
+
+#if USE_INSTANCED_PARTCLS
+mat3 tsr_multiply(mat3 tsr, mat3 tsr2) {
+    mat3 dest;
+    // translate
+    vec4 vec = vec4(tsr2[0], 1.0);
+    vec4 trans = vec4(tsr[0], tsr[1][0]);
+    vec4 quat = vec4(tsr[1][1], tsr[1][2], tsr[2][0], tsr[2][1]);
+    dest[0] = tsr_translate(trans, quat, vec);
+    // scale
+    dest[1][0] = tsr[1][0] * tsr2[1][0];
+    // quat
+    dest[1][1] = tsr[1][1] * tsr2[2][1] + tsr[2][1] * tsr2[1][1] + tsr[1][2] * tsr2[2][0] - tsr[2][0] * tsr2[1][2];
+    dest[1][2] = tsr[1][2] * tsr2[2][1] + tsr[2][1] * tsr2[1][2] + tsr[2][0] * tsr2[1][1] - tsr[1][1] * tsr2[2][0];
+    dest[2][0] = tsr[2][0] * tsr2[2][1] + tsr[2][1] * tsr2[2][0] + tsr[1][1] * tsr2[1][2] - tsr[1][2] * tsr2[1][1];
+    dest[2][1] = tsr[2][1] * tsr2[2][1] - tsr[1][1] * tsr2[1][1] - tsr[1][2] * tsr2[1][2] - tsr[2][0] * tsr2[2][0];
+    return dest;
+}
+#endif

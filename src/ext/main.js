@@ -548,6 +548,7 @@ exports.reset = function() {
     _gl = null;
 
     m_time.reset();
+    m_sfx.reset();
 }
 
 /**

@@ -219,9 +219,7 @@ function is_lod_visible(obj_render, eye) {
     var dist_min = obj_render.lod_dist_min;
     var dist_max = obj_render.lod_dist_max;
 
-    var dist = Math.sqrt((center[0] - eye[0]) * (center[0] - eye[0]) +
-            (center[1] - eye[1])*(center[1] - eye[1]) +
-            (center[2] - eye[2])*(center[2] - eye[2]));
+    var dist = m_vec3.dist(center, eye);
 
     if (dist < dist_min)
         return false;

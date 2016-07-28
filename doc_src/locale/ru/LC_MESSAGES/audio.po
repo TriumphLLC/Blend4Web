@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-25 11:16+0300\n"
+"POT-Creation-Date: 2016-07-21 15:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Настройки спикера выставляются в панели ``Properties`` на вкладке "
 "``Object Data``."
 
-#: ../audio.rst:24
+#: ../audio.rst:28
 msgid ""
 "The engine supports all the standard Blender sound parameters and some "
 "engine-specific settings."
@@ -53,28 +53,40 @@ msgstr ""
 "Движком поддерживаются все стандартные для Blender параметры звука и "
 "некоторые специфические для движка опции."
 
-#: ../audio.rst:26
+#: ../audio.rst:31
+msgid "Sound Tab"
+msgstr "Вкладка Sound"
+
+#: ../audio.rst:33
+msgid "*Mute*"
+msgstr ""
+
+#: ../audio.rst:35
+msgid "Enabling this parameter mutes the speaker."
+msgstr "Отключает воспроизведение звука."
+
+#: ../audio.rst:37
 msgid "*Speaker Behavior*:"
 msgstr ""
 
-#: ../audio.rst:28
+#: ../audio.rst:39
 msgid "The behavior of the audio source."
 msgstr "Поведение звукового источника."
 
-#: ../audio.rst:30
+#: ../audio.rst:41
 msgid ""
 "``Positional`` --- high-quality sound with spatial positioning and "
 "directivity (conicity). The Web Audio API is used for sound rendering. "
 "Playback performance of such sounds is the least and so use them only for"
-" short samples."
+" short samples. This is the default value."
 msgstr ""
 "``Positional`` --- высококачественный звук, допускающий позиционирование "
 "и имеющий направленность (конусность). Для рендеринга используется Web "
 "Audio API. Воспроизведение подобных звуков обладает наименьшей "
 "производительностью, поэтому их использовать целесообразно только для "
-"коротких сэмплов."
+"коротких сэмплов. Это значение выбрано по умолчанию."
 
-#: ../audio.rst:32
+#: ../audio.rst:43
 msgid ""
 "``Background Sound`` --- high-quality omnidirectional sound without "
 "spatial positioning. The Web Audio API is used for sound rendering. It is"
@@ -84,7 +96,7 @@ msgstr ""
 "возможности позиционирования в пространстве. Для рендеринга используется "
 "Web Audio API. Более производителен, однако нецелесообразен для музыки."
 
-#: ../audio.rst:34
+#: ../audio.rst:45
 msgid ""
 "``Background Music`` --- used for music playback. It has maximum "
 "performance due to the use of the Audio HTML tag, but has minimum "
@@ -94,23 +106,23 @@ msgstr ""
 "Максимальная производительность вследствие использования тега Audio, "
 "минимальная гибкость."
 
-#: ../audio.rst:36
+#: ../audio.rst:47
 msgid "The following options are available on the ``Sound`` panel:"
 msgstr "На панели ``Sound`` доступны следующие настройки:"
 
-#: ../audio.rst:38
+#: ../audio.rst:49
 msgid "*Volume*"
 msgstr ""
 
-#: ../audio.rst:40
+#: ../audio.rst:51
 msgid "Speaker volume"
 msgstr "Громкость источника."
 
-#: ../audio.rst:42
+#: ../audio.rst:53
 msgid "*Random Volume*"
 msgstr ""
 
-#: ../audio.rst:44
+#: ../audio.rst:55
 msgid ""
 "Additional volume randomization. The resulting value is calculated as for"
 " the delay."
@@ -118,19 +130,19 @@ msgstr ""
 "Дополнительная рандомизация громкости. Результирующее значение "
 "определяется аналогично задержке."
 
-#: ../audio.rst:46
+#: ../audio.rst:57
 msgid "*Pitch*"
 msgstr ""
 
-#: ../audio.rst:48
+#: ../audio.rst:59
 msgid "Sound playback velocity."
 msgstr "Скорость проигрывания (высота) звука."
 
-#: ../audio.rst:50
+#: ../audio.rst:61
 msgid "*Random Pitch*"
 msgstr ""
 
-#: ../audio.rst:52
+#: ../audio.rst:63
 msgid ""
 "Additional randomization of the sound playback speed. The resulting value"
 " is calculated as for the delay."
@@ -138,65 +150,51 @@ msgstr ""
 "Дополнительная рандомизация скорости проигрывания звука. Результирующее "
 "значение определяется аналогично задержке."
 
-#: ../audio.rst:55
+#: ../audio.rst:66
 msgid "*Fade-In*"
 msgstr ""
 
-#: ../audio.rst:57
+#: ../audio.rst:68
 msgid "Fade-in time interval."
 msgstr "Интервал плавного включения звука."
 
-#: ../audio.rst:59
+#: ../audio.rst:70
 msgid "*Fade-Out*"
 msgstr ""
 
-#: ../audio.rst:61
+#: ../audio.rst:72
 msgid "Fade-out time interval."
 msgstr "Интервал плавного выключения звука."
 
-#: ../audio.rst:63
-msgid "*Disable Doppler*"
+#: ../audio.rst:74
+msgid "*Enable Doppler*"
 msgstr ""
 
-#: ../audio.rst:65
-msgid "Ignore source's frequency shift upon its moving."
-msgstr "Игнорировать смещение частоты источника при его перемещении."
+#: ../audio.rst:76
+msgid "Turn on the source's frequency shift upon its moving."
+msgstr "Включает смещение частоты источника при его перемещении."
 
-#: ../audio.rst:67
+#: ../audio.rst:78
+msgid "*Auto-play*"
+msgstr ""
+
+#: ../audio.rst:80
+msgid "This option enables default playback."
+msgstr "Включает воспроизведение по умолчанию."
+
+#: ../audio.rst:82
 msgid "*Cyclic Play*"
 msgstr ""
 
-#: ../audio.rst:69
+#: ../audio.rst:84
 msgid "Loop the sound playback."
 msgstr "Зацикливать воспроизведение звука."
 
-#: ../audio.rst:71
-msgid "*Delay*"
-msgstr ""
-
-#: ../audio.rst:73
-msgid "Delay before sound playback starts."
-msgstr "Задержка в секундах перед началом проигрывания звука."
-
-#: ../audio.rst:75
-msgid "*Random Delay*"
-msgstr ""
-
-#: ../audio.rst:77
-msgid ""
-"Additional delay randomization. The resulting value is calculated "
-"according to the formula :math:`Delay_{result} = Delay + Delay_{random} *"
-" Random_{[0-1]}`."
-msgstr ""
-"Дополнительная рандомизация задержки, результирующее значение "
-"определяется по формуле :math:`Delay_{result} = Delay + Delay_{random} * "
-"Random_{[0-1]}`."
-
-#: ../audio.rst:79
+#: ../audio.rst:86
 msgid "*Loop*"
 msgstr ""
 
-#: ../audio.rst:81
+#: ../audio.rst:88
 msgid ""
 "Loop the sound playback. Contrary to the ``Cyclic play`` option it "
 "guarantees a zero delay upon repeat. The option is available only for "
@@ -207,27 +205,143 @@ msgstr ""
 "только для звуковых источников с поведением ``Positional`` или "
 "``Background Sound``."
 
-#: ../audio.rst:101
+#: ../audio.rst:90
+msgid "*Loop Start*"
+msgstr ""
+
+#: ../audio.rst:92
+msgid ""
+"Marks the starting point of the source fragment that will be looped. This"
+" value is measured in second counted from the start of the source file."
+msgstr ""
+"Задаёт начальную точку фрагмента звукового файла, который будет зациклен."
+" Измеряется в секундах, отсчитываемых от начала звукового файла."
+
+#: ../audio.rst:94
+msgid "*Loop End*"
+msgstr ""
+
+#: ../audio.rst:96
+msgid ""
+"Marks the end point of the source fragment. This value is also measured "
+"in seconds."
+msgstr ""
+"Задаёт начальную точку фрагмента звукового файла, который будет зациклен."
+" Также измеряется в секундах."
+
+#: ../audio.rst:98
+msgid "*Delay*"
+msgstr ""
+
+#: ../audio.rst:100
+msgid "Delay before sound playback starts."
+msgstr "Задержка в секундах перед началом проигрывания звука."
+
+#: ../audio.rst:102
+msgid "*Random Delay*"
+msgstr ""
+
+#: ../audio.rst:104
+msgid ""
+"Additional delay randomization. The resulting value is calculated "
+"according to the formula :math:`Delay_{result} = Delay + Delay_{random} *"
+" Random_{[0-1]}`."
+msgstr ""
+"Дополнительная рандомизация задержки, результирующее значение "
+"определяется по формуле :math:`Delay_{result} = Delay + Delay_{random} * "
+"Random_{[0-1]}`."
+
+#: ../audio.rst:107
+msgid "Distance Tab"
+msgstr "Вкладка Distance"
+
+#: ../audio.rst:109
+msgid "*Attenuation*"
+msgstr ""
+
+#: ../audio.rst:111
+msgid ""
+"This parameter defines how strong the distance affects the volume. "
+"Default value is 1.0."
+msgstr ""
+"Задаёт силу, с которой расстояние влияет на громкость. По умолчанию "
+"это значение равно 1.0."
+
+#: ../audio.rst:113
+msgid "*Maximum*"
+msgstr ""
+
+#: ../audio.rst:115
+msgid "Maximum distance for volume calculation."
+msgstr "Максимальная дистанция для рассчёта громкости."
+
+#: ../audio.rst:117
+msgid "*Reference*"
+msgstr ""
+
+#: ../audio.rst:119
+msgid "This sets the reference distance at which volume is 100%."
+msgstr "Задаёт эталонное расстояние, на котором громкость звука равна 100% от общего значения."
+
+#: ../audio.rst:122
+msgid "Cone Tab"
+msgstr "Вкладка Cone"
+
+#: ../audio.rst:124
+msgid "Angle group of parameters:"
+msgstr "Группа параметров Angle:"
+
+#: ../audio.rst:126 ../audio.rst:136
+msgid "*Outer*"
+msgstr ""
+
+#: ../audio.rst:128
+msgid ""
+"Angle of the outer cone in degrees. Outside this cone the volume is the "
+"outer cone volume. Between the inner and outer cone the volume is "
+"interpolated."
+msgstr ""
+"Угол внешнего конуса (в градусах). За пределами этого конуса громкость "
+"определяется параметром ``Outer`` группы ``Volume``. Между границами внешнего "
+"и внутреннего конусов значение громкости интерполируется."
+
+#: ../audio.rst:130
+msgid "*Inner*"
+msgstr ""
+
+#: ../audio.rst:132
+msgid "Angle of the inner cone in degrees. Inside the cone the volume is 100%."
+msgstr "Угол внутреннего конуса (в градусах). Внутри этого конуса громкость составляет 100%."
+
+#: ../audio.rst:134
+msgid "Volume group of parameters:"
+msgstr "Группа параметров Volume:"
+
+#: ../audio.rst:138
+msgid "This sets the volume outside the outer cone."
+msgstr "Задаёт значение громкости за пределами внешнего конуса."
+
+#: ../audio.rst:154
 msgid "Processing and Decoding"
 msgstr "Обработка и кодирование"
 
-#: ../audio.rst:104
+#: ../audio.rst:157
 msgid "Supported formats (containers):"
 msgstr "Поддерживаемые форматы (контейнеры):"
 
-#: ../audio.rst:106
+#: ../audio.rst:159
 msgid "ogg, Vorbis codec (Chrome, Firefox)"
 msgstr "ogg, кодек Vorbis (Chrome, Firefox)"
 
-#: ../audio.rst:107
+#: ../audio.rst:160
 msgid "mp3 (Chrome, Safari)"
 msgstr "mp3 (Chrome, Safari)"
 
-#: ../audio.rst:108
+#: ../audio.rst:161
 msgid "mp4, AAC codec (Chrome, Safari)"
 msgstr "mp4, кодек AAC (Chrome, Safari)"
 
-#: ../audio.rst:110
+#: ../audio.rst:163
 msgid ""
 "It is recommended to use **Ogg** as it is an open standard, is widespread"
 " in browsers and provides good sound quality. The optimal format in "
@@ -241,11 +355,17 @@ msgstr ""
 "48кГц/16бит. Одноканальный звук (моно) используется для хранения коротких"
 " сэмплов, двухканальный звук (стерео) - для музыкального сопровождения."
 
-#: ../audio.rst:112
+#: ../audio.rst:165
 msgid ""
 "Converting resources between different formats is described in the "
 ":ref:`corresponding section <converter>`."
 msgstr ""
 "Конвертация ресурсов в различные форматы описывается в "
 ":ref:`соответствующем разделе <converter>`."
+
+#~ msgid "*Disable Doppler*"
+#~ msgstr ""
+
+#~ msgid "Marks the end point of the source fragment."
+#~ msgstr "Задаёт конечную точку зацикленного фрагмента."
 

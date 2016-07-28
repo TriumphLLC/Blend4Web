@@ -25,6 +25,11 @@ attribute vec3 a_position;
 attribute vec3 a_normal;
 #endif
 
+#if USE_INSTANCED_PARTCLS
+    attribute vec4 a_part_ts;
+    attribute vec4 a_part_r;
+#endif
+
 #if TEXTURE_NORM_CO || CALC_TBN_SPACE
     attribute vec4 a_tangent;
 #endif
@@ -33,7 +38,7 @@ attribute vec3 a_normal;
     attribute vec4 a_influence;
 #endif
 
-#if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
+#if (WIND_BEND || DYNAMIC_GRASS || BILLBOARD) && !USE_INSTANCED_PARTCLS
     AU_QUALIFIER vec3 au_center_pos;
 #endif
 
@@ -254,31 +259,42 @@ void main(void) {
     mat4 view_matrix = tsr_to_mat4(u_view_tsr);
 #endif
 
+#if USE_INSTANCED_PARTCLS
+    mat3 model_tsr = mat3(a_part_ts[0], a_part_ts[1], a_part_ts[2],
+                        a_part_ts[3], a_part_r[0], a_part_r[1],
+                        a_part_r[2], a_part_r[3], 1.0);
+# if STATIC_BATCH
+    mat4 model_mat = tsr_to_mat4(model_tsr);
+# else
+    mat4 model_mat = tsr_to_mat4(tsr_multiply(u_model_tsr, model_tsr));
+# endif
+#else
     mat4 model_mat = tsr_to_mat4(u_model_tsr);
+#endif
 
     vec3 position = a_position;
 
-# if CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || \
+#if CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || \
         CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || !NODES
     vec3 normal = a_normal;
-# else
+#else
     vec3 normal = vec3(0.0);
-# endif
+#endif
 
-# if CALC_TBN_SPACE || !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO
+#if CALC_TBN_SPACE || !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO
     vec3 tangent = vec3(a_tangent);
     vec3 binormal = a_tangent[3] * cross(normal, tangent);
-# elif !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
+#elif !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
     // NOTE: absolutely not precise. Better too avoid using such a setup
-    vec3 world_pos = (model_mat * vec4(a_position, 1.0)).xyz;
+    vec3 world_pos = (model_mat * vec4(position, 1.0)).xyz;
     vec3 norm_world = normalize((model_mat * vec4(a_normal, 0.0)).xyz);
     vec3 eye_dir = world_pos - u_camera_eye;
     vec3 binormal = cross(eye_dir, norm_world);
     vec3 tangent = cross(norm_world, binormal);
-# else
+#else
     vec3 tangent = vec3(0.0);
     vec3 binormal = vec3(0.0);
-# endif
+#endif
 
 #if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
@@ -301,8 +317,11 @@ void main(void) {
 
     // apply detailed wind bending (branches and leaves)
 
-#if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
+#if (WIND_BEND || DYNAMIC_GRASS || BILLBOARD) && !USE_INSTANCED_PARTCLS
     vec3 center = au_center_pos;
+#elif DYNAMIC_GRASS && USE_INSTANCED_PARTCLS
+    vec3 center = a_part_ts.xyz;
+    position = (model_mat * vec4(position, 1.0)).xyz;
 #else
     vec3 center = vec3(0.0);
 #endif
@@ -316,7 +335,7 @@ void main(void) {
 # if BILLBOARD
     vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
 
-#  if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
+#  if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH || USE_INSTANCED_PARTCLS
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen,
             view_matrix, model_mat);
 #  else
@@ -403,5 +422,6 @@ void main(void) {
 #if NODES
     nodes_main();
 #endif
+
     gl_Position = pos_clip;
 }

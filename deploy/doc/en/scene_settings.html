@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene Settings &mdash; Blend4Web 16.06 User Manual</title>
+  <title>Scene Settings &mdash; Blend4Web 16.07 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.06 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.07 User Manual" href="index.html"/>
         <link rel="next" title="Objects" href="objects.html"/>
         <link rel="prev" title="Addon" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.06
+              v16.07
             </div>
           
         
@@ -248,7 +248,7 @@
 <p>All the parameters that define the look and behavior of the whole scene (and not just a single object) are found on the three panels: the <code class="docutils literal"><span class="pre">Render</span></code> panel, the <code class="docutils literal"><span class="pre">Scene</span></code> panel and the <code class="docutils literal"><span class="pre">World</span></code> panel.</p>
 <div class="section" id="render-panel">
 <span id="render-settings"></span><h2><a class="toc-backref" href="#id5">Render Panel</a><a class="headerlink" href="#render-panel" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="_images/render.png"><img alt="_images/render.png" class="align-center" src="_images/render.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/render1.png"><img alt="_images/render1.png" class="align-center" src="_images/render1.png" style="width: 100%;" /></a>
 <p>All scene parameters that concern the image rendering are found on this panel.</p>
 <div class="section" id="reflections-and-refractions">
 <span id="render-reflections"></span><h3><a class="toc-backref" href="#id6">Reflections and Refractions</a><a class="headerlink" href="#reflections-and-refractions" title="Permalink to this headline">¶</a></h3>
@@ -347,9 +347,27 @@
 </div>
 <div class="section" id="audio">
 <span id="scene-audio"></span><h3><a class="toc-backref" href="#id21">Audio</a><a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h3>
-<p>Audio settings. Enabled by default.</p>
+<p>Audio settings.</p>
 <a class="reference internal image-reference" href="_images/scene_audio.png"><img alt="_images/scene_audio.png" class="align-center" src="_images/scene_audio.png" style="width: 100%;" /></a>
 <dl class="docutils">
+<dt><em>Volume</em></dt>
+<dd>The master volume of the sound in the application. This value can vary between 0 and 100. Default value is 1.0.</dd>
+<dt><em>Distance Model</em></dt>
+<dd><p class="first">The distance model used for calculating distance attenuation. Following models are supported by the engine:</p>
+<p><code class="docutils literal"><span class="pre">None</span></code> - no distance model is used, the sound has constant volume regardless of the distance.</p>
+<p><code class="docutils literal"><span class="pre">Exponent</span> <span class="pre">Clamped</span></code> - a clamped exponential distance model.</p>
+<p><code class="docutils literal"><span class="pre">Linear</span> <span class="pre">Clamped</span></code> - a clamped linear distance model.</p>
+<p><code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Clamped</span></code> - a clamped inverse distance model.</p>
+<p>The following models are partially supported (work the same way the corresponding <em>Clamped</em>-type models):</p>
+<p><code class="docutils literal"><span class="pre">Exponent</span></code></p>
+<p><code class="docutils literal"><span class="pre">Linear</span></code></p>
+<p><code class="docutils literal"><span class="pre">Inverse</span></code></p>
+<p class="last">This parameter is set to <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Clamped</span></code> by default.</p>
+</dd>
+<dt><em>Speed</em></dt>
+<dd>This parameter sets the speed of sound used for Doppler effect calculation. Its value is measured in meters per second and is set to 343.3 by default.</dd>
+<dt><em>Doppler</em></dt>
+<dd>This sets the pitch factor for Doppler effect calculation. Its default value if 1.0.</dd>
 <dt><em>Dynamic Compressor</em></dt>
 <dd>Compress audio signal&#8217;s dynamic range. This feature can be used to make the sound more rich and even. Disabled by default.</dd>
 <dt><em>Threshold</em></dt>
@@ -547,7 +565,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-06-30.
+      Last updated on 2016-07-26.
 
     </p>
   </div>
@@ -603,7 +621,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.06',
+            VERSION:'v16.07',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -443,7 +443,7 @@ exports.draw_mixer_strip = function(id, is_active, slot, params, active_param,
             box_set(box_strip.x, box_strip.y + 350,
                     box_strip.w, 250, box_param);
         else
-            box_set(box_strip.x, box_strip.y + 10 + 50 * i,
+            box_set(box_strip.x, box_strip.y + 50 + 50 * i,
                     box_strip.w, box_strip.h, box_param);
 
         draw_param_bar(ctx, is_volume, box_param, param, i == active_param);

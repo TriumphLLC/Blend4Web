@@ -60,6 +60,8 @@ var _help_button;
 var _hor_button_section;
 var _selected_object;
 
+var _vec2_tmp = new Float32Array(2);
+
 var _player_buttons = [
     {type: "simple_button", id: "opened_button", callback: open_menu},
 
@@ -953,12 +955,37 @@ function set_selected_object(obj) {
     _selected_object = obj;
 }
 
-function main_canvas_clicked(event) {
+function mouse_cb() {
     if (!m_scs.can_select_objects())
         return;
 
-    var x = event.clientX;
-    var y = event.clientY;
+    var canvas_elem = m_cont.get_canvas();
+    var mdevice = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, canvas_elem);
+    var loc = m_input.get_vector_param(mdevice, m_input.MOUSE_LOCATION, _vec2_tmp);
+    main_canvas_clicked(loc[0], loc[1]);
+}
+
+function touch_cb(touches) {
+    if (!m_scs.can_select_objects())
+        return;
+
+    for (var i = 0; i < touches.length; i++)
+        main_canvas_clicked(touches[i].clientX, touches[i].clientY);
+}
+
+function register_canvas_click() {
+    var canvas_elem = m_cont.get_canvas();
+
+    var mdevice = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, canvas_elem);
+    if (mdevice)
+        m_input.attach_param_cb(mdevice, m_input.MOUSE_DOWN_WHICH, mouse_cb);
+
+    var tdevice = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, canvas_elem);
+    if (tdevice)
+        m_input.attach_param_cb(tdevice, m_input.TOUCH_START, touch_cb);
+}
+
+function main_canvas_clicked(x, y) {
 
     var prev_obj = get_selected_object();
 
@@ -978,8 +1005,7 @@ function loaded_callback(data_id, success) {
         return;
     }
 
-    var canvas_elem = m_cont.get_canvas();
-    canvas_elem.addEventListener("mousedown", main_canvas_clicked);
+    register_canvas_click();
 
     check_autorotate();
 

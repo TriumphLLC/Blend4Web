@@ -348,7 +348,8 @@ vec2 vec_to_uv(vec3 vec)
     float lamp_dist = llf.z;
     if (lamp_dist != -UNITY_VALUE_NODES) { // point and spot
 
-        light_vec_out = v_pos_world - llp;
+        // mimic blender behavior
+        light_vec_out = -v_pos_world + llp;
         distance_out = length(light_vec_out);
         light_vec_out = normalize(light_vec_out);
 
@@ -358,7 +359,7 @@ vec2 vec_to_uv(vec3 vec)
         float spot_size = llf.x;
         float spot_blend = llf.y;
         if (spot_size > -UNITY_VALUE_NODES) {
-            float spot_factor = dot(-light_vec_out, lld);
+            float spot_factor = dot(light_vec_out, lld);
             spot_factor *= smoothstep(ZERO_VALUE_NODES, UNITY_VALUE_NODES,
                     (spot_factor - spot_size) / spot_blend);
             visibility_factor_out *= spot_factor;

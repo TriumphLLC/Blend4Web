@@ -106,16 +106,20 @@ class B4W_SceneAudio(SceneButtonsPanel, Panel):
     bl_idname = "SCENE_PT_b4w_audio"
     bl_options = {'DEFAULT_CLOSED'}
 
-    def draw_header(self, context):
-        self.layout.prop(context.scene, "b4w_enable_audio", text="")
-
     def draw(self, context):
-
         scene = context.scene        
         dcompr = scene.b4w_dynamic_compressor_settings
 
         layout = self.layout
-        layout.active = getattr(scene, "b4w_enable_audio")
+
+        layout.prop(scene, "audio_volume")
+
+        row = layout.row()
+        row.prop(scene, "audio_distance_model", text="Distance Model")
+
+        row = layout.row()
+        row.prop(scene, "audio_doppler_speed", text="Speed")
+        row.prop(scene, "audio_doppler_factor", text="Doppler")
 
         row = layout.row()
         row.prop(scene, "b4w_enable_dynamic_compressor", text=_("Dynamic Compressor"))

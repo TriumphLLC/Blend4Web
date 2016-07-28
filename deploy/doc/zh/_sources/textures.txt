@@ -14,67 +14,23 @@
 
   * 漫射贴图
 
-    * 激活
-
-    * 附加设置
-
   * 高光贴图
-
-    * 激活
-
-    * 附加设置
 
   * 法线贴图
 
-    * 激活
-
-    * 附加设置
-
   * 高度图。视差贴图
-
-    * 激活
-
-    * 附加设置
 
   * 蒙版贴图
 
-    * 激活
-
-    * 附加设置
-
-    * 限制条件
-
-    * 示例
-
   * 视频贴图
-
-    * 支持的格式 （容器） ︰
-
-    * 设置纹理
-
-    * 移动设备的细节
 
   * 环境贴图
 
-    * 制作环境贴图
-
   * 镜面贴图
-
-    * 激活
-
-    * 附加设置
 
   * 天穹
 
-    * 激活
-
-    * 附加设置
-
   * 特殊的纹理类型
-
-    * 3D场景
-
-    * 画布
 
 纹理是手工制作的或程序上生成的图像，可应用于模型表面，以添加更多的细节
 。依据规则，图像像素使用纹理映射的方法被分配到三维表面上。有时它们统称
@@ -165,8 +121,10 @@
    不导出纹理。
 
 *导出选项 > 禁用压缩*
-   禁用这个纹理的纹理压缩。在 纹理压缩 恶化图像质量情况下使用。例如用
-   于混合材质的不同部分建议禁用压缩遮罩纹理。
+   Disable texture compression (using "DDS" texture format) for this
+   texture. Used in cases when texture compression deteriorates the
+   image quality. For example it's recommended to disable compression
+   for mask textures used to mix different parts of materials.
 
 *导出选项 > 海岸距离贴图*
    使用在  室外渲染.

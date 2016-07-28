@@ -280,7 +280,9 @@ exports.init = function(options) {
         }
 
         if (autoresize)
-            m_main.append_loop_cb(m_cont.resize_to_container);
+            m_main.append_loop_cb(function() {
+                m_cont.resize_to_container();
+            });
 
         if (track_container_position) {
             m_main.append_loop_cb(function() {

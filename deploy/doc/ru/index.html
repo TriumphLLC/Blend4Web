@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Содержание &mdash; Руководство пользователя Blend4Web 16.06</title>
+  <title>Содержание &mdash; Руководство пользователя Blend4Web 16.07</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.06" href="#"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.07" href="#"/>
         <link rel="next" title="Общие сведения" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.06
+              v16.07
             </div>
           
         
@@ -190,6 +190,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#id1">Управление проектами</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-creation-wizard">Мастер создания проектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_manager.html#creating-a-web-player-application">Создание приложений для Веб-плеера</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-information">Информация о проекте</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-import">Импорт проектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-export">Экспорт проектов</a></li>
@@ -213,8 +214,14 @@
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#local-development-server">Локальный сервер разработки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#running-viewer-and-demos">Запуск просмотрщика сцен и демо-приложений</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#json">JSON</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#html">HTML</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#export-formats">Форматы экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#export-options">Опции экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#index-2">Ошибки инициализации</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#compatibility-errors">Ошибки совместимости</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#critical-export-errors">Критические ошибки экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#non-critical-export-errors">Некритические ошибки экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#other-messages">Прочие сообщения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#add-on-translations">Перевод аддона</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Параметры сцены</a><ul>
@@ -275,7 +282,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">Библиотека материалов</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="material_library.html#libarary-structure">Структура библиотеки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="material_library.html#library-structure">Структура библиотеки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="material_library.html#material-structure">Структура материала</a></li>
 <li class="toctree-l2"><a class="reference internal" href="material_library.html#adding-material-to-a-scene">Добавление материала в сцену</a></li>
 </ul>
@@ -366,6 +373,7 @@
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Природные эффекты</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#water">Вода</a></li>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#atmosphere">Атмосфера</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#lens-flare">Lens Flare</a></li>
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#wind">Ветер</a></li>
 </ul>
 </li>
@@ -391,6 +399,7 @@
 <li class="toctree-l2"><a class="reference internal" href="physics.html#wheeled-vehicles">Колесные транспортные средства</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#floating-objects">Плавающие объекты</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#floating-vehicles-aka-watercrafts">Плавающие транспортные средства</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#character-objects">Объекты-персонажи</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#use-in-applications">Особенности использования в приложениях</a></li>
 </ul>
 </li>
@@ -441,6 +450,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-07">v16.07</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-06">v16.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-05">v16.05</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-04">v16.04</a></li>
@@ -491,7 +501,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-06-30.
+      Обновлено: 2016-07-26.
 
     </p>
   </div>
@@ -547,7 +557,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.06',
+            VERSION:'v16.07',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

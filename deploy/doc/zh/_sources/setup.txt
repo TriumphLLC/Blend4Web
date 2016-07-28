@@ -44,8 +44,9 @@
 解压缩文件归档
 --------------
 
-稳定版作为压缩包发布 ("blend4web_sdk_free_YY_MM.zip" -- 免费 SDK,
-"blend4web_sdk_pro_YY_MM.zip" -- 商业 SDK). 只要在某处解开这个压缩包。
+Stable versions of the distribution are available as an archive
+("blend4web_ce_YY_MM.zip" -- free SDK, "blend4web_pro_YY_MM.zip" --
+commercial SDK). Simply unpack this archive somewhere.
 
 
 安装Blender
@@ -83,7 +84,8 @@
 注解: 如果您打算使用只用法线编辑器，你可以考虑安装  Blend4Web 插件
   而不是 SDK。插件只能导出场景到  HTML格式 和有限功能 (例如，它没有
   项目管理 ，示例场景，用户手册，等等)，但它仍然拥有一切让你可以创建一
-  个简单的 应用程序。它可以和其他  Blender插件  的安装方式相同。
+  个简单的 应用程序。It can be installed the same way as any other
+  Blender addon.
 
 
 

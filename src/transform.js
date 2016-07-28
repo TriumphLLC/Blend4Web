@@ -46,6 +46,7 @@ var _tsr_tmp = m_tsr.create();
 var _tsr_tmp2 = m_tsr.create();
 
 var _elapsed = 0;
+var _update_counter = 0;
 
 // transform in world space
 exports.SPACE_WORLD = 0;
@@ -54,6 +55,7 @@ exports.SPACE_LOCAL = 1;
 
 exports.update = function(elapsed) {
     _elapsed = elapsed;
+    _update_counter++;
 }
 
 exports.set_translation = function(obj, trans) {
@@ -322,7 +324,7 @@ function update_transform(obj) {
 
     switch (obj_type) {
     case "SPEAKER":
-        m_sfx.speaker_update_transform(obj, _elapsed);
+        m_sfx.speaker_update_transform(obj, _elapsed, _update_counter);
         break;
     case "CAMERA":
         for (var i = 0; i < scenes_data.length; i++)
@@ -375,9 +377,10 @@ function update_transform(obj) {
                     m_scs.update_shadow_billboard_view(cam_main, sc_render.graph);
                 }
                 // listener only for active scene camera
-                if (m_scs.get_active() == scene)
+                if (m_scs.get_active() == scene &&
+                        m_scs.get_camera(scene) == obj)
                     m_sfx.listener_update_transform(scene, trans, quat,
-                                                _elapsed);  
+                            _elapsed, _update_counter);
                 break;
             case "MESH":
                 if (render.bb_local && render.bb_world) {

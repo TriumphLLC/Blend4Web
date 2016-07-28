@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>场景设置 &mdash; Blend4Web 16.06 用户手册</title>
+  <title>场景设置 &mdash; Blend4Web 16.07 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.07 用户手册" href="index.html"/>
         <link rel="next" title="物体" href="objects.html"/>
         <link rel="prev" title="插件" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.06
+              v16.07
             </div>
           
         
@@ -248,7 +248,7 @@
 <p>定义整个场景的外观和行为（不只是一个单一的对象）所有参数都能在三个面板里找到：<code class="docutils literal"><span class="pre">Render</span></code> 面板时，<code class="docutils literal"><span class="pre">Scene</span></code> 面板和 <code class="docutils literal"><span class="pre">World</span></code> 面板。</p>
 <div class="section" id="render-panel">
 <span id="render-settings"></span><h2><a class="toc-backref" href="#id5">渲染面板</a><a class="headerlink" href="#render-panel" title="永久链接至标题">¶</a></h2>
-<a class="reference internal image-reference" href="_images/render.png"><img alt="_images/render.png" class="align-center" src="_images/render.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/render1.png"><img alt="_images/render1.png" class="align-center" src="_images/render1.png" style="width: 100%;" /></a>
 <p>场景中的所有图像渲染参数都在此面板上找到。</p>
 <div class="section" id="reflections-and-refractions">
 <span id="render-reflections"></span><h3><a class="toc-backref" href="#id6">反射和折射</a><a class="headerlink" href="#reflections-and-refractions" title="永久链接至标题">¶</a></h3>
@@ -354,9 +354,27 @@
 </div>
 <div class="section" id="audio">
 <span id="scene-audio"></span><h3><a class="toc-backref" href="#id21">音频</a><a class="headerlink" href="#audio" title="永久链接至标题">¶</a></h3>
-<p>音频设置。默认情况下启用。</p>
+<p>Audio settings.</p>
 <a class="reference internal image-reference" href="_images/scene_audio.png"><img alt="_images/scene_audio.png" class="align-center" src="_images/scene_audio.png" style="width: 100%;" /></a>
 <dl class="docutils">
+<dt><em>Volume</em></dt>
+<dd>The master volume of the sound in the application. This value can vary between 0 and 100. Default value is 1.0.</dd>
+<dt><em>Distance Model</em></dt>
+<dd><p class="first">The distance model used for calculating distance attenuation. Following models are supported by the engine:</p>
+<p><code class="docutils literal"><span class="pre">None</span></code> - no distance model is used, the sound has constant volume regardless of the distance.</p>
+<p><code class="docutils literal"><span class="pre">Exponent</span> <span class="pre">Clamped</span></code> - a clamped exponential distance model.</p>
+<p><code class="docutils literal"><span class="pre">Linear</span> <span class="pre">Clamped</span></code> - a clamped linear distance model.</p>
+<p><code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Clamped</span></code> - a clamped inverse distance model.</p>
+<p>The following models are partially supported (work the same way the corresponding <em>Clamped</em>-type models):</p>
+<p><code class="docutils literal"><span class="pre">Exponent</span></code></p>
+<p><code class="docutils literal"><span class="pre">Linear</span></code></p>
+<p><code class="docutils literal"><span class="pre">Inverse</span></code></p>
+<p class="last">This parameter is set to <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Clamped</span></code> by default.</p>
+</dd>
+<dt><em>Speed</em></dt>
+<dd>This parameter sets the speed of sound used for Doppler effect calculation. Its value is measured in meters per second and is set to 343.3 by default.</dd>
+<dt><em>Doppler</em></dt>
+<dd>This sets the pitch factor for Doppler effect calculation. Its default value if 1.0.</dd>
 <dt><em>动态压缩</em></dt>
 <dd><p class="first last">压缩音频信号的动态范围。该功能可用于使声音更加丰富。默认情况下禁用。</p>
 </dd>
@@ -587,7 +605,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-06-30.
+      最后更新于 2016-07-26.
 
     </p>
   </div>
@@ -643,7 +661,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.06',
+            VERSION:'v16.07',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

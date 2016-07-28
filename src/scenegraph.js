@@ -900,6 +900,8 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
 
     if (!rtt && sc_render.color_picking) {
         var cam = cam_copy(main_cam);
+        cam.width = 1;
+        cam.height = 1;
 
         // camera depends on bpy camera
         cam_scene_data.cameras.push(cam);
@@ -909,13 +911,16 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
 
         if (sc_render.xray) {
             var cam = cam_copy(main_cam);
+            cam.width = 1;
+            cam.height = 1;
+
             cam_scene_data.cameras.push(cam);
             var subs_color_picking_xray = create_subs_color_picking(cam, true, num_lights);
             m_graph.append_node_attr(graph, subs_color_picking_xray);
-            var cp_slink_c = create_slink("COLOR", "COLOR", 1, 1, 1, true);
+            var cp_slink_c = create_slink("COLOR", "COLOR", 1, 1, 1, false);
             m_graph.append_edge_attr(graph, subs_color_picking,
                                      subs_color_picking_xray, cp_slink_c);
-            var cp_slink_d = create_slink("DEPTH", "DEPTH", 1, 1, 1, true);
+            var cp_slink_d = create_slink("DEPTH", "DEPTH", 1, 1, 1, false);
             m_graph.append_edge_attr(graph, subs_color_picking,
                                      subs_color_picking_xray, cp_slink_d);
         }
@@ -1352,35 +1357,108 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         var cam_dof = cam_copy(main_cam);
         cam_scene_data.cameras.push(cam_dof);
 
-        var slink_blur_in = create_slink("COLOR", "u_color", 1, 1, 1, true);
-        slink_blur_in.min_filter = m_tex.TF_LINEAR;
-        slink_blur_in.mag_filter = m_tex.TF_LINEAR;
+        if (cam_render.dof_bokeh) {
+            var cam_coc = cam_copy(main_cam);
+            cam_scene_data.cameras.push(cam_coc);
 
-        var pp_x = create_subs_postprocessing("X_BLUR");
-        m_graph.append_node_attr(graph, pp_x);
-        m_graph.append_edge_attr(graph, subs_prev, pp_x, slink_blur_in);
+            var slink_coc_in = create_slink("COLOR", "u_color", 1, 1, 1, true);
+            slink_coc_in.min_filter = m_tex.TF_LINEAR;
+            slink_coc_in.mag_filter = m_tex.TF_LINEAR;
 
-        var pp_y = create_subs_postprocessing("Y_BLUR");
-        m_graph.append_node_attr(graph, pp_y);
-        m_graph.append_edge_attr(graph, pp_x, pp_y, slink_blur_in);
+            var slink_coc_depth_in = create_slink("DEPTH", "u_depth", 1, 1, 1, true)
+            slink_coc_depth_in.min_filter = m_tex.TF_NEAREST;
+            slink_coc_depth_in.mag_filter = m_tex.TF_NEAREST;
 
-        var subs_dof_in = last_geom_level[0];
-        var subs_dof = create_subs_dof(cam_dof);
-        cam_dof.dof_distance = cam_render.dof_distance;
-        cam_dof.dof_object = cam_render.dof_object;
-        cam_dof.dof_front = cam_render.dof_front;
-        cam_dof.dof_rear = cam_render.dof_rear;
-        cam_dof.dof_power = cam_render.dof_power;
-        cam_dof.dof_on = true;
-        curr_level.push(subs_dof);
+            var slink_blur_in = create_slink("COLOR", "u_color", 1, 0.5, 0.5, true);
+            slink_blur_in.min_filter = m_tex.TF_LINEAR;
+            slink_blur_in.mag_filter = m_tex.TF_LINEAR;
 
-        m_graph.append_node_attr(graph, subs_dof);
-        m_graph.append_edge_attr(graph, subs_prev, subs_dof,
-                create_slink("COLOR", "u_sharp", 1, 1, 1, true));
-        m_graph.append_edge_attr(graph, pp_y, subs_dof,
-                create_slink("COLOR", "u_blurred", 1, 1, 1, true));
-        m_graph.append_edge_attr(graph, subs_dof_in, subs_dof,
-                create_slink("DEPTH", "u_depth", 1, 1, 1, true));
+            var slink_dof_blurred_in1 = create_slink("COLOR", "u_blurred1", 1, 0.5, 0.5, true)
+            slink_dof_blurred_in1.min_filter = m_tex.TF_LINEAR;
+            slink_dof_blurred_in1.mag_filter = m_tex.TF_LINEAR;
+
+            var slink_dof_blurred_in2 = create_slink("COLOR", "u_blurred2", 1, 0.5, 0.5, true)
+            slink_dof_blurred_in2.min_filter = m_tex.TF_LINEAR;
+            slink_dof_blurred_in2.mag_filter = m_tex.TF_LINEAR;
+
+            var subs_coc_in = last_geom_level[0];
+            var coc = create_subs_coc(cam_coc);
+            cam_coc.dof_distance = cam_render.dof_distance;
+            cam_coc.dof_object = cam_render.dof_object;
+            cam_coc.dof_front = cam_render.dof_front;
+            cam_coc.dof_rear = cam_render.dof_rear;
+            cam_coc.dof_power = cam_render.dof_power;
+            cam_coc.dof_bokeh = cam_render.dof_bokeh;
+            cam_coc.dof_on = true;
+            m_graph.append_node_attr(graph, coc);
+            m_graph.append_edge_attr(graph, subs_prev, coc, slink_coc_in);
+            m_graph.append_edge_attr(graph, subs_coc_in, coc, slink_coc_depth_in);
+
+            var pp_x = create_subs_postprocessing("X_DOF_BLUR");
+            m_graph.append_node_attr(graph, pp_x);
+            m_graph.append_edge_attr(graph, coc, pp_x, slink_coc_in);
+
+            var pp_y1 = create_subs_postprocessing("Y_DOF_BLUR");
+            m_graph.append_node_attr(graph, pp_y1);
+            m_graph.append_edge_attr(graph, pp_x, pp_y1, slink_blur_in);
+
+            var pp_y2 = create_subs_postprocessing("Y_DOF_BLUR");
+            m_graph.append_node_attr(graph, pp_y2);
+            m_graph.append_edge_attr(graph, pp_x, pp_y2, slink_blur_in);
+
+            var subs_dof = create_subs_dof(cam_dof);
+            cam_dof.dof_distance = cam_render.dof_distance;
+            cam_dof.dof_object = cam_render.dof_object;
+            cam_dof.dof_front = cam_render.dof_front;
+            cam_dof.dof_rear = cam_render.dof_rear;
+            cam_dof.dof_power = cam_render.dof_power;
+            cam_dof.dof_bokeh = cam_render.dof_bokeh;
+            cam_dof.dof_on = true;
+            curr_level.push(subs_dof);
+
+            m_graph.append_node_attr(graph, subs_dof);
+            m_graph.append_edge_attr(graph, subs_prev, subs_dof,
+                    create_slink("COLOR", "u_sharp", 1, 1, 1, true));
+            m_graph.append_edge_attr(graph, pp_y1, subs_dof, slink_dof_blurred_in1);
+            m_graph.append_edge_attr(graph, pp_y2, subs_dof, slink_dof_blurred_in2);
+
+        } else {
+
+            var slink_blur_x_in = create_slink("COLOR", "u_color", 1, 1, 1, true);
+            slink_blur_x_in.min_filter = m_tex.TF_LINEAR;
+            slink_blur_x_in.mag_filter = m_tex.TF_LINEAR;
+
+            var slink_blur_y_in = create_slink("COLOR", "u_color", 1, 1, 1, true);
+            slink_blur_y_in.min_filter = m_tex.TF_LINEAR;
+            slink_blur_y_in.mag_filter = m_tex.TF_LINEAR;
+
+            var pp_x = create_subs_postprocessing("X_BLUR");
+            m_graph.append_node_attr(graph, pp_x);
+            m_graph.append_edge_attr(graph, subs_prev, pp_x, slink_blur_x_in);
+
+            var pp_y = create_subs_postprocessing("Y_BLUR");
+            m_graph.append_node_attr(graph, pp_y);
+            m_graph.append_edge_attr(graph, pp_x, pp_y, slink_blur_y_in);
+
+            var subs_dof_in = last_geom_level[0];
+            var subs_dof = create_subs_dof(cam_dof);
+            cam_dof.dof_distance = cam_render.dof_distance;
+            cam_dof.dof_object = cam_render.dof_object;
+            cam_dof.dof_front = cam_render.dof_front;
+            cam_dof.dof_rear = cam_render.dof_rear;
+            cam_dof.dof_power = cam_render.dof_power;
+            cam_dof.dof_bokeh = cam_render.dof_bokeh;
+            cam_dof.dof_on = true;
+            curr_level.push(subs_dof);
+
+            m_graph.append_node_attr(graph, subs_dof);
+            m_graph.append_edge_attr(graph, subs_prev, subs_dof,
+                    create_slink("COLOR", "u_sharp", 1, 1, 1, true));
+            m_graph.append_edge_attr(graph, pp_y, subs_dof,
+                    create_slink("COLOR", "u_blurred", 1, 1, 1, true));
+            m_graph.append_edge_attr(graph, subs_dof_in, subs_dof,
+                    create_slink("DEPTH", "u_depth", 1, 1, 1, true));
+        }
 
         prev_level = curr_level;
         curr_level = [];
@@ -1689,9 +1767,9 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         case "COLOR_PICKING":
         case "COLOR_PICKING_XRAY":
             m_graph.append_edge_attr(graph, subs, subs_sink,
-                    create_slink("COLOR", "NONE", 1, 1, 1, true));
+                    create_slink("COLOR", "NONE", 1, 1, 1, false));
             m_graph.append_edge_attr(graph, subs, subs_sink,
-                    create_slink("DEPTH", "NONE", 1, 1, 1, true));
+                    create_slink("DEPTH", "NONE", 1, 1, 1, false));
             break;
         case "SKY":
             var slink_sky = create_slink("CUBEMAP", "u_sky",
@@ -2399,6 +2477,14 @@ function create_subs_postprocessing(pp_effect) {
         pp_subs.texel_mask[0] = 0;
         pp_subs.texel_mask[1] = 1;
         break;
+    case "X_DOF_BLUR":
+        pp_subs.texel_mask[0] = 1;
+        pp_subs.texel_mask[1] = 1;
+        break;
+    case "Y_DOF_BLUR":
+        pp_subs.texel_mask[0] = 1;
+        pp_subs.texel_mask[1] = 1;
+        break;
     case "X_EXTEND":
         pp_subs.texel_mask[0] = 1;
         pp_subs.texel_mask[1] = 0;
@@ -2755,6 +2841,26 @@ function create_subs_motion_blur(mb_decay_threshold, mb_factor) {
     return mb_subs;
 }
 
+
+/**
+ * Circle of confusion (~blurriness) calculation
+ * in the alpha channel
+ */
+function create_subs_coc(cam) {
+
+    var subs = init_subs("COC");
+    subs.clear_color = false;
+    subs.clear_depth = false;
+    subs.depth_test = false;
+
+    subs.camera = cam;
+    subs.texel_size_multiplier = subs.camera.dof_power;
+
+    subs.is_pp = true;
+
+    return subs;
+}
+
 function create_subs_dof(cam) {
 
     var subs = init_subs("DOF");
@@ -3049,6 +3155,20 @@ exports.find_input = function(graph, subs, type) {
             return inputs[i];
 
     return null;
+}
+
+/**
+ * Get inputs of given type.
+ */
+exports.get_inputs_by_type = function(graph, subs, type) {
+    var inputs = get_inputs(graph, subs);
+    var matching_inputs = [];
+
+    for (var i = 0; i < inputs.length; i++)
+        if (inputs[i].type === type)
+            matching_inputs.push(inputs[i]);
+
+    return matching_inputs;
 }
 
 exports.has_lower_subs = has_lower_subs;

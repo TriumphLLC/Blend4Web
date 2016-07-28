@@ -1293,13 +1293,39 @@ exports.generate_auxiliary_batches = function(graph) {
             batch = m_batch.create_motion_blur_batch(subs.mb_decay_threshold);
             break;
 
-        case "DOF":
-            batch = m_batch.create_dof_batch();
+        case "COC":
+            batch = m_batch.create_coc_batch();
+            break;
 
-            var subs_pp1 = m_scgraph.find_input(graph, subs, "POSTPROCESSING");
-            var subs_pp2 = m_scgraph.find_input(graph, subs_pp1, "POSTPROCESSING");
-            m_scgraph.set_texel_size_mult(subs_pp1, subs.camera.dof_power);
-            m_scgraph.set_texel_size_mult(subs_pp2, subs.camera.dof_power);
+        case "DOF":
+            batch = m_batch.create_dof_batch(subs);
+
+            var dof_power = subs.camera.dof_power;
+
+            if (subs.camera.dof_bokeh) {
+                var subs_pp_array = m_scgraph.get_inputs_by_type(graph, subs, "POSTPROCESSING");
+
+                // Y_DOF_BLUR
+                m_scgraph.set_texel_size_mult(subs_pp_array[0], dof_power);
+                m_scgraph.set_texel_size_mult(subs_pp_array[1], dof_power);
+
+                // X_DOF_BLUR
+                subs_pp_array[0] = m_scgraph.find_input(graph, subs_pp_array[0],
+                        "POSTPROCESSING");
+                m_scgraph.set_texel_size_mult(subs_pp_array[0], dof_power);
+
+                // COC
+                subs_pp_array[0] = m_scgraph.find_input(graph, subs_pp_array[0],
+                        "COC");
+                m_scgraph.set_texel_size_mult(subs_pp_array[0], dof_power);
+            } else {
+                // Y_BLUR
+                var subs_pp1 = m_scgraph.find_input(graph, subs, "POSTPROCESSING");
+                // X_BLUR
+                var subs_pp2 = m_scgraph.find_input(graph, subs_pp1, "POSTPROCESSING");
+                m_scgraph.set_texel_size_mult(subs_pp1, dof_power);
+                m_scgraph.set_texel_size_mult(subs_pp2, dof_power);
+            }
 
             break;
 
@@ -1981,7 +2007,8 @@ function add_object_subs_shadow_receive(subs, obj, graph, scene, copy) {
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
-        if (batch.type != "SHADOW" || batch.subtype != "RECEIVE")
+        if (batch.type != "SHADOW" || batch.subtype != "RECEIVE" ||
+                !batch.shadow_receive)
             continue;
 
         if (!copy) {
@@ -2891,6 +2918,7 @@ function setup_scene_dim(scene, width, height) {
 
             switch (subs1.type) {
             case "DOF":
+
                 set_dof_params(scene, {"dof_power": subs1.camera.dof_power,
                                        "dof_on": subs1.camera.dof_on});
                 break;
@@ -3301,33 +3329,80 @@ exports.get_dof_params = function(scene) {
 exports.set_dof_params = set_dof_params;
 function set_dof_params(scene, dof_params) {
 
-    var subs = get_subs(scene, "DOF");
-    if (!subs) {
+    var subs_dof = get_subs(scene, "DOF");
+    if (!subs_dof) {
         m_print.error("DOF is not enabled on the scene. Check camera settings");
         return 0;
     }
 
+    var bokeh_enabled = subs_dof.camera.dof_bokeh;
+
+    var subs_coc = bokeh_enabled ? get_subs(scene, "COC") : null;
+
     var graph = scene._render.graph;
 
-    if (typeof dof_params.dof_on == "boolean")
-        subs.camera.dof_on = dof_params.dof_on;
-    if (typeof dof_params.dof_distance == "number")
-        subs.camera.dof_distance = dof_params.dof_distance;
-    if (typeof dof_params.dof_front == "number")
-        subs.camera.dof_front = dof_params.dof_front;
-    if (typeof dof_params.dof_rear == "number")
-        subs.camera.dof_rear = dof_params.dof_rear;
+    if (typeof dof_params.dof_on == "boolean") {
+        subs_dof.camera.dof_on = dof_params.dof_on;
+        if (bokeh_enabled)
+            subs_coc.camera.dof_on = dof_params.dof_on;
+    }
+    if (typeof dof_params.dof_distance == "number") {
+        subs_dof.camera.dof_distance = dof_params.dof_distance;
+        if (bokeh_enabled)
+            subs_coc.camera.dof_distance = dof_params.dof_distance;
+    }
+    if (typeof dof_params.dof_front == "number") {
+        subs_dof.camera.dof_front = dof_params.dof_front;
+        if (bokeh_enabled)
+            subs_coc.camera.dof_front = dof_params.dof_front;
+    }
+    if (typeof dof_params.dof_rear == "number") {
+        subs_dof.camera.dof_rear = dof_params.dof_rear;
+        if (bokeh_enabled)
+            subs_coc.camera.dof_rear = dof_params.dof_rear;
+    }
     if (typeof dof_params.dof_power == "number") {
-        subs.camera.dof_power = dof_params.dof_power;
-        var subs_pp1 = m_scgraph.find_input(graph, subs, "POSTPROCESSING");
-        var subs_pp2 = m_scgraph.find_input(graph, subs_pp1, "POSTPROCESSING");
+        if (bokeh_enabled) {
+            subs_dof.camera.dof_power = dof_params.dof_power;
+            subs_coc.camera.dof_power = dof_params.dof_power;
 
-        m_scgraph.set_texel_size_mult(subs_pp1, subs.camera.dof_power);
-        m_scgraph.set_texel_size(subs_pp1, 1/subs.camera.width,
-                                           1/subs.camera.height);
-        m_scgraph.set_texel_size_mult(subs_pp2, subs.camera.dof_power);
-        m_scgraph.set_texel_size(subs_pp2, 1/subs.camera.width,
-                                           1/subs.camera.height);
+            var width  = subs_coc.camera.width;
+            var height = subs_coc.camera.height;
+
+            var texel_right = [1/width, 0.0];
+            var texel_up_right = [1/width * 0.5, 1/height * 0.866];
+            var texel_up_left  = [-1/width * 0.5, 1/height * 0.866];
+
+            var subs_pp_array = m_scgraph.get_inputs_by_type(graph, subs_dof, "POSTPROCESSING");
+
+            // Y_BLUR
+            m_scgraph.set_texel_size_mult(subs_pp_array[0], subs_coc.camera.dof_power);
+            m_scgraph.set_texel_size(subs_pp_array[0], texel_up_left[0], texel_up_left[1]);
+            m_scgraph.set_texel_size_mult(subs_pp_array[1], subs_coc.camera.dof_power);
+            m_scgraph.set_texel_size(subs_pp_array[1], texel_up_right[0], texel_up_right[1]);
+
+            // X_BLUR
+            subs_pp_array[0] = m_scgraph.find_input(graph, subs_pp_array[0],
+                    "POSTPROCESSING");
+            m_scgraph.set_texel_size_mult(subs_pp_array[0], subs_coc.camera.dof_power);
+            m_scgraph.set_texel_size(subs_pp_array[0], texel_right[0], texel_right[1]);
+
+            // COC
+            m_scgraph.set_texel_size_mult(subs_coc, subs_coc.camera.dof_power);
+            m_scgraph.set_texel_size(subs_coc, texel_right[0], texel_right[1]);
+
+        } else {
+            subs_dof.camera.dof_power = dof_params.dof_power;
+            var subs_pp1 = m_scgraph.find_input(graph, subs_dof, "POSTPROCESSING");
+            var subs_pp2 = m_scgraph.find_input(graph, subs_pp1, "POSTPROCESSING");
+
+            m_scgraph.set_texel_size_mult(subs_pp1, subs_dof.camera.dof_power);
+            m_scgraph.set_texel_size(subs_pp1, 1/subs_dof.camera.width,
+                                               1/subs_dof.camera.height);
+            m_scgraph.set_texel_size_mult(subs_pp2, subs_dof.camera.dof_power);
+            m_scgraph.set_texel_size(subs_pp2, 1/subs_dof.camera.width,
+                                               1/subs_dof.camera.height);
+        }
     }
 }
 
@@ -4158,26 +4233,39 @@ exports.update_force_scene = function(scene, obj) {
 exports.pick_color = function(scene, canvas_x, canvas_y) {
     var subs_color_pick = get_subs(scene, "COLOR_PICKING");
     if (subs_color_pick) {
-
-        var viewport_xy = m_cont.canvas_to_viewport_coords(canvas_x, canvas_y,
-                _vec2_tmp, subs_color_pick.camera);
+        // NOTE: rewrite camera.proj_matrix and camera.view_proj_matrix
+        // restoring not needed
+        var canvas = m_cont.get_canvas();
+        var h = canvas.clientHeight;
+        var w = canvas.clientWidth;
+        m_cam.set_color_pick_proj(subs_color_pick.camera, canvas_x, canvas_y, w, h);
 
         // NOTE: may be some delay since exports.update() execution
         m_prerender.prerender_subs(subs_color_pick, subs_color_pick.camera);
-        m_render.draw(subs_color_pick, subs_color_pick.bundles);
+        if (subs_color_pick.do_render)
+            m_render.draw(subs_color_pick);
 
         var subs_color_pick_xray = get_subs(scene, "COLOR_PICKING_XRAY");
         if (subs_color_pick_xray) {
+            m_mat4.copy(subs_color_pick.camera.proj_matrix,
+                    subs_color_pick_xray.camera.proj_matrix);
+            m_mat4.copy(subs_color_pick.camera.view_proj_matrix,
+                    subs_color_pick_xray.camera.view_proj_matrix)
+            m_util.extract_frustum_planes(
+                    subs_color_pick_xray.camera.view_proj_matrix,
+                    subs_color_pick_xray.camera.frustum_planes);
             m_prerender.prerender_subs(subs_color_pick_xray, subs_color_pick_xray.camera);
-            m_render.draw(subs_color_pick_xray, subs_color_pick_xray.bundles);
-            var cam = subs_color_pick_xray.camera;
-        } else
-            var cam = subs_color_pick.camera;
+            if (subs_color_pick_xray.do_render)
+                m_render.draw(subs_color_pick_xray);
+        }
 
-        viewport_xy[1] = cam.height - viewport_xy[1];
-        var color = m_render.read_pixels(cam.framebuffer, viewport_xy[0],
-                viewport_xy[1]);
-        return color;
+        if (subs_color_pick.do_render ||
+                subs_color_pick_xray && subs_color_pick_xray.do_render)
+            return m_render.read_pixels(subs_color_pick_xray?
+                    subs_color_pick_xray.camera.framebuffer:
+                    subs_color_pick.camera.framebuffer, 0, 0);
+        else
+            return null;
     } else
         m_print.error("Object Selection is not available on the scene");
 
@@ -4247,7 +4335,7 @@ exports.assign_scene_data_subs = function(scene, scene_objs, lamps) {
             var obj = scene_objs[i];
             var sc_data = m_obj_util.get_scene_data(obj, scene);
 
-            if (obj.render.plane_reflection_id != null) {
+            if (obj.render.plane_reflection_id != -1) {
                 var plane_refl_subs = reflection_params.plane_refl_subs;
                 var plane_refl_subs_blend = reflection_params.plane_refl_subs_blend;
                 var refl_id = obj.render.plane_reflection_id;
@@ -4257,7 +4345,7 @@ exports.assign_scene_data_subs = function(scene, scene_objs, lamps) {
                 else if (plane_refl_subs.length)
                     sc_data.plane_refl_subs = plane_refl_subs[refl_id];
 
-            } else if (obj.render.cube_reflection_id != null) {
+            } else if (obj.render.cube_reflection_id != -1) {
                 var cube_refl_subs = reflection_params.cube_refl_subs;
                 var cube_refl_subs_blend = reflection_params.cube_refl_subs_blend;
                 var refl_id = obj.render.cube_reflection_id;

@@ -89,7 +89,7 @@ exports.update_object = function(bpy_source, obj) {
                 var mat = materials[j];
                 if (mat["use_nodes"] && mat["node_tree"]) {
                     var nla_tracks = [];
-                    get_nodetree_nla_tracks_r(mat["node_tree"], nla_tracks);
+                    get_nodetree_nla_tracks_r(mat["node_tree"], nla_tracks, [mat["name"]]);
                     var nla_events = get_nla_events(nla_tracks, slot_num);
                     if (nla_events.length) {
                         slot_num += assign_anim_slots(nla_events, slot_num);
@@ -339,6 +339,7 @@ function init_event() {
         anim_name: "",
         anim_uuid: "",
         anim_slot: 0,
+        name_list: null,
         action_frame_start: 0,
         action_frame_end: 0,
         ext_frame_start: 0,
@@ -351,21 +352,28 @@ function init_event() {
     return ev;
 }
 
-function get_nodetree_nla_tracks_r(node_tree, container) {
+function get_nodetree_nla_tracks_r(node_tree, container, name_list) {
     if (node_tree["animation_data"]) {
         var anim_data = node_tree["animation_data"];
         var nla_tracks = anim_data["nla_tracks"];
         if (nla_tracks)
-            for (var i = 0; i < nla_tracks.length; i++)
+            for (var i = 0; i < nla_tracks.length; i++) {
+                // TODO: need to check this. Writing to bpy object directly
+                nla_tracks[i].name_list = name_list;
                 container.push(nla_tracks[i]);
+            }
     }
     var nodes = node_tree["nodes"];
     for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i];
         if (node["node_group"]) {
             var g_node_tree = node["node_group"]["node_tree"];
-            if (g_node_tree)
-                get_nodetree_nla_tracks_r(g_node_tree, container);
+            if (g_node_tree) {
+                var new_name_list = name_list.slice();
+                new_name_list.push(node["name"]);
+                get_nodetree_nla_tracks_r(g_node_tree, container,
+                                          new_name_list);
+            }
         }
     }
 }
@@ -657,10 +665,11 @@ function calc_curr_frame_scene(nla, timeline) {
 }
 
 function process_clip_event_start(obj, ev, frame, elapsed) {
+    var name_list = ev.name_list;
     if (ev.anim_uuid != "")
-        m_anim.apply_by_uuid(obj, ev.anim_uuid, ev.anim_slot);
+        m_anim.apply_by_uuid(obj, name_list, ev.anim_uuid, ev.anim_slot);
     else
-        m_anim.apply(obj, ev.anim_name, ev.anim_slot);
+        m_anim.apply(obj, name_list, ev.anim_name, ev.anim_slot);
     // NOTE: should not be required
     m_anim.set_behavior(obj, m_anim.AB_FINISH_STOP, ev.anim_slot);
     var action_frame = get_curr_action_frame(ev.frame_start, ev);
@@ -739,6 +748,7 @@ function get_nla_events(nla_tracks, anim_slot_num) {
             if (strip["action"]){
                 ev.anim_name = strip["action"]["name"];
                 ev.anim_uuid = strip["action"]["uuid"];
+                ev.name_list = track.name_list;
             }
 
             nla_events.push(ev);

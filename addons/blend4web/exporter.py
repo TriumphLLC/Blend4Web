@@ -1026,7 +1026,6 @@ def process_scene(scene):
 
     process_scene_nla(scene, scene_data)
 
-    scene_data["b4w_enable_audio"] = scene.b4w_enable_audio
     scene_data["b4w_enable_dynamic_compressor"] \
             = scene.b4w_enable_dynamic_compressor
 
@@ -1110,6 +1109,7 @@ def process_scene(scene):
     scene_data["audio_doppler_speed"] = round_num(scene.audio_doppler_speed, 3)
     scene_data["audio_doppler_factor"] \
             = round_num(scene.audio_doppler_factor, 3)
+    scene_data["audio_distance_model"] = scene.audio_distance_model
 
     # add CURVE objects buffer to scene data
     scene_data["objects"].extend(_additional_scene_objects)
@@ -2184,6 +2184,7 @@ def process_camera(camera):
     cam_data["b4w_dof_front"] = round_num(camera.b4w_dof_front, 3)
     cam_data["b4w_dof_rear"] = round_num(camera.b4w_dof_rear, 3)
     cam_data["b4w_dof_power"] = round_num(camera.b4w_dof_power, 2)
+    cam_data["b4w_dof_bokeh"] = camera.b4w_dof_bokeh
     cam_data["b4w_move_style"] = camera.b4w_move_style
 
     cam_data["b4w_hover_zero_level"] = camera.b4w_hover_zero_level
@@ -3390,7 +3391,8 @@ def process_speaker(speaker):
 
     # custom params
     spk_data["b4w_behavior"] = speaker.b4w_behavior
-    spk_data["b4w_disable_doppler"] = speaker.b4w_disable_doppler
+    spk_data["b4w_enable_doppler"] = speaker.b4w_enable_doppler
+    spk_data["b4w_auto_play"] = speaker.b4w_auto_play
     spk_data["b4w_cyclic_play"] = speaker.b4w_cyclic_play
     spk_data["b4w_delay"] = round_num(speaker.b4w_delay, 3)
     spk_data["b4w_delay_random"] = round_num(speaker.b4w_delay_random, 3)
@@ -3399,9 +3401,8 @@ def process_speaker(speaker):
     spk_data["b4w_fade_in"] = round_num(speaker.b4w_fade_in, 3)
     spk_data["b4w_fade_out"] = round_num(speaker.b4w_fade_out, 3)
     spk_data["b4w_loop"] = speaker.b4w_loop
-    spk_data["b4w_loop_count"] = speaker.b4w_loop_count
-    spk_data["b4w_loop_count_random"] = speaker.b4w_loop_count_random
-    spk_data["b4w_playlist_id"] = speaker.b4w_playlist_id
+    spk_data["b4w_loop_start"] = speaker.b4w_loop_start
+    spk_data["b4w_loop_end"] = speaker.b4w_loop_end
 
     _export_data["speakers"].append(spk_data)
     _export_uuid_cache[spk_data["uuid"]] = spk_data
@@ -4973,11 +4974,13 @@ def check_scene_data(scene_data, scene):
     # need camera
     if scene_data["camera"] is None:
         create_fallback_camera(scene_data)
-        warn("Missing active camera or wrong active camera object.", M_PRIMARY)
+        warn("Missing active camera or wrong active camera object in " +\
+              scene.name + ".", M_PRIMARY)
 
     if scene_data["world"] is None:
         create_fallback_world(scene_data)
-        warn("Missing world or wrong active world object.", M_PRIMARY)
+        warn("Missing world or wrong active world object in " +\
+              scene.name + ".", M_PRIMARY)
 
 
 def get_exported_obj_first_rec(objects, obj_type = "ALL"):

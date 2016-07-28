@@ -122,7 +122,12 @@ exports.resize = function(width, height, update_canvas_css) {
 /**
  * Fit canvas elements to match the size of container element.
  * @method module:container.resize_to_container
+ * @param {Boolean} [force=false] Resize canvas element even in case of
+ * matching of canvas and container size.
  */
-exports.resize_to_container = m_cont.resize_to_container;
+exports.resize_to_container = function(force) {
+    force = force || false;
+    m_cont.resize_to_container(force);
+}
 
 }

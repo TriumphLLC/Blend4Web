@@ -31,6 +31,7 @@ var m_batch    = require("__batch");
 var m_cam      = require("__camera");
 var m_cfg      = require("__config");
 var m_debug    = require("__debug");
+var m_ext      = require("__extensions");
 var m_textures = require("__textures");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
@@ -63,6 +64,10 @@ var DEBUG_VIEW_RT_SMOOTH_INTERVALS = 15;
 
 var _gl = null;
 var _subpixel_index = 0;
+
+var _gl_draw_elems_inst = null;
+var _gl_vert_attr_div = null;
+var _gl_draw_array = null;
 
 var _vec3_tmp  = new Float32Array(3);
 var _ivec4_tmp = new Uint8Array(4);
@@ -282,7 +287,7 @@ function prepare_subscene(subscene) {
         _gl.cullFace(_gl.BACK);
         break;
     case "MAIN_GLOW":
-        if (cfg_def.msaa_samples > 1) {
+        if (cfg_def.msaa_samples > 1 || cfg_def.safari_glow_hack) {
             // correct resolved depth offset
             _gl.enable(_gl.POLYGON_OFFSET_FILL);
             _gl.polygonOffset(-2, -2);
@@ -510,31 +515,31 @@ function setup_vec4_attribute(attributes, name, value) {
 /**
  * frame used for vertex animation
  */
-function draw_buffers(bufs_data, attribute_setters, frame) {
+function draw_buffers(bufs_data, attr_setters, frame) {
 
     _gl.bindBuffer(_gl.ARRAY_BUFFER, bufs_data.vbo);
 
-    for (var i = 0; i < attribute_setters.length; i++) {
-        var setter = attribute_setters[i];
-
+    for (var i = 0; i < attr_setters.length; i++) {
+        var setter = attr_setters[i];
         _gl.enableVertexAttribArray(setter.loc);
-
         var offset = setter.base_offset + setter.frame_length * frame;
-        _gl.vertexAttribPointer(setter.loc, setter.num_comp, _gl.FLOAT, false, 0,
-                offset);
+        _gl.vertexAttribPointer(setter.loc, setter.num_comp, _gl.FLOAT, false,
+                setter.stride, offset);
+        _gl_vert_attr_div(setter.loc, setter.divisor);
     }
 
     // draw
-
     if (bufs_data.ibo) {
         _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
-        _gl.drawElements(bufs_data.mode, bufs_data.count, bufs_data.ibo_type, 0);
+        _gl_draw_elems_inst(bufs_data.mode, bufs_data.count,
+                bufs_data.ibo_type, 0, bufs_data.instance_count);
     } else
-        _gl.drawArrays(bufs_data.mode, 0, bufs_data.count);
+        _gl_draw_array(bufs_data.mode, 0, bufs_data.count,
+                bufs_data.instance_count);
 
     // cleanup attributes
-    for (var i = 0; i < attribute_setters.length; i++) {
-        var setter = attribute_setters[i];
+    for (var i = 0; i < attr_setters.length; i++) {
+        var setter = attr_setters[i];
         _gl.disableVertexAttribArray(setter.loc);
     }
 }
@@ -573,9 +578,10 @@ exports.assign_attribute_setters = function(batch) {
             loc: attributes[name],
             base_offset: p.offset * FLOAT_BYTE_SIZE,
             frame_length: p.frames > 1 ? p.length * FLOAT_BYTE_SIZE : 0,
-            num_comp: p.num_comp
+            num_comp: p.num_comp,
+            stride: p.stride * FLOAT_BYTE_SIZE,
+            divisor: p.divisor
         };
-
         attr_setters.push(setter);
     }
 }
@@ -1920,6 +1926,50 @@ exports.draw_resized_texture = function(texture, size_x, size_y, fbo, w_tex,
  */
 exports.cleanup = function() {
     _subpixel_index = 0;
+}
+
+exports.set_draw_data = function() {
+    if (cfg_def.webgl2) {
+        var draw_elems_inst = function(mode, count, type, offset,
+                primcount) {
+            _gl.drawElementsInstanced(mode, count, type, offset,
+                    primcount);
+        };
+        var vert_attr_div = function(loc, div) {
+            _gl.vertexAttribDivisor(loc, div);
+        };
+        var draw_array = function(mode, first, count, primcount) {
+            _gl.drawArraysInstanced(mode, first, count, primcount);
+        };
+    } else {
+        var inst_arr = m_ext.get_instanced_arrays();
+        cfg_def.gl_instanced_arrays = inst_arr;
+        if (inst_arr) {
+            var draw_elems_inst = function(mode, count, type, offset,
+                    primcount) {
+                inst_arr.drawElementsInstancedANGLE(mode, count, type, offset,
+                        primcount);
+            };
+            var vert_attr_div = function(loc, div) {
+                inst_arr.vertexAttribDivisorANGLE(loc, div);
+            };
+            var draw_array = function(mode, first, count, primcount) {
+                inst_arr.drawArraysInstancedANGLE(mode, first, count, primcount);
+            };
+        } else {
+            var draw_elems_inst = function(mode, count, type, offset) {
+                _gl.drawElements(mode, count, type, offset);
+            };
+            var vert_attr_div = function(loc, div) {
+            };
+            var draw_array = function(mode, first, count, primcount) {
+                _gl.drawArrays(mode, first, count);
+            };
+        }
+    }
+    _gl_draw_elems_inst = draw_elems_inst;
+    _gl_vert_attr_div = vert_attr_div;
+    _gl_draw_array = draw_array;
 }
 
 }

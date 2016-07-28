@@ -103,7 +103,15 @@ var SENSOR_SMOOTH_PERIOD = 0.3;
 
 var KEY_SHIFT = 16;
 
+var MAX_COUNT_FINGERS = 10;
+
 exports.update = function(timeline, elapsed) {
+    // prepare sensor accumulators
+    for (var i = 0; i < _accumulators_cache.length; i++) {
+        var accum = _accumulators_cache[i];
+        prepare_accumulator(accum);
+    }
+
     for (var i = 0; i < _sensors_cache.length; i++) {
         var sensor = _sensors_cache[i];
         update_sensor(sensor, timeline, elapsed);
@@ -225,7 +233,7 @@ function init_sensor(type, element) {
         repeat: false,
 
         // for ST_SELECTION
-        auto_release: false,
+        enable_toggle_switch: false,
 
         // for ST_GAMEPAD_BTNS
         gamepad_id: 0,
@@ -235,6 +243,26 @@ function init_sensor(type, element) {
     };
 
     return sensor;
+}
+
+function prepare_accumulator(accum) {
+    if (!accum.mouse_select_data.is_updated) {
+        accum.mouse_select_data.obj = m_obj.pick_object(
+                accum.mouse_select_data.coord[0],
+                accum.mouse_select_data.coord[1]);
+        accum.mouse_select_data.is_updated = true;
+        accum.global_selected_obj = accum.mouse_select_data.obj;
+    }
+
+    for (var i = 0; i < MAX_COUNT_FINGERS; ++i) {
+        var touch_data = accum.touch_select_dlist[i];
+        if (!touch_data.is_updated) {
+            touch_data.obj = m_obj.pick_object(
+                    touch_data.coord[0], touch_data.coord[1]);
+            touch_data.is_updated = true;
+            accum.global_selected_obj = touch_data.obj;
+        }
+    }
 }
 
 function update_accumulator(accum) {
@@ -303,7 +331,9 @@ function get_accumulator(element) {
         wheel_delta: 0,
 
         // for ST_SELECTION sensor
-        selected_obj: null,
+        global_selected_obj: null,
+        mouse_select_data: create_input_point(),
+        touch_select_dlist: new Array(MAX_COUNT_FINGERS),
 
         // for ST_GYRO_QUAT sensor
         is_updated_gyro_quat: false,
@@ -326,7 +356,8 @@ function get_accumulator(element) {
         mouse_wheel_cb: null,
         mouse_down_which_cb: null,
         mouse_select_cb: null,
-        touch_select_cb: null,
+        touch_select_start_cb: null,
+        touch_select_end_cb: null,
         mouse_up_which_cb: null,
         mouse_location_cb: null,
         keyboard_downed_keys_cb: null,
@@ -336,6 +367,20 @@ function get_accumulator(element) {
 
         registered_accum_values: {},
     };
+    for (var i = 0; i < MAX_COUNT_FINGERS; ++i)
+        accumulator.touch_select_dlist[i] = create_input_point();
+
+    function create_input_point() {
+        return {
+            coord: new Float32Array(2),
+            is_updated: true,
+            obj: null,
+
+            // use for touch
+            identifier: -1,
+            is_released: true
+        };
+    }
 
     accumulator.orientation_quat_cb = function(angles) {
         // calculate gyro_quat only one time per frame
@@ -380,14 +425,58 @@ function get_accumulator(element) {
                 accumulator.element);
         var loc = m_input.get_vector_param(device, m_input.MOUSE_LOCATION, _vec2_tmp);
         var canvas_xy = m_cont.client_to_canvas_coords(loc[0], loc[1], _vec2_tmp);
-        accumulator.selected_obj = m_obj.pick_object(canvas_xy[0], canvas_xy[1]);
+        accumulator.mouse_select_data.is_updated = false;
+        accumulator.mouse_select_data.coord[0] = canvas_xy[0];
+        accumulator.mouse_select_data.coord[1] = canvas_xy[1];
     }
 
-    accumulator.touch_select_cb = function(touches) {
-        if (touches.length == 1) {
-            var canvas_xy = m_cont.client_to_canvas_coords(
-                    touches[0].clientX, touches[0].clientY, _vec2_tmp);
-            accumulator.selected_obj = m_obj.pick_object(canvas_xy[0], canvas_xy[1]);
+    accumulator.touch_select_start_cb = function(touches) {
+        for (var i = 0; i < touches.length; ++i) {
+            var touch = touches[i];
+            var rel_touch = null;
+            var cur_touch = null;
+            for (var j = 0; j < accumulator.touch_select_dlist.length; j++) {
+                var t = accumulator.touch_select_dlist[j];
+                if (t.identifier == touch.identifier) {
+                    if (t.is_released)
+                        cur_touch = t;
+                    break;
+                } else if (!rel_touch && t.is_released) {
+                    rel_touch = t;
+                    rel_touch.identifier = touch.identifier;
+                }
+            }
+
+            var result_touch = cur_touch || rel_touch;
+            if (result_touch) {
+                var canvas_xy = m_cont.client_to_canvas_coords(
+                        touches[i].clientX, touches[i].clientY, _vec2_tmp);
+
+                result_touch.is_updated = false;
+                result_touch.is_released = false;
+                result_touch.coord[0] = canvas_xy[0];
+                result_touch.coord[1] = canvas_xy[1];
+            }
+        }
+    }
+
+    accumulator.touch_select_end_cb = function(touches) {
+        for (var i = 0; i < accumulator.touch_select_dlist.length; ++i) {
+            var touch_select = accumulator.touch_select_dlist[i];
+            var found = false;
+            for (var j = 0; j < touches.length; ++j) {
+                var touch = touches[j];
+                if (touch.identifier == touch_select.identifier) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                touch_select.is_updated = true;
+                touch_select.is_released = true;
+                touch_select.obj = null;
+            }
         }
     }
 
@@ -526,9 +615,12 @@ function register_accum_value(accum, value_name) {
     case "touch_select":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
                 accum.element);
-        if (device)
+        if (device) {
             m_input.attach_param_cb(device, m_input.TOUCH_START,
-                    accum.touch_select_cb);
+                    accum.touch_select_start_cb);
+            m_input.attach_param_cb(device, m_input.TOUCH_END,
+                    accum.touch_select_end_cb);
+        }
         break;
     case "mouse_up_which":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
@@ -628,9 +720,12 @@ function unregister_accum_value(accum, value_name) {
     case "touch_select":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH,
                 accum.element);
-        if (device)
+        if (device) {
             m_input.detach_param_cb(device, m_input.TOUCH_START,
-                    accum.touch_select_cb);
+                    accum.touch_select_start_cb);
+            m_input.detach_param_cb(device, m_input.TOUCH_END,
+                    accum.touch_select_end_cb);
+        }
         break;
     case "mouse_up_which":
         var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
@@ -1014,10 +1109,10 @@ exports.create_timeline_sensor = function() {
     return sensor;
 }
 
-exports.create_selection_sensor = function(obj, auto_release) {
+exports.create_selection_sensor = function(obj, enable_toggle_switch) {
     var sensor = init_sensor(ST_SELECTION);
     sensor.source_object = obj;
-    sensor.auto_release = auto_release;
+    sensor.enable_toggle_switch = enable_toggle_switch;
     sensor.do_activation = true;
     return sensor;
 }
@@ -1245,11 +1340,23 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
     case ST_SELECTION:
         var accum = get_accumulator(sensor.element);
-        if (sensor.auto_release && !accum.is_mouse_downed && accum.is_touch_ended ||
-                accum.selected_obj != sensor.source_object)
-            sensor_set_value(sensor, 0);
-        else
-            sensor_set_value(sensor, 1);
+        sensor_set_value(sensor, 0);
+        if (!sensor.enable_toggle_switch) {
+            if (accum.is_mouse_downed &&
+                    accum.mouse_select_data.obj == sensor.source_object)
+                sensor_set_value(sensor, 1);
+            else if (!accum.is_touch_ended) {
+                for (var i = 0; i < MAX_COUNT_FINGERS; ++i) {
+                    var touch_data = accum.touch_select_dlist[i];
+                    if (touch_data.obj == sensor.source_object) {
+                        sensor_set_value(sensor, 1);
+                        break;
+                    }
+                }
+            }
+        } else
+            if (accum.global_selected_obj == sensor.source_object)
+                sensor_set_value(sensor, 1);
         break;
     case ST_KEYBOARD:
         var accum = get_accumulator(sensor.element);

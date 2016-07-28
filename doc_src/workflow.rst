@@ -58,10 +58,9 @@ the formats used by Blend4Web.
 
 There are two formats: JSON and HTML.
 
-The JSON format is used for complex projects that require programming, while
-HTML is used for more simple, stand-alone applications. Format differences
-and export options are described in the :ref:`Export Formats
-<export_formats>` chapter.
+The HTML format is used for simple stand-alone applications, where all the resources are packed into one HTML file that can then be easily deployed to a web page.
+
+The JSON format can be used for creating such projects as well, but it also offers numerous extra features making it possible to create complex projects that require programming. Format differences and export options are described in the :ref:`Export Formats <export_formats>` chapter.
 
 To export the scene, select ``Blend4Web (.json)`` or ``Blend4Web (.html)``
 option from the ``File > Export`` menu, or type ``b4w export`` in the

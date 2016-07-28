@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-28 14:01+0300\n"
+"POT-Creation-Date: 2016-07-11 16:28+0300\n"
 "PO-Revision-Date: 2015-11-26 21:45+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1901,12 +1901,26 @@ msgstr ""
 #: ../developers.rst:997
 msgid ""
 "*maximum quality* (``P_ULTRA``) - rendering resolution is doubled, "
-"resolution of shadow maps is increased, the anti-aliasing method is SMAA"
+"resolution of shadow maps is increased, the anti-aliasing method is FXAA "
+"(uses higher quality settings and works slower)."
 msgstr ""
 "*максимальное качество* (``P_ULTRA``) - вдвое увеличено разрешение "
-"рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA"
+"рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA "
+"(используется более высокое качество, скорость работы ниже)."
 
-#: ../developers.rst:1006
+#: ../developers.rst:998
+msgid ""
+"*custom quality* (``P_CUSTOM``) - any quality parameter can be set to any"
+" possible value. This option is used when you need to set certain quality"
+" parameters manually. By default, it uses the same settings as ``High`` "
+"quality profile."
+msgstr ""
+"*пользовательское качество* (``P_CUSTOM``) - любой параметр качества "
+"может иметь любое доступное значение. Используется, если необходимо "
+"вручную задать некоторые параметры. По умолчанию используются настройки, "
+"аналогичные профилю ``High``."
+
+#: ../developers.rst:1007
 msgid ""
 "Switching the quality profiles can be performed in runtime before "
 "initialization of the WebGL context. The default profile is ``P_HIGH``."
@@ -1914,7 +1928,7 @@ msgstr ""
 "Переключение профилей качества осуществляется программно, до "
 "инициализации контекста WebGL. Профиль по умолчанию ``P_HIGH``."
 
-#: ../developers.rst:1017
+#: ../developers.rst:1018
 msgid ""
 "Application developers can also set the **quality** parameter upon engine"
 " initialization using the ``app.js`` add-on:"
@@ -1922,11 +1936,11 @@ msgstr ""
 "Разработчики приложений могут также установить параметр **quality** при "
 "инициализации движка с использованием дополнения ``app.js``:"
 
-#: ../developers.rst:1033
+#: ../developers.rst:1034
 msgid "Non-FullScreen Web Apps"
 msgstr "Специфика неполноэкранных приложений"
 
-#: ../developers.rst:1035
+#: ../developers.rst:1036
 msgid ""
 "The Canvas element, to which the rendering is performed, can change its "
 "position relative to the browser window. This can occur due to some "
@@ -1939,7 +1953,7 @@ msgstr ""
 "скроллинга страницы, что особенно актуально для неполноэкранных "
 "приложений."
 
-#: ../developers.rst:1037
+#: ../developers.rst:1038
 msgid ""
 "In most cases this will not affect the performance of the app by any "
 "means. However, some DOM events related to mouse cursor or touch position"
@@ -1957,7 +1971,7 @@ msgstr ""
 "браузера, а движок работает с координатами в системе отсчета именно "
 "Canvas элемента (верхний левый угол элемента)."
 
-#: ../developers.rst:1039
+#: ../developers.rst:1040
 msgid ""
 "If the top left corner of the Canvas element matches the top left corner "
 "of the browser window and is fixed in its position (non-movable) then "
@@ -1971,7 +1985,7 @@ msgstr ""
 "события либо функции API :b4wref:`mouse.get_coords_x()` и "
 ":b4wref:`mouse.get_coords_y()`:"
 
-#: ../developers.rst:1053
+#: ../developers.rst:1054
 msgid ""
 "In the case of the scrolled browser window, you have to use event.pageX "
 "and event.pageY coordinates."
@@ -1979,7 +1993,7 @@ msgstr ""
 "Если на странице присутствует только скроллинг окна браузера, то "
 "достаточно использовать координаты event.pageX и event.pageY:"
 
-#: ../developers.rst:1062
+#: ../developers.rst:1063
 msgid ""
 "In the case of more sophisticated manipulations with the Canvas element "
 "(scrolling of the page elements, displacement from the top level corner "
@@ -1995,7 +2009,7 @@ msgstr ""
 "использования в движке, можно провести преобразование при помощи метода "
 ":b4wref:`container.client_to_canvas_coords()`:"
 
-#: ../developers.rst:1074
+#: ../developers.rst:1075
 msgid ""
 "In order to obtain coordinates in the Canvas space, the engine should "
 "know its position relative to the browser window. However, if this "
@@ -2011,7 +2025,7 @@ msgstr ""
 "происходило автоматически, нужно выставить настройку "
 "``track_container_position`` при инициализации приложения:"
 
-#: ../developers.rst:1089
+#: ../developers.rst:1090
 msgid ""
 "Please note, that this setting can lead to performance degradation in "
 "some browsers (such as Firefox) due to frequent DOM tree accesses. If the"
@@ -2030,7 +2044,7 @@ msgstr ""
 ":b4wref:`container.set_canvas_offsets()` для обновления положения "
 "элемента Canvas вручную, когда это действительно необходимо:"
 
-#: ../developers.rst:1104
+#: ../developers.rst:1105
 msgid ""
 "The possibility to scale the whole webpage can lead to Canvas element "
 "displacement on mobile devices. The described decisions are suitable in "

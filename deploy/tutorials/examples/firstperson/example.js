@@ -2,16 +2,17 @@
 
 b4w.register("example_main", function(exports, require) {
 
-var m_app   = require("app");
-var m_cons  = require("constraints");
-var m_cont  = require("container");
-var m_ctl   = require("controls");
-var m_data  = require("data");
-var m_input = require("input");
-var m_mouse = require("mouse");
-var m_phy   = require("physics");
-var m_scs   = require("scenes");
-var m_trans = require("transform");
+var m_app       = require("app");
+var m_cons      = require("constraints");
+var m_cont      = require("container");
+var m_ctl       = require("controls");
+var m_data      = require("data");
+var m_input     = require("input");
+var m_mouse     = require("mouse");
+var m_phy       = require("physics")
+var m_preloader = require("preloader");
+var m_scs       = require("scenes");
+var m_trans     = require("transform");
 
 exports.init = function() {
     m_app.init({
@@ -22,19 +23,24 @@ exports.init = function() {
 }
 
 function init_cb(canvas_elem, success) {
-
     if (!success) {
         console.log("b4w init failure");
         return;
     }
+
+    m_preloader.create_preloader();
 
     window.addEventListener("resize", resize);
 
     load();
 }
 
+function preloader_cb(percentage) {
+    m_preloader.update_preloader(percentage);
+}
+
 function load() {
-    m_data.load("first-person.json", load_cb);
+    m_data.load("first-person.json", load_cb, preloader_cb);
 }
 
 function load_cb(data_id) {

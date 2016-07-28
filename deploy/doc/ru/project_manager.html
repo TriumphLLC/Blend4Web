@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 16.06</title>
+  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 16.07</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.06" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.07" href="index.html"/>
         <link rel="next" title="Просмотрщик сцен" href="viewer.html"/>
         <link rel="prev" title="Рабочий процесс" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.06
+              v16.07
             </div>
           
         
@@ -90,6 +90,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Управление проектами</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">Управление проектами</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#project-creation-wizard">Мастер создания проектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-web-player-application">Создание приложений для Веб-плеера</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#project-settings">Настройки проекта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploying-the-project">Размещение проекта</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#project-information">Информация о проекте</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#commands">Команды</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-parameters">Параметры проекта</a></li>
@@ -180,15 +185,20 @@
 <li><a class="reference internal" href="#project-manager" id="id4">Управление проектами</a><ul>
 <li><a class="reference internal" href="#id1" id="id5">Управление проектами</a></li>
 <li><a class="reference internal" href="#project-creation-wizard" id="id6">Мастер создания проектов</a></li>
-<li><a class="reference internal" href="#project-information" id="id7">Информация о проекте</a><ul>
-<li><a class="reference internal" href="#commands" id="id8">Команды</a></li>
-<li><a class="reference internal" href="#project-parameters" id="id9">Параметры проекта</a></li>
+<li><a class="reference internal" href="#creating-a-web-player-application" id="id7">Создание приложений для Веб-плеера</a><ul>
+<li><a class="reference internal" href="#project-settings" id="id8">Настройки проекта</a></li>
+<li><a class="reference internal" href="#deploying-the-project" id="id9">Размещение проекта</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#project-import" id="id10">Импорт проектов</a></li>
-<li><a class="reference internal" href="#project-export" id="id11">Экспорт проектов</a><ul>
-<li><a class="reference internal" href="#id2" id="id12">Команды</a></li>
-<li><a class="reference internal" href="#id3" id="id13">Параметры проекта</a></li>
+<li><a class="reference internal" href="#project-information" id="id10">Информация о проекте</a><ul>
+<li><a class="reference internal" href="#commands" id="id11">Команды</a></li>
+<li><a class="reference internal" href="#project-parameters" id="id12">Параметры проекта</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#project-import" id="id13">Импорт проектов</a></li>
+<li><a class="reference internal" href="#project-export" id="id14">Экспорт проектов</a><ul>
+<li><a class="reference internal" href="#id2" id="id15">Команды</a></li>
+<li><a class="reference internal" href="#id3" id="id16">Параметры проекта</a></li>
 </ul>
 </li>
 </ul>
@@ -292,6 +302,8 @@
 </li>
 <li><p class="first">Добавить шаблоны сцены. В директорию &#8220;deploy/assets/имя_проекта&#8221; будет добавлен стандартный json-файл; в директорию &#8220;blender/имя_проекта&#8221; - blend-файл.</p>
 </li>
+<li><p class="first">Use Material Library. Blend files of the material library will be copied to the project directory &#8220;blender/project_name&#8221;, while the asset files will be copied to &#8220;deploy/assets/project_name&#8221; folder.</p>
+</li>
 <li><p class="first">Скопировать скрипт менеджера проектов. Скрипт project.py будет скопирован в директорию проекта.</p>
 </li>
 <li><p class="first">Все файлы проекта будут находиться в одной директории. Предпочтительно использовать для маленьких проектов, таких как уроки и примеры. Для данной опции доступен только тип проекта - &#8220;update&#8221;.</p>
@@ -315,27 +327,84 @@
 </div></blockquote>
 </li>
 <li><p class="first">Уровень оптимизации javascript.</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p class="first">&#8220;Simple&#8221; - в коде заменяются имена переменных;</p>
 </li>
-<li><p class="first">&#8220;Advanced&#8221; - призводится оптимизация кода;</p>
+<li><p class="first">&#8220;Advanced&#8221; - производится оптимизация кода;</p>
 </li>
 <li><p class="first">&#8220;Whitespace Only&#8221; - в коде удаляются только пробелы.</p>
 </li>
 </ul>
-</div></blockquote>
+</li>
+<li><p class="first">URL-атрибуты Веб-плеера. Эта вкладка доступна только если параметр <code class="docutils literal"><span class="pre">Engine</span> <span class="pre">Binding</span> <span class="pre">Type</span></code> имеет значение <code class="docutils literal"><span class="pre">WebPlayer</span> <span class="pre">JSON</span></code> или <code class="docutils literal"><span class="pre">WebPlayer</span> <span class="pre">HTML</span></code>.</p>
+<ul class="simple">
+<li><p class="first">&#8220;Show FPS&#8221; - включает счётчик кадров в секунду в правом верхнем углу окна веб-плеера.</p>
+</li>
+<li><p class="first">&#8220;Auto-rotate camera&#8221; включает автоматическое вращение камеры сразу после загрузки сцены.</p>
+</li>
+<li><p class="first">&#8220;Disable social network buttons&#8221; используется для отключения кнопок социальных сетей на панели управления.</p>
+</li>
+<li><p class="first">&#8220;Background transparency&#8221; используется для установки прозрачности области отрисовки.</p>
+</li>
+<li><p class="first">&#8220;Use compressed textures&#8221; используется для включения загрузки уменьшенных текстур и текстур с компрессией (формат DDS).</p>
+</li>
+</ul>
 </li>
 </ol>
 </div>
+<div class="section" id="creating-a-web-player-application">
+<h2><a class="toc-backref" href="#id7">Создание приложений для Веб-плеера</a><a class="headerlink" href="#creating-a-web-player-application" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Главное преимущество приложений для Веб-плеера - простота размещения подобных приложений на веб-страницах.</p>
+<a class="reference internal image-reference" href="_images/project_manager_create_web_player_project.png"><img alt="_images/project_manager_create_web_player_project.png" class="align-center" src="_images/project_manager_create_web_player_project.png" style="width: 100%;" /></a>
+<p>Создать приложение для Веб-плеера несложно. Для этого достаточно при создании нового проекта выбрать опцию WebPlayer JSON или WebPlayer HTML на вкладке Engine Binding Type.</p>
+<p>Проекты для веб-плеера обладают практически тем же набором параметров, что и проекты других типов. Единственное исключение - группа параметров, известная как Web Player Params.</p>
+<div class="section" id="project-settings">
+<h3><a class="toc-backref" href="#id8">Настройки проекта</a><a class="headerlink" href="#project-settings" title="Ссылка на этот заголовок">¶</a></h3>
+<a class="reference internal image-reference" href="_images/project_manager_web_player_parameters.png"><img alt="_images/project_manager_web_player_parameters.png" class="align-center" src="_images/project_manager_web_player_parameters.png" style="width: 100%;" /></a>
+<p>Эта вкладка доступна только в том случае, если включена опция WebPlayer JSON или WebPlayer HTML. Перечисленные здесь параметры по сути представляют собой URL-атрибуты, которые веб-плеер будет использовать при запуске проекта.</p>
+</div>
+<div class="section" id="deploying-the-project">
+<h3><a class="toc-backref" href="#id9">Размещение проекта</a><a class="headerlink" href="#deploying-the-project" title="Ссылка на этот заголовок">¶</a></h3>
+<p>После завершения работы над проектом, выберите опцию <code class="docutils literal"><span class="pre">deploy</span> <span class="pre">project</span></code> на панели <code class="docutils literal"><span class="pre">Operations</span></code>, на главной странице менеджера проектов. После этого проект будет экспортирован, запакован в архив и загружен в папку, которая используется вашим веб-браузером для загрузки файлов.</p>
+<p>Чтобы разместить проект на веб-странице, распакуйте архив и загрузите файлы, находящиеся в нём (<code class="docutils literal"><span class="pre">html</span></code>-файл и директорию <code class="docutils literal"><span class="pre">assets</span></code>) на веб-сервер с помощью FTP, SSH или любого другого протокола, поддерживаемого сервером.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">После загрузки на веб-сервер должна сохраняться внутренняя структура файлов архива и их относительные пути.</p>
+</div>
+<p>После этого приложение типа WebPlayer HTML можно разместить на веб-странице с помощью контейнера <code class="docutils literal"><span class="pre">iframe</span></code>. Ниже приводится пример HTML-кода, который можно использовать для этого:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>An Example Application<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;800&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;500&quot;</span> <span class="na">allowfullscreen</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;/tutorials/examples/web_page_integration/example_scene.html&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Размещение JSON-проекта происходит почти так же, но вместо одного HTML-файла используется комбинация веб-плеера и JSON-файла, содержащего саму сцену.</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Another Example Application<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;800&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;500&quot;</span> <span class="na">allowfullscreen</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;/apps/webplayer/webplayer.html?load=/tutorials/examples/web_page_integration/example_scene.json&amp;show_fps&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="project-information">
-<span id="project-info"></span><h2><a class="toc-backref" href="#id7">Информация о проекте</a><a class="headerlink" href="#project-information" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="project-info"></span><h2><a class="toc-backref" href="#id10">Информация о проекте</a><a class="headerlink" href="#project-information" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Эта страница содержит информацию о выбранном проекте и доступна по ссылке <code class="docutils literal"><span class="pre">[info]</span></code> рядом с его названием.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/project_manager_info.png"><img alt="_images/project_manager_info.png" class="align-center" src="_images/project_manager_info.png" style="width: 100%;" /></a>
 </div></blockquote>
 <div class="section" id="commands">
-<h3><a class="toc-backref" href="#id8">Команды</a><a class="headerlink" href="#commands" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">Команды</a><a class="headerlink" href="#commands" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Back to Projects</em></dt>
 <dd><p class="first last">Возвращает на главную страницу менеджера проектов.</p>
@@ -346,7 +415,7 @@
 </dl>
 </div>
 <div class="section" id="project-parameters">
-<h3><a class="toc-backref" href="#id9">Параметры проекта</a><a class="headerlink" href="#project-parameters" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id12">Параметры проекта</a><a class="headerlink" href="#project-parameters" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Project Name</em></dt>
 <dd><p class="first last">Имя проекта</p>
@@ -400,18 +469,18 @@
 </div>
 </div>
 <div class="section" id="project-import">
-<span id="import-projects"></span><h2><a class="toc-backref" href="#id10">Импорт проектов</a><a class="headerlink" href="#project-import" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="import-projects"></span><h2><a class="toc-backref" href="#id13">Импорт проектов</a><a class="headerlink" href="#project-import" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Средства импорта проектов вызываются по ссылке <code class="docutils literal"><span class="pre">[Import</span> <span class="pre">Project(s)]</span></code>.</p>
 <p>Нажатие на эту ссылку вызывает стандартный диалог открытия файла, где можно выбрать файл проекта, который требуется импортировать.</p>
 </div>
 <div class="section" id="project-export">
-<span id="export-projects"></span><h2><a class="toc-backref" href="#id11">Экспорт проектов</a><a class="headerlink" href="#project-export" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="export-projects"></span><h2><a class="toc-backref" href="#id14">Экспорт проектов</a><a class="headerlink" href="#project-export" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Окно экспорта проекта вызывается по ссылке <code class="docutils literal"><span class="pre">[Export</span> <span class="pre">Project(s)]</span></code>.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/project_manager_export.png"><img alt="_images/project_manager_export.png" class="align-center" src="_images/project_manager_export.png" style="width: 100%;" /></a>
 </div></blockquote>
 <div class="section" id="id2">
-<h3><a class="toc-backref" href="#id12">Команды</a><a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">Команды</a><a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Back to Projects</em></dt>
 <dd><p class="first last">Возвращает на главную страницу менеджера проектов.</p>
@@ -428,7 +497,7 @@
 </dl>
 </div>
 <div class="section" id="id3">
-<h3><a class="toc-backref" href="#id13">Параметры проекта</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">Параметры проекта</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Select</em></dt>
 <dd><p class="first last">Демонстрирует, выбран ли проект для экспорта.</p>
@@ -470,7 +539,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-06-30.
+      Обновлено: 2016-07-26.
 
     </p>
   </div>
@@ -526,7 +595,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.06',
+            VERSION:'v16.07',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

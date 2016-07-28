@@ -143,8 +143,6 @@ exports.defaults = {
 
     is_mobile_device           : false,
 
-    disable_doppler_hack       : false,
-
     init_wa_context_hack       : false,
 
     clear_procedural_sky_hack  : false,
@@ -187,6 +185,8 @@ exports.defaults = {
 
     safari_canvas_alpha_hack   : false,
 
+    safari_glow_hack           : false,
+
     resize_cubemap_canvas_hack : false,
 
     chrome_html_bkg_music_hack : false,
@@ -201,9 +201,11 @@ exports.defaults = {
 
     gl_debug                   : false,
 
-    gamepad_setting_cont       : "",
+    check_framebuffer_hack     : false,
 
-    check_framebuffer_hack     : false
+    gl_instanced_arrays        : null,
+    gl_draw_elemes_inst        : null,
+    gl_vert_attr_div           : null
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -312,7 +314,7 @@ exports.outlining = {
 
 exports.debug_subs = {
     enabled     : false,
-    subs_type   : "COPY",
+    subs_type   : "MAIN_OPAQUE",
     subs_number : 0,
     slink_type  : "COLOR"
 }
@@ -533,6 +535,9 @@ function set(prop, value) {
     case "animation_framerate":
         exports.animation.framerate = value;
         break;
+    case "anisotropic_filtering":
+        exports.defaults.anisotropic_filtering = value;
+        break;
     case "antialiasing":
         exports.defaults.antialiasing = value;
         break;
@@ -548,6 +553,9 @@ function set(prop, value) {
     case "background_color":
         exports.defaults.background_color = value;
         break;
+    case "bloom":
+        exports.defaults.bloom = value;
+        break;
     case "built_in_module_name":
         exports.paths.built_in_data_module = value;
         break;
@@ -557,17 +565,29 @@ function set(prop, value) {
     case "console_verbose":
         exports.defaults.console_verbose = value;
         break;
+    case "dof":
+        exports.defaults.dof = value;
+        break;
     case "do_not_load_resources":
         exports.defaults.do_not_load_resources = value;
         break;
-    case "gamepad_setting_cont":
-        exports.defaults.gamepad_setting_cont = value;
+    case "god_rays":
+        exports.defaults.god_rays = value;
         break;
     case "stereo":
         exports.defaults.stereo = value;
         break;
+    case "max_fps":
+        exports.defaults.max_fps = value;
+        break;
+    case "max_fps_physics":
+        exports.physics.max_fps = value;
+        break;
     case "media_auto_activation":
         exports.defaults.media_auto_activation = value;
+        break;
+    case "motion_blur":
+        exports.defaults.motion_blur = value;
         break;
     case "physics_enabled":
         exports.physics.enabled = value;
@@ -590,11 +610,20 @@ function set(prop, value) {
     case "quality":
         exports.defaults.quality = value;
         break;
+    case "reflections":
+        exports.defaults.reflections = value;
+        break;
+    case "refractions":
+        exports.defaults.refractions = value;
+        break;
     case "sfx_mix_mode":
         exports.sfx.mix_mode = value;
         break;
     case "shaders_dir":
         exports.paths.shaders_dir = value;
+        break;
+    case "shadows":
+        exports.defaults.shadows = value;
         break;
     case "show_hud_debug_info":
         exports.defaults.show_hud_debug_info = value;
@@ -607,6 +636,9 @@ function set(prop, value) {
         break;
     case "smaa_area_texture_path":
         exports.paths.smaa_area_texture_path = value;
+        break;
+    case "ssao":
+        exports.defaults.ssao = value;
         break;
     case "debug_view":
         exports.defaults.debug_view = value;
@@ -625,6 +657,9 @@ function set(prop, value) {
         break;
     case "url_params":
         exports.defaults.url_params = value;
+        break;
+    case "use_min50":
+        exports.defaults.use_min50 = value;
         break;
     case "gl_debug":
         exports.defaults.gl_debug = value;
@@ -651,6 +686,8 @@ exports.get = function(prop) {
         return exports.defaults.stereo == "ANAGLYPH";
     case "animation_framerate":
         return exports.animation.framerate;
+    case "anisotropic_filtering":
+        return exports.defaults.anisotropic_filtering;
     case "antialiasing":
         return exports.defaults.antialiasing;
     case "assets_dds_available":
@@ -661,22 +698,32 @@ exports.get = function(prop) {
         return exports.sfx.webaudio;
     case "background_color":
         return exports.defaults.background_color;
+    case "bloom":
+        return exports.defaults.bloom;
     case "built_in_module_name":
         return exports.paths.built_in_data_module;
     case "canvas_resolution_factor":
         return exports.defaults.canvas_resolution_factor;
     case "console_verbose":
         return exports.defaults.console_verbose;
+    case "dof":
+        return exports.defaults.dof;
     case "do_not_load_resources":
         return exports.defaults.do_not_load_resources;
-    case "gamepad_setting_cont":
-        return exports.defaults.gamepad_setting_cont;
     case "is_mobile_device":
         return exports.defaults.is_mobile_device;
+    case "god_rays":
+        return exports.defaults.god_rays;
     case "stereo":
         return exports.defaults.stereo;
+    case "max_fps":
+        return exports.defaults.max_fps;
+    case "max_fps_physics":
+        return exports.physics.max_fps;
     case "media_auto_activation":
         return exports.defaults.media_auto_activation;
+    case "motion_blur":
+        return exports.defaults.motion_blur;
     case "physics_enabled":
         return exports.physics.enabled;
     case "physics_uranium_path":
@@ -691,10 +738,16 @@ exports.get = function(prop) {
         return exports.assets.prevent_caching;
     case "quality":
         return exports.defaults.quality;
+    case "reflections":
+        return exports.defaults.reflections;
+    case "refractions":
+        return exports.defaults.refractions;
     case "sfx_mix_mode":
         return exports.sfx.mix_mode;
     case "shaders_dir":
         return exports.paths.shaders_dir;
+    case "shadows":
+        return exports.defaults.shadows;
     case "show_hud_debug_info":
         return exports.defaults.show_hud_debug_info;
     case "smaa":
@@ -703,6 +756,8 @@ exports.get = function(prop) {
         return exports.paths.smaa_search_texture_path;
     case "smaa_area_texture_path":
         return exports.paths.smaa_area_texture_path;
+    case "ssao":
+        return exports.defaults.ssao;
     case "debug_view":
         return exports.defaults.debug_view;
     case "enable_selectable":
@@ -715,6 +770,8 @@ exports.get = function(prop) {
         return exports.defaults.glow_materials;
     case "url_params":
         return exports.defaults.url_params;
+    case "use_min50":
+        return exports.defaults.use_min50;
     case "gl_debug":
         return exports.defaults.gl_debug;
     default:

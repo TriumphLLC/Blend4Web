@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-04-25 17:26+0300\n"
+"POT-Creation-Date: 2016-07-22 17:49+0300\n"
 "PO-Revision-Date: 2016-03-26 14:10+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -118,15 +118,20 @@ msgstr "有两种格式 ︰ JSON 和 HTML。"
 
 #: ../workflow.rst:61
 msgid ""
-"The JSON format is used for complex projects that require programming, "
-"while HTML is used for more simple, stand-alone applications. Format "
-"differences and export options are described in the :ref:`Export Formats "
-"<export_formats>` chapter."
+"The HTML format is used for simple stand-alone applications, where all "
+"the resources are packed into one HTML file that can then be easily "
+"deployed to a web page."
 msgstr ""
-"JSON 格式用于需要编程的复杂项目，而 HTML 用于更多的简单的、 独立的应用程序。格式差异和导出选项的介绍在  :ref:`导出格式 "
-"<export_formats>` 章节."
 
-#: ../workflow.rst:66
+#: ../workflow.rst:63
+msgid ""
+"The JSON format can be used for creating such projects as well, but it "
+"also offers numerous extra features making it possible to create complex "
+"projects that require programming. Format differences and export options "
+"are described in the :ref:`Export Formats <export_formats>` chapter."
+msgstr ""
+
+#: ../workflow.rst:65
 msgid ""
 "To export the scene, select ``Blend4Web (.json)`` or ``Blend4Web "
 "(.html)`` option from the ``File > Export`` menu, or type ``b4w export`` "
@@ -135,7 +140,7 @@ msgstr ""
 "若要导出场景，请从 ``文件 > 导出`` 菜单选择 ``Blend4Web (.json)`` 或 ``Blend4Web (.html)``"
 "  ，或者在操作符搜索菜单（按 ``空格键`` 的时候出现）输入``b4w export`` "
 
-#: ../workflow.rst:71
+#: ../workflow.rst:70
 msgid ""
 "If the scene uses Blender features not yet supported by the Blend4Web "
 "engine, errors may occur during export. Export errors are listed in "
@@ -144,17 +149,17 @@ msgstr ""
 "如果场景使用Blender功能尚不由 Blend4Web 引擎支持，可能会在导出过程中发生错误。在导出错误中列出  :ref:`此表 "
 "<export_errors>`."
 
-#: ../workflow.rst:73
+#: ../workflow.rst:72
 msgid ""
 "Export options are described in detail in the :ref:`corresponding section"
 " <export_opts>`."
 msgstr "导出选项中详细描述在 :ref:`相应章节 <export_opts>`."
 
-#: ../workflow.rst:81
+#: ../workflow.rst:80
 msgid "Displaying Scenes in the Viewer"
 msgstr "在浏览器显示场景"
 
-#: ../workflow.rst:83
+#: ../workflow.rst:82
 msgid ""
 "When using the :ref:`local development server <local_development_server>`"
 " it's possible to preview current scene using ``Fast Preview`` button, "
@@ -166,14 +171,14 @@ msgstr ""
 "Preview`` 按钮，位于Blender的 ``Scene->Development Server`` "
 "面板。在这种情况下，场景将里面的一些临时存储被导出并在预览查看器应用程序加载。"
 
-#: ../workflow.rst:89
+#: ../workflow.rst:88
 msgid ""
 "The other method is using :ref:`Run in Viewer <run_in_viewer>` export "
 "option. In this case the scene will be displayed in the Viewer app "
 "immediately after the export."
 msgstr "另一种方法是使用 :ref:`运行在预览查看器 <run_in_viewer>` 导出选项。在这种情况下，场景将导出后立即显示在预览查看器应用程序。"
 
-#: ../workflow.rst:93
+#: ../workflow.rst:92
 msgid ""
 "For the long-term storage of the scene in the scene list of the viewer, "
 "it's required to manually add the entry to the "
@@ -183,26 +188,26 @@ msgstr ""
 "如果要长期储存在预览器的场景列表中，它需要手动添加条目到 ``apps_dev/viewer/assets.json`` "
 "文本文件。如果您使用的是Blend4Web SDK这个文件是自动在Blender打开的。"
 
-#: ../workflow.rst:98
+#: ../workflow.rst:97
 msgid "Use the \\\"Text Editor\\\" to modify it:"
 msgstr "使用 \\\"文本编辑器\\\"  来修改它 ︰"
 
-#: ../workflow.rst:105
+#: ../workflow.rst:104
 msgid "Then select the ``assets.json`` file in the window to edit it:"
 msgstr "然后选择 ``assets.json`` 文件中的窗口进行编辑："
 
-#: ../workflow.rst:112
+#: ../workflow.rst:111
 msgid ""
 "To add a new scene you need to know the category in which it should be "
 "displayed. The category normally corresponds to the project name and to "
 "the name of the directory where the corresponding files are stored."
 msgstr "要添加一个新的场景，你需要知道它应该显示的类别。类别通常对应于该项目的名称，并到相应的文件存储目录的名称。"
 
-#: ../workflow.rst:118
+#: ../workflow.rst:117
 msgid "Example"
 msgstr "示例"
 
-#: ../workflow.rst:120
+#: ../workflow.rst:119
 msgid ""
 "For example below you can see a part of ``assets.json``. In this file "
 "there are two projects - \\\"Capri\\\" and \\\"Fridge\\\" each with "
@@ -211,24 +216,24 @@ msgstr ""
 "例如下面你可以看到的 ``assets.json`` 的一部分。在此文件中有两个项目- \\\"Capri\\\" 和 "
 "\\\"Fridge\\\"  每个都有相应的场景 ::"
 
-#: ../workflow.rst:150
+#: ../workflow.rst:149
 msgid ""
 "To add a new scene you can copy and paste a similar scene's description "
 "to the required category and then edit its name and path to the exported "
 "file."
 msgstr "要添加一个新的场景，你可以复制和粘贴类似的场景的描述到所需的类别，然后修改它的名称和路径导出的文件。"
 
-#: ../workflow.rst:153
+#: ../workflow.rst:152
 msgid ""
 "A successfully added scene should appear in the scenes' list of the "
 "viewer in the required category"
 msgstr "已成功添加的场景应该出现在场景的列表中的查看器中所需的类别中"
 
-#: ../workflow.rst:161
+#: ../workflow.rst:160
 msgid "Application Development"
 msgstr "应用程序开发"
 
-#: ../workflow.rst:163
+#: ../workflow.rst:162
 msgid ""
 "At this stage an application is created. Logic for scene loading and user"
 " interaction is written using JavaScript. The application developer notes"
@@ -241,11 +246,25 @@ msgstr ""
 msgid "export"
 msgstr "导出"
 
-#: ../workflow.rst:76
+#: ../workflow.rst:75
 msgid "viewer"
 msgstr "预览"
 
-#: ../workflow.rst:76
+#: ../workflow.rst:75
 msgid "adding scenes"
 msgstr "添加场景"
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The JSON format can be used for"
+#~ " creating such projects as well, but"
+#~ " it also offers numerous extra "
+#~ "features that make possible creating "
+#~ "complex projects that require programming. "
+#~ "Format differences and export options "
+#~ "are described in the :ref:`Export "
+#~ "Formats <export_formats>` chapter."
+#~ msgstr ""
 

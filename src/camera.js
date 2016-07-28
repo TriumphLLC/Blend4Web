@@ -154,6 +154,7 @@ exports.camera_object_to_camera = function(bpy_camobj, camobj) {
     render.dof_front                 = camobj_data["b4w_dof_front"];
     render.dof_rear                  = camobj_data["b4w_dof_rear"];
     render.dof_power                 = camobj_data["b4w_dof_power"];
+    render.dof_bokeh                 = camobj_data["b4w_dof_bokeh"];
 
     render.velocity_trans = camobj_data["b4w_trans_velocity"];
     render.velocity_rot   = camobj_data["b4w_rot_velocity"];
@@ -496,6 +497,7 @@ function init_camera(type) {
         dof_rear : 0,
         dof_power : 0,
         dof_object : null,
+        dof_bokeh : false,
         dof_on : false,
         lod_eye: new Float32Array(3),
 
@@ -1822,6 +1824,54 @@ function set_projection_hmd(cam, aspect) {
         m_mat4.perspective(m_util.deg_to_rad(cam.fov), aspect, cam.near, cam.far,
                 cam.proj_matrix);
     }
+}
+
+exports.set_color_pick_proj = function(camera, x, y, w, h) {
+    // less is better
+    var sq = 1 / Math.max(h, w);
+
+    switch (camera.type) {
+    case exports.TYPE_PERSP:
+    case exports.TYPE_PERSP_ASPECT:
+        var h2 = h / 2;
+        var w2 = w / 2;
+        var y = - (y - h2) / h2 * Math.tan(m_util.deg_to_rad(camera.fov) / 2.0);
+        var x = (x - w2) / w2 * Math.tan(m_util.deg_to_rad(camera.fov) / 2.0) * camera.aspect;
+        var top    = camera.near * (y + sq);
+        var right  = camera.near * (x + sq);
+        var bottom = camera.near * (y - sq);
+        var left   = camera.near * (x - sq);
+        m_mat4.frustum(left, right, bottom, top, camera.near, camera.far,
+                camera.proj_matrix);
+        break;
+    case exports.TYPE_ORTHO:
+    case exports.TYPE_ORTHO_ASPECT:
+        camera.right = camera.top * camera.aspect;
+        var y = - y / h;
+        var x = x / w;
+        var top    = camera.top + (y + sq) * (camera.top + camera.top);
+        var right  = - camera.right + (x + sq) * (camera.right + camera.right);
+        var bottom = camera.top + (y - sq) * (camera.top + camera.top);
+        var left   = - camera.right + (x - sq) * (camera.right + camera.right);
+        m_mat4.ortho(left, right, bottom, top, camera.near, camera.far,
+                camera.proj_matrix);
+        break;
+    case exports.TYPE_ORTHO_ASYMMETRIC:
+        var y = - y / h;
+        var x = x / w;
+        var top    = camera.top + (y + sq) * (camera.top - camera.bottom);
+        var right  = camera.left + (x + sq) * (camera.right - camera.left);
+        var bottom = camera.top + (y - sq) * (camera.top - camera.bottom);
+        var left   = camera.left + (x - sq) * (camera.right - camera.left);
+        m_mat4.ortho(left, right, bottom, top, camera.near, camera.far,
+                camera.proj_matrix);
+        break;
+    }
+    m_mat4.copy(camera.view_matrix, camera.view_proj_matrix);
+    m_mat4.multiply(camera.proj_matrix, camera.view_proj_matrix,
+            camera.view_proj_matrix);
+    m_util.extract_frustum_planes(camera.view_proj_matrix,
+            camera.frustum_planes);
 }
 
 exports.calc_sky_vp_inverse = calc_sky_vp_inverse;

@@ -507,10 +507,34 @@ exports.KEY_NUM9 = 105;
 
 /**
  * Keyboard sensor parameter. Corresponds to keyCode property of KeyboardEvent.
+ * @const module:controls.KEY_NUM9
+ */
+exports.KEY_MULT = 106;
+
+/**
+ * Keyboard sensor parameter. Corresponds to keyCode property of KeyboardEvent.
+ * @const module:controls.KEY_NUM9
+ */
+exports.KEY_ADD = 107;
+
+/**
+ * Keyboard sensor parameter. Corresponds to keyCode property of KeyboardEvent.
+ * @const module:controls.KEY_NUM9
+ */
+exports.KEY_SUB = 109;
+
+/**
+ * Keyboard sensor parameter. Corresponds to keyCode property of KeyboardEvent.
  * Can only be used when NUM LOCK is turned on.
  * @const module:controls.KEY_DEC_POINT
  */
 exports.KEY_DEC_POINT = 110;
+
+/**
+ * Keyboard sensor parameter. Corresponds to keyCode property of KeyboardEvent.
+ * @const module:controls.KEY_NUM9
+ */
+exports.KEY_DIV = 111;
 
 /**
  * Keyboard sensor parameter. Corresponds to keyCode property of KeyboardEvent.
@@ -891,14 +915,14 @@ exports.create_timeline_sensor = m_ctl.create_timeline_sensor;
  * Create a selection sensor for the object.
  * The sensor's value becomes 1 when the object is selected by the user.
  * @param {Object3D} obj Object 3D
- * @param {Boolean} [auto_release=false] If true, reset the sensor (set it to 0)
- * when the mouse button/touch is released. If false, reset the sensor only when
- * another object is selected.
+ * @param {Boolean} [enable_toggle_switch=false] If true, reset the sensor
+ * (set it to 0) only when another object is selected. If false, reset the
+ * sensor when the mouse button/touch is released.
  * @method module:controls.create_selection_sensor
  * @returns {Sensor} Sensor object
  */
-exports.create_selection_sensor = function(obj, auto_release) {
-    return m_ctl.create_selection_sensor(obj, auto_release || false);
+exports.create_selection_sensor = function(obj, enable_toggle_switch) {
+    return m_ctl.create_selection_sensor(obj, enable_toggle_switch || false);
 }
 
 /**

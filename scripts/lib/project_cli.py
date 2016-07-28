@@ -1460,16 +1460,12 @@ def compile_js(js_paths, file_name, opt_level, engine_type):
                    normpath(join(_cc_dir, "extern_gl-matrix.js")),
                    normpath(join(_cc_dir, "extern_pointerlock.js"))]
 
-    GLOBALS_PATH = normpath(join(_base_dir, "deploy", "globals_detect"))
-
     for parent in js_paths:
         if engine_type == "COMPILE":
-            ENGINE_CP.extend(["--external-js=" + join(GLOBALS_PATH, "begin.js")])
             ENGINE_CP.extend(["--external-js=" + join(_src_dir, "b4w.js")])
             ENGINE_CP.extend(["--external-js=" +
                               i for i in get_used_modules(js_paths[parent])])
             ENGINE_CP.extend(["--external-js=" + i for i in js_paths[parent]])
-            ENGINE_CP.extend(["--external-js=" + join(GLOBALS_PATH, "end.js")])
             ENGINE_CP.extend(["-d", join(parent, file_name + ".min.js")])
 
             if opt_level == "ADVANCED_OPTIMIZATIONS":

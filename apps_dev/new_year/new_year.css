@@ -131,15 +131,50 @@ body.lang_en #send_button {
     visibility: hidden;
 }
 
-#background_image_container {
+#pl_cont {
     position: absolute;
-    z-index: 4;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: url(icons/background.png) 100% 100% no-repeat;
-    background-position: center;
-    background-size: cover;
+    background-image: url(icons/background.png);
+    background-size: 100% auto;
+    background-position: center center;
+    opacity: 0;
+}
+
+#pl_frame {
+    position: absolute;
+    width: 300px;
+    height: 22px;
+    border: 4px solid rgba(0, 0, 0, 0.8);
+    top: 80%;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -11px;
+    opacity: 0;
+}
+
+#pl_bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 22px;
+    width: 0;
+    background-color: #fff;
+}
+
+#pl_caption {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    line-height: 22px;
+    text-align: center;
+    font-family: arial, sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
 }
 
 @font-face {
@@ -151,6 +186,7 @@ body.lang_en #send_button {
 body {
     margin: 0;
     padding: 0;
+    background-color: #000;
     font-family: congratulatory_font, 'URW Chancery L', cursive;
     overflow: hidden;
 }

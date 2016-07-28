@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-28 14:01+0300\n"
+"POT-Creation-Date: 2016-07-07 10:02+0300\n"
 "PO-Revision-Date: 2016-03-26 16:43+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -446,6 +446,19 @@ msgstr ""
 msgid ""
 "Samsung Internet browser doesn't fire any events about moving fingers on "
 "touch sensor in VR-mode."
+msgstr ""
+
+#: ../problems_and_solutions.rst:216
+msgid ""
+"Particles emitted by particle systems placed on inactive (hidden) layers "
+"can have their positions set to zero as inactive layers are not updated "
+"by Blender."
+msgstr ""
+
+#: ../problems_and_solutions.rst:218
+msgid ""
+"This problem can be solved by activating layers before exporting a scene "
+"or by simply clicking the layers to make Blender update them."
 msgstr ""
 
 #~ msgid "To use WebGL, your system must support DirectX 9.0c and OpenGL 2.1."

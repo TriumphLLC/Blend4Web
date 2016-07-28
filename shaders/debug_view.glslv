@@ -17,6 +17,11 @@ attribute vec3 a_position;
 attribute vec3 a_normal;
 attribute float a_polyindex;
 
+#if USE_INSTANCED_PARTCLS
+    attribute vec4 a_part_ts;
+    attribute vec4 a_part_r;
+#endif
+
 #if !DEBUG_SPHERE
 # if WIND_BEND
 #  if MAIN_BEND_COL
@@ -35,7 +40,7 @@ AU_QUALIFIER float au_wind_bending_freq;
 #  endif
 # endif
 
-# if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
+#if (WIND_BEND || DYNAMIC_GRASS || BILLBOARD) && !USE_INSTANCED_PARTCLS
 AU_QUALIFIER vec3 au_center_pos;
 # endif
 
@@ -141,8 +146,19 @@ void main() {
 #if DEBUG_VIEW_SPECIAL_SKYDOME
     gl_Position = vec4(a_position.xy, 0.9999999, 1.0);
 #else
-    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+# if USE_INSTANCED_PARTCLS
+    mat3 model_tsr = mat3(a_part_ts[0], a_part_ts[1], a_part_ts[2],
+                        a_part_ts[3], a_part_r[0], a_part_r[1],
+                        a_part_r[2], a_part_r[3], 1.0);
+# if STATIC_BATCH
+    mat4 model_mat = tsr_to_mat4(model_tsr);
+# else
+    mat4 model_mat = tsr_to_mat4(tsr_multiply(u_model_tsr, model_tsr));
+# endif
+# else
     mat4 model_mat = tsr_to_mat4(u_model_tsr);
+# endif
+    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
 
     vec3 position = a_position;
     vec3 normal = a_normal;
@@ -161,8 +177,11 @@ void main() {
     skin(position, tangent, binormal, normal);
 #  endif
 
-#  if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
+#  if (WIND_BEND || DYNAMIC_GRASS || BILLBOARD) && !USE_INSTANCED_PARTCLS
     vec3 center = au_center_pos;
+#  elif DYNAMIC_GRASS && USE_INSTANCED_PARTCLS
+    vec3 center = a_part_ts.xyz;
+    position = (model_mat * vec4(position, 1.0)).xyz;
 #  else
     vec3 center = vec3(0.0);
 #  endif
@@ -176,7 +195,7 @@ void main() {
 #   if BILLBOARD
     vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
 
-#    if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
+#    if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH || USE_INSTANCED_PARTCLS
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
             view_matrix, model_mat);
 #    else

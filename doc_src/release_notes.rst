@@ -6,6 +6,86 @@ Release Notes
 
 .. index:: release notes
 
+v16.07
+======
+
+New Features
+------------
+
+* Optimized Particle system rendering.
+
+    Now WebGL instancing capabilities are used (provided by the ANGLE_instanced_arrays extention or WebGL 2.0) to render ``Object``-type particles. This type of rendering is more memory efficient and, in some cases, also improves rendering performance.
+
+* Reduced input latency on mobile devices.
+
+    Now the engine ignores mouse events that represent actions that already have been handled by internal Blend4Web touch-event handlers on mobile versions of Chrome, Firefox, Safari. It reduces delays in user actions.
+
+* Audio system improvements.
+
+    Automatic audio context creation. The ``Audio`` checkbox has been removed from the addon. If necessary, scene audio context is created automatically.
+
+    Doppler effect implementation. In recent versions of WebAudio spec Doppler effect was removed. It's now supposed that application developers should implement this effect themselves. From this release you can use in-engine implementation. A new option called ``Enable Doppler`` has been added, replacing the deprecated ``Disable Doppler``.
+
+    Reworked audio interface. New settings have been designed to be as close as possible to the native Blender settings. This includes support for such settings as ``Speed``, ``Doppler`` and ``Distance Model``.
+
+    New ``Auto-play`` speaker option. This option enables speaker playback by default.
+
+    Preliminary support for complex audio loops. Using new ``Loop Start`` and ``Loop End`` options as well as :b4wref:`sfx.loop_stop` API method you can create complex audio loops, which include start, loop and stop sections in one audio buffer. For example, you can create basic ADSR (attack, decay, sustain, release) envelopes using this new API.
+
+* Support for multi-touch selection in selection sensor.
+
+   Now selection sensors are able to use multi-touch selection in `Event-Driven Model <https://www.blend4web.com/doc/en/developers.html?highlight=sensor#event-driven-model>`_.
+
+* Node materials animation improvements.
+
+    Now any node animation can be applied to any node material or its nested node groups. Also, there is a new :b4wref:`animation.apply_ext()` method that allows specifing material or a node group that is to be animated.
+
+* A new method has been added into the :b4wmod:`preloader` module: :b4wref:`preloader.create_preloader`.
+
+* Configuration parameters ``max_fps``, ``max_fps_physics``, ``use_min50``, ``anisotropic_filtering``, ``shadows``, ``reflections``, ``refractions``, ``ssao``, ``dof``, ``god_rays``, ``bloom`` and ``motion_blur`` have been added to the :b4wmod:`config` API module.
+
+
+Changes
+-------
+
+* Color picking optimization.
+
+    Now color picking uses very narrow frustum and a small framebuffer size (``1 x 1`` pix).
+    Also, amount of :b4wref:`scenes.pick_object` calls has been reduced. This improves
+    performance of selection sensor.
+
+* Depth-of-field (DOF) effect improvements.
+
+    DOF effect performance has been increased.
+
+    An experimental DoF effect algorithm has been added. It varies the amount of blur depending on depth and produces bokeh effect on blurred objects. New algorithm can be enabled via ``Bokeh`` property from the camera properties panel in Blender.
+
+* API changes.
+
+    The :b4wref:`preloader.create_simple_preloader` method of the :b4wmod:`preloader` module has been declared deprecated and will be removed in future releases.
+
+
+Fixes
+-----
+
+* Fixed the broken Canvas Resolution Factor slider in the Scene Viewer.
+
+* Fixed ``get_matrix``, ``set_matrix``, ``get_matrix_rel``, ``set_matrix_rel`` methods of the ``transform`` module.
+
+* Fixed definition of the ``resize_to_container`` method of the ``container`` module.
+
+* Fixed performance regression caused by resizing the canvas.
+
+* Fixed cameras linked from other scenes or dupli-groups not present in the scene.
+
+* Fixed incorrect canvas alpha with Bloom post effect.
+
+* Fixed Viewer ``Stop All`` animation button.
+
+* Fixed object picking for stack material.
+
+* Fixed glow effect on Safari.
+
 v16.06
 ======
 

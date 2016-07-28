@@ -21,13 +21,24 @@ Audio Source Settings
 
 Speaker parameters can be set up on the ``Properties`` panel under the ``Object Data`` tab.
 
+.. image:: src_images/audio/speaker_settings.png
+   :align: center
+   :width: 100%
+
 The engine supports all the standard Blender sound parameters and some engine-specific settings.
+
+Sound Tab
+---------
+
+*Mute*
+
+    Enabling this parameter mutes the speaker.
 
 *Speaker Behavior*:
 
     The behavior of the audio source.
 
-    ``Positional`` --- high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples.
+    ``Positional`` --- high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples. This is the default value.
 
     ``Background Sound`` --- high-quality omnidirectional sound without spatial positioning. The Web Audio API is used for sound rendering. It is more performant but is not effective for music.
 
@@ -60,13 +71,29 @@ The following options are available on the ``Sound`` panel:
 
     Fade-out time interval.
 
-*Disable Doppler*
+*Enable Doppler*
 
-    Ignore source's frequency shift upon its moving.
+    Turn on the source's frequency shift upon its moving.
+
+*Auto-play*
+
+    This option enables default playback.
 
 *Cyclic Play*
 
     Loop the sound playback.
+
+*Loop*
+
+    Loop the sound playback. Contrary to the ``Cyclic play`` option it guarantees a zero delay upon repeat. The option is available only for sound sources with ``Positional`` or ``Background Sound`` behavior.
+
+*Loop Start*
+
+    Marks the starting point of the source fragment that will be looped. This value is measured in second counted from the start of the source file.
+
+*Loop End*
+
+    Marks the end point of the source fragment. This value is also measured in seconds.
 
 *Delay*
 
@@ -76,13 +103,39 @@ The following options are available on the ``Sound`` panel:
 
     Additional delay randomization. The resulting value is calculated according to the formula :math:`Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}`.
 
-*Loop*
+Distance Tab
+------------
 
-    Loop the sound playback. Contrary to the ``Cyclic play`` option it guarantees a zero delay upon repeat. The option is available only for sound sources with ``Positional`` or ``Background Sound`` behavior.
+*Attenuation*
 
-.. image:: src_images/audio/speaker_settings.png
-   :align: center
-   :width: 100%
+    This parameter defines how strong the distance affects the volume. Default value is 1.0.
+
+*Maximum*
+
+    Maximum distance for volume calculation.
+
+*Reference*
+
+    This sets the reference distance at which volume is 100%.
+
+Cone Tab
+--------
+
+Angle group of parameters:
+
+    *Outer*
+
+        Angle of the outer cone in degrees. Outside this cone the volume is the outer cone volume. Between the inner and outer cone the volume is interpolated.
+
+    *Inner*
+
+        Angle of the inner cone in degrees. Inside the cone the volume is 100%.
+
+Volume group of parameters:
+
+    *Outer*
+
+        This sets the volume outside the outer cone.
 
 |
 

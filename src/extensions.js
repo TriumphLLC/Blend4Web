@@ -137,6 +137,15 @@ exports.get_disjoint_timer_query = function() {
     return ext;
 }
 
+exports.get_instanced_arrays = function() {
+
+    if (cfg_def.webgl2)
+        return null;
+
+    var ext = get("ANGLE_instanced_arrays");
+    return ext;
+}
+
 function get(name) {
 
     if (name in _ext_cache)

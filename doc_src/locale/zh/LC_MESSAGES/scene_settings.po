@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-06 14:12+0300\n"
+"POT-Creation-Date: 2016-07-21 15:40+0300\n"
 "PO-Revision-Date: 2016-03-28 17:32+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -256,136 +256,220 @@ msgid "Audio"
 msgstr "音频"
 
 #: ../scene_settings.rst:226
-msgid "Audio settings. Enabled by default."
-msgstr "音频设置。默认情况下启用。"
+#, fuzzy
+msgid "Audio settings."
+msgstr "雾设置。"
 
 #: ../scene_settings.rst:233
+msgid "*Volume*"
+msgstr ""
+
+#: ../scene_settings.rst:233
+msgid ""
+"The master volume of the sound in the application. This value can vary "
+"between 0 and 100. Default value is 1.0."
+msgstr ""
+
+#: ../scene_settings.rst:254
+msgid "*Distance Model*"
+msgstr ""
+
+#: ../scene_settings.rst:236
+msgid ""
+"The distance model used for calculating distance attenuation. Following "
+"models are supported by the engine:"
+msgstr ""
+
+#: ../scene_settings.rst:238
+msgid ""
+"``None`` - no distance model is used, the sound has constant volume "
+"regardless of the distance."
+msgstr ""
+
+#: ../scene_settings.rst:240
+msgid "``Exponent Clamped`` - a clamped exponential distance model."
+msgstr ""
+
+#: ../scene_settings.rst:242
+msgid "``Linear Clamped`` - a clamped linear distance model."
+msgstr ""
+
+#: ../scene_settings.rst:244
+msgid "``Inverse Clamped`` - a clamped inverse distance model."
+msgstr ""
+
+#: ../scene_settings.rst:246
+msgid ""
+"The following models are partially supported (work the same way the "
+"corresponding *Clamped*-type models):"
+msgstr ""
+
+#: ../scene_settings.rst:248
+msgid "``Exponent``"
+msgstr ""
+
+#: ../scene_settings.rst:250
+msgid "``Linear``"
+msgstr ""
+
+#: ../scene_settings.rst:252
+msgid "``Inverse``"
+msgstr ""
+
+#: ../scene_settings.rst:254
+#, fuzzy
+msgid "This parameter is set to ``Inverse Clamped`` by default."
+msgstr "音频设置。默认情况下启用。"
+
+#: ../scene_settings.rst:257
+#, fuzzy
+msgid "*Speed*"
+msgstr "*拐点*"
+
+#: ../scene_settings.rst:257
+msgid ""
+"This parameter sets the speed of sound used for Doppler effect "
+"calculation. Its value is measured in meters per second and is set to "
+"343.3 by default."
+msgstr ""
+
+#: ../scene_settings.rst:260
+msgid "*Doppler*"
+msgstr ""
+
+#: ../scene_settings.rst:260
+msgid ""
+"This sets the pitch factor for Doppler effect calculation. Its default "
+"value if 1.0."
+msgstr ""
+
+#: ../scene_settings.rst:263
 msgid "*Dynamic Compressor*"
 msgstr "*动态压缩*"
 
-#: ../scene_settings.rst:233
+#: ../scene_settings.rst:263
 msgid ""
 "Compress audio signal's dynamic range. This feature can be used to make "
 "the sound more rich and even. Disabled by default."
 msgstr "压缩音频信号的动态范围。该功能可用于使声音更加丰富。默认情况下禁用。"
 
-#: ../scene_settings.rst:236
+#: ../scene_settings.rst:266
 msgid "*Threshold*"
 msgstr "*阈值*"
 
-#: ../scene_settings.rst:236
+#: ../scene_settings.rst:266
 msgid ""
 "If the amplitude of the audio signal exceeds the value specified by this "
 "parameter, the compressor will reduce its level. Set to -24 dB by "
 "default."
 msgstr "如果音频信号的幅度超过由该参数指定的值，压缩器将降低其等级。默认设置为-24分贝。"
 
-#: ../scene_settings.rst:239
+#: ../scene_settings.rst:269
 msgid "*Knee*"
 msgstr "*拐点*"
 
-#: ../scene_settings.rst:239
+#: ../scene_settings.rst:269
 msgid ""
 "The interval below the threshold where the response curve switches to the"
 " decreasing mode. Set to 30 by default."
 msgstr "反响曲线切换到递减模式时低于阈值的间隔。默认设置为30。"
 
-#: ../scene_settings.rst:242
+#: ../scene_settings.rst:272
 msgid "*Ratio*"
 msgstr "*比率*"
 
-#: ../scene_settings.rst:242
+#: ../scene_settings.rst:272
 msgid "Amount of gain reduction. Set to 12 by default."
 msgstr "增益衰减量。默认设置为12。"
 
-#: ../scene_settings.rst:245
+#: ../scene_settings.rst:275
 msgid "*Attack*"
 msgstr "*起音*"
 
-#: ../scene_settings.rst:245
+#: ../scene_settings.rst:275
 msgid ""
 "Time (in seconds) that takes the compressor to reduce gain by 10 dB. Set "
 "to 0.003 by default."
 msgstr "让压缩器减少增益10 dB的时间（以秒为单位）。默认设置为0.003。"
 
-#: ../scene_settings.rst:248
+#: ../scene_settings.rst:278
 msgid "*Release*"
 msgstr "*释放音*"
 
-#: ../scene_settings.rst:248
+#: ../scene_settings.rst:278
 msgid ""
 "Time (in seconds) that takes the compressor to increase gain by 10 dB. "
 "Set to 0.25 by default."
 msgstr "让压缩器提高增益10 dB的时间（以秒为单位）。默认设置为0.25。"
 
-#: ../scene_settings.rst:253
+#: ../scene_settings.rst:283
 msgid "Logic Editor"
 msgstr "逻辑编辑器"
 
-#: ../scene_settings.rst:255
+#: ../scene_settings.rst:285
 msgid ""
 "Settings for the use of the logic node trees (created in the :ref:`logic "
 "editor <logic_editor>`) in the scene. Disabled by default."
 msgstr "设置为使用逻辑节点树（在 :ref:`逻辑编辑器 <logic_editor>` 中创建的）。默认情况下禁用。"
 
-#: ../scene_settings.rst:262
+#: ../scene_settings.rst:292
 msgid "*Active Node Tree*"
 msgstr "*主控节点树*"
 
-#: ../scene_settings.rst:262
+#: ../scene_settings.rst:292
 msgid "Node tree that is used in the scene's playback."
 msgstr "即在场景的播放使用节点树。"
 
-#: ../scene_settings.rst:267
+#: ../scene_settings.rst:297
 msgid "NLA"
 msgstr "NLA 片段"
 
-#: ../scene_settings.rst:269
+#: ../scene_settings.rst:299
 msgid "Non-Linear Animation playback settings. Disabled by default."
 msgstr "非线性动画播放设置。默认情况下禁用。"
 
-#: ../scene_settings.rst:276
+#: ../scene_settings.rst:306
 msgid "*Cyclic NLA*"
 msgstr "*循环NLA*"
 
-#: ../scene_settings.rst:276
+#: ../scene_settings.rst:306
 msgid ""
 "If this parameter is enabled, NLA animation will be repeated after it is "
 "finished."
 msgstr "如果该参数被启用， NLA动画播放完后将被重复。"
 
-#: ../scene_settings.rst:281
+#: ../scene_settings.rst:311
 msgid "Meta Tags"
 msgstr "Meta标签"
 
-#: ../scene_settings.rst:283
+#: ../scene_settings.rst:313
 msgid "Application's meta tags."
 msgstr "应用程序的meta标签。"
 
-#: ../scene_settings.rst:290
+#: ../scene_settings.rst:320
 msgid "*Title*"
 msgstr "*名称*"
 
-#: ../scene_settings.rst:290
+#: ../scene_settings.rst:320
 msgid "The title of the application."
 msgstr "应用程序的标题。"
 
-#: ../scene_settings.rst:293
+#: ../scene_settings.rst:323
 msgid "*Description*"
 msgstr "*描述*"
 
-#: ../scene_settings.rst:293
+#: ../scene_settings.rst:323
 msgid ""
 "The description of the application. Can be a simple text or a link to a "
 "text file (if the ``Description Source`` parameter is set to the ``File``"
 " value)."
 msgstr "应用程序的说明。可以是一个简单的文本或文本文件的链接（如果 ``Description Source`` 参数设置为 ``File`` 值）。"
 
-#: ../scene_settings.rst:296
+#: ../scene_settings.rst:326
 msgid "*Description Source*"
 msgstr "*说明源*"
 
-#: ../scene_settings.rst:296
+#: ../scene_settings.rst:326
 msgid ""
 "The source of the application's description. The description can be "
 "loaded from a file or specified directly in the ``Description`` field. "
@@ -395,54 +479,54 @@ msgstr ""
 "应用程序的说明的来源。说明可以从一个文件中加载，或直接在 ``Description`` 字段中写出。此参数可以有两个值，``Text`` 和 "
 "``File``，它是默认设置为``Text``。"
 
-#: ../scene_settings.rst:301
+#: ../scene_settings.rst:331
 msgid "Physics"
 msgstr "物理"
 
-#: ../scene_settings.rst:303
+#: ../scene_settings.rst:333
 msgid "Physics settings."
 msgstr "物理设置。"
 
-#: ../scene_settings.rst:310
+#: ../scene_settings.rst:340
 msgid "*Enable Physics*"
 msgstr "*启用物理*"
 
-#: ../scene_settings.rst:310
+#: ../scene_settings.rst:340
 msgid "Allow using physics in the application. Enabled by default."
 msgstr "允许在应用程序中使用物理。默认情况下启用。"
 
-#: ../scene_settings.rst:315
+#: ../scene_settings.rst:345
 msgid "Cluster Batching"
 msgstr ""
 
-#: ../scene_settings.rst:317
+#: ../scene_settings.rst:347
 msgid ""
 "This parameter enables the use of cluster batching. It can be used for "
 "optimization purposes. This is disabled by default."
 msgstr ""
 
-#: ../scene_settings.rst:320
+#: ../scene_settings.rst:350
 #, fuzzy
 msgid ""
 "If this parameter is disabled, the engine will try to combine all static "
 "objects into one."
 msgstr "如果启用此参数，引擎会在场景渲染天空。"
 
-#: ../scene_settings.rst:327
+#: ../scene_settings.rst:357
 msgid "*Cluster Size*"
 msgstr ""
 
-#: ../scene_settings.rst:327
+#: ../scene_settings.rst:357
 msgid ""
 "The size of the cluster used for batching (in meters). Set to 30 by "
 "default. If this parameter is set to zero, objects will not be combined."
 msgstr ""
 
-#: ../scene_settings.rst:332
+#: ../scene_settings.rst:362
 msgid "Objects Selection"
 msgstr "选择物体"
 
-#: ../scene_settings.rst:334
+#: ../scene_settings.rst:364
 msgid ""
 "Object selection settings. Objects can be selected both with the API "
 "function :b4wref:`scenes.pick_object()` and with the :ref:`logic nodes "
@@ -451,220 +535,220 @@ msgstr ""
 "物体选择设置。对象可以使用API​​函数来选择两种：b4wref：`scenes.pick_object（）` 并用 "
 ":ref:`逻辑节点<logic_editor>`。"
 
-#: ../scene_settings.rst:337
+#: ../scene_settings.rst:367
 msgid ""
 "In the :ref:`scene viewer <viewer>`, selection is enabled by default. You"
 " can turn it off in the ``Tools & Debug`` panel."
 msgstr "在 :ref:`场景查看器 <viewer>`, 选择默认情况下启用。您可以在 ``工具和除错`` 面板将其关闭。"
 
-#: ../scene_settings.rst:344
+#: ../scene_settings.rst:374
 msgid "*Enable*"
 msgstr "*启用*"
 
-#: ../scene_settings.rst:344
+#: ../scene_settings.rst:374
 msgid ""
 "The parameter that defines if the object can or can't be selected. It can"
 " have ``ON``, ``OFF`` or ``AUTO`` value. Set to ``AUTO`` by default."
 msgstr "定义物体可以或不能被选择的参数。它可以有 ``ON``，``OFF`` 或 ``AUTO`` 值。默认设置为 ``AUTO``。"
 
-#: ../scene_settings.rst:349
+#: ../scene_settings.rst:379
 msgid "Anchors"
 msgstr "锚"
 
-#: ../scene_settings.rst:351
+#: ../scene_settings.rst:381
 msgid ":ref:`Anchor <objects_anchors>` visibility detection settings."
 msgstr ":ref:`Anchor <objects_anchors>` 可见性检测设置。"
 
-#: ../scene_settings.rst:358
+#: ../scene_settings.rst:388
 msgid "*Detect Anchors Visibility*"
 msgstr "*检测锚能见度*"
 
-#: ../scene_settings.rst:358
+#: ../scene_settings.rst:388
 msgid ""
 "Anchor visibility detection parameter. Can have ``ON``, ``OFF`` or "
 "``AUTO`` value. Set to ``AUTO`` by default."
 msgstr "锚能见度检测参数。有 ``ON``，``OFF`` 或 ``AUTO`` 值。默认设置为 ``AUTO`` 。"
 
-#: ../scene_settings.rst:363 ../scene_settings.rst:493
+#: ../scene_settings.rst:393 ../scene_settings.rst:523
 msgid "Export Options"
 msgstr "导出选项"
 
-#: ../scene_settings.rst:365
+#: ../scene_settings.rst:395
 msgid "Scene settings export parameters."
 msgstr "场景设置导出参数。"
 
-#: ../scene_settings.rst:372 ../scene_settings.rst:501
+#: ../scene_settings.rst:402 ../scene_settings.rst:531
 msgid "*Do Not Export*"
 msgstr "*不要导出*"
 
-#: ../scene_settings.rst:372
+#: ../scene_settings.rst:402
 msgid ""
 "If this parameter is enabled, scene settings will be ignored during "
 "export."
 msgstr "如果启用此参数，场景设置将在导出过程中被忽略。"
 
-#: ../scene_settings.rst:377
+#: ../scene_settings.rst:407
 msgid "World Panel"
 msgstr "世界环境面板"
 
-#: ../scene_settings.rst:383
+#: ../scene_settings.rst:413
 msgid ""
 "Environment settings such as settings for sky, mist and such are found on"
 " this panel."
 msgstr "环境设定，如天空，雾气和这样的设置在该面板上找到。"
 
-#: ../scene_settings.rst:388
+#: ../scene_settings.rst:418
 msgid "Preview"
 msgstr "预览"
 
-#: ../scene_settings.rst:390
+#: ../scene_settings.rst:420
 msgid "Environment preview."
 msgstr "环境预览。"
 
-#: ../scene_settings.rst:399
+#: ../scene_settings.rst:429
 msgid "World"
 msgstr "世界环境"
 
-#: ../scene_settings.rst:401
+#: ../scene_settings.rst:431
 msgid "Sky settings."
 msgstr "天空的设置。"
 
-#: ../scene_settings.rst:408
+#: ../scene_settings.rst:438
 msgid "*Render Sky*"
 msgstr "*渲染天空*"
 
-#: ../scene_settings.rst:408
+#: ../scene_settings.rst:438
 msgid "If this parameter is enabled, the engine will render sky in the scene."
 msgstr "如果启用此参数，引擎会在场景渲染天空。"
 
-#: ../scene_settings.rst:411
+#: ../scene_settings.rst:441
 msgid "*Paper Sky*"
 msgstr "*墙纸天空*"
 
-#: ../scene_settings.rst:411
+#: ../scene_settings.rst:441
 msgid ""
 "If this parameter is enabled, sky gradient will always be drawn from the "
 "top of the screen to the bottom, regardless of the camera's position and "
 "angles."
 msgstr "如果该参数被启用，天空梯度将总是从屏幕的顶部到底部，不管摄像机的位置和角度。"
 
-#: ../scene_settings.rst:414
+#: ../scene_settings.rst:444
 msgid "*Blend Sky*"
 msgstr "*混色天空*"
 
-#: ../scene_settings.rst:414
+#: ../scene_settings.rst:444
 msgid "Smooth transition between the horizon and zenith colors."
 msgstr "地平线和天顶色之间的平滑过渡。"
 
-#: ../scene_settings.rst:417
+#: ../scene_settings.rst:447
 msgid "*Real Sky*"
 msgstr "*真实天空*"
 
-#: ../scene_settings.rst:417
+#: ../scene_settings.rst:447
 msgid "Sky rendering with the horizon affected by the camera angle."
 msgstr "天空渲染与地平线受相机角度影响。"
 
-#: ../scene_settings.rst:420
+#: ../scene_settings.rst:450
 msgid "*Horizon Color*"
 msgstr "*水平颜色*"
 
-#: ../scene_settings.rst:420
+#: ../scene_settings.rst:450
 msgid "Sky color at the horizon."
 msgstr "水平线的颜色"
 
-#: ../scene_settings.rst:423
+#: ../scene_settings.rst:453
 msgid "*Zenith Color*"
 msgstr "*天顶色*"
 
-#: ../scene_settings.rst:423
+#: ../scene_settings.rst:453
 msgid "Sky color in the zenith."
 msgstr "天空顶的颜色。"
 
-#: ../scene_settings.rst:426
+#: ../scene_settings.rst:456
 msgid "*Ambient Color*"
 msgstr "*环境颜色*"
 
-#: ../scene_settings.rst:426
+#: ../scene_settings.rst:456
 msgid "The color of the ambient lighting."
 msgstr "环境照明颜色。"
 
-#: ../scene_settings.rst:429
+#: ../scene_settings.rst:459
 msgid "*Reflect World*"
 msgstr "*反射世界*"
 
-#: ../scene_settings.rst:429
+#: ../scene_settings.rst:459
 msgid "Render the sky while rendering reflections."
 msgstr "渲染反射时渲染天空。"
 
-#: ../scene_settings.rst:432
+#: ../scene_settings.rst:462
 msgid "*Render Only Reflection*"
 msgstr "*只渲染反射*"
 
-#: ../scene_settings.rst:432
+#: ../scene_settings.rst:462
 msgid "Render the sky *only* while rendering reflections."
 msgstr "在渲染的反射时 *只* 渲染天空。"
 
-#: ../scene_settings.rst:437
+#: ../scene_settings.rst:467
 msgid "Environment Lighting"
 msgstr "天光照明"
 
-#: ../scene_settings.rst:439
+#: ../scene_settings.rst:469
 msgid ""
 "Environment lighting settings. Described thoroughly in :ref:`their own "
 "section <environment_lighting>`."
 msgstr "环境照明设置。  详尽的描述在 :ref:`自己的章节 <color_correction>`."
 
-#: ../scene_settings.rst:449
+#: ../scene_settings.rst:479
 msgid "Mist"
 msgstr "雾场"
 
-#: ../scene_settings.rst:451
+#: ../scene_settings.rst:481
 msgid "Mist settings."
 msgstr "雾设置。"
 
-#: ../scene_settings.rst:458
+#: ../scene_settings.rst:488
 msgid "*Minimum*"
 msgstr "*最小值*"
 
-#: ../scene_settings.rst:458
+#: ../scene_settings.rst:488
 msgid "Minimum intensity of the mist. Set to zero by default."
 msgstr "雾的最小强度。默认设置为零。"
 
-#: ../scene_settings.rst:461
+#: ../scene_settings.rst:491
 msgid "*Depth*"
 msgstr "*深度*"
 
-#: ../scene_settings.rst:461
+#: ../scene_settings.rst:491
 msgid ""
 "At this distance from the camera the mist effect reaches maximum "
 "intensity. Set to 25 by default."
 msgstr "在从相机这个距离的雾效果达到最大强度。默认设置为25。"
 
-#: ../scene_settings.rst:464
+#: ../scene_settings.rst:494
 msgid "*Start*"
 msgstr "*起始*"
 
-#: ../scene_settings.rst:464
+#: ../scene_settings.rst:494
 msgid ""
 "The mist effect starts to appear at this distance from the camera. Set to"
 " 5 by default."
 msgstr "雾效果开始出现在从相机这个距离。默认设置为5。"
 
-#: ../scene_settings.rst:467
+#: ../scene_settings.rst:497
 msgid "*Height*"
 msgstr "*高度*"
 
-#: ../scene_settings.rst:467
+#: ../scene_settings.rst:497
 msgid ""
 "This parameter specifies how fast mist intensity decreases as the "
 "camera's altitude increases. Set to 0 by default."
 msgstr "该参数快速指定如何雾强度随相机的高度增加而减小。默认设置为0。"
 
-#: ../scene_settings.rst:470
+#: ../scene_settings.rst:500
 msgid "*Fall Out*"
 msgstr "*散去*"
 
-#: ../scene_settings.rst:470
+#: ../scene_settings.rst:500
 msgid ""
 "This parameter specifies the rule, according to which the density of the "
 "mist changes between the borders (specified by the ``Start`` and "
@@ -676,42 +760,42 @@ msgstr ""
 "参数指定）的密度。可以有以下值：``Quadratic``，``Linear``， ``Inverse Quadratic`` 。默认设置为 "
 "``Quadratic`` 。"
 
-#: ../scene_settings.rst:473
+#: ../scene_settings.rst:503
 msgid "*Use Custom Colors*"
 msgstr "*使用自定义颜色*"
 
-#: ../scene_settings.rst:473
+#: ../scene_settings.rst:503
 msgid ""
 "Can be used to set the color of the mist. Enabled by default. If this "
 "parameter is disabled, standard (0.5, 0.5, 0.5) color will be used."
 msgstr "可用于设定的雾的颜色。默认情况下启用。如果禁用此参数，标准（0.5，0.5，0.5）的颜色将被使用。"
 
-#: ../scene_settings.rst:476
+#: ../scene_settings.rst:506
 msgid "*Fog Color*"
 msgstr "*雾颜色*"
 
-#: ../scene_settings.rst:476
+#: ../scene_settings.rst:506
 msgid ""
 "The color of the mist. Can be changed, if the ``Use custom colors`` "
 "parameter is enabled. Light gray (0.5, 0.5, 0.5) color is used by "
 "default."
 msgstr "颜色雾。，如果  ``使用自定义颜色`` 参数启用 ，就可以改变。浅灰色（0.5，0.5，0.5）默认情况下使用。"
 
-#: ../scene_settings.rst:481
+#: ../scene_settings.rst:511
 msgid "Procedural Sky"
 msgstr "程序天空"
 
-#: ../scene_settings.rst:483
+#: ../scene_settings.rst:513
 msgid ""
 "Procedural sky settings. Described thoroughly in :ref:`their own "
 "section<atmosphere>`."
 msgstr "程序天空设置。  详尽的描述在 :ref:`自己的章节 <color_correction>`."
 
-#: ../scene_settings.rst:495
+#: ../scene_settings.rst:525
 msgid "Environment parameters export settings."
 msgstr "环境参数导出设置。"
 
-#: ../scene_settings.rst:502
+#: ../scene_settings.rst:532
 msgid ""
 "If this parameter is enabled, environment settings will be ignored during"
 " the export."
@@ -725,23 +809,26 @@ msgstr "场景"
 #~ msgstr "批量"
 
 #~ msgid ""
-#~ msgstr "网格以米为单位。默认设置为零（在这种情况下，网格不使用）。"
+#~ msgstr ""
 
 #~ msgid "*Batch Grid Size*"
 #~ msgstr "*批量网格大小*"
 
-#~ msgid ""
-#~ "This parameter enables the use of "
-#~ "cluster batching. It can be used "
-#~ "for optimization purposes and is "
-#~ "disabled by default."
+#~ msgid "``Exponent`` - an exponential distance model."
 #~ msgstr ""
 
-#~ msgid ""
-#~ "The size of the cluster used for"
-#~ " batching (in meters). Set to 30 "
-#~ "by default. If this parameter is "
-#~ "set to zero, all (static?) objects "
-#~ "are combined into one."
+#~ msgid "``Linear`` - a linear distance model."
+#~ msgstr ""
+
+#~ msgid "``Inverse`` - an inverse distance model."
+#~ msgstr ""
+
+#~ msgid "``Exponent Clamped``"
+#~ msgstr ""
+
+#~ msgid "``Linear Clamped``"
+#~ msgstr ""
+
+#~ msgid "``Inverse Clamped``"
 #~ msgstr ""
 

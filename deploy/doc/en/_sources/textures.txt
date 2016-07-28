@@ -7,7 +7,7 @@ Textures
 ********
 
 .. contents:: Table of Contents
-    :depth: 3
+    :depth: 2
     :backlinks: entry
 
 Textures are hand-made or procedurally generated images that can be applied to the model surfaces to add more detail. As a rule, the image pixels are assigned to the 3D surface points using texture mapping. For this reason they are sometimes referred to as maps.
@@ -77,7 +77,7 @@ Generic Settings
 .. _texture_disable_compression:
 
 *Export Options > Disable Compression*
-    Disable texture compression for this texture. Used in cases when :ref:`texture compression <dds>` deteriorates the image quality. For example it's recommended to disable compression for mask textures used to mix different parts of materials.
+    Disable texture compression (using ``DDS`` texture format) for this texture. Used in cases when :ref:`texture compression <dds>` deteriorates the image quality. For example it's recommended to disable compression for mask textures used to mix different parts of materials.
 
 *Export Options > Shore Distance Map*
     Used in :ref:`outdoor rendering <outdoor_rendering>`.

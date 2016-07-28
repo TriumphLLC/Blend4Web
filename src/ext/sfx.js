@@ -83,6 +83,7 @@ exports.stop = function(obj) {
     m_sfx.stop(obj);
 }
 
+
 /**
  * Pause the speaker.
  * @method module:sfx.pause
@@ -100,6 +101,21 @@ exports.pause = function(obj) {
 exports.resume = function(obj) {
     m_sfx.speaker_resume(obj);
 }
+
+/**
+ * Stop the speaker's looping playback.
+ * @method module:sfx.loop_stop
+ * @param {Object3D} obj Speaker object
+ * @param {Number} [when=0] Delay after exec in seconds
+ * @param {Boolean} [wait=false] Wait loop until currently played cycle is
+ * finished
+ */
+exports.loop_stop = function(obj, when, wait) {
+    when = when || 0;
+    wait = wait || false;
+    m_sfx.loop_stop(obj, when, wait);
+}
+
 
 /**
  * Change the speaker playback rate value.
@@ -143,26 +159,47 @@ exports.is_cyclic = function(obj) {
 
 /**
  * Reset the listener speed.
- * Use after quick listener movements to neutralize undesirable doppler effect.
+ * Use before rapid listener movements to neutralize undesirable doppler effect.
  * @method module:sfx.listener_reset_speed
  * @param {Number} speed The listener new speed
  * @param {?Float32Array} [dir=null] The listener new direction
+ * @deprecated Use listener_stride() instead
  */
 exports.listener_reset_speed = function(speed, dir) {
-    m_sfx.listener_reset_speed(speed, dir);
+    m_sfx.listener_stride();
+}
+
+/**
+ * Make a listener stride.
+ * Use before quick listener movements to neutralize undesirable doppler effect.
+ * @method module:sfx.listener_stride
+ */
+exports.listener_stride = function() {
+    m_sfx.listener_stride();
 }
 
 /**
  * Reset the speaker speed.
- * It's necessary to nullify speed after the speaker has moved quickly in order
+ * It's necessary to nullify speed before the speaker has moved quickly in order
  * to neutralize the undesirable doppler effect.
  * @method module:sfx.speaker_reset_speed
  * @param {Object3D} obj Speaker object.
  * @param {Number} speed The speaker's new speed
  * @param {?Float32Array} [dir=null] The speaker's new direction
+ * @deprecated Use speaker_stride() instead
  */
 exports.speaker_reset_speed = function(obj, speed, dir) {
-    m_sfx.speaker_reset_speed(obj, speed, dir);
+    m_sfx.speaker_stride(obj);
+}
+
+/**
+ * Make a speaker stride.
+ * Use before rapid speaker movements to neutralize undesirable doppler effect.
+ * @method module:sfx.speaker_reset_speed
+ * @param {Object3D} obj Speaker object.
+ */
+exports.speaker_stride = function(obj) {
+    m_sfx.speaker_stride(obj);
 }
 
 /**

@@ -745,7 +745,7 @@ exports.check_bpy_data = function(bpy_data) {
             else
                 scene["b4w_render_refractions"] = "OFF";
 
-        if(!("b4w_render_dynamic_grass" in scene)) {
+        if (!("b4w_render_dynamic_grass" in scene)) {
             report("scene", scene, "b4w_render_dynamic_grass");
             scene["b4w_render_dynamic_grass"] = "AUTO";
         }
@@ -753,6 +753,12 @@ exports.check_bpy_data = function(bpy_data) {
         if (scene["b4w_nla_script"]) {
             report_deprecated("scene", scene, "b4w_nla_script");
         }
+
+        if (!("audio_distance_model" in scene)) {
+            report("scene", scene, "audio_distance_model");
+            scene["audio_distance_model"] = "INVERSE_CLAMPED";
+        }
+
     }
 
     /* object data - meshes */
@@ -975,6 +981,11 @@ exports.check_bpy_data = function(bpy_data) {
             camera["b4w_pivot_z_max"] = 10;
             report("camera", camera, "b4w_use_pivot_limits");
         }
+
+        if (!("b4w_dof_bokeh" in camera)) {
+            camera["b4w_dof_bokeh"] = false;
+            report("camera", camera, "b4w_dof_bokeh");
+        }
     }
 
     /* object data - lamps */
@@ -1027,9 +1038,14 @@ exports.check_bpy_data = function(bpy_data) {
 
             //report("speaker", speaker, "b4w_behavior");
         }
-        if (!("b4w_disable_doppler" in speaker)) {
-            speaker["b4w_disable_doppler"] = false;
-            //report("speaker", speaker, "b4w_disable_doppler");
+        if (!("b4w_auto_play" in speaker)) {
+            speaker["b4w_auto_play"] = false;
+            report("speaker", speaker, "b4w_auto_play");
+        }
+
+        if (!("b4w_enable_doppler" in speaker)) {
+            speaker["b4w_enable_doppler"] = false;
+            report("speaker", speaker, "b4w_enable_doppler");
         }
 
         if (!("b4w_delay" in speaker)) {
@@ -1062,19 +1078,15 @@ exports.check_bpy_data = function(bpy_data) {
             speaker["b4w_loop"] = false;
             //report("speaker", speaker, "b4w_loop");
         }
-        if (!("b4w_loop_count" in speaker)) {
-            speaker["b4w_loop_count"] = 0;
-            //report("speaker", speaker, "b4w_loop_count");
+        if (!("b4w_loop_start" in speaker)) {
+            speaker["b4w_loop_start"] = 0;
+            report("speaker", speaker, "b4w_loop_start");
         }
-        if (!("b4w_loop_count_random" in speaker)) {
-            speaker["b4w_loop_count_random"] = 0;
-            //report("speaker", speaker, "b4w_loop_count_random");
+        if (!("b4w_loop_end" in speaker)) {
+            speaker["b4w_loop_end"] = 0;
+            report("speaker", speaker, "b4w_loop_end");
         }
 
-        if (!("b4w_playlist_id" in speaker)) {
-            speaker["b4w_playlist_id"] = "";
-            //report("speaker", speaker, "b4w_playlist_id");
-        }
         if (speaker["animation_data"])
             check_strip_props(speaker["animation_data"]);
     }
@@ -1120,7 +1132,6 @@ exports.check_bpy_data = function(bpy_data) {
         }
 
         if (!("b4w_shore_boundings" in texture)) {
-            texture["b4w_shore_boundings"] = new Float32Array(4);
             texture["b4w_shore_boundings"] = [1000, -1000, 1000, -1000];
             report("texture", texture, "b4w_shore_boundings");
         }
@@ -1276,7 +1287,6 @@ exports.check_bpy_data = function(bpy_data) {
             }
 
             if (!("b4w_water_fog_color" in mat)) {
-                mat["b4w_water_fog_color"] = new Float32Array(3);
                 mat["b4w_water_fog_color"] = [0.5,0.7,0.7];
                 report("material", mat, "b4w_water_fog_color");
             }
@@ -2538,6 +2548,7 @@ exports.create_material = function(name) {
             "fresnel": 0,
             "fresnel_factor": 1.25
         },
+        "specular_alpha": 1,
         "specular_color": [1,1,1],
         "specular_intensity": 0.5,
         "specular_shader": "COOKTORR",
@@ -2550,6 +2561,8 @@ exports.create_material = function(name) {
         "b4w_water_shore_smoothing": false,
         "b4w_water_dynamic": false,
         "b4w_generated_mesh": false,
+        "b4w_refr_bump": 0,
+        "b4w_refractive": false,
         "b4w_waves_height": 1.0,
         "b4w_water_fog_color": [0.5,0.5,0.5],
         "b4w_water_fog_density": 0.06,

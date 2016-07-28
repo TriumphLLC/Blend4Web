@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Physics &mdash; Blend4Web 16.06 用户手册</title>
+  <title>Physics &mdash; Blend4Web 16.07 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.06 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.07 用户手册" href="index.html"/>
         <link rel="next" title="For Application Developers" href="developers.html"/>
         <link rel="prev" title="音频" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.06
+              v16.07
             </div>
           
         
@@ -125,6 +125,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#floating-vehicles-aka-watercrafts">Floating Vehicles aka Watercrafts</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#watercraft-settings">Watercraft Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#character-objects">Character Objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#character-settings">Character Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#use-in-applications">Use in Applications</a></li>
@@ -198,7 +202,11 @@
 <li><a class="reference internal" href="#watercraft-settings" id="id12">Watercraft Settings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#use-in-applications" id="id13">Use in Applications</a></li>
+<li><a class="reference internal" href="#character-objects" id="id13">Character Objects</a><ul>
+<li><a class="reference internal" href="#character-settings" id="id14">Character Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-in-applications" id="id15">Use in Applications</a></li>
 </ul>
 </li>
 </ul>
@@ -342,8 +350,42 @@
 </dl>
 </div>
 </div>
+<div class="section" id="character-objects">
+<h2><a class="toc-backref" href="#id13">Character Objects</a><a class="headerlink" href="#character-objects" title="永久链接至标题">¶</a></h2>
+<a class="reference internal image-reference" href="_images/physics_character_object_example.png"><img alt="_images/physics_character_object_example.png" class="align-center" src="_images/physics_character_object_example.png" style="width: 100%;" /></a>
+<p>This feature can be activated by clicking the <code class="docutils literal"><span class="pre">Character</span></code> check-box in the title of the eponymous tab on the <code class="docutils literal"><span class="pre">Physics</span></code> panel.</p>
+<p>From the engine standpoint, the character itself is a proper physical object that can collide with other physical objects or be influenced by physical forces such as gravity and bouyant force.</p>
+<p>Character object can be easily controlled using several API methods with a <cite>character</cite> keyword in their names. All such methods reside in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a> API module.</p>
+<div class="section" id="character-settings">
+<h3><a class="toc-backref" href="#id14">Character Settings</a><a class="headerlink" href="#character-settings" title="永久链接至标题">¶</a></h3>
+<a class="reference internal image-reference" href="_images/physics_character_settings.png"><img alt="_images/physics_character_settings.png" class="align-center" src="_images/physics_character_settings.png" style="width: 100%;" /></a>
+<p>All the settings listed here become available after activating the <code class="docutils literal"><span class="pre">Character</span></code> tab.</p>
+<dl class="docutils">
+<dt><em>Walk Speed</em></dt>
+<dd><p class="first">This parameter sets the speed of a character walking (measured in meters per second). The lowest possible value of this parameter is zero, while the highest is 10.</p>
+<p class="last">Its default value is 4.</p>
+</dd>
+<dt><em>Run Speed</em></dt>
+<dd><p class="first">This is the speed of the character running (measured in meters per second). Its value can vary from zero to 20.</p>
+<p class="last">This parameter is set to 8 by default.</p>
+</dd>
+<dt><em>Step Height</em></dt>
+<dd><p class="first">This is the maximum height of an obstacle that character can overstep (in meters). The value of this parameter can vary from zero to 1.</p>
+<p class="last">Default value of this parameter is 0.250.</p>
+</dd>
+<dt><em>Jump Strength</em></dt>
+<dd><p class="first">This parameter sets the strength of the character jumping. Its minimum value is zero, while its maximum value is 50.</p>
+<p class="last">Set to 5 by default.</p>
+</dd>
+<dt><em>Waterline</em></dt>
+<dd><p class="first">This parameter sets up the waterline for the character object. The waterline is measured from the center of the physical shape of the object (not the object&#8217;s mesh). If an object is submerged into the water below this line, it will float. Its value can vary from -2 to 2.</p>
+<p class="last">It is set to zero by default.</p>
+</dd>
+</dl>
+</div>
+</div>
 <div class="section" id="use-in-applications">
-<h2><a class="toc-backref" href="#id13">Use in Applications</a><a class="headerlink" href="#use-in-applications" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id15">Use in Applications</a><a class="headerlink" href="#use-in-applications" title="永久链接至标题">¶</a></h2>
 <p>The physics system is implemented in the <strong>uranium.js</strong> module and loaded separately from the engine&#8217;s main code. The <strong>uranium.js</strong> module itself is a modification of the <a class="reference external" href="http://bulletphysics.org/">Bullet</a> physics engine, which is ported to work in browsers. In order to activate the physics system, it is enough to put the <strong>uranium.js</strong> and <strong>uranium.js.mem</strong> files in the same directory as the source code of the application.</p>
 <p>Another way is to explicitly specify the loading path of the <strong>uranium.js</strong> module by using the following API method:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
@@ -380,7 +422,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-06-30.
+      最后更新于 2016-07-26.
 
     </p>
   </div>
@@ -436,7 +478,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.06',
+            VERSION:'v16.07',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

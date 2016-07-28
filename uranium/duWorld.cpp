@@ -48,8 +48,6 @@ int	duWorld::preSimulation(btScalar timeStep, int maxSubSteps,
 
         saveKinematicState(fixedTimeStep * clampedSimulationSteps);
 
-        applyGravity();
-
         return clampedSimulationSteps;
     } else {
         synchronizeMotionStates();
@@ -68,6 +66,7 @@ btScalar duWorld::calcSimTime(btScalar timeline, int step, int clampedSimulation
 
 void duWorld::singleStepSimulation(btScalar fixedTimeStep)
 {
+    applyGravity();
     internalSingleStepSimulation(fixedTimeStep);
 }
 

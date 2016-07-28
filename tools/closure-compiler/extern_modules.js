@@ -26,6 +26,9 @@ WebGLRenderingContext.DRAW_FRAMEBUFFER;
 WebGLRenderingContext.blitFramebuffer;
 WebGLRenderingContext.renderbufferStorageMultisample;
 WebGLRenderingContext.RENDERBUFFER_SAMPLES;
+WebGLRenderingContext.drawElementsInstanced;
+WebGLRenderingContext.vertexAttribDivisor;
+WebGLRenderingContext.drawArraysInstanced;
 
 // missing extensions stuff
 var EXTDisjointTimerQuery;
@@ -173,3 +176,8 @@ var VRStageParameters;
 VRStageParameters.prototype.sittingToStandingTransform;
 VRStageParameters.prototype.sizeX;
 VRStageParameters.prototype.sizeZ;
+
+// indicate touch events.
+UIEvent.prototype.sourceCapabilities;
+Object.prototype.firesTouchEvents;
+Object.prototype.mozInputSource;

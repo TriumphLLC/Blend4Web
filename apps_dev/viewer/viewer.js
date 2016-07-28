@@ -50,6 +50,7 @@ var INC_SLIDER = 190;
 var ANIM_OBJ_DEFAULT_INDEX = 0;
 var ANIM_NAME_DEFAULT_INDEX = 0;
 
+var _vec2_tmp  = new Float32Array(2);
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 
@@ -169,17 +170,11 @@ function get_selected_object() {
     return _selected_object;
 }
 
-function main_canvas_clicked(event) {
+function main_canvas_clicked(x, y) {
     if (!_object_info_elem || !m_scenes.can_select_objects())
         return;
 
     hide_element("material_warning");
-
-    if (event.preventDefault)
-        event.preventDefault();
-
-    var x = event.clientX;
-    var y = event.clientY;
 
     var prev_obj = get_selected_object();
 
@@ -602,13 +597,11 @@ function reset_settings_to_default() {
         _settings = {
             load_file         : url_params["load"],
             name              : elems[elems.length - 1].split(".")[0],
-            animated_objects  : []
         };
     } else
         _settings = {
             load_file         : m_cfg.get_std_assets_path() + DEFAULT_SCENE,
             name              : DEFAULT_NAME,
-            animated_objects  : []
         };
 
     _anim_obj = null;
@@ -668,16 +661,44 @@ function process_scene(names, call_reset_b4w, wait_textures, load_from_url) {
     if (call_reset_b4w)
         reset_b4w();
 
-    var canvas_elem = m_cont.get_canvas();
-    canvas_elem.removeEventListener('mousedown', main_canvas_clicked);
+    switch_canvas_click(false);
     m_debug.clear_errors_warnings();
 
     load_scene(wait_textures);
 }
 
-function loaded_callback(data_id) {
+function mouse_cb() {
     var canvas_elem = m_cont.get_canvas();
-    canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
+    var mdevice = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, canvas_elem);
+    var loc = m_input.get_vector_param(mdevice, m_input.MOUSE_LOCATION, _vec2_tmp);
+    main_canvas_clicked(loc[0], loc[1]);
+}
+
+function touch_cb(touches) {
+    for (var i = 0; i < touches.length; i++)
+        main_canvas_clicked(touches[i].clientX, touches[i].clientY);
+}
+
+function switch_canvas_click(is_enable) {
+    var canvas_elem = m_cont.get_canvas();
+
+    var mdevice = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, canvas_elem);
+    if (mdevice)
+        if (is_enable)
+            m_input.attach_param_cb(mdevice, m_input.MOUSE_DOWN_WHICH, mouse_cb);
+        else
+            m_input.detach_param_cb(mdevice, m_input.MOUSE_DOWN_WHICH, mouse_cb);
+
+    var tdevice = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, canvas_elem);
+    if (tdevice)
+        if (is_enable)
+            m_input.attach_param_cb(tdevice, m_input.TOUCH_START, touch_cb);
+        else
+            m_input.detach_param_cb(tdevice, m_input.TOUCH_START, touch_cb);
+}
+
+function loaded_callback(data_id) {
+    switch_canvas_click(true);
 
     _selected_object = null;
     prepare_scenes(_settings);
@@ -1254,7 +1275,7 @@ function start_auto_view() {
 
 function on_resize(e) {
 
-    m_cont.resize_to_container();
+    m_cont.resize_to_container(true);
 
     var canvas = m_cont.get_canvas();
 
@@ -1302,7 +1323,7 @@ function anim_stop_all_clicked() {
     for (var i = 0; i < children.length; i++) {
         var child = children[i];
         var obj = interface_name_to_object(child.value);
-        m_anim.stop(obj, null, m_anim.SLOT_ALL);
+        m_anim.stop(obj, m_anim.SLOT_ALL);
     }
 }
 

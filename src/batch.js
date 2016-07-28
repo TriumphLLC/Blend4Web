@@ -473,7 +473,8 @@ exports.append_sky_batch_to_world = function(scene, sky, world) {
     batch.be_world = m_bounds.zero_bounding_ellipsoid();
     batch.bb_local = m_bounds.zero_bounding_box();
     batch.bb_world = m_bounds.zero_bounding_box();
-    update_batch_id(batch);
+    var render_id = calculate_render_id(world.render);
+    update_batch_id(batch, render_id);
 
     sc_data.batches.push(batch);
 
@@ -491,7 +492,7 @@ exports.append_sky_batch_to_world = function(scene, sky, world) {
         update_batch_geometry(dv_batch, submesh);
 
         dv_batch.debug_main_batch_id = batch.id;
-        update_batch_id(dv_batch);
+        update_batch_id(dv_batch, render_id);
 
         sc_data.batches.push(dv_batch);
     }
@@ -721,17 +722,18 @@ function make_static_metabatches(bpy_static_objs, graph) {
                         batch.odd_id_prop = bpy_obj["uuid"];
                         update_batch_render(batch, obj_render);
                         var render_id = calculate_render_id(obj_render);
-                        update_batch_id(batch, render_id, 0);
+                        update_batch_id(batch, render_id);
                     }
                     submesh = m_geometry.submesh_apply_transform(submesh, tsr);
                     submesh = m_geometry.submesh_apply_params(submesh, params);
                 } else {
                     // NOTE: submesh params for particles applied in
                     // make_hair_particles_metabatches() function
-                    if (metabatch_render.billboard)
-                        submesh = m_geometry.submesh_apply_particle_transform(submesh, tsr);
-                    else
-                        submesh = m_geometry.submesh_apply_transform(submesh, tsr);
+                    if (!submesh.instanced_array_data)
+                        if (metabatch_render.billboard)
+                            submesh = m_geometry.submesh_apply_particle_transform(submesh, tsr);
+                        else
+                            submesh = m_geometry.submesh_apply_transform(submesh, tsr);
                 }
             }
 
@@ -989,9 +991,9 @@ function make_particles_metabatches(bpy_obj, render, graph, render_id, emitter_v
             if (use_particles_rotation)
                 data_len = 8;
 
-            if (psys["transforms"].length)
+            if (psys["transforms"].length) {
                 var ptrans = psys["transforms"];
-            else {
+            } else {
                 var points = m_geometry.geometry_random_points(em_submesh,
                         pset["count"], false, seed);
 
@@ -1218,7 +1220,6 @@ function merge_metabatches(metabatches) {
                 for (var j = 0; j < short_submeshes.length; j++)
                     m_geometry.submesh_drop_indices(
                             submeshes[short_submeshes[j]]);
-
             var submesh = m_geometry.submesh_list_join(submeshes);
         }
         if (unique_data[i].batch.type != "PARTICLES") {
@@ -1608,7 +1609,6 @@ function update_batch_material_main(batch, material, update_tex_color) {
 
     update_batch_specular_params(batch, material);
     update_batch_diffuse_params(batch, material);
-
 
     if (material["b4w_wettable"]) {
         set_batch_directive(batch, "WETTABLE", 1);
@@ -2259,27 +2259,22 @@ function prepare_nodemats_containers(node_tree, batch, mat_name) {
 
     var node_values = [];
     var node_value_inds = [];
-    var node_anim_inds = [];
     var node_rgbs = [];
     var node_rgb_inds = [];
-    var node_rgb_anim_inds = [];
 
-    var anim_data = node_tree["animation_data"];
-    gather_node_values_r(node_tree, mat_name, anim_data,
-                         node_values, node_value_inds, node_anim_inds,
-                         node_rgbs, node_rgb_inds, node_rgb_anim_inds);
+    gather_node_values_r(node_tree, "",
+                         node_values, node_value_inds,
+                         node_rgbs, node_rgb_inds);
 
     batch.node_values = node_values;
     batch.node_value_inds = node_value_inds;
-    batch.node_anim_inds = node_anim_inds;
     batch.node_rgbs = node_rgbs;
     batch.node_rgb_inds = node_rgb_inds;
-    batch.node_rgb_anim_inds = node_rgb_anim_inds;
 }
 
-function gather_node_values_r(node_tree, names_str, anim_data,
-                              node_values, value_inds, val_anim_inds,
-                              node_rgbs, rgb_inds, rgb_anim_inds) {
+function gather_node_values_r(node_tree, names_str,
+                              node_values, value_inds,
+                              node_rgbs, rgb_inds) {
 
     // collect all VALUE and RGB nodes
     for (var i = 0; i < node_tree["nodes"].length; i++) {
@@ -2297,83 +2292,17 @@ function gather_node_values_r(node_tree, names_str, anim_data,
 
         } else if (node["type"] == "GROUP") {
             var gr_node_tree = node["node_group"]["node_tree"];
-            var ntree_anim_data = gr_node_tree["animation_data"];
             var new_names_str = join_name(names_str, node["name"]);
-            gather_node_values_r(gr_node_tree, new_names_str, ntree_anim_data,
-                            node_values, value_inds, val_anim_inds,
-                            node_rgbs, rgb_inds, rgb_anim_inds);
-        }
-    }
-
-    // process their animation data
-    if (anim_data)
-        process_ntree_anim_data(anim_data, names_str,
-                                val_anim_inds, value_inds,
-                                rgb_inds, rgb_anim_inds);
-}
-
-function process_ntree_anim_data(anim_data, names_str,
-                                 val_anim_inds, value_inds,
-                                 rgb_inds, rgb_anim_inds) {
-
-    var action = anim_data["action"];
-    if (action && action._render.type == m_anim.OBJ_ANIM_TYPE_MATERIAL)
-        extract_nodemat_action_params(action, names_str,
-                                      val_anim_inds, value_inds,
-                                      rgb_anim_inds, rgb_inds);
-
-    var nla_tracks = anim_data["nla_tracks"];
-
-    for (var j = 0; j < nla_tracks.length; j++) {
-        var nla_strips = nla_tracks[j]["strips"];
-        for (var k = 0; k < nla_tracks[j]["strips"].length; k++) {
-            var strip = nla_strips[k];
-            var action = strip["action"];
-            if (action && action._render.type == m_anim.OBJ_ANIM_TYPE_MATERIAL)
-                extract_nodemat_action_params(action, names_str,
-                                              val_anim_inds, value_inds,
-                                              rgb_anim_inds, rgb_inds);
-        }
-    }
-}
-
-function extract_nodemat_action_params(action, names_str,
-                                       val_anim_inds, value_inds,
-                                       rgb_anim_inds, rgb_inds) {
-
-    var params = action._render.params;
-    for (var param in params) {
-        var full_node_path = join_name(names_str, node_name_from_param_name(param));
-        var ind = node_ind_by_full_path(value_inds, full_node_path);
-        if (ind != null) {
-            var param_name = join_name(action["name"], param);
-            val_anim_inds.push(param_name, ind);
-        } else {
-            var ind = node_ind_by_full_path(rgb_inds, full_node_path);
-            if (ind != null) {
-                var param_name = join_name(action["name"], param);
-                rgb_anim_inds.push(param_name, ind);
-            }
+            gather_node_values_r(gr_node_tree, new_names_str, node_values,
+                                 value_inds, node_rgbs, rgb_inds);
         }
     }
 }
 
 function join_name(name1, name2) {
-    return name1 + "%join%" + name2;
-}
-
-function node_name_from_param_name(param_name) {
-    // extract text between first "[" and "]" which is exactly a node name
-    return param_name.match(/"(.*?)"/ )[1];
-}
-
-function node_ind_by_full_path(inds, path) {
-    for (var i = 0; i < inds.length; i+=2) {
-        var name = inds[i];
-        if (name == path)
-            return inds[i+1];
-    }
-    return null;
+    var new_name = name1 ? name1 + "%join%": "";
+    new_name += name2;
+    return new_name;
 }
 
 exports.append_texture_to_batch = function (batch, image_data, tex_name, size) {
@@ -2559,6 +2488,7 @@ function update_batch_material_color_id(batch, material) {
     var colormap0 = find_valid_textures("use_map_color_diffuse", true, texture_slots)[0];
 
     var alpha_clip = (alpha_blend === "CLIP") ? 1 : 0;
+    set_batch_directive(batch, "ALPHA_CLIP", alpha_clip);
 
     if (colormap0 && alpha_clip) {
 
@@ -3110,7 +3040,7 @@ function update_batch_geometry(batch, submesh) {
     }
 
     var bufs_data = m_geometry.submesh_to_bufs_data(submesh, z_sort,
-            draw_mode, batch.vertex_colors_usage);
+            draw_mode, batch.vertex_colors_usage, batch);
 
     batch.bufs_data = bufs_data;
 
@@ -3433,20 +3363,57 @@ function make_hair_particles_metabatches(bpy_em_obj, render, emitter_vc,
                         batch.common_attributes, render.bone_skinning_info,
                         batch.vertex_colors_usage, batch.uv_maps_usage);
 
-                var submesh = m_geometry.make_clone_submesh(src_submesh, submesh_params,
-                        tsr_array, em_obj);
+                if (pset["b4w_hair_billboard"]
+                            && !render.billboard_pres_glob_orientation) {
+                    var stat_part_em_tsr = m_tsr.create();
+                    m_tsr.set_trans(em_obj.render.world_tsr, stat_part_em_tsr);
+                } else
+                    var stat_part_em_tsr = em_obj.render.world_tsr;
 
-                submesh = fill_submesh_center_pos(submesh, tsr_array);
-                if (hair_render.wind_bending && hair_render.bend_center_only)
-                    submesh = fill_submesh_emitter_center(submesh,
-                            em_obj.render.world_tsr);
+                var inst_array = can_use_inst_array() && bpy_part_objs.length == 1;
+                if (inst_array) {
+                    var submesh = m_util.clone_object_r(src_submesh);
+                    m_geometry.calc_unit_boundings(em_obj, src_submesh,
+                            submesh, tsr_array)
+                    submesh.instanced_array_data = {
+                        tsr_array : tsr_array,
+                        stat_part_em_tsr : stat_part_em_tsr,
+                        static_hair : render.type == "STATIC",
+                        submesh_params : submesh_params,
+                        part_inh_attrs : {},
+                        dyn_grass : dyn_grass
+                    };
+                    if (hair_render.wind_bending && hair_render.bend_center_only) {
+                        var origin = m_vec3.fromValues(0, 0, 0);
+                        m_tsr.transform_vec3(origin, em_obj.render.world_tsr, origin);
+                        var center_data = [];
+                        for (var l = 0; l < tsr_array.length; l++)
+                            center_data.push(origin[0], origin[1], origin[2])
+                        submesh.instanced_array_data.part_inh_attrs["a_emitter_center"] = {
+                            num_comp: 3,
+                            data: center_data
+                        };
+                    }
+                    m_geometry.calc_unit_boundings(em_obj, src_submesh, src_submesh,
+                            tsr_array);
+                } else {
+                    var submesh = m_geometry.make_clone_submesh(src_submesh,
+                        submesh_params, tsr_array, em_obj);
+                    submesh = fill_submesh_center_pos(submesh, tsr_array);
+                    if (hair_render.wind_bending && hair_render.bend_center_only)
+                        submesh = fill_submesh_emitter_center(submesh,
+                                em_obj.render.world_tsr);
+                }
 
                 var particle_inherited_attrs = get_particle_inherited_attrs(
-                        pset["b4w_vcol_from_name"], pset["b4w_vcol_to_name"],
-                        batch, emitter_vc, !inst_inherit_bend, mesh);
+                            pset["b4w_vcol_from_name"], pset["b4w_vcol_to_name"],
+                            batch, emitter_vc, !inst_inherit_bend, mesh);
                 submesh = make_particle_inherited_vcols(submesh, tsr_array,
                         em_obj.render.bb_local, em_submesh, particle_inherited_attrs,
-                        batch.vertex_colors_usage, spatial_tree);
+                        batch.vertex_colors_usage, spatial_tree, inst_array);
+
+                set_batch_directive(batch, "USE_INSTANCED_PARTCLS",
+                        submesh.instanced_array_data ? 1 : 0);
 
                 metabatches.push({
                     batch: batch,
@@ -3468,6 +3435,10 @@ function make_hair_particles_metabatches(bpy_em_obj, render, emitter_vc,
     }
 
     return metabatches;
+}
+
+function can_use_inst_array() {
+    return cfg_def.gl_instanced_arrays || cfg_def.webgl2;
 }
 
 function batch_material_is_valid(batch, material) {
@@ -3634,7 +3605,7 @@ function fill_submesh_emitter_center(submesh, em_world_tsr) {
 }
 
 function make_particle_inherited_vcols(submesh, transforms, em_bb_local,
-        em_submesh, inherited_attrs, vc_usage, spatial_tree) {
+        em_submesh, inherited_attrs, vc_usage, spatial_tree, inst_array) {
 
     var calc_nearest = false;
     for (var i = 0; i < inherited_attrs.length; i++) {
@@ -3645,7 +3616,8 @@ function make_particle_inherited_vcols(submesh, transforms, em_bb_local,
             break;
         }
     }
-
+    if (inst_array)
+        var part_inh_attrs = submesh.instanced_array_data.part_inh_attrs;
     if (calc_nearest) {
         var nearest_points = calc_emitter_nearest_points(em_bb_local,
                 em_submesh.va_frames[0]["a_position"], transforms, spatial_tree);
@@ -3688,29 +3660,47 @@ function make_particle_inherited_vcols(submesh, transforms, em_bb_local,
                     m_print.error("Wrong color extraction from "
                         + em_attr + " to " + p_attr + ".");
 
-                // NOTE: bending buffers can be uninitialized, overwrite them anyway
-                // if there is an inherited color, it's already have initialized buffer
-                if (p_attr == "a_bending_col_main" || p_attr == "a_bending_col_detail")
-                    submesh.va_common[p_attr] = new Float32Array(
-                            submesh.base_length * particle_comp_count);
+                if (!inst_array) {
+                    // NOTE: bending buffers can be uninitialized, overwrite them anyway
+                    // if there is an inherited color, it's already have initialized buffer
+                    if (p_attr == "a_bending_col_main" || p_attr == "a_bending_col_detail")
+                        submesh.va_common[p_attr] = new Float32Array(
+                                submesh.base_length * particle_comp_count);
 
-                for (var j = 0; j < transforms.length; j++) {
-                    var nearest_index = nearest_points[j];
-                    var em_vert_offset = nearest_index * emitter_comp_count;
-                    var p_offset = j * particle_verts_count * p_attr_channels_total;
-                    if (nearest_index != -1)
-                        for (var k = 0; k < particle_verts_count; k++) {
-                            var p_vert_offset = k * p_attr_channels_total;
-                            for (var l = 0; l < channel_presence_from.length; l++)
-                                if (channel_presence_from[l]) {
-                                    var em_channel_offset = m_util.rgb_mask_get_channel_presence_index(em_mask, l);
-                                    var p_channel_offset = inherited_attrs[i].dst_channel_offset
-                                            + m_util.rgb_mask_get_channel_presence_index(p_mask, l);
-                                    submesh.va_common[p_attr][p_offset
-                                            + p_vert_offset + p_channel_offset]
-                                            = cols[em_vert_offset + em_channel_offset];
-                                }
-                        }
+                    for (var j = 0; j < transforms.length; j++) {
+                        var nearest_index = nearest_points[j];
+                        var em_vert_offset = nearest_index * emitter_comp_count;
+                        var p_offset = j * particle_verts_count * p_attr_channels_total;
+                        if (nearest_index != -1)
+                            for (var k = 0; k < particle_verts_count; k++) {
+                                var p_vert_offset = k * p_attr_channels_total;
+                                for (var l = 0; l < channel_presence_from.length; l++)
+                                    if (channel_presence_from[l]) {
+                                        var em_channel_offset = m_util.rgb_mask_get_channel_presence_index(em_mask, l);
+                                        var p_channel_offset = inherited_attrs[i].dst_channel_offset
+                                                + m_util.rgb_mask_get_channel_presence_index(p_mask, l);
+                                        submesh.va_common[p_attr][p_offset
+                                                + p_vert_offset + p_channel_offset]
+                                                = cols[em_vert_offset + em_channel_offset];
+                                    }
+                            }
+                    }
+                } else {
+                    part_inh_attrs[p_attr] = {
+                        num_comp: p_attr_channels_total,
+                        data: []
+                    };
+                    for (var j = 0; j < transforms.length; j++) {
+                        var nearest_index = nearest_points[j];
+                        var em_vert_offset = nearest_index * emitter_comp_count;
+                        for (var l = 0; l < channel_presence_from.length; l++)
+                            if (channel_presence_from[l]) {
+                                var em_channel_offset = 
+                                        m_util.rgb_mask_get_channel_presence_index(em_mask, l);
+                                part_inh_attrs[p_attr].data.push(cols[em_vert_offset
+                                        + em_channel_offset]);
+                            }
+                    }
                 }
             } else
                 submesh.va_common[p_attr] = new Float32Array(0);
@@ -4346,6 +4336,12 @@ exports.create_postprocessing_batch = function(post_effect) {
     case "Y_GLOW_BLUR":
         set_batch_directive(batch, "POST_EFFECT", "POST_EFFECT_Y_GLOW_BLUR");
         break;
+    case "X_DOF_BLUR":
+        set_batch_directive(batch, "POST_EFFECT", "POST_EFFECT_X_DOF_BLUR");
+        break;
+    case "Y_DOF_BLUR":
+        set_batch_directive(batch, "POST_EFFECT", "POST_EFFECT_Y_DOF_BLUR");
+        break;
     case "X_EXTEND":
         set_batch_directive(batch, "POST_EFFECT", "POST_EFFECT_X_EXTEND");
         break;
@@ -4440,6 +4436,25 @@ exports.create_ssao_blur_batch = function(subs) {
     return batch;
 }
 
+exports.create_coc_batch = function(subs) {
+
+    var batch = init_batch("COC");
+
+    batch.depth_mask = false;
+    batch.use_backface_culling = true;
+
+    var submesh = m_primitives.generate_fullscreen_tri();
+    update_batch_geometry(batch, submesh);
+
+    apply_shader(batch, "postprocessing/postprocessing.glslv",
+            "postprocessing/coc.glslf");
+    set_batch_directive(batch, "DEPTH_RGBA", 1);
+    update_shader(batch);
+
+    return batch;
+}
+
+
 exports.create_dof_batch = function(subs) {
 
     var batch = init_batch("DOF");
@@ -4452,7 +4467,12 @@ exports.create_dof_batch = function(subs) {
 
     apply_shader(batch, "postprocessing/postprocessing.glslv",
             "postprocessing/dof.glslf");
-    set_batch_directive(batch, "DEPTH_RGBA", 1);
+    if (subs.camera.dof_bokeh)
+        set_batch_directive(batch, "DOF_TYPE", "DOF_BOKEH");
+    else {
+        set_batch_directive(batch, "DOF_TYPE", "DOF_SIMPLE");
+        set_batch_directive(batch, "DEPTH_RGBA", 1);
+    }
     update_shader(batch);
 
     return batch;
@@ -4959,112 +4979,61 @@ exports.inherit_material = function(obj_from, mat_from_name, obj_to,
         m_print.error("Wrong objects for inheriting material!")
 }
 
-exports.set_nodemat_value = function(obj, name_list, value) {
-    var mat_name = name_list[0];
-    var batch_main = find_batch_material(obj, mat_name, "MAIN");
-    if (batch_main === null) {
-        m_print.error("Material \"" + mat_name +
-                      "\" was not found in the object \"" + obj.name + "\".");
-        return;
-    }
+exports.set_nodemat_value = function(obj, mat_name, ind, value) {
+    for (var i = 0; i < obj.scenes_data.length; i++) {
+        var batches = obj.scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var batch = batches[j];
+            if (batch.material_names.indexOf(mat_name) == -1
+                    || !batch.node_values)
+                continue;
 
-    // node index is assumed to be similar for all batches with a same material
-    var node_id = name_list.join("%join%");
-    var ind = get_value_node_ind_by_id(batch_main, node_id);
-
-    if (ind !== null)
-        for (var i = 0; i < obj.scenes_data.length; i++) {
-            var batches = obj.scenes_data[i].batches;
-            for (var j = 0; j < batches.length; j++) {
-                var batch = batches[j];
-                if (batch.material_names.indexOf(mat_name) == -1
-                        || !batch.node_values)
-                    continue;
-
-                batch.node_values[ind] = value;
-            }
+            batch.node_values[ind] = value;
         }
-    else
-        m_print.error("Value node \"" + node_id +
-        "\" was not found in the object \"" + obj.name + "\".");
+    }
 }
 
-exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
-    var mat_name = name_list[0];
-    var node_id = name_list.join("%join%");
-    var batch_main = find_batch_material(obj, mat_name, "MAIN");
-
-    // node index is assumed to be similar for all batches with a same material
-    var ind = get_rgb_node_ind_by_id(batch_main, node_id);
-
-    if (ind != null)
-        for (var i = 0; i < obj.scenes_data.length; i++) {
-            var batches = obj.scenes_data[i].batches;
-            for (var j = 0; j < batches.length; j++) {
-                var batch = batches[j];
-                if (batch.material_names.indexOf(mat_name) == -1
-                        || !batch.node_rgbs)
-                    continue;
-                batch.node_rgbs[3 * ind]     = r;
-                batch.node_rgbs[3 * ind + 1] = g;
-                batch.node_rgbs[3 * ind + 2] = b;
-            }
+exports.set_nodemat_rgb = function(obj, mat_name, ind, r, g, b) {
+    for (var i = 0; i < obj.scenes_data.length; i++) {
+        var batches = obj.scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var batch = batches[j];
+            if (batch.material_names.indexOf(mat_name) == -1
+                    || !batch.node_rgbs)
+                continue;
+            batch.node_rgbs[3 * ind]     = r;
+            batch.node_rgbs[3 * ind + 1] = g;
+            batch.node_rgbs[3 * ind + 2] = b;
         }
-    else
-        m_print.error("RGB node \"" + node_id +
-        "\" was not found in the object \"" + obj.name + "\".");
-}
-
-exports.get_nodemat_value = function (obj, name_list) {
-    var mat_name = name_list[0];
-    var node_id = name_list.join("%join%");
-    var batch_main = find_batch_material(obj, mat_name, "MAIN");
-    var ind = get_value_node_ind_by_id(batch_main, node_id);
-
-    if (ind != null)
-        return batch_main.node_values[ind];
-    else
-        m_print.error("Value node \"" + node_id +
-        "\" was not found in the object \"" + obj.name + "\".");
-
-    return null;
-}
-
-exports.get_nodemat_rgb = function (obj, name_list, dest) {
-    var mat_name = name_list[0];
-    var node_id = name_list.join("%join%");
-    var batch_main = find_batch_material(obj, mat_name, "MAIN");
-    var ind = get_rgb_node_ind_by_id(batch_main, node_id);
-
-    if (ind != null) {
-        dest[0] = batch_main.node_rgbs[3 * ind];
-        dest[1] = batch_main.node_rgbs[3 * ind + 1];
-        dest[2] = batch_main.node_rgbs[3 * ind + 2];
-        return dest;
-    } else {
-        m_print.error("RGB node \"" + node_id +
-        "\" was not found in the object \"" + obj.name + "\".");
     }
-
-    return null;
 }
 
-function get_value_node_ind_by_id (batch, id) {
-    var value_inds = batch.node_value_inds;
-    for (var i = 0; i < value_inds.length; i+=2) {
-        if (value_inds[i] == id)
-            return value_inds[i+1]
+exports.get_nodemat_value = function (batch, ind) {
+    return batch.node_values[ind];
+}
+
+exports.get_nodemat_rgb = function (batch, ind, dest) {
+    dest[0] = batch.node_rgbs[3 * ind];
+    dest[1] = batch.node_rgbs[3 * ind + 1];
+    dest[2] = batch.node_rgbs[3 * ind + 2];
+    return dest;
+}
+
+exports.get_node_ind_by_name_list = get_node_ind_by_name_list;
+function get_node_ind_by_name_list(inds, name_list) {
+    var id = node_id_from_name_list(name_list);
+    for (var i = 0; i < inds.length; i+=2) {
+        if (inds[i] == id)
+            return inds[i+1]
     }
     return null;
 }
 
-function get_rgb_node_ind_by_id(batch, id) {
-    var rgb_inds = batch.node_rgb_inds;
-    for (var i = 0; i < rgb_inds.length; i+=2) {
-        if (rgb_inds[i] == id)
-            return rgb_inds[i+1]
-    }
-    return null;
+function node_id_from_name_list(name_list) {
+    var id = name_list[1]
+    for (var i = 2; i < name_list.length; i++)
+        id += "%join%" + name_list[i];
+    return id;
 }
 
 exports.cleanup = function() {

@@ -8,7 +8,7 @@ Table of Contents
 
 * Material Library
 
-  * Libarary Structure
+  * Library Structure
 
   * Material Structure
 
@@ -32,8 +32,8 @@ The material library can be found in the "/blender/material_library/"
 folder in the SDK root directory.
 
 
-Libarary Structure
-==================
+Library Structure
+=================
 
 All materials are structured by folder (by categories of materials)
 and by a separate file (by materials). Every blend file contains one

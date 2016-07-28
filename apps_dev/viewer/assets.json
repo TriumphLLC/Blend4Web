@@ -5,18 +5,6 @@
             {
                 "name": "Flight over Island Main",
                 "load_file": "flight_over_island/flight_over_island.json"
-            },
-            {
-                "name": "Animated Camera",
-                "load_file": "flight_over_island/animated_camera.json"
-            },
-            {
-                "name": "Cessna Skylane 182T",
-                "load_file": "flight_over_island/cessna_skylane_182t.json"
-            },
-            {
-                "name": "Island",
-                "load_file": "flight_over_island/island.json"
             }
         ]
     },
@@ -26,26 +14,6 @@
             {
                 "name": "New Year Main",
                 "load_file": "new_year/christmas_tree.json"
-            },
-            {
-                "name": "Bear",
-                "load_file": "new_year/bear.json"
-            },
-            {
-                "name": "Christmas Tree",
-                "load_file": "new_year/christmas_tree_standalone.json"
-            },
-            {
-                "name": "Letter Test",
-                "load_file": "new_year/letter.json"
-            },
-            {
-                "name": "Monkey",
-                "load_file": "new_year/monkey.json"
-            },
-            {
-                "name": "TV",
-                "load_file": "new_year/TV.json"
             }
         ]
     },
@@ -204,22 +172,6 @@
             {
                 "name": "Main Scene",
                 "load_file": "victory_day_2015/main_scene.json"
-            },
-            {
-                "name": "BM-13",
-                "load_file": "victory_day_2015/bm_13.json"
-            },
-            {
-                "name": "Firework",
-                "load_file": "victory_day_2015/firework.json"
-            },
-            {
-                "name": "Red Square",
-                "load_file": "victory_day_2015/red_square.json"
-            },
-            {
-                "name": "Rocket Smoke",
-                "load_file": "victory_day_2015/rocket_smoke.json"
             }
         ]
     },
@@ -466,6 +418,10 @@
             {
                 "name": "Soft Particles",
                 "load_file": "particles/soft_particles.json"
+            },
+            {
+                "name": "Particles Instancing",
+                "load_file": "particles/particles_instancing.json"
             }
         ]
     },

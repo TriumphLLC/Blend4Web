@@ -21,7 +21,7 @@ var m_mouse     = require("mouse");
 var m_lights    = require("lights");
 var m_preloader = require("preloader");
 var mc_lang     = require("new_year_language");
-var m_cfg      = require("config");
+var m_cfg       = require("config");
 
 var _assets_dir;
 var DEBUG = (m_version.type() === "DEBUG");
@@ -52,6 +52,10 @@ var _lamp_params;
 
 var _disable_interaction = false;
 
+var _pl_bar = null;
+var _pl_caption = null;
+
+
 exports.init = function() {
     set_quality_config();
     m_app.init({
@@ -68,27 +72,38 @@ exports.init = function() {
 }
 
 function init_cb(canvas_elem, success) {
-
     if(!success) {
         console.log("b4w init failure");
         return;
     }
 
     if (PRELOADING)
-        m_preloader.create_simple_preloader({
-            bg_color:"#00000000",
-            bar_color:"#FFF",
-            background_container_id: "background_image_container",
-            canvas_container_id: "canvas3d",
-            preloader_fadeout: true});
+        create_preloader();
 
     if (!m_main.detect_mobile())
        canvas_elem.addEventListener("mousedown", main_canvas_down);
+
     canvas_elem.addEventListener("touchstart", main_canvas_down);
 
     window.onresize = on_resize;
     on_resize();
     load();
+}
+
+function create_preloader() {
+    m_main.pause();
+
+    var pl_cont = document.querySelector("#pl_cont");
+    var pl_frame = pl_cont.querySelector("#pl_frame");
+
+    _pl_bar = document.querySelector("#pl_bar");
+    _pl_caption = document.querySelector("#pl_caption");
+
+    m_app.css_animate(pl_cont, "opacity", 0, 1, 500, "", "", function() {
+        m_main.resume();
+
+        pl_frame.style.opacity = 1;
+    })
 }
 
 function load() {
@@ -102,6 +117,7 @@ function load() {
 
 function fix_yandex_share_href() {
     var links = document.getElementsByTagName("a");
+
     for (var i =0; i < links.length; i++)
         links[i].href = links[i].href.replace("&amp;", "&");
 }
@@ -710,7 +726,19 @@ function create_sensors() {
 }
 
 function preloader_cb(percentage) {
-    m_preloader.update_preloader(percentage);
+    _pl_bar.style.width = percentage + "%";
+    _pl_caption.innerHTML = percentage + "%";
+
+    if (percentage == 100) {
+        var pl_cont = document.querySelector("#pl_cont");
+        var pl_frame = pl_cont.querySelector("#pl_frame");
+
+        pl_frame.style.opacity = 0;
+
+        m_app.css_animate(pl_cont, "opacity", 1, 0, 2000, "", "", function() {
+            pl_cont.parentNode.removeChild(pl_cont);
+        })
+    }
 }
 
 });

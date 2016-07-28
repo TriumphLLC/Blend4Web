@@ -182,7 +182,6 @@ varying vec2 v_texcoord;
 
 void main(void) {
     mat4 view_matrix = tsr_to_mat4(u_view_tsr);
-
     vec3 position = a_position;
 
 #if NODES && ALPHA && (CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || \

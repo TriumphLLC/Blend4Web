@@ -68,6 +68,7 @@ var SHADERS = ["anchors.glslf",
 
     "postprocessing/antialiasing.glslf",
     "postprocessing/bloom_combine.glslf",
+    "postprocessing/coc.glslf",
     "postprocessing/compositing.glslf",
     "postprocessing/depth_pack.glslf",
     "postprocessing/dof.glslf",
@@ -308,7 +309,8 @@ exports.set_default_directives = function(sinfo) {
         "USE_COLOR_RAMP",
         "HALO_PARTICLES",
         "PARTICLE_BATCH",
-        "HAS_REFRACT_TEXTURE"
+        "HAS_REFRACT_TEXTURE",
+        "USE_INSTANCED_PARTCLS"
     ];
 
     for (var i = 0; i < dir_names.length; i++) {
@@ -400,6 +402,7 @@ exports.set_default_directives = function(sinfo) {
         case "HALO_PARTICLES":
         case "PARTICLE_BATCH":
         case "HAS_REFRACT_TEXTURE":
+        case "USE_INSTANCED_PARTCLS":
             val = 0;
             break;
 

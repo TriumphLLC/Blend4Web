@@ -443,7 +443,7 @@ function create_select_sensor(node, logic, thread) {
 
     var sel_sensors = [];
     for (var j = 0; j < sel_objs.length; j++) {
-        sel_sensors.push(m_ctl.create_selection_sensor(sel_objs[j], true));
+        sel_sensors.push(m_ctl.create_selection_sensor(sel_objs[j], false));
     }
 
     var select_cb = gen_cb();
@@ -520,7 +520,7 @@ function create_switch_select_sensor(node, logic, thread) {
 
     var sel_sensors = [];
     for (var j = 0; j < sel_objs.length; j++) {
-        sel_sensors.push(m_ctl.create_selection_sensor(sel_objs[j], true));
+        sel_sensors.push(m_ctl.create_selection_sensor(sel_objs[j], false));
     }
     var select_cb = gen_switch_select_cb();
     m_ctl.create_sensor_manifold(obj, "LOGIC_NODES_SWITCH_SELECT_" + node.label, m_ctl.CT_SHOT,
@@ -1243,8 +1243,25 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
         }
         break;
     case RUNNING:
+
+        var obj = node.objects["id0"];
+        var name_list = node.nodes_paths["id0"]
+
+        var mat_name = name_list[0];
+        var batch_main = m_batch.find_batch_material(obj, mat_name, "MAIN");
+
+        thread_state.curr_node = node.slot_idx_order;
+
+        if (batch_main === null) {
+            m_print.error("Material \"" + mat_name +
+                          "\" was not found in the object \"" + obj.name + "\".");
+            return;
+        }
+
         if (node.shader_nd_type == "ShaderNodeRGB") {
-            m_batch.set_nodemat_rgb(node.objects["id0"], node.nodes_paths["id0"],
+            var ind = m_batch.get_node_ind_by_name_list(batch_main.node_rgb_inds,
+                                                        name_list);
+            m_batch.set_nodemat_rgb(obj, mat_name, ind,
                 node.bools["id0"] ?
                     convert_variable(get_var(node.vars["id0"], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["id0"],
                 node.bools["id1"] ?
@@ -1254,11 +1271,12 @@ function set_shader_node_param_handler(node, logic, thread_state, timeline, elap
         }
 
         if (node.shader_nd_type == "ShaderNodeValue") {
-            m_batch.set_nodemat_value(node.objects["id0"], node.nodes_paths["id0"],
+            var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
+                                                        name_list);
+            m_batch.set_nodemat_value(obj, mat_name, ind,
                 node.bools["id0"] ?
                     convert_variable(get_var(node.vars["id0"], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["id0"]);
         }
-        thread_state.curr_node = node.slot_idx_order;
         break;
     }
 }
@@ -1405,7 +1423,7 @@ function play_anim_handler(node, logic, thread_state, timeline, elapsed, start_t
                 m_anim.set_behavior(node.obj, behavior, node.anim_slot);
             } else if (!check_anim(node.obj, node.anim_name)) {
                 node.anim_slot = m_anim.slot_by_anim_type(node.obj, node.anim_name);
-                m_anim.apply(node.obj, node.anim_name, node.anim_slot);
+                m_anim.apply(node.obj, null, node.anim_name, node.anim_slot);
                 m_anim.set_behavior(node.obj, behavior, node.anim_slot);
             }
 

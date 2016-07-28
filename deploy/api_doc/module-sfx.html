@@ -221,6 +221,14 @@ Uses Web Audio API for sound effects and HTML5 audio for background music.</div>
 
         
             
+<li> <a href="#.listener_stride">listener_stride<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.loop_stop">loop_stop<span class="signature">(obj, when<span class="signature-attributes">opt</span>, wait<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.mute">mute<span class="signature">(obj<span class="signature-attributes">nullable</span>, muted)</span><span class="type-signature"></span></a></li>
 
         
@@ -262,6 +270,10 @@ Uses Web Audio API for sound effects and HTML5 audio for background music.</div>
         
             
 <li> <a href="#.set_volume">set_volume<span class="signature">(obj<span class="signature-attributes">nullable</span>, volume)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.speaker_reset_speed">speaker_reset_speed<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -451,7 +463,7 @@ The new playlist starts playing immediately.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line262">line 262</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line299">line 299</a>
     </li></ul></dd>
     
 
@@ -559,7 +571,7 @@ The new playlist starts playing immediately.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line210">line 210</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -645,7 +657,7 @@ The new playlist starts playing immediately.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line271">line 271</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line308">line 308</a>
     </li></ul></dd>
     
 
@@ -803,7 +815,7 @@ The new playlist starts playing immediately.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line107">line 107</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -987,7 +999,7 @@ fallback exists:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line277">line 277</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line314">line 314</a>
     </li></ul></dd>
     
 
@@ -1171,7 +1183,7 @@ fallback exists:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line291">line 291</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line328">line 328</a>
     </li></ul></dd>
     
 
@@ -1381,7 +1393,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line235">line 235</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -1489,7 +1501,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line226">line 226</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line263">line 263</a>
     </li></ul></dd>
     
 
@@ -1693,7 +1705,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line337">line 337</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line374">line 374</a>
     </li></ul></dd>
     
 
@@ -1850,7 +1862,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line329">line 329</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line366">line 366</a>
     </li></ul></dd>
     
 
@@ -2007,7 +2019,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line313">line 313</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line350">line 350</a>
     </li></ul></dd>
     
 
@@ -2115,7 +2127,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line206">line 206</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line243">line 243</a>
     </li></ul></dd>
     
 
@@ -2284,7 +2296,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line151">line 151</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
@@ -2454,7 +2466,7 @@ Zero duration means looped or non-ready speaker
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line347">line 347</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line384">line 384</a>
     </li></ul></dd>
     
 
@@ -2611,7 +2623,7 @@ Zero duration means looped or non-ready speaker
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line117">line 117</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line133">line 133</a>
     </li></ul></dd>
     
 
@@ -2780,7 +2792,7 @@ Zero duration means looped or non-ready speaker
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line189">line 189</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line226">line 226</a>
     </li></ul></dd>
     
 
@@ -3127,7 +3139,7 @@ Zero duration means looped or non-ready speaker
 
 <div class="description">
     Reset the listener speed.
-Use after quick listener movements to neutralize undesirable doppler effect.
+Use before rapid listener movements to neutralize undesirable doppler effect.
 </div>
 
 
@@ -3277,6 +3289,8 @@ Use after quick listener movements to neutralize undesirable doppler effect.
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use listener_stride() instead</li></ul></dd>
+    
 
     
 
@@ -3289,7 +3303,324 @@ Use after quick listener movements to neutralize undesirable doppler effect.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line127">line 127</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line143">line 143</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".listener_stride">listener_stride<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Make a listener stride.
+Use before quick listener movements to neutralize undesirable doppler effect.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line155">line 155</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".loop_stop">loop_stop<span class="signature">(obj, when<span class="signature-attributes">opt</span>, wait<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Stop the speaker's looping playback.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Speaker object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>when</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Delay after exec in seconds</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>wait</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Wait loop until currently played cycle is
+finished</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -3467,7 +3798,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line176">line 176</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line213">line 213</a>
     </li></ul></dd>
     
 
@@ -3602,7 +3933,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line69">line 69</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line70">line 70</a>
     </li></ul></dd>
     
 
@@ -4124,7 +4455,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line97">line 97</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -4282,7 +4613,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line87">line 87</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -4417,7 +4748,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line78">line 78</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line79">line 79</a>
     </li></ul></dd>
     
 
@@ -4552,7 +4883,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line217">line 217</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -4710,7 +5041,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line321">line 321</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line358">line 358</a>
     </li></ul></dd>
     
 
@@ -4868,7 +5199,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line305">line 305</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line342">line 342</a>
     </li></ul></dd>
     
 
@@ -5046,7 +5377,143 @@ seconds). duration=0 - assign default value according to sound playback length.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line163">line 163</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line200">line 200</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".speaker_reset_speed">speaker_reset_speed<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Make a speaker stride.
+Use before rapid speaker movements to neutralize undesirable doppler effect.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Speaker object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line178">line 178</a>
     </li></ul></dd>
     
 
@@ -5077,7 +5544,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
 <div class="description">
     Reset the speaker speed.
-It's necessary to nullify speed after the speaker has moved quickly in order
+It's necessary to nullify speed before the speaker has moved quickly in order
 to neutralize the undesirable doppler effect.
 </div>
 
@@ -5263,6 +5730,8 @@ to neutralize the undesirable doppler effect.
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use speaker_stride() instead</li></ul></dd>
+    
 
     
 
@@ -5275,7 +5744,7 @@ to neutralize the undesirable doppler effect.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line138">line 138</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line164">line 164</a>
     </li></ul></dd>
     
 
@@ -5557,7 +6026,7 @@ to neutralize the undesirable doppler effect.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line250">line 250</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line287">line 287</a>
     </li></ul></dd>
     
 
@@ -5594,7 +6063,7 @@ to neutralize the undesirable doppler effect.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Jun 30 2016 15:03:06 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Jul 26 2016 15:18:54 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

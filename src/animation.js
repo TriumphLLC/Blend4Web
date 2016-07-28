@@ -388,12 +388,14 @@ exports.apply_def = function(obj) {
         }
     }
 
-    var actions = get_default_actions(obj);
-    for (var i = 0; i < actions.length; i++) {
-        var action = actions[i]
+    var action_slots = get_default_actions(obj);
+    for (var i = 0; i < action_slots.length; i++) {
+        var act_slot = action_slots[i];
+        var name_list = act_slot.name_list;
+        var action = act_slot.action;
 
         do_before_apply(obj, slot_num);
-        if (apply_action(obj, action, slot_num)) {
+        if (apply_action(obj, name_list, action, slot_num)) {
             do_after_apply(obj, slot_num);
             obj.anim_slots[slot_num].behavior = obj.anim_behavior_def;
             slot_num++
@@ -436,6 +438,8 @@ function get_actions(obj) {
 
         if (act_render.type == OBJ_ANIM_TYPE_OBJECT)
             act_list.push(action);
+        else if (action._render.type == OBJ_ANIM_TYPE_MATERIAL && obj.type == "MESH")
+            act_list.push(action);
         else if (act_render.type == OBJ_ANIM_TYPE_ARMATURE && obj.type == "ARMATURE")
             act_list.push(action);
         else if (act_render.type == OBJ_ANIM_TYPE_SOUND && obj.type == "SPEAKER")
@@ -443,13 +447,6 @@ function get_actions(obj) {
         else if (act_render.type == OBJ_ANIM_TYPE_ENVIRONMENT && obj.type == "WORLD")
             act_list.push(action);
     }
-
-    if (obj.type == "MESH")
-        for (var i = 0; i < obj.actions.length; i++) {
-            var action = obj.actions[i];
-            if (action._render.type == OBJ_ANIM_TYPE_MATERIAL)
-                act_list.push(action);       
-        }
 
     return act_list;
 }
@@ -463,10 +460,11 @@ function get_actions(obj) {
  * @returns Default action or null
  */
 function get_default_actions(obj) {
-    return obj.actions.slice();
+    return obj.def_action_slots.slice();
 }
 
-exports.get_bpy_material_actions = function(bpy_obj) {
+exports.get_bpy_material_actions = get_bpy_material_actions;
+function get_bpy_material_actions(bpy_obj) {
     var act_list = [];
 
     var materials = bpy_obj["data"]["materials"];
@@ -475,17 +473,25 @@ exports.get_bpy_material_actions = function(bpy_obj) {
         var node_tree = mat["node_tree"];
 
         if (node_tree)
-            get_node_tree_actions_r(node_tree, act_list);
+            get_node_tree_actions_r(node_tree, act_list, [mat["name"]]);
     }
     return act_list;
 }
 
-function get_node_tree_actions_r(node_tree, container) {
+exports.init_action_slot = init_action_slot;
+function init_action_slot(name_list, action) {
+    return {
+        name_list: name_list,
+        action: action
+    }
+}
+
+function get_node_tree_actions_r(node_tree, container, name_list) {
     if (node_tree["animation_data"]) {
         var anim_data = node_tree["animation_data"];
         var action = anim_data["action"];
         if (action && action._render.type == OBJ_ANIM_TYPE_MATERIAL)
-            container.push(action);
+            container.push(init_action_slot(name_list, action));
     }
 
     var nodes = node_tree["nodes"];
@@ -493,8 +499,11 @@ function get_node_tree_actions_r(node_tree, container) {
         var node = nodes[i];
         if (node["node_group"]) {
             var g_node_tree = node["node_group"]["node_tree"];
-            if (g_node_tree)
-                get_node_tree_actions_r(g_node_tree, container);
+            if (g_node_tree) {
+                var new_name_list = name_list.slice();
+                new_name_list.push(node["name"]);
+                get_node_tree_actions_r(g_node_tree, container, new_name_list);
+            }
         }
     }
 }
@@ -505,7 +514,6 @@ function has_vertex_anim(obj) {
     else
         return false;
 }
-
 
 /**
  * Start to play preset animation
@@ -684,8 +692,9 @@ exports.obj_is_animatable = function(obj) {
     if (obj.type == "WORLD")
         return true;
 
-    for (var i = 0; i < obj.actions.length; i++) {
-        var act_type = obj.actions[i]._render.type;
+    for (var i = 0; i < obj.def_action_slots.length; i++) {
+        var act_slot = obj.def_action_slots[i];
+        var act_type = act_slot.action._render.type;
         if (act_type == OBJ_ANIM_TYPE_OBJECT || act_type == OBJ_ANIM_TYPE_ARMATURE
                 || act_type == OBJ_ANIM_TYPE_SOUND && obj.type == "SPEAKER"
                 || act_type == OBJ_ANIM_TYPE_LIGHT && obj.type == "LAMP"
@@ -714,8 +723,10 @@ exports.bpy_obj_is_animatable = function(bpy_obj, obj) {
     if (obj.type == "WORLD")
         return true;
 
-    for (var i = 0; i < obj.actions.length; i++) {
-        var act_type = obj.actions[i]._render.type;
+    for (var i = 0; i < obj.def_action_slots.length; i++) {
+        var act_slot = obj.def_action_slots[i];
+        var action = act_slot.action;
+        var act_type = action._render.type;
 
         if (act_type == OBJ_ANIM_TYPE_OBJECT || act_type == OBJ_ANIM_TYPE_ARMATURE
                 || act_type == OBJ_ANIM_TYPE_SOUND && obj.type == "SPEAKER"
@@ -742,7 +753,7 @@ function is_animated (obj) {
  * quats, trans for each bone (group) index and pierced point
  * save them to obj.anim_slots
  */
-function apply_action(obj, action, slot_num) {
+function apply_action(obj, name_list, action, slot_num) {
 
     var frame_range = action["frame_range"];
 
@@ -773,11 +784,11 @@ function apply_action(obj, action, slot_num) {
         if (m_obj_util.is_armature(obj)) {
             anim_slot.type = OBJ_ANIM_TYPE_ARMATURE;
 
-            var pose_data_frames = get_cached_anim_data(obj, action);
+            var pose_data_frames = get_cached_anim_data(obj, name_list, action);
             if (!pose_data_frames) {
                 var pose_data_frames = calc_pose_data_frames(action,
                                                     obj.render.bone_pointers);
-                cache_anim_data(obj, action, pose_data_frames);
+                cache_anim_data(obj, name_list, action, pose_data_frames);
             }
 
             anim_slot.trans = pose_data_frames.trans;
@@ -807,11 +818,10 @@ function apply_action(obj, action, slot_num) {
         if (obj.type == "MESH") {
             anim_slot.type = OBJ_ANIM_TYPE_MATERIAL;
 
-            var nodemat_anim_data = get_cached_anim_data(obj, action);
-
+            var nodemat_anim_data = get_cached_anim_data(obj, name_list, action);
             if (!nodemat_anim_data) {
-                nodemat_anim_data = calc_nodemat_anim_data(obj, action);
-                cache_anim_data(obj, action, nodemat_anim_data);
+                nodemat_anim_data = calc_nodemat_anim_data(obj, name_list, action);
+                cache_anim_data(obj, name_list, action, nodemat_anim_data);
             }
 
             anim_slot.node_value_inds = nodemat_anim_data.val_inds;
@@ -829,10 +839,10 @@ function apply_action(obj, action, slot_num) {
 
             anim_slot.type = OBJ_ANIM_TYPE_OBJECT;
 
-            var obj_anim_data = get_cached_anim_data(obj, action);
+            var obj_anim_data = get_cached_anim_data(obj, name_list, action);
             if (!obj_anim_data) {
                 obj_anim_data = calc_obj_anim_data(obj, action, tsr);
-                cache_anim_data(obj, action, obj_anim_data);
+                cache_anim_data(obj, name_list, action, obj_anim_data);
             }
 
             anim_slot.trans = obj_anim_data.trans;
@@ -871,20 +881,28 @@ function apply_action(obj, action, slot_num) {
     return true;
 }
 
-function get_cached_anim_data(obj, action) {
+function get_cached_anim_data(obj, name_list, action) {
 
     var cache = obj.action_anim_cache;
+    if (name_list)
+        var names_str = name_list.join("%join%");
+    else
+        var names_str = null;
 
-    for (var i = 0; i < cache.length; i+=2)
-        if (action == cache[i])
-            return cache[i+1];
+    for (var i = 0; i < cache.length; i+=3)
+        if (action == cache[i] && names_str == cache[i+1])
+            return cache[i+2];
 
     return null;
 }
 
-function cache_anim_data(obj, action, data) {
+function cache_anim_data(obj, name_list, action, data) {
     var cache = obj.action_anim_cache;
-    cache.push(action, data);
+    if (name_list)
+        var names_str = name_list.join("%join%");
+    else
+        var names_str = null;
+    cache.push(action, names_str, data);
 }
 
 function init_skinned_objs_data(armobj, slot_num, action,
@@ -1012,7 +1030,22 @@ function find_armature_constraint(constraints, type) {
     return false;
 }
 
-function calc_nodemat_anim_data(obj, action) {
+function node_name_from_param_name(param_name, name_list) {
+    // extract text between first "[" and "]" which is exactly a node name
+    var node_name = param_name.match(/"(.*?)"/ )[1];
+
+    if (name_list && name_list.length > 1) {
+        var full_name = name_list[1];
+        for (var i = 2; i < name_list.length; i++)
+            full_name = full_name + "%join%" + name_list[i]
+        full_name += "%join%" + node_name;
+    } else
+        var full_name = node_name;
+
+    return full_name;
+}
+
+function calc_nodemat_anim_data(obj, name_list, action) {
 
     var val_inds = [];
     var values = [];
@@ -1021,29 +1054,31 @@ function calc_nodemat_anim_data(obj, action) {
     var node_batches = [];
 
     var act_render = action._render;
+    var mat_name = name_list? name_list[0]: null;
 
-    var animated_mat_names = [];
-
-    for (var node_name in act_render.params) {
-        var act_node_name = action["name"] + "%join%" + node_name;
+    for (var param_name in act_render.params) {
+        var node_name = node_name_from_param_name(param_name, name_list);
         for (var i = 0; i < obj.scenes_data.length; i++) {
             var batches = obj.scenes_data[i].batches;
-
             for (var j = 0; j < batches.length; j++) {
                 var batch = batches[j];
-                var val_ind_pairs = batch.node_anim_inds;
-                var rgb_ind_pairs = batch.node_rgb_anim_inds;
-                if (val_ind_pairs) {
-                    var found_values =
-                        calc_node_act(node_name, act_node_name, act_render,
-                                      values, val_inds, val_ind_pairs);
-                    var found_rgbs =
-                        calc_node_act(node_name, act_node_name, act_render,
-                                      rgbs, rgb_inds, rgb_ind_pairs);
 
-                    if (found_values || found_rgbs)
-                        node_batches.push(batch);
-                }
+                // if mat name is not specified, process all suitable materials
+                if (mat_name && batch.material_names.indexOf(mat_name) == -1)
+                    continue;
+
+                var val_ind_pairs = batch.node_value_inds;
+                var rgb_ind_pairs = batch.node_rgb_inds;
+
+                var found_vals =
+                    calc_node_act(param_name, node_name, act_render,
+                                  values, val_inds, val_ind_pairs);
+                var found_rgbs =
+                    calc_node_act(param_name, node_name, act_render,
+                                  rgbs, rgb_inds, rgb_ind_pairs);
+
+                if (found_vals || found_rgbs)
+                    node_batches.push(batch)
             }
         }
     }
@@ -1053,15 +1088,18 @@ function calc_nodemat_anim_data(obj, action) {
             node_batches: node_batches};
 }
 
-function calc_node_act(node_name, act_node_name, act_render, values, inds,
+function calc_node_act(param_name, node_name, act_render, values, inds,
                        val_ind_pairs) {
+    if (!val_ind_pairs)
+        return false;
+
     var found_vals = false;
     for (var i = 0; i < val_ind_pairs.length; i+=2) {
         var name = val_ind_pairs[i];
-        if (act_node_name == name) {
+        if (node_name == name) {
             var ind = val_ind_pairs[i+1];
             inds.push(ind);
-            values.push(new Float32Array(act_render.params[node_name]));
+            values.push(new Float32Array(act_render.params[param_name]));
             found_vals = true;
         }
     }
@@ -1269,6 +1307,7 @@ function animate(obj, elapsed, slot_num, force_update) {
             var rgb = rgbs[i];
             var ind = rgb_indices[i];
 
+            // TODO: replace subarray
             var prev = rgb.subarray(fc*3, fc*3 + 3);
             var next = rgb.subarray(fn*3, fn*3 + 3);
             var curr = m_vec3.lerp(prev, next, ff, _vec3_tmp);
@@ -2394,7 +2433,8 @@ function do_after_apply(obj, slot_num) {
 }
 
 exports.apply = apply;
-function apply(obj, name, slot_num) {
+// name_list can be used to specify object's material and nested groups
+function apply(obj, name_list, name, slot_num) {
 
     slot_num = slot_num || SLOT_0;
 
@@ -2420,7 +2460,7 @@ function apply(obj, name, slot_num) {
             m_util.keysearch("name", name + "_B4W_BAKED", _actions);
     if (action) {
         do_before_apply(obj, slot_num);
-        if (apply_action(obj, action, slot_num)) {
+        if (apply_action(obj, name_list, action, slot_num)) {
             do_after_apply(obj, slot_num);
             return true;
         } else
@@ -2432,12 +2472,12 @@ function apply(obj, name, slot_num) {
     return false;
 }
 
-exports.apply_by_uuid = function(obj, uuid, slot_num) {
+exports.apply_by_uuid = function(obj, name_list, uuid, slot_num) {
     slot_num = slot_num || SLOT_0;
     var action = m_util.keysearch("uuid", uuid, _actions);
     if (action) {
         do_before_apply(obj, slot_num);
-        if (apply_action(obj, action, slot_num)) {
+        if (apply_action(obj, name_list, action, slot_num)) {
             do_after_apply(obj, slot_num);
             return true;
         } else

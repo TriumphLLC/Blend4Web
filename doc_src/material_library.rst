@@ -12,8 +12,8 @@ The material library is a library where a user can find basic and the most commo
 
 The material library can be found in the ``/blender/material_library/`` folder in the SDK root directory.
 	
-Libarary Structure
-==================
+Library Structure
+=================
 	
 All materials are structured by folder (by categories of materials) and by a separate file (by materials). Every blend file contains one base material and a material for an additional object, that demonstrates the material on an object that can be associated with this material (for example, a gold ingot for a gold material).
 

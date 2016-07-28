@@ -800,7 +800,8 @@ exports.create_empty_submesh = function(name) {
             be_world : m_bounds.zero_bounding_ellipsoid(),
             bb_local : m_bounds.zero_bounding_box(),
             be_local : m_bounds.zero_bounding_ellipsoid()
-        }
+        },
+        instanced_array_data: null
     };
 }
 

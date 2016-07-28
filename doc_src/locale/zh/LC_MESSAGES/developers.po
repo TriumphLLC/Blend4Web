@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-28 14:01+0300\n"
+"POT-Creation-Date: 2016-07-11 16:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1584,26 +1584,35 @@ msgstr ""
 #: ../developers.rst:997
 msgid ""
 "*maximum quality* (``P_ULTRA``) - rendering resolution is doubled, "
-"resolution of shadow maps is increased, the anti-aliasing method is SMAA"
+"resolution of shadow maps is increased, the anti-aliasing method is FXAA "
+"(uses higher quality settings and works slower)."
 msgstr ""
 
-#: ../developers.rst:1006
+#: ../developers.rst:998
+msgid ""
+"*custom quality* (``P_CUSTOM``) - any quality parameter can be set to any"
+" possible value. This option is used when you need to set certain quality"
+" parameters manually. By default, it uses the same settings as ``High`` "
+"quality profile."
+msgstr ""
+
+#: ../developers.rst:1007
 msgid ""
 "Switching the quality profiles can be performed in runtime before "
 "initialization of the WebGL context. The default profile is ``P_HIGH``."
 msgstr ""
 
-#: ../developers.rst:1017
+#: ../developers.rst:1018
 msgid ""
 "Application developers can also set the **quality** parameter upon engine"
 " initialization using the ``app.js`` add-on:"
 msgstr ""
 
-#: ../developers.rst:1033
+#: ../developers.rst:1034
 msgid "Non-FullScreen Web Apps"
 msgstr ""
 
-#: ../developers.rst:1035
+#: ../developers.rst:1036
 msgid ""
 "The Canvas element, to which the rendering is performed, can change its "
 "position relative to the browser window. This can occur due to some "
@@ -1611,7 +1620,7 @@ msgid ""
 "is especially relevant for non-fullscreen web applications."
 msgstr ""
 
-#: ../developers.rst:1037
+#: ../developers.rst:1038
 msgid ""
 "In most cases this will not affect the performance of the app by any "
 "means. However, some DOM events related to mouse cursor or touch position"
@@ -1622,7 +1631,7 @@ msgid ""
 " corner)."
 msgstr ""
 
-#: ../developers.rst:1039
+#: ../developers.rst:1040
 msgid ""
 "If the top left corner of the Canvas element matches the top left corner "
 "of the browser window and is fixed in its position (non-movable) then "
@@ -1631,13 +1640,13 @@ msgid ""
 ":b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()` methods."
 msgstr ""
 
-#: ../developers.rst:1053
+#: ../developers.rst:1054
 msgid ""
 "In the case of the scrolled browser window, you have to use event.pageX "
 "and event.pageY coordinates."
 msgstr ""
 
-#: ../developers.rst:1062
+#: ../developers.rst:1063
 msgid ""
 "In the case of more sophisticated manipulations with the Canvas element "
 "(scrolling of the page elements, displacement from the top level corner "
@@ -1647,7 +1656,7 @@ msgid ""
 "``client_to_canvas_coords()`` method of the ``container`` module:"
 msgstr ""
 
-#: ../developers.rst:1074
+#: ../developers.rst:1075
 msgid ""
 "In order to obtain coordinates in the Canvas space, the engine should "
 "know its position relative to the browser window. However, if this "
@@ -1657,7 +1666,7 @@ msgid ""
 "property upon app initialization:"
 msgstr ""
 
-#: ../developers.rst:1089
+#: ../developers.rst:1090
 msgid ""
 "Please note, that this setting can lead to performance degradation in "
 "some browsers (such as Firefox) due to frequent DOM tree accesses. If the"
@@ -1668,7 +1677,7 @@ msgid ""
 "level ``set_canvas_offsets()`` method from the ``container`` module:"
 msgstr ""
 
-#: ../developers.rst:1104
+#: ../developers.rst:1105
 msgid ""
 "The possibility to scale the whole webpage can lead to Canvas element "
 "displacement on mobile devices. The described decisions are suitable in "
@@ -1728,5 +1737,15 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "ogv -> seq"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "*custom quality* (``P_CUSTOM``) - any "
+#~ "quality parameter can be set to "
+#~ "any possible value. This option is "
+#~ "used when you need to set certain"
+#~ " quality parameters manually. By default,"
+#~ " it uses the same settings as "
+#~ "High quality profile."
 #~ msgstr ""
 

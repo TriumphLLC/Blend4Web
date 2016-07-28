@@ -88,6 +88,10 @@ exports.init_wrapper = function(level_conf, json_name) {
         m_obj.set_nodemat_value(_char_wrapper.body,
                                 ["petigor", m_conf.CHAR_SWORD_SWITCHER],
                                 1);
+    else
+        m_obj.set_nodemat_value(_char_wrapper.body,
+                                ["petigor", m_conf.CHAR_SWORD_SWITCHER],
+                                0);
 
     cleanup_cache();
     precache_speakers();

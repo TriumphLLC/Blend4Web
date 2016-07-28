@@ -59,6 +59,10 @@ var _trigger_state = TS_NONE;
 
 var _hover_panel_elem;
 
+var _pl_bar = null;
+var _pl_fill = null;
+var _pl_caption = null;
+
 
 exports.init = function() {
     m_app.init(INIT_PARAMS);
@@ -74,20 +78,7 @@ function init_cb(canvas_elem, success) {
     // cache dom hover element
     _hover_panel_elem = document.querySelector("#hover_panel");
 
-    m_preloader.create_advanced_preloader({
-        img_width: 165,
-        preloader_width: 460,
-        preloader_bar_id: "preloader_bar",
-        fill_band_id: "fill_band",
-        preloader_caption_id: "preloader_caption",
-        preloader_container_id: "preloader_container",
-        background_container_id: "background_image_container",
-        canvas_container_id: "main_canvas_container"
-    });
-
-    var preloader_frame = document.querySelector("#preloader_frame");
-
-    preloader_frame.style.visibility = "visible";
+    create_preloader();
 
     init_control_button("pause_resume", function() {
         if (_playing)
@@ -110,6 +101,23 @@ function init_cb(canvas_elem, success) {
     }, false);
 
     load_stuff();
+}
+
+function create_preloader() {
+    m_main.pause();
+
+    var pl_cont = document.querySelector("#pl_cont");
+    var pl_frame = pl_cont.querySelector("#pl_frame");
+
+    _pl_bar = document.querySelector("#pl_bar");
+    _pl_caption = document.querySelector("#pl_caption");
+    _pl_fill = document.querySelector("#pl_fill");
+
+    m_app.css_animate(pl_cont, "opacity", 0, 1, 500, "", "", function() {
+        m_main.resume();
+
+        pl_frame.style.opacity = 1;
+    })
 }
 
 function on_resize() {
@@ -162,14 +170,14 @@ function loaded_callback(data_id) {
 }
 
 function apply_anim_cycle(cessna_arm, cessna_spk, pilot) {
+    m_sfx.speaker_stride(cessna_spk);
+
     m_anim.set_first_frame(cessna_arm);
     m_anim.play(cessna_arm, finish_anim_callback);
 
     m_anim.stop(pilot);
     m_anim.set_first_frame(pilot);
     m_anim.play(pilot);
-
-    m_sfx.speaker_reset_speed(cessna_spk, APPROX_CESSNA_SPEED);
 }
 
 function pause() {
@@ -194,28 +202,17 @@ function switch_view_mode() {
     case TS_FOLLOW:
         _trigger_state = TS_TRACK;
         m_anim.stop(_camera);
+        m_sfx.listener_stride();
         break;
     case TS_TRACK:
         _trigger_state = TS_CAM_ANIM;
         m_anim.play(_camera);
+        m_sfx.listener_stride();
         break;
     case TS_CAM_ANIM:
         _trigger_state = TS_FOLLOW;
         m_anim.stop(_camera);
-        break;
-    }
-
-    move_camera();
-
-    switch (_trigger_state) {
-    case TS_FOLLOW:
-        m_sfx.listener_reset_speed(APPROX_CESSNA_SPEED);
-        break;
-    case TS_TRACK:
-        m_sfx.listener_reset_speed(0);
-        break;
-    case TS_CAM_ANIM:
-        m_sfx.listener_reset_speed(0);
+        m_sfx.listener_stride();
         break;
     }
 }
@@ -332,7 +329,23 @@ function change_controls_button_view(elem_id, class_name) {
 }
 
 function preloader_callback(percentage) {
-    m_preloader.update_preloader(percentage);
+    _pl_bar.style.width = percentage / (460 / 295) + "%";
+    _pl_fill.style.width = (100 - percentage) + "%";
+    _pl_caption.innerHTML = percentage + "%";
+
+    if (percentage == 100) {
+        var pl_cont = document.querySelector("#pl_cont");
+        var pl_frame = pl_cont.querySelector("#pl_frame");
+        var scroll_panel = document.querySelector("#scroll_panel");
+
+        pl_frame.style.opacity = 0;
+
+        m_app.css_animate(pl_cont, "opacity", 1, 0, 1000, "", "", function() {
+            m_app.css_animate(scroll_panel, "opacity", 0, 1, 500);
+
+            pl_cont.parentNode.removeChild(pl_cont);
+        })
+    }
 }
 
 function finish_anim_callback() {

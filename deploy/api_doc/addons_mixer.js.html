@@ -61,99 +61,105 @@ var _filter_phase_arr = null;
 exports.enable_mixer_controls = function() {
     init();
 
-    // switch mixer strip / switch mixer param
-    var key_left_sqbr = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT_SQ_BRACKET);
-    var key_right_sqbr = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT_SQ_BRACKET);
+    // switch mixer strip
+    var key_num_left = m_ctl.create_keyboard_sensor(m_ctl.KEY_NUM4);
+    var key_num_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_NUM6);
 
-    // change mixer param value / mute-solo
-    var key_semi = m_ctl.create_keyboard_sensor(m_ctl.KEY_SEMI_COLON);
-    var key_quote = m_ctl.create_keyboard_sensor(m_ctl.KEY_SINGLE_QUOTE);
+    // switch mixer param
+    var key_num_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_NUM8);
+    var key_num_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_NUM2);
 
-    // modifier key
-    var key_shift = m_ctl.create_keyboard_sensor(m_ctl.KEY_SHIFT);
+    // change mixer param value
+    var key_num_add = m_ctl.create_keyboard_sensor(m_ctl.KEY_ADD);
+    var key_num_sub = m_ctl.create_keyboard_sensor(m_ctl.KEY_SUB);
+
+    // mute-solo
+    var key_num_home = m_ctl.create_keyboard_sensor(m_ctl.KEY_NUM7);
+    var key_num_pgup = m_ctl.create_keyboard_sensor(m_ctl.KEY_NUM9);
 
     var timer_slow = m_ctl.create_timer_sensor(TIMER_SLOW_PERIOD, true);
     var timer_fast = m_ctl.create_timer_sensor(TIMER_FAST_PERIOD, true);
 
-    var mixer_keys = [key_left_sqbr, key_right_sqbr, key_semi, key_quote,
-            key_shift, timer_slow, timer_fast];
-
+    var switch_strip_keys = [key_num_left, key_num_right, timer_slow];
 
     var switch_strip_logic = function(s) {
-        return ((s[0] || s[1]) &amp;&amp; !s[4]);
+        return (s[0] || s[1]);
     }
     var switch_strip_logic_hold = function(s) {
-        return ((s[0] || s[1]) &amp;&amp; !s[4] &amp;&amp; s[5]);
+        return ((s[0] || s[1]) &amp;&amp; s[2]);
     }
 
-    var switch_param_logic = function(s) {
-        return ((s[0] || s[1]) &amp;&amp; s[4]);
-    }
     var switch_spk_cb = function(obj, id, pulse) {
         if (pulse == 1) {
             var dir = Boolean(m_ctl.get_sensor_value(obj, id, 0)) ? -1 : 1;
             switch_strip(dir);
             if (id == "SWITCH_STRIP")
-                m_ctl.reset_timer_sensor(obj, id, 5, TIMER_SLOW_PERIOD + 0.3);
+                m_ctl.reset_timer_sensor(obj, id, 2, TIMER_SLOW_PERIOD + 0.3);
             else
-                m_ctl.reset_timer_sensor(obj, id, 5, TIMER_SLOW_PERIOD);
+                m_ctl.reset_timer_sensor(obj, id, 2, TIMER_SLOW_PERIOD);
         } else {
             // hold on some time
-            m_ctl.reset_timer_sensor(obj, id, 5, 10);
+            m_ctl.reset_timer_sensor(obj, id, 2, 10);
         }
     }
     m_ctl.create_sensor_manifold(null, "SWITCH_STRIP", m_ctl.CT_TRIGGER, 
-            mixer_keys, switch_strip_logic, switch_spk_cb);
+            switch_strip_keys, switch_strip_logic, switch_spk_cb);
     m_ctl.create_sensor_manifold(null, "SWITCH_STRIP_HOLD", m_ctl.CT_SHOT, 
-            mixer_keys, switch_strip_logic_hold, switch_spk_cb);
+            switch_strip_keys, switch_strip_logic_hold, switch_spk_cb);
 
+    var switch_param_keys = [key_num_up, key_num_down];
+    var switch_param_logic = function(s) {
+        return (s[0] || s[1]);
+    }
     var switch_param_cb = function(obj, id, pulse) {
         var dir = Boolean(m_ctl.get_sensor_value(obj, id, 0)) ? -1 : 1;
         switch_param(dir);
     }
     m_ctl.create_sensor_manifold(null, "SWITCH_PARAM", m_ctl.CT_SHOT, 
-            mixer_keys, switch_param_logic, switch_param_cb);
+            switch_param_keys, switch_param_logic, switch_param_cb);
 
+    var inc_dec_keys = [key_num_sub, key_num_add, timer_fast];
 
     var inc_dec_cb = function(obj, id, pulse) {
 
         if (pulse == 1) {
-            var dir = Boolean(m_ctl.get_sensor_value(obj, id, 2)) ? -1 : 1;
+            var dir = Boolean(m_ctl.get_sensor_value(obj, id, 0)) ? -1 : 1;
             param_inc_dec(dir);
 
             if (id == "INC_DEC")
-                m_ctl.reset_timer_sensor(obj, id, 6, TIMER_FAST_PERIOD + 0.3);
+                m_ctl.reset_timer_sensor(obj, id, 2, TIMER_FAST_PERIOD + 0.3);
             else
-                m_ctl.reset_timer_sensor(obj, id, 6, TIMER_FAST_PERIOD);
+                m_ctl.reset_timer_sensor(obj, id, 2, TIMER_FAST_PERIOD);
         } else {
             // hold on some time
-            m_ctl.reset_timer_sensor(obj, id, 6, 10);
+            m_ctl.reset_timer_sensor(obj, id, 2, 10);
         }
     }
     var inc_dec_logic = function(s) {
-        return ((s[2] || s[3]) &amp;&amp; !s[4]);
+        return (s[0] || s[1]);
     }
     var inc_dec_logic_hold = function(s) {
-        return ((s[2] || s[3]) &amp;&amp; !s[4] &amp;&amp; s[6]);
+        return ((s[0] || s[1]) &amp;&amp; s[2]);
     }
     m_ctl.create_sensor_manifold(null, "INC_DEC", m_ctl.CT_TRIGGER, 
-            mixer_keys, inc_dec_logic, inc_dec_cb);
+            inc_dec_keys, inc_dec_logic, inc_dec_cb);
     m_ctl.create_sensor_manifold(null, "INC_DEC_HOLD", m_ctl.CT_SHOT, 
-            mixer_keys, inc_dec_logic_hold, inc_dec_cb);
+            inc_dec_keys, inc_dec_logic_hold, inc_dec_cb);
 
+    var mute_solo_keys = [key_num_home, key_num_pgup];  
 
     var mute_solo_cb = function(obj, id, pulse) {
-        var mute_solo = Boolean(m_ctl.get_sensor_value(obj, id, 2));
+        var mute_solo = Boolean(m_ctl.get_sensor_value(obj, id, 0));
         if (mute_solo)
             switch_mute();
         else
             switch_solo();
     }
     var mute_solo_logic = function(s) {
-        return ((s[2] || s[3]) &amp;&amp; s[4]);
+        return (s[0] || s[1]);
     }
     m_ctl.create_sensor_manifold(null, "MUTE_SOLO", m_ctl.CT_SHOT,
-            mixer_keys, mute_solo_logic, mute_solo_cb);
+            mute_solo_keys, mute_solo_logic, mute_solo_cb);
 
     var elapsed = m_ctl.create_elapsed_sensor();
 
@@ -199,7 +205,7 @@ function init() {
         _mixer_strips.push(create_speaker_strip(spk));
     }
 
-    // special strips first, than by name
+    // special strips first, then by name
     _mixer_strips.sort(function(a,b) {
         if (a.id == "MASTER")
             return -1;
@@ -237,7 +243,6 @@ function gen_freq_arr(steps) {
 
 function create_master_strip() {
     var strip = init_strip("MASTER");
-    strip.params.push(["VOLUME", m_sfx.get_volume(null), 0, 1, 50, false]);
 
     var cparams = m_sfx.get_compressor_params();
     if (cparams) {
@@ -247,6 +252,8 @@ function create_master_strip() {
         strip.params.push(["ATTACK", cparams["attack"], 0, 1, 1000, false]);
         strip.params.push(["RELEASE", cparams["release"], 0, 1, 1000, false]);
     }
+
+    strip.params.push(["VOLUME", m_sfx.get_volume(null), 0, 1, 50, false]);
 
     strip.mute = m_sfx.is_muted(null) ? 1 : 0;
     strip.solo = -1;
@@ -296,8 +303,6 @@ function update_strip_params(strip) {
     // cleanup
     strip.params.length = 0;
 
-    strip.params.push(["VOLUME", m_sfx.get_volume(strip.speaker), 0, 1, 50, false]);
-
     var pparams = m_sfx.get_positional_params(strip.speaker);
     if (pparams) {
         strip.params.push(["DIST_REF", pparams["dist_ref"], 0, 1000, 10000, false]);
@@ -311,6 +316,8 @@ function update_strip_params(strip) {
         strip.params.push(["EQ_Q", fparams["Q"], 0, 10, 100, false]);
         strip.params.push(["EQ_GAIN", fparams["gain"], -70, 30, 100, false]);
     }
+
+    strip.params.push(["VOLUME", m_sfx.get_volume(strip.speaker), 0, 1, 50, false]);
 
     // handle params decrease
     m_util.clamp(strip.active_param, 0, strip.params.length - 1);
@@ -575,7 +582,7 @@ function active_strip_range() {
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Jun 30 2016 15:03:05 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Jul 26 2016 15:18:53 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

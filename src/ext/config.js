@@ -47,6 +47,8 @@
  * instead.
  * <dt>animation_framerate
  * <dd>Number, animation framerate.
+ * <dt> anisotropic_filtering
+ * <dd>Boolean, enable anisotropic filtering
  * <dt>antialiasing
  * <dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
  * in order to change this parameter).
@@ -67,12 +69,26 @@
  * <dd>Boolean, set the resolution factor for the canvas.
  * <dt>console_verbose
  * <dd>Boolean, print more debug info in the browser console.
+ * <dt>dof
+ * <dd>Boolean, enable DOF
+ * <dt>god_rays
+ * <dd>Boolean, enable god rays
+ * <dt>bloom
+ * <dd>Boolean, enable bloom
+ * <dt>motion_blur
+ * <dd>Boolean, enable motion_blur
  * <dt>do_not_load_resources
  * <dd>Boolean, disable loading of assets (textures and sounds).
  * <dt>enable_selectable
  * <dd>Boolean, enable selecting of objects.
  * <dt>enable_outlining
  * <dd>Boolean, enable outlining of object.
+ * <dt>is_mobile_device
+ * <dd>Boolean, check mobile device.
+ * <dt>max_fps
+ * <dd>Number, maximum FPS limit
+ * <dt>max_fps_physics
+ * <dd>Number, maximum physics FPS limit
  * <dt>media_auto_activation
  * <dd>Boolean, activate media data context on mobile devices using popup dialog.
  * <dt>outlining_overview_mode
@@ -97,10 +113,16 @@
  * <dt>quality
  * <dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
  * P_ULTRA, P_CUSTOM enums).
+ * <dt>reflections
+ * <dd>Boolean, enable reflections
+ * <dt>refractions
+ * <dd>Boolean, enable refractions
  * <dt>sfx_mix_mode
  * <dd>Boolean, enable the mixer mode in the SFX subsystem.
  * <dt>shaders_dir
  * <dd>String, path to the shaders directory (developer version only).
+ * <dt>shadows
+ * <dd>Boolean, enable shadows
  * <dt>show_hud_debug_info
  * <dd>Boolean, show HUD with debug information.
  * <dt>smaa
@@ -112,10 +134,14 @@
  * <dt>smaa_area_texture_path
  * <dd>String, path to the SMAA "area" texture. If not specified, search in the
  * directory with the engine's sources.
+ * <dt>ssao
+ * <dd>Boolean, enable SSAO
  * <dt>stereo
  * <dd>String, stereoscopic mode: "ANAGLYPH", "HMD" or "NONE".
  * <dt>debug_view
  * <dd>Boolean, enable debug view mode.
+ * <dt>use_min50
+ * <dd>Boolean, enable min50 textures.
  * <dt>gl_debug
  * <dd>Boolean, enable gl errors check. Very slow.
  * </dl>
@@ -131,7 +157,9 @@
  * @cc_externs precision prevent_caching quality
  * @cc_externs sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
- * @cc_externs debug_view url_params stereo gl_debug
+ * @cc_externs debug_view url_params stereo gl_debug max_fps max_fps_physics
+ * @cc_externs use_min50 anisotropic_filtering shadows reflections refractions
+ * @cc_externs ssao dof god_rays bloom motion_blur is_mobile_device
  */
 b4w.module["config"] = function(exports, require) {
 

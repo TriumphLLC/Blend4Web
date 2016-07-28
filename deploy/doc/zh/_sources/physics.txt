@@ -28,6 +28,10 @@ Table of Contents
 
     * Watercraft Settings
 
+  * Character Objects
+
+    * Character Settings
+
   * Use in Applications
 
 
@@ -299,6 +303,67 @@ Watercraft Settings
    Rotation damping when the object is on the water surface (or under
    water). When the object is not in water, the physics settings are
    used.
+
+
+Character Objects
+=================
+
+[图片]
+
+This feature can be activated by clicking the "Character" check-box in
+the title of the eponymous tab on the "Physics" panel.
+
+From the engine standpoint, the character itself is a proper physical
+object that can collide with other physical objects or be influenced
+by physical forces such as gravity and bouyant force.
+
+Character object can be easily controlled using several API methods
+with a *character* keyword in their names. All such methods reside in
+the physics API module.
+
+
+Character Settings
+------------------
+
+[图片]
+
+All the settings listed here become available after activating the
+"Character" tab.
+
+*Walk Speed*
+   This parameter sets the speed of a character walking (measured in
+   meters per second). The lowest possible value of this parameter is
+   zero, while the highest is 10.
+
+   Its default value is 4.
+
+*Run Speed*
+   This is the speed of the character running (measured in meters per
+   second). Its value can vary from zero to 20.
+
+   This parameter is set to 8 by default.
+
+*Step Height*
+   This is the maximum height of an obstacle that character can
+   overstep (in meters). The value of this parameter can vary from
+   zero to 1.
+
+   Default value of this parameter is 0.250.
+
+*Jump Strength*
+   This parameter sets the strength of the character jumping. Its
+   minimum value is zero, while its maximum value is 50.
+
+   Set to 5 by default.
+
+*Waterline*
+   This parameter sets up the waterline for the character object. The
+   waterline is measured from the center of the physical shape of the
+   object (not the object's mesh). If an object is submerged into the
+   water below this line, it will float. Its value can vary from -2 to
+   2.
+
+   It is set to zero by default.
 
 
 Use in Applications
