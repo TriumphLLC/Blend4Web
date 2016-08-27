@@ -344,18 +344,32 @@ class B4W_FaceVertexNormals(bpy.types.Operator):
         if len(sel_indices) < 3:
             self.report({'INFO'}, _('Please select at least 3 vertices'))
             return {"FINISHED"}
-
-        for p in mesh.polygons:
-            all_in = True
-
-            for i in sel_indices:
+        bpy.ops.object.mode_set(mode='OBJECT')
+        bpy.ops.object.mode_set(mode='EDIT')
+        
+        sel_polys = []
+        
+        for p in mesh.polygons:      
+            if p.select == True:
+                sel_polys.append(p)
+                
+        for i in sel_indices:
+            resVec = mathutils.Vector((0,0,0))
+            for p in sel_polys:
+                if i in p.vertices:
+                    resVec = resVec + p.normal
+                    resVec.normalize()
+            set_vertex_normal(i,(resVec.x,resVec.y,resVec.z))
+                
+            #Original b4w code, only supports one face
+            '''for i in sel_indices:
                 if mesh.vertices[i].index not in p.vertices:
                     all_in = False
                     break
 
             if all_in:
                 for i in sel_indices:
-                    set_vertex_normal(i, (p.normal.x, p.normal.y, p.normal.z))
+                    set_vertex_normal(i, (p.normal.x, p.normal.y, p.normal.z))'''
 
         bpy.ops.object.mode_set(mode='OBJECT')
         obj.data.normals_split_custom_set(b4w_loops_normals)
