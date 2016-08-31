@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -29,11 +28,12 @@ b4w.module["__debug"] = function(exports, require) {
 var m_compat = require("__compat");
 var m_cfg    = require("__config");
 var m_ext    = require("__extensions");
+var m_graph  = require("__graph");
 var m_print  = require("__print");
+var m_subs   = require("__subscene");
 var m_tex    = require("__textures");
 var m_time   = require("__time");
 var m_util   = require("__util");
-var m_graph  = require("__graph");
 
 var cfg_def = m_cfg.defaults;
 
@@ -62,7 +62,7 @@ exports.DV_NONE = 0;
 exports.DV_OPAQUE_WIREFRAME = 1;
 exports.DV_TRANSPARENT_WIREFRAME = 2;
 exports.DV_FRONT_BACK_VIEW = 3;
-exports.DV_DEBUG_SPHERES = 4;
+exports.DV_BOUNDINGS = 4;
 exports.DV_CLUSTERS_VIEW = 5;
 exports.DV_BATCHES_VIEW = 6;
 exports.DV_RENDER_TIME = 7;
@@ -298,7 +298,7 @@ exports.check_shader_linking = function(program, shader_id, vshader, fshader,
 }
 
 exports.render_time_start_subs = function(subs) {
-    if (!(cfg_def.show_hud_debug_info || subs.type == "PERFORMANCE"))
+    if (!(cfg_def.show_hud_debug_info || subs.type == m_subs.PERFORMANCE))
         return;
 
     if (subs.do_not_debug)
@@ -327,14 +327,14 @@ function create_render_time_query() {
 }
 
 exports.render_time_stop_subs = function(subs) {
-    if (!(cfg_def.show_hud_debug_info || subs.type == "PERFORMANCE"))
+    if (!(cfg_def.show_hud_debug_info || subs.type == m_subs.PERFORMANCE))
         return;
 
     if (subs.do_not_debug)
         return;
 
     var render_time = calc_render_time(subs.debug_render_time_queries, 
-            subs.debug_render_time);
+            subs.debug_render_time, true);
     if (render_time)
         subs.debug_render_time = render_time;
 }
@@ -344,7 +344,7 @@ exports.render_time_stop_batch = function(batch) {
         return;
 
     var render_time = calc_render_time(batch.debug_render_time_queries, 
-            batch.debug_render_time);
+            batch.debug_render_time, true);
     if (render_time)
         batch.debug_render_time = render_time;
 }
@@ -358,20 +358,20 @@ function is_debug_view_render_time_mode() {
 /**
  * External method for debugging purposes
  */
-exports.process_timer_queries = process_timer_queries;
-function process_timer_queries(subs) {
+exports.process_timer_queries = function(subs) {
     var render_time = calc_render_time(subs.debug_render_time_queries, 
-            subs.debug_render_time);
+            subs.debug_render_time, false);
     if (render_time)
         subs.debug_render_time = render_time;
 }
 
-function calc_render_time(queries, prev_render_time) {
+function calc_render_time(queries, prev_render_time, end_query) {
     var ext = m_ext.get_disjoint_timer_query();
     var render_time = 0;
 
     if (ext) {
-        ext.endQueryEXT(ext.TIME_ELAPSED_EXT);
+        if (end_query)
+            ext.endQueryEXT(ext.TIME_ELAPSED_EXT);
         for (var i = 0; i < queries.length; i++) {
             var query = queries[i];
 
@@ -595,29 +595,76 @@ exports.assert_cons = function(value, constructor) {
 }
 
 /**
- * Check whether the two objects have the same structure.
+ * Check whether the two objects have the same structure with proper values.
  */
 exports.assert_structure = assert_structure;
 function assert_structure(obj1, obj2) {
 
-    if (typeof obj1 != typeof obj2)
+    if (!is_valid(obj1))
+        m_util.panic("Structure assertion failed: invalid first object value");
+
+    if (!is_valid(obj2))
+        m_util.panic("Structure assertion failed: invalid second object value");
+
+    if (!cmp_type(obj1, obj2))
         m_util.panic("Structure assertion failed: incompatible types");
 
-    // ignore simple types or null's
-    if (!(obj1 !== null && obj2 !== null && typeof obj1 == "object"))
+    // continue with objects
+    if (!(obj1 != null && obj2 != null && typeof obj1 == "object" &&
+                !m_util.is_arr_buf_view(obj1) && !(obj1 instanceof Array)))
         return;
 
     for (var i in obj1) {
+        if (!is_valid(obj1[i]))
+            m_util.panic("Structure assertion failed: invalid value for key " +
+                    "in the first object: " + i);
         if (!(i in obj2))
             m_util.panic("Structure assertion failed: missing key in the first object: " + i);
     }
 
     for (var i in obj2) {
+        if (!is_valid(obj2[i]))
+            m_util.panic("Structure assertion failed: invalid value for key " +
+                    "in the second object: " + i);
         if (!(i in obj1))
             m_util.panic("Structure assertion failed: missing key in the second object: " + i);
-        if (typeof obj1[i] != typeof obj2[i])
+        if (!cmp_type(obj1[i], obj2[i]))
             m_util.panic("Structure assertion failed: incompatible types for key " + i);
     }
+}
+
+function is_valid(obj) {
+    if (typeof obj == "undefined")
+        return false;
+    else if (typeof obj == "number" && isNaN(obj))
+        return false;
+    else
+        return true;
+}
+
+function cmp_type(obj1, obj2) {
+    var type1 = typeof obj1;
+    var type2 = typeof obj2;
+
+    if (type1 != type2)
+        return false;
+
+    // additional checks for js arrays or array buffers
+    if (obj1 != null && obj2 != null && typeof obj1 == "object") {
+        var is_arr1 = obj1 instanceof Array;
+        var is_arr2 = obj2 instanceof Array;
+
+        if ((is_arr1 && !is_arr2) || (!is_arr1 && is_arr2))
+            return false;
+
+        var is_abv1 = m_util.is_arr_buf_view(obj1);
+        var is_abv2 = m_util.is_arr_buf_view(obj2);
+
+        if ((is_abv1 && !is_abv2) || (!is_abv1 && is_abv2))
+            return false;
+    }
+
+    return true;
 }
 
 /**
@@ -629,7 +676,7 @@ exports.assert_structure_seq = function(obj) {
     else
         assert_structure(obj, _assert_struct_last_obj);
 
-    _assert_struct_last_obj = obj;
+    _assert_struct_last_obj = m_util.clone_object_nr(obj);
 }
 
 exports.fake_load = function(stageload_cb, interval, start, end, loaded_cb) {
@@ -747,8 +794,16 @@ exports.nodegraph_to_dot = function(graph, detailed_print) {
     return m_graph.debug_dot(graph, nodes_label_cb, edges_label_cb);
 }
 
+exports.get_gl = function() {
+    return _gl;
+}
+
 exports.cleanup = function() {
     _debug_view_subs = null;
+}
+
+exports.reset = function() {
+    _gl = null;
 }
 
 }

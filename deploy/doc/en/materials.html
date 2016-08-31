@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Materials &mdash; Blend4Web 16.07 User Manual</title>
+  <title>Materials &mdash; Blend4Web 16.08 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.07 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.08 User Manual" href="index.html"/>
         <link rel="next" title="Material Library" href="material_library.html"/>
         <link rel="prev" title="Camera" href="camera.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -90,7 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
@@ -341,9 +341,9 @@
 <div class="section" id="settings">
 <h4>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h4>
 <p>Fresnel effect can be set up both for static and dynamic reflection.</p>
-<p><em>Material &gt; Mirror &gt; Fresnel</em>
-Fresnel power for reflection. This is the N exponent in the Schlick’s formula. In Blender it is limited to values from 0 to 5. If this parameter is equal to zero the Fresnel effect is not observed and the <em>full</em> reflection at all angles occurs. If this parameter is greater than zero, the material is less reflective when viewing surfaces at angles which are close to the right angle. The bigger this parameter is the bigger is the angle deviation from the right angle for which the Fresnel effect is observed.</p>
 <dl class="docutils">
+<dt><em>Material &gt; Mirror &gt; Fresnel</em></dt>
+<dd>Fresnel power for reflection. This is the N exponent in the Schlick’s formula. In Blender it is limited to values from 0 to 5. If this parameter is equal to zero the Fresnel effect is not observed and the <em>full</em> reflection at all angles occurs. If this parameter is greater than zero, the material is less reflective when viewing surfaces at angles which are close to the right angle. The bigger this parameter is the bigger is the angle deviation from the right angle for which the Fresnel effect is observed.</dd>
 <dt><em>Material &gt; Mirror &gt; Blend</em></dt>
 <dd>Fresnel factor for reflection. It is reduced to R<sub>0</sub> in the Schlick’s formula by the following expression: R<sub>0</sub> = 1 - <code class="docutils literal"><span class="pre">Blend</span></code> / 5. In Blender it is limited to values from 0 to 5. This parameter defines the Fresnel effect intensity: the bigger the <code class="docutils literal"><span class="pre">Blend</span></code> factor is, the more is the Fresnel effect influence. If it is equal to zero the Fresnel effect is not observed.</dd>
 </dl>
@@ -480,7 +480,7 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-07-26.
+      Last updated on 2016-08-31.
 
     </p>
   </div>
@@ -536,7 +536,7 @@ Fresnel power for reflection. This is the N exponent in the Schlick’s formula.
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -1,3 +1,8 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var DIR_MIN_SHR_FAC 0.0
 #var DIR_FREQ 0.0
 #var DIR_NOISE_SCALE 0.0
@@ -19,9 +24,9 @@
 #var WAVES_HEIGHT 0.0
 #var WAVES_LENGTH 0.0
 
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #include <std_enums.glsl>
 #include <math.glslv>
@@ -29,27 +34,67 @@
 #include <scale_texcoord.glslv>
 #include <procedural.glslf>
 
-/*============================================================================
-                                  ATTRIBUTES
-============================================================================*/
-
-attribute vec3 a_position;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 a_position;
 
 #if NUM_NORMALMAPS > 0 && !DYNAMIC
-attribute vec3 a_normal;
-attribute vec3 a_tangent;
+GLSL_IN vec3 a_normal;
+GLSL_IN vec3 a_tangent;
 #endif
 
 #if !GENERATED_MESH && (NUM_NORMALMAPS > 0 || FOAM)
-attribute vec2 a_texcoord;
+GLSL_IN vec2 a_texcoord;
 #endif
 
 #if DEBUG_WIREFRAME
-attribute float a_polyindex;
+GLSL_IN float a_polyindex;
 #endif
-/*============================================================================
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec3 v_eye_dir;
+GLSL_OUT vec3 v_pos_world;
+
+#if (NUM_NORMALMAPS > 0 || FOAM) && !GENERATED_MESH
+GLSL_OUT vec2 v_texcoord;
+#endif
+
+#if NUM_NORMALMAPS > 0
+GLSL_OUT vec3 v_tangent;
+GLSL_OUT vec3 v_binormal;
+# endif
+
+#if DYNAMIC || NUM_NORMALMAPS > 0
+GLSL_OUT vec3 v_normal;
+#endif
+
+#if (NUM_NORMALMAPS > 0 || FOAM) && GENERATED_MESH && DYNAMIC
+GLSL_OUT vec3 v_calm_pos_world;
+#endif
+
+#if SHORE_PARAMS
+GLSL_OUT vec3 v_shore_params;
+#endif
+
+#if SHORE_SMOOTHING || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE
+GLSL_OUT vec3 v_tex_pos_clip;
+#endif
+
+#if SHORE_SMOOTHING || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE || !DISABLE_FOG
+GLSL_OUT float v_view_depth;
+#endif
+
+#if DEBUG_WIREFRAME
+GLSL_OUT vec3 v_barycentric;
+#endif
+
+#if USE_TBN_SHADING
+GLSL_OUT vec3 v_shade_tang;
+#endif
+/*==============================================================================
                                    UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if STATIC_BATCH
 // NOTE:  mat3(0.0, 0.0, 0.0, --- trans
@@ -81,46 +126,6 @@ uniform PRECISION float u_view_max_depth;
 uniform sampler2D u_shore_dist_map;
 #endif
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
-
-varying vec3 v_eye_dir;
-varying vec3 v_pos_world;
-
-#if (NUM_NORMALMAPS > 0 || FOAM) && !GENERATED_MESH
-varying vec2 v_texcoord;
-#endif
-
-#if NUM_NORMALMAPS > 0
-varying vec3 v_tangent;
-varying vec3 v_binormal;
-# endif
-
-#if DYNAMIC || NUM_NORMALMAPS > 0
-varying vec3 v_normal;
-#endif
-
-#if (NUM_NORMALMAPS > 0 || FOAM) && GENERATED_MESH && DYNAMIC
-varying vec3 v_calm_pos_world;
-#endif
-
-#if SHORE_PARAMS
-varying vec3 v_shore_params;
-#endif
-
-#if SHORE_SMOOTHING || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE
-varying vec3 v_tex_pos_clip;
-#endif
-
-#if SHORE_SMOOTHING || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE || !DISABLE_FOG
-varying float v_view_depth;
-#endif
-
-#if DEBUG_WIREFRAME
-varying vec3 v_barycentric;
-#endif
-
 #if SHORE_PARAMS
 vec3 extract_shore_params(in vec2 pos) {
 
@@ -130,7 +135,7 @@ vec3 extract_shore_params(in vec2 pos) {
                  -(pos.y + SHORE_MAP_CENTER_Y) / SHORE_MAP_SIZE_Y);
 
     // unpack shore parameters from texture
-    vec4 shore_params = texture2D(u_shore_dist_map, shore_coords);
+    vec4 shore_params = GLSL_TEXTURE(u_shore_dist_map, shore_coords);
 
     const vec2 bit_shift = vec2( 1.0/255.0, 1.0);
     float shore_dist = dot(shore_params.ba, bit_shift);
@@ -196,6 +201,10 @@ void offset(inout vec3 pos, in float time, in vec3 shore_params) {
 }
 #endif // DYNAMIC
 
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
+
 void main(void) {
     mat4 view_matrix = tsr_to_mat4(u_view_tsr);
 
@@ -213,14 +222,18 @@ void main(void) {
     vec3 position = a_position;
     float casc_step = abs(position.y);
     vec2 step_xz = u_camera_eye.xz - mod(u_camera_eye.xz, casc_step);
+# if WATER_EFFECTS
     position.y = WATER_LEVEL;
+# else
+    position.y = 0.0;
+# endif
     position.xz += step_xz;// + vec2(15.0, -15.0);
     vec3 world_pos = position;
 #else
 # if NUM_NORMALMAPS > 0 || FOAM
     v_texcoord = a_texcoord;
 # endif
-    vertex world = to_world(a_position, vec3(0.0), vec3(0.0), vec3(0.0),
+    vertex world = to_world(a_position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
                             vec3(0.0), model_mat);
     vec3 world_pos = world.position;
 #endif
@@ -258,10 +271,14 @@ void main(void) {
     offset(world_pos, w_time, vec3(0.0));
 # endif
 
-# if GENERATED_MESH
+# if GENERATED_MESH && WATER_EFFECTS
     // Last cascad needs to be flat and a bit lower than others
     if (a_position.y < 0.0) {
+#  if WATER_EFFECTS
         world_pos.y = WATER_LEVEL - 1.0;
+#  else
+        world_pos.y = -1.0;
+#  endif
         neighbour1.y = world_pos.y;
         neighbour2.y = world_pos.y;
     }

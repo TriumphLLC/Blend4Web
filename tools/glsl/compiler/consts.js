@@ -5,8 +5,16 @@
 
 // Type qualifiers
 exports.UNIFORM = "uniform";
+// GLSL ES 1.0
 exports.ATTRIBUTE = "attribute";
 exports.VARYING = "varying";
+// GLSL ES 3.0
+exports.GLSL_IN = "GLSL_IN";
+exports.GLSL_OUT = "GLSL_OUT";
+
+// Shader type
+exports.VERTEX = "vert";
+exports.FRAGMENT = "frag";
 
 // Property types
 exports.ARRAY_DATA = 0;
@@ -21,19 +29,9 @@ exports.SCOPE_END = 4;
 exports.INCLUDE_START = 5;
 exports.INCLUDE_END = 6;
 
-// Shared ids types
-exports.SHARED_INCLUDE = 7;
-exports.SHARED_VARYING = 8;
-
 // File types
 exports.MAIN_SHADER_FILE = 9;
 exports.INCLUDE_FILE = 10;
-
-// Obfuscation automat states
-exports.QUAL_OBFUSCATE = 11;
-exports.QUAL_OBFUSCATE_VARYING = 12;
-exports.QUAL_DONT_OBFUSCATE = 13;
-exports.QUAL_ERROR = 14;
 
 // Declaration types
 exports.DECL_VAR = 15;
@@ -58,9 +56,9 @@ exports.ERROR = 28;
 // Debug message types
 exports.DECL_RESERVED = 29;
 exports.UNDECLARED_ID = 30;
-exports.BAD_QUAL_COLLISION = 31;
 exports.EXP_DATA_VIOLATION = 32;
 exports.IMP_DATA_VIOLATION = 33;
 exports.POSSIBLE_IMPORT = 34;
 exports.UNSUPPORTED_EXTENSION = 35;
 exports.EXT_ALL_WRONG_BEHAVIOR = 36;
+exports.VERSION_REQUIRED = 37;

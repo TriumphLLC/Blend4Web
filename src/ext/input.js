@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -485,7 +484,7 @@ exports.can_use_device = m_input.can_use_device;
  * If device is not available, then return null.
  * @method module:input.get_device_by_type_element
  * @param {DeviceType} type Device type.
- * @param {HtmlElement} element HTML element.
+ * @param {?HTMLElement} element HTML element to add event listeners to.
  * @returns {?Object} Device object.
  */
 exports.get_device_by_type_element = m_input.get_device_by_type_element;

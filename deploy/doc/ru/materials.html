@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Материалы &mdash; Руководство пользователя Blend4Web 16.07</title>
+  <title>Материалы &mdash; Руководство пользователя Blend4Web 16.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.07" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
         <link rel="next" title="Библиотека материалов" href="material_library.html"/>
         <link rel="prev" title="Камера" href="camera.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -367,8 +367,10 @@
 <div class="section" id="settings">
 <h4>Настройка<a class="headerlink" href="#settings" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Эффект Френеля применяется как для статического, так и для динамического отражения.</p>
-<p>Степень Френеля для отражения. Показатель степени N в формуле Шлика. В пакете Blender ограничен значениями от 0 до 5. Если этот параметр равен нулю, эффект Френеля не проявляется, происходит <em>полное</em> отражение на всех углах. Если этот параметр больше нуля, при обзоре поверхности под углами, близкими к прямому (почти перпендикулярно поверхности), материал становится менее отражающим. Чем больше этот параметр, тем больше отклонение угла от прямого, для которого наблюдается такой эффект.</p>
 <dl class="docutils">
+<dt><em>Material &gt; Mirror &gt; Fresnel</em></dt>
+<dd><p class="first last">Степень Френеля для отражения. Показатель степени N в формуле Шлика. В пакете Blender ограничен значениями от 0 до 5. Если этот параметр равен нулю, эффект Френеля не проявляется, происходит <em>полное</em> отражение на всех углах. Если этот параметр больше нуля, при обзоре поверхности под углами, близкими к прямому (почти перпендикулярно поверхности), материал становится менее отражающим. Чем больше этот параметр, тем больше отклонение угла от прямого, для которого наблюдается такой эффект.</p>
+</dd>
 <dt><em>Material &gt; Mirror &gt; Blend</em></dt>
 <dd><p class="first last">Фактор Френеля для отражения. Приводится к R<sub>0</sub> в формуле Шлика: R<sub>0</sub> = 1 - <code class="docutils literal"><span class="pre">Blend</span></code> / 5. В пакете Blender ограничен значениями от 0 до 5. Этот параметр показывает интенсивность проявления эффекта Френеля: чем больше фактор <code class="docutils literal"><span class="pre">Blend</span></code>, тем сильнее влияние эффекта Френеля. Если он равен нулю, эффект Френеля не проявляется.</p>
 </dd>
@@ -428,7 +430,7 @@
 <a class="reference internal image-reference" href="_images/update_material_anim.png"><img alt="_images/update_material_anim.png" class="align-center" src="_images/update_material_anim.png" style="width: 100%;" /></a>
 <p><em>Update Material Animation</em></p>
 <blockquote>
-<div><p>Обновлять анимаированный шейдер во вьюпорте Blender.</p>
+<div><p>Обновлять анимированный шейдер во вьюпорте Blender.</p>
 </div></blockquote>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -525,7 +527,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-07-26.
+      Обновлено: 2016-08-31.
 
     </p>
   </div>
@@ -581,7 +583,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

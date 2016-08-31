@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -61,7 +60,7 @@ exports.get_s3tc = function() {
 exports.get_depth_texture = function() {
 
     if (cfg_def.webgl2)
-        return {};
+        return webgl2_get("WEBGL_depth_texture");
 
     var ext_dtex = get(       "WEBGL_depth_texture") ||
                    get("WEBKIT_WEBGL_depth_texture") || 
@@ -108,7 +107,7 @@ exports.get_renderer_info = function() {
 exports.get_elem_index_uint = function() {
 
     if (cfg_def.webgl2)
-        return {};
+        return webgl2_get("OES_element_index_uint");
 
     var ext_elem_index_uint = get("OES_element_index_uint");
     return ext_elem_index_uint;
@@ -120,9 +119,8 @@ exports.get_elem_index_uint = function() {
  */
 exports.get_standard_derivatives = function() {
 
-    // NOTE: disable until shaders will be converted to GLSL 3.0
     if (cfg_def.webgl2)
-        return null;
+        return webgl2_get("OES_standard_derivatives");
 
     var ext_standard_derivatives = get("OES_standard_derivatives");
     return ext_standard_derivatives;
@@ -140,10 +138,51 @@ exports.get_disjoint_timer_query = function() {
 exports.get_instanced_arrays = function() {
 
     if (cfg_def.webgl2)
-        return null;
+        return webgl2_get("ANGLE_instanced_arrays");
 
     var ext = get("ANGLE_instanced_arrays");
-    return ext;
+    if (ext == null)
+        return ext;
+
+    var ext_complete = {
+        drawElementsInstanced: function(mode, count, type, offset, primcount) {
+            ext.drawElementsInstancedANGLE(mode, count, type, offset,
+                    primcount);
+        },
+        vertexAttribDivisor: function(loc, div) {
+            ext.vertexAttribDivisorANGLE(loc, div);
+        },
+        drawArraysInstanced: function(mode, first, count, primcount) {
+            ext.drawArraysInstancedANGLE(mode, first, count, primcount);
+        }
+    }
+    return ext_complete;
+}
+
+exports.get_vertex_array_object = function() {
+
+    if (cfg_def.webgl2)
+        return webgl2_get("OES_vertex_array_object");
+
+    var ext = get("OES_vertex_array_object");
+    if (ext == null)
+        return ext;
+
+    var ext_complete = {
+        bindVertexArray: function(vao) {
+            ext.bindVertexArrayOES(vao);
+        },
+        createVertexArray: function() {
+            return ext.createVertexArrayOES();
+        },
+        deleteVertexArray: function(vao) {
+            ext.deleteVertexArrayOES(vao);
+        },
+        isVertexArray: function(vao) {
+            return ext.isVertexArrayOES(vao);
+        }
+    }
+    return ext_complete;
 }
 
 function get(name) {
@@ -165,11 +204,44 @@ function get(name) {
     return ext;
 }
 
+function webgl2_get(name) {
+
+    if (name in _ext_cache)
+        return _ext_cache[name];
+
+    switch(name) {
+    case "WEBGL_depth_texture":
+    case "OES_element_index_uint":
+    case "OES_standard_derivatives":
+        var ext = {};
+        break;
+    case "ANGLE_instanced_arrays":
+    case "OES_vertex_array_object":
+        var ext = _gl;
+        break;
+    }
+
+    _ext_cache[name] = ext;
+
+    if (ext)
+        var color = "0a0";
+    else
+        var color = "a00";
+
+    m_print.log("%cGET EXTENSION (WebGL 2)", "color: #" + color, name);
+
+    return ext;
+}
+
 /**
  * Perform module cleanup
  */
 exports.cleanup = function() {
     _ext_cache = {};
+}
+
+exports.reset = function() {
+    _gl = null;
 }
 
 }

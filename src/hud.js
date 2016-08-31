@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -27,11 +26,12 @@ b4w.module["__hud"] = function(exports, require) {
 
 var m_graph = require("__graph");
 var m_print = require("__print");
+var m_subs  = require("__subscene");
 
 var START_POINT_X = 30;
 var START_POINT_Y = 80;
 var LINE_WIDTH = 20;
-var OFFSETS = [5, 24, 7, 10, 4, 3, 6];
+var OFFSETS = [5, 30, 4, 10, 5, 3, 5];
 
 var _canvas_context = null;
 
@@ -48,7 +48,7 @@ exports.init = function(canvas_elem) {
 }
 
 function set_style(ctx) {
-    ctx.font = 'bold 15px Courier';
+    ctx.font = 'bold 15px Courier New';
     ctx.textBaseline = 'middle';
     ctx.shadowBlur = 0;
     ctx.shadowColor = null;
@@ -95,7 +95,7 @@ exports.show_debug_info = function(scenes, elapsed) {
         new_line();
     }
 
-    print(" -----------------------------------------------");
+    print(" ----------------------------------------------------------------");
     print("    ", "TOTAL ACTIVE", "", "", sum_rcalls, "of", sum_bundles, "  ",
             sum_rtimes.toFixed(3));
 }
@@ -103,7 +103,7 @@ exports.show_debug_info = function(scenes, elapsed) {
 function show_debug_info_scene(scene) {
 
     print(" SCENE \"" + scene["name"] + "\"");
-    print(" Active        Subscene       Lamps      Size   RenderCalls  Time");
+    print(" Active                 Subscene   Lamps   Size   RenderCalls   Time");
 
     if (!scene._render) {
         print("No INFO")
@@ -124,16 +124,20 @@ function show_debug_info_scene(scene) {
         var subs = attr;
 
         // fictional type
-        if (subs.type == "SINK")
+        if (subs.type == m_subs.SINK)
             return;
 
         var type = subs.type;
         var size = Math.round(subs.camera.width) + "x" + Math.round(subs.camera.height);
-        var bundles = subs.bundles.length;
+
+        var bundles = 0;
+        for (var i = 0; i < subs.draw_data.length; i++)
+            bundles += subs.draw_data[i].bundles.length;
+
         var rcalls = subs.debug_render_calls;
 
-        if (subs.type == "MAIN_CUBE_REFLECT" ||
-                subs.type == "MAIN_CUBE_REFLECT_BLEND")
+        if (subs.type == m_subs.MAIN_CUBE_REFLECT ||
+                subs.type == m_subs.MAIN_CUBE_REFLECT_BLEND)
             bundles *= 6;
 
         // active/passive
@@ -147,7 +151,8 @@ function show_debug_info_scene(scene) {
             subs.debug_render_time = 0;
 
         var activity_prefix = is_active ? " (\u2713)" : " (\u2715)";
-        print(activity_prefix, type, subs.num_lights, size, rcalls, "of",
+        var label = m_subs.subs_label(subs);
+        print(activity_prefix, label, subs.num_lights, size, rcalls, "of",
                 bundles, "  ", render_time.toFixed(3));
 
         subs.debug_render_calls = 0;

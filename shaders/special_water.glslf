@@ -1,3 +1,8 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var ABSORB 0.0
 #var WATER_LEVEL 0.0
 #var SSS_STRENGTH 6.0
@@ -15,9 +20,9 @@
 #var LAMP_SHADOW_MAP_IND 0
 #var NUM_LFACTORS 0
 
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #include <std_enums.glsl>
 #include <precision_statement.glslf>
@@ -29,9 +34,9 @@
 #define REFL_BUMP 0.001  //How much normal affects reflection displacement
 #define REFR_BUMP 0.0005  //How much normal affects refraction displacement
 
-/*============================================================================
+/*==============================================================================
                                GLOBAL UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 uniform float u_time;
 
@@ -70,9 +75,9 @@ uniform vec4 u_fog_params; // intensity, depth, start, height
 # endif
 #endif
 
-/*============================================================================
+/*==============================================================================
                                SAMPLER UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if NUM_NORMALMAPS > 0
 uniform sampler2D u_normalmap0;
@@ -96,9 +101,9 @@ uniform PRECISION sampler2D u_scene_depth;
 uniform sampler2D u_foam;
 #endif
 
-/*============================================================================
+/*==============================================================================
                                MATERIAL UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 uniform vec4  u_diffuse_color; // water color and alpha
 uniform vec2  u_diffuse_params;
@@ -158,49 +163,55 @@ const float WIREFRAME_WIDTH = 1.0;
 uniform vec3 u_wireframe_edge_color;
 #endif
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
-
-varying vec3 v_eye_dir;
-varying vec3 v_pos_world;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 v_eye_dir;
+GLSL_IN vec3 v_pos_world;
 
 #if (NUM_NORMALMAPS > 0 || FOAM) && !GENERATED_MESH
-varying vec2 v_texcoord;
+GLSL_IN vec2 v_texcoord;
 #endif
 
 #if NUM_NORMALMAPS > 0
-varying vec3 v_tangent;
-varying vec3 v_binormal;
+GLSL_IN vec3 v_tangent;
+GLSL_IN vec3 v_binormal;
 #endif
 
 #if DYNAMIC || NUM_NORMALMAPS > 0
-varying vec3 v_normal;
+GLSL_IN vec3 v_normal;
 #endif
 
 #if (NUM_NORMALMAPS > 0 || FOAM) && GENERATED_MESH && DYNAMIC
-varying vec3 v_calm_pos_world;
+GLSL_IN vec3 v_calm_pos_world;
 # endif
 
 #if SHORE_PARAMS
-varying vec3 v_shore_params;
+GLSL_IN vec3 v_shore_params;
 #endif
 
 #if SHORE_SMOOTHING || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE
-varying vec3 v_tex_pos_clip;
+GLSL_IN vec3 v_tex_pos_clip;
 #endif
 
 #if SHORE_SMOOTHING || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE || !DISABLE_FOG
-varying float v_view_depth;
+GLSL_IN float v_view_depth;
 #endif
 
 #if DEBUG_WIREFRAME
-varying vec3 v_barycentric;
+GLSL_IN vec3 v_barycentric;
 #endif
 
-/*============================================================================
+#if USE_TBN_SHADING
+GLSL_IN vec3 v_shade_tang;
+#endif
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
                                   FUNCTIONS
-============================================================================*/
+==============================================================================*/
 
 #include <environment.glslf>
 
@@ -235,12 +246,12 @@ vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
         //float eye_dot_norm = dot(eye_dir, normal);
         //mirror_factor *= max(1.0 - 1.0 / eye_dot_norm, 0.0);
     } else {
-        reflect_color = texture2D(u_plane_reflection, reflect_coord).rgb;
+        reflect_color = GLSL_TEXTURE(u_plane_reflection, reflect_coord).rgb;
         srgb_to_lin(reflect_color);
     }
 #elif REFLECTION_TYPE == REFL_MIRRORMAP
     mirror_factor = u_mirror_factor;
-    vec3 reflect_color = light_energies * textureCube(u_mirrormap, eye_reflected).rgb;
+    vec3 reflect_color = light_energies * GLSL_TEXTURE_CUBE(u_mirrormap, eye_reflected).rgb;
     srgb_to_lin(reflect_color);
 #else // REFLECTION_TYPE == REFL_PLANE
     mirror_factor = u_reflect_factor;
@@ -260,15 +271,15 @@ vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
     return reflect_color;
 }
 
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #include <lighting_nodes.glslf>
                                   
-/*============================================================================
+/*==============================================================================
                                     MAIN
-============================================================================*/
+==============================================================================*/
 
 void main(void) {
 
@@ -283,7 +294,11 @@ void main(void) {
 #endif
 
 #if DYNAMIC && FOAM
+# if WATER_EFFECTS
     float dist_to_water = v_pos_world.y - WATER_LEVEL;
+# else
+    float dist_to_water = v_pos_world.y;
+# endif
 #endif
 
 #if NUM_NORMALMAPS > 0 || FOAM
@@ -301,7 +316,7 @@ void main(void) {
 #if NUM_NORMALMAPS > 0
     // wave motion
     vec3 n_sum = vec3(0.0);
-    vec3 tex_norm = texture2D(u_normalmap0, texcoord * u_normalmap0_scale
+    vec3 tex_norm = GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap0_scale
                               + vec2(0.3, 0.5) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
     n_sum += tex_norm;
 # if FOAM
@@ -312,7 +327,7 @@ void main(void) {
 # endif
 #endif
 #if NUM_NORMALMAPS > 1
-    tex_norm = texture2D(u_normalmap0, texcoord * u_normalmap1_scale
+    tex_norm = GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap1_scale
                          + vec2(-0.3, 0.7) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
     n_sum += tex_norm;
 # if FOAM
@@ -322,7 +337,7 @@ void main(void) {
 # endif
 #endif
 #if NUM_NORMALMAPS > 2
-    tex_norm = texture2D(u_normalmap0, texcoord * u_normalmap2_scale
+    tex_norm = GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap2_scale
                          + vec2(0.0, 1.1) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
     n_sum += tex_norm;
 # if FOAM
@@ -332,7 +347,7 @@ void main(void) {
 # endif
 #endif
 #if NUM_NORMALMAPS > 3
-    tex_norm = texture2D(u_normalmap0, texcoord * u_normalmap3_scale
+    tex_norm = GLSL_TEXTURE(u_normalmap0, texcoord * u_normalmap3_scale
                          + vec2(-0.66, -0.3) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
     n_sum += tex_norm;
 # if FOAM
@@ -375,7 +390,7 @@ void main(void) {
 #if SHORE_SMOOTHING
     float alpha = u_diffuse_color.a;
 
-    vec4 scene_depth_rgba = texture2DProj(u_scene_depth, v_tex_pos_clip);
+    vec4 scene_depth_rgba = GLSL_TEXTURE_PROJ(u_scene_depth, v_tex_pos_clip);
     float scene_depth = unpack_float(scene_depth_rgba);
     float delta = max(scene_depth - v_view_depth, 0.0);
 
@@ -404,7 +419,7 @@ void main(void) {
 #if REFRACTIVE
     if (u_cam_water_depth < 0.0)
         refract_factor = 0.0;
-    vec3 refract_color = texture2D(u_refractmap, refract_coord).rgb;
+    vec3 refract_color = GLSL_TEXTURE(u_refractmap, refract_coord).rgb;
     srgb_to_lin(refract_color);
 #endif
 
@@ -446,7 +461,7 @@ void main(void) {
 
 # endif // DYNAMIC
 
-    vec4 foam = texture2D(u_foam,
+    vec4 foam = GLSL_TEXTURE(u_foam,
                           u_foam_mag * sin(u_foam_uv_freq * u_time)
                           + texcoord * u_foam_scale);
 #endif // FOAM
@@ -512,7 +527,7 @@ void main(void) {
     // specular
     color += specular;
 
-#if !DISABLE_FOG
+#if WATER_EFFECTS && !DISABLE_FOG
     // fog stuff
     float surf_dist = v_view_depth * u_view_max_depth;
     float dist_to_water_level = 1.0;
@@ -540,7 +555,9 @@ void main(void) {
 #endif
 
 #if DEBUG_WIREFRAME == 1
+# if GLSL1
 	#extension GL_OES_standard_derivatives: enable
+# endif
 	vec3 derivatives = fwidth(v_barycentric);
 	vec3 smoothed_bc = smoothstep(vec3(0.0), derivatives * WIREFRAME_WIDTH, v_barycentric);
 	float edge_factor = min(min(smoothed_bc.x, smoothed_bc.y), smoothed_bc.z);
@@ -558,5 +575,5 @@ void main(void) {
     alpha = mix(1.0, alpha, edge_factor);
 #endif
 
-    gl_FragColor = vec4(color, alpha);
+    GLSL_OUT_FRAG_COLOR = vec4(color, alpha);
 }

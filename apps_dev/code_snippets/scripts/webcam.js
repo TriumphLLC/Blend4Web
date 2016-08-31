@@ -2,13 +2,16 @@
 
 b4w.register("webcam", function(exports, require) {
 
-var m_app  = require("app");
-var m_cfg  = require("config");
-var m_data = require("data");
-var m_ver  = require("version");
-var m_tex  = require("textures");
-var m_scn  = require("scenes");
-var m_cont = require("container");
+var m_app     = require("app");
+var m_cfg     = require("config");
+var m_data    = require("data");
+var m_ver     = require("version");
+var m_tex     = require("textures");
+var m_scn     = require("scenes");
+var m_cont    = require("container");
+var m_version = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var TIME_DELAY = 1000 / 24;
 var WAITING_DELAY = 1000;
@@ -21,6 +24,8 @@ exports.init = function() {
         canvas_container_id: "canvas_cont",
         callback: init_cb,
         autoresize: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         physics_enabled: false
     });
 }

@@ -1707,6 +1707,7 @@ def process_object(obj, is_curve=False, is_hair=False):
     obj_data["b4w_do_not_cull"] = obj.b4w_do_not_cull
     obj_data["b4w_disable_fogging"] = obj.b4w_disable_fogging
     obj_data["b4w_do_not_render"] = obj.b4w_do_not_render
+    obj_data["b4w_hidden_on_load"] = obj.b4w_hidden_on_load
     obj_data["b4w_shadow_cast"] = obj.b4w_shadow_cast
     obj_data["b4w_shadow_receive"] = obj.b4w_shadow_receive
     obj_data["b4w_reflexible"] = obj.b4w_reflexible
@@ -2181,10 +2182,14 @@ def process_camera(camera):
     cam_data["clip_start"] = round_num(camera.clip_start, 3)
     cam_data["clip_end"] = round_num(camera.clip_end, 3)
     cam_data["dof_distance"] = round_num(camera.dof_distance, 3)
-    cam_data["b4w_dof_front"] = round_num(camera.b4w_dof_front, 3)
-    cam_data["b4w_dof_rear"] = round_num(camera.b4w_dof_rear, 3)
+    cam_data["b4w_dof_front_start"] = round_num(camera.b4w_dof_front_start, 3)
+    cam_data["b4w_dof_front_end"] = round_num(camera.b4w_dof_front_end, 3)
+    cam_data["b4w_dof_rear_start"] = round_num(camera.b4w_dof_rear_start, 3)
+    cam_data["b4w_dof_rear_end"] = round_num(camera.b4w_dof_rear_end, 3)
     cam_data["b4w_dof_power"] = round_num(camera.b4w_dof_power, 2)
     cam_data["b4w_dof_bokeh"] = camera.b4w_dof_bokeh
+    cam_data["b4w_dof_bokeh_intensity"] = round_num(camera.b4w_dof_bokeh_intensity, 2)
+    cam_data["b4w_dof_foreground_blur"] = camera.b4w_dof_foreground_blur
     cam_data["b4w_move_style"] = camera.b4w_move_style
 
     cam_data["b4w_hover_zero_level"] = camera.b4w_hover_zero_level
@@ -2498,6 +2503,8 @@ def process_material(material, uuid = None):
 
     mat_data["use_transparency"] = material.use_transparency
     mat_data["use_shadeless"] = material.use_shadeless
+    mat_data["use_tangent_shading"] = check_material_tangent_shading(material)
+
     mat_data["offset_z"] = round_num(material.offset_z, 2)
 
     game_settings = material.game_settings
@@ -2695,6 +2702,7 @@ def process_image(image):
 
     image_data["size"] = list(image.size)
     image_data["source"] = image.source
+    image_data["colorspace_settings_name"] = image.colorspace_settings.name
     _export_data["images"].append(image_data)
     _export_uuid_cache[image_data["uuid"]] = image_data
     _bpy_uuid_cache[image_data["uuid"]] = image
@@ -2856,6 +2864,7 @@ def process_mesh(mesh, obj_user):
     if len(mesh_data["materials"]):
         for mat_index in range(len(obj_user.material_slots)):
             material = obj_user.material_slots[mat_index].material
+            use_tnb_shading = check_material_tangent_shading(material)
             if do_export(material):
                 if material.type == "HALO":
                     disab_flat = True
@@ -2864,12 +2873,12 @@ def process_mesh(mesh, obj_user):
                 submesh_data = export_submesh(mesh, mesh_ptr, obj_user,
                         obj_ptr, mat_index, disab_flat, vertex_animation,
                         edited_normals, shape_keys, vertex_groups, vertex_colors,
-                        mesh_data)
+                        mesh_data, use_tnb_shading)
                 mesh_data["submeshes"].append(submesh_data)
     else:
         submesh_data = export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, -1,
                 False, vertex_animation, edited_normals, shape_keys, vertex_groups,
-                vertex_colors, mesh_data)
+                vertex_colors, mesh_data, False)
         mesh_data["submeshes"].append(submesh_data)
 
     if len(mesh_data["materials"]) > 1:
@@ -2883,6 +2892,23 @@ def process_mesh(mesh, obj_user):
     _curr_stack["data"].pop()
 
     return mesh_data["uuid"]
+
+def check_material_tangent_shading(material):
+    if material.use_tangent_shading:
+        return True
+    elif material.use_nodes and check_tangent_shading_r(material):
+        return True
+    return False
+
+def check_tangent_shading_r(source):
+    for node in source.node_tree.nodes:
+        if node.type == "MATERIAL" or node.type == "MATERIAL_EXT":
+            if node.material and node.material.use_tangent_shading:
+                return True
+        elif node.type == "GROUP":
+            if check_tangent_shading_r(node):
+                return True
+    return False
 
 def process_mesh_boundings(mesh_data, mesh, bounding_data, pref):
     if (mesh.b4w_override_boundings):
@@ -3132,7 +3158,7 @@ def rgb_channels_to_mask(channel_name):
 
 def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat,
         vertex_animation, edited_normals, shape_keys, vertex_groups, vertex_colors,
-        mesh_data):
+        mesh_data, use_tnb_shading):
 
     if vertex_animation:
         if len(obj_user.b4w_vertex_anim) == 0:
@@ -3175,9 +3201,9 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat,
     try:
         mesh.calc_normals_split()
         mesh.calc_tessface()
-        submesh = b4w_bin.export_submesh(mesh_ptr, obj_ptr, mat_index, \
-                disab_flat, vertex_animation, edited_normals, shape_keys, vertex_groups, \
-                vertex_colors, vc_mask_buffer, is_degenerate_mesh)
+        submesh = b4w_bin.export_submesh(mesh_ptr, obj_ptr, mat_index,
+                disab_flat, vertex_animation, edited_normals, shape_keys, use_tnb_shading,
+                vertex_groups, vertex_colors, vc_mask_buffer, is_degenerate_mesh)
     except Exception as ex:
         raise ExportError("Incorrect mesh", mesh, str(ex))
 
@@ -3219,7 +3245,7 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat,
             else:
                 submesh_data[prop_name] = [0, 0]
 
-    float_props = ["position", "texcoord", "texcoord2"]
+    float_props = ["position", "texcoord", "texcoord2", "shade_tangs"]
     for prop_name in float_props:
         if prop_name in submesh:
             if len(submesh[prop_name]):
@@ -3984,13 +4010,11 @@ def get_particle_system_scale(obj, obj_data, psys, vert_group_name):
 
             for j in range(0, len(vert)):
                 vert_index = vert[j]
-                weight = 0
-                for v_group in obj_data.vertices[vert_index].groups:
-                    if v_group.group == vg_index:
-                        weight = obj.vertex_groups[vert_group_name].weight(vert_index)
+                weight = get_ver_weight_by_group_ind(psys, obj_data, vert_index, vg_index)
                 scale += weight * vertex_influence[i * 4 + j]
         else:
-            scale = obj.vertex_groups[vert_group_name].weight(indices[i])
+            vert_gr_ind = obj.vertex_groups[vert_group_name].index
+            scale = get_ver_weight_by_group_ind(psys, old_mesh, indices[i], vert_gr_ind)
 
         scale = max(min(scale, 1), 0)
         scales.append(scale)
@@ -3998,6 +4022,15 @@ def get_particle_system_scale(obj, obj_data, psys, vert_group_name):
     obj.data = old_mesh
 
     return scales
+
+def get_ver_weight_by_group_ind(psys, obj_data, vert_index, vg_index):
+    weight = 0
+    for v_group in obj_data.vertices[vert_index].groups:
+        if v_group.group == vg_index:
+            weight = v_group.weight
+    if psys.invert_vertex_group_length:
+        weight = 1.0 - weight
+    return weight
 
 def process_object_particle_systems(obj, obj_data):
     psystems_data = []
@@ -4028,7 +4061,6 @@ def process_object_particle_systems(obj, obj_data):
                     vert_group_name = psys.vertex_group_length
                     if vert_group_name:
                         scales = get_particle_system_scale(obj, obj_data, psys, vert_group_name)
-
                     for i in range(len(psys.particles)):
                         particle = psys.particles[i]
                         x,y,z = particle.hair_keys[0].co_object(obj, m, particle).xyz
@@ -4212,6 +4244,7 @@ def process_node_tree(data, tree_source):
 
                 node_data["diffuse_shader"] = material.diffuse_shader
                 node_data["use_shadeless"] = material.use_shadeless
+                node_data["use_tangent_shading"] = material.use_tangent_shading
                 node_data["specular_alpha"] = material.specular_alpha
                 node_data["alpha"] = material.alpha
                 node_data["diffuse_intensity"] = material.diffuse_intensity
@@ -4262,6 +4295,14 @@ def process_node_tree(data, tree_source):
             node_data["vector_type"] = node.vector_type
             node_data["convert_from"] = node.convert_from
             node_data["convert_to"] = node.convert_to
+
+        elif node.type == "NORMAL_MAP":
+            node_data["space"] = node.space
+            if node.outputs["Normal"].is_linked:
+                node_data["uv_map"] = get_uv_layer(_curr_stack["data"][-1],  node.uv_map)
+            else:
+                node_data["uv_map"] =  node.uv_map
+            data["uv_vc_key"] += node.uv_map + node_data["uv_map"]
 
         dct["nodes"].append(node_data)
 

@@ -21,13 +21,19 @@ var _curr_scopes_chain = [0];
 // for searching declarations before current index
 var _curr_seq_index = -1;
 
+var _ast_input = null;
 
-exports.init = function(ast_input, filename) {
-    init_data(ast_input);
+exports.init_ast = function(ast_input, vardef_ids, filename, filetype) {
+    _ast_input = ast_input;
     _src_filename = filename;
+    _src_filetype = filetype;
+
+    init_data();
+    m_search.set_uids(_ast_input.uid_to_nodes);
+    m_reserved.set_vardef_tokens(vardef_ids);
 }
 
-function init_data(ast_input) {
+function init_data() {
     _collected_data = {
         main_sequence: []
     };
@@ -38,17 +44,16 @@ function init_data(ast_input) {
         scopes_id_counter: 0
     };
     _curr_includes_stack = [null];
-    _qual_init_state = 0;
-    _ast_root_uid = ast_input.ast.uid;
+    _ast_root_uid = _ast_input.ast.uid;
 }
 
 /*==============================================================================
                             AST DATA COLLECTING
 ==============================================================================*/
 
-exports.collect = function(ast_input) {
-    init_data(ast_input);
-    collect_data(ast_input.ast);
+exports.collect = function() {
+    init_data();
+    collect_data(_ast_input.ast);
     return _collected_data;
 }
 
@@ -66,7 +71,6 @@ function collect_data(ast) {
     m_trav.traverse_data(ast, cb_before, cb_after);
 
     fix_includes();
-    fix_obf_collisions();
     move_struct_fields();
 }
 
@@ -148,7 +152,7 @@ function check_declaration(ast_node) {
         break;
     case "single_declaration":
         if (ast_node.subtype == "simple") {
-            if (ast_node.identifier){
+            if (ast_node.identifier) {
                 decl_type = m_consts.DECL_VAR;
                 decl_id = ast_node.identifier;
                 decl_id_type = get_type_name(ast_node.type);
@@ -202,7 +206,6 @@ function check_declaration(ast_node) {
             decl_id: decl_id,
             decl_id_type: decl_id_type,
             decl_id_type_qualifier: decl_id_type_qualifier,
-            decl_id_type_qualifier_origin: decl_id_type_qualifier,
             decl_is_reserved: m_reserved.is_reserved(decl_id.name),
             decl_in_scope: ids_stack[ids_stack.length - 1],
             decl_in_include: _curr_includes_stack[_curr_includes_stack.length - 1],
@@ -211,7 +214,8 @@ function check_declaration(ast_node) {
 
         data.decl_obfuscation_allowed = !data.decl_is_reserved
                 && allow_qualifier_obfuscation(data.decl_id_type_qualifier)
-                && !m_reserved.is_b4w_specific(data.decl_id.name);
+                && !m_reserved.is_b4w_specific(data.decl_id.name)
+                && !m_reserved.is_vector_accessor(data.decl_id.name);
 
         if (data.decl_is_reserved && !m_reserved.is_special(data.decl_id.name))
             m_debug.debug_message(m_consts.DECL_RESERVED, get_current_file_name(), 
@@ -324,7 +328,7 @@ function push_extension_data(ext_name, ext_behavior) {
 }
 
 /*==============================================================================
-                             SERVICE ACTIONS
+                                SERVICE ACTIONS
 ==============================================================================*/
 
 /**
@@ -334,11 +338,11 @@ function push_extension_data(ext_name, ext_behavior) {
 function fix_includes() {
     var opened_includes = [];
 
-    var cb = function(main_sequence, index, ast_node, scopes_chain, 
+    var cb = function(main_sequence, index, seq_node, scopes_chain, 
             filenames_stack) {
-        if (ast_node.type == "include")
-            if (ast_node.include_status == m_consts.INCLUDE_START)
-                opened_includes.push(ast_node);
+        if (seq_node.type == "include")
+            if (seq_node.include_status == m_consts.INCLUDE_START)
+                opened_includes.push(seq_node);
             else
                 opened_includes.pop();
     }
@@ -356,72 +360,14 @@ function fix_includes() {
 }
 
 /**
- * Fix obfuscation status collisions
- */
-function fix_obf_collisions() {
-    var redef_coll_types = [m_consts.DECL_VAR, m_consts.DECL_PARM_VAR, m_consts.DECL_STRUCT_TYPE]
-
-    var scopes = {};
-    var qualifiers = {};
-
-    var cb = function(main_sequence, index, ast_node, scopes_chain, 
-            filenames_stack) {
-        if (ast_node.type == "declaration" 
-                && redef_coll_types.indexOf(ast_node.decl_type) != -1) {
-            var scope_id = ast_node.decl_in_scope;
-            var name = ast_node.decl_id.name;
-            var qual = ast_node.decl_id_type_qualifier;
-
-            if (!(scope_id in scopes)) {
-                scopes[scope_id] = {};
-                qualifiers[scope_id] = {};
-            }
-            if (!(name in scopes[scope_id])) {
-                scopes[scope_id][name] = [];
-                qualifiers[scope_id][name] = [];
-            }
-
-            scopes[scope_id][name].push(ast_node);
-            qualifiers[scope_id][name].push(qual);
-        }
-    }
-    traverse_collected_data(cb);
-
-    for (var scope_id in qualifiers) {
-        for (var name in qualifiers[scope_id]) {
-            var qual_array = qualifiers[scope_id][name];
-            var state = pp_qual_run(qual_array);
-            switch (state) {
-            case m_consts.QUAL_OBFUSCATE:
-                break;
-            case m_consts.QUAL_OBFUSCATE_VARYING:
-                for (var j = 0; j < scopes[scope_id][name].length; j++)
-                    scopes[scope_id][name][j].decl_id_type_qualifier = "varying";
-                break;
-            case m_consts.QUAL_DONT_OBFUSCATE:
-                for (var j = 0; j < scopes[scope_id][name].length; j++) {
-                    scopes[scope_id][name][j].decl_id_type_qualifier = "uniform";
-                    scopes[scope_id][name][j].decl_obfuscation_allowed = false;
-                }
-                break;
-            case m_consts.QUAL_ERROR:
-                m_debug.debug_message(m_consts.BAD_QUAL_COLLISION, 
-                        get_current_file_name(), name);
-                break;
-            }
-        }
-    }
-}
-
-/**
  * Make links from structure to its fields and remove them from main_sequence
  */
 function move_struct_fields() {
     var struct_scopes = {}
 
-    var cb = function(main_sequence, index, ast_node, scopes_chain, 
+    var cb = function(main_sequence, index, seq_node, scopes_chain, 
             filenames_stack) {
-        if (ast_node.type == "declaration" && ast_node.decl_id_type == "struct") {
+        if (seq_node.type == "declaration" && seq_node.decl_id_type == "struct") {
             var scope_id = main_sequence[index - 1].scope_id;
             struct_scopes[index] = get_scope_boundaries(scope_id);
         }
@@ -463,30 +409,30 @@ function traverse_collected_data(callback) {
     var filenames_stack = [_src_filename];
 
     for (var i = 0; i < _collected_data.main_sequence.length; i++) {
-        var ast_node = _collected_data.main_sequence[i];
+        var seq_node = _collected_data.main_sequence[i];
         _curr_seq_index = i;
 
-        switch (ast_node.type) {
+        switch (seq_node.type) {
         case "include":
-            if (ast_node.include_status == m_consts.INCLUDE_START)
-                filenames_stack.push(ast_node.include_name);
+            if (seq_node.include_status == m_consts.INCLUDE_START)
+                filenames_stack.push(seq_node.include_name);
             break;
         case "scope":
-            if (ast_node.scope_status == m_consts.SCOPE_START)
-                _curr_scopes_chain.push(ast_node.scope_id);
+            if (seq_node.scope_status == m_consts.SCOPE_START)
+                _curr_scopes_chain.push(seq_node.scope_id);
             break;
         }
 
-        var res = callback(_collected_data.main_sequence, i, ast_node, 
+        var res = callback(_collected_data.main_sequence, i, seq_node, 
                 _curr_scopes_chain.slice(), filenames_stack.slice());
 
-        switch (ast_node.type) {
+        switch (seq_node.type) {
         case "include":
-            if (ast_node.include_status == m_consts.INCLUDE_END)
+            if (seq_node.include_status == m_consts.INCLUDE_END)
                 filenames_stack.pop();
             break;
         case "scope":
-            if (ast_node.scope_status == m_consts.SCOPE_END)
+            if (seq_node.scope_status == m_consts.SCOPE_END)
                 _curr_scopes_chain.pop();
             break;
         }
@@ -621,55 +567,6 @@ function search_struct_type_decl(type_name) {
 }
 
 /*==============================================================================
-                       QUALIFIERS OBFUSCATION COLLISIONS
-==============================================================================*/
-
-/**
- * State matrix
- *
- * 0: obfuscate
- * 1: obfuscate as varying
- * 2: don't obfuscate
- * 3: error
- *
- * Initial state: 0
- */
-var QUAL_MATRIX = [
-    {"attribute": 2, "uniform": 2, "varying": 1, "const": 0, null: 0},
-    {"attribute": 3, "uniform": 3, "varying": 1, "const": 1, null: 1},
-    {"attribute": 2, "uniform": 2, "varying": 3, "const": 2, null: 2},
-    {"attribute": 3, "uniform": 3, "varying": 3, "const": 3, null: 3}
-]
-var _qual_init_state = 0;
-
-function pp_qual_run(input) {
-    var state = _qual_init_state;
-    for (var i = 0; i < input.length; i++) {
-        var symbol = input[i];
-        state = QUAL_MATRIX[state][symbol]
-        if (state == 3)
-            break;
-    }
-
-    switch (state) {
-    case 0:
-        state = m_consts.QUAL_OBFUSCATE;
-        break;
-    case 1:
-        state = m_consts.QUAL_OBFUSCATE_VARYING;
-        break;
-    case 2:
-        state = m_consts.QUAL_DONT_OBFUSCATE;
-        break;
-    case 3:
-        state = m_consts.QUAL_ERROR;
-        break;
-    }
-
-    return state;
-}
-
-/*==============================================================================
                                     UTILS
 ==============================================================================*/
 
@@ -677,15 +574,15 @@ function get_scope_boundaries(scope_id) {
     var from = null;
     var to = null;
 
-    var cb = function(main_sequence, index, ast_node, scopes_chain, 
+    var cb = function(main_sequence, index, seq_node, scopes_chain, 
             filenames_stack) {
         if (from !== null && to !== null)
             return true;
 
-        if (ast_node.type == "scope" && ast_node.scope_id == scope_id) {
-            if (ast_node.scope_status == m_consts.SCOPE_START)
+        if (seq_node.type == "scope" && seq_node.scope_id == scope_id) {
+            if (seq_node.scope_status == m_consts.SCOPE_START)
                 from = index;
-            else if (ast_node.scope_status == m_consts.SCOPE_END)
+            else if (seq_node.scope_status == m_consts.SCOPE_END)
                 to = index;
         }
     }
@@ -719,14 +616,28 @@ function get_type_qualifier(ast_node) {
     if (type) {
         var inst = get_instance(type.value);
         switch(inst) {
+        // NOTE: "invariant varying" type qualifier as in GLSL ES 1.0 grammar,
+        // the array ["ivariant", "varying"] is the only allowed combination;
+        // however, GLSL ES 3.0 allows to use "invariant" with any type of storage 
+        // qualifiers (not supported by now)
         case m_consts.ARRAY_DATA:
-            qual = m_consts.VARYING;
+            qual = type.value[1].name;
             break;
         case m_consts.OBJECT_DATA:
             qual = type.value.name;
             break;
         }
     }
+
+    // return to the old GLSL ES 1.0 notation for simplicity
+    if (_src_filetype == m_consts.VERTEX && qual == m_consts.GLSL_IN)
+        qual = m_consts.ATTRIBUTE;
+    else if (_src_filetype == m_consts.VERTEX && qual == m_consts.GLSL_OUT)
+        qual = m_consts.VARYING;
+    else if (_src_filetype == m_consts.FRAGMENT && qual == m_consts.GLSL_IN)
+        qual = m_consts.VARYING;
+    else if (_src_filetype == m_consts.FRAGMENT && qual == m_consts.GLSL_OUT)
+        qual = null;
 
     return qual;
 }
@@ -756,7 +667,7 @@ function get_current_file_name() {
             || _src_filename;
 }
 
-// TODO: copypasted from ast_processor.js
+// TODO: copypasted from obfuscator.js
 function get_origin_name(id) {
     return id.old_name ? id.old_name : id.name;
 }

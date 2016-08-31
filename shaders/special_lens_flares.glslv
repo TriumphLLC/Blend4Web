@@ -1,19 +1,33 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var NUM_LIGHTS 0
+
+/*============================================================================*/
 
 #define LIGHT_INDEX 0
 
 #include <math.glslv>
 
-attribute float a_lf_dist;
-attribute vec2 a_lf_bb_vertex;
-attribute vec2 a_texcoord;
-
 uniform mat3 u_view_tsr;
 uniform mat4 u_proj_matrix;
-
 uniform vec3 u_light_directions[NUM_LIGHTS];
 
-varying vec2 v_texcoord;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN float a_lf_dist;
+GLSL_IN vec2 a_lf_bb_vertex;
+GLSL_IN vec2 a_texcoord;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec2 v_texcoord;
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
     mat4 view_matrix = tsr_to_mat4(u_view_tsr);

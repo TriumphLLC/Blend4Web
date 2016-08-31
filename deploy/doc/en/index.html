@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Table of Contents &mdash; Blend4Web 16.07 User Manual</title>
+  <title>Table of Contents &mdash; Blend4Web 16.08 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.07 User Manual" href="#"/>
+    <link rel="top" title="Blend4Web 16.08 User Manual" href="#"/>
         <link rel="next" title="Overview" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -89,7 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
@@ -211,7 +211,7 @@
 <li class="toctree-l2"><a class="reference internal" href="web_player.html#scene-errors">Scene Errors</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#local-development-server">Local Development Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#running-viewer-and-demos">Running Viewer and Demos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-formats">Export Formats</a></li>
@@ -252,12 +252,13 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#main-features-of-the-normal-editor">Main Features of the Normal Editor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#interface-of-the-vertex-normal-editor">Interface of the Vertex Normal Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#interface">Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#activate">Activate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#show-normals">Show Normals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#rotation">Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#absolute-and-offset-modes">Absolute and Offset Modes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#split-normals">Split Normals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#average-split">Average Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#average">Average</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#restore">Restore</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#tree-foliage-and-face">Tree, Foliage and Face</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-paste">Copy/Paste</a></li>
@@ -289,7 +290,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="node_materials.html#standard-nodes">Standard Nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="node_materials.html#engine-specific-nodes">Engine Specific Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_materials.html#engine-specific-nodes">Engine-Specific Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a><ul>
@@ -388,6 +389,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="audio.html#audio-source-settings">Audio Source Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#audio-mixer">Audio Mixer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="audio.html#processing-and-decoding">Processing and Decoding</a></li>
 </ul>
 </li>
@@ -399,7 +401,7 @@
 <li class="toctree-l2"><a class="reference internal" href="physics.html#wheeled-vehicles">Wheeled Vehicles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#floating-objects">Floating Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#floating-vehicles-aka-watercrafts">Floating Vehicles aka Watercrafts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="physics.html#character-objects">Character Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#characters">Characters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#use-in-applications">Use in Applications</a></li>
 </ul>
 </li>
@@ -419,7 +421,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#coding-style">Coding Style</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#building-the-engine">Building the Engine</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#building-the-addon">Building the Addon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#building-the-add-on">Building the Add-on</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#naming-functions-and-variables">Naming Functions and Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#debugging">Debugging</a></li>
@@ -450,6 +452,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-08">v16.08</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-07">v16.07</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-06">v16.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-05">v16.05</a></li>
@@ -501,7 +504,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-07-26.
+      Last updated on 2016-08-31.
 
     </p>
   </div>
@@ -557,7 +560,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

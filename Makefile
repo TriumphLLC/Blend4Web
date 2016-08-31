@@ -21,12 +21,12 @@ compile: compile_shaders compile_b4w compile_apps build_tutorials
 .PHONY: compile_shaders
 compile_shaders:
 	@echo "Compiling b4w shaders"
-	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --obf --rem_braces --opt_decl
+	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --obf --rem_braces
 
 .PHONY: verify_shaders
 verify_shaders:
 	@echo "Verifying b4w shaders"
-	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --dry --obf --rem_braces --opt_decl
+	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --dry --obf --rem_braces
 
 .PHONY: compile_b4w
 compile_b4w:

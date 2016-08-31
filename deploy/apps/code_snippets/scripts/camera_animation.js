@@ -2,16 +2,19 @@
 
 b4w.register("camera_animation", function(exports, require) {
 
-var m_app    = require("app");
-var m_cam    = require("camera");
-var m_cfg    = require("config");
-var m_cont   = require("container");
-var m_ctl    = require("controls");
-var m_data   = require("data");
-var m_scenes = require("scenes");
-var m_time   = require("time");
-var m_trans  = require("transform");
-var m_vec3   = require("vec3");
+var m_app     = require("app");
+var m_cam     = require("camera");
+var m_cfg     = require("config");
+var m_cont    = require("container");
+var m_ctl     = require("controls");
+var m_data    = require("data");
+var m_scenes  = require("scenes");
+var m_time    = require("time");
+var m_trans   = require("transform");
+var m_vec3    = require("vec3");
+var m_version = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var ANIM_TIME = 2;
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/camera_animation/";
@@ -38,6 +41,8 @@ exports.init = function() {
         alpha: true,
         show_fps: true,
         autoresize: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         console_verbose: true
     });
 }

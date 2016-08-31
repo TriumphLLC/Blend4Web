@@ -79,9 +79,19 @@
 #define POINT 3
 #define SUN   4
 
-// NOTE: keep VT constants synchronized with:
+// dof
+#define DOF_SIMPLE  0
+#define DOF_BOKEH   1
+
+// coc
+#define COC_ALL          0
+#define COC_FOREGROUND   1
+#define COC_COMBINE      2
+
+// NOTE: keep node constants synchronized with:
 //              src/nodemat.js : append_nmat_node
 //              src/batch.js   : update_batch_material_nodes
+//
 // for vector transform
 #define VT_WORLD_TO_WORLD    0
 #define VT_WORLD_TO_OBJECT   1
@@ -97,6 +107,9 @@
 #define VT_VECTOR   1
 #define VT_NORMAL   2
 
-// dof
-#define DOF_SIMPLE  0
-#define DOF_BOKEH   1
+// for normal map
+#define NM_TANGENT         0
+#define NM_OBJECT          1
+#define NM_WORLD           2
+#define NM_BLENDER_OBJECT  3
+#define NM_BLENDER_WORLD   4

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -25,8 +24,8 @@
  */
 b4w.module["__math"] = function(exports, require) {
 
-var m_vec3     = require("__vec3");
-var m_mat3     = require("__mat3");
+var m_mat3 = require("__mat3");
+var m_vec3 = require("__vec3");
 
 var _vec3_tmp = new Float32Array(3);
 var _mat3_tmp = new Float32Array(9);

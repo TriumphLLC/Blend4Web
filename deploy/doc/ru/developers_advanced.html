@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам движка &mdash; Руководство пользователя Blend4Web 16.07</title>
+  <title>Разработчикам движка &mdash; Руководство пользователя Blend4Web 16.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.07" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
         <link rel="next" title="Работа в команде с использованием Git" href="git_short_manual.html"/>
         <link rel="prev" title="Разработчикам приложений" href="developers.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -118,7 +118,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#building-the-engine">Сборка движка</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#building-the-addon">Сборка аддона</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-add-on">Сборка аддона</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">Зависимости</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#naming-functions-and-variables">Названия функций и переменных</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging">Отладка</a></li>
@@ -190,7 +190,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#building-the-engine" id="id7">Сборка движка</a></li>
-<li><a class="reference internal" href="#building-the-addon" id="id8">Сборка аддона</a></li>
+<li><a class="reference internal" href="#building-the-add-on" id="id8">Сборка аддона</a></li>
 <li><a class="reference internal" href="#dependencies" id="id9">Зависимости</a></li>
 <li><a class="reference internal" href="#naming-functions-and-variables" id="id10">Названия функций и переменных</a></li>
 <li><a class="reference internal" href="#debugging" id="id11">Отладка</a></li>
@@ -286,8 +286,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="building-the-addon">
-<h2><a class="toc-backref" href="#id8">Сборка аддона</a><a class="headerlink" href="#building-the-addon" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="building-the-add-on">
+<h2><a class="toc-backref" href="#id8">Сборка аддона</a><a class="headerlink" href="#building-the-add-on" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Бинарные сборки аддона Blend4Web подготовлены для следующих платформ: Linux x32/64, OS X x64, Windows x32/64. В то же время пользователи имеют возможность произвести сборку самостоятельно.</p>
 <p>Для этого необходимо наличие Python 3.x (желательно, чтобы версия была эквивалентна используемой в Blender) и компилятора языка C (в Linux достаточно установить пакеты python3-dev и build-essential).</p>
 <dl class="docutils">
@@ -310,7 +310,6 @@
 </div>
 <div class="section" id="dependencies">
 <span id="id2"></span><h2><a class="toc-backref" href="#id9">Зависимости</a><a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для этого необходимо наличие Python 3.x (желательно, чтобы версия была эквивалентна используемой в Blender) и компилятора языка C (в Linux достаточно установить пакеты python3-dev и build-essential).</p>
 <p>В таблице ниже перечислены все зависимости, в порядке убывания важности для разработки.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -321,7 +320,7 @@
 <thead valign="bottom">
 <tr class="row-odd"><th class="head"><p class="first last">Название</p>
 </th>
-<th class="head">Ubuntu 14.04 package</th>
+<th class="head">Ubuntu 16.04 package</th>
 <th class="head"><p class="first last">Назначение</p>
 </th>
 </tr>
@@ -349,20 +348,19 @@
 <td><p class="first last">компиляция и обфускация модулей движка</p>
 </td>
 </tr>
-<tr class="row-even"><td>Emscripten</td>
-<td><p class="first last"><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">из исходных текстов EMSDK</a></p>
-</td>
-<td><p class="first last">сборка Uranium</p>
-</td>
-</tr>
-<tr class="row-odd"><td>ImageMagick</td>
+<tr class="row-even"><td>ImageMagick</td>
 <td>imagemagick</td>
-<td><p class="first last">конвертация ресурсов</p>
+<td><p class="first last">конвертация текстур</p>
 </td>
 </tr>
-<tr class="row-even"><td>NVIDIA Texture Tools</td>
+<tr class="row-odd"><td>NVIDIA Texture Tools</td>
 <td>libnvtt-bin</td>
-<td><p class="first last">конвертация ресурсов</p>
+<td><p class="first last">конвертация текстур</p>
+</td>
+</tr>
+<tr class="row-even"><td>Libav</td>
+<td>libav-tools</td>
+<td><p class="first last">конвертация медиаресурсов</p>
 </td>
 </tr>
 <tr class="row-odd"><td>NVIDIA Cg Toolkit</td>
@@ -370,53 +368,59 @@
 <td><p class="first last">отладка шейдеров</p>
 </td>
 </tr>
-<tr class="row-even"><td>Libav</td>
-<td>libav-tools</td>
-<td><p class="first last">конвертация ресурсов</p>
+<tr class="row-even"><td>OptiPNG</td>
+<td>optipng</td>
+<td><p class="first last">оптимизация PNG-файлов</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Gnuplot</td>
+<tr class="row-odd"><td>Emscripten</td>
+<td><p class="first last"><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">из исходных текстов EMSDK</a></p>
+</td>
+<td><p class="first last">сборка Uranium</p>
+</td>
+</tr>
+<tr class="row-even"><td>Gnuplot</td>
 <td>gnuplot</td>
 <td><p class="first last">отладка</p>
 </td>
 </tr>
-<tr class="row-even"><td>Graphviz</td>
+<tr class="row-odd"><td>Graphviz</td>
 <td>graphviz</td>
 <td><p class="first last">отладка</p>
 </td>
 </tr>
-<tr class="row-odd"><td>xsel</td>
+<tr class="row-even"><td>xsel</td>
 <td>xsel</td>
 <td><p class="first last">отладка</p>
 </td>
 </tr>
-<tr class="row-even"><td>Sphinx</td>
-<td>sphinx-doc</td>
-<td><p class="first last">сборка документации (HTML-версия)</p>
+<tr class="row-odd"><td>Sphinx</td>
+<td>python3-sphinx</td>
+<td><p class="first last">сборка документации</p>
 </td>
 </tr>
-<tr class="row-odd"><td>sphinx-intl</td>
-<td><p class="first last">устанавливается с помощью PIP</p>
+<tr class="row-even"><td>sphinx-intl</td>
+<td><p class="first last">устанавливается через PIP v3 (pip3 install sphinx-intl)</p>
 </td>
 <td><p class="first last">сборка документации (перевод)</p>
 </td>
 </tr>
-<tr class="row-even"><td>TeX Live</td>
-<td>texlive, texlive-latex-extra
+<tr class="row-odd"><td>TeX Live</td>
+<td>texlive texlive-latex-extra
 texlive-lang-cyrillic</td>
 <td><p class="first last">сборка документации (PDF-версия)</p>
 </td>
 </tr>
-<tr class="row-odd"><td>JSDoc 3</td>
-<td><p class="first last"><a class="reference external" href="https://github.com/jsdoc3/jsdoc">из исходных текстов JSDoc</a></p>
+<tr class="row-even"><td>JSDoc 3</td>
+<td><p class="first last">устанавливается через NPM (npm install -g jsdoc)</p>
 </td>
 <td><p class="first last">сборка документации (документация на API)</p>
 </td>
 </tr>
-<tr class="row-even"><td>PEG.js</td>
+<tr class="row-odd"><td>PEG.js</td>
 <td><p class="first last"><a class="reference external" href="http://pegjs.majda.cz/">из исходных текстов PEG.js</a></p>
 </td>
-<td><p class="first last">препроцессинг шейдеров</p>
+<td><p class="first last">сборка препроцессора шейдеров</p>
 </td>
 </tr>
 </tbody>
@@ -673,50 +677,42 @@ include file &#8216;FILE_NAME&#8217;.</td>
 <td><p class="first last">Ошибка! Неоднозначная обфускация include-файла FILE_NAME.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Error! Bad preprocessing collision
-while obfuscation identifier:
-&#8216;NAME&#8217;. Varying/uniform or
-varying/attribute qualifiers
-combination. File: &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Ошибка в файле FILE_NAME. Невозможность обфускации переменной с именем NAME из-за переопределения при препроцессинге. Переопределение одной и той же переменной с разными квалификаторами. Недопустимые комбинации: varying/uniform, varying/attribute.</p>
-</td>
-</tr>
-<tr class="row-even"><td>Error! Extension NAME is
+<tr class="row-odd"><td>Error! Extension NAME is
 unsupported in obfuscator. File:
 &#8216;FILE_NAME&#8217;.</td>
 <td><p class="first last">Ошибка! WebGL-расширение с именем NAME, использованное в файле FILE_NAME, не поддерживается обфускатором.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Error! Include &#8216;FILE_NAME&#8217; not
+<tr class="row-even"><td>Error! Include &#8216;FILE_NAME&#8217; not
 found.</td>
 <td><p class="first last">Ошибка! При подключении не найден include-файл FILE_NAME.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 File: &#8216;FILE_NAME&#8217;.</td>
 <td><p class="first last">Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная, функция, структура, ...) с именем NAME.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Importing data missed. File:
 &#8216;FILE_NAME&#8217;.</td>
 <td><p class="first last">Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, структура, ... ) с именем NAME. Отсутствует объявление идентификатора, требуемого в include-файле FILE_NAME согласно директиве <code class="docutils literal"><span class="pre">#import</span></code>.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Possibly exporting needed in
 include file &#8216;INCLUDE_NAME&#8217;. File:
 &#8216;FILE_NAME&#8217;.</td>
 <td><p class="first last">Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная, функция, структура, ...) с именем NAME. Возможно требуется разрешить его экспорт в include-файле INCLUDE_NAME.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Possibly importing needed. File:
 &#8216;FILE_NAME&#8217;.</td>
 <td><p class="first last">Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, структура, ... ) с именем NAME. Возможно требуется указать его как импортируемый в include-файле FILE_NAME.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Error! Unused export token &#8216;NAME&#8217;
+<tr class="row-odd"><td>Error! Unused export token &#8216;NAME&#8217;
 in include file &#8216;FILE_NAME&#8217;.</td>
 <td><p class="first last">Ошибка! В include-файле FILE_NAME разрешен для экспорта необъявленный идентификатор с именем NAME.</p>
 </td>
@@ -815,7 +811,7 @@ FILE_NAME, but never used.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-07-26.
+      Обновлено: 2016-08-31.
 
     </p>
   </div>
@@ -871,7 +867,7 @@ FILE_NAME, but never used.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

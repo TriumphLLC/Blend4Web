@@ -2,21 +2,24 @@
 
 b4w.register("gamepad", function(exports, require) {
 
-var m_app    = require("app");
-var m_anim   = require("animation");
-var m_data   = require("data");
-var m_cfg    = require("config");
-var m_cnst   = require("constraints");
-var m_ctl    = require("controls");
-var m_cont   = require("container");
-var m_gp_cf  = require("gp_conf");
-var m_input  = require("input");
-var m_obj    = require("objects");
-var m_scenes = require("scenes");
-var m_trans  = require("transform");
-var m_vec3   = require("vec3");
-var m_quat   = require("quat");
-var m_util   = require("util");
+var m_app     = require("app");
+var m_anim    = require("animation");
+var m_data    = require("data");
+var m_cfg     = require("config");
+var m_cnst    = require("constraints");
+var m_ctl     = require("controls");
+var m_cont    = require("container");
+var m_gp_cf   = require("gp_conf");
+var m_input   = require("input");
+var m_obj     = require("objects");
+var m_scenes  = require("scenes");
+var m_trans   = require("transform");
+var m_vec3    = require("vec3");
+var m_quat    = require("quat");
+var m_util    = require("util");
+var m_version = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
@@ -39,6 +42,8 @@ exports.init = function() {
         alpha: true,
         show_fps: true,
         autoresize: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         console_verbose: true
     });
 }

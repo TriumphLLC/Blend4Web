@@ -1,18 +1,18 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var PRECISION lowp
+
+/*============================================================================*/
 
 #include <math.glslv>
 #include <to_world.glslv>
 
-attribute vec3 a_position;
-attribute vec2 a_halo_bb_vertex;
-attribute float a_random_vals;
-
 uniform mat3 u_view_tsr;
 uniform mat4 u_proj_matrix;
 uniform PRECISION float u_halo_size;
-
-varying vec2 v_texcoord;
-varying float v_vertex_random;
 
 #if STATIC_BATCH
 // NOTE:  mat3(0.0, 0.0, 0.0, --- trans
@@ -27,9 +27,24 @@ const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
 uniform mat3 u_model_tsr;
 #endif
 
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 a_position;
+GLSL_IN vec2 a_halo_bb_vertex;
+GLSL_IN float a_random_vals;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec2 v_texcoord;
+GLSL_OUT float v_vertex_random;
+
 #if WATER_EFFECTS && !DISABLE_FOG
-    varying vec4 v_position_world;
+GLSL_OUT vec4 v_position_world;
 #endif
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
     mat4 view_matrix = tsr_to_mat4(u_view_tsr);

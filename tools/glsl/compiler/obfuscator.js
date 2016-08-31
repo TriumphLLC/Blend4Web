@@ -4,189 +4,145 @@
  */
 
 var m_collect  = require("./ast_data_collector.js");
-var m_consts   = require("./consts.js");
 var m_reserved = require("./reserved_tokens.js");
+var m_search   = require("./ast_search.js");
 
-var _varyings_aliases = {};
-var _shared_ids_data = [];
-var _incl_shared_stack = [null];
 
 var GEN_SOURCE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-var _id_generator = {
-    generator_counter: 0,
-    id_stash: []
+var _generator_counter = 0;
+
+exports.obfuscate = function(ast_arrays, vardef_ids, main_files) {
+    var obf_info = {};
+
+    var append_name = function(name, can_obfuscate) {
+        if (!(name in obf_info))
+            obf_info[name] = { can_obfuscate: true, new_name: null };
+        obf_info[name].can_obfuscate = obf_info[name].can_obfuscate && can_obfuscate;
+    }
+
+    var collect_cb = function(main_sequence, index, seq_node, scopes_chain, 
+            filenames_stack) {
+        if (seq_node.type == "declaration") {
+            append_name(seq_node.decl_id.name, seq_node.decl_obfuscation_allowed);
+            if (seq_node.decl_id_type == "struct")
+                for (var i = 0; i < seq_node.fields.length; i++)
+                    append_name(seq_node.fields[i].decl_id.name, 
+                            seq_node.fields[i].decl_obfuscation_allowed);
+        }
+    }
+
+    for (var i = 0; i < ast_arrays.length; i++) {
+        var ast_input = ast_arrays[i];
+        m_collect.init_ast(ast_input, vardef_ids, main_files[i].name, 
+                main_files[i].type);
+        m_collect.collect();
+        m_collect.traverse_collected_data(collect_cb);
+    }
+
+    var get_new_name = function(old_name) {
+        var new_name = old_name;
+
+        if (obf_info[old_name] && obf_info[old_name].can_obfuscate) {
+            if (!obf_info[old_name].new_name)
+                obf_info[old_name].new_name = generate_name();
+
+            new_name = obf_info[old_name].new_name;
+        }
+        return new_name;
+    }
+
+    var obfuscate_cb = function(main_sequence, index, seq_node, scopes_chain, 
+            filenames_stack) {
+
+        if (seq_node.type == "id_usage") {
+            var name = seq_node.id_usage_id.name;
+            seq_node.id_usage_id.old_name = name;
+            seq_node.id_usage_id.name = get_new_name(name);
+        }
+
+        if (seq_node.type == "declaration") {
+            var name = seq_node.decl_id.name;
+            seq_node.decl_id.old_name = name;
+            seq_node.decl_id.name = get_new_name(name);
+
+            if (seq_node.decl_id_type == "struct")
+                for (var i = 0; i < seq_node.fields.length; i++) {
+                    var name = seq_node.fields[i].decl_id.name;
+                    seq_node.fields[i].decl_id.old_name = name;
+                    seq_node.fields[i].decl_id.name = get_new_name(name);
+                }
+        }
+    }
+
+    for (var i = 0; i < ast_arrays.length; i++) {
+        var ast_input = ast_arrays[i];
+
+        m_collect.init_ast(ast_input, vardef_ids, main_files[i].name, 
+                main_files[i].type);
+        m_collect.collect();
+        m_collect.traverse_collected_data(obfuscate_cb);
+        // must be done after obfuscation
+        update_node_conditions(ast_input);
+    }
 }
 
-exports.obfuscate = function() {
-    id_generator_cleanup();
+// Update directives from obfuscated or node_*_var_* names
+function update_node_conditions(ast_input) {
+    // {node_name: {old_name: new_name}}
+    var new_old_inout_ids = {};
 
-    var cb = function(main_sequence, index, ast_node, scopes_chain, 
+    var cb = function(main_sequence, index, seq_node, scopes_chain, 
             filenames_stack) {
-        switch (ast_node.type) {
-        case "declaration":
+        if (seq_node.type == "declaration") {
+            var name = get_origin_name(seq_node.decl_id);
+            var expr_node_inout_old_name = /node_(.*?)_var_(.*)/g;
+            if (res = expr_node_inout_old_name.exec(name)) {
 
-            if (ast_node.decl_obfuscation_allowed) {
-                ast_node.decl_id.old_name = ast_node.decl_id.name;
-                ast_node.decl_id.name = null;
+                var node_name = res[1];
+                var origin_name = res[2];
+                var replacer_name = seq_node.decl_id.name;
 
-                if (ast_node.decl_id_type_qualifier == "varying") {
-                    if (ast_node.decl_id.old_name in _varyings_aliases)
-                        ast_node.decl_id.name = _varyings_aliases[ast_node.decl_id.old_name];
-                    else {
-                        var counter = get_id_above_shared(_id_generator.generator_counter);
-                        ast_node.decl_id.name = generate_id(counter);
-                        push_shared_id(ast_node.decl_id.old_name, 
-                                _id_generator.generator_counter - 1, 
-                                m_consts.SHARED_VARYING);
-                        push_shared_id(ast_node.decl_id.old_name, 
-                                _id_generator.generator_counter, 
-                                m_consts.SHARED_VARYING);
-                        _varyings_aliases[ast_node.decl_id.old_name] = ast_node.decl_id.name;
-                    }
-                } else {
-                    // check existed ids for overloaded functions, definitions and declarations
-                    // for the same function, preprocessing branching with same declarations, ...
-                    for (var j = 0; j < index; j++) {
-                        var ex_data = main_sequence[j];
-                        if (ex_data.type == "declaration" 
-                                && ex_data.decl_in_scope == ast_node.decl_in_scope)
-                            if (ex_data.decl_id.old_name == ast_node.decl_id.old_name) {
-                                ast_node.decl_id.name = ex_data.decl_id.name;
-                                break;
-                            }
-                    }
-                    if (ast_node.decl_id.name === null)
-                        ast_node.decl_id.name = generate_id();
-                }
+                if (!new_old_inout_ids[node_name])
+                    new_old_inout_ids[node_name] = {};
+
+                new_old_inout_ids[node_name][origin_name] = replacer_name;
             }
-
-            if (ast_node.decl_id_type == "struct") {
-                interrupt_gen_id(0);
-                for (var j = 0; j < ast_node.fields.length; j++) {
-                    ast_node.fields[j].decl_id.old_name = ast_node.fields[j].decl_id.name;
-                    ast_node.fields[j].decl_id.name = generate_id();
-                }
-                restore_gen_id();
-            }
-
-            break;
-
-        case "id_usage":
-            if (!ast_node.id_usage_is_reserved) {
-                var decl = m_collect.search_declaration(ast_node.id_usage_ast_uid,
-                        ast_node.id_usage_id.name, ast_node.id_usage_type);
-
-                if (decl && decl.decl_obfuscation_allowed) {
-                    ast_node.id_usage_id.old_name = ast_node.id_usage_id.name;
-                    ast_node.id_usage_id.name = decl.decl_id.name;
-                }
-            }
-            break;
-
-        case "include":
-            if (ast_node.include_status == m_consts.INCLUDE_START) {
-                var sh_data = search_shared_data(ast_node.include_name, m_consts.SHARED_INCLUDE);
-                if (sh_data)
-                    var id = sh_data.ids[0];
-                else {
-                    var id = get_id_above_shared(_id_generator.generator_counter);
-                    push_shared_id(ast_node.include_name, id, m_consts.SHARED_INCLUDE);
-                }
-                interrupt_gen_id(id);
-                _incl_shared_stack.push(ast_node.include_name);
-            } else {
-                var sh_data = search_shared_data(ast_node.include_name, m_consts.SHARED_INCLUDE);
-                push_shared_id(ast_node.include_name, _id_generator.generator_counter, m_consts.SHARED_INCLUDE);
-                restore_gen_id();
-                _incl_shared_stack.pop();
-            }
-            break;
         }
     }
     m_collect.traverse_collected_data(cb);
-}
 
-/*==============================================================================
-                      INCLUDE AND VARYING DATA MANAGING
-==============================================================================*/
+    for (var i in ast_input.node_with_node_condition) {
+        var node_uid = ast_input.node_with_node_condition[i];
+        var node = m_search.get_node_by_uid(node_uid);
 
-function search_shared_data(name, type) {
-    for (var i = 0; i < _shared_ids_data.length; i++) {
-        var data = _shared_ids_data[i];
-        if (data.name == name && data.type == type)
-            return data;
-    }
+        for (var j in node.before_comments) {
+            var expr_node_condition = /\n\/\*%node_condition%(.*?)%(.*?)%(.*?)%\*\/\n/g;
+            var expr_contain_use_decl = /USE_OUT_(.*?)([^_0-9a-zA-Z]|$)/g;
 
-    return null;
-}
+            if ((res = expr_node_condition.exec(node.before_comments[j])) != null) {
+                var source_txt = res[1];
+                var node_name = res[2];
+                
+                while ((parts = expr_contain_use_decl.exec(source_txt)) != null) {
+                    var origin_name = parts[1];
+                    if (node_name in new_old_inout_ids) {
+                        var replacer_name = new_old_inout_ids[node_name][origin_name];
 
-function push_shared_id(name, id, type) {
-    var id_processed = false;
-
-    for (var i = 0; i < _shared_ids_data.length; i++) {
-        var data = _shared_ids_data[i];
-        if (data.name == name && data.type == type) {
-            if (data.ids.length == 2)
-                data.ids[1] = id;
-            else
-                data.ids.push(id);
-            id_processed = true;
-            break;
-        }
-    }
-
-    if (!id_processed)
-        _shared_ids_data.push({
-            type: type,
-            name: name,
-            ids: [id]
-        });
-}
-
-// get first free id
-function get_not_shared_id(curr_id) {
-    var out_id = curr_id;
-    var curr_incl_name = _incl_shared_stack[_incl_shared_stack.length - 1];
-
-    for (var i = 0; i < _shared_ids_data.length; i++) {
-        // NOTE: take into account all shared identifiers when we're outside an 
-        // include and only varying identifiers when inside
-        if (curr_incl_name === null || _shared_ids_data[i].type == m_consts.SHARED_VARYING) {
-            var ids = _shared_ids_data[i].ids;
-            if (curr_id >= ids[0] && curr_id < ids[1]) {
-                out_id = get_not_shared_id(ids[1]);
-                break;
+                        node.before_comments[j] = node.before_comments[j].replace(
+                                new RegExp("\(USE_OUT_\)" + origin_name), 
+                                "$1" + replacer_name)
+                    }
+                }
             }
         }
     }
-
-    return out_id;
 }
 
-// get first free id greater than any shared id
-function get_id_above_shared(curr_id) {
-    var out_id = curr_id;
-
-    for (var i = 0; i < _shared_ids_data.length; i++) {
-        var ids = _shared_ids_data[i].ids;
-        for (var j = 0; j < ids.length; j++)
-            if (ids[j] > out_id)
-                out_id = ids[j];
-    }
-
-    return out_id;
-}
-
-/*==============================================================================
-                               ID GENERATOR
-==============================================================================*/
-function generate_id(counter) {
+function generate_name(counter) {
     if (typeof counter !== "undefined")
-        _id_generator.generator_counter = counter;
+        _generator_counter = counter;
 
-    _id_generator.generator_counter = get_not_shared_id(_id_generator.generator_counter);
-
-    var digits = charcodes_by_number(_id_generator.generator_counter, GEN_SOURCE.length);
+    var digits = charcodes_by_number(_generator_counter, GEN_SOURCE.length);
     var result = "";
 
     for (var i = 0; i < digits.length; i++) {
@@ -196,10 +152,10 @@ function generate_id(counter) {
         else
             result += GEN_SOURCE.charAt(digits[i]);
     }
-    _id_generator.generator_counter++;
+    _generator_counter++;
 
     if (!is_valid(result))
-        result = generate_id();
+        result = generate_name();
     return result;
 }
 
@@ -226,29 +182,14 @@ function charcodes_by_number(number, base) {
 // check if new generated identifier name is valid
 function is_valid(str) {
     return !(m_reserved.is_reserved(str) || m_reserved.is_vardef(str) 
-            || m_reserved.is_b4w_specific(str));
+            || m_reserved.is_b4w_specific(str) || m_reserved.is_vector_accessor(str));
 }
 
-function interrupt_gen_id(new_id) {
-    _id_generator.id_stash.push(_id_generator.generator_counter);
-    _id_generator.generator_counter = new_id;
+function get_origin_name(id) {
+    return id.old_name ? id.old_name : id.name;
 }
 
-function restore_gen_id() {
-    if (_id_generator.id_stash.length)
-        _id_generator.generator_counter = _id_generator.id_stash.pop();
-}
-
+// not used
 exports.cleanup = function() {
-    _varyings_aliases = {};
-    _shared_ids_data.length = 0;
-    _incl_shared_stack = [null];
-    
-    id_generator_cleanup();
+    _generator_counter = 0;
 }
-
-function id_generator_cleanup() {
-    _id_generator.generator_counter = 0;
-    _id_generator.id_stash.length = 0;   
-}
-

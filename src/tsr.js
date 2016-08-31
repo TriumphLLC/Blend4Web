@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -45,6 +44,12 @@ function create() {
     return tsr;
 }
 
+exports.clone = function(tsr) {
+    var out = create();
+    copy(tsr, out);
+    return out;
+}
+
 exports.from_values = function(x, y, z, s, qx, qy, qz, qw) {
     var tsr = create();
     tsr[0] = x;
@@ -66,6 +71,12 @@ function create_ext() {
     return tsr;
 }
 
+exports.clone_ext = function(tsr) {
+    var out = create_ext();
+    copy(tsr, out);
+    return out;
+}
+
 exports.from_values_ext = function(x, y, z, s, qx, qy, qz, qw) {
     var tsr = create_ext();
     tsr[0] = x;
@@ -79,7 +90,7 @@ exports.from_values_ext = function(x, y, z, s, qx, qy, qz, qw) {
     return tsr;
 }
 
-exports.copy = copy
+exports.copy = copy;
 function copy(tsr, dest) {
     // faster than .set()
 
@@ -153,10 +164,13 @@ exports.set_quat = function(quat, dest) {
     return dest;
 }
 
+/**
+ * NOTE: bad for CPU and GC
+ */
 exports.get_trans_view = function(tsr) {
     return tsr.subarray(0, 3);
 }
-exports.get_trans_value = function(tsr, dest) {
+exports.get_trans = function(tsr, dest) {
     dest[0] = tsr[0];
     dest[1] = tsr[1];
     dest[2] = tsr[2];
@@ -166,10 +180,21 @@ exports.get_trans_value = function(tsr, dest) {
 exports.get_scale = function(tsr) {
     return tsr[3];
 }
+exports.get_transcale = function(tsr, dest) {
+    dest[0] = tsr[0];
+    dest[1] = tsr[1];
+    dest[2] = tsr[2];
+    dest[3] = tsr[3];
+
+    return dest;
+}
+/**
+ * NOTE: bad for CPU and GC
+ */
 exports.get_quat_view = function(tsr) {
     return tsr.subarray(4, 8);
 }
-exports.get_quat_value = function(tsr, dest) {
+exports.get_quat = function(tsr, dest) {
     dest[0] = tsr[4];
     dest[1] = tsr[5];
     dest[2] = tsr[6];

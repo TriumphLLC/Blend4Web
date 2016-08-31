@@ -391,6 +391,7 @@ function main_canvas_click(e) {
 function process_screen_click(x, y) {
     var obj = m_scs.pick_object(x, y);
     if (obj) {
+        _selected_obj = obj;
         if (_buttons_info[obj.name]) {
             var binfo = _buttons_info[obj.name];
 

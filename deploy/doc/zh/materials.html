@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>材质 &mdash; Blend4Web 16.07 用户手册</title>
+  <title>材质 &mdash; Blend4Web 16.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.07 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
         <link rel="next" title="Material Library" href="material_library.html"/>
         <link rel="prev" title="Camera" href="camera.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -90,7 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -367,8 +367,9 @@
 <div class="section" id="settings">
 <h4>设置<a class="headerlink" href="#settings" title="永久链接至标题">¶</a></h4>
 <p>菲涅耳效应可以设置静态和动态的反射。</p>
-<p><em>材质 &gt; Mirror &gt; Fresnel</em> 反射的菲涅尔指数。 Schlick方程中的N指数。在blender中被限制在0到5的值。设置为零的时候菲涅尔效应无法被观察到，所有的反射都是正常的。大于零的时候，在角度这是接近正确的角度观看时表面材料是弱反射性的。参数值越大，可以看到菲涅尔效应的观察角度越大。</p>
 <dl class="docutils">
+<dt><em>Material &gt; Mirror &gt; Fresnel</em></dt>
+<dd>Fresnel power for reflection. This is the N exponent in the Schlick’s formula. In Blender it is limited to values from 0 to 5. If this parameter is equal to zero the Fresnel effect is not observed and the <em>full</em> reflection at all angles occurs. If this parameter is greater than zero, the material is less reflective when viewing surfaces at angles which are close to the right angle. The bigger this parameter is the bigger is the angle deviation from the right angle for which the Fresnel effect is observed.</dd>
 <dt><em>材质 &gt; 镜面 &gt; 混合</em></dt>
 <dd><p class="first last">菲涅耳反射系数。在Schlick公式中通过下面的表达式 R<sub>0</sub> = 1 - <code class="docutils literal"><span class="pre">Blend</span></code> / 5 它减少到  R<sub>0</sub> 。在Blender中它仅限于值从 0 到 5。此参数定义了菲涅耳效应强度:  <code class="docutils literal"><span class="pre">Blend</span></code> 因子越大，更多的菲涅耳效应影响。如果它是等于零的菲涅耳影响观察不到。</p>
 </dd>
@@ -524,7 +525,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-07-26.
+      最后更新于 2016-08-31.
 
     </p>
   </div>
@@ -580,7 +581,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene Viewer &mdash; Blend4Web 16.07 User Manual</title>
+  <title>Scene Viewer &mdash; Blend4Web 16.08 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.07 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.08 User Manual" href="index.html"/>
         <link rel="next" title="Web Player" href="web_player.html"/>
         <link rel="prev" title="Project Manager" href="project_manager.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -91,14 +91,40 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Scene Viewer</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#navigation">Navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-side-panel">The Side Panel</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#control-elements-list-in-top-to-bottom-order">Control elements list in top-to-bottom order</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#information-panel">Information Panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-control-buttons">Basic Control Buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-panels">Additional Panels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scenes">Scenes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tools-debug">Tools &amp; Debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#animation">Animation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nla">NLA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shape-keys">Shape Keys</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#materials">Materials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lighting">Lighting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ambient">Ambient</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shadows">Shadows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sky">Sky</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sea">Sea</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind">Wind</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#screen-space-amb-occlus">Screen Space Amb Occlus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#god-rays">God Rays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bloom">Bloom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#motion-blur">Motion Blur</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow-materials">Glow Materials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#depth-of-field">Depth of Field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#color-correction">Color correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#audio">Audio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stereo-view">Stereo View</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#input-devices">Input Devices</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#indicators">Indicators</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
@@ -166,35 +192,62 @@
            <div itemprop="articleBody">
             
   <div class="section" id="scene-viewer">
-<span id="viewer"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id1">Scene Viewer</a><a class="headerlink" href="#scene-viewer" title="Permalink to this headline">¶</a></h1>
+<span id="viewer"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">Scene Viewer</a><a class="headerlink" href="#scene-viewer" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#scene-viewer" id="id1">Scene Viewer</a><ul>
-<li><a class="reference internal" href="#navigation" id="id2">Navigation</a></li>
-<li><a class="reference internal" href="#the-side-panel" id="id3">The Side Panel</a><ul>
-<li><a class="reference internal" href="#control-elements-list-in-top-to-bottom-order" id="id4">Control elements list in top-to-bottom order</a></li>
+<li><a class="reference internal" href="#scene-viewer" id="id2">Scene Viewer</a><ul>
+<li><a class="reference internal" href="#navigation" id="id3">Navigation</a></li>
+<li><a class="reference internal" href="#the-side-panel" id="id4">The Side Panel</a><ul>
+<li><a class="reference internal" href="#information-panel" id="id5">Information Panel</a></li>
+<li><a class="reference internal" href="#basic-control-buttons" id="id6">Basic Control Buttons</a></li>
+<li><a class="reference internal" href="#additional-panels" id="id7">Additional Panels</a><ul>
+<li><a class="reference internal" href="#scenes" id="id8">Scenes</a></li>
+<li><a class="reference internal" href="#tools-debug" id="id9">Tools &amp; Debug</a></li>
+<li><a class="reference internal" href="#animation" id="id10">Animation</a></li>
+<li><a class="reference internal" href="#nla" id="id11">NLA</a></li>
+<li><a class="reference internal" href="#shape-keys" id="id12">Shape Keys</a></li>
+<li><a class="reference internal" href="#materials" id="id13">Materials</a></li>
+<li><a class="reference internal" href="#lighting" id="id14">Lighting</a></li>
+<li><a class="reference internal" href="#ambient" id="id15">Ambient</a></li>
+<li><a class="reference internal" href="#shadows" id="id16">Shadows</a></li>
+<li><a class="reference internal" href="#sky" id="id17">Sky</a></li>
+<li><a class="reference internal" href="#sea" id="id18">Sea</a></li>
+<li><a class="reference internal" href="#wind" id="id19">Wind</a></li>
+<li><a class="reference internal" href="#screen-space-amb-occlus" id="id20">Screen Space Amb Occlus</a></li>
+<li><a class="reference internal" href="#god-rays" id="id21">God Rays</a></li>
+<li><a class="reference internal" href="#bloom" id="id22">Bloom</a></li>
+<li><a class="reference internal" href="#motion-blur" id="id23">Motion Blur</a></li>
+<li><a class="reference internal" href="#glow-materials" id="id24">Glow Materials</a></li>
+<li><a class="reference internal" href="#depth-of-field" id="id25">Depth of Field</a></li>
+<li><a class="reference internal" href="#color-correction" id="id26">Color correction</a></li>
+<li><a class="reference internal" href="#audio" id="id27">Audio</a></li>
+<li><a class="reference internal" href="#stereo-view" id="id28">Stereo View</a></li>
+<li><a class="reference internal" href="#input-devices" id="id29">Input Devices</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#indicators" id="id5">Indicators</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indicators" id="id30">Indicators</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <p><a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>Running The Scenes Viewer</span></a>.</p>
 <div class="section" id="navigation">
-<h2><a class="toc-backref" href="#id2">Navigation</a><a class="headerlink" href="#navigation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Navigation</a><a class="headerlink" href="#navigation" title="Permalink to this headline">¶</a></h2>
 <p>To control the camera hold down a mouse button and move the mouse. Control can also be performed using the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> keys: forward, left, back, right, up, down. Arrows and <code class="docutils literal"><span class="pre">numpad</span></code> keys can be used as well. In the <code class="docutils literal"><span class="pre">Target</span></code> camera mode it&#8217;s possible to focus on the selected object using the <code class="docutils literal"><span class="pre">Z</span></code> or <code class="docutils literal"><span class="pre">.(dot)</span></code> keys.</p>
 </div>
 <div class="section" id="the-side-panel">
-<h2><a class="toc-backref" href="#id3">The Side Panel</a><a class="headerlink" href="#the-side-panel" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">The Side Panel</a><a class="headerlink" href="#the-side-panel" title="Permalink to this headline">¶</a></h2>
 <p>The side panel consists of three areas: the information board, basic control buttons and the list of drop-down panels with additional control elements differentiated by functionality.</p>
 <a class="reference internal image-reference" href="_images/scene_viewer.png"><img alt="_images/scene_viewer.png" class="align-center" src="_images/scene_viewer.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="section" id="control-elements-list-in-top-to-bottom-order">
-<h3><a class="toc-backref" href="#id4">Control elements list in top-to-bottom order</a><a class="headerlink" href="#control-elements-list-in-top-to-bottom-order" title="Permalink to this headline">¶</a></h3>
+<p>Control elements list in top-to-bottom order</p>
+<div class="section" id="information-panel">
+<h3><a class="toc-backref" href="#id5">Information Panel</a><a class="headerlink" href="#information-panel" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>Build</strong></dt>
 <dd>The engine build date and time. In the developer version this shows the page load time.</dd>
@@ -202,6 +255,13 @@
 <dd>Loaded scene name from the <code class="docutils literal"><span class="pre">assets.json</span></code> file. Path to the file pops-up on mouse hover.</dd>
 <dt><strong>Loaded</strong></dt>
 <dd>Loading progress and time.</dd>
+</dl>
+</div>
+<div class="section" id="basic-control-buttons">
+<h3><a class="toc-backref" href="#id6">Basic Control Buttons</a><a class="headerlink" href="#basic-control-buttons" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><strong>Home</strong></dt>
+<dd>Reloads the last scene exported from Blender using the <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button or, if Scene Viewer hasn&#8217;t been run from Blender, the default scene is loaded.</dd>
 <dt><strong>Reset</strong></dt>
 <dd>This button deletes the saved name of the last viewed scene and reloads the page back to display the default scene.</dd>
 <dt><strong>LOW Q - HIGH Q - ULTRA Q</strong></dt>
@@ -215,72 +275,365 @@
 <dd>Pause rendering.</dd>
 <dt><strong>Resume</strong></dt>
 <dd>Resume rendering.</dd>
-<dt><strong>Auto View</strong></dt>
-<dd>Activate the automatic scene switching mode; the delay between views is 1 second.</dd>
-<dt><strong>Scenes</strong></dt>
-<dd>A double-level list of the categories and scenes from the <code class="docutils literal"><span class="pre">assets.json</span></code> file.</dd>
-<dt><strong>Animation</strong></dt>
-<dd>Animation controls. When viewing animated models, you can select an object and switch its animation with a drop-down menu, switch cyclic animation mode, stop and resume animation, set the required frame (the animation should be stopped to do this).</dd>
-<dt><strong>NLA</strong></dt>
-<dd>A tool to control Non-Linear Animation (if it is present in the scene). For this panel to work, NLA option should be enabled in the scene&#8217;s settings.</dd>
-<dt><strong>Shape Keys</strong></dt>
-<dd>Shape Keys control. When viewing models that has shape keys, you can select an object, one of its shape keys and the influence that the key has on the object.</dd>
-<dt><strong>Materials</strong></dt>
-<dd>Material properties setup. A material can be selected using the drop-down menu. For now, only a limited number of properties is supported.</dd>
-<dt><strong>Lighting</strong></dt>
-<dd>Direct lighting parameters setup. A light source can be selected using the drop-down menu. Changing color and intensity is supported. Daytime and sun lighting parameters can also be tweaked on this panel.</dd>
-<dt><strong>Ambient</strong></dt>
-<dd>Ambient lighting parameters setup. Changing the colors and intensity of a hemispheric ambient model is supported.</dd>
-<dt><strong>Shadows</strong></dt>
-<dd>Shadow parameters setup, including shadow cascades and shadow edges softening parameters.</dd>
-<dt><strong>Sky</strong></dt>
-<dd>Dynamic sky parameters setup such as color, sun light scattering parameters etc.</dd>
-<dt><strong>Sea</strong></dt>
-<dd>Water rendering parameters setup, including color transitions by depth and by shore distance, foam and subsurface scattering parameters, waves dynamics etc.</dd>
-<dt><strong>Wind</strong></dt>
-<dd>Wind parameters setup, including direction and strength.</dd>
-<dt><strong>Screen Space Amb Occlus</strong></dt>
-<dd>Ambient occlusion parameters setup.</dd>
-<dt><strong>God Rays</strong></dt>
-<dd>Crepuscular rays effect parameters setup.</dd>
-<dt><strong>Bloom</strong></dt>
-<dd>Bright light effect parameters setup.</dd>
-<dt><strong>Motion Blur</strong></dt>
-<dd>Motion blur effect settings.</dd>
-<dt><strong>Glow Materials</strong></dt>
-<dd>Glow Materials effect settings.</dd>
-<dt><strong>Depth of Field</strong></dt>
-<dd>Depth of field effect parameters setup.</dd>
-<dt><strong>Color correction</strong></dt>
-<dd>Color correction parameters setup, including brightness, contrast, exposure and saturation.</dd>
-<dt><strong>Audio</strong></dt>
-<dd>There is a mixing mode switch on the panel. After it is enabled the mixer interface becomes visible (only for scenes with sound sources).</dd>
-<dt><strong>Stereo View</strong></dt>
-<dd>There is a stereoscopic mode switch on the panel.</dd>
-<dt><strong>Gyroscope</strong></dt>
-<dd>Gyroscope settings for mobile devices can be controlled from this panel.</dd>
-<dt><strong>Tools &amp; Debug</strong></dt>
-<dd>This panel contains a range of debugging tools, including the wireframe mode and the postprocessing stages viewer switches.</dd>
+<dt><strong>Rotate</strong></dt>
+<dd>Enables and disables camera orbiting the loaded scene. Disabled by default.</dd>
 </dl>
+</div>
+<div class="section" id="additional-panels">
+<h3><a class="toc-backref" href="#id7">Additional Panels</a><a class="headerlink" href="#additional-panels" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="scenes">
+<h4><a class="toc-backref" href="#id8">Scenes</a><a class="headerlink" href="#scenes" title="Permalink to this headline">¶</a></h4>
+<p>A double-level list of the categories and scenes from the <code class="docutils literal"><span class="pre">assets.json</span></code> file.</p>
+</div>
+<div class="section" id="tools-debug">
+<h4><a class="toc-backref" href="#id9">Tools &amp; Debug</a><a class="headerlink" href="#tools-debug" title="Permalink to this headline">¶</a></h4>
+<p>This panel contains a range of debugging tools, including:</p>
+<dl class="docutils">
+<dt><em>Overview Outlining Mode</em></dt>
+<dd>Turning this option on makes all objects in the scene <a class="reference internal" href="objects.html#mesh-selection"><span>selectable</span></a> and enables <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline animation</span></a> to be played upon selecting them. This feature is enabled by default.</dd>
+<dt><em>Auto View Mode</em></dt>
+<dd>Pressing this button will cause Scene Viewer to load every scene from the <code class="docutils literal"><span class="pre">Scenes</span></code> list within one second of each other. This feature can be used to check all available content for console errors.</dd>
+<dt><em>Canvas Resolution Factor</em></dt>
+<dd><p class="first">This parameter can be used to increase the resolution of a canvas. The value can vary from 1 to 10. Default value is 1.0 (canvas resolution is equal to the physical resolution of the Scene Viewer window).</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The highest available resolution of a canvas may be limited by a web browser.</p>
+</div>
+</dd>
+<dt><em>Make Screenshot</em></dt>
+<dd>This button can be used to make screenshots of the Scene Viewer&#8217;s window. Screenshots are stored in the same folder that web browsers use for storing downloaded files.</dd>
+<dt><em>Debug View Modes</em></dt>
+<dd><p class="first">The list of different rendering modes that can be used for debug purposes. Available modes are:</p>
+<blockquote class="last">
+<div><p><code class="docutils literal"><span class="pre">NONE</span></code> - normal rendering mode. This is the default mode.</p>
+<p><code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> - the scene is rendered in flat white color with darker wireframe. The color used for rendering the wireframe can be adjusted by using the <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code> parameter.</p>
+<p><code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> - the scene is rendered as in normal mode, but wireframes are added on top of it. Like in the previous mode, the color used for rendering the wireframe can be adjusted by using the <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code> parameter.</p>
+<p><code class="docutils literal"><span class="pre">FRONT</span> <span class="pre">BACK</span> <span class="pre">VIEW</span></code> - renders front and back sides of the polygons with different colors.</p>
+<p><code class="docutils literal"><span class="pre">BOUNDINGS</span></code> - this mode adds wireframe spheres that envelope <a class="reference internal" href="objects.html#objects"><span>objects</span></a> and <a class="reference internal" href="meshes.html#meshes"><span>meshes</span></a>. The spheres can be blue (for static objects/meshes) or red (for dynamic objects).</p>
+<p><code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> - in this view mode, every object in a specific cluster (used for <a class="reference internal" href="scene_settings.html#scene-batching"><span>batching</span></a>) is rendered with a specific color.</p>
+<p><code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> - in this view mode, every batch is rendered using a specific (flat) color. The colors used in rendering can be changed to randomly generated colors by clicking the <code class="docutils literal"><span class="pre">Change</span> <span class="pre">Colors</span></code> button.</p>
+<p><code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code> - the scene is rendered in different colors to represent the complexity of various parts of the scene. The lightest parts are rendered using shades of green, heavier - shades of orange, and the most resourse-demanding parts of the scene are colored red.</p>
+</div></blockquote>
+</dd>
+<dt><em>Change Colors</em></dt>
+<dd>This button randomly changes the colors that are used in the <code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> and <code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> rendering modes. This feature is useful in cases when colors that are picked randomly by the engine are too similar and make it difficult to distinguish parts of the image.</dd>
+<dt><em>Render Time Threshold (ms)</em></dt>
+<dd>This parameter sets a &#8220;threshold&#8221; time for the <code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code> view mode. If the engine spends more time on rendering a certain object than the time set by this value, this object will be colored red. The default value is 1.5 ms.</dd>
+<dt><em>Wireframe Edge Color</em></dt>
+<dd>This parameter allows you to change the color of the wireframe edges used in the <code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> and <code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> view modes.</dd>
+<dt><em>HUD Info</em></dt>
+<dd><a class="first reference internal image-reference" href="_images/viewer_hud_info.png"><img alt="_images/viewer_hud_info.png" class="align-center" src="_images/viewer_hud_info.png" style="width: 100%;" /></a>
+<p>This button shows a list of rendered subscenes and its parameters, incuding:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><em>SCENE</em></dt>
+<dd>The name of the current scene.</dd>
+<dt><em>Active</em></dt>
+<dd>Shows whether the subscene is active or not.</dd>
+<dt><em>Subscene</em></dt>
+<dd>The name of the subscene.</dd>
+<dt><em>Lamps</em></dt>
+<dd>The number of light sources in the subscene.</dd>
+<dt><em>Size</em></dt>
+<dd>The size of the render of the subscene.</dd>
+<dt><em>RenderCalls</em></dt>
+<dd>The number of draw calls in the subscene.</dd>
+<dt><em>Time</em></dt>
+<dd>The amount of time the engine spends on rendering the subscene.</dd>
+<dt><em>TOTAL ACTIVE</em></dt>
+<dd>The number of draw calls in all present subscenes and the time that the engine spends on rendering them.</dd>
+</dl>
+</div></blockquote>
+<p class="last">Enabling this parameter may decrease performance of a scene. This option is disabled by default.</p>
+</dd>
+<dt><em>GL Debug</em></dt>
+<dd>This parameter, when activated, causes the engine to process low-level errors. This can significantly decrease performance. It is disabled when you start Scene Viewer for the first time, and afterwards, the application will save the state of this option for the next time.</dd>
+<dt><em>Min Capabilities Mode</em></dt>
+<dd>This parameter makes Scene Viewer run a loaded scene as if it was running on a low-end system (on a mobile device, for example). This allows an artist to find out which materials in the scene may not work as intended with low-end configuration. Disabled by default.</dd>
+</dl>
+</div>
+<div class="section" id="animation">
+<h4><a class="toc-backref" href="#id10">Animation</a><a class="headerlink" href="#animation" title="Permalink to this headline">¶</a></h4>
+<p>Animation controls. When viewing animated models, you can select an object and switch its animation with a drop-down menu, switch cyclic animation mode, stop and resume animation, set the required frame (the animation should be stopped to do this).</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Play All</em></dt>
+<dd>Pressing this button will play all available animations.</dd>
+<dt><em>Stop All</em></dt>
+<dd>Pressing this button will stop playback of all animations that are currently being played.</dd>
+<dt><em>Object</em></dt>
+<dd>A list of scene objects that have animations.</dd>
+<dt><em>Animation Slot</em></dt>
+<dd>The list of all animation slots that can be used to apply some animation to an object.</dd>
+<dt><em>Animation</em></dt>
+<dd>A list of all animations available for a selected object.</dd>
+<dt><em>Cyclic</em></dt>
+<dd>If this parameter is enabled, the animation will be played repeatedly. If it isn&#8217;t, the animation will stop after being played once. Enabled by default.</dd>
+<dt><em>Range</em></dt>
+<dd>This value shows the length of the selected animation.</dd>
+<dt><em>Status</em></dt>
+<dd>This value shows the status of the animation, i.e. if it is being played or stopped.</dd>
+<dt><em>Playing Animation &gt; Play</em></dt>
+<dd>Plays the selected animation.</dd>
+<dt><em>Playing Animation &gt; Stop</em></dt>
+<dd>Stops the selected animation.</dd>
+<dt><em>Set Frame</em></dt>
+<dd>Shows the current frame of the animation and can be used to set the current frame.</dd>
+<dt><em>Skeletal Mix Factor</em></dt>
+<dd>The factor of mixing different skeletal animations together. Default value is 1.0.</dd>
+</dl>
+</div>
+<div class="section" id="nla">
+<h4><a class="toc-backref" href="#id11">NLA</a><a class="headerlink" href="#nla" title="Permalink to this headline">¶</a></h4>
+<p>A tool to control Non-Linear Animation (if it is present in the scene). For this panel to work, NLA option should be enabled in the scene&#8217;s settings.</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Range</em></dt>
+<dd>Shows the start and the end frame of the NLA strip.</dd>
+<dt><em>Status</em></dt>
+<dd>Shows the status of NLA animation, i.e. if it is being played or stopped.</dd>
+<dt><em>Playing NLA &gt; Play</em></dt>
+<dd>This button can be used to play NLA animation.</dd>
+<dt><em>Playing NLA &gt; Stop</em></dt>
+<dd>This button can be used to stop NLA animation that is currently being played.</dd>
+<dt><em>Set Frame</em></dt>
+<dd>If an animation is stopped at the moment, this parameter can be used for setting a specific frame of NLA animation.</dd>
+</dl>
+</div>
+<div class="section" id="shape-keys">
+<h4><a class="toc-backref" href="#id12">Shape Keys</a><a class="headerlink" href="#shape-keys" title="Permalink to this headline">¶</a></h4>
+<p>Shape Keys control. When viewing models that has shape keys, you can select an object, one of its shape keys and the influence that the key has on the object.</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>This list contains all scene objects that have Shape Keys.</dd>
+<dt><em>Shape Key</em></dt>
+<dd>This list contains all Shape Keys attached to a selected object.</dd>
+<dt><em>Set Value</em></dt>
+<dd>This parameter sets the level of influence of a selected Shape Key on an object. The value can vary from zero to 1.</dd>
+</dl>
+</div>
+<div class="section" id="materials">
+<h4><a class="toc-backref" href="#id13">Materials</a><a class="headerlink" href="#materials" title="Permalink to this headline">¶</a></h4>
+<p>Material properties setup. A material can be selected using the drop-down menu. For now, this feature only support a limited number of properties and only stack (non-node) materials applied to dynamic objects (node materials and static objects are not supported).</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Material</em></dt>
+<dd>A list of all stack materials present in a scene.</dd>
+<dt><em>Color</em></dt>
+<dd>This parameter defines the base color of a selected material.</dd>
+<dt><em>Reflectivity</em></dt>
+<dd>This parameter sets the refelctivity factor of a selected material. Its value is equal to zero by default.</dd>
+<dt><em>Fresnel</em></dt>
+<dd>The power of the Fresnel effect for the reflection. Set to zero by default.</dd>
+<dt><em>Fresnel Factor</em></dt>
+<dd>A factor of the Fresnel effect. Set to zero by default.</dd>
+<dt><em>Parallax Scale</em></dt>
+<dd>The scale parameter of the parallax effect. This value can vary from zero to 0.1. Default value is 0.</dd>
+<dt><em>Parallax Steps</em></dt>
+<dd>The number of steps used for building a parallax surface. The value can vary from 1 to 30. Default value is 5.</dd>
+</dl>
+</div>
+<div class="section" id="lighting">
+<h4><a class="toc-backref" href="#id14">Lighting</a><a class="headerlink" href="#lighting" title="Permalink to this headline">¶</a></h4>
+<p>Direct lighting parameters setup. A light source can be selected using the drop-down menu. Changing color and intensity is supported. Daytime and sun lighting parameters can also be tweaked on this panel.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/viewer_lighting_settings.png"><img alt="_images/viewer_lighting_settings.png" class="align-center" src="_images/viewer_lighting_settings.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Light</em></dt>
+<dd>This list contains all light sources present in the scene.</dd>
+<dt><em>Type</em></dt>
+<dd>The type of the selected light source. This parameter cannot be changed in the Scene Viewer.</dd>
+<dt><em>Color</em></dt>
+<dd>The base color of the selected light source. By default, white color (1; 1; 1) is used.</dd>
+<dt><em>Energy Coarse</em></dt>
+<dd>This parameter sets the integral part of the energy value for the light source. The value of this parameter can vary from zero to 100. Default value is 1.</dd>
+<dt><em>Energy Precise</em></dt>
+<dd>This parameter sets the fractional part of the energy value for the light source. The value of this parameter can vary from zero to 1. Set to zero by default.</dd>
+<dt><em>Light Energy</em></dt>
+<dd>This value is calculated as the sum of the Energy Coarse and Energy Precise parameters. In case of both of them are having default values, it will be equal to 1.</dd>
+<dt><em>Spot Size</em></dt>
+<dd>Angle of the light beam emitted by the light source. Default value is 75. This parameter is only available for <code class="docutils literal"><span class="pre">Spot</span></code> type light sources.</dd>
+<dt><em>Spot Blend</em></dt>
+<dd>The softness of the spotlight edge. Default value is 0.15. This parameter is also available for <code class="docutils literal"><span class="pre">Spot</span></code> type light sources only.</dd>
+<dt><em>Distance</em></dt>
+<dd>This parameter sets the distance (in meters) from the light source at which the light emitted by the light source will be half as bright as defined by the <code class="docutils literal"><span class="pre">Light</span> <span class="pre">Energy</span></code> value. Set to 30 by default.</dd>
+</dl>
+<p>The following parameters are only available for <code class="docutils literal"><span class="pre">Sun</span></code> type light sources:</p>
+<a class="reference internal image-reference" href="_images/viewer_lighting_settings_sun.png"><img alt="_images/viewer_lighting_settings_sun.png" class="align-center" src="_images/viewer_lighting_settings_sun.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>Real Time Sun Movement &gt; Play</em></dt>
+<dd>Pressing this button activates real-time sun movement.</dd>
+<dt><em>Real Time Sun Movement &gt; Stop</em></dt>
+<dd>Pressing this button stops real-time sun movement.</dd>
+<dt><em>Date</em></dt>
+<dd>This parameter sets the current date.</dd>
+<dt><em>Time</em></dt>
+<dd>This parameter set the current time of day (or night?). Default value is 12.0.</dd>
+<dt><em>Maximum Sun Vertical Angle</em></dt>
+<dd>This parameter sets maximum possible vertical angle for a <code class="docutils literal"><span class="pre">Sun</span></code> type light source. Default value is 60.</dd>
+<dt><em>Time Multiplier</em></dt>
+<dd>The value of this parameter defines the speed of the flow of time. Default value is 1.0 (time flows with the same speed it does in real life).</dd>
+<dt><em>Horizontal Position</em></dt>
+<dd>Horizontal position of the sun on the skydome. Default value is 29.82.</dd>
+<dt><em>Vertical Position</em></dt>
+<dd>Vertical position of the sun on the skydome. Default value is 34.82.</dd>
+</dl>
+</div>
+<div class="section" id="ambient">
+<h4><a class="toc-backref" href="#id15">Ambient</a><a class="headerlink" href="#ambient" title="Permalink to this headline">¶</a></h4>
+<p>Ambient lighting parameters setup. Changing the colors and intensity of a hemispheric ambient model is supported.</p>
+<p>The settings available for ambient lighting setup are the same as the ones in Blender. They are described in the <a class="reference internal" href="lighting.html#environment-lighting"><span>dedicated section</span></a>.</p>
+</div>
+<div class="section" id="shadows">
+<h4><a class="toc-backref" href="#id16">Shadows</a><a class="headerlink" href="#shadows" title="Permalink to this headline">¶</a></h4>
+<p>Shadow parameters setup, including shadow cascades and shadow edges softening parameters.</p>
+<p>The settings for setting up shadows are described in the <a class="reference internal" href="lighting.html#shadows"><span>corresponding section</span></a> of this manual.</p>
+</div>
+<div class="section" id="sky">
+<h4><a class="toc-backref" href="#id17">Sky</a><a class="headerlink" href="#sky" title="Permalink to this headline">¶</a></h4>
+<p>Dynamic sky parameters setup such as color, sun light scattering parameters etc.</p>
+<p>Scene Viewer has access to all Blender parameters used for setting up procedural sky. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="sea">
+<h4><a class="toc-backref" href="#id18">Sea</a><a class="headerlink" href="#sea" title="Permalink to this headline">¶</a></h4>
+<p>Water rendering parameters setup, including color transitions by depth and by shore distance, foam and subsurface scattering parameters, waves dynamics etc.</p>
+<p>The setting for water rendering are described in the <a class="reference internal" href="outdoor_rendering.html#water"><span>Outdoor Rendering</span></a> chapter. Scene Viewer uses the same settings as Blend4Web engine itself.</p>
+</div>
+<div class="section" id="wind">
+<h4><a class="toc-backref" href="#id19">Wind</a><a class="headerlink" href="#wind" title="Permalink to this headline">¶</a></h4>
+<p>Wind parameters setup, including direction and strength.</p>
+<p>The same parameters as the ones used by Scene Viewer are available in Blender. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#wind"><span>corresponding chapter</span></a>.</p>
+</div>
+<div class="section" id="screen-space-amb-occlus">
+<h4><a class="toc-backref" href="#id20">Screen Space Amb Occlus</a><a class="headerlink" href="#screen-space-amb-occlus" title="Permalink to this headline">¶</a></h4>
+<p>Ambient occlusion parameters setup.</p>
+<p>All available settings are described in the <a class="reference internal" href="postprocessing_effects.html#ssao"><span>Postprocessing Effects</span></a> chapter.</p>
+</div>
+<div class="section" id="god-rays">
+<h4><a class="toc-backref" href="#id21">God Rays</a><a class="headerlink" href="#god-rays" title="Permalink to this headline">¶</a></h4>
+<p>Crepuscular rays effect parameters setup.</p>
+<p>All parameters for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="bloom">
+<h4><a class="toc-backref" href="#id22">Bloom</a><a class="headerlink" href="#bloom" title="Permalink to this headline">¶</a></h4>
+<p>Bright light effect parameters setup.</p>
+<p>This effect uses the same set of parameters as it does in Blender. It is described in greater detail in the <a class="reference internal" href="postprocessing_effects.html#bloom"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="motion-blur">
+<h4><a class="toc-backref" href="#id23">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Permalink to this headline">¶</a></h4>
+<p>Motion blur effect settings.</p>
+<p>The parameters for adjusting Motion Blur effect are the same ones that are used in Blender. They are described in the <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>Postprocessing Effects</span></a> chapter.</p>
+</div>
+<div class="section" id="glow-materials">
+<h4><a class="toc-backref" href="#id24">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Permalink to this headline">¶</a></h4>
+<p>Glow Materials effect settings.</p>
+<p>The settings used for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#glow"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="depth-of-field">
+<h4><a class="toc-backref" href="#id25">Depth of Field</a><a class="headerlink" href="#depth-of-field" title="Permalink to this headline">¶</a></h4>
+<p>Depth of field effect parameters setup.</p>
+<p>The parameters are described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span>corresponding chapter</span></a>.</p>
+</div>
+<div class="section" id="color-correction">
+<h4><a class="toc-backref" href="#id26">Color correction</a><a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h4>
+<p>Color correction parameters setup, including brightness, contrast, exposure and saturation.</p>
+<p>The same set of parameters is used for color correction in Blender itself. The description of these parameters is available in the <a class="reference internal" href="colors.html#color-correction"><span>Color Management</span></a> chapter.</p>
+</div>
+<div class="section" id="audio">
+<h4><a class="toc-backref" href="#id27">Audio</a><a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h4>
+<p>There is a mixing mode switch on the panel. After it is enabled the mixer interface becomes visible (only for scenes with sound sources).</p>
+<dl class="docutils">
+<dt><em>Mixer</em></dt>
+<dd><p class="first">Enables equalizer that shows various parameters (including volume, frequency, distance, attenuation etc.) of the speakers present in the scene, and allows user to adjust these parameters by using numerical keypad. The available parameters and possibilities are described in greater detail in the <a class="reference internal" href="audio.html#mixer"><span>dedicated section</span></a> of the <a class="reference internal" href="audio.html#audio"><span>Audio chapter</span></a>.</p>
+<a class="reference internal image-reference" href="_images/viewer_mixer.png"><img alt="_images/viewer_mixer.png" class="align-center" src="_images/viewer_mixer.png" style="width: 100%;" /></a>
+<p class="last">This feature is disabled by default.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="stereo-view">
+<span id="id1"></span><h4><a class="toc-backref" href="#id28">Stereo View</a><a class="headerlink" href="#stereo-view" title="Permalink to this headline">¶</a></h4>
+<p>There is a stereoscopic mode switch on the panel.</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Stereo Types</em></dt>
+<dd><p class="first">The list of all available stereo rendering modes. As of today, three types are supported:</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">NONE</span></code> - stereo rendering is not used.</p>
+<p><code class="docutils literal"><span class="pre">ANAGLYPH</span></code> - <a class="reference internal" href="stereo_rendering.html#anaglyph"><span>anaglyph</span></a> rendering is used.</p>
+<p><code class="docutils literal"><span class="pre">HMD</span></code> - rendering for <a class="reference internal" href="stereo_rendering.html#hmd"><span>Head-Mounted Displays</span></a> is used. This option is only available is the system has access to a HMD device.</p>
+</div></blockquote>
+<p class="last">Default setting is <code class="docutils literal"><span class="pre">NONE</span></code>.</p>
+</dd>
+<dt><em>HMD Settings</em></dt>
+<dd>Shows the <a class="reference internal" href="stereo_rendering.html#hmd-settings"><span>HMD setup window</span></a>.</dd>
+</dl>
+</div>
+<div class="section" id="input-devices">
+<h4><a class="toc-backref" href="#id29">Input Devices</a><a class="headerlink" href="#input-devices" title="Permalink to this headline">¶</a></h4>
+<p>This panel contains tools for setting up the input devices.</p>
+<dl class="docutils">
+<dt><em>Gyroscope use</em></dt>
+<dd>Enables the use of the gyroscope in the application. Disabled by default.</dd>
+<dt><em>Gamepad Settings</em></dt>
+<dd><p class="first">Clicking this button shows the gamepad settings window.</p>
+<a class="last reference internal image-reference" href="_images/viewer_gamepad_settings.png"><img alt="_images/viewer_gamepad_settings.png" class="align-center" src="_images/viewer_gamepad_settings.png" style="width: 100%;" /></a>
+</dd>
+</dl>
+</div>
 </div>
 </div>
 <div class="section" id="indicators">
-<h2><a class="toc-backref" href="#id5">Indicators</a><a class="headerlink" href="#indicators" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt><strong>Frames per second counter</strong></dt>
-<dd>This is located in the top right corner. It displays the averaged and rounded value for the last 1.5 seconds.</dd>
-<dt><strong>Viewport dimensions</strong></dt>
-<dd>This is located in the top left corner. It displays the viewport dimensions in pixels.</dd>
-<dt><strong>Selected object and controlled object</strong></dt>
-<dd>This is located in the left bottom corner. It displays the names of selected and controlled objects. Object selection can be performed with the mouse. To control the object directly (normally for physics debugging) press the <code class="docutils literal"><span class="pre">Q</span></code> key and click on the object. The object movement is performed with the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> keys. To exit the control mode press the <code class="docutils literal"><span class="pre">Q</span></code> key and click on an empty space. The indicator also displays the distance to the selected object in Blender units (meters equivalent).</dd>
-<dt><strong>Scene complexity indicator</strong></dt>
-<dd>Is located in the top right corner of the rendering area. It displays the number of vertices, triangles and WebGL calls on the main rendering scene (i.e. shadow rendering calls are not included, for example).</dd>
-<dt><strong>Video memory indicator</strong></dt>
-<dd>Is located in the bottom right corner of the rendering area. It displays the amount of video memory used by geometry, textures, render targets, and also the total memory usage.</dd>
-<dt><strong>Scene load errors indicator</strong></dt>
-<dd>Is located under the FPS counter. Shows errors and warnings which occurred during scene load. Red light means errors, yellow - warnings and green means that the scene was loaded successfully.</dd>
-</dl>
+<h2><a class="toc-backref" href="#id30">Indicators</a><a class="headerlink" href="#indicators" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/viewer_indicators.png"><img alt="_images/viewer_indicators.png" class="align-center" src="_images/viewer_indicators.png" style="width: 100%;" /></a>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt><strong>Frames per second counter</strong></dt>
+<dd><p class="first last">This is located in the top right corner. It displays the averaged and rounded value for the last 1.5 seconds.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Viewport dimensions</strong></dt>
+<dd><p class="first last">This is located in the top left corner. It displays the viewport dimensions in pixels.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Selected object and controlled object</strong></dt>
+<dd><p class="first last">This is located in the left bottom corner. It displays the names of selected and controlled objects. Object selection can be performed with the mouse. To control the object directly (normally for physics debugging) press the <code class="docutils literal"><span class="pre">Q</span></code> key and click on the object. The object movement is performed with the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> keys. To exit the control mode press the <code class="docutils literal"><span class="pre">Q</span></code> key and click on an empty space. The indicator also displays the distance to the selected object in Blender units (meters equivalent).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Scene complexity indicator</strong></dt>
+<dd><p class="first last">Is located in the top right corner of the rendering area. It displays the number of vertices, triangles, WebGL draw calls and shaders used in the main rendering scene (i.e. shadow rendering calls are not included, for example).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Video memory indicator</strong></dt>
+<dd><p class="first last">Is located in the bottom right corner of the rendering area. It displays the amount of video memory used by geometry, textures, render targets, and also the total memory usage.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Scene load errors indicator</strong></dt>
+<dd><p class="first">Is located under the FPS counter. Shows errors and warnings which occurred during scene load. Red light means errors, yellow - warnings and green means that the scene was loaded successfully.</p>
+<p class="last">Loading errors and warnings can be viewed in the web browser console.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Background Transparency Indicator</strong></dt>
+<dd><p class="first">Is located in the top right corner of the screen, right below the Scene Complexity Indicator. This is a debug tool that can be used to find if the background of a scene is transparent or not. It appears as a small square with a black and white checkerboard pattern.</p>
+<p class="last">This indicator is visible only when the background of the application is transparent. It is shown on the picture above only to give the reader the general idea of how it will look under real circumstances.</p>
+</dd>
+</dl>
+</li>
+</ol>
 </div>
 </div>
 
@@ -304,7 +657,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-07-26.
+      Last updated on 2016-08-31.
 
     </p>
   </div>
@@ -360,7 +713,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

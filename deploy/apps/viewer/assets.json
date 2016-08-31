@@ -341,6 +341,10 @@
                 "load_file": "materials/node_front_back_mask.json"
             },
             {
+                "name": "Node Normal Map",
+                "load_file": "materials/normal_map/normal_map.json"
+            },
+            {
                 "name": "Node Parallax",
                 "load_file": "materials/node_parallax.json"
             },
@@ -361,12 +365,16 @@
                 "load_file": "materials/simple_parallax.json"
             },
             {
-                "name": "Shading models",
+                "name": "Shading Models",
                 "load_file": "materials/shading_models.json"
             },
             {
                 "name": "Standard materials",
                 "load_file": "materials/standard_materials.json"
+            },
+            {
+                "name": "Tangent Shading",
+                "load_file": "materials/tangent_shading.json"
             }
         ]
     },

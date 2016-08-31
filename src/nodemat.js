@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -55,7 +54,7 @@ var SCALAR_VALUE = 1;
 
 var CURVE_POINT_EPS = 0.01;
 
-// NOTE: keep VT constants synchronized with:
+// NOTE: keep constants synchronized with:
 //          shaders/include/std_enums.glsl
 //          src/batch.js : update_batch_material_nodes
 var VT_POINT  = 0;
@@ -80,6 +79,18 @@ exports.VT_OBJECT_TO_CAMERA = VT_OBJECT_TO_CAMERA;
 exports.VT_CAMERA_TO_WORLD  = VT_CAMERA_TO_WORLD;
 exports.VT_CAMERA_TO_OBJECT = VT_CAMERA_TO_OBJECT;
 exports.VT_CAMERA_TO_CAMERA = VT_CAMERA_TO_CAMERA;
+
+var NM_TANGENT        = 0;
+var NM_OBJECT         = 1;
+var NM_WORLD          = 2;
+var NM_BLENDER_OBJECT = 3;
+var NM_BLENDER_WORLD  = 4;
+exports.NM_TANGENT        = NM_TANGENT;
+exports.NM_OBJECT         = NM_OBJECT;
+exports.NM_WORLD          = NM_WORLD;
+exports.NM_BLENDER_OBJECT = NM_BLENDER_OBJECT;
+exports.NM_BLENDER_WORLD  = NM_BLENDER_WORLD;
+
 
 exports.get_ngraph_proxy_cached = function(ngraph_id) {
     return _composed_ngraph_proxies[ngraph_id];
@@ -302,6 +313,7 @@ function split_material_nodes(graph, mat_name, shader_type) {
             else
                 append_edges_in.push([in_id, material_begin_id, edge_attr]);
         }
+
         add_lighting_subgraph(graph, node.data.value, 
                 material_begin_id, material_end_id, translucency_edges, 
                 mat_name);
@@ -389,7 +401,9 @@ function add_lighting_subgraph(graph, data, begin_node_id, end_node_id,
                 var spec_name = "SPECULAR_PHONG";
             else
                 var spec_name = "SPECULAR_" + data.specular_shader;
-            bpy_node = {"name": spec_name, "type": spec_name};
+            bpy_node = {"name": spec_name,
+                        "type": spec_name,
+                        "use_tangent_shading" : data.use_tangent_shading};
             shade_spec_node_id = append_nmat_node(graph, bpy_node, 0, mat_name, null);
 
             // SPECULAR inputs
@@ -400,19 +414,17 @@ function add_lighting_subgraph(graph, data, begin_node_id, end_node_id,
             // SPECULAR output
             link_nlight_edge(graph, shade_spec_node_id, lighting_apply_node_id, "sfactor");
             
-            if (spec_name == "SPECULAR_PHONG"
-                    || spec_name == "SPECULAR_BLINN") {
-                link_nlight_edge(graph, lamp_node_id, shade_spec_node_id, "norm_fac");
-                link_nlight_edge(graph, begin_node_id, shade_spec_node_id, "sp_params");
-            } else
-                link_nlight_edge(graph, begin_node_id, shade_spec_node_id, "sp_params");
+            link_nlight_edge(graph, lamp_node_id, shade_spec_node_id, "norm_fac");
+            link_nlight_edge(graph, begin_node_id, shade_spec_node_id, "sp_params");
 
             if (light.type == "HEMI")
                 var dif_name = "DIFFUSE_LAMBERT";
             else
                 var dif_name = "DIFFUSE_" + data.diffuse_shader;
 
-            bpy_node = {"name": dif_name, "type": dif_name};
+            bpy_node = {"name": dif_name, 
+                        "type": dif_name,
+                        "use_tangent_shading" : data.use_tangent_shading};
             shade_dif_node_id = append_nmat_node(graph, bpy_node, 0, mat_name, null);
 
             // DIFFUSE inputs
@@ -1381,7 +1393,6 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
     case "VOLUME_ABSORPTION":
     case "VOLUME_SCATTER":
     case "BUMP":
-    case "NORMAL_MAP":
     case "BLACKBODY":
     case "WAVELENGTH":
     case "SEPXYZ":
@@ -1813,6 +1824,8 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                   default_node_inout("normal", "normal", [0,0,0], true),
                   default_node_inout("norm_fac", "norm_fac", 0, true)];
         outputs = [default_node_inout("lfactor", "lfactor", 0, true)];
+        if (bpy_node["use_tangent_shading"])
+            dirs.push(["MAT_USE_TBN_SHADING", 1]);
         break;
     case "DIFFUSE_FRESNEL":
     case "DIFFUSE_MINNAERT":
@@ -1824,6 +1837,8 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                   default_node_inout("norm_fac", "norm_fac", 0, true),
                   default_node_inout("dif_params", "dif_params", [0,0], true)];
         outputs = [default_node_inout("lfactor", "lfactor", 0, true)];
+        if (bpy_node["use_tangent_shading"])
+            dirs.push(["MAT_USE_TBN_SHADING", 1]);
         break;
     case "SPECULAR_BLINN":
     case "SPECULAR_PHONG":
@@ -1833,14 +1848,19 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                   default_node_inout("norm_fac", "norm_fac", 0, true),
                   default_node_inout("sp_params", "sp_params", [0,0], true)];
         outputs = [default_node_inout("sfactor", "sfactor", 0, true)];
+        if (bpy_node["use_tangent_shading"])
+            dirs.push(["MAT_USE_TBN_SHADING", 1]);
         break;
     case "SPECULAR_TOON":
     case "SPECULAR_WARDISO":
         inputs = [default_node_inout("ldir", "ldir", [0,0,0], true),
                   default_node_inout("lfac", "lfac", [0,0], true),
                   default_node_inout("normal", "normal", [0,0,0], true),
+                  default_node_inout("norm_fac", "norm_fac", 0, true),
                   default_node_inout("sp_params", "sp_params", [0,0], true)];
         outputs = [default_node_inout("sfactor", "sfactor", 0, true)];
+        if (bpy_node["use_tangent_shading"])
+            dirs.push(["MAT_USE_TBN_SHADING", 1]);
         break;
     case "LIGHTING_APPLY":
         inputs = [default_node_inout("color", "color", [0,0,0,0], true),
@@ -1873,9 +1893,9 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         inputs.push(node_input_by_ident(bpy_node, "Vector"));
         outputs.push(node_output_by_ident(bpy_node, "Vector"));
 
-        var rot = bpy_node["rotation"];
-        var scale = bpy_node["scale"];
-        var trans = bpy_node["translation"];
+        var rot = m_util.f32(bpy_node["rotation"]);
+        var scale = m_util.f32(bpy_node["scale"]);
+        var trans = m_util.f32(bpy_node["translation"]);
         var trs_matrix = m_mat3.create();
 
         // rotation
@@ -1995,7 +2015,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
 
         // NOTE: Blender doesn't the default value of this node for old files
         input.default_value = bpy_node["diffuse_intensity"];
-                
+
         material_begin_inputs.push(input);
         inputs.push(input);
 
@@ -2183,7 +2203,8 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
             value: {
                 specular_shader: bpy_node["specular_shader"],
                 diffuse_shader: bpy_node["diffuse_shader"],
-                use_shadeless: bpy_node["use_shadeless"]
+                use_shadeless: bpy_node["use_shadeless"],
+                use_tangent_shading: bpy_node["use_tangent_shading"]
             },
         }
 
@@ -2217,7 +2238,8 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
             value: {
                 specular_shader: bpy_node["specular_shader"],
                 diffuse_shader: bpy_node["diffuse_shader"],
-                use_shadeless: bpy_node["use_shadeless"]
+                use_shadeless: bpy_node["use_shadeless"],
+                use_tangent_shading: bpy_node["use_tangent_shading"]
             },
             material_begin: material_begin,
             material_end: material_end
@@ -2406,6 +2428,11 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                     if (type == "TEXTURE_COLOR") {
                         output1 = default_node_inout("Color" + i, "Color" + i, [0,0,0]);
                         output2 = default_node_inout("Value" + i, "Value" + i, 0);
+                        var bpy_image = bpy_node["texture"]["image"];
+                        var non_color = false;
+                        if (bpy_image && bpy_image["colorspace_settings_name"] == "Non-Color")
+                            non_color = true;
+                        dirs.push(["NON_COLOR", Number(non_color)]);
                     }
                     if (type == "TEXTURE_NORMAL") {
                         output1 = default_node_inout("Normal" + i, "Normal" + i, [0,0,0]);
@@ -2416,6 +2443,11 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                     if (type == "TEXTURE_COLOR") {
                         output1 = node_output_by_ident(bpy_node, "Color");
                         output2 = node_output_by_ident(bpy_node, "Value");
+                        var bpy_image = bpy_node["texture"]["image"];
+                        var non_color = false;
+                        if (bpy_image && bpy_image["colorspace_settings_name"] == "Non-Color")
+                            non_color = true;
+                        dirs.push(["NON_COLOR", Number(non_color)]);
                     }
                     if (type == "TEXTURE_NORMAL") {
                         output1 = node_output_by_ident(bpy_node, "Normal");
@@ -2555,6 +2587,36 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
 
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
+
+        break;
+    case "NORMAL_MAP":
+        var space = NM_TANGENT;
+        switch (bpy_node["space"]) {
+        case "TANGENT":
+            space = NM_TANGENT;
+            break;
+        case "OBJECT":
+            space = NM_OBJECT;
+            break;
+        case "WORLD":
+            space = NM_WORLD;
+            break;
+        case "BLENDER_OBJECT":
+            space = NM_BLENDER_OBJECT;
+            break;
+        case "BLENDER_WORLD":
+            space = NM_BLENDER_WORLD;
+            break;
+        default:
+            m_print.error("Unsupported NORMAL_MAP space: " +
+                    bpy_node["space"]);
+            return null;
+        }
+        dirs.push(["SPACE", m_shaders.glsl_value(space)]);
+
+        inputs.push(node_input_by_ident(bpy_node, "Strength"));
+        inputs.push(node_input_by_ident(bpy_node, "Color"));
+        outputs.push(node_output_by_ident(bpy_node, "Normal"));
 
         break;
 

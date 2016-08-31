@@ -103,4 +103,7 @@ exports.recalc_ast_uids = function(ast_input) {
             parent_uids_stack.pop();
     }
     m_trav.traverse_data(ast_input.ast, cb_parent_uid_before, cb_parent_uid_after);
+
+    // update ast_input, because this dict is used during the subsequent searching/collecting
+    ast_input.uid_to_nodes = _uid_to_nodes;
 }

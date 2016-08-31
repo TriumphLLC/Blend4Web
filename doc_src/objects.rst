@@ -140,6 +140,9 @@ Object Tab
 *Animation > Behavior*
     Animation behavior when the last frame is reached: ``Finish Stop`` - stop, ``Finish Reset`` - stop and go to the zero frame, ``Loop`` - repeat forever.
 
+*Rendering Properties > Hidden*
+    An object with this property enabled will be hidden on load.
+
 *Rendering Properties > Do Not Render*
     Disable object rendering (for example useful for a physics object).
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 15:44+0300\n"
+"POT-Creation-Date: 2016-07-26 17:15+0300\n"
 "PO-Revision-Date: 2016-03-24 11:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -40,9 +40,9 @@ msgstr ""
 "объектов в виде \"смазывания\" изображения."
 
 #: ../postprocessing_effects.rst:25 ../postprocessing_effects.rst:53
-#: ../postprocessing_effects.rst:89 ../postprocessing_effects.rst:132
-#: ../postprocessing_effects.rst:161 ../postprocessing_effects.rst:192
-#: ../postprocessing_effects.rst:237 ../postprocessing_effects.rst:275
+#: ../postprocessing_effects.rst:92 ../postprocessing_effects.rst:135
+#: ../postprocessing_effects.rst:164 ../postprocessing_effects.rst:195
+#: ../postprocessing_effects.rst:240 ../postprocessing_effects.rst:278
 msgid "Activation"
 msgstr "Активация"
 
@@ -51,13 +51,13 @@ msgid "Activate the ``Motion Blur`` panel on the ``Render`` tab."
 msgstr "Активировать панель ``Motion Blur`` во вкладке ``Render``."
 
 #: ../postprocessing_effects.rst:30 ../postprocessing_effects.rst:63
-#: ../postprocessing_effects.rst:94 ../postprocessing_effects.rst:137
-#: ../postprocessing_effects.rst:166 ../postprocessing_effects.rst:197
-#: ../postprocessing_effects.rst:242 ../postprocessing_effects.rst:285
+#: ../postprocessing_effects.rst:97 ../postprocessing_effects.rst:140
+#: ../postprocessing_effects.rst:169 ../postprocessing_effects.rst:200
+#: ../postprocessing_effects.rst:245 ../postprocessing_effects.rst:288
 msgid "Additional settings"
 msgstr "Дополнительные настройки"
 
-#: ../postprocessing_effects.rst:33 ../postprocessing_effects.rst:220
+#: ../postprocessing_effects.rst:33 ../postprocessing_effects.rst:223
 msgid "*Factor*"
 msgstr ""
 
@@ -152,7 +152,7 @@ msgstr ""
 "Расстояние от фокуса до дальней от камеры плоскости, за которой "
 "происходит полное размытие (в метрах). Значение по умолчанию 1.0."
 
-#: ../postprocessing_effects.rst:73
+#: ../postprocessing_effects.rst:72
 msgid "*Power*"
 msgstr ""
 
@@ -160,11 +160,19 @@ msgstr ""
 msgid "Blurring ratio. The default value is 3.0."
 msgstr "Степень размытия. Значение по умолчанию 3.0."
 
-#: ../postprocessing_effects.rst:80
+#: ../postprocessing_effects.rst:76
+msgid "*Bokeh*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:75
+msgid "Activating this option enables bokeh effect. Disabled by default."
+msgstr "Включает эффект боке. По умолчанию выключено."
+
+#: ../postprocessing_effects.rst:83
 msgid "Screen-Space Ambient Occlusion"
 msgstr "Взаимное затенение"
 
-#: ../postprocessing_effects.rst:82
+#: ../postprocessing_effects.rst:85
 msgid ""
 "The screen-space ambient occlusion (SSAO) effect can be used to fake "
 "complex light reflections from objects. The basis of this effect is that "
@@ -176,7 +184,7 @@ msgstr ""
 "объектов. Пространство между близкими объектами менее доступно для "
 "рассеянного света и поэтому затеняется сильнее."
 
-#: ../postprocessing_effects.rst:91
+#: ../postprocessing_effects.rst:94
 msgid ""
 "Activate the ``Ambient Occlusion SSAO`` panel under the ``Render`` tab "
 "and set the ``Render Shadows`` parameter to ``AUTO`` or ``ON``  on the "
@@ -186,11 +194,11 @@ msgstr ""
 "выставить параметр опции ``Render Shadows`` в положение ``AUTO`` или "
 "``ON``  на панели ``Render > Shadows``."
 
-#: ../postprocessing_effects.rst:97
+#: ../postprocessing_effects.rst:100
 msgid "*Radius Increase*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:97
+#: ../postprocessing_effects.rst:100
 msgid ""
 "The spherical sampling radius multiply factor when transferring from the "
 "internal sampling ring to the external one. The default value is 3.0."
@@ -198,11 +206,11 @@ msgstr ""
 "Фактор умножения радиуса сферического сэмплинга при переходе от "
 "внутреннего кольца к внешнему. Значение по умолчанию 3.0."
 
-#: ../postprocessing_effects.rst:100
+#: ../postprocessing_effects.rst:103
 msgid "*Use Hemisphere*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:100
+#: ../postprocessing_effects.rst:103
 msgid ""
 "Use a hemispherical sampling for shading instead of a spherical. Besides,"
 " it uses different shading law."
@@ -210,11 +218,11 @@ msgstr ""
 "Использовать для расчёта затенения полусферический сэмплинг вместо "
 "сферического. Помимо этого используется другой закон затенения."
 
-#: ../postprocessing_effects.rst:103
+#: ../postprocessing_effects.rst:106
 msgid "*Use Blur Depth Test*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:103
+#: ../postprocessing_effects.rst:106
 msgid ""
 "Use edge-preserving blur to SSAO if flag will be turned on. Otherwise, it"
 " uses blur which averages a 4x4 rectangle around each pixel."
@@ -222,11 +230,11 @@ msgstr ""
 "Если активировано - используется размытие SSAO на основе буфера глубины. "
 "Иначе - размытие по квадарту 4х4 по соседним пикселям."
 
-#: ../postprocessing_effects.rst:106
+#: ../postprocessing_effects.rst:109
 msgid "*Blur Depth Test Discard Value*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:106
+#: ../postprocessing_effects.rst:109
 msgid ""
 "Influence of depth difference between samples on blur weight. It uses "
 "with ``Use Blur Depth Test`` activated flag. The default value is 1.0."
@@ -235,21 +243,21 @@ msgstr ""
 "активированном параметре ``Use Blur Depth Test``. Значение по умолчанию "
 "1.0."
 
-#: ../postprocessing_effects.rst:109
+#: ../postprocessing_effects.rst:112
 msgid "*Influence*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:109
+#: ../postprocessing_effects.rst:112
 msgid "SSAO appearance factor. The default value is 0.7."
 msgstr ""
 "Степень проявленности эффекта взаимного затенения. Значение по умолчанию "
 "0.7."
 
-#: ../postprocessing_effects.rst:112
+#: ../postprocessing_effects.rst:115
 msgid "*Distance Factor*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:112
+#: ../postprocessing_effects.rst:115
 msgid ""
 "Factor of SSAO decay with distance. The default value is 0.0 (i.e. no "
 "decay)."
@@ -257,11 +265,11 @@ msgstr ""
 "Фактор уменьшения проявленности эффекта взаимного затенения с "
 "расстоянием. Значение по умолчанию 0.0 (т.е. уменьшения нет)."
 
-#: ../postprocessing_effects.rst:116
+#: ../postprocessing_effects.rst:119
 msgid "*Samples*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:115
+#: ../postprocessing_effects.rst:118
 msgid ""
 "Number of samples (the more samples there are the better is the quality "
 "but the poorer is the performance). The default value is 16."
@@ -269,11 +277,11 @@ msgstr ""
 "Количество сэмплов (чем больше, тем лучше качество, но меньше "
 "производительность). Значение по умолчанию 16."
 
-#: ../postprocessing_effects.rst:123
+#: ../postprocessing_effects.rst:126
 msgid "God Rays"
 msgstr "Сумеречные лучи"
 
-#: ../postprocessing_effects.rst:125
+#: ../postprocessing_effects.rst:128
 msgid ""
 "The god rays effect (aka crepuscular rays) simulates well-known natural "
 "phenomenon - the shining of illuminated air parts."
@@ -281,23 +289,23 @@ msgstr ""
 "Эффект сумеречных лучей (crepuscular rays, \"god rays\") симулирует "
 "известное природное явление - свечение освещенных областей воздуха."
 
-#: ../postprocessing_effects.rst:134
+#: ../postprocessing_effects.rst:137
 msgid "Activate the ``God Rays`` panel under the ``Render`` tab."
 msgstr "Активировать панель ``God Rays`` во вкладке ``Render``."
 
-#: ../postprocessing_effects.rst:140 ../postprocessing_effects.rst:169
+#: ../postprocessing_effects.rst:143 ../postprocessing_effects.rst:172
 msgid "*Intensity*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:140
+#: ../postprocessing_effects.rst:143
 msgid "The effect appearance factor. The default value is 0.7."
 msgstr "Степень проявленности эффекта. Значение по умолчанию 0.7."
 
-#: ../postprocessing_effects.rst:143
+#: ../postprocessing_effects.rst:146
 msgid "*Maximum Ray Length*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:143
+#: ../postprocessing_effects.rst:146
 msgid ""
 "Rays length factor. Defines the step between samples of radial blurring. "
 "The default value is 1.0."
@@ -305,19 +313,19 @@ msgstr ""
 "Фактор длины лучей. Определяет шаг сэмплов радиального размытия. Значение"
 " по умолчанию 1.0."
 
-#: ../postprocessing_effects.rst:147
+#: ../postprocessing_effects.rst:150
 msgid "*Steps Per Pass*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:146
+#: ../postprocessing_effects.rst:149
 msgid "Number of steps per single sample. The default value is 10.0."
 msgstr "Количество шагов на один сэмпл. Значение по умолчанию 10.0."
 
-#: ../postprocessing_effects.rst:152
+#: ../postprocessing_effects.rst:155
 msgid "Bloom"
 msgstr "Эффект засветки ярких деталей"
 
-#: ../postprocessing_effects.rst:154
+#: ../postprocessing_effects.rst:157
 msgid ""
 "Bloom appears when a picture has elements with a very different "
 "brightness. A glowing halo is created around the bright details."
@@ -326,27 +334,27 @@ msgstr ""
 "большой разницей в яркости. Вокруг ярких деталей создается светящийся "
 "ореол."
 
-#: ../postprocessing_effects.rst:163
+#: ../postprocessing_effects.rst:166
 msgid "Activate the ``Bloom`` panel under the ``Render`` tab."
 msgstr "Активировать панель ``Bloom`` во вкладке ``Render``."
 
-#: ../postprocessing_effects.rst:169
+#: ../postprocessing_effects.rst:172
 msgid "Bloom intensity."
 msgstr "Интенсивность эффекта свечения."
 
-#: ../postprocessing_effects.rst:172
+#: ../postprocessing_effects.rst:175
 msgid "*Blur*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:172
+#: ../postprocessing_effects.rst:175
 msgid "Bloom blurriness factor."
 msgstr "Степень размытия засветки."
 
-#: ../postprocessing_effects.rst:176
+#: ../postprocessing_effects.rst:179
 msgid "*Edge Luminance*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:175
+#: ../postprocessing_effects.rst:178
 msgid ""
 "The boundary value of an element's relative brightness above which the "
 "bloom effect appears."
@@ -354,11 +362,11 @@ msgstr ""
 "Граничное значение относительной яркости элемента, выше которого начинает"
 " проявляться эффект засветки."
 
-#: ../postprocessing_effects.rst:183
+#: ../postprocessing_effects.rst:186
 msgid "Outlining"
 msgstr "Подсветка контура (outlining)"
 
-#: ../postprocessing_effects.rst:185
+#: ../postprocessing_effects.rst:188
 msgid ""
 "As a result of the outline glow effect, a luminous colored halo will be "
 "displayed around the object."
@@ -366,7 +374,7 @@ msgstr ""
 "В результате применения эффекта подсветки контура вокруг объекта "
 "появляется светящийся ореол произвольного цвета."
 
-#: ../postprocessing_effects.rst:194
+#: ../postprocessing_effects.rst:197
 msgid ""
 "The outlining is activated programmatically via API. Different animation "
 "models can be applied such as constant glow, fading out glow, pulsatory "
@@ -380,39 +388,39 @@ msgstr ""
 "объектов необходимо убедиться, что в панели ``Render > Object Selection``"
 " поле ``Enable`` установлено в состояние ``ON`` или ``AUTO``."
 
-#: ../postprocessing_effects.rst:199
+#: ../postprocessing_effects.rst:202
 msgid "On the ``Object > Selection and Outlining`` panel:"
 msgstr "На панели ``Object > Selection and Outlining``:"
 
-#: ../postprocessing_effects.rst:202
+#: ../postprocessing_effects.rst:205
 msgid "*Enable Outlining*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:202
+#: ../postprocessing_effects.rst:205
 msgid "Permit using the outline glow effect on this object."
 msgstr "Разрешить использование эффекта подсветки контура на конкретном объекте."
 
-#: ../postprocessing_effects.rst:205
+#: ../postprocessing_effects.rst:208
 msgid "*Duration*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:205
+#: ../postprocessing_effects.rst:208
 msgid "Duration of glow animation, seconds. The default value is 1."
 msgstr "Длительность анимации подсветки, сек. Значение по умолчанию 1."
 
-#: ../postprocessing_effects.rst:208
+#: ../postprocessing_effects.rst:211
 msgid "*Period*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:208
+#: ../postprocessing_effects.rst:211
 msgid "Repeat period of glow animation, seconds. The default value is 1."
 msgstr "Период повторения анимации подсветки, сек. Значение по умолчанию 1."
 
-#: ../postprocessing_effects.rst:211
+#: ../postprocessing_effects.rst:214
 msgid "*Relapses*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:211
+#: ../postprocessing_effects.rst:214
 msgid ""
 "The number of iterations of glow animation. If zero, animation is "
 "repeated forever. The default value is 0."
@@ -420,11 +428,11 @@ msgstr ""
 "Количество итераций анимации подсветки. В случае 0 анимация будет "
 "повторяться бесконечно. Значение по умолчанию 0."
 
-#: ../postprocessing_effects.rst:215
+#: ../postprocessing_effects.rst:218
 msgid "*Outline on Select*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:214
+#: ../postprocessing_effects.rst:217
 msgid ""
 "Activate glow animation upon selecting the object. In this case the "
 "``Selectable`` option must be enabled. In case of a user-defined glow "
@@ -435,11 +443,11 @@ msgstr ""
 "собственной модели подсветки объекта следует отключить эту опцию во "
 "избежание конфликта."
 
-#: ../postprocessing_effects.rst:217
+#: ../postprocessing_effects.rst:220
 msgid "On the ``Render > Object Outlining`` panel:"
 msgstr "На панели ``Render > Object Outlining``:"
 
-#: ../postprocessing_effects.rst:220
+#: ../postprocessing_effects.rst:223
 msgid ""
 "When this parameter decreases so does the thickness and the brightness of"
 " the halo around the object. The default value is 1."
@@ -447,7 +455,7 @@ msgstr ""
 "Толщина и яркость ореола, окружающего объект. Падает с уменьшением "
 "параметра. Значение по умолчанию 1."
 
-#: ../postprocessing_effects.rst:222
+#: ../postprocessing_effects.rst:225
 msgid ""
 "The ``Render > Object Outlining`` settings are taken as default when the "
 "glow effect is initiated via API."
@@ -455,11 +463,11 @@ msgstr ""
 "При управлении через API настройки на панели ``Render > Object "
 "Outlining`` воспринимаются как настройки по умолчанию."
 
-#: ../postprocessing_effects.rst:228
+#: ../postprocessing_effects.rst:231
 msgid "Glow"
 msgstr "Свечение (glow)"
 
-#: ../postprocessing_effects.rst:230
+#: ../postprocessing_effects.rst:233
 msgid ""
 "Effect of halo which is observed around emissive objects due to light "
 "scattering in the atmosphere and inside the human eye."
@@ -467,7 +475,7 @@ msgstr ""
 "Эффект возникновения ореола вокруг светящихся объектов, возникающий "
 "вследствие рассеивания света в атмосфере и внутри человеческого глаза."
 
-#: ../postprocessing_effects.rst:239
+#: ../postprocessing_effects.rst:242
 msgid ""
 "Add a :ref:`B4W_GLOW_OUTPUT <glow_output>` node to a node material. The "
 "``Enable Glow Materials`` option on the ``Render > Glow Materials`` panel"
@@ -477,57 +485,57 @@ msgstr ""
 "Для включения возможности свечения в панели ``Render > Glow Materials`` "
 "опция ``Enable`` должна быть установлена в состояние ``ON`` или ``AUTO``."
 
-#: ../postprocessing_effects.rst:245
+#: ../postprocessing_effects.rst:248
 msgid "*Small Mask: Intensity*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:245
+#: ../postprocessing_effects.rst:248
 msgid ""
 "Intensity of glow obtained through the smaller mask. The default value is"
 " 2.0."
 msgstr "Интенсивность свечения по малой маске. Значение по умолчанию 2.0."
 
-#: ../postprocessing_effects.rst:248
+#: ../postprocessing_effects.rst:251
 msgid "*Small Mask: Width*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:248
+#: ../postprocessing_effects.rst:251
 msgid "Width of glow obtained through the smaller mask. The default value is 2.0."
 msgstr "Ширина свечения по малой маске. Значение по умолчанию 2.0."
 
-#: ../postprocessing_effects.rst:252
+#: ../postprocessing_effects.rst:255
 msgid "*Large Mask: Intensity*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:251
+#: ../postprocessing_effects.rst:254
 msgid ""
 "Intensity of glow obtained through the larger mask. The default value is "
 "2.0."
 msgstr "Интенсивность свечения по большой маске. Значение по умолчанию 2.0."
 
-#: ../postprocessing_effects.rst:255
+#: ../postprocessing_effects.rst:258
 msgid "*Large Mask: Width*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:255
+#: ../postprocessing_effects.rst:258
 msgid "Width of glow obtained through the larger mask. The default value is 6.0."
 msgstr "Ширина свечения по большой маске. Значение по умолчанию 6.0."
 
-#: ../postprocessing_effects.rst:259
+#: ../postprocessing_effects.rst:262
 msgid "*Render Glow Over Transparent Objects*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:258
+#: ../postprocessing_effects.rst:261
 msgid "Render the glow effect over transparent objects."
 msgstr ""
 "Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию "
 "выключено."
 
-#: ../postprocessing_effects.rst:266
+#: ../postprocessing_effects.rst:269
 msgid "Anti-Aliasing"
 msgstr "Сглаживание"
 
-#: ../postprocessing_effects.rst:268
+#: ../postprocessing_effects.rst:271
 msgid ""
 "Anti-aliasing is used to reduce undesirable rendering artifacts (poor "
 "pixelization)."
@@ -535,7 +543,7 @@ msgstr ""
 "Сглаживание (anti-aliasing) необходимо для уменьшения влияния "
 "нежелательных артефактов рендеринга (\"зубчатости\")."
 
-#: ../postprocessing_effects.rst:277
+#: ../postprocessing_effects.rst:280
 msgid ""
 "Select quality profile using ``AA Quality`` menu located on the ``Render "
 "> Anti-Aliasing`` panel."
@@ -543,11 +551,11 @@ msgstr ""
 "Выбрать один из профилей качества в поле ``AA Quality`` на панели "
 "``Render > Anti-Aliasing``:"
 
-#: ../postprocessing_effects.rst:279
+#: ../postprocessing_effects.rst:282
 msgid "*None* - disable anti-aliasing,"
 msgstr "*None* - антиалиасинг отключен,"
 
-#: ../postprocessing_effects.rst:280
+#: ../postprocessing_effects.rst:283
 msgid ""
 "*Low*, *Medium*, *High* - enable anti-aliasing with the given quality "
 "profile."
@@ -555,11 +563,11 @@ msgstr ""
 "*Low*, *Medium*, *High* - применяется антиалиасинг с низкими, средними и "
 "высокими параметрами качества соответственно."
 
-#: ../postprocessing_effects.rst:282
+#: ../postprocessing_effects.rst:285
 msgid "*Medium* profile is used by default."
 msgstr "Значение по умолчанию: *Medium*."
 
-#: ../postprocessing_effects.rst:287
+#: ../postprocessing_effects.rst:290
 msgid ""
 "The anti-aliasing method is assigned simultaneously with the selection of"
 " the engine performance profile:"
@@ -568,11 +576,11 @@ msgstr ""
 "качества антиалиасинга и выбора профиля работы движка. При выборе профиля"
 " работы движка действуют следующие настройки:"
 
-#: ../postprocessing_effects.rst:289
+#: ../postprocessing_effects.rst:292
 msgid "*low quality* - no anti-aliasing,"
 msgstr "*низкое качество* - антиалиасинг отключен,"
 
-#: ../postprocessing_effects.rst:290
+#: ../postprocessing_effects.rst:293
 msgid ""
 "*high quality* and *ultra quality* - use the FXAA 3.11 algorithm (Fast "
 "Approximate Anti-Aliasing by Nvidia)."
@@ -592,27 +600,27 @@ msgstr "глубина резкости камеры (depth of field)"
 msgid "DOF"
 msgstr ""
 
-#: ../postprocessing_effects.rst:75
+#: ../postprocessing_effects.rst:78
 msgid "screen-space ambient occlusion"
 msgstr "взаимное затенение (screen-space ambient occlusion)"
 
-#: ../postprocessing_effects.rst:75
+#: ../postprocessing_effects.rst:78
 msgid "SSAO"
 msgstr ""
 
-#: ../postprocessing_effects.rst:118
+#: ../postprocessing_effects.rst:121
 msgid "crepuscular rays"
 msgstr "сумеречные лучи (crepuscular rays)"
 
-#: ../postprocessing_effects.rst:118
+#: ../postprocessing_effects.rst:121
 msgid "god rays"
 msgstr "Сумеречные лучи"
 
-#: ../postprocessing_effects.rst:178
+#: ../postprocessing_effects.rst:181
 msgid "outline glow"
 msgstr "подсветка контура (outline glow)"
 
-#: ../postprocessing_effects.rst:261
+#: ../postprocessing_effects.rst:264
 msgid "anti-aliasing"
 msgstr "сглаживание"
 

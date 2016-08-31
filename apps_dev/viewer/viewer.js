@@ -89,6 +89,7 @@ exports.init = function() {
         gl_debug: get_enable_gl_debug_config(),
         show_hud_debug_info: get_show_hud_debug_info_config(),
         sfx_mix_mode: get_mix_mode_config(),
+        min_capabilities: get_min_capabilities_config(),
         show_fps: true,
         fps_elem_id: "fps_logger",
         fps_wrapper_id: "fps_container",
@@ -434,9 +435,12 @@ function init_ui() {
 
     // dof
     bind_control(set_dof_params, "dof_distance", "number");
-    bind_control(set_dof_params, "dof_front", "number");
-    bind_control(set_dof_params, "dof_rear", "number");
+    bind_control(set_dof_params, "dof_front_start", "number");
+    bind_control(set_dof_params, "dof_front_end", "number");
+    bind_control(set_dof_params, "dof_rear_start", "number");
+    bind_control(set_dof_params, "dof_rear_end", "number");
     bind_control(set_dof_params, "dof_power", "number");
+    bind_control(set_dof_params, "dof_bokeh_intensity", "number");
     bind_control(set_dof_params, "dof_on", "bool");
 
     // god_rays
@@ -499,6 +503,8 @@ function init_ui() {
     refresh_outlining_overview_mode_ui();
     m_app.set_onclick("make_screenshot", make_screenshot_clicked);
     refresh_debug_info_ui();
+    bind_control(set_min_capabilities_and_reload, "min_capabilities", "bool");
+    refresh_min_capabilities_ui();
 
     assign_sliders_controls();
 }
@@ -794,7 +800,6 @@ function preloader_callback(percentage, load_time) {
     // bpy data loaded
     if (m_data.is_primary_loaded()) {
         on_resize();
-        display_scene_stats();
         add_error_tooltip();
 
         if (!warnings && !errors) {
@@ -1157,7 +1162,7 @@ function get_show_hud_debug_info_config() {
 
 function get_enable_gl_debug_config() {
     if (m_storage.get("enable_gl_debug") == "")
-        return true;
+        return false;
     else
         return m_storage.get("enable_gl_debug") === "true";
 }
@@ -1179,7 +1184,7 @@ function refresh_debug_info_ui() {
     $("#show_hud_debug_info").slider("refresh");
 
     if (m_storage.get("enable_gl_debug") == "")
-        var opt_index = 1;
+        var opt_index = 0;
     else
         var opt_index = Number(m_storage.get("enable_gl_debug") === "true");
     document.getElementById("enable_gl_debug").options[opt_index].selected = true;
@@ -1242,6 +1247,25 @@ function refresh_gyro_use_ui() {
     $("#gyro_use").slider("refresh");
 }
 
+function set_min_capabilities_and_reload(value) {
+    m_storage.set("min_capabilities", value.min_capabilities);
+    window.location.reload();
+}
+
+function get_min_capabilities_config() {
+    if (m_storage.get("min_capabilities") == "")
+        return false;
+    else
+        return m_storage.get("min_capabilities") === "true";
+}
+
+function refresh_min_capabilities_ui() {
+    var opt_index = Number(get_min_capabilities_config());
+    document.getElementById("min_capabilities").options[opt_index].selected = true;
+    $("#min_capabilities").slider("refresh");
+}
+
+
 function set_stereo_view_and_reload(value) {
     m_storage.set("stereo", value.stereo);
     window.location.reload();
@@ -1281,6 +1305,9 @@ function on_resize(e) {
 
     document.getElementById("info_left_up").innerHTML = canvas.width + "x" +
             canvas.height + " (" + (canvas.width / canvas.clientWidth).toFixed(2) + ":1.00)";
+
+    if (m_data.is_primary_loaded())
+        display_scene_stats();
 }
 
 function cleanup() {
@@ -1866,27 +1893,35 @@ function set_debug_params(value) {
         switch (mode_str) {
         case "DV_NONE":
             debug_params["debug_view_mode"] = m_debug.DV_NONE;
+            forbid_params(["wireframe_edge_color"], "disable");
             break;
         case "DV_OPAQUE_WIREFRAME":
             debug_params["debug_view_mode"] = m_debug.DV_OPAQUE_WIREFRAME;
+            forbid_params(["wireframe_edge_color"], "enable");
             break;
         case "DV_TRANSPARENT_WIREFRAME":
             debug_params["debug_view_mode"] = m_debug.DV_TRANSPARENT_WIREFRAME;
+            forbid_params(["wireframe_edge_color"], "enable");
             break;
         case "DV_FRONT_BACK_VIEW":
             debug_params["debug_view_mode"] = m_debug.DV_FRONT_BACK_VIEW;
+            forbid_params(["wireframe_edge_color"], "enable");
             break;
-        case "DV_DEBUG_SPHERES":
-            debug_params["debug_view_mode"] = m_debug.DV_DEBUG_SPHERES;
+        case "DV_BOUNDINGS":
+            debug_params["debug_view_mode"] = m_debug.DV_BOUNDINGS;
+            forbid_params(["wireframe_edge_color"], "disable");
             break;
         case "DV_CLUSTERS_VIEW":
             debug_params["debug_view_mode"] = m_debug.DV_CLUSTERS_VIEW;
+            forbid_params(["wireframe_edge_color"], "disable");
             break;
         case "DV_BATCHES_VIEW":
             debug_params["debug_view_mode"] = m_debug.DV_BATCHES_VIEW;
+            forbid_params(["wireframe_edge_color"], "disable");
             break;
         case "DV_RENDER_TIME":
             debug_params["debug_view_mode"] = m_debug.DV_RENDER_TIME;
+            forbid_params(["wireframe_edge_color"], "disable");
             break;
         }
 
@@ -2454,15 +2489,21 @@ function get_dof_params() {
 
     var dof_param_names = ["dof_distance",
                            "dof_object",
-                           "dof_front",
-                           "dof_rear",
+                           "dof_front_start",
+                           "dof_front_end",
+                           "dof_rear_start",
+                           "dof_rear_end",
                            "dof_power",
+                           "dof_bokeh_intensity",
                            "dof_on"];
 
     if (dof_params) {
-        set_slider("dof_front", dof_params["dof_front"]);
-        set_slider("dof_rear", dof_params["dof_rear"]);
+        set_slider("dof_front_start", dof_params["dof_front_start"]);
+        set_slider("dof_front_end", dof_params["dof_front_end"]);
+        set_slider("dof_rear_start", dof_params["dof_rear_start"]);
+        set_slider("dof_rear_end", dof_params["dof_rear_end"]);
         set_slider("dof_power", dof_params["dof_power"]);
+        set_slider("dof_bokeh_intensity", dof_params["dof_bokeh_intensity"]);
 
         $("#" + "dof_distance").parent().parent().parent().removeClass('ui-disabled');
         if (dof_params["dof_object"]) {
@@ -2492,14 +2533,23 @@ function set_dof_params(value) {
     if ("dof_distance" in value && Number($("#dof_on").val()))
         dof_params["dof_distance"] = value.dof_distance;
 
-    if ("dof_front" in value)
-        dof_params["dof_front"] = value.dof_front;
+    if ("dof_front_start" in value)
+        dof_params["dof_front_start"] = value.dof_front_start;
 
-    if ("dof_rear" in value)
-        dof_params["dof_rear"] = value.dof_rear;
+    if ("dof_front_end" in value)
+        dof_params["dof_front_end"] = value.dof_front_end;
+
+    if ("dof_rear_start" in value)
+        dof_params["dof_rear_start"] = value.dof_rear_start;
+
+    if ("dof_rear_end" in value)
+        dof_params["dof_rear_end"] = value.dof_rear_end;
 
     if ("dof_power" in value)
         dof_params["dof_power"] = value.dof_power;
+
+    if ("dof_bokeh_intensity" in value)
+        dof_params["dof_bokeh_intensity"] = value.dof_bokeh_intensity;
 
     if ("dof_on" in value)
         dof_params["dof_on"] = Boolean(value.dof_on);

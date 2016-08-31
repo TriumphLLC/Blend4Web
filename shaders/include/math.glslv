@@ -3,8 +3,12 @@
 #export identity qrot rotation_x rotation_y rotation_z qinv
 #export vertex
 #export tbn_norm
-#export tsr_translate
-#export tsr_translate_inv
+#export tsr_transform
+#export tsr9_transform
+#export tsr_transform_dir
+#export tsr9_transform_dir
+#export tsr_transform_inv
+#export tsr_transform_inv_dir
 #export clip_to_tex
 #export tsr_to_mat4
 #export tsr_multiply
@@ -17,6 +21,7 @@ struct vertex
     vec3 position;
     vec3 center;
     vec3 tangent;
+    vec3 shade_tang;
     vec3 binormal;
     vec3 normal;
     vec3 color;
@@ -38,33 +43,74 @@ vec3 qrot(in vec4 q, in vec3 v)
 }
 
 vec4 qinv(in vec4 quat) {
-    return vec4(-quat.xyz, quat.w) / dot(quat, quat);
+    // NOTE: input quaternions should be always in normalized form
+    //return vec4(-quat.xyz, quat.w) / dot(quat, quat);
+    return vec4(-quat.xyz, quat.w);
 }
 
-vec3 tsr_translate(vec4 trans, vec4 quat, vec4 vec)
+vec3 tsr_transform(vec4 trans, vec4 quat, vec3 vec)
 {
     // scale
-    vec3 dest = vec.xyz * trans.w;
+    vec3 dest = vec * trans.w;
     // quat * vec
     dest = qrot(quat, dest);
     // translate
-    dest += trans.xyz * vec.w;
+    dest += trans.xyz;
 
     return dest;
 }
 
-// translate vec4 with tsr in inverse direction
-vec3 tsr_translate_inv(vec4 trans, vec4 quat, vec4 vec)
+vec3 tsr9_transform(mat3 tsr, vec3 vec)
+{
+    // scale
+    vec3 dest = vec * tsr[1][0];
+    // quat * vec
+    vec4 quat = vec4(tsr[1][1], tsr[1][2], tsr[2][0], tsr[2][1]);
+    dest = qrot(quat, dest);
+    // translate
+    dest += tsr[0];
+
+    return dest;
+}
+
+vec3 tsr_transform_dir(vec4 trans, vec4 quat, vec3 dir)
+{
+    // scale
+    vec3 dest = dir * trans.w;
+    // quat * dir
+    dest = qrot(quat, dest);
+
+    return dest;
+}
+
+vec3 tsr9_transform_dir(mat3 tsr, vec3 dir)
+{
+    // scale
+    vec3 dest = dir * tsr[1][0];
+    // quat * dir
+    vec4 quat = vec4(tsr[1][1], tsr[1][2], tsr[2][0], tsr[2][1]);
+    dest = qrot(quat, dest);
+
+    return dest;
+}
+
+// translate vector with tsr in inverse direction
+vec3 tsr_transform_inv(vec4 trans, vec4 quat, vec3 vec)
 {
     // translate
-    vec3 dest = vec.xyz - trans.xyz * vec.w;
+    vec3 dest = vec - trans.xyz;
     // inverse quat * vec
-    vec4 quat_inv = qinv(quat);
-    dest = qrot(quat_inv, dest);
+    dest = qrot(qinv(quat), dest);
     // scale
     dest /= trans.w;
 
     return dest;
+}
+
+// translate directional vector with tsr in inverse direction
+vec3 tsr_transform_inv_dir(vec4 trans, vec4 quat, vec3 dir)
+{
+    return qrot(qinv(quat), dir) / trans.w;
 }
 
 /*
@@ -131,7 +177,7 @@ mat4 rotation_z(float angle) {
 
 vertex tbn_norm(in vertex v) {
     return vertex(v.position, v.center, normalize(v.tangent),
-            normalize(v.binormal), normalize(v.normal), v.color);
+            normalize(v.shade_tang), normalize(v.binormal), normalize(v.normal), v.color);
 }
 
 #if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
@@ -180,10 +226,10 @@ mat4 tsr_to_mat4(mat3 t) {
 mat3 tsr_multiply(mat3 tsr, mat3 tsr2) {
     mat3 dest;
     // translate
-    vec4 vec = vec4(tsr2[0], 1.0);
+    vec3 vec = tsr2[0];
     vec4 trans = vec4(tsr[0], tsr[1][0]);
     vec4 quat = vec4(tsr[1][1], tsr[1][2], tsr[2][0], tsr[2][1]);
-    dest[0] = tsr_translate(trans, quat, vec);
+    dest[0] = tsr_transform(trans, quat, vec);
     // scale
     dest[1][0] = tsr[1][0] * tsr2[1][0];
     // quat

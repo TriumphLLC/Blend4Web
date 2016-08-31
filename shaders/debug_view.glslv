@@ -1,33 +1,37 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var AU_QUALIFIER uniform
 #var PRECISION lowp
 #var MAX_BONES 0
 
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #include <math.glslv>
 #include <to_world.glslv>
 
-/*============================================================================
-                                  ATTRIBUTES
-============================================================================*/
-
-attribute vec3 a_position;
-attribute vec3 a_normal;
-attribute float a_polyindex;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 a_position;
+GLSL_IN vec3 a_normal;
+GLSL_IN float a_polyindex;
 
 #if USE_INSTANCED_PARTCLS
-    attribute vec4 a_part_ts;
-    attribute vec4 a_part_r;
+GLSL_IN vec4 a_part_ts;
+GLSL_IN vec4 a_part_r;
 #endif
 
 #if !DEBUG_SPHERE
 # if WIND_BEND
 #  if MAIN_BEND_COL
-attribute float a_bending_col_main;
+GLSL_IN float a_bending_col_main;
 #   if DETAIL_BEND
-attribute vec3 a_bending_col_detail;
+GLSL_IN vec3 a_bending_col_detail;
 AU_QUALIFIER float au_detail_bending_amp;
 AU_QUALIFIER float au_branch_bending_amp;
 AU_QUALIFIER float au_detail_bending_freq;
@@ -36,7 +40,7 @@ AU_QUALIFIER float au_detail_bending_freq;
 AU_QUALIFIER float au_wind_bending_amp;
 AU_QUALIFIER float au_wind_bending_freq;
 #  if BEND_CENTER_ONLY
-    attribute vec3 a_emitter_center;
+GLSL_IN vec3 a_emitter_center;
 #  endif
 # endif
 
@@ -45,17 +49,20 @@ AU_QUALIFIER vec3 au_center_pos;
 # endif
 
 # if VERTEX_ANIM
-attribute vec3 a_position_next;
+GLSL_IN vec3 a_position_next;
 # endif
 
 # if SKINNED
-attribute vec4 a_influence;
+GLSL_IN vec4 a_influence;
 # endif
 #endif // DEBUG_SPHERE
+//------------------------------------------------------------------------------
 
-/*============================================================================
+GLSL_OUT vec3 v_barycentric;
+
+/*==============================================================================
                                    UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if STATIC_BATCH
 // NOTE:  mat3(0.0, 0.0, 0.0, --- trans
@@ -114,15 +121,9 @@ uniform float u_scale_threshold;
 # endif
 #endif // DEBUG_SPHERE
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
-
-varying vec3 v_barycentric;
-
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #if !DEBUG_SPHERE
 #include <skin.glslv>
@@ -130,9 +131,9 @@ varying vec3 v_barycentric;
 #include <dynamic_grass.glslv>
 #endif
 
-/*============================================================================
+/*==============================================================================
                                     MAIN
-============================================================================*/
+==============================================================================*/
 
 void main() {
 
@@ -165,7 +166,7 @@ void main() {
 
 # if DEBUG_SPHERE
     vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
-            model_mat);
+            vec3(0.0), model_mat);
 # else
 #  if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
@@ -187,7 +188,7 @@ void main() {
 #  endif
 
 #  if DYNAMIC_GRASS
-    vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0),
+    vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
             center, u_grass_map_depth, u_grass_map_color,
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
             view_matrix);
@@ -208,11 +209,11 @@ void main() {
             u_jitter_amp, u_jitter_freq, vec_seed);
 #    endif
     vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0),
-            vec3(0.0), model_matrix);
+            vec3(0.0), vec3(0.0), model_matrix);
     world.center = wcen;
 #   else
     vertex world = to_world(position, center, vec3(0.0), vec3(0.0), vec3(0.0),
-            model_mat);
+            vec3(0.0), model_mat);
 #   endif
 #  endif
 

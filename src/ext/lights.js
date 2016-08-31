@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -273,27 +272,30 @@ exports.get_light_params = function(lamp_obj) {
         case "SPOT":
             var rslt = {
                 "light_type": type,
-                "light_color": light.color,
+                "light_color": new Float32Array(3),
                 "light_energy": light.energy,
                 "light_spot_blend": light.spot_blend,
                 "light_spot_size": light.spot_size,
                 "light_distance" : light.distance
             };
+            rslt["light_color"].set(light.color);
             break;
         case "POINT":
             var rslt = {
                 "light_type": type,
-                "light_color": light.color,
+                "light_color": new Float32Array(3),
                 "light_energy": light.energy,
                 "light_distance" : light.distance
             };
+            rslt["light_color"].set(light.color);
             break;
         default:
             var rslt = {
                 "light_type": type,
-                "light_color": light.color,
+                "light_color": new Float32Array(3),
                 "light_energy": light.energy
             };
+            rslt["light_color"].set(light.color);
             break;
         }
     if (rslt)
@@ -333,23 +335,100 @@ exports.set_light_params = function(lamp_obj, light_params) {
 
     var scene = m_scenes.get_active();
 
+    var need_update_shaders = false;
+
     if (typeof light_params.light_energy == "number")
         m_lights.set_light_energy(light, light_params.light_energy);
 
     if (typeof light_params.light_color == "object")
         m_lights.set_light_color(light, light_params.light_color);
 
-    if (typeof light_params.light_spot_blend == "number")
+    if (typeof light_params.light_spot_blend == "number") {
         m_lights.set_light_spot_blend(light, light_params.light_spot_blend);
+        need_update_shaders = true;        
+    }
 
-    if (typeof light_params.light_spot_size == "number")
+    if (typeof light_params.light_spot_size == "number") {
         m_lights.set_light_spot_size(light, light_params.light_spot_size);
+        need_update_shaders = true;
+    }
 
-    if (typeof light_params.light_distance == "number")
+    if (typeof light_params.light_distance == "number") {
         m_lights.set_light_distance(light, light_params.light_distance);
+        need_update_shaders = true;
+    }
 
     m_scenes.update_lamp_scene(lamp_obj, scene);
-    m_obj.update_all_mesh_shaders(scene);
+
+    if (need_update_shaders)
+        m_obj.update_all_mesh_shaders(scene);
+}
+
+/**
+ * Get the light energy.
+ * @method module:lights.get_light_energy
+ * @param {Object3D} lamp_obj Lamp object
+ * @returns {Number} Light energy value
+ */
+exports.get_light_energy = function(lamp_obj) {
+    if (!m_obj_util.is_lamp(lamp_obj)) {
+        m_print.error("get_light_energy(): Wrong object");
+        return 0;
+    }
+
+    return lamp_obj.light.energy;
+}
+
+/**
+ * Set the light energy.
+ * @method module:lights.set_light_energy
+ * @param {Object3D} lamp_obj Lamp object
+ * @param {Number} energy Light energy value
+ */
+exports.set_light_energy = function(lamp_obj, energy) {
+    if (!m_obj_util.is_lamp(lamp_obj)) {
+        m_print.error("set_light_energy(): Wrong object");
+        return;
+    }
+
+    var scene = m_scenes.get_active();
+    m_lights.set_light_energy(lamp_obj.light, energy);
+    m_scenes.update_lamp_scene(lamp_obj, scene);
+}
+
+/**
+ * Get the light color.
+ * @method module:lights.get_light_color
+ * @param {Object3D} lamp_obj Lamp object
+ * @param {?RGB} [dest=new Float32Array(3)] Destination RGB vector
+ * @returns {?RGB} Destination RGB vector
+ */
+exports.get_light_color = function(lamp_obj, dest) {
+    if (!m_obj_util.is_lamp(lamp_obj)) {
+        m_print.error("get_light_color(): Wrong object");
+        return null;
+    }
+
+    dest = dest || new Float32Array(3);
+    dest.set(lamp_obj.light.color);
+    return dest;
+}
+
+/**
+ * Set the light color.
+ * @method module:lights.set_light_color
+ * @param {Object3D} lamp_obj Lamp object
+ * @param {RGB} color Light color
+ */
+exports.set_light_color = function(lamp_obj, color) {
+    if (!m_obj_util.is_lamp(lamp_obj)) {
+        m_print.error("set_light_color(): Wrong object");
+        return;
+    }
+
+    var scene = m_scenes.get_active();
+    m_lights.set_light_color(lamp_obj.light, color);
+    m_scenes.update_lamp_scene(lamp_obj, scene);
 }
 
 function update_sun_position(time) {

@@ -11,6 +11,7 @@
 #import u_light_color_intensities
 #import u_light_positions
 #import u_light_directions
+#import v_shade_tang
 
 #define M_PI 3.14159265359
 
@@ -123,6 +124,12 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 dif_params
     #node_out float lfactor
 
+# node_if USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    normal = cross(crss, v_shade_tang.xyz);
+    normal = -normalize(normal);
+# node_endif
+
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
         float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
@@ -145,6 +152,12 @@ float HALF_VALUE_NODES = 0.5;
     #node_in float norm_fac
     #node_out float lfactor
 
+# node_if USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    normal = cross(crss, v_shade_tang.xyz);
+    normal = -normalize(normal);
+# node_endif
+
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
         float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
@@ -160,6 +173,12 @@ float HALF_VALUE_NODES = 0.5;
     #node_in float norm_fac
     #node_in vec2 dif_params
     #node_out float lfactor
+
+# node_if USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    normal = cross(crss, v_shade_tang.xyz);
+    normal = -normalize(normal);
+# node_endif
 
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
@@ -209,6 +228,12 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 dif_params
     #node_out float lfactor
 
+# node_if USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    normal = cross(crss, v_shade_tang.xyz);
+    normal = -normalize(normal);
+# node_endif
+
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
         float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
@@ -229,6 +254,12 @@ float HALF_VALUE_NODES = 0.5;
     #node_in float norm_fac
     #node_in vec2 dif_params
     #node_out float lfactor
+
+# node_if USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    normal = cross(crss, v_shade_tang.xyz);
+    normal = -normalize(normal);
+# node_endif
 
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
@@ -256,9 +287,18 @@ float HALF_VALUE_NODES = 0.5;
     sfactor = ZERO_VALUE_NODES;
     if (lfac.g != ZERO_VALUE_NODES) {
         vec3 halfway = normalize(ldir + nin_eye_dir);
+# node_if USE_TBN_SHADING
+    if (norm_fac == ZERO_VALUE_NODES) {
+        sfactor = dot(v_shade_tang.xyz, halfway);
+        sfactor = sqrt(UNITY_VALUE_NODES - sfactor * sfactor);
+    }
+# node_else
         sfactor = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
                          ZERO_VALUE_NODES) + norm_fac;
+# node_endif
         sfactor = pow(sfactor, sp_params[0]);
+
+
     }
 #endnode
 
@@ -266,16 +306,31 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
+    #node_in float norm_fac
     #node_in vec2 sp_params
     #node_out float sfactor
 
     sfactor = ZERO_VALUE_NODES;
     if (lfac.g != ZERO_VALUE_NODES) {
         vec3 halfway = normalize(ldir + nin_eye_dir);
+# node_if USE_TBN_SHADING
+        float nh = ZERO_VALUE_NODES;
+        float nv = ZERO_VALUE_NODES;
+        float nl = ZERO_VALUE_NODES;
+        if (norm_fac == ZERO_VALUE_NODES) {
+            nh = dot(v_shade_tang.xyz, halfway);
+            nv = dot(v_shade_tang.xyz, nin_eye_dir);
+            nl = dot(v_shade_tang.xyz, ldir);
+            nh = sqrt(UNITY_VALUE_NODES - nh * nh);
+            nv = sqrt(UNITY_VALUE_NODES - nv * nv);
+            nl = sqrt(UNITY_VALUE_NODES - nl * nl);
+        }
+# node_else
         float nh = max(dot(normal, halfway), 0.001);
         // NOTE: 0.01 for mobile devices
         float nv = max(dot(normal, nin_eye_dir), 0.01);
         float nl = max(dot(normal, ldir), 0.01);
+# node_endif
         float angle = tan(acos(nh));
         float alpha = max(sp_params[0], 0.001);
 
@@ -288,13 +343,21 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
+    #node_in float norm_fac
     #node_in vec2 sp_params
     #node_out float sfactor
 
     sfactor = ZERO_VALUE_NODES;
     if (lfac.g != ZERO_VALUE_NODES) {
         vec3 h = normalize(ldir + nin_eye_dir);
+# node_if USE_TBN_SHADING
+        float cosinus = dot(h, v_shade_tang.xyz);
+        float angle = sp_params[0] + sp_params[1];
+        if (norm_fac == ZERO_VALUE_NODES)
+            angle = acos(sqrt(UNITY_VALUE_NODES - cosinus * cosinus));
+# node_else
         float angle = acos(dot(h, normal));
+# node_endif
 
         if (angle < sp_params[0])
             sfactor = UNITY_VALUE_NODES;
@@ -324,8 +387,16 @@ float HALF_VALUE_NODES = 0.5;
                 sp_params[1]= 10.0 / sp_params[1];
 
             vec3 halfway = normalize(nin_eye_dir + ldir);
+# node_if USE_TBN_SHADING
+            float nh = 0.0;
+            if (norm_fac == ZERO_VALUE_NODES) {
+                float dot_ht = dot(v_shade_tang.xyz, halfway);
+                nh = sqrt(UNITY_VALUE_NODES - dot_ht * dot_ht);
+            }
+# node_else
             float nh = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
                          ZERO_VALUE_NODES) + norm_fac;
+# node_endif
             if (nh < ZERO_VALUE_NODES)
                 sfactor = ZERO_VALUE_NODES;
             else {

@@ -207,8 +207,8 @@ Firefox последней версии сообщает о проблемах. 
 
 * Проблемы с обновлением старых версий аддона.
 
-     Рекомендуется перезагрузка Blender после обновления SDK или
-     аддона.
+     It’s strongly advised to restart Blender after installing a newer
+     version of Add-on/SDK.
 
 * Драйверы NVIDIA версии 331 в Linux могут приводить к программным
   ошибкам WebGL.
@@ -247,7 +247,7 @@ Firefox последней версии сообщает о проблемах. 
      сэндбоксом Chromium. В качестве решения рекомендуется понизить
      версию драйверов до 340-х.
 
-* Audio issues.
+* Проблемы со звуком.
 
      В некторых версиях Google Chrome звук не воспроизводится для
      источников звука с типом "Background Music", если используется
@@ -260,9 +260,10 @@ Firefox последней версии сообщает о проблемах. 
      предотвратить, отключив звук в приложении, если для него не может
      быть создан аудиоконтекст.
 
-     Pausing the audio may not work on such mobile devices as Nexus 6
-     and Nexus 9 in Google Chrome 50-52 versions. It should work again
-     in Chrome 53. More info here:
+     На некоторых мобильных устройствах (в частности, Nexus 6 и Nexus
+     9) в браузере Google Chrome версий 50-52 может не работать пауза.
+     В версиях Chrome начиная с 53 проблем быть не должно. Более
+     подробная информация:
      https://bugs.chromium.org/p/chromium/issues/detail?id=616772.
 
 * QQ Browser на данный момент не поддерживает WebGL.

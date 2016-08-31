@@ -141,6 +141,14 @@
 
         
             
+<li> <a href="#.get_light_color">get_light_color<span class="signature">(lamp_obj, dest<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"> &rarr; (nullable) {RGB}</span></a></li>
+
+        
+            
+<li> <a href="#.get_light_energy">get_light_energy<span class="signature">(lamp_obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
 <li> <a href="#.get_light_params">get_light_params<span class="signature">(lamp_obj)</span><span class="type-signature"> &rarr; {<a href="module-lights.html#~LightParams">module:lights~LightParams|null}</span></a></li>
 
         
@@ -158,6 +166,14 @@
         
             
 <li> <a href="#.set_day_time">set_day_time<span class="signature">(time)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_light_color">set_light_color<span class="signature">(lamp_obj, color)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_light_energy">set_light_energy<span class="signature">(lamp_obj, energy)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -346,6 +362,377 @@ If lamps_type is defined, creates a new array
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="ext_lights.js.html">ext/lights.js</a>, <a href="ext_lights.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_light_color">get_light_color<span class="signature">(lamp_obj, dest<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#RGB">RGB</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get the light color.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lamp_obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Lamp object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#RGB">RGB</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    new Float32Array(3)
+                
+                </td>
+            
+
+            <td class="description last">Destination RGB vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Destination RGB vector
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#RGB">RGB</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_lights.js.html">ext/lights.js</a>, <a href="ext_lights.js.html#line383">line 383</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_light_energy">get_light_energy<span class="signature">(lamp_obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get the light energy.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lamp_obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Lamp object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Light energy value
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_lights.js.html">ext/lights.js</a>, <a href="ext_lights.js.html#line351">line 351</a>
     </li></ul></dd>
     
 
@@ -662,7 +1049,7 @@ If lamps_type is defined, creates a new array
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_lights.js.html">ext/lights.js</a>, <a href="ext_lights.js.html#line289">line 289</a>
+        <a href="ext_lights.js.html">ext/lights.js</a>, <a href="ext_lights.js.html#line292">line 292</a>
     </li></ul></dd>
     
 
@@ -1062,6 +1449,322 @@ If lamps_type is defined, creates a new array
 
     
 
+    <h4 class="name" id=".set_light_color">set_light_color<span class="signature">(lamp_obj, color)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Set the light color.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lamp_obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Lamp object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#RGB">RGB</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Light color</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_lights.js.html">ext/lights.js</a>, <a href="ext_lights.js.html#line401">line 401</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".set_light_energy">set_light_energy<span class="signature">(lamp_obj, energy)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Set the light energy.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lamp_obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Lamp object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>energy</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Light energy value</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_lights.js.html">ext/lights.js</a>, <a href="ext_lights.js.html#line366">line 366</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
     <h4 class="name" id=".set_light_params">set_light_params<span class="signature">(lamp_obj, light_params)</span><span class="type-signature"></span></h4>
 
     
@@ -1198,7 +1901,7 @@ If lamps_type is defined, creates a new array
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_lights.js.html">ext/lights.js</a>, <a href="ext_lights.js.html#line302">line 302</a>
+        <a href="ext_lights.js.html">ext/lights.js</a>, <a href="ext_lights.js.html#line305">line 305</a>
     </li></ul></dd>
     
 
@@ -1750,7 +2453,7 @@ lights</td>
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Jul 26 2016 15:18:54 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Aug 31 2016 12:42:01 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

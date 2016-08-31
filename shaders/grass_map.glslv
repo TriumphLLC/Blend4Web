@@ -1,26 +1,40 @@
-/*============================================================================
+#version GLSL_VERSION
+
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #include <math.glslv>
 #include <to_world.glslv>
 
-/*============================================================================
-                                  ATTRIBUTES
-============================================================================*/
-
-attribute vec3 a_position;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 a_position;
 
 #if DYNAMIC_GRASS_SIZE
-attribute float a_grass_size;
+GLSL_IN float a_grass_size;
 #endif
 #if DYNAMIC_GRASS_COLOR
-attribute vec3 a_grass_color;
+GLSL_IN vec3 a_grass_color;
+#endif
+//------------------------------------------------------------------------------
+
+#if DYNAMIC_GRASS_SIZE
+# if DYNAMIC_GRASS_COLOR
+GLSL_OUT vec4 v_grass_params;
+# else
+GLSL_OUT float v_grass_params;
+# endif
+#else
+# if DYNAMIC_GRASS_COLOR
+GLSL_OUT vec3 v_grass_params;
+# endif
 #endif
 
-/*============================================================================
+/*==============================================================================
                                    UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if STATIC_BATCH
 // NOTE:  mat3(0.0, 0.0, 0.0, --- trans
@@ -48,25 +62,9 @@ uniform float u_jitter_amp;
 uniform float u_jitter_freq;
 #endif
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
-
-#if DYNAMIC_GRASS_SIZE
-# if DYNAMIC_GRASS_COLOR
-varying vec4 v_grass_params;
-# else
-varying float v_grass_params;
-# endif
-#else
-# if DYNAMIC_GRASS_COLOR
-varying vec3 v_grass_params;
-# endif
-#endif
-
-/*============================================================================
+/*==============================================================================
                                     MAIN
-============================================================================*/
+==============================================================================*/
 
 void main(void) {
     mat4 view_matrix = tsr_to_mat4(u_view_tsr);
@@ -81,11 +79,11 @@ void main(void) {
         u_jitter_amp, u_jitter_freq, vec3(0.0));
 #  endif
     vertex world = to_world(a_position, vec3(0.0), vec3(0.0), vec3(0.0),
-            vec3(0.0), model_matrix);
+            vec3(0.0), vec3(0.0), model_matrix);
     world.center = wcen;
 # else
     vertex world = to_world(a_position, vec3(0.0), vec3(0.0), vec3(0.0),
-            vec3(0.0), model_mat);
+            vec3(0.0), vec3(0.0), model_mat);
 # endif
 
     vec4 pos_clip = u_proj_matrix * view_matrix * vec4(world.position, 1.0);

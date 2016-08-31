@@ -17,7 +17,7 @@ The platform is intended for visualizations, presentations, online-shops, games 
 
 The Blend4Web framework is integrated tightly with Blender - a 3D modeling and animation tool (hence the name). The content is rendered by means of WebGL and other browser technologies, without the use of plugins.
 
-Technically Blend4Web is a library for web pages, a Blender addon and some tools for debugging and optimization.
+Technically Blend4Web is a library for web pages, a Blender add-on and some tools for debugging and optimization.
 
 The Blend4Web 3D engine has been developed by Triumph LLC employees since 2010. The engine was first released on March 28 2014.
 

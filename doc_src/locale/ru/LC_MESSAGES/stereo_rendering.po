@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. Руководство пользователя v16.01\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 15:44+0300\n"
+"POT-Creation-Date: 2016-08-29 16:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../stereo_rendering.rst:8
 msgid "Stereo Rendering"
@@ -41,15 +41,15 @@ msgstr ""
 "Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD "
 "(Head-mounted display, шлем виртуальной реальности)."
 
-#: ../stereo_rendering.rst:18
+#: ../stereo_rendering.rst:20
 msgid "Anaglyph:"
 msgstr "Анаглиф:"
 
-#: ../stereo_rendering.rst:26
+#: ../stereo_rendering.rst:30
 msgid "HMD:"
 msgstr ""
 
-#: ../stereo_rendering.rst:32
+#: ../stereo_rendering.rst:36
 msgid ""
 "HMD is an experimental feature, for now it works only with the ``Eye`` "
 "type cameras."
@@ -57,11 +57,11 @@ msgstr ""
 "HMD - экспериментальная возможность, она работает только с камерами типа "
 "``Eye``."
 
-#: ../stereo_rendering.rst:35
+#: ../stereo_rendering.rst:39
 msgid "Activation"
 msgstr "Активация"
 
-#: ../stereo_rendering.rst:37
+#: ../stereo_rendering.rst:41
 msgid ""
 "To use HMD stereo rendering, you need to install Oculus's `runtime "
 "utility <https://developer.oculus.com/downloads/>`_ (two versions are "
@@ -77,7 +77,7 @@ msgstr ""
 " Oculus в бинарном формате, версию утилиты для Linux пользователю "
 "понадобится собирать из исходников самостоятельно."
 
-#: ../stereo_rendering.rst:39
+#: ../stereo_rendering.rst:43
 msgid ""
 "For now, the HMD is supported by the `Chromium experimental builds "
 "<https://webvr.info/get-chrome/>`_ and in the `Firefox nightly builds "
@@ -87,7 +87,7 @@ msgstr ""
 "`Chromium <https://webvr.info/get-chrome/>`_ и в nightly build `Firefox "
 "<https://nightly.mozilla.org/>`_."
 
-#: ../stereo_rendering.rst:41
+#: ../stereo_rendering.rst:45
 msgid ""
 "`Chromium settings. "
 "<https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
@@ -95,7 +95,7 @@ msgstr ""
 "`Настройки Chromium. "
 "<https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit>`_"
 
-#: ../stereo_rendering.rst:43
+#: ../stereo_rendering.rst:47
 msgid ""
 "`Firefox settings. <https://developer.mozilla.org/en-"
 "US/docs/Web/API/WebVR_API>`_"
@@ -103,7 +103,7 @@ msgstr ""
 "`Настройки Firefox. <https://developer.mozilla.org/en-"
 "US/docs/Web/API/WebVR_API>`_"
 
-#: ../stereo_rendering.rst:45
+#: ../stereo_rendering.rst:49
 msgid ""
 "To turn the stereo rendering on, you need to choose certain option in the"
 " settings, in the third column from the right, as shown on the picture."
@@ -112,25 +112,25 @@ msgstr ""
 "настройках приложения, в третьем столбце справа, как показано на "
 "иллюстрации."
 
-#: ../stereo_rendering.rst:51
+#: ../stereo_rendering.rst:55
 msgid ""
 "For stereo rendering to work correctly, switching to the full screen mode"
 " is recommended."
 msgstr "Для корректной работы рекомендуется включить полноэкранный режим."
 
-#: ../stereo_rendering.rst:54
+#: ../stereo_rendering.rst:58
 msgid "Additional Settings"
 msgstr "Дополнительные настройки"
 
-#: ../stereo_rendering.rst:56
+#: ../stereo_rendering.rst:60
 msgid "None."
 msgstr "Отсутствуют."
 
-#: ../stereo_rendering.rst:59
+#: ../stereo_rendering.rst:65
 msgid "HMD Settings"
 msgstr "Настройки HMD"
 
-#: ../stereo_rendering.rst:65
+#: ../stereo_rendering.rst:71
 msgid ""
 "This group of settings allows a user to change various parameters in "
 "order to adjust whatever VR device they have to better view a certain 3D "
@@ -141,13 +141,15 @@ msgstr ""
 "на своём VR-устройстве. Получить доступ к настройкам можно двумя "
 "способами:"
 
-#: ../stereo_rendering.rst:67
+#: ../stereo_rendering.rst:73
 msgid ""
 "Firstly, it can be found in the :ref:`Blend4Web Viewer <viewer>` "
-"application under the Stereo View tab."
-msgstr "Во-первых, с помощью панели Stereo View в :ref:`Просмотрщике сцен Blend4Web <viewer>`."
+"application under the :ref:`Stereo View tab <stereo_view>`."
+msgstr ""
+"Во-первых, с помощью :ref:`панели Stereo View <stereo_view>` в :ref:`Просмотрщике сцен "
+"Blend4Web <viewer>`."
 
-#: ../stereo_rendering.rst:69
+#: ../stereo_rendering.rst:75
 msgid ""
 "And secondly, it can also be shown in an application by using the "
 ":b4wref:`hmd_conf.show` method of the :b4wmod:`hmd_conf` module, but "
@@ -160,11 +162,11 @@ msgstr ""
 "кода. Примеры испльзования этого метода можно увидеть в приложениях "
 "``viewer.js`` и  ``webplayer.js`` (в объекте ``m_hmd_conf``)."
 
-#: ../stereo_rendering.rst:72
+#: ../stereo_rendering.rst:78
 msgid "Profile"
 msgstr ""
 
-#: ../stereo_rendering.rst:74
+#: ../stereo_rendering.rst:80
 msgid ""
 "This allows user to select a profile for a specific device. Currently, "
 "the following profiles are available:"
@@ -172,109 +174,109 @@ msgstr ""
 "Позволяет пользователю выбрать профиль для определённого устройства. На "
 "сегодняшний день поддерживаются следующие профили:"
 
-#: ../stereo_rendering.rst:77
+#: ../stereo_rendering.rst:83
 msgid "Custom"
 msgstr ""
 
-#: ../stereo_rendering.rst:78
+#: ../stereo_rendering.rst:84
 msgid "Cardboard (2014)"
 msgstr ""
 
-#: ../stereo_rendering.rst:79
+#: ../stereo_rendering.rst:85
 msgid "Cardboard (2015)"
 msgstr ""
 
-#: ../stereo_rendering.rst:81
+#: ../stereo_rendering.rst:87
 msgid "By default, `Custom` profile is selected."
 msgstr "По умолчанию выбран профиль `Custom`."
 
-#: ../stereo_rendering.rst:84
+#: ../stereo_rendering.rst:90
 msgid "Rendering Settings"
 msgstr "Настройки рендеринга"
 
-#: ../stereo_rendering.rst:89
+#: ../stereo_rendering.rst:95
 msgid "*Tray to lens-center distance*"
 msgstr ""
 
-#: ../stereo_rendering.rst:87
+#: ../stereo_rendering.rst:93
 msgid ""
 "This parameter specifies the distance between the phone frame and the "
 "center of the camera lenses."
 msgstr "Задаёт расстояние между корпусом телефона и линзами камеры."
 
-#: ../stereo_rendering.rst:89
+#: ../stereo_rendering.rst:95
 msgid "This value can vary from 0 to 50. Default value is 32."
 msgstr "Значение может меняться от 0 до 50. Значение по умолчанию - 32."
 
-#: ../stereo_rendering.rst:94
+#: ../stereo_rendering.rst:100
 msgid "*Interpupillary distance*"
 msgstr ""
 
-#: ../stereo_rendering.rst:92
+#: ../stereo_rendering.rst:98
 msgid ""
 "This parameter specifies the distance between the pupils of the user's "
 "eyes. Measured in millimeters."
 msgstr "Задаёт расстояние (в миллиметрах) между зрачками глаз пользователя."
 
-#: ../stereo_rendering.rst:94
+#: ../stereo_rendering.rst:100
 msgid "This value can vary from 0 to 100. Default value is 64."
 msgstr "Значение может меняться от 0 до 100. Значение по умолчанию - 64."
 
-#: ../stereo_rendering.rst:99
+#: ../stereo_rendering.rst:105
 msgid "*Screen to lense distance*"
 msgstr ""
 
-#: ../stereo_rendering.rst:97
+#: ../stereo_rendering.rst:103
 msgid ""
 "This specifies the distance between the screen of the phone and the "
 "camera lenses."
 msgstr "Задаёт расстояние между экраном телефона и линзами камеры."
 
-#: ../stereo_rendering.rst:99
+#: ../stereo_rendering.rst:105
 msgid "This value can vary from 0 to 100. Default value is 50."
 msgstr "Значение может меняться от 0 до 100. Значение по умолчанию - 50."
 
-#: ../stereo_rendering.rst:104
+#: ../stereo_rendering.rst:110
 msgid "*Screen height*"
 msgstr ""
 
-#: ../stereo_rendering.rst:102
+#: ../stereo_rendering.rst:108
 msgid "The height of the screen."
 msgstr "Высота экарана."
 
-#: ../stereo_rendering.rst:104
+#: ../stereo_rendering.rst:110
 msgid "This value can vary from 0 to 150. Default value is 63."
 msgstr "Зачение может меняться от 0 до 150. Значение по умолчанию - 63."
 
-#: ../stereo_rendering.rst:109
+#: ../stereo_rendering.rst:115
 msgid "*Screen width*"
 msgstr ""
 
-#: ../stereo_rendering.rst:107
+#: ../stereo_rendering.rst:113
 msgid "The width of the screen."
 msgstr "Ширина экрана."
 
-#: ../stereo_rendering.rst:109
+#: ../stereo_rendering.rst:115
 msgid "This value can vary from 0 to 200. Default value is 107."
 msgstr "Значение может меняться от 0 до 200. Значение по умолчанию - 107."
 
-#: ../stereo_rendering.rst:114
+#: ../stereo_rendering.rst:120
 msgid "*Bevel width*"
 msgstr ""
 
-#: ../stereo_rendering.rst:112
+#: ../stereo_rendering.rst:118
 msgid "The thickness of the border around the image."
 msgstr "Ширина рамки вокруг изображения."
 
-#: ../stereo_rendering.rst:114
+#: ../stereo_rendering.rst:120
 msgid "This value can vary from 0 to 20. Default value is 3."
 msgstr "Значение может меняться от 0 до 20. Значение по умолчанию - 3."
 
-#: ../stereo_rendering.rst:119
+#: ../stereo_rendering.rst:125
 msgid "*Distortion coefficients*"
 msgstr ""
 
-#: ../stereo_rendering.rst:117
+#: ../stereo_rendering.rst:123
 msgid ""
 "This is used in order to compensate image distortion produced by the VR "
 "device lenses."
@@ -282,7 +284,7 @@ msgstr ""
 "Используются для компенсации искажений, вносимых в изображение линзами "
 "VR-устройства."
 
-#: ../stereo_rendering.rst:119
+#: ../stereo_rendering.rst:125
 msgid ""
 "Both values can vary from 0 to 1. Default values are 0.34 for the first "
 "parameter and 0.55 for the second one."
@@ -290,31 +292,31 @@ msgstr ""
 "Оба значения могут меняться от 0 до 1. Значения по умолчанию: 0.34 для "
 "первого параметра и 0.55 для второго."
 
-#: ../stereo_rendering.rst:122
+#: ../stereo_rendering.rst:128
 msgid "Other control tools"
 msgstr "Другие иструменты управления"
 
-#: ../stereo_rendering.rst:125
+#: ../stereo_rendering.rst:131
 msgid "*Save*"
 msgstr ""
 
-#: ../stereo_rendering.rst:125
+#: ../stereo_rendering.rst:131
 msgid "Saves the settings."
 msgstr "Сохраняет настройки."
 
-#: ../stereo_rendering.rst:128
+#: ../stereo_rendering.rst:134
 msgid "*Cancel*"
 msgstr ""
 
-#: ../stereo_rendering.rst:128
+#: ../stereo_rendering.rst:134
 msgid "Closes the setting interface without saving the settings."
 msgstr "Закрывает окно настроек без сохранения изменений."
 
-#: ../stereo_rendering.rst:131
+#: ../stereo_rendering.rst:137
 msgid "*Reset*"
 msgstr ""
 
-#: ../stereo_rendering.rst:131
+#: ../stereo_rendering.rst:137
 msgid "Restores default settings."
 msgstr "Восстанавливает настройки по умолчанию."
 

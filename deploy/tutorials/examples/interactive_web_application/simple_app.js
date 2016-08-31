@@ -10,6 +10,9 @@ var m_data      = require("data");
 var m_mouse     = require("mouse");
 var m_preloader = require("preloader");
 var m_scenes    = require("scenes");
+var m_version   = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var _previous_selected_obj = null;
 
@@ -22,6 +25,8 @@ exports.init = function() {
         callback: init_cb,
         show_fps: true,
         console_verbose: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         autoresize: true
     });
 }

@@ -53,9 +53,8 @@ float calc_poisson_visibility(float poisson_disc_x, float poisson_disc_y,
     // caused by FIRST_CASCADE_BLUR_INDENT for single cascade scheme
     if (!is_tex_coords_inside(coords, SINGLE_CASCADE_BORDER_INDENT))
         return 1.0;
-    else
 # endif
-        return step(shadow_coord.z, texture2D(shadow_map, coords).r);
+    return step(shadow_coord.z, GLSL_TEXTURE(shadow_map, coords).r);
 }
 
 float shadow_map_visibility(vec3 shadow_coord, PRECISION sampler2D shadow_map,
@@ -296,7 +295,7 @@ vec4 shadow_visibility(float depth) {
 vec4 calc_shadow_factor(inout vec3 D) {
 #if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
     // TODO:
-    vec4 visibility = texture2DProj(u_shadow_mask, v_tex_pos_clip);
+    vec4 visibility = GLSL_TEXTURE(u_shadow_mask, v_tex_pos_clip.xy / v_tex_pos_clip.z);
 # if NUM_CAST_LAMPS < 3
     D *= visibility.a;
 # endif

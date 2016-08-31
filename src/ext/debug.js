@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -30,6 +29,7 @@
 b4w.module["debug"] = function(exports, require) {
 
 var m_cfg      = require("__config");
+var m_compat   = require("__compat");
 var m_ctl      = require("__controls");
 var m_cont     = require("__container");
 var m_debug    = require("__debug");
@@ -44,6 +44,7 @@ var m_scenes   = require("__scenes");
 var m_scgraph  = require("__scenegraph");
 var m_sfx      = require("__sfx");
 var m_shaders  = require("__shaders");
+var m_subs     = require("__subscene");
 var m_textures = require("__textures");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
@@ -121,9 +122,9 @@ exports.DV_FRONT_BACK_VIEW = m_debug.DV_FRONT_BACK_VIEW;
 
 /**
  * Debug view mode: turn on the debug spheres view.
- * @const {DebugViewMode} module:debug.DV_DEBUG_SPHERES
+ * @const {DebugViewMode} module:debug.DV_BOUNDINGS
  */
-exports.DV_DEBUG_SPHERES = m_debug.DV_DEBUG_SPHERES;
+exports.DV_BOUNDINGS = m_debug.DV_BOUNDINGS;
 
 /**
  * Debug view mode: turn on the clusters view.
@@ -179,15 +180,15 @@ exports.visible_objects = function() {
 
     var objs = m_obj.get_scene_objs(scene, "MESH", m_obj.DATA_ID_ALL);
 
-    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND"),
-                          m_scenes.get_subs(scene, "MAIN_GLOW")];
+    var main_subscenes = [m_scenes.get_subs(scene, m_subs.MAIN_OPAQUE),
+                          m_scenes.get_subs(scene, m_subs.MAIN_BLEND),
+                          m_scenes.get_subs(scene, m_subs.MAIN_GLOW)];
 
     for (var i = 0; i < main_subscenes.length; i++) {
         var subs_main = main_subscenes[i];
-        var bundles = subs_main.bundles;
+        var draw_data = subs.draw_data;
 
-        if (!bundles.length)
+        if (!draw_data.length)
             continue;
 
         m_print.group(subs_main.type, "DYNAMIC");
@@ -199,12 +200,20 @@ exports.visible_objects = function() {
             if (render.type != "DYNAMIC")
                 continue;
 
-            for (var k = 0; k < bundles.length; k++) {
-                var bundle = bundles[k];
-                if (bundle.do_render && bundle.obj_render == render) {
-                    m_print.log_raw(obj.name, obj);
-                    break;
+            var is_visible = false;
+
+            for (var k = 0; k < draw_data.length; k++) {
+                var bundles = draw_data[k].bundles;
+                for (var m = 0; m < bundles.length; m++) {
+                    var bundle = bundles[m];
+                    if (bundle.do_render && bundle.obj_render == render) {
+                        m_print.log_raw(obj.name, obj);
+                        is_visible = true;
+                        break;
+                    }
                 }
+                if (is_visible)
+                    break;
             }
         }
 
@@ -219,12 +228,20 @@ exports.visible_objects = function() {
             if (render.type == "DYNAMIC")
                 continue;
 
-            for (var k = 0; k < bundles.length; k++) {
-                var bundle = bundles[k];
-                if (bundle.do_render && bundle.obj_render == render) {
-                    m_print.log_raw(obj.name, obj);
-                    break;
+            var is_visible = false;
+
+            for (var k = 0; k < draw_data.length; k++) {
+                var bundles = draw_data[k].bundles;
+                for (var m = 0; m < bundles.length; m++) {
+                    var bundle = bundles[m];
+                    if (bundle.do_render && bundle.obj_render == render) {
+                        m_print.log_raw(obj.name, obj);
+                        is_visible = true;
+                        break;
+                    }
                 }
+                if (is_visible)
+                    break;
             }
         }
 
@@ -254,13 +271,16 @@ exports.object_info = function(name) {
 
         for (var j = 0; j < subscenes.length; j++) {
             var subs = subscenes[j];
-            var bundles = subs.bundles;
-
             var print_bundles = [];
 
-            for (var k = 0; k < bundles.length; k++) {
-                if (bundles[k].obj_render == obj.render)
-                    print_bundles.push(bundles[k]);
+            var draw_data = subs.draw_data;
+
+            for (var k = 0; k < draw_data.length; k++) {
+                var bundles = draw_data[k].bundles;
+                for (var m = 0; m < bundles.length; m++) {
+                    if (bundles[m].obj_render == obj.render)
+                        print_bundles.push(bundles[m]);
+                }
             }
 
             m_print.log("Subscene " + subs.type, print_bundles);
@@ -302,9 +322,9 @@ exports.num_vertices = function() {
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND"),
-                          m_scenes.get_subs(scene, "MAIN_GLOW")];
+    var main_subscenes = [m_scenes.get_subs(scene, m_subs.MAIN_OPAQUE),
+                          m_scenes.get_subs(scene, m_subs.MAIN_BLEND),
+                          m_scenes.get_subs(scene, m_subs.MAIN_GLOW)];
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
@@ -313,14 +333,17 @@ exports.num_vertices = function() {
         if (!subs)
             continue;
 
-        var bundles = subs.bundles;
+        var draw_data = subs.draw_data;
 
-        for (var j = 0; j < bundles.length; j++) {
+        for (var j = 0; j < draw_data.length; j++) {
+            var bundles = draw_data[j].bundles;
+            for (var k = 0; k < bundles.length; k++) {
 
-            var batch = bundles[j].batch;
-            // NOTE: some objects (particles) do not have any submesh
-            if (batch)
-                num += batch.num_vertices;
+                var batch = bundles[k].batch;
+                // NOTE: some objects (particles) do not have any submesh
+                if (batch)
+                    num += batch.num_vertices;
+            }
         }
     }
 
@@ -338,9 +361,9 @@ exports.num_triangles = function() {
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND"),
-                          m_scenes.get_subs(scene, "MAIN_GLOW")];
+    var main_subscenes = [m_scenes.get_subs(scene, m_subs.MAIN_OPAQUE),
+                          m_scenes.get_subs(scene, m_subs.MAIN_BLEND),
+                          m_scenes.get_subs(scene, m_subs.MAIN_GLOW)];
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
@@ -349,14 +372,17 @@ exports.num_triangles = function() {
         if (!subs)
             continue;
 
-        var bundles = subs.bundles;
+        var draw_data = subs.draw_data;
 
-        for (var j = 0; j < bundles.length; j++) {
+        for (var j = 0; j < draw_data.length; j++) {
+            var bundles = draw_data[j].bundles;
+            for (var k = 0; k < bundles.length; k++) {
 
-            var batch = bundles[j].batch;
-            // NOTE: some objects (particles) do not have any submesh
-            if (batch)
-                num += batch.num_triangles;
+                var batch = bundles[k].batch;
+                // NOTE: some objects (particles) do not have any submesh
+                if (batch)
+                    num += batch.num_triangles;
+            }
         }
     }
 
@@ -372,28 +398,27 @@ exports.num_draw_calls = function() {
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND"),
-                          m_scenes.get_subs(scene, "MAIN_GLOW")]
+    var main_subscenes = m_scenes.subs_array(scene, [m_subs.MAIN_OPAQUE,
+                                                     m_subs.MAIN_BLEND,
+                                                     m_subs.MAIN_GLOW,
+                                                     m_subs.MAIN_PLANE_REFLECT,
+                                                     m_subs.MAIN_PLANE_REFLECT_BLEND]);
 
     var number = 0;
     for (var i = 0; i < main_subscenes.length; i++) {
         var subs = main_subscenes[i];
-        if (subs)
-            number += subs.bundles.length;
+        var draw_data = subs.draw_data;
+        for (var j = 0; j < draw_data.length; j++)
+            number += draw_data[j].bundles.length;
     }
 
-    var reflect_subs = m_scenes.subs_array(scene, ["MAIN_PLANE_REFLECT",
-                                                   "MAIN_PLANE_REFLECT_BLEND",
-                                                   "MAIN_CUBE_REFLECT",
-                                                   "MAIN_CUBE_REFLECT_BLEND"]);
-    for (var i = 0; i < reflect_subs.length; i++) {
-        var subs = reflect_subs[i];
-        if (subs.type == "MAIN_PLANE_REFLECT" ||
-                    subs.type == "MAIN_PLANE_REFLECT_BLEND")
-            number += subs.bundles.length;
-        else
-            number += 6 * subs.bundles.length;
+    var cube_reflect_subs = m_scenes.subs_array(scene,
+                            [m_subs.MAIN_CUBE_REFLECT, m_subs.MAIN_CUBE_REFLECT_BLEND]);
+    for (var i = 0; i < cube_reflect_subs.length; i++) {
+        var subs = cube_reflect_subs[i];
+        var draw_data = subs.draw_data;
+        for (var j = 0; j < draw_data.length; j++)
+            number += 6 * draw_data[j].bundles.length;
     }
 
     return number;
@@ -424,18 +449,21 @@ exports.geometry_stats = function() {
 
         var subs = subscenes[i];
 
-        if (subs.type == "SINK" || subs.type == "DEBUG_VIEW")
+        if (subs.type == m_subs.SINK || subs.type == m_subs.DEBUG_VIEW)
             continue;
 
-        var bundles = subs.bundles;
-        for (var j = 0; j < bundles.length; j++) {
-            var batch = bundles[j].batch;
-            var render = bundles[j].obj_render;
-            // NOTE: some objects (particles) do not have any submesh
-            if (batch)
-                if (subs.type != "COLOR_PICKING" && subs.type != "OUTLINE_MASK"
-                        || render.origin_selectable || render.origin_outlining)
-                    unique_batches[batch.id] = batch;
+        var draw_data = subs.draw_data;
+        for (var j = 0; j < draw_data.length; j++) {
+            var bundles = draw_data[j].bundles;
+            for (var k = 0; k < bundles.length; k++) {
+                var batch = bundles[k].batch;
+                var render = bundles[k].obj_render;
+                // NOTE: some objects (particles) do not have any submesh
+                if (batch)
+                    if (subs.type != m_subs.COLOR_PICKING && subs.type != m_subs.COLOR_PICKING
+                            || render.origin_selectable || render.origin_outlining)
+                        unique_batches[batch.id] = batch;
+            }
         }
     }
 
@@ -474,9 +502,9 @@ exports.num_textures = function() {
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
-                          m_scenes.get_subs(scene, "MAIN_BLEND"),
-                          m_scenes.get_subs(scene, "MAIN_GLOW")];
+    var main_subscenes = [m_scenes.get_subs(scene, m_subs.MAIN_OPAQUE),
+                          m_scenes.get_subs(scene, m_subs.MAIN_BLEND),
+                          m_scenes.get_subs(scene, m_subs.MAIN_GLOW)];
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
@@ -485,33 +513,35 @@ exports.num_textures = function() {
         if (!subs)
             continue;
 
-        var bundles = subs.bundles;
+        var draw_data = subs.draw_data;
+        for (var j = 0; j < draw_data.length; j++) {
+            var bundles = draw_data[j].bundles;
+            for (var k = 0; k < bundles.length; k++) {
 
-        for (var j = 0; j < bundles.length; j++) {
+                var batch = bundles[k].batch;
+                // NOTE: some objects (particles) do not have any submesh
+                if (batch) {
+                    var batch_texs = batch.textures;
 
-            var batch = bundles[j].batch;
-            // NOTE: some objects (particles) do not have any submesh
-            if (batch) {
-                var batch_texs = batch.textures;
+                    for (var m = 0; m < batch_texs.length; m++) {
 
-                for (var k = 0; k < batch_texs.length; k++) {
+                        var batch_tex = batch_texs[m];
 
-                    var batch_tex = batch_texs[k];
+                        if (batch_tex.source === "IMAGE" ||
+                                batch_tex.source === "ENVIRONMENT_MAP") {
 
-                    if (batch_tex.source === "IMAGE" ||
-                            batch_tex.source === "ENVIRONMENT_MAP") {
+                            var tex = batch_tex.w_texture;
 
-                        var tex = batch_tex.w_texture;
+                            if (tex_list.indexOf(tex) === -1) {
+                                tex_list.push(tex);
+                                var mem = batch_tex.width * batch_tex.height *
+                                    4 / (1024 * 1024) / batch_tex.compress_ratio;
 
-                        if (tex_list.indexOf(tex) === -1) {
-                            tex_list.push(tex);
-                            var mem = batch_tex.width * batch_tex.height *
-                                4 / (1024 * 1024) / batch_tex.compress_ratio;
+                                // mipmaps
+                                mem *=  1.3333;
 
-                            // mipmaps
-                            mem *=  1.3333;
-
-                            memory += mem;
+                                memory += mem;
+                            }
                         }
                     }
                 }
@@ -541,7 +571,7 @@ exports.num_render_targets = function() {
 
         var subs = subscenes[i];
 
-        if (subs.type == "SINK")
+        if (subs.type == m_subs.SINK)
             continue;
 
         var cam = subs.camera;
@@ -570,7 +600,7 @@ exports.num_render_targets = function() {
 exports.make_camera_frustum_shot = function() {
 
     var active_scene = m_scenes.get_active();
-    var subs_main = m_scenes.get_subs(active_scene, "MAIN_OPAQUE");
+    var subs_main = m_scenes.get_subs(active_scene, m_subs.MAIN_OPAQUE);
     if (!subs_main)
         return;
 
@@ -584,8 +614,8 @@ exports.make_camera_frustum_shot = function() {
 exports.make_light_frustum_shot = function() {
 
     var active_scene = m_scenes.get_active();
-    var subs_main = m_scenes.get_subs(active_scene, "MAIN_OPAQUE");
-    var subscenes_shadow = m_scenes.subs_array(active_scene, ["SHADOW_CAST"]);
+    var subs_main = m_scenes.get_subs(active_scene, m_subs.MAIN_OPAQUE);
+    var subscenes_shadow = m_scenes.subs_array(active_scene, [m_subs.SHADOW_CAST]);
     if (!subs_main)
         return;
 
@@ -763,7 +793,7 @@ exports.check_finite = function(o) {
  */
 exports.set_debug_params = function(params) {
     var active_scene = m_scenes.get_active();
-    var subs_debug_view = m_scenes.get_subs(active_scene, "DEBUG_VIEW");
+    var subs_debug_view = m_scenes.get_subs(active_scene, m_subs.DEBUG_VIEW);
 
     if (subs_debug_view) {
         if (typeof params.debug_view_mode == "number") {
@@ -772,7 +802,7 @@ exports.set_debug_params = function(params) {
             case m_debug.DV_OPAQUE_WIREFRAME:
             case m_debug.DV_TRANSPARENT_WIREFRAME:
             case m_debug.DV_FRONT_BACK_VIEW:
-            case m_debug.DV_DEBUG_SPHERES:
+            case m_debug.DV_BOUNDINGS:
             case m_debug.DV_CLUSTERS_VIEW:
             case m_debug.DV_BATCHES_VIEW:
             case m_debug.DV_RENDER_TIME:
@@ -788,7 +818,8 @@ exports.set_debug_params = function(params) {
         if (typeof params.render_time_threshold == "number")
             m_scenes.set_render_time_threshold(subs_debug_view, params.render_time_threshold);
         if (typeof params.wireframe_edge_color == "object")
-            m_scenes.set_wireframe_edge_color(subs_debug_view, params.wireframe_edge_color);
+            m_scenes.set_wireframe_edge_color(subs_debug_view,
+                    m_util.f32(params.wireframe_edge_color));
     } else
         m_print.error("Debugging is not available on the scene.");
 }
@@ -842,14 +873,14 @@ exports.analyze_shaders = function(opt_shader_id_part) {
         var stats = rslts[title] = rslts[title] || [];
 
         stats.push(stat);
-        m_print.log(msg);
+        m_print.log_raw(msg);
     }
 
     for (var title in rslts) {
 
         m_print.group("%c" + title, "color: #800");
         var stats = rslts[title];
-        print_shader_stats_nvidia(stats);
+        print_shader_stats(stats);
         m_print.groupEnd();
     }
 }
@@ -869,29 +900,36 @@ function get_shaders_stat(vshader, fshader) {
 
     var ext_ds = m_ext.get_debug_shaders();
     if (!ext_ds) {
-        m_print.error("WEBGL_debug_shaders not found" +
-            " (run Chrome with --enable-privileged-webgl-extensions)");
+        m_print.error("WEBGL_debug_shaders extension not found");
         return;
     }
 
-    var vsrc = ext_ds.getTranslatedShaderSource(vshader);
-    var fsrc = ext_ds.getTranslatedShaderSource(fshader);
+    var vsrc_trans = ext_ds.getTranslatedShaderSource(vshader);
+    var fsrc_trans = ext_ds.getTranslatedShaderSource(fshader);
 
-    // HACK: lower GLSL version for NVIDIA drivers
-    vsrc = vsrc.replace("#version", "#version 400 //")
-    fsrc = fsrc.replace("#version", "#version 400 //")
+    if (m_compat.detect_mobile()) {
+        vsrc_trans = vsrc_trans.replace("#version", "#version 300 //")
+        fsrc_trans = fsrc_trans.replace("#version", "#version 300 //")
+        var vout = post_sync("/analyze_shader/vert_gles", vsrc_trans);
+        var fout = post_sync("/analyze_shader/frag_gles", fsrc_trans);
+    } else {
+        // HACK: lower GLSL version for cgc tool
+        vsrc_trans = vsrc_trans.replace("#version", "#version 400 //")
+        fsrc_trans = fsrc_trans.replace("#version", "#version 400 //")
+        var vout = post_sync("/analyze_shader/vert", vsrc_trans);
+        var fout = post_sync("/analyze_shader/frag", fsrc_trans);
+    }
 
-    var vout = post_sync("/nvidia_vert", vsrc);
     var vstats = parse_shader_assembly(vout);
-
-    var fout = post_sync("/nvidia_frag", fsrc);
     var fstats = parse_shader_assembly(fout);
 
     return {
-        vsrc: vsrc,
+        vsrc: m_debug.get_gl().getShaderSource(vshader),
+        vsrc_trans: vsrc_trans,
         vout: vout,
         vstats: vstats,
-        fsrc: fsrc,
+        fsrc: m_debug.get_gl().getShaderSource(fshader),
+        fsrc_trans: fsrc_trans,
         fout: fout,
         fstats: fstats
     };
@@ -908,8 +946,9 @@ function parse_shader_assembly(data) {
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
 
-        if (line.search(new RegExp(/^[A-Z.]+ /)) == -1)
+        if (line.search(new RegExp(/^[A-Z.]+ ?/)) == -1) {
             continue;
+        }
 
         var op = line.split(" ")[0];
 
@@ -919,7 +958,7 @@ function parse_shader_assembly(data) {
         stats[op]++;
     }
 
-    var alu_ops = 0;
+    var all_ops = 0;
     var tex_ops = 0;
 
     for (var op in stats) {
@@ -936,14 +975,26 @@ function parse_shader_assembly(data) {
         case "TXQ.F":
         case "TXP.F":
             tex_ops += stats[op];
+            all_ops += stats[op];
+            break;
+        // data type qualifiers
+        case "ADDRESS":
+        case "ATTRIB":
+        case "PARAM":
+        case "TEMP":
+        case "ALIAS":
+        case "OUTPUT":
+            break;
+        // end program line
+        case "END":
             break;
         default:
-            alu_ops += stats[op];
+            all_ops += stats[op];
             break;
         }
     }
 
-    stats["ALU_OPS"] = alu_ops;
+    stats["ALL_OPS"] = all_ops;
     stats["TEX_OPS"] = tex_ops;
 
     return stats;
@@ -960,10 +1011,10 @@ function post_sync(path, data) {
         throw("Error POST XHR: " + req.status);
 }
 
-function print_shader_stats_nvidia(stats) {
-    // sort in descending order by fragment shader ALU operations
+function print_shader_stats(stats) {
+    // sort in descending order by fragment shader operations
     stats.sort(function(a, b) {
-        return b.fstats["ALU_OPS"] - a.fstats["ALU_OPS"];
+        return b.fstats["ALL_OPS"] - a.fstats["ALL_OPS"];
     })
 
     for (var j = 0; j < stats.length; j++) {
@@ -977,13 +1028,13 @@ function print_shader_stats_nvidia(stats) {
 
         // NOTE some not changing params are commented out
         m_print.groupCollapsed(
-            "FRAG -->",
-            "ALU", fstats["ALU_OPS"],
-            "TEX", fstats["TEX_OPS"],
-
-            "\t\tVERT -->",
-            "ALU", vstats["ALU_OPS"],
+            "VERT -->",
+            "OPS", vstats["ALL_OPS"],
             "TEX", vstats["TEX_OPS"],
+
+            "\t\tFRAG -->",
+            "OPS", fstats["ALL_OPS"],
+            "TEX", fstats["TEX_OPS"],
             mat_names
         );
 
@@ -991,28 +1042,44 @@ function print_shader_stats_nvidia(stats) {
         var dirs = stat.shaders_info.directives;
         for (var i = 0; i < dirs.length; i++) {
             var dir = dirs[i];
-            m_print.log(dir[0], dir[1]);
+            m_print.log_raw(dir[0], dir[1]);
         }
         m_print.groupEnd();
 
-        m_print.groupCollapsed("vert src");
-        m_print.log(stat.vsrc);
+        m_print.groupCollapsed("vert source");
+        m_print.log_raw(stat.vsrc);
         m_print.groupEnd();
 
-        m_print.groupCollapsed("vert stats");
+        m_print.groupCollapsed("vert translated source");
+        m_print.log_raw(stat.vsrc_trans);
+        m_print.groupEnd();
+
+        m_print.groupCollapsed("vert ops stats");
         for (var op in vstats)
-            if (op != "ALU_OPS" && op != "TEX_OPS")
-                m_print.log(op, vstats[op]);
+            if (op != "ALL_OPS" && op != "TEX_OPS")
+                m_print.log_raw(op, vstats[op]);
         m_print.groupEnd();
 
-        m_print.groupCollapsed("frag src");
-        m_print.log(stat.fsrc);
+        m_print.groupCollapsed("vert assembly");
+        m_print.log_raw(stat.vout);
         m_print.groupEnd();
 
-        m_print.groupCollapsed("frag stats");
+        m_print.groupCollapsed("frag source");
+        m_print.log_raw(stat.fsrc);
+        m_print.groupEnd();
+
+        m_print.groupCollapsed("frag translated source");
+        m_print.log_raw(stat.fsrc_trans);
+        m_print.groupEnd();
+
+        m_print.groupCollapsed("frag ops stats");
         for (var op in fstats)
-            if (op != "ALU_OPS" && op != "TEX_OPS")
-                m_print.log(op, fstats[op]);
+            if (op != "ALL_OPS" && op != "TEX_OPS")
+                m_print.log_raw(op, fstats[op]);
+        m_print.groupEnd();
+
+        m_print.groupCollapsed("frag assembly");
+        m_print.log_raw(stat.fout);
         m_print.groupEnd();
 
         m_print.groupEnd();
@@ -1065,7 +1132,7 @@ exports.test_performance = function(callback) {
     var graph = m_scgraph.create_performance_graph();
     m_scenes.generate_auxiliary_batches(graph);
 
-    var subs = m_scgraph.find_subs(graph, "PERFORMANCE");
+    var subs = m_scgraph.find_subs(graph, m_subs.PERFORMANCE);
 
     for (var i = 0; i < PERF_NUM_CALLS; i++)
         m_render.draw(subs);
@@ -1141,7 +1208,7 @@ exports.pix = function(ref_color) {
     var color = m_render.read_pixels(cam.framebuffer, viewport_xy[0],
             viewport_xy[1]);
 
-    eqv(ref_color, color);
+    eqv(ref_color, color, 1);
 }
 
 exports.eqs = function(result, exp_result) {

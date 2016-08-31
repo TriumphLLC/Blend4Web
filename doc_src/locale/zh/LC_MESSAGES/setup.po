@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-07-01 16:48+0300\n"
+"POT-Creation-Date: 2016-08-29 16:10+0300\n"
 "PO-Revision-Date: 2016-03-26 17:33+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../setup.rst:5
 msgid "Installing and Updating"
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Installing Blend4Web SDK"
 msgstr "安装Blender"
 
-#: ../setup.rst:38
+#: ../setup.rst:38 ../setup.rst:104 ../setup.rst:154
 msgid "Run Blender."
 msgstr "打开Blender。"
 
@@ -93,7 +93,7 @@ msgstr "在 :file:`Scripts` 中设置 SDK 目录的路径。"
 msgid "Click the :file:`Save User Settings` button."
 msgstr "单击 :file:`Save User Settings` 按钮。"
 
-#: ../setup.rst:52
+#: ../setup.rst:52 ../setup.rst:127 ../setup.rst:164
 msgid "Restart Blender."
 msgstr "重新启动Blender。"
 
@@ -178,34 +178,135 @@ msgid ""
 msgstr "在更新之前，我们建议您使用 :ref:`project export <export_projects>` 工具备份的所有开发中的项目."
 
 #: ../setup.rst:100
-msgid "There are two methods to update the SDK."
-msgstr "有两种方法来更新 SDK。"
+msgid "To update the SDK, follow these steps:"
+msgstr ""
 
 #: ../setup.rst:102
+msgid "Download the new version of the SDK."
+msgstr ""
+
+#: ../setup.rst:106 ../setup.rst:156
+msgid "Open the ``User Preferences`` window."
+msgstr ""
+
+#: ../setup.rst:108 ../setup.rst:131
+#, fuzzy
+msgid "Open the ``Add-ons`` panel."
+msgstr "打开 :file:`File` 选项卡。"
+
+#: ../setup.rst:110
+msgid "Disable ``Blend4Web`` Add-on."
+msgstr ""
+
+#: ../setup.rst:112
+msgid "Unpack the new version of the SDK from the archive."
+msgstr ""
+
+#: ../setup.rst:115
+#, fuzzy
+msgid "There are two methods to do this."
+msgstr "有两种方法来更新 SDK。"
+
+#: ../setup.rst:117
+#, fuzzy
 msgid ""
 "Firstly, you can completely delete the SDK folder and, after that, "
-"extract the new version folder and set the path to it in the Blender "
-"settings, as if you were installing the SDK for the first time."
+"extract the new version folder, as if you were installing the SDK for the"
+" first time."
 msgstr "首先，可以完全删除 SDK 文件夹中，在那之后，提取新版本文件夹并将路径设置为它在Blender设置，就像你第一次安装 SDK一样。"
 
-#: ../setup.rst:104
+#: ../setup.rst:119
 msgid ""
 "Secondly, you can simply overwrite the outdated SDK files with the new "
 "ones. This method is considered less \"pure\", but in most cases it "
 "should not cause any problems."
 msgstr "第二，你可以简单地使用新的覆盖过时的 SDK 文件。此方法被认为是不太 \"纯净\"，但在大多数情况下，它不应导致任何问题。"
 
-#: ../setup.rst:106
+#: ../setup.rst:121
+msgid "Open the ``File`` panel in the ``User Preferences`` window."
+msgstr ""
+
+#: ../setup.rst:123
+#, fuzzy
+msgid "Set the path to the SDK folder in the ``Scripts`` field."
+msgstr "在 :file:`Scripts` 中设置 SDK 目录的路径。"
+
+#: ../setup.rst:125
+#, fuzzy
+msgid "Press the ``Save User Settings`` button."
+msgstr "单击 :file:`Save User Settings` 按钮。"
+
+#: ../setup.rst:129
+msgid "Open the ``User Preferences`` window once again."
+msgstr ""
+
+#: ../setup.rst:133
+msgid "Enable ``Blend4Web`` add-on."
+msgstr ""
+
+#: ../setup.rst:135
+#, fuzzy
+msgid "Press the ``Save User Settings`` button once again."
+msgstr "单击 :file:`Save User Settings` 按钮。"
+
+#: ../setup.rst:137
+msgid "Check if everything works correctly."
+msgstr ""
+
+#: ../setup.rst:139
 msgid ""
 "After updating is complete, you can import all saved projects using the "
 ":ref:`project import <import_projects>` tools."
 msgstr "完成更新后，您可以使用 :ref:`项目导入 <import_projects>` 工具导入所有已保存的项目。"
 
-#: ../setup.rst:113
+#: ../setup.rst:142
+#, fuzzy
+msgid "Updating the Addon"
+msgstr "更新 SDK"
+
+#: ../setup.rst:144
+msgid ""
+"If you are only using the Blend4Web add-on, follow this instruction "
+"instead."
+msgstr ""
+
+#: ../setup.rst:146
+msgid ""
+"Before installing a new version of the add-on, you may firstly remove the"
+" existing one. To do this, unfold the information tab of the Blend4Web "
+"addon and press the ``Remove`` button. Removing the old version is not "
+"required before installing a new one, but doing so makes sure there won't"
+" be any coflicts."
+msgstr ""
+
+#: ../setup.rst:152
+msgid ""
+"Download the archive that contains the new version of the add-on, and "
+"save it to any place on your hard drive."
+msgstr ""
+
+#: ../setup.rst:158
+msgid "Switch to the ``Add-ons`` panel."
+msgstr ""
+
+#: ../setup.rst:160
+msgid "Install the new version of the add-on from the archive you downloaded."
+msgstr ""
+
+#: ../setup.rst:162
+#, fuzzy
+msgid "Press the ``Save User Settings button``."
+msgstr "单击 :file:`Save User Settings` 按钮。"
+
+#: ../setup.rst:166
+msgid "Everything should be working now."
+msgstr ""
+
+#: ../setup.rst:173
 msgid "Exporting and Viewing Scenes"
 msgstr "导出和查看场景"
 
-#: ../setup.rst:115
+#: ../setup.rst:175
 msgid ""
 "The created scenes can be exported in HTML format. To do this use the "
 ":file:`File > Export > Blend4Web (.html)` or :file:`File > Export > "
@@ -217,11 +318,11 @@ msgstr ""
 ":file:`File > Export > Blend4Web (.json)` 菜单选项，然后选择导出文件的路径。场景导出完全描述在 "
 ":ref:`自己章节 <addon>`. 可以用任何支持 WebGL的浏览器打开生成的 HTML 文件。"
 
-#: ../setup.rst:117
+#: ../setup.rst:177
 msgid ":ref:`browser_webgl_support`"
 msgstr ":ref:`browser_webgl_support`"
 
-#: ../setup.rst:108
+#: ../setup.rst:168
 msgid "export"
 msgstr "导出"
 

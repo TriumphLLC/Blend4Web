@@ -2,9 +2,9 @@
 
 .. index:: add-on
 
-*****
-Addon
-*****
+******
+Add-on
+******
 
 .. contents:: Table of Content
     :depth: 3
@@ -195,17 +195,17 @@ Initialization errors can arise upon installation of the add-on or when a scene 
 | Error message                       | Cause                                     |
 +=====================================+===========================================+
 | Blend4Web initialization error!     | The Blend4Web add-on is not compatible    |
-| Addon is not compatible with        | with the PLATFORM platform.               |
+| Add-on is not compatible with       | with the PLATFORM platform.               |
 | the PLATFORM platform.              |                                           |
 +-------------------------------------+-------------------------------------------+
 | Warning: Blender version mismatch.  | Warning about possible incompatibility    |
 | Blender VER_REQUIRED is recommended | with the current Blender version.         |
-| for the Blend4Web addon.            | It is recommended to use VER_REQUIRED     |
+| for the Blend4Web add-on.           | It is recommended to use VER_REQUIRED     |
 | Current version is VER_CURRENT.     | Blender version. The current version is   |
 |                                     | VER_CURRENT.                              |
 +-------------------------------------+-------------------------------------------+
-| Incorrect addon directory name.     | Incorrect name of the addon directory.    |
-|                                     | Addon structure in the archive has been   |
+| Incorrect add-on directory name.    | Incorrect name of the add-on directory.   |
+|                                     | Add-on structure in the archive has been  |
 |                                     | damaged, or entirety of the archive has   |
 |                                     | been disrupted.                           |
 +-------------------------------------+-------------------------------------------+
@@ -236,7 +236,7 @@ Engine version is too old as compared to version of the add-on with which the sc
 | JSON version is too old relative to | Version of the add-on, with which the     |
 | B4W engine: VER_OLD, required:      | scene was exported, is too old: VER_OLD.  |
 | VER_NEW. Reexport scene with the    | The engine requires: VER_NEW.             |
-| latest B4W addon to fix it.         | The scene will not be loaded. We          |
+| latest B4W add-on to fix it.        | The scene will not be loaded. We          |
 |                                     | recommend you to reexport the scene using |
 |                                     | the latest version of the add-on. We also |
 |                                     | recommend to use the latest version of    |
@@ -246,7 +246,7 @@ Engine version is too old as compared to version of the add-on with which the sc
 | to B4W engine: VER_OLD, required:   | scene was exported, is a bit old:         |
 | VER_NEW. Some compatibility issues  | VER_OLD. The engine requires: VER_NEW.    |
 | can occur. Reexport scene with the  | The scene will be loaded as usual,        |
-| latest B4W addon to fix it.         | however some errors may occur. We         |
+| latest B4W add-on to fix it.        | however some errors may occur. We         |
 |                                     | recommend you to reexport the scene using |
 |                                     | the latest version of the add-on. We also |
 |                                     | recommend to use the latest version of    |
@@ -585,6 +585,11 @@ In contrast to the above-listed critical export errors, these errors do not proh
 | armature modifier and a vertex      | and an armature modifier which is not     |
 | animation. Modifier removed.        | supported. As a result, the modifier has  |
 |                                     | been removed.                             |
++-------------------------------------+-------------------------------------------+
+| The NAME object has the NAME        | The NAME object has the NAME              |
+| armature modifier. It belongs to a  | armature modifier. It belongs to a        |
+| not exported scene. Modifier        | not exported scene. Modifier removed.     |
+| removed.                            |                                           |
 +-------------------------------------+-------------------------------------------+
 | The NAME LAMP node has no lamp      | Wrong object specified in the NAME        |
 | object. Material: NAME.             | ``LAMP`` node.                            |

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Stereo Rendering &mdash; Blend4Web 16.07 User Manual</title>
+  <title>Stereo Rendering &mdash; Blend4Web 16.08 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.07 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.08 User Manual" href="index.html"/>
         <link rel="next" title="Textures" href="textures.html"/>
         <link rel="prev" title="Postprocessing Effects" href="postprocessing_effects.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -90,7 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
@@ -168,17 +168,17 @@
            <div itemprop="articleBody">
             
   <div class="section" id="stereo-rendering">
-<span id="stereo"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id1">Stereo Rendering</a><a class="headerlink" href="#stereo-rendering" title="Permalink to this headline">¶</a></h1>
+<span id="stereo"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">Stereo Rendering</a><a class="headerlink" href="#stereo-rendering" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#stereo-rendering" id="id1">Stereo Rendering</a><ul>
-<li><a class="reference internal" href="#activation" id="id2">Activation</a></li>
-<li><a class="reference internal" href="#additional-settings" id="id3">Additional Settings</a></li>
-<li><a class="reference internal" href="#hmd-settings" id="id4">HMD Settings</a><ul>
-<li><a class="reference internal" href="#profile" id="id5">Profile</a></li>
-<li><a class="reference internal" href="#rendering-settings" id="id6">Rendering Settings</a></li>
-<li><a class="reference internal" href="#other-control-tools" id="id7">Other control tools</a></li>
+<li><a class="reference internal" href="#stereo-rendering" id="id2">Stereo Rendering</a><ul>
+<li><a class="reference internal" href="#activation" id="id3">Activation</a></li>
+<li><a class="reference internal" href="#additional-settings" id="id4">Additional Settings</a></li>
+<li><a class="reference internal" href="#hmd-settings" id="id5">HMD Settings</a><ul>
+<li><a class="reference internal" href="#profile" id="id6">Profile</a></li>
+<li><a class="reference internal" href="#rendering-settings" id="id7">Rendering Settings</a></li>
+<li><a class="reference internal" href="#other-control-tools" id="id8">Other control tools</a></li>
 </ul>
 </li>
 </ul>
@@ -187,16 +187,16 @@
 </div>
 <p>The stereoscopic rendering mode is intended for viewing the content using special glasses. It is activated by an application via API.</p>
 <p>Blend4Web supports two techniques of the stereo image rendering - anaglyph image and the HMD (head-mounted display).</p>
-<p>Anaglyph:</p>
+<p id="anaglyph">Anaglyph:</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_anaglyph.png"><img alt="_images/postprocessing_effects_anaglyph.png" class="align-center" src="_images/postprocessing_effects_anaglyph.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>HMD:</p>
+<p id="hmd">HMD:</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_stereo.png"><img alt="_images/postprocessing_effects_stereo.png" class="align-center" src="_images/postprocessing_effects_stereo.png" style="width: 100%;" /></a>
 <p>HMD is an experimental feature, for now it works only with the <code class="docutils literal"><span class="pre">Eye</span></code> type cameras.</p>
 <div class="section" id="activation">
-<h2><a class="toc-backref" href="#id2">Activation</a><a class="headerlink" href="#activation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Activation</a><a class="headerlink" href="#activation" title="Permalink to this headline">¶</a></h2>
 <p>To use HMD stereo rendering, you need to install Oculus&#8217;s <a class="reference external" href="https://developer.oculus.com/downloads/">runtime utility</a> (two versions are supported: the <cite>chromium_webvr_v1_win64.7z</cite> in the root directory and the one in the <cite>Deprecated API</cite> folder). Windows and MacOS versions can be found on the Oculus website in binary format, while Linux version should be compiled from the source code.</p>
 <p>For now, the HMD is supported by the <a class="reference external" href="https://webvr.info/get-chrome/">Chromium experimental builds</a> and in the <a class="reference external" href="https://nightly.mozilla.org/">Firefox nightly builds</a>.</p>
 <p><a class="reference external" href="https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit">Chromium settings.</a></p>
@@ -206,17 +206,17 @@
 <p>For stereo rendering to work correctly, switching to the full screen mode is recommended.</p>
 </div>
 <div class="section" id="additional-settings">
-<h2><a class="toc-backref" href="#id3">Additional Settings</a><a class="headerlink" href="#additional-settings" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Additional Settings</a><a class="headerlink" href="#additional-settings" title="Permalink to this headline">¶</a></h2>
 <p>None.</p>
 </div>
 <div class="section" id="hmd-settings">
-<h2><a class="toc-backref" href="#id4">HMD Settings</a><a class="headerlink" href="#hmd-settings" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id5">HMD Settings</a><a class="headerlink" href="#hmd-settings" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/hmd_settings.png"><img alt="_images/hmd_settings.png" class="align-center" src="_images/hmd_settings.png" style="width: 100%;" /></a>
 <p>This group of settings allows a user to change various parameters in order to adjust whatever VR device they have to better view a certain 3D application or scene. There are two ways these settings can be accessed:</p>
-<p>Firstly, it can be found in the <a class="reference internal" href="viewer.html#viewer"><span>Blend4Web Viewer</span></a> application under the Stereo View tab.</p>
+<p>Firstly, it can be found in the <a class="reference internal" href="viewer.html#viewer"><span>Blend4Web Viewer</span></a> application under the <a class="reference internal" href="viewer.html#stereo-view"><span>Stereo View tab</span></a>.</p>
 <p>And secondly, it can also be shown in an application by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html#.show">show</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html">hmd_conf</a> module, but doing this requires some programming. Examples of this method can be found in the <code class="docutils literal"><span class="pre">viewer.js</span></code> and <code class="docutils literal"><span class="pre">webplayer.js</span></code> applications (in the <code class="docutils literal"><span class="pre">m_hmd_conf</span></code> object).</p>
 <div class="section" id="profile">
-<h3><a class="toc-backref" href="#id5">Profile</a><a class="headerlink" href="#profile" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Profile</a><a class="headerlink" href="#profile" title="Permalink to this headline">¶</a></h3>
 <p>This allows user to select a profile for a specific device.
 Currently, the following profiles are available:</p>
 <blockquote>
@@ -229,7 +229,7 @@ Currently, the following profiles are available:</p>
 <p>By default, <cite>Custom</cite> profile is selected.</p>
 </div>
 <div class="section" id="rendering-settings">
-<h3><a class="toc-backref" href="#id6">Rendering Settings</a><a class="headerlink" href="#rendering-settings" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Rendering Settings</a><a class="headerlink" href="#rendering-settings" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Tray to lens-center distance</em></dt>
 <dd><p class="first">This parameter specifies the distance between the phone frame and the center of the camera lenses.</p>
@@ -262,7 +262,7 @@ Currently, the following profiles are available:</p>
 </dl>
 </div>
 <div class="section" id="other-control-tools">
-<h3><a class="toc-backref" href="#id7">Other control tools</a><a class="headerlink" href="#other-control-tools" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Other control tools</a><a class="headerlink" href="#other-control-tools" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Save</em></dt>
 <dd>Saves the settings.</dd>
@@ -295,7 +295,7 @@ Currently, the following profiles are available:</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-07-26.
+      Last updated on 2016-08-31.
 
     </p>
   </div>
@@ -351,7 +351,7 @@ Currently, the following profiles are available:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

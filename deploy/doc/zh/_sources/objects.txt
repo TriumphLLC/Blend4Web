@@ -200,6 +200,9 @@ Blend4Web的特殊属性。
    到达最后一帧时动画的行为："完成停止"  - 停止  "完成重置"  - 停止并
    跳到零帧，"Loop"  - 永远重复。
 
+*Rendering Properties > Hidden*
+   An object with this property enabled will be hidden on load.
+
 *渲染属性 > 不要渲染*
    禁止物体的渲染（例如用于有用的物理物体）。
 

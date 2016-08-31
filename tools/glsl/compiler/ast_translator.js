@@ -5,9 +5,9 @@
 
 exports.translate = function(ast_data) {
     var text = translation_unit(ast_data.ast);
-    text = return_vardef(text);
+    text = return_vardef_tokens(text);
     text = return_nodes(text);
-    text = return_directive(text);
+    text = process_directives(text);
     return text;
 }
 
@@ -835,7 +835,7 @@ function keyword(node) {
     return text + node.name;
 }
 
-function return_vardef(text) {
+function return_vardef_tokens(text) {
     var expr = /\/\*%replace%from%(.*?)%to%(.*?)%\*\/.*?\/\*%replace_end%\*\//gi;
     text = text.replace(expr, " $1 ");
 
@@ -845,9 +845,13 @@ function return_vardef(text) {
     return text;
 }
 
-function return_directive(text) {
-    var expr = /\/\*%directive%(.*?)%directive_end%\*\//gi;
+function process_directives(text) {
+    // No need to keep #var's after the compilation
+    var expr = /\/\*%directive%#var(.*?)%directive_end%\*\//gi;
+    text = text.replace(expr, "");
 
+    // return other directives
+    var expr = /\/\*%directive%(.*?)%directive_end%\*\//gi;
     text = text.replace(expr, "$1");
 
     return text;
@@ -933,33 +937,5 @@ function return_nodes(text) {
     text = text.replace(expr, "#node $1");
     expr = /\/\*%endnode%\*\//gi;
     text = text.replace(expr, "#endnode");
-    return text;
-}
-
-exports.decl_to_exp = function(node) {
-    var text = get_before_special_comments(node);
-    var list = node.list;
-    for (var i = 0; i < list.vars.length; i++) {
-        var curr_node = list.vars[i];
-        
-        if (i > 0) {
-            text += get_before_special_comments(curr_node.punctuation.comma);    
-            if (curr_node.identifier.array_size || curr_node.initializer)
-                text += curr_node.punctuation.comma.data;
-        }
-        if (curr_node.identifier.array_size || curr_node.initializer) {
-            text += identifier(curr_node.identifier);
-            if (curr_node.identifier.array_size) {
-                text += get_before_special_comments(curr_node.identifier.punctuation); 
-                text += punctuation(curr_node.identifier.punctuation.left_bracket);
-                text += constant_expression(curr_node.identifier.array_size);
-                text += punctuation(curr_node.identifier.punctuation.right_bracket);
-            } else if (curr_node.initializer) {
-                text += operation(curr_node.operation);
-                text += initializer(curr_node.initializer);
-            }
-        }
-    }
-    text += punctuation(node.punctuation.semicolon);
     return text;
 }

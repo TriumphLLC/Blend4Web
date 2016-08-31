@@ -1,3 +1,8 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var WATER_LEVEL 0.0
 #var WAVES_HEIGHT 0.0
 #var NUM_LAMP_LIGHTS 0
@@ -25,9 +30,9 @@
 #var LAMP_SHADOW_MAP_IND 0
 #var NUM_LFACTORS 0
 
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 #include <precision_statement.glslf>
 #include <std_enums.glsl>
 
@@ -35,17 +40,19 @@
 #include <pack.glslf>
 
 #include <procedural.glslf>
+
+#include <color_util.glslf>
+#include <math.glslv>
+
 # if CAUSTICS
 #include <caustics.glslf>
 # endif
 
-#include <color_util.glslf>
-#include <math.glslv>
 #endif // NODES && ALPHA
 
-/*============================================================================
+/*==============================================================================
                                GLOBAL UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if NODES && ALPHA
 uniform float u_time;
@@ -100,9 +107,9 @@ uniform vec3 u_color_id;
 uniform sampler2D u_nodes_texture;
 #endif
 
-/*============================================================================
+/*==============================================================================
                                    UNIFORMS
-============================================================================*/
+==============================================================================*/
 #if NODES && ALPHA
 # if REFLECTION_TYPE == REFL_PLANE
 uniform sampler2D u_plane_reflection;
@@ -143,41 +150,8 @@ uniform float u_node_values[NUM_VALUES];
 # if USE_NODE_RGB
 uniform vec3 u_node_rgbs[NUM_RGBS];
 # endif
-#endif // NODES && ALPHA
 
-# if USE_OUTLINE
-uniform float u_outline_intensity;
-# endif
-
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
-#if NODES && ALPHA
-//varying vec3 v_eye_dir;
-varying vec3 v_pos_world;
-varying vec4 v_pos_view;
-
-# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
-varying vec3 v_normal;
-# endif
-# if CALC_TBN_SPACE
-varying vec4 v_tangent;
-# endif
-
-# if REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_REFRACTION
-varying vec3 v_tex_pos_clip;
-# endif
-
-# if USE_NODE_B4W_REFRACTION && USE_REFRACTION
-varying float v_view_depth;
-# endif
-
-// NOTE: impossible case, needed for shader validator
 # if SHADOW_USAGE == SHADOW_MASK_GENERATION
-varying vec4 v_shadow_coord0;
-varying vec4 v_shadow_coord1;
-varying vec4 v_shadow_coord2;
-varying vec4 v_shadow_coord3;
 uniform vec4 u_pcf_blur_radii;
 uniform vec4 u_csm_center_dists;
 uniform sampler2D u_shadow_map0;
@@ -186,18 +160,60 @@ uniform sampler2D u_shadow_map2;
 uniform sampler2D u_shadow_map3;
 uniform sampler2D u_shadow_mask;
 # endif
+#endif // NODES && ALPHA
+
+# if USE_OUTLINE
+uniform float u_outline_intensity;
+# endif
+
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+#if NODES && ALPHA
+//GLSL_IN vec3 v_eye_dir;
+GLSL_IN vec3 v_pos_world;
+GLSL_IN vec4 v_pos_view;
+
+# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
+        || CAUSTICS || CALC_TBN_SPACE
+GLSL_IN vec3 v_normal;
+# endif
+# if CALC_TBN_SPACE
+GLSL_IN vec4 v_tangent;
+# endif
+
+# if REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_REFRACTION
+GLSL_IN vec3 v_tex_pos_clip;
+# endif
+
+# if USE_NODE_B4W_REFRACTION && USE_REFRACTION
+GLSL_IN float v_view_depth;
+# endif
+
+// NOTE: impossible case, needed for shader validator
+# if SHADOW_USAGE == SHADOW_MASK_GENERATION
+GLSL_IN vec4 v_shadow_coord0;
+GLSL_IN vec4 v_shadow_coord1;
+GLSL_IN vec4 v_shadow_coord2;
+GLSL_IN vec4 v_shadow_coord3;
+# endif
 #else // NODES && ALPHA
 
 # if TEXTURE_COLOR
-varying vec2 v_texcoord;
+GLSL_IN vec2 v_texcoord;
 # endif
-
 #endif // NODES && ALPHA
 
+#if USE_TBN_SHADING
+GLSL_IN vec3 v_shade_tang;
+#endif
+//------------------------------------------------------------------------------
 
-/*============================================================================
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
                                   FUNCTIONS
-============================================================================*/
+==============================================================================*/
 #if NODES && ALPHA
 #include <shadow.glslf>
 #include <mirror.glslf>
@@ -213,9 +229,9 @@ varying vec2 v_texcoord;
 #include <nodes.glslf>
 #endif // NODES && ALPHA
 
-/*============================================================================
+/*==============================================================================
                                     MAIN
-============================================================================*/
+==============================================================================*/
 
 void main(void) {
 
@@ -267,7 +283,7 @@ void main(void) {
     float alpha = nout_alpha;
 # else // NODES
 #  if TEXTURE_COLOR
-    float alpha = (texture2D(u_sampler, v_texcoord)).a;
+    float alpha = (GLSL_TEXTURE(u_sampler, v_texcoord)).a;
 #   if TEXTURE_BLEND_TYPE == TEXTURE_BLEND_TYPE_MIX
     float texture_alpha = u_alpha_factor * alpha;
     texture_alpha += (1.0 - step(0.0, texture_alpha));
@@ -285,8 +301,8 @@ void main(void) {
 #endif
 
 #if USE_OUTLINE
-	gl_FragColor = vec4(1.0, 1.0, 1.0, u_outline_intensity);
+	GLSL_OUT_FRAG_COLOR = vec4(1.0, 1.0, 1.0, u_outline_intensity);
 #else
-	gl_FragColor = vec4(u_color_id, 1.0);
+	GLSL_OUT_FRAG_COLOR = vec4(u_color_id, 1.0);
 #endif
 }

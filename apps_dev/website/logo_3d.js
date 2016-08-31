@@ -2,13 +2,16 @@
 
 b4w.register("logo_3d_main", function(exports, require) {
 
-var m_app   = require("app");
-var m_cfg   = require("config");
-var m_cont  = require("container");
-var m_ctl   = require("controls");
-var m_data  = require("data");
-var m_main  = require("main");
-var m_scs   = require("scenes");
+var m_app      = require("app");
+var m_cfg      = require("config");
+var m_cont     = require("container");
+var m_ctl      = require("controls");
+var m_data     = require("data");
+var m_main     = require("main");
+var m_scs      = require("scenes");
+var m_version  = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var CANVAS_CONTAINER_ID  = "main_canvas_container";
 var CANVAS_REPLACMENT    = "no_webgl_logo";
@@ -27,6 +30,8 @@ exports.init = function() {
         quality: m_cfg.P_HIGH,
         report_init_failure: false,
         alpha: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         track_container_position: true,
         force_container_ratio: 661 / 316,
         autoresize: true

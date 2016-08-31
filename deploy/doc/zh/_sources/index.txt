@@ -80,7 +80,7 @@
 
   * 场景错误
 
-* 插件
+* Add-on
 
   * Local Development Server
 
@@ -146,7 +146,7 @@
 
   * Main Features of the Normal Editor
 
-  * Interface of the Vertex Normal Editor
+  * Interface
 
   * Activate
 
@@ -154,9 +154,11 @@
 
   * Rotation
 
+  * Absolute and Offset Modes
+
   * Split Normals
 
-  * Average Split
+  * Average
 
   * Restore
 
@@ -204,7 +206,7 @@
 
   * 标准节点
 
-  * 游戏引擎特定节点
+  * Engine-Specific Nodes
 
 * Logic Editor
 
@@ -358,6 +360,8 @@
 
   * 音源设置
 
+  * Audio Mixer
+
   * 处理和解码
 
 * Physics
@@ -376,7 +380,7 @@
 
   * Floating Vehicles aka Watercrafts
 
-  * Character Objects
+  * Characters
 
   * Use in Applications
 
@@ -408,7 +412,7 @@
 
   * Building the Engine
 
-  * Building the Addon
+  * Building the Add-on
 
   * Dependencies
 
@@ -457,6 +461,8 @@
   * 已知问题
 
 * Release Notes
+
+  * v16.08
 
   * v16.07
 

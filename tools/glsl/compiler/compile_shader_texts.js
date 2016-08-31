@@ -2,10 +2,11 @@
 
 var fs = require("fs");
 
-var m_proc  = require("./ast_processor.js");
 var m_trans = require("./ast_translator.js");
 var m_glsl  = require("./glsl_parser.js");
 var m_gpp   = require("./gpp_parser.js");
+var m_obf   = require("./obfuscator.js");
+var m_optim = require("./optimizator.js");
 var m_valid = require("./validator.js");
 
 process.chdir(__dirname);
@@ -22,6 +23,7 @@ var OUTPUT_FILE_TEXTS   = ROOT + "src/libs/shader_texts.js";
 var OUTPUT_MODULE_TEXTS = "shader_texts";
 
 var CODE_DISPLAY_RANGE = 6;
+var MAX_STAT_OUTPUT_COUNT = 30;
 
 // NOTE: set to false to see original error messages
 var CATCH_ERRORS = true;
@@ -29,10 +31,9 @@ var CATCH_ERRORS = true;
 var config = {
     export_shaders: true,
     obfuscate: false,
-    optimize_decl: false,
-    remove_braces: false
+    remove_braces: false,
+    show_ast_tokens_stat: false
 };
-m_proc.config = config;
     
 function compile(argv) {
     process_arguments(argv);
@@ -66,10 +67,17 @@ function compile(argv) {
         ast_arrays.push(ast_parsing_result);
     }
 
-    // Ast processing
-    for (var i = 0; i < files.main_files.length; i++)
-        ast_arrays[i] = process_ast(ast_arrays[i], vardef_ids, 
-                files.main_files[i].name);
+    // Ast validation and optimization
+    for (var i = 0; i < files.main_files.length; i++) {
+        m_valid.validate(ast_arrays[i], vardef_ids, files.main_files[i].name, 
+                files.main_files[i].type);
+        if (config.remove_braces)
+            m_optim.delete_unused_braces(ast_arrays[i]);
+    }
+
+    // Obfuscation
+    if (config.obfuscate)
+        m_obf.obfuscate(ast_arrays, vardef_ids, files.main_files);
 
     // perform shaders validation after processing
     m_valid.check_dead_functions();
@@ -87,19 +95,13 @@ function compile(argv) {
 
         for (var j = 0; j < data.include_blocks.length; j++) {
             var block = data.include_blocks[j];
-
-            if (block.name in include_texts) {
-                if (include_texts[block.name].text !== block.text) {
-                    fail("Error! Ambiguous obfuscation in include file '" 
-                            + block.name + "'.");
-                    return;
-                }
-            } else
-                include_texts[block.name] = {
-                    text: block.text
-                }
+            include_texts[block.name] = { text: block.text };
         }
     }
+
+    // check the final compiled text of a shader
+    for (var i = 0; i < files.main_files.length; i++)
+        m_valid.check_version(files.main_files[i].text, files.main_files[i].name);
 
     // Get preprocessed ast from shaders texts
     for (var i = 0; i < files.main_files.length; i++)
@@ -110,8 +112,12 @@ function compile(argv) {
         include_texts[name].ast_pp = source_to_ast_pp(include_texts[name].text, 
                 name);
 
+    var ast_str = ast_to_json(files.main_files, include_texts);
+    if (config.show_ast_tokens_stat)
+        process_ast_tokens_stat(ast_str);
+
     if (config.export_shaders)
-        export_ast(files.main_files, include_texts);
+        fs.writeFileSync(OUTPUT_FILE_TEXTS, ast_str);
 
     return;
 }
@@ -122,10 +128,10 @@ function process_arguments(argv) {
             config.export_shaders = false;
         if (argv[i] == "--obf")
             config.obfuscate = true;
-        if (argv[i] == "--opt_decl")
-            config.optimize_decl = true;
         if (argv[i] == "--rem_braces")
             config.remove_braces = true;
+        if (argv[i] == "--stat")
+            config.show_ast_tokens_stat = true;
     }
 }
 
@@ -248,10 +254,6 @@ function source_to_ast_pp(text, file_name) {
     return result;
 }
 
-function process_ast(ast_data, reserved_ids, filename) {
-    return m_proc.run(ast_data, reserved_ids, filename);
-}
-
 function ast_to_source(ast_data) {
     return m_trans.translate(ast_data);
 }
@@ -288,7 +290,7 @@ function clean_source(text) {
     
     return text.replace(lb_first, "").replace(lb_double, "\n").replace(sp_double, " ")
             .replace(sp_right, "$1$2").replace(sp_left, "$1$3")
-            .replace(semic_repeat, ";");
+            .replace(semic_repeat, ";").trim();
 }
 
 function check_used_includes(used_includes, existed_includes) {
@@ -300,36 +302,7 @@ function check_used_includes(used_includes, existed_includes) {
     }
 }
 
-/**
- * Note: unused
- */
-function export_texts(files, include_texts) {
-    var shade_array = [];
-    for (var i = 0; i < files.length; i++) {
-        var path = "";
-        if (files[i].dir == PATH_TO_POSTPROCESS_DIR)
-            path = "postprocessing/";
-
-        var text = files[i].text.replace(/\n/g, "\\n");
-        var shade_str = "\"" + path + files[i].name + "\": \"" + text + "\"";
-        shade_array.push(shade_str);
-    }
-
-    for (var name in include_texts) {
-        var text = include_texts[name].text.replace(/\n/g, "\\n");
-        var shade_str = "\"include/" + name + "\": \"" + text + "\"";
-        shade_array.push(shade_str);   
-    }
-
-    var str = "";
-    str += "b4w.module[\"" + OUTPUT_MODULE_TEXTS + "\"] = function(exports, require) {\n";
-    str += shade_array.join();
-    str += "}";
-
-    fs.writeFileSync(OUTPUT_FILE_TEXTS, str);
-}
-
-function export_ast(files, include_texts) {
+function ast_to_json(files, include_texts) {
     var data = { }
     for (var i = 0; i < files.length; i++) {
         var path = "";
@@ -356,7 +329,7 @@ function export_ast(files, include_texts) {
     str += data_strings.join();
     str += "}";
 
-    fs.writeFileSync(OUTPUT_FILE_TEXTS, str);
+    return str;
 }
 
 // NOTE: Protect colon quotes from removing by regexp
@@ -390,6 +363,47 @@ function pegjs_error_message(err, file_name, file_text) {
 function fail(message) {
     console.error(message);
     process.exit(1);
+}
+
+function process_ast_tokens_stat(ast_str) {
+    var result = ast_str.match(/([a-zA-Z_0-9]+)(?=[^a-zA-Z_0-9])/g) || [];
+
+    var stat_info = {};
+    for (var i = 0; i < result.length; i++) {
+        var token = result[i];
+        if (token in stat_info) {
+            stat_info[token][0] += token.length;
+            stat_info[token][1] += 1;
+        } else
+            stat_info[token] = [token.length, 1];
+    }
+
+    var stat_info_sorted = [];
+    for (var token in stat_info)
+        stat_info_sorted.push([token, stat_info[token][0], stat_info[token][1]])
+
+    stat_info_sorted.sort(function(a, b) {
+        return b[1] - a[1];
+    });
+
+
+    var str_format = function(str, len) {
+        str = str.toString();
+        if (str.length < len)
+            str = str + new Array(len - str.length + 1).join(" ");
+        return str;
+    }
+
+    var count = Math.min(stat_info_sorted.length, MAX_STAT_OUTPUT_COUNT);
+
+    console.log("----------------------------------------------------------------------");
+    console.log(str_format("token", 50), str_format("count*len", 10), str_format("count", 10));    
+    console.log("----------------------------------------------------------------------");
+    for (var i = 0; i < count; i++) {
+        var item = stat_info_sorted[i];
+        console.log(str_format(item[0], 50), str_format(item[1], 10), str_format(item[2], 10));
+    }
+    console.log("----------------------------------------------------------------------");
 }
 
 compile(process.argv);

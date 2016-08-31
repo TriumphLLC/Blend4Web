@@ -1,16 +1,20 @@
+#version GLSL_VERSION
+
 #include <precision_statement.glslf>
 
-#define POST_EFFECT_NONE 1
-#define POST_EFFECT_GRAYSCALE 2
-#define POST_EFFECT_X_BLUR 3
-#define POST_EFFECT_Y_BLUR 4
-#define POST_EFFECT_X_GLOW_BLUR 5
-#define POST_EFFECT_Y_GLOW_BLUR 6
-#define POST_EFFECT_X_DOF_BLUR 7
-#define POST_EFFECT_Y_DOF_BLUR 8
-#define POST_EFFECT_X_EXTEND 9
-#define POST_EFFECT_Y_EXTEND 10
-#define FLIP_CUBEMAP_COORDS 11
+#define POST_EFFECT_NONE            1
+#define POST_EFFECT_GRAYSCALE       2
+#define POST_EFFECT_X_BLUR          3
+#define POST_EFFECT_Y_BLUR          4
+#define POST_EFFECT_X_GLOW_BLUR     5
+#define POST_EFFECT_Y_GLOW_BLUR     6
+#define POST_EFFECT_X_DOF_BLUR      7
+#define POST_EFFECT_Y_DOF_BLUR      8
+#define POST_EFFECT_X_ALPHA_BLUR    9
+#define POST_EFFECT_Y_ALPHA_BLUR    10
+#define POST_EFFECT_X_EXTEND        11
+#define POST_EFFECT_Y_EXTEND        12
+#define FLIP_CUBEMAP_COORDS         13
 
 uniform vec2 u_texel_size;
 uniform sampler2D u_color;
@@ -20,51 +24,65 @@ uniform int u_tex_number;
 uniform vec2 u_delta;
 #endif
 
-varying vec2 v_texcoord;
+#if POST_EFFECT == POST_EFFECT_X_DOF_BLUR || POST_EFFECT == POST_EFFECT_Y_DOF_BLUR
+uniform float u_dof_bokeh_intensity;
+#endif
+
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 v_texcoord;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
 
 #if POST_EFFECT == POST_EFFECT_NONE
     // copy exact
-    gl_FragColor = texture2D(u_color, v_texcoord);
+    GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, v_texcoord);
 
 #elif POST_EFFECT == POST_EFFECT_GRAYSCALE
-    vec4 c = texture2D(u_color, v_texcoord);
+    vec4 c = GLSL_TEXTURE(u_color, v_texcoord);
 
-    gl_FragColor.rgb = vec3((c.r + c.g + c.b) / 3.0);
-    gl_FragColor.a = 1.0;
+    GLSL_OUT_FRAG_COLOR.rgb = vec3((c.r + c.g + c.b) / 3.0);
+    GLSL_OUT_FRAG_COLOR.a = 1.0;
 
 #elif POST_EFFECT == POST_EFFECT_X_BLUR || POST_EFFECT == POST_EFFECT_Y_BLUR
     vec2 offset = vec2(0.0, 0.0);
     vec2 delta = u_texel_size;
     vec4 color;
 
-    color = texture2D(u_color, v_texcoord);
-    gl_FragColor = color * 0.2270270270;
+    color = GLSL_TEXTURE(u_color, v_texcoord);
+    GLSL_OUT_FRAG_COLOR = color * 0.2270270270;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * 0.1945945946;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * 0.1945945946;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * 0.1945945946;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * 0.1945945946;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * 0.1216216216;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * 0.1216216216;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * 0.1216216216;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * 0.1216216216;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * 0.0540540541;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * 0.0540540541;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * 0.0540540541;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * 0.0540540541;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * 0.0162162162;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * 0.0162162162;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * 0.0162162162;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * 0.0162162162;
 
 #elif POST_EFFECT == POST_EFFECT_X_GLOW_BLUR || POST_EFFECT == POST_EFFECT_Y_GLOW_BLUR
     vec2 offset = vec2(0.0, 0.0);
@@ -76,58 +94,58 @@ void main(void) {
     // 0.01% of the curve’s area outside the discrete kernel
     // Kernel (left side): [0.000102, 0.00041, 0.00142, 0.00425, 0.01099, 0.024549, 0.047383, 0.079019, 0.113861, 0.141763, 0.152507]    
 
-    color = texture2D(u_color, v_texcoord);
-    gl_FragColor = color * (1.0 - step(0.0, -color.a)) * 0.152507;
+    color = GLSL_TEXTURE(u_color, v_texcoord);
+    GLSL_OUT_FRAG_COLOR = color * (1.0 - step(0.0, -color.a)) * 0.152507;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.141763;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.141763;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.141763;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.141763;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.113861;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.113861;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.113861;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.113861;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.079019;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.079019;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.079019;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.079019;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.047383;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.047383;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.047383;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.047383;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.024549;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.024549;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.024549;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.024549;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.01099;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.01099;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.01099;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.01099;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.00425;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.00425;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.00425;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.00425;
 
     offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.00142;
-    color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * (1.0 - step(0.0, -color.a)) * 0.00142;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.00142;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    GLSL_OUT_FRAG_COLOR += color * (1.0 - step(0.0, -color.a)) * 0.00142;
 
-    gl_FragColor = clamp(gl_FragColor, 0.0, 1.0); 
+    GLSL_OUT_FRAG_COLOR = clamp(GLSL_OUT_FRAG_COLOR, 0.0, 1.0); 
 
 #elif POST_EFFECT == POST_EFFECT_X_DOF_BLUR || POST_EFFECT == POST_EFFECT_Y_DOF_BLUR
     vec2 offset = vec2(0.0, 0.0);
@@ -136,80 +154,91 @@ void main(void) {
     vec4 avg_color;
     vec4 max_color;
     float coc;
+    float bokeh_intensity = u_dof_bokeh_intensity;
 
-    color = texture2D(u_color, v_texcoord);
+    color = GLSL_TEXTURE(u_color, v_texcoord);
     avg_color = color;
     max_color = color;
 
     coc = color.a;
     delta = coc * delta;
 
-    offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    avg_color += color;
-    max_color = max(max_color, color);
-    color = texture2D(u_color, v_texcoord - offset);
-    avg_color += color;
-    max_color = max(max_color, color);
+    for (int i = 0; i < 12; i += 2) {
+        offset += delta;
 
-    offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    avg_color += color;
-    max_color = max(max_color, color);
-    color = texture2D(u_color, v_texcoord - offset);
-    avg_color += color;
-    max_color = max(max_color, color);
+        color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+        avg_color += color;
+        max_color = max(max_color, color);
 
-    offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    avg_color += color;
-    max_color = max(max_color, color);
-    color = texture2D(u_color, v_texcoord - offset);
-    avg_color += color;
-    max_color = max(max_color, color);
-
-    offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    avg_color += color;
-    max_color = max(max_color, color);
-    color = texture2D(u_color, v_texcoord - offset);
-    avg_color += color;
-    max_color = max(max_color, color);
-
-    offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    avg_color += color;
-    max_color = max(max_color, color);
-    color = texture2D(u_color, v_texcoord - offset);
-    avg_color += color;
-    max_color = max(max_color, color);
-
-    offset += delta;
-    color = texture2D(u_color, v_texcoord + offset);
-    avg_color += color;
-    max_color = max(max_color, color);
-    color = texture2D(u_color, v_texcoord - offset);
-    avg_color += color;
-    max_color = max(max_color, color);
+        color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+        avg_color += color;
+        max_color = max(max_color, color);
+    }
 
     avg_color /= 13.0;
 
-    gl_FragColor = vec4(mix(avg_color.xyz, max_color.xyz, 0.3), avg_color.a);
+    GLSL_OUT_FRAG_COLOR = mix(avg_color, max_color, bokeh_intensity);
+
+#elif POST_EFFECT == POST_EFFECT_X_ALPHA_BLUR || POST_EFFECT == POST_EFFECT_Y_ALPHA_BLUR
+    vec2 offset = vec2(0.0, 0.0);
+    vec2 delta = u_texel_size;
+    vec4 color;
+    vec4 avg_color;
+    vec4 max_color;
+
+    color = GLSL_TEXTURE(u_color, v_texcoord);
+    max_color = max(max_color, color);
+    avg_color = color;
+    avg_color.a = color.a * 0.2270270270;
+
+    offset += delta;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    max_color.a = max(max_color.a, color.a);
+    avg_color.a += color.a * 0.1945945946;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    max_color.a = max(max_color.a, color.a);
+    avg_color.a += color.a * 0.1945945946;
+
+    offset += delta;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    max_color.a = max(max_color.a, color.a);
+    avg_color.a += color.a * 0.1216216216;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    max_color.a = max(max_color.a, color.a);
+    avg_color.a += color.a * 0.1216216216;
+
+    offset += delta;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    max_color.a = max(max_color.a, color.a);
+    avg_color.a += color.a * 0.0540540541;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    max_color.a = max(max_color.a, color.a);
+    avg_color.a += color.a * 0.0540540541;
+
+    offset += delta;
+    color = GLSL_TEXTURE(u_color, v_texcoord + offset);
+    max_color.a = max(max_color.a, color.a);
+    avg_color.a += color.a * 0.0162162162;
+    color = GLSL_TEXTURE(u_color, v_texcoord - offset);
+    max_color.a = max(max_color.a, color.a);
+    avg_color.a += color.a * 0.0162162162;
+
+    GLSL_OUT_FRAG_COLOR = mix(avg_color, max_color, 0.5);
 
 #elif POST_EFFECT == POST_EFFECT_X_EXTEND || POST_EFFECT == POST_EFFECT_Y_EXTEND
     vec2 delta = u_texel_size;
 
-    vec4 color = texture2D(u_color, v_texcoord);
-    gl_FragColor = color;
+    vec4 color = GLSL_TEXTURE(u_color, v_texcoord);
+    GLSL_OUT_FRAG_COLOR = color;
 
     if (color.a == 0.0) {
-        color = texture2D(u_color, v_texcoord + delta);
+        color = GLSL_TEXTURE(u_color, v_texcoord + delta);
         if (color.a > 0.0)
-            gl_FragColor = vec4(1.0, 1.0, 1.0, color.a);
+            GLSL_OUT_FRAG_COLOR = vec4(1.0, 1.0, 1.0, color.a);
         else {
-            color = texture2D(u_color, v_texcoord - delta);
+            color = GLSL_TEXTURE(u_color, v_texcoord - delta);
             if (color.a > 0.0)
-                gl_FragColor = vec4(1.0, 1.0, 1.0, color.a);
+                GLSL_OUT_FRAG_COLOR = vec4(1.0, 1.0, 1.0, color.a);
         }
     }
 
@@ -224,39 +253,39 @@ void main(void) {
         vec2 texcoord = v_texcoord * scale + vec2(2.0 * rel_x_dim, 0.0);
         texcoord[0] = min(texcoord[0], 1.0 - delta_x);
         texcoord[1] = min(texcoord[1], 0.5 - delta_y);
-        gl_FragColor = texture2D(u_color, vec2(5.0 * rel_x_dim - texcoord[0], texcoord[1]));
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(5.0 * rel_x_dim - texcoord[0], texcoord[1]));
     } else if (u_tex_number == 1) {
         // -X
         vec2 texcoord = v_texcoord * scale;
         texcoord[0] = max(texcoord[0], delta_x);
         texcoord[1] = min(texcoord[1], 0.5 - delta_y);
-        gl_FragColor = texture2D(u_color, vec2(rel_x_dim - texcoord[0], texcoord[1]));
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(rel_x_dim - texcoord[0], texcoord[1]));
     } else if (u_tex_number == 2) {
         // +Y
         vec2 texcoord = v_texcoord * scale + vec2(rel_x_dim, rel_y_dim);
         texcoord[0] = max(texcoord[0], rel_x_dim + delta_x);
         texcoord[0] = min(texcoord[0], 2.0 * rel_x_dim - delta_x);
         texcoord[1] = min(texcoord[1], 1.0 - delta_y);
-        gl_FragColor = texture2D(u_color, vec2(texcoord[0], 3.0 * rel_y_dim - texcoord[1]));
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(texcoord[0], 3.0 * rel_y_dim - texcoord[1]));
     } else if (u_tex_number == 3) {
         // -Y
         vec2 texcoord = v_texcoord * scale + vec2(0.0, rel_y_dim);
         texcoord[0] = min(texcoord[0], rel_x_dim - delta_x);
         texcoord[1] = min(texcoord[1], 1.0 - delta_y);
-        gl_FragColor = texture2D(u_color, vec2(texcoord[0], 3.0 * rel_y_dim - texcoord[1]));
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(texcoord[0], 3.0 * rel_y_dim - texcoord[1]));
     } else if (u_tex_number == 4) {
         // +Z
         vec2 texcoord = v_texcoord * scale + vec2(rel_x_dim, 0.0);
         texcoord[0] = max(texcoord[0], rel_x_dim + delta_x);
         texcoord[0] = min(texcoord[0], 2.0 * rel_x_dim - delta_x);
         texcoord[1] = min(texcoord[1], 0.5 - delta_y);
-        gl_FragColor = texture2D(u_color, vec2(1.0 - texcoord[0], texcoord[1]));
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(1.0 - texcoord[0], texcoord[1]));
     } else {
         // -Z
         vec2 texcoord = v_texcoord * scale + vec2(2.0 * rel_x_dim, rel_y_dim);
         texcoord[0] = min(texcoord[0], 1.0 - delta_x);
         texcoord[1] = max(texcoord[1], 0.5 + delta_y);
-        gl_FragColor = texture2D(u_color, vec2(5.0 * rel_x_dim - texcoord[0], texcoord[1]));
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(5.0 * rel_x_dim - texcoord[0], texcoord[1]));
     }
 
 #endif

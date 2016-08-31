@@ -12,19 +12,29 @@ DEST=os.path.join(SRC, "deploy", "pub")
 GPL_TEMPLATE=os.path.join(SRC, "scripts", "templates", "gpl_header.license")
 EULA_TEMPLATE=os.path.join(SRC, "scripts", "templates", "eula_header.license")
 ADDON_PATH=os.path.join("addons", "blend4web")
+BUILD=os.path.join("deploy", "apps", "common")
 
 LICENSE_PATHS=[
     {
-        "paths": [os.path.join("src", "*.js")], 
-        "file_type": ".js", 
-        "license_type": set(("ce", "pro")), 
+        "paths": [os.path.join("src", "*.js")],
+        "file_type": ".js",
+        "license_type": set(("ce", "pro")),
+        "version_type": set(),
         "except_paths": []
     },
     {
-        "paths": [os.path.join(ADDON_PATH, "*.py")], 
-        "file_type": ".py", 
-        "license_type": set(("ce",)), 
+        "paths": [os.path.join(ADDON_PATH, "*.py")],
+        "file_type": ".py",
+        "license_type": set(("ce", "pro")),
+        "version_type": set(),
         "except_paths": [os.path.join(ADDON_PATH, "lib", "*.py")]
+    },
+    {
+        "paths": [os.path.join(BUILD, "b4w")],
+        "file_type": ".js",
+        "license_type": set(("ce", "pro")),
+        "version_type": set(("ce", "pro")),
+        "except_paths": []
     },
 ]
 
@@ -109,14 +119,36 @@ def process_dist_list(dist_path, dist_root, version, force):
                     for rule in LICENSE_PATHS:
                         if check_path(path_root_rel, rule["paths"], rule["except_paths"]) \
                                 and os.path.splitext(path_root_rel)[-1] == rule["file_type"]:
+                            src = ""
+                            license_type = basename_dest.split("_")[-1]
+                            is_pro = license_type == "pro"
 
-                            if basename_dest.split("_")[-1] == "pro" and "pro" in rule["license_type"]:
-                                src = insert_license(path_curr_rel, rule["file_type"], EULA_TEMPLATE)
-                            else:
-                                if "ce" in rule["license_type"]:
-                                    src = insert_license(path_curr_rel, rule["file_type"], GPL_TEMPLATE)
-                                elif "pro" in rule["license_type"]:
-                                    src = insert_license(path_curr_rel, rule["file_type"], EULA_TEMPLATE)
+                            src_lines = []
+                            if is_pro and "pro" in rule["version_type"]:
+                                src_lines = get_version_text_lines("pro", version)
+                            elif "ce" in rule["version_type"]:
+                                src_lines = get_version_text_lines("ce", version)
+                            elif "pro" in rule["version_type"]:
+                                src_lines = get_version_text_lines("pro", version)
+
+                            if len(src_lines):
+                                print("Insert version info into file: " + path_curr_rel)
+
+                            lic_lines = []
+                            if is_pro and "pro" in rule["license_type"]:
+                                lic_lines = get_license_text_lines(EULA_TEMPLATE)
+                            elif "ce" in rule["license_type"]:
+                                lic_lines = get_license_text_lines(GPL_TEMPLATE)
+                            elif "pro" in rule["license_type"]:
+                                lic_lines = get_license_text_lines(EULA_TEMPLATE)
+
+                            if len(lic_lines):
+                                print("Insert license into file: " + path_curr_rel)
+
+                            src_lines.extend(lic_lines)
+                            if len(src_lines):
+                                src += get_comment(src_lines, rule["file_type"])
+                            src += get_code_text(path_curr_rel)
 
                     if src:
                         zip_str(z, path_arc, src)
@@ -135,39 +167,48 @@ def zip_str(zfile, path, data):
     info.compress_type = zipfile.ZIP_DEFLATED
     zfile.writestr(info, data)
 
-def insert_license(path, file_type, license_path):
+def get_code_text(path):
     try:
         fp = open(path, "r")
     except IOError:
         print("Source file not found: " + path)
         exit(1)
+    str = fp.read()
+    fp.close()
+    return str
 
+def get_license_text_lines(license_path):
     try:
         lic_fp = open(license_path, "r")
     except IOError:
         print("License file not found: " + license_path)
         exit(1)
-    
-    print("Insert license into file: " + path)
-
-    in_str = fp.read()
-    fp.close()
 
     lic_lines = lic_fp.readlines()
     lic_fp.close()
 
+    return lic_lines
+
+def get_version_text_lines(license_type, version):
+    str_lines = []
+    if license_type == "pro":
+        str_lines.append("Blend4Web PRO " + version + os.linesep)
+    elif license_type == "ce":
+        str_lines.append("Blend4Web CE " + version + os.linesep)
+
+    return str_lines
+
+def get_comment(text_lines, file_type):
     out_str = ""
     if file_type == ".py":
-        for line in lic_lines:
+        for line in text_lines:
             out_str += "# " + line
         out_str += os.linesep * 2
     elif file_type == ".js":
         out_str += "/**" + os.linesep
-        for line in lic_lines:
+        for line in text_lines:
             out_str += ' * ' + line
-        out_str += ' */' + os.linesep * 2
-
-    out_str += in_str
+        out_str += ' */' + os.linesep
     return out_str
 
 def check_path(path, pos_patterns, neg_patterns):

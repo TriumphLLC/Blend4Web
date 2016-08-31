@@ -22,6 +22,8 @@
 
     * 更新 SDK
 
+    * Updating the Addon
+
     * 导出和查看场景
 
 
@@ -107,15 +109,79 @@ Switching to Blend4Web Mode
 
 在更新之前，我们建议您使用 project export 工具备份的所有开发中的项目.
 
-有两种方法来更新 SDK。
+To update the SDK, follow these steps:
 
-首先，可以完全删除 SDK 文件夹中，在那之后，提取新版本文件夹并将路径设
-置为它在Blender设置，就像你第一次安装 SDK一样。
+1. Download the new version of the SDK.
 
-第二，你可以简单地使用新的覆盖过时的 SDK 文件。此方法被认为是不太 "纯
-净"，但在大多数情况下，它不应导致任何问题。
+2. 打开Blender。
+
+3. Open the "User Preferences" window.
+
+4. Open the "Add-ons" panel.
+
+5. Disable "Blend4Web" Add-on.
+
+6. Unpack the new version of the SDK from the archive.
+
+      注解: There are two methods to do this.Firstly, you can
+        completely delete the SDK folder and, after that, extract the
+        new version folder, as if you were installing the SDK for the
+        first time. 第二，你可以简单地使用新的覆盖过时的 SDK 文件。此
+        方法被认为是 不太 "纯净"，但在大多数情况下，它不应导致任何问题
+        。
+
+7. Open the "File" panel in the "User Preferences" window.
+
+8. Set the path to the SDK folder in the "Scripts" field.
+
+9. Press the "Save User Settings" button.
+
+10. 重新启动Blender。
+
+11. Open the "User Preferences" window once again.
+
+12. Open the "Add-ons" panel.
+
+13. Enable "Blend4Web" add-on.
+
+14. Press the "Save User Settings" button once again.
+
+15. Check if everything works correctly.
 
 完成更新后，您可以使用 项目导入 工具导入所有已保存的项目。
+
+
+Updating the Addon
+------------------
+
+If you are only using the Blend4Web add-on, follow this instruction
+instead.
+
+Before installing a new version of the add-on, you may firstly remove
+the existing one. To do this, unfold the information tab of the
+Blend4Web addon and press the "Remove" button. Removing the old
+version is not required before installing a new one, but doing so
+makes sure there won't be any coflicts.
+
+[图片]
+
+1. Download the archive that contains the new version of the add-
+   on, and save it to any place on your hard drive.
+
+2. 打开Blender。
+
+3. Open the "User Preferences" window.
+
+4. Switch to the "Add-ons" panel.
+
+5. Install the new version of the add-on from the archive you
+   downloaded.
+
+6. Press the "Save User Settings button".
+
+7. 重新启动Blender。
+
+Everything should be working now.
 
 
 导出和查看场景

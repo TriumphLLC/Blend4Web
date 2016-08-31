@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -144,18 +143,15 @@ exports.timeEnd = function() {
 }
 
 exports.group = function() {
-    if (_verbose)
-        console.group.apply(console, arguments);
+    console.group.apply(console, arguments);
 }
 
 exports.groupCollapsed = function() {
-    if (_verbose)
-        console.groupCollapsed.apply(console, arguments);
+    console.groupCollapsed.apply(console, arguments);
 }
 
 exports.groupEnd = function() {
-    if (_verbose)
-        console.groupEnd.apply(console, arguments);
+    console.groupEnd.apply(console, arguments);
 }
 
 exports.clear = function() {

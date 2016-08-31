@@ -890,7 +890,7 @@ class B4W_SkySettings(bpy.types.PropertyGroup):
     reflexible = bpy.props.BoolProperty(
         name = _("B4W: reflexible"),
         description = _("Sky will be rendered during the reflection pass"),
-        default = False,
+        default = True,
         options = set()
     )
 
@@ -1478,8 +1478,8 @@ def remove_speaker_props():
     del bpy.types.Speaker.b4w_fade_in
     del bpy.types.Speaker.b4w_fade_out
     del bpy.types.Speaker.b4w_loop
-    del bpy.types.Speaker.b4w_loop_count
-    del bpy.types.Speaker.b4w_loop_count_random
+    del bpy.types.Speaker.b4w_loop_start
+    del bpy.types.Speaker.b4w_loop_end
 
 def remove_material_props():
     del bpy.types.Material.b4w_water
@@ -1589,10 +1589,14 @@ def remove_camera_props():
     del bpy.types.Camera.b4w_rotation_down_limit
     del bpy.types.Camera.b4w_rotation_up_limit
     del bpy.types.Camera.b4w_vertical_clamping_type
-    del bpy.types.Camera.b4w_dof_front
-    del bpy.types.Camera.b4w_dof_rear
+    del bpy.types.Camera.b4w_dof_front_start
+    del bpy.types.Camera.b4w_dof_front_end
+    del bpy.types.Camera.b4w_dof_rear_start
+    del bpy.types.Camera.b4w_dof_rear_end
     del bpy.types.Camera.b4w_dof_power
     del bpy.types.Camera.b4w_dof_bokeh
+    del bpy.types.Camera.b4w_dof_bokeh_intensity
+    del bpy.types.Camera.b4w_dof_foreground_blur
 
 
 def remove_lamp_props():
@@ -2323,9 +2327,9 @@ def add_camera_properties():
         options = set()
     )
 
-    cam_type.b4w_dof_front = bpy.props.FloatProperty(
-        name = _("B4W: DOF front distance"),
-        description = _("Distance to the front DOF plane"),
+    cam_type.b4w_dof_front_start = bpy.props.FloatProperty(
+        name = _("B4W: DOF front start distance"),
+        description = _("Distance to the front starting DOF plane"),
         default = 1.0,
         min = 0.0,
         soft_min = 0.0,
@@ -2335,10 +2339,34 @@ def add_camera_properties():
         options = set()
     )
 
-    cam_type.b4w_dof_rear = bpy.props.FloatProperty(
-        name = _("B4W: DOF rear distance"),
-        description = _("Distance to the rear DOF plane"),
+    cam_type.b4w_dof_front_end = bpy.props.FloatProperty(
+        name = _("B4W: DOF front full strength distance"),
+        description = _("Distance to the front max blur DOF plane"),
+        default = 5.0,
+        min = 0.0,
+        soft_min = 0.0,
+        max = 100000.0,
+        soft_max = 100.0,
+        precision = 3,
+        options = set()
+    )
+
+    cam_type.b4w_dof_rear_start= bpy.props.FloatProperty(
+        name = _("B4W: DOF rear start distance"),
+        description = _("Distance to the rear starting DOF plane"),
         default = 1.0,
+        min = 0.0,
+        soft_min = 0.0,
+        max = 100000.0,
+        soft_max = 100.0,
+        precision = 3,
+        options = set()
+    )
+
+    cam_type.b4w_dof_rear_end = bpy.props.FloatProperty(
+        name = _("B4W: DOF rear full strength distance"),
+        description = _("Distance to the rear max blur DOF plane"),
+        default = 5.0,
         min = 0.0,
         soft_min = 0.0,
         max = 100000.0,
@@ -2353,8 +2381,8 @@ def add_camera_properties():
         default = 2.0,
         min = 0.1,
         soft_min = 0.1,
-        max = 20.0,
-        soft_max = 20.0,
+        max = 10.0,
+        soft_max = 10.0,
         precision = 2,
         options = set()
     )
@@ -2362,6 +2390,25 @@ def add_camera_properties():
     cam_type.b4w_dof_bokeh = bpy.props.BoolProperty(
         name = _("B4W: DOF bokeh"),
         description = _("Enable bokeh effect"),
+        default = False,
+        options = set()
+    )
+
+    cam_type.b4w_dof_bokeh_intensity = bpy.props.FloatProperty(
+        name = _("B4W: DOF bokeh intensity"),
+        description = _("Strength of bokeh effect"),
+        default = 0.3,
+        min = 0.0,
+        soft_min = 0.0,
+        max = 1.0,
+        soft_max = 1.0,
+        precision = 2,
+        options = set()
+    )
+
+    cam_type.b4w_dof_foreground_blur = bpy.props.BoolProperty(
+        name = _("B4W: DOF foreground blur"),
+        description = _("Blur foregriund silhouettes"),
         default = False,
         options = set()
     )
@@ -2458,6 +2505,13 @@ def add_object_properties():
     obj_type.b4w_do_not_render = bpy.props.BoolProperty(
         name = _("B4W: do not render"),
         description = _("Object will not be rendered"),
+        default = False,
+        options = set()
+    )
+
+    obj_type.b4w_hidden_on_load = bpy.props.BoolProperty(
+        name = _("B4W: hidden"),
+        description = _("Object will be hidden on load"),
         default = False,
         options = set()
     )

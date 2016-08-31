@@ -41,6 +41,8 @@ def help():
 
     check_dependencies    check converter dependencies
 
+    compress_png          compress PNG images (requires OptiPNG in the PATH variable)
+
 options:
     -d, --dir dir_path    specify alternative directory with converted files
     -j, --jobs jobs       specify the number of jobs to run simultaneously
@@ -77,6 +79,8 @@ def check_dependencies(dependencies):
             needed_progs["NVIDIA Texture Tools"] = True
         elif dep == "qt-faststart":
             needed_progs["Qt-faststart (optional)"] = True
+        elif dep == "optipng":
+            needed_progs["OptiPNG"] = True
     for prog in needed_progs:
         print("Couldn't find", prog)
     if len(missing_progs) > 0:
@@ -89,6 +93,21 @@ def get_missing_progs(dependencies):
         if not shutil.which(dep):
             missing_progs.append(dep)
     return missing_progs
+
+def compress_png_handler(args):
+    root = args["root"]
+    filename = args["filename"]
+    compress = args["compress_png"]
+
+    head_ext = os.path.splitext(filename)
+    head = head_ext[0]
+    ext = head_ext[1]
+    ext_low = ext.lower()
+
+    if ext_low == ".png":
+        img_path = os.path.join(root, filename)
+        ret = subprocess.call([compress, "-o7", img_path])
+        print_flush()
 
 def resize_textures_handler(args):
     root = args["root"]
@@ -242,29 +261,14 @@ def check_alpha_usage(path, ext, convert, identify):
 
     proc = subprocess.check_output([identify, "-format", '%A', path])
     use_alpha = proc.decode("utf-8")
-
     if 'True' in use_alpha or 'Blend' in use_alpha:
-        # HACK: Temporary alpha scale workaround
-        return True
-        proc = subprocess.check_output([convert, path, "-scale", "1x1", "txt:-"])
-        image_info_str = proc.decode("utf-8")
-
-        alpha_str = get_last_substring(image_info_str, ",", ")")
-        alpha = float(alpha_str)
-
-        if alpha != 1:
+        proc = subprocess.check_output([convert, path, "-format", "%[opaque]", "info:"])
+        opaque = proc.decode("utf-8")
+        if opaque == "false":
             return True
-
         print(YELLOW + "[ALPHA UNUSED]" + ENDCOL, path, WHITE, file=sys.stderr)
 
     return False
-
-
-def get_last_substring(source, start, end):
-
-    start_pos = source.rindex(start) + len(start)
-    end_pos   = source.rindex(end)
-    return source[start_pos : end_pos]
 
 def is_older(path, path2):
     """Check if path is older than path2
@@ -305,10 +309,8 @@ def convert_media_handler(args):
 
         path_from = os.path.join(root, filename)
 
-        has_audio, has_video = has_streams(media_data, path_from)
-
-        print("converting media", path_from)
-
+        has_audio, has_video = has_streams(media_data, path_from, verbose)
+    
         if has_audio:
             if ext_low == ".ogg" or ext_low == ".ogv" or ext_low == ".oga":
                 new_ext = ".m4a"
@@ -324,6 +326,8 @@ def convert_media_handler(args):
             # optimization: only convert modified src files (like make)
             if is_older(path_from, path_to):
                 return
+
+            print("converting media (audio)", path_from)
 
             if media_conv(path_from, path_to, media_converter, verbose,
                     has_video, False):
@@ -346,6 +350,7 @@ def convert_media_handler(args):
 
             # optimization: only convert modified src files (like make)
             if not is_older(path_from, path_to):
+                print("converting media (video)", path_from)
                 if media_conv(path_from, path_to, media_converter, verbose, False,
                         True):
                     print("conversion error", file=sys.stderr)
@@ -407,8 +412,15 @@ def media_conv(path_from, path_to, media_converter, verbose, cut_video, is_video
 
     return subprocess.call(args)
 
-def has_streams(media_data, path):
+def has_streams(media_data, path, verbose):
     args = [media_data, "-show_streams", path]
+
+    if verbose:
+        args += ["-loglevel", "info"]
+        print(" ".join(args))
+    else:
+        args += ["-loglevel", "warning"]
+
     ret = str(subprocess.check_output(args))
     return ret.find("audio") > 0, ret.find("video") > 0
 
@@ -610,6 +622,11 @@ if __name__ == "__main__":
     elif task == "cleanup_dds":
         handler = cleanup_dds_handler
 
+    elif task == "compress_png":
+        if not check_dependencies(["optipng"]):
+            sys.exit(1)
+        handler = compress_png_handler
+
     elif task == "check_dependencies":
         if check_dependencies(DEPENDENCIES):
             print("All programs have been installed.")
@@ -647,6 +664,7 @@ if __name__ == "__main__":
                 "ffmpeg", "ffprobe.exe"))
         handler_args["faststart"] = os.path.normpath(os.path.join(PATH_TO_UTILS_WIN,
                 "qt-faststart", "qt-faststart.exe"))
+    handler_args["compress_png"] = "optipng";
 
     args_list = []
 

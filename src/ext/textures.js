@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -160,6 +159,18 @@ exports.change_image = function(obj, text_name, image_path, callback) {
                 m_print.error("Couldn't find texture with this name: " + text_name);
     }
     m_assets.enqueue([asset], asset_cb, null, null);
+}
+/**
+ * Get texture names.
+ * @method module:textures.get_texture_names
+ * @param {Object3D} obj Object 3D
+ * @returns {Array} Texture names array
+ */
+exports.get_texture_names = function(obj) {
+    if (!m_obj_util.is_mesh(obj))
+        m_print.error("Object must be type of mesh.");
+    else
+        return m_textures.get_texture_names(obj);
 }
 
 }

@@ -2,13 +2,16 @@
 
 b4w.register("change_image", function(exports, require) {
 
-var m_data   = require("data");
-var m_app    = require("app");
-var m_cfg    = require("config");
-var m_cont   = require("container");
-var m_mouse  = require("mouse");
-var m_tex    = require("textures");
-var m_scenes = require("scenes");
+var m_data    = require("data");
+var m_app     = require("app");
+var m_cfg     = require("config");
+var m_cont    = require("container");
+var m_mouse   = require("mouse");
+var m_tex     = require("textures");
+var m_scenes  = require("scenes");
+var m_version = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/change_image/";
 
@@ -35,6 +38,8 @@ exports.init = function() {
         alpha: true,
         show_fps: true,
         autoresize: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         console_verbose: true
     });
 }

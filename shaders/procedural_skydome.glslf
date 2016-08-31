@@ -1,3 +1,5 @@
+#version GLSL_VERSION
+
 #include <precision_statement.glslf>
 #include <color_util.glslf>
 
@@ -15,7 +17,15 @@ uniform float u_mie_collection_power;
 uniform float u_mie_distribution;
 //vec3 Kr = vec3(0.18867780436772762, 0.4978442963618773, 0.6616065586417131); // air
 
-varying vec3 v_ray;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 v_ray;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*============================================================================*/
 
 const float surface_height = 0.99;
 const float intensity = 1.8;
@@ -62,6 +72,10 @@ float horizon_extinction(vec3 position, vec3 dir, float radius) {
 vec3 absorb(float dist, vec3 color, float factor){
     return color-color*pow(u_sky_color, vec3(factor/dist));
 }
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
 
@@ -114,5 +128,5 @@ void main(void) {
                     + rayleigh_factor * rayleigh_collected);
 
     lin_to_srgb(color);
-    gl_FragColor = vec4(color, 1.0);
+    GLSL_OUT_FRAG_COLOR = vec4(color, 1.0);
 }

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -26,13 +25,14 @@
  */
 b4w.module["__geometry"] = function(exports, require) {
 
-var m_bounds= require("__boundings");
-var m_ext   = require("__extensions");
-var m_print = require("__print");
-var m_tsr   = require("__tsr");
-var m_util  = require("__util");
-var m_vec3  = require("__vec3");
+var m_bounds = require("__boundings");
+var m_ext    = require("__extensions");
+var m_print  = require("__print");
+var m_tsr    = require("__tsr");
+var m_util   = require("__util");
+var m_vec3   = require("__vec3");
 
+var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
@@ -51,6 +51,7 @@ var POS_NUM_COMP = 3;
 var NOR_NUM_COMP = 3;
 var TAN_NUM_COMP = 4;
 var COL_NUM_COMP = 3;
+var SHD_TAN_NUM_COMP = 3;
 
 // deprecated
 var INFLUENCE_NUM_COMP = 4;
@@ -76,17 +77,6 @@ var _gl = null;
 exports.setup_context = function(gl) {
     _gl = gl;
 }
-
-/**
- * not used so far
- */
-exports.delete_buffers = function(geometry_id) {
-    var buffers = _buffers[geometry_id];
-    _gl.deleteBuffer(buffers.ibo);
-    _gl.deleteBuffer(buffers.vbo);
-    delete _buffers[geometry_id];
-}
-
 
 /**
  * Convert mesh/material object to gl buffer data
@@ -308,8 +298,6 @@ function init_bufs_data() {
         ibo: null,
         info_for_z_sort_updates: null,
         shape_keys: null,
-        offset_buffer: null,
-        tsr_data_buff: null,
         instance_count: 1,
 
         cleanup_gl_data_on_unload: true
@@ -558,6 +546,10 @@ function append_inst_array_data(inst_ar_data, pointers, vbo_array, vbo_array_len
         var tsr = tsr_array[i];
         if (static_hair && em_tsr && !inst_ar_data.dyn_grass)
             tsr = m_tsr.multiply(em_tsr, tsr_array[i], _tsr_tmp);
+
+        if (!static_hair && inst_ar_data.dyn_grass)
+            m_vec3.subtract(tsr_array[i], em_tsr, tsr_array[i]);
+
         tsr_data.push(tsr[0], tsr[1], tsr[2], tsr[3],
                 tsr[4], tsr[5], tsr[6], tsr[7]);
         for (var name in part_inh_attrs) {
@@ -652,7 +644,6 @@ function calc_vbo_length(va_frames, va_common) {
  */
 exports.update_gl_buffers = update_gl_buffers;
 function update_gl_buffers(bufs_data) {
-
     // index buffer object
     if (bufs_data.ibo_array) {
 
@@ -701,8 +692,7 @@ exports.has_empty_submesh = function(mesh, index) {
 /**
  * Apply transforms and return
  */
-exports.submesh_apply_transform = submesh_apply_transform;
-function submesh_apply_transform(submesh, transform) {
+exports.submesh_apply_transform = function(submesh, transform) {
 
     var base_length = submesh.base_length;
 
@@ -718,6 +708,10 @@ function submesh_apply_transform(submesh, transform) {
         var tangents = submesh.va_frames[f]["a_tangent"];
         if (tangents.length > 0)
             m_tsr.transform_tangents(tangents, transform, tangents, 0);
+
+        var shade_tangs = submesh.va_frames[f]["a_shade_tangs"];
+        if (shade_tangs && shade_tangs.length > 0)
+            m_tsr.transform_dir_vectors(shade_tangs, transform, shade_tangs, 0);
     }
 
     // transform au_center_pos too
@@ -801,11 +795,11 @@ function submesh_list_join(submeshes) {
     var new_submesh = submesh_list_join_prepare_dest(submeshes);
 
     var new_submesh_bd = new_submesh.submesh_bd;
-    new_submesh_bd.bb_world = m_util.clone_object_r(submesh0.submesh_bd.bb_world);
-    new_submesh_bd.be_world = m_util.clone_object_r(submesh0.submesh_bd.be_world);
+    new_submesh_bd.bb_world = m_bounds.clone_bb(submesh0.submesh_bd.bb_world);
+    new_submesh_bd.be_world = m_bounds.clone_be(submesh0.submesh_bd.be_world);
 
-    new_submesh_bd.bb_local = m_util.clone_object_r(submesh0.submesh_bd.bb_local);
-    new_submesh_bd.be_local = m_util.clone_object_r(submesh0.submesh_bd.be_local);
+    new_submesh_bd.bb_local = m_bounds.clone_bb(submesh0.submesh_bd.bb_local);
+    new_submesh_bd.be_local = m_bounds.clone_be(submesh0.submesh_bd.be_local);
     // indices
     var i_offset = 0;
     var v_ind_offset = 0;
@@ -886,8 +880,8 @@ function submesh_list_join(submeshes) {
             v_ind_offset += base_length;
         }
     }
-    new_submesh.submesh_bd.be_world = m_bounds.create_bounding_ellipsoid_by_bb(
-            bounding_verts, true);
+    new_submesh.submesh_bd.be_world = m_bounds.create_be_by_bb(
+            m_util.f32(bounding_verts), true);
 
     if (new_submesh.shape_keys.length > 0)
         for (var i = 0; i < new_submesh.shape_keys.length; i++) {
@@ -1094,9 +1088,9 @@ exports.make_clone_submesh = function(src_submesh, params, transforms, em_obj) {
 exports.calc_unit_boundings = calc_unit_boundings;
 function calc_unit_boundings(em_obj, src_submesh, new_submesh, transforms) {
     var submesh_bd = new_submesh.submesh_bd;
-    var bb_tmp = m_bounds.zero_bounding_box();
+    var bb_tmp = m_bounds.create_bb();
     if (!submesh_bd.bb_world)
-        submesh_bd.bb_world = m_bounds.zero_bounding_box();
+        submesh_bd.bb_world = m_bounds.create_bb();
     var bounding_verts = [];
     var count = transforms.length;
     for (var i = 0; i < count; i++) {
@@ -1110,7 +1104,7 @@ function calc_unit_boundings(em_obj, src_submesh, new_submesh, transforms) {
         for (var j = 0; j < _bb_corners_tmp.length; j++)
             bounding_verts.push(_bb_corners_tmp[j])
     }
-    submesh_bd.be_world = m_bounds.create_bounding_ellipsoid_by_bb(bounding_verts, true);
+    submesh_bd.be_world = m_bounds.create_be_by_bb(m_util.f32(bounding_verts), true);
     submesh_bd.be_local = m_bounds.calc_be_local_by_tsr(submesh_bd.be_world,
         em_obj.render.world_tsr);
 }
@@ -1199,6 +1193,11 @@ function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
     else
         var use_tangent = false;
 
+    if (has_attr(attr_names, "a_shade_tangs") && bsub["shade_tangs"].length)
+        var use_tangent_shading = true;
+    else
+        var use_tangent_shading = false;
+
     var texslot = mat["texture_slots"][0];
     if (use_normal && mat["texture_slots"].length && has_attr(attr_names, "a_tangent") &&
              texslot["texture_coords"] == "ORCO" && texslot["use_map_normal"])
@@ -1211,7 +1210,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
 
     for (var i = 0; i < frames; i++) {
         var va_frame = create_frame(submesh, bsub, attr_names, base_length, use_normal,
-                use_tangent, use_orco_nmap_coords, i, mesh["name"]);
+                use_tangent, use_tangent_shading, use_orco_nmap_coords, i, mesh["name"]);
         if (use_shape_keys) {
             var sk_frame = {};
             sk_frame.name = mesh["b4w_shape_keys"][i]["name"];
@@ -1223,7 +1222,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
             } else {
                 // NOTE: create new object for base shape key geometry
                 sk_frame.geometry = create_frame(submesh, bsub, attr_names, base_length, use_normal,
-                        use_tangent, use_orco_nmap_coords, i, mesh["name"]);
+                        use_tangent, use_tangent_shading, use_orco_nmap_coords, i, mesh["name"]);
                 sk_frame.init_value = 1;
             }
         }
@@ -1263,7 +1262,7 @@ function submesh_bd_to_b4w(submesh_bd) {
             min_y : submesh_bd["bounding_box"]["min_y"],
             min_z : submesh_bd["bounding_box"]["min_z"]
         },
-        be_local : m_bounds.create_bounding_ellipsoid(
+        be_local : m_bounds.be_from_values(
                     [be_axes[0], 0, 0], [0, be_axes[1], 0], [0, 0, be_axes[2]],
                     submesh_bd["bounding_ellipsoid_center"], [0, 0, 0, 1]),
         bb_world : null,
@@ -1272,7 +1271,7 @@ function submesh_bd_to_b4w(submesh_bd) {
 }
 
 function create_frame(submesh, bsub, attr_names, base_length, use_normal,
-        use_tangent, use_orco_nmap_coords, frame_index, mesh_name) {
+        use_tangent, use_tangent_shading, use_orco_nmap_coords, frame_index, mesh_name) {
 
     var va_frame = {};
 
@@ -1300,6 +1299,13 @@ function create_frame(submesh, bsub, attr_names, base_length, use_normal,
         var tan_arr = new Float32Array(base_length * TAN_NUM_COMP);
         for (var i = 0; i < tan_arr.length; i++)
             tan_arr[i] = 1.0;
+    }
+
+    if (use_tangent_shading) {
+        var shading_tan_arr = new Float32Array(base_length * SHD_TAN_NUM_COMP);
+        var to_index = base_length * SHD_TAN_NUM_COMP;
+        shading_tan_arr.set(bsub["shade_tangs"].subarray(0, to_index), 0);
+        va_frame["a_shade_tangs"] = shading_tan_arr;
     }
 
     va_frame["a_position"] = pos_arr;
@@ -1571,7 +1577,6 @@ exports.extract_halo_submesh = function(submesh) {
     }
 
     var halo_submesh = m_util.create_empty_submesh("HALO");
-    halo_submesh.va_frames = [];
     halo_submesh.va_frames[0] = {};
 
     halo_submesh.base_length = 4 * base_length;
@@ -2560,6 +2565,51 @@ exports.draw_line = function(batch, positions, is_split) {
 
         update_gl_buffers(bufs_data);
     }
+}
+
+exports.clone_bufs_data = function(bufs_data) {
+    var out = init_bufs_data();
+
+    if (bufs_data.ibo_array)
+        switch (bufs_data.ibo_type) {
+            case _gl.UNSIGNED_SHORT:
+                out.ibo_array = new Uint16Array(bufs_data.ibo_array);
+                break;
+            case _gl.UNSIGNED_INT:
+                out.ibo_array = new Uint32Array(bufs_data.ibo_array);
+                break;
+        }
+    else
+        out.ibo_array = null;
+
+    if (bufs_data.vbo_array)
+        out.vbo_array = new Float32Array(bufs_data.vbo_array);
+    else
+        out.vbo_array = null;
+
+    out.ibo_type = bufs_data.ibo_type;
+    out.count = bufs_data.count;
+    out.pointers = m_util.clone_object_r(bufs_data.pointers);
+    out.mode = bufs_data.mode;
+    out.usage = bufs_data.usage;
+    out.debug_ibo_bytes = bufs_data.debug_ibo_bytes;
+    out.debug_vbo_bytes = bufs_data.debug_vbo_bytes;
+
+    // NOTE: update geometry will be later (c)
+    out.vbo = null;
+    out.ibo = null;
+
+    out.info_for_z_sort_updates = m_util.clone_object_r(bufs_data.info_for_z_sort_updates);
+    out.shape_keys = m_util.clone_object_r(bufs_data.shape_keys);
+
+    out.instance_count = bufs_data.instance_count;
+
+    out.cleanup_gl_data_on_unload = bufs_data.cleanup_gl_data_on_unload;
+    return out;
+}
+
+exports.reset = function() {
+    _gl = null;
 }
 
 }

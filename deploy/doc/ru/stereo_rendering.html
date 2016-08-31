@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Стереоизображение &mdash; Руководство пользователя Blend4Web 16.07</title>
+  <title>Стереоизображение &mdash; Руководство пользователя Blend4Web 16.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.07" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
         <link rel="next" title="Текстуры" href="textures.html"/>
         <link rel="prev" title="Спецэффекты" href="postprocessing_effects.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -168,17 +168,17 @@
            <div itemprop="articleBody">
             
   <div class="section" id="stereo-rendering">
-<span id="stereo"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id1">Стереоизображение</a><a class="headerlink" href="#stereo-rendering" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="stereo"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">Стереоизображение</a><a class="headerlink" href="#stereo-rendering" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#stereo-rendering" id="id1">Стереоизображение</a><ul>
-<li><a class="reference internal" href="#activation" id="id2">Активация</a></li>
-<li><a class="reference internal" href="#additional-settings" id="id3">Дополнительные настройки</a></li>
-<li><a class="reference internal" href="#hmd-settings" id="id4">Настройки HMD</a><ul>
-<li><a class="reference internal" href="#profile" id="id5">Profile</a></li>
-<li><a class="reference internal" href="#rendering-settings" id="id6">Настройки рендеринга</a></li>
-<li><a class="reference internal" href="#other-control-tools" id="id7">Другие иструменты управления</a></li>
+<li><a class="reference internal" href="#stereo-rendering" id="id2">Стереоизображение</a><ul>
+<li><a class="reference internal" href="#activation" id="id3">Активация</a></li>
+<li><a class="reference internal" href="#additional-settings" id="id4">Дополнительные настройки</a></li>
+<li><a class="reference internal" href="#hmd-settings" id="id5">Настройки HMD</a><ul>
+<li><a class="reference internal" href="#profile" id="id6">Profile</a></li>
+<li><a class="reference internal" href="#rendering-settings" id="id7">Настройки рендеринга</a></li>
+<li><a class="reference internal" href="#other-control-tools" id="id8">Другие иструменты управления</a></li>
 </ul>
 </li>
 </ul>
@@ -187,16 +187,16 @@
 </div>
 <p>Режим стереоизображения предназначен для просмотра контента в специальных очках и активируется приложением.</p>
 <p>Blend4Web поддерживает два стереорежима - анаглифное изображение и HMD (Head-mounted display, шлем виртуальной реальности).</p>
-<p>Анаглиф:</p>
+<p id="anaglyph">Анаглиф:</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_anaglyph.png"><img alt="_images/postprocessing_effects_anaglyph.png" class="align-center" src="_images/postprocessing_effects_anaglyph.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>HMD:</p>
+<p id="hmd">HMD:</p>
 <a class="reference internal image-reference" href="_images/postprocessing_effects_stereo.png"><img alt="_images/postprocessing_effects_stereo.png" class="align-center" src="_images/postprocessing_effects_stereo.png" style="width: 100%;" /></a>
 <p>HMD - экспериментальная возможность, она работает только с камерами типа <code class="docutils literal"><span class="pre">Eye</span></code>.</p>
 <div class="section" id="activation">
-<h2><a class="toc-backref" href="#id2">Активация</a><a class="headerlink" href="#activation" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">Активация</a><a class="headerlink" href="#activation" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для работы стереорежима HMD нужно установить <a class="reference external" href="https://developer.oculus.com/downloads/">runtime-утилиту</a> от Oculus (поддерживаются две версии: <cite>chromium_webvr_v1_win64.7z</cite> в корневой директории и версия в папке <cite>Deprecated API</cite>). Версии для Windows и MacOS присутствуют на сайте Oculus в бинарном формате, версию утилиты для Linux пользователю понадобится собирать из исходников самостоятельно.</p>
 <p>На сегодняшний день HMD поддерживается в экспериментальных сборках <a class="reference external" href="https://webvr.info/get-chrome/">Chromium</a> и в nightly build <a class="reference external" href="https://nightly.mozilla.org/">Firefox</a>.</p>
 <p><a class="reference external" href="https://docs.google.com/document/d/1g02qHfX85vSRSOkWm9k33I0b7VuyN79md9U9t6MIa4E/edit">Настройки Chromium.</a></p>
@@ -206,17 +206,17 @@
 <p>Для корректной работы рекомендуется включить полноэкранный режим.</p>
 </div>
 <div class="section" id="additional-settings">
-<h2><a class="toc-backref" href="#id3">Дополнительные настройки</a><a class="headerlink" href="#additional-settings" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">Дополнительные настройки</a><a class="headerlink" href="#additional-settings" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Отсутствуют.</p>
 </div>
 <div class="section" id="hmd-settings">
-<h2><a class="toc-backref" href="#id4">Настройки HMD</a><a class="headerlink" href="#hmd-settings" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id5">Настройки HMD</a><a class="headerlink" href="#hmd-settings" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/hmd_settings.png"><img alt="_images/hmd_settings.png" class="align-center" src="_images/hmd_settings.png" style="width: 100%;" /></a>
 <p>Эта группа настроек позволяет пользователю регулировать различные параметры для максимально комфортного просмотра 3D-сцены или приложения на своём VR-устройстве. Получить доступ к настройкам можно двумя способами:</p>
-<p>Во-первых, с помощью панели Stereo View в <a class="reference internal" href="viewer.html#viewer"><span>Просмотрщике сцен Blend4Web</span></a>.</p>
+<p>Во-первых, с помощью <a class="reference internal" href="viewer.html#stereo-view"><span>панели Stereo View</span></a> в <a class="reference internal" href="viewer.html#viewer"><span>Просмотрщике сцен Blend4Web</span></a>.</p>
 <p>Во-вторых, с использованием в приложении метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html#.show">show</a> из модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-hmd_conf.html">hmd_conf</a>, для чего требуется написание программного кода. Примеры испльзования этого метода можно увидеть в приложениях <code class="docutils literal"><span class="pre">viewer.js</span></code> и  <code class="docutils literal"><span class="pre">webplayer.js</span></code> (в объекте <code class="docutils literal"><span class="pre">m_hmd_conf</span></code>).</p>
 <div class="section" id="profile">
-<h3><a class="toc-backref" href="#id5">Profile</a><a class="headerlink" href="#profile" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Profile</a><a class="headerlink" href="#profile" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет пользователю выбрать профиль для определённого устройства. На сегодняшний день поддерживаются следующие профили:</p>
 <blockquote>
 <div><ul class="simple">
@@ -228,7 +228,7 @@
 <p>По умолчанию выбран профиль <cite>Custom</cite>.</p>
 </div>
 <div class="section" id="rendering-settings">
-<h3><a class="toc-backref" href="#id6">Настройки рендеринга</a><a class="headerlink" href="#rendering-settings" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Настройки рендеринга</a><a class="headerlink" href="#rendering-settings" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Tray to lens-center distance</em></dt>
 <dd><p class="first">Задаёт расстояние между корпусом телефона и линзами камеры.</p>
@@ -261,7 +261,7 @@
 </dl>
 </div>
 <div class="section" id="other-control-tools">
-<h3><a class="toc-backref" href="#id7">Другие иструменты управления</a><a class="headerlink" href="#other-control-tools" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Другие иструменты управления</a><a class="headerlink" href="#other-control-tools" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Save</em></dt>
 <dd><p class="first last">Сохраняет настройки.</p>
@@ -297,7 +297,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-07-26.
+      Обновлено: 2016-08-31.
 
     </p>
   </div>
@@ -353,7 +353,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

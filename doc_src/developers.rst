@@ -932,7 +932,7 @@ SDK File Structure
         script starting the local web server which calculates complexity of the shaders
 
     **translator.py**
-        script for building addon translations
+        script for building add-on translations
 
 **shaders**
     GLSL shaders of the engine
@@ -941,7 +941,7 @@ SDK File Structure
     main source code of the engine's kernel
 
     **addons** 
-        source code of engine addons
+        source code of engine add-ons
 
     **ext**
         source code of the external declarations that form the engine's API

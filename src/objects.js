@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -50,13 +49,12 @@ var m_util       = require("__util");
 var m_vec3       = require("__vec3");
 var m_armat      = require("__armature");
 var m_anchors    = require("__anchors");
+var m_render     = require("__renderer");
 
 var cfg_def = m_cfg.defaults;
 var cfg_out = m_cfg.outlining;
 
 var DEBUG_DISABLE_STATIC_OBJS = false;
-var DEFAULT_LOD_DIST_MAX = -1;
-exports.DEFAULT_LOD_DIST_MAX = DEFAULT_LOD_DIST_MAX;
 
 var _all_objects = {"ALL": []};
 
@@ -276,7 +274,7 @@ exports.update_object = function(bpy_obj, obj) {
         render.detail_bending_freq = bpy_obj["b4w_detail_bending_freq"];
         render.detail_bending_amp  = bpy_obj["b4w_detail_bending_amp"];
         render.branch_bending_amp  = bpy_obj["b4w_branch_bending_amp"];
-        render.hide = false;
+        render.hide = bpy_obj["b4w_hidden_on_load"];
 
         render.main_bend_col = bpy_obj["b4w_main_bend_stiffness_col"];
         var bnd_st = bpy_obj["b4w_detail_bend_colors"];
@@ -296,19 +294,17 @@ exports.update_object = function(bpy_obj, obj) {
         render.elasticity = first_mat["physics"]["elasticity"];
 
         render.lod_dist_min = 0;
-        render.lod_dist_max = DEFAULT_LOD_DIST_MAX;
+        render.lod_dist_max = m_obj_util.LOD_DIST_MAX_INFINITY;
         render.lod_transition_ratio = bpy_obj["b4w_lod_transition"];
         render.last_lod = true;
         break;
 
     case "LINE":
         render.do_not_cull = true;
-        render.bb_local = m_bounds.zero_bounding_box();
-        render.bs_local = m_bounds.zero_bounding_sphere();
-        render.be_local = m_bounds.zero_bounding_ellipsoid();
-        render.bb_world = m_bounds.zero_bounding_box();
-        render.bs_world = m_bounds.zero_bounding_sphere();
-        render.be_world = m_bounds.zero_bounding_ellipsoid();
+        render.bb_local = m_bounds.create_bb();
+        render.be_local = m_bounds.create_be();
+        render.bb_world = m_bounds.create_bb();
+        render.be_world = m_bounds.create_be();
         break;
 
     case "CAMERA":
@@ -337,10 +333,10 @@ exports.update_object = function(bpy_obj, obj) {
 
     case "EMPTY":
         // NOTE: center = 1/2 height
-        var bb = m_bounds.zero_bounding_box();
+        var bb = m_bounds.create_bb();
         render.bb_local = bb;
 
-        var bs = m_bounds.zero_bounding_sphere();
+        var bs = m_bounds.create_bs();
         render.bs_local = bs;
 
         if (bpy_obj["field"])
@@ -663,6 +659,8 @@ exports.update_objects_dynamics = function(objects) {
 
 function calc_is_dynamic(bpy_obj, obj) {
     // NOTE: need hierarhical objects structure here
+    if (bpy_obj["b4w_hidden_on_load"])
+        return true;
     if (bpy_obj["dg_parent"] && bpy_obj["dg_parent"]._is_dynamic)
         return true;
     if (bpy_obj["parent"] && bpy_obj["parent"]._is_dynamic)
@@ -740,6 +738,12 @@ function has_dynamic_nodes(node_tree) {
                     && !(convert_from == "WORLD" && convert_to == "CAMERA")
                     && !(convert_from == "CAMERA" && convert_to == "WORLD")
                     && !(convert_from == "OBJECT" && convert_to == "OBJECT"))
+                return true;
+        }
+        if (node["type"] == "NORMAL_MAP") {
+            var space = node["space"];
+            var output = node.outputs[0];
+            if (output.is_linked && (space == "OBJECT" || space == "BLENDER_OBJECT"))
                 return true;
         }
     }
@@ -878,7 +882,7 @@ function copy_object(obj, new_name, deep_copy) {
     new_obj.is_hair_dupli = obj.is_hair_dupli;
     new_obj.use_default_animation = obj.use_default_animation;
 
-    new_obj.render = m_obj_util.copy_object_props_by_value(obj.render);
+    new_obj.render = m_obj_util.clone_render(obj.render);
     new_obj.metatags = m_obj_util.copy_object_props_by_value(obj.metatags);
 
     copy_scene_data(obj, new_obj);
@@ -907,6 +911,9 @@ function copy_object(obj, new_name, deep_copy) {
 
     copy_batches(obj, new_obj, deep_copy);
 
+    if (!deep_copy)
+        new_obj.render.do_not_use_be = true;
+
     // disable scene data for the new obj until appending it to the scene
     m_obj_util.scene_data_set_active(new_obj, false);
 
@@ -929,6 +936,7 @@ function copy_batches(obj, new_obj, deep_copy) {
             for (var j = 0; j < batches.length; j++)
                 if (!batches[j].forked_batch) {
                     var new_batch = m_obj_util.copy_object_props_by_value(batches[j]);
+                    new_batch.bufs_data = m_geom.clone_bufs_data(batches[j].bufs_data);
                     new_batches.push(new_batch);
                     bpy_bufs_data.push(batches[j].bufs_data);
                 }
@@ -946,6 +954,9 @@ function copy_batches(obj, new_obj, deep_copy) {
                 if (new_batches[j].bufs_data)
                     m_geom.update_gl_buffers(new_batches[j].bufs_data);
 
+                if (cfg_def.allow_vao_ext)
+                    m_render.assign_vao(new_batches[j]);
+
                 // to create unique batch ID
                 new_batches[j].odd_id_prop = new_obj.uuid;
                 m_batch.update_batch_id(new_batches[j],
@@ -955,7 +966,7 @@ function copy_batches(obj, new_obj, deep_copy) {
             m_tex.share_batch_canvas_textures(new_batches);
 
         } else
-            new_sc_data.batches = m_obj_util.copy_batches_props_by_link_nr(batches);
+            new_sc_data.batches = batches;
     }
 }
 
@@ -1201,8 +1212,7 @@ exports.update_boundings = function(obj) {
         bounding_verts.length = 0;
         for (var k = 0; k < _bb_corners_tmp.length; k++)
             bounding_verts.push(_bb_corners_tmp[k])
-        batch.be_world = m_bounds.create_bounding_ellipsoid_by_bb(
-                bounding_verts, true);
+        batch.be_world = m_bounds.create_be_by_bb(bounding_verts, true);
         batch.be_local = m_bounds.calc_be_local_by_tsr(batch.be_world,
                 render.world_tsr);
 
@@ -1352,12 +1362,12 @@ exports.update_boundings = function(obj) {
     m_batch.set_local_cylinder_capsule(render, c_rad, c_rad, bb_local);
 
     // bounding sphere
-    var bs_local = m_bounds.create_bounding_sphere(s_rad, bs_center);
+    var bs_local = m_bounds.bs_from_values(s_rad, bs_center);
     render.bs_local = bs_local;
 
     // bounding ellipsoid
-    var be_local = m_bounds.create_bounding_ellipsoid(
-            [be_axes[0], 0, 0], [0, be_axes[1], 0], [0, 0, be_axes[2]], be_center);
+    var be_local = m_bounds.be_from_values([be_axes[0], 0, 0],
+            [0, be_axes[1], 0], [0, 0, be_axes[2]], be_center);
     render.be_local = be_local;
 
     m_trans.update_transform(obj);
@@ -1432,6 +1442,28 @@ exports.get_all_objects = function(data_id) {
     return objs;
 }
 
+exports.get_first_character = function(scene) {
+
+    var mesh_objs = _all_objects["MESH"];
+
+    for (var i = 0; i < mesh_objs.length; i++) {
+        var obj = mesh_objs[i];
+
+        if (!m_phy.is_character(obj))
+            continue;
+
+        var scenes_data = obj.scenes_data;
+
+        for (var j = 0; j < scenes_data.length; j++) {
+            var sc_data = scenes_data[j];
+            if (sc_data.scene == scene)
+                return obj;
+        }
+    }
+
+    return null;
+}
+
 function sort_func(l1, l2) {
     if (l2.use_diffuse && l2.use_specular &&
         !(l1.use_diffuse && l1.use_specular))
@@ -1503,6 +1535,9 @@ exports.obj_switch_cleanup_flags = function(obj, cleanup_tex, cleanup_bufs,
 
             // ibo/vbo buffs
             batch.bufs_data.cleanup_gl_data_on_unload = cleanup_bufs;
+
+            // vao batch
+            batch.cleanup_gl_data_on_unload = cleanup_bufs;
 
             // shader
             batch.shader.cleanup_gl_data_on_unload = cleanup_shader;

@@ -1943,9 +1943,11 @@ def run_deploy(args, proj_path):
             ignore=shutil.ignore_patterns(*ignore))
 
     for assets_dir in assets_dirs:
-        if exists(assets_dir):
+        if exists(assets_dir) and assets_dir != build_proj_path:
             shutil.copytree(assets_dir, join(deploy_abs_path, assets_path_dest,
                     basename(normpath(assets_dir))))
+        else:
+            assets_path_prefix = ""
 
     if engine_type == "external":
         common_path = normpath(join(_base_dir, "deploy", "apps", "common"))

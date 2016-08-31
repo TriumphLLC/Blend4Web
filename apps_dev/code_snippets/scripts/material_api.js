@@ -2,12 +2,15 @@
 
 b4w.register("material_api", function(exports, require) {
 
-var m_data   = require("data");
-var m_app    = require("app");
-var m_cfg    = require("config");
-var m_mat    = require("material");
-var m_obj    = require("objects");
-var m_scenes = require("scenes");
+var m_data    = require("data");
+var m_app     = require("app");
+var m_cfg     = require("config");
+var m_mat     = require("material");
+var m_obj     = require("objects");
+var m_scenes  = require("scenes");
+var m_version = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/material_api/";
 
@@ -17,9 +20,11 @@ exports.init = function() {
         callback: init_cb,
         physics_enabled: false,
         alpha: true,
-        background_color: [1,1,1,0],
+        background_color: [1, 1, 1, 1],
         show_fps: true,
         autoresize: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         console_verbose: true
     });
 }

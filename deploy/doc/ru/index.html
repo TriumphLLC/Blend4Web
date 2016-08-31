@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Содержание &mdash; Руководство пользователя Blend4Web 16.07</title>
+  <title>Содержание &mdash; Руководство пользователя Blend4Web 16.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.07" href="#"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="#"/>
         <link rel="next" title="Общие сведения" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -252,12 +252,13 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Редактор нормалей</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#main-features-of-the-normal-editor">Основные особенности редактора нормалей:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#interface-of-the-vertex-normal-editor">Интерфейс редактора вертексных нормалей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#interface">Интерфейс</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#activate">Activate</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#show-normals">Show Normals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#rotation">Rotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#absolute-and-offset-modes">Режимы Absolute и Offset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#split-normals">Split Normals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#average-split">Average Split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_editor.html#average">Average</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#restore">Restore</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#tree-foliage-and-face">Tree, Foliage и Face</a></li>
 <li class="toctree-l2"><a class="reference internal" href="normal_editor.html#copy-paste">Copy/Paste</a></li>
@@ -388,6 +389,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звук</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="audio.html#audio-source-settings">Настройка звуковых источников</a></li>
+<li class="toctree-l2"><a class="reference internal" href="audio.html#audio-mixer">Микшер</a></li>
 <li class="toctree-l2"><a class="reference internal" href="audio.html#processing-and-decoding">Обработка и кодирование</a></li>
 </ul>
 </li>
@@ -399,7 +401,7 @@
 <li class="toctree-l2"><a class="reference internal" href="physics.html#wheeled-vehicles">Колесные транспортные средства</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#floating-objects">Плавающие объекты</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#floating-vehicles-aka-watercrafts">Плавающие транспортные средства</a></li>
-<li class="toctree-l2"><a class="reference internal" href="physics.html#character-objects">Объекты-персонажи</a></li>
+<li class="toctree-l2"><a class="reference internal" href="physics.html#characters">Персонажи</a></li>
 <li class="toctree-l2"><a class="reference internal" href="physics.html#use-in-applications">Особенности использования в приложениях</a></li>
 </ul>
 </li>
@@ -419,7 +421,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#coding-style">Стиль оформления кода</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#building-the-engine">Сборка движка</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#building-the-addon">Сборка аддона</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#building-the-add-on">Сборка аддона</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#dependencies">Зависимости</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#naming-functions-and-variables">Названия функций и переменных</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#debugging">Отладка</a></li>
@@ -450,6 +452,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-08">v16.08</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-07">v16.07</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-06">v16.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-05">v16.05</a></li>
@@ -501,7 +504,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-07-26.
+      Обновлено: 2016-08-31.
 
     </p>
   </div>
@@ -557,7 +560,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

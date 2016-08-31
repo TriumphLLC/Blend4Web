@@ -57,6 +57,8 @@ COLOR_REGEX = re.compile(r'\[(?P<arg_1>\d+)(;(?P<arg_2>\d+)(;(?P<arg_3>\d+))?)?m
 BOLD_TEMPLATE = '<span style="color: rgb{}; font-weight: bolder">'
 LIGHT_TEMPLATE = '<span style="color: rgb{}">'
 
+CGC_PATH = "cgc"
+
 _root = None
 _port = None
 _python_path = None
@@ -93,6 +95,7 @@ def create_server(root, port, allow_ext_requests, python_path, blender_path, B4W
         (r"/export/show_b4w/?$", ExportShowHandler),
         (r"/export/hide_b4w/?$", ExportHideHandler),
         (r"/run_blender/(.*)$", RunBlenderHandler),
+        (r"/analyze_shader/(.*)$", AnalyzeShaderHandler),
         (r"/tests/send_req/?$", TestSendReq),
         (r"/tests/time_of_day/?$", TestTimeOfDay),
         (r"/(.*)$", StaticFileHandlerNoCache,
@@ -225,6 +228,48 @@ class UploadIconFile(tornado.web.RequestHandler):
             img_file.write(proj_icon["body"])
 
         self.redirect("/project/")
+
+class AnalyzeShaderHandler(tornado.web.RequestHandler):
+    def post(self, tail):
+        kind = tail.strip("/? ")
+        data = self.request.body.decode("utf-8")
+        resp = self.process_shader_nvidia(kind, data)
+        self.write(resp)
+
+    def process_shader_nvidia(self, kind, data_in):
+        """Process by nvidia cg toolkit"""
+
+        tmp_in = tempfile.NamedTemporaryFile(mode="w", suffix=".glsl", delete=False)
+        tmp_in.write(data_in)
+        tmp_in.close()
+
+        if kind == "vert":
+            profile = "gp4vp"   # NV_gpu_program4 and NV_vertex_program4
+            lang = "-oglsl"
+        elif kind == "frag":
+            profile = "gp4fp"   # NV_gpu_program4 and NV_fragment_program4
+            lang = "-oglsl"
+        elif kind == "vert_gles":
+            profile = "gp4vp"   # NV_gpu_program4 and NV_vertex_program4
+            lang = "-ogles"
+        elif kind == "frag_gles":
+            profile = "gp4fp"   # NV_gpu_program4 and NV_fragment_program4
+            lang = "-ogles"
+
+        tmp_out = tempfile.NamedTemporaryFile(mode="r", suffix=".txt", delete=False)
+
+        ret = subprocess.check_output([CGC_PATH, lang, "-profile", profile,
+                tmp_in.name, "-o", tmp_out.name])
+
+        tmp_out.seek(0)
+        data_out = tmp_out.read()
+        tmp_out.close()
+
+        os.remove(tmp_in.name)
+        os.remove(tmp_out.name)
+
+        return data_out
+
 
 class TestSendReq(tornado.web.RequestHandler):
     def post(self):

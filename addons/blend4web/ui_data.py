@@ -89,12 +89,29 @@ class B4W_DATA_PT_camera_dof(CameraButtonsPanel, Panel):
         sub.active = cam.dof_object is None
         sub.prop(cam, "dof_distance", text=_("Distance"))
 
+        split = layout.split()
+        col = split.column()
+        col.active = cam.b4w_dof_bokeh
+        col.prop(cam, "b4w_dof_front_start", text=_("Front Start"))
+        col.prop(cam, "b4w_dof_rear_start", text=_("Rear Start"))
+        col = split.column()
+        sub = col.column()
+        sub.prop(cam, "b4w_dof_front_end", text=_("Front End"))
+        sub.prop(cam, "b4w_dof_rear_end", text=_("Rear End"))
+
         row = layout.row()
-        row.prop(cam, "b4w_dof_front", text=_("Front"))
-        row.prop(cam, "b4w_dof_rear", text=_("Rear"))
         row.prop(cam, "b4w_dof_power", text=_("Power"))
+
+        split = layout.split()
+        col = split.column()
+        col.prop(cam, "b4w_dof_bokeh", text=_("High Quality (Bokeh)"))
+        col = split.column()
+        sub = col.column()
+        sub.active = cam.b4w_dof_bokeh
+        sub.prop(cam, "b4w_dof_bokeh_intensity", text=_("Bokeh Intensity"))
         row = layout.row()
-        row.prop(cam, "b4w_dof_bokeh", text=_("Bokeh"))
+        row.active = cam.b4w_dof_bokeh
+        row.prop(cam, "b4w_dof_foreground_blur", text=_("Foreground Blur"))
 
 class B4W_DATA_PT_camera(CameraButtonsPanel, Panel):
     bl_label = _("Camera")

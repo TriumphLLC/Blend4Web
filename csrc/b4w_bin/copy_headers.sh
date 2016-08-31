@@ -6,6 +6,7 @@ cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_sys_types.h" ./includes/blenlib
 cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_utildefines.h" ./includes/blenlib
 cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_compiler_typecheck.h" ./includes/blenlib
 cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_compiler_compat.h" ./includes/blenlib
+cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_system.h" ./includes/blenlib
 
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_action_types.h" ./includes/makesdna
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_color_types.h" ./includes/makesdna

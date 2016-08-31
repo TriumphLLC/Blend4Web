@@ -102,6 +102,9 @@ Cycles nodes are only partially supported: in most cases they will not work in B
     +-------------------+-------------------------+----------------------------+----------------------+ 
     | Normal            | Used to generate a      | Full                       | High                 |
     |                   | normal vector           |                            |                      |
+    +-------------------+-------------------------+----------------------------+----------------------+
+    | Normal            | Used to plug in normal  | Full                       | Average              |
+    | Map [#f2]_        | map                     |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
     | Output            | Outputs the result      | Full                       | Average              |
     |                   | of the node program     |                            |                      |
@@ -151,6 +154,8 @@ Cycles nodes are only partially supported: in most cases they will not work in B
 
 .. [#f1] If at least one of the internal parameters, ``Space to convert from...`` or ``Space to convert to...`` is set to ``Object``, then any object that uses the material will be considered :ref:`dynamic <static_dynamic_objects>`.
 
+.. [#f2] The ``Color Space`` parameter of a normal map used with this node should be set to ``Non-Color``. Not doing so may lead to unpredictable results (although it won't crash the engine).
+
 |
 
 .. only:: latex or gettext
@@ -159,7 +164,7 @@ Cycles nodes are only partially supported: in most cases they will not work in B
 
 .. _custom_node_materials:
 
-Engine Specific Nodes
+Engine-Specific Nodes
 =====================
 
 .. index:: materials; nodes
@@ -168,35 +173,6 @@ Engine-specific nodes extend functionality of the standard nodes to support extr
 
 .. image:: src_images/node_materials/node_materials_nodes.png
    :align: center
-
-
-.. _node_replace:
-
-Replace (B4W_REPLACE)
----------------------
-
-The node replaces the inputs depending on the working environment (i.e. Blender viewport or Blend4Web). When working in Blender the ``Color1`` input is connected to the ``Color`` output and the ``Color2`` input is ignored. On the contrary when working in the engine the inputs are interchanged (the ``Color1`` one is ignored and the ``Color2`` one is connected to the output). The node is intended to display one node structure in the viewport and another - in the engine.
-
-.. image:: src_images/node_materials/node_materials_replace.png
-   :align: center
-   :width: 100%
-
-As a rule it is used for normal mapping. Blender’s node materials do not support a tangent space of coordinates. Therefore, the only possible method to display normal maps in the viewport correctly is their usage inside the ``Material`` nodes.
-
-Input Parameters
-................
-
-*Color1*
-    Node setup that will be visible in the Blender viewport.
-
-*Color2*
-    Node setup that will be visible in the Blend4Web engine.
-
-Output Parameters
-.................
-
-*Color*
-    Should be connected to the ``Color`` socket of the ``Material`` or ``Extended Material`` node.
 
 .. _node_clamp:
 
@@ -221,52 +197,53 @@ Output Parameters
 *Image*
     Clamped vector.
 
+.. _glow_output:
 
-.. _node_time:
-
-Time (B4W_TIME)
----------------
-
-Provides the timeline counting from the engine start (in seconds). Can be used for animating any parameters in node materials, such as UV coordinates, mixing factors, transparency etc.
-
-.. image:: src_images/node_materials/node_time.png
-   :align: center
-
-Input Parameters
-................
-
-None.
-
-Output Parameters
-.................
-
-*Value*
-    Time (in seconds) elapsed from the engine startup.
-
-.. seealso:: :ref:`node_anim`
-
-.. _node_vector_view:
-
-Vector View (B4W_VECTOR_VIEW)
+Glow Output (B4W_GLOW_OUTPUT)
 -----------------------------
 
-The node transforms a vector into the camera’s space of coordinates. Transformation is necessary because the engine defines most vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the ``Material`` or ``Extended Material`` nodes.
+Applies the :ref:`Glow effect <glow>` to the node material. Besides the *B4W_GLOW_OUTPUT* node, the node material should have the *Output* node.
 
-.. image:: src_images/node_materials/node_materials_vector_view.png
+.. image:: src_images/node_materials/node_materials_glow_output.png
    :align: center
    :width: 100%
 
 Input Parameters
 ................
 
-*Vector*
-    Vector coordinates in the world-space.
+*Glow Color*
+    Glow color.
 
-Output Parameters
-.................
+*Factor*
+    Glow ratio. *Factor* :math:`\in [0, 1]`.
 
-*Vector*
-    Vector coordinates in the camera-space.
+    * *Factor = 0* - no glow.
+    * *Factor* :math:`\in (0, 1]` - there is a glow, colored with *Glow Color*.
+
+.. _node_quality:
+
+Levels of Quality (B4W_LEVELS_OF_QUALITY)
+-----------------------------------------
+
+Sets up the output color based on the current image quality settings. Can be used to, for example, replace complex material with more simple one if the application is running on a mobile device.
+
+.. image:: src_images/node_materials/node_materials_levels_of_quality.png
+   :align: center
+   :width: 100%
+
+.. seealso:: :ref:`quality_settings`
+
+Input Parameters
+................
+
+*HIGH*
+    Node links this parameter to ``Color`` parameter in case of high and maximum quality usage.
+
+*LOW*
+    Node links this parameter to ``Color`` parameter in case of low quality usage.
+
+*Fac*
+    This value specifies what quality setting (``HIGH`` or ``LOW``) will be visible in the Blender viewport. Can change from 0 to 1. If the value is lower than 0.5, the ``HIGH`` setting will be visible, if it is 0.5 or higher, the ``LOW`` setting will be visible.
 
 .. _node_parallax:
 
@@ -302,6 +279,155 @@ Output Parameters
 
 *UV*
    Resulting texture coordinates which are used as input for the texture nodes.
+
+.. _node_reflect:
+
+Reflect (B4W_REFLECT)
+---------------------
+
+Calculates the reflection direction for an incident vector and a normal vector. Can be used to apply a cubemap to an object.
+
+.. image:: src_images/node_materials/node_materials_reflect.png
+   :align: center
+   :width: 100%
+
+Input Parameters
+................
+
+*Vector*
+    Incident vector. Should be connected to the ``View`` socket of the ``Geometry`` node.
+
+*Vector*
+    Normal vector. Should be normalized in order to achieve the desired result. Should be connected to the ``Normal`` socket of the ``Geometry`` node.
+
+Output Parameters
+.................
+
+*Vector*
+    Reflected vector. Should be connected to the ``Vector`` socket of the ``Texture`` node that contains the cubemap.
+
+.. _node_refraction:
+
+Refraction (B4W_REFRACTION)
+---------------------------
+
+Applies refraction effect to an object. This effect works only in the Blend4Web engine and not in the Blender’s viewport.
+
+.. image:: src_images/node_materials/node_materials_refraction.png
+   :align: center
+   :width: 100%
+
+Input Parameters
+................
+
+*Normal*
+    A normal vector in camera space for adding perturbations.
+
+*Refraction Bump*
+    Value of perturbation strength.
+
+    The default value is 0.001.
+
+Output Parameters
+.................
+
+*Color*
+    Rendered texture behind object with perturbations.
+
+.. note::
+
+    It’s necessary to set the ``Refractions`` option from the ``Render > Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The object’s transparency type must be set to ``Alpha Blend``.
+.. seealso:: :ref:`alpha_blend`
+
+Output Parameters
+.................
+
+*Color*
+    Output color.
+
+.. _node_replace:
+
+Replace (B4W_REPLACE)
+---------------------
+
+The node replaces the inputs depending on the working environment (i.e. Blender viewport or Blend4Web). When working in Blender the ``Color1`` input is connected to the ``Color`` output and the ``Color2`` input is ignored. On the contrary when working in the engine the inputs are interchanged (the ``Color1`` one is ignored and the ``Color2`` one is connected to the output). The node is intended to display one node structure in the viewport and another - in the engine.
+
+.. image:: src_images/node_materials/node_materials_replace.png
+   :align: center
+   :width: 100%
+
+As a rule it is used for normal mapping. Blender’s node materials do not support a tangent space of coordinates. Therefore, the only possible method to display normal maps in the viewport correctly is their usage inside the ``Material`` nodes.
+
+Input Parameters
+................
+
+*Color1*
+    Node setup that will be visible in the Blender viewport.
+
+*Color2*
+    Node setup that will be visible in the Blend4Web engine.
+
+Output Parameters
+.................
+
+*Color*
+    Should be connected to the ``Color`` socket of the ``Material`` or ``Extended Material`` node.
+
+.. _node_smoothstep:
+
+Smoothstep (B4W_SMOOTHSTEP)
+---------------------------
+
+Performs smooth interpolation between two input values based on first value.
+
+.. image:: src_images/node_materials/node_materials_smoothstep.png
+   :align: center
+   :width: 100%
+
+Input Parameters
+................
+
+*Value*
+    Value which determines interpolation smoothness.
+
+*Edge0*
+    First interpolation value.
+
+*Edge1*
+    Second interpolation value.
+
+
+Output Parameters
+.................
+
+*Value*
+    Interpolated value.
+
+.. note::
+    For the correct interpolation input ``Value`` had to be between ``Edge0`` and ``Edge1``.
+
+.. _node_time:
+
+Time (B4W_TIME)
+---------------
+
+Provides the timeline counting from the engine start (in seconds). Can be used for animating any parameters in node materials, such as UV coordinates, mixing factors, transparency etc.
+
+.. image:: src_images/node_materials/node_time.png
+   :align: center
+
+Input Parameters
+................
+
+None.
+
+Output Parameters
+.................
+
+*Value*
+    Time (in seconds) elapsed from the engine startup.
+
+.. seealso:: :ref:`node_anim`
 
 .. _node_translucency:
 
@@ -353,137 +479,14 @@ Output Parameters
 
   This node can work incorrectly, if the :ref:`mesh normals were edited <normals_editor>`.
 
-.. _node_refraction:
+.. _node_vector_view:
 
-Refraction (B4W_REFRACTION)
----------------------------
-
-Applies refraction effect to an object. This effect works only in the Blend4Web engine and not in the Blender’s viewport.
-
-.. image:: src_images/node_materials/node_materials_refraction.png
-   :align: center
-   :width: 100%
-
-Input Parameters
-................
-
-*Normal*
-    A normal vector in camera space for adding perturbations.
-
-*Refraction Bump*
-    Value of perturbation strength.
-
-    The default value is 0.001.
-
-Output Parameters
-.................
-
-*Color*
-    Rendered texture behind object with perturbations.
-
-.. note::
-
-    It’s necessary to set the ``Refractions`` option from the ``Render > Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The object’s transparency type must be set to ``Alpha Blend``.
-.. seealso:: :ref:`alpha_blend`
-
-.. _node_quality:
-
-Levels of Quality (B4W_LEVELS_OF_QUALITY)
------------------------------------------
-
-Sets up the output color based on the current image quality settings. Can be used to, for example, replace complex material with more simple one if the application is running on a mobile device.
-
-.. image:: src_images/node_materials/node_materials_levels_of_quality.png
-   :align: center
-   :width: 100%
-
-.. seealso:: :ref:`quality_settings`
-
-Input Parameters
-................
-
-*HIGH*
-    Node links this parameter to ``Color`` parameter in case of high and maximum quality usage.
-
-*LOW*
-    Node links this parameter to ``Color`` parameter in case of low quality usage.
-
-*Fac*
-    This value specifies what quality setting (``HIGH`` or ``LOW``) will be visible in the Blender viewport. Can change from 0 to 1. If the value is lower than 0.5, the ``HIGH`` setting will be visible, if it is 0.5 or higher, the ``LOW`` setting will be visible.
-
-Output Parameters
-.................
-
-*Color*
-    Output color.
-
-
-.. _node_smoothstep:
-
-Smoothstep (B4W_SMOOTHSTEP)
----------------------------
-
-Performs smooth interpolation between two input values based on first value.
-
-.. image:: src_images/node_materials/node_materials_smoothstep.png
-   :align: center
-   :width: 100%
-
-Input Parameters
-................
-
-*Value*
-    Value which determines interpolation smoothness.
-
-*Edge0*
-    First interpolation value.
-
-*Edge1*
-    Second interpolation value.
-
-
-Output Parameters
-.................
-
-*Value*
-    Interpolated value.
-
-.. note::
-    For the correct interpolation input ``Value`` had to be between ``Edge0`` and ``Edge1``.
-
-
-.. _glow_output:
-
-Glow Output (B4W_GLOW_OUTPUT)
+Vector View (B4W_VECTOR_VIEW)
 -----------------------------
 
-Applies the :ref:`Glow effect <glow>` to the node material. Besides the *B4W_GLOW_OUTPUT* node, the node material should have the *Output* node.
+The node transforms a vector into the camera’s space of coordinates. Transformation is necessary because the engine defines most vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the ``Material`` or ``Extended Material`` nodes.
 
-.. image:: src_images/node_materials/node_materials_glow_output.png
-   :align: center
-   :width: 100%
-
-Input Parameters
-................
-
-*Glow Color*
-    Glow color.
-
-*Factor*
-    Glow ratio. *Factor* :math:`\in [0, 1]`.
-
-    * *Factor = 0* - no glow.
-    * *Factor* :math:`\in (0, 1]` - there is a glow, colored with *Glow Color*.
-
-
-.. _node_reflect:
-
-Reflect (B4W_REFLECT)
----------------------
-
-Calculates the reflection direction for an incident vector and a normal vector. Can be used to apply a cubemap to an object.
-
-.. image:: src_images/node_materials/node_materials_reflect.png
+.. image:: src_images/node_materials/node_materials_vector_view.png
    :align: center
    :width: 100%
 
@@ -491,16 +494,13 @@ Input Parameters
 ................
 
 *Vector*
-    Incident vector. Should be connected to the ``View`` socket of the ``Geometry`` node.
-
-*Vector*
-    Normal vector. Should be normalized in order to achieve the desired result. Should be connected to the ``Normal`` socket of the ``Geometry`` node.
+    Vector coordinates in the world-space.
 
 Output Parameters
 .................
 
 *Vector*
-    Reflected vector. Should be connected to the ``Vector`` socket of the ``Texture`` node that contains the cubemap.
+    Vector coordinates in the camera-space.
 
 .. _node_gamma:
 

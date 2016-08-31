@@ -88,6 +88,9 @@
 *指数*
    模糊比。默认值是3.0。
 
+*Bokeh*
+   Activating this option enables bokeh effect. Disabled by default.
+
 
 屏幕空间环境光遮蔽
 ==================

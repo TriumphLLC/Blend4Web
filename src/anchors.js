@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -32,6 +31,7 @@ var m_obj    = require("__objects");
 var m_print  = require("__print");
 var m_render = require("__renderer");
 var m_scenes = require("__scenes");
+var m_subs   = require("__subscene");
 var m_time   = require("__time");
 var m_tsr    = require("__tsr");
 
@@ -53,7 +53,7 @@ exports.append = function(obj) {
 
     // NOTE: depends on subscene here because not supported for dynamically loaded data
     var det_vis = obj.anchor.detect_visibility &&
-            Boolean(m_scenes.get_subs(m_scenes.get_main(), "ANCHOR_VISIBILITY"));
+            Boolean(m_scenes.get_subs(m_scenes.get_main(), m_subs.ANCHOR_VISIBILITY));
 
     var anchor = {
         type: obj.anchor.type,
@@ -463,8 +463,8 @@ exports.update = function() {
     }
 
     if (det_vis_cnt > 0) {
-        var subs_anchor = m_scenes.get_subs(m_scenes.get_main(), "ANCHOR_VISIBILITY");
-        var batch_anchor = subs_anchor.bundles[0].batch;
+        var subs_anchor = m_scenes.get_subs(m_scenes.get_main(), m_subs.ANCHOR_VISIBILITY);
+        var batch_anchor = subs_anchor.draw_data[0].bundles[0].batch;
         m_batch.update_anchor_visibility_batch(batch_anchor, _anchor_batch_pos);
     }
 }
@@ -555,7 +555,7 @@ exports.update_visibility = function() {
 
 function pick_anchor_visibility(anchor) {
     // NOTE: slow
-    var subs_anchor = m_scenes.get_subs(m_scenes.get_main(), "ANCHOR_VISIBILITY");
+    var subs_anchor = m_scenes.get_subs(m_scenes.get_main(), m_subs.ANCHOR_VISIBILITY);
     var anchor_cam = subs_anchor.camera;
 
     var viewport_xy = m_cont.canvas_to_viewport_coords(anchor.x, anchor.y, 

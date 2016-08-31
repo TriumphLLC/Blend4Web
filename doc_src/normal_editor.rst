@@ -50,8 +50,8 @@ Main Features of the Normal Editor
 #. selected vertex normal rotation can be performed directly in the Viewport window with ``Shift+Ctrl+R`` hotkey, similarly to other rotation operations in Blender;
 #. edited normals are being exported automatically.
 
-Interface of the Vertex Normal Editor
-=====================================
+Interface
+=========
 
 The interface of the normal editor is located on the tools panel ``Blend4Web > Normal Editor``. The ``Shading: Smooth`` mode should be enabled and ``Activate`` button should be pressed or ``Auto Smooth`` flag should be enabled in the mesh settings, before starting to work with the editor.
 
@@ -104,7 +104,32 @@ Using these instruments you can change direction of the normals. The ``Rotate`` 
 
 Select one or more vertices that you want to edit and then rotate their normals using the visual sphere or specify the direction as numerical values.
 
-The ``Rotate`` button provides a more convenient way to manipulate normals. The rotation is performed in the screen space. Nevertheless, as with any other rotations in Blender, you can isolate the desired axis during rotation (by typing ``X``, ``Y`` or ``Z``).
+The ``Rotate`` button provides a more convenient way to manipulate normals. The rotation is performed in the screen space. Nevertheless, as with any other rotations in Blender, you can isolate the desired axis during rotation (by typing ``X``, ``Y`` or ``Z``) and type the angle of rotation using numerical keys.
+
+Absolute and Offset Modes
+=========================
+
+Normal Editor can operate in two different modes: Absolute mode and Offset mode. The currently selected mode can be switched by pressing one of the two buttons placed under the ``Rotate`` button that has been described above. By default, ``Absolute`` mode is used.
+
+Absolute Mode
+-------------
+
+.. image:: src_images/normal_editor/normal_editor_absolute.png
+   :align: center
+   :width: 100%
+
+This is the default mode of the Normal Editor. In this mode, the coordinates of a normal vector are absolute and can be set using the ``X``, ``Y`` and ``Z`` fields or the visual sphere that is situated alongside of them.
+
+Offset Mode
+-----------
+
+.. image:: src_images/normal_editor/normal_editor_offset.png
+   :align: center
+   :width: 100%
+
+In this mode, a user-defined value is added to the normal vector.
+
+The ``X``, ``Y`` and ``Z`` fields can be used for setting the corresponding components of the vector, while the ``Sub`` and ``Add`` buttons define whether the vector should be subtracted from the normal vector or added to it.
 
 Split Normals
 =============
@@ -125,10 +150,10 @@ The ``Split Normals`` mode allows to edit vertex normals separately for each ``f
 
 Turn on the ``Split Normals`` mode, select the vertex and change the direction of its normals. Firstly, the normal which has the zero index in the queue will be modified. Then, by switching between indexes you can go to the next normal of this vertex and edit it, then to the next and so on.
 
-Average Split
-=============
+Average
+=======
 
-The ``Average Split`` button averages the direction of the vertex normals which was modified in the ``Split Normals`` mode.
+The ``Average`` button averages the direction of the vertex normals which was modified.
 
 .. only:: latex
 

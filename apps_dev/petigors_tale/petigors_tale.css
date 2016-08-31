@@ -1130,6 +1130,7 @@ body[lang="en"] div#back_to_menu:hover {
 
 div#under_construct {
     position: absolute;
+    pointer-events: none;
     top: 0;
     left: 50%;
     margin-top: 68px;
@@ -1162,6 +1163,11 @@ body[lang="en"] div#under_construct {
         -ms-transform: scale(0.5) translateX(-100%);
         -webkit-transform: scale(0.5) translateX(-100%);
         transform: scale(0.5) translateX(-100%);
+        -moz-transform-origin: top;
+        -ms-transform-origin: top;
+        -webkit-transform-origin: top;
+        transform-origin: top;
+	margin-top: 10px;
     }
 }
 

@@ -1,5 +1,19 @@
+#version GLSL_VERSION
+
 #include <precision_statement.glslf>
 uniform sampler2D u_input;
+
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
     float luminance;
@@ -14,7 +28,7 @@ void main(void) {
         h = 0.025;
         for (int j = 0; j < 20; j += 1) {
             // Avoid zero values as log will be -infinity
-            luminance = max(texture2D( u_input, vec2(w, h) ).r, 0.01);
+            luminance = max(GLSL_TEXTURE( u_input, vec2(w, h) ).r, 0.01);
             sum_lum += log(luminance);
             h += 0.05;
         }
@@ -22,5 +36,5 @@ void main(void) {
     }
     float average_lum = exp(sum_lum / 400.0);
 
-    gl_FragColor = vec4(vec3(average_lum), 1.0);
+    GLSL_OUT_FRAG_COLOR = vec4(vec3(average_lum), 1.0);
 }

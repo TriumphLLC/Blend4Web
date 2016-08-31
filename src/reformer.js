@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -106,6 +105,11 @@ function reform_node(node) {
         if (!("diffuse_intensity" in node)) {
             node["diffuse_intensity"] = 1;
             report("node material", node, "diffuse_intensity");
+        }
+
+        if (!("use_tangent_shading" in node)) {
+            node["use_tangent_shading"] = false;
+            report("node material", node, "use_tangent_shading");
         }
 
         if (!("specular_shader" in node)) {
@@ -986,6 +990,36 @@ exports.check_bpy_data = function(bpy_data) {
             camera["b4w_dof_bokeh"] = false;
             report("camera", camera, "b4w_dof_bokeh");
         }
+
+        if (!("b4w_dof_bokeh_intensity" in camera)) {
+            camera["b4w_dof_bokeh_intensity"] = 0.3;
+            report("camera", camera, "b4w_dof_bokeh_intensity");
+        }
+
+        if (!("b4w_dof_foreground_blur" in camera)) {
+            camera["b4w_dof_foreground_blur"] = false;
+            report("camera", camera, "b4w_dof_foreground_blur");
+        }
+
+        if (!("b4w_dof_front_start" in camera)) {
+            camera["b4w_dof_front_start"] = 0;
+            report("camera", camera, "b4w_dof_front_start");
+        }
+
+        if (!("b4w_dof_front_end" in camera)) {
+            camera["b4w_dof_front_end"] = camera["b4w_dof_front"];
+            report("camera", camera, "b4w_dof_front_end");
+        }
+
+        if (!("b4w_dof_rear_start" in camera)) {
+            camera["b4w_dof_rear_start"] = 0;
+            report("camera", camera, "b4w_dof_rear_start");
+        }
+
+        if (!("b4w_dof_rear_end" in camera)) {
+            camera["b4w_dof_rear_end"] = camera["b4w_dof_rear"];
+            report("camera", camera, "b4w_dof_rear_end");
+        }
     }
 
     /* object data - lamps */
@@ -1172,6 +1206,18 @@ exports.check_bpy_data = function(bpy_data) {
         }
     }
 
+    /* images */
+    var images = bpy_data["images"];
+
+    for (var i = 0; i < images.length; i++) {
+        var image = images[i];
+
+        if (!("colorspace_settings_name" in image)) {
+            image["colorspace_settings_name"] = "sRGB";
+            report("image", image, "colorspace_settings_name");
+        }
+    }
+
     /* materials */
     var materials = bpy_data["materials"];
 
@@ -1180,6 +1226,11 @@ exports.check_bpy_data = function(bpy_data) {
 
         if (mat["game_settings"]["alpha_blend"] == "ALPHA_ANTIALIASING")
             mat["game_settings"]["alpha_blend"] = "CLIP";
+
+        if (!("use_tangent_shading" in mat)) {
+            mat["use_tangent_shading"] = false;
+            report("material", mat, "use_tangent_shading");
+        }
 
         if ("b4w_node_mat_type" in mat) {
             report_deprecated("material", mat, "b4w_node_mat_type");
@@ -1618,6 +1669,11 @@ exports.check_bpy_data = function(bpy_data) {
             if (!("b4w_do_not_render" in bpy_obj)) {
                 bpy_obj["b4w_do_not_render"] = false;
                 //report("object", bpy_obj, "b4w_do_not_render");
+            }
+
+            if (!("b4w_hidden_on_load" in bpy_obj)) {
+                bpy_obj["b4w_hidden_on_load"] = false;
+                //report("object", bpy_obj, "b4w_hidden_on_load");
             }
 
             if (!("use_ghost" in bpy_obj["game"])) {

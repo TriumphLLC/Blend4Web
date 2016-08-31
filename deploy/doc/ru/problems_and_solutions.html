@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 16.07</title>
+  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 16.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.07" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
         <link rel="next" title="Замечания к релизам" href="release_notes.html"/>
         <link rel="prev" title="Работа в команде с использованием Git" href="git_short_manual.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -322,7 +322,7 @@
 <ul>
 <li><p class="first">Проблемы с обновлением старых версий аддона.</p>
 <blockquote>
-<div><p>Рекомендуется перезагрузка Blender после обновления SDK или аддона.</p>
+<div><p>It’s strongly advised to restart Blender after installing a newer version of Add-on/SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Драйверы NVIDIA версии 331 в Linux могут приводить к программным ошибкам WebGL.</p>
@@ -348,11 +348,11 @@
 <div><p>Проблема вызвана несовместимостью последних драйверов Nvidia с сэндбоксом Chromium. В качестве решения рекомендуется понизить версию драйверов до 340-х.</p>
 </div></blockquote>
 </li>
-<li><p class="first">Audio issues.</p>
+<li><p class="first">Проблемы со звуком.</p>
 <blockquote>
 <div><p>В некторых версиях Google Chrome звук не воспроизводится для источников звука с типом &#8220;Background Music&#8221;, если используется экспорт в HTML. В качестве решения в настоящий момент тип источника звука автоматически меняется на &#8220;Background Sound&#8221;.</p>
 <p>Ошибка аудиоконтекста проявляется, если запущено много (болше 6) копий движка Blend4Web (например, на нескольких вкладках браузера или в нескольких iframe&#8217;ах на одной странице). Ошибку можно предотвратить, отключив звук в приложении, если для него не может быть создан аудиоконтекст.</p>
-<p>Pausing the audio may not work on such mobile devices as Nexus 6 and Nexus 9 in Google Chrome 50-52 versions. It should work again in Chrome 53. More info here: <a class="reference external" href="https://bugs.chromium.org/p/chromium/issues/detail?id=616772">https://bugs.chromium.org/p/chromium/issues/detail?id=616772</a>.</p>
+<p>На некоторых мобильных устройствах (в частности, Nexus 6 и Nexus 9) в браузере Google Chrome версий 50-52 может не работать пауза. В версиях Chrome начиная с 53 проблем быть не должно. Более подробная информация: <a class="reference external" href="https://bugs.chromium.org/p/chromium/issues/detail?id=616772">https://bugs.chromium.org/p/chromium/issues/detail?id=616772</a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first">QQ Browser на данный момент не поддерживает WebGL.</p>
@@ -395,7 +395,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-07-26.
+      Обновлено: 2016-08-31.
 
     </p>
   </div>
@@ -451,7 +451,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

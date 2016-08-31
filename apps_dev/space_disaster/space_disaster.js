@@ -105,6 +105,8 @@ exports.init = function() {
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
         console_verbose: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         // NOTE: autoresize doesn't work with VR-mode in GearVR, bcz there is
         // a GearVR problem!!!
         autoresize: true,

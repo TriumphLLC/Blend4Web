@@ -1,4 +1,11 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var PRECISION lowp
+
+/*============================================================================*/
 
 precision PRECISION sampler2D;
 
@@ -9,9 +16,20 @@ precision PRECISION sampler2D;
 uniform sampler2D u_depth;
 uniform vec2 u_camera_range;
 
-varying vec2 v_texcoord;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 v_texcoord;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
-    gl_FragColor = pack(clamp(depth_fetch(u_depth, v_texcoord, u_camera_range), 0.0, 0.999999));
+    GLSL_OUT_FRAG_COLOR = pack(clamp(depth_fetch(u_depth, v_texcoord, 
+    		u_camera_range), 0.0, 0.999999));
 }
 

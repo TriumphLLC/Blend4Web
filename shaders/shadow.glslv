@@ -1,12 +1,17 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var AU_QUALIFIER uniform
 #var MAX_BONES 0
 #var NUM_CAST_LAMPS 0
 #var SHADOW_TEX_RES 0.0
 #var VERTEX_ANIM_MIX_NORMALS_FACTOR u_va_frame_factor
 
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 #include <std_enums.glsl>
 #include <precision_statement.glslf>
 
@@ -14,29 +19,32 @@
 #include <to_world.glslv>
 #include <scale_texcoord.glslv>
 
-/*============================================================================
-                                  ATTRIBUTES
-============================================================================*/
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 a_position;
 
-attribute vec3 a_position;
-
-#if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
+#if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
-        || SHADOW_USAGE == SHADOW_MASK_GENERATION
-attribute vec3 a_normal;
+        || SHADOW_USAGE == SHADOW_MASK_GENERATION || CALC_TBN
+GLSL_IN vec3 a_normal;
 #endif
 
 #if USE_INSTANCED_PARTCLS
-    attribute vec4 a_part_ts;
-    attribute vec4 a_part_r;
+GLSL_IN vec4 a_part_ts;
+GLSL_IN vec4 a_part_r;
 #endif
 
 #if NODES && ALPHA && CALC_TBN_SPACE
-attribute vec4 a_tangent;
+GLSL_IN vec4 a_tangent;
+#endif
+
+#if USE_TBN_SHADING
+GLSL_IN vec3 a_shade_tangs;
 #endif
 
 #if SKINNED
-attribute vec4 a_influence;
+GLSL_IN vec4 a_influence;
 #endif
 
 #if (WIND_BEND || DYNAMIC_GRASS || BILLBOARD) && !USE_INSTANCED_PARTCLS
@@ -45,9 +53,9 @@ AU_QUALIFIER vec3 au_center_pos;
 
 #if WIND_BEND
 # if MAIN_BEND_COL
-attribute float a_bending_col_main;
+GLSL_IN float a_bending_col_main;
 #  if DETAIL_BEND
-attribute vec3 a_bending_col_detail;
+GLSL_IN vec3 a_bending_col_detail;
 AU_QUALIFIER float au_detail_bending_amp;
 AU_QUALIFIER float au_branch_bending_amp;
 AU_QUALIFIER float au_detail_bending_freq;
@@ -56,29 +64,83 @@ AU_QUALIFIER float au_detail_bending_freq;
 AU_QUALIFIER float au_wind_bending_amp;
 AU_QUALIFIER float au_wind_bending_freq;
 # if BEND_CENTER_ONLY
-    attribute vec3 a_emitter_center;
+GLSL_IN vec3 a_emitter_center;
 # endif
 #endif  // WIND_BEND
 
 #if VERTEX_ANIM
-attribute vec3 a_position_next;
+GLSL_IN vec3 a_position_next;
 # if NODES && ALPHA
-#  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
-attribute vec3 a_normal_next;
+#  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
+        || CAUSTICS || CALC_TBN_SPACE
+GLSL_IN vec3 a_normal_next;
 #   if CALC_TBN_SPACE
-attribute vec4 a_tangent_next;
+GLSL_IN vec4 a_tangent_next;
 #   endif
 #  endif
 # endif
 #endif // VERTEX_ANIM
 
 #if !(NODES && ALPHA) && TEXTURE_COLOR
-attribute vec2 a_texcoord;
+GLSL_IN vec2 a_texcoord;
+#endif
+//------------------------------------------------------------------------------
+
+#if NODES && ALPHA
+//GLSL_OUT vec3 v_eye_dir;
+GLSL_OUT vec3 v_pos_world;
+
+# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
+GLSL_OUT vec3 v_normal;
+# endif
+# if CALC_TBN_SPACE
+GLSL_OUT vec4 v_tangent;
+# endif
+
+#else
+# if TEXTURE_COLOR
+GLSL_OUT vec2 v_texcoord;
+# endif
 #endif
 
-/*============================================================================
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA
+GLSL_OUT vec4 v_pos_view;
+#endif
+
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION
+GLSL_OUT vec4 v_shadow_coord0;
+
+# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
+GLSL_OUT vec4 v_shadow_coord1;
+# endif
+
+# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
+GLSL_OUT vec4 v_shadow_coord2;
+# endif
+
+# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
+GLSL_OUT vec4 v_shadow_coord3;
+# endif
+#endif
+
+#if REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_REFRACTION
+GLSL_OUT vec3 v_tex_pos_clip;
+#endif
+
+#if NODES && ALPHA
+# if USE_NODE_B4W_REFRACTION && REFRACTIVE
+GLSL_OUT float v_view_depth;
+# endif
+#endif
+
+#if USE_TBN_SHADING
+GLSL_OUT vec3 v_shade_tang;
+#endif
+
+/*==============================================================================
                                    UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if STATIC_BATCH
 // NOTE:  mat3(0.0, 0.0, 0.0, --- trans
@@ -176,61 +238,9 @@ uniform mat4 u_p_light_matrix3;
 uniform PRECISION float u_view_max_depth;
 #endif
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
-
-#if NODES && ALPHA
-//varying vec3 v_eye_dir;
-varying vec3 v_pos_world;
-
-# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
-        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
-varying vec3 v_normal;
-# endif
-# if CALC_TBN_SPACE
-varying vec4 v_tangent;
-# endif
-
-#else
-# if TEXTURE_COLOR
-varying vec2 v_texcoord;
-# endif
-#endif
-
-#if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA
-varying vec4 v_pos_view;
-#endif
-
-#if SHADOW_USAGE == SHADOW_MASK_GENERATION
-varying vec4 v_shadow_coord0;
-
-# if CSM_SECTION1 || NUM_CAST_LAMPS > 1
-varying vec4 v_shadow_coord1;
-# endif
-
-# if CSM_SECTION2 || NUM_CAST_LAMPS > 2
-varying vec4 v_shadow_coord2;
-# endif
-
-# if CSM_SECTION3 || NUM_CAST_LAMPS > 3
-varying vec4 v_shadow_coord3;
-# endif
-#endif
-
-#if REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_REFRACTION
-varying vec3 v_tex_pos_clip;
-#endif
-
-#if NODES && ALPHA
-# if USE_NODE_B4W_REFRACTION && REFRACTIVE
-varying float v_view_depth;
-# endif
-#endif
-
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #include <dynamic_grass.glslv>
 #include <shadow.glslv>
@@ -240,16 +250,16 @@ varying float v_view_depth;
 #if NODES && ALPHA
 #include <nodes.glslv>
 #endif
-/*============================================================================
+/*==============================================================================
                                     MAIN
-============================================================================*/
+==============================================================================*/
 
 void main(void) {
     mat4 view_matrix = tsr_to_mat4(u_view_tsr);
     vec3 position = a_position;
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION || CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN \
-        || USE_NODE_GEOMETRY_NO \
+        || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND 
     vec3 normal = a_normal;
 #else
@@ -267,7 +277,7 @@ void main(void) {
 #if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
 # if NODES && ALPHA
-#  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
+#  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP || CAUSTICS || CALC_TBN_SPACE
     normal = mix(normal, a_normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
 #  endif
 #  if CALC_TBN_SPACE
@@ -303,16 +313,27 @@ void main(void) {
     vec3 center = vec3(0.0);
 #endif
 
-
-#if DYNAMIC_GRASS
-    vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), normal, center,
-            u_grass_map_depth, u_grass_map_color, u_grass_map_dim, u_grass_size,
-            u_camera_eye, u_camera_quat, view_matrix);
-#else
-
-# if !USE_INSTANCED_PARTCLS
+# if !USE_INSTANCED_PARTCLS && !DYNAMIC_GRASS
     mat4 model_mat = tsr_to_mat4(u_model_tsr);
 # endif
+
+#if USE_TBN_SHADING
+# if CALC_TBN
+    vec3 norm_world = normalize((model_mat * vec4(a_normal, 0.0)).xyz);
+    vec3 shade_binormal = cross(vec3(0.0, 0.0, 1.0), norm_world);
+    vec3 shade_tangent = cross(norm_world, shade_binormal);
+# else
+    vec3 shade_tangent = a_shade_tangs;
+# endif
+#else
+    vec3 shade_tangent = vec3(0.0);
+#endif
+
+#if DYNAMIC_GRASS
+    vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0), normal,
+            center, u_grass_map_depth, u_grass_map_color, u_grass_map_dim,
+            u_grass_size, u_camera_eye, u_camera_quat, view_matrix);
+#else
 
 # if BILLBOARD
     vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
@@ -334,12 +355,12 @@ void main(void) {
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, wcen);
 #  endif
-    vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0), normal,
-            model_matrix);
+    vertex world = to_world(position - center, center, vec3(0.0), shade_tangent,
+            vec3(0.0), normal, model_matrix);
     world.center = wcen;
 # else
-    vertex world = to_world(position, center, vec3(0.0), vec3(0.0), normal,
-            model_mat);
+    vertex world = to_world(position, center, vec3(0.0), shade_tangent, vec3(0.0),
+            normal, model_mat);
 # endif
 #endif
 
@@ -355,7 +376,7 @@ void main(void) {
 #if NODES && ALPHA
     v_pos_world = world.position;
 
-# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
+# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
     v_normal = world.normal;
 # endif
@@ -365,6 +386,9 @@ void main(void) {
                    world.binormal) < 0.0) ? -1.0 : 1.0;
 
     v_tangent = vec4(world.tangent, m);
+# endif
+# if USE_TBN_SHADING
+    v_shade_tang = world.shade_tang;
 # endif
 
 #endif // NODES && ALPHA

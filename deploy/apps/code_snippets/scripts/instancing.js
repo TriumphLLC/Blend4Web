@@ -2,12 +2,15 @@
 
 b4w.register("instancing", function(exports, require) {
 
-var m_app   = require("app");
-var m_data  = require("data");
-var m_scs   = require("scenes");
-var m_obj   = require("objects");
-var m_trans = require("transform");
-var m_cfg    = require("config");
+var m_app     = require("app");
+var m_data    = require("data");
+var m_scs     = require("scenes");
+var m_obj     = require("objects");
+var m_trans   = require("transform");
+var m_cfg     = require("config");
+var m_version = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/instancing";
 var NUM_OF_POINTS = 10;
@@ -23,6 +26,8 @@ exports.init = function() {
         show_fps: true,
         alpha: false,
         autoresize: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         console_verbose: true
     });
 }

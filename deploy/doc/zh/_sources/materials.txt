@@ -227,10 +227,15 @@
 
 菲涅耳效应可以设置静态和动态的反射。
 
-*材质 > Mirror > Fresnel* 反射的菲涅尔指数。 Schlick方程中的N指数。在
-blender中被限制在0到5的值。设置为零的时候菲涅尔效应无法被观察到，所有
-的反射都是正常的。大于零的时候，在角度这是接近正确的角度观看时表面材料
-是弱反射性的。参数值越大，可以看到菲涅尔效应的观察角度越大。
+*Material > Mirror > Fresnel*
+   Fresnel power for reflection. This is the N exponent in the
+   Schlick’s formula. In Blender it is limited to values from 0 to 5.
+   If this parameter is equal to zero the Fresnel effect is not
+   observed and the *full* reflection at all angles occurs. If this
+   parameter is greater than zero, the material is less reflective
+   when viewing surfaces at angles which are close to the right angle.
+   The bigger this parameter is the bigger is the angle deviation from
+   the right angle for which the Fresnel effect is observed.
 
 *材质 > 镜面 > 混合*
    菲涅耳反射系数。在Schlick公式中通过下面的表达式 R_0 = 1 - "Blend" /

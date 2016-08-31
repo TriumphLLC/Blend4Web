@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -133,6 +132,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     var ver_str = m_version.version_str() + " " + m_version.type() +
             " (" + m_version.date_str() + ")";
     m_print.log("%cINIT ENGINE", "color: #00a", ver_str);
+    m_print.log("%cUSER AGENT:", "color: #00a", navigator.userAgent);
 
     // check gl context and performance.now()
     if (!window["WebGLRenderingContext"])
@@ -530,6 +530,19 @@ function init_fps_counter() {
 exports.reset = function() {
     m_data.unload(0);
 
+    m_data.reset();
+    m_ext.reset();
+    m_render.reset();
+    m_geom.reset();
+    m_textures.reset_mod();
+    m_shaders.reset();
+    m_debug.reset();
+    m_cont.reset();
+    m_data.reset();
+    m_cont.reset();
+    m_time.reset();
+    m_sfx.reset();
+
     _elem_canvas_webgl = null;
     _elem_canvas_hud = null;
 
@@ -546,9 +559,6 @@ exports.reset = function() {
     _loop_cb.length = 0;
 
     _gl = null;
-
-    m_time.reset();
-    m_sfx.reset();
 }
 
 /**
@@ -602,6 +612,23 @@ exports.remove_loop_cb = function(callback) {
             _loop_cb.splice(i, 1);
             break;
         }
+}
+
+/**
+ * Return renderer info.
+ * @method module:main.get_renderer_info
+ * @returns {RendererInfo|Null} Renderer info.
+ */
+exports.get_renderer_info = function() {
+    var rinfo = m_ext.get_renderer_info();
+
+    if (!rinfo)
+        return null;
+
+    var vendor = _gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL);
+    var renderer = _gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
+
+    return {"vendor": vendor, "renderer": renderer};
 }
 
 }

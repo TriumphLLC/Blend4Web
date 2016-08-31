@@ -25,14 +25,14 @@ vec2 uv_to_pos(vec2 uv, float dim, vec2 base_point)
 vertex infinity_vertex()
 {
     return vertex(vec3(-10000.0), vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
-            vec3(0.0));
+            vec3(0.0), vec3(0.0));
 }
 
 // Translate grass vertex from local to world space using grass maps
-vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
-        vec3 center, PRECISION sampler2D grass_map_depth, sampler2D grass_map_color,
-        vec3 grass_map_dim, float grass_size, vec3 camera_eye, vec4 camera_quat,
-        mat4 view_matrix)
+vertex grass_vertex(vec3 position, vec3 tangent, vec3 shade_tan, vec3 binormal,
+        vec3 normal, vec3 center, PRECISION sampler2D grass_map_depth,
+        sampler2D grass_map_color, vec3 grass_map_dim, float grass_size,
+        vec3 camera_eye, vec4 camera_quat, mat4 view_matrix)
 {
 
     // get camera view angles
@@ -62,7 +62,7 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
     cen_uv_scaled.y -= grass_map_trans.z;
 
     // remove short grass
-    vec4 scale_color = texture2D(grass_map_color, cen_uv_scaled);
+    vec4 scale_color = GLSL_TEXTURE(grass_map_color, cen_uv_scaled);
     float scale = scale_color.r;
 
     if (scale < u_scale_threshold)
@@ -71,7 +71,7 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
     // (DELTA = (HIGH - LOW)) > 0
     float height_delta = grass_map_dim.y - grass_map_dim.x;
     // in world space: HIGH - MAP * DELTA
-    float height = grass_map_dim.y - texture2D(grass_map_depth, cen_uv_scaled).r *
+    float height = grass_map_dim.y - GLSL_TEXTURE(grass_map_depth, cen_uv_scaled).r *
             height_delta;
 
     // calculate new center and position
@@ -89,12 +89,14 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
     // NOTE: position in local space: position - center
     position -= center;
     mat4 bill_matrix = billboard_matrix(camera_eye, center, view_matrix);
-    vertex world = to_world(position, center, tangent, binormal, normal, bill_matrix);
+    vertex world = to_world(position, center, tangent, shade_tan, binormal,
+            normal, bill_matrix);
     world.center = center;
     world.color = color;
     return tbn_norm(world);
 # else
-    return tbn_norm(vertex(position, center, tangent, binormal, normal, color));
+    return tbn_norm(vertex(position, center, tangent, shade_tan, binormal, normal,
+            color));
 # endif
 }
 

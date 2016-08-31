@@ -1,3 +1,8 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var WATER_LEVEL 0.0
 #var WAVES_HEIGHT 0.0
 #var NUM_LAMP_LIGHTS 0
@@ -19,13 +24,18 @@
 #var LAMP_FAC_CHANNELS rgb
 #var LAMP_SHADOW_MAP_IND 0
 #var NUM_LFACTORS 0
-/*============================================================================
+
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 #include <std_enums.glsl>
 
 #include <precision_statement.glslf>
 #include <pack.glslf>
+
+#include <color_util.glslf>
+#include <math.glslv>
+
 #if !SHADELESS
 #include <procedural.glslf>
 # if CAUSTICS
@@ -33,12 +43,10 @@
 # endif
 #endif
 
-#include <color_util.glslf>
-#include <math.glslv>
 
-/*============================================================================
+/*==============================================================================
                                GLOBAL UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 uniform float u_time;
 
@@ -60,8 +68,10 @@ uniform vec3 u_light_color_intensities[NUM_LIGHTS];
 uniform vec4 u_light_factors[NUM_LFACTORS];
 # endif
 
-# if WATER_EFFECTS && CAUSTICS
+# if CAUSTICS
 uniform vec4 u_sun_quaternion;
+uniform vec3 u_sun_intensity;
+uniform vec3 u_sun_direction;
 # endif
 #endif
 
@@ -98,17 +108,9 @@ uniform vec4 u_fog_params; // intensity, depth, start, height
 # endif
 #endif
 
-#if WATER_EFFECTS || !DISABLE_FOG
-uniform vec3 u_sun_intensity;
-#endif
-
-#if WATER_EFFECTS && CAUSTICS
-uniform vec3 u_sun_direction;
-#endif
-
-/*============================================================================
+/*==============================================================================
                                SAMPLER UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if REFLECTION_TYPE == REFL_PLANE
 uniform sampler2D u_plane_reflection;
@@ -143,9 +145,9 @@ uniform sampler2D u_refractmap;
 uniform PRECISION sampler2D u_scene_depth;
 #endif
 
-/*============================================================================
+/*==============================================================================
                                MATERIAL UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 uniform float u_emit;
 uniform float u_ambient;
@@ -179,51 +181,59 @@ uniform vec3 u_node_rgbs[NUM_RGBS];
 uniform sampler2D u_nodes_texture;
 #endif
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 v_pos_world;
 
-varying vec3 v_pos_world;
-
-#if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
+#if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP\
         || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
         || USE_NODE_TEX_COORD_NO
-varying vec3 v_normal;
+GLSL_IN vec3 v_normal;
 #endif
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
-varying vec4 v_pos_view;
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) \
+        || (!SHADELESS && CAUSTICS && WATER_EFFECTS) \
+        || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
+GLSL_IN vec4 v_pos_view;
 #endif
 
 #if TEXTURE_NORM_CO || CALC_TBN_SPACE
-varying vec4 v_tangent;
+GLSL_IN vec4 v_tangent;
+#endif
+
+#if USE_TBN_SHADING
+GLSL_IN vec3 v_shade_tang;
 #endif
 
 #if SHADOW_USAGE == SHADOW_MAPPING_BLEND
-varying vec4 v_shadow_coord0;
+GLSL_IN vec4 v_shadow_coord0;
 # if CSM_SECTION1 || NUM_CAST_LAMPS > 1
-varying vec4 v_shadow_coord1;
+GLSL_IN vec4 v_shadow_coord1;
 # endif
 # if CSM_SECTION2 || NUM_CAST_LAMPS > 2
-varying vec4 v_shadow_coord2;
+GLSL_IN vec4 v_shadow_coord2;
 # endif
 # if CSM_SECTION3 || NUM_CAST_LAMPS > 3
-varying vec4 v_shadow_coord3;
+GLSL_IN vec4 v_shadow_coord3;
 # endif
 #endif
 
 #if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
         || REFRACTIVE || USE_NODE_B4W_REFRACTION
-varying vec3 v_tex_pos_clip;
+GLSL_IN vec3 v_tex_pos_clip;
 #endif
 
 #if REFRACTIVE && USE_NODE_B4W_REFRACTION
-varying float v_view_depth;
+GLSL_IN float v_view_depth;
 #endif
+//------------------------------------------------------------------------------
 
-/*============================================================================
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #include <mirror.glslf>
 #include <environment.glslf>
@@ -242,22 +252,19 @@ varying float v_view_depth;
 #include <fog.glslf>
 #endif
 
-/*============================================================================
+/*==============================================================================
                                     MAIN
-============================================================================*/
+==============================================================================*/
 
 void main(void) {
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) \
+        || (!SHADELESS && CAUSTICS && WATER_EFFECTS)
     float view_dist = length(v_pos_view);
 #endif
 
 #if WATER_EFFECTS
     float dist_to_water = v_pos_world.y - WATER_LEVEL;
-# endif
-
-#if WATER_EFFECTS || !DISABLE_FOG || (CAUSTICS && WATER_EFFECTS)
-    vec3 sun_color_intens = u_sun_intensity;
 #endif
 
     vec3 eye_dir = normalize(u_camera_eye_frag - v_pos_world);
@@ -308,18 +315,16 @@ void main(void) {
     vec3 normal = nout_normal;
     vec4 shadow_factor = nout_shadow_factor;
 
-#if !SHADELESS
-# if WATER_EFFECTS
-#  if WETTABLE
+#if !SHADELESS && WATER_EFFECTS
+# if WETTABLE
     //darken slightly to simulate wet surface
     color = max(color - sqrt(0.01 * -min(dist_to_water, 0.0)), 0.5 * color);
-#  endif
-#  if CAUSTICS
+# endif
+# if CAUSTICS
     apply_caustics(color, dist_to_water, u_time, shadow_factor, normal,
-                   u_sun_direction, sun_color_intens, u_sun_quaternion,
+                   u_sun_direction, u_sun_intensity, u_sun_quaternion,
                    v_pos_world, view_dist);
-#  endif  // CAUSTICS
-# endif  //WATER_EFFECTS
+# endif  // CAUSTICS
 #endif  //SHADELESS
 
 #if ALPHA
@@ -335,14 +340,14 @@ void main(void) {
 
 #if !DISABLE_FOG
 # if WATER_EFFECTS
-    fog(color, length(v_pos_view), eye_dir, dist_to_water);
+    fog(color, view_dist, eye_dir, dist_to_water);
 # else
-    fog(color, length(v_pos_view), eye_dir, 1.0);
+    fog(color, view_dist, eye_dir, 1.0);
 # endif
 #endif
 
 #if SSAO_ONLY && SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
-    vec2 visibility = texture2DProj(u_shadow_mask, v_tex_pos_clip).rg;
+    vec2 visibility = GLSL_TEXTURE_PROJ(u_shadow_mask, v_tex_pos_clip).rg;
     float ssao = visibility.g;
     color = vec3(ssao);
 #endif
@@ -351,5 +356,5 @@ void main(void) {
 #if ALPHA && !ALPHA_CLIP
     premultiply_alpha(color, alpha);
 #endif
-    gl_FragColor = vec4(color, alpha);
+    GLSL_OUT_FRAG_COLOR = vec4(color, alpha);
 }

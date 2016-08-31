@@ -1,11 +1,21 @@
+#version GLSL_VERSION
+
 #include <precision_statement.glslf>
 
 #include <color_util.glslf>
 
 uniform sampler2D u_color;
-
 uniform vec2 u_texel_size;
-varying vec2 v_texcoord;
+
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 v_texcoord;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*============================================================================*/
 
 #define AA_METHOD_FXAA_LIGHT 1
 #define AA_METHOD_FXAA_QUALITY 2
@@ -22,7 +32,7 @@ varying vec2 v_texcoord;
 
 vec4 get(float x, float y) {
     vec2 coord = v_texcoord + vec2(x,y) * u_texel_size;
-    return texture2D(u_color, coord);
+    return GLSL_TEXTURE(u_color, coord);
 }
 
 vec4 fxaa_light() {
@@ -54,12 +64,12 @@ vec4 fxaa_light() {
             max(vec2(-FXAA_SPAN_MAX, -FXAA_SPAN_MAX), dir * rcpDirMin)) * u_texel_size;
       
     vec4 rgbA = 0.5 * (
-        texture2D(u_color, v_texcoord + dir * (1.0/3.0 - 0.5)) +
-        texture2D(u_color, v_texcoord + dir * (2.0/3.0 - 0.5)));
+        GLSL_TEXTURE(u_color, v_texcoord + dir * (1.0/3.0 - 0.5)) +
+        GLSL_TEXTURE(u_color, v_texcoord + dir * (2.0/3.0 - 0.5)));
 
     vec4 rgbB = rgbA * 0.5 + 0.25 * (
-        texture2D(u_color, v_texcoord + dir * -0.5) +
-        texture2D(u_color, v_texcoord + dir *  0.5));
+        GLSL_TEXTURE(u_color, v_texcoord + dir * -0.5) +
+        GLSL_TEXTURE(u_color, v_texcoord + dir *  0.5));
 
     float lumaB = luma(rgbB);
     if ((lumaB < lumaMin) || (lumaB > lumaMax)) 
@@ -97,14 +107,18 @@ vec4 fxaa_light() {
 
 #endif // AA_METHOD
 
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
+
 void main(void) {
 #if AA_METHOD == AA_METHOD_FXAA_LIGHT
-    gl_FragColor = fxaa_light();
+    GLSL_OUT_FRAG_COLOR = fxaa_light();
 
 #elif AA_METHOD == AA_METHOD_FXAA_QUALITY
     // NOTE: iPad hack
     vec2 vec2_tmp = u_texel_size;
-    gl_FragColor = FxaaPixelShader(
+    GLSL_OUT_FRAG_COLOR = FxaaPixelShader(
             v_texcoord,
             u_color,
             vec2_tmp,

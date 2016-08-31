@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -37,8 +36,7 @@ exports.P_CUSTOM = 4;  // use exports.defaults
 exports.context = {
     alpha              : true,
     antialias          : false,
-    premultipliedAlpha : true,
-    preserveDrawingBuffer : true
+    premultipliedAlpha : true
 }
 exports.context_save = m_util.clone_object_r(exports.context);
 
@@ -57,9 +55,9 @@ exports.defaults = {
 
     use_min50                  : false,
 
-    fps_measurement_interval   : 1.5,
+    fps_measurement_interval   : 1.0,
 
-    fps_callback_interval      : 10,
+    fps_callback_interval      : 5,
 
     background_color           : [0.0, 0.0, 0.0, 0.0],
 
@@ -120,10 +118,6 @@ exports.defaults = {
 
     shore_distance             : true,
 
-    max_texture_size           : 1024,
-
-    max_cube_map_size          : 512,
-
     use_dds                    : true,
 
     precision                  : "highp",
@@ -153,7 +147,7 @@ exports.defaults = {
 
     allow_hidpi                : false,
 
-    firefox_shadows_slink_hack : false,
+    shadows_color_slink_hack   : false,
 
     mobile_firefox_media_hack  : false,
 
@@ -162,8 +156,6 @@ exports.defaults = {
     enable_outlining           : true,
 
     glow_materials             : true,
-
-    max_vertex_uniform_vectors : 128,
 
     ie11_edge_touchscreen_hack : false,
 
@@ -175,7 +167,7 @@ exports.defaults = {
 
     quality_aa_method          : true,
 
-    amd_skinning_hack          : false,
+    skinning_hack              : false,
 
     url_params                 : null,
 
@@ -203,9 +195,9 @@ exports.defaults = {
 
     check_framebuffer_hack     : false,
 
-    gl_instanced_arrays        : null,
-    gl_draw_elemes_inst        : null,
-    gl_vert_attr_div           : null
+    allow_instanced_arrays_ext : false,
+
+    allow_vao_ext : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -314,11 +306,27 @@ exports.outlining = {
 
 exports.debug_subs = {
     enabled     : false,
-    subs_type   : "MAIN_OPAQUE",
+    subs_type   : 0,    // look subscene module for the right type number
     subs_number : 0,
     slink_type  : "COLOR"
 }
 exports.debug_subs_save = m_util.clone_object_r(exports.debug_subs);
+
+exports.context_limits = {
+    max_combined_texture_image_units : 8,
+    max_fragment_uniform_vectors     : 64,
+    max_texture_image_units          : 8,
+    max_varying_vectors              : 8,
+    max_vertex_attribs               : 15,
+    max_vertex_texture_image_units   : 0,
+    max_vertex_uniform_vectors       : 128,
+
+    max_cube_map_texture_size        : 1024,
+    max_renderbuffer_size            : 4096,
+    max_texture_size                 : 4096,
+    max_viewport_dims                : [4096, 4096]
+}
+exports.context_limits_save = m_util.clone_object_r(exports.context_limits);
 
 /**
  * Override default values of engine settings according to quality param
@@ -781,13 +789,25 @@ exports.get = function(prop) {
 }
 
 exports.reset = function() {
-    exports.context = m_util.clone_object_r(exports.context_save);
-    exports.defaults = m_util.clone_object_r(exports.defaults_save);
-    exports.assets = m_util.clone_object_r(exports.assets_save);
-    exports.physics = m_util.clone_object_r(exports.physics_save);
-    exports.scenes = m_util.clone_object_r(exports.scenes_save);
-    exports.sfx = m_util.clone_object_r(exports.sfx_save);
-    exports.debug_subs = m_util.clone_object_r(exports.debug_subs_save);
+    for (var i in exports.context_save)
+        exports.context[i] = exports.context_save[i];
+    for (var i in exports.defaults_save)
+        exports.defaults[i] = exports.defaults_save[i];
+    for (var i in exports.assets_save)
+        exports.assets[i] = exports.assets_save[i];
+    for (var i in exports.physics_save)
+        exports.physics[i] = exports.physics_save[i];
+    for (var i in exports.scenes_save)
+        exports.scenes[i] = exports.scenes_save[i];
+    for (var i in exports.sfx_save)
+        exports.sfx[i] = exports.sfx_save[i];
+    for (var i in exports.debug_subs_save)
+        exports.debug_subs[i] = exports.debug_subs_save[i];
+}
+
+exports.reset_limits = function() {
+    for (var i in exports.context_limits_save)
+        exports.context_limits[i] = exports.context_limits_save[i];
 }
 
 exports.is_built_in_data = is_built_in_data;

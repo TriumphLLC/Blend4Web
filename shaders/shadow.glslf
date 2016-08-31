@@ -1,3 +1,8 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var WATER_LEVEL 0.0
 #var WAVES_HEIGHT 0.0
 #var NUM_LAMP_LIGHTS 0
@@ -25,9 +30,9 @@
 #var LAMP_SHADOW_MAP_IND 0
 #var NUM_LFACTORS 0
 
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 #include <std_enums.glsl>
 #include <precision_statement.glslf>
 
@@ -38,19 +43,18 @@
 #if NODES && ALPHA
 #include <pack.glslf>
 
+#include <color_util.glslf>
+#include <math.glslv>
+
 # if CAUSTICS
 #include <caustics.glslf>
 # endif
 
-#include <color_util.glslf>
-#include <math.glslv>
 #endif // NODES && ALPHA
 
-//#extension GL_OES_standard_derivatives: enable
-
-/*============================================================================
+/*==============================================================================
                                    UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if NODES && ALPHA
 uniform float u_time;
@@ -166,59 +170,66 @@ uniform PRECISION sampler2D u_scene_depth;
 uniform sampler2D u_nodes_texture;
 #endif
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
-
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
 #if NODES && ALPHA
-//varying vec3 v_eye_dir;
-varying vec3 v_pos_world;
+//GLSL_IN vec3 v_eye_dir;
+GLSL_IN vec3 v_pos_world;
 
-# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
-varying vec3 v_normal;
+# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
+        || CAUSTICS || CALC_TBN_SPACE
+GLSL_IN vec3 v_normal;
 # endif
 # if CALC_TBN_SPACE
-varying vec4 v_tangent;
+GLSL_IN vec4 v_tangent;
 # endif
 #else
 # if TEXTURE_COLOR
-varying vec2 v_texcoord;
+GLSL_IN vec2 v_texcoord;
 # endif
 #endif // NODES && ALPHA
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION || NODES && ALPHA
-varying vec4 v_pos_view;
+GLSL_IN vec4 v_pos_view;
 #endif
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION
-varying vec4 v_shadow_coord0;
+GLSL_IN vec4 v_shadow_coord0;
 
 # if CSM_SECTION1 || NUM_CAST_LAMPS > 1
-varying vec4 v_shadow_coord1;
+GLSL_IN vec4 v_shadow_coord1;
 # endif
 
 # if CSM_SECTION2 || NUM_CAST_LAMPS > 2
-varying vec4 v_shadow_coord2;
+GLSL_IN vec4 v_shadow_coord2;
 # endif
 
 # if CSM_SECTION3 || NUM_CAST_LAMPS > 3
-varying vec4 v_shadow_coord3;
+GLSL_IN vec4 v_shadow_coord3;
 # endif
 #endif
 
 #if REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_REFRACTION
-varying vec3 v_tex_pos_clip;
+GLSL_IN vec3 v_tex_pos_clip;
 #endif
 
 #if NODES && ALPHA
 # if USE_NODE_B4W_REFRACTION && USE_REFRACTION
-varying float v_view_depth;
+GLSL_IN float v_view_depth;
 # endif
 #endif
 
-/*============================================================================
+#if USE_TBN_SHADING
+GLSL_IN vec3 v_shade_tang;
+#endif
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
                                   INCLUDE
-============================================================================*/
+==============================================================================*/
 
 #if !SHADELESS || NODES && ALPHA || SHADOW_USAGE == SHADOW_MASK_GENERATION
 #include <shadow.glslf>
@@ -238,9 +249,9 @@ varying float v_view_depth;
 #include <nodes.glslf>
 #endif // NODES && ALPHA
 
-/*============================================================================
+/*==============================================================================
                                     MAIN
-============================================================================*/
+==============================================================================*/
 
 void main(void) {
 
@@ -292,7 +303,7 @@ void main(void) {
     float alpha = nout_alpha;
 # else // NODES
 #  if TEXTURE_COLOR
-    float alpha = (texture2D(u_colormap0, v_texcoord)).a;
+    float alpha = (GLSL_TEXTURE(u_colormap0, v_texcoord)).a;
 #   if TEXTURE_BLEND_TYPE == TEXTURE_BLEND_TYPE_MIX
     float texture_alpha = u_alpha_factor * alpha;
     texture_alpha += (1.0 - step(0.0, texture_alpha));
@@ -307,15 +318,15 @@ void main(void) {
 #endif
 
 #if SHADOW_USAGE == NO_SHADOWS || SHADOW_USAGE == SHADOW_CASTING
-    gl_FragColor = vec4(1.0);
+    GLSL_OUT_FRAG_COLOR = vec4(1.0);
 #elif SHADOW_USAGE == SHADOW_MASK_GENERATION
-    gl_FragColor = shadow_visibility(v_pos_view.z);
+    GLSL_OUT_FRAG_COLOR = shadow_visibility(v_pos_view.z);
 #endif
 
 // NOTE: It's a hack for PC using Arch Linux and Intel graphic card with open source drivers
 #if NODES && ALPHA
 # if CALC_TBN_SPACE
-    gl_FragColor.a *= clamp(v_tangent.r, 0.999999999, 1.0);
+    GLSL_OUT_FRAG_COLOR.a *= clamp(v_tangent.r, 0.999999999, 1.0);
 # endif
 #endif
 

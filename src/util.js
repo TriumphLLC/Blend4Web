@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -138,6 +137,10 @@ function keyfind(key, value, array) {
             results.push(obj);
     }
     return results;
+}
+
+exports.f32 = function(arr) {
+    return new Float32Array(arr);
 }
 
 /**
@@ -796,10 +799,10 @@ exports.create_empty_submesh = function(name) {
         va_common: va_common,
         shape_keys: [],
         submesh_bd: {
-            bb_world : m_bounds.zero_bounding_box(),
-            be_world : m_bounds.zero_bounding_ellipsoid(),
-            bb_local : m_bounds.zero_bounding_box(),
-            be_local : m_bounds.zero_bounding_ellipsoid()
+            bb_world : m_bounds.create_bb(),
+            be_world : m_bounds.create_be(),
+            bb_local : m_bounds.create_bb(),
+            be_local : m_bounds.create_be()
         },
         instanced_array_data: null
     };
@@ -808,6 +811,7 @@ exports.create_empty_submesh = function(name) {
 /**
  * Clone object using JSON.stringify() than JSON.parse().
  * Safest, but not working for objects with links/buffers.
+ * NOTE: leads to code deoptimizations
  */
 exports.clone_object_json = function(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -815,7 +819,8 @@ exports.clone_object_json = function(obj) {
 
 /**
  * Clone object recursively
- * operation is dangerous because of possible cyclic links
+ * NOTE: operation is dangerous because of possible cyclic links
+ * NOTE: leads to code deoptimizations
  */
 exports.clone_object_r = function(obj) {
     if (!(obj instanceof Object)) {
@@ -857,7 +862,8 @@ exports.clone_object_r = function(obj) {
 }
 
 /**
- * Clone object non-recursively
+ * Clone object non-recursively.
+ * NOTE: leads to code deoptimizations
  */
 exports.clone_object_nr = function(obj) {
 
@@ -1041,11 +1047,11 @@ function normalize_plane(plane) {
  */
 exports.sphere_is_out_of_frustum = function(pt, planes, radius) {
 
-    if (radius < -m_math.point_plane_dist(pt, planes.left) ||
+    if (radius < -m_math.point_plane_dist(pt, planes.near) ||
+        radius < -m_math.point_plane_dist(pt, planes.left) ||
         radius < -m_math.point_plane_dist(pt, planes.right) ||
         radius < -m_math.point_plane_dist(pt, planes.top) ||
         radius < -m_math.point_plane_dist(pt, planes.bottom) ||
-        radius < -m_math.point_plane_dist(pt, planes.near) ||
         radius < -m_math.point_plane_dist(pt, planes.far))
         return true;
     else
@@ -1059,9 +1065,9 @@ exports.ellipsoid_is_out_of_frustum = function(pt, planes,
                                                axis_x, axis_y, axis_z) {
 
     // effective radius - far/near plane
-    dot_nx = m_vec3.dot(axis_x, planes.far);
-    dot_ny = m_vec3.dot(axis_y, planes.far);
-    dot_nz = m_vec3.dot(axis_z, planes.far);
+    var dot_nx = m_vec3.dot(axis_x, planes.far);
+    var dot_ny = m_vec3.dot(axis_y, planes.far);
+    var dot_nz = m_vec3.dot(axis_z, planes.far);
     var r_far = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
 
     // near and far effective radiuses coincide (far is parallel to near)
@@ -1071,9 +1077,9 @@ exports.ellipsoid_is_out_of_frustum = function(pt, planes,
     }
 
     // effective radius - left plane
-    var dot_nx = m_vec3.dot(axis_x, planes.left);
-    var dot_ny = m_vec3.dot(axis_y, planes.left);
-    var dot_nz = m_vec3.dot(axis_z, planes.left);
+    dot_nx = m_vec3.dot(axis_x, planes.left);
+    dot_ny = m_vec3.dot(axis_y, planes.left);
+    dot_nz = m_vec3.dot(axis_z, planes.left);
     var r_left = Math.sqrt(dot_nx * dot_nx + dot_ny * dot_ny + dot_nz * dot_nz);
     if (r_left  < -m_math.point_plane_dist(pt, planes.left)) {
         return true;
@@ -1490,45 +1496,56 @@ function hash_code(a, init_val) {
     var hash = init_val;
 
     switch (typeof a) {
-    case "number":
-        return hash_code_number(a, hash);
-    case "string":
-        return hash_code_string(a, hash);
-    case "boolean":
-        return hash_code_number(a | 0, hash);
-    case "function":
-    case "undefined":
-        return hash_code_number(0, hash);
     case "object":
         if (a) {
             // NOTE: some additional props could be added to GL-type objs
             // so don't build hash code for them
             switch (a.constructor) {
+            case Object:
+                for (var prop in a)
+                    hash = hash_code(a[prop], hash);
+                break;
+            case Float32Array:
+            case Uint32Array:
+            case Int8Array:
+            case Uint8Array:
+            case Int16Array:
+            case Uint16Array:
+            case Int32Array:
+            case Float64Array:
+                for (var i = 0; i < a.length; i++)
+                    hash = hash_code_number(a[i], hash);
+                break;
+            case Array:
+                for (var i = 0; i < a.length; i++)
+                    hash = hash_code(a[i], hash);
+                break;
             case WebGLUniformLocation:
             case WebGLProgram:
             case WebGLShader:
             case WebGLFramebuffer:
             case WebGLTexture:
             case WebGLBuffer:
-                return hash_code_number(0, hash);
+                hash = hash_code_number(0, hash);
+                break;
+            default:
+                panic("Wrong object constructor");
+                break;
             }
-
-            var is_typed_arr = a.buffer instanceof ArrayBuffer
-                    && a.byteLength !== "undefined";
-
-            if (is_typed_arr)
-                for (var i = 0; i < a.length; i++)
-                    hash = hash_code_number(a[i], hash);
-            else if (a instanceof Array)
-                for (var i = 0; i < a.length; i++)
-                    hash = hash_code(a[i], hash);
-            else
-                for (var prop in a)
-                    hash = hash_code(a[prop], hash);
         } else
             hash = hash_code_number(0, hash);
+
+        return hash;
+    case "number":
+        return hash_code_number(a, hash);
+    case "boolean":
+        return hash_code_number(a | 0, hash);
+    case "string":
+        return hash_code_string(a, hash);
+    case "function":
+    case "undefined":
+        return hash_code_number(0, hash);
     }
-    return hash;
 }
 
 function hash_code_number(num, init_val) {
@@ -2546,6 +2563,18 @@ exports.ellipsoid_axes_to_mat3 = function(axis_x, axis_y, axis_z, dest) {
     dest[8] = axis_z[2];
 
     return dest;
+}
+
+/**
+ * Create an empty non-smi Array to store generic objects.
+ * Due to V8 optimizations all emtpy arrays created to store small (31 bit)
+ * integer values. This method prevents such optimization.
+ * @returns {Array} New empty Array
+ */
+exports.create_non_smi_array = function() {
+    var arr = [{}];
+    arr.length = 0;
+    return arr;
 }
 
 }

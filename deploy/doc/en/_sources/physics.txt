@@ -19,6 +19,8 @@ In order to enable physics on the scene, please use the ``Enable Physics`` check
 
 |
 
+.. _static_physics:
+
 Static Physics Type
 ===================
 
@@ -54,6 +56,8 @@ Also, there are material physics settings in this panel. The following settings 
 
 The ``Collision Group`` field corresponds to the physics group which the material belongs to. The ``Collision Mask`` field defines all physics groups with which this material will interact.
 
+.. _dynamic_physics:
+
 Dynamic Physics Type
 ====================
 
@@ -83,6 +87,8 @@ The ``Collision Mask`` field defines all physics groups with which this object w
 
 For the camera object the ``Physics Type`` = ``Dynamic`` parameter must be used, and the ``Object Physics`` checkbox must be enabled.
 
+.. _constraints:
+
 Constraints
 ===========
 
@@ -102,6 +108,7 @@ Adding a physical constraint (``Rigid Body Joint``) to the object can be perform
    
 |
 
+.. _wheeled_vehicles:
 
 Wheeled Vehicles
 ================
@@ -153,6 +160,7 @@ We can additionally tweak the ``Damping`` of ``Translation`` and ``Rotation``. T
 
 The friction and elasticity of the road surface material do not influence the vehicle's behavior.
 
+.. _floating_objects:
 
 Floating Objects
 ================
@@ -178,6 +186,8 @@ Floating Object Settings
 
 *Water Rotation Damping*
     Rotation damping when the object is on the water surface (or under water). When the object is not in water, the physics settings are used.
+
+.. _watercrafts:
 
 Floating Vehicles aka Watercrafts
 =================================
@@ -208,8 +218,10 @@ Watercraft Settings
 *Water Rotation Damping*
     Rotation damping when the object is on the water surface (or under water). When the object is not in water, the physics settings are used.
 
-Character Objects
-=================
+.. _characters:
+
+Characters
+==========
 
 .. image:: src_images/physics/physics_character_object_example.png
    :align: center
@@ -217,7 +229,7 @@ Character Objects
 
 This feature can be activated by clicking the ``Character`` check-box in the title of the eponymous tab on the ``Physics`` panel.
 
-From the engine standpoint, the character itself is a proper physical object that can collide with other physical objects or be influenced by physical forces such as gravity and bouyant force.
+From the engine standpoint, the character itself is a proper physical object that can collide with other physical objects or be influenced by physical forces such as gravity and buoyant force.
 
 Character object can be easily controlled using several API methods with a `character` keyword in their names. All such methods reside in the :b4wmod:`physics` API module.
 
@@ -254,6 +266,31 @@ All the settings listed here become available after activating the ``Character``
     This parameter sets up the waterline for the character object. The waterline is measured from the center of the physical shape of the object (not the object's mesh). If an object is submerged into the water below this line, it will float. Its value can vary from -2 to 2.
 
     It is set to zero by default.
+
+Basic Character
+---------------
+
+Blend4Web engine has an option to quickly set up a user-controlled first-person character. Such character will only have very basic functionality, but can be set up without any programming.
+
+To set up a basic character, follow these steps:
+
+#. Select an object you intend to use as a character.
+#. Enable physics for the selected object and set physics type to ``Dynamic`` or ``Rigid Body``.
+#. Enable Character option for the object.
+#. Create a new Camera or select an existing one and set its type to ``Eye``.
+
+Now a basic character with an attached camera will be present in your scene.
+
+The character can be controlled in mostly the same way as a regular ``Eye`` type camera:
+
+* WASD keys move the character.
+* Camera angles are controlled by arrow keys or moving the mouse while holding its left button.
+* Pressing the C key toggles fly mode (enabled by default).
+
+.. note::
+    Only one basic character can be present in the scene. If a scene has multiple characters, the engine will use the first of them as the basic character and ignore the others.
+
+.. _using_physics:
 
 Use in Applications
 ===================

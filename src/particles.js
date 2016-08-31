@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -59,7 +58,8 @@ function create_particles_data(name, type) {
         time_length: 0,
         lifetime_frames: 0,
         lifetime: 0,
-        cyclic: false,
+        // bool
+        cyclic: 0,
 
         mass: 0,
         nfactor: 0,
@@ -73,6 +73,8 @@ function create_particles_data(name, type) {
         alpha_end: 0,
         color_ramp_length: 0,
         color_ramp: new Float32Array(16),
+
+        need_buffers_update: false,
 
         positions: null,
         positions_cache: null,
@@ -838,13 +840,6 @@ exports.update_start_pos = function(obj, trans, quats) {
 }
 
 exports.update_particles_submesh = function(submesh, batch, pcount, material) {
-
-    // if (material["use_orco_tex_coord"]) {
-    //     var data = [];
-    //     for (var i = 0; i < pcount; i++)
-    //         data.push(0, 0, 0, 1, 1, 1, 1, 0);
-    //     submesh.va_common["a_orco_tex_coord"] = new Float32Array(data);
-    // }
 
     if (batch.part_use_tangent) {
         var data = [];

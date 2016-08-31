@@ -1,4 +1,4 @@
-#import u_plane_reflection u_mirrormap u_mirror_factor
+#import u_plane_reflection u_mirrormap
 #import v_tex_pos_clip u_refl_plane
 #import u_fresnel_params
 #import u_cube_reflection srgb_to_lin
@@ -32,7 +32,7 @@ void apply_mirror(inout vec3 base_color, vec3 eye_dir, vec3 normal,
         r = fresnel_mirror(eye_dir, eye_reflected, N, r0);
 
 # if REFLECTION_TYPE == REFL_CUBE
-    vec3 reflect_color = textureCube(u_cube_reflection, eye_reflected).xyz;
+    vec3 reflect_color = GLSL_TEXTURE_CUBE(u_cube_reflection, eye_reflected).xyz;
 # elif REFLECTION_TYPE == REFL_PLANE
 #  if !REFLECTION_PASS
     vec3 norm_proj_refl = u_refl_plane.xyz * dot(normal, u_refl_plane.xyz);
@@ -41,14 +41,13 @@ void apply_mirror(inout vec3 base_color, vec3 eye_dir, vec3 normal,
 
     vec2 refl_coord = v_tex_pos_clip.xy/ v_tex_pos_clip.z;
     refl_coord += normal_offset_view * REFL_BUMP;
-    vec3 reflect_color = texture2D(u_plane_reflection, refl_coord).rgb;
+    vec3 reflect_color = GLSL_TEXTURE(u_plane_reflection, refl_coord).rgb;
 #  else //!REFLECTION_PASS
     vec3 reflect_color = vec3(1.0);
     reflect_factor = 0.0;
 #  endif //!REFLECTION_PASS
 # elif REFLECTION_TYPE == REFL_MIRRORMAP
-    vec3 reflect_color = textureCube(u_mirrormap, eye_reflected).xyz;
-    reflect_factor = u_mirror_factor;
+    vec3 reflect_color = GLSL_TEXTURE_CUBE(u_mirrormap, eye_reflected).xyz;
 # endif
 
     srgb_to_lin(reflect_color.rgb);

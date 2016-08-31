@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -68,8 +67,8 @@ function check_batch_material(obj, mat_name) {
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
 
-        if (batch.material_names.indexOf(mat_name) > -1)
-            return (batch.type == "MAIN");
+        if (batch.material_names.indexOf(mat_name) > -1 && batch.type == "MAIN")
+            return true;
     }
     return false;
 }
@@ -640,7 +639,7 @@ exports.set_material_extended_params = function(obj, mat_name, mat_params) {
         if (typeof mat_params.material_parallax_steps == "number") {
             var parallax_steps = m_shaders.glsl_value(parseFloat(mat_params.material_parallax_steps));
             m_batch.set_batch_directive(batch, "PARALLAX_STEPS", parallax_steps);
-            m_batch.update_shader(batch, true);
+            m_batch.update_shader(batch);
         }
     }
 }
@@ -798,7 +797,7 @@ exports.set_water_material_params = function(obj, water_mat_name, water_mat_para
                 m_batch.set_batch_directive(batch, "WAVES_HOR_FAC", waves_hor_fac);
             }
         }
-        m_batch.update_shader(batch, true);
+        m_batch.update_shader(batch);
     }
 }
 

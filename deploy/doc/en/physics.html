@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Physics &mdash; Blend4Web 16.07 User Manual</title>
+  <title>Physics &mdash; Blend4Web 16.08 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.07 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.08 User Manual" href="index.html"/>
         <link rel="next" title="For Application Developers" href="developers.html"/>
         <link rel="prev" title="Audio" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -90,7 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
@@ -127,8 +127,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#watercraft-settings">Watercraft Settings</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#character-objects">Character Objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#characters">Characters</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#character-settings">Character Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-character">Basic Character</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#use-in-applications">Use in Applications</a></li>
@@ -181,38 +182,39 @@
            <div itemprop="articleBody">
             
   <div class="section" id="physics">
-<span id="id1"></span><h1><a class="toc-backref" href="#id2">Physics</a><a class="headerlink" href="#physics" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id6">Physics</a><a class="headerlink" href="#physics" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#physics" id="id2">Physics</a><ul>
-<li><a class="reference internal" href="#preparing-for-use" id="id3">Preparing for Use</a></li>
-<li><a class="reference internal" href="#static-physics-type" id="id4">Static Physics Type</a></li>
-<li><a class="reference internal" href="#dynamic-physics-type" id="id5">Dynamic Physics Type</a></li>
-<li><a class="reference internal" href="#constraints" id="id6">Constraints</a></li>
-<li><a class="reference internal" href="#wheeled-vehicles" id="id7">Wheeled Vehicles</a><ul>
-<li><a class="reference internal" href="#chassis-settings" id="id8">Chassis Settings</a></li>
+<li><a class="reference internal" href="#physics" id="id6">Physics</a><ul>
+<li><a class="reference internal" href="#preparing-for-use" id="id7">Preparing for Use</a></li>
+<li><a class="reference internal" href="#static-physics-type" id="id8">Static Physics Type</a></li>
+<li><a class="reference internal" href="#dynamic-physics-type" id="id9">Dynamic Physics Type</a></li>
+<li><a class="reference internal" href="#constraints" id="id10">Constraints</a></li>
+<li><a class="reference internal" href="#wheeled-vehicles" id="id11">Wheeled Vehicles</a><ul>
+<li><a class="reference internal" href="#chassis-settings" id="id12">Chassis Settings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#floating-objects" id="id9">Floating Objects</a><ul>
-<li><a class="reference internal" href="#floating-object-settings" id="id10">Floating Object Settings</a></li>
+<li><a class="reference internal" href="#floating-objects" id="id13">Floating Objects</a><ul>
+<li><a class="reference internal" href="#floating-object-settings" id="id14">Floating Object Settings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#floating-vehicles-aka-watercrafts" id="id11">Floating Vehicles aka Watercrafts</a><ul>
-<li><a class="reference internal" href="#watercraft-settings" id="id12">Watercraft Settings</a></li>
+<li><a class="reference internal" href="#floating-vehicles-aka-watercrafts" id="id15">Floating Vehicles aka Watercrafts</a><ul>
+<li><a class="reference internal" href="#watercraft-settings" id="id16">Watercraft Settings</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#character-objects" id="id13">Character Objects</a><ul>
-<li><a class="reference internal" href="#character-settings" id="id14">Character Settings</a></li>
+<li><a class="reference internal" href="#characters" id="id17">Characters</a><ul>
+<li><a class="reference internal" href="#character-settings" id="id18">Character Settings</a></li>
+<li><a class="reference internal" href="#basic-character" id="id19">Basic Character</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#use-in-applications" id="id15">Use in Applications</a></li>
+<li><a class="reference internal" href="#use-in-applications" id="id20">Use in Applications</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="preparing-for-use">
-<h2><a class="toc-backref" href="#id3">Preparing for Use</a><a class="headerlink" href="#preparing-for-use" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Preparing for Use</a><a class="headerlink" href="#preparing-for-use" title="Permalink to this headline">¶</a></h2>
 <p>In order to enable physics on the scene, please use the <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Physics</span></code> checkbox in the <code class="docutils literal"><span class="pre">Physics</span></code> panel under the scene tab in Blender.</p>
 <a class="reference internal image-reference" href="_images/scene_interface_phys_enable.png"><img alt="_images/scene_interface_phys_enable.png" class="align-center" src="_images/scene_interface_phys_enable.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -220,7 +222,7 @@
 </div>
 </div>
 <div class="section" id="static-physics-type">
-<h2><a class="toc-backref" href="#id4">Static Physics Type</a><a class="headerlink" href="#static-physics-type" title="Permalink to this headline">¶</a></h2>
+<span id="static-physics"></span><h2><a class="toc-backref" href="#id8">Static Physics Type</a><a class="headerlink" href="#static-physics-type" title="Permalink to this headline">¶</a></h2>
 <p>Can be used to limit the movement of other objects, for example to detect collisions with a landscape, walls and so on. In the physics settings of such an object the <code class="docutils literal"><span class="pre">Static</span></code> value (set by default) should be selected for the <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> option.</p>
 <a class="reference internal image-reference" href="_images/physics_panel_static.png"><img alt="_images/physics_panel_static.png" class="align-center" src="_images/physics_panel_static.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -242,7 +244,7 @@
 <p>The <code class="docutils literal"><span class="pre">Collision</span> <span class="pre">Group</span></code> field corresponds to the physics group which the material belongs to. The <code class="docutils literal"><span class="pre">Collision</span> <span class="pre">Mask</span></code> field defines all physics groups with which this material will interact.</p>
 </div>
 <div class="section" id="dynamic-physics-type">
-<h2><a class="toc-backref" href="#id5">Dynamic Physics Type</a><a class="headerlink" href="#dynamic-physics-type" title="Permalink to this headline">¶</a></h2>
+<span id="dynamic-physics"></span><h2><a class="toc-backref" href="#id9">Dynamic Physics Type</a><a class="headerlink" href="#dynamic-physics-type" title="Permalink to this headline">¶</a></h2>
 <p>Intended for rigid body movement simulation.</p>
 <a class="reference internal image-reference" href="_images/physics_dynamic.png"><img alt="_images/physics_dynamic.png" class="align-center" src="_images/physics_dynamic.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -260,7 +262,7 @@
 <p>For the camera object the <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> = <code class="docutils literal"><span class="pre">Dynamic</span></code> parameter must be used, and the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> checkbox must be enabled.</p>
 </div>
 <div class="section" id="constraints">
-<h2><a class="toc-backref" href="#id6">Constraints</a><a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id10">Constraints</a><a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h2>
 <p>Physical constraints are used for limiting the objects&#8217; degrees of freedom.</p>
 <a class="reference internal image-reference" href="_images/physics_constraints.png"><img alt="_images/physics_constraints.png" class="align-center" src="_images/physics_constraints.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -273,7 +275,7 @@
 </div>
 </div>
 <div class="section" id="wheeled-vehicles">
-<h2><a class="toc-backref" href="#id7">Wheeled Vehicles</a><a class="headerlink" href="#wheeled-vehicles" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id11">Wheeled Vehicles</a><a class="headerlink" href="#wheeled-vehicles" title="Permalink to this headline">¶</a></h2>
 <p>The model of a vehicle must consist of 6 separate objects - a chassis, 4 wheels and a steering wheel. The chassis&#8217; mesh center should correspond to the mass center. The centers of the wheels&#8217; and the steering wheel&#8217;s meshes should be located on the rotation axes. The steering wheel should be oriented in the local space of coordinates - X - the rotation axis, Y - to the right and Z - upwards. The object can have any names.</p>
 <a class="reference internal image-reference" href="_images/physics_vehicle_wheeled.png"><img alt="_images/physics_vehicle_wheeled.png" class="align-center" src="_images/physics_vehicle_wheeled.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -282,7 +284,7 @@
 <p>For all 6 objects: select the <code class="docutils literal"><span class="pre">Part</span></code>, specify the same id in the <code class="docutils literal"><span class="pre">Vehicle</span> <span class="pre">Name</span></code> field, select the right object type - <code class="docutils literal"><span class="pre">Chassis</span></code>, <code class="docutils literal"><span class="pre">Steering</span> <span class="pre">Wheel</span></code>, <code class="docutils literal"><span class="pre">Back</span> <span class="pre">Right</span> <span class="pre">Wheel</span></code> and so on. The <code class="docutils literal"><span class="pre">Suspension</span> <span class="pre">Rest</span> <span class="pre">Length</span></code> setting is also available for the wheels.</p>
 <p>It is necessary to specify a realistic mass for the chassis (because the default value is only 1 kg). To do this go to the physics settings, choose the <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code> value for the <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> option and specify the required value (for example, 1000 kg) in the <code class="docutils literal"><span class="pre">Mass</span></code> field.</p>
 <div class="section" id="chassis-settings">
-<h3><a class="toc-backref" href="#id8">Chassis Settings</a><a class="headerlink" href="#chassis-settings" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id12">Chassis Settings</a><a class="headerlink" href="#chassis-settings" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
 <dd>Maximum driving force of the vehicle.</dd>
@@ -308,7 +310,7 @@
 </div>
 </div>
 <div class="section" id="floating-objects">
-<h2><a class="toc-backref" href="#id9">Floating Objects</a><a class="headerlink" href="#floating-objects" title="Permalink to this headline">¶</a></h2>
+<span id="id4"></span><h2><a class="toc-backref" href="#id13">Floating Objects</a><a class="headerlink" href="#floating-objects" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/physics_floater.png"><img alt="_images/physics_floater.png" class="align-center" src="_images/physics_floater.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -316,7 +318,7 @@
 <p>In order for the object to float on the water surface (an object with the <code class="docutils literal"><span class="pre">Water</span></code> material), it is necessary to enable the <code class="docutils literal"><span class="pre">Floater</span></code> panel. There are two types of floating objects: <code class="docutils literal"><span class="pre">Main</span> <span class="pre">Body</span></code> - the floating object itself and <code class="docutils literal"><span class="pre">Bob</span></code> - an auxiliary bob-object onto which the buoyancy will be acting. A floating object can have an unlimited number of <code class="docutils literal"><span class="pre">Bob</span></code> objects. This can be both meshes or <code class="docutils literal"><span class="pre">Empty</span></code> objects.</p>
 <p>All objects that are part of the same floating object must have the same name in the <code class="docutils literal"><span class="pre">Floater</span> <span class="pre">Name</span></code> field.</p>
 <div class="section" id="floating-object-settings">
-<h3><a class="toc-backref" href="#id10">Floating Object Settings</a><a class="headerlink" href="#floating-object-settings" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id14">Floating Object Settings</a><a class="headerlink" href="#floating-object-settings" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Floating Factor</em></dt>
 <dd>Buoyancy coefficient.</dd>
@@ -328,14 +330,14 @@
 </div>
 </div>
 <div class="section" id="floating-vehicles-aka-watercrafts">
-<h2><a class="toc-backref" href="#id11">Floating Vehicles aka Watercrafts</a><a class="headerlink" href="#floating-vehicles-aka-watercrafts" title="Permalink to this headline">¶</a></h2>
+<span id="watercrafts"></span><h2><a class="toc-backref" href="#id15">Floating Vehicles aka Watercrafts</a><a class="headerlink" href="#floating-vehicles-aka-watercrafts" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/physics_boat.png"><img alt="_images/physics_boat.png" class="align-center" src="_images/physics_boat.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Watercrafts use some parameters from the <code class="docutils literal"><span class="pre">Vehicle</span></code> settings and all the settings which are similar to <code class="docutils literal"><span class="pre">Floater</span></code> setting. It is necessary to set the <code class="docutils literal"><span class="pre">Part</span></code> type <code class="docutils literal"><span class="pre">Hull</span></code> on the main object. Similar to a floating object a watercraft requires auxiliary <code class="docutils literal"><span class="pre">Bob</span></code> objects.</p>
 <div class="section" id="watercraft-settings">
-<h3><a class="toc-backref" href="#id12">Watercraft Settings</a><a class="headerlink" href="#watercraft-settings" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">Watercraft Settings</a><a class="headerlink" href="#watercraft-settings" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Force Max</em></dt>
 <dd>Maximum driving force of the vehicle.</dd>
@@ -350,14 +352,14 @@
 </dl>
 </div>
 </div>
-<div class="section" id="character-objects">
-<h2><a class="toc-backref" href="#id13">Character Objects</a><a class="headerlink" href="#character-objects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="characters">
+<span id="id5"></span><h2><a class="toc-backref" href="#id17">Characters</a><a class="headerlink" href="#characters" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/physics_character_object_example.png"><img alt="_images/physics_character_object_example.png" class="align-center" src="_images/physics_character_object_example.png" style="width: 100%;" /></a>
 <p>This feature can be activated by clicking the <code class="docutils literal"><span class="pre">Character</span></code> check-box in the title of the eponymous tab on the <code class="docutils literal"><span class="pre">Physics</span></code> panel.</p>
-<p>From the engine standpoint, the character itself is a proper physical object that can collide with other physical objects or be influenced by physical forces such as gravity and bouyant force.</p>
+<p>From the engine standpoint, the character itself is a proper physical object that can collide with other physical objects or be influenced by physical forces such as gravity and buoyant force.</p>
 <p>Character object can be easily controlled using several API methods with a <cite>character</cite> keyword in their names. All such methods reside in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a> API module.</p>
 <div class="section" id="character-settings">
-<h3><a class="toc-backref" href="#id14">Character Settings</a><a class="headerlink" href="#character-settings" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">Character Settings</a><a class="headerlink" href="#character-settings" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/physics_character_settings.png"><img alt="_images/physics_character_settings.png" class="align-center" src="_images/physics_character_settings.png" style="width: 100%;" /></a>
 <p>All the settings listed here become available after activating the <code class="docutils literal"><span class="pre">Character</span></code> tab.</p>
 <dl class="docutils">
@@ -383,9 +385,31 @@
 </dd>
 </dl>
 </div>
+<div class="section" id="basic-character">
+<h3><a class="toc-backref" href="#id19">Basic Character</a><a class="headerlink" href="#basic-character" title="Permalink to this headline">¶</a></h3>
+<p>Blend4Web engine has an option to quickly set up a user-controlled first-person character. Such character will only have very basic functionality, but can be set up without any programming.</p>
+<p>To set up a basic character, follow these steps:</p>
+<ol class="arabic simple">
+<li>Select an object you intend to use as a character.</li>
+<li>Enable physics for the selected object and set physics type to <code class="docutils literal"><span class="pre">Dynamic</span></code> or <code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></code>.</li>
+<li>Enable Character option for the object.</li>
+<li>Create a new Camera or select an existing one and set its type to <code class="docutils literal"><span class="pre">Eye</span></code>.</li>
+</ol>
+<p>Now a basic character with an attached camera will be present in your scene.</p>
+<p>The character can be controlled in mostly the same way as a regular <code class="docutils literal"><span class="pre">Eye</span></code> type camera:</p>
+<ul class="simple">
+<li>WASD keys move the character.</li>
+<li>Camera angles are controlled by arrow keys or moving the mouse while holding its left button.</li>
+<li>Pressing the C key toggles fly mode (enabled by default).</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only one basic character can be present in the scene. If a scene has multiple characters, the engine will use the first of them as the basic character and ignore the others.</p>
+</div>
+</div>
 </div>
 <div class="section" id="use-in-applications">
-<h2><a class="toc-backref" href="#id15">Use in Applications</a><a class="headerlink" href="#use-in-applications" title="Permalink to this headline">¶</a></h2>
+<span id="using-physics"></span><h2><a class="toc-backref" href="#id20">Use in Applications</a><a class="headerlink" href="#use-in-applications" title="Permalink to this headline">¶</a></h2>
 <p>The physics system is implemented in the <strong>uranium.js</strong> module and loaded separately from the engine&#8217;s main code. The <strong>uranium.js</strong> module itself is a modification of the <a class="reference external" href="http://bulletphysics.org/">Bullet</a> physics engine, which is ported to work in browsers. In order to activate the physics system, it is enough to put the <strong>uranium.js</strong> and <strong>uranium.js.mem</strong> files in the same directory as the source code of the application.</p>
 <p>Another way is to explicitly specify the loading path of the <strong>uranium.js</strong> module by using the following API method:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
@@ -422,7 +446,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-07-26.
+      Last updated on 2016-08-31.
 
     </p>
   </div>
@@ -478,7 +502,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

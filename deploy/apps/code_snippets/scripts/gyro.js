@@ -2,12 +2,15 @@
 
 b4w.register("gyro", function(exports, require) {
 
-var m_data   = require("data");
-var m_app    = require("app");
-var m_cfg    = require("config");
-var m_ctl    = require("controls");
-var m_phy    = require("physics");
-var m_scenes = require("scenes");
+var m_data    = require("data");
+var m_app     = require("app");
+var m_cfg     = require("config");
+var m_ctl     = require("controls");
+var m_phy     = require("physics");
+var m_scenes  = require("scenes");
+var m_version = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/gyro/";
 var FORCE = 500;
@@ -22,6 +25,8 @@ exports.init = function() {
         alpha: true,
         show_fps: true,
         autoresize: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         console_verbose: true
     });
 }

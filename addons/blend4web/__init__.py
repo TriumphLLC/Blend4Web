@@ -17,7 +17,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (16, 7, 0),
+    "version": (16, 8, 0),
     "blender": (2, 77, 0),
     "b4w_format_version": "5.07",
     "location": "File > Import-Export",
@@ -120,6 +120,12 @@ def draw_init_error_message(arg):
 
 @bpy.app.handlers.persistent
 def add_asset_file(arg):
+    def remove_text(text):
+        try:
+            bpy.data.texts.remove(text)
+        except Exception as e:
+            # blender 2.78 new API
+            bpy.data.texts.remove(text, do_unlink=True)
     p = bpy.context.user_preferences.addons[__package__].preferences
     path_to_sdk = p.b4w_src_path
     os.path.abspath(path_to_sdk)
@@ -129,7 +135,7 @@ def add_asset_file(arg):
         for text in bpy.data.texts:
             if text.b4w_assets_load and text.name == ASSETS_NAME:
                 if (text.filepath != path_to_assets or text.is_modified):
-                    bpy.data.texts.remove(text)
+                    remove_text(text)
                     break
                 else:
                     return
@@ -138,7 +144,7 @@ def add_asset_file(arg):
     else:
         for text in bpy.data.texts:
             if text.b4w_assets_load:
-                bpy.data.texts.remove(text)
+                remove_text(text)
                 break
 
 def need_append(b4w_node):
@@ -160,8 +166,9 @@ def add_node_tree(arg):
                     data_to.node_groups.append(b4w_node)
 
 @bpy.app.handlers.persistent
-def fix_cam_limits_storage(arg):
+def cam_reform(arg):
     for cam in bpy.data.cameras:
+        # camera limits
         if "b4w_rotation_down_limit_storage" in cam:
             cam.b4w_rotation_down_limit = cam["b4w_rotation_down_limit_storage"]
             del cam["b4w_rotation_down_limit_storage"]
@@ -174,6 +181,15 @@ def fix_cam_limits_storage(arg):
             cam.b4w_use_target_distance_limits = cam["b4w_use_distance_limits"]
             cam.b4w_use_zooming = cam["b4w_use_distance_limits"]
             del cam["b4w_use_distance_limits"]
+
+        # dof settings
+        if "b4w_dof_front" in cam:
+            cam.b4w_dof_front_end = cam["b4w_dof_front"]
+            cam.b4w_dof_front_start = 0
+
+        if "b4w_dof_rear" in cam:
+            cam.b4w_dof_rear_end = cam["b4w_dof_rear"]
+            cam.b4w_dof_rear_start = 0
 
 def index_by_var_name(collection, name):
     for i in range(len(collection)):
@@ -446,7 +462,7 @@ def register():
 
     bpy.app.handlers.load_post.append(add_asset_file)
     bpy.app.handlers.load_post.append(add_node_tree)
-    bpy.app.handlers.load_post.append(fix_cam_limits_storage)
+    bpy.app.handlers.load_post.append(cam_reform)
     bpy.app.handlers.scene_update_pre.append(init_validation.check_addon_dir)
     bpy.app.handlers.load_post.append(logic_nodetree_reform)
     # tweak for viewport

@@ -2,7 +2,7 @@
 
 float depth_fetch(in sampler2D depth_tex, in vec2 coord, in vec2 cam_range) {
 
-    float depth = texture2D(depth_tex, coord).r;
+    float depth = GLSL_TEXTURE(depth_tex, coord).r;
 
     float near = cam_range.x;
     float far = cam_range.y;

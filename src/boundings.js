@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -32,7 +31,6 @@ var m_math = require("__math");
 var m_mat3 = require("__mat3");
 var m_quat = require("__quat");
 
-
 var _bb_corners_cache = new Float32Array(3 * 8);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
@@ -48,13 +46,33 @@ var ELL_EPS = 0.000000001;
 var MATRIX_PRES = 0.0005;
 var MIN_SEMIAXIS_LEN = 0.00000001;
 
-exports.copy_bb = function(bb_from, bb_to) {
+/**
+ * Create a new bounding box with zero volume.
+ * improper use may lead to ugly bugs.
+ */
+exports.create_bb = create_bb;
+function create_bb(dest) {
+    var bb = {
+        max_x: 0,
+        min_x: 0,
+        max_y: 0,
+        min_y: 0,
+        max_z: 0,
+        min_z: 0
+    };
+
+    return bb;
+}
+
+exports.copy_bb = copy_bb;
+function copy_bb(bb_from, bb_to) {
     bb_to.min_x = bb_from.min_x;
     bb_to.max_x = bb_from.max_x;
     bb_to.min_y = bb_from.min_y;
     bb_to.max_y = bb_from.max_y;
     bb_to.min_z = bb_from.min_z;
     bb_to.max_z = bb_from.max_z;
+    return bb_to;
 }
 
 /**
@@ -71,22 +89,20 @@ exports.big_bounding_box = function() {
     };
 }
 
-/**
- * Create the new bounding box with zero volume.
- * Improper use may lead to ugly bugs.
- */
 exports.zero_bounding_box = function(dest) {
-    if (!dest)
-        dest = {};
-
     dest.max_x = 0;
     dest.min_x = 0;
     dest.max_y = 0;
     dest.min_y = 0;
     dest.max_z = 0;
     dest.min_z = 0;
-
     return dest;
+}
+
+exports.clone_bb = function(bb) {
+    var bb_new = create_bb();
+    copy_bb(bb, bb_new);
+    return bb_new;
 }
 
 /**
@@ -176,7 +192,7 @@ function bb_from_coords(coords, bb) {
 exports.bounding_box_transform = function(bb, tsr, bb_new) {
 
     if (!bb_new)
-        var bb_new = exports.zero_bounding_box();
+        var bb_new = create_bb();
 
     var bb_corners = extract_bb_corners(bb, _bb_corners_cache);
 
@@ -191,7 +207,7 @@ exports.extract_bb_corners = extract_bb_corners;
 function extract_bb_corners(bb, dest) {
 
     if (!dest)
-        var dest = new Float32Array(3 * 8);
+        dest = new Float32Array(3 * 8);
 
     var max_x = bb.max_x;
     var max_y = bb.max_y;
@@ -221,7 +237,7 @@ function extract_bb_corners(bb, dest) {
  */
 exports.shrink_bounding_box = function(bb, bb_shrink, bb_new) {
     if (!bb_new)
-        var bb_new = exports.zero_bounding_box();
+        bb_new = create_bb();
 
     var s_min_x = bb_shrink.min_x;
     var s_max_x = bb_shrink.max_x;
@@ -264,7 +280,7 @@ exports.shrink_bounding_box = function(bb, bb_shrink, bb_new) {
  */
 exports.stretch_bounding_box = function(bb, factor, bb_new) {
     if (!bb_new)
-        var bb_new = exports.zero_bounding_box();
+        bb_new = create_bb();
 
     var size_x = bb.max_x - bb.min_x;
     var size_y = bb.max_y - bb.min_y;
@@ -286,10 +302,9 @@ exports.stretch_bounding_box = function(bb, factor, bb_new) {
 exports.bounding_sphere_transform = function(bs, tsr, bs_new) {
 
     if (!bs_new)
-        var bs_new = exports.zero_bounding_sphere();
+        bs_new = create_bs();
 
     m_tsr.transform_vec3(bs.center, tsr, bs_new.center);
-
     bs_new.radius = bs.radius * m_tsr.get_scale(tsr);
 
     return bs_new;
@@ -298,7 +313,7 @@ exports.bounding_sphere_transform = function(bs, tsr, bs_new) {
 exports.bounding_ellipsoid_transform = function(be, tsr, be_new) {
 
     if (!be_new)
-        var be_new = zero_bounding_ellipsoid();
+        be_new = create_be();
 
     m_tsr.transform_vec3(be.center, tsr, be_new.center)
 
@@ -313,34 +328,62 @@ exports.bounding_ellipsoid_transform = function(be, tsr, be_new) {
     return be_new;
 }
 
-exports.create_bounding_sphere = function(radius, center) {
-    return {
-        radius: radius,
-        center: new Float32Array(center)
-    };
+exports.bs_from_values = function(radius, center) {
+    var bs = create_bs();
+    m_vec3.copy(center, bs.center);
+    bs.radius = radius;
+    return bs;
 }
 
 /**
- * Improper use may lead to ugly bugs
+ * Create bounding sphere with zero volume.
+ * improper use may lead to ugly bugs
  */
-exports.zero_bounding_sphere = function() {
+exports.create_bs = create_bs;
+function create_bs() {
     return {
-        center: new Float32Array([0, 0, 0]),
+        center: new Float32Array(3),
         radius: 0
     };
 }
 
-exports.zero_bounding_ellipsoid = zero_bounding_ellipsoid;
-function zero_bounding_ellipsoid() {
+exports.copy_bs = function(bs_from, bs_to) {
+    bs_to.center[0] = bs_from.center[0];
+    bs_to.center[1] = bs_from.center[1];
+    bs_to.center[2] = bs_from.center[2];
+    bs_to.radius = bs_from.radius;
+}
+
+/**
+ * Create bounding ellipsoid with zero volume.
+ */
+exports.create_be = create_be;
+function create_be() {
     return {
         axis_x: new Float32Array(3),
         axis_y: new Float32Array(3),
         axis_z: new Float32Array(3),
-        center: new Float32Array([0, 0, 0])
+        center: new Float32Array(3)
     };
 }
-exports.create_bounding_ellipsoid = create_bounding_ellipsoid;
-function create_bounding_ellipsoid(axis_x, axis_y, axis_z, center, quat) {
+
+function copy_be(be, be_new) {
+    m_vec3.copy(be.axis_x, be_new.axis_x);
+    m_vec3.copy(be.axis_y, be_new.axis_y);
+    m_vec3.copy(be.axis_z, be_new.axis_z);
+    m_vec3.copy(be.center, be_new.center);
+    return be_new;
+}
+
+exports.clone_be = clone_be;
+function clone_be(be) {
+    var be_new = create_be();
+    copy_be(be, be_new);
+    return be_new;
+}
+
+exports.be_from_values = be_from_values;
+function be_from_values(axis_x, axis_y, axis_z, center, quat) {
     return {
         axis_x: new Float32Array(axis_x),
         axis_y: new Float32Array(axis_y),
@@ -352,11 +395,12 @@ function create_bounding_ellipsoid(axis_x, axis_y, axis_z, center, quat) {
 /**
  * NOTE: definitely not the best style of programming
  */
-exports.big_bounding_sphere = function() {
-    return {
-        center: new Float32Array([0, 0, 0]),
-        radius: 1e12
-    };
+exports.big_bounding_sphere = function(dest) {
+    if (!dest)
+        dest = create_bs();
+    m_vec3.set(0, 0, 0, dest.center);
+    dest.radius = 1e12;
+    return dest;
 }
 
 exports.expand_bounding_sphere = function(bs, bs_exp) {
@@ -397,8 +441,8 @@ exports.expand_bounding_sphere = function(bs, bs_exp) {
  * see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
  * Third Edition. Chapter 8.1.4 Bounding Ellipsoid Construction
  **/
-exports.create_bounding_ellipsoid_by_bb = create_bounding_ellipsoid_by_bb;
-function create_bounding_ellipsoid_by_bb(points, use_rotation) {
+exports.create_be_by_bb = create_be_by_bb;
+function create_be_by_bb(points, use_rotation) {
 
     var center = m_math.calk_average_position(points, _vec3_tmp4);
     if (use_rotation)
@@ -523,16 +567,25 @@ function create_bounding_ellipsoid_by_bb(points, use_rotation) {
     m_vec3.scale(axis_y, b * r, axis_y);
     m_vec3.scale(axis_z, c * r, axis_z);
 
-    return create_bounding_ellipsoid(axis_x, axis_y, axis_z, s_center);
+    return be_from_values(axis_x, axis_y, axis_z, s_center);
 }
 
 exports.calc_be_local_by_tsr = function(be_world, world_tsr) {
-    var be_local = m_util.clone_object_r(be_world);
+    var be_local = clone_be(be_world);
 
-    var trans = m_tsr.get_trans_value(world_tsr, _vec3_tmp4);
+    var trans = m_tsr.get_trans(world_tsr, _vec3_tmp4);
     m_vec3.subtract(be_local.center, trans, be_local.center);
 
     return be_local;
+}
+
+exports.check_be_usage = function(be, bs) {
+    var a = m_vec3.length(be.axis_x);
+    var b = m_vec3.length(be.axis_y);
+    var c = m_vec3.length(be.axis_z);
+    var be_volume = a * b * c;
+    var bs_volume = bs.radius * bs.radius * bs.radius;
+    return bs_volume < 2 * be_volume;
 }
 
 /**
@@ -558,9 +611,9 @@ function find_min_max_extent(exts, dir) {
 
 
 /**
- * Create local bounding cylinder
+ * Create a bounding capsule based on the given parameters.
  */
-exports.create_bounding_capsule = function(radius, bounding_box) {
+exports.bcap_from_values = function(radius, bounding_box) {
 
     var max_y = bounding_box.max_y;
     var min_y = bounding_box.min_y;
@@ -577,9 +630,9 @@ exports.create_bounding_capsule = function(radius, bounding_box) {
 }
 
 /**
- * Create local bounding capsule
+ * Create a bounding cylinder based on the given parameters.
  */
-exports.create_bounding_cylinder = function(radius, bounding_box) {
+exports.bcyl_from_values = function(radius, bounding_box) {
 
     var max_y = bounding_box.max_y;
     var min_y = bounding_box.min_y;
@@ -596,9 +649,9 @@ exports.create_bounding_cylinder = function(radius, bounding_box) {
 }
 
 /**
- * Create local bounding cone
+ * Create a bounding cone based on the given parameters.
  */
-exports.create_bounding_cone = function(radius, bounding_box) {
+exports.bcon_from_values = function(radius, bounding_box) {
 
     var max_y = bounding_box.max_y;
     var min_y = bounding_box.min_y;
@@ -615,7 +668,7 @@ exports.create_bounding_cone = function(radius, bounding_box) {
 }
 
 /**
- * NOTE: unused
+ * @deprecated unused
  */
 exports.check_bb_intersection = function(bb1, bb2) {
     if (bb1.min_x > bb2.max_x || bb1.max_x < bb2.min_x)
@@ -702,7 +755,7 @@ exports.recalculate_mesh_boundings = function(mesh) {
         bb_points[18]= sub_max_x; bb_points[19]= sub_max_y; bb_points[20]= sub_max_z;
         bb_points[21]= sub_min_x; bb_points[22]= sub_max_y; bb_points[23]= sub_max_z;
 
-        var be_local = create_bounding_ellipsoid_by_bb(bb_points, false);
+        var be_local = create_be_by_bb(bb_points, false);
         submesh["boundings"]["bounding_ellipsoid_center"] = be_local.center;
         submesh["boundings"]["bounding_ellipsoid_axes"] = [be_local.axis_x[0],
                 be_local.axis_y[1], be_local.axis_z[2]];
@@ -736,7 +789,7 @@ exports.recalculate_mesh_boundings = function(mesh) {
     bb_points[18]= max_x; bb_points[19]= max_y; bb_points[20]= max_z;
     bb_points[21]= min_x; bb_points[22]= max_y; bb_points[23]= max_z;
 
-    var be_local = create_bounding_ellipsoid_by_bb(bb_points, false);
+    var be_local = create_be_by_bb(bb_points, false);
     mesh["b4w_bounding_ellipsoid_center"] = be_local.center;
     mesh["b4w_bounding_ellipsoid_axes"] = [be_local.axis_x[0],
             be_local.axis_y[1], be_local.axis_z[2]];
@@ -785,7 +838,7 @@ exports.get_frustum_mec = function(corners) {
     q3[0] = m_vec3.dot(_vec3_tmp3, l);
     q3[1] = m_vec3.dot(_vec3_tmp3, m);
 
-    var bs = exports.zero_bounding_sphere();
+    var bs = create_bs();
     bs = get_mec_2d([q0, q1, q2, q3], bs);
 
     var center_origin = m_vec3.scale(l, bs.center[0], _vec3_tmp3);

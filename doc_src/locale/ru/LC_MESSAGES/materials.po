@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-29 16:12+0300\n"
+"POT-Creation-Date: 2016-08-29 16:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../materials.rst:7
 msgid "Materials"
@@ -505,16 +505,20 @@ msgstr ""
 "Эффект Френеля применяется как для статического, так и для динамического "
 "отражения."
 
-#: ../materials.rst:207
+#: ../materials.rst:208
+msgid "*Material > Mirror > Fresnel*"
+msgstr ""
+
+#: ../materials.rst:208
 msgid ""
-"*Material > Mirror > Fresnel* Fresnel power for reflection. This is the N"
-" exponent in the Schlick’s formula. In Blender it is limited to values "
-"from 0 to 5. If this parameter is equal to zero the Fresnel effect is not"
-" observed and the *full* reflection at all angles occurs. If this "
-"parameter is greater than zero, the material is less reflective when "
-"viewing surfaces at angles which are close to the right angle. The bigger"
-" this parameter is the bigger is the angle deviation from the right angle"
-" for which the Fresnel effect is observed."
+"Fresnel power for reflection. This is the N exponent in the Schlick’s "
+"formula. In Blender it is limited to values from 0 to 5. If this "
+"parameter is equal to zero the Fresnel effect is not observed and the "
+"*full* reflection at all angles occurs. If this parameter is greater than"
+" zero, the material is less reflective when viewing surfaces at angles "
+"which are close to the right angle. The bigger this parameter is the "
+"bigger is the angle deviation from the right angle for which the Fresnel "
+"effect is observed."
 msgstr ""
 "Степень Френеля для отражения. Показатель степени N в формуле Шлика. В "
 "пакете Blender ограничен значениями от 0 до 5. Если этот параметр равен "
@@ -652,7 +656,7 @@ msgstr ""
 
 #: ../materials.rst:275
 msgid "Update animated shader in Blender Viewport."
-msgstr "Обновлять анимаированный шейдер во вьюпорте Blender."
+msgstr "Обновлять анимированный шейдер во вьюпорте Blender."
 
 #: ../materials.rst:282
 msgid "Engine Specific Parameters"

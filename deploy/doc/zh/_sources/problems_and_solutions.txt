@@ -191,7 +191,8 @@ message in the Bug Report thread. Our team will be sure to help you.
 
 * 更新插件时候的问题。
 
-     强烈地建议安装插件/ SDK的更新版本后重新启动Blender。
+     It’s strongly advised to restart Blender after installing a newer
+     version of Add-on/SDK.
 
 * NVIDIA驱动程序331在Linux中可引起WebGL的错误。
 

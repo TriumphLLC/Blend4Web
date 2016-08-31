@@ -1,12 +1,12 @@
 
-插件
-****
+Add-on
+******
 
 
 目录
 ^^^^
 
-* 插件
+* Add-on
 
   * Local Development Server
 
@@ -223,21 +223,17 @@ following features:
 +---------------------------------------+---------------------------------------------+
 | 错误信息                              | 原因                                        |
 +=======================================+=============================================+
-| Blend4Web initialization error! Addon | 该Blend4Web插件和该平台不兼容。             |
-| is not compatible with the PLATFORM   |                                             |
-| platform.（Blend4Web初始化错误！插件  |                                             |
-| 不是同平台平台兼容。）                |                                             |
+| Blend4Web initialization error! Add-  | 该Blend4Web插件和该平台不兼容。             |
+| on is not compatible with the         |                                             |
+| PLATFORM platform.                    |                                             |
 +---------------------------------------+---------------------------------------------+
 | Warning: Blender version mismatch.    | 警告有关可能不符合当前Blender的版本号。它建 |
 | Blender VER_REQUIRED is recommended   | 议使用VER_REQUIREDBlender版 本。当前的版本  |
-| for the Blend4Web addon. Current      | 是VER_CURRENT。                             |
-| version is VER_CURRENT.（Blend4Web    |                                             |
-| initialization error! Addon is not    |                                             |
-| compatible with the PLATFORM          |                                             |
-| platform.）                           |                                             |
+| for the Blend4Web add-on. Current     | 是VER_CURRENT。                             |
+| version is VER_CURRENT.               |                                             |
 +---------------------------------------+---------------------------------------------+
-| Incorrect addon directory name.       | Incorrect name of the addon directory.      |
-|                                       | Addon structure in the archive has been     |
+| Incorrect add-on directory name.      | Incorrect name of the add-on directory.     |
+|                                       | Add-on structure in the archive has been    |
 |                                       | damaged, or entirety of the archive has     |
 |                                       | been disrupted.                             |
 +---------------------------------------+---------------------------------------------+
@@ -259,16 +255,13 @@ following features:
 | JSON version is too old relative to   | 插件版本，与场景被导出版本相比太旧：VER_OLD |
 | B4W engine: VER_OLD, required:        | 。该引擎要求：VER_NEW。场景 将不会被加载。  |
 | VER_NEW. Reexport scene with the      | 我们建议您使用的加载项的最新版本重新导出场  |
-| latest B4W addon to fix it.（JSON版本 | 景。我们也建议 使用引擎的最新版本。         |
-| 太旧相对于B4W引擎：VER_OLD，要求：    |                                             |
-| VER_NEW。转口场景与最新B4W插件来解决  |                                             |
-| 它。）                                |                                             |
+| latest B4W add-on to fix it.          | 景。我们也建议 使用引擎的最新版本。         |
 +---------------------------------------+---------------------------------------------+
 | JSON version is a bit old relative to | 插件版本与场景的导出版本，是有点老了：      |
 | B4W engine: VER_OLD, required:        | VER_OLD。该引擎要求：VER_NEW。场 景将被载入 |
 | VER_NEW. Some compatibility issues    | 像往常一样，但是可能会出现一些错误。我们建  |
 | can occur. Reexport scene with the    | 议您使用的加载项的 最新版本重新导出场景。我 |
-| latest B4W addon to fix it.           | 们也建议使用发动机的最新版本。              |
+| latest B4W add-on to fix it.          | 们也建议使用发动机的最新版本。              |
 +---------------------------------------+---------------------------------------------+
 | B4W engine version is too old         | 相比版本的插件与该场景被导出引擎版本太旧。  |
 | relative to JSON. Can't load the      | 场景将不会被加载。我们建议您 使用引擎和插件 |
@@ -553,6 +546,10 @@ following features:
 | The NAME object has the NAME armature | Name对象既有顶点动画和不支持的电枢修改。其  |
 | modifier and a vertex animation.      | 结果是，该改性剂已被删除。                  |
 | Modifier removed.                     |                                             |
++---------------------------------------+---------------------------------------------+
+| The NAME object has the NAME armature | The NAME object has the NAME armature       |
+| modifier. It belongs to a not         | modifier. It belongs to a not exported      |
+| exported scene. Modifier removed.     | scene. Modifier removed.                    |
 +---------------------------------------+---------------------------------------------+
 | The NAME LAMP node has no lamp        | 在指定的名字错了对象 "LAMP" 节点。          |
 | object. Material: NAME.               |                                             |

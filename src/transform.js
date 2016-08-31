@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -25,25 +24,25 @@
  */
 b4w.module["__transform"] = function(exports, require) {
 
-var m_bounds    = require("__boundings");
-var m_cam       = require("__camera");
-var m_cons      = require("__constraints");
-var m_lights    = require("__lights");
-var m_quat      = require("__quat");
-var m_scs       = require("__scenes");
-var m_sfx       = require("__sfx");
-var m_tsr       = require("__tsr");
-var m_obj       = require("__objects");
-var m_obj_util  = require("__obj_util");
-var m_util      = require("__util");
-var m_vec3      = require("__vec3");
-var m_vec4      = require("__vec4");
+var m_bounds   = require("__boundings");
+var m_cam      = require("__camera");
+var m_cons     = require("__constraints");
+var m_lights   = require("__lights");
+var m_obj      = require("__objects");
+var m_obj_util = require("__obj_util");
+var m_quat     = require("__quat");
+var m_scs      = require("__scenes");
+var m_sfx      = require("__sfx");
+var m_tsr      = require("__tsr");
+var m_util     = require("__util");
+var m_vec3     = require("__vec3");
 
-var _vec3_tmp = new Float32Array(3);
-var _quat4_tmp = new Float32Array(4);
-var _mat3_tmp = new Float32Array(9);
-var _tsr_tmp = m_tsr.create();
-var _tsr_tmp2 = m_tsr.create();
+var _vec3_tmp  = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
+var _quat_tmp = new Float32Array(4);
+var _mat3_tmp  = new Float32Array(9);
+var _tsr_tmp   = m_tsr.create();
+var _tsr_tmp2  = m_tsr.create();
 
 var _elapsed = 0;
 var _update_counter = 0;
@@ -83,7 +82,7 @@ function set_translation_rel(obj, trans) {
 }
 
 exports.get_translation = function(obj, dest) {
-    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+    var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
     m_vec3.copy(trans, dest);
     return dest;
 }
@@ -91,9 +90,9 @@ exports.get_translation = function(obj, dest) {
 exports.get_translation_rel = function(obj, dest) {
     if (m_cons.has_child_of(obj)) {
         var offset = m_cons.get_child_of_offset(obj);
-        m_vec3.copy(m_tsr.get_trans_view(offset), dest);
+        m_vec3.copy(m_tsr.get_trans(offset), dest, _vec3_tmp);
     } else {
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+        var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
         m_vec3.copy(trans, dest);
     }
     return dest;
@@ -123,7 +122,7 @@ function set_rotation_rel(obj, quat) {
 }
 
 exports.get_rotation = function(obj, dest) {
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
     m_quat.copy(quat, dest);
     return dest;
 }
@@ -131,21 +130,21 @@ exports.get_rotation = function(obj, dest) {
 exports.get_rotation_rel = function(obj, dest) {
     if (m_cons.has_child_of(obj)) {
         var offset = m_cons.get_child_of_offset(obj);
-        m_quat.copy(m_tsr.get_quat_view(offset), dest);
+        m_quat.copy(m_tsr.get_quat(offset), dest, _quat_tmp);
     } else {
-        var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+        var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
         m_quat.copy(quat, dest);
     }
     return dest;
 }
 
 exports.set_rotation_euler = function(obj, euler) {
-    var quat = m_util.euler_to_quat(euler, _quat4_tmp);
+    var quat = m_util.euler_to_quat(euler, _quat_tmp);
     set_rotation(obj, quat);
 }
 
 exports.set_rotation_euler_rel = function(obj, euler) {
-    var quat = m_util.euler_to_quat(euler, _quat4_tmp);
+    var quat = m_util.euler_to_quat(euler, _quat_tmp);
     set_rotation_rel(obj, quat);
 }
 
@@ -301,35 +300,26 @@ function update_transform(obj) {
         m_cam.update_camera(obj);
 
     // should not change after constraint update
-    var trans = m_tsr.get_trans_value(render.world_tsr, _vec3_tmp);
-    var quat = m_tsr.get_quat_value(render.world_tsr, _quat4_tmp);
+    var trans = m_tsr.get_trans(render.world_tsr, _vec3_tmp);
+    var quat = m_tsr.get_quat(render.world_tsr, _quat_tmp);
 
-    // NOTE: available only after batch creation (really needed now?)
-    if (render.bb_local && render.bb_world) {
-        m_bounds.bounding_box_transform(render.bb_local, render.world_tsr, render.bb_world);
-        m_bounds.bounding_sphere_transform(render.bs_local, render.world_tsr, render.bs_world);
-        m_bounds.bounding_ellipsoid_transform(render.be_local, render.world_tsr,
-                                             render.be_world)
-    }
+    m_bounds.bounding_box_transform(render.bb_local, render.world_tsr, render.bb_world);
+    m_bounds.bounding_sphere_transform(render.bs_local, render.world_tsr, render.bs_world);
+    m_bounds.bounding_ellipsoid_transform(render.be_local, render.world_tsr, render.be_world)
 
-    for (var i = 0; i < obj.scenes_data.length; i++) {
-        var batches = obj.scenes_data[i].batches;
-        for (var j = 0; j < batches.length; j++) {
-            var batch = batches[j];
-            m_bounds.bounding_box_transform(batch.bb_local, render.world_tsr, batch.bb_world);
-            m_bounds.bounding_ellipsoid_transform(batch.be_local, render.world_tsr,
-                                                  batch.be_world);
+    if (!render.do_not_use_be)
+        for (var i = 0; i < scenes_data.length; i++) {
+            var batches = scenes_data[i].batches;
+            for (var j = 0; j < batches.length; j++) {
+                var batch = batches[j];
+                m_bounds.bounding_box_transform(batch.bb_local,
+                        render.world_tsr, batch.bb_world);
+                m_bounds.bounding_ellipsoid_transform(batch.be_local,
+                        render.world_tsr, batch.be_world);
+            }
         }
-    }
 
     switch (obj_type) {
-    case "SPEAKER":
-        m_sfx.speaker_update_transform(obj, _elapsed, _update_counter);
-        break;
-    case "CAMERA":
-        for (var i = 0; i < scenes_data.length; i++)
-            m_cam.update_camera_transform(obj, scenes_data[i]);
-        break;
     case "MESH":
         // used in some node materials
         m_tsr.to_zup_model(obj.render.world_tsr, obj.render.world_zup_tsr);
@@ -341,14 +331,19 @@ function update_transform(obj) {
             var armobj_tsr = armobj.render.world_tsr;
             m_tsr.invert(armobj_tsr, _tsr_tmp);
             m_tsr.multiply(_tsr_tmp, render.world_tsr, _tsr_tmp);
-            m_vec4.set(_tsr_tmp[0], _tsr_tmp[1], _tsr_tmp[2], _tsr_tmp[3],
-                     render.arm_rel_trans);
-            m_quat.set(_tsr_tmp[4], _tsr_tmp[5], _tsr_tmp[6], _tsr_tmp[7],
-                     render.arm_rel_quat);
+            m_tsr.get_transcale(_tsr_tmp, render.arm_rel_trans);
+            m_tsr.get_quat(_tsr_tmp, render.arm_rel_quat);
         }
 
         render.force_zsort = true;
 
+        break;
+    case "CAMERA":
+        for (var i = 0; i < scenes_data.length; i++)
+            m_cam.update_camera_transform(obj, scenes_data[i]);
+        break;
+    case "SPEAKER":
+        m_sfx.speaker_update_transform(obj, _elapsed, _update_counter);
         break;
     case "LAMP":
         m_lights.update_light_transform(obj);
@@ -363,8 +358,17 @@ function update_transform(obj) {
             var batches = sc_data.batches;
 
             switch (obj_type) {
-            case "LAMP":
-                m_scs.update_lamp_scene(obj, scene);
+            case "MESH":
+                if (render.shadow_cast)
+                    m_scs.schedule_shadow_update(scene);
+
+                var cube_refl_subs = sc_data.cube_refl_subs;
+                if (render.cube_reflection_id != null && cube_refl_subs) {
+                    m_scs.update_cube_reflect_subs(cube_refl_subs, trans);
+                }
+                break;
+            case "EMPTY":
+                m_obj.update_force(obj);
                 break;
             case "CAMERA":
                 m_scs.schedule_grass_map_update(scene);
@@ -382,19 +386,8 @@ function update_transform(obj) {
                     m_sfx.listener_update_transform(scene, trans, quat,
                             _elapsed, _update_counter);
                 break;
-            case "MESH":
-                if (render.bb_local && render.bb_world) {
-                    if (render.shadow_cast)
-                        m_scs.schedule_shadow_update(scene);
-
-                    var cube_refl_subs = sc_data.cube_refl_subs;
-                    if (render.cube_reflection_id != null && cube_refl_subs) {
-                        m_scs.update_cube_reflect_subs(cube_refl_subs, trans);
-                    }
-                }
-                break;
-            case "EMPTY":
-                m_obj.update_force(obj);
+            case "LAMP":
+                m_scs.update_lamp_scene(obj, scene);
                 break;
             }
 
@@ -426,13 +419,13 @@ function update_transform(obj) {
 }
 
 exports.distance = function(obj1, obj2) {
-    var trans1 = m_tsr.get_trans_view(obj1.render.world_tsr);
-    var trans2 = m_tsr.get_trans_view(obj2.render.world_tsr);
+    var trans1 = m_tsr.get_trans(obj1.render.world_tsr, _vec3_tmp);
+    var trans2 = m_tsr.get_trans(obj2.render.world_tsr, _vec3_tmp2);
     return m_vec3.dist(trans1, trans2);
 }
 
 exports.obj_point_distance = function(obj, point) {
-    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+    var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
     return m_vec3.dist(trans, point);
 }
 

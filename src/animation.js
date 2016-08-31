@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -25,25 +24,27 @@
  */
 b4w.module["__animation"] = function(exports, require) {
 
+var m_armat     = require("__armature");
 var m_cfg       = require("__config");
+var m_lights    = require("__lights");
 var m_obj_util  = require("__obj_util");
 var m_particles = require("__particles");
 var m_phy       = require("__physics");
 var m_print     = require("__print");
 var m_quat      = require("__quat");
 var m_reformer  = require("__reformer");
+var m_scs       = require("__scenes");
 var m_sfx       = require("__sfx");
+var m_subs      = require("__subscene");
 var m_time      = require("__time");
 var m_trans     = require("__transform");
 var m_tsr       = require("__tsr");
 var m_util      = require("__util");
 var m_vec3      = require("__vec3");
-var m_armat     = require("__armature");
-var m_lights    = require("__lights");
-var m_scs       = require("__scenes");
 
 var cfg_ani = m_cfg.animation;
 var cfg_def = m_cfg.defaults;
+var cfg_lim = m_cfg.context_limits;
 
 var LAST_FRAME_EPSILON = 0.000001;
 
@@ -129,7 +130,7 @@ var _anim_objs_cache = [];
 var _actions = [];
 
 exports.get_max_bones = function() {
-    return m_util.trunc((cfg_def.max_vertex_uniform_vectors - VECTORS_RESERVED) / 4);
+    return m_util.trunc((cfg_lim.max_vertex_uniform_vectors - VECTORS_RESERVED) / 4);
 }
 
 exports.frame_to_sec = function(frame) {
@@ -1218,8 +1219,8 @@ function animate(obj, elapsed, slot_num, force_update) {
             var tsr = _tsr_tmp;
             m_tsr.set_sep(trans, scale, quat, tsr);
             m_tsr.multiply(obj.pinverse_tsr, tsr, tsr);
-            m_tsr.get_trans_value(tsr, trans);
-            m_tsr.get_quat_value(tsr, quat);
+            m_tsr.get_trans(tsr, trans);
+            m_tsr.get_quat(tsr, quat);
             scale = m_tsr.get_scale(tsr);
         }
 
@@ -1357,7 +1358,7 @@ function animate(obj, elapsed, slot_num, force_update) {
 
         var scenes_data = obj.scenes_data;
 
-        var subs = m_scs.get_subs(scenes_data[0].scene, "MAIN_OPAQUE");
+        var subs = m_scs.get_subs(scenes_data[0].scene, m_subs.MAIN_OPAQUE);
 
         var energy = anim_slot.energy;
         if (mask[AEM_ENERGY]) {

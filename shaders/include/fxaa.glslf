@@ -611,11 +611,11 @@ float FxaaSat(float x) {
 /*--------------------------------------------------------------------------*/
 #if (FXAA_BLEND4WEB == 1)
     vec4 FxaaTexTop(sampler2D t, vec2 p) {
-        return texture2D(t, p);
+        return GLSL_TEXTURE(t, p);
     }
 
     vec4 FxaaTexOff(sampler2D t, vec2 p, vec2 o, vec2 r) {
-        return texture2D(t, p + (o * r));
+        return GLSL_TEXTURE(t, p + (o * r));
     }
 #endif
 

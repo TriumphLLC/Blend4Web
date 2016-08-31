@@ -1,3 +1,5 @@
+#version GLSL_VERSION
+
 /**
  * Copyright (C) 2013 Jorge Jimenez (jorge@iryoku.com)
  * Copyright (C) 2013 Jose I. Echevarria (joseignacioechevarria@gmail.com)
@@ -66,19 +68,27 @@ uniform vec4 u_subsample_indices;
 
 uniform vec2 u_texel_size;
 
-varying vec2 v_texcoord;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 v_texcoord;
 
 #if SMAA_PASS == SMAA_NEIGHBORHOOD_BLENDING
-varying vec4 v_offset;
+GLSL_IN vec4 v_offset;
 #else
-varying vec4 v_offset_0;
-varying vec4 v_offset_1;
-varying vec4 v_offset_2;
+GLSL_IN vec4 v_offset_0;
+GLSL_IN vec4 v_offset_1;
+GLSL_IN vec4 v_offset_2;
 #endif
 
 #if SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
-varying vec2 v_pixcoord;
+GLSL_IN vec2 v_pixcoord;
 #endif
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*============================================================================*/
 
 /**
  *                  _______  ___  ___       ___           ___
@@ -546,9 +556,9 @@ varying vec2 v_pixcoord;
  */
 vec3 smaa_gather_neighbours(vec2 texcoord,
                             sampler2D tex) {
-    float p = texture2D(tex, texcoord).r;
-    float p_left = texture2D(tex, v_offset_0.xy).r;
-    float p_top  = texture2D(tex, v_offset_0.zw).r;
+    float p = GLSL_TEXTURE(tex, texcoord).r;
+    float p_left = GLSL_TEXTURE(tex, v_offset_0.xy).r;
+    float p_top  = GLSL_TEXTURE(tex, v_offset_0.zw).r;
     return vec3(p, p_left, p_top);
 }
 #endif
@@ -579,11 +589,11 @@ void smaa_movc(bvec4 cond, inout vec4 variable, vec4 value) {
     smaa_movc(cond.zw, variable.zw, value.zw);
 }
 
-vec2 round(vec2 x) {
+vec2 round_val(vec2 x) {
     return sign(x) * floor(abs(x) + .5);
 }
 
-vec4 round(vec4 x) {
+vec4 round_val(vec4 x) {
     return sign(x) * floor(abs(x) + .5);
 }
 
@@ -613,10 +623,10 @@ vec2 smaa_luma_edge_detection(vec2 texcoord,
 
     // Calculate lumas:
     vec3 weights = vec3(0.2126, 0.7152, 0.0722);
-    float L = dot(texture2D(color_tex, texcoord).rgb, weights);
+    float L = dot(GLSL_TEXTURE(color_tex, texcoord).rgb, weights);
 
-    float L_left = dot(texture2D(color_tex, v_offset_0.xy).rgb, weights);
-    float Ltop  = dot(texture2D(color_tex, v_offset_0.zw).rgb, weights);
+    float L_left = dot(GLSL_TEXTURE(color_tex, v_offset_0.xy).rgb, weights);
+    float Ltop  = dot(GLSL_TEXTURE(color_tex, v_offset_0.zw).rgb, weights);
 
     // We do the usual threshold:
     vec4 delta;
@@ -628,16 +638,16 @@ vec2 smaa_luma_edge_detection(vec2 texcoord,
         discard;
 
     // Calculate right and bottom deltas:
-    float L_right = dot(texture2D(color_tex, v_offset_1.xy).rgb, weights);
-    float L_bottom  = dot(texture2D(color_tex, v_offset_1.zw).rgb, weights);
+    float L_right = dot(GLSL_TEXTURE(color_tex, v_offset_1.xy).rgb, weights);
+    float L_bottom  = dot(GLSL_TEXTURE(color_tex, v_offset_1.zw).rgb, weights);
     delta.zw = abs(L - vec2(L_right, L_bottom));
 
     // Calculate the maximum delta in the direct neighborhood:
     vec2 max_delta = max(delta.xy, delta.zw);
 
     // Calculate left-left and top-top deltas:
-    float L_leftleft = dot(texture2D(color_tex, v_offset_2.xy).rgb, weights);
-    float L_toptop = dot(texture2D(color_tex, v_offset_2.zw).rgb, weights);
+    float L_leftleft = dot(GLSL_TEXTURE(color_tex, v_offset_2.xy).rgb, weights);
+    float L_toptop = dot(GLSL_TEXTURE(color_tex, v_offset_2.zw).rgb, weights);
     delta.zw = abs(vec2(L_left, Ltop) - vec2(L_leftleft, L_toptop));
 
     // Calculate the final maximum delta:
@@ -673,13 +683,13 @@ vec2 color_edge_detection(vec2 texcoord,
 
     // Calculate color deltas:
     vec4 delta;
-    vec3 C = texture2D(color_tex, texcoord).rgb;
+    vec3 C = GLSL_TEXTURE(color_tex, texcoord).rgb;
 
-    vec3 Cleft = texture2D(color_tex, v_offset_0.xy).rgb;
+    vec3 Cleft = GLSL_TEXTURE(color_tex, v_offset_0.xy).rgb;
     vec3 t = abs(C - Cleft);
     delta.x = max(max(t.r, t.g), t.b);
 
-    vec3 Ctop  = texture2D(color_tex, v_offset_0.zw).rgb;
+    vec3 Ctop  = GLSL_TEXTURE(color_tex, v_offset_0.zw).rgb;
     t = abs(C - Ctop);
     delta.y = max(max(t.r, t.g), t.b);
 
@@ -691,11 +701,11 @@ vec2 color_edge_detection(vec2 texcoord,
         discard;
 
     // Calculate right and bottom deltas:
-    vec3 Cright = texture2D(color_tex, v_offset_1.xy).rgb;
+    vec3 Cright = GLSL_TEXTURE(color_tex, v_offset_1.xy).rgb;
     t = abs(C - Cright);
     delta.z = max(max(t.r, t.g), t.b);
 
-    vec3 Cbottom  = texture2D(color_tex, v_offset_1.zw).rgb;
+    vec3 Cbottom  = GLSL_TEXTURE(color_tex, v_offset_1.zw).rgb;
     t = abs(C - Cbottom);
     delta.w = max(max(t.r, t.g), t.b);
 
@@ -703,11 +713,11 @@ vec2 color_edge_detection(vec2 texcoord,
     vec2 max_delta = max(delta.xy, delta.zw);
 
     // Calculate left-left and top-top deltas:
-    vec3 Cleftleft  = texture2D(color_tex, v_offset_2.xy).rgb;
+    vec3 Cleftleft  = GLSL_TEXTURE(color_tex, v_offset_2.xy).rgb;
     t = abs(C - Cleftleft);
     delta.z = max(max(t.r, t.g), t.b);
 
-    vec3 Ctoptop = texture2D(color_tex, v_offset_2.zw).rgb;
+    vec3 Ctoptop = GLSL_TEXTURE(color_tex, v_offset_2.zw).rgb;
     t = abs(C - Ctoptop);
     delta.w = max(max(t.r, t.g), t.b);
 
@@ -761,14 +771,14 @@ vec2 decode_diag_biliner_access(vec2 e) {
     //   Green: (0.75 * 1 + 0.25 * X) => 0.75 or 1.0
     //
     // This function will unpack the values (mad + mul + round):
-    // wolframalpha.com: round(x * abs(5 * x - 5 * 0.75)) plot 0 to 1
+    // wolframalpha.com: round_val(x * abs(5 * x - 5 * 0.75)) plot 0 to 1
     e.r = e.r * abs(5.0 * e.r - 5.0 * 0.75);
-    return round(e);
+    return round_val(e);
 }
 
 vec4 decode_diag_biliner_access(vec4 e) {
     e.rb = e.rb * abs(5.0 * e.rb - 5.0 * 0.75);
-    return round(e);
+    return round_val(e);
 }
 
 /**
@@ -782,7 +792,7 @@ vec2 search_diag1(sampler2D edges_tex, vec2 texcoord, vec2 dir, out vec2 e) {
 
         if (coord.z < float(SMAA_MAX_SEARCH_STEPS_DIAG - 1) && coord.w > 0.9) {
             coord.xyz += t * vec3(dir, 1.0);
-            e = texture2D(edges_tex, coord.xy, 0.0).rg;
+            e = GLSL_TEXTURE(edges_tex, coord.xy, 0.0).rg;
             coord.w = dot(e, vec2(0.5, 0.5));
         }
     }
@@ -801,12 +811,12 @@ vec2 search_diag2(sampler2D edges_tex, vec2 texcoord, vec2 dir, out vec2 e) {
 
             // @SearchDiag2Optimization
             // Fetch both edges at once using bilinear filtering:
-            e = texture2D(edges_tex, coord.xy, 0.0).rg;
+            e = GLSL_TEXTURE(edges_tex, coord.xy, 0.0).rg;
             e = decode_diag_biliner_access(e);
 
             // Non-optimized version:
-            // e.g = texture2D(edges_tex, coord.xy, 0.0).g;
-            // e.r = texture2D(edges_tex, coord.xy + vec2(1, 0), 0.0).r;
+            // e.g = GLSL_TEXTURE(edges_tex, coord.xy, 0.0).g;
+            // e.r = GLSL_TEXTURE(edges_tex, coord.xy + vec2(1, 0), 0.0).r;
 
             coord.w = dot(e, vec2(0.5, 0.5));
         }
@@ -831,7 +841,7 @@ vec2 smaa_area_diag(sampler2D area_tex, vec2 dist, vec2 e, float offset) {
     // Move to proper place, according to the subpixel offset:
     texcoord.y += SMAA_AREATEX_SUBTEX_SIZE * offset;
     // Do it!
-    return texture2D(area_tex, texcoord, 0.0).rg;
+    return GLSL_TEXTURE(area_tex, texcoord, 0.0).rg;
 }
 
 /**
@@ -855,8 +865,8 @@ vec2 smaa_calculate_diag_weights(sampler2D edges_tex, sampler2D area_tex,
         // Fetch the crossing edges:
         vec4 coords = vec4(-d.x + 0.25, d.x, d.y, -d.y - 0.25) * u_texel_size.xyxy + texcoord.xyxy;
         vec4 c;
-        c.xy = texture2D(edges_tex, coords.xy + u_texel_size * vec2(-1,  0), 0.0).rg;
-        c.zw = texture2D(edges_tex, coords.zw + u_texel_size * vec2( 1,  0), 0.0).rg;
+        c.xy = GLSL_TEXTURE(edges_tex, coords.xy + u_texel_size * vec2(-1,  0), 0.0).rg;
+        c.zw = GLSL_TEXTURE(edges_tex, coords.zw + u_texel_size * vec2( 1,  0), 0.0).rg;
         c.yxwz = decode_diag_biliner_access(c.xyzw);
 
         // Merge crossing edges at each side into a single value:
@@ -871,7 +881,7 @@ vec2 smaa_calculate_diag_weights(sampler2D edges_tex, sampler2D area_tex,
 
     // Search for the line ends:
     d.xz = search_diag2(edges_tex, texcoord, vec2(-1, -1), end);
-    if (texture2D(edges_tex, texcoord + u_texel_size * vec2(1, 0), 0.0).r > 0.0) {
+    if (GLSL_TEXTURE(edges_tex, texcoord + u_texel_size * vec2(1, 0), 0.0).r > 0.0) {
         d.yw = search_diag2(edges_tex, texcoord, vec2(1, 1), end);
         d.y += float(end.y > 0.9);
     } else
@@ -881,9 +891,9 @@ vec2 smaa_calculate_diag_weights(sampler2D edges_tex, sampler2D area_tex,
         // Fetch the crossing edges:
         vec4 coords = vec4(-d.x, -d.x, d.y, d.y) * u_texel_size.xyxy + texcoord.xyxy;
         vec4 c;
-        c.x  = texture2D(edges_tex, coords.xy + u_texel_size * vec2(-1,  0), 0.0).g;
-        c.y  = texture2D(edges_tex, coords.xy + u_texel_size * vec2( 0, -1), 0.0).r;
-        c.zw = texture2D(edges_tex, coords.zw + u_texel_size * vec2( 1,  0), 0.0).gr;
+        c.x  = GLSL_TEXTURE(edges_tex, coords.xy + u_texel_size * vec2(-1,  0), 0.0).g;
+        c.y  = GLSL_TEXTURE(edges_tex, coords.xy + u_texel_size * vec2( 0, -1), 0.0).r;
+        c.zw = GLSL_TEXTURE(edges_tex, coords.zw + u_texel_size * vec2( 1,  0), 0.0).gr;
         vec2 cc = vec2(2.0, 2.0) * c.xz + c.yw;
 
         // Remove the crossing edge if we didn't found the end of the line:
@@ -921,7 +931,7 @@ float search_length(sampler2D search_tex, vec2 e, float offset) {
     bias *= 1.0 / SMAA_SEARCHTEX_PACKED_SIZE;
 
     // Lookup the search texture:
-    return texture2D(search_tex, scale * e + bias, 0.0).r;
+    return GLSL_TEXTURE(search_tex, scale * e + bias, 0.0).r;
 }
 
 /**
@@ -942,7 +952,7 @@ float search_x_left(sampler2D edges_tex, sampler2D search_tex, vec2 texcoord,
         if (texcoord.x > end && 
                e.g > 0.8281 && // Is there some edge not activated?
                e.r == 0.0) { // Or is there a crossing edge that breaks the line?
-            e = texture2D(edges_tex, texcoord, 0.0).rg;
+            e = GLSL_TEXTURE(edges_tex, texcoord, 0.0).rg;
             texcoord = -vec2(2.0, 0.0) * u_texel_size + texcoord;
         }
     }
@@ -958,7 +968,7 @@ float search_x_right(sampler2D edges_tex, sampler2D search_tex, vec2 texcoord,
         if (texcoord.x < end && 
                e.g > 0.8281 && // Is there some edge not activated?
                e.r == 0.0) { // Or is there a crossing edge that breaks the line?
-            e = texture2D(edges_tex, texcoord, 0.0).rg;
+            e = GLSL_TEXTURE(edges_tex, texcoord, 0.0).rg;
             texcoord = vec2(2.0, 0.0) * u_texel_size + texcoord;
         }
     }
@@ -973,7 +983,7 @@ float search_y_up(sampler2D edges_tex, sampler2D search_tex, vec2 texcoord,
         if (texcoord.y > end &&
                e.r > 0.8281 && // Is there some edge not activated?
                e.g == 0.0) { // Or is there a crossing edge that breaks the line?
-            e = texture2D(edges_tex, texcoord, 0.0).rg;
+            e = GLSL_TEXTURE(edges_tex, texcoord, 0.0).rg;
             texcoord = -vec2(0.0, 2.0) * u_texel_size + texcoord;
         }
     }
@@ -988,7 +998,7 @@ float search_y_down(sampler2D edges_tex, sampler2D search_tex, vec2 texcoord,
         if (texcoord.y < end &&
                e.r > 0.8281 && // Is there some edge not activated?
                e.g == 0.0) { // Or is there a crossing edge that breaks the line?
-            e = texture2D(edges_tex, texcoord, 0.0).rg;
+            e = GLSL_TEXTURE(edges_tex, texcoord, 0.0).rg;
             texcoord = vec2(0.0, 2.0) * u_texel_size + texcoord;
         }
     }
@@ -1003,7 +1013,7 @@ float search_y_down(sampler2D edges_tex, sampler2D search_tex, vec2 texcoord,
 vec2 smaa_area(sampler2D area_tex, vec2 dist, float e1, float e2, float offset) {
     // Rounding prevents precision errors of bilinear filtering:
     vec2 texcoord = vec2(SMAA_AREATEX_MAX_DISTANCE, SMAA_AREATEX_MAX_DISTANCE)
-                    * round(4.0 * vec2(e1, e2)) + dist;
+                    * round_val(4.0 * vec2(e1, e2)) + dist;
     
     // We do a scale and bias for mapping to texel space:
     texcoord = SMAA_AREATEX_PIXEL_SIZE * texcoord +  0.5 * SMAA_AREATEX_PIXEL_SIZE;
@@ -1012,7 +1022,7 @@ vec2 smaa_area(sampler2D area_tex, vec2 dist, float e1, float e2, float offset) 
     texcoord.y = SMAA_AREATEX_SUBTEX_SIZE * offset +  texcoord.y;
 
     // Do it!
-    return texture2D(area_tex, texcoord, 0.0).rg;
+    return GLSL_TEXTURE(area_tex, texcoord, 0.0).rg;
 }
 
 //-----------------------------------------------------------------------------
@@ -1027,10 +1037,10 @@ void detect_horizontal_corner_pattern(sampler2D edges_tex, inout vec2 weights,
     flooring /= leftRight.x + leftRight.y; // Reduce blending for pixels in the center of a line.
 
     vec2 factor = vec2(1.0, 1.0);
-    factor.x -= flooring.x * texture2D(edges_tex, texcoord.xy + u_texel_size * vec2(0,  1), 0.0).r;
-    factor.x -= flooring.y * texture2D(edges_tex, texcoord.zw + u_texel_size * vec2(1,  1), 0.0).r;
-    factor.y -= flooring.x * texture2D(edges_tex, texcoord.xy + u_texel_size * vec2(0, -2), 0.0).r;
-    factor.y -= flooring.y * texture2D(edges_tex, texcoord.zw + u_texel_size * vec2(1, -2), 0.0).r;
+    factor.x -= flooring.x * GLSL_TEXTURE(edges_tex, texcoord.xy + u_texel_size * vec2(0,  1), 0.0).r;
+    factor.x -= flooring.y * GLSL_TEXTURE(edges_tex, texcoord.zw + u_texel_size * vec2(1,  1), 0.0).r;
+    factor.y -= flooring.x * GLSL_TEXTURE(edges_tex, texcoord.xy + u_texel_size * vec2(0, -2), 0.0).r;
+    factor.y -= flooring.y * GLSL_TEXTURE(edges_tex, texcoord.zw + u_texel_size * vec2(1, -2), 0.0).r;
 
     weights *= clamp(factor, 0.0, 1.0);
 # endif
@@ -1045,10 +1055,10 @@ void detect_vertical_corner_pattern(sampler2D edges_tex, inout vec2 weights,
     flooring /= leftRight.x + leftRight.y;
 
     vec2 factor = vec2(1.0, 1.0);
-    factor.x -= flooring.x * texture2D(edges_tex, texcoord.xy + u_texel_size * vec2( 1, 0), 0.0).g;
-    factor.x -= flooring.y * texture2D(edges_tex, texcoord.zw + u_texel_size * vec2( 1, 1), 0.0).g;
-    factor.y -= flooring.x * texture2D(edges_tex, texcoord.xy + u_texel_size * vec2(-2, 0), 0.0).g;
-    factor.y -= flooring.y * texture2D(edges_tex, texcoord.zw + u_texel_size * vec2(-2, 1), 0.0).g;
+    factor.x -= flooring.x * GLSL_TEXTURE(edges_tex, texcoord.xy + u_texel_size * vec2( 1, 0), 0.0).g;
+    factor.x -= flooring.y * GLSL_TEXTURE(edges_tex, texcoord.zw + u_texel_size * vec2( 1, 1), 0.0).g;
+    factor.y -= flooring.x * GLSL_TEXTURE(edges_tex, texcoord.xy + u_texel_size * vec2(-2, 0), 0.0).g;
+    factor.y -= flooring.y * GLSL_TEXTURE(edges_tex, texcoord.zw + u_texel_size * vec2(-2, 1), 0.0).g;
 
     weights *= clamp(factor, 0.0, 1.0);
 # endif
@@ -1067,7 +1077,7 @@ vec4 blending_weight_calculation(vec2 texcoord,
 
     vec4 weights = vec4(0.0, 0.0, 0.0, 0.0);
 
-    vec2 e = texture2D(edges_tex, texcoord).rg;
+    vec2 e = GLSL_TEXTURE(edges_tex, texcoord).rg;
 
     if (e.g > 0.0) { // Edge at north
 # if !SMAA_DISABLE_DIAG_DETECTION
@@ -1092,7 +1102,7 @@ vec4 blending_weight_calculation(vec2 texcoord,
         // Now fetch the left crossing edges, two at a time using bilinear
         // filtering. Sampling at -0.25 (see @CROSSING_OFFSET) enables to
         // discern what value each edge has:
-        float e1 = texture2D(edges_tex, coords.xy, 0.0).r;
+        float e1 = GLSL_TEXTURE(edges_tex, coords.xy, 0.0).r;
 
         // Find the distance to the right:
         coords.z = search_x_right(edges_tex, search_tex, v_offset_0.zw, v_offset_2.y);
@@ -1100,7 +1110,7 @@ vec4 blending_weight_calculation(vec2 texcoord,
 
         // We want the distances to be in pixel units (doing this here allow to
         // better interleave arithmetic and memory accesses):
-        d = abs(round(d / u_texel_size.xx - pixcoord.xx));
+        d = abs(round_val(d / u_texel_size.xx - pixcoord.xx));
 
 
         // smaa_area below needs a sqrt, as the areas texture is compressed
@@ -1108,7 +1118,7 @@ vec4 blending_weight_calculation(vec2 texcoord,
         vec2 sqrt_d = sqrt(d);
 
         // Fetch the right crossing edges:
-        float e2 = texture2D(edges_tex, coords.zy + u_texel_size * vec2(1, 0), 0.0).r;
+        float e2 = GLSL_TEXTURE(edges_tex, coords.zy + u_texel_size * vec2(1, 0), 0.0).r;
 
         // Ok, we know how this pattern looks like, now it is time for getting
         // the actual area:
@@ -1134,21 +1144,21 @@ vec4 blending_weight_calculation(vec2 texcoord,
         d.x = coords.y;
 
         // Fetch the top crossing edges:
-        float e1 = texture2D(edges_tex, coords.xy, 0.0).g;
+        float e1 = GLSL_TEXTURE(edges_tex, coords.xy, 0.0).g;
 
         // Find the distance to the bottom:
         coords.z = search_y_down(edges_tex, search_tex, v_offset_1.zw, v_offset_2.w);
         d.y = coords.z;
 
         // We want the distances to be in pixel units:
-        d = abs(round(d / u_texel_size.yy - pixcoord.yy));
+        d = abs(round_val(d / u_texel_size.yy - pixcoord.yy));
 
         // smaa_area below needs a sqrt, as the areas texture is compressed 
         // quadratically:
         vec2 sqrt_d = sqrt(d);
 
         // Fetch the bottom crossing edges:
-        float e2 = texture2D(edges_tex, coords.xz + u_texel_size * vec2(0, 1), 0.0).g;
+        float e2 = GLSL_TEXTURE(edges_tex, coords.xz + u_texel_size * vec2(0, 1), 0.0).g;
 
         // Get the area for this direction:
         weights.ba = smaa_area(area_tex, sqrt_d, e1, e2, subsample_indices.x);
@@ -1174,16 +1184,16 @@ vec4 neighborhood_blending(vec2 texcoord,
                            ) {
     // Fetch the blending weights for current pixel:
     vec4 a;
-    a.x = texture2D(blend_tex, v_offset.xy).a; // Right
-    a.y = texture2D(blend_tex, v_offset.zw).g; // Top
-    a.wz = texture2D(blend_tex, texcoord).xz; // Bottom / Left
+    a.x = GLSL_TEXTURE(blend_tex, v_offset.xy).a; // Right
+    a.y = GLSL_TEXTURE(blend_tex, v_offset.zw).g; // Top
+    a.wz = GLSL_TEXTURE(blend_tex, texcoord).xz; // Bottom / Left
 
     // Is there any blending weight with a value greater than 0.0?
     if (dot(a, vec4(1.0, 1.0, 1.0, 1.0)) < 1e-5) {
-        vec4 color = texture2D(color_tex, texcoord, 0.0);
+        vec4 color = GLSL_TEXTURE(color_tex, texcoord, 0.0);
 
 # if SMAA_REPROJECTION
-        vec4 vel_tex = texture2D(velocity_tex, v_texcoord);
+        vec4 vel_tex = GLSL_TEXTURE(velocity_tex, v_texcoord);
         vec2 velocity = 2.0 * unpack_vec2(vel_tex) - 1.0;
 
         // Pack velocity into the alpha channel:
@@ -1206,16 +1216,16 @@ vec4 neighborhood_blending(vec2 texcoord,
 
         // We exploit bilinear filtering to mix current pixel with the chosen
         // neighbor:
-        vec4 color = blending_weight.x * texture2D(color_tex, blending_coord.xy, 0.0);
-        color += blending_weight.y * texture2D(color_tex, blending_coord.zw, 0.0);
+        vec4 color = blending_weight.x * GLSL_TEXTURE(color_tex, blending_coord.xy, 0.0);
+        color += blending_weight.y * GLSL_TEXTURE(color_tex, blending_coord.zw, 0.0);
 
 # if SMAA_REPROJECTION
         // Antialias velocity for proper reprojection in a later stage:
-        vec4 vel_tex = texture2D(velocity_tex, blending_coord.xy);
+        vec4 vel_tex = GLSL_TEXTURE(velocity_tex, blending_coord.xy);
         vec2 velocity_add = 2.0 * unpack_vec2(vel_tex) - 1.0;
         vec2 velocity = blending_weight.x * velocity_add;
 
-        vel_tex = texture2D(velocity_tex, blending_coord.zw);
+        vel_tex = GLSL_TEXTURE(velocity_tex, blending_coord.zw);
         velocity_add = 2.0 * unpack_vec2(vel_tex) - 1.0;
         velocity += blending_weight.y * velocity_add;
 
@@ -1240,16 +1250,16 @@ vec4 resolve(vec2 texcoord,
              #endif
              ) {
 # if SMAA_REPROJECTION
-    vec4 vel_tex = texture2D(velocity_tex, v_texcoord);
+    vec4 vel_tex = GLSL_TEXTURE(velocity_tex, v_texcoord);
 
     vec2 velocity;
     velocity = 2.0 * unpack_vec2(vel_tex) - 1.0;
 
     // Fetch current pixel:
-    vec4 current = texture2D(current_color_tex, texcoord);
+    vec4 current = GLSL_TEXTURE(current_color_tex, texcoord);
 
     // Reproject current coordinates and fetch previous pixel:
-    vec4 previous = texture2D(previous_color_tex, texcoord - velocity);
+    vec4 previous = GLSL_TEXTURE(previous_color_tex, texcoord - velocity);
 
     // Attenuate the previous pixel if the velocity is different:
     float delta = abs(current.a * current.a - previous.a * previous.a) / 2.0;
@@ -1261,8 +1271,8 @@ vec4 resolve(vec2 texcoord,
     return color;
 # else
     // Just blend the pixels:
-    vec4 current = texture2D(current_color_tex, texcoord);
-    vec4 previous = texture2D(previous_color_tex, texcoord);
+    vec4 current = GLSL_TEXTURE(current_color_tex, texcoord);
+    vec4 previous = GLSL_TEXTURE(previous_color_tex, texcoord);
     return mix(current, previous, 0.5);
 # endif
 }
@@ -1294,8 +1304,8 @@ void main(void) {
                               #endif
                               ));
 #else
-    vec4 color = texture2D(u_color, v_texcoord);
+    vec4 color = GLSL_TEXTURE(u_color, v_texcoord);
 #endif
     
-    gl_FragColor = color;
+    GLSL_OUT_FRAG_COLOR = color;
 }

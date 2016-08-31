@@ -59,6 +59,7 @@
     <script type="text/javascript" src="../../src/scenegraph.js"></script>
     <script type="text/javascript" src="../../src/scenes.js"></script>
     <script type="text/javascript" src="../../src/sfx.js"></script>
+    <script type="text/javascript" src="../../src/subscene.js"></script>
     <script type="text/javascript" src="../../src/shaders.js"></script>
     <script type="text/javascript" src="../../src/textures.js"></script>
     <script type="text/javascript" src="../../src/time.js"></script>
@@ -191,6 +192,79 @@
             <div id="manifest" data-role="collapsible-set" class="left_block_padding">
             </div>
           </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true" class="menu_items">
+            <h1>Tools & Debug</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="outlining_overview_mode">Overview outlining mode:</label>
+                    <select id="outlining_overview_mode" data-role="slider" data-mini="true">
+                        <option value="0">Off</option>
+                        <option value="1" selected>On</option>
+                    </select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <input type="button" value="Auto View Mode"
+                        id="auto_view" data-inline="true"
+                        data-icon="camera" data-mini="true" />
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="canvas_rf">Canvas resolution factor:</label>
+                    <input id="canvas_rf" data-highlight="true" value="1" min="1" max="10" type="range" step="1">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <input type="button" value="Make Screenshot"
+                        id="make_screenshot" data-inline="true"
+                        data-icon="camera" data-mini="true" />
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c debug_view_mode">
+                    <label for="debug_view_mode">Debug view modes:</label>
+                    <select id="debug_view_mode" name="debug_view_mode" data-native-menu="false" data-mini="true">
+                        <option value="DV_NONE" selected="selected">NONE</option>
+                        <option value="DV_OPAQUE_WIREFRAME">OPAQUE WIREFRAME</option>
+                        <option value="DV_TRANSPARENT_WIREFRAME">TRANSPARENT WIREFRAME</option>
+                        <option value="DV_FRONT_BACK_VIEW">FRONT BACK VIEW</option>
+                        <option value="DV_BOUNDINGS">BOUNDINGS</option>
+                        <option value="DV_CLUSTERS_VIEW">CLUSTER VIEW</option>
+                        <option value="DV_BATCHES_VIEW">BATCH VIEW</option>
+                        <option value="DV_RENDER_TIME">RENDER TIME</option>
+                    </select>
+                    <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                        <label for="wireframe_edge_color">Wireframe edge color:</label>
+                        <div><div id="wireframe_edge_color" class="color_selector"><div></div></div></div>
+                    </div>
+                    <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                        <input type="button" value="Change colors" id="debug_change_colors" data-inline="true" data-icon="arrow-r" data-mini="true" />
+                    </div>
+                    <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                        <label for="render_time_threshold">Render Time Threshold (ms):</label>
+                        <input id="render_time_threshold" data-highlight="true" value="0.5" min="0" max="10" type="range" step="0.01">
+                    </div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="show_hud_debug_info">HUD info:</label>
+                    <select id="show_hud_debug_info" data-role="slider" data-mini="true">
+                        <option value="0" selected>Off</option>
+                        <option value="1">On</option>
+                    </select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="enable_gl_debug">GL debug:</label>
+                    <select id="enable_gl_debug" data-role="slider" data-mini="true">
+                        <option value="0" selected>Off</option>
+                        <option value="1">On</option>
+                    </select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="min_capabilities">Min capabilities mode:</label>
+                    <select id="min_capabilities" data-role="slider" data-mini="true">
+                        <option value="0" selected>Off</option>
+                        <option value="1">On</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div data-role="collapsible" data-collapsed="true" class="menu_items">
@@ -411,7 +485,7 @@
 
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="environment_energy">Environment Energy:</label>
+                    <label for="environment_energy">Environment energy:</label>
                     <input type="range" id="environment_energy" value="0.0" min="0.0" max="3.0" step="0.01" data-highlight="true">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
@@ -750,7 +824,7 @@
                     <input id="god_rays_intensity" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="god_rays_max_ray_length">Max Ray Length:</label>
+                    <label for="god_rays_max_ray_length">Max ray length:</label>
                     <input id="god_rays_max_ray_length" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
@@ -829,19 +903,31 @@
                     <input id="dof_distance" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="dof_front">Front:</label>
-                    <input id="dof_front" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01">
+                    <label for="dof_front_start">Front start:</label>
+                    <input id="dof_front_start" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="dof_rear">Rear:</label>
-                    <input id="dof_rear" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.01">
+                    <label for="dof_front_end">Front end:</label>
+                    <input id="dof_front_end" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="dof_rear_start">Rear start:</label>
+                    <input id="dof_rear_start" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.01">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="dof_rear_end">Rear end:</label>
+                    <input id="dof_rear_end" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="dof_power">Power:</label>
-                    <input id="dof_power" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01">
+                    <input id="dof_power" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="dof_on">DOF_on:</label>
+                    <label for="dof_bokeh_intensity">Bokeh intensity:</label>
+                    <input id="dof_bokeh_intensity" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="dof_on">DOF enabled:</label>
                     <div><select id="dof_on" data-role="slider" data-mini="true">
                         <option value="0" selected>No</option>
                         <option value="1">Yes</option>
@@ -880,8 +966,8 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="sfx_mix_mode">Mixer:</label>
                     <select id="sfx_mix_mode" data-role="slider" data-mini="true">
-                        <option value="0" selected>No</option>
-                        <option value="1">Yes</option>
+                        <option value="0" selected>Off</option>
+                        <option value="1">On</option>
                     </select>
                 </div>
             </div>
@@ -920,76 +1006,10 @@
                             <option value="1">Yes</option>
                         </select>
                     </div>
-                    <label for="gmpd_settings">Gamepad Settings:</label>
+                    <label for="gmpd_settings">Gamepad settings:</label>
                     <select id="gmpd_settings" data-role="slider" data-mini="true">
                             <option value="0" selected>Hide</option>
                             <option value="1">Show</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div data-role="collapsible" data-collapsed="true" class="menu_items">
-            <h1>Tools & Debug</h1>
-
-            <div class="ui-grid-solo">
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <input type="button" value="Auto View Mode"
-                        id="auto_view" data-inline="true"
-                        data-icon="camera" data-mini="true" />
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="canvas_rf">Canvas Resolution Factor:</label>
-                    <input id="canvas_rf" data-highlight="true" value="1" min="1" max="10" type="range" step="1">
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <input type="button" value="Make Screenshot"
-                        id="make_screenshot" data-inline="true"
-                        data-icon="camera" data-mini="true" />
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c debug_view_mode">
-                    <label for="debug_view_mode">Debug view modes:</label>
-                    <select id="debug_view_mode" name="debug_view_mode" data-native-menu="false" data-mini="true">
-                        <option value="DV_NONE" selected="selected">NONE</option>
-                        <option value="DV_OPAQUE_WIREFRAME">OPAQUE WIREFRAME</option>
-                        <option value="DV_TRANSPARENT_WIREFRAME">TRANSPARENT WIREFRAME</option>
-                        <option value="DV_FRONT_BACK_VIEW">FRONT BACK VIEW</option>
-                        <option value="DV_DEBUG_SPHERES">DEBUG SPHERES</option>
-                        <option value="DV_CLUSTERS_VIEW">CLUSTERS VIEW</option>
-                        <option value="DV_BATCHES_VIEW">BATCHES VIEW</option>
-                        <option value="DV_RENDER_TIME">RENDER TIME</option>
-                    </select>
-                    <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
-                        <input type="button" value="Change colors" id="debug_change_colors" data-inline="true" data-icon="arrow-r" data-mini="true" />
-                    </div>
-                    <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                        <label for="render_time_threshold">Render Time Threshold (ms):</label>
-                        <input id="render_time_threshold" data-highlight="true" value="0.5" min="0" max="10" type="range" step="0.01">
-                    </div>
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="wireframe_edge_color">Wireframe edge color:</label>
-                    <div><div id="wireframe_edge_color" class="color_selector"><div></div></div></div>
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="show_hud_debug_info">HUD Info:</label>
-                    <select id="show_hud_debug_info" data-role="slider" data-mini="true">
-                        <option value="0" selected>No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="enable_gl_debug">GL Debug:</label>
-                    <select id="enable_gl_debug" data-role="slider" data-mini="true">
-                        <option value="0" selected>No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="outlining_overview_mode">Overview outlining mode:</label>
-                    <select id="outlining_overview_mode" data-role="slider" data-mini="true">
-                        <option value="0">No</option>
-                        <option value="1" selected>Yes</option>
                     </select>
                 </div>
             </div>

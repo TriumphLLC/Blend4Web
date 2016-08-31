@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Created by dal on 04.09.15.
  */
@@ -26,29 +25,29 @@
  * @namespace
  * @exports exports as logic_nodes
  */
-
 b4w.module["__logic_nodes"] = function(exports, require) {
-var m_obj       = require("__objects");
-var m_scs       = require("__scenes");
-var m_print     = require("__print");
-var m_nla       = require("__nla");
-var m_cfg       = require("__config");
-var m_ctl       = require("__controls");
-var m_util      = require("__util");
-var m_anim      = require("__animation");
-var m_assets    = require("__assets");
-var m_batch     = require("__batch");
-var m_geom      = require("__geometry");
-var m_time      = require("__time");
-var m_cam       = require("__camera");
-var m_vec3      = require("__vec3");
-var m_phy       = require("__physics");
-var m_trans     = require("__transform");
-var m_sfx       = require("__sfx");
-var m_mat3      = require("__mat3");
-var m_mat4      = require("__mat4");
-var m_tsr       = require("__tsr");
-var m_quat      = require("__quat");
+
+var m_anim   = require("__animation");
+var m_assets = require("__assets");
+var m_cam    = require("__camera");
+var m_nla    = require("__nla");
+var m_obj    = require("__objects");
+var m_print  = require("__print");
+var m_scs    = require("__scenes");
+var m_cfg    = require("__config");
+var m_ctl    = require("__controls");
+var m_batch  = require("__batch");
+var m_geom   = require("__geometry");
+var m_mat3   = require("__mat3");
+var m_mat4   = require("__mat4");
+var m_phy    = require("__physics");
+var m_quat   = require("__quat");
+var m_sfx    = require("__sfx");
+var m_time   = require("__time");
+var m_trans  = require("__transform");
+var m_tsr    = require("__tsr");
+var m_util   = require("__util");
+var m_vec3   = require("__vec3");
 
 var _logic_arr = [];
 

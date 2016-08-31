@@ -31,14 +31,6 @@ exports.debug_message = function(message_type, file_name) {
                 + identifier_name + "'. ";
         break;
 
-    case m_consts.BAD_QUAL_COLLISION:
-        var identifier_name = arguments[2];
-        message_level = m_consts.ERROR;
-        message = "Bad preprocessing collision while obfuscation identifier: '"
-                + identifier_name + "'. Varying/uniform or varying/attribute "
-                + "qualifiers combination. ";
-        break;
-
     case m_consts.EXP_DATA_VIOLATION:
         var identifier_name = arguments[2];
         var usage_type = arguments[3];
@@ -82,6 +74,11 @@ exports.debug_message = function(message_type, file_name) {
         message_level = m_consts.ERROR;
 
         message = "The 'all' extension cannot have '" + behavior + "' behavior. "
+        break;
+    case m_consts.VERSION_REQUIRED:
+        message_level = m_consts.ERROR;
+
+        message = "#version directive must occur at the beginning of a shader before anything else. "
         break;
     }
 
@@ -175,7 +172,7 @@ function log(data) {
     console.log(JSON.stringify(data, null, 4));
 }
 
-exports.cleanup = cleanup;
-function cleanup() {
+// not used
+exports.cleanup = function() {
     _db_ident_messages.length = 0;
 }

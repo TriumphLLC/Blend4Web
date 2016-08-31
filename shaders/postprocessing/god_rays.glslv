@@ -1,22 +1,33 @@
-#include <math.glslv>
+#version GLSL_VERSION
 
-attribute vec2 a_bb_vertex;
+#include <math.glslv>
 
 uniform mat4 u_view_proj_matrix;
 
 uniform vec3 u_sun_direction;
 
-#if DEPTH_RGBA
-    #if WATER_EFFECTS
-        uniform vec4 u_camera_quat;
-        uniform float u_cam_water_depth;
-        varying float v_underwater;
-        varying vec2 v_texture_offset;
-    #endif
+#if DEPTH_RGBA && WATER_EFFECTS
+uniform vec4 u_camera_quat;
+uniform float u_cam_water_depth;
 #endif
 
-varying vec2 v_texcoord;
-varying vec4 v_sun_pos_clip;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 a_bb_vertex;
+//------------------------------------------------------------------------------
+
+#if DEPTH_RGBA && WATER_EFFECTS
+GLSL_OUT float v_underwater;
+GLSL_OUT vec2 v_texture_offset;
+#endif
+
+GLSL_OUT vec2 v_texcoord;
+GLSL_OUT vec4 v_sun_pos_clip;
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
     v_texcoord = a_bb_vertex + 0.5;

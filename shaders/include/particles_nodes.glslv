@@ -1,12 +1,12 @@
-/*============================================================================
+/*==============================================================================
                                    EXPORTS
-============================================================================*/
+==============================================================================*/
 #import v_texcoord
 #export nodes_main
 
-/*============================================================================
+/*==============================================================================
                                   FUNCTIONS
-============================================================================*/
+==============================================================================*/
 
 #node TEX_COORD_UV
     v_texcoord = nin_bb_vertex + 0.5;
@@ -26,12 +26,12 @@
 
 #node PARTICLE_INFO
     // v_p_params -> indices, time, lifetimes, sizes
-    #node_param optional varying vec4 v_p_params
-    #node_param optional varying vec3 v_p_location
-    #node_param optional varying vec3 v_p_vel
-    #node_param optional varying vec3 v_p_a_vel
+    #node_param optional GLSL_OUT vec4 v_p_params
+    #node_param optional GLSL_OUT vec3 v_p_location
+    #node_param optional GLSL_OUT vec3 v_p_vel
+    #node_param optional GLSL_OUT vec3 v_p_a_vel
 
-    #node_param optional attribute float a_p_indices
+    #node_param optional GLSL_IN float a_p_indices
 
 # node_if PART_INFO_SIZE
     v_p_params[3] = nin_part_size;

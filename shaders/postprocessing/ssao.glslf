@@ -1,4 +1,11 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var PRECISION lowp
+
+/*============================================================================*/
 
 precision PRECISION sampler2D;
 
@@ -17,26 +24,38 @@ uniform sampler2D u_ssao_special_tex;
 uniform vec2 u_camera_range;
 uniform vec2 u_texel_size;
 
-varying vec2 v_texcoord;
-
 uniform float u_ssao_radius_increase; // sampling radius increase
 uniform float u_ssao_influence; // how much ao affects final rendering
 uniform float u_ssao_dist_factor; // how much ao decreases with distance
+
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 v_texcoord;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*============================================================================*/
 
 float read_depth(in vec2 coord) {
     return depth_fetch(u_depth, coord, u_camera_range);
 }
 
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
+
 void main(void) {
 
     // TODO replace this by rendering to one channel using color mask
-    vec3 tex_input = texture2D(u_color, v_texcoord).rgb;
+    vec3 tex_input = GLSL_TEXTURE(u_color, v_texcoord).rgb;
 #if SSAO_WHITE
-    gl_FragColor = vec4(tex_input, 1.0);
+    GLSL_OUT_FRAG_COLOR = vec4(tex_input, 1.0);
     return;
 #endif
 
-    vec3 rot = normalize(2.0 * texture2D(u_ssao_special_tex, v_texcoord * 0.25 / u_texel_size).rgb - 1.0);
+    vec3 rot = normalize(2.0 * GLSL_TEXTURE(u_ssao_special_tex, v_texcoord * 0.25 / u_texel_size).rgb - 1.0);
 
     float depth = read_depth(v_texcoord);
     float kdepth = depth * (u_camera_range.y - u_camera_range.x);
@@ -90,5 +109,5 @@ void main(void) {
     float ssao_influence = u_ssao_influence * (1.0 - u_ssao_dist_factor * depth);
     res = mix(1.0, res, ssao_influence);
 
-    gl_FragColor = vec4(tex_input, res);
+    GLSL_OUT_FRAG_COLOR = vec4(tex_input, res);
 }

@@ -243,16 +243,16 @@ HTML-файлы не могут применяться для дальнейше
 +---------------------------------------+---------------------------------------------+
 | Сообщение об ошибке                   | Причина                                     |
 +=======================================+=============================================+
-| Blend4Web initialization error! Addon | Ошибка загрузки аддона. Аддон не совместим  |
-| is not compatible with the PLATFORM   | с платформой PLATFORM.                      |
-| platform.                             |                                             |
+| Blend4Web initialization error! Add-  | Ошибка загрузки аддона. Аддон не совместим  |
+| on is not compatible with the         | с платформой PLATFORM.                      |
+| PLATFORM platform.                    |                                             |
 +---------------------------------------+---------------------------------------------+
 | Warning: Blender version mismatch.    | Предупреждение о возможной несовместимости  |
 | Blender VER_REQUIRED is recommended   | с текущей версией Blender. Для работы       |
-| for the Blend4Web addon. Current      | рекомендуется версия Blender'а              |
+| for the Blend4Web add-on. Current     | рекомендуется версия Blender'а              |
 | version is VER_CURRENT.               | VER_REQUIRED. Текущая версия - VER_CURRENT. |
 +---------------------------------------+---------------------------------------------+
-| Incorrect addon directory name.       | Некорректное имя директории аддона.         |
+| Incorrect add-on directory name.      | Некорректное имя директории аддона.         |
 |                                       | Структура аддона в архиве была повреждена,  |
 |                                       | либо была нарушена целостность архива.      |
 +---------------------------------------+---------------------------------------------+
@@ -276,7 +276,7 @@ HTML-файлы не могут применяться для дальнейше
 | JSON version is too old relative to   | Версия аддона, которым была экспортирована  |
 | B4W engine: VER_OLD, required:        | сцена, сильно устарела: VER_OLD, движком    |
 | VER_NEW. Reexport scene with the      | требуется - VER_NEW. Сцена не будет         |
-| latest B4W addon to fix it.           | загружена. Рекомендуется переэкспортировать |
+| latest B4W add-on to fix it.          | загружена. Рекомендуется переэкспортировать |
 |                                       | сцену аддоном последней версии, а также     |
 |                                       | использовать последнюю версию движка.       |
 +---------------------------------------+---------------------------------------------+
@@ -284,7 +284,7 @@ HTML-файлы не могут применяться для дальнейше
 | B4W engine: VER_OLD, required:        | сцена, немного устарела: VER_OLD, движком   |
 | VER_NEW. Some compatibility issues    | требуется - VER_NEW. Сцена будет загружена, |
 | can occur. Reexport scene with the    | однако возможны различные ошибки.           |
-| latest B4W addon to fix it.           | Рекомендуется переэкспортировать сцену      |
+| latest B4W add-on to fix it.          | Рекомендуется переэкспортировать сцену      |
 |                                       | аддоном последней версии, а также           |
 |                                       | использовать последнюю версию движка.       |
 +---------------------------------------+---------------------------------------------+
@@ -607,6 +607,10 @@ HTML-файлы не могут применяться для дальнейше
 | The NAME object has the NAME armature | Объект NAME имеет вертексную анимацию и     |
 | modifier and a vertex animation.      | арматурный модификатор. Модификатор удален. |
 | Modifier removed.                     |                                             |
++---------------------------------------+---------------------------------------------+
+| The NAME object has the NAME armature | The NAME object has the NAME armature       |
+| modifier. It belongs to a not         | modifier. It belongs to a not exported      |
+| exported scene. Modifier removed.     | scene. Modifier removed.                    |
 +---------------------------------------+---------------------------------------------+
 | The NAME LAMP node has no lamp        | В ноде NAME типа "LAMP" не указан           |
 | object. Material: NAME.               | подходящий объект.                          |

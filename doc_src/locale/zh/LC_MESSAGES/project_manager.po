@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-22 17:49+0300\n"
+"POT-Creation-Date: 2016-08-29 16:10+0300\n"
 "PO-Revision-Date: 2016-03-28 15:47+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../project_manager.rst:5 ../project_manager.rst:28
 msgid "Project Manager"
@@ -102,7 +102,7 @@ msgstr "*导入项目*"
 msgid "Opens the :ref:`project import <import_projects>` dialogue."
 msgstr "打开  :ref:`project import <import_projects>` 对话。"
 
-#: ../project_manager.rst:48 ../project_manager.rst:294
+#: ../project_manager.rst:48 ../project_manager.rst:320
 msgid "*Export Project(s)*"
 msgstr "*导出项目*"
 
@@ -110,7 +110,7 @@ msgstr "*导出项目*"
 msgid "Opens the :ref:`project export <export_projects>` page."
 msgstr "打开 :ref:`project export <export_projects>`  页。 "
 
-#: ../project_manager.rst:51 ../project_manager.rst:288
+#: ../project_manager.rst:51 ../project_manager.rst:314
 msgid "*Hide Stock Projects*"
 msgstr "*隐藏项目*"
 
@@ -120,8 +120,8 @@ msgid ""
 "this command is replaced with the ``Show Stock Projects`` command."
 msgstr "可以用来隐藏项目。如果已经隐藏了此类项目，则此命令替换 ``显示项目`` 命令。"
 
-#: ../project_manager.rst:55 ../project_manager.rst:208
-#: ../project_manager.rst:291
+#: ../project_manager.rst:55 ../project_manager.rst:234
+#: ../project_manager.rst:317
 msgid "*Help*"
 msgstr "*帮助*"
 
@@ -133,75 +133,124 @@ msgstr "打开  :ref:`帮助文件 <app_building>`."
 msgid "Commands for managing a specific project is located at its right."
 msgstr "用于管理特定项目的命令。"
 
-#: ../project_manager.rst:62
+#: ../project_manager.rst:60
+msgid "Some commands may not be available depending on the type of the project."
+msgstr ""
+
+#: ../project_manager.rst:65
+#, fuzzy
 msgid ""
-"Compile project (not available for WebPlayer JSON and WebPlayer HTML "
+"Compile project (not available for Web Player JSON and Web Player HTML "
 "projects)."
 msgstr "编译项目 （WebPlayer JSON 和 WebPlayer HTML 项目不可用）。"
 
-#: ../project_manager.rst:63
+#: ../project_manager.rst:66
+#, fuzzy
+msgid ""
+"Check for missing or unnecessary API modules (not available for Web "
+"Player JSON and Web Player HTML projects)."
+msgstr "编译项目 （WebPlayer JSON 和 WebPlayer HTML 项目不可用）。"
+
+#: ../project_manager.rst:68
+msgid ""
+"Activating this option will make the Project Manager check the modules "
+"used by the application and output the results of the check to the "
+"console. Possible warning messages are listed below:"
+msgstr ""
+
+#: ../project_manager.rst:70
+msgid ""
+"If one or more API modules are missing from the project's folder, the "
+"following message will be displayed:"
+msgstr ""
+
+#: ../project_manager.rst:72
+msgid ""
+"Module `module_name` is missing from the `project_name` project, please "
+"append it to the project's html files."
+msgstr ""
+
+#: ../project_manager.rst:77
+msgid ""
+"If the project has one or more API modules that are not used anywhere in "
+"the program code, the following message will be displayed:"
+msgstr ""
+
+#: ../project_manager.rst:79
+msgid ""
+"Module `module_name` is no longer required, please remove it from the "
+"project's HTML files."
+msgstr ""
+
+#: ../project_manager.rst:84
+msgid ""
+"In case no problems with missing/unnecessary modules have been detected, "
+"the following message will be displayed:"
+msgstr ""
+
+#: ../project_manager.rst:89
 msgid "Re-export blend files from the project."
 msgstr "从项目重新导出blend文件。"
 
-#: ../project_manager.rst:64
+#: ../project_manager.rst:90
 msgid ":ref:`Convert media resources. <converter>`"
 msgstr ":ref:`转换媒体资源。<converter>`"
 
-#: ../project_manager.rst:65
+#: ../project_manager.rst:91
 msgid "Export and download a project archive."
 msgstr "导出和下载项目档案。"
 
-#: ../project_manager.rst:66
+#: ../project_manager.rst:92
 msgid "Remove the project."
 msgstr "移除项目"
 
-#: ../project_manager.rst:70
+#: ../project_manager.rst:96
 msgid "All project paths are retrieved from its .b4w_project file."
 msgstr "项目的所有路径都是从它的.b4w_project 文件中检索。"
 
-#: ../project_manager.rst:72
+#: ../project_manager.rst:98
 msgid ""
 "Beside the project's name, a link to the :ref:`project information page  "
 "<project_info>` is located. The application type is also specified there."
 " An application can have one of the following types:"
 msgstr "该项目的名称旁边，有链接到 :ref:`项目信息页面  <project_info>` 。这里也指定应用程序类型。应用程序可以具有下列类型之一："
 
-#: ../project_manager.rst:75
+#: ../project_manager.rst:101
 msgid "*Player*"
 msgstr "*播放器*"
 
-#: ../project_manager.rst:75
+#: ../project_manager.rst:101
 msgid "The application can be played using the Web Player."
 msgstr "可以使用 Web 播放器播放应用程序。"
 
-#: ../project_manager.rst:78
+#: ../project_manager.rst:104
 msgid "*Dev*"
 msgstr "*开发*"
 
-#: ../project_manager.rst:78
+#: ../project_manager.rst:104
 msgid "Application for development."
 msgstr "开发中的应用。"
 
-#: ../project_manager.rst:82
+#: ../project_manager.rst:108
 msgid "*Build*"
 msgstr "*构建*"
 
-#: ../project_manager.rst:81
+#: ../project_manager.rst:107
 msgid "Compiled application."
 msgstr "编译应用程序。"
 
-#: ../project_manager.rst:87
+#: ../project_manager.rst:113
 msgid "Project Creation Wizard"
 msgstr "项目创建向导"
 
-#: ../project_manager.rst:89
+#: ../project_manager.rst:115
 msgid ""
 "The tool for creating new projects is included in the Project Management "
 "app and executed by the ``[Create New Project]`` button on the main page "
 "of this app."
 msgstr "该工具用于创建新的项目是列入项目管理应用程序中，由主页面上 ``[Create New Project]`` 按钮执行。"
 
-#: ../project_manager.rst:95
+#: ../project_manager.rst:121
 msgid ""
 "The ``[Back to Projects]`` button can be used to return to the Project "
 "Manager's main page, while the ``[Help]`` button can be used to access "
@@ -210,7 +259,7 @@ msgstr ""
 "``[Back to Projects]`` 按钮可以用来返回到项目管理的主页面，而 ``[Help]`` 按钮可以用到访问 :ref:`帮助文件"
 "  <create_new_project>`."
 
-#: ../project_manager.rst:97
+#: ../project_manager.rst:123
 msgid ""
 "Project name is used to name project directories such as "
 "\"apps_dev/project_name\", \"deploy/assets/project_name\", "
@@ -219,15 +268,15 @@ msgstr ""
 "项目名称习惯为 \"apps_dev/project_name\", \"deploy/assets/project_name\", "
 "\"blender/project_name\" and \"deploy/apps/project_name\" 等名称的项目目录。"
 
-#: ../project_manager.rst:98 ../project_manager.rst:217
+#: ../project_manager.rst:124 ../project_manager.rst:243
 msgid "Project title as shown in the browser."
 msgstr "在浏览器中所示的项目标题。"
 
-#: ../project_manager.rst:99 ../project_manager.rst:309
+#: ../project_manager.rst:125 ../project_manager.rst:335
 msgid "Project author’s name."
 msgstr "项目作者的名字。"
 
-#: ../project_manager.rst:100
+#: ../project_manager.rst:126
 msgid ""
 "Add application templates. Standard application templates: html file, css"
 " file, js file will be added to the project directory "
@@ -236,7 +285,7 @@ msgstr ""
 "添加应用程序模板。标准应用程序模板 ︰ html 文件，css 文件，js 文件将添加到项目目录  "
 "\"apps_dev/project_name\"."
 
-#: ../project_manager.rst:101
+#: ../project_manager.rst:127
 msgid ""
 "Add scene templates. Standard json file will be added to the "
 "\"deploy/assets/project_name\" directory; blend file will be added to the"
@@ -245,154 +294,156 @@ msgstr ""
 "添加场景模板。标准的 json 文件将添加到 \"deploy/assets/project_name\" 目录;blend文件将添加到 "
 "\"blender/project_name\" 目录。"
 
-#: ../project_manager.rst:102
+#: ../project_manager.rst:128
 msgid ""
 "Use Material Library. Blend files of the material library will be copied "
 "to the project directory \"blender/project_name\", while the asset files "
 "will be copied to \"deploy/assets/project_name\" folder."
 msgstr ""
 
-#: ../project_manager.rst:103
+#: ../project_manager.rst:129
 msgid ""
 "Copy project manager script. The project.py script will be copied to the "
 "project directory."
 msgstr "复制项目管理脚本。Project.py 脚本将复制到项目目录。"
 
-#: ../project_manager.rst:104
+#: ../project_manager.rst:130
 msgid ""
 "All project files will be located in the same directory. It is preferable"
 " to use this option in small projects, such as lessons and examples. Only"
 " \"update\" project type is available for this option."
 msgstr "所有的项目文件将位于相同的目录中。在小项目中最好使用此选项，如课程和范例。只有 \"update\" 项目类型可以用此选项。"
 
-#: ../project_manager.rst:105
+#: ../project_manager.rst:131
 msgid "Project’s type. Several options are available:"
 msgstr "项目的类型。有几个选项 ︰"
 
-#: ../project_manager.rst:107
+#: ../project_manager.rst:133
 msgid ""
 "\"External\" - engine will be taken from the \"deploy/apps/common/\" "
 "directory. Only application files will be compiled;"
 msgstr "\"External\" - 引擎将取自 \"deploy/apps/common/\" 目录。只有应用程序文件将被编译;"
 
-#: ../project_manager.rst:108
+#: ../project_manager.rst:134
 msgid ""
 "\"Copy\" - engine is copied into the compiled application directory. Only"
 " application files are compiled;"
 msgstr "\"Copy\" - 引擎复制到已编译的应用程序目录。只有应用程序文件进行编译;"
 
-#: ../project_manager.rst:109
+#: ../project_manager.rst:135
 msgid "\"Compile\" - engine sources are compiled with application scripts;"
 msgstr "\"Compile\" -引擎源代码应用程序的脚本一同编译;"
 
-#: ../project_manager.rst:110
+#: ../project_manager.rst:136
 msgid "\"Update\" - engine inside the project directory will be replaced;"
 msgstr "\"Update\" - 项目目录的引擎将被取代;"
 
-#: ../project_manager.rst:111
+#: ../project_manager.rst:137
+#, fuzzy
 msgid ""
-"\"Webplayer JSON\" - json-file placed inside the project is run with the "
-"help of web-player inside SDK;"
+"\"Web Player JSON\" - json-file placed inside the project is run with the"
+" help of web-player inside SDK;"
 msgstr "\"Webplayer JSON\" - 项目下的 json 文件通过SDK里的web播放器播放；"
 
-#: ../project_manager.rst:112
+#: ../project_manager.rst:138
+#, fuzzy
 msgid ""
-"\"Webplayer HTML\" - project is packed into single html-file, containing "
-"all required resources."
+"\"Web Player HTML\" - project is packed into single html-file, containing"
+" all required resources."
 msgstr "\"Webplayer HTML\" - 项目被打包到单独的 html 文件，包含所有所需的资源。"
 
-#: ../project_manager.rst:114
+#: ../project_manager.rst:140
 msgid "Javascript optimization level."
 msgstr "Javascript 优化级别。"
 
-#: ../project_manager.rst:116
+#: ../project_manager.rst:142
 msgid "\"Simple\" - variable names are replaced in the code;"
 msgstr "\"简单\"— — 变量的名称替换代码;"
 
-#: ../project_manager.rst:117
+#: ../project_manager.rst:143
 msgid "\"Advanced\" - code optimization is performed;"
 msgstr "\"先进\"— — 进行了代码优化;"
 
-#: ../project_manager.rst:118
+#: ../project_manager.rst:144
 msgid "\"Whitespace Only\" - only whitespaces are removed from the code."
 msgstr "\"空格\"— — 只有空格从代码中移除。"
 
-#: ../project_manager.rst:121
+#: ../project_manager.rst:147
 msgid ""
 "Web Player URL attributes. This tab is available only if ``Engine Binding"
-" Type`` parameter is set to ``WebPlayer JSON`` or ``WebPlayer HTML``."
+" Type`` parameter is set to ``Web Player JSON`` or ``Web Player HTML``."
 msgstr ""
 
-#: ../project_manager.rst:123
+#: ../project_manager.rst:149
 msgid ""
 "\"Show FPS\" is used to display the FPS counter in the player’s top right"
 " corner."
 msgstr ""
 
-#: ../project_manager.rst:124
+#: ../project_manager.rst:150
 msgid ""
 "\"Auto-rotate camera\" enables automatic camera rotation just after the "
 "scene loads."
 msgstr ""
 
-#: ../project_manager.rst:125
+#: ../project_manager.rst:151
 msgid ""
 "\"Disable social network buttons\" disables social networks buttons on "
 "the control panel."
 msgstr ""
 
-#: ../project_manager.rst:126
+#: ../project_manager.rst:152
 msgid "\"Background transparency\" enables transparency for the rendering area."
 msgstr ""
 
-#: ../project_manager.rst:127
+#: ../project_manager.rst:153
 msgid ""
 "\"Use compressed textures\" enables loading of minified and compressed "
 "textures (in DDS format)."
 msgstr ""
 
-#: ../project_manager.rst:130
+#: ../project_manager.rst:156
 msgid "Creating a Web Player Application"
 msgstr ""
 
-#: ../project_manager.rst:132
+#: ../project_manager.rst:158
 msgid ""
-"The main advantage of WebPlayer applications is the ease of deploying "
+"The main advantage of Web Player applications is the ease of deploying "
 "such applications on a website."
 msgstr ""
 
-#: ../project_manager.rst:138
+#: ../project_manager.rst:164
 msgid ""
 "Creating a Web Player application is simple. All you have to do when "
-"creating a new project is select the WebPlayer JSON or WebPlayer HTML "
-"option under the Engine Binding Type tab."
+"creating a new project is select the ``Web Player JSON`` or ``Web Player "
+"HTML`` option under the Engine Binding Type tab."
 msgstr ""
 
-#: ../project_manager.rst:140
+#: ../project_manager.rst:166
 msgid ""
-"The parameters that are available for a WebPlayer project are mostly the "
-"same as for any other type of project. The only exception is the group of"
-" parameter known as the Web Player Params."
+"The parameters that are available for a Web Player project are mostly the"
+" same as for any other type of project. The only exception is the group "
+"of parameter known as the Web Player Params."
 msgstr ""
 
-#: ../project_manager.rst:143
+#: ../project_manager.rst:169
 msgid "Project Settings"
 msgstr ""
 
-#: ../project_manager.rst:149
+#: ../project_manager.rst:175
 msgid ""
-"This panel is only available if the WebPlayer JSON or WebPlayer HTML "
-"option has been enabled. The parameters listed here are in essence URL "
-"attributes that the Web Player application will use while running the "
-"project."
+"This panel is only available if the ``Web Player JSON`` or ``Web Player "
+"HTML`` option has been enabled. The parameters listed here are in essence"
+" URL attributes that the Web Player application will use while running "
+"the project."
 msgstr ""
 
-#: ../project_manager.rst:152
+#: ../project_manager.rst:178
 #, fuzzy
 msgid "Deploying the Project"
 msgstr "移除项目"
 
-#: ../project_manager.rst:154
+#: ../project_manager.rst:180
 msgid ""
 "After you have completed your project, select the ``deploy project`` "
 "option from the ``Operations`` panel on the Project Manager main page. "
@@ -400,266 +451,266 @@ msgid ""
 " to the folder where your web browser stores all dowloaded files."
 msgstr ""
 
-#: ../project_manager.rst:156
+#: ../project_manager.rst:182
 msgid ""
 "To place the project on a webpage, you have to extract this archive and "
 "upload its files (the ``html`` file and the ``assets`` directory) to a "
 "web server using FTP, SSH or any other protocols supported by the server."
 msgstr ""
 
-#: ../project_manager.rst:159
+#: ../project_manager.rst:185
 msgid ""
 "The internal structure of the archive and relative paths to its files "
 "should be retained after uploading the project files to a web server."
 msgstr ""
 
-#: ../project_manager.rst:161
+#: ../project_manager.rst:187
 msgid ""
-"A WebPlayer HTML application can then be placed on any webpage by using "
+"A Web Player HTML application can then be placed on any webpage by using "
 "an ``iframe`` container. Here is an example of HTML code that can be used"
 " for this:"
 msgstr ""
 
-#: ../project_manager.rst:176
+#: ../project_manager.rst:202
 msgid ""
 "Deploying a JSON project is performed similarly, but instead of a single "
 "HTML file it uses a combination of the Web Player app and a JSON file "
 "that contains the actual scene."
 msgstr ""
 
-#: ../project_manager.rst:193
+#: ../project_manager.rst:219
 msgid "Project Information"
 msgstr "项目信息"
 
-#: ../project_manager.rst:195
+#: ../project_manager.rst:221
 msgid ""
 "This page contains information regarding the selected project and can be "
 "viewed by the ``[info]`` link beside the project's title."
 msgstr "此页包含有关选定项目的信息，可以在该项目的标题旁边的 ``[info]`` 链接查看。"
 
-#: ../project_manager.rst:202 ../project_manager.rst:282
+#: ../project_manager.rst:228 ../project_manager.rst:308
 msgid "Commands"
 msgstr "命令"
 
-#: ../project_manager.rst:205 ../project_manager.rst:285
+#: ../project_manager.rst:231 ../project_manager.rst:311
 msgid "*Back to Projects*"
 msgstr "*回到项目*"
 
-#: ../project_manager.rst:205
+#: ../project_manager.rst:231
 msgid "Returns to the Project Manager's main page."
 msgstr "返回到项目管理的主页面。"
 
-#: ../project_manager.rst:208
+#: ../project_manager.rst:234
 msgid "Opens the :ref:`Help file <project_info>`."
 msgstr "打开  :ref:`帮助文件 <project_info>`."
 
-#: ../project_manager.rst:211 ../project_manager.rst:297
+#: ../project_manager.rst:237 ../project_manager.rst:323
 msgid "Project Parameters"
 msgstr "项目参数"
 
-#: ../project_manager.rst:214
+#: ../project_manager.rst:240
 msgid "*Project Name*"
 msgstr "项目名称"
 
-#: ../project_manager.rst:214
+#: ../project_manager.rst:240
 msgid "The name of the project."
 msgstr "项目名称"
 
-#: ../project_manager.rst:217
+#: ../project_manager.rst:243
 msgid "*Project Title*"
 msgstr "项目的标题。"
 
-#: ../project_manager.rst:220
+#: ../project_manager.rst:246
 msgid "*Project Author / Company*"
 msgstr "*项目作者 / 公司*"
 
-#: ../project_manager.rst:220
+#: ../project_manager.rst:246
 msgid "The name of the project's author or the title of the developer company."
 msgstr "该项目的作者或开发商公司的名称。"
 
-#: ../project_manager.rst:223
+#: ../project_manager.rst:249
 msgid "*Project Icon*"
 msgstr "*项目图标*"
 
-#: ../project_manager.rst:223
+#: ../project_manager.rst:249
 msgid "The icon of the project."
 msgstr "该项目的图标。"
 
-#: ../project_manager.rst:226
+#: ../project_manager.rst:252
 msgid "*Application*"
 msgstr "*应用程序*"
 
-#: ../project_manager.rst:226
+#: ../project_manager.rst:252
 msgid "Application's main JSON file."
 msgstr "应用程序的主 JSON 文件。"
 
-#: ../project_manager.rst:229
+#: ../project_manager.rst:255
 msgid "*Engine Binding Type*"
 msgstr "*引擎绑定类型*"
 
-#: ../project_manager.rst:229
+#: ../project_manager.rst:255
 msgid "The type of the project."
 msgstr "设置项目类型"
 
-#: ../project_manager.rst:232
+#: ../project_manager.rst:258
 msgid "*Project Path (Development Directory)*"
 msgstr "*项目路径 （开发目录）*"
 
-#: ../project_manager.rst:232
+#: ../project_manager.rst:258
 msgid "Project's directory."
 msgstr "项目的目录。"
 
-#: ../project_manager.rst:235
+#: ../project_manager.rst:261
 msgid "*Project Config*"
 msgstr "*项目配置*"
 
-#: ../project_manager.rst:235
+#: ../project_manager.rst:261
 msgid "Project's config file."
 msgstr "项目的配置文件。"
 
-#: ../project_manager.rst:238
+#: ../project_manager.rst:264
 msgid "*Build Directory*"
 msgstr "*构建目录*"
 
-#: ../project_manager.rst:238
+#: ../project_manager.rst:264
 msgid "Project build folder."
 msgstr "项目构建文件夹。"
 
-#: ../project_manager.rst:241
+#: ../project_manager.rst:267
 msgid "*Blend Directory(s)*"
 msgstr "*Blend 目录*"
 
-#: ../project_manager.rst:241
+#: ../project_manager.rst:267
 msgid "Directories where project's blend files are located."
 msgstr "项目的blend文件目录的位置。"
 
-#: ../project_manager.rst:244
+#: ../project_manager.rst:270
 msgid "*Assets Directory(s)*"
 msgstr "*资产目录*"
 
-#: ../project_manager.rst:244
+#: ../project_manager.rst:270
 msgid "Directories where project's media assets are located."
 msgstr "项目的媒体资产所在的位置目录。"
 
-#: ../project_manager.rst:247
+#: ../project_manager.rst:273
 msgid "*URL Params*"
 msgstr "*URL 参数*"
 
-#: ../project_manager.rst:247
+#: ../project_manager.rst:273
 msgid ""
 "The list of :ref:`URL parameters <webplayer_attributes>` used to start "
 "the application."
 msgstr ":ref:`URL 参数 <webplayer_attributes>` 列表用来启动应用程序。"
 
-#: ../project_manager.rst:250
+#: ../project_manager.rst:276
 msgid "*JavaScript Obfuscation Level*"
 msgstr "*JavaScript 混淆级别*"
 
-#: ../project_manager.rst:250
+#: ../project_manager.rst:276
 msgid "JavaScript optimization level."
 msgstr "Javascript 优化级别。"
 
-#: ../project_manager.rst:253
+#: ../project_manager.rst:279
 msgid "*JavaScript Compilation Ignore List*"
 msgstr "*JavaScript 编译忽略列表*"
 
-#: ../project_manager.rst:253
+#: ../project_manager.rst:279
 msgid "The list of exceptions for the project's script compilation."
 msgstr "项目脚本编译中的例外列表。"
 
-#: ../project_manager.rst:256
+#: ../project_manager.rst:282
 msgid "*CSS Compilation Ignore List*"
 msgstr "*CSS 编译忽略列表*"
 
-#: ../project_manager.rst:256
+#: ../project_manager.rst:282
 msgid "The list of exceptions for the projects style sheets compilation."
 msgstr "项目样式表编译中的例外列表。"
 
-#: ../project_manager.rst:259
+#: ../project_manager.rst:285
 msgid "*Deployment Directory Assets Prefix*"
 msgstr "*部署目录资产前缀*"
 
-#: ../project_manager.rst:259
+#: ../project_manager.rst:285
 msgid "The scene resource folder in the deployed application."
 msgstr "在部署的应用程序的场景资源文件夹。"
 
-#: ../project_manager.rst:264
+#: ../project_manager.rst:290
 msgid "Project Import"
 msgstr "项目导入"
 
-#: ../project_manager.rst:266
+#: ../project_manager.rst:292
 msgid ""
 "Tools for importing projects are available by the ``[Import Project(s)]``"
 " link."
 msgstr "导入项目工具是在 ``[Import Project(s)]`` 链接"
 
-#: ../project_manager.rst:268
+#: ../project_manager.rst:294
 msgid ""
 "Clicking this link opens standard Open File dialog where you can select "
 "the project you need to import."
 msgstr "点击该链接会打开标准的文件开启对话框，你可以选择需要导入的项目。"
 
-#: ../project_manager.rst:273
+#: ../project_manager.rst:299
 msgid "Project Export"
 msgstr "项目导出"
 
-#: ../project_manager.rst:275
+#: ../project_manager.rst:301
 msgid ""
 "Project exporting window can be accessed by the ``[Export Project(s)]`` "
 "link."
 msgstr "项目输出窗口可以通过 ``[Export Project(s)]`` 链接访问。"
 
-#: ../project_manager.rst:285
+#: ../project_manager.rst:311
 msgid "Returns to the Project Manager’s main page."
 msgstr "返回到项目管理的主页面。"
 
-#: ../project_manager.rst:288
+#: ../project_manager.rst:314
 msgid ""
 "Hides stock projects. If such projects are already hidden, this command "
 "is replaced with the ``[Show Stock Projects]`` command."
 msgstr "隐藏项目。如果已经隐藏了此类项目，则此命令替换为   ``[显示项目]`` 命令。"
 
-#: ../project_manager.rst:291
+#: ../project_manager.rst:317
 msgid "Shows the Help page."
 msgstr "显示帮助页。"
 
-#: ../project_manager.rst:294
+#: ../project_manager.rst:320
 msgid "Can be used to export selected projects."
 msgstr "可以用来导出所选的项目。"
 
-#: ../project_manager.rst:300
+#: ../project_manager.rst:326
 msgid "*Select*"
 msgstr "*选择*"
 
-#: ../project_manager.rst:300
+#: ../project_manager.rst:326
 msgid "Shows if the project is selected for export."
 msgstr "显示项目是不是选择了要导出。"
 
-#: ../project_manager.rst:303
+#: ../project_manager.rst:329
 msgid "*Name*"
 msgstr "*名字*"
 
-#: ../project_manager.rst:303
+#: ../project_manager.rst:329
 msgid "The name of the project's directory."
 msgstr "该项目的目录的名称。"
 
-#: ../project_manager.rst:306
+#: ../project_manager.rst:332
 msgid "*Title*"
 msgstr "*名称*"
 
-#: ../project_manager.rst:306
+#: ../project_manager.rst:332
 msgid "Project's title."
 msgstr "项目的标题。"
 
-#: ../project_manager.rst:309
+#: ../project_manager.rst:335
 msgid "*Author*"
 msgstr "*作者*"
 
-#: ../project_manager.rst:313
+#: ../project_manager.rst:339
 msgid "*Archive Name*"
 msgstr "*档案名称*"
 
-#: ../project_manager.rst:312
+#: ../project_manager.rst:338
 msgid "The name of an archive to which exported projects are packed."
 msgstr "导出的项目打包的档案名称。"
 
@@ -682,17 +733,34 @@ msgstr "导出的项目打包的档案名称。"
 #~ msgstr ""
 
 #~ msgid ""
+#~ "Web Player URL attributes. This tab "
+#~ "is available only if ``Engine Binding"
+#~ " Type`` parameter is set to "
+#~ "``WebPlayer JSON`` or ``WebPlayer HTML``."
+#~ msgstr ""
+
+#~ msgid ""
 #~ "The main advantage of WebPlayer "
 #~ "applications is the ease of deploying"
-#~ " such applications on a web site."
+#~ " such applications on a website."
 #~ msgstr ""
 
 #~ msgid ""
 #~ "Creating a Web Player application is "
-#~ "simple. All you have to do is, "
-#~ "while creating a new project, select "
-#~ "WebPlayer JSON or WebPlayer HTML option"
-#~ " under the Engine Binding Type tab."
+#~ "simple. All you have to do when"
+#~ " creating a new project is select "
+#~ "the WebPlayer JSON or WebPlayer HTML "
+#~ "option under the Engine Binding Type "
+#~ "tab."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The parameters that are available for"
+#~ " a WebPlayer project are mostly the"
+#~ " same as for any other type of"
+#~ " project. The only exception is the"
+#~ " group of parameter known as the "
+#~ "Web Player Params."
 #~ msgstr ""
 
 #~ msgid ""
@@ -700,51 +768,16 @@ msgstr "导出的项目打包的档案名称。"
 #~ "the WebPlayer JSON or WebPlayer HTML "
 #~ "option has been enabled. The parameters"
 #~ " listed here are in essence URL "
-#~ "attributes that Web Player application "
-#~ "will use while running the project."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "After you have completed your project,"
-#~ " select the ``deploy project`` option "
-#~ "from the ``Operations`` panel on the "
-#~ "Project Manager's main page. The project"
-#~ " will be exported, packed into a "
-#~ "single archive and downloaded to the "
-#~ "folder your web browser uses to "
-#~ "store all dowloaded files."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "To place the project on a web "
-#~ "page, you have to extract this "
-#~ "archive and upload its files (the "
-#~ "``html`` file and the ``assets`` "
-#~ "directory) to a web server using "
-#~ "FTP, SSH or any other protocols "
-#~ "supported by the server."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Inner structure of the archive and "
-#~ "relative paths to its files should "
-#~ "be retained after uploading the project"
-#~ " files to a web server."
+#~ "attributes that the Web Player "
+#~ "application will use while running the"
+#~ " project."
 #~ msgstr ""
 
 #~ msgid ""
 #~ "A WebPlayer HTML application can then"
-#~ " be placed on any web page by"
-#~ " using an ``iframe`` container. Here "
-#~ "is an example of HTML code that"
-#~ " can be used for it:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Deploying a JSON project is performed"
-#~ " similarly, but instead of a single"
-#~ " HTML file it uses a combination "
-#~ "of Web Player app and a JSON "
-#~ "file that contains an actual scene."
+#~ " be placed on any webpage by "
+#~ "using an ``iframe`` container. Here is"
+#~ " an example of HTML code that "
+#~ "can be used for this:"
 #~ msgstr ""
 

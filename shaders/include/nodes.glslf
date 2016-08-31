@@ -28,6 +28,7 @@
 // varyings
 #import v_normal
 #import v_tangent
+#import v_shade_tang
 #import v_pos_world
 #import v_pos_view
 #import v_tex_pos_clip
@@ -59,7 +60,7 @@
 
 
 #if USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE
-varying vec3 v_orco_tex_coord;
+GLSL_IN vec3 v_orco_tex_coord;
 #endif
 
 /*============================================================================
@@ -92,7 +93,7 @@ vec3 refraction_node(in vec3 normal_in, in float refr_bump) {
 # if USE_REFRACTION
     refract_color = material_refraction(v_tex_pos_clip, normal_in.xy * refr_bump);
 # elif HAS_REFRACT_TEXTURE
-    refract_color = texture2D(u_refractmap, v_tex_pos_clip.xy/v_tex_pos_clip.z).rgb;
+    refract_color = GLSL_TEXTURE(u_refractmap, v_tex_pos_clip.xy/v_tex_pos_clip.z).rgb;
     srgb_to_lin(refract_color);
 # endif
     return refract_color;
@@ -188,7 +189,7 @@ vec2 vec_to_uv(vec3 vec)
 
 #node GEOMETRY_UV
     #node_out vec3 uv
-    #node_param varying vec2 v_uv
+    #node_param GLSL_IN vec2 v_uv
 
     uv = uv_to_vec(v_uv);
 #endnode
@@ -201,7 +202,7 @@ vec2 vec_to_uv(vec3 vec)
 
 #node GEOMETRY_VC
     #node_out vec3 vc
-    #node_param varying vec3 v_vc
+    #node_param GLSL_IN vec3 v_vc
 
     vc = v_vc;
     srgb_to_lin(vc);
@@ -209,7 +210,7 @@ vec2 vec_to_uv(vec3 vec)
 
 #node GEOMETRY_VC1
     #node_out float channel0_out
-    #node_param varying float v_vc
+    #node_param GLSL_IN float v_vc
 
     channel0_out = v_vc;
     srgb_to_lin(channel0_out);
@@ -218,7 +219,7 @@ vec2 vec_to_uv(vec3 vec)
 #node GEOMETRY_VC2
     #node_out float channel0_out
     #node_out float channel1_out
-    #node_param varying vec2 v_vc
+    #node_param GLSL_IN vec2 v_vc
 
     channel0_out = v_vc[0];
     channel1_out = v_vc[1];
@@ -230,7 +231,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out float channel0_out
     #node_out float channel1_out
     #node_out float channel2_out
-    #node_param varying vec3 v_vc
+    #node_param GLSL_IN vec3 v_vc
 
     channel0_out = v_vc[0];
     channel1_out = v_vc[1];
@@ -607,9 +608,27 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float strength
     #node_in vec3 color
     #node_out vec3 normal_out
-    normal_out = color;
-    // NOTE: using unused variable to pass shader verification
-    strength;
+
+    vec3 bl_normal = nin_normal;
+    // to Zup (Blender) world coordinate space
+    bl_normal.yz = vec2(-bl_normal.z, bl_normal.y);
+
+# node_if SPACE == NM_TANGENT
+    normal_out = nin_tbn_matrix * (color.xyz - HALF_VALUE_NODES);
+    // to Zup (Blender) world coordinate space
+    normal_out.yz = vec2(-normal_out.z, normal_out.y);
+
+# node_elif SPACE == NM_OBJECT || SPACE == NM_BLENDER_OBJECT
+    normal_out = color.xyz - HALF_VALUE_NODES;
+    normal_out.yz *= -1.0;
+    normal_out = (nin_zup_model_matrix * vec4(normal_out, ZERO_VALUE_NODES)).xyz;
+
+# node_elif SPACE == NM_WORLD || SPACE == NM_BLENDER_WORLD
+    normal_out = color.xyz - HALF_VALUE_NODES;
+    normal_out.yz *= -1.0;
+# node_endif
+
+    normal_out = normalize(mix(bl_normal, normal_out, strength));
 #endnode
 
 #node VECT_TRANSFORM
@@ -881,7 +900,7 @@ vec2 vec_to_uv(vec3 vec)
 #node UV_MERGED
     #node_out vec3 uv_geom
     #node_out vec3 uv_cycles
-    #node_param varying vec2 v_uv
+    #node_param GLSL_IN vec2 v_uv
 
 #node_if USE_OUT_uv_geom
     uv_geom = uv_to_vec(v_uv);
@@ -893,7 +912,7 @@ vec2 vec_to_uv(vec3 vec)
 
 #node TEX_COORD_UV
     #node_out vec3 uv
-    #node_param varying vec2 v_uv
+    #node_param GLSL_IN vec2 v_uv
 
     uv = vec3(v_uv, ZERO_VALUE_NODES);
 #endnode
@@ -933,7 +952,7 @@ vec2 vec_to_uv(vec3 vec)
 
 #node UVMAP
     #node_out vec3 uv
-    #node_param varying vec2 v_uv
+    #node_param GLSL_IN vec2 v_uv
 
     uv = vec3(v_uv, ZERO_VALUE_NODES);
 #endnode
@@ -1035,15 +1054,15 @@ vec2 vec_to_uv(vec3 vec)
 
     vec = vec_in;
 #node_if READ_R
-    vec.r = (texture2D(u_nodes_texture, vec2(0.5 * vec_in.r + 0.5, NODE_TEX_ROW)).r - 0.5) * 2.0;
+    vec.r = (GLSL_TEXTURE(u_nodes_texture, vec2(0.5 * vec_in.r + 0.5, NODE_TEX_ROW)).r - 0.5) * 2.0;
 #node_endif
 
 #node_if READ_G
-    vec.g = (texture2D(u_nodes_texture, vec2(0.5 * vec_in.g + 0.5, NODE_TEX_ROW)).g - 0.5) * 2.0;
+    vec.g = (GLSL_TEXTURE(u_nodes_texture, vec2(0.5 * vec_in.g + 0.5, NODE_TEX_ROW)).g - 0.5) * 2.0;
 #node_endif
 
 #node_if READ_B
-    vec.b = (texture2D(u_nodes_texture, vec2(0.5 * vec_in.b + 0.5, NODE_TEX_ROW)).b - 0.5) * 2.0;
+    vec.b = (GLSL_TEXTURE(u_nodes_texture, vec2(0.5 * vec_in.b + 0.5, NODE_TEX_ROW)).b - 0.5) * 2.0;
 #node_endif
     vec = mix(vec_in, vec, factor);
 #endnode
@@ -1054,9 +1073,9 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 vec
 
 #node_if READ_A
-    float r = texture2D(u_nodes_texture, vec2(vec_in.r, NODE_TEX_ROW)).a;
-    float g = texture2D(u_nodes_texture, vec2(vec_in.g, NODE_TEX_ROW)).a;
-    float b = texture2D(u_nodes_texture, vec2(vec_in.b, NODE_TEX_ROW)).a;
+    float r = GLSL_TEXTURE(u_nodes_texture, vec2(vec_in.r, NODE_TEX_ROW)).a;
+    float g = GLSL_TEXTURE(u_nodes_texture, vec2(vec_in.g, NODE_TEX_ROW)).a;
+    float b = GLSL_TEXTURE(u_nodes_texture, vec2(vec_in.b, NODE_TEX_ROW)).a;
 #node_else
     float r = vec_in.r;
     float g = vec_in.g;
@@ -1064,19 +1083,19 @@ vec2 vec_to_uv(vec3 vec)
 #node_endif
 
 #node_if READ_R
-    vec.r = texture2D(u_nodes_texture, vec2(r, NODE_TEX_ROW)).r;
+    vec.r = GLSL_TEXTURE(u_nodes_texture, vec2(r, NODE_TEX_ROW)).r;
 #node_else
     vec.r = r;
 #node_endif
 
 #node_if READ_G
-    vec.g = texture2D(u_nodes_texture, vec2(g, NODE_TEX_ROW)).g;
+    vec.g = GLSL_TEXTURE(u_nodes_texture, vec2(g, NODE_TEX_ROW)).g;
 #node_else
     vec.g = g;
 #node_endif
 
 #node_if READ_B
-    vec.b = texture2D(u_nodes_texture, vec2(b, NODE_TEX_ROW)).b;
+    vec.b = GLSL_TEXTURE(u_nodes_texture, vec2(b, NODE_TEX_ROW)).b;
 #node_else
     vec.b = b;
 #node_endif
@@ -1089,7 +1108,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float factor
     #node_out vec3 color
     #node_out float alpha
-    vec4 texval = texture2D(u_nodes_texture, vec2(factor, NODE_TEX_ROW));
+    vec4 texval = GLSL_TEXTURE(u_nodes_texture, vec2(factor, NODE_TEX_ROW));
     color = texval.rgb;
     alpha = texval.a;
 #endnode
@@ -1834,9 +1853,16 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec2 dif_params
     #node_out float lfactor
 
+    vec3 norm = normal;
+# node_if MAT_USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    norm = cross(crss, v_shade_tang.xyz);
+    norm = -normalize(norm);
+# node_endif
+
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(norm, ldir) + norm_fac;
 
         if (dif_params[0] == ZERO_VALUE_NODES) {
             lfactor = UNITY_VALUE_NODES;
@@ -1856,9 +1882,16 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float norm_fac
     #node_out float lfactor
 
+    vec3 norm = normal;
+# node_if MAT_USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    norm = cross(crss, v_shade_tang.xyz);
+    norm = -normalize(norm);
+# node_endif
+
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(norm, ldir) + norm_fac;
 
         lfactor = max(dot_nl, ZERO_VALUE_NODES);
     }
@@ -1872,17 +1905,24 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec2 dif_params
     #node_out float lfactor
 
+    vec3 norm = normal;
+# node_if MAT_USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    norm = cross(crss, v_shade_tang.xyz);
+    norm = -normalize(norm);
+# node_endif
+
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(norm, ldir) + norm_fac;
 
         if (dif_params[0] > ZERO_VALUE_NODES) {
-            float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_NODES);
+            float nv = max(dot(norm, nin_eye_dir), ZERO_VALUE_NODES);
             float sigma_sq = dif_params[0] * dif_params[0];
             float A = UNITY_VALUE_NODES - HALF_VALUE_NODES * (sigma_sq / (sigma_sq + 0.33));
 
-            vec3 l_diff = ldir - dot_nl*normal;
-            vec3 e_diff = nin_eye_dir - nv*normal;
+            vec3 l_diff = ldir - dot_nl*norm;
+            vec3 e_diff = nin_eye_dir - nv*norm;
             // handle normalize() and acos() values which may result to
             // "undefined behavior"
             // (noticeable for "mediump" precision, nin_eye_dir.g some mobile devies)
@@ -1920,10 +1960,17 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec2 dif_params
     #node_out float lfactor
 
+    vec3 norm = normal;
+# node_if MAT_USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    norm = cross(crss, v_shade_tang.xyz);
+    norm = -normalize(norm);
+# node_endif
+
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
-        float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_NODES);
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(norm, ldir) + norm_fac;
+        float nv = max(dot(norm, nin_eye_dir), ZERO_VALUE_NODES);
 
         if (dif_params[0] <= UNITY_VALUE_NODES)
             lfactor = dot_nl * pow(max(nv * dot_nl, 0.1), dif_params[0] - UNITY_VALUE_NODES);
@@ -1941,9 +1988,16 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec2 dif_params
     #node_out float lfactor
 
+    vec3 norm = normal;
+# node_if MAT_USE_TBN_SHADING
+    vec3 crss = cross(ldir, v_shade_tang.xyz);
+    norm = cross(crss, v_shade_tang.xyz);
+    norm = -normalize(norm);
+# node_endif
+
     lfactor = ZERO_VALUE_NODES;
     if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(norm, ldir) + norm_fac;
         float ang = acos(dot_nl);
 
         if (ang < dif_params[0])
@@ -1967,8 +2021,15 @@ vec2 vec_to_uv(vec3 vec)
     sfactor = ZERO_VALUE_NODES;
     if (lfac.g == UNITY_VALUE_NODES) {
         vec3 halfway = normalize(ldir + nin_eye_dir);
+# node_if MAT_USE_TBN_SHADING
+    if (norm_fac == ZERO_VALUE_NODES) {
+        sfactor = dot(v_shade_tang.xyz, halfway);
+        sfactor = sqrt(UNITY_VALUE_NODES - sfactor * sfactor);
+    }
+# node_else
         sfactor = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
                          ZERO_VALUE_NODES) + norm_fac;
+# node_endif
         sfactor = pow(sfactor, sp_params[0]);
     }
 #endnode
@@ -1977,16 +2038,31 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
+    #node_in float norm_fac
     #node_in vec2 sp_params
     #node_out float sfactor
 
     sfactor = ZERO_VALUE_NODES;
     if (lfac.g == UNITY_VALUE_NODES) {
         vec3 halfway = normalize(ldir + nin_eye_dir);
+# node_if MAT_USE_TBN_SHADING
+        float nh = ZERO_VALUE_NODES;
+        float nv = ZERO_VALUE_NODES;
+        float nl = ZERO_VALUE_NODES;
+        if (norm_fac == ZERO_VALUE_NODES) {
+            nh = dot(v_shade_tang.xyz, halfway);
+            nv = dot(v_shade_tang.xyz, nin_eye_dir);
+            nl = dot(v_shade_tang.xyz, ldir);
+            nh = sqrt(UNITY_VALUE_NODES - nh * nh);
+            nv = sqrt(UNITY_VALUE_NODES - nv * nv);
+            nl = sqrt(UNITY_VALUE_NODES - nl * nl);
+        }
+# node_else
         float nh = max(dot(normal, halfway), 0.001);
         // NOTE: 0.01 for mobile devices
         float nv = max(dot(normal, nin_eye_dir), 0.01);
         float nl = max(dot(normal, ldir), 0.01);
+# node_endif
         float angle = tan(acos(nh));
         float alpha = max(sp_params[0], 0.001);
 
@@ -1999,13 +2075,21 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
+    #node_in float norm_fac
     #node_in vec2 sp_params
     #node_out float sfactor
 
     sfactor = ZERO_VALUE_NODES;
     if (lfac.g == UNITY_VALUE_NODES) {
         vec3 h = normalize(ldir + nin_eye_dir);
+# node_if MAT_USE_TBN_SHADING
+        float cosinus = dot(h, v_shade_tang.xyz);
+        float angle = sp_params[0] + sp_params[1];
+        if (norm_fac == ZERO_VALUE_NODES)
+            angle = acos(sqrt(UNITY_VALUE_NODES - cosinus * cosinus));
+# node_else
         float angle = acos(dot(h, normal));
+# node_endif
 
         if (angle < sp_params[0])
             sfactor = UNITY_VALUE_NODES;
@@ -2026,17 +2110,25 @@ vec2 vec_to_uv(vec3 vec)
 
     sfactor = ZERO_VALUE_NODES;
     if (lfac.g == UNITY_VALUE_NODES) {
-        if (sp_params[0] < UNITY_VALUE_NODES || sp_params[1] == ZERO_VALUE_NODES)
+        if (sp_params[0] < 1.0 || sp_params[1] == ZERO_VALUE_NODES)
             sfactor = ZERO_VALUE_NODES;
         else {
             if (sp_params[1] < 100.0)
-                sp_params[1]= sqrt(UNITY_VALUE_NODES / sp_params[1]);
+                sp_params[1]= sqrt(1.0 / sp_params[1]);
             else
                 sp_params[1]= 10.0 / sp_params[1];
 
             vec3 halfway = normalize(nin_eye_dir + ldir);
+# node_if MAT_USE_TBN_SHADING
+            float nh = 0.0;
+            if (norm_fac == ZERO_VALUE_NODES) {
+                float dot_ht = dot(v_shade_tang.xyz, halfway);
+                nh = sqrt(UNITY_VALUE_NODES - dot_ht * dot_ht);
+            }
+# node_else
             float nh = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
                          ZERO_VALUE_NODES) + norm_fac;
+# node_endif
             if (nh < ZERO_VALUE_NODES)
                 sfactor = ZERO_VALUE_NODES;
             else {
@@ -2233,7 +2325,7 @@ vec2 vec_to_uv(vec3 vec)
 
     // to Yup (WebGL) world coordinate space
     vec3 yup_coords = vec3(coords.x, coords.z, -coords.y);
-    vec4 texval = textureCube(texture, yup_coords);
+    vec4 texval = GLSL_TEXTURE_CUBE(texture, yup_coords);
 
 # node_if USE_OUT_color
     color = texval.xyz;
@@ -2260,20 +2352,24 @@ vec2 vec_to_uv(vec3 vec)
     #node_out optional float value4
     #node_param uniform sampler2D texture
 
-    vec4 texval = texture2D(texture, vec_to_uv(uv));
+    vec4 texval = GLSL_TEXTURE(texture, vec_to_uv(uv));
 # node_if USE_OUT_color
     color = texval.xyz;
+#  node_if !NON_COLOR
     srgb_to_lin(color);
+#  node_endif
 # node_endif
 # node_if USE_OUT_value
     value = texval.w;
 # node_endif
 
 # node_if USE_uv2
-    texval = texture2D(texture, vec_to_uv(uv2));
+    texval = GLSL_TEXTURE(texture, vec_to_uv(uv2));
 #  node_if USE_OUT_color2
     color2 = texval.xyz;
-    srgb_to_lin(color2);
+#  node_if !NON_COLOR
+     srgb_to_lin(color2);
+#  node_endif
 #  node_endif
 #  node_if USE_OUT_value2
     value2 = texval.w;
@@ -2281,10 +2377,12 @@ vec2 vec_to_uv(vec3 vec)
 # node_endif
 
 # node_if USE_uv3
-    texval = texture2D(texture, vec_to_uv(uv3));
+    texval = GLSL_TEXTURE(texture, vec_to_uv(uv3));
 # node_if USE_OUT_color3
     color3 = texval.xyz;
-    srgb_to_lin(color3);
+#  node_if !NON_COLOR
+     srgb_to_lin(color3);
+#  node_endif
 #  node_endif
 #  node_if USE_OUT_value3
     value3 = texval.w;
@@ -2292,10 +2390,12 @@ vec2 vec_to_uv(vec3 vec)
 # node_endif
 
 # node_if USE_uv4
-    texval = texture2D(texture, vec_to_uv(uv4));
+    texval = GLSL_TEXTURE(texture, vec_to_uv(uv4));
 # node_if USE_OUT_color4
     color4 = texval.xyz;
-    srgb_to_lin(color4);
+#  node_if !NON_COLOR
+     srgb_to_lin(color4);
+#  node_endif
 #  node_endif
 #  node_if USE_OUT_value4
     value4 = texval.w;
@@ -2318,7 +2418,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out optional float value4
     #node_param uniform sampler2D texture
 
-    vec4 texval = texture2D(texture, vec_to_uv(uv));
+    vec4 texval = GLSL_TEXTURE(texture, vec_to_uv(uv));
 # node_if USE_OUT_normal
     normal = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
     // to Zup (Blender) world coordinate space
@@ -2329,7 +2429,7 @@ vec2 vec_to_uv(vec3 vec)
 # node_endif
 
 # node_if USE_uv2
-    texval = texture2D(texture, vec_to_uv(uv2));
+    texval = GLSL_TEXTURE(texture, vec_to_uv(uv2));
 #  node_if USE_OUT_normal2
     normal2 = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
     // to Zup (Blender) world coordinate space
@@ -2341,7 +2441,7 @@ vec2 vec_to_uv(vec3 vec)
 # node_endif
 
 # node_if USE_uv3
-    texval = texture2D(texture, vec_to_uv(uv3));
+    texval = GLSL_TEXTURE(texture, vec_to_uv(uv3));
 #  node_if USE_OUT_normal3
     normal3 = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
     // to Zup (Blender) world coordinate space
@@ -2353,7 +2453,7 @@ vec2 vec_to_uv(vec3 vec)
 # node_endif
 
 # node_if USE_uv4
-    texval = texture2D(texture, vec_to_uv(uv4));
+    texval = GLSL_TEXTURE(texture, vec_to_uv(uv4));
 #  node_if USE_OUT_normal4
     normal4 = normalize(nin_tbn_matrix * (texval.xyz - HALF_VALUE_NODES));
     // to Zup (Blender) world coordinate space
@@ -2492,20 +2592,20 @@ vec2 vec_to_uv(vec3 vec)
 
         float height = UNITY_VALUE_NODES;
 
-        float h = texture2D(texture, texcoord).a; // get height
+        float h = GLSL_TEXTURE(texture, texcoord).a; // get height
 
         for (float i = 1.0; i <= steps; i++)
         {
             if (h < height) {
                 height   -= pstep;
                 texcoord -= dtex;
-                h         = texture2D(texture, texcoord).a;
+                h         = GLSL_TEXTURE(texture, texcoord).a;
             }
         }
 
         // find point via linear interpolation
         vec2 prev = texcoord + dtex;
-        float h_prev = texture2D(texture, prev).a - (height + pstep);
+        float h_prev = GLSL_TEXTURE(texture, prev).a - (height + pstep);
         float h_current = h - height;
         float weight = h_current / (h_current - h_prev);
 
@@ -2609,7 +2709,7 @@ void nodes_main(in vec3 nin_eye_dir,
     nout_alpha = ZERO_VALUE_NODES;
 
 #if USE_NODE_MATERIAL_BEGIN  || USE_NODE_GEOMETRY_NO \
-        || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO
+        || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO || USE_NODE_NORMAL_MAP
 
     vec3 normal = normalize(v_normal);
     vec3 sided_normal = normal;

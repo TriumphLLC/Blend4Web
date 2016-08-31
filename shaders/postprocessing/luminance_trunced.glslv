@@ -1,13 +1,21 @@
-attribute vec2 a_position;
+#version GLSL_VERSION
 
 uniform vec4 u_camera_quat;
 uniform vec3 u_sun_direction;
 uniform float u_bloom_key;
 
-varying vec2 v_texcoord;
-varying float v_bloom_factor;
-
 const vec3 y_axis = vec3 (0.0, 1.0, 0.0);
+
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 a_position;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec2 v_texcoord;
+GLSL_OUT float v_bloom_factor;
+
+/*============================================================================*/
 
 void multiply_vec3 (in vec4 quat, in vec3 vec, out vec3 dest) {
 
@@ -23,6 +31,10 @@ void multiply_vec3 (in vec4 quat, in vec3 vec, out vec3 dest) {
     dest.z = iz * quat.w - iw * quat.z - ix * quat.y + iy * quat.x;
 
 }
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
 

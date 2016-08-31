@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -31,6 +30,8 @@ var m_debug  = require("__debug");
 var m_print  = require("__print");
 var m_util   = require("__util");
 
+var cfg_def = m_cfg.defaults;
+var cfg_lim = m_cfg.context_limits;
 var cfg_pth = m_cfg.paths;
 
 var _compiled_shaders = {};
@@ -43,6 +44,8 @@ var SHADERS = ["anchors.glslf",
     "color_id.glslv",
     "shadow.glslf",
     "shadow.glslv",
+    "error.glslf",
+    "error.glslv",
     "grass_map.glslf",
     "grass_map.glslv",
     "halo.glslf",
@@ -123,6 +126,35 @@ var SHADERS = ["anchors.glslf",
     "include/wind_bending.glslv"];
 
 var DEBUG_COMPILATION_UNIQUENESS = false;
+
+var VALID = 0;
+var INVALID_TEX_IMAGE_UNITS = 1 << 0;
+var INVALID_F_UNIFORM_VECTORS = 1 << 1;
+var INVALID_V_UNIFORM_VECTORS = 1 << 2;
+var INVALID_VERTEX_ATTRIBS = 1 << 3;
+var INVALID_VARYING_VECTORS = 1 << 4;
+
+exports.VALID = VALID;
+exports.INVALID_TEX_IMAGE_UNITS = INVALID_TEX_IMAGE_UNITS;
+exports.INVALID_F_UNIFORM_VECTORS = INVALID_F_UNIFORM_VECTORS;
+exports.INVALID_V_UNIFORM_VECTORS = INVALID_V_UNIFORM_VECTORS;
+exports.INVALID_VERTEX_ATTRIBS = INVALID_VERTEX_ATTRIBS;
+exports.INVALID_VARYING_VECTORS = INVALID_VARYING_VECTORS;
+
+var SAMPLER_EXPR = /(?:^|[^a-zA-Z_])uniform.*?(sampler2D|samplerCube)(?=\s)(.*?\[\s*([0-9]*)\s*\])?/;
+var UNIFORM_EXPR = /(?:^|[^a-zA-Z_])(uniform)(?=\s)(.*?\[\s*([0-9]*)\s*\])?/;
+var IN_EXPR = /(?:^|[^a-zA-Z_])(in)(?=\s)\s*(float|vec2|vec3|vec4|mat2|mat3|mat4)\s*(.*?\[\s*([0-9]*)\s*\])?/;
+var VARYING_EXPR = /(?:^|[^a-zA-Z_])(varying)(?=\s)\s*(float|vec2|vec3|vec4|mat2|mat3|mat4)\s*(.*?\[\s*([0-9]*)\s*\])?/;
+
+// 15 === 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3
+var FILLED_ROW_FLAGS = 15;
+
+var _ivec2_tmp = new Int16Array(2);
+
+var _varying_buffer = null;
+var _top_non_filled_row = 0;
+var _bottom_non_filled_row = 0;
+
 var _debug_hash_codes = [];
 
 var _gl = null;
@@ -290,7 +322,6 @@ exports.set_default_directives = function(sinfo) {
         "EPSILON",
         "USE_ENVIRONMENT_LIGHT",
         "USE_FOG",
-        "WEBGL2",
         "WO_SKYBLEND",
         "WO_SKYPAPER",
         "WO_SKYREAL",
@@ -310,7 +341,10 @@ exports.set_default_directives = function(sinfo) {
         "HALO_PARTICLES",
         "PARTICLE_BATCH",
         "HAS_REFRACT_TEXTURE",
-        "USE_INSTANCED_PARTCLS"
+        "USE_INSTANCED_PARTCLS",
+        "USE_TBN_SHADING",
+        "CALC_TBN",
+        "MAT_USE_TBN_SHADING"
     ];
 
     for (var i = 0; i < dir_names.length; i++) {
@@ -403,6 +437,9 @@ exports.set_default_directives = function(sinfo) {
         case "PARTICLE_BATCH":
         case "HAS_REFRACT_TEXTURE":
         case "USE_INSTANCED_PARTCLS":
+        case "USE_TBN_SHADING":
+        case "CALC_TBN":
+        case "MAT_USE_TBN_SHADING":
             val = 0;
             break;
 
@@ -418,11 +455,6 @@ exports.set_default_directives = function(sinfo) {
             val = 1;
             break;
 
-        // integer number
-        case "WEBGL2":
-            val = m_cfg.defaults.webgl2 | 0;
-            break;
-        
         // float
         case "EPSILON":
             if (m_cfg.defaults.precision == "highp")
@@ -513,6 +545,8 @@ exports.get_compiled_shader = get_compiled_shader;
  * @methodOf shaders
  */
 function get_compiled_shader(shaders_info) {
+    // NOTE: set up shaders_info.status for correct caching
+    shaders_info.status = VALID;
 
     var shader_id = JSON.stringify(shaders_info);
 
@@ -533,11 +567,336 @@ function get_compiled_shader(shaders_info) {
     var vshader_text = preprocess_shader("vert", vshader_ast, shaders_info);
     var fshader_text = preprocess_shader("frag", fshader_ast, shaders_info);
 
-    // compile
-    _compiled_shaders[shader_id] = compiled_shader =
-        init_shader(_gl, vshader_text, fshader_text, shader_id, shaders_info);
+    shaders_info.status = validate_shader_text(fshader_text, vshader_text);
+    if (shaders_info.status === VALID)
+        // compile
+        _compiled_shaders[shader_id] = compiled_shader =
+            init_shader(_gl, vshader_text, fshader_text, shader_id, shaders_info);
+    else
+        compiled_shader = null;
 
     return compiled_shader;
+}
+
+function validate_shader_text(f_shader_text, v_shader_text) {
+    // TODO: use complex validation
+    var status = VALID;
+
+    var tex_count = get_interface_variables_count(f_shader_text, SAMPLER_EXPR);
+    if (tex_count > cfg_lim.max_texture_image_units)
+        status |= INVALID_TEX_IMAGE_UNITS;
+
+    var f_uniform_count = get_interface_variables_count(f_shader_text, UNIFORM_EXPR);
+    if (f_uniform_count > cfg_lim.max_fragment_uniform_vectors)
+        status |= INVALID_F_UNIFORM_VECTORS;
+
+    var v_uniform_count = get_interface_variables_count(v_shader_text, UNIFORM_EXPR);
+    if (v_uniform_count > cfg_lim.max_vertex_uniform_vectors)
+        status |= INVALID_V_UNIFORM_VECTORS;
+
+    var attribute_count = get_attribute_count(v_shader_text);
+    if (attribute_count > cfg_lim.max_vertex_attribs)
+        status |= INVALID_VERTEX_ATTRIBS;
+
+    if (!check_varyings_in_packing_limits(f_shader_text))
+        status |= INVALID_VARYING_VECTORS;
+
+    return status;
+}
+
+function sum(a, b) {
+    return a + b;
+}
+
+function get_interface_variables_count(shader_text, expr) {
+    var shader_list = shader_text.split(";");
+    var uniforms_list = shader_list.map(function(statement) {
+        var r = statement.match(expr);
+        return r && (r[3]? parseInt(r[3]): 1);
+    }).filter(function(decl) {
+        return decl;
+    });
+    return (uniforms_list || []).reduce(sum, 0);
+}
+
+function get_attribute_count(v_shader_text) {
+    if (cfg_def.webgl2) {
+        // remove function parameters potentially containing "in"
+        var v_shader_text_n = v_shader_text.replace(/(.*?)\([^()]*?\)(.*?)/g, "$1$2");
+        return (v_shader_text_n.match(/(?:^|[^a-zA-Z_])in(?=\s)/g) || []).length;
+    } else
+        return (v_shader_text.match(/(?:^|[^a-zA-Z_])attribute(?=\s)/g) || []).length;
+}
+
+function cmp_varyings(a, b) {
+    var a_occupied_cols = get_occupied_cols(a.type);
+    var b_occupied_cols = get_occupied_cols(b.type);
+    var a_elems = a.array_size;
+    var b_elems = b.array_size;
+
+    if (a_occupied_cols > b_occupied_cols)
+        return -1;
+    else if (a_occupied_cols < b_occupied_cols)
+        return 1;
+    else if (a_elems > b_elems)
+        return -1;
+    else if (a_elems < b_elems)
+        return 1;
+    else
+        return 0;
+}
+
+function check_varyings_in_packing_limits(shader_text) {
+    if (cfg_def.webgl2) {
+        // remove function parameters potentially containing "in"
+        shader_text = shader_text.replace(/(.*?)\([^()]*?\)(.*?)/g, "$1$2");
+        var expr = IN_EXPR;
+    } else
+        var expr = VARYING_EXPR;
+
+    var shader_list = shader_text.split(";");
+    var varyings = shader_list.map(function(statement) {
+        var r = statement.match(expr);
+        return r && {
+            type: r[2],
+            array_size: (r[4]? parseInt(r[4]): 1)
+        };
+    }).filter(function(decl) {
+        return decl;
+    });
+
+    // 'varyings' is list: [
+    //     {
+    //         type: one of {"float", "vec2", "vec3", "vec4", "mat2", "mat3", "mat4"}
+    //         array_size: size of array, for example, it is 3 for float[3], mat2[3]
+    //                 or 1 for float, mat2
+    // }, ..
+    // ]
+    if (!varyings.length)
+        return true;
+
+    var max_row_count = cfg_lim.max_varying_vectors;
+    if (!_varying_buffer)
+        _varying_buffer = new Uint16Array(max_row_count);
+
+    for (var i = 0; i < max_row_count; i++)
+        _varying_buffer[i] = 0;
+
+    _bottom_non_filled_row = max_row_count;
+
+    // NOTE: order varyings according to GLSL 1.017 Appendix A, Section 7
+    varyings.sort(cmp_varyings);
+
+    var col3_top_non_filled_row = 0;
+    var col4_top_non_filled_row = 0;
+    var varying_number = 0;
+
+    function process_4_column_varyings() {
+        while(varying_number < varyings.length) {
+            var varying = varyings[varying_number];
+            if (get_occupied_cols(varying.type) != 4)
+                break;
+
+            col4_top_non_filled_row += get_occupied_rows(varying.type) *
+                    varying.array_size;
+            varying_number++;
+        }
+
+        if (col4_top_non_filled_row > _bottom_non_filled_row)
+            return false;
+        _top_non_filled_row = col4_top_non_filled_row;
+
+        fill_varying_buffer(0, col4_top_non_filled_row, 0, 4);
+        return true;
+    }
+
+    function process_3_column_varyings() {
+        var col3_rows_count = 0;
+        while(varying_number < varyings.length) {
+            var varying = varyings[varying_number];
+            if (get_occupied_cols(varying.type) != 3)
+                break;
+            col3_rows_count += get_occupied_rows(varying.type) *
+                    varying.array_size;
+            varying_number++;
+        }
+
+        col3_top_non_filled_row = col4_top_non_filled_row + col3_rows_count;
+        if (col3_top_non_filled_row > _bottom_non_filled_row)
+            return false;
+
+        fill_varying_buffer(col4_top_non_filled_row, col3_rows_count, 0, 3);
+        return true;
+    }
+
+    function process_2_column_varyings() {
+        var col2_available_rows_count = _bottom_non_filled_row -
+                col3_top_non_filled_row;
+        var available_cols_01_rows_count = col2_available_rows_count;
+        var available_cols_23_rows_count = col2_available_rows_count;
+        while(varying_number < varyings.length) {
+            var varying = varyings[varying_number];
+            if (get_occupied_cols(varying.type) != 2)
+                break;
+            var rows_count = get_occupied_rows(varying.type) * varying.array_size;
+            if (rows_count <= available_cols_01_rows_count)
+                available_cols_01_rows_count -= rows_count;
+            else if (rows_count <= available_cols_23_rows_count)
+                available_cols_23_rows_count -= rows_count;
+            else
+                return false;
+            varying_number++;
+        }
+
+        var used_cols_01_rows_count = col2_available_rows_count -
+                available_cols_01_rows_count;
+        var used_cols_23_rows_count = col2_available_rows_count -
+                available_cols_23_rows_count;
+
+        fill_varying_buffer(col3_top_non_filled_row, used_cols_01_rows_count, 0, 2);
+        fill_varying_buffer(_bottom_non_filled_row - used_cols_23_rows_count,
+                used_cols_23_rows_count, 2, 2);
+        return true;
+    }
+
+    function process_1_column_varyings() {
+        while(varying_number < varyings.length) {
+            var varying = varyings[varying_number];
+
+            // get_occupied_cols(varying.type) == 1
+
+            var rows_count = get_occupied_rows(varying.type) * varying.array_size;
+
+            var smallest_column = -1;
+            var smallest_size = max_row_count + 1;
+            var top_row = -1;
+            for (var column = 0; column < 4; column++) {
+                var row_and_size = _ivec2_tmp;
+                row_and_size[0] = 0;
+                row_and_size[1] = 1;
+                if (search_optimal_row_and_size(column, rows_count, row_and_size)) {
+                    if (row_and_size[1] < smallest_size) {
+                        top_row = row_and_size[0];
+                        smallest_size = row_and_size[1];
+                        smallest_column = column;
+                    }
+                }
+            }
+
+            if (smallest_column < 0)
+                return false;
+
+            fill_varying_buffer(top_row, rows_count, smallest_column, 1);
+            varying_number++;
+        }
+        return true;
+    }
+
+    // NOTE: don't change call order
+    return process_4_column_varyings() && process_3_column_varyings() &&
+            process_2_column_varyings() && process_1_column_varyings();
+}
+
+function search_optimal_row_and_size(column, rows_count, dest) {
+    // update _top_non_filled_row, _bottom_non_filled_row
+    while (_top_non_filled_row < _varying_buffer.length &&
+            _varying_buffer[_top_non_filled_row] === FILLED_ROW_FLAGS)
+        _top_non_filled_row++;
+    while (_bottom_non_filled_row > 0 &&
+            _varying_buffer[_bottom_non_filled_row] === FILLED_ROW_FLAGS)
+        _bottom_non_filled_row--
+
+    // check if _varying_buffer has enough freed 'cells'
+    if (_bottom_non_filled_row - _top_non_filled_row < rows_count)
+        return false;
+
+    var col_flags = 1 << column;
+    var top_fit_row = 0;
+    var smallest_fit_top = -1;
+    var smallest_fit_size = _varying_buffer.length + 1;
+    var found = false;
+
+    for (var i = _top_non_filled_row; i <= _bottom_non_filled_row; i++) {
+        var fit_row = i < _bottom_non_filled_row &&
+                !(_varying_buffer[i] & col_flags);
+        if (fit_row) {
+            if (!found) {
+                top_fit_row = i;
+                found = true;
+            }
+        } else {
+            if (found) {
+                var size = i - top_fit_row;
+                if (size >= rows_count && size < smallest_fit_size) {
+                    smallest_fit_size = size;
+                    smallest_fit_top = top_fit_row;
+                }
+            }
+            found = false;
+        }
+    }
+
+    if (smallest_fit_top < 0)
+        return false;
+
+    dest[0] = smallest_fit_top;
+    dest[1] = smallest_fit_size;
+    return true;
+}
+
+function fill_varying_buffer(row, rows_count, column, columns_count) {
+    var col_flags = 0;
+    for (var i = 0; i < columns_count; i++)
+        col_flags |= 1 << (column + i);
+    for (var i = 0; i < rows_count; i++)
+        _varying_buffer[row + i] |= col_flags;
+}
+
+/*
+ * Type is one of ["float","vec2","vec3","vec4","mat2","mat3","mat4"]
+ */
+function get_occupied_rows(type) {
+    var rows = 0;
+    switch (type) {
+    case "mat4":
+        rows = 4;
+        break;
+    case "mat3":
+        rows = 3;
+        break;
+    case "mat2":
+        rows = 2;
+        break;
+    default:
+        rows = 1;
+        break;
+    }
+
+    return rows;
+}
+
+function get_occupied_cols(type) {
+    var cols = 0;
+    switch (type) {
+    case "mat4":
+    case "vec4":
+    // NOTE: mat2 occupies complete rows
+    case "mat2":
+        cols = 4;
+        break;
+    case "mat3":
+    case "vec3":
+        cols = 3;
+        break;
+    case "vec2":
+        cols = 2;
+        break;
+    default:
+        cols = 1;
+        break;
+    }
+
+    return cols;
 }
 
 /**
@@ -607,21 +966,59 @@ exports.check_shaders_loaded = function() {
     return _shaders_loaded;
 }
 
-function preprocess_shader(type, ast, shaders_info) {
-
-    var node_elements = shaders_info.node_elements;
-    // prepend by define directives
-    var dirs_arr = shaders_info.directives || [];
-
-    // output GLSL lines
-    var lines = [];
-    // set with predefined macros {"name": tokens}
+function combine_dir_tokens(type, shaders_info) {
     var dirs = {};
+
+    var dirs_arr = shaders_info.directives || [];
     for (var i = 0; i < dirs_arr.length; i++)
         dirs[dirs_arr[i][0]] = [dirs_arr[i][1]];
 
-    for (var i = 0; i < node_elements.length; i++)
-        dirs["USE_NODE_" + node_elements[i].id] = [1];
+    // define usage of the certain nodes
+    for (var i = 0; i < shaders_info.node_elements.length; i++)
+        dirs["USE_NODE_" + shaders_info.node_elements[i].id] = [1];
+
+    // glsl version directives
+    if (cfg_def.webgl2) {
+        dirs["GLSL_VERSION"] = ["300 es"];
+        dirs["GLSL1"] = [0];
+        dirs["GLSL3"] = [1];
+
+        dirs["GLSL_IN"] = ["in"];
+        dirs["GLSL_OUT"] = ["out"];
+
+        dirs["GLSL_OUT_FRAG_COLOR"] = ["glsl_out_frag_color"];
+
+        dirs["GLSL_TEXTURE"] = ["texture"];
+        dirs["GLSL_TEXTURE_CUBE"] = ["texture"];
+        dirs["GLSL_TEXTURE_PROJ"] = ["textureProj"];
+    } else {
+        dirs["GLSL_VERSION"] = ["100"];
+        dirs["GLSL1"] = [1];
+        dirs["GLSL3"] = [0];
+
+        dirs["GLSL_IN"] = (type == "vert") ? ["attribute"] : ["varying"];
+        dirs["GLSL_OUT"] = (type == "vert") ? ["varying"] : [];
+
+        dirs["GLSL_OUT_FRAG_COLOR"] = ["gl_FragColor"];
+
+        dirs["GLSL_TEXTURE"] = ["texture2D"];
+        dirs["GLSL_TEXTURE_CUBE"] = ["textureCube"];
+        dirs["GLSL_TEXTURE_PROJ"] = ["texture2DProj"];
+    }
+
+    return dirs;
+}
+
+function preprocess_shader(type, ast, shaders_info) {
+
+    var node_elements = shaders_info.node_elements;
+    
+    // output GLSL lines
+    var lines = [];
+
+    // set with predefined macros {"name": tokens}    
+    var dirs = combine_dir_tokens(type, shaders_info);
+    
     // set with params for function-like macros {"name": params}
     var fdirs = {};
 
@@ -631,6 +1028,8 @@ function preprocess_shader(type, ast, shaders_info) {
     for (var i in node_elements)
         for (var j in node_elements[i].inputs)
             usage_inputs.push(node_elements[i].inputs[j]);
+
+    var frag_glsl_out_declaration = false;
 
     // entry element
     process_group(ast);
@@ -644,12 +1043,12 @@ function preprocess_shader(type, ast, shaders_info) {
     return text;
 
     function process_group(elem) {
-        var parts = elem.parts;
+        var parts = elem.PARTS;
 
         for (var i = 0; i < parts.length; i++) {
             var pelem = parts[i];
-            switch(pelem.type) {
-            case "condition":
+            switch(pelem.TYPE) {
+            case "cond":
                 process_condition(pelem);
                 break;
 
@@ -681,13 +1080,14 @@ function preprocess_shader(type, ast, shaders_info) {
             case "extension":
                 process_extension(pelem);
                 break;
+            case "version":
+                process_version(pelem);
             case "#":
                 break;
 
             case "node":
                 process_node(pelem);
                 break;
-
             case "nodes_global":
                 process_nodes_global(node_elements);
                 break;
@@ -695,43 +1095,43 @@ function preprocess_shader(type, ast, shaders_info) {
                 process_nodes_main(node_elements);
                 break;
 
-            case "textline":
-                process_textline(pelem);
+            case "txt":
+                process_text_tokens(pelem.TOKENS);
                 break;
             default:
-                m_util.panic("Unknown element type: " + pelem.type);
+                m_util.panic("Unknown element type: " + pelem.TYPE);
                 break;
             }
         }
     }
 
     function process_condition(elem) {
-        var parts = elem.parts;
+        var parts = elem.PARTS;
 
         for (var i = 0; i < parts.length; i++) {
             var pelem = parts[i];
 
-            switch(pelem.type) {
+            switch(pelem.TYPE) {
             case "if":
             case "elif":
-                var expression = pelem.expression;
+                var expression = pelem.EXPRESSION;
                 var result = expression_result(expression)
 
                 if (result) {
-                    process_group(pelem.group);
+                    process_group(pelem.GROUP);
                     return;
                 }
                 break;
             case "else":
-                process_group(pelem.group);
+                process_group(pelem.GROUP);
                 return;
             case "ifdef":
-                if (pelem.name in dirs)
-                    process_group(pelem.group);
+                if (pelem.NAME in dirs)
+                    process_group(pelem.GROUP);
                 break;
             case "ifndef":
-                if (!(pelem.name in dirs))
-                    process_group(pelem.group);
+                if (!(pelem.NAME in dirs))
+                    process_group(pelem.GROUP);
                 break;
             }
         }
@@ -757,7 +1157,7 @@ function preprocess_shader(type, ast, shaders_info) {
                 else
                     operand_stack.push(parseFloat(expr_list[i]));
             } else {
-                switch (expr_list[i].type) {
+                switch (expr_list[i].TYPE) {
                 case "conditional_expr":
                     var falseExpression = operand_stack.pop();
                     var trueExpression = operand_stack.pop();
@@ -769,7 +1169,7 @@ function preprocess_shader(type, ast, shaders_info) {
                     break;
                 case "logical_or_expr":
                     var result = operand_stack.pop();
-                    for (var j = 0; j < expr_list[i].places -1; j++) {
+                    for (var j = 0; j < expr_list[i].PLACES -1; j++) {
                         var operand = operand_stack.pop();
                         result = result || operand;
                     }
@@ -777,7 +1177,7 @@ function preprocess_shader(type, ast, shaders_info) {
                     break;
                 case "logical_and_expr":
                     var result = operand_stack.pop();
-                    for (var j = 0; j < expr_list[i].places -1; j++) {
+                    for (var j = 0; j < expr_list[i].PLACES -1; j++) {
                         var operand = operand_stack.pop();
                         result = result && operand;
                     }
@@ -785,19 +1185,19 @@ function preprocess_shader(type, ast, shaders_info) {
                     break;
                 case "logical_bitor_expr":
                     var result = operand_stack.pop();
-                    for (var j = 0; j < expr_list[i].places - 1; j++)
+                    for (var j = 0; j < expr_list[i].PLACES - 1; j++)
                       result |= operand_stack.pop();
                     operand_stack.push(result);
                     break;
                 case "logical_bitxor_expr":
                     var result = operand_stack.pop();
-                    for (var j = 0; j < expr_list[i].places - 1; j++)
+                    for (var j = 0; j < expr_list[i].PLACES - 1; j++)
                       result ^= operand_stack.pop();
                     operand_stack.push(result);
                     break;
                 case "logical_bitand_expr":
                     var result = operand_stack.pop();
-                    for (var j = 0; j < expr_list[i].places - 1; j++)
+                    for (var j = 0; j < expr_list[i].PLACES - 1; j++)
                       result &= operand_stack.pop();
                     operand_stack.push(result);
                     break;
@@ -893,7 +1293,7 @@ function preprocess_shader(type, ast, shaders_info) {
                     operand_stack.push(!operand);
                     break;
                 default:
-                    m_util.panic("Unknown operation type: " + expr_list[i].type);
+                    m_util.panic("Unknown operation type: " + expr_list[i].TYPE);
                     break;
                 }
             }
@@ -905,52 +1305,58 @@ function preprocess_shader(type, ast, shaders_info) {
     }
 
     function process_include(elem) {
-        var file = elem.file;
+        var file = elem.FILE;
         var ast_inc = get_shader_ast(cfg_pth.shaders_dir,
                                      cfg_pth.shaders_include_dir + file);
         process_group(ast_inc);
     }
     function process_define(elem) {
-        var name = elem.name;
-        var tokens = elem.tokens;
+        var name = elem.NAME;
+        var tokens = elem.TOKENS;
         dirs[name] = tokens;
 
-        if (elem.params)
-            fdirs[name] = elem.params;
+        if (elem.PARAMS)
+            fdirs[name] = elem.PARAMS;
     }
     function process_error(elem) {
-        var tokens = elem.tokens;
+        var tokens = elem.TOKENS;
         m_util.panic("Shader error: #error " + tokens.join(" "));
     }
     function process_pragma(elem) {
         // return back to shader
-        var name = elem.name;
-        var tokens = elem.tokens;
+        var name = elem.NAME;
+        var tokens = elem.TOKENS;
         lines.push("#pragma " + name + " " + tokens.join(" "));
     }
     function process_undef(elem) {
-        var name = elem.name;
+        var name = elem.NAME;
         delete dirs[name];
         delete fdirs[name];
     }
     function process_warning(elem) {
-        var tokens = elem.tokens;
+        var tokens = elem.TOKENS;
         m_print.warn("Shader warning: #warning " + tokens.join(" "));
     }
     function process_extension(elem) {
-        var tokens = elem.tokens;
+        var tokens = elem.TOKENS;
         var token_list = expand_macro(tokens, dirs, fdirs, false);
         lines.push("#extension " + token_list.join(" "));
     }
 
+    function process_version(elem) {
+        var tokens = elem.TOKENS;
+        var token_list = expand_macro(tokens, dirs, fdirs, false);
+        lines.push("#version " + token_list.join(" "));
+    }
+
 
     function process_node(elem) {
-        shader_nodes[elem.name] = elem;
+        shader_nodes[elem.NAME] = elem;
     }
 
     function check_optional_node_param(nelem, decl, param_index) {
 
-        if (nelem.id == "PARTICLE_INFO" && decl.is_optional) {
+        if (nelem.id == "PARTICLE_INFO" && decl.IS_OPTIONAL) {
             if (dirs["PARTICLE_BATCH"] == 1) {
                 var node_param_usage = false;
                 switch(param_index) {
@@ -981,7 +1387,6 @@ function preprocess_shader(type, ast, shaders_info) {
     }
 
     function process_nodes_global(node_elements) {
-
         for (var i = 0; i < node_elements.length; i++) {
             var nelem = node_elements[i];
 
@@ -992,22 +1397,24 @@ function preprocess_shader(type, ast, shaders_info) {
                 continue;
 
             var param_index = 0;
-            for (var j = 0; j < node_parts.declarations.length; j++) {
-                var decl = node_parts.declarations[j];
-                if (decl.type == "node_param") {
+            for (var j = 0; j < node_parts.DECLARATIONS.length; j++) {
+                var decl = node_parts.DECLARATIONS[j];
+                if (decl.TYPE == "node_param") {
 
                     if (check_optional_node_param(nelem, decl, param_index)) {
-                        var glob_var_line = decl.qualifier.join(" ") + " ";
+                        var txt_tokens = decl.QUALIFIER.slice();
 
-                        if (type == "vert") {
-                            glob_var_line += nelem.vparams[param_index];
-                        } else if (type == "frag") {
-                            glob_var_line += nelem.params[param_index];
-                            if (nelem.param_values[param_index] !== null)
-                                glob_var_line += " = " + nelem.param_values[param_index];
+                        if (type == "vert")
+                            txt_tokens.push(nelem.vparams[param_index]);
+                        else if (type == "frag") {
+                            txt_tokens.push(nelem.params[param_index]);
+                            if (nelem.param_values[param_index] !== null) {
+                                txt_tokens.push("=");
+                                txt_tokens.push(nelem.param_values[param_index]);
+                            }
                         }
-                        glob_var_line += ";";
-                        lines.push(glob_var_line);
+                        txt_tokens.push(";");
+                        process_text_tokens(txt_tokens);
                     }
                     param_index++;
                 }
@@ -1035,9 +1442,9 @@ function preprocess_shader(type, ast, shaders_info) {
             output_index = 0;
             param_index = 0;
 
-            process_node_declaration(nelem, node_parts.declarations, replaces, node_dirs);
+            process_node_declaration(nelem, node_parts.DECLARATIONS, replaces, node_dirs);
             lines.push("{");
-            process_node_statements(nelem, node_parts.statements, replaces, node_dirs);
+            process_node_statements(nelem, node_parts.STATEMENTS, replaces, node_dirs);
             lines.push("}");
         }
     }
@@ -1046,14 +1453,14 @@ function preprocess_shader(type, ast, shaders_info) {
         for (var j = 0; j < declarations.length; j++) {
             var decl = declarations[j];
 
-            switch (decl.type) {
+            switch (decl.TYPE) {
             case "node_in":
                 var new_name = nelem.inputs[input_index];
 
                 // value != null for nonlinked inputs
                 if (nelem.input_values[input_index] !== null) {
                     // NOTE: don't create variable for some shader nodes in
-                    //       case of using is_optional flag
+                    //       case of using IS_OPTIONAL flag
                     // MATERIAL_BEGIN: input_index === 3 --- normal_in
                     // MATERIAL_BEGIN: input_index === 4 --- emit_intensity
                     // MATERIAL_END: input_index === 3 --- reflect_factor
@@ -1067,35 +1474,37 @@ function preprocess_shader(type, ast, shaders_info) {
                             || nelem.id == "MATERIAL_END" && input_index === 4
                             || nelem.id == "MATERIAL_END" && input_index === 5)
                             || nelem.id == "TEXTURE_COLOR" || nelem.id == "TEXTURE_NORMAL")
-                            && decl.is_optional) {
-                        replaces[decl.name] = nelem.input_values[input_index];
+                            && decl.IS_OPTIONAL) {
+                        replaces[decl.NAME] = nelem.input_values[input_index];
                         input_index++;
                         continue;
                     }
 
-                    var main_var_line = decl.qualifier.join(" ") + " ";
-                    main_var_line += new_name;
-                    main_var_line += " = " + nelem.input_values[input_index];
-                    main_var_line += ";";
-                    lines.push(main_var_line);
+                    var txt_tokens = decl.QUALIFIER.slice();
+                    txt_tokens.push(new_name);
+                    txt_tokens.push("=");
+                    txt_tokens.push(nelem.input_values[input_index]);
+                    txt_tokens.push(";");
+                    process_text_tokens(txt_tokens);
                 }
-                replaces[decl.name] = new_name;
+                replaces[decl.NAME] = new_name;
                 input_index++;
                 break;
             case "node_out":
                 var new_name = nelem.outputs[output_index];
 
-                if (!decl.is_optional || usage_inputs.indexOf(new_name) > -1) {
-                    var main_var_line = decl.qualifier.join(" ") + " ";
-                    main_var_line += new_name;
-                    main_var_line += ";";
-                    lines.push(main_var_line);
+                if (!decl.IS_OPTIONAL || usage_inputs.indexOf(new_name) > -1) {
 
-                    replaces[decl.name] = new_name;
+                    var txt_tokens = decl.QUALIFIER.slice();
+                    txt_tokens.push(new_name);
+                    txt_tokens.push(";");
+                    process_text_tokens(txt_tokens);
+
+                    replaces[decl.NAME] = new_name;
                 }
 
                 if (usage_inputs.indexOf(new_name) > -1) {
-                    node_dirs["USE_OUT_" + decl.name] = [1];
+                    node_dirs["USE_OUT_" + decl.NAME] = [1];
                 }
 
                 output_index++;
@@ -1106,7 +1515,7 @@ function preprocess_shader(type, ast, shaders_info) {
                 else if (type == "frag")
                     var new_name = nelem.params[param_index];
 
-                replaces[decl.name] = new_name;
+                replaces[decl.NAME] = new_name;
 
                 param_index++;
                 break;
@@ -1119,23 +1528,21 @@ function preprocess_shader(type, ast, shaders_info) {
         for (var i = 0; i < statements.length; i++) {
             var part = statements[i];
 
-            switch(part.type) {
-            case "node_condition":
-                process_node_condition(nelem, part.parts, replaces, node_dirs);
+            switch(part.TYPE) {
+            case "node_cond":
+                process_node_condition(nelem, part.PARTS, replaces, node_dirs);
                 break;
-            case "textline":
+            case "txt":
                 var tokens = [];
-                for (var k = 0; k < part.tokens.length; k++) {
-                    var tok = part.tokens[k];
+                for (var k = 0; k < part.TOKENS.length; k++) {
+                    var tok = part.TOKENS[k];
 
                     if (tok in replaces)
                         tokens.push(replaces[tok]);
                     else
                         tokens.push(tok);
                 }
-
-                var token_list = expand_macro(tokens, dirs, fdirs, true, node_dirs);
-                lines.push(token_list.join(" "));
+                process_text_tokens(tokens, node_dirs);
                 break;
             }
         }
@@ -1145,36 +1552,79 @@ function preprocess_shader(type, ast, shaders_info) {
         for (var i = 0; i < node_if_elements.length; i++) {
             var nielem = node_if_elements[i];
 
-            switch(nielem.type) {
+            switch(nielem.TYPE) {
             case "node_if":
             case "node_elif":
-                var expression = nielem.expression;
+                var expression = nielem.EXPRESSION;
                 var result = expression_result(expression, node_dirs);
                 if (result) {
-                    process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                    process_node_statements(nelem, nielem.STATEMENTS, replaces, node_dirs);
                     return;
                 }
 
                 break;
             case "node_else":
-                process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                process_node_statements(nelem, nielem.STATEMENTS, replaces, node_dirs);
                 return;
             case "node_ifdef":
-                if (nielem.name in dirs || nielem.name in node_dirs)
-                    process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                if (nielem.NAME in dirs || nielem.NAME in node_dirs)
+                    process_node_statements(nelem, nielem.STATEMENTS, replaces, node_dirs);
                 break;
             case "node_ifndef":
-                if (!(nielem.name in dirs) && !(nielem.name in node_dirs))
-                    process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                if (!(nielem.NAME in dirs) && !(nielem.NAME in node_dirs))
+                    process_node_statements(nelem, nielem.STATEMENTS, replaces, node_dirs);
                 break;
             }
         }
     }
 
-    function process_textline(elem) {
-        var tokens = elem.tokens;
-        var token_list = expand_macro(tokens, dirs, fdirs, false);
-        lines.push(token_list.join(" "));
+    function process_text_tokens(tokens, node_dirs) {
+        tokens = preprocess_glsl_compat_tokens(tokens, type);
+
+        if (tokens.length) {
+            var token_list = expand_macro(tokens, dirs, fdirs, false, node_dirs);
+            lines.push(token_list.join(" "));
+        }
+    }
+
+    function preprocess_glsl_compat_tokens(tokens, type) {
+        // using standard gl_FragColor, so the corresponding interface 
+        // declaration isn't needed in GLSL ES 1.0
+        if (!cfg_def.webgl2 && type == "frag") {
+
+            var token_str = tokens.join(" ");
+
+            // remove the last part (or the whole row) of the GLSL_OUT 
+            // declaration if it's breaked in many rows
+            if (frag_glsl_out_declaration) {
+                if (token_str.match(/[^;]*;/)) {
+                    token_str = token_str.replace(/[^;]*;/, "")
+                    frag_glsl_out_declaration = false;
+                } else
+                    token_str = "";
+            }
+
+            // remove GLSL_OUT declaration on a single row
+            token_str = token_str.replace(/GLSL_OUT [^;]*;/g, "");
+
+
+            // remove the first part of the GLSL_OUT declaration if it's breaked 
+            // in many rows
+            if (token_str.match(/GLSL_OUT(?:$| [^;]*)/)) {
+                token_str = token_str.replace(/GLSL_OUT(?:$| [^;]*)/, "");
+                frag_glsl_out_declaration = true;
+            }
+
+            token_str = token_str.replace(/ {2,}/g, " ");
+            token_str = token_str.trim();
+
+            if (token_str)
+                tokens = token_str.split(" ");
+            else
+                tokens = [];
+        }
+
+        return tokens;
     }
 }
 
@@ -1236,13 +1686,15 @@ function init_shader(gl, vshader_text, fshader_text,
         attributes : {},
         uniforms   : {},
 
-        permanent_uniform_setters : [],
+        permanent_uniform_setters : m_util.create_non_smi_array(),
+        permanent_sc_uniform_setters : m_util.create_non_smi_array(),
         // speeds up access by uniform name
         permanent_uniform_setters_table : {},
         need_uniforms_update: true,
         no_permanent_uniforms: false,
 
-        transient_uniform_setters : [],
+        transient_uniform_setters : m_util.create_non_smi_array(),
+        transient_sc_uniform_setters : m_util.create_non_smi_array(),
 
         // NOTE: for debug purposes
         shaders_info: m_util.clone_object_json(shaders_info),
@@ -1325,6 +1777,8 @@ function cleanup() {
 
     for (var hc in _debug_hash_codes)
         delete _debug_hash_codes[hc];
+
+    _varying_buffer = null;
 }
 
 exports.cleanup_shader = cleanup_shader;
@@ -1402,15 +1856,15 @@ exports.check_uniform = function(shader, name) {
         return false;
 }
 
-exports.get_varyings_count = function(shader) {
-    return (_gl.getShaderSource(shader).match(/(?:^|\s)varying(?=\s)/g) || []).length;
-}
-
 function particle_output_usage(ndirs, dir) {
     for (var i = 0; i < ndirs.length; i++)
         if (ndirs[i][0] == dir)
             return true;
     return false;
+}
+
+exports.reset = function() {
+    _gl = null;
 }
 
 }

@@ -71,6 +71,9 @@ Additional settings
 *Power*
     Blurring ratio. The default value is 3.0.
 
+*Bokeh*
+    Activating this option enables bokeh effect. Disabled by default.
+
 
 .. index:: screen-space ambient occlusion, SSAO
 

@@ -8,17 +8,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-07-19 16:12+0300\n"
+"POT-Creation-Date: 2016-08-29 16:10+0300\n"
 "PO-Revision-Date: 2016-03-28 16:34+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../addon.rst:7
-msgid "Addon"
+#, fuzzy
+msgid "Add-on"
 msgstr "插件"
 
 #: ../addon.rst
@@ -337,14 +338,15 @@ msgid "Error message"
 msgstr "错误信息"
 
 #: ../addon.rst:195 ../addon.rst:234 ../addon.rst:305 ../addon.rst:462
-#: ../addon.rst:651
+#: ../addon.rst:656
 msgid "Cause"
 msgstr "原因"
 
 #: ../addon.rst:197
+#, fuzzy
 msgid ""
-"Blend4Web initialization error! Addon is not compatible with the PLATFORM"
-" platform."
+"Blend4Web initialization error! Add-on is not compatible with the "
+"PLATFORM platform."
 msgstr ""
 "Blend4Web initialization error! Addon is not compatible with the PLATFORM"
 " platform.（Blend4Web初始化错误！插件不是同平台平台兼容。）"
@@ -354,9 +356,10 @@ msgid "The Blend4Web add-on is not compatible with the PLATFORM platform."
 msgstr "该Blend4Web插件和该平台不兼容。"
 
 #: ../addon.rst:201
+#, fuzzy
 msgid ""
 "Warning: Blender version mismatch. Blender VER_REQUIRED is recommended "
-"for the Blend4Web addon. Current version is VER_CURRENT."
+"for the Blend4Web add-on. Current version is VER_CURRENT."
 msgstr ""
 "Warning: Blender version mismatch. Blender VER_REQUIRED is recommended "
 "for the Blend4Web addon. Current version is VER_CURRENT.（Blend4Web "
@@ -371,13 +374,13 @@ msgid ""
 msgstr "警告有关可能不符合当前Blender的版本号。它建议使用VER_REQUIREDBlender版本。当前的版本是VER_CURRENT。"
 
 #: ../addon.rst:207
-msgid "Incorrect addon directory name."
+msgid "Incorrect add-on directory name."
 msgstr ""
 
 #: ../addon.rst:207
 msgid ""
-"Incorrect name of the addon directory. Addon structure in the archive has"
-" been damaged, or entirety of the archive has been disrupted."
+"Incorrect name of the add-on directory. Add-on structure in the archive "
+"has been damaged, or entirety of the archive has been disrupted."
 msgstr ""
 
 #: ../addon.rst:218
@@ -400,9 +403,10 @@ msgid ""
 msgstr "相比版本的插件与该场景被导出引擎版本太旧。场景将不会被加载。我们建议您使用引擎和插件的最新版本。"
 
 #: ../addon.rst:236
+#, fuzzy
 msgid ""
 "JSON version is too old relative to B4W engine: VER_OLD, required: "
-"VER_NEW. Reexport scene with the latest B4W addon to fix it."
+"VER_NEW. Reexport scene with the latest B4W add-on to fix it."
 msgstr ""
 "JSON version is too old relative to B4W engine: VER_OLD, required: "
 "VER_NEW. Reexport scene with the latest B4W addon to fix "
@@ -417,10 +421,11 @@ msgid ""
 msgstr "插件版本，与场景被导出版本相比太旧：VER_OLD。该引擎要求：VER_NEW。场景将不会被加载。我们建议您使用的加载项的最新版本重新导出场景。我们也建议使用引擎的最新版本。"
 
 #: ../addon.rst:245
+#, fuzzy
 msgid ""
 "JSON version is a bit old relative to B4W engine: VER_OLD, required: "
 "VER_NEW. Some compatibility issues can occur. Reexport scene with the "
-"latest B4W addon to fix it."
+"latest B4W add-on to fix it."
 msgstr ""
 "JSON version is a bit old relative to B4W engine: VER_OLD, required: "
 "VER_NEW. Some compatibility issues can occur. Reexport scene with the "
@@ -1144,78 +1149,85 @@ msgid ""
 msgstr "Name对象既有顶点动画和不支持的电枢修改。其结果是，该改性剂已被删除。"
 
 #: ../addon.rst:589
+#, fuzzy
+msgid ""
+"The NAME object has the NAME armature modifier. It belongs to a not "
+"exported scene. Modifier removed."
+msgstr "该名称 ``Armature`` 修正没有骨架问题，也没有导出。修改删除。"
+
+#: ../addon.rst:594
 msgid "The NAME LAMP node has no lamp object. Material: NAME."
 msgstr ""
 
-#: ../addon.rst:589
+#: ../addon.rst:594
 msgid "Wrong object specified in the NAME ``LAMP`` node."
 msgstr "在指定的名字错了对象 ``LAMP`` 节点。"
 
-#: ../addon.rst:592
+#: ../addon.rst:597
 msgid ""
 "The NAME node is not supported. The NAME material will be rendered "
 "without nodes. Material: NAME."
 msgstr ""
 
-#: ../addon.rst:592
+#: ../addon.rst:597
 msgid ""
 "The engine does not support the node with this name, and so the node "
 "material will be turned off. Often this happens when Cycles nodes are "
 "used."
 msgstr "引擎不支持该节点与该名字，并因此节点材料将被关闭。经常出现这种情况时，循环节点使用。"
 
-#: ../addon.rst:597
+#: ../addon.rst:602
 msgid ""
 "The NAME object has NAME armature modifier which references the wrong "
 "group. Modifier removed."
 msgstr ""
 
-#: ../addon.rst:597
+#: ../addon.rst:602
 msgid ""
 "An object should be in the same group as an armature, or both these "
 "objects should be explicitly present in the scene."
 msgstr "一个物体应该是在同一组作为骨架，或两个物体应该明确地出现在场景中。"
 
-#: ../addon.rst:601
+#: ../addon.rst:606
 msgid "TEXTURE_TYPE isn't supported, WORLD_NAME"
 msgstr ""
 
-#: ../addon.rst:601
+#: ../addon.rst:606
 msgid "TEXTURE_TYPE texture type isn't supported for world WORLD_NAME"
 msgstr "不支持TEXTURE_TYPE纹理类型为世界WORLD_NAME"
 
-#: ../addon.rst:604
+#: ../addon.rst:609
 msgid ""
 "Using B4W_REFRACTION node NODE_NAME with incorrect type of Alpha Blend. "
 "Material: NAME."
 msgstr ""
 
-#: ../addon.rst:604
+#: ../addon.rst:609
 msgid ""
 "A node material with incorrect Alpha Blend property is used. ``Alpha "
 "sort``, ``Alpha blend`` and ``Add`` are allowed when using a "
 "\"REFRACTION\" node."
 msgstr "用不正确的透明混合属性节点材质。 ``Alpha sort``, ``Alpha blend`` 和 ``Add`` 使用的是“折射”节点时允许的。"
 
-#: ../addon.rst:609
+#: ../addon.rst:614
 msgid ""
 "Wind bending: not all vertex colors exist for \\\"NAME\\\". Properties "
 "were set to default values."
 msgstr ""
 
-#: ../addon.rst:609
+#: ../addon.rst:614
 msgid ""
 "Wind bending parameters setup: all specified vertex color layers should "
 "exist."
 msgstr "风弯曲参数设置：所有指定的顶点颜色层应该存在。"
 
-#: ../addon.rst:614
+#: ../addon.rst:619
 msgid ""
 "Wind bending: vertex colors weren't properly assigned for \\\"NAME\\\". "
 "Properties were set to default values."
 msgstr ""
 
-#: ../addon.rst:614
+#: ../addon.rst:619
 msgid ""
 "Wind bending parameters setup: it's required to specify the names of "
 "either all vertex color layers (``Main stiffness (A)``, ``Leaves "
@@ -1226,111 +1238,111 @@ msgstr ""
 "(R)``, ``Leaves phase (G)``, ``Overall stiffness (B)``), 或主要的一个唯一的 "
 "(``Main stiffness (A)``), 或没有其中之一的。"
 
-#: ../addon.rst:625
+#: ../addon.rst:630
 msgid ""
 "Wrong \"Height Map\" input for the \"NAME\" B4W_PARALLAX node. Only link "
 "from the TEXTURE node with a non-empty texture is allowed."
 msgstr ""
 
-#: ../addon.rst:625
+#: ../addon.rst:630
 msgid ""
 "Wrong data were passed to the \"Height Map\" input of the NAME "
 "``B4W_PARALLAX`` node. Only the output from a non-empty ``TEXTURE`` node "
 "is allowed."
 msgstr "错误的数据传递给该名称的“高度贴图”输入 ``B4W_PARALLAX`` 节点。只从一个非空的输出 ``TEXTURE`` 节点是允许的。"
 
-#: ../addon.rst:630
+#: ../addon.rst:635
 msgid "Wrong texture coordinates type in texture NAME. [Material: NAME.]"
 msgstr ""
 
-#: ../addon.rst:630
+#: ../addon.rst:635
 msgid ""
 "The following coordinate types are supported for image textures: ``UV``, "
 "``Normal`` and ``Generated``."
 msgstr "下列坐标类型的图像纹理支持： ``UV``, ``Normal`` 和 ``Generated``."
 
-#: ../addon.rst:638
+#: ../addon.rst:643
 msgid "Other Messages"
 msgstr "其他消息"
 
-#: ../addon.rst:640
+#: ../addon.rst:645
 msgid ""
 "These messages can be viewed in the browser console (opens with ``F12``) "
 "when a scene is loaded. The message looks like this:"
 msgstr "这些消息可以在浏览器的控制台中查看（与打开 ``F12`` 一样) 当一个场景被加载。该消息是这样的："
 
-#: ../addon.rst:642
+#: ../addon.rst:647
 msgid "``B4W EXPORT WARNING: Export message which requires the user's attention``"
 msgstr ""
 "``B4W EXPORT WARNING: Export message which requires the user's "
 "attention（B4W EXPORT警告：导出消息，这就需要用户注意）``"
 
-#: ../addon.rst:651
+#: ../addon.rst:656
 msgid "Error Message"
 msgstr "错误信息"
 
-#: ../addon.rst:653
+#: ../addon.rst:658
 msgid "Missing active camera or wrong active camera object"
 msgstr ""
 
-#: ../addon.rst:653
+#: ../addon.rst:658
 msgid ""
 "There is no active camera on the scene (``Camera`` property on the "
 "``Scene`` tab)."
 msgstr "在场景中没有激活的(``Camera`` 属性在 ``Scene`` 面板)."
 
-#: ../addon.rst:657
+#: ../addon.rst:662
 msgid "Missing world or wrong active world object"
 msgstr ""
 
-#: ../addon.rst:657
+#: ../addon.rst:662
 msgid "There should be at least one world datablock in the scene."
 msgstr "应该有至少有一个数据块的世界场景中。"
 
-#: ../addon.rst:660
+#: ../addon.rst:665
 msgid ""
 "NAME particle settings has the NAME texture rendering a scene. It has "
 "been replaced by the default texture."
 msgstr ""
 
-#: ../addon.rst:660
+#: ../addon.rst:665
 msgid ""
 "The particle settings datablock NAME contains the texture NAME being used"
 " for rendering a scene into. This texture has been replaced by a default "
 "texture."
 msgstr "粒子设置数据块名称包含被用于渲染场景到纹理名称。此纹理被替换为默认的纹理。"
 
-#: ../addon.rst:665
+#: ../addon.rst:670
 msgid "The action NAME has no fcurves."
 msgstr ""
 
-#: ../addon.rst:667
+#: ../addon.rst:672
 msgid ""
 "The \\\"NAME\\\" camera has unsupported PANORAMIC type. Changed to "
 "PERSPECTIVE type.\""
 msgstr ""
 
-#: ../addon.rst:667
+#: ../addon.rst:672
 msgid "Panoramic cameras are not supported. Perspective mode is used instead."
 msgstr "不支持全景相机。立体模式来代替。"
 
-#: ../addon.rst:671
+#: ../addon.rst:676
 msgid ""
 "Unsupported texture type or texture is missing for Lens Flare material "
 "\\\"NAME\\\""
 msgstr ""
 
-#: ../addon.rst:671
+#: ../addon.rst:676
 msgid ""
 "There are no textures on the material or unsupported texture type is used"
 " for material \\\"NAME\\\"."
 msgstr ""
 
-#: ../addon.rst:679
+#: ../addon.rst:684
 msgid "Add-on Translations"
 msgstr "插件翻译"
 
-#: ../addon.rst:681
+#: ../addon.rst:686
 msgid ""
 "There is the possibility to translate the add-on to a language supported "
 "by Blender. In order to do this, rename the file \"empty.po\", which "
@@ -1338,347 +1350,347 @@ msgid ""
 " one of the names in the following table:"
 msgstr "还有就是可以翻译插件到Blender所支持的语言。为了做到这一点，重命名文件“empty.po”，它位于目录SDK/blender_scripts/addons/blend4web/locales,下表中的名称之一："
 
-#: ../addon.rst:686
+#: ../addon.rst:691
 msgid "File name"
 msgstr "文件名"
 
-#: ../addon.rst:686
+#: ../addon.rst:691
 msgid "Language"
 msgstr "语言"
 
-#: ../addon.rst:688
+#: ../addon.rst:693
 msgid "ru_RU.po"
 msgstr ""
 
-#: ../addon.rst:688
+#: ../addon.rst:693
 msgid "Russian"
 msgstr "俄语"
 
-#: ../addon.rst:690
+#: ../addon.rst:695
 msgid "ja_JP.po"
 msgstr ""
 
-#: ../addon.rst:690
+#: ../addon.rst:695
 msgid "Japanese"
 msgstr "日本"
 
-#: ../addon.rst:692
+#: ../addon.rst:697
 msgid "en_US.po"
 msgstr ""
 
-#: ../addon.rst:692
+#: ../addon.rst:697
 msgid "English"
 msgstr "英语"
 
-#: ../addon.rst:694
+#: ../addon.rst:699
 msgid "nl_NL.po"
 msgstr ""
 
-#: ../addon.rst:694
+#: ../addon.rst:699
 msgid "Dutch"
 msgstr "荷兰"
 
-#: ../addon.rst:696
+#: ../addon.rst:701
 msgid "it_IT.po"
 msgstr ""
 
-#: ../addon.rst:696
+#: ../addon.rst:701
 msgid "Italian"
 msgstr "意大利"
 
-#: ../addon.rst:698
+#: ../addon.rst:703
 msgid "de_DE.po"
 msgstr ""
 
-#: ../addon.rst:698
+#: ../addon.rst:703
 msgid "German"
 msgstr "德语"
 
-#: ../addon.rst:700
+#: ../addon.rst:705
 msgid "fi_FI.po"
 msgstr ""
 
-#: ../addon.rst:700
+#: ../addon.rst:705
 msgid "Finnish"
 msgstr "芬兰"
 
-#: ../addon.rst:702
+#: ../addon.rst:707
 msgid "sv_SE.po"
 msgstr ""
 
-#: ../addon.rst:702
+#: ../addon.rst:707
 msgid "Swedish"
 msgstr "瑞典"
 
-#: ../addon.rst:704
+#: ../addon.rst:709
 msgid "fr_FR.po"
 msgstr ""
 
-#: ../addon.rst:704
+#: ../addon.rst:709
 msgid "French"
 msgstr "法国"
 
-#: ../addon.rst:706
+#: ../addon.rst:711
 msgid "es.po"
 msgstr ""
 
-#: ../addon.rst:706
+#: ../addon.rst:711
 msgid "Spanish"
 msgstr "西班牙语"
 
-#: ../addon.rst:708
+#: ../addon.rst:713
 msgid "ca_AD.po"
 msgstr ""
 
-#: ../addon.rst:708
+#: ../addon.rst:713
 msgid "Catalan"
 msgstr "加泰罗尼亚"
 
-#: ../addon.rst:710
+#: ../addon.rst:715
 msgid "cs_CZ.po"
 msgstr ""
 
-#: ../addon.rst:710
+#: ../addon.rst:715
 msgid "Czech"
 msgstr "捷克"
 
-#: ../addon.rst:712
+#: ../addon.rst:717
 msgid "pt_PT.po"
 msgstr ""
 
-#: ../addon.rst:712
+#: ../addon.rst:717
 msgid "Portuguese"
 msgstr "葡萄牙语"
 
-#: ../addon.rst:714
+#: ../addon.rst:719
 msgid "zh_CN.po"
 msgstr ""
 
-#: ../addon.rst:714
+#: ../addon.rst:719
 msgid "Simplified Chinese"
 msgstr "简体中文"
 
-#: ../addon.rst:716
+#: ../addon.rst:721
 msgid "zh_TW.po"
 msgstr ""
 
-#: ../addon.rst:716
+#: ../addon.rst:721
 msgid "Traditional Chinese"
 msgstr "繁体中文"
 
-#: ../addon.rst:718
+#: ../addon.rst:723
 msgid "hr_HR.po"
 msgstr ""
 
-#: ../addon.rst:718
+#: ../addon.rst:723
 msgid "Croatian"
 msgstr "克罗地亚"
 
-#: ../addon.rst:720
+#: ../addon.rst:725
 msgid "sr_RS.po"
 msgstr ""
 
-#: ../addon.rst:720
+#: ../addon.rst:725
 msgid "Serbian"
 msgstr "塞尔维亚"
 
-#: ../addon.rst:722
+#: ../addon.rst:727
 msgid "uk_UA.po"
 msgstr ""
 
-#: ../addon.rst:722
+#: ../addon.rst:727
 msgid "Ukrainian"
 msgstr "乌克兰"
 
-#: ../addon.rst:724
+#: ../addon.rst:729
 msgid "pl_PL.po"
 msgstr ""
 
-#: ../addon.rst:724
+#: ../addon.rst:729
 msgid "Polish"
 msgstr "波兰"
 
-#: ../addon.rst:726
+#: ../addon.rst:731
 msgid "ro_RO.po"
 msgstr ""
 
-#: ../addon.rst:726
+#: ../addon.rst:731
 msgid "Romanian"
 msgstr "罗马尼亚"
 
-#: ../addon.rst:728
+#: ../addon.rst:733
 msgid "ar_EG.po"
 msgstr ""
 
-#: ../addon.rst:728
+#: ../addon.rst:733
 msgid "Arabic"
 msgstr "阿拉伯"
 
-#: ../addon.rst:730
+#: ../addon.rst:735
 msgid "bg_BG.po"
 msgstr ""
 
-#: ../addon.rst:730
+#: ../addon.rst:735
 msgid "Bulgarian"
 msgstr "保加利亚语"
 
-#: ../addon.rst:732
+#: ../addon.rst:737
 msgid "el_GR.po"
 msgstr ""
 
-#: ../addon.rst:732
+#: ../addon.rst:737
 msgid "Greek"
 msgstr "希腊语"
 
-#: ../addon.rst:734
+#: ../addon.rst:739
 msgid "ko_KR.po"
 msgstr ""
 
-#: ../addon.rst:734
+#: ../addon.rst:739
 msgid "Korean"
 msgstr "朝鲜的"
 
-#: ../addon.rst:736
+#: ../addon.rst:741
 msgid "ne_NP.po"
 msgstr ""
 
-#: ../addon.rst:736
+#: ../addon.rst:741
 msgid "Nepali"
 msgstr "尼泊尔"
 
-#: ../addon.rst:738
+#: ../addon.rst:743
 msgid "fa_IR.po"
 msgstr ""
 
-#: ../addon.rst:738
+#: ../addon.rst:743
 msgid "Persian"
 msgstr "波斯语"
 
-#: ../addon.rst:740
+#: ../addon.rst:745
 msgid "id_ID.po"
 msgstr ""
 
-#: ../addon.rst:740
+#: ../addon.rst:745
 msgid "Indonesian"
 msgstr "印度尼西亚"
 
-#: ../addon.rst:742
+#: ../addon.rst:747
 msgid "sr_RS\\@latin.po"
 msgstr ""
 
-#: ../addon.rst:742
+#: ../addon.rst:747
 msgid "Serbian Latin"
 msgstr "塞尔维亚拉丁语"
 
-#: ../addon.rst:744
+#: ../addon.rst:749
 msgid "ky_KG.po"
 msgstr ""
 
-#: ../addon.rst:744
+#: ../addon.rst:749
 msgid "Kyrgyz"
 msgstr "吉尔吉斯"
 
-#: ../addon.rst:746
+#: ../addon.rst:751
 msgid "tr_TR.po"
 msgstr ""
 
-#: ../addon.rst:746
+#: ../addon.rst:751
 msgid "Turkish"
 msgstr "土耳其"
 
-#: ../addon.rst:748
+#: ../addon.rst:753
 msgid "hu_HU.po"
 msgstr ""
 
-#: ../addon.rst:748
+#: ../addon.rst:753
 msgid "Hungarian"
 msgstr "匈牙利"
 
-#: ../addon.rst:750
+#: ../addon.rst:755
 msgid "pt_BR.po"
 msgstr ""
 
-#: ../addon.rst:750
+#: ../addon.rst:755
 msgid "Brazilian Portuguese"
 msgstr "巴西葡萄牙语"
 
-#: ../addon.rst:752
+#: ../addon.rst:757
 msgid "he_IL.po"
 msgstr ""
 
-#: ../addon.rst:752
+#: ../addon.rst:757
 msgid "Hebrew"
 msgstr "希伯来语"
 
-#: ../addon.rst:754
+#: ../addon.rst:759
 msgid "et_EE.po"
 msgstr ""
 
-#: ../addon.rst:754
+#: ../addon.rst:759
 msgid "Estonian"
 msgstr "爱沙尼亚语"
 
-#: ../addon.rst:756
+#: ../addon.rst:761
 msgid "eo.po"
 msgstr ""
 
-#: ../addon.rst:756
+#: ../addon.rst:761
 msgid "Esperanto"
 msgstr "世界语"
 
-#: ../addon.rst:758
+#: ../addon.rst:763
 msgid "es_ES.po"
 msgstr ""
 
-#: ../addon.rst:758
+#: ../addon.rst:763
 msgid "Spanish from Spain"
 msgstr "西班牙西班牙"
 
-#: ../addon.rst:760
+#: ../addon.rst:765
 msgid "am_ET.po"
 msgstr ""
 
-#: ../addon.rst:760
+#: ../addon.rst:765
 msgid "Amharic"
 msgstr "阿姆哈拉语"
 
-#: ../addon.rst:762
+#: ../addon.rst:767
 msgid "uz_UZ.po"
 msgstr ""
 
-#: ../addon.rst:762
+#: ../addon.rst:767
 msgid "Uzbek"
 msgstr "乌兹别克"
 
-#: ../addon.rst:764
+#: ../addon.rst:769
 msgid "uz_UZ\\@cyrillic.po"
 msgstr ""
 
-#: ../addon.rst:764
+#: ../addon.rst:769
 msgid "Uzbek Cyrillic"
 msgstr "乌兹别克西里尔"
 
-#: ../addon.rst:766
+#: ../addon.rst:771
 msgid "hi_IN.po"
 msgstr ""
 
-#: ../addon.rst:766
+#: ../addon.rst:771
 msgid "Hindi"
 msgstr "印地语"
 
-#: ../addon.rst:768
+#: ../addon.rst:773
 msgid "vi_VN.po"
 msgstr ""
 
-#: ../addon.rst:768
+#: ../addon.rst:773
 msgid "Vietnamese"
 msgstr "越南"
 
-#: ../addon.rst:771
+#: ../addon.rst:776
 msgid "Then open this file and edit/translate it."
 msgstr "然后打开该文件并编辑/翻译。"
 
-#: ../addon.rst:773
+#: ../addon.rst:778
 msgid ""
 "When translations are ready, you may contact us to include them as part "
 "of the add-on."
@@ -1739,5 +1751,18 @@ msgstr "导出错误警告"
 #~ msgstr ""
 
 #~ msgid "min50 textures"
+#~ msgstr ""
+
+#~ msgid "Addon"
+#~ msgstr "插件"
+
+#~ msgid "Incorrect addon directory name."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Incorrect name of the addon directory."
+#~ " Addon structure in the archive has"
+#~ " been damaged, or entirety of the "
+#~ "archive has been disrupted."
 #~ msgstr ""
 

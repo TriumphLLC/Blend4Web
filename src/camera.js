@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 "use strict";
 
 /**
@@ -140,21 +139,24 @@ exports.camera_object_to_camera = function(bpy_camobj, camobj) {
     var cam_scenes_data = camobj.scenes_data;
     cam_scenes_data[0].cameras.push(cam);
     for (var i = 1; i < cam_scenes_data.length; i++) {
-        var new_cam =  m_util.clone_object_r(cam);
+        var new_cam = clone_camera(cam, false);
         cam_scenes_data[i].cameras.push(new_cam);
     }
 
-    render.underwater                = false;
     render.move_style                = move_style_bpy_to_b4w(camobj_data["b4w_move_style"]);
     render.dof_distance              = camobj_data["dof_distance"];
 
     var dof_obj = camobj_data["dof_object"];
     render.dof_object = dof_obj ? dof_obj._object : null;
 
-    render.dof_front                 = camobj_data["b4w_dof_front"];
-    render.dof_rear                  = camobj_data["b4w_dof_rear"];
+    render.dof_front_start           = camobj_data["b4w_dof_front_start"];
+    render.dof_front_end             = camobj_data["b4w_dof_front_end"];
+    render.dof_rear_start            = camobj_data["b4w_dof_rear_start"];
+    render.dof_rear_end              = camobj_data["b4w_dof_rear_end"];
     render.dof_power                 = camobj_data["b4w_dof_power"];
     render.dof_bokeh                 = camobj_data["b4w_dof_bokeh"];
+    render.dof_bokeh_intensity       = camobj_data["b4w_dof_bokeh_intensity"];
+    render.dof_foreground_blur       = camobj_data["b4w_dof_foreground_blur"];
 
     render.velocity_trans = camobj_data["b4w_trans_velocity"];
     render.velocity_rot   = camobj_data["b4w_rot_velocity"];
@@ -493,11 +495,15 @@ function init_camera(type) {
 
         // dof stuff
         dof_distance : 0,
-        dof_front : 0,
-        dof_rear : 0,
+        dof_front_start : 0,
+        dof_front_end : 0,
+        dof_rear_start : 0,
+        dof_rear_end : 0,
         dof_power : 0,
+        dof_bokeh_intensity : 0,
         dof_object : null,
-        dof_bokeh : false,
+        dof_bokeh_ : false,
+        dof_foreground_blur : false,
         dof_on : false,
         lod_eye: new Float32Array(3),
 
@@ -520,6 +526,85 @@ function init_camera(type) {
     return cam;
 }
 
+exports.clone_camera = clone_camera;
+function clone_camera(cam, reset_attachments) {
+
+    var cam_new = init_camera(cam.type);
+
+    cam_new.name = cam.name;
+
+    cam_new.size_mult = cam.size_mult;
+
+    cam_new.width  = cam.width;
+    cam_new.height = cam.height;
+
+    if (!reset_attachments) {
+        cam_new.framebuffer = cam.framebuffer;
+        cam_new.framebuffer_prev = cam.framebuffer_prev;
+        cam_new.color_attachment = cam.color_attachment;
+        cam_new.depth_attachment = cam.depth_attachment;
+    }
+
+    // frustum stuff
+    cam_new.aspect = cam.aspect;
+    cam_new.fov    = cam.fov;
+    cam_new.near   = cam.near;
+    cam_new.far    = cam.far;
+    cam_new.left   = cam.left;
+    cam_new.right  = cam.right;
+    cam_new.top    = cam.top;
+    cam_new.bottom = cam.bottom;
+
+    m_vec4.copy(cam.hmd_fov, cam_new.hmd_fov);
+
+    // some uniforms
+    m_tsr.copy(cam.world_tsr, cam_new.world_tsr);
+
+    m_mat4.copy(cam.view_matrix, cam_new.view_matrix);
+    m_mat4.copy(cam.proj_matrix, cam_new.proj_matrix);
+    m_mat4.copy(cam.view_proj_matrix, cam_new.view_proj_matrix);
+    m_mat4.copy(cam.view_proj_inv_matrix, cam_new.view_proj_inv_matrix);
+    m_mat4.copy(cam.prev_view_proj_matrix, cam_new.prev_view_proj_matrix);
+    m_mat4.copy(cam.sky_vp_inv_matrix, cam_new.sky_vp_inv_matrix);
+
+    m_tsr.copy(cam.view_tsr, cam_new.view_tsr);
+    m_tsr.copy(cam.view_zup_tsr, cam_new.view_zup_tsr);
+    m_tsr.copy(cam.view_inv_zup_tsr, cam_new.view_inv_zup_tsr);
+    m_tsr.copy(cam.real_view_tsr, cam_new.real_view_tsr);
+    m_tsr.copy(cam.real_view_zup_tsr, cam_new.real_view_zup_tsr);
+    m_tsr.copy(cam.real_view_inv_zup_tsr, cam_new.real_view_inv_zup_tsr);
+    m_tsr.copy(cam.shadow_cast_billboard_view_tsr, cam_new.shadow_cast_billboard_view_tsr);
+
+    // dof stuff
+    cam_new.dof_distance = cam.dof_distance;
+    cam_new.dof_front_start = cam.dof_front_start;
+    cam_new.dof_front_end = cam.dof_front_end;
+    cam_new.dof_rear_start = cam.dof_rear_start;
+    cam_new.dof_rear_end = cam.dof_rear_end;
+    cam_new.dof_power = cam.dof_power;
+    cam_new.dof_bokeh_intensity = cam.dof_bokeh_intensity;
+    cam_new.dof_object = cam.dof_object;
+    cam_new.dof_bokeh_ = cam.dof_bokeh_;
+    cam_new.dof_foreground_blur = cam.dof_foreground_blur;
+    cam_new.dof_on = cam.dof_on;
+    m_vec3.copy(cam.lod_eye, cam_new.lod_eye);
+
+    copy_frustum_planes(cam.frustum_planes, cam_new.frustum_planes);
+    cam_new.stereo_conv_dist = cam.stereo_conv_dist;
+    cam_new.stereo_eye_dist = cam.stereo_eye_dist;
+
+    if (cam.reflection_plane)
+        cam_new.reflection_plane = m_vec4.clone(cam.reflection_plane);
+
+    // shadow cascades stuff
+    clone_camera_csm(cam, cam_new);
+    m_vec4.copy(cam.csm_center_dists, cam_new.csm_center_dists);
+    m_vec4.copy(cam.pcf_blur_radii, cam_new.pcf_blur_radii);
+
+    return cam_new;
+}
+
+
 exports.create_frustum_planes = create_frustum_planes;
 function create_frustum_planes() {
     var frustum_planes = {
@@ -531,6 +616,16 @@ function create_frustum_planes() {
         far:    new Float32Array([0, 0, 0, 0])
     };
     return frustum_planes;
+}
+
+function copy_frustum_planes(planes, planes_new) {
+    m_vec4.copy(planes.left, planes_new.left);
+    m_vec4.copy(planes.right, planes_new.right);
+    m_vec4.copy(planes.top, planes_new.top);
+    m_vec4.copy(planes.bottom, planes_new.bottom);
+    m_vec4.copy(planes.near, planes_new.near);
+    m_vec4.copy(planes.far, planes_new.far);
+    return planes_new;
 }
 
 exports.move_style_bpy_to_b4w = move_style_bpy_to_b4w
@@ -825,12 +920,12 @@ function get_move_style(camobj) {
 
 exports.set_view = set_view;
 /**
- * uses _mat4_tmp
+ * uses _vec3_tmp, _quat4_tmp, _mat4_tmp
  */
 function set_view(cam, camobj) {
     // ignore scale for view_matrix
-    var trans = m_tsr.get_trans_view(camobj.render.world_tsr);
-    var quat = m_tsr.get_quat_view(camobj.render.world_tsr);
+    var trans = m_tsr.get_trans(camobj.render.world_tsr, _vec3_tmp);
+    var quat = m_tsr.get_quat(camobj.render.world_tsr, _quat4_tmp);
     var wm = m_mat4.fromRotationTranslation(quat, trans, _mat4_tmp);
 
     m_mat4.rotateX(wm, -Math.PI/2, wm);
@@ -2046,7 +2141,7 @@ exports.assign_boundings = function(camobj) {
 
     var render = camobj.render;
 
-    var bb = m_bounds.zero_bounding_box();
+    var bb = m_bounds.create_bb();
 
     bb.min_x =-1;
     bb.max_x = 1;
@@ -2057,12 +2152,12 @@ exports.assign_boundings = function(camobj) {
 
     render.bb_local = bb;
 
-    var bs = m_bounds.create_bounding_sphere(1, [0,0,0]);
+    var bs = m_bounds.bs_from_values(1, m_util.f32([0,0,0]));
     render.bs_local = bs;
 
-    render.bcap_local = m_bounds.create_bounding_capsule(1, bb);
-    render.bcyl_local = m_bounds.create_bounding_cylinder(1, bb);
-    render.bcon_local = m_bounds.create_bounding_cone(1, bb);
+    render.bcap_local = m_bounds.bcap_from_values(1, bb);
+    render.bcyl_local = m_bounds.bcyl_from_values(1, bb);
+    render.bcon_local = m_bounds.bcon_from_values(1, bb);
 }
 
 exports.is_static_camera = is_static_camera;
@@ -2137,6 +2232,18 @@ function init_camera_csm(cam, shadow_params) {
         cam.csm_centers[i] = new Float32Array(3);
 
     cam.csm_radii = new Float32Array(csm_num);
+}
+
+function clone_camera_csm(cam, cam_new) {
+    if (!cam.csm_centers)
+        return;
+
+    var csm_num = cam.csm_centers.length;
+    cam_new.csm_centers = new Array(csm_num);
+    for (var i = 0; i < csm_num; i++)
+        cam_new.csm_centers[i] = m_vec3.clone(cam.csm_centers[i]);
+
+    cam_new.csm_radii = new Float32Array(cam.csm_radii);
 }
 
 exports.csm_far_plane = csm_far_plane;

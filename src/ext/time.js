@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -57,6 +56,7 @@ exports.get_timeline = m_time.get_timeline;
  * @param {Number} to Value to animate to
  * @param {Number} timeout Period of time to animate the value
  * @param {anim_callback} anim_cb Animation callback
+ * @returns {Number} Animator ID
  */
 exports.animate = m_time.animate;
 

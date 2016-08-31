@@ -3,6 +3,144 @@ Release Notes
 *************
 
 
+v16.08
+======
+
+
+New Features
+------------
+
+* Materials "Tangent Shading" option is now supported.
+
+     This option can be used to imitate anisotropic material surfaces,
+     such as polished metals, hair, etc.
+
+* Shader node "Normal Map" is now supported.
+
+     This node allows converting color data from texture to a normal
+     map. The input data can be in tangent, object or world coordinate
+     space. The "Strength" parameter controls the mixing values
+     extracted from the texture with an object's default normals.
+
+     The color space of a texture image should be set to "Non-Color"
+     to make Blender's viewport preview match the final Blend4Web
+     scene.
+
+* Engine CPU optimizations.
+
+     Several CPU and GC (Garbage Collector) optimizations have been
+     made in the engine's core systems. "OES_vertex_array_object"
+     extension was supported on appropriate hardware. Uniform and
+     shader usage was also optimized reducing the total amount of
+     WebGL calls. This should improve scene load time and rendering
+     responsiveness, especially for slow CPUs.
+
+* Interface improvements in the Viewer app.
+
+     The "Tools & Debug" panel has been moved and is now located
+     directly under the "Scenes" panel.
+
+     The "Min capabilities mode" button has been added to the "Tools &
+     Debug" panel. This parameter makes the Viewer app run the loaded
+     scene as if it was running on a low-end system (such as iOS
+     devices). This allows an artist to find out which materials in
+     the scene may not work as intended on a low-end configuration.
+
+* Normal editor improvements.
+
+     Added "Offset" mode for normal editing.
+
+     Added "Average" operation support for non-split normals.
+
+     Added the possibility to type the angle of normal rotation just
+     like inputting an object's rotation.
+
+* New API method in the textures module.
+
+     The get_texture_names method has been added. It allows us to get
+     all object texture names.
+
+* New API methods in the lights module.
+
+     The get_light_color, set_light_color, get_light_energy and
+     set_light_energy methods have been added. These are used to work
+     with the color and energy values of a lamp.
+
+* Support for "Hidden" object property.
+
+     This flag hides objects upon scene loading.
+
+* Support for GLSL ES 3.0 shaders.
+
+     From now the engine automatically chooses which version of the
+     OpenGL Shading Language should be used to compile/link shaders.
+     It depends on the WebGL context: GLSL ES 1.0 version is used for
+     WebGL 1, and GLSL ES 3.0 - for WebGL 2. The engine's shader
+     system and macro preprocessor was also changed to be compatible
+     with both of these variants.
+
+     This feature lifts restrictions on implementing new functionality
+     related to WebGL 2 without compatibility issues.
+
+* Improvements in Shader Analyzer.
+
+     Shader Analyzer (method analyze_shaders) now prints low-level
+     assembly code which helps in reviewing and optimizing shaders.
+
+
+Changes
+-------
+
+* Depth-of-field (DOF) bokeh effect algorithm improvements.
+
+     Intensity leakage (or pixel bleeding) artifact, when foregound
+     objects in focus appear to 'leak' onto blurry backgrounds, has
+     been reduced.
+
+     The "Foreground Blur" property has been added. When enabled, it
+     reduces the appearance of sharp silhouettes on unfocused
+     foreground objects against focused backgrounds.
+
+     "Front Start", "Front End" properties for foreground and "Rear
+     Start", "Rear End" for background allows us to specify distances
+     at which a blur starts and reaches the maximum value.
+
+* World is now reflected by default.
+
+* Shader validation algorithm has been improved.
+
+     If material cannot be rendered on low-end devices, it is replaced
+     by error (pink) material in debug and it is removed in
+     production.
+
+
+Fixes
+-----
+
+* Inversion vertex group length fix.
+
+     The inversion operator of *HAIR* particle system for vertex group
+     length has been fixed.
+
+* Fixed normal rotation for transformed object in *Normal Editor*.
+
+* Fixed rare engine crash occured during scene loading if logic
+  nodes were used in a scene.
+
+* Fixed material panel in the Viewer app. It was disabled for some
+  materials, which are allowed to edit.
+
+* Fixed engine crash on mobile devices.
+
+* Fixed flickering on mobile browsers.
+
+* Dynamic water object loading crash has been fixed.
+
+* Fixed normalmap influence on reflections for stack materials.
+
+* Disabled gray highlighting when tapping in WebPlayer on iPad.
+
+
 v16.07
 ======
 

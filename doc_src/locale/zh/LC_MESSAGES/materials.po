@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-29 16:12+0300\n"
+"POT-Creation-Date: 2016-08-29 16:10+0300\n"
 "PO-Revision-Date: 2016-04-23 15:47+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../materials.rst:7
 msgid "Materials"
@@ -420,16 +420,22 @@ msgstr "设置"
 msgid "Fresnel effect can be set up both for static and dynamic reflection."
 msgstr "菲涅耳效应可以设置静态和动态的反射。"
 
-#: ../materials.rst:207
+#: ../materials.rst:208
+#, fuzzy
+msgid "*Material > Mirror > Fresnel*"
+msgstr "*材质 > 镜面 > 混合*"
+
+#: ../materials.rst:208
+#, fuzzy
 msgid ""
-"*Material > Mirror > Fresnel* Fresnel power for reflection. This is the N"
-" exponent in the Schlick’s formula. In Blender it is limited to values "
-"from 0 to 5. If this parameter is equal to zero the Fresnel effect is not"
-" observed and the *full* reflection at all angles occurs. If this "
-"parameter is greater than zero, the material is less reflective when "
-"viewing surfaces at angles which are close to the right angle. The bigger"
-" this parameter is the bigger is the angle deviation from the right angle"
-" for which the Fresnel effect is observed."
+"Fresnel power for reflection. This is the N exponent in the Schlick’s "
+"formula. In Blender it is limited to values from 0 to 5. If this "
+"parameter is equal to zero the Fresnel effect is not observed and the "
+"*full* reflection at all angles occurs. If this parameter is greater than"
+" zero, the material is less reflective when viewing surfaces at angles "
+"which are close to the right angle. The bigger this parameter is the "
+"bigger is the angle deviation from the right angle for which the Fresnel "
+"effect is observed."
 msgstr ""
 "*材质 > Mirror > Fresnel* 反射的菲涅尔指数。 "
 "Schlick方程中的N指数。在blender中被限制在0到5的值。设置为零的时候菲涅尔效应无法被观察到，所有的反射都是正常的。大于零的时候，在角度这是接近正确的角度观看时表面材料是弱反射性的。参数值越大，可以看到菲涅尔效应的观察角度越大。"

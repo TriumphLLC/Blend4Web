@@ -1,4 +1,12 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var WATER_LEVEL 0.0
+
+/*============================================================================*/
+
 #define INV_PI 0.318309886
 
 #include <precision_statement.glslf>
@@ -99,18 +107,28 @@ uniform vec3 u_camera_eye_frag;
 uniform vec4 u_underwater_fog_color_density;
 #endif
 
-varying vec3 v_ray;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 v_ray;GLSL_IN vec2 v_texcoord;
 
-#if !PROCEDURAL_SKYDOME && (WO_SKYTEX || WO_SKYBLEND)
-varying vec2 v_texcoord;
-#endif
+// #if !PROCEDURAL_SKYDOME && (WO_SKYTEX || WO_SKYBLEND)
+// GLSL_IN vec2 v_texcoord;
+// #endif
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
     vec3 sky_color;
     vec3 ray = normalize(v_ray);
 
 #if PROCEDURAL_SKYDOME
-    sky_color = textureCube(u_sky, ray).rgb;
+    sky_color = GLSL_TEXTURE_CUBE(u_sky, ray).rgb;
 #elif !(WO_SKYTEX || WO_SKYBLEND)
     // 1. solid color
     sky_color = u_horizon_color;
@@ -152,7 +170,7 @@ void main(void) {
 
     float tin = 1.0; // texture.tin does matter later
     // tin can cause problems - see blender code
-    vec4 tcol = textureCube(u_sky, ray);
+    vec4 tcol = GLSL_TEXTURE_CUBE(u_sky, ray);
     srgb_to_lin(tcol.rgb);
     tin = tcol.a;
 
@@ -250,5 +268,5 @@ void main(void) {
     lin_to_srgb(sky_color);
 #endif
 
-    gl_FragColor = vec4(sky_color, 1.0);
+    GLSL_OUT_FRAG_COLOR = vec4(sky_color, 1.0);
 }

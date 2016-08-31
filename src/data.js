@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -50,6 +49,7 @@ var m_render    = require("__renderer");
 var m_scenes    = require("__scenes");
 var m_sfx       = require("__sfx");
 var m_shaders   = require("__shaders");
+var m_subs      = require("__subscene");
 var m_tex       = require("__textures");
 var m_time      = require("__time");
 var m_trans     = require("__transform");
@@ -57,11 +57,11 @@ var m_tsr       = require("__tsr");
 var m_util      = require("__util");
 var m_vec3      = require("__vec3");
 
-var cfg_def = m_cfg.defaults;
-var cfg_ldr = m_cfg.assets;
-var cfg_phy = m_cfg.physics;
 var cfg_anim = m_cfg.animation;
-var cfg_sfx = m_cfg.sfx;
+var cfg_def  = m_cfg.defaults;
+var cfg_ldr  = m_cfg.assets;
+var cfg_phy  = m_cfg.physics;
+var cfg_sfx  = m_cfg.sfx;
 
 var DEBUG_BPYDATA = false;
 var DEBUG_LOD_DIST_NOT_SET = false;
@@ -384,7 +384,7 @@ function prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le, b4w_off
     var int_props = ["indices"];
     var short_props = ["normal", "tangent"];
     var ushort_props = ["color", "group"]
-    var float_props = ["position", "texcoord", "texcoord2"];
+    var float_props = ["position", "texcoord", "texcoord2", "shade_tangs"];
 
     for (var i = 0; i < meshes.length; i++) {
         var submeshes = meshes[i]["submeshes"];
@@ -2458,7 +2458,7 @@ function prepare_lod_objects(bpy_objects) {
                     lod_obj.render.lod_dist_max = bpy_obj["lod_levels"][j + 1]["distance"];
                 else {
                     lod_obj.render.last_lod = true;
-                    lod_obj.render.lod_dist_max = m_obj.DEFAULT_LOD_DIST_MAX;
+                    lod_obj.render.lod_dist_max = m_obj_util.LOD_DIST_MAX_INFINITY;
                     break;
                 }
 
@@ -2473,7 +2473,7 @@ function prepare_lod_objects(bpy_objects) {
         }
 
         if (DEBUG_LOD_DIST_NOT_SET &&
-                bpy_obj["lod_levels"][lods_num - 1]["distance"] === m_obj.DEFAULT_LOD_DIST_MAX)
+                bpy_obj["lod_levels"][lods_num - 1]["distance"] === m_obj_util.LOD_DIST_MAX_INFINITY)
             m_print.warn("object \"" + obj.name + "\" has default LOD distance.");
     }
 }
@@ -2928,10 +2928,10 @@ function load_smaa_textures(bpy_data, thread, stage, cb_param, cb_finish,
     var scene = bpy_data["scenes"][0];
 
     var subs_smaa_arr = []
-    var smaa_passes_names = ["SMAA_EDGE_DETECTION",
-                             "SMAA_BLENDING_WEIGHT_CALCULATION",
-                             "SMAA_NEIGHBORHOOD_BLENDING",
-                             "SMAA_RESOLVE"];
+    var smaa_passes_names = [m_subs.SMAA_EDGE_DETECTION,
+                             m_subs.SMAA_BLENDING_WEIGHT_CALCULATION,
+                             m_subs.SMAA_NEIGHBORHOOD_BLENDING,
+                             m_subs.SMAA_RESOLVE];
 
     for (var i = 0; i < smaa_passes_names.length; i++) {
         var smaa_sub = m_scenes.get_subs(scene, smaa_passes_names[i]);
@@ -2958,7 +2958,7 @@ function load_smaa_textures(bpy_data, thread, stage, cb_param, cb_finish,
     for (var i = 0; i < subs_smaa_arr.length; i++) {
         var subs_smaa = subs_smaa_arr[i];
 
-        if (subs_smaa.type == "SMAA_BLENDING_WEIGHT_CALCULATION") {
+        if (subs_smaa.type == m_subs.SMAA_BLENDING_WEIGHT_CALCULATION) {
             var slinks_internal = subs_smaa.slinks_internal;
 
             for (var j = 0; j < slinks_internal.length; j++) {
@@ -3097,8 +3097,6 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         for (var i = 0; i < scenes.length; i++) {
             var scene = scenes[i];
             m_scenes.prepare_rendering(scene, scene_main);
-            if (scene["b4w_use_logic_editor"])
-                m_lnodes.init_logic(scene, thread.id)
         }
         m_scenes.set_active(scene_main);
     } else
@@ -3115,6 +3113,21 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
             for (var j = 0; j < batches.length; j++)
                 if (batches[j].shader == null)
                     batches.splice(j--, 1);
+        }
+    }
+
+    cb_finish(thread, stage);
+}
+
+function init_logic_nodes(bpy_data, thread, stage, cb_param, cb_finish,
+        cb_set_rate) {
+
+    if (thread.is_primary) {
+        var scenes = m_scenes.get_rendered_scenes();
+        for (var i = 0; i < scenes.length; i++) {
+            var scene = scenes[i];
+            if (scene["b4w_use_logic_editor"])
+                m_lnodes.init_logic(scene, thread.id)
         }
     }
 
@@ -3434,6 +3447,15 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
                 obj_counter: 0
             }
         },
+        "init_logic_nodes": {
+            priority: m_loader.SYNC_PRIORITY,
+            background_loading: false,
+            inputs: ["update_scenes_nla", "add_objects"],
+            is_resource: false,
+            relative_size: 50,
+            primary_only: false,
+            cb_before: init_logic_nodes
+        },
         "load_speakers": {
             priority: m_loader.ASYNC_PRIORITY,
             background_loading: true,
@@ -3446,7 +3468,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
         "mobile_media_start": {
             priority: m_loader.SYNC_PRIORITY,
             background_loading: false,
-            inputs: ["load_textures", "update_scenes_nla", "load_speakers"],
+            inputs: ["load_textures", "update_scenes_nla", "load_speakers", "init_logic_nodes"],
             is_resource: true,
             relative_size: 5,
             primary_only: false,
@@ -3631,6 +3653,10 @@ exports.activate_media = function() {
 
         _media_data_init = true;
     }
+}
+
+exports.reset = function() {
+    _canvas = null;
 }
 
 }

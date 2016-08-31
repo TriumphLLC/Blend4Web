@@ -13,11 +13,16 @@ var m_phy       = require("physics")
 var m_preloader = require("preloader");
 var m_scs       = require("scenes");
 var m_trans     = require("transform");
+var m_version   = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas3d", 
+        canvas_container_id: "canvas3d",
         callback: init_cb,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         alpha: false
     });
 }

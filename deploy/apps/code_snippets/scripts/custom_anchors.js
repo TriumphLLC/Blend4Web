@@ -3,10 +3,13 @@
 b4w.register("custom_anchors_main", function(exports, require) {
 
 var m_anchors = require("anchors");
-var m_app   = require("app");
-var m_cfg   = require("config");
-var m_data  = require("data");
-var m_scs   = require("scenes");
+var m_app     = require("app");
+var m_cfg     = require("config");
+var m_data    = require("data");
+var m_scs     = require("scenes");
+var m_version = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 exports.init = function() {
     m_app.init({
@@ -16,6 +19,8 @@ exports.init = function() {
         show_fps: true,
         alpha: false,
         autoresize: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         console_verbose: true
     });
 }

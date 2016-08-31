@@ -404,4 +404,16 @@ class B4W_RenderTimeline(RenderButtonsPanel, bpy.types.Panel):
 
         self.draw_framerate(sub, rd)
 
+class B4W_Shading(RenderButtonsPanel, bpy.types.Panel):
+    bl_label = _("Shading")
+    bl_idname = "RENDER_PT_b4w_shading"
 
+    @classmethod
+    def poll(cls, context):
+        scene = context.scene
+        return (scene.render.engine in cls.COMPAT_ENGINES) and hasattr(scene.render, "use_world_space_shading")
+
+    def draw(self, context):
+        layout = self.layout
+        scene = context.scene
+        layout.prop(scene.render, "use_world_space_shading", text=_("World Space Shading"))

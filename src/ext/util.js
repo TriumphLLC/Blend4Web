@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -136,7 +135,7 @@ exports.ZYX = m_util.ZYX;
  */
 exports.f32 = function(param) {
     param = param || 0;
-    return new Float32Array(param);
+    return m_util.f32(param);
 }
 
 /**

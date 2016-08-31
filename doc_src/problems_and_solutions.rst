@@ -173,7 +173,7 @@ Known Issues
 
 * Problems with updating of the add-on.
 
-    It’s strongly advised to restart Blender after installing a newer version of Addon/SDK.
+    It’s strongly advised to restart Blender after installing a newer version of Add-on/SDK.
 
 * NVIDIA 331 driver in Linux can cause WebGL errors.
 

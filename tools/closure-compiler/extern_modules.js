@@ -29,6 +29,10 @@ WebGLRenderingContext.RENDERBUFFER_SAMPLES;
 WebGLRenderingContext.drawElementsInstanced;
 WebGLRenderingContext.vertexAttribDivisor;
 WebGLRenderingContext.drawArraysInstanced;
+WebGLRenderingContext.bindVertexArray;
+WebGLRenderingContext.createVertexArray;
+WebGLRenderingContext.deleteVertexArray;
+WebGLRenderingContext.isVertexArray;
 
 // missing extensions stuff
 var EXTDisjointTimerQuery;

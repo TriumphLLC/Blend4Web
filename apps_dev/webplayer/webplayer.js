@@ -128,6 +128,7 @@ exports.init = function() {
     var dds_available = false;
     var min50_available = false;
     var url_params = m_app.get_url_params();
+    var min_capabilities = false;
 
     if (url_params &&"compressed_textures" in url_params &&
             !is_html && !is_debug) {
@@ -149,6 +150,9 @@ exports.init = function() {
     else
         m_storage.init("b4w_webplayer:" + window.location.href);
 
+    if (url_params && "min_capabilities" in url_params)
+        min_capabilities = true;
+
     set_stereo_config();
     set_quality_config();
 
@@ -167,7 +171,8 @@ exports.init = function() {
         fps_elem_id: "fps_container",
         fps_wrapper_id: "fps_wrapper",
         assets_dds_available: dds_available,
-        assets_min50_available: min50_available
+        assets_min50_available: min50_available,
+        min_capabilities: min_capabilities
     })
 }
 
@@ -452,20 +457,20 @@ function add_hover_class_to_button(elem) {
 
     if (is_touch()) {
         elem.addEventListener("touchstart", function() {
-            elem.className += " hover";
+            elem.classList.add("hover");
             clear_deferred_close();
         });
         elem.addEventListener("touchend", function() {
-            elem.className = elem.className.replace(" hover", "");
+            elem.classList.remove("hover");
             deferred_close();
         });
     } else {
         elem.addEventListener("mouseenter", function() {
-            elem.className += " hover";
+            elem.classList.add("hover");
         });
 
         elem.addEventListener("mouseout", function(e) {
-            elem.className = elem.className.replace(" hover", "");
+            elem.classList.remove("hover");
         });
     }
 }
@@ -584,7 +589,7 @@ function update_button(elem) {
     button.replace_button_id = old_elem_id;
 
     if (!check_cursor_position(elem.id))
-        elem.className = elem.className.replace(" hover", "");
+        elem.classList.remove("hover");
 
     button.callback = button.replace_button_cb;
     button.replace_button_cb = old_callback;

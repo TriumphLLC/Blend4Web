@@ -1,6 +1,13 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var BILLBOARD_ALIGN 0
 #var COLOR_RAMP_LENGTH 0
 #var SIZE_RAMP_LENGTH 0
+
+/*============================================================================*/
 
 #define BILLBOARD_ALIGN_VIEW 1
 #define BILLBOARD_ALIGN_XY 2
@@ -9,25 +16,63 @@
 
 #define M_PI 3.14159265359
 
-/*============================================================================
-                                  ATTRIBUTES
-============================================================================*/
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 a_position;
+GLSL_IN vec3 a_normal;
+GLSL_IN vec3 a_p_data;
+GLSL_IN vec4 a_p_vels;
 
-attribute vec3 a_position;
-attribute vec3 a_normal;
-attribute vec3 a_p_data;
-attribute vec4 a_p_vels;
-
-#if TEXTURE_NORM_CO || CALC_TBN_SPACE
-attribute vec4 a_tangent;
+#if TEXTURE_NORM_CO || CALC_TBN_SPACE || USE_TBN_SHADING
+GLSL_IN vec4 a_tangent;
 #endif
 
-attribute vec2 a_p_bb_vertex;
+GLSL_IN vec2 a_p_bb_vertex;
+//------------------------------------------------------------------------------
 
+#if !NODES
+# if !HALO_PARTICLES
+GLSL_OUT float v_alpha;
+# endif
+GLSL_OUT vec3 v_color;
+#endif
 
-/*============================================================================
+#if TEXTURE_NORM_CO || CALC_TBN_SPACE || USE_TBN_SHADING
+GLSL_OUT vec4 v_tangent;
+#endif
+
+#if TEXTURE_COLOR || HALO_PARTICLES || USE_NODE_TEX_COORD_UV || USE_NODE_UV_MERGED \
+        || USE_NODE_UVMAP || USE_NODE_GEOMETRY_UV || USE_NODE_GEOMETRY_OR \
+        || USE_NODE_TEX_COORD_GE
+GLSL_OUT vec2 v_texcoord;
+#endif
+
+GLSL_OUT vec3 v_pos_world;
+
+#if !PARTICLES_SHADELESS || !DISABLE_FOG
+GLSL_OUT vec3 v_eye_dir;
+#endif
+
+#if SOFT_PARTICLES || !DISABLE_FOG || NODES
+GLSL_OUT vec4 v_pos_view;
+#endif
+
+#if SOFT_PARTICLES
+GLSL_OUT vec3 v_tex_pos_clip;
+#endif
+
+#if NODES
+GLSL_OUT vec3 v_normal;
+#endif
+
+#if HALO_PARTICLES
+GLSL_OUT float v_vertex_random;
+#endif
+
+/*==============================================================================
                                    UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if COLOR_RAMP_LENGTH > 0
 uniform vec4 u_p_color_ramp[COLOR_RAMP_LENGTH];
@@ -69,51 +114,9 @@ uniform mat3 u_model_tsr;
 uniform sampler2D u_color_ramp_tex;
 #endif
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
-
-#if !NODES
-# if !HALO_PARTICLES
-varying float v_alpha;
-# endif
-varying vec3 v_color;
-#endif
-
-#if TEXTURE_NORM_CO || CALC_TBN_SPACE
-varying vec4 v_tangent;
-#endif
-
-#if TEXTURE_COLOR || HALO_PARTICLES || USE_NODE_TEX_COORD_UV || USE_NODE_UV_MERGED \
-        || USE_NODE_UVMAP || USE_NODE_GEOMETRY_UV || USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE
-varying vec2 v_texcoord;
-#endif
-
-varying vec3 v_pos_world;
-
-#if !PARTICLES_SHADELESS || !DISABLE_FOG
-varying vec3 v_eye_dir;
-#endif
-
-#if SOFT_PARTICLES || !DISABLE_FOG || NODES
-varying vec4 v_pos_view;
-#endif
-
-#if SOFT_PARTICLES
-varying vec3 v_tex_pos_clip;
-#endif
-
-#if NODES
-varying vec3 v_normal;
-#endif
-
-#if HALO_PARTICLES
-varying float v_vertex_random;
-#endif
-
-/*============================================================================
+/*==============================================================================
                                   INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #include <math.glslv>
 #include <to_world.glslv>
@@ -128,6 +131,10 @@ varying float v_vertex_random;
 float vec_vec_angle(vec2 v1, vec2 v2) {
     return (atan(v2.y, v2.x) - atan(v1.y, v1.x));
 }
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
 
@@ -182,7 +189,8 @@ void main(void) {
 
 #if NODES
 
-# if CALC_TBN_SPACE || !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO
+# if CALC_TBN_SPACE || !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO \
+        || USE_TBN_SHADING
     vec3 tangent = vec3(a_tangent);
     vec3 binormal = a_tangent[3] * cross(a_normal, tangent);
 # else
@@ -190,11 +198,11 @@ void main(void) {
     vec3 binormal = vec3(0.0);
 # endif
 
-    vertex world = to_world(vec3(0.0), vec3(0.0), tangent, binormal, vec3(0.0),
-            bb_matrix * rotation_z(rotation_angle));
+    vertex world = to_world(vec3(0.0), vec3(0.0), tangent, vec3(0.0), binormal,
+            vec3(0.0), bb_matrix * rotation_z(rotation_angle));
 
 
-# if TEXTURE_NORM_CO || CALC_TBN_SPACE
+# if TEXTURE_NORM_CO || CALC_TBN_SPACE || USE_TBN_SHADING
     // calculate handedness as described in Math for 3D GP and CG, page 185
     float m = (dot(cross(a_normal, world.tangent),
         world.binormal) < 0.0) ? -1.0 : 1.0;

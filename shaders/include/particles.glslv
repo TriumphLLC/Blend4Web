@@ -113,7 +113,7 @@ part_params calc_part_params(void) {
         sp.angle = a_p_vels.w * t;
 
 #if USE_COLOR_RAMP
-        sp.size = texture2D(u_color_ramp_tex, vec2(t / u_p_max_lifetime, 0.5)).g;
+        sp.size = GLSL_TEXTURE(u_color_ramp_tex, vec2(t / u_p_max_lifetime, 0.5)).g;
 #else
         sp.size = 1.0;
 #endif

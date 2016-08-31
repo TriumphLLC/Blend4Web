@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PEGJS_GLSL='pegjs --allowed-start-rules start,pp_start,statement_no_new_scope_start,expression_statement_start'
+PEGJS_GLSL='pegjs --allowed-start-rules start,pp_start'
 PEGJS_GPP=pegjs
 
 echo "Generate GLSL parser"

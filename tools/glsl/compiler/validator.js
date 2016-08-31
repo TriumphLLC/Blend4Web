@@ -34,8 +34,16 @@ var _dead_variables = {
 
 var _import_export_info = {};
 
-exports.init = function(curr_filename) {
-    _src_filename = curr_filename;
+exports.validate = function(ast_input, vardef_ids, filename, filetype) {
+    _src_filename = filename;
+    
+    m_collect.init_ast(ast_input, vardef_ids, filename, filetype);
+    m_collect.collect();
+
+    collect_dead_func_info();
+    collect_dead_vars_info();
+    collect_import_export_data(ast_input.import_export);
+    check_extensions();
 }
 
 /*==============================================================================
@@ -45,7 +53,7 @@ exports.init = function(curr_filename) {
 /**
  * Check dead functions in a current file
  */
-exports.collect_dead_func_info = function() {
+function collect_dead_func_info() {
     var declarations = get_func_declarations();
     var result = get_dead_alive_info(declarations);
 
@@ -104,13 +112,13 @@ function get_func_declarations() {
     var declarations = {};
     var tmp_func_body_calls = [];
 
-    var cb = function(main_sequence, index, ast_node, scopes_chain, 
+    var cb = function(main_sequence, index, seq_node, scopes_chain, 
             filenames_stack) {
-        switch (ast_node.type) {
+        switch (seq_node.type) {
         case "declaration":
-            if (ast_node.decl_type == m_consts.DEFINE_FUNC 
-                    || ast_node.decl_type == m_consts.DECL_FUNC) {
-                var decl_name = ast_node.decl_id.name;
+            if (seq_node.decl_type == m_consts.DEFINE_FUNC 
+                    || seq_node.decl_type == m_consts.DECL_FUNC) {
+                var decl_name = seq_node.decl_id.name;
                 if (!(decl_name in declarations))
                     declarations[decl_name] = {};
 
@@ -130,13 +138,12 @@ function get_func_declarations() {
             }
             break;
         case "id_usage":
-            if (ast_node.id_usage_type == m_consts.US_FUNC_CALL)
-                tmp_func_body_calls.push(ast_node.id_usage_id.name);
+            if (seq_node.id_usage_type == m_consts.US_FUNC_CALL)
+                tmp_func_body_calls.push(seq_node.id_usage_id.name);
             break;
         }
     }
     m_collect.traverse_collected_data(cb);
-
     return declarations;
 }
 
@@ -194,7 +201,7 @@ function fill_dead_func_result(result, decl_data, decl_name, status) {
 /**
  * Check dead variables in current file
  */
-exports.collect_dead_vars_info = function() {
+function collect_dead_vars_info() {
     var var_declarations = get_var_declarations();
 
     // NOTE: replace scope ids by include scope ids for further merging
@@ -298,14 +305,14 @@ function get_var_declarations() {
         ids: []
     }
 
-    var cb = function(main_sequence, index, ast_node, scopes_chain, 
+    var cb = function(main_sequence, index, seq_node, scopes_chain, 
             filenames_stack) {
         var file_type = (filenames_stack.length == 1) ? m_consts.MAIN_SHADER_FILE 
                 : m_consts.INCLUDE_FILE;
 
-        switch (ast_node.type) {
+        switch (seq_node.type) {
         case "include":
-            if (ast_node.include_status == m_consts.INCLUDE_START) {
+            if (seq_node.include_status == m_consts.INCLUDE_START) {
                 ism.counters.push(0);
                 ism.ids.push([0]);
             } else {
@@ -317,7 +324,7 @@ function get_var_declarations() {
         case "scope":
             // NOTE: include scope ids for identifying same/different variables
             if (file_type == m_consts.INCLUDE_FILE) {
-                if (ast_node.scope_status == m_consts.SCOPE_START) {
+                if (seq_node.scope_status == m_consts.SCOPE_START) {
                     var next_id = ++ism.counters[ism.counters.length - 1];
                     ism.ids[ism.ids.length - 1].push(next_id);
                 } else
@@ -326,34 +333,39 @@ function get_var_declarations() {
             break;
 
         case "declaration":
-            if (checked_decl_types.indexOf(ast_node.decl_type) != -1) {
-                var decl_name = ast_node.decl_id.name;
+            if (checked_decl_types.indexOf(seq_node.decl_type) != -1) {
+                var decl_name = seq_node.decl_id.name;
 
-                if (!(decl_name in var_declarations.dead))
-                    var_declarations.dead[decl_name] = {}
+                // NOTE: there can not be declarations using reserved tokens, so
+                // this check would be useless, but we have GLSL_OUT_FRAG_COLOR 
+                // as an exception 
+                if (!m_reserved.is_reserved(decl_name)) {
+                    if (!(decl_name in var_declarations.dead))
+                        var_declarations.dead[decl_name] = {}
 
-                var decl = {
-                    decl: ast_node,
-                    file_type: file_type,
-                    file_name: filenames_stack[filenames_stack.length - 1]
-                };
+                    var decl = {
+                        decl: seq_node,
+                        file_type: file_type,
+                        file_name: filenames_stack[filenames_stack.length - 1]
+                    };
 
-                var curr_include_ids = ism.ids[ism.ids.length - 1];
-                decl.incl_scope_id = (file_type == m_consts.INCLUDE_FILE)
-                        ? curr_include_ids[curr_include_ids.length - 1] : null;
-                var_declarations.dead[decl_name][ast_node.decl_in_scope] = decl;
+                    var curr_include_ids = ism.ids[ism.ids.length - 1];
+                    decl.incl_scope_id = (file_type == m_consts.INCLUDE_FILE)
+                            ? curr_include_ids[curr_include_ids.length - 1] : null;
+                    var_declarations.dead[decl_name][seq_node.decl_in_scope] = decl;
 
-                // NOTE: for preprocessing redeclaration delete 'alive' var and
-                // treat variable as new one
-                if (decl_name in var_declarations.alive)
-                    if (ast_node.decl_in_scope in var_declarations.alive[decl_name])
-                        delete var_declarations.alive[decl_name][ast_node.decl_in_scope];
+                    // NOTE: for preprocessing redeclaration delete 'alive' var and
+                    // treat variable as new one
+                    if (decl_name in var_declarations.alive)
+                        if (seq_node.decl_in_scope in var_declarations.alive[decl_name])
+                            delete var_declarations.alive[decl_name][seq_node.decl_in_scope];
+                }
             }
             break;
 
         case "id_usage":
-            if (checked_usage_types.indexOf(ast_node.id_usage_type) != -1) {
-                var name = ast_node.id_usage_id.name;
+            if (checked_usage_types.indexOf(seq_node.id_usage_type) != -1) {
+                var name = seq_node.id_usage_id.name;
                 if (!m_reserved.is_reserved(name) && name in var_declarations.dead)
                     for (var j = scopes_chain.length - 1; j >= 0; j--) {
                         var scope_id = scopes_chain[j];
@@ -378,7 +390,7 @@ function get_var_declarations() {
 /**
  * Check import/export tokens in current file. Also spawns some error messages.
  */
-exports.collect_import_export_data = function(import_export_tokens) {
+function collect_import_export_data(import_export_tokens) {
     var import_export_tokens = fill_import_export_usage(import_export_tokens);
 
     for (var incl_name in import_export_tokens)
@@ -387,25 +399,25 @@ exports.collect_import_export_data = function(import_export_tokens) {
 }
 
 function fill_import_export_usage(import_export_tokens) {
-    var cb = function(main_sequence, index, ast_node, scopes_chain, 
+    var cb = function(main_sequence, index, seq_node, scopes_chain, 
             filenames_stack) {
 
-        switch (ast_node.type) {
+        switch (seq_node.type) {
         case "declaration":
             // set usage flag for export tokens
             if (filenames_stack.length > 1) {
                 var curr_include_name = filenames_stack[filenames_stack.length - 1];
                 if (curr_include_name in import_export_tokens)
-                    if (ast_node.decl_id.name in import_export_tokens[curr_include_name]["export"])
-                        import_export_tokens[curr_include_name]["export"][ast_node.decl_id.name] = 1;
+                    if (seq_node.decl_id.name in import_export_tokens[curr_include_name]["export"])
+                        import_export_tokens[curr_include_name]["export"][seq_node.decl_id.name] = 1;
             }
             break;
 
         case "id_usage":
             // set usage flag for import tokens            
-            if (!ast_node.id_usage_is_reserved) {
-                var decl = m_collect.search_declaration(ast_node.id_usage_ast_uid,
-                        ast_node.id_usage_id.name, ast_node.id_usage_type);
+            if (!seq_node.id_usage_is_reserved) {
+                var decl = m_collect.search_declaration(seq_node.id_usage_ast_uid,
+                        seq_node.id_usage_id.name, seq_node.id_usage_type);
 
                 var curr_filename = filenames_stack[filenames_stack.length - 1];
                 if (filenames_stack.length > 1)
@@ -416,46 +428,46 @@ function fill_import_export_usage(import_export_tokens) {
                 if (curr_include_name) {
                     if (decl === null || decl.decl_in_include != curr_include_name)
                         if (curr_include_name in import_export_tokens)
-                            if (ast_node.id_usage_id.name in import_export_tokens[curr_include_name]["import"])
-                                import_export_tokens[curr_include_name]["import"][ast_node.id_usage_id.name] = 1;
-                            else if (ast_node.id_usage_type != m_consts.US_FIELD)
+                            if (seq_node.id_usage_id.name in import_export_tokens[curr_include_name]["import"])
+                                import_export_tokens[curr_include_name]["import"][seq_node.id_usage_id.name] = 1;
+                            else if (seq_node.id_usage_type != m_consts.US_FIELD)
                                 m_debug.debug_message(m_consts.POSSIBLE_IMPORT, 
                                         curr_include_name, 
-                                        ast_node.id_usage_id.name, 
-                                        ast_node.id_usage_type);
+                                        seq_node.id_usage_id.name, 
+                                        seq_node.id_usage_type);
                 }
 
                 if (decl) {
                     // check include export violations
-                    if (ast_node.id_usage_type != m_consts.US_FIELD) {
+                    if (seq_node.id_usage_type != m_consts.US_FIELD) {
                         var incl_name = decl.decl_in_include;
                         if (incl_name !== null && incl_name != curr_include_name) {
                             if (incl_name in import_export_tokens)
-                                if (!(ast_node.id_usage_id.name in import_export_tokens[incl_name]["export"]))
+                                if (!(seq_node.id_usage_id.name in import_export_tokens[incl_name]["export"]))
                                     m_debug.debug_message(m_consts.EXP_DATA_VIOLATION,
                                             curr_filename, 
-                                            ast_node.id_usage_id.name, 
-                                            ast_node.id_usage_type,
+                                            seq_node.id_usage_id.name, 
+                                            seq_node.id_usage_type,
                                             incl_name);
                         }
                     }
-                } else if (!(ast_node.id_usage_type == m_consts.US_FIELD
-                        && ast_node.id_usage_id.name.replace(/[rgbaxyzwstpq]/g, "").length == 0)) {
+                } else if (!(seq_node.id_usage_type == m_consts.US_FIELD
+                        && seq_node.id_usage_id.name.replace(/[rgbaxyzwstpq]/g, "").length == 0)) {
 
                     // check include import violations
                     var import_violation = false;
                     if (curr_include_name && curr_include_name in import_export_tokens)
-                        if (ast_node.id_usage_id.name in import_export_tokens[curr_include_name]["import"])
+                        if (seq_node.id_usage_id.name in import_export_tokens[curr_include_name]["import"])
                             import_violation = true;
 
                     if (import_violation)
                         m_debug.debug_message(m_consts.IMP_DATA_VIOLATION, 
-                                curr_filename, ast_node.id_usage_id.name,
-                                ast_node.id_usage_type);
+                                curr_filename, seq_node.id_usage_id.name,
+                                seq_node.id_usage_type);
                     else
                         m_debug.debug_message(m_consts.UNDECLARED_ID, 
-                                curr_filename, ast_node.id_usage_id.name,     
-                                ast_node.id_usage_type);
+                                curr_filename, seq_node.id_usage_id.name,     
+                                seq_node.id_usage_type);
                 }
             }
             break;
@@ -466,21 +478,26 @@ function fill_import_export_usage(import_export_tokens) {
     return import_export_tokens;
 }
 
-exports.check_extensions = function() {
-    var cb = function(main_sequence, index, ast_node, scopes_chain, 
+function check_extensions() {
+    var cb = function(main_sequence, index, seq_node, scopes_chain, 
             filenames_stack) {
-        if (ast_node.type == "extension") {
+        if (seq_node.type == "extension") {
             var curr_filename = filenames_stack[filenames_stack.length - 1];
-            if (ast_node.name == "all" && (ast_node.behavior == "require" 
-                    || ast_node.behavior == "enable"))
+            if (seq_node.name == "all" && (seq_node.behavior == "require" 
+                    || seq_node.behavior == "enable"))
                 m_debug.debug_message(m_consts.EXT_ALL_WRONG_BEHAVIOR, 
-                        curr_filename, ast_node.behavior);
-            else if (!m_reserved.extension_is_supported(ast_node.name))
+                        curr_filename, seq_node.behavior);
+            else if (!m_reserved.extension_is_supported(seq_node.name))
                 m_debug.debug_message(m_consts.UNSUPPORTED_EXTENSION, 
-                        curr_filename, ast_node.name);
+                        curr_filename, seq_node.name);
         }
     }
     m_collect.traverse_collected_data(cb);
+}
+
+exports.check_version = function(shader_text, file_name) {
+    if (!shader_text.match(/^#version GLSL_VERSION/))
+        m_debug.debug_message(m_consts.VERSION_REQUIRED, file_name);
 }
 
 /*==============================================================================

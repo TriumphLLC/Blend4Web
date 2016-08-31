@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 16:12+0300\n"
+"POT-Creation-Date: 2016-08-30 12:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../viewer.rst:7
 msgid "Scene Viewer"
@@ -62,15 +62,19 @@ msgstr ""
 " кнопки управления и список выпадающих панелей, содержащий дополнительные"
 " элементы управления, разделённые по функциональному признаку."
 
-#: ../viewer.rst:32
+#: ../viewer.rst:31
 msgid "Control elements list in top-to-bottom order"
 msgstr "Список элементов управления сверху вниз"
 
-#: ../viewer.rst:35
+#: ../viewer.rst:34
+msgid "Information Panel"
+msgstr "Информационное табло"
+
+#: ../viewer.rst:37
 msgid "**Build**"
 msgstr "**Build**"
 
-#: ../viewer.rst:35
+#: ../viewer.rst:37
 msgid ""
 "The engine build date and time. In the developer version this shows the "
 "page load time."
@@ -78,11 +82,11 @@ msgstr ""
 "Дата и время сборки движка. В версии для разработки показывает время "
 "загрузки страницы."
 
-#: ../viewer.rst:38
+#: ../viewer.rst:40
 msgid "**Scene**"
 msgstr "**Scene**"
 
-#: ../viewer.rst:38
+#: ../viewer.rst:40
 msgid ""
 "Loaded scene name from the ``assets.json`` file. Path to the file pops-up"
 " on mouse hover."
@@ -90,19 +94,37 @@ msgstr ""
 "Название загруженной сцены, взятое из файла ``assets.json``. При "
 "наведении курсора мыши всплывает путь к файлу."
 
-#: ../viewer.rst:41
+#: ../viewer.rst:43
 msgid "**Loaded**"
 msgstr "**Loaded**"
 
-#: ../viewer.rst:41
+#: ../viewer.rst:43
 msgid "Loading progress and time."
 msgstr "Процент и время загрузки."
 
-#: ../viewer.rst:44
+#: ../viewer.rst:46
+msgid "Basic Control Buttons"
+msgstr "Базовые кнопки управления"
+
+#: ../viewer.rst:49
+msgid "**Home**"
+msgstr ""
+
+#: ../viewer.rst:49
+msgid ""
+"Reloads the last scene exported from Blender using the ``Fast Preview`` "
+"button or, if Scene Viewer hasn't been run from Blender, the default "
+"scene is loaded."
+msgstr ""
+"Загружает последнюю сцену, экспортированную из Blender с помощью кнопки "
+"``Fast Preview``, или сцену по умолчанию, если Просмотрщик запущен не из "
+"Blender."
+
+#: ../viewer.rst:52
 msgid "**Reset**"
 msgstr "**Reset**"
 
-#: ../viewer.rst:44
+#: ../viewer.rst:52
 msgid ""
 "This button deletes the saved name of the last viewed scene and reloads "
 "the page back to display the default scene."
@@ -110,61 +132,388 @@ msgstr ""
 "Кнопка удаляет сохраненное название последней просмотренной сцены и "
 "перезагружает страницу, возвращая к сцене по умолчанию."
 
-#: ../viewer.rst:49
+#: ../viewer.rst:57
 msgid "**LOW Q - HIGH Q - ULTRA Q**"
 msgstr "**LOW Q - HIGH Q - ULTRA Q**"
 
-#: ../viewer.rst:47
+#: ../viewer.rst:55
 msgid "Drop-down menu for choosing the performance profile of the engine."
 msgstr "Выпадающее меню выбора профиля работы движка."
 
-#: ../viewer.rst:49
+#: ../viewer.rst:57
 msgid ":ref:`quality_settings`"
 msgstr ""
 
-#: ../viewer.rst:52
+#: ../viewer.rst:60
 msgid "**Pause**"
 msgstr "**Pause**"
 
-#: ../viewer.rst:52
+#: ../viewer.rst:60
 msgid "Pause rendering."
 msgstr "Приостановка рендеринга."
 
-#: ../viewer.rst:55
+#: ../viewer.rst:63
 msgid "**Resume**"
 msgstr "**Resume**"
 
-#: ../viewer.rst:55
+#: ../viewer.rst:63
 msgid "Resume rendering."
 msgstr "Возобновление рендеринга."
 
-#: ../viewer.rst:58
-msgid "**Auto View**"
-msgstr "**Auto View**"
-
-#: ../viewer.rst:58
-msgid ""
-"Activate the automatic scene switching mode; the delay between views is 1"
-" second."
+#: ../viewer.rst:66
+msgid "**Rotate**"
 msgstr ""
-"Активация режима автоматического переключения сцен по списку, пауза между"
-" просмотрами 1 секунда."
 
-#: ../viewer.rst:61
-msgid "**Scenes**"
-msgstr "**Scenes**"
+#: ../viewer.rst:66
+msgid ""
+"Enables and disables camera orbiting the loaded scene. Disabled by "
+"default."
+msgstr ""
+"Включает и выключает автоматический поворот камеры вокруг сцены. По "
+"умолчанию отключён."
 
-#: ../viewer.rst:61
+#: ../viewer.rst:69
+msgid "Additional Panels"
+msgstr "Дополнительные панели"
+
+#: ../viewer.rst:72
+msgid "Scenes"
+msgstr ""
+
+#: ../viewer.rst:74
 msgid ""
 "A double-level list of the categories and scenes from the ``assets.json``"
 " file."
 msgstr "Двухуровневый список категорий и сцен из файла ``assets.json``."
 
-#: ../viewer.rst:64
-msgid "**Animation**"
-msgstr "**Animation**"
+#: ../viewer.rst:77
+msgid "Tools & Debug"
+msgstr ""
 
-#: ../viewer.rst:64
+#: ../viewer.rst:79
+msgid "This panel contains a range of debugging tools, including:"
+msgstr "На панели находится ряд инструментов отладки сцен, в том числе: "
+
+#: ../viewer.rst:82
+msgid "*Overview Outlining Mode*"
+msgstr ""
+
+#: ../viewer.rst:82
+msgid ""
+"Turning this option on makes all objects in the scene :ref:`selectable "
+"<mesh_selection>` and enables :ref:`outline animation <outline>` to be "
+"played upon selecting them. This feature is enabled by default."
+msgstr ""
+"Активация этого параметра делает все объекты сцены :ref:`доступными для "
+"выбора <mesh_selection>` и включает проигрывание :ref:`анимации подсветки"
+" <outline>` при выборе объекта. Этот параметр включён по умолчанию."
+
+#: ../viewer.rst:85
+msgid "*Auto View Mode*"
+msgstr ""
+
+#: ../viewer.rst:85
+msgid ""
+"Pressing this button will cause Scene Viewer to load every scene from the"
+" ``Scenes`` list within one second of each other. This feature can be "
+"used to check all available content for console errors."
+msgstr ""
+"При нажатии на эту кнопку Просмотрщик загружает все сцены из списка "
+"``Scenes`` с интервалом в одну секунду. Может применяться для проверки "
+"всего доступного контента на наличие консольных ошибок."
+
+#: ../viewer.rst:91
+msgid "*Canvas Resolution Factor*"
+msgstr ""
+
+#: ../viewer.rst:88
+msgid ""
+"This parameter can be used to increase the resolution of a canvas. The "
+"value can vary from 1 to 10. Default value is 1.0 (canvas resolution is "
+"equal to the physical resolution of the Scene Viewer window)."
+msgstr ""
+"Применяется для увеличения разрешения canvas'а. Значение этого параметра "
+"может меняться от 1 до 10. Значение по умолчанию равно 1.0 (разрешение "
+"canvas'а совпадает с физическим разрешением окна Просмотрщика)."
+
+#: ../viewer.rst:91
+msgid ""
+"The highest available resolution of a canvas may be limited by a web "
+"browser."
+msgstr "Максимальное доступное разрешение может быть ограничено веб-браузером."
+
+#: ../viewer.rst:94
+msgid "*Make Screenshot*"
+msgstr ""
+
+#: ../viewer.rst:94
+msgid ""
+"This button can be used to make screenshots of the Scene Viewer's window."
+" Screenshots are stored in the same folder that web browsers use for "
+"storing downloaded files."
+msgstr ""
+"Применяется для снятия скриншотов окна Просмотрщика. Скриншоты "
+"сохраняются в той же директории, которую веб-браузер использует для "
+"сохранения загруженных файлов."
+
+#: ../viewer.rst:113
+msgid "*Debug View Modes*"
+msgstr ""
+
+#: ../viewer.rst:97
+msgid ""
+"The list of different rendering modes that can be used for debug "
+"purposes. Available modes are:"
+msgstr ""
+"Список различных режимов визуализации, применяемых для отладки. Доступные"
+" режимы:"
+
+#: ../viewer.rst:99
+msgid "``NONE`` - normal rendering mode. This is the default mode."
+msgstr "``NONE`` - стандартный режим визуализации. Используется по умолчанию."
+
+#: ../viewer.rst:101
+msgid ""
+"``OPAQUE WIREFRAME`` - the scene is rendered in flat white color with "
+"darker wireframe. The color used for rendering the wireframe can be "
+"adjusted by using the ``Wireframe Edge Color`` parameter."
+msgstr ""
+"``OPAQUE WIREFRAME`` - сцена окрашена плоским белым цветом с тёмной "
+"каркасной сеткой. Цвет сетки может быть настроен с помощью параметра "
+"``Wireframe Edge Color``."
+
+#: ../viewer.rst:103
+msgid ""
+"``TRANSPARENT WIREFRAME`` - the scene is rendered as in normal mode, but "
+"wireframes are added on top of it. Like in the previous mode, the color "
+"used for rendering the wireframe can be adjusted by using the ``Wireframe"
+" Edge Color`` parameter."
+msgstr ""
+"``TRANSPARENT WIREFRAME`` - сцена визуализируется так же, как в "
+"нормальном режиме, но с добавлением каркасной сетки. Как и в предыдущем "
+"режиме, цвет сетки может быть настроен с помощью параметра ``Wireframe "
+"Edge Color``."
+
+#: ../viewer.rst:105
+msgid ""
+"``FRONT BACK VIEW`` - renders front and back sides of the polygons with "
+"different colors."
+msgstr ""
+"``FRONT BACK VIEW`` - в этом режиме внешние и внутренние стороны "
+"полигонов окрашиваюся разными цветами."
+
+#: ../viewer.rst:107
+msgid ""
+"``BOUNDINGS`` - this mode adds wireframe spheres that envelope "
+":ref:`objects <objects>` and :ref:`meshes <meshes>`. The spheres can be "
+"blue (for static objects/meshes) or red (for dynamic objects)."
+msgstr ""
+"``BOUNDINGS`` - в этом режиме к изображению добавляются каркасные сферы, "
+"окружающие :ref:`объекты <objects>` и :ref:`меши <meshes>`. Сферы могут "
+"иметь синий (для статических объектов и мешей) или красный (для "
+"динамических объектов) цвет."
+
+#: ../viewer.rst:109
+msgid ""
+"``CLUSTER VIEW`` - in this view mode, every object in a specific cluster "
+"(used for :ref:`batching <scene_batching>`) is rendered with a specific "
+"color."
+msgstr ""
+"``CLUSTER VIEW`` - в этом режиме каждый объект, принадлежащий к "
+"определённому кластеру (используемому для :ref:`батчинга "
+"<scene_batching>`) окрашивается особым цветом."
+
+#: ../viewer.rst:111
+msgid ""
+"``BATCH VIEW`` - in this view mode, every batch is rendered using a "
+"specific (flat) color. The colors used in rendering can be changed to "
+"randomly generated colors by clicking the ``Change Colors`` button."
+msgstr ""
+"``BATCH VIEW`` - в этом режиме каждый батч окрашен особым (плоским) "
+"цветом. Цвета, используемые для визуализации, могут быть заменены на "
+"другие, случайно выбранные, цвета с помощью кнопки ``Change Colors``."
+
+#: ../viewer.rst:113
+msgid ""
+"``RENDER TIME`` - the scene is rendered in different colors to represent "
+"the complexity of various parts of the scene. The lightest parts are "
+"rendered using shades of green, heavier - shades of orange, and the most "
+"resourse-demanding parts of the scene are colored red."
+msgstr ""
+"``RENDER TIME`` - в этом режиме сцена визуализируется при помощи разных "
+"цветов, отображающих сложность различных участков сцены. Наиболее простые"
+" для рендеринга части окрашиваются зелёным цветом, более сложные - "
+"жёлтым, а потребляющие наибольшее количество вычислительных ресурсов - "
+"красным."
+
+#: ../viewer.rst:116
+msgid "*Change Colors*"
+msgstr ""
+
+#: ../viewer.rst:116
+msgid ""
+"This button randomly changes the colors that are used in the ``CLUSTER "
+"VIEW`` and ``BATCH VIEW`` rendering modes. This feature is useful in "
+"cases when colors that are picked randomly by the engine are too similar "
+"and make it difficult to distinguish parts of the image."
+msgstr ""
+"Случайным образом меняет цвета, используемые в режимах ``CLUSTER VIEW`` и"
+" ``BATCH VIEW``. Применяется в случаях, когда части изображения трудно "
+"отличить друг от друга из-за того, что цвета, выбранные движком, слишком "
+"похожи."
+
+#: ../viewer.rst:119
+msgid "*Render Time Threshold (ms)*"
+msgstr ""
+
+#: ../viewer.rst:119
+msgid ""
+"This parameter sets a \\\"threshold\\\" time for the ``RENDER TIME`` view"
+" mode. If the engine spends more time on rendering a certain object than "
+"the time set by this value, this object will be colored red. The default "
+"value is 1.5 ms."
+msgstr ""
+"Задаёт \\\"пороговое\\\" время для режима визуализации ``RENDER TIME``. "
+"Если рендеринг какого-либо объекта занимает больше времени, чем указано "
+"этим параметром, этот объект будет окрашен красным цветом. Значение по "
+"умолчанию - 1.5 мс."
+
+#: ../viewer.rst:122
+msgid "*Wireframe Edge Color*"
+msgstr ""
+
+#: ../viewer.rst:122
+msgid ""
+"This parameter allows you to change the color of the wireframe edges used"
+" in the ``OPAQUE WIREFRAME`` and ``TRANSPARENT WIREFRAME`` view modes."
+msgstr ""
+"Используется для изменения цвета каркасной сетки в режимах ``OPAQUE "
+"WIREFRAME`` и ``TRANSPARENT WIREFRAME``."
+
+#: ../viewer.rst:155
+msgid "*HUD Info*"
+msgstr ""
+
+#: ../viewer.rst:129
+msgid ""
+"This button shows a list of rendered subscenes and its parameters, "
+"incuding:"
+msgstr "Показывает список визуализируемых подсцен и их парамеров, таких, как:"
+
+#: ../viewer.rst:132
+msgid "*SCENE*"
+msgstr ""
+
+#: ../viewer.rst:132
+msgid "The name of the current scene."
+msgstr "Имя текущей сцены."
+
+#: ../viewer.rst:135
+msgid "*Active*"
+msgstr ""
+
+#: ../viewer.rst:135
+msgid "Shows whether the subscene is active or not."
+msgstr "Показывает, активна ли подсцена."
+
+#: ../viewer.rst:138
+msgid "*Subscene*"
+msgstr ""
+
+#: ../viewer.rst:138
+msgid "The name of the subscene."
+msgstr "Имя подсцены."
+
+#: ../viewer.rst:141
+msgid "*Lamps*"
+msgstr ""
+
+#: ../viewer.rst:141
+msgid "The number of light sources in the subscene."
+msgstr "Количество источников света в подсцене."
+
+#: ../viewer.rst:144
+msgid "*Size*"
+msgstr ""
+
+#: ../viewer.rst:144
+msgid "The size of the render of the subscene."
+msgstr "Разрешение, используемое для рендеринга подсцены."
+
+#: ../viewer.rst:147
+msgid "*RenderCalls*"
+msgstr ""
+
+#: ../viewer.rst:147
+msgid "The number of draw calls in the subscene."
+msgstr "Количество вызовов отрисовки в подсцене."
+
+#: ../viewer.rst:150 ../viewer.rst:326
+msgid "*Time*"
+msgstr ""
+
+#: ../viewer.rst:150
+msgid "The amount of time the engine spends on rendering the subscene."
+msgstr "Время, которое движок тратит на рендеринг подсцены."
+
+#: ../viewer.rst:153
+msgid "*TOTAL ACTIVE*"
+msgstr ""
+
+#: ../viewer.rst:153
+msgid ""
+"The number of draw calls in all present subscenes and the time that the "
+"engine spends on rendering them."
+msgstr ""
+"Количество вызовов отрисовки во всех доступных подсценах и время, "
+"затрачиваемое движком на их рендеринг."
+
+#: ../viewer.rst:155
+msgid ""
+"Enabling this parameter may decrease performance of a scene. This option "
+"is disabled by default."
+msgstr ""
+"Включение этого параметра может снизить скорость рендеринга сцены. По "
+"умолчанию он выключен."
+
+#: ../viewer.rst:158
+msgid "*GL Debug*"
+msgstr ""
+
+#: ../viewer.rst:158
+msgid ""
+"This parameter, when activated, causes the engine to process low-level "
+"errors. This can significantly decrease performance. It is disabled when "
+"you start Scene Viewer for the first time, and afterwards, the "
+"application will save the state of this option for the next time."
+msgstr ""
+"Активация этого параметра заставляет движок обрабатывать низкоуровневые "
+"ошибки. Это может существенно снизить производительность. При первом "
+"запуске Просмотрщика этот параметр деактивирован, а при последующих "
+"запусках приложение запоминает его состояние."
+
+#: ../viewer.rst:161
+msgid "*Min Capabilities Mode*"
+msgstr ""
+
+#: ../viewer.rst:161
+msgid ""
+"This parameter makes Scene Viewer run a loaded scene as if it was running"
+" on a low-end system (on a mobile device, for example). This allows an "
+"artist to find out which materials in the scene may not work as intended "
+"with low-end configuration. Disabled by default."
+msgstr ""
+"При активации этого параметра Просмотрщик запускает сцену так, как если "
+"бы она работала на системе с низкой производительностью (например, на "
+"мобильном устройстве). Это позволяет проверить, какие материалы могут не "
+"работать так, как задумано, на низкопроизводительной системе. По "
+"умолчанию выключено."
+
+#: ../viewer.rst:164
+msgid "Animation"
+msgstr ""
+
+#: ../viewer.rst:166
 msgid ""
 "Animation controls. When viewing animated models, you can select an "
 "object and switch its animation with a drop-down menu, switch cyclic "
@@ -177,11 +526,132 @@ msgstr ""
 "анимацию, выставлять нужный кадр (при этом анимация должна быть "
 "остановлена)."
 
-#: ../viewer.rst:67
-msgid "**NLA**"
+#: ../viewer.rst:168 ../viewer.rst:211 ../viewer.rst:233 ../viewer.rst:249
+#: ../viewer.rst:281 ../viewer.rst:445
+msgid "Available parameters:"
+msgstr "Доступные параметры:"
+
+#: ../viewer.rst:171
+msgid "*Play All*"
 msgstr ""
 
-#: ../viewer.rst:67
+#: ../viewer.rst:171
+msgid "Pressing this button will play all available animations."
+msgstr "Проигрывает все доступные анимации."
+
+#: ../viewer.rst:174
+msgid "*Stop All*"
+msgstr ""
+
+#: ../viewer.rst:174
+msgid ""
+"Pressing this button will stop playback of all animations that are "
+"currently being played."
+msgstr "Останавливает все анимации, которые воспроизводятся в настроящий момент."
+
+#: ../viewer.rst:177 ../viewer.rst:236
+msgid "*Object*"
+msgstr ""
+
+#: ../viewer.rst:177
+msgid "A list of scene objects that have animations."
+msgstr "Список присутствующих в сцене объектов, имеющих анимации."
+
+#: ../viewer.rst:180
+msgid "*Animation Slot*"
+msgstr ""
+
+#: ../viewer.rst:180
+msgid ""
+"The list of all animation slots that can be used to apply some animation "
+"to an object."
+msgstr ""
+"Список всех доступных слотов, которые могут использоваться для применения"
+" какой-либо анимации к объекту."
+
+#: ../viewer.rst:183
+msgid "*Animation*"
+msgstr ""
+
+#: ../viewer.rst:183
+msgid "A list of all animations available for a selected object."
+msgstr "Список всех анимаций, доступных для выбранного объекта."
+
+#: ../viewer.rst:186
+msgid "*Cyclic*"
+msgstr ""
+
+#: ../viewer.rst:186
+msgid ""
+"If this parameter is enabled, the animation will be played repeatedly. If"
+" it isn't, the animation will stop after being played once. Enabled by "
+"default."
+msgstr ""
+"При активации этого параметра анимация будет воспроизводиться циклически."
+" В противном случае анимация остановится после одного проигрывания. По "
+"умолчанию включён."
+
+#: ../viewer.rst:189 ../viewer.rst:214
+msgid "*Range*"
+msgstr ""
+
+#: ../viewer.rst:189
+msgid "This value shows the length of the selected animation."
+msgstr "Длинна выбранной анимации."
+
+#: ../viewer.rst:192 ../viewer.rst:217
+msgid "*Status*"
+msgstr ""
+
+#: ../viewer.rst:192
+msgid ""
+"This value shows the status of the animation, i.e. if it is being played "
+"or stopped."
+msgstr "Состояние выбранное анимации, т.е. проигрывается ли она или остановлена."
+
+#: ../viewer.rst:195
+msgid "*Playing Animation > Play*"
+msgstr ""
+
+#: ../viewer.rst:195
+msgid "Plays the selected animation."
+msgstr "Воспроизводит выбранную анимацию."
+
+#: ../viewer.rst:198
+msgid "*Playing Animation > Stop*"
+msgstr ""
+
+#: ../viewer.rst:198
+msgid "Stops the selected animation."
+msgstr "Останавливает выбранную анимацию."
+
+#: ../viewer.rst:201 ../viewer.rst:226
+msgid "*Set Frame*"
+msgstr ""
+
+#: ../viewer.rst:201
+msgid ""
+"Shows the current frame of the animation and can be used to set the "
+"current frame."
+msgstr ""
+"Показывает текущий кадр анимации. Может применяться для задания текущего "
+"кадра."
+
+#: ../viewer.rst:204
+msgid "*Skeletal Mix Factor*"
+msgstr ""
+
+#: ../viewer.rst:204
+msgid ""
+"The factor of mixing different skeletal animations together. Default "
+"value is 1.0."
+msgstr "Задаёт степень спешивания скелетных анимаций. Значение п оумолчанию - 1.0."
+
+#: ../viewer.rst:207
+msgid "NLA"
+msgstr ""
+
+#: ../viewer.rst:209
 msgid ""
 "A tool to control Non-Linear Animation (if it is present in the scene). "
 "For this panel to work, NLA option should be enabled in the scene's "
@@ -190,11 +660,45 @@ msgstr ""
 "Управление NLA-анимацией (если таковая присутствует в сцене). Для работы "
 "этой вкладки должна быть включена опция NLA в настройках сцены."
 
-#: ../viewer.rst:70
-msgid "**Shape Keys**"
+#: ../viewer.rst:214
+msgid "Shows the start and the end frame of the NLA strip."
+msgstr "Начальный и конечный кадры NLA-анимации."
+
+#: ../viewer.rst:217
+msgid "Shows the status of NLA animation, i.e. if it is being played or stopped."
+msgstr "Состояние NLA-анимации, т.е. проигрывается ли она или остановлена."
+
+#: ../viewer.rst:220
+msgid "*Playing NLA > Play*"
 msgstr ""
 
-#: ../viewer.rst:70
+#: ../viewer.rst:220
+msgid "This button can be used to play NLA animation."
+msgstr "Воспроизводит NLA-анимацию."
+
+#: ../viewer.rst:223
+msgid "*Playing NLA > Stop*"
+msgstr ""
+
+#: ../viewer.rst:223
+msgid ""
+"This button can be used to stop NLA animation that is currently being "
+"played."
+msgstr "Останавливает проигрываемую NLA-анимацию."
+
+#: ../viewer.rst:226
+msgid ""
+"If an animation is stopped at the moment, this parameter can be used for "
+"setting a specific frame of NLA animation."
+msgstr ""
+"Если анимация остановлена, этот параметр может примеяться для задания "
+"текущего кадра."
+
+#: ../viewer.rst:229
+msgid "Shape Keys"
+msgstr ""
+
+#: ../viewer.rst:231
 msgid ""
 "Shape Keys control. When viewing models that has shape keys, you can "
 "select an object, one of its shape keys and the influence that the key "
@@ -204,24 +708,122 @@ msgstr ""
 "ключами формы, можно выбрать объект, один из ключей и степень влияния "
 "ключа на объект."
 
-#: ../viewer.rst:73
-msgid "**Materials**"
-msgstr "**Materials**"
+#: ../viewer.rst:236
+msgid "This list contains all scene objects that have Shape Keys."
+msgstr "Список всех присутствующих в сцене объектов, имеющих ключи формы."
 
-#: ../viewer.rst:73
+#: ../viewer.rst:239
+msgid "*Shape Key*"
+msgstr ""
+
+#: ../viewer.rst:239
+msgid "This list contains all Shape Keys attached to a selected object."
+msgstr "Список всех ключей формы, доступных для выбранного объекта."
+
+#: ../viewer.rst:242
+msgid "*Set Value*"
+msgstr ""
+
+#: ../viewer.rst:242
+msgid ""
+"This parameter sets the level of influence of a selected Shape Key on an "
+"object. The value can vary from zero to 1."
+msgstr ""
+"Этот параметр задаёт степень влияния выбранного ключа формы на форму "
+"выбранного объекта. Значение может изменяться от 0 до 1."
+
+#: ../viewer.rst:245
+msgid "Materials"
+msgstr ""
+
+#: ../viewer.rst:247
 msgid ""
 "Material properties setup. A material can be selected using the drop-down"
-" menu. For now, only a limited number of properties is supported."
+" menu. For now, this feature only support a limited number of properties "
+"and only stack (non-node) materials applied to dynamic objects (node "
+"materials and static objects are not supported)."
 msgstr ""
 "Настройка свойств материалов. Материал выбирается с помощью выпадающего "
 "меню. В настоящий момент поддерживается изменение ограниченного ряда "
-"свойств."
+"свойств, и только для стековых (не нодовых) материалов, присвоенных "
+"динамическим объектам (нодовые материалы и статические объекты не "
+"поддерживаются)."
 
-#: ../viewer.rst:76
-msgid "**Lighting**"
-msgstr "**Lighting**"
+#: ../viewer.rst:252
+msgid "*Material*"
+msgstr ""
 
-#: ../viewer.rst:76
+#: ../viewer.rst:252
+msgid "A list of all stack materials present in a scene."
+msgstr "Список всех стековых материалов, присутствующих в сцене."
+
+#: ../viewer.rst:255 ../viewer.rst:290
+msgid "*Color*"
+msgstr ""
+
+#: ../viewer.rst:255
+msgid "This parameter defines the base color of a selected material."
+msgstr "Задаёт базовый цвет выбранного материала."
+
+#: ../viewer.rst:258
+msgid "*Reflectivity*"
+msgstr ""
+
+#: ../viewer.rst:258
+msgid ""
+"This parameter sets the refelctivity factor of a selected material. Its "
+"value is equal to zero by default."
+msgstr ""
+"Задаёт силу зеркального отражения для выбранного материала. Значение по "
+"умолчанию - 0."
+
+#: ../viewer.rst:261
+msgid "*Fresnel*"
+msgstr ""
+
+#: ../viewer.rst:261
+msgid ""
+"The power of the Fresnel effect for the reflection. Set to zero by "
+"default."
+msgstr "Сила эффекта Френеля для отражения. По умолчанию равна нулю."
+
+#: ../viewer.rst:264
+msgid "*Fresnel Factor*"
+msgstr ""
+
+#: ../viewer.rst:264
+msgid "A factor of the Fresnel effect. Set to zero by default."
+msgstr "Фактор эффект Френеля. По умолчанию равен нулю."
+
+#: ../viewer.rst:267
+msgid "*Parallax Scale*"
+msgstr ""
+
+#: ../viewer.rst:267
+msgid ""
+"The scale parameter of the parallax effect. This value can vary from zero"
+" to 0.1. Default value is 0."
+msgstr ""
+"Фактор влияния эффекта рельефа. Значение этого параметра может изменяться"
+" от 0 до 0.1, значение по умолчанию - 0."
+
+#: ../viewer.rst:270
+msgid "*Parallax Steps*"
+msgstr ""
+
+#: ../viewer.rst:270
+msgid ""
+"The number of steps used for building a parallax surface. The value can "
+"vary from 1 to 30. Default value is 5."
+msgstr ""
+"Количество итераций для рассчёта эффекта рельефа. Значение этого "
+"параметра может изменяться от 1 до 30, по умолчанию он равен 5."
+
+#: ../viewer.rst:273
+msgid "Lighting"
+msgstr ""
+
+#: ../viewer.rst:275
 msgid ""
 "Direct lighting parameters setup. A light source can be selected using "
 "the drop-down menu. Changing color and intensity is supported. Daytime "
@@ -232,11 +834,200 @@ msgstr ""
 " Также на этой панели осуществляется настройка параметров времени суток и"
 " солнечного освещения."
 
-#: ../viewer.rst:79
-msgid "**Ambient**"
-msgstr "**Ambient**"
+#: ../viewer.rst:284
+msgid "*Light*"
+msgstr ""
 
-#: ../viewer.rst:79
+#: ../viewer.rst:284
+msgid "This list contains all light sources present in the scene."
+msgstr "Список всех источников света, присутствующих в сцене."
+
+#: ../viewer.rst:287
+msgid "*Type*"
+msgstr ""
+
+#: ../viewer.rst:287
+msgid ""
+"The type of the selected light source. This parameter cannot be changed "
+"in the Scene Viewer."
+msgstr ""
+"Тип выбранного источника света. Этот параметр не может быть изменён в "
+"Просмотрщике."
+
+#: ../viewer.rst:290
+msgid ""
+"The base color of the selected light source. By default, white color (1; "
+"1; 1) is used."
+msgstr ""
+"Базовый цвет выбранного источника света. По умолчанию используется белый "
+"цвет (1; 1; 1)."
+
+#: ../viewer.rst:293
+msgid "*Energy Coarse*"
+msgstr ""
+
+#: ../viewer.rst:293
+msgid ""
+"This parameter sets the integral part of the energy value for the light "
+"source. The value of this parameter can vary from zero to 100. Default "
+"value is 1."
+msgstr ""
+"Этот параметр задаёт целую часть значения энергии источника света. "
+"Значение может изменяться от 0 до 100. Значение по умолчанию - 1."
+
+#: ../viewer.rst:296
+msgid "*Energy Precise*"
+msgstr ""
+
+#: ../viewer.rst:296
+msgid ""
+"This parameter sets the fractional part of the energy value for the light"
+" source. The value of this parameter can vary from zero to 1. Set to zero"
+" by default."
+msgstr ""
+"Этот параметр задаёт дробную часть значения энергии источника света. "
+"Значение может изменяться от 0 до 1, по умолчанию равно 0."
+
+#: ../viewer.rst:299
+msgid "*Light Energy*"
+msgstr ""
+
+#: ../viewer.rst:299
+msgid ""
+"This value is calculated as the sum of the Energy Coarse and Energy "
+"Precise parameters. In case of both of them are having default values, it"
+" will be equal to 1."
+msgstr ""
+"Энергия источника света. Это значение вычисляется как сумма параметров "
+"Energy Coarse и Energy Precise. Если значения этих параметров совпадают с"
+" их значениями по умолчанию, энергия будет равна 1. "
+
+#: ../viewer.rst:302
+msgid "*Spot Size*"
+msgstr ""
+
+#: ../viewer.rst:302
+msgid ""
+"Angle of the light beam emitted by the light source. Default value is 75."
+" This parameter is only available for ``Spot`` type light sources."
+msgstr ""
+"Угол светового потока, излучаемого источником света. Значение по "
+"умолчанию - 75. Этот параметр доступен только для источников сета типа "
+"``Spot``."
+
+#: ../viewer.rst:305
+msgid "*Spot Blend*"
+msgstr ""
+
+#: ../viewer.rst:305
+msgid ""
+"The softness of the spotlight edge. Default value is 0.15. This parameter"
+" is also available for ``Spot`` type light sources only."
+msgstr ""
+"Степень размытия границы пятна прожектора. Значение по умолчанию - 0.15. "
+"Этот параметр также доступен только для источников света типа ``Spot``."
+
+#: ../viewer.rst:308
+msgid "*Distance*"
+msgstr ""
+
+#: ../viewer.rst:308
+msgid ""
+"This parameter sets the distance (in meters) from the light source at "
+"which the light emitted by the light source will be half as bright as "
+"defined by the ``Light Energy`` value. Set to 30 by default."
+msgstr ""
+"Этот параметр задаёт расстояние (в метрах), на котором свет, излучаемый "
+"источником, будет иметь яркость, равную половине значения параметра "
+"``Light Energy``. По умолчанию равен 30."
+
+#: ../viewer.rst:310
+msgid ""
+"The following parameters are only available for ``Sun`` type light "
+"sources:"
+msgstr "Следующие настройки доступны только для источников света типа ``Sun``:"
+
+#: ../viewer.rst:317
+msgid "*Real Time Sun Movement > Play*"
+msgstr ""
+
+#: ../viewer.rst:317
+msgid "Pressing this button activates real-time sun movement."
+msgstr "Включает движение солнца в реальном времени."
+
+#: ../viewer.rst:320
+msgid "*Real Time Sun Movement > Stop*"
+msgstr ""
+
+#: ../viewer.rst:320
+msgid "Pressing this button stops real-time sun movement."
+msgstr "Останавливает движение солнца в реальном времени."
+
+#: ../viewer.rst:323
+msgid "*Date*"
+msgstr ""
+
+#: ../viewer.rst:323
+msgid "This parameter sets the current date."
+msgstr "Задаёт текущую дату."
+
+#: ../viewer.rst:326
+msgid ""
+"This parameter set the current time of day (or night?). Default value is "
+"12.0."
+msgstr "Этот параметр задаёт текущее время дня или ночи. По умолчанию равен 12.0."
+
+#: ../viewer.rst:329
+msgid "*Maximum Sun Vertical Angle*"
+msgstr ""
+
+#: ../viewer.rst:329
+msgid ""
+"This parameter sets maximum possible vertical angle for a ``Sun`` type "
+"light source. Default value is 60."
+msgstr ""
+"Этот параметр задаёт макимальный вертикалный угол для источника света "
+"типа ``Sun``. Значение по умолчанию - 60."
+
+#: ../viewer.rst:332
+msgid "*Time Multiplier*"
+msgstr ""
+
+#: ../viewer.rst:332
+msgid ""
+"The value of this parameter defines the speed of the flow of time. "
+"Default value is 1.0 (time flows with the same speed it does in real "
+"life)."
+msgstr ""
+"Значение этого параметра задаёт скорость течения времени. Значение по "
+"умолчанию - 1.0 (время в сцене течёт с той же скоростью, что и в реальном"
+" мире)."
+
+#: ../viewer.rst:335
+msgid "*Horizontal Position*"
+msgstr ""
+
+#: ../viewer.rst:335
+msgid "Horizontal position of the sun on the skydome. Default value is 29.82."
+msgstr ""
+"Горизонтальная позиция солнца на небесной сфере. Значение по умолчанию - "
+"29.82."
+
+#: ../viewer.rst:338
+msgid "*Vertical Position*"
+msgstr ""
+
+#: ../viewer.rst:338
+msgid "Vertical position of the sun on the skydome. Default value is 34.82."
+msgstr ""
+"Вертикальная позиция солнца на небесной сфере. Значение по умолчанию - "
+"34.82."
+
+#: ../viewer.rst:341
+msgid "Ambient"
+msgstr ""
+
+#: ../viewer.rst:343
 msgid ""
 "Ambient lighting parameters setup. Changing the colors and intensity of a"
 " hemispheric ambient model is supported."
@@ -244,11 +1035,21 @@ msgstr ""
 "Настройка параметров освещения от окружающей среды. Поддерживается "
 "изменение цветов в полусферической модели освещения и интенсивности."
 
-#: ../viewer.rst:82
-msgid "**Shadows**"
-msgstr "**Shadows**"
+#: ../viewer.rst:345
+msgid ""
+"The settings available for ambient lighting setup are the same as the "
+"ones in Blender. They are described in the :ref:`dedicated section "
+"<environment_lighting>`."
+msgstr ""
+"Настройки, доступные для освещения от окружающей среды, совпадают с "
+"соответствующими настройками в Blender. Более подробно они описаны в "
+":ref:`отдельном разделе <environment_lighting>`."
 
-#: ../viewer.rst:82
+#: ../viewer.rst:348
+msgid "Shadows"
+msgstr ""
+
+#: ../viewer.rst:350
 msgid ""
 "Shadow parameters setup, including shadow cascades and shadow edges "
 "softening parameters."
@@ -256,11 +1057,19 @@ msgstr ""
 "Настройка параметров падающих теней, включая параметры каскадов теней и "
 "параметры смягчения краев теней."
 
-#: ../viewer.rst:85
-msgid "**Sky**"
-msgstr "**Sky**"
+#: ../viewer.rst:352
+msgid ""
+"The settings for setting up shadows are described in the "
+":ref:`corresponding section <shadows>` of this manual."
+msgstr ""
+"Настройки теней описаны в :ref:`соответствующем разделе <shadows>` "
+"данного руководства."
 
-#: ../viewer.rst:85
+#: ../viewer.rst:355
+msgid "Sky"
+msgstr ""
+
+#: ../viewer.rst:357
 msgid ""
 "Dynamic sky parameters setup such as color, sun light scattering "
 "parameters etc."
@@ -268,11 +1077,21 @@ msgstr ""
 "Настройка параметров динамического неба, таких как цвет, параметры "
 "рассеивания солнечного света и т.д."
 
-#: ../viewer.rst:88
-msgid "**Sea**"
-msgstr "**Sea**"
+#: ../viewer.rst:359
+msgid ""
+"Scene Viewer has access to all Blender parameters used for setting up "
+"procedural sky. These parameters are described in the :ref:`corresponding"
+" section <atmosphere>`."
+msgstr ""
+"Просмотрщик сцен предоставляет пользователю доступ ко всем параметрам "
+"Blender, используемым для настройки процедурного неба. Эти параметры "
+"описаны в :ref:`соответствующем разделе <atmosphere>`."
 
-#: ../viewer.rst:88
+#: ../viewer.rst:362
+msgid "Sea"
+msgstr ""
+
+#: ../viewer.rst:364
 msgid ""
 "Water rendering parameters setup, including color transitions by depth "
 "and by shore distance, foam and subsurface scattering parameters, waves "
@@ -282,67 +1101,128 @@ msgstr ""
 " удаленности от берега, параметры пены, подповерхностного рассеивания, "
 "динамики волн и т.д."
 
-#: ../viewer.rst:91
-msgid "**Wind**"
-msgstr "**Wind**"
+#: ../viewer.rst:366
+msgid ""
+"The setting for water rendering are described in the :ref:`Outdoor "
+"Rendering <water>` chapter. Scene Viewer uses the same settings as "
+"Blend4Web engine itself."
+msgstr ""
+"Настройки рендеринга воды описаны в главе :ref:`\"Природные эффекты\" "
+"<water>`. Просмотрщик использует те же настройки, что и сам движок "
+"Blend4Web."
 
-#: ../viewer.rst:91
+#: ../viewer.rst:369
+msgid "Wind"
+msgstr ""
+
+#: ../viewer.rst:371
 msgid "Wind parameters setup, including direction and strength."
 msgstr "Настройка параметров ветра, включая направление и силу."
 
-#: ../viewer.rst:94
-msgid "**Screen Space Amb Occlus**"
-msgstr "**Screen Space Amb Occlus**"
+#: ../viewer.rst:373
+msgid ""
+"The same parameters as the ones used by Scene Viewer are available in "
+"Blender. These parameters are described in the :ref:`corresponding "
+"chapter <wind>`."
+msgstr ""
+"В Просмотрщике используется тот же набор параметров, что и в Blender. Эти"
+" параметры описаны в :ref:`соответствующей главе <wind>`."
 
-#: ../viewer.rst:94
+#: ../viewer.rst:376
+msgid "Screen Space Amb Occlus"
+msgstr ""
+
+#: ../viewer.rst:378
 msgid "Ambient occlusion parameters setup."
 msgstr "Настройка параметров взаимного затенения."
 
-#: ../viewer.rst:97
-msgid "**God Rays**"
-msgstr "**God Rays**"
+#: ../viewer.rst:380
+msgid ""
+"All available settings are described in the :ref:`Postprocessing Effects "
+"<ssao>` chapter."
+msgstr "Все доступные настройки описаны в главе :ref:`\"Спецэффекты\" <ssao>`."
 
-#: ../viewer.rst:97
+#: ../viewer.rst:383
+msgid "God Rays"
+msgstr ""
+
+#: ../viewer.rst:385
 msgid "Crepuscular rays effect parameters setup."
 msgstr "Настройка параметров эффекта сумеречных лучей."
 
-#: ../viewer.rst:100
-msgid "**Bloom**"
-msgstr "**Bloom**"
+#: ../viewer.rst:387
+msgid ""
+"All parameters for this effect are described in the :ref:`corresponding "
+"section <god_rays>`."
+msgstr ""
+"Все параметры этого эффекта описаны в :ref:`соответствующем разделе "
+"<god_rays>`."
 
-#: ../viewer.rst:100
+#: ../viewer.rst:390
+msgid "Bloom"
+msgstr ""
+
+#: ../viewer.rst:392
 msgid "Bright light effect parameters setup."
 msgstr "Настройка параметров эффекта засветки ярким светом."
 
-#: ../viewer.rst:103
-msgid "**Motion Blur**"
+#: ../viewer.rst:394
+msgid ""
+"This effect uses the same set of parameters as it does in Blender. It is "
+"described in greater detail in the :ref:`corresponding section <bloom>`."
+msgstr ""
+"Этот эффект использует те же параметры, что и в Blender. Более подробно "
+"они описаны в :ref:`соответствующем разделе <bloom>`."
+
+#: ../viewer.rst:397
+msgid "Motion Blur"
 msgstr ""
 
-#: ../viewer.rst:103
+#: ../viewer.rst:399
 msgid "Motion blur effect settings."
 msgstr "Настройка эффекта размытия изображения при движении."
 
-#: ../viewer.rst:106
-msgid "**Glow Materials**"
+#: ../viewer.rst:401
+msgid ""
+"The parameters for adjusting Motion Blur effect are the same ones that "
+"are used in Blender. They are described in the :ref:`Postprocessing "
+"Effects <motion_blur>` chapter."
+msgstr ""
+"Параметры, используемые для настройки эффекта размытия, совпадают с "
+"таковыми в Blender. Они описаны в главе :ref:`\"Спецэффекты\" "
+"<motion_blur>`."
+
+#: ../viewer.rst:404
+msgid "Glow Materials"
 msgstr ""
 
-#: ../viewer.rst:106
+#: ../viewer.rst:406
 msgid "Glow Materials effect settings."
 msgstr "Настройка эффекта свечения материалов."
 
-#: ../viewer.rst:109
-msgid "**Depth of Field**"
-msgstr "**Depth of Field**"
+#: ../viewer.rst:408
+msgid ""
+"The settings used for this effect are described in the "
+":ref:`corresponding section <glow>`."
+msgstr "Настройки этого эффекта описаны в :ref:`соответствующем разделе <glow>`."
 
-#: ../viewer.rst:109
+#: ../viewer.rst:411
+msgid "Depth of Field"
+msgstr ""
+
+#: ../viewer.rst:413
 msgid "Depth of field effect parameters setup."
 msgstr "Настройка параметров эффекта глубины резкости камеры."
 
-#: ../viewer.rst:112
-msgid "**Color correction**"
-msgstr "**Color correction**"
+#: ../viewer.rst:415
+msgid "The parameters are described in the :ref:`corresponding chapter <dof>`."
+msgstr "Настройки описаны в :ref:`соответствующем разделе <dof>`."
 
-#: ../viewer.rst:112
+#: ../viewer.rst:418
+msgid "Color correction"
+msgstr ""
+
+#: ../viewer.rst:420
 msgid ""
 "Color correction parameters setup, including brightness, contrast, "
 "exposure and saturation."
@@ -350,11 +1230,21 @@ msgstr ""
 "Настройка параметров цветовой коррекции, включая яркость, контрастность, "
 "экспозицию и насыщенность."
 
-#: ../viewer.rst:115
-msgid "**Audio**"
-msgstr "**Audio**"
+#: ../viewer.rst:422
+msgid ""
+"The same set of parameters is used for color correction in Blender "
+"itself. The description of these parameters is available in the "
+":ref:`Color Management <color_correction>` chapter."
+msgstr ""
+"В самом Blender для цветокоррекции используется такой же набор "
+"параметров. Описание этих параметров находится в главе :ref:`\"Работа с "
+"цветом\" <color_correction>`."
 
-#: ../viewer.rst:115
+#: ../viewer.rst:425
+msgid "Audio"
+msgstr ""
+
+#: ../viewer.rst:427
 msgid ""
 "There is a mixing mode switch on the panel. After it is enabled the mixer"
 " interface becomes visible (only for scenes with sound sources)."
@@ -362,46 +1252,112 @@ msgstr ""
 "На панели находится переключатель режима микширования. После включения на"
 " сценах со звуковыми источниками появляется интерфейс микшера."
 
-#: ../viewer.rst:118
-msgid "**Stereo View**"
-msgstr "**Stereo View**"
+#: ../viewer.rst:436
+msgid "*Mixer*"
+msgstr ""
 
-#: ../viewer.rst:118
+#: ../viewer.rst:430
+msgid ""
+"Enables equalizer that shows various parameters (including volume, "
+"frequency, distance, attenuation etc.) of the speakers present in the "
+"scene, and allows user to adjust these parameters by using numerical "
+"keypad. The available parameters and possibilities are described in "
+"greater detail in the :ref:`dedicated section <mixer>` of the :ref:`Audio"
+" chapter <audio>`."
+msgstr ""
+"Включает эквалайзер, демонстрирующий различные параметры (в т.ч. "
+"громкость, частоту, расстояние, затухание) источников звука, "
+"присутствующих в сцене, и позволяет пользователю настраивать эти "
+"параметры с помощью дополнительной цифровой клавиатуры. Подробнее "
+"доступные параметры описаны в :ref:`соответствующем разделе <mixer>` "
+"главы :ref:`\"Звук\" <audio>`."
+
+#: ../viewer.rst:436
+msgid "This feature is disabled by default."
+msgstr "По умолчанию этот параметр деактивирован."
+
+#: ../viewer.rst:441
+msgid "Stereo View"
+msgstr ""
+
+#: ../viewer.rst:443
 msgid "There is a stereoscopic mode switch on the panel."
 msgstr "На панели находится переключатель режима стерео-изображения."
 
-#: ../viewer.rst:121
-msgid "**Gyroscope**"
+#: ../viewer.rst:456
+msgid "*Stereo Types*"
 msgstr ""
 
-#: ../viewer.rst:121
-msgid "Gyroscope settings for mobile devices can be controlled from this panel."
-msgstr ""
-"На этой панели расположен переключатель режима использования гироскопа "
-"для мобильных устройств."
-
-#: ../viewer.rst:125
-msgid "**Tools & Debug**"
-msgstr ""
-
-#: ../viewer.rst:124
+#: ../viewer.rst:448
 msgid ""
-"This panel contains a range of debugging tools, including the wireframe "
-"mode and the postprocessing stages viewer switches."
+"The list of all available stereo rendering modes. As of today, three "
+"types are supported:"
 msgstr ""
-"На панели находится ряд инструментов отладки сцен, в частности "
-"переключатель режима просмотра сетки, переключатель режима просмотра "
-"постпроцессинговых стадий."
+"Список доступных режимов рендеринга стереоизображения. На сегодняшний "
+"день доступно три режима:"
 
-#: ../viewer.rst:128
+#: ../viewer.rst:450
+msgid "``NONE`` - stereo rendering is not used."
+msgstr "``NONE`` - стереорендеринг не используется."
+
+#: ../viewer.rst:452
+msgid "``ANAGLYPH`` - :ref:`anaglyph <anaglyph>` rendering is used."
+msgstr "``ANAGLYPH`` - используется :ref:`анаглифное изображение <anaglyph>`."
+
+#: ../viewer.rst:454
+msgid ""
+"``HMD`` - rendering for :ref:`Head-Mounted Displays <hmd>` is used. This "
+"option is only available is the system has access to a HMD device."
+msgstr ""
+"``HMD`` - используется рендеринг для :ref:`шлемов виртуальной реальности "
+"<hmd>`. Этот режим доступен только в том случае, если соответствующее "
+"устройство подключено к системе."
+
+#: ../viewer.rst:456
+msgid "Default setting is ``NONE``."
+msgstr "По умолчанию используется вариант ``NONE``."
+
+#: ../viewer.rst:459
+msgid "*HMD Settings*"
+msgstr ""
+
+#: ../viewer.rst:459
+msgid "Shows the :ref:`HMD setup window <hmd_settings>`."
+msgstr "Показывает :ref:`окно настроек HMD <hmd_settings>`."
+
+#: ../viewer.rst:462
+msgid "Input Devices"
+msgstr ""
+
+#: ../viewer.rst:464
+msgid "This panel contains tools for setting up the input devices."
+msgstr "На этой панели находятся средства настройки устройств ввода."
+
+#: ../viewer.rst:467
+msgid "*Gyroscope use*"
+msgstr ""
+
+#: ../viewer.rst:467
+msgid "Enables the use of the gyroscope in the application. Disabled by default."
+msgstr "Включает использование гироскопов в приложении. По умолчанию отключено."
+
+#: ../viewer.rst:474
+msgid "*Gamepad Settings*"
+msgstr ""
+
+#: ../viewer.rst:470
+msgid "Clicking this button shows the gamepad settings window."
+msgstr "Вызывает окно настроек геймпадов."
+
+#: ../viewer.rst:477
 msgid "Indicators"
 msgstr "Индикаторы"
 
-#: ../viewer.rst:131
+#: ../viewer.rst:484
 msgid "**Frames per second counter**"
 msgstr "**Счетчик количества кадров в секунду**"
 
-#: ../viewer.rst:131
+#: ../viewer.rst:484
 msgid ""
 "This is located in the top right corner. It displays the averaged and "
 "rounded value for the last 1.5 seconds."
@@ -409,11 +1365,11 @@ msgstr ""
 "Находится в правом верхнем углу. Выводит усредненное и округленное "
 "значение за последние 1,5 секунды."
 
-#: ../viewer.rst:134
+#: ../viewer.rst:487
 msgid "**Viewport dimensions**"
 msgstr "**Размер области рендеринга**"
 
-#: ../viewer.rst:134
+#: ../viewer.rst:487
 msgid ""
 "This is located in the top left corner. It displays the viewport "
 "dimensions in pixels."
@@ -421,11 +1377,11 @@ msgstr ""
 "Находится в левом верхнем углу. Выводит размер области рендеринга в "
 "пикселах."
 
-#: ../viewer.rst:137
+#: ../viewer.rst:490
 msgid "**Selected object and controlled object**"
 msgstr "**Выбранный объект и контролируемый объект**"
 
-#: ../viewer.rst:137
+#: ../viewer.rst:490
 msgid ""
 "This is located in the left bottom corner. It displays the names of "
 "selected and controlled objects. Object selection can be performed with "
@@ -445,25 +1401,26 @@ msgstr ""
 "показывает расстояние до выбранного объекта в единицах Blender'a "
 "(эквивалент метра)."
 
-#: ../viewer.rst:140
+#: ../viewer.rst:493
 msgid "**Scene complexity indicator**"
 msgstr "**Индикатор сложности сцены**"
 
-#: ../viewer.rst:140
+#: ../viewer.rst:493
 msgid ""
 "Is located in the top right corner of the rendering area. It displays the"
-" number of vertices, triangles and WebGL calls on the main rendering "
-"scene (i.e. shadow rendering calls are not included, for example)."
+" number of vertices, triangles, WebGL draw calls and shaders used in the "
+"main rendering scene (i.e. shadow rendering calls are not included, for "
+"example)."
 msgstr ""
 "Находится в правом верхнем углу области рендеринга. Выводит количество "
-"вершин, треугольников и WebGL вызовов на основной рендер-сцене (т.е. не "
-"учитываются, например, вызовы по отрисовке динамических теней)."
+"вершин, треугольников и вызовов отрисовки WebGL на основной рендер-сцене "
+"(т.е. не учитываются, например, вызовы по отрисовке динамических теней)."
 
-#: ../viewer.rst:143
+#: ../viewer.rst:496
 msgid "**Video memory indicator**"
 msgstr "**Индикатор видео-памяти**"
 
-#: ../viewer.rst:143
+#: ../viewer.rst:496
 msgid ""
 "Is located in the bottom right corner of the rendering area. It displays "
 "the amount of video memory used by geometry, textures, render targets, "
@@ -474,11 +1431,11 @@ msgstr ""
 "рендеринга (render targets), а также суммарное количество занимаемой "
 "памяти."
 
-#: ../viewer.rst:146
+#: ../viewer.rst:501
 msgid "**Scene load errors indicator**"
 msgstr "**Индикатор ошибок при загрузке сцены**"
 
-#: ../viewer.rst:146
+#: ../viewer.rst:499
 msgid ""
 "Is located under the FPS counter. Shows errors and warnings which "
 "occurred during scene load. Red light means errors, yellow - warnings and"
@@ -488,7 +1445,68 @@ msgstr ""
 "предупреждения при загрузке сцены. Красный свет означает ошибки, желтый -"
 " предупреждения, зеленый - загрузка сцены прошла успешно."
 
+#: ../viewer.rst:501
+msgid "Loading errors and warnings can be viewed in the web browser console."
+msgstr "Ошибки загрузки и предупреждения можно увидеть в консоли браузера."
+
+#: ../viewer.rst:506
+msgid "**Background Transparency Indicator**"
+msgstr "**Индикатор прозрачности фона**"
+
+#: ../viewer.rst:504
+msgid ""
+"Is located in the top right corner of the screen, right below the Scene "
+"Complexity Indicator. This is a debug tool that can be used to find if "
+"the background of a scene is transparent or not. It appears as a small "
+"square with a black and white checkerboard pattern."
+msgstr ""
+"Находится в правом верхнем углу экрана, ниже индикатора сложности сцены. "
+"Этот инструмент может применяться для отладки, т.к. позволяет проверить, "
+"прозрачен ли фон сцены. Имеет вид небольшого квадрата с чёрно-белым "
+"\"шахматным\" узором."
+
+#: ../viewer.rst:506
+msgid ""
+"This indicator is visible only when the background of the application is "
+"transparent. It is shown on the picture above only to give the reader the"
+" general idea of how it will look under real circumstances."
+msgstr ""
+"Этот индикатор заметен только в том случае, если фон приложения - "
+"прозрачный. На скриншоте выше он изображён для того, чтобы дать читателю "
+"представление о том, как этот индикатор мог бы выглядеть в реальном "
+"приложении."
+
 #: ../viewer.rst:1
 msgid "viewer"
 msgstr "просмотрщик"
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid "**NLA**"
+#~ msgstr ""
+
+#~ msgid "**Shape Keys**"
+#~ msgstr ""
+
+#~ msgid "**Sky**"
+#~ msgstr "**Sky**"
+
+#~ msgid "**Sea**"
+#~ msgstr "**Sea**"
+
+#~ msgid "**Wind**"
+#~ msgstr "**Wind**"
+
+#~ msgid "**Motion Blur**"
+#~ msgstr ""
+
+#~ msgid "**Glow Materials**"
+#~ msgstr ""
+
+#~ msgid "**Gyroscope**"
+#~ msgstr ""
+
+#~ msgid "**Tools & Debug**"
+#~ msgstr ""
 

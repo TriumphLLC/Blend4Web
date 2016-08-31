@@ -1,10 +1,10 @@
+#version GLSL_VERSION
+
 #include <precision_statement.glslf>
 #include <color_util.glslf>
 
 uniform sampler2D u_sampler_left;
 uniform sampler2D u_sampler_right;
-
-varying vec2 v_texcoord;
 
 #if !ANAGLYPH
 uniform int u_enable_hmd_stereo;
@@ -29,33 +29,45 @@ void hmd_distorsion(vec2 texcoord, vec2 center, float size, sampler2D sampler) {
                 rsquare * u_chromatic_aberration_coefs[3]) + center;
 
         if (clamp(tc_b, 0.0, 1.0) != tc_b) {
-            gl_FragColor = vec4(0.0);
+            GLSL_OUT_FRAG_COLOR = vec4(0.0);
         } else {
-            vec4 orig_rgba = texture2D(sampler, tc_g);
+            vec4 orig_rgba = GLSL_TEXTURE(sampler, tc_g);
 
-            gl_FragColor[0] = texture2D(sampler, tc_r).x;
-            gl_FragColor[1] = orig_rgba.y;
-            gl_FragColor[2] = texture2D(sampler, tc_b).z;
-            gl_FragColor[3] = orig_rgba.w;
+            GLSL_OUT_FRAG_COLOR[0] = GLSL_TEXTURE(sampler, tc_r).x;
+            GLSL_OUT_FRAG_COLOR[1] = orig_rgba.y;
+            GLSL_OUT_FRAG_COLOR[2] = GLSL_TEXTURE(sampler, tc_b).z;
+            GLSL_OUT_FRAG_COLOR[3] = orig_rgba.w;
         }
     } else {
         tc = tc * size + center;
         if (clamp(tc, 0.0, 1.0) != tc) {
-            gl_FragColor = vec4(0.0);
+            GLSL_OUT_FRAG_COLOR = vec4(0.0);
         } else {
-            gl_FragColor = texture2D(sampler, tc);
+            GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(sampler, tc);
         }
     }
 }
 #endif // !ANAGLYPH
 
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 v_texcoord;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
+
 void main(void) {
 #if ANAGLYPH
-    vec4 lc = texture2D(u_sampler_left, v_texcoord);
-    vec4 rc = texture2D(u_sampler_right, v_texcoord);
+    vec4 lc = GLSL_TEXTURE(u_sampler_left, v_texcoord);
+    vec4 rc = GLSL_TEXTURE(u_sampler_right, v_texcoord);
 
     // Photoshop algorithm
-    //gl_FragColor = vec4(lc[0], rc[1], rc[2], lc[3] + rc[3]);
+    //GLSL_OUT_FRAG_COLOR = vec4(lc[0], rc[1], rc[2], lc[3] + rc[3]);
 
     // Dubois algorithm
 
@@ -76,7 +88,7 @@ void main(void) {
     vec3 color = clamp(left * lc3, 0.0, 1.0) + clamp(right * rc3, 0.0, 1.0);
     lin_to_srgb(color);
 
-    gl_FragColor = vec4(color, lc[3] + rc[3]);
+    GLSL_OUT_FRAG_COLOR = vec4(color, lc[3] + rc[3]);
 #else // ANAGLYPH
     if (u_enable_hmd_stereo != 0) {
         if (v_texcoord[0] < 0.5) {
@@ -93,7 +105,7 @@ void main(void) {
             hmd_distorsion(texcoord, center, size, u_sampler_right);
         }
     } else {
-        gl_FragColor = texture2D(u_sampler_left, v_texcoord);
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_sampler_left, v_texcoord);
     }
 #endif // ANAGLYPH
 }

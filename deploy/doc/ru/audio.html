@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Звук &mdash; Руководство пользователя Blend4Web 16.07</title>
+  <title>Звук &mdash; Руководство пользователя Blend4Web 16.08</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.07" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
         <link rel="next" title="Физика" href="physics.html"/>
         <link rel="prev" title="Работа с цветом" href="colors.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -116,6 +116,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#cone-tab">Вкладка Cone</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#audio-mixer">Микшер</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#processing-and-decoding">Обработка и кодирование</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#supported-formats-containers">Поддерживаемые форматы (контейнеры):</a></li>
 </ul>
@@ -181,8 +182,9 @@
 <li><a class="reference internal" href="#cone-tab" id="id6">Вкладка Cone</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#processing-and-decoding" id="id7">Обработка и кодирование</a><ul>
-<li><a class="reference internal" href="#supported-formats-containers" id="id8">Поддерживаемые форматы (контейнеры):</a></li>
+<li><a class="reference internal" href="#audio-mixer" id="id7">Микшер</a></li>
+<li><a class="reference internal" href="#processing-and-decoding" id="id8">Обработка и кодирование</a><ul>
+<li><a class="reference internal" href="#supported-formats-containers" id="id9">Поддерживаемые форматы (контейнеры):</a></li>
 </ul>
 </li>
 </ul>
@@ -310,10 +312,55 @@
 </div>
 </div>
 </div>
+<div class="section" id="audio-mixer">
+<span id="mixer"></span><h2><a class="toc-backref" href="#id7">Микшер</a><a class="headerlink" href="#audio-mixer" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Этот инструмент - часть интерфейса <a class="reference internal" href="viewer.html#viewer"><span>Просмотрщика сцен</span></a>.</p>
+<a class="reference internal image-reference" href="_images/audio_mixer.png"><img alt="_images/audio_mixer.png" class="align-center" src="_images/audio_mixer.png" style="width: 100%;" /></a>
+<p>Его включение вызывает интерфейс эквалайзера, содержащий различные параметры источников звука, присутствующих в сцене.</p>
+<a class="reference internal image-reference" href="_images/audio_mixer_parameters.png"><img alt="_images/audio_mixer_parameters.png" class="align-center" src="_images/audio_mixer_parameters.png" style="width: 100%;" /></a>
+<p>Доступные параметры:</p>
+<dl class="docutils">
+<dt><em>DIST_REF</em></dt>
+<dd><p class="first last">Этот параметр задаёт эталонную дистанцию для выбранного источника звука. Доступен только для источников типа <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code>.</p>
+</dd>
+<dt><em>ATTENUATION</em></dt>
+<dd><p class="first last">Этот параметр задаёт степень затухания звука, издаваемого выбранным спикером. Доступен только для источников типа <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code>.</p>
+</dd>
+<dt><em>DIST_MAX</em></dt>
+<dd><p class="first last">Это значение задаёт максимальную дистанцию для выбранного спикера. Если расстояние от камеры до спикера превышает это расстояние, спикер не будет издавать звука. Доступно только для источников типа <code class="docutils literal"><span class="pre">Positional</span> <span class="pre">Sound</span></code>.</p>
+</dd>
+<dt><em>EQ_FREQ</em></dt>
+<dd><p class="first last">Центральная частота, к которой применяется усиление.</p>
+</dd>
+<dt><em>EQ_Q</em></dt>
+<dd><p class="first last">Фактор Q. Это значение управляет шириной полосы усиливаемых частот. Увеличение значения сужает полосу.</p>
+</dd>
+<dt><em>EQ_GAIN</em></dt>
+<dd><p class="first last">Это значение задаёт усиление (измеряемое в дБ), которое применяется к звуку, издаваемому спикером.</p>
+</dd>
+<dt><em>VOLUME</em></dt>
+<dd><p class="first last">Громкость звука, издаваемого спикером.</p>
+</dd>
+</dl>
+<p>Ниже этого списка параметров демонстрируется частотная характеристика параметрического эквалайзера.</p>
+<p>Микшер управляется с помощью дополнительной цифровой клавиатуры.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">Клавиши <code class="docutils literal"><span class="pre">8</span></code>, <code class="docutils literal"><span class="pre">4</span></code>, <code class="docutils literal"><span class="pre">6</span></code> и <code class="docutils literal"><span class="pre">2</span></code> работают так же, как клавиши-стрелки, и используются для переключения между источниками звука и выбора их параметров.</p>
+</li>
+<li><p class="first">Клавиши <code class="docutils literal"><span class="pre">+</span></code> и <code class="docutils literal"><span class="pre">-</span></code> увеличивают и уменьшают значение выбранного параметра.</p>
+</li>
+<li><p class="first">Клавиша <code class="docutils literal"><span class="pre">7</span></code> выключает выбранный сипкер.</p>
+</li>
+<li><p class="first">Клавиша <code class="docutils literal"><span class="pre">9</span></code> выключает все спикеры, кроме выбранного.</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
 <div class="section" id="processing-and-decoding">
-<span id="encoding"></span><h2><a class="toc-backref" href="#id7">Обработка и кодирование</a><a class="headerlink" href="#processing-and-decoding" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="encoding"></span><h2><a class="toc-backref" href="#id8">Обработка и кодирование</a><a class="headerlink" href="#processing-and-decoding" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="supported-formats-containers">
-<h3><a class="toc-backref" href="#id8">Поддерживаемые форматы (контейнеры):</a><a class="headerlink" href="#supported-formats-containers" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">Поддерживаемые форматы (контейнеры):</a><a class="headerlink" href="#supported-formats-containers" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li><p class="first">ogg, кодек Vorbis (Chrome, Firefox)</p>
 </li>
@@ -347,7 +394,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-07-26.
+      Обновлено: 2016-08-31.
 
     </p>
   </div>
@@ -403,7 +450,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

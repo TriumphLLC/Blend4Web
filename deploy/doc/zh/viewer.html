@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>场景预览器 &mdash; Blend4Web 16.07 用户手册</title>
+  <title>场景预览器 &mdash; Blend4Web 16.08 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.07 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
         <link rel="next" title="网络播放器" href="web_player.html"/>
         <link rel="prev" title="项目管理器" href="project_manager.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -91,14 +91,40 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">场景预览器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#navigation">导航</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-side-panel">侧面板</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#control-elements-list-in-top-to-bottom-order">控制元件列表中上到下依次</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#information-panel">Information Panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-control-buttons">Basic Control Buttons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-panels">Additional Panels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scenes">Scenes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tools-debug">Tools &amp; Debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#animation">Animation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nla">NLA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shape-keys">Shape Keys</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#materials">Materials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lighting">Lighting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ambient">Ambient</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shadows">Shadows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sky">Sky</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sea">Sea</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind">Wind</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#screen-space-amb-occlus">Screen Space Amb Occlus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#god-rays">God Rays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bloom">Bloom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#motion-blur">Motion Blur</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow-materials">Glow Materials</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#depth-of-field">Depth of Field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#color-correction">Color correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#audio">Audio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stereo-view">Stereo View</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#input-devices">Input Devices</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#indicators">指标</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -166,35 +192,62 @@
            <div itemprop="articleBody">
             
   <div class="section" id="scene-viewer">
-<span id="viewer"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id1">场景预览器</a><a class="headerlink" href="#scene-viewer" title="永久链接至标题">¶</a></h1>
+<span id="viewer"></span><span id="index-0"></span><h1><a class="toc-backref" href="#id2">场景预览器</a><a class="headerlink" href="#scene-viewer" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#scene-viewer" id="id1">场景预览器</a><ul>
-<li><a class="reference internal" href="#navigation" id="id2">导航</a></li>
-<li><a class="reference internal" href="#the-side-panel" id="id3">侧面板</a><ul>
-<li><a class="reference internal" href="#control-elements-list-in-top-to-bottom-order" id="id4">控制元件列表中上到下依次</a></li>
+<li><a class="reference internal" href="#scene-viewer" id="id2">场景预览器</a><ul>
+<li><a class="reference internal" href="#navigation" id="id3">导航</a></li>
+<li><a class="reference internal" href="#the-side-panel" id="id4">侧面板</a><ul>
+<li><a class="reference internal" href="#information-panel" id="id5">Information Panel</a></li>
+<li><a class="reference internal" href="#basic-control-buttons" id="id6">Basic Control Buttons</a></li>
+<li><a class="reference internal" href="#additional-panels" id="id7">Additional Panels</a><ul>
+<li><a class="reference internal" href="#scenes" id="id8">Scenes</a></li>
+<li><a class="reference internal" href="#tools-debug" id="id9">Tools &amp; Debug</a></li>
+<li><a class="reference internal" href="#animation" id="id10">Animation</a></li>
+<li><a class="reference internal" href="#nla" id="id11">NLA</a></li>
+<li><a class="reference internal" href="#shape-keys" id="id12">Shape Keys</a></li>
+<li><a class="reference internal" href="#materials" id="id13">Materials</a></li>
+<li><a class="reference internal" href="#lighting" id="id14">Lighting</a></li>
+<li><a class="reference internal" href="#ambient" id="id15">Ambient</a></li>
+<li><a class="reference internal" href="#shadows" id="id16">Shadows</a></li>
+<li><a class="reference internal" href="#sky" id="id17">Sky</a></li>
+<li><a class="reference internal" href="#sea" id="id18">Sea</a></li>
+<li><a class="reference internal" href="#wind" id="id19">Wind</a></li>
+<li><a class="reference internal" href="#screen-space-amb-occlus" id="id20">Screen Space Amb Occlus</a></li>
+<li><a class="reference internal" href="#god-rays" id="id21">God Rays</a></li>
+<li><a class="reference internal" href="#bloom" id="id22">Bloom</a></li>
+<li><a class="reference internal" href="#motion-blur" id="id23">Motion Blur</a></li>
+<li><a class="reference internal" href="#glow-materials" id="id24">Glow Materials</a></li>
+<li><a class="reference internal" href="#depth-of-field" id="id25">Depth of Field</a></li>
+<li><a class="reference internal" href="#color-correction" id="id26">Color correction</a></li>
+<li><a class="reference internal" href="#audio" id="id27">Audio</a></li>
+<li><a class="reference internal" href="#stereo-view" id="id28">Stereo View</a></li>
+<li><a class="reference internal" href="#input-devices" id="id29">Input Devices</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#indicators" id="id5">指标</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indicators" id="id30">指标</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <p><a class="reference internal" href="addon.html#getting-started-launching-viewer"><span>运行场景预览器</span></a>.</p>
 <div class="section" id="navigation">
-<h2><a class="toc-backref" href="#id2">导航</a><a class="headerlink" href="#navigation" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">导航</a><a class="headerlink" href="#navigation" title="永久链接至标题">¶</a></h2>
 <p>为了控制摄像机按住鼠标按钮并移动鼠标。也可以控制使用进行 <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> 键：前进，左，后，右，上，下。 箭头和 <code class="docutils literal"><span class="pre">numpad</span></code> 键也可以使用。在 <code class="docutils literal"><span class="pre">Target</span></code> 相机模式有可能集中使用所选对象 <code class="docutils literal"><span class="pre">Z</span></code> 或 <code class="docutils literal"><span class="pre">.(dot)</span></code> 键.</p>
 </div>
 <div class="section" id="the-side-panel">
-<h2><a class="toc-backref" href="#id3">侧面板</a><a class="headerlink" href="#the-side-panel" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id4">侧面板</a><a class="headerlink" href="#the-side-panel" title="永久链接至标题">¶</a></h2>
 <p>侧面板由三个区域组成：信息板，基本控制按钮和下拉面板与功能区分额外的控制元素列表。</p>
 <a class="reference internal image-reference" href="_images/scene_viewer.png"><img alt="_images/scene_viewer.png" class="align-center" src="_images/scene_viewer.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="section" id="control-elements-list-in-top-to-bottom-order">
-<h3><a class="toc-backref" href="#id4">控制元件列表中上到下依次</a><a class="headerlink" href="#control-elements-list-in-top-to-bottom-order" title="永久链接至标题">¶</a></h3>
+<p>控制元件列表中上到下依次</p>
+<div class="section" id="information-panel">
+<h3><a class="toc-backref" href="#id5">Information Panel</a><a class="headerlink" href="#information-panel" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt><strong>建立</strong></dt>
 <dd><p class="first last">引擎建立日期和时间。在开发者版本显示的页面加载时间。</p>
@@ -205,6 +258,13 @@
 <dt><strong>加载</strong></dt>
 <dd><p class="first last">加载进度和时间。</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="basic-control-buttons">
+<h3><a class="toc-backref" href="#id6">Basic Control Buttons</a><a class="headerlink" href="#basic-control-buttons" title="永久链接至标题">¶</a></h3>
+<dl class="docutils">
+<dt><strong>Home</strong></dt>
+<dd>Reloads the last scene exported from Blender using the <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button or, if Scene Viewer hasn&#8217;t been run from Blender, the default scene is loaded.</dd>
 <dt><strong>重置</strong></dt>
 <dd><p class="first last">此按钮删除上次查看现场的保存名称和重新加载页面回显示默认场景。</p>
 </dd>
@@ -221,101 +281,365 @@
 <dt><strong>恢复</strong></dt>
 <dd><p class="first last">恢复渲染。</p>
 </dd>
-<dt><strong>自动视图</strong></dt>
-<dd><p class="first last">激活自动场景切换模式;视图之间的延迟时间为1秒。</p>
+<dt><strong>Rotate</strong></dt>
+<dd>Enables and disables camera orbiting the loaded scene. Disabled by default.</dd>
+</dl>
+</div>
+<div class="section" id="additional-panels">
+<h3><a class="toc-backref" href="#id7">Additional Panels</a><a class="headerlink" href="#additional-panels" title="永久链接至标题">¶</a></h3>
+<div class="section" id="scenes">
+<h4><a class="toc-backref" href="#id8">Scenes</a><a class="headerlink" href="#scenes" title="永久链接至标题">¶</a></h4>
+<p>在 <code class="docutils literal"><span class="pre">assets.json</span></code> 文件中的分类和场景的双级列表.</p>
+</div>
+<div class="section" id="tools-debug">
+<h4><a class="toc-backref" href="#id9">Tools &amp; Debug</a><a class="headerlink" href="#tools-debug" title="永久链接至标题">¶</a></h4>
+<p>This panel contains a range of debugging tools, including:</p>
+<dl class="docutils">
+<dt><em>Overview Outlining Mode</em></dt>
+<dd>Turning this option on makes all objects in the scene <a class="reference internal" href="objects.html#mesh-selection"><span>selectable</span></a> and enables <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline animation</span></a> to be played upon selecting them. This feature is enabled by default.</dd>
+<dt><em>Auto View Mode</em></dt>
+<dd>Pressing this button will cause Scene Viewer to load every scene from the <code class="docutils literal"><span class="pre">Scenes</span></code> list within one second of each other. This feature can be used to check all available content for console errors.</dd>
+<dt><em>Canvas Resolution Factor</em></dt>
+<dd><p class="first">This parameter can be used to increase the resolution of a canvas. The value can vary from 1 to 10. Default value is 1.0 (canvas resolution is equal to the physical resolution of the Scene Viewer window).</p>
+<div class="last admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">The highest available resolution of a canvas may be limited by a web browser.</p>
+</div>
 </dd>
-<dt><strong>场景</strong></dt>
-<dd><p class="first last">在 <code class="docutils literal"><span class="pre">assets.json</span></code> 文件中的分类和场景的双级列表.</p>
+<dt><em>Make Screenshot</em></dt>
+<dd>This button can be used to make screenshots of the Scene Viewer&#8217;s window. Screenshots are stored in the same folder that web browsers use for storing downloaded files.</dd>
+<dt><em>Debug View Modes</em></dt>
+<dd><p class="first">The list of different rendering modes that can be used for debug purposes. Available modes are:</p>
+<blockquote class="last">
+<div><p><code class="docutils literal"><span class="pre">NONE</span></code> - normal rendering mode. This is the default mode.</p>
+<p><code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> - the scene is rendered in flat white color with darker wireframe. The color used for rendering the wireframe can be adjusted by using the <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code> parameter.</p>
+<p><code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> - the scene is rendered as in normal mode, but wireframes are added on top of it. Like in the previous mode, the color used for rendering the wireframe can be adjusted by using the <code class="docutils literal"><span class="pre">Wireframe</span> <span class="pre">Edge</span> <span class="pre">Color</span></code> parameter.</p>
+<p><code class="docutils literal"><span class="pre">FRONT</span> <span class="pre">BACK</span> <span class="pre">VIEW</span></code> - renders front and back sides of the polygons with different colors.</p>
+<p><code class="docutils literal"><span class="pre">BOUNDINGS</span></code> - this mode adds wireframe spheres that envelope <a class="reference internal" href="objects.html#objects"><span>objects</span></a> and <a class="reference internal" href="meshes.html#meshes"><span>meshes</span></a>. The spheres can be blue (for static objects/meshes) or red (for dynamic objects).</p>
+<p><code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> - in this view mode, every object in a specific cluster (used for <a class="reference internal" href="scene_settings.html#scene-batching"><span>batching</span></a>) is rendered with a specific color.</p>
+<p><code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> - in this view mode, every batch is rendered using a specific (flat) color. The colors used in rendering can be changed to randomly generated colors by clicking the <code class="docutils literal"><span class="pre">Change</span> <span class="pre">Colors</span></code> button.</p>
+<p><code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code> - the scene is rendered in different colors to represent the complexity of various parts of the scene. The lightest parts are rendered using shades of green, heavier - shades of orange, and the most resourse-demanding parts of the scene are colored red.</p>
+</div></blockquote>
 </dd>
-<dt><strong>动画</strong></dt>
-<dd><p class="first last">动画控件。当观看动画模型时可以：选择一个对象，并使用下拉菜单切换的动画，循环切换动画模式，停止播放动画，设置所需的帧（动画应该被停止）。</p>
+<dt><em>Change Colors</em></dt>
+<dd>This button randomly changes the colors that are used in the <code class="docutils literal"><span class="pre">CLUSTER</span> <span class="pre">VIEW</span></code> and <code class="docutils literal"><span class="pre">BATCH</span> <span class="pre">VIEW</span></code> rendering modes. This feature is useful in cases when colors that are picked randomly by the engine are too similar and make it difficult to distinguish parts of the image.</dd>
+<dt><em>Render Time Threshold (ms)</em></dt>
+<dd>This parameter sets a &#8220;threshold&#8221; time for the <code class="docutils literal"><span class="pre">RENDER</span> <span class="pre">TIME</span></code> view mode. If the engine spends more time on rendering a certain object than the time set by this value, this object will be colored red. The default value is 1.5 ms.</dd>
+<dt><em>Wireframe Edge Color</em></dt>
+<dd>This parameter allows you to change the color of the wireframe edges used in the <code class="docutils literal"><span class="pre">OPAQUE</span> <span class="pre">WIREFRAME</span></code> and <code class="docutils literal"><span class="pre">TRANSPARENT</span> <span class="pre">WIREFRAME</span></code> view modes.</dd>
+<dt><em>HUD Info</em></dt>
+<dd><a class="first reference internal image-reference" href="_images/viewer_hud_info.png"><img alt="_images/viewer_hud_info.png" class="align-center" src="_images/viewer_hud_info.png" style="width: 100%;" /></a>
+<p>This button shows a list of rendered subscenes and its parameters, incuding:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><em>SCENE</em></dt>
+<dd>The name of the current scene.</dd>
+<dt><em>Active</em></dt>
+<dd>Shows whether the subscene is active or not.</dd>
+<dt><em>Subscene</em></dt>
+<dd>The name of the subscene.</dd>
+<dt><em>Lamps</em></dt>
+<dd>The number of light sources in the subscene.</dd>
+<dt><em>Size</em></dt>
+<dd>The size of the render of the subscene.</dd>
+<dt><em>RenderCalls</em></dt>
+<dd>The number of draw calls in the subscene.</dd>
+<dt><em>Time</em></dt>
+<dd>The amount of time the engine spends on rendering the subscene.</dd>
+<dt><em>TOTAL ACTIVE</em></dt>
+<dd>The number of draw calls in all present subscenes and the time that the engine spends on rendering them.</dd>
+</dl>
+</div></blockquote>
+<p class="last">Enabling this parameter may decrease performance of a scene. This option is disabled by default.</p>
 </dd>
-<dt><strong>NLA</strong></dt>
-<dd><p class="first last">控制非线性动画的工具（如果它存在于场景）。在这个面板中工作，NLA选项应该在场景的设置中启用。</p>
-</dd>
-<dt><strong>形键</strong></dt>
-<dd><p class="first last">形变键控制。当查看的模型有形变键，您可以选择一个物体，物体上的形变键和键对物体的影响。</p>
-</dd>
-<dt><strong>材质</strong></dt>
-<dd><p class="first last">材质特性设置。材质可以使用下拉菜单中选择。此刻仅支持属性的有限范围。</p>
-</dd>
-<dt><strong>灯光</strong></dt>
-<dd><p class="first last">直接照明的参数设置。光源可以使用下拉菜单中选择。更改颜色和强度的支持。白天和阳光照明参数也可以调整该面板上。</p>
-</dd>
-<dt><strong>环境</strong></dt>
-<dd><p class="first last">环境照明的参数设置。改变颜色和半球环境模型的强度支持。</p>
-</dd>
-<dt><strong>阴影</strong></dt>
-<dd><p class="first last">阴影参数设置，包括影子瀑布和阴影边缘软化参数。</p>
-</dd>
-<dt><strong>天空</strong></dt>
-<dd><p class="first last">动态天空参数设置，如颜色，太阳的光散射参数等。</p>
-</dd>
-<dt><strong>海</strong></dt>
-<dd><p class="first last">水渲染参数设置，包括颜色过渡由深度和岸的距离，泡沫和次表面散射参数，波动力学等。</p>
-</dd>
-<dt><strong>风</strong></dt>
-<dd><p class="first last">风参数设置，包括方向和强度。</p>
-</dd>
-<dt><strong>屏幕空间环境遮蔽</strong></dt>
-<dd><p class="first last">环境闭塞参数设置。</p>
-</dd>
-<dt><strong>神光芒</strong></dt>
-<dd><p class="first last">曙暮辉效果参数设置。</p>
-</dd>
-<dt><strong>盛开</strong></dt>
-<dd><p class="first last">明亮的光线效果参数设置。</p>
-</dd>
-<dt><strong>运动模糊</strong></dt>
-<dd><p class="first last">运动模糊效果设置。</p>
-</dd>
-<dt><strong>晕光材质</strong></dt>
-<dd><p class="first last">晕光材质效果设置。</p>
-</dd>
-<dt><strong>景深</strong></dt>
-<dd><p class="first last">景深效果的参数设置。</p>
-</dd>
-<dt><strong>色彩校正</strong></dt>
-<dd><p class="first last">颜色校正参数的设置，包括亮度，对比度，曝光和饱和度。</p>
-</dd>
-<dt><strong>音频</strong></dt>
-<dd><p class="first last">有在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用于具有声源的场景）。</p>
-</dd>
-<dt><strong>立体视图</strong></dt>
-<dd><p class="first last">有在面板上的立体模式的切换。</p>
-</dd>
-<dt><strong>陀螺仪</strong></dt>
-<dd><p class="first last">用于移动设备的陀螺仪设置可以从这个面板来控制。</p>
-</dd>
-<dt><strong>工具和调试</strong></dt>
-<dd><p class="first last">此面板包含了一系列的调试工具，包括线框模式和后处理阶段查看器开关。</p>
+<dt><em>GL Debug</em></dt>
+<dd>This parameter, when activated, causes the engine to process low-level errors. This can significantly decrease performance. It is disabled when you start Scene Viewer for the first time, and afterwards, the application will save the state of this option for the next time.</dd>
+<dt><em>Min Capabilities Mode</em></dt>
+<dd>This parameter makes Scene Viewer run a loaded scene as if it was running on a low-end system (on a mobile device, for example). This allows an artist to find out which materials in the scene may not work as intended with low-end configuration. Disabled by default.</dd>
+</dl>
+</div>
+<div class="section" id="animation">
+<h4><a class="toc-backref" href="#id10">Animation</a><a class="headerlink" href="#animation" title="永久链接至标题">¶</a></h4>
+<p>动画控件。当观看动画模型时可以：选择一个对象，并使用下拉菜单切换的动画，循环切换动画模式，停止播放动画，设置所需的帧（动画应该被停止）。</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Play All</em></dt>
+<dd>Pressing this button will play all available animations.</dd>
+<dt><em>Stop All</em></dt>
+<dd>Pressing this button will stop playback of all animations that are currently being played.</dd>
+<dt><em>Object</em></dt>
+<dd>A list of scene objects that have animations.</dd>
+<dt><em>Animation Slot</em></dt>
+<dd>The list of all animation slots that can be used to apply some animation to an object.</dd>
+<dt><em>Animation</em></dt>
+<dd>A list of all animations available for a selected object.</dd>
+<dt><em>Cyclic</em></dt>
+<dd>If this parameter is enabled, the animation will be played repeatedly. If it isn&#8217;t, the animation will stop after being played once. Enabled by default.</dd>
+<dt><em>Range</em></dt>
+<dd>This value shows the length of the selected animation.</dd>
+<dt><em>Status</em></dt>
+<dd>This value shows the status of the animation, i.e. if it is being played or stopped.</dd>
+<dt><em>Playing Animation &gt; Play</em></dt>
+<dd>Plays the selected animation.</dd>
+<dt><em>Playing Animation &gt; Stop</em></dt>
+<dd>Stops the selected animation.</dd>
+<dt><em>Set Frame</em></dt>
+<dd>Shows the current frame of the animation and can be used to set the current frame.</dd>
+<dt><em>Skeletal Mix Factor</em></dt>
+<dd>The factor of mixing different skeletal animations together. Default value is 1.0.</dd>
+</dl>
+</div>
+<div class="section" id="nla">
+<h4><a class="toc-backref" href="#id11">NLA</a><a class="headerlink" href="#nla" title="永久链接至标题">¶</a></h4>
+<p>控制非线性动画的工具（如果它存在于场景）。在这个面板中工作，NLA选项应该在场景的设置中启用。</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Range</em></dt>
+<dd>Shows the start and the end frame of the NLA strip.</dd>
+<dt><em>Status</em></dt>
+<dd>Shows the status of NLA animation, i.e. if it is being played or stopped.</dd>
+<dt><em>Playing NLA &gt; Play</em></dt>
+<dd>This button can be used to play NLA animation.</dd>
+<dt><em>Playing NLA &gt; Stop</em></dt>
+<dd>This button can be used to stop NLA animation that is currently being played.</dd>
+<dt><em>Set Frame</em></dt>
+<dd>If an animation is stopped at the moment, this parameter can be used for setting a specific frame of NLA animation.</dd>
+</dl>
+</div>
+<div class="section" id="shape-keys">
+<h4><a class="toc-backref" href="#id12">Shape Keys</a><a class="headerlink" href="#shape-keys" title="永久链接至标题">¶</a></h4>
+<p>形变键控制。当查看的模型有形变键，您可以选择一个物体，物体上的形变键和键对物体的影响。</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd>This list contains all scene objects that have Shape Keys.</dd>
+<dt><em>Shape Key</em></dt>
+<dd>This list contains all Shape Keys attached to a selected object.</dd>
+<dt><em>Set Value</em></dt>
+<dd>This parameter sets the level of influence of a selected Shape Key on an object. The value can vary from zero to 1.</dd>
+</dl>
+</div>
+<div class="section" id="materials">
+<h4><a class="toc-backref" href="#id13">Materials</a><a class="headerlink" href="#materials" title="永久链接至标题">¶</a></h4>
+<p>Material properties setup. A material can be selected using the drop-down menu. For now, this feature only support a limited number of properties and only stack (non-node) materials applied to dynamic objects (node materials and static objects are not supported).</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Material</em></dt>
+<dd>A list of all stack materials present in a scene.</dd>
+<dt><em>Color</em></dt>
+<dd>This parameter defines the base color of a selected material.</dd>
+<dt><em>Reflectivity</em></dt>
+<dd>This parameter sets the refelctivity factor of a selected material. Its value is equal to zero by default.</dd>
+<dt><em>Fresnel</em></dt>
+<dd>The power of the Fresnel effect for the reflection. Set to zero by default.</dd>
+<dt><em>Fresnel Factor</em></dt>
+<dd>A factor of the Fresnel effect. Set to zero by default.</dd>
+<dt><em>Parallax Scale</em></dt>
+<dd>The scale parameter of the parallax effect. This value can vary from zero to 0.1. Default value is 0.</dd>
+<dt><em>Parallax Steps</em></dt>
+<dd>The number of steps used for building a parallax surface. The value can vary from 1 to 30. Default value is 5.</dd>
+</dl>
+</div>
+<div class="section" id="lighting">
+<h4><a class="toc-backref" href="#id14">Lighting</a><a class="headerlink" href="#lighting" title="永久链接至标题">¶</a></h4>
+<p>直接照明的参数设置。光源可以使用下拉菜单中选择。更改颜色和强度的支持。白天和阳光照明参数也可以调整该面板上。</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/viewer_lighting_settings.png"><img alt="_images/viewer_lighting_settings.png" class="align-center" src="_images/viewer_lighting_settings.png" style="width: 100%;" /></a>
+</div></blockquote>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Light</em></dt>
+<dd>This list contains all light sources present in the scene.</dd>
+<dt><em>Type</em></dt>
+<dd>The type of the selected light source. This parameter cannot be changed in the Scene Viewer.</dd>
+<dt><em>Color</em></dt>
+<dd>The base color of the selected light source. By default, white color (1; 1; 1) is used.</dd>
+<dt><em>Energy Coarse</em></dt>
+<dd>This parameter sets the integral part of the energy value for the light source. The value of this parameter can vary from zero to 100. Default value is 1.</dd>
+<dt><em>Energy Precise</em></dt>
+<dd>This parameter sets the fractional part of the energy value for the light source. The value of this parameter can vary from zero to 1. Set to zero by default.</dd>
+<dt><em>Light Energy</em></dt>
+<dd>This value is calculated as the sum of the Energy Coarse and Energy Precise parameters. In case of both of them are having default values, it will be equal to 1.</dd>
+<dt><em>Spot Size</em></dt>
+<dd>Angle of the light beam emitted by the light source. Default value is 75. This parameter is only available for <code class="docutils literal"><span class="pre">Spot</span></code> type light sources.</dd>
+<dt><em>Spot Blend</em></dt>
+<dd>The softness of the spotlight edge. Default value is 0.15. This parameter is also available for <code class="docutils literal"><span class="pre">Spot</span></code> type light sources only.</dd>
+<dt><em>Distance</em></dt>
+<dd>This parameter sets the distance (in meters) from the light source at which the light emitted by the light source will be half as bright as defined by the <code class="docutils literal"><span class="pre">Light</span> <span class="pre">Energy</span></code> value. Set to 30 by default.</dd>
+</dl>
+<p>The following parameters are only available for <code class="docutils literal"><span class="pre">Sun</span></code> type light sources:</p>
+<a class="reference internal image-reference" href="_images/viewer_lighting_settings_sun.png"><img alt="_images/viewer_lighting_settings_sun.png" class="align-center" src="_images/viewer_lighting_settings_sun.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>Real Time Sun Movement &gt; Play</em></dt>
+<dd>Pressing this button activates real-time sun movement.</dd>
+<dt><em>Real Time Sun Movement &gt; Stop</em></dt>
+<dd>Pressing this button stops real-time sun movement.</dd>
+<dt><em>Date</em></dt>
+<dd>This parameter sets the current date.</dd>
+<dt><em>Time</em></dt>
+<dd>This parameter set the current time of day (or night?). Default value is 12.0.</dd>
+<dt><em>Maximum Sun Vertical Angle</em></dt>
+<dd>This parameter sets maximum possible vertical angle for a <code class="docutils literal"><span class="pre">Sun</span></code> type light source. Default value is 60.</dd>
+<dt><em>Time Multiplier</em></dt>
+<dd>The value of this parameter defines the speed of the flow of time. Default value is 1.0 (time flows with the same speed it does in real life).</dd>
+<dt><em>Horizontal Position</em></dt>
+<dd>Horizontal position of the sun on the skydome. Default value is 29.82.</dd>
+<dt><em>Vertical Position</em></dt>
+<dd>Vertical position of the sun on the skydome. Default value is 34.82.</dd>
+</dl>
+</div>
+<div class="section" id="ambient">
+<h4><a class="toc-backref" href="#id15">Ambient</a><a class="headerlink" href="#ambient" title="永久链接至标题">¶</a></h4>
+<p>环境照明的参数设置。改变颜色和半球环境模型的强度支持。</p>
+<p>The settings available for ambient lighting setup are the same as the ones in Blender. They are described in the <a class="reference internal" href="lighting.html#environment-lighting"><span>dedicated section</span></a>.</p>
+</div>
+<div class="section" id="shadows">
+<h4><a class="toc-backref" href="#id16">Shadows</a><a class="headerlink" href="#shadows" title="永久链接至标题">¶</a></h4>
+<p>阴影参数设置，包括影子瀑布和阴影边缘软化参数。</p>
+<p>The settings for setting up shadows are described in the <a class="reference internal" href="lighting.html#shadows"><span>corresponding section</span></a> of this manual.</p>
+</div>
+<div class="section" id="sky">
+<h4><a class="toc-backref" href="#id17">Sky</a><a class="headerlink" href="#sky" title="永久链接至标题">¶</a></h4>
+<p>动态天空参数设置，如颜色，太阳的光散射参数等。</p>
+<p>Scene Viewer has access to all Blender parameters used for setting up procedural sky. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="sea">
+<h4><a class="toc-backref" href="#id18">Sea</a><a class="headerlink" href="#sea" title="永久链接至标题">¶</a></h4>
+<p>水渲染参数设置，包括颜色过渡由深度和岸的距离，泡沫和次表面散射参数，波动力学等。</p>
+<p>The setting for water rendering are described in the <a class="reference internal" href="outdoor_rendering.html#water"><span>Outdoor Rendering</span></a> chapter. Scene Viewer uses the same settings as Blend4Web engine itself.</p>
+</div>
+<div class="section" id="wind">
+<h4><a class="toc-backref" href="#id19">Wind</a><a class="headerlink" href="#wind" title="永久链接至标题">¶</a></h4>
+<p>风参数设置，包括方向和强度。</p>
+<p>The same parameters as the ones used by Scene Viewer are available in Blender. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#wind"><span>corresponding chapter</span></a>.</p>
+</div>
+<div class="section" id="screen-space-amb-occlus">
+<h4><a class="toc-backref" href="#id20">Screen Space Amb Occlus</a><a class="headerlink" href="#screen-space-amb-occlus" title="永久链接至标题">¶</a></h4>
+<p>环境闭塞参数设置。</p>
+<p>All available settings are described in the <a class="reference internal" href="postprocessing_effects.html#ssao"><span>Postprocessing Effects</span></a> chapter.</p>
+</div>
+<div class="section" id="god-rays">
+<h4><a class="toc-backref" href="#id21">God Rays</a><a class="headerlink" href="#god-rays" title="永久链接至标题">¶</a></h4>
+<p>曙暮辉效果参数设置。</p>
+<p>All parameters for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="bloom">
+<h4><a class="toc-backref" href="#id22">Bloom</a><a class="headerlink" href="#bloom" title="永久链接至标题">¶</a></h4>
+<p>明亮的光线效果参数设置。</p>
+<p>This effect uses the same set of parameters as it does in Blender. It is described in greater detail in the <a class="reference internal" href="postprocessing_effects.html#bloom"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="motion-blur">
+<h4><a class="toc-backref" href="#id23">Motion Blur</a><a class="headerlink" href="#motion-blur" title="永久链接至标题">¶</a></h4>
+<p>运动模糊效果设置。</p>
+<p>The parameters for adjusting Motion Blur effect are the same ones that are used in Blender. They are described in the <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>Postprocessing Effects</span></a> chapter.</p>
+</div>
+<div class="section" id="glow-materials">
+<h4><a class="toc-backref" href="#id24">Glow Materials</a><a class="headerlink" href="#glow-materials" title="永久链接至标题">¶</a></h4>
+<p>晕光材质效果设置。</p>
+<p>The settings used for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#glow"><span>corresponding section</span></a>.</p>
+</div>
+<div class="section" id="depth-of-field">
+<h4><a class="toc-backref" href="#id25">Depth of Field</a><a class="headerlink" href="#depth-of-field" title="永久链接至标题">¶</a></h4>
+<p>景深效果的参数设置。</p>
+<p>The parameters are described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span>corresponding chapter</span></a>.</p>
+</div>
+<div class="section" id="color-correction">
+<h4><a class="toc-backref" href="#id26">Color correction</a><a class="headerlink" href="#color-correction" title="永久链接至标题">¶</a></h4>
+<p>颜色校正参数的设置，包括亮度，对比度，曝光和饱和度。</p>
+<p>The same set of parameters is used for color correction in Blender itself. The description of these parameters is available in the <a class="reference internal" href="colors.html#color-correction"><span>Color Management</span></a> chapter.</p>
+</div>
+<div class="section" id="audio">
+<h4><a class="toc-backref" href="#id27">Audio</a><a class="headerlink" href="#audio" title="永久链接至标题">¶</a></h4>
+<p>有在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用于具有声源的场景）。</p>
+<dl class="docutils">
+<dt><em>Mixer</em></dt>
+<dd><p class="first">Enables equalizer that shows various parameters (including volume, frequency, distance, attenuation etc.) of the speakers present in the scene, and allows user to adjust these parameters by using numerical keypad. The available parameters and possibilities are described in greater detail in the <a class="reference internal" href="audio.html#mixer"><span>dedicated section</span></a> of the <a class="reference internal" href="audio.html#audio"><span>Audio chapter</span></a>.</p>
+<a class="reference internal image-reference" href="_images/viewer_mixer.png"><img alt="_images/viewer_mixer.png" class="align-center" src="_images/viewer_mixer.png" style="width: 100%;" /></a>
+<p class="last">This feature is disabled by default.</p>
 </dd>
 </dl>
+</div>
+<div class="section" id="stereo-view">
+<span id="id1"></span><h4><a class="toc-backref" href="#id28">Stereo View</a><a class="headerlink" href="#stereo-view" title="永久链接至标题">¶</a></h4>
+<p>有在面板上的立体模式的切换。</p>
+<p>Available parameters:</p>
+<dl class="docutils">
+<dt><em>Stereo Types</em></dt>
+<dd><p class="first">The list of all available stereo rendering modes. As of today, three types are supported:</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">NONE</span></code> - stereo rendering is not used.</p>
+<p><code class="docutils literal"><span class="pre">ANAGLYPH</span></code> - <a class="reference internal" href="stereo_rendering.html#anaglyph"><span>anaglyph</span></a> rendering is used.</p>
+<p><code class="docutils literal"><span class="pre">HMD</span></code> - rendering for <a class="reference internal" href="stereo_rendering.html#hmd"><span>Head-Mounted Displays</span></a> is used. This option is only available is the system has access to a HMD device.</p>
+</div></blockquote>
+<p class="last">Default setting is <code class="docutils literal"><span class="pre">NONE</span></code>.</p>
+</dd>
+<dt><em>HMD Settings</em></dt>
+<dd>Shows the <a class="reference internal" href="stereo_rendering.html#hmd-settings"><span>HMD setup window</span></a>.</dd>
+</dl>
+</div>
+<div class="section" id="input-devices">
+<h4><a class="toc-backref" href="#id29">Input Devices</a><a class="headerlink" href="#input-devices" title="永久链接至标题">¶</a></h4>
+<p>This panel contains tools for setting up the input devices.</p>
+<dl class="docutils">
+<dt><em>Gyroscope use</em></dt>
+<dd>Enables the use of the gyroscope in the application. Disabled by default.</dd>
+<dt><em>Gamepad Settings</em></dt>
+<dd><p class="first">Clicking this button shows the gamepad settings window.</p>
+<a class="last reference internal image-reference" href="_images/viewer_gamepad_settings.png"><img alt="_images/viewer_gamepad_settings.png" class="align-center" src="_images/viewer_gamepad_settings.png" style="width: 100%;" /></a>
+</dd>
+</dl>
+</div>
 </div>
 </div>
 <div class="section" id="indicators">
-<h2><a class="toc-backref" href="#id5">指标</a><a class="headerlink" href="#indicators" title="永久链接至标题">¶</a></h2>
-<dl class="docutils">
+<h2><a class="toc-backref" href="#id30">指标</a><a class="headerlink" href="#indicators" title="永久链接至标题">¶</a></h2>
+<a class="reference internal image-reference" href="_images/viewer_indicators.png"><img alt="_images/viewer_indicators.png" class="align-center" src="_images/viewer_indicators.png" style="width: 100%;" /></a>
+<ol class="arabic">
+<li><dl class="first docutils">
 <dt><strong>每秒计数帧</strong></dt>
 <dd><p class="first last">这是位于右上角。这显示最后1.5秒的平均和四舍五入的值。</p>
 </dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt><strong>视维</strong></dt>
 <dd><p class="first last">这是位于左上角。它显示像素视口的尺寸。</p>
 </dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt><strong>选定的物体和控制物体</strong></dt>
 <dd><p class="first last">这是位于左下角。它显示选择和控制对象的名称。对象选择可以用鼠标来执行。要直接控制的对象（通常为物理调试）按 <code class="docutils literal"><span class="pre">Q</span></code> 键并单击对象。物体的移动是与执行 <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> 键。要退出控制模式下，按 <code class="docutils literal"><span class="pre">Q</span></code> 键并单击一个空的空间。该指标也显示在Blender单位（米当量）所选对象的距离。</p>
 </dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt><strong>场景复杂度指标</strong></dt>
-<dd><p class="first last">位于渲染区域的右上角。它显示的顶点，三角形的数目和主渲染场景的WebGL调用（比如，阴影渲染调用未包括）。</p>
+<dd><p class="first last">Is located in the top right corner of the rendering area. It displays the number of vertices, triangles, WebGL draw calls and shaders used in the main rendering scene (i.e. shadow rendering calls are not included, for example).</p>
 </dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt><strong>显存指标</strong></dt>
 <dd><p class="first last">位于渲染区域的右下角。它显示视频存储器的使用的几何形状，纹理，渲染目标的量，并且还总的内存使用情况。</p>
 </dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt><strong>场景加载错误指示器</strong></dt>
-<dd><p class="first last">位于FPS计数下。显示错误，哪个场景加载过程中发生的警告。红灯表示错误，黄色 - 警告，绿色表示该场景加载成功。</p>
+<dd><p class="first">位于FPS计数下。显示错误，哪个场景加载过程中发生的警告。红灯表示错误，黄色 - 警告，绿色表示该场景加载成功。</p>
+<p class="last">Loading errors and warnings can be viewed in the web browser console.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/viewer_indicators.png"><img alt="_images/viewer_indicators.png" class="align-center" src="_images/viewer_indicators.png" style="width: 100%;" /></a>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Background Transparency Indicator</strong></dt>
+<dd><p class="first">Is located in the top right corner of the screen, right below the Scene Complexity Indicator. This is a debug tool that can be used to find if the background of a scene is transparent or not. It appears as a small square with a black and white checkerboard pattern.</p>
+<p class="last">This indicator is visible only when the background of the application is transparent. It is shown on the picture above only to give the reader the general idea of how it will look under real circumstances.</p>
+</dd>
+</dl>
+</li>
+</ol>
 </div>
 </div>
 
@@ -339,7 +663,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-07-26.
+      最后更新于 2016-08-31.
 
     </p>
   </div>
@@ -395,7 +719,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

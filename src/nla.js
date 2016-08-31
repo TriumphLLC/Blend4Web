@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -838,13 +837,16 @@ function get_frame(timeline) {
 exports.stop_nla = stop_nla;
 function stop_nla() {
     var active_scene = m_scs.get_active();
-    if (active_scene._nla)
+
+    if (active_scene._nla) {
         active_scene._nla.is_stopped = true;
 
-    var vtexs = active_scene._nla.textures;
-    for (var i = 0; i < vtexs.length; i++) {
-        var vtex = vtexs[i];
-        m_tex.pause_video(vtex.name, vtex.vtex_data_id);
+        var vtexs = active_scene._nla.textures;
+
+        for (var i = 0; i < vtexs.length; i++) {
+            var vtex = vtexs[i];
+            m_tex.pause_video(vtex.name, vtex.vtex_data_id);
+        }
     }
 }
 

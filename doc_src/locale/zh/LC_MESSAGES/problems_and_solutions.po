@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-07 10:02+0300\n"
+"POT-Creation-Date: 2016-08-29 16:10+0300\n"
 "PO-Revision-Date: 2016-03-26 16:43+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../problems_and_solutions.rst:5
 msgid "Problems and Solutions"
@@ -316,9 +316,10 @@ msgid "Problems with updating of the add-on."
 msgstr "更新插件时候的问题。"
 
 #: ../problems_and_solutions.rst:176
+#, fuzzy
 msgid ""
 "It’s strongly advised to restart Blender after installing a newer version"
-" of Addon/SDK."
+" of Add-on/SDK."
 msgstr "强烈地建议安装插件/ SDK的更新版本后重新启动Blender。"
 
 #: ../problems_and_solutions.rst:178

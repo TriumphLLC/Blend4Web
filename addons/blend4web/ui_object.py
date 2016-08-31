@@ -165,6 +165,9 @@ class B4W_ObjectRenderProps(ObjectButtonsPanel, Panel):
 
         layout = self.layout
 
+        row = layout.row()
+        row.prop(obj, "b4w_hidden_on_load", text=_("Hidden"))
+
         if is_mesh:
             row = layout.row()
             row.prop(obj, "b4w_do_not_render", text=_("Do Not Render"))

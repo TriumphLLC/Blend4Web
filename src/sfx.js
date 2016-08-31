@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -27,6 +26,7 @@ b4w.module["__sfx"] = function(exports, require) {
 
 var m_cfg   = require("__config");
 var m_print = require("__print");
+var m_quat  = require("__quat");
 var m_time  = require("__time");
 var m_tsr   = require("__tsr");
 var m_util  = require("__util");
@@ -49,6 +49,7 @@ var SCHED_PARAM_ANTICIPATE_TIME = 3.0;
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
+var _quat_tmp = m_quat.create();
 
 // permanent vars
 var _supported_audio = [];
@@ -685,6 +686,7 @@ function play(obj, when, duration) {
 
 /**
  * Update WA processing chain (routing graph) for given speaker.
+ * uses _vec3_tmp
  */
 function update_proc_chain(obj, scene_sfx) {
 
@@ -1322,6 +1324,7 @@ exports.listener_stride = function() {
 
 /**
  * Update speaker position, orientation and velocity/doppler.
+ * uses _vec3_tmp _vec3_tmp2 _quat_tmp
  */
 exports.speaker_update_transform = function(obj, elapsed, upd_cnt) {
 
@@ -1330,12 +1333,12 @@ exports.speaker_update_transform = function(obj, elapsed, upd_cnt) {
     if (!(spk_is_active(obj) && sfx.behavior == "POSITIONAL"))
         return;
 
-    var pos = m_tsr.get_trans_view(obj.render.world_tsr);
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    var pos = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+    var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
     var panner = sfx.panner_node;
     panner.setPosition(pos[0], pos[1], pos[2]);
 
-    var orient = _vec3_tmp;
+    var orient = _vec3_tmp2;
     m_util.quat_to_dir(quat, m_util.AXIS_MY, orient);
     panner.setOrientation(orient[0], orient[1], orient[2]);
 

@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-21 15:03+0300\n"
+"POT-Creation-Date: 2016-08-30 09:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../audio.rst:5
 msgid "Audio"
@@ -264,8 +264,8 @@ msgid ""
 "This parameter defines how strong the distance affects the volume. "
 "Default value is 1.0."
 msgstr ""
-"Задаёт силу, с которой расстояние влияет на громкость. По умолчанию "
-"это значение равно 1.0."
+"Задаёт силу, с которой расстояние влияет на громкость. По умолчанию это "
+"значение равно 1.0."
 
 #: ../audio.rst:113
 msgid "*Maximum*"
@@ -281,7 +281,9 @@ msgstr ""
 
 #: ../audio.rst:119
 msgid "This sets the reference distance at which volume is 100%."
-msgstr "Задаёт эталонное расстояние, на котором громкость звука равна 100% от общего значения."
+msgstr ""
+"Задаёт эталонное расстояние, на котором громкость звука равна 100% от "
+"общего значения."
 
 #: ../audio.rst:122
 msgid "Cone Tab"
@@ -302,8 +304,8 @@ msgid ""
 "interpolated."
 msgstr ""
 "Угол внешнего конуса (в градусах). За пределами этого конуса громкость "
-"определяется параметром ``Outer`` группы ``Volume``. Между границами внешнего "
-"и внутреннего конусов значение громкости интерполируется."
+"определяется параметром ``Outer`` группы ``Volume``. Между границами "
+"внешнего и внутреннего конусов значение громкости интерполируется."
 
 #: ../audio.rst:130
 msgid "*Inner*"
@@ -311,7 +313,9 @@ msgstr ""
 
 #: ../audio.rst:132
 msgid "Angle of the inner cone in degrees. Inside the cone the volume is 100%."
-msgstr "Угол внутреннего конуса (в градусах). Внутри этого конуса громкость составляет 100%."
+msgstr ""
+"Угол внутреннего конуса (в градусах). Внутри этого конуса громкость "
+"составляет 100%."
 
 #: ../audio.rst:134
 msgid "Volume group of parameters:"
@@ -321,27 +325,166 @@ msgstr "Группа параметров Volume:"
 msgid "This sets the volume outside the outer cone."
 msgstr "Задаёт значение громкости за пределами внешнего конуса."
 
-#: ../audio.rst:154
+#: ../audio.rst:153
+msgid "Audio Mixer"
+msgstr "Микшер"
+
+#: ../audio.rst:155
+msgid "This feature can be found in the :ref:`Scene Viewer <viewer>`."
+msgstr "Этот инструмент - часть интерфейса :ref:`Просмотрщика сцен <viewer>`."
+
+#: ../audio.rst:161
+msgid ""
+"Enabling it shows equalizer interface that contains various parameters of"
+" the Speakers present in the scene."
+msgstr ""
+"Его включение вызывает интерфейс эквалайзера, содержащий различные "
+"параметры источников звука, присутствующих в сцене."
+
+#: ../audio.rst:167
+msgid "The parameters available for sound mixing include:"
+msgstr "Доступные параметры:"
+
+#: ../audio.rst:170
+msgid "*DIST_REF*"
+msgstr ""
+
+#: ../audio.rst:170
+msgid ""
+"This value sets the reference distance of a specific speaker. Available "
+"only for ``Positional Sound`` type speakers."
+msgstr ""
+"Этот параметр задаёт эталонную дистанцию для выбранного источника звука. "
+"Доступен только для источников типа ``Positional Sound``."
+
+#: ../audio.rst:173
+msgid "*ATTENUATION*"
+msgstr ""
+
+#: ../audio.rst:173
+msgid ""
+"This value sets the attenuation factor for the sound emitted by the "
+"selected speaker. Available only for ``Positional Sound`` type speakers."
+msgstr ""
+"Этот параметр задаёт степень затухания звука, издаваемого выбранным "
+"спикером. Доступен только для источников типа ``Positional Sound``."
+
+#: ../audio.rst:176
+msgid "*DIST_MAX*"
+msgstr ""
+
+#: ../audio.rst:176
+msgid ""
+"This value shows the maximum distance for a specific speaker. If the "
+"distance from the camera to the speaker is greater than this number, the "
+"speaker won't emit any sound. Available only for ``Positional Sound`` "
+"type speakers."
+msgstr ""
+"Это значение задаёт максимальную дистанцию для выбранного спикера. Если "
+"расстояние от камеры до спикера превышает это расстояние, спикер не будет "
+"издавать звука. Доступно только для источников типа ``Positional Sound``."
+
+#: ../audio.rst:179
+msgid "*EQ_FREQ*"
+msgstr ""
+
+#: ../audio.rst:179
+msgid "The center frequency of where the boost is applied."
+msgstr "Центральная частота, к которой применяется усиление."
+
+#: ../audio.rst:182
+msgid "*EQ_Q*"
+msgstr ""
+
+#: ../audio.rst:182
+msgid ""
+"The Q factor. This value controls the width of the band of frequencies "
+"that wiil be boosted. Increasing the value of this parameter makes the "
+"width more narrow."
+msgstr ""
+"Фактор Q. Это значение управляет шириной полосы усиливаемых частот. "
+"Увеличение значения сужает полосу."
+
+#: ../audio.rst:185
+msgid "*EQ_GAIN*"
+msgstr ""
+
+#: ../audio.rst:185
+msgid ""
+"This value controls the boost (measured in dB) that will be applied to "
+"the sound emitted by the speaker."
+msgstr ""
+"Это значение задаёт усиление (измеряемое в дБ), которое применяется к "
+"звуку, издаваемому спикером."
+
+#: ../audio.rst:188
+msgid "*VOLUME*"
+msgstr ""
+
+#: ../audio.rst:188
+msgid "The volume of a sound emitted by the speaker."
+msgstr "Громкость звука, издаваемого спикером."
+
+#: ../audio.rst:190
+msgid ""
+"Below this list, a frequency characteristic of a parametric equalizer is "
+"shown."
+msgstr ""
+"Ниже этого списка параметров демонстрируется частотная характеристика "
+"параметрического эквалайзера."
+
+#: ../audio.rst:192
+msgid "The mixer can be controlled using numerical keypad."
+msgstr "Микшер управляется с помощью дополнительной цифровой клавиатуры."
+
+#: ../audio.rst:194
+msgid ""
+"Keys ``8``, ``4``, ``6`` and ``2`` act like arrow keys and are used for "
+"switching between different speakers and their parameters."
+msgstr ""
+"Клавиши ``8``, ``4``, ``6`` и ``2`` работают так же, как клавиши-стрелки, "
+"и используются для переключения между источниками звука и выбора их параметров."
+
+#: ../audio.rst:196
+msgid ""
+"Keys ``+`` and ``-`` increase and decrease the value of a selected "
+"parameter."
+msgstr ""
+"Клавиши ``+`` и ``-`` увеличивают и уменьшают значение выбранного "
+"параметра."
+
+#: ../audio.rst:198
+msgid "The ``7`` key can be used for muting the selected speaker."
+msgstr "Клавиша ``7`` выключает выбранный сипкер."
+
+#: ../audio.rst:200
+msgid ""
+"The ``9`` key can be used for making the selected speaker Solo (only this"
+" speaker will emit sound)."
+msgstr ""
+"Клавиша ``9`` выключает все спикеры, кроме выбранного."
+
+#: ../audio.rst:205
 msgid "Processing and Decoding"
 msgstr "Обработка и кодирование"
 
-#: ../audio.rst:157
+#: ../audio.rst:208
 msgid "Supported formats (containers):"
 msgstr "Поддерживаемые форматы (контейнеры):"
 
-#: ../audio.rst:159
+#: ../audio.rst:210
 msgid "ogg, Vorbis codec (Chrome, Firefox)"
 msgstr "ogg, кодек Vorbis (Chrome, Firefox)"
 
-#: ../audio.rst:160
+#: ../audio.rst:211
 msgid "mp3 (Chrome, Safari)"
 msgstr "mp3 (Chrome, Safari)"
 
-#: ../audio.rst:161
+#: ../audio.rst:212
 msgid "mp4, AAC codec (Chrome, Safari)"
 msgstr "mp4, кодек AAC (Chrome, Safari)"
 
-#: ../audio.rst:163
+#: ../audio.rst:214
 msgid ""
 "It is recommended to use **Ogg** as it is an open standard, is widespread"
 " in browsers and provides good sound quality. The optimal format in "
@@ -355,7 +498,7 @@ msgstr ""
 "48кГц/16бит. Одноканальный звук (моно) используется для хранения коротких"
 " сэмплов, двухканальный звук (стерео) - для музыкального сопровождения."
 
-#: ../audio.rst:165
+#: ../audio.rst:216
 msgid ""
 "Converting resources between different formats is described in the "
 ":ref:`corresponding section <converter>`."

@@ -1,3 +1,5 @@
+#version GLSL_VERSION
+
 #include <precision_statement.glslf>
 #include <pack.glslf>
 
@@ -6,11 +8,21 @@ uniform sampler2D u_depth;
 uniform mat4 u_view_proj_inverse;
 uniform mat4 u_view_proj_prev;
 
-varying vec2 v_texcoord;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 v_texcoord;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
 
-    float depth = texture2D(u_depth, v_texcoord).x;
+    float depth = GLSL_TEXTURE(u_depth, v_texcoord).x;
 
     vec4 curr_view_pos = vec4(v_texcoord * 2.0 - 1.0, 2.0 * depth - 1.0, 1.0);
 
@@ -23,5 +35,5 @@ void main(void) {
     vec2 velocity = (curr_view_pos.xy - prev_view_pos.xy) / 4.0 + 0.5;
     velocity = clamp(velocity, 0.0, 1.0);
 
-    gl_FragColor = pack(velocity);
+    GLSL_OUT_FRAG_COLOR = pack(velocity);
 }

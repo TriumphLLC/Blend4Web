@@ -110,14 +110,15 @@ mat4 billboard_matrix_global(in vec3 camera_eye, in vec3 wcen, in mat4 view_matr
 }
 #endif
 
-vertex to_world(in vec3 pos, in vec3 cen, in vec3 tng, in vec3 bnr, in vec3 nrm,
-        in mat4 model_matrix) {
+vertex to_world(in vec3 pos, in vec3 cen, in vec3 tng, in vec3 shd_tng, in vec3 bnr, 
+        in vec3 nrm, in mat4 model_matrix) {
 
     pos = (model_matrix * vec4(pos, 1.0)).xyz;
     cen = (model_matrix * vec4(cen, 1.0)).xyz;
     tng = (model_matrix * vec4(tng, 0.0)).xyz;
+    shd_tng = (model_matrix * vec4(shd_tng, 0.0)).xyz;
     bnr = (model_matrix * vec4(bnr, 0.0)).xyz;
     nrm = (model_matrix * vec4(nrm, 0.0)).xyz;
 
-    return tbn_norm(vertex(pos, cen, tng, bnr, nrm, vec3(0.0)));
+    return tbn_norm(vertex(pos, cen, tng, shd_tng, bnr, nrm, vec3(0.0)));
 }

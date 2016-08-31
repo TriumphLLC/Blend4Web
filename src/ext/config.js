@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -61,7 +60,7 @@
  * <dt>audio
  * <dd>Boolean, enable Web Audio.
  * <dt>background_color
- * <dd>Float32Array, RGBA values to use as a background color for the WebGL
+ * <dd>Array, RGBA values to use as a background color for the WebGL
  * canvas.
  * <dt>built_in_module_name
  * <dd>String, name of the module which stores exported data (HTML export only).
@@ -218,6 +217,11 @@ exports.get = m_cfg.get;
  */
 exports.reset = m_cfg.reset;
 
+/**
+ * Reset context limit properties to minimum.
+ * @method module:config.reset_limits
+ */
+exports.reset_limits = m_cfg.reset_limits;
 /**
  * Get the path to the assets directory. Can be used when an application
  * is developed inside the SDK.

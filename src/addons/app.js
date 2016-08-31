@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -127,7 +126,7 @@ var _limits_tmp = {};
 /**
  * Initialize the engine.
  * The "options" object may be extended by adding properties from the engine's
- * configuration (see {@link module:config|confg} module).
+ * configuration (see {@link module:config|config} module).
  * In that case they will be applied before engine initialization.
  * @param {Object}   [options={}] Initialization options.
  * @param {String}   [options.canvas_container_id=null] Canvas container ID.
@@ -149,6 +148,7 @@ var _limits_tmp = {};
  * match the size of container element.
  * @param {Number}  [options.force_container_ratio=0] Automatically resize
  * canvas container height, based on its width and passed ratio value.
+ * @param {Boolean} [options.min_capabilities=false] Set min capability mode
  * @cc_externs canvas_container_id callback show_hud_debug_info
  * @cc_externs sfx_mix_mode show_fps fps_elem_id error_purge_elements
  * @cc_externs report_init_failure pause_invisible key_pause_enabled
@@ -156,7 +156,7 @@ var _limits_tmp = {};
  * @cc_externs assets_min50_available quality fps_wrapper_id
  * @cc_externs console_verbose physics_enabled autoresize track_container_position
  * @cc_externs force_container_ratio from to elem prop cb duration opt_prefix
- * @cc_externs opt_suffix
+ * @cc_externs opt_suffix min_capabilities
  */
 
 exports.init = function(options) {
@@ -170,6 +170,7 @@ exports.init = function(options) {
     var force_container_ratio = 0;
     var fps_wrapper_id = null;
     var key_pause_enabled = true;
+    var min_capabilities = false;
     var pause_invisible = true;
     var report_init_failure = true;
     var sfx_mix_mode = false;
@@ -222,6 +223,9 @@ exports.init = function(options) {
             break;
         case "force_container_ratio":
             force_container_ratio = options.force_container_ratio;
+            break;
+        case "min_capabilities":
+            min_capabilities = options.min_capabilities;
             break;
         default:
             m_cfg.set(opt, options[opt]);
@@ -289,6 +293,9 @@ exports.init = function(options) {
                 m_cont.force_offsets_updating();
             });
         }
+
+        if (min_capabilities)
+            m_cfg.reset_limits();
 
         callback(canvas_elem, true);
     };
@@ -403,7 +410,8 @@ function create_fps_logger_elem(fps_elem_id, fps_wrapper_id) {
             "position:absolute;" +
             "top: 23px;" +
             "right: 20px;" +
-            "font-size: 45px;" +
+            "text-shadow: 0px 0px 6px #fff;" +
+            "font-size: 40px;" +
             "line-height: 50px;" +
             "font-weight: bold;" +
             "color: #000;";

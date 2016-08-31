@@ -1,22 +1,24 @@
+#version GLSL_VERSION
+
 #define DV_NONE 0
 #define DV_OPAQUE_WIREFRAME 1
 #define DV_TRANSPARENT_WIREFRAME 2
 #define DV_FRONT_BACK_VIEW 3
-#define DV_DEBUG_SPHERES 4
+#define DV_BOUNDINGS 4
 #define DV_CLUSTERS_VIEW 5
 #define DV_BATCHES_VIEW 6
 #define DV_RENDER_TIME 7
 
-/*============================================================================
+/*==============================================================================
                                    INCLUDES
-============================================================================*/
+==============================================================================*/
 
 #include <precision_statement.glslf>
 #include <color_util.glslf>
 
-/*============================================================================
+/*==============================================================================
                                    UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 #if !DEBUG_SPHERE
 uniform int u_debug_view_mode;
@@ -28,15 +30,17 @@ uniform float u_debug_render_time_threshold;
 uniform vec3 u_wireframe_edge_color;
 #endif
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 v_barycentric;
+//------------------------------------------------------------------------------
 
-varying vec3 v_barycentric;
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
-/*============================================================================
+/*==============================================================================
                                     CONST
-============================================================================*/
+==============================================================================*/
 
 const float WIREFRAME_WIDTH = 1.0;
 
@@ -66,7 +70,9 @@ float get_wireframe_edge_factor() {
     if (dist.x < 0.0 || dist.y < 0.0 || dist.z < 0.0)
         factor = 0.0;
 # elif WIREFRAME_QUALITY == 1
+#  if GLSL1
     #extension GL_OES_standard_derivatives: enable
+#  endif
 
     vec3 derivatives = fwidth(v_barycentric);
     vec3 smoothed_bc = smoothstep(vec3(0.0), derivatives * WIREFRAME_WIDTH, v_barycentric);
@@ -77,9 +83,9 @@ float get_wireframe_edge_factor() {
 }
 #endif
 
-/*============================================================================
+/*==============================================================================
                                     MAIN
-============================================================================*/
+==============================================================================*/
 
 void main() {
 
@@ -148,6 +154,6 @@ void main() {
     premultiply_alpha(color, alpha);
 #endif
 
-    gl_FragColor = vec4(color, alpha);
+    GLSL_OUT_FRAG_COLOR = vec4(color, alpha);
 
 }

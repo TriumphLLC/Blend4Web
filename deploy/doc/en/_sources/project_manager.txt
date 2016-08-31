@@ -56,14 +56,40 @@ The commands for project management are located at the top of the page.
 
 Commands for managing a specific project is located at its right.
 
-    .. image:: src_images/project_manager/project_manager_commands.png
+.. note::
+    Some commands may not be available depending on the type of the project.
+
+.. image:: src_images/project_manager/project_manager_commands.png
+   :align: center
+
+#. Compile project (not available for Web Player JSON and Web Player HTML projects).
+#. Check for missing or unnecessary API modules (not available for Web Player JSON and Web Player HTML projects).
+
+    Activating this option will make the Project Manager check the modules used by the application and output the results of the check to the console. Possible warning messages are listed below:
+
+    1. If one or more API modules are missing from the project's folder, the following message will be displayed:
+
+     Module `module_name` is missing from the `project_name` project, please append it to the project's html files.
+
+    .. image:: src_images/project_manager/project_manager_check_modules_missing.png
        :align: center
 
-1) Compile project (not available for WebPlayer JSON and WebPlayer HTML projects).
-2) Re-export blend files from the project.
-3) :ref:`Convert media resources. <converter>`
-4) Export and download a project archive.
-5) Remove the project.
+    2. If the project has one or more API modules that are not used anywhere in the program code, the following message will be displayed:
+
+     Module `module_name` is no longer required, please remove it from the project's HTML files.
+
+    .. image:: src_images/project_manager/project_manager_check_modules_required.png
+       :align: center
+
+    3. In case no problems with missing/unnecessary modules have been detected, the following message will be displayed:
+
+    .. image:: src_images/project_manager/project_manager_check_modules_complete.png
+       :align: center
+
+#. Re-export blend files from the project.
+#. :ref:`Convert media resources. <converter>`
+#. Export and download a project archive.
+#. Remove the project.
 
 .. note::
 
@@ -108,8 +134,8 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
     * "Copy" - engine is copied into the compiled application directory. Only application files are compiled;
     * "Compile" - engine sources are compiled with application scripts;
     * "Update" - engine inside the project directory will be replaced;
-    * "Webplayer JSON" - json-file placed inside the project is run with the help of web-player inside SDK;
-    * "Webplayer HTML" - project is packed into single html-file, containing all required resources.
+    * "Web Player JSON" - json-file placed inside the project is run with the help of web-player inside SDK;
+    * "Web Player HTML" - project is packed into single html-file, containing all required resources.
 
 10) Javascript optimization level.
 
@@ -118,7 +144,7 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
     * "Whitespace Only" - only whitespaces are removed from the code.
 
 
-11) Web Player URL attributes. This tab is available only if ``Engine Binding Type`` parameter is set to ``WebPlayer JSON`` or ``WebPlayer HTML``.
+11) Web Player URL attributes. This tab is available only if ``Engine Binding Type`` parameter is set to ``Web Player JSON`` or ``Web Player HTML``.
 
     * "Show FPS" is used to display the FPS counter in the player’s top right corner.
     * "Auto-rotate camera" enables automatic camera rotation just after the scene loads.
@@ -129,15 +155,15 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
 Creating a Web Player Application
 ---------------------------------
 
-The main advantage of WebPlayer applications is the ease of deploying such applications on a website.
+The main advantage of Web Player applications is the ease of deploying such applications on a website.
 
 .. image:: src_images/project_manager/project_manager_create_web_player_project.png
        :align: center
        :width: 100%
 
-Creating a Web Player application is simple. All you have to do when creating a new project is select the WebPlayer JSON or WebPlayer HTML option under the Engine Binding Type tab.
+Creating a Web Player application is simple. All you have to do when creating a new project is select the ``Web Player JSON`` or ``Web Player HTML`` option under the Engine Binding Type tab.
 
-The parameters that are available for a WebPlayer project are mostly the same as for any other type of project. The only exception is the group of parameter known as the Web Player Params.
+The parameters that are available for a Web Player project are mostly the same as for any other type of project. The only exception is the group of parameter known as the Web Player Params.
 
 Project Settings
 ................
@@ -146,7 +172,7 @@ Project Settings
        :align: center
        :width: 100%
 
-This panel is only available if the WebPlayer JSON or WebPlayer HTML option has been enabled. The parameters listed here are in essence URL attributes that the Web Player application will use while running the project.
+This panel is only available if the ``Web Player JSON`` or ``Web Player HTML`` option has been enabled. The parameters listed here are in essence URL attributes that the Web Player application will use while running the project.
 
 Deploying the Project
 .....................
@@ -158,7 +184,7 @@ To place the project on a webpage, you have to extract this archive and upload i
 .. note::
     The internal structure of the archive and relative paths to its files should be retained after uploading the project files to a web server.
 
-A WebPlayer HTML application can then be placed on any webpage by using an ``iframe`` container.
+A Web Player HTML application can then be placed on any webpage by using an ``iframe`` container.
 Here is an example of HTML code that can be used for this:
 
 .. code-block:: html

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -1178,6 +1177,9 @@ exports.get_sensor_payload = function(obj, manifold_id, num) {
     return sensor.payload;
 }
 
+/**
+ * uses _vec2_tmp _vec2_tmp2 _vec3_tmp _quat_tmp
+ */
 function update_sensor(sensor, timeline, elapsed) {
     if (!elapsed)
         return;
@@ -1186,8 +1188,8 @@ function update_sensor(sensor, timeline, elapsed) {
     case ST_MOTION:
         var obj = sensor.source_object;
 
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-        var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+        var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+        var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
 
         var dist = m_vec3.dist(sensor.trans_last, trans);
 
@@ -1222,7 +1224,7 @@ function update_sensor(sensor, timeline, elapsed) {
 
     case ST_V_VELOCITY:
         var obj = sensor.source_object;
-        var trans = m_tsr.get_trans_view(obj.render.world_tsr);
+        var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
 
         var vel = Math.abs(trans[1] - sensor.trans_last[1]) / elapsed;
         sensor.avg_vertical_vel = m_util.smooth(vel, sensor.avg_vertical_vel,

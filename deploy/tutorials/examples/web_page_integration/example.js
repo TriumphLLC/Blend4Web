@@ -2,13 +2,16 @@
 
 b4w.register("example_main", function(exports, require) {
 
-var m_anim   = require("animation");
-var m_app    = require("app");
-var m_cont   = require("container");
-var m_data   = require("data");
-var m_main   = require("main");
-var m_scs    = require("scenes");
-var m_sfx    = require("sfx");
+var m_anim     = require("animation");
+var m_app      = require("app");
+var m_cont     = require("container");
+var m_data     = require("data");
+var m_main     = require("main");
+var m_scs      = require("scenes");
+var m_sfx      = require("sfx");
+var m_version  = require("version");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 exports.init = function() {
     m_app.init({
@@ -16,6 +19,8 @@ exports.init = function() {
         callback: init_cb,
         physics_enabled: false,
         alpha: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         report_init_failure: false,
         media_auto_activation: false
     });

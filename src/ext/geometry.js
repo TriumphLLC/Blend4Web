@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -325,7 +324,6 @@ exports.draw_line = function(obj, positions, is_split) {
 
     if (batch) {
         m_geom.draw_line(batch, positions, is_split);
-
         m_render.assign_attribute_setters(batch);
     }
 }

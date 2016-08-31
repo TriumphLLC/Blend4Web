@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -82,7 +81,8 @@ function update_object(bpy_armobj, armobj) {
         var mat_bas = new Float32Array(pose_bone["matrix_basis"]);
 
         var tail = bpointer.tail;
-        m_vec3.subtract(arm_bone["tail_local"], arm_bone["head_local"], tail);
+        m_vec3.subtract(m_util.f32(arm_bone["tail_local"]),
+                m_util.f32(arm_bone["head_local"]), tail);
         // translate tail offset from armature to bone space
         m_util.vecdir_multiply_matrix(tail, mat_loc_inv, tail);
 

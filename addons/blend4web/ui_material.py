@@ -182,6 +182,7 @@ class B4W_MATERIAL_PT_shading(MaterialButtonsPanel, Panel):
 
             col = split.column()
             col.prop(mat, "use_shadeless")
+            col.prop(mat, "use_tangent_shading")
             col.prop(mat, "b4w_double_sided_lighting", text = _("Double-Sided Lighting"))
 
 

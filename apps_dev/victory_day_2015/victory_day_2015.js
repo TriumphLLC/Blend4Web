@@ -22,10 +22,13 @@ var m_time     = require("time");
 var m_trans    = require("transform");
 var m_tsr      = require("tsr");
 var m_util     = require("util");
+var m_version  = require("version");
 
 var m_quat     = require("quat");
 var m_vec3     = require("vec3");
 
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var objects_array = [];
 
@@ -175,6 +178,8 @@ exports.init = function() {
         alpha: false,
         report_init_failure: true,
         console_verbose: true,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         show_fps: !true
     });
 }

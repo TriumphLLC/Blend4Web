@@ -1,12 +1,22 @@
-attribute vec3 a_position;
+#version GLSL_VERSION
 
 uniform mat4 u_sky_vp_inverse;
 
-varying vec3 v_ray;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec3 a_position;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec3 v_ray;
 
 #if !PROCEDURAL_SKYDOME && (WO_SKYTEX || WO_SKYBLEND)
-varying vec2 v_texcoord;
+GLSL_OUT vec2 v_texcoord;
 #endif
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
 

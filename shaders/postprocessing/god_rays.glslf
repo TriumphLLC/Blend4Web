@@ -1,4 +1,12 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 #var PRECISION lowp
+#var STEPS_PER_PASS 0.0
+
+/*============================================================================*/
 
 precision PRECISION sampler2D;
 
@@ -7,8 +15,6 @@ precision PRECISION sampler2D;
 #include <procedural.glslf>
 #include <pack.glslf>
 
-#var STEPS_PER_PASS 0.0
-
 uniform float u_time;
 uniform float u_radial_blur_step;
 
@@ -16,14 +22,25 @@ uniform sampler2D u_input;
 
 #if DEPTH_RGBA
 uniform vec2 u_camera_range;
-# if WATER_EFFECTS
-varying float v_underwater;
-varying vec2 v_texture_offset;
-# endif
 #endif
 
-varying vec2 v_texcoord;
-varying vec4 v_sun_pos_clip;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+#if DEPTH_RGBA && WATER_EFFECTS
+GLSL_IN float v_underwater;
+GLSL_IN vec2 v_texture_offset;
+#endif
+
+GLSL_IN vec2 v_texcoord;
+GLSL_IN vec4 v_sun_pos_clip;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
+
+/*==============================================================================
+                                    MAIN
+==============================================================================*/
 
 void main(void) {
 
@@ -55,7 +72,7 @@ void main(void) {
             float depth = depth_fetch(u_input, uv, u_camera_range);
             intens += max((1.0 - pow(dist, 0.3)) * step(0.9, depth), 0.0); //brighter at center
 #else
-            vec4 input_col = texture2D(u_input, uv);
+            vec4 input_col = GLSL_TEXTURE(u_input, uv);
             intens += unpack_float(input_col);
 #endif
         }
@@ -84,5 +101,5 @@ void main(void) {
     intens = max(noise, intens);
 #endif
 
-    gl_FragColor = pack(intens / STEPS_PER_PASS);
+    GLSL_OUT_FRAG_COLOR = pack(intens / STEPS_PER_PASS);
 }

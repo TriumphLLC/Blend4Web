@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-21 15:03+0300\n"
+"POT-Creation-Date: 2016-08-30 09:51+0300\n"
 "PO-Revision-Date: 2016-03-28 16:33+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../audio.rst:5
 msgid "Audio"
@@ -297,27 +297,147 @@ msgstr ""
 msgid "This sets the volume outside the outer cone."
 msgstr ""
 
-#: ../audio.rst:154
+#: ../audio.rst:153
+msgid "Audio Mixer"
+msgstr ""
+
+#: ../audio.rst:155
+msgid "This feature can be found in the :ref:`Scene Viewer <viewer>`."
+msgstr ""
+
+#: ../audio.rst:161
+msgid ""
+"Enabling it shows equalizer interface that contains various parameters of"
+" the Speakers present in the scene."
+msgstr ""
+
+#: ../audio.rst:167
+msgid "The parameters available for sound mixing include:"
+msgstr ""
+
+#: ../audio.rst:170
+msgid "*DIST_REF*"
+msgstr ""
+
+#: ../audio.rst:170
+msgid ""
+"This value sets the reference distance of a specific speaker. Available "
+"only for ``Positional Sound`` type speakers."
+msgstr ""
+
+#: ../audio.rst:173
+msgid "*ATTENUATION*"
+msgstr ""
+
+#: ../audio.rst:173
+msgid ""
+"This value sets the attenuation factor for the sound emitted by the "
+"selected speaker. Available only for ``Positional Sound`` type speakers."
+msgstr ""
+
+#: ../audio.rst:176
+msgid "*DIST_MAX*"
+msgstr ""
+
+#: ../audio.rst:176
+msgid ""
+"This value shows the maximum distance for a specific speaker. If the "
+"distance from the camera to the speaker is greater than this number, the "
+"speaker won't emit any sound. Available only for ``Positional Sound`` "
+"type speakers."
+msgstr ""
+
+#: ../audio.rst:179
+msgid "*EQ_FREQ*"
+msgstr ""
+
+#: ../audio.rst:179
+msgid "The center frequency of where the boost is applied."
+msgstr ""
+
+#: ../audio.rst:182
+msgid "*EQ_Q*"
+msgstr ""
+
+#: ../audio.rst:182
+msgid ""
+"The Q factor. This value controls the width of the band of frequencies "
+"that wiil be boosted. Increasing the value of this parameter makes the "
+"width more narrow."
+msgstr ""
+
+#: ../audio.rst:185
+msgid "*EQ_GAIN*"
+msgstr ""
+
+#: ../audio.rst:185
+msgid ""
+"This value controls the boost (measured in dB) that will be applied to "
+"the sound emitted by the speaker."
+msgstr ""
+
+#: ../audio.rst:188
+#, fuzzy
+msgid "*VOLUME*"
+msgstr "*音量*"
+
+#: ../audio.rst:188
+msgid "The volume of a sound emitted by the speaker."
+msgstr ""
+
+#: ../audio.rst:190
+msgid ""
+"Below this list, a frequency characteristic of a parametric equalizer is "
+"shown."
+msgstr ""
+
+#: ../audio.rst:192
+msgid "The mixer can be controlled using numerical keypad."
+msgstr ""
+
+#: ../audio.rst:194
+msgid ""
+"Keys ``8``, ``4``, ``6`` and ``2`` act like arrow keys and are used for "
+"switching between different speakers and their parameters."
+msgstr ""
+
+#: ../audio.rst:196
+msgid ""
+"Keys ``+`` and ``-`` increase and decrease the value of a selected "
+"parameter."
+msgstr ""
+
+#: ../audio.rst:198
+msgid "The ``7`` key can be used for muting the selected speaker."
+msgstr ""
+
+#: ../audio.rst:200
+msgid ""
+"The ``9`` key can be used for making the selected speaker Solo (only this"
+" speaker will emit sound)."
+msgstr ""
+
+#: ../audio.rst:205
 msgid "Processing and Decoding"
 msgstr "处理和解码"
 
-#: ../audio.rst:157
+#: ../audio.rst:208
 msgid "Supported formats (containers):"
 msgstr "支持的格式 （容器） ︰"
 
-#: ../audio.rst:159
+#: ../audio.rst:210
 msgid "ogg, Vorbis codec (Chrome, Firefox)"
 msgstr "ogg Vorbis 编码解码器 （Chrome、 火狐浏览器）"
 
-#: ../audio.rst:160
+#: ../audio.rst:211
 msgid "mp3 (Chrome, Safari)"
 msgstr "mp3 （Chrome，Safari）"
 
-#: ../audio.rst:161
+#: ../audio.rst:212
 msgid "mp4, AAC codec (Chrome, Safari)"
 msgstr "mp4、 AAC 编码解码器 （Chrome，Safari）"
 
-#: ../audio.rst:163
+#: ../audio.rst:214
 msgid ""
 "It is recommended to use **Ogg** as it is an open standard, is widespread"
 " in browsers and provides good sound quality. The optimal format in "
@@ -328,7 +448,7 @@ msgstr ""
 "这推荐使用 **Ogg** ，它是一个开放式标准，在浏览器常见并提供好音质。在质量和兼容性方面的最佳格式是 48 kHz/16 位。单声道声音 "
 "（单声道） 用于存储拍摄的样本，而双声道音响（立体声）用于音乐播放。"
 
-#: ../audio.rst:165
+#: ../audio.rst:216
 msgid ""
 "Converting resources between different formats is described in the "
 ":ref:`corresponding section <converter>`."
@@ -338,5 +458,11 @@ msgstr "不同格式之间的资源转换的描述在 :ref:`相应章节 <conver
 #~ msgstr ""
 
 #~ msgid "Marks the end point of the source fragment."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enabling it shows eqalizer interface "
+#~ "that contains various parameters of the"
+#~ " Speakers present in the scene."
 #~ msgstr ""
 

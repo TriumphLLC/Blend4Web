@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Engine Developers &mdash; Blend4Web 16.07 User Manual</title>
+  <title>For Engine Developers &mdash; Blend4Web 16.08 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.07 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.08 User Manual" href="index.html"/>
         <link rel="next" title="Team Work. Using Git" href="git_short_manual.html"/>
         <link rel="prev" title="For Application Developers" href="developers.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.07
+              v16.08
             </div>
           
         
@@ -90,7 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">Scene Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Meshes</a></li>
@@ -118,7 +118,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#building-the-engine">Building the Engine</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#building-the-addon">Building the Addon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-add-on">Building the Add-on</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#naming-functions-and-variables">Naming Functions and Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
@@ -190,7 +190,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#building-the-engine" id="id7">Building the Engine</a></li>
-<li><a class="reference internal" href="#building-the-addon" id="id8">Building the Addon</a></li>
+<li><a class="reference internal" href="#building-the-add-on" id="id8">Building the Add-on</a></li>
 <li><a class="reference internal" href="#dependencies" id="id9">Dependencies</a></li>
 <li><a class="reference internal" href="#naming-functions-and-variables" id="id10">Naming Functions and Variables</a></li>
 <li><a class="reference internal" href="#debugging" id="id11">Debugging</a></li>
@@ -286,8 +286,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="building-the-addon">
-<h2><a class="toc-backref" href="#id8">Building the Addon</a><a class="headerlink" href="#building-the-addon" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="building-the-add-on">
+<h2><a class="toc-backref" href="#id8">Building the Add-on</a><a class="headerlink" href="#building-the-add-on" title="Permalink to this headline">¶</a></h2>
 <p>Binary Blend4Web addon builds are available for the following platforms: Linux x32/64, OS X x64, Windows x32/64. At the same time users can compile the addon by themselves.</p>
 <p>To do this Python 3.x (it&#8217;s better if it&#8217;s the same version as in Blender) and a C compiler are required. Under Linux it&#8217;s enough to install the python3-dev and build-essential packages.</p>
 <dl class="docutils">
@@ -308,7 +308,6 @@
 </div>
 <div class="section" id="dependencies">
 <span id="id2"></span><h2><a class="toc-backref" href="#id9">Dependencies</a><a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<p>To do this Python 3.x (it&#8217;s better if it&#8217;s the same version as in Blender) and a C compiler are required. Under Linux it&#8217;s enough to install the python3-dev and build-essential packages.</p>
 <p>All dependencies are listed in the table below in order of decreasing importance.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -318,18 +317,18 @@
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Name</th>
-<th class="head">Ubuntu 14.04 package</th>
+<th class="head">Ubuntu 16.04 package</th>
 <th class="head">Purpose</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Bash</td>
-<td>Included by default</td>
-<td>interpretator for scripts</td>
+<td>included by default</td>
+<td>script interpreter</td>
 </tr>
 <tr class="row-odd"><td>Python 3</td>
-<td>Included by default</td>
-<td>interpretator for scripts</td>
+<td>included by default</td>
+<td>script interpreter</td>
 </tr>
 <tr class="row-even"><td>NodeJS</td>
 <td>nodejs</td>
@@ -340,62 +339,68 @@
 <td>compiling and obfuscating
 the engine modules</td>
 </tr>
-<tr class="row-even"><td>Emscripten</td>
-<td><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">from EMSDK source code</a></td>
-<td>building Uranium</td>
-</tr>
-<tr class="row-odd"><td>ImageMagick</td>
+<tr class="row-even"><td>ImageMagick</td>
 <td>imagemagick</td>
-<td>converting resources</td>
+<td>converting textures</td>
 </tr>
-<tr class="row-even"><td>NVIDIA Texture Tools</td>
+<tr class="row-odd"><td>NVIDIA Texture Tools</td>
 <td>libnvtt-bin</td>
-<td>converting resources</td>
+<td>converting textures</td>
+</tr>
+<tr class="row-even"><td>Libav</td>
+<td>libav-tools</td>
+<td>converting media resources</td>
 </tr>
 <tr class="row-odd"><td>NVIDIA Cg Toolkit</td>
 <td>nvidia-cg-toolkit</td>
 <td>debugging shaders</td>
 </tr>
-<tr class="row-even"><td>Libav</td>
-<td>libav-tools</td>
-<td>converting resources</td>
+<tr class="row-even"><td>OptiPNG</td>
+<td>optipng</td>
+<td>optimizing PNG files</td>
 </tr>
-<tr class="row-odd"><td>Gnuplot</td>
+<tr class="row-odd"><td>Emscripten</td>
+<td><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">from EMSDK source code</a></td>
+<td>building Uranium</td>
+</tr>
+<tr class="row-even"><td>Gnuplot</td>
 <td>gnuplot</td>
 <td>debugging</td>
 </tr>
-<tr class="row-even"><td>Graphviz</td>
+<tr class="row-odd"><td>Graphviz</td>
 <td>graphviz</td>
 <td>debugging</td>
 </tr>
-<tr class="row-odd"><td>xsel</td>
+<tr class="row-even"><td>xsel</td>
 <td>xsel</td>
 <td>debugging</td>
 </tr>
-<tr class="row-even"><td>Sphinx</td>
-<td>sphinx-doc</td>
-<td>building the manual
-(HTML version)</td>
+<tr class="row-odd"><td>Sphinx</td>
+<td>python3-sphinx</td>
+<td>building the manual</td>
 </tr>
-<tr class="row-odd"><td>sphinx-intl</td>
-<td>installed with PIP</td>
+<tr class="row-even"><td>sphinx-intl</td>
+<td>installed with PIP v3
+(pip3 install sphinx-intl)</td>
 <td>building the manual
 (internationalization)</td>
 </tr>
-<tr class="row-even"><td>TeX Live</td>
-<td>texlive, texlive-latex-extra
+<tr class="row-odd"><td>TeX Live</td>
+<td>texlive texlive-latex-extra
 texlive-lang-cyrillic</td>
 <td>building the manual
 (PDF version)</td>
 </tr>
-<tr class="row-odd"><td>JSDoc 3</td>
-<td><a class="reference external" href="https://github.com/jsdoc3/jsdoc">from JSDoc source code</a></td>
+<tr class="row-even"><td>JSDoc 3</td>
+<td>installed with NPM
+(npm install -g jsdoc)</td>
 <td>building the API
 documentation</td>
 </tr>
-<tr class="row-even"><td>PEG.js</td>
+<tr class="row-odd"><td>PEG.js</td>
 <td><a class="reference external" href="http://pegjs.majda.cz/">from PEG.js source code</a></td>
-<td>shader preprocessing</td>
+<td>building shader
+preprocessor</td>
 </tr>
 </tbody>
 </table>
@@ -613,38 +618,25 @@ include file &#8216;FILE_NAME&#8217;.</td>
 <td>Ambiguous obfuscation in the &#8216;FILE_NAME&#8217;
 include file.</td>
 </tr>
-<tr class="row-odd"><td>Error! Bad preprocessing collision
-while obfuscation identifier:
-&#8216;NAME&#8217;. Varying/uniform or
-varying/attribute qualifiers
-combination. File: &#8216;FILE_NAME&#8217;.</td>
-<td>Error in the FILE_NAME file. Its
-impossible to obfuscate the NAME variable
-because of redefining at preprocessing.
-Redefining the same variable with
-different qualifiers. Unacceptable
-combinations: varying/uniform,
-varying/attribute.</td>
-</tr>
-<tr class="row-even"><td>Error! Extension NAME is
+<tr class="row-odd"><td>Error! Extension NAME is
 unsupported in obfuscator. File:
 &#8216;FILE_NAME&#8217;.</td>
 <td>The NAME WebGL extension used in the
 FILE_NAME file is not supported by the
 obfuscator.</td>
 </tr>
-<tr class="row-odd"><td>Error! Include &#8216;FILE_NAME&#8217; not
+<tr class="row-even"><td>Error! Include &#8216;FILE_NAME&#8217; not
 found.</td>
 <td>The FILE_NAME include file could not be
 found.</td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 File: &#8216;FILE_NAME&#8217;.</td>
 <td>Error in FILE_NAME file. Undeclared
 identifier NAME of type TYPE (variable,
 function, structure etc).</td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Importing data missed. File:
 &#8216;FILE_NAME&#8217;.</td>
 <td>Undeclared identifier NAME of type TYPE
@@ -653,7 +645,7 @@ Declaration missing for the identifier
 required in the FILE_NAME include file
 according to the <code class="docutils literal"><span class="pre">#import</span></code> directive.</td>
 </tr>
-<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Possibly exporting needed in
 include file &#8216;INCLUDE_NAME&#8217;. File:
 &#8216;FILE_NAME&#8217;.</td>
@@ -663,7 +655,7 @@ function, structure etc). Possibly its
 export into the INCLUDE_NAME include
 file should be allowed.</td>
 </tr>
-<tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
+<tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Possibly importing needed. File:
 &#8216;FILE_NAME&#8217;.</td>
 <td>Undeclared identifier NAME of type TYPE
@@ -671,7 +663,7 @@ Possibly importing needed. File:
 Possibly it should be specified as
 imported in the FILE_NAME include file.</td>
 </tr>
-<tr class="row-even"><td>Error! Unused export token &#8216;NAME&#8217;
+<tr class="row-odd"><td>Error! Unused export token &#8216;NAME&#8217;
 in include file &#8216;FILE_NAME&#8217;.</td>
 <td>Undeclared identifier NAME is allowed
 for export in the FILE_NAME include file.</td>
@@ -782,7 +774,7 @@ the FILE_NAME file.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-07-26.
+      Last updated on 2016-08-31.
 
     </p>
   </div>
@@ -838,7 +830,7 @@ the FILE_NAME file.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.07',
+            VERSION:'v16.08',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

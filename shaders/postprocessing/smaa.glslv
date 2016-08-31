@@ -1,3 +1,5 @@
+#version GLSL_VERSION
+
 /**
  * Copyright (C) 2013 Jorge Jimenez (jorge@iryoku.com)
  * Copyright (C) 2013 Jose I. Echevarria (joseignacioechevarria@gmail.com)
@@ -35,23 +37,29 @@
 #define AA_METHOD_SMAA_HIGH 3
 #define AA_METHOD_SMAA_ULTRA 4
 
-attribute vec2 a_position;
-
 uniform vec2 u_texel_size;
 
-varying vec2 v_texcoord;
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+GLSL_IN vec2 a_position;
+//------------------------------------------------------------------------------
+
+GLSL_OUT vec2 v_texcoord;
 
 #if SMAA_PASS == SMAA_NEIGHBORHOOD_BLENDING
-varying vec4 v_offset;
+GLSL_OUT vec4 v_offset;
 #else
-varying vec4 v_offset_0;
-varying vec4 v_offset_1;
-varying vec4 v_offset_2;
+GLSL_OUT vec4 v_offset_0;
+GLSL_OUT vec4 v_offset_1;
+GLSL_OUT vec4 v_offset_2;
 #endif
 
 #if SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
-varying vec2 v_pixcoord;
+GLSL_OUT vec2 v_pixcoord;
 #endif
+
+/*============================================================================*/
 
 //-----------------------------------------------------------------------------
 // SMAA Presets

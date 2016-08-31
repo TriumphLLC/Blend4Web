@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -32,6 +31,7 @@ var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_quat     = require("__quat");
 var m_scs      = require("__scenes");
+var m_subs     = require("__subscene");
 var m_trans    = require("__transform");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
@@ -60,12 +60,12 @@ var _unique_counter = {
     ray_test: 0
 }
 
-var _vec3_tmp  = new Float32Array(3);
-var _vec4_tmp  = new Float32Array(4);
-var _quat4_tmp = new Float32Array(4);
-var _mat4_tmp  = new Float32Array(16);
-var _tsr_tmp   = m_tsr.create();
-var _tsr_tmp2  = m_tsr.create();
+var _vec3_tmp = new Float32Array(3);
+var _vec4_tmp = new Float32Array(4);
+var _quat_tmp = new Float32Array(4);
+var _mat4_tmp = new Float32Array(16);
+var _tsr_tmp  = m_tsr.create();
+var _tsr_tmp2 = m_tsr.create();
 
 // vehicle types for internal usage
 var VT_CHASSIS     = 10;
@@ -507,7 +507,7 @@ exports.update = function(timeline, delta) {
         var scene = _scenes[i];
         var wp = scene._render.water_params;
         if (wp && wp.waves_height > 0.0) {
-            var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
+            var subs = m_scs.get_subs(scene, m_subs.MAIN_OPAQUE);
             var wind = m_vec3.length(subs.wind);
             m_ipc.post_msg(_workers[i], m_ipc.OUT_SET_WATER_TIME, subs.time * wind);
         }
@@ -841,7 +841,7 @@ function get_children_params(render, children, bt, wb) {
     comp_children_params.push(parent_params);
 
     var wtsr_inv = m_tsr.invert(render.world_tsr, _tsr_tmp);
-    var quat_inv = _quat4_tmp;
+    var quat_inv = _quat_tmp;
     var quat = m_tsr.get_quat_view(render.world_tsr);
     m_quat.invert(quat, quat_inv);
 
@@ -1306,15 +1306,16 @@ exports.pull_to_constraint_pivot = function(obj_a, trans_a, quat_a,
 exports.set_transform = function(obj, trans, quat) {
 
     var phy = obj.physics;
-    var obj_trans = m_tsr.get_trans_view(obj.render.world_tsr);
-    var obj_quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
+
+    // use msg_cache as a temporary storage
+    var obj_trans = m_tsr.get_trans(obj.render.world_tsr, msg_cache.trans);
+    var obj_quat = m_tsr.get_quat(obj.render.world_tsr, msg_cache.quat);
     m_tsr.set_sep(obj_trans, 1, obj_quat, phy.curr_tsr);
 
-    var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
     msg_cache.body_id = phy.body_id;
-    msg_cache.trans = trans;
-    msg_cache.quat = quat;
-
+    m_vec3.copy(trans, msg_cache.trans);
+    m_quat.copy(quat, msg_cache.quat);
     // NOTE: slow
     var worker = find_worker_by_body_id(phy.body_id);
     m_ipc.post_msg(worker, m_ipc.OUT_SET_TRANSFORM);
@@ -1331,19 +1332,17 @@ function sync_transform(obj) {
         var phy = obj.physics;
         var render = obj.render;
 
-        var trans = m_tsr.get_trans_view(render.world_tsr);
-        var quat = m_tsr.get_quat_view(render.world_tsr);
+        var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
+        msg_cache.body_id = phy.body_id;
+
+        var trans = m_tsr.get_trans(render.world_tsr, msg_cache.trans);
+        var quat = m_tsr.get_quat(render.world_tsr, msg_cache.quat);
+
         m_vec3.copy(trans, phy.cached_trans);
         m_quat.copy(quat, phy.cached_quat);
 
-        var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
-        msg_cache.body_id = phy.body_id;
-        msg_cache.trans = trans;
-
         if (phy.type == "DYNAMIC")
             m_quat.identity(msg_cache.quat);
-        else
-            msg_cache.quat = quat;
 
         // NOTE: slow
         var worker = find_worker_by_body_id(phy.body_id);
@@ -1376,9 +1375,12 @@ function allows_transform(obj) {
         return false;
 }
 
+/**
+ * uses _vec3_tmp _quat_tmp
+ */
 function transform_changed(obj) {
-    var trans = m_tsr.get_trans_view(obj.render.world_tsr);
-    var quat = m_tsr.get_quat_view(obj.render.world_tsr);
+    var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
+    var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
     return trans[0] != obj.physics.cached_trans[0] ||
            trans[1] != obj.physics.cached_trans[1] ||
            trans[2] != obj.physics.cached_trans[2] ||
@@ -2019,7 +2021,7 @@ function update_steering_wheel_coords(obj_chassis) {
     var stw_axis_world = _vec3_tmp;
     m_tsr.transform_dir_vec3(stw_axis, obj_chassis.render.world_tsr, stw_axis_world);
 
-    var rotation = _quat4_tmp;
+    var rotation = _quat_tmp;
     m_quat.setAxisAngle(stw_axis_world, -vehicle.steering *
             vehicle.steering_max * 2 * Math.PI, rotation);
 
@@ -2046,7 +2048,7 @@ function update_speedometer(obj_chassis) {
     var sp_axis_world = _vec3_tmp;
     m_tsr.transform_dir_vec3(sp_axis, obj_chassis.render.world_tsr, sp_axis_world);
 
-    var rotation = _quat4_tmp;
+    var rotation = _quat_tmp;
     var angle = Math.abs(vehicle.speed) * vehicle.speed_ratio;
 
     if (angle > vehicle.max_speed_angle)
@@ -2077,7 +2079,7 @@ function update_tachometer(obj_chassis) {
     var tach_axis_world = _vec3_tmp;
     m_tsr.transform_dir_vec3(tach_axis, obj_chassis.render.world_tsr, tach_axis_world);
 
-    var rotation = _quat4_tmp;
+    var rotation = _quat_tmp;
 
     m_quat.setAxisAngle(tach_axis_world, -Math.abs(vehicle.engine_force) *
             vehicle.delta_tach_angle, rotation);

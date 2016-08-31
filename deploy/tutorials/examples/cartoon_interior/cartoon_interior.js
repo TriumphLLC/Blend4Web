@@ -15,8 +15,11 @@ var m_preloader = require("preloader");
 var m_scenes    = require("scenes");
 var m_trans     = require("transform");
 var m_util      = require("util");
+var m_version   = require("version");
 
 var m_quat = require("quat");
+
+var DEBUG = (m_version.type() === "DEBUG");
 
 var OUTLINE_COLOR_VALID = [0, 1, 0];
 var OUTLINE_COLOR_ERROR = [1, 0, 0];
@@ -48,6 +51,8 @@ exports.init = function() {
         callback: init_cb,
         physics_enabled: true,
         alpha: false,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
         background_color: [1.0, 1.0, 1.0, 0.0]
     });
 };
@@ -166,7 +171,7 @@ function loaded_cb(data_id) {
 
             // create sensors to detect collisions
             var sensor_col = m_ctl.create_collision_sensor(obj, "FURNITURE");
-            var sensor_sel = m_ctl.create_selection_sensor(obj);
+            var sensor_sel = m_ctl.create_selection_sensor(obj, true);
 
             if (obj == _selected_obj)
                 m_ctl.set_custom_sensor(sensor_sel, 1);

@@ -1,3 +1,8 @@
+#version GLSL_VERSION
+
+/*==============================================================================
+                            VARS FOR THE COMPILER
+==============================================================================*/
 // lamp dirs
 #var NUM_LIGHTS 0
 #var LAMP_IND 0
@@ -12,6 +17,12 @@
 #var NUM_RGBS 0
 #var NUM_LAMP_LIGHTS 0
 
+#var PARTICLES_SHADELESS 0
+#var SOFT_STRENGTH 1.0
+
+/*==============================================================================
+                                  INCLUDES
+==============================================================================*/
 #include <std_enums.glsl>
 
 #include <precision_statement.glslf>
@@ -20,14 +31,9 @@
 #include <pack.glslf>
 #endif
 
-#var PARTICLES_SHADELESS 0
-#var SOFT_STRENGTH 1.0
-
-
-
-/*============================================================================
+/*==============================================================================
                                GLOBAL UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 uniform float u_environment_energy;
 
@@ -59,9 +65,9 @@ uniform vec3 u_horizon_color;
 uniform vec3 u_zenith_color;
 #endif
 
-/*============================================================================
+/*==============================================================================
                                MATERIAL UNIFORMS
-============================================================================*/
+==============================================================================*/
 
 uniform float u_emit;
 uniform float u_ambient;
@@ -101,10 +107,6 @@ uniform mat3 u_model_zup_tsr;
 uniform mat3 u_model_zup_tsr_inverse;
 #endif
 
-#if TEXTURE_NORM_CO || CALC_TBN_SPACE
-varying vec4 v_tangent;
-#endif
-
 #if SOFT_PARTICLES
 uniform PRECISION sampler2D u_scene_depth;
 uniform float u_view_max_depth;
@@ -114,30 +116,36 @@ uniform float u_view_max_depth;
 uniform sampler2D u_nodes_texture;
 #endif
 
-/*============================================================================
-                                   VARYINGS
-============================================================================*/
+/*==============================================================================
+                                SHADER INTERFACE
+==============================================================================*/
+#if TEXTURE_NORM_CO || CALC_TBN_SPACE || USE_TBN_SHADING
+GLSL_IN vec4 v_tangent;
+#endif
+
 #if SOFT_PARTICLES
-varying vec3 v_tex_pos_clip;
+GLSL_IN vec3 v_tex_pos_clip;
 #endif
 
-#if TEXTURE_COLOR || USE_NODE_TEX_COORD_UV || USE_NODE_UV_MERGED \
-        || USE_NODE_UVMAP || USE_NODE_GEOMETRY_UV || USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE
-varying vec2 v_texcoord;
+#if TEXTURE_COLOR || USE_NODE_TEX_COORD_UV || USE_NODE_UV_MERGED || USE_NODE_UVMAP \
+        || USE_NODE_GEOMETRY_UV || USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE
+GLSL_IN vec2 v_texcoord;
 #endif
 
-varying vec3 v_pos_world;
+GLSL_IN vec3 v_pos_world;
 
 #if SOFT_PARTICLES || !DISABLE_FOG || NODES
-varying vec4 v_pos_view;
+GLSL_IN vec4 v_pos_view;
 #endif
 
-varying vec3 v_normal;
+GLSL_IN vec3 v_normal;
+//------------------------------------------------------------------------------
 
+GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
-/*============================================================================
+/*==============================================================================
                                   FUNCTIONS
-============================================================================*/
+==============================================================================*/
 
 #if !DISABLE_FOG
 #include <fog.glslf>
@@ -149,9 +157,9 @@ varying vec3 v_normal;
 #include <particles_nodes.glslf>
 
 
-/*============================================================================
+/*==============================================================================
                                     MAIN
-============================================================================*/
+==============================================================================*/
 
 void main(void) {
 
@@ -216,7 +224,7 @@ void main(void) {
 
 #if SOFT_PARTICLES
     float view_depth = -v_pos_view.z / u_view_max_depth;
-    vec4 scene_depth_rgba = texture2DProj(u_scene_depth, v_tex_pos_clip);
+    vec4 scene_depth_rgba = GLSL_TEXTURE_PROJ(u_scene_depth, v_tex_pos_clip);
     float scene_depth = unpack_float(scene_depth_rgba);
     float delta = scene_depth - view_depth;
     float depth_diff = u_view_max_depth / SOFT_STRENGTH * delta;
@@ -226,5 +234,5 @@ void main(void) {
 #if ALPHA && !ALPHA_CLIP 
     premultiply_alpha(color, alpha);
 #endif
-    gl_FragColor = vec4(color, alpha);
+    GLSL_OUT_FRAG_COLOR = vec4(color, alpha);
 }

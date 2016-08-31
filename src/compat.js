@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 "use strict";
 
 /**
@@ -44,6 +43,7 @@ exports.NVIDIA_OLD_GPU_CUBEMAP_MAX_SIZE = 256;
 var cfg_anim = m_cfg.animation;
 var cfg_def = m_cfg.defaults;
 var cfg_ctx = m_cfg.context;
+var cfg_lim = m_cfg.context_limits;
 var cfg_scs = m_cfg.scenes;
 var cfg_sfx = m_cfg.sfx;
 var cfg_phy = m_cfg.physics;
@@ -56,10 +56,27 @@ exports.detect_tegra_invalid_enum_issue = function(gl) {
 }
 
 exports.set_hardware_defaults = function(gl) {
-    cfg_def.max_vertex_uniform_vectors = gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS);
+    cfg_lim.max_combined_texture_image_units =
+            gl.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+    cfg_lim.max_fragment_uniform_vectors =
+            gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS);
+    cfg_lim.max_texture_image_units =
+            gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS);
+    cfg_lim.max_varying_vectors =
+            gl.getParameter(gl.MAX_VARYING_VECTORS);
+    cfg_lim.max_vertex_attribs =
+            gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
+    cfg_lim.max_vertex_texture_image_units =
+            gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+    cfg_lim.max_vertex_uniform_vectors =
+            gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS);
 
-    cfg_def.max_texture_size = gl.getParameter(gl.MAX_TEXTURE_SIZE);
-    cfg_def.max_cube_map_size = gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE);
+    cfg_lim.max_cube_map_texture_size =
+            gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE);
+    cfg_lim.max_renderbuffer_size =
+            gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
+    cfg_lim.max_texture_size = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+    cfg_lim.max_viewport_dims = gl.getParameter(gl.MAX_VIEWPORT_DIMS);
 
     if (!cfg_def.webgl2)
         cfg_def.msaa_samples = 1;
@@ -71,16 +88,19 @@ exports.set_hardware_defaults = function(gl) {
             cfg_def.check_framebuffer_hack = true;
         }
     }
-
     if (check_user_agent("Firefox") && cfg_def.stereo !== "NONE") {
         m_print.warn("Firefox and Stereo rendering detected, disable texture reusage");
         cfg_def.firefox_tex_reuse_hack = true;
     }
 
-    if (cfg_def.webgl2 && m_debug.check_multisample_issue())
+    // TODO: need to check Firefox MSAA --> "Coin Flip" demo shadows.
+    if (cfg_def.webgl2 && m_debug.check_multisample_issue() ||
+            check_user_agent("Firefox")) {
+        m_print.warn("Firefox detected, disabling multisample");
         cfg_def.msaa_samples = 1;
+    }
 
-    m_render.set_draw_data();
+    m_render.set_draw_methods();
 
     var depth_tex_available = Boolean(m_ext.get_depth_texture());
     // HACK: fix depth issue in Firefox 28
@@ -149,7 +169,7 @@ exports.set_hardware_defaults = function(gl) {
     if ((check_user_agent("Firefox/35.0") || check_user_agent("Firefox/36.0")) &&
             check_user_agent("Windows")) {
         m_print.warn("Windows/Firefox 35/36 detected, applying shadows slink hack");
-        cfg_def.firefox_shadows_slink_hack = true;
+        cfg_def.shadows_color_slink_hack = true;
     }
 
     if (check_user_agent("iPhone") || is_ie11() || check_user_agent("Edge")) {
@@ -157,7 +177,7 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.seq_video_fallback = true;
     }
 
-    if (gl.getParameter(gl.MAX_VARYING_VECTORS) < MIN_VARYINGS_REQUIRED) {
+    if (cfg_lim.max_varying_vectors < MIN_VARYINGS_REQUIRED) {
         m_print.warn("Not enough varyings, disable shadows on blend objects");
         cfg_def.disable_blend_shadows_hack = true;
     }
@@ -207,8 +227,13 @@ exports.set_hardware_defaults = function(gl) {
             m_print.warn("ARM Mali-T760 detected, set \"highp\" precision and disable SSAO.");
             cfg_def.precision = "highp";
             cfg_def.ssao = false;
-            cfg_def.amd_skinning_hack = true;
+            cfg_def.skinning_hack = true;
+            if (cfg_def.webgl2) {
+                cfg_def.msaa_samples = 1;
+                m_print.warn("ARM Mali-T760 and WebGL 2 detected, switch MSAA samples to 1.");
+            }
         }
+
         if (vendor.indexOf("Qualcomm") > -1 && renderer.indexOf("Adreno") > -1) {
             m_print.warn("Qualcomm Adreno detected, applying shader constants hack.");
             cfg_def.shader_constants_hack = true;
@@ -223,8 +248,8 @@ exports.set_hardware_defaults = function(gl) {
             if (renderer.indexOf("420") > -1) {
                 m_print.warn("Qualcomm Adreno420 detected, setting max cubemap size to 4096, "
                         + "setting max texture size to 4096.");
-                cfg_def.max_texture_size = 4096;
-                cfg_def.max_cube_map_size = 4096;
+                cfg_lim.max_texture_size = 4096;
+                cfg_lim.max_cube_map_texture_size = 4096;
             }
         }
         if (vendor.indexOf("NVIDIA") > -1 && renderer.indexOf("Tegra 3") > -1) {
@@ -237,8 +262,21 @@ exports.set_hardware_defaults = function(gl) {
                 || renderer.match(/NVIDIA GeForce( (G|GT|GTS|GTX))? 2../))) {
             m_print.warn("Chrome / Windows / NVIDIA GeForce 8/9/200 series detected, " +
                          "setting max cubemap size to 256, use canvas for resizing.");
-            cfg_def.max_cube_map_size = exports.NVIDIA_OLD_GPU_CUBEMAP_MAX_SIZE;
+            cfg_lim.max_cube_map_texture_size = exports.NVIDIA_OLD_GPU_CUBEMAP_MAX_SIZE;
             cfg_def.resize_cubemap_canvas_hack = true;
+        }
+
+        if (renderer.indexOf("PowerVR") > -1) {
+            m_print.warn("PowerVR series detected, use canvas for resizing. " +
+                    "Set sky cubemap texture size to 256 (power of two). " +
+                    "Disable shadows. " +
+                    "Apply skinning hack, disable skin blending between frames.");
+            cfg_def.resize_cubemap_canvas_hack = true;
+            cfg_scs.cubemap_tex_size = 256;
+            cfg_def.skinning_hack = true;
+            cfg_def.shadows = false;
+            // NOTE: uncomment code below in case of cfg_def.shadows == true;
+            // cfg_def.shadows_color_slink_hack = true;
         }
 
         var architecture = "";
@@ -251,12 +289,12 @@ exports.set_hardware_defaults = function(gl) {
         if (architecture) {
             m_print.warn("Architecture " + architecture + " detected. Blending between frames" +
                     " and shadows on blend objects will be disabled.");
-            cfg_def.amd_skinning_hack = true;
+            cfg_def.skinning_hack = true;
             cfg_def.disable_blend_shadows_hack = true;
         }
     }
 
-    if (gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS) == 0) {
+    if (cfg_lim.max_vertex_texture_image_units == 0) {
         m_print.warn("Vertex textures are not allowed. Disabling vertex textures");
         cfg_def.allow_vertex_textures = false;
     }
@@ -294,7 +332,7 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.ie11_edge_touchscreen_hack = true;
     }
 
-    if (gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
+    if (cfg_lim.max_fragment_uniform_vectors <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
         m_print.warn("Not enough fragment uniforms, force low quality for "
                     + "B4W_LEVELS_OF_QUALITY nodes.");
         cfg_def.force_low_quality_nodes = true;
@@ -305,20 +343,17 @@ exports.set_hardware_defaults = function(gl) {
     }
 
     if (detect_mobile() && check_user_agent("Firefox")) {
-        m_print.log("Mobile firefox detected. Applying autoplay media hack.");
+        m_print.log("Mobile firefox detected. Applying autoplay media hack."
+                + "Setting max cubemap size to 4096, "
+                + "setting max texture size to 4096.");
         cfg_def.mobile_firefox_media_hack = true;
+        cfg_lim.max_texture_size = 4096;
+        cfg_lim.max_cube_map_texture_size = 4096;
     }
 
     if (check_user_agent("Edge")) {
         m_print.warn("Microsoft Edge detected, set up new minimal texture size.");
         cfg_def.edge_min_tex_size_hack = true;
-    }
-
-    if (check_user_agent("SamsungBrowser")) {
-        m_print.warn("Default Android browser detected, setting max cubemap size to 1024, "
-                + "setting max texture size to 1024.");
-        cfg_def.max_texture_size = 1024;
-        cfg_def.max_cube_map_size = 1024;
     }
 }
 
