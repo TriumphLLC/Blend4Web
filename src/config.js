@@ -32,6 +32,7 @@ exports.P_LOW    = 1;  // maximize performance
 exports.P_HIGH   = 2;  // use all requested features
 exports.P_ULTRA  = 3;  // use all requested features and maximize quality
 exports.P_CUSTOM = 4;  // use exports.defaults
+exports.P_AUTO   = 5;  // meta quality for auto configurators
 
 exports.context = {
     alpha              : true,
@@ -45,7 +46,7 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
-    min_format_version         : [5, 7],
+    min_format_version         : [6, 0],
 
     max_fps                    : 10000, // not accurate
 
@@ -118,7 +119,7 @@ exports.defaults = {
 
     shore_distance             : true,
 
-    use_dds                    : true,
+    use_compression            : true,
 
     precision                  : "highp",
 
@@ -183,13 +184,13 @@ exports.defaults = {
 
     chrome_html_bkg_music_hack : false,
 
+    ie_edge_anchors_floor_hack : false,
+
     media_auto_activation      : true,
 
     max_cast_lamps             : 4,
 
     mac_os_shadow_hack         : false,
-
-    allow_shaders_debug_ext    : false,
 
     gl_debug                   : false,
 
@@ -197,7 +198,11 @@ exports.defaults = {
 
     allow_instanced_arrays_ext : false,
 
-    allow_vao_ext : false
+    allow_vao_ext : false,
+
+    compress_format            : "dds",
+
+    shadow_quality             : "16x"
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -217,7 +222,8 @@ exports.assets = {
     max_requests: 15,
     prevent_caching: true,
     min50_available: false,
-    dds_available: false
+    dds_available: false,
+    pvr_available: false
 }
 exports.assets_save = m_util.clone_object_r(exports.assets);
 
@@ -512,6 +518,12 @@ exports.apply_quality = function() {
         cfg_phy.max_fps = 60;
 
         break;
+    case exports.P_CUSTOM:
+        // do nothing
+        break;
+    case exports.P_AUTO:
+        m_util.panic("Direct AUTO quality profile setting is forbidden");
+        break;
     }
 }
 
@@ -551,6 +563,9 @@ function set(prop, value) {
         break;
     case "assets_dds_available":
         exports.assets.dds_available = value;
+        break;
+    case "assets_pvr_available":
+        exports.assets.pvr_available = value;
         break;
     case "assets_min50_available":
         exports.assets.min50_available = value;
@@ -700,6 +715,8 @@ exports.get = function(prop) {
         return exports.defaults.antialiasing;
     case "assets_dds_available":
         return exports.assets.dds_available;
+    case "assets_pvr_available":
+        return exports.assets.pvr_available;
     case "assets_min50_available":
         return exports.assets.min50_available;
     case "audio":

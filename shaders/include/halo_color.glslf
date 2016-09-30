@@ -1,30 +1,41 @@
-#var NUM_LINES 0
+#ifndef HALO_COLOR_GLSLF
+#define HALO_COLOR_GLSLF
+
+// #import u_diffuse_color;
+// #import u_halo_rings_color;
+// #import u_halo_lines_color;
+// #import u_halo_hardness;
+// #import u_halo_size;
+
+// #import u_sun_intensity;
+// #import u_halo_stars_blend;
+// #import u_halo_stars_height;
+// #import u_cam_water_depth;
+// #import v_position_world;
+
+// #import v_texcoord;
+// #import v_vertex_random;
+
+/*==============================================================================
+                                    VARS
+==============================================================================*/
 #var NUM_RINGS 0
+#var NUM_LINES 0
 #var NUM_STARS 0
-#var WAVES_HEIGHT 0.0
+#var SKY_STARS 0
 
-#import u_diffuse_color;
-#import u_halo_rings_color;
-#import u_halo_lines_color;
-#import u_halo_hardness;
-#import u_halo_size;
+#var WAVES_HEIGHT 1.0
 
-#import u_sun_intensity;
-#import u_halo_stars_blend;
-#import u_halo_stars_height;
-#import u_cam_water_depth;
-#import v_position_world;
+#var WATER_EFFECTS 0
+#var DISABLE_FOG 0
 
-#import v_texcoord;
-#import v_vertex_random;
+/*============================================================================*/
 
 #if NUM_RINGS > NUM_LINES
     const int rand_arr_length = NUM_RINGS;
 #else
     const int rand_arr_length = NUM_LINES;
 #endif
-
-#export halo_color
 
 float mod001(float x) {
     return x - floor(x * (1.0 / 0.01)) * 0.01;
@@ -162,3 +173,5 @@ vec4 halo_color(void) {
     vec4 vec_out = vec4(color, dist);
     return vec_out;
 }
+
+#endif

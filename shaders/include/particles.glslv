@@ -1,13 +1,23 @@
-#import u_p_time u_p_cyclic u_p_length
-#import u_p_nfactor u_p_gravity u_p_mass u_p_wind_fac u_p_max_lifetime
-#import u_p_fade_in u_p_fade_out u_p_color_ramp u_color_ramp_tex
-#import u_model_tsr u_wind
-#import a_position a_normal a_p_vels a_p_data
-#import tsr_to_mat4
+#ifndef PARTICLES_GLSLV
+#define PARTICLES_GLSLV
 
-#export fade_alpha calc_part_params part_params
+// #import u_p_time u_p_cyclic u_p_length
+// #import u_p_nfactor u_p_gravity u_p_mass u_p_wind_fac u_p_max_lifetime
+// #import u_p_fade_in u_p_fade_out u_p_color_ramp u_color_ramp_tex
+// #import u_model_tsr u_wind
+// #import a_position a_normal a_p_vels a_p_data
 
-#var EPSILON 0.0001
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var EPSILON 0.000001
+#var COLOR_RAMP_LENGTH 0
+#var WORLD_SPACE 0
+#var USE_COLOR_RAMP 0
+
+/*============================================================================*/
+
+#include <math.glslv>
 
 struct part_params {
     float size;
@@ -87,26 +97,25 @@ part_params calc_part_params(void) {
     if (!(t < 0.0 || t >= lifetime)) {
         /* position */
 
+    vec3 norm_tbn = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
 #if WORLD_SPACE
         vec3 pos = a_position;
-        vec3 norm = a_normal;
+        vec3 norm = norm_tbn;
 #else
-        mat4 model_matrix = tsr_to_mat4(u_model_tsr);
-
-        vec3 pos = (model_matrix * vec4(a_position, 1.0)).xyz;
-        vec3 norm = (model_matrix * vec4(a_normal, 0.0)).xyz;
+        vec3 pos = tsr9_transform(u_model_tsr, a_position);
+        vec3 norm = tsr9_transform_dir(u_model_tsr, norm_tbn);
 #endif
 
         /* cinematics */
         vec3 vel = u_p_nfactor * norm;
         vel += a_p_vels.xyz;
-        vel.y -= u_p_gravity * t / 2.0;
+        vel.z -= u_p_gravity * t / 2.0;
         float mass = max(u_p_mass, EPSILON);
         vel += (u_p_wind_fac * u_wind / mass) * t /2.0;
 
         sp.age = t;
         sp.velocity = vel;
-        sp.ang_velocity = a_normal * a_p_vels.w;
+        sp.ang_velocity = norm_tbn * a_p_vels.w;
 
         sp.position = pos + vel * t;
 
@@ -126,3 +135,5 @@ part_params calc_part_params(void) {
     }
     return sp;
 }
+
+#endif

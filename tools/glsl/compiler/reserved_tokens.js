@@ -65,13 +65,14 @@ var _reserved_tokens = {
         "texture", "textureProj", "textureLod", "textureOffset", "texelFetch", 
         "texelFetchOffset", "textureProjOffset", "textureLodOffset", 
         "textureProjLod", "textureProjLodOffset", "textureGrad", 
-        "textureGradOffset", "textureProjGrad", "textureProjGradOffset", 
+        "textureGradOffset", "textureProjGrad", "textureProjGradOffset",
+        "sampler2DShadow",
 
         // GL_OES_standard_derivatives or built-in in GLSL ES 3.0
         "dFdx", "dFdy", "fwidth",
 
         // compatibility tokens
-        "GLSL_TEXTURE", "GLSL_TEXTURE_CUBE", "GLSL_TEXTURE_PROJ"
+        "GLSL_TEXTURE", "GLSL_TEXTURE_CUBE", "GLSL_TEXTURE_PROJ", "GLSL_SMPLR2D_SHDW"
     ],
 
     extensions: ["GL_OES_standard_derivatives"],
@@ -93,7 +94,7 @@ var _reserved_tokens = {
     vardef_additional: [],
 
     // specific b4w identifiers coming from engine
-    b4w_disable_obfuscation: ["ZERO_VALUE_NODES", "UNITY_VALUE_NODES"]
+    b4w_disable_obfuscation: ["_0_0", "_1_0"]
 }
 
 exports.set_vardef_tokens = function(vardef_tokens) {

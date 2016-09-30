@@ -1,12 +1,23 @@
-#define SKIN_SLERP 0
+#ifndef SKIN_GLSLV
+#define SKIN_GLSLV
 
-#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence
-#import u_arm_rel_trans u_arm_rel_quat
-#import qrot tsr_transform tsr_transform_dir tsr_transform_inv tsr_transform_inv_dir
+// #import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence
+// #import u_arm_rel_trans u_arm_rel_quat
 
-#export skin
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var DISABLE_TANGENT_SKINNING 0
+#var SKINNED 0
+#var FRAMES_BLENDING 0
+
+/*============================================================================*/
 
 #if SKINNED
+
+#include <math.glslv>
+
+#define SKIN_SLERP 0
 
 # if SKIN_SLERP
 /*
@@ -189,8 +200,9 @@ void skin(inout vec3 position, inout vec3 tangent, inout vec3 binormal, inout ve
             int ind = int(influece[i]);
             float wght = fract(influece[i]);
 # if FRAMES_BLENDING
-            spos += wght * skin_point(position, u_quatsb[ind], u_quatsa[ind],
-                                        u_transb[ind], u_transa[ind], ff);
+            // NOTE: skin_point loop glitches on some mobiles
+            // spos += wght * skin_point(position, u_quatsb[ind], u_quatsa[ind],
+            //                             u_transb[ind], u_transa[ind], ff);
             stng += wght * skin_vector(tangent,  u_quatsb[ind], u_quatsa[ind], ff);
             sbnr += wght * skin_vector(binormal, u_quatsb[ind], u_quatsa[ind], ff);
             snrm += wght * skin_vector(normal,   u_quatsb[ind], u_quatsa[ind], ff);
@@ -203,6 +215,26 @@ void skin(inout vec3 position, inout vec3 tangent, inout vec3 binormal, inout ve
 #  endif
 # endif
         }
+// NOTE: hack for Yotaphone 2 (Adreno 330, Android 5.0)
+//  preventing flickering
+# if FRAMES_BLENDING
+        int ind = int(influece[0]);
+        float wght = fract(influece[0]);
+        spos += wght * skin_point(position, u_quatsb[ind], u_quatsa[ind],
+                            u_transb[ind], u_transa[ind], ff);
+        ind = int(influece[1]);
+        wght = fract(influece[1]);
+        spos += wght * skin_point(position, u_quatsb[ind], u_quatsa[ind],
+                            u_transb[ind], u_transa[ind], ff);
+        ind = int(influece[2]);
+        wght = fract(influece[2]);
+        spos += wght * skin_point(position, u_quatsb[ind], u_quatsa[ind],
+                            u_transb[ind], u_transa[ind], ff);
+        ind = int(influece[3]);
+        wght = fract(influece[3]);
+        spos += wght * skin_point(position, u_quatsb[ind], u_quatsa[ind],
+                            u_transb[ind], u_transa[ind], ff);
+# endif
         position = spos;
         normal   = snrm;
 # if !DISABLE_TANGENT_SKINNING
@@ -235,3 +267,5 @@ void skin(inout vec3 position, inout vec3 tangent, inout vec3 binormal, inout ve
 }
 
 #endif // SKINNED
+
+#endif

@@ -1,8 +1,7 @@
-/*==============================================================================
-                                   EXPORTS
-==============================================================================*/
-#import v_texcoord
-#export nodes_main
+#ifndef PARTICLES_NODES_GLSLV
+#define PARTICLES_NODES_GLSLV
+
+// #import v_texcoord
 
 /*==============================================================================
                                   FUNCTIONS
@@ -25,6 +24,14 @@
 #endnode
 
 #node PARTICLE_INFO
+    #node_var PART_INFO_SIZE 0
+    #node_var PART_INFO_AGE 0
+    #node_var PART_INFO_LT 0
+    #node_var PART_INFO_LOC 0
+    #node_var PART_INFO_IND 0
+    #node_var PART_INFO_VEL 0
+    #node_var PART_INFO_A_VEL 0
+
     // v_p_params -> indices, time, lifetimes, sizes
     #node_param optional GLSL_OUT vec4 v_p_params
     #node_param optional GLSL_OUT vec3 v_p_location
@@ -73,3 +80,5 @@ void nodes_main(in vec3 nin_pos, in vec3 nin_part_velocity, in vec3 nin_part_ang
 #endif
     #nodes_main
 }
+
+#endif

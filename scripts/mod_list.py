@@ -19,6 +19,9 @@ def gen_module_list(prefix, src_dir):
     modules = []
     last_mods = []
     first_mods = []
+    addons = []
+    exts = []
+    libs = []
 
     for root, dirs, files in os.walk(src_dir):
         files.sort()
@@ -30,7 +33,7 @@ def gen_module_list(prefix, src_dir):
                 path = join(root, file)
 
                 if prefix:
-                    file_path = prefix + os.path.relpath(path, src_dir)
+                    file_path = os.path.join(prefix, os.path.relpath(path, src_dir))
                 else:
                     file_path = os.path.relpath(path, os.path.curdir)
 
@@ -42,9 +45,19 @@ def gen_module_list(prefix, src_dir):
                     first_mods.append(file_path)
                     continue
 
-                modules.append(file_path)
+                if os.path.relpath(path, src_dir).startswith("addons/"):
+                    addons.append(file_path)
+                elif os.path.relpath(path, src_dir).startswith("ext/"):
+                    exts.append(file_path)
+                elif os.path.relpath(path, src_dir).startswith("libs/"):
+                    libs.append(file_path)
+                else:
+                    modules.append(file_path)
 
     first_mods.extend(modules)
+    first_mods.extend(libs)
+    first_mods.extend(exts)
+    first_mods.extend(addons)
     first_mods.extend(last_mods)
 
     return first_mods

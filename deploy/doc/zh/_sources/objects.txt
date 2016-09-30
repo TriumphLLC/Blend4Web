@@ -38,8 +38,6 @@
 
     * 四元数例子
 
-  * Blender和Blend4Web的坐标系之间的差异
-
   * 通过TSR矢量移动
 
 物体是在3D场景空间中放置的不同类型（网格，照相机，灯等）的组件。
@@ -229,6 +227,12 @@ Blend4Web的特殊属性。
 
 *反射 > 仅被反射*
    物体被反射但仍将看不见自身。开启 "反射 > 反射性" 后可用。
+
+   注解: If the "Reflexible Only" parameter is enabled
+     simultaneously with the "Shadows > Cast Only" parameter, the
+     engine will not render the object itself, but will render its
+     shadow and reflection, like it is shown on the picture below.[图
+     片]
 
 *反射 > 反射*
    当启用时该物体表面反射的其他物体。
@@ -638,10 +642,6 @@ type objects can be removed this way.
 
 旋转：
 
-   * 坐标轴的方向在Blender和在引擎中是不同的。在导出时会有变换[X Y
-     Z] (Blender) -> [X -Z Y] (引擎)。因此，我们需要相对于Y轴，而不是Z
-     轴 旋转物体。
-
    * 顺时针转动对应于旋转到右侧（即在负方向）。
 
    * 60 度 = \pi/3 弧度.
@@ -649,13 +649,13 @@ type objects can be removed this way.
 因此，我们得到：
 
    // compose quaternion
-   var quat_60_Y_neg = m_quat.setAxisAngle([0, 1, 0], -Math.PI/3, m_quat.create());
+   var quat_60_Z_neg = m_quat.setAxisAngle([0, 0, 1], -Math.PI/3, m_quat.create());
 
    // get old rotation
    var quat_old = m_transform.get_rotation(aircraft);
 
-   // left multiply: quat60_Y_neg * quat_old
-   var quat_new = m_quat.multiply(quat_60_Y_neg, quat_old, m_quat.create());
+   // left multiply: quat60_Z_neg * quat_old
+   var quat_new = m_quat.multiply(quat_60_Z_neg, quat_old, m_quat.create());
 
    // set new rotation
    m_transform.set_rotation_v(aircraft, quat_new);
@@ -663,29 +663,15 @@ type objects can be removed this way.
 优化的版本不创建新的物体：
 
    // cache arrays as global vars
-   var AXIS_Y = new Float32Array([0, 1, 0])
+   var AXIS_Z = new Float32Array([0, 0, 1])
    var quat_tmp = new Float32Array(4);
    var quat_tmp2 = new Float32Array(4);
    ...
    // rotate
-   m_quat.setAxisAngle(AXIS_Y, -Math.PI/3, quat_tmp);
+   m_quat.setAxisAngle(AXIS_Z, -Math.PI/3, quat_tmp);
    m_transform.get_rotation(aircraft, quat_tmp2);
    m_quat.multiply(quat_tmp, quat_tmp2, quat_tmp);
    m_transform.set_rotation_v(aircraft, quat_tmp);
-
-
-Blender和Blend4Web的坐标系之间的差异
-====================================
-
-在Blender的坐标系统中的 "UP" 矢量，它指向向上，是同向的Z轴。 Blend4Web
-使用Y轴用于此目的，因为是使用OpenGL习惯。因而引擎的坐标由相对Blender的
-X轴周围旋转90°。
-
-[图片]
-
-
-
-API方法使用引擎的坐标，这样他们就跟设定Blender的参数不相同。
 
 
 通过TSR矢量移动

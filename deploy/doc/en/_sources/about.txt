@@ -73,14 +73,10 @@ Full Support
 ------------
 
 * `Chrome <http://www.google.com/chrome>`_
-* `Yandex Browser <http://browser.yandex.ru/>`_ 
+* `Yandex Browser <http://browser.yandex.com/>`_ 
 * `Firefox <http://www.mozilla.org/firefox>`_
 * `Opera <http://www.opera.com/browser>`_
 * `Safari <http://www.apple.com/safari/>`_ 8+
-
-Experimental Support
---------------------
-
 * `Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer/download-ie>`_ 11
 * `Microsoft Edge <https://www.microsoft.com/en-us/windows/microsoft-edge>`_
 
@@ -95,6 +91,8 @@ Mobile Platforms
 * Sailfish OS
 * Tizen
 * Ubuntu Touch
+
+For further details see the :ref:`dedicated section <webgl_support>` in the Problems and Solutions chapter.
 
 .. index:: WebGL; advantages
 
@@ -169,7 +167,7 @@ Among the already implemented and promising browser features which are used in :
 * `Timing control for script-based animations <http://www.w3.org/TR/animation-timing/>`_ (requestAnimationFrame)
 * two-dimensional graphics, `HTML Canvas 2D Context <http://www.w3.org/TR/2dcontext/>`_
 * sound processing, `Web Audio API <http://www.w3.org/TR/webaudio/>`_
-* binary data loading, `XMLHttpRequest Level 2 <http://www.w3.org/TR/XMLHttpRequest/>`_
+* binary data loading, `XMLHttpRequest Level 2 <https://www.w3.org/TR/XMLHttpRequest2/>`_
 * `Fullscreen <http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html>`_
 * `Pointer Lock <http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html>`_
 * multithreading, `Web Workers <http://www.w3.org/TR/workers/>`_
@@ -207,7 +205,7 @@ Video Cards and Drivers
 
 Interactive graphics is provided by a special-purpose hardware part of modern computers so called graphics processor which can be implemented as a discrete device (video card) or as a part of the central processing unit.
 
-Main graphics processors vendors for desktop computers are:  - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are specified in brackets).
+Main graphics processors vendors for desktop computers are:  - Nvidia (GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are specified in brackets).
 
 Program access to graphics processor resources is carried out via an intermediate program called driver. It's important for the correct working of interactive graphics programs to have drivers of the latest version in the system. Drivers can be installed (or upgraded) from corresponding websites of graphics processors vendors. See detailed info in the section :ref:`webgl_not_working`.
 

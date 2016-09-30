@@ -56,6 +56,7 @@ exports.init = function() {
         quality: quality,
         console_verbose: true,
         show_fps: true,
+        autoresize: true,
         // NOTE: disable workers on mobile devices to prevent simulation
         // glitches due to huge message passing delays
         physics_use_workers: !is_mobile,
@@ -69,16 +70,6 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    window.addEventListener("resize", on_resize);
-
-    load();
-}
-
-function on_resize() {
-    m_cont.resize_to_container();
-}
-
-function load() {
     m_data.load("level_01.json", load_cb, null, true);
 }
 

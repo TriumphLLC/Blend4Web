@@ -22,8 +22,6 @@ var _char_shield_spk = null;
 var _shield_time_left = 0;
 var _lava_protect_time_left = 0;
 
-var _vec3_tmp = new Float32Array(3);
-
 exports.init = function(elapsed_sensor, level_config) {
 
     _char_heal_spk = m_scs.get_object_by_dupli_name(m_conf.CHAR_EMPTY,
@@ -150,7 +148,7 @@ exports.spawn = function(position) {
     for (var i = 0; i < _bonus_wrappers.length; i++) {
         var bonus_wrapper = _bonus_wrappers[i];
         if (!bonus_wrapper.is_spawned && bonus_wrapper.type == bonus_type) {
-            position[1] += 0.05;
+            position[2] += 0.05;
             m_trans.set_translation_v(bonus_wrapper.empty, position);
             bonus_wrapper.lifetime = m_conf.BONUS_LIFETIME;
             bonus_wrapper.is_spawned = true;

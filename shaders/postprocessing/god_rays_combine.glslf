@@ -1,6 +1,14 @@
 #version GLSL_VERSION
 
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var SAFARI_CANVAS_ALPHA_HACK 0
+
+/*============================================================================*/
+
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <color_util.glslf>
 #include <pack.glslf>
 

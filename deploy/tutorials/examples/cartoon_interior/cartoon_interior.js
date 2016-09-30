@@ -23,14 +23,14 @@ var DEBUG = (m_version.type() === "DEBUG");
 
 var OUTLINE_COLOR_VALID = [0, 1, 0];
 var OUTLINE_COLOR_ERROR = [1, 0, 0];
-var FLOOR_PLANE_NORMAL = [0, 1, 0];
+var FLOOR_PLANE_NORMAL = [0, 0, 1];
 
 var ROT_ANGLE = Math.PI/4;
 
 var WALL_X_MAX = 4;
 var WALL_X_MIN = -3.8;
-var WALL_Z_MAX = 4.2;
-var WALL_Z_MIN = -3.5;
+var WALL_Y_MAX = 3.5;
+var WALL_Y_MIN = -4.2;
 
 var _obj_delta_xy = new Float32Array(2);
 var spawner_pos = new Float32Array(3);
@@ -46,10 +46,18 @@ var _enable_camera_controls = true;
 var _selected_obj = null;
 
 exports.init = function() {
+    var show_fps = DEBUG;
+
+    var url_params = m_app.get_url_params();
+
+    if (url_params && "show_fps" in url_params)
+        show_fps = true;
+
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
         physics_enabled: true,
+        show_fps: show_fps,
         alpha: false,
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,
@@ -217,11 +225,11 @@ function rotate_object(obj, angle) {
     if (obj_parent && m_obj.is_armature(obj_parent)) {
         // rotate the parent (armature) of the animated object
         var obj_quat = m_trans.get_rotation(obj_parent, _vec4_tmp);
-        m_quat.rotateY(obj_quat, angle, obj_quat);
+        m_quat.rotateZ(obj_quat, angle, obj_quat);
         m_trans.set_rotation_v(obj_parent, obj_quat);
     } else {
         var obj_quat = m_trans.get_rotation(obj, _vec4_tmp);
-        m_quat.rotateY(obj_quat, angle, obj_quat);
+        m_quat.rotateZ(obj_quat, angle, obj_quat);
         m_trans.set_rotation_v(obj, obj_quat);
     }
     limit_object_position(obj);
@@ -305,7 +313,7 @@ function main_canvas_move(e) {
                         _pline_tmp, _vec3_tmp3);
 
                 // do not process the parallel case and intersections behind the camera
-                if (point && camera_ray[1] < 0) {
+                if (point && camera_ray[2] < 0) {
                     var obj_parent = m_obj.get_parent(_selected_obj);
                     if (obj_parent && m_obj.is_armature(obj_parent))
                         // translate the parent (armature) of the animated object
@@ -333,10 +341,10 @@ function limit_object_position(obj) {
     else if (bb.min_x < WALL_X_MIN)
         obj_pos[0] += WALL_X_MIN - bb.min_x;
 
-    if (bb.max_z > WALL_Z_MAX)
-        obj_pos[2] -= bb.max_z - WALL_Z_MAX;
-    else if (bb.min_z < WALL_Z_MIN)
-        obj_pos[2] += WALL_Z_MIN - bb.min_z;
+    if (bb.max_y > WALL_Y_MAX)
+        obj_pos[1] -= bb.max_y - WALL_Y_MAX;
+    else if (bb.min_y < WALL_Y_MIN)
+        obj_pos[1] += WALL_Y_MIN - bb.min_y;
 
     if (obj_parent && m_obj.is_armature(obj_parent))
         // translate the parent (armature) of the animated object

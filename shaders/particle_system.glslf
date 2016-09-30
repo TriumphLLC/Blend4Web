@@ -1,31 +1,49 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-// lamp dirs
-#var NUM_LIGHTS 0
-#var LAMP_IND 0
-#var LAMP_SPOT_SIZE 0
-#var LAMP_SPOT_BLEND 0
-#var LAMP_LIGHT_DIST 0
-#var LAMP_LIGHT_FACT_IND 0
-#var LAMP_FAC_CHANNELS rgb
-#var LAMP_SHADOW_MAP_IND 0
-#var NUM_LFACTORS 0
 #var NUM_VALUES 0
 #var NUM_RGBS 0
-#var NUM_LAMP_LIGHTS 0
 
-#var PARTICLES_SHADELESS 0
-#var SOFT_STRENGTH 1.0
+#var PRECISION highp
+
+#var NUM_LAMP_LIGHTS 0
+#var NUM_LFACTORS 0
+#var NUM_LIGHTS 0
+
+#var PROCEDURAL_FOG 0
+#var SKY_TEXTURE 0
+#var NORMAL_TEXCOORD 0
+#var USE_VIEW_MATRIX 0
+#var USE_VIEW_MATRIX_INVERSE 0
+#var USE_MODEL_MATRIX 0
+#var USE_MODEL_MATRIX_INVERSE 0
+
+#var ALPHA 0
+#var ALPHA_CLIP 0
+
+#var SOFT_STRENGTH 0.25
+
+#var SOFT_PARTICLES 0
+#var NODES 0
+#var DISABLE_FOG 0
+#var WATER_EFFECTS 0
+#var USE_FOG 0
+#var USE_ENVIRONMENT_LIGHT 0
+#var SKY_COLOR 0
+#var REFLECTION_TYPE REFL_NONE
+#var TEXTURE_NORM_CO TEXTURE_COORDS_NONE
+#var CALC_TBN_SPACE 0
+#var USE_TBN_SHADING 0
+#var TEXTURE_COLOR 0
 
 /*==============================================================================
                                   INCLUDES
 ==============================================================================*/
-#include <std_enums.glsl>
-
 #include <precision_statement.glslf>
+#include <std.glsl>
+
 #include <color_util.glslf>
 #if SOFT_PARTICLES || NODES
 #include <pack.glslf>
@@ -90,21 +108,19 @@ uniform float u_node_values[NUM_VALUES];
 uniform vec3 u_node_rgbs[NUM_RGBS];
 #endif
 
-#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW
+#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW || USE_VIEW_MATRIX
 uniform mat3 u_view_tsr_frag;
 #endif
 
-#if USE_ZUP_VIEW_MATRIX
-uniform mat3 u_view_zup_tsr;
+#if USE_VIEW_MATRIX_INVERSE
+uniform mat3 u_view_tsr_inverse;
 #endif
-#if USE_ZUP_VIEW_MATRIX_INVERSE
-uniform mat3 u_view_zup_tsr_inverse;
+#if USE_MODEL_MATRIX
+// it's always dynamic object
+uniform mat3 u_model_tsr;
 #endif
-#if USE_ZUP_MODEL_MATRIX
-uniform mat3 u_model_zup_tsr;
-#endif
-#if USE_ZUP_MODEL_MATRIX_INVERSE
-uniform mat3 u_model_zup_tsr_inverse;
+#if USE_MODEL_MATRIX_INVERSE
+uniform mat3 u_model_tsr_inverse;
 #endif
 
 #if SOFT_PARTICLES
@@ -119,7 +135,7 @@ uniform sampler2D u_nodes_texture;
 /*==============================================================================
                                 SHADER INTERFACE
 ==============================================================================*/
-#if TEXTURE_NORM_CO || CALC_TBN_SPACE || USE_TBN_SHADING
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE || CALC_TBN_SPACE || USE_TBN_SHADING
 GLSL_IN vec4 v_tangent;
 #endif
 
@@ -151,8 +167,6 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 #include <fog.glslf>
 #endif
 
-#include <environment.glslf>
-
 #include <math.glslv>
 #include <particles_nodes.glslf>
 
@@ -170,35 +184,31 @@ void main(void) {
     vec4 nout_shadow_factor;
     float nout_alpha;
 
-    mat4 nin_view_matrix = mat4(0.0);
-    mat4 nin_zup_view_matrix = mat4(0.0);
-    mat4 nin_zup_view_matrix_inverse = mat4(0.0);
-    mat4 nin_zup_model_matrix = mat4(0.0);
-    mat4 nin_zup_model_matrix_inverse = mat4(0.0);
+    mat3 nin_view_tsr              = mat3(0.0);
+
+    mat3 nin_view_tsr_inverse      = mat3(0.0);
+    mat3 nin_model_tsr             = mat3(0.0);
+    mat3 nin_model_tsr_inverse     = mat3(0.0);
 
 #if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW
-    nin_view_matrix = tsr_to_mat4(u_view_tsr_frag);
+    nin_view_tsr = u_view_tsr_frag;
 #endif
 
-#if USE_ZUP_VIEW_MATRIX
-    nin_zup_view_matrix = tsr_to_mat4(u_view_zup_tsr);
+#if USE_VIEW_MATRIX_INVERSE
+    nin_view_tsr_inverse = u_view_tsr_inverse;
 #endif
-#if USE_ZUP_VIEW_MATRIX_INVERSE
-    nin_zup_view_matrix_inverse = tsr_to_mat4(u_view_zup_tsr_inverse);
+#if USE_MODEL_MATRIX
+    nin_model_tsr = u_model_tsr;
 #endif
-#if USE_ZUP_MODEL_MATRIX
-    nin_zup_model_matrix = tsr_to_mat4(u_model_zup_tsr);
-#endif
-#if USE_ZUP_MODEL_MATRIX_INVERSE
-    nin_zup_model_matrix_inverse = tsr_to_mat4(u_model_zup_tsr_inverse);
+#if USE_MODEL_MATRIX_INVERSE
+    nin_model_tsr_inverse = u_model_tsr_inverse;
 #endif
 
     nodes_main(eye_dir,
-            nin_view_matrix,
-            nin_zup_view_matrix,
-            nin_zup_view_matrix_inverse,
-            nin_zup_model_matrix,
-            nin_zup_model_matrix_inverse,
+            nin_view_tsr,
+            nin_view_tsr_inverse,
+            nin_model_tsr,
+            nin_model_tsr_inverse,
             nout_color,
             nout_specular_color,
             nout_normal,

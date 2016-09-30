@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Текстуры &mdash; Руководство пользователя Blend4Web 16.08</title>
+  <title>Текстуры &mdash; Руководство пользователя Blend4Web 16.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.09" href="index.html"/>
         <link rel="next" title="Система частиц. Флюиды" href="particles.html"/>
         <link rel="prev" title="Стереоизображение" href="stereo_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -154,7 +154,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#special-texture-types">Особые типы текстур</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#d-scene">3D сценa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#render-to-texture">Render-To-Texture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#canvas">Canvas</a></li>
 </ul>
 </li>
@@ -390,6 +390,7 @@
 <p>Карта нормалей применяется для указания распределения нормалей (перпендикуляров) к поверхности с целью увеличения уровня детализации ее рельефа. Информация о нормалях должна храниться в текстурном пространстве координат. Карты нормалей в объектном пространстве не поддерживаются.</p>
 <div class="section" id="id7">
 <h3>Активация<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выставить параметр <code class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Color</span> <span class="pre">Space</span></code> в значение <code class="docutils literal"><span class="pre">Non-Color</span></code>.</p>
 <p>Выставить опцию <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> на панели <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code>.</p>
 </div>
 <div class="section" id="id8">
@@ -649,23 +650,29 @@
 </dd>
 </dl>
 <img alt="_images/canvas_tex.png" class="align-center" src="_images/canvas_tex.png" />
-<div class="section" id="d-scene">
-<span id="render-to-texture-scene"></span><h3>3D сценa<a class="headerlink" href="#d-scene" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="render-to-texture">
+<span id="render-to-texture-scene"></span><h3>Render-To-Texture<a class="headerlink" href="#render-to-texture" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Изображение 3D сцены может быть использовано в качестве текстуры на объекте другой (&#8220;главной&#8221;) сцены. Этот приём известен как &#8220;рендеринг в текстуру &#8221;. Для того, чтобы использовать его, выполните следующие действия:</p>
 <ol class="arabic simple">
-<li><p class="first">Создать дополнительную сцену-источник.</p>
+<li><p class="first">Создаёте новую сцену, которая будет использоваться для рендеринга в текстуру.</p>
 </li>
-<li><p class="first">Переименовать для удобства.</p>
+<li><p class="first">Для удобства переименуйте сцену.</p>
 </li>
-<li><p class="first">Создать <code class="docutils literal"><span class="pre">World</span></code>.</p>
+<li><p class="first">Создайте для сцены группу настроек <code class="docutils literal"><span class="pre">World</span></code>.</p>
 </li>
-<li><p class="first">Добавить нужные объекты.</p>
+<li><p class="first">Добавьте в сцену необходимые объекты.</p>
 </li>
-<li><p class="first">Настроить вид из камеры.</p>
+<li><p class="first">Добавьте в сцену камеру и настройте её.</p>
 </li>
-<li><p class="first">В главной сцене создать UV-развёртку целевого объекта.</p>
+<li><p class="first">Затем переключитесь на главную сцену.</p>
 </li>
-<li><p class="first">Для текстуры целевого объекта выставить тип <code class="docutils literal"><span class="pre">None</span></code>.</p>
+<li><p class="first">Выберите нужный вам объект и создайте для него UV-развёртку.</p>
+</li>
+<li><p class="first">Создайте текстуру, которая будет использоваться для рендеринга.</p>
+</li>
+<li><p class="first">Для этой текстуры выставьте тип <code class="docutils literal"><span class="pre">None</span></code>.</p>
+</li>
+<li><p class="first">На панели <code class="docutils literal"><span class="pre">Mapping</span></code>, установите параметр <code class="docutils literal"><span class="pre">Coordinates</span></code> в значение <code class="docutils literal"><span class="pre">UV</span></code>.</p>
 </li>
 <li><p class="first">В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> указать тип <code class="docutils literal"><span class="pre">Scene</span></code>.</p>
 </li>
@@ -732,7 +739,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-08-31.
+      Обновлено: 2016-09-29.
 
     </p>
   </div>
@@ -788,7 +795,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

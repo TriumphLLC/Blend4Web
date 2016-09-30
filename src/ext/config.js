@@ -52,7 +52,9 @@
  * <dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
  * in order to change this parameter).
  * <dt>assets_dds_available
- * <dd>Boolean, allow the engine to use compressed DDS textures. The compressed
+ * <dd>Boolean, allow the engine to use compressed DDS textures.
+ * <dt>assets_pvr_available
+ * <dd>Boolean, allow the engine to use compressed PVRST textures.
  * textures should be present near the source textures in order to be picked up.
  * <dt>assets_min50_available
  * <dd>Boolean, allow the engine to use halved textures. The halved
@@ -162,17 +164,21 @@
  */
 b4w.module["config"] = function(exports, require) {
 
-var m_cfg = require("__config");
+var m_cfg    = require("__config");
+var m_compat = require("__compat");
+var m_debug  = require("__debug");
+var m_data   = require("__data");
+var m_print  = require("__print");
 
 
 /**
- * Quality profile enum. One of P_*.
+ * Quality profile enum. One of {@link module:config.P_LOW|P_LOW}, {@link module:config.P_HIGH|P_HIGH}, {@link module:config.P_ULTRA|P_ULTRA}, {@link module:config.P_CUSTOM|P_CUSTOM}.
  * @typedef QualityProfile
  * @type {Number}
  */
 
 /**
- * Low quality profile: maximize engine performance.
+ * Low quality profile: maximize engine performance, minimize memory consumption.
  * @const {QualityProfile} module:config.P_LOW
  */
 exports.P_LOW = m_cfg.P_LOW;
@@ -194,6 +200,13 @@ exports.P_ULTRA = m_cfg.P_ULTRA;
  * @const {QualityProfile} module:config.P_CUSTOM
  */
 exports.P_CUSTOM = m_cfg.P_CUSTOM;
+
+/**
+ * Auto quality profile: cannot be used directly, only for quality
+ * auto configurators.
+ * @const {QualityProfile} module:config.P_AUTO
+ */
+exports.P_AUTO = m_cfg.P_AUTO;
 
 /**
  * Set the value of the config property of the engine.
@@ -229,5 +242,25 @@ exports.reset_limits = m_cfg.reset_limits;
  * @returns {String} Path to assets
  */
 exports.get_std_assets_path = m_cfg.get_std_assets_path;
+
+/**
+ * Set the engine's quality profile.
+ * @method module:config.apply_quality
+ * @param {QualityProfile} quality Quality profile
+ */
+exports.apply_quality = function(quality) {
+    if (m_data.is_primary_loaded()) {
+        m_print.error("Cannot change quality profile after a scene is loaded.");
+        return;
+    }
+
+    m_cfg.set("quality", quality);
+    var gl = m_debug.get_gl();
+    // initialized
+    if (gl) {
+        m_cfg.apply_quality();
+        m_compat.set_hardware_defaults(m_debug.get_gl(), false);
+    }
+}
 
 }

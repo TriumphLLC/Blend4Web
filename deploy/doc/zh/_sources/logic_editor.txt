@@ -159,7 +159,7 @@ Internal Parameters
 Delay
 -----
 
-Make a delay before going to the next node.
+Make a delay (measured in seconds) before going to the next node.
 
 [图片]
 

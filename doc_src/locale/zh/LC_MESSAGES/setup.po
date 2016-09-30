@@ -1,17 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
+# Blend4Web User Manual Chinese Translation: Setup
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as the Blend4Web. User
-# Manual package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# This file is distributed under the same license as Blend4Web.
+# Blend4Web Team <info [at] blend4web.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-08-29 16:10+0300\n"
-"PO-Revision-Date: 2016-03-26 17:33+0800\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: Blend4Web 16.08\n"
+"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
+"POT-Creation-Date: 2016-09-27 15:47+0300\n"
+"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -73,7 +72,7 @@ msgstr ""
 msgid "Installing Blend4Web SDK"
 msgstr "安装Blender"
 
-#: ../setup.rst:38 ../setup.rst:104 ../setup.rst:154
+#: ../setup.rst:38 ../setup.rst:104 ../setup.rst:157
 msgid "Run Blender."
 msgstr "打开Blender。"
 
@@ -93,7 +92,7 @@ msgstr "在 :file:`Scripts` 中设置 SDK 目录的路径。"
 msgid "Click the :file:`Save User Settings` button."
 msgstr "单击 :file:`Save User Settings` 按钮。"
 
-#: ../setup.rst:52 ../setup.rst:127 ../setup.rst:164
+#: ../setup.rst:52 ../setup.rst:130 ../setup.rst:167
 msgid "Restart Blender."
 msgstr "重新启动Blender。"
 
@@ -185,11 +184,11 @@ msgstr ""
 msgid "Download the new version of the SDK."
 msgstr ""
 
-#: ../setup.rst:106 ../setup.rst:156
+#: ../setup.rst:106 ../setup.rst:159
 msgid "Open the ``User Preferences`` window."
 msgstr ""
 
-#: ../setup.rst:108 ../setup.rst:131
+#: ../setup.rst:108 ../setup.rst:134
 #, fuzzy
 msgid "Open the ``Add-ons`` panel."
 msgstr "打开 :file:`File` 选项卡。"
@@ -198,16 +197,23 @@ msgstr "打开 :file:`File` 选项卡。"
 msgid "Disable ``Blend4Web`` Add-on."
 msgstr ""
 
-#: ../setup.rst:112
-msgid "Unpack the new version of the SDK from the archive."
+#: ../setup.rst:113
+msgid ""
+"We recommend not to use the ``Remove`` button to disable the Add-on for "
+"updating the SDK, as doing so will completely delete the add-on, "
+"including its files in the SDK."
 msgstr ""
 
 #: ../setup.rst:115
+msgid "Unpack the new version of the SDK from the archive."
+msgstr ""
+
+#: ../setup.rst:118
 #, fuzzy
 msgid "There are two methods to do this."
 msgstr "有两种方法来更新 SDK。"
 
-#: ../setup.rst:117
+#: ../setup.rst:120
 #, fuzzy
 msgid ""
 "Firstly, you can completely delete the SDK folder and, after that, "
@@ -215,62 +221,62 @@ msgid ""
 " first time."
 msgstr "首先，可以完全删除 SDK 文件夹中，在那之后，提取新版本文件夹并将路径设置为它在Blender设置，就像你第一次安装 SDK一样。"
 
-#: ../setup.rst:119
+#: ../setup.rst:122
 msgid ""
 "Secondly, you can simply overwrite the outdated SDK files with the new "
 "ones. This method is considered less \"pure\", but in most cases it "
 "should not cause any problems."
 msgstr "第二，你可以简单地使用新的覆盖过时的 SDK 文件。此方法被认为是不太 \"纯净\"，但在大多数情况下，它不应导致任何问题。"
 
-#: ../setup.rst:121
+#: ../setup.rst:124
 msgid "Open the ``File`` panel in the ``User Preferences`` window."
 msgstr ""
 
-#: ../setup.rst:123
+#: ../setup.rst:126
 #, fuzzy
 msgid "Set the path to the SDK folder in the ``Scripts`` field."
 msgstr "在 :file:`Scripts` 中设置 SDK 目录的路径。"
 
-#: ../setup.rst:125
+#: ../setup.rst:128
 #, fuzzy
 msgid "Press the ``Save User Settings`` button."
 msgstr "单击 :file:`Save User Settings` 按钮。"
 
-#: ../setup.rst:129
+#: ../setup.rst:132
 msgid "Open the ``User Preferences`` window once again."
 msgstr ""
 
-#: ../setup.rst:133
+#: ../setup.rst:136
 msgid "Enable ``Blend4Web`` add-on."
 msgstr ""
 
-#: ../setup.rst:135
+#: ../setup.rst:138
 #, fuzzy
 msgid "Press the ``Save User Settings`` button once again."
 msgstr "单击 :file:`Save User Settings` 按钮。"
 
-#: ../setup.rst:137
+#: ../setup.rst:140
 msgid "Check if everything works correctly."
 msgstr ""
 
-#: ../setup.rst:139
+#: ../setup.rst:142
 msgid ""
 "After updating is complete, you can import all saved projects using the "
 ":ref:`project import <import_projects>` tools."
 msgstr "完成更新后，您可以使用 :ref:`项目导入 <import_projects>` 工具导入所有已保存的项目。"
 
-#: ../setup.rst:142
+#: ../setup.rst:145
 #, fuzzy
 msgid "Updating the Addon"
 msgstr "更新 SDK"
 
-#: ../setup.rst:144
+#: ../setup.rst:147
 msgid ""
 "If you are only using the Blend4Web add-on, follow this instruction "
 "instead."
 msgstr ""
 
-#: ../setup.rst:146
+#: ../setup.rst:149
 msgid ""
 "Before installing a new version of the add-on, you may firstly remove the"
 " existing one. To do this, unfold the information tab of the Blend4Web "
@@ -279,52 +285,28 @@ msgid ""
 " be any coflicts."
 msgstr ""
 
-#: ../setup.rst:152
+#: ../setup.rst:155
 msgid ""
 "Download the archive that contains the new version of the add-on, and "
 "save it to any place on your hard drive."
 msgstr ""
 
-#: ../setup.rst:158
+#: ../setup.rst:161
 msgid "Switch to the ``Add-ons`` panel."
 msgstr ""
 
-#: ../setup.rst:160
+#: ../setup.rst:163
 msgid "Install the new version of the add-on from the archive you downloaded."
 msgstr ""
 
-#: ../setup.rst:162
+#: ../setup.rst:165
 #, fuzzy
 msgid "Press the ``Save User Settings button``."
 msgstr "单击 :file:`Save User Settings` 按钮。"
 
-#: ../setup.rst:166
+#: ../setup.rst:169
 msgid "Everything should be working now."
 msgstr ""
-
-#: ../setup.rst:173
-msgid "Exporting and Viewing Scenes"
-msgstr "导出和查看场景"
-
-#: ../setup.rst:175
-msgid ""
-"The created scenes can be exported in HTML format. To do this use the "
-":file:`File > Export > Blend4Web (.html)` or :file:`File > Export > "
-"Blend4Web (.json)` menu option and choose the export filepath. Scene "
-"export is described thoroughly in :ref:`its own chapter <addon>`. The "
-"resulting HTML file can be opened with any browser with WebGL support."
-msgstr ""
-"创建的场景可以以 HTML 格式导出。使用 :file:`File > Export > Blend4Web (.html)` 或者 "
-":file:`File > Export > Blend4Web (.json)` 菜单选项，然后选择导出文件的路径。场景导出完全描述在 "
-":ref:`自己章节 <addon>`. 可以用任何支持 WebGL的浏览器打开生成的 HTML 文件。"
-
-#: ../setup.rst:177
-msgid ":ref:`browser_webgl_support`"
-msgstr ":ref:`browser_webgl_support`"
-
-#: ../setup.rst:168
-msgid "export"
-msgstr "导出"
 
 #~ msgid "*To check:*"
 #~ msgstr "*去检查：*"
@@ -339,7 +321,7 @@ msgstr "导出"
 #~ msgstr "本地开发服务器"
 
 #~ msgid ""
-#~ msgstr "如果不能正确显示的SDK应用程序，或错误消息显示，按照 :ref:`renderer_not_working` 中的说明部分。"
+#~ msgstr ""
 
 #~ msgid "Running Viewer and Demos"
 #~ msgstr "运行浏览器和演示"
@@ -349,4 +331,21 @@ msgstr "导出"
 
 #~ msgid "launch"
 #~ msgstr "启动"
+
+#~ msgid "Exporting and Viewing Scenes"
+#~ msgstr "导出和查看场景"
+
+#~ msgid ":ref:`browser_webgl_support`"
+#~ msgstr ":ref:`browser_webgl_support`"
+
+#~ msgid "export"
+#~ msgstr "导出"
+
+#~ msgid ""
+#~ "We recommend not to use the "
+#~ "``Remove`` button to do this, as "
+#~ "pressing it will completely delete the"
+#~ " add-on, including its files in "
+#~ "the SDK."
+#~ msgstr ""
 

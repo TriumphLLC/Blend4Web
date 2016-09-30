@@ -1,32 +1,49 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var ABSORB 0.0
-#var WATER_LEVEL 0.0
-#var SSS_STRENGTH 6.0
-#var SSS_WIDTH 0.0
-#var PRECISION lowp
+#var PRECISION highp
 
-// lamp dirs
+#var USE_FOG 0
+#var USE_TBN_SHADING 0
+#var NORM_FOAM0 0
+#var NORM_FOAM1 0
+#var NORM_FOAM2 0
+#var NORM_FOAM3 0
+
+#var DEBUG_WIREFRAME 0
+#var NUM_NORMALMAPS 0
+#var FOAM 0
+#var SHORE_PARAMS 0
+#var GENERATED_MESH 0
+#var ABSORB 6.0
+#var SSS_STRENGTH 1.0
+#var SSS_WIDTH 0.45
+#var ALPHA 0
+#var DISABLE_FOG 0
 #var NUM_LIGHTS 0
-#var LAMP_IND 0
-#var LAMP_SPOT_SIZE 0
-#var LAMP_SPOT_BLEND 0
-#var LAMP_LIGHT_DIST 0
-#var LAMP_LIGHT_FACT_IND 0
-#var LAMP_FAC_CHANNELS rgb
-#var LAMP_SHADOW_MAP_IND 0
 #var NUM_LFACTORS 0
+#var WAVES_HEIGHT 1.0
+#var WATER_LEVEL 0.0
+#var PROCEDURAL_FOG 0
+#var SKY_TEXTURE 0
+#var USE_REFRACTION_CORRECTION 0
+#var SHORE_SMOOTHING 0
+#var DYNAMIC 0
+
+#var USE_ENVIRONMENT_LIGHT 0
+#var SKY_COLOR 0
+#var REFLECTION_TYPE REFL_NONE
+#var WATER_EFFECTS 0
+#var REFRACTIVE 0
 
 /*==============================================================================
                                   INCLUDES
 ==============================================================================*/
 
-#include <std_enums.glsl>
 #include <precision_statement.glslf>
-#include <procedural.glslf>
+#include <std.glsl>
 #include <pack.glslf>
 #include <color_util.glslf>
 #include <math.glslv>
@@ -232,7 +249,7 @@ vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
     vec3 eye_reflected = reflect(-eye_dir, normal);
 
 #if REFLECTION_TYPE == REFL_PLANE
-    vec2 reflect_coord = screen_coord.xy + normal.xz * REFL_BUMP
+    vec2 reflect_coord = screen_coord.xy + normal.xy * REFL_BUMP
                                                   / v_view_depth;
     mirror_factor = u_reflect_factor;
 
@@ -290,23 +307,23 @@ void main(void) {
 #if DYNAMIC
     vec3 normal = normalize(v_normal);
 #else
-    vec3 normal = vec3(0.0, 1.0, 0.0);
+    vec3 normal = UP_VECTOR;
 #endif
 
 #if DYNAMIC && FOAM
 # if WATER_EFFECTS
-    float dist_to_water = v_pos_world.y - WATER_LEVEL;
+    float dist_to_water = v_pos_world.z - WATER_LEVEL;
 # else
-    float dist_to_water = v_pos_world.y;
+    float dist_to_water = v_pos_world.z;
 # endif
 #endif
 
 #if NUM_NORMALMAPS > 0 || FOAM
 # if GENERATED_MESH
 #  if DYNAMIC
-    vec2 texcoord = vec2(v_calm_pos_world.x, -v_calm_pos_world.z) + 0.5;
+    vec2 texcoord = vec2(v_calm_pos_world.x, -v_calm_pos_world.y) + 0.5;
 #  else
-    vec2 texcoord = vec2(v_pos_world.x, -v_pos_world.z) + 0.5;
+    vec2 texcoord = vec2(v_pos_world.x, -v_pos_world.y) + 0.5;
 #  endif // DYNAMIC
 # else
     vec2 texcoord = v_texcoord;
@@ -383,7 +400,7 @@ void main(void) {
 #endif
 
 #if REFRACTIVE
-    vec2 refract_coord = screen_coord + normal.xz * u_refr_bump
+    vec2 refract_coord = screen_coord + normal.xy * u_refr_bump
                                                   / v_view_depth;
 #endif
 
@@ -430,6 +447,7 @@ void main(void) {
     // shore water gradient
     grad_f = pow(min(v_shore_params.b / u_water_shore_col_fac, 1.0), 0.3);
     diffuse_color = mix(u_shore_water_col, diffuse_color, grad_f);
+
 #else
     vec3 diffuse_color = u_diffuse_color.rgb;
 #endif
@@ -437,6 +455,7 @@ void main(void) {
 #if FOAM
 # if SHORE_SMOOTHING
     float foam_factor = max(1.0 - u_view_max_depth * delta, 0.0);
+
 # else
     float foam_factor = 1.0 - alpha;
 # endif // SHORE_SMOOTHING
@@ -447,16 +466,16 @@ void main(void) {
 
 #  if SHORE_PARAMS
     // add foam to directional waves
-    vec3 dir_shore = normalize(vec3(v_shore_params.r, 0.0, v_shore_params.g));
-    vec3 foam_dir = normalize(mix(vec3(0.0, 1.0, 0.0), dir_shore, 0.8));
+    vec3 dir_shore = normalize(vec3(v_shore_params.rg, 0.0));
+    vec3 foam_dir = normalize(mix(UP_VECTOR, dir_shore, 0.8));
     float foam_shore_waves = 1.25*max(dot(normal_foam, foam_dir) - 0.2, 0.0);
-    foam_shore_waves += max(dot(normal_foam, vec3(0.0, -1.0, 0.0)), 0.0);
+    foam_shore_waves += max(dot(normal_foam, -UP_VECTOR), 0.0);
     foam_factor += foam_shore_waves * (1.0 - v_shore_params.b);
     foam_waves_factor *= (1.0 - 0.95 * pow(v_shore_params.b, 0.1));
+
 #  endif // SHORE_PARAMS
 
     foam_factor += foam_waves_factor;
-
     foam_factor = min(u_foam_factor * foam_factor, 1.0);
 
 # endif // DYNAMIC
@@ -556,18 +575,18 @@ void main(void) {
 
 #if DEBUG_WIREFRAME == 1
 # if GLSL1
-	#extension GL_OES_standard_derivatives: enable
+    #extension GL_OES_standard_derivatives: enable
 # endif
-	vec3 derivatives = fwidth(v_barycentric);
-	vec3 smoothed_bc = smoothstep(vec3(0.0), derivatives * WIREFRAME_WIDTH, v_barycentric);
-	float edge_factor = min(min(smoothed_bc.x, smoothed_bc.y), smoothed_bc.z);
-	edge_factor = clamp(edge_factor, 0.0, 1.0);
+    vec3 derivatives = fwidth(v_barycentric);
+    vec3 smoothed_bc = smoothstep(vec3(0.0), derivatives * WIREFRAME_WIDTH, v_barycentric);
+    float edge_factor = min(min(smoothed_bc.x, smoothed_bc.y), smoothed_bc.z);
+    edge_factor = clamp(edge_factor, 0.0, 1.0);
 
     color = mix(u_wireframe_edge_color, color, edge_factor);
     alpha = mix(1.0, alpha, edge_factor);
 #elif DEBUG_WIREFRAME == 2
     // extension is unsupported
-	vec3 dist = sign(v_barycentric - vec3(0.02 * WIREFRAME_WIDTH));
+    vec3 dist = sign(v_barycentric - vec3(0.02 * WIREFRAME_WIDTH));
     float edge_factor = 1.0;
     if (dist.x < 0.0 || dist.y < 0.0 || dist.z < 0.0)
         edge_factor = 0.0;

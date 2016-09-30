@@ -375,7 +375,7 @@ Materials
 ~~~~~~~~~
 
 Material properties setup. A material can be selected using the drop-
-down menu. For now, this feature only support a limited number of
+down menu. For now, this feature only supports a limited number of
 properties and only stack (non-node) materials applied to dynamic
 objects (node materials and static objects are not supported).
 
@@ -410,8 +410,9 @@ Available parameters:
 Lighting
 ~~~~~~~~
 
-直接照明的参数设置。光源可以使用下拉菜单中选择。更改颜色和强度的支持。
-白天和阳光照明参数也可以调整该面板上。
+Setup for direct lighting parameters. A light source can be selected
+using the drop-down menu. Changing color and intensity is supported.
+Daytime and sun lighting parameters can also be tweaked on this panel.
 
    [图片]
 
@@ -425,8 +426,8 @@ Available parameters:
    changed in the Scene Viewer.
 
 *Color*
-   The base color of the selected light source. By default, white
-   color (1; 1; 1) is used.
+   The base color of the selected light source. By default, white (1;
+   1; 1) is used.
 
 *Energy Coarse*
    This parameter sets the integral part of the energy value for the
@@ -440,8 +441,8 @@ Available parameters:
 
 *Light Energy*
    This value is calculated as the sum of the Energy Coarse and Energy
-   Precise parameters. In case of both of them are having default
-   values, it will be equal to 1.
+   Precise parameters. In case both of them have default values, it
+   will be equal to 1.
 
 *Spot Size*
    Angle of the light beam emitted by the light source. Default value
@@ -449,8 +450,9 @@ Available parameters:
    sources.
 
 *Spot Blend*
-   The softness of the spotlight edge. Default value is 0.15. This
-   parameter is also available for "Spot" type light sources only.
+   This defines the softness of the spotlight edge. Default value is
+   0.15. This parameter is also available for "Spot" type light
+   sources only.
 
 *Distance*
    This parameter sets the distance (in meters) from the light source
@@ -473,8 +475,7 @@ sources:
    This parameter sets the current date.
 
 *Time*
-   This parameter set the current time of day (or night?). Default
-   value is 12.0.
+   This parameter set the current time of day. Default value is 12.0.
 
 *Maximum Sun Vertical Angle*
    This parameter sets maximum possible vertical angle for a "Sun"
@@ -482,8 +483,8 @@ sources:
 
 *Time Multiplier*
    The value of this parameter defines the speed of the flow of time.
-   Default value is 1.0 (time flows with the same speed it does in
-   real life).
+   Default value is 1.0 (time flows at the same speed it does in real
+   life).
 
 *Horizontal Position*
    Horizontal position of the sun on the skydome. Default value is
@@ -497,7 +498,8 @@ sources:
 Ambient
 ~~~~~~~
 
-环境照明的参数设置。改变颜色和半球环境模型的强度支持。
+Setup for ambient lighting parameters. Changing the colors and
+intensity of a hemispheric ambient model is supported.
 
 The settings available for ambient lighting setup are the same as the
 ones in Blender. They are described in the dedicated section.
@@ -506,16 +508,18 @@ ones in Blender. They are described in the dedicated section.
 Shadows
 ~~~~~~~
 
-阴影参数设置，包括影子瀑布和阴影边缘软化参数。
+Setup for shadow parameters, including shadow cascades and shadow
+edges softening parameters.
 
-The settings for setting up shadows are described in the corresponding
+The options for setting up shadows are described in the corresponding
 section of this manual.
 
 
 Sky
 ~~~
 
-动态天空参数设置，如颜色，太阳的光散射参数等。
+Setup for dynamic sky parameters such as color, sun light scattering
+parameters etc.
 
 Scene Viewer has access to all Blender parameters used for setting up
 procedural sky. These parameters are described in the corresponding
@@ -525,18 +529,19 @@ section.
 Sea
 ~~~
 
-水渲染参数设置，包括颜色过渡由深度和岸的距离，泡沫和次表面散射参数，波
-动力学等。
+Setup for water rendering parameters, including color transitions by
+depth and by distance from the shore, foam and subsurface scattering
+parameters, wave dynamics etc.
 
-The setting for water rendering are described in the Outdoor Rendering
-chapter. Scene Viewer uses the same settings as Blend4Web engine
-itself.
+The settings for water rendering are described in the Outdoor
+Rendering chapter. Scene Viewer uses the same settings as the
+Blend4Web engine itself.
 
 
 Wind
 ~~~~
 
-风参数设置，包括方向和强度。
+Setup for wind parameters, including direction and strength.
 
 The same parameters as the ones used by Scene Viewer are available in
 Blender. These parameters are described in the corresponding chapter.
@@ -545,7 +550,7 @@ Blender. These parameters are described in the corresponding chapter.
 Screen Space Amb Occlus
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-环境闭塞参数设置。
+Setup for ambient occlusion parameters.
 
 All available settings are described in the Postprocessing Effects
 chapter.
@@ -554,7 +559,7 @@ chapter.
 God Rays
 ~~~~~~~~
 
-曙暮辉效果参数设置。
+Setup for crepuscular ray effect parameters.
 
 All parameters for this effect are described in the corresponding
 section.
@@ -563,7 +568,7 @@ section.
 Bloom
 ~~~~~
 
-明亮的光线效果参数设置。
+Setup for bloom effect parameters.
 
 This effect uses the same set of parameters as it does in Blender. It
 is described in greater detail in the corresponding section.
@@ -582,7 +587,7 @@ chapter.
 Glow Materials
 ~~~~~~~~~~~~~~
 
-晕光材质效果设置。
+Glow Material effect settings.
 
 The settings used for this effect are described in the corresponding
 section.
@@ -591,7 +596,7 @@ section.
 Depth of Field
 ~~~~~~~~~~~~~~
 
-景深效果的参数设置。
+Setup for depth-of-field effect parameters.
 
 The parameters are described in the corresponding chapter.
 
@@ -599,7 +604,8 @@ The parameters are described in the corresponding chapter.
 Color correction
 ~~~~~~~~~~~~~~~~
 
-颜色校正参数的设置，包括亮度，对比度，曝光和饱和度。
+Setup for color correction parameters, including brightness, contrast,
+exposure and saturation.
 
 The same set of parameters is used for color correction in Blender
 itself. The description of these parameters is available in the Color
@@ -614,11 +620,11 @@ Audio
 
 *Mixer*
    Enables equalizer that shows various parameters (including volume,
-   frequency, distance, attenuation etc.) of the speakers present in
-   the scene, and allows user to adjust these parameters by using
-   numerical keypad. The available parameters and possibilities are
-   described in greater detail in the dedicated section of the Audio
-   chapter.
+   frequency, distance, attenuation and others) of the speakers
+   present in the scene, and allows user to adjust these parameters by
+   using a numerical keypad. The available parameters and
+   possibilities are described in greater detail in the dedicated
+   section of the Audio chapter.
 
    [图片]
 
@@ -633,15 +639,15 @@ Stereo View
 Available parameters:
 
 *Stereo Types*
-   The list of all available stereo rendering modes. As of today,
-   three types are supported:
+   A list of all available stereo rendering modes. As of today, three
+   types are supported:
 
       "NONE" - stereo rendering is not used.
 
       "ANAGLYPH" - anaglyph rendering is used.
 
       "HMD" - rendering for Head-Mounted Displays is used. This option
-      is only available is the system has access to a HMD device.
+      is only available if the system has access to an HMD device.
 
    Default setting is "NONE".
 
@@ -679,11 +685,14 @@ This panel contains tools for setting up the input devices.
 
 3. **选定的物体和控制物体**
 
-      这是位于左下角。它显示选择和控制对象的名称。对象选择可以用鼠标来
-      执行。要直接控制的对象（通常为物理调试）按 "Q" 键并单击对象。物
-      体的移动是与执行 "W", "A", "S", "D" 键。要退出控制模式下，按 "Q"
-      键并单击一个空的空间。该指标也显示在Blender单位（米当量）所选对
-      象的距离。
+      This is located in the bottom left corner. It displays the names
+      of selected and controlled objects. Selecting an object is done
+      with the mouse. To control the object directly (normally for
+      physics debugging) press the "Q" key and click on the object.
+      The object movement is performed with the "W", "A", "S", "D"
+      keys. To exit the control mode press the "Q" key and click on an
+      empty space. The indicator also displays the distance to the
+      selected object in Blender units (meters equivalent).
 
 4. **场景复杂度指标**
 
@@ -697,10 +706,11 @@ This panel contains tools for setting up the input devices.
       位于渲染区域的右下角。它显示视频存储器的使用的几何形状，纹理，渲
       染目标的量，并且还总的内存使用情况。
 
-6. **场景加载错误指示器**
+6. **Scene load error indicator**
 
-      位于FPS计数下。显示错误，哪个场景加载过程中发生的警告。红灯表示
-      错误，黄色 - 警告，绿色表示该场景加载成功。
+      Is located under the FPS counter. It shows errors and warnings
+      which occur during scene load. Red light means errors, yellow -
+      warnings and green means that the scene was loaded successfully.
 
       Loading errors and warnings can be viewed in the web browser
       console.

@@ -279,7 +279,7 @@ class B4WLocalServer():
 class B4WShutdownServer(bpy.types.Operator):
     bl_idname = "b4w.stop_server"
     bl_label = p_("B4W Stop Server", "Operator")
-    bl_description = _("Stop server")
+    bl_description = _("Stop development server")
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -289,7 +289,7 @@ class B4WShutdownServer(bpy.types.Operator):
 class B4WStartServer(bpy.types.Operator):
     bl_idname = "b4w.start_server"
     bl_label = p_("B4W Start Server", "Operator")
-    bl_description = _("Start server")
+    bl_description = _("Start development server")
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -299,7 +299,7 @@ class B4WStartServer(bpy.types.Operator):
 class B4WOpenSDK(bpy.types.Operator):
     bl_idname = "b4w.open_sdk"
     bl_label = p_("B4W Open SDK", "Operator")
-    bl_description = _("Open Blend4Web SDK")
+    bl_description = _("Open Blend4Web SDK index page")
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -381,7 +381,7 @@ def correct_resources_path(previewdir):
                 sound["filepath"] = guard_slashes(join("resources", file_name))
     if len(os.listdir(res_dir_path)):
         try:
-            f  = open(json_path, "w")
+            f  = oper(json_path, "w", encoding="utf-8")
         except IOError as exp:
             raise FileError("Permission denied")
         else:

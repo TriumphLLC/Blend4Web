@@ -1,13 +1,13 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
 #var ANCHOR_NUM 0
 
 /*============================================================================*/
 
-#include <math.glslv>
+#include <std.glsl>
 
 uniform vec3 u_position[ANCHOR_NUM];
 uniform mat4 u_view_proj_matrix;

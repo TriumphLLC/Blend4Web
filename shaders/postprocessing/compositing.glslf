@@ -1,10 +1,8 @@
 #version GLSL_VERSION
 
 #include <precision_statement.glslf>
-
+#include <std.glsl>
 #include <color_util.glslf>
-
-#define PI_4 0.785398163
 
 uniform sampler2D u_color;
 
@@ -39,7 +37,7 @@ void main(void) {
         color = color + ((1.0 - color) * u_brightness);
 
     // contrast
-    color = (color - 0.5) * (tan((u_contrast + 1.0) * PI_4)) + 0.5;
+    color = (color - 0.5) * (tan((u_contrast + 1.0) * M_PI_4)) + 0.5;
 
     // exposure
     color *= u_exposure;

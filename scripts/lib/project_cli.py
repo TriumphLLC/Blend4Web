@@ -16,7 +16,7 @@ import sys
 import tempfile
 import zipfile
 
-from os.path import basename, join, normpath, exists, relpath, splitext, isfile, isdir
+from os.path import basename, join, normpath, exists, relpath, splitext, isfile, isdir, dirname
 from pathlib import Path
 from html.parser import HTMLParser
 from collections import OrderedDict
@@ -77,6 +77,7 @@ class HTMLProcessor(HTMLParser):
         self.meta = []
         self.start_body = 0
         self.end_body = 0
+        self.end_head = 0
         self.meta_list = []
         self.title = []
         self.is_title = False
@@ -90,6 +91,12 @@ class HTMLProcessor(HTMLParser):
         if tag == "title":
             self.is_title = False
 
+        if tag == "script":
+            self.js[-1]["end_pos"] = self.getpos()
+
+        if tag == "head":
+            self.end_head = self.getpos()
+
     def handle_starttag(self, tag, attrs):
         if tag == "body":
             self.start_body = self.getpos()
@@ -98,6 +105,8 @@ class HTMLProcessor(HTMLParser):
             script = {}
 
             src = False
+
+            script["start_pos"] = self.getpos()
 
             for attr in attrs:
                 script[attr[0]] = attr[1]
@@ -217,14 +226,22 @@ def run(argv, base_dir):
             help("Project directory not found")
             sys.exit(1)
         run_deploy(args[1:], proj_path)
-    elif cmd == "check_deps":
+    elif cmd == "check_deps" or cmd == "check-deps":
         run_check_deps(args[1:])
     elif cmd == "import":
         run_import(args[1:])
     elif cmd == "export":
         run_export(args[1:])
-    elif cmd == "check_modules":
+    elif cmd == "check_modules" or cmd == "check-modules":
+        if not proj_path:
+            help("Project directory not found")
+            sys.exit(1)
         run_check_mods(proj_path)
+    elif cmd == "update_modules" or cmd == "update-modules":
+        if not proj_path:
+            help("Project directory not found")
+            sys.exit(1)
+        run_update_mods(proj_path)
     else:
         help("Wrong project management command: " + cmd)
         sys.exit(1)
@@ -253,7 +270,6 @@ def fill_global_paths(base_dir):
     # closure compiler params
     _js_cc_params = [_java_exec, "-jar", js_cc_path, "--language_in=ECMASCRIPT5"]
 
-
     # engine sources directory
     _src_dir = normpath(join(base_dir, "src"))
 
@@ -280,8 +296,14 @@ def run_help(cmd=""):
     elif cmd == "convert_resources":
         help_convert_resources()
         sys.exit(0)
-    elif cmd == "check_deps":
+    elif cmd == "check_deps" or cmd == "check-deps":
         help_check_deps()
+        sys.exit(0)
+    elif cmd == "check_modules" or cmd == "check-modules":
+        help_check_modules()
+        sys.exit(0)
+    elif cmd == "update_modules" or cmd == "update-modules":
+        help_update_modules()
         sys.exit(0)
     elif cmd == "import":
         help_import()
@@ -314,8 +336,8 @@ Options:
     -h, --help      show this help and exit
 
 Commands:
-    check_deps          check dependencies
-    check_modules       check modules
+    check-deps          check dependencies
+    check-modules       check modules
     compile             compile developer application
     convert_resources   compile meida resources
     deploy              deploy compiled application
@@ -325,6 +347,7 @@ Commands:
     list                list all applications
     reexport            reexport blend files to json/html
     remove              remove project
+    update-modules      update modules
 
 Use 'project.py help COMMAND' to read more about the command and it's arguments.
 """
@@ -577,7 +600,7 @@ def run_init(args):
         correct_texture_paths(script_path, blender_exec,
                 join(blender_dir, MAT_DIR_NAME), is_bundle)
 
-    print(GREEN + "Project Created" + ENDCOL)
+    print(GREEN + "Project created." + ENDCOL)
 
 def correct_texture_paths(script, blender_exec, mat_dir, bundle):
     for list_elem in os.listdir(mat_dir):
@@ -945,6 +968,9 @@ def run_compile(args, proj_path):
         "version":           version
     }
 
+    proj_name = proj_cfg_value(proj_cfg, "info", "name", basename(proj_path))
+    print(GREEN + "Compiling project" + ENDCOL + ": " + BLUE + proj_name + ENDCOL)
+
     if not len(apps_html_files):
         compile_app(**params)
 
@@ -957,7 +983,7 @@ def run_compile(args, proj_path):
         if engine_type == "UPDATE":
             break
 
-    print(GREEN + "    Compilation Finished" + ENDCOL)
+    print(GREEN + "Project compilation finished" + ENDCOL)
 
 def get_engine_type(option_str):
     """
@@ -993,38 +1019,40 @@ def get_opt_level(option_str):
         help_compile("Incorrect optimization option")
         sys.exit(1)
 
-
-def check_proj_struct(project_path, app_names):
+def check_proj_struct(project_path, apps_html_files):
     """
     Checks project structure.
     """
-    if len(app_names):
-        for app_name in app_names:
-            if not isfile(join(project_path, app_name)):
+    if len(apps_html_files):
+        # check html files existing
+        for app_html_file in apps_html_files:
+            if not isfile(join(project_path, app_html_file)):
                 help_compile(app_name + " HTML file does not exist")
+                sys.exit(1)
     else:
         proj_path_obj = Path(normpath(project_path))
-        html_files = list(proj_path_obj.rglob('*.html'))
+        html_files_obj = list(proj_path_obj.glob('*.html'))
+
+        if not len(html_files_obj):
+            help_compile("Main HTML file does not exist")
+            sys.exit(1)
+
         in_root = False
 
-        if not len(html_files):
-            help_compile("Main HTML file does not exist")
-            sys.exit(0)
-
-        for html_file in html_files:
-            if str(html_file.parent) == project_path:
+        # check html file is one instance
+        for html_file_obj in html_files_obj:
+            if html_file_obj.parent.name == proj_path_obj.name:
                 if not in_root:
                     in_root = True
                 else:
                     help_compile("Project must " +
                           "contain only one HTML file in the root directory")
-                    sys.exit(0)
+                    sys.exit(1)
 
+        # check html file is in root proj path
         if not in_root:
             help_compile("Main HTML file must be in the root directory")
-            sys.exit(0)
-
-
+            sys.exit(1)
 
 def compile_app(html_file="", **kwargs):
     dev_proj_path     = kwargs["dev_proj_path"]
@@ -1174,7 +1202,6 @@ def parse_html_file(html_file, js_ignore, css_ignore):
 
     return parser, src_lines
 
-
 def parse_body(start_body, end_body, src_lines):
     first_line = src_lines[start_body[0] - 1][start_body[1]:]
     last_line  = src_lines[end_body[0] - 1][:end_body[1]] + "</body>"
@@ -1187,7 +1214,6 @@ def parse_body(start_body, end_body, src_lines):
         new_body_lines.append(last_line)
 
     return new_body_lines
-
 
 def compile_html(**kwargs):
     parser   = kwargs["parser"]
@@ -1307,7 +1333,9 @@ def compile_html(**kwargs):
             js_string = "\n    <script"
 
             for attr in js:
-                if attr == "no_compile":
+                if (attr == "no_compile" or
+                        attr == "start_pos" or
+                        attr == "end_pos"):
                     continue
 
                 js_string += " " + attr + "='" + js[attr] + "'"
@@ -1331,16 +1359,13 @@ def compile_html(**kwargs):
 
     html_file.close()
 
-
 def copy_smaa_to_proj_path(proj_path):
     shutil.copy(join(_engine_dir, SMAA_FILE_NAME_AREA), proj_path)
     shutil.copy(join(_engine_dir, SMAA_FILE_NAME_SEARCH), proj_path)
 
-
 def copy_phys_to_proj_path(proj_path):
     shutil.copy(join(_engine_dir, URANIUM_FILE_NAME), proj_path)
     shutil.copy(join(_engine_dir, URANIUM_FILE_NAME_BIN), proj_path)
-
 
 def change_assets_path(new_engine_path, assets_path):
     """
@@ -1374,7 +1399,7 @@ def change_b4w_path(new_app_dir):
         html_file.close()
 
         new_path = unix_path(relpath(join(new_app_dir, "common"),
-                os.path.dirname(str(html_path))))
+                dirname(str(html_path))))
 
         new_data = re.sub("(src\s*=')([\w/.]*)(b4w.[\w.]*min.js)", "\\1" +
                 new_path + "/\\3", file_data)
@@ -1415,7 +1440,6 @@ def compile_css(css_paths, file_name):
 
         os.remove(temp_css_path)
 
-
 def append_externs_items(paths, externs_gen_file):
     """
     Finds items in js files which must be added in extern file.
@@ -1444,7 +1468,6 @@ def append_externs_items(paths, externs_gen_file):
 
         for func in function_names:
             externs_gen_file.write("Object.prototype." + func + ";\n")
-
 
 def compile_js(js_paths, file_name, opt_level, engine_type):
     # engine compiler path
@@ -1541,7 +1564,6 @@ def compile_js(js_paths, file_name, opt_level, engine_type):
         for js in js_paths[parent]:
             _temporary_files.append(js)
 
-
 def get_used_modules(js_files):
     pattern_1 = r'= *require\([\"|\'](.*)[\"\']\)'
     pattern_2 = r'b4w\.module+\[[\"|\'](.*)[\"|\']\] *= *function'
@@ -1580,7 +1602,6 @@ def get_used_modules(js_files):
 
     return reserved_mods
 
-
 def check_file_modules(module, module_names, reserved_mods, pattern_1):
     if not module in module_names:
         return
@@ -1595,7 +1616,6 @@ def check_file_modules(module, module_names, reserved_mods, pattern_1):
             if not module_names[ch_module] in reserved_mods:
                 check_file_modules(ch_module, module_names,
                                    reserved_mods, pattern_1)
-
 
 def exist_css(included_files, files, app_path_name):
     """
@@ -1622,7 +1642,6 @@ def exist_css(included_files, files, app_path_name):
                 break
 
     return processed_files
-
 
 def exist_js(included_files, files, app_path_name):
     """
@@ -1653,15 +1672,11 @@ def exist_js(included_files, files, app_path_name):
 
     return processed_files
 
-
 def print_wrapper(output_path):
     """
     Wraps print by horizontal lines.
     """
-    print("    " + "-"*(len(output_path) + len("  Compiling : ")))
-    print(GREEN, "   Compiling", ENDCOL, ":", BLUE, output_path, ENDCOL)
-    print("    " + "-"*(len(output_path) + len("  Compiling : ")))
-
+    print(GREEN + "  Processing" + ENDCOL + ": " + BLUE + output_path + ENDCOL)
 
 def check_dependencies(dependencies, do_print=True):
     missing_progs = get_missing_progs(dependencies)
@@ -1677,14 +1692,12 @@ def check_dependencies(dependencies, do_print=True):
         return False
     return True
 
-
 def get_missing_progs(dependencies):
     missing_progs = []
     for dep in dependencies:
         if not shutil.which(dep):
             missing_progs.append(dep)
     return missing_progs
-
 
 def help_compile(err=""):
     if err:
@@ -1703,7 +1716,6 @@ Options:
     -t, --engine-type=TYPE    specify b4w engine type (external, copy, compile, update)
     -v, --version             add version to js and css urls
     -h, --help                show this help and exit""")
-
 
 def run_convert_resources(args, proj_path):
     try:
@@ -1742,8 +1754,7 @@ def run_convert_resources(args, proj_path):
         print_flush()
         subprocess.check_call([python_path, conv_path, "-d", assets_dir, "convert_media"])
 
-    print(GREEN + "Resources Converted" + ENDCOL)
-
+    print(GREEN + "Project resources converted" + ENDCOL)
 
 def help_convert_resources(err=""):
     if err:
@@ -1756,7 +1767,6 @@ Convert project resources (textures/audio/video) to alternative formats.
 Options:
     -s, --assets   source assets directory
     -h, --help     show this help and exit""")
-
 
 def run_reexport(args, proj_path):
     """
@@ -1811,7 +1821,6 @@ Options:
     -b, --blender-exec   path to blender executable
     -h, --help           show this help and exit""")
 
-
 def run_remove(args, proj_path):
     """
     Remove existing project with all files.
@@ -1842,8 +1851,7 @@ def run_remove(args, proj_path):
     if isdir(proj_path):
         shutil.rmtree(proj_path)
 
-    print(GREEN + "Removed" + ENDCOL)
-
+    print(GREEN + "The project " + basename(proj_path) + " has been removed." + ENDCOL)
 
 def run_deploy(args, proj_path):
     """
@@ -1966,7 +1974,7 @@ def run_deploy(args, proj_path):
         print("Compressing deployed project")
         compress_dir(archive, deploy_abs_path, proj_name)
 
-    print(GREEN + "Project " + proj_name + " has been deployed" + ENDCOL)
+    print(GREEN + "Project " + proj_name + " has been deployed." + ENDCOL)
 
 def help_deploy(err=""):
     if err:
@@ -1984,7 +1992,6 @@ Options:
     -t, --engine-type=TYPE  override project's engine type config
                             (external, copy, compile, update)
     -h, --help              display this help and exit""")
-
 
 def run_check_deps(args):
     """
@@ -2016,10 +2023,10 @@ def run_check_deps(args):
 
 def help_check_deps(err=""):
     if err:
-        help_print_err(err, "check_deps")
+        help_print_err(err, "check-deps")
     else:
         print("""\
-Usage: project.py check_deps [OPTION]
+Usage: project.py check-deps [OPTION]
 Check external dependencies, required for proper project management operation.
 
 Options:
@@ -2302,95 +2309,208 @@ Options:
 
 def help_check_modules(err=""):
     if err:
-        help_print_err(err, "check_modules")
+        help_print_err(err, "check-modules")
     else:
         print("""\
-Usage: project.py PROJECT... DIRECTORY check_modules
+Usage: project.py PROJECT... DIRECTORY check-modules
 Check engine modules.
 
 Options:
     -h, --help   show this help and exit""")
 
-def run_check_mods(proj_path):
-    from mod_list import gen_module_list
+def help_update_modules(err=""):
+    if err:
+        help_print_err(err, "update-modules")
+    else:
+        print("""\
+Usage: project.py PROJECT... DIRECTORY update-modules
+Update engine modules.
 
-    src_modules = gen_module_list("src/", _src_dir)
+Options:
+    -h, --help   show this help and exit""")
+
+def run_check_mods(proj_path):
+    """Check project modules."""
+
     proj_cfg = get_proj_cfg(proj_path)
     app_html_files = proj_cfg_value(proj_cfg, "compile", "apps", [])
 
-    html_files = []
+    check_proj_struct(proj_path, app_html_files)
+
+    from mod_list import gen_module_list
+
+    src_modules = gen_module_list(_src_dir, _src_dir)
+    html_files_obj = []
+    proj_path_obj = Path(normpath(proj_path))
+
+    single_app = True
 
     if len(app_html_files):
-        for app_html_file in app_html_files:
-            if not isfile(join(proj_path, app_html_file)):
-                help_compile(app_html_file + " HTML file does not exist")
-                sys.exit(1)
-        html_files = [Path(normpath(join(proj_path, f))) for f in app_html_files]
+        html_files_obj = [proj_path_obj.joinpath(normpath(app_html_file))
+                      for app_html_file in app_html_files]
+        single_app = False
     else:
-        proj_path_obj = Path(normpath(proj_path))
-        html_files = list(proj_path_obj.rglob('*.html'))
-
-        if not len(html_files):
-            help_compile("Main HTML file does not exist")
-            sys.exit(1)
-
-        in_root = False
-
-        for html_file in html_files:
-            if str(html_file.parent) == proj_path:
-                if not in_root:
-                    in_root = True
-                else:
-                    help_compile("Project must " +
-                          "contain only one HTML file in the root directory")
-                    sys.exit(1)
-
-        if not in_root:
-            help_compile("Main HTML file must be in the root directory")
-            sys.exit(1)
-
-    proj_path_obj = Path(normpath(proj_path))
-    html_files = list(proj_path_obj.glob('*.html'))
+        html_files_obj = list(proj_path_obj.glob('*.html'))
 
     engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "external")
-    proj_name = proj_cfg_value(proj_cfg, "info", "name", "undefined")
 
     if not engine_type in ["external", "compile", "copy"]:
         help("Incorrect engine type; use 'external', 'copy' or 'compile'")
         sys.exit(1)
 
-    used = []
-    unused = []
+    for html_file_obj in html_files_obj:
+        used = []
+        unused = []
 
-    for html_file in html_files:
         parser = HTMLProcessor()
-        src_file = open(html_file.as_posix(), encoding="utf-8")
+        src_file = open(html_file_obj.as_posix(), encoding="utf-8")
         src_text = src_file.read()
         src_file.seek(0)
         src_file.close()
         parser.feed(src_text)
+        mods = list(filter(lambda x: normpath(join(proj_path,x["src"])).startswith(_src_dir), parser.js))
 
-        used.extend(list(set(src_modules) - set([relpath(x["src"], '../../') for x in parser.js])))
-        unused.extend(list(set([relpath(x["src"], '../../') for x in parser.js if (Path(x["src"]).parts[0] == '..' and
-                                                                           Path(x["src"]).parts[1] == '..' and
-                                                                           Path(x["src"]).parts[2] == 'src') or x["src"] == "../../deploy/globals_detect/end.js" or x["src"] == "../../deploy/globals_detect/begin.js"]) - set(src_modules)))
+        used.extend(list(set(src_modules) -
+                         set([normpath(join(proj_path, x["src"])) for x in mods])))
 
-    used = list(set(used))
-    unused = list(set(unused))
+        unused.extend(list(set([normpath(join(proj_path, x["src"])) for x in mods]) -
+                           set(src_modules)))
 
-    is_ok = True
+        is_ok = True
 
-    for m in used:
+        for m in used:
+            if is_ok:
+                is_ok = False
+
+            print(" Module '" + relpath(m, _src_dir) + "' is missing in the '" + html_file_obj.name + "', please include it or run 'Update Modules'.")
+
+        for m in unused:
+            if is_ok:
+                is_ok = False
+
+            print(" Incorrect module '" + relpath(m, _src_dir) + "' in the '" + html_file_obj.name + "', please remove it or run 'Update Modules'.")
+
         if is_ok:
-            is_ok = False
+            print(GREEN, "Module check complete. No problems detected in the '" + html_file_obj.name + "'.", ENDCOL)
 
-        print("Module '" + m + "' is missing from the " + proj_name + " project, please append it to the project's html files.")
+def run_update_mods(proj_path):
+    """Update project modules."""
 
-    for m in unused:
-        if is_ok:
-            is_ok = False
+    proj_cfg = get_proj_cfg(proj_path)
+    app_html_files = proj_cfg_value(proj_cfg, "compile", "apps", [])
 
-        print("Module '" + m + "' is no longer required, please remove it from the project's HTML files.")
+    check_proj_struct(proj_path, app_html_files)
 
-    if is_ok:
-        print(GREEN, "Check complete. No missing/useless modules found.")
+    from mod_list import gen_module_list
+
+    proj_path_obj = Path(normpath(proj_path))
+    src_modules = gen_module_list("../../src/", _src_dir)
+    src_modules_obj = [Path(normpath(module)) for module in src_modules]
+    html_files_obj = []
+
+    if len(app_html_files):
+        html_files_obj = [proj_path_obj.joinpath(normpath(app_html_file))
+            for app_html_file in app_html_files]
+    else:
+        html_files_obj = list(proj_path_obj.glob('*.html'))
+
+    engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "external")
+
+    # check right engine type
+    if not engine_type in ["external", "compile", "copy"]:
+        help("Incorrect engine type; use 'external', 'copy' or 'compile'")
+        sys.exit(1)
+
+    for html_file_obj in html_files_obj:
+        #current html file js with meta info (like start_pos, end_pos)
+        cur_js_dict = get_cur_js_dict(html_file_obj)
+
+        #current html file modules with meta info (like start_pos, end_pos)
+        cur_mods_dict = list(filter(lambda x: dirname(normpath(join(proj_path, x["src"]))).startswith(_src_dir), cur_js_dict))
+
+        #remove all src modules from html file
+        remove_mods_from_html(html_file_obj, cur_mods_dict)
+
+        #get first line for srs sripts
+        first_line = get_first_js_line(cur_mods_dict, html_file_obj) - 2
+
+        #insert right src modules
+        insert_src_modules(html_file_obj, src_modules, first_line)
+
+    print(GREEN, "Update complete.")
+
+def get_cur_js_dict(html_file_obj):
+    parser = HTMLProcessor()
+    src_file = open(html_file_obj.as_posix(), encoding="utf-8")
+    src_text = src_file.read()
+    src_file.seek(0)
+    src_file.close()
+    parser.feed(src_text)
+
+    return parser.js
+
+def remove_mods_from_html(html_file_obj, cur_mods_dict):
+    html_file = open(html_file_obj.as_posix(), encoding="utf-8")
+    src_text = html_file.readlines()
+    html_file.seek(0)
+    html_file.close()
+    tmp = []
+
+    for i, line in enumerate(src_text):
+        exist = False
+
+        for cur_mod_dict in cur_mods_dict:
+            if cur_mod_dict["start_pos"][0] == i + 1:
+                exist = True
+                new_line = line.replace(line[cur_mod_dict["start_pos"][1]:
+                                             cur_mod_dict["end_pos"][1] + 9], "")
+                tmp.append(new_line.replace("\n", ""))
+
+                break
+
+        if not exist:
+            tmp.append(line)
+
+    html_file = open(html_file_obj.as_posix(), 'w', encoding="utf-8")
+    html_file.writelines(tmp)
+    html_file.close()
+
+def get_first_js_line(cur_mods_dict, html_file_obj):
+    if len(cur_mods_dict):
+        return cur_mods_dict[0]["start_pos"][0]
+
+    return get_end_head_line(html_file_obj)
+
+def get_end_head_line(html_file_obj):
+    parser = HTMLProcessor()
+    src_file = open(html_file_obj.as_posix(), encoding="utf-8")
+    src_text = src_file.read()
+    src_file.seek(0)
+    src_file.close()
+    parser.feed(src_text)
+
+    try:
+        parser.end_head[0]
+    except:
+        help_export("HTML valid error. HTML must contain head tag.")
+        sys.exit(1)
+
+    return parser.end_head[0]
+
+def insert_src_modules(html_file_obj, src_modules, first_line):
+    html_file = open(html_file_obj.as_posix(), encoding="utf-8")
+    src_text = html_file.readlines()
+    html_file.seek(0)
+    html_file.close()
+    tmp = []
+
+    for i, line in enumerate(src_text):
+        tmp.append(line)
+
+        if i == first_line:
+            for src_module in src_modules:
+                tmp.append('<script type="text/javascript" src="' + src_module + '"></script>\n')
+
+    html_file = open(html_file_obj.as_posix(), 'w', encoding="utf-8")
+    html_file.writelines(tmp)
+    html_file.close()

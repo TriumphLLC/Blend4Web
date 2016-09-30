@@ -15,13 +15,13 @@ var DEBUG = (m_version.type() === "DEBUG");
 
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/camera_move_styles/";
 
-var STATIC_POS = new Float32Array([-4.5, 0.5, 3]);
+var STATIC_POS = new Float32Array([-4.5, -3, 0.5]);
 var STATIC_LOOK_AT = new Float32Array([-4.5, 0, 0]);
 
-var EYE_POS = new Float32Array([-1.5, 0.5, 3]);
-var EYE_LOOK_AT = new Float32Array([-1.5, 0.5, 0]);
+var EYE_POS = new Float32Array([-1.5, -3, 0.5]);
+var EYE_LOOK_AT = new Float32Array([-1.5, 0, 0.5]);
 
-var TARGET_POS = new Float32Array([1.5, 0, 2]);
+var TARGET_POS = new Float32Array([1.5, -2, 0]);
 var TARGET_PIVOT = new Float32Array([1.5, 0, 0]);
 
 var DIST_LIMITS = {
@@ -65,7 +65,8 @@ exports.init = function() {
         autoresize: true,
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,
-        console_verbose: true
+        console_verbose: true,
+        gl_debug: true
     });
 }
 

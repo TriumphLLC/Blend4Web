@@ -81,7 +81,7 @@ var _asteroid_list = [];
 var _velocity_tmp = {};
 
 var _dest_x_trans = 0;
-var _dest_y_trans = 0;
+var _dest_z_trans = 0;
 
 var _start_shake_time = 0;
 var _last_shoot_time = 0;
@@ -101,11 +101,20 @@ var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "space_disaster/";
  * export the method to initialize the app (called at the bottom of this file)
  */
 exports.init = function() {
+    var show_fps = DEBUG;
+
+    var url_params = m_app.get_url_params();
+
+    if (url_params && "show_fps" in url_params)
+        show_fps = true;
+
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
         console_verbose: true,
+        show_fps: show_fps,
         assets_dds_available: !DEBUG,
+        assets_pvr_available: !DEBUG,
         assets_min50_available: !DEBUG,
         // NOTE: autoresize doesn't work with VR-mode in GearVR, bcz there is
         // a GearVR problem!!!
@@ -230,9 +239,9 @@ function register_gamepad(is_hmd) {
 
         var velocity = m_cam.get_velocities(obj, _velocity_tmp);
         if (w)
-            _dest_y_trans += velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
+            _dest_z_trans += velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
         if (s)
-            _dest_y_trans -= velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
+            _dest_z_trans -= velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
         if (a)
             _dest_x_trans -= velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
         if (d)
@@ -243,7 +252,7 @@ function register_gamepad(is_hmd) {
 
         if (!is_hmd) {
             _dest_x_trans -= velocity.trans * COCKPIT_TRANS_FACTOR * elapsed * left_vaxis;
-            _dest_y_trans += velocity.trans * COCKPIT_TRANS_FACTOR * elapsed * left_haxis;
+            _dest_z_trans += velocity.trans * COCKPIT_TRANS_FACTOR * elapsed * left_haxis;
             var cam_angles = m_cam.get_camera_angles(obj, _vec2_tmp);
             var vert_ang = cam_angles[1] - right_haxis * rot_value;
             var hor_ang = - right_vaxis * rot_value;
@@ -337,10 +346,10 @@ function register_keyboard() {
                 _dest_x_trans += velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
                 break;
             case "UP":
-                _dest_y_trans += velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
+                _dest_z_trans += velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
                 break;
             case "DOWN":
-                _dest_y_trans -= velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
+                _dest_z_trans -= velocity.trans * COCKPIT_TRANS_FACTOR * elapsed;
                 break;
             }
         }
@@ -413,7 +422,7 @@ function spawn_cockpit() {
         m_trans.set_translation_v(environment_empty, start_pos);
 
     _dest_x_trans = 0;
-    _dest_y_trans = 0;
+    _dest_z_trans = 0;
 
     _cockpit.hp = COCKPIT_MAX_HP;
 
@@ -444,31 +453,31 @@ function register_cockpit() {
         // translation smoothing
         var trans_interp_cb = function(obj, id, pulse) {
             if (Math.abs(_dest_x_trans) > EPSILON_DISTANCE ||
-                Math.abs(_dest_y_trans) > EPSILON_DISTANCE) {
+                Math.abs(_dest_z_trans) > EPSILON_DISTANCE) {
 
                 var value = m_ctl.get_sensor_value(obj, id, 0);
 
                 var delta_x = m_util.smooth(_dest_x_trans, 0, value, 1);
-                var delta_y = m_util.smooth(_dest_y_trans, 0, value, 1);
+                var delta_z = m_util.smooth(_dest_z_trans, 0, value, 1);
 
                 _dest_x_trans -= delta_x;
-                _dest_y_trans -= delta_y;
+                _dest_z_trans -= delta_z;
                 var trans = m_trans.get_translation(obj, _vec3_tmp);
                 trans[0] += delta_x;
-                trans[1] += delta_y;
+                trans[2] += delta_z;
                 m_trans.set_translation_v(obj, trans);
                 var cam_obj = m_scs.get_active_camera();
                 m_trans.set_translation_v(cam_obj, trans);
                 m_trans.set_translation_v(camera_asteroids_obj, trans);
 
                 trans[0] -= _dest_x_trans / 2;
-                trans[1] -= _dest_y_trans / 2;
+                trans[2] -= _dest_z_trans / 2;
                 m_trans.set_translation_v(environment_empty, trans);
 
                 var roll_angle = m_util.clamp(_dest_x_trans * COCKPIT_ROT_FACTOR,
                         -Math.PI * COCKPIT_ROT_FACTOR, Math.PI * COCKPIT_ROT_FACTOR);
-                var roll_quat = m_quat.setAxisAngle(m_util.AXIS_MZ, roll_angle, _quat_tmp);
-                var pitch_angle = - m_util.clamp(_dest_y_trans * COCKPIT_ROT_FACTOR,
+                var roll_quat = m_quat.setAxisAngle(m_util.AXIS_Y, roll_angle, _quat_tmp);
+                var pitch_angle = - m_util.clamp(_dest_z_trans * COCKPIT_ROT_FACTOR,
                         -Math.PI * COCKPIT_ROT_FACTOR,
                         Math.PI * COCKPIT_ROT_FACTOR) / 4;
                 var pitch_quat = m_quat.setAxisAngle(m_util.AXIS_MX, pitch_angle, _quat_tmp2);
@@ -479,7 +488,7 @@ function register_cockpit() {
                 var environment_sphere_obj = _cockpit.environment_sphere_obj;
                 if (environment_sphere_obj) {
                     var cur_sphere_quat = m_trans.get_rotation(environment_sphere_obj, _quat_tmp);
-                    var pitch_angle = m_util.clamp(_dest_y_trans * COCKPIT_ROT_FACTOR,
+                    var pitch_angle = m_util.clamp(_dest_z_trans * COCKPIT_ROT_FACTOR,
                             -Math.PI * COCKPIT_ROT_FACTOR,
                             Math.PI * COCKPIT_ROT_FACTOR) * ENV_SPHERE_ROT_FACTOR;
                     var pitch_quat = m_quat.setAxisAngle(m_util.AXIS_MX, pitch_angle, _quat_tmp2);
@@ -487,7 +496,7 @@ function register_cockpit() {
                             pitch_quat, _quat_tmp);
 
                     var yaw_angle = - roll_angle * ENV_SPHERE_ROT_FACTOR;
-                    var yaw_quat = m_quat.setAxisAngle(m_util.AXIS_MY,
+                    var yaw_quat = m_quat.setAxisAngle(m_util.AXIS_MZ,
                             yaw_angle, _quat_tmp2);
                     new_sphere_quat = m_quat.multiply(cur_sphere_quat,
                             yaw_quat, _quat_tmp);
@@ -498,7 +507,7 @@ function register_cockpit() {
                 var init_bending_pos = m_tsr.get_trans_view(init_bending_tsr);
                 var new_bending_pos = m_vec3.copy(init_bending_pos, _vec3_tmp);
                 new_bending_pos[0] += _dest_x_trans;
-                new_bending_pos[1] += _dest_y_trans;
+                new_bending_pos[2] += _dest_z_trans;
                 var new_bending_tsr = m_tsr.copy(init_bending_tsr, _tsr_tmp);
                 new_bending_tsr = m_tsr.set_trans(new_bending_pos, new_bending_tsr);
                 m_armat.set_bone_tsr(environment_arm, "move", new_bending_tsr);
@@ -526,7 +535,7 @@ function register_cockpit() {
         var elapsed = m_ctl.create_elapsed_sensor();
         var laser_arm_cb = function(obj, id, pulse) {
             var cross_view = m_trans.get_rotation(crosshair_obj, _quat_tmp);
-            var laser_dir = m_vec3.transformQuat(m_util.AXIS_MY, cross_view,
+            var laser_dir = m_vec3.transformQuat(m_util.AXIS_MZ, cross_view,
                     _vec3_tmp);
             laser_dir = m_vec3.scale(laser_dir, MAX_LASER_LENGTH, _vec3_tmp);
 
@@ -645,7 +654,7 @@ function register_shake() {
             var time = m_ctl.get_sensor_value(obj, id, 0);
             if (time - _start_shake_time < COCKPIT_SHAKE_TIME) {
                 _dest_x_trans += (Math.random() - 0.5) * (1 - (time - _start_shake_time) / COCKPIT_SHAKE_TIME);
-                _dest_y_trans += (Math.random() - 0.5) * (1 - (time - _start_shake_time) / COCKPIT_SHAKE_TIME);
+                _dest_z_trans += (Math.random() - 0.5) * (1 - (time - _start_shake_time) / COCKPIT_SHAKE_TIME);
             } else
                 m_ctl.set_custom_sensor(_shake_sensor, 0);
         }
@@ -682,7 +691,7 @@ function register_hmd() {
                 var diff_hmd_pos = m_vec3.subtract(hmd_pos, last_hmd_pos, _vec3_tmp2);
                 m_vec3.scale(diff_hmd_pos, 15, diff_hmd_pos);
                 _dest_x_trans += diff_hmd_pos[0];
-                _dest_y_trans += diff_hmd_pos[1];
+                _dest_z_trans += diff_hmd_pos[2];
                 m_vec3.copy(hmd_pos, last_hmd_pos);
             }
         }
@@ -784,7 +793,7 @@ function register_asteroids() {
                         m_trans.set_rotation_v(ast_copy_obj, new_aster_quat);
                     }
 
-                    if (asteroid_pos[2] > 20)
+                    if (asteroid_pos[1] < -20)
                         init_asteroid_transform(asteroid);
                 }
             }
@@ -856,8 +865,8 @@ function init_asteroid_transform(asteroid) {
     var ast_obj = asteroid.ast_obj;
     var spawn_coord = _vec3_tmp;
     spawn_coord[0] = 0;
-    spawn_coord[1] = 0;
-    spawn_coord[2] = -1000;
+    spawn_coord[1] = 1000;
+    spawn_coord[2] = 0;
     var ident_quat = m_quat.identity(_quat_tmp);
     m_trans.set_translation_v(ast_obj, spawn_coord);
 
@@ -877,14 +886,14 @@ function spawn_asteroid_random_pos(asteroid, cam_coord) {
     // set target point
     var target_coord = m_vec3.copy(cam_coord, _vec3_tmp2);
     target_coord[0] += ASTEROID_DEFAULT_TARGET_OFFSET * (2 * Math.random() - 1);
-    target_coord[1] += ASTEROID_DEFAULT_TARGET_OFFSET * (2 * Math.random() - 1);
-    target_coord[2] = 0;
+    target_coord[1] = 0;
+    target_coord[2] += ASTEROID_DEFAULT_TARGET_OFFSET * (2 * Math.random() - 1);
 
     // set spawn point
     var spawn_coord = m_vec3.copy(cam_coord, _vec3_tmp);
     spawn_coord[0] += ASTEROID_DEFAULT_SPAWN_OFFSET * (2 * Math.random() - 1);
-    spawn_coord[1] += ASTEROID_DEFAULT_SPAWN_OFFSET * Math.random() / 2;
-    spawn_coord[2] = -100;
+    spawn_coord[1] = 100;
+    spawn_coord[2] += ASTEROID_DEFAULT_SPAWN_OFFSET * Math.random() / 2;
 
     var ast_obj = asteroid.ast_obj;
     m_trans.set_translation_v(ast_obj, spawn_coord);
@@ -956,7 +965,7 @@ function register_burst() {
 
         var cross_pos = m_trans.get_translation(obj, _vec3_tmp);
         var cross_view = m_trans.get_rotation(obj, _quat_tmp);
-        var forward = m_vec3.transformQuat(m_util.AXIS_MY, cross_view,
+        var forward = m_vec3.transformQuat(m_util.AXIS_MZ, cross_view,
                 _vec3_tmp2);
         forward = m_vec3.scale(forward, MAX_LASER_LENGTH, _vec3_tmp2);
         forward = m_vec3.add(forward, cross_pos, forward);

@@ -84,6 +84,17 @@
 *着色 > 无光影*
    当启用时，材质不会对光起反应。默认为禁用。
 
+*Shading > Tangent Shading*
+   When this parameter is enabled, the engine will use the material's
+   tangent vector (instead of normal vector) for calculating the
+   object's color. This can be used for creating anisotropic shading
+   effects.
+
+      [图片]
+
+   **On the left:** standard shading model; **on the right:** tangent
+   shading model.
+
 *着色 > 双面光照*
    启用双面照明模式。此选项是适用于非透明物体的单层网格。
 

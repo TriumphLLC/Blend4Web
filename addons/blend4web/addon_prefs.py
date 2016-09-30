@@ -56,7 +56,7 @@ def save_reexport_paths():
         paths.append(path.path)
 
     with open(os.path.join(bpy.utils.user_resource("CONFIG", "b4w", True),
-            "reexport_paths.py"), "w") as pfile:
+            "reexport_paths.py"), "w", encoding="utf-8") as pfile:
         pfile.write("index=" + str(index) + "\n")
         pfile.write("paths=" + str(paths))
 

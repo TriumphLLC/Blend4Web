@@ -57,6 +57,15 @@ Lighting Parameters
 *Shading > Shadeless*
     When enabled, a material doesn’t react to light. Disabled by default.
 
+*Shading > Tangent Shading*
+    When this parameter is enabled, the engine will use the material's tangent vector (instead of normal vector) for calculating the object's color. This can be used for creating anisotropic shading effects.
+
+    .. figure:: src_images/materials/materials_tangent_shading_comparison.png
+       :align: center
+       :width: 100%
+ 
+    **On the left:** standard shading model; **on the right:** tangent shading model.
+
 *Shading > Double-Sided Lighting*
     Enables the double-sided lighting mode. This option is useful for non-transparent objects with a single-layered mesh.
 

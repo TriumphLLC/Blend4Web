@@ -45,7 +45,7 @@ def build(path):
                  os.path.join(os.getcwd(),'includes/blenkernel/'),
                  os.path.join(os.getcwd(),'includes/makesdna/')]
     module1 = Extension(EXTENSION_NAME,
-            sources = ['bindings.c', 'mikktspace.c', 'weldmesh.c'],
+            sources = ['bindings.c', 'mikktspace.c', 'weldmesh.c', 'vertex_cache.c'],
             undef_macros=['NDEBUG'],
             define_macros=[("MODULE_NAME", MODULE_NAME),
                     ("INIT_FUNC_NAME", INIT_FUNC_NAME)],

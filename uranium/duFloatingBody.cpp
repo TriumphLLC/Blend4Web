@@ -39,7 +39,7 @@ void duFloatingBody::updateBody(btScalar step)
         
         btScalar depth = getWaterDist(bob);
         if (bob.m_isInContact) {
-            btVector3 impulse = btVector3(0.f, 1.f, 0.f) / getNumBobs()
+            btVector3 impulse = btVector3(0.f, 0.f, 1.f) / getNumBobs()
                                 / getRigidBody()->getInvMass() * 10.f * step
                                 * btMin(depth, 1.f) * m_floatingFactor;
             btVector3 relpos = bob.m_hardPointWS 
@@ -83,7 +83,7 @@ void duFloatingBody::updateBobTransformsWS(duFloaterBob& bob, bool interpolatedT
     }
 
     bob.m_hardPointWS = bodyTrans(bob.m_ConnectionPointCS);
-    bob.m_bobDirectionWS = bodyTrans.getBasis() *  btVector3(0.f, 0.f, -1.f);
+    bob.m_bobDirectionWS = bodyTrans.getBasis() *  btVector3(0.f, 1.f, 0.f);
     bob.m_bobAxleWS = bodyTrans.getBasis() * btVector3(1.f, 0.f, 0.f);;
 }
 
@@ -105,13 +105,13 @@ btScalar duFloatingBody::getWaterDist(duFloaterBob& bob)
         const btTransform& bobTrans = bob.m_worldTransform;
         const btVector3 bobPos = bobTrans.getOrigin();
 
-        btScalar waterLevel = m_water->getWaterLevel(bobPos[0], bobPos[2],
+        btScalar waterLevel = m_water->getWaterLevel(bobPos[0], -bobPos[1],
                                                      m_waterInd);
 
-        if (bobPos[1] <= waterLevel)
+        if (bobPos[2] <= waterLevel)
             bob.m_isInContact = true;
 
-        return waterLevel - bobPos[1];
+        return waterLevel - bobPos[2];
     } else {
         return btScalar(-1.f);
     }

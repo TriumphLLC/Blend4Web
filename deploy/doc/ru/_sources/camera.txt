@@ -324,13 +324,13 @@ Viewport".
 
 Подробная документация API модуля: ссылка.
 
-Положение и ориентация камеры в пространстве определяются конкретным
-режимом управления. В режимах "EYE", "TARGET" и "HOVER" модель
-поведения накладывает ряд ограничений, например, таких как
-выравнивание вертикальной оси камеры вдоль мировой оси Y и постоянная
-ориентация камеры на опорную точку. Для "STATIC" камеры таких
-ограничений нет, поэтому она лучше подходит в случаях, когда нужен
-более полный контроль, например, при процедурной анимации.
+A camera's position and its spatial orientation are defined by the
+control mode. In the "EYE", "TARGET" and "HOVER" modes, control mode
+has several limitations: for example, the camera's vertical axis is
+always aligned along the world's Z-axis and the camera is constantly
+focused on the pivot point. The "STATIC" mode camera has no such
+limitations, which makes it more suitable for cases when you need more
+complete control, such as procedural animation.
 
 Основные функции управления камерой находятся в модуле camera. Часть
 из них, относящаяся к конкретному режиму управления, начинается с
@@ -556,14 +556,6 @@ has_horizontal_trans_limits() и has_vertical_trans_limits().
   автоматически рассчитываются так, чтобы зафиксировать камеру в
   текущем положении относительно опорной точки.
 
-Примечание: При выставлении лимитов перемещения для камеры типа
-  "HOVER" значения лимитов будут соответствовать осям системы
-  координат движка:
-
-  * "Horizontal Translation Limits" - ось X
-
-  * "Vertical Translation Limits" - ось Z
-
 Примечание: Присутствующие на камере лимиты могут влиять на её
   позицию и ориентацию, выставляемые через API.
 
@@ -572,8 +564,7 @@ has_horizontal_trans_limits() и has_vertical_trans_limits().
 ------------------------
 
    При работе с камерой через API (вращение, выставление ограничений)
-   отсчет угловых координат ведется в системе координат движка
-   следующим образом:
+   отсчет угловых координат ведется следующим образом:
 
    Для типов "TARGET/HOVER":
 

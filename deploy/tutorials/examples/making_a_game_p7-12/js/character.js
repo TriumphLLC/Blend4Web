@@ -131,9 +131,9 @@ function init_island_detection() {
 
 function setup_ground_sensor(ground_sens) {
     var island_sens = m_ctl.create_ray_sensor(_char_wrapper.phys_body, [0, 0, 0],
-                                          [0, -0.30, 0], "ISLAND", true);
+                                          [0, 0, -0.30], "ISLAND", true);
     var lava_sens = m_ctl.create_ray_sensor(_char_wrapper.phys_body, [0, 0, 0],
-                                          [0, -0.30, 0], "LAVA", true);
+                                          [0, 0, -0.30], "LAVA", true);
     function ground_cb(obj, id, pulse) {
         var val = pulse == 1? 1: 0;
         m_ctl.set_custom_sensor(ground_sens, val)
@@ -283,7 +283,7 @@ function setup_jumping(touch_jump, on_ground_sens) {
     var key_space = m_ctl.create_keyboard_sensor(m_ctl.KEY_SPACE);
 
     var jump_cb = function(obj, id, pulse) {
-        if (pulse == 1 && _char_wrapper.state != m_conf.CH_ATTACK) {
+        if (_char_wrapper.state != m_conf.CH_ATTACK) {
             m_phy.character_jump(obj);
             var island = m_ctl.get_sensor_value(obj, id, 2);
             if (island) {
@@ -297,25 +297,23 @@ function setup_jumping(touch_jump, on_ground_sens) {
         }
     }
     var landing_cb = function(obj, id, pulse) {
-        if (pulse == 1) {
-            m_sfx.play_def(_char_land_spk);
-            if (_char_wrapper.state == m_conf.CH_STILL) {
-                m_anim.apply(_char_wrapper.rig, "character_idle_01");
-                m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
-                m_anim.play(_char_wrapper.rig);
-            } else if (_char_wrapper.state == m_conf.CH_RUN){
-                m_anim.apply(_char_wrapper.rig, "character_run");
-                m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
-                m_anim.play(_char_wrapper.rig);
-            }
+        m_sfx.play_def(_char_land_spk);
+        if (_char_wrapper.state == m_conf.CH_STILL) {
+            m_anim.apply(_char_wrapper.rig, "character_idle_01");
+            m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
+            m_anim.play(_char_wrapper.rig);
+        } else if (_char_wrapper.state == m_conf.CH_RUN){
+            m_anim.apply(_char_wrapper.rig, "character_run");
+            m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
+            m_anim.play(_char_wrapper.rig);
         }
     }
 
     m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "JUMP",
-        m_ctl.CT_TRIGGER, [key_space, touch_jump, on_ground_sens],
+        m_ctl.CT_SHOT, [key_space, touch_jump, on_ground_sens],
         function(s){return s[0] || s[1]}, jump_cb);
     m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "LANDING",
-        m_ctl.CT_TRIGGER, [on_ground_sens], null, landing_cb);
+        m_ctl.CT_SHOT, [on_ground_sens], null, landing_cb);
 }
 
 function setup_attack(touch_attack, elapsed) {
@@ -371,7 +369,7 @@ function setup_attack(touch_attack, elapsed) {
 
                 m_trans.get_translation(_char_wrapper.phys_body, trans);
                 m_trans.get_rotation(_char_wrapper.phys_body, cur_rot_q);
-                m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
+                m_vec3.transformQuat(m_util.AXIS_MY, cur_rot_q, cur_dir);
 
                 m_vec3.scaleAndAdd(trans, cur_dir, at_dst, at_pt);
                 if (m_combat.process_attack_on_enemies(at_pt, at_dst))

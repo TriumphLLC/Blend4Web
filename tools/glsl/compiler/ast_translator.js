@@ -793,8 +793,6 @@ function struct_type(node) {
 /*============================================================================
                                   SERVICE
 ============================================================================*/
-// NOTE: import/export data doesn't convert into comments and doesn't return to source 
-
 function get_before_special_comments(node) {
     var text = "";
 
@@ -846,11 +844,6 @@ function return_vardef_tokens(text) {
 }
 
 function process_directives(text) {
-    // No need to keep #var's after the compilation
-    var expr = /\/\*%directive%#var(.*?)%directive_end%\*\//gi;
-    text = text.replace(expr, "");
-
-    // return other directives
     var expr = /\/\*%directive%(.*?)%directive_end%\*\//gi;
     text = text.replace(expr, "$1");
 
@@ -863,6 +856,7 @@ function return_nodes(text) {
     var expr_node_inout_param = /\/\*%(node_in|node_out|node_param)%\*\/\s*((?:.|[\s\S])*?);\s*\/\*%(?:node_in_end|node_out_end|node_param_end)%(.*?)%(.*?)%(\d+)%\*\//gm;
     var expr_textlines = /\/\*%node_textline%(.*?)%\*\/((?:.|[\s\S])*?)\/\*%node_textline_end%(\d+)%\*\//g;
     var expr_condition = /\/\*%node_condition%((?:.|[\s\S])*?)%(.*?)%(\d+)%\*\//g;
+    var expr_node_var = /\/\*%node_var%((?:.|[\s\S])*?)%(.*?)%(\d+)%\*\//g;
 
     // get node_params, node_in, node_out, textline tokens
     while ((res = expr_node_inout_param.exec(text)) != null) {
@@ -905,6 +899,18 @@ function return_nodes(text) {
         });
     }
 
+    while ((res = expr_node_var.exec(text)) != null) {
+        var source_txt = res[1];
+        var node_parent = res[2];
+        var offset = parseInt(res[3]);
+        if (!(node_parent in node_tokens))
+            node_tokens[node_parent] = [];
+        node_tokens[node_parent].push({
+            text: source_txt + "\n",
+            offset: offset
+        });
+    }
+
     for (var i in node_tokens) 
         node_tokens[i].sort( function(a, b) {
             return a.offset - b.offset;
@@ -915,6 +921,7 @@ function return_nodes(text) {
     text = text.replace(expr_node_inout_param, "");
     text = text.replace(expr_textlines, "");
     text = text.replace(expr_condition, "");
+    text = text.replace(expr_node_var, "");
 
     // return node_params, node_in, node_out directives
     for (var node in node_tokens) {

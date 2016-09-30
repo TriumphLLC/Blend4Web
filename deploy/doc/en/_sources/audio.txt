@@ -158,7 +158,7 @@ This feature can be found in the :ref:`Scene Viewer <viewer>`.
    :align: center
    :width: 100%
 
-Enabling it shows equalizer interface that contains various parameters of the Speakers present in the scene.
+Enabling it shows an equalizer interface that contains various parameters of the Speakers present in the scene.
 
 .. image:: src_images/audio/audio_mixer_parameters.png
    :align: center
@@ -170,7 +170,7 @@ The parameters available for sound mixing include:
     This value sets the reference distance of a specific speaker. Available only for ``Positional Sound`` type speakers.
 
 *ATTENUATION*
-    This value sets the attenuation factor for the sound emitted by the selected speaker. Available only for ``Positional Sound`` type speakers.
+    This value sets the attenuation factor for the sound emitted by a selected speaker. Available only for ``Positional Sound`` type speakers.
 
 *DIST_MAX*
     This value shows the maximum distance for a specific speaker. If the distance from the camera to the speaker is greater than this number, the speaker won't emit any sound. Available only for ``Positional Sound`` type speakers.
@@ -179,7 +179,7 @@ The parameters available for sound mixing include:
     The center frequency of where the boost is applied.
 
 *EQ_Q*
-    The Q factor. This value controls the width of the band of frequencies that wiil be boosted. Increasing the value of this parameter makes the width more narrow.
+    The Q factor. This value controls the width of the band of frequencies that wiil be boosted. Increasing the value of this parameter reduces the width.
 
 *EQ_GAIN*
     This value controls the boost (measured in dB) that will be applied to the sound emitted by the speaker.
@@ -189,7 +189,7 @@ The parameters available for sound mixing include:
 
 Below this list, a frequency characteristic of a parametric equalizer is shown.
 
-The mixer can be controlled using numerical keypad.
+The mixer can be controlled using a numerical keypad.
 
     * Keys ``8``, ``4``, ``6`` and ``2`` act like arrow keys and are used for switching between different speakers and their parameters.
 

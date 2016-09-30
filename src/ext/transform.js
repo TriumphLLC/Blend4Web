@@ -469,6 +469,9 @@ exports.get_object_center = function(obj, calc_bs_center, dest) {
         return null;
     }
 
+    if (!dest)
+        var dest = new Float32Array(3);
+
     return m_trans.get_object_center(obj, calc_bs_center, dest);
 }
 
@@ -513,7 +516,7 @@ exports.rotate_x_local = function(obj, angle) {
  */
 exports.rotate_y_local = function(obj, angle) {
     if (m_obj_util.is_dynamic(obj)) {
-        var quat = m_quat.setAxisAngle(m_util.AXIS_Y, angle, _quat4_tmp);
+        var quat = m_quat.setAxisAngle(m_util.AXIS_MY, angle, _quat4_tmp);
         m_trans.rotate_local(obj, quat);
         m_trans.update_transform(obj);
         m_phy.sync_transform(obj);

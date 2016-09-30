@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Application Developers &mdash; Blend4Web 16.08 用户手册</title>
+  <title>For Application Developers &mdash; Blend4Web 16.09 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 用户手册" href="index.html"/>
         <link rel="next" title="For Engine Developers" href="developers_advanced.html"/>
         <link rel="prev" title="Physics" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -84,13 +84,13 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -112,33 +112,22 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">For Application Developers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#project-management">Project Management</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#advanced-project-management">Advanced Project Management</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#projects-list">Projects List</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#project-structure">Project Structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#b4w-project-configuration-file"><code class="docutils literal"><span class="pre">.b4w_project</span></code> Configuration File</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Advanced Project Management</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#developing-multiple-apps-inside-a-project">Developing multiple apps inside a project</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#building-projects">Building Projects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#automatic-re-export">Automatic Re-export</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#resource-conversion">Resource Conversion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#deploying-projects">Deploying Projects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#remove-project">Remove Project</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#upgrading-apps-for-new-sdk-versions">Upgrading Apps for New SDK Versions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#path-to-loaded-application-assets">Path to Loaded Application Assets</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#application-programming">Application Programming</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#hello-world-application">&#8220;Hello World!&#8221; application</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#loading-scenes-in-apps">Loading Scenes in Apps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-system">Module System</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-apps-quickly">Creating Apps Quickly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#background-transparency">Background Transparency</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#converter">Resource Conversion</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#data-format">Data Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#resource-conversion">Resource Conversion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-formats">Data Formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dds-texture-compression">DDS Texture Compression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pvrtc-texture-compression">PVRTC Texture Compression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#seq-video-format">SEQ Video Format</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#code-examples">Code Examples</a></li>
@@ -199,330 +188,42 @@
            <div itemprop="articleBody">
             
   <div class="section" id="for-application-developers">
-<span id="developers"></span><h1><a class="toc-backref" href="#id5">For Application Developers</a><a class="headerlink" href="#for-application-developers" title="永久链接至标题">¶</a></h1>
+<span id="developers"></span><h1><a class="toc-backref" href="#id1">For Application Developers</a><a class="headerlink" href="#for-application-developers" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#for-application-developers" id="id5">For Application Developers</a><ul>
-<li><a class="reference internal" href="#project-management" id="id6">Project Management</a></li>
-<li><a class="reference internal" href="#advanced-project-management" id="id7">Advanced Project Management</a><ul>
-<li><a class="reference internal" href="#dependencies" id="id8">Dependencies</a></li>
-<li><a class="reference internal" href="#projects-list" id="id9">Projects List</a></li>
-<li><a class="reference internal" href="#project-structure" id="id10">Project Structure</a></li>
-<li><a class="reference internal" href="#b4w-project-configuration-file" id="id11"><code class="docutils literal"><span class="pre">.b4w_project</span></code> Configuration File</a></li>
-<li><a class="reference internal" href="#id2" id="id12">Advanced Project Management</a></li>
-<li><a class="reference internal" href="#developing-multiple-apps-inside-a-project" id="id13">Developing multiple apps inside a project</a></li>
-<li><a class="reference internal" href="#building-projects" id="id14">Building Projects</a></li>
-<li><a class="reference internal" href="#automatic-re-export" id="id15">Automatic Re-export</a></li>
-<li><a class="reference internal" href="#resource-conversion" id="id16">Resource Conversion</a></li>
-<li><a class="reference internal" href="#deploying-projects" id="id17">Deploying Projects</a></li>
-<li><a class="reference internal" href="#remove-project" id="id18">Remove Project</a></li>
-<li><a class="reference internal" href="#upgrading-apps-for-new-sdk-versions" id="id19">Upgrading Apps for New SDK Versions</a></li>
-<li><a class="reference internal" href="#path-to-loaded-application-assets" id="id20">Path to Loaded Application Assets</a></li>
+<li><a class="reference internal" href="#for-application-developers" id="id1">For Application Developers</a><ul>
+<li><a class="reference internal" href="#application-programming" id="id2">Application Programming</a><ul>
+<li><a class="reference internal" href="#hello-world-application" id="id3">&#8220;Hello World!&#8221; application</a></li>
+<li><a class="reference internal" href="#loading-scenes-in-apps" id="id4">Loading Scenes in Apps</a></li>
+<li><a class="reference internal" href="#module-system" id="id5">Module System</a></li>
+<li><a class="reference internal" href="#creating-apps-quickly" id="id6">Creating Apps Quickly</a></li>
+<li><a class="reference internal" href="#background-transparency" id="id7">Background Transparency</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#application-programming" id="id21">Application Programming</a><ul>
-<li><a class="reference internal" href="#hello-world-application" id="id22">&#8220;Hello World!&#8221; application</a></li>
-<li><a class="reference internal" href="#loading-scenes-in-apps" id="id23">Loading Scenes in Apps</a></li>
-<li><a class="reference internal" href="#module-system" id="id24">Module System</a></li>
-<li><a class="reference internal" href="#creating-apps-quickly" id="id25">Creating Apps Quickly</a></li>
+<li><a class="reference internal" href="#resource-conversion" id="id8">Resource Conversion</a><ul>
+<li><a class="reference internal" href="#dependencies" id="id9">Dependencies</a></li>
+<li><a class="reference internal" href="#data-formats" id="id10">Data Formats</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#converter" id="id26">Resource Conversion</a><ul>
-<li><a class="reference internal" href="#id4" id="id27">Dependencies</a></li>
-<li><a class="reference internal" href="#data-format" id="id28">Data Format</a></li>
+<li><a class="reference internal" href="#code-examples" id="id11">Code Examples</a></li>
+<li><a class="reference internal" href="#event-driven-model" id="id12">Event-Driven Model</a><ul>
+<li><a class="reference internal" href="#sensors" id="id13">Sensors</a></li>
+<li><a class="reference internal" href="#example" id="id14">Example</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#code-examples" id="id29">Code Examples</a></li>
-<li><a class="reference internal" href="#event-driven-model" id="id30">Event-Driven Model</a><ul>
-<li><a class="reference internal" href="#sensors" id="id31">Sensors</a></li>
-<li><a class="reference internal" href="#example" id="id32">Example</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#sdk-file-structure" id="id33">SDK File Structure</a></li>
-<li><a class="reference internal" href="#loading-local-resources" id="id34">Loading Local Resources</a></li>
-<li><a class="reference internal" href="#quality-profiles" id="id35">Quality Profiles</a></li>
-<li><a class="reference internal" href="#non-fullscreen-web-apps" id="id36">Non-FullScreen Web Apps</a></li>
+<li><a class="reference internal" href="#sdk-file-structure" id="id15">SDK File Structure</a></li>
+<li><a class="reference internal" href="#loading-local-resources" id="id16">Loading Local Resources</a></li>
+<li><a class="reference internal" href="#quality-profiles" id="id17">Quality Profiles</a></li>
+<li><a class="reference internal" href="#non-fullscreen-web-apps" id="id18">Non-FullScreen Web Apps</a></li>
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="project-management">
-<span id="app-building"></span><h2><a class="toc-backref" href="#id6">Project Management</a><a class="headerlink" href="#project-management" title="永久链接至标题">¶</a></h2>
-<p>You can manage your projects in two ways: by using <em>project.py</em>, which is a simple-to-use and well documented CLI utility, or by using a dedicated web application with GUI working on the local development server. The server does not require any additional setup and starts automatically with Blender. The index page of the Project Manager can be opened by clicking on the <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button in Blender.</p>
-<p>Working with the Project Manager is described in a <a class="reference internal" href="project_manager.html#project-management"><span>dedicated chapter</span></a>.</p>
-</div>
-<div class="section" id="advanced-project-management">
-<span id="id1"></span><h2><a class="toc-backref" href="#id7">Advanced Project Management</a><a class="headerlink" href="#advanced-project-management" title="永久链接至标题">¶</a></h2>
-<p>Advanced project management is used by experienced developers which require more flexibility and need to automate process of project development.</p>
-<p>For advanced project management use the <em>project.py</em> script and manually edit <em>.b4w_project</em> configuration files.</p>
-<div class="section" id="dependencies">
-<h3><a class="toc-backref" href="#id8">Dependencies</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h3>
-<p>The project management system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py check_deps
-</pre></div>
-</div>
-<p>For MS Windows users:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python project.py check_deps</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="projects-list">
-<h3><a class="toc-backref" href="#id9">Projects List</a><a class="headerlink" href="#projects-list" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject list
-</pre></div>
-</div>
-<p>Prints list of projects in the SDK.</p>
-</div>
-<div class="section" id="project-structure">
-<h3><a class="toc-backref" href="#id10">Project Structure</a><a class="headerlink" href="#project-structure" title="永久链接至标题">¶</a></h3>
-<p>A typical app developed using the project manager looks as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>blend4web/
-    apps_dev/
-        myproject/
-            project.py
-            .b4w_project
-            myproject.js
-            myproject.css
-            myproject_dev.html
-    blender/
-        myproject/
-            myproject.blend
-    deploy/
-        apps/
-            myproject/
-                myproject.js
-                myproject.css
-                myproject.html
-        assets/
-            myproject/
-                myproject.json
-                myproject.bin
-</pre></div>
-</div>
-<p>This app consists of 4 different directories.</p>
-<ol class="arabic simple">
-<li>apps_dev/myproject. Contains source files of project&#8217;s apps.</li>
-<li>blender/myproject. Contains source files of project&#8217;s scenes.</li>
-<li>deploy/assets/myproject. Contains exported files of project&#8217;s scenes.</li>
-<li>deploy/apps/myproject. Contains exported files of project&#8217;s scenes.</li>
-</ol>
-<p>Additionally, the deploy command can create yet another directory, but it&#8217;s usually placed outside of the SDK and its name and path depend on directory structure on the target server.</p>
-</div>
-<div class="section" id="b4w-project-configuration-file">
-<h3><a class="toc-backref" href="#id11"><code class="docutils literal"><span class="pre">.b4w_project</span></code> Configuration File</a><a class="headerlink" href="#b4w-project-configuration-file" title="永久链接至标题">¶</a></h3>
-<p>If you did not use any arguments upon executing the <em>project.py</em> script, then they will be taken from the configuration file.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
-author =
-name =
-title =
-icon =
-
-[paths]
-assets_dirs =
-blend_dirs =
-blender_exec =
-build_dir =
-deploy_dir =
-
-[compile]
-apps =
-css_ignore =
-engine_type = external
-js_ignore =
-optimization = simple
-use_physics =
-use_smaa_textures =
-version =
-
-[deploy]
-assets_path_dest =
-assets_path_prefix =
-remove_exist_ext_dir =
-</pre></div>
-</div>
-</div>
-<div class="section" id="id2">
-<h3><a class="toc-backref" href="#id12">Advanced Project Management</a><a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init myproject
-</pre></div>
-</div>
-<p>This command will create a project with the specified name in the current directory. By default the project directory will only contain a config file.</p>
-<p>Available parameters:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">-A</span> <span class="pre">|</span> <span class="pre">--copy-app-templates</span></code> (optional) create standard app templates in the project directory  (<em>&lt;my_project_name&gt;_dev.html</em>, <em>&lt;my_project_name&gt;.js</em>, <em>&lt;my_project_name&gt;.css</em>).</li>
-<li><code class="docutils literal"><span class="pre">-B</span> <span class="pre">|</span> <span class="pre">--bundle</span></code> (optional) all project files will be placed in a single directory.</li>
-<li><code class="docutils literal"><span class="pre">-C</span> <span class="pre">|</span> <span class="pre">--author</span></code> (optional) write an author&#8217;s or a company&#8217;s name in the config file.</li>
-<li><code class="docutils literal"><span class="pre">-o</span> <span class="pre">|</span> <span class="pre">--optimization</span></code> (optional) write the script optimization level in the config file.</li>
-<li><code class="docutils literal"><span class="pre">-P</span> <span class="pre">|</span> <span class="pre">--copy-project-script</span></code> (optional) create a copy of the <em>project.py</em> script in the project directory.</li>
-<li><code class="docutils literal"><span class="pre">-S</span> <span class="pre">|</span> <span class="pre">--copy-scene-templates</span></code> (optional) create standard scene templates in the directories <code class="docutils literal"><span class="pre">deploy/assets/&lt;my_project_name&gt;</span></code> and <code class="docutils literal"><span class="pre">blender/&lt;my_project_name&gt;</span></code> (<em>&lt;my_project_name&gt;.json/.bin</em> and <em>&lt;my_project_name&gt;.blend</em> correspondingly).</li>
-<li><code class="docutils literal"><span class="pre">-T</span> <span class="pre">|</span> <span class="pre">--title&quot;</span></code> (optional) write a title in the config file. Upon building, it will be used inside the <code class="docutils literal"><span class="pre">&lt;title&gt;</span></code> HTML element.</li>
-<li><code class="docutils literal"><span class="pre">-t</span> <span class="pre">|</span> <span class="pre">--engine-type</span></code> (optional) write an engine type in the config file.</li>
-</ul>
-<p>Example:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
-</pre></div>
-</div>
-<p>This command will create a directory named <em>myproject</em>, inside which the following files will be placed: <em>myproject.js</em>, <em>myproject.css</em>, <em>myproject_dev.html</em> and <em>.b4w_project</em>.</p>
-<p>The .b4w_project file will look like:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
-author = Blend4Web
-name = myproject
-title = MyProject
-
-[paths]
-assets_dirs = deploy/assets/myproject;
-blend_dirs = blender/myproject;
-blender_exec = blender
-build_dir = deploy/apps/myproject
-deploy_dir =
-
-[compile]
-apps =
-css_ignore =
-engine_type = external
-js_ignore =
-optimization = simple
-use_physics =
-use_smaa_textures =
-version =
-
-[deploy]
-assets_path_prefix =
-remove_exist_ext_dir =
-</pre></div>
-</div>
-</div>
-<div class="section" id="developing-multiple-apps-inside-a-project">
-<h3><a class="toc-backref" href="#id13">Developing multiple apps inside a project</a><a class="headerlink" href="#developing-multiple-apps-inside-a-project" title="永久链接至标题">¶</a></h3>
-<p>A project can contain multiple apps. This can be provided by listing the corresponding HTML files in the config file separated with semicolon:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">...</span>
-<span class="p">[</span><span class="nb">compile</span><span class="p">]</span>
-<span class="n">apps</span> <span class="o">=</span> <span class="n">myapp1</span><span class="p">;</span><span class="n">myapp2</span><span class="p">;</span>
-<span class="o">...</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="building-projects">
-<h3><a class="toc-backref" href="#id14">Building Projects</a><a class="headerlink" href="#building-projects" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject compile
-</pre></div>
-</div>
-<p>Builds a project in the <code class="docutils literal"><span class="pre">deploy/apps/myproject</span></code> directory.</p>
-<div class="admonition note">
-<p class="first admonition-title">注解</p>
-<p class="last">For script operation it&#8217;s required to install java and  <a class="reference external" href="https://www.java.com/en/download/help/path.xml">set the PATH system variable</a>.</p>
-</div>
-<p>Available parameters:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">&quot;-a</span> <span class="pre">|</span> <span class="pre">--app&quot;</span></code> (optional) specify an HTML file, relative to which the project app will be built.</li>
-<li><code class="docutils literal"><span class="pre">&quot;-c</span> <span class="pre">|</span> <span class="pre">--css-ignore&quot;</span></code> (optional) add CSS styles to exceptions in order to not compile them.</li>
-<li><code class="docutils literal"><span class="pre">&quot;-j</span> <span class="pre">|</span> <span class="pre">--js-ignore&quot;</span></code> (optional) add scripts to exceptions in order to not compile them.</li>
-<li><code class="docutils literal"><span class="pre">&quot;-o</span> <span class="pre">|</span> <span class="pre">--optimization&quot;</span></code> (optional) specify the optimization level for JavaScript files: <code class="docutils literal"><span class="pre">whitespace</span></code>, <code class="docutils literal"><span class="pre">simple</span></code> (by default) or <code class="docutils literal"><span class="pre">advanced</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">&quot;-t</span> <span class="pre">|</span> <span class="pre">--engine-type&quot;</span></code> (optional) define a compilation type for an app. Four variants are available: <em>external</em> (by default), <em>copy</em>, <em>compile</em>, <em>update</em>.</li>
-<li><code class="docutils literal"><span class="pre">&quot;-v</span> <span class="pre">|</span> <span class="pre">--version&quot;</span></code> add version to paths of scripts and styles.</li>
-</ul>
-<p>Compiler Requirements</p>
-<ul class="simple">
-<li>In the root of the directory the single html file must be stored if <code class="docutils literal"><span class="pre">-a</span></code> option is disabled</li>
-<li>Scripts and styles can be stored in the app&#8217;s root and in the subfolders</li>
-</ul>
-</div>
-<div class="section" id="automatic-re-export">
-<h3><a class="toc-backref" href="#id15">Automatic Re-export</a><a class="headerlink" href="#automatic-re-export" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject reexport
-</pre></div>
-</div>
-<p>This command will re-export blend files in JSON and HTML formats.</p>
-<p>Available parameters:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">&quot;-b</span> <span class="pre">|</span> <span class="pre">--blender-exec&quot;</span></code> path to the blender executable.</li>
-<li><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> specify directory with scene assets.</li>
-</ul>
-</div>
-<div class="section" id="resource-conversion">
-<h3><a class="toc-backref" href="#id16">Resource Conversion</a><a class="headerlink" href="#resource-conversion" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject convert_resources
-</pre></div>
-</div>
-<p>Converts external resources (textures, audio and video files) into alternative formats to ensure cross-browser and cross-platform performance.</p>
-<p>Available parameters:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> specify directory with scene assets.</li>
-</ul>
-<p>Converting of resources is described in detail in the <a class="reference internal" href="#converter"><span>corresponding section</span></a>.</p>
-</div>
-<div class="section" id="deploying-projects">
-<h3><a class="toc-backref" href="#id17">Deploying Projects</a><a class="headerlink" href="#deploying-projects" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject deploy DIRECTORY
-</pre></div>
-</div>
-<p>Save a project to an external directory together with all dependencies.</p>
-<p>Available parameters:</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">&quot;-e</span> <span class="pre">|</span> <span class="pre">--assets-dest&quot;</span></code> destination assets directory (&#8220;assets&#8221; by default).</li>
-<li><code class="docutils literal"><span class="pre">&quot;-E</span> <span class="pre">|</span> <span class="pre">--assets-prefix&quot;</span></code> assets URL prefix (&#8220;assets&#8221; by default).</li>
-<li><code class="docutils literal"><span class="pre">&quot;-o</span> <span class="pre">|</span> <span class="pre">--override&quot;</span></code> remove directory if it exists.</li>
-<li><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> override project&#8217;s assets directory(s).</li>
-<li><code class="docutils literal"><span class="pre">&quot;-t</span> <span class="pre">|</span> <span class="pre">--engine-type&quot;</span></code> override project&#8217;s engine type config.</li>
-</ul>
-</div>
-<div class="section" id="remove-project">
-<h3><a class="toc-backref" href="#id18">Remove Project</a><a class="headerlink" href="#remove-project" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject remove
-</pre></div>
-</div>
-<p>Removes a project. Removed directories are retrieved from project configuration file.</p>
-</div>
-<div class="section" id="upgrading-apps-for-new-sdk-versions">
-<h3><a class="toc-backref" href="#id19">Upgrading Apps for New SDK Versions</a><a class="headerlink" href="#upgrading-apps-for-new-sdk-versions" title="永久链接至标题">¶</a></h3>
-<p>While upgrading for new SDK versions often two problems arise:</p>
-<ol class="arabic simple">
-<li>Modules of the new and old versions of the engine do not match.</li>
-<li>Old and new engine API do not match.</li>
-</ol>
-<p>In order to update the list of modules imported in developer version of application go to project source directory <code class="docutils literal"><span class="pre">apps_dev/my_project</span></code> and execute module list generator script:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ../../scripts/mod_list.py
-</pre></div>
-</div>
-<p>For MS Windows users:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python ..\..\scripts\mod_list.py</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">注解</p>
-<p class="last">To run the scripts the Python 3.x needs to be installed in your system.</p>
-</div>
-<p>The console will print the list of modules - copy them and paste into the main HTML file:</p>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/b4w.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/anchors.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/animation.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/assets.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/batch.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/boundings.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/camera.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    . . .
-<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-</pre></div>
-</div>
-<p>To eliminate API incompatibilities you may require refactoring of your app. All changes are described in <a class="reference internal" href="release_notes.html#release-notes"><span>release notes</span></a>.</p>
-</div>
-<div class="section" id="path-to-loaded-application-assets">
-<h3><a class="toc-backref" href="#id20">Path to Loaded Application Assets</a><a class="headerlink" href="#path-to-loaded-application-assets" title="永久链接至标题">¶</a></h3>
-<p>To load .json-files you should use <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> method from the <em>config.js</em> module:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;example/example.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>After building the finished app, the paths to assets will change. Thus, using <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> will allow you to avoid problems with incorrect paths.</p>
-</div>
 </div>
 <div class="section" id="application-programming">
-<h2><a class="toc-backref" href="#id21">Application Programming</a><a class="headerlink" href="#application-programming" title="永久链接至标题">¶</a></h2>
+<span id="app-building"></span><h2><a class="toc-backref" href="#id2">Application Programming</a><a class="headerlink" href="#application-programming" title="永久链接至标题">¶</a></h2>
 <div class="section" id="hello-world-application">
-<h3><a class="toc-backref" href="#id22">&#8220;Hello World!&#8221; application</a><a class="headerlink" href="#hello-world-application" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id3">&#8220;Hello World!&#8221; application</a><a class="headerlink" href="#hello-world-application" title="永久链接至标题">¶</a></h3>
 <p>The simplest Blend4Web app may look like this:</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
@@ -545,7 +246,7 @@ remove_exist_ext_dir =
 <p>The compiled engine file <code class="docutils literal"><span class="pre">b4w.min.js</span></code> can be copied from the SDK&#8217;s <code class="docutils literal"><span class="pre">deploy/apps/common</span></code> directory and placed in the same directory as the HTML file.</p>
 </div>
 <div class="section" id="loading-scenes-in-apps">
-<h3><a class="toc-backref" href="#id23">Loading Scenes in Apps</a><a class="headerlink" href="#loading-scenes-in-apps" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">Loading Scenes in Apps</a><a class="headerlink" href="#loading-scenes-in-apps" title="永久链接至标题">¶</a></h3>
 <p>To load a 3D scene you need:</p>
 <ol class="arabic simple">
 <li>Place a <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element on a page for rendering.</li>
@@ -579,7 +280,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="module-system">
-<h3><a class="toc-backref" href="#id24">Module System</a><a class="headerlink" href="#module-system" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">Module System</a><a class="headerlink" href="#module-system" title="永久链接至标题">¶</a></h3>
 <p>While the engine gives an app programmer an API in the scale of dozens of modules, it occupies a single <code class="docutils literal"><span class="pre">b4w</span></code> namespace. To call a module’s method import it first with the <code class="docutils literal"><span class="pre">b4w.require()</span></code> function.</p>
 <p>It is possible to register external modules if their names do not collide with already existing modules. A module can be registered with a <code class="docutils literal"><span class="pre">b4w.register()</span></code> call. Check if a module with some name already exists with a <code class="docutils literal"><span class="pre">b4w.module_check()</span></code> call.</p>
 <p>Example:</p>
@@ -609,7 +310,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="creating-apps-quickly">
-<h3><a class="toc-backref" href="#id25">Creating Apps Quickly</a><a class="headerlink" href="#creating-apps-quickly" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Creating Apps Quickly</a><a class="headerlink" href="#creating-apps-quickly" title="永久链接至标题">¶</a></h3>
 <p>Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special add-on for the engine called <code class="docutils literal"><span class="pre">app</span></code>:</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
@@ -647,9 +348,61 @@ remove_exist_ext_dir =
 <p>Then the some_scene.json scene is loaded similar to the previous example. The only difference is that after the scene is loaded, the control system is initialized and camera movement with keyboard and mouse (or sensor screen) becomes possible.</p>
 <p>In case when the <code class="docutils literal"><span class="pre">app</span></code> module is used, it is necessary to explicitly specify dimensions of the container element. Otherwise, the created <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element will have zero dimensions.</p>
 </div>
+<div class="section" id="background-transparency">
+<h3><a class="toc-backref" href="#id7">Background Transparency</a><a class="headerlink" href="#background-transparency" title="永久链接至标题">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">background_color</span></code> and <code class="docutils literal"><span class="pre">alpha</span></code> parameters are passed to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-m_app.html#.init">init</a> method placed in the load callback function (a function that is called right after the scene is loaded), like this:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span> <span class="p">({</span>
+    <span class="nx">alpha</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">background_color</span><span class="o">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+   <span class="c1">//this method sets the background to an opaque light grey color</span>
+<span class="p">});</span>
+</pre></div>
 </div>
-<div class="section" id="converter">
-<span id="id3"></span><h2><a class="toc-backref" href="#id26">Resource Conversion</a><a class="headerlink" href="#converter" title="永久链接至标题">¶</a></h2>
+<p>The combination of the parameters passed to the method defines how the backgrounds of the Blend4Web application and the HTML application blend together. Available options are:</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">alpha</span></code> = false</dt>
+<dd><p class="first last">The color of the background is defined by the <code class="docutils literal"><span class="pre">background_color</span></code> of the Blend4Web application, the background of the HTML application is not taken into consideration.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/developers_background_opaque.png"><img alt="_images/developers_background_opaque.png" class="align-center" src="_images/developers_background_opaque.png" style="width: 100%;" /></a>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">alpha</span></code> = true</dt>
+<dd><p class="first">The background of the HTML application might influence the background of the Blend4Web application based on its transparency which is defined by the fourth component of the <code class="docutils literal"><span class="pre">background_color</span></code> parameter (<code class="docutils literal"><span class="pre">alpha</span></code> = <code class="docutils literal"><span class="pre">background_color[3]</span></code>, not to be confused with the <code class="docutils literal"><span class="pre">alpha</span></code> parameter mentioned above).</p>
+<dl class="last docutils">
+<dt>background_color[3] = 1</dt>
+<dd><p class="first last">This produces the same result as if the alpha parameter has been turned off (<code class="docutils literal"><span class="pre">alpha</span></code> = false)</p>
+</dd>
+<dt>background_color[3] = 0</dt>
+<dd><p class="first">Additive blending is used.</p>
+<a class="reference internal image-reference" href="_images/developers_background_add.png"><img alt="_images/developers_background_add.png" class="align-center" src="_images/developers_background_add.png" style="width: 100%;" /></a>
+<p class="last">Picture above shows an HTML page containing a Blend4Web application with a blue [0, 0, 1] background that blends with the page&#8217;s red (<code class="docutils literal"><span class="pre">Red</span></code>) color producing a violet tone.</p>
+</dd>
+<dt>background_color[3] &gt; 0</dt>
+<dd><p class="first">Additive blending is used with the <code class="docutils literal"><span class="pre">background_color</span></code> having a greater influence.</p>
+<a class="reference internal image-reference" href="_images/developers_background_semiopaque.png"><img alt="_images/developers_background_semiopaque.png" class="align-center" src="_images/developers_background_semiopaque.png" style="width: 100%;" /></a>
+<p class="last">This picture shows the same HTML page with the same Blend4Web app, however, the <code class="docutils literal"><span class="pre">alpha</span></code> value is set to 0.5, leading to a darker tone of the application background.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ol>
+<p>The mechanisms of alpha lending are described in greater detail in the <a class="reference internal" href="colors.html#alpha-compositing"><span>Color Management</span></a> chapter.</p>
+<p>By default, the <code class="docutils literal"><span class="pre">alpha</span></code> parameter is set to true and the <code class="docutils literal"><span class="pre">background_color</span></code> is set to transparent black [0, 0, 0, 0], which means that the application will have an HTML background with no influences from the background of the Blend4Web application.</p>
+<p>Background transparency can also be utilized in <a class="reference internal" href="project_manager.html#web-player-app"><span>Web Player applications</span></a> by using the <code class="docutils literal"><span class="pre">alpha</span></code> <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL attribute</span></a>. To use this feature, firstly you need to enable the <code class="docutils literal"><span class="pre">Background</span> <span class="pre">transparency</span> <span class="pre">(alpha)</span></code> parameter in the <a class="reference internal" href="project_manager.html#web-player-params"><span>Web Player Params</span></a> group while creating the application.</p>
+<p>If Blend4Web application uses sky rendering, the application canvas will be fully covered by objects (including sky), so the background will be fully opaque and not influenced by alpha settings.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">Sky rendering is enabled by default in Blend4Web scenes created in <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a>. Don&#8217;t forget, in order to use a transparent background you will need to manually disable sky rendering.</p>
+</div>
+</div>
+</div>
+<div class="section" id="resource-conversion">
+<span id="converter"></span><h2><a class="toc-backref" href="#id8">Resource Conversion</a><a class="headerlink" href="#resource-conversion" title="永久链接至标题">¶</a></h2>
 <p>Currently, browsers do not fully support all possible media formats, so in order to create cross-browser applications (and also for optimization purposes) we recommend you to use the resource converter.</p>
 <p>To support a wider range of platforms, a Python script (<em>scripts/converter.py</em>) for converting the source files into other formats is included into the distribution.</p>
 <p>There are two ways to run this script.</p>
@@ -672,8 +425,8 @@ remove_exist_ext_dir =
 <p>With the -d parameter you can specify the path to a directory in which converting will take place.</p>
 <p>To exclude some directory from resource conversion, it is enough to put a file named <code class="docutils literal"><span class="pre">.b4w_no_conv</span></code> in it. This will not affect conversion in nested directories.</p>
 <p>The <strong>resize_textures</strong> argument is used for decreasing texture resolution for the <strong>LOW</strong> mode.</p>
-<div class="section" id="id4">
-<h3><a class="toc-backref" href="#id27">Dependencies</a><a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<div class="section" id="dependencies">
+<h3><a class="toc-backref" href="#id9">Dependencies</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h3>
 <p>Please make sure that you have all converter dependencies installed. You can do it with the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
@@ -689,7 +442,7 @@ remove_exist_ext_dir =
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Name</th>
-<th class="head">Ubuntu 15.04 package</th>
+<th class="head">Ubuntu 16.04 package</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -704,6 +457,9 @@ remove_exist_ext_dir =
 </tr>
 <tr class="row-odd"><td>FFmpeg</td>
 <td>ffmpeg</td>
+</tr>
+<tr class="row-even"><td>PVRTC</td>
+<td>install manually</td>
 </tr>
 </tbody>
 </table>
@@ -737,15 +493,16 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 </div>
-<div class="section" id="data-format">
-<span id="converter-data-format"></span><h3><a class="toc-backref" href="#id28">Data Format</a><a class="headerlink" href="#data-format" title="永久链接至标题">¶</a></h3>
+<div class="section" id="data-formats">
+<span id="converter-data-format"></span><h3><a class="toc-backref" href="#id10">Data Formats</a><a class="headerlink" href="#data-formats" title="永久链接至标题">¶</a></h3>
 <p>The conversion is performed as follows:</p>
 <dl class="docutils">
 <dt>for audio (convert_media):</dt>
 <dd><ul class="first last simple">
-<li>ogg, oga -&gt; mp4</li>
-<li>mp3 -&gt; ogg</li>
-<li>mp4, m4a -&gt; ogg</li>
+<li>ogg (ogv, oga) -&gt; mp4</li>
+<li>mp3 -&gt; oga</li>
+<li>mp4 (m4v, m4a) -&gt; oga</li>
+<li>webm -&gt; m4a</li>
 </ul>
 </dd>
 </dl>
@@ -753,12 +510,10 @@ remove_exist_ext_dir =
 <dl class="docutils">
 <dt>for video (convert_media):</dt>
 <dd><ul class="first last simple">
-<li>webm -&gt; m4v</li>
-<li>mp4, m4v -&gt; webm</li>
-<li>ogg, ogv -&gt; webm</li>
-<li>webm -&gt; seq</li>
-<li>mp4, m4v -&gt; seq</li>
-<li>ogg, ogv -&gt; seq</li>
+<li>ogg (ogv, oga) -&gt; m4v / seq</li>
+<li>mp3 -&gt; webm / seq</li>
+<li>mp4 (m4v, m4a) -&gt; webm / seq</li>
+<li>webm -&gt; m4v / seq</li>
 </ul>
 </dd>
 </dl>
@@ -766,9 +521,9 @@ remove_exist_ext_dir =
 <dl class="docutils">
 <dt>for images (convert_dds):</dt>
 <dd><ul class="first last simple">
-<li>png -&gt; dds</li>
-<li>jpg -&gt; dds</li>
-<li>bmp -&gt; dds</li>
+<li>png -&gt; dds/pvr</li>
+<li>jpg -&gt; dds/pvr</li>
+<li>bmp -&gt; dds/pvr</li>
 <li>gif -&gt; dds</li>
 </ul>
 </dd>
@@ -786,7 +541,9 @@ remove_exist_ext_dir =
 <span class="p">}</span>
 </pre></div>
 </div>
-<p id="dds"><code class="docutils literal"><span class="pre">DDS</span></code> textures require less memory (4 times less for <code class="docutils literal"><span class="pre">RGBA</span></code> data and 6 times for <code class="docutils literal"><span class="pre">RGB</span></code> data), but using them has following downsides:</p>
+<div class="section" id="dds-texture-compression">
+<span id="dds"></span><h4>DDS Texture Compression<a class="headerlink" href="#dds-texture-compression" title="永久链接至标题">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">DDS</span></code> textures require less memory (4 times less for <code class="docutils literal"><span class="pre">RGBA</span></code> data and 6 times for <code class="docutils literal"><span class="pre">RGB</span></code> data), but using them has following downsides:</p>
 <blockquote>
 <div><ul class="simple">
 <li><code class="docutils literal"><span class="pre">DDS</span></code> textures might not work on some devices, especially the mobile ones, as not all of them support the <code class="docutils literal"><span class="pre">WEBGL_compressed_texture_s3tc</span></code> extension;</li>
@@ -797,13 +554,37 @@ remove_exist_ext_dir =
 </div></blockquote>
 <p>During exporting the scene from Blender to the <code class="docutils literal"><span class="pre">JSON</span></code> format (but not the <code class="docutils literal"><span class="pre">HTML</span></code> format), <code class="docutils literal"><span class="pre">DDS</span></code> textures will be plugged in automatically, if they are present.</p>
 <p>Textures can be converted to the <code class="docutils literal"><span class="pre">DDS</span></code> format using the <a class="reference internal" href="project_manager.html#project-management"><span>project manger</span></a> or the <em>scripts/converter.py</em> script described above.</p>
-<p id="seq">The <code class="docutils literal"><span class="pre">.seq</span></code> file format is used for sequential video. This is applied for IE 11 and iPhone because they are currently missing support for standard video formats for textures. Using dds format for images is more optimal compared to other formats.</p>
+</div>
+<div class="section" id="pvrtc-texture-compression">
+<h4>PVRTC Texture Compression<a class="headerlink" href="#pvrtc-texture-compression" title="永久链接至标题">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">PVRTC</span></code> is another texture compression format used primarily on iOS devices. In some cases it can produce texture files up to two times smaller than same texture images would take in <code class="docutils literal"><span class="pre">DDS</span></code> format.</p>
+<p>The format has two compression settings that are supported by the engine: 2-bpp (two bits per pixel) and 4-bpp (four bits per pixel).</p>
+<p>As with <code class="docutils literal"><span class="pre">DDS</span></code> format, textures compressed using the <code class="docutils literal"><span class="pre">PVRTC</span></code> algorithm may not work on some platforms, especially mobile, because using this compression format require support for the <code class="docutils literal"><span class="pre">IMG_texture_compression_pvrtc</span></code> WebGL extension.</p>
+<p>The PVRTC library and SDK are available for Windows, Linux and MacOS X systems alike. Installation packages can be downloaded from the <a class="reference external" href="https://community.imgtec.com/developers/powervr/">Power VR Insider</a> web page.</p>
+<p>The Blend4Web engine uses a console PVRTC tool. To use it, you need to add the path to it to the <code class="docutils literal"><span class="pre">PATH</span></code> environmental variable, like the following:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
+</pre></div>
+</div>
+<p>where &lt;InstallDir&gt; is the PVRTexTool installation directory and &lt;PLATFORM&gt; is a folder that contains the version of the tool that corresponds to your OS, for example, <code class="docutils literal"><span class="pre">\Windows_x86_64\</span></code> for 64-bit Windows OS.</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p>In Windows systems, environment variables can be set in the <code class="docutils literal"><span class="pre">System</span></code> (in Windows 10 and 8) or <code class="docutils literal"><span class="pre">Properties</span></code> (in Windows 7 and Vista) dialogue window by choosing <code class="docutils literal"><span class="pre">Advanced</span> <span class="pre">System</span> <span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Variables</span></code>, or by using console commands:</p>
+<div class="last highlight-bash"><div class="highlight"><pre><span></span>SET <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
+</pre></div>
+</div>
+</div>
+<p>After this, you will be able to convert the textures to the PVR format by using converter.py script with the <code class="docutils literal"><span class="pre">convert_dds</span></code> command.</p>
+</div>
+<div class="section" id="seq-video-format">
+<span id="seq"></span><h4>SEQ Video Format<a class="headerlink" href="#seq-video-format" title="永久链接至标题">¶</a></h4>
+<p>The <code class="docutils literal"><span class="pre">.seq</span></code> file format is used for sequential video. This is applied for IE 11 and iPhone because they are currently missing support for standard video formats for textures. Using dds format for images is more optimal compared to other formats.</p>
 <p>The engine can use files which are manually created by a user if they have the following names: <code class="docutils literal"><span class="pre">file_name.altconv.m4v</span></code>, <code class="docutils literal"><span class="pre">file_name.altconv.mp3</span></code> and so on. Such files should be placed in the same directory as the media files used in Blender.</p>
 <p>You can also use the free and cross-platform application <a class="reference external" href="http://www.mirovideoconverter.com/">Miro Video Converter</a> to convert media files.</p>
 </div>
 </div>
+</div>
 <div class="section" id="code-examples">
-<span id="code-snippets"></span><h2><a class="toc-backref" href="#id29">Code Examples</a><a class="headerlink" href="#code-examples" title="永久链接至标题">¶</a></h2>
+<span id="code-snippets"></span><h2><a class="toc-backref" href="#id11">Code Examples</a><a class="headerlink" href="#code-examples" title="永久链接至标题">¶</a></h2>
 <p>The SDK includes the Code Snippets application which demonstrates how to use the engine&#8217;s functionality.</p>
 <p>Currently, this application contains the following examples:</p>
 <blockquote>
@@ -824,10 +605,10 @@ remove_exist_ext_dir =
 <p>The Code Snippets application is available at <code class="docutils literal"><span class="pre">SDK/apps_dev/code_snippets/code_snippets_dev.html</span></code>. It can be also run by using a link in the <code class="docutils literal"><span class="pre">index.html</span></code> file located in the SDK root.</p>
 </div>
 <div class="section" id="event-driven-model">
-<span id="event-model"></span><h2><a class="toc-backref" href="#id30">Event-Driven Model</a><a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
+<span id="event-model"></span><h2><a class="toc-backref" href="#id12">Event-Driven Model</a><a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
 <p>The event-driven model provides a universal interface for describing the 3D scene&#8217;s change of state. It simplifies the processing of physics events and user actions.</p>
 <div class="section" id="sensors">
-<span id="index-0"></span><h3><a class="toc-backref" href="#id31">Sensors</a><a class="headerlink" href="#sensors" title="永久链接至标题">¶</a></h3>
+<span id="index-0"></span><h3><a class="toc-backref" href="#id13">Sensors</a><a class="headerlink" href="#sensors" title="永久链接至标题">¶</a></h3>
 <p>The basic unit of the event-driven model is a sensor. A sensor is a programming entity and can only be active (1, one) or inactive (0, zero). Some sensors may carry a payload which can be received in the manifold&#8217;s callback function with corresponding API. For example, the ray-tracing sensor (Ray Sensor) provides the relative length of the intersection ray.</p>
 <p id="index-1">Users cannot directly control sensors via the external API. Instead, all sensors must be present in one or multiple collections - so called sensor manifolds. A manifold is a logic container associated with a scene object. It generates a response to a defined set of sensor events by executing a callback function. To define the manifold it is required to have the following information (see also the API documentation for description of the <code class="docutils literal"><span class="pre">controls.create_sensor_manifold</span></code> function):</p>
 <ul class="simple">
@@ -842,7 +623,7 @@ remove_exist_ext_dir =
 <p>You can read more about engine API in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a> module documentation.</p>
 </div>
 <div class="section" id="example">
-<h3><a class="toc-backref" href="#id32">Example</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id14">Example</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
 <p>Let&#8217;s consider the task to insonify the impact of a thrown stone. A distinctive sound should be produced for impacting different media (for example terrain and wall). There are collision meshes with physical materials in the Blender scene, material ids are &#8220;TERRAIN&#8221; and &#8220;WALL&#8221;. There is also a physical object being thrown in the scene, the object is named &#8220;Stone&#8221;.</p>
 <p>Let&#8217;s define a collision sensor for each medium, by the type of the sound produced.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// import the modules</span>
@@ -889,7 +670,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="sdk-file-structure">
-<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id33">SDK File Structure</a><a class="headerlink" href="#sdk-file-structure" title="永久链接至标题">¶</a></h2>
+<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id15">SDK File Structure</a><a class="headerlink" href="#sdk-file-structure" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
 <dt><strong>apps_dev</strong></dt>
 <dd><p class="first">source code of the applications</p>
@@ -1042,12 +823,12 @@ remove_exist_ext_dir =
 </dl>
 </div>
 <div class="section" id="loading-local-resources">
-<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id34">Loading Local Resources</a><a class="headerlink" href="#loading-local-resources" title="永久链接至标题">¶</a></h2>
+<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id16">Loading Local Resources</a><a class="headerlink" href="#loading-local-resources" title="永久链接至标题">¶</a></h2>
 <p>The engine&#8217;s renderer is a web application and it works when you view an HTML file in a browser. After initialization the resources (scenes, textures) are loaded. This process is subject to the <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">same-origin policy</a> rule. In particular this rule forbids loading from a local directory.</p>
 <p>Since version 15.02, the Blend4Web SDK includes the <a class="reference internal" href="addon.html#local-development-server"><span>development server</span></a> to solve the problem of loading local resources.</p>
 </div>
 <div class="section" id="quality-profiles">
-<span id="quality-settings"></span><h2><a class="toc-backref" href="#id35">Quality Profiles</a><a class="headerlink" href="#quality-profiles" title="永久链接至标题">¶</a></h2>
+<span id="quality-settings"></span><h2><a class="toc-backref" href="#id17">Quality Profiles</a><a class="headerlink" href="#quality-profiles" title="永久链接至标题">¶</a></h2>
 <p>Several quality profiles are implemented in order to support platforms with different functionality.</p>
 <blockquote>
 <div><ul class="simple">
@@ -1081,7 +862,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="non-fullscreen-web-apps">
-<span id="canvas-nonfullscreen-coords"></span><h2><a class="toc-backref" href="#id36">Non-FullScreen Web Apps</a><a class="headerlink" href="#non-fullscreen-web-apps" title="永久链接至标题">¶</a></h2>
+<span id="canvas-nonfullscreen-coords"></span><h2><a class="toc-backref" href="#id18">Non-FullScreen Web Apps</a><a class="headerlink" href="#non-fullscreen-web-apps" title="永久链接至标题">¶</a></h2>
 <p>The Canvas element, to which the rendering is performed, can change its position relative to the browser window. This can occur due to some manipulations over the DOM tree, or as a result of page scrolling which is especially relevant for non-fullscreen web applications.</p>
 <p>In most cases this will not affect the performance of the app by any means. However, some DOM events related to mouse cursor or touch position may carry incorrect information. This occurs because the coordinates obtained from the corresponding events are measured relative to the origin of the browser window, while the engine works with the coordinate space of the Canvas element itself (its origin is located in the top left corner).</p>
 <ol class="arabic simple">
@@ -1179,7 +960,7 @@ remove_exist_ext_dir =
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-08-31.
+      最后更新于 2016-09-29.
 
     </p>
   </div>
@@ -1235,7 +1016,7 @@ remove_exist_ext_dir =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

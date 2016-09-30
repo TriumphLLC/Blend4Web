@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>场景预览器 &mdash; Blend4Web 16.08 用户手册</title>
+  <title>场景预览器 &mdash; Blend4Web 16.09 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 用户手册" href="index.html"/>
         <link rel="next" title="网络播放器" href="web_player.html"/>
-        <link rel="prev" title="项目管理器" href="project_manager.html"/> 
+        <link rel="prev" title="Project Management" href="project_manager.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -84,10 +84,10 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">场景预览器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#navigation">导航</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-side-panel">侧面板</a><ul>
@@ -124,7 +124,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -421,7 +421,7 @@
 </div>
 <div class="section" id="materials">
 <h4><a class="toc-backref" href="#id13">Materials</a><a class="headerlink" href="#materials" title="永久链接至标题">¶</a></h4>
-<p>Material properties setup. A material can be selected using the drop-down menu. For now, this feature only support a limited number of properties and only stack (non-node) materials applied to dynamic objects (node materials and static objects are not supported).</p>
+<p>Material properties setup. A material can be selected using the drop-down menu. For now, this feature only supports a limited number of properties and only stack (non-node) materials applied to dynamic objects (node materials and static objects are not supported).</p>
 <p>Available parameters:</p>
 <dl class="docutils">
 <dt><em>Material</em></dt>
@@ -442,7 +442,7 @@
 </div>
 <div class="section" id="lighting">
 <h4><a class="toc-backref" href="#id14">Lighting</a><a class="headerlink" href="#lighting" title="永久链接至标题">¶</a></h4>
-<p>直接照明的参数设置。光源可以使用下拉菜单中选择。更改颜色和强度的支持。白天和阳光照明参数也可以调整该面板上。</p>
+<p>Setup for direct lighting parameters. A light source can be selected using the drop-down menu. Changing color and intensity is supported. Daytime and sun lighting parameters can also be tweaked on this panel.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/viewer_lighting_settings.png"><img alt="_images/viewer_lighting_settings.png" class="align-center" src="_images/viewer_lighting_settings.png" style="width: 100%;" /></a>
 </div></blockquote>
@@ -453,17 +453,17 @@
 <dt><em>Type</em></dt>
 <dd>The type of the selected light source. This parameter cannot be changed in the Scene Viewer.</dd>
 <dt><em>Color</em></dt>
-<dd>The base color of the selected light source. By default, white color (1; 1; 1) is used.</dd>
+<dd>The base color of the selected light source. By default, white (1; 1; 1) is used.</dd>
 <dt><em>Energy Coarse</em></dt>
 <dd>This parameter sets the integral part of the energy value for the light source. The value of this parameter can vary from zero to 100. Default value is 1.</dd>
 <dt><em>Energy Precise</em></dt>
 <dd>This parameter sets the fractional part of the energy value for the light source. The value of this parameter can vary from zero to 1. Set to zero by default.</dd>
 <dt><em>Light Energy</em></dt>
-<dd>This value is calculated as the sum of the Energy Coarse and Energy Precise parameters. In case of both of them are having default values, it will be equal to 1.</dd>
+<dd>This value is calculated as the sum of the Energy Coarse and Energy Precise parameters. In case both of them have default values, it will be equal to 1.</dd>
 <dt><em>Spot Size</em></dt>
 <dd>Angle of the light beam emitted by the light source. Default value is 75. This parameter is only available for <code class="docutils literal"><span class="pre">Spot</span></code> type light sources.</dd>
 <dt><em>Spot Blend</em></dt>
-<dd>The softness of the spotlight edge. Default value is 0.15. This parameter is also available for <code class="docutils literal"><span class="pre">Spot</span></code> type light sources only.</dd>
+<dd>This defines the softness of the spotlight edge. Default value is 0.15. This parameter is also available for <code class="docutils literal"><span class="pre">Spot</span></code> type light sources only.</dd>
 <dt><em>Distance</em></dt>
 <dd>This parameter sets the distance (in meters) from the light source at which the light emitted by the light source will be half as bright as defined by the <code class="docutils literal"><span class="pre">Light</span> <span class="pre">Energy</span></code> value. Set to 30 by default.</dd>
 </dl>
@@ -477,11 +477,11 @@
 <dt><em>Date</em></dt>
 <dd>This parameter sets the current date.</dd>
 <dt><em>Time</em></dt>
-<dd>This parameter set the current time of day (or night?). Default value is 12.0.</dd>
+<dd>This parameter set the current time of day. Default value is 12.0.</dd>
 <dt><em>Maximum Sun Vertical Angle</em></dt>
 <dd>This parameter sets maximum possible vertical angle for a <code class="docutils literal"><span class="pre">Sun</span></code> type light source. Default value is 60.</dd>
 <dt><em>Time Multiplier</em></dt>
-<dd>The value of this parameter defines the speed of the flow of time. Default value is 1.0 (time flows with the same speed it does in real life).</dd>
+<dd>The value of this parameter defines the speed of the flow of time. Default value is 1.0 (time flows at the same speed it does in real life).</dd>
 <dt><em>Horizontal Position</em></dt>
 <dd>Horizontal position of the sun on the skydome. Default value is 29.82.</dd>
 <dt><em>Vertical Position</em></dt>
@@ -490,42 +490,42 @@
 </div>
 <div class="section" id="ambient">
 <h4><a class="toc-backref" href="#id15">Ambient</a><a class="headerlink" href="#ambient" title="永久链接至标题">¶</a></h4>
-<p>环境照明的参数设置。改变颜色和半球环境模型的强度支持。</p>
+<p>Setup for ambient lighting parameters. Changing the colors and intensity of a hemispheric ambient model is supported.</p>
 <p>The settings available for ambient lighting setup are the same as the ones in Blender. They are described in the <a class="reference internal" href="lighting.html#environment-lighting"><span>dedicated section</span></a>.</p>
 </div>
 <div class="section" id="shadows">
 <h4><a class="toc-backref" href="#id16">Shadows</a><a class="headerlink" href="#shadows" title="永久链接至标题">¶</a></h4>
-<p>阴影参数设置，包括影子瀑布和阴影边缘软化参数。</p>
-<p>The settings for setting up shadows are described in the <a class="reference internal" href="lighting.html#shadows"><span>corresponding section</span></a> of this manual.</p>
+<p>Setup for shadow parameters, including shadow cascades and shadow edges softening parameters.</p>
+<p>The options for setting up shadows are described in the <a class="reference internal" href="lighting.html#shadows"><span>corresponding section</span></a> of this manual.</p>
 </div>
 <div class="section" id="sky">
 <h4><a class="toc-backref" href="#id17">Sky</a><a class="headerlink" href="#sky" title="永久链接至标题">¶</a></h4>
-<p>动态天空参数设置，如颜色，太阳的光散射参数等。</p>
+<p>Setup for dynamic sky parameters such as color, sun light scattering parameters etc.</p>
 <p>Scene Viewer has access to all Blender parameters used for setting up procedural sky. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="sea">
 <h4><a class="toc-backref" href="#id18">Sea</a><a class="headerlink" href="#sea" title="永久链接至标题">¶</a></h4>
-<p>水渲染参数设置，包括颜色过渡由深度和岸的距离，泡沫和次表面散射参数，波动力学等。</p>
-<p>The setting for water rendering are described in the <a class="reference internal" href="outdoor_rendering.html#water"><span>Outdoor Rendering</span></a> chapter. Scene Viewer uses the same settings as Blend4Web engine itself.</p>
+<p>Setup for water rendering parameters, including color transitions by depth and by distance from the shore, foam and subsurface scattering parameters, wave dynamics etc.</p>
+<p>The settings for water rendering are described in the <a class="reference internal" href="outdoor_rendering.html#water"><span>Outdoor Rendering</span></a> chapter. Scene Viewer uses the same settings as the Blend4Web engine itself.</p>
 </div>
 <div class="section" id="wind">
 <h4><a class="toc-backref" href="#id19">Wind</a><a class="headerlink" href="#wind" title="永久链接至标题">¶</a></h4>
-<p>风参数设置，包括方向和强度。</p>
+<p>Setup for wind parameters, including direction and strength.</p>
 <p>The same parameters as the ones used by Scene Viewer are available in Blender. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#wind"><span>corresponding chapter</span></a>.</p>
 </div>
 <div class="section" id="screen-space-amb-occlus">
 <h4><a class="toc-backref" href="#id20">Screen Space Amb Occlus</a><a class="headerlink" href="#screen-space-amb-occlus" title="永久链接至标题">¶</a></h4>
-<p>环境闭塞参数设置。</p>
+<p>Setup for ambient occlusion parameters.</p>
 <p>All available settings are described in the <a class="reference internal" href="postprocessing_effects.html#ssao"><span>Postprocessing Effects</span></a> chapter.</p>
 </div>
 <div class="section" id="god-rays">
 <h4><a class="toc-backref" href="#id21">God Rays</a><a class="headerlink" href="#god-rays" title="永久链接至标题">¶</a></h4>
-<p>曙暮辉效果参数设置。</p>
+<p>Setup for crepuscular ray effect parameters.</p>
 <p>All parameters for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="bloom">
 <h4><a class="toc-backref" href="#id22">Bloom</a><a class="headerlink" href="#bloom" title="永久链接至标题">¶</a></h4>
-<p>明亮的光线效果参数设置。</p>
+<p>Setup for bloom effect parameters.</p>
 <p>This effect uses the same set of parameters as it does in Blender. It is described in greater detail in the <a class="reference internal" href="postprocessing_effects.html#bloom"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="motion-blur">
@@ -535,17 +535,17 @@
 </div>
 <div class="section" id="glow-materials">
 <h4><a class="toc-backref" href="#id24">Glow Materials</a><a class="headerlink" href="#glow-materials" title="永久链接至标题">¶</a></h4>
-<p>晕光材质效果设置。</p>
+<p>Glow Material effect settings.</p>
 <p>The settings used for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#glow"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="depth-of-field">
 <h4><a class="toc-backref" href="#id25">Depth of Field</a><a class="headerlink" href="#depth-of-field" title="永久链接至标题">¶</a></h4>
-<p>景深效果的参数设置。</p>
+<p>Setup for depth-of-field effect parameters.</p>
 <p>The parameters are described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span>corresponding chapter</span></a>.</p>
 </div>
 <div class="section" id="color-correction">
 <h4><a class="toc-backref" href="#id26">Color correction</a><a class="headerlink" href="#color-correction" title="永久链接至标题">¶</a></h4>
-<p>颜色校正参数的设置，包括亮度，对比度，曝光和饱和度。</p>
+<p>Setup for color correction parameters, including brightness, contrast, exposure and saturation.</p>
 <p>The same set of parameters is used for color correction in Blender itself. The description of these parameters is available in the <a class="reference internal" href="colors.html#color-correction"><span>Color Management</span></a> chapter.</p>
 </div>
 <div class="section" id="audio">
@@ -553,7 +553,7 @@
 <p>有在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用于具有声源的场景）。</p>
 <dl class="docutils">
 <dt><em>Mixer</em></dt>
-<dd><p class="first">Enables equalizer that shows various parameters (including volume, frequency, distance, attenuation etc.) of the speakers present in the scene, and allows user to adjust these parameters by using numerical keypad. The available parameters and possibilities are described in greater detail in the <a class="reference internal" href="audio.html#mixer"><span>dedicated section</span></a> of the <a class="reference internal" href="audio.html#audio"><span>Audio chapter</span></a>.</p>
+<dd><p class="first">Enables equalizer that shows various parameters (including volume, frequency, distance, attenuation and others) of the speakers present in the scene, and allows user to adjust these parameters by using a numerical keypad. The available parameters and possibilities are described in greater detail in the <a class="reference internal" href="audio.html#mixer"><span>dedicated section</span></a> of the <a class="reference internal" href="audio.html#audio"><span>Audio chapter</span></a>.</p>
 <a class="reference internal image-reference" href="_images/viewer_mixer.png"><img alt="_images/viewer_mixer.png" class="align-center" src="_images/viewer_mixer.png" style="width: 100%;" /></a>
 <p class="last">This feature is disabled by default.</p>
 </dd>
@@ -565,11 +565,11 @@
 <p>Available parameters:</p>
 <dl class="docutils">
 <dt><em>Stereo Types</em></dt>
-<dd><p class="first">The list of all available stereo rendering modes. As of today, three types are supported:</p>
+<dd><p class="first">A list of all available stereo rendering modes. As of today, three types are supported:</p>
 <blockquote>
 <div><p><code class="docutils literal"><span class="pre">NONE</span></code> - stereo rendering is not used.</p>
 <p><code class="docutils literal"><span class="pre">ANAGLYPH</span></code> - <a class="reference internal" href="stereo_rendering.html#anaglyph"><span>anaglyph</span></a> rendering is used.</p>
-<p><code class="docutils literal"><span class="pre">HMD</span></code> - rendering for <a class="reference internal" href="stereo_rendering.html#hmd"><span>Head-Mounted Displays</span></a> is used. This option is only available is the system has access to a HMD device.</p>
+<p><code class="docutils literal"><span class="pre">HMD</span></code> - rendering for <a class="reference internal" href="stereo_rendering.html#hmd"><span>Head-Mounted Displays</span></a> is used. This option is only available if the system has access to an HMD device.</p>
 </div></blockquote>
 <p class="last">Default setting is <code class="docutils literal"><span class="pre">NONE</span></code>.</p>
 </dd>
@@ -609,7 +609,7 @@
 </li>
 <li><dl class="first docutils">
 <dt><strong>选定的物体和控制物体</strong></dt>
-<dd><p class="first last">这是位于左下角。它显示选择和控制对象的名称。对象选择可以用鼠标来执行。要直接控制的对象（通常为物理调试）按 <code class="docutils literal"><span class="pre">Q</span></code> 键并单击对象。物体的移动是与执行 <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> 键。要退出控制模式下，按 <code class="docutils literal"><span class="pre">Q</span></code> 键并单击一个空的空间。该指标也显示在Blender单位（米当量）所选对象的距离。</p>
+<dd><p class="first last">This is located in the bottom left corner. It displays the names of selected and controlled objects. Selecting an object is done with the mouse. To control the object directly (normally for physics debugging) press the <code class="docutils literal"><span class="pre">Q</span></code> key and click on the object. The object movement is performed with the <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code> keys. To exit the control mode press the <code class="docutils literal"><span class="pre">Q</span></code> key and click on an empty space. The indicator also displays the distance to the selected object in Blender units (meters equivalent).</p>
 </dd>
 </dl>
 </li>
@@ -626,8 +626,8 @@
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><strong>场景加载错误指示器</strong></dt>
-<dd><p class="first">位于FPS计数下。显示错误，哪个场景加载过程中发生的警告。红灯表示错误，黄色 - 警告，绿色表示该场景加载成功。</p>
+<dt><strong>Scene load error indicator</strong></dt>
+<dd><p class="first">Is located under the FPS counter. It shows errors and warnings which occur during scene load. Red light means errors, yellow - warnings and green means that the scene was loaded successfully.</p>
 <p class="last">Loading errors and warnings can be viewed in the web browser console.</p>
 </dd>
 </dl>
@@ -653,7 +653,7 @@
         <a href="web_player.html" class="btn btn-neutral float-right" title="网络播放器" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="project_manager.html" class="btn btn-neutral" title="项目管理器" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="project_manager.html" class="btn btn-neutral" title="Project Management" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -663,7 +663,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-08-31.
+      最后更新于 2016-09-29.
 
     </p>
   </div>
@@ -719,7 +719,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

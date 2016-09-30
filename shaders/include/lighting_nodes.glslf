@@ -1,25 +1,13 @@
-// lamp dirs
-#var LAMP_IND 0
-#var LAMP_SPOT_SIZE 0
-#var LAMP_SPOT_BLEND 0
-#var LAMP_LIGHT_DIST 0
-#var LAMP_LIGHT_FACT_IND 0
-#var LAMP_FAC_CHANNELS rgb
-#var LAMP_SHADOW_MAP_IND 0
+#ifndef LIGHTING_NODES_GLSLF
+#define LIGHTING_NODES_GLSLF
 
-#import u_light_factors
-#import u_light_color_intensities
-#import u_light_positions
-#import u_light_directions
-#import v_shade_tang
+// #import u_light_factors
+// #import u_light_color_intensities
+// #import u_light_positions
+// #import u_light_directions
+// #import v_shade_tang
 
-#define M_PI 3.14159265359
-
-#export nodes_lighting
-
-float ZERO_VALUE_NODES = 0.0;
-float UNITY_VALUE_NODES = 1.0;
-float HALF_VALUE_NODES = 0.5;
+#include <std.glsl>
 
 #node LIGHTING_BEGIN
     #node_out vec3 E
@@ -67,11 +55,20 @@ float HALF_VALUE_NODES = 0.5;
     #node_out vec4 color_out
     #node_out vec3 specular_out
 
-    color_out = vec4(E + D * A, ZERO_VALUE_NODES);
-    specular_out = vec3(ZERO_VALUE_NODES);
+    color_out = vec4(E + D * A, _0_0);
+    specular_out = vec3(_0_0);
 #endnode
 
 #node LIGHTING_LAMP
+    #node_var LAMP_TYPE HEMI
+    #node_var LAMP_IND 0
+    #node_var LAMP_LIGHT_FACT_IND 0
+    #node_var LAMP_FAC_CHANNELS rg
+    #node_var LAMP_SPOT_SIZE 0.8
+    #node_var LAMP_SPOT_BLEND 0.03
+    #node_var LAMP_LIGHT_DIST 30.0
+    #node_var LAMP_SHADOW_MAP_IND -1
+
     #node_in vec4 shadow_factor
 
     #node_out vec3 ldir
@@ -81,9 +78,9 @@ float HALF_VALUE_NODES = 0.5;
 
     lfac = u_light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
 # node_if LAMP_TYPE == HEMI
-    norm_fac = HALF_VALUE_NODES;
+    norm_fac = _0_5;
 # node_else
-    norm_fac = ZERO_VALUE_NODES;
+    norm_fac = _0_0;
 # node_endif
 
     // 0.0 - full shadow, 1.0 - no shadow
@@ -107,7 +104,7 @@ float HALF_VALUE_NODES = 0.5;
     // source/blender/gpu/shaders/gpu_shader_material.glsl
     vec3 ldirect = u_light_directions[LAMP_IND];
     float spot_factor = dot(ldir, ldirect);
-    spot_factor *= smoothstep(ZERO_VALUE_NODES, UNITY_VALUE_NODES,
+    spot_factor *= smoothstep(_0_0, _1_0,
                               (spot_factor - LAMP_SPOT_SIZE) / LAMP_SPOT_BLEND);
     lcolorint *= spot_factor;
 #  node_endif
@@ -117,6 +114,7 @@ float HALF_VALUE_NODES = 0.5;
 #endnode
 
 #node DIFFUSE_FRESNEL
+    #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
@@ -124,49 +122,51 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 dif_params
     #node_out float lfactor
 
-# node_if USE_TBN_SHADING
+# node_if MAT_USE_TBN_SHADING
     vec3 crss = cross(ldir, v_shade_tang.xyz);
     normal = cross(crss, v_shade_tang.xyz);
     normal = -normalize(normal);
 # node_endif
 
-    lfactor = ZERO_VALUE_NODES;
-    if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+    lfactor = _0_0;
+    if (lfac.r != _0_0) {
+        float dot_nl = (_1_0 - norm_fac) * dot(normal, ldir) + norm_fac;
 
-        if (dif_params[0] == ZERO_VALUE_NODES) {
-            lfactor = UNITY_VALUE_NODES;
+        if (dif_params[0] == _0_0) {
+            lfactor = _1_0;
         } else {
-            float t = UNITY_VALUE_NODES + abs(dot_nl);
-            t = dif_params[1] + (UNITY_VALUE_NODES - dif_params[1]) * pow(t, dif_params[0]);
-            lfactor = clamp(t, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+            float t = _1_0 + abs(dot_nl);
+            t = dif_params[1] + (_1_0 - dif_params[1]) * pow(t, dif_params[0]);
+            lfactor = clamp(t, _0_0, _1_0);
         }
-        lfactor = max(lfactor, ZERO_VALUE_NODES);
+        lfactor = max(lfactor, _0_0);
     }
 #endnode
 
 #node DIFFUSE_LAMBERT
+    #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
     #node_in float norm_fac
     #node_out float lfactor
 
-# node_if USE_TBN_SHADING
+# node_if MAT_USE_TBN_SHADING
     vec3 crss = cross(ldir, v_shade_tang.xyz);
     normal = cross(crss, v_shade_tang.xyz);
     normal = -normalize(normal);
 # node_endif
 
-    lfactor = ZERO_VALUE_NODES;
-    if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+    lfactor = _0_0;
+    if (lfac.r != _0_0) {
+        float dot_nl = (_1_0 - norm_fac) * dot(normal, ldir) + norm_fac;
 
-        lfactor = max(dot_nl, ZERO_VALUE_NODES);
+        lfactor = max(dot_nl, _0_0);
     }
 #endnode
 
 #node DIFFUSE_OREN_NAYAR
+    #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
@@ -174,28 +174,28 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 dif_params
     #node_out float lfactor
 
-# node_if USE_TBN_SHADING
+# node_if MAT_USE_TBN_SHADING
     vec3 crss = cross(ldir, v_shade_tang.xyz);
     normal = cross(crss, v_shade_tang.xyz);
     normal = -normalize(normal);
 # node_endif
 
-    lfactor = ZERO_VALUE_NODES;
-    if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+    lfactor = _0_0;
+    if (lfac.r != _0_0) {
+        float dot_nl = (_1_0 - norm_fac) * dot(normal, ldir) + norm_fac;
 
-        if (dif_params[0] > ZERO_VALUE_NODES) {
-            float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_NODES);
+        if (dif_params[0] > _0_0) {
+            float nv = max(dot(normal, nin_eye_dir), _0_0);
             float sigma_sq = dif_params[0] * dif_params[0];
-            float A = UNITY_VALUE_NODES - HALF_VALUE_NODES * (sigma_sq / (sigma_sq + 0.33));
+            float A = _1_0 - _0_5 * (sigma_sq / (sigma_sq + 0.33));
 
             vec3 l_diff = ldir - dot_nl*normal;
             vec3 e_diff = nin_eye_dir - nv*normal;
             // handle normalize() and acos() values which may result to
             // "undefined behavior"
             // (noticeable for "mediump" precision, nin_eye_dir.g some mobile devies)
-            if (length(l_diff) == ZERO_VALUE_NODES || length(e_diff) == ZERO_VALUE_NODES ||
-                    abs(dot_nl) > UNITY_VALUE_NODES || abs(nv) > UNITY_VALUE_NODES)
+            if (length(l_diff) == _0_0 || length(e_diff) == _0_0 ||
+                    abs(dot_nl) > _1_0 || abs(nv) > _1_0)
                 // HACK: undefined result of normalize() for this vectors
                 // remove t-multiplier for zero-length vectors
                 lfactor = dot_nl * A;
@@ -210,17 +210,18 @@ float HALF_VALUE_NODES = 0.5;
                 b = min(Lit_A, View_A);
                 b *= 0.95;
 
-                float t = max(dot(Lit_B, View_B), ZERO_VALUE_NODES);
+                float t = max(dot(Lit_B, View_B), _0_0);
                 float B = 0.45 * (sigma_sq / (sigma_sq +  0.09));
                 lfactor = dot_nl * (A + (B * t * sin(a) * tan(b)));
             }
         } else
             lfactor = dot_nl;
-        lfactor = max(lfactor, ZERO_VALUE_NODES);
+        lfactor = max(lfactor, _0_0);
     }
 #endnode
 
 #node DIFFUSE_MINNAERT
+    #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
@@ -228,26 +229,27 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 dif_params
     #node_out float lfactor
 
-# node_if USE_TBN_SHADING
+# node_if MAT_USE_TBN_SHADING
     vec3 crss = cross(ldir, v_shade_tang.xyz);
     normal = cross(crss, v_shade_tang.xyz);
     normal = -normalize(normal);
 # node_endif
 
-    lfactor = ZERO_VALUE_NODES;
-    if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
-        float nv = max(dot(normal, nin_eye_dir), ZERO_VALUE_NODES);
+    lfactor = _0_0;
+    if (lfac.r != _0_0) {
+        float dot_nl = (_1_0 - norm_fac) * dot(normal, ldir) + norm_fac;
+        float nv = max(dot(normal, nin_eye_dir), _0_0);
 
-        if (dif_params[0] <= UNITY_VALUE_NODES)
-            lfactor = dot_nl * pow(max(nv * dot_nl, 0.1), dif_params[0] - UNITY_VALUE_NODES);
+        if (dif_params[0] <= _1_0)
+            lfactor = dot_nl * pow(max(nv * dot_nl, 0.1), dif_params[0] - _1_0);
         else
-            lfactor = dot_nl * pow(1.0001 - nv, dif_params[0] - UNITY_VALUE_NODES);
-        lfactor = max(lfactor, ZERO_VALUE_NODES);
+            lfactor = dot_nl * pow(1.0001 - nv, dif_params[0] - _1_0);
+        lfactor = max(lfactor, _0_0);
     }
 #endnode
 
 #node DIFFUSE_TOON
+    #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
@@ -255,28 +257,29 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 dif_params
     #node_out float lfactor
 
-# node_if USE_TBN_SHADING
+# node_if MAT_USE_TBN_SHADING
     vec3 crss = cross(ldir, v_shade_tang.xyz);
     normal = cross(crss, v_shade_tang.xyz);
     normal = -normalize(normal);
 # node_endif
 
-    lfactor = ZERO_VALUE_NODES;
-    if (lfac.r != ZERO_VALUE_NODES) {
-        float dot_nl = (UNITY_VALUE_NODES - norm_fac) * dot(normal, ldir) + norm_fac;
+    lfactor = _0_0;
+    if (lfac.r != _0_0) {
+        float dot_nl = (_1_0 - norm_fac) * dot(normal, ldir) + norm_fac;
         float ang = acos(dot_nl);
 
         if (ang < dif_params[0])
-            lfactor = UNITY_VALUE_NODES;
-        else if (ang > (dif_params[0] + dif_params[1]) || dif_params[1] == ZERO_VALUE_NODES)
-                lfactor = ZERO_VALUE_NODES;
+            lfactor = _1_0;
+        else if (ang > (dif_params[0] + dif_params[1]) || dif_params[1] == _0_0)
+                lfactor = _0_0;
             else
-                lfactor = UNITY_VALUE_NODES - ((ang - dif_params[0])/dif_params[1]);
-        lfactor = max(lfactor, ZERO_VALUE_NODES);
+                lfactor = _1_0 - ((ang - dif_params[0])/dif_params[1]);
+        lfactor = max(lfactor, _0_0);
     }
 #endnode
 
 #node SPECULAR_PHONG
+    #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
@@ -284,17 +287,17 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 sp_params
     #node_out float sfactor
 
-    sfactor = ZERO_VALUE_NODES;
-    if (lfac.g != ZERO_VALUE_NODES) {
+    sfactor = _0_0;
+    if (lfac.g != _0_0) {
         vec3 halfway = normalize(ldir + nin_eye_dir);
-# node_if USE_TBN_SHADING
-    if (norm_fac == ZERO_VALUE_NODES) {
+# node_if MAT_USE_TBN_SHADING
+    if (norm_fac == _0_0) {
         sfactor = dot(v_shade_tang.xyz, halfway);
-        sfactor = sqrt(UNITY_VALUE_NODES - sfactor * sfactor);
+        sfactor = sqrt(_1_0 - sfactor * sfactor);
     }
 # node_else
-        sfactor = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
-                         ZERO_VALUE_NODES) + norm_fac;
+        sfactor = (_1_0 - norm_fac) * max(dot(normal, halfway),
+                         _0_0) + norm_fac;
 # node_endif
         sfactor = pow(sfactor, sp_params[0]);
 
@@ -303,6 +306,7 @@ float HALF_VALUE_NODES = 0.5;
 #endnode
 
 #node SPECULAR_WARDISO
+    #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
@@ -310,36 +314,37 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 sp_params
     #node_out float sfactor
 
-    sfactor = ZERO_VALUE_NODES;
-    if (lfac.g != ZERO_VALUE_NODES) {
+    sfactor = _0_0;
+    if (lfac.g != _0_0) {
         vec3 halfway = normalize(ldir + nin_eye_dir);
-# node_if USE_TBN_SHADING
-        float nh = ZERO_VALUE_NODES;
-        float nv = ZERO_VALUE_NODES;
-        float nl = ZERO_VALUE_NODES;
-        if (norm_fac == ZERO_VALUE_NODES) {
+# node_if MAT_USE_TBN_SHADING
+        float nh = _0_0;
+        float nv = _0_0;
+        float nl = _0_0;
+        if (norm_fac == _0_0) {
             nh = dot(v_shade_tang.xyz, halfway);
             nv = dot(v_shade_tang.xyz, nin_eye_dir);
             nl = dot(v_shade_tang.xyz, ldir);
-            nh = sqrt(UNITY_VALUE_NODES - nh * nh);
-            nv = sqrt(UNITY_VALUE_NODES - nv * nv);
-            nl = sqrt(UNITY_VALUE_NODES - nl * nl);
+            nh = sqrt(_1_0 - nh * nh);
+            nv = sqrt(_1_0 - nv * nv);
+            nl = sqrt(_1_0 - nl * nl);
         }
 # node_else
-        float nh = max(dot(normal, halfway), 0.001);
+        float nh = max(dot(normal, halfway), 0.01);
         // NOTE: 0.01 for mobile devices
         float nv = max(dot(normal, nin_eye_dir), 0.01);
         float nl = max(dot(normal, ldir), 0.01);
 # node_endif
         float angle = tan(acos(nh));
-        float alpha = max(sp_params[0], 0.001);
+        float alpha = max(sp_params[0], 0.01);
 
-        sfactor = nl * (UNITY_VALUE_NODES/(4.0*M_PI*alpha*alpha))
+        sfactor = nl * (_1_0/(4.0*M_PI*alpha*alpha))
                   * (exp(-(angle * angle) / (alpha * alpha)) /(sqrt(nv * nl)));
     }
 #endnode
 
 #node SPECULAR_TOON
+    #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
@@ -347,28 +352,29 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 sp_params
     #node_out float sfactor
 
-    sfactor = ZERO_VALUE_NODES;
-    if (lfac.g != ZERO_VALUE_NODES) {
+    sfactor = _0_0;
+    if (lfac.g != _0_0) {
         vec3 h = normalize(ldir + nin_eye_dir);
-# node_if USE_TBN_SHADING
+# node_if MAT_USE_TBN_SHADING
         float cosinus = dot(h, v_shade_tang.xyz);
         float angle = sp_params[0] + sp_params[1];
-        if (norm_fac == ZERO_VALUE_NODES)
-            angle = acos(sqrt(UNITY_VALUE_NODES - cosinus * cosinus));
+        if (norm_fac == _0_0)
+            angle = acos(sqrt(_1_0 - cosinus * cosinus));
 # node_else
         float angle = acos(dot(h, normal));
 # node_endif
 
         if (angle < sp_params[0])
-            sfactor = UNITY_VALUE_NODES;
-        else if (angle >= sp_params[0] + sp_params[1] || sp_params[1] == ZERO_VALUE_NODES)
-            sfactor = ZERO_VALUE_NODES;
+            sfactor = _1_0;
+        else if (angle >= sp_params[0] + sp_params[1] || sp_params[1] == _0_0)
+            sfactor = _0_0;
         else
-            sfactor = UNITY_VALUE_NODES - (angle - sp_params[0]) / sp_params[1];
+            sfactor = _1_0 - (angle - sp_params[0]) / sp_params[1];
     }
 #endnode
 
 #node SPECULAR_BLINN
+    #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
     #node_in vec2 lfac
     #node_in vec3 normal
@@ -376,10 +382,10 @@ float HALF_VALUE_NODES = 0.5;
     #node_in vec2 sp_params
     #node_out float sfactor
 
-    sfactor = ZERO_VALUE_NODES;
-    if (lfac.g != ZERO_VALUE_NODES) {
-        if (sp_params[0] < 1.0 || sp_params[1] == ZERO_VALUE_NODES)
-            sfactor = ZERO_VALUE_NODES;
+    sfactor = _0_0;
+    if (lfac.g != _0_0) {
+        if (sp_params[0] < 1.0 || sp_params[1] == _0_0)
+            sfactor = _0_0;
         else {
             if (sp_params[1] < 100.0)
                 sp_params[1]= sqrt(1.0 / sp_params[1]);
@@ -387,39 +393,39 @@ float HALF_VALUE_NODES = 0.5;
                 sp_params[1]= 10.0 / sp_params[1];
 
             vec3 halfway = normalize(nin_eye_dir + ldir);
-# node_if USE_TBN_SHADING
+# node_if MAT_USE_TBN_SHADING
             float nh = 0.0;
-            if (norm_fac == ZERO_VALUE_NODES) {
+            if (norm_fac == _0_0) {
                 float dot_ht = dot(v_shade_tang.xyz, halfway);
-                nh = sqrt(UNITY_VALUE_NODES - dot_ht * dot_ht);
+                nh = sqrt(_1_0 - dot_ht * dot_ht);
             }
 # node_else
-            float nh = (UNITY_VALUE_NODES - norm_fac) * max(dot(normal, halfway),
-                         ZERO_VALUE_NODES) + norm_fac;
+            float nh = (_1_0 - norm_fac) * max(dot(normal, halfway),
+                         _0_0) + norm_fac;
 # node_endif
-            if (nh < ZERO_VALUE_NODES)
-                sfactor = ZERO_VALUE_NODES;
+            if (nh < _0_0)
+                sfactor = _0_0;
             else {
                 float nv = max(dot(normal, nin_eye_dir), 0.01);
                 float nl = dot(normal, ldir);
                 if (nl <= 0.01)
-                    sfactor = ZERO_VALUE_NODES;
+                    sfactor = _0_0;
                 else {
                     float vh = max(dot(nin_eye_dir, halfway), 0.01);
 
-                    float a = UNITY_VALUE_NODES;
+                    float a = _1_0;
                     float b = (2.0 * nh * nv) / vh;
                     float c = (2.0 * nh * nl) / vh;
 
                     float g = min(min(a, b), c);
 
-                    float p = sqrt(pow(sp_params[0], 2.0) + pow(vh, 2.0) - UNITY_VALUE_NODES);
-                    float f = pow(p - vh, 2.0) / pow(p + vh, 2.0) * (UNITY_VALUE_NODES 
-                            + pow(vh * (p + vh) - UNITY_VALUE_NODES, 2.0)/pow(vh * (p - vh) 
-                            + UNITY_VALUE_NODES, 2.0));
+                    float p = sqrt(pow(sp_params[0], 2.0) + pow(vh, 2.0) - _1_0);
+                    float f = pow(p - vh, 2.0) / pow(p + vh, 2.0) * (_1_0 
+                            + pow(vh * (p + vh) - _1_0, 2.0)/pow(vh * (p - vh) 
+                            + _1_0, 2.0));
                     float ang = acos(nh);
                     sfactor = max(f * g * exp(-pow(ang, 2.0) / (2.0 * pow(sp_params[1], 2.0))), 
-                            ZERO_VALUE_NODES);
+                            _0_0);
                 }
             }
         }
@@ -475,3 +481,5 @@ void nodes_lighting(
 
     #nodes_main
 }
+
+#endif

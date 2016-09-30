@@ -1,21 +1,26 @@
-# SOME DESCRIPTIVE TITLE.
+# Blend4Web User Manual Chinese Translation: Postprocessing Effects
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as the Blend4Web. User
-# Manual package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# This file is distributed under the same license as Blend4Web.
+# Blend4Web Team <info [at] blend4web.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+<<<<<<< HEAD
+"Project-Id-Version: B4W 14.02.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-26 17:15+0300\n"
-"PO-Revision-Date: 2016-04-23 18:04+0800\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2016-09-08 18:07+0300\n"
+=======
+"Project-Id-Version: Blend4Web 16.08\n"
+"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
+"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+>>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
+"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../postprocessing_effects.rst:5
 msgid "Postprocessing Effects"
@@ -37,9 +42,9 @@ msgid ""
 msgstr "运动模糊效果可以用来改善交互式场景的真实感。当相机或物体移动，显示为画面模糊。"
 
 #: ../postprocessing_effects.rst:25 ../postprocessing_effects.rst:53
-#: ../postprocessing_effects.rst:92 ../postprocessing_effects.rst:135
-#: ../postprocessing_effects.rst:164 ../postprocessing_effects.rst:195
-#: ../postprocessing_effects.rst:240 ../postprocessing_effects.rst:278
+#: ../postprocessing_effects.rst:126 ../postprocessing_effects.rst:169
+#: ../postprocessing_effects.rst:198 ../postprocessing_effects.rst:229
+#: ../postprocessing_effects.rst:274 ../postprocessing_effects.rst:312
 msgid "Activation"
 msgstr "激活"
 
@@ -47,14 +52,14 @@ msgstr "激活"
 msgid "Activate the ``Motion Blur`` panel on the ``Render`` tab."
 msgstr "激活  ``Render`` 选项卡上的 ``Motion Blur`` 面板。"
 
-#: ../postprocessing_effects.rst:30 ../postprocessing_effects.rst:63
-#: ../postprocessing_effects.rst:97 ../postprocessing_effects.rst:140
-#: ../postprocessing_effects.rst:169 ../postprocessing_effects.rst:200
-#: ../postprocessing_effects.rst:245 ../postprocessing_effects.rst:288
+#: ../postprocessing_effects.rst:30 ../postprocessing_effects.rst:131
+#: ../postprocessing_effects.rst:174 ../postprocessing_effects.rst:203
+#: ../postprocessing_effects.rst:234 ../postprocessing_effects.rst:279
+#: ../postprocessing_effects.rst:322
 msgid "Additional settings"
 msgstr "其他设置"
 
-#: ../postprocessing_effects.rst:33 ../postprocessing_effects.rst:223
+#: ../postprocessing_effects.rst:33 ../postprocessing_effects.rst:257
 msgid "*Factor*"
 msgstr "*因子*"
 
@@ -111,48 +116,157 @@ msgid ""
 "distance from the camera and will move together with it."
 msgstr "同一面板上为 ``Distance`` 设置一个非零值（Blender中单位=米）。在这种情况下，相机焦点在相机的这个距离值，并与相机一起移动。"
 
-#: ../postprocessing_effects.rst:66
-msgid "*Front*"
+#: ../postprocessing_effects.rst:63
+#, fuzzy
+msgid "Additional Settings"
+msgstr "其他设置"
+
+#: ../postprocessing_effects.rst:70
+msgid "*Focus*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:70
+msgid "Sets the focal object. By default, this field is empty."
+msgstr ""
+
+#: ../postprocessing_effects.rst:73
+#, fuzzy
+msgid "*Distance*"
+msgstr "*距离系数*"
+
+#: ../postprocessing_effects.rst:73
+msgid ""
+"This parameter defines the focal distance. Available only if the "
+"``Focus`` parameter hasn't been set beforehand (if the corresponding "
+"field is empty). Set to zero by default."
+msgstr ""
+
+#: ../postprocessing_effects.rst:78
+#, fuzzy
+msgid "*Front Start*"
 msgstr "*前*"
 
-#: ../postprocessing_effects.rst:66
+#: ../postprocessing_effects.rst:76
+#, fuzzy
 msgid ""
-"The distance from the focus to the nearest plane (relative to the camera)"
-" behind which full blurring occurs (in meters). The default value is 1.0."
+"This sets the distance (in meters) from the focus to the nearest plane "
+"(relative to the camera) behind which blurring effect starts to occur. "
+"The default value is 1.0."
 msgstr "从焦点到后面发生充分模糊（米）的最接近的平面（相对于相机）的距离。缺省值为1.0。"
 
-#: ../postprocessing_effects.rst:69
-msgid "*Rear*"
-msgstr "*后*"
-
-#: ../postprocessing_effects.rst:69
+#: ../postprocessing_effects.rst:78 ../postprocessing_effects.rst:86
 msgid ""
-"The distance from the focus to the furthest plane (relative to the "
-"camera) behind which full blurring occurs (in meters). The default value "
-"is 1.0."
+"This parameter is available only if the ``High Quality (Bokeh)`` "
+"parameter is enabled."
+msgstr ""
+
+#: ../postprocessing_effects.rst:81
+#, fuzzy
+msgid "*Front End*"
+msgstr "*前*"
+
+#: ../postprocessing_effects.rst:81
+#, fuzzy
+msgid ""
+"This sets the distance from the camera and the neares plane (relative to "
+"the camera) behind which blurring effect reaches maximum strength "
+"(defined by the ``Power`` value). Default value is 5.0."
+msgstr "从焦点到后面发生充分模糊（米）的最接近的平面（相对于相机）的距离。缺省值为1.0。"
+
+#: ../postprocessing_effects.rst:86
+msgid "*Rear Start*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:84
+#, fuzzy
+msgid ""
+"This sets the distance from the focus to the furthest plane (relative to "
+"the camera) behind which blurring effect starts to occur. The default "
+"value is 1.0."
 msgstr "从焦点到后面发生充分模糊（米）的最远的面（相对于相机）的距离。缺省值为1.0。"
 
-#: ../postprocessing_effects.rst:72
+#: ../postprocessing_effects.rst:89
+#, fuzzy
+msgid "*Rear End*"
+msgstr "*后*"
+
+#: ../postprocessing_effects.rst:89
+#, fuzzy
+msgid ""
+"This sets the distance from the camera to the furthest plane (relative to"
+" the camera) behind which blurring reaches maximum strength (defined by "
+"the ``Power`` value). Default value is 5.0."
+msgstr "从焦点到后面发生充分模糊（米）的最远的面（相对于相机）的距离。缺省值为1.0。"
+
+#: ../postprocessing_effects.rst:92
 msgid "*Power*"
 msgstr "*指数*"
 
-#: ../postprocessing_effects.rst:72
-msgid "Blurring ratio. The default value is 3.0."
-msgstr "模糊比。默认值是3.0。"
-
-#: ../postprocessing_effects.rst:76
-msgid "*Bokeh*"
+#: ../postprocessing_effects.rst:92
+msgid ""
+"Blurring ratio. The value of this parameter can vary from 0.1 to 10. The "
+"default value is 2.0."
 msgstr ""
 
-#: ../postprocessing_effects.rst:75
-msgid "Activating this option enables bokeh effect. Disabled by default."
+#: ../postprocessing_effects.rst:103
+msgid "*High Quality (Bokeh)*"
 msgstr ""
 
-#: ../postprocessing_effects.rst:83
+#: ../postprocessing_effects.rst:95
+msgid ""
+"This enables high quality rendering of the depth of field effect. "
+"Activating this option:"
+msgstr ""
+
+#: ../postprocessing_effects.rst:97
+msgid ""
+"Enables bokeh effect and makes available the ``Bokeh Intensity`` "
+"parameter for adjusting the strength of the effect."
+msgstr ""
+
+#: ../postprocessing_effects.rst:99
+msgid ""
+"Enables the ``Front Start`` and ``Rear Start`` parameters for setting "
+"soft transition between the distance from camera where the effect start "
+"to occur and the distanse where it reaches its full strength."
+msgstr ""
+
+#: ../postprocessing_effects.rst:101
+msgid "Enables ``Foreground Blur`` parameter that is described below."
+msgstr ""
+
+#: ../postprocessing_effects.rst:103
+#, fuzzy
+msgid "The parameter is disabled by default."
+msgstr "*中* 配置文件默认情况下使用。"
+
+#: ../postprocessing_effects.rst:106
+#, fuzzy
+msgid "*Bokeh Intensity*"
+msgstr "*强度*"
+
+#: ../postprocessing_effects.rst:106
+msgid ""
+"This value sets the strength of the bokeh effect. It can vary from zero "
+"to 1.0. Set to 0.3 by default."
+msgstr ""
+
+#: ../postprocessing_effects.rst:110
+msgid "*Foreground Blur*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:109
+msgid ""
+"Enabling this option makes the engine to blur the silhouettes of the "
+"foreground objects, improving the quality of the effect at the cost of "
+"slight performance decrease. Disabled by default."
+msgstr ""
+
+#: ../postprocessing_effects.rst:117
 msgid "Screen-Space Ambient Occlusion"
 msgstr "屏幕空间环境光遮蔽"
 
-#: ../postprocessing_effects.rst:85
+#: ../postprocessing_effects.rst:119
 msgid ""
 "The screen-space ambient occlusion (SSAO) effect can be used to fake "
 "complex light reflections from objects. The basis of this effect is that "
@@ -160,7 +274,7 @@ msgid ""
 " hence is darker."
 msgstr "屏幕空间环境光遮蔽（SSAO）效果，可用于仿造在物体周围复杂的光线反射。这种效果的基础是，近处的物体之间的空间为漫射光不易进入的，因而是更暗。"
 
-#: ../postprocessing_effects.rst:94
+#: ../postprocessing_effects.rst:128
 msgid ""
 "Activate the ``Ambient Occlusion SSAO`` panel under the ``Render`` tab "
 "and set the ``Render Shadows`` parameter to ``AUTO`` or ``ON``  on the "
@@ -169,161 +283,161 @@ msgstr ""
 "激活 ``Render``标签下 ``Ambient Occlusion SSAO`` 面板，设置  ``Render Shadows`` 参数 "
 "``AUTO` `或 ``ON`` 在``Rander> Shadows``面板。"
 
-#: ../postprocessing_effects.rst:100
+#: ../postprocessing_effects.rst:134
 msgid "*Radius Increase*"
 msgstr "*半径增加*"
 
-#: ../postprocessing_effects.rst:100
+#: ../postprocessing_effects.rst:134
 msgid ""
 "The spherical sampling radius multiply factor when transferring from the "
 "internal sampling ring to the external one. The default value is 3.0."
 msgstr "从内部采样环到外部采样环的球形采样半径的乘法系数。默认值是3.0。"
 
-#: ../postprocessing_effects.rst:103
+#: ../postprocessing_effects.rst:137
 msgid "*Use Hemisphere*"
 msgstr "*使用半球*"
 
-#: ../postprocessing_effects.rst:103
+#: ../postprocessing_effects.rst:137
 msgid ""
 "Use a hemispherical sampling for shading instead of a spherical. Besides,"
 " it uses different shading law."
 msgstr "使用半球形采样着色，而不是球形。它使用不同的着色方法。"
 
-#: ../postprocessing_effects.rst:106
+#: ../postprocessing_effects.rst:140
 msgid "*Use Blur Depth Test*"
 msgstr "*使用模糊深度测试*"
 
-#: ../postprocessing_effects.rst:106
+#: ../postprocessing_effects.rst:140
 msgid ""
 "Use edge-preserving blur to SSAO if flag will be turned on. Otherwise, it"
 " uses blur which averages a 4x4 rectangle around each pixel."
 msgstr "使用边缘保持模糊到SSAO如果标志将被打开。否则，它采用模糊平均为每个像素周围的4×4的矩形。"
 
-#: ../postprocessing_effects.rst:109
+#: ../postprocessing_effects.rst:143
 msgid "*Blur Depth Test Discard Value*"
 msgstr "*模糊深度测试丢弃值*"
 
-#: ../postprocessing_effects.rst:109
+#: ../postprocessing_effects.rst:143
 msgid ""
 "Influence of depth difference between samples on blur weight. It uses "
 "with ``Use Blur Depth Test`` activated flag. The default value is 1.0."
 msgstr "对模糊量的采样之间的深度差异的影响。它采用 ``Use Blur Depth Test`` 启动标志。缺省值为1.0。"
 
-#: ../postprocessing_effects.rst:112
+#: ../postprocessing_effects.rst:146
 msgid "*Influence*"
 msgstr "*影响*"
 
-#: ../postprocessing_effects.rst:112
+#: ../postprocessing_effects.rst:146
 msgid "SSAO appearance factor. The default value is 0.7."
 msgstr "SSAO外观系数。默认值是0.7。"
 
-#: ../postprocessing_effects.rst:115
+#: ../postprocessing_effects.rst:149
 msgid "*Distance Factor*"
 msgstr "*距离系数*"
 
-#: ../postprocessing_effects.rst:115
+#: ../postprocessing_effects.rst:149
 msgid ""
 "Factor of SSAO decay with distance. The default value is 0.0 (i.e. no "
 "decay)."
 msgstr "SSAO衰减的距离系数。默认值是0.0（即没有衰减）。"
 
-#: ../postprocessing_effects.rst:119
+#: ../postprocessing_effects.rst:153
 msgid "*Samples*"
 msgstr "*采样*"
 
-#: ../postprocessing_effects.rst:118
+#: ../postprocessing_effects.rst:152
 msgid ""
 "Number of samples (the more samples there are the better is the quality "
 "but the poorer is the performance). The default value is 16."
 msgstr "采样数（越多采样有更好的是质量，但较差是性能）。默认值是16。"
 
-#: ../postprocessing_effects.rst:126
+#: ../postprocessing_effects.rst:160
 msgid "God Rays"
 msgstr "上帝光芒"
 
-#: ../postprocessing_effects.rst:128
+#: ../postprocessing_effects.rst:162
 msgid ""
 "The god rays effect (aka crepuscular rays) simulates well-known natural "
 "phenomenon - the shining of illuminated air parts."
 msgstr "神光芒的效果（又名曙暮辉）模拟著名的自然现象 - 空气照明部分的闪耀。"
 
-#: ../postprocessing_effects.rst:137
+#: ../postprocessing_effects.rst:171
 msgid "Activate the ``God Rays`` panel under the ``Render`` tab."
 msgstr "激活 ``Render`` 选项卡下的 ``God Rays``  面板。"
 
-#: ../postprocessing_effects.rst:143 ../postprocessing_effects.rst:172
+#: ../postprocessing_effects.rst:177 ../postprocessing_effects.rst:206
 msgid "*Intensity*"
 msgstr "*强度*"
 
-#: ../postprocessing_effects.rst:143
+#: ../postprocessing_effects.rst:177
 msgid "The effect appearance factor. The default value is 0.7."
 msgstr "影响外观的系数。默认值是0.7。"
 
-#: ../postprocessing_effects.rst:146
+#: ../postprocessing_effects.rst:180
 msgid "*Maximum Ray Length*"
 msgstr "*最大长度光线*"
 
-#: ../postprocessing_effects.rst:146
+#: ../postprocessing_effects.rst:180
 msgid ""
 "Rays length factor. Defines the step between samples of radial blurring. "
 "The default value is 1.0."
 msgstr "光线长度的系数。限定径向模糊的样本之间的步长。缺省值为1.0。"
 
-#: ../postprocessing_effects.rst:150
+#: ../postprocessing_effects.rst:184
 msgid "*Steps Per Pass*"
 msgstr "*每通道步值*"
 
-#: ../postprocessing_effects.rst:149
+#: ../postprocessing_effects.rst:183
 msgid "Number of steps per single sample. The default value is 10.0."
 msgstr "每个单个样本步长。默认值是10.0。"
 
-#: ../postprocessing_effects.rst:155
+#: ../postprocessing_effects.rst:189
 msgid "Bloom"
 msgstr "泛光效果"
 
-#: ../postprocessing_effects.rst:157
+#: ../postprocessing_effects.rst:191
 msgid ""
 "Bloom appears when a picture has elements with a very different "
 "brightness. A glowing halo is created around the bright details."
 msgstr "泛光出现在画面中有一个非常不同的亮度元素。生成一个发光的光环围绕着明亮的细节。"
 
-#: ../postprocessing_effects.rst:166
+#: ../postprocessing_effects.rst:200
 msgid "Activate the ``Bloom`` panel under the ``Render`` tab."
 msgstr "激活 ``Render`` 选项卡下的 ``Bloom`` 面板。"
 
-#: ../postprocessing_effects.rst:172
+#: ../postprocessing_effects.rst:206
 msgid "Bloom intensity."
 msgstr "泛光强度。"
 
-#: ../postprocessing_effects.rst:175
+#: ../postprocessing_effects.rst:209
 msgid "*Blur*"
 msgstr "*模糊*"
 
-#: ../postprocessing_effects.rst:175
+#: ../postprocessing_effects.rst:209
 msgid "Bloom blurriness factor."
 msgstr "泛光模糊的系数。"
 
-#: ../postprocessing_effects.rst:179
+#: ../postprocessing_effects.rst:213
 msgid "*Edge Luminance*"
 msgstr "*边缘亮度*"
 
-#: ../postprocessing_effects.rst:178
+#: ../postprocessing_effects.rst:212
 msgid ""
 "The boundary value of an element's relative brightness above which the "
 "bloom effect appears."
 msgstr "泛光效果出现时一个元素的相对亮度的边界值。"
 
-#: ../postprocessing_effects.rst:186
+#: ../postprocessing_effects.rst:220
 msgid "Outlining"
 msgstr "物体外轮廓"
 
-#: ../postprocessing_effects.rst:188
+#: ../postprocessing_effects.rst:222
 msgid ""
 "As a result of the outline glow effect, a luminous colored halo will be "
 "displayed around the object."
 msgstr "作为轮廓辉光效应，围绕物体显示发光的光晕。"
 
-#: ../postprocessing_effects.rst:197
+#: ../postprocessing_effects.rst:231
 msgid ""
 "The outlining is activated programmatically via API. Different animation "
 "models can be applied such as constant glow, fading out glow, pulsatory "
@@ -334,82 +448,82 @@ msgstr ""
 "外轮廓是通过API编程激活。不同的动画模型可以应用，如不断晕光，淡出的光晕，光晕脉动和任何其他。为了使某一物体上勾勒的效果，确保 ``Render"
 " > Object Outlining`` 面板的 ``Enable`` 属性设置为 ``ON`` 或 ``AUTO`` 。"
 
-#: ../postprocessing_effects.rst:202
+#: ../postprocessing_effects.rst:236
 msgid "On the ``Object > Selection and Outlining`` panel:"
 msgstr "在  ``Object > Selection and Outlining`` 面板："
 
-#: ../postprocessing_effects.rst:205
+#: ../postprocessing_effects.rst:239
 msgid "*Enable Outlining*"
 msgstr "*启用外轮廓*"
 
-#: ../postprocessing_effects.rst:205
+#: ../postprocessing_effects.rst:239
 msgid "Permit using the outline glow effect on this object."
 msgstr "允许使用此物体的轮廓发光效果。"
 
-#: ../postprocessing_effects.rst:208
+#: ../postprocessing_effects.rst:242
 msgid "*Duration*"
 msgstr "*持续*"
 
-#: ../postprocessing_effects.rst:208
+#: ../postprocessing_effects.rst:242
 msgid "Duration of glow animation, seconds. The default value is 1."
 msgstr "辉光动画的持续时间，单位为秒。默认值是1。"
 
-#: ../postprocessing_effects.rst:211
+#: ../postprocessing_effects.rst:245
 msgid "*Period*"
 msgstr "*周期*"
 
-#: ../postprocessing_effects.rst:211
+#: ../postprocessing_effects.rst:245
 msgid "Repeat period of glow animation, seconds. The default value is 1."
 msgstr "辉光动画的重复周期，单位为秒。默认值是1。"
 
-#: ../postprocessing_effects.rst:214
+#: ../postprocessing_effects.rst:248
 msgid "*Relapses*"
 msgstr "*重复*"
 
-#: ../postprocessing_effects.rst:214
+#: ../postprocessing_effects.rst:248
 msgid ""
 "The number of iterations of glow animation. If zero, animation is "
 "repeated forever. The default value is 0."
 msgstr "辉光动画迭代次数。如果为零，动画将永远重复。缺省值是0。"
 
-#: ../postprocessing_effects.rst:218
+#: ../postprocessing_effects.rst:252
 msgid "*Outline on Select*"
 msgstr "*选择时外轮廓*"
 
-#: ../postprocessing_effects.rst:217
+#: ../postprocessing_effects.rst:251
 msgid ""
 "Activate glow animation upon selecting the object. In this case the "
 "``Selectable`` option must be enabled. In case of a user-defined glow "
 "animation model, this option must be disabled in order to avoid conflict."
 msgstr "在选择物体时激活辉光动画。在这种情况下，``Selectable`` 选项必须启用。在用户定义的辉光动画模型的情况下，以避免冲突此选项必须被禁用。"
 
-#: ../postprocessing_effects.rst:220
+#: ../postprocessing_effects.rst:254
 msgid "On the ``Render > Object Outlining`` panel:"
 msgstr "在  ``Render > Object Outlining`` 面板："
 
-#: ../postprocessing_effects.rst:223
+#: ../postprocessing_effects.rst:257
 msgid ""
 "When this parameter decreases so does the thickness and the brightness of"
 " the halo around the object. The default value is 1."
 msgstr "当这个参数减小围绕物体的辉光的厚度亮度也减小。默认值是1。"
 
-#: ../postprocessing_effects.rst:225
+#: ../postprocessing_effects.rst:259
 msgid ""
 "The ``Render > Object Outlining`` settings are taken as default when the "
 "glow effect is initiated via API."
 msgstr "当通过API初始化辉光效果时 ``Render > Object Outlining`` 被作为默认值。"
 
-#: ../postprocessing_effects.rst:231
+#: ../postprocessing_effects.rst:265
 msgid "Glow"
 msgstr "晕光"
 
-#: ../postprocessing_effects.rst:233
+#: ../postprocessing_effects.rst:267
 msgid ""
 "Effect of halo which is observed around emissive objects due to light "
 "scattering in the atmosphere and inside the human eye."
 msgstr "晕光的效果是通过观测发射光的物体在大气中的光散射进入人眼内后的成像。"
 
-#: ../postprocessing_effects.rst:242
+#: ../postprocessing_effects.rst:276
 msgid ""
 "Add a :ref:`B4W_GLOW_OUTPUT <glow_output>` node to a node material. The "
 "``Enable Glow Materials`` option on the ``Render > Glow Materials`` panel"
@@ -418,91 +532,91 @@ msgstr ""
 "添加 :ref:`B4W_GLOW_OUTPUT <glow_output>` 节点到节点材质。在  ``Render > Glow "
 "Materials`` 面板的 ``Enable Glow Materials`` 选项应设置为 ``ON`` 或 ``AUTO`` 。"
 
-#: ../postprocessing_effects.rst:248
+#: ../postprocessing_effects.rst:282
 msgid "*Small Mask: Intensity*"
 msgstr "*小遮罩：强度*"
 
-#: ../postprocessing_effects.rst:248
+#: ../postprocessing_effects.rst:282
 msgid ""
 "Intensity of glow obtained through the smaller mask. The default value is"
 " 2.0."
 msgstr "通过较小的遮罩晕光获得的强度。默认值是2.0。"
 
-#: ../postprocessing_effects.rst:251
+#: ../postprocessing_effects.rst:285
 msgid "*Small Mask: Width*"
 msgstr "*小遮罩：宽*"
 
-#: ../postprocessing_effects.rst:251
+#: ../postprocessing_effects.rst:285
 msgid "Width of glow obtained through the smaller mask. The default value is 2.0."
 msgstr "通过较小的遮罩晕光获得的宽度。默认值是2.0。"
 
-#: ../postprocessing_effects.rst:255
+#: ../postprocessing_effects.rst:289
 msgid "*Large Mask: Intensity*"
 msgstr "*大遮罩：强度*"
 
-#: ../postprocessing_effects.rst:254
+#: ../postprocessing_effects.rst:288
 msgid ""
 "Intensity of glow obtained through the larger mask. The default value is "
 "2.0."
 msgstr "通过较大遮罩晕光获得的强度。默认值是2.0。"
 
-#: ../postprocessing_effects.rst:258
+#: ../postprocessing_effects.rst:292
 msgid "*Large Mask: Width*"
 msgstr "*大遮罩：宽*"
 
-#: ../postprocessing_effects.rst:258
+#: ../postprocessing_effects.rst:292
 msgid "Width of glow obtained through the larger mask. The default value is 6.0."
 msgstr "通过较大遮罩晕光获得的宽度。默认值是6.0。"
 
-#: ../postprocessing_effects.rst:262
+#: ../postprocessing_effects.rst:296
 msgid "*Render Glow Over Transparent Objects*"
 msgstr "*在透明的物体渲染辉光*"
 
-#: ../postprocessing_effects.rst:261
+#: ../postprocessing_effects.rst:295
 msgid "Render the glow effect over transparent objects."
 msgstr "渲染透明物体的辉光效果。"
 
-#: ../postprocessing_effects.rst:269
+#: ../postprocessing_effects.rst:303
 msgid "Anti-Aliasing"
 msgstr "抗锯齿"
 
-#: ../postprocessing_effects.rst:271
+#: ../postprocessing_effects.rst:305
 msgid ""
 "Anti-aliasing is used to reduce undesirable rendering artifacts (poor "
 "pixelization)."
 msgstr "抗锯齿用于减少不良渲染表现（像素化差）。"
 
-#: ../postprocessing_effects.rst:280
+#: ../postprocessing_effects.rst:314
 msgid ""
 "Select quality profile using ``AA Quality`` menu located on the ``Render "
 "> Anti-Aliasing`` panel."
 msgstr "使用位于 ``Render > Anti-Aliasing`` 面板上的 ``AA Quality`` 菜单中选择质量配置文件。"
 
-#: ../postprocessing_effects.rst:282
+#: ../postprocessing_effects.rst:316
 msgid "*None* - disable anti-aliasing,"
 msgstr "*无*  - 关闭抗锯齿，"
 
-#: ../postprocessing_effects.rst:283
+#: ../postprocessing_effects.rst:317
 msgid ""
 "*Low*, *Medium*, *High* - enable anti-aliasing with the given quality "
 "profile."
 msgstr "*低*，*中*，*高*  - 用给定质量配置文件启用抗锯齿。"
 
-#: ../postprocessing_effects.rst:285
+#: ../postprocessing_effects.rst:319
 msgid "*Medium* profile is used by default."
 msgstr "*中* 配置文件默认情况下使用。"
 
-#: ../postprocessing_effects.rst:290
+#: ../postprocessing_effects.rst:324
 msgid ""
 "The anti-aliasing method is assigned simultaneously with the selection of"
 " the engine performance profile:"
 msgstr "抗锯齿方法是在引擎性能配置文件选择时同时匹配的："
 
-#: ../postprocessing_effects.rst:292
+#: ../postprocessing_effects.rst:326
 msgid "*low quality* - no anti-aliasing,"
 msgstr "*低质量*  - 无抗锯齿，"
 
-#: ../postprocessing_effects.rst:293
+#: ../postprocessing_effects.rst:327
 msgid ""
 "*high quality* and *ultra quality* - use the FXAA 3.11 algorithm (Fast "
 "Approximate Anti-Aliasing by Nvidia)."
@@ -520,30 +634,39 @@ msgstr "景深"
 msgid "DOF"
 msgstr "景深，DOF"
 
-#: ../postprocessing_effects.rst:78
+#: ../postprocessing_effects.rst:112
 msgid "screen-space ambient occlusion"
 msgstr "屏幕空间环境光遮蔽"
 
-#: ../postprocessing_effects.rst:78
+#: ../postprocessing_effects.rst:112
 msgid "SSAO"
 msgstr "SSAO"
 
-#: ../postprocessing_effects.rst:121
+#: ../postprocessing_effects.rst:155
 msgid "crepuscular rays"
 msgstr "曙暮辉"
 
-#: ../postprocessing_effects.rst:121
+#: ../postprocessing_effects.rst:155
 msgid "god rays"
 msgstr "上帝光芒"
 
-#: ../postprocessing_effects.rst:181
+#: ../postprocessing_effects.rst:215
 msgid "outline glow"
 msgstr "轮廓辉光"
 
-#: ../postprocessing_effects.rst:264
+#: ../postprocessing_effects.rst:298
 msgid "anti-aliasing"
 msgstr "抗锯齿"
 
 #~ msgid "*Key*"
 #~ msgstr "*调*"
+
+#~ msgid "Blurring ratio. The default value is 3.0."
+#~ msgstr "模糊比。默认值是3.0。"
+
+#~ msgid "*Bokeh*"
+#~ msgstr ""
+
+#~ msgid "Activating this option enables bokeh effect. Disabled by default."
+#~ msgstr ""
 

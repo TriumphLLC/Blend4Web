@@ -7,6 +7,7 @@ import shutil
 import struct
 import hashlib
 import glob
+import math
 
 BASE_DIR          = os.path.abspath(os.path.dirname(__file__))
 
@@ -154,6 +155,38 @@ def is_cubemap(path, identify):
     [w, h] = [int(ret[0]), int(ret[1])]
     return w*2 == h*3;
 
+def calc_square_size(width, height):
+    w = max(8, 1 << math.ceil(math.log(width,2)))
+    h = max(8, 1 << math.ceil(math.log(height,2)))
+    return max(w, h)
+
+def convert_pvr(path, path_to, ext, identify, convert):
+    if not check_dependencies(["PVRTexToolCLI"]):
+        return
+    if is_cubemap(path, identify):
+        return
+    if is_older(path, path_to):
+        return
+
+    proc = subprocess.Popen([identify, "-format", "%w %h", "-quiet", \
+                path], stdout=subprocess.PIPE)
+    size_data = proc.stdout.readline().split()
+    width = int(size_data[0])
+    height = int(size_data[1])
+    square_size = calc_square_size(width, height)
+
+    compression = check_pvr_compression_method(path, ext, convert, identify)
+    args = ["PVRTexToolCLI", "-f", compression]
+    args += ["-r", str(square_size) + "," + str(square_size)]
+    args += ["-m", "10"]
+    args += ["-flip", "y"]
+    args += ["-i", path]
+
+    print("converting to pvr", path)
+    if width != square_size or height != square_size:
+        print("resize to " + str(square_size) + "x" + str(square_size))
+    subprocess.call(args)
+
 def convert_dds_handler(args):
     root = args["root"]
     filename = args["filename"]
@@ -168,10 +201,15 @@ def convert_dds_handler(args):
     ext_low = ext.lower()
 
     verbose = args["verbose"]
+    path_from = os.path.join(root, filename)
+
+    if ext_low == ".jpg" or ext_low == ".jpeg" or ext_low == ".png" or \
+            ext_low == ".bmp":
+        path_to = os.path.join(root, head + ".pvr")
+        convert_pvr(path_from, path_to, ext, identify, convert)
 
     if ext_low == ".jpg" or ext_low == ".jpeg" or ext_low == ".png" or \
             ext_low == ".gif" or ext_low == ".bmp":
-        path_from = os.path.join(root, filename)
         path_to = path_from + ".dds"
         proc = subprocess.Popen([identify, "-format", "%w %h", "-quiet", \
                 path_from], stdout=subprocess.PIPE)
@@ -215,7 +253,7 @@ def convert_dds_handler(args):
 
         print("converting to dds", path_from)
 
-        compression = check_compression_method(path_from, ext, convert, identify)
+        compression = check_dds_compression_method(path_from, ext, convert, identify)
 
         if check_non_power_of_two(width, height):
             ret = subprocess.call([dds_convert, compression, "-nomips", \
@@ -247,12 +285,19 @@ def check_non_multiple_of_4(width, height):
 def check_non_power_of_two(width, height):
     return bool(math.log(width, 2) % 1 or math.log(height, 2) % 1)
 
-def check_compression_method(path, ext, convert, identify):
+def check_dds_compression_method(path, ext, convert, identify):
 
     if check_alpha_usage(path, ext, convert, identify):
         return "-bc3"
 
     return "-bc1"
+
+def check_pvr_compression_method(path, ext, convert, identify):
+
+    if check_alpha_usage(path, ext, convert, identify):
+        return "PVRTC1_4"
+
+    return "PVRTC1_4_RGB"
 
 def check_alpha_usage(path, ext, convert, identify):
 
@@ -547,7 +592,8 @@ def cleanup_dds_handler(args):
     filename_low = filename.lower()
 
     if (".jpg.dds" in filename_low or ".jpeg.dds" in filename_low or
-            ".png.dds" in filename_low or ".gif.dds" in filename_low or ".bmp.dds" in filename_low):
+            ".png.dds" in filename_low or ".gif.dds" in filename_low or ".bmp.dds" in filename_low
+            or ".pvr" in filename_low):
         print("removing", os.path.join(root, filename))
         os.remove(os.path.join(root, filename))
 

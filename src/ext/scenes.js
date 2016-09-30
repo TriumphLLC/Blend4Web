@@ -460,6 +460,7 @@ exports.set_shadow_params = function(shadow_params) {
                 m_batch.assign_shadow_receive_dirs(batch, shs);
 
                 m_batch.update_shader(batch);
+                m_subs.append_draw_data(subs_shadow_receive, bundle)
             }
         }
         subs_shadow_receive.need_perm_uniforms_update = true;
@@ -690,7 +691,8 @@ exports.get_dof_params = function() {
  * Set depth-of-field (DOF) params
  * @method module:scenes.set_dof_params
  * @param {DOFParams} dof_params DOF parameters
- * @cc_externs dof_on dof_distance dof_front dof_rear dof_power
+ * @cc_externs dof_on dof_distance dof_front_start dof_front_end
+ * @cc_externs dof_rear_start dof_rear_end dof_power
  */
 exports.set_dof_params = function(dof_params) {
     if (!m_scenes.check_active()) {

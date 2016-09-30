@@ -172,6 +172,13 @@ Object Tab
 *Reflections > Reflexible Only*
     The object will be reflected but will remain invisible itself. Becomes available after enabling ``Reflections > Reflexible``.
 
+    .. note::
+        If the ``Reflexible Only`` parameter is enabled simultaneously with the ``Shadows > Cast Only`` parameter, the engine will not render the object itself, but will render its shadow and reflection, like it is shown on the picture below.
+
+        .. image:: src_images/objects/objects_cast_reflexible_only.png
+           :align: center
+           :width: 100%
+
 *Reflections > Reflective*
     When enabled the object surface reflects other objects.
 
@@ -551,7 +558,6 @@ Let's save a reference to the object in the **aircraft** variable:
 
 Let's rotate it:
 
-    * The orientation of coordinate axes is different in Blender and in the engine. Upon export there will be a transformation [X Y Z] (Blender) -> [X -Z Y] (the engine). Therefore we need to rotate the object relative to the Y axis and not the Z axis.
     * A clockwise rotation corresponds to the rotation to the right (i.e. in the negative direction).
     * 60 degrees = :math:`\pi/3` radians.
 
@@ -560,13 +566,13 @@ As a result we get:
 .. code-block:: javascript
 
     // compose quaternion
-    var quat_60_Y_neg = m_quat.setAxisAngle([0, 1, 0], -Math.PI/3, m_quat.create());
+    var quat_60_Z_neg = m_quat.setAxisAngle([0, 0, 1], -Math.PI/3, m_quat.create());
 
     // get old rotation
     var quat_old = m_transform.get_rotation(aircraft);
 
-    // left multiply: quat60_Y_neg * quat_old
-    var quat_new = m_quat.multiply(quat_60_Y_neg, quat_old, m_quat.create());
+    // left multiply: quat60_Z_neg * quat_old
+    var quat_new = m_quat.multiply(quat_60_Z_neg, quat_old, m_quat.create());
 
     // set new rotation
     m_transform.set_rotation_v(aircraft, quat_new);
@@ -577,30 +583,15 @@ The optimized version which does not create new objects:
 .. code-block:: javascript
 
     // cache arrays as global vars
-    var AXIS_Y = new Float32Array([0, 1, 0])
+    var AXIS_Z = new Float32Array([0, 0, 1])
     var quat_tmp = new Float32Array(4);
     var quat_tmp2 = new Float32Array(4);
     ...
     // rotate
-    m_quat.setAxisAngle(AXIS_Y, -Math.PI/3, quat_tmp);
+    m_quat.setAxisAngle(AXIS_Z, -Math.PI/3, quat_tmp);
     m_transform.get_rotation(aircraft, quat_tmp2);
     m_quat.multiply(quat_tmp, quat_tmp2, quat_tmp);
     m_transform.set_rotation_v(aircraft, quat_tmp);
-
-
-.. _b4w_blender_coordinates:
-
-Differences Between Coordinate Systems of Blender and Blend4Web
-===============================================================
-
-In Blender’s coordinate system the ``UP`` vector, which points upwards, is co-directional with the Z axis. Blend4Web uses Y axis for this purpose, as it is customary in OpenGL. Thus the engine’s coordinates are rotated by 90° around the X axis relative to Blender. 
-
-.. image:: src_images/objects/axes.png
-   :align: center
-
-|
- 
-API methods use the engine’s coordinates, so they can work differently in comparison with setting Blender’s parameters.
 
 
 Moving via TSR Vectors

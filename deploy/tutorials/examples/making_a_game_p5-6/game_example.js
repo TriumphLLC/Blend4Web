@@ -23,7 +23,7 @@ var m_vec3  = require("vec3");
 
 var ROT_SPEED = 1.5;
 var CAM_SOFTNESS = 0.2;
-var CAM_OFFSET = new Float32Array([0, 1.5, -4]);
+var CAM_OFFSET = new Float32Array([0, 4, 1.5]);
 
 var ROCK_SPEED = 2;
 var ROCK_DAMAGE = 20;
@@ -54,6 +54,7 @@ exports.init = function() {
         physics_enabled: true,
         quality: quality,
         show_fps: true,
+        autoresize: true,
         alpha: false
     });
 }
@@ -65,16 +66,6 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    window.addEventListener("resize", on_resize);
-
-    load();
-}
-
-function on_resize() {
-    m_cont.resize_to_container();
-}
-
-function load() {
     m_data.load("game_example.json", load_cb);
 }
 
@@ -196,12 +187,10 @@ function setup_jumping(touch_jump) {
     var key_space = m_ctl.create_keyboard_sensor(m_ctl.KEY_SPACE);
 
     var jump_cb = function(obj, id, pulse) {
-        if (pulse == 1) {
-            m_phy.character_jump(obj);
-        }
+        m_phy.character_jump(obj);
     }
 
-    m_ctl.create_sensor_manifold(_character, "JUMP", m_ctl.CT_TRIGGER,
+    m_ctl.create_sensor_manifold(_character, "JUMP", m_ctl.CT_SHOT,
         [key_space, touch_jump], function(s){return s[0] || s[1]}, jump_cb);
 }
 
@@ -363,7 +352,7 @@ function setup_falling_rocks(elapsed_sensor) {
 
         var rock_pos = _vec3_tmp;
         m_trans.get_translation(obj, rock_pos);
-        rock_pos[1] -= ROCK_SPEED * elapsed;
+        rock_pos[2] -= ROCK_SPEED * elapsed;
         m_trans.set_translation_v(obj, rock_pos);
     }
 
@@ -397,7 +386,7 @@ function setup_falling_rocks(elapsed_sensor) {
 
         if (falling_time[obj_name] <= ROCK_FALL_DELAY) {
             m_trans.get_translation(obj, mark_pos);
-            mark_pos[1] -= ray_dist * ROCK_RAY_LENGTH - 0.01;
+            mark_pos[2] -= ray_dist * ROCK_RAY_LENGTH - 0.01;
             m_trans.set_translation_v(mark, mark_pos);
         }
 
@@ -407,8 +396,8 @@ function setup_falling_rocks(elapsed_sensor) {
     function set_random_position(obj) {
         var pos = _vec3_tmp;
         pos[0] = 8 * Math.random() - 4;
-        pos[1] = 4 * Math.random() + 2;
-        pos[2] = 8 * Math.random() - 4;
+        pos[1] = 8 * Math.random() - 4;
+        pos[2] = 4 * Math.random() + 2;
         m_trans.set_translation_v(obj, pos);
     }
 
@@ -430,7 +419,7 @@ function setup_falling_rocks(elapsed_sensor) {
             var coll_sens_island = m_ctl.create_collision_sensor(rock, "ISLAND", true);
 
             var ray_sens = m_ctl.create_ray_sensor(rock, [0, 0, 0],
-                                        [0, -ROCK_RAY_LENGTH, 0], "ANY", true);
+                                        [0, 0, -ROCK_RAY_LENGTH], "ANY", true);
 
             m_ctl.create_sensor_manifold(rock, "ROCK_FALL", m_ctl.CT_CONTINUOUS,
                                          [elapsed_sensor], null, rock_fall_cb);
@@ -473,7 +462,7 @@ function setup_lava(elapsed_sensor) {
         }
     }
 
-    var lava_ray = m_ctl.create_ray_sensor(_character, [0, 0, 0], [0, -0.30, 0],
+    var lava_ray = m_ctl.create_ray_sensor(_character, [0, 0, 0], [0, 0, -0.30],
                                            "LAVA", true);
 
     m_ctl.create_sensor_manifold(_character, "LAVA_COLLISION",

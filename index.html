@@ -12,6 +12,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="128x128" href="index_assets/img/favicon_128.png" />
     <link rel="stylesheet" type="text/css" href="index_assets/css/style.css">
 
+<script type="text/javascript" src="deploy/apps/common/b4w.min.js"></script>
+
 <script type="text/javascript">
 
 var CONTEXT_NAMES = ["webgl", "experimental-webgl"];
@@ -58,6 +60,8 @@ window.addEventListener("load", function() {
     var dev_server_hint = document.getElementById("dev_server_hint");
     check_dev_server();
 
+    check_performance();
+
 }, false)
 
 function check_dev_server() {
@@ -84,6 +88,20 @@ function display_server_status(result) {
     }
 }
 
+function check_performance() {
+    var canvas = document.createElement("canvas");
+    window.document.body.appendChild(canvas);
+    b4w.require("main").init(canvas);
+    b4w.require("debug").test_performance(function(time, bw) {
+        var performance = document.getElementById("performance");
+        if (time)
+            performance.innerHTML = Math.round(1000 / time) + " points, bandwidth " + bw.toFixed(1) + " GB/s";
+        else
+            performance.innerHTML = "N/A";
+    });
+}
+
+
 </script>
 
 </head>
@@ -93,7 +111,7 @@ function display_server_status(result) {
         <h2>Blend4Web
             
             <!--blend4web_pro-->CE<!--blend4web_pro-->
-            16.08
+            16.09.1
             SDK
         </h2>
     </header>
@@ -101,6 +119,7 @@ function display_server_status(result) {
     <div class="row">
         <p><b>WebGL:</b> <span id="webgl_support_status">checking...</span></p>
         <p><b>Development Server:</b> <span id="dev_server_status">checking...</span></p>
+        <p><b>GPU:</b> <span id="performance">checking...</span></p>
         <p id="dev_server_hint" style="display:none">Please make sure that you are accessing this web page using the development server (runs automatically upon Blender startup).</p>
 
         <table>
@@ -141,7 +160,7 @@ function display_server_status(result) {
                     <td>User Manual, HTML</td>
                     <td><a href="deploy/doc/en/index.html">read</a></td>
                     <td><a href="deploy/doc/ru/index.html">читать</a></td>
-                    <td><a href="deploy/doc/zh/index.html">看</a></td>
+                    <td><a href="deploy/doc/zh/index.html">读</a></td>
                 </tr>
                 <tr>
                     <td>User Manual, PDF</td>
@@ -155,21 +174,21 @@ function display_server_status(result) {
                 </tr>
                 <tr>
                     <td>Tutorials</td>
-                    <td><a target="_blank" href="https://www.blend4web.com/en/category/8/1/">go</a></td>
-                    <td><a target="_blank" href="https://www.blend4web.com/ru/category/3/1/">перейти</a></td>
-                    <td><a target="_blank" href="https://www.blend4web.com/zh/category/14/1/">看</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/en/community/category/8/1/">go</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/ru/community/category/3/1/">перейти</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/zh/community/category/14/1/">执行</a></td>
                 </tr>
                 <tr>
                     <td>FAQ</td>
-                    <td><a target="_blank" href="https://www.blend4web.com/en/faq/">go</a></td>
-                    <td><a target="_blank" href="https://www.blend4web.com/ru/faq/">перейти</a></td>
-                    <td><a target="_blank" href="https://www.blend4web.com/zh/faq/">看</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/en/community/faq/">go</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/ru/community/faq/">перейти</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/zh/community/faq/">执行</a></td>
                 </tr>
                 <tr>
                     <td>Community Support Forums</td>
                     <td><a target="_blank" href="https://www.blend4web.com/en/forums/">go</a></td>
                     <td><a target="_blank" href="https://www.blend4web.com/ru/forums/">перейти</a></td>
-                    <td><a target="_blank" href="https://www.blend4web.com/zh/forums/">看</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/zh/forums/">执行</a></td>
                 </tr>
                 
         

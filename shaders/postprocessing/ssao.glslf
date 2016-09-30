@@ -1,22 +1,21 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var PRECISION lowp
+#var PRECISION highp
+
+#var SSAO_WHITE 0
+#var SSAO_QUALITY SSAO_QUALITY_8
+#var SSAO_HEMISPHERE 0
 
 /*============================================================================*/
 
 precision PRECISION sampler2D;
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <depth_fetch.glslf>
-#include <procedural.glslf>
-
-#define SSAO_QUALITY_8 1
-#define SSAO_QUALITY_16 2
-#define SSAO_QUALITY_24 3
-#define SSAO_QUALITY_32 4
 
 uniform sampler2D u_color;
 uniform sampler2D u_depth;

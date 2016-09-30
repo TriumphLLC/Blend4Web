@@ -3,6 +3,117 @@ Release Notes
 *************
 
 
+v16.09
+======
+
+
+New Features
+------------
+
+* Web Player improvements.
+
+     An option to set up social network buttons located in the bottom-
+     right corner of a loaded scene. To do this, you need to specify
+     the "socials" attribute before the application starts.
+
+* Coordinate System change.
+
+     Now Blender's coordinate space is used instead of OpenGL's. This
+     new behavior can introduce various incompatibilities in
+     application logic. Developers are advised to review their apps
+     and make changes according to the new coordinate space (Z vector
+     up).
+
+* Optimized geometry rendering.
+
+     Geometry rendering has been optimized by implementing a new
+     algorithm for storing data in GPU memory. Now normal and tangent
+     data has been stored in TBN quaternions.
+
+* Project Manager improvements.
+
+     Added the new "update_modules" command to the *project.py*
+     utility. This command allows users to update engine's modules
+     inside developed applications. This feature significantly
+     simplifies updating project files to newer Blend4Web versions.
+
+* Automatic quality detection.
+
+     By specifying the AUTO (P_AUTO) quality profile in the app module
+     you can load your app in LOW or HIGH quality depending on your
+     hardware specs. Also, a low-level performance benchmark can be
+     executed using the test_performance method.
+
+* PVRTC conversion support.
+
+     PVRTC conversion is now supported. This allows developers to use
+     compressed textures on iOS and PowerVR-based Android devices.
+
+* Shadow quality settings added.
+
+     Now it is possible to set different quality profiles for soft
+     shadows: 16x, 8x, 4x.
+
+* "Shading" pannel was added to the "Render" tab. It contains "World
+  Space Shading" option and "Set Recommended Options" button to auto
+  configure Blender for better Blend4Web experience.
+
+* Added support for Blender 2.78.
+
+     "World Space Shading" option paired with the support for
+     environment lighting for the GLSL mode in viewport makes rendered
+     b4w scene maximally match it's viewport preview.
+
+     New shader node "Normal Map" is fully supported.
+
+
+Changes
+-------
+
+* The system for assigning shader directives was refactored. This
+  feature reduces engine loading time and simplify debugging.
+
+* Rendering the anchors was speeded up on some devices by using the
+  "translate3d" CSS property.
+
+* Shader validation has been improved, which decreases amount of
+  false negative errors. More error descriptions have been added.
+
+* Major part of shader computations was moved from matrices to TSR
+  to increase performance.
+
+* The "Render" tab panels' order was rearranged.
+
+
+Fixes
+-----
+
+* Fixed the bug in the Samsung Internet browser when it hung if
+  there were many anchors in a scene.
+
+* Fixed Web Player "alpha" attribute, which didn't work.
+
+* Fixed compilation/linking shader error message.
+
+* Fixed rotation at angle defined by variable value in the
+  "Transform Object" logic node.
+
+* Fixed behaviour of the "Play Animation" logic node in case of
+  baked and non-baked versions of the action co-exist.
+
+* Fixed quality settings for plane reflections.
+
+* Fixed get_translation_rel and get_rotation_rel methods.
+
+* Fixed dof_distance setting with set_dof_params method.
+
+* Fixed the bug when an object with both "Do Not Render" and "Enable
+  Outlining" options enabled led to the engine crash after it was
+  selected.
+
+* Fixed physics for particle system.
+
+
 v16.08
 ======
 

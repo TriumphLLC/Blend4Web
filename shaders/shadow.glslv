@@ -1,19 +1,53 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var AU_QUALIFIER uniform
-#var MAX_BONES 0
+#var PRECISION highp
+
+#var CAUSTICS 0
+#var CALC_TBN_SPACE 0
+#var MAIN_BEND_COL 0
+#var DETAIL_BEND 0
+#var CALC_TBN 0
+#var USE_INSTANCED_PARTCLS 0
+#var NODES 0
+#var USE_TBN_SHADING 0
+#var REFLECTION_TYPE REFL_NONE
+#var SMAA_JITTER 0
+#var MAC_OS_SHADOW_HACK 0
+
+#var REFRACTIVE 0
+
+#var AU_QUALIFIER GLSL_IN
+#var BEND_CENTER_ONLY 0
+#var CSM_SECTION1 0
+#var CSM_SECTION2 0
+#var CSM_SECTION3 0
+#var HAIR_BILLBOARD 0
+#var FRAMES_BLENDING 0
+#var SHADOW_TEX_RES 2048.0
+#var VERTEX_ANIM 0
 #var NUM_CAST_LAMPS 0
-#var SHADOW_TEX_RES 0.0
+#var TEXTURE_COLOR 0
+#var ALPHA 0
+
 #var VERTEX_ANIM_MIX_NORMALS_FACTOR u_va_frame_factor
+#var MAX_BONES 0
+
+#var WIND_BEND 0
+#var SHADOW_USAGE NO_SHADOWS
+#var SKINNED 0
+#var DYNAMIC_GRASS 0
+#var BILLBOARD 0
+#var STATIC_BATCH 0
+#var BILLBOARD_JITTERED 0
+#var BILLBOARD_PRES_GLOB_ORIENTATION 0
 
 /*==============================================================================
                                   INCLUDES
 ==============================================================================*/
-#include <std_enums.glsl>
-#include <precision_statement.glslf>
+#include <std.glsl>
 
 #include <math.glslv>
 #include <to_world.glslv>
@@ -27,16 +61,12 @@ GLSL_IN vec3 a_position;
 #if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
         || SHADOW_USAGE == SHADOW_MASK_GENERATION || CALC_TBN
-GLSL_IN vec3 a_normal;
+GLSL_IN vec4 a_tbn_quat;
 #endif
 
 #if USE_INSTANCED_PARTCLS
 GLSL_IN vec4 a_part_ts;
 GLSL_IN vec4 a_part_r;
-#endif
-
-#if NODES && ALPHA && CALC_TBN_SPACE
-GLSL_IN vec4 a_tangent;
 #endif
 
 #if USE_TBN_SHADING
@@ -73,10 +103,7 @@ GLSL_IN vec3 a_position_next;
 # if NODES && ALPHA
 #  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || CALC_TBN_SPACE
-GLSL_IN vec3 a_normal_next;
-#   if CALC_TBN_SPACE
-GLSL_IN vec4 a_tangent_next;
-#   endif
+GLSL_IN vec4 a_tbn_quat_next;
 #  endif
 # endif
 #endif // VERTEX_ANIM
@@ -255,20 +282,21 @@ uniform PRECISION float u_view_max_depth;
 ==============================================================================*/
 
 void main(void) {
-    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+    mat3 view_tsr = u_view_tsr;
     vec3 position = a_position;
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION || CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN \
         || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
-        || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND 
-    vec3 normal = a_normal;
+        || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
+    vec3 norm_tbn = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
+    vec3 normal = norm_tbn;
 #else
     vec3 normal = vec3(0.0);
 #endif
 
 #if NODES && ALPHA && CALC_TBN_SPACE
-    vec3 tangent = vec3(a_tangent);
-    vec3 binormal = a_tangent[3] * cross(normal, tangent);
+    vec3 tangent = qrot(a_tbn_quat, vec3(1.0, 0.0, 0.0));
+    vec3 binormal = sign(a_tbn_quat[3]) * cross(normal, tangent);
 #else
     vec3 tangent = vec3(0.0);
     vec3 binormal = vec3(0.0);
@@ -278,11 +306,12 @@ void main(void) {
     position = mix(position, a_position_next, u_va_frame_factor);
 # if NODES && ALPHA
 #  if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP || CAUSTICS || CALC_TBN_SPACE
-    normal = mix(normal, a_normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
+    vec3 normal_next = qrot(a_tbn_quat_next, vec3(0.0, 1.0, 0.0));
+    normal = mix(normal, normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
 #  endif
 #  if CALC_TBN_SPACE
-    vec3 tangent_next = vec3(a_tangent);
-    vec3 binormal_next = a_tangent_next[3] * cross(a_normal_next, tangent_next);
+    vec3 tangent_next = qrot(a_tbn_quat_next, vec3(1.0, 0.0, 0.0));
+    vec3 binormal_next = sign(a_tbn_quat_next[3]) * cross(normal_next, tangent_next);
     tangent = mix(tangent, tangent_next, u_va_frame_factor);
     binormal = mix(binormal, binormal_next, u_va_frame_factor);
 #  endif
@@ -297,10 +326,8 @@ void main(void) {
     mat3 model_tsr = mat3(a_part_ts[0], a_part_ts[1], a_part_ts[2],
                         a_part_ts[3], a_part_r[0], a_part_r[1],
                         a_part_r[2], a_part_r[3], 1.0);
-# if STATIC_BATCH
-    mat4 model_mat = tsr_to_mat4(model_tsr);
-# else
-    mat4 model_mat = tsr_to_mat4(tsr_multiply(u_model_tsr, model_tsr));
+# if !STATIC_BATCH
+    mat3 model_tsr = tsr_multiply(u_model_tsr, model_tsr);
 # endif
 # endif
 
@@ -308,18 +335,18 @@ void main(void) {
     vec3 center = au_center_pos;
 #elif DYNAMIC_GRASS && USE_INSTANCED_PARTCLS
     vec3 center = a_part_ts.xyz;
-    position = (model_mat * vec4(position, 1.0)).xyz;
+    position = tsr9_transform(model_tsr, position);
 #else
     vec3 center = vec3(0.0);
 #endif
 
 # if !USE_INSTANCED_PARTCLS && !DYNAMIC_GRASS
-    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+    mat3 model_tsr = u_model_tsr;
 # endif
 
 #if USE_TBN_SHADING
 # if CALC_TBN
-    vec3 norm_world = normalize((model_mat * vec4(a_normal, 0.0)).xyz);
+    vec3 norm_world = normalize(tsr9_transform_dir(model_tsr, norm_tbn));
     vec3 shade_binormal = cross(vec3(0.0, 0.0, 1.0), norm_world);
     vec3 shade_tangent = cross(norm_world, shade_binormal);
 # else
@@ -332,45 +359,45 @@ void main(void) {
 #if DYNAMIC_GRASS
     vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0), normal,
             center, u_grass_map_depth, u_grass_map_color, u_grass_map_dim,
-            u_grass_size, u_camera_eye, u_camera_quat, view_matrix);
+            u_grass_size, u_camera_eye, u_camera_quat, view_tsr);
 #else
 
 # if BILLBOARD
-    vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
+    vec3 wcen = tsr9_transform(model_tsr, center);
 // NOTE: only for non-particles geometry on SHADOW_CAST subscene
 #  if !HAIR_BILLBOARD && SHADOW_USAGE == SHADOW_CASTING
-    mat4 bill_view_matrix = tsr_to_mat4(u_shadow_cast_billboard_view_tsr);
+    mat3 bill_view_tsr = u_shadow_cast_billboard_view_tsr;
 #  else
-    mat4 bill_view_matrix = view_matrix;
+    mat3 bill_view_tsr = view_tsr;
 #  endif
 
 #  if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH || USE_INSTANCED_PARTCLS
-    mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
-            bill_view_matrix, model_mat);
+    model_tsr = billboard_tsr_global(u_camera_eye, wcen,
+            bill_view_tsr, model_tsr);
 #  else
-    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, bill_view_matrix);
+    model_tsr = billboard_tsr(u_camera_eye, wcen, bill_view_tsr);
 #  endif
 
 #  if WIND_BEND && BILLBOARD_JITTERED
-    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
-            u_jitter_amp, u_jitter_freq, wcen);
+    model_tsr = bend_jitter_rotate_tsr(u_wind, u_time,
+            u_jitter_amp, u_jitter_freq, wcen, model_tsr);
 #  endif
     vertex world = to_world(position - center, center, vec3(0.0), shade_tangent,
-            vec3(0.0), normal, model_matrix);
+            vec3(0.0), normal, model_tsr);
     world.center = wcen;
 # else
     vertex world = to_world(position, center, vec3(0.0), shade_tangent, vec3(0.0),
-            normal, model_mat);
+            normal, model_tsr);
 # endif
 #endif
 
 #if WIND_BEND
 # if MAIN_BEND_COL && DETAIL_BEND
-    vec3 bend_normal = a_normal;
+    vec3 bend_normal = norm_tbn;
 # else
     vec3 bend_normal = vec3(0.0);
 # endif
-    bend_vertex(world.position, world.center, bend_normal);
+    bend_vertex(world.position, world.center, bend_normal, mat4(0.0));
 #endif
 
 #if NODES && ALPHA
@@ -392,7 +419,7 @@ void main(void) {
 # endif
 
 #endif // NODES && ALPHA
-    vec4 pos_view = view_matrix * vec4(world.position, 1.0);
+    vec4 pos_view = vec4(tsr9_transform(view_tsr, world.position), 1.0);
     vec4 pos_clip = u_proj_matrix * pos_view;
 
 #if SMAA_JITTER
@@ -427,8 +454,8 @@ void main(void) {
 #if SHADOW_USAGE == SHADOW_CASTING
     // NOTE: shift coords to remove shadow map panning
 
-    // NOTE: view_matrix[3] is world space origin translated into light space
-    vec2 shift = (u_proj_matrix * view_matrix[3]).xy;
+    // NOTE: view_tsr[0] is world space origin translated into light space
+    vec2 shift = (u_proj_matrix * vec4(view_tsr[0], 1.0)).xy;
     float half_tex_res = SHADOW_TEX_RES / 2.0;
     shift = floor(shift * half_tex_res + 0.5) / half_tex_res - shift;
     pos_clip.xy += shift;

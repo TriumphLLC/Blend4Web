@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>后期处理效果 &mdash; Blend4Web 16.08 用户手册</title>
+  <title>后期处理效果 &mdash; Blend4Web 16.09 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 用户手册" href="index.html"/>
         <link rel="next" title="立体渲染" href="stereo_rendering.html"/>
         <link rel="prev" title="Lighting, Shadows and Background" href="lighting.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -84,13 +84,13 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -109,7 +109,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#depth-of-field">景深</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">激活</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">其他设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Additional Settings</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-space-ambient-occlusion">屏幕空间环境光遮蔽</a><ul>
@@ -259,19 +259,40 @@
 </ol>
 </div>
 <div class="section" id="id4">
-<h3>其他设置<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<h3>Additional Settings<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<a class="reference internal image-reference" href="_images/effects_dof_settings.png"><img alt="_images/effects_dof_settings.png" class="align-center" src="_images/effects_dof_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>前</em></dt>
-<dd><p class="first last">从焦点到后面发生充分模糊（米）的最接近的平面（相对于相机）的距离。缺省值为1.0。</p>
+<dt><em>Focus</em></dt>
+<dd>Sets the focal object. By default, this field is empty.</dd>
+<dt><em>Distance</em></dt>
+<dd>This parameter defines the focal distance. Available only if the <code class="docutils literal"><span class="pre">Focus</span></code> parameter hasn&#8217;t been set beforehand (if the corresponding field is empty). Set to zero by default.</dd>
+<dt><em>Front Start</em></dt>
+<dd><p class="first">This sets the distance (in meters) from the focus to the nearest plane (relative to the camera) behind which blurring effect starts to occur. The default value is 1.0.</p>
+<p class="last">This parameter is available only if the <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> parameter is enabled.</p>
 </dd>
-<dt><em>后</em></dt>
-<dd><p class="first last">从焦点到后面发生充分模糊（米）的最远的面（相对于相机）的距离。缺省值为1.0。</p>
+<dt><em>Front End</em></dt>
+<dd>This sets the distance from the camera and the neares plane (relative to the camera) behind which blurring effect reaches maximum strength (defined by the <code class="docutils literal"><span class="pre">Power</span></code> value). Default value is 5.0.</dd>
+<dt><em>Rear Start</em></dt>
+<dd><p class="first">This sets the distance from the focus to the furthest plane (relative to the camera) behind which blurring effect starts to occur. The default value is 1.0.</p>
+<p class="last">This parameter is available only if the <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> parameter is enabled.</p>
 </dd>
+<dt><em>Rear End</em></dt>
+<dd>This sets the distance from the camera to the furthest plane (relative to the camera) behind which blurring reaches maximum strength (defined by the <code class="docutils literal"><span class="pre">Power</span></code> value). Default value is 5.0.</dd>
 <dt><em>指数</em></dt>
-<dd><p class="first last">模糊比。默认值是3.0。</p>
+<dd>Blurring ratio. The value of this parameter can vary from 0.1 to 10. The default value is 2.0.</dd>
+<dt><em>High Quality (Bokeh)</em></dt>
+<dd><p class="first">This enables high quality rendering of the depth of field effect. Activating this option:</p>
+<ul class="simple">
+<li>Enables bokeh effect and makes available the <code class="docutils literal"><span class="pre">Bokeh</span> <span class="pre">Intensity</span></code> parameter for adjusting the strength of the effect.</li>
+<li>Enables the <code class="docutils literal"><span class="pre">Front</span> <span class="pre">Start</span></code> and <code class="docutils literal"><span class="pre">Rear</span> <span class="pre">Start</span></code> parameters for setting soft transition between the distance from camera where the effect start to occur and the distanse where it reaches its full strength.</li>
+<li>Enables <code class="docutils literal"><span class="pre">Foreground</span> <span class="pre">Blur</span></code> parameter that is described below.</li>
+</ul>
+<p class="last">The parameter is disabled by default.</p>
 </dd>
-<dt><em>Bokeh</em></dt>
-<dd>Activating this option enables bokeh effect. Disabled by default.</dd>
+<dt><em>Bokeh Intensity</em></dt>
+<dd>This value sets the strength of the bokeh effect. It can vary from zero to 1.0. Set to 0.3 by default.</dd>
+<dt><em>Foreground Blur</em></dt>
+<dd>Enabling this option makes the engine to blur the silhouettes of the foreground objects, improving the quality of the effect at the cost of slight performance decrease. Disabled by default.</dd>
 </dl>
 </div>
 </div>
@@ -474,7 +495,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-08-31.
+      最后更新于 2016-09-29.
 
     </p>
   </div>
@@ -530,7 +551,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

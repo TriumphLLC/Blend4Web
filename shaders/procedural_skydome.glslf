@@ -1,6 +1,7 @@
 #version GLSL_VERSION
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <color_util.glslf>
 
 uniform vec3 u_sky_color;
@@ -83,12 +84,12 @@ void main(void) {
     vec3 ldir = u_sun_direction;
     float alpha = dot(ray, ldir);
 
-    float rayleigh_factor = phase(alpha, -0.01) * u_rayleigh_brightness * ldir.y;
+    float rayleigh_factor = phase(alpha, -0.01) * u_rayleigh_brightness * ldir.z;
     float mie_factor = phase(alpha - 0.5, u_mie_distribution) * u_mie_brightness
-                       * (1.0 - ldir.y);
+                       * (1.0 - ldir.z);
     float spot = smoothstep(0.0, 100.0, phase(alpha, 0.9995)) * u_spot_brightness;
 
-    vec3 eye_position = vec3(0.0, surface_height, 0.0);
+    vec3 eye_position = vec3(0.0, 0.0, surface_height);
     float eye_depth = atmospheric_depth(eye_position, ray);
     float step_length = eye_depth/float(step_count);
     float eye_extinction = horizon_extinction(eye_position, ray, 

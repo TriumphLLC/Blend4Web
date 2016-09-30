@@ -10,337 +10,6 @@ For Application Developers
 
 .. _app_building:
 
-Project Management
-==================
-
-You can manage your projects in two ways: by using *project.py*, which is a simple-to-use and well documented CLI utility, or by using a dedicated web application with GUI working on the local development server. The server does not require any additional setup and starts automatically with Blender. The index page of the Project Manager can be opened by clicking on the ``Project Manager`` button in Blender.
-
-Working with the Project Manager is described in a :ref:`dedicated chapter <project_management>`.
-
-.. _advanced_project_management:
-
-Advanced Project Management
-===========================
-
-Advanced project management is used by experienced developers which require more flexibility and need to automate process of project development.
-
-For advanced project management use the *project.py* script and manually edit *.b4w_project* configuration files.
-
-Dependencies
-------------
-
-The project management system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:
-
-.. code-block:: bash
-
-    ./project.py check_deps
-
-For MS Windows users:
-
-.. code-block:: console
-
-    python project.py check_deps
-
-
-Projects List
--------------
-
-.. code-block:: bash
-
-    python3 project.py -p myproject list
-
-Prints list of projects in the SDK.
-
-
-Project Structure
------------------
-
-A typical app developed using the project manager looks as follows:
-
-::
-
-    blend4web/
-        apps_dev/
-            myproject/
-                project.py
-                .b4w_project
-                myproject.js
-                myproject.css
-                myproject_dev.html
-        blender/
-            myproject/
-                myproject.blend
-        deploy/
-            apps/
-                myproject/
-                    myproject.js
-                    myproject.css
-                    myproject.html
-            assets/
-                myproject/
-                    myproject.json
-                    myproject.bin
-
-
-This app consists of 4 different directories.
-
-#. apps_dev/myproject. Contains source files of project's apps.
-#. blender/myproject. Contains source files of project's scenes.
-#. deploy/assets/myproject. Contains exported files of project's scenes.
-#. deploy/apps/myproject. Contains exported files of project's scenes.
-
-Additionally, the deploy command can create yet another directory, but it's usually placed outside of the SDK and its name and path depend on directory structure on the target server.
-
-
-``.b4w_project`` Configuration File
------------------------------------
-
-If you did not use any arguments upon executing the *project.py* script, then they will be taken from the configuration file.
-
-::
-
- [info]
- author = 
- name = 
- title = 
- icon = 
- 
- [paths]
- assets_dirs = 
- blend_dirs = 
- blender_exec = 
- build_dir = 
- deploy_dir = 
- 
- [compile]
- apps = 
- css_ignore = 
- engine_type = external
- js_ignore = 
- optimization = simple
- use_physics = 
- use_smaa_textures = 
- version = 
- 
- [deploy]
- assets_path_dest =
- assets_path_prefix = 
- remove_exist_ext_dir = 
-
-
-Advanced Project Management
----------------------------
-
-.. code-block:: bash
-
-    ./project.py init myproject
-
-This command will create a project with the specified name in the current directory. By default the project directory will only contain a config file.
-
-Available parameters:
-
-* ``-A | --copy-app-templates`` (optional) create standard app templates in the project directory  (*<my_project_name>_dev.html*, *<my_project_name>.js*, *<my_project_name>.css*).
-* ``-B | --bundle`` (optional) all project files will be placed in a single directory.
-* ``-C | --author`` (optional) write an author's or a company's name in the config file.
-* ``-o | --optimization`` (optional) write the script optimization level in the config file.
-* ``-P | --copy-project-script`` (optional) create a copy of the *project.py* script in the project directory.
-* ``-S | --copy-scene-templates`` (optional) create standard scene templates in the directories ``deploy/assets/<my_project_name>`` and ``blender/<my_project_name>`` (*<my_project_name>.json/.bin* and *<my_project_name>.blend* correspondingly).
-* ``-T | --title"`` (optional) write a title in the config file. Upon building, it will be used inside the ``<title>`` HTML element.
-* ``-t | --engine-type`` (optional) write an engine type in the config file.
-
-Example:
-
-.. code-block:: bash
-
-    ./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
-
-This command will create a directory named *myproject*, inside which the following files will be placed: *myproject.js*, *myproject.css*, *myproject_dev.html* and *.b4w_project*.
-
-The .b4w_project file will look like::
-
- [info]
- author = Blend4Web
- name = myproject
- title = MyProject
- 
- [paths]
- assets_dirs = deploy/assets/myproject;
- blend_dirs = blender/myproject;
- blender_exec = blender
- build_dir = deploy/apps/myproject
- deploy_dir = 
- 
- [compile]
- apps = 
- css_ignore = 
- engine_type = external
- js_ignore = 
- optimization = simple
- use_physics = 
- use_smaa_textures = 
- version = 
- 
- [deploy]
- assets_path_prefix = 
- remove_exist_ext_dir = 
-
-
-Developing multiple apps inside a project
------------------------------------------
-
-A project can contain multiple apps. This can be provided by listing the corresponding HTML files in the config file separated with semicolon::
-
- ...
- [compile]
- apps = myapp1;myapp2;
- ...
-
-
-Building Projects
------------------
-
-.. code-block:: bash
-
-    python3 project.py -p myproject compile
-
-Builds a project in the ``deploy/apps/myproject`` directory.
-
-.. note::
-
-   For script operation it's required to install java and  `set the PATH system variable <https://www.java.com/en/download/help/path.xml>`_.
-
-
-Available parameters:
-
-* ``"-a | --app"`` (optional) specify an HTML file, relative to which the project app will be built.
-* ``"-c | --css-ignore"`` (optional) add CSS styles to exceptions in order to not compile them.
-* ``"-j | --js-ignore"`` (optional) add scripts to exceptions in order to not compile them.
-* ``"-o | --optimization"`` (optional) specify the optimization level for JavaScript files: ``whitespace``, ``simple`` (by default) or ``advanced``.
-* ``"-t | --engine-type"`` (optional) define a compilation type for an app. Four variants are available: *external* (by default), *copy*, *compile*, *update*.
-* ``"-v | --version"`` add version to paths of scripts and styles.
-
-Compiler Requirements
-
-* In the root of the directory the single html file must be stored if ``-a`` option is disabled
-* Scripts and styles can be stored in the app's root and in the subfolders
-
-
-Automatic Re-export
--------------------
-
-.. code-block:: bash
-
-    python3 project.py -p myproject reexport
-
-This command will re-export blend files in JSON and HTML formats.
-
-Available parameters:
-
-* ``"-b | --blender-exec"`` path to the blender executable.
-* ``"-s | --assets"`` specify directory with scene assets.
-
-
-Resource Conversion
--------------------
-
-.. code-block:: bash
-
-    python3 project.py -p myproject convert_resources
-
-Converts external resources (textures, audio and video files) into alternative formats to ensure cross-browser and cross-platform performance.
-
-Available parameters:
-
-* ``"-s | --assets"`` specify directory with scene assets.
-
-Converting of resources is described in detail in the :ref:`corresponding section <converter>`.
-
-
-Deploying Projects
-------------------
-
-.. code-block:: bash
-
-    python3 project.py -p myproject deploy DIRECTORY
-
-Save a project to an external directory together with all dependencies.
-
-Available parameters:
-
-* ``"-e | --assets-dest"`` destination assets directory ("assets" by default).
-* ``"-E | --assets-prefix"`` assets URL prefix ("assets" by default).
-* ``"-o | --override"`` remove directory if it exists.
-* ``"-s | --assets"`` override project's assets directory(s).
-* ``"-t | --engine-type"`` override project's engine type config.
-
-
-Remove Project
---------------
-
-.. code-block:: bash
-
-    python3 project.py -p myproject remove
-
-Removes a project. Removed directories are retrieved from project configuration file.
-
-
-Upgrading Apps for New SDK Versions
------------------------------------
-
-While upgrading for new SDK versions often two problems arise:
-
-#. Modules of the new and old versions of the engine do not match.
-#. Old and new engine API do not match.
-
-In order to update the list of modules imported in developer version of application go to project source directory ``apps_dev/my_project`` and execute module list generator script:
-
-.. code-block:: bash
-
-    python3 ../../scripts/mod_list.py
-
-For MS Windows users:
-
-.. code-block:: console
-
-    python ..\..\scripts\mod_list.py
-
-.. note::
-
-    To run the scripts the Python 3.x needs to be installed in your system.
-
-The console will print the list of modules - copy them and paste into the main HTML file:
-
-.. code-block:: html
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <script type="text/javascript" src="../../src/b4w.js"></script>
-        <script type="text/javascript" src="../../src/anchors.js"></script>
-        <script type="text/javascript" src="../../src/animation.js"></script>
-        <script type="text/javascript" src="../../src/assets.js"></script>
-        <script type="text/javascript" src="../../src/batch.js"></script>
-        <script type="text/javascript" src="../../src/boundings.js"></script>
-        <script type="text/javascript" src="../../src/camera.js"></script>
-        . . .
-    </head>
-
-
-To eliminate API incompatibilities you may require refactoring of your app. All changes are described in :ref:`release notes <release_notes>`.
-
-
-Path to Loaded Application Assets
----------------------------------
-
-To load .json-files you should use ``get_std_assets_path()`` method from the *config.js* module:
-
-.. code-block:: javascript
-
-    m_data.load(m_config.get_std_assets_path() + "example/example.json", load_cb);
-
-After building the finished app, the paths to assets will change. Thus, using ``get_std_assets_path()`` will allow you to avoid problems with incorrect paths.
-
-
 Application Programming
 =======================
 
@@ -490,6 +159,63 @@ Then the some_scene.json scene is loaded similar to the previous example. The on
 
 In case when the ``app`` module is used, it is necessary to explicitly specify dimensions of the container element. Otherwise, the created ``<canvas>`` element will have zero dimensions.
 
+Background Transparency
+-----------------------
+
+The ``background_color`` and ``alpha`` parameters are passed to the :b4wref:`m_app.init` method placed in the load callback function (a function that is called right after the scene is loaded), like this:
+
+.. code-block:: javascript
+
+    m_app.init ({
+        alpha: true,
+        background_color: [0.7, 0.7, 0.7, 1]
+       //this method sets the background to an opaque light grey color
+    });
+
+The combination of the parameters passed to the method defines how the backgrounds of the Blend4Web application and the HTML application blend together. Available options are:
+
+#. ``alpha`` = false
+	The color of the background is defined by the ``background_color`` of the Blend4Web application, the background of the HTML application is not taken into consideration.
+
+.. image:: src_images/developers/developers_background_opaque.png
+   :align: center
+   :width: 100%
+
+#. ``alpha`` = true
+	The background of the HTML application might influence the background of the Blend4Web application based on its transparency which is defined by the fourth component of the ``background_color`` parameter (``alpha`` = ``background_color[3]``, not to be confused with the ``alpha`` parameter mentioned above).
+
+	background_color[3] = 1
+		This produces the same result as if the alpha parameter has been turned off (``alpha`` = false)
+
+	background_color[3] = 0
+		Additive blending is used.
+
+                .. image:: src_images/developers/developers_background_add.png
+                   :align: center
+                   :width: 100%
+
+                Picture above shows an HTML page containing a Blend4Web application with a blue [0, 0, 1] background that blends with the page's red (``Red``) color producing a violet tone.
+
+	background_color[3] > 0
+		Additive blending is used with the ``background_color`` having a greater influence.
+
+                .. image:: src_images/developers/developers_background_semiopaque.png
+                   :align: center
+                   :width: 100%
+
+                This picture shows the same HTML page with the same Blend4Web app, however, the ``alpha`` value is set to 0.5, leading to a darker tone of the application background.
+
+The mechanisms of alpha lending are described in greater detail in the :ref:`Color Management <alpha_compositing>` chapter.
+
+By default, the ``alpha`` parameter is set to true and the ``background_color`` is set to transparent black [0, 0, 0, 0], which means that the application will have an HTML background with no influences from the background of the Blend4Web application.
+
+Background transparency can also be utilized in :ref:`Web Player applications <web_player_app>` by using the ``alpha`` :ref:`URL attribute <webplayer_attributes>`. To use this feature, firstly you need to enable the ``Background transparency (alpha)`` parameter in the :ref:`Web Player Params <web_player_params>` group while creating the application.
+
+If Blend4Web application uses sky rendering, the application canvas will be fully covered by objects (including sky), so the background will be fully opaque and not influenced by alpha settings.
+
+.. note::
+    Sky rendering is enabled by default in Blend4Web scenes created in :ref:`Project Manager <project_management>`. Don't forget, in order to use a transparent background you will need to manually disable sky rendering.
+
 
 .. _converter:
 
@@ -551,7 +277,7 @@ If some program is not installed, the following message will be displayed:
 The list of dependencies is listed in the following table:
 
 +-------------------------------+-------------------------------+
-| Name                          | Ubuntu 15.04 package          |
+| Name                          | Ubuntu 16.04 package          |
 |                               |                               |
 +===============================+===============================+
 | ImageMagick                   | imagemagick                   |
@@ -561,6 +287,8 @@ The list of dependencies is listed in the following table:
 | Libav                         | libav-tools                   |
 +-------------------------------+-------------------------------+
 | FFmpeg                        | ffmpeg                        |
++-------------------------------+-------------------------------+
+| PVRTC                         | install manually              |
 +-------------------------------+-------------------------------+
 
 .. note::
@@ -606,32 +334,31 @@ Now you can build and install the package:
 
 .. _converter_data_format:
 
-Data Format
------------
+Data Formats
+------------
 
 The conversion is performed as follows:
 
 for audio (convert_media):
-    * ogg, oga -> mp4
-    * mp3 -> ogg
-    * mp4, m4a -> ogg
+    * ogg (ogv, oga) -> mp4
+    * mp3 -> oga
+    * mp4 (m4v, m4a) -> oga
+    * webm -> m4a
 
 We recommend to use ``ogg`` as a base format. In this case the only conversion required for cross-browser compatibility will be ``ogg`` to ``mp4``. Example of an input file: ``file_name.ogg``, example of an output file: ``file_name.altconv.mp4``.
 
 for video (convert_media):
-    * webm -> m4v
-    * mp4, m4v -> webm
-    * ogg, ogv -> webm
-    * webm -> seq
-    * mp4, m4v -> seq
-    * ogg, ogv -> seq
+    * ogg (ogv, oga) -> m4v / seq
+    * mp3 -> webm / seq
+    * mp4 (m4v, m4a) -> webm / seq
+    * webm -> m4v / seq
 
 We recommend to use ``WebM`` as a base format. In this case the only conversion required for cross-browser compatibility will be ``webm`` to ``m4v`` (``webm`` to ``seq`` for iPhone). Example of an input file: ``file_name.webm``, example of an output file: ``file_name.altconv.m4v``.
 
 for images (convert_dds):
-    * png -> dds
-    * jpg -> dds
-    * bmp -> dds
+    * png -> dds/pvr
+    * jpg -> dds/pvr
+    * bmp -> dds/pvr
     * gif -> dds
 
 Example of an input file: ``file_name.jpg``, example of an output file: ``file_name.altconv.jpg.dds``.
@@ -652,6 +379,9 @@ For the purpose of optimizing application performance it's possible to use ``min
 
 .. _dds:
 
+DDS Texture Compression
+.......................
+
 ``DDS`` textures require less memory (4 times less for ``RGBA`` data and 6 times for ``RGB`` data), but using them has following downsides:
 
     * ``DDS`` textures might not work on some devices, especially the mobile ones, as not all of them support the ``WEBGL_compressed_texture_s3tc`` extension;
@@ -668,7 +398,38 @@ During exporting the scene from Blender to the ``JSON`` format (but not the ``HT
 
 Textures can be converted to the ``DDS`` format using the :ref:`project manger <project_management>` or the *scripts/converter.py* script described above.
 
+PVRTC Texture Compression
+.........................
+
+``PVRTC`` is another texture compression format used primarily on iOS devices. In some cases it can produce texture files up to two times smaller than same texture images would take in ``DDS`` format.
+
+The format has two compression settings that are supported by the engine: 2-bpp (two bits per pixel) and 4-bpp (four bits per pixel).
+
+As with ``DDS`` format, textures compressed using the ``PVRTC`` algorithm may not work on some platforms, especially mobile, because using this compression format require support for the ``IMG_texture_compression_pvrtc`` WebGL extension.
+
+The PVRTC library and SDK are available for Windows, Linux and MacOS X systems alike. Installation packages can be downloaded from the `Power VR Insider <https://community.imgtec.com/developers/powervr/>`_ web page.
+
+The Blend4Web engine uses a console PVRTC tool. To use it, you need to add the path to it to the ``PATH`` environmental variable, like the following:
+
+.. code-block:: bash
+
+    export PATH = <InstallDir>\PVRTexTool\CLI\<PLATFORM>\
+
+where <InstallDir> is the PVRTexTool installation directory and <PLATFORM> is a folder that contains the version of the tool that corresponds to your OS, for example, ``\Windows_x86_64\`` for 64-bit Windows OS.
+
+.. note::
+    In Windows systems, environment variables can be set in the ``System`` (in Windows 10 and 8) or ``Properties`` (in Windows 7 and Vista) dialogue window by choosing ``Advanced System Settings`` -> ``Environment Variables``, or by using console commands:
+
+    .. code-block:: bash
+
+        SET PATH = <InstallDir>\PVRTexTool\CLI\<PLATFORM>\
+
+After this, you will be able to convert the textures to the PVR format by using converter.py script with the ``convert_dds`` command.
+
 .. _seq:
+
+SEQ Video Format
+................
 
 The ``.seq`` file format is used for sequential video. This is applied for IE 11 and iPhone because they are currently missing support for standard video formats for textures. Using dds format for images is more optimal compared to other formats.
 

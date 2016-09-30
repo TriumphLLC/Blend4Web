@@ -57,7 +57,7 @@ function load_cb(data_id) {
 }
 
 function init_logic() {
-    
+
     var from = new Float32Array(3);
     var pline = m_math.create_pline();
     var to = new Float32Array(3);
@@ -76,7 +76,7 @@ function init_logic() {
 
         m_tsr.set_trans(hit_pos, decal_tsr);
 
-        m_quat.rotationTo(m_util.AXIS_Y, hit_norm, decal_rot);
+        m_quat.rotationTo(m_util.AXIS_Z, hit_norm, decal_rot);
         m_trans.set_rotation_v(decal, decal_rot);
         m_tsr.set_quat(decal_rot, decal_tsr);
 
@@ -85,7 +85,7 @@ function init_logic() {
 
             m_tsr.invert(obj_tsr, obj_tsr);
             m_tsr.multiply(obj_tsr, decal_tsr, decal_tsr);
-            
+
             var offset = m_tsr.get_trans_view(decal_tsr);
             var rot_offset = m_tsr.get_quat_view(decal_tsr);
             m_cons.append_stiff(decal, obj_hit, offset, rot_offset);

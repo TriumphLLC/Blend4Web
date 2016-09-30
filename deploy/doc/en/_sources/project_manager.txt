@@ -1,8 +1,8 @@
 .. _project_management:
 
-***************
-Project Manager
-***************
+******************
+Project Management
+******************
 
 .. contents:: Table of Contents
     :depth: 3
@@ -24,8 +24,10 @@ Since version 15.09, the SDK includes a project management feature, which makes 
 
     * remove projects.
 
+.. _project_manager:
+
 Project Manager
----------------
+===============
 
 The *Project Manager* app can be run from the *Tools* section of the SDK’s index page. Upon launching, the app outputs a list of all current projects in the SDK.
 
@@ -69,19 +71,25 @@ Commands for managing a specific project is located at its right.
 
     1. If one or more API modules are missing from the project's folder, the following message will be displayed:
 
-     Module `module_name` is missing from the `project_name` project, please append it to the project's html files.
+     `Module \`module_name\` is missing in the \`project_name.html\` project, please include it or run \`Update Modules\`.`
 
     .. image:: src_images/project_manager/project_manager_check_modules_missing.png
        :align: center
 
+    These missing modules can be appended to the project with the ``Update Modules`` button.
+
     2. If the project has one or more API modules that are not used anywhere in the program code, the following message will be displayed:
 
-     Module `module_name` is no longer required, please remove it from the project's HTML files.
+     `Incorrect module \`module_name\` in the \`project_name.html\`, please remove it or run \`Update Modules\`.`
 
     .. image:: src_images/project_manager/project_manager_check_modules_required.png
        :align: center
 
+    These incorrect modules can be removed from the project with the ``Update Modules`` button.
+
     3. In case no problems with missing/unnecessary modules have been detected, the following message will be displayed:
+
+    `Module check complete. No problems detected in the \`module_name.html\`.`
 
     .. image:: src_images/project_manager/project_manager_check_modules_complete.png
        :align: center
@@ -127,13 +135,13 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
 5) Add scene templates. Standard json file will be added to the "deploy/assets/project_name" directory; blend file will be added to the "blender/project_name" directory.
 6) Use Material Library. Blend files of the material library will be copied to the project directory "blender/project_name", while the asset files will be copied to "deploy/assets/project_name" folder.
 7) Copy project manager script. The project.py script will be copied to the project directory.
-8) All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only "update" project type is available for this option.
+8) All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only ``Update``, ``Web Player JSON`` and ``Web Player HTML`` project types is available for this option.
 9) Project’s type. Several options are available:
 
     * "External" - engine will be taken from the "deploy/apps/common/" directory. Only application files will be compiled;
     * "Copy" - engine is copied into the compiled application directory. Only application files are compiled;
     * "Compile" - engine sources are compiled with application scripts;
-    * "Update" - engine inside the project directory will be replaced;
+    * "Update" - engine inside the project directory will be replaced. Available only for ``Bundled`` projects;
     * "Web Player JSON" - json-file placed inside the project is run with the help of web-player inside SDK;
     * "Web Player HTML" - project is packed into single html-file, containing all required resources.
 
@@ -143,6 +151,7 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
     * "Advanced" - code optimization is performed;
     * "Whitespace Only" - only whitespaces are removed from the code.
 
+.. _web_player_params:
 
 11) Web Player URL attributes. This tab is available only if ``Engine Binding Type`` parameter is set to ``Web Player JSON`` or ``Web Player HTML``.
 
@@ -151,6 +160,8 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
     * "Disable social network buttons" disables social networks buttons on the control panel.
     * "Background transparency" enables transparency for the rendering area.
     * "Use compressed textures" enables loading of minified and compressed textures (in DDS format).
+
+.. _web_player_app:
 
 Creating a Web Player Application
 ---------------------------------
@@ -337,4 +348,325 @@ Project Parameters
 *Archive Name*
     The name of an archive to which exported projects are packed.
 
+.. _advanced_project_management:
 
+Advanced Project Management
+===========================
+
+Advanced project management is used by experienced developers which require more flexibility and need to automate process of project development.
+
+For advanced project management use the *project.py* script and manually edit *.b4w_project* configuration files.
+
+Dependencies
+------------
+
+The project management system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:
+
+.. code-block:: bash
+
+    ./project.py check_deps
+
+For MS Windows users:
+
+.. code-block:: console
+
+    python project.py check_deps
+
+
+Projects List
+-------------
+
+.. code-block:: bash
+
+    python3 project.py -p myproject list
+
+Prints list of projects in the SDK.
+
+
+Project Structure
+-----------------
+
+A typical app developed using the project manager looks as follows:
+
+::
+
+    blend4web/
+        apps_dev/
+            myproject/
+                project.py
+                .b4w_project
+                myproject.js
+                myproject.css
+                myproject_dev.html
+        blender/
+            myproject/
+                myproject.blend
+        deploy/
+            apps/
+                myproject/
+                    myproject.js
+                    myproject.css
+                    myproject.html
+            assets/
+                myproject/
+                    myproject.json
+                    myproject.bin
+
+
+This app consists of 4 different directories.
+
+#. apps_dev/myproject. Contains source files of project's apps.
+#. blender/myproject. Contains source files of project's scenes.
+#. deploy/assets/myproject. Contains exported files of project's scenes.
+#. deploy/apps/myproject. Contains exported files of project's scenes.
+
+Additionally, the deploy command can create yet another directory, but it's usually placed outside of the SDK and its name and path depend on directory structure on the target server.
+
+
+``.b4w_project`` Configuration File
+-----------------------------------
+
+If you did not use any arguments upon executing the *project.py* script, then they will be taken from the configuration file.
+
+::
+
+ [info]
+ author = 
+ name = 
+ title = 
+ icon = 
+ 
+ [paths]
+ assets_dirs = 
+ blend_dirs = 
+ blender_exec = 
+ build_dir = 
+ deploy_dir = 
+ 
+ [compile]
+ apps = 
+ css_ignore = 
+ engine_type = external
+ js_ignore = 
+ optimization = simple
+ use_physics = 
+ use_smaa_textures = 
+ version = 
+ 
+ [deploy]
+ assets_path_dest =
+ assets_path_prefix = 
+ remove_exist_ext_dir = 
+
+
+Creating a Project
+------------------
+
+.. code-block:: bash
+
+    ./project.py init myproject
+
+This command will create a project with the specified name in the current directory. By default the project directory will only contain a config file.
+
+Available parameters:
+
+* ``-A | --copy-app-templates`` (optional) create standard app templates in the project directory  (*<my_project_name>_dev.html*, *<my_project_name>.js*, *<my_project_name>.css*).
+* ``-B | --bundle`` (optional) all project files will be placed in a single directory.
+* ``-C | --author`` (optional) write an author's or a company's name in the config file.
+* ``-o | --optimization`` (optional) write the script optimization level in the config file.
+* ``-P | --copy-project-script`` (optional) create a copy of the *project.py* script in the project directory.
+* ``-S | --copy-scene-templates`` (optional) create standard scene templates in the directories ``deploy/assets/<my_project_name>`` and ``blender/<my_project_name>`` (*<my_project_name>.json/.bin* and *<my_project_name>.blend* correspondingly).
+* ``-T | --title"`` (optional) write a title in the config file. Upon building, it will be used inside the ``<title>`` HTML element.
+* ``-t | --engine-type`` (optional) write an engine type in the config file.
+
+Example:
+
+.. code-block:: bash
+
+    ./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
+
+This command will create a directory named *myproject*, inside which the following files will be placed: *myproject.js*, *myproject.css*, *myproject_dev.html* and *.b4w_project*.
+
+The .b4w_project file will look like::
+
+ [info]
+ author = Blend4Web
+ name = myproject
+ title = MyProject
+ 
+ [paths]
+ assets_dirs = deploy/assets/myproject;
+ blend_dirs = blender/myproject;
+ blender_exec = blender
+ build_dir = deploy/apps/myproject
+ deploy_dir = 
+ 
+ [compile]
+ apps = 
+ css_ignore = 
+ engine_type = external
+ js_ignore = 
+ optimization = simple
+ use_physics = 
+ use_smaa_textures = 
+ version = 
+ 
+ [deploy]
+ assets_path_prefix = 
+ remove_exist_ext_dir = 
+
+
+Developing multiple apps inside a project
+-----------------------------------------
+
+A project can contain multiple apps. This can be provided by listing the corresponding HTML files in the config file separated with semicolon::
+
+ ...
+ [compile]
+ apps = myapp1;myapp2;
+ ...
+
+
+Building Projects
+-----------------
+
+.. code-block:: bash
+
+    python3 project.py -p myproject compile
+
+Builds a project in the ``deploy/apps/myproject`` directory.
+
+.. note::
+
+   For script operation it's required to install java and  `set the PATH system variable <https://www.java.com/en/download/help/path.xml>`_.
+
+
+Available parameters:
+
+* ``"-a | --app"`` (optional) specify an HTML file, relative to which the project app will be built.
+* ``"-c | --css-ignore"`` (optional) add CSS styles to exceptions in order to not compile them.
+* ``"-j | --js-ignore"`` (optional) add scripts to exceptions in order to not compile them.
+* ``"-o | --optimization"`` (optional) specify the optimization level for JavaScript files: ``whitespace``, ``simple`` (by default) or ``advanced``.
+* ``"-t | --engine-type"`` (optional) define a compilation type for an app. Four variants are available: *external* (by default), *copy*, *compile*, *update*.
+* ``"-v | --version"`` add version to paths of scripts and styles.
+
+Compiler Requirements
+
+* In the root of the directory the single html file must be stored if ``-a`` option is disabled
+* Scripts and styles can be stored in the app's root and in the subfolders
+
+
+Automatic Re-export
+-------------------
+
+.. code-block:: bash
+
+    python3 project.py -p myproject reexport
+
+This command will re-export blend files in JSON and HTML formats.
+
+Available parameters:
+
+* ``"-b | --blender-exec"`` path to the blender executable.
+* ``"-s | --assets"`` specify directory with scene assets.
+
+
+Resource Conversion
+-------------------
+
+.. code-block:: bash
+
+    python3 project.py -p myproject convert_resources
+
+Converts external resources (textures, audio and video files) into alternative formats to ensure cross-browser and cross-platform performance.
+
+Available parameters:
+
+* ``"-s | --assets"`` specify directory with scene assets.
+
+Converting of resources is described in detail in the :ref:`corresponding section <converter>`.
+
+
+Deploying Projects
+------------------
+
+.. code-block:: bash
+
+    python3 project.py -p myproject deploy DIRECTORY
+
+Save a project to an external directory together with all dependencies.
+
+Available parameters:
+
+* ``"-e | --assets-dest"`` destination assets directory ("assets" by default).
+* ``"-E | --assets-prefix"`` assets URL prefix ("assets" by default).
+* ``"-o | --override"`` remove directory if it exists.
+* ``"-s | --assets"`` override project's assets directory(s).
+* ``"-t | --engine-type"`` override project's engine type config.
+
+
+Remove Project
+--------------
+
+.. code-block:: bash
+
+    python3 project.py -p myproject remove
+
+Removes a project. Removed directories are retrieved from project configuration file.
+
+
+Upgrading Apps for New SDK Versions
+-----------------------------------
+
+While upgrading for new SDK versions often two problems arise:
+
+#. Modules of the new and old versions of the engine do not match.
+#. Old and new engine API do not match.
+
+In order to update the list of modules imported in developer version of application go to project source directory ``apps_dev/my_project`` and execute module list generator script:
+
+.. code-block:: bash
+
+    python3 ../../scripts/mod_list.py
+
+For MS Windows users:
+
+.. code-block:: console
+
+    python ..\..\scripts\mod_list.py
+
+.. note::
+
+    To run the scripts the Python 3.x needs to be installed in your system.
+
+The console will print the list of modules - copy them and paste into the main HTML file:
+
+.. code-block:: html
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <script type="text/javascript" src="../../src/b4w.js"></script>
+        <script type="text/javascript" src="../../src/anchors.js"></script>
+        <script type="text/javascript" src="../../src/animation.js"></script>
+        <script type="text/javascript" src="../../src/assets.js"></script>
+        <script type="text/javascript" src="../../src/batch.js"></script>
+        <script type="text/javascript" src="../../src/boundings.js"></script>
+        <script type="text/javascript" src="../../src/camera.js"></script>
+        . . .
+    </head>
+
+
+To eliminate API incompatibilities you may require refactoring of your app. All changes are described in :ref:`release notes <release_notes>`.
+
+
+Path to Loaded Application Assets
+---------------------------------
+
+To load .json-files you should use ``get_std_assets_path()`` method from the *config.js* module:
+
+.. code-block:: javascript
+
+    m_data.load(m_config.get_std_assets_path() + "example/example.json", load_cb);
+
+After building the finished app, the paths to assets will change. Thus, using ``get_std_assets_path()`` will allow you to avoid problems with incorrect paths.

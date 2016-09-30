@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>网络播放器 &mdash; Blend4Web 16.08 用户手册</title>
+  <title>网络播放器 &mdash; Blend4Web 16.09 用户手册</title>
   
 
   
@@ -32,8 +32,8 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
-        <link rel="next" title="Add-on" href="addon.html"/>
+    <link rel="top" title="Blend4Web 16.09 用户手册" href="index.html"/>
+        <link rel="next" title="插件" href="addon.html"/>
         <link rel="prev" title="场景预览器" href="viewer.html"/> 
 
   
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -84,10 +84,10 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">网络播放器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">用法</a></li>
@@ -98,7 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#scene-errors">场景错误</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -227,8 +227,8 @@
 </li>
 <li><p class="first">通过Google+分享;</p>
 </li>
-<li><p class="first">通过VK分享。</p>
-</li>
+<li>share via VK;</li>
+<li>share via Weibo.</li>
 </ol>
 </div>
 <div class="section" id="attributes">
@@ -251,10 +251,12 @@
 </li>
 <li><p class="first">该 <code class="docutils literal"><span class="pre">compressed_textures</span></code> 可选参数用于启用加载精缩和压缩纹理（在DDS格式）。</p>
 </li>
+<li>the <code class="docutils literal"><span class="pre">compressed_textures_pvr</span></code> optional parameter is used to enable loading of textures compressed in PVRTC format. This parameter is used with the <code class="docutils literal"><span class="pre">compressed_textures</span></code> parameter.</li>
 <li><p class="first">可选 <code class="docutils literal"><span class="pre">alpha</span></code> 参数用于启用对描画区域的透明度。</p>
 </li>
 <li><p class="first">可选的 <code class="docutils literal"><span class="pre">no_social</span></code> 属性用于在控制面板上禁用社交网络按钮。</p>
 </li>
+<li>the optional <code class="docutils literal"><span class="pre">socials</span></code> attribute is used to selectively enable and disable social network buttons on the control panel. This attribute should look like <code class="docutils literal"><span class="pre">socials=&lt;...&gt;</span></code>, where <code class="docutils literal"><span class="pre">&lt;...&gt;</span></code> is a set of letters corresponding to the social network buttons you want to enable (<code class="docutils literal"><span class="pre">f</span></code> for Facebook, <code class="docutils literal"><span class="pre">v</span></code> for VK, <code class="docutils literal"><span class="pre">t</span></code> for Twitter, <code class="docutils literal"><span class="pre">w</span></code> for Weibo and <code class="docutils literal"><span class="pre">g</span></code> for Google+). The order of letters sets the order in which the buttons will appear on the screen.</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -303,7 +305,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="addon.html" class="btn btn-neutral float-right" title="Add-on" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="addon.html" class="btn btn-neutral float-right" title="插件" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="viewer.html" class="btn btn-neutral" title="场景预览器" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -316,7 +318,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-08-31.
+      最后更新于 2016-09-29.
 
     </p>
   </div>
@@ -372,7 +374,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

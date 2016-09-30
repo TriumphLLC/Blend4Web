@@ -1,4 +1,5 @@
-#export depth_fetch
+#ifndef DEPTH_FETCH_GLSLF
+#define DEPTH_FETCH_GLSLF
 
 float depth_fetch(in sampler2D depth_tex, in vec2 coord, in vec2 cam_range) {
 
@@ -12,3 +13,5 @@ float depth_fetch(in sampler2D depth_tex, in vec2 coord, in vec2 cam_range) {
 
     return depth_linear;
 }
+
+#endif

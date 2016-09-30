@@ -55,10 +55,8 @@ exports.ERROR = 28;
 
 // Debug message types
 exports.DECL_RESERVED = 29;
-exports.UNDECLARED_ID = 30;
-exports.EXP_DATA_VIOLATION = 32;
-exports.IMP_DATA_VIOLATION = 33;
-exports.POSSIBLE_IMPORT = 34;
+// exports.UNDECLARED_ID = 30;
 exports.UNSUPPORTED_EXTENSION = 35;
 exports.EXT_ALL_WRONG_BEHAVIOR = 36;
 exports.VERSION_REQUIRED = 37;
+exports.SHADER_TYPE_ERROR = 38;

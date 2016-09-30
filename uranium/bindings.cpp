@@ -55,6 +55,7 @@ void du_create_world()
     dispatcher = new btCollisionDispatcher(cconf);
 
     _world = new duWorld(dispatcher, broadphase, csolver, cconf);
+    _world->setGravity(btVector3(0, 0, -10));
 }
 
 void du_cleanup_world()
@@ -314,7 +315,7 @@ du_shape_id du_create_cylinder_shape(float ext_x, float ext_y, float ext_z,
         float cm_x, float cm_y, float cm_z)
 {
 
-    btCollisionShape *cyl = new btCylinderShape(btVector3(ext_x, ext_y, ext_z));
+    btCollisionShape *cyl = new btCylinderShapeZ(btVector3(ext_x, ext_y, ext_z));
     cyl = consider_compound(cyl, cm_x, cm_y, cm_z);
     return reinterpret_cast <du_shape_id>(cyl);
 }
@@ -323,7 +324,7 @@ du_shape_id du_create_cone_shape(float radius, float height,
         float cm_x, float cm_y, float cm_z)
 {
 
-    btCollisionShape *con = new btConeShape(radius, height);
+    btCollisionShape *con = new btConeShapeZ(radius, height);
     con = consider_compound(con, cm_x, cm_y, cm_z);
     return reinterpret_cast <du_shape_id>(con);
 }
@@ -339,7 +340,7 @@ du_shape_id du_create_sphere_shape(float radius, float cm_x, float cm_y,
 du_shape_id du_create_capsule_shape(float radius, float height,
         float cm_x, float cm_y, float cm_z)
 {
-    btCollisionShape *cap = new btCapsuleShape(radius, height);
+    btCollisionShape *cap = new btCapsuleShapeZ(radius, height);
     cap = consider_compound(cap, cm_x, cm_y, cm_z);
     return reinterpret_cast <du_shape_id>(cap);
 }
@@ -795,7 +796,7 @@ du_vehicle_id du_create_vehicle(du_body_id chassis, du_vehicle_tuning_id tuning)
     btRaycastVehicle *vehicle = new btRaycastVehicle(*bt_tuning, bt_chassis,
             raycaster);
 
-    vehicle->setCoordinateSystem(0, 1, 2);
+    vehicle->setCoordinateSystem(0, 2, 1);
 
     return reinterpret_cast <du_vehicle_id>(vehicle);
 }
@@ -808,7 +809,7 @@ du_boat_id du_create_boat(du_body_id hull, float float_factor,
     duBoat *boat = new duBoat(du_hull, float_factor,
                               water_lin_damp, water_rot_damp);
 
-    boat->setCoordinateSystem(0, 1, 2);
+    boat->setCoordinateSystem(0, 2, 1);
 
     return reinterpret_cast <du_boat_id>(boat);
 }
@@ -893,8 +894,8 @@ void du_vehicle_add_wheel(du_vehicle_id vehicle, du_vehicle_tuning_id tuning,
             <btRaycastVehicle::btVehicleTuning*>(tuning);
 
     btVector3 conn_point_cs0(conn_point[0], conn_point[1], conn_point[2]);
-    btVector3 wheel_dir_cs0( 0,-1, 0);
-    btVector3 wheel_axle_cs(-1, 0, 0);
+    btVector3 wheel_dir_cs0( 0, 0,-1);
+    btVector3 wheel_axle_cs(1, 0, 0);
 
     bt_vehicle->addWheel(conn_point_cs0, wheel_dir_cs0, wheel_axle_cs, 
             susp_rest_len, radius, *bt_tuning, front);
@@ -1431,6 +1432,8 @@ void du_update_vehicle_controls(du_vehicle_id vehicle, float engine_force,
 {
     btRaycastVehicle *bt_vehicle = reinterpret_cast <btRaycastVehicle*>(vehicle);
 
+    // NOTE: in Z-up configuration it goes in reverse direction
+    engine_force *= -1;
     bt_vehicle->applyEngineForce(engine_force, 2);
     bt_vehicle->applyEngineForce(engine_force, 3);
 
@@ -1531,7 +1534,8 @@ void du_get_floater_bob_trans_quat(du_floater_id floater, int bob_num,
 float du_get_vehicle_speed(du_vehicle_id vehicle)
 {
     btRaycastVehicle *bt_vehicle = reinterpret_cast <btRaycastVehicle*>(vehicle);
-    return bt_vehicle->getCurrentSpeedKmHour();
+    // NOTE: in Z-up configuration it goes in reverse direction
+    return -bt_vehicle->getCurrentSpeedKmHour();
 }
 
 float du_get_boat_speed(du_boat_id boat)
@@ -1632,10 +1636,10 @@ void du_get_character_trans_quat(du_character_id character, du_body_id body,
     btScalar rotation_angle = du_character->getHorRotationAngle();
 
     float half = rotation_angle * 0.5;
-    dest_quat[3] = cosf(half);
     dest_quat[0] = 0.0;
-    dest_quat[1] = sinf(half);
-    dest_quat[2] = 0.0;
+    dest_quat[1] = 0.0;
+    dest_quat[2] = sinf(half);
+    dest_quat[3] = cosf(half);
 
     btVector3 lin_vel = bt_obj->getInterpolationLinearVelocity();
     dest_linvel[0] = lin_vel.x();
@@ -1651,7 +1655,7 @@ void du_get_character_trans_quat(du_character_id character, du_body_id body,
 void du_set_gravity(du_body_id body, float gravity)
 {
     btRigidBody *bt_body = reinterpret_cast <btRigidBody*>(body);
-    bt_body->setGravity(btVector3(0, -gravity, 0));
+    bt_body->setGravity(btVector3(0, 0, -gravity));
 }
 
 void du_set_damping(du_body_id body, float damping, float rotation_damping)

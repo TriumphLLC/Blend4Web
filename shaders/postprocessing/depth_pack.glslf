@@ -1,15 +1,16 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var PRECISION lowp
+#var PRECISION highp
 
 /*============================================================================*/
 
 precision PRECISION sampler2D;
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <pack.glslf>
 #include <depth_fetch.glslf>
 
@@ -30,6 +31,6 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 void main(void) {
     GLSL_OUT_FRAG_COLOR = pack(clamp(depth_fetch(u_depth, v_texcoord, 
-    		u_camera_range), 0.0, 0.999999));
+            u_camera_range), 0.0, 0.999999));
 }
 

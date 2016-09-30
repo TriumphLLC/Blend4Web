@@ -3,12 +3,12 @@ if (b4w.module_check("game_config"))
 
 b4w.register("game_config", function(exports, require) {
 
-exports.DEFAULT_POS = new Float32Array([0, -4, 0]);
+exports.DEFAULT_POS = new Float32Array([0, 0, -4]);
 
 exports.LEVEL_LOAD_DELAY = 1.5;
 
 // gems
-exports.GEM_OFFSET = new Float32Array([0, 1, 0]);
+exports.GEM_OFFSET = new Float32Array([0, 0, 1]);
 exports.GEM_ROT_OFFSET = new Float32Array([0, 0, 0, 1]);
 exports.GEM_SCALE_OFFSET = 0.6;
 
@@ -40,7 +40,7 @@ exports.CHAR_SWORD_SWITCHER = "flaming_sword_switcher";
 exports.MOUSE_ROT_MULT = 2;
 exports.TOUCH_ROT_MULT = 0.007;
 exports.CAM_SOFTNESS = 0.2;
-exports.CAM_OFFSET = new Float32Array([0, 8, -15]);
+exports.CAM_OFFSET = new Float32Array([0, 15, 8]);
 exports.CHAR_RAY_LENGTH = 1.2;
 
 exports.MAX_CHAR_HP = 100;

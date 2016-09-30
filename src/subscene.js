@@ -1131,6 +1131,9 @@ exports.append_draw_data = function(subs, rb) {
     var batch = rb.batch;
     var shader = batch.shader;
 
+    // TODO: need to find a better place to switch this flag
+    batch.shader_updated = false;
+
     // remove existing draw data if any
     for (var i = 0; i < subs.draw_data.length; i++) {
         var ddata = subs.draw_data[i];
@@ -1143,9 +1146,6 @@ exports.append_draw_data = function(subs, rb) {
         }
     }
 
-    // TODO: need to find a better place to switch this flag
-    batch.shader_updated = 0;
-
     if (subs.blend)
         var offset_z = batch.offset_z;
     else
@@ -1156,12 +1156,10 @@ exports.append_draw_data = function(subs, rb) {
     if (exist_ddata)
         exist_ddata.bundles.push(rb);
     else {
-        var d_data = init_draw_data(shader, rb, batch.alpha_clip, batch.offset_z);
+        var d_data = init_draw_data(shader, rb, batch.alpha_clip, offset_z);
         subs.draw_data.push(d_data);
-        return true;
+        subs.need_draw_data_sort = true;
     }
-
-    return false;
 }
 
 function init_draw_data(shader, rb, alpha_clip, offset_z) {

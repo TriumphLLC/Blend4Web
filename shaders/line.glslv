@@ -1,17 +1,9 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
-==============================================================================*/
-#var AU_QUALIFIER uniform
-#var PRECISION lowp
-#var MAX_BONES 0
-
-/*==============================================================================
                                   INCLUDES
 ==============================================================================*/
-#define M_PI 3.14159265359
-
+#include <std.glsl>
 #include <math.glslv>
 #include <to_world.glslv>
 
@@ -38,16 +30,16 @@ uniform float u_line_width;
 ==============================================================================*/
 
 void main() {
-    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
-    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+    mat3 view_tsr = u_view_tsr;
+    mat3 model_tsr = u_model_tsr;
 
     vertex world = to_world(a_position, vec3(0.0), vec3(0.0), vec3(0.0),
-            vec3(0.0), normalize(a_direction), model_mat);
+            vec3(0.0), normalize(a_direction), model_tsr);
 
-    vec4 pos_cam = u_proj_matrix * view_matrix * vec4(world.position, 1.0);
+    vec4 pos_cam = u_proj_matrix * vec4(tsr9_transform(view_tsr, world.position), 1.0);
     pos_cam.xyz /= pos_cam.w;
 
-    vec2 dir_cam = (u_proj_matrix * view_matrix * vec4(world.normal, 0.0)).xy;
+    vec2 dir_cam = (u_proj_matrix * vec4(tsr9_transform_dir(view_tsr, world.normal), 0.0)).xy;
 
     float angle = M_PI/2.0;
 

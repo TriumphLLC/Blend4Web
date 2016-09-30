@@ -82,7 +82,9 @@ Blend4Web SDK分布和您的网站进行部署。您可以将导出的场景文�
 
 11. 通过Google+分享;
 
-12. 通过VK分享。
+12. share via VK;
+
+13. share via Weibo.
 
 
 属性
@@ -109,9 +111,21 @@ Blend4Web SDK分布和您的网站进行部署。您可以将导出的场景文�
 6. 该 "compressed_textures" 可选参数用于启用加载精缩和压缩纹理（在
    DDS 格式）。
 
-7. 可选 "alpha" 参数用于启用对描画区域的透明度。
+7. the "compressed_textures_pvr" optional parameter is used to
+   enable loading of textures compressed in PVRTC format. This
+   parameter is used with the "compressed_textures" parameter.
 
-8. 可选的 "no_social" 属性用于在控制面板上禁用社交网络按钮。
+8. 可选 "alpha" 参数用于启用对描画区域的透明度。
+
+9. 可选的 "no_social" 属性用于在控制面板上禁用社交网络按钮。
+
+10. the optional "socials" attribute is used to selectively enable
+    and disable social network buttons on the control panel. This
+    attribute should look like "socials=<...>", where "<...>" is a set
+    of letters corresponding to the social network buttons you want to
+    enable ("f" for Facebook, "v" for VK, "t" for Twitter, "w" for
+    Weibo and "g" for Google+). The order of letters sets the order in
+    which the buttons will appear on the screen.
 
 注解: 如果同时 "fallback_image" 和 "fallback_video" 参数指定
   "fallback_image" 参数被使用。

@@ -32,7 +32,7 @@ exports.setup_falling_rocks = function(elapsed_sensor) {
 
         var rock_pos = _vec3_tmp;
         m_trans.get_translation(obj, rock_pos);
-        rock_pos[1] -= m_conf.ROCK_SPEED * elapsed;
+        rock_pos[2] -= m_conf.ROCK_SPEED * elapsed;
         m_trans.set_translation_v(obj, rock_pos);
     }
 
@@ -85,7 +85,7 @@ exports.setup_falling_rocks = function(elapsed_sensor) {
 
         if (falling_time[obj_name] <= m_conf.ROCK_FALL_DELAY) {
             m_trans.get_translation(obj, mark_pos);
-            mark_pos[1] -= ray_dist * m_conf.ROCK_RAY_LENGTH - 0.01;
+            mark_pos[2] -= ray_dist * m_conf.ROCK_RAY_LENGTH - 0.01;
             m_trans.set_translation_v(mark, mark_pos);
         }
 
@@ -112,9 +112,9 @@ exports.setup_falling_rocks = function(elapsed_sensor) {
             var coll_sens_island = m_ctl.create_collision_sensor(rock, "ISLAND", true);
 
             var ray_sens_island = m_ctl.create_ray_sensor(rock, [0, 0, 0],
-                                        [0, -m_conf.ROCK_RAY_LENGTH, 0], "ISLAND", true);
+                                        [0, 0, -m_conf.ROCK_RAY_LENGTH], "ISLAND", true);
             var ray_sens_lava = m_ctl.create_ray_sensor(rock, [0, 0, 0],
-                                        [0, -m_conf.ROCK_RAY_LENGTH, 0], "LAVA", true);
+                                        [0, 0, -m_conf.ROCK_RAY_LENGTH], "LAVA", true);
 
             m_ctl.create_sensor_manifold(rock, "ROCK_FALL", m_ctl.CT_CONTINUOUS,
                                          [elapsed_sensor], null, rock_fall_cb);
@@ -137,8 +137,8 @@ exports.setup_falling_rocks = function(elapsed_sensor) {
 function set_random_rock_position(rock) {
     var pos = _vec3_tmp;
     pos[0] = 8 * Math.random() - 4;
-    pos[1] = 4 * Math.random() + 2;
-    pos[2] = 8 * Math.random() - 4;
+    pos[1] = 8 * Math.random() - 4;
+    pos[2] = 4 * Math.random() + 2;
     m_trans.set_translation_v(rock, pos);
 }
 
@@ -169,7 +169,7 @@ exports.setup_lava = function (elapsed_sensor) {
     }
 
     var char_wrapper = m_char.get_wrapper();
-    var lava_ray = m_ctl.create_ray_sensor(char_wrapper.phys_body, [0, 0, 0], [0, -0.30, 0],
+    var lava_ray = m_ctl.create_ray_sensor(char_wrapper.phys_body, [0, 0, 0], [0, 0, -0.30],
                                            "LAVA", true);
 
     m_ctl.create_sensor_manifold(char_wrapper.phys_body, "LAVA_COLLISION",

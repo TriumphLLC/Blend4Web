@@ -1,15 +1,32 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
+#var WO_SKYTEX 0
+#var WO_SKYREAL 0
+#var WO_SKYBLEND 0
+
+#var PROCEDURAL_SKYDOME 0
+#var WATER_EFFECTS 0
+#var DISABLE_FOG 0
+#var WO_SKYPAPER 0
+
+#var REFLECTION_PASS REFL_PASS_NONE
 #var WATER_LEVEL 0.0
+
+#var BLENDTYPE MIX
+#var MTEX_RGBTOINT 0
+#var MTEX_NEGATIVE 0
+#var WOMAP_HORIZ 0
+#var WOMAP_ZENUP 0
+#var WOMAP_ZENDOWN 0
+#var WOMAP_BLEND 0
 
 /*============================================================================*/
 
-#define INV_PI 0.318309886
-
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <color_util.glslf>
 
 #if WO_SKYTEX || PROCEDURAL_SKYDOME
@@ -18,7 +35,6 @@ uniform samplerCube u_sky;
 
 #if !PROCEDURAL_SKYDOME && WO_SKYTEX
 
-#include <std_enums.glsl>
 #include <blending.glslf>
 
 uniform vec4 u_sky_tex_fac; // blendfac, horizonfac, zenupfac, zendownfac
@@ -102,7 +118,7 @@ uniform vec3 u_horizon_color;
 uniform vec3 u_zenith_color;
 #endif
 
-#if WATER_EFFECTS && !DISABLE_FOG && !REFLECTION_PASS
+#if WATER_EFFECTS && !DISABLE_FOG && REFLECTION_PASS == REFL_PASS_NONE
 uniform vec3 u_camera_eye_frag;
 uniform vec4 u_underwater_fog_color_density;
 #endif
@@ -153,7 +169,7 @@ void main(void) {
     blend = (v_texcoord.y + 1.0) * 0.5;
 #   endif
 #  else
-    float alpha = acos(ray.y);
+    float alpha = acos(ray.z);
 #   if WO_SKYREAL
     blend = abs(alpha * INV_PI - 0.5) * 2.0;
 #   else
@@ -201,7 +217,7 @@ void main(void) {
 #   if WOMAP_ZENUP || WOMAP_ZENDOWN
     float zenfac = 0.0;
 #    if WO_SKYREAL
-    if (dot(view, vec3(0.0, 1.0, 0.0)) >= 0.0) { // instead of skyflag
+    if (dot(view, vec3(0.0, 0.0, 1.0)) >= 0.0) { // instead of skyflag
 #     if WOMAP_ZENUP
         zenfac = u_sky_tex_fac[2];
 #     else
@@ -249,20 +265,20 @@ void main(void) {
 # endif
 #endif // PROCEDURAL_SKYDOME
 
-#if WATER_EFFECTS && !DISABLE_FOG && !REFLECTION_PASS
+#if WATER_EFFECTS && !DISABLE_FOG && REFLECTION_PASS == REFL_PASS_NONE
     srgb_to_lin(sky_color);
 
     // apply underwater fog to the skyplane
-    float cam_depth = WATER_LEVEL - u_camera_eye_frag.y;
+    float cam_depth = WATER_LEVEL - u_camera_eye_frag.z;
 
     // color of underwater depth
     vec3 depth_col = vec3(0.0);
 
-    vec3 fog_color = mix(u_underwater_fog_color_density.rgb, depth_col, min(-ray.y, 1.0));
+    vec3 fog_color = mix(u_underwater_fog_color_density.rgb, depth_col, min(-ray.z, 1.0));
     fog_color *= min(1.0 - min(0.03 * cam_depth, 0.8), 1.0);
 
     // fog blending factor
-    float factor = clamp(sign(0.01 * cam_depth - ray.y), 0.0, 1.0);
+    float factor = clamp(sign(0.01 * cam_depth - ray.z), 0.0, 1.0);
 
     sky_color = mix(sky_color, fog_color, factor);
     lin_to_srgb(sky_color);

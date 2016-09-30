@@ -65,7 +65,7 @@ function get_nearest_parent_child_by_node(node, parent_types) {
         return null;
 }
 
-exports.recalc_ast_uids = function(ast_input) {
+exports.recalc_ast_uids = function(ast_data) {
     var uid_counter = 0;
     _uid_to_nodes = {};
 
@@ -80,13 +80,13 @@ exports.recalc_ast_uids = function(ast_input) {
             ast_node.uid = new_uid;
             _uid_to_nodes[new_uid] = ast_node;
 
-            if (ast_input.node_with_node_condition.indexOf(old_uid) > -1)
+            if (ast_data.node_with_node_condition.indexOf(old_uid) > -1)
                 node_with_node_condition.push(new_uid);
         }
     }
-    m_trav.traverse_data(ast_input.ast, null, cb_uid_after);    
+    m_trav.traverse_data(ast_data.ast, null, cb_uid_after);    
 
-    ast_input.node_with_node_condition = node_with_node_condition;
+    ast_data.node_with_node_condition = node_with_node_condition;
 
     // recalc parent uid
     var parent_uids_stack = [];
@@ -102,8 +102,8 @@ exports.recalc_ast_uids = function(ast_input) {
         if ("uid" in ast_node)
             parent_uids_stack.pop();
     }
-    m_trav.traverse_data(ast_input.ast, cb_parent_uid_before, cb_parent_uid_after);
+    m_trav.traverse_data(ast_data.ast, cb_parent_uid_before, cb_parent_uid_after);
 
-    // update ast_input, because this dict is used during the subsequent searching/collecting
-    ast_input.uid_to_nodes = _uid_to_nodes;
+    // update ast_data, because this dict is used during the subsequent searching/collecting
+    ast_data.uid_to_nodes = _uid_to_nodes;
 }

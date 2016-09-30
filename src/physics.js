@@ -968,11 +968,10 @@ function init_vehicle(obj, worker) {
         switch (obj.vehicle.type) {
 
         case VT_CHASSIS:
-            // NOTE: swap left and right wheels in vehicle
-            add_vehicle_prop(props[1], obj, body_id, true, worker);
             add_vehicle_prop(props[0], obj, body_id, true, worker);
-            add_vehicle_prop(props[3], obj, body_id, false, worker);
+            add_vehicle_prop(props[1], obj, body_id, true, worker);
             add_vehicle_prop(props[2], obj, body_id, false, worker);
+            add_vehicle_prop(props[3], obj, body_id, false, worker);
             break;
         case VT_HULL:
             for (var i = 0; i < props.length; i++)
@@ -1003,7 +1002,7 @@ function add_vehicle_prop(obj_prop, obj_chassis_hull, chassis_body_id,
 
         // NOTE: using bounding box, not cylinder
         var bb = obj_prop.render.bb_local;
-        var radius = (bb.max_y - bb.min_y) / 2;
+        var radius = (bb.max_z - bb.min_z) / 2;
 
         m_ipc.post_msg(worker, m_ipc.OUT_ADD_CAR_WHEEL, chassis_body_id, conn_point,
                 suspension_rest_length, roll_influence, radius, is_front);
@@ -1019,7 +1018,7 @@ function init_character(obj, worker) {
     var render = obj.render;
     var phy    = obj.physics;
 
-    var height       = render.bb_local.max_y - render.bb_local.min_y;
+    var height       = render.bb_local.max_z - render.bb_local.min_z;
     var character_id = phy.body_id;
 
     var char_settings = obj.character_settings;
@@ -2165,10 +2164,12 @@ exports.get_vehicle_speed = function(obj) {
 }
 
 exports.wheel_index = function(vehicle_part) {
+    /* 1 --- 0
+     * 2 --- 3 */
     switch (vehicle_part) {
-    case "WHEEL_FRONT_LEFT":
-        return 0;
     case "WHEEL_FRONT_RIGHT":
+        return 0;
+    case "WHEEL_FRONT_LEFT":
         return 1;
     case "WHEEL_BACK_LEFT":
         return 2;

@@ -1,43 +1,66 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var WATER_LEVEL 0.0
-#var WAVES_HEIGHT 0.0
-#var NUM_LAMP_LIGHTS 0
+#var PRECISION highp
+
+#var SHADELESS 0
+#var CAUSTICS 0
+#var USE_ENVIRONMENT_LIGHT 0
+#var SKY_TEXTURE 0
+#var SKY_COLOR 0
+#var NORMAL_TEXCOORD 0
+#var USE_VIEW_MATRIX 0
+#var USE_VIEW_MATRIX_INVERSE 0
+#var USE_MODEL_MATRIX 0
+#var USE_MODEL_MATRIX_INVERSE 0
+#var WATER_EFFECTS 0
+#var USE_FOG 0
+#var CALC_TBN_SPACE 0
+#var MAIN_BEND_COL 0
+#var DETAIL_BEND 0
+#var TEXTURE_NORM_CO TEXTURE_COORDS_NONE
+#var PARALLAX 0
+#var USE_TBN_SHADING 0
+
+#var NODES 0
+#var ALPHA 0
+#var ALPHA_CLIP 0
+#var WETTABLE 0
 #var NUM_VALUES 0
 #var NUM_RGBS 0
-
-#var PARALLAX_STEPS 0.0
-#var PARALLAX_LOD_DIST 0.0
-#var WATER_LEVEL 0.0
-#var WAVES_HEIGHT 0.0
-
-// lamp dirs
+#var WIND_BEND 0
+#var DISABLE_FOG 0
+#var SHADOW_USAGE NO_SHADOWS
 #var NUM_LIGHTS 0
-#var LAMP_IND 0
-#var LAMP_SPOT_SIZE 0
-#var LAMP_SPOT_BLEND 0
-#var LAMP_LIGHT_DIST 0
-#var LAMP_LIGHT_FACT_IND 0
-#var LAMP_FAC_CHANNELS rgb
-#var LAMP_SHADOW_MAP_IND 0
+#var NUM_LAMP_LIGHTS 0
 #var NUM_LFACTORS 0
+#var SSAO_ONLY 0
+#var REFLECTION_TYPE REFL_NONE
+#var PROCEDURAL_FOG 0
+#var REFRACTIVE 0
+#var USE_REFRACTION 0
+#var USE_REFRACTION_CORRECTION 0
+
+#var CSM_SECTION1 0
+#var CSM_SECTION2 0
+#var CSM_SECTION3 0
+#var NUM_CAST_LAMPS 0
+
+#var WATER_LEVEL 0.0
+#var POISSON_DISK_NUM NO_SOFT_SHADOWS
 
 /*==============================================================================
                                   INCLUDES
 ==============================================================================*/
-#include <std_enums.glsl>
-
 #include <precision_statement.glslf>
-#include <pack.glslf>
+#include <std.glsl>
 
 #include <color_util.glslf>
 #include <math.glslv>
 
 #if !SHADELESS
-#include <procedural.glslf>
 # if CAUSTICS
 #include <caustics.glslf>
 # endif
@@ -77,21 +100,19 @@ uniform vec3 u_sun_direction;
 
 uniform vec3 u_camera_eye_frag;
 
-#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW
+#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW || USE_VIEW_MATRIX
 uniform mat3 u_view_tsr_frag;
 #endif
 
-#if USE_ZUP_VIEW_MATRIX
-uniform mat3 u_view_zup_tsr;
+#if USE_VIEW_MATRIX_INVERSE
+uniform mat3 u_view_tsr_inverse;
 #endif
-#if USE_ZUP_VIEW_MATRIX_INVERSE
-uniform mat3 u_view_zup_tsr_inverse;
+#if USE_MODEL_MATRIX
+// it's always dynamic object
+uniform mat3 u_model_tsr;
 #endif
-#if USE_ZUP_MODEL_MATRIX
-uniform mat3 u_model_zup_tsr;
-#endif
-#if USE_ZUP_MODEL_MATRIX_INVERSE
-uniform mat3 u_model_zup_tsr_inverse;
+#if USE_MODEL_MATRIX_INVERSE
+uniform mat3 u_model_tsr_inverse;
 #endif
 
 #if !DISABLE_FOG
@@ -123,17 +144,19 @@ uniform samplerCube u_mirrormap;
 #if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
 uniform sampler2D u_shadow_mask;
 #elif SHADOW_USAGE == SHADOW_MAPPING_BLEND
+# if POISSON_DISK_NUM != NO_SOFT_SHADOWS
 uniform vec4 u_pcf_blur_radii;
+# endif
 uniform vec4 u_csm_center_dists;
-uniform PRECISION sampler2D u_shadow_map0;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map0;
 # if CSM_SECTION1 || NUM_CAST_LAMPS > 1
-uniform PRECISION sampler2D u_shadow_map1;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map1;
 # endif
 # if CSM_SECTION2 || NUM_CAST_LAMPS > 2
-uniform PRECISION sampler2D u_shadow_map2;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map2;
 # endif
 # if CSM_SECTION3 || NUM_CAST_LAMPS > 3
-uniform PRECISION sampler2D u_shadow_map3;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map3;
 # endif
 #endif
 
@@ -192,13 +215,13 @@ GLSL_IN vec3 v_pos_world;
 GLSL_IN vec3 v_normal;
 #endif
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) \
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
         || (!SHADELESS && CAUSTICS && WATER_EFFECTS) \
         || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
 GLSL_IN vec4 v_pos_view;
 #endif
 
-#if TEXTURE_NORM_CO || CALC_TBN_SPACE
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE || CALC_TBN_SPACE
 GLSL_IN vec4 v_tangent;
 #endif
 
@@ -235,17 +258,6 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
                                   INCLUDES
 ==============================================================================*/
 
-#include <mirror.glslf>
-#include <environment.glslf>
-
-#if !SHADELESS
-#include <shadow.glslf>
-#endif
-
-#if USE_NODE_B4W_REFRACTION && USE_REFRACTION
-#include <refraction.glslf>
-#endif
-
 #include <nodes.glslf>
 
 #if !DISABLE_FOG
@@ -258,13 +270,13 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 void main(void) {
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) \
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
         || (!SHADELESS && CAUSTICS && WATER_EFFECTS)
     float view_dist = length(v_pos_view);
 #endif
 
 #if WATER_EFFECTS
-    float dist_to_water = v_pos_world.y - WATER_LEVEL;
+    float dist_to_water = v_pos_world.z - WATER_LEVEL;
 #endif
 
     vec3 eye_dir = normalize(u_camera_eye_frag - v_pos_world);
@@ -273,36 +285,31 @@ void main(void) {
     vec3 nout_normal;
     vec4 nout_shadow_factor;
     float nout_alpha;
+    mat3 nin_view_tsr              = mat3(0.0);
 
-    mat4 nin_view_matrix = mat4(0.0);
-    mat4 nin_zup_view_matrix = mat4(0.0);
-    mat4 nin_zup_view_matrix_inverse = mat4(0.0);
-    mat4 nin_zup_model_matrix = mat4(0.0);
-    mat4 nin_zup_model_matrix_inverse = mat4(0.0);
+    mat3 nin_view_tsr_inverse      = mat3(0.0);
+    mat3 nin_model_tsr             = mat3(0.0);
+    mat3 nin_model_tsr_inverse     = mat3(0.0);
 
-#if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW
-    nin_view_matrix = tsr_to_mat4(u_view_tsr_frag);
+#if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW || USE_VIEW_MATRIX
+    nin_view_tsr = u_view_tsr_frag;
 #endif
 
-#if USE_ZUP_VIEW_MATRIX
-    nin_zup_view_matrix = tsr_to_mat4(u_view_zup_tsr);
+#if USE_VIEW_MATRIX_INVERSE
+    nin_view_tsr_inverse = u_view_tsr_inverse;
 #endif
-#if USE_ZUP_VIEW_MATRIX_INVERSE
-    nin_zup_view_matrix_inverse = tsr_to_mat4(u_view_zup_tsr_inverse);
+#if USE_MODEL_MATRIX
+    nin_model_tsr = u_model_tsr;
 #endif
-#if USE_ZUP_MODEL_MATRIX
-    nin_zup_model_matrix = tsr_to_mat4(u_model_zup_tsr);
-#endif
-#if USE_ZUP_MODEL_MATRIX_INVERSE
-    nin_zup_model_matrix_inverse = tsr_to_mat4(u_model_zup_tsr_inverse);
+#if USE_MODEL_MATRIX_INVERSE
+    nin_model_tsr_inverse = u_model_tsr_inverse;
 #endif
 
     nodes_main(eye_dir,
-            nin_view_matrix,
-            nin_zup_view_matrix,
-            nin_zup_view_matrix_inverse,
-            nin_zup_model_matrix,
-            nin_zup_model_matrix_inverse,
+            nin_view_tsr,
+            nin_view_tsr_inverse,
+            nin_model_tsr,
+            nin_model_tsr_inverse,
             nout_color,
             nout_specular_color,
             nout_normal,
@@ -347,8 +354,7 @@ void main(void) {
 #endif
 
 #if SSAO_ONLY && SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
-    vec2 visibility = GLSL_TEXTURE_PROJ(u_shadow_mask, v_tex_pos_clip).rg;
-    float ssao = visibility.g;
+    float ssao = GLSL_TEXTURE_PROJ(u_shadow_mask, v_tex_pos_clip).a;
     color = vec3(ssao);
 #endif
 

@@ -723,7 +723,8 @@ exports.check_image_extension = function(ext) {
             || ext == "jpeg"
             || ext == "gif"
             || ext == "bmp"
-            || ext == "dds")
+            || ext == "dds"
+            || ext == "pvr")
         return true;
 
     return false;

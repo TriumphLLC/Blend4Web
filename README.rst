@@ -1,22 +1,18 @@
-*****************************
-Blend4Web: a 3D Web Framework
-*****************************
+****************************************
+Blend4Web: Award-Winning 3D Web Solution
+****************************************
 
-Blend4Web is a tool for interactive 3D visualization on the Internet. Our framework is well suited for showcasing products, e-learning, game development, advertising and webdesign.
+Blend4Web is a tool for creating interactive, web-based 3D content. The framework can be used for showcasing products, e-learning, game development, advertising and web design.
 
-.. image:: https://www.blend4web.com/static/blend4web/images/about/blend4web_scheme.png
-    :alt: Blender + Web = Blend4Web
-    :align: center
+Why Blend4Web?
 
-The major distinguishing features of Blend4Web are:
-
-* It works right in the web browser without installing any plug-ins (WebGL technology);
+* It works right in the web browser without installing any plug-ins (thanks to WebGL);
 * Not only does it render 3D graphics but it also integrates realistic physics and spatial audio;
 * It is extremely simple to use because it is based on Blender in which 3D scenes can be made and then directly exported, even as a standalone web page;
 * It is available as a fully functional open source version or as under a paid commercial license.
 * It does not depend on any non-free components or cloud services.
 
-This repo mirrors the community edition SDK distribution which can be also `downloaded from the official site <https://www.blend4web.com/en/downloads/>`_.
+This repo mirrors the community edition SDK distribution which can also be `downloaded from the official site <https://www.blend4web.com/en/downloads/>`_.
 
 -----
 
@@ -43,15 +39,15 @@ Tutorials
 |tortoise| |visualizing_grass| |simple_app|
 |machinima| |soffit| |beach_umbrella|
 
-============
-Installation
-============
+===============
+Getting Started
+===============
 
 You need a compatible version of Blender installed in order to use Blend4Web.
 
-----------------------------------------
-Step 1 - Specifying Blender Scripts Path
-----------------------------------------
+---------------------------------
+Step 1 - Specify the Scripts Path
+---------------------------------
 
 * Run Blender, load the default scene **File > New**;
 * Open the user preferences window **File > User Preferences...**;
@@ -62,23 +58,23 @@ Step 1 - Specifying Blender Scripts Path
     :alt: Specifying Blender Scripts Path
     :align: center
 
-----------------------------
-Step 2 - Enabling the Add-on
-----------------------------
+--------------------------
+Step 2 - Enable the Add-on
+--------------------------
 
 * Again load the default scene;
 * Open the user preferences window;
 * Go to the **Add-ons** tab and select **Import-Export**. Turn on the **Import-Export: Blend4Web** checkbox;
+* Click **Save User Settings**.
 
 .. image:: https://www.blend4web.com/doc/en/_images/user_preferences_enable_addon.png
     :alt: Enabling the Add-on
     :align: center
 
-* Click **Save User Settings**. Restarting Blender is not required.
 
-============
-What is Next
-============
+===================
+What's Next. Basics
+===================
 
 To reveal the engine settings, select Blend4Web from the upper panel menu.
 
@@ -86,7 +82,7 @@ To reveal the engine settings, select Blend4Web from the upper panel menu.
 Fast Preview
 ------------
 
-Preview scenes using **Fast Preview** button, located both at the bottom of the 3D View window and under the **Render** tab. In this case the scene will be exported inside some temporary storage and opened with the Viewer.
+Preview scenes using **Fast Preview** button, located both at the bottom of the 3D View window and under the **Render** tab. In this case the scene will be exported inside some temporary storage and opened with the Scene Viewer.
 
 ------
 Export
@@ -94,7 +90,7 @@ Export
 
 Select either **Blend4Web (.html)** or **Blend4Web (.json)** option from the **File > Export** menu.
 
-Exported HTML files are self-contained and can be opened with a generic browser right away. On the other hand, exported JSON (together with BIN) files should be opened with the stock Web Player or loaded into your own 3D web app. See the `tutorial <https://www.blend4web.com/en/article/59/>`_.
+Exported HTML files are self-contained and can be opened with a generic browser right away. On the other hand, exported JSON (together with BIN) files should be opened with the stock Web Player or loaded into your own 3D web app. See this `tutorial <https://www.blend4web.com/en/article/59/>`_ for more info.
 
 --------------
 SDK Index Page
@@ -107,15 +103,15 @@ Under the **Render** tab click **SDK Index**. The SDK index page will be opened 
 Support
 =======
 
-We are always happy to answer your questions on the `Blend4Web forums <https://www.blend4web.com/en/forums/>`_.
+We are always glad to answer your questions on the `Blend4Web forums <https://www.blend4web.com/en/forums/>`_. We also offer assistance for Blend4Web PRO owners with any technical issues which may arise (more `here <https://www.blend4web.com/en/services/support/>`_).
 
 
-.. |latest_version| image:: https://img.shields.io/badge/latest%20version-16.08-blue.svg
+.. |latest_version| image:: https://img.shields.io/badge/latest%20version-16.09.1-blue.svg
     :target: https://www.blend4web.com/en/downloads/
     :alt: Latest Version of Blend4Web
 
 .. |compatible_blender_version| image:: https://img.shields.io/badge/compatible%20with%20Blender-2.77-orange.svg
-    :target: https://download.blender.org/release/Blender2.77/
+    :target: https://www.blend4web.com/blender/release/Blender2.77/
     :alt: Compatible Blender Version
 
 .. |license| image:: https://img.shields.io/badge/license-GPLv3-lightgrey.svg

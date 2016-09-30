@@ -1,17 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
+# Blend4Web User Manual Russian Translation: Audio
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as the Blend4Web. User
-# Manual package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# This file is distributed under the same license as Blend4Web.
+# Blend4Web Team <info [at] blend4web.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-30 09:51+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: Blend4Web 16.08\n"
+"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
+"POT-Creation-Date: 2016-09-23 14:43+0300\n"
+"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"Language-Team: Russian <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -335,8 +334,8 @@ msgstr "Этот инструмент - часть интерфейса :ref:`П
 
 #: ../audio.rst:161
 msgid ""
-"Enabling it shows equalizer interface that contains various parameters of"
-" the Speakers present in the scene."
+"Enabling it shows an equalizer interface that contains various parameters"
+" of the Speakers present in the scene."
 msgstr ""
 "Его включение вызывает интерфейс эквалайзера, содержащий различные "
 "параметры источников звука, присутствующих в сцене."
@@ -363,7 +362,7 @@ msgstr ""
 
 #: ../audio.rst:173
 msgid ""
-"This value sets the attenuation factor for the sound emitted by the "
+"This value sets the attenuation factor for the sound emitted by a "
 "selected speaker. Available only for ``Positional Sound`` type speakers."
 msgstr ""
 "Этот параметр задаёт степень затухания звука, издаваемого выбранным "
@@ -381,8 +380,9 @@ msgid ""
 "type speakers."
 msgstr ""
 "Это значение задаёт максимальную дистанцию для выбранного спикера. Если "
-"расстояние от камеры до спикера превышает это расстояние, спикер не будет "
-"издавать звука. Доступно только для источников типа ``Positional Sound``."
+"расстояние от камеры до спикера превышает это расстояние, спикер не будет"
+" издавать звука. Доступно только для источников типа ``Positional "
+"Sound``."
 
 #: ../audio.rst:179
 msgid "*EQ_FREQ*"
@@ -399,8 +399,8 @@ msgstr ""
 #: ../audio.rst:182
 msgid ""
 "The Q factor. This value controls the width of the band of frequencies "
-"that wiil be boosted. Increasing the value of this parameter makes the "
-"width more narrow."
+"that wiil be boosted. Increasing the value of this parameter reduces the "
+"width."
 msgstr ""
 "Фактор Q. Это значение управляет шириной полосы усиливаемых частот. "
 "Увеличение значения сужает полосу."
@@ -434,7 +434,7 @@ msgstr ""
 "параметрического эквалайзера."
 
 #: ../audio.rst:192
-msgid "The mixer can be controlled using numerical keypad."
+msgid "The mixer can be controlled using a numerical keypad."
 msgstr "Микшер управляется с помощью дополнительной цифровой клавиатуры."
 
 #: ../audio.rst:194
@@ -442,8 +442,9 @@ msgid ""
 "Keys ``8``, ``4``, ``6`` and ``2`` act like arrow keys and are used for "
 "switching between different speakers and their parameters."
 msgstr ""
-"Клавиши ``8``, ``4``, ``6`` и ``2`` работают так же, как клавиши-стрелки, "
-"и используются для переключения между источниками звука и выбора их параметров."
+"Клавиши ``8``, ``4``, ``6`` и ``2`` работают так же, как клавиши-стрелки,"
+" и используются для переключения между источниками звука и выбора их "
+"параметров."
 
 #: ../audio.rst:196
 msgid ""
@@ -461,8 +462,7 @@ msgstr "Клавиша ``7`` выключает выбранный сипкер.
 msgid ""
 "The ``9`` key can be used for making the selected speaker Solo (only this"
 " speaker will emit sound)."
-msgstr ""
-"Клавиша ``9`` выключает все спикеры, кроме выбранного."
+msgstr "Клавиша ``9`` выключает все спикеры, кроме выбранного."
 
 #: ../audio.rst:205
 msgid "Processing and Decoding"

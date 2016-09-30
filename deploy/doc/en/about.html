@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; Blend4Web 16.08 User Manual</title>
+  <title>Overview &mdash; Blend4Web 16.09 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="#"/>
-    <link rel="top" title="Blend4Web 16.08 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 User Manual" href="index.html"/>
         <link rel="next" title="Engine Features" href="engine_features.html"/>
         <link rel="prev" title="Table of Contents" href="index.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -90,7 +90,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#what-s-webgl">What&#8217;s WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-browsers-support">WebGL Browsers Support</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#full-support">Full Support</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#experimental-support">Experimental Support</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mobile-platforms">Mobile Platforms</a></li>
 </ul>
 </li>
@@ -105,7 +104,7 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
@@ -212,15 +211,10 @@
 <h3>Full Support<a class="headerlink" href="#full-support" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference external" href="http://www.google.com/chrome">Chrome</a></li>
-<li><a class="reference external" href="http://browser.yandex.ru/">Yandex Browser</a></li>
+<li><a class="reference external" href="http://browser.yandex.com/">Yandex Browser</a></li>
 <li><a class="reference external" href="http://www.mozilla.org/firefox">Firefox</a></li>
 <li><a class="reference external" href="http://www.opera.com/browser">Opera</a></li>
 <li><a class="reference external" href="http://www.apple.com/safari/">Safari</a> 8+</li>
-</ul>
-</div>
-<div class="section" id="experimental-support">
-<h3>Experimental Support<a class="headerlink" href="#experimental-support" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
 <li><a class="reference external" href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Internet Explorer</a> 11</li>
 <li><a class="reference external" href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a></li>
 </ul>
@@ -236,6 +230,7 @@
 <li>Tizen</li>
 <li>Ubuntu Touch</li>
 </ul>
+<p>For further details see the <a class="reference internal" href="problems_and_solutions.html#webgl-support"><span>dedicated section</span></a> in the Problems and Solutions chapter.</p>
 </div>
 </div>
 <div class="section" id="advantages-of-webgl">
@@ -288,7 +283,7 @@
 <li><a class="reference external" href="http://www.w3.org/TR/animation-timing/">Timing control for script-based animations</a> (requestAnimationFrame)</li>
 <li>two-dimensional graphics, <a class="reference external" href="http://www.w3.org/TR/2dcontext/">HTML Canvas 2D Context</a></li>
 <li>sound processing, <a class="reference external" href="http://www.w3.org/TR/webaudio/">Web Audio API</a></li>
-<li>binary data loading, <a class="reference external" href="http://www.w3.org/TR/XMLHttpRequest/">XMLHttpRequest Level 2</a></li>
+<li>binary data loading, <a class="reference external" href="https://www.w3.org/TR/XMLHttpRequest2/">XMLHttpRequest Level 2</a></li>
 <li><a class="reference external" href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">Fullscreen</a></li>
 <li><a class="reference external" href="http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html">Pointer Lock</a></li>
 <li>multithreading, <a class="reference external" href="http://www.w3.org/TR/workers/">Web Workers</a></li>
@@ -312,7 +307,7 @@
 <div class="section" id="video-cards-and-drivers">
 <span id="about-drivers-video-cards"></span><span id="index-10"></span><h2>Video Cards and Drivers<a class="headerlink" href="#video-cards-and-drivers" title="Permalink to this headline">¶</a></h2>
 <p>Interactive graphics is provided by a special-purpose hardware part of modern computers so called graphics processor which can be implemented as a discrete device (video card) or as a part of the central processing unit.</p>
-<p>Main graphics processors vendors for desktop computers are:  - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are specified in brackets).</p>
+<p>Main graphics processors vendors for desktop computers are:  - Nvidia (GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are specified in brackets).</p>
 <p>Program access to graphics processor resources is carried out via an intermediate program called driver. It&#8217;s important for the correct working of interactive graphics programs to have drivers of the latest version in the system. Drivers can be installed (or upgraded) from corresponding websites of graphics processors vendors. See detailed info in the section <a class="reference internal" href="problems_and_solutions.html#webgl-not-working"><span>WebGL Failed to Initialize</span></a>.</p>
 </div>
 </div>
@@ -337,7 +332,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-08-31.
+      Last updated on 2016-09-29.
 
     </p>
   </div>
@@ -393,7 +388,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

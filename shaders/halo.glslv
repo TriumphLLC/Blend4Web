@@ -1,18 +1,24 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var PRECISION lowp
+#var PRECISION highp
+
+#var WATER_EFFECTS 0
+#var DISABLE_FOG 0
+#var SKY_STARS 0
+#var STATIC_BATCH 0
 
 /*============================================================================*/
-
+#include <std.glsl>
 #include <math.glslv>
 #include <to_world.glslv>
 
 uniform mat3 u_view_tsr;
 uniform mat4 u_proj_matrix;
 uniform PRECISION float u_halo_size;
+uniform vec3 u_camera_eye;
 
 #if STATIC_BATCH
 // NOTE:  mat3(0.0, 0.0, 0.0, --- trans
@@ -47,11 +53,11 @@ GLSL_OUT vec4 v_position_world;
 ==============================================================================*/
 
 void main(void) {
-    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+    mat3 view_tsr = u_view_tsr;
 
-    mat4 model_matrix = tsr_to_mat4(u_model_tsr);
+    mat3 model_tsr = u_model_tsr;
 
-    vec3 position = (model_matrix * vec4(a_position, 1.0)).xyz;
+    vec3 position = tsr9_transform(model_tsr, a_position);
 
     v_texcoord = a_halo_bb_vertex * 2.0;
 
@@ -59,26 +65,27 @@ void main(void) {
     v_vertex_random = a_random_vals;
 
 #if SKY_STARS
-    mat4 bb_matrix = billboard_spherical(position, view_matrix);
-    mat4 view_copy = view_matrix;
-    view_copy[3][0] = 0.0;
-    view_copy[3][1] = 0.0;
-    view_copy[3][2] = 0.0;
+    mat3 bb_tsr = billboard_spherical(position, view_tsr);
+    mat3 view_copy = view_tsr;
+    view_copy[0][0] = 0.0;
+    view_copy[0][1] = 0.0;
+    view_copy[0][2] = 0.0;
 #else
-    mat4 bb_matrix = billboard_spherical(position, view_matrix);
+    mat3 bb_tsr = billboard_spherical(position, view_tsr);
 #endif
 
-    vec4 pos_local = vec4(a_halo_bb_vertex * 2.0 * u_halo_size, 0.0, 1.0);
-    vec4 pos_world = bb_matrix * pos_local;
+    vec2 halo_bb_vertex = a_halo_bb_vertex * 2.0 * u_halo_size;
+    vec3 pos_local = vec3(halo_bb_vertex[0], 0.0, halo_bb_vertex[1]);
+    vec3 pos_world = tsr9_transform(bb_tsr, pos_local);
 
 #if SKY_STARS
-    vec4 pos_clip = u_proj_matrix * view_copy * pos_world;
+    vec4 pos_clip = u_proj_matrix * vec4(tsr9_transform(view_copy, pos_world), 1.0);
     pos_clip.z = 0.99999 * pos_clip.w;
 # if WATER_EFFECTS && !DISABLE_FOG
-    v_position_world = pos_world;
+    v_position_world = vec4(pos_world, 1.0);
 # endif
 #else
-    vec4 pos_clip = u_proj_matrix * view_matrix * pos_world;
+    vec4 pos_clip = u_proj_matrix * vec4(tsr9_transform(view_tsr, pos_world), 1.0);
 #endif
 
     gl_Position = pos_clip;

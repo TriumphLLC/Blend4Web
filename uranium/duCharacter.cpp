@@ -66,8 +66,8 @@ btCollisionObject* duCharacter::getCollisionObject()
 
 void duCharacter::castRays(btCollisionWorld* collisionWorld)
 {
-    const btVector3 forward = btVector3(0.f, 0.f, 1.f);
-    const btVector3 down    = btVector3(0.f, -1.f, 0.f);
+    const btVector3 forward = btVector3(0.f, -1.f, 0.f);
+    const btVector3 down    = btVector3(0.f, 0.f, -1.f);
 
     btTransform xform = m_rigidBody->getWorldTransform();
     m_raySource = xform.getOrigin();
@@ -104,7 +104,7 @@ void duCharacter::castRays(btCollisionWorld* collisionWorld)
     for (i = 0; i < 2; i++)
     {
         rayCallback.m_closestHitFraction = 1.f;
-        collisionWorld->rayTest (m_raySource, m_rayTarget[i], rayCallback);
+        collisionWorld->rayTest(m_raySource, m_rayTarget[i], rayCallback);
         if (rayCallback.hasHit())
         {
             m_rayLambda[i] = rayCallback.m_closestHitFraction;
@@ -115,8 +115,8 @@ void duCharacter::castRays(btCollisionWorld* collisionWorld)
 
     if (m_water != NULL) {
         btScalar waterLevel = m_water->getWaterLevel(m_raySource[0],
-                                                     m_raySource[2], m_waterInd);
-        m_distToWater = m_raySource[1] - waterLevel;
+                                                    -m_raySource[1], m_waterInd);
+        m_distToWater = m_raySource[2] - waterLevel;
     }
 }
 
@@ -135,7 +135,7 @@ void duCharacter::move(btScalar dt)
 
     // rotate walk direction according to rigid body's horizontal rotation angle
     walkDirection = QmV3(walkDirection, 
-                         btQuaternion(btVector3(0.f, 1.f, 0.f), m_turnAngle));
+                         btQuaternion(btVector3(0.f, 0.f, 1.f), m_turnAngle));
     walkDirection = walkDirection.safeNormalize();
 
     if (m_moveType == CM_WALKING || m_moveType == CM_RUNNING) {
@@ -144,9 +144,9 @@ void duCharacter::move(btScalar dt)
 
             // find horizontal part of velocity and horizontal direction
             btVector3 horVelocity = 
-                 btVector3(linearVelocity[0], 0.f, linearVelocity[2]);
+                 btVector3(linearVelocity[0], linearVelocity[1], 0.f);
             btVector3 horDir = 
-                 btVector3(walkDirection[0], 0.f, walkDirection[2]).normalize();
+                 btVector3(walkDirection[0], walkDirection[1], 0.f).normalize();
 
             btScalar  velocityDotDir  = horVelocity.dot(horDir);
             // velocity to direction projection
@@ -155,69 +155,69 @@ void duCharacter::move(btScalar dt)
             btScalar damping = fmax(1.f - 2.f * dt, 0.f);
 
             if (!m_moveDirection[0]) {
-                if (!m_moveDirection[2]) {
+                if (!m_moveDirection[1]) {
                     if (m_distToWater > m_waterLine) {
                         // damp both horizontal velocities
                         linearVelocity[0] = 0.f;
-                        linearVelocity[2] = 0.f;
+                        linearVelocity[1] = 0.f;
                     } else {
                         // damp horizontal velocities underwater
                         linearVelocity[0] *= damping;
-                        linearVelocity[2] *= damping;
+                        linearVelocity[1] *= damping;
                     }
                 } else {
                     // damp straight veloctity
                     linearVelocity[0] = velocityDirProj[0];
-                    linearVelocity[2] = velocityDirProj[2];
+                    linearVelocity[1] = velocityDirProj[1];
                 }
-            } else if (!m_moveDirection[2]) {
+            } else if (!m_moveDirection[1]) {
                 // damp side veloctity
                 linearVelocity[0] = velocityDirProj[0];
-                linearVelocity[2] = velocityDirProj[2];
+                linearVelocity[1] = velocityDirProj[1];
             }
             if (speed > m_maxLinearVelocity) {
                 // damp if character is moving too fast
                 linearVelocity[0] *= damping;
-                linearVelocity[2] *= damping;
+                linearVelocity[1] *= damping;
             }
             if (m_distToWater < m_waterLine)
                 // damp if character is underwater
-                linearVelocity[1] *= damping;
+                linearVelocity[2] *= damping;
 
             m_rigidBody->setLinearVelocity (linearVelocity);
         }
 
         if (speed < m_maxLinearVelocity 
-                && (m_moveDirection[0] != 0.f || m_moveDirection[2] != 0.f)) {
+                && (m_moveDirection[0] != 0.f || m_moveDirection[1] != 0.f)) {
             
             // apply moving impulse
             btVector3 move_impulse;
             if (m_distToWater < m_waterLine) {
-                move_impulse[1] = walkDirection[1] * 20.f;
+                move_impulse[2] = walkDirection[2] * 20.f;
             } else {
-                move_impulse[1] = btScalar(0.f);
+                move_impulse[2] = btScalar(0.f);
             }
             move_impulse[0] = walkDirection[0] * 20.f;
-            move_impulse[2] = walkDirection[2] * 20.f;
+            move_impulse[1] = walkDirection[1] * 20.f;
             move_impulse /= m_rigidBody->getInvMass();
             m_rigidBody->applyCentralImpulse(move_impulse * dt);
         }
 
     } else if (m_moveType == CM_CLIMBING) {
 
-        if (m_moveDirection[0] != 0 || m_moveDirection[2] != 0)
+        if (m_moveDirection[0] != 0 || m_moveDirection[1] != 0)
             linearVelocity = 0.2 * walkDirection * m_walkVelocity;
         else 
             linearVelocity = btVector3(0.f, 0.f, 0.f);
 
         //change sign of vertical velocity depending on vertical angle
-        linearVelocity[1] = m_moveDirection[2] * m_walkVelocity
+        linearVelocity[2] = -m_moveDirection[1] * m_walkVelocity
                             * (m_verticalAngle < 0 ? 1: -1);
         m_rigidBody->setLinearVelocity (linearVelocity);
 
     } else if (m_moveType == CM_FLYING) {
 
-        if (!m_moveDirection[0] && !m_moveDirection[2])
+        if (!m_moveDirection[0] && !m_moveDirection[1])
             linearVelocity = btVector3(0.f, 0.f, 0.f);
         else {
             linearVelocity = walkDirection * m_maxLinearVelocity;
@@ -235,7 +235,7 @@ void duCharacter::handleVerticalVeloctity(btScalar dt)
 
     if (m_distToWater < m_waterLine && m_distToWater > -1.5f) {
         // close to the water - buoyancy
-        btVector3 impulse = btVector3(0.f, 10.f, 0.f)
+        btVector3 impulse = btVector3(0.f, 0.f, 10.f)
                             / m_rigidBody->getInvMass() * dt
                             * btMin(depth, 0.2f);
 
@@ -244,17 +244,17 @@ void duCharacter::handleVerticalVeloctity(btScalar dt)
     } else if (dist < 0.9 && !m_isJumping) {
         // lift
         btScalar verticalVelocity = 4.f * m_maxLinearVelocity * (0.9f - dist);
-        linearVelocity[1] = fmin(verticalVelocity, 5.f);
+        linearVelocity[2] = fmin(verticalVelocity, 5.f);
         m_rigidBody->setLinearVelocity (linearVelocity);
 
-    } else if (dist <= 0.95f && linearVelocity[1] < 0.f) {
+    } else if (dist <= 0.95f && linearVelocity[2] < 0.f) {
         // stay still
         m_isJumping = false;
-        linearVelocity[1] = btScalar(0.f);
+        linearVelocity[2] = btScalar(0.f);
         m_rigidBody->setLinearVelocity (linearVelocity);
 
     } else if (dist < 1.f && !m_isJumping) {
-        linearVelocity[1] = -13.f * m_maxLinearVelocity * (dist - 0.95f);
+        linearVelocity[2] = -13.f * m_maxLinearVelocity * (dist - 0.95f);
         m_rigidBody->setLinearVelocity (linearVelocity);
     }
 
@@ -263,7 +263,7 @@ void duCharacter::handleVerticalVeloctity(btScalar dt)
     if (m_distToWater > m_waterLine && m_moveType != CM_FLYING
                                     && m_moveType != CM_CLIMBING) {
 
-        btVector3 gravity = btVector3(0.f, -10.f, 0.f)
+        btVector3 gravity = btVector3(0.f, 0.f, -10.f)
                             / m_rigidBody->getInvMass() * dt;
         m_rigidBody->applyCentralImpulse(gravity * btMin(-2.f * depth, 1.f));
     }
@@ -305,7 +305,7 @@ void duCharacter::jump()
     if (!m_isJumping) {
         m_isJumping = true;
 
-        btVector3 up = btVector3(0.f, 1.f, 0.f);
+        btVector3 up = btVector3(0.f, 0.f, 1.f);
         btScalar magnitude = btScalar(m_jumpStrength) / m_rigidBody->getInvMass();
         m_rigidBody->applyCentralImpulse (up * magnitude);
     }

@@ -27,7 +27,7 @@ b4w.module["__textures"] = function(exports, require) {
 
 var m_compat    = require("__compat");
 var m_cfg       = require("__config");
-var m_dds       = require("__dds");
+var m_texcomp   = require("__texcomp");
 var m_debug     = require("__debug");
 var m_ext       = require("__extensions");
 var m_print     = require("__print");
@@ -258,7 +258,7 @@ function clone_w_texture(texture, texture_new) {
  * @param {String} name Texture name
  * @param type Texture type
  */
-exports.create_texture = function(name, type) {
+exports.create_texture = function(name, type, use_comparison) {
 
     var texture = init_texture();
     texture.name = name;
@@ -281,6 +281,10 @@ exports.create_texture = function(name, type) {
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
+
+        if (cfg_def.webgl2 && use_comparison)
+            _gl.texParameterf(w_target, _gl.TEXTURE_COMPARE_MODE,
+                    _gl.COMPARE_REF_TO_TEXTURE);
 
         _gl.bindTexture(w_target, null);
 
@@ -785,7 +789,7 @@ function setup_resized_tex_data(w_target) {
  * texture object
  */
 exports.update_texture = update_texture;
-function update_texture(texture, image_data, is_dds, filepath, thread_id) {
+function update_texture(texture, image_data, comp_method, filepath, thread_id) {
     var tex_type = texture.source;
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
@@ -811,32 +815,34 @@ function update_texture(texture, image_data, is_dds, filepath, thread_id) {
                     image_data);
             texture.width = 1;
             texture.height = 1;
-        } else if (is_dds) {
-            var dds_wh = m_dds.get_width_height(image_data);
-            var is_npot = m_util.check_npot(dds_wh.width)
-                    || m_util.check_npot(dds_wh.height);
+        } else if (comp_method) {
+            var comp_img_wh = m_texcomp.get_width_height(image_data, comp_method);
+            var is_npot = m_util.check_npot(comp_img_wh.width)
+                    || m_util.check_npot(comp_img_wh.height);
 
-            if(check_texture_size(dds_wh.width, dds_wh.height)) {
+            if(check_texture_size(comp_img_wh.width, comp_img_wh.height)) {
                 m_print.error("Texture \"" + filepath
-                        + "\" has unsupported size: " + dds_wh.width + "x"
-                        + dds_wh.height + ". Max available: "
+                        + "\" has unsupported size: " + comp_img_wh.width + "x"
+                        + comp_img_wh.height + ". Max available: "
                         + cfg_lim.max_texture_size + "x"
                         + cfg_lim.max_texture_size + ".")
                 return;
             }
 
-            var width = dds_wh.width;
-            var height = dds_wh.height;
+            var width = comp_img_wh.width;
+            var height = comp_img_wh.height;
 
-            if (is_npot) {
+            if (is_npot || comp_method == "pvr") {
                 texture.need_resize = true;
                 setup_resized_tex_data(w_target);
                 width = calc_pot_size(width * texture.scale_fac);
                 height = calc_pot_size(height * texture.scale_fac);
             }
 
-            m_dds.upload_dds_levels(_gl, m_ext.get_s3tc(), image_data,
-                    true);
+            if (comp_method == "dds")
+                m_texcomp.upload_dds_levels(_gl, m_ext.get_s3tc(), image_data, true);
+            else if (comp_method == "pvr")
+                m_texcomp.upload_pvr_levels(_gl, m_ext.get_pvr(), image_data, true);
 
             if (texture.need_resize) {
                 draw_resized_image(texture, null, width, height, true);
@@ -846,7 +852,7 @@ function update_texture(texture, image_data, is_dds, filepath, thread_id) {
 
             texture.width = width;
             texture.height = height;
-            texture.compress_ratio = m_dds.get_compress_ratio(image_data);
+            texture.compress_ratio = m_texcomp.get_compress_ratio(image_data, comp_method);
         } else {
             _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, true);
             //_gl.pixelStorei(_gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
@@ -1876,7 +1882,7 @@ function get_batch_texture(texture_slot, color) {
     var image = bpy_texture["image"];
 
     if (render && color && image)
-        update_texture(render, color, image._is_dds,
+        update_texture(render, color, image._is_compressed,
             image["filepath"]);
 
     return render;

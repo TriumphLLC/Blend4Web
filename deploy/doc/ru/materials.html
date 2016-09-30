@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Материалы &mdash; Руководство пользователя Blend4Web 16.08</title>
+  <title>Материалы &mdash; Руководство пользователя Blend4Web 16.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.09" href="index.html"/>
         <link rel="next" title="Библиотека материалов" href="material_library.html"/>
         <link rel="prev" title="Камера" href="camera.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -252,6 +252,13 @@
 </dd>
 <dt><em>Shading &gt; Shadeless</em></dt>
 <dd><p class="first last">При включении материал не реагирует на освещение. По умолчанию выключено.</p>
+</dd>
+<dt><em>Shading &gt; Tangent Shading</em></dt>
+<dd><p class="first">При включении этого параметра движок использует тангенциальный вектор материала (вместо нормального вектора) для рассчёта итогового цвета объекта. Может применяться для имитации анизотропных поверхностей.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/materials_tangent_shading_comparison.png"><img alt="_images/materials_tangent_shading_comparison.png" src="_images/materials_tangent_shading_comparison.png" style="width: 100%;" /></a>
+</div>
+<p class="last"><strong>Слева:</strong> стандатрное затенение, <strong>справа:</strong> тангенциальное затенение.</p>
 </dd>
 <dt><em>Shading &gt; Double-Sided Lighting</em></dt>
 <dd><p class="first last">Включить двухстороннее освещение. Опция полезна для однослойных непросвечивающих объектов.</p>
@@ -527,7 +534,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-08-31.
+      Обновлено: 2016-09-29.
 
     </p>
   </div>
@@ -583,7 +590,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

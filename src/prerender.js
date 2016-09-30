@@ -78,12 +78,6 @@ exports.prerender_subs = function(subs) {
                 var bundle = bundles[j];
                 var batch = bundle.batch;
 
-                if (batch.shader_updated) {
-                    //NOTE: happens after shader recompilation
-                    if (m_subs.append_draw_data(subs, bundle))
-                        subs.need_draw_data_sort = true;
-                }
-
                 if (is_cube_subs) {
                     for (var k = 0; k < 6; k++) {
                         subs.camera.frustum_planes = subs.cube_cam_frustums[k];
@@ -131,7 +125,7 @@ exports.prerender_subs = function(subs) {
         if (subs.type == m_subs.MAIN_BLEND || subs.type == m_subs.MAIN_XRAY)
             zsort(subs);
 
-    } else {
+    } else if (subs.need_perm_uniforms_update) {
         var draw_data = subs.draw_data;
         for (var i = 0; i < draw_data.length; i++) {
             var bundles = draw_data[i].bundles;
@@ -139,14 +133,7 @@ exports.prerender_subs = function(subs) {
                 var bundle = bundles[j];
                 var batch = bundle.batch;
 
-                if (subs.need_perm_uniforms_update)
                     batch.shader.need_uniforms_update = true;
-
-                if (batch.shader_updated) {
-                    //NOTE: happens after shader recompilation
-                    if (m_subs.append_draw_data(subs, bundle))
-                        subs.need_draw_data_sort = true;
-                }
             }
         }
         subs.need_perm_uniforms_update = false;
@@ -243,27 +230,32 @@ function prerender_bundle(bundle, subs) {
     if (subs.type == m_subs.OUTLINE_MASK && obj_render.outline_intensity == 0)
         return false;
 
-    if (is_out_of_frustum(obj_render, cam.frustum_planes, batch) &&
-            USE_FRUSTUM_CULLING)
+    if (obj_render.use_batches_boundings) {
+        var bs = batch.bs_world;
+        var be = batch.be_world;
+        var use_be = batch.use_be;
+    } else {
+        var bs = obj_render.bs_world;
+        var be = obj_render.be_world;
+        var use_be = obj_render.use_be;
+    }
+
+    if (!obj_render.do_not_cull && USE_FRUSTUM_CULLING &&
+             is_out_of_frustum(cam.frustum_planes, bs, be, use_be))
         return false;
 
     return true;
 }
 
-function is_out_of_frustum(obj_render, planes, batch) {
+function is_out_of_frustum(planes, bs, be, use_be) {
 
-    if (obj_render.do_not_cull)
-        return false;
-
-    // optimization - check object sphere first
-    var bs = obj_render.bs_world;
+    // optimization - check sphere first
     var pt = bs.center;
     if (m_util.sphere_is_out_of_frustum(pt, planes, bs.radius))
         return true;
-    else if (obj_render.do_not_use_be)
+    else if (!use_be)
         return false;
 
-    var be = batch.be_world;
     var pt = be.center;
     var axis_x = be.axis_x;
     var axis_y = be.axis_y;
@@ -309,10 +301,10 @@ function update_particles_buffers(batch) {
 
     var pointers = pbuf.pointers;
     var pos_pointer = pointers["a_position"];
-    var norm_pointer = pointers["a_normal"];
+    var tbn_quat_pointer = pointers["a_tbn_quat"];
 
     vbo_array.set(pdata.positions_cache, pos_pointer.offset);
-    vbo_array.set(pdata.normals_cache, norm_pointer.offset);
+    vbo_array.set(pdata.tbn_quats_cache, tbn_quat_pointer.offset);
 
     m_geom.update_gl_buffers(pbuf);
 }

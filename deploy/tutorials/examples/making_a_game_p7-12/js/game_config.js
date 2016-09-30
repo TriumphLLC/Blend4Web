@@ -4,16 +4,16 @@ if (b4w.module_check("game_config"))
 b4w.register("game_config", function(exports, require) {
 
 exports.NUM_ISLANDS = 5;
-exports.DEFAULT_POS = new Float32Array([0, -1, 0]);
-exports.GEM_OFFSET = new Float32Array([0, 0.25, 0]);
+exports.DEFAULT_POS = new Float32Array([0, 0, -1]);
+exports.GEM_OFFSET = new Float32Array([0, 0, 0.25]);
 exports.GEM_ROT_OFFSET = new Float32Array([0, 0, 0, 1]);
 exports.GEM_SCALE_OFFSET = 0.6;
 
 // character
 exports.ROT_SPEED = 2;
 exports.CAM_SOFTNESS = 0.2;
-exports.CAM_OFFSET = new Float32Array([0, 1.5, -4]);
-exports.CHAR_DEF_POS = new Float32Array([0, 0.5, 0]);
+exports.CAM_OFFSET = new Float32Array([0, 4, 1.5]);
+exports.CHAR_DEF_POS = new Float32Array([0, 0, 0.5]);
 
 exports.MAX_CHAR_HP = 100;
 exports.CHAR_ATTACK_DIST = 0.5;

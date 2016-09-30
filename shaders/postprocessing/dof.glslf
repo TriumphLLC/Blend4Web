@@ -1,11 +1,17 @@
 #version GLSL_VERSION
 
-#var PRECISION lowp
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var PRECISION highp
+#var DOF_TYPE DOF_SIMPLE
+
+/*============================================================================*/
+
 precision PRECISION sampler2D;
 
-
 #include <precision_statement.glslf>
-#include <std_enums.glsl>
+#include <std.glsl>
 
 #if DOF_TYPE == DOF_BOKEH
 uniform highp sampler2D u_sharp;

@@ -19,7 +19,6 @@
 /** 
  * Low-level resource loader. In order to load exported scenes, use the {@link module:data|data} module instead.
  * @module assets
- * @local Asset
  * @local AssetCallback
  * @local ProgressCallback
  * @local PackCallback

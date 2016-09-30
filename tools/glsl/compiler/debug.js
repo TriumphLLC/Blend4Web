@@ -19,71 +19,46 @@ exports.debug_message = function(message_type, file_name) {
         message_level = m_consts.ERROR;
         message = "Using reserved word in "
                 + decl_type_to_description(declaration_type) + " '"
-                + identifier_name + "'. ";
+                + identifier_name + "'.";
         break;
 
-    case m_consts.UNDECLARED_ID:
-        var identifier_name = arguments[2];
-        var usage_type = arguments[3];
-        message_level = m_consts.ERROR;
-        message = "Undeclared "
-                + usage_type_to_description(usage_type) + ": '"
-                + identifier_name + "'. ";
-        break;
-
-    case m_consts.EXP_DATA_VIOLATION:
-        var identifier_name = arguments[2];
-        var usage_type = arguments[3];
-        var incl_name = arguments[4];
-        message_level = m_consts.ERROR;
-
-        message = "Undeclared "
-                + usage_type_to_description(usage_type) + ": '"
-                + identifier_name + "'. Possibly exporting needed in include file '" + incl_name + "'. ";
-        break;
-
-    case m_consts.IMP_DATA_VIOLATION:
-        var identifier_name = arguments[2];
-        var usage_type = arguments[3];
-        message_level = m_consts.ERROR;
-
-        message = "Undeclared "
-                + usage_type_to_description(usage_type) + ": '"
-                + identifier_name + "'. Importing data missed. ";
-        break;
-
-    case m_consts.POSSIBLE_IMPORT:
-        var identifier_name = arguments[2];
-        var usage_type = arguments[3];
-        message_level = m_consts.ERROR;
-
-        message = "Undeclared "
-                + usage_type_to_description(usage_type) + ": '"
-                + identifier_name + "'. Possibly importing needed. ";
-        break;
+    // NOTE: unused
+    // case m_consts.UNDECLARED_ID:
+    //     var identifier_name = arguments[2];
+    //     var usage_type = arguments[3];
+    //     message_level = m_consts.ERROR;
+    //     message = "Undeclared "
+    //             + usage_type_to_description(usage_type) + ": '"
+    //             + identifier_name + "'.";
+    //     break;
 
     case m_consts.UNSUPPORTED_EXTENSION:
         var extension_name = arguments[2];
         message_level = m_consts.ERROR;
 
-        message = "Extension " + extension_name + " is unsupported in obfuscator. "
+        message = "Extension " + extension_name + " is unsupported in obfuscator."
         break;
 
     case m_consts.EXT_ALL_WRONG_BEHAVIOR:
         var behavior = arguments[2];
         message_level = m_consts.ERROR;
 
-        message = "The 'all' extension cannot have '" + behavior + "' behavior. "
+        message = "The 'all' extension cannot have '" + behavior + "' behavior."
         break;
     case m_consts.VERSION_REQUIRED:
         message_level = m_consts.ERROR;
 
-        message = "#version directive must occur at the beginning of a shader before anything else. "
+        message = "#version directive must occur at the beginning of a shader before anything else."
+        break;
+
+    case m_consts.SHADER_TYPE_ERROR:
+        message_level = m_consts.ERROR;
+        message = "A shader of unspecified type contains GLSL_IN/GLSL_OUT declarations.";
         break;
     }
 
     if (message !== null) {
-        message += "File: '" + file_name + "'";
+        message += " File: '" + file_name + "'";
         if (_db_ident_messages.indexOf(message) == -1) {
             _db_ident_messages.push(message);
             switch (message_level) {

@@ -52,6 +52,11 @@ exports.get_s3tc = function() {
                    get(   "MOZ_WEBGL_compressed_texture_s3tc");
     return ext_s3tc;
 }
+exports.get_pvr = function() {
+    var ext_pvr = get("WEBKIT_WEBGL_compressed_texture_pvrtc") ||
+            get("WEBGL_compressed_texture_pvrtc");
+    return ext_pvr;
+}
 
 /**
  * Request WEBGL_depth_texture extension

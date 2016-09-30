@@ -33,6 +33,12 @@ var CAPTION_HIDE_DELAY       = 300;
 var MENU_BUTTON_SHOW_DELAY   = 300;
 var PRELOADER_HIDE_DELAY     = 300;
 
+var TWITTER_CHAR             = "t";
+var FB_CHAR                  = "f";
+var GOOGLE_CHAR              = "g";
+var VK_CHAR                  = "v";
+var WEIBO_CHAR               = "w";
+
 var _menu_close_func         = null;
 var _is_panel_open_top       = false;
 var _is_panel_open_left      = false;
@@ -42,6 +48,11 @@ var _is_qual_menu_opened     = false;
 var _is_stereo_menu_opened   = false;
 var _is_help_menu_opened     = false;
 var _no_social               = false;
+var _socials                 = [];
+
+var _is_first_stage = false;
+var _is_second_stage = false;
+var _is_third_stage = false;
 
 var _circle_container;
 var _preloader_caption;
@@ -118,22 +129,23 @@ var _player_buttons = [
 
 
 exports.init = function() {
-    m_cfg.set("background_color", [0.224, 0.224, 0.224, 1.0]);
-
     var is_debug = (m_version.type() == "DEBUG");
     var is_html = b4w.module_check(m_cfg.get("built_in_module_name"));
-    
+
     var show_fps = false;
     var alpha = false;
     var dds_available = false;
     var min50_available = false;
     var url_params = m_app.get_url_params();
     var min_capabilities = false;
+    var pvr_available = false;
 
-    if (url_params &&"compressed_textures" in url_params &&
+    if (url_params && "compressed_textures" in url_params &&
             !is_html && !is_debug) {
         dds_available = true;
         min50_available = true;
+        if ("compressed_textures_pvr" in url_params)
+            pvr_available = true;
     }
 
     if (url_params && "show_fps" in url_params)
@@ -153,8 +165,19 @@ exports.init = function() {
     if (url_params && "min_capabilities" in url_params)
         min_capabilities = true;
 
+    if (url_params && "socials" in url_params) {
+        var socials = url_params["socials"].split("");
+
+        _socials = socials.filter(function (value, index, array) {
+            return array.indexOf(value) == index;
+        })
+    }
+
     set_stereo_config();
     set_quality_config();
+
+    if (!alpha)
+        m_cfg.set("background_color", [0.224, 0.224, 0.224, 1.0]);
 
     // disable physics in HTML version
     m_app.init({
@@ -170,6 +193,7 @@ exports.init = function() {
         key_pause_enabled: false,
         fps_elem_id: "fps_container",
         fps_wrapper_id: "fps_wrapper",
+        assets_pvr_available: pvr_available,
         assets_dds_available: dds_available,
         assets_min50_available: min50_available,
         min_capabilities: min_capabilities
@@ -177,7 +201,7 @@ exports.init = function() {
 }
 
 function init_cb(canvas_element, success) {
-    define_dom_elems();
+    cache_dom_elems();
 
     if (!success) {
         display_no_webgl_bg();
@@ -196,6 +220,8 @@ function init_cb(canvas_element, success) {
 
     init_control_buttons();
 
+    prepare_soc_btns();
+
     m_gp_conf.update();
 
     var file = search_file();
@@ -208,6 +234,70 @@ function init_cb(canvas_element, success) {
     window.addEventListener("resize", on_resize);
 
     on_resize();
+}
+
+function prepare_soc_btns() {
+    var socials = _socials;
+
+    if (!socials.length)
+        return;
+
+    var char_btns_array = [TWITTER_CHAR, FB_CHAR, GOOGLE_CHAR, VK_CHAR, WEIBO_CHAR];
+
+    socials = socials.filter(function(value, index, array) {
+          return char_btns_array.indexOf(value) >= 0;
+    })
+
+    if (!socials.length)
+        return;
+
+    var elem_ids = ["tw_button", "fb_button", "g_button", "vk_button", "weibo_button"];
+
+    var ordered_elem_ids = [];
+    var removing_elem_ids = [];
+
+
+    for (var i = 0; i < socials.length; i++) {
+        switch (socials[i]) {
+        case TWITTER_CHAR:
+            ordered_elem_ids.push("tw_button");
+            break;
+        case FB_CHAR:
+            ordered_elem_ids.push("fb_button");
+            break;
+        case GOOGLE_CHAR:
+            ordered_elem_ids.push("g_button");
+            break;
+        case VK_CHAR:
+            ordered_elem_ids.push("vk_button");
+            break;
+        case WEIBO_CHAR:
+            ordered_elem_ids.push("weibo_button");
+            break;
+        }
+    }
+
+    for (var i = 0; i < elem_ids.length; i++) {
+        if (ordered_elem_ids.indexOf(elem_ids[i]) < 0) {
+            removing_elem_ids.push(elem_ids[i])
+        }
+    }
+
+    for (var i = 0; i < removing_elem_ids.length; i++) {
+        var elem = document.getElementById(removing_elem_ids[i]);
+
+        elem.parentElement.removeChild(elem);
+    }
+
+    var children = document.querySelector("#vert_section_button").children;
+
+    var ar = [];
+
+    ar.slice.call(children).sort(function(a, b) {
+        return ordered_elem_ids.indexOf(a.id) - ordered_elem_ids.indexOf(b.id);
+    }).forEach(function(next){
+            document.querySelector("#vert_section_button").appendChild(next);
+    })
 }
 
 function display_no_webgl_bg() {
@@ -242,7 +332,7 @@ function display_no_webgl_bg() {
                       "https://www.blend4web.com/doc/en/problems_and_solutions.html")
 }
 
-function define_dom_elems() {
+function cache_dom_elems() {
     _circle_container = document.querySelector("#circle_container");
     _preloader_caption = document.querySelector("#preloader_caption");
     _first_stage = document.querySelector("#first_stage");
@@ -294,13 +384,13 @@ function set_quality_button() {
 
     switch (quality) {
     case "LOW":
-        _quality_buttons_container.className = "control_panel_button low_mode_button";
+        _quality_buttons_container.classList.add("low_mode_button");
         break;
     case "HIGH":
-        _quality_buttons_container.className = "control_panel_button high_mode_button";
+        _quality_buttons_container.classList.add("high_mode_button");
         break;
     case "ULTRA":
-        _quality_buttons_container.className = "control_panel_button ultra_mode_button";
+        _quality_buttons_container.classList.add("ultra_mode_button");
         break;
     }
 }
@@ -314,16 +404,17 @@ function set_stereo_button() {
 
     switch (stereo) {
     case "NONE":
-        _stereo_buttons_container.className = "control_panel_button def_mode_button";
+        _stereo_buttons_container.classList.add("def_mode_button");
         break;
     case "ANAGLYPH":
-        _stereo_buttons_container.className = "control_panel_button anag_mode_button";
+        _stereo_buttons_container.classList.add("anag_mode_button");
         break;
     case "HMD":
-        _stereo_buttons_container.className = "control_panel_button hmd_mode_button";
-        if (m_input.can_use_device(m_input.DEVICE_HMD)) {
+        _stereo_buttons_container.classList.add("hmd_mode_button");
+
+        if (m_input.can_use_device(m_input.DEVICE_HMD))
             m_hmd_conf.update();
-        }
+
         break;
     }
 }
@@ -347,22 +438,35 @@ function init_control_buttons() {
         switch (button.type) {
         case "simple_button":
             if (elem)
-                elem.addEventListener("mouseup", button.callback);
+                if (is_touch())
+                    elem.addEventListener("touchend", button.callback);
+                else
+                    elem.addEventListener("mouseup", button.callback);
             break;
         case "menu_button":
             (function(button){
                 if (elem)
-                    elem.addEventListener("mouseup", function(e) {
-                              button.callback(e, button);
-                          });
+                    if (is_touch())
+                        elem.addEventListener("touchend", function(e) {
+                                  button.callback(e, button);
+                              });
+                    else
+                        elem.addEventListener("mouseup", function(e) {
+                                  button.callback(e, button);
+                              });
             })(button);
             break;
         case "trigger_button":
             (function(button){
                 if (elem)
-                    elem.addEventListener("mouseup", function(e) {
-                        button.callback(e);
-                    });
+                    if (is_touch())
+                        elem.addEventListener("touchend", function(e) {
+                            button.callback(e);
+                        });
+                    else
+                        elem.addEventListener("mouseup", function(e) {
+                            button.callback(e);
+                        });
             })(button);
             break;
         }
@@ -640,7 +744,7 @@ function close_menu() {
     close_stereo_menu();
 
     var hor_elem  = document.querySelector("#help_button");
-    var vert_elem = document.querySelector("#tw_button");
+    var vert_elem = document.querySelector("#vert_section_button").firstElementChild;
 
     var drop_left = function(elem) {
         _is_anim_left = true;
@@ -707,7 +811,7 @@ function open_menu() {
                    document.querySelector("#quality_buttons_container");
 
 
-    var vert_elem = document.querySelector("#vk_button");
+    var vert_elem = document.querySelector("#vert_section_button").lastElementChild;
 
     var drop_left = function(elem) {
         _is_anim_left = true;
@@ -776,9 +880,12 @@ function open_menu() {
     if (!_no_social)
         drop_top(vert_elem);
 
-    _buttons_container.addEventListener("mouseleave", deferred_close);
-    _buttons_container.addEventListener("mouseenter", clear_deferred_close);
-    document.body.addEventListener("touchmove", deferred_close);
+    if (is_touch())
+        document.body.addEventListener("touchmove", deferred_close);
+    else {
+        _buttons_container.addEventListener("mouseleave", deferred_close);
+        _buttons_container.addEventListener("mouseenter", clear_deferred_close);
+    }
 }
 
 function check_anim_end() {
@@ -806,11 +913,17 @@ function is_control_panel_opened() {
 }
 
 function disable_opened_button() {
-    _opened_button.removeEventListener("mouseup", open_menu);
+    if (is_touch())
+        _opened_button.removeEventListener("touchend", open_menu);
+    else
+        _opened_button.removeEventListener("mouseup", open_menu);
 }
 
 function enable_opened_button() {
-    _opened_button.addEventListener("mouseup", open_menu);
+    if (is_touch())
+        _opened_button.addEventListener("touchend", open_menu);
+    else
+        _opened_button.addEventListener("mouseup", open_menu);
 }
 
 function deferred_close(e) {
@@ -892,11 +1005,18 @@ function open_qual_menu(e, button) {
     for (var i = 0; i < child_id.length; i++) {
         var child_elem = document.getElementById(child_id[i]);
 
-        if (_quality_buttons_container.className.indexOf(child_id[i]) < 0)
-            child_elem.addEventListener("mouseup", child_cb[i]);
+        if (!_quality_buttons_container.classList.contains(child_id[i]))
+            if (is_touch())
+                child_elem.addEventListener("touchend", child_cb[i]);
+            else
+                child_elem.addEventListener("mouseup", child_cb[i]);
         else {
             child_elem.className = "active_elem_q";
-            child_elem.addEventListener("mouseup", close_qual_menu);
+
+            if (is_touch())
+                child_elem.addEventListener("touchend", close_qual_menu);
+            else
+                child_elem.addEventListener("mouseup", close_qual_menu);
         }
     }
 
@@ -927,11 +1047,17 @@ function open_stereo_menu(e, button) {
         if (!child_elem)
             continue;
 
-        if (_stereo_buttons_container.className.indexOf(child_id[i]) < 0)
-            child_elem.addEventListener("mouseup", child_cb[i]);
+        if (!_stereo_buttons_container.classList.contains(child_id[i]))
+            if (is_touch())
+                child_elem.addEventListener("touchend", child_cb[i]);
+            else
+                child_elem.addEventListener("mouseup", child_cb[i]);
         else {
             child_elem.className = "active_elem_s";
-            child_elem.addEventListener("mouseup", close_stereo_menu);
+            if (is_touch())
+                child_elem.addEventListener("touchend", close_stereo_menu);
+            else
+                child_elem.addEventListener("mouseup", close_stereo_menu);
         }
     }
 
@@ -980,18 +1106,18 @@ function touch_cb(touches) {
 
 function register_canvas_click() {
     var canvas_elem = m_cont.get_canvas();
-
     var mdevice = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, canvas_elem);
+
     if (mdevice)
         m_input.attach_param_cb(mdevice, m_input.MOUSE_DOWN_WHICH, mouse_cb);
 
     var tdevice = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, canvas_elem);
+
     if (tdevice)
         m_input.attach_param_cb(tdevice, m_input.TOUCH_START, touch_cb);
 }
 
 function main_canvas_clicked(x, y) {
-
     var prev_obj = get_selected_object();
 
     if (prev_obj && m_scs.outlining_is_enabled(prev_obj))
@@ -1070,14 +1196,21 @@ function preloader_callback(percentage, load_time) {
     _preloader_caption.innerHTML = percentage + "%";
 
     if (percentage < 33) {
-        _circle_container.style.display = "block";
+        if (!_is_first_stage) {
+            _is_first_stage = true
+            _circle_container.style.display = "block";
+        }
+
         _first_stage.style.width = percentage * 4.7 + "px";
         _circle_container.style.webkitTransform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
         _circle_container.style.transform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
     } else if (percentage < 66) {
-        _first_stage.style.width = 142 + "px";
-        _second_stage.style.backgroundColor = "#000";
-        _second_stage.style.marginTop = "135px";
+        if (!_is_second_stage) {
+            _is_second_stage = true
+            _first_stage.style.width = 142 + "px";
+            _second_stage.style.backgroundColor = "#000";
+            _second_stage.style.marginTop = "135px";
+        }
 
         if (135 - (percentage - 33) * 4.5 > 0)
             _second_stage.style.marginTop = 135 - (percentage - 33) * 3.5 + "px";
@@ -1085,9 +1218,12 @@ function preloader_callback(percentage, load_time) {
         _circle_container.style.webkitTransform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
         _circle_container.style.transform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
     } else if (percentage != 100) {
-        _second_stage.style.marginTop = "0px";
-        _third_stage.style.backgroundColor = "#000";
-        _third_stage.style.height = "0px";
+        if (!_is_third_stage) {
+            _is_third_stage = true;
+            _second_stage.style.marginTop = "0px";
+            _third_stage.style.backgroundColor = "#000";
+            _third_stage.style.height = "0px";
+        }
 
         if (percentage > 75)
             _third_stage.style.height = (percentage * 0.1) + "px";

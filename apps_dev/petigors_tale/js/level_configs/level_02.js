@@ -5,7 +5,7 @@ b4w.register("level_02_config", function(exports, require) {
 
 exports.LEVEL_NAME = "dungeon";
 
-exports.CHAR_DEF_POS = new Float32Array([0, 0.1, 7]);
+exports.CHAR_DEF_POS = new Float32Array([0, -7, 0.1]);
 exports.VICT_CAM_VERT_ANGLE = -0.5;
 exports.VICT_CAM_DIST = 10;
 

@@ -103,14 +103,14 @@ function get_sun_params() {
         var cur_dir = sun.light.direction;
 
         // sun azimuth
-        var angle_hor = m_util.rad_to_deg(Math.atan2(cur_dir[2], cur_dir[0])) + 90;
+        var angle_hor = m_util.rad_to_deg(Math.atan2(-cur_dir[1], cur_dir[0])) + 90;
         if (angle_hor > 180)
             angle_hor -= 360;
 
         // sun altitude
         var angle_vert = m_util.rad_to_deg(Math.atan2(
-                cur_dir[1],
-                Math.sqrt(cur_dir[0]*cur_dir[0] + cur_dir[2]*cur_dir[2])
+                cur_dir[2],
+                Math.sqrt(cur_dir[0]*cur_dir[0] + cur_dir[1]*cur_dir[1])
                 ));
 
         var sun_params = {};
@@ -157,10 +157,10 @@ function set_sun_params(sun_params) {
         var sun_render = sun.render;
 
         // rotate sun
-        m_trans.set_rotation_euler(sun, [angle_vert, angle_hor, 0]);
+        m_trans.set_rotation_euler(sun, [angle_vert, 0, angle_hor]);
         var dir = new Float32Array(3);
         var sun_quat = m_tsr.get_quat_view(sun_render.world_tsr);
-        m_util.quat_to_dir(sun_quat, m_util.AXIS_Y, dir);
+        m_util.quat_to_dir(sun_quat, m_util.AXIS_Z, dir);
 
         var trans = m_tsr.get_trans_view(sun_render.world_tsr);
         var dist_to_center = m_vec3.length(trans);
@@ -361,7 +361,7 @@ exports.set_light_params = function(lamp_obj, light_params) {
     m_scenes.update_lamp_scene(lamp_obj, scene);
 
     if (need_update_shaders)
-        m_obj.update_all_mesh_shaders(scene);
+        m_scenes.update_all_mesh_shaders(scene);
 }
 
 /**

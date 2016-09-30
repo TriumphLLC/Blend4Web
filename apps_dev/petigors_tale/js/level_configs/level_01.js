@@ -5,7 +5,7 @@ b4w.register("level_01_config", function(exports, require) {
 
 exports.LEVEL_NAME = "volcano";
 
-exports.CHAR_DEF_POS = new Float32Array([0, 2, 0]);
+exports.CHAR_DEF_POS = new Float32Array([0, 0, 2]);
 exports.VICT_CAM_VERT_ANGLE = -0.3;
 exports.VICT_CAM_DIST = 10;
 

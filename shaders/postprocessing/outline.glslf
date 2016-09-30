@@ -1,6 +1,7 @@
 #version GLSL_VERSION
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <color_util.glslf>
 
 uniform sampler2D u_outline_src;

@@ -1,6 +1,7 @@
 #version GLSL_VERSION
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <pack.glslf>
 
 uniform sampler2D u_depth;

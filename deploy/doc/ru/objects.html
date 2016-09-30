@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Объекты &mdash; Руководство пользователя Blend4Web 16.08</title>
+  <title>Объекты &mdash; Руководство пользователя Blend4Web 16.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.09" href="index.html"/>
         <link rel="next" title="Меши" href="meshes.html"/>
         <link rel="prev" title="Параметры сцены" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -114,7 +114,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#quaternion-example">Пример работы с кватернионами</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web">Отличия систем координат Blender&#8217;а и Blend4Web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#moving-via-tsr-vectors">Перемещение с помощью векторов TSR</a></li>
 </ul>
 </li>
@@ -209,8 +208,7 @@
 <li><a class="reference internal" href="#quaternion-example" id="id17">Пример работы с кватернионами</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web" id="id18">Отличия систем координат Blender&#8217;а и Blend4Web</a></li>
-<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id19">Перемещение с помощью векторов TSR</a></li>
+<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id18">Перемещение с помощью векторов TSR</a></li>
 </ul>
 </li>
 </ul>
@@ -371,7 +369,12 @@
 <dd><p class="first last">При включении объект будет отражаться от зеркальных поверхностей.</p>
 </dd>
 <dt><em>Reflections &gt; Reflexible Only</em></dt>
-<dd><p class="first last">При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</p>
+<dd><p class="first">При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Примечание</p>
+<p>Если опция <code class="docutils literal"><span class="pre">Reflexible</span> <span class="pre">Only</span></code> включена одновременно с <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span> <span class="pre">Only</span></code>, движок не будет отображать сам объект, но будет рассчитывать отражение объекта и тень от него, как показано на изображении ниже.</p>
+<a class="last reference internal image-reference" href="_images/objects_cast_reflexible_only.png"><img alt="_images/objects_cast_reflexible_only.png" class="align-center" src="_images/objects_cast_reflexible_only.png" style="width: 100%;" /></a>
+</div>
 </dd>
 <dt><em>Reflections &gt; Reflective</em></dt>
 <dd><p class="first last">При включении объект будет отражать своей поверхностью другие объекты.</p>
@@ -729,8 +732,6 @@
 <p>Осуществим поворот:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">Расположение координатных осей в Blender&#8217;е и в движке различается, и при экспорте произойдет преобразование: [X Y Z] (Blender) -&gt; [X -Z Y] (движок). Поэтому поворот нужно осуществлять относительно оси Y, а не Z.</p>
-</li>
 <li><p class="first">Повороту вправо соответствует поворот по часовой стрелке, т.е. в отрицательном направлении.</p>
 </li>
 <li><p class="first">60 градусов = <span class="math">\(\pi/3\)</span> радиан.</p>
@@ -739,13 +740,13 @@
 </div></blockquote>
 <p>В итоге получаем:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// compose quaternion</span>
-<span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="kd">var</span> <span class="nx">quat_60_Z_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
 <span class="kd">var</span> <span class="nx">quat_old</span> <span class="o">=</span> <span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">);</span>
 
-<span class="c1">// left multiply: quat60_Y_neg * quat_old</span>
-<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Y_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="c1">// left multiply: quat60_Z_neg * quat_old</span>
+<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Z_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// set new rotation</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_new</span><span class="p">);</span>
@@ -753,12 +754,12 @@
 </div>
 <p>Оптимизированный вариант, не приводящий к созданию новых объектов:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// cache arrays as global vars</span>
-<span class="kd">var</span> <span class="nx">AXIS_Y</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="kd">var</span> <span class="nx">AXIS_Z</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="kd">var</span> <span class="nx">quat_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="c1">// rotate</span>
-<span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Y</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Z</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">);</span>
 <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_tmp</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
@@ -766,17 +767,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="differences-between-coordinate-systems-of-blender-and-blend4web">
-<span id="b4w-blender-coordinates"></span><h2><a class="toc-backref" href="#id18">Отличия систем координат Blender&#8217;а и Blend4Web</a><a class="headerlink" href="#differences-between-coordinate-systems-of-blender-and-blend4web" title="Ссылка на этот заголовок">¶</a></h2>
-<p>В системе координат Blender&#8217;а вектор <code class="docutils literal"><span class="pre">UP</span></code>, указывающий направление вверх, сонаправлен с осью Z. В движке Blend4Web, так же как и вообще в OpenGL, это направление совпадает с направлением оси Y. Таким образом система координат движка оказывается повернутой относительно системы координат Blender&#8217;а на 90 градусов вокруг оси X.</p>
-<img alt="_images/axes.png" class="align-center" src="_images/axes.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>Методы API используют именно систему координат движка, поэтому работа с API может отличаться от работы с настройками непосредственно в Blender&#8217;е.</p>
-</div>
 <div class="section" id="moving-via-tsr-vectors">
-<h2><a class="toc-backref" href="#id19">Перемещение с помощью векторов TSR</a><a class="headerlink" href="#moving-via-tsr-vectors" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id18">Перемещение с помощью векторов TSR</a><a class="headerlink" href="#moving-via-tsr-vectors" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Удобным способом управления перемещением объектов является использование специальных векторов, имеющих следующий формат:</p>
 <blockquote>
 <div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
@@ -805,7 +797,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-08-31.
+      Обновлено: 2016-09-29.
 
     </p>
   </div>
@@ -861,7 +853,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

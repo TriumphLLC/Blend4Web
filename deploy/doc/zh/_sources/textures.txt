@@ -200,6 +200,8 @@
 激活
 ----
 
+Set the "Image > Color Space" parameter to "Non-Color".
+
 启用 "纹理 > 影响" 面板上的 "几何 > 法线" 复选框
 
 
@@ -512,33 +514,40 @@ Blender有烘焙场景到环境映射选项。要此操作 ︰
 [图片]
 
 
-3D场景
-------
+Render-To-Texture
+-----------------
 
-A 3D scene's real-time rendered image can be used as a texture by an
-object from another scene ("main" scene). This technique is known as
-*render-to-texture* (RTT) and can be activated by following these
-steps:
+An image of a 3D scene rendered in real time also can be used as a
+texture for an object in another scene ("main" scene). This technique
+is known as *render-to-texture* (RTT) and can be activated by
+following these steps:
 
-1. 创建一个附加源场景。
+1. Create an additional scene that will be rendered to the texture.
 
-2. 为了方便重命名它。
+2. For convenience, give this scene a unique name.
 
-3. 创建一个 "世界" 。
+3. Create a "World" setting for this scene.
 
-4. 添加您需要的物体。
+4. Add the objects you need to the scene.
 
-5. 设置相机视图。
+5. Add a camera to the scene and set it up.
 
-6. 在主场景中创建目标物体的 UV 贴图。
+6. Then, switch to the main scene.
 
-7. 设置目标物体的纹理为 "无" 类型。
+7. Select the target object and create a UV map for it.
 
-8. 在 "导出选项 > 源类型" 菜单中选择 "场景" 类型。
+8. Create a texture that will act as the rendering target.
 
-9. 在 "导出选项 > 源 ID" 字段中指定源场景的名称。
+9. Set the "None" type for this texture.
 
-10. 在 "导出选项 > 源大小" 字段 （以像素为单位） 设置纹理的大小。
+10. Set the "UV" value for the "Coordinates" parameter under the
+    "Mapping" tab.
+
+11. 在 "导出选项 > 源类型" 菜单中选择 "场景" 类型。
+
+12. 在 "导出选项 > 源 ID" 字段中指定源场景的名称。
+
+13. 在 "导出选项 > 源大小" 字段 （以像素为单位） 设置纹理的大小。
 
 [图片]
 

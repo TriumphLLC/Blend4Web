@@ -1,7 +1,15 @@
 #version GLSL_VERSION
 
-#include <precision_statement.glslf>
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var AA_METHOD AA_METHOD_FXAA_LIGHT
+#var AA_QUALITY AA_QUALITY_LOW
 
+/*============================================================================*/
+
+#include <precision_statement.glslf>
+#include <std.glsl>
 #include <color_util.glslf>
 
 uniform sampler2D u_color;
@@ -16,13 +24,6 @@ GLSL_IN vec2 v_texcoord;
 GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 /*============================================================================*/
-
-#define AA_METHOD_FXAA_LIGHT 1
-#define AA_METHOD_FXAA_QUALITY 2
-
-#define AA_QUALITY_LOW 0
-#define AA_QUALITY_MEDIUM 1
-#define AA_QUALITY_HIGH 2
 
 #if AA_METHOD == AA_METHOD_FXAA_LIGHT
 
@@ -42,7 +43,7 @@ vec4 fxaa_light() {
     vec4 rgbSE = get( 1.0, 1.0);
     vec4 rgbM  = get( 0.0, 0.0);
 
-	float lumaM  = luma(rgbM);
+    float lumaM  = luma(rgbM);
     float lumaNW = luma(rgbNW);
     float lumaNE = luma(rgbNE);
     float lumaSW = luma(rgbSW);
@@ -81,8 +82,6 @@ vec4 fxaa_light() {
 #elif AA_METHOD == AA_METHOD_FXAA_QUALITY
 
 # define FXAA_GREEN_AS_LUMA 1
-# define FXAA_BLEND4WEB 1
-
 # include <fxaa.glslf>
 
 # if AA_QUALITY == AA_QUALITY_HIGH

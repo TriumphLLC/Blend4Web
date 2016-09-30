@@ -507,6 +507,25 @@ class B4W_ShadowSettings(bpy.types.PropertyGroup):
         options = set()
     )
 
+    soft_shadows  = bpy.props.BoolProperty(
+        name = _("soft_shadows"),
+        description = _("Enable soft shadows"),
+        default = True,
+        options = set()
+    )
+
+    blur_samples = bpy.props.EnumProperty(
+        name = _("blur_samples"),
+        description = _("Samples number used for blur (the bigger is better, but slower)"),
+        default = "16x",
+        items = [
+            ("4x",  "4x",  "4x", 0),
+            ("8x", "8x", "8x", 1),
+            ("16x", "16x", "16x", 2)
+        ],
+        options = set()
+    )
+
     self_shadow_polygon_offset = bpy.props.FloatProperty(
         name = _("self_shadow_polygon_offset"),
         description = _("Polygon offset value to prevent shadow acne"),
@@ -1680,8 +1699,8 @@ def add_scene_properties():
 
     b4w_render_shadows = bpy.props.EnumProperty(
         name = _("B4W: render shadows"),
-        description = _("Render shadows for the scene objects with the " +
-                "'B4W shadow cast' and 'B4W shadow receive' properties"),
+        description = _("Render shadows for scene objects with " +
+                "'Cast Shadows' and 'Receive Shadows' properties enabled"),
         items = [
             ("OFF", _("OFF"), "OFF", 0),
             ("ON",  _("ON"),  "ON", 1),
@@ -1700,8 +1719,8 @@ def add_scene_properties():
 
     b4w_render_reflections = bpy.props.EnumProperty(
         name = _("B4W: render reflections"),
-        description = _("Render reflections for the scene objects with the " +
-                "'B4W reflection cast' and 'B4W reflection receive' properties"),
+        description = _("Render reflections for scene objects with " +
+                "'Reflective' and 'Reflexible' properties enabled"),
         items = [
             ("OFF", "OFF", "OFF", 0),
             ("ON",  "ON",  "ON", 1),
@@ -1876,7 +1895,7 @@ def add_scene_properties():
 
     b4w_antialiasing_quality = bpy.props.EnumProperty(
         name = _("B4W: antialiasing quality"),
-        description = _("antialiasing quality"),
+        description = _("Antialiasing quality"),
         items = [
             ("NONE",     _("NONE"),     _("NONE"), 1),
             ("LOW",      _("LOW"),      _("LOW"), 2),

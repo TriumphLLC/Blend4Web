@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Objects &mdash; Blend4Web 16.08 User Manual</title>
+  <title>Objects &mdash; Blend4Web 16.09 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 User Manual" href="index.html"/>
         <link rel="next" title="Meshes" href="meshes.html"/>
         <link rel="prev" title="Scene Settings" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
@@ -114,7 +114,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#quaternion-example">Quaternion Example</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web">Differences Between Coordinate Systems of Blender and Blend4Web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#moving-via-tsr-vectors">Moving via TSR Vectors</a></li>
 </ul>
 </li>
@@ -209,8 +208,7 @@
 <li><a class="reference internal" href="#quaternion-example" id="id17">Quaternion Example</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web" id="id18">Differences Between Coordinate Systems of Blender and Blend4Web</a></li>
-<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id19">Moving via TSR Vectors</a></li>
+<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id18">Moving via TSR Vectors</a></li>
 </ul>
 </li>
 </ul>
@@ -337,7 +335,13 @@
 <dt><em>Reflections &gt; Reflexible</em></dt>
 <dd>When enabled the object is reflected in the dynamic mirror surfaces.</dd>
 <dt><em>Reflections &gt; Reflexible Only</em></dt>
-<dd>The object will be reflected but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</dd>
+<dd><p class="first">The object will be reflected but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p>If the <code class="docutils literal"><span class="pre">Reflexible</span> <span class="pre">Only</span></code> parameter is enabled simultaneously with the <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span> <span class="pre">Only</span></code> parameter, the engine will not render the object itself, but will render its shadow and reflection, like it is shown on the picture below.</p>
+<a class="last reference internal image-reference" href="_images/objects_cast_reflexible_only.png"><img alt="_images/objects_cast_reflexible_only.png" class="align-center" src="_images/objects_cast_reflexible_only.png" style="width: 100%;" /></a>
+</div>
+</dd>
 <dt><em>Reflections &gt; Reflective</em></dt>
 <dd>When enabled the object surface reflects other objects.</dd>
 <dt><em>Reflections &gt; Reflection Plane</em></dt>
@@ -643,20 +647,19 @@
 <p>Let&#8217;s rotate it:</p>
 <blockquote>
 <div><ul class="simple">
-<li>The orientation of coordinate axes is different in Blender and in the engine. Upon export there will be a transformation [X Y Z] (Blender) -&gt; [X -Z Y] (the engine). Therefore we need to rotate the object relative to the Y axis and not the Z axis.</li>
 <li>A clockwise rotation corresponds to the rotation to the right (i.e. in the negative direction).</li>
 <li>60 degrees = <span class="math">\(\pi/3\)</span> radians.</li>
 </ul>
 </div></blockquote>
 <p>As a result we get:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// compose quaternion</span>
-<span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="kd">var</span> <span class="nx">quat_60_Z_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
 <span class="kd">var</span> <span class="nx">quat_old</span> <span class="o">=</span> <span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">);</span>
 
-<span class="c1">// left multiply: quat60_Y_neg * quat_old</span>
-<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Y_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="c1">// left multiply: quat60_Z_neg * quat_old</span>
+<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Z_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// set new rotation</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_new</span><span class="p">);</span>
@@ -664,12 +667,12 @@
 </div>
 <p>The optimized version which does not create new objects:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// cache arrays as global vars</span>
-<span class="kd">var</span> <span class="nx">AXIS_Y</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="kd">var</span> <span class="nx">AXIS_Z</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="kd">var</span> <span class="nx">quat_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="c1">// rotate</span>
-<span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Y</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Z</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">);</span>
 <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_tmp</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
@@ -677,17 +680,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="differences-between-coordinate-systems-of-blender-and-blend4web">
-<span id="b4w-blender-coordinates"></span><h2><a class="toc-backref" href="#id18">Differences Between Coordinate Systems of Blender and Blend4Web</a><a class="headerlink" href="#differences-between-coordinate-systems-of-blender-and-blend4web" title="Permalink to this headline">¶</a></h2>
-<p>In Blender’s coordinate system the <code class="docutils literal"><span class="pre">UP</span></code> vector, which points upwards, is co-directional with the Z axis. Blend4Web uses Y axis for this purpose, as it is customary in OpenGL. Thus the engine’s coordinates are rotated by 90° around the X axis relative to Blender.</p>
-<img alt="_images/axes.png" class="align-center" src="_images/axes.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>API methods use the engine’s coordinates, so they can work differently in comparison with setting Blender’s parameters.</p>
-</div>
 <div class="section" id="moving-via-tsr-vectors">
-<h2><a class="toc-backref" href="#id19">Moving via TSR Vectors</a><a class="headerlink" href="#moving-via-tsr-vectors" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id18">Moving via TSR Vectors</a><a class="headerlink" href="#moving-via-tsr-vectors" title="Permalink to this headline">¶</a></h2>
 <p>It is sometimes convenient to move objects using vectors of the following format:</p>
 <blockquote>
 <div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
@@ -716,7 +710,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-08-31.
+      Last updated on 2016-09-29.
 
     </p>
   </div>
@@ -772,7 +766,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

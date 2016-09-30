@@ -393,7 +393,7 @@ function update_nonwebvr_fov(device) {
     var bottom_dist = device.base_line_dist - device.bevel_size;
     var top_dist    = device.height_dist - bottom_dist;
     var inner_dist  = device.inter_lens_dist / 2;
-    var outer_dist  = device.width_dist / 2 - device.inter_lens_dist;
+    var outer_dist  = (device.width_dist - device.inter_lens_dist) / 2;
     var distor_coef = device.distortion_coefs;
 
     var bottom_tang = get_distort_fact_radius(distor_coef,
@@ -403,10 +403,10 @@ function update_nonwebvr_fov(device) {
             top_dist / device.screen_to_lens_dist);
     var top_angle = m_util.rad_to_deg(Math.atan(top_tang));
     var inner_tang = get_distort_fact_radius(distor_coef,
-            top_dist / device.screen_to_lens_dist);
+            inner_dist / device.screen_to_lens_dist);
     var inner_angle = m_util.rad_to_deg(Math.atan(inner_tang));
     var outer_tang = get_distort_fact_radius(distor_coef,
-            top_dist / device.screen_to_lens_dist);
+            outer_dist / device.screen_to_lens_dist);
     var outer_angle = m_util.rad_to_deg(Math.atan(outer_tang));
 
     // NOTE: 60...I don't know why
@@ -664,8 +664,8 @@ function update_hmd(device, timeline) {
 
         if (capabilities.hasPosition && webvr_pose.position) {
             device.position[0] = webvr_pose.position[0];
-            device.position[1] = webvr_pose.position[1];
-            device.position[2] = webvr_pose.position[2];
+            device.position[1] = -webvr_pose.position[2];
+            device.position[2] = webvr_pose.position[1];
         }
     } else {
         if (timeline - _last_updating_hmd_time > HMD_UPDATING_DELAY) {
@@ -985,6 +985,7 @@ function get_orientation_quat(device, dest) {
             dest[1] = device.orientation[1];
             dest[2] = device.orientation[2];
             dest[3] = device.orientation[3];
+            
         } else if (device.webvr_sensor_devices) {
             for (var i = 0; i < device.webvr_sensor_devices.length; i++) {
                 var webvr_sensor_device = device.webvr_sensor_devices[i];
@@ -1002,9 +1003,8 @@ function get_orientation_quat(device, dest) {
         }
         // NOTE: normalize dest, bcz firefox doesn't do this
         m_quat.normalize(dest, dest);
-        // NOTE: quaternion to WebGL axis orientation
-        var quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp);
-        m_quat.multiply(dest, quat, dest);
+        var quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp2);
+        m_quat.multiply(quat, dest, dest);
         return dest;
     default:
         m_print.error("orientation_quat is undefined for device: ", device.type);
@@ -1030,8 +1030,8 @@ function get_position(device, dest) {
 
                 if (webvr_state.position) {
                     dest[0] = webvr_state.position["x"];
-                    dest[1] = webvr_state.position["y"];
-                    dest[2] = webvr_state.position["z"];
+                    dest[1] = -webvr_state.position["z"];
+                    dest[2] = webvr_state.position["y"];
                 }
             }
         }
@@ -1058,15 +1058,9 @@ function gyro_angles_to_quat(angles, dest) {
     else
         var screen_orient = 0;
 
-    var screen_quat = m_quat.setAxisAngle(m_util.AXIS_Z,
-            -screen_orient, _quat_tmp2);
+    var screen_quat = m_quat.setAxisAngle(m_util.AXIS_MZ,
+            screen_orient, _quat_tmp2);
     m_quat.multiply(dest, screen_quat, dest);
-
-    // NOTE: quaternion to WebGL axis orientation
-    var quat = m_quat.setAxisAngle(m_util.AXIS_X, -Math.PI / 2, _quat_tmp2);
-    m_quat.multiply(quat, dest, dest);
-    var quat = m_quat.setAxisAngle(m_util.AXIS_X, Math.PI / 2, _quat_tmp2);
-    m_quat.multiply(dest, quat, dest);
     return dest;
 }
 

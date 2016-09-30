@@ -1,21 +1,20 @@
-# SOME DESCRIPTIVE TITLE.
+# Blend4Web User Manual Russian Translation: Web Player
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as the Blend4Web. User
-# Manual package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# This file is distributed under the same license as Blend4Web.
+# Blend4Web Team <info [at] blend4web.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.07\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-17 15:43+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: Blend4Web 16.08\n"
+"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
+"POT-Creation-Date: 2016-09-28 14:05+0300\n"
+"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"Language-Team: Russian <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../web_player.rst:7
 msgid "Web Player"
@@ -136,18 +135,22 @@ msgid "share via Google+;"
 msgstr "кнопка Google+;"
 
 #: ../web_player.rst:74
-msgid "share via VK."
-msgstr "кнопка ВКонтакте."
+msgid "share via VK;"
+msgstr "кнопка ВКонтакте;"
 
-#: ../web_player.rst:79
+#: ../web_player.rst:75
+msgid "share via Weibo."
+msgstr "кнопка Weibo."
+
+#: ../web_player.rst:80
 msgid "Attributes"
 msgstr "Атрибуты"
 
-#: ../web_player.rst:81
+#: ../web_player.rst:82
 msgid "Web player accepts attributes from the browser address line:"
 msgstr "Веб-плеер принимает атрибуты из адресной строки браузера:"
 
-#: ../web_player.rst:89
+#: ../web_player.rst:90
 msgid ""
 "the special attribute ``load`` is used to load the scene, this attribute "
 "contains relative path to a JSON file."
@@ -155,7 +158,7 @@ msgstr ""
 "для загрузки сцены используется обязательный атрибут ``load``, в который "
 "помещается относительный путь к JSON файлу."
 
-#: ../web_player.rst:90
+#: ../web_player.rst:91
 msgid ""
 "in case of a WebGL error the optional ``fallback_image`` attribute is "
 "used to setup the background image instead of 3D content."
@@ -163,7 +166,7 @@ msgstr ""
 "необязательный атрибут ``fallback_image`` используется для установки "
 "фона, заменяющего сцену при возникновении ошибки WebGL."
 
-#: ../web_player.rst:91
+#: ../web_player.rst:92
 msgid ""
 "in case of a WebGL error the optional ``fallback_video`` attribute is "
 "used to setup the background video instead of 3D content. Can be used "
@@ -174,7 +177,7 @@ msgstr ""
 "использоваться неоднократно с целью добавления видео файлов различных "
 "форматов."
 
-#: ../web_player.rst:93
+#: ../web_player.rst:94
 msgid ""
 "the optional ``show_fps`` attribute is used to display the FPS counter in"
 " the player's top right corner."
@@ -182,7 +185,7 @@ msgstr ""
 "необязательный атрибут ``show_fps`` применяется для отображения счетчика "
 "кадров в секунду в правом верхнем углу плеера."
 
-#: ../web_player.rst:94
+#: ../web_player.rst:95
 msgid ""
 "optional parameter ``autorotate`` is used to enable automatic camera "
 "rotation just after the scene loads."
@@ -190,7 +193,7 @@ msgstr ""
 "необязательный атрибут ``autorotate`` используется для включения "
 "автоматического вращения камеры сразу после загрузки сцены."
 
-#: ../web_player.rst:95
+#: ../web_player.rst:96
 msgid ""
 "the ``compressed_textures`` optional parameter is used to enable loading "
 "of minified and compressed textures (in DDS format)."
@@ -198,7 +201,17 @@ msgstr ""
 "необязательный атрибут ``compressed_textures`` используется для включения"
 " загрузки уменьшенных текстур и текстур в формате с компрессией (DDS)."
 
-#: ../web_player.rst:96
+#: ../web_player.rst:97
+msgid ""
+"the ``compressed_textures_pvr`` optional parameter is used to enable "
+"loading of textures compressed in PVRTC format. This parameter is used "
+"with the ``compressed_textures`` parameter."
+msgstr ""
+"необязательный атрибут ``compressed_textures_pvr`` используется для "
+"включения  загрузки текстур с компрессией PVRTC. Применяется совместно с "
+"атрибутом ``compressed_textures``."
+
+#: ../web_player.rst:98
 msgid ""
 "optional ``alpha`` parameter is used to enable transparency for the "
 "rendering area."
@@ -206,7 +219,7 @@ msgstr ""
 "необязательный атрибут ``alpha`` используется для установки прозрачности "
 "области отрисовки."
 
-#: ../web_player.rst:97
+#: ../web_player.rst:99
 msgid ""
 "the optional ``no_social`` attribute is used to disable social networks "
 "buttons on the control panel."
@@ -214,7 +227,24 @@ msgstr ""
 "необязательный атрибут ``no_social`` используется для отключения кнопок "
 "социальных сетей на панели управления."
 
-#: ../web_player.rst:101
+#: ../web_player.rst:100
+msgid ""
+"the optional ``socials`` attribute is used to selectively enable and "
+"disable social network buttons on the control panel. This attribute "
+"should look like ``socials=<...>``, where ``<...>`` is a set of letters "
+"corresponding to the social network buttons you want to enable (``f`` for"
+" Facebook, ``v`` for VK, ``t`` for Twitter, ``w`` for Weibo and ``g`` for"
+" Google+). The order of letters sets the order in which the buttons will "
+"appear on the screen."
+msgstr ""
+"необязательный атрибут ``socials`` используется для выборочного включения"
+" и отключения кнопок социальных сетей, а также для задания порядка, в "
+"котором они располагаются на экране. Этот атрибут должен выглядеть так: "
+"``socials=<...>``, где ``<...>`` - набор букв, соответствующих кнопкам "
+"социальных сетей, которые вы хотите включить (``f`` - Facebook, ``v`` - "
+"VK, ``t`` - Twitter, ``w`` - Weibo, ``g`` - Google+)."
+
+#: ../web_player.rst:104
 msgid ""
 "If both ``fallback_image`` and ``fallback_video`` parameters are "
 "specified, the ``fallback_image`` parameter is used."
@@ -222,11 +252,11 @@ msgstr ""
 "Если указаны параметры ``fallback_image`` и ``fallback_video``, приоритет"
 " имеет ``fallback_image``."
 
-#: ../web_player.rst:106
+#: ../web_player.rst:109
 msgid "Scene Name as Title"
 msgstr "Название сцены в заголовке"
 
-#: ../web_player.rst:108
+#: ../web_player.rst:111
 msgid ""
 "By default the Web Player has the ``Blend4Web Web Player`` title. "
 "Assigning the meta tag ``title`` on the scene in Blender you can change "
@@ -236,17 +266,17 @@ msgstr ""
 " Player``. С помощью мета-тега ``title`` в настройках сцены можно "
 "изменить значение по умолчанию."
 
-#: ../web_player.rst:115
+#: ../web_player.rst:118
 msgid "Scene Errors"
 msgstr "Ошибки сцены"
 
-#: ../web_player.rst:117
+#: ../web_player.rst:120
 msgid "If the player is used incorrectly it displays the corresponding errors."
 msgstr ""
 "В случае некорректного использования веб-плеера выводятся сообщения об "
 "ошибках."
 
-#: ../web_player.rst:120
+#: ../web_player.rst:123
 msgid ""
 "the ``load`` attribute specifies a wrong path to the JSON file or the "
 "file is corrupt;"
@@ -254,11 +284,11 @@ msgstr ""
 "атрибутом ``load`` указан неверный путь к JSON файлу или данный файл "
 "неисправен;"
 
-#: ../web_player.rst:128
+#: ../web_player.rst:131
 msgid "the ``load`` attribute is not found or is void;"
 msgstr "атрибут ``load`` не найден или его значение пустое;"
 
-#: ../web_player.rst:136
+#: ../web_player.rst:139
 msgid "WebGL initialization error."
 msgstr "ошибка инициализации WebGL."
 

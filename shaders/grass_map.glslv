@@ -1,9 +1,20 @@
 #version GLSL_VERSION
 
 /*==============================================================================
+                                VARS
+==============================================================================*/
+#var DYNAMIC_GRASS_SIZE 0
+#var DYNAMIC_GRASS_COLOR 0
+#var WIND_BEND 0
+
+#var STATIC_BATCH 0
+#var BILLBOARD 0
+#var BILLBOARD_JITTERED 0
+
+/*==============================================================================
                                   INCLUDES
 ==============================================================================*/
-
+#include <std.glsl>
 #include <math.glslv>
 #include <to_world.glslv>
 
@@ -67,26 +78,26 @@ uniform float u_jitter_freq;
 ==============================================================================*/
 
 void main(void) {
-    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+    mat3 view_tsr = u_view_tsr;
 
-    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+    mat3 model_tsr = u_model_tsr;
 # if BILLBOARD
-    vec3 wcen = (model_mat * vec4(vec3(0.0), 1.0)).xyz;
+    vec3 wcen = tsr9_transform(model_tsr, vec3(0.0));
 
-    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, view_matrix);
+    mat3 model_tsr = billboard_tsr(u_camera_eye, wcen, view_tsr);
 #  if WIND_BEND && BILLBOARD_JITTERED
-    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
-        u_jitter_amp, u_jitter_freq, vec3(0.0));
+    model_tsr = bend_jitter_rotate_tsr(u_wind, u_time,
+        u_jitter_amp, u_jitter_freq, vec3(0.0), model_tsr);
 #  endif
     vertex world = to_world(a_position, vec3(0.0), vec3(0.0), vec3(0.0),
-            vec3(0.0), vec3(0.0), model_matrix);
+            vec3(0.0), vec3(0.0), model_tsr);
     world.center = wcen;
 # else
     vertex world = to_world(a_position, vec3(0.0), vec3(0.0), vec3(0.0),
-            vec3(0.0), vec3(0.0), model_mat);
+            vec3(0.0), vec3(0.0), model_tsr);
 # endif
 
-    vec4 pos_clip = u_proj_matrix * view_matrix * vec4(world.position, 1.0);
+    vec4 pos_clip = u_proj_matrix * vec4(tsr9_transform(view_tsr, world.position), 1.0);
 
 #if DYNAMIC_GRASS_SIZE
 # if DYNAMIC_GRASS_COLOR

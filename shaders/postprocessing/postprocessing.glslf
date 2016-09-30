@@ -1,20 +1,14 @@
 #version GLSL_VERSION
 
-#include <precision_statement.glslf>
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var POST_EFFECT POST_EFFECT_NONE
 
-#define POST_EFFECT_NONE            1
-#define POST_EFFECT_GRAYSCALE       2
-#define POST_EFFECT_X_BLUR          3
-#define POST_EFFECT_Y_BLUR          4
-#define POST_EFFECT_X_GLOW_BLUR     5
-#define POST_EFFECT_Y_GLOW_BLUR     6
-#define POST_EFFECT_X_DOF_BLUR      7
-#define POST_EFFECT_Y_DOF_BLUR      8
-#define POST_EFFECT_X_ALPHA_BLUR    9
-#define POST_EFFECT_Y_ALPHA_BLUR    10
-#define POST_EFFECT_X_EXTEND        11
-#define POST_EFFECT_Y_EXTEND        12
-#define FLIP_CUBEMAP_COORDS         13
+/*============================================================================*/
+
+#include <precision_statement.glslf>
+#include <std.glsl>
 
 uniform vec2 u_texel_size;
 uniform sampler2D u_color;
@@ -24,7 +18,7 @@ uniform int u_tex_number;
 uniform vec2 u_delta;
 #endif
 
-#if POST_EFFECT == POST_EFFECT_X_DOF_BLUR || POST_EFFECT == POST_EFFECT_Y_DOF_BLUR
+#if POST_EFFECT == POST_EFFECT_DOF_BLUR
 uniform float u_dof_bokeh_intensity;
 #endif
 
@@ -52,7 +46,7 @@ void main(void) {
     GLSL_OUT_FRAG_COLOR.rgb = vec3((c.r + c.g + c.b) / 3.0);
     GLSL_OUT_FRAG_COLOR.a = 1.0;
 
-#elif POST_EFFECT == POST_EFFECT_X_BLUR || POST_EFFECT == POST_EFFECT_Y_BLUR
+#elif POST_EFFECT == POST_EFFECT_BLUR
     vec2 offset = vec2(0.0, 0.0);
     vec2 delta = u_texel_size;
     vec4 color;
@@ -84,7 +78,7 @@ void main(void) {
     color = GLSL_TEXTURE(u_color, v_texcoord - offset);
     GLSL_OUT_FRAG_COLOR += color * 0.0162162162;
 
-#elif POST_EFFECT == POST_EFFECT_X_GLOW_BLUR || POST_EFFECT == POST_EFFECT_Y_GLOW_BLUR
+#elif POST_EFFECT == POST_EFFECT_GLOW_BLUR
     vec2 offset = vec2(0.0, 0.0);
     vec2 delta = u_texel_size;
     vec4 color;
@@ -147,7 +141,7 @@ void main(void) {
 
     GLSL_OUT_FRAG_COLOR = clamp(GLSL_OUT_FRAG_COLOR, 0.0, 1.0); 
 
-#elif POST_EFFECT == POST_EFFECT_X_DOF_BLUR || POST_EFFECT == POST_EFFECT_Y_DOF_BLUR
+#elif POST_EFFECT == POST_EFFECT_DOF_BLUR
     vec2 offset = vec2(0.0, 0.0);
     vec2 delta = u_texel_size;
     vec4 color;
@@ -179,7 +173,7 @@ void main(void) {
 
     GLSL_OUT_FRAG_COLOR = mix(avg_color, max_color, bokeh_intensity);
 
-#elif POST_EFFECT == POST_EFFECT_X_ALPHA_BLUR || POST_EFFECT == POST_EFFECT_Y_ALPHA_BLUR
+#elif POST_EFFECT == POST_EFFECT_ALPHA_BLUR
     vec2 offset = vec2(0.0, 0.0);
     vec2 delta = u_texel_size;
     vec4 color;
@@ -225,7 +219,7 @@ void main(void) {
 
     GLSL_OUT_FRAG_COLOR = mix(avg_color, max_color, 0.5);
 
-#elif POST_EFFECT == POST_EFFECT_X_EXTEND || POST_EFFECT == POST_EFFECT_Y_EXTEND
+#elif POST_EFFECT == POST_EFFECT_EXTEND
     vec2 delta = u_texel_size;
 
     vec4 color = GLSL_TEXTURE(u_color, v_texcoord);
@@ -250,42 +244,43 @@ void main(void) {
     vec2 scale = vec2(rel_x_dim, rel_y_dim);
     if (u_tex_number == 0) {
         // +X
-        vec2 texcoord = v_texcoord * scale + vec2(2.0 * rel_x_dim, 0.0);
-        texcoord[0] = min(texcoord[0], 1.0 - delta_x);
-        texcoord[1] = min(texcoord[1], 0.5 - delta_y);
-        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(5.0 * rel_x_dim - texcoord[0], texcoord[1]));
+        vec2 texcoord = mat2(0.0, -1.0, 1.0, 0.0) * v_texcoord * scale + vec2(2.0 * rel_x_dim, rel_y_dim);
+        texcoord[0] = max(texcoord[0], 2.0 * rel_x_dim + delta_x);
+        texcoord[1] = max(texcoord[1], delta_y);
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(texcoord[0], rel_y_dim - texcoord[1]));
     } else if (u_tex_number == 1) {
         // -X
-        vec2 texcoord = v_texcoord * scale;
+        vec2 texcoord = mat2(0.0, -1.0, 1.0, 0.0) * v_texcoord * scale + vec2(0.0, rel_y_dim);
         texcoord[0] = max(texcoord[0], delta_x);
-        texcoord[1] = min(texcoord[1], 0.5 - delta_y);
+        texcoord[1] = min(texcoord[1], rel_y_dim - delta_y);
         GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(rel_x_dim - texcoord[0], texcoord[1]));
     } else if (u_tex_number == 2) {
         // +Y
+        vec2 texcoord = v_texcoord * scale + vec2(2.0 * rel_x_dim, rel_y_dim);
+        texcoord[0] = max(texcoord[0], 2.0 * rel_x_dim + delta_x);
+        texcoord[1] = min(texcoord[1], 1.0 - delta_y);
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(texcoord[0], 1.5 - texcoord[1]));
+    } else if (u_tex_number == 3) {
+        // -Y
+        vec2 texcoord = v_texcoord * scale + vec2(rel_x_dim, 0.0);
+        texcoord[0] = max(texcoord[0], rel_x_dim + delta_x);
+        texcoord[0] = min(texcoord[0], 2.0 * rel_x_dim - delta_x);
+        texcoord[1] = min(texcoord[1], rel_y_dim - delta_y);
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(1.0 - texcoord[0], texcoord[1]));
+    } else if (u_tex_number == 4) {
+        // +Z
         vec2 texcoord = v_texcoord * scale + vec2(rel_x_dim, rel_y_dim);
         texcoord[0] = max(texcoord[0], rel_x_dim + delta_x);
         texcoord[0] = min(texcoord[0], 2.0 * rel_x_dim - delta_x);
         texcoord[1] = min(texcoord[1], 1.0 - delta_y);
         GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(texcoord[0], 3.0 * rel_y_dim - texcoord[1]));
-    } else if (u_tex_number == 3) {
-        // -Y
-        vec2 texcoord = v_texcoord * scale + vec2(0.0, rel_y_dim);
-        texcoord[0] = min(texcoord[0], rel_x_dim - delta_x);
-        texcoord[1] = min(texcoord[1], 1.0 - delta_y);
-        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(texcoord[0], 3.0 * rel_y_dim - texcoord[1]));
-    } else if (u_tex_number == 4) {
-        // +Z
-        vec2 texcoord = v_texcoord * scale + vec2(rel_x_dim, 0.0);
-        texcoord[0] = max(texcoord[0], rel_x_dim + delta_x);
-        texcoord[0] = min(texcoord[0], 2.0 * rel_x_dim - delta_x);
-        texcoord[1] = min(texcoord[1], 0.5 - delta_y);
-        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(1.0 - texcoord[0], texcoord[1]));
     } else {
         // -Z
-        vec2 texcoord = v_texcoord * scale + vec2(2.0 * rel_x_dim, rel_y_dim);
-        texcoord[0] = min(texcoord[0], 1.0 - delta_x);
-        texcoord[1] = max(texcoord[1], 0.5 + delta_y);
-        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(5.0 * rel_x_dim - texcoord[0], texcoord[1]));
+        vec2 texcoord = v_texcoord * scale + vec2(0.0, rel_y_dim);
+        texcoord[0] = max(texcoord[0], delta_x);
+        texcoord[1] = min(texcoord[1], 1.0 - delta_y);
+        texcoord[1] = max(texcoord[1], rel_y_dim + delta_y);
+        GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_color, vec2(rel_x_dim - texcoord[0], texcoord[1]));
     }
 
 #endif

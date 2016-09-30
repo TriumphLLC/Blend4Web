@@ -1,6 +1,7 @@
 #version GLSL_VERSION
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 
 uniform sampler2D u_src_color;
 uniform sampler2D u_glow_mask_small;

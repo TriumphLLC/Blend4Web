@@ -157,12 +157,12 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
             try:
                 scripts = ""
                 if os.path.isfile(b4w_minjs_path):
-                    with open(b4w_minjs_path, "r") as f:
+                    with open(b4w_minjs_path, "r", encoding="utf-8") as f:
                         scripts = f.read()
                         f.close()
                 styles = ""
                 if os.path.isfile(b4w_css_path):
-                    with open(b4w_css_path, "r") as f:
+                    with open(b4w_css_path, "r", encoding="utf-8") as f:
                         styles = f.read()
                         f.close()
                 data = json.dumps(extract_data(json_path, json_name, self.export_converted_media))
@@ -173,7 +173,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
                                             + get_filepath_blend(self.filepath) +"'/>"))
                 app_str = get_html_template(html_tpl_path).substitute(insertions)
 
-                f  = open(export_filepath, "w")
+                f  = open(export_filepath, "w", encoding="utf-8")
             except IOError as exp:
                 exporter._file_error = exp
                 raise exporter.FileError("Permission denied")
@@ -203,7 +203,7 @@ class B4W_ExportHTMLPathGetter(bpy.types.Operator):
         return {"FINISHED"}
 
 def get_html_template(path):
-    tpl_file = open(path, "r")
+    tpl_file = open(path, "r", encoding="utf-8")
     tpl_str = tpl_file.read()
     tpl_file.close()
     return Template(tpl_str)

@@ -343,8 +343,8 @@ function rotate_cam_cb(obj, id, pulse) {
     var y = -_default_cam_rot[1] - dy;
 
     _vec3_tmp[0] = _cam_pivot[0] + _cam_dist * Math.sin(x);
-    _vec3_tmp[1] = _cam_pivot[1] + _cam_dist * Math.sin(y);
-    _vec3_tmp[2] = _cam_pivot[2] + _cam_dist * Math.cos(x);
+    _vec3_tmp[1] = _cam_pivot[1] - _cam_dist * Math.cos(x);
+    _vec3_tmp[2] = _cam_pivot[2] + _cam_dist * Math.sin(y);
 
     m_cam.static_set_look_at(camobj, _vec3_tmp, _cam_pivot);
     m_cam.correct_up(camobj);
@@ -542,6 +542,9 @@ function menu_initialization() {
             console_verbose: true,
             alpha: false,
             physics_use_workers: !is_mobile,
+            assets_dds_available: !is_debug,
+            assets_pvr_available: !is_debug,
+            assets_min50_available: !is_debug,
             show_fps: is_debug,
             autoresize: true
         });

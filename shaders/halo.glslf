@@ -1,16 +1,16 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var NUM_LINES 0
-#var NUM_RINGS 0
-#var NUM_STARS 0
-#var WAVES_HEIGHT 0.0
+#var SKY_STARS 0
+#var WATER_EFFECTS 0
+#var DISABLE_FOG 0
 
 /*============================================================================*/
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 
 uniform vec4  u_diffuse_color;
 uniform vec3  u_halo_rings_color;

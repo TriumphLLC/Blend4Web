@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lighting, Shadows and Background &mdash; Blend4Web 16.08 用户手册</title>
+  <title>Lighting, Shadows and Background &mdash; Blend4Web 16.09 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 用户手册" href="index.html"/>
         <link rel="next" title="后期处理效果" href="postprocessing_effects.html"/>
         <link rel="prev" title="Logic Editor" href="logic_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -84,13 +84,13 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -258,7 +258,7 @@
 <dt><em>Falloff</em></dt>
 <dd>Attenuation type. The value is exported but the engine always uses <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>. It is applicable to the <code class="docutils literal"><span class="pre">Point</span></code> and <code class="docutils literal"><span class="pre">Spot</span></code> light source types. The default value is <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>.</dd>
 <dt><em>Distance</em></dt>
-<dd>Attenuation parameter. It is applicable to the <code class="docutils literal"><span class="pre">Point</span></code> and <code class="docutils literal"><span class="pre">Spot</span></code> light source types. The default value is 25.0.</dd>
+<dd>Attenuation parameter. It is applicable to the <code class="docutils literal"><span class="pre">Point</span></code> and <code class="docutils literal"><span class="pre">Spot</span></code> light source types. The default value is 30.0.</dd>
 <dt><em>Specular</em></dt>
 <dd>Create specular highlights. Enabled by default.</dd>
 <dt><em>Diffuse</em></dt>
@@ -351,8 +351,14 @@
 <p>The following additional settings are located on the <code class="docutils literal"><span class="pre">Shadows</span></code> panel of the <code class="docutils literal"><span class="pre">Render</span></code> tab:</p>
 <a class="reference internal image-reference" href="_images/lighting_shadow_settings.png"><img alt="_images/lighting_shadow_settings.png" class="align-center" src="_images/lighting_shadow_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
+<dt><em>Render Shadows</em></dt>
+<dd>Enables and disables shadow rendering. Can be set to <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> and <code class="docutils literal"><span class="pre">AUTO</span></code>. Set to <code class="docutils literal"><span class="pre">AUTO</span></code> by default.</dd>
+<dt><em>Soft Shadows</em></dt>
+<dd>This option enables smoothing of the shadow maps. Enabled by default.</dd>
 <dt><em>Resolution</em></dt>
-<dd>Shadow map resolution. The default value is 2048x2048px.</dd>
+<dd>Shadow map resolution. The default value is 2048 x 2048px.</dd>
+<dt><em>Blur Samples</em></dt>
+<dd>The number of the samples used for smoothing shadow maps. Available values are 4x, 8x and 16x, with the latter being the default value.</dd>
 <dt><em>Self-Shadow Polygon Offset</em></dt>
 <dd>Coefficient for shifting polygons relative to light source orientation. The default value is 1.</dd>
 <dt><em>Self-Shadow Normal Offset</em></dt>
@@ -511,7 +517,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-08-31.
+      最后更新于 2016-09-29.
 
     </p>
   </div>
@@ -567,7 +573,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

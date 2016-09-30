@@ -27,20 +27,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-  
+
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var SMAA_PASS SMAA_RESOLVE
+#var SMAA_REPROJECTION 0
+#var SMAA_PREDICATION 0
+#var AA_METHOD AA_METHOD_SMAA_LOW
+
+/*============================================================================*/
+
 #include <precision_statement.glslf>
-#include <color_util.glslf>
+#include <std.glsl>
 #include <pack.glslf>
-
-#define SMAA_RESOLVE 1
-#define SMAA_EDGE_DETECTION 2
-#define SMAA_BLENDING_WEIGHT_CALCULATION 3
-#define SMAA_NEIGHBORHOOD_BLENDING 4
-
-#define AA_METHOD_SMAA_LOW 1
-#define AA_METHOD_SMAA_MEDIUM 2
-#define AA_METHOD_SMAA_HIGH 3
-#define AA_METHOD_SMAA_ULTRA 4
 
 uniform sampler2D u_color;
 

@@ -797,6 +797,7 @@ class B4W_LogicNodeTree(NodeTree):
             ret["common_usage_names"]["request_type"] = node.param_request_type
             ret["common_usage_names"]["param_anim_behavior"] = node.param_anim_behavior
             ret["common_usage_names"]["space_type"] = node.param_space_type
+            ret["common_usage_names"]["string_operation"] = node.param_string_operation
             ret["common_usage_names"]["json_operation"] = node.param_json_operation
             ret["common_usage_names"]["variable_type"] = node.param_variable_type
             ret["common_usage_names"]["condition"] = node.param_condition

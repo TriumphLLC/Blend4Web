@@ -44,6 +44,7 @@ var _vec4_tmp2 = m_vec4.create();
 var _splited_screen = false;
 
 var cfg_dbg = m_cfg.debug_subs;
+var cfg_def = m_cfg.defaults;
 
 /**
  * Type of the names of the synchronous vector parameter of a device.
@@ -617,22 +618,24 @@ exports.request_fullscreen_hmd = function() {
         // TODO: add "&& !webvr_display.isPresenting" to "if" (optimization).
         // Right now webvr_display.isPresenting is allways "true" after
         // first requestPresent.
-        if (webvr_display) {
+        if (webvr_display && !webvr_display.isPresenting) {
             var capabilities = webvr_display.capabilities;
             if (!capabilities.canPresent)
                 m_print.error("HMD fullscreen request failed.");
             else {
                 var canvas = m_cont.get_canvas();
                 webvr_display.requestPresent([{source: canvas}]).then(function () {
-                    // TODO: uncomment code
-                    // There is strange behavior Samsung Internet on GearVR
+                    // TODO: check code below
+                    // There was strange behavior Samsung Internet on GearVR
 
-                    // var left_eye = webvr_display.getEyeParameters("left");
-                    // var right_eye = webvr_display.getEyeParameters("right");
-                    //
-                    // m_cont.resize(
-                    //         Math.max(left_eye.renderWidth, right_eye.renderWidth) * 2,
-                    //         Math.max(left_eye.renderHeight, right_eye.renderHeight));
+                    if (!cfg_def.is_mobile_device) {
+                        var left_eye = webvr_display.getEyeParameters("left");
+                        var right_eye = webvr_display.getEyeParameters("right");
+
+                        m_cont.resize(
+                                Math.max(left_eye.renderWidth, right_eye.renderWidth) * 2,
+                                Math.max(left_eye.renderHeight, right_eye.renderHeight), false);
+                    }
                 }, function () {
                     m_print.error("HMD fullscreen request failed.");
                 });

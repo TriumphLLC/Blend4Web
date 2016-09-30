@@ -21,7 +21,7 @@
     "sampler2D", "samplerCube", "struct", 
 
     // additional custom or GLSL ES 3.0 keywords
-    "GLSL_IN", "GLSL_OUT", 
+    "GLSL_IN", "GLSL_OUT",
 
     // reserved for future use in (union of the GLSL ES 1.0 and GLSL ES 3.0 keywords)
     "attribute", "varying", "coherent", "restrict", "readonly", "writeonly", "resource", 
@@ -52,7 +52,8 @@
   // NOTE: buggy for nontrivial usage of #define directives, e.g. cycle or 
   // chain substitutions 
   function vardef_replace(units) {
-    var repl = {};
+    var repl_non_node = {};
+    var repl_all = {};
 
     for (var i = 0; i < units.length; i++) {
       var unit = units[i][0];
@@ -61,19 +62,29 @@
         switch(unit.type) {
           case "var":
           case "define":
-            repl[unit.repl.from] = unit.repl.to;
+            repl_non_node[unit.repl.from] = unit.repl.to;
+            repl_all[unit.repl.from] = unit.repl.to;
             break;
           case "undef":
-            delete repl[unit.identifier];
+            delete repl_non_node[unit.identifier];
+            delete repl_all[unit.identifier];
             break;
         }
-      }
-      else if (unit.node == "text")
+      } else if (unit.node == "node_directive") {
+        switch (unit.type) {
+          case "node_var":
+            repl_all[unit.repl.from] = unit.repl.to;
+            break;
+          case "endnode":
+            repl_all = JSON.parse(JSON.stringify(repl_non_node));
+            break;
+        }
+      } else if (unit.node == "text")
         for (var j = 0; j < unit.result.length; j++) {
           var token = unit.result[j];
-          for (var from in repl)
+          for (var from in repl_all)
             if (token == from) {
-              var to = vardef_recourse(repl[from], repl);
+              var to = vardef_recourse(repl_all[from], repl_all);
               units[i][0].result[j] = "/*%replace%from%" + from 
                   + "%to%" + to + "%*/" + to + "/*%replace_end%*/";
               break;
@@ -113,10 +124,6 @@
       else if (unit.node == "include")
         listing += "/*%" + unit.type + "%" + unit.name + "%*/\n";
 
-      // import/export tokens
-      else if (unit.node == "import" || unit.node == "export")
-        listing += build_import_export(unit.node, unit.tokens);
-
       // simple textlines
       else if (unit.node == "text")
         listing += build_textline(unit, nodes_collector);
@@ -130,10 +137,6 @@
   }
 
 
-
-  function build_import_export(type, tokens) {
-    return "/*%" + type + "%" + tokens.join() + "%*/";
-  }
 
   function build_textline(unit, nodes_collector) {
     var listing = "";
@@ -174,8 +177,9 @@
       case "node_param":
         nodes_collector.nodes_structure[nodes_collector.current_node].push(unit);
         break;
+      case "node_var":
       case "node_condition":
-        // do not move node_condition to nodes_main or nodes_global
+        // do not move node_var/node_condition into nodes_main or nodes_global
         listing += "/*%" + unit.type + "%" + unit.source_str + "%" + 
             nodes_collector.current_node + "%" + unit.offset + "%*/\n";
         break;
@@ -277,19 +281,14 @@
     return listing;
   }
 
-  var _is_node_param = false;
-
   // GLSL parsing: read directives
   var _pp_node_with_node_condition = [];
   var _pp_vardef_identifiers = [];
-  var _pp_import_export = {};
   // {uid: node}
   var _uid_to_node = {};
 
   var _pp_insertions = {};
   var _pp_insertions_array = [];
-
-  var CURR_INCLUDE = [null];
 
   function check_directive_comment(symbols) {
     // check directive comment insertion
@@ -300,7 +299,7 @@
     if (str.charAt(0) == "%") {
       check_directive(str) || check_replace(str) || check_node_insertion(str)
       || check_node_borders(str) || check_node_parameters(str) || check_node_condition(str)
-      || check_include(str) || check_import_export(str);
+      || check_node_var(str) || check_include(str);
     }
   }
 
@@ -318,7 +317,8 @@
     var expr = /^ *?# *?(define|var) *?([0-9a-z_]+)/i;
     var res = expr.exec(str);
     if (res) {
-      _pp_vardef_identifiers.push(res[2]);
+      if (_pp_vardef_identifiers.indexOf(res[2]) == -1)
+        _pp_vardef_identifiers.push(res[2]);
       return true;
     }
     return false;
@@ -360,13 +360,6 @@
 
     if (res) {
       _pp_insertions[offset()] = "\n/*" + str + "*/\n";
-
-      if (res[1] !== "node_textline")
-        if (res[2])
-          _is_node_param = false;
-        else
-          _is_node_param = true;
-
       return true;
     }
     return false; 
@@ -383,57 +376,29 @@
     return false; 
   }
 
+  function check_node_var(str) {
+    var expr = /^%node_var%#node_var *?([0-9a-z_]+)/i;
+    var res = expr.exec(str);
+    if (res) {
+      _pp_insertions[offset()] = "\n/*" + str + "*/\n";
+      if (_pp_vardef_identifiers.indexOf(res[1]) == -1)
+        _pp_vardef_identifiers.push(res[1]);
+      return true;
+    }
+    return false;
+  }
+
   function check_include(str) {
     var expr = /^%(include|include_end)%(.*?)%$/;
     var res = expr.exec(str);
     if (res) {
-      var type = res[1];
-      var name = res[2];
-
-      switch (type) {
-      case "include":
-        CURR_INCLUDE.push(name);
-        if (!(name in _pp_import_export))
-          _pp_import_export[name] = {
-            "import": {},
-            "export": {}
-          }
-        break;
-      case "include_end":
-        CURR_INCLUDE.pop();
-        break;
-      }
-
       _pp_insertions[offset()] = "\n/*" + str + "*/\n";
       return true;
     }
     return false;
   }
 
-  function check_import_export(str) {
-    var expr = /^%(import|export)%(.*?)%$/;
-    var res = expr.exec(str);
-    if (res) {
-      var incl_name = CURR_INCLUDE[CURR_INCLUDE.length - 1];
-      if (!(incl_name in _pp_import_export)) {
-        _pp_import_export[incl_name] = {
-          "import": {},
-          "export": {}
-        }
-      }
-
-      if (res[2] != "") {
-        var type = res[1];
-        var tokens = res[2].split(",");
-        for (var i = 0; i < tokens.length; i++)
-          _pp_import_export[incl_name][type][tokens[i]] = 0;
-      }
-      return true;
-    } 
-    return false;
-  }
-
-  
+ 
 
 
   // GLSL parsing: generate special nodes
@@ -608,7 +573,6 @@ start
     var data = {
       node_with_node_condition: _pp_node_with_node_condition,
       vardef_ids: _pp_vardef_identifiers,
-      import_export: _pp_import_export,
       uid_to_nodes: _uid_to_node,
     }
     
@@ -751,8 +715,7 @@ single_declaration
     var decl = {
       node: "single_declaration",
       subtype: "simple",
-      type: type,
-      is_node_inoutparam_decl: _is_node_param
+      type: type
     }
     if (id) {
       decl.identifier = id[1];
@@ -1765,7 +1728,7 @@ FIELD_SELECTION
   }
 
 RESERVED
-  // NOTE: it's faster to check with a predicate than to create additional rules 
+  // NOTE: it's faster to check with a predicate(&) than to create additional rules 
   // for every reserved string literal
   = id:(nondigit+ (nondigit / digit)*)
   &{ var name = id[0].concat(id[1]).join(""); return token_is_reserved(name); }
@@ -2004,8 +1967,10 @@ EOF
 pp_start
   = __ units:(pp_unit __)*
   {
-    // process replacement for #var, #define
-    return build_listing(vardef_replace(units));
+    return {
+      units: units,
+      text: build_listing(vardef_replace(units))
+    }
   }
 
 pp_unit
@@ -2015,7 +1980,6 @@ pp_unit
   / pp_directives
   / pp_node_dir
   / include_dir_comment
-  / pp_import_export
   / tokens:(!("#" / "//" / "/*") (IDENTIFIER / RESERVED / . ))+
   {
     var result = [];
@@ -2033,10 +1997,10 @@ pp_unit
   }
 
 pp_replace
-  = dir_string:("#" _ ("var"/"define") MSS IDENTIFIER MSS till_string_end)
+  = dir_string:("#" _ ("var"/"define") MSS IDENTIFIER till_string_end)
   { 
     var source_str = "#" + dir_string[2] + " ";
-    source_str += dir_string[4].name + " " + dir_string[6];
+    source_str += dir_string[4].name + dir_string[5];
     source_str = source_str.trim();
 
     var result = {
@@ -2045,7 +2009,7 @@ pp_replace
       source_str: source_str,
       repl: {
         from: dir_string[4].name,
-        to: dir_string[6].trim()
+        to: dir_string[5].trim()
       }
     }
     return common_node(result);
@@ -2091,6 +2055,7 @@ pp_directives
     return common_node({
       node: "directive",
       type: dir[2],
+      contents: dir[3],
       source_str: source_str
     });
   }
@@ -2101,6 +2066,7 @@ pp_node_dir
   / nodes_parameters
   / node
   / endnode
+  / node_var
 
 nodes_condition
   = dir:("#" _ 
@@ -2118,6 +2084,7 @@ nodes_condition
       node: "node_directive",
       type: "node_condition",
       subtype: dir[2],
+      contents: dir[3],
       source_str: source_str
     });
   }
@@ -2165,6 +2132,26 @@ nodes_parameters
     });
   }
 
+node_var
+  = dir_string:("#" _ "node_var" MSS IDENTIFIER till_string_end)
+  { 
+    var source_str = "#node_var ";
+    source_str += dir_string[4].name + dir_string[5];
+    source_str = source_str.trim();
+
+    var result = {
+      node: "node_directive",
+      type: "node_var",
+      source_str: source_str,
+      repl: {
+        from: dir_string[4].name,
+        to: dir_string[5].trim()
+      }
+    }
+    return common_node(result);
+  }
+
+
 include_dir_comment
   = _ "#" _ type:("include_end" / "include") "%" name_symbols:(!("%").)+ "%"
   {
@@ -2176,16 +2163,3 @@ include_dir_comment
     });
   }
 
-pp_import_export
-  = _ "#" _ node:("import" / "export") toks:(MSS IDENTIFIER)* till_string_end {
-    var tokens = [];
-
-    if (toks !== null)
-      for (var i = 0; i < toks.length; i++)
-        tokens.push(toks[i][1].name);
-
-    return common_node({
-      node: node,
-      tokens: tokens
-    });
-  }

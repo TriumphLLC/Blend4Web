@@ -124,14 +124,14 @@ exports.setup_controls = function (elapsed_sensor) {
     var clamp_up    = Math.PI / 3;
     var clamp_down  = 0.01;
 
-    function rotation_cb(rot_x, rot_y) {
+    function rotation_cb(rot_x, rot_z) {
         m_phy.character_rotation_inc(_char_wrapper.phys_body, rot_x, 0);
-        if (rot_y) {
-            m_cam.eye_rotate(camobj, 0, rot_y);
+        if (rot_z) {
+            m_cam.eye_rotate(camobj, 0, rot_z);
 
             m_cam.get_camera_angles(camobj, _vec3_tmp);
-            offset[2] = -dist * Math.cos(_vec3_tmp[1]);
-            offset[1] = -dist * Math.sin(_vec3_tmp[1]);
+            offset[1] =  dist * Math.cos(_vec3_tmp[1]);
+            offset[2] = -dist * Math.sin(_vec3_tmp[1]);
 
             m_cons.append_semi_stiff_cam(camobj, _char_wrapper.target, offset, null,
                                  clamp_left, clamp_right, clamp_up, clamp_down);
@@ -302,11 +302,11 @@ function init_island_detection() {
 
 function setup_ground_sensor(on_ground) {
     var ground_sens = m_ctl.create_ray_sensor(_char_wrapper.phys_body, [0, 0, 0],
-                                          [0, -m_conf.CHAR_RAY_LENGTH, 0], "GROUND", true);
+                                          [0, 0, -m_conf.CHAR_RAY_LENGTH], "GROUND", true);
     var lava_sens = m_ctl.create_ray_sensor(_char_wrapper.phys_body, [0, 0, 0],
-                                          [0, -m_conf.CHAR_RAY_LENGTH, 0], "LAVA", true);
+                                          [0, 0, -m_conf.CHAR_RAY_LENGTH], "LAVA", true);
     var common_coll_sens = m_ctl.create_ray_sensor(_char_wrapper.phys_body, [0, 0, 0],
-                                          [0, -m_conf.CHAR_RAY_LENGTH, 0], "COMMON", true);
+                                          [0, 0, -m_conf.CHAR_RAY_LENGTH], "COMMON", true);
     function ground_cb(obj, id, pulse) {
         var val = pulse == 1? 1: 0;
         m_ctl.set_custom_sensor(on_ground, val)
@@ -537,7 +537,7 @@ function setup_attack(touch_attack, elapsed) {
 
                 m_trans.get_translation(_char_wrapper.phys_body, trans);
                 m_trans.get_rotation(_char_wrapper.phys_body, cur_rot_q);
-                m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
+                m_vec3.transformQuat(m_util.AXIS_MY, cur_rot_q, cur_dir);
 
                 m_vec3.scaleAndAdd(trans, cur_dir, at_dst, at_pt);
                 if (m_combat.process_attack_on_enemies(at_pt, at_dst)) {

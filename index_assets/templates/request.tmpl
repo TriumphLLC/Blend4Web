@@ -39,24 +39,39 @@
     };
 
     ws.onclose = function() {
-        if (!"${download_link}")
-            return;
+        if ("${download_link}") {
+            var row = document.querySelector(".row");
+            var new_row = row.cloneNode();
+            new_row.id = "download";
+            var link = document.createElement("a");
+            var div = document.createElement("div");
+            var span = document.createElement("span");
+            span.appendChild(document.createTextNode("Download"));
 
-        var row = document.querySelector(".row");
-        var new_row = row.cloneNode();
-        new_row.id = "download";
-        var link = document.createElement("a");
-        var div = document.createElement("div");
-        var span = document.createElement("span");
-        span.appendChild(document.createTextNode("Download"));
+            link.appendChild(div);
+            link.appendChild(span);
 
-        link.appendChild(div);
-        link.appendChild(span);
+            link.href = "${download_link}";
+            new_row.appendChild(link);
 
-        link.href = "${download_link}";
-        new_row.appendChild(link);
+            row.parentElement.appendChild(new_row);
+        } else if ("${update_link}") {
+            var row = document.querySelector(".row");
+            var new_row = row.cloneNode();
+            new_row.id = "download";
+            var link = document.createElement("a");
+            var div = document.createElement("div");
+            var span = document.createElement("span");
+            span.appendChild(document.createTextNode("Update Modules"));
 
-        row.parentElement.appendChild(new_row);
+            link.appendChild(div);
+            link.appendChild(span);
+
+            link.href = "${update_link}";
+            new_row.appendChild(link);
+
+            row.parentElement.appendChild(new_row);
+        }
     };
 
     </script>

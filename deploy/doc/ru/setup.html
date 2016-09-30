@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Установка и обновление &mdash; Руководство пользователя Blend4Web 16.08</title>
+  <title>Установка и обновление &mdash; Руководство пользователя Blend4Web 16.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.09" href="index.html"/>
         <link rel="next" title="Рабочий процесс" href="workflow.html"/>
         <link rel="prev" title="Возможности движка" href="engine_features.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -96,7 +96,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#updating">Обновление</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#updating-the-sdk">Обновление SDK</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#updating-the-addon">Обновление аддона</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#exporting-and-viewing-scenes">Экспорт и просмотр сцены</a></li>
 </ul>
 </li>
 </ul>
@@ -188,7 +187,6 @@
 <li><a class="reference internal" href="#updating" id="id7">Обновление</a><ul>
 <li><a class="reference internal" href="#updating-the-sdk" id="id8">Обновление SDK</a></li>
 <li><a class="reference internal" href="#updating-the-addon" id="id9">Обновление аддона</a></li>
-<li><a class="reference internal" href="#exporting-and-viewing-scenes" id="id10">Экспорт и просмотр сцены</a></li>
 </ul>
 </li>
 </ul>
@@ -271,7 +269,13 @@
 </li>
 <li><p class="first">Откройте вкладку <code class="file docutils literal"><span class="pre">Add-ons</span></code>.</p>
 </li>
-<li><p class="first">Активируйте аддон <cite>Blend4Web</cite>.</p>
+<li><p class="first">Деактивируйте аддон <cite>Blend4Web</cite>.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Не рекомендуется использовать кнопку <code class="docutils literal"><span class="pre">Remove</span></code> для отключения аддона при обновлении SDK, так как это приведёт к полному удалению аддона, в том числе его файлов в SDK.</p>
+</div>
+</div></blockquote>
 </li>
 <li><p class="first">Разархивируйте новую версию SDK.</p>
 <blockquote>
@@ -326,14 +330,6 @@
 </li>
 </ol>
 <p>Теперь всё должно работать.</p>
-</div>
-<div class="section" id="exporting-and-viewing-scenes">
-<span id="getting-started-export-viewer"></span><span id="index-0"></span><h3><a class="toc-backref" href="#id10">Экспорт и просмотр сцены</a><a class="headerlink" href="#exporting-and-viewing-scenes" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Созданную сцену можно экспортировать в форматы HTML и JSON. Для этого нужно выбрать опцию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> или <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> и указать путь экспорта. Экспорт сцен подробно описан в <a class="reference internal" href="addon.html#addon"><span>отдельной главе</span></a>. Полученный файл можно открыть любым браузером, поддерживающим технологию WebGL.</p>
-<div class="admonition seealso">
-<p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="about.html#browser-webgl-support"><span>Поддержка WebGL в браузерах</span></a></p>
-</div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -361,7 +357,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-08-31.
+      Обновлено: 2016-09-29.
 
     </p>
   </div>
@@ -417,7 +413,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Table of Contents &mdash; Blend4Web 16.08 User Manual</title>
+  <title>Table of Contents &mdash; Blend4Web 16.09 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 User Manual" href="#"/>
+    <link rel="top" title="Blend4Web 16.09 User Manual" href="#"/>
         <link rel="next" title="Overview" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -86,7 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
@@ -187,13 +187,9 @@
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#application-development">Application Development</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="project_manager.html#id1">Project Manager</a></li>
-<li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-creation-wizard">Project Creation Wizard</a></li>
-<li class="toctree-l2"><a class="reference internal" href="project_manager.html#creating-a-web-player-application">Creating a Web Player Application</a></li>
-<li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-information">Project Information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-import">Project Import</a></li>
-<li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-export">Project Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="project_manager.html#project-manager">Project Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project_manager.html#advanced-project-management">Advanced Project Management</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a><ul>
@@ -240,7 +236,6 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#object-selection">Object Selection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#copying-objects-instancing">Copying Objects (Instancing)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#quaternions">Quaternions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#differences-between-coordinate-systems-of-blender-and-blend4web">Differences Between Coordinate Systems of Blender and Blend4Web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#moving-via-tsr-vectors">Moving via TSR Vectors</a></li>
 </ul>
 </li>
@@ -406,10 +401,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#project-management">Project Management</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#advanced-project-management">Advanced Project Management</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#application-programming">Application Programming</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#converter">Resource Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#resource-conversion">Resource Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#code-examples">Code Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#event-driven-model">Event-Driven Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#sdk-file-structure">SDK File Structure</a></li>
@@ -452,6 +445,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-09">v16.09</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-08">v16.08</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-07">v16.07</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-06">v16.06</a></li>
@@ -504,7 +498,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-08-31.
+      Last updated on 2016-09-29.
 
     </p>
   </div>
@@ -560,7 +554,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

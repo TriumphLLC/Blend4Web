@@ -84,20 +84,20 @@ function init_bones_info() {
         var bone_info = {};
         switch (bone_name) {
         case "upper_arm.R":
-            bone_info.min_tsr = m_tsr.from_values(0, 0, 0, 1, -0.451, 0.459, 0.024, 0.765);
-            bone_info.max_tsr = m_tsr.from_values(0, 0, 0, 1, 0.715, -0.093, -0.013, 0.693);
+            bone_info.min_tsr = m_tsr.from_values(0, 0, 0, 1, -0.451, -0.024, 0.459, 0.765);
+            bone_info.max_tsr = m_tsr.from_values(0, 0, 0, 1, 0.715, 0.013, -0.093, 0.693);
             bone_info.phy_objs = [sword];
             bone_info.slider_obj = m_scs.get_object_by_name("control_right_arm");
             break;
         case "upper_arm.L":
-            bone_info.min_tsr = m_tsr.from_values(0, 0, 0, 1, -0.316, -0.570, 0.153, 0.743);
-            bone_info.max_tsr = m_tsr.from_values(0, 0, 0, 1, 0.509, -0.213, 0.072, 0.831);
+            bone_info.min_tsr = m_tsr.from_values(0, 0, 0, 1, -0.316, -0.153, -0.570, 0.743);
+            bone_info.max_tsr = m_tsr.from_values(0, 0, 0, 1, 0.509, -0.072, -0.213, 0.831);
             bone_info.phy_objs = [shield];
             bone_info.slider_obj = m_scs.get_object_by_name("control_left_arm");
             break;
         case "spine":
-            bone_info.max_tsr = m_tsr.from_values(0, 0, 0, 1, -0.026,  0.031, -0.402, 0.915);
-            bone_info.min_tsr = m_tsr.from_values(0, 0, 0, 1, -0.026, -0.034, 0.441, 0.897);
+            bone_info.max_tsr = m_tsr.from_values(0, 0, 0, 1, -0.026, 0.402, 0.031, 0.915);
+            bone_info.min_tsr = m_tsr.from_values(0, 0, 0, 1, -0.026, -0.441, -0.034, 0.897);
             bone_info.phy_objs = [sword, shield];
             bone_info.slider_obj = m_scs.get_object_by_name("control_body");
             break;
@@ -140,7 +140,7 @@ function apply_physical_constraint() {
     limits["limit_angle_max_z"] = 0.5;
     limits["limit_angle_min_z"] = -0.5;
 
-    var trans_a = [0,-1.1, 0];
+    var trans_a = [0, 0, -1.1];
     var quat_a = m_quat.create();
 
     var trans_b = [0, 0, 0];
@@ -201,10 +201,10 @@ function mousemove_cb(e) {
 
     switch(_controlled_bone) {
     case "upper_arm.L":
-        var axis = m_util.AXIS_MY;
+        var axis = m_util.AXIS_MZ;
         break;
     case "upper_arm.R":
-        var axis = m_util.AXIS_Y;
+        var axis = m_util.AXIS_Z;
         break;
     case "spine":
         var axis = m_util.AXIS_X;
@@ -216,7 +216,7 @@ function mousemove_cb(e) {
     m_trans.get_rotation(bone_info.slider_obj, quat);
     m_vec3.transformQuat(axis, quat, slider_dir);
     m_trans.get_rotation(cam, quat);
-    m_vec3.transformQuat(m_util.AXIS_MY, quat, cam_dir);
+    m_vec3.transformQuat(m_util.AXIS_MZ, quat, cam_dir);
 
     var cos_cam_slider = m_vec3.dot(slider_dir, cam_dir);
     m_x *= -cos_cam_slider;

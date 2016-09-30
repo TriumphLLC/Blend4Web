@@ -51,7 +51,7 @@ var m_vec3     = require("__vec3");
 
 var cfg_def = m_cfg.defaults;
 
-var PERF_NUM_CALLS = 10;
+var PERF_NUM_CALLS = 5;
 var EPS = 0.000001;
 
 var _called_funcs = [];
@@ -960,6 +960,7 @@ function parse_shader_assembly(data) {
 
     var all_ops = 0;
     var tex_ops = 0;
+    var attribs = 0;
 
     for (var op in stats) {
         switch (op) {
@@ -978,8 +979,10 @@ function parse_shader_assembly(data) {
             all_ops += stats[op];
             break;
         // data type qualifiers
-        case "ADDRESS":
         case "ATTRIB":
+            attribs += stats[op];
+            break;
+        case "ADDRESS":
         case "PARAM":
         case "TEMP":
         case "ALIAS":
@@ -996,6 +999,7 @@ function parse_shader_assembly(data) {
 
     stats["ALL_OPS"] = all_ops;
     stats["TEX_OPS"] = tex_ops;
+    stats["ATTRIBS"] = attribs;
 
     return stats;
 }
@@ -1007,8 +1011,10 @@ function post_sync(path, data) {
 
     if (req.status == 200)
         return req.responseText;
-    else
+    else {
+        m_print.error(req.responseText);
         throw("Error POST XHR: " + req.status);
+    }
 }
 
 function print_shader_stats(stats) {
@@ -1024,26 +1030,34 @@ function print_shader_stats(stats) {
         var vstats = stat.vstats;
 
         var mat_names = find_material_names_by_comp_shader(stat.cshader);
-        mat_names = mat_names ? "\t\t(" + mat_names.join(", ") + ")" : "\t\t(NA)";
+        mat_names = mat_names.length ? "\t\t(" + mat_names.join(", ") + ")" : "\t\t(NA)";
 
         // NOTE some not changing params are commented out
         m_print.groupCollapsed(
-            "VERT -->",
+            "VERT ->",
             "OPS", vstats["ALL_OPS"],
+            "ATT", vstats["ATTRIBS"],
             "TEX", vstats["TEX_OPS"],
 
-            "\t\tFRAG -->",
+            "\t\tFRAG ->",
             "OPS", fstats["ALL_OPS"],
             "TEX", fstats["TEX_OPS"],
             mat_names
         );
 
         m_print.groupCollapsed("directives");
-        var dirs = stat.shaders_info.directives;
+        // NOTE: perhaps they should be stored in sorted order
+        var dirs = stat.shaders_info.directives.slice().sort();
         for (var i = 0; i < dirs.length; i++) {
             var dir = dirs[i];
             m_print.log_raw(dir[0], dir[1]);
         }
+        m_print.groupEnd();
+
+        m_print.groupCollapsed("node elements");
+        var nelem = stat.shaders_info.node_elements;
+        for (var i = 0; i < nelem.length; i++)
+            m_print.log_raw(nelem[i]);
         m_print.groupEnd();
 
         m_print.groupCollapsed("vert source");
@@ -1054,9 +1068,12 @@ function print_shader_stats(stats) {
         m_print.log_raw(stat.vsrc_trans);
         m_print.groupEnd();
 
+        // ignore them as they used for collective stats
+        var ignored_stats = ["ALL_OPS", "TEX_OPS", "ATTRIBS"];
+
         m_print.groupCollapsed("vert ops stats");
         for (var op in vstats)
-            if (op != "ALL_OPS" && op != "TEX_OPS")
+            if (ignored_stats.indexOf(op) == -1)
                 m_print.log_raw(op, vstats[op]);
         m_print.groupEnd();
 
@@ -1074,7 +1091,7 @@ function print_shader_stats(stats) {
 
         m_print.groupCollapsed("frag ops stats");
         for (var op in fstats)
-            if (op != "ALL_OPS" && op != "TEX_OPS")
+            if (ignored_stats.indexOf(op) == -1)
                 m_print.log_raw(op, fstats[op]);
         m_print.groupEnd();
 
@@ -1087,6 +1104,8 @@ function print_shader_stats(stats) {
 }
 
 function find_material_names_by_comp_shader(cshader) {
+
+    var names = [];
 
     var scenes = m_scenes.get_all_scenes();
 
@@ -1106,15 +1125,17 @@ function find_material_names_by_comp_shader(cshader) {
             for (var k = 0; k < batches.length; k++) {
                 var batch = batches[k];
 
-                if (batch.shader == cshader &&
-                        batch.material_names.length) {
-                    return batch.material_names;
-                }
+                if (batch.shader == cshader)
+                    for (var l = 0; l < batch.material_names.length; l++) {
+                        var name = batch.material_names[l];
+                        if (names.indexOf(name) == -1)
+                            names.push(name);
+                    }
             }
         }
     }
 
-    return null;
+    return names;
 }
 
 /**
@@ -1123,23 +1144,44 @@ function find_material_names_by_comp_shader(cshader) {
  * @param {TestPerformanceCallback} callback Callback
  */
 exports.test_performance = function(callback) {
-    var ext = m_ext.get_disjoint_timer_query();
-    if (!ext) {
-        callback(-1);
+    // waiting for shaders
+    if (!m_shaders.check_shaders_loaded()) {
+        window.setTimeout(function() {
+            exports.test_performance(callback);
+        }, 100);
         return;
     }
+
+    var ext = m_ext.get_disjoint_timer_query();
+    if (!ext) {
+        callback(0, 0);
+        return;
+    }
+
+    var gl_debug_save = cfg_def.gl_debug;
+    // enable it to force timer queries update for
+    // paused engine / unloaded scenes
+    cfg_def.gl_debug = true;
 
     var graph = m_scgraph.create_performance_graph();
     m_scenes.generate_auxiliary_batches(graph);
 
     var subs = m_scgraph.find_subs(graph, m_subs.PERFORMANCE);
+    var cam = subs.camera;
 
     for (var i = 0; i < PERF_NUM_CALLS; i++)
         m_render.draw(subs);
 
+    cfg_def.gl_debug = gl_debug_save;
+
     window.setTimeout(function() {
         m_debug.process_timer_queries(subs);
-        callback(subs.debug_render_time);
+        // in ms
+        var time = subs.debug_render_time;
+        // in GB/s (100 texture lookups)
+        var bandwidth = (cam.width * cam.height * 4 * 10) /
+                (time / 1000) / Math.pow(10, 9);
+        callback(time, bandwidth);
     }, 100);
 }
 

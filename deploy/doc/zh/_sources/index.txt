@@ -26,7 +26,7 @@
 
   * 显卡和驱动程序
 
-* Engine Features
+* 引擎功能
 
 * 安装和更新
 
@@ -44,19 +44,11 @@
 
   * 应用程序开发
 
-* 项目管理器
+* Project Management
 
   * 项目管理器
 
-  * 项目创建向导
-
-  * Creating a Web Player Application
-
-  * 项目信息
-
-  * 项目导入
-
-  * 项目导出
+  * Advanced Project Management
 
 * 场景预览器
 
@@ -80,7 +72,7 @@
 
   * 场景错误
 
-* Add-on
+* 插件
 
   * Local Development Server
 
@@ -130,13 +122,11 @@
 
   * 四元数
 
-  * Blender和Blend4Web的坐标系之间的差异
-
   * 通过TSR矢量移动
 
 * 网格
 
-  * Static and Dynamic Meshes
+  * 静态和动态物体
 
   * 设置
 
@@ -386,10 +376,6 @@
 
 * For Application Developers
 
-  * Project Management
-
-  * Advanced Project Management
-
   * Application Programming
 
   * Resource Conversion
@@ -461,6 +447,8 @@
   * 已知问题
 
 * Release Notes
+
+  * v16.09
 
   * v16.08
 

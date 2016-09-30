@@ -29,7 +29,6 @@ var m_util = require("__util");
 var m_vec3 = require("__vec3");
 var m_math = require("__math");
 var m_mat3 = require("__mat3");
-var m_quat = require("__quat");
 
 var _bb_corners_cache = new Float32Array(3 * 8);
 var _vec3_tmp = new Float32Array(3);
@@ -347,7 +346,8 @@ function create_bs() {
     };
 }
 
-exports.copy_bs = function(bs_from, bs_to) {
+exports.copy_bs = copy_bs;
+function copy_bs(bs_from, bs_to) {
     bs_to.center[0] = bs_from.center[0];
     bs_to.center[1] = bs_from.center[1];
     bs_to.center[2] = bs_from.center[2];
@@ -367,6 +367,7 @@ function create_be() {
     };
 }
 
+exports.copy_be = copy_be;
 function copy_be(be, be_new) {
     m_vec3.copy(be.axis_x, be_new.axis_x);
     m_vec3.copy(be.axis_y, be_new.axis_y);
@@ -380,6 +381,13 @@ function clone_be(be) {
     var be_new = create_be();
     copy_be(be, be_new);
     return be_new;
+}
+
+exports.clone_bs = clone_bs;
+function clone_bs(bs) {
+    var bs_new = create_bs();
+    copy_bs(bs, bs_new);
+    return bs_new;
 }
 
 exports.be_from_values = be_from_values;
@@ -570,6 +578,22 @@ function create_be_by_bb(points, use_rotation) {
     return be_from_values(axis_x, axis_y, axis_z, s_center);
 }
 
+exports.create_bs_by_be = function(be) {
+    var bs = create_bs();
+
+    var radius = 0;
+    var a = m_vec3.length(be.axis_x);
+    var b = m_vec3.length(be.axis_y);
+    var c = m_vec3.length(be.axis_z);
+    radius = a > b? a: b;
+    radius = c > radius? c: radius;
+
+    bs.center = be.center;
+    bs.radius = radius;
+
+    return bs;
+}
+
 exports.calc_be_local_by_tsr = function(be_world, world_tsr) {
     var be_local = clone_be(be_world);
 
@@ -579,14 +603,15 @@ exports.calc_be_local_by_tsr = function(be_world, world_tsr) {
     return be_local;
 }
 
-exports.check_be_usage = function(be, bs) {
+exports.is_be_optimized = function(be, bs) {
     var a = m_vec3.length(be.axis_x);
     var b = m_vec3.length(be.axis_y);
     var c = m_vec3.length(be.axis_z);
     var be_volume = a * b * c;
     var bs_volume = bs.radius * bs.radius * bs.radius;
-    return bs_volume < 2 * be_volume;
+    return 0.75 * bs_volume > be_volume;
 }
+
 
 /**
  * Find minimum/maximum extent in direction dir
@@ -615,15 +640,15 @@ function find_min_max_extent(exts, dir) {
  */
 exports.bcap_from_values = function(radius, bounding_box) {
 
-    var max_y = bounding_box.max_y;
-    var min_y = bounding_box.min_y;
+    var max_z = bounding_box.max_z;
+    var min_z = bounding_box.min_z;
 
-    var height = Math.max(0, (max_y - min_y) - 2*radius);
+    var height = Math.max(0, (max_z - min_z) - 2*radius);
 
     var bcap_local = {
         radius: radius,
         height: height,
-        center: new Float32Array([0, (max_y + min_y)/2, 0])
+        center: new Float32Array([0, 0, (max_z + min_z)/2])
     };
 
     return bcap_local;
@@ -634,15 +659,15 @@ exports.bcap_from_values = function(radius, bounding_box) {
  */
 exports.bcyl_from_values = function(radius, bounding_box) {
 
-    var max_y = bounding_box.max_y;
-    var min_y = bounding_box.min_y;
+    var max_z = bounding_box.max_z;
+    var min_z = bounding_box.min_z;
 
-    var height = Math.max(0, max_y - min_y);
+    var height = Math.max(0, max_z - min_z);
 
     var bcyl_local = {
         radius: radius,
         height: height,
-        center: new Float32Array([0, (max_y + min_y)/2, 0])
+        center: new Float32Array([0, 0, (max_z + min_z)/2])
     };
 
     return bcyl_local;
@@ -653,15 +678,15 @@ exports.bcyl_from_values = function(radius, bounding_box) {
  */
 exports.bcon_from_values = function(radius, bounding_box) {
 
-    var max_y = bounding_box.max_y;
-    var min_y = bounding_box.min_y;
+    var max_z = bounding_box.max_z;
+    var min_z = bounding_box.min_z;
 
-    var height = Math.max(0, max_y - min_y);
+    var height = Math.max(0, max_z - min_z);
 
     var bcon_local = {
         radius: radius,
         height: height,
-        center: new Float32Array([0, (max_y + min_y)/2, 0])
+        center: new Float32Array([0, 0, (max_z + min_z)/2])
     };
 
     return bcon_local;
@@ -734,7 +759,7 @@ exports.recalculate_mesh_boundings = function(mesh) {
             sub_min_z = Math.min(z, sub_min_z);
 
             srad = Math.max(Math.sqrt(x * x + y * y + z * z), srad);
-            crad = Math.max(Math.sqrt(x * x + z * z), crad);
+            crad = Math.max(Math.sqrt(x * x + y * y), crad);
         }
         var sub_bb = submesh["boundings"]["bounding_box"];
         sub_bb["max_x"] = sub_max_x;

@@ -61,12 +61,12 @@ function setup_random_bonus_spawn(level_conf) {
         var from = _vec3_tmp;
         var DIST = 20
         from[0] = 2 * DIST * Math.random() - DIST;
-        from[1] = 20;
-        from[2] = 2 * DIST * Math.random() - DIST;
+        from[1] = 2 * DIST * Math.random() - DIST;
+        from[2] = 20;
         var to = _vec3_tmp_2;
         _vec3_tmp_2[0] = from[0];
-        _vec3_tmp_2[2] = from[2];
-        _vec3_tmp_2[1] = -10;
+        _vec3_tmp_2[1] = from[1];
+        _vec3_tmp_2[2] = -10;
         m_phy.append_ray_test_ext(null, from, to, "GROUND", ray_cb, true,
                                   false, true, false);
     }
@@ -108,14 +108,14 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
         m_trans.get_translation(obj, rock_pos);
         m_trans.get_translation(mark, mark_pos);
 
-        rock_pos[1] -= _level_conf.ROCK_SPEED * elapsed;
+        rock_pos[2] -= _level_conf.ROCK_SPEED * elapsed;
         m_trans.set_translation_v(obj, rock_pos);
 
-        var mark_scale = 1 - Math.abs((rock_pos[1] - mark_pos[1])) /
+        var mark_scale = 1 - Math.abs((rock_pos[2] - mark_pos[2])) /
                              _level_conf.ROCK_RAY_LENGTH;
         m_trans.set_scale(mark, mark_scale);
 
-        if (rock_pos[1] <= mark_pos[1])
+        if (rock_pos[2] <= mark_pos[2])
             rock_crash(rock_wrapper)
     }
 
@@ -189,11 +189,11 @@ function setup_falling_rocks(elapsed_sensor, level_conf) {
 function append_ray_tests(rock_wrapper) {
     var rock = rock_wrapper.rock;
     var mark = rock_wrapper.mark;
-    var ROCK_POS = [0, -_level_conf.ROCK_RAY_LENGTH, 0];
+    var ROCK_POS = [0, 0, -_level_conf.ROCK_RAY_LENGTH];
 
     m_phy.append_ray_test_ext(rock, RAY_START, ROCK_POS, "LAVA",
                               function(id, fract, obj, time, pos, norm) {
-                                  rock_wrapper.lava_height = pos[1];
+                                  rock_wrapper.lava_height = pos[2];
                                   if (rock_wrapper.terrain_type == TT_NONE) {
                                       rock_wrapper.terrain_type = TT_LAVA;
                                       set_mark(mark, pos, fract);
@@ -203,7 +203,7 @@ function append_ray_tests(rock_wrapper) {
 
     m_phy.append_ray_test_ext(rock, RAY_START, ROCK_POS, "GROUND",
                               function(id, fract, obj, time, pos, norm) {
-                                  rock_wrapper.ground_height = pos[1];
+                                  rock_wrapper.ground_height = pos[2];
                                   if (rock_wrapper.terrain_type != TT_GROUND) {
                                       rock_wrapper.terrain_type = TT_GROUND;
                                       set_mark(mark, pos, fract);
@@ -224,8 +224,8 @@ function set_random_rock_position(rock_wrapper) {
     var rock = rock_wrapper.rock;
 
     pos[0] = 4 * 8 * Math.random() - 16;
-    pos[1] = 4 * 4 * Math.random() + 8;
-    pos[2] = 4 * 8 * Math.random() - 16;
+    pos[1] = 4 * 8 * Math.random() - 16;
+    pos[2] = 4 * 4 * Math.random() + 8;
     m_trans.set_translation_v(rock, pos);
 
     rock_wrapper.falling_time = 0;
@@ -233,7 +233,7 @@ function set_random_rock_position(rock_wrapper) {
 }
 
 function set_mark(mark, pos, ray_dist) {
-    pos[1] += 0.1;
+    pos[2] += 0.1;
     m_trans.set_translation_v(mark, pos);
     m_trans.set_scale(mark, 1 - ray_dist);
 }
@@ -266,7 +266,7 @@ function setup_lava(elapsed_sensor) {
     }
 
     var lava_ray = m_ctl.create_ray_sensor(char_wrapper.phys_body, [0, 0, 0],
-            [0, -m_conf.CHAR_RAY_LENGTH, 0], "LAVA", true);
+            [0, 0, -m_conf.CHAR_RAY_LENGTH], "LAVA", true);
 
     m_ctl.remove_sensor_manifold(char_wrapper.phys_body, "LAVA_COLLISION");
 

@@ -1,17 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
+# Blend4Web User Manual Chinese Translation: Viewer
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as the Blend4Web. User
-# Manual package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# This file is distributed under the same license as Blend4Web.
+# Blend4Web Team <info [at] blend4web.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-08-30 12:17+0300\n"
-"PO-Revision-Date: 2016-03-26 15:23+0800\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: Blend4Web 16.08\n"
+"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
+"POT-Creation-Date: 2016-09-23 14:43+0300\n"
+"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -657,8 +656,8 @@ msgstr "**材质**"
 #, fuzzy
 msgid ""
 "Material properties setup. A material can be selected using the drop-down"
-" menu. For now, this feature only support a limited number of properties "
-"and only stack (non-node) materials applied to dynamic objects (node "
+" menu. For now, this feature only supports a limited number of properties"
+" and only stack (non-node) materials applied to dynamic objects (node "
 "materials and static objects are not supported)."
 msgstr "材质特性设置。材质可以使用下拉菜单中选择。此刻仅支持属性的有限范围。"
 
@@ -733,10 +732,11 @@ msgid "Lighting"
 msgstr "**灯光**"
 
 #: ../viewer.rst:275
+#, fuzzy
 msgid ""
-"Direct lighting parameters setup. A light source can be selected using "
-"the drop-down menu. Changing color and intensity is supported. Daytime "
-"and sun lighting parameters can also be tweaked on this panel."
+"Setup for direct lighting parameters. A light source can be selected "
+"using the drop-down menu. Changing color and intensity is supported. "
+"Daytime and sun lighting parameters can also be tweaked on this panel."
 msgstr "直接照明的参数设置。光源可以使用下拉菜单中选择。更改颜色和强度的支持。白天和阳光照明参数也可以调整该面板上。"
 
 #: ../viewer.rst:284
@@ -760,8 +760,8 @@ msgstr ""
 
 #: ../viewer.rst:290
 msgid ""
-"The base color of the selected light source. By default, white color (1; "
-"1; 1) is used."
+"The base color of the selected light source. By default, white (1; 1; 1) "
+"is used."
 msgstr ""
 
 #: ../viewer.rst:293
@@ -794,8 +794,8 @@ msgstr "**灯光**"
 #: ../viewer.rst:299
 msgid ""
 "This value is calculated as the sum of the Energy Coarse and Energy "
-"Precise parameters. In case of both of them are having default values, it"
-" will be equal to 1."
+"Precise parameters. In case both of them have default values, it will be "
+"equal to 1."
 msgstr ""
 
 #: ../viewer.rst:302
@@ -814,8 +814,8 @@ msgstr ""
 
 #: ../viewer.rst:305
 msgid ""
-"The softness of the spotlight edge. Default value is 0.15. This parameter"
-" is also available for ``Spot`` type light sources only."
+"This defines the softness of the spotlight edge. Default value is 0.15. "
+"This parameter is also available for ``Spot`` type light sources only."
 msgstr ""
 
 #: ../viewer.rst:308
@@ -860,9 +860,7 @@ msgid "This parameter sets the current date."
 msgstr ""
 
 #: ../viewer.rst:326
-msgid ""
-"This parameter set the current time of day (or night?). Default value is "
-"12.0."
+msgid "This parameter set the current time of day. Default value is 12.0."
 msgstr ""
 
 #: ../viewer.rst:329
@@ -882,8 +880,7 @@ msgstr ""
 #: ../viewer.rst:332
 msgid ""
 "The value of this parameter defines the speed of the flow of time. "
-"Default value is 1.0 (time flows with the same speed it does in real "
-"life)."
+"Default value is 1.0 (time flows at the same speed it does in real life)."
 msgstr ""
 
 #: ../viewer.rst:335
@@ -908,9 +905,10 @@ msgid "Ambient"
 msgstr "**环境**"
 
 #: ../viewer.rst:343
+#, fuzzy
 msgid ""
-"Ambient lighting parameters setup. Changing the colors and intensity of a"
-" hemispheric ambient model is supported."
+"Setup for ambient lighting parameters. Changing the colors and intensity "
+"of a hemispheric ambient model is supported."
 msgstr "环境照明的参数设置。改变颜色和半球环境模型的强度支持。"
 
 #: ../viewer.rst:345
@@ -926,14 +924,15 @@ msgid "Shadows"
 msgstr "**阴影**"
 
 #: ../viewer.rst:350
+#, fuzzy
 msgid ""
-"Shadow parameters setup, including shadow cascades and shadow edges "
+"Setup for shadow parameters, including shadow cascades and shadow edges "
 "softening parameters."
 msgstr "阴影参数设置，包括影子瀑布和阴影边缘软化参数。"
 
 #: ../viewer.rst:352
 msgid ""
-"The settings for setting up shadows are described in the "
+"The options for setting up shadows are described in the "
 ":ref:`corresponding section <shadows>` of this manual."
 msgstr ""
 
@@ -942,8 +941,9 @@ msgid "Sky"
 msgstr ""
 
 #: ../viewer.rst:357
+#, fuzzy
 msgid ""
-"Dynamic sky parameters setup such as color, sun light scattering "
+"Setup for dynamic sky parameters such as color, sun light scattering "
 "parameters etc."
 msgstr "动态天空参数设置，如颜色，太阳的光散射参数等。"
 
@@ -959,16 +959,17 @@ msgid "Sea"
 msgstr ""
 
 #: ../viewer.rst:364
+#, fuzzy
 msgid ""
-"Water rendering parameters setup, including color transitions by depth "
-"and by shore distance, foam and subsurface scattering parameters, waves "
-"dynamics etc."
+"Setup for water rendering parameters, including color transitions by "
+"depth and by distance from the shore, foam and subsurface scattering "
+"parameters, wave dynamics etc."
 msgstr "水渲染参数设置，包括颜色过渡由深度和岸的距离，泡沫和次表面散射参数，波动力学等。"
 
 #: ../viewer.rst:366
 msgid ""
-"The setting for water rendering are described in the :ref:`Outdoor "
-"Rendering <water>` chapter. Scene Viewer uses the same settings as "
+"The settings for water rendering are described in the :ref:`Outdoor "
+"Rendering <water>` chapter. Scene Viewer uses the same settings as the "
 "Blend4Web engine itself."
 msgstr ""
 
@@ -977,7 +978,8 @@ msgid "Wind"
 msgstr ""
 
 #: ../viewer.rst:371
-msgid "Wind parameters setup, including direction and strength."
+#, fuzzy
+msgid "Setup for wind parameters, including direction and strength."
 msgstr "风参数设置，包括方向和强度。"
 
 #: ../viewer.rst:373
@@ -993,7 +995,8 @@ msgid "Screen Space Amb Occlus"
 msgstr "**屏幕空间环境遮蔽**"
 
 #: ../viewer.rst:378
-msgid "Ambient occlusion parameters setup."
+#, fuzzy
+msgid "Setup for ambient occlusion parameters."
 msgstr "环境闭塞参数设置。"
 
 #: ../viewer.rst:380
@@ -1008,7 +1011,8 @@ msgid "God Rays"
 msgstr "**神光芒**"
 
 #: ../viewer.rst:385
-msgid "Crepuscular rays effect parameters setup."
+#, fuzzy
+msgid "Setup for crepuscular ray effect parameters."
 msgstr "曙暮辉效果参数设置。"
 
 #: ../viewer.rst:387
@@ -1022,8 +1026,9 @@ msgid "Bloom"
 msgstr ""
 
 #: ../viewer.rst:392
-msgid "Bright light effect parameters setup."
-msgstr "明亮的光线效果参数设置。"
+#, fuzzy
+msgid "Setup for bloom effect parameters."
+msgstr "景深效果的参数设置。"
 
 #: ../viewer.rst:394
 msgid ""
@@ -1053,7 +1058,8 @@ msgid "Glow Materials"
 msgstr "**晕光材质**"
 
 #: ../viewer.rst:406
-msgid "Glow Materials effect settings."
+#, fuzzy
+msgid "Glow Material effect settings."
 msgstr "晕光材质效果设置。"
 
 #: ../viewer.rst:408
@@ -1068,7 +1074,8 @@ msgid "Depth of Field"
 msgstr "**景深**"
 
 #: ../viewer.rst:413
-msgid "Depth of field effect parameters setup."
+#, fuzzy
+msgid "Setup for depth-of-field effect parameters."
 msgstr "景深效果的参数设置。"
 
 #: ../viewer.rst:415
@@ -1081,8 +1088,9 @@ msgid "Color correction"
 msgstr "**色彩校正**"
 
 #: ../viewer.rst:420
+#, fuzzy
 msgid ""
-"Color correction parameters setup, including brightness, contrast, "
+"Setup for color correction parameters, including brightness, contrast, "
 "exposure and saturation."
 msgstr "颜色校正参数的设置，包括亮度，对比度，曝光和饱和度。"
 
@@ -1110,11 +1118,11 @@ msgstr ""
 #: ../viewer.rst:430
 msgid ""
 "Enables equalizer that shows various parameters (including volume, "
-"frequency, distance, attenuation etc.) of the speakers present in the "
-"scene, and allows user to adjust these parameters by using numerical "
-"keypad. The available parameters and possibilities are described in "
-"greater detail in the :ref:`dedicated section <mixer>` of the :ref:`Audio"
-" chapter <audio>`."
+"frequency, distance, attenuation and others) of the speakers present in "
+"the scene, and allows user to adjust these parameters by using a "
+"numerical keypad. The available parameters and possibilities are "
+"described in greater detail in the :ref:`dedicated section <mixer>` of "
+"the :ref:`Audio chapter <audio>`."
 msgstr ""
 
 #: ../viewer.rst:436
@@ -1137,8 +1145,8 @@ msgstr "**立体视图**"
 
 #: ../viewer.rst:448
 msgid ""
-"The list of all available stereo rendering modes. As of today, three "
-"types are supported:"
+"A list of all available stereo rendering modes. As of today, three types "
+"are supported:"
 msgstr ""
 
 #: ../viewer.rst:450
@@ -1152,7 +1160,7 @@ msgstr ""
 #: ../viewer.rst:454
 msgid ""
 "``HMD`` - rendering for :ref:`Head-Mounted Displays <hmd>` is used. This "
-"option is only available is the system has access to a HMD device."
+"option is only available if the system has access to an HMD device."
 msgstr ""
 
 #: ../viewer.rst:456
@@ -1221,15 +1229,16 @@ msgid "**Selected object and controlled object**"
 msgstr "**选定的物体和控制物体**"
 
 #: ../viewer.rst:490
+#, fuzzy
 msgid ""
-"This is located in the left bottom corner. It displays the names of "
-"selected and controlled objects. Object selection can be performed with "
-"the mouse. To control the object directly (normally for physics "
-"debugging) press the ``Q`` key and click on the object. The object "
-"movement is performed with the ``W``, ``A``, ``S``, ``D`` keys. To exit "
-"the control mode press the ``Q`` key and click on an empty space. The "
-"indicator also displays the distance to the selected object in Blender "
-"units (meters equivalent)."
+"This is located in the bottom left corner. It displays the names of "
+"selected and controlled objects. Selecting an object is done with the "
+"mouse. To control the object directly (normally for physics debugging) "
+"press the ``Q`` key and click on the object. The object movement is "
+"performed with the ``W``, ``A``, ``S``, ``D`` keys. To exit the control "
+"mode press the ``Q`` key and click on an empty space. The indicator also "
+"displays the distance to the selected object in Blender units (meters "
+"equivalent)."
 msgstr ""
 "这是位于左下角。它显示选择和控制对象的名称。对象选择可以用鼠标来执行。要直接控制的对象（通常为物理调试）按 ``Q`` "
 "键并单击对象。物体的移动是与执行 ``W``, ``A``, ``S``, ``D`` 键。要退出控制模式下，按 ``Q`` "
@@ -1260,14 +1269,16 @@ msgid ""
 msgstr "位于渲染区域的右下角。它显示视频存储器的使用的几何形状，纹理，渲染目标的量，并且还总的内存使用情况。"
 
 #: ../viewer.rst:501
-msgid "**Scene load errors indicator**"
+#, fuzzy
+msgid "**Scene load error indicator**"
 msgstr "**场景加载错误指示器**"
 
 #: ../viewer.rst:499
+#, fuzzy
 msgid ""
-"Is located under the FPS counter. Shows errors and warnings which "
-"occurred during scene load. Red light means errors, yellow - warnings and"
-" green means that the scene was loaded successfully."
+"Is located under the FPS counter. It shows errors and warnings which "
+"occur during scene load. Red light means errors, yellow - warnings and "
+"green means that the scene was loaded successfully."
 msgstr "位于FPS计数下。显示错误，哪个场景加载过程中发生的警告。红灯表示错误，黄色 - 警告，绿色表示该场景加载成功。"
 
 #: ../viewer.rst:501
@@ -1298,7 +1309,7 @@ msgid "viewer"
 msgstr "预览"
 
 #~ msgid ""
-#~ msgstr "用于移动设备的陀螺仪设置可以从这个面板来控制。"
+#~ msgstr ""
 
 #~ msgid "**NLA**"
 #~ msgstr "**NLA**"
@@ -1312,23 +1323,32 @@ msgstr "预览"
 #~ msgid "**Wind**"
 #~ msgstr "**风**"
 
+#~ msgid "Bright light effect parameters setup."
+#~ msgstr "明亮的光线效果参数设置。"
+
 #~ msgid ""
-#~ "``BATCHE VIEW`` - in this view "
-#~ "mode, every batch is rendered using "
-#~ "a specific (flat) color. The colors "
-#~ "used in rendering can be changed "
-#~ "to randomly generated colors by clicking"
-#~ " the ``Change Colors`` button."
+#~ "Enables equalizer that shows various "
+#~ "parameters (including volume, frequency, "
+#~ "distance, attenuation etc.) of the "
+#~ "speakers present in the scene, and "
+#~ "allows user to adjust these parameters"
+#~ " by using numerical keypad. The "
+#~ "available parameters and possibilities are "
+#~ "described in greater detail in the "
+#~ ":ref:`dedicated section <mixer>` of the "
+#~ ":ref:`Audio chapter <audio>`."
 #~ msgstr ""
 
 #~ msgid ""
-#~ "This button randomly changes the colors"
-#~ " that are used in the ``CLUSTERS "
-#~ "VIEW`` and ``BATCHES VIEW`` rendering "
-#~ "modes. This feature is useful in "
-#~ "cases when colors that are picked "
-#~ "randomly by the engine are too "
-#~ "similar and make it difficult to "
-#~ "distinguish parts of the image."
+#~ "The list of all available stereo "
+#~ "rendering modes. As of today, three "
+#~ "types are supported:"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "``HMD`` - rendering for :ref:`Head-"
+#~ "Mounted Displays <hmd>` is used. This"
+#~ " option is only available is the "
+#~ "system has access to a HMD device."
 #~ msgstr ""
 

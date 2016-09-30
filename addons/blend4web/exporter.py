@@ -852,18 +852,9 @@ def process_action(action):
 
             fcurve = action.fcurves[index]
 
-            # rotate by 90 degrees around x-axis to match standard OpenGL for
-            # location and rotation, see pose section for detailed math
-            array_index = fcurve_array_index = fcurve.array_index
-
+            array_index = fcurve.array_index
             if is_scale:
                 array_index = 0
-            elif is_location or is_rotation_euler: # x y z
-                if fcurve_array_index == 1: array_index = 2
-                elif fcurve_array_index == 2: array_index = 1
-            elif is_rotation_quat: # w x y z
-                if fcurve_array_index == 2: array_index = 3
-                elif fcurve_array_index == 3: array_index = 2
             elif is_node and array_index == num_channels:
                 # Do not export alpha channel for RGB nodes
                 break
@@ -905,13 +896,6 @@ def process_action(action):
                     has_decimal_frames = True
 
                 co[0] = round(co[0])
-
-                # rotate by 90 degrees around x-axis to match standard OpenGL
-                if (is_location or is_rotation_euler) and fcurve_array_index == 1 \
-                        or is_rotation_quat and fcurve_array_index == 2:
-                    co = [co[0], -co[1]]
-                    hl = [hl[0], -hl[1]]
-                    hr = [hr[0], -hr[1]]
 
                 # write to plain array:
                     # interpolation code
@@ -1395,38 +1379,16 @@ def process_scene_nla(scene, scene_data):
 
             elif slot['type'] == "TRANSFORM_OBJECT":
                 check_objects_paths(slot, slot_data)
-                #rotate axis if not variables
-                if not (slot_data["bools"]["try"] or slot_data["bools"]["trz"]):
-                    slot_data["floats"]["try"], slot_data["floats"]["trz"] = slot_data["floats"]["trz"], -slot_data["floats"]["try"]
-                if not (slot_data["bools"]["roy"] or slot_data["bools"]["roz"]):
-                    slot_data["floats"]["roy"], slot_data["floats"]["roz"] = slot_data["floats"]["roz"], -slot_data["floats"]["roy"]
-
-                if slot_data["common_usage_names"]["space_type"] == "WORLD":
-                    slot_data["common_usage_names"]["space_type"] = 0
-                elif slot_data["common_usage_names"]["space_type"] == "PARENT":
-                    slot_data["common_usage_names"]["space_type"] = 1
-                elif slot_data["common_usage_names"]["space_type"] == "LOCAL":
-                    slot_data["common_usage_names"]["space_type"] = 2
 
             elif slot['type'] == "STRING":
                 #remove unused elements
-                if slot['param_string_operation'] != "SPLIT":
+                if slot['common_usage_names']['string_operation'] != "SPLIT":
                     del slot_data["variables"]["dst1"]
-                if slot['param_string_operation'] != "REPLACE":
+                if slot["common_usage_names"]['string_operation'] != "REPLACE":
                     del slot_data["bools"]["id2"]
                     del slot_data["variables"]["id2"]
                     del slot_data["strings"]["id2"]
-                
-                if slot['param_string_operation'] == "JOIN":
-                    slot_data["floats"]["sop"] = 0
-                elif slot['param_string_operation'] == "FIND":
-                    slot_data["floats"]["sop"] = 1
-                elif slot['param_string_operation'] == "REPLACE":
-                    slot_data["floats"]["sop"] = 2
-                elif slot['param_string_operation'] == "SPLIT":
-                    slot_data["floats"]["sop"] = 3
-                elif slot['param_string_operation'] == "COMPARE":
-                    slot_data["floats"]["sop"] = 4
+
             elif slot['type'] == "SPEAKER_PLAY" or slot['type'] == "SPEAKER_STOP":
                 check_objects_paths(slot, slot_data)
 
@@ -1464,6 +1426,8 @@ def process_scene_shadow_settings(scene_data, scene):
     dct = scene_data["b4w_shadow_settings"] = OrderedDict()
 
     dct["csm_resolution"] = int(shadow.csm_resolution)
+    dct["blur_samples"] = shadow.blur_samples
+    dct["soft_shadows"] = shadow.soft_shadows
     dct["self_shadow_polygon_offset"] = round_num(shadow.self_shadow_polygon_offset, 2)
     dct["self_shadow_normal_offset"] = round_num(shadow.self_shadow_normal_offset, 3)
 
@@ -1865,15 +1829,15 @@ def process_object(obj, is_curve=False, is_hair=False):
         sca = list(map(operator.mul, sca, pinv_scale))
         rot.rotate(mat_inv_parent)
         obj_data["pinverse_tsr"] = round_iterable( 
-            [pinv_translation[0], pinv_translation[2], -pinv_translation[1], 
+            [pinv_translation[0], pinv_translation[1], pinv_translation[2], 
             pinv_scale[0],
-            pinv_rotation_quat.x, pinv_rotation_quat.z, -pinv_rotation_quat.y, pinv_rotation_quat.w], 5)
+            pinv_rotation_quat.x, pinv_rotation_quat.y, pinv_rotation_quat.z, pinv_rotation_quat.w], 5)
 
-    obj_data["location"] = round_iterable([loc[0], loc[2], -loc[1]], 5)
+    obj_data["location"] = round_iterable([loc[0], loc[1], loc[2]], 5)
 
-    obj_data["rotation_quaternion"] = round_iterable([rot[0], rot[1], rot[3], -rot[2]], 5)
+    obj_data["rotation_quaternion"] = round_iterable([rot[0], rot[1], rot[2], rot[3]], 5)
 
-    obj_data["scale"] = round_iterable([sca[0], sca[2], sca[1]], 5)
+    obj_data["scale"] = round_iterable([sca[0], sca[1], sca[2]], 5)
 
     if obj.b4w_enable_object_tags:
         tags = obj.b4w_object_tags
@@ -1906,11 +1870,15 @@ def get_rotation_quat(obj):
     if obj.rotation_mode == "AXIS_ANGLE":
         angle = obj.rotation_axis_angle[0]
         axis = obj.rotation_axis_angle[1:4]
-        return mathutils.Quaternion(axis, angle)
+        quat = mathutils.Quaternion(axis, angle)
     elif obj.rotation_mode == "QUATERNION":
-        return obj.rotation_quaternion
+        quat = obj.rotation_quaternion
     else:
-        return obj.rotation_euler.to_quaternion()
+        quat = obj.rotation_euler.to_quaternion()
+
+    # NOTE: there can be set a non-normalized quaternion in Blender
+    quat.normalize()
+    return quat
 
 def store_vehicle_integrity(obj):
     if obj.b4w_vehicle:
@@ -2034,11 +2002,6 @@ def process_object_pose(obj_data, obj, pose):
 
             # finally get "pseudo" (i.e. baked) matrix basis by reverse operation
             mb = ml.inverted_safe() * mch * ml
-
-            # change axes from Blender to OpenGL
-            m_rotX = mathutils.Matrix.Rotation(-math.pi / 2, 4, "X")
-            m_rotXi = m_rotX.inverted_safe()
-            mb = m_rotX * mb * m_rotXi
 
             # flatten
             mb = matrix4x4_to_list(mb)
@@ -2238,8 +2201,8 @@ def process_camera(camera):
     cam_data["b4w_pivot_z_max"] = camera.b4w_pivot_z_max
 
     # translate to b4w coordinates
-    b4w_target = [camera.b4w_target[0], camera.b4w_target[2], \
-            -camera.b4w_target[1]]
+    b4w_target = [camera.b4w_target[0], camera.b4w_target[1], \
+            camera.b4w_target[2]]
     cam_data["b4w_target"] = round_iterable(b4w_target, 3)
 
     # process camera links
@@ -2279,8 +2242,8 @@ def process_curve(curve):
         points = []
         for point in spline.points:
             points.append(point.co[0])
+            points.append(point.co[1])
             points.append(point.co[2])
-            points.append(-point.co[1])
             points.append(point.tilt)
             points.append(point.co[3])
 
@@ -2911,7 +2874,7 @@ def check_tangent_shading_r(source):
     return False
 
 def process_mesh_boundings(mesh_data, mesh, bounding_data, pref):
-    if (mesh.b4w_override_boundings):
+    if mesh.b4w_override_boundings:
         bounding_box = mesh.b4w_boundings
 
         if bounding_box.min_x > bounding_box.max_x \
@@ -2925,11 +2888,11 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data, pref):
         dct["max_x"] = round_num(bounding_box.max_x, 5)
         dct["min_x"] = round_num(bounding_box.min_x, 5)
 
-        dct["max_y"] = round_num(bounding_box.max_z, 5)
-        dct["min_y"] = round_num(bounding_box.min_z, 5)
+        dct["max_y"] = round_num(bounding_box.max_y, 5)
+        dct["min_y"] = round_num(bounding_box.min_y, 5)
 
-        dct["max_z"] = round_num(-bounding_box.min_y, 5)
-        dct["min_z"] = round_num(-bounding_box.max_y, 5)
+        dct["max_z"] = round_num(bounding_box.max_z, 5)
+        dct["min_z"] = round_num(bounding_box.min_z, 5)
 
         x_width = (bounding_box.max_x - bounding_box.min_x) / 2
         y_width = (bounding_box.max_y - bounding_box.min_y) / 2
@@ -2937,11 +2900,11 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data, pref):
         x_cen = (bounding_box.max_x + bounding_box.min_x) / 2
         y_cen = (bounding_box.max_y + bounding_box.min_y) / 2
         z_cen = (bounding_box.max_z + bounding_box.min_z) / 2
-        bounding_center = round_iterable([x_cen, z_cen, -y_cen], 5)
+        bounding_center = round_iterable([x_cen, y_cen, z_cen], 5)
 
         # calculate ellipsoid boundings
         sq3 = math.sqrt(3)
-        mesh_data[pref + "bounding_ellipsoid_axes"] = round_iterable([sq3 * x_width, sq3 * z_width, sq3 * y_width], 5)
+        mesh_data[pref + "bounding_ellipsoid_axes"] = round_iterable([sq3 * x_width, sq3 * y_width, sq3 * z_width], 5)
         mesh_data[pref + "bounding_ellipsoid_center"] = bounding_center
 
         if pref:
@@ -3341,30 +3304,21 @@ def process_armature(armature):
         bone_data["name"] = bone.name
 
         # in bone space
-        head = [bone.head[0], bone.head[2], -bone.head[1]]
-        tail = [bone.tail[0], bone.tail[2], -bone.tail[1]]
+        head = [bone.head[0], bone.head[1], bone.head[2]]
+        tail = [bone.tail[0], bone.tail[1], bone.tail[2]]
 
         bone_data["head"] = round_iterable(head, 5)
         bone_data["tail"] = round_iterable(tail, 5)
 
         # in armature space
-        hl = [bone.head_local[0], bone.head_local[2], -bone.head_local[1]]
-        tl = [bone.tail_local[0], bone.tail_local[2], -bone.tail_local[1]]
+        hl = [bone.head_local[0], bone.head_local[1], bone.head_local[2]]
+        tl = [bone.tail_local[0], bone.tail_local[1], bone.tail_local[2]]
 
         bone_data["head_local"] = round_iterable(hl, 5)
         bone_data["tail_local"] = round_iterable(tl, 5)
 
         # Bone Armature-Relative Matrix
         ml = bone.matrix_local
-
-        # change axes from Blender to OpenGL
-        # see pose section for detailed math
-        m_rotX = mathutils.Matrix.Rotation(-math.pi / 2, 4, "X")
-        ml = m_rotX * ml * m_rotX.inverted_safe()
-
-        # this line is correct if there is no axes convertion
-        # for pose/animation (see pose section)
-        #ml = m_rotX * ml
 
         # flatten
         ml = matrix4x4_to_list(ml)
@@ -3539,19 +3493,7 @@ def process_particle(particle):
     part_data["b4w_vcol_from_name"] = particle.b4w_vcol_from_name
     part_data["b4w_vcol_to_name"] = particle.b4w_vcol_to_name
 
-
-
-
-    bb_align_blender = particle.b4w_billboard_align
-    if bb_align_blender == "XY":
-        bb_align = "ZX"
-    elif bb_align_blender == "ZX":
-        bb_align = "XY"
-    else:
-        bb_align = bb_align_blender
-
-    part_data["b4w_billboard_align"] = bb_align
-
+    part_data["b4w_billboard_align"] = particle.b4w_billboard_align
     part_data["billboard_tilt"] = particle.billboard_tilt
     part_data["billboard_tilt_random"] = particle.billboard_tilt_random
 
@@ -3807,13 +3749,13 @@ def process_modifier(modifier_data, mod, current_obj):
         modifier_data["use_constant_offset"] = mod.use_constant_offset
 
         cod = mod.constant_offset_displace
-        cod = round_iterable([cod[0], cod[2], -cod[1]], 5)
+        cod = round_iterable([cod[0], cod[1], cod[2]], 5)
         modifier_data["constant_offset_displace"] = cod
 
         modifier_data["use_relative_offset"] = mod.use_relative_offset
 
         rod = mod.relative_offset_displace
-        rod = round_iterable([rod[0], rod[2], -rod[1]], 5)
+        rod = round_iterable([rod[0], rod[1], rod[2]], 5)
         modifier_data["relative_offset_displace"] = rod
 
         modifier_data["use_object_offset"] = mod.use_object_offset
@@ -3894,38 +3836,36 @@ def process_constraint(cons_data, cons, const_holder_name):
 
         cons_data["pivot_type"] = cons.pivot_type
 
-        # z -> y; y -> -z
         cons_data["pivot_x"] = round_num(cons.pivot_x, 3)
-        cons_data["pivot_y"] = round_num(cons.pivot_z, 3)
-        cons_data["pivot_z"] = round_num(-cons.pivot_y, 3)
+        cons_data["pivot_y"] = round_num(cons.pivot_y, 3)
+        cons_data["pivot_z"] = round_num(cons.pivot_z, 3)
 
         cons_data["axis_x"] = round_num(cons.axis_x, 4)
-        cons_data["axis_y"] = round_num(cons.axis_z, 4)
-        cons_data["axis_z"] = round_num(-cons.axis_y, 4)
+        cons_data["axis_y"] = round_num(cons.axis_y, 4)
+        cons_data["axis_z"] = round_num(cons.axis_z, 4)
 
         # limits
         cons_data["use_limit_x"] = cons.use_limit_x
-        cons_data["use_limit_y"] = cons.use_limit_z
-        cons_data["use_limit_z"] = cons.use_limit_y
+        cons_data["use_limit_y"] = cons.use_limit_y
+        cons_data["use_limit_z"] = cons.use_limit_z
 
         cons_data["use_angular_limit_x"] = cons.use_angular_limit_x
-        cons_data["use_angular_limit_y"] = cons.use_angular_limit_z
-        cons_data["use_angular_limit_z"] = cons.use_angular_limit_y
+        cons_data["use_angular_limit_y"] = cons.use_angular_limit_y
+        cons_data["use_angular_limit_z"] = cons.use_angular_limit_z
 
-        # z -> y; y -> -z; min y -> max z; max y -> min z
         cons_data["limit_max_x"] = round_num(cons.limit_max_x, 3)
-        cons_data["limit_max_y"] = round_num(cons.limit_max_z, 3)
-        cons_data["limit_max_z"] = round_num(-cons.limit_min_y, 3)
+        cons_data["limit_max_y"] = round_num(cons.limit_max_y, 3)
+        cons_data["limit_max_z"] = round_num(cons.limit_max_z, 3)
         cons_data["limit_min_x"] = round_num(cons.limit_min_x, 3)
-        cons_data["limit_min_y"] = round_num(cons.limit_min_z, 3)
-        cons_data["limit_min_z"] = round_num(-cons.limit_max_y, 3)
+        cons_data["limit_min_y"] = round_num(cons.limit_min_y, 3)
+        cons_data["limit_min_z"] = round_num(cons.limit_min_z, 3)
 
         cons_data["limit_angle_max_x"] = round_num(cons.limit_angle_max_x, 4)
-        cons_data["limit_angle_max_y"] = round_num(cons.limit_angle_max_z, 4)
-        cons_data["limit_angle_max_z"] = round_num(-cons.limit_angle_min_y, 4)
+        cons_data["limit_angle_max_y"] = round_num(cons.limit_angle_max_y, 4)
+        cons_data["limit_angle_max_z"] = round_num(cons.limit_angle_max_z, 4)
         cons_data["limit_angle_min_x"] = round_num(cons.limit_angle_min_x, 4)
-        cons_data["limit_angle_min_y"] = round_num(cons.limit_angle_min_z, 4)
-        cons_data["limit_angle_min_z"] = round_num(-cons.limit_angle_max_y, 4)
+        cons_data["limit_angle_min_y"] = round_num(cons.limit_angle_min_y, 4)
+        cons_data["limit_angle_min_z"] = round_num(cons.limit_angle_min_z, 4)
 
     return True
 
@@ -4002,23 +3942,30 @@ def get_particle_system_scale(obj, obj_data, psys, vert_group_name):
     # current object in case of "to_mesh()" operation, which generates another mesh
     old_mesh = obj.data
     obj.data = obj_data
-
+    len_tessfaces = len(obj_data.tessfaces)
     for i in range(len(psys.particles)):
         if psys.settings.emit_from != "VERT":
-            vert = obj_data.tessfaces[indices[i]].vertices
-            scale = 0
+            # Some already distributed particles have wrong mapping to face
+            # The cause is not known yet
+            # Check the number of faces to prevent overflow
+            if len_tessfaces > indices[i]:
+                obj_data.tessfaces[indices[i]].vertices
 
-            for j in range(0, len(vert)):
-                vert_index = vert[j]
-                weight = get_ver_weight_by_group_ind(psys, obj_data, vert_index, vg_index)
-                scale += weight * vertex_influence[i * 4 + j]
+                vert = obj_data.tessfaces[indices[i]].vertices
+                scale = 0
+
+                for j in range(0, len(vert)):
+                    vert_index = vert[j]
+                    weight = get_ver_weight_by_group_ind(psys, obj_data, vert_index, vg_index)
+                    scale += weight * vertex_influence[i * 4 + j]
+            else:
+                warn("Wrong face number %s for particle %s in particle system '%s'" % (indices[i], i, psys.name))
         else:
             vert_gr_ind = obj.vertex_groups[vert_group_name].index
             scale = get_ver_weight_by_group_ind(psys, old_mesh, indices[i], vert_gr_ind)
 
         scale = max(min(scale, 1), 0)
         scales.append(scale)
-
     obj.data = old_mesh
 
     return scales
@@ -4046,6 +3993,7 @@ def process_object_particle_systems(obj, obj_data):
 
                 if not len(obj_data.tessfaces):
                     obj_data.calc_tessface()
+
                 # export particle transforms for hairs
                 # [x0,y0,z0,scale0,x1...]
                 if (psys.settings.type == "HAIR" and not
@@ -4074,10 +4022,9 @@ def process_object_particle_systems(obj, obj_data):
                         if vert_group_name:
                             scale *= scales[i]
 
-                        # translate coords: x,z,-y
                         ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len, x)
-                        ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 1, z)
-                        ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 2, -y)
+                        ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 1, y)
+                        ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 2, z)
                         ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 3, scale)
 
                         if (not psys.settings.b4w_initial_rand_rotation
@@ -4089,8 +4036,8 @@ def process_object_particle_systems(obj, obj_data):
 
                             ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 4, quat_w)
                             ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 5, quat_x)
-                            ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 6, quat_z)
-                            ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 7, - quat_y)
+                            ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 6, quat_y)
+                            ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 7, quat_z)
 
                     ptrans = b4w_bin.get_buffer_float(ptrans_ptr, transforms_length)
 

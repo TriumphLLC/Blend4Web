@@ -20,26 +20,9 @@ var m_vec3 = require("vec3");
 
 var DEBUG = (m_version.type() === "DEBUG");
 var PRELOADING = true;
-var CAM_TRACKING_OFFSET = new Float32Array([13, 4.5, 13]);
-var CAM_STAT_POS = new Float32Array([-20, 2, 120]);
+var CAM_TRACKING_OFFSET = new Float32Array([13, -13, 4.5]);
+var CAM_STAT_POS = new Float32Array([-20, -120, 2]);
 var APPROX_CESSNA_SPEED = 40;
-
-var INIT_PARAMS = {
-    canvas_container_id: "main_canvas_container",
-    callback: init_cb,
-    gl_debug: false,
-    show_fps: false,
-
-    // engine config
-    alpha: false,
-    physics_enabled: false,
-    console_verbose: DEBUG,
-    assets_dds_available: !DEBUG,
-
-    // improves quality
-    assets_min50_available: false,
-    quality: m_cfg.P_HIGH
-};
 
 var TS_NONE     = 10;   // initial state
 var TS_FOLLOW   = 20;   // follow the plane with offset
@@ -65,7 +48,30 @@ var _pl_caption = null;
 
 
 exports.init = function() {
-    m_app.init(INIT_PARAMS);
+    var show_fps = DEBUG;
+
+    var url_params = m_app.get_url_params();
+
+    if (url_params && "show_fps" in url_params)
+        show_fps = true;
+
+    m_app.init({
+        canvas_container_id: "main_canvas_container",
+        callback: init_cb,
+        gl_debug: false,
+        show_fps: show_fps,
+
+        // engine config
+        alpha: false,
+        physics_enabled: false,
+        console_verbose: DEBUG,
+        assets_dds_available: !DEBUG,
+        assets_pvr_available: !DEBUG,
+
+        // improves quality
+        assets_min50_available: false,
+        quality: m_cfg.P_HIGH
+    });
 }
 
 function init_cb(canvas_elem, success) {

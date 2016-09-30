@@ -1,43 +1,69 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var WATER_LEVEL 0.0
-#var WAVES_HEIGHT 0.0
-#var NUM_LAMP_LIGHTS 0
-#var NUM_VALUES 0
-#var NUM_RGBS 0
+#var PRECISION highp
 
-#var PARALLAX_STEPS 0.0
-#var PARALLAX_LOD_DIST 0.0
-#var WATER_LEVEL 0.0
-#var WAVES_HEIGHT 0.0
+#var TEXTURE_NORM_CO TEXTURE_COORDS_NONE
+#var TEXTURE_SPEC_CO TEXTURE_COORDS_NONE
+#var CAUSTICS 0
+#var USE_FOG 0
+#var TEXTURE_COLOR0_CO TEXTURE_COORDS_NONE
+#var TEXTURE_COLOR1_CO TEXTURE_COORDS_NONE
+#var PARALLAX 0
+#var CALC_TBN_SPACE 0
+#var USE_TBN_SHADING 0
 
-// lamp dirs
+#var TEXTURE_SPEC 0
+#var ALPHA_AS_SPEC 0
+#var TEXTURE_STENCIL_ALPHA_MASK 0
+#var TEXTURE_STENCIL_ALPHA_MASK_CO TEXTURE_COORDS_NONE
+#var NORMAL_TEXCOORD 0
+#var USE_REFRACTION_CORRECTION 0
+#var DOUBLE_SIDED_LIGHTING 0
+#var SHADELESS 0
+#var TEXCOORD 0
+#var VERTEX_COLOR 0
+#var WETTABLE 0
+#var CSM_SECTION1 0
+#var CSM_SECTION2 0
+#var CSM_SECTION3 0
+#var NUM_CAST_LAMPS 0
 #var NUM_LIGHTS 0
-#var LAMP_IND 0
-#var LAMP_SPOT_SIZE 0
-#var LAMP_SPOT_BLEND 0
-#var LAMP_LIGHT_DIST 0
-#var LAMP_LIGHT_FACT_IND 0
-#var LAMP_FAC_CHANNELS rgb
-#var LAMP_SHADOW_MAP_IND 0
 #var NUM_LFACTORS 0
+#var INVERT_FRONTFACING 0
+#var WATER_LEVEL 0.0
+#var PROCEDURAL_FOG 0
+#var TEXTURE_BLEND_TYPE TEXTURE_BLEND_TYPE_MIX
+#var SKY_TEXTURE 0
+#var SKY_COLOR 0
+#var ALPHA 0
+#var ALPHA_CLIP 0
+
+#var PARALLAX_LOD_DIST 5.0
+#var PARALLAX_STEPS 5.0
+
+#var USE_ENVIRONMENT_LIGHT 0
+#var REFLECTION_TYPE REFL_NONE
+#var REFRACTIVE 0
+#var DISABLE_FOG 0
+#var WATER_EFFECTS 0
+#var SHADOW_USAGE NO_SHADOWS
+#var DYNAMIC_GRASS 0
+#var POISSON_DISK_NUM NO_SOFT_SHADOWS
+#var SSAO_ONLY 0
 
 /*==============================================================================
                                   INCLUDES
 ==============================================================================*/
-#include <std_enums.glsl>
-
 #include <precision_statement.glslf>
-#include <pack.glslf>
+#include <std.glsl>
 
 #include <color_util.glslf>
 #include <math.glslv>
 
 #if !SHADELESS
-#include <procedural.glslf>
 # if CAUSTICS
 #include <caustics.glslf>
 # endif
@@ -95,7 +121,7 @@ uniform vec4 u_fog_params; // intensity, depth, start, height
                                SAMPLER UNIFORMS
 ==============================================================================*/
 
-#if TEXTURE_COLOR0_CO
+#if TEXTURE_COLOR0_CO != TEXTURE_COORDS_NONE
 uniform sampler2D u_colormap0;
 #endif
 
@@ -103,7 +129,7 @@ uniform sampler2D u_colormap0;
 uniform sampler2D u_specmap0;
 #endif
 
-#if TEXTURE_NORM_CO
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
 uniform sampler2D u_normalmap0;
 #endif
 
@@ -123,17 +149,19 @@ uniform samplerCube u_mirrormap;
 #if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
 uniform sampler2D u_shadow_mask;
 #elif SHADOW_USAGE == SHADOW_MAPPING_BLEND
+# if POISSON_DISK_NUM != NO_SOFT_SHADOWS
 uniform vec4 u_pcf_blur_radii;
+# endif
 uniform vec4 u_csm_center_dists;
-uniform PRECISION sampler2D u_shadow_map0;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map0;
 # if CSM_SECTION1 || NUM_CAST_LAMPS > 1
-uniform PRECISION sampler2D u_shadow_map1;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map1;
 # endif
 # if CSM_SECTION2 || NUM_CAST_LAMPS > 2
-uniform PRECISION sampler2D u_shadow_map2;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map2;
 # endif
 # if CSM_SECTION3 || NUM_CAST_LAMPS > 3
-uniform PRECISION sampler2D u_shadow_map3;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map3;
 # endif
 #endif
 
@@ -168,11 +196,11 @@ uniform vec4  u_diffuse_color;
 uniform vec2  u_diffuse_params;
 uniform float u_diffuse_intensity;
 
-#if TEXTURE_NORM_CO
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
 uniform float u_normal_factor;
 #endif
 
-#if TEXTURE_COLOR0_CO
+#if TEXTURE_COLOR0_CO != TEXTURE_COORDS_NONE
 uniform float u_diffuse_color_factor;
 uniform float u_alpha_factor;
 #endif
@@ -184,7 +212,7 @@ uniform float u_specular_color_factor;
 uniform vec3  u_specular_color;
 uniform vec3  u_specular_params;
 
-#if TEXTURE_NORM_CO && PARALLAX
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX
 uniform float u_parallax_scale;
 #endif
 
@@ -198,13 +226,13 @@ uniform float u_refr_bump;
 GLSL_IN vec3 v_pos_world;
 GLSL_IN vec3 v_normal;
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) \
+#if !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
         || (!SHADELESS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION \
         || SHADOW_USAGE == SHADOW_MAPPING_BLEND
 GLSL_IN vec4 v_pos_view;
 #endif
 
-#if TEXTURE_NORM_CO || CALC_TBN_SPACE
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE || CALC_TBN_SPACE
 GLSL_IN vec4 v_tangent;
 #endif
 
@@ -276,13 +304,13 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 void main(void) {
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) \
+#if !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
         || (!SHADELESS && CAUSTICS && WATER_EFFECTS)
     float view_dist = length(v_pos_view);
 #endif
 
 #if WATER_EFFECTS
-    float dist_to_water = v_pos_world.y - WATER_LEVEL;
+    float dist_to_water = v_pos_world.z - WATER_LEVEL;
 #endif
 
 #if TEXCOORD
@@ -303,21 +331,23 @@ void main(void) {
         sided_normal = -sided_normal;
 #endif
 
-#if TEXTURE_NORM_CO
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
     vec3 binormal = cross(sided_normal, v_tangent.xyz) * v_tangent.w;
-    mat3 tbn_matrix = mat3(v_tangent.xyz, binormal, sided_normal);
+    binormal = normalize(binormal);
+    vec3 tangent = cross(binormal, sided_normal) * v_tangent.w;
+    mat3 tbn_matrix = mat3(tangent, binormal, sided_normal);
 #endif
 
 #if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE
-    mat4 view_matrix = tsr_to_mat4(u_view_tsr_frag);
+    mat3 view_tsr = u_view_tsr_frag;
 #endif
 
 #if NORMAL_TEXCOORD
-    vec2 texcoord_norm = normalize(view_matrix * vec4(v_normal, 0.0)).st;
+    vec2 texcoord_norm = normalize(tsr9_transform_dir(view_tsr, v_normal)).st;
     texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
 #endif
 
-#if TEXTURE_NORM_CO && PARALLAX
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX
     // parallax relief mapping
     // http://steps3d.narod.ru/tutorials/parallax-mapping-tutorial.html
     if (view_dist < PARALLAX_LOD_DIST) {
@@ -376,9 +406,9 @@ void main(void) {
 # endif // TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
     }
 
-#endif // TEXTURE_NORM_CO && PARALLAX
+#endif // TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX
 
-#if TEXTURE_NORM_CO
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
     vec4 normalmap;
 # if TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
     normalmap = GLSL_TEXTURE(u_normalmap0, texcoord_norm);
@@ -400,7 +430,7 @@ void main(void) {
 
 // recalculate normal texcoords with parallax and normalmapping applied
 #if NORMAL_TEXCOORD
-    texcoord_norm = normalize(view_matrix * vec4(normal, 0.0)).st;
+    texcoord_norm = normalize(tsr9_transform_dir(view_tsr, normal)).st;
     texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
 #endif
 
@@ -425,7 +455,7 @@ void main(void) {
     vec4 texture_color = GLSL_TEXTURE(u_colormap0, texcoord);
 #endif
 
-#if TEXTURE_COLOR0_CO
+#if TEXTURE_COLOR0_CO != TEXTURE_COORDS_NONE
     srgb_to_lin(texture_color.rgb);
 
 # if TEXTURE_STENCIL_ALPHA_MASK
@@ -501,11 +531,11 @@ void main(void) {
 #endif // SHADELESS
 
 #if REFLECTION_TYPE == REFL_PLANE
-    apply_mirror(color, eye_dir, normal, u_reflect_factor, view_matrix);
+    apply_mirror(color, eye_dir, normal, u_reflect_factor, view_tsr);
 #elif REFLECTION_TYPE == REFL_CUBE
-    apply_mirror(color, eye_dir, normal, u_reflect_factor, mat4(0.0));
+    apply_mirror(color, eye_dir, normal, u_reflect_factor, mat3(0.0));
 #elif REFLECTION_TYPE == REFL_MIRRORMAP
-    apply_mirror(color, eye_dir, normal, u_mirror_factor, mat4(0.0));
+    apply_mirror(color, eye_dir, normal, u_mirror_factor, mat3(0.0));
 #endif
 
 #if !SHADELESS
@@ -543,7 +573,7 @@ void main(void) {
 #endif  // ALPHA
 
 #if REFRACTIVE
-    vec2 normal_view = -(view_matrix * vec4(normal, 0.0)).xy;
+    vec2 normal_view = -(tsr9_transform_dir(view_tsr, normal)).xy;
     color = mix(material_refraction(v_tex_pos_clip, normal_view * u_refr_bump),
                 color, alpha);
     alpha = 1.0;
@@ -556,6 +586,12 @@ void main(void) {
     fog(color, view_dist, eye_dir, 1.0);
 # endif
 #endif
+
+#if SSAO_ONLY && SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
+    float ssao = GLSL_TEXTURE_PROJ(u_shadow_mask, v_tex_pos_clip).a;
+    color = vec3(ssao);
+#endif
+
     lin_to_srgb(color);
 #if ALPHA && !ALPHA_CLIP
     premultiply_alpha(color, alpha);

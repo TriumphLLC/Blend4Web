@@ -23,7 +23,7 @@ var _character_rig = null;
 
 var ROT_SPEED = 1.5;
 var CAM_SOFTNESS = 0.2;
-var CAM_OFFSET = new Float32Array([0, 1.5, -4]);
+var CAM_OFFSET = new Float32Array([0, 4, 1.5]);
 
 exports.init = function() {
 
@@ -38,6 +38,7 @@ exports.init = function() {
         physics_enabled: true,
         quality: quality,
         show_fps: true,
+        autoresize: true,
         alpha: false
     });
 }
@@ -49,16 +50,6 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    window.addEventListener("resize", on_resize);
-
-    load();
-}
-
-function on_resize() {
-    m_cont.resize_to_container();
-}
-
-function load() {
     m_data.load("game_example.json", load_cb);
 }
 
@@ -177,12 +168,10 @@ function setup_jumping(touch_jump) {
     var key_space = m_ctl.create_keyboard_sensor(m_ctl.KEY_SPACE);
 
     var jump_cb = function(obj, id, pulse) {
-        if (pulse == 1) {
-            m_phy.character_jump(obj);
-        }
+        m_phy.character_jump(obj);
     }
 
-    m_ctl.create_sensor_manifold(_character, "JUMP", m_ctl.CT_TRIGGER,
+    m_ctl.create_sensor_manifold(_character, "JUMP", m_ctl.CT_SHOT,
         [key_space, touch_jump], function(s){return s[0] || s[1]}, jump_cb);
 }
 

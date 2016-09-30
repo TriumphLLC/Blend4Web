@@ -9,7 +9,7 @@ var m_trav    = require("./ast_traversal.js");
 /**
  * Delete unused braces. Doesn't change the structure of AST.
  */
-exports.delete_unused_braces = function(ast_input) {
+exports.delete_unused_braces = function(ast_data) {
     // compound_statement_with_scope could have braces that might be removed  
     var scope_stack = [];
 
@@ -38,8 +38,5 @@ exports.delete_unused_braces = function(ast_input) {
         if (ast_node.new_scope)
             scope_stack.pop();
     }
-    m_trav.traverse_data(ast_input.ast, cb_before, cb_after);
-
-    // recalc uids after possible changes in AST
-    m_search.recalc_ast_uids(ast_input);
+    m_trav.traverse_data(ast_data.ast, cb_before, cb_after);
 } 

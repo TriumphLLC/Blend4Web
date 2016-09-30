@@ -652,10 +652,10 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_view_matrix":
+        case "u_view_refl_matrix":
             // NOTE: used for reflection
             scene_fun = function(gl, loc, subscene, camera) {
-                gl.uniformMatrix4fv(loc, false, camera.view_matrix);
+                gl.uniformMatrix4fv(loc, false, camera.view_refl_matrix);
             }
             transient_uni = true;
             break;
@@ -669,21 +669,12 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_view_zup_tsr":
+        case "u_view_tsr_inverse":
             scene_fun = function(gl, loc, subscene, camera) {
                 if (camera.reflection_plane)
-                    gl.uniformMatrix3fv(loc, false, camera.real_view_zup_tsr);
+                    gl.uniformMatrix3fv(loc, false, camera.real_view_tsr_inv);
                 else
-                    gl.uniformMatrix3fv(loc, false, camera.view_zup_tsr);
-            }
-            transient_uni = true;
-            break;
-        case "u_view_zup_tsr_inverse":
-            scene_fun = function(gl, loc, subscene, camera) {
-                if (camera.reflection_plane)
-                    gl.uniformMatrix3fv(loc, false, camera.real_view_inv_zup_tsr);
-                else
-                    gl.uniformMatrix3fv(loc, false, camera.view_inv_zup_tsr);
+                    gl.uniformMatrix3fv(loc, false, camera.view_tsr_inv);
             }
             transient_uni = true;
             break;
@@ -1177,15 +1168,9 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_model_zup_tsr":
+        case "u_model_tsr_inverse":
             fun = function(gl, loc, obj_render, batch) {
-                gl.uniformMatrix3fv(loc, false, obj_render.world_zup_tsr);
-            }
-            transient_uni = true;
-            break;
-        case "u_model_zup_tsr_inverse":
-            fun = function(gl, loc, obj_render, batch) {
-                gl.uniformMatrix3fv(loc, false, obj_render.world_inv_zup_tsr);
+                gl.uniformMatrix3fv(loc, false, obj_render.world_tsr_inv);
             }
             transient_uni = true;
             break;

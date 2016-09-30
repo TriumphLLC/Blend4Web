@@ -318,7 +318,7 @@ Detailed API module documentation: link.
 A camera's position and its spatial orientation are defined by the
 control mode. In the "EYE", "TARGET" and "HOVER" modes, control mode
 has several limitations: for example, the camera's vertical axis is
-always aligned along the world's Y-axis and the camera is constantly
+always aligned along the world's Z-axis and the camera is constantly
 focused on the pivot point. The "STATIC" mode camera has no such
 limitations, which makes it more suitable for cases when you need more
 complete control, such as procedural animation.
@@ -543,14 +543,6 @@ has_horizontal_trans_limits() and has_vertical_trans_limits() methods.
   automatically calculated to lock the camera in the current position
   relative to the pivot point.
 
-注解: When setting translation limits for the "HOVER" camera, the
-  values for the limits will correspond to the engine's coordinate
-  axis as follows:
-
-  * "Horizontal Translation Limits" - X axis
-
-  * "Vertical Translation Limits" - Z axis
-
 注解: Enabled camera limits can influence its position and spatial
   orientation set by the API functions.
 
@@ -559,7 +551,7 @@ Angular Coordinates Count
 -------------------------
 
    When working with the camera's APIs (rotation, setting limits), all
-   angles are defined in the engine's coordinate system as follows:
+   angles are defined as follows:
 
    For the "TARGET/HOVER" camera:
 

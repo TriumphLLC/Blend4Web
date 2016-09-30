@@ -27,13 +27,14 @@ var m_batch  = require("__batch");
 var m_geom   = require("__geometry");
 var m_print  = require("__print");
 var m_render = require("__renderer");
+var m_util   = require("__util");
 
 /**
  * Extract the vertex array from the object.
  * @method module:geometry.extract_vertex_array
  * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
- * @param {String} attrib_name Attribute name (a_position, a_normal, a_tangent)
+ * @param {String} attrib_name Attribute name (a_position, a_tbn_quat)
  * @returns {Float32Array} Vertex array
  */
 exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
@@ -94,7 +95,7 @@ exports.extract_index_array = function(obj, mat_name) {
  * @method module:geometry.update_vertex_array
  * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
- * @param {String} attrib_name Attribute name (a_position, a_normal, a_tangent)
+ * @param {String} attrib_name Attribute name (a_position, a_tbn_quat)
  * @param {Float32Array} array The new array
  */
 exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
@@ -183,7 +184,7 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
                         pointer.length = positions_array.length;
                         offset += pointer.length;
                         break;
-                    case "a_normal":
+                    case "a_tbn_quat":
                         var shared_indices;
 
                         if (smooth_normals)
@@ -193,23 +194,17 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
                         var normals = m_geom.calc_normals(ibo_array,
                                       positions_array, shared_indices);
 
-                        vbo_array.set(normals, offset);
-                        pointer.offset = offset;
-                        pointer.length = positions_array.length;
-                        offset += pointer.length;
-                        break;
-                    case "a_tangent":
-                        pointer.offset = offset;
                         pointer.length = positions_array.length / 3 * pointer.num_comp;
+                        var tangents = new Float32Array(pointer.length);
 
-                        var new_tangent_array = new Float32Array(pointer.length);
-
-                        for (var j = 0; j < new_tangent_array.length; j +=4) {
-                            new_tangent_array[j] = 1;
-                            new_tangent_array[j + 3] = 1;
+                        for (var j = 0; j < tangents.length; j +=4) {
+                            tangents[j] = 1;
+                            tangents[j + 3] = 1;
                         }
 
-                        vbo_array.set(new_tangent_array, offset);
+                        var tbn_quats = m_util.gen_tbn_quats(normals, tangents);
+                        vbo_array.set(tbn_quats, offset);
+                        pointer.offset = offset;
                         offset += pointer.length;
                         break;
                     default:

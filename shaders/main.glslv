@@ -1,18 +1,57 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var AU_QUALIFIER uniform
-#var MAX_BONES 0
+#var PRECISION highp
+
+#var CAUSTICS 0
+#var CALC_TBN_SPACE 0
+#var MAIN_BEND_COL 0
+#var DETAIL_BEND 0
+#var CALC_TBN 0
+#var USE_INSTANCED_PARTCLS 0
+#var TEXTURE_NORM_CO TEXTURE_COORDS_NONE
+#var USE_TBN_SHADING 0
+#var PARALLAX 0
+#var WATER_EFFECTS 0
+#var SMAA_JITTER 0
+
+#var NODES 0
+#var AU_QUALIFIER GLSL_IN 
+#var STATIC_BATCH 0
+#var WIND_BEND 0
+#var BEND_CENTER_ONLY 0
+#var BILLBOARD_PRES_GLOB_ORIENTATION 0
+#var BILLBOARD 0
+#var BILLBOARD_JITTERED 0
+#var DYNAMIC_GRASS 0
+#var SKINNED 0
+#var FRAMES_BLENDING 0
+#var VERTEX_ANIM 0
+#var DISABLE_FOG 0
+#var SHADOW_USAGE NO_SHADOWS
+#var REFLECTION_PASS REFL_PASS_NONE
+#var REFLECTION_TYPE REFL_NONE
+#var REFRACTIVE 0
+
+#var MAC_OS_SHADOW_HACK 0
+
+#var CSM_SECTION1 0
+#var CSM_SECTION2 0
+#var CSM_SECTION3 0
 #var NUM_CAST_LAMPS 0
-#var PRECISION lowp
+
+#var TEXCOORD 0
+#var VERTEX_COLOR 0
+
 #var VERTEX_ANIM_MIX_NORMALS_FACTOR u_va_frame_factor
+#var MAX_BONES 0
 
 /*==============================================================================
                                   INCLUDES
 ==============================================================================*/
-#include <std_enums.glsl>
+#include <std.glsl>
 
 #include <math.glslv>
 #include <to_world.glslv>
@@ -25,17 +64,13 @@ GLSL_IN vec3 a_position;
 
 #if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP\
         || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
-        || USE_NODE_TEX_COORD_NO || CALC_TBN
-GLSL_IN vec3 a_normal;
+        || USE_NODE_TEX_COORD_NO || CALC_TBN || TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
+GLSL_IN vec4 a_tbn_quat;
 #endif
 
 #if USE_INSTANCED_PARTCLS
 GLSL_IN vec4 a_part_ts;
 GLSL_IN vec4 a_part_r;
-#endif
-
-#if TEXTURE_NORM_CO || CALC_TBN_SPACE
-GLSL_IN vec4 a_tangent;
 #endif
 
 #if USE_TBN_SHADING
@@ -71,10 +106,7 @@ GLSL_IN vec3 a_emitter_center;
 GLSL_IN vec3 a_position_next;
 # if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO
-GLSL_IN vec3 a_normal_next;
-#  if TEXTURE_NORM_CO || CALC_TBN_SPACE
-GLSL_IN vec4 a_tangent_next;
-#  endif
+GLSL_IN vec4 a_tbn_quat_next;
 # endif
 #endif
 
@@ -96,13 +128,13 @@ GLSL_OUT vec3 v_pos_world;
 GLSL_OUT vec3 v_normal;
 #endif
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) \
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
         || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION \
         || SHADOW_USAGE == SHADOW_MAPPING_BLEND
 GLSL_OUT vec4 v_pos_view;
 #endif
 
-#if TEXTURE_NORM_CO || CALC_TBN_SPACE
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE || CALC_TBN_SPACE
 GLSL_OUT vec4 v_tangent;
 #endif
 
@@ -161,12 +193,12 @@ const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
 uniform mat3 u_model_tsr;
 #endif
 
-#if REFLECTION_PASS
-uniform mat4 u_view_matrix;
-uniform mat3 u_view_tsr;
-#else
-uniform mat3 u_view_tsr;
+#if REFLECTION_PASS == REFL_PASS_PLANE
+uniform mat4 u_view_refl_matrix;
 #endif
+
+uniform mat3 u_view_tsr;
+
 
 uniform mat4 u_proj_matrix;
 #if !NODES || BILLBOARD || DYNAMIC_GRASS
@@ -263,46 +295,47 @@ uniform PRECISION float u_view_max_depth;
 
 void main(void) {
 
-#if REFLECTION_PASS
-    mat4 view_matrix = u_view_matrix;
-# if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) \
-        || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION \
-        || SHADOW_USAGE == SHADOW_MAPPING_BLEND
-    mat4 real_view_matrix = tsr_to_mat4(u_view_tsr);
-# endif
+#if REFLECTION_PASS == REFL_PASS_PLANE
+    mat4 view_refl_matrix = u_view_refl_matrix;
 #else
-    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+    mat4 view_refl_matrix = mat4(0.0);
 #endif
+    mat3 view_tsr = u_view_tsr;
 
 #if USE_INSTANCED_PARTCLS
     mat3 model_tsr = mat3(a_part_ts[0], a_part_ts[1], a_part_ts[2],
                         a_part_ts[3], a_part_r[0], a_part_r[1],
                         a_part_r[2], a_part_r[3], 1.0);
-# if STATIC_BATCH
-    mat4 model_mat = tsr_to_mat4(model_tsr);
-# else
-    mat4 model_mat = tsr_to_mat4(tsr_multiply(u_model_tsr, model_tsr));
+# if !STATIC_BATCH
+    model_tsr = tsr_multiply(u_model_tsr, model_tsr);
 # endif
 #else
-    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+    mat3 model_tsr = u_model_tsr;
 #endif
 
     vec3 position = a_position;
 
 #if CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
+        || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || !NODES \
+        || USE_TBN_SHADING && CALC_TBN
+    vec3 norm_tbn = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
+#endif
+
+#if CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || !NODES
-    vec3 normal = a_normal;
+    vec3 normal = norm_tbn;
 #else
     vec3 normal = vec3(0.0);
 #endif
 
 #if CALC_TBN_SPACE || !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO
-    vec3 tangent = vec3(a_tangent);
-    vec3 binormal = a_tangent[3] * cross(normal, tangent);
+    vec3 tangent = qrot(a_tbn_quat, vec3(1.0, 0.0, 0.0));
+    // - cross(tangent, normal) --- blender space binormal
+    vec3 binormal = sign(a_tbn_quat[3]) * cross(normal, tangent);
 #elif !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
     // NOTE: absolutely not precise. Better too avoid using such a setup
-    vec3 world_pos = (model_mat * vec4(position, 1.0)).xyz;
-    vec3 norm_world = normalize((model_mat * vec4(a_normal, 0.0)).xyz);
+    vec3 world_pos = tsr9_transform(model_tsr, position);
+    vec3 norm_world = normalize(tsr9_transform_dir(model_tsr, norm_tbn));
     vec3 eye_dir = world_pos - u_camera_eye;
     vec3 binormal = cross(eye_dir, norm_world);
     vec3 tangent = cross(norm_world, binormal);
@@ -313,7 +346,7 @@ void main(void) {
 
 #if USE_TBN_SHADING
 # if CALC_TBN
-    vec3 norm_world = normalize((model_mat * vec4(a_normal, 0.0)).xyz);
+    vec3 norm_world = normalize(tsr9_transform_dir(model_tsr, norm_tbn));
     vec3 shade_binormal = cross(vec3(0.0, 0.0, 1.0), norm_world);
     vec3 shade_tangent = cross(norm_world, shade_binormal);
 # else
@@ -325,13 +358,20 @@ void main(void) {
 
 #if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
+
+#if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_NORMAL_MAP \
+        || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE \
+        || TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
+    vec3 norm_tbn_next = qrot(a_tbn_quat_next, vec3(0.0, 1.0, 0.0));
+#endif
+
 # if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_NORMAL_MAP \
         || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
-    normal = mix(normal, a_normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
+    normal = mix(normal, norm_tbn_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
 # endif
-# if TEXTURE_NORM_CO
-    vec3 tangent_next = vec3(a_tangent);
-    vec3 binormal_next = a_tangent_next[3] * cross(a_normal_next, tangent_next);
+# if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
+    vec3 tangent_next = qrot(a_tbn_quat_next, vec3(1.0, 0.0, 0.0));
+    vec3 binormal_next = sign(a_tbn_quat_next[3]) * cross(norm_tbn_next, tangent_next);
 
     tangent = mix(tangent, tangent_next, u_va_frame_factor);
     binormal = mix(binormal, binormal_next, u_va_frame_factor);
@@ -348,7 +388,7 @@ void main(void) {
     vec3 center = au_center_pos;
 #elif DYNAMIC_GRASS && USE_INSTANCED_PARTCLS
     vec3 center = a_part_ts.xyz;
-    position = (model_mat * vec4(position, 1.0)).xyz;
+    position = tsr9_transform(model_tsr, position);
 #else
     vec3 center = vec3(0.0);
 #endif
@@ -357,33 +397,38 @@ void main(void) {
     vertex world = grass_vertex(position, tangent, shade_tangent, binormal, normal,
             center, u_grass_map_depth, u_grass_map_color,
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
-            view_matrix);
+            view_tsr);
 #else
 # if BILLBOARD
-    vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
+    vec3 wcen = tsr9_transform(model_tsr, center);
+#  if REFLECTION_PASS == REFL_PASS_PLANE
+    position = (view_refl_matrix * vec4(position, 1.0)).xyz;
+    center = (view_refl_matrix * vec4(center, 1.0)).xyz;
+    wcen = (view_refl_matrix * vec4(wcen, 1.0)).xyz;
+#  endif
 
 #  if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH || USE_INSTANCED_PARTCLS
-    mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen,
-            view_matrix, model_mat);
+    model_tsr = billboard_tsr_global(u_camera_eye, wcen,
+            view_tsr, model_tsr);
 #  else
-    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, view_matrix);
+    model_tsr = billboard_tsr(u_camera_eye, wcen, view_tsr);
 #  endif
 
 #  if WIND_BEND && BILLBOARD_JITTERED
-    vec3 vec_seed = (model_mat * vec4(center, 1.0)).xyz;
-    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
-            u_jitter_amp, u_jitter_freq, vec_seed);
+    vec3 vec_seed = wcen;
+    model_tsr = bend_jitter_rotate_tsr(u_wind, u_time,
+            u_jitter_amp, u_jitter_freq, vec_seed, model_tsr);
 #  endif  // WIND_BEND && BILLBOARD_JITTERED
     vertex world = to_world(position - center, center, tangent, shade_tangent,
-            binormal, normal, model_matrix);
+            binormal, normal, model_tsr);
     world.center = wcen;
 # else  // BILLBOARD
     vertex world = to_world(position, center, tangent, shade_tangent, binormal,
-            normal, model_mat);
+            normal, model_tsr);
 # endif  // BILLBOARD
 #endif  // DYNAMIC_GRASS
 
-#if TEXTURE_NORM_CO || CALC_TBN_SPACE
+#if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE || CALC_TBN_SPACE
     // calculate handedness as described in Math for 3D GP and CG, page 185
     float m = (dot(cross(world.normal, world.tangent),
         world.binormal) < 0.0) ? -1.0 : 1.0;
@@ -395,7 +440,7 @@ void main(void) {
 #endif
 
 #if WIND_BEND
-    bend_vertex(world.position, world.center, normal);
+    bend_vertex(world.position, world.center, normal, view_refl_matrix);
 #endif
 
     v_pos_world = world.position;
@@ -419,17 +464,17 @@ void main(void) {
 # endif
 #endif // !NODES
 
-    vec4 pos_view = view_matrix * vec4(world.position, 1.0);
+#if REFLECTION_PASS == REFL_PASS_PLANE && !BILLBOARD
+    vec4 pos_view = view_refl_matrix * vec4(world.position, 1.0);
+    pos_view.xyz = tsr9_transform(view_tsr, pos_view.xyz);
+#else
+    vec4 pos_view = vec4(tsr9_transform(view_tsr, world.position), 1.0);
+#endif
 
-#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) \
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
         || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION \
         || SHADOW_USAGE == SHADOW_MAPPING_BLEND
-# if REFLECTION_PASS
-    vec4 real_pos_view = real_view_matrix * vec4(world.position, 1.0);
-    v_pos_view = real_pos_view;
-# else
     v_pos_view = pos_view;
-# endif
 #endif
 
     vec4 pos_clip = u_proj_matrix * pos_view;

@@ -1,31 +1,41 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-// lamp dirs
-#var NUM_LIGHTS 0
-#var LAMP_IND 0
-#var LAMP_SPOT_SIZE 0
-#var LAMP_SPOT_BLEND 0
-#var LAMP_LIGHT_DIST 0
-#var LAMP_LIGHT_FACT_IND 0
-#var LAMP_FAC_CHANNELS rgb
-#var LAMP_SHADOW_MAP_IND 0
-#var NUM_LFACTORS 0
-#var NUM_VALUES 0
-#var NUM_RGBS 0
-#var NUM_LAMP_LIGHTS 0
+#var PRECISION highp
 
+#var NUM_LIGHTS 0
+#var NUM_LFACTORS 0
+#var SKY_TEXTURE 0
+#var SKY_COLOR 0
+#var PROCEDURAL_FOG 0
+#var TEXTURE_BLEND_TYPE TEXTURE_BLEND_TYPE_MIX
+
+#var ALPHA 0
+#var ALPHA_CLIP 0
+
+#var SOFT_STRENGTH 0.25
+
+#var SOFT_PARTICLES 0
+#var NODES 0
+#var HALO_PARTICLES 0
+#var TEXTURE_COLOR 0
+#var USE_ENVIRONMENT_LIGHT 0
+#var SKY_STARS 0
+#var DISABLE_FOG 0
+#var WATER_EFFECTS 0
+#var USE_FOG 0
 #var PARTICLES_SHADELESS 0
-#var SOFT_STRENGTH 1.0
+#var USE_TBN_SHADING 0
 
 /*==============================================================================
                                   INCLUDES
 ==============================================================================*/
-#include <std_enums.glsl>
-
 #include <precision_statement.glslf>
+#include <std.glsl>
+
+
 #include <color_util.glslf>
 #if SOFT_PARTICLES || NODES
 #include <pack.glslf>
@@ -210,7 +220,7 @@ void main(void) {
     
     vec3 E = u_emit * diffuse_color.rgb;
 
-    vec3 normal = vec3(0.0, 1.0, 0.0);
+    vec3 normal = vec3(0.0, 0.0, 1.0);
 
 #   if USE_ENVIRONMENT_LIGHT && !SKY_TEXTURE && SKY_COLOR
         vec3 environment_color = u_environment_energy * get_environment_color(vec3(0.0));

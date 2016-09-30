@@ -174,7 +174,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
     init_context(_elem_canvas_webgl, _elem_canvas_hud, gl);
     m_cfg.apply_quality();
-    m_compat.set_hardware_defaults(gl);
+    m_compat.set_hardware_defaults(gl, true);
 
     m_shaders.load_shaders();
 

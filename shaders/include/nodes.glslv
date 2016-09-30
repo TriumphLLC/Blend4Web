@@ -1,7 +1,12 @@
+#ifndef NODES_GLSLV
+#define NODES_GLSLV
+
 /*==============================================================================
-                                   EXPORTS
+                                    VARS
 ==============================================================================*/
-#export nodes_main
+#var PARTICLE_BATCH 0
+
+/*============================================================================*/
 
 #if (USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE) && !PARTICLE_BATCH
 GLSL_IN vec3 a_orco_tex_coord;
@@ -72,3 +77,5 @@ void nodes_main() {
 #endif
     #nodes_main
 }
+
+#endif

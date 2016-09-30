@@ -109,6 +109,9 @@ To update the SDK, follow these steps:
 
 #. Disable ``Blend4Web`` Add-on.
 
+    .. note::
+        We recommend not to use the ``Remove`` button to disable the Add-on for updating the SDK, as doing so will completely delete the add-on, including its files in the SDK.
+
 #. Unpack the new version of the SDK from the archive.
 
     .. note::
@@ -164,19 +167,6 @@ Before installing a new version of the add-on, you may firstly remove the existi
 #. Restart Blender.
 
 Everything should be working now.
-
-.. index:: export
-
-.. _getting_started_export_viewer:
-
-Exporting and Viewing Scenes
-----------------------------
-
-The created scenes can be exported in HTML format. To do this use the :file:`File > Export > Blend4Web (.html)` or :file:`File > Export > Blend4Web (.json)` menu option and choose the export filepath. Scene export is described thoroughly in :ref:`its own chapter <addon>`. The resulting HTML file can be opened with any browser with WebGL support.
-
-.. seealso:: :ref:`browser_webgl_support`
-
-
 
 |
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Общие сведения &mdash; Руководство пользователя Blend4Web 16.08</title>
+  <title>Общие сведения &mdash; Руководство пользователя Blend4Web 16.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="#"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.09" href="index.html"/>
         <link rel="next" title="Возможности движка" href="engine_features.html"/>
         <link rel="prev" title="Содержание" href="index.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -90,7 +90,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#what-s-webgl">Что такое WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl-browsers-support">Поддержка WebGL в браузерах</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#full-support">Полная поддержка</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#experimental-support">Экспериментальная поддержка</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mobile-platforms">Мобильные платформы</a></li>
 </ul>
 </li>
@@ -181,8 +180,8 @@
 <span id="about-product"></span><span id="index-0"></span><h2>Что такое Blend4Web<a class="headerlink" href="#what-s-blend4web" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Blend4Web - это программная среда для подготовки и интерактивного отображения трехмерного аудиовизуального контента в браузерах, т.е. трехмерный «движок» (жаргонизм от англ. «engine»).</p>
 <p>Платформа предназначена для создания визуализаций, презентаций, интернет-магазинов, игр и других &#8220;насыщенных&#8221; web-приложений.</p>
-<p>Фреймворк Blend4Web имеет тесную интеграцию с пакетом 3D моделирования и анимации Blender (отсюда название). Отображение контента осуществляется средствами WebGL и других браузерных технологий, без использования плагинов.</p>
-<p>Технически Blend4Web представляет собой программную библиотеку, подключаемую в web-странице, аддон (дополнение) к программе Blender, а также инструменты для отладки и оптимизации.</p>
+<p>Фреймворк Blend4Web имеет тесную интеграцию с пакетом 3D моделирования и анимации Blender (отсюда название). Отображение контента осуществляется средствами WebGL и других браузерных технологий без использования плагинов.</p>
+<p>Технически Blend4Web представляет собой программную библиотеку, подключаемую к веб-странице, аддон (дополнение) к программе Blender, а также инструменты для отладки и оптимизации.</p>
 <p>3D движок Blend4Web разрабатывается сотрудниками ООО «Триумф» с 2010 г. Первый релиз движка состоялся 28 марта 2014 г.</p>
 </div>
 <div class="section" id="about-engines">
@@ -197,7 +196,7 @@
 <div><ul class="simple">
 <li><p class="first">высокоуровневой прикладной частью (игровой логикой, бизнес-логикой) и</p>
 </li>
-<li><p class="first">низкоуровневой системной частью (например, графической библиотекой <a class="reference internal" href="#about-webgl"><span>WebGL</span></a> и нижлежащими <a class="reference internal" href="#about-drivers-video-cards"><span>драйверами</span></a>).</p>
+<li><p class="first">низкоуровневой системной частью (например, графической библиотекой <a class="reference internal" href="#about-webgl"><span>WebGL</span></a> и нижележащими <a class="reference internal" href="#about-drivers-video-cards"><span>драйверами</span></a>).</p>
 </li>
 </ul>
 </div></blockquote>
@@ -205,7 +204,7 @@
 </div>
 <div class="section" id="what-s-webgl">
 <span id="about-webgl"></span><span id="index-3"></span><h2>Что такое WebGL<a class="headerlink" href="#what-s-webgl" title="Ссылка на этот заголовок">¶</a></h2>
-<p>WebGL (Web Graphics Library, т.е. графическая библиотека для использования в веб-приложениях) - одна из современных браузерных технологий, позволяющая создавать трехмерные графические веб-приложения. Другими словами WebGL - это &#8220;3D в браузере&#8221;.</p>
+<p>WebGL (Web Graphics Library, т.е. графическая библиотека для использования в веб-приложениях) - одна из современных браузерных технологий, позволяющая создавать трехмерные графические веб-приложения. Другими словами, WebGL - это &#8220;3D в браузере&#8221;.</p>
 </div>
 <div class="section" id="webgl-browsers-support">
 <span id="browser-webgl-support"></span><span id="index-4"></span><h2>Поддержка WebGL в браузерах<a class="headerlink" href="#webgl-browsers-support" title="Ссылка на этот заголовок">¶</a></h2>
@@ -214,15 +213,10 @@
 <h3>Полная поддержка<a class="headerlink" href="#full-support" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
 <li><a class="reference external" href="http://www.google.com/chrome">Chrome</a></li>
-<li><a class="reference external" href="http://browser.yandex.ru/">Yandex Browser</a></li>
+<li><a class="reference external" href="http://browser.yandex.com/">Yandex Browser</a></li>
 <li><a class="reference external" href="http://www.mozilla.org/firefox">Firefox</a></li>
 <li><a class="reference external" href="http://www.opera.com/browser">Opera</a></li>
 <li><a class="reference external" href="http://www.apple.com/safari/">Safari</a> 8+</li>
-</ul>
-</div>
-<div class="section" id="experimental-support">
-<h3>Экспериментальная поддержка<a class="headerlink" href="#experimental-support" title="Ссылка на этот заголовок">¶</a></h3>
-<ul class="simple">
 <li><a class="reference external" href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Internet Explorer</a> 11</li>
 <li><a class="reference external" href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a></li>
 </ul>
@@ -238,6 +232,7 @@
 <li>Tizen</li>
 <li>Ubuntu Touch</li>
 </ul>
+<p>Более подробно поддержка WebGL описана в <a class="reference internal" href="problems_and_solutions.html#webgl-support"><span>соответствующем разделе</span></a> главы &#8220;Проблемы и решения&#8221;.</p>
 </div>
 </div>
 <div class="section" id="advantages-of-webgl">
@@ -278,7 +273,7 @@
 </li>
 <li><p class="first">риггинг (от англ. rigging, т.е. &#8220;оснастка&#8221;) - к модели прикрепляются управляющие элементы (&#8220;кости&#8221; &#8220;скелета&#8221;) с целью дальнейшей анимации</p>
 </li>
-<li><p class="first">анимация - модель приводится в движение с целью визуализации действий (например, персонажей)</p>
+<li><p class="first">анимация - модель приводится в движение с целью визуализации действий (например, для персонажей)</p>
 </li>
 <li><p class="first">экспорт - выполняется на любом этапе с целью отображения 3D-модели в ее конечном виде, например, на веб-странице</p>
 </li>
@@ -303,7 +298,7 @@
 <div class="section" id="browser-technologies">
 <span id="about-browser-tech"></span><span id="index-8"></span><h2>Браузерные технологии<a class="headerlink" href="#browser-technologies" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Браузер (от англ. &#8220;browser&#8221;, т.е. &#8220;просмотрщик&#8221;) - программа для воспроизведения содержимого сети Интернет. На заре развития интернет-технологий роль браузера сводилась к просмотру текстовых страниц с включениями статических изображений (&#8220;гипер-текст&#8221;). Современные браузеры представляют собой полнофункциональные платформы для создания мультимедийных веб-приложений.</p>
-<p>Среди реализованных и перспективных возможностей браузеров, используемых в <a class="reference internal" href="#about-product"><span>Blend4Web</span></a>, можно отметить следующие технологии:</p>
+<p>Среди реализованных в браузерах перспективных возможностей, используемых в <a class="reference internal" href="#about-product"><span>Blend4Web</span></a>, можно отметить следующие технологии:</p>
 <ul class="simple">
 <li><p class="first">трехмерная графика, <a class="reference external" href="https://www.khronos.org/registry/webgl/specs/latest/">WebGL</a></p>
 </li>
@@ -315,8 +310,7 @@
 </li>
 <li><p class="first">обработка звука, <a class="reference external" href="http://www.w3.org/TR/webaudio/">Web Audio API</a></p>
 </li>
-<li><p class="first">загрузка бинарных данных, <a class="reference external" href="http://www.w3.org/TR/XMLHttpRequest/">XMLHttpRequest Level 2</a></p>
-</li>
+<li>binary data loading, <a class="reference external" href="https://www.w3.org/TR/XMLHttpRequest2/">XMLHttpRequest Level 2</a></li>
 <li><p class="first">полноэкранный режим, <a class="reference external" href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">Fullscreen</a></p>
 </li>
 <li><p class="first">захват курсора мыши, <a class="reference external" href="http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html">Pointer Lock</a></p>
@@ -349,7 +343,7 @@
 <div class="section" id="video-cards-and-drivers">
 <span id="about-drivers-video-cards"></span><span id="index-10"></span><h2>Видео-карты и драйверы<a class="headerlink" href="#video-cards-and-drivers" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Интерактивная графика реализуется специализированной аппаратной частью современных компьютеров, называемой графическим процессором, который может быть выполнен в виде отдельного устройства (видео-карты) или как часть центрального процессора.</p>
-<p>Основные производители графических процессоров (в скобках указаны их торговые марки), для настольных компьютеров - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), для мобильных устройств - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno).</p>
+<p>Основные производители графических процессоров (в скобках указаны их торговые марки), для настольных компьютеров - Nvidia (GeForce, Quadro), AMD (Radeon), Intel (HD), для мобильных устройств - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno).</p>
 <p>Доступ программ к ресурсам графического процессора осуществляется через программу-посредника, называемого драйвером. Важным условием для корректной работы интерактивных графических программ является наличие в системе драйверов последней версии. Драйверы можно установить (или обновить), загрузив их с соответствующих сайтов производителей графических процессоров. Подробнее в разделе <a class="reference internal" href="problems_and_solutions.html#webgl-not-working"><span>Ошибка инициализации WebGL</span></a>.</p>
 </div>
 </div>
@@ -374,7 +368,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-08-31.
+      Обновлено: 2016-09-29.
 
     </p>
   </div>
@@ -430,7 +424,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

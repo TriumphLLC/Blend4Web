@@ -58,8 +58,8 @@ var _vec3_tmp3         = new Float32Array(3);
 var _vec3_tmp4         = new Float32Array(3);
 
 var ZERO_VECTOR        = new Float32Array([0, 0, 0]);
-var SMOKE_OFFSET       = new Float32Array([0, 0, 1]);
-var LIGHT_POINT_OFFSET = new Float32Array([0, -1.2, 0]);
+var SMOKE_OFFSET       = new Float32Array([0, -1, 0]);
+var LIGHT_POINT_OFFSET = new Float32Array([0, 0, -1.2]);
 
 var _vec4_tmp          = new Float32Array(4);
 
@@ -71,14 +71,14 @@ var _pline_tmp = m_math.create_pline();
 
 var FIREWORKS_INTERVAL        = 500;
 var FIREWORKS_QUANTITY        = 16;
-var FIREWORKS_Z_OFFSET        = 0.03;
+var FIREWORKS_Y_OFFSET        = -0.03;
 var ROCKETS_INTERVAL          = 250;
 
 var MAX_X_OFFSET              = 0.2;
 var MIN_X_OFFSET              = -0.2;
 
-var MAX_Y_OFFSET              = 1;
-var MIN_Y_OFFSET              = -1;
+var MAX_Z_OFFSET              = 1;
+var MIN_Z_OFFSET              = -1;
 
 var MAX_ANGLE_OFFSET          = 0.3;
 var MIN_ANGLE_OFFSET          = 0;
@@ -172,6 +172,13 @@ var _rocket_num    = 0;
 var _light_params = null;
 
 exports.init = function() {
+    var show_fps = DEBUG;
+
+    var url_params = m_app.get_url_params();
+
+    if (url_params && "show_fps" in url_params)
+        show_fps = true;
+
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
@@ -180,7 +187,7 @@ exports.init = function() {
         console_verbose: true,
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,
-        show_fps: !true
+        show_fps: show_fps
     });
 }
 
@@ -286,7 +293,7 @@ function get_clicked_object(e) {
     var obj = m_scs.pick_object(x, y);
 
     if (obj)
-        switch(m_scs.get_object_name(obj)) {
+        switch (m_scs.get_object_name(obj)) {
         case "rockets_box":
             create_new_rocket(x, y);
             break;
@@ -373,7 +380,7 @@ function fire(rocket_num) {
     var rocket_plume_copy       = copy_obj(_rocket_plume,
                                            "rocket_plume_" + rocket_num);
     var rocket_start_smoke_copy = copy_obj(_rocket_start_smoke,
-                                           "rocket_start_smoke_" + rocket_num);
+                                           "rocket_start_smoke_" + rocket_num, true);
     var settling_smoke_copy     = copy_obj(_settling_smoke,
                                            "settling_smoke_" + rocket_num);
 
@@ -424,7 +431,7 @@ function fire(rocket_num) {
 
         m_time.animate(0, ROCKET_SMOKE_DISCENT, ROCKET_SMOKE_DISCENT_TIME,
                        function(e) {
-                           cur_tsr[1] = start_tsr[1] - e;
+                           cur_tsr[2] = start_tsr[2] - e;
                            m_trans.set_tsr(rocket_start_smoke_copy, cur_tsr)}
         );
 
@@ -512,8 +519,8 @@ function fire(rocket_num) {
                                             m_tsr.identity(m_tsr.create()));
 
             m_trans.set_tsr(rocket, cur_tsr);
-            m_trans.set_translation(_light_point, cur_tsr[0],
-                                    cur_tsr[1] + LIGHT_Z_OFFSET, cur_tsr[2]);
+            m_trans.set_translation(_light_point, cur_tsr[0],  cur_tsr[1],
+                    cur_tsr[2] + LIGHT_Z_OFFSET);
 
             if (e == 1) {
                 remove_cons(rocket_flash_copy);
@@ -598,7 +605,7 @@ function set_rocket_translation(x, y) {
     var dist  = m_vec3.scale(camera_ray, ROCKET_DIST_FROM_CAMERA, _vec3_tmp3);
     var point = m_vec3.add(camera_trans, dist, _vec3_tmp4);
 
-    point[1] = m_util.clamp(point[1], ROCKET_BOTTOM_CLAMPING,
+    point[2] = m_util.clamp(point[2], ROCKET_BOTTOM_CLAMPING,
                                       ROCKET_TOP_CLAMPING);
 
     m_trans.set_translation_v(_current_rocket, point);
@@ -634,7 +641,7 @@ function set_rocket_rotation(x, y) {
 }
 
 function rotate_to(trans, target, quat) {
-    var dir_from = m_util.quat_to_dir(quat, m_util.AXIS_MY, _vec3_tmp3);
+    var dir_from = m_util.quat_to_dir(quat, m_util.AXIS_MZ, _vec3_tmp3);
     var dir_to   = m_vec3.subtract(target, trans, _vec3_tmp4);
 
     m_vec3.normalize(dir_to, dir_to);
@@ -758,8 +765,8 @@ function init_vectors() {
 
     m_vec3.subtract(_firework_2_1_tsr, _firework_1_tsr, _firework_offset);
     get_tsr(_camera_point, _camera_point_tsr);
-    set(0, -ROCKET_OFFSET_DIST, 0, _rocket_offset);
-    set(0, ROCKET_FLYING_DIST, 0, _rocket_direction);
+    set(0, 0, -ROCKET_OFFSET_DIST, _rocket_offset);
+    set(0, 0, ROCKET_FLYING_DIST, _rocket_direction);
 
     get_tsr(_light_point, _light_point_tsr);
 }
@@ -774,7 +781,7 @@ function init_constraints() {
                                                m_trans.get_tsr(cbox),
                                                m_tsr.create());
 
-    var distance = Math.abs(tsr_cbox_in_cam_space[1]);
+    var distance = Math.abs(tsr_cbox_in_cam_space[2]);
     var rotation = m_tsr.get_quat_view(tsr_cbox_in_cam_space);
 
     m_cons.append_stiff_viewport(cbox, _cam, {
@@ -882,7 +889,7 @@ function action_firework_item(firework_num) {
     var random_color = random_colors[random_index];
 
     var delta_x = -Math.random() * (MAX_X_OFFSET - MIN_X_OFFSET) + MIN_X_OFFSET;
-    var delta_y = Math.random() * (MAX_Y_OFFSET - MIN_Y_OFFSET) + MIN_Y_OFFSET;
+    var delta_z = Math.random() * (MAX_Z_OFFSET - MIN_Z_OFFSET) + MIN_Z_OFFSET;
 
     var angle = -Math.random() * (MAX_ANGLE_OFFSET - MIN_ANGLE_OFFSET) +
                 MIN_ANGLE_OFFSET;
@@ -896,13 +903,13 @@ function action_firework_item(firework_num) {
                           random_color[2] / 255);
 
     var rand_firework_1_cp_tsr = get_tsr_offset(_firework_1_tsr, delta_x,
-                                                delta_y, 0, angle, _tsr_tmp);
+                                                0, delta_z, angle, _tsr_tmp);
 
     var rand_firework_2_cp_tsr = get_tsr_offset(rand_firework_1_cp_tsr,
                                                 _firework_offset[0],
-                                                _firework_offset[1],
                                                 firework_num *
-                                                FIREWORKS_Z_OFFSET,
+                                                FIREWORKS_Y_OFFSET,
+                                                _firework_offset[2],
                                                 0, _tsr_tmp2);
 
     set_tsr(firework_1_copy, rand_firework_1_cp_tsr);
@@ -1019,7 +1026,7 @@ function return_to_begin() {
 function get_tsr_offset(origin_tsr, delta_x, delta_y, delta_z, angle, dest) {
     m_tsr.identity(dest);
 
-    var quat         = m_quat.setAxisAngle(m_util.AXIS_Z, angle, _quat_tmp);
+    var quat         = m_quat.setAxisAngle(m_util.AXIS_MY, angle, _quat_tmp);
     var trans_offset = m_vec3.set(delta_x, delta_y, delta_z, _vec3_tmp);
 
     m_tsr.set_trans(trans_offset, dest);
@@ -1096,6 +1103,9 @@ function show_info() {
     var run_button = _info_container.querySelector("#run_button");
     var info       = _info_container.querySelector("#info");
     var sound_cont  = _info_container.querySelector("#sound_cont");
+
+    m_scs.hide_object(_rocket_start_smoke);
+    m_scs.hide_object(_settling_smoke);
 
     close_info.addEventListener("click", remove_info);
     run_button.addEventListener("click", remove_info);

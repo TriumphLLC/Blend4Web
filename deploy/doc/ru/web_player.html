@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Веб-плеер &mdash; Руководство пользователя Blend4Web 16.08</title>
+  <title>Веб-плеер &mdash; Руководство пользователя Blend4Web 16.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.09" href="index.html"/>
         <link rel="next" title="Аддон" href="addon.html"/>
         <link rel="prev" title="Просмотрщик сцен" href="viewer.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -228,7 +228,9 @@
 </li>
 <li><p class="first">кнопка Google+;</p>
 </li>
-<li><p class="first">кнопка ВКонтакте.</p>
+<li><p class="first">кнопка ВКонтакте;</p>
+</li>
+<li><p class="first">кнопка Weibo.</p>
 </li>
 </ol>
 </div>
@@ -252,9 +254,13 @@
 </li>
 <li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">compressed_textures</span></code> используется для включения загрузки уменьшенных текстур и текстур в формате с компрессией (DDS).</p>
 </li>
+<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">compressed_textures_pvr</span></code> используется для включения  загрузки текстур с компрессией PVRTC. Применяется совместно с атрибутом <code class="docutils literal"><span class="pre">compressed_textures</span></code>.</p>
+</li>
 <li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">alpha</span></code> используется для установки прозрачности области отрисовки.</p>
 </li>
 <li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">no_social</span></code> используется для отключения кнопок социальных сетей на панели управления.</p>
+</li>
+<li><p class="first">необязательный атрибут <code class="docutils literal"><span class="pre">socials</span></code> используется для выборочного включения и отключения кнопок социальных сетей, а также для задания порядка, в котором они располагаются на экране. Этот атрибут должен выглядеть так: <code class="docutils literal"><span class="pre">socials=&lt;...&gt;</span></code>, где <code class="docutils literal"><span class="pre">&lt;...&gt;</span></code> - набор букв, соответствующих кнопкам социальных сетей, которые вы хотите включить (<code class="docutils literal"><span class="pre">f</span></code> - Facebook, <code class="docutils literal"><span class="pre">v</span></code> - VK, <code class="docutils literal"><span class="pre">t</span></code> - Twitter, <code class="docutils literal"><span class="pre">w</span></code> - Weibo, <code class="docutils literal"><span class="pre">g</span></code> - Google+).</p>
 </li>
 </ol>
 <div class="admonition note">
@@ -317,7 +323,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-08-31.
+      Обновлено: 2016-09-29.
 
     </p>
   </div>
@@ -373,7 +379,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

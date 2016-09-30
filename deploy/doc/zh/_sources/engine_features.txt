@@ -1,76 +1,66 @@
 
-Engine Features
-***************
+引擎功能
+********
 
 +-------------------------------------------------------------------------------+-------------------------------------------------------------------------+
-| [ 图 片 ]                                                                     | **BLENDER INTEGRATION**  Creating interactive applications has never    |
-|                                                                               | been easier! You can simply create a 3D scene in Blender and then use   |
-|                                                                               | it in Blend4Web with the help of the following features:  * Fast and    |
-|                                                                               | Convenient Scene Export  * One-Click Scene Preview  * Full Support for  |
-|                                                                               | Blender's Environment and Material Settings  * Tools for Creating and   |
-|                                                                               | Managing Projects                                                       |
+| [ 图 片 ]                                                                     | **集成到BLENDER中**  创建交互式应用程序从未如此简单 ！你可以在Blender中 |
+|                                                                               | 简单地创建一个 3D 场 景，然后在 Blend4Web 的帮助下使用以下功能 ︰  * 快 |
+|                                                                               | 速和方便的场景导出  * 单击即可场景预览  * 全面支持Blender的环境和材质设 |
+|                                                                               | 置  * 用于创建和管理项目的工具                                          |
 +-------------------------------------------------------------------------------+-------------------------------------------------------------------------+
 
 ======================================================================
 
 +-------------------------------------------------------------------------------+-------------------------------------------------------------------------+
-| **RENDERING**  Blend4Web offers a great many features to make your creations  | [ 图 片 ]                                                               |
-| look amazing.  Some of them include:  * 3D Scenes of Any Complexity  *        |                                                                         |
-| Cascaded Shadow Mapping  * Dynamic Foliage  * Particle Systems  * Level of    |                                                                         |
-| Detail  * Post-processing Effects  * VR Support                               |                                                                         |
+| **渲染**  Blend4Web 提供丰富的功能，使您的作品看起来令人惊叹。  一些功能包括  | [ 图 片 ]                                                               |
+| ︰  * 任何复杂的 3D 场景  * 级联的阴影贴图  * 动态的树叶  * 粒子系统  * 级细  |                                                                         |
+| 节  * 后期处理效果  * 支持VR                                                  |                                                                         |
 +-------------------------------------------------------------------------------+-------------------------------------------------------------------------+
 
 ======================================================================
 
 +----------------------------------------------------------------+----------------------------------------------------------------------------------------+
-| [ 图 片 ]                                                      | **MATERIALS**  Powerful and easy-to-use material creation system makes it possible to  |
-|                                                                | create any material you might need, from a simple cartoon-like to an almost photo-real |
-|                                                                | one.  Some of the features:  * Node Materials  * Parallax Offset Mapping  * Render-To- |
-|                                                                | Texture  * Video Textures  * Full Support for Blender Material Nodes  * Refractions    |
-|                                                                | and Reflections                                                                        |
+| [ 图 片 ]                                                      | **材质**  功能强大且易于使用的材质制作系统使可以让你创作需要的材质，从最简单的卡 通类  |
+|                                                                | 型到几乎照片真实的材质。  一些功能 ︰  * 节点材质  * 视差偏移量贴图  * 渲染到纹理  *   |
+|                                                                | 视频纹理  * 全面支持Blender的材质节点  * 反射和折射                                    |
 +----------------------------------------------------------------+----------------------------------------------------------------------------------------+
 
 ======================================================================
 
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------+
-| **ANIMATION**  Blend4web supports almost every animation technique available in        | [ 图 片 ]                                                      |
-| Blender, including:  * Skeletal Animation  * Vertex Animation  * Object Animation  *   |                                                                |
-| Wind Bending  * Material Animation  * Animation Baking  * Flow Control Using API or    |                                                                |
-| Logic Editor                                                                           |                                                                |
+| **动画**  Blend4web 支持几乎所有在Blender中存在的动画技术，包括：  * 骨骼动画  * 顶点  | [ 图 片 ]                                                      |
+| 动画  * 物体动画  * 风弯曲：  * 材质动画  * 动画烘焙  * 使用API或者逻辑编辑器的流程控  |                                                                |
+| 制                                                                                     |                                                                |
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------+
 
 ======================================================================
 
 +----------------------------------------------------------------+----------------------------------------------------------------------------------------+
-| [ 图 片 ]                                                      | **PHYSICS**  If you are creating a physical simulation or simply want your scene to    |
-|                                                                | behave realistically, then Blend4Web's powerful physics system is at your service.     |
-|                                                                | Its features include:  * Collisions  * Rigid Body Physics  * Joint System  * Ray       |
-|                                                                | Casting  * Floating Objects  * Vehicles                                                |
+| [ 图 片 ]                                                      | **物理**  如果您正在创建一个物理模拟，或只是想要你的场景来表现现实，Blend4Web 的 强大  |
+|                                                                | 物理系统正为在您服务。  功能包括：  * 碰撞  * 刚体物理  * 铰链系统  * 光线投射  * 浮动 |
+|                                                                | 物体  * 轮式车辆模拟                                                                   |
 +----------------------------------------------------------------+----------------------------------------------------------------------------------------+
 
 ======================================================================
 
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------+
-| **SOUND**  Sound is important in making scenes and applications feel more responsve to | [ 图 片 ]                                                      |
-| user's actions and generally more alive.  Here are some of the means that Blend4Web    |                                                                |
-| offers you to control how your creations will sound:  * Flexible Playback Control  *   |                                                                |
-| 3D Positioning  * Doppler Effect  * Dynamic Compressor  * Cross-fade Sound Animation   |                                                                |
-| * Real-Time Mixing                                                                     |                                                                |
+| **声音**  声音在将制作的场景和应用变得对用户操作上更有反馈和让它们更有活力的重要 元素  | [ 图 片 ]                                                      |
+| 。  这里是一些 Blend4Web 提供的你要控制作品会听起来怎么样的手段 ︰  * 灵活的播放控制   |                                                                |
+| * 3D 定位  * 多普勒效应  * 动态压缩  * 声音淡入淡出动画  * 实时混音工具                |                                                                |
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------+
 
 ======================================================================
 
 +----------------------------------------------------------------+----------------------------------------------------------------------------------------+
-| [ 图 片 ]                                                      | **LOGIC EDITOR**  Using this visual editor, you can create logic node trees to control |
-|                                                                | the behavior of your scenes and to add interactivity without writing single line of    |
-|                                                                | code!  Logic Node Editor features:  * Object Picking  * Animation Control  * Variables |
-|                                                                | and Computations  * Server Data Exchange                                               |
+| [ 图 片 ]                                                      | **逻辑编辑器**  使用此可视化编辑器，您可以创建逻辑节点树来控制你的场景的行为，而无需为 |
+|                                                                | 添加交互性而编写一行代码 ！  逻辑编辑器功能  * 物体拾取  * 动画控制  * 环境变量  * 开  |
+|                                                                | 发服务器                                                                               |
 +----------------------------------------------------------------+----------------------------------------------------------------------------------------+
 
 ======================================================================
 
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------+
-| **SCRIPTING**  Blend4Web uses JavaScript scenarios to control every aspect of an       | [ 图 片 ]                                                      |
-| application.  Some Blend4Web's JavaScript API features include:  * Module Structure  * |                                                                |
-| Event-Driven Model  * GLSL Shaders  * Code Minification and Obfuscation                |                                                                |
+| **脚本**  Blend4Web 使用 JavaScript 方案来控制应用程序的每个方面。  一些 Blend4Web     | [ 图 片 ]                                                      |
+| JavaScript API 功能包括 ︰  * 模块结构  * 事件驱动模型  * GLSL 着色器  * 用于商业用途  |                                                                |
+| 引擎的代码缩减和混淆处理                                                               |                                                                |
 +----------------------------------------------------------------------------------------+----------------------------------------------------------------+

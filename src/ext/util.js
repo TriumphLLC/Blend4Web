@@ -272,7 +272,7 @@ exports.quat_to_dir = m_util.quat_to_dir;
  * @returns {Quat} Destination quaternion.
  */
 exports.ground_project_quat = function(quat, dest) {
-    return m_util.quat_project(quat, m_util.AXIS_MY, m_util.AXIS_Y, m_util.AXIS_MZ, dest);
+    return m_util.quat_project(quat, m_util.AXIS_MZ, m_util.AXIS_Z, m_util.AXIS_Y, dest);
 }
 
 /**
@@ -355,7 +355,7 @@ exports.quat_to_angle_axis = m_util.quat_to_angle_axis;
 
 exports.random_from_array = m_util.random_from_array;
 
-exports.xz_direction = m_util.xz_direction;
+exports.horizontal_direction = m_util.horizontal_direction;
 
 /**
  * Calculate intersection point of a line and a plane.
@@ -474,5 +474,13 @@ exports.dir_to_quat = m_util.dir_to_quat;
  * @returns {Boolean} Check result.
  */
 exports.is_ie11 = m_compat.is_ie11;
+
+/**
+ * Generate flat array of TBN quaternions
+ * @param {Float32Array} normals Flat array of normals.
+ * @param {Float32Array} [tangents] Flat array of tangents.
+ * @returns {Float32Array} Flat array of quaternions.
+ */
+exports.gen_tbn_quats = m_util.gen_tbn_quats;
 
 }

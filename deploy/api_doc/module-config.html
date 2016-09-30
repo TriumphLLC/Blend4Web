@@ -73,7 +73,9 @@ instead.
 <dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
 in order to change this parameter).
 <dt>assets_dds_available
-<dd>Boolean, allow the engine to use compressed DDS textures. The compressed
+<dd>Boolean, allow the engine to use compressed DDS textures.
+<dt>assets_pvr_available
+<dd>Boolean, allow the engine to use compressed PVRST textures.
 textures should be present near the source textures in order to be picked up.
 <dt>assets_min50_available
 <dd>Boolean, allow the engine to use halved textures. The halved
@@ -261,6 +263,10 @@ directory with the engine's sources.
         <ul>
         
             
+<li> <a href="#.P_AUTO">P_AUTO</a></li>
+
+        
+            
 <li> <a href="#.P_CUSTOM">P_CUSTOM</a></li>
 
         
@@ -281,6 +287,10 @@ directory with the engine's sources.
     
         <h3 class="subsection-title">Methods</h3>
         <ul>
+        
+            
+<li> <a href="#.apply_quality">apply_quality<span class="signature">(quality)</span><span class="type-signature"></span></a></li>
+
         
             
 <li> <a href="#.get">get<span class="signature">(prop)</span><span class="type-signature"> &rarr; {*}</span></a></li>
@@ -318,6 +328,84 @@ directory with the engine's sources.
     <h2>Detailed Description</h2>
     
         <h3 class="subsection-title">Members</h3>
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".P_AUTO">P_AUTO</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Auto quality profile: cannot be used directly, only for quality
+auto configurators.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-config.html#~QualityProfile">QualityProfile</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line188">line 188</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
         
             
 <div class="item_container">
@@ -377,7 +465,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line176">line 176</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line182">line 182</a>
     </li></ul></dd>
     
 
@@ -454,7 +542,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line164">line 164</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -483,7 +571,7 @@ directory with the engine's sources.
 <div class="item_description">
 
 <div class="description">
-    Low quality profile: maximize engine performance.
+    Low quality profile: maximize engine performance, minimize memory consumption.
 </div>
 
 
@@ -531,7 +619,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line158">line 158</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line164">line 164</a>
     </li></ul></dd>
     
 
@@ -608,7 +696,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line170">line 170</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line176">line 176</a>
     </li></ul></dd>
     
 
@@ -631,6 +719,141 @@ directory with the engine's sources.
 
     
         <h3 class="subsection-title">Methods</h3>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".apply_quality">apply_quality<span class="signature">(quality)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Set the engine's quality profile.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>quality</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-config.html#~QualityProfile">QualityProfile</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Quality profile</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line230">line 230</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
         
             
 <div class="item_container">
@@ -773,7 +996,7 @@ directory with the engine's sources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line190">line 190</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line203">line 203</a>
     </li></ul></dd>
     
 
@@ -882,7 +1105,7 @@ is developed inside the SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line209">line 209</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -968,7 +1191,7 @@ is developed inside the SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line198">line 198</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -1054,7 +1277,7 @@ is developed inside the SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line204">line 204</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -1212,7 +1435,7 @@ is developed inside the SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line182">line 182</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
@@ -1244,7 +1467,7 @@ is developed inside the SDK.
 <div class="item_description">
 
 <div class="description">
-    Quality profile enum. One of P_*.
+    Quality profile enum. One of <a href="module-config.html#.P_LOW">P_LOW</a>, <a href="module-config.html#.P_HIGH">P_HIGH</a>, <a href="module-config.html#.P_ULTRA">P_ULTRA</a>, <a href="module-config.html#.P_CUSTOM">P_CUSTOM</a>.
 </div>
 
 
@@ -1292,7 +1515,7 @@ is developed inside the SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line152">line 152</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line158">line 158</a>
     </li></ul></dd>
     
 
@@ -1330,7 +1553,7 @@ is developed inside the SDK.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Aug 31 2016 12:42:00 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Sep 29 2016 15:32:49 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

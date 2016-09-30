@@ -1,19 +1,20 @@
 #version GLSL_VERSION
 
-#define DV_NONE 0
-#define DV_OPAQUE_WIREFRAME 1
-#define DV_TRANSPARENT_WIREFRAME 2
-#define DV_FRONT_BACK_VIEW 3
-#define DV_BOUNDINGS 4
-#define DV_CLUSTERS_VIEW 5
-#define DV_BATCHES_VIEW 6
-#define DV_RENDER_TIME 7
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var DEBUG_SPHERE 0
+#var WIREFRAME_QUALITY 0
+#var ALPHA 0
+
+#var DEBUG_SPHERE_DYNAMIC 0
 
 /*==============================================================================
                                    INCLUDES
 ==============================================================================*/
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <color_util.glslf>
 
 /*==============================================================================

@@ -1,10 +1,10 @@
 #version GLSL_VERSION
 
+#include <std.glsl>
+
 uniform vec4 u_camera_quat;
 uniform vec3 u_sun_direction;
 uniform float u_bloom_key;
-
-const vec3 y_axis = vec3 (0.0, 1.0, 0.0);
 
 /*==============================================================================
                                 SHADER INTERFACE
@@ -42,10 +42,10 @@ void main(void) {
 
     // bloom is visible only when cam is facing towards the sun
     vec3 cam_y_dir;
-    multiply_vec3(u_camera_quat, y_axis, cam_y_dir);
+    multiply_vec3(u_camera_quat, UP_VECTOR, cam_y_dir);
     v_bloom_factor = dot(-cam_y_dir, u_sun_direction) * u_bloom_key;
     // if sun is below the horizont turn off bloom
-    v_bloom_factor *= max(sign(u_sun_direction.y), 0.0);
+    v_bloom_factor *= max(sign(u_sun_direction.z), 0.0);
     
     gl_Position = vec4(4.0 * (a_position.xy-0.25), 0.0, 1.0);
 }

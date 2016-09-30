@@ -75,9 +75,9 @@ exports.init = function(elapsed_sensor, level_conf) {
 
         set_unit_params(golem_wrapper, type);
 
-        var gound_ray_sens = m_ctl.create_ray_sensor(golem, ZERO_VEC, [0, -10, 0],
+        var gound_ray_sens = m_ctl.create_ray_sensor(golem, ZERO_VEC, [0, 0, -10],
                                                "GROUND", false, false, true);
-        var common_ray_sens = m_ctl.create_ray_sensor(null, ZERO_VEC, [0, -10, 0],
+        var common_ray_sens = m_ctl.create_ray_sensor(null, ZERO_VEC, [0, 0, -10],
                                                "COMMON", true, false, true);
 
         m_ctl.create_sensor_manifold(golem_wrapper, "CHAR_RAY", m_ctl.CT_CONTINUOUS,
@@ -159,7 +159,7 @@ function set_unit_params(wrapper, type) {
     wrapper.death_empty_name = "golem_" + type + "_death";
 
     var bb = m_trans.get_object_bounding_box(wrapper.body);
-    wrapper.height = bb.max_y - bb.min_y;
+    wrapper.height = bb.max_z - bb.min_z;
 }
 
 function golem_ai_cb(golem_wrapper, id, pulse) {
@@ -373,7 +373,7 @@ function attack_target(golem_wrapper, target, elapsed) {
 
     m_trans.get_translation(golem_empty, trans);
     m_trans.get_translation(target, targ_trans);
-    targ_trans[1] = trans[1];
+    targ_trans[2] = trans[2];
     m_vec3.copy(targ_trans, golem_wrapper.dest_pos);
 
     var dist_to_targ = m_vec3.distance(trans, targ_trans);
@@ -403,7 +403,7 @@ function perform_attack(golem_wrapper) {
 
     m_trans.get_translation(golem_empty, trans);
     m_vec3.scaleAndAdd(trans, cur_dir, m_conf.GOLEM_ATTACK_DIST, at_pt);
-    at_pt[1] += golem_wrapper.height / 2; // raise attack point a bit
+    at_pt[2] += golem_wrapper.height / 2; // raise attack point a bit
 
     if (m_sfx.is_play(golem_wrapper.walk_speaker))
         m_sfx.stop(golem_wrapper.walk_speaker);
@@ -438,10 +438,10 @@ function set_dest_point(golem_wrapper) {
 }
 
 function hor_distance(vec1, vec2) {
-    var tmp_y = vec1[1];
-    vec1[1] = vec2[1];
+    var tmp_z = vec1[2];
+    vec1[2] = vec2[2];
     var dist = m_vec3.distance(vec1, vec2);
-    vec1[1] = tmp_y;
+    vec1[2] = tmp_z;
     return dist;
 }
 
@@ -474,7 +474,7 @@ function set_destination_by_island(golem_wrapper, trans) {
             var point_name = patrol_points[new_pind];
             var point_obj  = m_scs.get_object_by_name(point_name);
             m_trans.get_translation(point_obj, dest_pos);
-            dest_pos[1] = trans[1];
+            dest_pos[2] = trans[2];
 
             golem_wrapper.prev_dest = dest_point;
             golem_wrapper.dest_point = i;
@@ -498,7 +498,7 @@ function set_destination_by_id(golem_wrapper, trans) {
     var point_name = patrol_points[point_ind];
     var point_obj  = m_scs.get_object_by_name(point_name);
     m_trans.get_translation(point_obj, dest_pos);
-    dest_pos[1] = trans[1];
+    dest_pos[2] = trans[2];
 
     golem_wrapper.prev_dest = dest_point;
     golem_wrapper.dest_point = point_ind;
@@ -521,7 +521,7 @@ function set_nearest_dest_point(golem_wrapper, trans) {
             min_dist = dist;
             min_id = i;
             m_vec3.copy(_vec3_tmp_2, dest_pos);
-            dest_pos[1] = trans[1];
+            dest_pos[2] = trans[2];
         }
     }
     golem_wrapper.dest_point = min_id;
@@ -540,10 +540,10 @@ function rotate_to_dest(golem_wrapper, elapsed) {
 
     m_trans.get_translation(golem_empty, trans);
     m_trans.get_rotation(golem_empty, cur_rot_q);
-    m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
+    m_vec3.transformQuat(m_util.AXIS_MY, cur_rot_q, cur_dir);
 
     m_vec3.subtract(dest_pos, trans, dir_to_dest);
-    dir_to_dest[1] = 0;
+    dir_to_dest[2] = 0;
     m_vec3.normalize(dir_to_dest, dir_to_dest);
 
     m_quat.rotationTo(cur_dir, dir_to_dest, new_rot_q);
@@ -573,19 +573,19 @@ function translate(golem_wrapper, elapsed) {
     m_trans.get_rotation(empty, cur_rot_q);
     m_trans.get_translation(empty, trans);
 
-    m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
+    m_vec3.transformQuat(m_util.AXIS_MY, cur_rot_q, cur_dir);
     m_vec3.scaleAndAdd(trans, cur_dir, golem_wrapper.speed * elapsed, trans);
     
     var delta = elapsed / 3;
 
     if (golem_wrapper.dist_to_ground > delta)
-        var y_correction = delta;
+        var z_correction = delta;
     else if (golem_wrapper.dist_to_ground < -delta)
-        var y_correction = -delta;
+        var z_correction = -delta;
     else 
-        var y_correction = delta;
+        var z_correction = delta;
 
-    trans[1] -= y_correction;
+    trans[2] -= z_correction;
     m_trans.set_translation_v(empty, trans);
 
     if (!m_sfx.is_play(walk_speaker)) {

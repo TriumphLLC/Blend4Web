@@ -1,6 +1,7 @@
 #version GLSL_VERSION
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 
 uniform vec2 u_texel_size;
 uniform sampler2D u_color;

@@ -733,8 +733,8 @@ function has_dynamic_nodes(node_tree) {
         if (node["type"] == "VECT_TRANSFORM") {
             var convert_from =  node["convert_from"];
             var convert_to   =  node["convert_to"];
-            var output = node.outputs[0];
-            if (output.is_linked
+            var output = node["outputs"][0];
+            if (output["is_linked"]
                     && !(convert_from == "WORLD" && convert_to == "CAMERA")
                     && !(convert_from == "CAMERA" && convert_to == "WORLD")
                     && !(convert_from == "OBJECT" && convert_to == "OBJECT"))
@@ -742,8 +742,8 @@ function has_dynamic_nodes(node_tree) {
         }
         if (node["type"] == "NORMAL_MAP") {
             var space = node["space"];
-            var output = node.outputs[0];
-            if (output.is_linked && (space == "OBJECT" || space == "BLENDER_OBJECT"))
+            var output = node["outputs"][0];
+            if (output["is_linked"] && (space == "OBJECT" || space == "BLENDER_OBJECT"))
                 return true;
         }
     }
@@ -912,7 +912,7 @@ function copy_object(obj, new_name, deep_copy) {
     copy_batches(obj, new_obj, deep_copy);
 
     if (!deep_copy)
-        new_obj.render.do_not_use_be = true;
+        new_obj.render.use_batches_boundings = false;
 
     // disable scene data for the new obj until appending it to the scene
     m_obj_util.scene_data_set_active(new_obj, false);
@@ -1215,6 +1215,11 @@ exports.update_boundings = function(obj) {
         batch.be_world = m_bounds.create_be_by_bb(bounding_verts, true);
         batch.be_local = m_bounds.calc_be_local_by_tsr(batch.be_world,
                 render.world_tsr);
+        batch.bs_local = m_bounds.create_bs_by_be(batch.be_local);
+        batch.bs_world = m_bounds.create_bs_by_be(batch.be_world);
+
+        batch.use_be = m_bounds.is_be_optimized(batch.be_local,
+                                                batch.bs_local);
 
         if (batch.type == "MAIN") {
             max_x = Math.max(bmax_x, max_x);
@@ -1506,22 +1511,6 @@ exports.sort_lamps = function(scene) {
     }
 }
 
-exports.update_all_mesh_shaders = function(scene) {
-    var lamps = get_scene_objs(scene, "LAMP", DATA_ID_ALL);
-    var objs = get_scene_objs(scene, "MESH", DATA_ID_ALL);
-    for (var i = 0; i < objs.length; i++) {
-        var sc_data = m_obj_util.get_scene_data(objs[i], scene);
-        var batches = sc_data.batches;
-        for (var j = 0; j < batches.length; j++) {
-            var batch = batches[j];
-            if (batch.type != "MAIN")
-                continue;
-            m_batch.update_batch_lights(batch, lamps, scene);
-            m_batch.update_shader(batch);
-        }
-    }
-}
-
 exports.obj_switch_cleanup_flags = function(obj, cleanup_tex, cleanup_bufs, 
         cleanup_shader, cleanup_nodemat) {
     for (var i = 0; i < obj.scenes_data.length; i++) {
@@ -1748,12 +1737,17 @@ exports.pick_object = function(canvas_x, canvas_y) {
 
 exports.set_wind_params = function(scene, wind_params) {
 
+    // TODO: Consider rewriting this method. All 3 axes needed.
+    // Wind should be controlled by wind objects transformation.
+
     // get wind object
     var objs = get_scene_objs(scene, "EMPTY", DATA_ID_ALL);
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
-        if (obj.field && obj.field.type === "WIND")
+        if (obj.field && obj.field.type === "WIND") {
             var wind_obj = obj;
+            break;
+        }
     }
 
     if (!wind_obj) {
@@ -1763,8 +1757,8 @@ exports.set_wind_params = function(scene, wind_params) {
 
     if (typeof wind_params.wind_dir == "number") {
         var angle =  m_util.deg_to_rad(wind_params.wind_dir);
-        m_vec3.set(Math.sin(angle), 0, Math.cos(angle), _vec3_tmp);
-        m_util.dir_to_quat(_vec3_tmp, m_util.AXIS_Y, _quat4_tmp);
+        m_vec3.set(Math.sin(angle), -Math.cos(angle), 0, _vec3_tmp);
+        m_util.dir_to_quat(_vec3_tmp, m_util.AXIS_Z, _quat4_tmp);
 
         m_trans.set_rotation(wind_obj, _quat4_tmp);
     }

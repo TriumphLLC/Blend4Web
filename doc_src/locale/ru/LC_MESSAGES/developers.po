@@ -1,17 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
+# Blend4Web User Manual Russian Translation: Developers
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as the Blend4Web. User
-# Manual package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# This file is distributed under the same license as Blend4Web.
+# Blend4Web Team <info [at] blend4web.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 16:10+0300\n"
-"PO-Revision-Date: 2015-11-26 21:45+0300\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: Blend4Web 16.08\n"
+"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
+"POT-Creation-Date: 2016-09-27 17:10+0300\n"
+"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"Language-Team: Russian <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,508 +25,18 @@ msgid "Table of Contents"
 msgstr ""
 
 #: ../developers.rst:14
-msgid "Project Management"
-msgstr "Управление проектами"
-
-#: ../developers.rst:16
-msgid ""
-"You can manage your projects in two ways: by using *project.py*, which is"
-" a simple-to-use and well documented CLI utility, or by using a dedicated"
-" web application with GUI working on the local development server. The "
-"server does not require any additional setup and starts automatically "
-"with Blender. The index page of the Project Manager can be opened by "
-"clicking on the ``Project Manager`` button in Blender."
-msgstr ""
-"Управлять проектами возможно двумя способами: с помощью консольной "
-"утилиты *project.py*, имеющей простой формат вызова и подробную справку, "
-"либо в графической форме с помощью веб-приложения, выполняющегося на "
-"локальном сервере разработчика. Сервер не требует каких-либо "
-"дополнительных настроек и запускается автоматически при старте Blender. "
-"Главная страница приложения Project Manager открывается с помощью кнопки "
-"``Project Manager`` в Blender."
-
-#: ../developers.rst:18
-msgid ""
-"Working with the Project Manager is described in a :ref:`dedicated "
-"chapter <project_management>`."
-msgstr ""
-"Работе с менеджером проектов посвящён :ref:`отдельный раздел "
-"<project_management>`."
-
-#: ../developers.rst:23 ../developers.rst:132
-msgid "Advanced Project Management"
-msgstr "Расширенное управление проектами"
-
-#: ../developers.rst:25
-msgid ""
-"Advanced project management is used by experienced developers which "
-"require more flexibility and need to automate process of project "
-"development."
-msgstr ""
-"Расширенное управление проектами используется опытными разработчикам, "
-"которым необходима как большая степень гибкости, так и возвожность "
-"автоматизировать все рабочие процессы, связанные с разработкой "
-"приложений."
-
-#: ../developers.rst:27
-msgid ""
-"For advanced project management use the *project.py* script and manually "
-"edit *.b4w_project* configuration files."
-msgstr ""
-"Для расширенного управления проектами следует использовать скрипт "
-"*project.py* и ручное редактирование конфигурационных файлов "
-"*.b4w_project*."
-
-#: ../developers.rst:30 ../developers.rst:537
-msgid "Dependencies"
-msgstr "Зависимости"
-
-#: ../developers.rst:32
-msgid ""
-"The project management system works in all operating systems. However, "
-"some operations can require installing additional dependencies. In order "
-"to check whether all dependencies are met, use the following command:"
-msgstr ""
-"Система управления проектами работает на всех операционных системах, "
-"однако для некоторых операций может потребоваться установка "
-"дополнительных зависимостей. Проверить, установлены ли необходимые "
-"зависимости, можно с помощью команды:"
-
-#: ../developers.rst:38 ../developers.rst:301 ../developers.rst:518
-msgid "For MS Windows users:"
-msgstr "Для пользователей ОС Windows:"
-
-#: ../developers.rst:46
-msgid "Projects List"
-msgstr "Список проектов"
-
-#: ../developers.rst:52
-msgid "Prints list of projects in the SDK."
-msgstr "Выводит список проектов, находящихся в SDK."
-
-#: ../developers.rst:56
-msgid "Project Structure"
-msgstr "Структура проекта"
-
-#: ../developers.rst:58
-msgid "A typical app developed using the project manager looks as follows:"
-msgstr ""
-"Типовое приложение, разрабатываемая с помощью системы управления "
-"проектами имеет вид:"
-
-#: ../developers.rst:85
-msgid "This app consists of 4 different directories."
-msgstr "Как видно, это приложение состоит из 4 различных директорий:"
-
-#: ../developers.rst:87
-msgid "apps_dev/myproject. Contains source files of project's apps."
-msgstr "apps_dev/myproject. Содержит исходные файлы приложений проекта."
-
-#: ../developers.rst:88
-msgid "blender/myproject. Contains source files of project's scenes."
-msgstr "blender/myproject. Содержит исходные файлы сцен проекта."
-
-#: ../developers.rst:89
-msgid "deploy/assets/myproject. Contains exported files of project's scenes."
-msgstr "deploy/assets/myproject. Содержит экспортированные файлы сцен проекта."
-
-#: ../developers.rst:90
-msgid "deploy/apps/myproject. Contains exported files of project's scenes."
-msgstr "deploy/apps/myproject. Содержит экспортированные файлы сцен проекта."
-
-#: ../developers.rst:92
-msgid ""
-"Additionally, the deploy command can create yet another directory, but "
-"it's usually placed outside of the SDK and its name and path depend on "
-"directory structure on the target server."
-msgstr ""
-"Кроме того, операция развёртывания (deploy) может создавать ещё одну "
-"директорию, однако она обычно располагается за пределами SDK и её "
-"название и расположение зависит от структуры директорий на конечном "
-"сервере."
-
-#: ../developers.rst:96
-msgid "``.b4w_project`` Configuration File"
-msgstr "Конфигурационный файл ``.b4w_project``"
-
-#: ../developers.rst:98
-msgid ""
-"If you did not use any arguments upon executing the *project.py* script, "
-"then they will be taken from the configuration file."
-msgstr ""
-"Если при запуске скрипта *project.py* не были заданы параметры проекта, "
-"то они берутся из конфигурационного файла."
-
-#: ../developers.rst:138
-msgid ""
-"This command will create a project with the specified name in the current"
-" directory. By default the project directory will only contain a config "
-"file."
-msgstr ""
-"Команда создает проект с указанной именем в текущей директории. По "
-"умолчанию в директории проекта будет находиться только конфигурационный "
-"файл."
-
-#: ../developers.rst:140 ../developers.rst:213 ../developers.rst:237
-#: ../developers.rst:252 ../developers.rst:268
-msgid "Available parameters:"
-msgstr "Доступные опции:"
-
-#: ../developers.rst:142
-msgid ""
-"``-A | --copy-app-templates`` (optional) create standard app templates in"
-" the project directory  (*<my_project_name>_dev.html*, "
-"*<my_project_name>.js*, *<my_project_name>.css*)."
-msgstr ""
-"``-A | --copy-app-templates`` (необязательная) создает в директории "
-"проекта стандартные шаблоны приложения (*<имя проекта>_dev.html*, *<имя "
-"проекта>.js*, *<имя проекта>.css*)."
-
-#: ../developers.rst:143
-msgid ""
-"``-B | --bundle`` (optional) all project files will be placed in a single"
-" directory."
-msgstr ""
-"``-B | --bundle`` (необязательная) все файлы проекта будут размещены в "
-"одной директории."
-
-#: ../developers.rst:144
-msgid ""
-"``-C | --author`` (optional) write an author's or a company's name in the"
-" config file."
-msgstr ""
-"``-C | --author`` (необязательная) записывает в конфигурационный файл имя"
-" автора или компании."
-
-#: ../developers.rst:145
-msgid ""
-"``-o | --optimization`` (optional) write the script optimization level in"
-" the config file."
-msgstr ""
-"``-o | --optimization`` (необязательная) записывает в конфигурационный "
-"файл тип оптимизации скриптов."
-
-#: ../developers.rst:146
-msgid ""
-"``-P | --copy-project-script`` (optional) create a copy of the "
-"*project.py* script in the project directory."
-msgstr ""
-"``-P | --copy-project-script`` (необязательная) создает скрипт "
-"*project.py* в директории проекта."
-
-#: ../developers.rst:147
-msgid ""
-"``-S | --copy-scene-templates`` (optional) create standard scene "
-"templates in the directories ``deploy/assets/<my_project_name>`` and "
-"``blender/<my_project_name>`` (*<my_project_name>.json/.bin* and "
-"*<my_project_name>.blend* correspondingly)."
-msgstr ""
-"``-S | --copy-scene-templates`` (необязательная) создает в директориях "
-"``deploy/assets/<имя проекта>`` и ``blender/<имя проекта>`` "
-"(необязательная) стандартные шаблоны сцены (*<имя проекта>.json/.bin* и "
-"*<имя проекта>.blend* соответственно)."
-
-#: ../developers.rst:148
-msgid ""
-"``-T | --title\"`` (optional) write a title in the config file. Upon "
-"building, it will be used inside the ``<title>`` HTML element."
-msgstr ""
-"``-T | --title\"`` (необязательная) записывает в конфигурационный файл "
-"заголовок проекта. При сборке он будет добавлен в html-тэг ``<title>``."
-
-#: ../developers.rst:149
-msgid "``-t | --engine-type`` (optional) write an engine type in the config file."
-msgstr ""
-"``-t | --engine-type`` (необязательная) записывает в конфигурационный "
-"файл тип собираемого приложения."
-
-#: ../developers.rst:151 ../developers.rst:420
-msgid "Example:"
-msgstr "Пример:"
-
-#: ../developers.rst:157
-msgid ""
-"This command will create a directory named *myproject*, inside which the "
-"following files will be placed: *myproject.js*, *myproject.css*, "
-"*myproject_dev.html* and *.b4w_project*."
-msgstr ""
-"Данная команда создаст директорию *myproject*, в которой будут находиться"
-" файлы: *myproject.js*, *myproject.css*, *myproject_dev.html* и "
-"*.b4w_project*."
-
-#: ../developers.rst:159
-msgid "The .b4w_project file will look like::"
-msgstr "Файл .b4w_project будет выглядеть следущим образом::"
-
-#: ../developers.rst:189
-msgid "Developing multiple apps inside a project"
-msgstr "Разработка нескольких приложений в составе проекта"
-
-#: ../developers.rst:191
-msgid ""
-"A project can contain multiple apps. This can be provided by listing the "
-"corresponding HTML files in the config file separated with semicolon::"
-msgstr ""
-"В проекте может содержаться несколько приложений. Для этого необходимо в "
-"конфигурационном файле указать соответствующие HTML-файлы через точку с "
-"запятой::"
-
-#: ../developers.rst:200
-msgid "Building Projects"
-msgstr "Сборка проекта"
-
-#: ../developers.rst:206
-msgid "Builds a project in the ``deploy/apps/myproject`` directory."
-msgstr "Собирает проект в директории ``deploy/apps/myproject``."
-
-#: ../developers.rst:210
-msgid ""
-"For script operation it's required to install java and  `set the PATH "
-"system variable <https://www.java.com/en/download/help/path.xml>`_."
-msgstr ""
-"Для работы скрипта необходимо установить java и `записать ее в переменную"
-" среды PATH <https://www.java.com/ru/download/help/path.xml>`_"
-
-#: ../developers.rst:215
-msgid ""
-"``\"-a | --app\"`` (optional) specify an HTML file, relative to which the"
-" project app will be built."
-msgstr ""
-"``\"-a | --app\"`` (необязательная) указывает на HTML-файл, относительно "
-"которого будет собираться приложение для проекта."
-
-#: ../developers.rst:216
-msgid ""
-"``\"-c | --css-ignore\"`` (optional) add CSS styles to exceptions in "
-"order to not compile them."
-msgstr ""
-"``\"-c | --css-ignore\"`` (необязательная) добавляет в исключения стили, "
-"которые не будут скомпилированы."
-
-#: ../developers.rst:217
-msgid ""
-"``\"-j | --js-ignore\"`` (optional) add scripts to exceptions in order to"
-" not compile them."
-msgstr ""
-"``\"-j | --js-ignore\"`` (необязательная) добавляет в исключения скрипты,"
-" которые не будут скомпилированы."
-
-#: ../developers.rst:218
-msgid ""
-"``\"-o | --optimization\"`` (optional) specify the optimization level for"
-" JavaScript files: ``whitespace``, ``simple`` (by default) or "
-"``advanced``."
-msgstr ""
-"``\"-o | --optimization\"`` (необязательная) используется для указания "
-"метода оптимизации js-файлов. Доступные варианты: ``whitespace``, "
-"``simple`` (по умолчанию) и ``advanced``."
-
-#: ../developers.rst:219
-msgid ""
-"``\"-t | --engine-type\"`` (optional) define a compilation type for an "
-"app. Four variants are available: *external* (by default), *copy*, "
-"*compile*, *update*."
-msgstr ""
-"``\"-t | --engine-type\"`` (необязательная) определяет тип компилируемого"
-" приложения. Доступны четыре варианта: *external* (по умолчанию), *copy*,"
-" *compile*, *update*."
-
-#: ../developers.rst:220
-msgid "``\"-v | --version\"`` add version to paths of scripts and styles."
-msgstr "``\"-v | --version\"`` добавляет версию к адресам скриптов и стилей."
-
-#: ../developers.rst:222
-msgid "Compiler Requirements"
-msgstr "Требования, накладываемые компилятором:"
-
-#: ../developers.rst:224
-msgid ""
-"In the root of the directory the single html file must be stored if "
-"``-a`` option is disabled"
-msgstr ""
-"В корне директории должен находится единственный html-файл, если не "
-"указана опция ``-a``."
-
-#: ../developers.rst:225
-msgid "Scripts and styles can be stored in the app's root and in the subfolders"
-msgstr ""
-"Скрипты и стили могут находиться как в корне проекта (приложения), так и "
-"во вложенных папках."
-
-#: ../developers.rst:229
-msgid "Automatic Re-export"
-msgstr "Автоматический экспорт ресурсов"
-
-#: ../developers.rst:235
-msgid "This command will re-export blend files in JSON and HTML formats."
-msgstr ""
-
-#: ../developers.rst:239
-msgid "``\"-b | --blender-exec\"`` path to the blender executable."
-msgstr "``\"-b | --blender-exec\"`` путь к исполняемому файлу blender."
-
-#: ../developers.rst:240 ../developers.rst:254
-msgid "``\"-s | --assets\"`` specify directory with scene assets."
-msgstr "``\"-s | --assets\"`` определяет директорию с ресурсами сцены."
-
-#: ../developers.rst:244 ../developers.rst:497
-msgid "Resource Conversion"
-msgstr "Конвертация ресурсов"
-
-#: ../developers.rst:250
-msgid ""
-"Converts external resources (textures, audio and video files) into "
-"alternative formats to ensure cross-browser and cross-platform "
-"performance."
-msgstr ""
-"Конвертирует внешние ресурсы (текстуры, звуковые и видео-файлы) проекта в"
-" альтернативные форматы для обеспечения кроссбраузерности и "
-"кроссплатформенности."
-
-#: ../developers.rst:256
-msgid ""
-"Converting of resources is described in detail in the :ref:`corresponding"
-" section <converter>`."
-msgstr ""
-"Более подробно о процессе конвертации ресурсов сказано в "
-":ref:`соответствующем разделе <converter>`."
-
-#: ../developers.rst:260
-msgid "Deploying Projects"
-msgstr "Развертывание проекта"
-
-#: ../developers.rst:266
-msgid "Save a project to an external directory together with all dependencies."
-msgstr ""
-"Сохраняет проект во внешнюю директорию со всеми необходимыми "
-"зависимостями."
-
-#: ../developers.rst:270
-msgid ""
-"``\"-e | --assets-dest\"`` destination assets directory (\"assets\" by "
-"default)."
-msgstr ""
-"``\"-e | --assets-dest\"`` задаёт директорию для файлов ресурсов (по "
-"умолчанию \"assets\")"
-
-#: ../developers.rst:271
-msgid "``\"-E | --assets-prefix\"`` assets URL prefix (\"assets\" by default)."
-msgstr ""
-"``\"-E | --assets-prefix\"`` задаёт URL-префикс для файлов ресурсов (по "
-"умолчанию \"assets\")"
-
-#: ../developers.rst:272
-msgid "``\"-o | --override\"`` remove directory if it exists."
-msgstr "``\"-o | --override\"`` удаляет директорию, если она существует."
-
-#: ../developers.rst:273
-msgid "``\"-s | --assets\"`` override project's assets directory(s)."
-msgstr ""
-"``\"-e | --assets\"`` записывет в конфигурационный файл путь к файлам "
-"ресурсов."
-
-#: ../developers.rst:274
-msgid "``\"-t | --engine-type\"`` override project's engine type config."
-msgstr ""
-"``\"-t | --engine-type\"`` (необязательная) записывает в конфигурационный"
-" файл тип движка."
-
-#: ../developers.rst:278
-msgid "Remove Project"
-msgstr "Удаление проекта"
-
-#: ../developers.rst:284
-msgid ""
-"Removes a project. Removed directories are retrieved from project "
-"configuration file."
-msgstr "Удаляет проект. Удаляемые директории берутся из конфигурационного файла."
-
-#: ../developers.rst:288
-msgid "Upgrading Apps for New SDK Versions"
-msgstr "Обновление приложений на новые версии SDK"
-
-#: ../developers.rst:290
-msgid "While upgrading for new SDK versions often two problems arise:"
-msgstr ""
-"В процессе обновления на новые версии движка чаще всего возникает две "
-"проблемы:"
-
-#: ../developers.rst:292
-msgid "Modules of the new and old versions of the engine do not match."
-msgstr "Несоответствие модулей новой и старой версии движка."
-
-#: ../developers.rst:293
-msgid "Old and new engine API do not match."
-msgstr "Несоответствие старых и новых API движка."
-
-#: ../developers.rst:295
-msgid ""
-"In order to update the list of modules imported in developer version of "
-"application go to project source directory ``apps_dev/my_project`` and "
-"execute module list generator script:"
-msgstr ""
-"Для того, чтобы обновить список модулей, подключаемых в необфусцированной"
-" версии приложений, необходимо перейти в директорию с исходными файлами "
-"приложений ``apps_dev/my_project``. Затем необходимо вызвать скрипт, "
-"генерирующий пути к файлам движка:"
-
-#: ../developers.rst:309 ../developers.rst:527
-msgid "To run the scripts the Python 3.x needs to be installed in your system."
-msgstr ""
-"Стоит отдельно отметить, что для запуска скриптов требуется интерпретатор"
-" языка Python версии 3.x"
-
-#: ../developers.rst:311
-msgid ""
-"The console will print the list of modules - copy them and paste into the"
-" main HTML file:"
-msgstr ""
-"В консоли появится список модулей, которые необходимо скопировать и "
-"вставить в главный HTML-файл:"
-
-#: ../developers.rst:329
-msgid ""
-"To eliminate API incompatibilities you may require refactoring of your "
-"app. All changes are described in :ref:`release notes <release_notes>`."
-msgstr ""
-"Несоответствие API решается рефакторингом кода приложения. Все изменения "
-"подробно описываются в :ref:`замечаниях к релизам <release_notes>`."
-
-#: ../developers.rst:333
-msgid "Path to Loaded Application Assets"
-msgstr "Пути к загружаемым ресурсам приложения"
-
-#: ../developers.rst:335
-msgid ""
-"To load .json-files you should use ``get_std_assets_path()`` method from "
-"the *config.js* module:"
-msgstr ""
-"При загрузке .json-файлов необходимо использовать функцию "
-"``get_std_assets_path()`` из модуля *config.js*:"
-
-#: ../developers.rst:341
-msgid ""
-"After building the finished app, the paths to assets will change. Thus, "
-"using ``get_std_assets_path()`` will allow you to avoid problems with "
-"incorrect paths."
-msgstr ""
-"После сборки готового приложения путь к данным изменится, а использование"
-" функции ``get_std_assets_path()`` позволит избежать возникновения "
-"проблемы с неверным путем."
-
-#: ../developers.rst:345
 msgid "Application Programming"
 msgstr "Написание логики приложений"
 
-#: ../developers.rst:348
+#: ../developers.rst:17
 msgid "\"Hello World!\" application"
 msgstr "Приложение Hello world!"
 
-#: ../developers.rst:350
+#: ../developers.rst:19
 msgid "The simplest Blend4Web app may look like this:"
 msgstr "Простейшее приложение на основе Blend4Web может иметь вид:"
 
-#: ../developers.rst:371
+#: ../developers.rst:40
 msgid ""
 "This app prints a message and the engine's version in the browser window."
 " Let's look at this example in detail. The engine library is embedded "
@@ -547,7 +56,7 @@ msgstr ""
 "предназначении модулей и функций движка можно найти в `документации по "
 "API <https://www.blend4web.com/api_doc/index.html>`_."
 
-#: ../developers.rst:373
+#: ../developers.rst:42
 msgid ""
 "The compiled engine file ``b4w.min.js`` can be copied from the SDK's "
 "``deploy/apps/common`` directory and placed in the same directory as the "
@@ -557,23 +66,23 @@ msgstr ""
 "скопировать из директории SDK ``deploy/apps/common``  и разместить в той "
 "же директории, что и представленный HTML-файл."
 
-#: ../developers.rst:376
+#: ../developers.rst:45
 msgid "Loading Scenes in Apps"
 msgstr "Загрузка сцены в приложение"
 
-#: ../developers.rst:378
+#: ../developers.rst:47
 msgid "To load a 3D scene you need:"
 msgstr ""
 "Для того, чтобы загрузить трёхмерную сцену, требуется выполнить следующую"
 " последовательность действий:"
 
-#: ../developers.rst:380
+#: ../developers.rst:49
 msgid "Place a ``<canvas>`` element on a page for rendering."
 msgstr ""
 "Разместить на странице элемент ``<canvas>``, на котором будет "
 "производиться рендеринг."
 
-#: ../developers.rst:382
+#: ../developers.rst:51
 msgid ""
 "Call the ``m_main.init()`` function with the created element id to "
 "initialize the WebGL context after the page is loaded."
@@ -581,11 +90,11 @@ msgstr ""
 "После загрузки страницы, для инициализации контекста WebGL, вызвать "
 "функцию ``m_main.init()`` с идентификатором созданного элемента."
 
-#: ../developers.rst:384
+#: ../developers.rst:53
 msgid "Call the ``m_data.load()`` function to load a 3D scene."
 msgstr "Вызвать функцию ``m_data.load()`` для загрузки трёхмерной сцены."
 
-#: ../developers.rst:410
+#: ../developers.rst:79
 msgid ""
 "Note that a real app should include error checking, setting up the engine"
 " before initializing and also a basic system for interacting with the "
@@ -595,18 +104,22 @@ msgstr ""
 " ошибок, настройку движка перед инициализацией, а также базовую систему "
 "взаимодействия с пользователем."
 
-#: ../developers.rst:414
+#: ../developers.rst:83
 msgid "Module System"
 msgstr "Система модулей"
 
-#: ../developers.rst:416
+#: ../developers.rst:85
 msgid ""
 "While the engine gives an app programmer an API in the scale of dozens of"
 " modules, it occupies a single ``b4w`` namespace. To call a module’s "
 "method import it first with the ``b4w.require()`` function."
 msgstr ""
+"Хотя движок предоставляет разработчику приложения API из нескольких "
+"десятков модулей, все они занимают единое пространство имён ``b4w``. Для "
+"вызова метода нужно сначала подключить соответствующий модуль с помощью "
+"функции ``b4w.require()``."
 
-#: ../developers.rst:418
+#: ../developers.rst:87
 msgid ""
 "It is possible to register external modules if their names do not collide"
 " with already existing modules. A module can be registered with a "
@@ -618,11 +131,15 @@ msgstr ""
 " Проверка наличия модуля с некоторым именем может быть осуществлена с "
 "помощью ``b4w.module_check()``."
 
-#: ../developers.rst:450
+#: ../developers.rst:89
+msgid "Example:"
+msgstr "Пример:"
+
+#: ../developers.rst:119
 msgid "Creating Apps Quickly"
 msgstr "Быстрое создание приложений"
 
-#: ../developers.rst:452
+#: ../developers.rst:121
 msgid ""
 "Creating an app from scratch can be a tedious task, especially for "
 "beginners. To address this there is a special add-on for the engine "
@@ -632,7 +149,7 @@ msgstr ""
 "операцей, особенно для начинающих пользователей, в движке существует "
 "специальное дополнение ``app``:"
 
-#: ../developers.rst:487
+#: ../developers.rst:156
 msgid ""
 "In this case the ``app`` module will create a ``<canvas>`` element inside"
 " the container with the specified ``container_id`` id. Then it will "
@@ -644,7 +161,7 @@ msgstr ""
 "инициализацию движка при загрузке страницы и сообщит о её окончании с "
 "помощью обработчика ``load_cb()``."
 
-#: ../developers.rst:489
+#: ../developers.rst:158
 msgid ""
 "Then the some_scene.json scene is loaded similar to the previous example."
 " The only difference is that after the scene is loaded, the control "
@@ -657,7 +174,7 @@ msgstr ""
 "перемещения камеры с помощью клавиатуры и мыши (сенсорного экрана для "
 "мобильных устройств)."
 
-#: ../developers.rst:491
+#: ../developers.rst:160
 msgid ""
 "In case when the ``app`` module is used, it is necessary to explicitly "
 "specify dimensions of the container element. Otherwise, the created "
@@ -667,7 +184,173 @@ msgstr ""
 "контейнерного элемента, поскольку в противном случае создаваемый элемент "
 "``<canvas>`` будет иметь нулевые размеры."
 
-#: ../developers.rst:499
+#: ../developers.rst:163
+msgid "Background Transparency"
+msgstr "Прозрачный фон"
+
+#: ../developers.rst:165
+msgid ""
+"The ``background_color`` and ``alpha`` parameters are passed to the "
+":b4wref:`m_app.init` method placed in the load callback function (a "
+"function that is called right after the scene is loaded), like this:"
+msgstr ""
+"Параметры ``background_color`` и ``alpha`` передаются в метод "
+":b4wref:`m_app.init`, который вызывается из callback-функции загрузчика "
+"(т.е., из функции, которая вызывается сразу после загрузки сцены), "
+"например, так:"
+
+#: ../developers.rst:175
+msgid ""
+"The combination of the parameters passed to the method defines how the "
+"backgrounds of the Blend4Web application and the HTML application blend "
+"together. Available options are:"
+msgstr ""
+"Комбинация параметров, передаваемых в метод, определяет, как смешиваются "
+"цвета приложения Blend4Web и HTML-страницы. Возможны следующие варианты:"
+
+#: ../developers.rst:178
+msgid "``alpha`` = false"
+msgstr ""
+
+#: ../developers.rst:178
+msgid ""
+"The color of the background is defined by the ``background_color`` of the"
+" Blend4Web application, the background of the HTML application is not "
+"taken into consideration."
+msgstr ""
+"Цвет фона определяется параметром ``background_color`` приложения "
+"Blend4Web, цвет фона HTML-страницы не принимается в расчёт."
+
+#: ../developers.rst:206
+msgid "``alpha`` = true"
+msgstr ""
+
+#: ../developers.rst:185
+msgid ""
+"The background of the HTML application might influence the background of "
+"the Blend4Web application based on its transparency which is defined by "
+"the fourth component of the ``background_color`` parameter (``alpha`` = "
+"``background_color[3]``, not to be confused with the ``alpha`` parameter "
+"mentioned above)."
+msgstr ""
+"Фон HTML-страницы влияет на фон приложения Blend4Web в зависимости от его"
+" прозрачности, выражаемой четвёртой компонентой параметра "
+"``background_color`` (``alpha`` = ``background_color[3]``, не путать с параметром "
+"``alpha``, упомянутым выше)."
+
+#: ../developers.rst:188
+msgid "background_color[3] = 1"
+msgstr ""
+
+#: ../developers.rst:188
+msgid ""
+"This produces the same result as if the alpha parameter has been turned "
+"off (``alpha`` = false)"
+msgstr ""
+"Приводит к тому же результату, как если бы прозрачность была отключена "
+"(``alpha`` = false)"
+
+#: ../developers.rst:197
+msgid "background_color[3] = 0"
+msgstr ""
+
+#: ../developers.rst:191
+msgid "Additive blending is used."
+msgstr "Используется аддитивное смешение."
+
+#: ../developers.rst:197
+msgid ""
+"Picture above shows an HTML page containing a Blend4Web application with "
+"a blue [0, 0, 1] background that blends with the page's red (``Red``) "
+"color producing a violet tone."
+msgstr ""
+"Изображение выше демонстрирует HTML-страницу, содержащую приложение "
+"Blend4Web с синим [0, 0, 1] цветом, который смешивается с красным "
+"(``Red``) цветом фона самой страницы, создавая более светлый оттенок."
+
+#: ../developers.rst:206
+msgid "background_color[3] > 0"
+msgstr ""
+
+#: ../developers.rst:200
+msgid ""
+"Additive blending is used with the ``background_color`` having a greater "
+"influence."
+msgstr ""
+"Также используется аддитивное смешивание, но цвет ``background_color`` "
+"имеет большее влияние."
+
+#: ../developers.rst:206
+msgid ""
+"This picture shows the same HTML page with the same Blend4Web app, "
+"however, the ``alpha`` value is set to 0.5, leading to a darker tone of "
+"the application background."
+msgstr ""
+"На этом изображении приводится та же HTML-страница с тем же приложением "
+"Blend4Web, но параметр ``alpha`` имеет значение 0.5, из-за чего фон "
+"приложения имеет более тёмный оттенок."
+
+#: ../developers.rst:208
+msgid ""
+"The mechanisms of alpha lending are described in greater detail in the "
+":ref:`Color Management <alpha_compositing>` chapter."
+msgstr ""
+"Более подробно смешивание прозрачности описано в главе :ref:`\"Работа с "
+"цветом\" <alpha_compositing>`."
+
+#: ../developers.rst:210
+msgid ""
+"By default, the ``alpha`` parameter is set to true and the "
+"``background_color`` is set to transparent black [0, 0, 0, 0], which "
+"means that the application will have an HTML background with no "
+"influences from the background of the Blend4Web application."
+msgstr ""
+"Параметр ``alpha`` включен по умолчанию, а в качестве "
+"``background_color`` используется прозрачный чёрный цвет [0, 0, 0, 0], "
+"т.е. в этом случае в качестве фона приложения используется фон "
+"HTML-страницы без какого-либо влияния фона самого приложения."
+
+#: ../developers.rst:212
+msgid ""
+"Background transparency can also be utilized in :ref:`Web Player "
+"applications <web_player_app>` by using the ``alpha`` :ref:`URL attribute"
+" <webplayer_attributes>`. To use this feature, firstly you need to enable"
+" the ``Background transparency (alpha)`` parameter in the :ref:`Web "
+"Player Params <web_player_params>` group while creating the application."
+msgstr ""
+"Прозрачный фон также может использоваться в :ref:`приложениях для "
+"Веб-плеера <web_player_app>`: в них за прозрачность отвечает "
+":ref:`URL-атрибут <webplayer_attributes>` ``alpha``. Для использования "
+"этой возможности необходимо при создании приложения активировать параметр"
+" ``Background transparency (alpha)`` из группы параметров :ref:`Web "
+"Player Params <web_player_params>`."
+
+#: ../developers.rst:214
+msgid ""
+"If Blend4Web application uses sky rendering, the application canvas will "
+"be fully covered by objects (including sky), so the background will be "
+"fully opaque and not influenced by alpha settings."
+msgstr ""
+"При использовании рендеринга неба canvas приложения Blend4Web полностью "
+"перекрывается объектами (в т.ч. небом), так что фон приложения будет "
+"полность непрозрачным вне зависимости от настроек прозрачности."
+
+#: ../developers.rst:217
+msgid ""
+"Sky rendering is enabled by default in Blend4Web scenes created in "
+":ref:`Project Manager <project_management>`. Don't forget, in order to "
+"use a transparent background you will need to manually disable sky "
+"rendering."
+msgstr ""
+"Рендеринг неба по умолчанию включен в новой сцене, созданной при помощи "
+":ref:`Менеджера проектов <project_management>`. Не забудьте отключить "
+"его, если вы собраетесь использовать прозрачный фон."
+
+#: ../developers.rst:223
+msgid "Resource Conversion"
+msgstr "Конвертация ресурсов"
+
+#: ../developers.rst:225
 msgid ""
 "Currently, browsers do not fully support all possible media formats, so "
 "in order to create cross-browser applications (and also for optimization "
@@ -677,7 +360,7 @@ msgstr ""
 "медиаданных, поэтому для создания кроссбраузерных приложений, а также с "
 "целью оптимизации, необходимо использовать конвертер ресурсов."
 
-#: ../developers.rst:501
+#: ../developers.rst:227
 msgid ""
 "To support a wider range of platforms, a Python script "
 "(*scripts/converter.py*) for converting the source files into other "
@@ -687,11 +370,11 @@ msgstr ""
 "конвертации исходных файлов в другие форматы с целью расширения спектра "
 "поддерживаемых платформ, а также для уменьшения размера ресурсов."
 
-#: ../developers.rst:503
+#: ../developers.rst:229
 msgid "There are two ways to run this script."
 msgstr "Запустить скрипт можно одним из двух способов."
 
-#: ../developers.rst:505
+#: ../developers.rst:231
 msgid ""
 "Firstly, you can run it automatically using the project mangement system."
 " The ``Convert Resources`` button can be found in the main page of the "
@@ -703,11 +386,21 @@ msgstr ""
 "проектов <project_management>`, в разделе ``Operations``, расположенном в"
 " правой части экрана."
 
-#: ../developers.rst:511
+#: ../developers.rst:237
 msgid "Secondly, you can run the script manually:"
 msgstr "Во-вторых, вы можете запустить скрипт вручную:"
 
-#: ../developers.rst:529
+#: ../developers.rst:244
+msgid "For MS Windows users:"
+msgstr "Для пользователей ОС Windows:"
+
+#: ../developers.rst:253
+msgid "To run the scripts the Python 3.x needs to be installed in your system."
+msgstr ""
+"Стоит отдельно отметить, что для запуска скриптов требуется интерпретатор"
+" языка Python версии 3.x"
+
+#: ../developers.rst:255
 msgid ""
 "With the -d parameter you can specify the path to a directory in which "
 "converting will take place."
@@ -715,7 +408,7 @@ msgstr ""
 "С помощью опции -d можно указать путь к директории, в которой будет "
 "производится конвертация."
 
-#: ../developers.rst:531
+#: ../developers.rst:257
 msgid ""
 "To exclude some directory from resource conversion, it is enough to put a"
 " file named ``.b4w_no_conv`` in it. This will not affect conversion in "
@@ -725,7 +418,7 @@ msgstr ""
 "достаточно разместить в ней файл с именем ``.b4w_no_conv``. На "
 "конвертацию во вложенных директориях это не повлияет."
 
-#: ../developers.rst:533
+#: ../developers.rst:259
 msgid ""
 "The **resize_textures** argument is used for decreasing texture "
 "resolution for the **LOW** mode."
@@ -733,7 +426,11 @@ msgstr ""
 "Аргумент **resize_textures** используется для изменения размера текстур в"
 " режиме **LOW**."
 
-#: ../developers.rst:539
+#: ../developers.rst:263
+msgid "Dependencies"
+msgstr "Зависимости"
+
+#: ../developers.rst:265
 msgid ""
 "Please make sure that you have all converter dependencies installed. You "
 "can do it with the following command:"
@@ -741,63 +438,71 @@ msgstr ""
 "Убедитесь, что у вас установлены все необходимые для конвертации "
 "программы. Это можно сделать следующей командой:"
 
-#: ../developers.rst:545
+#: ../developers.rst:271
 msgid "If some program is not installed, the following message will be displayed:"
 msgstr "Если какая-либо программа отсутствует, то будет выведено сообщения вида:"
 
-#: ../developers.rst:547
+#: ../developers.rst:273
 msgid "*Couldn't find PROGRAM_NAME.*"
 msgstr ""
 
-#: ../developers.rst:549
+#: ../developers.rst:275
 msgid "**Linux**"
 msgstr ""
 
-#: ../developers.rst:551
+#: ../developers.rst:277
 msgid "The list of dependencies is listed in the following table:"
 msgstr "Список необходимых программ можно посмотреть в таблице:"
 
-#: ../developers.rst:554
+#: ../developers.rst:280
 msgid "Name"
 msgstr "Название"
 
-#: ../developers.rst:554
-msgid "Ubuntu 15.04 package"
-msgstr "Пакет в дистрибутиве Ubuntu 15.04"
+#: ../developers.rst:280
+msgid "Ubuntu 16.04 package"
+msgstr "Пакет в дистрибутиве Ubuntu 16.04"
 
-#: ../developers.rst:557
+#: ../developers.rst:283
 msgid "ImageMagick"
 msgstr ""
 
-#: ../developers.rst:557
+#: ../developers.rst:283
 msgid "imagemagick"
 msgstr ""
 
-#: ../developers.rst:559
+#: ../developers.rst:285
 msgid "NVIDIA Texture Tools"
 msgstr ""
 
-#: ../developers.rst:559
+#: ../developers.rst:285
 msgid "libnvtt-bin"
 msgstr ""
 
-#: ../developers.rst:561
+#: ../developers.rst:287
 msgid "Libav"
 msgstr ""
 
-#: ../developers.rst:561
+#: ../developers.rst:287
 msgid "libav-tools"
 msgstr ""
 
-#: ../developers.rst:563
+#: ../developers.rst:289
 msgid "FFmpeg"
 msgstr ""
 
-#: ../developers.rst:563
+#: ../developers.rst:289
 msgid "ffmpeg"
 msgstr ""
 
-#: ../developers.rst:568
+#: ../developers.rst:291
+msgid "PVRTC"
+msgstr ""
+
+#: ../developers.rst:291
+msgid "install manually"
+msgstr "устанавливается вручную"
+
+#: ../developers.rst:296
 msgid ""
 "Linux users can additionally install the package qt-faststart which is "
 "used to optimize loading media files."
@@ -805,11 +510,11 @@ msgstr ""
 "Пользователи Linux могут дополнительно установить пакет qt-faststart, "
 "служащий для оптимизации загрузки медиаданных."
 
-#: ../developers.rst:570
+#: ../developers.rst:298
 msgid "**Windows**"
 msgstr ""
 
-#: ../developers.rst:572
+#: ../developers.rst:300
 msgid ""
 "For MS Windows users it is not necessary to install these packages since "
 "they are already present in the SDK."
@@ -817,11 +522,11 @@ msgstr ""
 "Для пользователей ОС Windows нет необходимости устанавливать эти пакеты, "
 "так как они уже находятся в составе SDK."
 
-#: ../developers.rst:574
+#: ../developers.rst:302
 msgid "**Mac OS**"
 msgstr ""
 
-#: ../developers.rst:576
+#: ../developers.rst:304
 msgid ""
 "Mac OS users can install the `brew <http://www.brew.sh/>`_ package "
 "manager first and then install any missing packages."
@@ -830,7 +535,7 @@ msgstr ""
 "<http://www.brew.sh/>`_, а затем с его помощью установить некоторые "
 "недостающие пакеты."
 
-#: ../developers.rst:578
+#: ../developers.rst:306
 msgid ""
 "Before installing packages, install the libpng and libjpeg libraries "
 "using these commands:"
@@ -838,11 +543,11 @@ msgstr ""
 "Перед началом установки пакетов произведите установку библиотек libpng и "
 "libjpeg, выполнив следующие команды в консоле:"
 
-#: ../developers.rst:585
+#: ../developers.rst:313
 msgid "Now you can proceed with installing required dependencies:"
 msgstr "Теперь можно приступать к установке необходимых зависимостей:"
 
-#: ../developers.rst:592
+#: ../developers.rst:320
 msgid ""
 "In order to install NVIDIA Texture Tools, clone the repository with the "
 "following command:"
@@ -850,35 +555,39 @@ msgstr ""
 "Для установки NVIDIA Texture Tools необходимо склонировать репозиторий, "
 "выполнив следующую команду:"
 
-#: ../developers.rst:598
+#: ../developers.rst:326
 msgid "Now you can build and install the package:"
 msgstr "Теперь можно произвести сборку и установку пакета:"
 
-#: ../developers.rst:610
-msgid "Data Format"
-msgstr "Формат данных"
+#: ../developers.rst:338
+msgid "Data Formats"
+msgstr "Форматы данных"
 
-#: ../developers.rst:612
+#: ../developers.rst:340
 msgid "The conversion is performed as follows:"
 msgstr "Преобразование происходит по схеме:"
 
-#: ../developers.rst:617
+#: ../developers.rst:346
 msgid "for audio (convert_media):"
 msgstr "для аудио (convert_media):"
 
-#: ../developers.rst:615
-msgid "ogg, oga -> mp4"
+#: ../developers.rst:343
+msgid "ogg (ogv, oga) -> mp4"
 msgstr ""
 
-#: ../developers.rst:616
-msgid "mp3 -> ogg"
+#: ../developers.rst:344
+msgid "mp3 -> oga"
 msgstr ""
 
-#: ../developers.rst:617
-msgid "mp4, m4a -> ogg"
+#: ../developers.rst:345
+msgid "mp4 (m4v, m4a) -> oga"
 msgstr ""
 
-#: ../developers.rst:619
+#: ../developers.rst:346
+msgid "webm -> m4a"
+msgstr ""
+
+#: ../developers.rst:348
 msgid ""
 "We recommend to use ``ogg`` as a base format. In this case the only "
 "conversion required for cross-browser compatibility will be ``ogg`` to "
@@ -890,35 +599,27 @@ msgstr ""
 "преобразование из ``ogg`` в ``mp4``. Пример файла на входе: "
 "``file_name.ogg``, пример файла на выходе: ``file_name.altconv.mp4``."
 
-#: ../developers.rst:627
+#: ../developers.rst:354
 msgid "for video (convert_media):"
 msgstr "для видео (convert_media):"
 
-#: ../developers.rst:622
-msgid "webm -> m4v"
+#: ../developers.rst:351
+msgid "ogg (ogv, oga) -> m4v / seq"
 msgstr ""
 
-#: ../developers.rst:623
-msgid "mp4, m4v -> webm"
+#: ../developers.rst:352
+msgid "mp3 -> webm / seq"
 msgstr ""
 
-#: ../developers.rst:624
-msgid "ogg, ogv -> webm"
+#: ../developers.rst:353
+msgid "mp4 (m4v, m4a) -> webm / seq"
 msgstr ""
 
-#: ../developers.rst:625
-msgid "webm -> seq"
+#: ../developers.rst:354
+msgid "webm -> m4v / seq"
 msgstr ""
 
-#: ../developers.rst:626
-msgid "mp4, m4v -> seq"
-msgstr ""
-
-#: ../developers.rst:627
-msgid "ogg, ogv -> seq"
-msgstr ""
-
-#: ../developers.rst:629
+#: ../developers.rst:356
 msgid ""
 "We recommend to use ``WebM`` as a base format. In this case the only "
 "conversion required for cross-browser compatibility will be ``webm`` to "
@@ -931,27 +632,27 @@ msgstr ""
 "Пример файла на входе: ``file_name.webm``, пример файла на выходе: "
 "``file_name.altconv.m4v``."
 
-#: ../developers.rst:635
+#: ../developers.rst:362
 msgid "for images (convert_dds):"
 msgstr "для изображений (convert_dds):"
 
-#: ../developers.rst:632
-msgid "png -> dds"
+#: ../developers.rst:359
+msgid "png -> dds/pvr"
 msgstr ""
 
-#: ../developers.rst:633
-msgid "jpg -> dds"
+#: ../developers.rst:360
+msgid "jpg -> dds/pvr"
 msgstr ""
 
-#: ../developers.rst:634
-msgid "bmp -> dds"
+#: ../developers.rst:361
+msgid "bmp -> dds/pvr"
 msgstr ""
 
-#: ../developers.rst:635
+#: ../developers.rst:362
 msgid "gif -> dds"
 msgstr ""
 
-#: ../developers.rst:637
+#: ../developers.rst:364
 msgid ""
 "Example of an input file: ``file_name.jpg``, example of an output file: "
 "``file_name.altconv.jpg.dds``."
@@ -959,7 +660,7 @@ msgstr ""
 "Пример файла на входе: ``file_name.jpg``, пример файла на выходе: "
 "``file_name.jpg.dds``."
 
-#: ../developers.rst:639
+#: ../developers.rst:366
 msgid ""
 "For the purpose of optimizing application performance it's possible to "
 "use ``min50`` (halved) and ``DDS`` textures. In order to do this, we need"
@@ -970,7 +671,11 @@ msgstr ""
 "использования ``min50`` (уменьшенных вдвое) и ``DDS`` текстур. Для этого "
 "при инициализации приложения необходимо передать следующие параметры:"
 
-#: ../developers.rst:655
+#: ../developers.rst:383
+msgid "DDS Texture Compression"
+msgstr "Формат компрессии текстур DDS"
+
+#: ../developers.rst:385
 msgid ""
 "``DDS`` textures require less memory (4 times less for ``RGBA`` data and "
 "6 times for ``RGB`` data), but using them has following downsides:"
@@ -980,7 +685,7 @@ msgstr ""
 "изображения в формате ``RGB``), но при их использовании следует иметь в "
 "виду, что:"
 
-#: ../developers.rst:657
+#: ../developers.rst:387
 msgid ""
 "``DDS`` textures might not work on some devices, especially the mobile "
 "ones, as not all of them support the ``WEBGL_compressed_texture_s3tc`` "
@@ -990,7 +695,7 @@ msgstr ""
 "мобильных, т.к. не все такие устройства поддерживают расширение "
 "``WEBGL_compressed_texture_s3tc``;"
 
-#: ../developers.rst:659
+#: ../developers.rst:389
 msgid ""
 "as ``DDS`` is a lossy compression format, compression artifacts might be "
 "visible, especially on :ref:`normal <normal_map>` and :ref:`stencil "
@@ -1002,13 +707,13 @@ msgstr ""
 " и :ref:`смешивания <stencil_map>`; для таких текстур рекомендуется "
 ":ref:`отключать сжатие <texture_disable_compression>`."
 
-#: ../developers.rst:665
+#: ../developers.rst:395
 msgid ""
 "An example of the ``DDS`` compression artifacts, particularly visible on "
 "the edges of the shadow."
 msgstr "Артефакты сжатия формата ``DDS`` особенно хорошо заметны на границах тени."
 
-#: ../developers.rst:667
+#: ../developers.rst:397
 msgid ""
 "During exporting the scene from Blender to the ``JSON`` format (but not "
 "the ``HTML`` format), ``DDS`` textures will be plugged in automatically, "
@@ -1018,7 +723,7 @@ msgstr ""
 "``HTML``), ``DDS``-текстуры будут подключены автоматически, если они "
 "имеются в наличии."
 
-#: ../developers.rst:669
+#: ../developers.rst:399
 msgid ""
 "Textures can be converted to the ``DDS`` format using the :ref:`project "
 "manger <project_management>` or the *scripts/converter.py* script "
@@ -1028,7 +733,98 @@ msgstr ""
 ":ref:`менеджера проектов <project_management>` или с помощью скрипта "
 "*scripts/converter.py*, который был описан выше."
 
-#: ../developers.rst:673
+#: ../developers.rst:402
+msgid "PVRTC Texture Compression"
+msgstr "Формат компрессии текстур PVRTC"
+
+#: ../developers.rst:404
+msgid ""
+"``PVRTC`` is another texture compression format used primarily on iOS "
+"devices. In some cases it can produce texture files up to two times "
+"smaller than same texture images would take in ``DDS`` format."
+msgstr ""
+"``PVRTC`` - другой формат компрессии текстур, преимущественно "
+"используемый на устройствах iOS. В некоторых случаях он позволяет "
+"создавать файлы текстур размером вдвое меньше, чем при использовании "
+"формата ``DDS``."
+
+#: ../developers.rst:406
+msgid ""
+"The format has two compression settings that are supported by the engine:"
+" 2-bpp (two bits per pixel) and 4-bpp (four bits per pixel)."
+msgstr ""
+"Движок поддерживает два метода сжатия: 2-bpp (два бита на пиксель) и "
+"4-bpp (четыре бита на пиксель)."
+
+#: ../developers.rst:408
+msgid ""
+"As with ``DDS`` format, textures compressed using the ``PVRTC`` algorithm"
+" may not work on some platforms, especially mobile, because using this "
+"compression format require support for the "
+"``IMG_texture_compression_pvrtc`` WebGL extension."
+msgstr ""
+"Как и в случае с форматом ``DDS``, текстуры, сжатые с использованием "
+"алгоритма ``PVRTC``, могут не работать на некоторых устройствах, особенно"
+" мобильных, так как для корректной работы этого формата сжатия требуется "
+"поддержка расширения WebGL ``IMG_texture_compression_pvrtc``."
+
+#: ../developers.rst:410
+msgid ""
+"The PVRTC library and SDK are available for Windows, Linux and MacOS X "
+"systems alike. Installation packages can be downloaded from the `Power VR"
+" Insider <https://community.imgtec.com/developers/powervr/>`_ web page."
+msgstr ""
+"Библиотеки и SDK PVRTC доступны в версиях для операционных систем "
+"Windows, Linux и MacOS X. Дистрибутивы можно загрузить с веб-сайта `Power"
+" VR Insider <https://community.imgtec.com/developers/powervr/>`_."
+
+#: ../developers.rst:412
+msgid ""
+"The Blend4Web engine uses a console PVRTC tool. To use it, you need to "
+"add the path to it to the ``PATH`` environmental variable, like the "
+"following:"
+msgstr ""
+"Движок Blend4Web использует консольную утилиту PVRTC. Для того, чтобы "
+"использовать её, необходимо добавить путь к ней в переменную окружающей "
+"среды ``PATH``, например, так:"
+
+#: ../developers.rst:418
+msgid ""
+"where <InstallDir> is the PVRTexTool installation directory and "
+"<PLATFORM> is a folder that contains the version of the tool that "
+"corresponds to your OS, for example, ``\\Windows_x86_64\\`` for 64-bit "
+"Windows OS."
+msgstr ""
+"Здесь <InstallDir> - директория, в которой находится PVRTexTool, а "
+"<PLATFORM> - папка, содержащая версию утилиты, подходящую для вашей "
+"операционной системы, например, ``\\Windows_x86_64\\`` для 64-битной "
+"версии Windows."
+
+#: ../developers.rst:421
+msgid ""
+"In Windows systems, environment variables can be set in the ``System`` "
+"(in Windows 10 and 8) or ``Properties`` (in Windows 7 and Vista) dialogue"
+" window by choosing ``Advanced System Settings`` -> ``Environment "
+"Variables``, or by using console commands:"
+msgstr ""
+"В Windows переменные окружающей среды можно установить из диалогового "
+"окна ``Система`` (для Windows 8 и 10) или ``Свойства`` (для Windows 7 и "
+"Vista), выбрав ``Дополнительные параметры системы`` -> ``Переменные "
+"среды``, или с помощью консольных команд:"
+
+#: ../developers.rst:427
+msgid ""
+"After this, you will be able to convert the textures to the PVR format by"
+" using converter.py script with the ``convert_dds`` command."
+msgstr ""
+"После этого текстуры можно будет преобразовать в формат PVR с помощью "
+"команды ``convert_dds`` скрипта converter.py."
+
+#: ../developers.rst:432
+msgid "SEQ Video Format"
+msgstr "Формат видео SEQ"
+
+#: ../developers.rst:434
 msgid ""
 "The ``.seq`` file format is used for sequential video. This is applied "
 "for IE 11 and iPhone because they are currently missing support for "
@@ -1041,7 +837,7 @@ msgstr ""
 "Использование dds-формата для изображений является более оптимальным по "
 "сравнению с другими форматами."
 
-#: ../developers.rst:675
+#: ../developers.rst:436
 msgid ""
 "The engine can use files which are manually created by a user if they "
 "have the following names: ``file_name.altconv.m4v``, "
@@ -1053,7 +849,7 @@ msgstr ""
 "``file_name.altconv.mp3`` и т.д. Такие файлы необходимо размещать в одной"
 " директории с медиафайлом, используемым в Blender'e."
 
-#: ../developers.rst:677
+#: ../developers.rst:438
 msgid ""
 "You can also use the free and cross-platform application `Miro Video "
 "Converter <http://www.mirovideoconverter.com/>`_ to convert media files."
@@ -1062,11 +858,11 @@ msgstr ""
 "`Miro Video Converter <http://www.mirovideoconverter.com/>`_ для "
 "конвертации медиаданных."
 
-#: ../developers.rst:684
+#: ../developers.rst:445
 msgid "Code Examples"
 msgstr "Примеры кода"
 
-#: ../developers.rst:686
+#: ../developers.rst:447
 msgid ""
 "The SDK includes the Code Snippets application which demonstrates how to "
 "use the engine's functionality."
@@ -1074,59 +870,59 @@ msgstr ""
 "В составе SDK присутствует приложение Code Snippets, демонстрирующее "
 "примеры использования функционала движка."
 
-#: ../developers.rst:688
+#: ../developers.rst:449
 msgid "Currently, this application contains the following examples:"
 msgstr "На данный момент приложение включает в себя следующие примеры:"
 
-#: ../developers.rst:690
+#: ../developers.rst:451
 msgid "Bone API - an example of individual bones position control"
 msgstr "Bone API - пример управления положением отдельных костей скелета"
 
-#: ../developers.rst:691
+#: ../developers.rst:452
 msgid "Camera Animation - procedural camera animation"
 msgstr "Camera Animation - создание процедурной анимации камеры"
 
-#: ../developers.rst:692
+#: ../developers.rst:453
 msgid "Camera Move Styles - changing control modes for the camera"
 msgstr "Camera Move Styles - переключение режимов управления камерой"
 
-#: ../developers.rst:693
+#: ../developers.rst:454
 msgid "Canvas Texture - working with canvas textures"
 msgstr "Canvas Texture - пример работы с canvas-текстурой"
 
-#: ../developers.rst:694
+#: ../developers.rst:455
 msgid "Custom Anchors - creating custom annotations"
 msgstr "Custom Anchors - процедурное создание аннотаций"
 
-#: ../developers.rst:695
+#: ../developers.rst:456
 msgid "Dynamic Geometry - procedural geometry modification"
 msgstr "Dynamic Geometry - процедурное изменение геометрии"
 
-#: ../developers.rst:696
+#: ../developers.rst:457
 msgid "Gyro (Mobile Only) - working with mobile devices' gyroscopes"
 msgstr "Gyro (Mobile Only) - пример работы с гироскопом мобильных устройств"
 
-#: ../developers.rst:697
+#: ../developers.rst:458
 msgid "Instancing - copying scene objects in runtime"
 msgstr "Instancing - копирование объектов сцены"
 
-#: ../developers.rst:698
+#: ../developers.rst:459
 msgid ""
 "Material API - tweaking material properties and replacing objects' "
 "materials"
 msgstr "Material API - изменение свойств материалов и замена материалов объекта"
 
-#: ../developers.rst:699
+#: ../developers.rst:460
 msgid "Morphing - using shape keys"
 msgstr "Morphing - использование ключей деформации объекта"
 
-#: ../developers.rst:700
+#: ../developers.rst:461
 msgid "Ray Test - the usage of raycasting for obstacles detection"
 msgstr ""
 "Ray Test - использование функционала испускания лучей для определения "
 "препятствий"
 
-#: ../developers.rst:702
+#: ../developers.rst:463
 msgid ""
 "The Code Snippets application is available at "
 "``SDK/apps_dev/code_snippets/code_snippets_dev.html``. It can be also run"
@@ -1136,11 +932,11 @@ msgstr ""
 "``SDK/apps_dev/code_snippets/code_snippets_dev.html``. Также оно доступно"
 " по ссылке из файла ``index.html`` в корне SDK."
 
-#: ../developers.rst:707
+#: ../developers.rst:468
 msgid "Event-Driven Model"
 msgstr "Событийная модель"
 
-#: ../developers.rst:709
+#: ../developers.rst:470
 msgid ""
 "The event-driven model provides a universal interface for describing the "
 "3D scene's change of state. It simplifies the processing of physics "
@@ -1150,11 +946,11 @@ msgstr ""
 "изменения состояний 3D сцены, упрощая обработку событий физики и действий"
 " пользователя."
 
-#: ../developers.rst:714
+#: ../developers.rst:475
 msgid "Sensors"
 msgstr "Сенсоры"
 
-#: ../developers.rst:716
+#: ../developers.rst:477
 msgid ""
 "The basic unit of the event-driven model is a sensor. A sensor is a "
 "programming entity and can only be active (1, one) or inactive (0, zero)."
@@ -1170,7 +966,7 @@ msgstr ""
 "соответствующего API. Например, сенсор трассировки лучей (Ray Sensor) "
 "предоставляет относительную длину луча пересечения."
 
-#: ../developers.rst:720
+#: ../developers.rst:481
 msgid ""
 "Users cannot directly control sensors via the external API. Instead, all "
 "sensors must be present in one or multiple collections - so called sensor"
@@ -1189,15 +985,15 @@ msgstr ""
 "описание функции :b4wref:`controls.create_sensor_manifold` в документации"
 " по API):"
 
-#: ../developers.rst:722
+#: ../developers.rst:483
 msgid "An object to carry the manifold (e.g. a thrown object)."
 msgstr "Объект-носитель множества (например, бросаемый объект)."
 
-#: ../developers.rst:723
+#: ../developers.rst:484
 msgid "A unique id of the manifold (e.g. \"IMPACT\")."
 msgstr "Уникальный идентификатор множества (например, \"IMPACT\")."
 
-#: ../developers.rst:724
+#: ../developers.rst:485
 msgid ""
 "Callback execution mode (the options are: ``CT_POSITIVE`` - logic "
 "function positive result, ``CT_CONTINUOUS`` - every frame with a positive"
@@ -1214,11 +1010,11 @@ msgstr ""
 "``CT_TRIGGER`` - переключение результата логической функции, "
 "``CT_CHANGE`` - любое изменение любого из сенсоров)."
 
-#: ../developers.rst:725
+#: ../developers.rst:486
 msgid "An array of sensors."
 msgstr "Массив сенсоров."
 
-#: ../developers.rst:726
+#: ../developers.rst:487
 msgid ""
 "A logic function to define the combination of the sensor states for which"
 " the callback function is executed."
@@ -1226,15 +1022,15 @@ msgstr ""
 "Логическая функция, определяющая при какой комбинации состояний сенсоров "
 "вызывается функция-обработчик."
 
-#: ../developers.rst:727
+#: ../developers.rst:488
 msgid "A callback function."
 msgstr "Функция-обработчик."
 
-#: ../developers.rst:728
+#: ../developers.rst:489
 msgid "An optional parameter to pass into the callback function."
 msgstr "Необязательный параметр, который может быть передан в функцию-обработчик."
 
-#: ../developers.rst:730
+#: ../developers.rst:491
 msgid ""
 "You can read more about engine API in the :b4wmod:`controls` module "
 "documentation."
@@ -1242,11 +1038,11 @@ msgstr ""
 "Более подробно об API, используемых в событийной модели движка, описано в"
 " документации модуля :b4wmod:`controls`."
 
-#: ../developers.rst:733
+#: ../developers.rst:494
 msgid "Example"
 msgstr "Пример"
 
-#: ../developers.rst:735
+#: ../developers.rst:496
 msgid ""
 "Let's consider the task to insonify the impact of a thrown stone. A "
 "distinctive sound should be produced for impacting different media (for "
@@ -1261,7 +1057,7 @@ msgstr ""
 "их идентификаторы \"TERRAIN\" и \"WALL\". На сцене также присутствует "
 "бросаемый физический объект с названием \"Stone\"."
 
-#: ../developers.rst:738
+#: ../developers.rst:499
 msgid ""
 "Let's define a collision sensor for each medium, by the type of the sound"
 " produced."
@@ -1269,7 +1065,7 @@ msgstr ""
 "Определим по одному сенсору соударения (Collision Sensor) для каждой "
 "среды, по типу издаваемого звука."
 
-#: ../developers.rst:756
+#: ../developers.rst:517
 msgid ""
 "Add the sensors into an array. Use the ``OR`` logic in the logic "
 "function. Place the sound processing code in the callback function. "
@@ -1281,7 +1077,7 @@ msgstr ""
 "Создадим множество сенсоров с идентификатором \"IMPACT\" и типом "
 "``CT_SHOT`` (одномоментный)."
 
-#: ../developers.rst:788
+#: ../developers.rst:549
 msgid ""
 "When the \"Stone\" object collides with any physical material of "
 "\"TERRAIN\" or \"WALL\", the callback function is executed. Inside this "
@@ -1299,155 +1095,155 @@ msgstr ""
 "материалом. В результате воспроизводится соответствующий звук (код не "
 "показан)."
 
-#: ../developers.rst:794
+#: ../developers.rst:555
 msgid "SDK File Structure"
 msgstr "Файловая структура SDK"
 
-#: ../developers.rst:836
+#: ../developers.rst:597
 msgid "**apps_dev**"
 msgstr ""
 
-#: ../developers.rst:797
+#: ../developers.rst:558
 msgid "source code of the applications"
 msgstr "исходный код приложений"
 
-#: ../developers.rst:803
+#: ../developers.rst:564
 msgid "**code_snippets**"
 msgstr ""
 
-#: ../developers.rst:800
+#: ../developers.rst:561
 msgid "source files of the Blend4Web API usage demonstration application"
 msgstr ""
 "исходные файлы приложения для демонстрации примеров использования API "
 "Blend4Web"
 
-#: ../developers.rst:803 ../developers.rst:935
+#: ../developers.rst:564 ../developers.rst:696
 msgid "**scripts**"
 msgstr ""
 
-#: ../developers.rst:803
+#: ../developers.rst:564
 msgid "Blend4Web API usage examples' source files"
 msgstr "исходные файлы самих примеров использования API Blend4Web"
 
-#: ../developers.rst:806
+#: ../developers.rst:567
 msgid "**dairy_plant**"
 msgstr ""
 
-#: ../developers.rst:806
+#: ../developers.rst:567
 msgid "source files of the Dairy Plant demo (available only in SDK Pro)"
 msgstr "исходные файлы приложения \"Молочный завод\" (доступно только в SDK Pro)"
 
-#: ../developers.rst:809
+#: ../developers.rst:570
 msgid "**fashion**"
 msgstr ""
 
-#: ../developers.rst:809
+#: ../developers.rst:570
 msgid "source files of the Fashion Show demo (available only in SDK Pro)"
 msgstr "исходные файлы приложения \"Показ мод\" (доступно только в SDK Pro)"
 
-#: ../developers.rst:812
+#: ../developers.rst:573
 msgid "**firstperson**"
 msgstr ""
 
-#: ../developers.rst:812
+#: ../developers.rst:573
 msgid "source files of the Farm demo (available only in SDK Pro)"
 msgstr "исходные файлы приложения \"Ферма\" (доступно только в SDK Pro)"
 
-#: ../developers.rst:815
+#: ../developers.rst:576
 msgid "**flight**"
 msgstr ""
 
-#: ../developers.rst:815
+#: ../developers.rst:576
 msgid "source files of the Island demo"
 msgstr "исходные файлы приложения \"Остров\""
 
-#: ../developers.rst:818
+#: ../developers.rst:579
 msgid "**new_year**"
 msgstr ""
 
-#: ../developers.rst:818
+#: ../developers.rst:579
 msgid "source files of the New Year 2015 greeting card"
 msgstr "исходные файлы открытки \"С новым годом 2015\""
 
-#: ../developers.rst:821
+#: ../developers.rst:582
 msgid "**project.py**"
 msgstr ""
 
-#: ../developers.rst:821
+#: ../developers.rst:582
 msgid "script for application developers"
 msgstr "скрипт для разработчиков приложений"
 
-#: ../developers.rst:824
+#: ../developers.rst:585
 msgid "**victory_day_2015**"
 msgstr ""
 
-#: ../developers.rst:824
+#: ../developers.rst:585
 msgid "source files of the V-Day 70 greeting card"
 msgstr "исходные файлы открытки \"День победы 70\""
 
-#: ../developers.rst:830
+#: ../developers.rst:591
 msgid "**viewer**"
 msgstr ""
 
-#: ../developers.rst:827
+#: ../developers.rst:588
 msgid "the sources files of the Viewer application"
 msgstr "исходные файлы приложения для просмотра сцен Viewer"
 
-#: ../developers.rst:830
+#: ../developers.rst:591
 msgid "**assets.json**"
 msgstr ""
 
-#: ../developers.rst:830
+#: ../developers.rst:591
 msgid "metadata with information about scenes loaded by the Viewer"
 msgstr "метаданные с информацией о сценах, загружаемых просмотрщиком сцен Viewer"
 
-#: ../developers.rst:833
+#: ../developers.rst:594
 msgid "**webplayer**"
 msgstr ""
 
-#: ../developers.rst:833
+#: ../developers.rst:594
 msgid "source files of the Web Player app"
 msgstr "исходные файлы веб-плеера"
 
-#: ../developers.rst:836
+#: ../developers.rst:597
 msgid "**website**"
 msgstr ""
 
-#: ../developers.rst:836
+#: ../developers.rst:597
 msgid "source files of applications from the Blend4Web official website"
 msgstr "исходные файлы приложений, размещаемых на официальном сайте Blend4Web"
 
-#: ../developers.rst:839
+#: ../developers.rst:600
 msgid "**blender**"
 msgstr ""
 
-#: ../developers.rst:839
+#: ../developers.rst:600
 msgid "source files of the Blender scenes"
 msgstr "исходные файлы сцен в формате Blender"
 
-#: ../developers.rst:842
+#: ../developers.rst:603
 msgid "**blender_scripts**"
 msgstr ""
 
-#: ../developers.rst:842
+#: ../developers.rst:603
 msgid "exporter and utility scripts for Blender"
 msgstr "экспортер и вспомогательные скрипты для Blender'а"
 
-#: ../developers.rst:845
+#: ../developers.rst:606
 msgid "**csrc**"
 msgstr ""
 
-#: ../developers.rst:845
+#: ../developers.rst:606
 msgid ""
 "source code (in C) of the binary part of the engine exporter and of the "
 "other utilities"
 msgstr "исходный код бинарной части экспортера движка и других утилит на языке C"
 
-#: ../developers.rst:869
+#: ../developers.rst:630
 msgid "**deploy**"
 msgstr ""
 
-#: ../developers.rst:848
+#: ../developers.rst:609
 msgid ""
 "the resource directory for deploying on the server (scene source files, "
 "compiled applications and documentation)"
@@ -1455,11 +1251,11 @@ msgstr ""
 "директория с ресурсами для размещения на сервере (исходные файлы сцен, "
 "скомпилированные приложения и документация)"
 
-#: ../developers.rst:851
+#: ../developers.rst:612
 msgid "**api_doc**"
 msgstr ""
 
-#: ../developers.rst:851
+#: ../developers.rst:612
 msgid ""
 "API documentation for developers (built automatically, based on the "
 "engine's source code)"
@@ -1467,11 +1263,11 @@ msgstr ""
 "документация API движка для разработчиков (собирается автоматически, на "
 "основе исходного кода движка)"
 
-#: ../developers.rst:857
+#: ../developers.rst:618
 msgid "**apps**"
 msgstr ""
 
-#: ../developers.rst:854
+#: ../developers.rst:615
 msgid ""
 "3D applications intended for deploying; the directory duplicates "
 "*apps_dev*"
@@ -1479,11 +1275,11 @@ msgstr ""
 "3D-приложения, предназначенные для развертывания, директория дублирует "
 "*apps_dev*"
 
-#: ../developers.rst:857
+#: ../developers.rst:618
 msgid "**common**"
 msgstr ""
 
-#: ../developers.rst:857
+#: ../developers.rst:618
 msgid ""
 "Compiled engine files. Shared by all applications from SDK (hence the "
 "name)."
@@ -1491,69 +1287,69 @@ msgstr ""
 "Файлы скомпилированного движка. Используются приложениями из состава SDK "
 "(отсюда и название)."
 
-#: ../developers.rst:860
+#: ../developers.rst:621
 msgid "**assets**"
 msgstr ""
 
-#: ../developers.rst:860
+#: ../developers.rst:621
 msgid "downloadable resources: scenes, textures and sounds"
 msgstr "загружаемые ресурсы: сцены, текстуры, звуковые файлы"
 
-#: ../developers.rst:863
+#: ../developers.rst:624
 msgid "**doc**"
 msgstr ""
 
-#: ../developers.rst:863
+#: ../developers.rst:624
 msgid "the current user manual in HTML format, built automatically from *doc_src*"
 msgstr ""
 "настоящее руководство пользователя в формате HTML, собирается "
 "автоматически из *doc_src*"
 
-#: ../developers.rst:866
+#: ../developers.rst:627
 msgid "**globals_detect**"
 msgstr ""
 
-#: ../developers.rst:866
+#: ../developers.rst:627
 msgid "utility code for detecting global variables"
 msgstr "вспомогательный код для определения глобальных переменных"
 
-#: ../developers.rst:869
+#: ../developers.rst:630
 msgid "**tutorials**"
 msgstr ""
 
-#: ../developers.rst:869
+#: ../developers.rst:630
 msgid "source files for the tutorials"
 msgstr "исходные файлы обучающих примеров"
 
-#: ../developers.rst:872
+#: ../developers.rst:633
 msgid "**doc_src**"
 msgstr ""
 
-#: ../developers.rst:872
+#: ../developers.rst:633
 msgid "source files of the current manual written in reST"
 msgstr "исходный код настоящего руководства пользователя на языке разметки reST"
 
-#: ../developers.rst:875
+#: ../developers.rst:636
 msgid "**index.html** and **index_assets**"
 msgstr "**index.html** и **index_assets**"
 
-#: ../developers.rst:875
+#: ../developers.rst:636
 msgid "main SDK webpage files"
 msgstr "файлы главной веб-страницы SDK"
 
-#: ../developers.rst:878
+#: ../developers.rst:639
 msgid "**license**"
 msgstr ""
 
-#: ../developers.rst:878
+#: ../developers.rst:639
 msgid "files with license texts"
 msgstr "файлы с текстами лицензионных соглашений"
 
-#: ../developers.rst:881
+#: ../developers.rst:642
 msgid "**Makefile**"
 msgstr ""
 
-#: ../developers.rst:881
+#: ../developers.rst:642
 msgid ""
 "makefile for building the engine, the applications, the documentation and"
 " for deploying on a remote server (not available as a free version)"
@@ -1561,19 +1357,19 @@ msgstr ""
 "файл сборки для компиляции движка, приложений, документации, "
 "развертывания на удаленном сервере (недоступен в бесплатной версии)"
 
-#: ../developers.rst:884
+#: ../developers.rst:645
 msgid "**README.rst**"
 msgstr ""
 
-#: ../developers.rst:884
+#: ../developers.rst:645
 msgid "README file"
 msgstr "файл README"
 
-#: ../developers.rst:887
+#: ../developers.rst:648
 msgid "scripts"
 msgstr "скрипты"
 
-#: ../developers.rst:890
+#: ../developers.rst:651
 msgid ""
 "**blend4web.lst**, **blend4web_sdk_free.lst** and "
 "**blend4web_sdk_pro.lst** (optional)"
@@ -1581,15 +1377,15 @@ msgstr ""
 "**blend4web.lst**, **blend4web_sdk_free.lst** и **blend4web_sdk_pro.lst**"
 " (опционально)"
 
-#: ../developers.rst:890
+#: ../developers.rst:651
 msgid "lists of the files for building distributions"
 msgstr "списки файлов для сборки дистрибутивов"
 
-#: ../developers.rst:893
+#: ../developers.rst:654
 msgid "**check_resources.py**"
 msgstr ""
 
-#: ../developers.rst:893
+#: ../developers.rst:654
 msgid ""
 "script for checking of and reporting about unused resources (images and "
 "sounds referenced by the exported files)"
@@ -1597,19 +1393,19 @@ msgstr ""
 "скрипт для проверки и сообщения о неиспользуемых ресурсах (изображения и "
 "звуки, на которые ссылаются экспотируемые файлы)"
 
-#: ../developers.rst:896
+#: ../developers.rst:657
 msgid "**compile_b4w.py**"
 msgstr ""
 
-#: ../developers.rst:896
+#: ../developers.rst:657
 msgid "script for building engine code and applications"
 msgstr "скрипт для сборки кода движка и приложений"
 
-#: ../developers.rst:899
+#: ../developers.rst:660
 msgid "**converter.py**"
 msgstr ""
 
-#: ../developers.rst:899
+#: ../developers.rst:660
 msgid ""
 "script which halves the texture dimensions, compresses the textures into "
 "the DDS format, converts sound files into mp4 and ogg formats"
@@ -1617,19 +1413,19 @@ msgstr ""
 "скрипт, осуществляющий: уменьшение разрешения текстур вдвое, компрессию "
 "текстур в формат DDS, конвертацию звуковых файлов в форматы mp4 и ogg"
 
-#: ../developers.rst:902
+#: ../developers.rst:663
 msgid "**custom_json_encoder.py**"
 msgstr ""
 
-#: ../developers.rst:902
+#: ../developers.rst:663
 msgid "fork of the json Python module, sorts the keys in reverse order"
 msgstr "форк Python-модуля json, сортирует ключи по алфавиту в обратном порядке"
 
-#: ../developers.rst:905
+#: ../developers.rst:666
 msgid "**gen_glmatrix.sh**"
 msgstr ""
 
-#: ../developers.rst:905
+#: ../developers.rst:666
 msgid ""
 "script for generating the math module based on the source code of "
 "glMatrix 2"
@@ -1637,77 +1433,77 @@ msgstr ""
 "скрипт для генерации математического модуля на основе исходных файлов из "
 "репозитория glMatrix 2"
 
-#: ../developers.rst:908
+#: ../developers.rst:669
 msgid "**graph.sh**"
 msgstr ""
 
-#: ../developers.rst:908
+#: ../developers.rst:669
 msgid "SVG generator for the current scene graph, used for debugging rendering"
 msgstr ""
 "генератор текущего графа сцены в формате svg, используется для отладки "
 "рендеринга"
 
-#: ../developers.rst:911
+#: ../developers.rst:672
 msgid "**make_dist.py**"
 msgstr ""
 
-#: ../developers.rst:911
+#: ../developers.rst:672
 msgid "distributions builder script"
 msgstr "сборщик дистрибутивов"
 
-#: ../developers.rst:914
+#: ../developers.rst:675
 msgid "**memory.sh**"
 msgstr ""
 
-#: ../developers.rst:914
+#: ../developers.rst:675
 msgid "script for checking memory (RAM) and video memory (VRAM)"
 msgstr "скрипт для проверки обычной (RAM) и видео-памяти (VRAM)"
 
-#: ../developers.rst:917
+#: ../developers.rst:678
 msgid "**mod_list.py**"
 msgstr ""
 
-#: ../developers.rst:917
+#: ../developers.rst:678
 msgid "script for generating the list of modules to use in new applications"
 msgstr "скрипт для генерации списка модулей, используемых в приложениях"
 
-#: ../developers.rst:920
+#: ../developers.rst:681
 msgid "**plot.sh**"
 msgstr ""
 
-#: ../developers.rst:920
+#: ../developers.rst:681
 msgid "debugging information graph builder"
 msgstr "построитель графиков отладочной информации"
 
-#: ../developers.rst:923
+#: ../developers.rst:684
 msgid "**process_blend.py**"
 msgstr ""
 
-#: ../developers.rst:923
+#: ../developers.rst:684
 msgid "script for automatic reexport of all scenes from the SDK"
 msgstr "скрипт для автоматического переэкспорта всех сцен из состава SDK"
 
-#: ../developers.rst:926
+#: ../developers.rst:687
 msgid "**remove_alpha_channel.sh**"
 msgstr ""
 
-#: ../developers.rst:926
+#: ../developers.rst:687
 msgid "script for removing the images' alpha channel"
 msgstr "скрипт для удаления альфа-канала изображения"
 
-#: ../developers.rst:929
+#: ../developers.rst:690
 msgid "**screencast.sh**"
 msgstr ""
 
-#: ../developers.rst:929
+#: ../developers.rst:690
 msgid "script for screen video recording"
 msgstr "скрипт для записи видео с экрана"
 
-#: ../developers.rst:932
+#: ../developers.rst:693
 msgid "**shader_analyzer.py**"
 msgstr ""
 
-#: ../developers.rst:932
+#: ../developers.rst:693
 msgid ""
 "script starting the local web server which calculates complexity of the "
 "shaders"
@@ -1715,97 +1511,97 @@ msgstr ""
 "скрипт, запускающий локальный веб-сервер, который осуществляет подсчет "
 "сложности шейдеров"
 
-#: ../developers.rst:935
+#: ../developers.rst:696
 msgid "**translator.py**"
 msgstr ""
 
-#: ../developers.rst:935
+#: ../developers.rst:696
 msgid "script for building add-on translations"
 msgstr "скрипт для сборки файлов с переводами аддона"
 
-#: ../developers.rst:938
+#: ../developers.rst:699
 msgid "**shaders**"
 msgstr ""
 
-#: ../developers.rst:938
+#: ../developers.rst:699
 msgid "GLSL shaders of the engine"
 msgstr "GLSL-шейдеры движка"
 
-#: ../developers.rst:950
+#: ../developers.rst:711
 msgid "**src**"
 msgstr ""
 
-#: ../developers.rst:941
+#: ../developers.rst:702
 msgid "main source code of the engine's kernel"
 msgstr "основной исходный код ядра движка"
 
-#: ../developers.rst:944
+#: ../developers.rst:705
 msgid "**addons**"
 msgstr ""
 
-#: ../developers.rst:944
+#: ../developers.rst:705
 msgid "source code of engine add-ons"
 msgstr "исходный код дополнений движка"
 
-#: ../developers.rst:947
+#: ../developers.rst:708
 msgid "**ext**"
 msgstr ""
 
-#: ../developers.rst:947
+#: ../developers.rst:708
 msgid "source code of the external declarations that form the engine's API"
 msgstr "исходный код внешних объявлений, формирующих API движка"
 
-#: ../developers.rst:950
+#: ../developers.rst:711
 msgid "**libs**"
 msgstr ""
 
-#: ../developers.rst:950
+#: ../developers.rst:711
 msgid "source code of the libraries"
 msgstr "исходный код библиотек"
 
-#: ../developers.rst:969
+#: ../developers.rst:730
 msgid "**tools**"
 msgstr ""
 
-#: ../developers.rst:953
+#: ../developers.rst:714
 msgid "Various tools for building the engine, apps or convert resources"
 msgstr "Различные инструменты для сборки движка, приложений и конвертации ресурсов"
 
-#: ../developers.rst:956
+#: ../developers.rst:717
 msgid "**converter_utils**"
 msgstr ""
 
-#: ../developers.rst:956
+#: ../developers.rst:717
 msgid "binary builds of the tools for resource conversion"
 msgstr "сборки утилит для конвертации ресурсов"
 
-#: ../developers.rst:959
+#: ../developers.rst:720
 msgid "**closure-compiler**"
 msgstr ""
 
-#: ../developers.rst:959
+#: ../developers.rst:720
 msgid "Google Closure compiler, its externs and their generators"
 msgstr ""
 "компилятор Google Closure, файлы исключений к нему, генераторы файлов "
 "исключений"
 
-#: ../developers.rst:966
+#: ../developers.rst:727
 msgid "**glsl**"
 msgstr ""
 
-#: ../developers.rst:963
+#: ../developers.rst:724
 msgid "**compiler**"
 msgstr ""
 
-#: ../developers.rst:963
+#: ../developers.rst:724
 msgid "compiler for the engine's GLSL shaders"
 msgstr "компилятор GLSL-шейдеров движка"
 
-#: ../developers.rst:966
+#: ../developers.rst:727
 msgid "**pegjs**"
 msgstr ""
 
-#: ../developers.rst:966
+#: ../developers.rst:727
 msgid ""
 "grammars of the PEG.js parser generator for implementing the GLSL "
 "preprocessor, and also the script for generating the parser modules from "
@@ -1814,37 +1610,37 @@ msgstr ""
 "грамматики парсер-генератора PEG.js для реализации препроцессора GLSL, а "
 "также скрипт для генерации модулей парсеров из этих грамматик"
 
-#: ../developers.rst:969
+#: ../developers.rst:730
 msgid "**yuicompressor**"
 msgstr ""
 
-#: ../developers.rst:969
+#: ../developers.rst:730
 msgid "utility for compressing CSS files"
 msgstr "утилита для сжатия файлов CSS"
 
-#: ../developers.rst:972
+#: ../developers.rst:733
 msgid "**uranium**"
 msgstr ""
 
-#: ../developers.rst:972
+#: ../developers.rst:733
 msgid ""
 "source code and building scripts of the Uranium physics engine (the fork "
 "of Bullet)"
 msgstr "исходный код и скрипты сборки физического движка Uranium (форк Bullet)"
 
-#: ../developers.rst:976
+#: ../developers.rst:737
 msgid "**VERSION**"
 msgstr ""
 
-#: ../developers.rst:975
+#: ../developers.rst:736
 msgid "contains the current version of the engine"
 msgstr "содержит текущую версию движка"
 
-#: ../developers.rst:981
+#: ../developers.rst:742
 msgid "Loading Local Resources"
 msgstr "Загрузка локальных ресурсов"
 
-#: ../developers.rst:983
+#: ../developers.rst:744
 msgid ""
 "The engine's renderer is a web application and it works when you view an "
 "HTML file in a browser. After initialization the resources (scenes, "
@@ -1858,7 +1654,7 @@ msgstr ""
 " <http://ru.wikipedia.org/wiki/Правило_ограничения_домена>`_, "
 "запрещающему, в частности, загрузку из локальной директории."
 
-#: ../developers.rst:985
+#: ../developers.rst:746
 msgid ""
 "Since version 15.02, the Blend4Web SDK includes the :ref:`development "
 "server <local_development_server>` to solve the problem of loading local "
@@ -1868,11 +1664,11 @@ msgstr ""
 "разработки <local_development_server>`, решающий проблему загрузки "
 "локальных ресурсов."
 
-#: ../developers.rst:991
+#: ../developers.rst:752
 msgid "Quality Profiles"
 msgstr "Профили качества изображения"
 
-#: ../developers.rst:993
+#: ../developers.rst:754
 msgid ""
 "Several quality profiles are implemented in order to support platforms "
 "with different functionality."
@@ -1880,7 +1676,7 @@ msgstr ""
 "Для поддержки различных по функциональности платформ в движке реализовано"
 " несколько профилей качества изображения:"
 
-#: ../developers.rst:995
+#: ../developers.rst:756
 msgid ""
 "*low quality* (``P_LOW``) - a range of functions is turned off (such as "
 "shadows, dynamic reflection, postprocessing), the size of textures is "
@@ -1890,7 +1686,7 @@ msgstr ""
 "отражение, постпроцессинг), размер текстур для сборочной версии уменьшен "
 "вдвое, антиалиасинг отключен"
 
-#: ../developers.rst:996
+#: ../developers.rst:757
 msgid ""
 "*high quality* (``P_HIGH``) - all features requested by the scene are "
 "used, the anti-aliasing method is FXAA"
@@ -1898,7 +1694,7 @@ msgstr ""
 "*высокое качество* (``P_HIGH``) - используются все запрошенные сценой "
 "функции, метод антиалиасинга FXAA"
 
-#: ../developers.rst:997
+#: ../developers.rst:758
 msgid ""
 "*maximum quality* (``P_ULTRA``) - rendering resolution is doubled, "
 "resolution of shadow maps is increased, the anti-aliasing method is FXAA "
@@ -1908,7 +1704,7 @@ msgstr ""
 "рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA "
 "(используется более высокое качество, скорость работы ниже)."
 
-#: ../developers.rst:998
+#: ../developers.rst:759
 msgid ""
 "*custom quality* (``P_CUSTOM``) - any quality parameter can be set to any"
 " possible value. This option is used when you need to set certain quality"
@@ -1920,7 +1716,7 @@ msgstr ""
 "вручную задать некоторые параметры. По умолчанию используются настройки, "
 "аналогичные профилю ``High``."
 
-#: ../developers.rst:1007
+#: ../developers.rst:768
 msgid ""
 "Switching the quality profiles can be performed in runtime before "
 "initialization of the WebGL context. The default profile is ``P_HIGH``."
@@ -1928,7 +1724,7 @@ msgstr ""
 "Переключение профилей качества осуществляется программно, до "
 "инициализации контекста WebGL. Профиль по умолчанию ``P_HIGH``."
 
-#: ../developers.rst:1018
+#: ../developers.rst:779
 msgid ""
 "Application developers can also set the **quality** parameter upon engine"
 " initialization using the ``app.js`` add-on:"
@@ -1936,11 +1732,11 @@ msgstr ""
 "Разработчики приложений могут также установить параметр **quality** при "
 "инициализации движка с использованием дополнения ``app.js``:"
 
-#: ../developers.rst:1034
+#: ../developers.rst:795
 msgid "Non-FullScreen Web Apps"
 msgstr "Специфика неполноэкранных приложений"
 
-#: ../developers.rst:1036
+#: ../developers.rst:797
 msgid ""
 "The Canvas element, to which the rendering is performed, can change its "
 "position relative to the browser window. This can occur due to some "
@@ -1953,7 +1749,7 @@ msgstr ""
 "скроллинга страницы, что особенно актуально для неполноэкранных "
 "приложений."
 
-#: ../developers.rst:1038
+#: ../developers.rst:799
 msgid ""
 "In most cases this will not affect the performance of the app by any "
 "means. However, some DOM events related to mouse cursor or touch position"
@@ -1971,7 +1767,7 @@ msgstr ""
 "браузера, а движок работает с координатами в системе отсчета именно "
 "Canvas элемента (верхний левый угол элемента)."
 
-#: ../developers.rst:1040
+#: ../developers.rst:801
 msgid ""
 "If the top left corner of the Canvas element matches the top left corner "
 "of the browser window and is fixed in its position (non-movable) then "
@@ -1985,7 +1781,7 @@ msgstr ""
 "события либо функции API :b4wref:`mouse.get_coords_x()` и "
 ":b4wref:`mouse.get_coords_y()`:"
 
-#: ../developers.rst:1054
+#: ../developers.rst:815
 msgid ""
 "In the case of the scrolled browser window, you have to use event.pageX "
 "and event.pageY coordinates."
@@ -1993,7 +1789,7 @@ msgstr ""
 "Если на странице присутствует только скроллинг окна браузера, то "
 "достаточно использовать координаты event.pageX и event.pageY:"
 
-#: ../developers.rst:1063
+#: ../developers.rst:824
 msgid ""
 "In the case of more sophisticated manipulations with the Canvas element "
 "(scrolling of the page elements, displacement from the top level corner "
@@ -2009,7 +1805,7 @@ msgstr ""
 "использования в движке, можно провести преобразование при помощи метода "
 ":b4wref:`container.client_to_canvas_coords()`:"
 
-#: ../developers.rst:1075
+#: ../developers.rst:836
 msgid ""
 "In order to obtain coordinates in the Canvas space, the engine should "
 "know its position relative to the browser window. However, if this "
@@ -2025,7 +1821,7 @@ msgstr ""
 "происходило автоматически, нужно выставить настройку "
 "``track_container_position`` при инициализации приложения:"
 
-#: ../developers.rst:1090
+#: ../developers.rst:851
 msgid ""
 "Please note, that this setting can lead to performance degradation in "
 "some browsers (such as Firefox) due to frequent DOM tree accesses. If the"
@@ -2044,7 +1840,7 @@ msgstr ""
 ":b4wref:`container.set_canvas_offsets()` для обновления положения "
 "элемента Canvas вручную, когда это действительно необходимо:"
 
-#: ../developers.rst:1105
+#: ../developers.rst:866
 msgid ""
 "The possibility to scale the whole webpage can lead to Canvas element "
 "displacement on mobile devices. The described decisions are suitable in "
@@ -2058,11 +1854,11 @@ msgstr ""
 "запретить масштабирование вовсе и избежать подобных проблем. Для этого "
 "достаточно в заголовке страницы добавить следующий мета-тег:"
 
-#: ../developers.rst:711 ../developers.rst:718
+#: ../developers.rst:472 ../developers.rst:479
 msgid "sensor"
 msgstr "сенсор"
 
-#: ../developers.rst:718
+#: ../developers.rst:479
 msgid "manifold"
 msgstr "множество"
 
@@ -2106,5 +1902,167 @@ msgstr "множество"
 #~ msgstr ""
 
 #~ msgid "ogv -> seq"
+#~ msgstr ""
+
+#~ msgid "ogg, oga -> mp4"
+#~ msgstr ""
+
+#~ msgid "mp4, m4a -> ogg"
+#~ msgstr ""
+
+#~ msgid "webm -> m4v"
+#~ msgstr ""
+
+#~ msgid "mp4, m4v -> webm"
+#~ msgstr ""
+
+#~ msgid "ogg, ogv -> webm"
+#~ msgstr ""
+
+#~ msgid "webm -> seq"
+#~ msgstr ""
+
+#~ msgid "mp4, m4v -> seq"
+#~ msgstr ""
+
+#~ msgid "ogg, ogv -> seq"
+#~ msgstr ""
+
+#~ msgid "mp3 -> ogg"
+#~ msgstr ""
+
+#~ msgid "mp4 (m4v, m4a) -> ogg"
+#~ msgstr ""
+
+#~ msgid "background_color.alpha = 1"
+#~ msgstr ""
+
+#~ msgid "background_color.alpha = 0"
+#~ msgstr ""
+
+#~ msgid "background_color.alpha > 0"
+#~ msgstr ""
+
+#~ msgid "Project Management"
+#~ msgstr "Управление проектами"
+
+#~ msgid "Advanced Project Management"
+#~ msgstr "Расширенное управление проектами"
+
+#~ msgid "Projects List"
+#~ msgstr "Список проектов"
+
+#~ msgid "Prints list of projects in the SDK."
+#~ msgstr "Выводит список проектов, находящихся в SDK."
+
+#~ msgid "Project Structure"
+#~ msgstr "Структура проекта"
+
+#~ msgid "A typical app developed using the project manager looks as follows:"
+#~ msgstr ""
+
+#~ msgid "This app consists of 4 different directories."
+#~ msgstr "Как видно, это приложение состоит из 4 различных директорий:"
+
+#~ msgid "apps_dev/myproject. Contains source files of project's apps."
+#~ msgstr "apps_dev/myproject. Содержит исходные файлы приложений проекта."
+
+#~ msgid "blender/myproject. Contains source files of project's scenes."
+#~ msgstr "blender/myproject. Содержит исходные файлы сцен проекта."
+
+#~ msgid "deploy/assets/myproject. Contains exported files of project's scenes."
+#~ msgstr "deploy/assets/myproject. Содержит экспортированные файлы сцен проекта."
+
+#~ msgid "deploy/apps/myproject. Contains exported files of project's scenes."
+#~ msgstr "deploy/apps/myproject. Содержит экспортированные файлы сцен проекта."
+
+#~ msgid "``.b4w_project`` Configuration File"
+#~ msgstr "Конфигурационный файл ``.b4w_project``"
+
+#~ msgid "Available parameters:"
+#~ msgstr "Доступные опции:"
+
+#~ msgid "The .b4w_project file will look like::"
+#~ msgstr "Файл .b4w_project будет выглядеть следущим образом::"
+
+#~ msgid "Developing multiple apps inside a project"
+#~ msgstr "Разработка нескольких приложений в составе проекта"
+
+#~ msgid "Building Projects"
+#~ msgstr "Сборка проекта"
+
+#~ msgid "Builds a project in the ``deploy/apps/myproject`` directory."
+#~ msgstr "Собирает проект в директории ``deploy/apps/myproject``."
+
+#~ msgid "``\"-v | --version\"`` add version to paths of scripts and styles."
+#~ msgstr "``\"-v | --version\"`` добавляет версию к адресам скриптов и стилей."
+
+#~ msgid "Compiler Requirements"
+#~ msgstr "Требования, накладываемые компилятором:"
+
+#~ msgid "Automatic Re-export"
+#~ msgstr "Автоматический экспорт ресурсов"
+
+#~ msgid "``\"-b | --blender-exec\"`` path to the blender executable."
+#~ msgstr "``\"-b | --blender-exec\"`` путь к исполняемому файлу blender."
+
+#~ msgid "``\"-s | --assets\"`` specify directory with scene assets."
+#~ msgstr "``\"-s | --assets\"`` определяет директорию с ресурсами сцены."
+
+#~ msgid "Deploying Projects"
+#~ msgstr "Развертывание проекта"
+
+#~ msgid "Save a project to an external directory together with all dependencies."
+#~ msgstr ""
+
+#~ msgid "``\"-E | --assets-prefix\"`` assets URL prefix (\"assets\" by default)."
+#~ msgstr ""
+
+#~ msgid "``\"-o | --override\"`` remove directory if it exists."
+#~ msgstr "``\"-o | --override\"`` удаляет директорию, если она существует."
+
+#~ msgid "``\"-s | --assets\"`` override project's assets directory(s)."
+#~ msgstr ""
+
+#~ msgid "``\"-t | --engine-type\"`` override project's engine type config."
+#~ msgstr ""
+
+#~ msgid "Remove Project"
+#~ msgstr "Удаление проекта"
+
+#~ msgid "Upgrading Apps for New SDK Versions"
+#~ msgstr "Обновление приложений на новые версии SDK"
+
+#~ msgid "While upgrading for new SDK versions often two problems arise:"
+#~ msgstr ""
+
+#~ msgid "Modules of the new and old versions of the engine do not match."
+#~ msgstr "Несоответствие модулей новой и старой версии движка."
+
+#~ msgid "Old and new engine API do not match."
+#~ msgstr "Несоответствие старых и новых API движка."
+
+#~ msgid "Path to Loaded Application Assets"
+#~ msgstr "Пути к загружаемым ресурсам приложения"
+
+#~ msgid "pvrtc (?)"
+#~ msgstr ""
+
+#~ msgid "background_color/alpha = 1"
+#~ msgstr ""
+
+#~ msgid "background_color/alpha = 0"
+#~ msgstr ""
+
+#~ msgid "background_color/alpha > 0"
+#~ msgstr ""
+
+#~ msgid "png -> dds"
+#~ msgstr ""
+
+#~ msgid "jpg -> dds"
+#~ msgstr ""
+
+#~ msgid "bmp -> dds"
 #~ msgstr ""
 

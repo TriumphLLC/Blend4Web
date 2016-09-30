@@ -21,15 +21,15 @@ var _curr_scopes_chain = [0];
 // for searching declarations before current index
 var _curr_seq_index = -1;
 
-var _ast_input = null;
+var _ast_data = null;
 
-exports.init_ast = function(ast_input, vardef_ids, filename, filetype) {
-    _ast_input = ast_input;
+exports.init_ast = function(ast_data, vardef_ids, filename, filetype) {
+    _ast_data = ast_data;
     _src_filename = filename;
     _src_filetype = filetype;
 
     init_data();
-    m_search.set_uids(_ast_input.uid_to_nodes);
+    m_search.set_uids(_ast_data.uid_to_nodes);
     m_reserved.set_vardef_tokens(vardef_ids);
 }
 
@@ -44,7 +44,7 @@ function init_data() {
         scopes_id_counter: 0
     };
     _curr_includes_stack = [null];
-    _ast_root_uid = _ast_input.ast.uid;
+    _ast_root_uid = _ast_data.ast.uid;
 }
 
 /*==============================================================================
@@ -53,7 +53,7 @@ function init_data() {
 
 exports.collect = function() {
     init_data();
-    collect_data(_ast_input.ast);
+    collect_data(_ast_data.ast);
     return _collected_data;
 }
 
@@ -135,7 +135,6 @@ function check_declaration(ast_node) {
     var decl_id = null;
     var decl_id_type = null;
     var decl_id_type_qualifier = null;
-    var decl_node_inoutparam = false;
 
     switch(ast_node.node) {
     case "function_declaration":
@@ -157,7 +156,6 @@ function check_declaration(ast_node) {
                 decl_id = ast_node.identifier;
                 decl_id_type = get_type_name(ast_node.type);
                 decl_id_type_qualifier = get_type_qualifier(ast_node.type);
-                decl_node_inoutparam = ast_node.is_node_inoutparam_decl;
             }
         }
         break;
@@ -208,14 +206,14 @@ function check_declaration(ast_node) {
             decl_id_type_qualifier: decl_id_type_qualifier,
             decl_is_reserved: m_reserved.is_reserved(decl_id.name),
             decl_in_scope: ids_stack[ids_stack.length - 1],
-            decl_in_include: _curr_includes_stack[_curr_includes_stack.length - 1],
-            decl_node_inoutparam: decl_node_inoutparam
+            decl_in_include: _curr_includes_stack[_curr_includes_stack.length - 1]
         }
 
         data.decl_obfuscation_allowed = !data.decl_is_reserved
                 && allow_qualifier_obfuscation(data.decl_id_type_qualifier)
                 && !m_reserved.is_b4w_specific(data.decl_id.name)
-                && !m_reserved.is_vector_accessor(data.decl_id.name);
+                && !m_reserved.is_vector_accessor(data.decl_id.name)
+                && !m_reserved.is_vardef(data.decl_id.name);
 
         if (data.decl_is_reserved && !m_reserved.is_special(data.decl_id.name))
             m_debug.debug_message(m_consts.DECL_RESERVED, get_current_file_name(), 
@@ -628,6 +626,10 @@ function get_type_qualifier(ast_node) {
             break;
         }
     }
+
+    if ((qual == m_consts.GLSL_IN || qual == m_consts.GLSL_OUT) && 
+            _src_filetype != m_consts.VERTEX && _src_filetype != m_consts.FRAGMENT)
+        m_debug.debug_message(m_consts.SHADER_TYPE_ERROR, get_current_file_name());
 
     // return to the old GLSL ES 1.0 notation for simplicity
     if (_src_filetype == m_consts.VERTEX && qual == m_consts.GLSL_IN)

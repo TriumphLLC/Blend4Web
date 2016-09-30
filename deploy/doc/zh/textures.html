@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>纹理 &mdash; Blend4Web 16.08 用户手册</title>
+  <title>纹理 &mdash; Blend4Web 16.09 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 用户手册" href="index.html"/>
         <link rel="next" title="Particle System. Fluids" href="particles.html"/>
         <link rel="prev" title="立体渲染" href="stereo_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -84,13 +84,13 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -154,7 +154,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#special-texture-types">特殊的纹理类型</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#d-scene">3D场景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#render-to-texture">Render-To-Texture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#canvas">画布</a></li>
 </ul>
 </li>
@@ -389,6 +389,7 @@
 <p>法线贴图用于指定的表面法线 （垂线） 分布为了立体的细节。关于法线信息应存储在纹理空间的坐标。法线贴图不支持在对象空间坐标的烘焙。</p>
 <div class="section" id="id7">
 <h3>激活<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p>Set the <code class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Color</span> <span class="pre">Space</span></code> parameter to <code class="docutils literal"><span class="pre">Non-Color</span></code>.</p>
 <p>启用 <code class="docutils literal"><span class="pre">纹理</span> <span class="pre">&gt;</span> <span class="pre">影响</span></code> 面板上的 <code class="docutils literal"><span class="pre">几何</span> <span class="pre">&gt;</span> <span class="pre">法线</span></code> 复选框</p>
 </div>
 <div class="section" id="id8">
@@ -648,24 +649,20 @@
 </dd>
 </dl>
 <img alt="_images/canvas_tex.png" class="align-center" src="_images/canvas_tex.png" />
-<div class="section" id="d-scene">
-<span id="render-to-texture-scene"></span><h3>3D场景<a class="headerlink" href="#d-scene" title="永久链接至标题">¶</a></h3>
-<p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene). This technique is known as <cite>render-to-texture</cite> (RTT) and can be activated by following these steps:</p>
+<div class="section" id="render-to-texture">
+<span id="render-to-texture-scene"></span><h3>Render-To-Texture<a class="headerlink" href="#render-to-texture" title="永久链接至标题">¶</a></h3>
+<p>An image of a 3D scene rendered in real time also can be used as a texture for an object in another scene (&#8220;main&#8221; scene). This technique is known as <cite>render-to-texture</cite> (RTT) and can be activated by following these steps:</p>
 <ol class="arabic simple">
-<li><p class="first">创建一个附加源场景。</p>
-</li>
-<li><p class="first">为了方便重命名它。</p>
-</li>
-<li><p class="first">创建一个 <code class="docutils literal"><span class="pre">世界</span></code> 。</p>
-</li>
-<li><p class="first">添加您需要的物体。</p>
-</li>
-<li><p class="first">设置相机视图。</p>
-</li>
-<li><p class="first">在主场景中创建目标物体的 UV 贴图。</p>
-</li>
-<li><p class="first">设置目标物体的纹理为 <code class="docutils literal"><span class="pre">无</span></code> 类型。</p>
-</li>
+<li>Create an additional scene that will be rendered to the texture.</li>
+<li>For convenience, give this scene a unique name.</li>
+<li>Create a <code class="docutils literal"><span class="pre">World</span></code> setting for this scene.</li>
+<li>Add the objects you need to the scene.</li>
+<li>Add a camera to the scene and set it up.</li>
+<li>Then, switch to the main scene.</li>
+<li>Select the target object and create a UV map for it.</li>
+<li>Create a texture that will act as the rendering target.</li>
+<li>Set the <code class="docutils literal"><span class="pre">None</span></code> type for this texture.</li>
+<li>Set the <code class="docutils literal"><span class="pre">UV</span></code> value for the <code class="docutils literal"><span class="pre">Coordinates</span></code> parameter under the <code class="docutils literal"><span class="pre">Mapping</span></code> tab.</li>
 <li><p class="first">在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源类型</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">场景</span></code> 类型。</p>
 </li>
 <li><p class="first">在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源</span> <span class="pre">ID</span></code> 字段中指定源场景的名称。</p>
@@ -731,7 +728,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-08-31.
+      最后更新于 2016-09-29.
 
     </p>
   </div>
@@ -787,7 +784,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

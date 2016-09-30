@@ -69,5 +69,5 @@
     "language_obj": "main_menu*main_menu_stone",
     "back_to_menu_obj_name": "back_to_main_menu_button",
 
-    "camera_pivot": [50.34, 61.01, 383.85]
+    "camera_pivot": [50.34, -383.85, 61.01]
 }

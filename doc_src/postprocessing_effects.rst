@@ -59,20 +59,54 @@ Activation
     
     - Set a non-zero value for the ``Distance`` on the same panel (in Blender units = meters). In this case the camera focus will be located at this distance from the camera and will move together with it. 
 
-Additional settings
+Additional Settings
 -------------------
 
-*Front*
-    The distance from the focus to the nearest plane (relative to the camera) behind which full blurring occurs (in meters). The default value is 1.0.
+.. image:: src_images/postprocessing_effects/effects_dof_settings.png
+   :align: center
+   :width: 100%
 
-*Rear*
-    The distance from the focus to the furthest plane (relative to the camera) behind which full blurring occurs (in meters). The default value is 1.0.
+*Focus*
+    Sets the focal object. By default, this field is empty.
+
+*Distance*
+    This parameter defines the focal distance. Available only if the ``Focus`` parameter hasn't been set beforehand (if the corresponding field is empty). Set to zero by default.
+
+*Front Start*
+    This sets the distance (in meters) from the focus to the nearest plane (relative to the camera) behind which blurring effect starts to occur. The default value is 1.0.
+
+    This parameter is available only if the ``High Quality (Bokeh)`` parameter is enabled.
+
+*Front End*
+    This sets the distance from the camera and the neares plane (relative to the camera) behind which blurring effect reaches maximum strength (defined by the ``Power`` value). Default value is 5.0.
+
+*Rear Start*
+    This sets the distance from the focus to the furthest plane (relative to the camera) behind which blurring effect starts to occur. The default value is 1.0.
+
+    This parameter is available only if the ``High Quality (Bokeh)`` parameter is enabled.
+
+*Rear End*
+    This sets the distance from the camera to the furthest plane (relative to the camera) behind which blurring reaches maximum strength (defined by the ``Power`` value). Default value is 5.0.
 
 *Power*
-    Blurring ratio. The default value is 3.0.
+    Blurring ratio. The value of this parameter can vary from 0.1 to 10. The default value is 2.0.
 
-*Bokeh*
-    Activating this option enables bokeh effect. Disabled by default.
+*High Quality (Bokeh)*
+    This enables high quality rendering of the depth of field effect. Activating this option:
+
+    * Enables bokeh effect and makes available the ``Bokeh Intensity`` parameter for adjusting the strength of the effect.
+
+    * Enables the ``Front Start`` and ``Rear Start`` parameters for setting soft transition between the distance from camera where the effect start to occur and the distanse where it reaches its full strength.
+
+    * Enables ``Foreground Blur`` parameter that is described below.
+
+    The parameter is disabled by default.
+
+*Bokeh Intensity*
+    This value sets the strength of the bokeh effect. It can vary from zero to 1.0. Set to 0.3 by default.
+
+*Foreground Blur*
+    Enabling this option makes the engine to blur the silhouettes of the foreground objects, improving the quality of the effect at the cost of slight performance decrease. Disabled by default.
 
 
 .. index:: screen-space ambient occlusion, SSAO

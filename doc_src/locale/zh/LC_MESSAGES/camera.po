@@ -1,21 +1,20 @@
-# SOME DESCRIPTIVE TITLE.
+# Blend4Web User Manual Chinese Translation: Camera
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as the Blend4Web. User
-# Manual package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# This file is distributed under the same license as Blend4Web.
+# Blend4Web Team <info [at] blend4web.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Blend4Web. User Manual v16.03\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-25 14:04+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: Blend4Web 16.08\n"
+"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
+"POT-Creation-Date: 2016-09-27 12:44+0300\n"
+"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../camera.rst:5
 msgid "Camera"
@@ -493,7 +492,7 @@ msgid ""
 "A camera's position and its spatial orientation are defined by the "
 "control mode. In the ``EYE``, ``TARGET`` and ``HOVER`` modes, control "
 "mode has several limitations: for example, the camera's vertical axis is "
-"always aligned along the world's Y-axis and the camera is constantly "
+"always aligned along the world's Z-axis and the camera is constantly "
 "focused on the pivot point. The ``STATIC`` mode camera has no such "
 "limitations, which makes it more suitable for cases when you need more "
 "complete control, such as procedural animation."
@@ -687,42 +686,27 @@ msgid ""
 "pivot point."
 msgstr ""
 
-#: ../camera.rst:565
-msgid ""
-"When setting translation limits for the ``HOVER`` camera, the values for "
-"the limits will correspond to the engine's coordinate axis as follows:"
-msgstr ""
-
-#: ../camera.rst:567
-msgid "``Horizontal Translation Limits`` - X axis"
-msgstr ""
-
-#: ../camera.rst:569
-msgid "``Vertical Translation Limits`` - Z axis"
-msgstr ""
-
-#: ../camera.rst:585
+#: ../camera.rst:563
 msgid ""
 "Enabled camera limits can influence its position and spatial orientation "
 "set by the API functions."
 msgstr ""
 
-#: ../camera.rst:590
+#: ../camera.rst:568
 msgid "Angular Coordinates Count"
 msgstr ""
 
-#: ../camera.rst:592
+#: ../camera.rst:570
 msgid ""
 "When working with the camera's APIs (rotation, setting limits), all "
-"angles are defined in the :ref:`engine's coordinate system "
-"<b4w_blender_coordinates>` as follows:"
+"angles are defined as follows:"
 msgstr ""
 
-#: ../camera.rst:594
+#: ../camera.rst:572
 msgid "For the ``TARGET/HOVER`` camera:"
 msgstr ""
 
-#: ../camera.rst:608
+#: ../camera.rst:586
 msgid "For the ``EYE`` camera:"
 msgstr ""
 
@@ -738,44 +722,13 @@ msgstr ""
 #~ msgid "Fit to Camera"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "If an object is parented to "
-#~ "camera, the set of parameters known "
-#~ "as *Viewport Alignment* will become "
-#~ "available under the ``Relations`` tab on"
-#~ " the ``Object`` panel."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Using it, the object can be "
-#~ "aligned to the active camera, so "
-#~ "that object will remain in the "
-#~ "same place of the screen regardless "
-#~ "of the position and rotation of "
-#~ "the camera. Useful for creating UI "
-#~ "elements in particular."
-#~ msgstr ""
-
 #~ msgid "This picture shows an example of using the Viewport Alignment option."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "This parameter specifies to what side"
-#~ " of the viewport (canvas) the object"
-#~ " will be aligned. It can have "
-#~ "one of the following parameters."
 #~ msgstr ""
 
 #~ msgid "``Top-Left`` - aligns the object top left corner of the viewport"
 #~ msgstr ""
 
 #~ msgid "``Top`` - aligns the object to the top of the viewport"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "``Top-Right`` - aligns the object "
-#~ "to the top right corner of the "
-#~ "viewport"
 #~ msgstr ""
 
 #~ msgid "``Left`` - aligns the object to the left side of the viewport"
@@ -787,32 +740,35 @@ msgstr ""
 #~ msgid "``Right`` - aligns the object to the right side of the viewport"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "``Bottom-Left`` - aligns the object "
-#~ "to the bottom left corner of the"
-#~ " viewport"
-#~ msgstr ""
-
 #~ msgid "``Bottom`` - aligns the object to the bottom of the viewport"
 #~ msgstr ""
 
 #~ msgid ""
-#~ "``Bottom-Right`` - aligns the object "
-#~ "to the bottom right corner of the"
-#~ " viewport."
+#~ "A camera's position and its spatial "
+#~ "orientation are defined by the control"
+#~ " mode. In the ``EYE``, ``TARGET`` and"
+#~ " ``HOVER`` modes, control mode has "
+#~ "several limitations: for example, the "
+#~ "camera's vertical axis is always aligned"
+#~ " along the world's Y-axis and the "
+#~ "camera is constantly focused on the "
+#~ "pivot point. The ``STATIC`` mode camera"
+#~ " has no such limitations, which makes"
+#~ " it more suitable for cases when "
+#~ "you need more complete control, such "
+#~ "as procedural animation."
 #~ msgstr ""
 
 #~ msgid ""
-#~ "Specifies the distance between the "
-#~ "aligned object and the camera. Set "
-#~ "to 10 by default."
+#~ "When setting translation limits for the"
+#~ " ``HOVER`` camera, the values for the"
+#~ " limits will correspond to the "
+#~ "engine's coordinate axis as follows:"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "By pressing this button, you can "
-#~ "make the aligned object look the "
-#~ "same way in the Blender viewport "
-#~ "as it will look in the engine. "
-#~ "Can be used to preview the results"
+#~ msgid "``Horizontal Translation Limits`` - X axis"
+#~ msgstr ""
+
+#~ msgid "``Vertical Translation Limits`` - Z axis"
 #~ msgstr ""
 

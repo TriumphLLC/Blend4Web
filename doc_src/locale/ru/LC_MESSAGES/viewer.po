@@ -1,17 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
+# Blend4Web User Manual Russian Translation: Viewer
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as the Blend4Web. User
-# Manual package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# This file is distributed under the same license as Blend4Web.
+# Blend4Web Team <info [at] blend4web.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-30 12:17+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: Blend4Web 16.08\n"
+"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
+"POT-Creation-Date: 2016-09-23 14:43+0300\n"
+"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"Language-Team: Russian <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -739,8 +738,8 @@ msgstr ""
 #: ../viewer.rst:247
 msgid ""
 "Material properties setup. A material can be selected using the drop-down"
-" menu. For now, this feature only support a limited number of properties "
-"and only stack (non-node) materials applied to dynamic objects (node "
+" menu. For now, this feature only supports a limited number of properties"
+" and only stack (non-node) materials applied to dynamic objects (node "
 "materials and static objects are not supported)."
 msgstr ""
 "Настройка свойств материалов. Материал выбирается с помощью выпадающего "
@@ -825,9 +824,9 @@ msgstr ""
 
 #: ../viewer.rst:275
 msgid ""
-"Direct lighting parameters setup. A light source can be selected using "
-"the drop-down menu. Changing color and intensity is supported. Daytime "
-"and sun lighting parameters can also be tweaked on this panel."
+"Setup for direct lighting parameters. A light source can be selected "
+"using the drop-down menu. Changing color and intensity is supported. "
+"Daytime and sun lighting parameters can also be tweaked on this panel."
 msgstr ""
 "Настройка параметров прямого освещения. Источник света выбирается с "
 "помощью выпадающего меню. Поддерживается изменение цвета и интенсивности."
@@ -856,8 +855,8 @@ msgstr ""
 
 #: ../viewer.rst:290
 msgid ""
-"The base color of the selected light source. By default, white color (1; "
-"1; 1) is used."
+"The base color of the selected light source. By default, white (1; 1; 1) "
+"is used."
 msgstr ""
 "Базовый цвет выбранного источника света. По умолчанию используется белый "
 "цвет (1; 1; 1)."
@@ -895,8 +894,8 @@ msgstr ""
 #: ../viewer.rst:299
 msgid ""
 "This value is calculated as the sum of the Energy Coarse and Energy "
-"Precise parameters. In case of both of them are having default values, it"
-" will be equal to 1."
+"Precise parameters. In case both of them have default values, it will be "
+"equal to 1."
 msgstr ""
 "Энергия источника света. Это значение вычисляется как сумма параметров "
 "Energy Coarse и Energy Precise. Если значения этих параметров совпадают с"
@@ -921,8 +920,8 @@ msgstr ""
 
 #: ../viewer.rst:305
 msgid ""
-"The softness of the spotlight edge. Default value is 0.15. This parameter"
-" is also available for ``Spot`` type light sources only."
+"This defines the softness of the spotlight edge. Default value is 0.15. "
+"This parameter is also available for ``Spot`` type light sources only."
 msgstr ""
 "Степень размытия границы пятна прожектора. Значение по умолчанию - 0.15. "
 "Этот параметр также доступен только для источников света типа ``Spot``."
@@ -972,9 +971,7 @@ msgid "This parameter sets the current date."
 msgstr "Задаёт текущую дату."
 
 #: ../viewer.rst:326
-msgid ""
-"This parameter set the current time of day (or night?). Default value is "
-"12.0."
+msgid "This parameter set the current time of day. Default value is 12.0."
 msgstr "Этот параметр задаёт текущее время дня или ночи. По умолчанию равен 12.0."
 
 #: ../viewer.rst:329
@@ -996,12 +993,11 @@ msgstr ""
 #: ../viewer.rst:332
 msgid ""
 "The value of this parameter defines the speed of the flow of time. "
-"Default value is 1.0 (time flows with the same speed it does in real "
-"life)."
+"Default value is 1.0 (time flows at the same speed it does in real life)."
 msgstr ""
 "Значение этого параметра задаёт скорость течения времени. Значение по "
-"умолчанию - 1.0 (время в сцене течёт с той же скоростью, что и в реальном"
-" мире)."
+"умолчанию - 1.0 (время в сцене течёт с той же скоростью, что и в "
+"действительности."
 
 #: ../viewer.rst:335
 msgid "*Horizontal Position*"
@@ -1029,8 +1025,8 @@ msgstr ""
 
 #: ../viewer.rst:343
 msgid ""
-"Ambient lighting parameters setup. Changing the colors and intensity of a"
-" hemispheric ambient model is supported."
+"Setup for ambient lighting parameters. Changing the colors and intensity "
+"of a hemispheric ambient model is supported."
 msgstr ""
 "Настройка параметров освещения от окружающей среды. Поддерживается "
 "изменение цветов в полусферической модели освещения и интенсивности."
@@ -1051,7 +1047,7 @@ msgstr ""
 
 #: ../viewer.rst:350
 msgid ""
-"Shadow parameters setup, including shadow cascades and shadow edges "
+"Setup for shadow parameters, including shadow cascades and shadow edges "
 "softening parameters."
 msgstr ""
 "Настройка параметров падающих теней, включая параметры каскадов теней и "
@@ -1059,7 +1055,7 @@ msgstr ""
 
 #: ../viewer.rst:352
 msgid ""
-"The settings for setting up shadows are described in the "
+"The options for setting up shadows are described in the "
 ":ref:`corresponding section <shadows>` of this manual."
 msgstr ""
 "Настройки теней описаны в :ref:`соответствующем разделе <shadows>` "
@@ -1071,7 +1067,7 @@ msgstr ""
 
 #: ../viewer.rst:357
 msgid ""
-"Dynamic sky parameters setup such as color, sun light scattering "
+"Setup for dynamic sky parameters such as color, sun light scattering "
 "parameters etc."
 msgstr ""
 "Настройка параметров динамического неба, таких как цвет, параметры "
@@ -1093,9 +1089,9 @@ msgstr ""
 
 #: ../viewer.rst:364
 msgid ""
-"Water rendering parameters setup, including color transitions by depth "
-"and by shore distance, foam and subsurface scattering parameters, waves "
-"dynamics etc."
+"Setup for water rendering parameters, including color transitions by "
+"depth and by distance from the shore, foam and subsurface scattering "
+"parameters, wave dynamics etc."
 msgstr ""
 "Настройка параметров рендеринга воды, включая переходы цвета по глубине и"
 " удаленности от берега, параметры пены, подповерхностного рассеивания, "
@@ -1103,8 +1099,8 @@ msgstr ""
 
 #: ../viewer.rst:366
 msgid ""
-"The setting for water rendering are described in the :ref:`Outdoor "
-"Rendering <water>` chapter. Scene Viewer uses the same settings as "
+"The settings for water rendering are described in the :ref:`Outdoor "
+"Rendering <water>` chapter. Scene Viewer uses the same settings as the "
 "Blend4Web engine itself."
 msgstr ""
 "Настройки рендеринга воды описаны в главе :ref:`\"Природные эффекты\" "
@@ -1116,7 +1112,7 @@ msgid "Wind"
 msgstr ""
 
 #: ../viewer.rst:371
-msgid "Wind parameters setup, including direction and strength."
+msgid "Setup for wind parameters, including direction and strength."
 msgstr "Настройка параметров ветра, включая направление и силу."
 
 #: ../viewer.rst:373
@@ -1133,7 +1129,7 @@ msgid "Screen Space Amb Occlus"
 msgstr ""
 
 #: ../viewer.rst:378
-msgid "Ambient occlusion parameters setup."
+msgid "Setup for ambient occlusion parameters."
 msgstr "Настройка параметров взаимного затенения."
 
 #: ../viewer.rst:380
@@ -1147,7 +1143,7 @@ msgid "God Rays"
 msgstr ""
 
 #: ../viewer.rst:385
-msgid "Crepuscular rays effect parameters setup."
+msgid "Setup for crepuscular ray effect parameters."
 msgstr "Настройка параметров эффекта сумеречных лучей."
 
 #: ../viewer.rst:387
@@ -1163,8 +1159,8 @@ msgid "Bloom"
 msgstr ""
 
 #: ../viewer.rst:392
-msgid "Bright light effect parameters setup."
-msgstr "Настройка параметров эффекта засветки ярким светом."
+msgid "Setup for bloom effect parameters."
+msgstr "Настройка параметров эффекта глубины резкости камеры."
 
 #: ../viewer.rst:394
 msgid ""
@@ -1197,7 +1193,7 @@ msgid "Glow Materials"
 msgstr ""
 
 #: ../viewer.rst:406
-msgid "Glow Materials effect settings."
+msgid "Glow Material effect settings."
 msgstr "Настройка эффекта свечения материалов."
 
 #: ../viewer.rst:408
@@ -1211,7 +1207,7 @@ msgid "Depth of Field"
 msgstr ""
 
 #: ../viewer.rst:413
-msgid "Depth of field effect parameters setup."
+msgid "Setup for depth-of-field effect parameters."
 msgstr "Настройка параметров эффекта глубины резкости камеры."
 
 #: ../viewer.rst:415
@@ -1224,7 +1220,7 @@ msgstr ""
 
 #: ../viewer.rst:420
 msgid ""
-"Color correction parameters setup, including brightness, contrast, "
+"Setup for color correction parameters, including brightness, contrast, "
 "exposure and saturation."
 msgstr ""
 "Настройка параметров цветовой коррекции, включая яркость, контрастность, "
@@ -1259,11 +1255,11 @@ msgstr ""
 #: ../viewer.rst:430
 msgid ""
 "Enables equalizer that shows various parameters (including volume, "
-"frequency, distance, attenuation etc.) of the speakers present in the "
-"scene, and allows user to adjust these parameters by using numerical "
-"keypad. The available parameters and possibilities are described in "
-"greater detail in the :ref:`dedicated section <mixer>` of the :ref:`Audio"
-" chapter <audio>`."
+"frequency, distance, attenuation and others) of the speakers present in "
+"the scene, and allows user to adjust these parameters by using a "
+"numerical keypad. The available parameters and possibilities are "
+"described in greater detail in the :ref:`dedicated section <mixer>` of "
+"the :ref:`Audio chapter <audio>`."
 msgstr ""
 "Включает эквалайзер, демонстрирующий различные параметры (в т.ч. "
 "громкость, частоту, расстояние, затухание) источников звука, "
@@ -1290,8 +1286,8 @@ msgstr ""
 
 #: ../viewer.rst:448
 msgid ""
-"The list of all available stereo rendering modes. As of today, three "
-"types are supported:"
+"A list of all available stereo rendering modes. As of today, three types "
+"are supported:"
 msgstr ""
 "Список доступных режимов рендеринга стереоизображения. На сегодняшний "
 "день доступно три режима:"
@@ -1307,7 +1303,7 @@ msgstr "``ANAGLYPH`` - используется :ref:`анаглифное из�
 #: ../viewer.rst:454
 msgid ""
 "``HMD`` - rendering for :ref:`Head-Mounted Displays <hmd>` is used. This "
-"option is only available is the system has access to a HMD device."
+"option is only available if the system has access to an HMD device."
 msgstr ""
 "``HMD`` - используется рендеринг для :ref:`шлемов виртуальной реальности "
 "<hmd>`. Этот режим доступен только в том случае, если соответствующее "
@@ -1383,14 +1379,14 @@ msgstr "**Выбранный объект и контролируемый объ
 
 #: ../viewer.rst:490
 msgid ""
-"This is located in the left bottom corner. It displays the names of "
-"selected and controlled objects. Object selection can be performed with "
-"the mouse. To control the object directly (normally for physics "
-"debugging) press the ``Q`` key and click on the object. The object "
-"movement is performed with the ``W``, ``A``, ``S``, ``D`` keys. To exit "
-"the control mode press the ``Q`` key and click on an empty space. The "
-"indicator also displays the distance to the selected object in Blender "
-"units (meters equivalent)."
+"This is located in the bottom left corner. It displays the names of "
+"selected and controlled objects. Selecting an object is done with the "
+"mouse. To control the object directly (normally for physics debugging) "
+"press the ``Q`` key and click on the object. The object movement is "
+"performed with the ``W``, ``A``, ``S``, ``D`` keys. To exit the control "
+"mode press the ``Q`` key and click on an empty space. The indicator also "
+"displays the distance to the selected object in Blender units (meters "
+"equivalent)."
 msgstr ""
 "Находится в левом нижнем углу. Выводит название выбранного объекта и "
 "контролируемого объекта. Выбор объекта осуществляется мышью. Для "
@@ -1432,14 +1428,14 @@ msgstr ""
 "памяти."
 
 #: ../viewer.rst:501
-msgid "**Scene load errors indicator**"
+msgid "**Scene load error indicator**"
 msgstr "**Индикатор ошибок при загрузке сцены**"
 
 #: ../viewer.rst:499
 msgid ""
-"Is located under the FPS counter. Shows errors and warnings which "
-"occurred during scene load. Red light means errors, yellow - warnings and"
-" green means that the scene was loaded successfully."
+"Is located under the FPS counter. It shows errors and warnings which "
+"occur during scene load. Red light means errors, yellow - warnings and "
+"green means that the scene was loaded successfully."
 msgstr ""
 "Находится под счетчиком количества кадров. Выводит ошибки и "
 "предупреждения при загрузке сцены. Красный свет означает ошибки, желтый -"
@@ -1509,4 +1505,7 @@ msgstr "просмотрщик"
 
 #~ msgid "**Tools & Debug**"
 #~ msgstr ""
+
+#~ msgid "Bright light effect parameters setup."
+#~ msgstr "Настройка параметров эффекта засветки ярким светом."
 

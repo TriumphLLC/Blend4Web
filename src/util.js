@@ -24,7 +24,6 @@
  */
 b4w.module["__util"] = function(exports, require) {
 
-var m_bounds= require("__boundings");
 var m_mat3  = require("__mat3");
 var m_mat4  = require("__mat4");
 var m_math  = require("__math");
@@ -42,11 +41,13 @@ var PROPER_EULER_ANGLES_LIST = [XYX, YZY, ZXZ, YXY, ZYZ];
 // for internal usage
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
+var _vec3_tmp3 = new Float32Array(3);
 var _vec4_tmp = new Float32Array(4);
 var _vec4_tmp2 = new Float32Array(4);
 var _mat3_tmp = new Float32Array(9);
 var _mat4_tmp = new Float32Array(16);
 var _mat4_tmp2 = new Float32Array(16);
+var _quat_tmp = m_quat.create();
 
 var _hash_buffer_in = new Float64Array(1);
 var _hash_buffer_out = new Uint32Array(_hash_buffer_in.buffer);
@@ -94,6 +95,8 @@ var INV_CUBE_VIEW_MATRS =
      new Float32Array([-1, 0,  0, 0, 0, -1,  0, 0,  0,  0,  1, 0, 0, 0, 0, 1])];
 
 var GAMMA = 2.2;
+
+var ZERO_TBN_QUAT_EPSILON = 0.000001;
 
 exports.VEC3_IDENT = VEC3_IDENT;
 exports.QUAT4_IDENT = QUAT4_IDENT;
@@ -347,25 +350,25 @@ exports.init_rand_r_seed = function(seed_number, dest) {
 }
 
 /**
- * <p>Translate GL euler to GL quat
+ * <p>Translate BLENDER euler to BLENDER quat
  */
 exports.euler_to_quat = function(euler, quat) {
 
     if (!quat)
         quat = new Float32Array(4);
 
-    var c1 = Math.cos(euler[1]/2);
-    var c2 = Math.cos(euler[2]/2);
+    var c1 = Math.cos(euler[2]/2);
+    var c2 = Math.cos(-euler[1]/2);
     var c3 = Math.cos(euler[0]/2);
 
-    var s1 = Math.sin(euler[1]/2);
-    var s2 = Math.sin(euler[2]/2);
+    var s1 = Math.sin(euler[2]/2);
+    var s2 = Math.sin(-euler[1]/2);
     var s3 = Math.sin(euler[0]/2);
 
     // xyz
     quat[0] = c1 * c2 * s3 + s1 * s2 * c3;
-    quat[1] = s1 * c2 * c3 + c1 * s2 * s3;
-    quat[2] = c1 * s2 * c3 - s1 * c2 * s3;
+    quat[1] = s1 * c2 * s3 - c1 * s2 * c3;
+    quat[2] = s1 * c2 * c3 + c1 * s2 * s3;
     // w
     quat[3] = c1 * c2 * c3 - s1 * s2 * s3;
 
@@ -775,11 +778,86 @@ exports.unique_name = function(name_base) {
 exports.create_empty_va_frame = function() {
     var va_frame = {
         "a_position": new Float32Array(0),
-        "a_tangent": new Float32Array(0),
-        "a_normal": new Float32Array(0)
+        "a_tbn_quat": new Float32Array(0)
     }
 
     return va_frame;
+}
+
+exports.gen_tbn_quats = function(normals, tangents, dest) {
+    var tangents = tangents || create_non_smi_array();
+    var use_tangent = tangents.length;
+    var count = normals.length / 3;
+    var dest = dest || new Float32Array(4 * count);
+
+    for (var i = 0; i < count; ++i) {
+        var norm = _vec3_tmp;
+        norm[0] = normals[3 * i];
+        norm[1] = normals[3 * i + 1];
+        norm[2] = normals[3 * i + 2];
+
+        var tan;
+        if (use_tangent) {
+            tan = _vec4_tmp2;
+            tan[0] = tangents[4 * i];
+            tan[1] = tangents[4 * i + 1];
+            tan[2] = tangents[4 * i + 2];
+            tan[3] = tangents[4 * i + 3];
+        } else
+            // tangents === []
+            tan = tangents;
+        get_tbn_quat(norm, tan, dest.subarray(4 * i, 4 * (i + 1)));
+    }
+    return dest;
+}
+
+exports.get_tbn_quat = get_tbn_quat;
+function get_tbn_quat(normal, tangent, dest) {
+    var use_tangent = tangent.length;
+
+    var norm = _vec3_tmp;
+    norm[0] = normal[0];
+    norm[1] = normal[1];
+    norm[2] = normal[2];
+    m_vec3.normalize(norm, norm);
+
+    if (use_tangent) {
+        var tan = _vec4_tmp2;
+        tan[0] = tangent[0];
+        tan[1] = tangent[1];
+        tan[2] = tangent[2];
+        tan[3] = tangent[3];
+
+        var binorm = m_vec3.cross(tan, norm, _vec3_tmp3);
+        m_vec3.normalize(binorm, binorm);
+        m_vec3.cross(norm, binorm, tan);
+
+        var mat = _mat3_tmp;
+        mat[0] = tan[0];
+        mat[1] = tan[1];
+        mat[2] = tan[2];
+        mat[3] = norm[0];
+        mat[4] = norm[1];
+        mat[5] = norm[2];
+        mat[6] = binorm[0];
+        mat[7] = binorm[1];
+        mat[8] = binorm[2];
+        m_quat.fromMat3(mat, dest);
+
+        // NOTE: fixes +/- issues with zeroes
+        if (dest[3] > 0)
+            dest[3] += ZERO_TBN_QUAT_EPSILON;
+        else
+            dest[3] -= ZERO_TBN_QUAT_EPSILON;
+
+        // save handedness
+        if (dest[3] > 0 && tan[3] < 0 || dest[3] < 0 && tan[3] > 0)
+            m_quat.scale(dest, -1, dest);
+        m_quat.normalize(dest, dest);
+    } else
+        m_quat.rotationTo(AXIS_Y, norm, dest);
+
+    return dest;
 }
 
 exports.create_empty_submesh = function(name) {
@@ -1172,32 +1250,28 @@ exports.vectors_multiply_matrix = function(vectors, matrix, new_vectors,
     return new_vectors;
 }
 
-/**
- * Translate 4 comp tangent vectors by matrix.
- * Optimized function, uses preallocated arrays (Array or Float32Array).
- * Works only for uniform-scaled matrices.
- * optional destination offset in values (not vectors, not bytes)
- */
-exports.tangents_multiply_matrix = function(vectors, matrix, new_vectors,
+exports.tbn_quats_multiply_quat = function(vectors, quat, new_vectors,
         dest_offset) {
-
-    if (!dest_offset)
-        var dest_offset = 0;
+    var dest_offset = dest_offset || 0;
 
     var len = vectors.length;
-
+    var new_quat = _quat_tmp;
     for (var i = 0; i < len; i+=4) {
-        var x = vectors[i];
-        var y = vectors[i+1];
-        var z = vectors[i+2];
 
-        // ignore matrix translation part
-        new_vectors[dest_offset + i] = matrix[0] * x + matrix[4] * y + matrix[8] * z;
-        new_vectors[dest_offset + i + 1] = matrix[1] * x + matrix[5] * y + matrix[9] * z;
-        new_vectors[dest_offset + i + 2] = matrix[2] * x + matrix[6] * y + matrix[10] * z;
+        new_quat[0] = vectors[i];
+        new_quat[1] = vectors[i+1];
+        new_quat[2] = vectors[i+2];
+        new_quat[3] = vectors[i+3];
 
-        // just save exact sign
-        new_vectors[dest_offset + i + 3] = vectors[i + 3];
+        var is_righthand = new_quat[3] > 0;
+        m_quat.multiply(quat, new_quat, new_quat);
+        if (is_righthand && new_quat[3] < 0 || !is_righthand && new_quat[3] > 0)
+            m_vec4.scale(new_quat, -1, new_quat);
+
+        new_vectors[dest_offset + i] = new_quat[0];
+        new_vectors[dest_offset + i + 1] = new_quat[1];
+        new_vectors[dest_offset + i + 2] = new_quat[2];
+        new_vectors[dest_offset + i + 3] = new_quat[3];
     }
 
     return new_vectors;
@@ -1402,7 +1476,7 @@ exports.transcale_quat_to_matrix = function(trans, quat, dest) {
 exports.matrix_to_transcale_quat = function(matrix, dest_transcale, dest_quat) {
     exports.matrix_to_trans(matrix, dest_transcale);
     dest_transcale[3] = exports.matrix_to_scale(matrix);
-    exports.matrix_to_quat(matrix, dest_quat);
+    matrix_to_quat(matrix, dest_quat);
 }
 
 /**
@@ -1839,7 +1913,7 @@ exports.cam_quat_to_mesh_quat = function(cam_quat, dest) {
 
     var quat_offset = _vec4_tmp;
     var quat_offset_x = _vec4_tmp2;
-    quat_offset = m_quat.setAxisAngle([0,1,0], Math.PI, m_quat.create());
+    quat_offset = m_quat.setAxisAngle([0,0,1], Math.PI, m_quat.create());
     quat_offset_x = m_quat.setAxisAngle([1,0,0], Math.PI/2, m_quat.create());
 
     m_quat.multiply(quat_offset, quat_offset_x, quat_offset);
@@ -1928,23 +2002,18 @@ exports.correct_cam_quat_up = function(quat, up_only) {
     // convenient to get 3x3 matrix
     var rmat = m_mat3.fromQuat(quat, _mat3_tmp);
 
-    var y_world = _vec3_tmp2;
-    y_world[0] = 0;
-    y_world[1] = 1;
-    y_world[2] = 0;
+    // local camera Z in world space
+    var z_cam_world = _vec3_tmp;
+    z_cam_world[0] = rmat[6];
+    z_cam_world[1] = rmat[7];
+    z_cam_world[2] = rmat[8];
 
-    // local camera Y in world space
-    var y_cam_world = _vec3_tmp;
-    y_cam_world[0] = rmat[3];
-    y_cam_world[1] = rmat[4];
-    y_cam_world[2] = rmat[5];
-
-    var x_cam_world_new = m_vec3.cross(y_world, y_cam_world, y_cam_world);
+    var x_cam_world_new = m_vec3.cross(AXIS_Z, z_cam_world, z_cam_world);
     m_vec3.normalize(x_cam_world_new, x_cam_world_new);
 
-    // Y coord of local camera Z axis in world space
-    var z_cam_world_y = rmat[7];
-    if (!up_only && z_cam_world_y > 0) {
+    // Z coord of local camera MY axis in world space
+    var my_cam_world_z = rmat[4];
+    if (!up_only && my_cam_world_z > 0) {
         x_cam_world_new[0] *= -1;
         x_cam_world_new[1] *= -1;
         x_cam_world_new[2] *= -1;
@@ -2058,14 +2127,14 @@ exports.random_from_array = function(array) {
     return array[pos];
 }
 
-exports.xz_direction = function(a, b, dest) {
+exports.horizontal_direction = function(a, b, dest) {
 
     if (!dest)
         dest = new Float32Array(3);
 
     dest[0] = a[0] - b[0];
-    dest[1] = 0;
-    dest[2] = a[2] - b[2];
+    dest[1] = a[1] - b[1];
+    dest[2] = 0;
     m_vec3.normalize(dest, dest);
 }
 
@@ -2571,7 +2640,8 @@ exports.ellipsoid_axes_to_mat3 = function(axis_x, axis_y, axis_z, dest) {
  * integer values. This method prevents such optimization.
  * @returns {Array} New empty Array
  */
-exports.create_non_smi_array = function() {
+exports.create_non_smi_array = create_non_smi_array;
+function create_non_smi_array() {
     var arr = [{}];
     arr.length = 0;
     return arr;

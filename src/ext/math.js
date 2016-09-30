@@ -94,7 +94,7 @@ exports.get_pline_directional_vec = m_math.get_pline_directional_vec;
 exports.get_pline_initial_point = m_math.get_pline_initial_point;
 /**
  * Set the parametric line initial point.
- * @method module:math.set_pline_point
+ * @method module:math.set_pline_initial_point
  * @param {ParametricLine} pline Parametric line.
  * @param {Vec3} vec3 Point.
  */

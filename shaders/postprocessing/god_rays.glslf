@@ -1,16 +1,20 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var PRECISION lowp
-#var STEPS_PER_PASS 0.0
+#var PRECISION highp
+
+#var DEPTH_RGBA 0
+#var WATER_EFFECTS 0
+#var STEPS_PER_PASS 10.0
 
 /*============================================================================*/
 
 precision PRECISION sampler2D;
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <depth_fetch.glslf>
 #include <procedural.glslf>
 #include <pack.glslf>

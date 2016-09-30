@@ -8,7 +8,7 @@
 
 * 网格
 
-  * Static and Dynamic Meshes
+  * 静态和动态物体
 
   * 设置
 
@@ -29,15 +29,14 @@ This chapter provides an overview of the "MESH" type object parameters
 and settings, as well as the API functions to work with them.
 
 
-Static and Dynamic Meshes
-=========================
+静态和动态物体
+==============
 
-All "MESH" objects can be divided into static and dynamic.
+所有``MESH`` 物体可分为静态和动态物体。
 
-**Static meshes** are meshes that can be merged together if they have
-the same material.
+**静态物体** 是物体，具有相同的材质的网格可以合并在一起。
 
-**Dynamic meshes** are meshes that cannot be combined with each other.
+**动态物体** 是物体，网格不可以互相合并。
 
 Merging of static meshes - so called batching - is performed
 automatically when the scene is loaded in order to optimize the number
@@ -45,8 +44,7 @@ of draw calls. The conversion is performed even if there is just one
 object in the scene. The center of the resulting mesh is located in
 the origin.
 
-Meshes that have animation, physics or a parent, which is a dynamic
-object, are considered dynamic.
+具有动画，物理或父级关系的物体，是一个动态物体，都被认为是动态的。
 
 
 设置

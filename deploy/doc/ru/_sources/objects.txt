@@ -38,8 +38,6 @@
 
     * Пример работы с кватернионами
 
-  * Отличия систем координат Blender'а и Blend4Web
-
   * Перемещение с помощью векторов TSR
 
 Объекты служат целям размещения компонентов различного типа (мешей,
@@ -252,6 +250,11 @@
    При включении объект будет отражаться, при этом сам будет
    оставаться невидимым. Становится доступным после включения
    "Reflections > Reflexible".
+
+   Примечание: Если опция "Reflexible Only" включена одновременно с
+     "Shadows > Cast Only", движок не будет отображать сам объект, но
+     будет рассчитывать отражение объекта и тень от него, как показано
+     на изображении ниже.[рисунок]
 
 *Reflections > Reflective*
    При включении объект будет отражать своей поверхностью другие
@@ -728,11 +731,6 @@ Properties > Dynamic Geometry.
 
 Осуществим поворот:
 
-   * Расположение координатных осей в Blender'е и в движке
-     различается, и при экспорте произойдет преобразование: [X Y Z]
-     (Blender) -> [X -Z Y] (движок). Поэтому поворот нужно
-     осуществлять относительно оси Y, а не Z.
-
    * Повороту вправо соответствует поворот по часовой стрелке, т.е.
      в отрицательном направлении.
 
@@ -741,13 +739,13 @@ Properties > Dynamic Geometry.
 В итоге получаем:
 
    // compose quaternion
-   var quat_60_Y_neg = m_quat.setAxisAngle([0, 1, 0], -Math.PI/3, m_quat.create());
+   var quat_60_Z_neg = m_quat.setAxisAngle([0, 0, 1], -Math.PI/3, m_quat.create());
 
    // get old rotation
    var quat_old = m_transform.get_rotation(aircraft);
 
-   // left multiply: quat60_Y_neg * quat_old
-   var quat_new = m_quat.multiply(quat_60_Y_neg, quat_old, m_quat.create());
+   // left multiply: quat60_Z_neg * quat_old
+   var quat_new = m_quat.multiply(quat_60_Z_neg, quat_old, m_quat.create());
 
    // set new rotation
    m_transform.set_rotation_v(aircraft, quat_new);
@@ -755,33 +753,15 @@ Properties > Dynamic Geometry.
 Оптимизированный вариант, не приводящий к созданию новых объектов:
 
    // cache arrays as global vars
-   var AXIS_Y = new Float32Array([0, 1, 0])
+   var AXIS_Z = new Float32Array([0, 0, 1])
    var quat_tmp = new Float32Array(4);
    var quat_tmp2 = new Float32Array(4);
    ...
    // rotate
-   m_quat.setAxisAngle(AXIS_Y, -Math.PI/3, quat_tmp);
+   m_quat.setAxisAngle(AXIS_Z, -Math.PI/3, quat_tmp);
    m_transform.get_rotation(aircraft, quat_tmp2);
    m_quat.multiply(quat_tmp, quat_tmp2, quat_tmp);
    m_transform.set_rotation_v(aircraft, quat_tmp);
-
-
-Отличия систем координат Blender'а и Blend4Web
-==============================================
-
-В системе координат Blender'а вектор "UP", указывающий направление
-вверх, сонаправлен с осью Z. В движке Blend4Web, так же как и вообще в
-OpenGL, это направление совпадает с направлением оси Y. Таким образом
-система координат движка оказывается повернутой относительно системы
-координат Blender'а на 90 градусов вокруг оси X.
-
-[рисунок]
-
-
-
-Методы API используют именно систему координат движка, поэтому работа
-с API может отличаться от работы с настройками непосредственно в
-Blender'е.
 
 
 Перемещение с помощью векторов TSR

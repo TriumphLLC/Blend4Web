@@ -239,7 +239,7 @@ function attack_target(golem_wrapper, target, elapsed) {
 
     m_trans.get_translation(golem_empty, trans);
     m_trans.get_translation(target, targ_trans);
-    targ_trans[1] = trans[1];
+    targ_trans[2] = trans[2];
     golem_wrapper.dest_pos.set(targ_trans);
 
     var dist_to_targ = m_vec3.distance(trans, targ_trans);
@@ -263,7 +263,7 @@ function perform_attack(golem_wrapper) {
 
     m_trans.get_translation(golem_empty, trans);
     m_vec3.scaleAndAdd(trans, cur_dir, m_conf.GOLEM_ATTACK_DIST, at_pt);
-    at_pt[1] += 0.3; // raise attack point a bit
+    at_pt[2] += 0.3; // raise attack point a bit
 
     if (m_sfx.is_play(golem_wrapper.walk_speaker))
         m_sfx.stop(golem_wrapper.walk_speaker);
@@ -310,7 +310,7 @@ function golem_set_random_destination(golem_wrapper, trans) {
             var point_name = m_conf.GOLEM_PATROL_POINTS[new_pind];
             var point_obj  = m_scs.get_object_by_name(point_name);
             m_trans.get_translation(point_obj, dest_pos);
-            dest_pos[1] = trans[1];
+            dest_pos[2] = trans[2];
             golem_wrapper.dest_point = i;
             return;
         }
@@ -331,7 +331,7 @@ function rotate_to_dest(golem_wrapper, elapsed) {
 
     m_trans.get_translation(golem_empty, trans);
     m_trans.get_rotation(golem_empty, cur_rot_q);
-    m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
+    m_vec3.transformQuat(m_util.AXIS_MY, cur_rot_q, cur_dir);
 
     m_vec3.subtract(dest_pos, trans, dir_to_dest);
     m_vec3.normalize(dir_to_dest, dir_to_dest);
@@ -363,7 +363,7 @@ function translate(golem_wrapper, elapsed) {
     m_trans.get_rotation(empty, cur_rot_q);
     m_trans.get_translation(empty, trans);
 
-    m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
+    m_vec3.transformQuat(m_util.AXIS_MY, cur_rot_q, cur_dir);
     m_vec3.scaleAndAdd(trans, cur_dir, m_conf.GOLEM_SPEED * elapsed, trans);
     m_trans.set_translation_v(empty, trans);
 

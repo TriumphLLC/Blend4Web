@@ -20,10 +20,17 @@ var _previous_selected_obj = null;
  * export the method to initialize the app (called at the bottom of this file)
  */
 exports.init = function() {
+    var show_fps = DEBUG;
+
+    var url_params = m_app.get_url_params();
+
+    if (url_params && "show_fps" in url_params)
+        show_fps = true;
+
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
-        show_fps: true,
+        show_fps: show_fps,
         console_verbose: true,
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,

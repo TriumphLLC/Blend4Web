@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Textures &mdash; Blend4Web 16.08 User Manual</title>
+  <title>Textures &mdash; Blend4Web 16.09 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 User Manual" href="index.html"/>
         <link rel="next" title="Particle System. Fluids" href="particles.html"/>
         <link rel="prev" title="Stereo Rendering" href="stereo_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
@@ -154,7 +154,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#special-texture-types">Special Texture Types</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#d-scene">3D scene</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#render-to-texture">Render-To-Texture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#canvas">Canvas</a></li>
 </ul>
 </li>
@@ -367,6 +367,7 @@
 <p>A normal map is used for specifying the distribution of surface normals (perpendiculars) with the purpose of the relief detalization. The information about the normals should be stored in the texture space of coordinates. Normal maps baked in the object space of coordinates are not supported.</p>
 <div class="section" id="id7">
 <h3>Activation<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Set the <code class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Color</span> <span class="pre">Space</span></code> parameter to <code class="docutils literal"><span class="pre">Non-Color</span></code>.</p>
 <p>Enable the <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </div>
 <div class="section" id="id8">
@@ -594,17 +595,20 @@
 <dd>Enable mipmapping for the Canvas texture. Enabled by default.</dd>
 </dl>
 <img alt="_images/canvas_tex.png" class="align-center" src="_images/canvas_tex.png" />
-<div class="section" id="d-scene">
-<span id="render-to-texture-scene"></span><h3>3D scene<a class="headerlink" href="#d-scene" title="Permalink to this headline">¶</a></h3>
-<p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene). This technique is known as <cite>render-to-texture</cite> (RTT) and can be activated by following these steps:</p>
+<div class="section" id="render-to-texture">
+<span id="render-to-texture-scene"></span><h3>Render-To-Texture<a class="headerlink" href="#render-to-texture" title="Permalink to this headline">¶</a></h3>
+<p>An image of a 3D scene rendered in real time also can be used as a texture for an object in another scene (&#8220;main&#8221; scene). This technique is known as <cite>render-to-texture</cite> (RTT) and can be activated by following these steps:</p>
 <ol class="arabic simple">
-<li>Create an additional source scene.</li>
-<li>Rename it for convenience.</li>
-<li>Create a <code class="docutils literal"><span class="pre">World</span></code>.</li>
-<li>Add the objects you need.</li>
-<li>Setup the camera view.</li>
-<li>Create a UV map for the target object in the main scene.</li>
-<li>Set the <code class="docutils literal"><span class="pre">None</span></code> type for a texture of the target object.</li>
+<li>Create an additional scene that will be rendered to the texture.</li>
+<li>For convenience, give this scene a unique name.</li>
+<li>Create a <code class="docutils literal"><span class="pre">World</span></code> setting for this scene.</li>
+<li>Add the objects you need to the scene.</li>
+<li>Add a camera to the scene and set it up.</li>
+<li>Then, switch to the main scene.</li>
+<li>Select the target object and create a UV map for it.</li>
+<li>Create a texture that will act as the rendering target.</li>
+<li>Set the <code class="docutils literal"><span class="pre">None</span></code> type for this texture.</li>
+<li>Set the <code class="docutils literal"><span class="pre">UV</span></code> value for the <code class="docutils literal"><span class="pre">Coordinates</span></code> parameter under the <code class="docutils literal"><span class="pre">Mapping</span></code> tab.</li>
 <li>Select the <code class="docutils literal"><span class="pre">Scene</span></code> type in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> menu.</li>
 <li>Specify the name of the source scene in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></code> field.</li>
 <li>Set the texture size in the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> field (in pixels).</li>
@@ -667,7 +671,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-08-31.
+      Last updated on 2016-09-29.
 
     </p>
   </div>
@@ -723,7 +727,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

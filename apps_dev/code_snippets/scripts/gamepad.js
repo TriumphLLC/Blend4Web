@@ -85,7 +85,7 @@ function create_gmpd_sensors() {
         var ellapsed = m_ctl.get_sensor_value(obj, id, 5);
 
         var troll_quat = m_trans.get_rotation(obj, _quat_tmp);
-        var troll_view_vec = m_vec3.transformQuat(m_util.AXIS_Z, troll_quat, _vec3_tmp);
+        var troll_view_vec = m_vec3.transformQuat(m_util.AXIS_MY, troll_quat, _vec3_tmp);
         m_vec3.scale(troll_view_vec, STEP, troll_view_vec);
 
         var troll_trans = m_trans.get_translation(obj, _vec3_tmp2);
@@ -121,9 +121,9 @@ function create_gmpd_sensors() {
                     || m_ctl.get_sensor_value(obj, id, 2);
             var hor = left_hor_axis > AXIS_THRESHOLD ? left_hor_axis : 0;
             if (left)
-                m_quat.rotateY(troll_quat, ROT_ANGLE * ellapsed, troll_quat);
+                m_quat.rotateZ(troll_quat, ROT_ANGLE * ellapsed, troll_quat);
             if (hor)
-                m_quat.rotateY(troll_quat, -hor * ROT_ANGLE * ellapsed, troll_quat);
+                m_quat.rotateZ(troll_quat, -hor * ROT_ANGLE * ellapsed, troll_quat);
             break;
         case "RIGHT":
             var right = m_ctl.get_sensor_value(obj, id, 0)
@@ -131,9 +131,9 @@ function create_gmpd_sensors() {
                     || m_ctl.get_sensor_value(obj, id, 2);
             var hor = left_hor_axis < -AXIS_THRESHOLD ? left_hor_axis : 0;
             if (right)
-                m_quat.rotateY(troll_quat, -ROT_ANGLE * ellapsed, troll_quat);
+                m_quat.rotateZ(troll_quat, -ROT_ANGLE * ellapsed, troll_quat);
             if (hor)
-                m_quat.rotateY(troll_quat, -hor * ROT_ANGLE * ellapsed, troll_quat);
+                m_quat.rotateZ(troll_quat, -hor * ROT_ANGLE * ellapsed, troll_quat);
             break;
         };
 
@@ -221,7 +221,7 @@ function set_camera_pos() {
 }
 
 function chech_dist_from_middle(point) {
-    return (point[0] * point[0] + point[2] * point[2]) < COLLISION_RAD;
+    return (point[0] * point[0] + point[1] * point[1]) < COLLISION_RAD;
 }
 
 function create_interface() {

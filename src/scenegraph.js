@@ -231,7 +231,7 @@ function process_subscene_links(graph) {
     // disable texture reuse for some scenes
     var FORCE_UNIQUE_TEXTURE_SUBS = [m_subs.MOTION_BLUR, m_subs.SMAA_RESOLVE,
             m_subs.SMAA_NEIGHBORHOOD_BLENDING, m_subs.MAIN_PLANE_REFLECT,
-            m_subs.MAIN_CUBE_REFLECT];
+            m_subs.MAIN_CUBE_REFLECT, m_subs.PERFORMANCE];
 
     var graph_sorted = m_graph.topsort(graph);
     var tex_storage = [];
@@ -402,10 +402,11 @@ function tex_create_for_slink(slink) {
     case "COLOR":
         if (slink.use_renderbuffer) {
             var tex = m_tex.create_texture("COLOR_RB", slink.multisample ?
-                    m_tex.TT_RB_RGBA_MS : m_tex.TT_RB_RGBA);
+                    m_tex.TT_RB_RGBA_MS : m_tex.TT_RB_RGBA, slink.use_comparison);
             m_tex.resize(tex, size_x, size_y);
         } else {
-            var tex = m_tex.create_texture("COLOR", m_tex.TT_RGBA_INT);
+            var tex = m_tex.create_texture("COLOR", m_tex.TT_RGBA_INT,
+                    slink.use_comparison);
             m_tex.resize(tex, size_x, size_y);
             m_tex.set_filters(tex, slink.min_filter, slink.mag_filter);
         }
@@ -413,10 +414,12 @@ function tex_create_for_slink(slink) {
     case "DEPTH":
         if (slink.use_renderbuffer) {
             var tex = m_tex.create_texture("DEPTH_RB", slink.multisample ?
-                    m_tex.TT_RB_DEPTH_MS : m_tex.TT_RB_DEPTH);
+                    m_tex.TT_RB_DEPTH_MS : m_tex.TT_RB_DEPTH,
+                    slink.use_comparison);
             m_tex.resize(tex, size_x, size_y);
         } else {
-            var tex = m_tex.create_texture("DEPTH_TEX", m_tex.TT_DEPTH);
+            var tex = m_tex.create_texture("DEPTH_TEX", m_tex.TT_DEPTH,
+                    slink.use_comparison);
             m_tex.resize(tex, size_x, size_y);
             m_tex.set_filters(tex, slink.min_filter, slink.mag_filter);
         }
@@ -431,7 +434,6 @@ function tex_create_for_slink(slink) {
         m_util.panic("Wrong slink param: " + slink.from);
     }
 }
-
 
 exports.traverse_slinks = traverse_slinks;
 /**
@@ -602,8 +604,14 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
                 // NOTE: we use one lamp with csm or a lot of cast lamps
                 var index = j > 0 ? j : i;
 
-                shadow_links.push(create_slink("DEPTH", "u_shadow_map" + index,
-                            tex_size, 1, 1, false));
+                var depth_slink = create_slink("DEPTH", "u_shadow_map" + index,
+                            tex_size, 1, 1, false);
+                if (cfg_def.webgl2) {
+                    depth_slink.min_filter = m_tex.TF_LINEAR;
+                    depth_slink.mag_filter = m_tex.TF_LINEAR;
+                    depth_slink.use_comparison = true;
+                }
+                shadow_links.push(depth_slink);
 
                 if (m_debug.check_depth_only_issue() || cfg_def.shadows_color_slink_hack) {
                     subs_shadow.slinks_internal.push(create_slink("COLOR",
@@ -680,8 +688,9 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
 
             m_graph.append_node_attr(graph, subs_refl);
 
-            var slink_refl_c = create_slink("COLOR", "u_plane_reflection",
-                                        sc_render.plane_refl_size, 1, 1, true);
+            var slink_refl_c = create_slink("COLOR", "u_plane_reflection", 1,
+                                            sc_render.plane_refl_size,
+                                            sc_render.plane_refl_size, true);
             slink_refl_c.min_filter = m_tex.TF_LINEAR;
             slink_refl_c.mag_filter = m_tex.TF_LINEAR;
 
@@ -693,10 +702,12 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
                                wls_params, null, sc_render.sun_exist);
 
                 m_graph.append_node_attr(graph, subs_refl_blend);
-                var slink_depth_refl = create_slink("DEPTH", "DEPTH",
-                                        sc_render.plane_refl_size, 1, 1, true);
-                var slink_color_refl = create_slink("COLOR", "COLOR",
-                                        sc_render.plane_refl_size, 1, 1, true);
+                var slink_depth_refl = create_slink("DEPTH", "DEPTH", 1,
+                                        sc_render.plane_refl_size,
+                                        sc_render.plane_refl_size, true);
+                var slink_color_refl = create_slink("COLOR", "COLOR", 1,
+                                        sc_render.plane_refl_size,
+                                        sc_render.plane_refl_size, true);
                 slink_color_refl.min_filter = m_tex.TF_NEAREST;
                 slink_color_refl.mag_filter = m_tex.TF_NEAREST;
                 m_graph.append_edge_attr(graph, subs_refl, subs_refl_blend, slink_depth_refl);
@@ -705,8 +716,9 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
                 refl_params.plane_refl_subs_blend.push([subs_refl_blend]);
                 reflect_subscenes.push(subs_refl_blend);
             } else {
-                var slink_refl_d = create_slink("DEPTH", "DEPTH",
-                                         sc_render.plane_refl_size, 1, 1, true);
+                var slink_refl_d = create_slink("DEPTH", "DEPTH", 1,
+                                    sc_render.plane_refl_size,
+                                    sc_render.plane_refl_size, true);
 
                 subs_refl.slinks_internal.push(slink_refl_d);
                 reflect_subscenes.push(subs_refl);
@@ -2198,7 +2210,8 @@ function create_slink(from, to, size, size_mult_x, size_mult_y, update_dim) {
         use_renderbuffer: false,
         min_filter: m_tex.TF_NEAREST,
         mag_filter: m_tex.TF_NEAREST,
-        unique_texture: false
+        unique_texture: false,
+        use_comparison: false
     };
 
     return slink;
@@ -2264,11 +2277,14 @@ exports.create_performance_graph = function() {
 
     var subs_perf = m_subs.create_subs_perf();
     var cam = m_cam.create_camera(m_cam.TYPE_NONE);
-    var size = 1024;
+    var size = 512;
     cam.width = size;
     cam.height = size;
     subs_perf.camera = cam;
     m_graph.append_node_attr(graph, subs_perf);
+
+    subs_perf.slinks_internal.push(create_slink("COLOR",
+            "u_color", size, 1, 1, false));
 
     var subs_sink = m_subs.create_subs_sink();
     m_graph.append_node_attr(graph, subs_sink);

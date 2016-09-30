@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>安装和更新 &mdash; Blend4Web 16.08 用户手册</title>
+  <title>安装和更新 &mdash; Blend4Web 16.09 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 用户手册" href="index.html"/>
         <link rel="next" title="工作流程" href="workflow.html"/>
-        <link rel="prev" title="Engine Features" href="engine_features.html"/> 
+        <link rel="prev" title="引擎功能" href="engine_features.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -84,7 +84,7 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">安装和更新</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">安装顺序</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-blender">安装Blender</a></li>
@@ -96,16 +96,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#updating">更新</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#updating-the-sdk">更新 SDK</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#updating-the-addon">Updating the Addon</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#exporting-and-viewing-scenes">导出和查看场景</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
@@ -188,7 +187,6 @@
 <li><a class="reference internal" href="#updating" id="id7">更新</a><ul>
 <li><a class="reference internal" href="#updating-the-sdk" id="id8">更新 SDK</a></li>
 <li><a class="reference internal" href="#updating-the-addon" id="id9">Updating the Addon</a></li>
-<li><a class="reference internal" href="#exporting-and-viewing-scenes" id="id10">导出和查看场景</a></li>
 </ul>
 </li>
 </ul>
@@ -272,6 +270,12 @@
 <li><p class="first">Open the <code class="docutils literal"><span class="pre">Add-ons</span></code> panel.</p>
 </li>
 <li><p class="first">Disable <code class="docutils literal"><span class="pre">Blend4Web</span></code> Add-on.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">We recommend not to use the <code class="docutils literal"><span class="pre">Remove</span></code> button to disable the Add-on for updating the SDK, as doing so will completely delete the add-on, including its files in the SDK.</p>
+</div>
+</div></blockquote>
 </li>
 <li><p class="first">Unpack the new version of the SDK from the archive.</p>
 <blockquote>
@@ -321,14 +325,6 @@
 </li>
 </ol>
 <p>Everything should be working now.</p>
-</div>
-<div class="section" id="exporting-and-viewing-scenes">
-<span id="getting-started-export-viewer"></span><span id="index-0"></span><h3><a class="toc-backref" href="#id10">导出和查看场景</a><a class="headerlink" href="#exporting-and-viewing-scenes" title="永久链接至标题">¶</a></h3>
-<p>创建的场景可以以 HTML 格式导出。使用 <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> 或者 <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> 菜单选项，然后选择导出文件的路径。场景导出完全描述在 <a class="reference internal" href="addon.html#addon"><span>自己章节</span></a>. 可以用任何支持 WebGL的浏览器打开生成的 HTML 文件。</p>
-<div class="admonition seealso">
-<p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL的浏览器支持</span></a></p>
-</div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -346,7 +342,7 @@
         <a href="workflow.html" class="btn btn-neutral float-right" title="工作流程" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="engine_features.html" class="btn btn-neutral" title="Engine Features" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="engine_features.html" class="btn btn-neutral" title="引擎功能" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -356,7 +352,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-08-31.
+      最后更新于 2016-09-29.
 
     </p>
   </div>
@@ -412,7 +408,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

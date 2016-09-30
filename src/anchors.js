@@ -26,6 +26,7 @@ b4w.module["__anchors"] = function(exports, require) {
 
 var m_batch  = require("__batch");
 var m_cam    = require("__camera");
+var m_cfg    = require("__config");
 var m_cont   = require("__container");
 var m_obj    = require("__objects");
 var m_print  = require("__print");
@@ -34,6 +35,8 @@ var m_scenes = require("__scenes");
 var m_subs   = require("__subscene");
 var m_time   = require("__time");
 var m_tsr    = require("__tsr");
+
+var cfg_def = m_cfg.defaults;
 
 var _anchors      = [];
 var _is_paused    = false;
@@ -244,6 +247,8 @@ function create_annotation(obj, max_width) {
 }
 
 function add_cont_style(elem) {
+    // NOTE: transform-style property needed to prevent shaking of the child 
+    // elements in FF under Linux
     elem.style.cssText +=
         "background-color:   #000;" +
         "border-radius:      20px 20px 20px 0px;" +
@@ -253,7 +258,8 @@ function add_cont_style(elem) {
         "line-height:        15px;"+
         "opacity:            1.0;" +
         "padding:            8px 12px;" +
-        "position:           absolute;";
+        "position:           absolute;" +
+        "transform-style:    preserve-3d;";
 }
 
 function add_inner_style(elem) {
@@ -423,19 +429,16 @@ exports.update = function() {
         switch (anchor.type) {
         case "ANNOTATION":
             // position by left down angle
-            var element = anchor.element;
-
-            element.style.left = Math.floor(x) + "px";
-            element.style.top = Math.floor(y - anchor.annotation_height) + "px";
+            var left = x;
+            var top = y - anchor.annotation_height;
+            transform_anchor_el(anchor, left, top);
             break;
         case "ELEMENT":
             // position by center, no width/height optimization here, may change
-            var element = anchor.element;
-            var bounding_box = element.getBoundingClientRect();
-
-            element.style.cssText +=
-                "left:" + Math.floor(x - bounding_box.width / 2) + "px;" +
-                "top:" + Math.floor(y - bounding_box.height / 2) + "px;";
+            var bounding_box = anchor.element.getBoundingClientRect();
+            var left = x - bounding_box.width / 2;
+            var top = y - bounding_box.height / 2;
+            transform_anchor_el(anchor, left, top);
             break;
         case "GENERIC":
             break;
@@ -446,11 +449,13 @@ exports.update = function() {
         anchor.depth = depth;
 
         if (anchor.move_cb)
-            anchor.move_cb(x, y, anchor.appearance, anchor.obj, element);
+            anchor.move_cb(x, y, anchor.appearance, anchor.obj, anchor.element);
     }
 
     _anchors.sort(sort_anchors_zindex);
 
+    // NOTE: setting z-index can be very slow on iPad in case of many 
+    // overlapping elements
     for (var i = 0; i < _anchors.length; i++) {
         var anchor = _anchors[i];
 
@@ -464,8 +469,29 @@ exports.update = function() {
 
     if (det_vis_cnt > 0) {
         var subs_anchor = m_scenes.get_subs(m_scenes.get_main(), m_subs.ANCHOR_VISIBILITY);
-        var batch_anchor = subs_anchor.draw_data[0].bundles[0].batch;
+        var bundle = subs_anchor.draw_data[0].bundles[0];
+        var batch_anchor = bundle.batch;
         m_batch.update_anchor_visibility_batch(batch_anchor, _anchor_batch_pos);
+        m_subs.append_draw_data(subs_anchor, bundle);
+    }
+}
+
+// subpixel smoothing works in chrome, safari and QQ by now
+function transform_anchor_el(anchor, left, top, depth) {
+    var el = anchor.element;
+
+    if (cfg_def.ie_edge_anchors_floor_hack) {
+        left = Math.floor(left);
+        top = Math.floor(top);
+    }
+
+    if ("transform" in el.style)
+        el.style.transform = "translate3d(" + left + "px, " + top + "px, 0px)";
+    else if ("webkitTransform" in el.style)
+        el.style.webkitTransform = "translate3d(" + left + "px, " + top + "px, 0px)";
+    else {
+        el.style.left = left + "px";
+        el.style.top = top + "px";
     }
 }
 

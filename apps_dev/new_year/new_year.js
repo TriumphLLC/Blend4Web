@@ -57,14 +57,24 @@ var _pl_caption = null;
 
 
 exports.init = function() {
+    var show_fps = DEBUG;
+
+    var url_params = m_app.get_url_params();
+
+    if (url_params && "show_fps" in url_params)
+        show_fps = true;
+
     set_quality_config();
+
     m_app.init({
         canvas_container_id: "canvas3d",
         callback: init_cb,
         pause_invisible: false,
         physics_enabled: false,
+        show_fps: show_fps,
         key_pause_enabled: false,
         assets_dds_available: !DEBUG,
+        assets_pvr_available: !DEBUG,
         assets_min50_available: !DEBUG,
         console_verbose: DEBUG,
         gl_debug: DEBUG

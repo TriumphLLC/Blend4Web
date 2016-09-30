@@ -73,6 +73,10 @@
                 "load_file": "petigors_tale/level_02/pillars_n_supplies.json"
             },
             {
+                "name": "Quest - Scene",
+                "load_file": "petigors_tale/quest/main_scene_quest.json"
+            },
+            {
                 "name": "Floors and Walls",
                 "load_file": "petigors_tale/level_02/floors_n_walls.json"
             },
@@ -512,7 +516,7 @@
                 "load_file": "../tutorials/examples/web_page_integration/flying_letters.json"
             },
             {
-                "name": "Pyatigor's Tale - Level 01",
+                "name": "Pyatigor's Tale Tutorial Level",
                 "load_file": "../tutorials/examples/making_a_game_p7-12/main_scene_level_01.json"
             },
             {

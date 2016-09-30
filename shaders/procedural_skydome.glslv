@@ -1,5 +1,7 @@
 #version GLSL_VERSION
 
+#include <std.glsl>
+
 uniform mat4 u_cube_view_matrix;
 
 /*==============================================================================

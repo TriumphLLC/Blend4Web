@@ -48,7 +48,7 @@ duWater::~duWater()
 }
 
 btScalar duWater::getWaterLevel(btScalar pos_x,
-                                btScalar pos_z,
+                                btScalar pos_my,
                                 int wrapperNum)
 {
 
@@ -69,12 +69,12 @@ btScalar duWater::getWaterLevel(btScalar pos_x,
     noise_coords[0] = dynInfo->dst_noise_scale0 *
                           (pos_x + dynInfo->dst_noise_freq0 * time);
     noise_coords[1] = dynInfo->dst_noise_scale0 * 
-                          (pos_z + dynInfo->dst_noise_freq0 * time);
+                          (pos_my + dynInfo->dst_noise_freq0 * time);
     float noise1 = snoise(noise_coords);
 
     // second component
     noise_coords[0] = dynInfo->dst_noise_scale1 *
-                          (pos_z - dynInfo->dst_noise_freq1 * time);
+                          (pos_my - dynInfo->dst_noise_freq1 * time);
     noise_coords[1] = dynInfo->dst_noise_scale1 * 
                           (pos_x - dynInfo->dst_noise_freq1 * time);
     float noise2 = snoise(noise_coords);
@@ -87,23 +87,23 @@ btScalar duWater::getWaterLevel(btScalar pos_x,
         ////////// SHORE WAVES //////////
         // get coordinates in texture pixels
         double x = (pos_x - wWrapper->shoreMapCenterX) / wWrapper->shoreMapSizeX;
-        double z = (wWrapper->shoreMapCenterZ + pos_z) / wWrapper->shoreMapSizeZ;
+        double my = (wWrapper->shoreMapCenterZ + pos_my) / wWrapper->shoreMapSizeZ;
         x += 0.5f;
-        z += 0.5f;
+        my += 0.5f;
 
         // if position is out of boundings, consider that shore dist = 1
-        if (x > 1.f || x < 0.f || z > 1.f || z < 0.f)
+        if (x > 1.f || x < 0.f || my > 1.f || my < 0.f)
             wave_height = dist_waves;
         else {
             // get coordinates in pixels
             int array_width = wWrapper->shoreMapTexSize;
             x *= array_width - .5f;
-            z *= array_width - .5f;
+            my *= array_width - .5f;
 
             double floor_px;
             double floor_py;
             float fract_px = modf(x, &floor_px);
-            float fract_py = modf(z, &floor_py);
+            float fract_py = modf(my, &floor_py);
 
             int px = static_cast<int>(floor_px);
             int py = static_cast<int>(floor_py);
@@ -128,7 +128,7 @@ btScalar duWater::getWaterLevel(btScalar pos_x,
             float waves_coords[2] = {dynInfo->dir_noise_scale *
                                  (pos_x + dynInfo->dir_noise_freq * time),
                                      dynInfo->dir_noise_scale *
-                                 (pos_z + dynInfo->dir_noise_freq * time)};
+                                 (pos_my + dynInfo->dir_noise_freq * time)};
 
             float dist_fact = sqrt(shore_dist);
 

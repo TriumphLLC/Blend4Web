@@ -1,13 +1,29 @@
-#import u_normal_offset u_v_light_ts u_v_light_r u_v_light_tsr\
-u_p_light_matrix0 u_p_light_matrix1 u_p_light_matrix2 u_p_light_matrix3
-#import v_shadow_coord0 v_shadow_coord1 v_shadow_coord2 v_shadow_coord3
-#import tsr_to_mat4
+#ifndef SHADOW_GLSLV
+#define SHADOW_GLSLV
 
-#export get_shadow_coords
+// #import u_normal_offset u_v_light_ts u_v_light_r u_v_light_tsr\
+// u_p_light_matrix0 u_p_light_matrix1 u_p_light_matrix2 u_p_light_matrix3
+// #import v_shadow_coord0 v_shadow_coord1 v_shadow_coord2 v_shadow_coord3
 
-#var SHADOW_TEX_RES 0.0
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var MAC_OS_SHADOW_HACK 0
+#var SHADOW_TEX_RES 2048.0
+
+#var SHADOW_USAGE NO_SHADOWS
+#var NUM_CAST_LAMPS 0
+#var CSM_SECTION1 0
+#var CSM_SECTION2 0
+#var CSM_SECTION3 0
+
+/*============================================================================*/
+
+#include <std.glsl>
 
 #if SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
+
+#include <math.glslv>
 
 vec4 get_shadow_coords_shifted(mat4 light_proj_matrix, vec4 pos_light_space, mat4 v_light_matrix) {
     // NOTE: shift coords to remove shadow map panning
@@ -84,4 +100,6 @@ void get_shadow_coords(vec3 pos, vec3 nor) {
     v_shadow_coord3 = get_shadow_coords_shifted(u_p_light_matrix3, pos_light, v_light_matrix);
 # endif
 }
+#endif
+
 #endif

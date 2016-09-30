@@ -28,14 +28,15 @@
  * SOFTWARE.
  */
 
-#define SMAA_EDGE_DETECTION 1
-#define SMAA_BLENDING_WEIGHT_CALCULATION 2
-#define SMAA_NEIGHBORHOOD_BLENDING 3
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var SMAA_PASS SMAA_RESOLVE
+#var AA_METHOD AA_METHOD_SMAA_LOW
 
-#define AA_METHOD_SMAA_LOW 1
-#define AA_METHOD_SMAA_MEDIUM 2
-#define AA_METHOD_SMAA_HIGH 3
-#define AA_METHOD_SMAA_ULTRA 4
+/*============================================================================*/
+
+#include <std.glsl>
 
 uniform vec2 u_texel_size;
 

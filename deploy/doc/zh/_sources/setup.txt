@@ -24,8 +24,6 @@
 
     * Updating the Addon
 
-    * 导出和查看场景
-
 
 安装顺序
 ========
@@ -121,6 +119,10 @@ To update the SDK, follow these steps:
 
 5. Disable "Blend4Web" Add-on.
 
+      注解: We recommend not to use the "Remove" button to disable
+        the Add-on for updating the SDK, as doing so will completely
+        delete the add-on, including its files in the SDK.
+
 6. Unpack the new version of the SDK from the archive.
 
       注解: There are two methods to do this.Firstly, you can
@@ -182,16 +184,5 @@ makes sure there won't be any coflicts.
 7. 重新启动Blender。
 
 Everything should be working now.
-
-
-导出和查看场景
---------------
-
-创建的场景可以以 HTML 格式导出。使用 "File > Export > Blend4Web
-(.html)" 或者 "File > Export > Blend4Web (.json)" 菜单选项，然后选择导
-出文件的路径。场景导出完全描述在 自己章节. 可以用任何支持 WebGL的浏览
-器打开生成的 HTML 文件。
-
-参见: WebGL的浏览器支持
 
 

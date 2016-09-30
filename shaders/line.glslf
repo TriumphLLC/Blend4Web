@@ -1,10 +1,16 @@
 #version GLSL_VERSION
 
 /*==============================================================================
+                                    VARS
+==============================================================================*/
+#var ALPHA 0
+
+/*==============================================================================
                                    INCLUDES
 ==============================================================================*/
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 #include <color_util.glslf>
 
 /*==============================================================================
@@ -27,14 +33,13 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
 
 void main() {
 
-	vec3 color = u_diffuse_color.xyz;
-	float alpha = u_diffuse_color.a;
+    vec3 color = u_diffuse_color.xyz;
+    float alpha = u_diffuse_color.a;
 
-	lin_to_srgb(color);
+    lin_to_srgb(color);
 #if ALPHA
     premultiply_alpha(color, alpha);
 #endif
 
-	GLSL_OUT_FRAG_COLOR = vec4(color, alpha);
-
+    GLSL_OUT_FRAG_COLOR = vec4(color, alpha);
 }

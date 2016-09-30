@@ -11,7 +11,7 @@ var m_search   = require("./ast_search.js");
 var GEN_SOURCE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 var _generator_counter = 0;
 
-exports.obfuscate = function(ast_arrays, vardef_ids, main_files) {
+exports.obfuscate = function(files, vardef_ids) {
     var obf_info = {};
 
     var append_name = function(name, can_obfuscate) {
@@ -31,10 +31,9 @@ exports.obfuscate = function(ast_arrays, vardef_ids, main_files) {
         }
     }
 
-    for (var i = 0; i < ast_arrays.length; i++) {
-        var ast_input = ast_arrays[i];
-        m_collect.init_ast(ast_input, vardef_ids, main_files[i].name, 
-                main_files[i].type);
+    for (var i = 0; i < files.length; i++) {
+        m_collect.init_ast(files[i].ast_data, vardef_ids, files[i].name, 
+                files[i].type);
         m_collect.collect();
         m_collect.traverse_collected_data(collect_cb);
     }
@@ -74,20 +73,18 @@ exports.obfuscate = function(ast_arrays, vardef_ids, main_files) {
         }
     }
 
-    for (var i = 0; i < ast_arrays.length; i++) {
-        var ast_input = ast_arrays[i];
-
-        m_collect.init_ast(ast_input, vardef_ids, main_files[i].name, 
-                main_files[i].type);
+    for (var i = 0; i < files.length; i++) {
+        m_collect.init_ast(files[i].ast_data, vardef_ids, files[i].name, 
+                files[i].type);
         m_collect.collect();
         m_collect.traverse_collected_data(obfuscate_cb);
         // must be done after obfuscation
-        update_node_conditions(ast_input);
+        update_node_conditions(files[i].ast_data);
     }
 }
 
 // Update directives from obfuscated or node_*_var_* names
-function update_node_conditions(ast_input) {
+function update_node_conditions(ast_data) {
     // {node_name: {old_name: new_name}}
     var new_old_inout_ids = {};
 
@@ -111,8 +108,8 @@ function update_node_conditions(ast_input) {
     }
     m_collect.traverse_collected_data(cb);
 
-    for (var i in ast_input.node_with_node_condition) {
-        var node_uid = ast_input.node_with_node_condition[i];
+    for (var i in ast_data.node_with_node_condition) {
+        var node_uid = ast_data.node_with_node_condition[i];
         var node = m_search.get_node_by_uid(node_uid);
 
         for (var j in node.before_comments) {

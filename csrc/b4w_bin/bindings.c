@@ -4,6 +4,7 @@
 #include <math.h>
 #include "mikktspace.h"
 #include "weldmesh.h"
+#include "vertex_cache.h"
 
 #include <stdint.h>
 #include "./includes/makesdna/DNA_meshdata_types.h"
@@ -140,6 +141,8 @@ PyMODINIT_FUNC INIT_FUNC_NAME(void)
 #define GRP_ERR 6
 #define COL_ERR 7
 #define SHADE_TNB_ERR 8
+
+ #define VIDEO_CACHE_SIZE 48
 
 
 struct TBNCalcData {
@@ -591,14 +594,14 @@ int get_vertex_normals_list(float *normals, Object *obj)
             if (normal_data->subtype == IDP_FLOAT) {
                 f_norm_vector = (float *)normal_data->data.pointer;
                 normals[3 * i] = f_norm_vector[0];
-                normals[3 * i + 1] = f_norm_vector[2];
-                normals[3 * i + 2] = -f_norm_vector[1];
+                normals[3 * i + 1] = f_norm_vector[1];
+                normals[3 * i + 2] = f_norm_vector[2];
             }
             else {
                 d_norm_vector = (double *)normal_data->data.pointer;
                 normals[3 * i] = (float)d_norm_vector[0];
-                normals[3 * i + 1] = (float)d_norm_vector[2];
-                normals[3 * i + 2] = (float)(-d_norm_vector[1]);
+                normals[3 * i + 1] = (float)d_norm_vector[1];
+                normals[3 * i + 2] = (float)(d_norm_vector[2]);
             }
         }
         return NO_ERROR;
@@ -642,6 +645,8 @@ int get_groups_data(float *groups_data, Mesh *mesh, int groups_num)
             weights_count = def_vertices->totweight;
 
             for (j = 0; j < weights_count; j++) {
+                if (dweight[j].def_nr < 0)
+                    return ERR_WRONG_GROUP_INDICES;
                 index = mesh->totvert * dweight[j].def_nr + i;
 
                 if (dweight[j].def_nr >= groups_num)
@@ -781,8 +786,8 @@ void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh,
                 if (normal_container) {
                     normal = (float *)normal_container->data.pointer;
                     mesh_data->nor[NOR_NUM_COMP * i] = normal[0];
-                    mesh_data->nor[NOR_NUM_COMP * i + 1] = normal[2];
-                    mesh_data->nor[NOR_NUM_COMP * i + 2] = -normal[1];
+                    mesh_data->nor[NOR_NUM_COMP * i + 1] = normal[1];
+                    mesh_data->nor[NOR_NUM_COMP * i + 2] = normal[2];
                 }
             }
             for (block = mesh->key->block.first, j = 0; block; block = block->next, j++) {
@@ -793,8 +798,8 @@ void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh,
                 for (i = 0; i < mesh_data->base_length; i++) {
                     // NOTE: rotate by 90 degrees around X axis
                     mesh_data->pos[cr_cursor + POS_NUM_COMP * i] = pos_data[i * POS_NUM_COMP];
-                    mesh_data->pos[cr_cursor + POS_NUM_COMP * i + 1] = pos_data[i * POS_NUM_COMP + 2];
-                    mesh_data->pos[cr_cursor + POS_NUM_COMP * i + 2] = -pos_data[i * POS_NUM_COMP + 1];
+                    mesh_data->pos[cr_cursor + POS_NUM_COMP * i + 1] = pos_data[i * POS_NUM_COMP + 1];
+                    mesh_data->pos[cr_cursor + POS_NUM_COMP * i + 2] = pos_data[i * POS_NUM_COMP + 2];
                 }
             }
         } else {
@@ -815,8 +820,8 @@ void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh,
         for (i = 0; i < mesh_data->base_length; i++) {
             // NOTE: rotate by 90 degrees around X axis
             mesh_data->pos[3 * i] = vertices[i].co[0];
-            mesh_data->pos[3 * i + 1] = vertices[i].co[2];
-            mesh_data->pos[3 * i + 2] = -vertices[i].co[1];
+            mesh_data->pos[3 * i + 1] = vertices[i].co[1];
+            mesh_data->pos[3 * i + 2] = vertices[i].co[2];
         }
     }
 
@@ -826,8 +831,8 @@ void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh,
             // NOTE: rotate by 90 degrees around X axis
             // NOTE: get normal componenets from "short" type value
             mesh_data->nor[3 * i] = vertices[i].no[0] * (1.0f / 32767.0f);
-            mesh_data->nor[3 * i + 1] = vertices[i].no[2] * (1.0f / 32767.0f);
-            mesh_data->nor[3 * i + 2] = -vertices[i].no[1] * (1.0f / 32767.0f);
+            mesh_data->nor[3 * i + 1] = vertices[i].no[1] * (1.0f / 32767.0f);
+            mesh_data->nor[3 * i + 2] = vertices[i].no[2] * (1.0f / 32767.0f);
         }
     }
 }
@@ -1006,14 +1011,14 @@ float *get_vert_norm(int v, float *vert_tang_buff)
 
 void vec3_add(float *tan_buff_ptr, float tang[3]) {
     tan_buff_ptr[0] += tang[0];
-    tan_buff_ptr[1] += tang[2];
-    tan_buff_ptr[2] += -tang[1];
+    tan_buff_ptr[1] += tang[1];
+    tan_buff_ptr[2] += tang[2];
 }
 
 void vec3_set(float *nor_buff_ptr, short normal[3]) {
     nor_buff_ptr[0] = normal[0] * (1.0f / 32767.0f);
-    nor_buff_ptr[1] = normal[2] * (1.0f / 32767.0f);
-    nor_buff_ptr[2] = -normal[1] * (1.0f / 32767.0f);
+    nor_buff_ptr[1] = normal[1] * (1.0f / 32767.0f);
+    nor_buff_ptr[2] = normal[2] * (1.0f / 32767.0f);
 }
 
 void set_tangent_buff(float *tan_buff, float *tan_ptr, float *nor_ptr, int *index) {
@@ -1349,8 +1354,8 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
                     }
 
                     tri_norm[tri_frame_offset + face_offset + k * 3] = split_normals[i][l][0]* (1.0f / 32767.0f);
-                    tri_norm[tri_frame_offset + face_offset + k * 3 + 1] = split_normals[i][l][2]* (1.0f / 32767.0f);
-                    tri_norm[tri_frame_offset + face_offset + k * 3 + 2] = -split_normals[i][l][1]* (1.0f / 32767.0f);
+                    tri_norm[tri_frame_offset + face_offset + k * 3 + 1] = split_normals[i][l][1]* (1.0f / 32767.0f);
+                    tri_norm[tri_frame_offset + face_offset + k * 3 + 2] = split_normals[i][l][2]* (1.0f / 32767.0f);
 
                 }
                 else {
@@ -1366,8 +1371,8 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
                     calc_face_normal(mface[i], mvert, no);
                     // rotate by 90 degrees around X axis
                     tri_norm[tri_frame_offset + face_offset + k * 3] = no[0];
-                    tri_norm[tri_frame_offset + face_offset + k * 3 + 1] = no[2];
-                    tri_norm[tri_frame_offset + face_offset + k * 3 + 2] = -no[1];
+                    tri_norm[tri_frame_offset + face_offset + k * 3 + 1] = no[1];
+                    tri_norm[tri_frame_offset + face_offset + k * 3 + 2] = no[2];
                     }
                 }
             }
@@ -1751,6 +1756,7 @@ int weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
     float *vdata_in = falloc(fpv * src->vnum);
     float *vdata_out = falloc(fpv * src->vnum);
     int *remap_table = malloc(sizeof(int) * src->vnum);
+    int *newIndexList = NULL;
 
     offset = 0;
     status = va_store(src->pos, vdata_in, src->frames, offset, fpv, src->vnum, POS_NUM_COMP);
@@ -1823,6 +1829,14 @@ int weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
     /* store indices */
     for (i = 0; i < src->vnum; i++)
         dst->indices[i] = remap_table[i];
+
+    newIndexList = malloc(dst->inum * sizeof(int));
+    OptimizeFaces(dst->indices, dst->inum, dst->vnum, newIndexList, VIDEO_CACHE_SIZE);
+
+    for (i = 0; i < dst->inum; i++) {
+        dst->indices[i] = newIndexList[i];
+    }
+    free(newIndexList);
 
     return 0;
 }
@@ -2115,10 +2129,10 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
             v1 = mface[i].v1;
             bdata->max_x = vertices[v1].co[0];
             bdata->min_x = vertices[v1].co[0];
-            bdata->max_y = vertices[v1].co[2];
-            bdata->min_y = vertices[v1].co[2];
-            bdata->max_z = -vertices[v1].co[1];
-            bdata->min_z = -vertices[v1].co[1];
+            bdata->max_y = vertices[v1].co[1];
+            bdata->min_y = vertices[v1].co[1];
+            bdata->max_z = vertices[v1].co[2];
+            bdata->min_z = vertices[v1].co[2];
             break;
         }
 
@@ -2128,12 +2142,12 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
             v1 = mface[i].v1;
             v2 = mface[i].v2;
             v3 = mface[i].v3;
-            find_max_min_bb(bdata, vertices[v1].co[0], vertices[v1].co[2], -vertices[v1].co[1]);
-            find_max_min_bb(bdata, vertices[v2].co[0], vertices[v2].co[2], -vertices[v2].co[1]);
-            find_max_min_bb(bdata, vertices[v3].co[0], vertices[v3].co[2], -vertices[v3].co[1]);
+            find_max_min_bb(bdata, vertices[v1].co[0], vertices[v1].co[1], vertices[v1].co[2]);
+            find_max_min_bb(bdata, vertices[v2].co[0], vertices[v2].co[1], vertices[v2].co[2]);
+            find_max_min_bb(bdata, vertices[v3].co[0], vertices[v3].co[1], vertices[v3].co[2]);
             if (mface[i].v4) {
                 v4 = mface[i].v4;
-                find_max_min_bb(bdata, vertices[v4].co[0], vertices[v4].co[2], -vertices[v4].co[1]);
+                find_max_min_bb(bdata, vertices[v4].co[0], vertices[v4].co[1], vertices[v4].co[2]);
             }
         }
 
@@ -2150,7 +2164,7 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
         bdata->ccen_z = bdata->scen_z;
 
         bdata->srad = MAX(x_width, MAX(y_width, z_width)) / 2.0;;
-        bdata->crad = MAX(x_width, z_width) / 2.0;
+        bdata->crad = MAX(x_width, y_width) / 2.0;
 
         tmp_scen[0] = bdata->scen_x / (x_width? x_width: 1.0);
         tmp_scen[1] = bdata->scen_y / (y_width? y_width: 1.0);
@@ -2179,8 +2193,8 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
                     continue;
 
                 x = vertices[v].co[0];
-                y = vertices[v].co[2];
-                z = -vertices[v].co[1];
+                y = vertices[v].co[1];
+                z = vertices[v].co[2];
 
                 scen_dist = sqrt(pow(bdata->scen_x - x, 2)
                                + pow(bdata->scen_y - y, 2)
@@ -2204,19 +2218,19 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
                 }
 
                 ccen_dist = sqrt(pow(bdata->ccen_x - x, 2)
-                               + pow(bdata->ccen_z - z, 2));
+                               + pow(bdata->ccen_y - y, 2));
 
                 if (ccen_dist > bdata->crad) {
 
                     g[0] = bdata->ccen_x - bdata->crad * (x - bdata->ccen_x)
                                            / ccen_dist;
-                    g[2] = bdata->ccen_z - bdata->crad * (z - bdata->ccen_z)
+                    g[1] = bdata->ccen_y - bdata->crad * (y - bdata->ccen_y)
                                            / ccen_dist;
 
                     bdata->ccen_x = (g[0] + x) / 2.0;
-                    bdata->ccen_z = (g[2] + z) / 2.0;
+                    bdata->ccen_y = (g[1] + y) / 2.0;
                     bdata->crad = sqrt(pow(bdata->ccen_x - x, 2)
-                                     + pow(bdata->ccen_z - z, 2));
+                                     + pow(bdata->ccen_y - y, 2));
                 }
 
                 x /= (x_width? x_width: 1.0);

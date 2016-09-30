@@ -70,10 +70,6 @@ WebGL的浏览器支持
 
 * Safari 8+
 
-
-实验支持
---------
-
 * Internet Explorer 11
 
 * Microsoft Edge
@@ -95,6 +91,9 @@ WebGL的浏览器支持
 * Tizen
 
 * Debian/Ubuntu
+
+For further details see the dedicated section in the Problems and
+Solutions chapter.
 
 
 WebGL的优势
@@ -184,7 +183,7 @@ Blender是一个流行的软件进行3D建模和动画，是自由和开放源�
 
 * 声音处理, 网络音频API
 
-* 二进制数据加载, XMLHttpRequest Level 2
+* binary data loading, XMLHttpRequest Level 2
 
 * 全屏
 
@@ -227,9 +226,10 @@ Blender是一个流行的软件进行3D建模和动画，是自由和开放源�
 交互图形是由现代计算机一个特殊目的的硬件的一部分的所谓图形处理器可实现
 为分立装置（视频卡）或中央处理单元的一部分提供的。
 
-主要图形处理器厂商的台式电脑:  - NVidia (GeForce, Quadro), AMD
-(Radeon), Intel (HD), 嵌入式设备 - ARM (Mali), PowerVR (SGX), Nvidia
-(Tegra), Qualcomm (Adreno) (商标在括号中指定).
+Main graphics processors vendors for desktop computers are:  - Nvidia
+(GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices -
+ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade
+marks are specified in brackets).
 
 程序访问图形处理器资源，​​通过一个名为驱动中间程序进行。这是非常重要的
 交互式图形程序正确的工作有最新版本的系统中的驱动程序。驱动可以从相应的

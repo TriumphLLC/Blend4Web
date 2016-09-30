@@ -15,12 +15,19 @@ export_dir =
 apps = 
 css_ignore = 
 engine_type = webplayer_json
+ignore =
 js_ignore =
 optimization = 
 use_physics = 
 use_smaa_textures = 
 version = 
 
-[export]
+[deploy]
+assets_path_dest =
 assets_path_prefix = 
+ignore =
 override = 
+
+[url_params]
+compressed_textures =
+compressed_textures_pvr =

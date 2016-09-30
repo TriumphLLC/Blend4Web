@@ -174,8 +174,8 @@ This feature can be found in the Scene Viewer.
 
 [图片]
 
-Enabling it shows equalizer interface that contains various parameters
-of the Speakers present in the scene.
+Enabling it shows an equalizer interface that contains various
+parameters of the Speakers present in the scene.
 
 [图片]
 
@@ -186,7 +186,7 @@ The parameters available for sound mixing include:
    Available only for "Positional Sound" type speakers.
 
 *ATTENUATION*
-   This value sets the attenuation factor for the sound emitted by the
+   This value sets the attenuation factor for the sound emitted by a
    selected speaker. Available only for "Positional Sound" type
    speakers.
 
@@ -202,7 +202,7 @@ The parameters available for sound mixing include:
 *EQ_Q*
    The Q factor. This value controls the width of the band of
    frequencies that wiil be boosted. Increasing the value of this
-   parameter makes the width more narrow.
+   parameter reduces the width.
 
 *EQ_GAIN*
    This value controls the boost (measured in dB) that will be applied
@@ -214,7 +214,7 @@ The parameters available for sound mixing include:
 Below this list, a frequency characteristic of a parametric equalizer
 is shown.
 
-The mixer can be controlled using numerical keypad.
+The mixer can be controlled using a numerical keypad.
 
    * Keys "8", "4", "6" and "2" act like arrow keys and are used for
      switching between different speakers and their parameters.

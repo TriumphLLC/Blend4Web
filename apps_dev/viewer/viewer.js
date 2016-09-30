@@ -990,12 +990,12 @@ function change_apply_scene_settings(scene_name, settings) {
                      "nla_playing"];
     var nla_all_params = ["nla_frame_range"];
     if (m_nla.check_nla()) {
-        if (!m_nla.check_nla_scripts())
+        if (!m_nla.check_logic_nodes())
             forbid_params(nla_params, "enable");
         else {
             forbid_params(nla_params, "disable");
             var elem_status = document.getElementById("nla_status");
-            elem_status.innerHTML = "CONTROLLED BY NLA SCRIPT";
+            elem_status.innerHTML = "CONTROLLED BY LOGIC NODES";
         }
         forbid_params(nla_all_params, "enable");
         update_nla_info();
@@ -1044,7 +1044,7 @@ function render_callback(elapsed, current_time) {
     }
     if (m_nla.check_nla()) {
 
-        if (!m_nla.check_nla_scripts()) {
+        if (!m_nla.check_logic_nodes()) {
             var elem_status = document.getElementById("nla_status");
             if (m_nla.is_play())
                 elem_status.innerHTML = "PLAYING";

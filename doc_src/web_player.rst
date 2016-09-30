@@ -71,7 +71,8 @@ The web player's control panel is shown below.
 9) tweet;
 10) share via Facebook;
 11) share via Google+;
-12) share via VK.
+12) share via VK;
+13) share via Weibo.
 
 .. _webplayer_attributes:
 
@@ -93,8 +94,10 @@ Web player accepts attributes from the browser address line:
 4) the optional ``show_fps`` attribute is used to display the FPS counter in the player's top right corner.
 5) optional parameter ``autorotate`` is used to enable automatic camera rotation just after the scene loads.
 6) the ``compressed_textures`` optional parameter is used to enable loading of minified and compressed textures (in DDS format).
-7) optional ``alpha`` parameter is used to enable transparency for the rendering area.
-8) the optional ``no_social`` attribute is used to disable social networks buttons on the control panel.
+7) the ``compressed_textures_pvr`` optional parameter is used to enable loading of textures compressed in PVRTC format. This parameter is used with the ``compressed_textures`` parameter.
+8) optional ``alpha`` parameter is used to enable transparency for the rendering area.
+9) the optional ``no_social`` attribute is used to disable social networks buttons on the control panel.
+10) the optional ``socials`` attribute is used to selectively enable and disable social network buttons on the control panel. This attribute should look like ``socials=<...>``, where ``<...>`` is a set of letters corresponding to the social network buttons you want to enable (``f`` for Facebook, ``v`` for VK, ``t`` for Twitter, ``w`` for Weibo and ``g`` for Google+). The order of letters sets the order in which the buttons will appear on the screen.
 
 .. note::
 

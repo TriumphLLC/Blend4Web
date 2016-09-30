@@ -1,16 +1,37 @@
 #version GLSL_VERSION
 
 /*==============================================================================
-                            VARS FOR THE COMPILER
+                                    VARS
 ==============================================================================*/
-#var AU_QUALIFIER uniform
-#var PRECISION lowp
+#var PRECISION highp
+
+#var USE_INSTANCED_PARTCLS 0
+#var DEBUG_VIEW_SPECIAL_SKYDOME 0
+
+#var DEBUG_SPHERE 0
+#var WIND_BEND 0
+#var DYNAMIC_GRASS 0
+#var BILLBOARD 0
+#var VERTEX_ANIM 0
+#var SKINNED 0
+#var STATIC_BATCH 0
+
+#var AU_QUALIFIER GLSL_IN
+
+#var BEND_CENTER_ONLY 0
+#var FRAMES_BLENDING 0
+#var MAIN_BEND_COL 0
+
 #var MAX_BONES 0
+
+#var DETAIL_BEND 0
+#var BILLBOARD_JITTERED 0
+#var BILLBOARD_PRES_GLOB_ORIENTATION 0
 
 /*==============================================================================
                                   INCLUDES
 ==============================================================================*/
-
+#include <std.glsl>
 #include <math.glslv>
 #include <to_world.glslv>
 
@@ -18,7 +39,7 @@
                                 SHADER INTERFACE
 ==============================================================================*/
 GLSL_IN vec3 a_position;
-GLSL_IN vec3 a_normal;
+GLSL_IN vec4 a_tbn_quat;
 GLSL_IN float a_polyindex;
 
 #if USE_INSTANCED_PARTCLS
@@ -151,22 +172,20 @@ void main() {
     mat3 model_tsr = mat3(a_part_ts[0], a_part_ts[1], a_part_ts[2],
                         a_part_ts[3], a_part_r[0], a_part_r[1],
                         a_part_r[2], a_part_r[3], 1.0);
-# if STATIC_BATCH
-    mat4 model_mat = tsr_to_mat4(model_tsr);
-# else
-    mat4 model_mat = tsr_to_mat4(tsr_multiply(u_model_tsr, model_tsr));
+# if !STATIC_BATCH
+    model_tsr = tsr_multiply(u_model_tsr, model_tsr);
 # endif
 # else
-    mat4 model_mat = tsr_to_mat4(u_model_tsr);
+    mat3 model_tsr = u_model_tsr;
 # endif
-    mat4 view_matrix = tsr_to_mat4(u_view_tsr);
+    mat3 view_tsr = u_view_tsr;
 
     vec3 position = a_position;
-    vec3 normal = a_normal;
+    vec3 normal = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
 
 # if DEBUG_SPHERE
     vertex world = to_world(position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
-            vec3(0.0), model_mat);
+            vec3(0.0), model_tsr);
 # else
 #  if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
@@ -182,7 +201,7 @@ void main() {
     vec3 center = au_center_pos;
 #  elif DYNAMIC_GRASS && USE_INSTANCED_PARTCLS
     vec3 center = a_part_ts.xyz;
-    position = (model_mat * vec4(position, 1.0)).xyz;
+    position = tsr9_transform(model_tsr, position);
 #  else
     vec3 center = vec3(0.0);
 #  endif
@@ -191,37 +210,37 @@ void main() {
     vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
             center, u_grass_map_depth, u_grass_map_color,
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
-            view_matrix);
+            view_tsr);
 #  else
 #   if BILLBOARD
-    vec3 wcen = (model_mat * vec4(center, 1.0)).xyz;
+    vec3 wcen = tsr9_transform(model_tsr, center);
 
 #    if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH || USE_INSTANCED_PARTCLS
-    mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
-            view_matrix, model_mat);
+    model_tsr = billboard_tsr_global(u_camera_eye, wcen,
+            view_tsr, model_tsr);
 #    else
-    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, view_matrix);
+    model_tsr = billboard_tsr(u_camera_eye, wcen, view_tsr);
 #    endif
 
 #    if WIND_BEND && BILLBOARD_JITTERED
-    vec3 vec_seed = (model_mat * vec4(center, 1.0)).xyz;
-    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
-            u_jitter_amp, u_jitter_freq, vec_seed);
+    vec3 vec_seed = wcen;
+    model_tsr = bend_jitter_rotate_tsr(u_wind, u_time,
+            u_jitter_amp, u_jitter_freq, vec_seed, model_tsr);
 #    endif
     vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0),
-            vec3(0.0), vec3(0.0), model_matrix);
+            vec3(0.0), vec3(0.0), model_tsr);
     world.center = wcen;
 #   else
     vertex world = to_world(position, center, vec3(0.0), vec3(0.0), vec3(0.0),
-            vec3(0.0), model_mat);
+            vec3(0.0), model_tsr);
 #   endif
 #  endif
 
 #  if WIND_BEND
-    bend_vertex(world.position, world.center, normal);
+    bend_vertex(world.position, world.center, normal, mat4(0.0));
 #  endif
 # endif // DEBUG_SPHERE
 
-    gl_Position = u_proj_matrix * view_matrix * vec4(world.position, 1.0);
+    gl_Position = u_proj_matrix * vec4(tsr9_transform(view_tsr, world.position), 1.0);
 #endif // DEBUG_VIEW_SPECIAL_SKYDOME
 }

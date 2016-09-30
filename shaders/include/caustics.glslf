@@ -1,16 +1,23 @@
-#import cellular2x2_caust qrot qinv
+#ifndef CAUSTICS_GLSLF
+#define CAUSTICS_GLSLF
 
-#export apply_caustics
-
-#var CAUST_SPEED vec2(0.0)
-#var CAUST_SCALE 0.0
-#var CAUST_BRIGHT 0.0
+/*==============================================================================
+                                    VARS
+==============================================================================*/
 #var SUN_NUM 0
+#var CAUST_SCALE 0.25
+#var CAUST_SPEED vec2(0.0)
+#var CAUST_BRIGHT 0.5
+
+/*============================================================================*/
+
+#include <procedural.glslf>
+#include <math.glslv>
 
 #define CAUSTICS_VIEW_DISTANCE 100.0
 
 //Add caustics to underwater objects
-void apply_caustics (inout vec3 color, float plane_pos,
+void apply_caustics(inout vec3 color, float plane_pos,
                     float time, vec4 shadow_factor, vec3 normal,
                     vec3 sun_direction, vec3 sun_color_intens,
                     vec4 sun_q, vec3 pos_world, float view_dist) {
@@ -59,3 +66,6 @@ void apply_caustics (inout vec3 color, float plane_pos,
 
     color += sun_color_intens * caustics * height_factor * fade;
 }
+
+#endif
+

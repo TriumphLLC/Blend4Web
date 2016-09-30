@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Освещение, тени и фон &mdash; Руководство пользователя Blend4Web 16.08</title>
+  <title>Освещение, тени и фон &mdash; Руководство пользователя Blend4Web 16.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.09" href="index.html"/>
         <link rel="next" title="Спецэффекты" href="postprocessing_effects.html"/>
         <link rel="prev" title="Редактор логики" href="logic_editor.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -267,7 +267,7 @@
 <dd><p class="first last">Тип затухания. Значение экспортируется, но в движке всегда используется <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code> (обратный квадратичный). Применяется для источников света типа <code class="docutils literal"><span class="pre">Point</span></code> и <code class="docutils literal"><span class="pre">Spot</span></code>. Значение по умолчанию <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>.</p>
 </dd>
 <dt><em>Distance</em></dt>
-<dd><p class="first last">Параметр затухания. Применяется для источников света типа <code class="docutils literal"><span class="pre">Point</span></code> и <code class="docutils literal"><span class="pre">Spot</span></code>. Значение по умолчанию 25.0.</p>
+<dd><p class="first last">Параметр затухания. Применяется для источников света типа <code class="docutils literal"><span class="pre">Point</span></code> и <code class="docutils literal"><span class="pre">Spot</span></code>. Значение по умолчанию 30.0.</p>
 </dd>
 <dt><em>Specular</em></dt>
 <dd><p class="first last">Создание отблеска на объектах. По умолчанию включено.</p>
@@ -385,8 +385,17 @@
 <p>Во вкладке <code class="docutils literal"><span class="pre">Render</span></code> на панели <code class="docutils literal"><span class="pre">Shadows</span></code> находятся дополнительные настройки:</p>
 <a class="reference internal image-reference" href="_images/lighting_shadow_settings.png"><img alt="_images/lighting_shadow_settings.png" class="align-center" src="_images/lighting_shadow_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
+<dt><em>Render Shadows</em></dt>
+<dd><p class="first last">Включает и выключает рендеринг теней. Возможные значения: <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+</dd>
+<dt><em>Soft Shadows</em></dt>
+<dd><p class="first last">Включает размытие карт теней. По умолчанию включено.</p>
+</dd>
 <dt><em>Resolution</em></dt>
-<dd><p class="first last">Разрешение используемой карты теней. Значение по умолчанию: 2048x2048px.</p>
+<dd><p class="first last">Разрешение используемой карты теней. Значение по умолчанию: 2048 x 2048px.</p>
+</dd>
+<dt><em>Blur Samples</em></dt>
+<dd><p class="first last">Количество сэмплов, используемых для размытия карты теней. Возможные значения - 4x, 8x и 16x (значение по умолчанию).</p>
 </dd>
 <dt><em>Self-Shadow Polygon Offset</em></dt>
 <dd><p class="first last">Коэффициент смещения полигона в зависимости от ориентации к источнику света. Значение по умолчанию: 1.</p>
@@ -562,7 +571,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-08-31.
+      Обновлено: 2016-09-29.
 
     </p>
   </div>
@@ -618,7 +627,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

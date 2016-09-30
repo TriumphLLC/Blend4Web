@@ -4,18 +4,19 @@
 # Руководство пользователя package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.03.28\n"
+"Project-Id-Version: Blend4Web. Руководство пользователя v15.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-21 18:43+0300\n"
-"PO-Revision-Date: 2015-08-25 11:11+0300\n"
+"POT-Creation-Date: 2015-12-28 17:48+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../nla.rst:5
 msgid "Нелинейная анимация"
@@ -110,112 +111,4 @@ msgid ""
 "При использовании :ref:`Logic Editor <logic_editor>` функции "
 "``set_frame``, ``play``, ``stop`` недоступны."
 msgstr ""
-
-#~ msgid "Non-Linear Animation"
-#~ msgstr "Нелинейная анимация"
-
-#~ msgid "NLA Editor"
-#~ msgstr "Редактор NLA"
-
-#~ msgid ""
-#~ "The Blender's non-linear editor lets "
-#~ "us set the scene's behavior in a"
-#~ " comfortable way. With its help we"
-#~ " can implement simple scenarios. This "
-#~ "way coding is not needed for "
-#~ "simple scenes and applications."
-#~ msgstr ""
-#~ "Редактор нелинейной анимации, имеющийся в "
-#~ "программе Blender, позволяет в удобной "
-#~ "форме задавать поведение сцены. С его"
-#~ " помощью можно реализовать несложные "
-#~ "сценарии. Таким образом исключается "
-#~ "необходимость программирования простых сцен и"
-#~ " приложений."
-
-#~ msgid "The engine supports controlling the following entities:"
-#~ msgstr "Движком поддерживается управление следующими сущностями:"
-
-#~ msgid "Any animation the parameters of which can be presented with Actions"
-#~ msgstr ""
-#~ "Любая анимация, параметры которой могут "
-#~ "быть представлены с помощью `действий` "
-#~ "(Action)"
-
-#~ msgid "Audio playback"
-#~ msgstr "Воспроизведение звуков"
-
-#~ msgid ""
-#~ "Particles emission (in the form of "
-#~ "a connection with the global timeline)"
-#~ msgstr "Эмиссия частиц (в виде привязки к глобальной шкале времени)"
-
-#~ msgid "Usage"
-#~ msgstr "Использование"
-
-#~ msgid "Activate the ``NLA`` panel under the ``Scene`` tab."
-#~ msgstr "Во вкладке ``Scene`` активировать панель ``NLA``."
-
-#~ msgid "In the ``NLA Editor`` set up the required behavior for the scene."
-#~ msgstr ""
-#~ "В редакторе ``NLA Editor`` задать "
-#~ "необходимую конфигурацию поведения сцены."
-
-#~ msgid "Choose the animation time interval on the ``Timeline`` panel."
-#~ msgstr "На панели ``Timeline`` выбрать интервал времени анимации."
-
-#~ msgid "Additional settings"
-#~ msgstr "Дополнительные настройки"
-
-#~ msgid ""
-#~ "The *NLA > Cyclic NLA* scene "
-#~ "setting activates the cyclic NLA "
-#~ "animation mode."
-#~ msgstr ""
-#~ "Настройка сцены *NLA > Cyclic NLA* "
-#~ "позволяет активировать режим циклической "
-#~ "NLA-анимации."
-
-#~ msgid ""
-#~ "In order to use vertex animation, "
-#~ "enable  \"Allow NLA\" option on the "
-#~ ":ref:`vertex animation panel <ver_anim>`."
-#~ msgstr ""
-#~ "Для использования вертексной анимации "
-#~ "необходимо выставить опцию \"Allow NLA\" "
-#~ "на :ref:`панели запекания вертексной анимации"
-#~ " <ver_anim>`."
-
-#~ msgid "Limitations"
-#~ msgstr "Ограничения"
-
-#~ msgid ""
-#~ "A simultanious playback of differnet "
-#~ "types of animation for the same "
-#~ "object is not supported. "
-#~ msgstr ""
-#~ "Одновременное проигрывание различных видов "
-#~ "анимации для одного объекта не "
-#~ "поддерживается."
-
-#~ msgid "Controlling via API"
-#~ msgstr "Управление через API"
-
-#~ msgid ""
-#~ "Non-linear animation playback can be "
-#~ "controlled via API methods of the "
-#~ "``nla.js`` module."
-#~ msgstr ""
-#~ "Для управления нелинейной анимацией через "
-#~ "API существует модуль ``nla.js``."
-
-#~ msgid ""
-#~ "Please note, that if the :ref:`Logic "
-#~ "Editor <logic_editor>` is used, the "
-#~ "``set_frame``, ``play``, ``stop`` methods are"
-#~ " not available."
-#~ msgstr ""
-#~ "При использовании :ref:`Logic Editor "
-#~ "<logic_editor>` функции ``set_frame``, ``play``, "
-#~ "``stop`` недоступны."
 

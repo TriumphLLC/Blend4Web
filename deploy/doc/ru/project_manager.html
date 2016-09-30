@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 16.08</title>
+  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 16.09</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.08" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.09" href="index.html"/>
         <link rel="next" title="Просмотрщик сцен" href="viewer.html"/>
         <link rel="prev" title="Рабочий процесс" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -88,22 +88,40 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Управление проектами</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Управление проектами</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#project-creation-wizard">Мастер создания проектов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#creating-a-web-player-application">Создание приложений для Веб-плеера</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#project-settings">Настройки проекта</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#deploying-the-project">Размещение проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-manager">Управление проектами</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#project-creation-wizard">Мастер создания проектов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-web-player-application">Создание приложений для Веб-плеера</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#project-settings">Настройки проекта</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deploying-the-project">Размещение проекта</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#project-information">Информация о проекте</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#commands">Команды</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#project-parameters">Параметры проекта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-information">Информация о проекте</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#commands">Команды</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#project-parameters">Параметры проекта</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#project-import">Импорт проектов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#project-export">Экспорт проектов</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Команды</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Параметры проекта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-import">Импорт проектов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-export">Экспорт проектов</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Команды</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Параметры проекта</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-project-management">Расширенное управление проектами</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies">Зависимости</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#projects-list">Список проектов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-structure">Структура проекта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#b4w-project-configuration-file">Конфигурационный файл <code class="docutils literal"><span class="pre">.b4w_project</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-project">Создание проекта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#developing-multiple-apps-inside-a-project">Разработка нескольких приложений в составе проекта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-projects">Сборка проекта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automatic-re-export">Автоматический экспорт ресурсов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resource-conversion">Конвертация ресурсов</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploying-projects">Развертывание проекта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#remove-project">Удаление проекта</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#upgrading-apps-for-new-sdk-versions">Обновление приложений на новые версии SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#path-to-loaded-application-assets">Пути к загружаемым ресурсам приложения</a></li>
 </ul>
 </li>
 </ul>
@@ -177,28 +195,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="project-manager">
-<span id="project-management"></span><h1><a class="toc-backref" href="#id4">Управление проектами</a><a class="headerlink" href="#project-manager" title="Ссылка на этот заголовок">¶</a></h1>
+  <div class="section" id="project-management">
+<span id="id1"></span><h1><a class="toc-backref" href="#id6">Управление проектами</a><a class="headerlink" href="#project-management" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#project-manager" id="id4">Управление проектами</a><ul>
-<li><a class="reference internal" href="#id1" id="id5">Управление проектами</a></li>
-<li><a class="reference internal" href="#project-creation-wizard" id="id6">Мастер создания проектов</a></li>
-<li><a class="reference internal" href="#creating-a-web-player-application" id="id7">Создание приложений для Веб-плеера</a><ul>
-<li><a class="reference internal" href="#project-settings" id="id8">Настройки проекта</a></li>
-<li><a class="reference internal" href="#deploying-the-project" id="id9">Размещение проекта</a></li>
+<li><a class="reference internal" href="#project-management" id="id6">Управление проектами</a><ul>
+<li><a class="reference internal" href="#project-manager" id="id7">Управление проектами</a><ul>
+<li><a class="reference internal" href="#project-creation-wizard" id="id8">Мастер создания проектов</a></li>
+<li><a class="reference internal" href="#creating-a-web-player-application" id="id9">Создание приложений для Веб-плеера</a></li>
+<li><a class="reference internal" href="#project-information" id="id10">Информация о проекте</a></li>
+<li><a class="reference internal" href="#project-import" id="id11">Импорт проектов</a></li>
+<li><a class="reference internal" href="#project-export" id="id12">Экспорт проектов</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#project-information" id="id10">Информация о проекте</a><ul>
-<li><a class="reference internal" href="#commands" id="id11">Команды</a></li>
-<li><a class="reference internal" href="#project-parameters" id="id12">Параметры проекта</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#project-import" id="id13">Импорт проектов</a></li>
-<li><a class="reference internal" href="#project-export" id="id14">Экспорт проектов</a><ul>
-<li><a class="reference internal" href="#id2" id="id15">Команды</a></li>
-<li><a class="reference internal" href="#id3" id="id16">Параметры проекта</a></li>
+<li><a class="reference internal" href="#advanced-project-management" id="id13">Расширенное управление проектами</a><ul>
+<li><a class="reference internal" href="#dependencies" id="id14">Зависимости</a></li>
+<li><a class="reference internal" href="#projects-list" id="id15">Список проектов</a></li>
+<li><a class="reference internal" href="#project-structure" id="id16">Структура проекта</a></li>
+<li><a class="reference internal" href="#b4w-project-configuration-file" id="id17">Конфигурационный файл <code class="docutils literal"><span class="pre">.b4w_project</span></code></a></li>
+<li><a class="reference internal" href="#creating-a-project" id="id18">Создание проекта</a></li>
+<li><a class="reference internal" href="#developing-multiple-apps-inside-a-project" id="id19">Разработка нескольких приложений в составе проекта</a></li>
+<li><a class="reference internal" href="#building-projects" id="id20">Сборка проекта</a></li>
+<li><a class="reference internal" href="#automatic-re-export" id="id21">Автоматический экспорт ресурсов</a></li>
+<li><a class="reference internal" href="#resource-conversion" id="id22">Конвертация ресурсов</a></li>
+<li><a class="reference internal" href="#deploying-projects" id="id23">Развертывание проекта</a></li>
+<li><a class="reference internal" href="#remove-project" id="id24">Удаление проекта</a></li>
+<li><a class="reference internal" href="#upgrading-apps-for-new-sdk-versions" id="id25">Обновление приложений на новые версии SDK</a></li>
+<li><a class="reference internal" href="#path-to-loaded-application-assets" id="id26">Пути к загружаемым ресурсам приложения</a></li>
 </ul>
 </li>
 </ul>
@@ -224,8 +248,8 @@
 </li>
 </ul>
 </div></blockquote>
-<div class="section" id="id1">
-<h2><a class="toc-backref" href="#id5">Управление проектами</a><a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="project-manager">
+<span id="id2"></span><h2><a class="toc-backref" href="#id7">Управление проектами</a><a class="headerlink" href="#project-manager" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Приложение <em>Project Manager</em> доступно из раздела <em>Tools</em> главной страницы SDK. При запуске приложение выводит список из всех проектов, находящихся в установленном SDK.</p>
 <p>Команды для управления проектами находятся в верхней части страницы.</p>
 <blockquote>
@@ -268,21 +292,24 @@
 </li>
 </ol>
 <blockquote>
-<div><p>Module <cite>module_name</cite> is missing from the <cite>project_name</cite> project, please append it to the project&#8217;s html files.</p>
+<div><p><cite>Module `module_name` is missing in the `project_name.html` project, please include it or run `Update Modules`.</cite></p>
 </div></blockquote>
 <img alt="_images/project_manager_check_modules_missing.png" class="align-center" src="_images/project_manager_check_modules_missing.png" />
+<p>Отсутствующие модули могут быть добавлены в проект при помощи кнопки <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Modules</span></code>.</p>
 <ol class="arabic simple" start="2">
 <li><p class="first">Если в проекте присутствует один или несколько модулей API, не используемых в программном коде, выводится следующее сообщение:</p>
 </li>
 </ol>
 <blockquote>
-<div><p>Module <cite>module_name</cite> is no longer required, please remove it from the project&#8217;s HTML files.</p>
+<div><p><cite>Incorrect module `module_name` in the `project_name.html`, please remove it or run `Update Modules`.</cite></p>
 </div></blockquote>
 <img alt="_images/project_manager_check_modules_required.png" class="align-center" src="_images/project_manager_check_modules_required.png" />
+<p>Модули, не используемые в проекте, могут быть удалены из него при помощи кнопки <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Modules</span></code>.</p>
 <ol class="arabic simple" start="3">
 <li><p class="first">В том случае, если никаких проблем не обнаружено, выводится следующее сообщение:</p>
 </li>
 </ol>
+<p><cite>Module check complete. No problems detected in the `module_name.html`.</cite></p>
 <img alt="_images/project_manager_check_modules_complete.png" class="align-center" src="_images/project_manager_check_modules_complete.png" />
 </div></blockquote>
 </li>
@@ -311,9 +338,8 @@
 <dd><p class="first last">Скомпилированное приложение.</p>
 </dd>
 </dl>
-</div>
 <div class="section" id="project-creation-wizard">
-<span id="create-new-project"></span><h2><a class="toc-backref" href="#id6">Мастер создания проектов</a><a class="headerlink" href="#project-creation-wizard" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="create-new-project"></span><h3><a class="toc-backref" href="#id8">Мастер создания проектов</a><a class="headerlink" href="#project-creation-wizard" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Мастер создания новых проектов входит в состав приложения Project Manager и вызывается по ссылке <code class="docutils literal"><span class="pre">[Create</span> <span class="pre">New</span> <span class="pre">Project]</span></code> на главной странице этого приложения.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/project_manager_create_project.png"><img alt="_images/project_manager_create_project.png" class="align-center" src="_images/project_manager_create_project.png" style="width: 100%;" /></a>
@@ -334,7 +360,7 @@
 </li>
 <li><p class="first">Скопировать скрипт менеджера проектов. Скрипт project.py будет скопирован в директорию проекта.</p>
 </li>
-<li><p class="first">Все файлы проекта будут находиться в одной директории. Предпочтительно использовать для маленьких проектов, таких как уроки и примеры. Для данной опции доступен только тип проекта - &#8220;update&#8221;.</p>
+<li><p class="first">Все файлы проекта будут находиться в одной директории. Предпочтительно использовать для маленьких проектов, таких как уроки и примеры. Для данной опции доступны только проекты типа <code class="docutils literal"><span class="pre">Update</span></code>, <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> и <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code>.</p>
 </li>
 <li><p class="first">Тип собираемого проекта. Здесь возможны варианты:</p>
 <blockquote>
@@ -345,7 +371,7 @@
 </li>
 <li><p class="first">&#8220;Compile&#8221; - исходники движка компилируются вместе со скриптами приложения;</p>
 </li>
-<li><p class="first">&#8220;Update&#8221; - заменяется движок в директории проекта;</p>
+<li><p class="first">&#8220;Update&#8221; - заменяется движок в директории проекта. Этот тип доступен только при включении опции <code class="docutils literal"><span class="pre">Bundled</span></code>.</p>
 </li>
 <li><p class="first">&#8220;Web Player JSON&#8221; - json-файл, находящийся в проекте, запускается при помощи веб-плеера в составе SDK;</p>
 </li>
@@ -364,8 +390,10 @@
 </li>
 </ul>
 </li>
+</ol>
+<ol class="arabic simple" id="web-player-params" start="11">
 <li><p class="first">URL-атрибуты Веб-плеера. Эта вкладка доступна только если параметр <code class="docutils literal"><span class="pre">Engine</span> <span class="pre">Binding</span> <span class="pre">Type</span></code> имеет значение <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> или <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code>.</p>
-<ul class="simple">
+<ul>
 <li><p class="first">&#8220;Show FPS&#8221; - включает счётчик кадров в секунду в правом верхнем углу окна веб-плеера.</p>
 </li>
 <li><p class="first">&#8220;Auto-rotate camera&#8221; включает автоматическое вращение камеры сразу после загрузки сцены.</p>
@@ -381,18 +409,18 @@
 </ol>
 </div>
 <div class="section" id="creating-a-web-player-application">
-<h2><a class="toc-backref" href="#id7">Создание приложений для Веб-плеера</a><a class="headerlink" href="#creating-a-web-player-application" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="web-player-app"></span><h3><a class="toc-backref" href="#id9">Создание приложений для Веб-плеера</a><a class="headerlink" href="#creating-a-web-player-application" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Главное преимущество приложений для Веб-плеера - простота размещения подобных приложений на веб-страницах.</p>
 <a class="reference internal image-reference" href="_images/project_manager_create_web_player_project.png"><img alt="_images/project_manager_create_web_player_project.png" class="align-center" src="_images/project_manager_create_web_player_project.png" style="width: 100%;" /></a>
 <p>Создать приложение для Веб-плеера несложно. Для этого достаточно при создании нового проекта выбрать опцию <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> или <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> на вкладке Engine Binding Type.</p>
 <p>Проекты для веб-плеера обладают практически тем же набором параметров, что и проекты других типов. Единственное исключение - группа параметров, известная как Web Player Params.</p>
 <div class="section" id="project-settings">
-<h3><a class="toc-backref" href="#id8">Настройки проекта</a><a class="headerlink" href="#project-settings" title="Ссылка на этот заголовок">¶</a></h3>
+<h4>Настройки проекта<a class="headerlink" href="#project-settings" title="Ссылка на этот заголовок">¶</a></h4>
 <a class="reference internal image-reference" href="_images/project_manager_web_player_parameters.png"><img alt="_images/project_manager_web_player_parameters.png" class="align-center" src="_images/project_manager_web_player_parameters.png" style="width: 100%;" /></a>
 <p>Эта вкладка доступна только в том случае, если включена опция <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> или <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code>. Перечисленные здесь параметры по сути представляют собой URL-атрибуты, которые веб-плеер будет использовать при запуске проекта.</p>
 </div>
 <div class="section" id="deploying-the-project">
-<h3><a class="toc-backref" href="#id9">Размещение проекта</a><a class="headerlink" href="#deploying-the-project" title="Ссылка на этот заголовок">¶</a></h3>
+<h4>Размещение проекта<a class="headerlink" href="#deploying-the-project" title="Ссылка на этот заголовок">¶</a></h4>
 <p>После завершения работы над проектом, выберите опцию <code class="docutils literal"><span class="pre">deploy</span> <span class="pre">project</span></code> на панели <code class="docutils literal"><span class="pre">Operations</span></code>, на главной странице менеджера проектов. После этого проект будет экспортирован, запакован в архив и загружен в папку, которая используется вашим веб-браузером для загрузки файлов.</p>
 <p>Чтобы разместить проект на веб-странице, распакуйте архив и загрузите файлы, находящиеся в нём (<code class="docutils literal"><span class="pre">html</span></code>-файл и директорию <code class="docutils literal"><span class="pre">assets</span></code>) на веб-сервер с помощью FTP, SSH или любого другого протокола, поддерживаемого сервером.</p>
 <div class="admonition note">
@@ -426,13 +454,13 @@
 </div>
 </div>
 <div class="section" id="project-information">
-<span id="project-info"></span><h2><a class="toc-backref" href="#id10">Информация о проекте</a><a class="headerlink" href="#project-information" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="project-info"></span><h3><a class="toc-backref" href="#id10">Информация о проекте</a><a class="headerlink" href="#project-information" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Эта страница содержит информацию о выбранном проекте и доступна по ссылке <code class="docutils literal"><span class="pre">[info]</span></code> рядом с его названием.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/project_manager_info.png"><img alt="_images/project_manager_info.png" class="align-center" src="_images/project_manager_info.png" style="width: 100%;" /></a>
 </div></blockquote>
 <div class="section" id="commands">
-<h3><a class="toc-backref" href="#id11">Команды</a><a class="headerlink" href="#commands" title="Ссылка на этот заголовок">¶</a></h3>
+<h4>Команды<a class="headerlink" href="#commands" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Back to Projects</em></dt>
 <dd><p class="first last">Возвращает на главную страницу менеджера проектов.</p>
@@ -443,7 +471,7 @@
 </dl>
 </div>
 <div class="section" id="project-parameters">
-<h3><a class="toc-backref" href="#id12">Параметры проекта</a><a class="headerlink" href="#project-parameters" title="Ссылка на этот заголовок">¶</a></h3>
+<h4>Параметры проекта<a class="headerlink" href="#project-parameters" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Project Name</em></dt>
 <dd><p class="first last">Имя проекта</p>
@@ -497,18 +525,18 @@
 </div>
 </div>
 <div class="section" id="project-import">
-<span id="import-projects"></span><h2><a class="toc-backref" href="#id13">Импорт проектов</a><a class="headerlink" href="#project-import" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="import-projects"></span><h3><a class="toc-backref" href="#id11">Импорт проектов</a><a class="headerlink" href="#project-import" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Средства импорта проектов вызываются по ссылке <code class="docutils literal"><span class="pre">[Import</span> <span class="pre">Project(s)]</span></code>.</p>
 <p>Нажатие на эту ссылку вызывает стандартный диалог открытия файла, где можно выбрать файл проекта, который требуется импортировать.</p>
 </div>
 <div class="section" id="project-export">
-<span id="export-projects"></span><h2><a class="toc-backref" href="#id14">Экспорт проектов</a><a class="headerlink" href="#project-export" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="export-projects"></span><h3><a class="toc-backref" href="#id12">Экспорт проектов</a><a class="headerlink" href="#project-export" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Окно экспорта проекта вызывается по ссылке <code class="docutils literal"><span class="pre">[Export</span> <span class="pre">Project(s)]</span></code>.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/project_manager_export.png"><img alt="_images/project_manager_export.png" class="align-center" src="_images/project_manager_export.png" style="width: 100%;" /></a>
 </div></blockquote>
-<div class="section" id="id2">
-<h3><a class="toc-backref" href="#id15">Команды</a><a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id3">
+<h4>Команды<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Back to Projects</em></dt>
 <dd><p class="first last">Возвращает на главную страницу менеджера проектов.</p>
@@ -524,8 +552,8 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="id3">
-<h3><a class="toc-backref" href="#id16">Параметры проекта</a><a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id4">
+<h4>Параметры проекта<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Select</em></dt>
 <dd><p class="first last">Демонстрирует, выбран ли проект для экспорта.</p>
@@ -543,6 +571,304 @@
 <dd><p class="first last">Имя архива, в который будут запакованы экспортируемые проекты.</p>
 </dd>
 </dl>
+</div>
+</div>
+</div>
+<div class="section" id="advanced-project-management">
+<span id="id5"></span><h2><a class="toc-backref" href="#id13">Расширенное управление проектами</a><a class="headerlink" href="#advanced-project-management" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Расширенное управление проектами используется опытными разработчикам, которым необходима как большая степень гибкости, так и возвожность автоматизировать все рабочие процессы, связанные с разработкой приложений.</p>
+<p>Для расширенного управления проектами следует использовать скрипт <em>project.py</em> и ручное редактирование конфигурационных файлов <em>.b4w_project</em>.</p>
+<div class="section" id="dependencies">
+<h3><a class="toc-backref" href="#id14">Зависимости</a><a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Система управления проектами работает на всех операционных системах, однако для некоторых операций может потребоваться установка дополнительных зависимостей. Проверить, установлены ли необходимые зависимости, можно с помощью команды:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py check_deps
+</pre></div>
+</div>
+<p>Для пользователей ОС Windows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python project.py check_deps</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="projects-list">
+<h3><a class="toc-backref" href="#id15">Список проектов</a><a class="headerlink" href="#projects-list" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject list
+</pre></div>
+</div>
+<p>Выводит список проектов, находящихся в SDK.</p>
+</div>
+<div class="section" id="project-structure">
+<h3><a class="toc-backref" href="#id16">Структура проекта</a><a class="headerlink" href="#project-structure" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Типовое приложение, разрабатываемая с помощью системы управления проектами имеет вид:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>blend4web/
+    apps_dev/
+        myproject/
+            project.py
+            .b4w_project
+            myproject.js
+            myproject.css
+            myproject_dev.html
+    blender/
+        myproject/
+            myproject.blend
+    deploy/
+        apps/
+            myproject/
+                myproject.js
+                myproject.css
+                myproject.html
+        assets/
+            myproject/
+                myproject.json
+                myproject.bin
+</pre></div>
+</div>
+<p>Как видно, это приложение состоит из 4 различных директорий:</p>
+<ol class="arabic simple">
+<li><p class="first">apps_dev/myproject. Содержит исходные файлы приложений проекта.</p>
+</li>
+<li><p class="first">blender/myproject. Содержит исходные файлы сцен проекта.</p>
+</li>
+<li><p class="first">deploy/assets/myproject. Содержит экспортированные файлы сцен проекта.</p>
+</li>
+<li><p class="first">deploy/apps/myproject. Содержит экспортированные файлы сцен проекта.</p>
+</li>
+</ol>
+<p>Кроме того, операция развёртывания (deploy) может создавать ещё одну директорию, однако она обычно располагается за пределами SDK и её название и расположение зависит от структуры директорий на конечном сервере.</p>
+</div>
+<div class="section" id="b4w-project-configuration-file">
+<h3><a class="toc-backref" href="#id17">Конфигурационный файл <code class="docutils literal"><span class="pre">.b4w_project</span></code></a><a class="headerlink" href="#b4w-project-configuration-file" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Если при запуске скрипта <em>project.py</em> не были заданы параметры проекта, то они берутся из конфигурационного файла.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
+author =
+name =
+title =
+icon =
+
+[paths]
+assets_dirs =
+blend_dirs =
+blender_exec =
+build_dir =
+deploy_dir =
+
+[compile]
+apps =
+css_ignore =
+engine_type = external
+js_ignore =
+optimization = simple
+use_physics =
+use_smaa_textures =
+version =
+
+[deploy]
+assets_path_dest =
+assets_path_prefix =
+remove_exist_ext_dir =
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-a-project">
+<h3><a class="toc-backref" href="#id18">Создание проекта</a><a class="headerlink" href="#creating-a-project" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init myproject
+</pre></div>
+</div>
+<p>Команда создает проект с указанной именем в текущей директории. По умолчанию в директории проекта будет находиться только конфигурационный файл.</p>
+<p>Доступные опции:</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">-A</span> <span class="pre">|</span> <span class="pre">--copy-app-templates</span></code> (необязательная) создает в директории проекта стандартные шаблоны приложения (<em>&lt;имя проекта&gt;_dev.html</em>, <em>&lt;имя проекта&gt;.js</em>, <em>&lt;имя проекта&gt;.css</em>).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-B</span> <span class="pre">|</span> <span class="pre">--bundle</span></code> (необязательная) все файлы проекта будут размещены в одной директории.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-C</span> <span class="pre">|</span> <span class="pre">--author</span></code> (необязательная) записывает в конфигурационный файл имя автора или компании.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-o</span> <span class="pre">|</span> <span class="pre">--optimization</span></code> (необязательная) записывает в конфигурационный файл тип оптимизации скриптов.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-P</span> <span class="pre">|</span> <span class="pre">--copy-project-script</span></code> (необязательная) создает скрипт <em>project.py</em> в директории проекта.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-S</span> <span class="pre">|</span> <span class="pre">--copy-scene-templates</span></code> (необязательная) создает в директориях <code class="docutils literal"><span class="pre">deploy/assets/&lt;имя</span> <span class="pre">проекта&gt;</span></code> и <code class="docutils literal"><span class="pre">blender/&lt;имя</span> <span class="pre">проекта&gt;</span></code> (необязательная) стандартные шаблоны сцены (<em>&lt;имя проекта&gt;.json/.bin</em> и <em>&lt;имя проекта&gt;.blend</em> соответственно).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-T</span> <span class="pre">|</span> <span class="pre">--title&quot;</span></code> (необязательная) записывает в конфигурационный файл заголовок проекта. При сборке он будет добавлен в html-тэг <code class="docutils literal"><span class="pre">&lt;title&gt;</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">-t</span> <span class="pre">|</span> <span class="pre">--engine-type</span></code> (необязательная) записывает в конфигурационный файл тип собираемого приложения.</p>
+</li>
+</ul>
+<p>Пример:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
+</pre></div>
+</div>
+<p>Данная команда создаст директорию <em>myproject</em>, в которой будут находиться файлы: <em>myproject.js</em>, <em>myproject.css</em>, <em>myproject_dev.html</em> и <em>.b4w_project</em>.</p>
+<p>Файл .b4w_project будет выглядеть следущим образом:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>[info]
+author = Blend4Web
+name = myproject
+title = MyProject
+
+[paths]
+assets_dirs = deploy/assets/myproject;
+blend_dirs = blender/myproject;
+blender_exec = blender
+build_dir = deploy/apps/myproject
+deploy_dir =
+
+[compile]
+apps =
+css_ignore =
+engine_type = external
+js_ignore =
+optimization = simple
+use_physics =
+use_smaa_textures =
+version =
+
+[deploy]
+assets_path_prefix =
+remove_exist_ext_dir =
+</pre></div>
+</div>
+</div>
+<div class="section" id="developing-multiple-apps-inside-a-project">
+<h3><a class="toc-backref" href="#id19">Разработка нескольких приложений в составе проекта</a><a class="headerlink" href="#developing-multiple-apps-inside-a-project" title="Ссылка на этот заголовок">¶</a></h3>
+<p>В проекте может содержаться несколько приложений. Для этого необходимо в конфигурационном файле указать соответствующие HTML-файлы через точку с запятой:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="p">[</span><span class="nb">compile</span><span class="p">]</span>
+<span class="n">apps</span> <span class="o">=</span> <span class="n">myapp1</span><span class="p">;</span><span class="n">myapp2</span><span class="p">;</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-projects">
+<h3><a class="toc-backref" href="#id20">Сборка проекта</a><a class="headerlink" href="#building-projects" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject compile
+</pre></div>
+</div>
+<p>Собирает проект в директории <code class="docutils literal"><span class="pre">deploy/apps/myproject</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Для работы скрипта необходимо установить java и <cite>записать ее в переменную среды PATH &lt;https://www.java.com/en/download/help/path.xml&gt;</cite>.</p>
+</div>
+<p>Доступные опции:</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-a</span> <span class="pre">|</span> <span class="pre">--app&quot;</span></code> (необязательная) указывает на HTML-файл, относительно которого будет собираться приложение для проекта.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-c</span> <span class="pre">|</span> <span class="pre">--css-ignore&quot;</span></code> (необязательная) добавляет в исключения стили, которые не будут скомпилированы.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-j</span> <span class="pre">|</span> <span class="pre">--js-ignore&quot;</span></code> (необязательная) добавляет в исключения скрипты, которые не будут скомпилированы.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-o</span> <span class="pre">|</span> <span class="pre">--optimization&quot;</span></code> (необязательная) используется для указания метода оптимизации js-файлов. Доступные варианты: <code class="docutils literal"><span class="pre">whitespace</span></code>, <code class="docutils literal"><span class="pre">simple</span></code> (по умолчанию) и <code class="docutils literal"><span class="pre">advanced</span></code>.</p>
+</li>
+<li><p class="first">&#8220;-t | &#8211;engine-type&#8221; (необязательная) определяет тип компилируемого приложения. Доступны четыре варианта: <code class="docutils literal"><span class="pre">external</span></code> (по умолчанию), <code class="docutils literal"><span class="pre">copy</span></code>, <code class="docutils literal"><span class="pre">compile</span></code> и <code class="docutils literal"><span class="pre">update</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-v</span> <span class="pre">|</span> <span class="pre">--version&quot;</span></code> добавляет версию к адресам скриптов и стилей.</p>
+</li>
+</ul>
+<p>Требования, накладываемые компилятором:</p>
+<ul class="simple">
+<li><p class="first">В корне директории должен находится единственный html-файл, если не указана опция <code class="docutils literal"><span class="pre">-a</span></code>.</p>
+</li>
+<li><p class="first">Скрипты и стили могут находиться как в корне проекта (приложения), так и во вложенных папках.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="automatic-re-export">
+<h3><a class="toc-backref" href="#id21">Автоматический экспорт ресурсов</a><a class="headerlink" href="#automatic-re-export" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject reexport
+</pre></div>
+</div>
+<p>Повторно экспортирует blend-файлы в форматах JSON и HTML.</p>
+<p>Доступные опции:</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-b</span> <span class="pre">|</span> <span class="pre">--blender-exec&quot;</span></code> путь к исполняемому файлу blender.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> определяет директорию с ресурсами сцены.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="resource-conversion">
+<h3><a class="toc-backref" href="#id22">Конвертация ресурсов</a><a class="headerlink" href="#resource-conversion" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject convert_resources
+</pre></div>
+</div>
+<p>Конвертирует внешние ресурсы (текстуры, звуковые и видео-файлы) проекта в альтернативные форматы для обеспечения кроссбраузерности и кроссплатформенности.</p>
+<p>Доступные опции:</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> определяет директорию с ресурсами сцены.</p>
+</li>
+</ul>
+<p>Более подробно о процессе конвертации ресурсов сказано в <a class="reference internal" href="developers.html#converter"><span>соответствующем разделе</span></a>.</p>
+</div>
+<div class="section" id="deploying-projects">
+<h3><a class="toc-backref" href="#id23">Развертывание проекта</a><a class="headerlink" href="#deploying-projects" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject deploy DIRECTORY
+</pre></div>
+</div>
+<p>Сохраняет проект во внешнюю директорию со всеми необходимыми зависимостями.</p>
+<p>Доступные опции:</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-e</span> <span class="pre">|</span> <span class="pre">--assets-dest&quot;</span></code> задаёт директорию для файлов ресурсов (по умолчанию &#8220;assets&#8221;)</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-E</span> <span class="pre">|</span> <span class="pre">--assets-prefix&quot;</span></code> задаёт URL-префикс для файлов ресурсов (по умолчанию &#8220;assets&#8221;)</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-o</span> <span class="pre">|</span> <span class="pre">--override&quot;</span></code> удаляет директорию, если она существует.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-s</span> <span class="pre">|</span> <span class="pre">--assets&quot;</span></code> записывет в конфигурационный файл путь к файлам ресурсов.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">&quot;-t</span> <span class="pre">|</span> <span class="pre">--engine-type&quot;</span></code> (необязательная) записывает в конфигурационный файл тип движка.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="remove-project">
+<h3><a class="toc-backref" href="#id24">Удаление проекта</a><a class="headerlink" href="#remove-project" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject remove
+</pre></div>
+</div>
+<p>Удаляет проект. Удаляемые директории берутся из конфигурационного файла.</p>
+</div>
+<div class="section" id="upgrading-apps-for-new-sdk-versions">
+<h3><a class="toc-backref" href="#id25">Обновление приложений на новые версии SDK</a><a class="headerlink" href="#upgrading-apps-for-new-sdk-versions" title="Ссылка на этот заголовок">¶</a></h3>
+<p>В процессе обновления на новые версии движка чаще всего возникает две проблемы:</p>
+<ol class="arabic simple">
+<li><p class="first">Несоответствие модулей новой и старой версии движка.</p>
+</li>
+<li><p class="first">Несоответствие старых и новых API движка.</p>
+</li>
+</ol>
+<p>Для того, чтобы обновить список модулей, подключаемых в необфусцированной версии приложений, необходимо перейти в директорию с исходными файлами приложений <code class="docutils literal"><span class="pre">apps_dev/my_project</span></code>. Затем необходимо вызвать скрипт, генерирующий пути к файлам движка:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ../../scripts/mod_list.py
+</pre></div>
+</div>
+<p>Для пользователей ОС Windows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python ..\..\scripts\mod_list.py</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Стоит отдельно отметить, что для запуска скриптов требуется интерпретатор языка Python версии 3.x</p>
+</div>
+<p>В консоли появится список модулей, которые необходимо скопировать и вставить в главный HTML-файл:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/b4w.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/anchors.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/animation.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/assets.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/batch.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/boundings.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../../src/camera.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    . . .
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Несоответствие API решается рефакторингом кода приложения. Все изменения подробно описываются в <a class="reference internal" href="release_notes.html#release-notes"><span>замечаниях к релизам</span></a>.</p>
+</div>
+<div class="section" id="path-to-loaded-application-assets">
+<h3><a class="toc-backref" href="#id26">Пути к загружаемым ресурсам приложения</a><a class="headerlink" href="#path-to-loaded-application-assets" title="Ссылка на этот заголовок">¶</a></h3>
+<p>При загрузке .json-файлов необходимо использовать функцию <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> из модуля <em>config.js</em>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;example/example.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>После сборки готового приложения путь к данным изменится, а использование функции <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> позволит избежать возникновения проблемы с неверным путем.</p>
 </div>
 </div>
 </div>
@@ -567,7 +893,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-08-31.
+      Обновлено: 2016-09-29.
 
     </p>
   </div>
@@ -623,7 +949,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

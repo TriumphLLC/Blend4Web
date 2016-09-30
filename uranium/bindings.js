@@ -285,8 +285,8 @@ function create_bounding_shape(bounding_type, bounding_object, consider_compound
         var bcyl = bounding_object;
 
         var ext_x = bcyl["radius"];
-        var ext_y = bcyl["height"] / 2;
-        var ext_z = bcyl["radius"];
+        var ext_y = bcyl["radius"];
+        var ext_z = bcyl["height"] / 2;
 
         var cm_x = bcyl["center"][0];
         var cm_y = bcyl["center"][1];
@@ -302,8 +302,8 @@ function create_bounding_shape(bounding_type, bounding_object, consider_compound
         var bcon = bounding_object;
 
         var ext_x = bcon["radius"];
-        var ext_y = bcon["height"] / 2;
-        var ext_z = bcon["radius"];
+        var ext_y = bcon["radius"];
+        var ext_z = bcon["height"] / 2;
 
         var cm_x = bcon["center"][0];
         var cm_y = bcon["center"][1];
@@ -336,8 +336,8 @@ function create_bounding_shape(bounding_type, bounding_object, consider_compound
         var bcap = bounding_object;
 
         var ext_x = bcap["radius"];
-        var ext_y = bcap["height"] + 2 * bcap["radius"];
-        var ext_z = bcap["radius"];
+        var ext_y = bcap["radius"];
+        var ext_z = bcap["height"] + 2 * bcap["height"];
 
         var cm_x = bcap["center"][0];
         var cm_y = bcap["center"][1];
@@ -821,7 +821,7 @@ function set_character_move_dir(body_id, forward, side) {
     var character = world.characters[body_id].du_id;
     var du_body_id = get_du_body_id(body_id);
     _du_activate(du_body_id);
-    _du_set_character_move_direction(character, side, 0, forward);
+    _du_set_character_move_direction(character, side, -forward, 0);
 }
 
 function set_character_move_type(body_id, type) {

@@ -233,11 +233,20 @@ class AnalyzeShaderHandler(tornado.web.RequestHandler):
     def post(self, tail):
         kind = tail.strip("/? ")
         data = self.request.body.decode("utf-8")
-        resp = self.process_shader_nvidia(kind, data)
-        self.write(resp)
+
+        try:
+            resp = self.process_shader_nvidia(kind, data)
+        except BaseException as err:
+            self.set_status(500)
+            self.finish(str(err))
+        else:
+            self.write(resp)
 
     def process_shader_nvidia(self, kind, data_in):
         """Process by nvidia cg toolkit"""
+
+        if shutil.which(CGC_PATH) is None:
+            raise BaseException("NVIDIA Cg Toolkit isn't found.")
 
         tmp_in = tempfile.NamedTemporaryFile(mode="w", suffix=".glsl", delete=False)
         tmp_in.write(data_in)
@@ -450,6 +459,7 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
             else:
                 elem_ins["icon"] = '/scripts/templates/project.png'
 
+            elem_ins["title"] = proj_util.proj_cfg_value(proj_cfg, "info", "title", "")
             elem_ins["name"] = name
 
             elem_ins["info_url"] = '/project/info/' + quote(path, safe="")
@@ -731,10 +741,13 @@ class ProjectRequestHandler(tornado.web.RequestHandler, ProjectManagerCli):
                     "--no-colorama"]
 
             show_download_link = False
+            show_update_link = False
 
             for part in req.split("/"):
                 if part == "export" or part == "deploy":
                     show_download_link = True
+                elif part == "check_modules":
+                    show_update_link = True
 
                 cmd.append(unquote(part))
 
@@ -746,6 +759,9 @@ class ProjectRequestHandler(tornado.web.RequestHandler, ProjectManagerCli):
 
                 ConsoleHandler.download_link = "/" + proj_util.unix_path(cmd[-1])
 
+            if show_update_link:
+                ConsoleHandler.update_link = "/project/" + re.sub("check_modules$", "update_modules", req)
+
             ConsoleHandler.console_proc = self.exec_proc_async_pipe(cmd, root)
 
             html_file = open(join(root, "index_assets", "templates", "request.tmpl"), "r")
@@ -755,7 +771,8 @@ class ProjectRequestHandler(tornado.web.RequestHandler, ProjectManagerCli):
         html_str = html_file.read()
         html_file.close()
 
-        html_insertions = dict(download_link=ConsoleHandler.download_link)
+        html_insertions = dict(download_link=ConsoleHandler.download_link,
+                               update_link=ConsoleHandler.update_link)
 
         out_html_str = string.Template(html_str).substitute(html_insertions)
 
@@ -944,6 +961,7 @@ class ConsoleHandler(tornado.websocket.WebSocketHandler):
     console_proc = None
     console_queue = None
     download_link = ""
+    update_link = ""
 
     def open(self, *args):
         self.__class__.websocket_conn = self
@@ -972,6 +990,7 @@ class ConsoleHandler(tornado.websocket.WebSocketHandler):
             cls.console_proc = None
             cls.websocket_conn.close()
             cls.download_link = ""
+            cls.update_link = ""
             cls.websocket_conn = None
 
     @classmethod

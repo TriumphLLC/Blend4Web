@@ -1,10 +1,17 @@
 #version GLSL_VERSION
 
-#var PRECISION lowp
+/*==============================================================================
+                                    VARS
+==============================================================================*/
+#var PRECISION highp
+#var COC_TYPE COC_ALL
+
+/*============================================================================*/
+
 precision PRECISION sampler2D;
 
 #include <precision_statement.glslf>
-#include <std_enums.glsl>
+#include <std.glsl>
 #include <depth_fetch.glslf>
 
 uniform sampler2D u_color;

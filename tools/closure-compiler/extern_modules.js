@@ -33,6 +33,8 @@ WebGLRenderingContext.bindVertexArray;
 WebGLRenderingContext.createVertexArray;
 WebGLRenderingContext.deleteVertexArray;
 WebGLRenderingContext.isVertexArray;
+WebGLRenderingContext.TEXTURE_COMPARE_MODE;
+WebGLRenderingContext.COMPARE_REF_TO_TEXTURE
 
 // missing extensions stuff
 var EXTDisjointTimerQuery;
@@ -51,6 +53,12 @@ EXTDisjointTimerQuery.getQueryEXT;
 EXTDisjointTimerQuery.getQueryObjectEXT;
 EXTDisjointTimerQuery.isQueryEXT;
 EXTDisjointTimerQuery.queryCounterEXT;
+
+var WebGLCompressedTexturePVRTC;
+WebGLCompressedTexturePVRTC.COMPRESSED_RGB_PVRTC_4BPPV1_IMG;
+WebGLCompressedTexturePVRTC.COMPRESSED_RGB_PVRTC_2BPPV1_IMG;
+WebGLCompressedTexturePVRTC.COMPRESSED_RGBA_PVRTC_4BPPV1_IMG;
+WebGLCompressedTexturePVRTC.COMPRESSED_RGBA_PVRTC_2BPPV1_IMG;
 
 // missing WebVR API stuff
 Navigator.prototype.getVRDevices;

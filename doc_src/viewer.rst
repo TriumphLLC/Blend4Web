@@ -244,7 +244,7 @@ Available parameters:
 Materials
 .........
 
-Material properties setup. A material can be selected using the drop-down menu. For now, this feature only support a limited number of properties and only stack (non-node) materials applied to dynamic objects (node materials and static objects are not supported).
+Material properties setup. A material can be selected using the drop-down menu. For now, this feature only supports a limited number of properties and only stack (non-node) materials applied to dynamic objects (node materials and static objects are not supported).
 
 Available parameters:
 
@@ -272,7 +272,7 @@ Available parameters:
 Lighting
 ........
 
-Direct lighting parameters setup. A light source can be selected using the drop-down menu. Changing color and intensity is supported. Daytime and sun lighting parameters can also be tweaked on this panel.
+Setup for direct lighting parameters. A light source can be selected using the drop-down menu. Changing color and intensity is supported. Daytime and sun lighting parameters can also be tweaked on this panel.
 
     .. image:: src_images/viewer/viewer_lighting_settings.png
        :align: center
@@ -287,7 +287,7 @@ Available parameters:
     The type of the selected light source. This parameter cannot be changed in the Scene Viewer.
 
 *Color*
-    The base color of the selected light source. By default, white color (1; 1; 1) is used.
+    The base color of the selected light source. By default, white (1; 1; 1) is used.
 
 *Energy Coarse*
     This parameter sets the integral part of the energy value for the light source. The value of this parameter can vary from zero to 100. Default value is 1.
@@ -296,13 +296,13 @@ Available parameters:
     This parameter sets the fractional part of the energy value for the light source. The value of this parameter can vary from zero to 1. Set to zero by default.
 
 *Light Energy*
-    This value is calculated as the sum of the Energy Coarse and Energy Precise parameters. In case of both of them are having default values, it will be equal to 1.
+    This value is calculated as the sum of the Energy Coarse and Energy Precise parameters. In case both of them have default values, it will be equal to 1.
 
 *Spot Size*
     Angle of the light beam emitted by the light source. Default value is 75. This parameter is only available for ``Spot`` type light sources.
 
 *Spot Blend*
-    The softness of the spotlight edge. Default value is 0.15. This parameter is also available for ``Spot`` type light sources only.
+    This defines the softness of the spotlight edge. Default value is 0.15. This parameter is also available for ``Spot`` type light sources only.
 
 *Distance*
     This parameter sets the distance (in meters) from the light source at which the light emitted by the light source will be half as bright as defined by the ``Light Energy`` value. Set to 30 by default.
@@ -323,13 +323,13 @@ The following parameters are only available for ``Sun`` type light sources:
     This parameter sets the current date.
 
 *Time*
-    This parameter set the current time of day (or night?). Default value is 12.0.
+    This parameter set the current time of day. Default value is 12.0.
 
 *Maximum Sun Vertical Angle*
     This parameter sets maximum possible vertical angle for a ``Sun`` type light source. Default value is 60.
 
 *Time Multiplier*
-    The value of this parameter defines the speed of the flow of time. Default value is 1.0 (time flows with the same speed it does in real life).
+    The value of this parameter defines the speed of the flow of time. Default value is 1.0 (time flows at the same speed it does in real life).
 
 *Horizontal Position*
     Horizontal position of the sun on the skydome. Default value is 29.82.
@@ -340,56 +340,56 @@ The following parameters are only available for ``Sun`` type light sources:
 Ambient
 .......
 
-Ambient lighting parameters setup. Changing the colors and intensity of a hemispheric ambient model is supported.
+Setup for ambient lighting parameters. Changing the colors and intensity of a hemispheric ambient model is supported.
 
 The settings available for ambient lighting setup are the same as the ones in Blender. They are described in the :ref:`dedicated section <environment_lighting>`.
 
 Shadows
 .......
 
-Shadow parameters setup, including shadow cascades and shadow edges softening parameters.
+Setup for shadow parameters, including shadow cascades and shadow edges softening parameters.
 
-The settings for setting up shadows are described in the :ref:`corresponding section <shadows>` of this manual.
+The options for setting up shadows are described in the :ref:`corresponding section <shadows>` of this manual.
 
 Sky
 ...
 
-Dynamic sky parameters setup such as color, sun light scattering parameters etc.
+Setup for dynamic sky parameters such as color, sun light scattering parameters etc.
 
 Scene Viewer has access to all Blender parameters used for setting up procedural sky. These parameters are described in the :ref:`corresponding section <atmosphere>`.
 
 Sea
 ...
 
-Water rendering parameters setup, including color transitions by depth and by shore distance, foam and subsurface scattering parameters, waves dynamics etc.
+Setup for water rendering parameters, including color transitions by depth and by distance from the shore, foam and subsurface scattering parameters, wave dynamics etc.
 
-The setting for water rendering are described in the :ref:`Outdoor Rendering <water>` chapter. Scene Viewer uses the same settings as Blend4Web engine itself.
+The settings for water rendering are described in the :ref:`Outdoor Rendering <water>` chapter. Scene Viewer uses the same settings as the Blend4Web engine itself.
 
 Wind
 ....
     
-Wind parameters setup, including direction and strength.
+Setup for wind parameters, including direction and strength.
 
 The same parameters as the ones used by Scene Viewer are available in Blender. These parameters are described in the :ref:`corresponding chapter <wind>`.
 
 Screen Space Amb Occlus
 .......................
 
-Ambient occlusion parameters setup.
+Setup for ambient occlusion parameters.
 
 All available settings are described in the :ref:`Postprocessing Effects <ssao>` chapter.
 
 God Rays
 ........
 
-Crepuscular rays effect parameters setup.
+Setup for crepuscular ray effect parameters.
 
 All parameters for this effect are described in the :ref:`corresponding section <god_rays>`.
 
 Bloom
 .....
     
-Bright light effect parameters setup.
+Setup for bloom effect parameters.
 
 This effect uses the same set of parameters as it does in Blender. It is described in greater detail in the :ref:`corresponding section <bloom>`.
 
@@ -403,21 +403,21 @@ The parameters for adjusting Motion Blur effect are the same ones that are used 
 Glow Materials
 ..............
 
-Glow Materials effect settings.
+Glow Material effect settings.
 
 The settings used for this effect are described in the :ref:`corresponding section <glow>`.
 
 Depth of Field
 ..............
 
-Depth of field effect parameters setup.
+Setup for depth-of-field effect parameters.
 
 The parameters are described in the :ref:`corresponding chapter <dof>`.
 
 Color correction
 ................
 
-Color correction parameters setup, including brightness, contrast, exposure and saturation.
+Setup for color correction parameters, including brightness, contrast, exposure and saturation.
 
 The same set of parameters is used for color correction in Blender itself. The description of these parameters is available in the :ref:`Color Management <color_correction>` chapter.
 
@@ -427,7 +427,7 @@ Audio
 There is a mixing mode switch on the panel. After it is enabled the mixer interface becomes visible (only for scenes with sound sources).
 
 *Mixer*
-    Enables equalizer that shows various parameters (including volume, frequency, distance, attenuation etc.) of the speakers present in the scene, and allows user to adjust these parameters by using numerical keypad. The available parameters and possibilities are described in greater detail in the :ref:`dedicated section <mixer>` of the :ref:`Audio chapter <audio>`.
+    Enables equalizer that shows various parameters (including volume, frequency, distance, attenuation and others) of the speakers present in the scene, and allows user to adjust these parameters by using a numerical keypad. The available parameters and possibilities are described in greater detail in the :ref:`dedicated section <mixer>` of the :ref:`Audio chapter <audio>`.
 
     .. image:: src_images/viewer/viewer_mixer.png
         :align: center
@@ -445,13 +445,13 @@ There is a stereoscopic mode switch on the panel.
 Available parameters:
 
 *Stereo Types*
-    The list of all available stereo rendering modes. As of today, three types are supported:
+    A list of all available stereo rendering modes. As of today, three types are supported:
 
         ``NONE`` - stereo rendering is not used.
 
         ``ANAGLYPH`` - :ref:`anaglyph <anaglyph>` rendering is used.
 
-        ``HMD`` - rendering for :ref:`Head-Mounted Displays <hmd>` is used. This option is only available is the system has access to a HMD device.
+        ``HMD`` - rendering for :ref:`Head-Mounted Displays <hmd>` is used. This option is only available if the system has access to an HMD device.
 
     Default setting is ``NONE``.
 
@@ -487,7 +487,7 @@ Indicators
     This is located in the top left corner. It displays the viewport dimensions in pixels.
 
 #. **Selected object and controlled object**
-    This is located in the left bottom corner. It displays the names of selected and controlled objects. Object selection can be performed with the mouse. To control the object directly (normally for physics debugging) press the ``Q`` key and click on the object. The object movement is performed with the ``W``, ``A``, ``S``, ``D`` keys. To exit the control mode press the ``Q`` key and click on an empty space. The indicator also displays the distance to the selected object in Blender units (meters equivalent).
+    This is located in the bottom left corner. It displays the names of selected and controlled objects. Selecting an object is done with the mouse. To control the object directly (normally for physics debugging) press the ``Q`` key and click on the object. The object movement is performed with the ``W``, ``A``, ``S``, ``D`` keys. To exit the control mode press the ``Q`` key and click on an empty space. The indicator also displays the distance to the selected object in Blender units (meters equivalent).
 
 #. **Scene complexity indicator**
     Is located in the top right corner of the rendering area. It displays the number of vertices, triangles, WebGL draw calls and shaders used in the main rendering scene (i.e. shadow rendering calls are not included, for example).
@@ -495,8 +495,8 @@ Indicators
 #. **Video memory indicator**
     Is located in the bottom right corner of the rendering area. It displays the amount of video memory used by geometry, textures, render targets, and also the total memory usage.
 
-#. **Scene load errors indicator**
-    Is located under the FPS counter. Shows errors and warnings which occurred during scene load. Red light means errors, yellow - warnings and green means that the scene was loaded successfully.
+#. **Scene load error indicator**
+    Is located under the FPS counter. It shows errors and warnings which occur during scene load. Red light means errors, yellow - warnings and green means that the scene was loaded successfully.
 
     Loading errors and warnings can be viewed in the web browser console.
 

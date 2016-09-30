@@ -1,21 +1,20 @@
-# SOME DESCRIPTIVE TITLE.
+# Blend4Web User Manual Chinese Translation: Lighting
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as the Blend4Web. User
-# Manual package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# This file is distributed under the same license as Blend4Web.
+# Blend4Web Team <info [at] blend4web.com>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Blend4Web. User Manual v16.03\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-28 14:01+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: Blend4Web 16.08\n"
+"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
+"POT-Creation-Date: 2016-09-27 16:51+0300\n"
+"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
+"Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../lighting.rst:8
 msgid "Lighting, Shadows and Background"
@@ -165,7 +164,7 @@ msgstr ""
 #: ../lighting.rst:90
 msgid ""
 "Attenuation parameter. It is applicable to the ``Point`` and ``Spot`` "
-"light source types. The default value is 25.0."
+"light source types. The default value is 30.0."
 msgstr ""
 
 #: ../lighting.rst:93
@@ -417,34 +416,62 @@ msgid ""
 msgstr ""
 
 #: ../lighting.rst:218
-msgid "*Resolution*"
+msgid "*Render Shadows*"
 msgstr ""
 
 #: ../lighting.rst:218
-msgid "Shadow map resolution. The default value is 2048x2048px."
+msgid ""
+"Enables and disables shadow rendering. Can be set to ``ON``, ``OFF`` and "
+"``AUTO``. Set to ``AUTO`` by default."
 msgstr ""
 
 #: ../lighting.rst:221
+msgid "*Soft Shadows*"
+msgstr ""
+
+#: ../lighting.rst:221
+msgid "This option enables smoothing of the shadow maps. Enabled by default."
+msgstr ""
+
+#: ../lighting.rst:224
+msgid "*Resolution*"
+msgstr ""
+
+#: ../lighting.rst:224
+msgid "Shadow map resolution. The default value is 2048 x 2048px."
+msgstr ""
+
+#: ../lighting.rst:227
+msgid "*Blur Samples*"
+msgstr ""
+
+#: ../lighting.rst:227
+msgid ""
+"The number of the samples used for smoothing shadow maps. Available "
+"values are 4x, 8x and 16x, with the latter being the default value."
+msgstr ""
+
+#: ../lighting.rst:230
 msgid "*Self-Shadow Polygon Offset*"
 msgstr ""
 
-#: ../lighting.rst:221
+#: ../lighting.rst:230
 msgid ""
 "Coefficient for shifting polygons relative to light source orientation. "
 "The default value is 1."
 msgstr ""
 
-#: ../lighting.rst:224
+#: ../lighting.rst:233
 msgid "*Self-Shadow Normal Offset*"
 msgstr ""
 
-#: ../lighting.rst:224
+#: ../lighting.rst:233
 msgid ""
 "Coefficient for shifting polygons along their normals. The default value "
 "is 0.010."
 msgstr ""
 
-#: ../lighting.rst:226
+#: ../lighting.rst:235
 msgid ""
 "The last two parameters can be used to reduce self-shadowing artifacts. "
 "These artifacts appear for the objects that cast and receive shadows at "
@@ -455,18 +482,18 @@ msgid ""
 "as low as possible."
 msgstr ""
 
-#: ../lighting.rst:233
+#: ../lighting.rst:242
 msgid ""
 "Shadows from ``Point`` light sources are generated the same way as from "
 "``Spot`` light sources and are projected only in one direction specified "
 "by the source's ``Rotation`` parameter."
 msgstr ""
 
-#: ../lighting.rst:238
+#: ../lighting.rst:247
 msgid "*Enable CSM*"
 msgstr ""
 
-#: ../lighting.rst:238
+#: ../lighting.rst:247
 msgid ""
 "Activates the using of cascaded shadows model; reveals additional "
 "options. Disabled by default. Won't work if the ``Shadow`` setting is "
@@ -474,33 +501,33 @@ msgid ""
 " sources support only one shadow cascade."
 msgstr ""
 
-#: ../lighting.rst:240
+#: ../lighting.rst:249
 msgid ""
 "This option allows to choose between the following shadow generation "
 "models:"
 msgstr ""
 
-#: ../lighting.rst:242
+#: ../lighting.rst:251
 msgid ""
 "Generic model which uses a single optimized shadow map for the whole "
 "scene (``Enable CSM`` is turned off)."
 msgstr ""
 
-#: ../lighting.rst:243
+#: ../lighting.rst:252
 msgid "Shadow cascades (``Enable CSM`` is turned on)."
 msgstr ""
 
-#: ../lighting.rst:246
+#: ../lighting.rst:255
 msgid "*Blur Radius*"
 msgstr ""
 
-#: ../lighting.rst:246
+#: ../lighting.rst:255
 msgid ""
 "Blur ratio for setting up softened shadows. The default value is 3. Zero "
 "value produces hard shadows."
 msgstr ""
 
-#: ../lighting.rst:254
+#: ../lighting.rst:263
 msgid ""
 "Softened shadows can improve visual quality and realism. They hide the "
 "jugged edges inevitable when using image-based techniques, that is "
@@ -509,11 +536,11 @@ msgid ""
 "quality loss."
 msgstr ""
 
-#: ../lighting.rst:258
+#: ../lighting.rst:267
 msgid "Generic shadows"
 msgstr ""
 
-#: ../lighting.rst:260
+#: ../lighting.rst:269
 msgid ""
 "This option suits well smaller scenes with a limited number of objects. "
 "Thanks to optimizations applied for such scenes, one can achieve better "
@@ -522,17 +549,17 @@ msgid ""
 "greatly improves the performance."
 msgstr ""
 
-#: ../lighting.rst:264
+#: ../lighting.rst:273
 msgid "Shadow cascades"
 msgstr ""
 
-#: ../lighting.rst:268
+#: ../lighting.rst:277
 msgid ""
 "These settings are supported only for ``Sun`` light sources. Cascades are"
 " turned off for other types of light sources."
 msgstr ""
 
-#: ../lighting.rst:270
+#: ../lighting.rst:279
 msgid ""
 "In order to provide acceptable shadow quality and to cover considerable "
 "space at the same time it is required to use multiple stages for shadow "
@@ -541,43 +568,43 @@ msgid ""
 "option suits well middle-to-large scenes, e.g. game levels."
 msgstr ""
 
-#: ../lighting.rst:272
+#: ../lighting.rst:281
 msgid "When enabled the following extended settings are revealed:"
 msgstr ""
 
-#: ../lighting.rst:280
+#: ../lighting.rst:289
 msgid "*CSM Number*"
 msgstr ""
 
-#: ../lighting.rst:280
+#: ../lighting.rst:289
 msgid ""
 "Number of shadow cascades. From 1 to 4 cascades are supported. The "
 "default value is 1."
 msgstr ""
 
-#: ../lighting.rst:283
+#: ../lighting.rst:292
 msgid "*CSM First Cascade Border*"
 msgstr ""
 
-#: ../lighting.rst:283
+#: ../lighting.rst:292
 msgid "First cascade size. The default value is 10.0."
 msgstr ""
 
-#: ../lighting.rst:286
+#: ../lighting.rst:295
 msgid "*CSM Last Cascade Border*"
 msgstr ""
 
-#: ../lighting.rst:286
+#: ../lighting.rst:295
 msgid "Last cascade size. The default value is 100.0."
 msgstr ""
 
-#: ../lighting.rst:288
+#: ../lighting.rst:297
 msgid ""
 "The sizes of the intermediate cascades are interpolated between the two "
 "above-mentioned parameters."
 msgstr ""
 
-#: ../lighting.rst:292
+#: ../lighting.rst:301
 msgid ""
 "When setting up the shadows keep in mind that the bigger the cascade size"
 " is, the worse and less detailed are the shadows inside it. On the other "
@@ -589,33 +616,33 @@ msgid ""
 " blurring at the edges."
 msgstr ""
 
-#: ../lighting.rst:301
+#: ../lighting.rst:310
 msgid "*CSM First Cascade Blur Radius*"
 msgstr ""
 
-#: ../lighting.rst:301
+#: ../lighting.rst:310
 msgid ""
 "Blur ratio for the first cascade. The default value is 3. Zero value "
 "produces hard shadows."
 msgstr ""
 
-#: ../lighting.rst:304
+#: ../lighting.rst:313
 msgid "*CSM Last Cascade Blur Radius*"
 msgstr ""
 
-#: ../lighting.rst:304
+#: ../lighting.rst:313
 msgid ""
 "Blur ratio for the last cascade. The default value is 1.5. Zero value "
 "produces hard shadows."
 msgstr ""
 
-#: ../lighting.rst:306
+#: ../lighting.rst:315
 msgid ""
 "The blur radii of the intermediate cascades are interpolated between the "
 "two above-mentioned parameters."
 msgstr ""
 
-#: ../lighting.rst:310
+#: ../lighting.rst:319
 msgid ""
 "We recommend to start setting up the softened shadows with the first "
 "cascade (using ``CSM First Cascade Blur Radius``) and then proceed to "
@@ -625,58 +652,58 @@ msgid ""
 "resolution. This also reduces undesirable self-shadowing artifacts."
 msgstr ""
 
-#: ../lighting.rst:314
+#: ../lighting.rst:323
 msgid "*Fade-out Last Cascade*"
 msgstr ""
 
-#: ../lighting.rst:314
+#: ../lighting.rst:323
 msgid "Smooth dying-out of the last cascade. Enabled by default."
 msgstr ""
 
-#: ../lighting.rst:317
+#: ../lighting.rst:326
 msgid "*Blend Between Cascades*"
 msgstr ""
 
-#: ../lighting.rst:317
+#: ../lighting.rst:326
 msgid "Smoothing the boundaries between the cascades. Enabled by default."
 msgstr ""
 
-#: ../lighting.rst:328
+#: ../lighting.rst:337
 msgid "Background"
 msgstr ""
 
-#: ../lighting.rst:330
+#: ../lighting.rst:339
 msgid "You can change the background in the following ways:"
 msgstr ""
 
-#: ../lighting.rst:332
+#: ../lighting.rst:341
 msgid ""
 "Enable ``World > Render Sky``, then set the ``Horizon Color`` and the "
 "``Zenith Color`` under Blender's ``World`` tab."
 msgstr ""
 
-#: ../lighting.rst:334
+#: ../lighting.rst:343
 msgid ""
 "Place the whole scene inside a model (e.g. a cube or a sphere) with its "
 "normals directed inside, with a material and an optional texture."
 msgstr ""
 
-#: ../lighting.rst:336
+#: ../lighting.rst:345
 msgid ""
 "Place a surface with a material and an optional texture in front of the "
 "camera. Parent it to the camera. If required, tweak the distance to this "
 "surface, starting and ending clipping planes for the camera."
 msgstr ""
 
-#: ../lighting.rst:342
+#: ../lighting.rst:351
 msgid "Use a :ref:`skydome <skydome_texture>`."
 msgstr ""
 
-#: ../lighting.rst:344
+#: ../lighting.rst:353
 msgid "Set up the procedurally generated :ref:`atmosphere <atmosphere>`."
 msgstr ""
 
-#: ../lighting.rst:346
+#: ../lighting.rst:355
 msgid ""
 "Set the engine's ``background_color`` parameter with the ``config.set()``"
 " method. Please note, that ``World > Render Sky`` under Blender's "
@@ -686,7 +713,7 @@ msgid ""
 "the configuration is used by default in the engine's standard web player."
 msgstr ""
 
-#: ../lighting.rst:359
+#: ../lighting.rst:368
 msgid ""
 "You can use any HTML content behind the *canvas* element, to which the "
 "rendering is performed, as a background. To do this, activate the WebGL "
@@ -697,7 +724,7 @@ msgid ""
 ":ref:`scene viewer <viewer>` of Blend4Web SDK."
 msgstr ""
 
-#: ../lighting.rst:372
+#: ../lighting.rst:381
 msgid ":ref:`alpha_compositing`"
 msgstr ""
 
@@ -717,7 +744,7 @@ msgstr ""
 msgid "light sources"
 msgstr ""
 
-#: ../lighting.rst:325
+#: ../lighting.rst:334
 msgid "background"
 msgstr ""
 
@@ -794,5 +821,15 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "editor"
+#~ msgstr ""
+
+#~ msgid "Shadow map resolution. The default value is 2048x2048px."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The number of the samples used for"
+#~ " smoothing shadow maps. Alailabe values "
+#~ "are 4x, 8x and 16x, with the "
+#~ "latter being the default value."
 #~ msgstr ""
 

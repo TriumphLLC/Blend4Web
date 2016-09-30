@@ -96,15 +96,12 @@ ControlLine
         FILE: file
       };
     }
-  / "#" _ type:("import" / "export") (MSS Tokens)? _ LineTerminatorSequenceEOF {
-      return {
-        TYPE: type
-      }
-    }
   / "#" _ type:("define" / "var") MSS name:Identifier toks:(MSS Tokens)? _ LineTerminatorSequenceEOF {
       var tokens = [];
 
-      if (toks !== null)
+      if (toks === null) 
+        tokens.push("");
+      else
         for (var i = 0; i < toks[1].length; i++)
           tokens.push(toks[1][i]);
 
@@ -114,7 +111,8 @@ ControlLine
         TOKENS: tokens
       };
     }
-  / "#" _ "define" MSS name:Identifier "(" _ params:DefineParamList? _ ")" _
+  /* NOTE: isn't properly supported
+    / "#" _ "define" MSS name:Identifier "(" _ params:DefineParamList? _ ")" _
         tokens:Tokens? _ LineTerminatorSequenceEOF {
       return {
         TYPE: "define",
@@ -122,7 +120,7 @@ ControlLine
         PARAMS: params !== null ? params : [],
         TOKENS: tokens !== null ? tokens : []
       };
-    }
+    }*/
   / "#" _ "error" toks:(MSS Tokens)? _ LineTerminatorSequenceEOF {
       var tokens = [];
 
@@ -206,7 +204,15 @@ Nodes
   / NodesMainLine
 
 NodeGroup
-  = "#" _ "node" MSS name:Identifier _ LineTerminatorSequence __ decl:(NodeDeclarationLine __)* stat:(NodeStatement __)* {
+  = "#" _ "node" MSS name:Identifier _ LineTerminatorSequence __ 
+    vars:(NodeVar __)* 
+    decl:(NodeDeclarationLine __)* 
+    stat:(NodeStatement __)* {
+
+      var node_vars = [];
+      for (var i = 0; i < vars.length; i++)
+        node_vars.push(vars[i][0]);
+
       var declarations = [];
       for (var i = 0; i < decl.length; i++)
         declarations.push(decl[i][0]);
@@ -218,6 +224,7 @@ NodeGroup
       return {
         TYPE: "node",
         NAME: name,
+        NODE_VARS: node_vars,
         DECLARATIONS: declarations,
         STATEMENTS: statements
       };
@@ -226,6 +233,23 @@ NodeGroup
 EndNodeLine
   // concerning ? sign see EndIfLine
   = "#" _ "endnode" _ LineTerminatorSequenceEOF?
+
+NodeVar
+  = "#" _ "node_var" MSS name:Identifier toks:(MSS Tokens)? _ LineTerminatorSequence {
+      var tokens = [];
+
+      if (toks === null) 
+        tokens.push("");
+      else
+        for (var i = 0; i < toks[1].length; i++)
+          tokens.push(toks[1][i]);
+
+      return {
+        TYPE: "node_var",
+        NAME: name,
+        TOKENS: tokens
+      };
+    }
 
 NodeDeclarationLine
   = NodeInLine
@@ -881,8 +905,6 @@ Keyword
       / "#warning"
       / "#version"
       / "var"
-      / "import"
-      / "export"
     )
     !IdentifierPart
 

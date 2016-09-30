@@ -18,9 +18,17 @@ var m_version   = require("version");
 var DEBUG = (m_version.type() === "DEBUG");
 
 exports.init = function() {
+    var show_fps = DEBUG;
+
+    var url_params = m_app.get_url_params();
+
+    if (url_params && "show_fps" in url_params)
+        show_fps = true;
+
     m_app.init({
         canvas_container_id: "canvas3d",
         callback: init_cb,
+        show_fps: show_fps,
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,
         alpha: false
@@ -52,7 +60,7 @@ function load_cb(data_id) {
     // make camera follow the character
     var camobj = m_scs.get_active_camera();
     var character = m_scs.get_first_character();
-    m_cons.append_stiff_trans(camobj, character, [0, 0.7, 0]);
+    m_cons.append_stiff_trans(camobj, character, [0, 0, 0.7]);
 
     // enable rotation with mouse
     var canvas_elem = m_cont.get_canvas();

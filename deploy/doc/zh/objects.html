@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物体 &mdash; Blend4Web 16.08 用户手册</title>
+  <title>物体 &mdash; Blend4Web 16.09 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.08 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.09 用户手册" href="index.html"/>
         <link rel="next" title="网格" href="meshes.html"/>
         <link rel="prev" title="场景设置" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.08
+              v16.09
             </div>
           
         
@@ -84,13 +84,13 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">概述</a></li>
-<li class="toctree-l1"><a class="reference internal" href="engine_features.html">Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">物体</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#types">类型</a></li>
@@ -114,7 +114,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#quaternion-example">四元数例子</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web">Blender和Blend4Web的坐标系之间的差异</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#moving-via-tsr-vectors">通过TSR矢量移动</a></li>
 </ul>
 </li>
@@ -209,8 +208,7 @@
 <li><a class="reference internal" href="#quaternion-example" id="id17">四元数例子</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#differences-between-coordinate-systems-of-blender-and-blend4web" id="id18">Blender和Blend4Web的坐标系之间的差异</a></li>
-<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id19">通过TSR矢量移动</a></li>
+<li><a class="reference internal" href="#moving-via-tsr-vectors" id="id18">通过TSR矢量移动</a></li>
 </ul>
 </li>
 </ul>
@@ -366,7 +364,12 @@
 <dd><p class="first last">启用后物体被会在动态镜面中被反射。</p>
 </dd>
 <dt><em>反射 &gt; 仅被反射</em></dt>
-<dd><p class="first last">物体被反射但仍将看不见自身。开启 <code class="docutils literal"><span class="pre">反射</span> <span class="pre">&gt;</span> <span class="pre">反射性</span></code> 后可用。</p>
+<dd><p class="first">物体被反射但仍将看不见自身。开启 <code class="docutils literal"><span class="pre">反射</span> <span class="pre">&gt;</span> <span class="pre">反射性</span></code> 后可用。</p>
+<div class="last admonition note">
+<p class="first admonition-title">注解</p>
+<p>If the <code class="docutils literal"><span class="pre">Reflexible</span> <span class="pre">Only</span></code> parameter is enabled simultaneously with the <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span> <span class="pre">Only</span></code> parameter, the engine will not render the object itself, but will render its shadow and reflection, like it is shown on the picture below.</p>
+<a class="last reference internal image-reference" href="_images/objects_cast_reflexible_only.png"><img alt="_images/objects_cast_reflexible_only.png" class="align-center" src="_images/objects_cast_reflexible_only.png" style="width: 100%;" /></a>
+</div>
 </dd>
 <dt><em>反射 &gt; 反射</em></dt>
 <dd><p class="first last">当启用时该物体表面反射的其他物体。</p>
@@ -716,8 +719,6 @@
 <p>旋转：</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">坐标轴的方向在Blender和在引擎中是不同的。在导出时会有变换[X Y Z] (Blender) -&gt; [X -Z Y] (引擎)。因此，我们需要相对于Y轴，而不是Z轴旋转物体。</p>
-</li>
 <li><p class="first">顺时针转动对应于旋转到右侧（即在负方向）。</p>
 </li>
 <li><p class="first">60 度 = <span class="math">\(\pi/3\)</span> 弧度.</p>
@@ -726,13 +727,13 @@
 </div></blockquote>
 <p>因此，我们得到：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// compose quaternion</span>
-<span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="kd">var</span> <span class="nx">quat_60_Z_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
 <span class="kd">var</span> <span class="nx">quat_old</span> <span class="o">=</span> <span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">);</span>
 
-<span class="c1">// left multiply: quat60_Y_neg * quat_old</span>
-<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Y_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="c1">// left multiply: quat60_Z_neg * quat_old</span>
+<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Z_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// set new rotation</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_new</span><span class="p">);</span>
@@ -740,12 +741,12 @@
 </div>
 <p>优化的版本不创建新的物体：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// cache arrays as global vars</span>
-<span class="kd">var</span> <span class="nx">AXIS_Y</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="kd">var</span> <span class="nx">AXIS_Z</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="kd">var</span> <span class="nx">quat_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="c1">// rotate</span>
-<span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Y</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Z</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">);</span>
 <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_tmp</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
 <span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
@@ -753,17 +754,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="differences-between-coordinate-systems-of-blender-and-blend4web">
-<span id="b4w-blender-coordinates"></span><h2><a class="toc-backref" href="#id18">Blender和Blend4Web的坐标系之间的差异</a><a class="headerlink" href="#differences-between-coordinate-systems-of-blender-and-blend4web" title="永久链接至标题">¶</a></h2>
-<p>在Blender的坐标系统中的 <code class="docutils literal"><span class="pre">UP</span></code> 矢量，它指向向上，是同向的Z轴。 Blend4Web使用Y轴用于此目的，因为是使用OpenGL习惯。因而引擎的坐标由相对Blender的X轴周围旋转90°。</p>
-<img alt="_images/axes.png" class="align-center" src="_images/axes.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>API方法使用引擎的坐标，这样他们就跟设定Blender的参数不相同。</p>
-</div>
 <div class="section" id="moving-via-tsr-vectors">
-<h2><a class="toc-backref" href="#id19">通过TSR矢量移动</a><a class="headerlink" href="#moving-via-tsr-vectors" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id18">通过TSR矢量移动</a><a class="headerlink" href="#moving-via-tsr-vectors" title="永久链接至标题">¶</a></h2>
 <p>有时用下面格式的矢量来移动物体是很方便的：</p>
 <blockquote>
 <div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
@@ -792,7 +784,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-08-31.
+      最后更新于 2016-09-29.
 
     </p>
   </div>
@@ -848,7 +840,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.08',
+            VERSION:'v16.09',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

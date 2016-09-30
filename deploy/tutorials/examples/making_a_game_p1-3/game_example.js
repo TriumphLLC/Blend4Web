@@ -22,7 +22,7 @@ var _character = null;
 var _character_rig = null;
 
 var ROT_SPEED = 1.5;
-var CAMERA_OFFSET = new Float32Array([0, 1.5, -4]);
+var CAMERA_OFFSET = new Float32Array([0, 4, 1.5]);
 
 exports.init = function() {
     m_app.init({
@@ -30,6 +30,7 @@ exports.init = function() {
         callback: init_cb,
         physics_enabled: true,
         show_fps: true,
+        autoresize: true,
         alpha: false
     });
 }
@@ -41,17 +42,10 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    window.addEventListener("resize", on_resize);
-
-    load();
-}
-
-function on_resize() {
-    m_cont.resize_to_container();
+    m_data.load("game_example.json", load_cb);
 }
 
 function load() {
-    m_data.load("game_example.json", load_cb);
 }
 
 function load_cb(data_id) {
@@ -155,13 +149,11 @@ function setup_jumping() {
     var key_space = m_ctl.create_keyboard_sensor(m_ctl.KEY_SPACE);
 
     var jump_cb = function(obj, id, pulse) {
-        if (pulse == 1) {
-            m_phy.character_jump(obj);
-        }
+        m_phy.character_jump(obj);
     }
 
-    m_ctl.create_sensor_manifold(_character, "JUMP", m_ctl.CT_TRIGGER, 
-        [key_space], function(s){return s[0]}, jump_cb);
+    m_ctl.create_sensor_manifold(_character, "JUMP", m_ctl.CT_SHOT, 
+        [key_space], null, jump_cb);
 }
 
 function setup_camera() {

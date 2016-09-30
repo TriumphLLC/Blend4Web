@@ -38,7 +38,7 @@ duBobInfo& duBoat::addBob(const btVector3& connectionPointCS)
     duBobInfoConstructionInfo ci;
 
     ci.m_hullConnectionCS = connectionPointCS;
-    ci.m_bobDirectionCS = btVector3(0.f, -1.f, 0.f);
+    ci.m_bobDirectionCS = btVector3(0.f, 0.f, -1.f);
     ci.m_bobAxleCS = btVector3(-1.f, 0.f, 0.f);
 
     m_bobInfo.push_back( duBobInfo(ci));
@@ -130,7 +130,7 @@ void duBoat::updateBoat( btScalar step )
 
         btScalar depth = getWaterDist(bob);
         if (bob.m_isInContact) {
-            btVector3 impulse = btVector3(0.f, 1.f, 0.f) / getNumBobs()
+            btVector3 impulse = btVector3(0.f, 0.f, 1.f) / getNumBobs()
                     / getRigidBody()->getInvMass() * 10.f * step
                     * btMin(depth, 0.5f) * m_floatingFactor;
             btVector3 relpos = bob.m_hardPointWS 
@@ -142,11 +142,11 @@ void duBoat::updateBoat( btScalar step )
     }
 
     if (numBobsUnderWater > 0) {
-        btVector3 up(0.f, 1.f, 0.f);
+        btVector3 up(0.f, 0.f, 1.f);
         btVector3 engineImpulse = m_engineForce * step * getNumBobs()
                                   * forwardW * 10.f;
         btMatrix3x3 rotatingMat;
-        rotatingMat.setEulerZYX(0.f, -m_steeringValue, 0.f);
+        rotatingMat.setEulerZYX(0.f, 0.f, -m_steeringValue);
             
         engineImpulse = rotatingMat * engineImpulse;
         btVector3 enginePos = -forwardW ;
@@ -206,12 +206,12 @@ btScalar duBoat::getWaterDist(duBobInfo& bob)
     if (m_water != NULL) {
         const btTransform& bobTrans = bob.m_worldTransform;
         const btVector3 bobPos = bobTrans.getOrigin();
-        btScalar waterLevel = m_water->getWaterLevel(bobPos[0], bobPos[2], m_waterInd);
+        btScalar waterLevel = m_water->getWaterLevel(bobPos[0], -bobPos[1], m_waterInd);
 
-        if (bobPos[1] <= waterLevel)
+        if (bobPos[2] <= waterLevel)
             bob.m_isInContact = true;
 
-        return waterLevel - bobPos[1];
+        return waterLevel - bobPos[2];
     } else {
         return btScalar(-1.f);
     }

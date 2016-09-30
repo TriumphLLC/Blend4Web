@@ -82,19 +82,17 @@ function set_translation_rel(obj, trans) {
 }
 
 exports.get_translation = function(obj, dest) {
-    var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
-    m_vec3.copy(trans, dest);
+    m_tsr.get_trans(obj.render.world_tsr, dest);
     return dest;
 }
 
 exports.get_translation_rel = function(obj, dest) {
     if (m_cons.has_child_of(obj)) {
         var offset = m_cons.get_child_of_offset(obj);
-        m_vec3.copy(m_tsr.get_trans(offset), dest, _vec3_tmp);
-    } else {
-        var trans = m_tsr.get_trans(obj.render.world_tsr, _vec3_tmp);
-        m_vec3.copy(trans, dest);
-    }
+        m_tsr.get_trans(offset, dest);
+    } else
+        m_tsr.get_trans(obj.render.world_tsr, dest);
+
     return dest;
 }
 
@@ -122,19 +120,16 @@ function set_rotation_rel(obj, quat) {
 }
 
 exports.get_rotation = function(obj, dest) {
-    var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
-    m_quat.copy(quat, dest);
+    m_tsr.get_quat(obj.render.world_tsr, dest);
     return dest;
 }
 
 exports.get_rotation_rel = function(obj, dest) {
     if (m_cons.has_child_of(obj)) {
         var offset = m_cons.get_child_of_offset(obj);
-        m_quat.copy(m_tsr.get_quat(offset), dest, _quat_tmp);
-    } else {
-        var quat = m_tsr.get_quat(obj.render.world_tsr, _quat_tmp);
-        m_quat.copy(quat, dest);
-    }
+        m_tsr.get_quat(offset, dest);
+    } else
+        m_tsr.get_quat(obj.render.world_tsr, dest);
     return dest;
 }
 
@@ -231,9 +226,6 @@ exports.get_object_size = function(obj) {
 }
 
 exports.get_object_center = function(obj, calc_bs_center, dest) {
-    if (!dest)
-        var dest = new Float32Array(3);
-
     if (calc_bs_center) {
         var render = obj.render;
         m_vec3.copy(render.bs_world.center, dest);
@@ -305,27 +297,29 @@ function update_transform(obj) {
 
     m_bounds.bounding_box_transform(render.bb_local, render.world_tsr, render.bb_world);
     m_bounds.bounding_sphere_transform(render.bs_local, render.world_tsr, render.bs_world);
-    m_bounds.bounding_ellipsoid_transform(render.be_local, render.world_tsr, render.be_world)
 
-    if (!render.do_not_use_be)
+    if (render.use_batches_boundings) {
         for (var i = 0; i < scenes_data.length; i++) {
             var batches = scenes_data[i].batches;
             for (var j = 0; j < batches.length; j++) {
                 var batch = batches[j];
                 m_bounds.bounding_box_transform(batch.bb_local,
                         render.world_tsr, batch.bb_world);
-                m_bounds.bounding_ellipsoid_transform(batch.be_local,
-                        render.world_tsr, batch.be_world);
+                m_bounds.bounding_sphere_transform(batch.bs_local,
+                        render.world_tsr, batch.bs_world);
+                if (batch.use_be)
+                    m_bounds.bounding_ellipsoid_transform(batch.be_local,
+                            render.world_tsr, batch.be_world);
             }
         }
+    } else if (render.use_be)
+        m_bounds.bounding_ellipsoid_transform(render.be_local, render.world_tsr, render.be_world)
 
     switch (obj_type) {
     case "MESH":
         // used in some node materials
-        m_tsr.to_zup_model(obj.render.world_tsr, obj.render.world_zup_tsr);
         if (obj.need_inv_zup_tsr)
-            m_tsr.invert(obj.render.world_zup_tsr, obj.render.world_inv_zup_tsr);
-
+            m_tsr.invert(obj.render.world_tsr, obj.render.world_tsr_inv);
         var armobj = obj.armobj;
         if (armobj) {
             var armobj_tsr = armobj.render.world_tsr;

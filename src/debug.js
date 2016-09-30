@@ -189,6 +189,10 @@ exports.check_depth_only_issue = function() {
  * Found on Firefox 46.
  */
 exports.check_multisample_issue = function() {
+    // msaa is disabled
+    if (cfg_def.msaa_samples == 1)
+        return false;
+
     // use cached result
     if (_multisample_issue != -1)
         return _multisample_issue;
@@ -231,30 +235,20 @@ exports.check_ff_cubemap_out_of_memory = function() {
 }
 
 /**
- * Get shader compile status, throw exception if compilation failed.
  * Prints shader text numbered lines and error.
  * @param {WebGLShader} shader Shader object
  * @param {String} shader_id Shader id
  * @param {String} shader_text Shader text
  */
-exports.check_shader_compiling = function(shader, shader_id, shader_text) {
+exports.report_shader_compiling_error = function(shader, shader_id, shader_text) {
 
     if (!cfg_def.gl_debug)
         return;
 
-    if (!_gl.getShaderParameter(shader, _gl.COMPILE_STATUS)) {
+    shader_text = supply_line_numbers(shader_text);
 
-        var ext_ds = cfg_def.allow_shaders_debug_ext && m_ext.get_debug_shaders();
-        if (ext_ds)
-            var shader_text = ext_ds.getTranslatedShaderSource(shader);
-
-        shader_text = supply_line_numbers(shader_text);
-       
-        m_print.error("shader compilation failed:\n" + shader_text + "\n" + 
-            _gl.getShaderInfoLog(shader) + " (" + shader_id + ")");
-
-        m_util.panic("Engine failed: see above for error messages");
-    }
+    m_print.error("shader compilation failed:\n" + shader_text + "\n" +
+        _gl.getShaderInfoLog(shader) + " (" + shader_id + ")");
 }
 
 function supply_line_numbers(text) {
@@ -268,33 +262,24 @@ function supply_line_numbers(text) {
 }  
 
 /**
- * Get shader program link status, throw exception if linking failed.
+ * Prints shader text numbered lines and error.
  * @param {WebGLProgram} program Shader program object
  * @param {String} shader_id Shader id
+ * @param {String} vshader_text Vertex shader text
+ * @param {String} fshader_text Fragment shader text
  */
-exports.check_shader_linking = function(program, shader_id, vshader, fshader, 
-    vshader_text, fshader_text) {
+exports.report_shader_linking_error = function(program, shader_id,
+        vshader_text, fshader_text) {
 
     if (!cfg_def.gl_debug)
         return;
 
-    if (!_gl.getProgramParameter(program, _gl.LINK_STATUS)) {
-    
-        var ext_ds = cfg_def.allow_shaders_debug_ext && m_ext.get_debug_shaders();
-        if (ext_ds) {
-            var vshader_text = ext_ds.getTranslatedShaderSource(vshader);
-            var fshader_text = ext_ds.getTranslatedShaderSource(fshader);
-        }
+    vshader_text = supply_line_numbers(vshader_text);
+    fshader_text = supply_line_numbers(fshader_text);
 
-        vshader_text = supply_line_numbers(vshader_text);
-        fshader_text = supply_line_numbers(fshader_text);
-
-        m_print.error("shader linking failed:\n" + vshader_text + "\n\n\n" + 
-            fshader_text + "\n" + 
-            _gl.getProgramInfoLog(program) + " (" + shader_id + ")");
-
-        m_util.panic("Engine failed: see above for error messages");
-    }
+    m_print.error("shader linking failed:\n" + vshader_text + "\n\n\n" +
+        fshader_text + "\n" +
+        _gl.getProgramInfoLog(program) + " (" + shader_id + ")");
 }
 
 exports.render_time_start_subs = function(subs) {
@@ -794,6 +779,9 @@ exports.nodegraph_to_dot = function(graph, detailed_print) {
     return m_graph.debug_dot(graph, nodes_label_cb, edges_label_cb);
 }
 
+/**
+ * NOTE: need to find better place for this internal method
+ */
 exports.get_gl = function() {
     return _gl;
 }

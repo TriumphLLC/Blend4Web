@@ -55,7 +55,7 @@ var SCALAR_VALUE = 1;
 var CURVE_POINT_EPS = 0.01;
 
 // NOTE: keep constants synchronized with:
-//          shaders/include/std_enums.glsl
+//          shaders/include/std.glsl
 //          src/batch.js : update_batch_material_nodes
 var VT_POINT  = 0;
 var VT_VECTOR = 1;
@@ -1824,8 +1824,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                   default_node_inout("normal", "normal", [0,0,0], true),
                   default_node_inout("norm_fac", "norm_fac", 0, true)];
         outputs = [default_node_inout("lfactor", "lfactor", 0, true)];
-        if (bpy_node["use_tangent_shading"])
-            dirs.push(["MAT_USE_TBN_SHADING", 1]);
+        dirs.push(["MAT_USE_TBN_SHADING", bpy_node["use_tangent_shading"] | 0]);
         break;
     case "DIFFUSE_FRESNEL":
     case "DIFFUSE_MINNAERT":
@@ -1837,8 +1836,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                   default_node_inout("norm_fac", "norm_fac", 0, true),
                   default_node_inout("dif_params", "dif_params", [0,0], true)];
         outputs = [default_node_inout("lfactor", "lfactor", 0, true)];
-        if (bpy_node["use_tangent_shading"])
-            dirs.push(["MAT_USE_TBN_SHADING", 1]);
+        dirs.push(["MAT_USE_TBN_SHADING", bpy_node["use_tangent_shading"] | 0]);
         break;
     case "SPECULAR_BLINN":
     case "SPECULAR_PHONG":
@@ -1848,8 +1846,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                   default_node_inout("norm_fac", "norm_fac", 0, true),
                   default_node_inout("sp_params", "sp_params", [0,0], true)];
         outputs = [default_node_inout("sfactor", "sfactor", 0, true)];
-        if (bpy_node["use_tangent_shading"])
-            dirs.push(["MAT_USE_TBN_SHADING", 1]);
+        dirs.push(["MAT_USE_TBN_SHADING", bpy_node["use_tangent_shading"] | 0]);
         break;
     case "SPECULAR_TOON":
     case "SPECULAR_WARDISO":
@@ -1859,8 +1856,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                   default_node_inout("norm_fac", "norm_fac", 0, true),
                   default_node_inout("sp_params", "sp_params", [0,0], true)];
         outputs = [default_node_inout("sfactor", "sfactor", 0, true)];
-        if (bpy_node["use_tangent_shading"])
-            dirs.push(["MAT_USE_TBN_SHADING", 1]);
+        dirs.push(["MAT_USE_TBN_SHADING", bpy_node["use_tangent_shading"] | 0]);
         break;
     case "LIGHTING_APPLY":
         inputs = [default_node_inout("color", "color", [0,0,0,0], true),
@@ -1940,32 +1936,45 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         case "NORMAL":
             dirs.push(["MAPPING_IS_NORMAL", 1]);
         case "TEXTURE":
+            dirs.push(["MAPPING_TRS_MATRIX_DEF", 1]);
             dirs.push(["MAPPING_TRS_MATRIX", m_shaders.glsl_value(trs_matrix, 16)]);
             break;
         case "POINT":
-            if (m_vec3.length(rot) !== 0)
+            if (m_vec3.length(rot) !== 0) {
+                dirs.push(["MAPPING_TRS_MATRIX_DEF", 1]);
                 dirs.push(["MAPPING_TRS_MATRIX", m_shaders.glsl_value(trs_matrix, 16)]);
-            else {
-                if (m_vec3.length(scale) !== 0)
+            } else {
+                if (m_vec3.length(scale) !== 0) {
+                    dirs.push(["MAPPING_SCALE_DEF", 1]);
                     dirs.push(["MAPPING_SCALE", m_shaders.glsl_value(scale, 3)]);
-                if (m_vec3.length(trans) !== 0)
-                    dirs.push(["MAPPING_TRANSLATION", m_shaders.glsl_value(trans, 3)]);
+                }
+                if (m_vec3.length(trans) !== 0) {
+                    dirs.push(["MAPPING_TRANS_DEF", 1]);
+                    dirs.push(["MAPPING_TRANS", m_shaders.glsl_value(trans, 3)]);
+                }
             }
             break;
         case "VECTOR":
-            if (m_vec3.length(rot) !== 0)
+            if (m_vec3.length(rot) !== 0) {
+                dirs.push(["MAPPING_TRS_MATRIX_DEF", 1]);
                 dirs.push(["MAPPING_TRS_MATRIX", m_shaders.glsl_value(trs_matrix, 16)]);
-            else if (m_vec3.length(scale) !== 0)
+            } else if (m_vec3.length(scale) !== 0) {
+                dirs.push(["MAPPING_SCALE_DEF", 1]);
                 dirs.push(["MAPPING_SCALE", m_shaders.glsl_value(scale, 3)]);
+            }
             break;
         }
 
         // clipping
-        if (bpy_node["use_min"])
+        if (bpy_node["use_min"]) {
+            dirs.push(["MAPPING_MIN_CLIP_DEF", 1]);
             dirs.push(["MAPPING_MIN_CLIP", m_shaders.glsl_value(bpy_node["min"], 3)]);
+        }
 
-        if (bpy_node["use_max"])
+        if (bpy_node["use_max"]) {
+            dirs.push(["MAPPING_MAX_CLIP_DEF", 1]);
             dirs.push(["MAPPING_MAX_CLIP", m_shaders.glsl_value(bpy_node["max"], 3)]);
+        }
         break;
     case "MATERIAL":
     case "MATERIAL_EXT":
@@ -2118,8 +2127,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         outputs = material_end_outputs;
 
         // MATERIAL dirs
-        if (input_norm.is_linked)
-            material_begin_dirs.push(["USE_MATERIAL_NORMAL", 1]);
+        material_begin_dirs.push(["USE_MATERIAL_NORMAL", input_norm.is_linked | 0]);
 
         if (bpy_node["use_diffuse"]) {
             material_begin_dirs.push(["USE_MATERIAL_DIFFUSE", 1]);
@@ -2419,6 +2427,13 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                     return null;
                 }
             }
+            if (type == "TEXTURE_COLOR") {
+                var non_color = false;
+                var bpy_image = bpy_node["texture"]["image"];
+                if (bpy_image && bpy_image["colorspace_settings_name"] == "Non-Color")
+                    non_color = true;
+                dirs.push(["NON_COLOR", Number(non_color)]);
+            }
 
             for (var i = 0; i < 4; ++i) {
                 var input, output1, output2;
@@ -2428,11 +2443,6 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                     if (type == "TEXTURE_COLOR") {
                         output1 = default_node_inout("Color" + i, "Color" + i, [0,0,0]);
                         output2 = default_node_inout("Value" + i, "Value" + i, 0);
-                        var bpy_image = bpy_node["texture"]["image"];
-                        var non_color = false;
-                        if (bpy_image && bpy_image["colorspace_settings_name"] == "Non-Color")
-                            non_color = true;
-                        dirs.push(["NON_COLOR", Number(non_color)]);
                     }
                     if (type == "TEXTURE_NORMAL") {
                         output1 = default_node_inout("Normal" + i, "Normal" + i, [0,0,0]);
@@ -2443,11 +2453,6 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                     if (type == "TEXTURE_COLOR") {
                         output1 = node_output_by_ident(bpy_node, "Color");
                         output2 = node_output_by_ident(bpy_node, "Value");
-                        var bpy_image = bpy_node["texture"]["image"];
-                        var non_color = false;
-                        if (bpy_image && bpy_image["colorspace_settings_name"] == "Non-Color")
-                            non_color = true;
-                        dirs.push(["NON_COLOR", Number(non_color)]);
                     }
                     if (type == "TEXTURE_NORMAL") {
                         output1 = node_output_by_ident(bpy_node, "Normal");
@@ -2541,13 +2546,14 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         var convert_from = bpy_node["convert_from"];
         var convert_to = bpy_node["convert_to"];
 
+        var conv_type = VT_WORLD_TO_WORLD;
         if (convert_from == "WORLD") {
             if (convert_to == "WORLD")
-                var conv_type = VT_WORLD_TO_WORLD;
+                conv_type = VT_WORLD_TO_WORLD;
             else if (convert_to == "OBJECT")
-                var conv_type = VT_WORLD_TO_OBJECT;
+                conv_type = VT_WORLD_TO_OBJECT;
             else if (convert_to == "CAMERA")
-                var conv_type = VT_WORLD_TO_CAMERA;
+                conv_type = VT_WORLD_TO_CAMERA;
             else {
                 m_print.error("Unsupported VECT_TRANSFORM convert_to: " +
                      bpy_node["convert_to"]);
@@ -2555,11 +2561,11 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
             }
         } else if (convert_from == "OBJECT") {
             if (convert_to == "WORLD")
-                var conv_type = VT_OBJECT_TO_WORLD;
+                conv_type = VT_OBJECT_TO_WORLD;
             else if (convert_to == "OBJECT")
-                var conv_type = VT_OBJECT_TO_OBJECT;
+                conv_type = VT_OBJECT_TO_OBJECT;
             else if (convert_to == "CAMERA")
-                var conv_type = VT_OBJECT_TO_CAMERA;
+                conv_type = VT_OBJECT_TO_CAMERA;
             else {
                 m_print.error("Unsupported VECT_TRANSFORM convert_to: " +
                         bpy_node["convert_to"]);
@@ -2567,11 +2573,11 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
             }
         } else if (convert_from == "CAMERA") {
             if (convert_to == "WORLD")
-                var conv_type = VT_CAMERA_TO_WORLD;
+                conv_type = VT_CAMERA_TO_WORLD;
             else if (convert_to == "OBJECT")
-                var conv_type = VT_CAMERA_TO_OBJECT;
+                conv_type = VT_CAMERA_TO_OBJECT;
             else if (convert_to == "CAMERA")
-                var conv_type = VT_CAMERA_TO_CAMERA;
+                conv_type = VT_CAMERA_TO_CAMERA;
             else {
                 m_print.error("Unsupported VECT_TRANSFORM convert_to: " +
                         bpy_node["convert_to"]);
@@ -3014,8 +3020,8 @@ function replace_zero_unity_vals(str_val) {
     // HACK: for better global replacing
     str_val = str_val.replace(/(,)/g, "$1 ");
 
-    str_val = str_val.replace(/(^|[^0-9]|\s)(0\.0)($|[^0-9]|\s)/g, "$1ZERO_VALUE_NODES$3");
-    str_val = str_val.replace(/(^|[^0-9]|\s)(1\.0)($|[^0-9]|\s)/g, "$1UNITY_VALUE_NODES$3");
+    str_val = str_val.replace(/(^|[^0-9]|\s)(0\.0)($|[^0-9]|\s)/g, "$1_0_0$3");
+    str_val = str_val.replace(/(^|[^0-9]|\s)(1\.0)($|[^0-9]|\s)/g, "$1_1_0$3");
     str_val = str_val.replace(/\s+/g, "");
 
     return str_val;

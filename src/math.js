@@ -67,6 +67,7 @@ exports.calc_pline_point = function(pline, t, dest) {
 }
 
 exports.calk_average_position = function(points, dest) {
+    dest[0] = 0; dest[1] = 0; dest[2] = 0;
     for (var i = 0; i < points.length; i = i + 3) {
         dest[0] += points[i];
         dest[1] += points[i + 1];

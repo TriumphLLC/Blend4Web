@@ -57,8 +57,7 @@ function create_render(type) {
         id: 0,
         data_id: 0,
         world_tsr: m_tsr.create_ext(),
-        world_zup_tsr: m_tsr.create_ext(),
-        world_inv_zup_tsr: m_tsr.create_ext(),
+        world_tsr_inv: m_tsr.create_ext(),
         pivot: new Float32Array(3),
         hover_pivot: new Float32Array(3),
         init_dist: 0,
@@ -198,17 +197,18 @@ function create_render(type) {
         bb_world: m_bounds.create_bb(),
         bs_local: m_bounds.create_bs(),
         bs_world: m_bounds.create_bs(),
+        be_local: m_bounds.create_be(),
+        be_world: m_bounds.create_be(),
         bcyl_local: null,
         bcap_local: null,
         bcon_local: null,
-        be_local: m_bounds.create_be(),
-        be_world: m_bounds.create_be(),
 
-        do_not_use_be: false
+        use_batches_boundings: true,
+        use_be: false
     }
 
     // setting default values
-    m_vec3.copy(m_util.AXIS_Y, render.vertical_axis);
+    m_vec3.copy(m_util.AXIS_Z, render.vertical_axis);
 
     return render;
 }
@@ -220,8 +220,7 @@ exports.clone_render = function(render) {
     out.id = render.id;
     out.data_id = render.data_id;
     m_tsr.copy(render.world_tsr, out.world_tsr);
-    m_tsr.copy(render.world_zup_tsr, out.world_zup_tsr);
-    m_tsr.copy(render.world_inv_zup_tsr, out.world_inv_zup_tsr);
+    m_tsr.copy(render.world_tsr_inv, out.world_tsr_inv);
     m_vec3.copy(render.pivot, out.pivot);
     m_vec3.copy(render.hover_pivot, out.hover_pivot);
     out.init_dist = render.init_dist;
@@ -351,13 +350,13 @@ exports.clone_render = function(render) {
     m_bounds.copy_bb(render.bb_world, out.bb_world);
     m_bounds.copy_bs(render.bs_local, out.bs_local);
     m_bounds.copy_bs(render.bs_world, out.bs_world);
+    m_bounds.copy_be(render.be_local, out.be_local);
+    m_bounds.copy_be(render.be_world, out.be_world);
     out.bcyl_local = m_util.clone_object_r(render.bcyl_local);
     out.bcap_local = m_util.clone_object_r(render.bcap_local);
     out.bcon_local = m_util.clone_object_r(render.bcon_local);
-    out.be_local = m_util.clone_object_r(render.be_local);
-    out.be_world = m_util.clone_object_r(render.be_world);
 
-    out.do_not_use_be = render.do_not_use_be;
+    out.use_batches_boundings = render.use_batches_boundings;
 
     return out;
 }
@@ -711,7 +710,7 @@ exports.check_inv_zup_tsr_is_needed = function(obj) {
             var dirs = batches[j].shaders_info.directives;
             for (var k = 0; k < dirs.length; k++) {
                 var dir = dirs[k];
-                if (dir[0] == "USE_ZUP_MODEL_MATRIX_INVERSE" && dir[1] == "1")
+                if (dir[0] == "USE_MODEL_MATRIX_INVERSE" && dir[1] == "1")
                     return true;
             }
        }

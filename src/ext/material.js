@@ -31,6 +31,7 @@ var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_shaders  = require("__shaders");
 var m_util     = require("__util");
+var m_scenes   = require("__scenes");
 
 var cfg_def = m_cfg.defaults;
 
@@ -640,6 +641,7 @@ exports.set_material_extended_params = function(obj, mat_name, mat_params) {
             var parallax_steps = m_shaders.glsl_value(parseFloat(mat_params.material_parallax_steps));
             m_batch.set_batch_directive(batch, "PARALLAX_STEPS", parallax_steps);
             m_batch.update_shader(batch);
+            m_scenes.recalculate_draw_data(batch);
         }
     }
 }
@@ -798,6 +800,7 @@ exports.set_water_material_params = function(obj, water_mat_name, water_mat_para
             }
         }
         m_batch.update_shader(batch);
+        m_scenes.recalculate_draw_data(batch);
     }
 }
 

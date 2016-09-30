@@ -67,7 +67,10 @@ function loaded_callback(data_id) {
     var cont = m_cont.get_container();
 
     if (check_user_agent("iPad") || check_user_agent("iPhone"))
-        cont.style.width = "99%";
+        if (window.innerWidth < 1366)
+            cont.style.width = "99%";
+        else
+            cont.style.width = "94%";
 
     if (canv_repl)
         canv_repl.style.display = "none";

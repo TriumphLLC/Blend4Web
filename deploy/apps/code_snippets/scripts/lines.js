@@ -61,12 +61,12 @@ function draw_lines() {
     for (var i = 0; i < num_points; i++) {
         var t = i / num_points;
         positions1[3*i  ] = amp * Math.cos(w*t + Math.PI);
-        positions1[3*i+1] = max_height * t;
-        positions1[3*i+2] = amp * Math.sin(w*t + Math.PI);
+        positions1[3*i+1] = amp * Math.sin(Math.PI - w*t);
+        positions1[3*i+2] = max_height * t;
 
         positions2[3*i  ] = amp * Math.cos(w*t);
-        positions2[3*i+1] = max_height * t;
-        positions2[3*i+2] = amp * Math.sin(w*t);
+        positions2[3*i+1] = amp * Math.sin(-w*t);
+        positions2[3*i+2] = max_height * t;
     }
     m_geom.draw_line(line1, positions1);
     m_mat.set_line_params(line1, {

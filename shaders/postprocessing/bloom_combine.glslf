@@ -1,6 +1,7 @@
 #version GLSL_VERSION
 
 #include <precision_statement.glslf>
+#include <std.glsl>
 uniform sampler2D u_main;
 uniform sampler2D u_bloom;
 

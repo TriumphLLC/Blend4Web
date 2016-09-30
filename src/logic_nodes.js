@@ -92,6 +92,11 @@ var NSO_FIND    = 1;
 var NSO_REPLACE = 2;
 var NSO_SPLIT   = 3;
 var NSO_COMPARE = 4;
+exports.NSO_JOIN    = NSO_JOIN;
+exports.NSO_FIND    = NSO_FIND;
+exports.NSO_REPLACE = NSO_REPLACE;
+exports.NSO_SPLIT   = NSO_SPLIT;
+exports.NSO_COMPARE = NSO_COMPARE;
 
 /**
  * Node json operations
@@ -108,12 +113,12 @@ var NC_GREATER  = 2;
 var NC_LESS     = 3;
 var NC_NOTEQUAL = 4;
 var NC_EQUAL    = 5;
-exports.NC_GEQUAL = NC_GEQUAL;
-exports.NC_LEQUAL = NC_LEQUAL;
-exports.NC_GREATER = NC_GREATER;
-exports.NC_LESS = NC_LESS;
+exports.NC_GEQUAL   = NC_GEQUAL;
+exports.NC_LEQUAL   = NC_LEQUAL;
+exports.NC_GREATER  = NC_GREATER;
+exports.NC_LESS     = NC_LESS;
 exports.NC_NOTEQUAL = NC_NOTEQUAL;
-exports.NC_EQUAL = NC_EQUAL;
+exports.NC_EQUAL    = NC_EQUAL;
 
 /**
  * Node space type
@@ -121,6 +126,9 @@ exports.NC_EQUAL = NC_EQUAL;
 var NST_WORLD  = 0;
 var NST_PARENT = 1;
 var NST_LOCAL  = 2;
+exports.NST_WORLD  = NST_WORLD;
+exports.NST_PARENT = NST_PARENT;
+exports.NST_LOCAL  = NST_LOCAL;
 
 /**
  * Node cb param type
@@ -864,9 +872,9 @@ function move_camera_handler(node, logic, thread_state, timeline, elapsed, start
     }
 
     function set_tsr(cam, trans, target, tsr_out) {
-        m_mat4.lookAt(trans, target, m_util.AXIS_Y, _mat4_tmp);
+        m_mat4.lookAt(trans, target, m_util.AXIS_Z, _mat4_tmp);
         m_mat4.invert(_mat4_tmp, _mat4_tmp);
-        m_mat4.rotateX(_mat4_tmp, Math.PI / 2, _mat4_tmp);
+        // m_mat4.rotateX(_mat4_tmp, Math.PI / 2, _mat4_tmp);
         var rot_matrix = _mat3_tmp;
         m_mat3.fromMat4(_mat4_tmp, rot_matrix);
         m_quat.fromMat3(rot_matrix, _vec4_tmp);
@@ -1091,24 +1099,12 @@ function transform_object_handler(node, logic, thread_state, timeline, elapsed, 
             //euler angles rotation
             var eul_rot =  _vec3_tmp
             eul_rot[0] = node.bools["rox"] ?
-                convert_variable(get_var(node.vars['rox'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["rox"];
+                convert_variable(get_var(node.vars['rox'], logic.variables, thread_state.variables), NT_NUMBER) * Math.PI / 180 : node.floats["rox"];
             eul_rot[1] = node.bools["roy"] ?
-                convert_variable(get_var(node.vars['roy'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["roy"];
+                convert_variable(get_var(node.vars['roy'], logic.variables, thread_state.variables), NT_NUMBER) * Math.PI / 180 : node.floats["roy"];
             eul_rot[2] = node.bools["roz"] ?
-                convert_variable(get_var(node.vars['roz'], logic.variables, thread_state.variables), NT_NUMBER) : node.floats["roz"];
+                convert_variable(get_var(node.vars['roz'], logic.variables, thread_state.variables), NT_NUMBER) * Math.PI / 180 : node.floats["roz"];
             var sc = node.bools["sc"] ? get_var(node.vars['sc'], logic.variables, thread_state.variables) : node.floats["sc"]
-
-            //rotate axis if variables are used
-            if (node.bools["try"] || node.bools["trz"]) {
-                _vec2_tmp[1] = -tr[1];
-                tr[1] = tr[2];
-                tr[2] = _vec2_tmp[1];
-            }
-            if (node.bools["roy"] || node.bools["roz"]) {
-                _vec2_tmp[1] = -eul_rot[1];
-                eul_rot[1] = eul_rot[2];
-                eul_rot[2] = _vec2_tmp[1];
-            }
             
             m_util.euler_to_quat(eul_rot, _vec4_tmp);
             m_tsr.set_sep(
@@ -1380,7 +1376,7 @@ function play_anim_handler(node, logic, thread_state, timeline, elapsed, start_t
         for (var i = 0; i < 8; i++) {
             var anim_slot = obj.anim_slots[i];
             if (anim_slot && anim_slot.animation_name) {
-                if (anim_slot.animation_name == anim_name)
+                if (m_anim.strip_baked_suffix(anim_slot.animation_name) == m_anim.strip_baked_suffix(anim_name))
                     if (status == 0)
                         status = 1;
                     else
@@ -1482,7 +1478,7 @@ function string_handler(node, logic, thread_state, timeline, elapsed, start_time
         var op2 = node.bools["id1"] ? convert_variable(
             get_var(node.vars['id1'], logic.variables, thread_state.variables), NT_STRING) : node.strings["id1"];
         var result = 0;
-        switch (node.floats["sop"]) {
+        switch (node.common_usage_names["string_operation"]) {
         case NSO_JOIN:
             result = op1 + op2;
             break;
@@ -1495,8 +1491,9 @@ function string_handler(node, logic, thread_state, timeline, elapsed, start_time
             result = op1.replace(op2, op3);
             break;
         case NSO_SPLIT:
+            var vars = node.vars;
             result  = op1.substring(0, op1.indexOf(op2));
-            set_var(node.vars['dst1'], logic.variables, thread_state.variables,
+            set_var(vars['dst1'], logic.variables, thread_state.variables,
                 op1.substring(op1.indexOf(op2)+1, op1.length))
             //if splitter not found keep result in main destination
             if(get_var(vars['dst'], logic.variables, thread_state.variables) == "") {

@@ -729,7 +729,7 @@ function update_proc_chain(obj, scene_sfx) {
         m_vec3.copy(pos, sfx.last_position);
 
         var orient = _vec3_tmp;
-        m_util.quat_to_dir(quat, m_util.AXIS_MY, orient);
+        m_util.quat_to_dir(quat, m_util.AXIS_MZ, orient);
         ap.setOrientation(orient[0], orient[1], orient[2]);
 
         ap.refDistance = sfx.dist_ref;
@@ -1339,7 +1339,7 @@ exports.speaker_update_transform = function(obj, elapsed, upd_cnt) {
     panner.setPosition(pos[0], pos[1], pos[2]);
 
     var orient = _vec3_tmp2;
-    m_util.quat_to_dir(quat, m_util.AXIS_MY, orient);
+    m_util.quat_to_dir(quat, m_util.AXIS_MZ, orient);
     panner.setOrientation(orient[0], orient[1], orient[2]);
 
     if (!sfx.enable_doppler)

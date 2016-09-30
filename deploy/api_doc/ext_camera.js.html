@@ -149,11 +149,11 @@ var _limits_tmp2 = {};
  * An object that defines limits for translations along the Y axis for the 
  * camera pivot point.
  * @typedef {Object} PivotLimits
- * @property {Number} min_y The minimum value that restricts pivot translation 
- * along the Y axis.
- * @property {Number} max_y The maximum value that restricts pivot translation 
- * along the Y axis.
- * @cc_externs min_y max_y
+ * @property {Number} min_z The minimum value that restricts pivot translation 
+ * along the Z axis.
+ * @property {Number} max_z The maximum value that restricts pivot translation 
+ * along the Z axis.
+ * @cc_externs min_z max_z
  */
 
 /**
@@ -729,7 +729,7 @@ exports.target_set_distance = function(camobj, distance) {
     var dist_needed = Math.max(0, distance);
 
     // +y move backward
-    m_trans.move_local(camobj, 0, dist_needed - dist_curr, 0);
+    m_trans.move_local(camobj, 0, 0, dist_needed - dist_curr);
 
     m_trans.update_transform(camobj);
     m_phy.sync_transform(camobj);
@@ -777,7 +777,7 @@ exports.target_zoom_object = function(camobj, obj) {
     m_trans.update_transform(camobj);
 
     // +y move backward
-    m_trans.move_local(camobj, 0, dist_need - dist_current, 0);
+    m_trans.move_local(camobj, 0, 0, dist_need - dist_current);
 
     m_trans.update_transform(camobj);
     m_phy.sync_transform(camobj);
@@ -978,8 +978,8 @@ exports.target_set_pivot_limits = function(camobj, limits) {
     }
 
     if (limits) {
-        if (typeof limits.min_y != "number" || typeof limits.max_y != "number" 
-                || limits.min_y > limits.max_y) {
+        if (typeof limits.min_z != "number" || typeof limits.max_z != "number" 
+                || limits.min_z > limits.max_z) {
             m_print.error("target_set_pivot_limits(): Wrong limits object");
             return;
         }
@@ -1006,8 +1006,8 @@ exports.target_get_pivot_limits = function(camobj, dest) {
     var render = camobj.render;
     if (render.pivot_limits) {
         dest = dest || {};
-        dest.min_y = render.pivot_limits.min_y;
-        dest.max_y = render.pivot_limits.max_y;
+        dest.min_z = render.pivot_limits.min_z;
+        dest.max_z = render.pivot_limits.max_z;
         return dest;
     } else
         return null;
@@ -1034,8 +1034,8 @@ exports.target_pan_pivot = function(camobj, trans_h_delta, trans_v_delta) {
     if (render.use_panning) {
         var trans_vector = _vec3_tmp;
         trans_vector[0] = trans_h_delta;
-        trans_vector[1] = 0;
-        trans_vector[2] = trans_v_delta;
+        trans_vector[1] = -trans_v_delta;
+        trans_vector[2] = 0;
 
         m_tsr.transform_dir_vec3(trans_vector, render.world_tsr, trans_vector);
 
@@ -1694,7 +1694,7 @@ exports.is_look_up = function(camobj) {
     }
 
     var quat = m_tsr.get_quat_view(camobj.render.world_tsr);
-    var dir = m_util.quat_to_dir(quat, m_util.AXIS_MY, _vec3_tmp);
+    var dir = m_util.quat_to_dir(quat, m_util.AXIS_MZ, _vec3_tmp);
 
     return dir[1] >= 0;
 }
@@ -1936,7 +1936,7 @@ exports.get_view_vector = function(camobj, dest) {
 
     dest = dest || new Float32Array(3);
     var quat = m_tsr.get_quat_view(camobj.render.world_tsr);
-    m_util.quat_to_dir(quat, m_util.AXIS_MY, dest);
+    m_util.quat_to_dir(quat, m_util.AXIS_MZ, dest);
 
     return dest;
 }
@@ -2010,18 +2010,18 @@ exports.set_hmd_fov = function(camobj, hmd_left_fov, hmd_right_fov) {
  * Correct the UP vector of the camera.
  * @method module:camera.correct_up
  * @param {Object3D} camobj Camera 3D-object.
- * @param {Vec3} [y_axis=util.AXIS_Y] Axis vector.
+ * @param {Vec3} [z_axis=util.AXIS_Z] Axis vector.
  * @param {Boolean} [strict=false] Align camera exactly with the direction of 
  * the given axis vector (never with the opposite direction).
  */
-exports.correct_up = function(camobj, y_axis, strict) {
+exports.correct_up = function(camobj, z_axis, strict) {
     if (!m_obj_util.is_camera(camobj)) {
         m_print.error("correct_up(): Wrong camera object");
         return;
     }
 
-    y_axis = y_axis || camobj.render.vertical_axis;
-    m_cons.correct_up(camobj, y_axis, strict || false);
+    z_axis = z_axis || camobj.render.vertical_axis;
+    m_cons.correct_up(camobj, z_axis, strict || false);
 
     m_trans.update_transform(camobj);
     m_phy.sync_transform(camobj);
@@ -2130,8 +2130,8 @@ exports.calc_ray = function(camobj, canvas_x, canvas_y, dest) {
 
         // in the camera's local space
         dir[0] = (2.0 * viewport_xy[0] / cam.width - 1.0) * right_1m;
-        dir[1] = -1;
-        dir[2] = (2.0 * viewport_xy[1] / cam.height - 1.0) * top_1m;
+        dir[1] = (1.0 - 2.0 * viewport_xy[1] / cam.height) * top_1m;
+        dir[2] = -1;
 
         m_tsr.transform_dir_vec3(dir, camobj.render.world_tsr, dir);
 
@@ -2153,14 +2153,14 @@ exports.calc_ray = function(camobj, canvas_x, canvas_y, dest) {
                 _vec2_tmp, cam);
 
         dir[0] = (2.0 * viewport_xy[0] / cam.width - 1.0) * cam.top * cam.aspect;
-        dir[1] = 0;
-        dir[2] = (2.0 * viewport_xy[1] / cam.height - 1.0) * cam.top;
+        dir[1] = (1.0 - 2.0 * viewport_xy[1] / cam.height) * cam.top;
+        dir[2] = 0;
 
         m_tsr.transform_vec3(dir, camobj.render.world_tsr, dir);
         m_vec3.copy(dir, dest);
 
         var quat = m_tsr.get_quat_view(camobj.render.world_tsr, _vec4_tmp);
-        m_vec3.transformQuat(m_util.AXIS_MY, quat, dir);
+        m_vec3.transformQuat(m_util.AXIS_MZ, quat, dir);
 
         m_math.set_pline_directional_vec(dest, dir);
         return dest;
@@ -2427,7 +2427,7 @@ exports.clear_hover_angle_limits = function(camobj) {
  * @param {Object3D} camobj Camera object
  * @param {Vec3} eye Eye point (position of the camera)
  * @param {Vec3} target Target point (point the camera is looking at)
- * @param {Vec3} [up=util.AXIS_Y] Up vector ("up" direction of the camera)
+ * @param {Vec3} [up=util.AXIS_Z] Up vector ("up" direction of the camera)
  * @deprecated use {@link module:camera.static_set_look_at|camera.static_set_look_at}
  * or {@link module:camera.eye_set_look_at|camera.eye_set_look_at} instead.
  */
@@ -2550,7 +2550,7 @@ exports.zoom_object = function(camobj, obj) {
     var dist_current = m_trans.obj_point_distance(camobj, center);
 
     // +y move backward
-    m_trans.move_local(camobj, 0, dist_need - dist_current, 0);
+    m_trans.move_local(camobj, 0, 0, dist_need - dist_current);
 
     m_trans.update_transform(camobj);
     m_phy.sync_transform(camobj);
@@ -3019,7 +3019,7 @@ exports.get_frustum_planes = function(camobj, planes) {
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Wed Aug 31 2016 12:42:00 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Sep 29 2016 15:32:48 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

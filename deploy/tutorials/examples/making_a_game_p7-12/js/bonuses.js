@@ -149,8 +149,8 @@ exports.spawn = function(position) {
         var bonus = bonus_wrapper.empty;
         var trans = _vec3_tmp;
         m_trans.get_translation(bonus, trans);
-        if (trans[1] == -1 && bonus_wrapper.type == bonus_type) {
-            position[1] += 0.05;
+        if (trans[2] == -1 && bonus_wrapper.type == bonus_type) {
+            position[2] += 0.05;
             m_trans.set_translation_v(bonus, position);
             bonus_wrapper.lifetime = m_conf.BONUS_LIFETIME;
             m_scs.show_object(bonus_wrapper.body);

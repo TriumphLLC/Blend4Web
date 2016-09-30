@@ -1,6 +1,5 @@
-#export lin_to_srgb srgb_to_lin
-#export premultiply_alpha
-#export luma
+#ifndef COLOR_UTIL_GLSLF
+#define COLOR_UTIL_GLSLF
 
 #define GAMMA 1
 #define PREMULTIPLY_ALPHA 1
@@ -46,3 +45,5 @@ float luma(vec4 color) {
     float l = dot(color.rgb, luma_coeff);
     return l;
 }
+
+#endif

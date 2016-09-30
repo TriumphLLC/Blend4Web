@@ -93,7 +93,7 @@ exports.lamp_to_light = function(bpy_obj, obj) {
     light.use_diffuse = data["use_diffuse"];
     light.use_specular = data["use_specular"];
     var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-    var dir = m_util.quat_to_dir(quat, m_util.AXIS_Y, _vec3_tmp);
+    var dir = m_util.quat_to_dir(quat, m_util.AXIS_Z, _vec3_tmp);
     // though dir seems to be normalized, do it explicitely
     m_vec3.normalize(dir, dir);
     light.direction.set(dir);
@@ -183,7 +183,7 @@ function update_light_transform(obj) {
         return;
 
     var quat = m_tsr.get_quat_view(obj.render.world_tsr);
-    m_util.quat_to_dir(quat, m_util.AXIS_Y, light.direction);
+    m_util.quat_to_dir(quat, m_util.AXIS_Z, light.direction);
     m_vec3.normalize(light.direction, light.direction);
 
     if (light.type == "SUN") {

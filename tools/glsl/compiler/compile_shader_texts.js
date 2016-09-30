@@ -1,8 +1,10 @@
 #!/usr/bin/env nodejs
 
 var fs = require("fs");
+var path = require("path");
 
 var m_trans = require("./ast_translator.js");
+var m_debug = require("./debug.js");
 var m_glsl  = require("./glsl_parser.js");
 var m_gpp   = require("./gpp_parser.js");
 var m_obf   = require("./obfuscator.js");
@@ -25,7 +27,7 @@ var OUTPUT_MODULE_TEXTS = "shader_texts";
 var CODE_DISPLAY_RANGE = 6;
 var MAX_STAT_OUTPUT_COUNT = 30;
 
-// NOTE: set to false to see original error messages
+// set to false to see original error messages
 var CATCH_ERRORS = true;
 
 var config = {
@@ -40,84 +42,100 @@ function compile(argv) {
 
     var files = get_shader_files();
 
-    // Remove comments
-    for (var type in files)
-        for (var i = 0; i < files[type].length; i++) {  
-            var text = remove_comments(files[type][i].text);
-            files[type][i].text_no_comments = text;
-        }
+    for (var i = 0; i < files.length; i++) {  
+        var file = files[i];
 
-    // Preprocessing directives (#include, #define, #var, ...)
-    var used_includes = [];
-    for (var i = 0; i < files.main_files.length; i++) { 
-        var incl_data = insert_includes(files.main_files[i].text_no_comments, files.include_files);
-        used_includes = used_includes.concat(incl_data.used_includes);
-        var text = process_directives(incl_data.text, files.main_files[i].name);
-        files.main_files[i].text_with_includes = text;
+        // preprocess shader text
+        file.text_raw = file.text = remove_comments(file.text);
+        file.text = replace_include_dir(file.text);
+        var result = process_directives(file.text, file.name);
+        file.text = result.text;
+        file.pp_units_simple = result.units;
     }
-    check_used_includes(used_includes, files.include_files);
 
-    // Ast building
+    m_valid.check_used_includes(files);
+    m_valid.validate_vars(files);
+
     var vardef_ids = [];
-    var ast_arrays = [];
-    for (var i = 0; i < files.main_files.length; i++) {
-        var ast_parsing_result = source_to_ast(files.main_files[i].text_with_includes, 
-                files.main_files[i].name);
-        vardef_ids = vardef_ids.concat(ast_parsing_result.vardef_ids);
-        ast_arrays.push(ast_parsing_result);
-    }
+    for (var i = 0; i < files.length; i++) {  
+        var file = files[i];
 
-    // Ast validation and optimization
-    for (var i = 0; i < files.main_files.length; i++) {
-        m_valid.validate(ast_arrays[i], vardef_ids, files.main_files[i].name, 
-                files.main_files[i].type);
+        // build AST
+        file.ast_data = source_to_ast(file.text, file.name);
+        vardef_ids = vardef_ids.concat(file.ast_data.vardef_ids);
+
+        // optimize
         if (config.remove_braces)
-            m_optim.delete_unused_braces(ast_arrays[i]);
+            m_optim.delete_unused_braces(file.ast_data);
     }
 
-    // Obfuscation
+    // TODO: check used includes (like "insert_includes") and omit non-used
+
+    // obfuscate
     if (config.obfuscate)
-        m_obf.obfuscate(ast_arrays, vardef_ids, files.main_files);
+        m_obf.obfuscate(files, vardef_ids);
 
-    // perform shaders validation after processing
-    m_valid.check_dead_functions();
-    m_valid.check_dead_variables();
-    m_valid.check_import_export_tokens();
-
-    // get shaders texts
-    var include_texts = {}
-    for (var i = 0; i < files.main_files.length; i++) {
-        // Listing manipulations
-        var text = ast_to_source(ast_arrays[i]);
-        var data = separate_include_code(text);
-
-        files.main_files[i].text = data.text;
-
-        for (var j = 0; j < data.include_blocks.length; j++) {
-            var block = data.include_blocks[j];
-            include_texts[block.name] = { text: block.text };
-        }
+    // build shader text
+    for (var i = 0; i < files.length; i++) {
+        files[i].text = ast_to_source(files[i].ast_data);
+        files[i].text = return_include_dir(files[i].text);
+        files[i].text = clean_source(files[i].text);
     }
 
-    // check the final compiled text of a shader
-    for (var i = 0; i < files.main_files.length; i++)
-        m_valid.check_version(files.main_files[i].text, files.main_files[i].name);
+    // validate
+    for (var i = 0; i < files.length; i++) 
+        if (!files[i].is_include)
+            m_valid.check_version(files[i].text, files[i].name);
 
-    // Get preprocessed ast from shaders texts
-    for (var i = 0; i < files.main_files.length; i++)
-        files.main_files[i].ast_pp = source_to_ast_pp(files.main_files[i].text, 
-                files.main_files[i].name);
+    // build pp AST
+    for (var i = 0; i < files.length; i++)
+        files[i].ast_pp = source_to_ast_pp(files[i].text, files[i].name);
 
-    for (var name in include_texts)
-        include_texts[name].ast_pp = source_to_ast_pp(include_texts[name].text, 
-                name);
+    var ast_str = ast_to_json(files);
 
-    var ast_str = ast_to_json(files.main_files, include_texts);
     if (config.show_ast_tokens_stat)
         process_ast_tokens_stat(ast_str);
 
     if (config.export_shaders)
         fs.writeFileSync(OUTPUT_FILE_TEXTS, ast_str);
+    
+    return;
+
+    // // Ast building
+    // var vardef_ids = [];
+    // var ast_data_arrays = [];
+    // for (var i = 0; i < files.main_files.length; i++) {
+    //     var ast_parsing_result = source_to_ast(files.main_files[i].text_with_includes, 
+    //             files.main_files[i].name);
+    //     vardef_ids = vardef_ids.concat(ast_parsing_result.vardef_ids);
+    //     ast_data_arrays.push(ast_parsing_result);
+    // }
+
+    // // Ast validation and optimization
+    // for (var i = 0; i < files.main_files.length; i++) {
+    //     m_valid.validate(ast_data_arrays[i], vardef_ids, files.main_files[i].name, 
+    //             files.main_files[i].type);
+    // }
+
+
+    // // perform shaders validation after processing
+    // m_valid.check_dead_functions();
+    // m_valid.check_dead_variables();
+
+    // get shaders texts
+    // var include_texts = {}
+    // for (var i = 0; i < files.main_files.length; i++) {
+    //     // Listing manipulations
+    //     var text = ast_to_source(ast_data_arrays[i]);
+    //     var data = separate_include_code(text);
+
+    //     files.main_files[i].text = data.text;
+
+    //     for (var j = 0; j < data.include_blocks.length; j++) {
+    //         var block = data.include_blocks[j];
+    //         include_texts[block.name] = { text: block.text };
+    //     }
+    // }
 
     return;
 }
@@ -136,21 +154,21 @@ function process_arguments(argv) {
 }
 
 function get_shader_files() {
-    var main_files = load_files(PATH_TO_SHADERS_DIR);
-    main_files = main_files.concat(load_files(PATH_TO_POSTPROCESS_DIR));
-    var include_files = load_files(PATH_TO_INCLUDE_DIR);
-    return {
-        main_files: main_files,
-        include_files: include_files
-    }
+    var files = load_files(PATH_TO_SHADERS_DIR);
+    files = files.concat(load_files(PATH_TO_POSTPROCESS_DIR));
+    files = files.concat(load_files(PATH_TO_INCLUDE_DIR, true));
+    return files;
 }
 
-function load_files(dir) {
+function load_files(dir, is_include) {
     var file_names = fs.readdirSync(dir);
     
     var files = [];
     for (var i in file_names) {
         var name = file_names[i];
+
+        var fullpath = path.join(dir, name);
+        var relpath = path.relative(PATH_TO_SHADERS_DIR, fullpath);
 
         var is_shader = false;
         var type = null;
@@ -169,7 +187,17 @@ function load_files(dir) {
 
         if (is_shader) {
             var text = fs.readFileSync(dir + name, "UTF8");
-            files.push({ name: name, text: text, type: type, dir: dir });
+            files.push({ 
+                name: name,
+                relpath: relpath,
+                text: text,
+                text_raw: null,
+                ast_data: null,
+                ast_pp: null,
+                pp_units_simple: null,
+                is_include: is_include || false,
+                type: type, 
+            });
         }
     }
 
@@ -182,33 +210,42 @@ function remove_comments(text) {
     return text.replace(expr_single, "").replace(expr_multi, "");
 }
 
-function insert_includes(text, include_array) {
-    var used_includes = [];
-
-    var expr = /# *?include *?<(.*?)>/g;
-    while ((res = expr.exec(text)) != null) {
-        var include_is_found = false;
-        for (var i = 0; i < include_array.length; i++) {
-            var incl = include_array[i];
-
-            if (incl.name == res[1]) {
-                var expr_str = "# *?include *?<" + res[1] + ">";
-                var repl_expr = new RegExp(expr_str, "");
-                text = text.replace(repl_expr, "#include%" + res[1] + "%\n" + incl.text 
-                        + "\n#include_end%" + res[1] + "%");
-                include_is_found = true;
-            }
-        }
-        if (!include_is_found)
-            fail("Error! Include '" + res[1] + "' not found.");
-        if (used_includes.indexOf(res[1]) == -1)
-            used_includes.push(res[1]);
-    }
-    return {
-        text: text,
-        used_includes: used_includes
-    }
+function replace_include_dir(text) {
+    return text.replace(/# *?include *?<(.*?)>/g, "#include%$1%\n#include_end%$1%");
 }
+
+function return_include_dir(text) {
+    var expr = /\/\*%include%(.*?)%\*\/([\s\S]*?)\/\*%include_end%.*?%\*\//gm;
+    return text.replace(expr, "#include<$1>");
+}
+
+// function insert_includes(text, include_array) {
+//     var used_includes = [];
+
+//     var expr = /# *?include *?<(.*?)>/g;
+//     while ((res = expr.exec(text)) != null) {
+//         var include_is_found = false;
+//         for (var i = 0; i < include_array.length; i++) {
+//             var incl = include_array[i];
+
+//             if (incl.name == res[1]) {
+//                 var expr_str = "# *?include *?<" + res[1] + ">";
+//                 var repl_expr = new RegExp(expr_str, "");
+//                 text = text.replace(repl_expr, "#include%" + res[1] + "%\n" + incl.text 
+//                         + "\n#include_end%" + res[1] + "%");
+//                 include_is_found = true;
+//             }
+//         }
+//         if (!include_is_found)
+//             m_debug.fail("Error! Include '" + res[1] + "' not found.");
+//         if (used_includes.indexOf(res[1]) == -1)
+//             used_includes.push(res[1]);
+//     }
+//     return {
+//         text: text,
+//         used_includes: used_includes
+//     }
+// }
 
 function process_directives(text, file_name) {
     if (CATCH_ERRORS)
@@ -216,7 +253,7 @@ function process_directives(text, file_name) {
             var result = m_glsl.parse(text, {startRule: "pp_start"});
         } catch(err) {
             var message = pegjs_error_message(err, file_name, text);
-            fail(message);
+            m_debug.fail(message);
         }
     else
         var result = m_glsl.parse(text, {startRule: "pp_start"});
@@ -229,7 +266,7 @@ function source_to_ast(text, file_name) {
             var result = m_glsl.parse(text);
         } catch(err) {
             var message = pegjs_error_message(err, file_name, text);
-            fail(message);
+            m_debug.fail(message);
         }
     else
         var result = m_glsl.parse(text);
@@ -244,7 +281,7 @@ function source_to_ast_pp(text, file_name) {
             var result = m_gpp.parse(text);
         } catch(err) {
             var message = pegjs_error_message(err, file_name, text);
-            fail(message);
+            m_debug.fail(message);
         }
     else {
         // NOTE: fix parser issue when some directive is ended by EOF
@@ -258,24 +295,24 @@ function ast_to_source(ast_data) {
     return m_trans.translate(ast_data);
 }
 
-function separate_include_code(text) {
-    var include_blocks = [];
+// function separate_include_code(text) {
+//     var include_blocks = [];
 
-    var expr = /\/\*%include%(.*?)%\*\/([\s\S]*?)\/\*%include_end%.*?%\*\//gm;
-    while ((res = expr.exec(text)) != null) {
-        include_blocks.push({
-            name: res[1],
-            text: clean_source(res[2])
-        });
-    }
+//     var expr = /\/\*%include%(.*?)%\*\/([\s\S]*?)\/\*%include_end%.*?%\*\//gm;
+//     while ((res = expr.exec(text)) != null) {
+//         include_blocks.push({
+//             name: res[1],
+//             text: clean_source(res[2])
+//         });
+//     }
 
-    text = clean_source(text.replace(expr, "#include<$1>"));
+//     text = clean_source(text.replace(expr, "#include<$1>"));
 
-    return {
-        include_blocks: include_blocks,
-        text: text
-    }
-}
+//     return {
+//         include_blocks: include_blocks,
+//         text: text
+//     }
+// }
 
 function clean_source(text) {
     var lb_double = /\n(\n)+/g;
@@ -293,27 +330,11 @@ function clean_source(text) {
             .replace(semic_repeat, ";").trim();
 }
 
-function check_used_includes(used_includes, existed_includes) {
-    for (var i = 0; i < existed_includes.length; i++) {
-        var name = existed_includes[i].name;
-        if (used_includes.indexOf(name) == -1)
-            console.warn("Warning! Include file '" + name 
-                    + "' not used in any shader, would be omitted!");
-    }
-}
-
-function ast_to_json(files, include_texts) {
+function ast_to_json(files) {
     var data = { }
-    for (var i = 0; i < files.length; i++) {
-        var path = "";
-        if (files[i].dir == PATH_TO_POSTPROCESS_DIR)
-            path = "postprocessing/";
-        data[path + files[i].name] = files[i].ast_pp;
-    }
-
-    for (var name in include_texts) {
-        data["include/" + name] = include_texts[name].ast_pp;
-    }
+    
+    for (var i = 0; i < files.length; i++)
+        data[files[i].relpath] = files[i].ast_pp;
 
     var data_strings = [];
     // NOTE: remove properties quotes, remain them for shaders names
@@ -358,11 +379,6 @@ function pegjs_error_message(err, file_name, file_text) {
 
     message += "\n" + source;
     return message
-}
-
-function fail(message) {
-    console.error(message);
-    process.exit(1);
 }
 
 function process_ast_tokens_stat(ast_str) {
