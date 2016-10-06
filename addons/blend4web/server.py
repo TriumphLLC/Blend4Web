@@ -381,7 +381,7 @@ def correct_resources_path(previewdir):
                 sound["filepath"] = guard_slashes(join("resources", file_name))
     if len(os.listdir(res_dir_path)):
         try:
-            f  = oper(json_path, "w", encoding="utf-8")
+            f  = open(json_path, "w", encoding="utf-8")
         except IOError as exp:
             raise FileError("Permission denied")
         else:
