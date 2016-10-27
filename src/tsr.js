@@ -28,7 +28,6 @@ var m_mat4 = require("__mat4");
 var m_quat = require("__quat");
 var m_util = require("__util");
 var m_vec3 = require("__vec3");
-var m_vec4 = require("__vec4");
 
 var ZUP_SIN = Math.sin(-Math.PI/4);
 var ZUP_COS = -ZUP_SIN;
@@ -574,30 +573,13 @@ exports.transform_quat = function(quat, tsr, new_quat) {
 exports.transform_quats = function(vectors, tsr, new_vectors,
         dest_offset) {
 
-    if (!dest_offset)
-        var dest_offset = 0;
+    var dest_offset = dest_offset || 0;
 
     var len = vectors.length;
 
     var rot_quat = get_quat(tsr, _quat_tmp);
 
-    for (var i = 0; i < len; i+=4) {
-        var cur_quat = _quat_tmp2;
-        cur_quat[0] = vectors[i];
-        cur_quat[1] = vectors[i + 1];
-        cur_quat[2] = vectors[i + 2];
-        cur_quat[3] = vectors[i + 3];
-
-        var is_righthand = cur_quat[3] > 0;
-        m_quat.multiply(rot_quat, cur_quat, cur_quat);
-        if (is_righthand && cur_quat[3] < 0 || !is_righthand && cur_quat[3] > 0)
-            m_vec4.scale(cur_quat, -1, cur_quat);
-
-        new_vectors[dest_offset + i] = cur_quat[0];
-        new_vectors[dest_offset + i + 1] = cur_quat[1];
-        new_vectors[dest_offset + i + 2] = cur_quat[2];
-        new_vectors[dest_offset + i + 3] = cur_quat[3];
-    }
+    m_util.quats_multiply_quat(vectors, rot_quat, new_vectors, dest_offset);
 
     return new_vectors;
 }

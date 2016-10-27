@@ -37,6 +37,7 @@ var m_ren       = require("__renderer");
 var m_obj_util  = require("__obj_util");
 var m_curve     = require("__curve");
 var m_vec3      = require("__vec3");
+var m_scs       = require("__scenes");
 
 var cfg_def = m_cfg.defaults;
 var cfg_lim = m_cfg.context_limits;
@@ -924,7 +925,8 @@ function update_texture(texture, image_data, comp_method, filepath, thread_id) {
             var width = calc_pot_size(texture.width * texture.scale_fac);
             var height = calc_pot_size(texture.height * texture.scale_fac);
             if (!texture.need_resize)
-                if (m_util.check_npot(texture.width) || m_util.check_npot(texture.height)) {
+                if (!cfg_def.webgl2 && (m_util.check_npot(texture.width) ||
+                        m_util.check_npot(texture.height))) {
                     draw_resized_image(texture, draw_data, width, height, false);
                     texture.need_resize = true;
                 } else
@@ -997,10 +999,9 @@ function update_texture(texture, image_data, comp_method, filepath, thread_id) {
                 texture.need_resize = true;
             } else {
                 var tex_dim = calc_pot_size(img_dim);
-                if (check_texture_size(3 * tex_dim, 2 * tex_dim))
+                if (!cfg_def.webgl2 && check_texture_size(3 * tex_dim, 2 * tex_dim))
                     texture.need_resize = true;
             }
-
             if (texture.need_resize || cfg_def.resize_cubemap_canvas_hack)
                 resize_cube_map_canvas(texture, image_data, img_dim, tex_dim, infos);
             else
@@ -1045,6 +1046,7 @@ function prepare_npot_texture(tex_target) {
     _gl.texParameteri(tex_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
 }
 
+exports.calc_pot_size = calc_pot_size;
 function calc_pot_size(num) {
     if (m_util.check_npot(num)) {
         var size =  Math.pow(2, parseInt(num).toString(2).length);
@@ -1476,10 +1478,8 @@ function set_texture_by_name(object, texture_name, new_texture) {
         set_texture_by_name_obj(object, texture_name, new_texture);
     else {
         var objects = object.meta_objects;
-        for (var i = 0; i < objects.length; i++) {
-            if (set_texture_by_name_obj(objects[i], texture_name, new_texture))
-                return;
-        }
+        for (var i = 0; i < objects.length; i++)
+            set_texture_by_name_obj(objects[i], texture_name, new_texture);
     }
 }
 
@@ -1503,7 +1503,7 @@ function get_texture_by_name_obj(obj, texture_name) {
         var batches = scene_data.batches;
         for (var k = 0; k < batches.length; k++) {
             var batch = batches[k];
-            if (batch.type == "MAIN")
+            if (batch.type == "MAIN" || batch.type == "SKY")
                 for (var p = 0; p < batch.textures.length; p++) {
                     var tex = batch.textures[p];
                     if (batch.textures[p].name == texture_name)
@@ -1524,14 +1524,11 @@ function set_texture_by_name_obj(obj, texture_name, new_texture) {
             if (batch.type == "MAIN")
                 for (var p = 0; p < batch.textures.length; p++) {
                     var tex = batch.textures[p];
-                    if (batch.textures[p].name == texture_name) {
+                    if (batch.textures[p].name == texture_name)
                         batch.textures[p] = new_texture;
-                        return true;
-                    }
                 }
         }
     }
-    return false;
 }
 
 function find_texture_names(obj, names) {
@@ -1860,9 +1857,12 @@ exports.change_image = function(object, texture_name, image) {
             var texture_new = clone_texture(texture);
             clone_w_texture(texture, texture_new);
             set_texture_by_name(object, texture_name, texture_new);
-        } else
+            update_texture(texture_new, image, false, image.src, 0);
+        } else {
             var texture_new = texture;
-        update_texture(texture_new, image, false, image.src, 0);
+            update_texture(texture_new, image, false, image.src, 0);
+            m_scs.update_sky_texture(object);
+        }
         return true;
     } else
         return false;

@@ -5,22 +5,18 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
 "POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"PO-Revision-Date: 2016-10-11 13:55+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../engine_features.rst:7
 msgid "Engine Features"
@@ -63,8 +59,7 @@ msgstr "**渲染**"
 msgid ""
 "Blend4Web offers a great many features to make your creations look "
 "amazing."
-msgstr ""
-"Blend4Web 提供丰富的功能，使您的作品看起来令人惊叹。"
+msgstr "Blend4Web 提供丰富的功能，使您的作品看起来令人惊叹。"
 
 #: ../engine_features.rst:31
 msgid "Some of them include:"
@@ -88,7 +83,7 @@ msgstr "粒子系统"
 
 #: ../engine_features.rst:37
 msgid "Level of Detail"
-msgstr "级细节"
+msgstr "细节层次"
 
 #: ../engine_features.rst:38
 msgid "Post-processing Effects"
@@ -145,10 +140,9 @@ msgstr "**动画**"
 
 #: ../engine_features.rst:65
 msgid ""
-"Blend4web supports almost every animation technique available in Blender,"
-" including:"
-msgstr ""
-"Blend4web 支持几乎所有在Blender中存在的动画技术，包括："
+"Blend4web supports almost every animation technique available in "
+"Blender, including:"
+msgstr "Blend4web 支持几乎所有在Blender中存在的动画技术，包括："
 
 #: ../engine_features.rst:67
 msgid "Skeletal Animation"
@@ -185,8 +179,8 @@ msgstr "**物理**"
 #: ../engine_features.rst:81
 msgid ""
 "If you are creating a physical simulation or simply want your scene to "
-"behave realistically, then Blend4Web's powerful physics system is at your"
-" service."
+"behave realistically, then Blend4Web's powerful physics system is at "
+"your service."
 msgstr ""
 "如果您正在创建一个物理模拟，或只是想要你的场景来表现现实，Blend4Web 的强"
 "大物理系统正为在您服务。"
@@ -235,8 +229,7 @@ msgstr ""
 msgid ""
 "Here are some of the means that Blend4Web offers you to control how your "
 "creations will sound:"
-msgstr ""
-"这里是一些 Blend4Web 提供的你要控制作品会听起来怎么样的手段 ︰"
+msgstr "这里是一些 Blend4Web 提供的你要控制作品会听起来怎么样的手段 ︰"
 
 #: ../engine_features.rst:105
 msgid "Flexible Playback Control"
@@ -303,8 +296,7 @@ msgstr "**脚本**"
 msgid ""
 "Blend4Web uses JavaScript scenarios to control every aspect of an "
 "application."
-msgstr ""
-"Blend4Web 使用 JavaScript 方案来控制应用程序的每个方面。"
+msgstr "Blend4Web 使用 JavaScript 方案来控制应用程序的每个方面。"
 
 #: ../engine_features.rst:136
 msgid "Some Blend4Web's JavaScript API features include:"
@@ -329,7 +321,3 @@ msgstr "用于商业用途引擎的代码缩减和混淆处理"
 #: ../engine_features.rst:3
 msgid "engine features"
 msgstr "引擎功能"
-
-#~ msgid "|pic01|"
-#~ msgstr ""
-

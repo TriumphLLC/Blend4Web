@@ -5,15 +5,9 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
+"POT-Creation-Date: 2016-10-05 16:56+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -69,11 +63,11 @@ msgstr ""
 msgid ""
 "If you chose not to start the server automatically, you can always do it "
 "manually: go to the ``Render`` tab and press the ``Start Server`` button "
-"on the ``Development Server`` panel:"
+"on the ``Development Tools`` panel:"
 msgstr ""
 "Если не был настроен автоматический запуск сервера, то его можно "
 "стартовать вручную по кнопке ``Start Server`` во вкладке "
-"``Render->Developement Server``:"
+"``Render``, на панели ``Developement Tools``:"
 
 #: ../addon.rst:40
 msgid ""
@@ -1982,34 +1976,6 @@ msgstr "предупреждения об ошибках экспорта"
 #~ msgid "Addon"
 #~ msgstr "Аддон"
 
-#~ msgid ""
-#~ "Blend4Web initialization error! Addon is "
-#~ "not compatible with the PLATFORM "
-#~ "platform."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Warning: Blender version mismatch. Blender "
-#~ "VER_REQUIRED is recommended for the "
-#~ "Blend4Web addon. Current version is "
-#~ "VER_CURRENT."
-#~ msgstr ""
-
 #~ msgid "Incorrect addon directory name."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "JSON version is too old relative "
-#~ "to B4W engine: VER_OLD, required: "
-#~ "VER_NEW. Reexport scene with the latest"
-#~ " B4W addon to fix it."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "JSON version is a bit old relative"
-#~ " to B4W engine: VER_OLD, required: "
-#~ "VER_NEW. Some compatibility issues can "
-#~ "occur. Reexport scene with the latest"
-#~ " B4W addon to fix it."
 #~ msgstr ""
 

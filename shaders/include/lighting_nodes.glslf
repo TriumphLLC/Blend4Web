@@ -62,12 +62,11 @@
 #node LIGHTING_LAMP
     #node_var LAMP_TYPE HEMI
     #node_var LAMP_IND 0
-    #node_var LAMP_LIGHT_FACT_IND 0
-    #node_var LAMP_FAC_CHANNELS rg
     #node_var LAMP_SPOT_SIZE 0.8
     #node_var LAMP_SPOT_BLEND 0.03
     #node_var LAMP_LIGHT_DIST 30.0
     #node_var LAMP_SHADOW_MAP_IND -1
+    #node_var LAMP_USE_SPHERE 0
 
     #node_in vec4 shadow_factor
 
@@ -76,7 +75,8 @@
     #node_out vec3 lcolorint
     #node_out float norm_fac
 
-    lfac = u_light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
+    // unpack light_factors
+    lfac = vec2(u_light_positions[LAMP_IND].w, u_light_color_intensities[LAMP_IND].w);
 # node_if LAMP_TYPE == HEMI
     norm_fac = _0_5;
 # node_else
@@ -84,18 +84,19 @@
 # node_endif
 
     // 0.0 - full shadow, 1.0 - no shadow
-    lcolorint = u_light_color_intensities[LAMP_IND];
+    lcolorint = u_light_color_intensities[LAMP_IND].xyz;
 # node_if LAMP_SHADOW_MAP_IND != -1
     lcolorint *= shadow_factor[LAMP_SHADOW_MAP_IND];
 # node_endif
 
 # node_if LAMP_TYPE == SPOT || LAMP_TYPE == POINT
-    vec3 lpos = u_light_positions[LAMP_IND];
+    vec3 lpos = u_light_positions[LAMP_IND].xyz;
     ldir = lpos - nin_pos_world;
 
     // calc attenuation, falloff_type = "INVERSE_SQUARE"
     float dist = length(ldir);
-    lcolorint *= LAMP_LIGHT_DIST / (LAMP_LIGHT_DIST + dist * dist);
+
+    float vis_factor = LAMP_LIGHT_DIST / (LAMP_LIGHT_DIST + dist * dist);
 
     ldir = normalize(ldir);
 
@@ -106,8 +107,14 @@
     float spot_factor = dot(ldir, ldirect);
     spot_factor *= smoothstep(_0_0, _1_0,
                               (spot_factor - LAMP_SPOT_SIZE) / LAMP_SPOT_BLEND);
-    lcolorint *= spot_factor;
+    vis_factor *= spot_factor;
 #  node_endif
+
+#  node_if LAMP_USE_SPHERE
+    vis_factor *= max(LAMP_LIGHT_DIST - dist, _0_0) / LAMP_LIGHT_DIST;
+#  node_endif
+
+    lcolorint *= vis_factor;
 # node_else // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
     ldir = u_light_directions[LAMP_IND];
 # node_endif // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
@@ -290,18 +297,54 @@
     sfactor = _0_0;
     if (lfac.g != _0_0) {
         vec3 halfway = normalize(ldir + nin_eye_dir);
+
 # node_if MAT_USE_TBN_SHADING
-    if (norm_fac == _0_0) {
-        sfactor = dot(v_shade_tang.xyz, halfway);
-        sfactor = sqrt(_1_0 - sfactor * sfactor);
-    }
+        if (norm_fac == _0_0) {
+            sfactor = dot(v_shade_tang.xyz, halfway);
+            sfactor = sqrt(_1_0 - sfactor * sfactor);
+        }
 # node_else
         sfactor = (_1_0 - norm_fac) * max(dot(normal, halfway),
                          _0_0) + norm_fac;
 # node_endif
         sfactor = pow(sfactor, sp_params[0]);
+    }
+#endnode
 
+#node SPECULAR_COOKTORR
+    #node_var MAT_USE_TBN_SHADING 0
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_in vec2 sp_params
+    #node_out float sfactor
 
+    sfactor = _0_0;
+
+    if (lfac.g != _0_0) {
+        vec3 halfway = normalize(ldir + nin_eye_dir);
+
+# node_if MAT_USE_TBN_SHADING
+        if (norm_fac == _0_0) {
+            sfactor = dot(v_shade_tang.xyz, halfway);
+            sfactor = sqrt(_1_0 - sfactor * sfactor);
+        }
+# node_else
+        sfactor = max(dot(normal, halfway), _0_0);
+        sfactor = (_1_0 - norm_fac) * sfactor + norm_fac;
+# node_endif
+
+# node_if MAT_USE_TBN_SHADING
+        float nv = max(dot(v_shade_tang.xyz, nin_eye_dir), _0_0);
+        nv = sqrt(_1_0 - nv * nv);
+# node_else
+        float nv = max(dot(normal, nin_eye_dir), _0_0);
+# node_endif
+
+        sfactor = pow(sfactor, sp_params[0]);
+
+        sfactor = sfactor / (0.1 + nv);
     }
 #endnode
 

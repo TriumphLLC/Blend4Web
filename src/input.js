@@ -85,7 +85,7 @@ var MOUSE_UP_WHICH = 50;
 var MOUSE_WHEEL = 60;
 var KEYBOARD_UP = 70;
 var KEYBOARD_DOWN = 80;
-var KEYBOARD_DOWN_MODIFIERED = 81;
+var KEYBOARD_DOWN_MODIFIED = 81;
 var TOUCH_START = 90;
 var TOUCH_MOVE = 100;
 var TOUCH_END = 110;
@@ -112,7 +112,7 @@ exports.MOUSE_UP_WHICH = MOUSE_UP_WHICH;
 exports.MOUSE_WHEEL = MOUSE_WHEEL;
 exports.KEYBOARD_UP = KEYBOARD_UP;
 exports.KEYBOARD_DOWN = KEYBOARD_DOWN;
-exports.KEYBOARD_DOWN_MODIFIERED = KEYBOARD_DOWN_MODIFIERED;
+exports.KEYBOARD_DOWN_MODIFIED = KEYBOARD_DOWN_MODIFIED;
 exports.TOUCH_START = TOUCH_START;
 exports.TOUCH_MOVE = TOUCH_MOVE;
 exports.TOUCH_END = TOUCH_END;
@@ -314,7 +314,10 @@ function get_device_by_type_element(type, element) {
     if (type == DEVICE_GYRO || type == DEVICE_HMD)
         element = window;
     else if (!element)
-        element = m_cont.get_container();
+        if (type == DEVICE_KEYBOARD)
+            element = document;
+        else
+            element = m_cont.get_container();
 
     for (var i = 0; i < _devices.length; i++)
         if (_devices[i].type == type && _devices[i].element == element)
@@ -747,7 +750,7 @@ exports.attach_param_cb = function(device, param, cb) {
     case KEYBOARD_DOWN:
         device.keyboard_down_cb_list.push(cb);
         break;
-    case KEYBOARD_DOWN_MODIFIERED:
+    case KEYBOARD_DOWN_MODIFIED:
         device.keyboard_down_mod_cb_list.push(cb);
         param = KEYBOARD_DOWN;
         break;

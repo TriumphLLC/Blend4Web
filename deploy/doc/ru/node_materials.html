@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Нодовые материалы &mdash; Руководство пользователя Blend4Web 16.09.2</title>
+  <title>Нодовые материалы &mdash; Руководство пользователя Blend4Web 16.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.09.2" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.10" href="index.html"/>
         <link rel="next" title="Редактор логики" href="logic_editor.html"/>
         <link rel="prev" title="Библиотека материалов" href="material_library.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -391,7 +391,7 @@
 </td>
 </tr>
 <tr class="row-odd"><td>Normal
-Map <a class="footnote-reference" href="#f2" id="id2">[2]</a></td>
+Map <a class="footnote-reference" href="#f1" id="id2">[1]</a></td>
 <td><p class="first last">Используется для подключения карты нормалей</p>
 </td>
 <td><p class="first last">Поддерживается</p>
@@ -496,7 +496,7 @@ Map <a class="footnote-reference" href="#f2" id="id2">[2]</a></td>
 </td>
 </tr>
 <tr class="row-even"><td>Vector
-Transform <a class="footnote-reference" href="#f1" id="id3">[1]</a></td>
+Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <td><p class="first last">Преобразует векторы, точки и нормали между пространствами координат мира, камеры и объекта.</p>
 </td>
 <td><p class="first last">Поддерживается</p>
@@ -509,14 +509,14 @@ Transform <a class="footnote-reference" href="#f1" id="id3">[1]</a></td>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td><p class="first last">Если хотя бы один из внутренних параметров (<code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> или <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code>) имеет значение <code class="docutils literal"><span class="pre">Object</span></code>, любой объект, использующий данный материал, будет считаться <a class="reference internal" href="objects.html#static-dynamic-objects"><span>динамическим</span></a>.</p>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><p class="first last">Параметр <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> карты нормалей, используемой с этой нодой, должен иметь значение <code class="docutils literal"><span class="pre">Non-Color</span></code>. В противном случае результаты могут быть непредсказуемыми (хотя это не приведёт к крэшу движка).</p>
 </td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><p class="first last">Параметр <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> карты нормалей, используемой с этой нодой, должен иметь значение <code class="docutils literal"><span class="pre">Non-Color</span></code>. В противном случае результаты могут быть непредсказуемыми (хотя это не приведёт к крэшу движка).</p>
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><p class="first last">Если хотя бы один из внутренних параметров (<code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> или <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code>) имеет значение <code class="docutils literal"><span class="pre">Object</span></code>, любой объект, использующий данный материал, будет считаться <a class="reference internal" href="objects.html#static-dynamic-objects"><span>динамическим</span></a>.</p>
 </td></tr>
 </tbody>
 </table>
@@ -875,7 +875,7 @@ Transform <a class="footnote-reference" href="#f1" id="id3">[1]</a></td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-10-03.
+      Обновлено: 2016-10-27.
 
     </p>
   </div>
@@ -931,7 +931,7 @@ Transform <a class="footnote-reference" href="#f1" id="id3">[1]</a></td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

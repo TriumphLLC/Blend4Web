@@ -44,7 +44,7 @@ var _vec3_tmp = new Float32Array(3);
  */
 exports.create_pline_from_points = function(point1, point2) {
     var dest = new Float32Array(6);
-    m_math.set_pline_point(dest, point1);
+    m_math.set_pline_initial_point(dest, point1);
 
     m_vec3.subtract(point2, point1, _vec3_tmp);
 
@@ -62,7 +62,7 @@ exports.create_pline_from_points = function(point1, point2) {
  */
 exports.create_pline_from_point_vec = function(point, vec) {
     var dest = new Float32Array(6);
-    m_math.set_pline_point(dest, point);
+    m_math.set_pline_initial_point(dest, point1);
     m_math.set_pline_directional_vec(dest, vec);
 
     return dest;

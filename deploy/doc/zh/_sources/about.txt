@@ -14,8 +14,7 @@ Blend4Web是一个面向Web的3D引擎 - 是一套在浏览器中进行制作交
 三维建模和动画工具（因此得名） - Blend4Web框架与Blender紧密集成。内容
 是由WebGL的和其他的浏览器技术渲染而成，**不使用插件** 。
 
-Technically Blend4Web is a library for web pages, a Blender add-on and
-some tools for debugging and optimization.
+技术上Blend4Web是网页库，Blender插件以及进行调试和优化的一些工具。
 
 自2010年以来凯旋有限责任公司（ Triumph LLC）的员工开发了Blend4Web 3D引
 擎。该引擎首次发布于2014年3月28日。
@@ -57,8 +56,8 @@ WebGL的浏览器支持
 现在的WebGL在不同程度上被所有浏览器支持。
 
 
-全面支持
---------
+Desktop Browsers
+----------------
 
 * Chrome
 
@@ -82,18 +81,17 @@ WebGL的浏览器支持
 
 * BlackBerry
 
-* 或Firefox ...
+* Firefox OS
 
-* 8、 12、 16 位
+* iOS 8
 
 * Sailfish OS
 
 * Tizen
 
-* Debian/Ubuntu
+* Ubuntu Touch
 
-For further details see the dedicated section in the Problems and
-Solutions chapter.
+有关详细信息请参阅 相关章节 在问题和解决方案的篇章。
 
 
 WebGL的优势
@@ -183,7 +181,7 @@ Blender是一个流行的软件进行3D建模和动画，是自由和开放源�
 
 * 声音处理, 网络音频API
 
-* binary data loading, XMLHttpRequest Level 2
+* 二进制数据加载, XMLHttpRequest Level 2
 
 * 全屏
 
@@ -226,10 +224,9 @@ Blender是一个流行的软件进行3D建模和动画，是自由和开放源�
 交互图形是由现代计算机一个特殊目的的硬件的一部分的所谓图形处理器可实现
 为分立装置（视频卡）或中央处理单元的一部分提供的。
 
-Main graphics processors vendors for desktop computers are:  - Nvidia
-(GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices -
-ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade
-marks are specified in brackets).
+主要图形处理器厂商的台式电脑:  - NVidia (GeForce, Quadro), AMD
+(Radeon), Intel (HD), 嵌入式设备 - ARM (Mali), PowerVR (SGX), Nvidia
+(Tegra), Qualcomm (Adreno) (商标在括号中指定).
 
 程序访问图形处理器资源，​​通过一个名为驱动中间程序进行。这是非常重要的
 交互式图形程序正确的工作有最新版本的系统中的驱动程序。驱动可以从相应的

@@ -59,7 +59,7 @@ void main(void) {
 
     vec3 position = tsr9_transform(model_tsr, a_position);
 
-    v_texcoord = a_halo_bb_vertex * 2.0;
+    v_texcoord = a_halo_bb_vertex * 2.0 - 1.0;
 
     //random value for every halo (0..1)
     v_vertex_random = a_random_vals;
@@ -74,7 +74,7 @@ void main(void) {
     mat3 bb_tsr = billboard_spherical(position, view_tsr);
 #endif
 
-    vec2 halo_bb_vertex = a_halo_bb_vertex * 2.0 * u_halo_size;
+    vec2 halo_bb_vertex = (a_halo_bb_vertex * 2.0 - 1.0) * u_halo_size;
     vec3 pos_local = vec3(halo_bb_vertex[0], 0.0, halo_bb_vertex[1]);
     vec3 pos_world = tsr9_transform(bb_tsr, pos_local);
 

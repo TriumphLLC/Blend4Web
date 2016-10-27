@@ -31,7 +31,6 @@
 #var CSM_SECTION3 0
 #var NUM_CAST_LAMPS 0
 #var NUM_LIGHTS 0
-#var NUM_LFACTORS 0
 #var INVERT_FRONTFACING 0
 #var WATER_LEVEL 0.0
 #var PROCEDURAL_FOG 0
@@ -86,10 +85,10 @@ uniform float u_environment_energy;
 
 #if !SHADELESS
 # if NUM_LIGHTS > 0
-uniform vec3 u_light_positions[NUM_LIGHTS];
+// light_factors packed in the w componnets
+uniform vec4 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
-uniform vec3 u_light_color_intensities[NUM_LIGHTS];
-uniform vec4 u_light_factors[NUM_LFACTORS];
+uniform vec4 u_light_color_intensities[NUM_LIGHTS];
 # endif
 
 # if CAUSTICS

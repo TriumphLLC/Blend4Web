@@ -1,200 +1,175 @@
 
-Material Library
-****************
+材质库
+******
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Material Library
+* 材质库
 
-  * Library Structure
+  * 库结构
 
-  * Material Structure
+  * 材质结构
 
-    * Material Core
+    * 核心材质
 
-    * An Example of Using a Material
+    * 使用材质的一个例子
 
-  * Adding Material to a Scene
+  * 添加材质到一个场景
 
-    * How to Add a Whole Material
+    * 如何添加整个材质
 
-    * How to Add Only a Material Core
+    * 如何只添加核心材质
 
-    * How to Add the Material Library to a Project
+    * 如何将材质库添加到项目
 
-The material library is a library where a user can find basic and the
-most commonly used materials to use in his or her projects or create
-his or her own materials based on these materials.
+材质库是用户可以在其中找到基本和最常用的材质，在他或她的项目中使用或创
+建他或她自己的基于这些材质的材质库。
 
-The material library can be found in the "/blender/material_library/"
-folder in the SDK root directory.
+该材质库可以在  "/blender/material_library/" 在SDK根目录文件夹中找到。
 
 
-Library Structure
-=================
+库结构
+======
 
-All materials are structured by folder (by categories of materials)
-and by a separate file (by materials). Every blend file contains one
-base material and a material for an additional object, that
-demonstrates the material on an object that can be associated with
-this material (for example, a gold ingot for a gold material).
+所有材质通过文件夹组织结构（由材质类别），并通过一个单独的文件（由材质
+）。每共blend文件包含一个基底材质和物体添加该材质，演示该材质可以与该
+材质相关联的物体上（例如，元宝为金材质）。
 
 [图片]
 
 
-Material Structure
+材质结构
+========
+
+[图片]
+
+1. 核心材质
+
+2. "Material" 节点从核心接收任何有价值信息
+
+3. 法线贴图可以加到任何一个材质核心
+
+4. 纹理包含额外的遮罩信息给材质给予物体正确显示。大多数材质使用下面
+   的 遮罩：
+
+      * 环境闭塞贴图
+
+      * 污垢贴图
+
+      * 磨损图
+
+      * 绿锈贴图
+
+      这些遮罩不是在每个材质中使用，需要时，才为着色器显示一种特定的方
+      式。
+
+5. 在 "Mapping" 节点用来控制UV映射的参数。
+
+6. "RGB Curve" 节点可以在遮罩插入核心材质之前修正。
+
+7. 具体的高光贴图在 "Material" 节点之后，用来实现不同程度的镜面模糊
+   。
+
+8. 烘焙的环境闭塞贴图是在输出节点之前加的着色器。
+
+9. "Output" 节点。
+
+
+核心材质
+--------
+
+这是包含节点结构形成一个着色器的主要节点组。本质上，这是材质本身的真实
+形式，与所有复杂节点交互包装成一组，方便使用。此节点组具有一定的输入和
+输出，以及具体的输入参数，来进行设置。
+
+
+使用材质的一个例子
+------------------
+
+[图片]
+
+在这里，可以看到，设置塑料材质为一种特殊的演示物体的一个例子，而无需使
+用被插入核心材质中的纹理。
+
+[图片]
+
+1. 基色用一个简单的``RGB``颜色节点创建并插入到核心材质输入。
+
+2. 材质实现不使用任何法线贴图，所以几何数据插入到 "Normal" 输入。
+
+3. 该核心材质具有控制光泽的材质上的量的某些参数。在这种情况下，这个
+   参 数的值设置为最大。
+
+4. 该材质还采用了烘焙的环境闭塞贴图。
+
+现在，让我们来看看使用相同材质在不同物体的情况  - 一个塑料手柄。
+
+[图片]
+
+1. 物体的几何形状的顶点的颜色被用作这里的基本颜色。
+
+2. 手柄的几何形状烘焙到了一张法线贴图上，并连接到核心材质的
+   "Normal" 输入。
+
+3. 光泽的程度较低。
+
+4. 替代演示物体的遮罩，专为游戏手柄模型烘焙的遮罩（环境光遮蔽和污垢
+   ） 被使用。
+
+注解: 应当指出的是，核心材质并没有改变以适应不同的几何形状。
+
+
+添加材质到一个场景
 ==================
 
-[图片]
 
-1. The core of the material
-
-2. The "Material" node which receives all valuable information from
-   the core.
-
-3. The normal map that can be plugged into any material core.
-
-4. Texture containing additional masks important for the material
-   on the surface of the object to behave correctly. Most materials
-   use the following masks:
-
-      * Ambient occlusion map
-
-      * Dirt map
-
-      * Worn map
-
-      * Patina map
-
-      These masks are not used in every material, only when they are
-      needed for the shader to appear a specific way.
-
-5. The "Mapping" node is used to control the parameters of the UV
-   maps.
-
-6. The "RGB Curve" nodes can be used to correct masks before
-   pulgging them into the material core.
-
-7. Specific specular map settings are used right after the
-   "Material" node to achieve various degrees of specular blur.
-
-8. The baked ambient occlusion map is added to the shader right
-   before the Output node.
-
-9. The "Output" node.
-
-
-Material Core
--------------
-
-This is the main node group containing the node structure that form a
-shader. Essentially, this is the material itself in its true form,
-with all complex node interactions packed into one group for
-convenient use. This node group has certain inputs and outputs, as
-well as specific input parameters, to set it up.
-
-
-An Example of Using a Material
-------------------------------
+如何添加整个材质
+----------------
 
 [图片]
 
-Here, you can see an example of setting plastic material for a special
-demo object without using the textures that are plugged into the core
-of the material.
+选择  "File > Append/Link" 从菜单中选择，这取决于你想要做什么。如果你
+想保留修改物体的能力，它已被添加到场景后，使用 "Append" 。如果你不这样
+做，用 "Link" 。
 
 [图片]
 
-1. The base color is created with a simple "RGB" Color node and
-   plugged to the material core input.
-
-2. This implementation of the material does not use any normal
-   maps, so geometry data is plugged to the "Normal" input.
-
-3. The core of the material has a certain parameter that controls
-   the amount of gloss on the material. In this case, the value of
-   this parameter is set to maximum.
-
-4. The material also uses a baked ambient occlusion map.
-
-Now, let's take a look at a case of using the same material on a
-different object — a plastic gamepad.
+然后从 "/blend4web/blender/material_library/" 目录中选择包含所需要的材
+质blend文件。
 
 [图片]
 
-1. The vertex color from the geometry of the object is used as the
-   base color here.
-
-2. A normal map has been baked for the geometry of the gamepad, and
-   connected to the "Normal" input of the material core.
-
-3. The level of gloss is lower.
-
-4. Instead of the masks from the demo model, the masks (ambient
-   occlusion and dirt) baked specifically for the gamepad model are
-   used.
-
-注解: It should be noted that the material core hasn't changed and
-  was not altered to fit different geometry.
+从材质列表中选择需要的材质，然后按  "Append from Library" 或 "Link
+from Library". 追加。现在，该材质已经被添加到场景，并可以在任何物体上
+使用。
 
 
-Adding Material to a Scene
-==========================
+如何只添加核心材质
+------------------
 
-
-How to Add a Whole Material
----------------------------
+如果你想只添加核心材质，其他一切都自己设置的话，不用选择材质，选择
+"NodeTree" 同时连接/追加，然后选择从库中您需要的节点组，然后按 "Append
+from Library" 或者 "Link from Library" 。
 
 [图片]
 
-Select the "File > Append/Link" from the menu, depending on what you
-want to do. If you want to keep the ability to modify the object after
-it has been added to the scene, use "Append". If you don't, use
-"Link".
+现在，这个节点组可在节点组列表中找到，您可以通过点击 **Add=>Group** 在
+节点编辑器界面添加材质列表中找到。
 
 [图片]
 
-Then select the blend file containing the material you need from the
-"/blend4web/blender/material_library/" directory.
+注解: 每一个材质不仅考虑遮罩和纹理，而且顶点颜色和UV贴图也有自己的要
+  求。
+
+
+如何将材质库添加到项目
+----------------------
+
+当创建一个新的项目，你可以插入材质库进去，然后直接从那里插入材质。
 
 [图片]
 
-Select the material itself from the list of materials, and press
-"Append from Library" or "Link from Library". Now, the material has
-been added to your scene and can be used on any object.
-
-
-How to Add Only a Material Core
--------------------------------
-
-If you want to add only the core of the material and set everything
-else yourself, then, instead of selecting material, select "NodeTree"
-while linking/appending, then select the node group you need, and
-press "Append from Library" or "Link from Library".
-
-[图片]
-
-Now this node group can be found in the list of node groups that you
-can add to your material by clicking **Add=>Group** in the Node Editor
-interface.
-
-[图片]
-
-注解: Every material has its own requirements considering not only
-  masks and textures, but also vertex colors and UV maps.
-
-
-How to Add the Material Library to a Project
---------------------------------------------
-
-When creating a new project, you can plug the material library into
-it, and then plug in materials directly from there.
-
-[图片]
-
-To do this, check the "Use Material Library" box when creating the
-project using the Project Manager. Then, an entire material library
-will be automatically copied to the new project along with all the
-dependencies.
+要做到这一点，使用创建项目时使用  Project Manager 勾选上 "Use Material
+Library" ，然后，整个材质库将被自动复制到新的项目，和所有的依赖一起。

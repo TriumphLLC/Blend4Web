@@ -49,6 +49,7 @@ void main(void) {
     if (u_dof_dist > 0.0) {
 
 #if DOF_TYPE == DOF_BOKEH
+    // NOTE: see postprocessing/coc.glslf
         float coc;
 
         vec4 tex_blurred1 = GLSL_TEXTURE(u_blurred1, v_texcoord);

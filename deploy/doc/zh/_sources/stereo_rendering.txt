@@ -12,13 +12,13 @@
 
   * 附加设置
 
-  * HMD Settings
+  * HMD设置
 
-    * Profile
+    * 配置
 
-    * Rendering Settings
+    * 渲染设置
 
-    * Other control tools
+    * 其他控制工具
 
 立体渲染模式适用于使用特殊眼镜观看的内容。它是应用程序通过API来激活。
 
@@ -44,12 +44,11 @@ HMD是一个实验性的功能，现在它只能用于 "Eye" 类型摄像机。
 To use HMD stereo rendering, you need to install Oculus's runtime
 utility (two versions are supported: the *chromium_webvr_v1_win64.7z*
 in the root directory and the one in the *Deprecated API* folder).
-Windows and MacOS versions can be found on the Oculus website in
+Windows and macOS versions can be found on the Oculus website in
 binary format, while Linux version should be compiled from the source
 code.
 
-For now, the HMD is supported by the Chromium experimental builds and
-in the Firefox nightly builds.
+就目前而言，HMD的支持在 Chromium实验性版本 和 Firefox 每日版.
 
 Chromium 设置.
 
@@ -69,92 +68,82 @@ Firefox 设置.
 无
 
 
-HMD Settings
-============
+HMD设置
+=======
 
 [图片]
 
-This group of settings allows a user to change various parameters in
-order to adjust whatever VR device they have to better view a certain
-3D application or scene. There are two ways these settings can be
-accessed:
+这组设置允许用户改变各种参数，以调整任何虚拟现实设备，让他们更好地查看
+某个三维应用程序或场景。有两种方法可以访问这些设置：
 
-Firstly, it can be found in the Blend4Web Viewer application under the
-Stereo View tab.
+首先，它可以在 Blend4Web 查看器 应用的 立体视觉面板 下找到。
 
-And secondly, it can also be shown in an application by using the show
-method of the hmd_conf module, but doing this requires some
-programming. Examples of this method can be found in the "viewer.js"
-and "webplayer.js" applications (in the "m_hmd_conf" object).
+其次，它也可以在使用的应用程序中通过 hmd_conf 模块的 show 方法显示，但
+这样做需要一些编程。该方法的实例可在 "viewer.js" 和 "webplayer.js" 应
+用程序（在 "m_hmd_conf" 对象）中发现。
 
 
-Profile
--------
+配置
+----
 
-This allows user to select a profile for a specific device. Currently,
-the following profiles are available:
+这允许用户选择用于特定装置的配置文件。目前，以下模式可供选择：
 
-   * Custom
+   * 自定义
 
-   * Cardboard (2014)
+   * 纸板（2014年）
 
-   * Cardboard (2015)
+   * 纸板（2015年）
 
-By default, *Custom* profile is selected.
-
-
-Rendering Settings
-------------------
-
-*Tray to lens-center distance*
-   This parameter specifies the distance between the phone frame and
-   the center of the camera lenses.
-
-   This value can vary from 0 to 50. Default value is 32.
-
-*Interpupillary distance*
-   This parameter specifies the distance between the pupils of the
-   user's eyes. Measured in millimeters.
-
-   This value can vary from 0 to 100. Default value is 64.
-
-*Screen to lense distance*
-   This specifies the distance between the screen of the phone and the
-   camera lenses.
-
-   This value can vary from 0 to 100. Default value is 50.
-
-*Screen height*
-   The height of the screen.
-
-   This value can vary from 0 to 150. Default value is 63.
-
-*Screen width*
-   The width of the screen.
-
-   This value can vary from 0 to 200. Default value is 107.
-
-*Bevel width*
-   The thickness of the border around the image.
-
-   This value can vary from 0 to 20. Default value is 3.
-
-*Distortion coefficients*
-   This is used in order to compensate image distortion produced by
-   the VR device lenses.
-
-   Both values can vary from 0 to 1. Default values are 0.34 for the
-   first parameter and 0.55 for the second one.
+默认情况下，'Custom` 属性文件被选中。
 
 
-Other control tools
--------------------
+渲染设置
+--------
 
-*Save*
-   Saves the settings.
+*托盘镜片中心的距离*
+   此参数指定手机屏幕和摄像机透镜的中心之间的距离。
 
-*Cancel*
-   Closes the setting interface without saving the settings.
+   这个值可以从0到50变化，默认值是32。
 
-*Reset*
-   Restores default settings.
+*瞳距*
+   此参数指定用户的眼睛的瞳孔之间的距离。测量单位为毫米。
+
+   这个值可以从0到100变化，默认值是64。
+
+*屏幕到镜片距离*
+   这指定了电话的屏幕和照相机透镜之间的距离。
+
+   这个值可以从0到100变化，默认值是50。
+
+*屏幕高度*
+   屏幕的高度。
+
+   这个值可以从0到150变化，默认值是63。
+
+*屏幕宽度*
+   屏幕的宽度。
+
+   这个值可以从0到200变化。缺省值是107。
+
+*斜面宽*
+   图像周围的边框的厚度。
+
+   这个值可以从0到20变化。缺省值是3。
+
+*失真系数*
+   这样做是为了用于补偿由VR设备透镜产生的图像失真。
+
+   这两个值可以从0到1变化，默认值是0.34用于第一参数和0.55用于第二个。
+
+
+其他控制工具
+------------
+
+*保存*
+   保存的设置。
+
+*取消*
+   关闭设置界面，不保存设置。
+
+*恢复*
+   恢复默认设置。

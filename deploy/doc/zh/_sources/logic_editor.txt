@@ -1,1155 +1,1071 @@
 
-Logic Editor
-************
+逻辑编辑器
+**********
 
 
-Table of Content
-^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Logic Editor
+* 逻辑编辑器
 
-  * Basics
+  * 基础
 
-  * Control Flow
+  * 控制流
 
-  * Animation
+  * 动画
 
-  * Camera
+  * 相机（Camera）
 
-  * Object
+  * 物体
 
-  * Operations
+  * 操作
 
-  * Sound
+  * 声音
 
-  * Network
+  * 网络
 
-  * Debug
+  * 调试
 
-  * Deprecated
+  * 已过时
 
-  * Layout
+  * 布局
 
-  * Debugging
+  * 调试中
 
 
-Basics
+基础
+====
+
+可视化编程是通过在Blender的节点编辑器创建逻辑节点树进行。这些节点可以
+无需任何编码也能显著的增强场景的功能性。
+
+[图片]
+
+要在给定场景激活逻辑，在 "Scene" 选项卡中设置  "Logic Editor"  属性并
+追加/选择活动节点树。
+
+[图片]
+
+要编辑逻辑树需要到 "节点Editor" 区域并选择 "Blend4Web Logic" 树类型：
+
+[图片]
+
+然后选择所需的节点树：
+
+[图片]
+
+
+
+通过使用标准的Blender键盘快捷键  "Shift+A" 创建节点。
+
+本身就是逻辑块的节点从只有一个输出没有输入的 "Entry Point" 节点开始。
+所有其他节点有输入和输出，并可以在逻辑树的任何地方插入。例外的是页面重
+定向节点，仅可以在末端节点树插入。有两个输出的节点允许分支，因此基于为
+此类节点指定条件可以在下一个层级做选择。
+
+为实现复杂的逻辑有可以有数值或字符串值的变量。变量可以用于存储一些场景
+状态 (例如，这可以是动画播放计数器，角色的健康点等)。
+
+逻辑编辑器使用示例：
+
+[图片]
+
+下文介绍了所有可用的节点。
+
+
+控制流
 ======
 
-Visual programming is performed by creating logic node tree in the
-node editor area in Blender. These nodes can extend the scene
-functionality significantly without any coding.
 
-[图片]
+入口点
+------
 
-To activate logic on the given scene set the "Logic Editor" property
-in the "Scene" tab and append/select active node tree.
-
-[图片]
-
-To edit logic tree go to the "Node Editor" area and select the
-"Blend4Web Logic" tree type:
-
-[图片]
-
-Then select the required node tree:
+这是该脚本开始的地方。通过使用多个入口点您可以创建多线程应用程序。
 
 [图片]
 
 
+输入参数
+~~~~~~~~
 
-Nodes are created by using standard Blender keyboard shortcut
-"Shift+A".
-
-The nodes themselves are logic blocks that are executed from the
-"Entry Point" node which has no inputs and only one output. All other
-nodes have both inputs and outputs, and can be inserted in any place
-of a logic tree. The exception is "Page Redirect" node, which can be
-inserted only to the end of the node tree. The nodes which have two
-outputs allow branching, thus the next leave is selected based on
-condition specified for such nodes.
-
-For implementing complicated logic there are variables that can have
-either numeric or string values. The variables can be used for storing
-some scene state (e.g. this can be a counter of animation playbacks,
-character’s health points etc).
-
-Logic Editor usage example:
-
-[图片]
-
-All available nodes are described below.
+空
 
 
-Control Flow
-============
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
 
 
-Entry Point
------------
+内部参数
+~~~~~~~~
 
-This is where the script starts. By using multiple entry points you
-can create multi-threaded applications.
+*从脚本运行*
+   如果启用此参数，切入点可以通过API使用  run_entrypoint 方法触发。
+
+
+切换选择
+--------
+
+可用于跟踪物体列表中的任何物体的选择。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-None.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Run From Script*
-   If this parameter is enabled, the entry point can be triggered via
-   API by using the run_entrypoint method.
+*<object name> 命中*
+   如果用户选择（用鼠标或触摸）一个物体的参数名称被设置关注，这个参数
+   将传递到下一个节点的控制。该 "Switch Select"  节点在默认情况下有一
+   个这样的参数，但可以添加新的和删除现有（节点甚至可以没有这样的参数
+   ）。
 
-
-Switch Select
--------------
-
-Can be used to trace the selection of any object from the object list.
-
-[图片]
+*未击中*
+   如果用户没有选择 "Switch Select" 节点中指定的任何物体，这个参数将把
+   控制传递给下一个节点。
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+内部参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*<object name> Hit*
-   This parameter will pass the control to the next node if the user
-   selects (with a mouse or by touch) an object mentioned in the
-   parameter’s name. The "Switch Select" node has one such parameter
-   by default, but you can add new ones and remove existing ones (the
-   node can even have no such parameters).
-
-*Miss*
-   This parameter will pass the control to the next node if the user
-   hasn’t selected any of the objects specified in the "Switch Select"
-   node.
+*物体*
+   用户可以选择的物体之一。当您创建或删除命中参数时，这些参数会自动创
+   建和删除 "Hit" 参数。这样的参数的数量总是等于  "Hit" 参数的数目。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+延迟
+----
 
-*Object*
-   One of the objects that the user can select. These parameters are
-   automatically created and deleted when you create or delete a "Hit"
-   parameter. The number of such parameters is always equal to the
-   number of the "Hit" parameters.
-
-
-Delay
------
-
-Make a delay (measured in seconds) before going to the next node.
+在去下一个节点之前做一个延迟（以秒计）。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Value*
-   Time (in seconds) that will pass before the activation of the next
-   node. Set to zero by default. Can be set manually or through a
-   variable (if the "Variable" parameter is enabled).
+*下一个*
+   下一个节点。
 
 
-Conditional Jump
-----------------
+内部参数
+~~~~~~~~
 
-Go to the specified node if the certain condition is met. The
-parameters (operands) can also be variables that are activated using
-the corresponding switches.
+*值*
+   将在下一个节点激活之前的时间 （以秒为单位）。默认情况设置为零。可以
+   手动或通过一个变量来设置 （如果启用了 "Variable" 参数）。
+
+
+条件跳转
+--------
+
+如果满足一定的条件转到指定的节点。参数（操作数）也可以是使用相应的开关
+激活的变量。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*True*
-   Condition is true.
-
-*False*
-   Condition is false.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Condition*
-   Logical condition. Can have one of the following types:
+*真*
+   条件为真。
 
-   * *Equal* - first operand is equal to the second.
+*假*
+   条件是假的。
 
-   * *Not Equal* - first operand is not equal to the second.
 
-   * *Less Than* - first operand is less than the second.
+内部参数
+~~~~~~~~
 
-   * *Greater Than* - first operand is greater than the second.
+*条件*
+   逻辑条件。可以有以下几种类型：
 
-   * *Less Than Or Equal* - first operand is less than or equal to
-     the second.
+   * *Equal* - 第一个操作数等于第二个。
 
-   * *Greater Than Or Equal* - first operand is greater than or
-     equal to the second.
+   * *Not Equal* - 第一个操作数不等于第二个。
+
+   * *Less Than* - 第一个操作数小于第二个。
+
+   * *Greater Than* - 第一个操作数大于第二个。
+
+   * *Less Than Or Equal* -  第一个操作数小于或等于第二。
+
+   * *Greater Than Or Equal* - 第一个操作数是大于或等于第二个。
 
 *Operand1*
-   First operand of the logical condition. Should have a numeric
-   value. Can be specified in the node or can be a link to one of the
-   variables.
+   逻辑条件的第一个操作数。应该有一个数字值。可以在节点中指定或可以是
+   一个链接到一个变量。
 
 *Operand2*
-   Second operand of the logical condition. Works the same way as the
-   first.
+   逻辑条件的第二个操作数。和第一个以同样的方式工作。
 
 
-JS Callback
------------
+JS 回调
+-------
 
-Can be used to call custom JavaScript callback defined in your
-Blend4Web application.
+可以用来调用您的 Blend4Web 应用程序中定义的自定义 JavaScript 回调。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Callback ID*
-   The ID of a JavaScript function that will be called by the node.
-
-*In Params*
-   A list of the input parameters of the function. Each parameter can
-   be either a variable or a link to a scene object. The number of the
-   input parameters can be adjusted. By default, this list is empty.
-
-   Input parameters are transferred to the callback function as an
-   array that servers as the first argument of the function.
-
-*Param <param_number>*
-   Specifies an input parameter. This parameter can be a variable
-   ("R1" by default) or a link to a scene object, depending on the
-   value of the "Type" parameter (each one of these parameters always
-   has a corresponding "Type" parameter).
-
-*Type*
-   The type of the corresponding input parameter. It can have one of
-   the two values: "Variable" (in this case, one of the variables will
-   be used as the parameter) and "Object" (a link to a scene object).
-
-*Out Params*
-   A list of the output parameters. Empty by default. The number of
-   the output parameters can be adjusted.
-
-   An array that consists of the output parameters serves as the
-   second argument of the callback function.
-
-*Param <param_number>*
-   Specifies one of the variables that will be used as an output
-   parameter. By default, "R1" varaible is used.
+*下一个*
+   下一个节点。
 
 
-Animation
-=========
+内部参数
+~~~~~~~~
+
+*回调 ID*
+   一个 JavaScript 函数将被节点调用的 ID。
+
+*输入参数*
+   输入函数的参数的列表。每个参数可以是变量或到场景物体的链接。可以调
+   整输入参数的数目。默认情况下，此列表是空的。
+
+   输入的参数传递给回调函数作为数组来作为第一个函数的参数。
+
+*参数 <param_number>*
+   指定输入的参数。此参数可以是一个变量 (如默认的  "R1" ) 或链接到一个
+   场景物体，根据 "Type" 参数 （这些参数每一个总是有相应的 "Type" 参数
+   ） 的值。
+
+*类型*
+   相应的输入参数的类型。它可以有两个值之一:  "Variable" （在这种情况
+   下，其中一个变量将用作参数） 和  "Object"  （链接至一个场景物体）。
+
+*输出参数*
+   输出参数的列表。默认情况下为空。可以调整输出参数的数目。
+
+   一个数组，包含输出参数作为回调函数的第二个参数。
+
+*参数 <param_number>*
+   指定变量之一作为输出参数。默认情况下，使用 "R1" 变量。
 
 
-Play Timeline and Stop Timeline
--------------------------------
+动画
+====
 
-Can be used to control NLA animations. The "Play Timeline" node plays
-NLA fragment starting with a frame specified by the marker. Animation
-plays until next marker is encountered, or to the end of the scene’s
-timeline. After that, control passes on to the next node. The "Stop
-Timeline" node stops the playback.
+
+播放时间轴和停止时间线
+----------------------
+
+可以用来控制 NLA 动画。'玩的时间线' 节点扮演 NLA 片段从指定的标记的帧
+开始。动画播放直至遇到下一个标记，或到场景的时间线的末尾。在那之后，控
+制传递到下一个节点。'停止时间线' 节点停止播放。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Start Marker*
-   First frame of the animation. If not specified, an animation plays
-   from the start of the timeline and may not work correctly.
-
-*End Marker*
-   Last frame of the animation. If not specified, an animation plays
-   to the end of the timeline and may not work correctly.
+*下一个*
+   下一个节点。
 
 
-Get Timeline
-------------
+内部参数
+~~~~~~~~
 
-This node can be used to get the current frame of an NLA animation or
-a timeline.
+*起始标记*
+   动画的第一帧。如果没有指定，动画从时间轴开始播放，并可能无法正常工
+   作。
+
+*结束标记*
+   动画的最后一帧。如果没有指定，动画播放到时间轴的结束，可能无法正常
+   工作。
+
+
+获取时间线
+----------
+
+此节点可以用于获取 NLA 动画或时间线的当前帧。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
 
 *NLA Timeline*
-   If this parameter is enabled, the node will return the current
-   frame of an NLA animation. If it is disabled, the node will return
-   the current frame of the timeline. Enabled by default.
+   如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则
+   该节点将返回当前帧的时间线。默认情况下启用。
 
-*Destination*
-   Specifies a variable to store the number of the current frame. Set
-   to "R1" by default.
+*目标*
+   指定一个变量来存储当前帧的数量。默认设置为  "R1" 。
 
 
-Play Animation
---------------
+播放动画
+--------
 
-Can be used to play object’s animation. An animation can be one of the
-following types:
+可用于播放物体的动画。动画可以是以下类型之一：
 
-Regular Action:
+常规动作：
 
 [图片]
 
-Shader Action:
+着色器动作：
 
 [图片]
 
-Particle system:
+粒子系统：
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Object*
-   Name of the object, animation of which will be played.
-
-*Anim. Name*
-   Name of an animation to play. If not specified, the entire timeline
-   will be played.
-
-*Behavior*
-   Specifies animation behavior. Can have one of the following values:
-
-   * *Finish Stop* - animation will be played once.
-
-   * *Finish Reset* - animation will be played once, then the object
-     will return to the starting point.
-
-   * *Loop* - animation will be playing repeatedly until it is
-     stopped by the "Stop Animation" node.
-
-*Do Not Wait*
-   If this parameter is enabled, the "Play Animation" node will pass
-   the control to the next node on starting the animation playback. If
-   it isn’t, the control will be passed to the next node only after
-   playback is finished.
+*下一个*
+   下一个节点。
 
 
-Stop Animation
---------------
+内部参数
+~~~~~~~~
 
-Can be used to stop an object’s animation.
+*物体*
+   物体，动画，其中将播放的名称。
 
+*动画。名称*
+   要播放动画的名字。如果未指定，则整个时间轴将播放。
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+*行为*
+   指定动画行为。可以有以下值之一：
 
-*Previous*
-   Previous node.
+   * *完成停止*  - 动画将播放一次。
 
+   * *完成重置*  - 动画将被播放一次，则该物体将返回到起点。
 
-Output Parameters
-~~~~~~~~~~~~~~~~~
+   * *循环*  - 直到它被 "停止Animation" 节点停止的动画将被反复播放。
 
-*Next*
-   Next node.
-
-
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
-
-*Set First Frame*
-   Go back to the first frame after the animation has been stopped.
+*不要等*
+   如果该参数被启用，"Play Animation" 节点将控制传递到下一个节点上启动
+   动画播放。如果不是，控制将被传递到播放完成后才会进入下一个节点。
 
 
-Camera
-======
+停止动画
+--------
+
+可以用来停止物体的动画。
 
 
-Move Camera
------------
+输入参数
+~~~~~~~~
 
-Can be used to move the camera, including smooth interpolation of its
-position.
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*设置第一帧*
+   返回到第一帧的动画已经停止之后。
+
+
+相机（Camera）
+==============
+
+
+移动相机
+--------
+
+可用于移动相机，包括其位置的平滑插补。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Camera*
-   A camera that will be moved.
-
-*Location*
-   An object to which the camera will move. The camera’s coordinates
-   will be the same as the object’s after the movement is finished.
-
-*Target*
-   The camera will point in the direction of this object after being
-   moved.
-
-*Duration*
-   Time (in seconds) that the camera will spend being moved to a new
-   location. Set to zero by default (and in this case the camera
-   doesn’t actually move, it simply changes its position). It can be
-   specified manually or as a link to a variable (if the "Variable"
-   parameter is enabled).
+*下一个*
+   下一个节点。
 
 
-Object
-======
+内部参数
+~~~~~~~~
+
+*相机*
+   将摄像机移动。
+
+*位置*
+   相机将移动的物体。相机的坐标跟运动结束后的物体是相同的。
+
+*目标*
+   相机将在指向该物体的方向移动。
+
+*持续*
+   相机被转移到一个新的位置将花费的时间（秒）。默认设置为零（在这种情
+   况下，相机实际上并没有移动，它只是改变了它的位置）。它可以手动指定
+   或作为一个变量的一个链接（如果是启用了变量的参数）。
 
 
-Show Object
------------
+物体
+====
 
-Can be used to show 3D objects.
+
+显示物体
+--------
+
+可用于显示3D物体。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Object*
-   An object to show.
-
-
-Hide Object
------------
-
-Can be used to hide 3D objects.
-
-[图片]
+*下一个*
+   下一个节点。
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+内部参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*物体*
+   显示一个物体。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+隐藏物体
+--------
 
-*Object*
-   An object to hide.
-
-
-Transform Object
-----------------
-
-Can be used to transform object’s location, size and rotation angles.
+可以用来隐藏三维物体。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Object*
-   An object that needs to be translated.
-
-*Space*
-   This parameter defines the coordinate space that will be used to
-   transform the object. It can have one of the following values:
-
-   * "World" - global coordinate space.
-
-   * "Parent" - local coordinate system of the parent of the object
-     specified by the "Object" parameter. Parent object's origin point
-     is used as the center of coordinates, while its angles of
-     rotation define the directions of the coordinate axes.
-
-   * "Local" - local coordinate space of the selected object.
-     Similar to the "Parent" coordinate space, but in this case, the
-     origin point of the object itelf is used as the origin of
-     coordinates.
-
-   Set to "World" by default.
-
-*Location*
-   How the object will move along the "X", "Y" and "Z" axes. By
-   default, all three parameters are set to zero. Values can be
-   specified in the node itself or through the variables (if the
-   "Variable" option is enabled).
-
-*Rotation*
-   Object’s rotation around the "X", "Y" and "Z" axes. All three
-   values are set to zero by default. Can be specified directly in the
-   node or through the variables (if the "Variable" option is
-   enabled).
-
-*Scale*
-   Object’s size. Can be specified directly or through a variable (if
-   the "Variable" parameter is enabled). Set to 1 by default.
-
-*Duration*
-   Time (in seconds) that the transformation will take. It can be
-   specified both directly or with a variable (to do this, the
-   "Variable" parameter should be enabled). Set to zero by default.
+*下一个*
+   下一个节点。
 
 
-Move To
--------
+内部参数
+~~~~~~~~
 
-Can be used to move objects.
+*物体*
+   一个物体隐藏。
+
+
+变换物体
+--------
+
+可以用来改变物体的位置，大小和旋转角度。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Object*
-   An object that you need to move.
-
-*Destination*
-   A target (another object or a light source, camera or anything
-   else) to which the selected object will move. The object’s
-   coordinated will be the same as the target’s after the movement is
-   finished.
-
-*Duration*
-   Time (in seconds) that the object will spend moving to the new
-   location. By default, this parameter is set to zero (and in this
-   case, the object doesn’t actually move, it just changes its
-   position in a moment). It can be set manually or with a variable
-   (available only if the "Variable" parameter is enabled).
+*下一个*
+   下一个节点。
 
 
-Apply Shape Key
----------------
+内部参数
+~~~~~~~~
 
-Set the Shape Key factor.
+*物体*
+   需要进行变换的物体。
 
-[图片]
+*空间*
+   此参数定义将用于转换的物体的坐标空间。它可以具有下列值之一 ︰
+
+   * "World" - 全局坐标空间。
+
+   * "Parent" - 物体在  "Object" 参数中指定的父物体的本地坐标系统。
+     父 物体的原点作为坐标的中心，而它的旋转角度定义坐标轴的方向。
+
+   * "Local" -所选物体的局部坐标空间。类似于 "Parent" 坐标空间，但在
+     这 种情况下，物体本身的起始点作为坐标原点。
+
+   默认设置为  "World" 。
+
+*位置*
+   如何沿着  "X", "Y" 和 "Z" 轴移动物体。默认情况下，所有三个参数设置
+   为零。值可以指定节点本身或通过变量 （如果启用了变量选项）。
+
+*旋转*
+   围绕 "X", "Y" 和 "Z" 轴旋转物体。所有的三个值都设置为零，默认情况。
+   可以指定节点中直接或通过变量 （如果启用了变量选项）。
+
+*缩放*
+   物体的大小。可以指定直接或通过一个变量 （如果启用了变量参数）。默认
+   设置为 1。
+
+*持续*
+   变换需要的时间 （以秒为单位）。它可以指定直接或用变量 （若要做到这
+   一点，变量参数应启用）。设置为零，默认情况。
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+移动到
+------
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
-
-
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
-
-*Object*
-   An object that needs to be transformed.
-
-*Shape Key*
-   Shape key that will be applied to the object.
-
-*Value*
-   How much the shape key will influence the object. This value can be
-   set directly in the node or using a variable. The value should be
-   between 0 and 1.
-
-
-Outline
--------
-
-Controls object outlining effect.
+可用于移动物体。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Object*
-   Any changes of the outline effect will be applied only to an object
-   specified by this parameter.
-
-*Operation*
-   Specifies an operation that will be done to the object’s outline.
-   This parameter can have one of the following values:
-
-   * *PLAY* enables outline animation
-
-   * *STOP* disables it
-
-   * *INTENSITY* can be used to set intensity of the object’s
-     outline
-
-*Intensity*
-   Outline intensity. This parameter is only available if the
-   "Operation" parameter is set to "INTENSITY". The value can be set
-   manually or via variable (if the "Variable" parameter is enabled).
+*下一个*
+   下一个节点。
 
 
-Set Shader Node Param
----------------------
+内部参数
+~~~~~~~~
 
-Can be used to set the value for the shader node. Currently, only
-"Value" and "RGB" nodes are supported.
+*物体*
+   你需要移动的物体。
+
+*目标*
+   一个目标（另一个物体或光源，摄像机或其他东西）选择的物体会移动。物
+   体的坐标和目标的运动完成后的将是相同的。
+
+*持续*
+   该物体将移到新位置花的时间 （以秒为单位）。默认情况下，此参数设置为
+   零 （和在这种情况下，物体实际上并不移动，它只是改变了其在一个时刻的
+   位置）。它可以设置手动或用变量 （仅当启用了变量参数可用）。
+
+
+应用形状关键
+------------
+
+设置形状关键因素。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Object*
-   An object that has material that needs to be edited.
-
-*Material*
-   Material that needs to be edited. It should use nodes.
-
-*Node*
-   A node that has parameters that can be changed. For now, only
-   "Value" and "RGB" nodes are supported.
-
-*Parameters*
-   Editable parameters of the selected node. They can be set in the
-   node itself or through the variables (if the "Variable" parameter
-   is enabled).
+*下一个*
+   下一个节点。
 
 
-Inherit Material
-----------------
+内部参数
+~~~~~~~~
 
-Copy attributes from one material to another.
+*物体*
+   待转化需要的物体。
+
+*形变关键帧*
+   形状将被应用到物体的密钥。
+
+*值*
+   多少的形状关键将影响物体。此值可以直接在节点中设置或使用的变量。值
+   应该是 0 和 1 之间。
+
+
+轮廓
+----
+
+控制物体概述效果。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Source*
-   An object that has a material that will be inherited.
-
-*Material*
-   The material to inherit.
-
-*Destination*
-   An object that will inherit selected material.
-
-*Material*
-   The material that will be replaced by the inherited one.
+*下一个*
+   下一个节点。
 
 
-Operations
-==========
+内部参数
+~~~~~~~~
+
+*物体*
+   的轮廓效果的任何更改将只适用于由该参数指定的物体。
+
+*操作*
+   指定将完成到该物体的轮廓的操作。这个参数可以具有以下值之一：
+
+   * *PLAY* 启用轮廓动画
+
+   * *停止* 禁用它
+
+   * *INTENSITY* 可以用来设置该物体的轮廓强度
+
+*强度*
+   轮廓强度。如果 "Operation" 参数设置为 "INTENSITY"  时此参数才是可用
+   的。值可以设置手动或通过变量 （如果启用了变量参数）。
 
 
-Variable Store
---------------
+设置着色器节点参数
+------------------
 
-Saves numerical or string value to a variable.
+可用于设置着色器节点的值。目前，只有` *Value`* 和` *RGB`* 节点被支持。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Var. name.*
-   Name of the variable. Can be selected from the list of variables or
-   specified manually (if the "New variable" parameter is enabled).
+*下一个*
+   下一个节点。
 
-*Var. type*
-   Variable’s type. This parameter can have one of two values:
-   "Number" (for numerical variables) and "String" (for string
-   variables).
 
-*New Variable*
-   If this parameter is enabled, you can manually input a variable’s
-   name and not just select one of the variables. This can be used to
-   transfer the data between the application and the server.
+内部参数
+~~~~~~~~
 
-*Global*
-   Enabling this parameter makes the variable global. Available only
-   if the "New Variable" parameter has been enabled.
+*物体*
+   有需要被编辑材质的物体。
+
+*材质*
+   需要材质进行编辑。它应使用的节点。
+
+RGB节点
+   可以改变参数的节点。现在，只有 "Value" 和 "RGB" 节点被支持。
+
+*参数*
+   可编辑参数的选定节点。在设置时可以在节点本身或通过变量 （如果启用了
+   变量参数）。
+
+
+继承材质
+--------
+
+从一个材质拷贝属性到另一个。
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*源*
+   物体的材质可以被继承。
+
+*材质*
+   要继承的材质。
+
+*目标*
+   一个物体，将继承选定的材质。
+
+*材质*
+   将由继承所替代的材质。
+
+
+操作
+====
+
+
+变量存储
+--------
+
+保存数字或字符串值的变量。
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*变量名称*
+   变量的名称。可以从变量列表中选定或手动指定 (如果 "New variable" 参
+   数已启用)。
+
+*变量类型*
+   变量的类型。此参数可以有以下两个值之一： "Number" （数值变量）和
+   "String" （字符串变量）。
+
+*新变量*
+   如果启用此参数，则可以手动输入变量名称并不只是选择其中一个变量。这
+   可以用于应用程序和服务器之间传输的数据。
+
+*全局*
+   启用此参数可使变量成全局变量。仅当启用了 "New Variable" 参数可用。
 
    [图片]
 
-*Num./Str.*
-   Numeric or string (depending on the "Var. type" parameter value)
-   value of the variable.
+*数/STR*
+   数值或字符串（取决于 "Var. type" 参数值）的变量的值。
 
 
-Math Operation
---------------
+数学运算
+--------
 
-Perform a math operation and store the result in the variables. Any of
-parameters (operands) can be either a numeric value or a variables.
-
-[图片]
-
-
-Input Parameters
-~~~~~~~~~~~~~~~~
-
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
-
-
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
-
-*Operation*
-   Mathematical operation. Can have one of the following types:
-
-   * *Random* generates random value greater than the first operand
-     and less than the second.
-
-   * *Add* sums the operands.
-
-   * *Multiply* multiplies the operands.
-
-   * *Subtract* subtracts the second operand from the first.
-
-   * *Divide* divides first operand by the second.
-
-*Operand1*
-   First operand. It can be specified in the node or it can be a link
-   to one of the variables (if the "Variable" parameter is enabled).
-
-*Operand2*
-   Second operand. Works the same way as the first.
-
-*Destination*
-   The result of the operation will be saved in the variable specified
-   by this parameter.
-
-
-String Operation
-----------------
-
-Can be used to perform an operation with two strings and save the
-result to a variable.
+执行数学运算，并将结果存储在变量中。任何参数 （操作数） 可以是一个数值
+或变量。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Operation*
-   An operation that you need to perform with two strings, which can
-   have one of the following values:
+*下一个*
+   下一个节点。
 
-   * *Join* - joins two strings into one.
 
-   * *Find* - writes the index of the first occurrence of the second
-     string in the first string to the variable. If there is no
-     occurrences, the value of -1 will be written. It should be noted
-     that the first symbol of a string has an index of 0, not 1.
+内部参数
+~~~~~~~~
 
-   * *Replace* replaces first occurrence of the second string in the
-     first string with the third one.
+*操作*
+   数学运算。可以有以下几种类型：
 
-   * *Split* splits the first string in two using the first
-     occurrence of the second string as a splitting mark.
+   * *随机* 产生比第一操作数大比第二个小的随机值。
 
-   * *Compare* compares two strings. For this operation, you need to
-     specify a logical condition. If this condition is met, a value of
-     1 will be outputted to the "Destination" variable, if it isn’t,
-     zero will be outputted.
+   * *添加* 量操作数相加。
 
-*Condition*
-   A logical condition to compare two strings. This parameter is
-   available only if the "Operation" parameter is set to "Compare".
-   Works the same way as the "Condition" parameter of the "Conditional
-   Jump" node.
+   * *乘* 将操作数相乘。
+
+   * *减去* 从所述第一个数中减去第二个操作数。
+
+   * *除数* 由第二个把第一个操作数除。
 
 *Operand1*
-   The first string. Can be specified in the node itself or with a
-   variable.
+   对于第一个操作数。它可以在节点中指定或它可以链接到一个变量 （如果启
+   用了变量参数）。
 
 *Operand2*
-   The second string. Works the same way as the first.
+   第二操作数。的工作方式与第一个同。
 
-*Operand3*
-   This parameter is available only if the "Operation" parameter is
-   set to "Replace". Can be used to specify the third string, which
-   will replace the first occurrence of the second one.
+*目标*
+   该运算的结果将保存在此参数所指定的变量中。
 
-*Destination*
-   A variable to save the operation’s result.
+
+字符串操作
+----------
+
+可以用来执行一个包含两个字符串的操作，并将结果保存到一个变量。
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*操作*
+   您需要有两个字符串，其可具有以下值中的一个来执行操作：
+
+   * *加入*  - 连接两个字符串合并为一个。
+
+   * *查找* - 如果第二个字符串在第一个里面出现就将在第一个里面出现的
+     第 二个的索引位置写入变量。如果没有匹配项，则将写入值为-1。应该指
+     出 的是，字符串的第一个符号具有索引为 0，不是 1。
+
+   * *替换* 用第三个字符串替换第一个字符串中出现的第二个字符串。
+
+   * *拆分* 用第二个字符串在第一个字符串中出现位置作为拆分标记将第一
+     个 字符串拆成两个
+
+   * *比较* 比较两个字符串。对于此操作，您需要指定一个逻辑条件。如果
+     满 足此条件，值为 1 将被输出到 "Destination" 变量，如果不是，零将
+     被 输出。
+
+*条件*
+   要比较两个字符串的逻辑条件。只有  "Operation" 参数设置为 "Compare"
+   ，此参数才可用。 和  "Conditional Jump" 节点的 "Condition" 参数相同
+   的工作。
+
+*Operand1*
+   第一个字符串。可以指定在该节点本身或与一个变量。
+
+*Operand2*
+   第二个字符串。的工作方式与第一个相同。
+
+*操作数3*
+   只有 "Operation" 参数设置为 "Replace"，此参数才可用。可以用来指定第
+   三个字符串，将替换在第一个中出现的第二个字符串。
+
+*目标*
+   一个变量来保存操作的结果。
 
 *Destination2*
-   This parameter is available only if the "Operation" parameter is
-   set to "Split". Specifies the variable to save the second half of
-   the string that has been split (the first half will be saved to the
-   variable specified by the "Destination" parameter).
+   只有 "Operation" 参数设置为  "Split"，此参数才可用。指定的变量来保
+   存第二个拆分 （第一半将被保存到 "Destination" 参数所指定的变量） 的
+   字符串。
 
 
-Sound
-=====
+声音
+====
 
 
-Play Sound
-----------
+播放声音
+--------
 
-Can be used to play speaker’s sound.
-
-[图片]
-
-
-Input Parameters
-~~~~~~~~~~~~~~~~
-
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
-
-
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
-
-*Speaker*
-   A speaker that will be enabled.
-
-*Do Not Wait*
-   If this parameter is enabled, the control will pass to the next
-   node right after sound playback starts. If it isn’t enabled, the
-   control will pass only when the playback is finished.
-
-
-Stop Sound
-----------
-
-Can be used to stop speaker’s sound.
+可以用来播放扬声器的声音。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Speaker*
-   A speaker that will be turned off.
-
-
-Network
-=======
+*下一个*
+   下一个节点。
 
 
-Send Request
-------------
+内部参数
+~~~~~~~~
 
-Send an HTTP GET request to the specified URL and save the respond’s
-fields a variable.
+*扬声器*
+   将启用的扬声器。
+
+*不要等*
+   如果启用此参数，控制将声音开始播放后立即传递到下一个节点。如果未启
+   用它，当播放完成控制只会通过。
+
+
+停止声音
+--------
+
+可以用来阻止扬声器的声音。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Method*
-   Method of the request. Can have one of two values:
+*下一个*
+   下一个节点。
 
-   * *GET* is used to request data from the server.
 
-   * *POST* is used to send data to the server.
+内部参数
+~~~~~~~~
 
-   Set to "GET" by default.
+*扬声器*
+   将被关闭的扬声器。
+
+
+网络
+====
+
+
+发送请求
+--------
+
+将 HTTP GET 请求发送到指定的 URL 和保存响应字段变量。
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*方法*
+   请求方法。可以有两个值之一：
+
+   * *GET* 用来从服务器请求数据。
+
+   * *POST* 被用于将数据发送到服务器。
+
+   默认设置为 "GET" 。
 
 *Url*
-   A web address to send request to. Set to
-   “https://www.blend4web.com” by default.
+   将请求发送到的 web 地址。默认设置为 “https://www.blend4web.com” 。
 
-*Response Params*
-   Specifies the variable to save the data received from the server.
+*响应参数*
+   指定要保存接收到来自服务器的数据的变量。
 
-注解: The data received from the server should look like this:
+注解: 从服务器收到的数据应如下所示 ︰
 
      {"var0": 1,
      "var1": 10,
@@ -1158,263 +1074,239 @@ Internal Parameters
      }
 
 *Content-Type*
-   Indicates the media type of the message content. Consists of a type
-   and a subtype, for example: "text/plain". Set to "Auto" by default.
-   Can be used to reassign the title of the HTTP request.
+   表示信息内容的媒体类型。一个类型和子类型，例如包括："text/plain"。
+   默认设置为 "Auto" 。可以用来重新分配HTTP请求的标题。
 
 *Request Params*
-   Specifies the variable that contains a JSON object that will be
-   sent to the server.  Available only if the "Method" parameter is
-   set to "POST". Default value is "R1".
+   指定将发送到服务器的包含 JSON 对象的变量。 "Method" 参数设置为
+   "Method" 时才可用。默认值为``R1`` 。
 
 
 JSON
 ----
 
-This node can be used to encode and decode complex JSON objects.
+此节点可以用于编码和解码复杂的 JSON 对象。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
 
 *JSON*
-   A link to a JSON object that you need to decode or encode. Set to
-   "R1" by default.
+   链接到一个您需要进行解码或编码的 JSON 对象。默认设置为 "R1" 。
 
-*JSON Operation*
-   An operation you need to perform with the JSON object specified by
-   the "JSON" parameter. Can have one of two values: "ENCODE" to
-   encode the JSON object and "PARSE" to decode it. Set to "ENCODE" by
-   default.
+*JSON 操作*
+   需要对 "JSON"  参数所指定的 JSON 对象执行的操作。可以有两个值之一:
+   "ENCODE" 对  JSON 对象进行编码 和 "PARSE" 进行解码。默认设置为
+   "ENCODE" 。
 
-*Members*
-   A list of variables that will be used to either store the decoded
-   data or to encode a JSON object (depending on the value of the
-   "JSON Operation" parameter). The variables always have names like
-   "var0", "var1" and so on, and their quantity can be adjusted.
+*成员*
+   变量列表，将用于存储数据的解码或编码一个JSON对象（取决于 "JSON
+   Operation" 参数的值）。变量总是有类似 "var0", "var1" 等的名字，他们
+   的数量可以调整。
 
 
-Page Param
-----------
+页面参数
+--------
 
-Allows to store any web page parameter in a given variable.
+允许在一个给定的变量中存储任何 web 页参数。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Param Name*
-   The name of the web page parameter.
-
-*Destination*
-   A variable that will be used to save the parameter.
+*下一个*
+   下一个节点。
 
 
-Page Redirect
--------------
+内部参数
+~~~~~~~~
 
-Can be used to redirect the browser to another page. This node always
-marks the end of the node tree and doesn’t have any output parameters.
+*参数名称*
+   网页参数的名称。
+
+*目标*
+   将用来保存参数的变量。
+
+
+页转到
+------
+
+可以用来浏览器重定向到另一页。此节点总是标记节点树的结束，并且没有任何
+输出参数。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-None.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
+
+空
+
+
+内部参数
+~~~~~~~~
 
 *Url*
-   Web address of a page that will be opened. Set to
-   “https://www.blend4web.com” by default.
+   将打开的网页的 web 地址。默认设置为 "https://www.blend4web.com" 。
 
 
-Debug
-=====
+调试
+====
 
 
-Console Print
--------------
+控制台打印
+----------
 
-This node prints variables’s values and additional text to the web
-browser console. It can be used for debug purposes.
+此节点打印变量的值和附加的文本到Web浏览器的控制台。它可用于调试目的。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node.
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-*Message*
-   A message that will be printed to the console along with the
-   values.
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*信息*
+   将与值一起打印到控制台的消息。
 
 <variable name>
-   A variable that will be printed to the console. By default, a
-   "Console Print" node has one such parameter, but you can add new
-   and delete existing ones (the node might not even have such
-   parameters at all).
+   将打印到控制台的变量。默认情况下，"Console Print" 节点都有一个这样
+   的参数，但您可以添加新成员和删除现有的 （节点甚至可能没有这种参数）
+   。
 
 
-Deprecated
-==========
-
-
-Select (Deprecated)
--------------------
-
-注解: Deprecated! Isn’t recommended to use. Instead, using a "Switch
-  Select" node is recommended.
-
-It is similar to the "Select & Play" node, except the transition
-happens instead of animation. This function allows to implement a
-complicated logic because in this case there is a possibility to
-identify the user selection results.
-
-
-Select & Play Timeline (Deprecated)
------------------------------------
-
-注解: Deprecated! Isn’t recommended to use. Instead, using a
-  combination of "Switch Select" and "Play Timeline" nodes is
-  recommended.
-
-Wait until the user selects an object (on desktops - with a mouse
-click, on mobile devices - with a touch). If the object, which is
-specified in this node, is selected - then start the animation similar
-to the "Play Timeline" node. If any other object is selected - then
-immediately transfer control to the next node.
-
-
-Select & Play Animation (Deprecated)
-------------------------------------
-
-注解: Deprecated! Isn’t recommended to use. Instead, using a
-  combination of "Switch Select" and "Play Timeline" nodes is
-  recommended.
-
-Wait until the user selects an object (on desktops - with a mouse
-click, on mobile devices - with a touch). If the object, which is
-specified in this node, is selected - then start the animation similar
-to the "Play Animation" node. If any other object is selected - then
-immediately transfer control to the next node.
-
-
-Layout
+已过时
 ======
 
 
-Empty
------
+选择（已过时）
+--------------
 
-This is a simple pass-through node that does not perform any
-operations on its own. It can be used to combine several logic threads
-into one or simply to make the logic node setup easier to read and
-understand.
+注解: 已过时！不推荐使用。相反，推荐使用 "Switch Select" 节点。
+
+它类似于  "Select & Play" 节点，除了过渡发生代替动画。这个功能可以实现
+一个复杂的逻辑，因为在这种情况下，存在这样的可能性，以确定所述用户选择
+的结果。
+
+
+选择并播放时间轴（已过时）
+--------------------------
+
+注解: 已过时！不推荐使用。相反，建议使用 "Switch Select" 和 "Play
+  Timeline" 节点。
+
+等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果
+物体，这是在本节点中指定时，选择 - 然后启动类似于 "Play Timeline" 节点
+动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。
+
+
+选择并播放动画（已过时）
+------------------------
+
+注解: 已过时！不推荐使用。相反，建议使用 "Switch Select" 和 "Play
+  Timeline" 节点。
+
+等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果
+物体，这是在本节点中指定时，选择 - 然后启动类似于  "Play Animation" 节
+点动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。
+
+
+布局
+====
+
+
+空物体
+------
+
+这是一个不自身执行任何操作的简单的直通节点。它可以用于多个逻辑线程组合
+到一个或简单地使逻辑节点设置更容易阅读和理解。
 
 [图片]
 
 
-Input Parameters
-~~~~~~~~~~~~~~~~
+输入参数
+~~~~~~~~
 
-*Previous*
-   Previous node (or several nodes).
-
-
-Output Parameters
-~~~~~~~~~~~~~~~~~
-
-*Next*
-   Next node.
+*上一个*
+   前一个节点（或多个节点）。
 
 
-Internal Parameters
-~~~~~~~~~~~~~~~~~~~
+输出参数
+~~~~~~~~
 
-None.
+*下一个*
+   下一个节点。
 
 
-Reroute
--------
+内部参数
+~~~~~~~~
 
-Logic Editor also has "Reroute" elements, the nodes that don’t do
-anything aside from passing the control to the next node or to the
-next "Reroute" element. Such elements can be used to create cyclic
-structures or to make the node tree easier to read and understand.
+空
 
-Unlike the "Empty" node, "Reroute" element can only handle a single
-logic thread.
+
+路由
+----
+
+逻辑编辑器还具有 "Reroute" 元素，不从传递控制到下一个节点或者到下一个
+"Reroute" 元件做任何处理的节点。这样的元件可以用来创建环状的结构，或使
+节点树更容易阅读和理解。
+
+不同于 "Empty" 节点，"Reroute" 元素只能处理一个单一的逻辑线程。
 
 [图片]
 
-注解: Output parameter can’t be connected to the same node’s input
-  parameter. If you need to do this (to make a cycle, for example),
-  you should use "Reroute" elements.
+注解: 输出参数不能被连接到相同的节点的输入参数。如果你需要做到这一点
+  （例如 做一个循环），你应该使用 "Reroute" 元素。
 
 
-Debugging
-=========
+调试中
+======
 
-For debugging purposes some nodes inside logic tree can be muted. To
-do that select the required node and press the "M" key. Muted nodes
-are not evaluated and simply pass control to the next ones. If the
-muted node has two outputs the execution continues from the output
-with negative result ("Miss", "False").
+为了调试的目的，逻辑树中的一些节点可以被静音。要做到这一点，选择所需的
+节点，并按“M”键。静音节点不执行，并简单地传递控制到后面节点。如果静音
+节点有两个输出执行从负的结果（"Miss"，"False"）继续输出。

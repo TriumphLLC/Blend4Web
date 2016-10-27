@@ -1,0 +1,12 @@
+# Blend4Web Addon distribution list
+2^addons/blend4web
+3^deploy/apps/webplayer/webplayer*
+4^deploy/apps/webplayer/template/webplayer_template.html
+!*.blend1
+!*.blend2
+!*.blend3
+!*.blend4
+!*.blend5
+!*.pyc
+!*/__pycache__/*
+!*.swp

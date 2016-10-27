@@ -37,6 +37,7 @@ var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
 var m_version  = require("__version");
+var m_navmesh = require("__navmesh");
 
 var cfg_phy = m_cfg.physics;
 var cfg_def = m_cfg.defaults;
@@ -161,8 +162,12 @@ exports.append_object = function(obj, scene) {
 
     if (is_vehicle_chassis(obj) || is_vehicle_hull(obj) ||
             is_character(obj) || is_floater_main(obj) || obj.use_obj_physics) {
+        var is_navmesh = is_navigation_mesh(obj);
+        if (is_navmesh)
+            var phy = init_navigation_mesh_physics(obj, scene);
+        else
+            var phy = init_bounding_physics(obj, compound_children, worker);
 
-        var phy = init_bounding_physics(obj, compound_children, worker);
         obj.physics = phy;
 
         var pb = {
@@ -170,8 +175,11 @@ exports.append_object = function(obj, scene) {
             physics: phy
         };
 
-        bundles.push(pb);
-        recalc_collision_tests(scene, worker, phy.collision_id);
+
+        if (!is_navmesh) {
+            bundles.push(pb);
+            recalc_collision_tests(scene, worker, phy.collision_id);
+        }
     } else {
         var sc_data = m_obj_util.get_scene_data(obj, scene);
         var batches = sc_data.batches;
@@ -709,7 +717,8 @@ function init_physics(body_id, type) {
         angvel: new Float32Array(3),
 
         cached_trans: new Float32Array(3),
-        cached_quat: new Float32Array(4)
+        cached_quat: new Float32Array(4),
+        navmesh: null
     };
 
     return phy;
@@ -823,6 +832,24 @@ function init_bounding_physics(obj, compound_children, worker) {
     phy.collision_id_num = collision_id_num;
     return phy;
 }
+
+function init_navigation_mesh_physics(obj, scene) {
+    var body_id = get_unique_body_id();
+    var phy = init_physics(body_id, "NAVMESH");
+    var sc_data = m_obj_util.get_scene_data(obj, scene);
+    var batches = sc_data.batches;
+    phy.navmesh = null;
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
+        if (batch.type == "PHYSICS") {
+            // here we have single PHYSICS batch so quit after batch was being found
+            phy.navmesh = m_navmesh.navmesh_build_from_bufs_data(batch.bufs_data);
+            break;
+        }
+    }
+    return phy;
+}
+
 
 function get_children_params(render, children, bt, wb) {
 
@@ -1592,6 +1619,9 @@ exports.set_character_rotation_v = function(obj, angle) {
 exports.append_collision_test = function(obj_src, collision_id, callback,
                                          calc_pos_norm) {
     var phy = obj_src.physics;
+    if (phy.navmesh)
+        return;
+
     var body_id_src = phy.body_id;
 
     var collision_id = collision_id || "ANY";
@@ -1874,7 +1904,8 @@ function collision_id_to_body_ids(collision_id, bpy_scene, dest_arr, dest_obj) {
 
     for (var i = 0; i < bpy_scene._physics.bundles.length; i++) {
         var bundle = bpy_scene._physics.bundles[i];
-        if (collision_id == "ANY" || bundle.physics.collision_id == collision_id) {
+        if (collision_id == "ANY" || bundle.physics.collision_id == collision_id
+            && bundle.physics.type != "NAVMESH") {
             var body_id = bundle.physics.body_id;
 
             // unique
@@ -2100,6 +2131,11 @@ function is_vehicle_hull(obj) {
     return obj.is_vehicle && obj.vehicle_settings.part == "HULL";
 }
 
+exports.is_navigation_mesh = is_navigation_mesh;
+function is_navigation_mesh(obj) {
+    return obj.physics_settings.physics_type == "NAVMESH";
+}
+
 exports.is_car_wheel = function(obj) {
     if (!obj.is_vehicle)
         return false;
@@ -2232,5 +2268,4 @@ exports.remove_object = function(obj) {
 
     m_ipc.post_msg(worker, m_ipc.OUT_REMOVE_BODY, body_id);
 }
-
 }

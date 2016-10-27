@@ -183,6 +183,14 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
         
             
+<li> <a href="#.get_rotation_euler">get_rotation_euler<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
+
+        
+            
+<li> <a href="#.get_rotation_euler">get_rotation_euler<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
+
+        
+            
 <li> <a href="#.get_rotation_rel">get_rotation_rel<span class="signature">(obj, opt_dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
 
         
@@ -636,7 +644,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line608">line 608</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line641">line 641</a>
     </li></ul></dd>
     
 
@@ -771,7 +779,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line399">line 399</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line432">line 432</a>
     </li></ul></dd>
     
 
@@ -972,7 +980,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line647">line 647</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line680">line 680</a>
     </li></ul></dd>
     
 
@@ -1174,7 +1182,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line665">line 665</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line698">line 698</a>
     </li></ul></dd>
     
 
@@ -1331,7 +1339,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line527">line 527</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line560">line 560</a>
     </li></ul></dd>
     
 
@@ -1564,7 +1572,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line439">line 439</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line472">line 472</a>
     </li></ul></dd>
     
 
@@ -1721,7 +1729,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line424">line 424</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line457">line 457</a>
     </li></ul></dd>
     
 
@@ -1922,6 +1930,433 @@ calculate center, otherwise use the bounding box.</td>
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line240">line 240</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_rotation_euler">get_rotation_euler<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get Euler rotation of object in the ZYX intrinsic system
+(in the coordinate space of its parent).
+Using euler angles is discouraged, use quaternion instead.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Euler">Euler</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    new Float32Array(3)
+                
+                </td>
+            
+
+            <td class="description last">Destination vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Vector with Euler angles
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line309">line 309</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_rotation_euler">get_rotation_euler<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get Euler rotation of object in the ZYX intrinsic system.
+Using euler angles is discouraged, use quaternion instead.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Euler">Euler</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    new Float32Array(3)
+                
+                </td>
+            
+
+            <td class="description last">Destination vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Vector with Euler angles
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -2279,7 +2714,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line378">line 378</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line411">line 411</a>
     </li></ul></dd>
     
 
@@ -2437,7 +2872,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line388">line 388</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line421">line 421</a>
     </li></ul></dd>
     
 
@@ -3037,7 +3472,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line569">line 569</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line602">line 602</a>
     </li></ul></dd>
     
 
@@ -3238,7 +3673,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line585">line 585</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line618">line 618</a>
     </li></ul></dd>
     
 
@@ -3442,7 +3877,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line462">line 462</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line495">line 495</a>
     </li></ul></dd>
     
 
@@ -3600,7 +4035,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line479">line 479</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line512">line 512</a>
     </li></ul></dd>
     
 
@@ -3758,7 +4193,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line495">line 495</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line528">line 528</a>
     </li></ul></dd>
     
 
@@ -3916,7 +4351,7 @@ calculate center, otherwise use the bounding box.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line511">line 511</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line544">line 544</a>
     </li></ul></dd>
     
 
@@ -4075,7 +4510,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line612">line 612</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line645">line 645</a>
     </li></ul></dd>
     
 
@@ -4235,7 +4670,7 @@ It's better to use TSR form.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line629">line 629</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line662">line 662</a>
     </li></ul></dd>
     
 
@@ -4492,7 +4927,7 @@ It's better to use TSR form.
 <div class="item_description">
 
 <div class="description">
-    Set euler rotation in the YZX intrinsic system.
+    Set euler rotation in the ZYX intrinsic system.
 Using euler angles is discouraged, use quaternion instead.
 </div>
 
@@ -4697,7 +5132,7 @@ Using euler angles is discouraged, use quaternion instead.
 <div class="item_description">
 
 <div class="description">
-    Set euler rotation in the YZX intrinsic system
+    Set euler rotation in the ZYX intrinsic system
 (in the coordinate space of its parent).
 Using euler angles is discouraged, use quaternion instead.
 </div>
@@ -4873,7 +5308,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line293">line 293</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line326">line 326</a>
     </li></ul></dd>
     
 
@@ -5033,7 +5468,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line332">line 332</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line365">line 365</a>
     </li></ul></dd>
     
 
@@ -5192,7 +5627,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line316">line 316</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line349">line 349</a>
     </li></ul></dd>
     
 
@@ -5894,7 +6329,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line349">line 349</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line382">line 382</a>
     </li></ul></dd>
     
 
@@ -6053,7 +6488,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line363">line 363</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line396">line 396</a>
     </li></ul></dd>
     
 
@@ -7163,7 +7598,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line538">line 538</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line571">line 571</a>
     </li></ul></dd>
     
 
@@ -7322,7 +7757,7 @@ Using euler angles is discouraged, use quaternion instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line553">line 553</a>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line586">line 586</a>
     </li></ul></dd>
     
 
@@ -7359,7 +7794,7 @@ Using euler angles is discouraged, use quaternion instead.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Mon Oct 03 2016 14:30:49 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Oct 27 2016 16:42:35 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

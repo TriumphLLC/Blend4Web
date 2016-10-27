@@ -1,432 +1,371 @@
 
-Physics
-*******
+物理
+****
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Physics
+* 物理
 
-  * Preparing for Use
+  * 使用准备
 
-  * Static Physics Type
+  * 静态物理类型
 
-  * Dynamic Physics Type
+  * 动态物理类型
 
-  * Constraints
+  * 约束
 
-  * Wheeled Vehicles
+  * 轮式的车辆
 
-    * Chassis Settings
+    * 底盘设置
 
-  * Floating Objects
+  * 浮动物体
 
-    * Floating Object Settings
+    * 浮动物体设置
 
-  * Floating Vehicles aka Watercrafts
+  * 浮动交通工具或叫船舶
 
-    * Watercraft Settings
+    * 船舶设置
 
-  * Characters
+  * 角色
 
-    * Character Settings
+    * 角色设置
 
-    * Basic Character
+    * 基本角色
 
-  * Use in Applications
-
-
-Preparing for Use
-=================
-
-In order to enable physics on the scene, please use the "Enable
-Physics" checkbox in the "Physics" panel under the scene tab in
-Blender.
-
-[图片]
+  * 在应用程序中的使用
 
 
+使用准备
+========
 
-
-Static Physics Type
-===================
-
-Can be used to limit the movement of other objects, for example to
-detect collisions with a landscape, walls and so on. In the physics
-settings of such an object the "Static" value (set by default) should
-be selected for the "Physics Type" option.
-
-[图片]
-
-
-
-One or multiple physics materials can be assigned to a mesh. Under the
-"Material" tab the "Special: Collision" panel must be activated.
-
-[图片]
-
-
-
-The "Ghost" option excludes the material from physical interactions
-but still notifies the application about the contact with it. An
-example - detecting that the character is located on a vertical
-ladder.
-
-[图片]
-
-
-
-The "Collision ID" field is intended for detecting collisions with
-specific materials and can be left empty. An example of "Collision ID"
-usage is detecting the landscape surface a character is located on -
-grass, sand, wooden coating and so on.
-
-The "Margin" field allows to customize the width of the zone where
-mesh reacts on collisions. This option improves physical collisions
-simulation stability.
-
-Also, there are material physics settings in this panel. The following
-settings are supported: "Friction", "Elasticity".
-
-The "Collision Group" field corresponds to the physics group which the
-material belongs to. The "Collision Mask" field defines all physics
-groups with which this material will interact.
-
-
-Dynamic Physics Type
-====================
-
-Intended for rigid body movement simulation.
-
-[图片]
-
-
-
-The "Object Physics" checkbox must be enabled under the object's
-"Physics" panel. The "Collision ID" field is intended for detecting
-collisions with a specific object (for example, for detecting
-proximity of a FPS character to different items) and can be left
-empty.
-
-In the physics settings of such an object the "Rigid Body" (with
-rotations) or "Dynamic" (without rotations) values can be selected for
-the "Physics Type" option. In the "Collision Bounds" settings the
-collider type can be selected - the supported types are: "Box",
-"Capsule", "Sphere", "Cylinder", "Cone". Also, the following physics
-parameters can be set: "Mass", "Damping" - for "Translation" and
-"Rotation".
-
-The "Collision Group" field corresponds to the physics group which the
-object belongs to.
-
-The "Collision Mask" field defines all physics groups with which this
-object will interact.
-
-[图片]
-
-
-
-"Friction" and "Elasticity" are supported for the material of such an
-object. When multiple materials are used on a single mesh, the physics
-parameters are taken from the first of them.
-
-For the camera object the "Physics Type" = "Dynamic" parameter must be
-used, and the "Object Physics" checkbox must be enabled.
-
-
-Constraints
-===========
-
-Physical constraints are used for limiting the objects' degrees of
-freedom.
-
-[图片]
-
-
-
-Adding a physical constraint ("Rigid Body Joint") to the object can be
-performed on the "Object Constraints" panel. The supported types
-("Pivot Type") are: "Ball", "Hinge", "Cone Twist", "Generic 6 DoF". A
-physical constraint can be added to one of the two interacting
-objects, while the other object acts as a "Target". Both objects can
-have a static and/or dynamic physics type. In constraints (except
-"Ball") the translation and rotation limits can be set up.
+为了在场景中启用物理，请使用在Blender场景选项卡下 "Physics" 面板的
+"Enable Physics" 复选框。
 
 [图片]
 
 
 
 
-Wheeled Vehicles
-================
+静态物理类型
+============
 
-The model of a vehicle must consist of 6 separate objects - a chassis,
-4 wheels and a steering wheel. The chassis' mesh center should
-correspond to the mass center. The centers of the wheels' and the
-steering wheel's meshes should be located on the rotation axes. The
-steering wheel should be oriented in the local space of coordinates -
-X - the rotation axis, Y - to the right and Z - upwards. The object
-can have any names.
+可以用来限制其他物体的运动，例如与地形、墙壁碰撞等。在物理学中的此类物
+体的 "Static" 值 （默认设置） 设置应选择  "Physics Type" 选项。
 
 [图片]
 
 
 
-For all 6 objects: select the "Part", specify the same id in the
-"Vehicle Name" field, select the right object type - "Chassis",
-"Steering Wheel", "Back Right Wheel" and so on. The "Suspension Rest
-Length" setting is also available for the wheels.
-
-It is necessary to specify a realistic mass for the chassis (because
-the default value is only 1 kg). To do this go to the physics
-settings, choose the "Rigid Body" value for the "Physics Type" option
-and specify the required value (for example, 1000 kg) in the "Mass"
-field.
-
-
-Chassis Settings
-----------------
-
-*Force Max*
-   Maximum driving force of the vehicle.
-
-*Brake Max*
-   Maximum braking coefficient.
-
-*Suspension Compression*
-   Damping coefficient for suspension stretching.
-
-*Suspension Stiffness*
-   Suspension stiffness coefficient.
-
-*Suspension Damping*
-   Suspension damping coefficient.
-
-*Wheel Friction*
-   Friction constant between the wheels and the surface. It should be
-   around 0.8 for realistic vehicles. But it can be increased
-   significantly to achieve a better control (1000 and more).
-
-*Roll Influence*
-   Decreases the wheels' torque decreasing the probability of the
-   vehicle overturning (0 - no torque, 1 - real physics behavior).
-
-*Max Suspension Travel Cm*
-   Maximum suspension travel in centimeters.
-
-For the "Steering Wheel" it is necessary to specify the maximum
-steering angle ("Steering Max") and the ratio between the turn of the
-steering wheel and the turn of the wheels  ("Steering Ratio"). The
-maximum steering angle value is specified in revolutions. A single
-revolution equals to 360 degrees. Therefore, if "Steering Max" is
-equal to one and "Steering Ratio" is equal to 10, the maximum turn of
-the steering wheel will be 360 degrees and the maximum turn of the
-front wheels will be 36 degrees.
-
-On this stage you can export and load the scene into the engine. We
-recommend to create a road surface with a physics material. To choose
-the controlled object press the "Q" key in the Viewer and select the
-chassis. Use the "W", "A", "S", "D" keys as controls.
-
-We can additionally tweak the "Damping" of "Translation" and
-"Rotation". This will influence the speed and inertia of the vehicle.
-
-The friction and elasticity of the road surface material do not
-influence the vehicle's behavior.
-
-
-Floating Objects
-================
+一个网格可以分配到一个或多个物理材质。根据  "Material" 面板的
+"Special: Collision" 选项卡必须被激活。
 
 [图片]
 
 
 
-In order for the object to float on the water surface (an object with
-the "Water" material), it is necessary to enable the "Floater" panel.
-There are two types of floating objects: "Main Body" - the floating
-object itself and "Bob" - an auxiliary bob-object onto which the
-buoyancy will be acting. A floating object can have an unlimited
-number of "Bob" objects. This can be both meshes or "Empty" objects.
-
-All objects that are part of the same floating object must have the
-same name in the "Floater Name" field.
-
-
-Floating Object Settings
-------------------------
-
-*Floating Factor*
-   Buoyancy coefficient.
-
-*Water Linear Damping*
-   Linear velocity damping when the object is on the water surface (or
-   under water). When the object is not in water, the physics settings
-   are used.
-
-*Water Rotation Damping*
-   Rotation damping when the object is on the water surface (or under
-   water). When the object is not in water, the physics settings are
-   used.
-
-
-Floating Vehicles aka Watercrafts
-=================================
+"Ghost" 选项排除物理相互作用的材质，但仍将通知应用它的接触。示例 - 检
+测角色坐在垂直梯子上。
 
 [图片]
 
 
 
-Watercrafts use some parameters from the "Vehicle" settings and all
-the settings which are similar to "Floater" setting. It is necessary
-to set the "Part" type "Hull" on the main object. Similar to a
-floating object a watercraft requires auxiliary "Bob" objects.
+"Collision ID" 的字段用于检测与指定的材质碰撞，可以留空。 "Collision
+ID"  用法的一个示例，检测地形表面的角色位于-草，沙子，木制涂层等等。
+
+"Margin" 字段允许自定义在哪里网格的碰撞区域的宽度。此选项提高了物理碰
+撞模拟稳定性。
+
+还有，在此面板中有一些材质物理设置。支持以下设置:  "Friction",
+"Elasticity".
+
+"Collision Group" 字段对应于材质属于的物理组。"Collision Mask" 字段定
+义这种材质将与之交互的所有物理组。
 
 
-Watercraft Settings
--------------------
+动态物理类型
+============
 
-*Force Max*
-   Maximum driving force of the vehicle.
+专为刚体运动仿真。
 
-*Brake Max*
-   Maximum braking coefficient.
-
-*Floating Factor*
-   Buoyancy coefficient.
-
-*Water Linear Damping*
-   Linear velocity damping when the object is on the water surface (or
-   under water). When the object is not in water, the physics settings
-   are used.
-
-*Water Rotation Damping*
-   Rotation damping when the object is on the water surface (or under
-   water). When the object is not in water, the physics settings are
-   used.
+[图片]
 
 
-Characters
+
+"Object Physics" 复选框必须在物体 "Physics" 面板下启用。"Collision ID"
+字段用于检测与特定的物体的碰撞 （例如，用于检测FPS 角色和不同项目接近
+程度），可以留空。
+
+在这样一个物体的 "刚体" （旋转）或 "Dynamic" （不旋转）的值的物理设置
+可以在  "Physics Type" 选项选择。在  "Collision Bounds"  设置碰撞体类
+型可以选择 - 支持的类型有："Box"，"Capsule"，"Sphere"，"Cylinder"，
+"Cone" 。同时，下面的物理参数可以设置："Mass"，"Damping"  - 为
+"Translation" 和 "Rotation"。
+
+"Collision Group" 字段对应于物体所属的物理组。
+
+"Collision Mask" 字段定义此物体将与之交互的所有物理组。
+
+[图片]
+
+
+
+这类物体的材质支持 "Friction" 和 "Elasticity" 。当多个材质广泛应用于一
+个单独的网格时，物理参数取自其中的第一项。
+
+因为相机物体 "Physics Type" = "Dynamic" 参数必须使用，并且必须启用
+"Object Physics" 复选框。
+
+
+约束
+====
+
+物理约束用来限制物体的自由度。
+
+[图片]
+
+
+
+向物体添加物理约束 ("Rigid Body Joint") 可以在 "Object Constraints" 面
+板上执行 。受支持的类型 ("Pivot Type") 是:"Ball", "Hinge", "Cone
+Twist", "Generic 6 DoF". 物理约束可以添加到两个相互作用的物体之一，而
+另一个物体作为 "Target" 。这两个物体可以有静态和/或动态的物理类型。在
+约束 （除外``Ball``) ，可以设置的平移和旋转的限制。
+
+[图片]
+
+
+
+
+轮式的车辆
 ==========
 
-[图片]
-
-This feature can be activated by clicking the "Character" check-box in
-the title of the eponymous tab on the "Physics" panel.
-
-From the engine standpoint, the character itself is a proper physical
-object that can collide with other physical objects or be influenced
-by physical forces such as gravity and buoyant force.
-
-Character object can be easily controlled using several API methods
-with a *character* keyword in their names. All such methods reside in
-the physics API module.
-
-
-Character Settings
-------------------
+车辆的模型必须包含 6 单独的物体 - 机箱、 4 个轮子和一个方向盘。机箱的
+网格中心应该对应于质量的中心。车轮对和方向盘的中心网格应位于旋转轴。方
+向盘应该面向在本地空间的坐标 -X-旋转轴，Y-向右和 Z-向上。该物体可以具
+有任何名称。
 
 [图片]
 
-All the settings listed here become available after activating the
-"Character" tab.
+
+
+所有的6个物体 ︰ 选择  "Part"，在 "Vehicle Name" 字段中指定相同的 id，
+选择正确的物体类型- "Chassis", "Steering Wheel", "Back Right Wheel" 等
+等。 "Suspension Rest Length" 设置对车轮可用。
+
+有必要指定机箱的真实质量 （因为默认值是仅 1 公斤）。做这件事先到物理设
+置，选择物理类型 "Rigid Body" 的 "Physics Type" 选项并指定  "Mass"  所
+需的值 （例如，1000 公斤） 字段。
+
+
+底盘设置
+--------
+
+*Force Max*
+   车辆最大驱动力。
+
+*Brake Max*
+   最大制动系数。
+
+*Suspension Compression*
+   阻尼系数为悬浮舒展。
+
+*Suspension Stiffness*
+   悬架刚度系数。
+
+*Suspension Damping*
+   悬架阻尼系数。
+
+*Wheel Friction*
+   车轮和表面之间的摩擦系数。现实车辆它应该是 0.8 左右。但是，显著提高
+   它能够实现更好的控制 （1000 和更多）。
+
+*Roll Influence*
+   减少车轮的扭矩降低车辆倾覆概率 (0-无力矩、 1-真正的物理行为)。
+
+*Max Suspension Travel Cm*
+   以厘米为单位的最大悬挂行程。
+
+对 "Steering Wheel" 必须指定的是方向盘的最大角度 ("Steering Max") 以及
+方向盘和轮胎转动之间的比值 ("Steering Ratio"). 最大方向盘转角设置值为
+圈。一圈等于360度。因此，如果 "Steering Max" 等于一以及 "Steering
+Ratio" 等于10的话，方向盘转360度前轮转36度。
+
+在这个时候你可以导出并加载场景到引擎。我们建议您创建一个物理材质的路面
+。要在查看器中选择控制的物体按 "Q"  并选择机箱。使用 "W", "A", "S",
+"D" 用作控件。
+
+此外，我们可以调整 "Damping" of "Translation" and "Rotation" 。这将影
+响汽车惯性与速度。
+
+道路路面材质的摩擦和弹性不会影响车辆的行为。
+
+
+浮动物体
+========
+
+[图片]
+
+
+
+为了使要浮在水面上 （用 "Water" 材质物体） 的物体，就必须使 "Floater"
+面板启用。有两种类型的浮动物体:  "Main Body" - 动物体本身和  "Bob" -
+辅助bob-物体让漂浮执行。浮动物体可以有无限的多个 "Bob" 物体。可以是网
+格或 "Empty" 物体。
+
+相同的浮动物体包含的一部分的所有物体必须 "Floater Name" 字段中都具有相
+同的名称。
+
+
+浮动物体设置
+------------
+
+*Floating Factor*
+   浮力系数。
+
+*Water Linear Damping*
+   物体在水面上时线速度阻尼 （或水下）。当物体不是在水中时，则使用物理
+   设置。
+
+*Water Rotation Damping*
+   物体在水面上时的旋转阻尼 （或水下）。当物体不是在水中时，则使用物理
+   设置。
+
+
+浮动交通工具或叫船舶
+====================
+
+[图片]
+
+
+
+船舶使用 "Vehicle" 设置的一些参数和  "Floater" 设置的所有设置。它是必
+要的主要物体上 "Part" 类型的  "Hull" 设置 。类似于浮动物体船只需要辅助
+"Bob" 物体。
+
+
+船舶设置
+--------
+
+*Force Max*
+   车辆最大驱动力。
+
+*Brake Max*
+   最大制动系数。
+
+*Floating Factor*
+   浮力系数。
+
+*Water Linear Damping*
+   物体在水面上时线速度阻尼 （或水下）。当物体不是在水中时，则使用物理
+   设置。
+
+*Water Rotation Damping*
+   物体在水面上时的旋转阻尼 （或水下）。当物体不是在水中时，则使用物理
+   设置。
+
+
+角色
+====
+
+[图片]
+
+这个功能可以通过点击 "Physics" 面板上的同名标签的标题 "Character" 复选
+框被激活。
+
+从引擎的角度来看，角色本身是一类适当的物理物体，该物体可以与其他物理物
+体发生碰撞或受到物理力如重力和浮力的影响。
+
+角色物体可以使用多种API方法，由他们的名字 *character* 关键字容易控制。
+所有这些方法驻留在 physics API模块。
+
+
+角色设置
+--------
+
+[图片]
+
+所有设置列出在这里在激活 "Character" 选项卡后可用。
 
 *Walk Speed*
-   This parameter sets the speed of a character walking (measured in
-   meters per second). The lowest possible value of this parameter is
-   zero, while the highest is 10.
+   此参数设定一个角色行走的速度（以米每秒为单位）。这个参数的可能的最
+   低值是零，而最高为10。
 
-   Its default value is 4.
+   它的默认值是4。
 
 *Run Speed*
-   This is the speed of the character running (measured in meters per
-   second). Its value can vary from zero to 20.
+   这是奔跑角色（以米每秒为单位测得的）的速度。其值可以从零到20变化。
 
-   This parameter is set to 8 by default.
+   此参数默认设置为8。
 
 *Step Height*
-   This is the maximum height of an obstacle that character can
-   overstep (in meters). The value of this parameter can vary from
-   zero to 1.
+   这是一个该角色可以超越（米）的障碍最大高度。这个参数的值可以从零到1
+   变化。
 
-   Default value of this parameter is 0.250.
+   此参数的默认值是0.250。
 
 *Jump Strength*
-   This parameter sets the strength of the character jumping. Its
-   minimum value is zero, while its maximum value is 50.
+   此参数设置人物跳跃的力量。其最小值是零，而其最大值为50。
 
-   Set to 5 by default.
+   默认设置为5。
 
 *Waterline*
-   This parameter sets up the waterline for the character object. The
-   waterline is measured from the center of the physical shape of the
-   object (not the object's mesh). If an object is submerged into the
-   water below this line, it will float. Its value can vary from -2 to
-   2.
+   这个参数设置的角色物体的水线。水线从物体（不是物体的网格）的物理形
+   状的中心测量的。如果物体被浸入水在该线以下的，它会漂浮。其值可以改
+   变从-2到2。
 
-   It is set to zero by default.
+   默认情况设置为零 。
 
 
-Basic Character
----------------
+基本角色
+--------
 
-Blend4Web engine has an option to quickly set up a user-controlled
-first-person character. Such character will only have very basic
-functionality, but can be set up without any programming.
+Blend4Web引擎有快速建立用户控制的第一人称角色的选项。这样的角色将只有
+非常基本的功能，但也可以没有任何编程的情况下设置。
 
-To set up a basic character, follow these steps:
+要建立一个基本角色，请按照下列步骤操作：
 
-1. Select an object you intend to use as a character.
+1. 选择您想要作为一个角色使用一个物体。
 
-2. Enable physics for the selected object and set physics type to
-   "Dynamic" or "Rigid Body".
+2. 启用选定物体的物理和物理设置类型到 "Dynamic" 或 "Rigid Body".
 
-3. Enable Character option for the object.
+3. 启用该物体的角色选项。
 
-4. Create a new Camera or select an existing one and set its type
-   to "Eye".
+4. 创建一个新的相机或选择一个现有的和其类型设置为 "Eye" 。
 
-Now a basic character with an attached camera will be present in your
-scene.
+现在，带有摄像头的基本角色将出现在您的场景。
 
-The character can be controlled in mostly the same way as a regular
-"Eye" type camera:
+该角色可大致和常规 "Eye" 式照相机相同的方式作为进行控制：
 
-* WASD keys move the character.
+* WASD键移动角色。
 
-* Camera angles are controlled by arrow keys or moving the mouse
-  while holding its left button.
+* 摄像头角度由方向键控制或移动鼠标按住左按钮。
 
-* Pressing the C key toggles fly mode (enabled by default).
+* 按C键切换飞行模式（默认启用）。
 
-注解: Only one basic character can be present in the scene. If a
-  scene has multiple characters, the engine will use the first of them
-  as the basic character and ignore the others.
+注解: 只有一个基本角色可存在于场景中。如果场景中有多个角色，该引擎将
+  使用他 们的第一个基本角色，而忽略其他。
 
 
-Use in Applications
-===================
+在应用程序中的使用
+==================
 
-The physics system is implemented in the **uranium.js** module and
-loaded separately from the engine's main code. The **uranium.js**
-module itself is a modification of the Bullet physics engine, which is
-ported to work in browsers. In order to activate the physics system,
-it is enough to put the **uranium.js** and **uranium.js.mem** files in
-the same directory as the source code of the application.
+物理系统是在 **uranium.js** 模块中实现，并分别从引擎的主要代码加载。
+**Uranium.js** 模块本身是 Bullet 物理引擎的修改版，移植在浏览器中工作
+。为了激活物理系统，这就需要将 **uranium.js** 和 **uranium.js.mem** 文
+件跟应用程序的源代码放在同一个目录。
 
-Another way is to explicitly specify the loading path of the
-**uranium.js** module by using the following API method:
+另一个方法是通过使用下面的 API 方法显式指定 **uranium.js** 模块的加载
+路径 ︰
 
    m_config.set("physics_uranium_path", ".../uranium.js");
 
-注解: When applications are developed within the SDK, the path to
-  the physics engine is detected automatically.
+注解: 当开发应用程序 使用了SDK, 自动检测到物理引擎的路径。
 
-If your application does not use physics, we recommend you to turn off
-the "Enable Physics" flag in the "Physics" panel under the scene tab
-in Blender. It is also possible to forcibly disable loading of the
-**uranium.js** module by calling the following method before
-initialization of the engine:
+如果您的应用程序不使用物理，我们建议您在Blender场景选项卡中 "Physics"
+面板下关闭 "Enable Physics" 的标志。它也是可以通过调用下面的方法初始化
+引擎前强行禁用加载 **uranium.js** 模块 ︰
 
    m_config.set("physics_enabled", false);

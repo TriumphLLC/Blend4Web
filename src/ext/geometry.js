@@ -35,7 +35,7 @@ var m_util   = require("__util");
  * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @param {String} attrib_name Attribute name (a_position, a_tbn_quat)
- * @returns {Float32Array} Vertex array
+ * @returns {Float32Array|Int16Array|Uint8Array} Vertex array
  */
 exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
 
@@ -96,16 +96,24 @@ exports.extract_index_array = function(obj, mat_name) {
  * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @param {String} attrib_name Attribute name (a_position, a_tbn_quat)
- * @param {Float32Array} array The new array
+ * @param {Float32Array|Int16Array|Uint8Array} array The new array
  */
 exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
-    var types = ["MAIN", "SHADOW", "COLOR_ID"];
-
     if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj.name);
         return;
     }
 
+    var vbo_type = m_geom.get_vbo_type_by_attr_name(attrib_name);
+    var constructor = m_geom.get_constructor_by_type(vbo_type);
+
+    if (constructor != array.constructor) {
+        m_print.error("Wrong input array type '" + array.constructor.name 
+                + "' for the given attribute. Should be '" + constructor.name + "'.");
+        return;
+    }
+
+    var types = ["MAIN", "SHADOW", "COLOR_ID"];
     for (var i = 0; i < types.length; i++) {
         var type = types[i];
 
@@ -132,9 +140,6 @@ exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
  */
 exports.override_geometry = function(obj, mat_name, ibo_array,
                                         positions_array, smooth_normals) {
-
-    var types = ["MAIN", "SHADOW", "COLOR_ID"];
-
     if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj.name);
         return;
@@ -151,6 +156,7 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
         return;
     }
 
+    var types = ["MAIN", "SHADOW", "COLOR_ID"];
     for (var i = 0; i < types.length; i++) {
         var type = types[i];
         var batch = m_batch.find_batch_material(obj, mat_name, type);
@@ -162,27 +168,36 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
                 m_geom.update_bufs_data_index_array(bufs_data, batch.draw_mode,
                         ibo_array);
 
-                var new_vbo_size = 0;
+                var lengths = {};
                 for (var attr in bufs_data.pointers) {
                     var pointer = bufs_data.pointers[attr];
 
-                    new_vbo_size += positions_array.length / 3 * pointer.num_comp;
+                    var len = positions_array.length / 3 * pointer.num_comp;
+                    var type = m_geom.get_vbo_type_by_attr_name(attr);
+
+                    if (!lengths[type])
+                        lengths[type] = 0;
+                    lengths[type] += len;
                 }
 
-                bufs_data.vbo_array = new Float32Array(new_vbo_size);
-                var vbo_array = bufs_data.vbo_array;
+                var vbo_source_data = m_geom.init_vbo_source_data(lengths);
+                bufs_data.vbo_source_data = vbo_source_data;
 
-                var offset = 0;
-
+                var offsets = {}
                 for (var attr in bufs_data.pointers) {
                     var pointer = bufs_data.pointers[attr];
+                    var type = m_geom.get_vbo_type_by_attr_name(attr);
+
+                    if (!offsets[type])
+                        offsets[type] = 0;
 
                     switch (attr) {
                     case "a_position":
-                        vbo_array.set(positions_array, offset);
-                        pointer.offset = offset;
+                        m_geom.vbo_source_data_set_attr(bufs_data.vbo_source_data, 
+                                "a_position", positions_array, offsets[type]);
+                        pointer.offset = offsets[type];
                         pointer.length = positions_array.length;
-                        offset += pointer.length;
+                        offsets[type] += pointer.length;
                         break;
                     case "a_tbn_quat":
                         var shared_indices;
@@ -203,18 +218,20 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
                         }
 
                         var tbn_quats = m_util.gen_tbn_quats(normals, tangents);
-                        vbo_array.set(tbn_quats, offset);
-                        pointer.offset = offset;
-                        offset += pointer.length;
+                        m_geom.vbo_source_data_set_attr(bufs_data.vbo_source_data, 
+                                "a_tbn_quat", tbn_quats, offsets[type]);
+                        pointer.offset = offsets[type];
+                        offsets[type] += pointer.length;
                         break;
                     default:
-                        pointer.offset = offset;
+                        pointer.offset = offsets[type];
                         pointer.length = positions_array.length / 3 * pointer.num_comp;
 
-                        var new_array = new Float32Array(pointer.length);
-
-                        vbo_array.set(new_array, offset);
-                        offset += pointer.length;
+                        var constructor = m_geom.get_constructor_by_type(type);
+                        var new_array = new constructor(pointer.length);
+                        m_geom.vbo_source_data_set_attr(bufs_data.vbo_source_data, 
+                                attr, new_array, offsets[type]);
+                        offsets[type] += pointer.length;
                         break;
                     }
                 }

@@ -5,582 +5,630 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
 "POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"PO-Revision-Date: 2016-10-05 18:24+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: zh_CN\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../particles_instancing.rst:7
 msgid "Particle System. Instancing"
-msgstr ""
+msgstr "粒子系统.实例化"
 
 #: ../particles_instancing.rst
 msgid "Table of Contents"
-msgstr ""
+msgstr "目录"
 
 #: ../particles_instancing.rst:13
 msgid ""
-"A particle system can be used to create multiple object copies (so called"
-" instancing). This technique simplifies scene authoring and also reduces "
-"loading time and memory consumption as compared to the using of single "
-"objects."
+"A particle system can be used to create multiple object copies (so called "
+"instancing). This technique simplifies scene authoring and also reduces loading "
+"time and memory consumption as compared to the using of single objects."
 msgstr ""
+"一个粒子系统可以用于创建多个物体的副本 （所谓的实例）。这种技术简化了场景创作，"
+"与使用单个物体相比可以缩短加载时间和内存消耗。"
 
 #: ../particles_instancing.rst:21
 msgid "Using particle systems for instancing has some limitations though:"
-msgstr ""
+msgstr "使用粒子系统实例化有一定的局限性，如："
 
 #: ../particles_instancing.rst:23
 msgid "Movement and animation of objects inside a particle system is not allowed."
-msgstr ""
+msgstr "粒子系统内的物体的移动和动画是不允许的。"
 
 #: ../particles_instancing.rst:25
 msgid ""
-"Parenting is not possible among the objects inside a particle system, "
-"except for dupli-groups."
-msgstr ""
+"Parenting is not possible among the objects inside a particle system, except "
+"for dupli-groups."
+msgstr "粒子系统内的物体是没有父级关系的，除了 dupli-groups。"
 
 #: ../particles_instancing.rst:27
 msgid "Instancing of non-mesh objects is not possible."
-msgstr ""
+msgstr "非网格物体的实例化是不可能的。"
 
 #: ../particles_instancing.rst:31
 msgid "Particle System Setup"
-msgstr ""
+msgstr "粒子系统设置"
 
 #: ../particles_instancing.rst:50
 msgid "Activation"
-msgstr ""
+msgstr "激活"
 
 #: ../particles_instancing.rst:52
 msgid "Create a particle system of the ``Hair`` type on the emitter."
-msgstr ""
+msgstr "在发射器创建 ``Hair`` 类型的粒子系统。"
 
 #: ../particles_instancing.rst:53
 msgid ""
-"On the ``Render`` panel select the ``Object`` (or the ``Group``) "
-"rendering type."
-msgstr ""
+"On the ``Render`` panel select the ``Object`` (or the ``Group``) rendering type."
+msgstr "在 ``Render`` 面板中选择 ``Object`` （或 ``Group``）渲染类型。"
 
 #: ../particles_instancing.rst:54
 msgid ""
-"In the ``Dupli Object`` field (or in the ``Dupli Group`` field) select "
-"the object (or the object group) for instancing. Both local and linked "
-"objects (or groups) are supported."
+"In the ``Dupli Object`` field (or in the ``Dupli Group`` field) select the "
+"object (or the object group) for instancing. Both local and linked objects (or "
+"groups) are supported."
 msgstr ""
+"在 ``DUPLI Object`` 字段（或在 ``DUPLI Group`` 字段）选择用于实例化的物体（或物体"
+"组）。支持本地和链接的物体（或组）。"
 
 #: ../particles_instancing.rst:57
 msgid "**Recommended Additional Settings**"
-msgstr ""
+msgstr "**建议的额外设置**"
 
 #: ../particles_instancing.rst:59
 msgid ""
-"In order to display correct sizes in the viewport, set the ``Emission > "
-"Hair Length`` and ``Render > Size`` parameters to 1.0."
+"In order to display correct sizes in the viewport, set the ``Emission > Hair "
+"Length`` and ``Render > Size`` parameters to 1.0."
 msgstr ""
+"为了在视口中显示正确的尺寸，设置  ``Emission > Hair Length`` 和 ``Render > "
+"Size`` 参数为1.0。"
 
 #: ../particles_instancing.rst:68
 msgid "Display settings"
-msgstr ""
+msgstr "显示设置"
 
 #: ../particles_instancing.rst:70
 msgid "*Render > Use Count*"
-msgstr ""
+msgstr "*Render > Use Count*"
 
 #: ../particles_instancing.rst:72
 msgid ""
-"The option is available for groups of particle objects. When enabled, the"
-" interface for setting the relative number of objects in a group becomes "
+"The option is available for groups of particle objects. When enabled, the "
+"interface for setting the relative number of objects in a group becomes "
 "visible. The engine does not reproduce the exact positions of objects of "
 "certain types."
 msgstr ""
+"该选项可用于粒子物体组。当启用时，用于设置一个组中的物体的相对数的界面变得可见。"
+"该引擎不会重现某些类型的物体的确切位置。"
 
 #: ../particles_instancing.rst:74
 msgid "*Render > Randomize Location and Size*"
-msgstr ""
+msgstr "*Render > Randomize Location and Size*"
 
 #: ../particles_instancing.rst:76
 #, python-format
 msgid ""
-"The option enables randomization for the location and the size of the "
-"objects. If enabled, the engine generates random coordinates and size "
-"(limited to the ±25% range) for the particle objects. If disabled, the "
-"exact coordinates and sizes of the particle objects are exported and "
-"used."
+"The option enables randomization for the location and the size of the objects. "
+"If enabled, the engine generates random coordinates and size (limited to the "
+"±25% range) for the particle objects. If disabled, the exact coordinates and "
+"sizes of the particle objects are exported and used."
 msgstr ""
+"该选项使随机化的位置和对象的大小。如果启用引擎产生粒子物体随机坐标和大小（仅限于"
+"±25％范围内）。如果禁用，粒子物体的准确坐标和尺寸在导出后使用。"
 
 #: ../particles_instancing.rst:78
 msgid "*Render > Randomize Initial Rotation*"
-msgstr ""
+msgstr "*Render > Randomize Initial Rotation*"
 
 #: ../particles_instancing.rst:80
 msgid ""
-"This option randomizes rotation of the objects relative to the axis "
-"defined by ``Rotation Type``. If enabled, the engine generates random "
-"rotation angles for the particle objects. If disabled, the rotation is "
-"taken from the ``Rotation`` panel."
+"This option randomizes rotation of the objects relative to the axis defined by "
+"``Rotation Type``. If enabled, the engine generates random rotation angles for "
+"the particle objects. If disabled, the rotation is taken from the ``Rotation`` "
+"panel."
 msgstr ""
+"这个选项随机化由 ``Rotation Type`` 限定的轴线的物体的旋转。如果启用，引擎产生的"
+"粒子随意旋转角度。如果禁用，转动使用  ``Rotation`` 面板设置。"
 
 #: ../particles_instancing.rst:82
 msgid "*Render > Rotation Type*"
-msgstr ""
+msgstr "*Render > Rotation Type*"
 
 #: ../particles_instancing.rst:84
 msgid ""
-"An Axis of random object rotation (the property is available when "
-"``Render > Randomize Initial Rotation`` is enabled). There are two "
-"options:"
+"An Axis of random object rotation (the property is available when ``Render > "
+"Randomize Initial Rotation`` is enabled). There are two options:"
 msgstr ""
+"随机物体的旋转轴（属性时可用 ``Render > Randomize Initial Rotation`` 启用）。有"
+"两个选项："
 
 #: ../particles_instancing.rst:86
 msgid "``Z axis`` - the objects are turned randomly around the vertical Z axis"
-msgstr ""
+msgstr "``Z axis`` - 物体是随机绕垂直Z轴旋转"
 
 #: ../particles_instancing.rst:87
 msgid "``Random axis`` - the objects are turned randomly around a random axis"
-msgstr ""
+msgstr "``Random axis``  - 物体是随机绕随机轴线旋转"
 
 #: ../particles_instancing.rst:89
 msgid "The default is ``Z axis``"
-msgstr ""
+msgstr "默认值是 ``Z axis``"
 
 #: ../particles_instancing.rst:91
 msgid "*Render > Rotation Strength*"
-msgstr ""
+msgstr "*渲染>旋转强度*"
 
 #: ../particles_instancing.rst:93
 msgid ""
-"Coefficient which defines the range of random rotation angles - counting "
-"from the direction towards the camera. Available when the ``Render > "
-"Randomize Initial Rotation`` checkbox is enabled. Examples:"
+"Coefficient which defines the range of random rotation angles - counting from "
+"the direction towards the camera. Available when the ``Render > Randomize "
+"Initial Rotation`` checkbox is enabled. Examples:"
 msgstr ""
+"系数限定随机旋转角的范围 - 从朝着摄像机的方向计数。  ``Render > Randomize "
+"Initial Rotation`` 复选框勾选的时候被启用。例子："
 
 #: ../particles_instancing.rst:95
 msgid ""
-"``Rotation Strength = 1`` - the angles will lie within the :math:`[-\\pi,"
-" \\pi]` range"
-msgstr ""
+"``Rotation Strength = 1`` - the angles will lie within the :math:`[-\\pi, "
+"\\pi]` range"
+msgstr "``旋转强度= 1``  - 角度将躺在内  :math:`[-\\pi, \\pi]`  范围"
 
 #: ../particles_instancing.rst:96
 msgid ""
-"``Rotation Strength = 0.5`` - the angles will lie within the :math:`[-0.5"
-" \\cdot \\pi, 0.5 \\cdot \\pi]` range"
+"``Rotation Strength = 0.5`` - the angles will lie within the :math:`[-0.5 "
+"\\cdot \\pi, 0.5 \\cdot \\pi]` range"
 msgstr ""
+"``旋转强度= 0.5``  - 角度将躺在内  :math:`[-0.5 \\cdot \\pi, 0.5 \\cdot \\pi]` "
+"范围"
 
 #: ../particles_instancing.rst:97
 msgid ""
-"``Rotation Strength = 0.1`` - the angles will lie within the :math:`[-0.1"
-" \\cdot \\pi, 0.1 \\cdot \\pi]` range"
+"``Rotation Strength = 0.1`` - the angles will lie within the :math:`[-0.1 "
+"\\cdot \\pi, 0.1 \\cdot \\pi]` range"
 msgstr ""
+"``旋转强度= 0.1``  - 角度将躺在内  :math:`[-0.1 \\cdot \\pi, 0.1 \\cdot \\pi]` "
+"范围"
 
 #: ../particles_instancing.rst:99
 msgid "The default value is 1."
-msgstr ""
+msgstr "默认值是1。"
 
 #: ../particles_instancing.rst:101
 msgid "*Render > Billboard*"
-msgstr ""
+msgstr "*渲染>广告牌*"
 
 #: ../particles_instancing.rst:103
 msgid "Enables billboarding for particles. Disabled by default."
-msgstr ""
+msgstr "启用对粒子的广告牌。默认情况下禁用。"
 
 #: ../particles_instancing.rst:105
 msgid "*Render > Billboard Type*"
-msgstr ""
+msgstr "*渲染>广告牌类型*"
 
 #: ../particles_instancing.rst:107
 msgid ""
-"Billboarding type. The option is available when the ``Render > "
-"Billboard`` option is enabled. Three types are available:"
+"Billboarding type. The option is available when the ``Render > Billboard`` "
+"option is enabled. Three types are available:"
 msgstr ""
+"布告板类型。在  ``Render > Billboard`` 选项被启用时可用。三种类型可供选择："
 
 #: ../particles_instancing.rst:109
 msgid ""
-"``Basic`` - simple one-sided billboarding: particles will be turned with "
-"their front to the observer"
-msgstr ""
+"``Basic`` - simple one-sided billboarding: particles will be turned with their "
+"front to the observer"
+msgstr "``Basic``  - 简单片面地产生广告牌：粒子将与他们的前面转向观察者"
 
 #: ../particles_instancing.rst:110
 msgid ""
-"``Random`` -``Random`` - random two-sided billboarding: particles will be"
-" more often turned with their front or rear to the observer and less "
-"often with their side; also there will be a small random turn; this model"
-" is designed specially for grass instancing"
+"``Random`` -``Random`` - random two-sided billboarding: particles will be more "
+"often turned with their front or rear to the observer and less often with their "
+"side; also there will be a small random turn; this model is designed specially "
+"for grass instancing"
 msgstr ""
+"``Random`` -``Random``  - 随机双面产生广告牌：粒子将被更多地开启他们的前面或后面"
+"面向观察者更少的用边来对着观察者;也将有一个小的随机转;这种模式是专门为草实例化"
 
 #: ../particles_instancing.rst:111
 msgid ""
-"``Jittered`` - ``Jittered`` - one-sided billboarding with particles "
-"wavering along the plane which is turned to the observer; this model is "
-"designed specially for instancing of tree leaves"
+"``Jittered`` - ``Jittered`` - one-sided billboarding with particles wavering "
+"along the plane which is turned to the observer; this model is designed "
+"specially for instancing of tree leaves"
 msgstr ""
+"``Jittered``  - ``Jittered``  - 片面产生广告牌沿着其转动到观察者的平面波浪粒子;"
+"这种模式是专为树叶的实例化"
 
 #: ../particles_instancing.rst:113
 msgid "The default is ``Basic``."
-msgstr ""
+msgstr "默认值是 ``Basic``。"
 
 #: ../particles_instancing.rst:115
 msgid "*Render > Jitter Amplitude*"
-msgstr ""
+msgstr "*Render > Jitter Amplitude*"
 
 #: ../particles_instancing.rst:117
 msgid ""
-"Coefficient which defines the particle oscillation amplitude. Available "
-"when the ``Jittered`` type is selected from the ``Render > Billboard "
-"Type`` menu. The bigger this parameter is, the bigger is the oscillation "
-"amplitude. The default value is 0."
+"Coefficient which defines the particle oscillation amplitude. Available when "
+"the ``Jittered`` type is selected from the ``Render > Billboard Type`` menu. "
+"The bigger this parameter is, the bigger is the oscillation amplitude. The "
+"default value is 0."
 msgstr ""
+"系数限定了粒子振荡幅度。由 ``Render > Billboard Type`` 菜单中选择 ``Jittered`` "
+"类型时可用。此参数是越大，越大的振幅。缺省值是0。"
 
 #: ../particles_instancing.rst:119
 msgid "*Render > Jitter Frequency*"
-msgstr ""
+msgstr "*Render > Jitter Frequency*"
 
 #: ../particles_instancing.rst:121
 msgid ""
-"Particle oscillation frequency in hertz. Available when the ``Jittered`` "
-"type is selected from the ``Render > Billboard Type`` menu. The default "
-"value is 0."
+"Particle oscillation frequency in hertz. Available when the ``Jittered`` type "
+"is selected from the ``Render > Billboard Type`` menu. The default value is 0."
 msgstr ""
+"粒子振荡频率单位赫兹。由 ``Render > Billboard Type`` 菜单中选择 ``Jittered`` 类"
+"型时可用。缺省值是0。"
 
 #: ../particles_instancing.rst:123
 msgid "*Render > Billboard Geometry*"
-msgstr ""
+msgstr "*Render > Billboard Geometry*"
 
 #: ../particles_instancing.rst:125
 msgid ""
 "Billboard rotation type (the option is available when the ``Render > "
 "Billboard`` checkbox is set). Two types are available:"
 msgstr ""
+"广告牌旋转方式（ ``Render > Billboard``  复选框勾选时该选项可用）。两种类型可供"
+"选择："
 
 #: ../particles_instancing.rst:127
 msgid ""
-"``Spherical`` - spherical billboarding i.e. particles are fully oriented "
-"to the observer and their rotation is unlimited;"
-msgstr ""
+"``Spherical`` - spherical billboarding i.e. particles are fully oriented to the "
+"observer and their rotation is unlimited;"
+msgstr "``Spherical``  - 球形广告牌即粒子完全面向观察者和他们的旋转是无限的;"
 
 #: ../particles_instancing.rst:128
 msgid ""
-"``Cylindrical`` - cylindrical billboarding i.e. particles are rotating "
-"only around the vertical Z axis;"
-msgstr ""
+"``Cylindrical`` - cylindrical billboarding i.e. particles are rotating only "
+"around the vertical Z axis;"
+msgstr "``Cylindrical``  - 圆柱形广告牌即粒子只绕垂直Z轴旋转;"
 
 #: ../particles_instancing.rst:130
 msgid "The default is ``Spherical``."
-msgstr ""
+msgstr "默认值是 ``Spherical``。"
 
 #: ../particles_instancing.rst:134
 msgid "Dynamic grass setup"
-msgstr ""
+msgstr "动态草设置"
 
 #: ../particles_instancing.rst:136
 msgid "*Dynamic Grass*"
-msgstr ""
+msgstr "*Dynamic Grass*"
 
 #: ../particles_instancing.rst:138
 msgid "The option enables the dynamic grass rendering mode. Disabled by default."
-msgstr ""
+msgstr "此选项可启用动态小草渲染模式。默认情况下禁用。"
 
 #: ../particles_instancing.rst:140
 msgid "*Dynamic Grass > Scale Threshold*"
-msgstr ""
+msgstr "*Dynamic Grass > Scale Threshold*"
 
 #: ../particles_instancing.rst:142
 msgid ""
 "Minimum size for dynamic grass particles. Smaller particles will not be "
 "rendered. The option is available if ``Dynamic Grass`` is enabled."
 msgstr ""
+"最小尺寸为动态的草粒子。更小的粒子也不会被渲染。如果启用了  ``Dynamic Grass`` 的"
+"选项。"
 
 #: ../particles_instancing.rst:145
 msgid "Inheritance settings"
-msgstr ""
+msgstr "继承设置"
 
 #: ../particles_instancing.rst:147
 msgid "*Properties Inheritance > Wind Bending*"
-msgstr ""
+msgstr "*属性继承>风弯曲*"
 
 #: ../particles_instancing.rst:149
 msgid "Inheriting the ``Wind Bending`` settings by the particles:"
-msgstr ""
+msgstr "粒子继承了 ``Wind Bending`` 设置："
 
 #: ../particles_instancing.rst:151 ../particles_instancing.rst:160
 #: ../particles_instancing.rst:169
 msgid "``Parent`` - inherited from the emitter"
-msgstr ""
+msgstr "``Parent``  - 从发射器继承"
 
 #: ../particles_instancing.rst:152 ../particles_instancing.rst:161
 #: ../particles_instancing.rst:170
 msgid "``Instance`` - inherited from the particle object itself"
-msgstr ""
+msgstr "``Instance``  - 从粒子物体本身继承"
 
 #: ../particles_instancing.rst:154 ../particles_instancing.rst:163
 #: ../particles_instancing.rst:172
 msgid "The default is ``Parent``."
-msgstr ""
+msgstr "默认值是 ``Parent``。"
 
 #: ../particles_instancing.rst:156
 msgid "*Properties Inheritance > Shadows*"
-msgstr ""
+msgstr "*属性继承>阴影*"
 
 #: ../particles_instancing.rst:158
 msgid "Inheriting the shadow settings by particles:"
-msgstr ""
+msgstr "通过粒子继承阴影设置："
 
 #: ../particles_instancing.rst:165
 msgid "*Properties Inheritance > Reflection*"
-msgstr ""
+msgstr "*属性继承>反射*"
 
 #: ../particles_instancing.rst:167
 msgid "Inheriting the reflection settings by particles:"
-msgstr ""
+msgstr "通过粒子继承反射设置："
 
 #: ../particles_instancing.rst:174
 msgid "*Properties Inheritance > Vertex Color*"
-msgstr ""
+msgstr "*属性继承>顶点颜色*"
 
 #: ../particles_instancing.rst:176
 msgid "Inheriting the vertex color from the emitter. Contains two fields:"
-msgstr ""
+msgstr "继承发射器顶点颜色。包含两个字段："
 
 #: ../particles_instancing.rst:178
 msgid "``From`` - the emitter's existing vertex color name"
-msgstr ""
+msgstr "``From``  - 发射器的现有顶点颜色名称"
 
 #: ../particles_instancing.rst:179
 msgid "``To`` - the particle's existing vertex color name"
-msgstr ""
+msgstr "``To``  - 粒子现有的顶点颜色名称"
 
 #: ../particles_instancing.rst:181
 msgid "There is no inheritance by default."
-msgstr ""
+msgstr "默认没有继承。"
 
 #: ../particles_instancing.rst:187
 msgid "Grass"
-msgstr ""
+msgstr "草地"
 
 #: ../particles_instancing.rst:189
 msgid ""
-"Instancing of objects can be used for visualizing vast grass. In this "
-"case grass is rendered near the camera when it moves through the "
-"landscape."
+"Instancing of objects can be used for visualizing vast grass. In this case "
+"grass is rendered near the camera when it moves through the landscape."
 msgstr ""
+"物体的实例化可用于可视化各种草。在这种情况下，草在相机在地形上移动时，相机靠近的"
+"时候渲染。"
 
 #: ../particles_instancing.rst:197 ../particles_instancing.rst:236
 msgid "**Activation**"
-msgstr ""
+msgstr "**激活**"
 
 #: ../particles_instancing.rst:199
 msgid ""
-"On a separate plane object create a particle system for object "
-"instancing. Enable the ``Dynamic Grass`` option."
+"On a separate plane object create a particle system for object instancing. "
+"Enable the ``Dynamic Grass`` option."
 msgstr ""
+"在一个独立的平面物体创建一个粒子系统再物体实例化。启用  ``Dynamic Grass`` 选项。"
 
 #: ../particles_instancing.rst:200
 msgid ""
-"Enable the ``Terrain Dynamic Grass`` option for the supposed landscape "
-"material."
-msgstr ""
+"Enable the ``Terrain Dynamic Grass`` option for the supposed landscape material."
+msgstr "为所谓的地形材质启用 ``Terrain Dynamic Grass`` 选项。"
 
 #: ../particles_instancing.rst:202 ../particles_instancing.rst:246
 msgid "**Setup**"
-msgstr ""
+msgstr "**设置**"
 
 #: ../particles_instancing.rst:204
 msgid ""
 "It is recommended to create a few planes (for example 3) with sizes "
-"corresponding to the desired grass cascades (e.g. 100, 150 and 250 "
-"meters)."
+"corresponding to the desired grass cascades (e.g. 100, 150 and 250 meters)."
 msgstr ""
+"建议创建具有少量的平面（例如3）对应于所需草的级联（例如100，150和250米）的尺寸。"
 
 #: ../particles_instancing.rst:206
 msgid ""
-"For the landscape's **material**, the following text fields become active"
-" when the ``Terrain Dynamic Grass`` option is enabled:"
+"For the landscape's **material**, the following text fields become active when "
+"the ``Terrain Dynamic Grass`` option is enabled:"
 msgstr ""
+"对于景观的 **材质**，当 ``Terrain Dynamic Grass`` 选项启用时，以下文本字段被激"
+"活："
 
 #: ../particles_instancing.rst:209
 msgid "*Dynamic Grass Size (R)*"
-msgstr ""
+msgstr "*动态草尺寸（R）*"
 
 #: ../particles_instancing.rst:209
 msgid ""
-"Vertex color layer name of the landscape mesh which is intended for "
-"modifying the grass size. The size (i.e. height) of the grass is defined "
-"by gray tints - the brighter color the is the higher is the grass."
+"Vertex color layer name of the landscape mesh which is intended for modifying "
+"the grass size. The size (i.e. height) of the grass is defined by gray tints - "
+"the brighter color the is the higher is the grass."
 msgstr ""
+"景观网格的顶点颜色图层名称其目的是为修改草大小。草的大小（即高度）由灰色色调定"
+"义 - 亮颜色草越高。"
 
 #: ../particles_instancing.rst:212
 msgid "*Dynamic Grass Color (RGB)*"
-msgstr ""
+msgstr "*动态彩色草（RGB）*"
 
 #: ../particles_instancing.rst:212
 msgid ""
-"Name of the landscape mesh's vertex color layer which is intended for "
-"grass tinting. The vertex color is multiplied by the grass material "
-"color. The ``Influence > Blend`` parameter for the grass material's "
-"diffuse texture should have the ``Multiply`` value."
+"Name of the landscape mesh's vertex color layer which is intended for grass "
+"tinting. The vertex color is multiplied by the grass material color. The "
+"``Influence > Blend`` parameter for the grass material's diffuse texture should "
+"have the ``Multiply`` value."
 msgstr ""
+"地形网格的顶点色层的名字是用作草的着色。顶点颜色与草材质颜色相乘。为草材质的漫反"
+"射纹理的 ``Influence > Blend`` 参数应该有 ``Multiply`` 值。"
 
 #: ../particles_instancing.rst:214
 msgid "Vertex color layers with such names should exist in the landscape mesh."
-msgstr ""
+msgstr "用这样的名字顶点颜色层应在景观网格存在。"
 
 #: ../particles_instancing.rst:216
 msgid ""
-"It is also recommended to disable rendering of the emitter (the ``Render "
-"> Emitter`` option)."
-msgstr ""
+"It is also recommended to disable rendering of the emitter (the ``Render > "
+"Emitter`` option)."
+msgstr "此外，还建议禁用发射器（的 ``Render > Emitter`` 选项）的渲染。"
 
 #: ../particles_instancing.rst:226
 msgid "Tree Leaves"
-msgstr ""
+msgstr "树叶"
 
 #: ../particles_instancing.rst:228
 msgid ""
-"Instancing suits the rendering of tree leaves well and allows to get a "
-"better level of detail."
-msgstr ""
+"Instancing suits the rendering of tree leaves well and allows to get a better "
+"level of detail."
+msgstr "实例化适合很好的渲染树的叶子，获得较好的层级显示。"
 
 #: ../particles_instancing.rst:238
 msgid ""
-"Performed as described in the ``Particle system setup -> Activation`` "
-"section (see above). In this case the tree is the emitter and the leaves "
-"and the small branches are the particles."
+"Performed as described in the ``Particle system setup -> Activation`` section "
+"(see above). In this case the tree is the emitter and the leaves and the small "
+"branches are the particles."
 msgstr ""
+"在 ``Particle system setup -> Activation`` 部分描述执行（见上文）。在这种情况"
+"下，树是发射器然后叶子和小分支是粒子。"
 
 #: ../particles_instancing.rst:240
 msgid "Additionally, the following operations can be performed for the emitter:"
-msgstr ""
+msgstr "此外，以下的操作可用于发射器来执行："
 
 #: ../particles_instancing.rst:242
 msgid ""
-"create a vertex group which includes vertices on which the particles will"
-" be placed"
-msgstr ""
+"create a vertex group which includes vertices on which the particles will be "
+"placed"
+msgstr "创建顶点组，其包括在其上的粒子将被放置的顶点"
 
 #: ../particles_instancing.rst:243
 msgid ""
-"create a vertex color layer for the wind bending parameters of the tree "
-"and the leaves"
-msgstr ""
+"create a vertex color layer for the wind bending parameters of the tree and the "
+"leaves"
+msgstr "创建树的风弯曲参数和叶子顶点着色层"
 
 #: ../particles_instancing.rst:244
 msgid ""
-"create a vertex color layer to be inherited by the particles (for example"
-" it can be used for tinting the particles)"
-msgstr ""
+"create a vertex color layer to be inherited by the particles (for example it "
+"can be used for tinting the particles)"
+msgstr "创建顶点着色层由粒子继承（例如它可以用于着色的粒子）"
 
 #: ../particles_instancing.rst:248
 msgid "*Random rotation settings*"
-msgstr ""
+msgstr "*随机旋转设置*"
 
 #: ../particles_instancing.rst:250
 msgid ""
-"If the ``Initial Random Rotation`` checkbox is enabled, it is recommended"
-" to select the vertical axis for random rotation - ``Z axis`` (by using "
-"the ``Rotation Type`` menu). The ``Rotation Strength`` value can be set "
-"at will."
+"If the ``Initial Random Rotation`` checkbox is enabled, it is recommended to "
+"select the vertical axis for random rotation - ``Z axis`` (by using the "
+"``Rotation Type`` menu). The ``Rotation Strength`` value can be set at will."
 msgstr ""
+"如果 ``初始随机Rotation`` 复选框被启用，则建议选择垂直轴随机旋转 - ``Z "
+"axis`` （通过使用 ``Rotation Type`` 菜单）。该 ``旋转强度`` 值可随意设定。"
 
 #: ../particles_instancing.rst:252
 msgid "*Billboarding settings*"
-msgstr ""
+msgstr "*布告板设置*"
 
 #: ../particles_instancing.rst:254
 msgid ""
-"It is recommended to enable billboarding, to set its type as ``Jittered``"
-" (by using the ``Render > Billboard Type`` menu) and to make it spherical"
-" - ``Spherical`` (by using the ``Render > Billboard Geometry`` menu). The"
-" ``Render > Jitter Amplitude`` and ``Render > Jitter Frequency`` values "
-"can be set at will."
+"It is recommended to enable billboarding, to set its type as ``Jittered`` (by "
+"using the ``Render > Billboard Type`` menu) and to make it spherical - "
+"``Spherical`` (by using the ``Render > Billboard Geometry`` menu). The ``Render "
+"> Jitter Amplitude`` and ``Render > Jitter Frequency`` values can be set at "
+"will."
 msgstr ""
+"建议启用广告牌，设置其类型为 ``Jittered`` （通过使用 ``Render > Billboard Type`` "
+"菜单），并使其球形 - ``Spherical`` （通过使用 ``渲染>广告牌Geometry`` 菜单）。该 ``"
+"渲染>抖动Amplitude`` 和 ``渲染>抖动Frequency`` 值可随意设定。"
 
 #: ../particles_instancing.rst:256
 msgid "*Particle position settings*"
-msgstr ""
+msgstr "*粒子位置设置*"
 
 #: ../particles_instancing.rst:258
 msgid ""
-"It is recommended to select the ``Verts`` value from the ``Emission > "
-"Emit From`` menu, and to select the emitter's vertex group (in the "
-"``Vertex Group > Density`` field) which defines the positions of "
-"particles. Note, that the ``Render > Randomize Location and Size`` "
-"checkbox should be disabled."
+"It is recommended to select the ``Verts`` value from the ``Emission > Emit "
+"From`` menu, and to select the emitter's vertex group (in the ``Vertex Group > "
+"Density`` field) which defines the positions of particles. Note, that the "
+"``Render > Randomize Location and Size`` checkbox should be disabled."
 msgstr ""
+"建议选择从 ``Emission > Emit From`` 菜单中的 ``Verts`` 值，并选择发射器的顶点组"
+"（在 ``Vertex Group > Density`` 字段）定义粒子的位置。请注意，在 ``Render > "
+"Randomize Location and Size`` 复选框应禁用。"
 
 #: ../particles_instancing.rst:260
 msgid "*Wind effect settings*"
-msgstr ""
+msgstr "*风效果设置*"
 
 #: ../particles_instancing.rst:262
 msgid ""
-"It is recommended to enable inheritance settings from the emitter - "
-"select the ``Parent`` in the ``Properties Inheritance > Wind Bending`` "
-"menu. Then for the emitter on the ``Object`` panel enable the ``Wind "
-"Bending`` checkbox and set up the bending parameters. For a tree, it is "
-"enough to specify the ``Wind Bending > Main Bending > Angle`` and ``Wind "
-"Bending > Main Bending > Frequency`` parameters and also a vertex color "
-"name for bending in the ``Wind Bending > Main Bending > Main Stiffness`` "
-"field."
+"It is recommended to enable inheritance settings from the emitter - select the "
+"``Parent`` in the ``Properties Inheritance > Wind Bending`` menu. Then for the "
+"emitter on the ``Object`` panel enable the ``Wind Bending`` checkbox and set up "
+"the bending parameters. For a tree, it is enough to specify the ``Wind Bending "
+"> Main Bending > Angle`` and ``Wind Bending > Main Bending > Frequency`` "
+"parameters and also a vertex color name for bending in the ``Wind Bending > "
+"Main Bending > Main Stiffness`` field."
 msgstr ""
+"建议从发射器启用继承设置  -  在 ``Properties Inheritance > Wind Bending`` 菜单选"
+"择 ``Parent`` 。在 ``Object`` 面板为发射器启用 ``Wind Bending`` 再设置弯曲参数。"
+"对一颗树指定 ``Wind Bending > Main Bending > Angle`` 和 ``Wind Bending > Main "
+"Bending > Frequency`` 参数就够了，在 ``Wind Bending > Main Bending > Main "
+"Stiffness``  指定顶点色名称用来弯曲。"
 
 #: ../particles_instancing.rst:266
 msgid "*Vertex color inheritance settings*"
-msgstr ""
+msgstr "*顶点颜色继承设置*"
 
 #: ../particles_instancing.rst:268
 msgid ""
-"For the emitter's vertex color to be inherited by the particles, it is "
-"required to specify both the emitter's vertex color name and the "
-"particle's vertex color name in the ``Properties Inheritance > Vertex "
-"Color > From`` and ``Properties Inheritance > Vertex Color > To`` fields "
-"respectively. As a result, the color of the emitter's vertex that is "
-"closest to the particle (specified in the ``From`` field) will be copied "
-"and propagated into the particle's ``To`` vertex color layer."
+"For the emitter's vertex color to be inherited by the particles, it is required "
+"to specify both the emitter's vertex color name and the particle's vertex color "
+"name in the ``Properties Inheritance > Vertex Color > From`` and ``Properties "
+"Inheritance > Vertex Color > To`` fields respectively. As a result, the color "
+"of the emitter's vertex that is closest to the particle (specified in the "
+"``From`` field) will be copied and propagated into the particle's ``To`` vertex "
+"color layer."
 msgstr ""
+"对于由粒子继承发射器的顶点颜色，则需要在分别在  ``Properties Inheritance > "
+"Vertex Color > From`` 和 ``Properties Inheritance > Vertex Color > To``  同时指"
+"定发射器的顶点颜色名称。其结果是，发射器的顶点的颜色最接近的是粒子（在 ``From`` "
+"字段指定）将被复制并传播到粒子的 ``To``  顶点颜色层。"
 
 #: ../particles_instancing.rst:270
 msgid ""
-"The resulting vertex color layer with the name specified in the "
-"``Properties Inheritance > Vertex Color > To`` field can be used in the "
-"particle's node material for its tinting and for any other effects."
+"The resulting vertex color layer with the name specified in the ``Properties "
+"Inheritance > Vertex Color > To`` field can be used in the particle's node "
+"material for its tinting and for any other effects."
 msgstr ""
+"在 ``Properties Inheritance > Vertex Color > To`` 字段中指定的名称所产生的顶点颜"
+"色层所用的粒子的节点材质可用于它的着色和任何其他效果。"
 
 #: ../particles_instancing.rst:272
 msgid "*Setting up the size of particles via vertex group weights*"
-msgstr ""
+msgstr "*通过顶点组权重设置粒子的大小*"
 
 #: ../particles_instancing.rst:274
 msgid ""
-"In order to create dependency between the size of particles and vertex "
-"group weights, select the name of the desired vertex group in the "
-"``Vertex groups > Length`` field."
+"In order to create dependency between the size of particles and vertex group "
+"weights, select the name of the desired vertex group in the ``Vertex groups > "
+"Length`` field."
 msgstr ""
+"为了创建粒子和顶点组权重的大小之间的依赖，在  ``Vertex groups > Length`` 字段选"
+"择所需的顶点组的名称。"
 
 #: ../particles_instancing.rst:276
 msgid ""
-"The influence can be tweaked by setting weights in the selected vertex "
-"group."
-msgstr ""
+"The influence can be tweaked by setting weights in the selected vertex group."
+msgstr "影响可通过选定的顶点组中设定的权重进行调整。"
 
 #: ../particles_instancing.rst:3
 msgid "particle system"
-msgstr ""
+msgstr "粒子系统"
 
 #: ../particles_instancing.rst:3
 msgid "instancing"
-msgstr ""
-
-
+msgstr "实例化"

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物体 &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>物体 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
         <link rel="next" title="网格" href="meshes.html"/>
         <link rel="prev" title="场景设置" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
@@ -96,18 +96,35 @@
 <li class="toctree-l2"><a class="reference internal" href="#types">类型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-objects">静态和动态物体</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#settings">设置</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#object-tab">物体选项卡</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#object-tab">物体选项卡</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transform-panel">Transform Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#groups-panel">Groups Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#level-of-detail-panel">Level of Detail Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#animation-panel">Animation Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#export-options-panel">Export Options Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rendering-properties-panel">Rendering Properties Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shadows-panel">Shadows Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#billboard-panel">Billboard Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reflections-panel">Reflections Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#selection-and-outlining-panel">Selection and Outlining Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#anchors-panel">Anchors Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meta-tags-panel">Meta Tags Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relations-panel">Relations Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind-bending-panel">Wind Bending Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#special-effects-panel">Special Effects Panel</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#physics-tab">物理标签</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#anchor-settings">设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#anchor-settings">锚设置</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#object-transform-api">物体变换API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#get-object-api">Get Object API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#object-selection">Object Selection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#copying-objects-instancing">Copying Objects (Instancing)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#making-a-simple-copy">Making a Simple Copy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#making-a-deep-copy">Making a Deep Copy</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#removing-objects">Removing Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-object-api">获取物体API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-selection">物体选择</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#copying-objects-instancing">复制物体（实例化）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#making-a-simple-copy">制作一个简单的复制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-a-deep-copy">制作深复制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removing-objects">删除物体</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#quaternions">四元数</a><ul>
@@ -118,28 +135,28 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -194,14 +211,14 @@
 <li><a class="reference internal" href="#physics-tab" id="id7">物理标签</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#anchor-settings" id="id8">设置</a></li>
+<li><a class="reference internal" href="#anchor-settings" id="id8">锚设置</a></li>
 <li><a class="reference internal" href="#object-transform-api" id="id9">物体变换API</a></li>
-<li><a class="reference internal" href="#get-object-api" id="id10">Get Object API</a></li>
-<li><a class="reference internal" href="#object-selection" id="id11">Object Selection</a></li>
-<li><a class="reference internal" href="#copying-objects-instancing" id="id12">Copying Objects (Instancing)</a><ul>
-<li><a class="reference internal" href="#making-a-simple-copy" id="id13">Making a Simple Copy</a></li>
-<li><a class="reference internal" href="#making-a-deep-copy" id="id14">Making a Deep Copy</a></li>
-<li><a class="reference internal" href="#removing-objects" id="id15">Removing Objects</a></li>
+<li><a class="reference internal" href="#get-object-api" id="id10">获取物体API</a></li>
+<li><a class="reference internal" href="#object-selection" id="id11">物体选择</a></li>
+<li><a class="reference internal" href="#copying-objects-instancing" id="id12">复制物体（实例化）</a><ul>
+<li><a class="reference internal" href="#making-a-simple-copy" id="id13">制作一个简单的复制</a></li>
+<li><a class="reference internal" href="#making-a-deep-copy" id="id14">制作深复制</a></li>
+<li><a class="reference internal" href="#removing-objects" id="id15">删除物体</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#quaternions" id="id16">四元数</a><ul>
@@ -221,12 +238,16 @@
 <div><ul class="simple">
 <li><p class="first"><a class="reference internal" href="meshes.html#meshes"><span>网格(mesh)</span></a></p>
 </li>
-<li><a class="reference internal" href="camera.html#camera"><span>camera</span></a></li>
-<li><a class="reference internal" href="lighting.html#lighting"><span>lamp</span></a></li>
+<li><p class="first"><a class="reference internal" href="camera.html#camera"><span>相机</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="lighting.html#lighting"><span>灯光</span></a></p>
+</li>
 <li><p class="first">空物体</p>
 </li>
-<li><a class="reference internal" href="animation.html#skeletal-animation"><span>armature</span></a></li>
-<li><a class="reference internal" href="audio.html#audio"><span>speaker</span></a></li>
+<li><p class="first"><a class="reference internal" href="animation.html#skeletal-animation"><span>骨架</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="audio.html#audio"><span>声音</span></a></p>
+</li>
 <li><p class="first">曲线</p>
 </li>
 <li><p class="first">文本</p>
@@ -237,35 +258,42 @@
 </li>
 </ul>
 </div></blockquote>
-<p>During the scene export, <code class="docutils literal"><span class="pre">CURVE</span></code>, <code class="docutils literal"><span class="pre">TEXT</span></code>, <code class="docutils literal"><span class="pre">METABALL</span></code> and <code class="docutils literal"><span class="pre">SURFACE</span></code> type objects are converted into <code class="docutils literal"><span class="pre">MESH</span></code> type objects.</p>
+<p>在场景导出时，<code class="docutils literal"><span class="pre">CURVE</span></code>，<code class="docutils literal"><span class="pre">TEXT</span></code>，<code class="docutils literal"><span class="pre">METABALL</span></code> 和 <code class="docutils literal"><span class="pre">SURFACE</span></code> 类型的物体转换为 <code class="docutils literal"><span class="pre">MESH</span></code> 类型的物体。</p>
 </div>
 <div class="section" id="static-and-dynamic-objects">
 <span id="static-dynamic-objects"></span><h2><a class="toc-backref" href="#id4">静态和动态物体</a><a class="headerlink" href="#static-and-dynamic-objects" title="永久链接至标题">¶</a></h2>
-<p>An object can be either static or dynamic.</p>
-<p><strong>Static objects</strong> are objects that cannot be moved, animated or changed in any other way while running the application. For performance purposes, such objects can be merged together if they have the same material.</p>
-<p><strong>Dynamic objects</strong> can be moved, animated or changed in other ways while running the application. They can also interact with other objects, including static ones. Dynamic objects are never combined with each other or with static objects.</p>
-<p>Only <code class="docutils literal"><span class="pre">MESH</span></code> and <code class="docutils literal"><span class="pre">EMPTY</span></code> type objects can be either static or dynamic. All other object types, such as <code class="docutils literal"><span class="pre">CAMERA</span></code> and <code class="docutils literal"><span class="pre">ARMATURE</span></code>, are always dynamic.</p>
-<p>Static <code class="docutils literal"><span class="pre">MESH</span></code> objects are rendered much faster then the dynamic ones, so, for better performance, it is advised to keep the number of dynamic meshes to a minimum. Objects of any other type, both static and dynamic, do not significantly affect performance.</p>
-<p>The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic, as well as the objects controlled by the following logic nodes:</p>
+<p>物体可以是静态或动态的。</p>
+<p><strong>静态物体</strong> 是在运行程序时不能移动，动画或以任何其它方式改变的物体。这样的物体可以提高性能，如果它们具有相同的材质可以合并在一起。</p>
+<p><strong>动态物体</strong> 在运行的应用程序可以移动，动画或通过其手段改变。它们也可以与其他物体交互，包括静态物体。动态物体不会彼此或与静态物体相结合。</p>
+<p>只有 <code class="docutils literal"><span class="pre">MESH</span></code> 和 <code class="docutils literal"><span class="pre">EMPTY</span></code> 类型物体可以是静态的或是动态的。所有其他物体类型，如 <code class="docutils literal"><span class="pre">CAMERA</span></code> 和 <code class="docutils literal"><span class="pre">ARMATURE</span></code>，始终是动态的。</p>
+<p>静态 <code class="docutils literal"><span class="pre">MESH</span></code> 物体比动态的渲染得快得多，因此，为了更好的性能，最好将动态网格数保持在最低水平。任何其他类型的物体，静态和动态，不显著影响性能。</p>
+<p>具有动画，物理或父关系的是一个动态物体，被认为是动态，以及由下面的逻辑节点控制的物体：</p>
 <blockquote>
 <div><ul class="simple">
-<li><code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code></li>
-<li><code class="docutils literal"><span class="pre">Transform</span> <span class="pre">Object</span></code></li>
-<li><code class="docutils literal"><span class="pre">Move</span> <span class="pre">To</span></code></li>
-<li><code class="docutils literal"><span class="pre">Inherit</span> <span class="pre">Material</span></code></li>
+<li><p class="first"><code class="docutils literal"><span class="pre">播放动画</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">变换物体</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">移动到</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">继承材质</span></code></p>
+</li>
 </ul>
 </div></blockquote>
-<p>API methods that concern object movement, copying and animation (both object and node material) can only be applied to dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option in its settings.</p>
+<p>API方法是关注物体的运动，复制和动画（包括物体和节点材料）只能应用于动态物体。为了使物体的不动态设置的运动可能，有必要激活设置 <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> 选项。</p>
 </div>
 <div class="section" id="settings">
 <span id="object-settings"></span><h2><a class="toc-backref" href="#id5">设置</a><a class="headerlink" href="#settings" title="永久链接至标题">¶</a></h2>
 <p>以下是功能支持所有类型的物体：变换，数据引用，父物体，组成员和一套Blend4Web的特殊属性。</p>
 <div class="section" id="object-tab">
 <h3><a class="toc-backref" href="#id6">物体选项卡</a><a class="headerlink" href="#object-tab" title="永久链接至标题">¶</a></h3>
-<a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
+<img alt="_images/object_settings.png" class="align-center" src="_images/object_settings.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<div class="section" id="transform-panel">
+<span id="object-settings-transform"></span><h4>Transform Panel<a class="headerlink" href="#transform-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_transform.png" class="align-center" src="_images/object_settings_transform.png" />
 <dl class="docutils">
 <dt><em>变换 &gt; 位置</em></dt>
 <dd><p class="first last">位置坐标。</p>
@@ -276,33 +304,48 @@
 <dt><em>变换 &gt; 缩放</em></dt>
 <dd><p class="first last">缩放。所有3分量（X，Y，Z）应该是相同的。缩放不支持物理物体。</p>
 </dd>
-<dt><em>关系 &gt; 父级</em></dt>
-<dd><p class="first">参照父物体。</p>
-<p>如果父物体是一个摄像头，<code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Alignment</span></code> 设置将可见。</p>
-<a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
+</dl>
 </div>
-<p class="last">These settings can be used to align the object to an active camera. They are described in the <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>Camera chapter</span></a>.</p>
-</dd>
+<div class="section" id="groups-panel">
+<span id="object-settings-groups"></span><h4>Groups Panel<a class="headerlink" href="#groups-panel" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
 <dt><em>组</em></dt>
 <dd><p class="first last">物体所属的物体组</p>
 </dd>
 </dl>
-<img alt="_images/object_setup_end.png" class="align-center" src="_images/object_setup_end.png" />
+<img alt="_images/object_settings_groups.png" class="align-center" src="_images/object_settings_groups.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+</div>
+<div class="section" id="level-of-detail-panel">
+<span id="object-settings-lod"></span><h4>Level of Detail Panel<a class="headerlink" href="#level-of-detail-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_lod.png" class="align-center" src="_images/object_settings_lod.png" />
 <dl class="docutils">
 <dt><em>细节层次 &gt; LOD 转换速率</em></dt>
 <dd><p class="first last">参数用于平滑LOD物体之间的切换。它定义在该LOD物体由下一LOD物体更换前仍然渲染的额外距离。分配到主要物体。测量值为在物体的边界球半径的分数。</p>
 </dd>
-<dt><em>特殊效果 &gt; 关闭雾效</em></dt>
-<dd><p class="first last">禁用物体的雾。</p>
+</dl>
+</div>
+<div class="section" id="animation-panel">
+<span id="object-settings-animation"></span><h4>Animation Panel<a class="headerlink" href="#animation-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_animation.png" class="align-center" src="_images/object_settings_animation.png" />
+<dl class="docutils">
+<dt><em>动画 &gt; 应用默认动画</em></dt>
+<dd><p class="first last">传到引擎开始后播放物体的动画。</p>
 </dd>
-<dt><em>特殊效果 &gt; 焦散</em></dt>
-<dd><p class="first last">该物体将渲染自附近水的焦散效果。</p>
+<dt><em>动画 &gt; 动画混合</em></dt>
+<dd><p class="first last">只对骨骼物体。允许骨骼动画之间进行混合。</p>
 </dd>
+<dt><em>动画 &gt; 行为</em></dt>
+<dd><p class="first last">到达最后一帧时动画的行为：<code class="docutils literal"><span class="pre">完成停止</span></code>  - 停止  <code class="docutils literal"><span class="pre">完成重置</span></code>  - 停止并跳到零帧，<code class="docutils literal"><span class="pre">Loop</span></code>  - 永远重复。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="export-options-panel">
+<span id="object-settings-export"></span><h4>Export Options Panel<a class="headerlink" href="#export-options-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_export.png" class="align-center" src="_images/object_settings_export.png" />
+<dl class="docutils">
 <dt><em>导出选项 &gt; 不导出</em></dt>
 <dd><p class="first last">不要导出此物体。</p>
 </dd>
@@ -325,18 +368,14 @@
 <p class="first admonition-title">注解</p>
 <p class="last">以下属性是相互排斥的：<em>应用修改器</em>，<em>应用缩放及修改器</em>，<em>导出顶点动画</em> 和 <em>导出形变键</em> 。</p>
 </div>
+</div>
+<div class="section" id="rendering-properties-panel">
+<span id="object-settings-render"></span><h4>Rendering Properties Panel<a class="headerlink" href="#rendering-properties-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_rendering.png" class="align-center" src="_images/object_settings_rendering.png" />
 <dl class="docutils">
-<dt><em>动画 &gt; 应用默认动画</em></dt>
-<dd><p class="first last">传到引擎开始后播放物体的动画。</p>
+<dt><em>渲染属性&gt;隐藏</em></dt>
+<dd><p class="first last">与此属性启用的物体将在加载时被隐藏。</p>
 </dd>
-<dt><em>动画 &gt; 动画混合</em></dt>
-<dd><p class="first last">只对骨骼物体。允许骨骼动画之间进行混合。</p>
-</dd>
-<dt><em>动画 &gt; 行为</em></dt>
-<dd><p class="first last">到达最后一帧时动画的行为：<code class="docutils literal"><span class="pre">完成停止</span></code>  - 停止  <code class="docutils literal"><span class="pre">完成重置</span></code>  - 停止并跳到零帧，<code class="docutils literal"><span class="pre">Loop</span></code>  - 永远重复。</p>
-</dd>
-<dt><em>Rendering Properties &gt; Hidden</em></dt>
-<dd>An object with this property enabled will be hidden on load.</dd>
 <dt><em>渲染属性 &gt; 不要渲染</em></dt>
 <dd><p class="first last">禁止物体的渲染（例如用于有用的物理物体）。</p>
 </dd>
@@ -351,6 +390,12 @@
 <dt><em>渲染属性 &gt; 动态几何体</em></dt>
 <dd><p class="first last">允许通过Blend4Web API来重载物体的几何形状。</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="shadows-panel">
+<span id="object-settings-shadows"></span><h4>Shadows Panel<a class="headerlink" href="#shadows-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_shadows.png" class="align-center" src="_images/object_settings_shadows.png" />
+<dl class="docutils">
 <dt><em>阴影 &gt; 投射</em></dt>
 <dd><p class="first last">该物体将投射阴影。</p>
 </dd>
@@ -360,6 +405,29 @@
 <dt><em>阴影 &gt; 接受</em></dt>
 <dd><p class="first last">该物体将接收来自其他相邻物体的阴影。</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="billboard-panel">
+<span id="objects-billboarding-properties"></span><h4>Billboard Panel<a class="headerlink" href="#billboard-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_billboard.png" class="align-center" src="_images/object_settings_billboard.png" />
+<dl class="docutils">
+<dt><em>看板</em></dt>
+<dd><p class="first last">使用物体作为看板（即自动定向面对摄像机）。</p>
+</dd>
+</dl>
+<dl class="docutils" id="billboarding-preserve">
+<dt><em>看板 &gt; 保留全局方向和缩放</em></dt>
+<dd><p class="first last">考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看时将朝明显的被引导到相机。启用 <code class="docutils literal"><span class="pre">看板</span></code> 复选框后可用。</p>
+</dd>
+<dt><em>看板 &gt; 看板类型</em></dt>
+<dd><p class="first last">看板方向模式。 <code class="docutils literal"><span class="pre">Spherical</span></code> （默认） - 物体一面始终朝向相机，不管视角，<code class="docutils literal"><span class="pre">Cylindrical</span></code>  - 类似于 <code class="docutils literal"><span class="pre">Spherical</span></code>，但旋转仅限于Blender的世界Z轴。启用看板后变得可用。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="reflections-panel">
+<span id="object-settings-reflections"></span><h4>Reflections Panel<a class="headerlink" href="#reflections-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_reflections.png" class="align-center" src="_images/object_settings_reflections.png" />
+<dl class="docutils">
 <dt><em>反射 &gt; 被反射</em></dt>
 <dd><p class="first last">启用后物体被会在动态镜面中被反射。</p>
 </dd>
@@ -367,7 +435,7 @@
 <dd><p class="first">物体被反射但仍将看不见自身。开启 <code class="docutils literal"><span class="pre">反射</span> <span class="pre">&gt;</span> <span class="pre">反射性</span></code> 后可用。</p>
 <div class="last admonition note">
 <p class="first admonition-title">注解</p>
-<p>If the <code class="docutils literal"><span class="pre">Reflexible</span> <span class="pre">Only</span></code> parameter is enabled simultaneously with the <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span> <span class="pre">Only</span></code> parameter, the engine will not render the object itself, but will render its shadow and reflection, like it is shown on the picture below.</p>
+<p>如果  <code class="docutils literal"><span class="pre">Reflexible</span> <span class="pre">Only</span></code> 参数与 <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span> <span class="pre">Only</span></code> 参数同时启用，引擎将不会渲染物体本身，而是将渲染它的影子和反射，像下面的图片所示。</p>
 <a class="last reference internal image-reference" href="_images/objects_cast_reflexible_only.png"><img alt="_images/objects_cast_reflexible_only.png" class="align-center" src="_images/objects_cast_reflexible_only.png" style="width: 100%;" /></a>
 </div>
 </dd>
@@ -377,6 +445,12 @@
 <dt><em>反射 &gt; 反射面</em></dt>
 <dd><p class="first last">对于一个空物体定义了反射面的Name文本字段。启用 <code class="docutils literal"><span class="pre">反射</span> <span class="pre">&gt;</span> <span class="pre">反射</span></code> 后可用。</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="selection-and-outlining-panel">
+<span id="object-settings-selection"></span><h4>Selection and Outlining Panel<a class="headerlink" href="#selection-and-outlining-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_selection.png" class="align-center" src="_images/object_settings_selection.png" />
+<dl class="docutils">
 <dt><em>选择和外轮廓 &gt; 可选择</em></dt>
 <dd><p class="first last">启用 <a class="reference internal" href="#mesh-selection"><span>物体选择</span></a> ，用鼠标或其他输入设备。</p>
 </dd>
@@ -384,7 +458,20 @@
 <dd><p class="first last">启用物体的 <a class="reference internal" href="postprocessing_effects.html#outline"><span>外轮廓发光</span></a>  。</p>
 </dd>
 </dl>
-<dl class="docutils" id="objects-meta-tags">
+</div>
+<div class="section" id="anchors-panel">
+<span id="object-settings-anchors"></span><h4>Anchors Panel<a class="headerlink" href="#anchors-panel" title="永久链接至标题">¶</a></h4>
+<dl class="docutils">
+<dt><em>锚 &gt; 启用锚</em></dt>
+<dd><p class="first">该参数将启用添加锚（2D标签）到物体的界面。只可用于  <code class="docutils literal"><span class="pre">EMPTY</span></code> 物体。在 <a class="reference internal" href="#objects-anchors"><span>相应章节</span></a> 描述。</p>
+<a class="last reference internal image-reference" href="_images/objects_enable_anchors.png"><img alt="_images/objects_enable_anchors.png" class="align-center" src="_images/objects_enable_anchors.png" style="width: 100%;" /></a>
+</dd>
+</dl>
+</div>
+<div class="section" id="meta-tags-panel">
+<span id="objects-meta-tags"></span><h4>Meta Tags Panel<a class="headerlink" href="#meta-tags-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_meta_tags.png" class="align-center" src="_images/object_settings_meta_tags.png" />
+<dl class="docutils">
 <dt><em>元标签</em></dt>
 <dd><p class="first">添加物体的元标签的接口：</p>
 <dl class="last docutils">
@@ -402,27 +489,44 @@
 </dd>
 </dl>
 </dd>
-<dt><em>锚 &gt; 启用锚</em></dt>
-<dd><p class="first">This parameter enables interface for adding anchors (2D tags) to objects. Available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only. Described in the <a class="reference internal" href="#objects-anchors"><span>corresponding section</span></a>.</p>
-<a class="last reference internal image-reference" href="_images/objects_enable_anchors.png"><img alt="_images/objects_enable_anchors.png" class="align-center" src="_images/objects_enable_anchors.png" style="width: 100%;" /></a>
+</dl>
+</div>
+<div class="section" id="relations-panel">
+<span id="object-settings-relations"></span><h4>Relations Panel<a class="headerlink" href="#relations-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_relations.png" class="align-center" src="_images/object_settings_relations.png" />
+<dl class="docutils">
+<dt><em>关系 &gt; 父级</em></dt>
+<dd><p class="first">参照父物体。</p>
+<p>如果父物体是一个摄像头，<code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Alignment</span></code> 设置将可见。</p>
+<a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="last">这些设置可被用于将物体对准的主控照相机。参考 <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>相机章节</span></a> 的描述。</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="wind-bending-panel">
+<span id="object-settings-wind"></span><h4>Wind Bending Panel<a class="headerlink" href="#wind-bending-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_wind.png" class="align-center" src="_images/object_settings_wind.png" />
+<dl class="docutils">
 <dt><em>风弯曲</em></dt>
 <dd><p class="first last">启用风弯曲程序动画。在  <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>室外渲染</span></a> 页有完整的描述.。</p>
 </dd>
 </dl>
-<dl class="docutils" id="objects-billboarding-properties">
-<dt><em>看板</em></dt>
-<dd><p class="first last">使用物体作为看板（即自动定向面对摄像机）。</p>
+</div>
+<div class="section" id="special-effects-panel">
+<span id="object-settings-fx"></span><h4>Special Effects Panel<a class="headerlink" href="#special-effects-panel" title="永久链接至标题">¶</a></h4>
+<img alt="_images/object_settings_fx.png" class="align-center" src="_images/object_settings_fx.png" />
+<dl class="docutils">
+<dt><em>特殊效果 &gt; 关闭雾效</em></dt>
+<dd><p class="first last">禁用物体的雾。</p>
+</dd>
+<dt><em>特殊效果 &gt; 焦散</em></dt>
+<dd><p class="first last">该物体将渲染自附近水的焦散效果。</p>
 </dd>
 </dl>
-<dl class="docutils" id="billboarding-preserve">
-<dt><em>看板 &gt; 保留全局方向和缩放</em></dt>
-<dd><p class="first last">考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看时将朝明显的被引导到相机。启用 <code class="docutils literal"><span class="pre">看板</span></code> 复选框后可用。</p>
-</dd>
-<dt><em>看板 &gt; 看板类型</em></dt>
-<dd><p class="first last">看板方向模式。 <code class="docutils literal"><span class="pre">Spherical``（默认）</span> <span class="pre">-</span> <span class="pre">物体一面始终朝向相机，不管视角，``Cylindrical</span></code>  - 类似于``Spherical``，但旋转仅限于Blender的世界Z轴。启用看板后变得可用。</p>
-</dd>
-</dl>
+</div>
 </div>
 <div class="section" id="physics-tab">
 <h3><a class="toc-backref" href="#id7">物理标签</a><a class="headerlink" href="#physics-tab" title="永久链接至标题">¶</a></h3>
@@ -447,30 +551,36 @@
 </div>
 </div>
 <div class="section" id="anchor-settings">
-<span id="objects-anchors"></span><h2><a class="toc-backref" href="#id8">设置</a><a class="headerlink" href="#anchor-settings" title="永久链接至标题">¶</a></h2>
-<p>Anchors can be used to attach annotations to 3D objects. The annotation is displayed near the object regardless of the camera position and even follows it throughout the animation.</p>
+<span id="objects-anchors"></span><h2><a class="toc-backref" href="#id8">锚设置</a><a class="headerlink" href="#anchor-settings" title="永久链接至标题">¶</a></h2>
+<p>锚可以用来附加注释到3D物体。不管摄像机位置注释显示在物体附近，甚至在整个动画跟随它。</p>
 <a class="reference internal image-reference" href="_images/objects_anchors_example.png"><img alt="_images/objects_anchors_example.png" class="align-center" src="_images/objects_anchors_example.png" style="width: 100%;" /></a>
-<p>Annotations can be created entirely in Blender. All you need to do is to place an <code class="docutils literal"><span class="pre">Empty</span></code> object in the required position and enable the <code class="docutils literal"><span class="pre">Anchor</span></code> property. The text for the annotations can be assigned in the <code class="docutils literal"><span class="pre">Title</span></code> and <code class="docutils literal"><span class="pre">Description</span></code> fields on the <code class="docutils literal"><span class="pre">Meta</span> <span class="pre">Tags</span></code> panel.</p>
+<p>注释完全可以在Blender中创建。你需要做的是放置一个 <code class="docutils literal"><span class="pre">Empty</span></code> 物体在需要的位置，然后启用 <code class="docutils literal"><span class="pre">Anchor</span></code> 属性。对于注释文本可以在 <code class="docutils literal"><span class="pre">Meta</span> <span class="pre">Tags</span></code>  面板的 <code class="docutils literal"><span class="pre">Title</span></code> 和 <code class="docutils literal"><span class="pre">Description</span></code> 字段进行分配。</p>
 <a class="reference internal image-reference" href="_images/objects_anchors_settings.png"><img alt="_images/objects_anchors_settings.png" class="align-center" src="_images/objects_anchors_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>启用锚</em></dt>
-<dd>This parameter enables the interface for adding anchors (2D tags) to objects. This is available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only.</dd>
-<dt><em>Type</em></dt>
-<dd><p class="first"><em>类型</em></p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">Annotation</span></code> - content is obtained from the <a class="reference internal" href="#objects-meta-tags"><span>meta tags</span></a> assigned to the object and displayed in the standard section.</li>
-<li><code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code> - an arbitrary HTML element from the current web page is used as an anchor.</li>
-<li><code class="docutils literal"><span class="pre">Generic</span></code> - an anchor’s position can be detected using the <code class="docutils literal"><span class="pre">anchors</span></code> API module.</li>
-</ul>
-<p class="last">Default value is <code class="docutils literal"><span class="pre">Annotation</span></code>.</p>
+<dd><p class="first last">使用此参数可添加锚（2D标签）物体的界面。唯一适用于 <code class="docutils literal"><span class="pre">EMPTY</span></code> 物体。</p>
 </dd>
-<dt><em>HTML Element ID</em></dt>
-<dd>This specifies the ID of the HTML element that will be used as the anchor. This is available only if the <code class="docutils literal"><span class="pre">Type</span></code> parameter is set to <code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code>.</dd>
+<dt><em>类型</em></dt>
+<dd><p class="first">锚类型</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">Annotation</span></code> - 内容从 <a class="reference internal" href="#objects-meta-tags"><span>元标签</span></a> 所获得再分配给物体，显示出标准的部分。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code> - 从当前网页的任意HTML元素用作锚。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Generic</span></code> - 一个锚点的位置，可以使用 <code class="docutils literal"><span class="pre">anchors</span></code>  API模块进行检测。</p>
+</li>
+</ul>
+<p class="last">默认值是 <code class="docutils literal"><span class="pre">Annotation</span></code>。</p>
+</dd>
+<dt><em>HTML元素ID</em></dt>
+<dd><p class="first last">这指定了将被用作锚的HTML元素的ID。这是仅当 <code class="docutils literal"><span class="pre">Type</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code>.</p>
+</dd>
 <dt><em>可见检测</em></dt>
 <dd><p class="first last">检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要时使用。</p>
 </dd>
-<dt><em>Max Width</em></dt>
-<dd>This parameter limits the expanding info window by a predefined value (measured in CSS pixels). This is available only if the <code class="docutils literal"><span class="pre">Type</span></code> parameter is set to <code class="docutils literal"><span class="pre">Annotation</span></code>, and it is set to 250 by default.</dd>
+<dt><em>最大宽度</em></dt>
+<dd><p class="first last">此参数通过一个预定义的值来限制扩展信息窗口（测量用 CSS像素）。只有当 <code class="docutils literal"><span class="pre">Type</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Annotation</span></code> 时才可用，它被设置为默认值为250。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="object-transform-api">
@@ -532,7 +642,7 @@
 </dl>
 </div>
 <div class="section" id="get-object-api">
-<span id="index-1"></span><h2><a class="toc-backref" href="#id10">Get Object API</a><a class="headerlink" href="#get-object-api" title="永久链接至标题">¶</a></h2>
+<span id="index-1"></span><h2><a class="toc-backref" href="#id10">获取物体API</a><a class="headerlink" href="#get-object-api" title="永久链接至标题">¶</a></h2>
 <p>对物体执行任何操作，您首先需要得到它（找到到它的链接）。有几个API函数是做这个的。有链接的物体具有 <code class="docutils literal"><span class="pre">Object3D</span></code> 类型。</p>
 <dl class="docutils">
 <dt><a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name()</a></dt>
@@ -602,13 +712,13 @@
 </dl>
 </div>
 <div class="section" id="object-selection">
-<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id11">Object Selection</a><a class="headerlink" href="#object-selection" title="永久链接至标题">¶</a></h2>
-<p>In order to enable selection of a certain object, it is required to enable the <code class="docutils literal"><span class="pre">Selectable</span></code> checkbox on the <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> panel.</p>
+<span id="mesh-selection"></span><h2><a class="toc-backref" href="#id11">物体选择</a><a class="headerlink" href="#object-selection" title="永久链接至标题">¶</a></h2>
+<p>为了使一个特定的物体能被选择，需要 <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> 面板上的 <code class="docutils literal"><span class="pre">Selectable</span></code> 复选框启用。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Make sure that the status on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> panel is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+<p class="last">确保在 <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> 面板被设置为 <code class="docutils literal"><span class="pre">ON</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。</p>
 </div>
-<p>Object selection is possible programmatically via API, for example, in the <code class="docutils literal"><span class="pre">scenes.js</span></code> module there is the <code class="docutils literal"><span class="pre">pick_object</span></code> function which selects an object based on canvas 2D coordinates,</p>
+<p>物体选择也可以通过API编程方式，例如，在 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块有基于二维的画布坐标选择物体的 <code class="docutils literal"><span class="pre">pick_object</span></code> 函数。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
@@ -617,35 +727,37 @@
 <span class="c1">// ...</span>
 </pre></div>
 </div>
-<p>or using the <a class="reference internal" href="logic_editor.html#nla-switch-select"><span>Logic Editor</span></a>.</p>
-<p>If the selectable object has enabled <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> and <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> checkboxes on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> and Outlining panel, then the <code class="docutils literal"><span class="pre">pick_object</span></code> function call will activate <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow animation</span></a>.</p>
+<p>或使用 <a class="reference internal" href="logic_editor.html#nla-switch-select"><span>逻辑编辑器</span></a>.</p>
+<p>如果选择的物体已启用了 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span></code> 和轮廓面板上的 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> 和 <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> 选框，那么 <code class="docutils literal"><span class="pre">pick_object</span></code> 函数调用将激活 <a class="reference internal" href="postprocessing_effects.html#outline"><span>外轮廓辉光动画</span></a> 。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">If the selected object is transparent (<code class="docutils literal"><span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Add</span></code> and <code class="docutils literal"><span class="pre">Sort</span></code> transparency types), outline glow will only be visible on the parts that have <code class="docutils literal"><span class="pre">Alpha</span></code> value higher than 0.5.</p>
+<p class="last">如果选定的物体是透明的（<code class="docutils literal"><span class="pre">Blend</span></code>，<code class="docutils literal"><span class="pre">Add</span></code> 和 <code class="docutils literal"><span class="pre">Sort</span></code> 透明度类型），外轮廓发光只能在具有 <code class="docutils literal"><span class="pre">Alpha</span></code> 高于0.5的部分可见。</p>
 </div>
 </div>
 <div class="section" id="copying-objects-instancing">
-<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id12">Copying Objects (Instancing)</a><a class="headerlink" href="#copying-objects-instancing" title="永久链接至标题">¶</a></h2>
-<p>It is often required to copy (to make instances of) objects during application work.</p>
+<span id="mesh-copy"></span><h2><a class="toc-backref" href="#id12">复制物体（实例化）</a><a class="headerlink" href="#copying-objects-instancing" title="永久链接至标题">¶</a></h2>
+<p>它通常需要复制（使的实例）中的应用程序的工作物体。</p>
 <dl class="docutils">
-<dt>Copying objects has its limitations:</dt>
+<dt>复制物体也有其局限性：</dt>
 <dd><ul class="first last simple">
-<li>only <code class="docutils literal"><span class="pre">MESH</span></code> objects can be copied</li>
-<li>the object should be <a class="reference internal" href="#static-dynamic-objects"><span>dynamic</span></a> (enable <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</li>
-<li>the source object should belong to the active scene</li>
+<li><p class="first">只有 <code class="docutils literal"><span class="pre">MESH</span></code> 物体可以被复制</p>
+</li>
+<li><p class="first">物体应该是 <a class="reference internal" href="#static-dynamic-objects"><span>动态</span></a> （启用 <code class="docutils literal"><span class="pre">渲染属性&gt;强制动态</span> <span class="pre">Object</span></code>）</p>
+</li>
+<li><p class="first">源物体应该属于活动场景</p>
+</li>
 </ul>
 </dd>
 </dl>
 <div class="section" id="making-a-simple-copy">
-<h3><a class="toc-backref" href="#id13">Making a Simple Copy</a><a class="headerlink" href="#making-a-simple-copy" title="永久链接至标题">¶</a></h3>
-<p>In case of simple copying the new object will share the mesh with the original object. Thus, if the original object’s mesh is changed, the copied object’s mesh will be changed too. To make simple copying possible, it’s enough to turn on the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> setting in the source object’s properties.</p>
+<h3><a class="toc-backref" href="#id13">制作一个简单的复制</a><a class="headerlink" href="#making-a-simple-copy" title="永久链接至标题">¶</a></h3>
+<p>在简单复制的情况下，新的物体将共享与原始物体的网格。因此，如果原始物体的网格被改变，则复制的物体的网格也将被改变。为了让简单复制可能的，但它足以打开``Blend4Web&gt;强制动态Object``源物体的属性设置。</p>
 </div>
 <div class="section" id="making-a-deep-copy">
-<h3><a class="toc-backref" href="#id14">Making a Deep Copy</a><a class="headerlink" href="#making-a-deep-copy" title="永久链接至标题">¶</a></h3>
-<p>In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object’s mesh is changed, the copied object’s mesh will not be changed. Also, the canvas textures on the copied objects are different textures and not one and the same like it is the case with the simple copying. To make deep copying possible, it is required to enable the <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Dynamic Geometry</span></a> checkbox for the source object.
-|</p>
-<p>Copying objects in runtime can be performed with the <code class="docutils literal"><span class="pre">copy</span></code> method of the <code class="docutils literal"><span class="pre">objects.js</span></code> module. This method requires three arguments: the id of the source object, a unique name for the new object and the boolean value to specify the copy mode (i.e. simple or deep). By default, simple copying will be performed.</p>
-<p>The newly created object should be added to the scene. This can be performed with the <code class="docutils literal"><span class="pre">append_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. The new object should be passed to it as an argument.</p>
+<h3><a class="toc-backref" href="#id14">制作深复制</a><a class="headerlink" href="#making-a-deep-copy" title="永久链接至标题">¶</a></h3>
+<p>在深度复制的情况下，新物体将具有独特的性质，即它会有自己的网格。因此，如果原始物体的网格被改变，则复制的物体的网格将不被改变。另外，在复制的物体在画布纹理不同的纹理和不同一个像它与简单复制的情况。为了使深度复制可能，要求源物体启用 <a class="reference internal" href="#dynamic-geom"><span>渲染属性&gt;动态几何</span></a> 复选框. |</p>
+<p>在运行时复制物体可以使用 <code class="docutils literal"><span class="pre">objects.js</span></code> 模块的 <code class="docutils literal"><span class="pre">copy</span></code> 方法进行。此方法需要三个参数：源物体的id，新物体一个唯一的名称和布尔值，以指定复制模式（即简单或深度）。默认情况下，简单复制将被执行。</p>
+<p>新创建的物体，应添加到场景。这可以用 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块的 <code class="docutils literal"><span class="pre">append_object</span></code> 方法进行。新物体应该被传递给它作为参数。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="kd">var</span> <span class="nx">new_obj</span> <span class="o">=</span> <span class="nx">m_objects</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;New_name&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">append_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
@@ -655,8 +767,8 @@
 </div>
 </div>
 <div class="section" id="removing-objects">
-<h3><a class="toc-backref" href="#id15">Removing Objects</a><a class="headerlink" href="#removing-objects" title="永久链接至标题">¶</a></h3>
-<p>To remove objects, use the <code class="docutils literal"><span class="pre">remove_object</span></code> method of the <code class="docutils literal"><span class="pre">scenes.js</span></code> module. Pass the object to it as an argument. Dynamic mesh- and empty-type objects can be removed this way.</p>
+<h3><a class="toc-backref" href="#id15">删除物体</a><a class="headerlink" href="#removing-objects" title="永久链接至标题">¶</a></h3>
+<p>要删除物体，请使用 <code class="docutils literal"><span class="pre">scenes.js</span></code> 模块的 <code class="docutils literal"><span class="pre">remove_object</span></code> 方法。传递物体作为参数。动态网格-空类型的物体可以用这种方式删除。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="nx">m_objects</span><span class="p">.</span><span class="nx">remove_object</span><span class="p">(</span><span class="nx">new_obj</span><span class="p">);</span>
 <span class="c1">// ...</span>
@@ -675,7 +787,8 @@
 </li>
 <li><p class="first">在一系列旋转的情况下，比矩阵有更好的计算效率。</p>
 </li>
-<li>Numeric stability - compensation for multiplication errors arising from float number inaccuracy.</li>
+<li><p class="first">数值稳定 - 从浮点数不准确而产生乘法错误的补偿。</p>
+</li>
 <li><p class="first">便捷的插值方法。</p>
 </li>
 </ul>
@@ -784,7 +897,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -840,7 +953,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

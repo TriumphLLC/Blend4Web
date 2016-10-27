@@ -39,6 +39,14 @@ GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
                                     MAIN
 ==============================================================================*/
 
+// REFERENCES:
+//  general coc (circle of confusion) and foreground blur:
+//      http://http.developer.nvidia.com/GPUGems3/gpugems3_ch28.html
+//
+//  bokeh imitation:
+//      http://ivizlab.sfu.ca/papers/cgf2012.pdf
+//      http://www.frostbite.com/2011/08/more-performance-five-rendering-ideas-from-battlefield-3-and-need-for-speed-the-run/
+
 void main(void) {
 
     vec4 color = GLSL_TEXTURE(u_color, v_texcoord);

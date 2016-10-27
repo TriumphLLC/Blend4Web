@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Camera &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>相机 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
         <link rel="next" title="材质" href="materials.html"/>
-        <link rel="prev" title="Normal Editor" href="normal_editor.html"/> 
+        <link rel="prev" title="法线编辑器" href="normal_editor.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,52 +87,52 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Camera</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#move-styles-and-general-settings">Move Styles and General Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#limiting-the-camera-movement">Limiting the Camera Movement</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#target-type-camera"><strong>Target Type Camera</strong></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#eye-type-camera"><strong>Eye Type Camera</strong></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#hover-type-camera"><strong>Hover Type Camera</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">相机</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#move-styles-and-general-settings">移动方式和一般设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limiting-the-camera-movement">限制摄像机的运动</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#target-type-camera"><strong>目标类型相机</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eye-type-camera"><strong>眼类型相机</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hover-type-camera"><strong>悬停类型相机</strong></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#viewport-alignment">Viewport Alignment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#camera-controls-api">Camera Controls API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#control-mode-setup">Control Mode Setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#translation-and-rotation">Translation and Rotation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#limit-setup">Limit Setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#angular-coordinates-count">Angular Coordinates Count</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viewport-alignment">视口对齐</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#camera-controls-api">相机控制API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#control-mode-setup">控制模式设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#translation-and-rotation">平移和旋转</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#limit-setup">限制设置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#angular-coordinates-count">角坐标计数</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -162,7 +162,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Camera</li>
+    <li>相机</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -175,24 +175,24 @@
            <div itemprop="articleBody">
             
   <div class="section" id="camera">
-<span id="id1"></span><h1><a class="toc-backref" href="#id2">Camera</a><a class="headerlink" href="#camera" title="永久链接至标题">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id2">相机</a><a class="headerlink" href="#camera" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Table of Contents</p>
+<p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#camera" id="id2">Camera</a><ul>
-<li><a class="reference internal" href="#move-styles-and-general-settings" id="id3">Move Styles and General Settings</a></li>
-<li><a class="reference internal" href="#limiting-the-camera-movement" id="id4">Limiting the Camera Movement</a><ul>
-<li><a class="reference internal" href="#target-type-camera" id="id5"><strong>Target Type Camera</strong></a></li>
-<li><a class="reference internal" href="#eye-type-camera" id="id6"><strong>Eye Type Camera</strong></a></li>
-<li><a class="reference internal" href="#hover-type-camera" id="id7"><strong>Hover Type Camera</strong></a></li>
+<li><a class="reference internal" href="#camera" id="id2">相机</a><ul>
+<li><a class="reference internal" href="#move-styles-and-general-settings" id="id3">移动方式和一般设置</a></li>
+<li><a class="reference internal" href="#limiting-the-camera-movement" id="id4">限制摄像机的运动</a><ul>
+<li><a class="reference internal" href="#target-type-camera" id="id5"><strong>目标类型相机</strong></a></li>
+<li><a class="reference internal" href="#eye-type-camera" id="id6"><strong>眼类型相机</strong></a></li>
+<li><a class="reference internal" href="#hover-type-camera" id="id7"><strong>悬停类型相机</strong></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#viewport-alignment" id="id8">Viewport Alignment</a></li>
-<li><a class="reference internal" href="#camera-controls-api" id="id9">Camera Controls API</a><ul>
-<li><a class="reference internal" href="#control-mode-setup" id="id10">Control Mode Setup</a></li>
-<li><a class="reference internal" href="#translation-and-rotation" id="id11">Translation and Rotation</a></li>
-<li><a class="reference internal" href="#limit-setup" id="id12">Limit Setup</a></li>
-<li><a class="reference internal" href="#angular-coordinates-count" id="id13">Angular Coordinates Count</a></li>
+<li><a class="reference internal" href="#viewport-alignment" id="id8">视口对齐</a></li>
+<li><a class="reference internal" href="#camera-controls-api" id="id9">相机控制API</a><ul>
+<li><a class="reference internal" href="#control-mode-setup" id="id10">控制模式设置</a></li>
+<li><a class="reference internal" href="#translation-and-rotation" id="id11">平移和旋转</a></li>
+<li><a class="reference internal" href="#limit-setup" id="id12">限制设置</a></li>
+<li><a class="reference internal" href="#angular-coordinates-count" id="id13">角坐标计数</a></li>
 </ul>
 </li>
 </ul>
@@ -200,110 +200,122 @@
 </ul>
 </div>
 <div class="section" id="move-styles-and-general-settings">
-<h2><a class="toc-backref" href="#id3">Move Styles and General Settings</a><a class="headerlink" href="#move-styles-and-general-settings" title="永久链接至标题">¶</a></h2>
-<p>The camera settings are specified in the <code class="docutils literal"><span class="pre">Properties</span></code> panel under the <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">(Object</span> <span class="pre">Data)</span></code> tab.</p>
+<h2><a class="toc-backref" href="#id3">移动方式和一般设置</a><a class="headerlink" href="#move-styles-and-general-settings" title="永久链接至标题">¶</a></h2>
+<p>相机设置在 <code class="docutils literal"><span class="pre">相机(物体数据)</span></code> 选项卡下 <code class="docutils literal"><span class="pre">Properties</span></code>  面板指定。</p>
 <a class="reference internal image-reference" href="_images/camera_setup.png"><img alt="_images/camera_setup.png" class="align-center" src="_images/camera_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils" id="camera-move-style">
-<dt><em>Camera Move Style &gt; Move Style</em></dt>
-<dd><p class="first">Camera control mode:</p>
+<dt><em>相机移动方式 &gt; 移动方式</em></dt>
+<dd><p class="first">摄像机控制模式：</p>
 <ul class="last">
 <li><dl class="first docutils">
-<dt><em>Target</em></dt>
-<dd><p class="first last">By default the camera is rotating around a fixed point (target). The pivot&#8217;s position can be changed (see <a class="reference internal" href="#panning-mode"><span>camera panning</span></a>).</p>
+<dt><em>目标</em></dt>
+<dd><p class="first last">默认摄像机围绕一个固定点（目标）旋转。中心点的位置可以改变（见 <a class="reference internal" href="#panning-mode"><span>相机摇动</span></a>）。</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><em>Eye</em></dt>
-<dd><p class="first last">The <code class="docutils literal"><span class="pre">Eye</span></code> mode allows rotation and translation as in first person view.</p>
+<dt><em>眼睛</em></dt>
+<dd><p class="first last">在 <code class="docutils literal"><span class="pre">Eye</span></code> 模式允许以第一人称视角旋转和平移。</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><em>Hover</em></dt>
-<dd><p class="first last">In <code class="docutils literal"><span class="pre">Hover</span></code> mode, camera moves parallel to the horizontal plane. By using additional limits, a smooth movement path toward the pivot point for the camera can be created.</p>
+<dt><em>悬停</em></dt>
+<dd><p class="first last">在 <code class="docutils literal"><span class="pre">Hover</span></code> 模式，相机将平行于水平面移动。通过使用附加的限制，可以创建一个相机指向中心点的平滑移动路径。</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><em>Static</em></dt>
-<dd><p class="first last">In the <code class="docutils literal"><span class="pre">Static</span></code> mode the camera can be moved via animation or through API calls.</p>
+<dt><em>静态</em></dt>
+<dd><p class="first last">在 <code class="docutils literal"><span class="pre">Static</span></code> 模式下，相机可以通过动画或通过API调用移动。</p>
 </dd>
 </dl>
 </li>
 </ul>
 </dd>
-<dt><em>Look At Cursor &gt; Target Location</em></dt>
-<dd>Available for the <code class="docutils literal"><span class="pre">Target</span></code> mode. This is the position of the camera pivot point. The <code class="docutils literal"><span class="pre">Look</span> <span class="pre">At</span> <span class="pre">Cursor</span></code> button copies the current 3D cursor position into this value.</dd>
-<dt><em>Depth of Field</em></dt>
-<dd>Described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span>景深</span></a> section.</dd>
+<dt><em>看向光标 &gt; 目标位置</em></dt>
+<dd><p class="first last">在 <code class="docutils literal"><span class="pre">Target</span></code> 模式可用。这是在相机中心点的位置。该 <code class="docutils literal"><span class="pre">看向Cursor</span></code> 按钮将当前的3D光标位置复制到该值。</p>
+</dd>
+<dt><em>景深</em></dt>
+<dd><p class="first last">在 <a class="reference internal" href="postprocessing_effects.html#dof"><span>景深</span></a> 章节中描述。</p>
+</dd>
 </dl>
-<p id="camera-velocity">Velocity settings are available for camera movement.</p>
+<p id="camera-velocity">相机速度设置现在是特优</p>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Velocities &gt; Translation Velocity</em></dt>
-<dd>Available for the <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code> and <code class="docutils literal"><span class="pre">Hover</span></code> type cameras. Sets the velocity of the camera translation. Possible value interval: <span class="math">\(\left[0,\ \infty \right)\)</span>. Default value is 1.</dd>
-<dt><em>Camera Move Style &gt; Camera Velocities &gt; Rotation Velocity</em></dt>
-<dd>Available for the <code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code> and <code class="docutils literal"><span class="pre">Hover</span></code> type cameras. Sets the camera rotation speed. Possible value interval: <span class="math">\(\left[0,\ \infty \right)\)</span>. Default value is 1.</dd>
-<dt><em>Camera Move Style &gt; Camera Velocities &gt; Zoom Velocity</em></dt>
-<dd>Available for the <code class="docutils literal"><span class="pre">Target</span></code> and <code class="docutils literal"><span class="pre">Hover</span></code> type cameras. Set the velocity of the camera approaching the pivot point. Possible value interval: <span class="math">\(\left[0,\ 0.99\right]\)</span>. Default value is 0.1.</dd>
+<dt><em>相机移动方式 &gt; 相机速度 &gt; 移动速度</em></dt>
+<dd><p class="first last">提供 <code class="docutils literal"><span class="pre">目标</span></code>，<code class="docutils literal"><span class="pre">眼睛</span></code> 和 <code class="docutils literal"><span class="pre">悬停</span></code> 型相机。设置摄像机平移的速度。可能的值区间: <span class="math">\(\left[0,\ \infty \right)\)</span>  。默认值是 1。</p>
+</dd>
+<dt><em>相机移动方式 &gt; 相机速度 &gt; 旋转速度</em></dt>
+<dd><p class="first last">提供 <code class="docutils literal"><span class="pre">目标</span></code>，<code class="docutils literal"><span class="pre">眼睛</span></code> 和 <code class="docutils literal"><span class="pre">悬停</span></code> 型相机。设置摄像机平移的旋转速度。可能的值区间: <span class="math">\(\left[0,\ \infty \right)\)</span>  。默认值是 1。</p>
+</dd>
+<dt><em>相机移动方式 &gt; 相机速度 &gt; 缩放速度</em></dt>
+<dd><p class="first last">提供 <code class="docutils literal"><span class="pre">目标</span></code> 和 <code class="docutils literal"><span class="pre">悬停</span></code> 型相机。设置摄像机接近中心点的速度。可能的值区间: <span class="math">\(\left[0,\ 0.99\right]\)</span>  。默认值是 0.1。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="limiting-the-camera-movement">
-<h2><a class="toc-backref" href="#id4">Limiting the Camera Movement</a><a class="headerlink" href="#limiting-the-camera-movement" title="永久链接至标题">¶</a></h2>
-<p>There are several settings for the camera which limit/change its movement one way or another. They are grouped as <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Limits</span></code>.</p>
+<h2><a class="toc-backref" href="#id4">限制摄像机的运动</a><a class="headerlink" href="#limiting-the-camera-movement" title="永久链接至标题">¶</a></h2>
+<p>有几种限制/改变摄像机运动的设置。它们组合为 <code class="docutils literal"><span class="pre">相机限制</span></code>.</p>
 <a class="reference internal image-reference" href="_images/camera_limits.png"><img alt="_images/camera_limits.png" class="align-center" src="_images/camera_limits.png" style="width: 100%;" /></a>
-<p>Camera limits can be viewed right in the Blender viewport, if the <code class="docutils literal"><span class="pre">Display</span> <span class="pre">Limits</span> <span class="pre">in</span> <span class="pre">Viewport</span></code> parameter is enabled.</p>
+<p>相机限制可以直接在Blender视图查看，如果 <code class="docutils literal"><span class="pre">Display</span> <span class="pre">Limits</span> <span class="pre">in</span> <span class="pre">Viewport</span></code> 参数已启用。</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <div class="section" id="target-type-camera">
-<h3><a class="toc-backref" href="#id5"><strong>Target Type Camera</strong></a><a class="headerlink" href="#target-type-camera" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id5"><strong>目标类型相机</strong></a><a class="headerlink" href="#target-type-camera" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/camera_limits_target.png"><img alt="_images/camera_limits_target.png" class="align-center" src="_images/camera_limits_target.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
-<dd>Set minimum and maximum distances from the camera to the pivot point. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>Min = 1</em>, <em>Max = 10</em>. Disabled by default.</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; 距离限制</em></dt>
+<dd><p class="first last">从相机到中心点设置最小和最大距离。允许值： <em>最小</em> <span class="math">\(\le\)</span> <em>最大</em>. 默认值: <em>最小 = 1</em>, <em>最大 = 10</em>. 默认情况下禁用。</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/distance_limits.svg"><div align="center" class="align-center"><img src="_images/distance_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Rotation Limits</em></dt>
-<dd>Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; 水平旋转限制</em></dt>
+<dd><p class="first last">限制摄像头水平（围绕在Blender的Z世界轴）对点的转动。旋转沿 <code class="docutils literal"><span class="pre">左角</span></code> 和 <code class="docutils literal"><span class="pre">右角</span></code> 值之间的圆的弧进行。旋转弧对应于从 <code class="docutils literal"><span class="pre">左角</span></code> 到 <code class="docutils literal"><span class="pre">右角</span></code> 逆时针运动。默认值：<em>左角= -45°</em>，<em>直角= 45°</em> 。默认情况下禁用。</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/horizontal_limits_target.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
-<dd>Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; 垂直旋转限制</em></dt>
+<dd><p class="first last">限制摄像头水平（围绕在Blender的Z世界轴）对点的转动。旋转沿 <code class="docutils literal"><span class="pre">左角</span></code> 和 <code class="docutils literal"><span class="pre">右角</span></code> 值之间的圆的弧进行。旋转弧对应于从 <code class="docutils literal"><span class="pre">左角</span></code> 到 <code class="docutils literal"><span class="pre">右角</span></code> 逆时针运动。默认值：<em>左角= -45°</em>，<em>直角= 45°</em> 。默认情况下禁用。</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/vertical_limits_target.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_target.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Pivot Translation Limits</em></dt>
-<dd>Limit the translation of the camera&#8217;s pivot point. Default values: <em>MinZ = 0</em>, <em>MaxZ = 10</em>. Not rendered in the viewport.</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; 中心点移动限制</em></dt>
+<dd><p class="first last">限制摄像机的中心点移动。默认值： <em>最小Z = 0</em>, <em>最大Z = 10</em>. 在视口中不渲染。</p>
+</dd>
 </dl>
 <dl class="docutils" id="panning-mode">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Panning Mode</em></dt>
-<dd>Allow camera panning.</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; Use Panning Mode</em></dt>
+<dd><p class="first last">使相机平移。</p>
+</dd>
 </dl>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="eye-type-camera">
-<h3><a class="toc-backref" href="#id6"><strong>Eye Type Camera</strong></a><a class="headerlink" href="#eye-type-camera" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id6"><strong>眼类型相机</strong></a><a class="headerlink" href="#eye-type-camera" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/camera_limits_eye.png"><img alt="_images/camera_limits_eye.png" class="align-center" src="_images/camera_limits_eye.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Horizontal Rotation Limits</em></dt>
-<dd>Limit the horizontal (around the Z world axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Left</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Right</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Left Angle = -45°</em>, <em>Right Angle = 45°</em>. Disabled by default.</dd>
+<dd><p class="first last">限制摄像头水平（围绕在Blender的Z世界轴）对点的转动。旋转沿 <code class="docutils literal"><span class="pre">左角</span></code> 和 <code class="docutils literal"><span class="pre">右角</span></code> 值之间的圆的弧进行。旋转弧对应于从 <code class="docutils literal"><span class="pre">左角</span></code> 到 <code class="docutils literal"><span class="pre">右角</span></code> 逆时针运动。默认值：<em>左角= -45°</em>，<em>直角= 45°</em> 。默认情况下禁用。</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/horizontal_limits_eye.svg"><div align="center" class="align-center"><img src="_images/horizontal_limits_eye.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
-<dd>Limit the vertical (around the local X axis in Blender) camera rotation around the corresponding point. Rotation is performed along the arc of a circle between <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> and <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> values. The rotation arc corresponds to movement from <code class="docutils literal"><span class="pre">Down</span> <span class="pre">Angle</span></code> to <code class="docutils literal"><span class="pre">Up</span> <span class="pre">Angle</span></code> anticlockwise. Default values: <em>Down Angle = -45°</em>, <em>Up Angle = 45°</em>. Disabled by default.</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; 垂直旋转限制</em></dt>
+<dd><p class="first last">限制垂直（在Blender的局部X轴）摄像头围绕对应点转动。旋转沿 <code class="docutils literal"><span class="pre">向下角</span></code> 和 <code class="docutils literal"><span class="pre">向上角</span></code> 值之间的圆的弧进行。旋转弧对应于逆时针运动从 <code class="docutils literal"><span class="pre">向下角</span></code> 到 <code class="docutils literal"><span class="pre">最多角</span></code> 。默认值：<em>下角= -45°</em>，<em>上角= 45°</em>。默认情况下禁用。</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/vertical_limits_eye.svg"><div align="center" class="align-center"><img src="_images/vertical_limits_eye.svg" width="100%" /></div>
 </a>
@@ -312,110 +324,133 @@
 </div>
 </div>
 <div class="section" id="hover-type-camera">
-<h3><a class="toc-backref" href="#id7"><strong>Hover Type Camera</strong></a><a class="headerlink" href="#hover-type-camera" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id7"><strong>悬停类型相机</strong></a><a class="headerlink" href="#hover-type-camera" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/camera_limits_hover.png"><img alt="_images/camera_limits_hover.png" class="align-center" src="_images/camera_limits_hover.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Horizontal Translation Limits</em></dt>
-<dd>Limit movement of the pivot point along the Blender&#8217;s world X axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>MinX = -10</em>, <em>MaxX = 10</em>. Disabled by default.</dd>
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Translation Limits</em></dt>
-<dd>Limit movement of the pivot point along the Blender&#8217;s world X axis. Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>MinY = -10</em>, <em>MaxY = 10</em>. Disabled by default.</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; 水平移动限制</em></dt>
+<dd><p class="first last">沿着Blender的世界X轴支点的限制运动。允许值：<em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. 默认值: <em>MinX = -10</em>, <em>MaxX = 10</em>. 默认情况下禁用。</p>
+</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; 垂直移动限制</em></dt>
+<dd><p class="first last">沿着Blender的世界X轴支点的限制运动。允许值： <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. 默认值: <em>MinY = -10</em>, <em>MaxY = 10</em>.  默认情况下禁用。</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/hover_camera_trans_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_trans_limits.svg" width="100%" /></div>
 </a>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Zooming</em></dt>
-<dd>Allows user to zoom the camera in and out from the pivot point. If this parameter is disabled, the camera will always remain at a fixed distance from the pivot point. Disable by default.</dd>
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Distance Limits</em></dt>
-<dd>Set minimum and maximum distances from the camera to the point of intersection between the camera&#8217;s view direction and the horizontal reference plane (Blender&#8217;s world XOY plane by default). Allowable values: <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. Default values: <em>Min = 1</em>, <em>Max = 10</em>. Disabled by default.</dd>
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Vertical Rotation Limits</em></dt>
-<dd>Limits the camera&#8217;s angle of elevation (an angle between the camera&#8217;s sight line and a horizontal plane. Possible value interval: <em>0°</em> <span class="math">\(\le\)</span> <em>Down</em> <span class="math">\(\le\)</span> <em>Up</em> <span class="math">\(\le\)</span> <em>90°</em>. Default values: <em>Down = 0°, Up = 90°</em>.</dd>
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Zero Level</em></dt>
-<dd>A distance between reference plane and the coordinates origin. Set to zero by default.</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; Use Zooming</em></dt>
+<dd><p class="first last">允许用户从中心点点调整摄像机的焦距和缩小。如果禁用此参数，相机将始终保持在离支点的距离固定。默认情况下禁用。</p>
+</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; 距离限制</em></dt>
+<dd><p class="first last">设置最小和最大距离从相机到摄像机的视图方向与水平基准面（默认情况下Blender的世界XOY平面）之间的交点。允许值： <em>Min</em> <span class="math">\(\le\)</span> <em>Max</em>. 默认值: <em>Min = 1</em>, <em>Max = 10</em>. 默认情况下禁用。</p>
+</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; 垂直旋转限制</em></dt>
+<dd><p class="first last">限制抬高相机的角度（摄像机的视线与水平面之间的夹角可能的取值区间： <em>0°</em> <span class="math">\(\le\)</span> <em>Down</em> <span class="math">\(\le\)</span> <em>Up</em> <span class="math">\(\le\)</span> <em>90°</em>. 默认值: <em>Down = 0°, Up = 90°</em>.</p>
+</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; Zero Level</em></dt>
+<dd><p class="first last">基准面和坐标原点之间的距离。默认设置为零。</p>
+</dd>
 </dl>
-<p id="hover-trajectory-figure">If the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">Zooming</span></code> setting is turned on, the limits for distance and inclination angle will be applied simultaneously, to define the camera movement path in the vertical plane.</p>
+<p id="hover-trajectory-figure">如果 <code class="docutils literal"><span class="pre">Blend4Web&gt;使用Zooming</span></code> 设置打开，同时设置距离和倾斜角度的限制，在垂直平面以限定在相机移动路径。</p>
 <a class="reference internal image-reference" href="_images/hover_camera_rot_limits.svg"><div align="center" class="align-center"><img src="_images/hover_camera_rot_limits.svg" width="100%" /></div>
 </a>
-<p>Setting incorrect distance or elevation angle limits will disable this parameter.</p>
+<p>设置不正确的距离或仰角限制将禁用此参数。</p>
 <dl class="docutils">
-<dt><em>Camera Move Style &gt; Camera Limits &gt; Use Horizontal Rotation</em></dt>
-<dd>Allow camera rotation in Blender&#8217;s XOY plane around to the pivot point. Enabled by default.</dd>
+<dt><em>相机移动方式 &gt; 相机限制 &gt; Use Horizontal Rotation</em></dt>
+<dd><p class="first last">允许摄像头在Blender的XOY平面对着中心点旋转。默认情况下启用。</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/hover_camera_horiz_rotation.svg"><div align="center" class="align-center"><img src="_images/hover_camera_horiz_rotation.svg" width="100%" /></div>
 </a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>Static Camera</strong></p>
+<p><strong>静态相机</strong></p>
 <a class="reference internal image-reference" href="_images/camera_limits_static.png"><img alt="_images/camera_limits_static.png" class="align-center" src="_images/camera_limits_static.png" style="width: 100%;" /></a>
-<p>This type of camera does not have limits, as it can&#8217;t be directly controlled by the user.</p>
+<p>这种类型的相机不具有限制，因为它不能直接由用户控制。</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><strong>Peculiarities of Limiting Settings</strong></p>
+<p><strong>限制设置的特殊性</strong></p>
 <ul class="simple">
-<li>For EYE/TARGET cameras, interchanging <em>Left/Right</em> or <em>Down/Up</em> values results in movement along the opposite arc of a circle.</li>
+<li><p class="first">EYE/TARGET相机，交换 <em>左/右</em> 或 <em>下/上</em> 值导致移动圆弧相反。</p>
+</li>
 </ul>
 <a class="reference internal image-reference" href="_images/limits_inversion.svg"><div align="center" class="align-center"><img src="_images/limits_inversion.svg" width="100%" /></div>
 </a>
 <ul class="simple">
-<li>When limiting the camera&#8217;s horizontal and vertical rotation, it is possible to choose between the following coordinate spaces:</li>
+<li><p class="first">当限制相机的水平和垂直旋转，则可在下列坐标空间之间进行选择：</p>
+</li>
 </ul>
 <dl class="docutils">
-<dt><em>Camera Space</em></dt>
-<dd>All angles are measured relative to the initial camera position and orientation.</dd>
-<dt><em>World Space</em></dt>
-<dd>Horizontal angles are measured relative to the Y axis in world space; vertical angles are measured relative to the Blender&#8217;s XOY plane in world space.</dd>
+<dt><em>摄像机空间</em></dt>
+<dd><p class="first last">所有的角度是相对于初始相机位置和取向测量。</p>
+</dd>
+<dt><em>世界空间</em></dt>
+<dd><p class="first last">水平角度是相对于世界空间Y轴测量;垂直角度是相对于世界空间中Blender的XOY平面上测量。</p>
+</dd>
 </dl>
-<p>Default value: <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Space</span></code>.</p>
-<p>Horizontal limits by the example of the TARGET camera:</p>
+<p>默认值：<code class="docutils literal"><span class="pre">相机Space</span></code> 。</p>
+<p>水平限制目标相机的例子：</p>
 <a class="reference internal image-reference" href="_images/camera_space_world_space_h.svg"><div align="center" class="align-center"><img src="_images/camera_space_world_space_h.svg" width="100%" /></div>
 </a>
-<p>Vertical limits by the example of the TARGET camera:</p>
+<p>垂直限制目标相机的例子：</p>
 <a class="reference internal image-reference" href="_images/camera_space_world_space_v.svg"><div align="center" class="align-center"><img src="_images/camera_space_world_space_v.svg" width="100%" /></div>
 </a>
 </div>
 </div>
 <div class="section" id="viewport-alignment">
-<span id="camera-viewport-alignment"></span><h2><a class="toc-backref" href="#id8">Viewport Alignment</a><a class="headerlink" href="#viewport-alignment" title="永久链接至标题">¶</a></h2>
-<p>If an object is parented to a camera, the set of parameters known as <em>Viewport Alignment</em> are available under the <code class="docutils literal"><span class="pre">Relations</span></code> tab on the <code class="docutils literal"><span class="pre">Object</span></code> panel.</p>
+<span id="camera-viewport-alignment"></span><h2><a class="toc-backref" href="#id8">视口对齐</a><a class="headerlink" href="#viewport-alignment" title="永久链接至标题">¶</a></h2>
+<p>如果物体父级的相机的参数设置为 <em>视口对齐</em> ，在  <code class="docutils literal"><span class="pre">Object</span></code> 面板下的 <code class="docutils literal"><span class="pre">Relations</span></code> 选项卡中。</p>
 <a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
-<p>Using these settings, the object can be aligned to the active camera, so that the object will remain in the same place of the screen regardless of the position and rotation of the camera. This is especially useful for creating UI elements.</p>
+<p>使用这些设置，物体可以对齐到激活的摄像机，这样该物体将保持在屏幕同一个地方，无关摄影机的位置和转动。这是用于创建 UI 元素尤其有用。</p>
 <div class="figure">
 <a class="reference internal image-reference" href="_images/camera_viewport_alignment_example.png"><img alt="_images/camera_viewport_alignment_example.png" src="_images/camera_viewport_alignment_example.png" style="width: 100%;" /></a>
 </div>
-<p>This picture shows an example of how the Viewport Alignment option can be used.</p>
+<p>这张照片显示可以如何使用视区对齐选项的示例。</p>
 <dl class="docutils">
-<dt><em>Viewport Alignment</em></dt>
-<dd>This parameter enables and disables all the following parameters. It is disabled by default.</dd>
-<dt><em>Alignment</em></dt>
-<dd><p class="first">This parameter specifies what side of the screen the object will be aligned with. It can have one of the following values.</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">Top-Left</span></code> - aligns the object in the top left corner of the viewport</li>
-<li><code class="docutils literal"><span class="pre">Top</span></code> - aligns the object in the top of the viewport</li>
-<li><code class="docutils literal"><span class="pre">Top-Right</span></code> - aligns the object in the top right corner of the viewport</li>
-<li><code class="docutils literal"><span class="pre">Left</span></code> - aligns the object in the left side of the viewport</li>
-<li><code class="docutils literal"><span class="pre">Center</span></code> - aligns the object in the center of the viewport</li>
-<li><code class="docutils literal"><span class="pre">Right</span></code> - aligns the object in the right side of the viewport</li>
-<li><code class="docutils literal"><span class="pre">Bottom-Left</span></code> - aligns the object in the bottom left corner of the viewport</li>
-<li><code class="docutils literal"><span class="pre">Bottom</span></code> - aligns the object in the bottom of the viewport</li>
-<li><code class="docutils literal"><span class="pre">Bottom-Right</span></code> - aligns the object in the bottom right corner of the viewport.</li>
-</ul>
-<p class="last">Default value is <code class="docutils literal"><span class="pre">Center</span></code>.</p>
+<dt><em>视口对齐</em></dt>
+<dd><p class="first last">此参数启用和禁用以下的所有参数。默认情况下禁用它。</p>
 </dd>
-<dt><em>Distance</em></dt>
-<dd>This specifies the distance between the aligned object and the camera. It is set to 10 by default.</dd>
-<dt><em>Fit to Camera</em></dt>
-<dd>By pressing this button, you can make the aligned object look the same way in the Blender viewport as it will look in the engine. It can be used to preview alignment results.</dd>
+<dt><em>对齐</em></dt>
+<dd><p class="first">此参数指定物体将与屏幕的哪一侧的对齐方式。它可以具有下列值之一。</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">Top-Left</span></code> - 将物体对齐到视口的顶部左上角。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Top</span></code> - 将物体对齐到视口的顶部。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Top-Right</span></code> - 将物体对齐到视口的顶部右上角。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Left</span></code> - 将物体对齐到视口的左边。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Center</span></code> -  将物体对齐到视口的中央。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Right</span></code> - 将物体对齐到视口的右侧。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Bottom-Left</span></code> - 将物体对齐到视口的底部左侧。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Bottom</span></code> - 将物体对齐到视口的底部。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Bottom-Right</span></code> - 将物体对齐到视口的底部右边。</p>
+</li>
+</ul>
+<p class="last">默认值为 <code class="docutils literal"><span class="pre">Center</span></code>.</p>
+</dd>
+<dt><em>距离</em></dt>
+<dd><p class="first last">此选项指定对齐的物体和相机之间的距离。默认设置为 10。</p>
+</dd>
+<dt><em>适合相机</em></dt>
+<dd><p class="first last">按下此按钮，你可以使对齐的物体看起来在引擎中和Blender视口同样方式显示。它可以用于预览对齐结果。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="camera-controls-api">
-<span id="camera-api-notes"></span><h2><a class="toc-backref" href="#id9">Camera Controls API</a><a class="headerlink" href="#camera-controls-api" title="永久链接至标题">¶</a></h2>
-<p>Detailed API module documentation: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">link</a>.</p>
-<p>A camera&#8217;s position and its spatial orientation are defined by the control mode. In the <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> modes, control mode has several limitations: for example, the camera&#8217;s vertical axis is always aligned along the world&#8217;s Z-axis and the camera is constantly focused on the pivot point. The <code class="docutils literal"><span class="pre">STATIC</span></code> mode camera has no such limitations, which makes it more suitable for cases when you need more complete control, such as procedural animation.</p>
-<p>Main functions for camera control are located in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> module. Some of them (intended for a specific control mode) have names which start with an appropriate prefix: <code class="docutils literal"><span class="pre">static_</span></code>, <code class="docutils literal"><span class="pre">eye_</span></code>, <code class="docutils literal"><span class="pre">target_</span></code> and <code class="docutils literal"><span class="pre">hover_</span></code>. Other functions can be used in any mode.</p>
+<span id="camera-api-notes"></span><h2><a class="toc-backref" href="#id9">相机控制API</a><a class="headerlink" href="#camera-controls-api" title="永久链接至标题">¶</a></h2>
+<p>详细的API模块文档：<a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">link</a>.</p>
+<p>照相机的位置和其空间取向是由控制模式来定义。在 <code class="docutils literal"><span class="pre">EYE</span></code>，<code class="docutils literal"><span class="pre">TARGET</span></code> 和 <code class="docutils literal"><span class="pre">HOVER</span></code> 模式，控制方式有若干限制：例如，相机的垂直轴总是沿着世界Y轴对齐，并且相机一直对焦到中心点。 <code class="docutils literal"><span class="pre">STATIC</span></code> 模式相机有没有这样的限制，这使得它更适合当你需要更完整的控制的情况下 ，如程序动画。</p>
+<p>相机控制主要功能都位于  <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> 模块。其中一些（针对特定控制模式）的有哪些用适当的前缀开头的名字：<code class="docutils literal"><span class="pre">static_</span></code>，<code class="docutils literal"><span class="pre">eye_</span></code>，<code class="docutils literal"><span class="pre">target_</span></code> 和 <code class="docutils literal"><span class="pre">hover_</span></code> 。其它功能可在任何模式下使用。</p>
 <div class="section" id="control-mode-setup">
-<span id="camera-move-style-change"></span><h3><a class="toc-backref" href="#id10">Control Mode Setup</a><a class="headerlink" href="#control-mode-setup" title="永久链接至标题">¶</a></h3>
-<p>To change the control mode and to completely define a camera&#8217;s behavior, the following methods can be used: <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_setup">static_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_setup">eye_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>. These methods receive an object that contains a set of optional parameters, which can be used to set the camera&#8217;s position, rotation, available limits and so on.</p>
+<span id="camera-move-style-change"></span><h3><a class="toc-backref" href="#id10">控制模式设置</a><a class="headerlink" href="#control-mode-setup" title="永久链接至标题">¶</a></h3>
+<p>若要更改控制模式，完全定义相机的行为，可以使用以下方法:   <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_setup">static_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_setup">eye_setup()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_setup">target_setup()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>.  这些方法接收一个包含一组可选的参数的物体，可以用于设置相机的位置、 旋转、 可用的限制，等等。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">POS</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">LOOK_AT</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
@@ -466,7 +501,7 @@
 <span class="nx">m_cam</span><span class="p">.</span><span class="nx">hover_setup</span><span class="p">(</span><span class="nx">camera</span><span class="p">,</span> <span class="p">{</span> <span class="nx">pos</span><span class="o">:</span> <span class="nx">POS</span><span class="p">,</span> <span class="nx">pivot</span><span class="o">:</span> <span class="nx">LOOK_AT</span><span class="p">,</span> <span class="nx">enable_horiz_rot</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
 </pre></div>
 </div>
-<p>The main characteristic of the <code class="docutils literal"><span class="pre">HOVER</span></code> type camera is the fact that the distance and elevation angle limits define a certain <a class="reference internal" href="#hover-trajectory-figure"><span>path</span></a> of movement toward the pivot point. The camera will always be located on this path, so its final position can be different from the one returned by the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a> method (basically, it is projected onto the path). If you need to set the camera&#8217;s position on some path, you can use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup_rel">hover_setup_rel()</a> method to set the relative limits.</p>
+<p><code class="docutils literal"><span class="pre">HOVER</span></code> 模式的主要特征在于，距离和仰角范围限制在一个确定的 <a class="reference internal" href="#hover-trajectory-figure"><span>路径</span></a>  来朝向中心点运动。相机会一直在这条路径上，所以其最终位置可能跟从 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup">hover_setup()</a>   (基本的，它是投射到路径上) 方法返回的不一样。如果你需要设置相机的位置在一些路径，你可以使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_setup_rel">hover_setup_rel()</a> 方法设置相对极限。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">POS</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 <span class="kd">var</span> <span class="nx">PIVOT</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]);</span>
@@ -479,7 +514,7 @@
         <span class="nx">angle_interval</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">4</span> <span class="p">});</span>
 </pre></div>
 </div>
-<p>The current camera mode can be checked with the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_static_camera">is_static_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_eye_camera">is_eye_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_target_camera">is_target_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_hover_camera">is_hover_camera()</a> or <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_move_style">get_move_style()</a> methods:</p>
+<p>当前相机模式可以通过检查  <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_static_camera">is_static_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_eye_camera">is_eye_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_target_camera">is_target_camera()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.is_hover_camera">is_hover_camera()</a> 或 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_move_style">get_move_style()</a> 方法：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
@@ -493,12 +528,12 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">If you need to change only some aspects of the camera&#8217;s behavior, you can use the methods described below.</p>
+<p class="last">如果您需要更改相机的行为的某些方面，你可以使用下面描述的方法。</p>
 </div>
 </div>
 <div class="section" id="translation-and-rotation">
-<h3><a class="toc-backref" href="#id11">Translation and Rotation</a><a class="headerlink" href="#translation-and-rotation" title="永久链接至标题">¶</a></h3>
-<p>To rotate a <code class="docutils literal"><span class="pre">STATIC</span></code> type camera, you need to use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_get_rotation">static_get_rotation()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_rotation">static_set_rotation()</a> methods. In these methods, rotation is defined by a quaternion.</p>
+<h3><a class="toc-backref" href="#id11">平移和旋转</a><a class="headerlink" href="#translation-and-rotation" title="永久链接至标题">¶</a></h3>
+<p>要旋转 <code class="docutils literal"><span class="pre">STATIC</span></code> 类型的相机，您需要使用:b4wref:<cite>camera.static_get_rotation()</cite> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_rotation">static_set_rotation()</a> 方法。在这些方法中，旋转通过一个四元数来定义。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
@@ -510,7 +545,7 @@
 <span class="nx">m_cam</span><span class="p">.</span><span class="nx">static_set_rotation</span><span class="p">(</span><span class="nx">camera</span><span class="p">,</span> <span class="nx">new_quat</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>For the <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> type cameras, rotation is performed in <a class="reference internal" href="#camera-spherical-coordinates"><span>spherical coordinates</span></a> by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_rotate">eye_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_rotate">target_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_rotate">hover_rotate()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_camera">rotate_camera()</a> methods:</p>
+<p>对于 <code class="docutils literal"><span class="pre">EYE</span></code>，<code class="docutils literal"><span class="pre">TARGET</span></code> 和 <code class="docutils literal"><span class="pre">HOVER</span></code> 类型摄像机，旋转使用的是 <a class="reference internal" href="#camera-spherical-coordinates"><span>球面坐标</span></a>  使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_rotate">eye_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_rotate">target_rotate()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_rotate">hover_rotate()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.rotate_camera">rotate_camera()</a> 方法：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 
 <span class="p">...</span>
@@ -522,7 +557,7 @@
 <span class="nx">m_cam</span><span class="p">.</span><span class="nx">eye_rotate</span><span class="p">(</span><span class="nx">camera</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">6</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Current spherical coordinates of the camera can be obtained by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_camera_angles">get_camera_angles()</a> method:</p>
+<p>摄像机的当前球面坐标可通过使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_camera_angles">get_camera_angles()</a> 方法获得：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 
@@ -534,7 +569,7 @@
 <span class="nx">theta</span> <span class="o">=</span> <span class="nx">angles</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
 </pre></div>
 </div>
-<p>Access to the position of the camera can be obtained by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_translation">get_translation()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_translation">set_translation()</a> methods. For the <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> modes this means simultaneous translation of an entire model, including camera position and pivot point.</p>
+<p>获取摄像机的位置可以通过获得使用  <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_translation">get_translation()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.set_translation">set_translation()</a> 方法。对于 <code class="docutils literal"><span class="pre">TARGET</span></code> 和 <code class="docutils literal"><span class="pre">HOVER</span></code> 模式，这意味着整个模型，包括摄像机的位置和中心点同时移动。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">camera</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_active_camera</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">_vec3_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
 
@@ -548,20 +583,23 @@
 <span class="nx">m_cam</span><span class="p">.</span><span class="nx">set_translation</span><span class="p">(</span><span class="nx">camera</span><span class="p">,</span> <span class="nx">new_pos</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Additional camera translation methods:</p>
+<p>其他相机移动方法：</p>
 <ul class="simple">
-<li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_trans_pivot">target_set_trans_pivot()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_pivot_translation">target_set_pivot_translation()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_set_pivot_translation">hover_set_pivot_translation()</a> - sets the position and the pivot point of the camera at the same time;</li>
-<li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_get_distance">target_get_distance()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_distance">target_set_distance()</a> - translation based on the distance to the pivot point;</li>
-<li><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_look_at">static_set_look_at()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_set_look_at">eye_set_look_at()</a> - sets the camera&#8217;s position and point of sight simultaneously;</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_trans_pivot">target_set_trans_pivot()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_pivot_translation">target_set_pivot_translation()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.hover_set_pivot_translation">hover_set_pivot_translation()</a> - 同时设置相机的位置和中心点;</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_get_distance">target_get_distance()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.target_set_distance">target_set_distance()</a> - 基于中心点移动位置;</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.static_set_look_at">static_set_look_at()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.eye_set_look_at">eye_set_look_at()</a> - 同时设置相机的位置和视点;</p>
+</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Because a camera is a scene object, <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html">transform</a> module methods can also be used. But, as every control mode influences camera movement differently, results may differ from those expected.</p>
+<p class="last">因为相机是一个场景物体 <a class="reference external" href="https://www.blend4web.com/api_doc/module-transform.html">transform</a> 模块方法也可以使用。但是，由于每个控制模式以不同的方式影响相机运动，结果可能不同于那些预期。</p>
 </div>
 </div>
 <div class="section" id="limit-setup">
-<h3><a class="toc-backref" href="#id12">Limit Setup</a><a class="headerlink" href="#limit-setup" title="永久链接至标题">¶</a></h3>
-<p>Camera limits are available for the <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> and <code class="docutils literal"><span class="pre">HOVER</span></code> type cameras. To set a specific limit, you need to use a specific method:</p>
+<h3><a class="toc-backref" href="#id12">限制设置</a><a class="headerlink" href="#limit-setup" title="永久链接至标题">¶</a></h3>
+<p>相机限制可供 <code class="docutils literal"><span class="pre">EYE</span></code>, <code class="docutils literal"><span class="pre">TARGET</span></code> 和 <code class="docutils literal"><span class="pre">HOVER</span></code> 类型相机。若要设置一个特定的限制，您需要使用特定的方法 ︰</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="32%" />
@@ -569,9 +607,12 @@
 <col width="34%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">EYE</th>
-<th class="head">TARGET</th>
-<th class="head">HOVER</th>
+<tr class="row-odd"><th class="head"><p class="first last">眼睛</p>
+</th>
+<th class="head"><p class="first last">目标</p>
+</th>
+<th class="head"><p class="first last">悬停模式</p>
+</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -611,25 +652,25 @@
 <span class="nx">m_cam</span><span class="p">.</span><span class="nx">eye_set_horizontal_limits</span><span class="p">(</span><span class="nx">camera</span><span class="p">,</span> <span class="nx">EYE_HORIZ_LIMITS</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Limit presence can be checked by using the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_distance_limits">has_distance_limits()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_horizontal_rot_limits">has_horizontal_rot_limits()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_vertical_rot_limits">has_vertical_rot_limits()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_horizontal_trans_limits">has_horizontal_trans_limits()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_vertical_trans_limits">has_vertical_trans_limits()</a> methods.</p>
+<p>限制存在检测可以通过 <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_distance_limits">has_distance_limits()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_horizontal_rot_limits">has_horizontal_rot_limits()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_vertical_rot_limits">has_vertical_rot_limits()</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_horizontal_trans_limits">has_horizontal_trans_limits()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.has_vertical_trans_limits">has_vertical_trans_limits()</a> 方法获得.</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">In <code class="docutils literal"><span class="pre">HOVER</span></code> mode, the camera always has distance and elevation angle limits. In case these limits were not set, they are automatically calculated to lock the camera in the current position relative to the pivot point.</p>
+<p class="last">在 <code class="docutils literal"><span class="pre">HOVER</span></code> 模式下，相机总是有距离和仰角的限制。如果这些限制都没有设置，它们会自动计算锁定摄像头当前的位置相对中心点。</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Enabled camera limits can influence its position and spatial orientation set by the API functions.</p>
+<p class="last">已启用的相机限制可以影响它的位置和空间取向，由 API 函数设置。</p>
 </div>
 </div>
 <div class="section" id="angular-coordinates-count">
-<span id="camera-spherical-coordinates"></span><h3><a class="toc-backref" href="#id13">Angular Coordinates Count</a><a class="headerlink" href="#angular-coordinates-count" title="永久链接至标题">¶</a></h3>
+<span id="camera-spherical-coordinates"></span><h3><a class="toc-backref" href="#id13">角坐标计数</a><a class="headerlink" href="#angular-coordinates-count" title="永久链接至标题">¶</a></h3>
 <blockquote>
-<div><p>When working with the camera&#8217;s APIs (rotation, setting limits), all angles are defined as follows:</p>
-<p>For the <code class="docutils literal"><span class="pre">TARGET/HOVER</span></code> camera:</p>
+<div><p>当用相机的API的工作（旋转，设置限制），各个角度都定义如下：</p>
+<p>对于 <code class="docutils literal"><span class="pre">TARGET</span> <span class="pre">/</span> <span class="pre">HOVER</span></code> 相机：</p>
 </div></blockquote>
 <a class="reference internal image-reference" href="_images/b4w_target_hover_cam_angles.svg"><div align="center" class="align-center"><img src="_images/b4w_target_hover_cam_angles.svg" width="100%" /></div>
 </a>
-<p>For the <code class="docutils literal"><span class="pre">EYE</span></code> camera:</p>
+<p>对于 <code class="docutils literal"><span class="pre">EYE</span></code> 相机：</p>
 <a class="reference internal image-reference" href="_images/b4w_eye_cam_angles.svg"><div align="center" class="align-center"><img src="_images/b4w_eye_cam_angles.svg" width="100%" /></div>
 </a>
 </div>
@@ -646,7 +687,7 @@
         <a href="materials.html" class="btn btn-neutral float-right" title="材质" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="normal_editor.html" class="btn btn-neutral" title="Normal Editor" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="normal_editor.html" class="btn btn-neutral" title="法线编辑器" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -656,7 +697,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -712,7 +753,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -26,6 +26,8 @@ All ``MESH`` objects can be divided into static and dynamic.
 
 **Dynamic meshes** are meshes that cannot be combined with each other.
 
+.. _batching:
+
 Merging of static meshes - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.
 
 Meshes that have animation, physics or a parent, which is a dynamic object, are considered dynamic.

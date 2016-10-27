@@ -742,9 +742,6 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
 
         var slink_grass_map_d = create_slink("DEPTH", "u_grass_map_depth",
                 tex_size, 1, 1, false);
-        slink_grass_map_d.min_filter = m_tex.TF_LINEAR;
-        slink_grass_map_d.mag_filter = m_tex.TF_LINEAR;
-
 
         // NOTE: need to be optional?
         var slink_grass_map_c = create_slink("COLOR", "u_grass_map_color",
@@ -1198,7 +1195,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
     var last_geom_level = prev_level.slice(0);
 
     // prepare anchor visibility subscene
-    if (!rtt && sc_render.anchor_visibility) {
+    if (!rtt && sc_render.anchor_visibility && !cfg_def.ff_disable_anchor_vis_hack) {
         var cam = m_cam.clone_camera(main_cam, true);
         cam_scene_data.cameras.push(cam);
 
@@ -1220,9 +1217,6 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         var water = water_params ? true : false;
 
         var slink_gr_d = create_slink("DEPTH", "u_input", 1, 1, 1, true);
-        slink_gr_d.min_filter = m_tex.TF_LINEAR;
-        slink_gr_d.mag_filter = m_tex.TF_LINEAR;
-
         var slink_gr_c = create_slink("COLOR", "u_input", 1, 0.25, 0.25, true);
         slink_gr_c.min_filter = m_tex.TF_LINEAR;
         slink_gr_c.mag_filter = m_tex.TF_LINEAR;
@@ -1354,8 +1348,6 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
             slink_coc_in.mag_filter = m_tex.TF_LINEAR;
 
             var slink_coc_depth_in = create_slink("DEPTH", "u_depth", 1, 1, 1, true)
-            slink_coc_depth_in.min_filter = m_tex.TF_LINEAR;
-            slink_coc_depth_in.mag_filter = m_tex.TF_LINEAR;
 
             var slink_coc_out = create_slink("COLOR", "u_color", 1, 0.5, 0.5, true);
             slink_coc_out.min_filter = m_tex.TF_NEAREST;
@@ -1807,9 +1799,13 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
     if (subs_anchor)
         curr_level.push(subs_anchor);
 
-    if (!rtt && sc_render.sky_params.procedural_skydome) {
+    var tex_size = cfg_scs.cubemap_tex_size;
+    if (sc_render.sky_params.render_sky) {
         var sky_params = sc_render.sky_params;
-        var subs_sky = m_subs.create_subs_sky(num_lights, sky_params);
+        var wls = sc_render.world_light_set;
+        var tex_param = wls.sky_texture_param;
+        tex_size = tex_param ? tex_param.tex_size : tex_size;
+        var subs_sky = m_subs.create_subs_sky(wls, num_lights, sky_params, tex_size);
         m_graph.append_node_attr(graph, subs_sky);
 
         curr_level.push(subs_sky);
@@ -1830,7 +1826,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
             break;
         case m_subs.SKY:
             var slink_sky = create_slink("CUBEMAP", "u_sky",
-                    cfg_scs.cubemap_tex_size, 1, 1, false);
+                    tex_size, 1, 1, false);
             m_graph.append_edge_attr(graph, subs, subs_sink, slink_sky);
             break;
         case m_subs.ANCHOR_VISIBILITY:

@@ -158,7 +158,7 @@ var _limits_tmp = {};
  * @cc_externs assets_min50_available quality fps_wrapper_id
  * @cc_externs console_verbose physics_enabled autoresize track_container_position
  * @cc_externs force_container_ratio from to elem prop cb duration opt_prefix
- * @cc_externs opt_suffix min_capabilities
+ * @cc_externs opt_suffix min_capabilities srgb_type
  */
 
 exports.init = function(options) {
@@ -191,9 +191,6 @@ exports.init = function(options) {
             break;
         case "autoresize":
             autoresize = options.autoresize;
-            break;
-        case "do_not_use_onload":
-            // ignore deprecated option
             break;
         case "show_hud_debug_info":
             show_hud_debug_info = options.show_hud_debug_info;
@@ -380,6 +377,13 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
     var canvas_elem = document.createElement("canvas");
     var append_to = document.getElementById(canvas_container_id);
 
+    if (!append_to) {
+
+        m_print.error("Warning: canvas container \"" + canvas_container_id +
+            "\" not found, appending to body");
+        append_to = document.body;
+    }
+
     canvas_elem.style.position = "absolute";
     canvas_elem.style.left = 0;
     canvas_elem.style.top = 0;
@@ -397,13 +401,6 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
         canvas_elem_hud.style.pointerEvents = "none";
     } else
         var canvas_elem_hud = null;
-
-    if (!append_to) {
-
-        m_print.error("Warning: canvas container \"" + canvas_container_id +
-            "\" not found, appending to body");
-        append_to = document.body;
-    }
 
     append_to.appendChild(canvas_elem);
 
@@ -998,11 +995,11 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
                 var right_mult = HOVER_MOUSE_ROT_MULT_PX * velocity.rot;
             }
 
-            if (m_ctl.get_sensor_payload(obj, id, 0) === 1) {
+            if (m_ctl.get_sensor_payload(obj, id, 0).which === 1) {
                 dest_x_mouse += (param == "X") ? -value * left_mult : 0;
                 dest_y_mouse += (param == "Y") ? -value * left_mult : 0;
-            } else if (m_ctl.get_sensor_payload(obj, id, 0) === 2
-                    || m_ctl.get_sensor_payload(obj, id, 0) === 3) {
+            } else if (m_ctl.get_sensor_payload(obj, id, 0).which === 2
+                    || m_ctl.get_sensor_payload(obj, id, 0).which === 3) {
                 dest_pan_x_mouse += (param == "X") ? -value * right_mult : 0;
                 dest_pan_y_mouse += (param == "Y") ? -value * right_mult : 0;
             }
@@ -1071,9 +1068,9 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
         var mouse_move_x = m_ctl.create_mouse_move_sensor("X", element);
         var mouse_move_y = m_ctl.create_mouse_move_sensor("Y", element);
         var mouse_down = m_ctl.create_mouse_click_sensor(element);
-        m_ctl.create_sensor_manifold(obj, "MOUSE_X", m_ctl.CT_LEVEL,
+        m_ctl.create_sensor_manifold(obj, "MOUSE_X", m_ctl.CT_POSITIVE,
                 [mouse_down, mouse_move_x], null, mouse_cb, "X");
-        m_ctl.create_sensor_manifold(obj, "MOUSE_Y", m_ctl.CT_LEVEL,
+        m_ctl.create_sensor_manifold(obj, "MOUSE_Y", m_ctl.CT_POSITIVE,
                 [mouse_down, mouse_move_y], null, mouse_cb, "Y");
     }
 
@@ -1096,11 +1093,11 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
             else
                 var r_mult = TARGET_EYE_TOUCH_ROT_MULT_PX * velocity.rot;
             var value = m_ctl.get_sensor_value(obj, id, 0);
-            if (m_ctl.get_sensor_payload(obj, id, 0)
+            if (m_ctl.get_sensor_payload(obj, id, 0).gesture
                     === m_ctl.PL_SINGLE_TOUCH_MOVE) {
                 dest_x_touch += (param == "X") ? -value * r_mult : 0;
                 dest_y_touch += (param == "Y") ? -value * r_mult : 0;
-            } else if (m_ctl.get_sensor_payload(obj, id, 0)
+            } else if (m_ctl.get_sensor_payload(obj, id, 0).gesture
                     ===  m_ctl.PL_MULTITOUCH_MOVE_PAN) {
                 if (!use_hover) {
                     var pan_mult = TARGET_EYE_TOUCH_PAN_MULT_PX * velocity.trans;
@@ -1113,9 +1110,9 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
         }
     }
 
-    m_ctl.create_sensor_manifold(obj, "TOUCH_X", m_ctl.CT_LEVEL,
+    m_ctl.create_sensor_manifold(obj, "TOUCH_X", m_ctl.CT_POSITIVE,
             [touch_move_x], null, touch_cb, "X");
-    m_ctl.create_sensor_manifold(obj, "TOUCH_Y", m_ctl.CT_LEVEL,
+    m_ctl.create_sensor_manifold(obj, "TOUCH_Y", m_ctl.CT_POSITIVE,
             [touch_move_y], null, touch_cb, "Y");
 
     // camera rotation and translation smoothing
@@ -1255,16 +1252,18 @@ exports.disable_camera_controls = disable_camera_controls;
 function disable_camera_controls() {
     var cam = m_scs.get_active_camera();
 
+    if (m_ctl.check_sensor_manifold(cam, "TOGGLE_CHAR_MOVE_TYPE")
+            && m_scs.get_first_character())
+        m_cons.remove(cam);
+
     var cam_std_manifolds = ["FORWARD", "BACKWARD", "ROT_UP", "ROT_DOWN",
             "ROT_LEFT", "ROT_RIGHT", "UP", "DOWN", "LEFT", "RIGHT",
             "MOUSE_WHEEL", "TOUCH_ZOOM", "ZOOM_INTERPOL", "MOUSE_X", "MOUSE_Y",
-            "TOUCH_X", "TOUCH_Y", "ROT_TRANS_INTERPOL", "CHANGE_MOVE_STYLE"];
+            "TOUCH_X", "TOUCH_Y", "ROT_TRANS_INTERPOL", "CHANGE_MOVE_STYLE", 
+            "TOGGLE_CHAR_MOVE_TYPE"];
 
     for (var i = 0; i < cam_std_manifolds.length; i++)
         m_ctl.remove_sensor_manifold(cam, cam_std_manifolds[i]);
-
-    if (m_cam.get_move_style(cam) == m_cam.MS_EYE_CONTROLS && m_scs.get_first_character())
-        m_cons.remove(cam);
 }
 
 /**
@@ -1508,16 +1507,6 @@ function check_fullscreen() {
         return true;
 
     return false;
-}
-
-function toggle_camera_collisions_usage() {
-    var camobj = m_scs.get_active_camera();
-
-    if (m_anim.is_detect_collisions_used(camobj)) {
-        m_anim.detect_collisions(camobj, false);
-    } else {
-        m_anim.detect_collisions(camobj, true);
-    }
 }
 
 exports.report_app_error = report_app_error;

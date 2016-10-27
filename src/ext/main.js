@@ -469,7 +469,7 @@ function frame(timeline, delta) {
         return;
 
     // anchors
-    m_anchors.update();
+    m_anchors.update(false);
 
     // objects
     m_obj.update(timeline, delta);

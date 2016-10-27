@@ -246,7 +246,7 @@ def get_supported_native_panels():
         # "SCENE_PT_audio",
         # "SCENE_PT_physics",
         # "SCENE_PT_rigid_body_world",
-        # "SCENE_PT_game_navmesh",
+        "SCENE_PT_game_navmesh",
         # "SCENE_PT_rigid_body_cache",
         # "SCENE_PT_rigid_body_field_weights",
         # "SCENE_PT_simplify",

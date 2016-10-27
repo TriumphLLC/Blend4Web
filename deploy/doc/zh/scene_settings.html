@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>场景设置 &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>场景设置 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
         <link rel="next" title="物体" href="objects.html"/>
         <link rel="prev" title="插件" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,24 +87,27 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">场景设置</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#render-panel">渲染面板</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#development-tools">开发工具</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shading">著色</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shadows">阴影</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reflections-and-refractions">反射和折射</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#motion-blur">运动模糊</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bloom">布隆光晕</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#color-correction">色彩校正</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#glow-materials">晕光材质</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#object-outlining">物体勾边</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#glow-materials">晕光材质</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anti-aliasing">抗锯齿</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anisotropic-filtering">各向异性过滤</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bloom">布隆光晕</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motion-blur">运动模糊</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ambient-occlusion-ssao">环境光遮蔽（SSAO方法）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#god-rays">上帝光芒</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#anti-aliasing">抗锯齿</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#shadows">阴影</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#development-server">开发服务器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#color-correction">色彩校正</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#timeline">时间线</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-grass">动态草</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#scene-panel">场景面板</a><ul>
@@ -115,7 +118,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#nla">NLA 片段</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#meta-tags">Meta标签</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#physics">物理</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cluster-batching">Cluster Batching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cluster-batching">簇批量</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#objects-selection">选择物体</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#anchors">锚</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#export-options">导出选项</a></li>
@@ -127,6 +130,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#environment-lighting">天光照明</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mist">雾场</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#procedural-sky">程序天空</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#animation">动画</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#world-export-options">导出选项</a></li>
 </ul>
 </li>
@@ -134,28 +138,28 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -204,41 +208,45 @@
 <ul class="simple">
 <li><a class="reference internal" href="#scene-settings" id="id4">场景设置</a><ul>
 <li><a class="reference internal" href="#render-panel" id="id5">渲染面板</a><ul>
-<li><a class="reference internal" href="#reflections-and-refractions" id="id6">反射和折射</a></li>
-<li><a class="reference internal" href="#motion-blur" id="id7">运动模糊</a></li>
-<li><a class="reference internal" href="#bloom" id="id8">布隆光晕</a></li>
-<li><a class="reference internal" href="#color-correction" id="id9">色彩校正</a></li>
-<li><a class="reference internal" href="#glow-materials" id="id10">晕光材质</a></li>
-<li><a class="reference internal" href="#object-outlining" id="id11">物体勾边</a></li>
-<li><a class="reference internal" href="#ambient-occlusion-ssao" id="id12">环境光遮蔽（SSAO方法）</a></li>
-<li><a class="reference internal" href="#god-rays" id="id13">上帝光芒</a></li>
-<li><a class="reference internal" href="#anti-aliasing" id="id14">抗锯齿</a></li>
-<li><a class="reference internal" href="#shadows" id="id15">阴影</a></li>
-<li><a class="reference internal" href="#development-server" id="id16">开发服务器</a></li>
-<li><a class="reference internal" href="#timeline" id="id17">时间线</a></li>
+<li><a class="reference internal" href="#development-tools" id="id6">开发工具</a></li>
+<li><a class="reference internal" href="#shading" id="id7">著色</a></li>
+<li><a class="reference internal" href="#shadows" id="id8">阴影</a></li>
+<li><a class="reference internal" href="#reflections-and-refractions" id="id9">反射和折射</a></li>
+<li><a class="reference internal" href="#object-outlining" id="id10">物体勾边</a></li>
+<li><a class="reference internal" href="#glow-materials" id="id11">晕光材质</a></li>
+<li><a class="reference internal" href="#anti-aliasing" id="id12">抗锯齿</a></li>
+<li><a class="reference internal" href="#anisotropic-filtering" id="id13">各向异性过滤</a></li>
+<li><a class="reference internal" href="#bloom" id="id14">布隆光晕</a></li>
+<li><a class="reference internal" href="#motion-blur" id="id15">运动模糊</a></li>
+<li><a class="reference internal" href="#ambient-occlusion-ssao" id="id16">环境光遮蔽（SSAO方法）</a></li>
+<li><a class="reference internal" href="#god-rays" id="id17">上帝光芒</a></li>
+<li><a class="reference internal" href="#color-correction" id="id18">色彩校正</a></li>
+<li><a class="reference internal" href="#timeline" id="id19">时间线</a></li>
+<li><a class="reference internal" href="#dynamic-grass" id="id20">动态草</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#scene-panel" id="id18">场景面板</a><ul>
-<li><a class="reference internal" href="#scene-scene" id="id19">场景</a></li>
-<li><a class="reference internal" href="#units" id="id20">单位</a></li>
-<li><a class="reference internal" href="#audio" id="id21">音频</a></li>
-<li><a class="reference internal" href="#logic-editor" id="id22">逻辑编辑器</a></li>
-<li><a class="reference internal" href="#nla" id="id23">NLA 片段</a></li>
-<li><a class="reference internal" href="#meta-tags" id="id24">Meta标签</a></li>
-<li><a class="reference internal" href="#physics" id="id25">物理</a></li>
-<li><a class="reference internal" href="#cluster-batching" id="id26">Cluster Batching</a></li>
-<li><a class="reference internal" href="#objects-selection" id="id27">选择物体</a></li>
-<li><a class="reference internal" href="#anchors" id="id28">锚</a></li>
-<li><a class="reference internal" href="#export-options" id="id29">导出选项</a></li>
+<li><a class="reference internal" href="#scene-panel" id="id21">场景面板</a><ul>
+<li><a class="reference internal" href="#scene-scene" id="id22">场景</a></li>
+<li><a class="reference internal" href="#units" id="id23">单位</a></li>
+<li><a class="reference internal" href="#audio" id="id24">音频</a></li>
+<li><a class="reference internal" href="#logic-editor" id="id25">逻辑编辑器</a></li>
+<li><a class="reference internal" href="#nla" id="id26">NLA 片段</a></li>
+<li><a class="reference internal" href="#meta-tags" id="id27">Meta标签</a></li>
+<li><a class="reference internal" href="#physics" id="id28">物理</a></li>
+<li><a class="reference internal" href="#cluster-batching" id="id29">簇批量</a></li>
+<li><a class="reference internal" href="#objects-selection" id="id30">选择物体</a></li>
+<li><a class="reference internal" href="#anchors" id="id31">锚</a></li>
+<li><a class="reference internal" href="#export-options" id="id32">导出选项</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#world-panel" id="id30">世界环境面板</a><ul>
-<li><a class="reference internal" href="#preview" id="id31">预览</a></li>
-<li><a class="reference internal" href="#world" id="id32">世界环境</a></li>
-<li><a class="reference internal" href="#environment-lighting" id="id33">天光照明</a></li>
-<li><a class="reference internal" href="#mist" id="id34">雾场</a></li>
-<li><a class="reference internal" href="#procedural-sky" id="id35">程序天空</a></li>
-<li><a class="reference internal" href="#world-export-options" id="id36">导出选项</a></li>
+<li><a class="reference internal" href="#world-panel" id="id33">世界环境面板</a><ul>
+<li><a class="reference internal" href="#preview" id="id34">预览</a></li>
+<li><a class="reference internal" href="#world" id="id35">世界环境</a></li>
+<li><a class="reference internal" href="#environment-lighting" id="id36">天光照明</a></li>
+<li><a class="reference internal" href="#mist" id="id37">雾场</a></li>
+<li><a class="reference internal" href="#procedural-sky" id="id38">程序天空</a></li>
+<li><a class="reference internal" href="#animation" id="id39">动画</a></li>
+<li><a class="reference internal" href="#world-export-options" id="id40">导出选项</a></li>
 </ul>
 </li>
 </ul>
@@ -250,8 +258,41 @@
 <span id="render-settings"></span><h2><a class="toc-backref" href="#id5">渲染面板</a><a class="headerlink" href="#render-panel" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/render1.png"><img alt="_images/render1.png" class="align-center" src="_images/render1.png" style="width: 100%;" /></a>
 <p>场景中的所有图像渲染参数都在此面板上找到。</p>
+<div class="section" id="development-tools">
+<span id="render-development-server"></span><h3><a class="toc-backref" href="#id6">开发工具</a><a class="headerlink" href="#development-tools" title="永久链接至标题">¶</a></h3>
+<p>开发服务器设置。  详尽的描述在 <a class="reference internal" href="addon.html#local-development-server"><span>自己的章节</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_development_server.png"><img alt="_images/render_development_server.png" class="align-center" src="_images/render_development_server.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="shading">
+<span id="render-shading"></span><h3><a class="toc-backref" href="#id7">著色</a><a class="headerlink" href="#shading" title="永久链接至标题">¶</a></h3>
+<p>此面板包含各种着色选项。</p>
+<a class="reference internal image-reference" href="_images/render_shading.png"><img alt="_images/render_shading.png" class="align-center" src="_images/render_shading.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>推荐设置选项</em></dt>
+<dd><p class="first">该按钮用于实现3D场景在Blender的视口和Web浏览器的外观之间的最大一致性。按下此按钮：</p>
+<ul class="last simple">
+<li><p class="first">启用 <strong>世界空间着色</strong>，</p>
+</li>
+<li><p class="first">切换材质模式到 <strong>GLSL</strong>,</p>
+</li>
+<li><p class="first">切换视口着色模式到 <strong>材质</strong> 和</p>
+</li>
+<li><p class="first">设置主摄像头适合 <strong>垂直</strong> 。</p>
+</li>
+</ul>
+</dd>
+<dt><em>世界空间着色</em></dt>
+<dd><p class="first last">此选项打开和关闭 <strong>世界空间着色</strong> （照明数据的世界空间演绎将用于对象阴影）。默认情况下禁用。</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="shadows">
+<span id="render-shadows"></span><h3><a class="toc-backref" href="#id8">阴影</a><a class="headerlink" href="#shadows" title="永久链接至标题">¶</a></h3>
+<p>阴影设置。 详尽的描述在 <a class="reference internal" href="lighting.html#shadows"><span>自己的章节</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_shadows.png"><img alt="_images/render_shadows.png" class="align-center" src="_images/render_shadows.png" style="width: 100%;" /></a>
+</div>
 <div class="section" id="reflections-and-refractions">
-<span id="render-reflections"></span><h3><a class="toc-backref" href="#id6">反射和折射</a><a class="headerlink" href="#reflections-and-refractions" title="永久链接至标题">¶</a></h3>
+<span id="render-reflections"></span><h3><a class="toc-backref" href="#id9">反射和折射</a><a class="headerlink" href="#reflections-and-refractions" title="永久链接至标题">¶</a></h3>
 <p>反射和折射效果设置。</p>
 <a class="reference internal image-reference" href="_images/render_reflections_and_refractions.png"><img alt="_images/render_reflections_and_refractions.png" class="align-center" src="_images/render_reflections_and_refractions.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -262,62 +303,58 @@
 <dd><p class="first last">折射效果设置。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</p>
 </dd>
 <dt><em>品质</em></dt>
-<dd><p class="first last">对于反射效果的画质设置。可设置 <code class="docutils literal"><span class="pre">HIGH``（最高反射品质），``MEDIUM``（中等品质），或</span> <span class="pre">``LOW``（最低质量）。默认设置为</span> <span class="pre">``MEDIUM</span></code> 。</p>
+<dd><p class="first last">对于反射效果的画质设置。可设置 <code class="docutils literal"><span class="pre">HIGH</span></code> （最高反射品质），<code class="docutils literal"><span class="pre">MEDIUM</span></code> （中等品质），或 <code class="docutils literal"><span class="pre">LOW</span></code> （最低质量）。默认设置为 <code class="docutils literal"><span class="pre">MEDIUM</span></code> 。</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="motion-blur">
-<span id="render-motion-blur"></span><h3><a class="toc-backref" href="#id7">运动模糊</a><a class="headerlink" href="#motion-blur" title="永久链接至标题">¶</a></h3>
-<p>运动模糊设置。详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>自己的章节</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_motion_blur.png"><img alt="_images/render_motion_blur.png" class="align-center" src="_images/render_motion_blur.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="bloom">
-<span id="render-bloom"></span><h3><a class="toc-backref" href="#id8">布隆光晕</a><a class="headerlink" href="#bloom" title="永久链接至标题">¶</a></h3>
-<p>布隆光晕效果设置。详细描述在  <a class="reference internal" href="postprocessing_effects.html#bloom"><span>自己的章节</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_bloom.png"><img alt="_images/render_bloom.png" class="align-center" src="_images/render_bloom.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="color-correction">
-<span id="render-color-correction"></span><h3><a class="toc-backref" href="#id9">色彩校正</a><a class="headerlink" href="#color-correction" title="永久链接至标题">¶</a></h3>
-<p>色彩校正设置。 详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_color_correction.png"><img alt="_images/render_color_correction.png" class="align-center" src="_images/render_color_correction.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="glow-materials">
-<span id="render-glow-materials"></span><h3><a class="toc-backref" href="#id10">晕光材质</a><a class="headerlink" href="#glow-materials" title="永久链接至标题">¶</a></h3>
-<p>晕光材质效果设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_glow_materials.png"><img alt="_images/render_glow_materials.png" class="align-center" src="_images/render_glow_materials.png" style="width: 100%;" /></a>
-</div>
 <div class="section" id="object-outlining">
-<span id="render-object-outlining"></span><h3><a class="toc-backref" href="#id11">物体勾边</a><a class="headerlink" href="#object-outlining" title="永久链接至标题">¶</a></h3>
+<span id="render-object-outlining"></span><h3><a class="toc-backref" href="#id10">物体勾边</a><a class="headerlink" href="#object-outlining" title="永久链接至标题">¶</a></h3>
 <p>物体勾边设置。 详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#outline"><span>自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_object_outlining.png"><img alt="_images/render_object_outlining.png" class="align-center" src="_images/render_object_outlining.png" style="width: 100%;" /></a>
 </div>
+<div class="section" id="glow-materials">
+<span id="render-glow-materials"></span><h3><a class="toc-backref" href="#id11">晕光材质</a><a class="headerlink" href="#glow-materials" title="永久链接至标题">¶</a></h3>
+<p>晕光材质效果设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_glow_materials.png"><img alt="_images/render_glow_materials.png" class="align-center" src="_images/render_glow_materials.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="anti-aliasing">
+<span id="render-anti-aliasing"></span><h3><a class="toc-backref" href="#id12">抗锯齿</a><a class="headerlink" href="#anti-aliasing" title="永久链接至标题">¶</a></h3>
+<p>抗锯齿的设置。  详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>自己的章节</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_anti_aliasing.png"><img alt="_images/render_anti_aliasing.png" class="align-center" src="_images/render_anti_aliasing.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="anisotropic-filtering">
+<span id="render-anisotropic-filtering"></span><h3><a class="toc-backref" href="#id13">各向异性过滤</a><a class="headerlink" href="#anisotropic-filtering" title="永久链接至标题">¶</a></h3>
+<p>该参数可用于启用或确定停用各向异性过滤并且还设置用于它的纹理样本的数目。默认情况下，各向异性过滤被禁用。</p>
+<a class="reference internal image-reference" href="_images/render_anisotropic_filtering.png"><img alt="_images/render_anisotropic_filtering.png" class="align-center" src="_images/render_anisotropic_filtering.png" style="width: 100%;" /></a>
+<p>可用值： <code class="docutils literal"><span class="pre">16x</span></code>，<code class="docutils literal"><span class="pre">8x</span></code>，<code class="docutils literal"><span class="pre">4x</span></code>，<code class="docutils literal"><span class="pre">2x</span></code> 和 <code class="docutils literal"><span class="pre">OFF</span></code> （默认值）。</p>
+</div>
+<div class="section" id="bloom">
+<span id="render-bloom"></span><h3><a class="toc-backref" href="#id14">布隆光晕</a><a class="headerlink" href="#bloom" title="永久链接至标题">¶</a></h3>
+<p>布隆光晕效果设置。详细描述在  <a class="reference internal" href="postprocessing_effects.html#bloom"><span>自己的章节</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_bloom.png"><img alt="_images/render_bloom.png" class="align-center" src="_images/render_bloom.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="motion-blur">
+<span id="render-motion-blur"></span><h3><a class="toc-backref" href="#id15">运动模糊</a><a class="headerlink" href="#motion-blur" title="永久链接至标题">¶</a></h3>
+<p>运动模糊设置。详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>自己的章节</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_motion_blur.png"><img alt="_images/render_motion_blur.png" class="align-center" src="_images/render_motion_blur.png" style="width: 100%;" /></a>
+</div>
 <div class="section" id="ambient-occlusion-ssao">
-<span id="render-ssao"></span><h3><a class="toc-backref" href="#id12">环境光遮蔽（SSAO方法）</a><a class="headerlink" href="#ambient-occlusion-ssao" title="永久链接至标题">¶</a></h3>
+<span id="render-ssao"></span><h3><a class="toc-backref" href="#id16">环境光遮蔽（SSAO方法）</a><a class="headerlink" href="#ambient-occlusion-ssao" title="永久链接至标题">¶</a></h3>
 <p>屏幕空间环境光遮蔽（SSAO）的设置。 详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#ssao"><span>自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_ambient_occlusion.png"><img alt="_images/render_ambient_occlusion.png" class="align-center" src="_images/render_ambient_occlusion.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="god-rays">
-<span id="render-god-rays"></span><h3><a class="toc-backref" href="#id13">上帝光芒</a><a class="headerlink" href="#god-rays" title="永久链接至标题">¶</a></h3>
+<span id="render-god-rays"></span><h3><a class="toc-backref" href="#id17">上帝光芒</a><a class="headerlink" href="#god-rays" title="永久链接至标题">¶</a></h3>
 <p>上帝光芒效果设置。 详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_god_rays.png"><img alt="_images/render_god_rays.png" class="align-center" src="_images/render_god_rays.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="anti-aliasing">
-<span id="render-anti-aliasing"></span><h3><a class="toc-backref" href="#id14">抗锯齿</a><a class="headerlink" href="#anti-aliasing" title="永久链接至标题">¶</a></h3>
-<p>抗锯齿的设置。  详尽的描述在 <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>自己的章节</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_anti_aliasing.png"><img alt="_images/render_anti_aliasing.png" class="align-center" src="_images/render_anti_aliasing.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="shadows">
-<span id="render-shadows"></span><h3><a class="toc-backref" href="#id15">阴影</a><a class="headerlink" href="#shadows" title="永久链接至标题">¶</a></h3>
-<p>阴影设置。 详尽的描述在 <a class="reference internal" href="lighting.html#shadows"><span>自己的章节</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_shadows.png"><img alt="_images/render_shadows.png" class="align-center" src="_images/render_shadows.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="development-server">
-<span id="render-development-server"></span><h3><a class="toc-backref" href="#id16">开发服务器</a><a class="headerlink" href="#development-server" title="永久链接至标题">¶</a></h3>
-<p>开发服务器设置。  详尽的描述在 <a class="reference internal" href="addon.html#local-development-server"><span>自己的章节</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_development_server.png"><img alt="_images/render_development_server.png" class="align-center" src="_images/render_development_server.png" style="width: 100%;" /></a>
+<div class="section" id="color-correction">
+<span id="render-color-correction"></span><h3><a class="toc-backref" href="#id18">色彩校正</a><a class="headerlink" href="#color-correction" title="永久链接至标题">¶</a></h3>
+<p>色彩校正设置。 详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_color_correction.png"><img alt="_images/render_color_correction.png" class="align-center" src="_images/render_color_correction.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="timeline">
-<span id="render-timeline"></span><h3><a class="toc-backref" href="#id17">时间线</a><a class="headerlink" href="#timeline" title="永久链接至标题">¶</a></h3>
+<span id="render-timeline"></span><h3><a class="toc-backref" href="#id19">时间线</a><a class="headerlink" href="#timeline" title="永久链接至标题">¶</a></h3>
 <p>时间线的设置。</p>
 <a class="reference internal image-reference" href="_images/render_timeline.png"><img alt="_images/render_timeline.png" class="align-center" src="_images/render_timeline.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -332,13 +369,19 @@
 </dd>
 </dl>
 </div>
+<div class="section" id="dynamic-grass">
+<span id="render-dynamic-grass"></span><h3><a class="toc-backref" href="#id20">动态草</a><a class="headerlink" href="#dynamic-grass" title="永久链接至标题">¶</a></h3>
+<p>启用和禁用 <a class="reference internal" href="particles_instancing.html#particles-grass"><span>动态草</span></a> 效果。</p>
+<a class="reference internal image-reference" href="_images/render_dynamic_grass.png"><img alt="_images/render_dynamic_grass.png" class="align-center" src="_images/render_dynamic_grass.png" style="width: 100%;" /></a>
+<p>可能的值：<code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 和 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</p>
+</div>
 </div>
 <div class="section" id="scene-panel">
-<span id="scene"></span><h2><a class="toc-backref" href="#id18">场景面板</a><a class="headerlink" href="#scene-panel" title="永久链接至标题">¶</a></h2>
+<span id="scene"></span><h2><a class="toc-backref" href="#id21">场景面板</a><a class="headerlink" href="#scene-panel" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/scene.png"><img alt="_images/scene.png" class="align-center" src="_images/scene.png" style="width: 100%;" /></a>
 <p>关于场景行为的设置，包括音频，物理和动画设置，都在此面板上找到。</p>
 <div class="section" id="scene-scene">
-<span id="id2"></span><h3><a class="toc-backref" href="#id19">场景</a><a class="headerlink" href="#scene-scene" title="永久链接至标题">¶</a></h3>
+<span id="id2"></span><h3><a class="toc-backref" href="#id22">场景</a><a class="headerlink" href="#scene-scene" title="永久链接至标题">¶</a></h3>
 <p>场景设置</p>
 <a class="reference internal image-reference" href="_images/scene_scene.png"><img alt="_images/scene_scene.png" class="align-center" src="_images/scene_scene.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -348,33 +391,36 @@
 </dl>
 </div>
 <div class="section" id="units">
-<span id="scene-units"></span><h3><a class="toc-backref" href="#id20">单位</a><a class="headerlink" href="#units" title="永久链接至标题">¶</a></h3>
+<span id="scene-units"></span><h3><a class="toc-backref" href="#id23">单位</a><a class="headerlink" href="#units" title="永久链接至标题">¶</a></h3>
 <p>设置场景中使用的度量单位。</p>
 <a class="reference internal image-reference" href="_images/scene_units.png"><img alt="_images/scene_units.png" class="align-center" src="_images/scene_units.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="audio">
-<span id="scene-audio"></span><h3><a class="toc-backref" href="#id21">音频</a><a class="headerlink" href="#audio" title="永久链接至标题">¶</a></h3>
-<p>Audio settings.</p>
+<span id="scene-audio"></span><h3><a class="toc-backref" href="#id24">音频</a><a class="headerlink" href="#audio" title="永久链接至标题">¶</a></h3>
+<p>音频设置</p>
 <a class="reference internal image-reference" href="_images/scene_audio.png"><img alt="_images/scene_audio.png" class="align-center" src="_images/scene_audio.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Volume</em></dt>
-<dd>The master volume of the sound in the application. This value can vary between 0 and 100. Default value is 1.0.</dd>
-<dt><em>Distance Model</em></dt>
-<dd><p class="first">The distance model used for calculating distance attenuation. Following models are supported by the engine:</p>
-<p><code class="docutils literal"><span class="pre">None</span></code> - no distance model is used, the sound has constant volume regardless of the distance.</p>
-<p><code class="docutils literal"><span class="pre">Exponent</span> <span class="pre">Clamped</span></code> - a clamped exponential distance model.</p>
-<p><code class="docutils literal"><span class="pre">Linear</span> <span class="pre">Clamped</span></code> - a clamped linear distance model.</p>
-<p><code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Clamped</span></code> - a clamped inverse distance model.</p>
-<p>The following models are partially supported (work the same way the corresponding <em>Clamped</em>-type models):</p>
-<p><code class="docutils literal"><span class="pre">Exponent</span></code></p>
-<p><code class="docutils literal"><span class="pre">Linear</span></code></p>
-<p><code class="docutils literal"><span class="pre">Inverse</span></code></p>
-<p class="last">This parameter is set to <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Clamped</span></code> by default.</p>
+<dt><em>音量</em></dt>
+<dd><p class="first last">应用中的声音的主音量。此值介于0到100之间，并默认值是1.0。</p>
 </dd>
-<dt><em>Speed</em></dt>
-<dd>This parameter sets the speed of sound used for Doppler effect calculation. Its value is measured in meters per second and is set to 343.3 by default.</dd>
-<dt><em>Doppler</em></dt>
-<dd>This sets the pitch factor for Doppler effect calculation. Its default value if 1.0.</dd>
+<dt><em>距离模型</em></dt>
+<dd><p class="first">用于计算距离衰减的距离的模型。以下型号的引擎支持：</p>
+<p><code class="docutils literal"><span class="pre">None</span></code>  - 不使用距离模型，声音具有体积不变无论距离远近。</p>
+<p><code class="docutils literal"><span class="pre">指数钳制</span></code>  - 一个钳位指数距离模型。</p>
+<p><code class="docutils literal"><span class="pre">线性钳制</span></code>  - 被夹住的直线距离模型。</p>
+<p><code class="docutils literal"><span class="pre">逆钳制</span></code>  - 被夹住的逆距离模型。</p>
+<p>以下型号部分支持（以同样的方式相应的 <em>钳位</em> 型车型）：</p>
+<p><code class="docutils literal"><span class="pre">冪</span></code></p>
+<p><code class="docutils literal"><span class="pre">线性</span></code></p>
+<p><code class="docutils literal"><span class="pre">反</span></code></p>
+<p class="last">此参数默认设置为 <code class="docutils literal"><span class="pre">逆钳制</span></code> 。</p>
+</dd>
+<dt><em>速度</em></dt>
+<dd><p class="first last">此参数设置用于多普勒效应计算音速。它的值以米每秒为单位，默认设置为343.3。</p>
+</dd>
+<dt><em>多普勒效应</em></dt>
+<dd><p class="first last">这为多普勒效应计算距离因素。它的默认值，如果1.0。</p>
+</dd>
 <dt><em>动态压缩</em></dt>
 <dd><p class="first last">压缩音频信号的动态范围。该功能可用于使声音更加丰富。默认情况下禁用。</p>
 </dd>
@@ -396,7 +442,7 @@
 </dl>
 </div>
 <div class="section" id="logic-editor">
-<span id="scene-logic-editor"></span><h3><a class="toc-backref" href="#id22">逻辑编辑器</a><a class="headerlink" href="#logic-editor" title="永久链接至标题">¶</a></h3>
+<span id="scene-logic-editor"></span><h3><a class="toc-backref" href="#id25">逻辑编辑器</a><a class="headerlink" href="#logic-editor" title="永久链接至标题">¶</a></h3>
 <p>设置为使用逻辑节点树（在 <a class="reference internal" href="logic_editor.html#logic-editor"><span>逻辑编辑器</span></a> 中创建的）。默认情况下禁用。</p>
 <a class="reference internal image-reference" href="_images/scene_logic_editor.png"><img alt="_images/scene_logic_editor.png" class="align-center" src="_images/scene_logic_editor.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -406,7 +452,7 @@
 </dl>
 </div>
 <div class="section" id="nla">
-<span id="scene-nla"></span><h3><a class="toc-backref" href="#id23">NLA 片段</a><a class="headerlink" href="#nla" title="永久链接至标题">¶</a></h3>
+<span id="scene-nla"></span><h3><a class="toc-backref" href="#id26">NLA 片段</a><a class="headerlink" href="#nla" title="永久链接至标题">¶</a></h3>
 <p>非线性动画播放设置。默认情况下禁用。</p>
 <a class="reference internal image-reference" href="_images/scene_nla.png"><img alt="_images/scene_nla.png" class="align-center" src="_images/scene_nla.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -416,7 +462,7 @@
 </dl>
 </div>
 <div class="section" id="meta-tags">
-<span id="scene-meta-tags"></span><h3><a class="toc-backref" href="#id24">Meta标签</a><a class="headerlink" href="#meta-tags" title="永久链接至标题">¶</a></h3>
+<span id="scene-meta-tags"></span><h3><a class="toc-backref" href="#id27">Meta标签</a><a class="headerlink" href="#meta-tags" title="永久链接至标题">¶</a></h3>
 <p>应用程序的meta标签。</p>
 <a class="reference internal image-reference" href="_images/scene_meta_tags.png"><img alt="_images/scene_meta_tags.png" class="align-center" src="_images/scene_meta_tags.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -432,7 +478,7 @@
 </dl>
 </div>
 <div class="section" id="physics">
-<span id="scene-physics"></span><h3><a class="toc-backref" href="#id25">物理</a><a class="headerlink" href="#physics" title="永久链接至标题">¶</a></h3>
+<span id="scene-physics"></span><h3><a class="toc-backref" href="#id28">物理</a><a class="headerlink" href="#physics" title="永久链接至标题">¶</a></h3>
 <p>物理设置。</p>
 <a class="reference internal image-reference" href="_images/scene_physics.png"><img alt="_images/scene_physics.png" class="align-center" src="_images/scene_physics.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -442,21 +488,22 @@
 </dl>
 </div>
 <div class="section" id="cluster-batching">
-<span id="scene-batching"></span><h3><a class="toc-backref" href="#id26">Cluster Batching</a><a class="headerlink" href="#cluster-batching" title="永久链接至标题">¶</a></h3>
-<p>This parameter enables the use of cluster batching. It can be used for optimization purposes. This is disabled by default.</p>
+<span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">簇批量</a><a class="headerlink" href="#cluster-batching" title="永久链接至标题">¶</a></h3>
+<p>该参数允许使用簇批量。它可用于优化目的。这是默认情况下禁用。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">If this parameter is disabled, the engine will try to combine all static objects into one.</p>
+<p class="last">如果禁用此参数，引擎将尝试将所有静态对象合二为一。</p>
 </div>
 <a class="reference internal image-reference" href="_images/scene_cluster_batching.png"><img alt="_images/scene_cluster_batching.png" class="align-center" src="_images/scene_cluster_batching.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Cluster Size</em></dt>
-<dd>The size of the cluster used for batching (in meters). Set to 30 by default. If this parameter is set to zero, objects will not be combined.</dd>
+<dt><em>簇大小</em></dt>
+<dd><p class="first last">簇的用于批量（米）的尺寸。默认设置为30。如果该参数被设置为零，对象将不会被合并。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="objects-selection">
-<span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id27">选择物体</a><a class="headerlink" href="#objects-selection" title="永久链接至标题">¶</a></h3>
-<p>物体选择设置。对象可以使用API​​函数来选择两种：b4wref：<cite>scenes.pick_object（）</cite> 并用 <a class="reference internal" href="logic_editor.html#logic-editor"><span>逻辑节点</span></a>。</p>
+<span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id30">选择物体</a><a class="headerlink" href="#objects-selection" title="永久链接至标题">¶</a></h3>
+<p>物体选择设置。对象可以使用API​​函数来选择两种 <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.pick_object">pick_object()</a> 并用 <a class="reference internal" href="logic_editor.html#logic-editor"><span>逻辑节点</span></a>。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">在 <a class="reference internal" href="viewer.html#viewer"><span>场景查看器</span></a>, 选择默认情况下启用。您可以在 <code class="docutils literal"><span class="pre">工具和除错</span></code> 面板将其关闭。</p>
@@ -469,7 +516,7 @@
 </dl>
 </div>
 <div class="section" id="anchors">
-<span id="scene-anchors"></span><h3><a class="toc-backref" href="#id28">锚</a><a class="headerlink" href="#anchors" title="永久链接至标题">¶</a></h3>
+<span id="scene-anchors"></span><h3><a class="toc-backref" href="#id31">锚</a><a class="headerlink" href="#anchors" title="永久链接至标题">¶</a></h3>
 <p><a class="reference internal" href="objects.html#objects-anchors"><span>Anchor</span></a> 可见性检测设置。</p>
 <a class="reference internal image-reference" href="_images/scene_anchors.png"><img alt="_images/scene_anchors.png" class="align-center" src="_images/scene_anchors.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -479,7 +526,7 @@
 </dl>
 </div>
 <div class="section" id="export-options">
-<span id="scene-export-options"></span><h3><a class="toc-backref" href="#id29">导出选项</a><a class="headerlink" href="#export-options" title="永久链接至标题">¶</a></h3>
+<span id="scene-export-options"></span><h3><a class="toc-backref" href="#id32">导出选项</a><a class="headerlink" href="#export-options" title="永久链接至标题">¶</a></h3>
 <p>场景设置导出参数。</p>
 <a class="reference internal image-reference" href="_images/scene_export_options.png"><img alt="_images/scene_export_options.png" class="align-center" src="_images/scene_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -490,16 +537,16 @@
 </div>
 </div>
 <div class="section" id="world-panel">
-<span id="world-settings"></span><h2><a class="toc-backref" href="#id30">世界环境面板</a><a class="headerlink" href="#world-panel" title="永久链接至标题">¶</a></h2>
+<span id="world-settings"></span><h2><a class="toc-backref" href="#id33">世界环境面板</a><a class="headerlink" href="#world-panel" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/world.png"><img alt="_images/world.png" class="align-center" src="_images/world.png" style="width: 100%;" /></a>
 <p>环境设定，如天空，雾气和这样的设置在该面板上找到。</p>
 <div class="section" id="preview">
-<span id="world-preview"></span><h3><a class="toc-backref" href="#id31">预览</a><a class="headerlink" href="#preview" title="永久链接至标题">¶</a></h3>
+<span id="world-preview"></span><h3><a class="toc-backref" href="#id34">预览</a><a class="headerlink" href="#preview" title="永久链接至标题">¶</a></h3>
 <p>环境预览。</p>
 <a class="reference internal image-reference" href="_images/world_preview.png"><img alt="_images/world_preview.png" class="align-center" src="_images/world_preview.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="world">
-<span id="world-world"></span><h3><a class="toc-backref" href="#id32">世界环境</a><a class="headerlink" href="#world" title="永久链接至标题">¶</a></h3>
+<span id="world-world"></span><h3><a class="toc-backref" href="#id35">世界环境</a><a class="headerlink" href="#world" title="永久链接至标题">¶</a></h3>
 <p>天空的设置。</p>
 <a class="reference internal image-reference" href="_images/world_world.png"><img alt="_images/world_world.png" class="align-center" src="_images/world_world.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -521,24 +568,23 @@
 <dt><em>天顶色</em></dt>
 <dd><p class="first last">天空顶的颜色。</p>
 </dd>
-<dt><em>环境颜色</em></dt>
-<dd><p class="first last">环境照明颜色。</p>
-</dd>
 <dt><em>反射世界</em></dt>
 <dd><p class="first last">渲染反射时渲染天空。</p>
 </dd>
 <dt><em>只渲染反射</em></dt>
 <dd><p class="first last">在渲染的反射时 <em>只</em> 渲染天空。</p>
 </dd>
+<dt><em>World Background</em></dt>
+<dd>Enables and disables <code class="docutils literal"><span class="pre">World</span> <span class="pre">Background</span></code> option (located under the <code class="docutils literal"><span class="pre">Display</span></code> tab of the <code class="docutils literal"><span class="pre">3D</span> <span class="pre">View</span></code> panel). When this option is activated, background colors are rendered in the viewport window the same way they would be in the engine itself.</dd>
 </dl>
 </div>
 <div class="section" id="environment-lighting">
-<span id="world-environment-lighting"></span><h3><a class="toc-backref" href="#id33">天光照明</a><a class="headerlink" href="#environment-lighting" title="永久链接至标题">¶</a></h3>
+<span id="world-environment-lighting"></span><h3><a class="toc-backref" href="#id36">天光照明</a><a class="headerlink" href="#environment-lighting" title="永久链接至标题">¶</a></h3>
 <p>环境照明设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
 <a class="reference internal image-reference" href="_images/world_environment_lighting.png"><img alt="_images/world_environment_lighting.png" class="align-center" src="_images/world_environment_lighting.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="mist">
-<span id="world-mist"></span><h3><a class="toc-backref" href="#id34">雾场</a><a class="headerlink" href="#mist" title="永久链接至标题">¶</a></h3>
+<span id="world-mist"></span><h3><a class="toc-backref" href="#id37">雾场</a><a class="headerlink" href="#mist" title="永久链接至标题">¶</a></h3>
 <p>雾设置。</p>
 <a class="reference internal image-reference" href="_images/world_mist.png"><img alt="_images/world_mist.png" class="align-center" src="_images/world_mist.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -566,14 +612,36 @@
 </dl>
 </div>
 <div class="section" id="procedural-sky">
-<span id="world-procedural-sky"></span><h3><a class="toc-backref" href="#id35">程序天空</a><a class="headerlink" href="#procedural-sky" title="永久链接至标题">¶</a></h3>
+<span id="world-procedural-sky"></span><h3><a class="toc-backref" href="#id38">程序天空</a><a class="headerlink" href="#procedural-sky" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>程序天空设置。  详尽的描述在 <a class="reference internal" href="colors.html#color-correction"><span>自己的章节</span></a>.</p>
 </div></blockquote>
 <a class="reference internal image-reference" href="_images/world_procedural_sky.png"><img alt="_images/world_procedural_sky.png" class="align-center" src="_images/world_procedural_sky.png" style="width: 100%;" /></a>
 </div>
+<div class="section" id="animation">
+<span id="world-animation"></span><h3><a class="toc-backref" href="#id39">动画</a><a class="headerlink" href="#animation" title="永久链接至标题">¶</a></h3>
+<p>环境动画设置。</p>
+<a class="reference internal image-reference" href="_images/world_animation.png"><img alt="_images/world_animation.png" class="align-center" src="_images/world_animation.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>应用默认动画</em></dt>
+<dd><p class="first last">如果启用此参数，引擎将开始加载场景的时候播放动画。</p>
+</dd>
+<dt><em>行为</em></dt>
+<dd><p class="first">设置默认的动画的行为。可用选项有：</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">Loop</span></code>  - 动画将重复播放。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">完成停止</span></code>  - 动画将播放一次。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">完成重置</span></code>  - 动画将播放一次，然后再切换回第一帧。</p>
+</li>
+</ul>
+<p class="last">仅 启用了 <code class="docutils literal"><span class="pre">应用默认动画</span></code> 参数此选项可用。</p>
+</dd>
+</dl>
+</div>
 <div class="section" id="world-export-options">
-<span id="id3"></span><h3><a class="toc-backref" href="#id36">导出选项</a><a class="headerlink" href="#world-export-options" title="永久链接至标题">¶</a></h3>
+<span id="id3"></span><h3><a class="toc-backref" href="#id40">导出选项</a><a class="headerlink" href="#world-export-options" title="永久链接至标题">¶</a></h3>
 <p>环境参数导出设置。</p>
 <a class="reference internal image-reference" href="_images/world_export_options.png"><img alt="_images/world_export_options.png" class="align-center" src="_images/world_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -605,7 +673,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -661,7 +729,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

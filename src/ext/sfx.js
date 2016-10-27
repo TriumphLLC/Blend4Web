@@ -162,7 +162,7 @@ exports.is_cyclic = function(obj) {
  * @method module:sfx.listener_reset_speed
  * @param {Number} speed The listener new speed
  * @param {?Float32Array} [dir=null] The listener new direction
- * @deprecated Use listener_stride() instead
+ * @deprecated Use {@link module:sfx.listener_stride|sfx.listener_stride} instead
  */
 exports.listener_reset_speed = function(speed, dir) {
     m_sfx.listener_stride();
@@ -185,7 +185,7 @@ exports.listener_stride = function() {
  * @param {Object3D} obj Speaker object.
  * @param {Number} speed The speaker's new speed
  * @param {?Float32Array} [dir=null] The speaker's new direction
- * @deprecated Use speaker_stride() instead
+ * @deprecated Use {@link module:sfx.speaker_stride|sfx.speaker_stride} instead
  */
 exports.speaker_reset_speed = function(obj, speed, dir) {
     m_sfx.speaker_stride(obj);

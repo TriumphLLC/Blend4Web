@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>网络播放器 &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>网络播放器 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
         <link rel="next" title="插件" href="addon.html"/>
         <link rel="prev" title="场景预览器" href="viewer.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">网络播放器</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#usage">用法</a></li>
@@ -102,28 +102,28 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -210,7 +210,8 @@
 </li>
 <li><p class="first">开/关全屏模式;</p>
 </li>
-<li>stereo rendering on / off;</li>
+<li><p class="first">立体渲染开/关;</p>
+</li>
 <li><p class="first">设置场景的质量;</p>
 </li>
 <li><p class="first">声音开/关;</p>
@@ -227,8 +228,10 @@
 </li>
 <li><p class="first">通过Google+分享;</p>
 </li>
-<li>share via VK;</li>
-<li>share via Weibo.</li>
+<li><p class="first">通过VK分享。</p>
+</li>
+<li><p class="first">通过Weibo分享。</p>
+</li>
 </ol>
 </div>
 <div class="section" id="attributes">
@@ -251,12 +254,14 @@
 </li>
 <li><p class="first">该 <code class="docutils literal"><span class="pre">compressed_textures</span></code> 可选参数用于启用加载精缩和压缩纹理（在DDS格式）。</p>
 </li>
-<li>the <code class="docutils literal"><span class="pre">compressed_textures_pvr</span></code> optional parameter is used to enable loading of textures compressed in PVRTC format. This parameter is used with the <code class="docutils literal"><span class="pre">compressed_textures</span></code> parameter.</li>
+<li><p class="first">该 <code class="docutils literal"><span class="pre">compressed_textures_pvr</span></code> 可选参数用于启用加载压缩为PVRTC格式的材质，该参数用在 <code class="docutils literal"><span class="pre">compressed_textures</span></code> 参数中。</p>
+</li>
 <li><p class="first">可选 <code class="docutils literal"><span class="pre">alpha</span></code> 参数用于启用对描画区域的透明度。</p>
 </li>
 <li><p class="first">可选的 <code class="docutils literal"><span class="pre">no_social</span></code> 属性用于在控制面板上禁用社交网络按钮。</p>
 </li>
-<li>the optional <code class="docutils literal"><span class="pre">socials</span></code> attribute is used to selectively enable and disable social network buttons on the control panel. This attribute should look like <code class="docutils literal"><span class="pre">socials=&lt;...&gt;</span></code>, where <code class="docutils literal"><span class="pre">&lt;...&gt;</span></code> is a set of letters corresponding to the social network buttons you want to enable (<code class="docutils literal"><span class="pre">f</span></code> for Facebook, <code class="docutils literal"><span class="pre">v</span></code> for VK, <code class="docutils literal"><span class="pre">t</span></code> for Twitter, <code class="docutils literal"><span class="pre">w</span></code> for Weibo and <code class="docutils literal"><span class="pre">g</span></code> for Google+). The order of letters sets the order in which the buttons will appear on the screen.</li>
+<li><p class="first">可选的 <code class="docutils literal"><span class="pre">socials</span></code> 属性用于选择性地启用和禁用控制面板上的社交网络按钮。此属性应该像 <code class="docutils literal"><span class="pre">socials=&lt;...&gt;</span></code>,  其中  <code class="docutils literal"><span class="pre">&lt;...&gt;</span></code> 是一组与您要启用的社交网络按钮字母（ <code class="docutils literal"><span class="pre">f</span></code> 为Facebook <code class="docutils literal"><span class="pre">v</span></code> 为VK，<code class="docutils literal"><span class="pre">t</span></code> 是Twitter的，<code class="docutils literal"><span class="pre">w</span></code> 是微博和 <code class="docutils literal"><span class="pre">g</span></code> 是Google ）。字母顺序设置定义了按钮将出现在屏幕上的顺序。</p>
+</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -318,7 +323,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -374,7 +379,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

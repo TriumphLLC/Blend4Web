@@ -6,7 +6,8 @@ from os.path import join, normpath
 from html.parser import HTMLParser
 
 ROOT_DIR = normpath(join(os.path.abspath(os.path.dirname(__file__)), ".."))
-DEPLOY_DIR = join(ROOT_DIR, "deploy")
+ASSETS_DIR = join(ROOT_DIR, "deploy", "assets")
+
 BLENDER_CLI_DIR = join(ROOT_DIR, "scripts", "blender")
 
 REEXPORTER = join(BLENDER_CLI_DIR, "cli_exporter.py")
@@ -341,7 +342,7 @@ if __name__ == "__main__":
 
     start = time.time()
 
-    process_files("blender", DEPLOY_DIR, ROOT_DIR)
+    process_files("blender", ASSETS_DIR, ASSETS_DIR)
 
     print("Finished after:", round(time.time() - start), "seconds")
 

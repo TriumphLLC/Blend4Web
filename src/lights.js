@@ -54,6 +54,8 @@ function init_light(type) {
         default_energy: 0,
         distance: 0,
 
+        use_sphere: false,
+
         spot_size: 0,
         spot_blend: 0,
 
@@ -106,6 +108,7 @@ exports.lamp_to_light = function(bpy_obj, obj) {
     update_color_intensity(light);
 
     light.distance = data["distance"];
+    light.use_sphere = data["use_sphere"];
 
     light.clip_start = data["clip_start"];
     light.clip_end = data["clip_end"];

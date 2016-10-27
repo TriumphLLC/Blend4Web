@@ -99,7 +99,7 @@ uniform float u_jitter_amp;
 uniform float u_jitter_freq;
 # endif
 uniform vec3 u_wind;
-uniform float u_time;
+uniform PRECISION float u_time;
 #endif
 
 #if VERTEX_ANIM

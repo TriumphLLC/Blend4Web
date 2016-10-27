@@ -1,128 +1,135 @@
-# Blend4Web User Manual Chinese Translation: Normal Editor
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as Blend4Web.
-# Blend4Web Team <info [at] blend4web.com>, 2014.
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: Blend4Web. User Manual v16.04\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
-"Project-Id-Version: Blend4Web 16.08\n"
-"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
-"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
-"Language-Team: Chinese <info [at] blend4web.com>\n"
+"POT-Creation-Date: 2016-08-29 16:10+0300\n"
+"PO-Revision-Date: 2016-09-30 18:55+0800\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: ../normal_editor.rst:7
 msgid "Normal Editor"
-msgstr ""
+msgstr "法线编辑器"
 
 #: ../normal_editor.rst
 msgid "Table of Contents"
-msgstr ""
+msgstr "目录"
 
 #: ../normal_editor.rst:13
 msgid ""
 "Editing the selected normals is a pretty easy and effective way to "
 "customize 3d model shading without complicating its geometry."
 msgstr ""
+"编辑法线来更改模型的著色而不更改其几何形状，是相当简单而有效的方法。"
 
 #: ../normal_editor.rst:15
 msgid ""
 "In some cases, using the normal editor you may achieve the effect which "
-"is similar to the result of using :ref:`normal maps <normal_map>`. At the"
-" same  time, editing normals is preferred because it is more "
+"is similar to the result of using :ref:`normal maps <normal_map>`. At "
+"the same  time, editing normals is preferred because it is more "
 "computationally effective and consumes less video memory."
 msgstr ""
+"在某些情况下，使用法线编辑器，你可以做到这类似于使用  :ref:`法线贴图 "
+"<normal_map>` 的效果。同等的，编辑法线是首选，因为它是更有效的计算和消耗"
+"更少的显存。"
 
 #: ../normal_editor.rst:17
 msgid "Normal editor workflow example:"
-msgstr ""
+msgstr "法线编辑器工作流示例："
 
 #: ../normal_editor.rst:23
 msgid ""
 "Simple geometry shading is to the left, a tree with edited normals is to "
 "the right."
-msgstr ""
+msgstr "左边-添加默认几何材质的树，右边-同一棵树但编辑过法线。"
 
 #: ../normal_editor.rst:30
 msgid ""
 "To the left - gates with common shading; at the center - gates with "
 "edited normals; to the right - gates geometry with a wireframe."
 msgstr ""
+"左边-普通着色的门，中间-带法线编辑的门，右边-带线框的门的几何形状。"
 
 #: ../normal_editor.rst:36
 msgid ""
 "To the left - common grass geometry shading; to the right - grass with "
 "edited normals."
-msgstr ""
+msgstr "左边-默认材质的草，右边-同样的草并编辑过法线。"
 
 #: ../normal_editor.rst:42
 msgid ""
 "To the left - glasses with common shading; to the right - geometry with "
 "edited normals shading."
-msgstr ""
+msgstr "左边-默认材质的眼镜，右边-编辑过法线的眼镜。"
 
 #: ../normal_editor.rst:45
 msgid "Main Features of the Normal Editor"
-msgstr ""
+msgstr "法线编辑器主要功能"
 
 #: ../normal_editor.rst:47
 msgid ""
-"native Blender storage is used as a container for edited vertices normals"
-" directions (it appeared in Blender 2.74);"
-msgstr ""
+"native Blender storage is used as a container for edited vertices "
+"normals directions (it appeared in Blender 2.74);"
+msgstr "Blender内的 datablock数据块（2.74版后可用）被用作于存储法线;"
 
 #: ../normal_editor.rst:48
 msgid ""
 "normals editing and shading visualization are processed in ``Edit Mode`` "
 "now;"
-msgstr ""
+msgstr "法线编辑和由此产生的材质在 Edit Mode（编辑模式）下显示;"
 
 #: ../normal_editor.rst:49
 msgid "all changes are being saved automatically;"
-msgstr ""
+msgstr "所有更改应用全都立即自动保存;"
 
 #: ../normal_editor.rst:50
 msgid ""
-"selected vertex normal rotation can be performed directly in the Viewport"
-" window with ``Shift+Ctrl+R`` hotkey, similarly to other rotation "
-"operations in Blender;"
+"selected vertex normal rotation can be performed directly in the "
+"Viewport window with ``Shift+Ctrl+R`` hotkey, similarly to other "
+"rotation operations in Blender;"
 msgstr ""
+"可在 Viewport视图窗口 通过Shift+Ctrl+R热键可直接旋转顶点法线，就像任何其"
+"他Blender里的旋转;"
 
 #: ../normal_editor.rst:51
 msgid "edited normals are being exported automatically."
-msgstr ""
+msgstr "编辑的法线会自动导出"
 
 #: ../normal_editor.rst:54
 msgid "Interface"
-msgstr ""
+msgstr "界面"
 
 #: ../normal_editor.rst:56
 msgid ""
 "The interface of the normal editor is located on the tools panel "
 "``Blend4Web > Normal Editor``. The ``Shading: Smooth`` mode should be "
-"enabled and ``Activate`` button should be pressed or ``Auto Smooth`` flag"
-" should be enabled in the mesh settings, before starting to work with the"
-" editor."
+"enabled and ``Activate`` button should be pressed or ``Auto Smooth`` "
+"flag should be enabled in the mesh settings, before starting to work "
+"with the editor."
 msgstr ""
+"法线编辑器位于工具面板  ``Blend4Web > Normal Editor``  上。开始编辑工作"
+"前 ``Shading: Smooth`` 模式应该启用和 ``Activate`` 按钮应该点击，或 ``自"
+"动Smooth`` 标志应在网格设置中启用。"
 
 #: ../normal_editor.rst:63
 msgid "Activate"
-msgstr ""
+msgstr "启用"
 
 #: ../normal_editor.rst:65
 msgid "The ``Activate`` button turns on vertex normal editing mode."
-msgstr ""
+msgstr "该 ``Activate`` 按钮打开顶点法线编辑模式。"
 
 #: ../normal_editor.rst:67
 msgid ""
@@ -133,10 +140,13 @@ msgid ""
 "you want to see the changes in the Blender Viewport and in the Blend4Web "
 "engine."
 msgstr ""
+"编辑法线需要在编辑模式下Activate启用按钮。启用后，物体的材质和导出将使用"
+"编辑过的法线。换句话说，要在Blend4Web视图里查看根据材质的编辑后法线，此按"
+"钮必须处于启用状态。"
 
 #: ../normal_editor.rst:70
 msgid "Show Normals"
-msgstr ""
+msgstr "显示法线"
 
 #: ../normal_editor.rst:72
 msgid ""
@@ -144,17 +154,23 @@ msgid ""
 "on displaying the normals in the viewport, while the Size field allows "
 "you to set their length."
 msgstr ""
+"此按钮实际上重复原始Blender按钮。在窗口里打开显​​示法线，而 Size（尺寸） 栏"
+"允许您设置它们的长度。"
 
 #: ../normal_editor.rst:74
 msgid ""
-"You just need to push the Show Normals button either on the normal editor"
-" panel or on the Blender's right panel in the Mesh Display section. You "
-"can also set the convenient length of normals by tweaking the Size."
+"You just need to push the Show Normals button either on the normal "
+"editor panel or on the Blender's right panel in the Mesh Display "
+"section. You can also set the convenient length of normals by tweaking "
+"the Size."
 msgstr ""
+"您只要按下法线编辑器里的Show Normals按钮或Blender右侧面板中的Mesh "
+"Display（网格显示）里的法线显示。您也可以经由设置Size栏来调整合适的法线长"
+"度。"
 
 #: ../normal_editor.rst:89
 msgid "Rotation"
-msgstr ""
+msgstr "旋转"
 
 #: ../normal_editor.rst:91
 msgid ""
@@ -162,6 +178,8 @@ msgid ""
 "``Rotate`` function is also available through the ``Shift+Ctrl+R`` "
 "hotkeys, which allows rotation of vertex normals similarly to Blender."
 msgstr ""
+"使用这些工具，您可以更改法线的方向。Rotate（旋转）的功能也可通过 Shift"
+"+Ctrl+R热键，允许类似于Blender的顶点法线旋转。"
 
 #: ../normal_editor.rst:105
 msgid ""
@@ -169,6 +187,8 @@ msgid ""
 "normals using the visual sphere or specify the direction as numerical "
 "values."
 msgstr ""
+"选择您想要编辑的一个或多个顶点，然后使用圆形视觉操纵器指定他们的法线方向"
+"数值。"
 
 #: ../normal_editor.rst:107
 msgid ""
@@ -178,10 +198,13 @@ msgid ""
 "during rotation (by typing ``X``, ``Y`` or ``Z``) and type the angle of "
 "rotation using numerical keys."
 msgstr ""
+"Rotate 按钮提供了更简便的方法来操纵法线。旋转在屏幕空间执行。然而，正如任"
+"何在Blender的其他旋转，您可在旋转过程中隔离所需的轴 (通过键入 X、 Y 或 "
+"Z)。"
 
 #: ../normal_editor.rst:110
 msgid "Absolute and Offset Modes"
-msgstr ""
+msgstr "绝对和偏移模式"
 
 #: ../normal_editor.rst:112
 msgid ""
@@ -190,10 +213,13 @@ msgid ""
 "of the two buttons placed under the ``Rotate`` button that has been "
 "described above. By default, ``Absolute`` mode is used."
 msgstr ""
+"法线编辑器可以在两种不同的模式进行操作：绝对模式和补偿模式。当前选择的模"
+"式可以按已上述的``Rotate``按钮下放置在两个按钮中的一个进行切换。默认情况"
+"下，使用``Absolute``模式。"
 
 #: ../normal_editor.rst:115
 msgid "Absolute Mode"
-msgstr ""
+msgstr "绝对模式"
 
 #: ../normal_editor.rst:121
 msgid ""
@@ -202,14 +228,16 @@ msgid ""
 "``X``, ``Y`` and ``Z`` fields or the visual sphere that is situated "
 "alongside of them."
 msgstr ""
+"这是法线编辑器的默认模式。在这种模式下，一法线矢量的坐标是绝对的，也可以 "
+"使用 ``X``，``Y`` 和 ``Z`` 字段或位于它们的旁边的视觉范围进行设置。"
 
 #: ../normal_editor.rst:124
 msgid "Offset Mode"
-msgstr ""
+msgstr "偏置模式"
 
 #: ../normal_editor.rst:130
 msgid "In this mode, a user-defined value is added to the normal vector."
-msgstr ""
+msgstr "在这种模式下，一个用户定义的值被添加到法线矢量。"
 
 #: ../normal_editor.rst:132
 msgid ""
@@ -218,10 +246,12 @@ msgid ""
 "buttons define whether the vector should be subtracted from the normal "
 "vector or added to it."
 msgstr ""
+"在 ``X``，``Y`` 和 ``Z`` 字段可用于设置向量的相应分量，而 ``Sub`` 和 ``Add`` 按钮"
+"定义是否该矢量应该从法线矢量中减去或加至它。"
 
 #: ../normal_editor.rst:135
 msgid "Split Normals"
-msgstr ""
+msgstr "分割法线"
 
 #: ../normal_editor.rst:137
 msgid ""
@@ -229,25 +259,29 @@ msgid ""
 "each ``face`` that form the ``vertex``. Index allows you to navigate "
 "between the split normals."
 msgstr ""
+"Split Normals（分割法线）模式允许分别编辑每一面的顶点法线。Index索引栏允"
+"许您在分开的法线间切换。"
 
 #: ../normal_editor.rst:151
 msgid ""
 "Turn on the ``Split Normals`` mode, select the vertex and change the "
-"direction of its normals. Firstly, the normal which has the zero index in"
-" the queue will be modified. Then, by switching between indexes you can "
-"go to the next normal of this vertex and edit it, then to the next and so"
-" on."
+"direction of its normals. Firstly, the normal which has the zero index "
+"in the queue will be modified. Then, by switching between indexes you "
+"can go to the next normal of this vertex and edit it, then to the next "
+"and so on."
 msgstr ""
+"打开Split Normals模式、 选择顶点并更改其法线方向。首先，索引为零的法线将"
+"被修改。接着，可以通过切换索引到下一个顶点法线并编辑它，下一步亦是如此。"
 
 #: ../normal_editor.rst:154
 msgid "Average"
-msgstr ""
+msgstr "平均"
 
 #: ../normal_editor.rst:156
 msgid ""
-"The ``Average`` button averages the direction of the vertex normals which"
-" was modified."
-msgstr ""
+"The ``Average`` button averages the direction of the vertex normals "
+"which was modified."
+msgstr "在``Average``按钮平均值其中被修改的顶点法线的方向。"
 
 #: ../normal_editor.rst:170
 msgid ""
@@ -255,16 +289,18 @@ msgid ""
 "average direction of these normals, you just need to select the desired "
 "vertex and press the ``Average Split`` button."
 msgstr ""
+"结合几个分割顶点法线，为了获得这些法线的平均方向，您只需要选择所需的顶"
+"点，然后按Average Split按钮。"
 
 #: ../normal_editor.rst:173
 msgid "Restore"
-msgstr ""
+msgstr "恢复"
 
 #: ../normal_editor.rst:175
 msgid ""
-"The ``Restore`` button restores the original direction of normals for the"
-" selected vertices."
-msgstr ""
+"The ``Restore`` button restores the original direction of normals for "
+"the selected vertices."
+msgstr "Restore（还原）按钮将还原所选顶点法线的原始方向。"
 
 #: ../normal_editor.rst:189
 msgid ""
@@ -272,10 +308,12 @@ msgid ""
 "calculated on the basis of face normals), you need to select the desired "
 "vertices and click the Restore button."
 msgstr ""
+"为了还原到其原始(根据面的法线计算)的法线的方向，您需要选择所需的顶点，然"
+"后单击 Restore 按钮。"
 
 #: ../normal_editor.rst:192
 msgid "Tree, Foliage and Face"
-msgstr ""
+msgstr "Tree（树），Foliage（树叶） 和 Face（面）"
 
 #: ../normal_editor.rst:194
 msgid ""
@@ -284,6 +322,8 @@ msgid ""
 "vertices strictly up. The ``Face`` button directs the normals of the "
 "selected face parallel to the normal of this face."
 msgstr ""
+"Tree按钮将选择的顶点法线导离3D游标。 Foliage按钮将法线硬直地朝上。Face按"
+"钮将法线方向平行于面的法线。"
 
 #: ../normal_editor.rst:216
 msgid ""
@@ -292,6 +332,8 @@ msgid ""
 "button so all the selected vertices will turn their direction away from "
 "the cursor, as if they were shot from one point."
 msgstr ""
+"为了使用Tree功能，请选择所需的顶点并将3D游标放于所需位置。然后单击Tree按"
+"钮，接着所有选定的顶点仿佛他们从一个点射出般，均朝着游标的反方向。"
 
 #: ../normal_editor.rst:218
 msgid ""
@@ -299,6 +341,8 @@ msgid ""
 "and press the button, so the function will direct their normals straight "
 "up."
 msgstr ""
+"Foliage功能相当容易使用:只需选择顶点按下按钮，此功能会将它们的法线笔直地"
+"朝上。"
 
 #: ../normal_editor.rst:220
 msgid ""
@@ -307,14 +351,16 @@ msgid ""
 "vertices which form the face will be directed parallel to the face "
 "normal. This function works only with one selected face at a time."
 msgstr ""
+"为了将法线方向平行于面的法向量，只需选取所要的面并单击Face按钮。面的顶点"
+"法线将平行朝向面的法线。此功能仅适用于一次选取一个面。"
 
 #: ../normal_editor.rst:223
 msgid "Copy/Paste"
-msgstr ""
+msgstr "Copy（复制）/Paste（粘贴）"
 
 #: ../normal_editor.rst:225
 msgid "Copies the normal direction from one vertex to another."
-msgstr ""
+msgstr "拷贝一个到另从一个顶点的法线方向。"
 
 #: ../normal_editor.rst:239
 msgid ""
@@ -324,65 +370,46 @@ msgid ""
 "different vertices. The buttons are not active in the ``Split Mode`` and "
 "do not copy data of split vertices."
 msgstr ""
+"选择您想要复制的来源顶点后单击Copy按钮。接着选择您想要复制的顶点单击Paste"
+"按钮。您可从所选的顶点复制信息到许多不同的顶点上。此按钮在Split Mode不启"
+"用，亦无法复制分割顶点的数据。"
 
 #: ../normal_editor.rst:242
 msgid "Copy From Mesh"
-msgstr ""
+msgstr "从网格复制"
 
 #: ../normal_editor.rst:244
 msgid ""
 "This function allows you to copy the normals from one object to another. "
 "There are two modes: ``Matched Vertices`` and ``Nearest Vertices``."
 msgstr ""
+"这个功能允许您从一个物体复制法线到另一个上。有两种模式: Matched "
+"Vertices（相符顶点） 和 Nearest Vertices（最近顶点）。"
 
 #: ../normal_editor.rst:246
 msgid ""
-"The ``Matched Vertices`` mode copies the normals from the vertices of one"
-" object to another object's vertices only if they have the same "
+"The ``Matched Vertices`` mode copies the normals from the vertices of "
+"one object to another object's vertices only if they have the same "
 "coordinates; the other vertices are ignored. The ``Nearest Vertices`` "
 "mode copies the normals of the nearest vertices of the source object."
 msgstr ""
+"Matched Vertices模式只许在两个物体拥有相同的座标系时复制;其余的顶点将被忽"
+"略。Nearest Vertices模式是从来源物体顶点最靠近处复制法线。"
 
 #: ../normal_editor.rst:260
 msgid ""
 "This function works in Blender's object mode. At first, you need to "
-"select the object you need to copy from, then the object you need to copy"
-" to. It is also necessary to select the target object's vertices to which"
-" normals are copied."
+"select the object you need to copy from, then the object you need to "
+"copy to. It is also necessary to select the target object's vertices to "
+"which normals are copied."
 msgstr ""
+"此功能需在Blender物体模式中运作。首先，您需要选择复制的来源物体，接着是复"
+"制的对象。它也需要选择目标物体的顶点法线并复制到其中。"
 
 #: ../normal_editor.rst:3
 msgid "normals"
-msgstr ""
+msgstr "法线"
 
 #: ../normal_editor.rst:3
 msgid "editor"
-msgstr ""
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid "Interface of the Vertex Normal Editor"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The ``Rotate`` button provides a more"
-#~ " convenient way to manipulate normals. "
-#~ "The rotation is performed in the "
-#~ "screen space. Nevertheless, as with any"
-#~ " other rotations in Blender, you can"
-#~ " isolate the desired axis during "
-#~ "rotation (by typing ``X``, ``Y`` or "
-#~ "``Z``)."
-#~ msgstr ""
-
-#~ msgid "Average Split"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The ``Average Split`` button averages "
-#~ "the direction of the vertex normals "
-#~ "which was modified in the ``Split "
-#~ "Normals`` mode."
-#~ msgstr ""
-
+msgstr "编辑器"

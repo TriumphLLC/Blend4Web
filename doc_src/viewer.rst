@@ -37,7 +37,7 @@ Information Panel
     The engine build date and time. In the developer version this shows the page load time.
 
 **Scene**
-    Loaded scene name from the ``assets.json`` file. Path to the file pops-up on mouse hover.
+    The name of the loaded scene. Path to the file pops-up on mouse hover.
 
 **Loaded**
     Loading progress and time.
@@ -68,10 +68,9 @@ Basic Control Buttons
 Additional Panels
 -----------------
 
-Scenes
-......
+.. index:: tools; debug;
 
-A double-level list of the categories and scenes from the ``assets.json`` file.
+.. _viewer_tools_and_debug:
 
 Tools & Debug
 .............
@@ -92,6 +91,8 @@ This panel contains a range of debugging tools, including:
 
 *Make Screenshot*
     This button can be used to make screenshots of the Scene Viewer's window. Screenshots are stored in the same folder that web browsers use for storing downloaded files.
+
+.. index:: view, wireframe, boundings, cluster, batch, render
 
 *Debug View Modes*
     The list of different rendering modes that can be used for debug purposes. Available modes are:
@@ -160,6 +161,8 @@ This panel contains a range of debugging tools, including:
 *Min Capabilities Mode*
     This parameter makes Scene Viewer run a loaded scene as if it was running on a low-end system (on a mobile device, for example). This allows an artist to find out which materials in the scene may not work as intended with low-end configuration. Disabled by default.
 
+.. _viewer_animation:
+
 Animation
 .........
 
@@ -203,6 +206,8 @@ Available parameters:
 *Skeletal Mix Factor*
     The factor of mixing different skeletal animations together. Default value is 1.0.
 
+.. _viewer_nla:
+
 NLA
 ...
 
@@ -225,6 +230,8 @@ Available parameters:
 *Set Frame*
     If an animation is stopped at the moment, this parameter can be used for setting a specific frame of NLA animation.
 
+.. _viewer_shape_keys:
+
 Shape Keys
 ..........
 
@@ -240,6 +247,8 @@ Available parameters:
 
 *Set Value*
     This parameter sets the level of influence of a selected Shape Key on an object. The value can vary from zero to 1.
+
+.. _viewer_materials:
 
 Materials
 .........
@@ -268,6 +277,8 @@ Available parameters:
 
 *Parallax Steps*
     The number of steps used for building a parallax surface. The value can vary from 1 to 30. Default value is 5.
+
+.. _viewer_lighting:
 
 Lighting
 ........
@@ -337,12 +348,16 @@ The following parameters are only available for ``Sun`` type light sources:
 *Vertical Position*
     Vertical position of the sun on the skydome. Default value is 34.82.
 
+.. _viewer_ambient:
+
 Ambient
 .......
 
 Setup for ambient lighting parameters. Changing the colors and intensity of a hemispheric ambient model is supported.
 
 The settings available for ambient lighting setup are the same as the ones in Blender. They are described in the :ref:`dedicated section <environment_lighting>`.
+
+.. _viewer_shadows:
 
 Shadows
 .......
@@ -351,12 +366,16 @@ Setup for shadow parameters, including shadow cascades and shadow edges softenin
 
 The options for setting up shadows are described in the :ref:`corresponding section <shadows>` of this manual.
 
+.. _viewer_sky:
+
 Sky
 ...
 
 Setup for dynamic sky parameters such as color, sun light scattering parameters etc.
 
 Scene Viewer has access to all Blender parameters used for setting up procedural sky. These parameters are described in the :ref:`corresponding section <atmosphere>`.
+
+.. _viewer_sea:
 
 Sea
 ...
@@ -365,12 +384,16 @@ Setup for water rendering parameters, including color transitions by depth and b
 
 The settings for water rendering are described in the :ref:`Outdoor Rendering <water>` chapter. Scene Viewer uses the same settings as the Blend4Web engine itself.
 
+.. _viewer_wind:
+
 Wind
 ....
     
 Setup for wind parameters, including direction and strength.
 
 The same parameters as the ones used by Scene Viewer are available in Blender. These parameters are described in the :ref:`corresponding chapter <wind>`.
+
+.. _viewer_ssao:
 
 Screen Space Amb Occlus
 .......................
@@ -379,12 +402,16 @@ Setup for ambient occlusion parameters.
 
 All available settings are described in the :ref:`Postprocessing Effects <ssao>` chapter.
 
+.. _viewer_god_rays:
+
 God Rays
 ........
 
 Setup for crepuscular ray effect parameters.
 
 All parameters for this effect are described in the :ref:`corresponding section <god_rays>`.
+
+.. _viewer_bloom:
 
 Bloom
 .....
@@ -393,12 +420,16 @@ Setup for bloom effect parameters.
 
 This effect uses the same set of parameters as it does in Blender. It is described in greater detail in the :ref:`corresponding section <bloom>`.
 
+.. _viewer_motion_blur:
+
 Motion Blur
 ...........
 
 Motion blur effect settings.
 
 The parameters for adjusting Motion Blur effect are the same ones that are used in Blender. They are described in the :ref:`Postprocessing Effects <motion_blur>` chapter.
+
+.. _viewer_glow_materials:
 
 Glow Materials
 ..............
@@ -407,6 +438,8 @@ Glow Material effect settings.
 
 The settings used for this effect are described in the :ref:`corresponding section <glow>`.
 
+.. _viewer_dof:
+
 Depth of Field
 ..............
 
@@ -414,12 +447,16 @@ Setup for depth-of-field effect parameters.
 
 The parameters are described in the :ref:`corresponding chapter <dof>`.
 
+.. _viewer_color:
+
 Color correction
 ................
 
 Setup for color correction parameters, including brightness, contrast, exposure and saturation.
 
 The same set of parameters is used for color correction in Blender itself. The description of these parameters is available in the :ref:`Color Management <color_correction>` chapter.
+
+.. _viewer_audio:
 
 Audio
 .....
@@ -458,6 +495,8 @@ Available parameters:
 *HMD Settings*
     Shows the :ref:`HMD setup window <hmd_settings>`.
 
+.. _viewer_input:
+
 Input Devices
 .............
 
@@ -472,6 +511,8 @@ This panel contains tools for setting up the input devices.
     .. image:: src_images/viewer/viewer_gamepad_settings.png
         :align: center
         :width: 100%
+
+.. _viewer_indicators:
 
 Indicators
 ==========

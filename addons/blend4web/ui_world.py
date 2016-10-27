@@ -41,6 +41,34 @@ class WorldButtonsPanel:
     def poll(cls, context):
         return (context.world and context.scene.render.engine in cls.COMPAT_ENGINES)
 
+class B4W_OperatorWorldBackgroundShow(bpy.types.Operator):
+    bl_idname = "b4w.world_background_show"
+    bl_label = p_("Show", "Operator")
+    bl_description = _('Enable the "World Background" option in 3D VIEW panels')
+    bl_options = {"INTERNAL"}
+
+    def invoke(self, context, event):
+        for area in bpy.context.screen.areas:
+            if area.type == 'VIEW_3D':
+                for space in area.spaces:
+                    if space.type == "VIEW_3D":
+                        space.show_world = True
+        return {'FINISHED'}
+
+class B4W_OperatorWorldBackgroundHide(bpy.types.Operator):
+    bl_idname = "b4w.world_background_hide"
+    bl_label = p_("Hide", "Operator")
+    bl_description = _('Disable the "World Background" option in 3D VIEW panels')
+    bl_options = {"INTERNAL"}
+
+    def invoke(self, context, event):
+        for area in bpy.context.screen.areas:
+            if area.type == 'VIEW_3D':
+                for space in area.spaces:
+                    if space.type == "VIEW_3D":
+                        space.show_world = False
+        return {'FINISHED'}
+
 class B4W_WORLD_PT_world(WorldButtonsPanel, Panel):
     bl_label = _("World")
     bl_idname = "WORLD_PT_b4w_world"
@@ -72,6 +100,14 @@ class B4W_WORLD_PT_world(WorldButtonsPanel, Panel):
         row = layout.row()
         row.active = sky.reflexible
         row.prop(sky, "reflexible_only", text=_("Render Only Reflection"))
+
+        row = layout.row()
+        row.label("World Background:")
+        row = layout.row()
+        sides = row.split(align=True)
+        sides.operator("b4w.world_background_show")
+        sides.operator("b4w.world_background_hide")
+
 
 class B4W_WORLD_PT_environment_lighting(WorldButtonsPanel, Panel):
     bl_label = _("Environment Lighting")

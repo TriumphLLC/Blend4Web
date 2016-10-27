@@ -1,263 +1,429 @@
 
-Release Notes
-*************
+发布说明
+********
+
+
+v16.10
+======
+
+
+新功能
+------
+
+* Added support for navigation meshes.
+
+     Two methods were added to "physics" module: "navmesh_get_island"
+     for getting closest navmesh segment and "navmesh_find_path" for
+     path finding.
+
+     Two types of paths are available: one path based on centers of
+     triangles, and a more optimal - "pulled string".
+
+     See example in the "Code Snippets" apps.
+
+* New logic node "Set Camera Move Style".
+
+     This node allows changing move styles and velocities of the
+     camera. Target parameters for "Target" and "Hover" camera types
+     can be set as separate coordinates or as a target object.
+
+* Tangent shading support for edited normals.
+
+     Tangent shading is now supported for edited normals.
+
+* Improved Project Manager usability.
+
+     Now applications, blend files and project assets open in new
+     browser tabs. Having your Project Manager remain in the same
+     window makes work more efficient.
+
+     "compile project" command was renamed as "build project". This
+     new name is more suited to the nature of this command.
+
+* New environment texture blend types.
+
+     Now all texture blend types are supported for environment
+     lighting.
+
+* "Sphere" flag is now supported for "Point" and "Spot" lights.
+
+     This flag allows specifying a distance at which the light's
+     intensity drops to zero.
+
+* Rotated boundings.
+
+     Now rotated bounding boxes are used for frustum culling
+     calculations. Also, rotated bounding ellipsoid is now supported
+     for dynamic objects.
+
+* "JS Callback" logic node can now be called synchronously.
+
+     Return "true" from your callback for freezing nodetree execution
+     in this node and "false" when the node has finished its
+     execution.
+
+* New API methods get_fog_params and set_fog_params.
+
+     These methods allow controlling mist in a scene. Fog params
+     contain *fog_intensity*, *fog_depth*, *fog_start* and
+     *fog_height* properties.
+
+* New API method update.
+
+     This method allows to update anchors positions.
+
+* Added support for VBO buffers of different types.
+
+     Some attributes were changed to be of the type "UNSIGNED BYTE"
+     and "SHORT" instead of "FLOAT" without loss in quality that
+     reduced  total GPU memory cost. This also affects performance and
+     can increase frame rate in some demos. Along with that the size
+     of exported ".bin" files was slightly decreased by changing the
+     export type of vertex colors from "SHORT" to "UNSIGNED BYTE".
+
+* In "ULTRA" mode the correct SRGB-conversion function is now used
+  instead of a simplified one.
+
+     The effect is mostly notable in dark areas where the simplified
+     function doesn't yield precise colors.
+
+* Added special buttons for enabling/disabling the "World
+  Background" option in 3D VIEW panels.
+
+     These buttons are disposed in the "World" tab and should be used
+     if the "Render Sky" option is set. Enabling the "World
+     Background" shows world colors in the viewport (the same as in
+     the engine).
+
+
+变更
+----
+
+* Refactored projects inside the SDKs.
+
+     Now all projects (including tutorials) inside the SDKs follow the
+     standard Project Manager directory hierarchy.
+
+* Removed scenes list from the Viewer app.
+
+     The same functionality (browsing and viewing project assets) can
+     be carried out using the Project Manager.
+
+* API documentation of the input module has been expanded, examples
+  of using functions have been added.
+
+* The number of batches was decreased which optimizes scene
+  rendering.
+
+     This optimization mostly affects shadows and hair particles. It
+     enhances frame rate in scenes that use this functionality.
+
+* Now keyboard device is attached to document object by default.
+
+* Added "None" as a new Engine Binding Type.
+
+     This means the Project Manager will not change your projects
+     during the build phase.
+
+* Removed the "Update" Engine Binding Type.
+
+     Use the "Copy" Engine Binding Type and the Project Manager's
+     deployment feature to reproduce the same behavior.
+
+* Added light versions of the SDK builds.
+
+     Now Blend4Web PRO and Blend4Web CE SDKs have lighter versions
+     available, which do not include demo applications and tutorials.
+     These versions are recommended for users with a slow internet
+     connection.
+
+* Depth textures was enabled for the Intel HD Graphics 3000 which
+  allows the use of such effects as shadows, god rays, depth of field
+  and others on this device.
+
+* Now NLA animation takes frame start/end values from *vertex*
+  animation itself.
+
+     This allows having multiple vertex animations controlled by NLA
+     for one object.
+
+* Some mobile devices (including IOS) now do not force low quality
+  nodes in materials.
+
+* API documetation for BloomParams has been added. Some parameters
+  have been renamed.
+
+* Changed payload of mouse_click, mouse_move, touch_click and
+  touch_move sensors. Now it's a dictionary, containing absolute
+  coordinates ("coords") for all mentioned above; "which" for mouse
+  click; "gesture" for touch_move.
+
+* "default_AND_logic_fun" and "default_AND_logic_fun" logic
+  functions are now available in "controls" module.
+
+* Removed deprecated scripts for binary module cross-compilation.
+
+* API methods set_nodemat_value, get_nodemat_value, set_nodemat_rgb
+  and get_nodemat_rgb are now deprecated and moved to the material
+  module.
+
+
+修复
+----
+
+* Fixed the quat_to_euler function.
+
+* Fixed incorrect behaviour of the "Normal Map" node with non-unit
+  strength parameter.
+
+* Fixed some runtime checks for objects in logic nodes.
+
+* Fixed the inability to change a texture on one object (the
+  change_image function) when it is shared between multiple materials.
+
+* "CookTorr" specular model now looks similar to the one in Blender.
+
+* "Alpha Sort" materials now behave correctly for non-deep copies of
+  objects.
+
+* Fixed the create_pline_from_point_vec and set_pline_initial_point
+  methods.
+
+* Walking characters with a behavior based on the npc_ai module now
+  do not fall underground.
+
+* Fixed bug when two or more anchors of type "Custom Element" can
+  reference the same element id.
+
+* Fixed reflections for spherical billboards.
+
+* Fixed audio resuming after pausing for the "Background Sound" and
+  the "Positional Sound" speakers in Firefox.
 
 
 v16.09
 ======
 
 
-New Features
-------------
+新功能
+------
 
-* Web Player improvements.
+* 网络播放器改进
 
-     An option to set up social network buttons located in the bottom-
-     right corner of a loaded scene. To do this, you need to specify
-     the "socials" attribute before the application starts.
+     设置一个放置在加载场景的右下角的社交网络按钮的选项。要做到这一点
+     ，你需要在应用程序启动之前指定 "socials" 属性 。
 
-* Coordinate System change.
+* 坐标系统变更。
 
-     Now Blender's coordinate space is used instead of OpenGL's. This
-     new behavior can introduce various incompatibilities in
-     application logic. Developers are advised to review their apps
-     and make changes according to the new coordinate space (Z vector
-     up).
+     现在使用Blender的坐标空间来替代使用OpenGL的。这一新行为可能在应用
+     程序逻辑中引入各种不兼容的情况。建议开发人员查看他们的应用程序并
+     进行更改，根据新的坐标空间 （Z 矢量向上）。
 
-* Optimized geometry rendering.
+* 优化的几何渲染。
 
-     Geometry rendering has been optimized by implementing a new
-     algorithm for storing data in GPU memory. Now normal and tangent
-     data has been stored in TBN quaternions.
+     通过实施一种在 GPU 内存中存储数据的新算法进行了优化几何渲染。现在
+     法线和切线数据已存储于 TBN 四元数。
 
-* Project Manager improvements.
+* 项目管理器改进。
 
-     Added the new "update_modules" command to the *project.py*
-     utility. This command allows users to update engine's modules
-     inside developed applications. This feature significantly
-     simplifies updating project files to newer Blend4Web versions.
+     添加新的 'update_modules' 命令到 *project.py* 实用程序。此命令允
+     许用户更新内部开发的应用程序的引擎的模块。此功能大大简化了更新项
+     目文件到较新的 Blend4Web 版本的过程。
 
-* Automatic quality detection.
+* 自动质量侦测
 
-     By specifying the AUTO (P_AUTO) quality profile in the app module
-     you can load your app in LOW or HIGH quality depending on your
-     hardware specs. Also, a low-level performance benchmark can be
-     executed using the test_performance method.
+     通过在 app 模块指定自动  (P_AUTO)  质量配置文件，可以具体取决您的
+     硬件规格然后加载低或高质量的应用程序。此外，低级别性能基准测定可
+     以使用执行  test_performance 方法。
 
-* PVRTC conversion support.
+* PVRTC 转换支持。
 
-     PVRTC conversion is now supported. This allows developers to use
-     compressed textures on iOS and PowerVR-based Android devices.
+     现在支持 PVRTC 转换。这允许开发人员在 iOS 和基于PowerVR的 Android
+     设备上使用压缩的纹理。
 
-* Shadow quality settings added.
+* 增加阴影质量设置。
 
-     Now it is possible to set different quality profiles for soft
-     shadows: 16x, 8x, 4x.
+     现在就可以设置不同的质量配置的软阴影︰ 16 x，8 x，4 x。
 
-* "Shading" pannel was added to the "Render" tab. It contains "World
-  Space Shading" option and "Set Recommended Options" button to auto
-  configure Blender for better Blend4Web experience.
+* "Render" 标签里添加了 "Shading" 面板。它包含了  "World Space
+  Shading"  选项和 "Set Recommended Options" 按钮来自动配置Blender，为
+  更好的Blend4Web体验。
 
-* Added support for Blender 2.78.
+* 添加了对Blender 2.78 的支持。
 
-     "World Space Shading" option paired with the support for
-     environment lighting for the GLSL mode in viewport makes rendered
-     b4w scene maximally match it's viewport preview.
+     "World Space Shading" 选项搭配环境照明支持使得在视口中的GLSL模式
+     渲染和b4w的视口预览最大程度的一致。
 
-     New shader node "Normal Map" is fully supported.
+     完全支持新的  "Normal Map" 着色器节点。
 
 
-Changes
--------
+变更
+----
 
-* The system for assigning shader directives was refactored. This
-  feature reduces engine loading time and simplify debugging.
+* 指定着色器指令系统被重构。此功能可以减少引擎加载时间和简化调试。
 
-* Rendering the anchors was speeded up on some devices by using the
-  "translate3d" CSS property.
+* 在某些设备上使用 "translate3d" CSS 属性渲染锚被加快了。
 
-* Shader validation has been improved, which decreases amount of
-  false negative errors. More error descriptions have been added.
+* 着色器验证已得到改进，从而降低假阴性的错误的数量。已添加更多的错误
+  说 明。
 
-* Major part of shader computations was moved from matrices to TSR
-  to increase performance.
+* 着色器计算的主要部分从矩阵转到 TSR 来提高性能。
 
-* The "Render" tab panels' order was rearranged.
+* "渲染" 选项卡面板的顺序被重新安排。
 
 
-Fixes
------
+修复
+----
 
-* Fixed the bug in the Samsung Internet browser when it hung if
-  there were many anchors in a scene.
+* 修正了如果在场景中有许多锚会在三星互联网浏览器中崩溃的问题。
 
-* Fixed Web Player "alpha" attribute, which didn't work.
+* 修复了网络播放器 "alpha" 属性不起作用的问题。
 
-* Fixed compilation/linking shader error message.
+* 修复编译/链接着色器错误消息。
 
-* Fixed rotation at angle defined by variable value in the
-  "Transform Object" logic node.
+* 修复了在  "Transform Object" 逻辑节点中的变量值定义的角度旋转问题
+  。
 
-* Fixed behaviour of the "Play Animation" logic node in case of
-  baked and non-baked versions of the action co-exist.
+* 修复了 "Play Animation"  逻辑节点在烘焙和非烘焙版本的动作并存时的
+  行 为问题。
 
-* Fixed quality settings for plane reflections.
+* 修复平面反射的质量设置。
 
-* Fixed get_translation_rel and get_rotation_rel methods.
+* 修复了 get_translation_rel 和 get_rotation_rel 方法。
 
-* Fixed dof_distance setting with set_dof_params method.
+* 修复 set_dof_params 方法是 dof_distance 设置。
 
-* Fixed the bug when an object with both "Do Not Render" and "Enable
-  Outlining" options enabled led to the engine crash after it was
-  selected.
+* 修复了当同时启用  "Do Not Render" 和 "Enable Outlining" 两个选项的
+  物 体在被选择后导致引擎崩溃的问题。
 
-* Fixed physics for particle system.
+* 修复粒子系统的物理
 
 
 v16.08
 ======
 
 
-New Features
-------------
+新功能
+------
 
-* Materials "Tangent Shading" option is now supported.
+* 现在支持材质的  "切向着色" 选项。
 
-     This option can be used to imitate anisotropic material surfaces,
-     such as polished metals, hair, etc.
+     此选项可以用于模仿各向异性材质的表面，抛光的金属、 头发等。
 
-* Shader node "Normal Map" is now supported.
+* 现在支持着色器节点 "Normal Map" 。
 
-     This node allows converting color data from texture to a normal
-     map. The input data can be in tangent, object or world coordinate
-     space. The "Strength" parameter controls the mixing values
-     extracted from the texture with an object's default normals.
+     此节点允许颜色数据从纹理转换为法线贴图。输入的数据可以在切线、 物
+     体或世界坐标空间。"Strength" 参数控制从物体的默认法线与纹理所提取
+     的法线的混合值。
 
-     The color space of a texture image should be set to "Non-Color"
-     to make Blender's viewport preview match the final Blend4Web
-     scene.
+     纹理图像的色彩空间应设置为  "Non-Color" ，使Blender的视口预览与最
+     终 Blend4Web 场景中渲染的效果一致。
 
-* Engine CPU optimizations.
+* 引擎CPU优化。
 
-     Several CPU and GC (Garbage Collector) optimizations have been
-     made in the engine's core systems. "OES_vertex_array_object"
-     extension was supported on appropriate hardware. Uniform and
-     shader usage was also optimized reducing the total amount of
-     WebGL calls. This should improve scene load time and rendering
-     responsiveness, especially for slow CPUs.
+     有在引擎的核心系统进行了几个 CPU 和 GC （垃圾回收器） 优化。
+     "OES_vertex_array_object"  扩展在相应的硬件上获得支持。统一和着色
+     器的使用也被优化以减少的 WebGL 调用总量。这应该改善场景加载时间和
+     渲染响应能力，特别是在慢的 CPU上。
 
-* Interface improvements in the Viewer app.
+* 查看器应用程序的界面改进。
 
-     The "Tools & Debug" panel has been moved and is now located
-     directly under the "Scenes" panel.
+     "Tools & Debug" 面板已被移动，现在位于  "Scenes"  面板下面。
 
-     The "Min capabilities mode" button has been added to the "Tools &
-     Debug" panel. This parameter makes the Viewer app run the loaded
-     scene as if it was running on a low-end system (such as iOS
-     devices). This allows an artist to find out which materials in
-     the scene may not work as intended on a low-end configuration.
+     "Min capabilities mode" 按钮已经被添加到 "Tools & Debug" 面板。此
+     参数使预览器应用程序能够运行加载的场景，就好像它在低端的系统 （如
+     iOS 设备） 上运行。这允许艺术家要找出哪个场景中的材质可能无法按意
+     图在低端的配置工作。
 
-* Normal editor improvements.
+* 法线编辑器的改进。
 
-     Added "Offset" mode for normal editing.
+     为法线编辑器添加 "Offset" 模式。
 
-     Added "Average" operation support for non-split normals.
+     添加 "Average" 操作支持非分裂法线。
 
-     Added the possibility to type the angle of normal rotation just
-     like inputting an object's rotation.
+     增加键入法线旋转角度就像输入物体的旋转角度一样。
 
-* New API method in the textures module.
+* 在新的 API 方法  textures 模块。
 
-     The get_texture_names method has been added. It allows us to get
-     all object texture names.
+     添加 get_texture_names 方法。它使我们能够得到的所有物体的纹理名称
+     。
 
-* New API methods in the lights module.
+* 在 lights 模块中新的 API 方法。
 
-     The get_light_color, set_light_color, get_light_energy and
-     set_light_energy methods have been added. These are used to work
-     with the color and energy values of a lamp.
+     添加 get_light_color, set_light_color, get_light_energy 和
+     set_light_energy 方法。这些用来处理一盏灯的颜色和能量值。
 
-* Support for "Hidden" object property.
+* "Hidden" 物体属性的支持。
 
-     This flag hides objects upon scene loading.
+     此标志将会在场景加载时隐藏物体。
 
-* Support for GLSL ES 3.0 shaders.
+* 对 GLSL ES 3.0 着色器的支持。
 
-     From now the engine automatically chooses which version of the
-     OpenGL Shading Language should be used to compile/link shaders.
-     It depends on the WebGL context: GLSL ES 1.0 version is used for
-     WebGL 1, and GLSL ES 3.0 - for WebGL 2. The engine's shader
-     system and macro preprocessor was also changed to be compatible
-     with both of these variants.
+     从现在起引擎自动选择应该用哪个版本的 OpenGL 着色语言来编译/链接着
+     色器。它取决于 WebGL 上下文︰WebGL 1使用GLSL ES 1版本和WebGL 2用
+     GLSL ES 3。引擎的渲染系统和宏预处理器也改为与这些更改兼容。
 
-     This feature lifts restrictions on implementing new functionality
-     related to WebGL 2 without compatibility issues.
+     此功能解除对执行有关WebGL2的不兼容问题的新功能的限制。
 
-* Improvements in Shader Analyzer.
+* 着色器分析仪进行了改进。
 
-     Shader Analyzer (method analyze_shaders) now prints low-level
-     assembly code which helps in reviewing and optimizing shaders.
+     着色器分析仪 (方法 analyze_shaders)现在打印低级程序代码集有助于审
+     查和优化着色器。
 
 
-Changes
--------
+变更
+----
 
-* Depth-of-field (DOF) bokeh effect algorithm improvements.
+* 景深 (DOF) 散景效果算法的改进。
 
-     Intensity leakage (or pixel bleeding) artifact, when foregound
-     objects in focus appear to 'leak' onto blurry backgrounds, has
-     been reduced.
+     强度泄漏 （或像素出血） 瑕疵，当焦点的前景物体出现  'leak' 到模糊
+     的背景，减少了。
 
-     The "Foreground Blur" property has been added. When enabled, it
-     reduces the appearance of sharp silhouettes on unfocused
-     foreground objects against focused backgrounds.
+     添加  "Foreground Blur" 属性。当启用时，它减少了非聚焦的前景物体
+     在聚焦的背景上出现尖锐的外轮廓显示。
 
-     "Front Start", "Front End" properties for foreground and "Rear
-     Start", "Rear End" for background allows us to specify distances
-     at which a blur starts and reaches the maximum value.
+     前景的 "Front Start", "Front End" 属性和背景的 "Rear Start",
+     "Rear End" 属性，使我们能够指定一个模糊开始，并达到最大值的距离。
 
-* World is now reflected by default.
+* 默认情况下反射世界。
 
-* Shader validation algorithm has been improved.
+* 着色器验证算法改进提升。
 
-     If material cannot be rendered on low-end devices, it is replaced
-     by error (pink) material in debug and it is removed in
-     production.
+     如果材质不能在低端的设备上渲染，取而代之的是调试错误 （粉红色）
+     材质，它会在生产环境删除。
 
 
-Fixes
------
+修复
+----
 
-* Inversion vertex group length fix.
+* 修复转化顶点组长度。
 
-     The inversion operator of *HAIR* particle system for vertex group
-     length has been fixed.
+     修复了为顶点组长度的 *毛发* 粒子系统的转化操作。
 
-* Fixed normal rotation for transformed object in *Normal Editor*.
+* 修复了移动物体在 *法线编辑器* 中的法线旋转问题。
 
-* Fixed rare engine crash occured during scene loading if logic
-  nodes were used in a scene.
+* 修复了罕见的使用了逻辑节点的场景在加载的时候会让引擎崩溃的问题。
 
-* Fixed material panel in the Viewer app. It was disabled for some
-  materials, which are allowed to edit.
+* 修复查看器应用程序中材质面板。有些材质，允许进行编辑却被禁用的问题
+  。
 
-* Fixed engine crash on mobile devices.
+* 修复在移动设备上引擎崩溃问题。
 
-* Fixed flickering on mobile browsers.
+* 修复了移动浏览器上有闪烁问题。
 
-* Dynamic water object loading crash has been fixed.
+* 动态水物体加载崩溃已得到修复。
 
-* Fixed normalmap influence on reflections for stack materials.
+* 修复对材质的反射的法线影响。
 
-* Disabled gray highlighting when tapping in WebPlayer on iPad.
+* 当在iPad上敲击网络播放器时禁用灰色高亮。
 
 
 v16.07
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Optimized Particle system rendering.
 
@@ -322,8 +488,8 @@ New Features
   have been added to the config API module.
 
 
-Changes
--------
+变更
+----
 
 * Color picking optimization.
 
@@ -346,8 +512,8 @@ Changes
      been declared deprecated and will be removed in future releases.
 
 
-Fixes
------
+修复
+----
 
 * Fixed the broken Canvas Resolution Factor slider in the Scene
   Viewer.
@@ -376,8 +542,8 @@ v16.06
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Fast Preview improvements.
 
@@ -386,7 +552,7 @@ New Features
      which are placed outside the SDK (another directory, flash drive,
      etc).
 
-* Project Manager improvements.
+* 项目管理器改进。
 
      Support for material library. A new project option has been added
      allowing users to copy the material library sources into the
@@ -450,8 +616,8 @@ New Features
      templates for compatibility with different social networks.
 
 
-Changes
--------
+变更
+----
 
 * Several material nodes are now using Blender's viewport world
   space.
@@ -538,8 +704,8 @@ Changes
   audio formats have been added.
 
 
-Fixes
------
+修复
+----
 
 * Fixed decreased performance in stereo-mode.
 
@@ -575,8 +741,8 @@ v16.05
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Experimental HMD configurator.
 
@@ -626,7 +792,7 @@ New Features
      making it "smarter" and more optimized in comparison with the old
      regular grid batching.
 
-* Project Manager improvements.
+* 项目管理器改进。
 
      To maintain naming consistency all command line options in
      *project.py* utility are now specified with "-" symbol instead of
@@ -643,8 +809,8 @@ New Features
      Gold, Ribbed Glass, Silk and Velvet.
 
 
-Changes
--------
+变更
+----
 
 * UI and export usability improvements for objects with no option
   from the "Export Options" list selected.
@@ -733,8 +899,8 @@ Changes
   descriptions for Anchor and Viewport Alignment features.
 
 
-Fixes
------
+修复
+----
 
 * Fixed issue with incorrect automatic updates in addon.
 
@@ -780,8 +946,8 @@ v16.04
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Support for gamepads and controllers.
 
@@ -860,8 +1026,8 @@ New Features
      in the world space.
 
 
-Changes
--------
+变更
+----
 
 * Viewer's "HUD Info" now has detailed info on each column.
 
@@ -874,8 +1040,8 @@ Changes
   camera type to "EYE" for better user experience.
 
 
-Fixes
------
+修复
+----
 
 * Fixed anchors behavior.
 
@@ -913,8 +1079,8 @@ v16.03
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Node Logic Editor improvements.
 
@@ -979,8 +1145,8 @@ New Features
      to automatically detect objects with dynamic grass.
 
 
-Changes
--------
+变更
+----
 
 * API changes.
 
@@ -1033,8 +1199,8 @@ Changes
   OES_depth_texture support
 
 
-Fixes
------
+修复
+----
 
 * Fixed webplayer menu behavior.
 
@@ -1056,8 +1222,8 @@ v16.02
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Extended support of Emitter type particle systems.
 
@@ -1086,7 +1252,7 @@ New Features
      fully supported by the "Emitter" type particle systems with the
      "Billboard" rendering type.
 
-* Project Manager improvements.
+* 项目管理器改进。
 
      * An option to export multiple projects into one archive.
 
@@ -1190,8 +1356,8 @@ New Features
 * User Manual has been reworked and expanded significantly.
 
 
-Changes
--------
+变更
+----
 
 * The "Generate Shadows" light source parameter has been renamed to
   "Shadow" and now also enables shadow rendering in the Blender
@@ -1230,8 +1396,8 @@ Changes
   appropriate warning is shown.
 
 
-Fixes
------
+修复
+----
 
 * Incorrect behavior of the "canvas_resolution_factor" engine
   parameter on Apple iOS devices has been fixed.
@@ -1302,8 +1468,8 @@ v16.01
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Line rendering.
 
@@ -1369,8 +1535,8 @@ New Features
 * Node tree refresh algorithm has been optimized.
 
 
-Changes
--------
+变更
+----
 
 * Using cubic reflections has been simplified.
 
@@ -1441,8 +1607,8 @@ Changes
      have been added to replace them.
 
 
-Fixes
------
+修复
+----
 
 * Positioning and flickering of the particle systems with world
   coordinates have been fixed.
@@ -1505,10 +1671,10 @@ Known Issues
 * Some devices with Mail GPU require manual WebGL activation in
   browser settings.
 
-* For the local development server to work on Apple OS X and Blender
-  2.76, you may need to install Python 3.4. This is due to a bug in
-  Blender https://developer.blender.org/T46623. This bug has been
-  fixed in Blender 2.76b, so updating it is advised.
+* For the local development server to work on Apple macOS and
+  Blender 2.76, you may need to install Python 3.4. This is due to a
+  bug in Blender https://developer.blender.org/T46623. This bug has
+  been fixed in Blender 2.76b, so updating it is advised.
 
 * Skeletal animation can work incorrectly while using Nouveau
   drivers.
@@ -1518,8 +1684,8 @@ v15.12
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Support for shadows from multiple sources.
 
@@ -1607,8 +1773,8 @@ New Features
      handler if the logic function result isn't zero.
 
 
-Changes
--------
+变更
+----
 
 * The "Fast Preview" button has been duplicated in the UI low panel.
 
@@ -1631,8 +1797,8 @@ Changes
      Alpha Clip materials without transparency value has been fixed.
 
 
-Fixes
------
+修复
+----
 
 * Incorrect physics of a copied object has been fixed.
 
@@ -1680,18 +1846,18 @@ Known Issues
 * Some devices with Mail GPU require manual WebGL activation in
   browser settings.
 
-* For the local development server to work on Apple OS X and Blender
-  2.76, you may need to install Python 3.4. This is due to a bug in
-  Blender https://developer.blender.org/T46623. This bug has been
-  fixed in Blender 2.76b, so updating it is advised.
+* For the local development server to work on Apple macOS and
+  Blender 2.76, you may need to install Python 3.4. This is due to a
+  bug in Blender https://developer.blender.org/T46623. This bug has
+  been fixed in Blender 2.76b, so updating it is advised.
 
 
 v15.11
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Initial support of WebGL 2.0 technology.
 
@@ -1761,8 +1927,8 @@ New Features
   documentation.
 
 
-Changes
--------
+变更
+----
 
 * The "Copy Cursor Location" button has been renamed to "Look At
   Cursor", and its behavior has also been changed.
@@ -1842,8 +2008,8 @@ Changes
      "Extended Material" nodes are present.
 
 
-Fixes
------
+修复
+----
 
 * Project Manager errors were fixed.
 
@@ -1903,8 +2069,8 @@ Known Issues
 * Some devices with Mail GPU require manual WebGL activation in
   browser settings.
 
-* You may require to install Python 3.4 on the systems with Apple OS
-  X and Blender 2.76. This issue is connected with Blender bug
+* You may require to install Python 3.4 on the systems with Apple
+  macOS and Blender 2.76. This issue is connected with Blender bug
   https://developer.blender.org/T46623.
 
 
@@ -1912,8 +2078,8 @@ v15.10
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * New Project Manager features.
 
@@ -1992,8 +2158,8 @@ New Features
      objects, both when using conventional and NLA animation.
 
 
-Changes
--------
+变更
+----
 
 * Project Manager interface has been improved.
 
@@ -2026,8 +2192,8 @@ Changes
      be used instead.
 
 
-Fixes
------
+修复
+----
 
 * Project Manager errors were fixed.
 
@@ -2095,8 +2261,8 @@ Known Issues
 * Some devices with Mail GPU require manual WebGL activation in
   browser settings.
 
-* You may require to install Python 3.4 on the systems with Apple OS
-  X and Blender 2.76. This issue is connected with Blender bug
+* You may require to install Python 3.4 on the systems with Apple
+  macOS and Blender 2.76. This issue is connected with Blender bug
   https://developer.blender.org/T46623.
 
 
@@ -2104,8 +2270,8 @@ v15.09
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Project Management.
 
@@ -2221,8 +2387,8 @@ New Features
      A new method fake_load() has been added to the debug module.
 
 
-Changes
--------
+变更
+----
 
 * Add-ons (such as app, mouse and others) are now a part of the
   compiled engine version:
@@ -2316,8 +2482,8 @@ Changes
      as an Environment Map, was added.
 
 
-Fixes
------
+修复
+----
 
 * "Render Above All" option now works correctly with node materials.
 
@@ -2389,8 +2555,8 @@ v15.08
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Node-based logic editor.
 
@@ -2469,8 +2635,8 @@ New Features
      current engine version are performed while scenes load.
 
 
-Changes
--------
+变更
+----
 
 * Changes in node material editor.
 
@@ -2495,8 +2661,8 @@ Changes
   Blender instances.
 
 
-Fixes
------
+修复
+----
 
 * Fixed a compilation error in the *project.py* utility when a
   project is compiled to some external directory.
@@ -2535,8 +2701,8 @@ v15.07
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * Support for "Alpha Clip" transparency for node materials.
 
@@ -2611,8 +2777,8 @@ New Features
      languages. The translation into Russian is almost complete.
 
 
-Changes
--------
+变更
+----
 
 * Various usability improvements in the addon interface.
 
@@ -2682,8 +2848,8 @@ Changes
 * Minor refactoring and improvements in API documentation.
 
 
-Fixes
------
+修复
+----
 
 * Fixed a bug with incorrect Canvas element size appeared on the
   engine's startup.
@@ -2761,8 +2927,8 @@ v15.06
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * New add-on user interface.
 
@@ -2906,8 +3072,8 @@ New Features
 * New favicon picture has been added to Webplayer.
 
 
-Changes
--------
+变更
+----
 
 * New API spec for collision detection and ray casting.
 
@@ -2982,8 +3148,8 @@ Changes
 * Fixed behavior of node materials with missing *Output* node.
 
 
-Fixes
------
+修复
+----
 
 * Fixes in "screenshooter.js" addon.
 
@@ -3041,8 +3207,8 @@ v15.05
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * *Glow effect*.
 
@@ -3125,8 +3291,8 @@ New Features
      control point of "HOVER" camera.
 
 
-Changes
--------
+变更
+----
 
 * *Reorganized SDK's scene list.*
 
@@ -3182,8 +3348,8 @@ Changes
      systems.
 
 
-Fixes
------
+修复
+----
 
 * *The error that led to the wrong height of the description element
   in module "anchors.js" has been fixed.*
@@ -3225,8 +3391,8 @@ v15.04
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * *Deformations by using Shape Keys (Morphing).*
 
@@ -3296,8 +3462,8 @@ New Features
      this directory.
 
 
-Changes
--------
+变更
+----
 
 * *The API documentation has changed its appearance. Links for quick
   access to methods and properties were added.*
@@ -3406,8 +3572,8 @@ Changes
      object.
 
 
-Fixes
------
+修复
+----
 
 * *Fixed a bug in the "anchors.js" module which caused objects'
   descriptions to disappear.*
@@ -3456,8 +3622,8 @@ v15.03
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * *New tool for adding annotations to 3D objects.*
 
@@ -3522,8 +3688,8 @@ New Features
      Blend4Web render mode.
 
 
-Changes
--------
+变更
+----
 
 * *Origin for counting off the camera limits has been changed.*
 
@@ -3633,8 +3799,8 @@ Changes
      regardless of other settings. Now its name is more clear.
 
 
-Fixes
------
+修复
+----
 
 * *Fixed camera autorotate feature of the web player.*
 
@@ -3689,8 +3855,8 @@ v15.02
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * *The local development server can be run from Blender.*
 
@@ -3771,9 +3937,9 @@ New Features
      Several engine instances can now work simultaneously, by
      specifying the namespace on engine's initialization stage.
 
-* *Possibility to use SDK on Apple OS X.*
+* *Possibility to use SDK on Apple macOS.*
 
-     On OS X all SDK functionality including engine and applications
+     On macOS all SDK functionality including engine and applications
      building, resource conversation and documentation generation is
      now available.
 
@@ -3789,8 +3955,8 @@ New Features
      of the compiled application.
 
 
-Changes
--------
+变更
+----
 
 * *Now it is possible to add options with the same names via browser
   address bar.*
@@ -3833,8 +3999,8 @@ Changes
   screen.*
 
 
-Fixes
------
+修复
+----
 
 * *Corrected behavior of the preloader for the Web Player.*
 
@@ -3877,8 +4043,8 @@ v15.01
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * *Support for panning on touchscreen devices.*
 
@@ -3995,8 +4161,8 @@ New Features
      Web Player.
 
 
-Changes
--------
+变更
+----
 
 * *SDK file hierarchy was simplified.*
 
@@ -4032,8 +4198,8 @@ Changes
      examples; old and arid examples were dropped.
 
 
-Fixes
------
+修复
+----
 
 * *When using "Panoramic" camera type in Blender the camera
   automatically obtains "Perspective" type when exported.*
@@ -4078,8 +4244,8 @@ v14.12
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * *Camera velocity settings are now available.*
 
@@ -4115,8 +4281,8 @@ New Features
      server.
 
 
-Changes
--------
+变更
+----
 
 * *Removed support for deprecated "UV translation velocity" texture
   settings.*
@@ -4154,8 +4320,8 @@ Changes
      shadeless materials.
 
 
-Fixes
------
+修复
+----
 
 * *Fixed audio playback error occurred when using NLA.*
 
@@ -4204,8 +4370,8 @@ v14.11
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * *Video textures support.*
 
@@ -4255,8 +4421,8 @@ New Features
 * *Audio playback support for iOS devices.*
 
 
-Changes
--------
+变更
+----
 
 * *The webplayer's "bg" parameter is renamed to "fallback_image".*
 
@@ -4277,8 +4443,8 @@ Changes
 * *Hair particle systems can be now exported significantly faster.*
 
 
-Fixes
------
+修复
+----
 
 * *Normal maps now work with Generated and Normal texture
   coordinates.*
@@ -4309,8 +4475,8 @@ v14.10
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * *A new Web Player.*
 
@@ -4362,8 +4528,8 @@ New Features
 * *Improved stability on iOS devices.*
 
 
-Changes
--------
+变更
+----
 
 * *Changed SDK path setting for HTML export.*
 
@@ -4393,8 +4559,8 @@ Changes
      the manual section.
 
 
-Fixes
------
+修复
+----
 
 * *Fixed rendering error for HALO materials.*
 
@@ -4443,8 +4609,8 @@ v14.09
 ======
 
 
-New Features
-------------
+新功能
+------
 
 * *ABSOLUTE type support for the MATH node.*
 
@@ -4522,8 +4688,8 @@ New Features
   anti-aliasing) has been implemented for iOS.*
 
 
-Changes
--------
+变更
+----
 
 * *Shadow rendering improved.*
 
@@ -4570,8 +4736,8 @@ Changes
   implemented features.*
 
 
-Fixes
------
+修复
+----
 
 * *The preloader didn't disappear in case of a loading error
   (texture or sound file).*

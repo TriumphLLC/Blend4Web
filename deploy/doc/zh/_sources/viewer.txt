@@ -12,55 +12,53 @@
 
   * 侧面板
 
-    * Information Panel
+    * 信息面板
 
-    * Basic Control Buttons
+    * 基本控制按钮
 
-    * Additional Panels
+    * 其他面板
 
-      * Scenes
+      * 工具和调试
 
-      * Tools & Debug
-
-      * Animation
+      * 动画
 
       * NLA
 
       * Shape Keys
 
-      * Materials
+      * 材质
 
-      * Lighting
+      * 光照
 
-      * Ambient
+      * 环境
 
-      * Shadows
+      * 阴影
 
-      * Sky
+      * 天空
 
-      * Sea
+      * 海洋
 
-      * Wind
+      * 风
 
-      * Screen Space Amb Occlus
+      * 屏幕空间环境光遮蔽
 
-      * God Rays
+      * 上帝光芒
 
-      * Bloom
+      * 泛光效果
 
-      * Motion Blur
+      * 运动模糊
 
-      * Glow Materials
+      * 发光材质
 
-      * Depth of Field
+      * 景深
 
-      * Color correction
+      * 颜色校正
 
-      * Audio
+      * 音频
 
-      * Stereo View
+      * 立体视图
 
-      * Input Devices
+      * 输入设备
 
   * 指标
 
@@ -72,7 +70,7 @@
 
 为了控制摄像机按住鼠标按钮并移动鼠标。也可以控制使用进行 "W", "A",
 "S", "D", "R", "F" 键：前进，左，后，右，上，下。 箭头和 "numpad" 键也
-可以使用。在 "Target" 相机模式有可能集中使用所选对象 "Z" 或 ".(dot)"
+可以使用。在 "Target" 相机模式有可能集中使用所选物体 "Z" 或 ".(dot)"
 键.
 
 
@@ -89,34 +87,34 @@
 控制元件列表中上到下依次
 
 
-Information Panel
------------------
+信息面板
+--------
 
 **建立**
    引擎建立日期和时间。在开发者版本显示的页面加载时间。
 
 **场景**
-   从 "assets.json" 文件加载场景名称. 文件路径可以由鼠标悬停弹出。
+   The name of the loaded scene. Path to the file pops-up on mouse
+   hover.
 
 **加载**
    加载进度和时间。
 
 
-Basic Control Buttons
----------------------
+基本控制按钮
+------------
 
-**Home**
-   Reloads the last scene exported from Blender using the "Fast
-   Preview" button or, if Scene Viewer hasn't been run from Blender,
-   the default scene is loaded.
+**首页**
+   用 "Fast Preview" 按钮重载Blender导出的最新场景，或者，如果场景浏览
+   器尚未从Blender运行，默认场景被加载。
 
 **重置**
-   此按钮删除上次查看现场的保存名称和重新加载页面回显示默认场景。
+   此按钮删除上次查看场景的保存名称和重新加载页面回显示默认场景。
 
 **LOW Q - HIGH Q - ULTRA Q**
    下拉菜单中选择了引擎的显示质量配置方式。
 
-   参见: Quality Profiles
+   参见: 品质配置
 
 **暂停**
    暂停渲染。
@@ -124,205 +122,165 @@ Basic Control Buttons
 **恢复**
    恢复渲染。
 
-**Rotate**
-   Enables and disables camera orbiting the loaded scene. Disabled by
-   default.
+**旋转**
+   启用和禁用相机围绕加载的场景。默认情况下禁用。
 
 
-Additional Panels
------------------
+其他面板
+--------
 
 
-Scenes
-~~~~~~
+工具和调试
+~~~~~~~~~~
 
-在 "assets.json" 文件中的分类和场景的双级列表.
+此面板包含了一系列调试工具，其中包括：
 
+*概观外轮廓模式*
+   打开此选项使所有场景中的物体 可选择 并支持要在选择他们时候出现  轮
+   廓动画 。此功能默认情况下启用。
 
-Tools & Debug
-~~~~~~~~~~~~~
+*自动浏览模式*
+   按下这个按钮会导致场景查看器将 "Scenes" 列表的每一个场景在一秒钟内
+   加载。此功能可用于检查控制台错误所有可用的内容。
 
-This panel contains a range of debugging tools, including:
+*画布分辨率因子*
+   该参数可用于增加画布的分辨率。该值可以从1到10改变，默认值是1.0（画
+   布分辨率等于场景查看器窗口的物理分辨率）。
 
-*Overview Outlining Mode*
-   Turning this option on makes all objects in the scene selectable
-   and enables outline animation to be played upon selecting them.
-   This feature is enabled by default.
+   注解: 画布可用的最高分辨率可以通过Web浏览器来限制。
 
-*Auto View Mode*
-   Pressing this button will cause Scene Viewer to load every scene
-   from the "Scenes" list within one second of each other. This
-   feature can be used to check all available content for console
-   errors.
+*截屏*
+   这个按钮可以用来把场景浏览器的窗口的屏幕截图。截图保存在Web浏览器用
+   来存放下载的文件相同的文件夹。
 
-*Canvas Resolution Factor*
-   This parameter can be used to increase the resolution of a canvas.
-   The value can vary from 1 to 10. Default value is 1.0 (canvas
-   resolution is equal to the physical resolution of the Scene Viewer
-   window).
+*调试视图模式*
+   可用于调试目的不同的渲染模式的列表。可用模式包括：
 
-   注解: The highest available resolution of a canvas may be limited
-     by a web browser.
+      "NONE"  - 正常渲染模式。这是默认模式。
 
-*Make Screenshot*
-   This button can be used to make screenshots of the Scene Viewer's
-   window. Screenshots are stored in the same folder that web browsers
-   use for storing downloaded files.
+      "不透明WIREFRAME"  - 将场景渲染成平白色带较深线框。用于渲染线框
+      的颜色可以通过使用 "Wireframe Edge Color" 参数进行调整。
 
-*Debug View Modes*
-   The list of different rendering modes that can be used for debug
-   purposes. Available modes are:
+      "透明WIREFRAME"  - 场景渲染为正常模式，但线框都在它的上面添加。
+      像在前面的模式中，用于渲染线框的颜色可以通过使用 "Wireframe Edge
+      Color" 参数进行调整。
 
-      "NONE" - normal rendering mode. This is the default mode.
+      "正面背面VIEW"  - 多边形的正面和背面渲染成不同颜色。
 
-      "OPAQUE WIREFRAME" - the scene is rendered in flat white color
-      with darker wireframe. The color used for rendering the
-      wireframe can be adjusted by using the "Wireframe Edge Color"
-      parameter.
+      "BOUNDINGS"  - 这种模式增加了线框球来罩着 物体 和 网格 。球体可
+      以是蓝色的（静态物体/目）或红色（动态物体）。
 
-      "TRANSPARENT WIREFRAME" - the scene is rendered as in normal
-      mode, but wireframes are added on top of it. Like in the
-      previous mode, the color used for rendering the wireframe can be
-      adjusted by using the "Wireframe Edge Color" parameter.
+      "CLUSTER VIEW"  - 在这个视图模式，每个物体在特定的集群中（用在
+      batching) 用特定的颜色渲染。
 
-      "FRONT BACK VIEW" - renders front and back sides of the polygons
-      with different colors.
+      "BATCH VIEW" - 在这种视图模式，每一批呈现视图使用一种特定的 （平
+      ） 颜色。在呈现时使用的颜色可以更改为随机生成的颜色，通过单击更
+      改颜色按钮。
 
-      "BOUNDINGS" - this mode adds wireframe spheres that envelope
-      objects and meshes. The spheres can be blue (for static
-      objects/meshes) or red (for dynamic objects).
+      "RENDER TIME"  - 场景是场景的不同部分的复杂性用不同颜色来渲染。
+      最轻的部分使用绿色，较重 - 橙色色调，场景中非常消耗资源的部分用
+      红色。
 
-      "CLUSTER VIEW" - in this view mode, every object in a specific
-      cluster (used for batching) is rendered with a specific color.
+*修改颜色*
+   此按钮随机更改在  "CLUSTER VIEW" 和 "BATCH VIEW" 模式中使用的颜色。
+   在下列情况下此功能非常有用，当由引擎随机挑选的颜色太相似了，使它难
+   以区分图像的部分。
 
-      "BATCH VIEW" - in this view mode, every batch is rendered using
-      a specific (flat) color. The colors used in rendering can be
-      changed to randomly generated colors by clicking the "Change
-      Colors" button.
+*渲染时间阈值（毫秒）*
+   此参数为 "渲染TIME" 视图模式设定一个 "threshold" 。如果引擎在一定的
+   物体比设置的这个值花费更多的时间渲染的时候，这个物体会被染成红色。
+   默认值是1.5毫秒。
 
-      "RENDER TIME" - the scene is rendered in different colors to
-      represent the complexity of various parts of the scene. The
-      lightest parts are rendered using shades of green, heavier -
-      shades of orange, and the most resourse-demanding parts of the
-      scene are colored red.
+*线框边颜色*
+   此参数允许你改变在 "OPAQUE WIREFRAME" 和 "TRANSPARENT WIREFRAME" 视
+   图模式下使用线框边的颜色。
 
-*Change Colors*
-   This button randomly changes the colors that are used in the
-   "CLUSTER VIEW" and "BATCH VIEW" rendering modes. This feature is
-   useful in cases when colors that are picked randomly by the engine
-   are too similar and make it difficult to distinguish parts of the
-   image.
-
-*Render Time Threshold (ms)*
-   This parameter sets a "threshold" time for the "RENDER TIME" view
-   mode. If the engine spends more time on rendering a certain object
-   than the time set by this value, this object will be colored red.
-   The default value is 1.5 ms.
-
-*Wireframe Edge Color*
-   This parameter allows you to change the color of the wireframe
-   edges used in the "OPAQUE WIREFRAME" and "TRANSPARENT WIREFRAME"
-   view modes.
-
-*HUD Info*
+*HUD信息*
    [图片]
 
-   This button shows a list of rendered subscenes and its parameters,
-   incuding:
+   此按钮显示渲染子场景及其参数的的列表，包含：
 
       *SCENE*
-         The name of the current scene.
+         当前场景的名称。
 
       *Active*
-         Shows whether the subscene is active or not.
+         显示子场景是否处于活动状态。
 
       *Subscene*
-         The name of the subscene.
+         子场景的名称。
 
       *Lamps*
-         The number of light sources in the subscene.
+         在子场景光源的数量。
 
       *Size*
-         The size of the render of the subscene.
+         渲染的子场景的大小。
 
       *RenderCalls*
-         The number of draw calls in the subscene.
+         在子场景中绘制的调用次数。
 
       *Time*
-         The amount of time the engine spends on rendering the
-         subscene.
+         引擎花费在渲染子场景的时间量。
 
       *TOTAL ACTIVE*
-         The number of draw calls in all present subscenes and the
-         time that the engine spends on rendering them.
+         所有子场景的绘制调用数和引擎花费在渲染它们的时间。
 
-   Enabling this parameter may decrease performance of a scene. This
-   option is disabled by default.
+   启用此参数可能会降低场景的性能。此选项默认为禁用。
 
 *GL Debug*
-   This parameter, when activated, causes the engine to process low-
-   level errors. This can significantly decrease performance. It is
-   disabled when you start Scene Viewer for the first time, and
-   afterwards, the application will save the state of this option for
-   the next time.
+   该参数，当被激活时，使引擎处理低级错误。这可以显著降低性能。当你打
+   开场景浏览器的第一次时它被禁用，设置后，应用程序将保存此选项的状态
+   供下一次使用。
 
-*Min Capabilities Mode*
-   This parameter makes Scene Viewer run a loaded scene as if it was
-   running on a low-end system (on a mobile device, for example). This
-   allows an artist to find out which materials in the scene may not
-   work as intended with low-end configuration. Disabled by default.
+*最小功能模式*
+   此参数使场景查看器运行加载场景就好像是在一个低端系统上运行（在移动
+   设备上，例如）。这使得艺术家，可以找出哪些材质场景是在低端配置可能
+   无法正常工作。默认情况下禁用。
 
 
-Animation
-~~~~~~~~~
+动画
+~~~~
 
-动画控件。当观看动画模型时可以：选择一个对象，并使用下拉菜单切换的动画
+动画控件。当观看动画模型时可以：选择一个物体，并使用下拉菜单切换的动画
 ，循环切换动画模式，停止播放动画，设置所需的帧（动画应该被停止）。
 
-Available parameters:
+可用参数：
 
 *Play All*
-   Pressing this button will play all available animations.
+   按下此按钮将播放所有可用的动画。
 
 *Stop All*
-   Pressing this button will stop playback of all animations that are
-   currently being played.
+   按下此按钮将停止当前正在播放的所有动画。
 
 *Object*
-   A list of scene objects that have animations.
+   场景中有动画的物体的列表。
 
-*Animation Slot*
-   The list of all animation slots that can be used to apply some
-   animation to an object.
+*动画槽*
+   可用应用到物体上的动画的所有动画槽的列表。
 
-*Animation*
-   A list of all animations available for a selected object.
+*动画*
+   可供选择的物体使用的所有动画的列表。
 
-*Cyclic*
-   If this parameter is enabled, the animation will be played
-   repeatedly. If it isn't, the animation will stop after being played
-   once. Enabled by default.
+*循环*
+   如果启用此参数，动画将重复播放。如果不是，动画将被播放一次后停止。
+   默认情况下启用。
 
 *Range*
-   This value shows the length of the selected animation.
+   这个值示出了所选择的动画的长度。
 
 *Status*
-   This value shows the status of the animation, i.e. if it is being
-   played or stopped.
+   这个值示出了动画的状态，即，是它正在播放或停止。
 
 *Playing Animation > Play*
-   Plays the selected animation.
+   播放选定的动画。
 
 *Playing Animation > Stop*
-   Stops the selected animation.
+   停止选定的动画。
 
 *Set Frame*
-   Shows the current frame of the animation and can be used to set the
-   current frame.
+   显示出了动画的当前帧和可用于设置当前帧。
 
 *Skeletal Mix Factor*
-   The factor of mixing different skeletal animations together.
-   Default value is 1.0.
+   不同的骨骼动画混合在一起的因子。默认值是1.0。
 
 
 NLA
@@ -331,25 +289,22 @@ NLA
 控制非线性动画的工具（如果它存在于场景）。在这个面板中工作，NLA选项应
 该在场景的设置中启用。
 
-Available parameters:
+可用参数：
 
 *Range*
-   Shows the start and the end frame of the NLA strip.
+   显示的NLA带的开始和结束帧。
 
 *Status*
-   Shows the status of NLA animation, i.e. if it is being played or
-   stopped.
+   显示NLA动画的状态，即它正在播放或停止。
 
 *Playing NLA > Play*
-   This button can be used to play NLA animation.
+   此按钮可用于播放NLA动画。
 
 *Playing NLA > Stop*
-   This button can be used to stop NLA animation that is currently
-   being played.
+   这个按钮可以用来停止当前正在播放的NLA动画。
 
 *Set Frame*
-   If an animation is stopped at the moment, this parameter can be
-   used for setting a specific frame of NLA animation.
+   如果动画在此刻被停止，该参数可用于设置NLA动画的特定帧。
 
 
 Shape Keys
@@ -358,314 +313,273 @@ Shape Keys
 形变键控制。当查看的模型有形变键，您可以选择一个物体，物体上的形变键和
 键对物体的影响。
 
-Available parameters:
+可用参数：
 
 *Object*
-   This list contains all scene objects that have Shape Keys.
+   这个列表中包含场景中具有形变键的所有的物体。
 
-*Shape Key*
-   This list contains all Shape Keys attached to a selected object.
+*形变关键帧*
+   这个清单包含连接到一个选定的物体的所有形变键。
 
-*Set Value*
-   This parameter sets the level of influence of a selected Shape Key
-   on an object. The value can vary from zero to 1.
+*设置值*
+   此参数设置的一个物体选定的形变键的影响程度。该值可以从零到1变化。
 
 
-Materials
-~~~~~~~~~
+材质
+~~~~
 
-Material properties setup. A material can be selected using the drop-
-down menu. For now, this feature only supports a limited number of
-properties and only stack (non-node) materials applied to dynamic
-objects (node materials and static objects are not supported).
+材质属性设置。可以使用下拉菜单中选择一种材质。现在，这个功能只支持为数
+有限的属性和只有堆栈 （非节点） 材质应用于动态物体 （节点材质和静态物
+体不支持）。
 
-Available parameters:
+可用参数：
 
-*Material*
-   A list of all stack materials present in a scene.
+*材质*
+   目前在一个场景中的所有堆材质的清单。
 
 *Color*
-   This parameter defines the base color of a selected material.
+   该参数定义一个选定的材质的基础的颜色。
 
-*Reflectivity*
-   This parameter sets the refelctivity factor of a selected material.
-   Its value is equal to zero by default.
+*反射率*
+   该参数设定所选择的材质的反射率因子。它的值默认等于零。
 
-*Fresnel*
-   The power of the Fresnel effect for the reflection. Set to zero by
-   default.
+*菲涅尔*
+   为反射菲涅耳效应的幕值。默认设置为零。
 
-*Fresnel Factor*
-   A factor of the Fresnel effect. Set to zero by default.
+*菲涅尔因子*
+   菲尼尔l效果的一个因子。默认设置为零。
 
-*Parallax Scale*
-   The scale parameter of the parallax effect. This value can vary
-   from zero to 0.1. Default value is 0.
+*视差缩放*
+   视差效果的缩放参数。这个值可以从零到0.1变化。默认值为0。
 
-*Parallax Steps*
-   The number of steps used for building a parallax surface. The value
-   can vary from 1 to 30. Default value is 5.
+*视差步幅*
+   用于构建视差表面的步数。值可以从1至30变化，默认值是5。
 
 
-Lighting
-~~~~~~~~
+光照
+~~~~
 
-Setup for direct lighting parameters. A light source can be selected
-using the drop-down menu. Changing color and intensity is supported.
-Daytime and sun lighting parameters can also be tweaked on this panel.
+设置直接照明参数。可以使用下拉菜单中选择一种光源。支持更改颜色和强度。
+白天，太阳光照参数也可以在此面板上调整。
 
    [图片]
 
-Available parameters:
+可用参数：
 
-*Light*
-   This list contains all light sources present in the scene.
+*光源*
+   这个列表包含当前场景中的所有光源。
 
-*Type*
-   The type of the selected light source. This parameter cannot be
-   changed in the Scene Viewer.
+*类型*
+   选择到的光源的类型。此参数不能在场景查看器来改变。
 
 *Color*
-   The base color of the selected light source. By default, white (1;
-   1; 1) is used.
+   所选光源基准颜色。默认情况下，使用了白色 （1; 1; 1）。
 
-*Energy Coarse*
-   This parameter sets the integral part of the energy value for the
-   light source. The value of this parameter can vary from zero to
-   100. Default value is 1.
+*粗能量*
+   此参数设置为光源的能量值的整数部分。这个参数的值可以从零到100变化，
+   默认值是1。
 
-*Energy Precise*
-   This parameter sets the fractional part of the energy value for the
-   light source. The value of this parameter can vary from zero to 1.
-   Set to zero by default.
+*精确能量*
+   此参数设置为光源的能量值的小数部分。该参数的值可从零到1变化。默认设
+   置为零。
 
-*Light Energy*
-   This value is calculated as the sum of the Energy Coarse and Energy
-   Precise parameters. In case both of them have default values, it
-   will be equal to 1.
+*光能*
+   此值的计算作为粗能量和精确能量参数的总和。如果他们都有默认值，它将
+   会是等于 1。
 
-*Spot Size*
-   Angle of the light beam emitted by the light source. Default value
-   is 75. This parameter is only available for "Spot" type light
-   sources.
+*聚光尺寸*
+   由光源发射的光束的角度。默认值是75.此参数仅适用于 "Spot" 型光源。
 
-*Spot Blend*
-   This defines the softness of the spotlight edge. Default value is
-   0.15. This parameter is also available for "Spot" type light
-   sources only.
+*聚光混合*
+   这定义了聚光灯边缘的柔和度。默认值为 0.15。此参数也是只可供``Spot``
+   类型的光源。
 
-*Distance*
-   This parameter sets the distance (in meters) from the light source
-   at which the light emitted by the light source will be half as
-   bright as defined by the "Light Energy" value. Set to 30 by
-   default.
+*距离*
+   此参数设置从其中由光源发出的光到只有由 "Light Energy" 定义的一半明
+   亮的值的距离（米）。默认设置为30。
 
-The following parameters are only available for "Sun" type light
-sources:
+以下参数仅适用于 "Sun" 式光源：
 
 [图片]
 
-*Real Time Sun Movement > Play*
-   Pressing this button activates real-time sun movement.
+*实时太阳运动>播放*
+   按下此按钮激活实时太阳运动。
 
-*Real Time Sun Movement > Stop*
-   Pressing this button stops real-time sun movement.
+*实时太阳运动>停止*
+   按下此按钮停止实时太阳运动。
 
-*Date*
-   This parameter sets the current date.
+*日期*
+   此参数设置为当前日期。
 
 *Time*
-   This parameter set the current time of day. Default value is 12.0.
+   此参数设置一天的当前时间。默认值为 12.0。
 
-*Maximum Sun Vertical Angle*
-   This parameter sets maximum possible vertical angle for a "Sun"
-   type light source. Default value is 60.
+*最大太阳垂直转角*
+   此参数设置 "Sun" 型光源的最大可能的垂直角度。默认值是60。
 
-*Time Multiplier*
-   The value of this parameter defines the speed of the flow of time.
-   Default value is 1.0 (time flows at the same speed it does in real
-   life).
+*时间倍数*
+   此参数的值定义的时间流动的速度。默认值是 1.0 （时间以相同的速度，跟
+   在现实生活中的流动相同）。
 
-*Horizontal Position*
-   Horizontal position of the sun on the skydome. Default value is
-   29.82.
+*水平位置*
+   在天穹中太阳的水平位置。默认值是29.82。
 
-*Vertical Position*
-   Vertical position of the sun on the skydome. Default value is
-   34.82.
+*垂直位置*
+   在天穹中太阳的垂直位置。默认值是34.82。
 
 
-Ambient
-~~~~~~~
-
-Setup for ambient lighting parameters. Changing the colors and
-intensity of a hemispheric ambient model is supported.
-
-The settings available for ambient lighting setup are the same as the
-ones in Blender. They are described in the dedicated section.
-
-
-Shadows
-~~~~~~~
-
-Setup for shadow parameters, including shadow cascades and shadow
-edges softening parameters.
-
-The options for setting up shadows are described in the corresponding
-section of this manual.
-
-
-Sky
-~~~
-
-Setup for dynamic sky parameters such as color, sun light scattering
-parameters etc.
-
-Scene Viewer has access to all Blender parameters used for setting up
-procedural sky. These parameters are described in the corresponding
-section.
-
-
-Sea
-~~~
-
-Setup for water rendering parameters, including color transitions by
-depth and by distance from the shore, foam and subsurface scattering
-parameters, wave dynamics etc.
-
-The settings for water rendering are described in the Outdoor
-Rendering chapter. Scene Viewer uses the same settings as the
-Blend4Web engine itself.
-
-
-Wind
+环境
 ~~~~
 
-Setup for wind parameters, including direction and strength.
+环境照明参数的设置。支持一个半球的环境模型的颜色和强度的更改。
 
-The same parameters as the ones used by Scene Viewer are available in
-Blender. These parameters are described in the corresponding chapter.
-
-
-Screen Space Amb Occlus
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Setup for ambient occlusion parameters.
-
-All available settings are described in the Postprocessing Effects
-chapter.
+可用于环境照明设置跟在Blender中设置一样，在 专门章节 描述。
 
 
-God Rays
+阴影
+~~~~
+
+设置阴影参数，包括阴影级联和阴影边缘柔化参数。
+
+在手册的 相应章节 描述了设置阴影选项
+
+
+天空
+~~~~
+
+为动态天空设置参数，如颜色、 太阳光散射参数等。
+
+场景浏览器能够访问用于设置所有Blender的程序天空参数。参数在 相应章节
+描述。
+
+
+海洋
+~~~~
+
+设置水渲染参数，包括通过深度和距离岸边的颜色过渡，泡沫和次表面散射参数
+设置、 波动力学等。
+
+室外渲染 章节描述了用于水渲染的设置。场景查看器使用跟 Blend4Web 引擎本
+身相同的设置。
+
+
+风
+~~
+
+设置风参数，包括方向和强度。
+
+场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 相应章节
+描述。
+
+
+屏幕空间环境光遮蔽
+~~~~~~~~~~~~~~~~~~
+
+环境光遮蔽参数的设置。
+
+所有参数设置在 后期效果 章节.
+
+
+上帝光芒
 ~~~~~~~~
 
-Setup for crepuscular ray effect parameters.
+黄昏的光线效果参数设置。
 
-All parameters for this effect are described in the corresponding
-section.
-
-
-Bloom
-~~~~~
-
-Setup for bloom effect parameters.
-
-This effect uses the same set of parameters as it does in Blender. It
-is described in greater detail in the corresponding section.
+所有参数设置在 相应 章节.
 
 
-Motion Blur
-~~~~~~~~~~~
+泛光效果
+~~~~~~~~
+
+泛光效果参数设置。
+
+场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 相应章节
+描述。
+
+
+运动模糊
+~~~~~~~~
 
 运动模糊效果设置。
 
-The parameters for adjusting Motion Blur effect are the same ones that
-are used in Blender. They are described in the Postprocessing Effects
-chapter.
+场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 后期效果
+描述。
 
 
-Glow Materials
-~~~~~~~~~~~~~~
+发光材质
+~~~~~~~~
 
-Glow Material effect settings.
+发光材质的效果设置。
 
-The settings used for this effect are described in the corresponding
-section.
-
-
-Depth of Field
-~~~~~~~~~~~~~~
-
-Setup for depth-of-field effect parameters.
-
-The parameters are described in the corresponding chapter.
+所有参数设置在 相应 章节.
 
 
-Color correction
-~~~~~~~~~~~~~~~~
+景深
+~~~~
 
-Setup for color correction parameters, including brightness, contrast,
-exposure and saturation.
+设置景深效果的参数
 
-The same set of parameters is used for color correction in Blender
-itself. The description of these parameters is available in the Color
-Management chapter.
+所有参数设置在 相应 章节.
 
 
-Audio
-~~~~~
+颜色校正
+~~~~~~~~
 
-有在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用
-于具有声源的场景）。
+颜色校正参数，包括亮度、 对比度、 曝光和饱和度的设置。
 
-*Mixer*
-   Enables equalizer that shows various parameters (including volume,
-   frequency, distance, attenuation and others) of the speakers
-   present in the scene, and allows user to adjust these parameters by
-   using a numerical keypad. The available parameters and
-   possibilities are described in greater detail in the dedicated
-   section of the Audio chapter.
+场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 颜色管理
+描述。
+
+
+音频
+~~~~
+
+在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用于
+具有声源的场景）。
+
+*混合器*
+   使显示各种（包括音量、 频率、 距离、 衰减等） 场景中的参数 ，发言者
+   的均衡器，并允许用户通过使用数字键盘调整这些参数。更详细地介绍了可
+   用的参数和可能性在  声音篇 的  相应章节
 
    [图片]
 
-   This feature is disabled by default.
+   此功能默认是关闭的。
 
 
-Stereo View
-~~~~~~~~~~~
+立体视图
+~~~~~~~~
 
 有在面板上的立体模式的切换。
 
-Available parameters:
+可用参数：
 
-*Stereo Types*
-   A list of all available stereo rendering modes. As of today, three
-   types are supported:
+*立体类型*
+   列表中的所有可用的立体渲染模式。现在来说，支持三种类型︰
 
-      "NONE" - stereo rendering is not used.
+      "NONE" - 不使用立体渲染。
 
-      "ANAGLYPH" - anaglyph rendering is used.
+      "ANAGLYPH"  - 立体图 渲染被使用。
 
-      "HMD" - rendering for Head-Mounted Displays is used. This option
-      is only available if the system has access to an HMD device.
+      "HMD" -  用于 头戴式显示设备 渲染 。如果系统具有访问的 HMD 设备
+      此选项才是可用的。
 
-   Default setting is "NONE".
+   默认设置为 "NONE" 。
 
-*HMD Settings*
-   Shows the HMD setup window.
+*HMD设置*
+   显示在 HMD 设置窗口.
 
 
-Input Devices
-~~~~~~~~~~~~~
+输入设备
+~~~~~~~~
 
-This panel contains tools for setting up the input devices.
+此面板包含用于设置输入设备的工具。
 
-*Gyroscope use*
-   Enables the use of the gyroscope in the application. Disabled by
-   default.
+*使用陀螺*
+   使在应用程序中使用陀螺仪。默认情况下禁用。
 
-*Gamepad Settings*
-   Clicking this button shows the gamepad settings window.
+*游戏手柄设置*
+   单击此按钮显示了游戏手柄的设置窗口。
 
    [图片]
 
@@ -685,45 +599,34 @@ This panel contains tools for setting up the input devices.
 
 3. **选定的物体和控制物体**
 
-      This is located in the bottom left corner. It displays the names
-      of selected and controlled objects. Selecting an object is done
-      with the mouse. To control the object directly (normally for
-      physics debugging) press the "Q" key and click on the object.
-      The object movement is performed with the "W", "A", "S", "D"
-      keys. To exit the control mode press the "Q" key and click on an
-      empty space. The indicator also displays the distance to the
-      selected object in Blender units (meters equivalent).
+      位于左下角。它显示选择和控制物体的名称。物体选择可以用鼠标来执行
+      。要直接控制的物体（通常为物理调试）按 "Q" 键并单击物体。物体的
+      移动通过 "W", "A", "S", "D" 键执行。要退出控制模式下，按 "Q" 键
+      并单击一个空白的地方。该标示也显示所选物体的距离用Blender单位（
+      相当于米）。
 
 4. **场景复杂度指标**
 
-      Is located in the top right corner of the rendering area. It
-      displays the number of vertices, triangles, WebGL draw calls and
-      shaders used in the main rendering scene (i.e. shadow rendering
-      calls are not included, for example).
+      位于渲染区域的右上角。它显示顶点的数目，三角形，WEBGL绘制调用，
+      并在主渲染场景中使用的着色器（ 阴影渲染调用不包括，例如）。
 
 5. **显存指标**
 
       位于渲染区域的右下角。它显示视频存储器的使用的几何形状，纹理，渲
       染目标的量，并且还总的内存使用情况。
 
-6. **Scene load error indicator**
+6. **场景负载误差指标**
 
-      Is located under the FPS counter. It shows errors and warnings
-      which occur during scene load. Red light means errors, yellow -
-      warnings and green means that the scene was loaded successfully.
+      位于FPS 计数器下 。它显示在场景加载期间出现的错误和警告。红灯表
+      示错误，黄色-警告和绿色表示场景已成功加载。
 
-      Loading errors and warnings can be viewed in the web browser
-      console.
+      装载错误和警告可以在Web浏览器的控制台中查看。
 
-7. **Background Transparency Indicator**
+7. **背景透明度指标**
 
-      Is located in the top right corner of the screen, right below
-      the Scene Complexity Indicator. This is a debug tool that can be
-      used to find if the background of a scene is transparent or not.
-      It appears as a small square with a black and white checkerboard
-      pattern.
+      位于屏幕的右上角，场景复杂度指标的右下面。这是一个调试工具，可用
+      于以发现一个场景的背景是透明或没有。它显示为一个黑色和白色棋盘图
+      案的小方块。
 
-      This indicator is visible only when the background of the
-      application is transparent. It is shown on the picture above
-      only to give the reader the general idea of how it will look
-      under real circumstances.
+      只有当该应用程序的背景为透明时这一指标是可见的。显示在上面的图片
+      只给读者的总体思路，它将如何工作，要根据实际情况。

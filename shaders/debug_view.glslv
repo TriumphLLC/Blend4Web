@@ -161,9 +161,9 @@ void main() {
     if (a_polyindex == 0.0)
         v_barycentric = vec3(1.0, 0.0, 0.0);
     else if (a_polyindex == 1.0)
-        v_barycentric = vec3(0.0, 1.0, 0.0);
-    else if (a_polyindex == 2.0)
         v_barycentric = vec3(0.0, 0.0, 1.0);
+    else // ~0.5 because of normalizing an unsigned byte value
+        v_barycentric = vec3(0.0, 1.0, 0.0);
 
 #if DEBUG_VIEW_SPECIAL_SKYDOME
     gl_Position = vec4(a_position.xy, 0.9999999, 1.0);

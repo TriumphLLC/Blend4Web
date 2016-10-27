@@ -39,7 +39,7 @@ GLSL_OUT vec4 v_sun_pos_clip;
 ==============================================================================*/
 
 void main(void) {
-    v_texcoord = a_bb_vertex + 0.5;
+    v_texcoord = a_bb_vertex;
     
     vec3 dir = normalize(u_sun_direction);
 
@@ -73,5 +73,5 @@ void main(void) {
     //remove double god_rays
     v_sun_pos_clip += 99999.0 * step(v_sun_pos_clip.z, 0.0);
 
-    gl_Position = vec4(2.0 * a_bb_vertex.xy, 0.0, 1.0);
+    gl_Position = vec4(2.0 * a_bb_vertex.xy - 1.0, 0.0, 1.0);
 }

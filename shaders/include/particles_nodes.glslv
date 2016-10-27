@@ -8,19 +8,19 @@
 ==============================================================================*/
 
 #node TEX_COORD_UV
-    v_texcoord = nin_bb_vertex + 0.5;
+    v_texcoord = nin_bb_vertex;
 #endnode
 
 #node UV_MERGED
-    v_texcoord = nin_bb_vertex + 0.5;
+    v_texcoord = nin_bb_vertex;
 #endnode
 
 #node UVMAP
-    v_texcoord = nin_bb_vertex + 0.5;
+    v_texcoord = nin_bb_vertex;
 #endnode
 
 #node GEOMETRY_UV
-    v_texcoord = nin_bb_vertex + 0.5;
+    v_texcoord = nin_bb_vertex;
 #endnode
 
 #node PARTICLE_INFO
@@ -76,7 +76,7 @@ void nodes_main(in vec3 nin_pos, in vec3 nin_part_velocity, in vec3 nin_part_ang
         in float nin_part_age, in float nin_part_size, in vec2 nin_bb_vertex,
         in float nin_lifetime) {
 #if USE_NODE_GEOMETRY_OR || USE_NODE_TEX_COORD_GE
-    v_texcoord = nin_bb_vertex + 0.5;
+    v_texcoord = nin_bb_vertex;
 #endif
     #nodes_main
 }

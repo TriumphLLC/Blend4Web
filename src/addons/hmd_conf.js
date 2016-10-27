@@ -22,12 +22,10 @@
  */
 b4w.module["hmd_conf"] = function(exports, require) {
 
-var m_cfg       = require("config");
 var m_cont      = require("container");
 var m_ctl       = require("controls");
 var m_input     = require("input");
 var m_print     = require("print");
-var m_scs       = require("scenes");
 var m_storage   = require("storage");
 var m_util      = require("util");
 

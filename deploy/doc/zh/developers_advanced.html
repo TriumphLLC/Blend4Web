@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Engine Developers &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>对于引擎开发者 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
         <link rel="next" title="团队工作。使用 Git" href="git_short_manual.html"/>
-        <link rel="prev" title="For Application Developers" href="developers.html"/> 
+        <link rel="prev" title="对应用程序开发人员" href="developers.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,57 +87,57 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">For Engine Developers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#coding-style">Coding Style</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">对于引擎开发者</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#coding-style">代码样式</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#examples">例子</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#building-the-engine">Building the Engine</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#building-the-add-on">Building the Add-on</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#naming-functions-and-variables">Naming Functions and Variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#shader-compilation">Shader Compilation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#validation">Validation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#obfuscation">Obfuscation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#optimization">Optimization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#import-export-directives">Import/Export Directives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#recommendations-and-limitations">Recommendations and Limitations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#webgl-extensions">WebGL Extensions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#compilation-errors">Compilation Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-engine">构建引擎</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-add-on">构建插件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">依赖</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#naming-functions-and-variables">命名函数和变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging">调试中</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shader-compilation">着色器编译</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#validation">验证</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#obfuscation">混淆</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optimization">优化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#import-export-directives">导入/导出指令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#recommendations-and-limitations">建议和限制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#webgl-extensions">WebGL的扩展</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compilation-errors">编译错误</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#updating-add-on-translations">Updating Add-on Translations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-add-on-translations">更新插件翻译</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -167,7 +167,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>For Engine Developers</li>
+    <li>对于引擎开发者</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -180,39 +180,39 @@
            <div itemprop="articleBody">
             
   <div class="section" id="for-engine-developers">
-<span id="developers-advanced"></span><h1><a class="toc-backref" href="#id4">For Engine Developers</a><a class="headerlink" href="#for-engine-developers" title="永久链接至标题">¶</a></h1>
+<span id="developers-advanced"></span><h1><a class="toc-backref" href="#id4">对于引擎开发者</a><a class="headerlink" href="#for-engine-developers" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Table of Contents</p>
+<p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#for-engine-developers" id="id4">For Engine Developers</a><ul>
-<li><a class="reference internal" href="#coding-style" id="id5">Coding Style</a><ul>
-<li><a class="reference internal" href="#examples" id="id6">Examples</a></li>
+<li><a class="reference internal" href="#for-engine-developers" id="id4">对于引擎开发者</a><ul>
+<li><a class="reference internal" href="#coding-style" id="id5">代码样式</a><ul>
+<li><a class="reference internal" href="#examples" id="id6">例子</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#building-the-engine" id="id7">Building the Engine</a></li>
-<li><a class="reference internal" href="#building-the-add-on" id="id8">Building the Add-on</a></li>
-<li><a class="reference internal" href="#dependencies" id="id9">Dependencies</a></li>
-<li><a class="reference internal" href="#naming-functions-and-variables" id="id10">Naming Functions and Variables</a></li>
-<li><a class="reference internal" href="#debugging" id="id11">Debugging</a></li>
-<li><a class="reference internal" href="#shader-compilation" id="id12">Shader Compilation</a><ul>
-<li><a class="reference internal" href="#validation" id="id13">Validation</a></li>
-<li><a class="reference internal" href="#obfuscation" id="id14">Obfuscation</a></li>
-<li><a class="reference internal" href="#optimization" id="id15">Optimization</a></li>
-<li><a class="reference internal" href="#import-export-directives" id="id16">Import/Export Directives</a></li>
-<li><a class="reference internal" href="#recommendations-and-limitations" id="id17">Recommendations and Limitations</a></li>
-<li><a class="reference internal" href="#webgl-extensions" id="id18">WebGL Extensions</a></li>
-<li><a class="reference internal" href="#compilation-errors" id="id19">Compilation Errors</a></li>
+<li><a class="reference internal" href="#building-the-engine" id="id7">构建引擎</a></li>
+<li><a class="reference internal" href="#building-the-add-on" id="id8">构建插件</a></li>
+<li><a class="reference internal" href="#dependencies" id="id9">依赖</a></li>
+<li><a class="reference internal" href="#naming-functions-and-variables" id="id10">命名函数和变量</a></li>
+<li><a class="reference internal" href="#debugging" id="id11">调试中</a></li>
+<li><a class="reference internal" href="#shader-compilation" id="id12">着色器编译</a><ul>
+<li><a class="reference internal" href="#validation" id="id13">验证</a></li>
+<li><a class="reference internal" href="#obfuscation" id="id14">混淆</a></li>
+<li><a class="reference internal" href="#optimization" id="id15">优化</a></li>
+<li><a class="reference internal" href="#import-export-directives" id="id16">导入/导出指令</a></li>
+<li><a class="reference internal" href="#recommendations-and-limitations" id="id17">建议和限制</a></li>
+<li><a class="reference internal" href="#webgl-extensions" id="id18">WebGL的扩展</a></li>
+<li><a class="reference internal" href="#compilation-errors" id="id19">编译错误</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#updating-add-on-translations" id="id20">Updating Add-on Translations</a></li>
+<li><a class="reference internal" href="#updating-add-on-translations" id="id20">更新插件翻译</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="coding-style">
-<span id="id1"></span><h2><a class="toc-backref" href="#id5">Coding Style</a><a class="headerlink" href="#coding-style" title="永久链接至标题">¶</a></h2>
-<p>This engine uses structural programming. The code is organized in modules. OOP methods are not used, classes are not defined, inheritance is not performed and so on.</p>
-<p>The <a class="reference external" href="http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style">K&amp;R style</a> is used except for the fact that the opening bracket for a compound operator is placed on the same line, for example:</p>
+<span id="id1"></span><h2><a class="toc-backref" href="#id5">代码样式</a><a class="headerlink" href="#coding-style" title="永久链接至标题">¶</a></h2>
+<p>这款引擎采用结构化程序。该代码由模块组织。没有用OOP方法都，没有定义的类，不进行继承等。</p>
+<p>使用 <a class="reference external" href="http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style">K＆R风格</a> 除了对于一个组合操作的括号开口被放置在同一行上，例如：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">foo_bar</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span>
@@ -222,23 +222,23 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>4 spaces are used for indentation (no tabs allowed).</p>
+<p>4个空格用于缩进（不允许tab）。</p>
 <div class="section" id="examples">
-<h3><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="永久链接至标题">¶</a></h3>
-<p>The underscore symbol is used in function and variable names:</p>
+<h3><a class="toc-backref" href="#id6">例子</a><a class="headerlink" href="#examples" title="永久链接至标题">¶</a></h3>
+<p>下划线符号在函数和变量名称中使用：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">foo_bar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>  <span class="c1">// correct</span>
 <span class="kd">var</span> <span class="nx">fooBar</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>   <span class="c1">// wrong</span>
 </pre></div>
 </div>
-<p>All global variables begin with an underscore:</p>
+<p>所有的全局变量以下划线开头：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">_foo_bar</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The constants are written in capital letters and never begin with an underscore:</p>
+<p>这些常量用大写字母表示，从不以下划线开头：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The names of external API methods and properties are written after a point. To avoid obfuscation of fields they must be listed with the <code class="docutils literal"><span class="pre">&#64;cc_externs</span></code> tag:</p>
+<p>外部API方法和属性的名称均在点之后写的。为了避免混淆他们必须用 <code class="docutils literal"><span class="pre">&#64;</span> <span class="pre">cc_externs</span></code> 标签字段：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
 
 <span class="nx">exports</span><span class="p">.</span><span class="nx">foo_bar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
@@ -263,52 +263,54 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Commenting is in English only. Comment style - JSDoc.</p>
+<p>注释仅用英语。注释风格 -  JSDoc。</p>
 </div>
 </div>
 <div class="section" id="building-the-engine">
-<h2><a class="toc-backref" href="#id7">Building the Engine</a><a class="headerlink" href="#building-the-engine" title="永久链接至标题">¶</a></h2>
-<p>Before building please make sure that your system has all required dependencies installed (see the <a class="reference internal" href="#dependencies"><span>table</span></a>).</p>
-<p>To compile the engine and the applications included into the SDK please execute the following command (in the SDK root):</p>
+<h2><a class="toc-backref" href="#id7">构建引擎</a><a class="headerlink" href="#building-the-engine" title="永久链接至标题">¶</a></h2>
+<p>构建之前，请确保您的系统已安装所有需要的依赖关系（参见 <a class="reference internal" href="#dependencies"><span>table</span></a>).</p>
+<p>要编译引擎，并纳入SDK，请执行以下命令（在SDK根目录）的应用程序：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>make compile
 </pre></div>
 </div>
-<p>The full building that includes converting resources (textures, sounds and videos), compilation and converting the docs, can be performed with the following command:</p>
+<p>完整的构建，包括将资源（纹理，声音和视频），编辑和转换的文档，可以用下面的命令执行：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>make build
 </pre></div>
 </div>
-<p>Building the archives with the distributions:</p>
+<p>构建发布档案：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>make dist
 </pre></div>
 </div>
-<p>All above mentioned operations can be performed with a single command:</p>
+<p>所有上述操作可以用一个命令来执行：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>make all
 </pre></div>
 </div>
 </div>
 <div class="section" id="building-the-add-on">
-<h2><a class="toc-backref" href="#id8">Building the Add-on</a><a class="headerlink" href="#building-the-add-on" title="永久链接至标题">¶</a></h2>
-<p>Binary Blend4Web addon builds are available for the following platforms: Linux x32/64, OS X x64, Windows x32/64. At the same time users can compile the addon by themselves.</p>
-<p>To do this Python 3.x (it&#8217;s better if it&#8217;s the same version as in Blender) and a C compiler are required. Under Linux it&#8217;s enough to install the python3-dev and build-essential packages.</p>
+<h2><a class="toc-backref" href="#id8">构建插件</a><a class="headerlink" href="#building-the-add-on" title="永久链接至标题">¶</a></h2>
+<p>Binary Blend4Web addon builds are available for the following platforms: Linux x32/64, macOS x64, Windows x32/64. At the same time users can compile the addon by themselves.</p>
+<p>要做到这一点，Python 3.X（如果它是跟blender相同的版本更好）和C编译器是必需的。在Linux下，只需安装python3-dev 和 build-essential 的程序包。</p>
 <dl class="docutils">
-<dt>Paths relative to the repository root:</dt>
+<dt>路径相对于库根：</dt>
 <dd><ul class="first last simple">
-<li>build script: <code class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></code></li>
-<li>Blend4Web addon: <code class="docutils literal"><span class="pre">blender_scripts/addons/blend4web/</span></code></li>
+<li><p class="first">构建脚本：<code class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></code></p>
+</li>
+<li><p class="first">Blend4Web插件： <code class="docutils literal"><span class="pre">blender_scripts/addons/blend4web/</span></code></p>
+</li>
 </ul>
 </dd>
 </dl>
-<p>The building process is started in the following way:</p>
+<p>该构建过程开始于以下方式：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python3 ./csrc/b4w_bin/build.py
 </pre></div>
 </div>
-<p>As a result of the building you&#8217;ll get a binary file called:</p>
+<p>由于构建的结果，你会得到一个名为二进制文件：</p>
 <p><code class="docutils literal"><span class="pre">b4w_bin_[PLATFORM]_[ARCHITECTURE].[STANDARD_EXTENSION]</span></code>,</p>
-<p>located in the same directory as the addon. Example: <code class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></code>. After this the addon is ready to use under this platform.</p>
+<p>和插件位于同一目录中。例如：<code class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></code>。在此之后，插件已经准备好这个平台下使用。</p>
 </div>
 <div class="section" id="dependencies">
-<span id="id2"></span><h2><a class="toc-backref" href="#id9">Dependencies</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h2>
-<p>All dependencies are listed in the table below in order of decreasing importance.</p>
+<span id="id2"></span><h2><a class="toc-backref" href="#id9">依赖</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h2>
+<p>所有依赖于下表中列出的重要性顺序递减。</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="34%" />
@@ -316,181 +318,231 @@
 <col width="31%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Name</th>
-<th class="head">Ubuntu 16.04 package</th>
-<th class="head">Purpose</th>
+<tr class="row-odd"><th class="head"><p class="first last">名称</p>
+</th>
+<th class="head"><p class="first last">Ubuntu的16.04包</p>
+</th>
+<th class="head"><p class="first last">用途</p>
+</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Bash</td>
-<td>included by default</td>
-<td>script interpreter</td>
+<td><p class="first last">默认情况下包含</p>
+</td>
+<td><p class="first last">脚本解释器</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Python 3</td>
-<td>included by default</td>
-<td>script interpreter</td>
+<td><p class="first last">默认情况下包含</p>
+</td>
+<td><p class="first last">脚本解释器</p>
+</td>
 </tr>
 <tr class="row-even"><td>NodeJS</td>
 <td>nodejs</td>
-<td>compiling shaders</td>
+<td><p class="first last">着色器编译</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Java</td>
-<td>default-jre</td>
-<td>compiling and obfuscating
-the engine modules</td>
+<td><p class="first last">默认的JRE</p>
+</td>
+<td><p class="first last">编译和混淆引擎模块</p>
+</td>
 </tr>
 <tr class="row-even"><td>ImageMagick</td>
 <td>imagemagick</td>
-<td>converting textures</td>
+<td><p class="first last">转换纹理</p>
+</td>
 </tr>
-<tr class="row-odd"><td>NVIDIA Texture Tools</td>
+<tr class="row-odd"><td><p class="first last">NVIDIA纹理工具</p>
+</td>
 <td>libnvtt-bin</td>
-<td>converting textures</td>
+<td><p class="first last">转换纹理</p>
+</td>
 </tr>
 <tr class="row-even"><td>Libav</td>
 <td>libav-tools</td>
-<td>converting media resources</td>
+<td><p class="first last">转换资源</p>
+</td>
 </tr>
-<tr class="row-odd"><td>NVIDIA Cg Toolkit</td>
-<td>nvidia-cg-toolkit</td>
-<td>debugging shaders</td>
+<tr class="row-odd"><td><p class="first last">NVIDIA CG工具包</p>
+</td>
+<td><p class="first last">NVIDIA-CG-工具包</p>
+</td>
+<td><p class="first last">着色器的调试</p>
+</td>
 </tr>
 <tr class="row-even"><td>OptiPNG</td>
 <td>optipng</td>
-<td>optimizing PNG files</td>
+<td><p class="first last">优化 PNG 文件</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Emscripten</td>
-<td><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">from EMSDK source code</a></td>
-<td>building Uranium</td>
+<td><p class="first last"><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">from EMSDK source 代码</a></p>
+</td>
+<td><p class="first last">构建Uranium</p>
+</td>
 </tr>
 <tr class="row-even"><td>Gnuplot</td>
 <td>gnuplot</td>
-<td>debugging</td>
+<td><p class="first last">偵錯</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Graphviz</td>
 <td>graphviz</td>
-<td>debugging</td>
+<td><p class="first last">偵錯</p>
+</td>
 </tr>
 <tr class="row-even"><td>xsel</td>
 <td>xsel</td>
-<td>debugging</td>
+<td><p class="first last">偵錯</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Sphinx</td>
 <td>python3-sphinx</td>
-<td>building the manual</td>
+<td><p class="first last">构建手册</p>
+</td>
 </tr>
 <tr class="row-even"><td>sphinx-intl</td>
-<td>installed with PIP v3
-(pip3 install sphinx-intl)</td>
-<td>building the manual
-(internationalization)</td>
+<td><p class="first last">使用 PIP v3 安装（pip3 install sphinx-intl）</p>
+</td>
+<td><p class="first last">构建手册（国际）</p>
+</td>
 </tr>
 <tr class="row-odd"><td>TeX Live</td>
 <td>texlive texlive-latex-extra
 texlive-lang-cyrillic</td>
-<td>building the manual
-(PDF version)</td>
+<td><p class="first last">构建说明书（PDF版）</p>
+</td>
 </tr>
 <tr class="row-even"><td>JSDoc 3</td>
-<td>installed with NPM
-(npm install -g jsdoc)</td>
-<td>building the API
-documentation</td>
+<td><p class="first last">使用 NPM 进行安装 (npm install -g jsdoc)</p>
+</td>
+<td><p class="first last">构建API文档</p>
+</td>
 </tr>
 <tr class="row-odd"><td>PEG.js</td>
-<td><a class="reference external" href="http://pegjs.majda.cz/">from PEG.js source code</a></td>
-<td>building shader
-preprocessor</td>
+<td><p class="first last"><a class="reference external" href="http://pegjs.majda.cz/">从PEG.js源代码</a></p>
+</td>
+<td><p class="first last">着色器预处理</p>
+</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="naming-functions-and-variables">
-<h2><a class="toc-backref" href="#id10">Naming Functions and Variables</a><a class="headerlink" href="#naming-functions-and-variables" title="永久链接至标题">¶</a></h2>
-<p>When creating new functions and variables it is recommended to use the following prefixes and suffixes.</p>
+<h2><a class="toc-backref" href="#id10">命名函数和变量</a><a class="headerlink" href="#naming-functions-and-variables" title="永久链接至标题">¶</a></h2>
+<p>当创建新的函数和变量，建议使用以下前缀和后缀。</p>
 <dl class="docutils">
 <dt><em>init_</em></dt>
-<dd>create an abstract object</dd>
+<dd><p class="first last">创建抽象物体</p>
+</dd>
 <dt><em>create_</em></dt>
-<dd>create a certain object</dd>
+<dd><p class="first last">创建实际的物体</p>
+</dd>
 <dt><em>update_</em></dt>
-<dd>update the state of an existing object</dd>
+<dd><p class="first last">更新现有物体的状态</p>
+</dd>
 <dt><em>attach_/detach_</em></dt>
-<dd>add/remove a temporary object property</dd>
+<dd><p class="first last">添加/删除临时物体属性</p>
+</dd>
 <dt><em>append_/remove_</em></dt>
-<dd>add/remove a temporary property to the already existing properties of the same kind</dd>
+<dd><p class="first last">添加/删除临时属性同类的现有属性</p>
+</dd>
 <dt><em>insert_/pop_</em></dt>
-<dd>add/remove an array element (accessed by index)</dd>
+<dd><p class="first last">添加/删除数组元素（按索引访问）</p>
+</dd>
 <dt><em>switch_</em></dt>
-<dd>switch flag&#8217;s binary value</dd>
+<dd><p class="first last">切换标志的二进制值</p>
+</dd>
 <dt><em>apply_/clear_</em></dt>
-<dd>operation with flags, binary values or arbitrary parameters</dd>
+<dd><p class="first last">操作标志，二进制值或任意参数的操作</p>
+</dd>
 <dt><em>set_/get_</em></dt>
-<dd>set/get the property/variable value</dd>
+<dd><p class="first last">设置/获取属性/变量值</p>
+</dd>
 <dt><em>_tmp</em></dt>
-<dd>global variable - cache in the form of a simple object (array, vector)</dd>
+<dd><p class="first last">全局变量 - 缓存在一个简单的物体的形式（数组，向量）</p>
+</dd>
 <dt><em>_cache</em></dt>
-<dd>global variable - cache in the form of a complex object</dd>
+<dd><p class="first last">全局变量 - 缓存在一个复杂的物体的形式</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="debugging">
-<span id="id3"></span><h2><a class="toc-backref" href="#id11">Debugging</a><a class="headerlink" href="#debugging" title="永久链接至标题">¶</a></h2>
-<p>Engine debugging is performed with the <code class="docutils literal"><span class="pre">debug.js</span></code> module methods.</p>
-<p>The structure of the current render graph can be saved in the DOT format using the <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code> call, for example, in the browser console. After calling this method, save the console&#8217;s output into the file with the .gv extension. To get the graph in a visual form the <a class="reference external" href="http://www.graphviz.org/">graphviz</a> utilities are required. Converting to the SVG format is performed using the command:</p>
+<span id="id3"></span><h2><a class="toc-backref" href="#id11">调试中</a><a class="headerlink" href="#debugging" title="永久链接至标题">¶</a></h2>
+<p>引擎调试在 <code class="docutils literal"><span class="pre">debug.js</span></code> 模块方法进行。</p>
+<p>当前的渲染图的结构可以用 <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code> 调用，例如，在浏览器的控制台被保存在DOT格式。调用此方法后，保存控制台输出与.gv扩展名的文件。为了得到在视觉形式图表中的 <a class="reference external" href="http://www.graphviz.org/">graphviz的</a> 是必需的工具。转换为SVG格式是使用命令执行：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; dot -Tsvg graph.gv -o graph.svg
 </pre></div>
 </div>
-<p>where <code class="docutils literal"><span class="pre">graph.gv</span></code> is the name of the file with the saved graph.</p>
+<p>其中，<code class="docutils literal"><span class="pre">graph.gv</span></code> 是保存的图形文件的名称。</p>
 <span class="target" id="shaders"></span></div>
 <div class="section" id="shader-compilation">
-<span id="index-0"></span><h2><a class="toc-backref" href="#id12">Shader Compilation</a><a class="headerlink" href="#shader-compilation" title="永久链接至标题">¶</a></h2>
-<p>All shaders used in the engine are processed by a compiler. The compiler performs the following three main procedures:</p>
+<span id="index-0"></span><h2><a class="toc-backref" href="#id12">着色器编译</a><a class="headerlink" href="#shader-compilation" title="永久链接至标题">¶</a></h2>
+<p>在引擎中使用的所有着色器由编译器处理。编译器执行以下三个主要步骤：</p>
 <ul class="simple">
-<li>validation of the shader code,</li>
-<li>its obfuscation and</li>
-<li>optimization.</li>
+<li><p class="first">shader代码的验证，</p>
+</li>
+<li><p class="first">它的混淆处理，</p>
+</li>
+<li><p class="first">优化</p>
+</li>
 </ul>
-<p>In order to run the compiler, execute one of the following commands in the SDK root:</p>
+<p>为了编译运行，在SDK根处键入以下命令执行：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; make compile_shaders
 &gt; make verify_shaders
 </pre></div>
 </div>
 <ul class="simple">
-<li><strong>make</strong> <em>compile_shaders</em> - performs validation, obfuscation, optimization and finally, export of the compiled shaders,</li>
-<li><strong>make</strong> <em>verify_shaders</em> - performs only validation, obfuscation and optimization.</li>
+<li><p class="first"><strong>make</strong> <em>compile_shaders</em>  - 执行验证，混淆，优化和最后，编译着色器的导出，</p>
+</li>
+<li><p class="first"><strong>make</strong> <em>verify_shaders</em>  - 只执行验证，混淆和优化。</p>
+</li>
 </ul>
-<p>Syntax analysis (parsing) of the shader text is first performed during compilation. The corresponding parser is created automatically based on the grammar, using the <a class="reference external" href="http://pegjs.majda.cz/">PEG.js</a> generator. Then the shaders are validated, obfuscated and optimized according to the parser data, and after that the shaders are exported in the form of an abstract syntax tree (AST) for direct loading in the engine.</p>
-<p>The location of the main files in the repository:</p>
+<p>在编译期间首先进行着色文本的语法分析（解析）。相应的解析器自动创建基于语法，使用 <a class="reference external" href="http://pegjs.majda.cz/">PEG.js</a> 引擎。然后将由着色器验证，混淆和优化根据解析器数据，之后该着色器中抽象语法树（AST），用于在引擎直接装载的形式输出。</p>
+<p>资源库中的主要文件的位置：</p>
 <ul class="simple">
-<li>initial grammar - glsl_utils/pegjs/glsl_parser.pegjs</li>
-<li>parser generation script - glsl_utils/pegjs/gen_nodejs.sh</li>
-<li>parser - glsl_utils/compiler/glsl_parser.js</li>
+<li><p class="first">初步的语法 -  glsl_utils / pegjs / glsl_parser.pegjs</p>
+</li>
+<li><p class="first">解析器生成脚本 -  glsl_utils / pegjs / gen_nodejs.sh</p>
+</li>
+<li><p class="first">解析器 -  glsl_utils /编译器/ glsl_parser.js</p>
+</li>
 </ul>
 <div class="section" id="validation">
-<span id="index-1"></span><h3><a class="toc-backref" href="#id13">Validation</a><a class="headerlink" href="#validation" title="永久链接至标题">¶</a></h3>
-<p>The compiler performs the following procedures related to shader code validation:</p>
+<span id="index-1"></span><h3><a class="toc-backref" href="#id13">验证</a><a class="headerlink" href="#validation" title="永久链接至标题">¶</a></h3>
+<p>编译器执行与着色器代码验证以下程序：</p>
 <ul class="simple">
-<li>reporting about unused variables and functions (dead code),</li>
-<li>checking the syntax of shaders,</li>
-<li>checking the conformance of shaders to the import/export mechanism,</li>
-<li>removing odd or repetitive tokens: spaces, endlines and semicolons.</li>
+<li><p class="first">报告有关未使用的变量和函数（死码）</p>
+</li>
+<li><p class="first">检查着色器的语法，</p>
+</li>
+<li><p class="first">检查着色器的一致性导入/导出机制，</p>
+</li>
+<li><p class="first">去除奇数或重复的标记：空格，endlines和分号。</p>
+</li>
 </ul>
 </div>
 <div class="section" id="obfuscation">
-<span id="index-2"></span><h3><a class="toc-backref" href="#id14">Obfuscation</a><a class="headerlink" href="#obfuscation" title="永久链接至标题">¶</a></h3>
-<p>Obfuscation minifies the GLSL code and makes it difficult to understand it. So far the following procedure is implemented:</p>
+<span id="index-2"></span><h3><a class="toc-backref" href="#id14">混淆</a><a class="headerlink" href="#obfuscation" title="永久链接至标题">¶</a></h3>
+<p>混淆minifies的GLSL代码，使得它很难理解它。到目前为止以下过程实现：</p>
 <ul class="simple">
-<li>replacing the user-defined identifiers with shorter single-symbol, two-symbol etc. names (with support of the import/export mechanism).</li>
+<li><p class="first">具有较短的单符号（与支持导入/导出机制的）替换用户定义的标识符，两符号等的名称。</p>
+</li>
 </ul>
 </div>
 <div class="section" id="optimization">
-<span id="index-3"></span><h3><a class="toc-backref" href="#id15">Optimization</a><a class="headerlink" href="#optimization" title="永久链接至标题">¶</a></h3>
-<p>Optimization constitutes the following procedures:</p>
+<span id="index-3"></span><h3><a class="toc-backref" href="#id15">优化</a><a class="headerlink" href="#optimization" title="永久链接至标题">¶</a></h3>
+<p>优化构成以下程序：</p>
 <ul class="simple">
-<li>removing curly brackets which are not useful in any ways except creating local scopes (this functionality is used for processing node/lamp directives),</li>
-<li>optimization inside functions - creating shared local variables to replace ones originally created by the programmer.</li>
+<li><p class="first">除去大括号，不能在除了创建本地作用域任何方式有用（这一功能是用于处理节点/灯指示），</p>
+</li>
+<li><p class="first">内部功能的优化 - 创建共享局部变量，以取代原来由程序员创建的。</p>
+</li>
 </ul>
-<p>An example of removing unused curly brackets: replacing the following code</p>
+<p>删除未使用大括号的一个例子：替换下面的代码</p>
 <div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="p">{</span>
@@ -499,14 +551,14 @@ preprocessor</td>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>with this code</p>
+<p>与这些代码</p>
 <div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Low number of temporary local variables is achieved by repetitively using them in different contexts. For example, the following code</p>
+<p>临时局部变量的低数量是由在不同情况下重复使用它们来实现的。例如，下面的代码</p>
 <div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="k">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
@@ -514,7 +566,7 @@ preprocessor</td>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>will be replaced with</p>
+<p>Blender内置渲染引擎的纹理绘图类型已被其它三个模块所取代：</p>
 <div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
     <span class="k">int</span> <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="n">_int_tmp0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
@@ -524,45 +576,50 @@ preprocessor</td>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Local variables for structures and arrays are not optimized this way.</p>
+<p class="last">对于结构和数组的局部变量未优化这种方式。</p>
 </div>
 </div>
 <div class="section" id="import-export-directives">
-<span id="index-4"></span><h3><a class="toc-backref" href="#id16">Import/Export Directives</a><a class="headerlink" href="#import-export-directives" title="永久链接至标题">¶</a></h3>
-<p>import/export directives are used to organize, structure and increase the readability of the shader code in the include file. They are specified in the beginning of the file and should look approximately like this:</p>
+<span id="index-4"></span><h3><a class="toc-backref" href="#id16">导入/导出指令</a><a class="headerlink" href="#import-export-directives" title="永久链接至标题">¶</a></h3>
+<p>导入/导出指令用于组织，结构和增加着色器代码的可读性中包含文件。它们在文件的开头指定，应该看起来大约是这样的：</p>
 <div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
 <span class="cp">#import qrot</span>
 
 <span class="cp">#export skin</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">#import</span></code> directive defines a set of ids which are declared outside the include file but can be accessed from inside it. There is a limitation though: such ids must necessarily be declared somewhere above the place where the include file is linked.</p>
-<p>The <code class="docutils literal"><span class="pre">#export</span></code> directive defines a set of ids which can be accessed from outside this file. Such ids must necessarily be declared in this file.</p>
-<p>Therefore, the shader which uses the include file must have all the declarations necessary for import before the place of linking, and can use the exported ids after it.</p>
-<p>Ids can be both variable names and function names. If there are no import/export directives it&#8217;s considered by default that the include file does not use external declarations and does not allow the using of internal ones.</p>
+<p>在``＃import``指令定义了一组声明的包含文件之外，但可以从里面被访问的ID。这里有一个限制，但：这样的id必然是上述地方，其中包括文件链接的地方声明。</p>
+<p>在``＃export``指令定义了一组可以从该文件外部访问的ID。这样的id必然在这个文件中声明。</p>
+<p>因此，它使用的着色器包含文件必须拥有所有必要的连接位置之前，进口的声明，以后它可以使用导出的标识。</p>
+<p>IDS既可以是变量名和函数名。如果没有导入/导出命令中，它在默认情况下认为，包括文件不使用外部声明和内部的人的使用不允许。</p>
 </div>
 <div class="section" id="recommendations-and-limitations">
-<span id="index-5"></span><h3><a class="toc-backref" href="#id17">Recommendations and Limitations</a><a class="headerlink" href="#recommendations-and-limitations" title="永久链接至标题">¶</a></h3>
-<p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compiler&#8217;s features - its possible to guarantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:</p>
+<span id="index-5"></span><h3><a class="toc-backref" href="#id17">建议和限制</a><a class="headerlink" href="#recommendations-and-limitations" title="永久链接至标题">¶</a></h3>
+<p>由于以下几个原因：预处理，处理多个着色器和包括文件和由于编译器的功能的需要 - 其可能保证只有当一些规则和限制方面的着色源推崇的输出代码的工作码：</p>
 <ol class="arabic simple">
-<li>In order to describe constants which are defined by the engine at run, it&#8217;s necessary to use the <code class="docutils literal"><span class="pre">#var</span></code> special directive. For example:</li>
+<li><p class="first">为了描述这是由引擎在运行中定义的常量，有必要使用``＃var``特殊指令。例如：</p>
+</li>
 </ol>
 <div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var AU_QUALIFIER uniform</span>
 <span class="n">AU_QUALIFIER</span> <span class="k">float</span> <span class="n">a</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The syntax here is similar to the #define directive. The point of the #var directive is that the value which it defines allows to parse the initial shader. It&#8217;s irrelevant what exactly it will be (e.g. &#8216;uniform&#8217; or &#8216;attribute&#8217; in the above example), because at this level it&#8217;s unknown anyway. Nevertheless, it&#8217;s better to specify a more or less suitable description and not something arbitrary.</p>
+<p>这里的语法是类似的#define指令。所述#var指令的一点是，它定义了值允许解析初始着色。它是不相关的这将是什么（在上面的例子如“制服”或“属性”），因为在这个水平上它是未知反正。不过，最好是指定一个或多或少适当的描述，不是随心所欲。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">The #var directive is not necessary for constants used not in the shader code but in the preprocessor expressions.</p>
+<p class="last">该#var指令没有必要不是在着色的代码，但在预处理器表达式中使用的常数。</p>
 </div>
 <ol class="arabic simple" start="2">
-<li>Using the import/export directives when needed.</li>
-<li>The built-in functions must not be overloaded - only the user ones.</li>
-<li>Variables should not be declared with names of the built-in functions, or main (even if it doesn&#8217;t lead to errors).</li>
-<li>The #var and #define directives must not be used for replacing single symbols in such operators as: &#8220;++&#8221;, &#8220;&#8211;&#8221;, &#8220;*=&#8221;, &#8220;/=&#8221;, &#8220;+=&#8221;, &#8220;-=&#8221;, &#8220;==&#8221;, &#8220;&lt;=&#8221;, &#8220;&gt;=&#8221;, &#8221;!=&#8221;, &#8220;&amp;&amp;&#8221;, &#8220;||&#8221;, &#8220;^^&#8221;.</li>
+<li><p class="first">在需要的时候使用导入/导出指令。</p>
+</li>
+<li><p class="first">内置的功能，不能超载 - 只有用户的。</p>
+</li>
+<li><p class="first">变量不应与的内置函数名称，或者主要（即使它不导致错误）中声明。</p>
+</li>
+<li><p class="first">的#var和#define指令不能被用于以这样运营商更换单个符号：“  ”，“ - ”，“* =”，“/ =”，“  =”，“ -  =” ，“==”，“&lt;=”，“&gt; =”，“！=”，“&amp;&amp;”，“||”，“^^”。</p>
+</li>
 </ol>
-<p>For example:</p>
+<p>例如：</p>
 <div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#var EQUAL =</span>
 <span class="p">...</span>
 <span class="n">a</span> <span class="o">*</span><span class="n">EQUAL</span> <span class="n">b</span><span class="p">;</span>
@@ -570,9 +627,12 @@ preprocessor</td>
 </pre></div>
 </div>
 <ol class="arabic simple" start="6">
-<li>The usage of the #include directive should not lead to ambiguity during the obfuscation of the include file. This can happen when multiple shaders are included into the same file and the above defined directives (like #var or #define) can have influence on any of them. Also, it&#8217;s better not to use undeclared functions and variables in the include file.</li>
-<li>Multi-level includes or multiple inclusion of the same include into the same shader is not supported.</li>
-<li>The shader&#8217;s malfunction can also be caused by nontrivial using of preprocessing, for example, creating an invalid GLSL code:</li>
+<li><p class="first">#include指令的使用不应该包含文件的混淆中产生歧义。当多个着色器纳入相同的文件，上面定义的指令（如#var或者将#define）可以对任何人的影响，可能发生这种情况。此外，最好不要使用未声明的函数和变量中包含文件。</p>
+</li>
+<li><p class="first">多级包括或相同的多个纳入到包括不支持相同的着色器。</p>
+</li>
+<li><p class="first">着色器的故障也可以通过使用非平凡的预处理，例如，创建一个无效的GLSL代码引起的：</p>
+</li>
 </ol>
 <div class="highlight-glsl"><div class="highlight"><pre><span></span><span class="cp">#if TYPE</span>
 <span class="k">void</span> <span class="n">function1</span><span class="p">()</span> <span class="p">{</span>
@@ -584,14 +644,17 @@ preprocessor</td>
 </pre></div>
 </div>
 <ol class="arabic simple" start="9">
-<li>Do not declare variables with such names as <code class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></code>, where <code class="docutils literal"><span class="pre">NODE_NAME</span></code> &#8212; name of some node, <code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> &#8212; name of an input or an output of the node.</li>
-<li>Repetitive use of <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> or <code class="docutils literal"><span class="pre">#lamps_main</span></code> directives is not permitted inside a single shader.</li>
-<li>The <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> and <code class="docutils literal"><span class="pre">#lamps_main</span></code> directives are recommended to use in the file, containing these shader nodes description, for example, in the same include-file. This is necessary for the correct shader validation.</li>
+<li><p class="first">不要声明与这样的名字变量 <code class="docutils literal"><span class="pre">node_</span> <span class="pre">[NODE_NAME]</span> <span class="pre">_var_</span> <span class="pre">[IN_OUT_NODE]</span></code>，其中 <code class="docutils literal"><span class="pre">NODE_NAME</span></code> &#8212;一些节点的名称，<code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> &#8212;输入或输出的名称节点。</p>
+</li>
+<li><p class="first">重复使用 <code class="docutils literal"><span class="pre">＃nodes_main</span></code>，<code class="docutils literal"><span class="pre">＃nodes_global</span></code> 或 <code class="docutils literal"><span class="pre">＃lamps_main</span></code> 指令是不是一个单一的着色器内禁止。</p>
+</li>
+<li><p class="first">在 <code class="docutils literal"><span class="pre">＃nodes_main</span></code>，<code class="docutils literal"><span class="pre">＃nodes_global</span></code> 和 <code class="docutils literal"><span class="pre">＃lamps_main</span></code> 指令，建议在该文件中使用，包含这些着色器节点的说明，例如，在同一个包含文件。这是必要的正确的着色器验证。</p>
+</li>
 </ol>
 </div>
 <div class="section" id="webgl-extensions">
-<span id="index-6"></span><h3><a class="toc-backref" href="#id18">WebGL Extensions</a><a class="headerlink" href="#webgl-extensions" title="永久链接至标题">¶</a></h3>
-<p>Compilation may depend on WebGL extensions being used if they somehow influence the shading language. At the moment the following extensions are supported by the compiler:</p>
+<span id="index-6"></span><h3><a class="toc-backref" href="#id18">WebGL的扩展</a><a class="headerlink" href="#webgl-extensions" title="永久链接至标题">¶</a></h3>
+<p>如果他们以某种方式影响着色语言所使用的编译可能取决于WebGL的扩展。目前以下扩展名由编译器的支持：</p>
 <blockquote>
 <div><ul class="simple">
 <li>OES_standard_derivatives</li>
@@ -599,74 +662,65 @@ preprocessor</td>
 </div></blockquote>
 </div>
 <div class="section" id="compilation-errors">
-<span id="index-7"></span><h3><a class="toc-backref" href="#id19">Compilation Errors</a><a class="headerlink" href="#compilation-errors" title="永久链接至标题">¶</a></h3>
-<p>In case of an error the compiler will output the corresponding message in the console.</p>
-<p>Table of possible errors:</p>
+<span id="index-7"></span><h3><a class="toc-backref" href="#id19">编译错误</a><a class="headerlink" href="#compilation-errors" title="永久链接至标题">¶</a></h3>
+<p>在发生错误时，编译器会在控制台输出相应的消息。</p>
+<p>可能发生的错误的表：</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="46%" />
 <col width="54%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Error message</th>
-<th class="head">Cause</th>
+<tr class="row-odd"><th class="head"><p class="first last">错误信息</p>
+</th>
+<th class="head"><p class="first last">原因</p>
+</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Error! Ambiguous obfuscation in
-include file &#8216;FILE_NAME&#8217;.</td>
-<td>Ambiguous obfuscation in the &#8216;FILE_NAME&#8217;
-include file.</td>
+<tr class="row-even"><td><p class="first last">错误！含糊不清的包含文件“FILE_NAME”。</p>
+</td>
+<td><p class="first last">在“FILE_NAME”含糊不清包含文件。</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Error! Extension NAME is
-unsupported in obfuscator. File:
-&#8216;FILE_NAME&#8217;.</td>
-<td>The NAME WebGL extension used in the
-FILE_NAME file is not supported by the
-obfuscator.</td>
+<tr class="row-odd"><td><p class="first last">错误！扩展名是在混淆器不支持。文件：“FILE_NAME”。</p>
+</td>
+<td><p class="first last">在FILE_NAME文件中使用的名称WebGL的扩展不被混淆器支持。</p>
+</td>
 </tr>
-<tr class="row-even"><td>Error! Include &#8216;FILE_NAME&#8217; not
-found.</td>
-<td>The FILE_NAME include file could not be
-found.</td>
+<tr class="row-even"><td><p class="first last">错误！包括“FILE_NAME找不到。</p>
+</td>
+<td><p class="first last">该FILE_NAME包含文件找不到。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 File: &#8216;FILE_NAME&#8217;.</td>
-<td>Error in FILE_NAME file. Undeclared
-identifier NAME of type TYPE (variable,
-function, structure etc).</td>
+<td><p class="first last">FILE_NAME文件中错误。类型TYPE（变量，函数，结构等）的未声明标识符名称。</p>
+</td>
 </tr>
 <tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Importing data missed. File:
 &#8216;FILE_NAME&#8217;.</td>
-<td>Undeclared identifier NAME of type TYPE
-(variable, function, structure etc).
-Declaration missing for the identifier
-required in the FILE_NAME include file
-according to the <code class="docutils literal"><span class="pre">#import</span></code> directive.</td>
+<td><p class="first last">类型TYPE（变量，函数，结构等）的未声明标识符名称。声明中缺少在FILE_NAME所需的标识符包括根据``＃import``指令文件。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Possibly exporting needed in
 include file &#8216;INCLUDE_NAME&#8217;. File:
 &#8216;FILE_NAME&#8217;.</td>
-<td>Error in FILE_NAME file. Undeclared
-identifier NAME of type TYPE (variable,
-function, structure etc). Possibly its
-export into the INCLUDE_NAME include
-file should be allowed.</td>
+<td><p class="first last">在FILE_NAME文件有错误。类型TYPE（变量，函数，结构等）的未声明标识符名称。可能出口到INCLUDE_NAME include文件应该被允许。</p>
+</td>
 </tr>
 <tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Possibly importing needed. File:
 &#8216;FILE_NAME&#8217;.</td>
-<td>Undeclared identifier NAME of type TYPE
-(variable, function, structure etc).
-Possibly it should be specified as
-imported in the FILE_NAME include file.</td>
+<td><p class="first last">类型TYPE（变量，函数，结构等）的未声明标识符名称。也许应指定为FILE_NAME进口包含文件。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Error! Unused export token &#8216;NAME&#8217;
 in include file &#8216;FILE_NAME&#8217;.</td>
-<td>Undeclared identifier NAME is allowed
-for export in the FILE_NAME include file.</td>
+<td><p class="first last">未声明的标识符名称是允许在出口FILE_NAME包含文件。</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -681,76 +735,64 @@ for export in the FILE_NAME include file.</td>
 <tbody valign="top">
 <tr class="row-odd"><td>Error! Using reserved word in TYPE
 &#8216;NAME&#8217;. File: &#8216;FILE_NAME&#8217;.</td>
-<td>Error in FILE_NAME file. A reserved id
-is used for declaring the identifier
-NAME of type TYPE (variable, function,
-structure etc).</td>
+<td><p class="first last">错误FILE_NAME文件。的预留ID用于声明类型TYPE（变量，函数，结构等）的标识符名称。</p>
+</td>
 </tr>
 <tr class="row-even"><td>Error! &#8216;all&#8217; extension cannot have
 BEHAVIOR_TYPE behavior. File:
 &#8216;FILE_NAME&#8217;.</td>
-<td>The <code class="docutils literal"><span class="pre">#extension</span></code> directive specified
-for <code class="docutils literal"><span class="pre">all</span></code> WebGL extensions in the
-FILE_NAME file does not support the
-behavior BEHAVIOR_TYPE.</td>
+<td><p class="first last">对于指定的  <code class="docutils literal"><span class="pre">#extension</span></code>  指令 在FILE_NAME文件 <code class="docutils literal"><span class="pre">all</span></code> WebGL的扩展不支持的行为 BEHAVIOR_TYPE。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Syntax Error. ERROR_MESSAGE. File:
 FILE_NAME, line: LINE_NUMBER,
 column: COL_NUMBER.</td>
-<td>Syntax error in line LINE_NUMBER column
-COL_NUMBER during parsing the FILE_NAME
-shader. The initial error description is
-quoted in the ERROR_MESSAGE. The code
-listing taken from around the
-corresponding line is attached to the
-message (note the peculiarity of pegjs
-parser which specify the line which is
-a little bit after the actual error.</td>
+<td><p class="first last">解析FILE_NAME着色器在线路LINE_NUMBER列COL_NUMBER语法错误。最初的错误描述在ERROR_MESSAGE是引用。代码清单来自各地的相应线路连接到邮件采取的（注意哪些指定哪个才是真正的错误后，一点点就行pegjs解析器的特点。</p>
+</td>
 </tr>
 <tr class="row-even"><td>Warning! Function &#8216;NAME&#8217; is
 declared in [include ]file
 FILE_NAME, but never used.</td>
-<td>An unused function NAME is declared in
-the FILE_NAME file.</td>
+<td><p class="first last">未使用的函数名在FILE_NAME文件中声明。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Warning! Include file &#8216;FILE_NAME&#8217;
 not used in any shader, would be
 omitted!</td>
-<td>The FILE_NAME include file is not used
-in any of the shaders and so it will be
-excluded from the obfuscated version.</td>
+<td><p class="first last">该FILE_NAME包含文件未在任何着色器的使用，所以它会从模糊版本被排除在外。</p>
+</td>
 </tr>
 <tr class="row-even"><td>Warning! Unused import token &#8216;NAME&#8217;
 in include file &#8216;FILE_NAME&#8217;.</td>
-<td>An unused id NAME is imported in the
-FILE_NAME include file.</td>
+<td><p class="first last">未使用的ID名称在FILE_NAME导入包含文件。</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Warning! Variable &#8216;NAME&#8217; is
 declared in include file
 FILE_NAME, but never used.</td>
-<td>An unused variable NAME is declared in
-the FILE_NAME file.</td>
+<td><p class="first last">未使用的变量名称在FILE_NAME文件中声明。</p>
+</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="section" id="updating-add-on-translations">
-<h2><a class="toc-backref" href="#id20">Updating Add-on Translations</a><a class="headerlink" href="#updating-add-on-translations" title="永久链接至标题">¶</a></h2>
-<p>If you need to update all existing .po files, run the script <em>translator.py</em> in the SDK/scripts directory without arguments:</p>
+<h2><a class="toc-backref" href="#id20">更新插件翻译</a><a class="headerlink" href="#updating-add-on-translations" title="永久链接至标题">¶</a></h2>
+<p>如果您需要更新现有的所有.po文件，运行不带参数的SDK / scripts目录中的脚本  <em>translator.py</em>：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py
 </pre></div>
 </div>
-<p>In order to update an existing .po file, run the script with a supported language code as an argument:</p>
+<p>为了更新现有的.po文件，以支持的语言代码作为参数运行脚本：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py ru_RU
 </pre></div>
 </div>
-<p>In order to view the list of supported languages, run the script as follows:</p>
+<p>为了查看支持的语言列表，运行脚本如下：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 translator.py <span class="nb">help</span>
 </pre></div>
 </div>
-<p>In any case, the file <em>empty.po</em> will be updated upon running the script.</p>
-<p>After updates, the .po files can be edited/translated as usual.</p>
+<p>在任何情况下，该文件 <em>empty.po</em> 将在运行脚本进行更新。</p>
+<p>更新后的.po文件可以如常编辑/转换。</p>
 </div>
 </div>
 
@@ -764,7 +806,7 @@ the FILE_NAME file.</td>
         <a href="git_short_manual.html" class="btn btn-neutral float-right" title="团队工作。使用 Git" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="developers.html" class="btn btn-neutral" title="For Application Developers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="developers.html" class="btn btn-neutral" title="对应用程序开发人员" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -774,7 +816,7 @@ the FILE_NAME file.</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -830,7 +872,7 @@ the FILE_NAME file.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

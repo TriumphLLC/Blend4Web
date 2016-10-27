@@ -1,601 +1,545 @@
 
-Outdoor Effects
-***************
+室外效果
+********
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Outdoor Effects
+* 室外效果
 
-  * Water
+  * 水
 
-    * Activation
+    * 激活
 
-    * Basic Settings
+    * 基本设置
 
-    * Waves Dynamics
+    * 波浪运动
 
-    * Surface Wetting
+    * 表面润湿
 
-    * Reflection and Fresnel Effect
+    * 反射与菲涅尔效应
 
-    * Shoreline Smoothing
+    * 平滑的海岸线
 
-    * Color Gradient
+    * 颜色渐变
 
-    * Refraction
+    * 折射
 
-    * Foam
+    * 泡沫
 
-    * Caustics and Chromatic Aberration
+    * 焦散和色差
 
-    * Underwater Environment
+    * 水下环境
 
-    * Volumetric Waves
+    * 体积波
 
-    * Settings for Surface Generation
+    * 地表生成设置
 
-  * Atmosphere
+  * 大气
 
-    * Scattering
+    * 散射
 
-    * Fog
+    * 雾
 
-    * Time of Day
+    * 当日时间
 
-    * Stars
+    * 星星
 
-  * Lens Flare
+  * 镜头光晕
 
-    * Lens Flare Settings
+    * 镜头光晕设置
 
-    * Lens Flare Object
+    * 镜头光晕物体
 
-  * Wind
+  * 风
 
-    * Activation
+    * 激活
 
-    * Setting up
+    * 设置
 
-    * Animation of Grass and Tree Leaves
+    * 草和树叶的动画
 
-Blend4Web has several environmental effects that can be useful for
-creating outdoor scenes.
-
-
-Water
-=====
+Blend4Web有几个环境的效果，对创建室外场景非常有用。
 
 
-Activation
-----------
+水
+==
 
-For the supposed water material activate the "Water" panel option
-under the "Material" tab.
+
+激活
+----
+
+对于所谓水材质激活 "Material" 选项卡下的 "Water" 面板选项。
 
 [图片]
 
 
-Basic Settings
---------------
+基本设置
+--------
 
-*Transparency*
-   It is recommended to enable the gradient transparency (set the
-   "Transparency > Type" parameter to the "Alpha Blend" value) and to
-   tweak the "Alpha" value.
+*透明*
+   推荐使用渐变透明度 （设置  "Transparency > Type" 参数的 "Alpha
+   Blend" 值） 和调整的 "Alpha" 值。
 
-*Lighting parameters*
-   Lighting parameters for the water material can be set up as
-   described in the 灯光参数 section.
+*灯光参数*
+   水材质照明参数可如 灯光参数 章节所描述的进行设置。
 
 
-Waves Dynamics
---------------
+波浪运动
+--------
 
-Ripples on the water are simulated by normal maps with animated UVs
-(from 0 up to 4 pieces). For normal map the only shared image is used
-- the textures differs only by the "Mapping > Size" parameters. The
-water mesh must have a UV layer.
-
-
-Surface Wetting
----------------
-
-Is carried out automatically. To turn the effect on activate the
-"Wettable" option on the needed materials "Rendering Options" panel.
+水上的波纹通过法线贴图的动画UV（从0到4个）模拟。对于法线贴图使用了唯一
+共享的图像 - 纹理只能由  "Mapping > Size" 参数不同来调节。水网格必须有
+一个UV层。
 
 
-Reflection and Fresnel Effect
------------------------------
+表面润湿
+--------
 
-For the water material both static and dynamic reflection is supported
-as well as the Fresnel effect. See the 反射 section.
+是自动进行的。要激活效果打开 "Rendering Options" 面板 "Wettable" 选项
+上所需要的材质。
+
+
+反射与菲涅尔效应
+----------------
+
+水材质支持静态和动态的反射以及菲涅耳效应。请参阅：参考 反射 章节.
 
 [图片]
 
 
-Shoreline Smoothing
--------------------
+平滑的海岸线
+------------
 
-The effect affects the water near the shoreline - it becomes more
-transparent.
+效果影响海岸线附近水 - 它变得更加透明。
 
-*Water > Shore Smoothing*
-   Enable smoothing.
+*水>海岸平滑*
+   启用平滑。
 
-*Water > Absorb Factor*
-   This is the light absorption coefficient for water. The higher it
-   is the more transparent the water is. This value can vary from 0 to
-   100. The default value is 6.
+*水>吸收因子*
+   这是水的吸光系数。越高它是更透明的水。这个值可以从0到100的变化。默
+   认值是6。
 
 
-Color Gradient
---------------
+颜色渐变
+--------
 
-For color gradient the water material must have a texture with the
-"Export Options > Shore Distance Map" option enabled. This texture can
-be generated using the script for baking shoreline parameters.
+对于颜色渐变的水材质必须具有 "Export Options > Shore Distance Map" 选
+项启用。 该纹理可以通过 烘焙海岸线参数 用脚本生成.
 
-*Shallow Water > Color*
-   This sets the color of shallow water. By default, blue (0.008,
-   0.222, 0.8) is used.
+*浅水>颜色*
+   设置浅水的颜色。缺省情况下，蓝（0.008，0.222，0.8）被使用。
 
-*Shallow Water > Factor*
-   This sets the mixing factor for the color of shallow water. This
-   value can vary from 0 to 2, and is set to 1 by default.
+*浅水>因子*
+   设置浅层水的颜色混合的因子。这个值可以从0到2变化，默认设置为1。
 
-*Shore Water > Color*
-   This determines the color of the water just at the shore line. By
-   default, dark blue (0.003, 0.19, 0.57) is used.
+*滨水>颜色*
+   这个决定在岸边水的颜色。缺省情况下，深蓝色（0.003，0.19，0.57）被使
+   用。
 
-*Shore Water > Factor*
-   This sets the mixing factor for the color of the water just near
-   the shoreline. This value can vary from 0 to 2, and is set to 0.5
-   by default.
+*滨水>因子*
+   设置水在靠近海岸线的颜色混合的因子。这个值可以从0到2变化，默认设定
+   为0.5。
 
 
-Refraction
-----------
+折射
+----
 
-Under the "Render" tab in the "Reflections and Refractions" panel set
-the "Refractions" option to "ON" or "AUTO".
+在 "Reflections and Refractions" 面板 "Render" 选项卡中设置
+"Refractions" 选项 "ON" 或 "AUTO"。
 
 [图片]
 
 
-Foam
+泡沫
 ----
 
 
-Activation
-~~~~~~~~~~
+激活
+~~~~
 
-For creating foam add a diffuse texture into the water material slot.
-Every RGB channel of this image must contain a BW foam texture in it.
-Then enable the "Water Foam" panel.
-
-[图片]
-
-
-Setting up the Textures
-~~~~~~~~~~~~~~~~~~~~~~~
-
-*Water Foam > UV Frequency*
-   Oscillation frequency of the animated UV coordinates. The default
-   value is (1.0, 1.0).
-
-*Water Foam > UV Magnitude*
-   Oscillation amplitude of the animated UV coordinates. The default
-   value is (1.0, 1.0).
-
-
-Setting up the Material
-~~~~~~~~~~~~~~~~~~~~~~~
-
-*Foam > Factor*
-   General influence factor for the foam. The default value is 0.5.
-
-
-Caustics and Chromatic Aberration
----------------------------------
-
-To create the caustics effect turn on the "Caustics" option on the
-water material. Also, there has to be at least one "Sun" on the scene.
-
-[图片]
-
-*Scale*
-   Cell size for the procedural texture. The default value is 0.25.
-
-*Brightness*
-   Caustics influence factor. The default value is 0.5.
-
-
-Underwater Environment
-----------------------
+要生成泡沫就要在水材质槽中加入一个漫射纹理。这个图像中的每个RGB通道必
+须包含有BW的泡沫纹理。然后在 "Water Foam" 面板启用。
 
 [图片]
 
 
-Visibility Settings (“fog”)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+设置纹理
+~~~~~~~~
 
-*Underwater Fog > Color*
-   Fog color. The default value is (0.4, 0.6, 0.7).
+*水泡沫> UV频率*
+   动画UV坐标的振荡频率。默认值是（1.0，1.0）。
 
-*Underwater Fog > Density*
-   Exponential factor which affects the density and visibility
-   distance. The default value is 0.06.
-
-The god rays effect settings are also applied.
-
-注解: The "Rendering Options > Backface Culling" option must be
-  turned off for the correct water surface rendering.
-
-[图片]
+*水泡沫> UV幅度*
+   动画UV坐标的振荡幅度。默认值是（1.0，1.0）。
 
 
-Volumetric Waves
-----------------
+建立材质
+~~~~~~~~
+
+*泡沫>因子*
+   一般泡沫体的影响因子。默认值是0.5。
 
 
-Activation
-~~~~~~~~~~
-
-To enable procedural waves the "Waves" option must be turned on.
-
-注解: Procedural waves will work only if a "Wind" force field is
-  present in the scene.
-
-[图片]
-
-
-Setting up
-~~~~~~~~~~
-
-*Wave Height*
-   Wave height can vary from 0 to 5. The default value is 1.0.
-
-*Wave Length*
-   Wave length can vary from 0.01 to 200. The default value is 10.0.
-
-*Noise Dist Scale 0*
-   This is the size of the first component of the open water waves.
-   This parameter can vary from 0 to 1. Default value is 0.05.
-
-*Noise Dist Scale 1*
-   This is the size of the second component of the open water waves.
-   This parameter can vary from 0 to 1. Default value is 0.03.
-
-*Noise Dist Freq 0*
-   This sets the frequency of the first component of the open water
-   waves. This parameter can vary from 0 to 10. Default value is 1.3.
-
-*Noise Dist Freq 1*
-   This sets the frequency of the second component of the open water
-   waves. This parameter can vary from 0 to 10 and is set to 1 by
-   default.
-
-*Min Dir Shore Fac*
-   This is the minimum height decrease coefficient of the shore waves.
-   This parameter can vary from 0 to 1 and is set to 0.4 by default.
-
-*Dir Frequency*
-   This sets the frequency of the rolling of the shore waves. This
-   parameter can vary from 0 to 10 and is set to 0.5 by default.
-
-*Noise Dir Scale*
-   This specifies the size of the noise for the shore waves. This
-   parameter can vary from 0 to 1 and is set to 0.05 by default.
-
-*Noise Dir Freq*
-   This describes the fequency of the noise for the shore waves. This
-   parameter can vary from 0 to 1. Default value is 0.07.
-
-*Min Dir Noise Fac*
-   This is the noise minimum for the shore waves. This parameter can
-   vary from 0 to 1. Default value is 0.5.
-
-*Min Dist Fac*
-   This sets the minimum coefficient of mixing open water waves. This
-   parameter can vary from 0 to 1. Default value is 0.2.
-
-*Horizontal Factor*
-   This coefficient shows how much the shore waves are shifted in the
-   direction of the shoreline. This parameter can vary from 0 to 10.
-   Default value is 5.
-
-
-Settings for Surface Generation
--------------------------------
-
-*Generate Mesh*
-   This enables a generated surface.
-
-*Cascades Number*
-   This describes the number of cascades on the generated surface.
-   This parameter's value can vary from 1 to 20. Default value is 5.
-
-*Subdivisions*
-   This is the number of subdivisions in generated mesh. Default value
-   is 64. The lowes possible value for this parameter is 2, while the
-   highest possible value is 512.
-
-*Detailed Distance*
-   This specifies the maximum distance from the camera to the edge of
-   the last cascade. The value of this parameter can vary from 1 to
-   5000. Default value is 1000.
-
-
-Baking Shoreline Data to Texture
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-On the tools panel (hotkey “T”) under the "Blend4Web" tab open the
-"Bake Shore Distance Map" panel. Set the parameters: maximum distance
-to shore ("Maximum Distance") and the resulting texture size ("Texture
-Size"). Select a landscape object (or multiple objects) first, and
-then - a water object. Click the "Bake" button.
-
-Depending on the texture size and the number of vertices in the
-processed meshes the execution time of the script may vary from a
-fraction of a second up to several minutes. Make sure that the texture
-named "ShoreDistance" is created for the water mesh.
-
-Upon script execution some system properties are saved in the water
-material. Therefore, the scene must be saved after the script has
-finished working.
-
-
-Atmosphere
-==========
-
-
-Scattering
+焦散和色差
 ----------
 
-Enable "World > Render Sky", then activate "Procedural Sky" panel
-under the World tab. Please note, that if a static skydome texture is
-being used at the same time, it will be replaced.
+要建立焦散效果开启水材质的 "Caustics" 选项。另外，必须有至少一个 "Sun"
+在场景中。
 
-注解: Also, a procedural sky texture can be used to imitate
-  scattered environment lighting similar to the static skydome
-  texture. To do this, enable the "Procedural Sky > Use as Environment
-  Lighting" and "Environment Lighting > Sky Texture" options. If the
-  world texture for environment lighting already exists, it will be
-  replaced.
+[图片]
+
+*缩放*
+   程序纹理的单元大小。默认值是0.25。
+
+*亮度*
+   焦散影响因子。默认值是0.5。
+
+
+水下环境
+--------
 
 [图片]
 
 
+可见性设置（“雾”）
+~~~~~~~~~~~~~~~~~~
 
-Supported settings:
+*水下雾>颜色*
+   雾的颜色。默认值是（0.4，0.6，0.7）。
 
-*Procedural Sky > Sky Color*
-   Base sky color. The default value is (0.087, 0.255, 0.6) (blue).
+*水下雾>密度*
+   其影响密度和能见距离指数因子。默认值是0.06。
 
-*Procedural Sky > Rayleigh Brightness*
-   Rayleigh scattering brightness (i.e. scattering on small
-   particles). The default value is 3.3.
+上帝光芒 效果设置也可用。
 
-*Procedural Sky > Mie Brightness*
-   Mie scattering brightness (i.e. scattering on large particles). The
-   default value is 0.1.
-
-*Procedural Sky > Spot Brightness*
-   Sun spot brightness. The default value is 20.0.
-
-*Procedural Sky > Scatter Strength*
-   Light scattering factor. The default value is 0.2.
-
-*Procedural Sky > Rayleigh Strength*
-   Rayleigh scattering factor. The default value is 0.2.
-
-*Procedural Sky > Mie Strength*
-   Mie scattering factor. The default value is 0.006.
-
-*Procedural Sky > Rayleigh Collection Power*
-   Rayleigh scattering exponent. The default value is 0.35.
-
-*Procedural Sky > Mie Collection Power*
-   Mie scattering exponent. The default value is 0.5.
-
-*Procedural Sky > Mie Distribution*
-   Mie scattering distribution. The default value is 0.4.
-
-
-Fog
----
-
-The engine supports standard parameters located on the "World > Mist"
-panel. Besides this, overriding fog color is possible.
-
-*Mist > Use Custom Color*
-   Apply the user-defined fog color instead of "World > Horizon"
-   color. Enabled by default.
-
-*Mist > Color*
-   Fog color. The default value is (0.5, 0.5, 0.5) (gray).
-
-When a dynamic skydome is used the fog color is defined by the sky
-color.
-
-
-Time of Day
------------
-
-Enable the "Dynamic Intensity" options for the lamp.
-
-Time of day can be set by applications via API. Particularly time of
-day can be set using the "Lighting" interface of the Scene viewer.
+注解: 想要正确水面渲染效果必须关闭 "Rendering Options > Backface
+  Culling" 选项。
 
 [图片]
 
 
-Stars
------
-
-Stars setup is described in the 光晕材质 section.
-
-[图片]
+体积波
+------
 
 
-Lens Flare
-==========
+激活
+~~~~
 
-[图片]
+为了使用程序浪 "Waves" 选项必须打开。
 
-This feature can be enabled by the "Lens Flare" check-box located in
-the "Rendering Options" of the "Material" panel.
+注解: 只要有 "Wind" 力场在场景中程序浪将工作。
 
 [图片]
 
-注解: The effect works only if a "Sun" type light source is present
-  in the scene.
+
+设置
+~~~~
+
+*浪高*
+   波高度可变化从0到5的默认值是1.0。
+
+*波长度*
+   波长可以从0.01至200变化，默认值是10.0。
+
+*噪音DIST缩放0*
+   这是开放水浪的第一组分的大小。这个参数可以从0到1变化，默认值是 0.05
+   。
+
+*噪音DIST缩放1*
+   这是开放的水浪的第二成分的大小。这个参数可以从0到1变化，默认值是
+   0.03。
+
+*噪声DIST频率0*
+   这将设置开放式水浪的第一部分的频率。这个参数可以从0到10变化，默认值
+   是1.3。
+
+*噪声DIST频率1*
+   这将设置开放水波的第二成分的频率。这个参数可以从0到10变化，并且默认
+   设置为1。
+
+*最小Dir 河岸因子*
+   这是在岸边波的最小高度减少系数。这个参数可以从0到1变化，并且默认设
+   定为0.4。
+
+*Dir频率*
+   设置靠着岸边的波浪翻滚的频率。这个参数可以从0到10变化，并且默认设定
+   为0.5。
+
+*噪音Dir缩放*
+   设置岸边海浪的噪声大小。这个参数可以从0到1变化，并且默认设置为0.05
+   。
+
+*噪音Dir频率*
+   设置岸波的噪音频率。这个参数可以变化从0到1的默认值是0.07。
+
+*最小 Dir 噪声因子*
+   岸边波浪的最小噪音。这个参数可以从0到1变化，默认值是0.5。
+
+*最小Dist因子*
+   这台混合打开水浪的最低系数。这个参数可以从0到1变化，默认值是0.2。
+
+*水平因子*
+   该系数表明了岸波向海岸线方向移动的程度。这个参数可以从0到10变化，默
+   认值是5。
 
 
-Lens Flare Settings
--------------------
+地表生成设置
+------------
+
+*生成网格*
+   这使得产生的表面。
+
+*级联数据*
+   这个描述所产生的表面上的级联的数量。这个参数的值可以从1至20变化，默
+   认值是5。
+
+*细分*
+   这是生成的网格的细分数目。默认值是64。此参数是最低值是2，而最高的可
+   能值是512。
+
+*详细距离*
+   这指定从相机到最后级联的边的最大距离。这个参数的值可以从1至5000变化
+   ，默认值是1000。
 
 
-Lens Flare Object
------------------
+烘焙海岸线数据到纹理
+~~~~~~~~~~~~~~~~~~~~
 
-[图片]
+在 "Blend4Web" 选项卡下的工具面板（快捷键 “T”）打开 "Bake Shore
+Distance Map" 面板。设定参数：到岸最大距离（"最大Distance"），以及最终
+纹理大小（"纹理Size"）。选择一个地形物体（或多个物体），然后 - 水物体
+。点击 "Bake" 按钮。
 
-Lens Flare object is used for the actual rendering of the effect. In
-essence, such an object consists of several planes with each plane
-containing one element of the flare. The normal vector of each plane
-should be pointed in the "-Y" direction. Every element can slide
-across the screen in relation to camera rotation with the sole
-exception being the central plane (bright white "star" on the picture
-above). This plane serves as a center of the lens flare object and
-should have a *local* "Y" coordinate set to 1.
+根据所处理的网格中的纹理大小和顶点的数量，脚本的执行时间可能会有所不同
+从几秒到几分钟。确保水网格的纹理名 "ShoreDistance" 已经创建。
 
-The placement and spatial orientation of the object itself are not
-taken into account during rendering.
-
-For lens flare object to work correctly, the "Disable Frustum Culling"
-option should be activated.
-
-An example of such object can be seen, for example, in our **Island**
-demo.
+脚本执行一些系统属性保存在水材质。因此，该脚本完成工作后，必须保存场景
+。
 
 
-Material Settings
-~~~~~~~~~~~~~~~~~
-
-The material used for the lens flare object should have the "Alpha
-Blend" transparency type. "Alpha" parameter should be set to zero.
-
-Node materials are not supported.
-
-
-Texture Settings
-~~~~~~~~~~~~~~~~
-
-[图片]
-
-An example of texture used to generate Lens Flare effect.
-
-The texture used for the Lens Flare object should contain all elements
-used to form the shape of the flare in an actual application. The
-texture image should use "Alpha" channel and influence both "Color"
-and "Alpha" values.
-
-
-Wind
+大气
 ====
 
-Wind strength and direction affect:
-   * grass and tree leaves animation
 
-   * particle system dynamics
+散射
+----
 
-   * water waves rolling frequency (at the moment only strength is
-     taken into account)
+启用 "World > Render Sky", 然后激活世界标签下  "Procedural Sky" 面板。
+请注意，如果一 静态天穹材质 同时正在被使用，它将被替换。
 
-
-Activation
-----------
-
-Add a force field object of the "Wind" type.
-
-
-Setting up
-----------
-
-*Direction*
-   Direction can be set by rotating the force field object.
-
-*Force Fields > Strength*
-   Wind strength. Located under the "Physics" tab. The default value
-   is 1.0.
-
-
-Animation of Grass and Tree Leaves
-----------------------------------
-
-Authoring resources for grass rendering is described in the Grass
-section.
-
-
-Activation
-~~~~~~~~~~
-
-Enable the "Wind Bending" panel for the grass or tree object.
-
-
-Setting up
-~~~~~~~~~~
-
-The interface panel becomes visible after turning on the "Wind
-Bending" panel.
+注解: 此外，一个程序的天空纹理可以用来模仿散射  环境灯光 类似于
+  static skydome texture。要做到这一点， 启用 "Procedural Sky > Use as
+  Environment Lighting" and "Environment Lighting > Sky Texture" 选项
+  。如果世界纹理的环境照明已经存在，它会被替换。
 
 [图片]
 
 
 
-*Main Bending > Angle*
-   Angle amplitude of the “main” deviation under the influence of wind
-   (in degrees). The default value is 10.0.
+支持设置：
 
-*Main Bending > Frequency*
-   Frequency of the “main” deviation under the influence of wind. The
-   default value is 0.25.
+*程序天空>天空颜色*
+   基础天空的颜色。默认值是（0.087，0.255，0.6）（蓝色）。
 
-*Main Bending > Main Stiffness (A)*
-   Text field for specifying the name of the vertex color layer which
-   contains the information about the stiffness of the “main”
-   deviation. Can be left empty.
+*程序天空>瑞利亮度*
+   瑞利散射亮度（即小颗粒散射）。默认值是3.3。
 
-*Detail Bending > Amplitude*
-   Angle amplitude of the “detail” deviation caused by the influence
-   of wind (in degrees). The default value is 0.1.
+*程序天空>三重亮度*
+   Mie散射亮度（即大颗粒散射）。缺省值为0.1。
 
-*Detail Bending > Branch Amplitude*
-   Angle amplitude of the branch deviation caused by the influence of
-   wind (in degrees). The default value is 0.3.
+*程序天空>曝光亮度*
+   Sun SPOT的亮度。默认值是20.0。
 
-*Detail Bending > Bending Frequency*
-   Detail bending frequency. The default value is 1.0.
+*程序天空>散射强度*
+   光散射系数。默认值是0.2。
 
-*Detail Bending > Leaves Stiffness (R)*
-   Text field for specifying the name of the vertex color layer which
-   contains the information about the stiffness of leaves. Can be left
-   empty.
+*程序天空>瑞利强度*
+   瑞利散射系数。默认值是0.2。
 
-*Detail Bending > Leaves Phase (G)*
-   Text field for specifying the name of the vertex color layer which
-   contains the information about the phase of leaves deviation. Can
-   be left empty.
+*程序天空>三重强度*
+   米氏散射系数。默认值是0.006。
 
-*Detail Bending > Overall Stiffness (B)*
-   Text field for specifying the name of the vertex color layer which
-   contains the information about the overall stiffness of leaves. Can
-   be left empty.
+*程序天空>瑞利收集强度*
+   瑞利散射指数。默认值是0.35。
 
-Vertex color layers should be present in the mesh if their names are
-specified.
+*程序天空>mie收集强度*
+   米氏散射指数。默认值是0.5。
+
+*程序天空>Mie分布*
+   米氏散射分布。默认值是0.4。
+
+
+雾
+--
+
+该引擎支持位于 "World > Mist" 面板上的标准参数。除此之外，可能覆盖雾的
+颜色。
+
+*雾>使用定制颜色*
+   应用用户定义雾的颜色，而不是 "World > Horizon" 颜色。默认情况下启用
+   。
+
+*雾>颜色*
+   雾的颜色。默认值是（0.5，0.5，0.5）（灰色）。
+
+当使用动态天穹，雾的颜色是由天空的颜色定义。
+
+
+当日时间
+--------
+
+启用灯的  "Dynamic Intensity" 选项。
+
+一天中的时间可以在应用程序通过API进行设置。一天中的时间可以用 场景查看
+器 的 "Lighting" 界面来设置。
+
+[图片]
+
+
+星星
+----
+
+星的设置描述在 光晕材质
+
+[图片]
+
+
+镜头光晕
+========
+
+[图片]
+
+此功能可以通过 "Lens Flare" 位于 "Material" 面板的 "渲染Options" 复选
+框启用。
+
+[图片]
+
+注解: 只有场景中存在 "Sun" 型光源才会有效果。
+
+
+镜头光晕设置
+------------
+
+
+镜头光晕物体
+------------
+
+[图片]
+
+镜头眩光物体是用于实际渲染的效果。从本质上说，这样的一个物体由几个平面
+与每个平面包含一个耀斑元素。每一平面的法线矢量应指向 “-Y” 方向。每一个
+元素都可以在屏幕上滑动和对相机的旋转，唯一的例外是中央平面（明亮的白色
+的 “星” 在上面的图片）。这个平面作为镜头眩光物体的中心，应该有一个 *本
+地* 的 "Y" 坐标设置为1。
+
+在渲染过程中，物体本身的位置和空间方向没有考虑。
+
+镜头光晕物体要正常工作，"Disable Frustum Culling"  选项应该被激活。
+
+这样的物体的一个例子可以看到，例如，在我们的 **岛** 演示。
+
+
+材质设置
+~~~~~~~~
+
+用于镜头光斑物体的材质应当具有  "Alpha Blend" 透明度类型。 "Alpha" 参
+数应当被设置为零。
+
+节点材质 不被支持。
+
+
+纹理设置
+~~~~~~~~
+
+[图片]
+
+用来产生镜头光斑效果的纹理的例子。
+
+用于镜头眩光物体纹理应包含在实际的应用程序的用于形成光斑的形状所有元素
+。纹理图像应该使用 "Alpha" 通道对 "Color" 和 "Alpha" 值都有影响。
+
+
+风
+==
+
+风的强度和方向的影响：
+   * 草和树叶的动画
+
+   * 粒子系统动力学
+
+   * 水浪翻滚频率 (现在只考虑强度)
+
+
+激活
+----
+
+添加 "Wind" 类型的力场物体。
+
+
+设置
+----
+
+*方向*
+   方向可以通过旋转力场物体进行设定。
+
+*力场>强度*
+   风力强度。位于 "Physics" 选项卡下。缺省值为1.0。
+
+
+草和树叶的动画
+--------------
+
+草地 章节讲述了草渲染创作需要的资源。
+
+
+激活
+~~~~
+
+在 "Wind Bending" 面板为草或树物题启用。
+
+
+设置
+~~~~
+
+打开  "Wind Bending"  面板后设置面板可见。
+
+[图片]
+
+
+
+*主要折弯>角*
+   风的影响（度）下的 “主” 角偏差幅度。默认值是10.0。
+
+*主要弯曲>频率*
+   风的影响下，“主” 偏差的频率。默认值是0.25。
+
+*主要弯曲>主刚度（A）*
+   指定其中包含有关 “主” 偏差的刚度信息的顶点颜色层的名称文本字段。可
+   以留空。
+
+*详细弯曲>振幅*
+   在 “细节” 偏差造成的风的影响（度）的角度幅度。缺省值为0.1。
+
+*详细折弯>分公司振幅*
+   由风造成的影响（度）的分支偏差的角度幅度。默认值是0.3。
+
+*详细弯曲>弯曲次数*
+   弯曲频率的细节。默认值是 1.0。
+
+*详细折弯>叶刚度（R）*
+   指定其中包含有关叶子的刚度信息的顶点颜色层的名称文本字段。可以留空
+   。
+
+*详细折弯>叶阶段（G）*
+   指定其中包含有关叶偏差的相位信息的顶点颜色层的名称文本字段。可以留
+   空。
+
+*详细折弯>整体刚度（B）*
+   指定其中包含有关叶片的整体刚度信息的顶点颜色层的名称文本字段。可以
+   留空。
+
+如果指定顶点着色层其名称应该是存在于该网格。
 
 [图片]

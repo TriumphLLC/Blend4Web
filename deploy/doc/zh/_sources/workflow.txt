@@ -63,14 +63,11 @@
 
 有两种格式 ︰ JSON 和 HTML。
 
-The HTML format is used for simple stand-alone applications, where all
-the resources are packed into one HTML file that can then be easily
-deployed to a web page.
+HTML格式用于简单的单机应用中，所有的资源都打包成可以很容易地部署到一个
+网页的一个HTML文件。
 
-The JSON format can be used for creating such projects as well, but it
-also offers numerous extra features making it possible to create
-complex projects that require programming. Format differences and
-export options are described in the Export Formats chapter.
+JSON格式，可用于创建各种项目，但它也提供了许多额外的功能使得它可以创建
+需要编程的复杂项目。格式的不同和导出选项在 Export Formats 一章描述。
 
 若要导出场景，请从 "文件 > 导出" 菜单选择 "Blend4Web (.json)" 或
 "Blend4Web (.html)"  ，或者在操作符搜索菜单（按 "空格键" 的时候出现）

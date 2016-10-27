@@ -51,6 +51,8 @@
  * <dt>antialiasing
  * <dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
  * in order to change this parameter).
+ * <dt>assets_path
+ * <dd>String, path to assets directory (for get_std_assets_path()).
  * <dt>assets_dds_available
  * <dd>Boolean, allow the engine to use compressed DDS textures.
  * <dt>assets_pvr_available
@@ -120,7 +122,7 @@
  * <dd>Boolean, enable refractions
  * <dt>sfx_mix_mode
  * <dd>Boolean, enable the mixer mode in the SFX subsystem.
- * <dt>shaders_dir
+ * <dt>shaders_path
  * <dd>String, path to the shaders directory (developer version only).
  * <dt>shadows
  * <dd>Boolean, enable shadows
@@ -150,13 +152,13 @@
  * @local QualityProfile
  * @cc_externs allow_cors allow_hidpi alpha alpha_sort
  * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate
- * @cc_externs antialiasing assets_dds_available assets_min50_available audio
+ * @cc_externs antialiasing assets_path assets_dds_available assets_min50_available audio
  * @cc_externs background_color built_in_module_name canvas_resolution_factor
  * @cc_externs console_verbose do_not_load_resources enable_selectable
  * @cc_externs enable_outlining media_auto_activation outlining_overview_mode
  * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
  * @cc_externs precision prevent_caching quality
- * @cc_externs sfx_mix_mode shaders_dir show_hud_debug_info
+ * @cc_externs sfx_mix_mode shaders_path show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
  * @cc_externs debug_view url_params stereo gl_debug max_fps max_fps_physics
  * @cc_externs use_min50 anisotropic_filtering shadows reflections refractions

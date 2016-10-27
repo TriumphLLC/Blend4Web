@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Meshes &mdash; Blend4Web 16.09.2 User Manual</title>
+  <title>Meshes &mdash; Blend4Web 16.10 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 User Manual" href="index.html"/>
         <link rel="next" title="Normal Editor" href="normal_editor.html"/>
         <link rel="prev" title="Objects" href="objects.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -189,7 +189,7 @@
 <p>All <code class="docutils literal"><span class="pre">MESH</span></code> objects can be divided into static and dynamic.</p>
 <p><strong>Static meshes</strong> are meshes that can be merged together if they have the same material.</p>
 <p><strong>Dynamic meshes</strong> are meshes that cannot be combined with each other.</p>
-<p>Merging of static meshes - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.</p>
+<p id="batching">Merging of static meshes - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.</p>
 <p>Meshes that have animation, physics or a parent, which is a dynamic object, are considered dynamic.</p>
 </div>
 <div class="section" id="settings">
@@ -269,7 +269,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-10-03.
+      Last updated on 2016-10-27.
 
     </p>
   </div>
@@ -325,7 +325,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

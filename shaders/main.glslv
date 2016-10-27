@@ -310,7 +310,9 @@ void main(void) {
     model_tsr = tsr_multiply(u_model_tsr, model_tsr);
 # endif
 #else
+# if !DYNAMIC_GRASS
     mat3 model_tsr = u_model_tsr;
+# endif
 #endif
 
     vec3 position = a_position;

@@ -607,7 +607,7 @@ exports.get_first_armature_object = function(obj) {
  */
 exports.get_slot_num_by_anim = function(obj, anim_name) {
     if (!m_anim.is_animated(obj) || !anim_name)
-        return null;
+        return -1;
 
     return m_anim.get_slot_num_by_anim(obj, anim_name);
 }

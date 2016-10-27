@@ -4613,10 +4613,6 @@ msgstr "Промах"
 msgid "Hit"
 msgstr "Попадание"
 
-#, python-format
-msgid "%s Hit"
-msgstr "%s : попадание"
-
 msgid "Add Socket"
 msgstr "Добавить слот"
 

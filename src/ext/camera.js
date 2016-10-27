@@ -36,6 +36,10 @@
  * @local HoverAngleLimits
  * @local VerticalTranslationLimits
  * @local HorizontalTranslationLimits
+ * @local HoverCameraParams
+ * @local TargetCameraParams
+ * @local EyeCameraParams
+ * @local StaticCameraParams
  * @local PivotLimits
  * @local VelocityParams
  * @local FrustumPlanes

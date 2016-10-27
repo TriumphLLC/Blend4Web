@@ -1,0 +1,26 @@
+[info]
+author = Blend4Web
+name = interactive_web_application
+title = Interactive Web Application Tutorial
+icon = interactive_web_application.png
+
+[paths]
+assets_dirs = deploy/assets/tutorials/interactive_web_application/;
+blend_dirs = blender/tutorials/interactive_web_application/;
+blender_exec = blender
+build_dir = deploy/apps/tutorials/interactive_web_application/
+deploy_dir = 
+
+[compile]
+apps = 
+css_ignore = 
+engine_type = external
+js_ignore = 
+optimization = advanced
+use_physics = False
+use_smaa_textures = False
+version = 
+
+[deploy]
+assets_path_prefix = 
+override = 

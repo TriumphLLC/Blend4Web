@@ -5,15 +5,9 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
+"POT-Creation-Date: 2016-10-27 15:59+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -259,8 +253,8 @@ msgstr ""
 "производителе, модели и других параметрах вашей видеокарты."
 
 #: ../problems_and_solutions.rst:115
-msgid "For MacOS X, you can check System Report."
-msgstr "В MacOS X вам следует ознакомиться с System Report."
+msgid "For macOS, you can check System Report."
+msgstr "В macOS вам следует ознакомиться с System Report."
 
 #: ../problems_and_solutions.rst:119
 msgid "Select ``About This Mac`` from the ``Apple`` menu."
@@ -367,7 +361,6 @@ msgid "Problems with updating of the add-on."
 msgstr "Проблемы с обновлением старых версий аддона."
 
 #: ../problems_and_solutions.rst:176
-#, fuzzy
 msgid ""
 "It’s strongly advised to restart Blender after installing a newer version"
 " of Add-on/SDK."
@@ -402,13 +395,13 @@ msgstr ""
 
 #: ../problems_and_solutions.rst:186
 msgid ""
-"For the local development server to work on Apple OS X and Blender 2.76, "
-"you may need to install `Python 3.4 "
-"<https://www.python.org/downloads/release/python-343/>`. This is due to a"
-" bug in Blender https://developer.blender.org/T46623. This bug has been "
+"For the local development server to work on Apple macOS and Blender 2.76,"
+" you may need to install `Python 3.4 "
+"<https://www.python.org/downloads/release/python-343/>`_. This is due to "
+"a bug in Blender https://developer.blender.org/T46623. This bug has been "
 "fixed in Blender 2.76b, so updating it is advised."
 msgstr ""
-"На системах Apple OS X и Blender 2.76 для работы локального сервера "
+"На системах Apple macOS и Blender 2.76 для работы локального сервера "
 "разработки может потребоваться установка `Python 3.4 "
 "<https://www.python.org/downloads/release/python-343/>`_. Это связано с "
 "ошибкой Blender https://developer.blender.org/T46623. В Blender 2.76b эта"
@@ -497,9 +490,9 @@ msgid ""
 "`https://bugs.chromium.org/p/chromium/issues/detail?id=616772 "
 "<https://bugs.chromium.org/p/chromium/issues/detail?id=616772>`_."
 msgstr ""
-"На некоторых мобильных устройствах (в частности, Nexus 6 и Nexus 9) в браузере "
-"Google Chrome версий 50-52 может не работать пауза. В версиях Chrome начиная с "
-"53 проблем быть не должно. Более подробная информация: "
+"На некоторых мобильных устройствах (в частности, Nexus 6 и Nexus 9) в "
+"браузере Google Chrome версий 50-52 может не работать пауза. В версиях "
+"Chrome начиная с 53 проблем быть не должно. Более подробная информация: "
 "`https://bugs.chromium.org/p/chromium/issues/detail?id=616772 "
 "<https://bugs.chromium.org/p/chromium/issues/detail?id=616772>`_."
 
@@ -518,26 +511,13 @@ msgstr ""
 
 #: ../problems_and_solutions.rst:210
 msgid ""
-"Using canvas textures can lead to incorrect rendering results in Firefox "
-"46-47 versions on Linux. It should work as expected again in Firefox 48. "
-"More info can be found here: "
-"`https://bugzilla.mozilla.org/show_bug.cgi?id=1276996 "
-"<https://bugzilla.mozilla.org/show_bug.cgi?id=1276996>`_."
-msgstr ""
-"Использование Canvas-текстур в браузере Firefox версий 46-47 для Linux "
-"может приводить к ошибкам рендеринга. В Firefox версии 48 проблем "
-"наблюдаться не должно. Более подробная информация доступна по ссылке: "
-"https://bugzilla.mozilla.org/show_bug.cgi?id=1276996."
-
-#: ../problems_and_solutions.rst:212
-msgid ""
 "Information about moving fingers on GearVR touch sensor in VR-mode is not"
 " available."
 msgstr ""
 "При использовании тач-сенсора GearVR в VR-режиме недоступна информация о "
 "движениях пальцев."
 
-#: ../problems_and_solutions.rst:214
+#: ../problems_and_solutions.rst:212
 msgid ""
 "Samsung Internet browser doesn't fire any events about moving fingers on "
 "touch sensor in VR-mode."
@@ -545,7 +525,7 @@ msgstr ""
 "Samsung Internet Browser не регистрирует события, связанные с движением "
 "пальцев на тач-сенсоре в режиме VR."
 
-#: ../problems_and_solutions.rst:216
+#: ../problems_and_solutions.rst:214
 msgid ""
 "Particles emitted by particle systems placed on inactive (hidden) layers "
 "can have their positions set to zero as inactive layers are not updated "
@@ -555,13 +535,21 @@ msgstr ""
 "(скрытых) слоях, могут иметь нулевые координаты, т.к. неактивные слои не "
 "обновляются Blender'ом."
 
-#: ../problems_and_solutions.rst:218
+#: ../problems_and_solutions.rst:216
 msgid ""
 "This problem can be solved by activating layers before exporting a scene "
 "or by simply clicking the layers to make Blender update them."
 msgstr ""
 "Проблема может быть решена с помощью активации слоёв перед экспортом или "
 "выбора необходимых слоёв вручную (в этом случае Blender их обновит)."
+
+#: ../problems_and_solutions.rst:218
+msgid ""
+"Alpha blending objects are rendered incorrect on the Mali 400 series GPU "
+"by Google Chrome browser."
+msgstr ""
+"Оъекты с типом прозрачности Alpha Blending некорректно отображаются в "
+"браузере Google Chrome на устройствах с GPU Mali серии 400."
 
 #~ msgid ""
 #~ msgstr ""

@@ -48,11 +48,13 @@ function compile(argv) {
         // preprocess shader text
         file.text_raw = file.text = remove_comments(file.text);
         file.text = replace_include_dir(file.text);
+        
         var result = process_directives(file.text, file.name);
         file.text = result.text;
         file.pp_units_simple = result.units;
     }
 
+    // validate before compiling
     m_valid.check_used_includes(files);
     m_valid.validate_vars(files);
 
@@ -69,8 +71,6 @@ function compile(argv) {
             m_optim.delete_unused_braces(file.ast_data);
     }
 
-    // TODO: check used includes (like "insert_includes") and omit non-used
-
     // obfuscate
     if (config.obfuscate)
         m_obf.obfuscate(files, vardef_ids);
@@ -82,7 +82,7 @@ function compile(argv) {
         files[i].text = clean_source(files[i].text);
     }
 
-    // validate
+    // validate after compiling
     for (var i = 0; i < files.length; i++) 
         if (!files[i].is_include)
             m_valid.check_version(files[i].text, files[i].name);

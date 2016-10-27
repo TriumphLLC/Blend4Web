@@ -5,16 +5,10 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"POT-Creation-Date: 2016-10-18 15:16+0300\n"
+"PO-Revision-Date: 2016-10-08 19:08+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -268,12 +262,13 @@ msgid "Used to generate a normal vector"
 msgstr "用于生成法线矢量"
 
 #: ../node_materials.rst:106
-msgid "Normal Map [#f2]_"
-msgstr ""
+#, fuzzy
+msgid "Normal Map [#f1]_"
+msgstr "法线贴图 [#f2]_"
 
 #: ../node_materials.rst:106
 msgid "Used to plug in normal map"
-msgstr ""
+msgstr "用来插入法线贴图"
 
 #: ../node_materials.rst:109
 msgid "Output"
@@ -329,7 +324,7 @@ msgstr "拆分给定的颜色为色调，饱和度和值"
 
 #: ../node_materials.rst:128
 msgid "Separate RGB"
-msgstr ""
+msgstr "独立RGB"
 
 #: ../node_materials.rst:128
 msgid "Separates a given color into red, green and blue channels"
@@ -376,29 +371,34 @@ msgid "Used to perform mathematical operations with two given vectors"
 msgstr "用于与给定的两个向量进行数学运算"
 
 #: ../node_materials.rst:149
-msgid "Vector Transform [#f1]_"
-msgstr ""
+#, fuzzy
+msgid "Vector Transform [#f2]_"
+msgstr "矢量变换 [#f1]_"
 
 #: ../node_materials.rst:149
 msgid ""
 "Converts Vertor, Point or Normal between World, Camera and Object "
 "coordinte spaces"
-msgstr ""
+msgstr "在世界，相机和物体坐标空间中转换矢量，点或法线。"
 
 #: ../node_materials.rst:155
+msgid ""
+"The ``Color Space`` parameter of a normal map used with this node should "
+"be set to ``Non-Color``. Not doing so may lead to unpredictable results "
+"(although it won't crash the engine)."
+msgstr ""
+"这个节点的法线贴图使用的 ``Color Space`` 参数需要设置为 ``Non-Color``. "
+"如果没设置会引起各种不可预见的效果（尽管不会将引起弄崩溃）"
+
+#: ../node_materials.rst:157
 msgid ""
 "If at least one of the internal parameters, ``Space to convert from...`` "
 "or ``Space to convert to...`` is set to ``Object``, then any object that "
 "uses the material will be considered :ref:`dynamic "
 "<static_dynamic_objects>`."
 msgstr ""
-
-#: ../node_materials.rst:157
-msgid ""
-"The ``Color Space`` parameter of a normal map used with this node should "
-"be set to ``Non-Color``. Not doing so may lead to unpredictable results "
-"(although it won't crash the engine)."
-msgstr ""
+"如果至少一个内部参数 ``Space to convert from...`` 或 ``Space to convert to...`` 设置为 "
+"``Object``, 那么所有使用这个材质的物体都会被考虑为  :ref:`动态<static_dynamic_objects>`."
 
 #: ../node_materials.rst:163
 msgid ""
@@ -410,7 +410,6 @@ msgstr ""
 "#node-performance>`_."
 
 #: ../node_materials.rst:168
-#, fuzzy
 msgid "Engine-Specific Nodes"
 msgstr "游戏引擎特定节点"
 
@@ -653,7 +652,6 @@ msgid "*Normal*"
 msgstr "*法线*"
 
 #: ../node_materials.rst:324
-#, fuzzy
 msgid "A normal vector in camera space for adding perturbations."
 msgstr "添加扰动法线贴图。"
 
@@ -961,13 +959,4 @@ msgstr "材质"
 #: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:170
 msgid "nodes"
 msgstr "节点"
-
-#~ msgid "Separave RGB"
-#~ msgstr "RGB拆分"
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid "Vector Transform"
-#~ msgstr ""
 

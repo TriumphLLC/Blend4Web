@@ -628,6 +628,19 @@ exports.PL_MULTITOUCH_MOVE_PAN  = m_ctl.PL_MULTITOUCH_MOVE_PAN;
  * @const module:controls.PL_MULTITOUCH_MOVE_ROTATE
  */
 exports.PL_MULTITOUCH_MOVE_ROTATE  = m_ctl.PL_MULTITOUCH_MOVE_ROTATE;
+
+/**
+ * Default logic AND function for sensor manifold
+ * @const module:controls.default_AND_logic_fun
+ */
+exports.default_AND_logic_fun = m_ctl.default_AND_logic_fun;
+
+/**
+ * Default logic OR function for sensor manifold
+ * @const module:controls.default_AND_logic_fun
+ */
+exports.default_OR_logic_fun = m_ctl.default_OR_logic_fun;
+
 /**
  * Create a gamepad button sensor.
  * @method module:controls.create_gamepad_btn_sensor
@@ -738,9 +751,12 @@ exports.create_ray_sensor = function(obj_src, from, to, collision_id,
 
 /**
  * Create a mouse click sensor.
+ * The sensor's payload is an object
+ * with useful properties like coordinates, and index of button
  * @method module:controls.create_mouse_click_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
+ * @cc_externs coords which
  */
 exports.create_mouse_click_sensor = m_ctl.create_mouse_click_sensor;
 
@@ -755,22 +771,25 @@ exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
 
 /**
  * Create a mouse movement sensor.
- * The sensor's value is a number of pixels, the sensor's payload is (are)
- * coordinate(s).
+ * The sensor's value is a number of pixels, the sensor's payload is an object
+ * with useful properties like coordinates
  * @method module:controls.create_mouse_move_sensor
  * @param {String} [axis="XY"] Coordinate(s) to track: "X", "Y", "XY"
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
+ * @cc_externs coords
  */
 exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
 
 /**
  * Create a touch movement sensor.
- * The sensor's value is a number of pixels.
+ * The sensor's value is a number of pixels, the sensor's payload is an object
+ * with useful properties like coordinates
  * @method module:controls.create_touch_move_sensor
  * @param {String} [axis="XY"] Coordinate(s) to track: "X", "Y" or "XY"
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
+ * @cc_externs coords gesture
  */
 exports.create_touch_move_sensor = m_ctl.create_touch_move_sensor;
 
@@ -794,10 +813,12 @@ exports.create_touch_rotate_sensor = m_ctl.create_touch_rotate_sensor;
 
 /**
  * Create a touch click sensor.
- * The sensor's value is 1 for a touched fouchscreen.
+ * The sensor's value is 1 for a touched fouchscreen.the sensor's payload is an object
+ * with useful properties like coordinates
  * @method module:controls.create_touch_click_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
+ * @cc_externs coords
  */
 exports.create_touch_click_sensor = m_ctl.create_touch_click_sensor;
 

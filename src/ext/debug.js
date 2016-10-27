@@ -460,33 +460,26 @@ exports.geometry_stats = function() {
                 var render = bundles[k].obj_render;
                 // NOTE: some objects (particles) do not have any submesh
                 if (batch)
-                    if (subs.type != m_subs.COLOR_PICKING && subs.type != m_subs.COLOR_PICKING
+                    if (subs.type != m_subs.COLOR_PICKING && subs.type != m_subs.OUTLINE_MASK
                             || render.origin_selectable || render.origin_outlining)
                         unique_batches[batch.id] = batch;
             }
         }
     }
 
-    var vbo_number = 0;
     var vbo_memory = 0;
-    var ibo_number = 0;
     var ibo_memory = 0;
 
     for (var id in unique_batches) {
-        var batch = unique_batches[id];
-        var bufs_data = batch.bufs_data;
+        var bufs_data = unique_batches[id].bufs_data;
 
-        if (bufs_data.debug_ibo_bytes) {
-            ibo_number++;
+        if (bufs_data.debug_ibo_bytes)
             ibo_memory += bufs_data.debug_ibo_bytes / (1024 * 1024);
-        }
 
-        vbo_number++;
         vbo_memory += bufs_data.debug_vbo_bytes / (1024 * 1024);
     }
 
-    return {"vbo_number": vbo_number, "vbo_memory": vbo_memory,
-            "ibo_number": ibo_number, "ibo_memory": ibo_memory};
+    return {"vbo_memory": vbo_memory, "ibo_memory": ibo_memory};
 }
 
 /**
@@ -1164,7 +1157,7 @@ exports.test_performance = function(callback) {
     cfg_def.gl_debug = true;
 
     var graph = m_scgraph.create_performance_graph();
-    m_scenes.generate_auxiliary_batches(graph);
+    m_scenes.generate_auxiliary_batches(null, graph);
 
     var subs = m_scgraph.find_subs(graph, m_subs.PERFORMANCE);
     var cam = subs.camera;
@@ -1184,6 +1177,10 @@ exports.test_performance = function(callback) {
         callback(time, bandwidth);
     }, 100);
 }
+
+exports.calc_vbo_garbage_byte_size = m_debug.calc_vbo_garbage_byte_size;
+
+exports.show_vbo_garbage_info = m_debug.show_vbo_garbage_info;
 
 function call(func, name) {
     var decor_func = function() {

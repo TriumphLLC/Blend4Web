@@ -24,6 +24,50 @@ Render Panel
 All scene parameters that concern the image rendering are found on this panel.
 
 
+.. _render_development_server:
+
+Development Tools
+-----------------
+
+Development Server settings. Described thoroughly in :ref:`its own section <local_development_server>`.
+
+.. image:: src_images/scene_settings/render_development_server.png
+   :align: center
+   :width: 100%
+
+.. _render_shading:
+
+Shading
+-------
+
+This panel contains various shading options.
+
+.. image:: src_images/scene_settings/render_shading.png
+   :align: center
+   :width: 100%
+
+*Set Recommended Options*
+    This button is used to achieve maximum consistency between the look of a 3D scene in Blender viewport and in web browser. Pressing this button:
+
+    * enables **World Space Shading**,
+    * switches material mode to **GLSL**,
+    * switches viewport shading mode to **Material** and
+    * sets the main camera fit to **Vertical**.
+
+*World Space Shading*
+    This option turns on and off **World Space Shading** (world space interpretation of lighting data will be used for object shading). Disabled by default.
+
+.. _render_shadows:
+
+Shadows
+-------
+
+Shadows settings. Described thoroughly in :ref:`its own section<shadows>`.
+
+.. image:: src_images/scene_settings/render_shadows.png
+   :align: center
+   :width: 100%
+
 .. _render_reflections:
 
 Reflections and Refractions
@@ -44,41 +88,16 @@ Reflection and refraction effect settings.
 *Quality*
     Quality settings for the reflection effect. Can be set to ``HIGH`` (the highest reflection quality), ``MEDIUM`` (medium quality) or to ``LOW`` (the lowest quality). Set to ``MEDIUM`` by default.
 
-.. _render_motion_blur:
+.. _render_object_outlining:
 
-Motion Blur
------------
-
-Motion blur settings. Described thoroughly :ref:`in its own section <motion_blur>`.
-
-.. image:: src_images/scene_settings/render_motion_blur.png
-   :align: center
-   :width: 100%
-
-
-.. _render_bloom:
-
-Bloom
------
-
-Bloom effect settings. Described thoroughly in :ref:`its own section <bloom>`.
-
-.. image:: src_images/scene_settings/render_bloom.png
-   :align: center
-   :width: 100%
-
-
-.. _render_color_correction:
-
-Color Correction
+Object Outlining
 ----------------
 
-Color correction settings. Described thoroughly in :ref:`its own section <color_correction>`.
+Outlining effect settings. Described thoroughly in :ref:`its own section<outline>`.
 
-.. image:: src_images/scene_settings/render_color_correction.png
+.. image:: src_images/scene_settings/render_object_outlining.png
    :align: center
    :width: 100%
-
 
 .. _render_glow_materials:
 
@@ -91,18 +110,51 @@ Glow Material effect settings. Described thoroughly in :ref:`its own section <gl
    :align: center
    :width: 100%
 
+.. _render_anti_aliasing:
 
-.. _render_object_outlining:
+Anti-Aliasing
+-------------
 
-Object Outlining
-----------------
+Anti-Aliasing settings. Described thoroughly in :ref:`its own section<antialiasing>`.
 
-Outlining effect settings. Described thoroughly in :ref:`its own section<outline>`.
-
-.. image:: src_images/scene_settings/render_object_outlining.png
+.. image:: src_images/scene_settings/render_anti_aliasing.png
    :align: center
    :width: 100%
 
+.. _render_anisotropic_filtering:
+
+Anisotropic Filtering
+---------------------
+
+This parameter can be used to enable or disbale anisotropic filtering and also to set the number of texture samples used for it. By default, anisotropic filtering is disabled.
+
+.. image:: src_images/scene_settings/render_anisotropic_filtering.png
+   :align: center
+   :width: 100%
+
+Available values: ``16x``, ``8x``, ``4x``, ``2x`` and ``OFF`` (default value).
+
+.. _render_bloom:
+
+Bloom
+-----
+
+Bloom effect settings. Described thoroughly in :ref:`its own section <bloom>`.
+
+.. image:: src_images/scene_settings/render_bloom.png
+   :align: center
+   :width: 100%
+
+.. _render_motion_blur:
+
+Motion Blur
+-----------
+
+Motion blur settings. Described thoroughly :ref:`in its own section <motion_blur>`.
+
+.. image:: src_images/scene_settings/render_motion_blur.png
+   :align: center
+   :width: 100%
 
 .. _render_ssao:
 
@@ -115,7 +167,6 @@ Screen-space ambient occlusion (SSAO) settings. Described thoroughly in :ref:`it
    :align: center
    :width: 100%
 
-
 .. _render_god_rays:
 
 God Rays
@@ -127,38 +178,14 @@ God Rays effect settings. Described thoroughly in :ref:`its own section <god_ray
    :align: center
    :width: 100%
 
+.. _render_color_correction:
 
-.. _render_anti_aliasing:
+Color Correction
+----------------
 
-Anti-Aliasing
--------------
+Color correction settings. Described thoroughly in :ref:`its own section <color_correction>`.
 
-Anti-Aliasing settings. Described thoroughly in :ref:`its own section<antialiasing>`.
-
-.. image:: src_images/scene_settings/render_anti_aliasing.png
-   :align: center
-   :width: 100%
-
-
-.. _render_shadows:
-
-Shadows
--------
-
-Shadows settings. Described thoroughly in :ref:`its own section<shadows>`.
-
-.. image:: src_images/scene_settings/render_shadows.png
-   :align: center
-   :width: 100%
-
-.. _render_development_server:
-
-Development Server
-------------------
-
-Development Server settings. Described thoroughly in :ref:`its own section <local_development_server>`.
-
-.. image:: src_images/scene_settings/render_development_server.png
+.. image:: src_images/scene_settings/render_color_correction.png
    :align: center
    :width: 100%
 
@@ -181,6 +208,19 @@ Timeline settings.
 
 *Frame Rate*
     Number of the frames per second. Set to 24 by default. This parameter only affect the animation playback speed (not the scene itself).
+
+.. _render_dynamic_grass:
+
+Dynamic Grass
+-------------
+
+Enables and disables :ref:`dynamic grass <particles_grass>` effect.
+
+.. image:: src_images/scene_settings/render_dynamic_grass.png
+   :align: center
+   :width: 100%
+
+Possible values: ``ON``, ``OFF`` and ``AUTO``. Set to ``AUTO`` by default.
 
 .. _scene:
 
@@ -452,14 +492,14 @@ Sky settings.
 *Zenith Color*
     Sky color in the zenith.
 
-*Ambient Color*
-    The color of the ambient lighting.
-
 *Reflect World*
     Render the sky while rendering reflections.
 
 *Render Only Reflection*
     Render the sky *only* while rendering reflections.
+
+*World Background*
+    Enables and disables ``World Background`` option (located under the ``Display`` tab of the ``3D View`` panel). When this option is activated, background colors are rendered in the viewport window the same way they would be in the engine itself.
 
 .. _world_environment_lighting:
 
@@ -515,6 +555,29 @@ Procedural Sky
 .. image:: src_images/scene_settings/world_procedural_sky.png
    :align: center
    :width: 100%
+
+.. _world_animation:
+
+Animation
+---------
+
+Environment animation settings.
+
+.. image:: src_images/scene_settings/world_animation.png
+   :align: center
+   :width: 100%
+
+*Apply Default Animation*
+    If this parameter is enabled, the engine will start playback of the animation assigned to the environment upon loading.
+
+*Behavior*
+    Sets the behavior of the default animation. Available options are:
+    
+    * ``Loop`` - the animation will be played repeatedly.
+    * ``Finish Stop`` - the animation will be played once.
+    * ``Finish Reset`` - the animation will be played once, and then switched back to the first frame.
+
+    This option is only avaliable if the ``Apply Default Animation`` parameter is enabled.
 
 
 .. _world_export_options:

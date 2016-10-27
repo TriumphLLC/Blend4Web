@@ -193,7 +193,7 @@ Blend4Web 才开始对骨架预算进行初步支持。目前，唯一受支持�
    按下此按钮执行动画烘焙。
 
 注解: 要让顶点动画正常工作，应启用所选物体的  "Export Vertex
-  Animation" 参数 （ "Object" 面板的``Export Options``  部分）。
+  Animation" 参数 （ "Object" 面板的 "Export Options" 部分）。
 
 
 默认动画

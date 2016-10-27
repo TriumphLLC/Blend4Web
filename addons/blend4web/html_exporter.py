@@ -205,6 +205,7 @@ class B4W_ExportHTMLPathGetter(bpy.types.Operator):
 def get_html_template(path):
     tpl_file = open(path, "r", encoding="utf-8")
     tpl_str = tpl_file.read()
+    tpl_str.encode("utf-8")
     tpl_file.close()
     return Template(tpl_str)
 

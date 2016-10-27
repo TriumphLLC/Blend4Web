@@ -129,8 +129,8 @@ exports.update_object = function(bpy_source, obj) {
                     var ev = init_event();
 
                     ev.type = "CLIP";
-                    ev.frame_start = sd.scene["frame_start"];
-                    ev.frame_end = sd.scene["frame_end"] + 1;
+                    ev.frame_start = va.frame_start;
+                    ev.frame_end = va.frame_end;
                     ev.anim_name = va.name;
                     ev.anim_slot = slot_num;
                     ev.action_frame_start = ev.frame_start;

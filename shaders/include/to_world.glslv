@@ -14,6 +14,7 @@
 #var BILLBOARD_JITTERED 0
 #var BILLBOARD_PRES_GLOB_ORIENTATION 0
 #var STATIC_BATCH 0
+#var REFLECTION_PASS REFL_PASS_NONE
 /*============================================================================*/
 
 #define MAX_BILLBOARD_ANGLE M_PI_4
@@ -21,8 +22,13 @@
 #if BILLBOARD_SPHERICAL || !BILLBOARD && (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW)
 mat3 billboard_spherical(vec3 center_pos, mat3 view_tsr) {
     vec4 bb_q = vec4(view_tsr[1][1], view_tsr[1][2], view_tsr[2][0],view_tsr[2][1]);
-    // NOTE: camera is rotated downward by default
+    // NOTE: camera is rotated downward by default,
+    // inversed vertex order during reflection pass
+#if REFLECTION_PASS == REFL_PASS_PLANE
+    vec4 right_q = qsetAxisAngle(RIGHT_VECTOR, -M_PI/2.0);
+#else
     vec4 right_q = qsetAxisAngle(RIGHT_VECTOR, M_PI/2.0);
+#endif
     bb_q = qmult(right_q, bb_q);
     bb_q = qinv(bb_q);
 

@@ -31,7 +31,6 @@ var m_print = require("__print");
 var m_render= require("__renderer");
 
 var MIN_VARYINGS_REQUIRED = 10;
-var MIN_FRAGMENT_UNIFORMS_SUPPORTED = 128;
 var AMD_MESA_RENDER_NAMES = ["R600", "RV610", "RV630", "RV620", "RV635", "RV670",
         "RS780", "RS880", "RV770", "RV730", "RV710", "RV740", "CEDAR", "REDWOOD",
         "JUNIPER", "CYPRESS", "PALM (Wrestler/Ontario)", "SUMO (Llano)",
@@ -89,10 +88,12 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_def.msaa_samples = Math.min(cfg_def.msaa_samples,
                 gl.getParameter(gl.MAX_SAMPLES));
         if (check_user_agent("Firefox")) {
-            warn("Firefox and WebGL 2 detected, applying framebuffer hack");
+            warn("Firefox and WebGL 2 detected, applying framebuffer hack, disabling anchor visibility");
             cfg_def.check_framebuffer_hack = true;
+            cfg_def.ff_disable_anchor_vis_hack = true;
         }
     }
+
     if (check_user_agent("Firefox") && cfg_def.stereo !== "NONE") {
         warn("Firefox and Stereo rendering detected, disable texture reusage");
         cfg_def.firefox_tex_reuse_hack = true;
@@ -129,7 +130,6 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
             cfg_def.ssao = false;
             cfg_def.precision = "highp";
             cfg_def.init_wa_context_hack = true;
-            cfg_scs.cubemap_tex_size = 256;
             if (Boolean(m_ext.get_pvr()) && cfg_ldr.pvr_available)
                 cfg_def.compress_format = "pvr";
 
@@ -203,8 +203,9 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_def.quality_aa_method = false;
     }
 
-    if (check_user_agent("UCBrowser") || check_user_agent("Firefox") && cfg_def.is_mobile_device) {
-        warn("Mobile Firefox or UCBrowser detected, disable workers.");
+    if (check_user_agent("UCBrowser") ||
+            (check_user_agent("Chrome") || check_user_agent("Firefox")) && cfg_def.is_mobile_device) {
+        warn("Mobile Firefox, mobile Chrome or UCBrowser detected, disable workers.");
         cfg_phy.use_workers = false;
     }
 
@@ -214,11 +215,6 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         var vendor = gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL);
         var renderer = gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL);
         var mali_4x_re = /\b4\d{2}\b/;
-
-        if (check_user_agent("Macintosh") && renderer.indexOf("Intel HD Graphics 3000") > -1) {
-            warn("OS X / Intel HD 3000 detected, applying depth hack");
-            depth_tex_available = false;
-        }
 
         if (vendor.indexOf("ARM") > -1 && mali_4x_re.test(renderer)) {
             warn("ARM Mali-400 series detected, applying depth and frames blending hacks");
@@ -275,11 +271,9 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
 
         if (renderer.indexOf("PowerVR") > -1) {
             warn("PowerVR series detected, use canvas for resizing. " +
-                    "Set sky cubemap texture size to 256 (power of two). " +
                     "Disable shadows. " +
                     "Apply skinning hack, disable skin blending between frames.");
             cfg_def.resize_cubemap_canvas_hack = true;
-            cfg_scs.cubemap_tex_size = 256;
             cfg_def.skinning_hack = true;
             cfg_def.shadows = false;
             // NOTE: uncomment code below in case of cfg_def.shadows == true;
@@ -328,12 +322,6 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
     // var medium = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER,
     //         gl.MEDIUM_FLOAT);
 
-    // IE11 compatibility hack: power of two cubemap texture
-    if (is_ie11()) {
-        warn("IE11 detected. Set sky cubemap texture size to 512 (power of two).");
-        cfg_scs.cubemap_tex_size = 512;
-    }
-
     if (is_ie11() && check_user_agent("Touch") || check_user_agent("Edge")) {
         warn("IE11 and touchscreen or Edge detected. Behaviour of the mouse move sensor will be changed.");
         cfg_def.ie11_edge_touchscreen_hack = true;
@@ -341,12 +329,6 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
 
     if (is_ie11() || check_user_agent("Edge"))
         cfg_def.ie_edge_anchors_floor_hack = true;
-
-    if (cfg_lim.max_fragment_uniform_vectors <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
-        warn("Not enough fragment uniforms, force low quality for "
-                    + "B4W_LEVELS_OF_QUALITY nodes.");
-        cfg_def.force_low_quality_nodes = true;
-    }
 
     if (detect_mobile() && check_user_agent("Firefox")) {
         m_print.log("Mobile firefox detected. Applying autoplay media hack."

@@ -5,16 +5,10 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"POT-Creation-Date: 2016-10-18 15:16+0300\n"
+"PO-Revision-Date: 2016-10-05 20:32+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -117,86 +111,77 @@ msgid ""
 msgstr "同一面板上为 ``Distance`` 设置一个非零值（Blender中单位=米）。在这种情况下，相机焦点在相机的这个距离值，并与相机一起移动。"
 
 #: ../postprocessing_effects.rst:63
-#, fuzzy
 msgid "Additional Settings"
-msgstr "其他设置"
+msgstr "附加设置"
 
 #: ../postprocessing_effects.rst:70
 msgid "*Focus*"
-msgstr ""
+msgstr "*焦点*"
 
 #: ../postprocessing_effects.rst:70
 msgid "Sets the focal object. By default, this field is empty."
-msgstr ""
+msgstr "设置的重点对象。默认情况下，此字段为空。"
 
 #: ../postprocessing_effects.rst:73
-#, fuzzy
 msgid "*Distance*"
-msgstr "*距离系数*"
+msgstr "*距离*"
 
 #: ../postprocessing_effects.rst:73
 msgid ""
 "This parameter defines the focal distance. Available only if the "
 "``Focus`` parameter hasn't been set beforehand (if the corresponding "
 "field is empty). Set to zero by default."
-msgstr ""
+msgstr "此参数定义焦距。仅当 ``Focus`` 参数没有预先设置（如果相应的字段为空）有用。默认设置为零。"
 
 #: ../postprocessing_effects.rst:78
-#, fuzzy
 msgid "*Front Start*"
-msgstr "*前*"
+msgstr "*前端起始*"
 
 #: ../postprocessing_effects.rst:76
-#, fuzzy
 msgid ""
 "This sets the distance (in meters) from the focus to the nearest plane "
 "(relative to the camera) behind which blurring effect starts to occur. "
 "The default value is 1.0."
-msgstr "从焦点到后面发生充分模糊（米）的最接近的平面（相对于相机）的距离。缺省值为1.0。"
+msgstr "此选项设置（以米为单位） 焦点到最近的平面到模糊效应开始出现前的距离（相对于相机） 。默认值是 1.0。"
 
 #: ../postprocessing_effects.rst:78 ../postprocessing_effects.rst:86
 msgid ""
 "This parameter is available only if the ``High Quality (Bokeh)`` "
 "parameter is enabled."
-msgstr ""
+msgstr "只有启用了 ``High Quality (Bokeh)`` 参数，此参数才可用。"
 
 #: ../postprocessing_effects.rst:81
-#, fuzzy
 msgid "*Front End*"
-msgstr "*前*"
+msgstr "*前端结束*"
 
 #: ../postprocessing_effects.rst:81
-#, fuzzy
 msgid ""
 "This sets the distance from the camera and the neares plane (relative to "
 "the camera) behind which blurring effect reaches maximum strength "
 "(defined by the ``Power`` value). Default value is 5.0."
-msgstr "从焦点到后面发生充分模糊（米）的最接近的平面（相对于相机）的距离。缺省值为1.0。"
+msgstr "这个设置从相机和最近平面 （相对于相机） 背后的模糊效果达到最大强度 （由  ``Power`` 的值定义） 的距离。默认值为 5.0。"
 
 #: ../postprocessing_effects.rst:86
 msgid "*Rear Start*"
-msgstr ""
+msgstr "*后方开始*"
 
 #: ../postprocessing_effects.rst:84
-#, fuzzy
 msgid ""
 "This sets the distance from the focus to the furthest plane (relative to "
 "the camera) behind which blurring effect starts to occur. The default "
 "value is 1.0."
-msgstr "从焦点到后面发生充分模糊（米）的最远的面（相对于相机）的距离。缺省值为1.0。"
+msgstr "这设置从焦点到最远的平面（相对于相机）的距离，模糊效果开始发生。默认值为1.0."
 
 #: ../postprocessing_effects.rst:89
-#, fuzzy
 msgid "*Rear End*"
-msgstr "*后*"
+msgstr "*后方结束*"
 
 #: ../postprocessing_effects.rst:89
-#, fuzzy
 msgid ""
 "This sets the distance from the camera to the furthest plane (relative to"
 " the camera) behind which blurring reaches maximum strength (defined by "
 "the ``Power`` value). Default value is 5.0."
-msgstr "从焦点到后面发生充分模糊（米）的最远的面（相对于相机）的距离。缺省值为1.0。"
+msgstr "这设置从相机到最远的平面（相对于相机）的距离，模糊达到最大强度（由  ``Power`` 的值定义）。默认值为5.0。"
 
 #: ../postprocessing_effects.rst:92
 msgid "*Power*"
@@ -206,61 +191,59 @@ msgstr "*指数*"
 msgid ""
 "Blurring ratio. The value of this parameter can vary from 0.1 to 10. The "
 "default value is 2.0."
-msgstr ""
+msgstr "模糊的比率。此参数的值可从 0.1 至 10。默认值为 2.0。"
 
 #: ../postprocessing_effects.rst:103
 msgid "*High Quality (Bokeh)*"
-msgstr ""
+msgstr "*高品质（背景虚化）*"
 
 #: ../postprocessing_effects.rst:95
 msgid ""
 "This enables high quality rendering of the depth of field effect. "
 "Activating this option:"
-msgstr ""
+msgstr "这使得高质量渲染景深效果。激活此选项︰"
 
 #: ../postprocessing_effects.rst:97
 msgid ""
 "Enables bokeh effect and makes available the ``Bokeh Intensity`` "
 "parameter for adjusting the strength of the effect."
-msgstr ""
+msgstr "启用的散景效果，并使 ``Bokeh Intensity`` 参数可用来调整影响强度。"
 
 #: ../postprocessing_effects.rst:99
 msgid ""
 "Enables the ``Front Start`` and ``Rear Start`` parameters for setting "
 "soft transition between the distance from camera where the effect start "
 "to occur and the distanse where it reaches its full strength."
-msgstr ""
+msgstr "启用 ``Front Start`` 和 ``Rear Start`` 参数设置从相机里的影响开始发生软过渡之间的距离，它达到其全部的力量的距离。"
 
 #: ../postprocessing_effects.rst:101
 msgid "Enables ``Foreground Blur`` parameter that is described below."
-msgstr ""
+msgstr "启用 ``Foreground Blur`` 的参数，如下所述。"
 
 #: ../postprocessing_effects.rst:103
-#, fuzzy
 msgid "The parameter is disabled by default."
-msgstr "*中* 配置文件默认情况下使用。"
+msgstr "参数默认被禁用的。"
 
 #: ../postprocessing_effects.rst:106
-#, fuzzy
 msgid "*Bokeh Intensity*"
-msgstr "*强度*"
+msgstr "*散景强度*"
 
 #: ../postprocessing_effects.rst:106
 msgid ""
 "This value sets the strength of the bokeh effect. It can vary from zero "
 "to 1.0. Set to 0.3 by default."
-msgstr ""
+msgstr "此值设置的散景效果的强度。它可以从 0 到 1.0 会发生变化。默认设置为 0.3。"
 
 #: ../postprocessing_effects.rst:110
 msgid "*Foreground Blur*"
-msgstr ""
+msgstr "*前景模糊*"
 
 #: ../postprocessing_effects.rst:109
 msgid ""
 "Enabling this option makes the engine to blur the silhouettes of the "
 "foreground objects, improving the quality of the effect at the cost of "
 "slight performance decrease. Disabled by default."
-msgstr ""
+msgstr "启用此选项使引擎模糊前景物体的轮廓，提高质量的代价是性能略有降低作用。默认为禁用。"
 
 #: ../postprocessing_effects.rst:117
 msgid "Screen-Space Ambient Occlusion"
@@ -275,13 +258,14 @@ msgid ""
 msgstr "屏幕空间环境光遮蔽（SSAO）效果，可用于仿造在物体周围复杂的光线反射。这种效果的基础是，近处的物体之间的空间为漫射光不易进入的，因而是更暗。"
 
 #: ../postprocessing_effects.rst:128
+#, fuzzy
 msgid ""
 "Activate the ``Ambient Occlusion SSAO`` panel under the ``Render`` tab "
 "and set the ``Render Shadows`` parameter to ``AUTO`` or ``ON``  on the "
-"``Rander > Shadows`` panel."
+"``Render > Shadows`` panel."
 msgstr ""
 "激活 ``Render``标签下 ``Ambient Occlusion SSAO`` 面板，设置  ``Render Shadows`` 参数 "
-"``AUTO` `或 ``ON`` 在``Rander> Shadows``面板。"
+"``AUTO` `或 ``ON`` 在 ``Render > Shadows`` 面板。"
 
 #: ../postprocessing_effects.rst:134
 msgid "*Radius Increase*"
@@ -663,10 +647,4 @@ msgstr "抗锯齿"
 
 #~ msgid "Blurring ratio. The default value is 3.0."
 #~ msgstr "模糊比。默认值是3.0。"
-
-#~ msgid "*Bokeh*"
-#~ msgstr ""
-
-#~ msgid "Activating this option enables bokeh effect. Disabled by default."
-#~ msgstr ""
 

@@ -5,16 +5,10 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"POT-Creation-Date: 2016-10-21 15:38+0300\n"
+"PO-Revision-Date: 2016-10-07 16:03+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +48,6 @@ msgstr ""
 "Blend4Web框架与Blender紧密集成。内容是由WebGL的和其他的浏览器技术渲染而成，**不使用插件** 。"
 
 #: ../about.rst:20
-#, fuzzy
 msgid ""
 "Technically Blend4Web is a library for web pages, a Blender add-on and "
 "some tools for debugging and optimization."
@@ -136,8 +129,9 @@ msgid "At the moment WebGL is supported in to a varying degree by all browsers."
 msgstr "现在的WebGL在不同程度上被所有浏览器支持。"
 
 #: ../about.rst:73
-msgid "Full Support"
-msgstr "全面支持"
+#, fuzzy
+msgid "Desktop Browsers"
+msgstr "浏览器"
 
 #: ../about.rst:75
 msgid "`Chrome <http://www.google.com/chrome>`_"
@@ -183,11 +177,11 @@ msgstr ""
 
 #: ../about.rst:89
 msgid "Firefox OS"
-msgstr "或Firefox ..."
+msgstr ""
 
 #: ../about.rst:90
 msgid "iOS 8"
-msgstr "8、 12、 16 位"
+msgstr ""
 
 #: ../about.rst:91
 msgid "Sailfish OS"
@@ -199,13 +193,13 @@ msgstr ""
 
 #: ../about.rst:93
 msgid "Ubuntu Touch"
-msgstr "Debian/Ubuntu"
+msgstr ""
 
 #: ../about.rst:95
 msgid ""
 "For further details see the :ref:`dedicated section <webgl_support>` in "
 "the Problems and Solutions chapter."
-msgstr ""
+msgstr "有关详细信息请参阅 :ref:`相关章节 <webgl_support>` 在问题和解决方案的篇章。"
 
 #: ../about.rst:102
 msgid "Advantages of WebGL"
@@ -403,7 +397,6 @@ msgid "sound processing, `Web Audio API <http://www.w3.org/TR/webaudio/>`_"
 msgstr "声音处理, `网络音频API <http://www.w3.org/TR/webaudio/>`_"
 
 #: ../about.rst:170
-#, fuzzy
 msgid ""
 "binary data loading, `XMLHttpRequest Level 2 "
 "<https://www.w3.org/TR/XMLHttpRequest2/>`_"
@@ -504,7 +497,6 @@ msgid ""
 msgstr "交互图形是由现代计算机一个特殊目的的硬件的一部分的所谓图形处理器可实现为分立装置（视频卡）或中央处理单元的一部分提供的。"
 
 #: ../about.rst:208
-#, fuzzy
 msgid ""
 "Main graphics processors vendors for desktop computers are:  - Nvidia "
 "(GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM "
@@ -579,9 +571,9 @@ msgstr "显卡"
 msgid "drivers"
 msgstr "驱动程序"
 
-#~ msgid "`Yandex Browser <http://browser.yandex.ru/>`_"
-#~ msgstr ""
-
 #~ msgid "Experimental Support"
 #~ msgstr "实验支持"
+
+#~ msgid "Full Support"
+#~ msgstr "全面支持"
 

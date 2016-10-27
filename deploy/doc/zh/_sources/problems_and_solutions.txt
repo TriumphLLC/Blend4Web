@@ -8,50 +8,48 @@
 
 * 存在的问题及解决方案
 
-  * WebGL Support
+  * WebGL的支持
 
   * 启动时的问题
 
   * WebGL的无法初始化
 
-  * More In-Depth Troubleshooting
+  * 更深入的故障排除
 
   * 已知问题
 
-As WebGL is still a relatively new technology, it may not work
-perfectly with every combination of software and hardware. This
-chapter covers common problems that users of the Blend4Web engine may
-encounter and provides solutions for these problems.
+WebGL仍然是一个相对较新的技术，可能不完全与软件和硬件的各种组合工作。
+本章介绍了Blend4Web引擎的用户可能会遇到，并提供了解决这些问题的常见问
+题。
 
 
-WebGL Support
-=============
+WebGL的支持
+===========
 
-If you are using a desktop or laptop computer, your system must have a
-GPU that supports DirectX 9.0c and OpenGL 2.1, such as:
+如果您使用的是台式机或笔记本电脑，您的系统必须有一个支持的DirectX 9.0c
+和OpenGL 2.1的GPU，如：
 
-   * Nvidia GeForce 6xxx series or higher.
+   * 的Nvidia GeForce 6XXX系列或更高。
 
-   * AMD/ATi Radeon R500 (X1xxx) series or higher.
+   * AMD / ATI的Radeon R500（X1xxx）系列或更高。
 
-   * Intel GMA 950 or higher.
+   * 英特尔GMA 950或更高。
 
-If you are using WebGL on a mobile device, please check whether your
-device is on the compatibility list.
+如果您使用的是移动设备上的WebGL，请检查您的设备是否是 兼容性列表。
 
-You also need to have a web browser that supports WebGL technology.
+您还需要有支持WebGL技术的Web浏览器。
 
-The following web browsers support WebGL:
+下面的Web浏览器支持WebGL：
 
-   * Google Chrome (v. 9 or higher)
+   * 谷歌浏览器（诉9或更高版本）
 
-   * Mozilla Firefox (v 4.0 or higher)
+   * Mozilla Firefox浏览器（V 4.0或更高版本）
 
-   * Safari (v. 8.0 or higher)
+   * Safari浏览器（8.0版或更高版本）
 
-   * Chrome for Android (v. 25 or higher)
+   * Android版Chrome浏览（25节或更高版本）
 
-   * Internet Explorer (v. 11 or higher)
+   * Internet Explorer（11或更高）
 
    * Microsoft Edge
 
@@ -59,8 +57,7 @@ The following web browsers support WebGL:
 
    * UC Browser (experimental)
 
-We also recommend to use the most recent version of the web browser to
-avoid compatibility problems.
+我们也建议使用的最近的web浏览器的版本，以避免兼容性问题。
 
 
 启动时的问题
@@ -88,9 +85,8 @@ http://get.webgl.org/ * 网站和其他 WebGL 应用正常工作.*
 
    * 您正在使用过时的操作系统，如Windows XP。
 
-   * Browser is not set up for loading local resources. In this
-     case, the problem can be fixed by using local web server. See the
-     Loading Local Resources section.
+   * 浏览器没有设置加载本地资源。在这种情况下，这个问题可以通过使用
+     本 地网络服务器 是固定的。请参阅 加载本地资源 部分。
 
 
 WebGL的无法初始化
@@ -99,9 +95,8 @@ WebGL的无法初始化
 使用最近的Chrome或Firefox浏览 http://get.webgl.org/ 页时出现的问题。我
 能做什么？
 
-1. Install the latest updates for your system (for MS Windows see
-   the guide). In case of MS Windows install the latest DirectX
-   runtime. Reboot.
+1. 安装最新的更新，为您的系统（用于MS Windows看 指南)。在微软
+   Windows的 情况下安装最新的DirectX 运行 。重启。
 
 2. 建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入
    **about:gpu** (或 **chrome://gpu**) ，在Chrome浏览器的地址栏中...
@@ -118,29 +113,29 @@ WebGL的无法初始化
 
 对于Windows，您可以运行DirectX诊断工具叫  **dxdiag**.
 
-To do it, please follow these steps:
+要做到这一点，请按照下列步骤操作：
 
-   1. Select the "Run" command from the Start menu
+   1. 从开始菜单中选择 "Run" 命令
 
-   2. Type *dxdiag* to the "Open" field and press "Enter" to open
-      DirectX Diagnostic Tool
+   2. 类型输入 dxdiag 给 "Open" 字段，然后按 "Enter" 打开DirectX诊
+      断工 具
 
-   3. Open the "Display" panel. There you can find manufacturer,
-      model and other information regarding your video card.
+   3. 打开 "Display" 面板。在那里，你可以找到制造商，型号以及关于你
+      的 显卡的其他信息。
 
 [图片]
 
 
 
-For MacOS X, you can check System Report.
+For macOS, you can check System Report.
 
-To do it, please follow these steps:
+要做到这一点，请按照下列步骤操作：
 
-   1. Select "About This Mac" from the "Apple" menu.
+   1. 从 "Apple" 菜单中选择 "关于本Mac"。
 
-   2. Click "System Report" button.
+   2. 点击 "系统Report" 按钮。
 
-   3. Select "Graphics/Displays" in the "Hardware" section.
+   3. 在 "Hardware" 部分中选择 "显卡/ Displays"。
 
 [图片]
 
@@ -170,20 +165,19 @@ To do it, please follow these steps:
 
 [图片]
 
-*For Safari*
+*对于Safari浏览器*
 
-Select "Preferences" from Safari menu, select the "Security" tab and
-make sure that "Allow WebGL" checkbox is enabled.
+选择 "Preferences" 从Safari浏览器菜单中选择 "Security" 选项卡，并确保
+"允许WebGL" 复选框被启用。
 
 [图片]
 
 
-More In-Depth Troubleshooting
-=============================
+更深入的故障排除
+================
 
-If nothing mentioned above helped you solve the issues you are
-experiencing, please visit the Blend4Web community forum and leave a
-message in the Bug Report thread. Our team will be sure to help you.
+如果上面帮您解决您所遇到的问题都没有的话，请访问Blend4Web 社区论坛 和
+错误报告中留言 线程。我们的团队一定会帮助你。
 
 
 已知问题
@@ -191,8 +185,7 @@ message in the Bug Report thread. Our team will be sure to help you.
 
 * 更新插件时候的问题。
 
-     It’s strongly advised to restart Blender after installing a newer
-     version of Add-on/SDK.
+     强烈建议安装插件/ SDK的新版本后重新启动Blender。
 
 * NVIDIA驱动程序331在Linux中可引起WebGL的错误。
 
@@ -203,10 +196,10 @@ message in the Bug Report thread. Our team will be sure to help you.
 
 * 使用Mali GPU的有些设备需要在浏览器设置手动激活的WebGL。
 
-* 对于本地开发服务器在苹果OS X和Blender2.76时，您可能需要安装
-  *Python 3.4 <https://www.python.org/downloads/release/python-343/>*.
-  这是由于在Blender https://developer.blender.org/T46623 的错误。此错
-  误已在Blender2.76b修复，所以建议更新Blender。
+* For the local development server to work on Apple macOS and
+  Blender 2.76, you may need to install Python 3.4. This is due to a
+  bug in Blender https://developer.blender.org/T46623. This bug has
+  been fixed in Blender 2.76b, so updating it is advised.
 
 * 使用Nouveau 驱动时骨骼动画可能工作不正确。
 
@@ -216,52 +209,41 @@ message in the Bug Report thread. Our team will be sure to help you.
      于零的区域中可见。要解决这个问题，建议增加Alpha通道的值，直到错误
      不再可见（按价值0.01增加它0.05应足以在大多数情况下）。
 
-* WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series
-  GPUs with drivers later than 355.
+* WebGL的Linux上的Chromium 崩溃 NVIDIA GeForce 400/500系列GPU与驱动
+  迟 于355。
 
-     This issue is caused by incompatibility of Chromium sandbox and
-     NVIDIA's latest drivers. The solution is to downgrade drivers to
-     the 340xx version.
+     此问题是由Chromium沙箱和NVIDIA最新的驱动程序不兼容引起的。解决的
+     办法是降级驱动到340xx版本。
 
-* Audio issues.
+* 音频问题。
 
-     Audio doesn't work in some versions of Google Chrome for the
-     "Background Music" speakers in case of HTML export. Currently,
-     speaker type is automatically changed to "Background Sound" as a
-     workaround.
+     音频不会在谷歌浏览器的某些版本的HTML导出的情况下， “背景音乐”的扬
+     声器不工作。目前，音箱类型将自动更改为“背景声音”作为一种解决方法
+     。
 
-     There is an audio context error when running too many instances
-     (>6) of b4w engine (for example, many browser tabs or many
-     iframes on one page) in Google Chrome. The error is prevented by
-     disabling the audio for an application if the audio context
-     cannot be created for it.
+     运行过多实例的情况下（> 6），当有音频方面的错误B4W引擎（例如，许
+     多浏览器选项卡或在一个页面上的许多内部框架），谷歌浏览器。通过禁
+     用一个应用程序的音频如果音频上下文不能为它创建防止错误。
 
-     Pausing the audio may not work on such mobile devices as Nexus 6
-     and Nexus 9 in Google Chrome 50-52 versions. It should work again
-     in Chrome 53. More info here:
-     https://bugs.chromium.org/p/chromium/issues/detail?id=616772.
+     暂停音频可能无法在谷歌浏览器版本50-52 Nexus 6和9的Nexus这样的移动
+     设备上工作。它应该在Chrome53工作，了解详情：
+     https://bugs.chromium.org/p/chromium/issues/detail?id=616772 。
 
-* QQ Browser doesn't support WebGL at the moment.
+* QQ浏览器不会在此刻支持WebGL。
 
-* WebGL is unstable and sometimes crashes on Mesa 11.x drivers in
-  Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can
-  help.
+* WebGL是不稳定，有时会在Linux的Mesa11.x的驱动程序与英特尔的GPU上崩
+  溃 。降级到Mesa10.x的驱动程序可能会有帮助。
 
-* Using canvas textures can lead to incorrect rendering results in
-  Firefox 46-47 versions on Linux. It should work as expected again in
-  Firefox 48. More info can be found here:
-  https://bugzilla.mozilla.org/show_bug.cgi?id=1276996.
+* 有关在VR模式上GearVR触摸传感器上移动手指的信息不可用。
 
-* Information about moving fingers on GearVR touch sensor in VR-mode
-  is not available.
+     三星的Internet浏览器不在VR模式的触摸传感器上不触发任何移动手指的
+     任何事件。
 
-     Samsung Internet browser doesn't fire any events about moving
-     fingers on touch sensor in VR-mode.
+* 由放置在无效（隐藏）层粒子系统发射的粒子可以有自己的位置设为零，作
+  为 非活性层不被Blender更新。
 
-* Particles emitted by particle systems placed on inactive (hidden)
-  layers can have their positions set to zero as inactive layers are
-  not updated by Blender.
+     这个问题可以通过导出一个场景之前或通过简单地点击层激活层以使
+     Blender更新它们来解决。
 
-     This problem can be solved by activating layers before exporting
-     a scene or by simply clicking the layers to make Blender update
-     them.
+* Alpha blending objects are rendered incorrect on the Mali 400
+  series GPU by Google Chrome browser.

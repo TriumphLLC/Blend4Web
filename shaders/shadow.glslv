@@ -326,9 +326,13 @@ void main(void) {
     mat3 model_tsr = mat3(a_part_ts[0], a_part_ts[1], a_part_ts[2],
                         a_part_ts[3], a_part_r[0], a_part_r[1],
                         a_part_r[2], a_part_r[3], 1.0);
-# if !STATIC_BATCH
-    mat3 model_tsr = tsr_multiply(u_model_tsr, model_tsr);
-# endif
+#  if !STATIC_BATCH
+    model_tsr = tsr_multiply(u_model_tsr, model_tsr);
+#  endif
+# else
+#  if !DYNAMIC_GRASS
+    mat3 model_tsr = u_model_tsr;
+#  endif
 # endif
 
 #if (WIND_BEND || DYNAMIC_GRASS || BILLBOARD) && !USE_INSTANCED_PARTCLS
@@ -339,10 +343,6 @@ void main(void) {
 #else
     vec3 center = vec3(0.0);
 #endif
-
-# if !USE_INSTANCED_PARTCLS && !DYNAMIC_GRASS
-    mat3 model_tsr = u_model_tsr;
-# endif
 
 #if USE_TBN_SHADING
 # if CALC_TBN

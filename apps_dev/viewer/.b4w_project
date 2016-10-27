@@ -5,8 +5,8 @@ title = Viewer
 icon = .b4w_icon.png
 
 [paths]
-assets_dirs = deploy/assets/animation;deploy/assets/dev;deploy/assets/environment;deploy/assets/interactivity;deploy/assets/material_library;deploy/assets/materials;deploy/assets/media;deploy/assets/misc;deploy/assets/particles;deploy/assets/physics;deploy/assets/postprocessing;
-blend_dirs = blender/animation;blender/dev;blender/environment;blender/interactivity;blender/material_library;blender/materials;blender/media;blender/misc;blender/particles;blender/physics;blender/postprocessing;
+assets_dirs = 
+blend_dirs = 
 blender_exec = blender
 build_dir = deploy/apps/viewer
 deploy_dir = 
@@ -15,7 +15,7 @@ deploy_dir =
 apps = 
 css_ignore = 
 engine_type = external
-js_ignore = jquery-*.js;
+js_ignore = jquery*.js;
 optimization = simple
 use_physics = 
 use_smaa_textures = 

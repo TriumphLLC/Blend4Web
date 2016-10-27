@@ -106,12 +106,7 @@ def process_dist_list(dist_path, dist_root, version, force):
 
                 print("Writing:", path_root_rel)
 
-                if (path_root_rel == "apps_dev/viewer/assets.json" or 
-                        path_root_rel == "deploy/apps/viewer/assets.json"):
-                    assets = assets_cleanup(path_curr_rel, pos_patterns,
-                            neg_patterns)
-                    zip_str(z, path_arc, assets)
-                elif path_root_rel == "index.html":
+                if path_root_rel == "index.html":
                     index = index_cleanup(path_curr_rel, basename_dest, version)
                     zip_str(z, path_arc, index)
                 else:
@@ -120,8 +115,8 @@ def process_dist_list(dist_path, dist_root, version, force):
                         if check_path(path_root_rel, rule["paths"], rule["except_paths"]) \
                                 and os.path.splitext(path_root_rel)[-1] == rule["file_type"]:
                             src = ""
-                            license_type = basename_dest.split("_")[-1]
-                            is_pro = license_type == "pro"
+                            name_list = basename_dest.split("_")
+                            is_pro = "pro" in name_list
 
                             src_lines = []
                             if is_pro and "pro" in rule["version_type"]:
@@ -263,61 +258,6 @@ def find_file_path(path, pos_patterns):
             if fnmatch.fnmatch(path, pat):
                 return path
     return path
-            
-
-def assets_cleanup(path, pos_patterns, neg_patterns):
-    """Returns bytes with cleaned assets.json file"""
-
-    try:
-        fp_in = open(path, "r")
-    except IOError:
-        print("Assets file not found: " + path)
-        exit(1)
-
-    print("Performing cleanup: " + path)
-
-    try:
-        obj = json.load(fp_in)
-    except ValueError as err:
-        print("Failed to parse JSON: " + str(err))
-        exit(1)
-
-    fp_in.close()
-
-    obj_new = assets_cleanup_obj(obj, pos_patterns, neg_patterns)
-
-    assets_str = json.dumps(obj_new, indent=4, separators=(',', ': '),
-            sort_keys=True, cls=CustomJSONEncoder)
-
-    return assets_str.encode()
-
-def assets_cleanup_obj(sections, pos_patterns, neg_patterns):
-    sections_new = []
-
-    for sec in sections:
-        items = sec["items"]
-        items_new = []
-
-        for item in items:
-
-            path = os.path.normpath(os.path.join("deploy/assets",
-                    item["load_file"]))
-
-            if check_path(path, pos_patterns, neg_patterns):
-                items_new.append(item)
-            else:
-                print("Remove item: " + sec["name"] + ": " + item["name"])
-
-        if len(items_new) == 0:
-            print("Remove section: " + sec["name"])
-        else:
-            sec_new = {
-                "name" : sec["name"],
-                "items" : items_new
-            }
-            sections_new.append(sec_new)
-
-    return sections_new
 
 def index_cleanup(index_path, basename_dist, version):
 

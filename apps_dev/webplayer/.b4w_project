@@ -12,7 +12,7 @@ build_dir = deploy/apps/webplayer
 deploy_dir = 
 
 [compile]
-apps = 
+apps = webplayer.html
 css_ignore = 
 engine_type = compile
 js_ignore = 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Node Materials &mdash; Blend4Web 16.09.2 User Manual</title>
+  <title>Node Materials &mdash; Blend4Web 16.10 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 User Manual" href="index.html"/>
         <link rel="next" title="Logic Editor" href="logic_editor.html"/>
         <link rel="prev" title="Material Library" href="material_library.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -384,7 +384,7 @@ normal vector</td>
 <td>High</td>
 </tr>
 <tr class="row-odd"><td>Normal
-Map <a class="footnote-reference" href="#f2" id="id2">[2]</a></td>
+Map <a class="footnote-reference" href="#f1" id="id2">[1]</a></td>
 <td>Used to plug in normal
 map</td>
 <td>Full</td>
@@ -468,7 +468,7 @@ with two given vectors</td>
 <td>High</td>
 </tr>
 <tr class="row-even"><td>Vector
-Transform <a class="footnote-reference" href="#f1" id="id3">[1]</a></td>
+Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
 <td>Converts Vertor, Point
 or Normal between
 World, Camera and
@@ -481,13 +481,13 @@ Object coordinte spaces</td>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td>If at least one of the internal parameters, <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> or <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code> is set to <code class="docutils literal"><span class="pre">Object</span></code>, then any object that uses the material will be considered <a class="reference internal" href="objects.html#static-dynamic-objects"><span>dynamic</span></a>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>The <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> parameter of a normal map used with this node should be set to <code class="docutils literal"><span class="pre">Non-Color</span></code>. Not doing so may lead to unpredictable results (although it won&#8217;t crash the engine).</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>The <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> parameter of a normal map used with this node should be set to <code class="docutils literal"><span class="pre">Non-Color</span></code>. Not doing so may lead to unpredictable results (although it won&#8217;t crash the engine).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>If at least one of the internal parameters, <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> or <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code> is set to <code class="docutils literal"><span class="pre">Object</span></code>, then any object that uses the material will be considered <a class="reference internal" href="objects.html#static-dynamic-objects"><span>dynamic</span></a>.</td></tr>
 </tbody>
 </table>
 <div class="line-block">
@@ -806,7 +806,7 @@ Object coordinte spaces</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-10-03.
+      Last updated on 2016-10-27.
 
     </p>
   </div>
@@ -862,7 +862,7 @@ Object coordinte spaces</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

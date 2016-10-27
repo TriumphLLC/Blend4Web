@@ -115,6 +115,12 @@ function compose_ngraph_proxy(node_tree, source_id, is_node_group, mat_name,
         cleanup_on_unload: true
     }
 
+    if (!is_node_group) {
+        // reset lamps counter
+        _lamp_indexes = {};
+        _lamp_index = 0;
+    }
+
     if (shader_type != "SHADOW" && shader_type != "COLOR_ID") {
         var graph = m_graph.create();
 
@@ -182,6 +188,7 @@ function compose_ngraph_proxy(node_tree, source_id, is_node_group, mat_name,
             graph = create_default_graph();
             output_id = 0;
         }
+
         nmat_cleanup_graph(graph);
         var graph_out = m_graph.subgraph_node_conn(graph, output_id,
                                                    m_graph.BACKWARD_DIR);
@@ -397,10 +404,7 @@ function add_lighting_subgraph(graph, data, begin_node_id, end_node_id,
             // LIGHTING_LAMP input
             link_nlight_edge(graph, begin_node_id, lamp_node_id, "shadow_factor");
 
-            if (data.specular_shader == "COOKTORR")
-                var spec_name = "SPECULAR_PHONG";
-            else
-                var spec_name = "SPECULAR_" + data.specular_shader;
+            var spec_name = "SPECULAR_" + data.specular_shader;
             bpy_node = {"name": spec_name,
                         "type": spec_name,
                         "use_tangent_shading" : data.use_tangent_shading};
@@ -569,7 +573,6 @@ function fix_socket_types(graph, mat_name, shader_type) {
         var is_input_vec = m_util.is_vector(out_node.inputs[sockets[1]].default_value);
         if (is_output_vec != is_input_vec) {
             var trans_node;
-
             var vector = {
                 "default_value": [0, 0, 0],
                 "identifier": "Vector",
@@ -655,7 +658,6 @@ function nmat_cleanup_graph(graph) {
     for (var i = 0; i < id_attr.length; i+=2) {
         var id = id_attr[i];
         var attr = id_attr[i+1];
-
         if (attr.type == "B4W_PARALLAX") {
 
             var input_id1 = get_in_edge_by_input_num(graph, id, 1);
@@ -691,6 +693,38 @@ function nmat_cleanup_graph(graph) {
             for (var j = 0; j < out_edge_count; j++) {
                 var output_id = m_graph.get_out_edge(graph, id, j);
                 var id_place  = output_ids.indexOf(output_id);
+
+                // replace deff values
+                // var rem_edge = m_graph.get_edge_attr(graph, id, output_id, j);
+                // if (rem_edge) {
+                //     var out_soc_num = rem_edge[1];
+                //     var def_value = attr.inputs[0].default_value;
+                //     var out_node = m_graph.get_node_attr(graph, output_id);
+                //     var input = out_node.inputs[out_soc_num];
+                //     switch(typeof(def_value)) {
+                //     case "number":
+                //         if (typeof(input.default_value) == "object") {
+                //             var vec = input.default_value;
+                //             for (var k = 0; k < vec.length; k++)
+                //                 vec[k] = def_value;
+                //         } else if (typeof(input.default_value) == "number")
+                //             input.default_value = def_value;
+                //         break;
+                //     case "object":
+                //         if (typeof(input.default_value) == "object") {
+                //             var vec = input.default_value;
+                //             for (var k = 0; k < vec.length; k++)
+                //                 vec[k] = def_value[k];
+                //         } else if (typeof(input.default_value) == "number")
+                //             input.default_value = 0.35 * def_value[0] + 0.45 * def_value[1]
+                //                 + 0.2 * def_value[2];
+                //         break;
+                //     };
+                // }
+
+                var outputs = attr.outputs;
+                for (var k = 0; k < outputs.length; k++)
+                    outputs[k].default_value = attr.inputs[0].default_value;
 
                 if (id_place != -1)
                     edges_quantity[id_place] += 1;
@@ -1785,6 +1819,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
             dirs.push(["LAMP_INDEX", String(_lamp_index++)]);
         } else
             dirs.push(["LAMP_INDEX", String(_lamp_indexes[bpy_lamp["uuid"]])]);
+
         data = _lamp_indexes;
         break;
 
@@ -1840,6 +1875,7 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         break;
     case "SPECULAR_BLINN":
     case "SPECULAR_PHONG":
+    case "SPECULAR_COOKTORR":
         inputs = [default_node_inout("ldir", "ldir", [0,0,0], true),
                   default_node_inout("lfac", "lfac", [0,0], true),
                   default_node_inout("normal", "normal", [0,0,0], true),

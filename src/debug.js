@@ -58,6 +58,8 @@ var _debug_view_subs = null;
 var _assert_struct_last_obj = null;
 var _assert_struct_init = false;
 
+var _vbo_garbage_info = {};
+
 exports.DV_NONE = 0;
 exports.DV_OPAQUE_WIREFRAME = 1;
 exports.DV_TRANSPARENT_WIREFRAME = 2;
@@ -99,6 +101,52 @@ function set_debug_view_subs(subs) {
 exports.get_debug_view_subs = get_debug_view_subs;
 function get_debug_view_subs() {
     return _debug_view_subs;
+}
+
+exports.fill_vbo_garbage_info = function(vbo_id, sh_pair_str, attr_name, 
+        byte_size, is_in_usage) {
+    if (!_vbo_garbage_info[vbo_id])
+        _vbo_garbage_info[vbo_id] = { shaders: sh_pair_str, attrs: {} };
+
+    if (!(attr_name in _vbo_garbage_info[vbo_id].attrs))
+        _vbo_garbage_info[vbo_id].attrs[attr_name] = byte_size;
+
+    if (is_in_usage)
+        _vbo_garbage_info[vbo_id].attrs[attr_name] = 0;
+}
+
+exports.calc_vbo_garbage_byte_size = function() {
+    var size = 0;
+    for (var vbo_id in _vbo_garbage_info)
+        for (var name in _vbo_garbage_info[vbo_id].attrs)
+            size += _vbo_garbage_info[vbo_id].attrs[name];
+    return size;
+}
+
+exports.show_vbo_garbage_info = function() {
+    var info_obj = {}
+    for (var vbo_id in _vbo_garbage_info)
+        for (var name in _vbo_garbage_info[vbo_id].attrs) {
+            var byte_size = _vbo_garbage_info[vbo_id].attrs[name];
+            if (byte_size) {
+                var sh_str = _vbo_garbage_info[vbo_id].shaders;
+                if (!(sh_str in info_obj))
+                    info_obj[sh_str] = { total_size: 0, attrs: {} };
+
+                if (!(name in info_obj[sh_str].attrs))
+                    info_obj[sh_str].attrs[name] = 0;
+                info_obj[sh_str].attrs[name] += byte_size;
+                info_obj[sh_str].total_size += byte_size;
+            }
+        }
+
+    for (var sh_str in info_obj) {
+        m_print.groupCollapsed(sh_str, info_obj[sh_str].total_size);
+        for (var name in info_obj[sh_str].attrs)
+            m_print.log_raw(name, info_obj[sh_str].attrs[name]);
+
+        m_print.groupEnd();
+    }
 }
 
 /**
@@ -788,6 +836,7 @@ exports.get_gl = function() {
 
 exports.cleanup = function() {
     _debug_view_subs = null;
+    _vbo_garbage_info = {};
 }
 
 exports.reset = function() {

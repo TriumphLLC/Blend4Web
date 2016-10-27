@@ -1070,6 +1070,8 @@ function speaker_pause(obj) {
         else
             sfx.buf_offset = 0;
 
+        // NOTE: suppress ended event in Firefox fired even after disconnect
+        sfx.source_node.onended = function(){};
         sfx.source_node.stop(0);
         sfx.source_node.disconnect();
 
@@ -1219,14 +1221,14 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed, upd_cn
 
     var front = _vec3_tmp;
     front[0] = 0;
-    front[1] =-1;
-    front[2] = 0;
+    front[1] = 0;
+    front[2] =-1;
     m_vec3.transformQuat(front, quat, front);
 
     var up = _vec3_tmp2;
     up[0] = 0;
-    up[1] = 0;
-    up[2] =-1;
+    up[1] = 1;
+    up[2] = 0;
     m_vec3.transformQuat(up, quat, up);
 
     var listener = _wa.listener;

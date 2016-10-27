@@ -64,7 +64,7 @@ Commands for managing a specific project is located at its right.
 .. image:: src_images/project_manager/project_manager_commands.png
    :align: center
 
-#. Compile project (not available for Web Player JSON and Web Player HTML projects).
+#. Build project (not available for Web Player JSON and Web Player HTML projects).
 #. Check for missing or unnecessary API modules (not available for Web Player JSON and Web Player HTML projects).
 
     Activating this option will make the Project Manager check the modules used by the application and output the results of the check to the console. Possible warning messages are listed below:
@@ -135,15 +135,15 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
 5) Add scene templates. Standard json file will be added to the "deploy/assets/project_name" directory; blend file will be added to the "blender/project_name" directory.
 6) Use Material Library. Blend files of the material library will be copied to the project directory "blender/project_name", while the asset files will be copied to "deploy/assets/project_name" folder.
 7) Copy project manager script. The project.py script will be copied to the project directory.
-8) All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only ``Update``, ``Web Player JSON`` and ``Web Player HTML`` project types is available for this option.
+8) All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only ``Web Player JSON`` and ``Web Player HTML`` project types are available for this option.
 9) Project’s type. Several options are available:
 
-    * "External" - engine will be taken from the "deploy/apps/common/" directory. Only application files will be compiled;
-    * "Copy" - engine is copied into the compiled application directory. Only application files are compiled;
-    * "Compile" - engine sources are compiled with application scripts;
-    * "Update" - engine inside the project directory will be replaced. Available only for ``Bundled`` projects;
-    * "Web Player JSON" - json-file placed inside the project is run with the help of web-player inside SDK;
-    * "Web Player HTML" - project is packed into single html-file, containing all required resources.
+    * ``External`` - the project will use engine files in the ``deploy/apps/common/`` directory, only application files will be compiled. When the project is deployed, the ``deploy/apps/common/`` folder will be copied to the project directory;
+    * ``Copy`` - engine files will be directly copied from the ``deploy/apps/common/`` to the application folder. Only application files are compiled;
+    * ``Compile`` - engine sources are compiled with application scripts;
+    * ``None`` - Project Manager will not copy the engine files to the application folder, nor will it perform any operations upon building the application. Application developers will have to manually perform everything they need;
+    * ``Web Player JSON`` - json-file placed inside the project is run with the help of web-player inside SDK;
+    * ``Web Player HTML`` - project is packed into single html-file, containing all required resources.
 
 10) Javascript optimization level.
 
@@ -357,6 +357,8 @@ Advanced project management is used by experienced developers which require more
 
 For advanced project management use the *project.py* script and manually edit *.b4w_project* configuration files.
 
+The *project.py* script can be found in the ``./apps_dev/`` folder of the Blend4Web SDK directory.
+
 Dependencies
 ------------
 
@@ -372,15 +374,21 @@ For MS Windows users:
 
     python project.py check_deps
 
+For script operation it's required to install java and  `set the PATH system variable <https://www.java.com/en/download/help/path.xml>`_.
+
+.. note::
+    Java is included by default in the Windows version of the SDK. In Linux and macOS it should be installed manually.
+
+:ref:`Resource Converter <converter>` also uses its own set of external tools that are described in :ref:`another section <converter_deps>`.
 
 Projects List
 -------------
 
+The list of all projects in the SDK can be viewed with the following command:
+
 .. code-block:: bash
 
     python3 project.py -p myproject list
-
-Prints list of projects in the SDK.
 
 
 Project Structure
@@ -535,10 +543,6 @@ Building Projects
     python3 project.py -p myproject compile
 
 Builds a project in the ``deploy/apps/myproject`` directory.
-
-.. note::
-
-   For script operation it's required to install java and  `set the PATH system variable <https://www.java.com/en/download/help/path.xml>`_.
 
 
 Available parameters:

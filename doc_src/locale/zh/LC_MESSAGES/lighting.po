@@ -8,25 +8,27 @@ msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
 "POT-Creation-Date: 2016-09-27 16:51+0300\n"
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"PO-Revision-Date: 2016-10-11 15:30+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: zh_CN\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../lighting.rst:8
 msgid "Lighting, Shadows and Background"
-msgstr ""
+msgstr "照明、 阴影和背景"
 
 #: ../lighting.rst
 msgid "Table of Contents"
-msgstr ""
+msgstr "目录"
 
 #: ../lighting.rst:17
 msgid "Shading Types"
-msgstr ""
+msgstr "着色类型"
 
 #: ../lighting.rst:19
 msgid ""
@@ -35,120 +37,125 @@ msgid ""
 "normals are used), ``Shading: Smooth`` (interpolated vertex normals are "
 "used) and their combinations."
 msgstr ""
+"照明（着色）取决于法线矢量的方向。支持标准Blender的阴影类型 ： ``Shading: "
+"Flat`` （面法线被使用），``Shading: Smooth`` （插值顶点法线被使用）以及它们"
+"的组合。"
 
 #: ../lighting.rst:29
 msgid ""
 "If the required effect is impossible to achieve with the standard tools, "
 "you can use the :ref:`normals editor <normals_editor>`."
 msgstr ""
+"如果使用标准工具没法达到所需的效果，您可以使用 :ref:`normals editor "
+"<normals_editor>`."
 
 #: ../lighting.rst:31
 msgid ""
 "The result of applying different shading types and using the normals "
 "editor:"
-msgstr ""
+msgstr "不同的阴影类型和使用法线编辑的结果："
 
 #: ../lighting.rst:38
 msgid "Flat Shading"
-msgstr ""
+msgstr "平面着色"
 
 #: ../lighting.rst:39
 msgid "Smooth Shading"
-msgstr ""
+msgstr "光滑着色"
 
 #: ../lighting.rst:40
 msgid "Smooth Shading + bevel"
-msgstr ""
+msgstr "平滑阴影 倒角"
 
 #: ../lighting.rst:41
 msgid "Smooth Shading + bevel + editing normals"
-msgstr ""
+msgstr "平滑阴影 倒角 编辑法线"
 
 #: ../lighting.rst:46
 msgid "Lighting with Light Sources"
-msgstr ""
+msgstr "用光源照明"
 
 #: ../lighting.rst:48
 msgid ""
 "A scene can have multiple (but not less than one) light sources of "
 "different types."
-msgstr ""
+msgstr "一个场景可以有多个（但不小于一个）的不同类型的光源。"
 
 #: ../lighting.rst:52
 msgid "Light source types"
-msgstr ""
+msgstr "光源类型"
 
 #: ../lighting.rst:54
 msgid "The following light source types are supported:"
-msgstr ""
+msgstr "支持下面的光源类型："
 
 #: ../lighting.rst:57
 msgid "*Point*"
-msgstr ""
+msgstr "*Point*"
 
 #: ../lighting.rst:57
 msgid ""
 "Light propagates from one point uniformly to all directions with gradual "
 "attenuation."
-msgstr ""
+msgstr "光从一个点均匀传播与逐渐衰减四面八方。"
 
 #: ../lighting.rst:60
 msgid "*Sun*"
-msgstr ""
+msgstr "*Sun*"
 
 #: ../lighting.rst:60
 msgid ""
 "Light propagates from an infinite plane in one direction without "
 "attenuation."
-msgstr ""
+msgstr "光从一个无限平面在一个方向无衰减传播。"
 
 #: ../lighting.rst:63
 msgid "*Spot*"
-msgstr ""
+msgstr "*Spot*"
 
 #: ../lighting.rst:63
 msgid ""
 "Light propagates from one point within the angular limit, with gradual "
 "attenuation."
-msgstr ""
+msgstr "光从角度限制内的一个点传播时，并逐渐衰减。"
 
 #: ../lighting.rst:67
 msgid "*Hemi*"
-msgstr ""
+msgstr "*Hemi*"
 
 #: ../lighting.rst:66
 msgid ""
 "Hemispherical. Light propagates from an infinite hemisphere without "
 "attenuation."
-msgstr ""
+msgstr "半球形。光线从无限半球传播无衰减。"
 
 #: ../lighting.rst:70
 msgid "Light source setup"
-msgstr ""
+msgstr "光源设置"
 
 #: ../lighting.rst:72
 msgid "Performed in the ``Object Data`` tab when a lamp object is selected."
-msgstr ""
+msgstr "当选择了一盏灯在 ``Object Data`` 标签中修改设置。"
 
 #: ../lighting.rst:81 ../lighting.rst:209
 msgid "*Color*"
-msgstr ""
+msgstr "*Color*"
 
 #: ../lighting.rst:81
 msgid "Light color. The default value is (1.0, 1.0, 1.0) (i.e. white)."
-msgstr ""
+msgstr "灯光颜色。默认值是（1.0，1.0，1.0）（即白色）。"
 
 #: ../lighting.rst:84
 msgid "*Energy*"
-msgstr ""
+msgstr "*Energy*"
 
 #: ../lighting.rst:84
 msgid "Radiation intensity. The default value is 1.0."
-msgstr ""
+msgstr "辐射强度。缺省值为1.0。"
 
 #: ../lighting.rst:87
 msgid "*Falloff*"
-msgstr ""
+msgstr "*Falloff*"
 
 #: ../lighting.rst:87
 msgid ""
@@ -156,209 +163,226 @@ msgid ""
 "``Inverse Square``. It is applicable to the ``Point`` and ``Spot`` light "
 "source types. The default value is ``Inverse Square``."
 msgstr ""
+"衰减型。该值导出，但引擎始终使用 ``Inverse Square``. 它适用于 ``Point`` 和 "
+"``Spot`` 光源类型。默认值是 ``Inverse Square``."
 
 #: ../lighting.rst:90
 msgid "*Distance*"
-msgstr ""
+msgstr "*Distance*"
 
 #: ../lighting.rst:90
 msgid ""
 "Attenuation parameter. It is applicable to the ``Point`` and ``Spot`` "
 "light source types. The default value is 30.0."
-msgstr ""
+msgstr "衰减参数。它适用于 ``Point`` 和 ``Spot`` 光源类型。默认值是25.0。"
 
 #: ../lighting.rst:93
 msgid "*Specular*"
-msgstr ""
+msgstr "*Specular*"
 
 #: ../lighting.rst:93
 msgid "Create specular highlights. Enabled by default."
-msgstr ""
+msgstr "创建镜面高光。默认情况下启用。"
 
 #: ../lighting.rst:96
 msgid "*Diffuse*"
-msgstr ""
+msgstr "*Diffuse*"
 
 #: ../lighting.rst:96
 msgid "Do diffuse shading. Enabled by default."
-msgstr ""
+msgstr "做漫反射着色。默认情况下启用。"
 
 #: ../lighting.rst:99
 msgid "*Spot Shape > Size*"
-msgstr ""
+msgstr "*Spot Shape > Size*"
 
 #: ../lighting.rst:99
 msgid ""
-"Cone angle in degrees. It is applicable to the ``Spot`` light source "
-"type. The default value is 45º."
-msgstr ""
+"Cone angle in degrees. It is applicable to the ``Spot`` light source type. "
+"The default value is 45º."
+msgstr "锥角度。它适用于 ``Spot`` 光源类型。默认值是45度。"
 
 #: ../lighting.rst:102
 msgid "*Spot Shape > Blend*"
-msgstr ""
+msgstr "*Spot Shape > Blend*"
 
 #: ../lighting.rst:102
 msgid ""
-"Parameter for blurring light spot edges. It is applicable to the ``Spot``"
-" light source type. The default value is 0.15."
-msgstr ""
+"Parameter for blurring light spot edges. It is applicable to the ``Spot`` "
+"light source type. The default value is 0.15."
+msgstr "模糊光斑边缘参数。它适用于 ``Spot`` 光源类型。默认值是0.15。"
 
 #: ../lighting.rst:105
 msgid "*Dynamic Intensity*"
-msgstr ""
+msgstr "*Dynamic Intensity*"
 
 #: ../lighting.rst:105
 msgid ""
-"Use this light source for calculating the time of day. Applicable only to"
-" the ``Sun`` light source type. Disabled by default."
+"Use this light source for calculating the time of day. Applicable only to "
+"the ``Sun`` light source type. Disabled by default."
 msgstr ""
+"使用该光源，用于计算每天的时间。仅适用于 ``Sun`` 光源类型。默认情况下禁用。"
 
 #: ../lighting.rst:108
 msgid "*Shadow > Shadow*"
-msgstr ""
+msgstr "*Shadow > Shadow*"
 
 #: ../lighting.rst:108
 msgid ""
-"Use this light source for shadow calculation. Should be used when "
-"multiple light sources are present. Disabled by default."
-msgstr ""
+"Use this light source for shadow calculation. Should be used when multiple "
+"light sources are present. Disabled by default."
+msgstr "使用这个光源计算影子。当多个光源存在应该被使用。默认情况下禁用。"
 
 #: ../lighting.rst:111
 msgid "*Shadow > Clip Start*"
-msgstr ""
+msgstr "*Shadow > Clip Start*"
 
 #: ../lighting.rst:111
 msgid ""
 "This parameter specifies a distance from the light source, below which "
 "objects do not generate shadows. Default value is 1.001."
 msgstr ""
+"此参数指定离光源的距离，低于该值物体不产生阴影的距离。默认值为1.001。"
 
 #: ../lighting.rst:115
 msgid "*Shadow > Clip End*"
-msgstr ""
+msgstr "*Shadow > Clip End*"
 
 #: ../lighting.rst:114
 msgid ""
 "This parameter specifies a distance from the light source, beyond which "
 "objects do not generate shadows. Default value is 30.002."
-msgstr ""
+msgstr "此参数指定离光源的距离，超出后物体不产生阴影的距离。默认值是30.002。"
 
 #: ../lighting.rst:120
 msgid "Environment Lighting (Ambient)"
-msgstr ""
+msgstr "环境照明（环境）"
 
 #: ../lighting.rst:122
 msgid "The engine supports 3 methods of the environment lighting simulation."
-msgstr ""
+msgstr "该引擎支持环境灯光模拟的3种方法。"
 
 #: ../lighting.rst:124
 msgid "Flat white lighting."
-msgstr ""
+msgstr "平白光照明。"
 
 #: ../lighting.rst:125
 msgid ""
-"Hemispherical lighting model in which horizon and zenith colors should be"
-" specified. As a result objects are filled with a gradient between these "
+"Hemispherical lighting model in which horizon and zenith colors should be "
+"specified. As a result objects are filled with a gradient between these "
 "two colors depending on the direction of normals."
 msgstr ""
+"半球形的照明模式，即应当指定视野和天顶的颜色。物体会因为法线和方向填充这两"
+"种颜色组成的梯度色。"
 
 #: ../lighting.rst:126
 msgid ""
 "Lighting using an :ref:`environment map <environment_map>` - so called "
 "image-based lighting."
-msgstr ""
+msgstr "灯光使用 :ref:`环境贴图 <environment_map>` - 所谓的基于图像的照明。"
 
 #: ../lighting.rst:129 ../lighting.rst:185
 msgid "Activation"
-msgstr ""
+msgstr "**激活**"
 
 #: ../lighting.rst:131 ../lighting.rst:156
 msgid "Enable the ``Environment Lighting`` checkbox on the ``World`` tab."
-msgstr ""
+msgstr "启用 ``World`` 选项卡上的 ``Environment Lighting``  复选框。"
 
 #: ../lighting.rst:139 ../lighting.rst:202
 msgid "Setup"
-msgstr ""
+msgstr "设置"
 
 #: ../lighting.rst:142
 msgid "*World > Environment Lighting > Energy*"
-msgstr ""
+msgstr "*World > Environment Lighting > Energy*"
 
 #: ../lighting.rst:142
 msgid "Environment lighting intensity. The default value is 1.0."
-msgstr ""
+msgstr "环境照明亮度。缺省值为1.0。"
 
 #: ../lighting.rst:145
 msgid "*World > Environment Lighting > Environment Color*"
-msgstr ""
+msgstr "*World > Environment Lighting > Environment Color*"
 
 #: ../lighting.rst:145
 msgid ""
-"Selection of the environment lighting simulation method: ``White`` - flat"
-" white lighting, ``Sky Color`` - hemispherical model, ``Sky Texture`` - "
+"Selection of the environment lighting simulation method: ``White`` - flat "
+"white lighting, ``Sky Color`` - hemispherical model, ``Sky Texture`` - "
 "lighting using an :ref:`environment map <environment_map>`. The default "
 "value is ``White``."
 msgstr ""
+"选择环境照明模拟的方法: ``White`` - 平照明，``Sky Color`` - 半球模型，"
+"``Sky Texture`` - 照明使用的 :ref:`环境贴图 <environment_map>` 。默认值是白"
+"色。"
 
 #: ../lighting.rst:149
 msgid "*World > Horizon Color* and *World > Zenith Color*"
-msgstr ""
+msgstr "*World > Horizon Color* and *World > Zenith Color*"
 
 #: ../lighting.rst:148
 msgid ""
 "If the hemispherical model (``Sky Color``) is selected the horizon and "
 "zenith colors can be specified by means of the ``World > Horizon Color`` "
-"and ``World > Zenith Color`` color pickers. It is recommended to activate"
-" the ``World > Blend Sky`` option for better color selection."
+"and ``World > Zenith Color`` color pickers. It is recommended to activate "
+"the ``World > Blend Sky`` option for better color selection."
 msgstr ""
+"如果选择了半球模型 (``Sky Color``)  可以通过 ``World > Horizon Color`` 和 "
+"``World > Zenith Color``  颜色选取器指定的地平线和天顶角变化的颜色。建议以"
+"激活 ``World > Blend Sky`` 选项为更好的颜色选择。"
 
 #: ../lighting.rst:152
 msgid "Environment map method"
-msgstr ""
+msgstr "环境贴图方法"
 
 #: ../lighting.rst:154
 msgid "To use an environment map for environment lighting:"
-msgstr ""
+msgstr "要使用环境贴图进行环境照明："
 
 #: ../lighting.rst:157
 msgid "Select ``Environment Lighting > Sky Texture``."
-msgstr ""
+msgstr "选择 ``环境照明>天空Texture``。"
 
 #: ../lighting.rst:158
 msgid "Go from the ``World`` tab to the ``Texture`` tab."
-msgstr ""
+msgstr "从 ``World`` 选项卡转至 ``Texture`` 标签。"
 
 #: ../lighting.rst:159
 msgid ""
-"Create an :ref:`environment map <environment_map>`, load the "
-"corresponding image to it."
-msgstr ""
+"Create an :ref:`environment map <environment_map>`, load the corresponding "
+"image to it."
+msgstr "创建 :ref:`环境贴图 <environment_map>`，加载相应的图像。"
 
 #: ../lighting.rst:160
 msgid ""
-"For the environment map select ``ENVIRONMENT_LIGHTING`` or ``BOTH`` as "
-"the ``Sky Texture Usage`` value on the ``Export Options`` panel (the "
-"``BOTH`` option also enables using this texture as a :ref:`skydome "
-"texture <skydome_texture>`)."
+"For the environment map select ``ENVIRONMENT_LIGHTING`` or ``BOTH`` as the "
+"``Sky Texture Usage`` value on the ``Export Options`` panel (the ``BOTH`` "
+"option also enables using this texture as a :ref:`skydome texture "
+"<skydome_texture>`)."
 msgstr ""
+"对于环境贴图选择 ``ENVIRONMENT_LIGHTING`` 或 ``BOTH`` 为 ``Export "
+"Options`` 面板上的 ``Sky Texture Usage`` 值（``BOTH`` 选项，还可以使用该纹"
+"理作为 :ref:`天穹材质 <skydome_texture>`)."
 
 #: ../lighting.rst:172
 msgid "Shadows"
-msgstr ""
+msgstr "阴影"
 
 #: ../lighting.rst:174
 msgid ""
-"Shadows are exceptionally important for rendering the final picture. They"
-" provide the viewer not only with information about the objects' outline "
+"Shadows are exceptionally important for rendering the final picture. They "
+"provide the viewer not only with information about the objects' outline "
 "but also about their height and relative position, light source position "
 "and so on."
 msgstr ""
+"阴影对渲染最后的画面格外重要。它们所提供的观看者不仅与有关物体的轮廓的信"
+"息，也包含他们的高度和相对位置，光源位置等。"
 
 #: ../lighting.rst:176
 msgid ""
 "Blend4Web implements the following shadow rendering techniques: cascaded "
 "shadow maps (CSM) and softened shadows (PCF)."
-msgstr ""
+msgstr "Blend4Web实现以下阴影渲染技术：级联阴影贴图（CSM）和软阴影（PCF）。"
 
 #: ../lighting.rst:178
 msgid ""
@@ -366,54 +390,63 @@ msgid ""
 "simultaneously. If *Shadow* parameter is enabled for more than 4 light "
 "sources, shadows will still be generated only from 4 of them."
 msgstr ""
+"多达4个（或3如果SSAO启用）光源可以同时生成阴影。如果 *阴影* 参数为被超过4光"
+"源启用，阴影只能从其中4个中生成的。"
 
 #: ../lighting.rst:187
 msgid ""
 "Enable the ``Shadows: Cast`` checkbox under the ``Object`` tab for the "
 "objects which **cast** shadows."
 msgstr ""
+"在 ``Object`` 选项卡下启用 ``Shadows: Cast``  复选框为物体 **投射** 阴影 。"
 
 #: ../lighting.rst:188
 msgid ""
-"Enable the ``Shadows: Receive`` checkbox under the ``Object`` tab for the"
-" objects which **receive** shadows."
+"Enable the ``Shadows: Receive`` checkbox under the ``Object`` tab for the "
+"objects which **receive** shadows."
 msgstr ""
+"在 ``Object`` 选项卡下启用 ``Shadows: Receive`` 复选框为物体 **接收** 阴"
+"影 。"
 
 #: ../lighting.rst:189
 msgid ""
-"Make sure that the ``Shadows`` option in the ``Render`` tab has the value"
-" ``AUTO`` or ``ON``."
+"Make sure that the ``Shadows`` option in the ``Render`` tab has the value "
+"``AUTO`` or ``ON``."
 msgstr ""
+"确保在 ``Render`` 选项卡中的 ``Shadows`` 选项的值为 ``AUTO`` 或 ``ON``。"
 
 #: ../lighting.rst:193
 msgid ""
 "Objects, which have :ref:`transparent materials with a gradient "
 "<alpha_blend>`, do not cast shadows."
-msgstr ""
+msgstr "物体，其中带有 :ref:`渐变的透明材质 <alpha_blend>`, 不投射阴影。"
 
 #: ../lighting.rst:205
 msgid "*Direction*"
-msgstr ""
+msgstr "*Direction*"
 
 #: ../lighting.rst:205
 msgid ""
 "If there are multiple light sources, it is recommended to specify the "
-"exact light source which is used for shadow calculations, by enabling the"
-" ``Shadow > Shadow`` checkbox under the ``Object Data`` tab for the "
+"exact light source which is used for shadow calculations, by enabling the "
+"``Shadow > Shadow`` checkbox under the ``Object Data`` tab for the "
 "selected lamp object."
 msgstr ""
+"如果有多个光源，建议指定用于阴影计算确切的光源，选择灯光物体通过在 "
+"``Object Data`` 面板的 ``Shadow > Shadow`` 复选框来启用。"
 
 #: ../lighting.rst:208
 msgid ""
 "The shadow color is determined by the :ref:`environment lighting "
 "<environment_lighting>` settings."
 msgstr ""
+"环境照明阴影颜色是由 :ref:`环境光照 <environment_lighting>` 设置确定 。"
 
 #: ../lighting.rst:211
 msgid ""
-"The following additional settings are located on the ``Shadows`` panel of"
-" the ``Render`` tab:"
-msgstr ""
+"The following additional settings are located on the ``Shadows`` panel of "
+"the ``Render`` tab:"
+msgstr "下列附加设置位于 ``Render`` 标签的 ``Shadows`` 面板上："
 
 #: ../lighting.rst:218
 msgid "*Render Shadows*"
@@ -424,63 +457,69 @@ msgid ""
 "Enables and disables shadow rendering. Can be set to ``ON``, ``OFF`` and "
 "``AUTO``. Set to ``AUTO`` by default."
 msgstr ""
+"启用和禁用阴影渲染。可设置 ``ON``，``OFF`` 和 ``AUTO``。默认设置为 "
+"``AUTO``。"
 
 #: ../lighting.rst:221
 msgid "*Soft Shadows*"
-msgstr ""
+msgstr "*软阴影*"
 
 #: ../lighting.rst:221
 msgid "This option enables smoothing of the shadow maps. Enabled by default."
-msgstr ""
+msgstr "此选项使平滑的阴影贴图。默认情况下启用。"
 
 #: ../lighting.rst:224
 msgid "*Resolution*"
-msgstr ""
+msgstr "*分辨率*"
 
 #: ../lighting.rst:224
 msgid "Shadow map resolution. The default value is 2048 x 2048px."
-msgstr ""
+msgstr "阴影贴图分辨率。默认值为 2048 x 2048px。"
 
 #: ../lighting.rst:227
 msgid "*Blur Samples*"
-msgstr ""
+msgstr "*采样*"
 
 #: ../lighting.rst:227
 msgid ""
-"The number of the samples used for smoothing shadow maps. Available "
-"values are 4x, 8x and 16x, with the latter being the default value."
-msgstr ""
+"The number of the samples used for smoothing shadow maps. Available values "
+"are 4x, 8x and 16x, with the latter being the default value."
+msgstr "用于平滑阴影贴图的样品数目。可用值为 4x, 8x 和 16x, 后者是默认值。"
 
 #: ../lighting.rst:230
 msgid "*Self-Shadow Polygon Offset*"
-msgstr ""
+msgstr "*Self-Shadow Polygon Offset*"
 
 #: ../lighting.rst:230
 msgid ""
 "Coefficient for shifting polygons relative to light source orientation. "
 "The default value is 1."
-msgstr ""
+msgstr "相对于光源定向多边形移位系数。默认值是1。"
 
 #: ../lighting.rst:233
 msgid "*Self-Shadow Normal Offset*"
-msgstr ""
+msgstr "*Self-Shadow Normal Offset*"
 
 #: ../lighting.rst:233
 msgid ""
 "Coefficient for shifting polygons along their normals. The default value "
 "is 0.010."
-msgstr ""
+msgstr "沿法线移动多边形系数。默认值是0.010。"
 
 #: ../lighting.rst:235
 msgid ""
 "The last two parameters can be used to reduce self-shadowing artifacts. "
 "These artifacts appear for the objects that cast and receive shadows at "
 "the same time. The ``Self-Shadow Polygon Offset`` parameter is more "
-"effective for fighting against artifacts in inner areas of polygons while"
-" ``Self-Shadow Normal Offset`` is better for the boundary areas. Both "
-"these parameters lead to shadow distortions so we recommend to set them "
-"as low as possible."
+"effective for fighting against artifacts in inner areas of polygons while "
+"``Self-Shadow Normal Offset`` is better for the boundary areas. Both these "
+"parameters lead to shadow distortions so we recommend to set them as low "
+"as possible."
 msgstr ""
+"最后两个参数可以用于减少自阴影的瑕疵。这些瑕疵显示在同一时间投射和接收阴影"
+"的物体。``Self-Shadow Polygon Offset`` 参数是更有效的对抗的多边形的内部区域"
+"瑕疵，虽然' Self-Shadow 法线抵消 ' 是更好地为边界地区。上述两个参数导致阴影"
+"扭曲，因此，我们建议让他们尽可能低的水平。"
 
 #: ../lighting.rst:242
 msgid ""
@@ -488,44 +527,50 @@ msgid ""
 "``Spot`` light sources and are projected only in one direction specified "
 "by the source's ``Rotation`` parameter."
 msgstr ""
+"从 ``Point`` 光源生成的阴影方法与从 ``Spot`` 光源的相同，预计由源的"
+" ``Rotation`` 参数指定只在一个方向投影。"
 
 #: ../lighting.rst:247
 msgid "*Enable CSM*"
-msgstr ""
+msgstr "*Enable CSM*"
 
 #: ../lighting.rst:247
 msgid ""
-"Activates the using of cascaded shadows model; reveals additional "
-"options. Disabled by default. Won't work if the ``Shadow`` setting is "
-"enabled for more than one light source. ``Point`` and ``Spot`` type light"
-" sources support only one shadow cascade."
+"Activates the using of cascaded shadows model; reveals additional options. "
+"Disabled by default. Won't work if the ``Shadow`` setting is enabled for "
+"more than one light source. ``Point`` and ``Spot`` type light sources "
+"support only one shadow cascade."
 msgstr ""
+"激活的级联阴影模型的使用;显示附加选项。默认情况下禁用。如果 ``Shadow`` 设置"
+"一个以上的光源启用将无法工作。 ``Point`` 和 ``Spot`` 式光源只支持一个阴影级"
+"联。"
 
 #: ../lighting.rst:249
 msgid ""
 "This option allows to choose between the following shadow generation "
 "models:"
-msgstr ""
+msgstr "此选项允许下面的阴影生成类型之间进行选择："
 
 #: ../lighting.rst:251
 msgid ""
-"Generic model which uses a single optimized shadow map for the whole "
-"scene (``Enable CSM`` is turned off)."
+"Generic model which uses a single optimized shadow map for the whole scene "
+"(``Enable CSM`` is turned off)."
 msgstr ""
+"它使用一个单一的优化阴影贴图为整个场景通用模型 (``Enable CSM`` 已关闭）。"
 
 #: ../lighting.rst:252
 msgid "Shadow cascades (``Enable CSM`` is turned on)."
-msgstr ""
+msgstr "阴影级联 (``Enable CSM`` 被接通）。"
 
 #: ../lighting.rst:255
 msgid "*Blur Radius*"
-msgstr ""
+msgstr "*Blur Radius*"
 
 #: ../lighting.rst:255
 msgid ""
 "Blur ratio for setting up softened shadows. The default value is 3. Zero "
 "value produces hard shadows."
-msgstr ""
+msgstr "设置软化阴影模糊比例。默认值是3。零值会产生硬阴影。"
 
 #: ../lighting.rst:263
 msgid ""
@@ -535,29 +580,35 @@ msgid ""
 "softened shadows often allows to decrease resolution without substantial "
 "quality loss."
 msgstr ""
+"软化的阴影可以提高视觉质量和真实感。使用基于图像的技术，这是尤其明显的低分"
+"辨率的阴影贴图时，他们隐藏不可避免的齿形的边缘。经常使用软化阴影允许降低分"
+"辨率没有实质的质量损失。"
 
 #: ../lighting.rst:267
 msgid "Generic shadows"
-msgstr ""
+msgstr "通用阴影"
 
 #: ../lighting.rst:269
 msgid ""
 "This option suits well smaller scenes with a limited number of objects. "
 "Thanks to optimizations applied for such scenes, one can achieve better "
 "shadow quality as compared with cascaded shadows. Also, this option is "
-"simpler and faster for setting up, while using a single shadow map "
-"greatly improves the performance."
+"simpler and faster for setting up, while using a single shadow map greatly "
+"improves the performance."
 msgstr ""
+"此选项适合很小场景与数量有限的物体。通过优化应用这样的场景，可以用级联阴影"
+"达到更好的阴影质量。此外，此选项是简单和快速的设置，而使用单个阴影贴图极大"
+"地提高了性能。"
 
 #: ../lighting.rst:273
 msgid "Shadow cascades"
-msgstr ""
+msgstr "级联阴影"
 
 #: ../lighting.rst:277
 msgid ""
-"These settings are supported only for ``Sun`` light sources. Cascades are"
-" turned off for other types of light sources."
-msgstr ""
+"These settings are supported only for ``Sun`` light sources. Cascades are "
+"turned off for other types of light sources."
+msgstr "这些设置只支持 ``Sun`` 光源。级联对其他类型的光源关闭。"
 
 #: ../lighting.rst:279
 msgid ""
@@ -567,80 +618,87 @@ msgid ""
 "the observer while the worst quality cascades are in the distance. This "
 "option suits well middle-to-large scenes, e.g. game levels."
 msgstr ""
+"为提供可接受的阴影质量，同时也为覆盖了相当大的空间是需要影子生成 （级联） "
+"使用多个阶段。因此，最好的质量级联位于靠近观察者，而最坏的质量级联的距离较"
+"远。这个选项适合中到大的场景，例如游戏关卡。"
 
 #: ../lighting.rst:281
 msgid "When enabled the following extended settings are revealed:"
-msgstr ""
+msgstr "如果启用下列扩展设置会显示："
 
 #: ../lighting.rst:289
 msgid "*CSM Number*"
-msgstr ""
+msgstr "*CSM Number*"
 
 #: ../lighting.rst:289
 msgid ""
-"Number of shadow cascades. From 1 to 4 cascades are supported. The "
-"default value is 1."
-msgstr ""
+"Number of shadow cascades. From 1 to 4 cascades are supported. The default "
+"value is 1."
+msgstr "阴影级联的数量。从1至4个级联的支持。默认值是1。"
 
 #: ../lighting.rst:292
 msgid "*CSM First Cascade Border*"
-msgstr ""
+msgstr "*CSM First Cascade Border*"
 
 #: ../lighting.rst:292
 msgid "First cascade size. The default value is 10.0."
-msgstr ""
+msgstr "第一梯级的大小。默认值是10.0。"
 
 #: ../lighting.rst:295
 msgid "*CSM Last Cascade Border*"
-msgstr ""
+msgstr "*CSM Last Cascade Border*"
 
 #: ../lighting.rst:295
 msgid "Last cascade size. The default value is 100.0."
-msgstr ""
+msgstr "最后级联大小。默认值是100.0。"
 
 #: ../lighting.rst:297
 msgid ""
 "The sizes of the intermediate cascades are interpolated between the two "
 "above-mentioned parameters."
-msgstr ""
+msgstr "中间级联的尺寸在两个上述参数之间内插。"
 
 #: ../lighting.rst:301
 msgid ""
-"When setting up the shadows keep in mind that the bigger the cascade size"
-" is, the worse and less detailed are the shadows inside it. On the other "
+"When setting up the shadows keep in mind that the bigger the cascade size "
+"is, the worse and less detailed are the shadows inside it. On the other "
 "hand, reducing the ``CSM First Cascade Border`` parameter makes the "
 "subsequent less detailed cascades closer to the camera and thus more "
 "noticeable. Reducing the ``CSM Last Cascade Border`` parameter forces "
-"shadows to disappear at more close distance from the camera. However, "
-"when softened shadows are used the overall quality will improve thanks to"
-" blurring at the edges."
+"shadows to disappear at more close distance from the camera. However, when "
+"softened shadows are used the overall quality will improve thanks to "
+"blurring at the edges."
 msgstr ""
+"记住当设置阴影时，级联尺寸越大，内部的阴影细节越少越差。另一方面，降低 "
+"``CSM First Cascade Border`` 参数使得靠近相机的级联缺乏细节。降低 ``CSM "
+"Last Cascade Border``  参数强制在靠近相机的距离里阴影消失。然而，当使用软阴"
+"影时，由于边缘模糊的原因整体质量将得到改善。"
 
 #: ../lighting.rst:310
 msgid "*CSM First Cascade Blur Radius*"
-msgstr ""
+msgstr "*CSM First Cascade Blur Radius*"
 
 #: ../lighting.rst:310
 msgid ""
 "Blur ratio for the first cascade. The default value is 3. Zero value "
 "produces hard shadows."
-msgstr ""
+msgstr "模糊比用于第一级联。默认值是3。零值会产生硬阴影。"
 
 #: ../lighting.rst:313
 msgid "*CSM Last Cascade Blur Radius*"
-msgstr ""
+msgstr "*CSM Last Cascade Blur Radius*"
 
 #: ../lighting.rst:313
 msgid ""
 "Blur ratio for the last cascade. The default value is 1.5. Zero value "
 "produces hard shadows."
-msgstr ""
+msgstr "模糊比用于最后级联。默认值是1.5。零值会产生硬阴影。"
 
 #: ../lighting.rst:315
 msgid ""
 "The blur radii of the intermediate cascades are interpolated between the "
 "two above-mentioned parameters."
-msgstr ""
+msgstr "中间级联的模糊半径两个上述参数之间内插。"
 
 #: ../lighting.rst:319
 msgid ""
@@ -651,42 +709,50 @@ msgid ""
 "prevent the shadows on the last cascade being too faded due to low "
 "resolution. This also reduces undesirable self-shadowing artifacts."
 msgstr ""
+"我们建议开始设置与第一梯级软化阴影（使用 ``CSM First Cascade Blur "
+"Radius``) ，然后进行其他级联（使用 ``CSM Last Cascade Blur Radius``) 。通"
+"常，最后一个级联可能比第一个需要更少的模糊。这可能是必要的，由于低分辨率以"
+"防止在最后一个级联的阴影太褪色，。这也减少了不良自阴影假象。"
 
 #: ../lighting.rst:323
 msgid "*Fade-out Last Cascade*"
-msgstr ""
+msgstr "*Fade-out Last Cascade*"
 
 #: ../lighting.rst:323
 msgid "Smooth dying-out of the last cascade. Enabled by default."
-msgstr ""
+msgstr "平滑消失在最后一个级联。默认情况下启用。"
 
 #: ../lighting.rst:326
 msgid "*Blend Between Cascades*"
-msgstr ""
+msgstr "*Blend Between Cascades*"
 
 #: ../lighting.rst:326
 msgid "Smoothing the boundaries between the cascades. Enabled by default."
-msgstr ""
+msgstr "平滑的级联之间的界限。默认情况下启用。"
 
 #: ../lighting.rst:337
 msgid "Background"
-msgstr ""
+msgstr "Background"
 
 #: ../lighting.rst:339
 msgid "You can change the background in the following ways:"
-msgstr ""
+msgstr "您可以通过以下方式更改背景："
 
 #: ../lighting.rst:341
 msgid ""
 "Enable ``World > Render Sky``, then set the ``Horizon Color`` and the "
 "``Zenith Color`` under Blender's ``World`` tab."
 msgstr ""
+"启用  ``World > Render Sky``, 然后在Blender的 ``World`` 选项卡下设置 "
+"``Horizon Color`` 和 ``Zenith Color``  。"
 
 #: ../lighting.rst:343
 msgid ""
 "Place the whole scene inside a model (e.g. a cube or a sphere) with its "
 "normals directed inside, with a material and an optional texture."
 msgstr ""
+"把整个场景放入一个（例如一个立方体或球体）法线指向内部模型的里面，带材料和"
+"一个可选的纹理。"
 
 #: ../lighting.rst:345
 msgid ""
@@ -694,142 +760,68 @@ msgid ""
 "camera. Parent it to the camera. If required, tweak the distance to this "
 "surface, starting and ending clipping planes for the camera."
 msgstr ""
+"在相机前放置一个带一个可选的纹理的材质的面。设置父级为相机。如果需要，调整"
+"到这个表面的距离，相机开始和结束剪切平面。"
 
 #: ../lighting.rst:351
 msgid "Use a :ref:`skydome <skydome_texture>`."
-msgstr ""
+msgstr "使用 :ref:`skydome <skydome_texture>`."
 
 #: ../lighting.rst:353
 msgid "Set up the procedurally generated :ref:`atmosphere <atmosphere>`."
-msgstr ""
+msgstr "建立程序产生 :ref:`大气 <atmosphere>`."
 
 #: ../lighting.rst:355
 msgid ""
-"Set the engine's ``background_color`` parameter with the ``config.set()``"
-" method. Please note, that ``World > Render Sky`` under Blender's "
-"``World`` tab must be disabled. This value is used as argument for the "
-"WebGL ``clearColor()`` method. For correct results, it's recommended to "
-"turn the WebGL context transparency off (the ``alpha`` parameter). Such "
-"the configuration is used by default in the engine's standard web player."
+"Set the engine's ``background_color`` parameter with the ``config.set()`` "
+"method. Please note, that ``World > Render Sky`` under Blender's ``World`` "
+"tab must be disabled. This value is used as argument for the WebGL "
+"``clearColor()`` method. For correct results, it's recommended to turn the "
+"WebGL context transparency off (the ``alpha`` parameter). Such the "
+"configuration is used by default in the engine's standard web player."
 msgstr ""
+"用 ``config.set()`` 方法设置引擎的 ``background_color`` 参数。请注意，"
+"Blender的 ``World`` 选项卡下的  ``World > Render Sky`` 必须被禁止。这个值被"
+"用作WebGL的 ``clearColor()`` 方法的参数。对于正确的结果，建议将WebGL的背景"
+"透明度关闭（``alpha`` 参数）。这样的配置在默认情况下引擎的标准网络播放器使"
+"用。"
 
 #: ../lighting.rst:368
 msgid ""
 "You can use any HTML content behind the *canvas* element, to which the "
 "rendering is performed, as a background. To do this, activate the WebGL "
-"context transparency (the ``alpha`` parameter). Please note, that ``World"
-"  > Render Sky`` under Blender's ``World`` tab must be disabled. For "
-"correct results, it's recommended to set absolutely transparent black "
-"background color. Such the configuration is used by default in the "
-":ref:`scene viewer <viewer>` of Blend4Web SDK."
+"context transparency (the ``alpha`` parameter). Please note, that ``World  "
+"> Render Sky`` under Blender's ``World`` tab must be disabled. For correct "
+"results, it's recommended to set absolutely transparent black background "
+"color. Such the configuration is used by default in the :ref:`scene viewer "
+"<viewer>` of Blend4Web SDK."
 msgstr ""
+"您可以在 *canvas* 元素之后使用任何HTML内容，作为背景进行渲染。要做到这一"
+"点，激活WebGL的背景透明度（ ``alpha`` 参数）。请注意，Blender的 ``World`` "
+"选项卡下的 ``World  > Render Sky`` 必须禁止。想要正确的结果，建议设置完全透"
+"明的黑色背景色。这样的配置在Blend4Web SDK的  :ref:`场景查看器 <viewer>` 默"
+"认情况下使用。"
 
 #: ../lighting.rst:381
 msgid ":ref:`alpha_compositing`"
-msgstr ""
+msgstr ":ref:`alpha_compositing`"
 
 #: ../lighting.rst:4
 msgid "lighting"
-msgstr ""
+msgstr "光照"
 
 #: ../lighting.rst:14
 msgid "shading"
-msgstr ""
+msgstr "著色"
 
 #: ../lighting.rst:14
 msgid "types"
-msgstr ""
+msgstr "类型"
 
 #: ../lighting.rst:43
 msgid "light sources"
-msgstr ""
+msgstr "光源"
 
 #: ../lighting.rst:334
 msgid "background"
-msgstr ""
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid "*Dynamic Intesity*"
-#~ msgstr ""
-
-#~ msgid "Normal Editor"
-#~ msgstr ""
-
-#~ msgid "Normal editor workflow example:"
-#~ msgstr ""
-
-#~ msgid "Main features of the normal editor:"
-#~ msgstr ""
-
-#~ msgid "all changes are being saved automatically;"
-#~ msgstr ""
-
-#~ msgid "edited normals are being exported automatically."
-#~ msgstr ""
-
-#~ msgid "Interface of the Vertex Normal Editor"
-#~ msgstr ""
-
-#~ msgid "Activate"
-#~ msgstr ""
-
-#~ msgid "*Description*"
-#~ msgstr ""
-
-#~ msgid "The new ``Activate`` button turns on vertex normal editing mode."
-#~ msgstr ""
-
-#~ msgid "*Usage*"
-#~ msgstr ""
-
-#~ msgid "Show Normals"
-#~ msgstr ""
-
-#~ msgid "Rotation"
-#~ msgstr ""
-
-#~ msgid "Using these instruments you can change direction of the normals."
-#~ msgstr ""
-
-#~ msgid "Split Normals"
-#~ msgstr ""
-
-#~ msgid "Usage"
-#~ msgstr ""
-
-#~ msgid "Average Split"
-#~ msgstr ""
-
-#~ msgid "Restore"
-#~ msgstr ""
-
-#~ msgid "Tree, Foliage and Face"
-#~ msgstr ""
-
-#~ msgid "Copy/Paste"
-#~ msgstr ""
-
-#~ msgid "Copies the normal direction from one vertex to another."
-#~ msgstr ""
-
-#~ msgid "Copy From Mesh"
-#~ msgstr ""
-
-#~ msgid "normals"
-#~ msgstr ""
-
-#~ msgid "editor"
-#~ msgstr ""
-
-#~ msgid "Shadow map resolution. The default value is 2048x2048px."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The number of the samples used for"
-#~ " smoothing shadow maps. Alailabe values "
-#~ "are 4x, 8x and 16x, with the "
-#~ "latter being the default value."
-#~ msgstr ""
-
+msgstr "背景"

@@ -1,0 +1,26 @@
+[info]
+author = Blend4Web
+name = web_page_integration
+title = Balloons Tutorial
+icon = web_page_integration.png
+
+[paths]
+assets_dirs = deploy/assets/tutorials/web_page_integration/;
+blend_dirs = blender/tutorials/web_page_integration/;
+blender_exec = blender
+build_dir = deploy/apps/tutorials/web_page_integration/
+deploy_dir = 
+
+[compile]
+apps = example.html;
+css_ignore = 
+engine_type = copy
+js_ignore = 
+optimization = advanced
+use_physics = False
+use_smaa_textures = False
+version = 
+
+[deploy]
+assets_path_prefix = 
+override = 

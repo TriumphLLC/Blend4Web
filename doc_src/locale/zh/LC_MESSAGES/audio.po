@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
 "POT-Creation-Date: 2016-09-23 14:43+0300\n"
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
+"PO-Revision-Date: 2016-10-07 19:52+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../audio.rst:5
 msgid "Audio"
@@ -48,15 +50,15 @@ msgstr "引擎支持标准的所有Blender声音参数和一些引擎特定设�
 
 #: ../audio.rst:31
 msgid "Sound Tab"
-msgstr ""
+msgstr "声音选项卡"
 
 #: ../audio.rst:33
 msgid "*Mute*"
-msgstr ""
+msgstr "*静音*"
 
 #: ../audio.rst:35
 msgid "Enabling this parameter mutes the speaker."
-msgstr ""
+msgstr "启用此参数静音扬声器。"
 
 #: ../audio.rst:37
 msgid "*Speaker Behavior*:"
@@ -67,31 +69,31 @@ msgid "The behavior of the audio source."
 msgstr "音频源的行为。"
 
 #: ../audio.rst:41
-#, fuzzy
 msgid ""
 "``Positional`` --- high-quality sound with spatial positioning and "
 "directivity (conicity). The Web Audio API is used for sound rendering. "
-"Playback performance of such sounds is the least and so use them only for"
-" short samples. This is the default value."
+"Playback performance of such sounds is the least and so use them only for "
+"short samples. This is the default value."
 msgstr ""
-"``Positional`` --- 高质量的声音指向性 （锥度） 与空间定位。用Web 音频 API "
-"进行声音渲染。这种声音的播放性能是最小，所以只在短的样品里使用。"
+"``Positional`` ---高品质的声音空间定位和方向性（锥度）。通过Web Audio API用于"
+"声音渲染。这种声音的播放性能是最少，因此只将其用于短采样。这是默认值。"
 
 #: ../audio.rst:43
 msgid ""
-"``Background Sound`` --- high-quality omnidirectional sound without "
-"spatial positioning. The Web Audio API is used for sound rendering. It is"
-" more performant but is not effective for music."
+"``Background Sound`` --- high-quality omnidirectional sound without spatial "
+"positioning. The Web Audio API is used for sound rendering. It is more "
+"performant but is not effective for music."
 msgstr ""
-"``Background Sound`` --- 高质量全方位声音没有空间定位。用Web 音频 API "
-"进行声音渲染。它是更好的性能，但对音乐不是有效。"
+"``Background Sound`` --- 高质量全方位声音没有空间定位。用Web 音频 API 进行声"
+"音渲染。它是更好的性能，但对音乐不是有效。"
 
 #: ../audio.rst:45
 msgid ""
-"``Background Music`` --- used for music playback. It has maximum "
-"performance due to the use of the Audio HTML tag, but has minimum "
-"flexibility."
-msgstr "``Background Music`` --- 用来播放音乐。最大的性能，因为使用的音频 HTML 标记，但具有最低限度的灵活性。"
+"``Background Music`` --- used for music playback. It has maximum performance "
+"due to the use of the Audio HTML tag, but has minimum flexibility."
+msgstr ""
+"``Background Music`` --- 用来播放音乐。最大的性能，因为使用的音频 HTML 标记，"
+"但具有最低限度的灵活性。"
 
 #: ../audio.rst:47
 msgid "The following options are available on the ``Sound`` panel:"
@@ -111,8 +113,8 @@ msgstr "*随机音量*"
 
 #: ../audio.rst:55
 msgid ""
-"Additional volume randomization. The resulting value is calculated as for"
-" the delay."
+"Additional volume randomization. The resulting value is calculated as for "
+"the delay."
 msgstr "添加随机音量。所得到的值延迟播放。"
 
 #: ../audio.rst:57
@@ -129,8 +131,8 @@ msgstr "*随机音速*"
 
 #: ../audio.rst:63
 msgid ""
-"Additional randomization of the sound playback speed. The resulting value"
-" is calculated as for the delay."
+"Additional randomization of the sound playback speed. The resulting value is "
+"calculated as for the delay."
 msgstr "声音播放速度的附加随机化。所得到的值被延迟计算。"
 
 #: ../audio.rst:66
@@ -150,22 +152,20 @@ msgid "Fade-out time interval."
 msgstr "淡出的时间间隔。"
 
 #: ../audio.rst:74
-#, fuzzy
 msgid "*Enable Doppler*"
-msgstr "*禁用多普勒*"
+msgstr "*启用多普勒*"
 
 #: ../audio.rst:76
-#, fuzzy
 msgid "Turn on the source's frequency shift upon its moving."
-msgstr "忽略移动源时的频移。"
+msgstr "打开后，源移动会产生频移现象。"
 
 #: ../audio.rst:78
 msgid "*Auto-play*"
-msgstr ""
+msgstr "*自动-播放*"
 
 #: ../audio.rst:80
 msgid "This option enables default playback."
-msgstr ""
+msgstr "该选项启用默认播放。"
 
 #: ../audio.rst:82
 msgid "*Cyclic Play*"
@@ -182,32 +182,31 @@ msgstr "*循环*"
 #: ../audio.rst:88
 msgid ""
 "Loop the sound playback. Contrary to the ``Cyclic play`` option it "
-"guarantees a zero delay upon repeat. The option is available only for "
-"sound sources with ``Positional`` or ``Background Sound`` behavior."
+"guarantees a zero delay upon repeat. The option is available only for sound "
+"sources with ``Positional`` or ``Background Sound`` behavior."
 msgstr ""
-"循环的声音播放功能。与 ``Cyclic play`` 选项相反，它保证零延迟后重复。选项仅可用于声源的 ``Positional`` 或 "
-"``Background Sound`` 的行为。"
+"循环的声音播放功能。与 ``Cyclic play`` 选项相反，它保证零延迟后重复。选项仅可"
+"用于声源的 ``Positional`` 或 ``Background Sound`` 的行为。"
 
 #: ../audio.rst:90
 msgid "*Loop Start*"
-msgstr ""
+msgstr "*循环启动*"
 
 #: ../audio.rst:92
 msgid ""
-"Marks the starting point of the source fragment that will be looped. This"
-" value is measured in second counted from the start of the source file."
-msgstr ""
+"Marks the starting point of the source fragment that will be looped. This "
+"value is measured in second counted from the start of the source file."
+msgstr "标记将循环源片段的起点。这个值是在从源文件的开始以秒计数测定。"
 
 #: ../audio.rst:94
-#, fuzzy
 msgid "*Loop End*"
-msgstr "*循环*"
+msgstr "*循环结束*"
 
 #: ../audio.rst:96
 msgid ""
-"Marks the end point of the source fragment. This value is also measured "
-"in seconds."
-msgstr ""
+"Marks the end point of the source fragment. This value is also measured in "
+"seconds."
+msgstr "标志着源片段的结束点。该值也是以秒为单位。"
 
 #: ../audio.rst:98
 msgid "*Delay*"
@@ -223,198 +222,200 @@ msgstr "*随机延迟*"
 
 #: ../audio.rst:104
 msgid ""
-"Additional delay randomization. The resulting value is calculated "
-"according to the formula :math:`Delay_{result} = Delay + Delay_{random} *"
-" Random_{[0-1]}`."
-msgstr ""
-"额外的延迟随机化。根据公式计算所得的值 :math:`Delay_{result} = Delay + Delay_{random} * "
+"Additional delay randomization. The resulting value is calculated according "
+"to the formula :math:`Delay_{result} = Delay + Delay_{random} * "
 "Random_{[0-1]}`."
+msgstr ""
+"额外的延迟随机化。根据公式计算所得的值 :math:`Delay_{result} = Delay + "
+"Delay_{random} * Random_{[0-1]}`."
 
 #: ../audio.rst:107
 msgid "Distance Tab"
-msgstr ""
+msgstr "距离标签"
 
 #: ../audio.rst:109
 msgid "*Attenuation*"
-msgstr ""
+msgstr "*衰减*"
 
 #: ../audio.rst:111
 msgid ""
-"This parameter defines how strong the distance affects the volume. "
-"Default value is 1.0."
-msgstr ""
+"This parameter defines how strong the distance affects the volume. Default "
+"value is 1.0."
+msgstr "此参数定义的距离有多强影响音量。默认值是1.0。"
 
 #: ../audio.rst:113
 msgid "*Maximum*"
-msgstr ""
+msgstr "*最大值*"
 
 #: ../audio.rst:115
 msgid "Maximum distance for volume calculation."
-msgstr ""
+msgstr "对于音量计算的最大距离。"
 
 #: ../audio.rst:117
 msgid "*Reference*"
-msgstr ""
+msgstr "*参考*"
 
 #: ../audio.rst:119
 msgid "This sets the reference distance at which volume is 100%."
-msgstr ""
+msgstr "此设置基准距离在该音量为100％。"
 
 #: ../audio.rst:122
 msgid "Cone Tab"
-msgstr ""
+msgstr "圆锥标签"
 
 #: ../audio.rst:124
 msgid "Angle group of parameters:"
-msgstr ""
+msgstr "角组的参数："
 
 #: ../audio.rst:126 ../audio.rst:136
-#, fuzzy
 msgid "*Outer*"
-msgstr "*音量*"
+msgstr "*Outer*"
 
 #: ../audio.rst:128
 msgid ""
 "Angle of the outer cone in degrees. Outside this cone the volume is the "
 "outer cone volume. Between the inner and outer cone the volume is "
 "interpolated."
-msgstr ""
+msgstr "在度外锥角。超出这个锥体体积是外锥体积。内和外锥体之间的体积内插。"
 
 #: ../audio.rst:130
 msgid "*Inner*"
-msgstr ""
+msgstr "*Inner*"
 
 #: ../audio.rst:132
 msgid "Angle of the inner cone in degrees. Inside the cone the volume is 100%."
-msgstr ""
+msgstr "度内锥角。锥体内的体积为100％。"
 
 #: ../audio.rst:134
 msgid "Volume group of parameters:"
-msgstr ""
+msgstr "卷组的参数："
 
 #: ../audio.rst:138
 msgid "This sets the volume outside the outer cone."
-msgstr ""
+msgstr "这台外锥外卷。"
 
 #: ../audio.rst:153
 msgid "Audio Mixer"
-msgstr ""
+msgstr "调音台"
 
 #: ../audio.rst:155
 msgid "This feature can be found in the :ref:`Scene Viewer <viewer>`."
-msgstr ""
+msgstr "参考 :ref:`现场查看器此功能可以在发现 <viewer>`。"
 
 #: ../audio.rst:161
 msgid ""
-"Enabling it shows an equalizer interface that contains various parameters"
-" of the Speakers present in the scene."
-msgstr ""
+"Enabling it shows an equalizer interface that contains various parameters of "
+"the Speakers present in the scene."
+msgstr "使它显示包含当前场景中的扬声器的各种参数均衡器接口。"
 
 #: ../audio.rst:167
 msgid "The parameters available for sound mixing include:"
-msgstr ""
+msgstr "可用于混音的参数包括："
 
 #: ../audio.rst:170
 msgid "*DIST_REF*"
-msgstr ""
+msgstr "*DIST_REF*"
 
 #: ../audio.rst:170
 msgid ""
-"This value sets the reference distance of a specific speaker. Available "
-"only for ``Positional Sound`` type speakers."
-msgstr ""
+"This value sets the reference distance of a specific speaker. Available only "
+"for ``Positional Sound`` type speakers."
+msgstr "这个值设置一个特定扬声器的基准距离。仅适用于``阵地Sound``型扬声器。"
 
 #: ../audio.rst:173
 msgid "*ATTENUATION*"
-msgstr ""
+msgstr "*ATTENUATION*"
 
 #: ../audio.rst:173
 msgid ""
-"This value sets the attenuation factor for the sound emitted by a "
-"selected speaker. Available only for ``Positional Sound`` type speakers."
+"This value sets the attenuation factor for the sound emitted by a selected "
+"speaker. Available only for ``Positional Sound`` type speakers."
 msgstr ""
+"此值设置为所选的扬声器发出的声音的衰减因子。可只为 '位置声音' 键入扬声器。"
 
 #: ../audio.rst:176
 msgid "*DIST_MAX*"
-msgstr ""
+msgstr "*DIST_MAX*"
 
 #: ../audio.rst:176
 msgid ""
 "This value shows the maximum distance for a specific speaker. If the "
 "distance from the camera to the speaker is greater than this number, the "
-"speaker won't emit any sound. Available only for ``Positional Sound`` "
-"type speakers."
+"speaker won't emit any sound. Available only for ``Positional Sound`` type "
+"speakers."
 msgstr ""
+"这个值示出了用于一个特定扬声器的最大距离。如果从相机到扬声器的距离比这个数目"
+"大的扬声器不会发出任何声音。仅适用于 ``Positional Sound`` 型扬声器。"
 
 #: ../audio.rst:179
 msgid "*EQ_FREQ*"
-msgstr ""
+msgstr "*EQ_FREQ*"
 
 #: ../audio.rst:179
 msgid "The center frequency of where the boost is applied."
-msgstr ""
+msgstr "当施加升压的中心频率。"
 
 #: ../audio.rst:182
 msgid "*EQ_Q*"
-msgstr ""
+msgstr "*EQ_Q*"
 
 #: ../audio.rst:182
 msgid ""
-"The Q factor. This value controls the width of the band of frequencies "
-"that wiil be boosted. Increasing the value of this parameter reduces the "
-"width."
+"The Q factor. This value controls the width of the band of frequencies that "
+"wiil be boosted. Increasing the value of this parameter reduces the width."
 msgstr ""
+"品质因数 Q。此值控制的频带宽度，下午两点会提振。增加此参数的值，减少宽度。"
 
 #: ../audio.rst:185
 msgid "*EQ_GAIN*"
-msgstr ""
+msgstr "*EQ_GAIN*"
 
 #: ../audio.rst:185
 msgid ""
-"This value controls the boost (measured in dB) that will be applied to "
-"the sound emitted by the speaker."
-msgstr ""
+"This value controls the boost (measured in dB) that will be applied to the "
+"sound emitted by the speaker."
+msgstr "此值控制，将被应用到由扬声器发出的声音的提升（以dB为单位测量）。"
 
 #: ../audio.rst:188
-#, fuzzy
 msgid "*VOLUME*"
-msgstr "*音量*"
+msgstr "*VOLUME*"
 
 #: ../audio.rst:188
 msgid "The volume of a sound emitted by the speaker."
-msgstr ""
+msgstr "由扬声器发出的声音的音量。"
 
 #: ../audio.rst:190
 msgid ""
 "Below this list, a frequency characteristic of a parametric equalizer is "
 "shown."
-msgstr ""
+msgstr "下面这个列表，一个参数均衡器的频率特性被示出。"
 
 #: ../audio.rst:192
 msgid "The mixer can be controlled using a numerical keypad."
-msgstr ""
+msgstr "可以使用数字键盘控制混音器。"
 
 #: ../audio.rst:194
 msgid ""
 "Keys ``8``, ``4``, ``6`` and ``2`` act like arrow keys and are used for "
 "switching between different speakers and their parameters."
 msgstr ""
+"键 ``8``，``4``，``6`` 和 ``2`` 行为像箭头键和用于不同的扬声器和它们的参数之间的"
+"切换。"
 
 #: ../audio.rst:196
 msgid ""
-"Keys ``+`` and ``-`` increase and decrease the value of a selected "
-"parameter."
-msgstr ""
+"Keys ``+`` and ``-`` increase and decrease the value of a selected parameter."
+msgstr "键  ``+`` 和 ``-`` 增减一个所选参数的值。"
 
 #: ../audio.rst:198
 msgid "The ``7`` key can be used for muting the selected speaker."
-msgstr ""
+msgstr "该 ``7`` 键可用于静音选定的扬声器。"
 
 #: ../audio.rst:200
 msgid ""
-"The ``9`` key can be used for making the selected speaker Solo (only this"
-" speaker will emit sound)."
-msgstr ""
+"The ``9`` key can be used for making the selected speaker Solo (only this "
+"speaker will emit sound)."
+msgstr "该 ``9`` 键可以用来制作选定的扬声器梭罗（仅此扬声器会发出声音）。"
 
 #: ../audio.rst:205
 msgid "Processing and Decoding"
@@ -438,51 +439,18 @@ msgstr "mp4、 AAC 编码解码器 （Chrome，Safari）"
 
 #: ../audio.rst:214
 msgid ""
-"It is recommended to use **Ogg** as it is an open standard, is widespread"
-" in browsers and provides good sound quality. The optimal format in "
-"respect to the quality and compatibility is 48kHz/16bit. Single-channel "
-"sound (mono) is used to store shot samples while two-channel sound "
-"(stereo) is used for music playback."
+"It is recommended to use **Ogg** as it is an open standard, is widespread in "
+"browsers and provides good sound quality. The optimal format in respect to "
+"the quality and compatibility is 48kHz/16bit. Single-channel sound (mono) is "
+"used to store shot samples while two-channel sound (stereo) is used for "
+"music playback."
 msgstr ""
-"这推荐使用 **Ogg** ，它是一个开放式标准，在浏览器常见并提供好音质。在质量和兼容性方面的最佳格式是 48 kHz/16 位。单声道声音 "
-"（单声道） 用于存储拍摄的样本，而双声道音响（立体声）用于音乐播放。"
+"这推荐使用 **Ogg** ，它是一个开放式标准，在浏览器常见并提供好音质。在质量和兼"
+"容性方面的最佳格式是 48 kHz/16 位。单声道声音 （单声道） 用于存储拍摄的样本，"
+"而双声道音响（立体声）用于音乐播放。"
 
 #: ../audio.rst:216
 msgid ""
-"Converting resources between different formats is described in the "
-":ref:`corresponding section <converter>`."
+"Converting resources between different formats is described in the :ref:"
+"`corresponding section <converter>`."
 msgstr "不同格式之间的资源转换的描述在 :ref:`相应章节 <converter>`."
-
-#~ msgid "Marks the starting point of the source fragment that will be looped."
-#~ msgstr ""
-
-#~ msgid "Marks the end point of the source fragment."
-#~ msgstr ""
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Enabling it shows equalizer interface "
-#~ "that contains various parameters of the"
-#~ " Speakers present in the scene."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "This value sets the attenuation factor"
-#~ " for the sound emitted by the "
-#~ "selected speaker. Available only for "
-#~ "``Positional Sound`` type speakers."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The Q factor. This value controls "
-#~ "the width of the band of "
-#~ "frequencies that wiil be boosted. "
-#~ "Increasing the value of this parameter"
-#~ " makes the width more narrow."
-#~ msgstr ""
-
-#~ msgid "The mixer can be controlled using numerical keypad."
-#~ msgstr ""
-

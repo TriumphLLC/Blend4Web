@@ -70,4 +70,12 @@ exports.is_anchor = m_anchors.is_anchor;
  */
 exports.get_element_id = m_anchors.get_element_id;
 
+/**
+ * Force update positions of anchors.
+ * @method module:anchors.update
+ */
+exports.update = function() {
+    m_anchors.update(true);
+}
+
 }

@@ -223,7 +223,7 @@ exports.update_object = function(bpy_obj, obj) {
 
     case "MESH":
         render.do_not_render = bpy_obj["b4w_do_not_render"];
-        render.bb_original = m_batch.bb_bpy_to_b4w(bpy_obj["data"]["b4w_bounding_box"]);
+        render.bb_original = m_batch.bb_bpy_to_b4w(bpy_obj["data"]["b4w_boundings"]["bb"]);
         render.selectable = cfg_out.outlining_overview_mode || bpy_obj["b4w_selectable"];
         render.origin_selectable = bpy_obj["b4w_selectable"];
 
@@ -266,23 +266,26 @@ exports.update_object = function(bpy_obj, obj) {
         render.caustics = bpy_obj["b4w_caustics"];
 
         render.wind_bending = bpy_obj["b4w_wind_bending"];
-        render.wind_bending_angle = bpy_obj["b4w_wind_bending_angle"];
-        var amp = m_batch.wb_angle_to_amp(bpy_obj["b4w_wind_bending_angle"],
-                render.bb_original, bpy_obj["scale"][0]);
-        render.wind_bending_amp = amp;
-        render.wind_bending_freq   = bpy_obj["b4w_wind_bending_freq"];
-        render.detail_bending_freq = bpy_obj["b4w_detail_bending_freq"];
-        render.detail_bending_amp  = bpy_obj["b4w_detail_bending_amp"];
-        render.branch_bending_amp  = bpy_obj["b4w_branch_bending_amp"];
+        // improves batching
+        if (bpy_obj["b4w_wind_bending"]) {
+            render.wind_bending_angle = bpy_obj["b4w_wind_bending_angle"];
+            var amp = m_batch.wb_angle_to_amp(bpy_obj["b4w_wind_bending_angle"],
+                    render.bb_original, bpy_obj["scale"][0]);
+            render.wind_bending_amp = amp;
+            render.wind_bending_freq   = bpy_obj["b4w_wind_bending_freq"];
+            render.detail_bending_freq = bpy_obj["b4w_detail_bending_freq"];
+            render.detail_bending_amp  = bpy_obj["b4w_detail_bending_amp"];
+            render.branch_bending_amp  = bpy_obj["b4w_branch_bending_amp"]; 
+
+            render.main_bend_col = bpy_obj["b4w_main_bend_stiffness_col"];
+            var bnd_st = bpy_obj["b4w_detail_bend_colors"];
+            render.detail_bend_col = {};
+            render.detail_bend_col.leaves_stiffness = bnd_st["leaves_stiffness_col"];
+            render.detail_bend_col.leaves_phase = bnd_st["leaves_phase_col"];
+            render.detail_bend_col.overall_stiffness = bnd_st["overall_stiffness_col"];
+        }
+       
         render.hide = bpy_obj["b4w_hidden_on_load"];
-
-        render.main_bend_col = bpy_obj["b4w_main_bend_stiffness_col"];
-        var bnd_st = bpy_obj["b4w_detail_bend_colors"];
-        render.detail_bend_col = {};
-        render.detail_bend_col.leaves_stiffness = bnd_st["leaves_stiffness_col"];
-        render.detail_bend_col.leaves_phase = bnd_st["leaves_phase_col"];
-        render.detail_bend_col.overall_stiffness = bnd_st["overall_stiffness_col"];
-
         render.do_not_cull = bpy_obj["b4w_do_not_cull"];
         render.disable_fogging = bpy_obj["b4w_disable_fogging"];
         render.dynamic_geometry = bpy_obj["b4w_dynamic_geometry"];
@@ -881,6 +884,7 @@ function copy_object(obj, new_name, deep_copy) {
     new_obj.is_dynamic = obj.is_dynamic;
     new_obj.is_hair_dupli = obj.is_hair_dupli;
     new_obj.use_default_animation = obj.use_default_animation;
+    new_obj.def_action_slots = obj.def_action_slots;
 
     new_obj.render = m_obj_util.clone_render(obj.render);
     new_obj.metatags = m_obj_util.copy_object_props_by_value(obj.metatags);
@@ -1162,11 +1166,12 @@ exports.update_boundings = function(obj) {
     for (var i = 0; i < batches.length; i++) {
         var batch = batches[i];
         if (batch.type == "MAIN") {
-            var vbo_array = batches[0].bufs_data.vbo_array;
-            var pos_offset = batches[0].bufs_data.pointers["a_position"].offset;
-            max_x = min_x = vbo_array[pos_offset];
-            max_y = min_y = vbo_array[pos_offset + 1];
-            max_z = min_z = vbo_array[pos_offset + 2];
+            var type = m_geom.get_vbo_type_by_attr_name("a_position");
+            var vbo_source = m_geom.get_vbo_source_by_type(batch.bufs_data.vbo_source_data, type);
+            var pos_offset = batch.bufs_data.pointers["a_position"].offset;
+            max_x = min_x = vbo_source[pos_offset];
+            max_y = min_y = vbo_source[pos_offset + 1];
+            max_z = min_z = vbo_source[pos_offset + 2];
         }
     }
 
@@ -1177,18 +1182,19 @@ exports.update_boundings = function(obj) {
         if (!batch.bufs_data || !(batch.be_world && batch.bb_world))
             continue;
 
-        var vbo_array = batch.bufs_data.vbo_array;
+        var type = m_geom.get_vbo_type_by_attr_name("a_position");
+        var vbo_source = m_geom.get_vbo_source_by_type(batch.bufs_data.vbo_source_data, type);
         var pos_offset = batch.bufs_data.pointers["a_position"].offset;
         var pos_length = batch.bufs_data.pointers["a_position"].length + pos_offset;
 
-        bmax_x = bmin_x = vbo_array[pos_offset];
-        bmax_y = bmin_y = vbo_array[pos_offset + 1];
-        bmax_z = bmin_z = vbo_array[pos_offset + 2];
+        bmax_x = bmin_x = vbo_source[pos_offset];
+        bmax_y = bmin_y = vbo_source[pos_offset + 1];
+        bmax_z = bmin_z = vbo_source[pos_offset + 2];
 
         for (var j = pos_offset; j < pos_length; j = j + 3) {
-            var x = vbo_array[j];
-            var y = vbo_array[j + 1];
-            var z = vbo_array[j + 2];
+            var x = vbo_source[j];
+            var y = vbo_source[j + 1];
+            var z = vbo_source[j + 2];
 
             bmax_x = Math.max(x, bmax_x);
             bmax_y = Math.max(y, bmax_y);
@@ -1284,16 +1290,17 @@ exports.update_boundings = function(obj) {
             if (batch.type != "MAIN")
                 continue;
 
-            var vbo_array = batch.bufs_data.vbo_array;
+            var type = m_geom.get_vbo_type_by_attr_name("a_position");
+            var vbo_source = m_geom.get_vbo_source_by_type(batch.bufs_data.vbo_source_data, type);
             var pointers = batches[i].bufs_data.pointers;
 
             var pos_offset = pointers["a_position"].offset;
             var pos_length = pointers["a_position"].length + pos_offset;
 
             for (var j = pos_offset; j < pos_length; j = j + 3) {
-                var x = vbo_array[j];
-                var y = vbo_array[j + 1];
-                var z = vbo_array[j + 2];
+                var x = vbo_source[j];
+                var y = vbo_source[j + 1];
+                var z = vbo_source[j + 2];
 
                 var s_cen_dist = Math.sqrt((s_cen_x - x) * (s_cen_x - x) 
                         + (s_cen_y - y) * (s_cen_y - y) +

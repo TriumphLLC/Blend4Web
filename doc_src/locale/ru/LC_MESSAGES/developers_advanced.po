@@ -5,15 +5,9 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
+"POT-Creation-Date: 2016-10-21 15:38+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -139,11 +133,11 @@ msgstr "Сборка аддона"
 #: ../developers_advanced.rst:116
 msgid ""
 "Binary Blend4Web addon builds are available for the following platforms: "
-"Linux x32/64, OS X x64, Windows x32/64. At the same time users can "
+"Linux x32/64, macOS x64, Windows x32/64. At the same time users can "
 "compile the addon by themselves."
 msgstr ""
 "Бинарные сборки аддона Blend4Web подготовлены для следующих платформ: "
-"Linux x32/64, OS X x64, Windows x32/64. В то же время пользователи имеют "
+"Linux x32/64, macOS x64, Windows x32/64. В то же время пользователи имеют "
 "возможность произвести сборку самостоятельно."
 
 #: ../developers_advanced.rst:118

@@ -30,7 +30,6 @@ var m_cons     = require("__constraints");
 var m_lights   = require("__lights");
 var m_obj      = require("__objects");
 var m_obj_util = require("__obj_util");
-var m_quat     = require("__quat");
 var m_scs      = require("__scenes");
 var m_sfx      = require("__sfx");
 var m_tsr      = require("__tsr");
@@ -119,12 +118,14 @@ function set_rotation_rel(obj, quat) {
         m_tsr.set_quat(quat, obj.render.world_tsr);
 }
 
-exports.get_rotation = function(obj, dest) {
+exports.get_rotation = get_rotation;
+function get_rotation(obj, dest) {
     m_tsr.get_quat(obj.render.world_tsr, dest);
     return dest;
 }
 
-exports.get_rotation_rel = function(obj, dest) {
+exports.get_rotation_rel = get_rotation_rel;
+function get_rotation_rel(obj, dest) {
     if (m_cons.has_child_of(obj)) {
         var offset = m_cons.get_child_of_offset(obj);
         m_tsr.get_quat(offset, dest);
@@ -141,6 +142,18 @@ exports.set_rotation_euler = function(obj, euler) {
 exports.set_rotation_euler_rel = function(obj, euler) {
     var quat = m_util.euler_to_quat(euler, _quat_tmp);
     set_rotation_rel(obj, quat);
+}
+
+exports.get_rotation_euler = function(obj, dest) {
+    var quat = get_rotation(obj, _quat_tmp);
+    dest = m_util.quat_to_euler(euler, dest);
+    return dest;
+}
+
+exports.get_rotation_euler_rel = function(obj, dest) {
+    var quat = get_rotation_rel(obj, _quat_tmp);
+    dest = m_util.quat_to_euler(euler, dest);
+    return dest;
 }
 
 exports.set_scale = function(obj, scale) {

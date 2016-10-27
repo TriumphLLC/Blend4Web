@@ -27,7 +27,6 @@
 #var TEXTURE_BLEND_TYPE TEXTURE_BLEND_TYPE_MIX
 #var NUM_LIGHTS 0
 #var NUM_LAMP_LIGHTS 0
-#var NUM_LFACTORS 0
 #var SKY_TEXTURE 0
 #var SKY_COLOR 0
 #var NUM_VALUES 0
@@ -55,10 +54,10 @@ uniform float u_time;
 uniform float u_environment_energy;
 
 # if NUM_LIGHTS > 0
-uniform vec3 u_light_positions[NUM_LIGHTS];
+// light_factors packed in the w componnets
+uniform vec4 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
-uniform vec3 u_light_color_intensities[NUM_LIGHTS];
-uniform vec4 u_light_factors[NUM_LFACTORS];
+uniform vec4 u_light_color_intensities[NUM_LIGHTS];
 # endif
 
 uniform vec3 u_camera_eye_frag;
@@ -133,7 +132,6 @@ uniform vec4 u_refl_plane;
 uniform vec3 u_lamp_light_positions[NUM_LAMP_LIGHTS];
 uniform vec3 u_lamp_light_directions[NUM_LAMP_LIGHTS];
 uniform vec3 u_lamp_light_color_intensities[NUM_LAMP_LIGHTS];
-uniform vec4 u_lamp_light_factors[NUM_LAMP_LIGHTS];
 # endif
 
 # if USE_NODE_VALUE

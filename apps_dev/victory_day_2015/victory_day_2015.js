@@ -13,6 +13,7 @@ var m_ctl      = require("controls");
 var m_data     = require("data");
 var m_lights   = require("lights");
 var m_main     = require("main");
+var m_mat      = require("material");
 var m_math     = require("math");
 var m_mouse    = require("mouse");
 var m_obj      = require("objects");
@@ -278,7 +279,7 @@ function move_rocket_into_rail(copied_rocket, current_rail) {
             m_cons.append_stiff(copied_rocket, current_rail,
                                 m_vec3.set(0, 0, 0, _vec3_tmp));
 
-            m_obj.set_nodemat_value(_control_box, ["control_box", "Value"], 1);
+            m_mat.set_nodemat_value(_control_box, ["control_box", "Value"], 1);
         }
     });
 }
@@ -894,11 +895,11 @@ function action_firework_item(firework_num) {
     var angle = -Math.random() * (MAX_ANGLE_OFFSET - MIN_ANGLE_OFFSET) +
                 MIN_ANGLE_OFFSET;
 
-    m_obj.set_nodemat_rgb(firework_2_1_copy, ["firework_2", "RGB"],
+    m_mat.set_nodemat_rgb(firework_2_1_copy, ["firework_2", "RGB"],
                           random_color[0] / 255, random_color[1] / 255,
                           random_color[2] / 255);
 
-    m_obj.set_nodemat_rgb(firework_2_2_copy, ["firework_2", "RGB"],
+    m_mat.set_nodemat_rgb(firework_2_2_copy, ["firework_2", "RGB"],
                           random_color[0] / 255, random_color[1] / 255,
                           random_color[2] / 255);
 
@@ -997,7 +998,7 @@ function return_to_begin() {
     _social_buttons.style.display = "";
     _replay.style.display         = "";
 
-    m_obj.set_nodemat_value(_control_box, ["control_box", "Value"], 0);
+    m_mat.set_nodemat_value(_control_box, ["control_box", "Value"], 0);
 
     m_anim.set_first_frame(_cam);
 

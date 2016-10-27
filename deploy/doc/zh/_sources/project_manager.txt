@@ -1,18 +1,18 @@
 
-Project Management
-******************
+项目管理
+********
 
 
 目录
 ^^^^
 
-* Project Management
+* 项目管理
 
   * 项目管理器
 
     * 项目创建向导
 
-    * Creating a Web Player Application
+    * 创建一个 Web 播放器应用程序
 
     * 项目信息
 
@@ -20,33 +20,33 @@ Project Management
 
     * 项目导出
 
-  * Advanced Project Management
+  * 高级项目管理
 
-    * Dependencies
+    * 依赖
 
-    * Projects List
+    * 项目清单
 
-    * Project Structure
+    * 项目结构
 
-    * ".b4w_project" Configuration File
+    * ".b4w_project"  配置文件
 
-    * Creating a Project
+    * 创建项目
 
-    * Developing multiple apps inside a project
+    * 开发一个项目中的多个应用程序
 
-    * Building Projects
+    * 构建项目
 
-    * Automatic Re-export
+    * 自动再导出
 
-    * Resource Conversion
+    * 资源转换
 
-    * Deploying Projects
+    * 部署项目
 
-    * Remove Project
+    * 移除项目
 
-    * Upgrading Apps for New SDK Versions
+    * 应用程序升级新版本的SDK
 
-    * Path to Loaded Application Assets
+    * 加载的应用程序资产路径
 
 自版本 15.09，SDK 中包含一种项目管理功能，使它成为可能 ︰
 
@@ -96,52 +96,45 @@ SDK的首页的 *工具* 项中可以运行 *项目管理* 应用 。启动后�
 *帮助*
    打开  帮助文件.
 
-用于管理特定项目的命令。
+用于管理特定项目的命令在它的右侧。
 
-注解: Some commands may not be available depending on the type of
-  the project.
+注解: 根据项目的类型的一些命令可能无法使用。
 
 [图片]
 
-1. Compile project (not available for Web Player JSON and Web
-   Player HTML projects).
+1. Build project (not available for Web Player JSON and Web Player
+   HTML projects).
 
-2. Check for missing or unnecessary API modules (not available for
-   Web Player JSON and Web Player HTML projects).
+2. 检查是否缺少或不必要的API模块（WebPlayer JSON 和 WebPlayer HTML
+   项 目不可用）。
 
-      Activating this option will make the Project Manager check the
-      modules used by the application and output the results of the
-      check to the console. Possible warning messages are listed
-      below:
+      激活此选项将使项目管理器检查应用程序使用的模块，并将检查结果的结
+      果输出到控制台。可能的警告消息如下：
 
-      1. If one or more API modules are missing from the project's
-         folder, the following message will be displayed:
+      1. 如果一个或多个API模块从项目的文件夹中丢失，将会显示以下信
+         息：
 
-         *Module `module_name` is missing in the `project_name.html`
-         project, please include it or run `Update Modules`.*
+         '模块 'module_name' 在 'project_name.html'项目丢失，请包括它
+         或运行  `Update Modules`.`
 
       [图片]
 
-      These missing modules can be appended to the project with the
-      "Update Modules" button.
+      这些缺失的模块可以被添加到项目中的 "Update Modules" 按钮
 
-      2. If the project has one or more API modules that are not
-         used anywhere in the program code, the following message will
-         be displayed:
+      2. 如果项目具有未在程序代码的任何地方使用的一个或多个的API模
+         块， 将显示以下信息：
 
-         *Incorrect module `module_name` in the `project_name.html`,
-         please remove it or run `Update Modules`.*
+         在 `project_name.html` 中的 *不正确的模块 `module_name` ， 请
+         删除它或运行  `Update Modules`.*
 
       [图片]
 
-      These incorrect modules can be removed from the project with the
-      "Update Modules" button.
+      这些不正确的模块可以从项目中用 “更新模块” 按钮删除。
 
-      3. In case no problems with missing/unnecessary modules have
-         been detected, the following message will be displayed:
+      3. 在已检测缺失/不需要的模块没有任何问题的情况下，将显示以下
+         信息 ：
 
-      *Module check complete. No problems detected in the
-      `module_name.html`.*
+      *模块检查完毕。在`module_name.html`. 中检测到没有问题*
 
       [图片]
 
@@ -194,30 +187,36 @@ New Project]" 按钮执行。
    "deploy/assets/project_name" 目录;blend文件将添加到
    "blender/project_name" 目录。
 
-6. Use Material Library. Blend files of the material library will
-   be copied to the project directory "blender/project_name", while
-   the asset files will be copied to "deploy/assets/project_name"
-   folder.
+6. 使用材质库。材质库的Blend文件会复制到项目文件夹
+   "blender/project_name"，资产文件复制到 "deploy/assets/project_name"
+   目录。
 
 7. 复制项目管理脚本。Project.py 脚本将复制到项目目录。
 
 8. All project files will be located in the same directory. It is
    preferable to use this option in small projects, such as lessons
-   and examples. Only "Update", "Web Player JSON" and "Web Player
-   HTML" project types is available for this option.
+   and examples. Only "Web Player JSON" and "Web Player HTML" project
+   types are available for this option.
 
 9. 项目的类型。有几个选项 ︰
 
-      * "External" - 引擎将取自 "deploy/apps/common/" 目录。只有应用
-        程 序文件将被编译;
+      * "External" - the project will use engine files in the
+        "deploy/apps/common/" directory, only application files will
+        be compiled. When the project is deployed, the
+        "deploy/apps/common/" folder will be copied to the project
+        directory;
 
-      * "Copy" - 引擎复制到已编译的应用程序目录。只有应用程序文件进
-        行 编译;
+      * "Copy" - engine files will be directly copied from the
+        "deploy/apps/common/" to the application folder. Only
+        application files are compiled;
 
-      * "Compile" -引擎源代码应用程序的脚本一同编译;
+      * "Compile" - engine sources are compiled with application
+        scripts;
 
-      * "Update" - engine inside the project directory will be
-        replaced. Available only for "Bundled" projects;
+      * "None" - Project Manager will not copy the engine files to
+        the application folder, nor will it perform any operations
+        upon building the application. Application developers will
+        have to manually perform everything they need;
 
       * "Web Player JSON" - json-file placed inside the project is
         run with the help of web-player inside SDK;
@@ -233,75 +232,59 @@ New Project]" 按钮执行。
 
     * "空格"— — 只有空格从代码中移除。
 
-11. Web Player URL attributes. This tab is available only if
-    "Engine Binding Type" parameter is set to "Web Player JSON" or
-    "Web Player HTML".
+11. 网络播放器的URL属性。此选项卡仅当 "Engine Binding Type" 参数设
+    置为 "Web Player JSON" 活 "Web Player HTML" 时可用。
 
-    * "Show FPS" is used to display the FPS counter in the player’s
-      top right corner.
+    * “显示FPS” 用于显示在玩家的右上角的FPS计数器。
 
-    * "Auto-rotate camera" enables automatic camera rotation just
-      after the scene loads.
+    * “自动旋转摄像头” 让场景加载后立即自动旋转相机。
 
-    * "Disable social network buttons" disables social networks
-      buttons on the control panel.
+    * “禁用社交网络按钮” 禁用控制面板上的社交网络按钮。
 
-    * "Background transparency" enables transparency for the
-      rendering area.
+    * “背景透明” 启用渲染区域的透明度。
 
-    * "Use compressed textures" enables loading of minified and
-      compressed textures (in DDS format).
+    * "使用压缩纹理" 使精缩和压缩纹理加载（以DDS格式）。
 
 
-Creating a Web Player Application
----------------------------------
+创建一个 Web 播放器应用程序
+---------------------------
 
-The main advantage of Web Player applications is the ease of deploying
-such applications on a website.
+网络播放器应用的主要优点是易于在网站上部署这种应用。
 
 [图片]
 
-Creating a Web Player application is simple. All you have to do when
-creating a new project is select the "Web Player JSON" or "Web Player
-HTML" option under the Engine Binding Type tab.
+创建一个Web Player应用程序很简单。所有你需要做的，当创建一个新的项目选
+择时在引擎绑定类型面板下面选择 "Web Player JSON" 或 "Web Player HTML"
+选项。
 
-The parameters that are available for a Web Player project are mostly
-the same as for any other type of project. The only exception is the
-group of parameter known as the Web Player Params.
+可用于在Web播放器项目的参数大多是和任何其他类型的项目一样的。唯一的例
+外是被称为网络播放器PARAMS组参数。
 
 
-Project Settings
-~~~~~~~~~~~~~~~~
+项目设置
+~~~~~~~~
 
 [图片]
 
-This panel is only available if the "Web Player JSON" or "Web Player
-HTML" option has been enabled. The parameters listed here are in
-essence URL attributes that the Web Player application will use while
-running the project.
+如果 "Web Player JSON" 或 "Web Player HTML" 选项已启用，此面板才可用。
+这里列出的参数在本质上是运行该项目的Web播放器应用程序将使用的URL。
 
 
-Deploying the Project
-~~~~~~~~~~~~~~~~~~~~~
+部署项目
+~~~~~~~~
 
-After you have completed your project, select the "deploy project"
-option from the "Operations" panel on the Project Manager main page.
-The project will be exported, packed into a single archive and
-downloaded to the folder where your web browser stores all dowloaded
-files.
+您完成您的项目后，在项目管理器的主页面从 "Operations" 面板选择 "deploy
+project" 选项。该项目将被导出，打包成一个单一的存档，并下载到您的网页
+浏览器存储所有下载文件的文件夹。
 
-To place the project on a webpage, you have to extract this archive
-and upload its files (the "html" file and the "assets" directory) to a
-web server using FTP, SSH or any other protocols supported by the
-server.
+若要将项目放在网页上，你必须提取此文档，并用FTP，SSH或由支持的任何其他
+协议服务上传文件（"html" 文件和 "assets" 目录）发送到Web服务器。
 
-注解: The internal structure of the archive and relative paths to
-  its files should be retained after uploading the project files to a
-  web server.
+注解: 将项目文件上传到Web服务器上，应保留对其文件的归档和相关路径的
+  内部结 构。
 
-A Web Player HTML application can then be placed on any webpage by
-using an "iframe" container. Here is an example of HTML code that can
-be used for this:
+一个Web播放器的HTML应用程序然后可以使用一个 "iframe" 容器放置在任何网
+页。下面是可以用于此的HTML代码的示例：
 
    <!DOCTYPE html>
    <html>
@@ -313,9 +296,8 @@ be used for this:
    </body>
    </html>
 
-Deploying a JSON project is performed similarly, but instead of a
-single HTML file it uses a combination of the Web Player app and a
-JSON file that contains the actual scene.
+部署JSON项目也是同样地进行，但不是一个HTML文件，它是使用的Web应用程序
+播放器，并包含实际场景中的JSON文件的组合。
 
    <!DOCTYPE html>
    <html>
@@ -451,44 +433,51 @@ JSON file that contains the actual scene.
    导出的项目打包的档案名称。
 
 
-Advanced Project Management
-===========================
+高级项目管理
+============
 
-Advanced project management is used by experienced developers which
-require more flexibility and need to automate process of project
-development.
+高级项目管理器由经验丰富的开发人员使用，在需要更多的灵活性和需要自动化
+项目开发过程中使用。
 
-For advanced project management use the *project.py* script and
-manually edit *.b4w_project* configuration files.
+高级项目管理器使用 *project.py* 脚本并手动编辑  *.b4w_project*  配置文
+件。
+
+The *project.py* script can be found in the "./apps_dev/" folder of
+the Blend4Web SDK directory.
 
 
-Dependencies
-------------
+依赖
+----
 
-The project management system works in all operating systems. However,
-some operations can require installing additional dependencies. In
-order to check whether all dependencies are met, use the following
-command:
+项目管理系统在所有操作系统都可用。但是，某些操作可能需要安装附加依赖项
+。为了检查是否满足所有依赖项，请使用以下命令 ︰
 
    ./project.py check_deps
 
-For MS Windows users:
+对于MS Windows用户：
 
    python project.py check_deps
 
+对于脚本运行它需要安装Java和  设置PATH系统变量.
 
-Projects List
--------------
+注解: Java is included by default in the Windows version of the SDK.
+  In Linux and macOS it should be installed manually.
+
+Resource Converter  也使用其自己的描述的外部工具集，在 另外章节 描述.
+
+
+项目清单
+--------
+
+可以用下面的命令查看的 SDK 中的所有项目列表︰
 
    python3 project.py -p myproject list
 
-Prints list of projects in the SDK.
 
+项目结构
+--------
 
-Project Structure
------------------
-
-A typical app developed using the project manager looks as follows:
+一个典型的应用程序开发中使用项目管理器如下所示展开：
 
    blend4web/
        apps_dev/
@@ -512,28 +501,24 @@ A typical app developed using the project manager looks as follows:
                    myproject.json
                    myproject.bin
 
-This app consists of 4 different directories.
+这个应用程序包括4个不同的目录。
 
-1. apps_dev/myproject. Contains source files of project's apps.
+1. apps_dev/myproject. 包含项目的应用程序的源文件。
 
-2. blender/myproject. Contains source files of project's scenes.
+2. blender/myproject. 包含项目的场景源文件。
 
-3. deploy/assets/myproject. Contains exported files of project's
-   scenes.
+3. deploy/assets/myproject. 包含项目的场景导出的文件。
 
-4. deploy/apps/myproject. Contains exported files of project's
-   scenes.
+4. deploy/apps/myproject. 包含项目的场景导出的文件。
 
-Additionally, the deploy command can create yet another directory, but
-it's usually placed outside of the SDK and its name and path depend on
-directory structure on the target server.
+此外，部署命令可以创建另一个目录中，但它通常放置在 SDK 之外，其名称和
+路径取决于目标服务器上的目录结构。
 
 
-".b4w_project" Configuration File
----------------------------------
+".b4w_project"  配置文件
+------------------------
 
-If you did not use any arguments upon executing the *project.py*
-script, then they will be taken from the configuration file.
+如果你不使用任何参数执行的 *project.py* 脚本，会得到配置文件。
 
    [info]
    author =
@@ -564,53 +549,47 @@ script, then they will be taken from the configuration file.
    remove_exist_ext_dir =
 
 
-Creating a Project
-------------------
+创建项目
+--------
 
    ./project.py init myproject
 
-This command will create a project with the specified name in the
-current directory. By default the project directory will only contain
-a config file.
+此命令将创建在当前目录指定名称的项目。默认情况下，项目目录只包括一个配
+置文件。
 
-Available parameters:
+可用参数：
 
-* "-A | --copy-app-templates" (optional) create standard app
-  templates in the project directory  (*<my_project_name>_dev.html*,
-  *<my_project_name>.js*, *<my_project_name>.css*).
+* "-A | --copy-APP-templates" （可选）创建项目目录的标准应用模板
+  (*<my_project_name>_dev.html*, *<my_project_name>.js*,
+  *<my_project_name>.css*).
 
-* "-B | --bundle" (optional) all project files will be placed in a
-  single directory.
+* "-B | --bundle" （可选）所有项目文件将被放置在一个单独的目录。
 
-* "-C | --author" (optional) write an author's or a company's name
-  in the config file.
+* "-C | --author" （可选）写作者的还是公司的配置文件名。
 
-* "-o | --optimization" (optional) write the script optimization
-  level in the config file.
+* "-o | --optimization" （可选）写在配置文件中的脚本优化级别。
 
-* "-P | --copy-project-script" (optional) create a copy of the
-  *project.py* script in the project directory.
+* "-P | --copy项目-script" （可选）在项目目录中创建 *project.py* 脚
+  本 的副本。
 
-* "-S | --copy-scene-templates" (optional) create standard scene
-  templates in the directories "deploy/assets/<my_project_name>" and
-  "blender/<my_project_name>" (*<my_project_name>.json/.bin* and
-  *<my_project_name>.blend* correspondingly).
+* "-S | --copy-场景templates" （可选）创建目录
+  "deploy/assets/<my_project_name>" 和 "blender/<my_project_name>"
+  (*<my_project_name>.json/.bin* 和 *<my_project_name>.blend* 相应的).
 
-* "-T | --title"" (optional) write a title in the config file. Upon
-  building, it will be used inside the "<title>" HTML element.
+* "-T | --title"" （可选）写在配置文件的标题。编译时，里面将使用
+  "<title>" HTML元素。
 
-* "-t | --engine-type" (optional) write an engine type in the config
-  file.
+* "-t | --engine-type" （可选）写在配置文件中的引擎类型。
 
-Example:
+示例：
 
    ./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
 
-This command will create a directory named *myproject*, inside which
-the following files will be placed: *myproject.js*, *myproject.css*,
-*myproject_dev.html* and *.b4w_project*.
+这个命令将创建一个名为 *myproject* 的目录，这里面以下文件将被放置：
+*myproject.js*, *myproject.css*, *myproject_dev.html* 和
+*.b4w_project*.
 
-The .b4w_project file will look like:
+该 .b4w_project 文件看起来像:
 
    [info]
    author = Blend4Web
@@ -639,12 +618,11 @@ The .b4w_project file will look like:
    remove_exist_ext_dir =
 
 
-Developing multiple apps inside a project
------------------------------------------
+开发一个项目中的多个应用程序
+----------------------------
 
-A project can contain multiple apps. This can be provided by listing
-the corresponding HTML files in the config file separated with
-semicolon:
+一个项目可以包含多个应用程序。这可以通过用分号分隔的配置文件列表对应的
+HTML文件的形式提供:
 
    ...
    [compile]
@@ -652,132 +630,115 @@ semicolon:
    ...
 
 
-Building Projects
------------------
+构建项目
+--------
 
    python3 project.py -p myproject compile
 
-Builds a project in the "deploy/apps/myproject" directory.
+构建在 "deploy/apps/myproject" 目录中的项目。
 
-注解: For script operation it's required to install java and  set
-  the PATH system variable.
+可用参数：
 
-Available parameters:
+* "“-a | --app”" （可选）指定一个HTML文件，相对于该项目的应用程序将
+  建 成。
 
-* ""-a | --app"" (optional) specify an HTML file, relative to which
-  the project app will be built.
+* ""-c | --css-ignore"" （可选）添加CSS样式异常为了不编译它们。
 
-* ""-c | --css-ignore"" (optional) add CSS styles to exceptions in
-  order to not compile them.
+* ""-j | --js-ignore"" （可选）添加脚本例外为了不编译它们。
 
-* ""-j | --js-ignore"" (optional) add scripts to exceptions in order
-  to not compile them.
+* "“-o | --optimization”" （可选）指定JavaScript文件的优化级别：
+  "whitespace"，"simple``（默认）或 ``advanced"。
 
-* ""-o | --optimization"" (optional) specify the optimization level
-  for JavaScript files: "whitespace", "simple" (by default) or
-  "advanced".
+* ""-t | --engine-type"" （可选）定义的应用程序编译类型。四种型号可
+  供 选择： *external* (默认), *copy*, *compile*, *update*.
 
-* ""-t | --engine-type"" (optional) define a compilation type for an
-  app. Four variants are available: *external* (by default), *copy*,
-  *compile*, *update*.
+* "“-v | --version”" 加版本和脚本和样式的路径。
 
-* ""-v | --version"" add version to paths of scripts and styles.
+编译器要求
 
-Compiler Requirements
+* 在一个HTML文件必须存放在目录的根目录如果  "-a" 选项被禁用
 
-* In the root of the directory the single html file must be stored
-  if "-a" option is disabled
-
-* Scripts and styles can be stored in the app's root and in the
-  subfolders
+* 脚本和样式可以存储在应用程序的根目录和子文件夹中
 
 
-Automatic Re-export
--------------------
+自动再导出
+----------
 
    python3 project.py -p myproject reexport
 
-This command will re-export blend files in JSON and HTML formats.
+此命令将重新导出混合在 JSON 和 HTML 格式的文件。
 
-Available parameters:
+可用参数：
 
-* ""-b | --blender-exec"" path to the blender executable.
+* "“-b | --blender_exec”" Blender可执行文件的路径。
 
-* ""-s | --assets"" specify directory with scene assets.
+* "“-s | --assets”" 用场景资源指定目录。
 
 
-Resource Conversion
--------------------
+资源转换
+--------
 
    python3 project.py -p myproject convert_resources
 
-Converts external resources (textures, audio and video files) into
-alternative formats to ensure cross-browser and cross-platform
-performance.
+外部资源（纹理，音频和视频文件）转换为另一种格式，以确保跨浏览器和跨平
+台性能。
 
-Available parameters:
+可用参数：
 
-* ""-s | --assets"" specify directory with scene assets.
+* "“-s | --assets”" 用场景资源指定目录。
 
-Converting of resources is described in detail in the corresponding
-section.
+资源的转换中详细描述在 对应部分.
 
 
-Deploying Projects
-------------------
+部署项目
+--------
 
    python3 project.py -p myproject deploy DIRECTORY
 
-Save a project to an external directory together with all
-dependencies.
+与所有依赖一起保存了一个项目在外部目录。
 
-Available parameters:
+可用参数：
 
-* ""-e | --assets-dest"" destination assets directory ("assets" by
-  default).
+* ""-e | --assets-dest"" 资产目的地目录（“资产” 默认情况下）。
 
-* ""-E | --assets-prefix"" assets URL prefix ("assets" by default).
+* ""-E | --assets-prefix"" 资产网址前缀（默认情况下“资产”）。
 
-* ""-o | --override"" remove directory if it exists.
+* "“-o | --override”" 如果它存在删除目录。
 
-* ""-s | --assets"" override project's assets directory(s).
+* "“-s | --assets”" 用场景资源指定目录。
 
-* ""-t | --engine-type"" override project's engine type config.
+* "-t | --engine-type" （可选）写在配置文件中的引擎类型。
 
 
-Remove Project
---------------
+移除项目
+--------
 
    python3 project.py -p myproject remove
 
-Removes a project. Removed directories are retrieved from project
-configuration file.
+删除的项目。被删除的目录是从项目配置文件检索。
 
 
-Upgrading Apps for New SDK Versions
------------------------------------
+应用程序升级新版本的SDK
+-----------------------
 
-While upgrading for new SDK versions often two problems arise:
+当升级新的SDK版本往往两个问题就出来了：
 
-1. Modules of the new and old versions of the engine do not match.
+1. 引擎的新和旧版本的模块不匹配。
 
-2. Old and new engine API do not match.
+2. 旧的和新的引擎API不匹配。
 
-In order to update the list of modules imported in developer version
-of application go to project source directory "apps_dev/my_project"
-and execute module list generator script:
+为了更新应用程序的开发者版本导入模块列表转到项目源代码目录
+"apps_dev/my_project" 和执行模块列表生成脚本：
 
    python3 ../../scripts/mod_list.py
 
-For MS Windows users:
+对于MS Windows用户：
 
    python ..\..\scripts\mod_list.py
 
-注解: To run the scripts the Python 3.x needs to be installed in
-  your system.
+注解: 要运行的Python 3.x的需要安装在你的系统中的脚本。
 
-The console will print the list of modules - copy them and paste into
-the main HTML file:
+控制台将打印模块列表 - 将它们复制并粘贴到主HTML文件：
 
    <head>
        <meta charset="UTF-8">
@@ -792,18 +753,17 @@ the main HTML file:
        . . .
    </head>
 
-To eliminate API incompatibilities you may require refactoring of your
-app. All changes are described in release notes.
+为了消除 API 不兼容性可能需要重构您的应用程序。所有的改变放在了  发行
+说明.
 
 
-Path to Loaded Application Assets
----------------------------------
+加载的应用程序资产路径
+----------------------
 
-To load .json-files you should use "get_std_assets_path()" method from
-the *config.js* module:
+要加载.json 文件应从 *config.js* 模块使用 "get_std_assets_path()" 方法
+︰
 
    m_data.load(m_config.get_std_assets_path() + "example/example.json", load_cb);
 
-After building the finished app, the paths to assets will change.
-Thus, using "get_std_assets_path()" will allow you to avoid problems
-with incorrect paths.
+完成应用程序构建后，到资产的路径将会改变。因此，使用
+"get_std_assets_path()" 将允许您避免不正确的路径的问题。

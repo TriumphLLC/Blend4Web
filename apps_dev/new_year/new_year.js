@@ -724,7 +724,7 @@ function create_sensors() {
             var delta_distance = (_default_cam_dist - _current_cam_dist) * (elapsed/LETTER_ANIM_TIME);
             var delta_horisontal_angle = (_default_cam_angles[0] - _current_cam_angles[0]) * (elapsed/LETTER_ANIM_TIME);
             var delta_vertical_angle = (_default_cam_angles[1] - _current_cam_angles[1]) * (elapsed/LETTER_ANIM_TIME);
-            m_trans.move_local(cam_obj, 0, delta_distance, 0);
+            m_trans.move_local(cam_obj, 0, 0, delta_distance);
             m_cam.target_rotate(cam_obj, delta_horisontal_angle, delta_vertical_angle);
         } else
             m_cam.target_set_trans_pivot(cam_obj, _default_cam_eye, null);

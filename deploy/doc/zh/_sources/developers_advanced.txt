@@ -1,55 +1,53 @@
 
-For Engine Developers
-*********************
+对于引擎开发者
+**************
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* For Engine Developers
+* 对于引擎开发者
 
-  * Coding Style
+  * 代码样式
 
-    * Examples
+    * 例子
 
-  * Building the Engine
+  * 构建引擎
 
-  * Building the Add-on
+  * 构建插件
 
-  * Dependencies
+  * 依赖
 
-  * Naming Functions and Variables
+  * 命名函数和变量
 
-  * Debugging
+  * 调试中
 
-  * Shader Compilation
+  * 着色器编译
 
-    * Validation
+    * 验证
 
-    * Obfuscation
+    * 混淆
 
-    * Optimization
+    * 优化
 
-    * Import/Export Directives
+    * 导入/导出指令
 
-    * Recommendations and Limitations
+    * 建议和限制
 
-    * WebGL Extensions
+    * WebGL的扩展
 
-    * Compilation Errors
+    * 编译错误
 
-  * Updating Add-on Translations
+  * 更新插件翻译
 
 
-Coding Style
-============
+代码样式
+========
 
-This engine uses structural programming. The code is organized in
-modules. OOP methods are not used, classes are not defined,
-inheritance is not performed and so on.
+这款引擎采用结构化程序。该代码由模块组织。没有用OOP方法都，没有定义的
+类，不进行继承等。
 
-The K&R style is used except for the fact that the opening bracket for
-a compound operator is placed on the same line, for example:
+使用 K＆R风格 除了对于一个组合操作的括号开口被放置在同一行上，例如：
 
    function foo_bar() {
        // ...
@@ -59,29 +57,27 @@ a compound operator is placed on the same line, for example:
        // ...
    }
 
-4 spaces are used for indentation (no tabs allowed).
+4个空格用于缩进（不允许tab）。
 
 
-Examples
---------
+例子
+----
 
-The underscore symbol is used in function and variable names:
+下划线符号在函数和变量名称中使用：
 
    var foo_bar = 123;  // correct
    var fooBar = 123;   // wrong
 
-All global variables begin with an underscore:
+所有的全局变量以下划线开头：
 
    var _foo_bar = null;
 
-The constants are written in capital letters and never begin with an
-underscore:
+这些常量用大写字母表示，从不以下划线开头：
 
    var FOO_BAR = 100;
 
-The names of external API methods and properties are written after a
-point. To avoid obfuscation of fields they must be listed with the
-"@cc_externs" tag:
+外部API方法和属性的名称均在点之后写的。为了避免混淆他们必须用 "@
+cc_externs" 标签字段：
 
    exports.FOO_BAR = 123;
 
@@ -106,255 +102,230 @@ point. To avoid obfuscation of fields they must be listed with the
        ...
    }
 
-Commenting is in English only. Comment style - JSDoc.
+注释仅用英语。注释风格 -  JSDoc。
 
 
-Building the Engine
-===================
+构建引擎
+========
 
-Before building please make sure that your system has all required
-dependencies installed (see the table).
+构建之前，请确保您的系统已安装所有需要的依赖关系（参见 table).
 
-To compile the engine and the applications included into the SDK
-please execute the following command (in the SDK root):
+要编译引擎，并纳入SDK，请执行以下命令（在SDK根目录）的应用程序：
 
    make compile
 
-The full building that includes converting resources (textures, sounds
-and videos), compilation and converting the docs, can be performed
-with the following command:
+完整的构建，包括将资源（纹理，声音和视频），编辑和转换的文档，可以用下
+面的命令执行：
 
    make build
 
-Building the archives with the distributions:
+构建发布档案：
 
    make dist
 
-All above mentioned operations can be performed with a single command:
+所有上述操作可以用一个命令来执行：
 
    make all
 
 
-Building the Add-on
-===================
+构建插件
+========
 
 Binary Blend4Web addon builds are available for the following
-platforms: Linux x32/64, OS X x64, Windows x32/64. At the same time
+platforms: Linux x32/64, macOS x64, Windows x32/64. At the same time
 users can compile the addon by themselves.
 
-To do this Python 3.x (it's better if it's the same version as in
-Blender) and a C compiler are required. Under Linux it's enough to
-install the python3-dev and build-essential packages.
+要做到这一点，Python 3.X（如果它是跟blender相同的版本更好）和C编译器是
+必需的。在Linux下，只需安装python3-dev 和 build-essential 的程序包。
 
-Paths relative to the repository root:
-   * build script: "csrc/b4w_bin/build.py"
+路径相对于库根：
+   * 构建脚本："csrc/b4w_bin/build.py"
 
-   * Blend4Web addon: "blender_scripts/addons/blend4web/"
+   * Blend4Web插件： "blender_scripts/addons/blend4web/"
 
-The building process is started in the following way:
+该构建过程开始于以下方式：
 
    python3 ./csrc/b4w_bin/build.py
 
-As a result of the building you'll get a binary file called:
+由于构建的结果，你会得到一个名为二进制文件：
 
 "b4w_bin_[PLATFORM]_[ARCHITECTURE].[STANDARD_EXTENSION]",
 
-located in the same directory as the addon. Example:
-"b4w_bin_Linux_64.so". After this the addon is ready to use under this
-platform.
+和插件位于同一目录中。例如："b4w_bin_Linux_64.so"。在此之后，插件已经
+准备好这个平台下使用。
 
 
-Dependencies
-============
+依赖
+====
 
-All dependencies are listed in the table below in order of decreasing
-importance.
+所有依赖于下表中列出的重要性顺序递减。
 
 +---------------------------------+---------------------------------+------------------------------+
-| Name                            | Ubuntu 16.04 package            | Purpose                      |
+| 名称                            | Ubuntu的16.04包                 | 用途                         |
 +=================================+=================================+==============================+
-| Bash                            | included by default             | script interpreter           |
+| Bash                            | 默认情况下包含                  | 脚本解释器                   |
 +---------------------------------+---------------------------------+------------------------------+
-| Python 3                        | included by default             | script interpreter           |
+| Python 3                        | 默认情况下包含                  | 脚本解释器                   |
 +---------------------------------+---------------------------------+------------------------------+
-| NodeJS                          | nodejs                          | compiling shaders            |
+| NodeJS                          | nodejs                          | 着色器编译                   |
 +---------------------------------+---------------------------------+------------------------------+
-| Java                            | default-jre                     | compiling and obfuscating    |
-|                                 |                                 | the engine modules           |
+| Java                            | 默认的JRE                       | 编译和混淆引擎模块           |
 +---------------------------------+---------------------------------+------------------------------+
-| ImageMagick                     | imagemagick                     | converting textures          |
+| ImageMagick                     | imagemagick                     | 转换纹理                     |
 +---------------------------------+---------------------------------+------------------------------+
-| NVIDIA Texture Tools            | libnvtt-bin                     | converting textures          |
+| NVIDIA纹理工具                  | libnvtt-bin                     | 转换纹理                     |
 +---------------------------------+---------------------------------+------------------------------+
-| Libav                           | libav-tools                     | converting media resources   |
+| Libav                           | libav-tools                     | 转换资源                     |
 +---------------------------------+---------------------------------+------------------------------+
-| NVIDIA Cg Toolkit               | nvidia-cg-toolkit               | debugging shaders            |
+| NVIDIA CG工具包                 | NVIDIA-CG-工具包                | 着色器的调试                 |
 +---------------------------------+---------------------------------+------------------------------+
-| OptiPNG                         | optipng                         | optimizing PNG files         |
+| OptiPNG                         | optipng                         | 优化 PNG 文件                |
 +---------------------------------+---------------------------------+------------------------------+
-| Emscripten                      | from EMSDK source code          | building Uranium             |
+| Emscripten                      | from EMSDK source 代码          | 构建Uranium                  |
 +---------------------------------+---------------------------------+------------------------------+
-| Gnuplot                         | gnuplot                         | debugging                    |
+| Gnuplot                         | gnuplot                         | 偵錯                         |
 +---------------------------------+---------------------------------+------------------------------+
-| Graphviz                        | graphviz                        | debugging                    |
+| Graphviz                        | graphviz                        | 偵錯                         |
 +---------------------------------+---------------------------------+------------------------------+
-| xsel                            | xsel                            | debugging                    |
+| xsel                            | xsel                            | 偵錯                         |
 +---------------------------------+---------------------------------+------------------------------+
-| Sphinx                          | python3-sphinx                  | building the manual          |
+| Sphinx                          | python3-sphinx                  | 构建手册                     |
 +---------------------------------+---------------------------------+------------------------------+
-| sphinx-intl                     | installed with PIP v3 (pip3     | building the manual          |
-|                                 | install sphinx-intl)            | (internationalization)       |
+| sphinx-intl                     | 使用 PIP v3 安装（pip3 install  | 构建手册（国际）             |
+|                                 | sphinx-intl）                   |                              |
 +---------------------------------+---------------------------------+------------------------------+
-| TeX Live                        | texlive texlive-latex-extra     | building the manual (PDF     |
-|                                 | texlive-lang-cyrillic           | version)                     |
+| TeX Live                        | texlive texlive-latex-extra     | 构建说明书（PDF版）          |
+|                                 | texlive-lang-cyrillic           |                              |
 +---------------------------------+---------------------------------+------------------------------+
-| JSDoc 3                         | installed with NPM (npm install | building the API             |
-|                                 | -g jsdoc)                       | documentation                |
+| JSDoc 3                         | 使用 NPM 进行安装 (npm install  | 构建API文档                  |
+|                                 | -g jsdoc)                       |                              |
 +---------------------------------+---------------------------------+------------------------------+
-| PEG.js                          | from PEG.js source code         | building shader preprocessor |
+| PEG.js                          | 从PEG.js源代码                  | 着色器预处理                 |
 +---------------------------------+---------------------------------+------------------------------+
 
 
-Naming Functions and Variables
-==============================
+命名函数和变量
+==============
 
-When creating new functions and variables it is recommended to use the
-following prefixes and suffixes.
+当创建新的函数和变量，建议使用以下前缀和后缀。
 
 *init_*
-   create an abstract object
+   创建抽象物体
 
 *create_*
-   create a certain object
+   创建实际的物体
 
 *update_*
-   update the state of an existing object
+   更新现有物体的状态
 
 *attach_/detach_*
-   add/remove a temporary object property
+   添加/删除临时物体属性
 
 *append_/remove_*
-   add/remove a temporary property to the already existing properties
-   of the same kind
+   添加/删除临时属性同类的现有属性
 
 *insert_/pop_*
-   add/remove an array element (accessed by index)
+   添加/删除数组元素（按索引访问）
 
 *switch_*
-   switch flag's binary value
+   切换标志的二进制值
 
 *apply_/clear_*
-   operation with flags, binary values or arbitrary parameters
+   操作标志，二进制值或任意参数的操作
 
 *set_/get_*
-   set/get the property/variable value
+   设置/获取属性/变量值
 
 *_tmp*
-   global variable - cache in the form of a simple object (array,
-   vector)
+   全局变量 - 缓存在一个简单的物体的形式（数组，向量）
 
 *_cache*
-   global variable - cache in the form of a complex object
+   全局变量 - 缓存在一个复杂的物体的形式
 
 
-Debugging
-=========
+调试中
+======
 
-Engine debugging is performed with the "debug.js" module methods.
+引擎调试在 "debug.js" 模块方法进行。
 
-The structure of the current render graph can be saved in the DOT
-format using the "b4w.debug.scenegraph_to_dot()" call, for example, in
-the browser console. After calling this method, save the console's
-output into the file with the .gv extension. To get the graph in a
-visual form the graphviz utilities are required. Converting to the SVG
-format is performed using the command:
+当前的渲染图的结构可以用 "b4w.debug.scenegraph_to_dot()" 调用，例如，
+在浏览器的控制台被保存在DOT格式。调用此方法后，保存控制台输出与.gv扩展
+名的文件。为了得到在视觉形式图表中的 graphviz的 是必需的工具。转换为
+SVG格式是使用命令执行：
 
    > dot -Tsvg graph.gv -o graph.svg
 
-where "graph.gv" is the name of the file with the saved graph.
+其中，"graph.gv" 是保存的图形文件的名称。
 
 
-Shader Compilation
-==================
+着色器编译
+==========
 
-All shaders used in the engine are processed by a compiler. The
-compiler performs the following three main procedures:
+在引擎中使用的所有着色器由编译器处理。编译器执行以下三个主要步骤：
 
-* validation of the shader code,
+* shader代码的验证，
 
-* its obfuscation and
+* 它的混淆处理，
 
-* optimization.
+* 优化
 
-In order to run the compiler, execute one of the following commands in
-the SDK root:
+为了编译运行，在SDK根处键入以下命令执行：
 
    > make compile_shaders
    > make verify_shaders
 
-* **make** *compile_shaders* - performs validation, obfuscation,
-  optimization and finally, export of the compiled shaders,
+* **make** *compile_shaders*  - 执行验证，混淆，优化和最后，编译着色
+  器 的导出，
 
-* **make** *verify_shaders* - performs only validation, obfuscation
-  and optimization.
+* **make** *verify_shaders*  - 只执行验证，混淆和优化。
 
-Syntax analysis (parsing) of the shader text is first performed during
-compilation. The corresponding parser is created automatically based
-on the grammar, using the PEG.js generator. Then the shaders are
-validated, obfuscated and optimized according to the parser data, and
-after that the shaders are exported in the form of an abstract syntax
-tree (AST) for direct loading in the engine.
+在编译期间首先进行着色文本的语法分析（解析）。相应的解析器自动创建基于
+语法，使用 PEG.js 引擎。然后将由着色器验证，混淆和优化根据解析器数据，
+之后该着色器中抽象语法树（AST），用于在引擎直接装载的形式输出。
 
-The location of the main files in the repository:
+资源库中的主要文件的位置：
 
-* initial grammar - glsl_utils/pegjs/glsl_parser.pegjs
+* 初步的语法 -  glsl_utils / pegjs / glsl_parser.pegjs
 
-* parser generation script - glsl_utils/pegjs/gen_nodejs.sh
+* 解析器生成脚本 -  glsl_utils / pegjs / gen_nodejs.sh
 
-* parser - glsl_utils/compiler/glsl_parser.js
+* 解析器 -  glsl_utils /编译器/ glsl_parser.js
 
 
-Validation
-----------
+验证
+----
 
-The compiler performs the following procedures related to shader code
-validation:
+编译器执行与着色器代码验证以下程序：
 
-* reporting about unused variables and functions (dead code),
+* 报告有关未使用的变量和函数（死码）
 
-* checking the syntax of shaders,
+* 检查着色器的语法，
 
-* checking the conformance of shaders to the import/export
-  mechanism,
+* 检查着色器的一致性导入/导出机制，
 
-* removing odd or repetitive tokens: spaces, endlines and
-  semicolons.
+* 去除奇数或重复的标记：空格，endlines和分号。
 
 
-Obfuscation
------------
+混淆
+----
 
-Obfuscation minifies the GLSL code and makes it difficult to
-understand it. So far the following procedure is implemented:
+混淆minifies的GLSL代码，使得它很难理解它。到目前为止以下过程实现：
 
-* replacing the user-defined identifiers with shorter single-symbol,
-  two-symbol etc. names (with support of the import/export mechanism).
+* 具有较短的单符号（与支持导入/导出机制的）替换用户定义的标识符，两
+  符 号等的名称。
 
 
-Optimization
-------------
+优化
+----
 
-Optimization constitutes the following procedures:
+优化构成以下程序：
 
-* removing curly brackets which are not useful in any ways except
-  creating local scopes (this functionality is used for processing
-  node/lamp directives),
+* 除去大括号，不能在除了创建本地作用域任何方式有用（这一功能是用于处
+  理 节点/灯指示），
 
-* optimization inside functions - creating shared local variables to
-  replace ones originally created by the programmer.
+* 内部功能的优化 - 创建共享局部变量，以取代原来由程序员创建的。
 
-An example of removing unused curly brackets: replacing the following
-code
+删除未使用大括号的一个例子：替换下面的代码
 
    void function(){
        int a;
@@ -363,15 +334,15 @@ code
        }
    }
 
-with this code
+与这些代码
 
    void function(){
        int a;
        a = 1;
    }
 
-Low number of temporary local variables is achieved by repetitively
-using them in different contexts. For example, the following code
+临时局部变量的低数量是由在不同情况下重复使用它们来实现的。例如，下面的
+代码
 
    int function(){
        int a = 1;
@@ -379,7 +350,7 @@ using them in different contexts. For example, the following code
        return b;
    }
 
-will be replaced with
+Blender内置渲染引擎的纹理绘图类型已被其它三个模块所取代：
 
    int function(){
        int _int_tmp0 = 1;
@@ -387,99 +358,81 @@ will be replaced with
        return _int_tmp0;
    }
 
-注解: Local variables for structures and arrays are not optimized
-  this way.
+注解: 对于结构和数组的局部变量未优化这种方式。
 
 
-Import/Export Directives
-------------------------
+导入/导出指令
+-------------
 
-import/export directives are used to organize, structure and increase
-the readability of the shader code in the include file. They are
-specified in the beginning of the file and should look approximately
-like this:
+导入/导出指令用于组织，结构和增加着色器代码的可读性中包含文件。它们在
+文件的开头指定，应该看起来大约是这样的：
 
    #import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence
    #import qrot
 
    #export skin
 
-The "#import" directive defines a set of ids which are declared
-outside the include file but can be accessed from inside it. There is
-a limitation though: such ids must necessarily be declared somewhere
-above the place where the include file is linked.
+在``＃import``指令定义了一组声明的包含文件之外，但可以从里面被访问的ID
+。这里有一个限制，但：这样的id必然是上述地方，其中包括文件链接的地方声
+明。
 
-The "#export" directive defines a set of ids which can be accessed
-from outside this file. Such ids must necessarily be declared in this
-file.
+在``＃export``指令定义了一组可以从该文件外部访问的ID。这样的id必然在这
+个文件中声明。
 
-Therefore, the shader which uses the include file must have all the
-declarations necessary for import before the place of linking, and can
-use the exported ids after it.
+因此，它使用的着色器包含文件必须拥有所有必要的连接位置之前，进口的声明
+，以后它可以使用导出的标识。
 
-Ids can be both variable names and function names. If there are no
-import/export directives it's considered by default that the include
-file does not use external declarations and does not allow the using
-of internal ones.
+IDS既可以是变量名和函数名。如果没有导入/导出命令中，它在默认情况下认为
+，包括文件不使用外部声明和内部的人的使用不允许。
 
 
-Recommendations and Limitations
--------------------------------
+建议和限制
+----------
 
-Because of the following reasons: preprocessing, the need to process
-multiple shaders and include files and due to the compiler's features
-- its possible to guarantee the work of the output code only if a
-number of rules and limitations are respected with regard to the
-shader source code:
+由于以下几个原因：预处理，处理多个着色器和包括文件和由于编译器的功能的
+需要 - 其可能保证只有当一些规则和限制方面的着色源推崇的输出代码的工作
+码：
 
-1. In order to describe constants which are defined by the engine
-   at run, it's necessary to use the "#var" special directive. For
-   example:
+1. 为了描述这是由引擎在运行中定义的常量，有必要使用``＃var``特殊指
+   令。 例如：
 
    #var AU_QUALIFIER uniform
    AU_QUALIFIER float a;
 
-The syntax here is similar to the #define directive. The point of the
-#var directive is that the value which it defines allows to parse the
-initial shader. It's irrelevant what exactly it will be (e.g.
-'uniform' or 'attribute' in the above example), because at this level
-it's unknown anyway. Nevertheless, it's better to specify a more or
-less suitable description and not something arbitrary.
+这里的语法是类似的#define指令。所述#var指令的一点是，它定义了值允许解
+析初始着色。它是不相关的这将是什么（在上面的例子如“制服”或“属性”），因
+为在这个水平上它是未知反正。不过，最好是指定一个或多或少适当的描述，不
+是随心所欲。
 
-注解: The #var directive is not necessary for constants used not in
-  the shader code but in the preprocessor expressions.
+注解: 该#var指令没有必要不是在着色的代码，但在预处理器表达式中使用的
+  常数。
 
-2. Using the import/export directives when needed.
+2. 在需要的时候使用导入/导出指令。
 
-3. The built-in functions must not be overloaded - only the user
-   ones.
+3. 内置的功能，不能超载 - 只有用户的。
 
-4. Variables should not be declared with names of the built-in
-   functions, or main (even if it doesn't lead to errors).
+4. 变量不应与的内置函数名称，或者主要（即使它不导致错误）中声明。
 
-5. The #var and #define directives must not be used for replacing
-   single symbols in such operators as: "++", "--", "*=", "/=", "+=",
-   "-=", "==", "<=", ">=", "!=", "&&", "||", "^^".
+5. 的#var和#define指令不能被用于以这样运营商更换单个符号：“  ”，“ -
+   ” ，“* =”，“/ =”，“  =”，“ -  =” ，“==”，“<=”，“> =”，“！=”，“&&”，
+   “||”，“^^”。
 
-For example:
+例如：
 
    #var EQUAL =
    ...
    a *EQUAL b;
    ...
 
-6. The usage of the #include directive should not lead to ambiguity
-   during the obfuscation of the include file. This can happen when
-   multiple shaders are included into the same file and the above
-   defined directives (like #var or #define) can have influence on any
-   of them. Also, it's better not to use undeclared functions and
-   variables in the include file.
+6. #include指令的使用不应该包含文件的混淆中产生歧义。当多个着色器纳
+   入 相同的文件，上面定义的指令（如#var或者将#define）可以对任何人的
+   影响 ，可能发生这种情况。此外，最好不要使用未声明的函数和变量中包含
+   文件 。
 
-7. Multi-level includes or multiple inclusion of the same include
-   into the same shader is not supported.
+7. 多级包括或相同的多个纳入到包括不支持相同的着色器。
 
-8. The shader's malfunction can also be caused by nontrivial using
-   of preprocessing, for example, creating an invalid GLSL code:
+8. 着色器的故障也可以通过使用非平凡的预处理，例如，创建一个无效的
+   GLSL 代码引起的：
 
    #if TYPE
    void function1() {
@@ -489,135 +442,112 @@ For example:
        ...
    }
 
-9. Do not declare variables with such names as
-   "node_[NODE_NAME]_var_[IN_OUT_NODE]", where "NODE_NAME" --- name of
-   some node, "IN_OUT_NODE" --- name of an input or an output of the
-   node.
+9. 不要声明与这样的名字变量 "node_ [NODE_NAME] _var_ [IN_OUT_NODE]"
+   ， 其中 "NODE_NAME" ---一些节点的名称，"IN_OUT_NODE" ---输入或输出
+   的名 称节点。
 
-10. Repetitive use of "#nodes_main", "#nodes_global" or
-    "#lamps_main" directives is not permitted inside a single shader.
+10. 重复使用 "＃nodes_main"，"＃nodes_global" 或 "＃lamps_main" 指
+    令是 不是一个单一的着色器内禁止。
 
-11. The "#nodes_main", "#nodes_global" and "#lamps_main"
-    directives are recommended to use in the file, containing these
-    shader nodes description, for example, in the same include-file.
-    This is necessary for the correct shader validation.
+11. 在 "＃nodes_main"，"＃nodes_global" 和 "＃lamps_main" 指令，建
+    议在 该文件中使用，包含这些着色器节点的说明，例如，在同一个包含文
+    件。这 是必要的正确的着色器验证。
 
 
-WebGL Extensions
-----------------
+WebGL的扩展
+-----------
 
-Compilation may depend on WebGL extensions being used if they somehow
-influence the shading language. At the moment the following extensions
-are supported by the compiler:
+如果他们以某种方式影响着色语言所使用的编译可能取决于WebGL的扩展。目前
+以下扩展名由编译器的支持：
 
    * OES_standard_derivatives
 
 
-Compilation Errors
-------------------
+编译错误
+--------
 
-In case of an error the compiler will output the corresponding message
-in the console.
+在发生错误时，编译器会在控制台输出相应的消息。
 
-Table of possible errors:
+可能发生的错误的表：
 
 +---------------------------------------+---------------------------------------------+
-| Error message                         | Cause                                       |
+| 错误信息                              | 原因                                        |
 +=======================================+=============================================+
-| Error! Ambiguous obfuscation in       | Ambiguous obfuscation in the 'FILE_NAME'    |
-| include file 'FILE_NAME'.             | include file.                               |
+| 错误！含糊不清的包含文件“FILE_NAME”。 | 在“FILE_NAME”含糊不清包含文件。             |
 +---------------------------------------+---------------------------------------------+
-| Error! Extension NAME is unsupported  | The NAME WebGL extension used in the        |
-| in obfuscator. File: 'FILE_NAME'.     | FILE_NAME file is not supported by the      |
-|                                       | obfuscator.                                 |
+| 错误！扩展名是在混淆器不支持。文件：  | 在FILE_NAME文件中使用的名称WebGL的扩展不被  |
+| “FILE_NAME”。                         | 混淆器支持。                                |
 +---------------------------------------+---------------------------------------------+
-| Error! Include 'FILE_NAME' not found. | The FILE_NAME include file could not be     |
-|                                       | found.                                      |
+| 错误！包括“FILE_NAME找不到。          | 该FILE_NAME包含文件找不到。                 |
 +---------------------------------------+---------------------------------------------+
-| Error! Undeclared TYPE: 'NAME'. File: | Error in FILE_NAME file. Undeclared         |
-| 'FILE_NAME'.                          | identifier NAME of type TYPE (variable,     |
-|                                       | function, structure etc).                   |
+| Error! Undeclared TYPE: 'NAME'. File: | FILE_NAME文件中错误。类型TYPE（变量，函数， |
+| 'FILE_NAME'.                          | 结构等）的未声明标识符名称 。               |
 +---------------------------------------+---------------------------------------------+
-| Error! Undeclared TYPE: 'NAME'.       | Undeclared identifier NAME of type TYPE     |
-| Importing data missed. File:          | (variable, function, structure etc).        |
-| 'FILE_NAME'.                          | Declaration missing for the identifier      |
-|                                       | required in the FILE_NAME include file      |
-|                                       | according to the "#import" directive.       |
+| Error! Undeclared TYPE: 'NAME'.       | 类型TYPE（变量，函数，结构等）的未声明标识  |
+| Importing data missed. File:          | 符名称。声明中缺少在 FILE_NAME所需的标识符  |
+| 'FILE_NAME'.                          | 包括根据``＃import``指令文件。              |
 +---------------------------------------+---------------------------------------------+
-| Error! Undeclared TYPE: 'NAME'.       | Error in FILE_NAME file. Undeclared         |
-| Possibly exporting needed in include  | identifier NAME of type TYPE (variable,     |
-| file 'INCLUDE_NAME'. File:            | function, structure etc). Possibly its      |
-| 'FILE_NAME'.                          | export into the INCLUDE_NAME include file   |
-|                                       | should be allowed.                          |
+| Error! Undeclared TYPE: 'NAME'.       | 在FILE_NAME文件有错误。类型TYPE（变量，函数 |
+| Possibly exporting needed in include  | ，结构等）的未声明标识符名 称。可能出口到   |
+| file 'INCLUDE_NAME'. File:            | INCLUDE_NAME include文件应该被允许。        |
+| 'FILE_NAME'.                          |                                             |
 +---------------------------------------+---------------------------------------------+
-| Error! Undeclared TYPE: 'NAME'.       | Undeclared identifier NAME of type TYPE     |
-| Possibly importing needed. File:      | (variable, function, structure etc).        |
-| 'FILE_NAME'.                          | Possibly it should be specified as imported |
-|                                       | in the FILE_NAME include file.              |
+| Error! Undeclared TYPE: 'NAME'.       | 类型TYPE（变量，函数，结构等）的未声明标识  |
+| Possibly importing needed. File:      | 符名称。也许应指定为 FILE_NAME进口包含文件  |
+| 'FILE_NAME'.                          | 。                                          |
 +---------------------------------------+---------------------------------------------+
-| Error! Unused export token 'NAME' in  | Undeclared identifier NAME is allowed for   |
-| include file 'FILE_NAME'.             | export in the FILE_NAME include file.       |
+| Error! Unused export token 'NAME' in  | 未声明的标识符名称是允许在出口FILE_NAME包含 |
+| include file 'FILE_NAME'.             | 文件。                                      |
 +---------------------------------------+---------------------------------------------+
 
 
 
 +---------------------------------------+---------------------------------------------+
-| Error! Using reserved word in TYPE    | Error in FILE_NAME file. A reserved id is   |
-| 'NAME'. File: 'FILE_NAME'.            | used for declaring the identifier NAME of   |
-|                                       | type TYPE (variable, function, structure    |
-|                                       | etc).                                       |
+| Error! Using reserved word in TYPE    | 错误FILE_NAME文件。的预留ID用于声明类型TYPE |
+| 'NAME'. File: 'FILE_NAME'.            | （变量，函数，结构等）的标 识符名称。       |
 +---------------------------------------+---------------------------------------------+
-| Error! 'all' extension cannot have    | The "#extension" directive specified for    |
-| BEHAVIOR_TYPE behavior. File:         | "all" WebGL extensions in the FILE_NAME     |
-| 'FILE_NAME'.                          | file does not support the behavior          |
-|                                       | BEHAVIOR_TYPE.                              |
+| Error! 'all' extension cannot have    | 对于指定的  "#extension"  指令 在FILE_NAME  |
+| BEHAVIOR_TYPE behavior. File:         | 文件 "all" WebGL的扩展不支持 的行为         |
+| 'FILE_NAME'.                          | BEHAVIOR_TYPE。                             |
 +---------------------------------------+---------------------------------------------+
-| Syntax Error. ERROR_MESSAGE. File:    | Syntax error in line LINE_NUMBER column     |
-| FILE_NAME, line: LINE_NUMBER, column: | COL_NUMBER during parsing the FILE_NAME     |
-| COL_NUMBER.                           | shader. The initial error description is    |
-|                                       | quoted in the ERROR_MESSAGE. The code       |
-|                                       | listing taken from around the corresponding |
-|                                       | line is attached to the message (note the   |
-|                                       | peculiarity of pegjs parser which specify   |
-|                                       | the line which is a little bit after the    |
-|                                       | actual error.                               |
+| Syntax Error. ERROR_MESSAGE. File:    | 解析FILE_NAME着色器在线路LINE_NUMBER列      |
+| FILE_NAME, line: LINE_NUMBER, column: | COL_NUMBER语法错误。最初的错误描 述在       |
+| COL_NUMBER.                           | ERROR_MESSAGE是引用。代码清单来自各地的相应 |
+|                                       | 线路连接到邮件采取的（ 注意哪些指定哪个才是 |
+|                                       | 真正的错误后，一点点就行pegjs解析器的特点。 |
 +---------------------------------------+---------------------------------------------+
-| Warning! Function 'NAME' is declared  | An unused function NAME is declared in the  |
-| in [include ]file FILE_NAME, but      | FILE_NAME file.                             |
+| Warning! Function 'NAME' is declared  | 未使用的函数名在FILE_NAME文件中声明。       |
+| in [include ]file FILE_NAME, but      |                                             |
 | never used.                           |                                             |
 +---------------------------------------+---------------------------------------------+
-| Warning! Include file 'FILE_NAME' not | The FILE_NAME include file is not used in   |
-| used in any shader, would be omitted! | any of the shaders and so it will be        |
-|                                       | excluded from the obfuscated version.       |
+| Warning! Include file 'FILE_NAME' not | 该FILE_NAME包含文件未在任何着色器的使用，所 |
+| used in any shader, would be omitted! | 以它会从模糊版本被排除在外 。               |
 +---------------------------------------+---------------------------------------------+
-| Warning! Unused import token 'NAME'   | An unused id NAME is imported in the        |
-| in include file 'FILE_NAME'.          | FILE_NAME include file.                     |
+| Warning! Unused import token 'NAME'   | 未使用的ID名称在FILE_NAME导入包含文件。     |
+| in include file 'FILE_NAME'.          |                                             |
 +---------------------------------------+---------------------------------------------+
-| Warning! Variable 'NAME' is declared  | An unused variable NAME is declared in the  |
-| in include file FILE_NAME, but never  | FILE_NAME file.                             |
+| Warning! Variable 'NAME' is declared  | 未使用的变量名称在FILE_NAME文件中声明。     |
+| in include file FILE_NAME, but never  |                                             |
 | used.                                 |                                             |
 +---------------------------------------+---------------------------------------------+
 
 
-Updating Add-on Translations
-============================
+更新插件翻译
+============
 
-If you need to update all existing .po files, run the script
-*translator.py* in the SDK/scripts directory without arguments:
+如果您需要更新现有的所有.po文件，运行不带参数的SDK / scripts目录中的脚
+本  *translator.py*：
 
    > python3 translator.py
 
-In order to update an existing .po file, run the script with a
-supported language code as an argument:
+为了更新现有的.po文件，以支持的语言代码作为参数运行脚本：
 
    > python3 translator.py ru_RU
 
-In order to view the list of supported languages, run the script as
-follows:
+为了查看支持的语言列表，运行脚本如下：
 
    > python3 translator.py help
 
-In any case, the file *empty.po* will be updated upon running the
-script.
+在任何情况下，该文件 *empty.po* 将在运行脚本进行更新。
 
-After updates, the .po files can be edited/translated as usual.
+更新后的.po文件可以如常编辑/转换。

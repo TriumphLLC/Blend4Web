@@ -92,9 +92,10 @@ exports.copy = function(obj, name, deep_copy) {
  * nested node groups (if any) and the name of the Value node itself. Should
  * have at least 2 elements ["Mat","Node"]
  * @param {Number} value The value to set the Value node to
+ * @deprecated Use {@link module:material.set_nodemat_value|material.set_nodemat_value} instead
  */
 exports.set_nodemat_value = function(obj, name_list, value) {
-
+    m_print.error_deprecated("set_nodemat_value", "material.set_nodemat_value");
     if (!m_obj_util.is_dynamic_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\" or it is not dynamic.");
@@ -128,9 +129,10 @@ exports.set_nodemat_value = function(obj, name_list, value) {
  * nested node groups (if any) and the name of the Value node itself. Should
  * have at least 2 elements ["Mat","Node"]
  * @returns {Number} Value.
+ * @deprecated Use {@link module:material.get_nodemat_value|material.get_nodemat_value} instead
  */
 exports.get_nodemat_value = function(obj, name_list) {
-
+    m_print.error_deprecated("get_nodemat_value", "material.get_nodemat_value");
     if (!m_obj_util.is_dynamic_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\" or it is not dynamic.");
@@ -165,9 +167,10 @@ exports.get_nodemat_value = function(obj, name_list) {
  * @param {Number} r The value to set the red channel of the RGB node to [0..1]
  * @param {Number} g The value to set the green channel of the RGB node to [0..1]
  * @param {Number} b The value to set the blue channel of the RGB node to [0..1]
+ * @deprecated Use {@link module:material.set_nodemat_rgb|material.set_nodemat_rgb} instead
  */
 exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
-
+    m_print.error_deprecated("set_nodemat_rgb", "material.set_nodemat_rgb");
     if (!m_obj_util.is_dynamic_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\" or it is not dynamic.");
@@ -202,9 +205,10 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
  * nested node groups (if any) and the name of the RGB node itself
  * @param {Vec3} [dest] Destination color
  * @returns {RGB} Destination color
+ * @deprecated Use {@link module:material.get_nodemat_rgb|material.get_nodemat_rgb} instead
  */
 exports.get_nodemat_rgb = function(obj, name_list, dest) {
-
+    m_print.error_deprecated("get_nodemat_rgb", "material.get_nodemat_rgb");
     if (!m_obj_util.is_dynamic_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\" or it is not dynamic.");

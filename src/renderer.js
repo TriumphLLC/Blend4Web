@@ -31,11 +31,16 @@ var m_cam      = require("__camera");
 var m_cfg      = require("__config");
 var m_debug    = require("__debug");
 var m_ext      = require("__extensions");
+var m_geom     = require("__geometry");
 var m_quat     = require("__quat");
 var m_subs     = require("__subscene");
 var m_textures = require("__textures");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
+var m_ver      = require("__version");
+var m_geom     = require("__geometry");
+
+var m_vec3     = require("__vec3");
 
 var USE_BACKFACE_CULLING = true;
 
@@ -48,8 +53,6 @@ var COLOR_PICKING_BG_COLOR = [0,0,0,1];
 var BLACK_BG_COLOR = [0,0,0,0];
 
 var SKY_HACK_COLOR = new Uint8Array([0.36*255, 0.56*255, 0.96*255, 255]);
-
-var FLOAT_BYTE_SIZE = 4;
 
 var CUBEMAP_UPPER_SIDE = 2;
 var CUBEMAP_BOTTOM_SIDE = 3;
@@ -144,7 +147,7 @@ exports.draw = function(subscene) {
 
         m_debug.check_gl("draw subscene: " + m_subs.subs_label(subscene));
         // NOTE: fix for strange issue with skydome rendering
-        // TODO: check commented below code on Windows
+        // NOTE: commented below code was checked on Windows. All is fine.
         // _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
     }
 }
@@ -217,6 +220,8 @@ function draw_subs(subscene) {
     var draw_data = subscene.draw_data;
     var current_program = null;
 
+    var eye = m_tsr.get_trans(camera.world_tsr, _vec3_tmp);
+
     for (var i = 0; i < draw_data.length; i ++) {
 
         var ddata = draw_data[i];
@@ -244,6 +249,9 @@ function draw_subs(subscene) {
                     batch.debug_main_batch_render_time = m_util.smooth(
                             m_batch.batch_get_debug_storage(batch.debug_main_batch_id),
                             batch.debug_main_batch_render_time, 1, DEBUG_VIEW_RT_SMOOTH_INTERVALS);
+
+                if (cfg_def.alpha_sort && batch.z_sort) // do it right before drawing
+                    zsort(batch, obj_render, bundle.info_for_z_sort_updates, eye);
 
                 draw_bundle(subscene, obj_render, batch, shader);
 
@@ -452,6 +460,31 @@ function draw_bundle(subscene, obj_render, batch, shader) {
     }
 }
 
+/**
+ * Perform Z-sort when camera moves
+ */
+function zsort(batch, obj_render, info, eye) {
+
+    var bufs_data = batch.bufs_data;
+
+    // update if camera shifted enough
+    var cam_shift = m_vec3.dist(eye, info.zsort_eye_last);
+
+    // take batch geometry size into account
+    var shift_param = cfg_def.alpha_sort_threshold * Math.min(info.bb_min_side, 1);
+    var batch_cam_updated = cam_shift > shift_param;
+
+    if (!batch_cam_updated && !obj_render.force_zsort)
+        return;
+
+    m_geom.update_buffers_movable(bufs_data, info, obj_render.world_tsr, eye);
+
+    // remember new coords
+    m_vec3.copy(eye, info.zsort_eye_last);
+
+    obj_render.force_zsort = false;
+}
+
 function draw_sky(subscene, batch, shader) {
 
     var camera = subscene.camera;
@@ -471,6 +504,12 @@ function draw_sky(subscene, batch, shader) {
                     1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, SKY_HACK_COLOR);
         } else {
             _gl.uniformMatrix4fv(uniforms["u_cube_view_matrix"], false, v_matrs[i]);
+
+            _gl.uniform4fv(uniforms["u_sky_tex_fac"], subscene.sky_tex_fac);
+            _gl.uniform3fv(uniforms["u_sky_tex_color"], subscene.sky_tex_color);
+            _gl.uniform1f(uniforms["u_sky_tex_dvar"], subscene.sky_tex_default_value);
+            _gl.uniform3fv(uniforms["u_horizon_color"], subscene.horizon_color);
+            _gl.uniform3fv(uniforms["u_zenith_color"], subscene.zenith_color);
 
             _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
                 w_target, w_tex, 0);
@@ -545,16 +584,35 @@ exports.assign_attribute_setters = function(batch) {
 
     for (var name in attributes) {
         var p = pointers[name];
+        var vbo_type = m_geom.get_vbo_type_by_attr_name(name);
+        var gl_type = m_geom.get_gl_type_by_attr_name(name);
+        var type_size = m_geom.get_type_size_by_attr_name(name);
+
         var setter = {
+            vbo_type: vbo_type,
+            gl_type: gl_type,
             loc: attributes[name],
-            base_offset: p.offset * FLOAT_BYTE_SIZE,
-            frame_length: p.frames > 1 ? p.length * FLOAT_BYTE_SIZE : 0,
+            base_offset: p.offset * type_size,
+            frame_length: p.frames > 1 ? p.length * type_size : 0,
             num_comp: p.num_comp,
-            stride: p.stride * FLOAT_BYTE_SIZE,
+            stride: p.stride * type_size,
             divisor: p.divisor
         };
         attr_setters.push(setter);
     }
+
+    if (m_ver.type() == "DEBUG")
+        for (var name in pointers) {
+            var vbo_type = m_geom.get_vbo_type_by_attr_name(name);
+            var index = m_geom.search_vbo_index_by_type(bufs_data.vbo_data, vbo_type);
+            var vbo_obj = bufs_data.vbo_data[index];
+
+            var sh_pair_str = batch.shaders_info.vert + " | " + batch.shaders_info.frag;
+            var byte_size = pointers[name].length * pointers[name].frames 
+                    * m_geom.get_type_size_by_attr_name(name);
+            m_debug.fill_vbo_garbage_info(vbo_obj.debug_id, sh_pair_str, name, 
+                    byte_size, name in attributes);
+        }
 
     if (cfg_def.allow_vao_ext)
         assign_vao(batch);
@@ -579,18 +637,26 @@ function assign_vao(batch) {
         var vao = vao_ext.createVertexArray();
         _gl_bind_vertex_array(vao);
 
-        _gl.bindBuffer(_gl.ARRAY_BUFFER, bufs_data.vbo);
         if (bufs_data.ibo)
             _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
 
-        for (var j = 0; j < attr_setters.length; j++) {
-            var setter = attr_setters[j];
-            _gl.enableVertexAttribArray(setter.loc);
-            var offset = setter.base_offset + setter.frame_length * i;
-            _gl.vertexAttribPointer(setter.loc, setter.num_comp, _gl.FLOAT, false,
-                    setter.stride, offset);
-            _gl_vert_attr_div(setter.loc, setter.divisor);
+        for (var j = 0; j < bufs_data.vbo_data.length; j++) {
+            _gl.bindBuffer(_gl.ARRAY_BUFFER, bufs_data.vbo_data[j].vbo);
+
+            for (var k = 0; k < attr_setters.length; k++) {
+                var setter = attr_setters[k];
+                if (setter.vbo_type == bufs_data.vbo_data[j].type) {
+                    _gl.enableVertexAttribArray(setter.loc);
+                    var offset = setter.base_offset + setter.frame_length * i;
+
+                    var normalized = setter.gl_type == _gl.FLOAT ? false : true;
+                    _gl.vertexAttribPointer(setter.loc, setter.num_comp, setter.gl_type, normalized,
+                            setter.stride, offset);
+                    _gl_vert_attr_div(setter.loc, setter.divisor);
+                }
+            }
         }
+
         _gl_bind_vertex_array(null);
 
         batch.vaos.push(vao);
@@ -611,6 +677,8 @@ exports.clone_attribute_setters = function(setters) {
         var setter = setters[i];
 
         var setter_new = {
+            vbo_type: setter.vbo_type,
+            gl_type: setter.gl_type,
             loc: setter.loc,
             base_offset: setter.base_offset,
             frame_length: setter.frame_length,
@@ -931,7 +999,7 @@ function assign_uniform_setters(shader) {
         // light
         case "u_light_positions":
             scene_fun = function(gl, loc, subscene, camera) {
-                gl.uniform3fv(loc, subscene.light_positions);
+                gl.uniform4fv(loc, subscene.light_positions);
             }
             break;
         case "u_light_directions":
@@ -941,12 +1009,7 @@ function assign_uniform_setters(shader) {
             break;
         case "u_light_color_intensities":
             scene_fun = function(gl, loc, subscene, camera) {
-                gl.uniform3fv(loc, subscene.light_color_intensities);
-            }
-            break;
-        case "u_light_factors":
-            scene_fun = function(gl, loc, subscene, camera) {
-                gl.uniform4fv(loc, subscene.light_factors);
+                gl.uniform4fv(loc, subscene.light_color_intensities);
             }
             break;
         case "u_sun_quaternion":
@@ -1419,11 +1482,6 @@ function assign_uniform_setters(shader) {
         case "u_lamp_light_color_intensities":
             fun = function(gl, loc, obj_render, batch) {
                 gl.uniform3fv(loc, batch.lamp_light_color_intensities);
-            }
-            break;
-        case "u_lamp_light_factors":
-            fun = function(gl, loc, obj_render, batch) {
-                gl.uniform4fv(loc, batch.lamp_light_factors);
             }
             break;
 
@@ -1975,8 +2033,6 @@ exports.draw_resized_texture = function(texture, size_x, size_y, fbo, w_tex,
     var batch = m_batch.create_postprocessing_batch(batch_type);
     var shader = batch.shader;
 
-    _gl.bindTexture(w_target, null);
-
     _gl.activeTexture(_gl.TEXTURE0);
     _gl.bindTexture(w_target, w_tex);
 
@@ -2042,24 +2098,29 @@ exports.set_draw_methods = function() {
         }
     } else {
         _draw_batch = function(batch, frame) {
-            var gl = _gl;
             var bufs_data = batch.bufs_data;
             var attr_setters = batch.attribute_setters;
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, bufs_data.vbo);
+            for (var i = 0; i < bufs_data.vbo_data.length; i++) {
+                _gl.bindBuffer(_gl.ARRAY_BUFFER, bufs_data.vbo_data[i].vbo);
 
-            for (var i = 0; i < attr_setters.length; i++) {
-                var setter = attr_setters[i];
-                gl.enableVertexAttribArray(setter.loc);
-                var offset = setter.base_offset + setter.frame_length * frame;
-                gl.vertexAttribPointer(setter.loc, setter.num_comp, gl.FLOAT, false,
-                        setter.stride, offset);
-                _gl_vert_attr_div(setter.loc, setter.divisor);
+                for (var j = 0; j < attr_setters.length; j++) {
+                    var setter = attr_setters[j];
+                    if (setter.vbo_type == bufs_data.vbo_data[i].type) {
+                        _gl.enableVertexAttribArray(setter.loc);
+                        var offset = setter.base_offset + setter.frame_length * frame;
+
+                        var normalized = setter.gl_type == _gl.FLOAT ? false : true;
+                        _gl.vertexAttribPointer(setter.loc, setter.num_comp, 
+                                setter.gl_type, normalized, setter.stride, offset);
+                        _gl_vert_attr_div(setter.loc, setter.divisor);
+                    }
+                }
             }
 
             // draw
             if (bufs_data.ibo) {
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
+                _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
                 _gl_draw_elems_inst(bufs_data.mode, bufs_data.count,
                         bufs_data.ibo_type, 0, bufs_data.instance_count);
             } else
@@ -2069,7 +2130,7 @@ exports.set_draw_methods = function() {
             // cleanup attributes
             for (var i = 0; i < attr_setters.length; i++) {
                 var setter = attr_setters[i];
-                gl.disableVertexAttribArray(setter.loc);
+                _gl.disableVertexAttribArray(setter.loc);
             }
         }
     }
@@ -2080,6 +2141,7 @@ exports.reset = function() {
     _gl_draw_elems_inst = null;
     _gl_vert_attr_div = null;
     _gl_draw_array = null;
+    _gl_bind_vertex_array = null;
 }
 
 }

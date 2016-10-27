@@ -76,7 +76,7 @@ class B4W_PHYSICS_PT_game_physics(PhysicsButtonsPanel, Panel):
 
         physics_type = game.physics_type
 
-        if physics_type in {'CHARACTER', 'SOFT_BODY', 'NAVMESH', 'SENSOR',
+        if physics_type in {'CHARACTER', 'SOFT_BODY', 'SENSOR',
                             'OCCLUDER'}:
             layout.label(text=_("Unsupported physics type"), icon='ERROR')
 

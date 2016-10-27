@@ -42,6 +42,7 @@ for m in b4w_modules:
 
 from blend4web.translator import _, p_, get_translate
 
+BINARY_CHAR_SIZE = 1
 BINARY_INT_SIZE = 4
 BINARY_SHORT_SIZE = 2
 BINARY_FLOAT_SIZE = 4
@@ -99,6 +100,7 @@ _bpy_bindata_int = bytearray();
 _bpy_bindata_float = bytearray();
 _bpy_bindata_short = bytearray();
 _bpy_bindata_ushort = bytearray();
+_bpy_bindata_uchar = bytearray();
 
 _export_data = None
 _main_json_str = ""
@@ -679,7 +681,7 @@ def get_main_json_data():
 def get_binaries_data():
     bin_version = get_b4w_bin_info()
     return bin_version + _bpy_bindata_int + _bpy_bindata_float \
-            + _bpy_bindata_short + _bpy_bindata_ushort
+            + _bpy_bindata_short + _bpy_bindata_ushort + _bpy_bindata_uchar;
 
 def get_packed_data():
     return _packed_files_data
@@ -1373,6 +1375,19 @@ def process_scene_nla(scene, scene_data):
 
             elif slot['type'] == "MOVE_CAMERA":
                 check_objects_paths(slot, slot_data)
+
+            elif slot['type'] == "SET_CAMERA_MOVE_STYLE":
+                obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id0"])
+                if (obj and do_export(obj) and object_is_valid(obj)):
+                    pass
+                else:
+                    force_mute_node(slot_data, "Object is not selected or not exported.")
+                if slot["common_usage_names"]['camera_move_style'] in ["HOVER", "TARGET"] and slot['bools']['pvo']:
+                    obj = logic_node_tree.object_by_path(bpy.data.objects, slot["objects_paths"]["id1"])
+                    if (obj and do_export(obj) and object_is_valid(obj)):
+                        pass
+                    else:
+                        force_mute_node(slot_data, "Object is not selected or not exported.")
 
             elif slot['type'] == "MOVE_TO":
                 check_objects_paths(slot, slot_data)
@@ -2278,6 +2293,7 @@ def process_lamp(lamp):
         lamp_data["falloff_type"] = lamp.falloff_type
         lamp_data["clip_start"] = lamp.shadow_buffer_clip_start
         lamp_data["clip_end"] = lamp.shadow_buffer_clip_end
+        lamp_data["use_sphere"] = lamp.use_sphere
     else:
         lamp_data["falloff_type"] = None
         lamp_data["clip_start"] = 0.1
@@ -2847,7 +2863,8 @@ def process_mesh(mesh, obj_user):
     if len(mesh_data["materials"]) > 1:
         mesh.calc_tessface()
         bounding_data = b4w_bin.calc_bounding_data(mesh_ptr, -1)
-        process_mesh_boundings(mesh_data, mesh, bounding_data, "b4w_")
+        mesh_data["b4w_boundings"] = OrderedDict()
+        process_mesh_boundings(mesh_data["b4w_boundings"], mesh, bounding_data, True)
 
     _export_data["meshes"].append(mesh_data)
     _export_uuid_cache[mesh_data["uuid"]] = mesh_data
@@ -2873,7 +2890,7 @@ def check_tangent_shading_r(source):
                 return True
     return False
 
-def process_mesh_boundings(mesh_data, mesh, bounding_data, pref):
+def process_mesh_boundings(mesh_bdata, mesh, bounding_data, whole_mesh):
     if mesh.b4w_override_boundings:
         bounding_box = mesh.b4w_boundings
 
@@ -2884,7 +2901,7 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data, pref):
             raise ExportError("Wrong overrided bounding box", mesh, \
                               "Check the mesh's bounding box values")
 
-        dct = mesh_data[pref + "bounding_box"] = OrderedDict()
+        dct = mesh_bdata["bb"] = OrderedDict()
         dct["max_x"] = round_num(bounding_box.max_x, 5)
         dct["min_x"] = round_num(bounding_box.min_x, 5)
 
@@ -2904,19 +2921,19 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data, pref):
 
         # calculate ellipsoid boundings
         sq3 = math.sqrt(3)
-        mesh_data[pref + "bounding_ellipsoid_axes"] = round_iterable([sq3 * x_width, sq3 * y_width, sq3 * z_width], 5)
-        mesh_data[pref + "bounding_ellipsoid_center"] = bounding_center
+        mesh_bdata["be_ax"] = round_iterable([sq3 * x_width, sq3 * y_width, sq3 * z_width], 5)
+        mesh_bdata["be_cen"] = bounding_center
 
-        if pref:
+        if whole_mesh:
             srad = math.sqrt(x_width * x_width + y_width * y_width + z_width * z_width)
             crad = math.sqrt(x_width * x_width + y_width * y_width)
-            mesh_data[pref + "bounding_sphere_radius"] = round_num(srad, 5)
-            mesh_data[pref + "bounding_cylinder_radius"] = round_num(crad, 5)
+            mesh_bdata["bs_rad"] = round_num(srad, 5)
+            mesh_bdata["bc_rad"] = round_num(crad, 5)
 
-            mesh_data[pref + "bounding_sphere_center"] = bounding_center
-            mesh_data[pref + "bounding_cylinder_center"] = bounding_center
+            mesh_bdata["bs_cen"] = bounding_center
+            mesh_bdata["bc_cen"] = bounding_center
     else:
-        dct = mesh_data[pref + "bounding_box"] = OrderedDict()
+        dct = mesh_bdata["bb"] = OrderedDict()
         dct["max_x"] = round_num(bounding_data["max_x"], 5)
         dct["max_y"] = round_num(bounding_data["max_y"], 5)
         dct["max_z"] = round_num(bounding_data["max_z"], 5)
@@ -2924,39 +2941,52 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data, pref):
         dct["min_y"] = round_num(bounding_data["min_y"], 5)
         dct["min_z"] = round_num(bounding_data["min_z"], 5)
 
-        mesh_data[pref + "bounding_ellipsoid_axes"] = round_iterable([
+        mesh_bdata["be_ax"] = round_iterable([
             bounding_data["eaxis_x"],
             bounding_data["eaxis_y"],
             bounding_data["eaxis_z"]
         ], 5)
-        mesh_data[pref + "bounding_ellipsoid_center"] = round_iterable([
+        mesh_bdata["be_cen"] = round_iterable([
             bounding_data["ecen_x"],
             bounding_data["ecen_y"],
             bounding_data["ecen_z"]
         ], 5)
-        if pref:
-            mesh_data[pref + "bounding_sphere_radius"] \
+        if whole_mesh:
+            mesh_bdata["bs_rad"] \
                     = round_num(bounding_data["srad"], 5)
-            mesh_data[pref + "bounding_cylinder_radius"] \
+            mesh_bdata["bc_rad"] \
                     = round_num(bounding_data["crad"], 5)
-            mesh_data[pref + "bounding_sphere_center"] = round_iterable([
+            mesh_bdata["bs_cen"] = round_iterable([
                 bounding_data["scen_x"],
                 bounding_data["scen_y"],
                 bounding_data["scen_z"]
             ], 5)
-            mesh_data[pref + "bounding_cylinder_center"] = round_iterable([
+            mesh_bdata["bc_cen"] = round_iterable([
                 bounding_data["ccen_x"],
                 bounding_data["ccen_y"],
                 bounding_data["ccen_z"]
             ], 5)
-    if pref:
-        mesh_data["b4w_bounding_box_source"] = OrderedDict()
-        mesh_data["b4w_bounding_box_source"]["max_x"] = round_num(bounding_data["max_x"], 5)
-        mesh_data["b4w_bounding_box_source"]["max_y"] = round_num(bounding_data["max_y"], 5)
-        mesh_data["b4w_bounding_box_source"]["max_z"] = round_num(bounding_data["max_z"], 5)
-        mesh_data["b4w_bounding_box_source"]["min_x"] = round_num(bounding_data["min_x"], 5)
-        mesh_data["b4w_bounding_box_source"]["min_y"] = round_num(bounding_data["min_y"], 5)
-        mesh_data["b4w_bounding_box_source"]["min_z"] = round_num(bounding_data["min_z"], 5)
+    if whole_mesh:
+        dct = mesh_bdata["bb_src"] = OrderedDict()
+        dct["max_x"] = round_num(bounding_data["max_x"], 5)
+        dct["max_y"] = round_num(bounding_data["max_y"], 5)
+        dct["max_z"] = round_num(bounding_data["max_z"], 5)
+        dct["min_x"] = round_num(bounding_data["min_x"], 5)
+        dct["min_y"] = round_num(bounding_data["min_y"], 5)
+        dct["min_z"] = round_num(bounding_data["min_z"], 5)
+
+    dct = mesh_bdata["rbb"] = OrderedDict()
+    av_point_len = len(bounding_data["bbrcen"]) // BINARY_FLOAT_SIZE
+    dct["rbb_c"] = list(struct.unpack('f' * av_point_len, bounding_data["bbrcen"]))
+    rbb_scale_len = len(bounding_data["bbrscale"]) // BINARY_FLOAT_SIZE
+    dct["rbb_s"] = list(struct.unpack('f' * rbb_scale_len, bounding_data["bbrscale"]))
+
+    eigenvectors_len = len(bounding_data["eigenvectors"]) // BINARY_FLOAT_SIZE
+    e_vecs = list(struct.unpack('f' * eigenvectors_len,
+            bounding_data["eigenvectors"]))
+    mesh_bdata["caxis_x"] = [e_vecs[0], e_vecs[3], e_vecs[6]]
+    mesh_bdata["caxis_y"] = [e_vecs[1], e_vecs[4], e_vecs[7]]
+    mesh_bdata["caxis_z"] = [e_vecs[2], e_vecs[5], e_vecs[8]]
 
 def get_mat_vc_channel_usage(mesh, mat_index, obj_user):
     vc_channel_usage = {}
@@ -3142,10 +3172,11 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat,
     submesh_bounding_data = b4w_bin.calc_bounding_data(mesh_ptr, mat_index)
     submesh_data["boundings"] = OrderedDict()
     process_mesh_boundings(submesh_data["boundings"], mesh, submesh_bounding_data,
-            "")
+            False)
 
     if len(mesh_data["materials"]) <= 1:
-        process_mesh_boundings(mesh_data, mesh, submesh_bounding_data, "b4w_")
+        mesh_data["b4w_boundings"] = OrderedDict()
+        process_mesh_boundings(mesh_data["b4w_boundings"], mesh, submesh_bounding_data, True)
 
     is_degenerate_mesh = not bool(max( \
             abs(submesh_bounding_data["max_x"] - submesh_bounding_data["min_x"]), \
@@ -3184,6 +3215,18 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat,
             else:
                 submesh_data[prop_name] = [0, 0]
 
+    float_props = ["position", "texcoord", "texcoord2", "shade_tangs"]
+    for prop_name in float_props:
+        if prop_name in submesh:
+            if len(submesh[prop_name]):
+                submesh_data[prop_name] = [
+                    len(_bpy_bindata_float) // BINARY_FLOAT_SIZE,
+                    len(submesh[prop_name]) // BINARY_FLOAT_SIZE
+                ]
+                _bpy_bindata_float.extend(submesh[prop_name])
+            else:
+                submesh_data[prop_name] = [0, 0]
+
     short_props = ["normal", "tangent"]
     for prop_name in short_props:
         if prop_name in submesh:
@@ -3196,7 +3239,7 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat,
             else:
                 submesh_data[prop_name] = [0, 0]
 
-    ushort_props = ["color", "group"]
+    ushort_props = ["group"]
     for prop_name in ushort_props:
         if prop_name in submesh:
             if len(submesh[prop_name]):
@@ -3208,15 +3251,15 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat,
             else:
                 submesh_data[prop_name] = [0, 0]
 
-    float_props = ["position", "texcoord", "texcoord2", "shade_tangs"]
-    for prop_name in float_props:
+    uchar_props = ["color"]
+    for prop_name in uchar_props:
         if prop_name in submesh:
             if len(submesh[prop_name]):
                 submesh_data[prop_name] = [
-                    len(_bpy_bindata_float) // BINARY_FLOAT_SIZE,
-                    len(submesh[prop_name]) // BINARY_FLOAT_SIZE
+                    len(_bpy_bindata_uchar) // BINARY_CHAR_SIZE,
+                    len(submesh[prop_name]) // BINARY_CHAR_SIZE
                 ]
-                _bpy_bindata_float.extend(submesh[prop_name])
+                _bpy_bindata_uchar.extend(submesh[prop_name])
             else:
                 submesh_data[prop_name] = [0, 0]
 
@@ -4629,14 +4672,17 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _bpy_bindata_int
         _bpy_bindata_int = bytearray();
 
+        global _bpy_bindata_float
+        _bpy_bindata_float = bytearray();
+
         global _bpy_bindata_short
         _bpy_bindata_short = bytearray();
 
         global _bpy_bindata_ushort
         _bpy_bindata_ushort = bytearray();
 
-        global _bpy_bindata_float
-        _bpy_bindata_float = bytearray();
+        global _bpy_bindata_uchar
+        _bpy_bindata_uchar = bytearray();
 
         global _export_filepath
         _export_filepath = export_filepath
@@ -4761,7 +4807,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
             _export_data["binaries"] = []
             binary_data = OrderedDict()
             if len(_bpy_bindata_int) + len(_bpy_bindata_float) \
-                     + len(_bpy_bindata_short) + len(_bpy_bindata_ushort):
+                     + len(_bpy_bindata_short) + len(_bpy_bindata_ushort) \
+                     + len(_bpy_bindata_uchar):
                 base = os.path.splitext(os.path.basename(export_filepath))[0]
                 binary_load_path = base + '.bin'
                 base = os.path.splitext(export_filepath)[0]
@@ -4774,6 +4821,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
             binary_data["float"] = len(_bpy_bindata_int)
             binary_data["short"] = binary_data["float"] + len(_bpy_bindata_float)
             binary_data["ushort"] = binary_data["short"] + len(_bpy_bindata_short)
+            binary_data["uchar"] = binary_data["ushort"] + len(_bpy_bindata_ushort)
             _export_data["binaries"].append(binary_data)
 
             _export_data["b4w_export_warnings"] = _b4w_export_warnings
@@ -4823,6 +4871,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
                         fb.write(_bpy_bindata_float)
                         fb.write(_bpy_bindata_short)
                         fb.write(_bpy_bindata_ushort)
+                        fb.write(_bpy_bindata_uchar)
                         fb.close()
 
                     if self.run_in_viewer:
@@ -4970,7 +5019,7 @@ def check_scene_data(scene_data, scene):
         warn("Missing world or wrong active world object in " +\
               scene.name + ".", M_PRIMARY)
 
-
+# NOTE: unused
 def get_exported_obj_first_rec(objects, obj_type = "ALL"):
     for obj in objects:
         obj_data = _export_uuid_cache[obj["uuid"]]
@@ -5183,7 +5232,16 @@ def check_binaries():
     if "b4w_bin" not in globals():
         try:
             m = imp.load_dynamic(libname, path)
-        except:
+        except Exception as bin_err:
+            # TODO: remove 'prints' when Windows 10 64-bit problem is resolved.
+            print("B4W binary error: libname: '%s', path: '%s', exist: '%s' " % \
+                    libname, path, os.path.isfile(path))
+            print("B4W binary error: exception text: '%s'" % bin_err)
+            try:
+                print("B4W error: bynary stat is '%s'" % os.stat(path))
+            except Exception as stat_err:
+                print("B4W stat error: %s" % stat_err)
+
             m = None
         if not m:
             bpy.app.handlers.scene_update_pre.append(init_validation.bin_invalid_message)

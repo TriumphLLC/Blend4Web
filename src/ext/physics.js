@@ -28,11 +28,24 @@
  */
 b4w.module["physics"] = function(exports, require) {
 
+/**
+ * Navmesh distance callback. Used to determine start and end polygon of navmesh
+ * @callback NavmeshDistanceCallback
+ * @param {Vec3} position Position to which we must calculate a distance
+ * @param {Vec3} centroid Center of current polygon
+ * @param {Uint32Array} vertex_ids Indices of polygon vertices
+ * @param {Array} vertices Vertex array
+ * @param {Number} current_max_distance Current maximum distance
+ */
+
 var m_cfg   = require("__config");
-var m_ipc   = require("__ipc");
 var m_phy   = require("__physics");
 var m_print = require("__print");
 var m_util  = require("__util");
+var m_nmesh = require("__navmesh");
+var m_vec3  = require("__vec3");
+
+var _vec3_tmp = new Float32Array(3);
 
 var cfg_phy = m_cfg.physics;
 
@@ -168,42 +181,6 @@ exports.set_gravity = function(obj, gravity) {
     }
     m_phy.set_gravity(obj, gravity);
 }
-/**
- * Set the object's linear/angular damping.
- * @method module:physics.set_damping
- * @param {Object3D} obj Object 3D
- * @param {Number} damping Linear damping
- * @param {Number} rotation_damping Angular damping
- * settings
- */
-exports.set_damping = function(obj, damping, rotation_damping) {
-    if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
-        return;
-    }
-
-    var body_id = obj.physics.body_id;
-    m_phy.post_msg("set_damping", body_id, damping, rotation_damping);
-}
-/**
- * Reset the object's linear/angular damping to default values.
- * @method module:physics.reset_damping
- * @param {Object3D} obj Object 3D
- */
-exports.reset_damping = function(obj) {
-    if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
-        return;
-    }
-
-    var phy_set = obj.physics_settings;
-    var damping = phy_set.damping;
-    var rdamping = phy_set.rotation_damping;
-
-    var body_id = obj.physics.body_id;
-    m_phy.post_msg("set_damping", body_id, damping, rdamping);
-}
-
 /**
  * Set the object's transform (for static/kinematic objects)
  * @method module:physics.set_transform
@@ -920,7 +897,84 @@ exports.pull_to_constraint_pivot = function(obj_a, trans_a, quat_a,
         obj_b, trans_b, quat_b);
 }
 
-exports.get_worker_listeners = m_ipc.get_worker_listeners;
+function distance_to_closest_default(position, centroid, vertex_ids, vertices,
+        current_max_distance) {
+    return m_util.dist_to_triange(position, vertices[vertex_ids[0]],
+            vertices[vertex_ids[1]], vertices[vertex_ids[2]]);
+}
 
+// NOTE: don't remove this function.
+// function distance_to_closest_default(position, centroid, vertex_ids, vertices,
+//         current_max_distance) {
+//     m_vec3.subtract(position, centroid, _vec3_tmp);
+//     return m_vec3.dot(_vec3_tmp, _vec3_tmp);
+// }
+
+function distance_to_farthest_default(position, centroid, vertex_ids, vertices,
+        current_max_distance) {
+    var distance = Math.abs(position[2] - centroid[2]);
+    if (distance < current_max_distance &&
+            m_nmesh.is_vector_in_poly(position, vertex_ids, vertices))
+        return distance;
+    else
+        return Number.MAX_VALUE;
+}
+
+/**
+ * Get id of closest island(group) of navmesh
+ * @method module:physics.navmesh_get_island
+ * @param {Object3D} navmesh_obj Navigation mesh object
+ * @param {Vec3} position Start position
+ * @param {NavmeshDistanceCallback} [distance_to_closest] Callback for distance
+ * calculation to determine closest node
+ * @returns {Number} island ID
+ */
+exports.navmesh_get_island = navmesh_get_island;
+function navmesh_get_island(navmesh_obj, position,
+        distance_to_closest) {
+    if (!distance_to_closest)
+        distance_to_closest = distance_to_closest_default;
+    var navmesh = navmesh_obj.physics.navmesh;
+    if (!navmesh) {
+        m_print.error(navmesh_obj.name + " is not a navigation mesh object");
+        return null;
+    }
+    return m_nmesh.navmesh_get_island(navmesh, position, distance_to_closest);
+}
+
+/**
+ * Find path between start_pos and dest_pos
+ * @method module:physics.navmesh_find_path
+ * @param {Object3D} navmesh_obj Navigation mesh object
+ * @param {Vec3} start_pos Start position
+ * @param {Vec3} dest_pos Target position
+ * @param {Number} island ID; see physics.nav_mesh_get_island
+ * @param {Number} [allowed_distance] Distance limit from start/target position to navmesh
+ * @param {Boolean} [do_not_pull_string] returns centroids path instead of pulled string
+ * @param {NavmeshDistanceCallback} [distance_to_closest] Callback for distance
+ * calculation to determine closest node
+ * @param {NavmeshDistanceCallback} [distance_to_farthest] Callback for distance
+ * calculation to determine farthest node
+ * @returns {Array} Path - array of Vec3-type elements
+ */
+exports.navmesh_find_path = function (navmesh_obj, start_pos, dest_pos, island,
+        allowed_distance, do_not_pull_string,
+        distance_to_closest,
+        distance_to_farthest) {
+    if (!do_not_pull_string)
+        do_not_pull_string = false;
+    if (!distance_to_closest)
+        distance_to_closest = distance_to_closest_default;
+    if (!distance_to_farthest)
+        distance_to_farthest = distance_to_farthest_default
+
+    var navmesh = navmesh_obj.physics.navmesh;
+    if (!navmesh) {
+        m_print.error(navmesh_obj.name + " is not a navigation mesh object");
+        return null;
+    }
+    return m_nmesh.navmesh_find_path(navmesh, start_pos, dest_pos, island, allowed_distance,
+        do_not_pull_string, distance_to_closest, distance_to_farthest);
+}
 }
 

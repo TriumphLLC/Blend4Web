@@ -499,14 +499,12 @@ function extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs) {
 
     rshs.lamp_types = [];
     rshs.spot_sizes = [];
-    rshs.distances = [];
     rshs.clip_start = [];
     rshs.clip_end = [];
 
     for (var i = 0; i < shadow_lamps.length; i++) {
         rshs.lamp_types.push(shadow_lamps[i].light.type);
         rshs.spot_sizes.push(shadow_lamps[i].light.spot_size);
-        rshs.distances.push(shadow_lamps[i].light.distance);
         rshs.clip_start.push(shadow_lamps[i].light.clip_start);
         rshs.clip_end.push(shadow_lamps[i].light.clip_end);
         if ((rshs.lamp_types[i] == "SPOT" || rshs.lamp_types[i] == "POINT") &&
@@ -866,7 +864,7 @@ function extract_sky_params(world, sun_exist) {
     var sky_settings = world["b4w_sky_settings"];
     var sky_params = {};
 
-    sky_params.render_sky                  = sky_settings["render_sky"];
+    sky_params.render_sky                  = sky_settings["render_sky"] || sky_settings["procedural_skydome"];
     sky_params.procedural_skydome          = sky_settings["procedural_skydome"] && sun_exist;
     sky_params.use_as_environment_lighting = sky_settings["use_as_environment_lighting"];
     sky_params.sky_color                   = sky_settings["color"];
@@ -1020,27 +1018,33 @@ function get_world_light_set(world, sky_params) {
     wls_params.sky_texture_param        = null;
     wls_params.environment_texture_slot = null;
 
+    var use_environment_light = true;
     if (wls_params.use_environment_light && wls_params.environment_color == "SKY_TEXTURE" &&
         !(sky_params.procedural_skydome && sky_params.use_as_environment_lighting)) {
         var tex_slot = null;
         for (var i = 0; i < world["texture_slots"].length; i++)
-            if (world["texture_slots"][i]["texture"]["b4w_use_as_environment_lighting"]) {
+            if (world["texture_slots"][i]["texture"]["b4w_use_as_environment_lighting"] &&
+                    !world["texture_slots"][i]["texture"]["b4w_use_as_skydome"]) {
                 tex_slot = world["texture_slots"][i];
                 break;
             }
         if (!tex_slot) {
-            m_print.warn("environment lighting is set to 'Sky Texture'" +
-                    ", but there is no world texture with 'Sky Texture Usage' property set to 'ENVIRONMENT_LIGHTING'");
-            wls_params.use_environment_light = false;
+            // m_print.warn("environment lighting is set to 'Sky Texture'" +
+            //         ", but there is no world texture with 'Sky Texture Usage' property set to 'ENVIRONMENT_LIGHTING'");
+            use_environment_light = false;
         } else
             wls_params.environment_texture_slot = tex_slot;
     }
 
     for (var i = 0; i < world["texture_slots"].length; i++)
         if (world["texture_slots"][i]["texture"]["b4w_use_as_skydome"]) {
-            var sts = world["texture_slots"][i]
+            use_environment_light = true;
+            var sts = world["texture_slots"][i];
             wls_params.sky_texture_slot = sts;
+            var tex_size = Math.min(cfg_lim.max_cube_map_texture_size, 
+                    m_tex.calc_pot_size(sts["texture"]["image"]["size"][0] / 3));
             wls_params.sky_texture_param = {
+                tex_size: tex_size,
                 blend_factor: sts["blend_factor"],
                 horizon_factor: sts["horizon_factor"],
                 zenith_up_factor: sts["zenith_up_factor"],
@@ -1057,7 +1061,10 @@ function get_world_light_set(world, sky_params) {
                 use_map_zenith_down: sts["use_map_zenith_down"],
             }
             break;
-        }
+    }
+
+    wls_params.use_environment_light = wls_params.use_environment_light ?
+            use_environment_light : false;
 
     return wls_params;
 }
@@ -1251,7 +1258,7 @@ exports.get_graph = function(scene) {
 /**
  * Generate non-object batches for graph subscenes
  */
-exports.generate_auxiliary_batches = function(graph) {
+exports.generate_auxiliary_batches = function(scene, graph) {
     m_graph.traverse(graph, function(node, attr) {
         var subs = attr;
 
@@ -1387,8 +1394,8 @@ exports.generate_auxiliary_batches = function(graph) {
             break;
 
         case m_subs.SKY:
-            batch = m_batch.create_procedural_sky_batch();
-
+            batch = m_batch.create_cube_sky_batch(scene, subs,
+                    subs.procedural_skydome);
             break;
         case m_subs.LUMINANCE:
             batch = m_batch.create_luminance_batch();
@@ -1563,6 +1570,15 @@ exports.append_object = function(scene, obj, copy) {
     }
 
     m_obj_util.scene_data_set_active(obj, true, scene);
+}
+
+exports.update_world_texture = update_world_texture;
+function update_world_texture(scene) {
+    if (scene && scene._render && scene._render.graph) {
+        var subs_sky = m_scgraph.find_subs(scene._render.graph, m_subs.SKY);
+        if (subs_sky)
+            update_sky(scene, subs_sky);
+    }
 }
 
 /**
@@ -1778,10 +1794,10 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     var subs_sky = m_scgraph.find_subs(graph, m_subs.SKY);
 
     if (subs_sky) {
-        if (batch.procedural_sky) {
+        if (batch.draw_proc_sky) {
             var tex = subs_sky.camera.color_attachment;
             m_batch.append_texture(batch, tex, "u_sky");
-        } else {
+        } else if (subs_sky.procedural_skydome) {
             // by link
             batch.cube_fog = subs_sky.cube_fog;
             m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 1);
@@ -1798,8 +1814,9 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
             var tex = null;
             if (wls.environment_texture_slot)
                 tex = m_tex.get_batch_texture(wls.environment_texture_slot, false);
-            else
+            else if (subs_sky)
                 tex = subs_sky.camera.color_attachment;
+
             m_shaders.set_directive(shaders_info, "SKY_TEXTURE", 1);
             m_batch.append_texture(batch, tex, "u_sky_texture");
         } else if (wls.environment_color == "SKY_COLOR")
@@ -2548,7 +2565,7 @@ function update_lamp_scene_color_intensity(lamp, scene) {
     var subs_arr = subs_array(scene, LIGHT_SUBSCENE_TYPES);
     for (var i = 0; i < subs_arr.length; i++) {
         var subs = subs_arr[i];
-        subs.light_color_intensities.set(light.color_intensity, ind * 3);
+        subs.light_color_intensities.set(light.color_intensity, ind * 4);
         subs.need_perm_uniforms_update = true;
     }
 }
@@ -2571,9 +2588,8 @@ function update_lamp_scene(lamp, scene) {
 
     for (var i = 0; i < subs_arr.length; i++) {
         var subs = subs_arr[i];
-        subs.light_positions.set(trans, ind * 3);
-        subs.light_directions.set(light.direction, ind * 3);
-        subs.light_color_intensities.set(light.color_intensity, ind * 3);
+
+        update_subs_light_params(lamp, sc_data, subs);
 
         switch (light.type) {
         case "SUN":
@@ -2597,8 +2613,6 @@ function update_lamp_scene(lamp, scene) {
             m_print.error("Unknown light type: " + light.type + "\".");
             break;
         }
-
-        update_subs_light_factors(lamp, sc_data, subs);
 
         var draw_data = subs.draw_data;
         for (var j = 0; j < draw_data.length; j++) {
@@ -2625,15 +2639,44 @@ function update_lamp_scene(lamp, scene) {
     }
 }
 
-function update_subs_light_factors(lamp, sc_data, subs) {
-    var lamp_render = lamp.render;
+function update_subs_light_params(lamp, sc_data, subs) {
+    var lamp_render = lamp.render
     var light = lamp.light;
     var ind = sc_data.light_index;
-    var light_factor = _vec2_tmp;
-    light_factor[0] = light.use_diffuse && !lamp_render.hide ? 1.0 : 0.0;
-    light_factor[1] = light.use_specular && !lamp_render.hide ? 1.0 : 0.0;
+    var trans = m_tsr.get_trans_view(lamp.render.world_tsr);
+    var dir = light.direction;
+    var intens = light.color_intensity;
 
-    subs.light_factors.set(light_factor, ind * 2);
+    subs.light_directions.set(light.direction, ind * 3)
+
+    _vec4_tmp[0] = trans[0];
+    _vec4_tmp[1] = trans[1];
+    _vec4_tmp[2] = trans[2];
+    // NOTE: encoding light_factor for diffuse
+    _vec4_tmp[3] = light.use_diffuse && !lamp_render.hide ? 1.0 : 0.0;
+    subs.light_positions.set(_vec4_tmp, ind * 4);
+
+    _vec4_tmp[0] = intens[0];
+    _vec4_tmp[1] = intens[1];
+    _vec4_tmp[2] = intens[2];
+    // NOTE: encoding light_factor for specular
+    _vec4_tmp[3] = light.use_specular && !lamp_render.hide ? 1.0 : 0.0;;
+    subs.light_color_intensities.set(_vec4_tmp, ind * 4);
+
+    subs.need_perm_uniforms_update = true;
+}
+
+function update_subs_light_factors(lamp, sc_data, subs) {
+    var lamp_render = lamp.render
+    var light = lamp.light;
+    var ind = sc_data.light_index;
+
+    var light_factor = light.use_diffuse && !lamp_render.hide ? 1.0 : 0.0;
+    subs.light_positions[ind * 4 + 3] = light_factor;
+
+    light_factor = light.use_specular && !lamp_render.hide ? 1.0 : 0.0;
+    subs.light_color_intensities[ind * 4 + 3] = light_factor;
+
     subs.need_perm_uniforms_update = true;
 }
 
@@ -2663,6 +2706,11 @@ function reset_shadow_cam_vm(bpy_scene) {
                 }
         }
     }
+}
+exports.update_sky_texture = function(world) {
+    var scenes_data = world.scenes_data;
+    for (var i = 0; i < scenes_data.length; i++)
+        update_world_texture(scenes_data[i].scene);
 }
 
 function update_sky(scene, subs) {
@@ -3457,9 +3505,9 @@ exports.get_bloom_params = function(scene) {
 
     var bloom_params = {};
 
-    bloom_params.bloom_key = lum_subs.bloom_key;
-    bloom_params.bloom_edge_lum = lum_subs.bloom_edge_lum;
-    bloom_params.bloom_blur = bloom_subs.bloom_blur;
+    bloom_params.key = lum_subs.bloom_key;
+    bloom_params.edge_lum = lum_subs.bloom_edge_lum;
+    bloom_params.blur = bloom_subs.bloom_blur;
 
     return bloom_params;
 }
@@ -3475,23 +3523,23 @@ function set_bloom_params(scene, bloom_params) {
         return 0;
     }
 
-    if (typeof bloom_params.bloom_key == "number") {
-        lum_subs.bloom_key = bloom_params.bloom_key;
+    if (typeof bloom_params.key == "number") {
+        lum_subs.bloom_key = bloom_params.key;
         lum_subs.need_perm_uniforms_update = true;
     }
-    if (typeof bloom_params.bloom_edge_lum == "number") {
-        lum_subs.bloom_edge_lum = bloom_params.bloom_edge_lum;
+    if (typeof bloom_params.edge_lum == "number") {
+        lum_subs.bloom_edge_lum = bloom_params.edge_lum;
         lum_subs.need_perm_uniforms_update = true;
     }
-    if (typeof bloom_params.bloom_blur == "number") {
+    if (typeof bloom_params.blur == "number") {
         var graph = scene._render.graph;
         var subs_blur1 = m_scgraph.find_input(graph, bloom_subs, m_subs.BLOOM_BLUR);
         var subs_blur2 = m_scgraph.find_input(graph, subs_blur1, m_subs.BLOOM_BLUR);
-        bloom_subs.bloom_blur = bloom_params.bloom_blur;
-        m_scgraph.set_texel_size_mult(subs_blur1, bloom_params.bloom_blur);
+        bloom_subs.bloom_blur = bloom_params.blur;
+        m_scgraph.set_texel_size_mult(subs_blur1, bloom_params.blur);
         m_scgraph.set_texel_size(subs_blur1, 1/bloom_subs.camera.width,
                                              1/bloom_subs.camera.height);
-        m_scgraph.set_texel_size_mult(subs_blur2, bloom_params.bloom_blur);
+        m_scgraph.set_texel_size_mult(subs_blur2, bloom_params.blur);
         m_scgraph.set_texel_size(subs_blur2, 1/bloom_subs.camera.width,
                                              1/bloom_subs.camera.height);
     }

@@ -64,11 +64,18 @@ The following is supported for all types of objects: transform, data reference, 
 Object Tab
 ----------
 
-.. image:: src_images/objects/object_setup.png
+.. image:: src_images/objects/object_settings.png
    :align: center
-   :width: 100%
 
 |
+
+.. _object_settings_transform:
+
+Transform Panel
+...............
+
+.. image:: src_images/objects/object_settings_transform.png
+   :align: center
 
 *Transform > Location*
     Position coordinates.
@@ -79,36 +86,54 @@ Object Tab
 *Transform > Scale*
     Scaling. All 3 components (x, y, z) should be the same. Scaling for physics objects is not supported.
 
-*Relations > Parent*
-    Reference to the parent object.
+.. _object_settings_groups:
 
-    If the parent object is a camera, ``Viewport Alignment`` settings are available.
-
-    .. image:: src_images/objects/objects_viewport_alignment.png
-       :align: center
-       :width: 100%
-
-    |
-
-    These settings can be used to align the object to an active camera. They are described in the :ref:`Camera chapter <camera_viewport_alignment>`.
+Groups Panel
+............
 
 *Groups*
     Objects’ groups to which this object belongs.
 
-
-.. image:: src_images/objects/object_setup_end.png
+.. image:: src_images/objects/object_settings_groups.png
    :align: center
 
 |
 
+.. _object_settings_lod:
+
+Level of Detail Panel
+.....................
+
+.. image:: src_images/objects/object_settings_lod.png
+   :align: center
+
 *Levels of Detail > LOD Transition Ratio*
     Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object’s bounding sphere radius.
 
-*Special Effects > Disable Fogging*
-    Disable fog for the object.
+.. _object_settings_animation:
 
-*Special Effects > Caustics*
-    The object will render caustics effects from the adjacent water.
+Animation Panel
+...............
+
+.. image:: src_images/objects/object_settings_animation.png
+   :align: center
+
+*Animation > Apply Default Animation*
+    Upon loading into the engine start playback of the animation assigned to the object.
+
+*Animation > Animation Blending*
+    Only for armature objects. Allows blending between skeletal animations.
+
+*Animation > Behavior*
+    Animation behavior when the last frame is reached: ``Finish Stop`` - stop, ``Finish Reset`` - stop and go to the zero frame, ``Loop`` - repeat forever.
+
+.. _object_settings_export:
+
+Export Options Panel
+....................
+
+.. image:: src_images/objects/object_settings_export.png
+   :align: center
 
 *Export Options > Do Not Export*
     Do not export this object.
@@ -131,14 +156,13 @@ Object Tab
 
     The following properties are mutually exclusive: *Apply Modifiers*, *Apply Scale and Modifiers*, *Export Vertex Animation* and *Export Shape Keys*.
 
-*Animation > Apply Default Animation*
-    Upon loading into the engine start playback of the animation assigned to the object.
+.. _object_settings_render:
 
-*Animation > Animation Blending*
-    Only for armature objects. Allows blending between skeletal animations.
+Rendering Properties Panel
+..........................
 
-*Animation > Behavior*
-    Animation behavior when the last frame is reached: ``Finish Stop`` - stop, ``Finish Reset`` - stop and go to the zero frame, ``Loop`` - repeat forever.
+.. image:: src_images/objects/object_settings_rendering.png
+   :align: center
 
 *Rendering Properties > Hidden*
     An object with this property enabled will be hidden on load.
@@ -157,6 +181,14 @@ Object Tab
 *Rendering Properties > Dynamic Geometry*
     Allow overriding of the object’s geometry through Blend4Web API.
 
+.. _object_settings_shadows:
+
+Shadows Panel
+.............
+
+.. image:: src_images/objects/object_settings_shadows.png
+   :align: center
+
 *Shadows > Cast*
     The object will cast shadows.
 
@@ -165,6 +197,33 @@ Object Tab
 
 *Shadows > Receive*
     The object will receive shadows from other adjacent objects.
+
+.. _objects_billboarding_properties:
+
+Billboard Panel
+...............
+
+.. image:: src_images/objects/object_settings_billboard.png
+   :align: center
+
+*Billboard*
+    Use the object as a billboard (i.e. automatically orient relative to the camera).
+
+.. _billboarding_preserve:
+
+*Billboard > Preserve Global Orientation and Scale*
+    Take into account rotation and scale of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the ``Billboard`` checkbox.
+
+*Billboard > Billboard Type*
+    Billboard orientation mode. ``Spherical`` (by default) - the object is always oriented with one side toward the camera, regardless of view angle, ``Cylindrical`` - similar to ``Spherical``, but rotation is limited to Blender’s world Z axis. Becomes available after enabling Billboard
+
+.. _object_settings_reflections:
+
+Reflections Panel
+.................
+
+.. image:: src_images/objects/object_settings_reflections.png
+   :align: center
 
 *Reflections > Reflexible*
     When enabled the object is reflected in the dynamic mirror surfaces.
@@ -185,13 +244,39 @@ Object Tab
 *Reflections > Reflection Plane*
     Text field for name of an empty object which defines the reflection plane. Becomes available after enabling ``Reflections > Reflective``.
 
+.. _object_settings_selection:
+
+Selection and Outlining Panel
+.............................
+
+.. image:: src_images/objects/object_settings_selection.png
+   :align: center
+
 *Selection and Outlining > Selectable*
     Enable :ref:`object selection <mesh_selection>` with the mouse or another input device.
 
 *Selection and Outlining > Enable Outlining*
     Enable :ref:`outline glow <outline>` for the object.
 
+.. _object_settings_anchors:
+
+Anchors Panel
+.............
+
+*Anchors > Enable Anchor*
+    This parameter enables interface for adding anchors (2D tags) to objects. Available for ``EMPTY`` objects only. Described in the :ref:`corresponding section <objects_anchors>`.
+
+    .. image:: src_images/objects/objects_enable_anchors.png
+        :align: center
+        :width: 100%
+
 .. _objects_meta_tags:
+
+Meta Tags Panel
+...............
+
+.. image:: src_images/objects/object_settings_meta_tags.png
+   :align: center
 
 *Meta Tags*
     Interface for adding meta tags to the object:
@@ -208,28 +293,51 @@ Object Tab
     *Meta Tags > Description Source*
         Source type for the description: text or text file.
 
-*Anchors > Enable Anchor*
-    This parameter enables interface for adding anchors (2D tags) to objects. Available for ``EMPTY`` objects only. Described in the :ref:`corresponding section <objects_anchors>`.
+.. _object_settings_relations:
 
-    .. image:: src_images/objects/objects_enable_anchors.png
-        :align: center
-        :width: 100%
+Relations Panel
+...............
+
+.. image:: src_images/objects/object_settings_relations.png
+   :align: center
+
+*Relations > Parent*
+    Reference to the parent object.
+
+    If the parent object is a camera, ``Viewport Alignment`` settings are available.
+
+    .. image:: src_images/objects/objects_viewport_alignment.png
+       :align: center
+       :width: 100%
+
+    |
+
+    These settings can be used to align the object to an active camera. They are described in the :ref:`Camera chapter <camera_viewport_alignment>`.
+
+.. _object_settings_wind:
+
+Wind Bending Panel
+..................
+
+.. image:: src_images/objects/object_settings_wind.png
+   :align: center
 
 *Wind Bending*
     Enables wind bending procedural animation. Thoroughly described at the :ref:`outdoor rendering <wind_bending>` page.
 
-.. _objects_billboarding_properties:
+.. _object_settings_fx:
 
-*Billboard*
-    Use the object as a billboard (i.e. automatically orient relative to the camera).
+Special Effects Panel
+.....................
 
-.. _billboarding_preserve:
+.. image:: src_images/objects/object_settings_fx.png
+   :align: center
 
-*Billboard > Preserve Global Orientation and Scale*
-    Take into account rotation and scale of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the ``Billboard`` checkbox.
+*Special Effects > Disable Fogging*
+    Disable fog for the object.
 
-*Billboard > Billboard Type*
-    Billboard orientation mode. ``Spherical`` (by default) - the object is always oriented with one side toward the camera, regardless of view angle, ``Cylindrical`` - similar to ``Spherical``, but rotation is limited to Blender’s world Z axis. Becomes available after enabling Billboard
+*Special Effects > Caustics*
+    The object will render caustics effects from the adjacent water.
 
 Physics Tab
 -----------

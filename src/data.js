@@ -68,9 +68,6 @@ var cfg_sfx  = m_cfg.sfx;
 var DEBUG_BPYDATA = false;
 var DEBUG_LOD_DIST_NOT_SET = false;
 
-var BINARY_INT_SIZE = 4;
-var BINARY_SHORT_SIZE = 2;
-var BINARY_FLOAT_SIZE = 4;
 var NORMAL_NUM_COMP  = 3;
 var TANGENT_NUM_COMP  = 4;
 var TBN_QUAT_NUM_COMP = 4;
@@ -304,7 +301,7 @@ function check_format_version(loaded_bpy_data) {
                     + m_util.version_to_str(cfg_def.min_format_version) + ". "
                     + "Reexport scene with the latest B4W addon to fix it.");
         else
-            m_print.warn("JSON version is a bit old relative to B4W engine: " + 
+            m_print.warn("JSON version is a bit old relative to B4W engine: "
                     + m_util.version_to_str(ver_loaded) + ", required: " 
                     + m_util.version_to_str(cfg_def.min_format_version) 
                     + ". Some compatibility issues can occur. "
@@ -316,7 +313,7 @@ function check_format_version(loaded_bpy_data) {
                     + "Can't load the scene. Update your " 
                     + "engine version to fix it.");
         else
-            m_print.warn("B4W engine version is a bit old relative to JSON. " 
+            m_print.error("B4W engine version is a bit old relative to JSON. " 
                     + "Some compatibility issues can occur. Update " 
                     + "your engine version to fix it.");
         break;
@@ -375,9 +372,10 @@ function get_header(bin_data) {
 
 function prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le, b4w_offset) {
     var int_props = ["indices"];
-    var short_props = ["normal", "tangent"];
-    var ushort_props = ["color", "group"]
     var float_props = ["position", "texcoord", "texcoord2", "shade_tangs"];
+    var short_props = ["normal", "tangent"];
+    var ushort_props = ["group"];
+    var uchar_props = ["color"];
 
     for (var i = 0; i < meshes.length; i++) {
         var submeshes = meshes[i]["submeshes"];
@@ -388,24 +386,29 @@ function prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le, b4w_off
                 var length = submeshes[j][prop_name][1];
 
                 if (int_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * BINARY_INT_SIZE
+                    var offset = submeshes[j][prop_name][0] * m_util.INT_SIZE
                             + bin_offsets["int"] + b4w_offset;
                     submeshes[j][prop_name] = extract_bindata_uint(bin_data,
                             offset, length, is_le);
                 } else if (float_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * BINARY_FLOAT_SIZE
+                    var offset = submeshes[j][prop_name][0] * m_util.FLOAT_SIZE
                             + bin_offsets["float"] + b4w_offset;
                     submeshes[j][prop_name] = extract_bindata_float(bin_data,
                             offset, length, is_le);
                 } else if (short_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * BINARY_SHORT_SIZE
+                    var offset = submeshes[j][prop_name][0] * m_util.SHORT_SIZE
                             + bin_offsets["short"] + b4w_offset;
                     submeshes[j][prop_name] = extract_bindata_short(bin_data,
                             offset, length);
                 } else if (ushort_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * BINARY_SHORT_SIZE
+                    var offset = submeshes[j][prop_name][0] * m_util.SHORT_SIZE
                             + bin_offsets["ushort"] + b4w_offset;
                     submeshes[j][prop_name] = extract_bindata_ushort(bin_data,
+                            offset, length);
+                } else if (uchar_props.indexOf(prop_name) != -1) {
+                    var offset = submeshes[j][prop_name][0] * m_util.BYTE_SIZE
+                            + bin_offsets["uchar"] + b4w_offset;
+                    submeshes[j][prop_name] = extract_bindata_uchar(bin_data,
                             offset, length);
                 }
             }
@@ -461,10 +464,8 @@ function setup_tbn_quat(mesh, submesh) {
                     var delta_quat = m_quat.rotationTo(normal1, normal2, _quat_tmp);
                 }
 
-                submesh["tbn_quat"].subarray(
-                        (flame_offset + i2) * TBN_QUAT_NUM_COMP,
-                        (flame_offset + i2 + 1) * TBN_QUAT_NUM_COMP
-                ).set(delta_quat);
+                submesh["tbn_quat"].set(delta_quat,
+                        (flame_offset + i2) * TBN_QUAT_NUM_COMP);
             }
         }
     } else {
@@ -480,7 +481,7 @@ function prepare_bindata_psystems(bin_data, bin_offsets, bpy_objects, is_le, b4w
 
         for (var j = 0; j < psystems.length; j++) {
             var psys = psystems[j];
-            var offset = psys["transforms"][0] * BINARY_FLOAT_SIZE
+            var offset = psys["transforms"][0] * m_util.FLOAT_SIZE
                     + bin_offsets["float"] + b4w_offset;
             var length = psys["transforms"][1];
             psys["transforms"] = extract_bindata_float(bin_data,
@@ -527,7 +528,7 @@ function prepare_bindata_actions(bin_data, bin_offsets, actions, is_le, b4w_offs
             for (var array_index in channels) {
                 var fcurve = channels[array_index];
                 var offset = bin_offsets["float"]
-                        + fcurve["bin_data_pos"][0] * BINARY_FLOAT_SIZE + b4w_offset;
+                        + fcurve["bin_data_pos"][0] * m_util.FLOAT_SIZE + b4w_offset;
                 var fcurve_bin_data = extract_bindata_float(bin_data, offset,
                         fcurve["bin_data_pos"][1], is_le);
 
@@ -566,7 +567,7 @@ function extract_bindata_float(bin_data, offset, length, is_le) {
         var arr = new Float32Array(length);
         var dataview = new DataView(bin_data);
         for (var i = 0; i < length; i++)
-            arr[i] = dataview.getFloat32(offset + i * BINARY_FLOAT_SIZE, true);
+            arr[i] = dataview.getFloat32(offset + i * m_util.FLOAT_SIZE, true);
     }
     return arr;
 }
@@ -578,7 +579,7 @@ function extract_bindata_uint(bin_data, offset, length, is_le) {
         var arr = new Uint32Array(length);
         var dataview = new DataView(bin_data);
         for (var i = 0; i < length; i++)
-            arr[i] = dataview.getUint32(offset + i * BINARY_INT_SIZE, true);
+            arr[i] = dataview.getUint32(offset + i * m_util.INT_SIZE, true);
     }
     return arr;
 }
@@ -591,7 +592,7 @@ function extract_bindata_short(bin_data, offset, length) {
     var arr = new Float32Array(length);
     var dataview = new DataView(bin_data);
     for (var i = 0; i < length; i++)
-        arr[i] = dataview.getInt16(offset + i * BINARY_SHORT_SIZE, true) / 32767;
+        arr[i] = dataview.getInt16(offset + i * m_util.SHORT_SIZE, true) / 32767;
     return arr;
 }
 
@@ -602,7 +603,18 @@ function extract_bindata_ushort(bin_data, offset, length) {
     var arr = new Float32Array(length);
     var dataview = new DataView(bin_data);
     for (var i = 0; i < length; i++)
-        arr[i] = dataview.getUint16(offset + i * BINARY_SHORT_SIZE, true) / 65535;
+        arr[i] = dataview.getUint16(offset + i * m_util.SHORT_SIZE, true) / 65535;
+    return arr;
+}
+
+/**
+ * Extract float data packed into unsigned char (floats in range [0; 1])
+ */
+function extract_bindata_uchar(bin_data, offset, length) {
+    var arr = new Float32Array(length);
+    var dataview = new DataView(bin_data);
+    for (var i = 0; i < length; i++)
+        arr[i] = dataview.getUint8(offset + i * m_util.BYTE_SIZE, true) / 255;
     return arr;
 }
 
@@ -1161,12 +1173,16 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         if (thread.is_primary) {
             // generate sky batch
             var sky = scene_dst._render.sky_params;
+            var bpy_world = scene_dst["world"];
             if (sky.render_sky || sky.procedural_skydome) {
-                var world = scene_dst["world"]._object;
+                var world = bpy_world._object;
                 m_batch.append_sky_batch_to_world(scene_dst, sky, world);
                 m_batch.create_forked_batches(world, scene_graph, scene_dst);
             }
-            m_scenes.generate_auxiliary_batches(scene_graph);
+            m_scenes.generate_auxiliary_batches(scene_dst, scene_graph);
+            var wls = scene_dst._render.world_light_set;
+            if (wls && wls.use_environment_light)
+                m_batch.append_cube_sky_batch_to_world(scene_dst, bpy_world._object);
         }
 
         //create forked batches
@@ -2145,9 +2161,13 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                         tex_user._render.seq_fps = image_data.fps;
                         m_tex.update_texture(tex_user._render, image_data.images,
                                 "", filepath, thread.id);
-                    } else
+                    } else {
                         m_tex.update_texture(tex_user._render, image_data,
                                 image._comp_method, filepath, thread.id);
+                        if (tex_user._render.source == "ENVIRONMENT_MAP")
+                            for (var j = 0; j < bpy_data["scenes"].length; j++)
+                                m_scenes.update_world_texture(bpy_data["scenes"][j]);
+                    }
                 }
             }
 
@@ -3132,7 +3152,6 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
         if (obj.anchor && !scene._render.hmd_stereo_use &&
                 !scene._render.anaglyph_use)
             m_anchors.append(obj);
-
         var rate = ++cb_param.obj_counter / obj_data.length;
 
         var cube_refl_subs = sc_data.cube_refl_subs;
@@ -3162,9 +3181,11 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
     if (thread.is_primary) {
         var scene_main = m_scenes.get_main();
+        m_scenes.update_world_texture(scene_main);
         var scenes = m_scenes.get_rendered_scenes();
         for (var i = 0; i < scenes.length; i++) {
             var scene = scenes[i];
+            m_scenes.update_world_texture(scene);
             m_scenes.prepare_rendering(scene, scene_main);
         }
         m_scenes.set_active(scene_main);
@@ -3265,18 +3286,9 @@ function create_media_controls(bpy_data, cb_finish, thread, stage) {
 
     _play_media_bkg.appendChild(_play_media_btn);
 
-    _play_media_btn.addEventListener("touchstart", init_media, false);
     _play_media_btn.addEventListener("click", init_media, false);
 
-    //NOTE: Need some better approach. tmp solution
-    var semaphore = false;
-
     function init_media() {
-
-        if (semaphore)
-            return;
-
-        semaphore = true;
 
         if (thread.has_video_textures) {
             m_tex.play();

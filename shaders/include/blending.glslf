@@ -143,5 +143,4 @@ float val_overlay(float val1, float val2, float fact, float facg)
             _1_0 - (facm + 2.0 * fact * (_1_0 - val1)) * (_1_0 - val2),
             step(0.5, val2));
 }
-
 #endif

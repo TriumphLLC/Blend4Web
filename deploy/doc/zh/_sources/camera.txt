@@ -1,343 +1,286 @@
 
-Camera
-******
+相机
+****
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Camera
+* 相机
 
-  * Move Styles and General Settings
+  * 移动方式和一般设置
 
-  * Limiting the Camera Movement
+  * 限制摄像机的运动
 
-    * **Target Type Camera**
+    * **目标类型相机**
 
-    * **Eye Type Camera**
+    * **眼类型相机**
 
-    * **Hover Type Camera**
+    * **悬停类型相机**
 
-  * Viewport Alignment
+  * 视口对齐
 
-  * Camera Controls API
+  * 相机控制API
 
-    * Control Mode Setup
+    * 控制模式设置
 
-    * Translation and Rotation
+    * 平移和旋转
 
-    * Limit Setup
+    * 限制设置
 
-    * Angular Coordinates Count
-
-
-Move Styles and General Settings
-================================
-
-The camera settings are specified in the "Properties" panel under the
-"Camera (Object Data)" tab.
-
-[图片]
+    * 角坐标计数
 
 
+移动方式和一般设置
+==================
 
-*Camera Move Style > Move Style*
-   Camera control mode:
-
-   * *Target*
-
-        By default the camera is rotating around a fixed point
-        (target). The pivot's position can be changed (see camera
-        panning).
-
-   * *Eye*
-
-        The "Eye" mode allows rotation and translation as in first
-        person view.
-
-   * *Hover*
-
-        In "Hover" mode, camera moves parallel to the horizontal
-        plane. By using additional limits, a smooth movement path
-        toward the pivot point for the camera can be created.
-
-   * *Static*
-
-        In the "Static" mode the camera can be moved via animation or
-        through API calls.
-
-*Look At Cursor > Target Location*
-   Available for the "Target" mode. This is the position of the camera
-   pivot point. The "Look At Cursor" button copies the current 3D
-   cursor position into this value.
-
-*Depth of Field*
-   Described in the 景深 section.
-
-Velocity settings are available for camera movement.
-
-*Camera Move Style > Camera Velocities > Translation Velocity*
-   Available for the "Target", "Eye" and "Hover" type cameras. Sets
-   the velocity of the camera translation. Possible value interval:
-   \left[0,\ \infty \right). Default value is 1.
-
-*Camera Move Style > Camera Velocities > Rotation Velocity*
-   Available for the "Target", "Eye" and "Hover" type cameras. Sets
-   the camera rotation speed. Possible value interval: \left[0,\
-   \infty \right). Default value is 1.
-
-*Camera Move Style > Camera Velocities > Zoom Velocity*
-   Available for the "Target" and "Hover" type cameras. Set the
-   velocity of the camera approaching the pivot point. Possible value
-   interval: \left[0,\ 0.99\right]. Default value is 0.1.
-
-
-Limiting the Camera Movement
-============================
-
-There are several settings for the camera which limit/change its
-movement one way or another. They are grouped as "Camera Limits".
+相机设置在 "相机(物体数据)" 选项卡下 "Properties"  面板指定。
 
 [图片]
 
-Camera limits can be viewed right in the Blender viewport, if the
-"Display Limits in Viewport" parameter is enabled.
 
 
+*相机移动方式 > 移动方式*
+   摄像机控制模式：
+
+   * *目标*
+
+        默认摄像机围绕一个固定点（目标）旋转。中心点的位置可以改变（见
+        相机摇动）。
+
+   * *眼睛*
+
+        在 "Eye" 模式允许以第一人称视角旋转和平移。
+
+   * *悬停*
+
+        在 "Hover" 模式，相机将平行于水平面移动。通过使用附加的限制，
+        可以创建一个相机指向中心点的平滑移动路径。
+
+   * *静态*
+
+        在 "Static" 模式下，相机可以通过动画或通过API调用移动。
+
+*看向光标 > 目标位置*
+   在 "Target" 模式可用。这是在相机中心点的位置。该 "看向Cursor" 按钮
+   将当前的3D光标位置复制到该值。
+
+*景深*
+   在 景深 章节中描述。
+
+相机速度设置现在是特优
+
+*相机移动方式 > 相机速度 > 移动速度*
+   提供 "目标"，"眼睛" 和 "悬停" 型相机。设置摄像机平移的速度。可能的
+   值区间: \left[0,\ \infty \right)  。默认值是 1。
+
+*相机移动方式 > 相机速度 > 旋转速度*
+   提供 "目标"，"眼睛" 和 "悬停" 型相机。设置摄像机平移的旋转速度。可
+   能的值区间: \left[0,\ \infty \right)  。默认值是 1。
+
+*相机移动方式 > 相机速度 > 缩放速度*
+   提供 "目标" 和 "悬停" 型相机。设置摄像机接近中心点的速度。可能的值
+   区间: \left[0,\ 0.99\right]  。默认值是 0.1。
 
 
-**Target Type Camera**
-----------------------
+限制摄像机的运动
+================
+
+有几种限制/改变摄像机运动的设置。它们组合为 "相机限制".
 
 [图片]
 
-*Camera Move Style > Camera Limits > Distance Limits*
-   Set minimum and maximum distances from the camera to the pivot
-   point. Allowable values: *Min* \le *Max*. Default values: *Min =
-   1*, *Max = 10*. Disabled by default.
-
-*Camera Move Style > Camera Limits > Horizontal Rotation Limits*
-   Limit the horizontal (around the Z world axis in Blender) camera
-   rotation around the corresponding point. Rotation is performed
-   along the arc of a circle between "Left Angle" and "Right Angle"
-   values. The rotation arc corresponds to movement from "Left Angle"
-   to "Right Angle" anticlockwise. Default values: *Left Angle =
-   -45°*, *Right Angle = 45°*. Disabled by default.
-
-*Camera Move Style > Camera Limits > Vertical Rotation Limits*
-   Limit the horizontal (around the Z world axis in Blender) camera
-   rotation around the corresponding point. Rotation is performed
-   along the arc of a circle between "Left Angle" and "Right Angle"
-   values. The rotation arc corresponds to movement from "Left Angle"
-   to "Right Angle" anticlockwise. Default values: *Left Angle =
-   -45°*, *Right Angle = 45°*. Disabled by default.
-
-*Camera Move Style > Camera Limits > Pivot Translation Limits*
-   Limit the translation of the camera's pivot point. Default values:
-   *MinZ = 0*, *MaxZ = 10*. Not rendered in the viewport.
-
-*Camera Move Style > Camera Limits > Use Panning Mode*
-   Allow camera panning.
+相机限制可以直接在Blender视图查看，如果 "Display Limits in Viewport"
+参数已启用。
 
 
 
 
-**Eye Type Camera**
--------------------
+**目标类型相机**
+----------------
+
+[图片]
+
+*相机移动方式 > 相机限制 > 距离限制*
+   从相机到中心点设置最小和最大距离。允许值： *最小* \le *最大*. 默认
+   值: *最小 = 1*, *最大 = 10*. 默认情况下禁用。
+
+*相机移动方式 > 相机限制 > 水平旋转限制*
+   限制摄像头水平（围绕在Blender的Z世界轴）对点的转动。旋转沿 "左角"
+   和 "右角" 值之间的圆的弧进行。旋转弧对应于从 "左角" 到 "右角" 逆时
+   针运动。默认值：*左角= -45°*，*直角= 45°* 。默认情况下禁用。
+
+*相机移动方式 > 相机限制 > 垂直旋转限制*
+   限制摄像头水平（围绕在Blender的Z世界轴）对点的转动。旋转沿 "左角"
+   和 "右角" 值之间的圆的弧进行。旋转弧对应于从 "左角" 到 "右角" 逆时
+   针运动。默认值：*左角= -45°*，*直角= 45°* 。默认情况下禁用。
+
+*相机移动方式 > 相机限制 > 中心点移动限制*
+   限制摄像机的中心点移动。默认值： *最小Z = 0*, *最大Z = 10*. 在视口
+   中不渲染。
+
+*相机移动方式 > 相机限制 > Use Panning Mode*
+   使相机平移。
+
+
+
+
+**眼类型相机**
+--------------
 
 [图片]
 
 *Blend4Web > Horizontal Rotation Limits*
-   Limit the horizontal (around the Z world axis in Blender) camera
-   rotation around the corresponding point. Rotation is performed
-   along the arc of a circle between "Left Angle" and "Right Angle"
-   values. The rotation arc corresponds to movement from "Left Angle"
-   to "Right Angle" anticlockwise. Default values: *Left Angle =
-   -45°*, *Right Angle = 45°*. Disabled by default.
+   限制摄像头水平（围绕在Blender的Z世界轴）对点的转动。旋转沿 "左角"
+   和 "右角" 值之间的圆的弧进行。旋转弧对应于从 "左角" 到 "右角" 逆时
+   针运动。默认值：*左角= -45°*，*直角= 45°* 。默认情况下禁用。
 
-*Camera Move Style > Camera Limits > Vertical Rotation Limits*
-   Limit the vertical (around the local X axis in Blender) camera
-   rotation around the corresponding point. Rotation is performed
-   along the arc of a circle between "Down Angle" and "Up Angle"
-   values. The rotation arc corresponds to movement from "Down Angle"
-   to "Up Angle" anticlockwise. Default values: *Down Angle = -45°*,
-   *Up Angle = 45°*. Disabled by default.
+*相机移动方式 > 相机限制 > 垂直旋转限制*
+   限制垂直（在Blender的局部X轴）摄像头围绕对应点转动。旋转沿 "向下角"
+   和 "向上角" 值之间的圆的弧进行。旋转弧对应于逆时针运动从 "向下角"
+   到 "最多角" 。默认值：*下角= -45°*，*上角= 45°*。默认情况下禁用。
 
 
 
 
-**Hover Type Camera**
----------------------
+**悬停类型相机**
+----------------
 
 [图片]
 
-*Camera Move Style > Camera Limits > Horizontal Translation Limits*
-   Limit movement of the pivot point along the Blender's world X axis.
-   Allowable values: *Min* \le *Max*. Default values: *MinX = -10*,
-   *MaxX = 10*. Disabled by default.
+*相机移动方式 > 相机限制 > 水平移动限制*
+   沿着Blender的世界X轴支点的限制运动。允许值：*Min* \le *Max*. 默认值
+   : *MinX = -10*, *MaxX = 10*. 默认情况下禁用。
 
-*Camera Move Style > Camera Limits > Vertical Translation Limits*
-   Limit movement of the pivot point along the Blender's world X axis.
-   Allowable values: *Min* \le *Max*. Default values: *MinY = -10*,
-   *MaxY = 10*. Disabled by default.
+*相机移动方式 > 相机限制 > 垂直移动限制*
+   沿着Blender的世界X轴支点的限制运动。允许值： *Min* \le *Max*. 默认
+   值: *MinY = -10*, *MaxY = 10*.  默认情况下禁用。
 
-*Camera Move Style > Camera Limits > Use Zooming*
-   Allows user to zoom the camera in and out from the pivot point. If
-   this parameter is disabled, the camera will always remain at a
-   fixed distance from the pivot point. Disable by default.
+*相机移动方式 > 相机限制 > Use Zooming*
+   允许用户从中心点点调整摄像机的焦距和缩小。如果禁用此参数，相机将始
+   终保持在离支点的距离固定。默认情况下禁用。
 
-*Camera Move Style > Camera Limits > Distance Limits*
-   Set minimum and maximum distances from the camera to the point of
-   intersection between the camera's view direction and the horizontal
-   reference plane (Blender's world XOY plane by default). Allowable
-   values: *Min* \le *Max*. Default values: *Min = 1*, *Max = 10*.
-   Disabled by default.
+*相机移动方式 > 相机限制 > 距离限制*
+   设置最小和最大距离从相机到摄像机的视图方向与水平基准面（默认情况下
+   Blender的世界XOY平面）之间的交点。允许值： *Min* \le *Max*. 默认值:
+   *Min = 1*, *Max = 10*. 默认情况下禁用。
 
-*Camera Move Style > Camera Limits > Vertical Rotation Limits*
-   Limits the camera's angle of elevation (an angle between the
-   camera's sight line and a horizontal plane. Possible value
-   interval: *0°* \le *Down* \le *Up* \le *90°*. Default values: *Down
-   = 0°, Up = 90°*.
+*相机移动方式 > 相机限制 > 垂直旋转限制*
+   限制抬高相机的角度（摄像机的视线与水平面之间的夹角可能的取值区间：
+   *0°* \le *Down* \le *Up* \le *90°*. 默认值: *Down = 0°, Up = 90°*.
 
-*Camera Move Style > Camera Limits > Zero Level*
-   A distance between reference plane and the coordinates origin. Set
-   to zero by default.
+*相机移动方式 > 相机限制 > Zero Level*
+   基准面和坐标原点之间的距离。默认设置为零。
 
-If the "Blend4Web > Use Zooming" setting is turned on, the limits for
-distance and inclination angle will be applied simultaneously, to
-define the camera movement path in the vertical plane.
+如果 "Blend4Web>使用Zooming" 设置打开，同时设置距离和倾斜角度的限制，
+在垂直平面以限定在相机移动路径。
 
-Setting incorrect distance or elevation angle limits will disable this
-parameter.
+设置不正确的距离或仰角限制将禁用此参数。
 
-*Camera Move Style > Camera Limits > Use Horizontal Rotation*
-   Allow camera rotation in Blender's XOY plane around to the pivot
-   point. Enabled by default.
+*相机移动方式 > 相机限制 > Use Horizontal Rotation*
+   允许摄像头在Blender的XOY平面对着中心点旋转。默认情况下启用。
 
 
 
-**Static Camera**
+**静态相机**
 
 [图片]
 
-This type of camera does not have limits, as it can't be directly
-controlled by the user.
+这种类型的相机不具有限制，因为它不能直接由用户控制。
 
 
 
-**Peculiarities of Limiting Settings**
+**限制设置的特殊性**
 
-* For EYE/TARGET cameras, interchanging *Left/Right* or *Down/Up*
-  values results in movement along the opposite arc of a circle.
+* EYE/TARGET相机，交换 *左/右* 或 *下/上* 值导致移动圆弧相反。
 
-* When limiting the camera's horizontal and vertical rotation, it is
-  possible to choose between the following coordinate spaces:
+* 当限制相机的水平和垂直旋转，则可在下列坐标空间之间进行选择：
 
-*Camera Space*
-   All angles are measured relative to the initial camera position and
-   orientation.
+*摄像机空间*
+   所有的角度是相对于初始相机位置和取向测量。
 
-*World Space*
-   Horizontal angles are measured relative to the Y axis in world
-   space; vertical angles are measured relative to the Blender's XOY
-   plane in world space.
+*世界空间*
+   水平角度是相对于世界空间Y轴测量;垂直角度是相对于世界空间中Blender的
+   XOY平面上测量。
 
-Default value: "Camera Space".
+默认值："相机Space" 。
 
-Horizontal limits by the example of the TARGET camera:
+水平限制目标相机的例子：
 
-Vertical limits by the example of the TARGET camera:
+垂直限制目标相机的例子：
 
 
-Viewport Alignment
-==================
+视口对齐
+========
 
-If an object is parented to a camera, the set of parameters known as
-*Viewport Alignment* are available under the "Relations" tab on the
-"Object" panel.
+如果物体父级的相机的参数设置为 *视口对齐* ，在  "Object" 面板下的
+"Relations" 选项卡中。
 
 [图片]
 
-Using these settings, the object can be aligned to the active camera,
-so that the object will remain in the same place of the screen
-regardless of the position and rotation of the camera. This is
-especially useful for creating UI elements.
+使用这些设置，物体可以对齐到激活的摄像机，这样该物体将保持在屏幕同一个
+地方，无关摄影机的位置和转动。这是用于创建 UI 元素尤其有用。
 
    [图片]
 
-This picture shows an example of how the Viewport Alignment option can
-be used.
+这张照片显示可以如何使用视区对齐选项的示例。
 
-*Viewport Alignment*
-   This parameter enables and disables all the following parameters.
-   It is disabled by default.
+*视口对齐*
+   此参数启用和禁用以下的所有参数。默认情况下禁用它。
 
-*Alignment*
-   This parameter specifies what side of the screen the object will be
-   aligned with. It can have one of the following values.
+*对齐*
+   此参数指定物体将与屏幕的哪一侧的对齐方式。它可以具有下列值之一。
 
-   * "Top-Left" - aligns the object in the top left corner of the
-     viewport
+   * "Top-Left" - 将物体对齐到视口的顶部左上角。
 
-   * "Top" - aligns the object in the top of the viewport
+   * "Top" - 将物体对齐到视口的顶部。
 
-   * "Top-Right" - aligns the object in the top right corner of the
-     viewport
+   * "Top-Right" - 将物体对齐到视口的顶部右上角。
 
-   * "Left" - aligns the object in the left side of the viewport
+   * "Left" - 将物体对齐到视口的左边。
 
-   * "Center" - aligns the object in the center of the viewport
+   * "Center" -  将物体对齐到视口的中央。
 
-   * "Right" - aligns the object in the right side of the viewport
+   * "Right" - 将物体对齐到视口的右侧。
 
-   * "Bottom-Left" - aligns the object in the bottom left corner of
-     the viewport
+   * "Bottom-Left" - 将物体对齐到视口的底部左侧。
 
-   * "Bottom" - aligns the object in the bottom of the viewport
+   * "Bottom" - 将物体对齐到视口的底部。
 
-   * "Bottom-Right" - aligns the object in the bottom right corner
-     of the viewport.
+   * "Bottom-Right" - 将物体对齐到视口的底部右边。
 
-   Default value is "Center".
+   默认值为 "Center".
 
-*Distance*
-   This specifies the distance between the aligned object and the
-   camera. It is set to 10 by default.
+*距离*
+   此选项指定对齐的物体和相机之间的距离。默认设置为 10。
 
-*Fit to Camera*
-   By pressing this button, you can make the aligned object look the
-   same way in the Blender viewport as it will look in the engine. It
-   can be used to preview alignment results.
+*适合相机*
+   按下此按钮，你可以使对齐的物体看起来在引擎中和Blender视口同样方式显
+   示。它可以用于预览对齐结果。
 
 
-Camera Controls API
-===================
+相机控制API
+===========
 
-Detailed API module documentation: link.
+详细的API模块文档：link.
 
-A camera's position and its spatial orientation are defined by the
-control mode. In the "EYE", "TARGET" and "HOVER" modes, control mode
-has several limitations: for example, the camera's vertical axis is
-always aligned along the world's Z-axis and the camera is constantly
-focused on the pivot point. The "STATIC" mode camera has no such
-limitations, which makes it more suitable for cases when you need more
-complete control, such as procedural animation.
+照相机的位置和其空间取向是由控制模式来定义。在 "EYE"，"TARGET" 和
+"HOVER" 模式，控制方式有若干限制：例如，相机的垂直轴总是沿着世界Y轴对
+齐，并且相机一直对焦到中心点。 "STATIC" 模式相机有没有这样的限制，这使
+得它更适合当你需要更完整的控制的情况下 ，如程序动画。
 
-Main functions for camera control are located in the camera module.
-Some of them (intended for a specific control mode) have names which
-start with an appropriate prefix: "static_", "eye_", "target_" and
-"hover_". Other functions can be used in any mode.
+相机控制主要功能都位于  camera 模块。其中一些（针对特定控制模式）的有
+哪些用适当的前缀开头的名字："static_"，"eye_"，"target_" 和 "hover_"
+。其它功能可在任何模式下使用。
 
 
-Control Mode Setup
-------------------
+控制模式设置
+------------
 
-To change the control mode and to completely define a camera's
-behavior, the following methods can be used: static_setup(),
-eye_setup(), target_setup() and hover_setup(). These methods receive
-an object that contains a set of optional parameters, which can be
-used to set the camera's position, rotation, available limits and so
-on.
+若要更改控制模式，完全定义相机的行为，可以使用以下方法:
+static_setup(), eye_setup(), target_setup() 和 hover_setup().  这些方
+法接收一个包含一组可选的参数的物体，可以用于设置相机的位置、 旋转、 可
+用的限制，等等。
 
    var camera = m_scenes.get_active_camera();
    var POS = new Float32Array([1,1,1]);
@@ -388,13 +331,11 @@ on.
    // setup HOVER camera with horizontal rotation enabled
    m_cam.hover_setup(camera, { pos: POS, pivot: LOOK_AT, enable_horiz_rot: true });
 
-The main characteristic of the "HOVER" type camera is the fact that
-the distance and elevation angle limits define a certain path of
-movement toward the pivot point. The camera will always be located on
-this path, so its final position can be different from the one
-returned by the hover_setup() method (basically, it is projected onto
-the path). If you need to set the camera's position on some path, you
-can use the hover_setup_rel() method to set the relative limits.
+"HOVER" 模式的主要特征在于，距离和仰角范围限制在一个确定的 路径  来朝
+向中心点运动。相机会一直在这条路径上，所以其最终位置可能跟从
+hover_setup()   (基本的，它是投射到路径上) 方法返回的不一样。如果你需
+要设置相机的位置在一些路径，你可以使用 hover_setup_rel() 方法设置相对
+极限。
 
    var camera = m_scenes.get_active_camera();
    var POS = new Float32Array([1,1,1]);
@@ -407,9 +348,8 @@ can use the hover_setup_rel() method to set the relative limits.
    m_cam.hover_setup_rel(camera, { pos: POS, pivot: PIVOT, dist_interval: 2,
            angle_interval: Math.PI/4 });
 
-The current camera mode can be checked with the is_static_camera(),
-is_eye_camera(), is_target_camera(), is_hover_camera() or
-get_move_style() methods:
+当前相机模式可以通过检查  is_static_camera(), is_eye_camera(),
+is_target_camera(), is_hover_camera() 或 get_move_style() 方法：
 
    var camera = m_scenes.get_active_camera();
 
@@ -421,16 +361,15 @@ get_move_style() methods:
    if (m_cam.get_move_style(camera) == m_cam.MS_EYE_CONTROLS)
        console.log("EYE camera!");
 
-注解: If you need to change only some aspects of the camera's
-  behavior, you can use the methods described below.
+注解: 如果您需要更改相机的行为的某些方面，你可以使用下面描述的方法。
 
 
-Translation and Rotation
-------------------------
+平移和旋转
+----------
 
-To rotate a "STATIC" type camera, you need to use the
-static_get_rotation() and static_set_rotation() methods. In these
-methods, rotation is defined by a quaternion.
+要旋转 "STATIC" 类型的相机，您需要使用
+:b4wref:*camera.static_get_rotation()* 和 static_set_rotation() 方法。
+在这些方法中，旋转通过一个四元数来定义。
 
    var camera = m_scenes.get_active_camera();
 
@@ -442,9 +381,9 @@ methods, rotation is defined by a quaternion.
    var new_quat = m_quat.rotateX(old_quat, Math.PI/2, old_quat)
    m_cam.static_set_rotation(camera, new_quat);
 
-For the "EYE", "TARGET" and "HOVER" type cameras, rotation is
-performed in spherical coordinates by using the eye_rotate(),
-target_rotate(), hover_rotate() and rotate_camera() methods:
+对于 "EYE"，"TARGET" 和 "HOVER" 类型摄像机，旋转使用的是 球面坐标  使
+用 eye_rotate(), target_rotate(), hover_rotate() 和 rotate_camera() 方
+法：
 
    var camera = m_scenes.get_active_camera();
 
@@ -456,8 +395,7 @@ target_rotate(), hover_rotate() and rotate_camera() methods:
    // set absolute rotation in world space
    m_cam.eye_rotate(camera, Math.PI/6, Math.PI/2, true, true);
 
-Current spherical coordinates of the camera can be obtained by using
-the get_camera_angles() method:
+摄像机的当前球面坐标可通过使用  get_camera_angles() 方法获得：
 
    var camera = m_scenes.get_active_camera();
    var _vec2_tmp = new Float32Array(2);
@@ -469,10 +407,9 @@ the get_camera_angles() method:
    phi = angles[0];
    theta = angles[1];
 
-Access to the position of the camera can be obtained by using the
-get_translation() and set_translation() methods. For the "TARGET" and
-"HOVER" modes this means simultaneous translation of an entire model,
-including camera position and pivot point.
+获取摄像机的位置可以通过获得使用  get_translation() 和
+set_translation() 方法。对于 "TARGET" 和 "HOVER" 模式，这意味着整个模
+型，包括摄像机的位置和中心点同时移动。
 
    var camera = m_scenes.get_active_camera();
    var _vec3_tmp = new Float32Array(3);
@@ -486,31 +423,28 @@ including camera position and pivot point.
    var new_pos = m_vec3.set(1, 0, 2, pos);
    m_cam.set_translation(camera, new_pos);
 
-Additional camera translation methods:
+其他相机移动方法：
 
 * target_set_trans_pivot(), target_set_pivot_translation(),
-  hover_set_pivot_translation() - sets the position and the pivot
-  point of the camera at the same time;
+  hover_set_pivot_translation() - 同时设置相机的位置和中心点;
 
-* target_get_distance(), target_set_distance() - translation based
-  on the distance to the pivot point;
+* target_get_distance(), target_set_distance() - 基于中心点移动位置;
 
-* static_set_look_at(), eye_set_look_at() - sets the camera's
-  position and point of sight simultaneously;
+* static_set_look_at(), eye_set_look_at() - 同时设置相机的位置和视点
+  ;
 
-注解: Because a camera is a scene object, transform module methods
-  can also be used. But, as every control mode influences camera
-  movement differently, results may differ from those expected.
+注解: 因为相机是一个场景物体 transform 模块方法也可以使用。但是，由
+  于每个 控制模式以不同的方式影响相机运动，结果可能不同于那些预期。
 
 
-Limit Setup
------------
+限制设置
+--------
 
-Camera limits are available for the "EYE", "TARGET" and "HOVER" type
-cameras. To set a specific limit, you need to use a specific method:
+相机限制可供 "EYE", "TARGET" 和 "HOVER" 类型相机。若要设置一个特定的限
+制，您需要使用特定的方法 ︰
 
 +------------------------------------------------+---------------------------------------------------+---------------------------------------------------+
-| EYE                                            | TARGET                                            | HOVER                                             |
+| 眼睛                                           | 目标                                              | 悬停模式                                          |
 +================================================+===================================================+===================================================+
 | eye_get_horizontal_limits()                    | target_get_distance_limits()                      | hover_get_distance_limits()                       |
 | eye_set_horizontal_limits()                    | target_set_distance_limits()                      | hover_set_distance_limits()                       |
@@ -534,25 +468,22 @@ cameras. To set a specific limit, you need to use a specific method:
    // set limits
    m_cam.eye_set_horizontal_limits(camera, EYE_HORIZ_LIMITS);
 
-Limit presence can be checked by using the has_distance_limits(),
+限制存在检测可以通过 has_distance_limits(),
 has_horizontal_rot_limits(), has_vertical_rot_limits(),
-has_horizontal_trans_limits() and has_vertical_trans_limits() methods.
+has_horizontal_trans_limits() and has_vertical_trans_limits() 方法获得
+.
 
-注解: In "HOVER" mode, the camera always has distance and elevation
-  angle limits. In case these limits were not set, they are
-  automatically calculated to lock the camera in the current position
-  relative to the pivot point.
+注解: 在 "HOVER" 模式下，相机总是有距离和仰角的限制。如果这些限制都
+  没有设 置，它们会自动计算锁定摄像头当前的位置相对中心点。
 
-注解: Enabled camera limits can influence its position and spatial
-  orientation set by the API functions.
+注解: 已启用的相机限制可以影响它的位置和空间取向，由 API 函数设置。
 
 
-Angular Coordinates Count
--------------------------
+角坐标计数
+----------
 
-   When working with the camera's APIs (rotation, setting limits), all
-   angles are defined as follows:
+   当用相机的API的工作（旋转，设置限制），各个角度都定义如下：
 
-   For the "TARGET/HOVER" camera:
+   对于 "TARGET / HOVER" 相机：
 
-For the "EYE" camera:
+对于 "EYE" 相机：

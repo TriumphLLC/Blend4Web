@@ -1,16 +1,17 @@
-# Blend4Web User Manual Chinese Translation: Developers
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as Blend4Web.
-# Blend4Web Team <info [at] blend4web.com>, 2014.
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Blend4Web 16.08\n"
-"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-27 17:10+0300\n"
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
-"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
-"Language-Team: Chinese <info [at] blend4web.com>\n"
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-10-21 15:38+0300\n"
+"PO-Revision-Date: 2016-10-05 20:46+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,23 +19,23 @@ msgstr ""
 
 #: ../developers.rst:5
 msgid "For Application Developers"
-msgstr ""
+msgstr "对应用程序开发人员"
 
 #: ../developers.rst
 msgid "Table of Contents"
-msgstr ""
+msgstr "目录"
 
 #: ../developers.rst:14
 msgid "Application Programming"
-msgstr ""
+msgstr "应用程序编程"
 
 #: ../developers.rst:17
 msgid "\"Hello World!\" application"
-msgstr ""
+msgstr "“你好，世界！”应用"
 
 #: ../developers.rst:19
 msgid "The simplest Blend4Web app may look like this:"
-msgstr ""
+msgstr "最简单的应用程序Blend4Web可能是这样的："
 
 #: ../developers.rst:40
 msgid ""
@@ -47,6 +48,10 @@ msgid ""
 "of engine's modules and functions can be found in the `API documentation "
 "<https://www.blend4web.com/api_doc/index.html>`_."
 msgstr ""
+"这个应用在浏览器窗口打印了一行信息和引擎的版本。让我们更仔细的查看这个示例。引擎库嵌入在 ``<script src=\"...\">`` "
+"元素中。应用等待页面加载然后在浏览器窗口打印当前版本。在这个示例中，``version`` 是唯一用到的模块带有一个同样名字的函数 - "
+"``version()``. 需要更详细的了解使用引擎模块和函数的信息可以在  `API 文档 "
+"<https://www.blend4web.com/api_doc/index.html>`_ 中找到。"
 
 #: ../developers.rst:42
 msgid ""
@@ -54,39 +59,41 @@ msgid ""
 "``deploy/apps/common`` directory and placed in the same directory as the "
 "HTML file."
 msgstr ""
+"编译引擎文件 ``b4w.min.js`` 可以从SDK的 ``deploy/apps/common`` "
+"目录进行复制，并和HTML文件放置在同一目录中。"
 
 #: ../developers.rst:45
 msgid "Loading Scenes in Apps"
-msgstr ""
+msgstr "应用中加载场景"
 
 #: ../developers.rst:47
 msgid "To load a 3D scene you need:"
-msgstr ""
+msgstr "要加载你需要的3D场景："
 
 #: ../developers.rst:49
 msgid "Place a ``<canvas>`` element on a page for rendering."
-msgstr ""
+msgstr "放置一个 ``<canvas>`` 元素到页面进行渲染。"
 
 #: ../developers.rst:51
 msgid ""
 "Call the ``m_main.init()`` function with the created element id to "
 "initialize the WebGL context after the page is loaded."
-msgstr ""
+msgstr "调用  ``m_main.init()`` 函数创建的元素 id 加载页面后初始化 WebGL 上下文。"
 
 #: ../developers.rst:53
 msgid "Call the ``m_data.load()`` function to load a 3D scene."
-msgstr ""
+msgstr "调用 ``m_data.load()`` 函数加载3D场景。"
 
 #: ../developers.rst:79
 msgid ""
 "Note that a real app should include error checking, setting up the engine"
 " before initializing and also a basic system for interacting with the "
 "user."
-msgstr ""
+msgstr "注意，一个实际应用应包括错误检查，在引擎初始化之前并且还要有与用户交互的基本系统设定。"
 
 #: ../developers.rst:83
 msgid "Module System"
-msgstr ""
+msgstr "模块系统"
 
 #: ../developers.rst:85
 msgid ""
@@ -94,6 +101,8 @@ msgid ""
 " modules, it occupies a single ``b4w`` namespace. To call a module’s "
 "method import it first with the ``b4w.require()`` function."
 msgstr ""
+"虽然引擎赋予应用程序程序员 API 中的几十个模块的规模，它占用单 'b4w' 命名空间。调用模块的方法 ``b4w.require()`` "
+"功能首先导入。"
 
 #: ../developers.rst:87
 msgid ""
@@ -102,21 +111,23 @@ msgid ""
 "``b4w.register()`` call. Check if a module with some name already exists "
 "with a ``b4w.module_check()`` call."
 msgstr ""
+"如果他们的名称不与现有的模块冲突能够登记外部模块。模块可以用 ``b4w.register()`` 调用登记。检查是否有一些名称的模块已调用用 "
+"``b4w.module_check()`` 调用。"
 
 #: ../developers.rst:89
 msgid "Example:"
-msgstr ""
+msgstr "示例："
 
 #: ../developers.rst:119
 msgid "Creating Apps Quickly"
-msgstr ""
+msgstr "快速创建应用程序"
 
 #: ../developers.rst:121
 msgid ""
 "Creating an app from scratch can be a tedious task, especially for "
 "beginners. To address this there is a special add-on for the engine "
 "called ``app``:"
-msgstr ""
+msgstr "从头开始创建一个应用程序可以是一个乏味的任务，特别对于初学者。为了解决这个问题有一个特殊名为 ``app`` 的引擎插件："
 
 #: ../developers.rst:156
 msgid ""
@@ -125,6 +136,8 @@ msgid ""
 "initialize the engine after the page is loaded and will finally execute "
 "the ``load_cb()`` callback."
 msgstr ""
+"在这种情况下，``app`` 模块将在容器内的元素用指定 ``container_id`` ID建立一个 ``<canvas>`` "
+"。再经过页面加载和最终执行 ``load_cb（）`` 回调则初始化引擎。"
 
 #: ../developers.rst:158
 msgid ""
@@ -133,17 +146,19 @@ msgid ""
 "system is initialized and camera movement with keyboard and mouse (or "
 "sensor screen) becomes possible."
 msgstr ""
+"然后 some_scene.json "
+"场景被同时加载于前面的例子。唯一的区别是，该场景被加载之后，所述控制系统被初始化并可以用键盘和鼠标（或传感器屏幕）控制照相机运动。"
 
 #: ../developers.rst:160
 msgid ""
 "In case when the ``app`` module is used, it is necessary to explicitly "
 "specify dimensions of the container element. Otherwise, the created "
 "``<canvas>`` element will have zero dimensions."
-msgstr ""
+msgstr "一旦使用 ``app`` 模块，就必须显式地指定尺寸的容器元素。否则为创建 ``<canvas>`` 元素将具有零维度。 "
 
 #: ../developers.rst:163
 msgid "Background Transparency"
-msgstr ""
+msgstr "背景透明"
 
 #: ../developers.rst:165
 msgid ""
@@ -151,28 +166,30 @@ msgid ""
 ":b4wref:`m_app.init` method placed in the load callback function (a "
 "function that is called right after the scene is loaded), like this:"
 msgstr ""
+"``background_color`` 和 ``alpha`` 参数传递到  :b4wref:`m_app.init` "
+"方法放在加载回调函数中（场景加载后调用的函数），像这样︰"
 
 #: ../developers.rst:175
 msgid ""
 "The combination of the parameters passed to the method defines how the "
 "backgrounds of the Blend4Web application and the HTML application blend "
 "together. Available options are:"
-msgstr ""
+msgstr "参数传递给该方法的组合定义了 Blend4Web 应用如何和 HTML 应用程序的背景融合在一起。可用的选项包括︰"
 
 #: ../developers.rst:178
 msgid "``alpha`` = false"
-msgstr ""
+msgstr "``alpha`` = false"
 
 #: ../developers.rst:178
 msgid ""
 "The color of the background is defined by the ``background_color`` of the"
 " Blend4Web application, the background of the HTML application is not "
 "taken into consideration."
-msgstr ""
+msgstr "背景的颜色由Blend4Web 应用程序的 ``background_color`` 定义，不考虑 HTML 应用程序的背景。"
 
 #: ../developers.rst:206
 msgid "``alpha`` = true"
-msgstr ""
+msgstr "``alpha`` = true"
 
 #: ../developers.rst:185
 msgid ""
@@ -182,54 +199,56 @@ msgid ""
 "``background_color[3]``, not to be confused with the ``alpha`` parameter "
 "mentioned above)."
 msgstr ""
+"HTML 应用程序的背景可能会影响基于其透明度由 Blend4Web 应用的 'background_color' 参数定义的四个分量的背景 "
+"(``alpha`` = ``background_color[3]`` ，不能混同于上面提到的 ``alpha`` 参数)。"
 
 #: ../developers.rst:188
 msgid "background_color[3] = 1"
-msgstr ""
+msgstr "background_color[3] = 1"
 
 #: ../developers.rst:188
 msgid ""
 "This produces the same result as if the alpha parameter has been turned "
 "off (``alpha`` = false)"
-msgstr ""
+msgstr "这产生相同的结果，如同 alpha 参数已关闭 (``alpha``  = 假)"
 
 #: ../developers.rst:197
 msgid "background_color[3] = 0"
-msgstr ""
+msgstr "background_color[3] = 0"
 
 #: ../developers.rst:191
 msgid "Additive blending is used."
-msgstr ""
+msgstr "使用额外的混合"
 
 #: ../developers.rst:197
 msgid ""
 "Picture above shows an HTML page containing a Blend4Web application with "
 "a blue [0, 0, 1] background that blends with the page's red (``Red``) "
 "color producing a violet tone."
-msgstr ""
+msgstr "上面图片显示一个包含与页面的红色 （' 红 '） 颜色生产了紫色基调 [0，0，1] 的蓝色背景的 Blend4Web 应用程序的 HTML 页面。"
 
 #: ../developers.rst:206
 msgid "background_color[3] > 0"
-msgstr ""
+msgstr "background_color[3] > 0"
 
 #: ../developers.rst:200
 msgid ""
 "Additive blending is used with the ``background_color`` having a greater "
 "influence."
-msgstr ""
+msgstr "额外的混合用  ``background_color`` 有更大的影响。"
 
 #: ../developers.rst:206
 msgid ""
 "This picture shows the same HTML page with the same Blend4Web app, "
 "however, the ``alpha`` value is set to 0.5, leading to a darker tone of "
 "the application background."
-msgstr ""
+msgstr "这张照片显示相同的 HTML 页面相同的 Blend4Web 应用程序，但是，alpha 值设置为 0.5，导致应用程序背景较暗的色调。"
 
 #: ../developers.rst:208
 msgid ""
 "The mechanisms of alpha lending are described in greater detail in the "
 ":ref:`Color Management <alpha_compositing>` chapter."
-msgstr ""
+msgstr "在 :ref:`颜色管理 <alpha_compositing>` 章节更详细地介绍了 alpha 混合机制。"
 
 #: ../developers.rst:210
 msgid ""
@@ -238,6 +257,8 @@ msgid ""
 "means that the application will have an HTML background with no "
 "influences from the background of the Blend4Web application."
 msgstr ""
+"默认情况下，``alpha`` 参数设置为 true， ``background_color`` 设置为透明黑色 "
+"[0，0，0，0]，这意味着应用程序将具有 HTML 背景并没有影响到的 Blend4Web 应用程序的背景。"
 
 #: ../developers.rst:212
 msgid ""
@@ -247,13 +268,16 @@ msgid ""
 " the ``Background transparency (alpha)`` parameter in the :ref:`Web "
 "Player Params <web_player_params>` group while creating the application."
 msgstr ""
+"背景透明度还可以利用在 :ref:`网页播放应用 <web_player_app>` 利用 ``alpha`` :ref:`URL 熟悉 "
+"<webplayer_attributes>` 。若要使用此功能，您首先需要创建应用程序时在  :ref:`网页播放器参数 "
+"<web_player_params>` 组中启用 ``Background transparency (alpha)``  参数 。"
 
 #: ../developers.rst:214
 msgid ""
 "If Blend4Web application uses sky rendering, the application canvas will "
 "be fully covered by objects (including sky), so the background will be "
 "fully opaque and not influenced by alpha settings."
-msgstr ""
+msgstr "如果 Blend4Web 应用程序使用天空渲染，物体 （包括天空），将完全覆盖在应用画布上，背景将是完全不透明的不受 alpha 设置影响。"
 
 #: ../developers.rst:217
 msgid ""
@@ -262,28 +286,30 @@ msgid ""
 "use a transparent background you will need to manually disable sky "
 "rendering."
 msgstr ""
+"默认情况下，在 :ref:`项目管理器 <project_management>` 中创建 Blend4Web "
+"场景中启用天空渲染。别忘了，为了使用透明的背景，您将需要手动禁用天空渲染。"
 
 #: ../developers.rst:223
 msgid "Resource Conversion"
-msgstr ""
+msgstr "资源转换"
 
 #: ../developers.rst:225
 msgid ""
 "Currently, browsers do not fully support all possible media formats, so "
 "in order to create cross-browser applications (and also for optimization "
 "purposes) we recommend you to use the resource converter."
-msgstr ""
+msgstr "目前，浏览器不完全支持所有可能的媒体格式，所以为了创建跨浏览器应用程序（也为优化的目的），我们建议您使用的资源转换器。"
 
 #: ../developers.rst:227
 msgid ""
 "To support a wider range of platforms, a Python script "
 "(*scripts/converter.py*) for converting the source files into other "
 "formats is included into the distribution."
-msgstr ""
+msgstr "支持更广泛的平台，一个 Python 脚本 (*scripts/converter.py*) 为将源代码文件转换成其他格式后发布。"
 
 #: ../developers.rst:229
 msgid "There are two ways to run this script."
-msgstr ""
+msgstr "有两种方式来运行此脚本。"
 
 #: ../developers.rst:231
 msgid ""
@@ -292,480 +318,526 @@ msgid ""
 ":ref:`Project Manager <project_management>`, in the ``Operations`` tab at"
 " the right side of the screen."
 msgstr ""
+"首先，您可以使用的项目管理系统自动运行它。 ``Convert Resources`` 按钮可以在 :ref:`Project Manager "
+"<project_management>` 主页面中的发现，在操作选项卡中在屏幕的右侧。"
 
 #: ../developers.rst:237
 msgid "Secondly, you can run the script manually:"
-msgstr ""
+msgstr "其次，您可以手动运行该脚本 ︰"
 
 #: ../developers.rst:244
 msgid "For MS Windows users:"
-msgstr ""
+msgstr "对于MS Windows用户："
 
 #: ../developers.rst:253
 msgid "To run the scripts the Python 3.x needs to be installed in your system."
-msgstr ""
+msgstr "要运行的Python 3.x的需要安装在你的系统中的脚本。"
 
 #: ../developers.rst:255
 msgid ""
 "With the -d parameter you can specify the path to a directory in which "
 "converting will take place."
-msgstr ""
+msgstr "与-d参数可以指定路径，其中转换将在哪一个目录发生。"
 
 #: ../developers.rst:257
 msgid ""
 "To exclude some directory from resource conversion, it is enough to put a"
 " file named ``.b4w_no_conv`` in it. This will not affect conversion in "
 "nested directories."
-msgstr ""
+msgstr "要排除从资源转换的一些目录，它足以把一个文件名为``.b4w_no_conv`` 。这不会影响嵌套目录转换。"
 
 #: ../developers.rst:259
 msgid ""
 "The **resize_textures** argument is used for decreasing texture "
 "resolution for the **LOW** mode."
-msgstr ""
+msgstr "**resize_textures** 参数用于为  **LOW** 模式降低纹理分辨率。"
 
-#: ../developers.rst:263
+#: ../developers.rst:264
 msgid "Dependencies"
-msgstr ""
+msgstr "依赖"
 
-#: ../developers.rst:265
+#: ../developers.rst:266
 msgid ""
 "Please make sure that you have all converter dependencies installed. You "
 "can do it with the following command:"
-msgstr ""
+msgstr "请确保你已经安装了所有的依赖转换器。你可以用下面的命令做到这一点："
 
-#: ../developers.rst:271
+#: ../developers.rst:272
 msgid "If some program is not installed, the following message will be displayed:"
-msgstr ""
+msgstr "如果未安装某些程序，将显示以下信息："
 
-#: ../developers.rst:273
+#: ../developers.rst:274
 msgid "*Couldn't find PROGRAM_NAME.*"
-msgstr ""
+msgstr "*找不到 PROGRAM_NAME。*"
 
-#: ../developers.rst:275
+#: ../developers.rst:276
 msgid "**Linux**"
-msgstr ""
+msgstr "**Linux**"
 
-#: ../developers.rst:277
+#: ../developers.rst:278
 msgid "The list of dependencies is listed in the following table:"
-msgstr ""
+msgstr "依赖关系的列表如下表："
 
-#: ../developers.rst:280
+#: ../developers.rst:281
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
-#: ../developers.rst:280
+#: ../developers.rst:281
 msgid "Ubuntu 16.04 package"
-msgstr ""
+msgstr "Ubuntu 16.04 的包"
 
-#: ../developers.rst:283
+#: ../developers.rst:284
 msgid "ImageMagick"
-msgstr ""
+msgstr "ImageMagick"
 
-#: ../developers.rst:283
+#: ../developers.rst:284
 msgid "imagemagick"
-msgstr ""
+msgstr "imagemagick"
 
-#: ../developers.rst:285
+#: ../developers.rst:286
 msgid "NVIDIA Texture Tools"
-msgstr ""
+msgstr "NVIDIA纹理工具"
 
-#: ../developers.rst:285
+#: ../developers.rst:286
 msgid "libnvtt-bin"
-msgstr ""
+msgstr "libnvtt-bin"
 
-#: ../developers.rst:287
+#: ../developers.rst:288
 msgid "Libav"
-msgstr ""
+msgstr "Libav"
 
-#: ../developers.rst:287
+#: ../developers.rst:288
 msgid "libav-tools"
-msgstr ""
+msgstr "libav-tools"
 
-#: ../developers.rst:289
+#: ../developers.rst:290
 msgid "FFmpeg"
-msgstr ""
+msgstr "FFmpeg"
 
-#: ../developers.rst:289
+#: ../developers.rst:290
 msgid "ffmpeg"
-msgstr ""
+msgstr "FFmpeg"
 
-#: ../developers.rst:291
+#: ../developers.rst:292
 msgid "PVRTC"
-msgstr ""
+msgstr "PVRTC"
 
-#: ../developers.rst:291
+#: ../developers.rst:292
 msgid "install manually"
-msgstr ""
+msgstr "手动安装"
 
-#: ../developers.rst:296
+#: ../developers.rst:297
 msgid ""
 "Linux users can additionally install the package qt-faststart which is "
 "used to optimize loading media files."
-msgstr ""
+msgstr "Linux用户还可以安装的用于优化加载媒体文件的包qt-faststart。"
 
-#: ../developers.rst:298
+#: ../developers.rst:299
 msgid "**Windows**"
-msgstr ""
+msgstr "**Windows**"
 
-#: ../developers.rst:300
+#: ../developers.rst:301
 msgid ""
 "For MS Windows users it is not necessary to install these packages since "
 "they are already present in the SDK."
-msgstr ""
+msgstr "用于MS Windows用户来说是不必要安装的，因为它们已经存在于SDK来安装这些软件包。"
 
-#: ../developers.rst:302
-msgid "**Mac OS**"
-msgstr ""
+#: ../developers.rst:303
+#, fuzzy
+msgid "**macOS**"
+msgstr "**addons**"
 
-#: ../developers.rst:304
+#: ../developers.rst:305
+#, fuzzy
 msgid ""
-"Mac OS users can install the `brew <http://www.brew.sh/>`_ package "
-"manager first and then install any missing packages."
-msgstr ""
+"macOS users can install the `brew <http://www.brew.sh/>`_ package manager"
+" first and then install any missing packages."
+msgstr "Mac OS用户可以安装  `brew <http://www.brew.sh/>`_ 包管理器，然后再安装任何缺失的软件包。"
 
-#: ../developers.rst:306
+#: ../developers.rst:307
 msgid ""
 "Before installing packages, install the libpng and libjpeg libraries "
 "using these commands:"
-msgstr ""
+msgstr "在安装软件包之前，使用这些命令安装的libpng和libjpeg的库："
 
-#: ../developers.rst:313
+#: ../developers.rst:314
 msgid "Now you can proceed with installing required dependencies:"
-msgstr ""
+msgstr "现在，您可以安装需要的依赖着手："
 
-#: ../developers.rst:320
+#: ../developers.rst:321
 msgid ""
 "In order to install NVIDIA Texture Tools, clone the repository with the "
 "following command:"
-msgstr ""
+msgstr "为了安装NVIDIA纹理工具，克隆使用以下命令库："
 
-#: ../developers.rst:326
+#: ../developers.rst:327
 msgid "Now you can build and install the package:"
-msgstr ""
+msgstr "现在你可以编译和安装包："
 
-#: ../developers.rst:338
+#: ../developers.rst:339
 msgid "Data Formats"
-msgstr ""
+msgstr "数据格式"
 
-#: ../developers.rst:340
+#: ../developers.rst:341
 msgid "The conversion is performed as follows:"
-msgstr ""
+msgstr "如下进行转化："
 
-#: ../developers.rst:346
+#: ../developers.rst:347
 msgid "for audio (convert_media):"
-msgstr ""
-
-#: ../developers.rst:343
-msgid "ogg (ogv, oga) -> mp4"
-msgstr ""
+msgstr "音频（convert_media）："
 
 #: ../developers.rst:344
-msgid "mp3 -> oga"
-msgstr ""
+msgid "ogg (ogv, oga) -> mp4"
+msgstr "ogg (ogv, oga) -> mp4"
 
 #: ../developers.rst:345
-msgid "mp4 (m4v, m4a) -> oga"
-msgstr ""
+msgid "mp3 -> oga"
+msgstr "mp3 -> oga"
 
 #: ../developers.rst:346
-msgid "webm -> m4a"
-msgstr ""
+msgid "mp4 (m4v, m4a) -> oga"
+msgstr "mp4 (m4v, m4a) -> oga"
 
-#: ../developers.rst:348
+#: ../developers.rst:347
+msgid "webm -> m4a"
+msgstr "webm -> m4a"
+
+#: ../developers.rst:349
 msgid ""
 "We recommend to use ``ogg`` as a base format. In this case the only "
 "conversion required for cross-browser compatibility will be ``ogg`` to "
 "``mp4``. Example of an input file: ``file_name.ogg``, example of an "
 "output file: ``file_name.altconv.mp4``."
-msgstr ""
+msgstr "我们推荐使用``ogg``作为基础格式。在这种情况下，跨浏览器的兼容性要求的唯一的转换将是``ogg``到``mp4``。输入文件的实例：``file_name.ogg``，例如一个输出文件：``file_name.altconv.mp4``。"
 
-#: ../developers.rst:354
+#: ../developers.rst:355
 msgid "for video (convert_media):"
-msgstr ""
-
-#: ../developers.rst:351
-msgid "ogg (ogv, oga) -> m4v / seq"
-msgstr ""
+msgstr "视频（convert_media）："
 
 #: ../developers.rst:352
-msgid "mp3 -> webm / seq"
-msgstr ""
+msgid "ogg (ogv, oga) -> m4v / seq"
+msgstr "ogg (ogv, oga) -> m4v / seq"
 
 #: ../developers.rst:353
-msgid "mp4 (m4v, m4a) -> webm / seq"
-msgstr ""
+msgid "mp3 -> webm / seq"
+msgstr "mp3 -> webm / seq"
 
 #: ../developers.rst:354
-msgid "webm -> m4v / seq"
-msgstr ""
+msgid "mp4 (m4v, m4a) -> webm / seq"
+msgstr "mp4 (m4v, m4a) -> webm / seq"
 
-#: ../developers.rst:356
+#: ../developers.rst:355
+msgid "webm -> m4v / seq"
+msgstr "webm -> m4v / seq"
+
+#: ../developers.rst:357
 msgid ""
 "We recommend to use ``WebM`` as a base format. In this case the only "
 "conversion required for cross-browser compatibility will be ``webm`` to "
 "``m4v`` (``webm`` to ``seq`` for iPhone). Example of an input file: "
 "``file_name.webm``, example of an output file: ``file_name.altconv.m4v``."
 msgstr ""
+"我们推荐使用 ``WebM`` 作为基础格式。在这种情况下，跨浏览器的兼容性要求的唯一的转换将是 ``webm`` 到 ``m4v`` "
+"（``webm`` 到 ``seq`` "
+"为iPhone）。输入文件的实例：``file_name.webm``，例如一个输出文件：``file_name.altconv.m4v``。"
 
-#: ../developers.rst:362
+#: ../developers.rst:363
 msgid "for images (convert_dds):"
-msgstr ""
-
-#: ../developers.rst:359
-msgid "png -> dds/pvr"
-msgstr ""
+msgstr "为图像（convert_dds）："
 
 #: ../developers.rst:360
-msgid "jpg -> dds/pvr"
-msgstr ""
+msgid "png -> dds/pvr"
+msgstr "png -> dds/pvr"
 
 #: ../developers.rst:361
-msgid "bmp -> dds/pvr"
-msgstr ""
+msgid "jpg -> dds/pvr"
+msgstr "jpg -> dds/pvr"
 
 #: ../developers.rst:362
-msgid "gif -> dds"
-msgstr ""
+msgid "bmp -> dds/pvr"
+msgstr "bmp -> dds/pvr"
 
-#: ../developers.rst:364
+#: ../developers.rst:363
+msgid "gif -> dds"
+msgstr "png -> dds"
+
+#: ../developers.rst:365
 msgid ""
 "Example of an input file: ``file_name.jpg``, example of an output file: "
 "``file_name.altconv.jpg.dds``."
-msgstr ""
+msgstr "输入文件的实例：``file_name.jpg``，例如一个输出文件：``file_name.altconv.jpg.dds``。"
 
-#: ../developers.rst:366
+#: ../developers.rst:367
 msgid ""
 "For the purpose of optimizing application performance it's possible to "
-"use ``min50`` (halved) and ``DDS`` textures. In order to do this, we need"
-" to pass the following parameters during initialization of the "
-"application:"
+"use ``min50`` (halved) and ``DDS`` or ``PRVTC`` (compressed) textures. In"
+" order to do this, we need to pass the following parameters during "
+"initialization of the application:"
 msgstr ""
+"为了优化应用性能的目的，有可能使用 ``min50`` （减半）和 ``DDS`` "
+"纹理。为了做到这一点，我们所需要的应用程序的初始化期间通过下列参数："
 
-#: ../developers.rst:383
+#: ../developers.rst:382
+msgid ""
+"If you are planning to use textures compressed into :ref:`PVRTC <pvrtc>` "
+"format, then replace this line of code"
+msgstr "如果您打算将使用的纹理压缩成  :ref:`PVRTC <pvrtc>` 格式，然后替换下面这行代码"
+
+#: ../developers.rst:388
+msgid "with the following:"
+msgstr "跟着下列："
+
+#: ../developers.rst:394
+msgid ""
+"This will tell the engine to load PVRTC textures, if such are present in "
+"the ``../assets/`` folder."
+msgstr "这将告诉引擎加载PVRTC纹理，如果这些都存在于 ``../assets/`` 文件夹中。"
+
+#: ../developers.rst:399
 msgid "DDS Texture Compression"
-msgstr ""
+msgstr "DDS纹理压缩"
 
-#: ../developers.rst:385
+#: ../developers.rst:401
 msgid ""
 "``DDS`` textures require less memory (4 times less for ``RGBA`` data and "
 "6 times for ``RGB`` data), but using them has following downsides:"
-msgstr ""
+msgstr "``DDS`` 纹理需要较少的内存 （4 倍少 ``RGBA`` 数据，6 倍 RGB 数据），但使用它们具有以下缺点 ︰"
 
-#: ../developers.rst:387
+#: ../developers.rst:403
 msgid ""
 "``DDS`` textures might not work on some devices, especially the mobile "
 "ones, as not all of them support the ``WEBGL_compressed_texture_s3tc`` "
 "extension;"
-msgstr ""
+msgstr "'DDS' 纹理可能无法工作在一些设备上，尤其是移动的并不是所有支持 ``WEBGL_compressed_texture_s3tc`` 延伸;"
 
-#: ../developers.rst:389
+#: ../developers.rst:405
 msgid ""
 "as ``DDS`` is a lossy compression format, compression artifacts might be "
 "visible, especially on :ref:`normal <normal_map>` and :ref:`stencil "
 "<stencil_map>` maps; it is recommended to :ref:`disable compression "
 "<texture_disable_compression>` for such textures."
 msgstr ""
+"``DDS`` 是一种有损压缩格式，压缩文物可能是可见的尤其是在 ︰ :ref:`正常 <normal_map>` 和 ︰ :ref:`模具 "
+"<stencil_map>` 图; 它建议 ︰ :ref:`禁用压缩 <texture_disable_compression>` 对于这种纹理。"
 
-#: ../developers.rst:395
+#: ../developers.rst:411
 msgid ""
 "An example of the ``DDS`` compression artifacts, particularly visible on "
 "the edges of the shadow."
-msgstr ""
+msgstr "``DDS`` 压缩失真，特别是可见的阴影边缘上的一个例子。"
 
-#: ../developers.rst:397
+#: ../developers.rst:413
 msgid ""
 "During exporting the scene from Blender to the ``JSON`` format (but not "
 "the ``HTML`` format), ``DDS`` textures will be plugged in automatically, "
 "if they are present."
-msgstr ""
+msgstr "``JSON`` 格式 （而不是 HTML 格式），从Blender导出场景，``DDS``  纹理将自动插入，如果它们存在。"
 
-#: ../developers.rst:399
+#: ../developers.rst:415
 msgid ""
 "Textures can be converted to the ``DDS`` format using the :ref:`project "
 "manger <project_management>` or the *scripts/converter.py* script "
 "described above."
 msgstr ""
+"纹理可以转换为 ``DDS`` 格式，使用  :ref:`项目管理器 <project_management>` 或上文所述的 "
+"*scripts/converter.py*  脚本。 "
 
-#: ../developers.rst:402
+#: ../developers.rst:420
 msgid "PVRTC Texture Compression"
-msgstr ""
+msgstr "PVRTC 纹理压缩"
 
-#: ../developers.rst:404
+#: ../developers.rst:422
 msgid ""
 "``PVRTC`` is another texture compression format used primarily on iOS "
 "devices. In some cases it can produce texture files up to two times "
 "smaller than same texture images would take in ``DDS`` format."
-msgstr ""
+msgstr "``PVRTC`` 是另一种主要在 iOS 设备上使用的纹理压缩格式。在某些情况下它可以产生相同的纹理图像比其他 ``DDS`` 格式的小两倍。"
 
-#: ../developers.rst:406
+#: ../developers.rst:424
 msgid ""
 "The format has two compression settings that are supported by the engine:"
 " 2-bpp (two bits per pixel) and 4-bpp (four bits per pixel)."
-msgstr ""
+msgstr "该格式具有由该引擎支持的两个压缩设置︰ 2-bpp （两位 / 像素） 和 4-bpp （四位 / 像素）。"
 
-#: ../developers.rst:408
+#: ../developers.rst:426
 msgid ""
 "As with ``DDS`` format, textures compressed using the ``PVRTC`` algorithm"
 " may not work on some platforms, especially mobile, because using this "
 "compression format require support for the "
 "``IMG_texture_compression_pvrtc`` WebGL extension."
 msgstr ""
+"因为是 ``DDS`` 格式，纹理压缩算法 ``PVRTC`` 可能会在某些平台上不工作，特别是移动设备，因为使用这种压缩格式需要支持 "
+"``IMG_texture_compression_pvrtc``  WebGL 扩展。"
 
-#: ../developers.rst:410
+#: ../developers.rst:428
+#, fuzzy
 msgid ""
-"The PVRTC library and SDK are available for Windows, Linux and MacOS X "
+"The PVRTC library and SDK are available for Windows, Linux and macOS "
 "systems alike. Installation packages can be downloaded from the `Power VR"
 " Insider <https://community.imgtec.com/developers/powervr/>`_ web page."
 msgstr ""
+"PVRTC 库和 SDK，在 Windows、 Linux 和 MacOS X 系统相似。可以从 `Power VR Insider "
+"<https://community.imgtec.com/developers/powervr/>`_  网页下载安装包。 "
 
-#: ../developers.rst:412
+#: ../developers.rst:430
 msgid ""
 "The Blend4Web engine uses a console PVRTC tool. To use it, you need to "
 "add the path to it to the ``PATH`` environmental variable, like the "
 "following:"
-msgstr ""
+msgstr "Blend4Web 引擎使用控制台 PVRTC 工具。若要使用它，你需要的路径添加到路径环境变量，类似于以下内容︰"
 
-#: ../developers.rst:418
+#: ../developers.rst:436
 msgid ""
 "where <InstallDir> is the PVRTexTool installation directory and "
 "<PLATFORM> is a folder that contains the version of the tool that "
 "corresponds to your OS, for example, ``\\Windows_x86_64\\`` for 64-bit "
 "Windows OS."
 msgstr ""
+"哪里 <InstallDir> 是PVRTexTool安装目录， <PLATFORM> 是包含对应于您的操作系统，例如，``\\ "
+"Windows_x86_64 \\`` 64位Windows操作系统的工具的版本的文件夹。"
 
-#: ../developers.rst:421
+#: ../developers.rst:439
 msgid ""
 "In Windows systems, environment variables can be set in the ``System`` "
 "(in Windows 10 and 8) or ``Properties`` (in Windows 7 and Vista) dialogue"
 " window by choosing ``Advanced System Settings`` -> ``Environment "
 "Variables``, or by using console commands:"
 msgstr ""
+"在 Windows 系统中，环境变量可以设置 '系统' （在 Windows 10 和 8） 或属性 （在 Windows 7 和 Vista） "
+"对话窗口中，通过选择高级系统设置-> 环境变量，或使用控制台命令︰"
 
-#: ../developers.rst:427
+#: ../developers.rst:445
 msgid ""
 "After this, you will be able to convert the textures to the PVR format by"
 " using converter.py script with the ``convert_dds`` command."
-msgstr ""
+msgstr "在此之后，您将能够通过使用 converter.py 脚本与 ``convert_dds`` 命令转换为 PVR 格式的纹理。"
 
-#: ../developers.rst:432
+#: ../developers.rst:450
 msgid "SEQ Video Format"
-msgstr ""
+msgstr "SEQ视频格式"
 
-#: ../developers.rst:434
+#: ../developers.rst:452
 msgid ""
 "The ``.seq`` file format is used for sequential video. This is applied "
 "for IE 11 and iPhone because they are currently missing support for "
 "standard video formats for textures. Using dds format for images is more "
 "optimal compared to other formats."
 msgstr ""
+"在 ``.seq`` 文件格式用于顺序视频。这是适用于IE "
+"11和iPhone，因为他们目前缺少标准的视频格式支持的纹理。采用DDS格式的图像与其他格式相比是更理想的。"
 
-#: ../developers.rst:436
+#: ../developers.rst:454
 msgid ""
 "The engine can use files which are manually created by a user if they "
 "have the following names: ``file_name.altconv.m4v``, "
 "``file_name.altconv.mp3`` and so on. Such files should be placed in the "
 "same directory as the media files used in Blender."
 msgstr ""
+"该引擎可以使用，如果他们有以下名称，手动由用户创建的文件:  ``file_name.altconv.m4v``, "
+"``file_name.altconv.mp3`` 等等。此类文件应放在同一目录中的媒体文件在Blender中使用。"
 
-#: ../developers.rst:438
+#: ../developers.rst:456
 msgid ""
 "You can also use the free and cross-platform application `Miro Video "
 "Converter <http://www.mirovideoconverter.com/>`_ to convert media files."
 msgstr ""
+"您还可以使用的免费和跨平台的应用 `Miro视频转换器 <http://www.mirovideoconverter.com/>`_ "
+"转换媒体文件。 "
 
-#: ../developers.rst:445
+#: ../developers.rst:463
 msgid "Code Examples"
-msgstr ""
+msgstr "示例代码"
 
-#: ../developers.rst:447
+#: ../developers.rst:465
 msgid ""
 "The SDK includes the Code Snippets application which demonstrates how to "
 "use the engine's functionality."
-msgstr ""
+msgstr "SDK中包含的代码片段应用程序，它演示了如何使用引擎的功能。"
 
-#: ../developers.rst:449
+#: ../developers.rst:467
 msgid "Currently, this application contains the following examples:"
-msgstr ""
+msgstr "目前，这款应用程序包含以下例子："
 
-#: ../developers.rst:451
+#: ../developers.rst:469
 msgid "Bone API - an example of individual bones position control"
-msgstr ""
+msgstr "Bone API - 个体的骨骼位置控制的一个例子"
 
-#: ../developers.rst:452
+#: ../developers.rst:470
 msgid "Camera Animation - procedural camera animation"
-msgstr ""
+msgstr "Camera Animation -  程序相机动画"
 
-#: ../developers.rst:453
+#: ../developers.rst:471
 msgid "Camera Move Styles - changing control modes for the camera"
-msgstr ""
+msgstr "Camera Move Styles -  相机改变控制方式"
 
-#: ../developers.rst:454
+#: ../developers.rst:472
 msgid "Canvas Texture - working with canvas textures"
-msgstr ""
+msgstr "Canvas Texture -  用帆布质地的工作"
 
-#: ../developers.rst:455
+#: ../developers.rst:473
 msgid "Custom Anchors - creating custom annotations"
-msgstr ""
+msgstr "Custom Anchors -创建自定义的注解"
 
-#: ../developers.rst:456
+#: ../developers.rst:474
 msgid "Dynamic Geometry - procedural geometry modification"
-msgstr ""
+msgstr "Dynamic Geometry -程序几何修改"
 
-#: ../developers.rst:457
+#: ../developers.rst:475
 msgid "Gyro (Mobile Only) - working with mobile devices' gyroscopes"
-msgstr ""
+msgstr "Gyro (Mobile Only) -  与移动设备的陀螺仪工作"
 
-#: ../developers.rst:458
+#: ../developers.rst:476
 msgid "Instancing - copying scene objects in runtime"
-msgstr ""
+msgstr "Instancing - 复制现场运行时对象"
 
-#: ../developers.rst:459
+#: ../developers.rst:477
 msgid ""
 "Material API - tweaking material properties and replacing objects' "
 "materials"
-msgstr ""
+msgstr "Material API - 调整材质的性能和替换对象的材质"
 
-#: ../developers.rst:460
+#: ../developers.rst:478
 msgid "Morphing - using shape keys"
-msgstr ""
+msgstr "Morphing - 利用形状键"
 
-#: ../developers.rst:461
+#: ../developers.rst:479
 msgid "Ray Test - the usage of raycasting for obstacles detection"
-msgstr ""
+msgstr "Ray Test - 光线投射的障碍物检测使用"
 
-#: ../developers.rst:463
+#: ../developers.rst:481
 msgid ""
 "The Code Snippets application is available at "
 "``SDK/apps_dev/code_snippets/code_snippets_dev.html``. It can be also run"
 " by using a link in the ``index.html`` file located in the SDK root."
 msgstr ""
+"代码片段的应用在 ``SDK/apps_dev/code_snippets/code_snippets_dev.html``. "
+"它可以通过使用位于SDK根的 ``index.html`` 文件的链接也可以运行。"
 
-#: ../developers.rst:468
+#: ../developers.rst:486
 msgid "Event-Driven Model"
-msgstr ""
+msgstr "事件驱动模型"
 
-#: ../developers.rst:470
+#: ../developers.rst:488
 msgid ""
 "The event-driven model provides a universal interface for describing the "
 "3D scene's change of state. It simplifies the processing of physics "
 "events and user actions."
-msgstr ""
+msgstr "事件驱动模型提供一个通用接口描述的三维场景变化的状态。它简化了加工的物理事件和用户操作。"
 
-#: ../developers.rst:475
+#: ../developers.rst:493
 msgid "Sensors"
-msgstr ""
+msgstr "传感器"
 
-#: ../developers.rst:477
+#: ../developers.rst:495
 msgid ""
 "The basic unit of the event-driven model is a sensor. A sensor is a "
 "programming entity and can only be active (1, one) or inactive (0, zero)."
 " Some sensors may carry a payload which can be received in the manifold's"
 " callback function with corresponding API. For example, the ray-tracing "
 "sensor (Ray Sensor) provides the relative length of the intersection ray."
-msgstr ""
+msgstr "事件驱动模型的基本单元是一个传感器。传感器是一种编程实体和只能是活动的（1，一种）或无效（0，零）。一些传感器可以携带可以在歧管的回调函数与对应的API接收一个有效载荷。例如，光线跟踪传感器（线传感器）提供的交点射线的相对长度。"
 
-#: ../developers.rst:481
+#: ../developers.rst:499
 msgid ""
 "Users cannot directly control sensors via the external API. Instead, all "
 "sensors must be present in one or multiple collections - so called sensor"
@@ -775,16 +847,19 @@ msgid ""
 "have the following information (see also the API documentation for "
 "description of the ``controls.create_sensor_manifold`` function):"
 msgstr ""
+"用户不能直接通过外部 "
+"API控制传感器。相反，所有的传感器都必须存在于一个或多个集合-所谓的传感器流形。一个流形是与场景对象相关联的逻辑容器。它通过执行一个回调函数生成一组定义的传感器事件响应。要定义的流形，它须有以下信息"
+" （请参见的 'controls.create_sensor_manifold' 功能描述 API 文档） ︰"
 
-#: ../developers.rst:483
+#: ../developers.rst:501
 msgid "An object to carry the manifold (e.g. a thrown object)."
-msgstr ""
+msgstr "一个对象带流行（如抛出的对象）。"
 
-#: ../developers.rst:484
+#: ../developers.rst:502
 msgid "A unique id of the manifold (e.g. \"IMPACT\")."
-msgstr ""
+msgstr "流形 （如\"冲击\"） 的唯一 id。"
 
-#: ../developers.rst:485
+#: ../developers.rst:503
 msgid ""
 "Callback execution mode (the options are: ``CT_POSITIVE`` - logic "
 "function positive result, ``CT_CONTINUOUS`` - every frame with a positive"
@@ -793,36 +868,39 @@ msgid ""
 "result change, ``CT_TRIGGER`` - logic function result switch, "
 "``CT_CHANGE`` - any sensor value change)."
 msgstr ""
+"回调的执行模式（选项有：``CT_POSITIVE``  - 逻辑功能正结果，``CT_CONTINUOUS``  - "
+"以正逻辑功能的结果，并用一次结果为零每一帧，``CT_LEVEL``  - 任何逻辑，函数结果改变，``CT_SHOT``  - "
+"一期逻辑函数结果的变化，``CT_TRIGGER``  - 逻辑函数的结果开关，``CT_CHANGE``  - 任何传感器值变化）。"
 
-#: ../developers.rst:486
+#: ../developers.rst:504
 msgid "An array of sensors."
-msgstr ""
+msgstr "传感器阵列。"
 
-#: ../developers.rst:487
+#: ../developers.rst:505
 msgid ""
 "A logic function to define the combination of the sensor states for which"
 " the callback function is executed."
-msgstr ""
+msgstr "逻辑函数来定义其中执行回调函数传感器状态的组合。"
 
-#: ../developers.rst:488
+#: ../developers.rst:506
 msgid "A callback function."
-msgstr ""
+msgstr "一个回调函数。"
 
-#: ../developers.rst:489
+#: ../developers.rst:507
 msgid "An optional parameter to pass into the callback function."
-msgstr ""
+msgstr "一个可选参数传递到回调函数。"
 
-#: ../developers.rst:491
+#: ../developers.rst:509
 msgid ""
 "You can read more about engine API in the :b4wmod:`controls` module "
 "documentation."
-msgstr ""
+msgstr "你可以阅读更多有关在  :b4wmod:`controls` 模块文档引擎API。"
 
-#: ../developers.rst:494
+#: ../developers.rst:512
 msgid "Example"
-msgstr ""
+msgstr "示例"
 
-#: ../developers.rst:496
+#: ../developers.rst:514
 msgid ""
 "Let's consider the task to insonify the impact of a thrown stone. A "
 "distinctive sound should be produced for impacting different media (for "
@@ -831,22 +909,25 @@ msgid ""
 "\"WALL\". There is also a physical object being thrown in the scene, the "
 "object is named \"Stone\"."
 msgstr ""
+"让我们考虑到 insonify 任务被投掷的石头的影响。不同的媒体 "
+"（例如地形和墙）应产生独特的声音影响。有碰撞网格与Blender场景中的物理材质，材质的 id "
+"是\"地形\"和\"墙\"。也是被抛在场景中的物理对象，该对象被命名为\"石头\"。"
 
-#: ../developers.rst:499
+#: ../developers.rst:517
 msgid ""
 "Let's define a collision sensor for each medium, by the type of the sound"
 " produced."
-msgstr ""
+msgstr "让我们定义碰撞传感器的每个介质类型的声音产生。"
 
-#: ../developers.rst:517
+#: ../developers.rst:535
 msgid ""
 "Add the sensors into an array. Use the ``OR`` logic in the logic "
 "function. Place the sound processing code in the callback function. "
 "Create the sensor manifold with the \"IMPACT\" id and the ``CT_SHOT`` "
 "type."
-msgstr ""
+msgstr "传感器添加到阵列。使用 ``OR`` 逻辑的逻辑功能。放置在回调函数的声音处理的代码。创建传感器歧管的“影响”id和``CT_SHOT``类型。"
 
-#: ../developers.rst:549
+#: ../developers.rst:567
 msgid ""
 "When the \"Stone\" object collides with any physical material of "
 "\"TERRAIN\" or \"WALL\", the callback function is executed. Inside this "
@@ -856,523 +937,519 @@ msgid ""
 "material. As a result the corresponding sound is produced (the code is "
 "not shown)."
 msgstr ""
+"当 “石头” 的物体与“地形”或“墙”的任何物理材质碰撞时，被执行的回调函数。 在这个函数中，我们通过自己的传感器阵列中获得指数两个传感器的值 "
+"（0 - “地形”，1  - “墙”）。传感器值 = 1（活性）是指发生碰撞与相应的物理材质。其结果是，相应的声音产生（未示出的代码）。"
 
-#: ../developers.rst:555
+#: ../developers.rst:573
 msgid "SDK File Structure"
-msgstr ""
+msgstr "SDK文件结构"
 
-#: ../developers.rst:597
+#: ../developers.rst:612
 msgid "**apps_dev**"
-msgstr ""
+msgstr "**apps_dev**"
 
-#: ../developers.rst:558
+#: ../developers.rst:576
 msgid "source code of the applications"
-msgstr ""
+msgstr "应用程序的源代码"
 
-#: ../developers.rst:564
+#: ../developers.rst:582
 msgid "**code_snippets**"
-msgstr ""
+msgstr "**code_snippets**"
 
-#: ../developers.rst:561
+#: ../developers.rst:579
 msgid "source files of the Blend4Web API usage demonstration application"
-msgstr ""
+msgstr "在Blend4Web API使用示范应用的源文件"
 
-#: ../developers.rst:564 ../developers.rst:696
+#: ../developers.rst:582 ../developers.rst:711
 msgid "**scripts**"
-msgstr ""
+msgstr "**scripts**"
 
-#: ../developers.rst:564
+#: ../developers.rst:582
 msgid "Blend4Web API usage examples' source files"
-msgstr ""
+msgstr "Blend4Web API用法示例的源文件"
 
-#: ../developers.rst:567
+#: ../developers.rst:585
 msgid "**dairy_plant**"
-msgstr ""
+msgstr "**dairy_plant**"
 
-#: ../developers.rst:567
+#: ../developers.rst:585
 msgid "source files of the Dairy Plant demo (available only in SDK Pro)"
-msgstr ""
-
-#: ../developers.rst:570
-msgid "**fashion**"
-msgstr ""
-
-#: ../developers.rst:570
-msgid "source files of the Fashion Show demo (available only in SDK Pro)"
-msgstr ""
-
-#: ../developers.rst:573
-msgid "**firstperson**"
-msgstr ""
-
-#: ../developers.rst:573
-msgid "source files of the Farm demo (available only in SDK Pro)"
-msgstr ""
-
-#: ../developers.rst:576
-msgid "**flight**"
-msgstr ""
-
-#: ../developers.rst:576
-msgid "source files of the Island demo"
-msgstr ""
-
-#: ../developers.rst:579
-msgid "**new_year**"
-msgstr ""
-
-#: ../developers.rst:579
-msgid "source files of the New Year 2015 greeting card"
-msgstr ""
-
-#: ../developers.rst:582
-msgid "**project.py**"
-msgstr ""
-
-#: ../developers.rst:582
-msgid "script for application developers"
-msgstr ""
-
-#: ../developers.rst:585
-msgid "**victory_day_2015**"
-msgstr ""
-
-#: ../developers.rst:585
-msgid "source files of the V-Day 70 greeting card"
-msgstr ""
-
-#: ../developers.rst:591
-msgid "**viewer**"
-msgstr ""
+msgstr "乳品厂演示源文件（仅适用于SDK专业版）"
 
 #: ../developers.rst:588
+msgid "**fashion**"
+msgstr "**fashion**"
+
+#: ../developers.rst:588
+msgid "source files of the Fashion Show demo (available only in SDK Pro)"
+msgstr "时装秀演示源文件（仅适用于SDK专业版）"
+
+#: ../developers.rst:591
+msgid "**firstperson**"
+msgstr "**firstperson**"
+
+#: ../developers.rst:591
+msgid "source files of the Farm demo (available only in SDK Pro)"
+msgstr "农场演示源文件（仅适用于SDK专业版）"
+
+#: ../developers.rst:594
+msgid "**flight**"
+msgstr "**flight**"
+
+#: ../developers.rst:594
+msgid "source files of the Island demo"
+msgstr "岛演示的源文件"
+
+#: ../developers.rst:597
+msgid "**new_year**"
+msgstr "**new_year**"
+
+#: ../developers.rst:597
+msgid "source files of the New Year 2015 greeting card"
+msgstr "在2015年新年贺卡的源文件"
+
+#: ../developers.rst:600
+msgid "**project.py**"
+msgstr "**project.py**"
+
+#: ../developers.rst:600
+msgid "script for application developers"
+msgstr "脚本的应用程序开发人员"
+
+#: ../developers.rst:603
+msgid "**victory_day_2015**"
+msgstr "**victory_day_2015**"
+
+#: ../developers.rst:603
+msgid "source files of the V-Day 70 greeting card"
+msgstr "胜利日70周年贺卡的源文件"
+
+#: ../developers.rst:606
+msgid "**viewer**"
+msgstr "**viewer**"
+
+#: ../developers.rst:606
 msgid "the sources files of the Viewer application"
-msgstr ""
+msgstr "浏览器应用程序的源文件"
 
-#: ../developers.rst:591
-msgid "**assets.json**"
-msgstr ""
-
-#: ../developers.rst:591
-msgid "metadata with information about scenes loaded by the Viewer"
-msgstr ""
-
-#: ../developers.rst:594
+#: ../developers.rst:609
 msgid "**webplayer**"
-msgstr ""
+msgstr "**webplayer**"
 
-#: ../developers.rst:594
+#: ../developers.rst:609
 msgid "source files of the Web Player app"
-msgstr ""
+msgstr "在Web应用程序播放器的源文件"
 
-#: ../developers.rst:597
+#: ../developers.rst:612
 msgid "**website**"
-msgstr ""
+msgstr "**website**"
 
-#: ../developers.rst:597
+#: ../developers.rst:612
 msgid "source files of applications from the Blend4Web official website"
-msgstr ""
+msgstr "从Blend4Web官方网站上的应用程序的源文件"
 
-#: ../developers.rst:600
+#: ../developers.rst:615
 msgid "**blender**"
-msgstr ""
+msgstr "**blender**"
 
-#: ../developers.rst:600
+#: ../developers.rst:615
 msgid "source files of the Blender scenes"
-msgstr ""
+msgstr "Blender的场景源文件"
 
-#: ../developers.rst:603
+#: ../developers.rst:618
 msgid "**blender_scripts**"
-msgstr ""
+msgstr "**blender_scripts**"
 
-#: ../developers.rst:603
+#: ../developers.rst:618
 msgid "exporter and utility scripts for Blender"
-msgstr ""
+msgstr "Blender导出和实用工具脚本"
 
-#: ../developers.rst:606
+#: ../developers.rst:621
 msgid "**csrc**"
-msgstr ""
+msgstr "**csrc**"
 
-#: ../developers.rst:606
+#: ../developers.rst:621
 msgid ""
 "source code (in C) of the binary part of the engine exporter and of the "
 "other utilities"
-msgstr ""
+msgstr "源代码（C语言）引擎出口的二进制部分和其他公用设施"
 
-#: ../developers.rst:630
+#: ../developers.rst:645
 msgid "**deploy**"
-msgstr ""
+msgstr "**deploy**"
 
-#: ../developers.rst:609
+#: ../developers.rst:624
 msgid ""
 "the resource directory for deploying on the server (scene source files, "
 "compiled applications and documentation)"
-msgstr ""
+msgstr "在服务器上部署（场景源文件编译的应用程序和文档）的资源目录"
 
-#: ../developers.rst:612
+#: ../developers.rst:627
 msgid "**api_doc**"
-msgstr ""
+msgstr "**api_doc**"
 
-#: ../developers.rst:612
+#: ../developers.rst:627
 msgid ""
 "API documentation for developers (built automatically, based on the "
 "engine's source code)"
-msgstr ""
+msgstr "为开发人员API文档（自动构建，基于引擎的源代码）"
 
-#: ../developers.rst:618
+#: ../developers.rst:633
 msgid "**apps**"
-msgstr ""
+msgstr "**apps**"
 
-#: ../developers.rst:615
+#: ../developers.rst:630
 msgid ""
 "3D applications intended for deploying; the directory duplicates "
 "*apps_dev*"
-msgstr ""
+msgstr "用于部署3D应用;目录重复* apps_dev *"
 
-#: ../developers.rst:618
+#: ../developers.rst:633
 msgid "**common**"
-msgstr ""
+msgstr "**common**"
 
-#: ../developers.rst:618
+#: ../developers.rst:633
 msgid ""
 "Compiled engine files. Shared by all applications from SDK (hence the "
 "name)."
-msgstr ""
+msgstr "已编译引擎文件。从 SDK 的所有应用程序共享的 (因此名称)。"
 
-#: ../developers.rst:621
+#: ../developers.rst:636
 msgid "**assets**"
-msgstr ""
+msgstr "**assets**"
 
-#: ../developers.rst:621
+#: ../developers.rst:636
 msgid "downloadable resources: scenes, textures and sounds"
-msgstr ""
+msgstr "可下载的资源：场景，纹理和声音"
 
-#: ../developers.rst:624
+#: ../developers.rst:639
 msgid "**doc**"
-msgstr ""
+msgstr "**doc**"
 
-#: ../developers.rst:624
+#: ../developers.rst:639
 msgid "the current user manual in HTML format, built automatically from *doc_src*"
-msgstr ""
+msgstr "从自动生成的 HTML 格式的当前用户手册 * doc_src *"
 
-#: ../developers.rst:627
+#: ../developers.rst:642
 msgid "**globals_detect**"
-msgstr ""
+msgstr "**globals_detect**"
 
-#: ../developers.rst:627
+#: ../developers.rst:642
 msgid "utility code for detecting global variables"
-msgstr ""
+msgstr "用于检测全局变量实用代码"
 
-#: ../developers.rst:630
+#: ../developers.rst:645
 msgid "**tutorials**"
-msgstr ""
+msgstr "**tutorials**"
 
-#: ../developers.rst:630
+#: ../developers.rst:645
 msgid "source files for the tutorials"
-msgstr ""
+msgstr "在教程源文件"
 
-#: ../developers.rst:633
+#: ../developers.rst:648
 msgid "**doc_src**"
-msgstr ""
+msgstr "**doc_src**"
 
-#: ../developers.rst:633
+#: ../developers.rst:648
 msgid "source files of the current manual written in reST"
-msgstr ""
+msgstr "当前手册的源文件用reST格式书写"
 
-#: ../developers.rst:636
+#: ../developers.rst:651
 msgid "**index.html** and **index_assets**"
-msgstr ""
+msgstr "**index.html** 和 **index_assets**"
 
-#: ../developers.rst:636
+#: ../developers.rst:651
 msgid "main SDK webpage files"
-msgstr ""
+msgstr "主要SDK网页文件"
 
-#: ../developers.rst:639
+#: ../developers.rst:654
 msgid "**license**"
-msgstr ""
+msgstr "**license**"
 
-#: ../developers.rst:639
+#: ../developers.rst:654
 msgid "files with license texts"
-msgstr ""
+msgstr "与许可证的文本文件"
 
-#: ../developers.rst:642
+#: ../developers.rst:657
 msgid "**Makefile**"
-msgstr ""
+msgstr "**Makefile**"
 
-#: ../developers.rst:642
+#: ../developers.rst:657
 msgid ""
 "makefile for building the engine, the applications, the documentation and"
 " for deploying on a remote server (not available as a free version)"
-msgstr ""
+msgstr "生成文件构建引擎、 应用程序、 文件和部署在远程服务器上 （不可作为一个免费的版本）"
 
-#: ../developers.rst:645
+#: ../developers.rst:660
 msgid "**README.rst**"
-msgstr ""
+msgstr "**README.rst**"
 
-#: ../developers.rst:645
+#: ../developers.rst:660
 msgid "README file"
-msgstr ""
+msgstr "README文件"
 
-#: ../developers.rst:648
+#: ../developers.rst:663
 msgid "scripts"
-msgstr ""
+msgstr "脚本"
 
-#: ../developers.rst:651
+#: ../developers.rst:666
 msgid ""
 "**blend4web.lst**, **blend4web_sdk_free.lst** and "
 "**blend4web_sdk_pro.lst** (optional)"
 msgstr ""
+"**blend4web.lst**, **blend4web_sdk_free.lst** and "
+"**blend4web_sdk_pro.lst** (可选)"
 
-#: ../developers.rst:651
+#: ../developers.rst:666
 msgid "lists of the files for building distributions"
-msgstr ""
+msgstr "构建发布文件列表"
 
-#: ../developers.rst:654
+#: ../developers.rst:669
 msgid "**check_resources.py**"
-msgstr ""
+msgstr "**check_resources.py**"
 
-#: ../developers.rst:654
+#: ../developers.rst:669
 msgid ""
 "script for checking of and reporting about unused resources (images and "
 "sounds referenced by the exported files)"
-msgstr ""
+msgstr "脚本的检查和未使用的资源报告（图像和声音通过导出的文件中引用）"
 
-#: ../developers.rst:657
+#: ../developers.rst:672
 msgid "**compile_b4w.py**"
-msgstr ""
+msgstr "**compile_b4w.py**"
 
-#: ../developers.rst:657
+#: ../developers.rst:672
 msgid "script for building engine code and applications"
-msgstr ""
+msgstr "构建引擎代码和应用程序的脚本"
 
-#: ../developers.rst:660
+#: ../developers.rst:675
 msgid "**converter.py**"
-msgstr ""
+msgstr "**converter.py**"
 
-#: ../developers.rst:660
+#: ../developers.rst:675
 msgid ""
 "script which halves the texture dimensions, compresses the textures into "
 "the DDS format, converts sound files into mp4 and ogg formats"
-msgstr ""
+msgstr "脚本减半纹理尺寸，压缩纹理成DDS格式，声音文件转换成MP4和Ogg格式"
 
-#: ../developers.rst:663
+#: ../developers.rst:678
 msgid "**custom_json_encoder.py**"
-msgstr ""
+msgstr "**custom_json_encoder.py**"
 
-#: ../developers.rst:663
+#: ../developers.rst:678
 msgid "fork of the json Python module, sorts the keys in reverse order"
-msgstr ""
+msgstr "JSON的Python模块的分支，排序顺序相反的键"
 
-#: ../developers.rst:666
+#: ../developers.rst:681
 msgid "**gen_glmatrix.sh**"
-msgstr ""
+msgstr "**gen_glmatrix.sh**"
 
-#: ../developers.rst:666
+#: ../developers.rst:681
 msgid ""
 "script for generating the math module based on the source code of "
 "glMatrix 2"
-msgstr ""
+msgstr "脚本基于glMatrix 2的源代码生成所述数学模块"
 
-#: ../developers.rst:669
+#: ../developers.rst:684
 msgid "**graph.sh**"
-msgstr ""
+msgstr "**graph.sh**"
 
-#: ../developers.rst:669
+#: ../developers.rst:684
 msgid "SVG generator for the current scene graph, used for debugging rendering"
-msgstr ""
+msgstr "为当前场景图SVG生成器，用于调试渲染"
 
-#: ../developers.rst:672
+#: ../developers.rst:687
 msgid "**make_dist.py**"
-msgstr ""
+msgstr "**make_dist.py**"
 
-#: ../developers.rst:672
+#: ../developers.rst:687
 msgid "distributions builder script"
-msgstr ""
+msgstr "发行构建脚本"
 
-#: ../developers.rst:675
+#: ../developers.rst:690
 msgid "**memory.sh**"
-msgstr ""
+msgstr "**memory.sh**"
 
-#: ../developers.rst:675
+#: ../developers.rst:690
 msgid "script for checking memory (RAM) and video memory (VRAM)"
-msgstr ""
+msgstr "脚本，用于检查存储器（RAM）和视频存储器（VRAM）"
 
-#: ../developers.rst:678
+#: ../developers.rst:693
 msgid "**mod_list.py**"
-msgstr ""
+msgstr "**mod_list.py**"
 
-#: ../developers.rst:678
+#: ../developers.rst:693
 msgid "script for generating the list of modules to use in new applications"
-msgstr ""
+msgstr "脚本用于生成的模块列表在新的应用程序使用"
 
-#: ../developers.rst:681
+#: ../developers.rst:696
 msgid "**plot.sh**"
-msgstr ""
+msgstr "**plot.sh**"
 
-#: ../developers.rst:681
+#: ../developers.rst:696
 msgid "debugging information graph builder"
-msgstr ""
+msgstr "调试信息图形生成器"
 
-#: ../developers.rst:684
+#: ../developers.rst:699
 msgid "**process_blend.py**"
-msgstr ""
+msgstr "**process_blend.py**"
 
-#: ../developers.rst:684
+#: ../developers.rst:699
 msgid "script for automatic reexport of all scenes from the SDK"
-msgstr ""
+msgstr "从SDK所有场景自动再导出脚本"
 
-#: ../developers.rst:687
+#: ../developers.rst:702
 msgid "**remove_alpha_channel.sh**"
-msgstr ""
+msgstr "**remove_alpha_channel.sh**"
 
-#: ../developers.rst:687
+#: ../developers.rst:702
 msgid "script for removing the images' alpha channel"
-msgstr ""
+msgstr "去除图像的 alpha 通道的脚本"
 
-#: ../developers.rst:690
+#: ../developers.rst:705
 msgid "**screencast.sh**"
-msgstr ""
+msgstr "**screencast.sh**"
 
-#: ../developers.rst:690
+#: ../developers.rst:705
 msgid "script for screen video recording"
-msgstr ""
+msgstr "屏幕录像脚本"
 
-#: ../developers.rst:693
+#: ../developers.rst:708
 msgid "**shader_analyzer.py**"
-msgstr ""
+msgstr "**shader_analyzer.py**"
 
-#: ../developers.rst:693
+#: ../developers.rst:708
 msgid ""
 "script starting the local web server which calculates complexity of the "
 "shaders"
-msgstr ""
+msgstr "开始其计算着色器的复杂度的本地Web服务器脚本"
 
-#: ../developers.rst:696
+#: ../developers.rst:711
 msgid "**translator.py**"
-msgstr ""
+msgstr "**translator.py**"
 
-#: ../developers.rst:696
+#: ../developers.rst:711
 msgid "script for building add-on translations"
-msgstr ""
-
-#: ../developers.rst:699
-msgid "**shaders**"
-msgstr ""
-
-#: ../developers.rst:699
-msgid "GLSL shaders of the engine"
-msgstr ""
-
-#: ../developers.rst:711
-msgid "**src**"
-msgstr ""
-
-#: ../developers.rst:702
-msgid "main source code of the engine's kernel"
-msgstr ""
-
-#: ../developers.rst:705
-msgid "**addons**"
-msgstr ""
-
-#: ../developers.rst:705
-msgid "source code of engine add-ons"
-msgstr ""
-
-#: ../developers.rst:708
-msgid "**ext**"
-msgstr ""
-
-#: ../developers.rst:708
-msgid "source code of the external declarations that form the engine's API"
-msgstr ""
-
-#: ../developers.rst:711
-msgid "**libs**"
-msgstr ""
-
-#: ../developers.rst:711
-msgid "source code of the libraries"
-msgstr ""
-
-#: ../developers.rst:730
-msgid "**tools**"
-msgstr ""
+msgstr "构建插件翻译脚本"
 
 #: ../developers.rst:714
+msgid "**shaders**"
+msgstr "**shaders**"
+
+#: ../developers.rst:714
+msgid "GLSL shaders of the engine"
+msgstr "引擎GLSL着色"
+
+#: ../developers.rst:726
+msgid "**src**"
+msgstr "**src**"
+
+#: ../developers.rst:717
+msgid "main source code of the engine's kernel"
+msgstr "引擎的内核的主要源代码"
+
+#: ../developers.rst:720
+msgid "**addons**"
+msgstr "**addons**"
+
+#: ../developers.rst:720
+msgid "source code of engine add-ons"
+msgstr "引擎插件的源代码"
+
+#: ../developers.rst:723
+msgid "**ext**"
+msgstr "**ext**"
+
+#: ../developers.rst:723
+msgid "source code of the external declarations that form the engine's API"
+msgstr "形成了引擎的API外部声明的源代码"
+
+#: ../developers.rst:726
+msgid "**libs**"
+msgstr "**libs**"
+
+#: ../developers.rst:726
+msgid "source code of the libraries"
+msgstr "库的源代码"
+
+#: ../developers.rst:745
+msgid "**tools**"
+msgstr "**tools**"
+
+#: ../developers.rst:729
 msgid "Various tools for building the engine, apps or convert resources"
-msgstr ""
+msgstr "构建引擎，应用程序或转换资源的各种工具"
 
-#: ../developers.rst:717
+#: ../developers.rst:732
 msgid "**converter_utils**"
-msgstr ""
+msgstr "**converter_utils**"
 
-#: ../developers.rst:717
+#: ../developers.rst:732
 msgid "binary builds of the tools for resource conversion"
-msgstr ""
+msgstr "二进制构建的工具，资源转换"
 
-#: ../developers.rst:720
+#: ../developers.rst:735
 msgid "**closure-compiler**"
-msgstr ""
+msgstr "**closure-compiler**"
 
-#: ../developers.rst:720
+#: ../developers.rst:735
 msgid "Google Closure compiler, its externs and their generators"
-msgstr ""
+msgstr "谷歌闭包编译器，它的扩展和他们的生成器"
 
-#: ../developers.rst:727
+#: ../developers.rst:742
 msgid "**glsl**"
-msgstr ""
+msgstr "**glsl**"
 
-#: ../developers.rst:724
+#: ../developers.rst:739
 msgid "**compiler**"
-msgstr ""
+msgstr "**compiler**"
 
-#: ../developers.rst:724
+#: ../developers.rst:739
 msgid "compiler for the engine's GLSL shaders"
-msgstr ""
+msgstr "编译器为引擎的GLSL着色"
 
-#: ../developers.rst:727
+#: ../developers.rst:742
 msgid "**pegjs**"
-msgstr ""
+msgstr "**pegjs**"
 
-#: ../developers.rst:727
+#: ../developers.rst:742
 msgid ""
 "grammars of the PEG.js parser generator for implementing the GLSL "
 "preprocessor, and also the script for generating the parser modules from "
 "these grammars"
-msgstr ""
+msgstr "在PEG.js解析器生成的语法实现了GLSL预处理器，也是脚本从这些生成语法解析器模块"
 
-#: ../developers.rst:730
+#: ../developers.rst:745
 msgid "**yuicompressor**"
-msgstr ""
+msgstr "**yuicompressor**"
 
-#: ../developers.rst:730
+#: ../developers.rst:745
 msgid "utility for compressing CSS files"
-msgstr ""
+msgstr "实用压缩CSS文件"
 
-#: ../developers.rst:733
+#: ../developers.rst:748
 msgid "**uranium**"
-msgstr ""
+msgstr "**uranium**"
 
-#: ../developers.rst:733
+#: ../developers.rst:748
 msgid ""
 "source code and building scripts of the Uranium physics engine (the fork "
 "of Bullet)"
-msgstr ""
+msgstr "Uranium 物理引擎的源代码和脚本建筑（Bullet的分支）"
 
-#: ../developers.rst:737
+#: ../developers.rst:752
 msgid "**VERSION**"
-msgstr ""
+msgstr "**VERSION**"
 
-#: ../developers.rst:736
+#: ../developers.rst:751
 msgid "contains the current version of the engine"
-msgstr ""
+msgstr "包含引擎的当前版本"
 
-#: ../developers.rst:742
+#: ../developers.rst:757
 msgid "Loading Local Resources"
-msgstr ""
+msgstr "加载本地资源"
 
-#: ../developers.rst:744
+#: ../developers.rst:759
 msgid ""
 "The engine's renderer is a web application and it works when you view an "
 "HTML file in a browser. After initialization the resources (scenes, "
@@ -1380,77 +1457,83 @@ msgid ""
 "<http://en.wikipedia.org/wiki/Same-origin_policy>`_ rule. In particular "
 "this rule forbids loading from a local directory."
 msgstr ""
+"该引擎的渲染器是一个Web应用程序，当你在浏览器中查看HTML文件它就工作。初始化之后，资源（场景，纹理）加载。这个过程是受 `同源策略 "
+"<http://en.wikipedia.org/wiki/Same-origin_policy>`_ 规则。这条规则特别规定从本地目录加载禁止。"
 
-#: ../developers.rst:746
+#: ../developers.rst:761
 msgid ""
 "Since version 15.02, the Blend4Web SDK includes the :ref:`development "
 "server <local_development_server>` to solve the problem of loading local "
 "resources."
 msgstr ""
+"自15.02版，Blend4Web SDK包括  :ref:`开发服务器 <local_development_server>` "
+"解决加载本地资源的问题。"
 
-#: ../developers.rst:752
+#: ../developers.rst:767
 msgid "Quality Profiles"
-msgstr ""
+msgstr "品质配置"
 
-#: ../developers.rst:754
+#: ../developers.rst:769
 msgid ""
 "Several quality profiles are implemented in order to support platforms "
 "with different functionality."
-msgstr ""
+msgstr "几个质量配置文件，以支持具有不同功能的平台上实现。"
 
-#: ../developers.rst:756
+#: ../developers.rst:771
 msgid ""
 "*low quality* (``P_LOW``) - a range of functions is turned off (such as "
 "shadows, dynamic reflection, postprocessing), the size of textures is "
 "halved when using a release version, anti-aliasing is disabled"
-msgstr ""
+msgstr "低质量（``P_LOW``） - 功能的范围被关闭（如阴影，动态反映，后处理），纹理的大小采用发行版本时减半，抗锯齿被禁用"
 
-#: ../developers.rst:757
+#: ../developers.rst:772
 msgid ""
 "*high quality* (``P_HIGH``) - all features requested by the scene are "
 "used, the anti-aliasing method is FXAA"
-msgstr ""
+msgstr "高品质（``P_HIGH``）- 由现场所要求的所有功能的使用，抗锯齿的方法是FXAA"
 
-#: ../developers.rst:758
+#: ../developers.rst:773
 msgid ""
 "*maximum quality* (``P_ULTRA``) - rendering resolution is doubled, "
 "resolution of shadow maps is increased, the anti-aliasing method is FXAA "
 "(uses higher quality settings and works slower)."
-msgstr ""
+msgstr "最高的质量（``P_ULTRA``） - 渲染分辨率加倍，阴影贴图分辨率的增加，抗锯齿的方法是FXAA（使用更高质量的设置和工作速度较慢）。"
 
-#: ../developers.rst:759
+#: ../developers.rst:774
 msgid ""
 "*custom quality* (``P_CUSTOM``) - any quality parameter can be set to any"
 " possible value. This option is used when you need to set certain quality"
 " parameters manually. By default, it uses the same settings as ``High`` "
 "quality profile."
 msgstr ""
+"自定义质量（``P_CUSTOM``） - "
+"任何质量参数可以设置为任何可能值。当你需要手动设置一定的质量参数，使用此选项。默认情况下，它使用相同的设置``High``质量配置文件。"
 
-#: ../developers.rst:768
+#: ../developers.rst:783
 msgid ""
 "Switching the quality profiles can be performed in runtime before "
 "initialization of the WebGL context. The default profile is ``P_HIGH``."
-msgstr ""
+msgstr "切换品质配置可在运行时的WebGL上下文的初始化之前进行。默认的配置文件是``P_HIGH``。"
 
-#: ../developers.rst:779
+#: ../developers.rst:794
 msgid ""
 "Application developers can also set the **quality** parameter upon engine"
 " initialization using the ``app.js`` add-on:"
-msgstr ""
+msgstr "应用程序开发人员还可以在引擎初始化参数的 ``app.js`` 附加插件时设置 **quality** ："
 
-#: ../developers.rst:795
+#: ../developers.rst:810
 msgid "Non-FullScreen Web Apps"
-msgstr ""
+msgstr "非全屏Web应用程序"
 
-#: ../developers.rst:797
+#: ../developers.rst:812
 msgid ""
 "The Canvas element, to which the rendering is performed, can change its "
 "position relative to the browser window. This can occur due to some "
 "manipulations over the DOM tree, or as a result of page scrolling which "
 "is especially relevant for non-fullscreen web applications."
-msgstr ""
+msgstr "画布元件，开始执行渲染时，可改变相对于浏览器窗口的位置。这可能是由于一些操作在DOM树，或者作为页面滚动的结果，特别是用于非全屏web应用。"
 
-#: ../developers.rst:799
+#: ../developers.rst:814
 msgid ""
 "In most cases this will not affect the performance of the app by any "
 "means. However, some DOM events related to mouse cursor or touch position"
@@ -1459,9 +1542,9 @@ msgid ""
 "origin of the browser window, while the engine works with the coordinate "
 "space of the Canvas element itself (its origin is located in the top left"
 " corner)."
-msgstr ""
+msgstr "在大多数情况下，这将不会影响该应用的任何的性能。然而，涉及到鼠标或触摸位置某些DOM事件可以携带不正确的信息。这是因为从相应的事件中获得的坐标是相对于浏览器窗口的原点测量，同时引擎的工作与Canvas元素本身（它的坐标原点位于左上角）的坐标空间。"
 
-#: ../developers.rst:801
+#: ../developers.rst:816
 msgid ""
 "If the top left corner of the Canvas element matches the top left corner "
 "of the browser window and is fixed in its position (non-movable) then "
@@ -1469,14 +1552,17 @@ msgid ""
 " input events or "
 ":b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()` methods."
 msgstr ""
+"如果画布元素的左上的角与匹配的浏览器窗口左上的角并且固定在它的位置 （非活动），那么就足以使用 event.clientX 和 "
+"event.clientY 坐标输入事件或  "
+":b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()`  方法。"
 
-#: ../developers.rst:815
+#: ../developers.rst:830
 msgid ""
 "In the case of the scrolled browser window, you have to use event.pageX "
 "and event.pageY coordinates."
-msgstr ""
+msgstr "在滚动浏览器窗口的情况下，你必须使用event.pageX和event.pageY坐标。"
 
-#: ../developers.rst:824
+#: ../developers.rst:839
 msgid ""
 "In the case of more sophisticated manipulations with the Canvas element "
 "(scrolling of the page elements, displacement from the top level corner "
@@ -1485,8 +1571,10 @@ msgid ""
 "for use in the engine, you can covert them by using the "
 "``client_to_canvas_coords()`` method of the ``container`` module:"
 msgstr ""
+"与画布元件更复杂的操作的情况下（在页面的元素的滚动，位移从浏览器窗口的顶层角落，在DOM树的变化）则需要执行正确的坐标转换。为了获得坐标适合在引擎中使用，您可以通过使用"
+" ``container`` 模块的  ``client_to_canvas_coords()``  方法来覆盖它们："
 
-#: ../developers.rst:836
+#: ../developers.rst:851
 msgid ""
 "In order to obtain coordinates in the Canvas space, the engine should "
 "know its position relative to the browser window. However, if this "
@@ -1495,8 +1583,10 @@ msgid ""
 " this automatically, you can set the ``track_container_position`` "
 "property upon app initialization:"
 msgstr ""
+"为了获得在画布空间坐标，引擎应该知道相对于浏览器窗口的位置。但是，如果此位置的应用程序的工作过程中受到的变化（由于滚动为例），画布位置应重新计算。要自动做到这一点，你可以设置在应用程序初始化"
+" ``track_container_position`` 属性："
 
-#: ../developers.rst:851
+#: ../developers.rst:866
 msgid ""
 "Please note, that this setting can lead to performance degradation in "
 "some browsers (such as Firefox) due to frequent DOM tree accesses. If the"
@@ -1506,267 +1596,310 @@ msgid ""
 "instead of the ``track_container_position`` setting, or even the lower-"
 "level ``set_canvas_offsets()`` method from the ``container`` module:"
 msgstr ""
+"请注意，此设置可能导致一些浏览器（如Firefox）的性能降低，因频繁DOM树的访问。如果性能是至关重要的，确有必要您可以手动更新画布位置。要做到这一点，使用"
+" ``force_offsets_updating()`` 和 ``update_canvas_offsets()`` 方法代替 "
+"``track_container_position`` 设置，甚至从 ``container`` 模块使用更低级别的  "
+"``set_canvas_offsets()`` 方法："
 
-#: ../developers.rst:866
+#: ../developers.rst:881
 msgid ""
 "The possibility to scale the whole webpage can lead to Canvas element "
 "displacement on mobile devices. The described decisions are suitable in "
 "this case. However, you can lock scaling at all and thus avoid such "
 "problems. It is enough to add the following meta-tag to the page's "
 "header:"
-msgstr ""
+msgstr "在移动设备上可能存在缩放整个网页会导致Canvas元素被置换。所描述的决定在此情况下是合适的。但是，你可以在锁定缩放，从而避免这样的问题。用以下元标记添加到网页的页眉就足够了："
 
-#: ../developers.rst:472 ../developers.rst:479
+#: ../developers.rst:490 ../developers.rst:497
 msgid "sensor"
-msgstr ""
+msgstr "传感器"
 
-#: ../developers.rst:479
+#: ../developers.rst:497
 msgid "manifold"
-msgstr ""
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid "``.b4w_project`` Config File"
-#~ msgstr ""
-
-#~ msgid "An unique id of the manifold (e.g. \"IMPACT\")."
-#~ msgstr ""
-
-#~ msgid "meta data with information about scenes loaded by the Viewer"
-#~ msgstr ""
-
-#~ msgid "script for removing the images alpha channel"
-#~ msgstr ""
-
-#~ msgid "An example of the ``DDS`` compression artifacts."
-#~ msgstr ""
-
-#~ msgid "``\"-b | --blender_exec\"`` path to the blender executable."
-#~ msgstr ""
-
-#~ msgid "``\"-d | --dir\"`` directory for deploying the project."
-#~ msgstr ""
-
-#~ msgid "``\"-e | --assets-path\"`` path to asset files."
-#~ msgstr ""
-
-#~ msgid "ogg -> mp4"
-#~ msgstr ""
-
-#~ msgid "mp4 -> ogg"
-#~ msgstr ""
-
-#~ msgid "m4v -> webm"
-#~ msgstr ""
-
-#~ msgid "ogv -> webm"
-#~ msgstr ""
-
-#~ msgid "m4v -> seq"
-#~ msgstr ""
-
-#~ msgid "ogv -> seq"
-#~ msgstr ""
-
-#~ msgid "script for building addon translations"
-#~ msgstr ""
-
-#~ msgid "source code of engine addons"
-#~ msgstr ""
-
-#~ msgid "ogg, oga -> mp4"
-#~ msgstr ""
-
-#~ msgid "mp4, m4a -> ogg"
-#~ msgstr ""
-
-#~ msgid "webm -> m4v"
-#~ msgstr ""
-
-#~ msgid "mp4, m4v -> webm"
-#~ msgstr ""
-
-#~ msgid "ogg, ogv -> webm"
-#~ msgstr ""
-
-#~ msgid "webm -> seq"
-#~ msgstr ""
-
-#~ msgid "mp4, m4v -> seq"
-#~ msgstr ""
-
-#~ msgid "ogg, ogv -> seq"
-#~ msgstr ""
-
-#~ msgid "mp3 -> ogg"
-#~ msgstr ""
-
-#~ msgid "mp4 (m4v, m4a) -> ogg"
-#~ msgstr ""
-
-#~ msgid "Ubuntu 15.04 package"
-#~ msgstr ""
-
-#~ msgid "Data Format"
-#~ msgstr ""
-
-#~ msgid "background_color.alpha = 1"
-#~ msgstr ""
-
-#~ msgid "background_color.alpha = 0"
-#~ msgstr ""
-
-#~ msgid "background_color.alpha > 0"
-#~ msgstr ""
+msgstr "流形"
 
 #~ msgid "Project Management"
-#~ msgstr ""
+#~ msgstr "项目管理"
+
+#~ msgid ""
+#~ msgstr "完成应用程序构建后，到资产的路径将会改变。因此，使用 ``get_std_assets_path()`` 将允许您避免不正确的路径的问题。"
+
+#~ msgid ""
+#~ "Working with the Project Manager is "
+#~ "described in a :ref:`dedicated chapter "
+#~ "<project_management>`."
+#~ msgstr "使用项目管理器工作在  :ref:`相应章节 <project_management>` 中描述。"
 
 #~ msgid "Advanced Project Management"
-#~ msgstr ""
+#~ msgstr "高级项目管理"
+
+#~ msgid ""
+#~ "Advanced project management is used by"
+#~ " experienced developers which require more"
+#~ " flexibility and need to automate "
+#~ "process of project development."
+#~ msgstr "高级项目管理器由经验丰富的开发人员使用，在需要更多的灵活性和需要自动化项目开发过程中使用。"
+
+#~ msgid ""
+#~ "For advanced project management use the"
+#~ " *project.py* script and manually edit "
+#~ "*.b4w_project* configuration files."
+#~ msgstr "高级项目管理器使用 *project.py* 脚本并手动编辑  *.b4w_project*  配置文件。"
 
 #~ msgid "Projects List"
-#~ msgstr ""
+#~ msgstr "项目清单"
 
 #~ msgid "Prints list of projects in the SDK."
-#~ msgstr ""
+#~ msgstr "在SDK里的项目清单打印。"
 
 #~ msgid "Project Structure"
-#~ msgstr ""
+#~ msgstr "项目结构"
 
 #~ msgid "A typical app developed using the project manager looks as follows:"
-#~ msgstr ""
+#~ msgstr "一个典型的应用程序开发中使用项目管理器如下所示展开："
 
 #~ msgid "This app consists of 4 different directories."
-#~ msgstr ""
+#~ msgstr "这个应用程序包括4个不同的目录。"
 
 #~ msgid "apps_dev/myproject. Contains source files of project's apps."
-#~ msgstr ""
+#~ msgstr "apps_dev/myproject. 包含项目的应用程序的源文件。"
 
 #~ msgid "blender/myproject. Contains source files of project's scenes."
-#~ msgstr ""
+#~ msgstr "blender/myproject. 包含项目的场景源文件。"
 
 #~ msgid "deploy/assets/myproject. Contains exported files of project's scenes."
-#~ msgstr ""
+#~ msgstr "deploy/assets/myproject. 包含项目的场景导出的文件。"
 
 #~ msgid "deploy/apps/myproject. Contains exported files of project's scenes."
-#~ msgstr ""
+#~ msgstr "deploy/apps/myproject. 包含项目的场景导出的文件。"
 
 #~ msgid "``.b4w_project`` Configuration File"
-#~ msgstr ""
+#~ msgstr "``.b4w_project``  配置文件"
+
+#~ msgid ""
+#~ "If you did not use any arguments"
+#~ " upon executing the *project.py* script,"
+#~ " then they will be taken from "
+#~ "the configuration file."
+#~ msgstr "如果你不使用任何参数执行的 *project.py* 脚本，会得到配置文件。"
 
 #~ msgid "Available parameters:"
-#~ msgstr ""
+#~ msgstr "可用参数："
+
+#~ msgid ""
+#~ "``-B | --bundle`` (optional) all project"
+#~ " files will be placed in a "
+#~ "single directory."
+#~ msgstr "``-B | --bundle``（可选）所有项目文件将被放置在一个单独的目录。"
+
+#~ msgid ""
+#~ "``-C | --author`` (optional) write an"
+#~ " author's or a company's name in "
+#~ "the config file."
+#~ msgstr "``-C | --author``（可选）写作者的还是公司的配置文件名。"
+
+#~ msgid ""
+#~ "``-o | --optimization`` (optional) write "
+#~ "the script optimization level in the "
+#~ "config file."
+#~ msgstr "``-o | --optimization``（可选）写在配置文件中的脚本优化级别。"
+
+#~ msgid ""
+#~ "``-P | --copy-project-script`` "
+#~ "(optional) create a copy of the "
+#~ "*project.py* script in the project "
+#~ "directory."
+#~ msgstr "``-P | --copy项目-script``（可选）在项目目录中创建* project.py *脚本的副本。"
+
+#~ msgid ""
+#~ "``-T | --title\"`` (optional) write a"
+#~ " title in the config file. Upon "
+#~ "building, it will be used inside "
+#~ "the ``<title>`` HTML element."
+#~ msgstr "``-T | --title\"``（可选）写在配置文件的标题。编译时，里面将使用  ``<title>`` HTML元素。 "
+
+#~ msgid ""
+#~ "``-t | --engine-type`` (optional) write"
+#~ " an engine type in the config "
+#~ "file."
+#~ msgstr "``-t | --engine-type``（可选）写在配置文件中的引擎类型。"
 
 #~ msgid "The .b4w_project file will look like::"
-#~ msgstr ""
+#~ msgstr "该 .b4w_project 文件看起来像::"
 
 #~ msgid "Developing multiple apps inside a project"
-#~ msgstr ""
+#~ msgstr "开发一个项目中的多个应用程序"
+
+#~ msgid ""
+#~ "A project can contain multiple apps. "
+#~ "This can be provided by listing "
+#~ "the corresponding HTML files in the "
+#~ "config file separated with semicolon::"
+#~ msgstr "一个项目可以包含多个应用程序。这可以通过用分号分隔的配置文件列表对应的HTML文件的形式提供::"
 
 #~ msgid "Building Projects"
-#~ msgstr ""
+#~ msgstr "构建项目"
 
 #~ msgid "Builds a project in the ``deploy/apps/myproject`` directory."
+#~ msgstr "构建在 ``deploy/apps/myproject`` 目录中的项目。"
+
+#~ msgid ""
+#~ "For script operation it's required to"
+#~ " install java and  `set the PATH "
+#~ "system variable "
+#~ "<https://www.java.com/en/download/help/path.xml>`_."
 #~ msgstr ""
+#~ "对于脚本运行它需要安装Java和  `设置PATH系统变量 "
+#~ "<https://www.java.com/en/download/help/path.xml>`_."
+
+#~ msgid ""
+#~ "``\"-a | --app\"`` (optional) specify an"
+#~ " HTML file, relative to which the "
+#~ "project app will be built."
+#~ msgstr "``“-a | --app”``（可选）指定一个HTML文件，相对于该项目的应用程序将建成。"
+
+#~ msgid ""
+#~ "``\"-c | --css-ignore\"`` (optional) add"
+#~ " CSS styles to exceptions in order"
+#~ " to not compile them."
+#~ msgstr "``\"-c | --css-ignore\"`` （可选）添加CSS样式异常为了不编译它们。"
+
+#~ msgid ""
+#~ "``\"-j | --js-ignore\"`` (optional) add"
+#~ " scripts to exceptions in order to"
+#~ " not compile them."
+#~ msgstr "``\"-j | --js-ignore\"``（可选）添加脚本例外为了不编译它们。"
+
+#~ msgid ""
+#~ "``\"-o | --optimization\"`` (optional) specify"
+#~ " the optimization level for JavaScript "
+#~ "files: ``whitespace``, ``simple`` (by default)"
+#~ " or ``advanced``."
+#~ msgstr ""
+#~ "``“-o | "
+#~ "--optimization”``（可选）指定JavaScript文件的优化级别：``whitespace``，``simple``（默认）或``advanced``。"
 
 #~ msgid "``\"-v | --version\"`` add version to paths of scripts and styles."
-#~ msgstr ""
+#~ msgstr "``“-v | --version”`` 加版本和脚本和样式的路径。"
 
 #~ msgid "Compiler Requirements"
-#~ msgstr ""
+#~ msgstr "编译器要求"
+
+#~ msgid ""
+#~ "In the root of the directory the"
+#~ " single html file must be stored "
+#~ "if ``-a`` option is disabled"
+#~ msgstr "在一个HTML文件必须存放在目录的根目录如果  ``-a`` 选项被禁用"
+
+#~ msgid ""
+#~ "Scripts and styles can be stored "
+#~ "in the app's root and in the "
+#~ "subfolders"
+#~ msgstr "脚本和样式可以存储在应用程序的根目录和子文件夹中"
 
 #~ msgid "Automatic Re-export"
-#~ msgstr ""
+#~ msgstr "自动再导出"
 
 #~ msgid "This command will re-export blend files in JSON and HTML formats."
-#~ msgstr ""
+#~ msgstr "此命令将重新导出混合在 JSON 和 HTML 格式的文件。"
 
 #~ msgid "``\"-b | --blender-exec\"`` path to the blender executable."
-#~ msgstr ""
+#~ msgstr "``“-b | --blender_exec”`` Blender可执行文件的路径。"
 
 #~ msgid "``\"-s | --assets\"`` specify directory with scene assets."
-#~ msgstr ""
+#~ msgstr "``“-s | --assets”`` 用场景资源指定目录。"
+
+#~ msgid ""
+#~ "Converts external resources (textures, audio"
+#~ " and video files) into alternative "
+#~ "formats to ensure cross-browser and "
+#~ "cross-platform performance."
+#~ msgstr "外部资源（纹理，音频和视频文件）转换为另一种格式，以确保跨浏览器和跨平台性能。"
+
+#~ msgid ""
+#~ "Converting of resources is described in"
+#~ " detail in the :ref:`corresponding section"
+#~ " <converter>`."
+#~ msgstr "资源的转换中详细描述在 :ref:`对应部分 <converter>`."
 
 #~ msgid "Deploying Projects"
-#~ msgstr ""
+#~ msgstr "部署项目"
 
 #~ msgid "Save a project to an external directory together with all dependencies."
-#~ msgstr ""
+#~ msgstr "与所有依赖一起保存了一个项目在外部目录。"
+
+#~ msgid ""
+#~ "``\"-e | --assets-dest\"`` destination "
+#~ "assets directory (\"assets\" by default)."
+#~ msgstr "``\"-e | --assets-dest\"`` 资产目的地目录（“资产” 默认情况下）。"
 
 #~ msgid "``\"-E | --assets-prefix\"`` assets URL prefix (\"assets\" by default)."
-#~ msgstr ""
+#~ msgstr "``\"-E | --assets-prefix\"`` 资产网址前缀（默认情况下“资产”）。"
 
 #~ msgid "``\"-o | --override\"`` remove directory if it exists."
-#~ msgstr ""
+#~ msgstr "``“-o | --override”`` 如果它存在删除目录。"
 
 #~ msgid "``\"-s | --assets\"`` override project's assets directory(s)."
-#~ msgstr ""
+#~ msgstr "``“-s | --assets”`` 用场景资源指定目录。"
 
 #~ msgid "``\"-t | --engine-type\"`` override project's engine type config."
-#~ msgstr ""
+#~ msgstr "``-t | --engine-type``（可选）写在配置文件中的引擎类型。"
 
 #~ msgid "Remove Project"
-#~ msgstr ""
+#~ msgstr "移除项目"
+
+#~ msgid ""
+#~ "Removes a project. Removed directories "
+#~ "are retrieved from project configuration "
+#~ "file."
+#~ msgstr "删除的项目。被删除的目录是从项目配置文件检索。"
 
 #~ msgid "Upgrading Apps for New SDK Versions"
-#~ msgstr ""
+#~ msgstr "应用程序升级新版本的SDK"
 
 #~ msgid "While upgrading for new SDK versions often two problems arise:"
-#~ msgstr ""
+#~ msgstr "当升级新的SDK版本往往两个问题就出来了："
 
 #~ msgid "Modules of the new and old versions of the engine do not match."
-#~ msgstr ""
+#~ msgstr "引擎的新和旧版本的模块不匹配。"
 
 #~ msgid "Old and new engine API do not match."
-#~ msgstr ""
+#~ msgstr "旧的和新的引擎API不匹配。"
+
+#~ msgid ""
+#~ "The console will print the list of"
+#~ " modules - copy them and paste "
+#~ "into the main HTML file:"
+#~ msgstr "控制台将打印模块列表 - 将它们复制并粘贴到主HTML文件："
+
+#~ msgid ""
+#~ "To eliminate API incompatibilities you "
+#~ "may require refactoring of your app. "
+#~ "All changes are described in "
+#~ ":ref:`release notes <release_notes>`."
+#~ msgstr "为了消除 API 不兼容性可能需要重构您的应用程序。所有的改变放在了  :ref:`发行说明 <release_notes>`."
 
 #~ msgid "Path to Loaded Application Assets"
-#~ msgstr ""
-
-#~ msgid "pvrtc (?)"
-#~ msgstr ""
-
-#~ msgid "background_color/alpha = 1"
-#~ msgstr ""
-
-#~ msgid "background_color/alpha = 0"
-#~ msgstr ""
-
-#~ msgid "background_color/alpha > 0"
-#~ msgstr ""
-
-#~ msgid "png -> dds"
-#~ msgstr ""
-
-#~ msgid "jpg -> dds"
-#~ msgstr ""
-
-#~ msgid "bmp -> dds"
-#~ msgstr ""
+#~ msgstr "加载的应用程序资产路径"
 
 #~ msgid ""
-#~ "The background of the HTML application"
-#~ " might influence the background of "
-#~ "the Blend4Web application based on its"
-#~ " transparency which is defined by the"
-#~ " fourth component of the "
-#~ "``background_color`` parameter "
-#~ "(``background_color.alpha``, not to be "
-#~ "confused with the ``alpha`` parameter "
-#~ "mentioned above)."
-#~ msgstr ""
+#~ "To load .json-files you should use"
+#~ " ``get_std_assets_path()`` method from the "
+#~ "*config.js* module:"
+#~ msgstr "要加载.json 文件应从 *config.js* 模块使用 ``get_std_assets_path()`` 方法︰"
 
-#~ msgid ""
-#~ "Background transparency can also be "
-#~ "utilized in :ref:`Web Player applictions "
-#~ "<web_player_app>` by using the ``alpha`` "
-#~ ":ref:`URL attribute <webplayer_attributes>`. To "
-#~ "use this feature, firstly you need "
-#~ "to enable the ``Background transparency "
-#~ "(alpha)`` parameter in the :ref:`Web "
-#~ "Player Params <web_player_params>` group while"
-#~ " creating the application."
-#~ msgstr ""
+#~ msgid "ogg, ogv -> webm"
+#~ msgstr "ogv -> webm"
+
+#~ msgid "mp4, m4v -> seq"
+#~ msgstr "m4v -> seq"
+
+#~ msgid "**Mac OS**"
+#~ msgstr "**Mac OS**"
+
+#~ msgid "**assets.json**"
+#~ msgstr "**assets.json**"
+
+#~ msgid "metadata with information about scenes loaded by the Viewer"
+#~ msgstr "元数据与有关场景加载由查看器的信息"
 

@@ -14,7 +14,6 @@
 
     <script type="text/javascript" src="jquery-2.2.0.min.js"></script>
     <script type="text/javascript" src="jquery.mobile-1.4.5.js"></script>
-    <script type="text/javascript" src="colorpicker.js"></script>
 
     <script type="text/javascript" src="../../src/libs/begin.js"></script>
 
@@ -45,6 +44,7 @@
     <script type="text/javascript" src="../../src/loader.js"></script>
     <script type="text/javascript" src="../../src/logic_nodes.js"></script>
     <script type="text/javascript" src="../../src/math.js"></script>
+    <script type="text/javascript" src="../../src/navmesh.js"></script>
     <script type="text/javascript" src="../../src/nla.js"></script>
     <script type="text/javascript" src="../../src/nodemat.js"></script>
     <script type="text/javascript" src="../../src/objects.js"></script>
@@ -119,6 +119,7 @@
     <script type="text/javascript" src="../../src/addons/storage.js"></script>
 
     <script type="text/javascript" src="../../src/addons/ns_compat.js"></script>
+    <script type="text/javascript" src="colorpicker.js"></script>
 
     <script type="text/javascript" src="viewer.js"></script>
 
@@ -185,15 +186,6 @@
     </div>
 
     <div class="scene-settings" data-role="collapsible-set">
-
-        <div data-role="collapsible" data-collapsed="true" class="menu_items">
-          <h1>Scenes</h1>
-          <div data-role="fieldcontain">
-            <div id="manifest" data-role="collapsible-set" class="left_block_padding">
-            </div>
-          </div>
-        </div>
-
         <div data-role="collapsible" data-collapsed="true" class="menu_items">
             <h1>Tools & Debug</h1>
 
@@ -204,11 +196,6 @@
                         <option value="0">Off</option>
                         <option value="1" selected>On</option>
                     </select>
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <input type="button" value="Auto View Mode"
-                        id="auto_view" data-inline="true"
-                        data-icon="camera" data-mini="true" />
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="canvas_rf">Canvas resolution factor:</label>
@@ -719,26 +706,29 @@
             </div>
         </div>
 
-        <!--
+        
         <div data-role="collapsible" data-collapsed="true">
             <h1>Fog</h1>
 
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="fog_density">Density:</label>
-                    <input id="fog_density" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001">
+                    <label for="fog_intensity">Minimum:</label>
+                    <input id="fog_intensity" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="fog_density1000">Density x 1000:</label>
-                    <input id="fog_density1000" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.002">
+                    <label for="fog_depth">Depth:</label>
+                    <input id="fog_depth" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="fog_color">Color:</label>
-                    <div><div id="fog_color" class="color_selector"><div></div></div></div>
+                    <label for="fog_start">Start:</label>
+                    <input id="fog_start" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.001">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="fog_height">Height:</label>
+                    <input id="fog_height" data-highlight="true" value="0.0" min="0.0" max="100.0" type="range" step="0.001">
                 </div>
             </div>
-        </div>
-        -->
+        </div> 
 
         <div data-role="collapsible" data-collapsed="true">
             <h1>Wind</h1>

@@ -83,6 +83,7 @@ SRC_FILES         = ['src/b4w.js',
                      'src/loader.js',
                      'src/logic_nodes.js',
                      'src/math.js',
+                     'src/navmesh.js',
                      'src/nla.js',
                      'src/camera.js',
                      'src/lights.js',
@@ -231,10 +232,10 @@ def run():
     compiler_params.append('--js_output_file=' +
                            os.path.relpath(dest_engine_path))
 
-    print("    " + "-"*(len(dest_engine_path) + len("Compiling : ")))
+    print("    " + "-"*(len(normpath(dest_engine_path)) + len("Compiling : ")))
     print(GREEN + "    Compiling" + ENDCOL + " :",
-          BLUE + dest_engine_path + ENDCOL)
-    print("    " + "-"*(len(dest_engine_path) + len("Compiling : ")))
+          BLUE + normpath(dest_engine_path) + ENDCOL)
+    print("    " + "-"*(len(normpath(dest_engine_path)) + len("Compiling : ")))
 
     externs_gen_file.close()
 
@@ -374,14 +375,14 @@ def refact_config(app_js=False):
 
     for line in config_js_text:
         # TODO: refactor hardcoded paths
-        pattern_1 = r'(resources_dir\s*:\s*[\"|\'])+(..\/deploy\/apps\/common)'
-        pattern_2 = r'(ASSETS=..\/..\/)+(deploy\/)+(assets\/)'
+        pattern_1 = r'(B4W_ASSETS_PATH=)+(..\/deploy\/assets\/)'
+        pattern_2 = r'(B4W_URANIUM_PATH=)+(..\/deploy\/apps\/common\/uranium.js)'
 
-        line = re.sub(pattern_1, r'\1.', line)
-        line = re.sub(pattern_2, r'\1\3', line)
+        line = re.sub(pattern_1, r'\1..\/..\/assets\/', line)
+        line = re.sub(pattern_2, r'\1uranium.js', line)
 
         if app_js:
-            line = re.sub('USER_DEFINED_MODULE', app_js, line)
+            line = re.sub('B4W_MAIN_MODULE', app_js, line)
 
         config_rel_js_file.write(line)
 

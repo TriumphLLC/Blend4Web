@@ -1297,8 +1297,6 @@ def add_b4w_props():
 
     add_object_properties()
 
-    add_text_properties()
-
     add_world_properties()
 
     add_camera_properties()
@@ -1454,9 +1452,6 @@ def remove_scenes_props():
     del bpy.types.Scene.b4w_enable_anchors_visibility
     del bpy.types.Scene.b4w_export_path_json
     del bpy.types.Scene.b4w_export_path_html
-
-def remove_text_props():
-    del bpy.types.Text.b4w_assets_load
 
 def remove_particle_settings_props():
     del bpy.types.ParticleSettings.b4w_cyclic
@@ -1629,7 +1624,6 @@ def remove_b4w_props():
     remove_mesh_props()
     remove_obj_props()
     remove_scenes_props()
-    remove_text_props()
     remove_particle_settings_props()
     remove_speaker_props()
     remove_material_props()
@@ -2431,18 +2425,6 @@ def add_camera_properties():
         default = False,
         options = set()
     )
-
-def add_text_properties():
-
-    text_type = bpy.types.Text
-
-    b4w_assets_load = bpy.props.BoolProperty(
-        name=_("B4W: assets load"),
-        description = "",
-        default = False,
-        options = set()
-    )
-    text_type.b4w_assets_load = b4w_assets_load
 
 def add_object_properties():
     """Add properties for the object panel"""

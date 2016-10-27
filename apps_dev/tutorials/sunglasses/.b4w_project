@@ -1,0 +1,30 @@
+[info]
+author = Blend4Web
+name = sunglasses
+title = Sunglasses Tutorial
+icon = .b4w_icon.png
+
+[paths]
+assets_dirs = deploy/assets/tutorials/sunglasses;
+blend_dirs = blender/tutorials/sunglasses;
+blender_exec = blender
+build_dir = deploy/assets/tutorials/sunglasses
+deploy_dir = 
+
+[compile]
+apps = sunglasses.html; 
+css_ignore = 
+engine_type = webplayer_html
+ignore = 
+js_ignore = 
+optimization = simple
+use_physics = 
+use_smaa_textures = 
+version = 
+
+[deploy]
+assets_path_dest = assets
+assets_path_prefix = assets
+ignore = 
+override = 
+

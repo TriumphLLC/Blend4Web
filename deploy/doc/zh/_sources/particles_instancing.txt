@@ -1,376 +1,322 @@
 
-Particle System. Instancing
-***************************
+粒子系统.实例化
+***************
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Particle System. Instancing
+* 粒子系统.实例化
 
-  * Particle System Setup
+  * 粒子系统设置
 
-    * Activation
+    * 激活
 
-    * Display settings
+    * 显示设置
 
-    * Dynamic grass setup
+    * 动态草设置
 
-    * Inheritance settings
+    * 继承设置
 
-  * Grass
+  * 草地
 
-  * Tree Leaves
+  * 树叶
 
-A particle system can be used to create multiple object copies (so
-called instancing). This technique simplifies scene authoring and also
-reduces loading time and memory consumption as compared to the using
-of single objects.
+一个粒子系统可以用于创建多个物体的副本 （所谓的实例）。这种技术简化了
+场景创作，与使用单个物体相比可以缩短加载时间和内存消耗。
 
 [图片]
 
 
 
-Using particle systems for instancing has some limitations though:
+使用粒子系统实例化有一定的局限性，如：
 
-* Movement and animation of objects inside a particle system is not
-  allowed.
+* 粒子系统内的物体的移动和动画是不允许的。
 
-* Parenting is not possible among the objects inside a particle
-  system, except for dupli-groups.
+* 粒子系统内的物体是没有父级关系的，除了 dupli-groups。
 
-* Instancing of non-mesh objects is not possible.
+* 非网格物体的实例化是不可能的。
 
 
-Particle System Setup
-=====================
+粒子系统设置
+============
 
 
-Activation
-----------
+激活
+----
 
-1. Create a particle system of the "Hair" type on the emitter.
+1. 在发射器创建 "Hair" 类型的粒子系统。
 
-2. On the "Render" panel select the "Object" (or the "Group")
-   rendering type.
+2. 在 "Render" 面板中选择 "Object" （或 "Group"）渲染类型。
 
-3. In the "Dupli Object" field (or in the "Dupli Group" field)
-   select the object (or the object group) for instancing. Both local
-   and linked objects (or groups) are supported.
+3. 在 "DUPLI Object" 字段（或在 "DUPLI Group" 字段）选择用于实例化
+   的物 体（或物体组）。支持本地和链接的物体（或组）。
 
-**Recommended Additional Settings**
+**建议的额外设置**
 
-1. In order to display correct sizes in the viewport, set the
-   "Emission > Hair Length" and "Render > Size" parameters to 1.0.
+1. 为了在视口中显示正确的尺寸，设置  "Emission > Hair Length" 和
+   "Render > Size" 参数为1.0。
 
 [图片]
 
 
 
 
-Display settings
-----------------
+显示设置
+--------
 
 *Render > Use Count*
 
-   The option is available for groups of particle objects. When
-   enabled, the interface for setting the relative number of objects
-   in a group becomes visible. The engine does not reproduce the exact
-   positions of objects of certain types.
+   该选项可用于粒子物体组。当启用时，用于设置一个组中的物体的相对数的
+   界面变得可见。该引擎不会重现某些类型的物体的确切位置。
 
 *Render > Randomize Location and Size*
 
-   The option enables randomization for the location and the size of
-   the objects. If enabled, the engine generates random coordinates
-   and size (limited to the ±25% range) for the particle objects. If
-   disabled, the exact coordinates and sizes of the particle objects
-   are exported and used.
+   该选项使随机化的位置和对象的大小。如果启用引擎产生粒子物体随机坐标
+   和大小（仅限于±25％范围内）。如果禁用，粒子物体的准确坐标和尺寸在导
+   出后使用。
 
 *Render > Randomize Initial Rotation*
 
-   This option randomizes rotation of the objects relative to the axis
-   defined by "Rotation Type". If enabled, the engine generates random
-   rotation angles for the particle objects. If disabled, the rotation
-   is taken from the "Rotation" panel.
+   这个选项随机化由 "Rotation Type" 限定的轴线的物体的旋转。如果启用，
+   引擎产生的粒子随意旋转角度。如果禁用，转动使用  "Rotation" 面板设置
+   。
 
 *Render > Rotation Type*
 
-   An Axis of random object rotation (the property is available when
-   "Render > Randomize Initial Rotation" is enabled). There are two
-   options:
+   随机物体的旋转轴（属性时可用 "Render > Randomize Initial Rotation"
+   启用）。有两个选项：
 
-      * "Z axis" - the objects are turned randomly around the
-        vertical Z axis
+      * "Z axis" - 物体是随机绕垂直Z轴旋转
 
-      * "Random axis" - the objects are turned randomly around a
-        random axis
+      * "Random axis"  - 物体是随机绕随机轴线旋转
 
-   The default is "Z axis"
+   默认值是 "Z axis"
 
-*Render > Rotation Strength*
+*渲染>旋转强度*
 
-   Coefficient which defines the range of random rotation angles -
-   counting from the direction towards the camera. Available when the
-   "Render > Randomize Initial Rotation" checkbox is enabled.
-   Examples:
+   系数限定随机旋转角的范围 - 从朝着摄像机的方向计数。  "Render >
+   Randomize Initial Rotation" 复选框勾选的时候被启用。例子：
 
-      * "Rotation Strength = 1" - the angles will lie within the
-        [-\pi, \pi] range
+      * "旋转强度= 1"  - 角度将躺在内  [-\pi, \pi]  范围
 
-      * "Rotation Strength = 0.5" - the angles will lie within the
-        [-0.5 \cdot \pi, 0.5 \cdot \pi] range
+      * "旋转强度= 0.5"  - 角度将躺在内  [-0.5 \cdot \pi, 0.5 \cdot
+        \pi] 范围
 
-      * "Rotation Strength = 0.1" - the angles will lie within the
-        [-0.1 \cdot \pi, 0.1 \cdot \pi] range
+      * "旋转强度= 0.1"  - 角度将躺在内  [-0.1 \cdot \pi, 0.1 \cdot
+        \pi] 范围
 
-   The default value is 1.
+   默认值是1。
 
-*Render > Billboard*
+*渲染>广告牌*
 
-   Enables billboarding for particles. Disabled by default.
+   启用对粒子的广告牌。默认情况下禁用。
 
-*Render > Billboard Type*
+*渲染>广告牌类型*
 
-   Billboarding type. The option is available when the "Render >
-   Billboard" option is enabled. Three types are available:
+   布告板类型。在  "Render > Billboard" 选项被启用时可用。三种类型可供
+   选择：
 
-      * "Basic" - simple one-sided billboarding: particles will be
-        turned with their front to the observer
+      * "Basic"  - 简单片面地产生广告牌：粒子将与他们的前面转向观察
+        者
 
-      * "Random" -"Random" - random two-sided billboarding:
-        particles will be more often turned with their front or rear
-        to the observer and less often with their side; also there
-        will be a small random turn; this model is designed specially
-        for grass instancing
+      * "Random" -"Random"  - 随机双面产生广告牌：粒子将被更多地开启
+        他 们的前面或后面面向观察者更少的用边来对着观察者;也将有一个小
+        的 随机转;这种模式是专门为草实例化
 
-      * "Jittered" - "Jittered" - one-sided billboarding with
-        particles wavering along the plane which is turned to the
-        observer; this model is designed specially for instancing of
-        tree leaves
+      * "Jittered"  - "Jittered"  - 片面产生广告牌沿着其转动到观察者
+        的 平面波浪粒子;这种模式是专为树叶的实例化
 
-   The default is "Basic".
+   默认值是 "Basic"。
 
 *Render > Jitter Amplitude*
 
-   Coefficient which defines the particle oscillation amplitude.
-   Available when the "Jittered" type is selected from the "Render >
-   Billboard Type" menu. The bigger this parameter is, the bigger is
-   the oscillation amplitude. The default value is 0.
+   系数限定了粒子振荡幅度。由 "Render > Billboard Type" 菜单中选择
+   "Jittered" 类型时可用。此参数是越大，越大的振幅。缺省值是0。
 
 *Render > Jitter Frequency*
 
-   Particle oscillation frequency in hertz. Available when the
-   "Jittered" type is selected from the "Render > Billboard Type"
-   menu. The default value is 0.
+   粒子振荡频率单位赫兹。由 "Render > Billboard Type" 菜单中选择
+   "Jittered" 类型时可用。缺省值是0。
 
 *Render > Billboard Geometry*
 
-   Billboard rotation type (the option is available when the "Render >
-   Billboard" checkbox is set). Two types are available:
+   广告牌旋转方式（ "Render > Billboard"  复选框勾选时该选项可用）。两
+   种类型可供选择：
 
-      * "Spherical" - spherical billboarding i.e. particles are
-        fully oriented to the observer and their rotation is
-        unlimited;
+      * "Spherical"  - 球形广告牌即粒子完全面向观察者和他们的旋转是
+        无 限的;
 
-      * "Cylindrical" - cylindrical billboarding i.e. particles are
-        rotating only around the vertical Z axis;
+      * "Cylindrical"  - 圆柱形广告牌即粒子只绕垂直Z轴旋转;
 
-   The default is "Spherical".
+   默认值是 "Spherical"。
 
 
-Dynamic grass setup
--------------------
+动态草设置
+----------
 
 *Dynamic Grass*
 
-   The option enables the dynamic grass rendering mode. Disabled by
-   default.
+   此选项可启用动态小草渲染模式。默认情况下禁用。
 
 *Dynamic Grass > Scale Threshold*
 
-   Minimum size for dynamic grass particles. Smaller particles will
-   not be rendered. The option is available if "Dynamic Grass" is
-   enabled.
+   最小尺寸为动态的草粒子。更小的粒子也不会被渲染。如果启用了
+   "Dynamic Grass" 的选项。
 
 
-Inheritance settings
---------------------
+继承设置
+--------
 
-*Properties Inheritance > Wind Bending*
+*属性继承>风弯曲*
 
-   Inheriting the "Wind Bending" settings by the particles:
+   粒子继承了 "Wind Bending" 设置：
 
-      * "Parent" - inherited from the emitter
+      * "Parent"  - 从发射器继承
 
-      * "Instance" - inherited from the particle object itself
+      * "Instance"  - 从粒子物体本身继承
 
-   The default is "Parent".
+   默认值是 "Parent"。
 
-*Properties Inheritance > Shadows*
+*属性继承>阴影*
 
-   Inheriting the shadow settings by particles:
+   通过粒子继承阴影设置：
 
-      * "Parent" - inherited from the emitter
+      * "Parent"  - 从发射器继承
 
-      * "Instance" - inherited from the particle object itself
+      * "Instance"  - 从粒子物体本身继承
 
-   The default is "Parent".
+   默认值是 "Parent"。
 
-*Properties Inheritance > Reflection*
+*属性继承>反射*
 
-   Inheriting the reflection settings by particles:
+   通过粒子继承反射设置：
 
-      * "Parent" - inherited from the emitter
+      * "Parent"  - 从发射器继承
 
-      * "Instance" - inherited from the particle object itself
+      * "Instance"  - 从粒子物体本身继承
 
-   The default is "Parent".
+   默认值是 "Parent"。
 
-*Properties Inheritance > Vertex Color*
+*属性继承>顶点颜色*
 
-   Inheriting the vertex color from the emitter. Contains two fields:
+   继承发射器顶点颜色。包含两个字段：
 
-      * "From" - the emitter's existing vertex color name
+      * "From"  - 发射器的现有顶点颜色名称
 
-      * "To" - the particle's existing vertex color name
+      * "To"  - 粒子现有的顶点颜色名称
 
-   There is no inheritance by default.
+   默认没有继承。
 
 
-Grass
-=====
+草地
+====
 
-Instancing of objects can be used for visualizing vast grass. In this
-case grass is rendered near the camera when it moves through the
-landscape.
+物体的实例化可用于可视化各种草。在这种情况下，草在相机在地形上移动时，
+相机靠近的时候渲染。
 
 [图片]
 
 
 
-**Activation**
+**激活**
 
-1. On a separate plane object create a particle system for object
-   instancing. Enable the "Dynamic Grass" option.
+1. 在一个独立的平面物体创建一个粒子系统再物体实例化。启用  "Dynamic
+   Grass" 选项。
 
-2. Enable the "Terrain Dynamic Grass" option for the supposed
-   landscape material.
+2. 为所谓的地形材质启用 "Terrain Dynamic Grass" 选项。
 
-**Setup**
+**设置**
 
-It is recommended to create a few planes (for example 3) with sizes
-corresponding to the desired grass cascades (e.g. 100, 150 and 250
-meters).
+建议创建具有少量的平面（例如3）对应于所需草的级联（例如100，150和250米
+）的尺寸。
 
-For the landscape's **material**, the following text fields become
-active when the "Terrain Dynamic Grass" option is enabled:
+对于景观的 **材质**，当 "Terrain Dynamic Grass" 选项启用时，以下文本字
+段被激活：
 
-*Dynamic Grass Size (R)*
-   Vertex color layer name of the landscape mesh which is intended for
-   modifying the grass size. The size (i.e. height) of the grass is
-   defined by gray tints - the brighter color the is the higher is the
-   grass.
+*动态草尺寸（R）*
+   景观网格的顶点颜色图层名称其目的是为修改草大小。草的大小（即高度）
+   由灰色色调定义 - 亮颜色草越高。
 
-*Dynamic Grass Color (RGB)*
-   Name of the landscape mesh's vertex color layer which is intended
-   for grass tinting. The vertex color is multiplied by the grass
-   material color. The "Influence > Blend" parameter for the grass
-   material's diffuse texture should have the "Multiply" value.
+*动态彩色草（RGB）*
+   地形网格的顶点色层的名字是用作草的着色。顶点颜色与草材质颜色相乘。
+   为草材质的漫反射纹理的 "Influence > Blend" 参数应该有 "Multiply" 值
+   。
 
-Vertex color layers with such names should exist in the landscape
-mesh.
+用这样的名字顶点颜色层应在景观网格存在。
 
-It is also recommended to disable rendering of the emitter (the
-"Render > Emitter" option).
+此外，还建议禁用发射器（的 "Render > Emitter" 选项）的渲染。
 
 [图片]
 
 
-Tree Leaves
-===========
+树叶
+====
 
-Instancing suits the rendering of tree leaves well and allows to get a
-better level of detail.
+实例化适合很好的渲染树的叶子，获得较好的层级显示。
 
 [图片]
 
 
 
-**Activation**
+**激活**
 
-Performed as described in the "Particle system setup -> Activation"
-section (see above). In this case the tree is the emitter and the
-leaves and the small branches are the particles.
+在 "Particle system setup -> Activation" 部分描述执行（见上文）。在这
+种情况下，树是发射器然后叶子和小分支是粒子。
 
-Additionally, the following operations can be performed for the
-emitter:
+此外，以下的操作可用于发射器来执行：
 
-   * create a vertex group which includes vertices on which the
-     particles will be placed
+   * 创建顶点组，其包括在其上的粒子将被放置的顶点
 
-   * create a vertex color layer for the wind bending parameters of
-     the tree and the leaves
+   * 创建树的风弯曲参数和叶子顶点着色层
 
-   * create a vertex color layer to be inherited by the particles
-     (for example it can be used for tinting the particles)
+   * 创建顶点着色层由粒子继承（例如它可以用于着色的粒子）
 
-**Setup**
+**设置**
 
-1. *Random rotation settings*
+1. *随机旋转设置*
 
-If the "Initial Random Rotation" checkbox is enabled, it is
-recommended to select the vertical axis for random rotation - "Z axis"
-(by using the "Rotation Type" menu). The "Rotation Strength" value can
-be set at will.
+如果 "初始随机Rotation" 复选框被启用，则建议选择垂直轴随机旋转 - "Z
+axis" （通过使用 "Rotation Type" 菜单）。该 "旋转强度" 值可随意设定。
 
-2. *Billboarding settings*
+2. *布告板设置*
 
-It is recommended to enable billboarding, to set its type as
-"Jittered" (by using the "Render > Billboard Type" menu) and to make
-it spherical - "Spherical" (by using the "Render > Billboard Geometry"
-menu). The "Render > Jitter Amplitude" and "Render > Jitter Frequency"
-values can be set at will.
+建议启用广告牌，设置其类型为 "Jittered" （通过使用 "Render > Billboard
+Type" 菜单），并使其球形 - "Spherical" （通过使用 "渲染>广告牌
+Geometry" 菜单）。该 "渲染>抖动Amplitude" 和 "渲染>抖动Frequency" 值可
+随意设定。
 
-3. *Particle position settings*
+3. *粒子位置设置*
 
-It is recommended to select the "Verts" value from the "Emission >
-Emit From" menu, and to select the emitter's vertex group (in the
-"Vertex Group > Density" field) which defines the positions of
-particles. Note, that the "Render > Randomize Location and Size"
-checkbox should be disabled.
+建议选择从 "Emission > Emit From" 菜单中的 "Verts" 值，并选择发射器的
+顶点组（在 "Vertex Group > Density" 字段）定义粒子的位置。请注意，在
+"Render > Randomize Location and Size" 复选框应禁用。
 
-4. *Wind effect settings*
+4. *风效果设置*
 
-It is recommended to enable inheritance settings from the emitter -
-select the "Parent" in the "Properties Inheritance > Wind Bending"
-menu. Then for the emitter on the "Object" panel enable the "Wind
-Bending" checkbox and set up the bending parameters. For a tree, it is
-enough to specify the "Wind Bending > Main Bending > Angle" and "Wind
-Bending > Main Bending > Frequency" parameters and also a vertex color
-name for bending in the "Wind Bending > Main Bending > Main Stiffness"
-field.
+建议从发射器启用继承设置  -  在 "Properties Inheritance > Wind
+Bending" 菜单选择 "Parent" 。在 "Object" 面板为发射器启用 "Wind
+Bending" 再设置弯曲参数。对一颗树指定 "Wind Bending > Main Bending >
+Angle" 和 "Wind Bending > Main Bending > Frequency" 参数就够了，在
+"Wind Bending > Main Bending > Main Stiffness"  指定顶点色名称用来弯曲
+。
 
-5. *Vertex color inheritance settings*
+5. *顶点颜色继承设置*
 
-For the emitter's vertex color to be inherited by the particles, it is
-required to specify both the emitter's vertex color name and the
-particle's vertex color name in the "Properties Inheritance > Vertex
-Color > From" and "Properties Inheritance > Vertex Color > To" fields
-respectively. As a result, the color of the emitter's vertex that is
-closest to the particle (specified in the "From" field) will be copied
-and propagated into the particle's "To" vertex color layer.
+对于由粒子继承发射器的顶点颜色，则需要在分别在  "Properties
+Inheritance > Vertex Color > From" 和 "Properties Inheritance > Vertex
+Color > To"  同时指定发射器的顶点颜色名称。其结果是，发射器的顶点的颜
+色最接近的是粒子（在 "From" 字段指定）将被复制并传播到粒子的 "To"  顶
+点颜色层。
 
-The resulting vertex color layer with the name specified in the
-"Properties Inheritance > Vertex Color > To" field can be used in the
-particle's node material for its tinting and for any other effects.
+在 "Properties Inheritance > Vertex Color > To" 字段中指定的名称所产生
+的顶点颜色层所用的粒子的节点材质可用于它的着色和任何其他效果。
 
-6. *Setting up the size of particles via vertex group weights*
+6. *通过顶点组权重设置粒子的大小*
 
-In order to create dependency between the size of particles and vertex
-group weights, select the name of the desired vertex group in the
-"Vertex groups > Length" field.
+为了创建粒子和顶点组权重的大小之间的依赖，在  "Vertex groups > Length"
+字段选择所需的顶点组的名称。
 
-The influence can be tweaked by setting weights in the selected vertex
-group.
+影响可通过选定的顶点组中设定的权重进行调整。
 
 [图片]

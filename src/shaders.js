@@ -61,14 +61,15 @@ var SHADERS = ["anchors.glslf",
     "particle_system.glslf",
     "particle_system_stack.glslf",
     "particle_system.glslv",
-    "procedural_skydome.glslf",
-    "procedural_skydome.glslv",
-    "special_lens_flares.glslf",
-    "special_lens_flares.glslv",
-    "special_skydome.glslf",
-    "special_skydome.glslv",
-    "special_water.glslf",
-    "special_water.glslv",
+    "proc_skybox.glslf",
+    "skybox.glslv",
+    "lens_flares.glslf",
+    "lens_flares.glslv",
+    "sky.glslf",
+    "sky.glslv",
+    "water.glslf",
+    "water.glslv",
+    "tex_skybox.glslf",
     "debug_view.glslf",
     "debug_view.glslv",
 
@@ -124,6 +125,7 @@ var SHADERS = ["anchors.glslf",
     "include/shadow.glslf",
     "include/shadow.glslv",
     "include/skin.glslv",
+    "include/sky_blending.glslf",
     "include/std.glsl",
     "include/to_world.glslv",
     "include/wind_bending.glslv"];
@@ -230,8 +232,8 @@ function get_shader_default_vars(vert_name, frag_name) {
     var pair_id = vert_name + frag_name;
     
     if (!(pair_id in _vars_cache)) {
-        var vert_ast = get_shader_ast(cfg_pth.shaders_dir, vert_name);
-        var frag_ast = get_shader_ast(cfg_pth.shaders_dir, frag_name);
+        var vert_ast = get_shader_ast(cfg_pth.shaders_path, vert_name);
+        var frag_ast = get_shader_ast(cfg_pth.shaders_path, frag_name);
 
         var vert_vars = collect_vars(vert_ast);
         var frag_vars = collect_vars(frag_ast);
@@ -261,7 +263,9 @@ exports.set_default_directives = function(sinfo) {
     else
         set_directive(sinfo, "EPSILON", glsl_value(0.0001));
 
-    set_directive(sinfo, "CONSTANTS_HACK", cfg_def.shader_constants_hack | 0);    
+    set_directive(sinfo, "CONSTANTS_HACK", cfg_def.shader_constants_hack | 0);
+
+    set_directive(sinfo, "SRGB", cfg_def.srgb_type);
 
     return;
 }
@@ -301,8 +305,8 @@ function get_compiled_shader(shaders_info) {
     var fshader = shaders_info.frag;
 
     // load the code
-    var vshader_ast = get_shader_ast(cfg_pth.shaders_dir, vshader);
-    var fshader_ast = get_shader_ast(cfg_pth.shaders_dir, fshader);
+    var vshader_ast = get_shader_ast(cfg_pth.shaders_path, vshader);
+    var fshader_ast = get_shader_ast(cfg_pth.shaders_path, fshader);
     if (!vshader_ast || !fshader_ast)
         return null;
 
@@ -743,7 +747,7 @@ exports.load_shaders = function() {
         var asset_type = m_assets.AT_TEXT;
 
         for (var i = 0; i < SHADERS.length; i++) {
-            var shader_path = m_util.normpath_preserve_protocol(cfg_pth.shaders_dir
+            var shader_path = m_util.normpath_preserve_protocol(cfg_pth.shaders_path
                     + SHADERS[i]);
             shader_assets.push({id:SHADERS[i], type:asset_type, url:shader_path});
         }
@@ -849,7 +853,7 @@ function collect_vars(ast) {
         if (ast_node.TYPE == "var")
             vars[ast_node.NAME] = ast_node.TOKENS.join("");
         else if (ast_node.TYPE == "include") {
-            var ast_inc = get_shader_ast(cfg_pth.shaders_dir,
+            var ast_inc = get_shader_ast(cfg_pth.shaders_path,
                     cfg_pth.shaders_include_dir + ast_node.FILE);
             traverse_data(ast_inc, vars_cb);
         }
@@ -1172,7 +1176,7 @@ function preprocess_shader(type, ast, shaders_info) {
 
     function process_include(elem) {
         var file = elem.FILE;
-        var ast_inc = get_shader_ast(cfg_pth.shaders_dir,
+        var ast_inc = get_shader_ast(cfg_pth.shaders_path,
                                      cfg_pth.shaders_include_dir + file);
         curr_file_stack.push("include/" + file);
         process_group(ast_inc);

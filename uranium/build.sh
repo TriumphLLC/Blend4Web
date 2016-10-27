@@ -153,6 +153,9 @@ _du_get_collision_result \
 _du_get_shape_name \
 "
 
+# CHECKS
+
+[ ! -d "bullet" ] && echo "Bullet directory not found, seems you are trying to build uranium from light SDK" && exit 1;
 
 # EXEC
 

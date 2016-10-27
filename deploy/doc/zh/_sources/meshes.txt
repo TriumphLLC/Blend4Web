@@ -8,7 +8,7 @@
 
 * 网格
 
-  * 静态和动态物体
+  * 静态和动态网格
 
   * 设置
 
@@ -16,33 +16,28 @@
 
   * 变形
 
-Meshes are a subclass of objects. Meshes are different from objects of
-the other types in a sence that they have geometric structure that is
-visible in the scene. All objects user can see in a scene are either
-meshes or convertet to meshes on export (like the "CURVE", "TEXT",
-"METABALL" and "SURFACE" type objects).
+网格是的 obje物体 的一个子类。网格从某种意义上讲跟其他物体类型是不一样
+的，尽管他们都是在场景中可见的几何结构。用户在一个场景中看到的所有物体
+都是网格或 在导出时 (比如 "CURVE", "TEXT", "METABALL" 和 "SURFACE" 类
+型的物体)转换成网格的。
 
-Blend4Web addon has several tools for mesh editing, including the
-normal editor.
+Blend4Web 插件 有几个工具用于网格编辑，包括  法线编辑器.
 
-This chapter provides an overview of the "MESH" type object parameters
-and settings, as well as the API functions to work with them.
+这一章概述了 "MESH" 类型物体参数和设置，以及他们一起工作的 API 函数。
 
 
-静态和动态物体
+静态和动态网格
 ==============
 
-所有``MESH`` 物体可分为静态和动态物体。
+所有 "MESH" 物体可分为静态和动态。
 
 **静态物体** 是物体，具有相同的材质的网格可以合并在一起。
 
 **动态物体** 是物体，网格不可以互相合并。
 
-Merging of static meshes - so called batching - is performed
-automatically when the scene is loaded in order to optimize the number
-of draw calls. The conversion is performed even if there is just one
-object in the scene. The center of the resulting mesh is located in
-the origin.
+静态网格的合并-所谓的批处理-在场景被加载时自动执行，以优化绘制调用的次
+数。即使在场景中只有一个物体，也执行转换。由此产生的网格的中心位于原点
+。
 
 具有动画，物理或父级关系的物体，是一个动态物体，都被认为是动态的。
 

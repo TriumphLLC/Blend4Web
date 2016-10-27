@@ -1,14 +1,131 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8" />
     <title>Blend4Web Viewer</title>
-    <link rel='shortcut icon' href='images/favicon.png' />
-    <link type='text/css' rel='stylesheet' href='viewer.min.css?v=16.09.2'/>
-    <script type='text/javascript' src='../common/b4w.simple.min.js?v=16.09.2'></script>
-    <script src='jquery-2.2.0.min.js' type='text/javascript'></script>
-    <script type='text/javascript' src='viewer.min.js?v=16.09.2'></script>
+
+    <meta charset="utf-8">
+
+    <link rel="shortcut icon" href="images/favicon.png"/>
+
+<link type='text/css' rel='stylesheet' href='viewer.min.css?v=16.10'/>    
+    
+    
+
+    <script type="text/javascript" src="jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="jquery.mobile-1.4.5.js"></script>
+
+<script type='text/javascript' src='../common/b4w.simple.min.js?v=16.10'></script>    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+<script type='text/javascript' src='viewer.min.js?v=16.10'></script>    
+
+    
+
+    
 </head>
+
 <body>
 
 <div id="main_canvas_container">
@@ -69,15 +186,6 @@
     </div>
 
     <div class="scene-settings" data-role="collapsible-set">
-
-        <div data-role="collapsible" data-collapsed="true" class="menu_items">
-          <h1>Scenes</h1>
-          <div data-role="fieldcontain">
-            <div id="manifest" data-role="collapsible-set" class="left_block_padding">
-            </div>
-          </div>
-        </div>
-
         <div data-role="collapsible" data-collapsed="true" class="menu_items">
             <h1>Tools & Debug</h1>
 
@@ -88,11 +196,6 @@
                         <option value="0">Off</option>
                         <option value="1" selected>On</option>
                     </select>
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <input type="button" value="Auto View Mode"
-                        id="auto_view" data-inline="true"
-                        data-icon="camera" data-mini="true" />
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="canvas_rf">Canvas resolution factor:</label>
@@ -603,26 +706,29 @@
             </div>
         </div>
 
-        <!--
+        
         <div data-role="collapsible" data-collapsed="true">
             <h1>Fog</h1>
 
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="fog_density">Density:</label>
-                    <input id="fog_density" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001">
+                    <label for="fog_intensity">Minimum:</label>
+                    <input id="fog_intensity" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="fog_density1000">Density x 1000:</label>
-                    <input id="fog_density1000" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.002">
+                    <label for="fog_depth">Depth:</label>
+                    <input id="fog_depth" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="fog_color">Color:</label>
-                    <div><div id="fog_color" class="color_selector"><div></div></div></div>
+                    <label for="fog_start">Start:</label>
+                    <input id="fog_start" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.001">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="fog_height">Height:</label>
+                    <input id="fog_height" data-highlight="true" value="0.0" min="0.0" max="100.0" type="range" step="0.001">
                 </div>
             </div>
-        </div>
-        -->
+        </div> 
 
         <div data-role="collapsible" data-collapsed="true">
             <h1>Wind</h1>
@@ -902,4 +1008,5 @@
   </div> </div>
 
 </body>
+
 </html>

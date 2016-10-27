@@ -285,7 +285,7 @@ exports.get_rotation_rel = function(obj, opt_dest) {
 }
 
 /**
- * Set euler rotation in the YZX intrinsic system.
+ * Set euler rotation in the ZYX intrinsic system.
  * Using euler angles is discouraged, use quaternion instead.
  * @method module:transform.set_rotation_euler
  * @param {Object3D} obj Object 3D
@@ -307,7 +307,40 @@ exports.set_rotation_euler = function(obj, x, y, z) {
 }
 
 /**
- * Set euler rotation in the YZX intrinsic system
+ * Get Euler rotation of object in the ZYX intrinsic system.
+ * Using euler angles is discouraged, use quaternion instead.
+ * @method module:transform.get_rotation_euler
+ * @param {Object3D} obj Object 3D
+ * @param {Euler} [dest = new Float32Array(3)] Destination vector
+ * @returns {Quat} Vector with Euler angles
+ */
+exports.get_rotation_euler = function(obj, dest) {
+    if (!dest)
+        var dest = new Float32Array(3);
+
+    m_trans.get_rotation_euler(obj, dest);
+    return dest;
+}
+
+/**
+ * Get Euler rotation of object in the ZYX intrinsic system
+ * (in the coordinate space of its parent).
+ * Using euler angles is discouraged, use quaternion instead.
+ * @method module:transform.get_rotation_euler
+ * @param {Object3D} obj Object 3D
+ * @param {Euler} [dest = new Float32Array(3)] Destination vector
+ * @returns {Quat} Vector with Euler angles
+ */
+exports.get_rotation_euler_rel = function(obj, dest) {
+    if (!dest)
+        var dest = new Float32Array(3);
+
+    m_trans.get_rotation_euler_rel(obj, dest);
+    return dest;
+}
+
+/**
+ * Set euler rotation in the ZYX intrinsic system
  * (in the coordinate space of its parent).
  * Using euler angles is discouraged, use quaternion instead.
  * @method module:transform.set_rotation_euler_rel

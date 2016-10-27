@@ -17,7 +17,7 @@ var m_print  = require("print");
 var m_sfx    = require("sfx");
 var m_time   = require("time");
 var m_assets = require("assets");
-var m_obj    = require("objects");
+var m_mat    = require("material");
 var m_cont   = require("container");
 var m_util   = require("util");
 var m_nla    = require("nla");
@@ -165,13 +165,13 @@ function setup_language(config) {
         lang_val = 0
 
     var lang_obj = m_scs.get_object_by_dupli_name_list(config["language_obj"].split("*"));
-    m_obj.set_nodemat_value(lang_obj,
+    m_mat.set_nodemat_value(lang_obj,
                             ["main_menu_stone", "language_switcher"],
                             lang_val);
 
     if (!m_main.detect_mobile()) {
         _back_to_menu_button = m_scs.get_object_by_name(config["back_to_menu_obj_name"]);
-        m_obj.set_nodemat_value(_back_to_menu_button,
+        m_mat.set_nodemat_value(_back_to_menu_button,
                                 ["back_to_main_menu", "back_button_language"],
                                 lang_val);
     }
@@ -309,7 +309,7 @@ function button_glow_cb(obj, id, pulse) {
         if (cur_glow_val !== undefined &&
                 binfo.glow_curr_value != cur_glow_val)
             for (var i = 0; i < binfo.glow_objs.length; i++)
-                m_obj.set_nodemat_value(binfo.glow_objs[i],
+                m_mat.set_nodemat_value(binfo.glow_objs[i],
                                 [binfo.material, binfo.value_node_name],
                                  binfo.glow_curr_value);
 

@@ -32,6 +32,7 @@ b4w.module["__subscene"] = function(exports, require) {
 var m_cam      = require("__camera");
 var m_cfg      = require("__config");
 var m_util     = require("__util");
+var m_bounds   = require("__boundings");
 
 var cfg_out = m_cfg.outlining;
 var cfg_scs = m_cfg.scenes;
@@ -155,12 +156,8 @@ exports.create_subs_shadow_cast = function(csm_index, lamp_index, shadow_params,
 function add_light_attributes(subs, num_lights) {
     subs.num_lights = num_lights;
     subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
-    subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
-    subs.light_color_intensities = new Float32Array(num_lights * 3); // vec3's
-
-    // packed vec2's into vec4's
-    var num_lfac = num_lights % 2 == 0 ? num_lights * 2: num_lights * 2 + 2;
-    subs.light_factors           = new Float32Array(num_lfac);
+    subs.light_positions         = new Float32Array(num_lights * 4); // vec4's
+    subs.light_color_intensities = new Float32Array(num_lights * 4); // vec4's
 }
 
 /**
@@ -257,6 +254,7 @@ function init_subs(type) {
         rayleigh_collection_power: 0,
         mie_distribution: 0,
         sky_color: new Float32Array(3),
+        procedural_skydome: false,
 
         // ssao properties
         ssao_hemisphere: 0,
@@ -321,7 +319,19 @@ function init_subs(type) {
 
         shadow_lamp_index: 0,
 
-        need_draw_data_sort: true
+        need_draw_data_sort: true,
+
+        // ske props
+        sky_invert: false,
+        sky_use_rgb_to_intensity: false,
+        sky_use_map_blend: false,
+        sky_use_map_horizon: false,
+        sky_use_map_zenith_up: false,
+        sky_use_map_zenith_down: false,
+        sky_blend_type: "",
+        use_sky_blend: false,
+        use_sky_paper: false,
+        use_sky_real: false
     }
 
     // setting default values
@@ -873,7 +883,7 @@ exports.create_subs_god_rays_comb = function(intensity, num_lights) {
 /**
  * Create subscene for screen rendering
  */
-exports.create_subs_sky = function(num_lights, sky_params) {
+exports.create_subs_sky = function(wls, num_lights, sky_params, size) {
 
     var subs = init_subs(SKY);
 
@@ -885,8 +895,8 @@ exports.create_subs_sky = function(num_lights, sky_params) {
     var cam = m_cam.create_camera(m_cam.TYPE_NONE);
 
     // NOTE: check it
-    cam.width = cfg_scs.cubemap_tex_size;
-    cam.height = cfg_scs.cubemap_tex_size;
+    cam.width = size;
+    cam.height = size;
 
     subs.camera = cam;
 
@@ -912,6 +922,32 @@ exports.create_subs_sky = function(num_lights, sky_params) {
     subs.rayleigh_collection_power   = sky_params.rayleigh_collection_power;
     subs.mie_collection_power        = sky_params.mie_collection_power;
     subs.mie_distribution            = sky_params.mie_distribution;
+
+    subs.procedural_skydome = sky_params.procedural_skydome ? true : false;
+
+    if (wls) {
+        subs.horizon_color.set(wls.horizon_color);
+        subs.zenith_color.set(wls.zenith_color);
+        subs.environment_energy = wls.environment_energy;
+        var sts = wls.sky_texture_param;
+        if (sts) {
+            subs.sky_tex_fac.set([sts.blend_factor, sts.horizon_factor,
+                sts.zenith_up_factor, sts.zenith_down_factor]);
+            subs.sky_tex_color.set(sts.color);
+            subs.sky_tex_default_value = sts.default_value;
+            subs.sky_invert = sts.invert;
+            subs.sky_use_rgb_to_intensity = sts.use_rgb_to_intensity;
+            subs.sky_use_map_blend = sts.use_map_blend;
+            subs.sky_use_map_horizon = sts.use_map_horizon;
+            subs.sky_use_map_zenith_up = sts.use_map_zenith_up;
+            subs.sky_use_map_zenith_down = sts.use_map_zenith_down;
+            subs.sky_blend_type = sts.blend_type;
+        }
+        subs.use_sky_blend = wls.use_sky_blend;
+        subs.use_sky_paper = wls.use_sky_paper;
+        subs.use_sky_real = wls.use_sky_real;
+    }
+
 
     return subs;
 }
@@ -1173,12 +1209,28 @@ function init_draw_data(shader, rb, alpha_clip, offset_z) {
 }
 
 exports.init_bundle = function(batch, render) {
-    return {
+    var bundle = {
         do_render: true,
         do_render_cube: [true, true, true, true, true, true],
         obj_render: render,
-        batch: batch
+        batch: batch,
+        info_for_z_sort_updates: null
     };
+
+    // NOTE: Z-sorting is possible only for indexed buffers
+    if (batch.z_sort && batch.bufs_data.ibo_array) {
+        var indices = batch.bufs_data.ibo_array;
+        bundle.info_for_z_sort_updates = {
+            // caching is possible because count does not change
+            median_cache: new Float32Array(indices.length),
+            median_world_cache: new Float32Array(indices.length),
+            dist_cache: new Float32Array(indices.length/3),
+            zsort_eye_last: new Float32Array(3),
+            bb_min_side: m_bounds.calc_min_bb_side(batch.bb_local)
+        };
+    }
+
+    return bundle;
 }
 
 function get_draw_data(draw_data, shader, offset_z) {

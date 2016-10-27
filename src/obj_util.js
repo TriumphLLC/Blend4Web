@@ -199,6 +199,8 @@ function create_render(type) {
         bs_world: m_bounds.create_bs(),
         be_local: m_bounds.create_be(),
         be_world: m_bounds.create_be(),
+        bbr_local: m_bounds.create_rot_bb(),
+        bbr_world: m_bounds.create_rot_bb(),
         bcyl_local: null,
         bcap_local: null,
         bcon_local: null,

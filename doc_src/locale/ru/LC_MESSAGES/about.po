@@ -5,15 +5,9 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
+"POT-Creation-Date: 2016-10-21 15:38+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -168,8 +162,9 @@ msgstr ""
 " во всех браузерах."
 
 #: ../about.rst:73
-msgid "Full Support"
-msgstr "Полная поддержка"
+#, fuzzy
+msgid "Desktop Browsers"
+msgstr "браузер"
 
 #: ../about.rst:75
 msgid "`Chrome <http://www.google.com/chrome>`_"
@@ -496,13 +491,12 @@ msgid "sound processing, `Web Audio API <http://www.w3.org/TR/webaudio/>`_"
 msgstr "обработка звука, `Web Audio API <http://www.w3.org/TR/webaudio/>`_"
 
 #: ../about.rst:170
-#, fuzzy
 msgid ""
 "binary data loading, `XMLHttpRequest Level 2 "
 "<https://www.w3.org/TR/XMLHttpRequest2/>`_"
 msgstr ""
 "загрузка бинарных данных, `XMLHttpRequest Level 2 "
-"<https://www.w3.org/TR/XMLHttpRequest/>`_"
+"<https://www.w3.org/TR/XMLHttpRequest2/>`_"
 
 #: ../about.rst:171
 msgid ""
@@ -715,4 +709,7 @@ msgstr "драйверы"
 
 #~ msgid "Experimental Support"
 #~ msgstr "Экспериментальная поддержка"
+
+#~ msgid "Full Support"
+#~ msgstr "Полная поддержка"
 

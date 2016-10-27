@@ -168,8 +168,7 @@ alpha合成
 概述
 ----
 
-Physically correct alpha compositing is performed according to the
-formula [source]:
+物理正确的alpha合成是根据下式进行的 [source]:
 
    C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a).
 

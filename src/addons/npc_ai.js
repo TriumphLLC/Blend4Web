@@ -88,9 +88,9 @@ exports.new_event_track = function(graph) {
     graph.start            = [];
     graph.ended            = [];
     graph.fired            = [];
-    graph.vert_correction  = null;
-    graph.prev_hit_pos     = null;
-    graph.vert_cor_water   = null;
+    graph.ground_level     = 0;
+    graph.vert_correction  = 0;
+    graph.vert_cor_water   = 0;
     graph.reached          = true;
     graph.rotation_mult    = 1.0;
 
@@ -120,40 +120,44 @@ function run_track(elapsed, ev_track) {
     m_trans.get_translation(ev_track.collider, current_loc);
 
     var vert_correction = 0;
-    if (ev_track.vert_cor_water) {
-        vert_correction = ev_track.vert_cor_water;
-    } else if (ev_track.vert_correction) {
-        vert_correction = ev_track.vert_correction;
-
-        if (ev_track.type == NT_WALKING)
-            // prevent walking npc's from "falling undergroung"
-            vert_correction *= 0.5;
-
-        if (ev_track.type == NT_SWIMMING)
-            vert_correction *= elapsed;
-
-    }
+    var cur_height = current_loc[2];
+    destination[2] = cur_height;
 
     switch (ev_track.type) {
     case NT_WALKING:
         if (ev_track.random && ev_track.reached) {
             destination[0] = (Math.random()*12 - 6)*ev_track.speed + base_pos[0];
             destination[1] = -(Math.random()*12 - 6)*ev_track.speed + base_pos[1];
+
             move_destination_if_too_close(ev_track, destination, current_loc);
             ev_track.reached = false;
         }
 
-        destination[2]  = current_loc[2];
+        if (ev_track.ground_level) {
+            var vert_correction = ev_track.ground_level - cur_height;
+            var vert_delta = ev_track.speed * elapsed;
 
-        if (vert_correction)
-            destination[2] += vert_correction;
+            if (vert_correction > vert_delta)
+                vert_correction = vert_delta;
+            else if (vert_correction < -vert_delta)
+                vert_correction = -vert_delta;
+        }
+
+        ev_track.vert_correction = vert_correction;
 
         break;
     case NT_FLYING:
     case NT_SWIMMING:
 
-        if (ev_track.random && ev_track.reached) {
+        if (ev_track.vert_cor_water) {
+            vert_correction = ev_track.vert_cor_water;
+        } else if (ev_track.vert_correction) {
+            vert_correction = ev_track.vert_correction;
+            if (ev_track.type == NT_SWIMMING)
+                vert_correction *= elapsed;
+        }
 
+        if (ev_track.random && ev_track.reached) {
             if (ev_track.type == NT_SWIMMING) {
                 ev_track.speed = Math.random() + 0.1;
                 var magnitude = ev_track.max_depth - ev_track.min_depth;
@@ -163,15 +167,16 @@ function run_track(elapsed, ev_track) {
             var rot_speed = ev_track.rot_speed;
 
             destination[0] = Math.random() * 10 - 5 + base_pos[0];
-            destination[2] = current_loc[2] - (Math.random() * magnitude - 0.5 * magnitude);
             destination[1] = Math.random() * 10 - 5 + base_pos[1];
+            destination[2] = cur_height - (Math.random() * magnitude - 0.5 * magnitude);
             ev_track.reached = false;
         }
-
-        if (vert_correction)
-            destination[2] = current_loc[2] + vert_correction;
         break;
     }
+
+    if (vert_correction)
+        destination[2] = cur_height + vert_correction;
+
     anim_translation(elapsed, ev_track);
 }
 
@@ -437,32 +442,24 @@ function ground_cb(obj, id, pulse, ev) {
 
     if (pulse == 1) {
 
-        var hit_pos;
-
         switch(ev.type) {
             case NT_FLYING:
-                hit_pos = 100 * flying_npc_hit_position(obj, id);
-                if (hit_pos < ev.min_height) {
+                var hit_fract = 100 * flying_npc_hit_fract(obj, id);
+                if (hit_fract < ev.min_height) {
                     ev.vert_correction = 10;
-                } else if (hit_pos > ev.max_height) {
+                } else if (hit_fract > ev.max_height) {
                     ev.vert_correction = -10;
                 } else
                     ev.vert_correction = 0;
             break;
             case NT_WALKING:
-                hit_pos = m_ctl.get_sensor_payload(obj, id, 0).hit_fract;
-
-                if (ev.prev_hit_pos == hit_pos)
-                    ev.vert_correction = 0;
-                else
-                    ev.vert_correction = 1 - hit_pos * 100;
-
-                ev.prev_hit_pos = hit_pos;
+                var payload = m_ctl.get_sensor_payload(obj, id, 0);
+                ev.ground_level = payload.hit_pos[2];
             break;
             case NT_SWIMMING:
-                hit_pos = m_ctl.get_sensor_payload(obj, id, 0).hit_fract;
+                var payload = m_ctl.get_sensor_payload(obj, id, 0);
                 if (id == "CLOSE_GROUND") {
-                    ev.vert_correction = hit_pos * 100 - 1;
+                    ev.vert_correction = payload.hit_fract * 100 - 1;
 
                     if (ev.vert_correction < 0.1)
                         ev.vert_correction = 0.05;
@@ -470,7 +467,7 @@ function ground_cb(obj, id, pulse, ev) {
                         ev.vert_correction = 0;
 
                 } else if (id == "CLOSE_WATER") {
-                    ev.vert_cor_water = hit_pos * 100;
+                    ev.vert_cor_water = hit_fract * 100;
 
                     if (ev.vert_cor_water < ev.min_depth)
                         ev.vert_cor_water = -0.02;
@@ -486,7 +483,7 @@ function ground_cb(obj, id, pulse, ev) {
         ev.vert_correction = 0;
 }
 
-function flying_npc_hit_position(obj, id) {
+function flying_npc_hit_fract(obj, id) {
     for (var i = 0; i < 3; i++) {
         var hit_pos = m_ctl.get_sensor_payload(obj, id, i).hit_fract;
         if (hit_pos)
@@ -516,11 +513,11 @@ function create_track_ray_sensors(ev_track) {
     switch (ev_track.type) {
     case NT_FLYING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, 0, -100], "TERRAIN", true);
+                ZERO_POINT, [0, 0, -100], "TERRAIN", true, true);
         var near_stone_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, 0, -100], "STONE", true);
+                ZERO_POINT, [0, 0, -100], "STONE", true, true);
         var near_water_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, 0, -100], "WATER", true);
+                ZERO_POINT, [0, 0, -100], "WATER", true, true);
 
         var ground_sens_arr = [near_ground_sens, near_stone_sens, near_water_sens];
 
@@ -531,7 +528,7 @@ function create_track_ray_sensors(ev_track) {
         break;
     case NT_WALKING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                [0, 0, 1], [0, 0, -99], "TERRAIN", true);
+                [0, 0, 1], [0, 0, -99], "TERRAIN", true, true);
 
         var ground_sens_arr = [near_ground_sens];
         m_ctl.create_sensor_manifold(collider,
@@ -541,9 +538,9 @@ function create_track_ray_sensors(ev_track) {
         break;
     case NT_SWIMMING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                [0, 0, 1], [0, 0, -99], "TERRAIN", true);
+                [0, 0, 1], [0, 0, -99], "TERRAIN", true, true);
         var near_water_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, 0, 100], "WATER", true);
+                ZERO_POINT, [0, 0, 100], "WATER", true, true);
 
         var ground_sens_arr = [near_ground_sens];
         var water_sens_arr  = [near_water_sens];
@@ -568,11 +565,11 @@ function create_track_collision_sensors(ev_track) {
     var need_payload = false;
     var collision_sensor = m_ctl.create_collision_sensor(collider, "CONSTRUCTION",
                                                          need_payload);
-
     function collision_cb(obj, id, pulse) {
         if (pulse == 1) {
             m_trans.get_translation(ev_track.empty, ev_track.destination);
             ev_track.rotation_mult = 4.0;
+
         } else {
             ev_track.rotation_mult = 1.0;
         }

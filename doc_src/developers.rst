@@ -160,7 +160,7 @@ Then the some_scene.json scene is loaded similar to the previous example. The on
 In case when the ``app`` module is used, it is necessary to explicitly specify dimensions of the container element. Otherwise, the created ``<canvas>`` element will have zero dimensions.
 
 Background Transparency
------------------------
+=======================
 
 The ``background_color`` and ``alpha`` parameters are passed to the :b4wref:`m_app.init` method placed in the load callback function (a function that is called right after the scene is loaded), like this:
 
@@ -174,14 +174,14 @@ The ``background_color`` and ``alpha`` parameters are passed to the :b4wref:`m_a
 
 The combination of the parameters passed to the method defines how the backgrounds of the Blend4Web application and the HTML application blend together. Available options are:
 
-#. ``alpha`` = false
+1. ``alpha`` = false
 	The color of the background is defined by the ``background_color`` of the Blend4Web application, the background of the HTML application is not taken into consideration.
 
 .. image:: src_images/developers/developers_background_opaque.png
    :align: center
    :width: 100%
 
-#. ``alpha`` = true
+2. ``alpha`` = true
 	The background of the HTML application might influence the background of the Blend4Web application based on its transparency which is defined by the fourth component of the ``background_color`` parameter (``alpha`` = ``background_color[3]``, not to be confused with the ``alpha`` parameter mentioned above).
 
 	background_color[3] = 1
@@ -258,6 +258,7 @@ To exclude some directory from resource conversion, it is enough to put a file n
 
 The **resize_textures** argument is used for decreasing texture resolution for the **LOW** mode.
 
+.. _converter_deps:
 
 Dependencies
 ------------
@@ -299,9 +300,9 @@ The list of dependencies is listed in the following table:
 
 For MS Windows users it is not necessary to install these packages since they are already present in the SDK.
 
-**Mac OS**
+**macOS**
 
-Mac OS users can install the `brew <http://www.brew.sh/>`_ package manager first and then install any missing packages.
+macOS users can install the `brew <http://www.brew.sh/>`_ package manager first and then install any missing packages.
 
 Before installing packages, install the libpng and libjpeg libraries using these commands:
 
@@ -363,7 +364,7 @@ for images (convert_dds):
 
 Example of an input file: ``file_name.jpg``, example of an output file: ``file_name.altconv.jpg.dds``.
 
-For the purpose of optimizing application performance it's possible to use ``min50`` (halved) and ``DDS`` textures. In order to do this, we need to pass the following parameters during initialization of the application:
+For the purpose of optimizing application performance it's possible to use ``min50`` (halved) and ``DDS`` or ``PRVTC`` (compressed) textures. In order to do this, we need to pass the following parameters during initialization of the application:
 
 .. code-block:: javascript
 
@@ -376,6 +377,21 @@ For the purpose of optimizing application performance it's possible to use ``min
         });
         // . . .
     }
+
+.. note::
+    If you are planning to use textures compressed into :ref:`PVRTC <pvrtc>` format, then replace this line of code
+
+     .. code-block:: javascript
+
+         assets_dds_available: true,
+
+    with the following:
+
+     .. code-block:: javascript
+
+         assets_pvr_available: true,
+
+    This will tell the engine to load PVRTC textures, if such are present in the ``../assets/`` folder.
 
 .. _dds:
 
@@ -398,6 +414,8 @@ During exporting the scene from Blender to the ``JSON`` format (but not the ``HT
 
 Textures can be converted to the ``DDS`` format using the :ref:`project manger <project_management>` or the *scripts/converter.py* script described above.
 
+.. _pvrtc:
+
 PVRTC Texture Compression
 .........................
 
@@ -407,7 +425,7 @@ The format has two compression settings that are supported by the engine: 2-bpp 
 
 As with ``DDS`` format, textures compressed using the ``PVRTC`` algorithm may not work on some platforms, especially mobile, because using this compression format require support for the ``IMG_texture_compression_pvrtc`` WebGL extension.
 
-The PVRTC library and SDK are available for Windows, Linux and MacOS X systems alike. Installation packages can be downloaded from the `Power VR Insider <https://community.imgtec.com/developers/powervr/>`_ web page.
+The PVRTC library and SDK are available for Windows, Linux and macOS systems alike. Installation packages can be downloaded from the `Power VR Insider <https://community.imgtec.com/developers/powervr/>`_ web page.
 
 The Blend4Web engine uses a console PVRTC tool. To use it, you need to add the path to it to the ``PATH`` environmental variable, like the following:
 
@@ -586,9 +604,6 @@ SDK File Structure
 
     **viewer**
         the sources files of the Viewer application
-
-        **assets.json**
-            metadata with information about scenes loaded by the Viewer
 
     **webplayer**
         source files of the Web Player app

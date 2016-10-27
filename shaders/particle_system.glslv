@@ -34,7 +34,6 @@
                                 SHADER INTERFACE
 ==============================================================================*/
 GLSL_IN vec3 a_position;
-// TODO: add dirs for a_tbn_quat
 GLSL_IN vec4 a_tbn_quat;
 GLSL_IN vec3 a_p_data;
 GLSL_IN vec4 a_p_vels;
@@ -190,8 +189,8 @@ void main(void) {
     }
 
 
-    vec3 pos_local = vec3(a_p_bb_vertex[0] * 2.0 * pp.size * u_p_size, 0.0,
-            a_p_bb_vertex[1] * 2.0 * pp.size * u_p_size);
+    vec3 pos_local = vec3((a_p_bb_vertex[0] * 2.0 - 1.0) * pp.size * u_p_size, 0.0,
+            (a_p_bb_vertex[1] * 2.0 - 1.0) * pp.size * u_p_size);
 
     float bb_random_val = a_p_data[2];
     float random_tilt = u_p_tilt * u_p_tilt_rand * (2.0 * bb_random_val - 1.0);
@@ -245,11 +244,11 @@ void main(void) {
 #else //NODES
 
 # if TEXTURE_COLOR
-    v_texcoord = a_p_bb_vertex + 0.5;
+    v_texcoord = a_p_bb_vertex;
 # endif
 
 # if HALO_PARTICLES
-    v_texcoord = a_p_bb_vertex * 2.0;
+    v_texcoord = a_p_bb_vertex * 2.0 - 1.0;
 # else
     v_alpha = pp.alpha;
 # endif

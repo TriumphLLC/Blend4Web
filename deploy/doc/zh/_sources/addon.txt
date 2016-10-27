@@ -8,9 +8,9 @@
 
 * 插件
 
-  * Local Development Server
+  * 本地开发服务器
 
-  * Running Viewer and Demos
+  * 运行浏览器和演示
 
   * 输出格式
 
@@ -33,73 +33,63 @@
   * 插件翻译
 
 
-Local Development Server
-========================
+本地开发服务器
+==============
 
-Settings for the local development server can be found in "File > User
-Preferences..." (hot keys "Ctrl-Alt-U"). Here you can change the port
-number to be used to run the development server (6687 by default), and
-also enable its launching upon Blender startup. To do this, enable
-"Run on Startup" option in the add-on settings.
-
-[图片]
-
-
-
-After changing local development server settings in it required to
-restart Blender.
-
-It is possible for the local server to process external requests. To
-do that enable the option "Enable External Requests".
-
-If you chose not to start the server automatically, you can always do
-it manually: go to the "Render" tab and press the "Start Server"
-button on the "Development Server" panel:
+本地开发服务器的设置中可以在  "File > User Preferences..."  找到 (快捷
+键 "Ctrl-Alt-U") 。在这里，您可以更改端口号被用来运行开发服务器（默认
+情况下6687），可随Blender启动开启。要做到这一点，在插件上启用 "Run on
+Startup" 选项运行。
 
 [图片]
 
 
 
-注解: If the path to the Blend4Web SDK is not specified, the local
-  development server cannot be launched. In this case the
-  corresponding message will be displayed instead of the "Start
-  Server" button.If the server is failed to run, an error message will
-  be shown describing the reason:[图片]This error can arise if the
-  server port is already used by some other application.
+在改变了本地开发服务器设置后需要重新启动Blender。
 
-Press the "SDK Index" button to open the index web page of the
-Blend4Web SDK in the browser. This page is available at
-http://localhost:6687.
+有可能为本地服务器来处理外部请求。要做到这一点启用 "Enable External
+Requests" 选项 。
+
+如果您选择不自动启动服务器，你总是可以手动启动：去 "Render" 选项卡，然
+后按 "Development Server"  面板上的  "Start Server" 按钮：
 
 [图片]
 
 
 
-As a result, the default browser for your operating system will be
-launched.
+注解: 如果没有指定的Blend4Web SDK的路径，本地开发服务器无法启动。在
+  这种情 况下，相应的消息将被显示，而不是 "Start Server" 按钮。如果服
+  务器无法 运行，将显示一条错误消息，说明了原因：[图片]如果服务器端口
+  已被一些其 他的应用程序可能会出现此错误。
 
-The "Project Manager" button can be used to open project manager.
-
-The "Fast Preview" button loads the scene that is currently open in
-Blender, into the viewer.
-
-The server can be stopped by pressing the "Stop Server" button. It
-also stops when Blender is closed.
-
-
-Running Viewer and Demos
-========================
-
-The index page contains links for launching the scene viewer and the
-demo applications. A WebGL-capable browser is required to run these
-apps.
+按 "SDK Index" 按钮，在浏览器中打开Blend4Web SDK的索引网页。本页面可在
+http://localhost:6687 访问。
 
 [图片]
 
 
 
-注解: If the SDK apps are not displayed correctly, or error messages
-  are shown, follow the instructions in the 启动时的问题 section.
+然后，对于您的操作系统的默认浏览器将启动。
+
+"Project Manager" 按钮可用于打开 项目管理器.
+
+"Fast Preview" 按钮加载当前正在Blender打开的场景到 查看器.
+
+服务器可以通过按下 "Stop Server"  按钮被停止。当Blender被关闭也停止。
+
+
+运行浏览器和演示
+================
+
+索引页包含用于启动场景浏览和演示应用程序的链接。需要一个  WebGL-适配浏
+览器 运行这些应用程序。
+
+[图片]
+
+
+
+注解: 如果SDK应用程序显示不正确，或显示错误消息，请按照  启动时的问
+  题 部分 中的说明。
 
 
 输出格式
@@ -117,11 +107,9 @@ JSON
 包含所有导出的数据结构和链接到外部资源（图片，声音等等），还有一个
 ".bin" 文件包含二进制格式的模型数据阵列。
 
-If media resources are packed into the .blend file, they will be
-unpacked during the export and placed in the project's directory
-(inside the SDK directory). It should be noted that the names of such
-files will be automatically changed, which can complicate working with
-them.
+如果媒体资源被 打包到.blend文件, 他们会在导出过程中解压，并在项目的目
+录放置在隐藏的 "../tmp/" 文件夹中（SDK目录内）。应当注意的是，这样的话
+文件的名称将被自动地改变，工作的时候可能变得复杂。
 
 建议将所有资源存储在SDK目录中一个专门的文件夹，它可以被称为
 ``deploy/assets/项目名`` 。
@@ -146,16 +134,14 @@ HTML文件不仅包含场景本身，而且还材质，声音Blend4Web引擎和�
 player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览器的任何移动
 设备上执行。
 
-You can't use HTML files for further development, but you also don't
-need any additional actions to run them. This format is useful for
-developing relatively simple applications of moderate size.
+不能使用HTML文件做进一步的开发，但你也并不需要任何额外的操作来运行它们
+。这种格式对开发中等规模的相对简单的应用非常有用。
 
-It should be noted, however, that HTML applications do not support
-following features:
+应当指出，然而，HTML应用程序不支持以下功能：
 
    * Physics
 
-   * DDS textures
+   * DDS纹理
 
    * min50 textures
 
@@ -223,19 +209,16 @@ following features:
 +---------------------------------------+---------------------------------------------+
 | 错误信息                              | 原因                                        |
 +=======================================+=============================================+
-| Blend4Web initialization error! Add-  | 该Blend4Web插件和该平台不兼容。             |
-| on is not compatible with the         |                                             |
-| PLATFORM platform.                    |                                             |
+| Blend4Web初始化错误!该Blend4Web插件和 | 该Blend4Web插件和该平台不兼容。             |
+| 该平台不兼容。                        |                                             |
 +---------------------------------------+---------------------------------------------+
 | Warning: Blender version mismatch.    | 警告有关可能不符合当前Blender的版本号。它建 |
 | Blender VER_REQUIRED is recommended   | 议使用VER_REQUIREDBlender版 本。当前的版本  |
 | for the Blend4Web add-on. Current     | 是VER_CURRENT。                             |
 | version is VER_CURRENT.               |                                             |
 +---------------------------------------+---------------------------------------------+
-| Incorrect add-on directory name.      | Incorrect name of the add-on directory.     |
-|                                       | Add-on structure in the archive has been    |
-|                                       | damaged, or entirety of the archive has     |
-|                                       | been disrupted.                             |
+| 不正确的附加目录名。                  | 插件目录的不正确的名称。在存档附加结构已损  |
+|                                       | 坏，或归档的全部被打乱。                    |
 +---------------------------------------+---------------------------------------------+
 
 
@@ -304,28 +287,24 @@ following features:
 +---------------------------------------+---------------------------------------------+
 | 错误信息                              | 原因                                        |
 +=======================================+=============================================+
-| Dupli group error; Objects from the   | 其中没有被选定为重复的OBJECT_NAME对象的     |
-| GROUP_NAME dupli group on the         | GROUP_NAME组中的对象可以被导出 。导出许可的 |
-| OBJECT_NAME object cannot be exported | 组中的至少一个对象，或删除的组的复制是必需  |
+| DUPLI组错误;从OBJECT_NAME对象的       | 其中没有被选定为重复的OBJECT_NAME对象的     |
+| GROUP_NAME DUPLI组对象不能导出        | GROUP_NAME组中的对象可以被导出 。导出许可的 |
+|                                       | 组中的至少一个对象，或删除的组的复制是必需  |
 |                                       | 的。                                        |
 +---------------------------------------+---------------------------------------------+
-| Export to different disk is forbidden | 导出到位于不同的磁盘上的目录被禁止          |
+| 导出到位于不同的磁盘上的目录被禁止    | 导出到位于不同的磁盘上的目录被禁止          |
 +---------------------------------------+---------------------------------------------+
-| Incompatible objects with a shared    | Incompatible objects with a shared mesh.    |
-| mesh; The OBJECT_NAME object has both | Export of an object with both a shared mesh |
-| vertex groups and a shared mesh       | and vertex groups is not allowed.           |
-|                                       | Exceptions: export is possible if an object |
-|                                       | has the "Apply modifiers", "Export vertex   |
-|                                       | animation", "Export edited normals", "Apply |
-|                                       | Scale and Modifiers" options turned on      |
-|                                       | (because in these cases a full copying of   |
-|                                       | meshes occurs).                             |
+| Incompatible objects with a shared    | 不兼容的对象有一个共享的网格。不允许导出的  |
+| mesh; The OBJECT_NAME object has both | 对象既具有共享网格和顶点组。 例外：导出是可 |
+| vertex groups and a shared mesh       | 能的，如果一个对象具有 "Apply modifiers",   |
+|                                       | "Export vertex animation", "Export edited   |
+|                                       | normals", "Apply scale" 选项打开（因为在这  |
+|                                       | 些情况下，网格的完全复制时）。              |
 +---------------------------------------+---------------------------------------------+
-| Incomplete mesh; Material slot is     | 材质插槽是空的。                            |
-| empty                                 |                                             |
+| 不完整的网格;材质插槽是空的           | 材质插槽是空的。                            |
 +---------------------------------------+---------------------------------------------+
-| Incomplete vehicle. The NAME vehicle  | 模型的 NAME 车辆是不完整的，因为它应该包含  |
-| doesn't have any chassis or hull      | 一个 "Chassis" 或 "Hull" 元 素。            |
+| 非完整车辆。NAME 车辆不具有任何底盘或 | 模型的 NAME 车辆是不完整的，因为它应该包含  |
+| 船体                                  | 一个 "Chassis" 或 "Hull" 元 素。            |
 +---------------------------------------+---------------------------------------------+
 | Incomplete vehicle. The NAME vehicle  | 模拟的NAME车辆是不完整的，因为它应该含有至  |
 | requires at least one bob             | 少一种 "Bob" 元件。                         |
@@ -526,9 +505,8 @@ following features:
 | The NAME action has decimal frames.   | The NAME action has decimal frames.         |
 | Converted to integer.                 | Converted to integer.                       |
 +---------------------------------------+---------------------------------------------+
-| The NAME armature modifier has a      | 一个骨架修改器具有一个代理对象作为骨架。    |
-| proxy object as an armature. Modifier |                                             |
-| removed.                              |                                             |
+| 该 NAME 骨架修改器有一个代理物体作为  | 一个骨架修改器具有一个代理对象作为骨架。    |
+| 骨架，修改器被移除。                  |                                             |
 +---------------------------------------+---------------------------------------------+
 | The NAME armature modifier has no     | 该名称 "Armature" 修正没有骨架问题，也没有  |
 | armature object or it is not          | 导出。修改删除。                            |
@@ -580,10 +558,9 @@ following features:
 |                                       | 的 ("Main stiffness (A)"), 或没有其中之一的 |
 |                                       | 。                                          |
 +---------------------------------------+---------------------------------------------+
-| Wrong "Height Map" input for the      | 错误的数据传递给该名称的“高度贴图”输入      |
-| "NAME" B4W_PARALLAX node. Only link   | "B4W_PARALLAX" 节点。只从一个非 空的输出    |
-| from the TEXTURE node with a non-     | "TEXTURE" 节点是允许的。                    |
-| empty texture is allowed.             |                                             |
+| 错误的数据传递给该名称的“高度贴图”输  | 错误的数据传递给该名称的“高度贴图”输入      |
+| 入 "B4W_PARALLAX" 节点。只从一个非 空 | "B4W_PARALLAX" 节点。只从一个非 空的输出    |
+| 的输出 "TEXTURE" 节点是允许的。       | "TEXTURE" 节点是允许的。                    |
 +---------------------------------------+---------------------------------------------+
 | Wrong texture coordinates type in     | 下列坐标类型的图像纹理支持： "UV", "Normal" |
 | texture NAME. [Material: NAME.]       | 和 "Generated".                             |
@@ -616,15 +593,15 @@ following features:
 | texture rendering a scene. It has     | 名称。此纹理被替换为默认的纹 理。           |
 | been replaced by the default texture. |                                             |
 +---------------------------------------+---------------------------------------------+
-| The action NAME has no fcurves.       | The action NAME has no fcurves.             |
+| 动作 NAME 没有f曲线.                  | 动作 NAME 没有f曲线.                        |
 +---------------------------------------+---------------------------------------------+
 | The "NAME" camera has unsupported     | 不支持全景相机。立体模式来代替。            |
 | PANORAMIC type. Changed to            |                                             |
 | PERSPECTIVE type."                    |                                             |
 +---------------------------------------+---------------------------------------------+
-| Unsupported texture type or texture   | There are no textures on the material or    |
-| is missing for Lens Flare material    | unsupported texture type is used for        |
-| "NAME"                                | material "NAME".                            |
+| Unsupported texture type or texture   | 不支持的纹理类型或纹理缺少镜头光晕材质      |
+| is missing for Lens Flare material    | "NAME"                                      |
+| "NAME"                                |                                             |
 +---------------------------------------+---------------------------------------------+
 
 

@@ -125,7 +125,7 @@ The screen-space ambient occlusion (SSAO) effect can be used to fake complex lig
 Activation
 ----------
 
-Activate the ``Ambient Occlusion SSAO`` panel under the ``Render`` tab and set the ``Render Shadows`` parameter to ``AUTO`` or ``ON``  on the ``Rander > Shadows`` panel.
+Activate the ``Ambient Occlusion SSAO`` panel under the ``Render`` tab and set the ``Render Shadows`` parameter to ``AUTO`` or ``ON``  on the ``Render > Shadows`` panel.
 
 Additional settings
 -------------------

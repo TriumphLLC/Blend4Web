@@ -122,9 +122,6 @@ exports.prerender_subs = function(subs) {
             break;
         }
 
-        if (subs.type == m_subs.MAIN_BLEND || subs.type == m_subs.MAIN_XRAY)
-            zsort(subs);
-
     } else if (subs.need_perm_uniforms_update) {
         var draw_data = subs.draw_data;
         for (var i = 0; i < draw_data.length; i++) {
@@ -141,57 +138,6 @@ exports.prerender_subs = function(subs) {
 
     if (subs.need_draw_data_sort)
         m_subs.sort_draw_data(subs);
-}
-
-/**
- * Perform Z-sort when camera moves
- * @methodOf camera
- */
-function zsort(subs) {
-
-    if (!cfg_def.alpha_sort)
-        return;
-
-    var eye = m_tsr.get_trans(subs.camera.world_tsr, _vec3_tmp);
-
-    var draw_data = subs.draw_data;
-    for (var i = 0; i < draw_data.length; i++) {
-        var bundles = draw_data[i].bundles;
-        for (var j = 0; j < bundles.length; j++) {
-
-            var bundle = bundles[j];
-            if (!bundle.do_render)
-                continue;
-
-            var obj_render = bundle.obj_render;
-            var batch = bundle.batch;
-
-            if (batch && batch.z_sort) {
-                var bufs_data = batch.bufs_data;
-
-                if (!bufs_data)
-                    continue;
-
-                var info = bufs_data.info_for_z_sort_updates;
-
-                // update if camera shifted enough
-                var cam_shift = m_vec3.dist(eye, info.zsort_eye_last);
-
-                // take batch geometry size into account
-                var shift_param = cfg_def.alpha_sort_threshold * Math.min(info.bb_min_side, 1);
-                var batch_cam_updated = cam_shift > shift_param;
-
-                if (!batch_cam_updated && !obj_render.force_zsort)
-                    continue;
-
-                m_geom.update_buffers_movable(bufs_data, obj_render.world_tsr, eye);
-
-                // remember new coords
-                m_vec3.copy(eye, info.zsort_eye_last);
-            }
-            obj_render.force_zsort = false;
-        }
-    }
 }
 
 /**
@@ -297,14 +243,16 @@ function update_particles_buffers(batch) {
 
     var pbuf = batch.bufs_data;
     m_geom.make_dynamic(pbuf);
-    var vbo_array = pbuf.vbo_array;
 
     var pointers = pbuf.pointers;
-    var pos_pointer = pointers["a_position"];
-    var tbn_quat_pointer = pointers["a_tbn_quat"];
 
-    vbo_array.set(pdata.positions_cache, pos_pointer.offset);
-    vbo_array.set(pdata.tbn_quats_cache, tbn_quat_pointer.offset);
+    var offset = pointers["a_position"].offset;
+    m_geom.vbo_source_data_set_attr(pbuf.vbo_source_data, "a_position", 
+            pdata.positions_cache, offset);
+
+    var offset = pointers["a_tbn_quat"].offset;
+    m_geom.vbo_source_data_set_attr(pbuf.vbo_source_data, "a_tbn_quat", 
+            pdata.tbn_quats_cache, offset);
 
     m_geom.update_gl_buffers(pbuf);
 }

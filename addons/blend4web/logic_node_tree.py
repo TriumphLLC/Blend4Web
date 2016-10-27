@@ -455,6 +455,17 @@ def check_node(node):
         node.add_error_message(err_msgs, _("It could be outdated or created"))
         node.add_error_message(err_msgs, _("in a newer version of Blend4Web"))
 
+    if node.type == "SET_CAMERA_MOVE_STYLE":
+        if "id0" in node.objects_paths:
+            ob = object_by_bpy_collect_path(bpy.data.objects, node.objects_paths["id0"].path_arr)
+            if not ob or ob.type != "CAMERA":
+                node.add_error_message(err_msgs, "Please select a valid camera object!")
+
+            if node.param_camera_move_style in ["TARGET", "HOVER"] and node.bools["pvo"].bool:
+                ob = object_by_bpy_collect_path(bpy.data.objects, node.objects_paths["id1"].path_arr)
+                if not ob:
+                    node.add_error_message(err_msgs, "Target field is not correct!")
+
     if len(err_msgs) > 0:
         return False
     else:
@@ -462,7 +473,8 @@ def check_node(node):
 
 def find_node(node_name, tree_name, find_item, type, node_types =
 ["INHERIT_MAT", "SET_SHADER_NODE_PARAM", "HIDE", "SHOW", "SELECT_PLAY", "PLAY_ANIM", "SELECT_PLAY_ANIM",
- "MOVE_CAMERA", "MOVE_TO", "TRANSFORM_OBJECT", "SPEAKER_PLAY","SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"]):
+ "MOVE_CAMERA", "MOVE_TO", "TRANSFORM_OBJECT", "SPEAKER_PLAY","SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"
+ "SET_CAMERA_MOVE_STYLE"]):
     node_found = None
     ng = bpy.data.node_groups
     if tree_name in bpy.data.node_groups:
@@ -554,6 +566,9 @@ class B4W_LogicNodeDurationWrap(bpy.types.PropertyGroup):
 
 class B4W_LogicNodeAngleWrap(bpy.types.PropertyGroup):
     float = bpy.props.FloatProperty(name="float", subtype = "ANGLE", unit="ROTATION", step=10, precision=1)
+
+class B4W_LogicNodeVelocityWrap(bpy.types.PropertyGroup):
+    float = bpy.props.FloatProperty(name="float", min = 0)
 
 def update_bool(self, context):
     #update vars if var scope was changed
@@ -821,6 +836,8 @@ class B4W_LogicNodeTree(NodeTree):
                 ret["floats"][f.name] = f.float
             for f in node.angles:
                 ret["floats"][f.name] = f.float
+            for f in node.velocities:
+                ret["floats"][f.name] = f.float
 
             ret["strings"] = {}
             for o in node.strings:
@@ -942,7 +959,7 @@ class B4W_LogicNodeOrderSocket(NodeSocket):
             if self.name in ["Order_Output_Socket"]:
                 layout.label(_("Miss"))
             if self.type == "DynOutputJump":
-                label_text = bpy.app.translations.pgettext_tip(_("%s Hit"))
+                label_text = bpy.app.translations.pgettext_tip("%s Hit")
                 layout.label(label_text%self.label_text)
                 o = layout.operator("node.b4w_logic_remove_dyn_jump_sock", icon='ZOOMOUT', text="")
                 o.node_tree = node.id_data.name
@@ -990,7 +1007,7 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
 
         if self.type in ["SELECT_PLAY", "PLAY", "HIDE", "SHOW", "SELECT", "PLAY_ANIM", "DELAY",
                          "MOVE_CAMERA", "MOVE_TO", "TRANSFORM_OBJECT", "SPEAKER_PLAY", "SPEAKER_STOP", "SWITCH_SELECT", "STOP_ANIM"
-                         "STOP_TIMELINE", "GET_TIMELINE"]:
+                         "STOP_TIMELINE", "GET_TIMELINE", "SET_CAMERA_MOVE_STYLE"]:
             self.width = 190
         if self.type in ["PAGEPARAM"]:
             self.width = 220
@@ -1341,6 +1358,64 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             self.variables_names.add()
             self.variables_names[-1].name = "cb"
 
+        if self.type in ["SET_CAMERA_MOVE_STYLE"]:
+            name = "id0"
+            self.objects_paths.add()
+            item = self.objects_paths[-1]
+            item.tree_name = self.id_data.name
+            item.node_name = self.name
+            item.name = name
+
+            # velocities
+            self.velocities.add()
+            self.velocities[-1].name = "vtr"
+            self.velocities[-1].float = 1.0
+            self.bools.add()
+            self.bools[-1].name = "vtr"
+            self.variables_names.add()
+            self.variables_names[-1].name = "vtr"
+            self.velocities.add()
+            self.velocities[-1].name = "vro"
+            self.velocities[-1].float = 1.0
+            self.bools.add()
+            self.bools[-1].name = "vro"
+            self.variables_names.add()
+            self.variables_names[-1].name = "vro"
+            self.velocities.add()
+            self.velocities[-1].name = "vzo"
+            self.velocities[-1].float = 0.1
+            self.bools.add()
+            self.bools[-1].name = "vzo"
+            self.variables_names.add()
+            self.variables_names[-1].name = "vzo"
+            # pivot
+            self.floats.add()
+            self.floats[-1].name = "pvx"
+            self.bools.add()
+            self.bools[-1].name = "pvx"
+            self.variables_names.add()
+            self.variables_names[-1].name = "pvx"
+            self.floats.add()
+            self.floats[-1].name = "pvy"
+            self.bools.add()
+            self.bools[-1].name = "pvy"
+            self.variables_names.add()
+            self.variables_names[-1].name = "pvy"
+            self.floats.add()
+            self.floats[-1].name = "pvz"
+            self.bools.add()
+            self.bools[-1].name = "pvz"
+            self.variables_names.add()
+            self.variables_names[-1].name = "pvz"
+            self.bools.add()
+            self.bools[-1].name = "pvo"
+            name = "id1"
+            self.objects_paths.add()
+            item = self.objects_paths[-1]
+            item.tree_name = self.id_data.name
+            item.node_name = self.name
+            item.name = name
+
     type = bpy.props.EnumProperty(name="type",items=slot_type_enum, update=type_init)
 
     param_marker_start = bpy.props.StringProperty(
@@ -1480,6 +1555,12 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
         name = _("B4W: angle array"),
         description = _("Contain angles"),
         type = B4W_LogicNodeAngleWrap
+    )
+
+    velocities = bpy.props.CollectionProperty(
+        name = _("B4W: velocities array"),
+        description = _("Contain velocities"),
+        type = B4W_LogicNodeVelocityWrap
     )
 
     bools = bpy.props.CollectionProperty(
@@ -2219,8 +2300,87 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             row.prop(self.bools["dur"], "bool", text = _("Variable"))
 
         elif slot.type == "SET_CAMERA_MOVE_STYLE":
-            col.label(_("Camera Style:"))
+            self.draw_selector(col, 0, _("Camera:"), None, "ob", icon="OUTLINER_OB_CAMERA")
+            col.label(_("New Camera Move Style:"))
             col.prop(self, "param_camera_move_style", text="")
+            row = col.row(align=True)
+
+            if self.param_camera_move_style in ["EYE", "HOVER", "TARGET"]:
+                col.label(_("Velocities:"))
+                row = col.row()
+                if not self.bools["vtr"].bool:
+                    row.prop(self.velocities["vtr"], "float", text = _("Translation"))
+                else:
+                    if "entryp" in self:
+                        row.prop_search(self.variables_names["vtr"], "variable",
+                                        self.id_data.nodes[self["entryp"]], "variables", text = "")
+                    else:
+                        row.label(no_var_source_msg)
+                row.prop(self.bools["vtr"], "bool", text = _("Variable"))
+                row = col.row()
+                if not self.bools["vro"].bool:
+                    row.prop(self.velocities["vro"], "float", text = _("Rotation"))
+                else:
+                    if "entryp" in self:
+                        row.prop_search(self.variables_names["vro"], "variable",
+                                        self.id_data.nodes[self["entryp"]], "variables", text = "")
+                    else:
+                        row.label(no_var_source_msg)
+                row.prop(self.bools["vro"], "bool", text = _("Variable"))
+                row = col.row()
+
+            if self.param_camera_move_style in ["HOVER", "TARGET"]:
+                if not self.bools["vzo"].bool:
+                    row.prop(self.velocities["vzo"], "float", text = _("Zoom"))
+                else:
+                    if "entryp" in self:
+                        row.prop_search(self.variables_names["vzo"], "variable",
+                                        self.id_data.nodes[self["entryp"]], "variables", text = "")
+                    else:
+                        row.label(no_var_source_msg)
+                row.prop(self.bools["vzo"], "bool", text = _("Variable"))
+                row = col.row()
+
+            # pivot
+                lbl = 'Pivot:' if self.param_camera_move_style == "HOVER" else "Target:"
+                col.label(_(lbl))
+                row = col.row()
+                row.prop(self.bools["pvo"], "bool", text = _("Use Object"))
+                row = col.row()
+                if self.bools["pvo"].bool:
+                    self.draw_selector(col, 1, "", None, "ob")
+                else:
+                    if not self.bools["pvx"].bool:
+                        row.prop(self.floats["pvx"], "float", text = _("x"))
+                    else:
+                        if "entryp" in self:
+                            row.prop_search(self.variables_names["pvx"], "variable",
+                                            self.id_data.nodes[self["entryp"]], "variables", text = "")
+                        else:
+                            row.label(no_var_source_msg)
+                    row.prop(self.bools["pvx"], "bool", text = _("Variable"))
+                    row = col.row()
+
+                    if not self.bools["pvy"].bool:
+                        row.prop(self.floats["pvy"], "float", text = _("y"))
+                    else:
+                        if "entryp" in self:
+                            row.prop_search(self.variables_names["pvy"], "variable",
+                                            self.id_data.nodes[self["entryp"]], "variables", text = "")
+                        else:
+                            row.label(no_var_source_msg)
+                    row.prop(self.bools["pvy"], "bool", text = _("Variable"))
+                    row = col.row()
+
+                    if not self.bools["pvz"].bool:
+                        row.prop(self.floats["pvz"], "float", text = _("z"))
+                    else:
+                        if "entryp" in self:
+                            row.prop_search(self.variables_names["pvz"], "variable",
+                                            self.id_data.nodes[self["entryp"]], "variables", text = "")
+                        else:
+                            row.label(no_var_source_msg)
+                    row.prop(self.bools["pvz"], "bool", text = _("Variable"))
 
         elif slot.type in ["SPEAKER_PLAY", "SPEAKER_STOP"]:
             self.draw_selector(col, 0, _("Speaker:"), None, "ob", icon = "OUTLINER_OB_SPEAKER")
@@ -2455,8 +2615,7 @@ node_categories = [
     ]),
     B4W_LogicNodeCategory("Camera", _("Camera"), items=[
         NodeItem("B4W_logic_node", label=_("Move Camera"),settings={"type": repr("MOVE_CAMERA")}),
-        # disabled until there is a collision with app.js
-        # NodeItem("B4W_logic_node", label=_("Set Camera Move Style"),settings={"type": repr("SET_CAMERA_MOVE_STYLE")}),
+        NodeItem("B4W_logic_node", label=_("Set Camera Move Style"),settings={"type": repr("SET_CAMERA_MOVE_STYLE")}),
     ]),
     B4W_LogicNodeCategory("Object", _("Object"), items=[
         NodeItem("B4W_logic_node", label=_("Show Object"),settings={"type": repr("SHOW")}),

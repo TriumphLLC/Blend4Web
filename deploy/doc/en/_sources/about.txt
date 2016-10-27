@@ -69,8 +69,8 @@ WebGL Browsers Support
 At the moment WebGL is supported in to a varying degree by all browsers.
 
 
-Full Support
-------------
+Desktop Browsers
+----------------
 
 * `Chrome <http://www.google.com/chrome>`_
 * `Yandex Browser <http://browser.yandex.com/>`_ 

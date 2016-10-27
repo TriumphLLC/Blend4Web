@@ -84,16 +84,13 @@
 *着色 > 无光影*
    当启用时，材质不会对光起反应。默认为禁用。
 
-*Shading > Tangent Shading*
-   When this parameter is enabled, the engine will use the material's
-   tangent vector (instead of normal vector) for calculating the
-   object's color. This can be used for creating anisotropic shading
-   effects.
+*着色 > 切向着色*
+   当启用此参数时，引擎将使用材质的切向量（而不是普通的向量）计算物体
+   的颜色。这可以用于创建各向异性阴影效果。
 
       [图片]
 
-   **On the left:** standard shading model; **on the right:** tangent
-   shading model.
+   **在左边：** 标准着色模型;  **右：** 切向着色模型。
 
 *着色 > 双面光照*
    启用双面照明模式。此选项是适用于非透明物体的单层网格。
@@ -172,9 +169,8 @@
 
 表面反射了他们当前的位置中的选定的物体。引擎支持平面和球面反射。
 
-注解: If you are using node materials, dynamic reflection will only
-  work if a "Material" or "Extended Material" node is present in the
-  node tree.
+注解: 如果您使用的是 节点材质, 如果 "Material" 或 "Extended
+  Material" 节点 出现在节点树，动态反射才有效。
 
 
 激活
@@ -238,15 +234,11 @@
 
 菲涅耳效应可以设置静态和动态的反射。
 
-*Material > Mirror > Fresnel*
-   Fresnel power for reflection. This is the N exponent in the
-   Schlick’s formula. In Blender it is limited to values from 0 to 5.
-   If this parameter is equal to zero the Fresnel effect is not
-   observed and the *full* reflection at all angles occurs. If this
-   parameter is greater than zero, the material is less reflective
-   when viewing surfaces at angles which are close to the right angle.
-   The bigger this parameter is the bigger is the angle deviation from
-   the right angle for which the Fresnel effect is observed.
+*材质 > 镜面 > 菲尼尔*
+   反射的菲涅尔指数。 Schlick方程中的N指数。在blender中被限制在0到5的
+   值。设置为零的时候菲涅尔效应无法被观察到，所有的反射都是正常的。大
+   于零的时候，在角度这是接近正确的角度观看时表面材料是弱反射性的。参
+   数值越大，可以看到菲涅尔效应的观察角度越大。
 
 *材质 > 镜面 > 混合*
    菲涅耳反射系数。在Schlick公式中通过下面的表达式 R_0 = 1 - "Blend" /
@@ -273,11 +265,10 @@
 *材质 > 渲染选项 > 湿润*
    为材质激活水润湿效果。
 
-   参见: Water
+   参见: 水
 
-*Material > Rendering Options > Lens Flare*
-   Enabling this parameter activates Lens Flare effect for the
-   material.
+*材料>渲染选项>镜头光晕*
+   启用此参数可激活材质镜头光晕效果。
 
 *材质 > 渲染选项 > 渲染以上全部*
    材质被渲染在场景的所有物体的顶层。要求使用渐变透明度类型  ("Add",
@@ -329,7 +320,7 @@
 *材质 > 碰撞*
    碰撞几何体的一种特殊材质。
 
-   参见: Physics
+   参见: 物理
 
 *材质 > 导出选项 > 不要导出*
    材质不导出。
@@ -344,8 +335,8 @@
 激活
 ----
 
-在``Materials`` 选项卡下选择 "光晕" 类型 。建议也选择使用渐变的透明度
-类型 ("Add", "Alpha Blend" 或者 "Alpha Sort").
+在 "Materials" 选项卡下选择 "光晕" 类型 。建议也选择使用渐变的透明度类
+型 ("Add", "Alpha Blend" 或者 "Alpha Sort").
 
 [图片]
 

@@ -5,15 +5,9 @@
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
+"POT-Creation-Date: 2016-10-18 15:16+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -285,7 +279,7 @@ msgid "Used to generate a normal vector"
 msgstr "Генерирует нормальный вектор"
 
 #: ../node_materials.rst:106
-msgid "Normal Map [#f2]_"
+msgid "Normal Map [#f1]_"
 msgstr ""
 
 #: ../node_materials.rst:106
@@ -393,7 +387,7 @@ msgid "Used to perform mathematical operations with two given vectors"
 msgstr "Производит математические операции над двумя заданными векторами"
 
 #: ../node_materials.rst:149
-msgid "Vector Transform [#f1]_"
+msgid "Vector Transform [#f2]_"
 msgstr ""
 
 #: ../node_materials.rst:149
@@ -406,6 +400,16 @@ msgstr ""
 
 #: ../node_materials.rst:155
 msgid ""
+"The ``Color Space`` parameter of a normal map used with this node should "
+"be set to ``Non-Color``. Not doing so may lead to unpredictable results "
+"(although it won't crash the engine)."
+msgstr ""
+"Параметр ``Color Space`` карты нормалей, используемой с этой нодой, "
+"должен иметь значение ``Non-Color``. В противном случае результаты могут "
+"быть непредсказуемыми (хотя это не приведёт к крэшу движка)."
+
+#: ../node_materials.rst:157
+msgid ""
 "If at least one of the internal parameters, ``Space to convert from...`` "
 "or ``Space to convert to...`` is set to ``Object``, then any object that "
 "uses the material will be considered :ref:`dynamic "
@@ -415,16 +419,6 @@ msgstr ""
 "или ``Space to convert to...``) имеет значение ``Object``, любой объект, "
 "использующий данный материал, будет считаться :ref:`динамическим "
 "<static_dynamic_objects>`."
-
-#: ../node_materials.rst:157
-msgid ""
-"The ``Color Space`` parameter of a normal map used with this node should "
-"be set to ``Non-Color``. Not doing so may lead to unpredictable results "
-"(although it won't crash the engine)."
-msgstr ""
-"Параметр ``Color Space`` карты нормалей, используемой с этой нодой, должен "
-"иметь значение ``Non-Color``. В противном случае результаты могут быть "
-"непредсказуемыми (хотя это не приведёт к крэшу движка)."
 
 #: ../node_materials.rst:163
 msgid ""
@@ -1075,5 +1069,11 @@ msgstr "ноды"
 #~ msgstr ""
 
 #~ msgid "Vector Transform"
+#~ msgstr ""
+
+#~ msgid "Normal Map [#f2]_"
+#~ msgstr ""
+
+#~ msgid "Vector Transform [#f1]_"
 #~ msgstr ""
 

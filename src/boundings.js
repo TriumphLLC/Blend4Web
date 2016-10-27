@@ -63,6 +63,18 @@ function create_bb(dest) {
     return bb;
 }
 
+exports.create_rot_bb = create_rot_bb;
+function create_rot_bb() {
+    var rot_bb = {
+        center : new Float32Array(3),
+        axis_x : new Float32Array(3),
+        axis_y : new Float32Array(3),
+        axis_z : new Float32Array(3)
+    };
+
+    return rot_bb;
+}
+
 exports.copy_bb = copy_bb;
 function copy_bb(bb_from, bb_to) {
     bb_to.min_x = bb_from.min_x;
@@ -327,11 +339,42 @@ exports.bounding_ellipsoid_transform = function(be, tsr, be_new) {
     return be_new;
 }
 
+exports.bounding_rot_box_transform = function(bb, tsr, bb_new) {
+    if (!bb_new)
+        bb_new = create_rot_bb();
+
+    m_tsr.transform_vec3(bb.center, tsr, bb_new.center);
+
+    m_vec3.copy(bb.axis_x, bb_new.axis_x);
+    m_vec3.copy(bb.axis_y, bb_new.axis_y);
+    m_vec3.copy(bb.axis_z, bb_new.axis_z);
+
+    m_tsr.transform_dir_vec3(bb_new.axis_x, tsr, bb_new.axis_x);
+    m_tsr.transform_dir_vec3(bb_new.axis_y, tsr, bb_new.axis_y);
+    m_tsr.transform_dir_vec3(bb_new.axis_z, tsr, bb_new.axis_z);
+
+    return bb_new;
+}
+
 exports.bs_from_values = function(radius, center) {
     var bs = create_bs();
     m_vec3.copy(center, bs.center);
     bs.radius = radius;
     return bs;
+}
+
+exports.rot_bb_from_values = function(bbrcen, axis_x, axis_y, axis_z, bbrscale) {
+    var bb = create_rot_bb();
+
+    m_vec3.copy(bbrcen, bb.center);
+    m_vec3.copy(axis_x, bb.axis_x);
+    m_vec3.copy(axis_y, bb.axis_y);
+    m_vec3.copy(axis_z, bb.axis_z);
+    m_vec3.scale(bb.axis_x, bbrscale[0], bb.axis_x);
+    m_vec3.scale(bb.axis_y, bbrscale[1], bb.axis_y);
+    m_vec3.scale(bb.axis_z, bbrscale[2], bb.axis_z);
+
+    return bb;
 }
 
 /**
@@ -391,7 +434,7 @@ function clone_bs(bs) {
 }
 
 exports.be_from_values = be_from_values;
-function be_from_values(axis_x, axis_y, axis_z, center, quat) {
+function be_from_values(axis_x, axis_y, axis_z, center) {
     return {
         axis_x: new Float32Array(axis_x),
         axis_y: new Float32Array(axis_y),
@@ -445,6 +488,50 @@ exports.expand_bounding_sphere = function(bs, bs_exp) {
             m_vec3.create());
     bs.radius = m_vec3.length(m_vec3.subtract(max, min, m_vec3.create())) / 2;
 }
+
+exports.extract_rot_bb_corners = function(bbr, corners) {
+
+    m_vec3.add(bbr.center, bbr.axis_y, _vec3_tmp);
+    m_vec3.add(_vec3_tmp, bbr.axis_x, _vec3_tmp);
+    m_vec3.add(_vec3_tmp, bbr.axis_z, _vec3_tmp);
+    corners.push(_vec3_tmp[0], _vec3_tmp[1], _vec3_tmp[2]);
+
+    m_vec3.add(bbr.center, bbr.axis_y, _vec3_tmp);
+    m_vec3.add(_vec3_tmp, bbr.axis_x, _vec3_tmp);
+    m_vec3.subtract(_vec3_tmp, bbr.axis_z, _vec3_tmp);
+    corners.push(_vec3_tmp[0], _vec3_tmp[1], _vec3_tmp[2]);
+
+    m_vec3.add(bbr.center, bbr.axis_y, _vec3_tmp);
+    m_vec3.subtract(_vec3_tmp, bbr.axis_x, _vec3_tmp);
+    m_vec3.add(_vec3_tmp, bbr.axis_z, _vec3_tmp);
+    corners.push(_vec3_tmp[0], _vec3_tmp[1], _vec3_tmp[2]);
+
+    m_vec3.add(bbr.center, bbr.axis_y, _vec3_tmp);
+    m_vec3.subtract(_vec3_tmp, bbr.axis_x, _vec3_tmp);
+    m_vec3.subtract(_vec3_tmp, bbr.axis_z, _vec3_tmp);
+    corners.push(_vec3_tmp[0], _vec3_tmp[1], _vec3_tmp[2]);
+
+    m_vec3.subtract(bbr.center, bbr.axis_y, _vec3_tmp);
+    m_vec3.add(_vec3_tmp, bbr.axis_x, _vec3_tmp);
+    m_vec3.add(_vec3_tmp, bbr.axis_z, _vec3_tmp);
+    corners.push(_vec3_tmp[0], _vec3_tmp[1], _vec3_tmp[2]);
+
+    m_vec3.subtract(bbr.center, bbr.axis_y, _vec3_tmp);
+    m_vec3.add(_vec3_tmp, bbr.axis_x, _vec3_tmp);
+    m_vec3.subtract(_vec3_tmp, bbr.axis_z, _vec3_tmp);
+    corners.push(_vec3_tmp[0], _vec3_tmp[1], _vec3_tmp[2]);
+
+    m_vec3.subtract(bbr.center, bbr.axis_y, _vec3_tmp);
+    m_vec3.subtract(_vec3_tmp, bbr.axis_x, _vec3_tmp);
+    m_vec3.add(_vec3_tmp, bbr.axis_z, _vec3_tmp);
+    corners.push(_vec3_tmp[0], _vec3_tmp[1], _vec3_tmp[2]);
+
+    m_vec3.subtract(bbr.center, bbr.axis_y, _vec3_tmp);
+    m_vec3.subtract(_vec3_tmp, bbr.axis_x, _vec3_tmp);
+    m_vec3.subtract(_vec3_tmp, bbr.axis_z, _vec3_tmp);
+    corners.push(_vec3_tmp[0], _vec3_tmp[1], _vec3_tmp[2]);
+}
+
 /**
  * see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
  * Third Edition. Chapter 8.1.4 Bounding Ellipsoid Construction
@@ -576,6 +663,17 @@ function create_be_by_bb(points, use_rotation) {
     m_vec3.scale(axis_z, c * r, axis_z);
 
     return be_from_values(axis_x, axis_y, axis_z, s_center);
+}
+
+exports.create_bbr_by_be = function(be) {
+    var bbr = create_rot_bb();
+
+    m_vec3.copy(be.axis_x, bbr.axis_x);
+    m_vec3.copy(be.axis_y, bbr.axis_y);
+    m_vec3.copy(be.axis_z, bbr.axis_z);
+    m_vec3.copy(be.center, bbr.center);
+
+    return bbr;
 }
 
 exports.create_bs_by_be = function(be) {
@@ -761,7 +859,7 @@ exports.recalculate_mesh_boundings = function(mesh) {
             srad = Math.max(Math.sqrt(x * x + y * y + z * z), srad);
             crad = Math.max(Math.sqrt(x * x + y * y), crad);
         }
-        var sub_bb = submesh["boundings"]["bounding_box"];
+        var sub_bb = submesh["boundings"]["bb"];
         sub_bb["max_x"] = sub_max_x;
         sub_bb["min_x"] = sub_min_x;
         sub_bb["max_y"] = sub_max_y;
@@ -781,28 +879,29 @@ exports.recalculate_mesh_boundings = function(mesh) {
         bb_points[21]= sub_min_x; bb_points[22]= sub_max_y; bb_points[23]= sub_max_z;
 
         var be_local = create_be_by_bb(bb_points, false);
-        submesh["boundings"]["bounding_ellipsoid_center"] = be_local.center;
-        submesh["boundings"]["bounding_ellipsoid_axes"] = [be_local.axis_x[0],
+        submesh["boundings"]["be_cen"] = be_local.center;
+        submesh["boundings"]["be_ax"] = [be_local.axis_x[0],
                 be_local.axis_y[1], be_local.axis_z[2]];
     }
-
-    mesh["b4w_bounding_box"]["max_x"] = max_x;
-    mesh["b4w_bounding_box"]["min_x"] = min_x;
-    mesh["b4w_bounding_box"]["max_y"] = max_y;
-    mesh["b4w_bounding_box"]["min_y"] = min_y;
-    mesh["b4w_bounding_box"]["max_z"] = max_z;
-    mesh["b4w_bounding_box"]["min_z"] = min_z;
+    var mesh_bbox = mesh["b4w_boundings"]["bb"];
+    mesh_bbox["max_x"] = max_x;
+    mesh_bbox["min_x"] = min_x;
+    mesh_bbox["max_y"] = max_y;
+    mesh_bbox["min_y"] = min_y;
+    mesh_bbox["max_z"] = max_z;
+    mesh_bbox["min_z"] = min_z;
 
     // NOTE: original bounding box is recalculated because of modifiers is applied
-    mesh["b4w_bounding_box_source"]["max_x"] = max_x;
-    mesh["b4w_bounding_box_source"]["min_x"] = min_x;
-    mesh["b4w_bounding_box_source"]["max_y"] = max_y;
-    mesh["b4w_bounding_box_source"]["min_y"] = min_y;
-    mesh["b4w_bounding_box_source"]["max_z"] = max_z;
-    mesh["b4w_bounding_box_source"]["min_z"] = min_z;
+    var mesh_bbox_s = mesh["b4w_boundings"]["bb_src"];
+    mesh_bbox_s["max_x"] = max_x;
+    mesh_bbox_s["min_x"] = min_x;
+    mesh_bbox_s["max_y"] = max_y;
+    mesh_bbox_s["min_y"] = min_y;
+    mesh_bbox_s["max_z"] = max_z;
+    mesh_bbox_s["min_z"] = min_z;
 
-    mesh["b4w_bounding_sphere_radius"]  = srad;
-    mesh["b4w_bounding_cylinder_radius"] = crad;
+    mesh["b4w_boundings"]["bs_rad"]  = srad;
+    mesh["b4w_boundings"]["bc_rad"] = crad;
 
     var bb_points = _bb_corners_cache;
     bb_points[0] = min_x; bb_points[1] = min_y; bb_points[2] = min_z;
@@ -815,8 +914,8 @@ exports.recalculate_mesh_boundings = function(mesh) {
     bb_points[21]= min_x; bb_points[22]= max_y; bb_points[23]= max_z;
 
     var be_local = create_be_by_bb(bb_points, false);
-    mesh["b4w_bounding_ellipsoid_center"] = be_local.center;
-    mesh["b4w_bounding_ellipsoid_axes"] = [be_local.axis_x[0],
+    mesh["b4w_boundings"]["be_cen"] = be_local.center;
+    mesh["b4w_boundings"]["be_ax"] = [be_local.axis_x[0],
             be_local.axis_y[1], be_local.axis_z[2]];
 
 }

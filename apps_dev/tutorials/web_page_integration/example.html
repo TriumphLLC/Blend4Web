@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Web Page Integration Example</title>
+
+<script type="text/javascript">
+    window.web_page_integration_dry_run = true;
+</script>
+
+<script type="text/javascript" src="../../../src/b4w.js"></script>
+<script type="text/javascript" src="../../../src/anchors.js"></script>
+<script type="text/javascript" src="../../../src/animation.js"></script>
+<script type="text/javascript" src="../../../src/armature.js"></script>
+<script type="text/javascript" src="../../../src/assets.js"></script>
+<script type="text/javascript" src="../../../src/batch.js"></script>
+<script type="text/javascript" src="../../../src/boundings.js"></script>
+<script type="text/javascript" src="../../../src/camera.js"></script>
+<script type="text/javascript" src="../../../src/compat.js"></script>
+<script type="text/javascript" src="../../../src/config.js"></script>
+<script type="text/javascript" src="../../../src/constraints.js"></script>
+<script type="text/javascript" src="../../../src/container.js"></script>
+<script type="text/javascript" src="../../../src/controls.js"></script>
+<script type="text/javascript" src="../../../src/curve.js"></script>
+<script type="text/javascript" src="../../../src/data.js"></script>
+<script type="text/javascript" src="../../../src/debug.js"></script>
+<script type="text/javascript" src="../../../src/extensions.js"></script>
+<script type="text/javascript" src="../../../src/geometry.js"></script>
+<script type="text/javascript" src="../../../src/graph.js"></script>
+<script type="text/javascript" src="../../../src/hud.js"></script>
+<script type="text/javascript" src="../../../src/input.js"></script>
+<script type="text/javascript" src="../../../src/ipc.js"></script>
+<script type="text/javascript" src="../../../src/lights.js"></script>
+<script type="text/javascript" src="../../../src/loader.js"></script>
+<script type="text/javascript" src="../../../src/logic_nodes.js"></script>
+<script type="text/javascript" src="../../../src/math.js"></script>
+<script type="text/javascript" src="../../../src/navmesh.js"></script>
+<script type="text/javascript" src="../../../src/nla.js"></script>
+<script type="text/javascript" src="../../../src/nodemat.js"></script>
+<script type="text/javascript" src="../../../src/obj_util.js"></script>
+<script type="text/javascript" src="../../../src/objects.js"></script>
+<script type="text/javascript" src="../../../src/particles.js"></script>
+<script type="text/javascript" src="../../../src/physics.js"></script>
+<script type="text/javascript" src="../../../src/prerender.js"></script>
+<script type="text/javascript" src="../../../src/primitives.js"></script>
+<script type="text/javascript" src="../../../src/print.js"></script>
+<script type="text/javascript" src="../../../src/reformer.js"></script>
+<script type="text/javascript" src="../../../src/renderer.js"></script>
+<script type="text/javascript" src="../../../src/scenegraph.js"></script>
+<script type="text/javascript" src="../../../src/scenes.js"></script>
+<script type="text/javascript" src="../../../src/sfx.js"></script>
+<script type="text/javascript" src="../../../src/shaders.js"></script>
+<script type="text/javascript" src="../../../src/subscene.js"></script>
+<script type="text/javascript" src="../../../src/texcomp.js"></script>
+<script type="text/javascript" src="../../../src/textures.js"></script>
+<script type="text/javascript" src="../../../src/time.js"></script>
+<script type="text/javascript" src="../../../src/transform.js"></script>
+<script type="text/javascript" src="../../../src/tsr.js"></script>
+<script type="text/javascript" src="../../../src/util.js"></script>
+<script type="text/javascript" src="../../../src/version.js"></script>
+<script type="text/javascript" src="../../../src/libs/gl-matrix2.js"></script>
+<script type="text/javascript" src="../../../src/libs/gpp_parser.js"></script>
+<script type="text/javascript" src="../../../src/libs/md5.js"></script>
+<script type="text/javascript" src="../../../src/ext/anchors.js"></script>
+<script type="text/javascript" src="../../../src/ext/animation.js"></script>
+<script type="text/javascript" src="../../../src/ext/armature.js"></script>
+<script type="text/javascript" src="../../../src/ext/assets.js"></script>
+<script type="text/javascript" src="../../../src/ext/camera.js"></script>
+<script type="text/javascript" src="../../../src/ext/config.js"></script>
+<script type="text/javascript" src="../../../src/ext/constraints.js"></script>
+<script type="text/javascript" src="../../../src/ext/container.js"></script>
+<script type="text/javascript" src="../../../src/ext/controls.js"></script>
+<script type="text/javascript" src="../../../src/ext/data.js"></script>
+<script type="text/javascript" src="../../../src/ext/debug.js"></script>
+<script type="text/javascript" src="../../../src/ext/geometry.js"></script>
+<script type="text/javascript" src="../../../src/ext/hud.js"></script>
+<script type="text/javascript" src="../../../src/ext/input.js"></script>
+<script type="text/javascript" src="../../../src/ext/lights.js"></script>
+<script type="text/javascript" src="../../../src/ext/logic_nodes.js"></script>
+<script type="text/javascript" src="../../../src/ext/main.js"></script>
+<script type="text/javascript" src="../../../src/ext/material.js"></script>
+<script type="text/javascript" src="../../../src/ext/math.js"></script>
+<script type="text/javascript" src="../../../src/ext/nla.js"></script>
+<script type="text/javascript" src="../../../src/ext/objects.js"></script>
+<script type="text/javascript" src="../../../src/ext/particles.js"></script>
+<script type="text/javascript" src="../../../src/ext/physics.js"></script>
+<script type="text/javascript" src="../../../src/ext/rgb.js"></script>
+<script type="text/javascript" src="../../../src/ext/scenes.js"></script>
+<script type="text/javascript" src="../../../src/ext/sfx.js"></script>
+<script type="text/javascript" src="../../../src/ext/textures.js"></script>
+<script type="text/javascript" src="../../../src/ext/time.js"></script>
+<script type="text/javascript" src="../../../src/ext/transform.js"></script>
+<script type="text/javascript" src="../../../src/ext/tsr.js"></script>
+<script type="text/javascript" src="../../../src/ext/util.js"></script>
+<script type="text/javascript" src="../../../src/ext/version.js"></script>
+<script type="text/javascript" src="../../../src/addons/app.js"></script>
+<script type="text/javascript" src="../../../src/addons/camera_anim.js"></script>
+<script type="text/javascript" src="../../../src/addons/gp_conf.js"></script>
+<script type="text/javascript" src="../../../src/addons/gyroscope.js"></script>
+<script type="text/javascript" src="../../../src/addons/hmd.js"></script>
+<script type="text/javascript" src="../../../src/addons/hmd_conf.js"></script>
+<script type="text/javascript" src="../../../src/addons/mixer.js"></script>
+<script type="text/javascript" src="../../../src/addons/mouse.js"></script>
+<script type="text/javascript" src="../../../src/addons/npc_ai.js"></script>
+<script type="text/javascript" src="../../../src/addons/preloader.js"></script>
+<script type="text/javascript" src="../../../src/addons/screenshooter.js"></script>
+<script type="text/javascript" src="../../../src/addons/storage.js"></script>
+<script type="text/javascript" src="../../../src/addons/ns_compat.js"></script>
+
+<link rel="stylesheet" type="text/css" href="example.css">
+
+<style type="text/css">
+    img {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 641px;
+    }
+
+    div#main_example_container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+</style>
+
+<script type="text/javascript" src="example.js"></script>
+</head>
+
+<body>
+<div id="main_example_container">
+    <h1>Web Page Integration Example</h1>
+
+    <p>Hinc disputationi ius id, commodo lucilius ea ius. Duo splendide forensibus eloquentiam id, duo in erroribus salutatus percipitur, mei dicant latine alterum et. Id reque dolores has, meis suscipit antiopam duo an. No pri purto mundi rationibus, partem facilisis efficiantur vis id.</p>
+    <p>In duo probo postulant repudiare. Ex sea error discere definitionem. Vel tation docendi forensibus ea. Mei cu tamquam voluptua neglegentur, viderer disputationi ex pri.</p>
+    <p>Ex everti mediocritatem est, adipisci voluptaria appellantur et eos. Mea meis possit everti an, in probo rationibus contentiones eam. Senserit efficiantur et mei, ea est movet pertinax corrumpit, mundi soluta libris sit at. His vocibus evertitur appellantur ut.</p>
+    <p>Vide vituperatoribus at sea, et vim essent omittantur. Sit te debet graece repudiare, vitae primis deseruisse et vix, et ius vide mundi omnium. Mel case consulatu appellantur ut, est vero veri iuvaret at. Ad duo omittantur definitionem, facer graeci mollis sed at, nec paulo nominati et. Exerci nostrud tractatos an qui. Id mea errem vivendum referrentur, eu pri legimus postulant forensibus.</p>
+    <p> No ius prompta graecis suavitate, no errem mollis interesset mea, pri ea partem nominati eleifend. Ne agam eirmod est, ea lorem aliquip interpretaris sed, case voluptaria vim et. Ignota albucius has et. Quo autem propriae eu, has postea audiam officiis in, at ullum dolorum facilisi eum. No sint aliquam mnesarchum qui. Mel ex nemore cetero.</p>
+    <p>Clita persius ea pri. Eum liber scripserit an. Facilis appellantur accommodare vim an, nam quod inermis in, pro an dolorum efficiendi. At sed omnium ocurreret, nobis utroque mei ea. Nemore appareat cotidieque vim ad, quas maiorum at cum, mel virtute salutatus repudiare ad. Assum nobis solet cu eam, impedit probatus qui ei, et usu iuvaret iudicabit.</p>
+
+    <img src="interface/logo.png">
+
+    <p>Solum simul legendos cu has, vim ea habemus alienum. Illud indoctum eum ex, suas enim conclusionemque vix in. Partem commodo ex his. Sed erat intellegat et, nec no elit sensibus electram.</p>
+    <p>Ne mea quando nostrum tacimates. Mel prima error neglegentur cu, an sed admodum invenire platonem, ex est libris nostrum tacimates. Graeci feugiat ut mei. Partem feugiat ocurreret quo an, eos in alii melius molestie, an vel tota ceteros.</p>
+    <p>Mel sumo quaeque erroribus in. Sed at illud errem dicunt, ea quem falli altera eos, brute expetendis vix te. Reque maiorum cum te, an amet summo vis. Et altera menandri duo. Eu ubique patrioque gubergren qui. Quo in officiis forensibus, saepe eripuit sed ut, cu wisi viris conclusionemque duo.</p>
+    <p>Sit autem eripuit vituperata ut, doming saperet no est. An mei sententiae disputationi. Possit diceret vix ei. Laoreet deleniti an sea, habeo dicit detraxit pro an. Ad est impetus aliquip scripserit, te tamquam nonumes quo, munere doctus fastidii ei quo. Audire efficiantur neglegentur ei sit.</p>
+    <p>Fugit ignota graeco usu et, justo indoctum pro ex, ut has probatus euripidis. Vel molestie definitionem ei, ut tacimates maiestatis vis. Duo no eros soluta voluptua. Vis cu mucius feugait detraxit, mel in exerci meliore persecuti, iudico phaedrum per ex.</p>
+    <p>Tantas propriae intellegebat est id, eam eu congue nonumy definiebas, animal dolorem quo et. Nihil gubergren posidonium ad eam, quod tation est at. Mollis eloquentiam an cum, vix doctus probatus scribentur et. Minimum conclusionemque sit ne, cu vel quot regione petentium.</p>
+    <p>Choro dissentiunt pri cu. Est ex ubique legimus hendrerit. Pri putant diceret at, cu cum suscipit appellantur. No adhuc blandit epicurei has, suscipit praesent maiestatis sea ei. Soluta verterem sit no, dicant verear aperiri in est. Ut duo aperiri feugiat, ex quodsi deterruisset definitiones mei, ceteros omnesque consequuntur ne vel.</p>
+
+
+    <div id="wrapper_container">
+        <div id="canvas_cont"></div>
+        <div id="run_button" class="en"></div>
+    </div>
+</div>
+</body>
+</html>

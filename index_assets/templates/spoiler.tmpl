@@ -1,11 +1,11 @@
 <div>
 $header
 
-<span id="${id}">
-<a onclick="document.getElementById('${id}_spoiler').style.display=''; document.getElementById('${id}').style.display='none';" class="spoiler" title="Show directory contents">[show]</a>
+<span id="${id}" style="display: ${display_show_content};">
+<a onclick="document.getElementById('${id}_spoiler').style.display='inline'; document.getElementById('${id}').style.display='none';" class="spoiler" title="Show directory contents">[show]</a>
 </span>
 
-<span id="${id}_spoiler" style="display: none; font-size: 12pt;">
+<span id="${id}_spoiler" style="display: ${display_hide_content}; font-size: 12pt;">
     <a onclick="document.getElementById('${id}_spoiler').style.display='none'; document.getElementById('${id}').style.display='';" class="spoiler" title="Hide directory contents">[hide]</a>
     $content
 </span>

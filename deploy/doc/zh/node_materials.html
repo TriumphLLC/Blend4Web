@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>节点材质 &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>节点材质 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
-        <link rel="next" title="Logic Editor" href="logic_editor.html"/>
-        <link rel="prev" title="Material Library" href="material_library.html"/> 
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
+        <link rel="next" title="逻辑编辑器" href="logic_editor.html"/>
+        <link rel="prev" title="材质库" href="material_library.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,20 +87,20 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">节点材质</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#standard-nodes">标准节点</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#engine-specific-nodes">Engine-Specific Nodes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#engine-specific-nodes">游戏引擎特定节点</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#clamp-b4w-clamp">钳制（B4W_CLAMP）</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#input-parameters">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#output-parameters">输出参数</a></li>
@@ -160,23 +160,23 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -225,7 +225,7 @@
 <ul class="simple">
 <li><a class="reference internal" href="#node-materials" id="id23">节点材质</a><ul>
 <li><a class="reference internal" href="#standard-nodes" id="id24">标准节点</a></li>
-<li><a class="reference internal" href="#engine-specific-nodes" id="id25">Engine-Specific Nodes</a><ul>
+<li><a class="reference internal" href="#engine-specific-nodes" id="id25">游戏引擎特定节点</a><ul>
 <li><a class="reference internal" href="#clamp-b4w-clamp" id="id26">钳制（B4W_CLAMP）</a></li>
 <li><a class="reference internal" href="#glow-output-b4w-glow-output" id="id27">夜光输出（B4W_GLOW_OUTPUT）</a></li>
 <li><a class="reference internal" href="#levels-of-quality-b4w-levels-of-quality" id="id28">质量层级（B4W_LEVELS_OF_QUALITY）</a></li>
@@ -405,9 +405,9 @@
 </td>
 </tr>
 <tr class="row-odd"><td>Normal
-Map <a class="footnote-reference" href="#f2" id="id2">[2]</a></td>
-<td>Used to plug in normal
-map</td>
+Map <a class="footnote-reference" href="#f1" id="id2">[1]</a></td>
+<td><p class="first last">用来插入法线贴图</p>
+</td>
 <td><p class="first last">全部</p>
 </td>
 <td><p class="first last">平均</p>
@@ -466,7 +466,8 @@ map</td>
 <td><p class="first last">高</p>
 </td>
 </tr>
-<tr class="row-even"><td>Separate RGB</td>
+<tr class="row-even"><td><p class="first last">独立RGB</p>
+</td>
 <td><p class="first last">分离给定颜色为红，绿和兰通道</p>
 </td>
 <td><p class="first last">全部</p>
@@ -520,11 +521,9 @@ map</td>
 </td>
 </tr>
 <tr class="row-even"><td>Vector
-Transform <a class="footnote-reference" href="#f1" id="id3">[1]</a></td>
-<td>Converts Vertor, Point
-or Normal between
-World, Camera and
-Object coordinte spaces</td>
+Transform <a class="footnote-reference" href="#f2" id="id3">[2]</a></td>
+<td><p class="first last">在世界，相机和物体坐标空间中转换矢量，点或法线。</p>
+</td>
 <td><p class="first last">全部</p>
 </td>
 <td><p class="first last">平均</p>
@@ -535,13 +534,15 @@ Object coordinte spaces</td>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td>If at least one of the internal parameters, <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> or <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code> is set to <code class="docutils literal"><span class="pre">Object</span></code>, then any object that uses the material will be considered <a class="reference internal" href="objects.html#static-dynamic-objects"><span>dynamic</span></a>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><p class="first last">这个节点的法线贴图使用的 <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> 参数需要设置为 <code class="docutils literal"><span class="pre">Non-Color</span></code>. 如果没设置会引起各种不可预见的效果（尽管不会将引起弄崩溃）</p>
+</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>The <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Space</span></code> parameter of a normal map used with this node should be set to <code class="docutils literal"><span class="pre">Non-Color</span></code>. Not doing so may lead to unpredictable results (although it won&#8217;t crash the engine).</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><p class="first last">如果至少一个内部参数 <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">from...</span></code> 或 <code class="docutils literal"><span class="pre">Space</span> <span class="pre">to</span> <span class="pre">convert</span> <span class="pre">to...</span></code> 设置为 <code class="docutils literal"><span class="pre">Object</span></code>, 那么所有使用这个材质的物体都会被考虑为  <a class="reference internal" href="objects.html#static-dynamic-objects"><span>动态</span></a>.</p>
+</td></tr>
 </tbody>
 </table>
 <div class="line-block">
@@ -549,7 +550,7 @@ Object coordinte spaces</td>
 </div>
 </div>
 <div class="section" id="engine-specific-nodes">
-<span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id25">Engine-Specific Nodes</a><a class="headerlink" href="#engine-specific-nodes" title="永久链接至标题">¶</a></h2>
+<span id="custom-node-materials"></span><h2><a class="toc-backref" href="#id25">游戏引擎特定节点</a><a class="headerlink" href="#engine-specific-nodes" title="永久链接至标题">¶</a></h2>
 <p id="index-2">引擎特定的节点扩展标准节点以支持额外的功能。这些节点采用特殊命名的名称和输入格式创建为节点组（<code class="docutils literal"><span class="pre">节点组</span></code> 或 <code class="docutils literal"><span class="pre">节点树</span></code>）。为方便起见，被打开时，所有的特殊节点已经添加到Blend文件。</p>
 <img alt="_images/node_materials_nodes.png" class="align-center" src="_images/node_materials_nodes.png" />
 <div class="section" id="clamp-b4w-clamp">
@@ -601,7 +602,7 @@ Object coordinte spaces</td>
 <a class="reference internal image-reference" href="_images/node_materials_levels_of_quality.png"><img alt="_images/node_materials_levels_of_quality.png" class="align-center" src="_images/node_materials_levels_of_quality.png" style="width: 100%;" /></a>
 <div class="admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Quality Profiles</span></a></p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>品质配置</span></a></p>
 </div>
 <div class="section" id="id5">
 <h4>输入参数<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h4>
@@ -683,7 +684,8 @@ Object coordinte spaces</td>
 <h4>输入参数<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>法线</em></dt>
-<dd>A normal vector in camera space for adding perturbations.</dd>
+<dd><p class="first last">添加扰动法线贴图。</p>
+</dd>
 <dt><em>折射凹凸</em></dt>
 <dd><p class="first">扰动强度值。</p>
 <p class="last">默认值是0</p>
@@ -885,10 +887,10 @@ Object coordinte spaces</td>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="logic_editor.html" class="btn btn-neutral float-right" title="Logic Editor" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="logic_editor.html" class="btn btn-neutral float-right" title="逻辑编辑器" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="material_library.html" class="btn btn-neutral" title="Material Library" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="material_library.html" class="btn btn-neutral" title="材质库" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -898,7 +900,7 @@ Object coordinte spaces</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -954,7 +956,7 @@ Object coordinte spaces</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

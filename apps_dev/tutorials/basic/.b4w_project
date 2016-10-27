@@ -1,0 +1,26 @@
+[info]
+author = Blend4Web
+name = tutorials
+title = Basic Tutorials
+icon = .b4w_icon.png
+
+[paths]
+assets_dirs = deploy/assets/tutorials/basic;
+blend_dirs = blender/tutorials/basic;
+blender_exec = blender
+build_dir = deploy/assets/tutorials/basic
+export_dir = 
+
+[compile]
+apps =
+css_ignore = 
+engine_type = webplayer_html
+js_ignore =
+optimization =
+use_physics = 
+use_smaa_textures = 
+version = 
+
+[export]
+assets_path_prefix =
+override = 

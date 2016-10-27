@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 16.09.2</title>
+  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 16.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.09.2" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.10" href="index.html"/>
         <link rel="next" title="Объекты" href="objects.html"/>
         <link rel="prev" title="Аддон" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -93,18 +93,21 @@
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Параметры сцены</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#render-panel">Вкладка Render</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#development-tools">Development Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shading">Shading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shadows">Shadows</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reflections-and-refractions">Reflections and Refractions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#motion-blur">Motion Blur</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bloom">Bloom</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#color-correction">Color Correction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#glow-materials">Glow Materials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#object-outlining">Object Outlining</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#glow-materials">Glow Materials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anti-aliasing">Anti-Aliasing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anisotropic-filtering">Anisotropic Filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bloom">Bloom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motion-blur">Motion Blur</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ambient-occlusion-ssao">Ambient Occlusion (SSAO)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#god-rays">God Rays</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#anti-aliasing">Anti-Aliasing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#shadows">Shadows</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#development-server">Development Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#color-correction">Color Correction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#timeline">Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-grass">Dynamic Grass</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#scene-panel">Вкладка Scene</a><ul>
@@ -127,6 +130,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#environment-lighting">Environment Lighting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mist">Mist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#procedural-sky">Procedural Sky</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#animation">Animation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#world-export-options">Export Options</a></li>
 </ul>
 </li>
@@ -204,41 +208,45 @@
 <ul class="simple">
 <li><a class="reference internal" href="#scene-settings" id="id4">Параметры сцены</a><ul>
 <li><a class="reference internal" href="#render-panel" id="id5">Вкладка Render</a><ul>
-<li><a class="reference internal" href="#reflections-and-refractions" id="id6">Reflections and Refractions</a></li>
-<li><a class="reference internal" href="#motion-blur" id="id7">Motion Blur</a></li>
-<li><a class="reference internal" href="#bloom" id="id8">Bloom</a></li>
-<li><a class="reference internal" href="#color-correction" id="id9">Color Correction</a></li>
-<li><a class="reference internal" href="#glow-materials" id="id10">Glow Materials</a></li>
-<li><a class="reference internal" href="#object-outlining" id="id11">Object Outlining</a></li>
-<li><a class="reference internal" href="#ambient-occlusion-ssao" id="id12">Ambient Occlusion (SSAO)</a></li>
-<li><a class="reference internal" href="#god-rays" id="id13">God Rays</a></li>
-<li><a class="reference internal" href="#anti-aliasing" id="id14">Anti-Aliasing</a></li>
-<li><a class="reference internal" href="#shadows" id="id15">Shadows</a></li>
-<li><a class="reference internal" href="#development-server" id="id16">Development Server</a></li>
-<li><a class="reference internal" href="#timeline" id="id17">Timeline</a></li>
+<li><a class="reference internal" href="#development-tools" id="id6">Development Tools</a></li>
+<li><a class="reference internal" href="#shading" id="id7">Shading</a></li>
+<li><a class="reference internal" href="#shadows" id="id8">Shadows</a></li>
+<li><a class="reference internal" href="#reflections-and-refractions" id="id9">Reflections and Refractions</a></li>
+<li><a class="reference internal" href="#object-outlining" id="id10">Object Outlining</a></li>
+<li><a class="reference internal" href="#glow-materials" id="id11">Glow Materials</a></li>
+<li><a class="reference internal" href="#anti-aliasing" id="id12">Anti-Aliasing</a></li>
+<li><a class="reference internal" href="#anisotropic-filtering" id="id13">Anisotropic Filtering</a></li>
+<li><a class="reference internal" href="#bloom" id="id14">Bloom</a></li>
+<li><a class="reference internal" href="#motion-blur" id="id15">Motion Blur</a></li>
+<li><a class="reference internal" href="#ambient-occlusion-ssao" id="id16">Ambient Occlusion (SSAO)</a></li>
+<li><a class="reference internal" href="#god-rays" id="id17">God Rays</a></li>
+<li><a class="reference internal" href="#color-correction" id="id18">Color Correction</a></li>
+<li><a class="reference internal" href="#timeline" id="id19">Timeline</a></li>
+<li><a class="reference internal" href="#dynamic-grass" id="id20">Dynamic Grass</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#scene-panel" id="id18">Вкладка Scene</a><ul>
-<li><a class="reference internal" href="#scene-scene" id="id19">Scene</a></li>
-<li><a class="reference internal" href="#units" id="id20">Units</a></li>
-<li><a class="reference internal" href="#audio" id="id21">Audio</a></li>
-<li><a class="reference internal" href="#logic-editor" id="id22">Logic Editor</a></li>
-<li><a class="reference internal" href="#nla" id="id23">NLA</a></li>
-<li><a class="reference internal" href="#meta-tags" id="id24">Meta Tags</a></li>
-<li><a class="reference internal" href="#physics" id="id25">Physics</a></li>
-<li><a class="reference internal" href="#cluster-batching" id="id26">Cluster Batching</a></li>
-<li><a class="reference internal" href="#objects-selection" id="id27">Objects Selection</a></li>
-<li><a class="reference internal" href="#anchors" id="id28">Anchors</a></li>
-<li><a class="reference internal" href="#export-options" id="id29">Export Options</a></li>
+<li><a class="reference internal" href="#scene-panel" id="id21">Вкладка Scene</a><ul>
+<li><a class="reference internal" href="#scene-scene" id="id22">Scene</a></li>
+<li><a class="reference internal" href="#units" id="id23">Units</a></li>
+<li><a class="reference internal" href="#audio" id="id24">Audio</a></li>
+<li><a class="reference internal" href="#logic-editor" id="id25">Logic Editor</a></li>
+<li><a class="reference internal" href="#nla" id="id26">NLA</a></li>
+<li><a class="reference internal" href="#meta-tags" id="id27">Meta Tags</a></li>
+<li><a class="reference internal" href="#physics" id="id28">Physics</a></li>
+<li><a class="reference internal" href="#cluster-batching" id="id29">Cluster Batching</a></li>
+<li><a class="reference internal" href="#objects-selection" id="id30">Objects Selection</a></li>
+<li><a class="reference internal" href="#anchors" id="id31">Anchors</a></li>
+<li><a class="reference internal" href="#export-options" id="id32">Export Options</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#world-panel" id="id30">Вкладка World</a><ul>
-<li><a class="reference internal" href="#preview" id="id31">Preview</a></li>
-<li><a class="reference internal" href="#world" id="id32">World</a></li>
-<li><a class="reference internal" href="#environment-lighting" id="id33">Environment Lighting</a></li>
-<li><a class="reference internal" href="#mist" id="id34">Mist</a></li>
-<li><a class="reference internal" href="#procedural-sky" id="id35">Procedural Sky</a></li>
-<li><a class="reference internal" href="#world-export-options" id="id36">Export Options</a></li>
+<li><a class="reference internal" href="#world-panel" id="id33">Вкладка World</a><ul>
+<li><a class="reference internal" href="#preview" id="id34">Preview</a></li>
+<li><a class="reference internal" href="#world" id="id35">World</a></li>
+<li><a class="reference internal" href="#environment-lighting" id="id36">Environment Lighting</a></li>
+<li><a class="reference internal" href="#mist" id="id37">Mist</a></li>
+<li><a class="reference internal" href="#procedural-sky" id="id38">Procedural Sky</a></li>
+<li><a class="reference internal" href="#animation" id="id39">Animation</a></li>
+<li><a class="reference internal" href="#world-export-options" id="id40">Export Options</a></li>
 </ul>
 </li>
 </ul>
@@ -250,8 +258,41 @@
 <span id="render-settings"></span><h2><a class="toc-backref" href="#id5">Вкладка Render</a><a class="headerlink" href="#render-panel" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/render1.png"><img alt="_images/render1.png" class="align-center" src="_images/render1.png" style="width: 100%;" /></a>
 <p>На этой вкладке находятся параметры сцены, связанные с рендерингом изображения.</p>
+<div class="section" id="development-tools">
+<span id="render-development-server"></span><h3><a class="toc-backref" href="#id6">Development Tools</a><a class="headerlink" href="#development-tools" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки сервера разработки. Подробно описаны в <a class="reference internal" href="addon.html#local-development-server"><span>соответствующем разделе</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_development_server.png"><img alt="_images/render_development_server.png" class="align-center" src="_images/render_development_server.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="shading">
+<span id="render-shading"></span><h3><a class="toc-backref" href="#id7">Shading</a><a class="headerlink" href="#shading" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На этой панели находятся настройки затенения.</p>
+<a class="reference internal image-reference" href="_images/render_shading.png"><img alt="_images/render_shading.png" class="align-center" src="_images/render_shading.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>Set Recommended Options</em></dt>
+<dd><p class="first">Применяется для достижения максимального соответствия между тем, как сцена выглядит в окне просмотра Blender и тем, как она выглядит в движке. При нажатии на кнопку:</p>
+<ul class="last simple">
+<li><p class="first">включается <strong>World Space Shading</strong>,</p>
+</li>
+<li><p class="first">режим материала переключается на <strong>GLSL</strong>,</p>
+</li>
+<li><p class="first">метод затенения объектов в окне просмотра переключается на <strong>Material</strong>,</p>
+</li>
+<li><p class="first">подгонка сенсора главной камеры переключается на <strong>Vertical</strong>.</p>
+</li>
+</ul>
+</dd>
+<dt><em>World Space Shading</em></dt>
+<dd><p class="first last">Включает и выключает затенение в мировом пространстве (т.е. для рассчёта освещённости объектов используется информация об освещении в мировом пространстве координат). Отключено по умолчанию.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="shadows">
+<span id="render-shadows"></span><h3><a class="toc-backref" href="#id8">Shadows</a><a class="headerlink" href="#shadows" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки теней. Подробно описаны в <a class="reference internal" href="lighting.html#shadows"><span>соответствующем разделе</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_shadows.png"><img alt="_images/render_shadows.png" class="align-center" src="_images/render_shadows.png" style="width: 100%;" /></a>
+</div>
 <div class="section" id="reflections-and-refractions">
-<span id="render-reflections"></span><h3><a class="toc-backref" href="#id6">Reflections and Refractions</a><a class="headerlink" href="#reflections-and-refractions" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="render-reflections"></span><h3><a class="toc-backref" href="#id9">Reflections and Refractions</a><a class="headerlink" href="#reflections-and-refractions" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройка эффектов отражения и преломления.</p>
 <a class="reference internal image-reference" href="_images/render_reflections_and_refractions.png"><img alt="_images/render_reflections_and_refractions.png" class="align-center" src="_images/render_reflections_and_refractions.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -262,62 +303,58 @@
 <dd><p class="first last">Настройки эффекта преломления. Может иметь значения <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </dd>
 <dt><em>Quality</em></dt>
-<dd><p class="first last">Настройки качества эффекта отражения (и преломления?). Может иметь значения <code class="docutils literal"><span class="pre">HIGH</span></code> (высокое качество), <code class="docutils literal"><span class="pre">MEDIUM</span></code> (среднее) и <code class="docutils literal"><span class="pre">LOW</span></code> (низкое). Значение по умолчанию - <code class="docutils literal"><span class="pre">MEDIUM</span></code>.</p>
+<dd><p class="first last">Настройки качества эффекта отражения и преломления. Может иметь значения <code class="docutils literal"><span class="pre">HIGH</span></code> (высокое качество), <code class="docutils literal"><span class="pre">MEDIUM</span></code> (среднее) и <code class="docutils literal"><span class="pre">LOW</span></code> (низкое). Значение по умолчанию - <code class="docutils literal"><span class="pre">MEDIUM</span></code>.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="motion-blur">
-<span id="render-motion-blur"></span><h3><a class="toc-backref" href="#id7">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки эффекта размытия изображения при быстром движении. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>соответствующем разделе</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_motion_blur.png"><img alt="_images/render_motion_blur.png" class="align-center" src="_images/render_motion_blur.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="bloom">
-<span id="render-bloom"></span><h3><a class="toc-backref" href="#id8">Bloom</a><a class="headerlink" href="#bloom" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки эффекта засветки. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#bloom"><span>соответствующем разделе</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_bloom.png"><img alt="_images/render_bloom.png" class="align-center" src="_images/render_bloom.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="color-correction">
-<span id="render-color-correction"></span><h3><a class="toc-backref" href="#id9">Color Correction</a><a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки цветокоррекции. Подробно описаны в <a class="reference internal" href="colors.html#color-correction"><span>соответствующем разделе</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_color_correction.png"><img alt="_images/render_color_correction.png" class="align-center" src="_images/render_color_correction.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="glow-materials">
-<span id="render-glow-materials"></span><h3><a class="toc-backref" href="#id10">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки эффекта свечения материалов. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#glow"><span>соответствующем разделе</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_glow_materials.png"><img alt="_images/render_glow_materials.png" class="align-center" src="_images/render_glow_materials.png" style="width: 100%;" /></a>
-</div>
 <div class="section" id="object-outlining">
-<span id="render-object-outlining"></span><h3><a class="toc-backref" href="#id11">Object Outlining</a><a class="headerlink" href="#object-outlining" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="render-object-outlining"></span><h3><a class="toc-backref" href="#id10">Object Outlining</a><a class="headerlink" href="#object-outlining" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки эффекта обводки. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#outline"><span>соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_object_outlining.png"><img alt="_images/render_object_outlining.png" class="align-center" src="_images/render_object_outlining.png" style="width: 100%;" /></a>
 </div>
+<div class="section" id="glow-materials">
+<span id="render-glow-materials"></span><h3><a class="toc-backref" href="#id11">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки эффекта свечения материалов. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#glow"><span>соответствующем разделе</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_glow_materials.png"><img alt="_images/render_glow_materials.png" class="align-center" src="_images/render_glow_materials.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="anti-aliasing">
+<span id="render-anti-aliasing"></span><h3><a class="toc-backref" href="#id12">Anti-Aliasing</a><a class="headerlink" href="#anti-aliasing" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки сглаживания изображения (anti-aliasing). Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>соответствующем разделе</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_anti_aliasing.png"><img alt="_images/render_anti_aliasing.png" class="align-center" src="_images/render_anti_aliasing.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="anisotropic-filtering">
+<span id="render-anisotropic-filtering"></span><h3><a class="toc-backref" href="#id13">Anisotropic Filtering</a><a class="headerlink" href="#anisotropic-filtering" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Используется для включения и выключения анизотропной фильтрации, а также для задания числа сэмплов, используемых для фильтрации. Анизотропная фильтрация отключена по умолчанию.</p>
+<a class="reference internal image-reference" href="_images/render_anisotropic_filtering.png"><img alt="_images/render_anisotropic_filtering.png" class="align-center" src="_images/render_anisotropic_filtering.png" style="width: 100%;" /></a>
+<p>Доступные значения: <code class="docutils literal"><span class="pre">16x</span></code>, <code class="docutils literal"><span class="pre">8x</span></code>, <code class="docutils literal"><span class="pre">4x</span></code>, <code class="docutils literal"><span class="pre">2x</span></code> и <code class="docutils literal"><span class="pre">OFF</span></code> (значение по умолчанию).</p>
+</div>
+<div class="section" id="bloom">
+<span id="render-bloom"></span><h3><a class="toc-backref" href="#id14">Bloom</a><a class="headerlink" href="#bloom" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки эффекта засветки. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#bloom"><span>соответствующем разделе</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_bloom.png"><img alt="_images/render_bloom.png" class="align-center" src="_images/render_bloom.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="motion-blur">
+<span id="render-motion-blur"></span><h3><a class="toc-backref" href="#id15">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки эффекта размытия изображения при быстром движении. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>соответствующем разделе</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_motion_blur.png"><img alt="_images/render_motion_blur.png" class="align-center" src="_images/render_motion_blur.png" style="width: 100%;" /></a>
+</div>
 <div class="section" id="ambient-occlusion-ssao">
-<span id="render-ssao"></span><h3><a class="toc-backref" href="#id12">Ambient Occlusion (SSAO)</a><a class="headerlink" href="#ambient-occlusion-ssao" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="render-ssao"></span><h3><a class="toc-backref" href="#id16">Ambient Occlusion (SSAO)</a><a class="headerlink" href="#ambient-occlusion-ssao" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки эффекта взаимного затенения (SSAO). Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#ssao"><span>соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_ambient_occlusion.png"><img alt="_images/render_ambient_occlusion.png" class="align-center" src="_images/render_ambient_occlusion.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="god-rays">
-<span id="render-god-rays"></span><h3><a class="toc-backref" href="#id13">God Rays</a><a class="headerlink" href="#god-rays" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="render-god-rays"></span><h3><a class="toc-backref" href="#id17">God Rays</a><a class="headerlink" href="#god-rays" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки эффекта &#8220;сумеречных лучей&#8221;. Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_god_rays.png"><img alt="_images/render_god_rays.png" class="align-center" src="_images/render_god_rays.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="anti-aliasing">
-<span id="render-anti-aliasing"></span><h3><a class="toc-backref" href="#id14">Anti-Aliasing</a><a class="headerlink" href="#anti-aliasing" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки сглаживания изображения (anti-aliasing). Подробно описаны в <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>соответствующем разделе</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_anti_aliasing.png"><img alt="_images/render_anti_aliasing.png" class="align-center" src="_images/render_anti_aliasing.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="shadows">
-<span id="render-shadows"></span><h3><a class="toc-backref" href="#id15">Shadows</a><a class="headerlink" href="#shadows" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки теней. Подробно описаны в <a class="reference internal" href="lighting.html#shadows"><span>соответствующем разделе</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_shadows.png"><img alt="_images/render_shadows.png" class="align-center" src="_images/render_shadows.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="development-server">
-<span id="render-development-server"></span><h3><a class="toc-backref" href="#id16">Development Server</a><a class="headerlink" href="#development-server" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Настройки сервера разработки. Подробно описаны в <a class="reference internal" href="addon.html#local-development-server"><span>соответствующем разделе</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_development_server.png"><img alt="_images/render_development_server.png" class="align-center" src="_images/render_development_server.png" style="width: 100%;" /></a>
+<div class="section" id="color-correction">
+<span id="render-color-correction"></span><h3><a class="toc-backref" href="#id18">Color Correction</a><a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки цветокоррекции. Подробно описаны в <a class="reference internal" href="colors.html#color-correction"><span>соответствующем разделе</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_color_correction.png"><img alt="_images/render_color_correction.png" class="align-center" src="_images/render_color_correction.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="timeline">
-<span id="render-timeline"></span><h3><a class="toc-backref" href="#id17">Timeline</a><a class="headerlink" href="#timeline" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="render-timeline"></span><h3><a class="toc-backref" href="#id19">Timeline</a><a class="headerlink" href="#timeline" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки таймлайна.</p>
 <a class="reference internal image-reference" href="_images/render_timeline.png"><img alt="_images/render_timeline.png" class="align-center" src="_images/render_timeline.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -332,13 +369,19 @@
 </dd>
 </dl>
 </div>
+<div class="section" id="dynamic-grass">
+<span id="render-dynamic-grass"></span><h3><a class="toc-backref" href="#id20">Dynamic Grass</a><a class="headerlink" href="#dynamic-grass" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Включает и выключает эффект <a class="reference internal" href="particles_instancing.html#particles-grass"><span>травяного покрова</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_dynamic_grass.png"><img alt="_images/render_dynamic_grass.png" class="align-center" src="_images/render_dynamic_grass.png" style="width: 100%;" /></a>
+<p>Доступные значения: <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> и <code class="docutils literal"><span class="pre">AUTO</span></code>. Значение по умолчанию - <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+</div>
 </div>
 <div class="section" id="scene-panel">
-<span id="scene"></span><h2><a class="toc-backref" href="#id18">Вкладка Scene</a><a class="headerlink" href="#scene-panel" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="scene"></span><h2><a class="toc-backref" href="#id21">Вкладка Scene</a><a class="headerlink" href="#scene-panel" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/scene.png"><img alt="_images/scene.png" class="align-center" src="_images/scene.png" style="width: 100%;" /></a>
 <p>На этой вкладке находятся настройки, связанные с поведением сцены, в том числе настройки звука, физики, анимации и пр.</p>
 <div class="section" id="scene-scene">
-<span id="id2"></span><h3><a class="toc-backref" href="#id19">Scene</a><a class="headerlink" href="#scene-scene" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id2"></span><h3><a class="toc-backref" href="#id22">Scene</a><a class="headerlink" href="#scene-scene" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки сцены.</p>
 <a class="reference internal image-reference" href="_images/scene_scene.png"><img alt="_images/scene_scene.png" class="align-center" src="_images/scene_scene.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -348,12 +391,12 @@
 </dl>
 </div>
 <div class="section" id="units">
-<span id="scene-units"></span><h3><a class="toc-backref" href="#id20">Units</a><a class="headerlink" href="#units" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-units"></span><h3><a class="toc-backref" href="#id23">Units</a><a class="headerlink" href="#units" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки единиц измерения, используемых в сцене.</p>
 <a class="reference internal image-reference" href="_images/scene_units.png"><img alt="_images/scene_units.png" class="align-center" src="_images/scene_units.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="audio">
-<span id="scene-audio"></span><h3><a class="toc-backref" href="#id21">Audio</a><a class="headerlink" href="#audio" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-audio"></span><h3><a class="toc-backref" href="#id24">Audio</a><a class="headerlink" href="#audio" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки параметров звука.</p>
 <a class="reference internal image-reference" href="_images/scene_audio.png"><img alt="_images/scene_audio.png" class="align-center" src="_images/scene_audio.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -399,7 +442,7 @@
 </dl>
 </div>
 <div class="section" id="logic-editor">
-<span id="scene-logic-editor"></span><h3><a class="toc-backref" href="#id22">Logic Editor</a><a class="headerlink" href="#logic-editor" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-logic-editor"></span><h3><a class="toc-backref" href="#id25">Logic Editor</a><a class="headerlink" href="#logic-editor" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки использования логических деревьев (создаваемых в <a class="reference internal" href="logic_editor.html#logic-editor"><span>редакторе логики</span></a>) при воспроизведении сцены. По умолчанию отключено.</p>
 <a class="reference internal image-reference" href="_images/scene_logic_editor.png"><img alt="_images/scene_logic_editor.png" class="align-center" src="_images/scene_logic_editor.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -409,7 +452,7 @@
 </dl>
 </div>
 <div class="section" id="nla">
-<span id="scene-nla"></span><h3><a class="toc-backref" href="#id23">NLA</a><a class="headerlink" href="#nla" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-nla"></span><h3><a class="toc-backref" href="#id26">NLA</a><a class="headerlink" href="#nla" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки использования нелинейной анимации при воспроизведении сцены. По умолчанию отключено.</p>
 <a class="reference internal image-reference" href="_images/scene_nla.png"><img alt="_images/scene_nla.png" class="align-center" src="_images/scene_nla.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -419,7 +462,7 @@
 </dl>
 </div>
 <div class="section" id="meta-tags">
-<span id="scene-meta-tags"></span><h3><a class="toc-backref" href="#id24">Meta Tags</a><a class="headerlink" href="#meta-tags" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-meta-tags"></span><h3><a class="toc-backref" href="#id27">Meta Tags</a><a class="headerlink" href="#meta-tags" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Мета-теги приложения.</p>
 <a class="reference internal image-reference" href="_images/scene_meta_tags.png"><img alt="_images/scene_meta_tags.png" class="align-center" src="_images/scene_meta_tags.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -435,7 +478,7 @@
 </dl>
 </div>
 <div class="section" id="physics">
-<span id="scene-physics"></span><h3><a class="toc-backref" href="#id25">Physics</a><a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-physics"></span><h3><a class="toc-backref" href="#id28">Physics</a><a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки использования физики.</p>
 <a class="reference internal image-reference" href="_images/scene_physics.png"><img alt="_images/scene_physics.png" class="align-center" src="_images/scene_physics.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -445,7 +488,7 @@
 </dl>
 </div>
 <div class="section" id="cluster-batching">
-<span id="scene-batching"></span><h3><a class="toc-backref" href="#id26">Cluster Batching</a><a class="headerlink" href="#cluster-batching" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">Cluster Batching</a><a class="headerlink" href="#cluster-batching" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Этот параметр активирует использование кластерного батчинга. Может использоваться для целей оптимизации. По умолчанию выключен.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -459,7 +502,7 @@
 </dl>
 </div>
 <div class="section" id="objects-selection">
-<span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id27">Objects Selection</a><a class="headerlink" href="#objects-selection" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id30">Objects Selection</a><a class="headerlink" href="#objects-selection" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки параметров выбора объектов с помощью функции API <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.pick_object">pick_object()</a> и <a class="reference internal" href="logic_editor.html#logic-editor"><span>нодовой логики</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -473,7 +516,7 @@
 </dl>
 </div>
 <div class="section" id="anchors">
-<span id="scene-anchors"></span><h3><a class="toc-backref" href="#id28">Anchors</a><a class="headerlink" href="#anchors" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-anchors"></span><h3><a class="toc-backref" href="#id31">Anchors</a><a class="headerlink" href="#anchors" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки определения видимости <a class="reference internal" href="objects.html#objects-anchors"><span>якорей</span></a>.</p>
 <a class="reference internal image-reference" href="_images/scene_anchors.png"><img alt="_images/scene_anchors.png" class="align-center" src="_images/scene_anchors.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -483,7 +526,7 @@
 </dl>
 </div>
 <div class="section" id="export-options">
-<span id="scene-export-options"></span><h3><a class="toc-backref" href="#id29">Export Options</a><a class="headerlink" href="#export-options" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="scene-export-options"></span><h3><a class="toc-backref" href="#id32">Export Options</a><a class="headerlink" href="#export-options" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Параметры экспорта настроек сцены.</p>
 <a class="reference internal image-reference" href="_images/scene_export_options.png"><img alt="_images/scene_export_options.png" class="align-center" src="_images/scene_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -494,16 +537,16 @@
 </div>
 </div>
 <div class="section" id="world-panel">
-<span id="world-settings"></span><h2><a class="toc-backref" href="#id30">Вкладка World</a><a class="headerlink" href="#world-panel" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="world-settings"></span><h2><a class="toc-backref" href="#id33">Вкладка World</a><a class="headerlink" href="#world-panel" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/world.png"><img alt="_images/world.png" class="align-center" src="_images/world.png" style="width: 100%;" /></a>
 <p>На этой вкладке находятся параметры окружающей среды, такие, как настройки неба, тумана и т.п.</p>
 <div class="section" id="preview">
-<span id="world-preview"></span><h3><a class="toc-backref" href="#id31">Preview</a><a class="headerlink" href="#preview" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="world-preview"></span><h3><a class="toc-backref" href="#id34">Preview</a><a class="headerlink" href="#preview" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Предварительный просмотр окружения.</p>
 <a class="reference internal image-reference" href="_images/world_preview.png"><img alt="_images/world_preview.png" class="align-center" src="_images/world_preview.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="world">
-<span id="world-world"></span><h3><a class="toc-backref" href="#id32">World</a><a class="headerlink" href="#world" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="world-world"></span><h3><a class="toc-backref" href="#id35">World</a><a class="headerlink" href="#world" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки параметров неба.</p>
 <a class="reference internal image-reference" href="_images/world_world.png"><img alt="_images/world_world.png" class="align-center" src="_images/world_world.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -525,24 +568,24 @@
 <dt><em>Zenith Color</em></dt>
 <dd><p class="first last">Цвет неба в зените.</p>
 </dd>
-<dt><em>Ambient Color</em></dt>
-<dd><p class="first last">Цвет окружающего освещения.</p>
-</dd>
 <dt><em>Reflect World</em></dt>
 <dd><p class="first last">Отображать небо при рассчёте отражений.</p>
 </dd>
 <dt><em>Render Only Reflection</em></dt>
 <dd><p class="first last">Отображать небо <em>только</em> при рассчёте отражений.</p>
 </dd>
+<dt><em>World Background</em></dt>
+<dd><p class="first last">Включает и выключает опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">Background</span></code> (находится на вкладке <code class="docutils literal"><span class="pre">Display</span></code> панели <code class="docutils literal"><span class="pre">3D</span> <span class="pre">View</span></code>). При включении этой опции цвета окружающей среды будут отображаться в окне просмотра так же, как в самом движке.</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="environment-lighting">
-<span id="world-environment-lighting"></span><h3><a class="toc-backref" href="#id33">Environment Lighting</a><a class="headerlink" href="#environment-lighting" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="world-environment-lighting"></span><h3><a class="toc-backref" href="#id36">Environment Lighting</a><a class="headerlink" href="#environment-lighting" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки параметров освещения от окружающей среды. Подробно описаны в <a class="reference internal" href="lighting.html#environment-lighting"><span>соответствующем разделе</span></a>.</p>
 <a class="reference internal image-reference" href="_images/world_environment_lighting.png"><img alt="_images/world_environment_lighting.png" class="align-center" src="_images/world_environment_lighting.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="mist">
-<span id="world-mist"></span><h3><a class="toc-backref" href="#id34">Mist</a><a class="headerlink" href="#mist" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="world-mist"></span><h3><a class="toc-backref" href="#id37">Mist</a><a class="headerlink" href="#mist" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки параметров тумана.</p>
 <a class="reference internal image-reference" href="_images/world_mist.png"><img alt="_images/world_mist.png" class="align-center" src="_images/world_mist.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -570,14 +613,36 @@
 </dl>
 </div>
 <div class="section" id="procedural-sky">
-<span id="world-procedural-sky"></span><h3><a class="toc-backref" href="#id35">Procedural Sky</a><a class="headerlink" href="#procedural-sky" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="world-procedural-sky"></span><h3><a class="toc-backref" href="#id38">Procedural Sky</a><a class="headerlink" href="#procedural-sky" title="Ссылка на этот заголовок">¶</a></h3>
 <blockquote>
 <div><p>Настройки процедурного неба. Подробно описаны в <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>соответствующем разделе</span></a>.</p>
 </div></blockquote>
 <a class="reference internal image-reference" href="_images/world_procedural_sky.png"><img alt="_images/world_procedural_sky.png" class="align-center" src="_images/world_procedural_sky.png" style="width: 100%;" /></a>
 </div>
+<div class="section" id="animation">
+<span id="world-animation"></span><h3><a class="toc-backref" href="#id39">Animation</a><a class="headerlink" href="#animation" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки анимации окружающей среды.</p>
+<a class="reference internal image-reference" href="_images/world_animation.png"><img alt="_images/world_animation.png" class="align-center" src="_images/world_animation.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>Apply Default Animation</em></dt>
+<dd><p class="first last">Если этот параметр включён, движок запускает проигрывание анимации окружающей среды после загрузки сцены.</p>
+</dd>
+<dt><em>Behavior</em></dt>
+<dd><p class="first">Устанавливает поведение анимации окружающей среды. Доступные значения:</p>
+<ul class="simple">
+<li><p class="first"><code class="docutils literal"><span class="pre">Loop</span></code> - анимация воспроизводится циклически.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - анимация проигрывается один раз.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - анимация проигрывается один раз, после чего сбрасывается на нулевой кадр.</p>
+</li>
+</ul>
+<p class="last">This option is only avaliable if the <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> parameter is enabled.</p>
+</dd>
+</dl>
+</div>
 <div class="section" id="world-export-options">
-<span id="id3"></span><h3><a class="toc-backref" href="#id36">Export Options</a><a class="headerlink" href="#world-export-options" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id3"></span><h3><a class="toc-backref" href="#id40">Export Options</a><a class="headerlink" href="#world-export-options" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройки экспорта параметров окружения.</p>
 <a class="reference internal image-reference" href="_images/world_export_options.png"><img alt="_images/world_export_options.png" class="align-center" src="_images/world_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -609,7 +674,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-10-03.
+      Обновлено: 2016-10-27.
 
     </p>
   </div>
@@ -665,7 +730,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

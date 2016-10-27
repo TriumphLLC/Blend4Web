@@ -18,21 +18,21 @@
 
     * 物理标签
 
-  * 设置
+  * 锚设置
 
   * 物体变换API
 
-  * Get Object API
+  * 获取物体API
 
-  * Object Selection
+  * 物体选择
 
-  * Copying Objects (Instancing)
+  * 复制物体（实例化）
 
-    * Making a Simple Copy
+    * 制作一个简单的复制
 
-    * Making a Deep Copy
+    * 制作深复制
 
-    * Removing Objects
+    * 删除物体
 
   * 四元数
 
@@ -50,15 +50,15 @@
 
    * 网格(mesh)
 
-   * camera
+   * 相机
 
-   * lamp
+   * 灯光
 
    * 空物体
 
-   * armature
+   * 骨架
 
-   * speaker
+   * 声音
 
    * 曲线
 
@@ -68,51 +68,41 @@
 
    * 曲面
 
-During the scene export, "CURVE", "TEXT", "METABALL" and "SURFACE"
-type objects are converted into "MESH" type objects.
+在场景导出时，"CURVE"，"TEXT"，"METABALL" 和 "SURFACE" 类型的物体转换
+为 "MESH" 类型的物体。
 
 
 静态和动态物体
 ==============
 
-An object can be either static or dynamic.
+物体可以是静态或动态的。
 
-**Static objects** are objects that cannot be moved, animated or
-changed in any other way while running the application. For
-performance purposes, such objects can be merged together if they have
-the same material.
+**静态物体** 是在运行程序时不能移动，动画或以任何其它方式改变的物体。
+这样的物体可以提高性能，如果它们具有相同的材质可以合并在一起。
 
-**Dynamic objects** can be moved, animated or changed in other ways
-while running the application. They can also interact with other
-objects, including static ones. Dynamic objects are never combined
-with each other or with static objects.
+**动态物体** 在运行的应用程序可以移动，动画或通过其手段改变。它们也可
+以与其他物体交互，包括静态物体。动态物体不会彼此或与静态物体相结合。
 
-Only "MESH" and "EMPTY" type objects can be either static or dynamic.
-All other object types, such as "CAMERA" and "ARMATURE", are always
-dynamic.
+只有 "MESH" 和 "EMPTY" 类型物体可以是静态的或是动态的。所有其他物体类
+型，如 "CAMERA" 和 "ARMATURE"，始终是动态的。
 
-Static "MESH" objects are rendered much faster then the dynamic ones,
-so, for better performance, it is advised to keep the number of
-dynamic meshes to a minimum. Objects of any other type, both static
-and dynamic, do not significantly affect performance.
+静态 "MESH" 物体比动态的渲染得快得多，因此，为了更好的性能，最好将动态
+网格数保持在最低水平。任何其他类型的物体，静态和动态，不显著影响性能。
 
-The objects which have animation, physics or a parent, which is a
-dynamic object, are considered dynamic, as well as the objects
-controlled by the following logic nodes:
+具有动画，物理或父关系的是一个动态物体，被认为是动态，以及由下面的逻辑
+节点控制的物体：
 
-   * "Play Animation"
+   * "播放动画"
 
-   * "Transform Object"
+   * "变换物体"
 
-   * "Move To"
+   * "移动到"
 
-   * "Inherit Material"
+   * "继承材质"
 
-API methods that concern object movement, copying and animation (both
-object and node material) can only be applied to dynamic objects. In
-order to make the movement of the object without dynamic settings
-possible, it is necessary to activate "Force Dynamic Object" option in
-its settings.
+API方法是关注物体的运动，复制和动画（包括物体和节点材料）只能应用于动
+态物体。为了使物体的不动态设置的运动可能，有必要激活设置 "Force
+Dynamic Object" 选项。
 
 
 设置
@@ -129,6 +119,12 @@ Blend4Web的特殊属性。
 
 
 
+
+Transform Panel
+~~~~~~~~~~~~~~~
+
+[图片]
+
 *变换 > 位置*
    位置坐标。
 
@@ -139,17 +135,9 @@ Blend4Web的特殊属性。
 *变换 > 缩放*
    缩放。所有3分量（X，Y，Z）应该是相同的。缩放不支持物理物体。
 
-*关系 > 父级*
-   参照父物体。
 
-   如果父物体是一个摄像头，"Viewport Alignment" 设置将可见。
-
-   [图片]
-
-
-
-   These settings can be used to align the object to an active camera.
-   They are described in the Camera chapter.
+Groups Panel
+~~~~~~~~~~~~
 
 *组*
    物体所属的物体组
@@ -158,16 +146,38 @@ Blend4Web的特殊属性。
 
 
 
+
+Level of Detail Panel
+~~~~~~~~~~~~~~~~~~~~~
+
+[图片]
+
 *细节层次 > LOD 转换速率*
    参数用于平滑LOD物体之间的切换。它定义在该LOD物体由下一LOD物体更换前
    仍然渲染的额外距离。分配到主要物体。测量值为在物体的边界球半径的分
    数。
 
-*特殊效果 > 关闭雾效*
-   禁用物体的雾。
 
-*特殊效果 > 焦散*
-   该物体将渲染自附近水的焦散效果。
+Animation Panel
+~~~~~~~~~~~~~~~
+
+[图片]
+
+*动画 > 应用默认动画*
+   传到引擎开始后播放物体的动画。
+
+*动画 > 动画混合*
+   只对骨骼物体。允许骨骼动画之间进行混合。
+
+*动画 > 行为*
+   到达最后一帧时动画的行为："完成停止"  - 停止  "完成重置"  - 停止并
+   跳到零帧，"Loop"  - 永远重复。
+
+
+Export Options Panel
+~~~~~~~~~~~~~~~~~~~~
+
+[图片]
 
 *导出选项 > 不导出*
    不要导出此物体。
@@ -188,18 +198,14 @@ Blend4Web的特殊属性。
 注解: 以下属性是相互排斥的：*应用修改器*，*应用缩放及修改器*，*导出
   顶点动 画* 和 *导出形变键* 。
 
-*动画 > 应用默认动画*
-   传到引擎开始后播放物体的动画。
 
-*动画 > 动画混合*
-   只对骨骼物体。允许骨骼动画之间进行混合。
+Rendering Properties Panel
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*动画 > 行为*
-   到达最后一帧时动画的行为："完成停止"  - 停止  "完成重置"  - 停止并
-   跳到零帧，"Loop"  - 永远重复。
+[图片]
 
-*Rendering Properties > Hidden*
-   An object with this property enabled will be hidden on load.
+*渲染属性>隐藏*
+   与此属性启用的物体将在加载时被隐藏。
 
 *渲染属性 > 不要渲染*
    禁止物体的渲染（例如用于有用的物理物体）。
@@ -213,6 +219,12 @@ Blend4Web的特殊属性。
 *渲染属性 > 动态几何体*
    允许通过Blend4Web API来重载物体的几何形状。
 
+
+Shadows Panel
+~~~~~~~~~~~~~
+
+[图片]
+
 *阴影 > 投射*
    该物体将投射阴影。
 
@@ -222,17 +234,39 @@ Blend4Web的特殊属性。
 *阴影 > 接受*
    该物体将接收来自其他相邻物体的阴影。
 
+
+Billboard Panel
+~~~~~~~~~~~~~~~
+
+[图片]
+
+*看板*
+   使用物体作为看板（即自动定向面对摄像机）。
+
+*看板 > 保留全局方向和缩放*
+   考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看
+   时将朝明显的被引导到相机。启用 "看板" 复选框后可用。
+
+*看板 > 看板类型*
+   看板方向模式。 "Spherical" （默认） - 物体一面始终朝向相机，不管视
+   角，"Cylindrical"  - 类似于 "Spherical"，但旋转仅限于Blender的世界Z
+   轴。启用看板后变得可用。
+
+
+Reflections Panel
+~~~~~~~~~~~~~~~~~
+
+[图片]
+
 *反射 > 被反射*
    启用后物体被会在动态镜面中被反射。
 
 *反射 > 仅被反射*
    物体被反射但仍将看不见自身。开启 "反射 > 反射性" 后可用。
 
-   注解: If the "Reflexible Only" parameter is enabled
-     simultaneously with the "Shadows > Cast Only" parameter, the
-     engine will not render the object itself, but will render its
-     shadow and reflection, like it is shown on the picture below.[图
-     片]
+   注解: 如果  "Reflexible Only" 参数与 "Shadows > Cast Only" 参数同
+     时启用 ，引擎将不会渲染物体本身，而是将渲染它的影子和反射，像下面
+     的图片 所示。[图片]
 
 *反射 > 反射*
    当启用时该物体表面反射的其他物体。
@@ -241,11 +275,33 @@ Blend4Web的特殊属性。
    对于一个空物体定义了反射面的Name文本字段。启用 "反射 > 反射" 后可用
    。
 
+
+Selection and Outlining Panel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[图片]
+
 *选择和外轮廓 > 可选择*
    启用 物体选择 ，用鼠标或其他输入设备。
 
 *选择和外轮廓 > 启用外轮廓*
    启用物体的 外轮廓发光  。
+
+
+Anchors Panel
+~~~~~~~~~~~~~
+
+*锚 > 启用锚*
+   该参数将启用添加锚（2D标签）到物体的界面。只可用于  "EMPTY" 物体。
+   在 相应章节 描述。
+
+   [图片]
+
+
+Meta Tags Panel
+~~~~~~~~~~~~~~~
+
+[图片]
 
 *元标签*
    添加物体的元标签的接口：
@@ -263,27 +319,43 @@ Blend4Web的特殊属性。
    *元标签 > 描述源*
       为说明来源类型：文本或文本文件。
 
-*锚 > 启用锚*
-   This parameter enables interface for adding anchors (2D tags) to
-   objects. Available for "EMPTY" objects only. Described in the
-   corresponding section.
+
+Relations Panel
+~~~~~~~~~~~~~~~
+
+[图片]
+
+*关系 > 父级*
+   参照父物体。
+
+   如果父物体是一个摄像头，"Viewport Alignment" 设置将可见。
 
    [图片]
+
+
+
+   这些设置可被用于将物体对准的主控照相机。参考 相机章节 的描述。
+
+
+Wind Bending Panel
+~~~~~~~~~~~~~~~~~~
+
+[图片]
 
 *风弯曲*
    启用风弯曲程序动画。在  室外渲染 页有完整的描述.。
 
-*看板*
-   使用物体作为看板（即自动定向面对摄像机）。
 
-*看板 > 保留全局方向和缩放*
-   考虑到（世界空间）看板的物体的旋转和缩放。该物体沿Blender的Y轴查看
-   时将朝明显的被引导到相机。启用 "看板" 复选框后可用。
+Special Effects Panel
+~~~~~~~~~~~~~~~~~~~~~
 
-*看板 > 看板类型*
-   看板方向模式。 "Spherical``（默认） - 物体一面始终朝向相机，不管视
-   角，``Cylindrical"  - 类似于``Spherical``，但旋转仅限于Blender的世
-   界Z轴。启用看板后变得可用。
+[图片]
+
+*特殊效果 > 关闭雾效*
+   禁用物体的雾。
+
+*特殊效果 > 焦散*
+   该物体将渲染自附近水的焦散效果。
 
 
 物理标签
@@ -306,54 +378,47 @@ Blend4Web的特殊属性。
    启用物体的角色物理特性。角色设置详细描述在  物理 一节.。
 
 
-设置
-====
+锚设置
+======
 
-Anchors can be used to attach annotations to 3D objects. The
-annotation is displayed near the object regardless of the camera
-position and even follows it throughout the animation.
+锚可以用来附加注释到3D物体。不管摄像机位置注释显示在物体附近，甚至在整
+个动画跟随它。
 
 [图片]
 
-Annotations can be created entirely in Blender. All you need to do is
-to place an "Empty" object in the required position and enable the
-"Anchor" property. The text for the annotations can be assigned in the
-"Title" and "Description" fields on the "Meta Tags" panel.
+注释完全可以在Blender中创建。你需要做的是放置一个 "Empty" 物体在需要的
+位置，然后启用 "Anchor" 属性。对于注释文本可以在 "Meta Tags"  面板的
+"Title" 和 "Description" 字段进行分配。
 
 [图片]
 
 *启用锚*
-   This parameter enables the interface for adding anchors (2D tags)
-   to objects. This is available for "EMPTY" objects only.
+   使用此参数可添加锚（2D标签）物体的界面。唯一适用于 "EMPTY" 物体。
 
-*Type*
-   *类型*
+*类型*
+   锚类型
 
-   * "Annotation" - content is obtained from the meta tags assigned
-     to the object and displayed in the standard section.
+   * "Annotation" - 内容从 元标签 所获得再分配给物体，显示出标准的部
+     分 。
 
-   * "Custom Element" - an arbitrary HTML element from the current
-     web page is used as an anchor.
+   * "Custom Element" - 从当前网页的任意HTML元素用作锚。
 
-   * "Generic" - an anchor’s position can be detected using the
-     "anchors" API module.
+   * "Generic" - 一个锚点的位置，可以使用 "anchors"  API模块进行检测
+     。
 
-   Default value is "Annotation".
+   默认值是 "Annotation"。
 
-*HTML Element ID*
-   This specifies the ID of the HTML element that will be used as the
-   anchor. This is available only if the "Type" parameter is set to
+*HTML元素ID*
+   这指定了将被用作锚的HTML元素的ID。这是仅当 "Type" 参数设置为
    "Custom Element".
 
 *可见检测*
    检测锚物体是否被其他物体重叠。打开此选项会降低性能，应该只在必要时
    使用。
 
-*Max Width*
-   This parameter limits the expanding info window by a predefined
-   value (measured in CSS pixels). This is available only if the
-   "Type" parameter is set to "Annotation", and it is set to 250 by
-   default.
+*最大宽度*
+   此参数通过一个预定义的值来限制扩展信息窗口（测量用 CSS像素）。只有
+   当 "Type" 参数设置为 "Annotation" 时才可用，它被设置为默认值为250。
 
 
 物体变换API
@@ -423,8 +488,8 @@ rotate_x_local(), rotate_y_local(), rotate_z_local()
    相对于物体原来位置的（在本地空间）旋转。
 
 
-Get Object API
-==============
+获取物体API
+===========
 
 对物体执行任何操作，您首先需要得到它（找到到它的链接）。有几个API函数
 是做这个的。有链接的物体具有 "Object3D" 类型。
@@ -488,19 +553,17 @@ get_object_name()
       // ...
 
 
-Object Selection
-================
+物体选择
+========
 
-In order to enable selection of a certain object, it is required to
-enable the "Selectable" checkbox on the "Selection and Outlining"
-panel.
+为了使一个特定的物体能被选择，需要 "Selection and Outlining" 面板上的
+"Selectable" 复选框启用。
 
-注解: Make sure that the status on the "Scene > Object Outlining"
-  panel is set to "ON" or "AUTO".
+注解: 确保在 "Scene > Object Outlining" 面板被设置为 "ON" 或 "AUTO"
+  。
 
-Object selection is possible programmatically via API, for example, in
-the "scenes.js" module there is the "pick_object" function which
-selects an object based on canvas 2D coordinates,
+物体选择也可以通过API编程方式，例如，在 "scenes.js" 模块有基于二维的画
+布坐标选择物体的 "pick_object" 函数。
 
    // ...
    var x = event.clientX;
@@ -509,63 +572,51 @@ selects an object based on canvas 2D coordinates,
    var obj = m_scenes.pick_object(x, y);
    // ...
 
-or using the Logic Editor.
+或使用 逻辑编辑器.
 
-If the selectable object has enabled "Enable Outlining" and "Outline
-on Select" checkboxes on the "Object > Selection" and Outlining panel,
-then the "pick_object" function call will activate outline glow
-animation.
+如果选择的物体已启用了 "Object > Selection" 和轮廓面板上的 "Enable
+Outlining" 和 "Outline on Select" 选框，那么 "pick_object" 函数调用将
+激活 外轮廓辉光动画 。
 
-注解: If the selected object is transparent ("Blend", "Add" and
-  "Sort" transparency types), outline glow will only be visible on the
-  parts that have "Alpha" value higher than 0.5.
+注解: 如果选定的物体是透明的（"Blend"，"Add" 和 "Sort" 透明度类型）
+  ，外轮 廓发光只能在具有 "Alpha" 高于0.5的部分可见。
 
 
-Copying Objects (Instancing)
-============================
+复制物体（实例化）
+==================
 
-It is often required to copy (to make instances of) objects during
-application work.
+它通常需要复制（使的实例）中的应用程序的工作物体。
 
-Copying objects has its limitations:
-   * only "MESH" objects can be copied
+复制物体也有其局限性：
+   * 只有 "MESH" 物体可以被复制
 
-   * the object should be dynamic (enable "Rendering Properties >
-     Force Dynamic Object")
+   * 物体应该是 动态 （启用 "渲染属性>强制动态 Object"）
 
-   * the source object should belong to the active scene
+   * 源物体应该属于活动场景
 
 
-Making a Simple Copy
---------------------
-
-In case of simple copying the new object will share the mesh with the
-original object. Thus, if the original object’s mesh is changed, the
-copied object’s mesh will be changed too. To make simple copying
-possible, it’s enough to turn on the "Blend4Web > Force Dynamic
-Object" setting in the source object’s properties.
-
-
-Making a Deep Copy
+制作一个简单的复制
 ------------------
 
-In case of deep copying, the new object will have unique properties,
-namely it will have its own mesh. Thus, if the original object’s mesh
-is changed, the copied object’s mesh will not be changed. Also, the
-canvas textures on the copied objects are different textures and not
-one and the same like it is the case with the simple copying. To make
-deep copying possible, it is required to enable the Rendering
-Properties > Dynamic Geometry checkbox for the source object. |
+在简单复制的情况下，新的物体将共享与原始物体的网格。因此，如果原始物体
+的网格被改变，则复制的物体的网格也将被改变。为了让简单复制可能的，但它
+足以打开``Blend4Web>强制动态Object``源物体的属性设置。
 
-Copying objects in runtime can be performed with the "copy" method of
-the "objects.js" module. This method requires three arguments: the id
-of the source object, a unique name for the new object and the boolean
-value to specify the copy mode (i.e. simple or deep). By default,
-simple copying will be performed.
 
-The newly created object should be added to the scene. This can be
-performed with the "append_object" method of the "scenes.js" module.
-The new object should be passed to it as an argument.
+制作深复制
+----------
+
+在深度复制的情况下，新物体将具有独特的性质，即它会有自己的网格。因此，
+如果原始物体的网格被改变，则复制的物体的网格将不被改变。另外，在复制的
+物体在画布纹理不同的纹理和不同一个像它与简单复制的情况。为了使深度复制
+可能，要求源物体启用 渲染属性>动态几何 复选框. |
+
+在运行时复制物体可以使用 "objects.js" 模块的 "copy" 方法进行。此方法需
+要三个参数：源物体的id，新物体一个唯一的名称和布尔值，以指定复制模式（
+即简单或深度）。默认情况下，简单复制将被执行。
+
+新创建的物体，应添加到场景。这可以用 "scenes.js" 模块的
+"append_object" 方法进行。新物体应该被传递给它作为参数。
 
    // ...
    var new_obj = m_objects.copy(obj, "New_name", true);
@@ -574,12 +625,11 @@ The new object should be passed to it as an argument.
    // ...
 
 
-Removing Objects
-----------------
+删除物体
+--------
 
-To remove objects, use the "remove_object" method of the "scenes.js"
-module. Pass the object to it as an argument. Dynamic mesh- and empty-
-type objects can be removed this way.
+要删除物体，请使用 "scenes.js" 模块的 "remove_object" 方法。传递物体作
+为参数。动态网格-空类型的物体可以用这种方式删除。
 
    // ...
    m_objects.remove_object(new_obj);
@@ -597,8 +647,7 @@ type objects can be removed this way.
 
    * 在一系列旋转的情况下，比矩阵有更好的计算效率。
 
-   * Numeric stability - compensation for multiplication errors
-     arising from float number inaccuracy.
+   * 数值稳定 - 从浮点数不准确而产生乘法错误的补偿。
 
    * 便捷的插值方法。
 

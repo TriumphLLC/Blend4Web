@@ -1,56 +1,56 @@
 
-For Application Developers
-**************************
+对应用程序开发人员
+******************
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* For Application Developers
+* 对应用程序开发人员
 
-  * Application Programming
+  * 应用程序编程
 
-    * "Hello World!" application
+    * “你好，世界！”应用
 
-    * Loading Scenes in Apps
+    * 应用中加载场景
 
-    * Module System
+    * 模块系统
 
-    * Creating Apps Quickly
+    * 快速创建应用程序
 
-    * Background Transparency
+  * 背景透明
 
-  * Resource Conversion
+  * 资源转换
 
-    * Dependencies
+    * 依赖
 
-    * Data Formats
+    * 数据格式
 
-  * Code Examples
+  * 示例代码
 
-  * Event-Driven Model
+  * 事件驱动模型
 
-    * Sensors
+    * 传感器
 
-    * Example
+    * 示例
 
-  * SDK File Structure
+  * SDK文件结构
 
-  * Loading Local Resources
+  * 加载本地资源
 
-  * Quality Profiles
+  * 品质配置
 
-  * Non-FullScreen Web Apps
-
-
-Application Programming
-=======================
+  * 非全屏Web应用程序
 
 
-"Hello World!" application
---------------------------
+应用程序编程
+============
 
-The simplest Blend4Web app may look like this:
+
+“你好，世界！”应用
+------------------
+
+最简单的应用程序Blend4Web可能是这样的：
 
    <!DOCTYPE html>
    <html>
@@ -68,31 +68,27 @@ The simplest Blend4Web app may look like this:
 
    </html>
 
-This app prints a message and the engine's version in the browser
-window. Let's look at this example in detail. The engine library is
-embedded with the "<script src="...">" element. Then, the app waits
-for the page to load and prints the current version in the browser
-window. In this example, "version" is the only used module which has a
-function with the same name - "version()". A more detailed info about
-the usage of engine's modules and functions can be found in the API
-documentation.
+这个应用在浏览器窗口打印了一行信息和引擎的版本。让我们更仔细的查看这个
+示例。引擎库嵌入在 "<script src="...">" 元素中。应用等待页面加载然后在
+浏览器窗口打印当前版本。在这个示例中，"version" 是唯一用到的模块带有一
+个同样名字的函数 - "version()". 需要更详细的了解使用引擎模块和函数的信
+息可以在  API 文档 中找到。
 
-The compiled engine file "b4w.min.js" can be copied from the SDK's
-"deploy/apps/common" directory and placed in the same directory as the
-HTML file.
+编译引擎文件 "b4w.min.js" 可以从SDK的 "deploy/apps/common" 目录进行复
+制，并和HTML文件放置在同一目录中。
 
 
-Loading Scenes in Apps
-----------------------
+应用中加载场景
+--------------
 
-To load a 3D scene you need:
+要加载你需要的3D场景：
 
-1. Place a "<canvas>" element on a page for rendering.
+1. 放置一个 "<canvas>" 元素到页面进行渲染。
 
-2. Call the "m_main.init()" function with the created element id to
-   initialize the WebGL context after the page is loaded.
+2. 调用  "m_main.init()" 函数创建的元素 id 加载页面后初始化 WebGL
+   上下 文。
 
-3. Call the "m_data.load()" function to load a 3D scene.
+3. 调用 "m_data.load()" 函数加载3D场景。
 
    <!DOCTYPE html>
    <html>
@@ -114,24 +110,21 @@ To load a 3D scene you need:
 
    </html>
 
-注解: Note that a real app should include error checking, setting up
-  the engine before initializing and also a basic system for
-  interacting with the user.
+注解: 注意，一个实际应用应包括错误检查，在引擎初始化之前并且还要有与
+  用户交 互的基本系统设定。
 
 
-Module System
--------------
+模块系统
+--------
 
-While the engine gives an app programmer an API in the scale of dozens
-of modules, it occupies a single "b4w" namespace. To call a module’s
-method import it first with the "b4w.require()" function.
+虽然引擎赋予应用程序程序员 API 中的几十个模块的规模，它占用单 'b4w' 命
+名空间。调用模块的方法 "b4w.require()" 功能首先导入。
 
-It is possible to register external modules if their names do not
-collide with already existing modules. A module can be registered with
-a "b4w.register()" call. Check if a module with some name already
-exists with a "b4w.module_check()" call.
+如果他们的名称不与现有的模块冲突能够登记外部模块。模块可以用
+"b4w.register()" 调用登记。检查是否有一些名称的模块已调用用
+"b4w.module_check()" 调用。
 
-Example:
+示例：
 
    // check if module exists
    if (b4w.module_check("my_module"))
@@ -157,12 +150,11 @@ Example:
    m_my_module.print_build_date();
 
 
-Creating Apps Quickly
----------------------
+快速创建应用程序
+----------------
 
-Creating an app from scratch can be a tedious task, especially for
-beginners. To address this there is a special add-on for the engine
-called "app":
+从头开始创建一个应用程序可以是一个乏味的任务，特别对于初学者。为了解决
+这个问题有一个特殊名为 "app" 的引擎插件：
 
    <!DOCTYPE html>
    <html>
@@ -195,27 +187,23 @@ called "app":
 
    </html>
 
-In this case the "app" module will create a "<canvas>" element inside
-the container with the specified "container_id" id. Then it will
-initialize the engine after the page is loaded and will finally
-execute the "load_cb()" callback.
+在这种情况下，"app" 模块将在容器内的元素用指定 "container_id" ID建立一
+个 "<canvas>" 。再经过页面加载和最终执行 "load_cb（）" 回调则初始化引
+擎。
 
-Then the some_scene.json scene is loaded similar to the previous
-example. The only difference is that after the scene is loaded, the
-control system is initialized and camera movement with keyboard and
-mouse (or sensor screen) becomes possible.
+然后 some_scene.json 场景被同时加载于前面的例子。唯一的区别是，该场景
+被加载之后，所述控制系统被初始化并可以用键盘和鼠标（或传感器屏幕）控制
+照相机运动。
 
-In case when the "app" module is used, it is necessary to explicitly
-specify dimensions of the container element. Otherwise, the created
-"<canvas>" element will have zero dimensions.
+一旦使用 "app" 模块，就必须显式地指定尺寸的容器元素。否则为创建
+"<canvas>" 元素将具有零维度。
 
 
-Background Transparency
------------------------
+背景透明
+========
 
-The "background_color" and "alpha" parameters are passed to the init
-method placed in the load callback function (a function that is called
-right after the scene is loaded), like this:
+"background_color" 和 "alpha" 参数传递到  init 方法放在加载回调函数中
+（场景加载后调用的函数），像这样︰
 
    m_app.init ({
        alpha: true,
@@ -223,178 +211,150 @@ right after the scene is loaded), like this:
       //this method sets the background to an opaque light grey color
    });
 
-The combination of the parameters passed to the method defines how the
-backgrounds of the Blend4Web application and the HTML application
-blend together. Available options are:
+参数传递给该方法的组合定义了 Blend4Web 应用如何和 HTML 应用程序的背景
+融合在一起。可用的选项包括︰
 
 1. "alpha" = false
 
-      The color of the background is defined by the "background_color"
-      of the Blend4Web application, the background of the HTML
-      application is not taken into consideration.
+      背景的颜色由Blend4Web 应用程序的 "background_color" 定义，不考虑
+      HTML 应用程序的背景。
 
 [图片]
 
-1. "alpha" = true
+2. "alpha" = true
 
-      The background of the HTML application might influence the
-      background of the Blend4Web application based on its
-      transparency which is defined by the fourth component of the
-      "background_color" parameter ("alpha" = "background_color[3]",
-      not to be confused with the "alpha" parameter mentioned above).
+      HTML 应用程序的背景可能会影响基于其透明度由 Blend4Web 应用的
+      'background_color' 参数定义的四个分量的背景 ("alpha" =
+      "background_color[3]" ，不能混同于上面提到的 "alpha" 参数)。
 
       background_color[3] = 1
-         This produces the same result as if the alpha parameter has
-         been turned off ("alpha" = false)
+         这产生相同的结果，如同 alpha 参数已关闭 ("alpha"  = 假)
 
       background_color[3] = 0
-         Additive blending is used.
+         使用额外的混合
 
          [图片]
 
-         Picture above shows an HTML page containing a Blend4Web
-         application with a blue [0, 0, 1] background that blends with
-         the page's red ("Red") color producing a violet tone.
+         上面图片显示一个包含与页面的红色 （' 红 '） 颜色生产了紫色基
+         调 [0，0，1] 的蓝色背景的 Blend4Web 应用程序的 HTML 页面。
 
       background_color[3] > 0
-         Additive blending is used with the "background_color" having
-         a greater influence.
+         额外的混合用  "background_color" 有更大的影响。
 
          [图片]
 
-         This picture shows the same HTML page with the same Blend4Web
-         app, however, the "alpha" value is set to 0.5, leading to a
-         darker tone of the application background.
+         这张照片显示相同的 HTML 页面相同的 Blend4Web 应用程序，但是，
+         alpha 值设置为 0.5，导致应用程序背景较暗的色调。
 
-The mechanisms of alpha lending are described in greater detail in the
-Color Management chapter.
+在 颜色管理 章节更详细地介绍了 alpha 混合机制。
 
-By default, the "alpha" parameter is set to true and the
-"background_color" is set to transparent black [0, 0, 0, 0], which
-means that the application will have an HTML background with no
-influences from the background of the Blend4Web application.
+默认情况下，"alpha" 参数设置为 true， "background_color" 设置为透明黑
+色 [0，0，0，0]，这意味着应用程序将具有 HTML 背景并没有影响到的
+Blend4Web 应用程序的背景。
 
-Background transparency can also be utilized in Web Player
-applications by using the "alpha" URL attribute. To use this feature,
-firstly you need to enable the "Background transparency (alpha)"
-parameter in the Web Player Params group while creating the
-application.
+背景透明度还可以利用在 网页播放应用 利用 "alpha" URL 熟悉 。若要使用此
+功能，您首先需要创建应用程序时在  网页播放器参数 组中启用 "Background
+transparency (alpha)"  参数 。
 
-If Blend4Web application uses sky rendering, the application canvas
-will be fully covered by objects (including sky), so the background
-will be fully opaque and not influenced by alpha settings.
+如果 Blend4Web 应用程序使用天空渲染，物体 （包括天空），将完全覆盖在应
+用画布上，背景将是完全不透明的不受 alpha 设置影响。
 
-注解: Sky rendering is enabled by default in Blend4Web scenes
-  created in Project Manager. Don't forget, in order to use a
-  transparent background you will need to manually disable sky
-  rendering.
+注解: 默认情况下，在 项目管理器 中创建 Blend4Web 场景中启用天空渲染
+  。别忘 了，为了使用透明的背景，您将需要手动禁用天空渲染。
 
 
-Resource Conversion
-===================
+资源转换
+========
 
-Currently, browsers do not fully support all possible media formats,
-so in order to create cross-browser applications (and also for
-optimization purposes) we recommend you to use the resource converter.
+目前，浏览器不完全支持所有可能的媒体格式，所以为了创建跨浏览器应用程序
+（也为优化的目的），我们建议您使用的资源转换器。
 
-To support a wider range of platforms, a Python script
-(*scripts/converter.py*) for converting the source files into other
-formats is included into the distribution.
+支持更广泛的平台，一个 Python 脚本 (*scripts/converter.py*) 为将源代码
+文件转换成其他格式后发布。
 
-There are two ways to run this script.
+有两种方式来运行此脚本。
 
-Firstly, you can run it automatically using the project mangement
-system. The "Convert Resources" button can be found in the main page
-of the Project Manager, in the "Operations" tab at the right side of
-the screen.
+首先，您可以使用的项目管理系统自动运行它。 "Convert Resources" 按钮可
+以在 Project Manager 主页面中的发现，在操作选项卡中在屏幕的右侧。
 
 [图片]
 
-Secondly, you can run the script manually:
+其次，您可以手动运行该脚本 ︰
 
    > cd <path_to_sdk>/scripts
    > python3 converter.py [options] resize_textures | convert_dds | convert_media
 
-For MS Windows users:
+对于MS Windows用户：
 
    cd <path_to_sdk>\scripts
    python converter.py [options] resize_textures | convert_dds | convert_media
 
-注解: To run the scripts the Python 3.x needs to be installed in
-  your system.
+注解: 要运行的Python 3.x的需要安装在你的系统中的脚本。
 
-With the -d parameter you can specify the path to a directory in which
-converting will take place.
+与-d参数可以指定路径，其中转换将在哪一个目录发生。
 
-To exclude some directory from resource conversion, it is enough to
-put a file named ".b4w_no_conv" in it. This will not affect conversion
-in nested directories.
+要排除从资源转换的一些目录，它足以把一个文件名为``.b4w_no_conv`` 。这
+不会影响嵌套目录转换。
 
-The **resize_textures** argument is used for decreasing texture
-resolution for the **LOW** mode.
+**resize_textures** 参数用于为  **LOW** 模式降低纹理分辨率。
 
 
-Dependencies
-------------
+依赖
+----
 
-Please make sure that you have all converter dependencies installed.
-You can do it with the following command:
+请确保你已经安装了所有的依赖转换器。你可以用下面的命令做到这一点：
 
    > python3 <path_to_sdk>/scripts/converter.py check_dependencies
 
-If some program is not installed, the following message will be
-displayed:
+如果未安装某些程序，将显示以下信息：
 
-*Couldn't find PROGRAM_NAME.*
+*找不到 PROGRAM_NAME。*
 
 **Linux**
 
-The list of dependencies is listed in the following table:
+依赖关系的列表如下表：
 
 +---------------------------------+---------------------------------+
-| Name                            | Ubuntu 16.04 package            |
+| 名称                            | Ubuntu 16.04 的包               |
 +=================================+=================================+
 | ImageMagick                     | imagemagick                     |
 +---------------------------------+---------------------------------+
-| NVIDIA Texture Tools            | libnvtt-bin                     |
+| NVIDIA纹理工具                  | libnvtt-bin                     |
 +---------------------------------+---------------------------------+
 | Libav                           | libav-tools                     |
 +---------------------------------+---------------------------------+
-| FFmpeg                          | ffmpeg                          |
+| FFmpeg                          | FFmpeg                          |
 +---------------------------------+---------------------------------+
-| PVRTC                           | install manually                |
+| PVRTC                           | 手动安装                        |
 +---------------------------------+---------------------------------+
 
-注解: Linux users can additionally install the package qt-faststart
-  which is used to optimize loading media files.
+注解: Linux用户还可以安装的用于优化加载媒体文件的包qt-faststart。
 
 **Windows**
 
-For MS Windows users it is not necessary to install these packages
-since they are already present in the SDK.
+用于MS Windows用户来说是不必要安装的，因为它们已经存在于SDK来安装这些
+软件包。
 
-**Mac OS**
+**macOS**
 
-Mac OS users can install the brew package manager first and then
+macOS users can install the brew package manager first and then
 install any missing packages.
 
-Before installing packages, install the libpng and libjpeg libraries
-using these commands:
+在安装软件包之前，使用这些命令安装的libpng和libjpeg的库：
 
    > brew install libpng
    > brew install libjpeg
 
-Now you can proceed with installing required dependencies:
+现在，您可以安装需要的依赖着手：
 
    > brew install imagemagick
    > brew install --with-theora --with-libvpx --with-fdk-aac ffmpeg
 
-In order to install NVIDIA Texture Tools, clone the repository with
-the following command:
+为了安装NVIDIA纹理工具，克隆使用以下命令库：
 
    > git clone https://github.com/TriumphLLC/NvidiaTextureTools.git
 
-Now you can build and install the package:
+现在你可以编译和安装包：
 
    > cd NvidiaTextureTools
    > ./configure
@@ -402,12 +362,12 @@ Now you can build and install the package:
    > make install
 
 
-Data Formats
-------------
+数据格式
+--------
 
-The conversion is performed as follows:
+如下进行转化：
 
-for audio (convert_media):
+音频（convert_media）：
    * ogg (ogv, oga) -> mp4
 
    * mp3 -> oga
@@ -416,12 +376,11 @@ for audio (convert_media):
 
    * webm -> m4a
 
-We recommend to use "ogg" as a base format. In this case the only
-conversion required for cross-browser compatibility will be "ogg" to
-"mp4". Example of an input file: "file_name.ogg", example of an output
-file: "file_name.altconv.mp4".
+我们推荐使用``ogg``作为基础格式。在这种情况下，跨浏览器的兼容性要求的
+唯一的转换将是``ogg``到``mp4``。输入文件的实例："file_name.ogg"，例如
+一个输出文件："file_name.altconv.mp4"。
 
-for video (convert_media):
+视频（convert_media）：
    * ogg (ogv, oga) -> m4v / seq
 
    * mp3 -> webm / seq
@@ -430,27 +389,24 @@ for video (convert_media):
 
    * webm -> m4v / seq
 
-We recommend to use "WebM" as a base format. In this case the only
-conversion required for cross-browser compatibility will be "webm" to
-"m4v" ("webm" to "seq" for iPhone). Example of an input file:
-"file_name.webm", example of an output file: "file_name.altconv.m4v".
+我们推荐使用 "WebM" 作为基础格式。在这种情况下，跨浏览器的兼容性要求的
+唯一的转换将是 "webm" 到 "m4v" （"webm" 到 "seq" 为iPhone）。输入文件
+的实例："file_name.webm"，例如一个输出文件："file_name.altconv.m4v"。
 
-for images (convert_dds):
+为图像（convert_dds）：
    * png -> dds/pvr
 
    * jpg -> dds/pvr
 
    * bmp -> dds/pvr
 
-   * gif -> dds
+   * png -> dds
 
-Example of an input file: "file_name.jpg", example of an output file:
-"file_name.altconv.jpg.dds".
+输入文件的实例："file_name.jpg"，例如一个输出文件：
+"file_name.altconv.jpg.dds"。
 
-For the purpose of optimizing application performance it's possible to
-use "min50" (halved) and "DDS" textures. In order to do this, we need
-to pass the following parameters during initialization of the
-application:
+为了优化应用性能的目的，有可能使用 "min50" （减半）和 "DDS" 纹理。为了
+做到这一点，我们所需要的应用程序的初始化期间通过下列参数：
 
    exports.init = function() {
        m_app.init({
@@ -462,191 +418,173 @@ application:
        // . . .
    }
 
+注解: 如果您打算将使用的纹理压缩成  PVRTC 格式，然后替换下面这行代码
 
-DDS Texture Compression
-~~~~~~~~~~~~~~~~~~~~~~~
+        assets_dds_available: true,
 
-"DDS" textures require less memory (4 times less for "RGBA" data and 6
-times for "RGB" data), but using them has following downsides:
+  跟着下列：
 
-   * "DDS" textures might not work on some devices, especially the
-     mobile ones, as not all of them support the
-     "WEBGL_compressed_texture_s3tc" extension;
+        assets_pvr_available: true,
 
-   * as "DDS" is a lossy compression format, compression artifacts
-     might be visible, especially on normal and stencil maps; it is
-     recommended to disable compression for such textures.
+  这将告诉引擎加载PVRTC纹理，如果这些都存在于 "../assets/" 文件夹中。
+
+
+DDS纹理压缩
+~~~~~~~~~~~
+
+"DDS" 纹理需要较少的内存 （4 倍少 "RGBA" 数据，6 倍 RGB 数据），但使用
+它们具有以下缺点 ︰
+
+   * 'DDS' 纹理可能无法工作在一些设备上，尤其是移动的并不是所有支持
+     "WEBGL_compressed_texture_s3tc" 延伸;
+
+   * "DDS" 是一种有损压缩格式，压缩文物可能是可见的尤其是在 ︰ 正常
+     和 ︰ 模具 图; 它建议 ︰ 禁用压缩 对于这种纹理。
 
    [图片]
 
-   An example of the "DDS" compression artifacts, particularly visible
-   on the edges of the shadow.
+   "DDS" 压缩失真，特别是可见的阴影边缘上的一个例子。
 
-During exporting the scene from Blender to the "JSON" format (but not
-the "HTML" format), "DDS" textures will be plugged in automatically,
-if they are present.
+"JSON" 格式 （而不是 HTML 格式），从Blender导出场景，"DDS"  纹理将自动
+插入，如果它们存在。
 
-Textures can be converted to the "DDS" format using the project manger
-or the *scripts/converter.py* script described above.
+纹理可以转换为 "DDS" 格式，使用  项目管理器 或上文所述的
+*scripts/converter.py*  脚本。
 
 
-PVRTC Texture Compression
-~~~~~~~~~~~~~~~~~~~~~~~~~
+PVRTC 纹理压缩
+~~~~~~~~~~~~~~
 
-"PVRTC" is another texture compression format used primarily on iOS
-devices. In some cases it can produce texture files up to two times
-smaller than same texture images would take in "DDS" format.
+"PVRTC" 是另一种主要在 iOS 设备上使用的纹理压缩格式。在某些情况下它可
+以产生相同的纹理图像比其他 "DDS" 格式的小两倍。
 
-The format has two compression settings that are supported by the
-engine: 2-bpp (two bits per pixel) and 4-bpp (four bits per pixel).
+该格式具有由该引擎支持的两个压缩设置︰ 2-bpp （两位 / 像素） 和 4-bpp
+（四位 / 像素）。
 
-As with "DDS" format, textures compressed using the "PVRTC" algorithm
-may not work on some platforms, especially mobile, because using this
-compression format require support for the
-"IMG_texture_compression_pvrtc" WebGL extension.
+因为是 "DDS" 格式，纹理压缩算法 "PVRTC" 可能会在某些平台上不工作，特别
+是移动设备，因为使用这种压缩格式需要支持
+"IMG_texture_compression_pvrtc"  WebGL 扩展。
 
-The PVRTC library and SDK are available for Windows, Linux and MacOS X
+The PVRTC library and SDK are available for Windows, Linux and macOS
 systems alike. Installation packages can be downloaded from the Power
 VR Insider web page.
 
-The Blend4Web engine uses a console PVRTC tool. To use it, you need to
-add the path to it to the "PATH" environmental variable, like the
-following:
+Blend4Web 引擎使用控制台 PVRTC 工具。若要使用它，你需要的路径添加到路
+径环境变量，类似于以下内容︰
 
    export PATH = <InstallDir>\PVRTexTool\CLI\<PLATFORM>\
 
-where <InstallDir> is the PVRTexTool installation directory and
-<PLATFORM> is a folder that contains the version of the tool that
-corresponds to your OS, for example, "\Windows_x86_64\" for 64-bit
-Windows OS.
+哪里 <InstallDir> 是PVRTexTool安装目录， <PLATFORM> 是包含对应于您的操
+作系统，例如，"\ Windows_x86_64 \" 64位Windows操作系统的工具的版本的文
+件夹。
 
-注解: In Windows systems, environment variables can be set in the
-  "System" (in Windows 10 and 8) or "Properties" (in Windows 7 and
-  Vista) dialogue window by choosing "Advanced System Settings" ->
-  "Environment Variables", or by using console commands:
+注解: 在 Windows 系统中，环境变量可以设置 '系统' （在 Windows 10 和
+  8） 或 属性 （在 Windows 7 和 Vista） 对话窗口中，通过选择高级系统设
+  置-> 环 境变量，或使用控制台命令︰
 
      SET PATH = <InstallDir>\PVRTexTool\CLI\<PLATFORM>\
 
-After this, you will be able to convert the textures to the PVR format
-by using converter.py script with the "convert_dds" command.
+在此之后，您将能够通过使用 converter.py 脚本与 "convert_dds" 命令转换
+为 PVR 格式的纹理。
 
 
-SEQ Video Format
-~~~~~~~~~~~~~~~~
+SEQ视频格式
+~~~~~~~~~~~
 
-The ".seq" file format is used for sequential video. This is applied
-for IE 11 and iPhone because they are currently missing support for
-standard video formats for textures. Using dds format for images is
-more optimal compared to other formats.
+在 ".seq" 文件格式用于顺序视频。这是适用于IE 11和iPhone，因为他们目前
+缺少标准的视频格式支持的纹理。采用DDS格式的图像与其他格式相比是更理想
+的。
 
-The engine can use files which are manually created by a user if they
-have the following names: "file_name.altconv.m4v",
-"file_name.altconv.mp3" and so on. Such files should be placed in the
-same directory as the media files used in Blender.
+该引擎可以使用，如果他们有以下名称，手动由用户创建的文件:
+"file_name.altconv.m4v", "file_name.altconv.mp3" 等等。此类文件应放在
+同一目录中的媒体文件在Blender中使用。
 
-You can also use the free and cross-platform application Miro Video
-Converter to convert media files.
+您还可以使用的免费和跨平台的应用 Miro视频转换器 转换媒体文件。
 
 
-Code Examples
-=============
+示例代码
+========
 
-The SDK includes the Code Snippets application which demonstrates how
-to use the engine's functionality.
+SDK中包含的代码片段应用程序，它演示了如何使用引擎的功能。
 
-Currently, this application contains the following examples:
+目前，这款应用程序包含以下例子：
 
-   * Bone API - an example of individual bones position control
+   * Bone API - 个体的骨骼位置控制的一个例子
 
-   * Camera Animation - procedural camera animation
+   * Camera Animation -  程序相机动画
 
-   * Camera Move Styles - changing control modes for the camera
+   * Camera Move Styles -  相机改变控制方式
 
-   * Canvas Texture - working with canvas textures
+   * Canvas Texture -  用帆布质地的工作
 
-   * Custom Anchors - creating custom annotations
+   * Custom Anchors -创建自定义的注解
 
-   * Dynamic Geometry - procedural geometry modification
+   * Dynamic Geometry -程序几何修改
 
-   * Gyro (Mobile Only) - working with mobile devices' gyroscopes
+   * Gyro (Mobile Only) -  与移动设备的陀螺仪工作
 
-   * Instancing - copying scene objects in runtime
+   * Instancing - 复制现场运行时对象
 
-   * Material API - tweaking material properties and replacing
-     objects' materials
+   * Material API - 调整材质的性能和替换对象的材质
 
-   * Morphing - using shape keys
+   * Morphing - 利用形状键
 
-   * Ray Test - the usage of raycasting for obstacles detection
+   * Ray Test - 光线投射的障碍物检测使用
 
-The Code Snippets application is available at
-"SDK/apps_dev/code_snippets/code_snippets_dev.html". It can be also
-run by using a link in the "index.html" file located in the SDK root.
+代码片段的应用在 "SDK/apps_dev/code_snippets/code_snippets_dev.html".
+它可以通过使用位于SDK根的 "index.html" 文件的链接也可以运行。
 
 
-Event-Driven Model
-==================
+事件驱动模型
+============
 
-The event-driven model provides a universal interface for describing
-the 3D scene's change of state. It simplifies the processing of
-physics events and user actions.
-
-
-Sensors
--------
-
-The basic unit of the event-driven model is a sensor. A sensor is a
-programming entity and can only be active (1, one) or inactive (0,
-zero). Some sensors may carry a payload which can be received in the
-manifold's callback function with corresponding API. For example, the
-ray-tracing sensor (Ray Sensor) provides the relative length of the
-intersection ray.
-
-Users cannot directly control sensors via the external API. Instead,
-all sensors must be present in one or multiple collections - so called
-sensor manifolds. A manifold is a logic container associated with a
-scene object. It generates a response to a defined set of sensor
-events by executing a callback function. To define the manifold it is
-required to have the following information (see also the API
-documentation for description of the "controls.create_sensor_manifold"
-function):
-
-* An object to carry the manifold (e.g. a thrown object).
-
-* A unique id of the manifold (e.g. "IMPACT").
-
-* Callback execution mode (the options are: "CT_POSITIVE" - logic
-  function positive result, "CT_CONTINUOUS" - every frame with a
-  positive logic function result and once with a zero result,
-  "CT_LEVEL" - any logic, function result change, "CT_SHOT" - one-
-  stage logic function result change, "CT_TRIGGER" - logic function
-  result switch, "CT_CHANGE" - any sensor value change).
-
-* An array of sensors.
-
-* A logic function to define the combination of the sensor states
-  for which the callback function is executed.
-
-* A callback function.
-
-* An optional parameter to pass into the callback function.
-
-You can read more about engine API in the controls module
-documentation.
+事件驱动模型提供一个通用接口描述的三维场景变化的状态。它简化了加工的物
+理事件和用户操作。
 
 
-Example
--------
+传感器
+------
 
-Let's consider the task to insonify the impact of a thrown stone. A
-distinctive sound should be produced for impacting different media
-(for example terrain and wall). There are collision meshes with
-physical materials in the Blender scene, material ids are "TERRAIN"
-and "WALL". There is also a physical object being thrown in the scene,
-the object is named "Stone".
+事件驱动模型的基本单元是一个传感器。传感器是一种编程实体和只能是活动的
+（1，一种）或无效（0，零）。一些传感器可以携带可以在歧管的回调函数与对
+应的API接收一个有效载荷。例如，光线跟踪传感器（线传感器）提供的交点射
+线的相对长度。
 
-Let's define a collision sensor for each medium, by the type of the
-sound produced.
+用户不能直接通过外部 API控制传感器。相反，所有的传感器都必须存在于一个
+或多个集合-所谓的传感器流形。一个流形是与场景对象相关联的逻辑容器。它
+通过执行一个回调函数生成一组定义的传感器事件响应。要定义的流形，它须有
+以下信息 （请参见的 'controls.create_sensor_manifold' 功能描述 API 文
+档） ︰
+
+* 一个对象带流行（如抛出的对象）。
+
+* 流形 （如"冲击"） 的唯一 id。
+
+* 回调的执行模式（选项有："CT_POSITIVE"  - 逻辑功能正结果，
+  "CT_CONTINUOUS"  - 以正逻辑功能的结果，并用一次结果为零每一帧，
+  "CT_LEVEL"  - 任何逻辑，函数结果改变，"CT_SHOT"  - 一期逻辑函数结果
+  的变化，"CT_TRIGGER"  - 逻辑函数的结果开关，"CT_CHANGE"  - 任何传感
+  器值变化）。
+
+* 传感器阵列。
+
+* 逻辑函数来定义其中执行回调函数传感器状态的组合。
+
+* 一个回调函数。
+
+* 一个可选参数传递到回调函数。
+
+你可以阅读更多有关在  controls 模块文档引擎API。
+
+
+示例
+----
+
+让我们考虑到 insonify 任务被投掷的石头的影响。不同的媒体 （例如地形和
+墙）应产生独特的声音影响。有碰撞网格与Blender场景中的物理材质，材质的
+id 是"地形"和"墙"。也是被抛在场景中的物理对象，该对象被命名为"石头"。
+
+让我们定义碰撞传感器的每个介质类型的声音产生。
 
    // import the modules
    var m_scenes = b4w.require("scenes");
@@ -659,10 +597,8 @@ sound produced.
    var sensor_impact_terrain = m_controls.create_collision_sensor(stone, "TERRAIN");
    var sensor_impact_wall    = m_controls.create_collision_sensor(stone, "WALL");
 
-Add the sensors into an array. Use the "OR" logic in the logic
-function. Place the sound processing code in the callback function.
-Create the sensor manifold with the "IMPACT" id and the "CT_SHOT"
-type.
+传感器添加到阵列。使用 "OR" 逻辑的逻辑功能。放置在回调函数的声音处理的
+代码。创建传感器歧管的“影响”id和``CT_SHOT``类型。
 
    // array of the sensors
    var impact_sens_array = [sensor_impact_terrain, sensor_impact_wall];
@@ -690,265 +626,231 @@ type.
    m_controls.create_sensor_manifold(stone, "IMPACT", m_ctl.CT_SHOT,
        impact_sens_array, impact_sens_logic, impact_cb);
 
-When the "Stone" object collides with any physical material of
-"TERRAIN" or "WALL", the callback function is executed. Inside this
-function we get the values of both sensors by their indices in the
-sensor array (0 - "TERRAIN", 1 - "WALL"). The sensor value = 1
-(active) means that the collision happened with the corresponding
-physical material. As a result the corresponding sound is produced
-(the code is not shown).
+当 “石头” 的物体与“地形”或“墙”的任何物理材质碰撞时，被执行的回调函数。
+在这个函数中，我们通过自己的传感器阵列中获得指数两个传感器的值 （0 - “
+地形”，1  - “墙”）。传感器值 = 1（活性）是指发生碰撞与相应的物理材质。
+其结果是，相应的声音产生（未示出的代码）。
 
 
-SDK File Structure
-==================
+SDK文件结构
+===========
 
 **apps_dev**
-   source code of the applications
+   应用程序的源代码
 
    **code_snippets**
-      source files of the Blend4Web API usage demonstration
-      application
+      在Blend4Web API使用示范应用的源文件
 
       **scripts**
-         Blend4Web API usage examples' source files
+         Blend4Web API用法示例的源文件
 
    **dairy_plant**
-      source files of the Dairy Plant demo (available only in SDK Pro)
+      乳品厂演示源文件（仅适用于SDK专业版）
 
    **fashion**
-      source files of the Fashion Show demo (available only in SDK
-      Pro)
+      时装秀演示源文件（仅适用于SDK专业版）
 
    **firstperson**
-      source files of the Farm demo (available only in SDK Pro)
+      农场演示源文件（仅适用于SDK专业版）
 
    **flight**
-      source files of the Island demo
+      岛演示的源文件
 
    **new_year**
-      source files of the New Year 2015 greeting card
+      在2015年新年贺卡的源文件
 
    **project.py**
-      script for application developers
+      脚本的应用程序开发人员
 
    **victory_day_2015**
-      source files of the V-Day 70 greeting card
+      胜利日70周年贺卡的源文件
 
    **viewer**
-      the sources files of the Viewer application
-
-      **assets.json**
-         metadata with information about scenes loaded by the Viewer
+      浏览器应用程序的源文件
 
    **webplayer**
-      source files of the Web Player app
+      在Web应用程序播放器的源文件
 
    **website**
-      source files of applications from the Blend4Web official website
+      从Blend4Web官方网站上的应用程序的源文件
 
 **blender**
-   source files of the Blender scenes
+   Blender的场景源文件
 
 **blender_scripts**
-   exporter and utility scripts for Blender
+   Blender导出和实用工具脚本
 
 **csrc**
-   source code (in C) of the binary part of the engine exporter and of
-   the other utilities
+   源代码（C语言）引擎出口的二进制部分和其他公用设施
 
 **deploy**
-   the resource directory for deploying on the server (scene source
-   files, compiled applications and documentation)
+   在服务器上部署（场景源文件编译的应用程序和文档）的资源目录
 
    **api_doc**
-      API documentation for developers (built automatically, based on
-      the engine's source code)
+      为开发人员API文档（自动构建，基于引擎的源代码）
 
    **apps**
-      3D applications intended for deploying; the directory duplicates
-      *apps_dev*
+      用于部署3D应用;目录重复* apps_dev *
 
       **common**
-         Compiled engine files. Shared by all applications from SDK
-         (hence the name).
+         已编译引擎文件。从 SDK 的所有应用程序共享的 (因此名称)。
 
    **assets**
-      downloadable resources: scenes, textures and sounds
+      可下载的资源：场景，纹理和声音
 
    **doc**
-      the current user manual in HTML format, built automatically from
-      *doc_src*
+      从自动生成的 HTML 格式的当前用户手册 * doc_src *
 
    **globals_detect**
-      utility code for detecting global variables
+      用于检测全局变量实用代码
 
    **tutorials**
-      source files for the tutorials
+      在教程源文件
 
 **doc_src**
-   source files of the current manual written in reST
+   当前手册的源文件用reST格式书写
 
-**index.html** and **index_assets**
-   main SDK webpage files
+**index.html** 和 **index_assets**
+   主要SDK网页文件
 
 **license**
-   files with license texts
+   与许可证的文本文件
 
 **Makefile**
-   makefile for building the engine, the applications, the
-   documentation and for deploying on a remote server (not available
-   as a free version)
+   生成文件构建引擎、 应用程序、 文件和部署在远程服务器上 （不可作为一
+   个免费的版本）
 
 **README.rst**
-   README file
+   README文件
 
 **scripts**
-   scripts
+   脚本
 
    **blend4web.lst**, **blend4web_sdk_free.lst** and
-   **blend4web_sdk_pro.lst** (optional)
-      lists of the files for building distributions
+   **blend4web_sdk_pro.lst** (可选)
+      构建发布文件列表
 
    **check_resources.py**
-      script for checking of and reporting about unused resources
-      (images and sounds referenced by the exported files)
+      脚本的检查和未使用的资源报告（图像和声音通过导出的文件中引用）
 
    **compile_b4w.py**
-      script for building engine code and applications
+      构建引擎代码和应用程序的脚本
 
    **converter.py**
-      script which halves the texture dimensions, compresses the
-      textures into the DDS format, converts sound files into mp4 and
-      ogg formats
+      脚本减半纹理尺寸，压缩纹理成DDS格式，声音文件转换成MP4和Ogg格式
 
    **custom_json_encoder.py**
-      fork of the json Python module, sorts the keys in reverse order
+      JSON的Python模块的分支，排序顺序相反的键
 
    **gen_glmatrix.sh**
-      script for generating the math module based on the source code
-      of glMatrix 2
+      脚本基于glMatrix 2的源代码生成所述数学模块
 
    **graph.sh**
-      SVG generator for the current scene graph, used for debugging
-      rendering
+      为当前场景图SVG生成器，用于调试渲染
 
    **make_dist.py**
-      distributions builder script
+      发行构建脚本
 
    **memory.sh**
-      script for checking memory (RAM) and video memory (VRAM)
+      脚本，用于检查存储器（RAM）和视频存储器（VRAM）
 
    **mod_list.py**
-      script for generating the list of modules to use in new
-      applications
+      脚本用于生成的模块列表在新的应用程序使用
 
    **plot.sh**
-      debugging information graph builder
+      调试信息图形生成器
 
    **process_blend.py**
-      script for automatic reexport of all scenes from the SDK
+      从SDK所有场景自动再导出脚本
 
    **remove_alpha_channel.sh**
-      script for removing the images' alpha channel
+      去除图像的 alpha 通道的脚本
 
    **screencast.sh**
-      script for screen video recording
+      屏幕录像脚本
 
    **shader_analyzer.py**
-      script starting the local web server which calculates complexity
-      of the shaders
+      开始其计算着色器的复杂度的本地Web服务器脚本
 
    **translator.py**
-      script for building add-on translations
+      构建插件翻译脚本
 
 **shaders**
-   GLSL shaders of the engine
+   引擎GLSL着色
 
 **src**
-   main source code of the engine's kernel
+   引擎的内核的主要源代码
 
    **addons**
-      source code of engine add-ons
+      引擎插件的源代码
 
    **ext**
-      source code of the external declarations that form the engine's
-      API
+      形成了引擎的API外部声明的源代码
 
    **libs**
-      source code of the libraries
+      库的源代码
 
 **tools**
-   Various tools for building the engine, apps or convert resources
+   构建引擎，应用程序或转换资源的各种工具
 
    **converter_utils**
-      binary builds of the tools for resource conversion
+      二进制构建的工具，资源转换
 
    **closure-compiler**
-      Google Closure compiler, its externs and their generators
+      谷歌闭包编译器，它的扩展和他们的生成器
 
    **glsl**
       **compiler**
-         compiler for the engine's GLSL shaders
+         编译器为引擎的GLSL着色
 
       **pegjs**
-         grammars of the PEG.js parser generator for implementing the
-         GLSL preprocessor, and also the script for generating the
-         parser modules from these grammars
+         在PEG.js解析器生成的语法实现了GLSL预处理器，也是脚本从这些生
+         成语法解析器模块
 
    **yuicompressor**
-      utility for compressing CSS files
+      实用压缩CSS文件
 
 **uranium**
-   source code and building scripts of the Uranium physics engine (the
-   fork of Bullet)
+   Uranium 物理引擎的源代码和脚本建筑（Bullet的分支）
 
 **VERSION**
-   contains the current version of the engine
+   包含引擎的当前版本
 
 
-Loading Local Resources
-=======================
+加载本地资源
+============
 
-The engine's renderer is a web application and it works when you view
-an HTML file in a browser. After initialization the resources (scenes,
-textures) are loaded. This process is subject to the same-origin
-policy rule. In particular this rule forbids loading from a local
-directory.
+该引擎的渲染器是一个Web应用程序，当你在浏览器中查看HTML文件它就工作。
+初始化之后，资源（场景，纹理）加载。这个过程是受 同源策略 规则。这条规
+则特别规定从本地目录加载禁止。
 
-Since version 15.02, the Blend4Web SDK includes the development server
-to solve the problem of loading local resources.
+自15.02版，Blend4Web SDK包括  开发服务器 解决加载本地资源的问题。
 
 
-Quality Profiles
-================
+品质配置
+========
 
-Several quality profiles are implemented in order to support platforms
-with different functionality.
+几个质量配置文件，以支持具有不同功能的平台上实现。
 
-   * *low quality* ("P_LOW") - a range of functions is turned off
-     (such as shadows, dynamic reflection, postprocessing), the size
-     of textures is halved when using a release version, anti-aliasing
-     is disabled
+   * 低质量（"P_LOW"） - 功能的范围被关闭（如阴影，动态反映，后处理
+     ） ，纹理的大小采用发行版本时减半，抗锯齿被禁用
 
-   * *high quality* ("P_HIGH") - all features requested by the scene
-     are used, the anti-aliasing method is FXAA
+   * 高品质（"P_HIGH"）- 由现场所要求的所有功能的使用，抗锯齿的方法
+     是 FXAA
 
-   * *maximum quality* ("P_ULTRA") - rendering resolution is
-     doubled, resolution of shadow maps is increased, the anti-
-     aliasing method is FXAA (uses higher quality settings and works
-     slower).
+   * 最高的质量（"P_ULTRA"） - 渲染分辨率加倍，阴影贴图分辨率的增加
+     ， 抗锯齿的方法是FXAA（使用更高质量的设置和工作速度较慢）。
 
-   * *custom quality* ("P_CUSTOM") - any quality parameter can be
-     set to any possible value. This option is used when you need to
-     set certain quality parameters manually. By default, it uses the
-     same settings as "High" quality profile.
+   * 自定义质量（"P_CUSTOM"） - 任何质量参数可以设置为任何可能值。当
+     你 需要手动设置一定的质量参数，使用此选项。默认情况下，它使用相同
+     的 设置``High``质量配置文件。
 
 [图片]
 
 
 
-Switching the quality profiles can be performed in runtime before
-initialization of the WebGL context. The default profile is "P_HIGH".
+切换品质配置可在运行时的WebGL上下文的初始化之前进行。默认的配置文件是
+``P_HIGH``。
 
    var m_cfg = b4w.require("config");
    var m_main = b4w.require("main");
@@ -956,8 +858,8 @@ initialization of the WebGL context. The default profile is "P_HIGH".
    m_cfg.set("quality", m_cfg.P_LOW);
    m_main.init(...);
 
-Application developers can also set the **quality** parameter upon
-engine initialization using the "app.js" add-on:
+应用程序开发人员还可以在引擎初始化参数的 "app.js" 附加插件时设置
+**quality** ：
 
    var m_cfg = b4w.require("config");
    var m_app = b4w.require("app");
@@ -968,27 +870,20 @@ engine initialization using the "app.js" add-on:
    });
 
 
-Non-FullScreen Web Apps
-=======================
+非全屏Web应用程序
+=================
 
-The Canvas element, to which the rendering is performed, can change
-its position relative to the browser window. This can occur due to
-some manipulations over the DOM tree, or as a result of page scrolling
-which is especially relevant for non-fullscreen web applications.
+画布元件，开始执行渲染时，可改变相对于浏览器窗口的位置。这可能是由于一
+些操作在DOM树，或者作为页面滚动的结果，特别是用于非全屏web应用。
 
-In most cases this will not affect the performance of the app by any
-means. However, some DOM events related to mouse cursor or touch
-position may carry incorrect information. This occurs because the
-coordinates obtained from the corresponding events are measured
-relative to the origin of the browser window, while the engine works
-with the coordinate space of the Canvas element itself (its origin is
-located in the top left corner).
+在大多数情况下，这将不会影响该应用的任何的性能。然而，涉及到鼠标或触摸
+位置某些DOM事件可以携带不正确的信息。这是因为从相应的事件中获得的坐标
+是相对于浏览器窗口的原点测量，同时引擎的工作与Canvas元素本身（它的坐标
+原点位于左上角）的坐标空间。
 
-1. If the top left corner of the Canvas element matches the top
-   left corner of the browser window and is fixed in its position
-   (non- movable) then it's sufficient to use event.clientX and
-   event.clientY coordinates of the input events or
-   get_coords_x()/get_coords_y() methods.
+1. 如果画布元素的左上的角与匹配的浏览器窗口左上的角并且固定在它的位
+   置 （非活动），那么就足以使用 event.clientX 和 event.clientY 坐标输
+   入 事件或  get_coords_x()/get_coords_y()  方法。
 
    var m_mouse   = require("mouse");
 
@@ -1000,21 +895,18 @@ located in the top left corner).
    var y = m_mouse.get_coords_y(event);
    // . . .
 
-2. In the case of the scrolled browser window, you have to use
-   event.pageX and event.pageY coordinates.
+2. 在滚动浏览器窗口的情况下，你必须使用event.pageX和event.pageY坐标
+   。
 
    // . . .
    var x = event.pageX;
    var y = event.pageY;
    // . . .
 
-3. In the case of more sophisticated manipulations with the Canvas
-   element (scrolling of the page elements, displacement from the top
-   level corner of the browser window, changes in the DOM-tree) you
-   need to perform correct coordinate conversions. In order to obtain
-   coordinates suitable for use in the engine, you can covert them by
-   using the "client_to_canvas_coords()" method of the "container"
-   module:
+3. 与画布元件更复杂的操作的情况下（在页面的元素的滚动，位移从浏览器
+   窗 口的顶层角落，在DOM树的变化）则需要执行正确的坐标转换。为了获得
+   坐标 适合在引擎中使用，您可以通过使用 "container" 模块的
+   "client_to_canvas_coords()"  方法来覆盖它们：
 
    var m_cont   = require("container");
    var _vec2_tmp = new Float32Array(2);
@@ -1024,12 +916,10 @@ located in the top left corner).
 
 
 
-   In order to obtain coordinates in the Canvas space, the engine
-   should know its position relative to the browser window. However,
-   if this position is subjected to changes during the work of the app
-   (due to scrolling for example), the Canvas position should be
-   recalculated. To do this automatically, you can set the
-   "track_container_position" property upon app initialization:
+   为了获得在画布空间坐标，引擎应该知道相对于浏览器窗口的位置。但是，
+   如果此位置的应用程序的工作过程中受到的变化（由于滚动为例），画布位
+   置应重新计算。要自动做到这一点，你可以设置在应用程序初始化
+   "track_container_position" 属性：
 
    exports.init = function() {
        m_app.init({
@@ -1042,14 +932,12 @@ located in the top left corner).
 
 
 
-   Please note, that this setting can lead to performance degradation
-   in some browsers (such as Firefox) due to frequent DOM tree
-   accesses. If the performance is critical, you can update the Canvas
-   position manually when it is really necessary. To do this, use the
-   "force_offsets_updating()" and "update_canvas_offsets()" methods
-   instead of the "track_container_position" setting, or even the
-   lower-level "set_canvas_offsets()" method from the "container"
-   module:
+   请注意，此设置可能导致一些浏览器（如Firefox）的性能降低，因频繁DOM
+   树的访问。如果性能是至关重要的，确有必要您可以手动更新画布位置。要
+   做到这一点，使用 "force_offsets_updating()" 和
+   "update_canvas_offsets()" 方法代替 "track_container_position" 设置
+   ，甚至从 "container" 模块使用更低级别的  "set_canvas_offsets()" 方
+   法：
 
    var m_cont = require("container");
    // . . .
@@ -1062,10 +950,8 @@ located in the top left corner).
 
 
 
-4. The possibility to scale the whole webpage can lead to Canvas
-   element displacement on mobile devices. The described decisions are
-   suitable in this case. However, you can lock scaling at all and
-   thus avoid such problems. It is enough to add the following meta-
-   tag to the page's header:
+4. 在移动设备上可能存在缩放整个网页会导致Canvas元素被置换。所描述的
+   决 定在此情况下是合适的。但是，你可以在锁定缩放，从而避免这样的问题
+   。 用以下元标记添加到网页的页眉就足够了：
 
    <meta name="viewport" content="user-scalable=no">

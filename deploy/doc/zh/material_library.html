@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Material Library &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>材质库 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
         <link rel="next" title="节点材质" href="node_materials.html"/>
         <link rel="prev" title="材质" href="materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,49 +87,49 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Material Library</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#library-structure">Library Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#material-structure">Material Structure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#material-core">Material Core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#an-example-of-using-a-material">An Example of Using a Material</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">材质库</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#library-structure">库结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#material-structure">材质结构</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#material-core">核心材质</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#an-example-of-using-a-material">使用材质的一个例子</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#adding-material-to-a-scene">Adding Material to a Scene</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#how-to-add-a-whole-material">How to Add a Whole Material</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#how-to-add-only-a-material-core">How to Add Only a Material Core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#how-to-add-the-material-library-to-a-project">How to Add the Material Library to a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-material-to-a-scene">添加材质到一个场景</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-add-a-whole-material">如何添加整个材质</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-add-only-a-material-core">如何只添加核心材质</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-add-the-material-library-to-a-project">如何将材质库添加到项目</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -159,7 +159,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Material Library</li>
+    <li>材质库</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -172,122 +172,134 @@
            <div itemprop="articleBody">
             
   <div class="section" id="material-library">
-<h1><a class="toc-backref" href="#id1">Material Library</a><a class="headerlink" href="#material-library" title="永久链接至标题">¶</a></h1>
+<h1><a class="toc-backref" href="#id1">材质库</a><a class="headerlink" href="#material-library" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
-<p class="topic-title first">Table of Contents</p>
+<p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#material-library" id="id1">Material Library</a><ul>
-<li><a class="reference internal" href="#library-structure" id="id2">Library Structure</a></li>
-<li><a class="reference internal" href="#material-structure" id="id3">Material Structure</a><ul>
-<li><a class="reference internal" href="#material-core" id="id4">Material Core</a></li>
-<li><a class="reference internal" href="#an-example-of-using-a-material" id="id5">An Example of Using a Material</a></li>
+<li><a class="reference internal" href="#material-library" id="id1">材质库</a><ul>
+<li><a class="reference internal" href="#library-structure" id="id2">库结构</a></li>
+<li><a class="reference internal" href="#material-structure" id="id3">材质结构</a><ul>
+<li><a class="reference internal" href="#material-core" id="id4">核心材质</a></li>
+<li><a class="reference internal" href="#an-example-of-using-a-material" id="id5">使用材质的一个例子</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#adding-material-to-a-scene" id="id6">Adding Material to a Scene</a><ul>
-<li><a class="reference internal" href="#how-to-add-a-whole-material" id="id7">How to Add a Whole Material</a></li>
-<li><a class="reference internal" href="#how-to-add-only-a-material-core" id="id8">How to Add Only a Material Core</a></li>
-<li><a class="reference internal" href="#how-to-add-the-material-library-to-a-project" id="id9">How to Add the Material Library to a Project</a></li>
+<li><a class="reference internal" href="#adding-material-to-a-scene" id="id6">添加材质到一个场景</a><ul>
+<li><a class="reference internal" href="#how-to-add-a-whole-material" id="id7">如何添加整个材质</a></li>
+<li><a class="reference internal" href="#how-to-add-only-a-material-core" id="id8">如何只添加核心材质</a></li>
+<li><a class="reference internal" href="#how-to-add-the-material-library-to-a-project" id="id9">如何将材质库添加到项目</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<p>The material library is a library where a user can find basic and the most commonly used materials to use in his or her projects or create his or her own materials based on these materials.</p>
-<p>The material library can be found in the <code class="docutils literal"><span class="pre">/blender/material_library/</span></code> folder in the SDK root directory.</p>
+<p>材质库是用户可以在其中找到基本和最常用的材质，在他或她的项目中使用或创建他或她自己的基于这些材质的材质库。</p>
+<p>该材质库可以在  <code class="docutils literal"><span class="pre">/blender/material_library/</span></code> 在SDK根目录文件夹中找到。</p>
 <div class="section" id="library-structure">
-<h2><a class="toc-backref" href="#id2">Library Structure</a><a class="headerlink" href="#library-structure" title="永久链接至标题">¶</a></h2>
-<p>All materials are structured by folder (by categories of materials) and by a separate file (by materials). Every blend file contains one base material and a material for an additional object, that demonstrates the material on an object that can be associated with this material (for example, a gold ingot for a gold material).</p>
+<h2><a class="toc-backref" href="#id2">库结构</a><a class="headerlink" href="#library-structure" title="永久链接至标题">¶</a></h2>
+<p>所有材质通过文件夹组织结构（由材质类别），并通过一个单独的文件（由材质）。每共blend文件包含一个基底材质和物体添加该材质，演示该材质可以与该材质相关联的物体上（例如，元宝为金材质）。</p>
 <a class="reference internal image-reference" href="_images/material_library_main.png"><img alt="_images/material_library_main.png" class="align-center" src="_images/material_library_main.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="material-structure">
-<h2><a class="toc-backref" href="#id3">Material Structure</a><a class="headerlink" href="#material-structure" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id3">材质结构</a><a class="headerlink" href="#material-structure" title="永久链接至标题">¶</a></h2>
 <a class="reference internal image-reference" href="_images/material_library_structure.png"><img alt="_images/material_library_structure.png" class="align-center" src="_images/material_library_structure.png" style="width: 100%;" /></a>
 <ol class="arabic">
-<li><p class="first">The core of the material</p>
+<li><p class="first">核心材质</p>
 </li>
-<li><p class="first">The <code class="docutils literal"><span class="pre">Material</span></code> node which receives all valuable information from the core.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Material</span></code> 节点从核心接收任何有价值信息</p>
 </li>
-<li><p class="first">The normal map that can be plugged into any material core.</p>
+<li><p class="first">法线贴图可以加到任何一个材质核心</p>
 </li>
-<li><p class="first">Texture containing additional masks important for the material on the surface of the object to behave correctly. Most materials use the following masks:</p>
+<li><p class="first">纹理包含额外的遮罩信息给材质给予物体正确显示。大多数材质使用下面的遮罩：</p>
 <blockquote>
 <div><ul class="simple">
-<li>Ambient occlusion map</li>
-<li>Dirt map</li>
-<li>Worn map</li>
-<li>Patina map</li>
+<li><p class="first">环境闭塞贴图</p>
+</li>
+<li><p class="first">污垢贴图</p>
+</li>
+<li><p class="first">磨损图</p>
+</li>
+<li><p class="first">绿锈贴图</p>
+</li>
 </ul>
-<p>These masks are not used in every material, only when they are needed for the shader to appear a specific way.</p>
+<p>这些遮罩不是在每个材质中使用，需要时，才为着色器显示一种特定的方式。</p>
 </div></blockquote>
 </li>
-<li><p class="first">The <code class="docutils literal"><span class="pre">Mapping</span></code> node is used to control the parameters of the UV maps.</p>
+<li><p class="first">在 <code class="docutils literal"><span class="pre">Mapping</span></code> 节点用来控制UV映射的参数。</p>
 </li>
-<li><p class="first">The <code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curve</span></code> nodes can be used to correct masks before pulgging them into the material core.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curve</span></code> 节点可以在遮罩插入核心材质之前修正。</p>
 </li>
-<li><p class="first">Specific specular map settings are used right after the <code class="docutils literal"><span class="pre">Material</span></code> node to achieve various degrees of specular blur.</p>
+<li><p class="first">具体的高光贴图在 <code class="docutils literal"><span class="pre">Material</span></code> 节点之后，用来实现不同程度的镜面模糊。</p>
 </li>
-<li><p class="first">The baked ambient occlusion map is added to the shader right before the Output node.</p>
+<li><p class="first">烘焙的环境闭塞贴图是在输出节点之前加的着色器。</p>
 </li>
-<li><p class="first">The <code class="docutils literal"><span class="pre">Output</span></code> node.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Output</span></code> 节点。</p>
 </li>
 </ol>
 <div class="section" id="material-core">
-<h3><a class="toc-backref" href="#id4">Material Core</a><a class="headerlink" href="#material-core" title="永久链接至标题">¶</a></h3>
-<p>This is the main node group containing the node structure that form a shader. Essentially, this is the material itself in its true form, with all complex node interactions packed into one group for convenient use. This node group has certain inputs and outputs, as well as specific input parameters, to set it up.</p>
+<h3><a class="toc-backref" href="#id4">核心材质</a><a class="headerlink" href="#material-core" title="永久链接至标题">¶</a></h3>
+<p>这是包含节点结构形成一个着色器的主要节点组。本质上，这是材质本身的真实形式，与所有复杂节点交互包装成一组，方便使用。此节点组具有一定的输入和输出，以及具体的输入参数，来进行设置。</p>
 </div>
 <div class="section" id="an-example-of-using-a-material">
-<h3><a class="toc-backref" href="#id5">An Example of Using a Material</a><a class="headerlink" href="#an-example-of-using-a-material" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">使用材质的一个例子</a><a class="headerlink" href="#an-example-of-using-a-material" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/material_library_example.png"><img alt="_images/material_library_example.png" class="align-center" src="_images/material_library_example.png" style="width: 100%;" /></a>
-<p>Here, you can see an example of setting plastic material for a special demo object without using the textures that are plugged into the core of the material.</p>
+<p>在这里，可以看到，设置塑料材质为一种特殊的演示物体的一个例子，而无需使用被插入核心材质中的纹理。</p>
 <a class="reference internal image-reference" href="_images/material_library_example_demo.png"><img alt="_images/material_library_example_demo.png" class="align-center" src="_images/material_library_example_demo.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li>The base color is created with a simple <code class="docutils literal"><span class="pre">RGB</span></code> Color node and plugged to the material core input.</li>
-<li>This implementation of the material does not use any normal maps, so geometry data is plugged to the <code class="docutils literal"><span class="pre">Normal</span></code> input.</li>
-<li>The core of the material has a certain parameter that controls the amount of gloss on the material. In this case, the value of this parameter is set to maximum.</li>
-<li>The material also uses a baked ambient occlusion map.</li>
+<li><p class="first">基色用一个简单的``RGB``颜色节点创建并插入到核心材质输入。</p>
+</li>
+<li><p class="first">材质实现不使用任何法线贴图，所以几何数据插入到 <code class="docutils literal"><span class="pre">Normal</span></code> 输入。</p>
+</li>
+<li><p class="first">该核心材质具有控制光泽的材质上的量的某些参数。在这种情况下，这个参数的值设置为最大。</p>
+</li>
+<li><p class="first">该材质还采用了烘焙的环境闭塞贴图。</p>
+</li>
 </ol>
-<p>Now, let&#8217;s take a look at a case of using the same material on a different object — a plastic gamepad.</p>
+<p>现在，让我们来看看使用相同材质在不同物体的情况  - 一个塑料手柄。</p>
 <a class="reference internal image-reference" href="_images/material_library_example_gamepad.png"><img alt="_images/material_library_example_gamepad.png" class="align-center" src="_images/material_library_example_gamepad.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li>The vertex color from the geometry of the object is used as the base color here.</li>
-<li>A normal map has been baked for the geometry of the gamepad, and connected to the <code class="docutils literal"><span class="pre">Normal</span></code> input of the material core.</li>
-<li>The level of gloss is lower.</li>
-<li>Instead of the masks from the demo model, the masks (ambient occlusion and dirt) baked specifically for the gamepad model are used.</li>
+<li><p class="first">物体的几何形状的顶点的颜色被用作这里的基本颜色。</p>
+</li>
+<li><p class="first">手柄的几何形状烘焙到了一张法线贴图上，并连接到核心材质的 <code class="docutils literal"><span class="pre">Normal</span></code> 输入。</p>
+</li>
+<li><p class="first">光泽的程度较低。</p>
+</li>
+<li><p class="first">替代演示物体的遮罩，专为游戏手柄模型烘焙的遮罩（环境光遮蔽和污垢）被使用。</p>
+</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">It should be noted that the material core hasn&#8217;t changed and was not altered to fit different geometry.</p>
+<p class="last">应当指出的是，核心材质并没有改变以适应不同的几何形状。</p>
 </div>
 </div>
 </div>
 <div class="section" id="adding-material-to-a-scene">
-<h2><a class="toc-backref" href="#id6">Adding Material to a Scene</a><a class="headerlink" href="#adding-material-to-a-scene" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">添加材质到一个场景</a><a class="headerlink" href="#adding-material-to-a-scene" title="永久链接至标题">¶</a></h2>
 <div class="section" id="how-to-add-a-whole-material">
-<h3><a class="toc-backref" href="#id7">How to Add a Whole Material</a><a class="headerlink" href="#how-to-add-a-whole-material" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">如何添加整个材质</a><a class="headerlink" href="#how-to-add-a-whole-material" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/material_library_append.png"><img alt="_images/material_library_append.png" class="align-center" src="_images/material_library_append.png" style="width: 100%;" /></a>
-<p>Select the <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Append/Link</span></code> from the menu, depending on what you want to do. If you want to keep the ability to modify the object after it has been added to the scene, use <code class="docutils literal"><span class="pre">Append</span></code>. If you don&#8217;t, use <code class="docutils literal"><span class="pre">Link</span></code>.</p>
+<p>选择  <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Append/Link</span></code> 从菜单中选择，这取决于你想要做什么。如果你想保留修改物体的能力，它已被添加到场景后，使用 <code class="docutils literal"><span class="pre">Append</span></code> 。如果你不这样做，用 <code class="docutils literal"><span class="pre">Link</span></code> 。</p>
 <a class="reference internal image-reference" href="_images/material_library_select_blend_file.png"><img alt="_images/material_library_select_blend_file.png" class="align-center" src="_images/material_library_select_blend_file.png" style="width: 100%;" /></a>
-<p>Then select the blend file containing the material you need from the <code class="docutils literal"><span class="pre">/blend4web/blender/material_library/</span></code> directory.</p>
+<p>然后从 <code class="docutils literal"><span class="pre">/blend4web/blender/material_library/</span></code> 目录中选择包含所需要的材质blend文件。</p>
 <a class="reference internal image-reference" href="_images/material_library_select_material.png"><img alt="_images/material_library_select_material.png" class="align-center" src="_images/material_library_select_material.png" style="width: 100%;" /></a>
-<p>Select the material itself from the list of materials, and press <code class="docutils literal"><span class="pre">Append</span> <span class="pre">from</span> <span class="pre">Library</span></code> or <code class="docutils literal"><span class="pre">Link</span> <span class="pre">from</span> <span class="pre">Library</span></code>. Now, the material has been added to your scene and can be used on any object.</p>
+<p>从材质列表中选择需要的材质，然后按  <code class="docutils literal"><span class="pre">Append</span> <span class="pre">from</span> <span class="pre">Library</span></code> 或 <code class="docutils literal"><span class="pre">Link</span> <span class="pre">from</span> <span class="pre">Library</span></code>. 追加。现在，该材质已经被添加到场景，并可以在任何物体上使用。</p>
 </div>
 <div class="section" id="how-to-add-only-a-material-core">
-<h3><a class="toc-backref" href="#id8">How to Add Only a Material Core</a><a class="headerlink" href="#how-to-add-only-a-material-core" title="永久链接至标题">¶</a></h3>
-<p>If you want to add only the core of the material and set everything else yourself, then, instead of selecting material, select <code class="docutils literal"><span class="pre">NodeTree</span></code> while linking/appending, then select the node group you need, and press <code class="docutils literal"><span class="pre">Append</span> <span class="pre">from</span> <span class="pre">Library</span></code> or <code class="docutils literal"><span class="pre">Link</span> <span class="pre">from</span> <span class="pre">Library</span></code>.</p>
+<h3><a class="toc-backref" href="#id8">如何只添加核心材质</a><a class="headerlink" href="#how-to-add-only-a-material-core" title="永久链接至标题">¶</a></h3>
+<p>如果你想只添加核心材质，其他一切都自己设置的话，不用选择材质，选择 <code class="docutils literal"><span class="pre">NodeTree</span></code> 同时连接/追加，然后选择从库中您需要的节点组，然后按 <code class="docutils literal"><span class="pre">Append</span> <span class="pre">from</span> <span class="pre">Library</span></code> 或者 <code class="docutils literal"><span class="pre">Link</span> <span class="pre">from</span> <span class="pre">Library</span></code> 。</p>
 <a class="reference internal image-reference" href="_images/material_library_add_core.png"><img alt="_images/material_library_add_core.png" class="align-center" src="_images/material_library_add_core.png" style="width: 100%;" /></a>
-<p>Now this node group can be found in the list of node groups that you can add to your material by clicking <strong>Add=&gt;Group</strong> in the Node Editor interface.</p>
+<p>现在，这个节点组可在节点组列表中找到，您可以通过点击 <strong>Add=&gt;Group</strong> 在节点编辑器界面添加材质列表中找到。</p>
 <a class="reference internal image-reference" href="_images/material_library_add_group.png"><img alt="_images/material_library_add_group.png" class="align-center" src="_images/material_library_add_group.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Every material has its own requirements considering not only masks and textures, but also vertex colors and UV maps.</p>
+<p class="last">每一个材质不仅考虑遮罩和纹理，而且顶点颜色和UV贴图也有自己的要求。</p>
 </div>
 </div>
 <div class="section" id="how-to-add-the-material-library-to-a-project">
-<h3><a class="toc-backref" href="#id9">How to Add the Material Library to a Project</a><a class="headerlink" href="#how-to-add-the-material-library-to-a-project" title="永久链接至标题">¶</a></h3>
-<p>When creating a new project, you can plug the material library into it, and then plug in materials directly from there.</p>
+<h3><a class="toc-backref" href="#id9">如何将材质库添加到项目</a><a class="headerlink" href="#how-to-add-the-material-library-to-a-project" title="永久链接至标题">¶</a></h3>
+<p>当创建一个新的项目，你可以插入材质库进去，然后直接从那里插入材质。</p>
 <a class="reference internal image-reference" href="_images/material_library_use.png"><img alt="_images/material_library_use.png" class="align-center" src="_images/material_library_use.png" style="width: 100%;" /></a>
-<p>To do this, check the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Material</span> <span class="pre">Library</span></code> box when creating the project using the <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a>. Then, an entire material library will be automatically copied to the new project along with all the dependencies.</p>
+<p>要做到这一点，使用创建项目时使用  <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a> 勾选上 <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Material</span> <span class="pre">Library</span></code> ，然后，整个材质库将被自动复制到新的项目，和所有的依赖一起。</p>
 </div>
 </div>
 </div>
@@ -312,7 +324,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -368,7 +380,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

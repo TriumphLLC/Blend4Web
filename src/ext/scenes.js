@@ -24,6 +24,7 @@
  * @local ColorCorrectionParams
  * @local SceneMetaTags
  * @local HMDParams
+ * @local BloomParams
  */
 b4w.module["scenes"] = function(exports, require) {
 
@@ -33,7 +34,6 @@ var m_data     = require("__data");
 var m_graph    = require("__graph");
 var m_obj      = require("__objects");
 var m_obj_util = require("__obj_util");
-var m_phy      = require("__physics");
 var m_print    = require("__print");
 var m_scenes   = require("__scenes");
 var m_subs     = require("__subscene");
@@ -64,6 +64,14 @@ var m_util     = require("__util");
  * @property {Array} chromatic_aberration_coefs Chromatic aberration coefficient list
  * @property {Number} base_line_factor Tray to lens-center distance divided by screen height
  * @property {Number} inter_lens_factor Inter-lens distance divided by screen width
+ */
+
+/**
+ * Bloom params.
+ * @typedef {Object} BloomParams
+ * @property {Boolean} key Strength of bloom effect
+ * @property {Boolean} edge_lum Bloom edge relative luminance. Bloom is visible above this value.
+ * @property {Boolean} blur The amount of blur applied to bloom effect.
  */
 
 /**
@@ -548,6 +556,54 @@ exports.set_fog_color_density = function(val) {
 }
 
 /**
+ * Get fog params
+ * @method module:scenes.get_fog_params
+ * @returns {FogParams} Fog params
+ * @cc_externs fog_inensity fog_inensity fog inensity
+ * @cc_externs fog_depth fog_depth fog_depth
+ * @cc_externs fog_start fog_start fog start
+ * @cc_externs fog_height fog_height fog height
+ * @returns {Vec4} Destnation vector
+ */
+exports.get_fog_params = function() {
+    if (!m_scenes.check_active()) {
+        m_print.error("No active scene");
+        return false;
+    }
+    var active_scene = m_scenes.get_active();
+
+    var fog_params = {};
+    fog_params.fog_intensity = m_scenes.get_fog_intensity(active_scene);
+    fog_params.fog_depth     = m_scenes.get_fog_depth(active_scene);
+    fog_params.fog_start     = m_scenes.get_fog_start(active_scene);
+    fog_params.fog_height    = m_scenes.get_fog_height(active_scene);
+
+    return fog_params;
+}
+
+/**
+ * Set fog params
+ * @method module:scenes.set_fog_params
+ * @param {FogParams} fog_params Fog params
+ */
+exports.set_fog_params = function(fog_params) {
+    if (!m_scenes.check_active()) {
+        m_print.error("No active scene");
+        return;
+    }
+    var active_scene = m_scenes.get_active();
+
+    if (typeof fog_params.fog_intensity == "number")
+        m_scenes.set_fog_intensity(active_scene, fog_params.fog_intensity);
+    if (typeof fog_params.fog_depth == "number")
+        m_scenes.set_fog_depth(active_scene, fog_params.fog_depth);
+    if (typeof fog_params.fog_start == "number")
+        m_scenes.set_fog_start(active_scene, fog_params.fog_start);
+    if (typeof fog_params.fog_height == "number")
+        m_scenes.set_fog_height(active_scene, fog_params.fog_height);
+}
+
+/**
  * Get SSAO params
  * @method module:scenes.get_ssao_params
  * @returns {SSAOParams} SSAO params
@@ -758,7 +814,7 @@ exports.get_bloom_params = function() {
  * Set bloom parameters
  * @method module:scenes.set_bloom_params
  * @param {BloomParams} bloom_params Bloom parameters
- * @cc_externs bloom_key bloom_edge_lum bloom_blur
+ * @cc_externs key edge_lum blur
  */
 exports.set_bloom_params = function(bloom_params) {
     if (!m_scenes.check_active()) {

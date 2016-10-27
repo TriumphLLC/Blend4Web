@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Application Developers &mdash; Blend4Web 16.09.2 User Manual</title>
+  <title>For Application Developers &mdash; Blend4Web 16.10 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 User Manual" href="index.html"/>
         <link rel="next" title="For Engine Developers" href="developers_advanced.html"/>
         <link rel="prev" title="Physics" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -117,9 +117,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#loading-scenes-in-apps">Loading Scenes in Apps</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-system">Module System</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-apps-quickly">Creating Apps Quickly</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#background-transparency">Background Transparency</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#background-transparency">Background Transparency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#resource-conversion">Resource Conversion</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#data-formats">Data Formats</a><ul>
@@ -198,9 +198,9 @@
 <li><a class="reference internal" href="#loading-scenes-in-apps" id="id4">Loading Scenes in Apps</a></li>
 <li><a class="reference internal" href="#module-system" id="id5">Module System</a></li>
 <li><a class="reference internal" href="#creating-apps-quickly" id="id6">Creating Apps Quickly</a></li>
-<li><a class="reference internal" href="#background-transparency" id="id7">Background Transparency</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#background-transparency" id="id7">Background Transparency</a></li>
 <li><a class="reference internal" href="#resource-conversion" id="id8">Resource Conversion</a><ul>
 <li><a class="reference internal" href="#dependencies" id="id9">Dependencies</a></li>
 <li><a class="reference internal" href="#data-formats" id="id10">Data Formats</a></li>
@@ -348,8 +348,9 @@
 <p>Then the some_scene.json scene is loaded similar to the previous example. The only difference is that after the scene is loaded, the control system is initialized and camera movement with keyboard and mouse (or sensor screen) becomes possible.</p>
 <p>In case when the <code class="docutils literal"><span class="pre">app</span></code> module is used, it is necessary to explicitly specify dimensions of the container element. Otherwise, the created <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element will have zero dimensions.</p>
 </div>
+</div>
 <div class="section" id="background-transparency">
-<h3><a class="toc-backref" href="#id7">Background Transparency</a><a class="headerlink" href="#background-transparency" title="Permalink to this headline">¶</a></h3>
+<h2><a class="toc-backref" href="#id7">Background Transparency</a><a class="headerlink" href="#background-transparency" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">background_color</span></code> and <code class="docutils literal"><span class="pre">alpha</span></code> parameters are passed to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-m_app.html#.init">init</a> method placed in the load callback function (a function that is called right after the scene is loaded), like this:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span> <span class="p">({</span>
     <span class="nx">alpha</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
@@ -368,7 +369,7 @@
 </li>
 </ol>
 <a class="reference internal image-reference" href="_images/developers_background_opaque.png"><img alt="_images/developers_background_opaque.png" class="align-center" src="_images/developers_background_opaque.png" style="width: 100%;" /></a>
-<ol class="arabic">
+<ol class="arabic" start="2">
 <li><dl class="first docutils">
 <dt><code class="docutils literal"><span class="pre">alpha</span></code> = true</dt>
 <dd><p class="first">The background of the HTML application might influence the background of the Blend4Web application based on its transparency which is defined by the fourth component of the <code class="docutils literal"><span class="pre">background_color</span></code> parameter (<code class="docutils literal"><span class="pre">alpha</span></code> = <code class="docutils literal"><span class="pre">background_color[3]</span></code>, not to be confused with the <code class="docutils literal"><span class="pre">alpha</span></code> parameter mentioned above).</p>
@@ -400,7 +401,6 @@
 <p class="last">Sky rendering is enabled by default in Blend4Web scenes created in <a class="reference internal" href="project_manager.html#project-management"><span>Project Manager</span></a>. Don&#8217;t forget, in order to use a transparent background you will need to manually disable sky rendering.</p>
 </div>
 </div>
-</div>
 <div class="section" id="resource-conversion">
 <span id="converter"></span><h2><a class="toc-backref" href="#id8">Resource Conversion</a><a class="headerlink" href="#resource-conversion" title="Permalink to this headline">¶</a></h2>
 <p>Currently, browsers do not fully support all possible media formats, so in order to create cross-browser applications (and also for optimization purposes) we recommend you to use the resource converter.</p>
@@ -426,7 +426,7 @@
 <p>To exclude some directory from resource conversion, it is enough to put a file named <code class="docutils literal"><span class="pre">.b4w_no_conv</span></code> in it. This will not affect conversion in nested directories.</p>
 <p>The <strong>resize_textures</strong> argument is used for decreasing texture resolution for the <strong>LOW</strong> mode.</p>
 <div class="section" id="dependencies">
-<h3><a class="toc-backref" href="#id9">Dependencies</a><a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
+<span id="converter-deps"></span><h3><a class="toc-backref" href="#id9">Dependencies</a><a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
 <p>Please make sure that you have all converter dependencies installed. You can do it with the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
@@ -469,8 +469,8 @@
 </div>
 <p><strong>Windows</strong></p>
 <p>For MS Windows users it is not necessary to install these packages since they are already present in the SDK.</p>
-<p><strong>Mac OS</strong></p>
-<p>Mac OS users can install the <a class="reference external" href="http://www.brew.sh/">brew</a> package manager first and then install any missing packages.</p>
+<p><strong>macOS</strong></p>
+<p>macOS users can install the <a class="reference external" href="http://www.brew.sh/">brew</a> package manager first and then install any missing packages.</p>
 <p>Before installing packages, install the libpng and libjpeg libraries using these commands:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; brew install libpng
 &gt; brew install libjpeg
@@ -529,7 +529,7 @@
 </dd>
 </dl>
 <p>Example of an input file: <code class="docutils literal"><span class="pre">file_name.jpg</span></code>, example of an output file: <code class="docutils literal"><span class="pre">file_name.altconv.jpg.dds</span></code>.</p>
-<p>For the purpose of optimizing application performance it&#8217;s possible to use <code class="docutils literal"><span class="pre">min50</span></code> (halved) and <code class="docutils literal"><span class="pre">DDS</span></code> textures. In order to do this, we need to pass the following parameters during initialization of the application:</p>
+<p>For the purpose of optimizing application performance it&#8217;s possible to use <code class="docutils literal"><span class="pre">min50</span></code> (halved) and <code class="docutils literal"><span class="pre">DDS</span></code> or <code class="docutils literal"><span class="pre">PRVTC</span></code> (compressed) textures. In order to do this, we need to pass the following parameters during initialization of the application:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
         <span class="c1">// . . .</span>
@@ -540,6 +540,22 @@
     <span class="c1">// . . .</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If you are planning to use textures compressed into <a class="reference internal" href="#pvrtc"><span>PVRTC</span></a> format, then replace this line of code</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">assets_dds_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>with the following:</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">assets_pvr_available</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="last">This will tell the engine to load PVRTC textures, if such are present in the <code class="docutils literal"><span class="pre">../assets/</span></code> folder.</p>
 </div>
 <div class="section" id="dds-texture-compression">
 <span id="dds"></span><h4>DDS Texture Compression<a class="headerlink" href="#dds-texture-compression" title="Permalink to this headline">¶</a></h4>
@@ -556,11 +572,11 @@
 <p>Textures can be converted to the <code class="docutils literal"><span class="pre">DDS</span></code> format using the <a class="reference internal" href="project_manager.html#project-management"><span>project manger</span></a> or the <em>scripts/converter.py</em> script described above.</p>
 </div>
 <div class="section" id="pvrtc-texture-compression">
-<h4>PVRTC Texture Compression<a class="headerlink" href="#pvrtc-texture-compression" title="Permalink to this headline">¶</a></h4>
+<span id="pvrtc"></span><h4>PVRTC Texture Compression<a class="headerlink" href="#pvrtc-texture-compression" title="Permalink to this headline">¶</a></h4>
 <p><code class="docutils literal"><span class="pre">PVRTC</span></code> is another texture compression format used primarily on iOS devices. In some cases it can produce texture files up to two times smaller than same texture images would take in <code class="docutils literal"><span class="pre">DDS</span></code> format.</p>
 <p>The format has two compression settings that are supported by the engine: 2-bpp (two bits per pixel) and 4-bpp (four bits per pixel).</p>
 <p>As with <code class="docutils literal"><span class="pre">DDS</span></code> format, textures compressed using the <code class="docutils literal"><span class="pre">PVRTC</span></code> algorithm may not work on some platforms, especially mobile, because using this compression format require support for the <code class="docutils literal"><span class="pre">IMG_texture_compression_pvrtc</span></code> WebGL extension.</p>
-<p>The PVRTC library and SDK are available for Windows, Linux and MacOS X systems alike. Installation packages can be downloaded from the <a class="reference external" href="https://community.imgtec.com/developers/powervr/">Power VR Insider</a> web page.</p>
+<p>The PVRTC library and SDK are available for Windows, Linux and macOS systems alike. Installation packages can be downloaded from the <a class="reference external" href="https://community.imgtec.com/developers/powervr/">Power VR Insider</a> web page.</p>
 <p>The Blend4Web engine uses a console PVRTC tool. To use it, you need to add the path to it to the <code class="docutils literal"><span class="pre">PATH</span></code> environmental variable, like the following:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
 </pre></div>
@@ -697,12 +713,7 @@
 <dt><strong>victory_day_2015</strong></dt>
 <dd>source files of the V-Day 70 greeting card</dd>
 <dt><strong>viewer</strong></dt>
-<dd><p class="first">the sources files of the Viewer application</p>
-<dl class="last docutils">
-<dt><strong>assets.json</strong></dt>
-<dd>metadata with information about scenes loaded by the Viewer</dd>
-</dl>
-</dd>
+<dd>the sources files of the Viewer application</dd>
 <dt><strong>webplayer</strong></dt>
 <dd>source files of the Web Player app</dd>
 <dt><strong>website</strong></dt>
@@ -960,7 +971,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-10-03.
+      Last updated on 2016-10-27.
 
     </p>
   </div>
@@ -1016,7 +1027,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

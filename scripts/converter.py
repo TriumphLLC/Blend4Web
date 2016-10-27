@@ -2,17 +2,16 @@
 
 import copy
 import math
-import os,sys,subprocess, multiprocessing, re, getopt, platform, errno
+import os, sys, subprocess, multiprocessing, re, getopt, platform, errno
 import shutil
 import struct
 import hashlib
 import glob
 import math
 
-BASE_DIR          = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 ASSETS_DIR = os.path.join(BASE_DIR, "..", "deploy", "assets")
-TUTS_DIR = os.path.join(BASE_DIR, "..", "deploy", "tutorials")
 
 PATH_TO_UTILS_WIN = os.path.join(BASE_DIR, "..", "tools", "converter_utils", "win")
 
@@ -59,7 +58,10 @@ def print_flush():
 def check_dependencies(dependencies):
 
     if platform.system() == "Windows":
-        return True
+        if "PVRTexToolCLI" in dependencies:
+            return False
+        else:
+            return True
 
     missing_progs = get_missing_progs(dependencies)
     if "ffmpeg" in missing_progs and not "avconv" in missing_progs:
@@ -608,7 +610,7 @@ if __name__ == "__main__":
         print(err)
         sys.exit(1)
 
-    paths = [os.path.normpath(ASSETS_DIR), os.path.normpath(TUTS_DIR)]
+    path = os.path.normpath(ASSETS_DIR)
 
     handler_args = {
         "verbose": False
@@ -619,7 +621,7 @@ if __name__ == "__main__":
     for o, a in opts:
         if o == "--dir" or o == "-d":
             if os.path.isdir(a):
-                paths = [a]
+                path = a
             else:
                 print("Directory does not exist", file=sys.stderr)
                 sys.exit(1)
@@ -714,13 +716,12 @@ if __name__ == "__main__":
 
     args_list = []
 
-    for path in paths:
-        for root, dirs, files in os.walk(path):
-            for f in files:
-                if not os.path.isfile(os.path.join(root, NO_CONV_NAME)):
-                    handler_args["root"] = root
-                    handler_args["filename"] = f
-                    args_list.append(copy.copy(handler_args))
+    for root, dirs, files in os.walk(path):
+        for f in files:
+            if not os.path.isfile(os.path.join(root, NO_CONV_NAME)):
+                handler_args["root"] = root
+                handler_args["filename"] = f
+                args_list.append(copy.copy(handler_args))
 
     if jobs == 0:
         cpu_count = multiprocessing.cpu_count()

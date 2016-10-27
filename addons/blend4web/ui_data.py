@@ -372,6 +372,8 @@ class B4W_DATA_PT_lamp(LampPanel, Panel):
                 else:
                     sub.prop(lamp, "distance")
 
+                col.prop(lamp, "use_sphere")
+
             if lamp.type == 'AREA':
                 col.prop(lamp, "distance")
                 col.prop(lamp, "gamma")
@@ -383,6 +385,7 @@ class B4W_DATA_PT_lamp(LampPanel, Panel):
         if lamp.type == "SUN":
             row = layout.row()
             row.prop(lamp, "b4w_dynamic_intensity", text=_("Dynamic Intensity"))
+
 
 class B4W_DataLampShadows(LampPanel, Panel):
     bl_label = _("Shadow")

@@ -46,7 +46,7 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
-    min_format_version         : [6, 0],
+    min_format_version         : [6, 1],
 
     max_fps                    : 10000, // not accurate
 
@@ -186,6 +186,8 @@ exports.defaults = {
 
     ie_edge_anchors_floor_hack : false,
 
+    ff_disable_anchor_vis_hack : false,
+
     media_auto_activation      : true,
 
     max_cast_lamps             : 4,
@@ -202,7 +204,9 @@ exports.defaults = {
 
     compress_format            : "dds",
 
-    shadow_quality             : "16x"
+    shadow_quality             : "16x",
+
+    srgb_type                  : "SRGB_SIMPLE"
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -218,7 +222,9 @@ exports.controls = {
 }
 
 exports.assets = {
-    dir: "ASSETS=../../deploy/assets/",
+    path: "",
+    // relative to engine sources (default value for developer version)
+    path_default: "B4W_ASSETS_PATH=../deploy/assets/",
     max_requests: 15,
     prevent_caching: true,
     min50_available: false,
@@ -228,7 +234,9 @@ exports.assets = {
 exports.assets_save = m_util.clone_object_r(exports.assets);
 
 exports.paths = {
-    shaders_dir         : "",
+    shaders_path         : "",
+    // relative to engine sources (default value for developer version)
+    shaders_path_default : "../shaders/",
     shaders_include_dir : "include/",
     shaders_postp_dir : "postprocessing/",
 
@@ -240,14 +248,11 @@ exports.paths = {
         "b4w.simple.min.js",
         "b4w.whitespace.min.js",
         "src/b4w.js",
-        "USER_DEFINED_MODULE"   // replaced when something compiled with the engine
+        "B4W_MAIN_MODULE"   // replaced when something compiled with the engine
     ],
 
-    // relative to engine sources (default value for developer version)
-    resources_dir: "../deploy/apps/common/",
-
-    smaa_search_texture_path: "",
-    smaa_area_texture_path: ""
+    smaa_search_texture_path: "smaa_search_texture.png",
+    smaa_area_texture_path: "smaa_area_texture.png"
 }
 
 exports.hmd_params = {
@@ -272,6 +277,8 @@ exports.physics = {
     enabled: true,
     max_fps: 60,
     uranium_path: "",
+    // relative to engine sources (default value for developer version)
+    uranium_path_default: "B4W_URANIUM_PATH=../deploy/apps/common/uranium.js",
     calc_fps: false,
     ping: false,
     use_workers: true
@@ -281,7 +288,7 @@ exports.physics_save = m_util.clone_object_r(exports.physics);
 exports.scenes = {
     grass_tex_size: 2*512,
     // default adjusted size
-    cubemap_tex_size: 384,
+    cubemap_tex_size: 256,
     cube_reflect_low: 32,
     cube_reflect_medium: 128,
     cube_reflect_high: 256,
@@ -371,6 +378,8 @@ exports.apply_quality = function() {
 
         cfg_scs.grass_tex_size = 4.0*512;
 
+        cfg_scs.cubemap_tex_size = 512;
+
         cfg_def.texture_min_filter = 3;
 
         cfg_def.anisotropic_filtering = true;
@@ -398,6 +407,8 @@ exports.apply_quality = function() {
         cfg_def.glow_materials = true;
 
         cfg_def.msaa_samples = 16;
+
+        cfg_def.srgb_type = "SRGB_PROPER";
 
         cfg_phy.max_fps = 120;
 
@@ -429,6 +440,8 @@ exports.apply_quality = function() {
 
         cfg_scs.grass_tex_size = 2*512;
 
+        cfg_scs.cubemap_tex_size = 256;
+
         cfg_def.texture_min_filter = 3;
 
         cfg_def.anisotropic_filtering = true;
@@ -454,6 +467,8 @@ exports.apply_quality = function() {
         cfg_def.enable_outlining = true;
 
         cfg_def.glow_materials = true;
+
+        cfg_def.srgb_type = "SRGB_SIMPLE";
 
         cfg_def.msaa_samples = 4;
 
@@ -487,6 +502,8 @@ exports.apply_quality = function() {
 
         cfg_scs.grass_tex_size = 1*512;
 
+        cfg_scs.cubemap_tex_size = 256;
+
         cfg_def.texture_min_filter = 2;
 
         cfg_def.anisotropic_filtering = false;
@@ -513,9 +530,11 @@ exports.apply_quality = function() {
 
         cfg_def.glow_materials = false;
 
+        cfg_def.srgb_type = "SRGB_SIMPLE";
+
         cfg_def.msaa_samples = 1;
 
-        cfg_phy.max_fps = 60;
+        cfg_phy.max_fps = 60
 
         break;
     case exports.P_CUSTOM:
@@ -560,6 +579,11 @@ function set(prop, value) {
         break;
     case "antialiasing":
         exports.defaults.antialiasing = value;
+        break;
+    // @deprecated
+    case "assets_dir":
+    case "assets_path":
+        exports.assets.path = value;
         break;
     case "assets_dds_available":
         exports.assets.dds_available = value;
@@ -642,8 +666,10 @@ function set(prop, value) {
     case "sfx_mix_mode":
         exports.sfx.mix_mode = value;
         break;
+    // @deprecated
     case "shaders_dir":
-        exports.paths.shaders_dir = value;
+    case "shaders_path":
+        exports.paths.shaders_path = value;
         break;
     case "shadows":
         exports.defaults.shadows = value;
@@ -687,6 +713,9 @@ function set(prop, value) {
     case "gl_debug":
         exports.defaults.gl_debug = value;
         break;
+    case "srgb_type":
+        exports.defaults.srgb_type = value;
+        break;
     default:
         m_print.error("Unknown config property: " + prop);
         break;
@@ -713,6 +742,10 @@ exports.get = function(prop) {
         return exports.defaults.anisotropic_filtering;
     case "antialiasing":
         return exports.defaults.antialiasing;
+    // @deprecated
+    case "assets_dir":
+    case "assets_path":
+        return exports.assets.path;
     case "assets_dds_available":
         return exports.assets.dds_available;
     case "assets_pvr_available":
@@ -769,8 +802,10 @@ exports.get = function(prop) {
         return exports.defaults.refractions;
     case "sfx_mix_mode":
         return exports.sfx.mix_mode;
+    // @deprecated
     case "shaders_dir":
-        return exports.paths.shaders_dir;
+    case "shaders_path":
+        return exports.paths.shaders_path;
     case "shadows":
         return exports.defaults.shadows;
     case "show_hud_debug_info":
@@ -799,6 +834,8 @@ exports.get = function(prop) {
         return exports.defaults.use_min50;
     case "gl_debug":
         return exports.defaults.gl_debug;
+    case "srgb_type":
+        return exports.defaults.srgb_type;
     default:
         m_print.error("Unknown config property: " + prop);
         break;
@@ -839,26 +876,12 @@ exports.set_paths = function() {
     var cfg_pth = exports.paths;
     var cfg_phy = exports.physics;
 
-    if (!is_built_in_data() && cfg_pth.shaders_dir == "")
-        cfg_pth.shaders_dir = js_src_dir() + "../shaders/";
+    if (!is_built_in_data() && cfg_pth.shaders_path == "")
+        cfg_pth.shaders_path = js_src_dir() + cfg_pth.shaders_path_default;
 
-    if (is_built_in_data()) {
-        cfg_pth.smaa_search_texture_path = "smaa_search_texture.png";
-        cfg_pth.smaa_area_texture_path = "smaa_area_texture.png";
-    } else if (cfg_pth.smaa_search_texture_path == ""
-            || cfg_pth.smaa_area_texture_path == "") {
-        var resources_dir = js_src_dir() + cfg_pth.resources_dir;
-
-        cfg_pth.smaa_search_texture_path = cfg_pth.smaa_search_texture_path ||
-                resources_dir + "smaa_search_texture.png";
-        cfg_pth.smaa_area_texture_path = cfg_pth.smaa_area_texture_path ||
-                resources_dir + "smaa_area_texture.png";
-    }
-
-    if (cfg_phy.enabled && cfg_phy.uranium_path == "") {
-        var resources_dir = js_src_dir() + cfg_pth.resources_dir;
-        cfg_phy.uranium_path = resources_dir + "uranium.js";
-    }
+    if (cfg_phy.enabled && cfg_phy.uranium_path == "")
+        cfg_phy.uranium_path = js_src_dir() +
+                cfg_phy.uranium_path_default.replace("B4W_URANIUM_PATH=", "")
 }
 
 /**
@@ -899,7 +922,27 @@ function js_src_dir() {
 }
 
 exports.get_std_assets_path = function() {
-    return exports.assets.dir.replace("ASSETS=", "");
+    var cfg_ass = exports.assets;
+
+    if (cfg_ass.path)
+        return cfg_ass.path;
+    else {
+        var cfg_ass_def = cfg_ass.path_default.replace("B4W_ASSETS_PATH=", "");
+
+        if (is_app_url(cfg_ass_def))
+            return cfg_ass_def;
+        else
+            return js_src_dir() + cfg_ass_def;
+    }
+}
+
+function is_app_url(path) {
+    if (!path)
+        return false;
+
+    var reg = /^(((.*?)\/\/)|(\/))/;
+
+    return reg.test(path);
 }
 
 }

@@ -74,7 +74,7 @@ WebGL (Web Graphics Library, т.е. графическая библиотека 
 поддерживается во всех браузерах.
 
 
-Полная поддержка
+Desktop Browsers
 ----------------
 
 * Chrome
@@ -225,7 +225,7 @@ Blender - это популярная программа для создания
 
 * обработка звука, Web Audio API
 
-* binary data loading, XMLHttpRequest Level 2
+* загрузка бинарных данных, XMLHttpRequest Level 2
 
 * полноэкранный режим, Fullscreen
 

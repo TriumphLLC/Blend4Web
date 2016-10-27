@@ -4,7 +4,6 @@ import os,sys,subprocess,json,platform,shutil
 from converter import check_alpha_usage
 
 ASSETS_DIR = "../deploy/assets/"
-MANIFEST = "assets.json"
 
 # colors
 BLACK = "\033[90m"
@@ -183,9 +182,6 @@ def is_json(filename):
     ext = os.path.splitext(filename)[1]
 
     if not ext == ".json":
-        return False
-
-    if filename == MANIFEST:
         return False
 
     return True

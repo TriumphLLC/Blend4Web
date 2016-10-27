@@ -1,22 +1,17 @@
-# Blend4Web User Manual Chinese Translation: Developers Advanced
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2014-2016, Triumph
-# This file is distributed under the same license as Blend4Web.
-# Blend4Web Team <info [at] blend4web.com>, 2014.
+# This file is distributed under the same license as the Blend4Web. User
+# Manual package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-08 18:07+0300\n"
-=======
-"Project-Id-Version: Blend4Web 16.08\n"
-"Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
->>>>>>> 58b18d95f86e4815fc62782c0c1021f0da693157
-"PO-Revision-Date: 2015-08-28 10:55+0300\n"
-"Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
-"Language-Team: Chinese <info [at] blend4web.com>\n"
+"POT-Creation-Date: 2016-10-21 15:38+0300\n"
+"PO-Revision-Date: 2016-10-11 13:48+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,22 +19,22 @@ msgstr ""
 
 #: ../developers_advanced.rst:5
 msgid "For Engine Developers"
-msgstr ""
+msgstr "对于引擎开发者"
 
 #: ../developers_advanced.rst
 msgid "Table of Contents"
-msgstr ""
+msgstr "目录"
 
 #: ../developers_advanced.rst:14
 msgid "Coding Style"
-msgstr ""
+msgstr "代码样式"
 
 #: ../developers_advanced.rst:16
 msgid ""
 "This engine uses structural programming. The code is organized in "
 "modules. OOP methods are not used, classes are not defined, inheritance "
 "is not performed and so on."
-msgstr ""
+msgstr "这款引擎采用结构化程序。该代码由模块组织。没有用OOP方法都，没有定义的类，不进行继承等。"
 
 #: ../developers_advanced.rst:18
 msgid ""
@@ -48,81 +43,86 @@ msgid ""
 "except for the fact that the opening bracket for a compound operator is "
 "placed on the same line, for example:"
 msgstr ""
+"使用 `K＆R风格 <http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style>`_"
+" 除了对于一个组合操作的括号开口被放置在同一行上，例如："
 
 #: ../developers_advanced.rst:30
 msgid "4 spaces are used for indentation (no tabs allowed)."
-msgstr ""
+msgstr "4个空格用于缩进（不允许tab）。"
 
 #: ../developers_advanced.rst:33
 msgid "Examples"
-msgstr ""
+msgstr "例子"
 
 #: ../developers_advanced.rst:35
 msgid "The underscore symbol is used in function and variable names:"
-msgstr ""
+msgstr "下划线符号在函数和变量名称中使用："
 
 #: ../developers_advanced.rst:42
 msgid "All global variables begin with an underscore:"
-msgstr ""
+msgstr "所有的全局变量以下划线开头："
 
 #: ../developers_advanced.rst:48
 msgid ""
 "The constants are written in capital letters and never begin with an "
 "underscore:"
-msgstr ""
+msgstr "这些常量用大写字母表示，从不以下划线开头："
 
 #: ../developers_advanced.rst:54
 msgid ""
 "The names of external API methods and properties are written after a "
 "point. To avoid obfuscation of fields they must be listed with the "
 "``@cc_externs`` tag:"
-msgstr ""
+msgstr "外部API方法和属性的名称均在点之后写的。为了避免混淆他们必须用 ``@ cc_externs`` 标签字段："
 
 #: ../developers_advanced.rst:81
 msgid "Commenting is in English only. Comment style - JSDoc."
-msgstr ""
+msgstr "注释仅用英语。注释风格 -  JSDoc。"
 
 #: ../developers_advanced.rst:85
 msgid "Building the Engine"
-msgstr ""
+msgstr "构建引擎"
 
 #: ../developers_advanced.rst:87
 msgid ""
 "Before building please make sure that your system has all required "
 "dependencies installed (see the :ref:`table <dependencies>`)."
-msgstr ""
+msgstr "构建之前，请确保您的系统已安装所有需要的依赖关系（参见 :ref:`table <dependencies>`)."
 
 #: ../developers_advanced.rst:89
 msgid ""
 "To compile the engine and the applications included into the SDK please "
 "execute the following command (in the SDK root):"
-msgstr ""
+msgstr "要编译引擎，并纳入SDK，请执行以下命令（在SDK根目录）的应用程序："
 
 #: ../developers_advanced.rst:95
 msgid ""
 "The full building that includes converting resources (textures, sounds "
 "and videos), compilation and converting the docs, can be performed with "
 "the following command:"
-msgstr ""
+msgstr "完整的构建，包括将资源（纹理，声音和视频），编辑和转换的文档，可以用下面的命令执行："
 
 #: ../developers_advanced.rst:101
 msgid "Building the archives with the distributions:"
-msgstr ""
+msgstr "构建发布档案："
 
 #: ../developers_advanced.rst:107
 msgid "All above mentioned operations can be performed with a single command:"
-msgstr ""
+msgstr "所有上述操作可以用一个命令来执行："
 
 #: ../developers_advanced.rst:114
 msgid "Building the Add-on"
-msgstr ""
+msgstr "构建插件"
 
 #: ../developers_advanced.rst:116
+#, fuzzy
 msgid ""
 "Binary Blend4Web addon builds are available for the following platforms: "
-"Linux x32/64, OS X x64, Windows x32/64. At the same time users can "
+"Linux x32/64, macOS x64, Windows x32/64. At the same time users can "
 "compile the addon by themselves."
 msgstr ""
+"二进制的Blend4Web插件版本是可用于以下平台：Linux的X32 / 64，Mac OS X版x64，Windows X32 / "
+"64。同时用户可以自行编译插件。"
 
 #: ../developers_advanced.rst:118
 msgid ""
@@ -130,83 +130,85 @@ msgid ""
 "Blender) and a C compiler are required. Under Linux it's enough to "
 "install the python3-dev and build-essential packages."
 msgstr ""
+"要做到这一点，Python 3.X（如果它是跟blender相同的版本更好）和C编译器是必需的。在Linux下，只需安装python3-dev 和"
+" build-essential 的程序包。"
 
 #: ../developers_advanced.rst:122
 msgid "Paths relative to the repository root:"
-msgstr ""
+msgstr "路径相对于库根："
 
 #: ../developers_advanced.rst:121
 msgid "build script: ``csrc/b4w_bin/build.py``"
-msgstr ""
+msgstr "构建脚本：``csrc/b4w_bin/build.py``"
 
 #: ../developers_advanced.rst:122
 msgid "Blend4Web addon: ``blender_scripts/addons/blend4web/``"
-msgstr ""
+msgstr "Blend4Web插件： ``blender_scripts/addons/blend4web/``"
 
 #: ../developers_advanced.rst:124
 msgid "The building process is started in the following way:"
-msgstr ""
+msgstr "该构建过程开始于以下方式："
 
 #: ../developers_advanced.rst:130
 msgid "As a result of the building you'll get a binary file called:"
-msgstr ""
+msgstr "由于构建的结果，你会得到一个名为二进制文件："
 
 #: ../developers_advanced.rst:132
 msgid "``b4w_bin_[PLATFORM]_[ARCHITECTURE].[STANDARD_EXTENSION]``,"
-msgstr ""
+msgstr "``b4w_bin_[PLATFORM]_[ARCHITECTURE].[STANDARD_EXTENSION]``,"
 
 #: ../developers_advanced.rst:134
 msgid ""
 "located in the same directory as the addon. Example: "
 "``b4w_bin_Linux_64.so``. After this the addon is ready to use under this "
 "platform."
-msgstr ""
+msgstr "和插件位于同一目录中。例如：``b4w_bin_Linux_64.so``。在此之后，插件已经准备好这个平台下使用。"
 
 #: ../developers_advanced.rst:141
 msgid "Dependencies"
-msgstr ""
+msgstr "依赖"
 
 #: ../developers_advanced.rst:143
 msgid ""
 "All dependencies are listed in the table below in order of decreasing "
 "importance."
-msgstr ""
+msgstr "所有依赖于下表中列出的重要性顺序递减。"
 
 #: ../developers_advanced.rst:146
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #: ../developers_advanced.rst:146
 msgid "Ubuntu 16.04 package"
-msgstr ""
+msgstr "Ubuntu的16.04包"
 
 #: ../developers_advanced.rst:146
 msgid "Purpose"
-msgstr ""
+msgstr "用途"
 
 #: ../developers_advanced.rst:149
 msgid "Bash"
-msgstr ""
+msgstr "Bash"
 
 #: ../developers_advanced.rst:149 ../developers_advanced.rst:151
 msgid "included by default"
-msgstr ""
+msgstr "默认情况下包含"
 
 #: ../developers_advanced.rst:149 ../developers_advanced.rst:151
 msgid "script interpreter"
-msgstr ""
+msgstr "脚本解释器"
 
 #: ../developers_advanced.rst:151
 msgid "Python 3"
-msgstr ""
+msgstr "Python 3"
 
 #: ../developers_advanced.rst:153
 msgid "NodeJS"
-msgstr ""
+msgstr "NodeJS"
 
 #: ../developers_advanced.rst:153
 msgid "nodejs"
-msgstr ""
+msgstr "nodejs"
 
 #: ../developers_advanced.rst:153 ../developers_advanced.rst:252
 #: ../developers_advanced.rst:283 ../developers_advanced.rst:296
@@ -214,280 +216,280 @@ msgstr ""
 #: ../developers_advanced.rst:385 ../developers_advanced.rst:440
 #: ../developers_advanced.rst:450
 msgid "compiling shaders"
-msgstr ""
+msgstr "着色器编译"
 
 #: ../developers_advanced.rst:155
 msgid "Java"
-msgstr ""
+msgstr "Java"
 
 #: ../developers_advanced.rst:155
 msgid "default-jre"
-msgstr ""
+msgstr "默认的JRE"
 
 #: ../developers_advanced.rst:155
 msgid "compiling and obfuscating the engine modules"
-msgstr ""
+msgstr "编译和混淆引擎模块"
 
 #: ../developers_advanced.rst:158
 msgid "ImageMagick"
-msgstr ""
+msgstr "ImageMagick"
 
 #: ../developers_advanced.rst:158
 msgid "imagemagick"
-msgstr ""
+msgstr "imagemagick"
 
 #: ../developers_advanced.rst:158 ../developers_advanced.rst:160
 msgid "converting textures"
-msgstr ""
+msgstr "转换纹理"
 
 #: ../developers_advanced.rst:160
 msgid "NVIDIA Texture Tools"
-msgstr ""
+msgstr "NVIDIA纹理工具"
 
 #: ../developers_advanced.rst:160
 msgid "libnvtt-bin"
-msgstr ""
+msgstr "libnvtt-bin"
 
 #: ../developers_advanced.rst:162
 msgid "Libav"
-msgstr ""
+msgstr "Libav"
 
 #: ../developers_advanced.rst:162
 msgid "libav-tools"
-msgstr ""
+msgstr "libav-tools"
 
 #: ../developers_advanced.rst:162
 msgid "converting media resources"
-msgstr ""
+msgstr "转换资源"
 
 #: ../developers_advanced.rst:164
 msgid "NVIDIA Cg Toolkit"
-msgstr ""
+msgstr "NVIDIA CG工具包"
 
 #: ../developers_advanced.rst:164
 msgid "nvidia-cg-toolkit"
-msgstr ""
+msgstr "NVIDIA-CG-工具包"
 
 #: ../developers_advanced.rst:164
 msgid "debugging shaders"
-msgstr ""
+msgstr "着色器的调试"
 
 #: ../developers_advanced.rst:166
 msgid "OptiPNG"
-msgstr ""
+msgstr "OptiPNG"
 
 #: ../developers_advanced.rst:166
 msgid "optipng"
-msgstr ""
+msgstr "optipng"
 
 #: ../developers_advanced.rst:166
 msgid "optimizing PNG files"
-msgstr ""
+msgstr "优化 PNG 文件"
 
 #: ../developers_advanced.rst:168
 msgid "Emscripten"
-msgstr ""
+msgstr "Emscripten"
 
 #: ../developers_advanced.rst:168
 msgid "`from EMSDK source code`_"
-msgstr ""
+msgstr "`from EMSDK source 代码`_"
 
 #: ../developers_advanced.rst:168
 msgid "building Uranium"
-msgstr ""
+msgstr "构建Uranium"
 
 #: ../developers_advanced.rst:170
 msgid "Gnuplot"
-msgstr ""
+msgstr "Gnuplot"
 
 #: ../developers_advanced.rst:170
 msgid "gnuplot"
-msgstr ""
+msgstr "gnuplot"
 
 #: ../developers_advanced.rst:170 ../developers_advanced.rst:172
 #: ../developers_advanced.rst:174
 msgid "debugging"
-msgstr ""
+msgstr "偵錯"
 
 #: ../developers_advanced.rst:172
 msgid "Graphviz"
-msgstr ""
+msgstr "Graphviz"
 
 #: ../developers_advanced.rst:172
 msgid "graphviz"
-msgstr ""
+msgstr "graphviz"
 
 #: ../developers_advanced.rst:174
 msgid "xsel"
-msgstr ""
+msgstr "xsel"
 
 #: ../developers_advanced.rst:176
 msgid "Sphinx"
-msgstr ""
+msgstr "Sphinx"
 
 #: ../developers_advanced.rst:176
 msgid "python3-sphinx"
-msgstr ""
+msgstr "python3-sphinx"
 
 #: ../developers_advanced.rst:176
 msgid "building the manual"
-msgstr ""
+msgstr "构建手册"
 
 #: ../developers_advanced.rst:178
 msgid "sphinx-intl"
-msgstr ""
+msgstr "sphinx-intl"
 
 #: ../developers_advanced.rst:178
 msgid "installed with PIP v3 (pip3 install sphinx-intl)"
-msgstr ""
+msgstr "使用 PIP v3 安装（pip3 install sphinx-intl）"
 
 #: ../developers_advanced.rst:178
 msgid "building the manual (internationalization)"
-msgstr ""
+msgstr "构建手册（国际）"
 
 #: ../developers_advanced.rst:181
 msgid "TeX Live"
-msgstr ""
+msgstr "TeX Live"
 
 #: ../developers_advanced.rst:181
 msgid "texlive texlive-latex-extra texlive-lang-cyrillic"
-msgstr ""
+msgstr "texlive texlive-latex-extra texlive-lang-cyrillic"
 
 #: ../developers_advanced.rst:181
 msgid "building the manual (PDF version)"
-msgstr ""
+msgstr "构建说明书（PDF版）"
 
 #: ../developers_advanced.rst:184
 msgid "JSDoc 3"
-msgstr ""
+msgstr "JSDoc 3"
 
 #: ../developers_advanced.rst:184
 msgid "installed with NPM (npm install -g jsdoc)"
-msgstr ""
+msgstr "使用 NPM 进行安装 (npm install -g jsdoc)"
 
 #: ../developers_advanced.rst:184
 msgid "building the API documentation"
-msgstr ""
+msgstr "构建API文档"
 
 #: ../developers_advanced.rst:187
 msgid "PEG.js"
-msgstr ""
+msgstr "PEG.js"
 
 #: ../developers_advanced.rst:187
 msgid "`from PEG.js source code`_"
-msgstr ""
+msgstr "`从PEG.js源代码`_"
 
 #: ../developers_advanced.rst:187
 msgid "building shader preprocessor"
-msgstr ""
+msgstr "着色器预处理"
 
 #: ../developers_advanced.rst:195
 msgid "Naming Functions and Variables"
-msgstr ""
+msgstr "命名函数和变量"
 
 #: ../developers_advanced.rst:197
 msgid ""
 "When creating new functions and variables it is recommended to use the "
 "following prefixes and suffixes."
-msgstr ""
+msgstr "当创建新的函数和变量，建议使用以下前缀和后缀。"
 
 #: ../developers_advanced.rst:200
 msgid "*init_*"
-msgstr ""
+msgstr "*init_*"
 
 #: ../developers_advanced.rst:200
 msgid "create an abstract object"
-msgstr ""
+msgstr "创建抽象物体"
 
 #: ../developers_advanced.rst:203
 msgid "*create_*"
-msgstr ""
+msgstr "*create_*"
 
 #: ../developers_advanced.rst:203
 msgid "create a certain object"
-msgstr ""
+msgstr "创建实际的物体"
 
 #: ../developers_advanced.rst:206
 msgid "*update_*"
-msgstr ""
+msgstr "*update_*"
 
 #: ../developers_advanced.rst:206
 msgid "update the state of an existing object"
-msgstr ""
+msgstr "更新现有物体的状态"
 
 #: ../developers_advanced.rst:209
 msgid "*attach_/detach_*"
-msgstr ""
+msgstr "*attach_/detach_*"
 
 #: ../developers_advanced.rst:209
 msgid "add/remove a temporary object property"
-msgstr ""
+msgstr "添加/删除临时物体属性"
 
 #: ../developers_advanced.rst:212
 msgid "*append_/remove_*"
-msgstr ""
+msgstr "*append_/remove_*"
 
 #: ../developers_advanced.rst:212
 msgid ""
 "add/remove a temporary property to the already existing properties of the"
 " same kind"
-msgstr ""
+msgstr "添加/删除临时属性同类的现有属性"
 
 #: ../developers_advanced.rst:215
 msgid "*insert_/pop_*"
-msgstr ""
+msgstr "*insert_/pop_*"
 
 #: ../developers_advanced.rst:215
 msgid "add/remove an array element (accessed by index)"
-msgstr ""
+msgstr "添加/删除数组元素（按索引访问）"
 
 #: ../developers_advanced.rst:218
 msgid "*switch_*"
-msgstr ""
+msgstr "*switch_*"
 
 #: ../developers_advanced.rst:218
 msgid "switch flag's binary value"
-msgstr ""
+msgstr "切换标志的二进制值"
 
 #: ../developers_advanced.rst:221
 msgid "*apply_/clear_*"
-msgstr ""
+msgstr "*apply_/clear_*"
 
 #: ../developers_advanced.rst:221
 msgid "operation with flags, binary values or arbitrary parameters"
-msgstr ""
+msgstr "操作标志，二进制值或任意参数的操作"
 
 #: ../developers_advanced.rst:224
 msgid "*set_/get_*"
-msgstr ""
+msgstr "*set_/get_*"
 
 #: ../developers_advanced.rst:224
 msgid "set/get the property/variable value"
-msgstr ""
+msgstr "设置/获取属性/变量值"
 
 #: ../developers_advanced.rst:227
 msgid "*_tmp*"
-msgstr ""
+msgstr "*_tmp*"
 
 #: ../developers_advanced.rst:227
 msgid "global variable - cache in the form of a simple object (array, vector)"
-msgstr ""
+msgstr "全局变量 - 缓存在一个简单的物体的形式（数组，向量）"
 
 #: ../developers_advanced.rst:232
 msgid "*_cache*"
-msgstr ""
+msgstr "*_cache*"
 
 #: ../developers_advanced.rst:230
 msgid "global variable - cache in the form of a complex object"
-msgstr ""
+msgstr "全局变量 - 缓存在一个复杂的物体的形式"
 
 #: ../developers_advanced.rst:237
 msgid "Debugging"
-msgstr ""
+msgstr "调试中"
 
 #: ../developers_advanced.rst:239
 msgid "Engine debugging is performed with the ``debug.js`` module methods."
-msgstr ""
+msgstr "引擎调试在 ``debug.js`` 模块方法进行。"
 
 #: ../developers_advanced.rst:241
 msgid ""
@@ -498,50 +500,53 @@ msgid ""
 "the `graphviz <http://www.graphviz.org/>`_ utilities are required. "
 "Converting to the SVG format is performed using the command:"
 msgstr ""
+"当前的渲染图的结构可以用 ``b4w.debug.scenegraph_to_dot()`` "
+"调用，例如，在浏览器的控制台被保存在DOT格式。调用此方法后，保存控制台输出与.gv扩展名的文件。为了得到在视觉形式图表中的 `graphviz的"
+" <http://www.graphviz.org/>`_ 是必需的工具。转换为SVG格式是使用命令执行："
 
 #: ../developers_advanced.rst:247
 msgid "where ``graph.gv`` is the name of the file with the saved graph."
-msgstr ""
+msgstr "其中，``graph.gv`` 是保存的图形文件的名称。"
 
 #: ../developers_advanced.rst:255
 msgid "Shader Compilation"
-msgstr ""
+msgstr "着色器编译"
 
 #: ../developers_advanced.rst:257
 msgid ""
 "All shaders used in the engine are processed by a compiler. The compiler "
 "performs the following three main procedures:"
-msgstr ""
+msgstr "在引擎中使用的所有着色器由编译器处理。编译器执行以下三个主要步骤："
 
 #: ../developers_advanced.rst:259
 msgid "validation of the shader code,"
-msgstr ""
+msgstr "shader代码的验证，"
 
 #: ../developers_advanced.rst:260
 msgid "its obfuscation and"
-msgstr ""
+msgstr "它的混淆处理，"
 
 #: ../developers_advanced.rst:261
 msgid "optimization."
-msgstr ""
+msgstr "优化"
 
 #: ../developers_advanced.rst:263
 msgid ""
 "In order to run the compiler, execute one of the following commands in "
 "the SDK root:"
-msgstr ""
+msgstr "为了编译运行，在SDK根处键入以下命令执行："
 
 #: ../developers_advanced.rst:271
 msgid ""
 "**make** *compile_shaders* - performs validation, obfuscation, "
 "optimization and finally, export of the compiled shaders,"
-msgstr ""
+msgstr "**make** *compile_shaders*  - 执行验证，混淆，优化和最后，编译着色器的导出，"
 
 #: ../developers_advanced.rst:272
 msgid ""
 "**make** *verify_shaders* - performs only validation, obfuscation and "
 "optimization."
-msgstr ""
+msgstr "**make** *verify_shaders*  - 只执行验证，混淆和优化。"
 
 #: ../developers_advanced.rst:274
 msgid ""
@@ -552,118 +557,121 @@ msgid ""
 "parser data, and after that the shaders are exported in the form of an "
 "abstract syntax tree (AST) for direct loading in the engine."
 msgstr ""
+"在编译期间首先进行着色文本的语法分析（解析）。相应的解析器自动创建基于语法，使用 `PEG.js "
+"<http://pegjs.majda.cz/>`_ "
+"引擎。然后将由着色器验证，混淆和优化根据解析器数据，之后该着色器中抽象语法树（AST），用于在引擎直接装载的形式输出。"
 
 #: ../developers_advanced.rst:276
 msgid "The location of the main files in the repository:"
-msgstr ""
+msgstr "资源库中的主要文件的位置："
 
 #: ../developers_advanced.rst:278
 msgid "initial grammar - glsl_utils/pegjs/glsl_parser.pegjs"
-msgstr ""
+msgstr "初步的语法 -  glsl_utils / pegjs / glsl_parser.pegjs"
 
 #: ../developers_advanced.rst:279
 msgid "parser generation script - glsl_utils/pegjs/gen_nodejs.sh"
-msgstr ""
+msgstr "解析器生成脚本 -  glsl_utils / pegjs / gen_nodejs.sh"
 
 #: ../developers_advanced.rst:280
 msgid "parser - glsl_utils/compiler/glsl_parser.js"
-msgstr ""
+msgstr "解析器 -  glsl_utils /编译器/ glsl_parser.js"
 
 #: ../developers_advanced.rst:286
 msgid "Validation"
-msgstr ""
+msgstr "验证"
 
 #: ../developers_advanced.rst:288
 msgid ""
 "The compiler performs the following procedures related to shader code "
 "validation:"
-msgstr ""
+msgstr "编译器执行与着色器代码验证以下程序："
 
 #: ../developers_advanced.rst:290
 msgid "reporting about unused variables and functions (dead code),"
-msgstr ""
+msgstr "报告有关未使用的变量和函数（死码）"
 
 #: ../developers_advanced.rst:291
 msgid "checking the syntax of shaders,"
-msgstr ""
+msgstr "检查着色器的语法，"
 
 #: ../developers_advanced.rst:292
 msgid "checking the conformance of shaders to the import/export mechanism,"
-msgstr ""
+msgstr "检查着色器的一致性导入/导出机制，"
 
 #: ../developers_advanced.rst:293
 msgid "removing odd or repetitive tokens: spaces, endlines and semicolons."
-msgstr ""
+msgstr "去除奇数或重复的标记：空格，endlines和分号。"
 
 #: ../developers_advanced.rst:299
 msgid "Obfuscation"
-msgstr ""
+msgstr "混淆"
 
 #: ../developers_advanced.rst:301
 msgid ""
 "Obfuscation minifies the GLSL code and makes it difficult to understand "
 "it. So far the following procedure is implemented:"
-msgstr ""
+msgstr "混淆minifies的GLSL代码，使得它很难理解它。到目前为止以下过程实现："
 
 #: ../developers_advanced.rst:303
 msgid ""
 "replacing the user-defined identifiers with shorter single-symbol, two-"
 "symbol etc. names (with support of the import/export mechanism)."
-msgstr ""
+msgstr "具有较短的单符号（与支持导入/导出机制的）替换用户定义的标识符，两符号等的名称。"
 
 #: ../developers_advanced.rst:309
 msgid "Optimization"
-msgstr ""
+msgstr "优化"
 
 #: ../developers_advanced.rst:311
 msgid "Optimization constitutes the following procedures:"
-msgstr ""
+msgstr "优化构成以下程序："
 
 #: ../developers_advanced.rst:313
 msgid ""
 "removing curly brackets which are not useful in any ways except creating "
 "local scopes (this functionality is used for processing node/lamp "
 "directives),"
-msgstr ""
+msgstr "除去大括号，不能在除了创建本地作用域任何方式有用（这一功能是用于处理节点/灯指示），"
 
 #: ../developers_advanced.rst:314
 msgid ""
 "optimization inside functions - creating shared local variables to "
 "replace ones originally created by the programmer."
-msgstr ""
+msgstr "内部功能的优化 - 创建共享局部变量，以取代原来由程序员创建的。"
 
 #: ../developers_advanced.rst:316
 msgid "An example of removing unused curly brackets: replacing the following code"
-msgstr ""
+msgstr "删除未使用大括号的一个例子：替换下面的代码"
 
 #: ../developers_advanced.rst:327
 msgid "with this code"
-msgstr ""
+msgstr "与这些代码"
 
 #: ../developers_advanced.rst:336
 msgid ""
 "Low number of temporary local variables is achieved by repetitively using"
 " them in different contexts. For example, the following code"
-msgstr ""
+msgstr "临时局部变量的低数量是由在不同情况下重复使用它们来实现的。例如，下面的代码"
 
 #: ../developers_advanced.rst:346
 msgid "will be replaced with"
-msgstr ""
+msgstr "Blender内置渲染引擎的纹理绘图类型已被其它三个模块所取代："
 
 #: ../developers_advanced.rst:358
 msgid "Local variables for structures and arrays are not optimized this way."
-msgstr ""
+msgstr "对于结构和数组的局部变量未优化这种方式。"
 
 #: ../developers_advanced.rst:364
 msgid "Import/Export Directives"
-msgstr ""
+msgstr "导入/导出指令"
 
 #: ../developers_advanced.rst:366
 msgid ""
 "import/export directives are used to organize, structure and increase the"
 " readability of the shader code in the include file. They are specified "
 "in the beginning of the file and should look approximately like this:"
-msgstr ""
+msgstr "导入/导出指令用于组织，结构和增加着色器代码的可读性中包含文件。它们在文件的开头指定，应该看起来大约是这样的："
 
 #: ../developers_advanced.rst:375
 msgid ""
@@ -671,20 +679,20 @@ msgid ""
 " the include file but can be accessed from inside it. There is a "
 "limitation though: such ids must necessarily be declared somewhere above "
 "the place where the include file is linked."
-msgstr ""
+msgstr "在``＃import``指令定义了一组声明的包含文件之外，但可以从里面被访问的ID。这里有一个限制，但：这样的id必然是上述地方，其中包括文件链接的地方声明。"
 
 #: ../developers_advanced.rst:377
 msgid ""
 "The ``#export`` directive defines a set of ids which can be accessed from"
 " outside this file. Such ids must necessarily be declared in this file."
-msgstr ""
+msgstr "在``＃export``指令定义了一组可以从该文件外部访问的ID。这样的id必然在这个文件中声明。"
 
 #: ../developers_advanced.rst:379
 msgid ""
 "Therefore, the shader which uses the include file must have all the "
 "declarations necessary for import before the place of linking, and can "
 "use the exported ids after it."
-msgstr ""
+msgstr "因此，它使用的着色器包含文件必须拥有所有必要的连接位置之前，进口的声明，以后它可以使用导出的标识。"
 
 #: ../developers_advanced.rst:381
 msgid ""
@@ -692,11 +700,11 @@ msgid ""
 "import/export directives it's considered by default that the include file"
 " does not use external declarations and does not allow the using of "
 "internal ones."
-msgstr ""
+msgstr "IDS既可以是变量名和函数名。如果没有导入/导出命令中，它在默认情况下认为，包括文件不使用外部声明和内部的人的使用不允许。"
 
 #: ../developers_advanced.rst:388
 msgid "Recommendations and Limitations"
-msgstr ""
+msgstr "建议和限制"
 
 #: ../developers_advanced.rst:390
 msgid ""
@@ -705,13 +713,13 @@ msgid ""
 "its possible to guarantee the work of the output code only if a number of"
 " rules and limitations are respected with regard to the shader source "
 "code:"
-msgstr ""
+msgstr "由于以下几个原因：预处理，处理多个着色器和包括文件和由于编译器的功能的需要 - 其可能保证只有当一些规则和限制方面的着色源推崇的输出代码的工作码："
 
 #: ../developers_advanced.rst:392
 msgid ""
 "In order to describe constants which are defined by the engine at run, "
 "it's necessary to use the ``#var`` special directive. For example:"
-msgstr ""
+msgstr "为了描述这是由引擎在运行中定义的常量，有必要使用``＃var``特殊指令。例如："
 
 #: ../developers_advanced.rst:399
 msgid ""
@@ -721,27 +729,27 @@ msgid ""
 "or 'attribute' in the above example), because at this level it's unknown "
 "anyway. Nevertheless, it's better to specify a more or less suitable "
 "description and not something arbitrary."
-msgstr ""
+msgstr "这里的语法是类似的#define指令。所述#var指令的一点是，它定义了值允许解析初始着色。它是不相关的这将是什么（在上面的例子如“制服”或“属性”），因为在这个水平上它是未知反正。不过，最好是指定一个或多或少适当的描述，不是随心所欲。"
 
 #: ../developers_advanced.rst:403
 msgid ""
 "The #var directive is not necessary for constants used not in the shader "
 "code but in the preprocessor expressions."
-msgstr ""
+msgstr "该#var指令没有必要不是在着色的代码，但在预处理器表达式中使用的常数。"
 
 #: ../developers_advanced.rst:405
 msgid "Using the import/export directives when needed."
-msgstr ""
+msgstr "在需要的时候使用导入/导出指令。"
 
 #: ../developers_advanced.rst:406
 msgid "The built-in functions must not be overloaded - only the user ones."
-msgstr ""
+msgstr "内置的功能，不能超载 - 只有用户的。"
 
 #: ../developers_advanced.rst:407
 msgid ""
 "Variables should not be declared with names of the built-in functions, or"
 " main (even if it doesn't lead to errors)."
-msgstr ""
+msgstr "变量不应与的内置函数名称，或者主要（即使它不导致错误）中声明。"
 
 #: ../developers_advanced.rst:408
 msgid ""
@@ -749,10 +757,12 @@ msgid ""
 "symbols in such operators as: \"++\", \"--\", \"\\*=\", \"/=\", \"+=\", "
 "\"-=\", \"==\", \"<=\", \">=\", \"!=\", \"&&\", \"||\", \"^^\"."
 msgstr ""
+"的#var和#define指令不能被用于以这样运营商更换单个符号：“  ”，“ - ”，“\\ * =”，“/ =”，“  =”，“ -  =” "
+"，“==”，“<=”，“> =”，“！=”，“&&”，“||”，“^^”。"
 
 #: ../developers_advanced.rst:410
 msgid "For example:"
-msgstr ""
+msgstr "例如："
 
 #: ../developers_advanced.rst:419
 msgid ""
@@ -761,19 +771,19 @@ msgid ""
 "shaders are included into the same file and the above defined directives "
 "(like #var or #define) can have influence on any of them. Also, it's "
 "better not to use undeclared functions and variables in the include file."
-msgstr ""
+msgstr "#include指令的使用不应该包含文件的混淆中产生歧义。当多个着色器纳入相同的文件，上面定义的指令（如#var或者将#define）可以对任何人的影响，可能发生这种情况。此外，最好不要使用未声明的函数和变量中包含文件。"
 
 #: ../developers_advanced.rst:421
 msgid ""
 "Multi-level includes or multiple inclusion of the same include into the "
 "same shader is not supported."
-msgstr ""
+msgstr "多级包括或相同的多个纳入到包括不支持相同的着色器。"
 
 #: ../developers_advanced.rst:422
 msgid ""
 "The shader's malfunction can also be caused by nontrivial using of "
 "preprocessing, for example, creating an invalid GLSL code:"
-msgstr ""
+msgstr "着色器的故障也可以通过使用非平凡的预处理，例如，创建一个无效的GLSL代码引起的："
 
 #: ../developers_advanced.rst:434
 msgid ""
@@ -781,12 +791,14 @@ msgid ""
 "``node_[NODE_NAME]_var_[IN_OUT_NODE]``, where ``NODE_NAME`` --- name of "
 "some node, ``IN_OUT_NODE`` --- name of an input or an output of the node."
 msgstr ""
+"不要声明与这样的名字变量 ``node_ [NODE_NAME] _var_ [IN_OUT_NODE]``，其中 ``NODE_NAME`` "
+"---一些节点的名称，``IN_OUT_NODE`` ---输入或输出的名称节点。"
 
 #: ../developers_advanced.rst:436
 msgid ""
 "Repetitive use of ``#nodes_main``, ``#nodes_global`` or ``#lamps_main`` "
 "directives is not permitted inside a single shader."
-msgstr ""
+msgstr "重复使用 ``＃nodes_main``，``＃nodes_global`` 或 ``＃lamps_main`` 指令是不是一个单一的着色器内禁止。"
 
 #: ../developers_advanced.rst:438
 msgid ""
@@ -795,69 +807,71 @@ msgid ""
 "description, for example, in the same include-file. This is necessary for"
 " the correct shader validation."
 msgstr ""
+"在 ``＃nodes_main``，``＃nodes_global`` 和 ``＃lamps_main`` "
+"指令，建议在该文件中使用，包含这些着色器节点的说明，例如，在同一个包含文件。这是必要的正确的着色器验证。"
 
 #: ../developers_advanced.rst:440 ../developers_advanced.rst:443
 msgid "WebGL Extensions"
-msgstr ""
+msgstr "WebGL的扩展"
 
 #: ../developers_advanced.rst:445
 msgid ""
 "Compilation may depend on WebGL extensions being used if they somehow "
 "influence the shading language. At the moment the following extensions "
 "are supported by the compiler:"
-msgstr ""
+msgstr "如果他们以某种方式影响着色语言所使用的编译可能取决于WebGL的扩展。目前以下扩展名由编译器的支持："
 
 #: ../developers_advanced.rst:447
 msgid "OES_standard_derivatives"
-msgstr ""
+msgstr "OES_standard_derivatives"
 
 #: ../developers_advanced.rst:453
 msgid "Compilation Errors"
-msgstr ""
+msgstr "编译错误"
 
 #: ../developers_advanced.rst:455
 msgid ""
 "In case of an error the compiler will output the corresponding message in"
 " the console."
-msgstr ""
+msgstr "在发生错误时，编译器会在控制台输出相应的消息。"
 
 #: ../developers_advanced.rst:457
 msgid "Table of possible errors:"
-msgstr ""
+msgstr "可能发生的错误的表："
 
 #: ../developers_advanced.rst:460
 msgid "Error message"
-msgstr ""
+msgstr "错误信息"
 
 #: ../developers_advanced.rst:460
 msgid "Cause"
-msgstr ""
+msgstr "原因"
 
 #: ../developers_advanced.rst:462
 msgid "Error! Ambiguous obfuscation in include file 'FILE_NAME'."
-msgstr ""
+msgstr "错误！含糊不清的包含文件“FILE_NAME”。"
 
 #: ../developers_advanced.rst:462
 msgid "Ambiguous obfuscation in the 'FILE_NAME' include file."
-msgstr ""
+msgstr "在“FILE_NAME”含糊不清包含文件。"
 
 #: ../developers_advanced.rst:465
 msgid "Error! Extension NAME is unsupported in obfuscator. File: 'FILE_NAME'."
-msgstr ""
+msgstr "错误！扩展名是在混淆器不支持。文件：“FILE_NAME”。"
 
 #: ../developers_advanced.rst:465
 msgid ""
 "The NAME WebGL extension used in the FILE_NAME file is not supported by "
 "the obfuscator."
-msgstr ""
+msgstr "在FILE_NAME文件中使用的名称WebGL的扩展不被混淆器支持。"
 
 #: ../developers_advanced.rst:469
 msgid "Error! Include 'FILE_NAME' not found."
-msgstr ""
+msgstr "错误！包括“FILE_NAME找不到。"
 
 #: ../developers_advanced.rst:469
 msgid "The FILE_NAME include file could not be found."
-msgstr ""
+msgstr "该FILE_NAME包含文件找不到。"
 
 #: ../developers_advanced.rst:472
 msgid "Error! Undeclared TYPE: 'NAME'. File: 'FILE_NAME'."
@@ -867,7 +881,7 @@ msgstr ""
 msgid ""
 "Error in FILE_NAME file. Undeclared identifier NAME of type TYPE "
 "(variable, function, structure etc)."
-msgstr ""
+msgstr "FILE_NAME文件中错误。类型TYPE（变量，函数，结构等）的未声明标识符名称。"
 
 #: ../developers_advanced.rst:476
 msgid "Error! Undeclared TYPE: 'NAME'. Importing data missed. File: 'FILE_NAME'."
@@ -878,7 +892,7 @@ msgid ""
 "Undeclared identifier NAME of type TYPE (variable, function, structure "
 "etc). Declaration missing for the identifier required in the FILE_NAME "
 "include file according to the ``#import`` directive."
-msgstr ""
+msgstr "类型TYPE（变量，函数，结构等）的未声明标识符名称。声明中缺少在FILE_NAME所需的标识符包括根据``＃import``指令文件。"
 
 #: ../developers_advanced.rst:482
 msgid ""
@@ -892,6 +906,8 @@ msgid ""
 "(variable, function, structure etc). Possibly its export into the "
 "INCLUDE_NAME include file should be allowed."
 msgstr ""
+"在FILE_NAME文件有错误。类型TYPE（变量，函数，结构等）的未声明标识符名称。可能出口到INCLUDE_NAME "
+"include文件应该被允许。"
 
 #: ../developers_advanced.rst:488
 msgid ""
@@ -904,7 +920,7 @@ msgid ""
 "Undeclared identifier NAME of type TYPE (variable, function, structure "
 "etc). Possibly it should be specified as imported in the FILE_NAME "
 "include file."
-msgstr ""
+msgstr "类型TYPE（变量，函数，结构等）的未声明标识符名称。也许应指定为FILE_NAME进口包含文件。"
 
 #: ../developers_advanced.rst:493
 msgid "Error! Unused export token 'NAME' in include file 'FILE_NAME'."
@@ -914,7 +930,7 @@ msgstr ""
 msgid ""
 "Undeclared identifier NAME is allowed for export in the FILE_NAME include"
 " file."
-msgstr ""
+msgstr "未声明的标识符名称是允许在出口FILE_NAME包含文件。"
 
 #: ../developers_advanced.rst:500
 msgid "Error! Using reserved word in TYPE 'NAME'. File: 'FILE_NAME'."
@@ -924,7 +940,7 @@ msgstr ""
 msgid ""
 "Error in FILE_NAME file. A reserved id is used for declaring the "
 "identifier NAME of type TYPE (variable, function, structure etc)."
-msgstr ""
+msgstr "错误FILE_NAME文件。的预留ID用于声明类型TYPE（变量，函数，结构等）的标识符名称。"
 
 #: ../developers_advanced.rst:505
 msgid ""
@@ -937,6 +953,8 @@ msgid ""
 "The ``#extension`` directive specified for ``all`` WebGL extensions in "
 "the FILE_NAME file does not support the behavior BEHAVIOR_TYPE."
 msgstr ""
+"对于指定的  ``#extension``  指令 在FILE_NAME文件 ``all`` WebGL的扩展不支持的行为 "
+"BEHAVIOR_TYPE。"
 
 #: ../developers_advanced.rst:510
 msgid ""
@@ -951,7 +969,7 @@ msgid ""
 "ERROR_MESSAGE. The code listing taken from around the corresponding line "
 "is attached to the message (note the peculiarity of pegjs parser which "
 "specify the line which is a little bit after the actual error."
-msgstr ""
+msgstr "解析FILE_NAME着色器在线路LINE_NUMBER列COL_NUMBER语法错误。最初的错误描述在ERROR_MESSAGE是引用。代码清单来自各地的相应线路连接到邮件采取的（注意哪些指定哪个才是真正的错误后，一点点就行pegjs解析器的特点。"
 
 #: ../developers_advanced.rst:520
 msgid ""
@@ -961,7 +979,7 @@ msgstr ""
 
 #: ../developers_advanced.rst:520
 msgid "An unused function NAME is declared in the FILE_NAME file."
-msgstr ""
+msgstr "未使用的函数名在FILE_NAME文件中声明。"
 
 #: ../developers_advanced.rst:524
 msgid ""
@@ -973,7 +991,7 @@ msgstr ""
 msgid ""
 "The FILE_NAME include file is not used in any of the shaders and so it "
 "will be excluded from the obfuscated version."
-msgstr ""
+msgstr "该FILE_NAME包含文件未在任何着色器的使用，所以它会从模糊版本被排除在外。"
 
 #: ../developers_advanced.rst:528
 msgid "Warning! Unused import token 'NAME' in include file 'FILE_NAME'."
@@ -981,7 +999,7 @@ msgstr ""
 
 #: ../developers_advanced.rst:528
 msgid "An unused id NAME is imported in the FILE_NAME include file."
-msgstr ""
+msgstr "未使用的ID名称在FILE_NAME导入包含文件。"
 
 #: ../developers_advanced.rst:531
 msgid ""
@@ -991,110 +1009,68 @@ msgstr ""
 
 #: ../developers_advanced.rst:531
 msgid "An unused variable NAME is declared in the FILE_NAME file."
-msgstr ""
+msgstr "未使用的变量名称在FILE_NAME文件中声明。"
 
 #: ../developers_advanced.rst:538
 msgid "Updating Add-on Translations"
-msgstr ""
+msgstr "更新插件翻译"
 
 #: ../developers_advanced.rst:540
 msgid ""
 "If you need to update all existing .po files, run the script "
 "*translator.py* in the SDK/scripts directory without arguments:"
-msgstr ""
+msgstr "如果您需要更新现有的所有.po文件，运行不带参数的SDK / scripts目录中的脚本  *translator.py*："
 
 #: ../developers_advanced.rst:546
 msgid ""
 "In order to update an existing .po file, run the script with a supported "
 "language code as an argument:"
-msgstr ""
+msgstr "为了更新现有的.po文件，以支持的语言代码作为参数运行脚本："
 
 #: ../developers_advanced.rst:552
 msgid ""
 "In order to view the list of supported languages, run the script as "
 "follows:"
-msgstr ""
+msgstr "为了查看支持的语言列表，运行脚本如下："
 
 #: ../developers_advanced.rst:558
 msgid "In any case, the file *empty.po* will be updated upon running the script."
-msgstr ""
+msgstr "在任何情况下，该文件 *empty.po* 将在运行脚本进行更新。"
 
 #: ../developers_advanced.rst:560
 msgid "After updates, the .po files can be edited/translated as usual."
-msgstr ""
+msgstr "更新后的.po文件可以如常编辑/转换。"
 
 #: ../developers_advanced.rst:283
 msgid "validation"
-msgstr ""
+msgstr "验证"
 
 #: ../developers_advanced.rst:296
 msgid "obfuscation"
-msgstr ""
+msgstr "混淆"
 
 #: ../developers_advanced.rst:306
 msgid "optimization"
-msgstr ""
+msgstr "优化"
 
 #: ../developers_advanced.rst:361
 msgid "import/export directives"
-msgstr ""
+msgstr "输入/输出指令"
 
 #: ../developers_advanced.rst:385
 msgid "recommendations and limitations"
-msgstr ""
+msgstr "建议和限制"
 
 #: ../developers_advanced.rst:450
 msgid "errors"
-msgstr ""
-
-#~ msgid "4 spaces are used for identation (no tabs allowed)."
-#~ msgstr ""
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid "removing odd or repeatitive tokens: spaces, endlines and semicolons."
-#~ msgstr ""
-
-#~ msgid "converting the resources"
-#~ msgstr ""
-
-#~ msgid "Building the Addon"
-#~ msgstr ""
-
-#~ msgid "Ubuntu 14.04 package"
-#~ msgstr ""
-
-#~ msgid "sphinx-doc"
-#~ msgstr ""
-
-#~ msgid "building the manual (HTML version)"
-#~ msgstr ""
-
-#~ msgid "texlive, texlive-latex-extra texlive-lang-cyrillic"
-#~ msgstr ""
-
-#~ msgid "Included by default"
-#~ msgstr ""
+msgstr "错误"
 
 #~ msgid "interpretator for scripts"
-#~ msgstr ""
-
-#~ msgid "converting resources"
-#~ msgstr ""
+#~ msgstr "解释器的脚本"
 
 #~ msgid "installed with PIP"
-#~ msgstr ""
+#~ msgstr "用PIP安装"
 
 #~ msgid "`from JSDoc source code`_"
-#~ msgstr ""
-
-#~ msgid "shader preprocessing"
-#~ msgstr ""
-
-#~ msgid "installed with PIP v3"
-#~ msgstr ""
-
-#~ msgid "installed with NPM"
-#~ msgstr ""
+#~ msgstr "`从JSDoc源代码`_"
 

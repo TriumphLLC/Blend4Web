@@ -10,13 +10,13 @@
 
   * 音源设置
 
-    * Sound Tab
+    * 声音选项卡
 
-    * Distance Tab
+    * 距离标签
 
-    * Cone Tab
+    * 圆锥标签
 
-  * Audio Mixer
+  * 调音台
 
   * 处理和解码
 
@@ -39,21 +39,20 @@
 引擎支持标准的所有Blender声音参数和一些引擎特定设置。
 
 
-Sound Tab
----------
+声音选项卡
+----------
 
-*Mute*
+*静音*
 
-   Enabling this parameter mutes the speaker.
+   启用此参数静音扬声器。
 
 *扬声器行为*:
 
    音频源的行为。
 
-   "Positional" --- high-quality sound with spatial positioning and
-   directivity (conicity). The Web Audio API is used for sound
-   rendering. Playback performance of such sounds is the least and so
-   use them only for short samples. This is the default value.
+   "Positional" ---高品质的声音空间定位和方向性（锥度）。通过Web Audio
+   API用于声音渲染。这种声音的播放性能是最少，因此只将其用于短采样。这
+   是默认值。
 
    "Background Sound" --- 高质量全方位声音没有空间定位。用Web 音频 API
    进行声音渲染。它是更好的性能，但对音乐不是有效。
@@ -87,13 +86,13 @@ Sound Tab
 
    淡出的时间间隔。
 
-*Enable Doppler*
+*启用多普勒*
 
-   Turn on the source's frequency shift upon its moving.
+   打开后，源移动会产生频移现象。
 
-*Auto-play*
+*自动-播放*
 
-   This option enables default playback.
+   该选项启用默认播放。
 
 *循环播放*
 
@@ -104,16 +103,13 @@ Sound Tab
    循环的声音播放功能。与 "Cyclic play" 选项相反，它保证零延迟后重复。
    选项仅可用于声源的 "Positional" 或 "Background Sound" 的行为。
 
-*Loop Start*
+*循环启动*
 
-   Marks the starting point of the source fragment that will be
-   looped. This value is measured in second counted from the start of
-   the source file.
+   标记将循环源片段的起点。这个值是在从源文件的开始以秒计数测定。
 
-*Loop End*
+*循环结束*
 
-   Marks the end point of the source fragment. This value is also
-   measured in seconds.
+   标志着源片段的结束点。该值也是以秒为单位。
 
 *延迟*
 
@@ -125,107 +121,95 @@ Sound Tab
    Delay_{random} * Random_{[0-1]}.
 
 
-Distance Tab
-------------
-
-*Attenuation*
-
-   This parameter defines how strong the distance affects the volume.
-   Default value is 1.0.
-
-*Maximum*
-
-   Maximum distance for volume calculation.
-
-*Reference*
-
-   This sets the reference distance at which volume is 100%.
-
-
-Cone Tab
+距离标签
 --------
 
-Angle group of parameters:
+*衰减*
+
+   此参数定义的距离有多强影响音量。默认值是1.0。
+
+*最大值*
+
+   对于音量计算的最大距离。
+
+*参考*
+
+   此设置基准距离在该音量为100％。
+
+
+圆锥标签
+--------
+
+角组的参数：
 
    *Outer*
 
-      Angle of the outer cone in degrees. Outside this cone the volume
-      is the outer cone volume. Between the inner and outer cone the
-      volume is interpolated.
+      在度外锥角。超出这个锥体体积是外锥体积。内和外锥体之间的体积内插
+      。
 
    *Inner*
 
-      Angle of the inner cone in degrees. Inside the cone the volume
-      is 100%.
+      度内锥角。锥体内的体积为100％。
 
-Volume group of parameters:
+卷组的参数：
 
    *Outer*
 
-      This sets the volume outside the outer cone.
+      这台外锥外卷。
 
 
 
 
-Audio Mixer
-===========
+调音台
+======
 
-This feature can be found in the Scene Viewer.
-
-[图片]
-
-Enabling it shows an equalizer interface that contains various
-parameters of the Speakers present in the scene.
+参考 现场查看器此功能可以在发现。
 
 [图片]
 
-The parameters available for sound mixing include:
+使它显示包含当前场景中的扬声器的各种参数均衡器接口。
+
+[图片]
+
+可用于混音的参数包括：
 
 *DIST_REF*
-   This value sets the reference distance of a specific speaker.
-   Available only for "Positional Sound" type speakers.
+   这个值设置一个特定扬声器的基准距离。仅适用于``阵地Sound``型扬声器。
 
 *ATTENUATION*
-   This value sets the attenuation factor for the sound emitted by a
-   selected speaker. Available only for "Positional Sound" type
-   speakers.
+   此值设置为所选的扬声器发出的声音的衰减因子。可只为 '位置声音' 键入
+   扬声器。
 
 *DIST_MAX*
-   This value shows the maximum distance for a specific speaker. If
-   the distance from the camera to the speaker is greater than this
-   number, the speaker won't emit any sound. Available only for
-   "Positional Sound" type speakers.
+   这个值示出了用于一个特定扬声器的最大距离。如果从相机到扬声器的距离
+   比这个数目大的扬声器不会发出任何声音。仅适用于 "Positional Sound"
+   型扬声器。
 
 *EQ_FREQ*
-   The center frequency of where the boost is applied.
+   当施加升压的中心频率。
 
 *EQ_Q*
-   The Q factor. This value controls the width of the band of
-   frequencies that wiil be boosted. Increasing the value of this
-   parameter reduces the width.
+   品质因数 Q。此值控制的频带宽度，下午两点会提振。增加此参数的值，减
+   少宽度。
 
 *EQ_GAIN*
-   This value controls the boost (measured in dB) that will be applied
-   to the sound emitted by the speaker.
+   此值控制，将被应用到由扬声器发出的声音的提升（以dB为单位测量）。
 
 *VOLUME*
-   The volume of a sound emitted by the speaker.
+   由扬声器发出的声音的音量。
 
-Below this list, a frequency characteristic of a parametric equalizer
-is shown.
+下面这个列表，一个参数均衡器的频率特性被示出。
 
-The mixer can be controlled using a numerical keypad.
+可以使用数字键盘控制混音器。
 
-   * Keys "8", "4", "6" and "2" act like arrow keys and are used for
-     switching between different speakers and their parameters.
+   * 键 "8"，"4"，"6" 和 "2" 行为像箭头键和用于不同的扬声器和它们的
+     参 数之间的切换。
 
-   * Keys "+" and "-" increase and decrease the value of a selected
-     parameter.
+   * 键  "+" 和 "-" 增减一个所选参数的值。
 
-   * The "7" key can be used for muting the selected speaker.
+   * 该 "7" 键可用于静音选定的扬声器。
 
-   * The "9" key can be used for making the selected speaker Solo
-     (only this speaker will emit sound).
+   * 该 "9" 键可以用来制作选定的扬声器梭罗（仅此扬声器会发出声音）。
 
 
 处理和解码

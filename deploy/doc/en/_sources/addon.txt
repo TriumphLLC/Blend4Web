@@ -27,9 +27,9 @@ After changing local development server settings in it required to restart Blend
 
 It is possible for the local server to process external requests. To do that enable the option ``Enable External Requests``.
 
-If you chose not to start the server automatically, you can always do it manually: go to the ``Render`` tab and press the ``Start Server`` button on the ``Development Server`` panel:
+If you chose not to start the server automatically, you can always do it manually: go to the ``Render`` tab and press the ``Start Server`` button on the ``Development Tools`` panel:
 
-.. image:: src_images/setup/server_start.png
+.. image:: src_images/addon/addon_development_server_start.png
    :align: center
    :width: 100%
 

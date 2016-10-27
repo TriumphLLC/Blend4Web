@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>材质 &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>材质 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
-        <link rel="next" title="Material Library" href="material_library.html"/>
-        <link rel="prev" title="Camera" href="camera.html"/> 
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
+        <link rel="next" title="材质库" href="material_library.html"/>
+        <link rel="prev" title="相机" href="camera.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,15 +87,15 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">材质</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lighting-parameters">灯光参数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#transparency">透明</a><ul>
@@ -126,25 +126,25 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -253,12 +253,12 @@
 <dt><em>着色 &gt; 无光影</em></dt>
 <dd><p class="first last">当启用时，材质不会对光起反应。默认为禁用。</p>
 </dd>
-<dt><em>Shading &gt; Tangent Shading</em></dt>
-<dd><p class="first">When this parameter is enabled, the engine will use the material&#8217;s tangent vector (instead of normal vector) for calculating the object&#8217;s color. This can be used for creating anisotropic shading effects.</p>
+<dt><em>着色 &gt; 切向着色</em></dt>
+<dd><p class="first">当启用此参数时，引擎将使用材质的切向量（而不是普通的向量）计算物体的颜色。这可以用于创建各向异性阴影效果。</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/materials_tangent_shading_comparison.png"><img alt="_images/materials_tangent_shading_comparison.png" src="_images/materials_tangent_shading_comparison.png" style="width: 100%;" /></a>
 </div>
-<p class="last"><strong>On the left:</strong> standard shading model; <strong>on the right:</strong> tangent shading model.</p>
+<p class="last"><strong>在左边：</strong> 标准着色模型;  <strong>右：</strong> 切向着色模型。</p>
 </dd>
 <dt><em>着色 &gt; 双面光照</em></dt>
 <dd><p class="first last">启用双面照明模式。此选项是适用于非透明物体的单层网格。</p>
@@ -322,7 +322,7 @@
 <p>表面反射了他们当前的位置中的选定的物体。引擎支持平面和球面反射。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">If you are using <a class="reference internal" href="node_materials.html#node-materials"><span>node materials</span></a>, dynamic reflection will only work if a <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node is present in the node tree.</p>
+<p class="last">如果您使用的是 <a class="reference internal" href="node_materials.html#node-materials"><span>节点材质</span></a>, 如果 <code class="docutils literal"><span class="pre">Material</span></code> 或 <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> 节点出现在节点树，动态反射才有效。</p>
 </div>
 <div class="section" id="activation">
 <h4>激活<a class="headerlink" href="#activation" title="永久链接至标题">¶</a></h4>
@@ -375,8 +375,9 @@
 <h4>设置<a class="headerlink" href="#settings" title="永久链接至标题">¶</a></h4>
 <p>菲涅耳效应可以设置静态和动态的反射。</p>
 <dl class="docutils">
-<dt><em>Material &gt; Mirror &gt; Fresnel</em></dt>
-<dd>Fresnel power for reflection. This is the N exponent in the Schlick’s formula. In Blender it is limited to values from 0 to 5. If this parameter is equal to zero the Fresnel effect is not observed and the <em>full</em> reflection at all angles occurs. If this parameter is greater than zero, the material is less reflective when viewing surfaces at angles which are close to the right angle. The bigger this parameter is the bigger is the angle deviation from the right angle for which the Fresnel effect is observed.</dd>
+<dt><em>材质 &gt; 镜面 &gt; 菲尼尔</em></dt>
+<dd><p class="first last">反射的菲涅尔指数。 Schlick方程中的N指数。在blender中被限制在0到5的值。设置为零的时候菲涅尔效应无法被观察到，所有的反射都是正常的。大于零的时候，在角度这是接近正确的角度观看时表面材料是弱反射性的。参数值越大，可以看到菲涅尔效应的观察角度越大。</p>
+</dd>
 <dt><em>材质 &gt; 镜面 &gt; 混合</em></dt>
 <dd><p class="first last">菲涅耳反射系数。在Schlick公式中通过下面的表达式 R<sub>0</sub> = 1 - <code class="docutils literal"><span class="pre">Blend</span></code> / 5 它减少到  R<sub>0</sub> 。在Blender中它仅限于值从 0 到 5。此参数定义了菲涅耳效应强度:  <code class="docutils literal"><span class="pre">Blend</span></code> 因子越大，更多的菲涅耳效应影响。如果它是等于零的菲涅耳影响观察不到。</p>
 </dd>
@@ -402,11 +403,12 @@
 <dd><p class="first">为材质激活水润湿效果。</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span>Water</span></a></p>
+<p class="last"><a class="reference internal" href="outdoor_rendering.html#water"><span>水</span></a></p>
 </div>
 </dd>
-<dt><em>Material &gt; Rendering Options &gt; Lens Flare</em></dt>
-<dd>Enabling this parameter activates Lens Flare effect for the material.</dd>
+<dt><em>材料&gt;渲染选项&gt;镜头光晕</em></dt>
+<dd><p class="first last">启用此参数可激活材质镜头光晕效果。</p>
+</dd>
 <dt><em>材质 &gt; 渲染选项 &gt; 渲染以上全部</em></dt>
 <dd><p class="first last">材质被渲染在场景的所有物体的顶层。要求使用渐变透明度类型  (<code class="docutils literal"><span class="pre">Add</span></code>, Alpha Blend`` 或者 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</p>
 </dd>
@@ -458,7 +460,7 @@
 <dd><p class="first">碰撞几何体的一种特殊材质。</p>
 <div class="last admonition seealso">
 <p class="first admonition-title">参见</p>
-<p class="last"><a class="reference internal" href="physics.html#physics"><span>Physics</span></a></p>
+<p class="last"><a class="reference internal" href="physics.html#physics"><span>物理</span></a></p>
 </div>
 </dd>
 <dt><em>材质 &gt; 导出选项 &gt; 不要导出</em></dt>
@@ -471,7 +473,7 @@
 <p>光晕材质在粒子系统和静态网格中使用。使用静态网格中的光晕是如下所述。</p>
 <div class="section" id="id3">
 <h3><a class="toc-backref" href="#id18">激活</a><a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
-<p>在``Materials`` 选项卡下选择 <code class="docutils literal"><span class="pre">光晕</span></code> 类型 。建议也选择使用渐变的透明度类型 (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> 或者 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</p>
+<p>在 <code class="docutils literal"><span class="pre">Materials</span></code> 选项卡下选择 <code class="docutils literal"><span class="pre">光晕</span></code> 类型 。建议也选择使用渐变的透明度类型 (<code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code> 或者 <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></code>).</p>
 <a class="reference internal image-reference" href="_images/halo.png"><img alt="_images/halo.png" class="align-center" src="_images/halo.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id4">
@@ -519,10 +521,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="material_library.html" class="btn btn-neutral float-right" title="Material Library" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="material_library.html" class="btn btn-neutral float-right" title="材质库" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="camera.html" class="btn btn-neutral" title="Camera" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="camera.html" class="btn btn-neutral" title="相机" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -532,7 +534,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -588,7 +590,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

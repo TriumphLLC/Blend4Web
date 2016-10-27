@@ -35,7 +35,6 @@ var m_time  = require("__time");
 var m_tsr   = require("__tsr");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
-var m_vec4  = require("__vec4");
 
 var cfg_ctl = m_cfg.controls;
 var cfg_dft = m_cfg.defaults;
@@ -641,7 +640,7 @@ function register_accum_value(accum, value_name) {
         if (device) {
             m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN,
                     accum.keyboard_down_keys_cb);
-            m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN_MODIFIERED,
+            m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN_MODIFIED,
                     accum.keyboard_down_mod_keys_cb);
             m_input.attach_param_cb(device, m_input.KEYBOARD_UP,
                     accum.keyboard_up_keys_cb);
@@ -746,7 +745,7 @@ function unregister_accum_value(accum, value_name) {
         if (device) {
             m_input.detach_param_cb(device, m_input.KEYBOARD_DOWN,
                     accum.keyboard_down_keys_cb);
-            m_input.detach_param_cb(device, m_input.KEYBOARD_DOWN_MODIFIERED,
+            m_input.detach_param_cb(device, m_input.KEYBOARD_DOWN_MODIFIED,
                     accum.keyboard_down_mod_keys_cb);
             m_input.detach_param_cb(device, m_input.KEYBOARD_UP,
                     accum.keyboard_up_keys_cb);
@@ -904,6 +903,7 @@ exports.create_ray_sensor = function(obj_src, from, to, collision_id,
 exports.create_mouse_click_sensor = function(element) {
     var sensor = init_sensor(ST_MOUSE_CLICK, element);
     sensor.do_activation = true;
+    sensor.payload = {coords: new Float32Array(2), which: null};
     return sensor;
 }
 
@@ -916,7 +916,7 @@ exports.create_mouse_wheel_sensor = function(element) {
 exports.create_mouse_move_sensor = function(axis, element) {
     var sensor = init_sensor(ST_MOUSE_MOVE, element);
     sensor.axis = axis || "XY";
-    sensor.payload = (sensor.axis == "XY") ? new Float32Array(2) : 0;
+    sensor.payload = {coords: new Float32Array(2)};
     sensor.do_activation = true;
     return sensor;
 }
@@ -924,7 +924,7 @@ exports.create_mouse_move_sensor = function(axis, element) {
 exports.create_touch_move_sensor = function(axis, element) {
     var sensor = init_sensor(ST_TOUCH_MOVE, element);
     sensor.axis = axis || "XY";
-    sensor.payload = 0;
+    sensor.payload = {coords: new Float32Array(2), gesture: 0};
     sensor.do_activation = true;
     return sensor;
 }
@@ -945,7 +945,7 @@ exports.create_touch_rotate_sensor = function(element) {
 
 exports.create_touch_click_sensor = function(element) {
     var sensor = init_sensor(ST_TOUCH_CLICK, element);
-    sensor.payload = 0;
+    sensor.payload = {coords: new Float32Array(2)};
     sensor.do_activation = true;
     return sensor;
 }
@@ -1317,20 +1317,18 @@ function update_sensor(sensor, timeline, elapsed) {
             var delta_x = accum.mouse_curr_x - accum.mouse_last_x;
             var delta_y = accum.mouse_curr_y - accum.mouse_last_y;
 
+            sensor.payload.coords[0] = accum.mouse_curr_x;
+            sensor.payload.coords[1] = accum.mouse_curr_y;
             switch (sensor.axis) {
             case "X":
                 sensor_set_value(sensor, delta_x);
-                sensor.payload = accum.mouse_curr_x;
                 break;
             case "Y":
                 sensor_set_value(sensor, delta_y);
-                sensor.payload = accum.mouse_curr_y;
                 break;
             case "XY":
                 var delta = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
                 sensor_set_value(sensor, delta);
-                sensor.payload[0] = accum.mouse_curr_x;
-                sensor.payload[1] = accum.mouse_curr_y;
                 break;
             }
         }
@@ -1338,7 +1336,9 @@ function update_sensor(sensor, timeline, elapsed) {
     case ST_MOUSE_CLICK:
         var accum = get_accumulator(sensor.element);
         sensor_set_value(sensor, accum.is_mouse_downed);
-        sensor.payload = accum.which;
+        sensor.payload.which = accum.which;
+        sensor.payload.coords[0] = accum.mouse_curr_x;
+        sensor.payload.coords[1] = accum.mouse_curr_y;
         break;
     case ST_SELECTION:
         var accum = get_accumulator(sensor.element);
@@ -1395,7 +1395,7 @@ function update_sensor(sensor, timeline, elapsed) {
                 }
             }
 
-            sensor.payload = exports.PL_SINGLE_TOUCH_MOVE;
+            sensor.payload.gesture = exports.PL_SINGLE_TOUCH_MOVE;
         } else {
             var cur_center = _vec2_tmp;
             cur_center[0] = (accum.touches_curr_x[0] + accum.touches_curr_x[1]) / 2;
@@ -1409,9 +1409,10 @@ function update_sensor(sensor, timeline, elapsed) {
             var delta_y = (cur_center[1] - last_center[1]);
             var delta = Math.sqrt(delta_x * delta_x + delta_y * delta_y);
 
-            sensor.payload = exports.PL_MULTITOUCH_MOVE_PAN;
+            sensor.payload.gesture = exports.PL_MULTITOUCH_MOVE_PAN;
         }
-
+        sensor.payload.coords[0] = accum.touches_curr_x[0];
+        sensor.payload.coords[1] = accum.touches_curr_y[0];
         switch(sensor.axis) {
         case "X":
             sensor_set_value(sensor, delta_x);
@@ -1443,6 +1444,8 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
     case ST_TOUCH_CLICK:
         var accum = get_accumulator(sensor.element);
+        sensor.payload.coords[0] = accum.touches_curr_x[0];
+        sensor.payload.coords[1] = accum.touches_curr_y[0];
         if (accum.is_touch_ended)
             sensor_set_value(sensor, 0);
         else

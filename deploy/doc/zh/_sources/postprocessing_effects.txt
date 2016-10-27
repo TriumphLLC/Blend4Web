@@ -74,74 +74,60 @@
         在 这种情况下，相机焦点在相机的这个距离值，并与相机一起移动。
 
 
-Additional Settings
--------------------
+附加设置
+--------
 
 [图片]
 
-*Focus*
-   Sets the focal object. By default, this field is empty.
+*焦点*
+   设置的重点对象。默认情况下，此字段为空。
 
-*Distance*
-   This parameter defines the focal distance. Available only if the
-   "Focus" parameter hasn't been set beforehand (if the corresponding
-   field is empty). Set to zero by default.
+*距离*
+   此参数定义焦距。仅当 "Focus" 参数没有预先设置（如果相应的字段为空）
+   有用。默认设置为零。
 
-*Front Start*
-   This sets the distance (in meters) from the focus to the nearest
-   plane (relative to the camera) behind which blurring effect starts
-   to occur. The default value is 1.0.
+*前端起始*
+   此选项设置（以米为单位） 焦点到最近的平面到模糊效应开始出现前的距离
+   （相对于相机） 。默认值是 1.0。
 
-   This parameter is available only if the "High Quality (Bokeh)"
-   parameter is enabled.
+   只有启用了 "High Quality (Bokeh)" 参数，此参数才可用。
 
-*Front End*
-   This sets the distance from the camera and the neares plane
-   (relative to the camera) behind which blurring effect reaches
-   maximum strength (defined by the "Power" value). Default value is
-   5.0.
+*前端结束*
+   这个设置从相机和最近平面 （相对于相机） 背后的模糊效果达到最大强度
+   （由  "Power" 的值定义） 的距离。默认值为 5.0。
 
-*Rear Start*
-   This sets the distance from the focus to the furthest plane
-   (relative to the camera) behind which blurring effect starts to
-   occur. The default value is 1.0.
+*后方开始*
+   这设置从焦点到最远的平面（相对于相机）的距离，模糊效果开始发生。默
+   认值为1.0.
 
-   This parameter is available only if the "High Quality (Bokeh)"
-   parameter is enabled.
+   只有启用了 "High Quality (Bokeh)" 参数，此参数才可用。
 
-*Rear End*
-   This sets the distance from the camera to the furthest plane
-   (relative to the camera) behind which blurring reaches maximum
-   strength (defined by the "Power" value). Default value is 5.0.
+*后方结束*
+   这设置从相机到最远的平面（相对于相机）的距离，模糊达到最大强度（由
+   "Power" 的值定义）。默认值为5.0。
 
 *指数*
-   Blurring ratio. The value of this parameter can vary from 0.1 to
-   10. The default value is 2.0.
+   模糊的比率。此参数的值可从 0.1 至 10。默认值为 2.0。
 
-*High Quality (Bokeh)*
-   This enables high quality rendering of the depth of field effect.
-   Activating this option:
+*高品质（背景虚化）*
+   这使得高质量渲染景深效果。激活此选项︰
 
-   * Enables bokeh effect and makes available the "Bokeh Intensity"
-     parameter for adjusting the strength of the effect.
+   * 启用的散景效果，并使 "Bokeh Intensity" 参数可用来调整影响强度。
 
-   * Enables the "Front Start" and "Rear Start" parameters for
-     setting soft transition between the distance from camera where
-     the effect start to occur and the distanse where it reaches its
-     full strength.
+   * 启用 "Front Start" 和 "Rear Start" 参数设置从相机里的影响开始发
+     生 软过渡之间的距离，它达到其全部的力量的距离。
 
-   * Enables "Foreground Blur" parameter that is described below.
+   * 启用 "Foreground Blur" 的参数，如下所述。
 
-   The parameter is disabled by default.
+   参数默认被禁用的。
 
-*Bokeh Intensity*
-   This value sets the strength of the bokeh effect. It can vary from
-   zero to 1.0. Set to 0.3 by default.
+*散景强度*
+   此值设置的散景效果的强度。它可以从 0 到 1.0 会发生变化。默认设置为
+   0.3。
 
-*Foreground Blur*
-   Enabling this option makes the engine to blur the silhouettes of
-   the foreground objects, improving the quality of the effect at the
-   cost of slight performance decrease. Disabled by default.
+*前景模糊*
+   启用此选项使引擎模糊前景物体的轮廓，提高质量的代价是性能略有降低作
+   用。默认为禁用。
 
 
 屏幕空间环境光遮蔽
@@ -156,8 +142,9 @@ Additional Settings
 激活
 ----
 
-激活 "Render``标签下 ``Ambient Occlusion SSAO" 面板，设置  "Render
-Shadows" 参数 "AUTO` `或 ``ON" 在``Rander> Shadows``面板。
+Activate the "Ambient Occlusion SSAO" panel under the "Render" tab and
+set the "Render Shadows" parameter to "AUTO" or "ON"  on the "Render >
+Shadows" panel.
 
 
 其他设置

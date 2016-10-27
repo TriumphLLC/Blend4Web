@@ -33,7 +33,6 @@ var m_print  = require("__print");
 var m_quat   = require("__quat");
 var m_util   = require("__util");
 var m_vec3   = require("__vec3");
-var m_vec4   = require("__vec4");
 var m_mat3   = require("__mat3");
 var m_logn   = require("__logic_nodes");
 var m_anim   = require("__animation");
@@ -784,43 +783,76 @@ exports.check_bpy_data = function(bpy_data) {
     for (var i = 0; i < meshes.length; i++) {
         var mesh = meshes[i];
 
-        if (!mesh["b4w_bounding_box"]) {
-            report("mesh", mesh, "b4w_bounding_box");
-            mesh["b4w_bounding_box"] = {"max_x" : 0, "max_y" : 0, "max_z" : 0,
-                "min_x" : 0, "min_y" : 0, "min_z" : 0};
-        }
+        if (!mesh["b4w_boundings"]) {
+            report("mesh", mesh, "b4w_boundings");
+            mesh["b4w_boundings"] = {};
+            var b_data = mesh["b4w_boundings"];
+            if (mesh["b4w_bounding_box"])
+                b_data["bb"] = mesh["b4w_bounding_box"];
+            else
+                b_data["bb"] = {"max_x" : 0, "max_y" : 0, "max_z" : 0,
+                    "min_x" : 0, "min_y" : 0, "min_z" : 0};
 
-        if (!mesh["b4w_bounding_box_source"]) {
-            report("mesh", mesh, "b4w_bounding_box_source");
-            mesh["b4w_bounding_box_source"] = mesh["b4w_bounding_box"];
+            if (mesh["b4w_bounding_box_source"])
+                b_data["bb_src"] = mesh["b4w_bounding_box_source"];
+            else
+                b_data["bb_src"] = mesh["b4w_bounding_box"];
+
+            if (mesh["b4w_bounding_sphere_center"])
+                b_data["bs_cen"] = mesh["b4w_bounding_sphere_center"];
+            else
+                b_data["bs_cen"] = [0, 0, 0];
+
+            if (mesh["b4w_bounding_cylinder_center"])
+                b_data["bc_cen"] = mesh["b4w_bounding_cylinder_center"];
+            else
+                b_data["bc_cen"] = [0, 0, 0];
+
+            if (mesh["b4w_bounding_ellipsoid_center"])
+                b_data["be_cen"] = mesh["b4w_bounding_ellipsoid_center"];
+            else
+                b_data["be_cen"] = [0, 0, 0];
+
+            if (mesh["b4w_bounding_ellipsoid_axes"])
+                b_data["be_ax"] = mesh["b4w_bounding_ellipsoid_axes"];
+            else {
+                var bb = b_data["bb"];
+                b_data["be_ax"] = [(bb["max_x"] - bb["min_x"])/2,
+                                                   (bb["max_y"] - bb["min_y"])/2,
+                                                   (bb["max_z"] - bb["min_z"])/2];
+            }
+
+            if (mesh["b4w_rotated_bounding_box"])
+                b_data["rbb"] = mesh["b4w_rotated_bounding_box"];
+            else {
+                var bb = b_data["bb"];
+                b_data["rbb"] = {
+                    "rbb_c" : [(bb["max_x"] + bb["min_x"])/2,
+                                (bb["max_y"] + bb["min_y"])/2,
+                                (bb["max_z"] + bb["min_z"])/2],
+                    "rbb_s" : [1, 1, 1]
+                };
+            }
+
+            if(mesh["b4w_cov_axis_x"])
+                b_data["caxis_x"] = mesh["b4w_cov_axis_x"];
+            else
+                b_data["caxis_x"] = [1,0,0];
+
+            if(mesh["b4w_cov_axis_y"])
+                b_data["caxis_y"] = mesh["b4w_cov_axis_y"];
+            else
+                b_data["caxis_y"] = [0,1,0];
+
+            if(mesh["b4w_cov_axis_z"])
+                b_data["caxis_z"] = mesh["b4w_cov_axis_z"];
+            else
+                b_data["caxis_z"] = [0,0,1];
         }
 
         if (!mesh["uv_textures"]) {
             report("mesh", mesh, "uv_textures");
             mesh["uv_textures"] = [];
-        }
-
-        if (!mesh["b4w_bounding_sphere_center"]) {
-            //report("mesh", mesh, "b4w_bounding_sphere_center");
-            mesh["b4w_bounding_sphere_center"] = [0, 0, 0];
-        }
-
-        if (!mesh["b4w_bounding_cylinder_center"]) {
-            //report("mesh", mesh, "b4w_bounding_cylinder_center");
-            mesh["b4w_bounding_cylinder_center"] = [0, 0, 0];
-        }
-
-        if (!mesh["b4w_bounding_ellipsoid_center"]) {
-            //report("mesh", mesh, "b4w_bounding_cylinder_center");
-            mesh["b4w_bounding_ellipsoid_center"] = [0, 0, 0];
-        }
-
-        if (!mesh["b4w_bounding_ellipsoid_axes"]) {
-            //report("mesh", mesh, "b4w_bounding_ellipsoid_axes");
-            var bb = mesh["b4w_bounding_box"];
-            mesh["b4w_bounding_ellipsoid_axes"] = [(bb["max_x"] - bb["min_x"])/2,
-                                                   (bb["max_y"] - bb["min_y"])/2,
-                                                   (bb["max_z"] - bb["min_z"])/2];
         }
 
         if (!("b4w_shape_keys" in mesh)) {
@@ -834,9 +866,9 @@ exports.check_bpy_data = function(bpy_data) {
             if (!("boundings" in submesh)) {
                 submesh_is_ok = false;
                 submesh["boundings"] = {
-                    "bounding_ellipsoid_axes" : mesh["b4w_bounding_ellipsoid_axes"],
-                    "bounding_ellipsoid_center" : mesh["b4w_bounding_ellipsoid_center"],
-                    "bounding_box" : {
+                    "be_ax" : mesh["b4w_bounding_ellipsoid_axes"],
+                    "be_cen" : mesh["b4w_bounding_ellipsoid_center"],
+                    "bb" : {
                         "max_x" : mesh["b4w_bounding_box"]["max_x"],
                         "max_y" : mesh["b4w_bounding_box"]["max_y"],
                         "max_z" : mesh["b4w_bounding_box"]["max_z"],
@@ -846,6 +878,31 @@ exports.check_bpy_data = function(bpy_data) {
                     }
                 };
             }
+
+            if (!("be_ax" in submesh["boundings"]))
+                submesh["boundings"]["be_ax"] = mesh["b4w_bounding_ellipsoid_axes"];
+
+            if (!("be_cen" in submesh["boundings"]))
+                submesh["boundings"]["be_cen"] = mesh["b4w_bounding_ellipsoid_center"];
+
+            if (!("bb" in submesh["boundings"]))
+                submesh["boundings"]["bb"] = mesh["b4w_bounding_box"];
+
+            if (!("rbb" in submesh["boundings"])) {
+                var bb = mesh["b4w_bounding_box"];
+                submesh["boundings"]["rbb"] = {
+                    "rbb_c" : [(bb["max_x"] + bb["min_x"])/2,
+                                (bb["max_y"] + bb["min_y"])/2,
+                                (bb["max_z"] + bb["min_z"])/2],
+                    "rbb_s" : [1, 1, 1]
+                };
+            }
+            if (!("caxis_x" in submesh["boundings"]))
+                submesh["boundings"]["caxis_x"] = [1,0,0];
+            if (!("caxis_y" in submesh["boundings"]))
+                submesh["boundings"]["caxis_y"] = [0,1,0];
+            if (!("caxis_z" in submesh["boundings"]))
+                submesh["boundings"]["caxis_z"] = [0,0,1];
         }
         if (!submesh_is_ok)
             report("mesh", mesh, "submesh_bd");
@@ -1070,6 +1127,12 @@ exports.check_bpy_data = function(bpy_data) {
             lamp["clip_end"] = 30.0;
             report("lamp", lamp, "clip_end");
         }
+
+        if (lamp["type"] == "POINT" || lamp["type"] == "SPOT")
+            if (!("use_sphere" in lamp)) {
+                lamp["use_sphere"] = false;
+                report("lamp", lamp, "use_sphere");
+            }
     }
 
     /* object data - speakers */
@@ -2739,7 +2802,7 @@ function mesh_transform_locations(mesh, matrix) {
 
         m_util.positions_multiply_matrix(submesh["position"], matrix,
                 submesh["position"], 0);
-        m_util.tbn_quats_multiply_quat(submesh["tbn_quat"], quat,
+        m_util.quats_multiply_quat(submesh["tbn_quat"], quat,
                 submesh["tbn_quat"], 0);
     }
 }
@@ -3032,6 +3095,22 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 if (snode["url"] != undefined) {
                     snode["bools"]["url"] = false;
                     snode["strings"]["url"] = snode["url"];
+                }
+                break;
+            case "SET_CAMERA_MOVE_STYLE":
+                switch(snode["common_usage_names"]["camera_move_style"]){
+                case "STATIC":
+                    snode["common_usage_names"]["camera_move_style"] = m_logn.NCMS_STATIC;
+                    break;
+                case "TARGET":
+                    snode["common_usage_names"]["camera_move_style"] = m_logn.NCMS_TARGET;
+                    break;
+                case "EYE":
+                    snode["common_usage_names"]["camera_move_style"] = m_logn.NCMS_EYE;
+                    break;
+                case "HOVER":
+                    snode["common_usage_names"]["camera_move_style"] = m_logn.NCMS_HOVER;
+                    break;
                 }
                 break;
             case "ENTRYPOINT":

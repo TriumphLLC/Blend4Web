@@ -182,10 +182,14 @@
 #define REFL_PASS_PLANE 1
 #define REFL_PASS_CUBE 2
 
+// SRGB type
+#define SRGB_NONE 0
+#define SRGB_SIMPLE 1
+#define SRGB_PROPER 2
+
 #define M_PI 3.14159265359
 #define M_PI_4 0.785398163
 #define INV_PI 0.318309886
-
 
 #define UP_VECTOR vec3(0.0, 0.0, 1.0)
 #define RIGHT_VECTOR vec3(1.0, 0.0, 0.0)

@@ -10,7 +10,7 @@
 
   * 标准节点
 
-  * Engine-Specific Nodes
+  * 游戏引擎特定节点
 
     * 钳制（B4W_CLAMP）
 
@@ -53,19 +53,18 @@ Cycles节点仅部分支持：在大多数情况下，他们在Blend4Web工作�
 在Blender的方式也不同。他们也可能不会完全工作，甚至导致使用它们的材质
 无法正常工作。然而，使用Cycles的节点不会在应用程序工作流中导致不稳定。
 
-[1] If at least one of the internal parameters, "Space to convert
-    from..." or "Space to convert to..." is set to "Object", then any
-    object that uses the material will be considered dynamic.
+[1] 这个节点的法线贴图使用的 "Color Space" 参数需要设置为 "Non-
+    Color". 如果没设置会引起各种不可预见的效果（尽管不会将引起弄崩溃）
 
-[2] The "Color Space" parameter of a normal map used with this
-    node should be set to "Non-Color". Not doing so may lead to
-    unpredictable results (although it won't crash the engine).
-
+[2] 如果至少一个内部参数 "Space to convert from..." 或 "Space to
+    convert to..." 设置为 "Object", 那么所有使用这个材质的物体都会被考
+    虑为  动态.
 
 
 
-Engine-Specific Nodes
-=====================
+
+游戏引擎特定节点
+================
 
 引擎特定的节点扩展标准节点以支持额外的功能。这些节点采用特殊命名的名称
 和输入格式创建为节点组（"节点组" 或 "节点树"）。为方便起见，被打开时，
@@ -127,7 +126,7 @@ Engine-Specific Nodes
 
 [图片]
 
-参见: Quality Profiles
+参见: 品质配置
 
 
 输入参数
@@ -218,7 +217,7 @@ Engine-Specific Nodes
 ~~~~~~~~
 
 *法线*
-   A normal vector in camera space for adding perturbations.
+   添加扰动法线贴图。
 
 *折射凹凸*
    扰动强度值。

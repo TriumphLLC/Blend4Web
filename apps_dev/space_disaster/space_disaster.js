@@ -30,6 +30,7 @@ var m_tsr       = require("tsr");
 var m_vec3      = require("vec3");
 var m_ver       = require("version");
 var m_util      = require("util");
+var m_mat       = require("material");
 
 var _quat_tmp = m_quat.create();
 var _quat_tmp2 = m_quat.create();
@@ -428,7 +429,7 @@ function spawn_cockpit() {
 
     var cockpit_mesh_obj = _cockpit.cockpit_mesh_obj;
     if (cockpit_mesh_obj)
-        m_obj.set_nodemat_value(cockpit_mesh_obj, ["screen", "life"], 0.19);
+        m_mat.set_nodemat_value(cockpit_mesh_obj, ["screen", "life"], 0.19);
 }
 
 function register_cockpit() {
@@ -524,7 +525,7 @@ function register_cockpit() {
         var env_speed_cb = function(obj, id, pulse) {
             var elapsed = m_ctl.get_sensor_value(obj, id, 0);
             _env_speed = m_util.smooth(_asteroid_speed / 50, _env_speed, elapsed, _spawn_delay);
-            m_obj.set_nodemat_value(env_tunnel, ["space_dust", "speed"], _env_speed);
+            m_mat.set_nodemat_value(env_tunnel, ["space_dust", "speed"], _env_speed);
         }
         // m_ctl.create_sensor_manifold(null, "ENVIRONMENT_SPEED",
         //         m_ctl.CT_CONTINUOUS, [elapsed], null, env_speed_cb);
@@ -911,7 +912,7 @@ function spawn_asteroid_random_pos(asteroid, cam_coord) {
 
     var cockpit_mesh_obj = _cockpit.cockpit_mesh_obj;
     if (cockpit_mesh_obj)
-        m_obj.set_nodemat_value(cockpit_mesh_obj, ["screen", "speed"],
+        m_mat.set_nodemat_value(cockpit_mesh_obj, ["screen", "speed"],
                 1 - 0.1 * ((_asteroid_speed - ASTEROID_DEFAULT_SPEED) /
                 (ASTEROID_MAX_SPEED - ASTEROID_DEFAULT_SPEED) * 8 % 8));
 
@@ -1031,7 +1032,7 @@ function start_game() {
 
         var cockpit_mesh_obj = _cockpit.cockpit_mesh_obj;
         if (cockpit_mesh_obj)
-            m_obj.set_nodemat_value(cockpit_mesh_obj, ["screen", "life"],
+            m_mat.set_nodemat_value(cockpit_mesh_obj, ["screen", "life"],
                     1 - 0.8 * _cockpit.hp / COCKPIT_MAX_HP);
 
         if (_cockpit.hp > 0) {

@@ -28,7 +28,7 @@ var m_ctl    = require("controls");
 var m_hud    = require("hud");
 var m_scenes = require("scenes");
 var m_sfx    = require("sfx");
-var m_util   = require("util");
+var m_util   = require("__util");
 
 var TIMER_SLOW_PERIOD = 0.15;
 var TIMER_FAST_PERIOD = 0.05;

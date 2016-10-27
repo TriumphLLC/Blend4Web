@@ -19,7 +19,7 @@ var m_cons  = require("constraints");
 var m_mouse = require("mouse");
 var m_cam   = require("camera");
 var m_cont  = require("container");
-var m_obj   = require("objects");
+var m_mat   = require("material");
 
 var m_quat  = require("quat");
 
@@ -75,21 +75,21 @@ exports.init_wrapper = function(level_conf, json_name) {
     };
     m_anim.apply_def(_char_wrapper.hitsparks);
     m_anim.set_behavior(_char_wrapper.hitsparks, m_anim.AB_FINISH_RESET);
-    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+    m_mat.set_nodemat_value(_char_wrapper.lava_shield_prot,
                             ["lava_shield_prot", "lava_prot_switcher"],
                             0);
-    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+    m_mat.set_nodemat_value(_char_wrapper.lava_shield_prot,
                             ["lava_shield_prot", "shield_switcher"],
                             0);
 
     m_scs.hide_object(_char_wrapper.foot_smoke);
 
     if (level_conf && level_conf.LEVEL_NAME == "dungeon")
-        m_obj.set_nodemat_value(_char_wrapper.body,
+        m_mat.set_nodemat_value(_char_wrapper.body,
                                 ["petigor", m_conf.CHAR_SWORD_SWITCHER],
                                 1);
     else
-        m_obj.set_nodemat_value(_char_wrapper.body,
+        m_mat.set_nodemat_value(_char_wrapper.body,
                                 ["petigor", m_conf.CHAR_SWORD_SWITCHER],
                                 0);
 
@@ -157,7 +157,7 @@ exports.setup_controls = function (elapsed_sensor) {
 
     if (_level_conf) {
         _cam_indicator = m_scs.get_object_by_dupli_name_list(m_conf.CAMERA_INDICTAOR);
-        m_obj.set_nodemat_value(_cam_indicator,
+        m_mat.set_nodemat_value(_cam_indicator,
                                 ["camera_indicator", m_conf.CAM_INDICATOR_VAL], 0);
     }
 }
@@ -596,7 +596,7 @@ function setup_hurt_indicator() {
             return;
         }
         prev_ind_val = indicator_val;
-        m_obj.set_nodemat_value(_cam_indicator,
+        m_mat.set_nodemat_value(_cam_indicator,
                 ["camera_indicator", m_conf.CAM_INDICATOR_VAL], indicator_val);
     }
 
@@ -612,7 +612,7 @@ exports.apply_hp_potion = function() {
 exports.apply_lava_protect = function() {
     m_anim.set_behavior(_char_wrapper.body, m_anim.AB_FINISH_STOP, m_anim.SLOT_1);
     m_anim.play(_char_wrapper.body, null, m_anim.SLOT_1);
-    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+    m_mat.set_nodemat_value(_char_wrapper.lava_shield_prot,
                             ["lava_shield_prot", "lava_prot_switcher"],
                             1);
 }
@@ -620,7 +620,7 @@ exports.apply_lava_protect = function() {
 exports.remove_lava_protect = remove_lava_protect;
 function remove_lava_protect() {
     m_bonuses.set_lava_protect_time(0);
-    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+    m_mat.set_nodemat_value(_char_wrapper.lava_shield_prot,
                             ["lava_shield_prot", "lava_prot_switcher"],
                             0);
 }
@@ -629,7 +629,7 @@ exports.apply_shield = apply_shield;
 function apply_shield() {
     m_anim.set_behavior(_char_wrapper.body, m_anim.AB_FINISH_STOP, m_anim.SLOT_2);
     m_anim.play(_char_wrapper.body, null, m_anim.SLOT_2);
-    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+    m_mat.set_nodemat_value(_char_wrapper.lava_shield_prot,
                             ["lava_shield_prot", "shield_switcher"],
                             1);
 }
@@ -637,7 +637,7 @@ function apply_shield() {
 exports.remove_shield = remove_shield;
 function remove_shield() {
     m_bonuses.set_shield_time(0);
-    m_obj.set_nodemat_value(_char_wrapper.lava_shield_prot,
+    m_mat.set_nodemat_value(_char_wrapper.lava_shield_prot,
                             ["lava_shield_prot", "shield_switcher"],
                             0);
 }
@@ -699,7 +699,7 @@ function kill() {
     if (m_bonuses.lava_protect_time_left() > 0)
         remove_lava_protect();
 
-    m_obj.set_nodemat_value(_cam_indicator,
+    m_mat.set_nodemat_value(_cam_indicator,
             ["camera_indicator", m_conf.CAM_INDICATOR_VAL], 1.0);
 }
 

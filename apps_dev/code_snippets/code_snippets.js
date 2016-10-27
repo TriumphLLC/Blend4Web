@@ -158,7 +158,7 @@ function gen_html_code(js) {
     '            }\n' +
     '        </style>\n' +
     '\n' +
-    '        <script src="b4w.full.min.js"></script>\n' +
+    '        <script src="b4w.min.js"></script>\n' +
     '        <script src="' + file + '"></script>\n' +
     '    </head>\n' +
     '\n' +

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Объекты &mdash; Руководство пользователя Blend4Web 16.09.2</title>
+  <title>Объекты &mdash; Руководство пользователя Blend4Web 16.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.09.2" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.10" href="index.html"/>
         <link rel="next" title="Меши" href="meshes.html"/>
         <link rel="prev" title="Параметры сцены" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -96,7 +96,24 @@
 <li class="toctree-l2"><a class="reference internal" href="#types">Типы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-objects">Статические и динамические объекты</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#settings">Настройка</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#object-tab">Вкладка Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#object-tab">Вкладка Object</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transform-panel">Панель Transform</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#groups-panel">Панель Groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#level-of-detail-panel">Панель Level of Detail</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#animation-panel">Панель Animation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#export-options-panel">Панель Export Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rendering-properties-panel">Панель Rendering Properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shadows-panel">Панель Shadows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#billboard-panel">Панель Billboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reflections-panel">Панель Reflections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#selection-and-outlining-panel">Панель Selection and Outlining</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#anchors-panel">Панель Anchors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meta-tags-panel">Панель Meta Tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relations-panel">Панель Relations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind-bending-panel">Панель Wind Bending</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#special-effects-panel">Панель Special Effects</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#physics-tab">Вкладка Physics</a></li>
 </ul>
 </li>
@@ -266,10 +283,13 @@
 <p>Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд свойств, специфичных для Blend4Web.</p>
 <div class="section" id="object-tab">
 <h3><a class="toc-backref" href="#id6">Вкладка Object</a><a class="headerlink" href="#object-tab" title="Ссылка на этот заголовок">¶</a></h3>
-<a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
+<img alt="_images/object_settings.png" class="align-center" src="_images/object_settings.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<div class="section" id="transform-panel">
+<span id="object-settings-transform"></span><h4>Панель Transform<a class="headerlink" href="#transform-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_transform.png" class="align-center" src="_images/object_settings_transform.png" />
 <dl class="docutils">
 <dt><em>Transform &gt; Location</em></dt>
 <dd><p class="first last">Координаты местоположения.</p>
@@ -280,33 +300,48 @@
 <dt><em>Transform &gt; Scale</em></dt>
 <dd><p class="first last">Масштабирование. Все 3 компонента (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается.</p>
 </dd>
-<dt><em>Relations &gt; Parent</em></dt>
-<dd><p class="first">Указатель на родительский объект.</p>
-<p>Если в качестве родительского объекта выбрана камера, становятся доступными настройки <code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Alignment</span></code>.</p>
-<a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
+</dl>
 </div>
-<p class="last">Они могут применяться для привязывания объекта к текущей камере. Описаны в <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>главе &#8220;Камера&#8221;</span></a>.</p>
-</dd>
+<div class="section" id="groups-panel">
+<span id="object-settings-groups"></span><h4>Панель Groups<a class="headerlink" href="#groups-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
 <dt><em>Groups</em></dt>
 <dd><p class="first last">Группы объектов, которым принадлежит данный объект.</p>
 </dd>
 </dl>
-<img alt="_images/object_setup_end.png" class="align-center" src="_images/object_setup_end.png" />
+<img alt="_images/object_settings_groups.png" class="align-center" src="_images/object_settings_groups.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+</div>
+<div class="section" id="level-of-detail-panel">
+<span id="object-settings-lod"></span><h4>Панель Level of Detail<a class="headerlink" href="#level-of-detail-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_lod.png" class="align-center" src="_images/object_settings_lod.png" />
 <dl class="docutils">
 <dt><em>Levels of Detail &gt; LOD Transition Ratio</em></dt>
 <dd><p class="first last">Параметр для сглаживания переключения между LOD объектами. Определяет, на каком дополнительном расстоянии LOD объекты будут видны до замены последующими LOD объектами. Назначается для главного объекта. Измеряется в долях от радиуса охватывающей сферы объекта.</p>
 </dd>
-<dt><em>Special Effects &gt; Disable Fogging</em></dt>
-<dd><p class="first last">Отключить туман для объекта.</p>
+</dl>
+</div>
+<div class="section" id="animation-panel">
+<span id="object-settings-animation"></span><h4>Панель Animation<a class="headerlink" href="#animation-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_animation.png" class="align-center" src="_images/object_settings_animation.png" />
+<dl class="docutils">
+<dt><em>Animation &gt; Apply Default Animation</em></dt>
+<dd><p class="first last">Начать воспроизведение в движке связанной с объектом анимации.</p>
 </dd>
-<dt><em>Special Effects &gt; Caustics</em></dt>
-<dd><p class="first last">На объекте будут видны эффекты от прилегающей к нему воды (каустика).</p>
+<dt><em>Animation &gt; Animation Blending</em></dt>
+<dd><p class="first last">Только для арматурных объектов. Разрешить плавный переход от одной скелетной анимации к другой.</p>
 </dd>
+<dt><em>Animation &gt; Behavior</em></dt>
+<dd><p class="first last">Поведение анимации при достижении последнего кадра: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - остановить, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - остановить и сбросить в нулевой кадр, <code class="docutils literal"><span class="pre">Loop</span></code> - циклически повторять.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="export-options-panel">
+<span id="object-settings-export"></span><h4>Панель Export Options<a class="headerlink" href="#export-options-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_export.png" class="align-center" src="_images/object_settings_export.png" />
+<dl class="docutils">
 <dt><em>Export Options &gt; Do Not Export</em></dt>
 <dd><p class="first last">Не экспортировать.</p>
 </dd>
@@ -329,16 +364,11 @@
 <p class="first admonition-title">Примечание</p>
 <p class="last">Свойства <em>Apply Modifiers</em>, <em>Apply Scale And Modifiers</em>, <em>Export Vertex Animation</em>, и <em>Export Shape Keys</em> взаимоисключают друг друга.</p>
 </div>
+</div>
+<div class="section" id="rendering-properties-panel">
+<span id="object-settings-render"></span><h4>Панель Rendering Properties<a class="headerlink" href="#rendering-properties-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_rendering.png" class="align-center" src="_images/object_settings_rendering.png" />
 <dl class="docutils">
-<dt><em>Animation &gt; Apply Default Animation</em></dt>
-<dd><p class="first last">Начать воспроизведение в движке связанной с объектом анимации.</p>
-</dd>
-<dt><em>Animation &gt; Animation Blending</em></dt>
-<dd><p class="first last">Только для арматурных объектов. Разрешить плавный переход от одной скелетной анимации к другой.</p>
-</dd>
-<dt><em>Animation &gt; Behavior</em></dt>
-<dd><p class="first last">Поведение анимации при достижении последнего кадра: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - остановить, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - остановить и сбросить в нулевой кадр, <code class="docutils literal"><span class="pre">Loop</span></code> - циклически повторять.</p>
-</dd>
 <dt><em>Rendering Properties &gt; Hidden</em></dt>
 <dd><p class="first last">Если это свойство активировано, объект будет невидим при запуске сцены.</p>
 </dd>
@@ -356,6 +386,12 @@
 <dt><em>Rendering Properties &gt; Dynamic Geometry</em></dt>
 <dd><p class="first last">Разрешить изменение геометрии объекта через API Blend4Web.</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="shadows-panel">
+<span id="object-settings-shadows"></span><h4>Панель Shadows<a class="headerlink" href="#shadows-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_shadows.png" class="align-center" src="_images/object_settings_shadows.png" />
+<dl class="docutils">
 <dt><em>Shadows &gt; Cast</em></dt>
 <dd><p class="first last">Объект будет отбрасывать тени.</p>
 </dd>
@@ -365,6 +401,29 @@
 <dt><em>Shadows &gt; Receive</em></dt>
 <dd><p class="first last">Разрешить затенение от прилегающих объектов (получение теней) на объекте.</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="billboard-panel">
+<span id="objects-billboarding-properties"></span><h4>Панель Billboard<a class="headerlink" href="#billboard-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_billboard.png" class="align-center" src="_images/object_settings_billboard.png" />
+<dl class="docutils">
+<dt><em>Billboard</em></dt>
+<dd><p class="first last">Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).</p>
+</dd>
+</dl>
+<dl class="docutils" id="billboarding-preserve">
+<dt><em>Billboard &gt; Preserve Global Orientation and Scale</em></dt>
+<dd><p class="first last">Билбординг объекта с учетом его ориентации и масштабирования в мировом пространстве. Объект всегда будет обращен к камере той стороной, которая видна при взгляде на него вдоль направления оси Y в системе координат Blender&#8217;а. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</p>
+</dd>
+<dt><em>Billboard &gt; Billboard Type</em></dt>
+<dd><p class="first last">Способ ориентирования билборда. <code class="docutils literal"><span class="pre">Spherical</span></code> (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - аналогично <code class="docutils literal"><span class="pre">Spherical</span></code>, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="reflections-panel">
+<span id="object-settings-reflections"></span><h4>Панель Reflections<a class="headerlink" href="#reflections-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_reflections.png" class="align-center" src="_images/object_settings_reflections.png" />
+<dl class="docutils">
 <dt><em>Reflections &gt; Reflexible</em></dt>
 <dd><p class="first last">При включении объект будет отражаться от зеркальных поверхностей.</p>
 </dd>
@@ -382,6 +441,12 @@
 <dt><em>Reflections &gt; Reflection Plane</em></dt>
 <dd><p class="first last">Текстовое поле для названия пустого объекта, задающего плоскость отражения. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflective</span></code>.</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="selection-and-outlining-panel">
+<span id="object-settings-selection"></span><h4>Панель Selection and Outlining<a class="headerlink" href="#selection-and-outlining-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_selection.png" class="align-center" src="_images/object_settings_selection.png" />
+<dl class="docutils">
 <dt><em>Selection and Outlining &gt; Selectable</em></dt>
 <dd><p class="first last">Разрешить <a class="reference internal" href="#mesh-selection"><span>выделение объекта</span></a> с помощью мыши или другого устройства ввода.</p>
 </dd>
@@ -389,7 +454,20 @@
 <dd><p class="first last">Разрешить подсвечивание объекта (<a class="reference internal" href="postprocessing_effects.html#outline"><span>эффект Outline</span></a>).</p>
 </dd>
 </dl>
-<dl class="docutils" id="objects-meta-tags">
+</div>
+<div class="section" id="anchors-panel">
+<span id="object-settings-anchors"></span><h4>Панель Anchors<a class="headerlink" href="#anchors-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Anchors &gt; Enable Anchor</em></dt>
+<dd><p class="first">Активирует интерфейс добавления якорей (двухмерных меток) к объектам. Доступно только для объектов типа <code class="docutils literal"><span class="pre">EMPTY</span></code>. Якоря подробно описаны в <a class="reference internal" href="#objects-anchors"><span>соответствующем разделе</span></a>.</p>
+<a class="last reference internal image-reference" href="_images/objects_enable_anchors.png"><img alt="_images/objects_enable_anchors.png" class="align-center" src="_images/objects_enable_anchors.png" style="width: 100%;" /></a>
+</dd>
+</dl>
+</div>
+<div class="section" id="meta-tags-panel">
+<span id="objects-meta-tags"></span><h4>Панель Meta Tags<a class="headerlink" href="#meta-tags-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_meta_tags.png" class="align-center" src="_images/object_settings_meta_tags.png" />
+<dl class="docutils">
 <dt><em>Meta Tags</em></dt>
 <dd><p class="first">Интерфейс добавления мета-тегов на объект:</p>
 <dl class="last docutils">
@@ -407,27 +485,44 @@
 </dd>
 </dl>
 </dd>
-<dt><em>Anchors &gt; Enable Anchor</em></dt>
-<dd><p class="first">Активирует интерфейс добавления якорей (двухмерных меток) к объектам. Доступно только для объектов типа <code class="docutils literal"><span class="pre">EMPTY</span></code>. Якоря подробно описаны в <a class="reference internal" href="#objects-anchors"><span>соответствующем разделе</span></a>.</p>
-<a class="last reference internal image-reference" href="_images/objects_enable_anchors.png"><img alt="_images/objects_enable_anchors.png" class="align-center" src="_images/objects_enable_anchors.png" style="width: 100%;" /></a>
+</dl>
+</div>
+<div class="section" id="relations-panel">
+<span id="object-settings-relations"></span><h4>Панель Relations<a class="headerlink" href="#relations-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_relations.png" class="align-center" src="_images/object_settings_relations.png" />
+<dl class="docutils">
+<dt><em>Relations &gt; Parent</em></dt>
+<dd><p class="first">Указатель на родительский объект.</p>
+<p>Если в качестве родительского объекта выбрана камера, становятся доступными настройки <code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Alignment</span></code>.</p>
+<a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="last">Они могут применяться для привязывания объекта к текущей камере. Описаны в <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>главе &#8220;Камера&#8221;</span></a>.</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="wind-bending-panel">
+<span id="object-settings-wind"></span><h4>Панель Wind Bending<a class="headerlink" href="#wind-bending-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_wind.png" class="align-center" src="_images/object_settings_wind.png" />
+<dl class="docutils">
 <dt><em>Wind Bending</em></dt>
 <dd><p class="first last">Включить процедурную анимацию под действием ветра. Подробно описана в разделе, посвященном <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>рендерингу наружных сцен</span></a>.</p>
 </dd>
 </dl>
-<dl class="docutils" id="objects-billboarding-properties">
-<dt><em>Billboard</em></dt>
-<dd><p class="first last">Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).</p>
+</div>
+<div class="section" id="special-effects-panel">
+<span id="object-settings-fx"></span><h4>Панель Special Effects<a class="headerlink" href="#special-effects-panel" title="Ссылка на этот заголовок">¶</a></h4>
+<img alt="_images/object_settings_fx.png" class="align-center" src="_images/object_settings_fx.png" />
+<dl class="docutils">
+<dt><em>Special Effects &gt; Disable Fogging</em></dt>
+<dd><p class="first last">Отключить туман для объекта.</p>
+</dd>
+<dt><em>Special Effects &gt; Caustics</em></dt>
+<dd><p class="first last">На объекте будут видны эффекты от прилегающей к нему воды (каустика).</p>
 </dd>
 </dl>
-<dl class="docutils" id="billboarding-preserve">
-<dt><em>Billboard &gt; Preserve Global Orientation and Scale</em></dt>
-<dd><p class="first last">Билбординг объекта с учетом его ориентации и масштабирования в мировом пространстве. Объект всегда будет обращен к камере той стороной, которая видна при взгляде на него вдоль направления оси Y в системе координат Blender&#8217;а. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</p>
-</dd>
-<dt><em>Billboard &gt; Billboard Type</em></dt>
-<dd><p class="first last">Способ ориентирования билборда. <code class="docutils literal"><span class="pre">Spherical</span></code> (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - аналогично <code class="docutils literal"><span class="pre">Spherical</span></code>, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</p>
-</dd>
-</dl>
+</div>
 </div>
 <div class="section" id="physics-tab">
 <h3><a class="toc-backref" href="#id7">Вкладка Physics</a><a class="headerlink" href="#physics-tab" title="Ссылка на этот заголовок">¶</a></h3>
@@ -797,7 +892,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-10-03.
+      Обновлено: 2016-10-27.
 
     </p>
   </div>
@@ -853,7 +948,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

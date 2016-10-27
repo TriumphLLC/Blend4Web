@@ -54,8 +54,7 @@
 
         // calculate bend
         vec3 pos_bend = pw;
-        pos_bend.x += wind_world.x * bf * sign(bend_scale);
-        pos_bend.y -= wind_world.y * bf * sign(bend_scale);
+        pos_bend.xy += wind_world.xy * bf * sign(bend_scale);
 
         vec3 bend_diff = pos_bend - cw;
         // NOTE: avoid normalizing issues

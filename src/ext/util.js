@@ -176,7 +176,7 @@ exports.matrix_to_quat = function(matrix) {
 }
 
 /**
- * Convert euler angles in the YZX intrinsic system to quaternion.
+ * Convert euler angles in the ZYX intrinsic system to quaternion.
  * @method module:util.euler_to_quat
  * @param {Euler} euler Euler angles. The angles order: an angle of the rotation around the x axis,
  * an angle of the rotation around the y axis, an angle of the rotation around the z axis.

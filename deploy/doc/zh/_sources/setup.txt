@@ -14,15 +14,15 @@
 
     * 解压缩文件归档
 
-    * 安装Blender
+    * 安装Blend4Web SDK
 
-    * Switching to Blend4Web Mode
+    * 切换到Blend4Web模式
 
   * 更新
 
     * 更新 SDK
 
-    * Updating the Addon
+    * 更新插件
 
 
 安装顺序
@@ -44,13 +44,12 @@
 解压缩文件归档
 --------------
 
-Stable versions of the distribution are available as an archive
-("blend4web_ce_YY_MM.zip" -- free SDK, "blend4web_pro_YY_MM.zip" --
-commercial SDK). Simply unpack this archive somewhere.
+稳定版作为压缩包发布 ("blend4web_sdk_free_YY_MM.zip" -- 免费 SDK,
+"blend4web_sdk_pro_YY_MM.zip" -- 商业 SDK). 只要在某处解开这个压缩包。
 
 
-安装Blender
------------
+安装Blend4Web SDK
+-----------------
 
 1. 打开Blender。
 
@@ -70,7 +69,7 @@ commercial SDK). Simply unpack this archive somewhere.
 
 8. 打开 "File" 选项卡。
 
-9. Enable the *Blend4Web* add-on.
+9. 启用 *Blend4Web* 插件。
 
 10. 单击 "Save User Settings" 按钮。
 
@@ -84,14 +83,13 @@ commercial SDK). Simply unpack this archive somewhere.
 注解: 如果您打算使用只用法线编辑器，你可以考虑安装  Blend4Web 插件
   而不是 SDK。插件只能导出场景到  HTML格式 和有限功能 (例如，它没有
   项目管理 ，示例场景，用户手册，等等)，但它仍然拥有一切让你可以创建一
-  个简单的 应用程序。It can be installed the same way as any other
-  Blender addon.
+  个简单的 应用程序。它可以和其他  Blender插件  的安装方式相同。
 
 
 
 
-Switching to Blend4Web Mode
----------------------------
+切换到Blend4Web模式
+-------------------
 
 为了查看该引擎设置，从顶部面板菜单中选择Blend4Web：
 
@@ -107,82 +105,75 @@ Switching to Blend4Web Mode
 
 在更新之前，我们建议您使用 project export 工具备份的所有开发中的项目.
 
-To update the SDK, follow these steps:
+要更新SDK，请按照下列步骤操作：
 
-1. Download the new version of the SDK.
+1. 下载SDK的新版本。
 
 2. 打开Blender。
 
-3. Open the "User Preferences" window.
+3. 打开 "用户设置" 窗口。
 
-4. Open the "Add-ons" panel.
+4. 打开 "Add-ons" 面板。
 
-5. Disable "Blend4Web" Add-on.
+5. 禁用 "Blend4Web" 插件。
 
-      注解: We recommend not to use the "Remove" button to disable
-        the Add-on for updating the SDK, as doing so will completely
-        delete the add-on, including its files in the SDK.
+      注解: 我们建议不要使用 "Remove" 按钮禁用插件来更新SDK，因为这
+        样做会 彻底删除插件，包括它的SDK文件。
 
-6. Unpack the new version of the SDK from the archive.
+6. 解压新版本SDK。
 
-      注解: There are two methods to do this.Firstly, you can
-        completely delete the SDK folder and, after that, extract the
-        new version folder, as if you were installing the SDK for the
-        first time. 第二，你可以简单地使用新的覆盖过时的 SDK 文件。此
-        方法被认为是 不太 "纯净"，但在大多数情况下，它不应导致任何问题
-        。
+      注解: 有两种方法来更新 SDK。首先，可以完全删除 SDK 文件夹中，
+        在那之 后，提取新版本文件夹并将路径设置为它在Blender设置，就像
+        你第一 次安装 SDK一样。第二，你可以简单地使用新的覆盖过时的
+        SDK 文件 。此方法被认为是不太 "纯净"，但在大多数情况下，它不应
+        导致任何 问题。
 
-7. Open the "File" panel in the "User Preferences" window.
+7. 在 "用户设置" 窗口中打开 "File" 面板。
 
-8. Set the path to the SDK folder in the "Scripts" field.
+8. 设置 "Scripts" 表格的路径SDK文件夹。
 
-9. Press the "Save User Settings" button.
+9. 单击  "Save User Settings" 按钮。
 
 10. 重新启动Blender。
 
-11. Open the "User Preferences" window once again.
+11. 再次打开 "用户设置" 窗口。
 
-12. Open the "Add-ons" panel.
+12. 打开 "Add-ons" 面板。
 
-13. Enable "Blend4Web" add-on.
+13. 启用 "Blend4Web" 插件。
 
-14. Press the "Save User Settings" button once again.
+14. 再按一次点击 "Save User Settings" 按钮。
 
-15. Check if everything works correctly.
+15. 检查一切正常。
 
 完成更新后，您可以使用 项目导入 工具导入所有已保存的项目。
 
 
-Updating the Addon
-------------------
+更新插件
+--------
 
-If you are only using the Blend4Web add-on, follow this instruction
-instead.
+如果你只使用Blend4Web插件，按照下面使用说明来做。
 
-Before installing a new version of the add-on, you may firstly remove
-the existing one. To do this, unfold the information tab of the
-Blend4Web addon and press the "Remove" button. Removing the old
-version is not required before installing a new one, but doing so
-makes sure there won't be any coflicts.
+安装新版本的插件之前，您可以先删除现有之一。要做到这一点，展开
+Blend4Web插件的信息选项卡，然后按 "Remove" 按钮。删除旧版本安装新的不
+是必需的，但这样做可以确保不会有任何版本冲突。
 
 [图片]
 
-1. Download the archive that contains the new version of the add-
-   on, and save it to any place on your hard drive.
+1. 下载包含新版本插件的文件，并将其保存到硬盘上的任何地方。
 
 2. 打开Blender。
 
-3. Open the "User Preferences" window.
+3. 打开 "用户设置" 窗口。
 
-4. Switch to the "Add-ons" panel.
+4. 切换到 "Add-ons" 面板。
 
-5. Install the new version of the add-on from the archive you
-   downloaded.
+5. 从你下载的存档安装新版本的插件。
 
-6. Press the "Save User Settings button".
+6. 单击  "Save User Settings" 按钮。
 
 7. 重新启动Blender。
 
-Everything should be working now.
+一切都应该能正常工作了。
 
 

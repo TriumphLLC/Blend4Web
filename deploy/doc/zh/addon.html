@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>插件 &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>插件 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
         <link rel="next" title="场景设置" href="scene_settings.html"/>
         <link rel="prev" title="网络播放器" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,12 +87,12 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">插件</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#local-development-server">Local Development Server</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running-viewer-and-demos">Running Viewer and Demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#local-development-server">本地开发服务器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-viewer-and-demos">运行浏览器和演示</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-formats">输出格式</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#json">JSON</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#html">HTML</a></li>
@@ -110,28 +110,28 @@
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -179,8 +179,8 @@
 <p class="topic-title first">目录</p>
 <ul class="simple">
 <li><a class="reference internal" href="#add-on" id="id4">插件</a><ul>
-<li><a class="reference internal" href="#local-development-server" id="id5">Local Development Server</a></li>
-<li><a class="reference internal" href="#running-viewer-and-demos" id="id6">Running Viewer and Demos</a></li>
+<li><a class="reference internal" href="#local-development-server" id="id5">本地开发服务器</a></li>
+<li><a class="reference internal" href="#running-viewer-and-demos" id="id6">运行浏览器和演示</a></li>
 <li><a class="reference internal" href="#export-formats" id="id7">输出格式</a><ul>
 <li><a class="reference internal" href="#json" id="id8">JSON</a></li>
 <li><a class="reference internal" href="#html" id="id9">HTML</a></li>
@@ -198,46 +198,46 @@
 </ul>
 </div>
 <div class="section" id="local-development-server">
-<span id="id1"></span><h2><a class="toc-backref" href="#id5">Local Development Server</a><a class="headerlink" href="#local-development-server" title="永久链接至标题">¶</a></h2>
-<p>Settings for the local development server can be found in <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (hot keys <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>). Here you can change the port number to be used to run the development server (6687 by default), and also enable its launching upon Blender startup. To do this, enable <code class="docutils literal"><span class="pre">Run</span> <span class="pre">on</span> <span class="pre">Startup</span></code> option in the add-on settings.</p>
+<span id="id1"></span><h2><a class="toc-backref" href="#id5">本地开发服务器</a><a class="headerlink" href="#local-development-server" title="永久链接至标题">¶</a></h2>
+<p>本地开发服务器的设置中可以在  <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>  找到 (快捷键 <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>) 。在这里，您可以更改端口号被用来运行开发服务器（默认情况下6687），可随Blender启动开启。要做到这一点，在插件上启用 <code class="docutils literal"><span class="pre">Run</span> <span class="pre">on</span> <span class="pre">Startup</span></code> 选项运行。</p>
 <a class="reference internal image-reference" href="_images/server_setup.png"><img alt="_images/server_setup.png" class="align-center" src="_images/server_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>After changing local development server settings in it required to restart Blender.</p>
-<p>It is possible for the local server to process external requests. To do that enable the option <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">External</span> <span class="pre">Requests</span></code>.</p>
-<p>If you chose not to start the server automatically, you can always do it manually: go to the <code class="docutils literal"><span class="pre">Render</span></code> tab and press the <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> button on the <code class="docutils literal"><span class="pre">Development</span> <span class="pre">Server</span></code> panel:</p>
-<a class="reference internal image-reference" href="_images/server_start.png"><img alt="_images/server_start.png" class="align-center" src="_images/server_start.png" style="width: 100%;" /></a>
+<p>在改变了本地开发服务器设置后需要重新启动Blender。</p>
+<p>有可能为本地服务器来处理外部请求。要做到这一点启用 <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">External</span> <span class="pre">Requests</span></code> 选项 。</p>
+<p>如果您选择不自动启动服务器，你总是可以手动启动：去 <code class="docutils literal"><span class="pre">Render</span></code> 选项卡，然后按 <code class="docutils literal"><span class="pre">Development</span> <span class="pre">Server</span></code>  面板上的  <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> 按钮：</p>
+<a class="reference internal image-reference" href="_images/addon_development_server_start.png"><img alt="_images/addon_development_server_start.png" class="align-center" src="_images/addon_development_server_start.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p>If the path to the Blend4Web SDK is not specified, the local development server cannot be launched. In this case the corresponding message will be displayed instead of the <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> button.</p>
-<p>If the server is failed to run, an error message will be shown describing the reason:</p>
+<p>如果没有指定的Blend4Web SDK的路径，本地开发服务器无法启动。在这种情况下，相应的消息将被显示，而不是 <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> 按钮。</p>
+<p>如果服务器无法运行，将显示一条错误消息，说明了原因：</p>
 <img alt="_images/error.png" class="align-center" src="_images/error.png" />
-<p class="last">This error can arise if the server port is already used by some other application.</p>
+<p class="last">如果服务器端口已被一些其他的应用程序可能会出现此错误。</p>
 </div>
-<p>Press the <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> button to open the index web page of the Blend4Web SDK in the browser. This page is available at <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
+<p>按 <code class="docutils literal"><span class="pre">SDK</span> <span class="pre">Index</span></code> 按钮，在浏览器中打开Blend4Web SDK的索引网页。本页面可在 <a class="reference external" href="http://localhost:6687">http://localhost:6687</a> 访问。</p>
 <a class="reference internal image-reference" href="_images/server_open.png"><img alt="_images/server_open.png" class="align-center" src="_images/server_open.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>As a result, the default browser for your operating system will be launched.</p>
-<p>The <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> button can be used to open <a class="reference internal" href="project_manager.html#project-management"><span>project manager</span></a>.</p>
-<p>The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button loads the scene that is currently open in Blender, into the <a class="reference internal" href="viewer.html#viewer"><span>viewer</span></a>.</p>
-<p>The server can be stopped by pressing the <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Server</span></code> button. It also stops when Blender is closed.</p>
+<p>然后，对于您的操作系统的默认浏览器将启动。</p>
+<p><code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> 按钮可用于打开 <a class="reference internal" href="project_manager.html#project-management"><span>项目管理器</span></a>.</p>
+<p><code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> 按钮加载当前正在Blender打开的场景到 <a class="reference internal" href="viewer.html#viewer"><span>查看器</span></a>.</p>
+<p>服务器可以通过按下 <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Server</span></code>  按钮被停止。当Blender被关闭也停止。</p>
 </div>
 <div class="section" id="running-viewer-and-demos">
-<span id="getting-started-launching-viewer"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id6">Running Viewer and Demos</a><a class="headerlink" href="#running-viewer-and-demos" title="永久链接至标题">¶</a></h2>
-<p>The index page contains links for launching the scene viewer and the demo applications. A <a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL-capable browser</span></a> is required to run these apps.</p>
+<span id="getting-started-launching-viewer"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id6">运行浏览器和演示</a><a class="headerlink" href="#running-viewer-and-demos" title="永久链接至标题">¶</a></h2>
+<p>索引页包含用于启动场景浏览和演示应用程序的链接。需要一个  <a class="reference internal" href="about.html#browser-webgl-support"><span>WebGL-适配浏览器</span></a> 运行这些应用程序。</p>
 <a class="reference internal image-reference" href="_images/setup_sdk_index.png"><img alt="_images/setup_sdk_index.png" class="align-center" src="_images/setup_sdk_index.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">If the SDK apps are not displayed correctly, or error messages are shown, follow the instructions in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>启动时的问题</span></a> section.</p>
+<p class="last">如果SDK应用程序显示不正确，或显示错误消息，请按照  <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>启动时的问题</span></a> 部分中的说明。</p>
 </div>
 </div>
 <div class="section" id="export-formats">
@@ -247,7 +247,7 @@
 <div class="section" id="json">
 <h3><a class="toc-backref" href="#id8">JSON</a><a class="headerlink" href="#json" title="永久链接至标题">¶</a></h3>
 <p>导出场景到这种格式会创建一个 <code class="docutils literal"><span class="pre">.json</span></code> （JavaScript对象符号）文件，其中包含所有导出的数据结构和链接到外部资源（图片，声音等等），还有一个 <code class="docutils literal"><span class="pre">.bin</span></code> 文件包含二进制格式的模型数据阵列。</p>
-<p>If media resources are <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">packed into the .blend file</a>, they will be unpacked during the export and placed in the project&#8217;s directory (inside the SDK directory). It should be noted that the names of such files will be automatically changed, which can complicate working with them.</p>
+<p>如果媒体资源被 <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">打包到.blend文件</a>, 他们会在导出过程中解压，并在项目的目录放置在隐藏的 <code class="docutils literal"><span class="pre">../tmp/</span></code> 文件夹中（SDK目录内）。应当注意的是，这样的话文件的名称将被自动地改变，工作的时候可能变得复杂。</p>
 <p>建议将所有资源存储在SDK目录中一个专门的文件夹，它可以被称为``deploy/assets/项目名`` 。</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -259,12 +259,13 @@
 <div class="section" id="html">
 <h3><a class="toc-backref" href="#id9">HTML</a><a class="headerlink" href="#html" title="永久链接至标题">¶</a></h3>
 <p>导出场景到这种格式会打包场景的所有的资源投入到一个文件带HTML扩展。这个HTML文件不仅包含场景本身，而且还材质，声音Blend4Web引擎和标准 <a class="reference internal" href="web_player.html#web-player"><span>web player</span></a>. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览器的任何移动设备上执行。</p>
-<p>You can&#8217;t use HTML files for further development, but you also don&#8217;t need any additional actions to run them. This format is useful for developing relatively simple applications of moderate size.</p>
-<p>It should be noted, however, that HTML applications do not support following features:</p>
+<p>不能使用HTML文件做进一步的开发，但你也并不需要任何额外的操作来运行它们。这种格式对开发中等规模的相对简单的应用非常有用。</p>
+<p>应当指出，然而，HTML应用程序不支持以下功能：</p>
 <blockquote>
 <div><ul class="simple">
 <li><a class="reference internal" href="physics.html#physics"><span>Physics</span></a></li>
-<li><a class="reference internal" href="developers.html#converter-data-format"><span>DDS textures</span></a></li>
+<li><p class="first"><a class="reference internal" href="developers.html#converter-data-format"><span>DDS纹理</span></a></p>
+</li>
 <li><a class="reference internal" href="developers.html#converter"><span>min50 textures</span></a></li>
 </ul>
 </div></blockquote>
@@ -338,9 +339,8 @@
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Blend4Web initialization error!
-Add-on is not compatible with
-the PLATFORM platform.</td>
+<tr class="row-even"><td><p class="first last">Blend4Web初始化错误!该Blend4Web插件和该平台不兼容。</p>
+</td>
 <td><p class="first last">该Blend4Web插件和该平台不兼容。</p>
 </td>
 </tr>
@@ -351,11 +351,10 @@ Current version is VER_CURRENT.</td>
 <td><p class="first last">警告有关可能不符合当前Blender的版本号。它建议使用VER_REQUIREDBlender版本。当前的版本是VER_CURRENT。</p>
 </td>
 </tr>
-<tr class="row-even"><td>Incorrect add-on directory name.</td>
-<td>Incorrect name of the add-on directory.
-Add-on structure in the archive has been
-damaged, or entirety of the archive has
-been disrupted.</td>
+<tr class="row-even"><td><p class="first last">不正确的附加目录名。</p>
+</td>
+<td><p class="first last">插件目录的不正确的名称。在存档附加结构已损坏，或归档的全部被打乱。</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -449,15 +448,13 @@ can occur. Reexport scene to fix it.</td>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Dupli group error; Objects from
-the GROUP_NAME dupli group on
-the OBJECT_NAME object cannot be
-exported</td>
+<tr class="row-even"><td><p class="first last">DUPLI组错误;从OBJECT_NAME对象的GROUP_NAME DUPLI组对象不能导出</p>
+</td>
 <td><p class="first last">其中没有被选定为重复的OBJECT_NAME对象的GROUP_NAME组中的对象可以被导出。导出许可的组中的至少一个对象，或删除的组的复制是必需的。</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Export to different disk is
-forbidden</td>
+<tr class="row-odd"><td><p class="first last">导出到位于不同的磁盘上的目录被禁止</p>
+</td>
 <td><p class="first last">导出到位于不同的磁盘上的目录被禁止</p>
 </td>
 </tr>
@@ -465,26 +462,16 @@ forbidden</td>
 a shared mesh; The OBJECT_NAME
 object has both vertex groups and
 a shared mesh</td>
-<td>Incompatible objects with a shared mesh.
-Export of an object with both a shared
-mesh and vertex groups is not allowed.
-Exceptions: export is possible if an
-object has the
-<code class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></code>,
-<code class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></code>,
-<code class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></code>,
-<code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Scale</span> <span class="pre">and</span> <span class="pre">Modifiers</span></code>
-options turned on (because in these cases
-a full copying of meshes occurs).</td>
+<td><p class="first last">不兼容的对象有一个共享的网格。不允许导出的对象既具有共享网格和顶点组。例外：导出是可能的，如果一个对象具有 <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></code>, <code class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></code>, <code class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></code>, <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></code> 选项打开（因为在这些情况下，网格的完全复制时）。</p>
+</td>
 </tr>
-<tr class="row-odd"><td>Incomplete mesh; Material slot is
-empty</td>
+<tr class="row-odd"><td><p class="first last">不完整的网格;材质插槽是空的</p>
+</td>
 <td><p class="first last">材质插槽是空的。</p>
 </td>
 </tr>
-<tr class="row-even"><td>Incomplete vehicle. The NAME
-vehicle doesn&#8217;t have any chassis
-or hull</td>
+<tr class="row-even"><td><p class="first last">非完整车辆。NAME 车辆不具有任何底盘或船体</p>
+</td>
 <td><p class="first last">模型的 NAME 车辆是不完整的，因为它应该包含一个 <code class="docutils literal"><span class="pre">Chassis</span></code> 或 <code class="docutils literal"><span class="pre">Hull</span></code> 元素。</p>
 </td>
 </tr>
@@ -819,9 +806,8 @@ Converted to integer.</td>
 <td>The NAME action has decimal frames.
 Converted to integer.</td>
 </tr>
-<tr class="row-odd"><td>The NAME armature modifier has a
-proxy object as an armature.
-Modifier removed.</td>
+<tr class="row-odd"><td><p class="first last">该 NAME 骨架修改器有一个代理物体作为骨架，修改器被移除。</p>
+</td>
 <td><p class="first last">一个骨架修改器具有一个代理对象作为骨架。</p>
 </td>
 </tr>
@@ -906,10 +892,8 @@ values.</td>
 <td><p class="first last">风弯曲参数设置：它必须指定或者所有顶点颜色层的名称 (<code class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></code>, <code class="docutils literal"><span class="pre">Leaves</span> <span class="pre">stiffness</span> <span class="pre">(R)</span></code>, <code class="docutils literal"><span class="pre">Leaves</span> <span class="pre">phase</span> <span class="pre">(G)</span></code>, <code class="docutils literal"><span class="pre">Overall</span> <span class="pre">stiffness</span> <span class="pre">(B)</span></code>), 或主要的一个唯一的 (<code class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></code>), 或没有其中之一的。</p>
 </td>
 </tr>
-<tr class="row-even"><td>Wrong &#8220;Height Map&#8221; input for the
-&#8220;NAME&#8221; B4W_PARALLAX node. Only link
-from the TEXTURE node with a
-non-empty texture is allowed.</td>
+<tr class="row-even"><td><p class="first last">错误的数据传递给该名称的“高度贴图”输入 <code class="docutils literal"><span class="pre">B4W_PARALLAX</span></code> 节点。只从一个非空的输出 <code class="docutils literal"><span class="pre">TEXTURE</span></code> 节点是允许的。</p>
+</td>
 <td><p class="first last">错误的数据传递给该名称的“高度贴图”输入 <code class="docutils literal"><span class="pre">B4W_PARALLAX</span></code> 节点。只从一个非空的输出 <code class="docutils literal"><span class="pre">TEXTURE</span></code> 节点是允许的。</p>
 </td>
 </tr>
@@ -961,8 +945,10 @@ texture.</td>
 <td><p class="first last">粒子设置数据块名称包含被用于渲染场景到纹理名称。此纹理被替换为默认的纹理。</p>
 </td>
 </tr>
-<tr class="row-odd"><td>The action NAME has no fcurves.</td>
-<td>The action NAME has no fcurves.</td>
+<tr class="row-odd"><td><p class="first last">动作 NAME 没有f曲线.</p>
+</td>
+<td><p class="first last">动作 NAME 没有f曲线.</p>
+</td>
 </tr>
 <tr class="row-even"><td>The &#8220;NAME&#8221; camera has unsupported
 PANORAMIC type. Changed to
@@ -973,9 +959,8 @@ PERSPECTIVE type.&#8221;</td>
 <tr class="row-odd"><td>Unsupported texture type or texture
 is missing for Lens Flare material
 &#8220;NAME&#8221;</td>
-<td>There are no textures on the material
-or unsupported texture type is used
-for material &#8220;NAME&#8221;.</td>
+<td><p class="first last">不支持的纹理类型或纹理缺少镜头光晕材质 &#8220;NAME&#8221;</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1190,7 +1175,7 @@ for material &#8220;NAME&#8221;.</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -1246,7 +1231,7 @@ for material &#8220;NAME&#8221;.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

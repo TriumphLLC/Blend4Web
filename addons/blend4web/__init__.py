@@ -17,9 +17,9 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (16, 9, 2),
+    "version": (16, 10, 0),
     "blender": (2, 78, 0),
-    "b4w_format_version": "6.00",
+    "b4w_format_version": "6.01",
     "location": "File > Import-Export",
     "description": "Tool for interactive 3D visualization on the Internet",
     "warning": "",
@@ -87,8 +87,6 @@ else:
 from bpy.types import AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty
 
-PATH_TO_ASSETS = "apps_dev/viewer"
-ASSETS_NAME = "assets.json"
 NODE_TREE_BLEND = "b4w_nodes.blend"
 
 # addon initialization messages
@@ -117,35 +115,6 @@ def draw_init_error_message(arg):
     if draw_init_error_message in bpy.app.handlers.scene_update_pre:
         bpy.app.handlers.scene_update_pre.remove(draw_init_error_message)
     bpy.ops.b4w.init_error_dialog("INVOKE_DEFAULT")
-
-@bpy.app.handlers.persistent
-def add_asset_file(arg):
-    def remove_text(text):
-        try:
-            bpy.data.texts.remove(text)
-        except Exception as e:
-            # blender 2.78 new API
-            bpy.data.texts.remove(text, do_unlink=True)
-    p = bpy.context.user_preferences.addons[__package__].preferences
-    path_to_sdk = p.b4w_src_path
-    os.path.abspath(path_to_sdk)
-    path_to_assets = os.path.join(path_to_sdk, PATH_TO_ASSETS, ASSETS_NAME)
-    path_to_assets = exporter.guard_slashes(os.path.normpath(path_to_assets))
-    if os.path.isfile(path_to_assets):
-        for text in bpy.data.texts:
-            if text.b4w_assets_load and text.name == ASSETS_NAME:
-                if (text.filepath != path_to_assets or text.is_modified):
-                    remove_text(text)
-                    break
-                else:
-                    return
-        text = bpy.data.texts.load(path_to_assets)
-        text.b4w_assets_load = True
-    else:
-        for text in bpy.data.texts:
-            if text.b4w_assets_load:
-                remove_text(text)
-                break
 
 def need_append(b4w_node):
     if not b4w_node in bpy.data.node_groups:
@@ -460,7 +429,6 @@ def register():
 
     init_runtime_addon_data()
 
-    bpy.app.handlers.load_post.append(add_asset_file)
     bpy.app.handlers.load_post.append(add_node_tree)
     bpy.app.handlers.load_post.append(cam_reform)
     bpy.app.handlers.scene_update_pre.append(init_validation.check_addon_dir)

@@ -55,8 +55,8 @@ Startup" в настройках аддона.
 Requests".
 
 Если не был настроен автоматический запуск сервера, то его можно
-стартовать вручную по кнопке "Start Server" во вкладке
-"Render->Developement Server":
+стартовать вручную по кнопке "Start Server" во вкладке "Render", на
+панели "Developement Tools":
 
 [рисунок]
 

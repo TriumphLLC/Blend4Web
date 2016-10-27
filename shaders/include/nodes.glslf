@@ -15,7 +15,6 @@
 // #import u_environment_energy
 // #import u_lamp_light_color_intensities
 // #import u_lamp_light_directions
-// #import u_lamp_light_factors
 // #import u_lamp_light_positions
 // #import u_light_color_intensities
 // #import u_light_directions
@@ -184,7 +183,8 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 vc
     #node_param GLSL_IN vec3 v_vc
 
-    vc = v_vc;
+    // NOTE: a zero varying can be negative due to interpolation errors under WebGL2
+    vc = max(vec3(_0_0), v_vc);
     srgb_to_lin(vc);
 #endnode
 
@@ -192,7 +192,8 @@ vec2 vec_to_uv(vec3 vec)
     #node_out float channel0_out
     #node_param GLSL_IN float v_vc
 
-    channel0_out = v_vc;
+    // NOTE: a zero varying can be negative due to interpolation errors under WebGL2
+    channel0_out = max(_0_0, v_vc);
     srgb_to_lin(channel0_out);
 #endnode
 
@@ -201,8 +202,9 @@ vec2 vec_to_uv(vec3 vec)
     #node_out float channel1_out
     #node_param GLSL_IN vec2 v_vc
 
-    channel0_out = v_vc[0];
-    channel1_out = v_vc[1];
+    // NOTE: a zero varying can be negative due to interpolation errors under WebGL2
+    channel0_out = max(_0_0, v_vc[0]);
+    channel1_out = max(_0_0, v_vc[1]);
     srgb_to_lin(channel0_out);
     srgb_to_lin(channel1_out);
 #endnode
@@ -213,9 +215,10 @@ vec2 vec_to_uv(vec3 vec)
     #node_out float channel2_out
     #node_param GLSL_IN vec3 v_vc
 
-    channel0_out = v_vc[0];
-    channel1_out = v_vc[1];
-    channel2_out = v_vc[2];
+    // NOTE: a zero varying can be negative due to interpolation errors under WebGL2
+    channel0_out = max(_0_0, v_vc[0]);
+    channel1_out = max(_0_0, v_vc[1]);
+    channel2_out = max(_0_0, v_vc[2]);
     srgb_to_lin(channel0_out);
     srgb_to_lin(channel1_out);
     srgb_to_lin(channel2_out);
@@ -310,7 +313,12 @@ vec2 vec_to_uv(vec3 vec)
 #endnode
 
 #node LAMP
+    #node_var LAMP_TYPE HEMI
     #node_var LAMP_INDEX 0
+    #node_var LAMP_USE_SPHERE 0
+    #node_var LAMP_SPOT_SIZE 0.8
+    #node_var LAMP_SPOT_BLEND 0.03
+    #node_var LAMP_LIGHT_DIST 30.0
     #node_out optional vec3 color_out
     #node_out vec3 light_vec_out
     #node_out float distance_out
@@ -321,43 +329,43 @@ vec2 vec_to_uv(vec3 vec)
 # node_endif
 
     // see process_lamp
-    vec4 llf = u_lamp_light_factors[LAMP_INDEX];
     vec3 lld = u_lamp_light_directions[LAMP_INDEX];
     vec3 llp = u_lamp_light_positions[LAMP_INDEX];
-    float lamp_dist = llf.z;
-    if (lamp_dist != -_1_0) { // point and spot
+# node_if LAMP_TYPE == SPOT || LAMP_TYPE == POINT
 
         // mimic blender behavior
         light_vec_out = -v_pos_world + llp;
         distance_out = length(light_vec_out);
         light_vec_out = normalize(light_vec_out);
 
-# node_if USE_OUT_visibility_factor_out
-        visibility_factor_out = lamp_dist / (lamp_dist + distance_out * distance_out);
+#  node_if USE_OUT_visibility_factor_out
+        visibility_factor_out = LAMP_LIGHT_DIST / (LAMP_LIGHT_DIST + distance_out * distance_out);
 
-        float spot_size = llf.x;
-        float spot_blend = llf.y;
-        if (spot_size > -_1_0) {
+#   node_if LAMP_TYPE == SPOT
             float spot_factor = dot(light_vec_out, lld);
             spot_factor *= smoothstep(_0_0, _1_0,
-                    (spot_factor - spot_size) / spot_blend);
+                    (spot_factor - LAMP_SPOT_SIZE) / LAMP_SPOT_BLEND);
             visibility_factor_out *= spot_factor;
+#   node_endif
 
-        }
-# node_endif
-    } else { // sun and hemi
-# node_if USE_OUT_light_vec_out
+#   node_if LAMP_USE_SPHERE
+    visibility_factor_out *= max(LAMP_LIGHT_DIST -distance_out, _0_0) / LAMP_LIGHT_DIST;
+#   node_endif
+
+#  node_endif
+# node_else // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
+#  node_if USE_OUT_light_vec_out
         light_vec_out = lld;
-# node_endif
+#  node_endif
 
-# node_if USE_OUT_distance_out
+#  node_if USE_OUT_distance_out
         distance_out = length(llp - v_pos_world);
-# node_endif
+#  node_endif
 
-# node_if USE_OUT_visibility_factor_out
+#  node_if USE_OUT_visibility_factor_out
         visibility_factor_out = _1_0;
-# node_endif
-    }
+#  node_endif
+# node_endif // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
 #endnode
 
 #node NORMAL
@@ -586,15 +594,18 @@ vec2 vec_to_uv(vec3 vec)
     vec3 bl_normal = nin_normal;
 
 # node_if SPACE == NM_TANGENT
-    normal_out = nin_tbn_matrix * (color.xyz - _0_5);
+    normal_out = 2.0 * color.xyz - _1_0;
+    normal_out = nin_tbn_matrix * normal_out;
 
 # node_elif SPACE == NM_OBJECT || SPACE == NM_BLENDER_OBJECT
-    normal_out = color.xyz - _0_5;
+    normal_out = 2.0 * color.xyz - _1_0;
+    // mimic blender behavior
     normal_out.yz *= -1.0;
     normal_out = tsr9_transform_dir(nin_model_tsr, normal_out);
 
 # node_elif SPACE == NM_WORLD || SPACE == NM_BLENDER_WORLD
-    normal_out = color.xyz - _0_5;
+    normal_out = 2.0 * color.xyz - _1_0;
+    // mimic blender behavior
     normal_out.yz *= -1.0;
 # node_endif
 
@@ -1893,12 +1904,11 @@ vec2 vec_to_uv(vec3 vec)
 #node LIGHTING_LAMP
     #node_var LAMP_TYPE HEMI
     #node_var LAMP_IND 0
-    #node_var LAMP_LIGHT_FACT_IND 0
-    #node_var LAMP_FAC_CHANNELS rg
     #node_var LAMP_SPOT_SIZE 0.8
     #node_var LAMP_SPOT_BLEND 0.03
     #node_var LAMP_LIGHT_DIST 30.0
     #node_var LAMP_SHADOW_MAP_IND -1
+    #node_var LAMP_USE_SPHERE 0
 
     #node_in vec4 shadow_factor
 
@@ -1907,7 +1917,8 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 lcolorint
     #node_out float norm_fac
 
-    lfac = u_light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
+    // unpack light_factors
+    lfac = vec2(u_light_positions[LAMP_IND].w, u_light_color_intensities[LAMP_IND].w);
 # node_if LAMP_TYPE == HEMI
     norm_fac = _0_5;
 # node_else
@@ -1915,13 +1926,13 @@ vec2 vec_to_uv(vec3 vec)
 # node_endif
 
     // 0.0 - full shadow, 1.0 - no shadow
-    lcolorint = u_light_color_intensities[LAMP_IND];
+    lcolorint = u_light_color_intensities[LAMP_IND].xyz;
 # node_if LAMP_SHADOW_MAP_IND != -1
     lcolorint *= shadow_factor[LAMP_SHADOW_MAP_IND];
 # node_endif
 
 # node_if LAMP_TYPE == SPOT || LAMP_TYPE == POINT
-    vec3 lpos = u_light_positions[LAMP_IND];
+    vec3 lpos = u_light_positions[LAMP_IND].xyz;
     ldir = lpos - nin_pos_world;
 
     // calc attenuation, falloff_type = "INVERSE_SQUARE"
@@ -1939,6 +1950,11 @@ vec2 vec_to_uv(vec3 vec)
                               (spot_factor - LAMP_SPOT_SIZE) / LAMP_SPOT_BLEND);
     lcolorint *= spot_factor;
 #  node_endif
+
+#  node_if LAMP_USE_SPHERE
+    lcolorint *= max(LAMP_LIGHT_DIST -dist, _0_0) / LAMP_LIGHT_DIST;
+#  node_endif
+
 # node_else // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
     ldir = u_light_directions[LAMP_IND];
 # node_endif // LAMP_TYPE == SPOT || LAMP_TYPE == POINT
@@ -2136,6 +2152,43 @@ vec2 vec_to_uv(vec3 vec)
                          _0_0) + norm_fac;
 # node_endif
         sfactor = pow(sfactor, sp_params[0]);
+    }
+#endnode
+
+#node SPECULAR_COOKTORR
+    #node_var MAT_USE_TBN_SHADING 0
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_in vec2 sp_params
+    #node_out float sfactor
+
+    sfactor = _0_0;
+
+    if (lfac.g != _0_0) {
+        vec3 halfway = normalize(ldir + nin_eye_dir);
+
+# node_if MAT_USE_TBN_SHADING
+        if (norm_fac == _0_0) {
+            sfactor = dot(v_shade_tang.xyz, halfway);
+            sfactor = sqrt(_1_0 - sfactor * sfactor);
+        }
+# node_else
+        sfactor = max(dot(normal, halfway), _0_0);
+        sfactor = (_1_0 - norm_fac) * sfactor + norm_fac;
+# node_endif
+
+# node_if MAT_USE_TBN_SHADING
+        float nv = max(dot(v_shade_tang.xyz, nin_eye_dir), _0_0);
+        nv = sqrt(_1_0 - nv * nv);
+# node_else
+        float nv = max(dot(normal, nin_eye_dir), _0_0);
+# node_endif
+
+        sfactor = pow(sfactor, sp_params[0]);
+
+        sfactor = sfactor / (0.1 + nv);
     }
 #endnode
 

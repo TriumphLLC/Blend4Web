@@ -54,19 +54,11 @@ var _vec2_tmp  = new Float32Array(2);
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 
-var _auto_view = false;
-var _auto_view_timeout_handle;
-
 // TODO switch off images not-cache
-
-var _manifest = null;
 
 var _anim_obj = null;
 var _shape_key_obj = null;
 var _shape_key_name = "";
-
-var _settings = null;
-var _scene_settings = null;
 
 var _object_info_elem = null;
 var _lights_elem = null;
@@ -102,7 +94,6 @@ exports.init = function() {
         physics_enabled: true,
         debug_view: true
     });
-
 }
 
 function init_cb(canvas_elem, success) {
@@ -139,15 +130,9 @@ function init_cb(canvas_elem, success) {
 
     var url_params = m_app.get_url_params();
 
-    var asset_cb = function(data, uri, type, path) {
-        _manifest = data;
-        init_ui();
-        var item_id = retrieve_last_item_id();
-        process_scene(item_id, false, false, url_params && url_params["load"]);
-    }
-
-    m_assets.enqueue([["manifest", m_assets.AT_JSON, "assets.json"]],
-            asset_cb, null);
+    init_ui();
+    var url = url_params && url_params["load"] ? url_params["load"] : "";
+    process_scene(url, false);
 }
 
 function assign_sliders_controls() {
@@ -278,23 +263,6 @@ function get_controlled_object() {
     return _controlled_object;
 }
 
-function retrieve_last_item_id() {
-
-    var item_name = m_storage.get("last_item_name");
-
-    if (!item_name) // undefined or ""
-        return null;
-
-    for (var i = 0; i < _manifest.length; i++) {
-        var category = _manifest[i];
-        var item = m_util.keyfind("name", item_name, category.items)[0];
-
-        if (item)
-            return {category: category.name, item: item_name};
-    }
-    return null;
-}
-
 function init_ui() {
     _object_info_elem = document.getElementById("info_left_down");
     _lights_elem = document.getElementById("lights_cont");
@@ -310,12 +278,7 @@ function init_ui() {
     m_app.set_onclick("auto_rotate_cam", auto_rotate_cam);
     m_app.set_onclick("pause", pause_clicked);
     m_app.set_onclick("resume", resume_clicked);
-    m_app.set_onclick("auto_view", start_auto_view);
     m_app.set_onclick("home", home_clicked);
-
-    // list of scenes
-    init_scenes_list();
-    load_users_scene();
 
     // animation
     bind_control(set_animation_params, "anim_active_object", "string");
@@ -429,9 +392,10 @@ function init_ui() {
     bind_control(set_ssao_params, "ssao_white", "bool");
 
     // fog
-    //bind_control(set_fog_params, "fog_density", "number");
-    //bind_control(set_fog_params, "fog_density1000", "number");
-    //bind_colpick(set_fog_params, "fog_color");
+    bind_control(set_fog_params, "fog_intensity", "number");
+    bind_control(set_fog_params, "fog_depth", "number");
+    bind_control(set_fog_params, "fog_start", "number");
+    bind_control(set_fog_params, "fog_height", "number");
 
     // dof
     bind_control(set_dof_params, "dof_distance", "number");
@@ -526,151 +490,40 @@ function fill_select_options(elem_id, values) {
     $("#" + elem_id).selectmenu("refresh");
 }
 
-function load_users_scene() {
-    var load_button = document.getElementById("default_scene");
-    if (load_button)
-        load_button.onclick = function() {
-            // cancel auto view
-            _auto_view = false;
-            clearTimeout(_auto_view_timeout_handle);
-            process_scene(null, true, false, true);
-        };
-}
-
-function init_scenes_list() {
-    var manifest_elem = document.getElementById("manifest");
-
-    if (!_manifest) {
-        manifest_elem.innerHTML =
-            "<p style='color: red;'>Failed loading scenes list.</p><p>Maybe a syntax error?</p>";
-        return;
-    }
-
-    var s = "";
-    var url_params = m_app.get_url_params();
-    if (url_params && url_params["load"]) {
-        var elems = url_params["load"].split("/");
-        var scene_name = "Home - " + elems[elems.length - 1];
-    } else {
-        var elems = DEFAULT_SCENE.split("/");
-        var scene_name = "Home - " + elems[elems.length - 1];
-    }
-    s += "<div class='min_font' id='default_scene'>";
-    s += "<h6 class='ui-collapsible-heading'><a class='ui-mini ui-btn ui-btn-icon-right ui-icon-home'>" + scene_name + "</a></h6>";
-    s += "</div>"
-
-    for (var i = 0; i < _manifest.length; i++)
-        s += init_scenes_list_category(_manifest[i]);
-
-    $("#" + manifest_elem.id).append(s);
-    $("#" + manifest_elem.id).trigger("create");
-
-    manifest_elem.addEventListener("mouseup", manifest_item_clicked, false);
-}
-
-function init_scenes_list_category(category) {
-    var name = category.name;
-    var items = category.items;
-
-    var s = "";
-
-    s += "<div data-role='collapsible' data-mini='true' >";
-    s += "<h6>" + name + "</h6>";
-
-    s += "<ul data-role='listview' data-mini='true' data-inset='true' style='margin: -10px 0;'>";
-
-    for (var i = 0; i < items.length; i++) {
-        var item_name = items[i].name;
-        var item_id = "MANIFEST_ITEM_" + item_name + "__SEPARATOR__" + name;
-        s += "<li data-mini='true'><a href='#' class='min_font' id=\"" + item_id + "\">" + item_name + "</a></li>"
-    }
-    s += "</ul>"
-    s += "</div>"
-
-    return s;
-}
-
 function reset_settings_to_default() {
 
     if (_lights_elem)
         for (var i = 0; i <_lights_elem.children.length; i++)
             _lights_elem.children[i].style.visibility = "hidden";
 
-    var url_params = m_app.get_url_params();
-
-    if (url_params && url_params["load"]) {
-        var elems = url_params["load"].split("/");
-        _settings = {
-            load_file         : url_params["load"],
-            name              : elems[elems.length - 1].split(".")[0],
-        };
-    } else
-        _settings = {
-            load_file         : m_cfg.get_std_assets_path() + DEFAULT_SCENE,
-            name              : DEFAULT_NAME,
-        };
-
     _anim_obj = null;
     _shape_key_obj = null;
-    _scene_settings = null;
 }
 
-function load_scene(wait_textures) {
-    var name = _settings.name;
-    var file = _settings.load_file;
-
-    // update ui
-    var cf_elem = document.getElementById("current_file");
-    cf_elem.innerHTML = name;
-    cf_elem.setAttribute("title", name + " (" + file + ")");
-
-    // load
-    m_data.load(file, loaded_callback,
-            preloader_callback, wait_textures);
-}
-
-function manifest_item_clicked(e) {
-    var elem_id = e.target.id;
-    if (elem_id.indexOf("MANIFEST_ITEM_") == -1)
-        return;
-
-    var id_split = elem_id.split("__SEPARATOR__");
-    var category_name = id_split[1];
-    var item_name = id_split[0].split("MANIFEST_ITEM_")[1];
-
-    // cancel auto view
-    _auto_view = false;
-    clearTimeout(_auto_view_timeout_handle);
-
-    process_scene({category: category_name, item: item_name}, true, false, false);
-}
-
-function process_scene(names, call_reset_b4w, wait_textures, load_from_url) {
+function process_scene(url, call_reset_b4w) {
     reset_settings_to_default();
 
-    if (!load_from_url) {
-        if (names) {
-            var category = m_util.keyfind("name", names.category, _manifest)[0];
-            var item = m_util.keyfind("name", names.item, category.items)[0];
-
-            for (var prop in item) {
-                if (prop == "load_file")
-                    _settings[prop] = m_cfg.get_std_assets_path() + item[prop];
-                else
-                    _settings[prop] = item[prop];
-            }
-
-            m_storage.set("last_item_name", names.item);
-        } else
-            m_storage.set("last_item_name", "");
+    if (url) {
+        var url_elems = url.split("/");
+        var name = url_elems[url_elems.length - 1].split(".")[0]
+    } else {
+        var url = m_cfg.get_std_assets_path() + DEFAULT_SCENE;
+        var name = "Logo";
     }
+
     if (call_reset_b4w)
         reset_b4w();
 
     switch_canvas_click(false);
     m_debug.clear_errors_warnings();
 
-    load_scene(wait_textures);
+    // update ui
+    var cf_elem = document.getElementById("current_file");
+    cf_elem.innerHTML = name;
+    cf_elem.setAttribute("title", name + " (" + url + ")");
+
+    // load
+    m_data.load(url, loaded_callback, preloader_callback, false);
 }
 
 function mouse_cb() {
@@ -707,7 +560,7 @@ function loaded_callback(data_id) {
     switch_canvas_click(true);
 
     _selected_object = null;
-    prepare_scenes(_settings);
+    prepare_scenes();
 
     enable_camera_controls();
     m_app.enable_debug_controls();
@@ -724,10 +577,6 @@ function loaded_callback(data_id) {
     }
 
     m_main.set_render_callback(render_callback);
-
-    if (_auto_view)
-        _auto_view_timeout_handle =
-            setTimeout(auto_view_load_next, AUTO_VIEW_INTERVAL);
 
     var elapsed = m_ctl.create_elapsed_sensor();
     var cam_dist_cb = function(obj, id, pulse) {
@@ -748,45 +597,6 @@ function loaded_callback(data_id) {
     }
     m_ctl.create_sensor_manifold(m_scenes.get_active_camera(), "TO_OBJ",
             m_ctl.CT_CONTINUOUS, [elapsed], null, cam_dist_cb);
-}
-
-function auto_view_load_next() {
-    var item_id = retrieve_last_item_id();
-
-    if (item_id) {
-        var category_name = item_id.category;
-        var item_name = item_id.item;
-        var category = m_util.keyfind("name", category_name, _manifest)[0];
-        var item = m_util.keyfind("name", item_name, category.items)[0];
-        var item_index = category.items.indexOf(item);
-
-        var new_item = category.items[item_index + 1];
-        if (new_item) { // grab next item
-            item_id = {category: category.name, item: new_item.name};
-        } else { // grab next category
-
-            var category_index = _manifest.indexOf(category);
-            var next_category = null;
-
-            do {
-                next_category = _manifest[++category_index];
-            } while (next_category && next_category.items.length == 0)
-
-            if (next_category)
-                item_id = {category: next_category.name, item: next_category.items[0].name};
-            else {
-                // finished
-                _auto_view = false;
-                return;
-            }
-        }
-    } else {
-        var category = _manifest[0];
-        var item = category.items[0];
-        item_id = {category: category.name, item: item.name};
-    }
-
-    process_scene(item_id, true, true, false);
 }
 
 function preloader_callback(percentage, load_time) {
@@ -853,18 +663,19 @@ function display_scene_stats() {
     var rtinfo = m_debug.num_render_targets();
 
     var mem_geom = Math.round(10 * (gstats.ibo_memory + gstats.vbo_memory)) / 10;
+    var trash_geom = (m_debug.calc_vbo_garbage_byte_size() / Math.pow(1024, 2)).toFixed(1);
     var mem_tex = Math.round(10 * texinfo.memory) / 10;
     var mem_rts = Math.round(10 * rtinfo.memory) / 10;
     var mem_total = Math.round(10 * (mem_geom + mem_tex + mem_rts)) / 10;
 
     document.getElementById("info_right_down").innerHTML =
-        "Geometry: " + mem_geom + " MiB (" + gstats.ibo_number + "+" + gstats.vbo_number + ")<br>" +
+        "Geometry: " + mem_geom + " MiB (" + trash_geom + " junk)<br>" +
         "Textures: " + mem_tex + " MiB (" + texinfo.number + ")<br>" +
         "RTs: " + mem_rts + " MiB (" + rtinfo.number + ")<br><br>" +
         "Total: " + mem_total + " MiB";
 }
 
-function prepare_scenes(global_settings) {
+function prepare_scenes() {
     var main_scene_name = m_scenes.get_active();
 
     // ALL SCENES EXCEPT MAIN
@@ -873,17 +684,15 @@ function prepare_scenes(global_settings) {
 
     for (var i = 0; i < scene_names.length; i++) {
         var name = scene_names[i];
-        if (name === main_scene_name)
+        if (name == main_scene_name)
             continue;
 
-        var settings = get_scene_settings(name, global_settings);
-        change_apply_scene_settings(name, settings);
+        change_apply_scene_settings(name);
     }
 
     // MAIN SCENE
 
-    var settings = get_scene_settings(main_scene_name, global_settings);
-    change_apply_scene_settings(main_scene_name, settings);
+    change_apply_scene_settings(main_scene_name);
 
     // ui for changing material color
     _object_selected_callback = function(obj) {
@@ -907,7 +716,7 @@ function prepare_scenes(global_settings) {
 
     get_shadow_params();
     get_ssao_params();
-    //get_fog_params();
+    get_fog_params();
     get_dof_params();
     get_god_rays_params();
     get_color_correction_params();
@@ -923,34 +732,9 @@ function prepare_scenes(global_settings) {
 
     var date = new Date(document.getElementById("date").value);
     set_time_date({"date": date});
-
-    _scene_settings = settings;
 }
 
-/*
- * Create a new settings object by merging global settings and scene settings
- */
-function get_scene_settings(scene_name, glob_settings) {
-
-    function copy_obj(from, to) {
-        for (var prop in from)
-            to[prop] = from[prop];
-        return to;
-    }
-
-    var scene_settings = glob_settings.scene_settings;
-
-    if (scene_settings && scene_settings[scene_name]) {
-        var settings = {};
-        copy_obj(glob_settings, settings);
-        copy_obj(scene_settings[scene_name], settings);
-        delete settings.scene_settings;
-        return settings;
-    } else
-        return glob_settings;
-}
-
-function change_apply_scene_settings(scene_name, settings) {
+function change_apply_scene_settings(scene_name) {
     m_scenes.set_active(scene_name);
     var camera = m_scenes.get_active_camera();
 
@@ -1135,7 +919,7 @@ function reset_clicked() {
 }
 
 function home_clicked() {
-    process_scene(null, true, false, true);
+    process_scene(null, true);
 }
 
 function pause_clicked() {
@@ -1292,11 +1076,6 @@ function set_outlining_overview_mode(value) {
     window.location.reload();
 }
 
-function start_auto_view() {
-    _auto_view = true;
-    auto_view_load_next();
-}
-
 function on_resize(e) {
 
     m_cont.resize_to_container(true);
@@ -1313,8 +1092,6 @@ function on_resize(e) {
 function cleanup() {
     _anim_obj = null;
     _shape_key_obj = null;
-    _settings = null;
-    _scene_settings = null;
 }
 
 /*
@@ -1739,34 +1516,27 @@ function get_sel_val(select_elem) {
 }
 
 function get_fog_params() {
-    var fcd = m_scenes.get_fog_color_density();
+    var fog_params  = m_scenes.get_fog_params();
 
-    var dens = fcd[3];
-
-    if (dens > 0.2)
-        set_slider("fog_density", fcd[3]);
-    else
-        set_slider("fog_density1000", 1000 * fcd[3]);
-
-    set_color_picker("fog_color", fcd);
+    set_slider("fog_intensity", fog_params["fog_intensity"]);
+    set_slider("fog_depth", fog_params["fog_depth"]);
+    set_slider("fog_start", fog_params["fog_start"]);
+    set_slider("fog_height", fog_params["fog_height"]);
 }
 
 function set_fog_params(value) {
-    var fcd = m_scenes.get_fog_color_density();
+    var fog_params = {};
 
-    if ("fog_density" in value)
-        fcd[3] = value.fog_density;
+    if ("fog_intensity" in value)
+        fog_params["fog_intensity"] = value["fog_intensity"];
+    if ("fog_depth" in value)
+        fog_params["fog_depth"] = value["fog_depth"];
+    if ("fog_start" in value)
+        fog_params["fog_start"] = value["fog_start"];
+    if ("fog_height" in value)
+        fog_params["fog_height"] = value["fog_height"];
 
-    if ("fog_density1000" in value)
-        fcd[3] = value.fog_density1000 / 1000;
-
-    if ("fog_color" in value) {
-        fcd[0] = value.fog_color[0];
-        fcd[1] = value.fog_color[1];
-        fcd[2] = value.fog_color[2];
-    }
-
-    m_scenes.set_fog_color_density(fcd);
+    m_scenes.set_fog_params(fog_params);
 }
 
 function get_shadow_params() {
@@ -2648,9 +2418,9 @@ function get_bloom_params() {
     forbid_params(bloom_param_names, "enable");
 
     if (bloom_params) {
-        set_slider("bloom_key", bloom_params["bloom_key"]);
-        set_slider("bloom_blur", bloom_params["bloom_blur"]);
-        set_slider("bloom_edge_lum", bloom_params["bloom_edge_lum"]);
+        set_slider("bloom_key", bloom_params["key"]);
+        set_slider("bloom_blur", bloom_params["blur"]);
+        set_slider("bloom_edge_lum", bloom_params["edge_lum"]);
     }
 }
 
@@ -2658,13 +2428,13 @@ function set_bloom_params(value) {
     var bloom_params = {};
 
     if ("bloom_key" in value) {
-        bloom_params["bloom_key"] = value.bloom_key;
+        bloom_params["key"] = value.bloom_key;
     }
     if ("bloom_blur" in value) {
-        bloom_params["bloom_blur"] = value.bloom_blur;
+        bloom_params["blur"] = value.bloom_blur;
     }
     if ("bloom_edge_lum" in value) {
-        bloom_params["bloom_edge_lum"] = value.bloom_edge_lum;
+        bloom_params["edge_lum"] = value.bloom_edge_lum;
     }
 
     m_scenes.set_bloom_params(bloom_params);

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 16.09.2</title>
+  <title>Проблемы и решения &mdash; Руководство пользователя Blend4Web 16.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.09.2" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.10" href="index.html"/>
         <link rel="next" title="Замечания к релизам" href="release_notes.html"/>
         <link rel="prev" title="Работа в команде с использованием Git" href="git_short_manual.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -276,7 +276,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>В MacOS X вам следует ознакомиться с System Report.</p>
+<p>В macOS вам следует ознакомиться с System Report.</p>
 <p>Для этого выполните следующие действия:</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -322,7 +322,7 @@
 <ul>
 <li><p class="first">Проблемы с обновлением старых версий аддона.</p>
 <blockquote>
-<div><p>It’s strongly advised to restart Blender after installing a newer version of Add-on/SDK.</p>
+<div><p>Рекомендуется перезагрузка Blender после обновления SDK или аддона.</p>
 </div></blockquote>
 </li>
 <li><p class="first">Драйверы NVIDIA версии 331 в Linux могут приводить к программным ошибкам WebGL.</p>
@@ -334,7 +334,7 @@
 </li>
 <li><p class="first">Некоторые устройства, использующие GPU Mali, требуют принудительного включения WebGL в настройках браузера.</p>
 </li>
-<li><p class="first">На системах Apple OS X и Blender 2.76 для работы локального сервера разработки может потребоваться установка <a class="reference external" href="https://www.python.org/downloads/release/python-343/">Python 3.4</a>. Это связано с ошибкой Blender <a class="reference external" href="https://developer.blender.org/T46623">https://developer.blender.org/T46623</a>. В Blender 2.76b эта проблема устранена, поэтому рекомендуем обновиться.</p>
+<li><p class="first">На системах Apple macOS и Blender 2.76 для работы локального сервера разработки может потребоваться установка <a class="reference external" href="https://www.python.org/downloads/release/python-343/">Python 3.4</a>. Это связано с ошибкой Blender <a class="reference external" href="https://developer.blender.org/T46623">https://developer.blender.org/T46623</a>. В Blender 2.76b эта проблема устранена, поэтому рекомендуем обновиться.</p>
 </li>
 <li><p class="first">При использовании драйверов Nouveau скелетная анимация может работать некорректно.</p>
 </li>
@@ -359,8 +359,6 @@
 </li>
 <li><p class="first">WebGL может работать нестабильно и давать сбои при использовании драйверов Mesa 11.x в Linux/Chrome на видеокартах Intel. Понижение версии драйверов до 10.х может решить проблему.</p>
 </li>
-<li><p class="first">Использование Canvas-текстур в браузере Firefox версий 46-47 для Linux может приводить к ошибкам рендеринга. В Firefox версии 48 проблем наблюдаться не должно. Более подробная информация доступна по ссылке: <a class="reference external" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1276996">https://bugzilla.mozilla.org/show_bug.cgi?id=1276996</a>.</p>
-</li>
 <li><p class="first">При использовании тач-сенсора GearVR в VR-режиме недоступна информация о движениях пальцев.</p>
 <blockquote>
 <div><p>Samsung Internet Browser не регистрирует события, связанные с движением пальцев на тач-сенсоре в режиме VR.</p>
@@ -370,6 +368,8 @@
 <blockquote>
 <div><p>Проблема может быть решена с помощью активации слоёв перед экспортом или выбора необходимых слоёв вручную (в этом случае Blender их обновит).</p>
 </div></blockquote>
+</li>
+<li><p class="first">Оъекты с типом прозрачности Alpha Blending некорректно отображаются в браузере Google Chrome на устройствах с GPU Mali серии 400.</p>
 </li>
 </ul>
 </div>
@@ -395,7 +395,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-10-03.
+      Обновлено: 2016-10-27.
 
     </p>
   </div>
@@ -451,7 +451,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

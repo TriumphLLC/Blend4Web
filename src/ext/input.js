@@ -25,6 +25,17 @@
  * @local DeviceParameterAsync
  * @local DeviceHMDType
  * @local DeviceConfig
+ * @local MouseLocationCallback
+ * @local MouseDownWhichCallback
+ * @local MouseUpWhichCallback
+ * @local MouseWheelCallback
+ * @local KeyboardDownCallback
+ * @local KeyboardUpCallback
+ * @local TouchStartCallback
+ * @local TouchMoveCallback
+ * @local TouchEndCallback
+ * @local GyroscopeQuatCallback
+ * @local GyroscopeAnglesCallback
  */
 
 b4w.module["input"] = function(exports, require) {
@@ -62,7 +73,7 @@ var cfg_def = m_cfg.defaults;
  */
 
 /**
- * HMD type enum. Value of {@link module:input.HMD_WEBVR_TYPE}.
+ * HMD type enum. Value of {@link module:input.HMD_WEBVR_TYPE|input.HMD_WEBVR_TYPE}.
  * @typedef {Number} DeviceHMDType
  */
 
@@ -438,6 +449,164 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
         m_input.HMD_SCREEN_HEIGHT, m_input.HMD_BEVEL_SIZE];
 
 /**
+ * The callback for the mouse location corresponding to the
+ * {@link module:input.MOUSE_LOCATION|MOUSE_LOCATION} param.
+ * @callback MouseLocationCallback
+ * @param {Float32Array} location List: the horizontal mouse coordinate, the
+ * vertical mouse coordinate.
+ * @example
+ * var mouse_location_cb = function(location) {
+ *     console.log("The horizontal location: " + location[0]);
+ *     console.log("The vertical location: " + location[1]);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE);
+ * m_input.attach_param_cb(device, m_input.MOUSE_LOCATION, mouse_location_cb);
+ */
+
+/**
+ * The callback for the pressed mouse button corresponding to the
+ * {@link module:input.MOUSE_DOWN_WHICH|MOUSE_DOWN_WHICH} param.
+ * @callback MouseDownWhichCallback
+ * @param {Number} which Number indicates button that was pressed on the mouse
+ * (1 -- left button, 2 -- middle button, 3 -- right button).
+ * @example
+ * var mouse_down_which_cb = function(which) {
+ *     console.log("Pressed button: " + which);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE);
+ * m_input.attach_param_cb(device, m_input.MOUSE_DOWN_WHICH, mouse_down_which_cb);
+ */
+
+/**
+ * The callback for the released mouse button corresponding to the
+ * {@link module:input.MOUSE_UP_WHICH|MOUSE_UP_WHICH} param.
+ * @callback MouseUpWhichCallback
+ * @param {Number} which Number indicates button that was released on the mouse
+ * (1 -- left button, 2 -- middle button, 3 -- right button).
+ * @example
+ * var mouse_up_which_cb = function(which) {
+ *     console.log("Released button: " + which);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE);
+ * m_input.attach_param_cb(device, m_input.MOUSE_UP_WHICH, mouse_up_which_cb);
+ */
+
+/**
+ * The callback for the mouse scroll corresponding to the
+ * {@link module:input.MOUSE_WHEEL|MOUSE_WHEEL} param.
+ * @callback MouseWheelCallback
+ * @param {Number} delta The vertical mouse scroll amount.
+ * @example
+ * var mouse_wheel_cb = function(delta) {
+ *     console.log("Scroll amount: " + delta);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE);
+ * m_input.attach_param_cb(device, m_input.MOUSE_WHEEL, mouse_wheel_cb);
+ */
+
+/**
+ * The callback for the pressed keyboard button corresponding to the
+ * {@link module:input.KEYBOARD_DOWN|KEYBOARD_DOWN} param.
+ * @callback KeyboardDownCallback
+ * @param {Number} key_code Number indicates button that was pressed on the
+ * keyboard (use constants KEY_* from module {@link module:controls|controls}).
+ * @example
+ * var keyboard_down_cb = function(key_code) {
+ *     console.log("Pressed keyboard button: " + key_code);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD);
+ * m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN, keyboard_down_cb);
+ */
+
+/**
+ * The callback for the released keyboard button corresponding to the
+ * {@link module:input.KEYBOARD_UP|KEYBOARD_UP} param.
+ * @callback KeyboardUpCallback
+ * @param {Number} key_code Number indicates button that was released on the
+ * keyboard (use constants KEY_* from module {@link module:controls|controls}).
+ * @example
+ * var keyboard_up_cb = function(key_code) {
+ *     console.log("Released keyboard button: " + key_code);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_KEYBOARD);
+ * m_input.attach_param_cb(device, m_input.KEYBOARD_UP, keyboard_up_cb);
+ */
+
+/**
+ * The callback for the start of touch surface contacting corresponding to the
+ * {@link module:input.TOUCH_START|TOUCH_START} param.
+ * @callback TouchStartCallback
+ * @param {Array} touches List of touch objects corresponding to the
+ * contacting with the touch surface points.
+ * @example
+ * var touch_start_cb = function(touches) {
+ *     for (var i = 0; i < touches.length; ++i)
+ *          console.log("Touch contact " + touches[i].identifier + " has position" +
+ *                  + " x: " + touches[i].clientX + " y: " + touches[i].clientY);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH);
+ * m_input.attach_param_cb(device, m_input.TOUCH_START, touch_start_cb);
+ */
+
+/**
+ * The callback for the contact moving on the touch surface corresponding to the
+ * {@link module:input.TOUCH_MOVE|TOUCH_MOVE} param.
+ * @callback TouchMoveCallback
+ * @param {Array} touches List of touch objects corresponding to the
+ * contacting with the touch surface points.
+ * @example
+ * var touch_move_cb = function(touches) {
+ *     for (var i = 0; i < touches.length; ++i)
+ *          console.log("Touch contact " + touches[i].identifier + " has position" +
+ *                  + " x: " + touches[i].clientX + " y: " + touches[i].clientY);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH);
+ * m_input.attach_param_cb(device, m_input.TOUCH_MOVE, touch_move_cb);
+ */
+
+/**
+ * The callback for the end of touch surface contacting corresponding to the
+ * {@link module:input.TOUCH_END|TOUCH_END} param.
+ * @callback TouchEndCallback
+ * @param {Array} touches List of touch objects corresponding to the
+ * contacting with the touch surface points.
+ * @example
+ * var touch_end_cb = function(touches) {
+ *     for (var i = 0; i < touches.length; ++i)
+ *          console.log("Touch contact " + touches[i].identifier + " has position" +
+ *                  + " x: " + touches[i].clientX + " y: " + touches[i].clientY);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH);
+ * m_input.attach_param_cb(device, m_input.TOUCH_END, touch_end_cb);
+ */
+
+/**
+ * The callback for the quaternion of the gyroscope orientation corresponding 
+ * to the {@link module:input.GYRO_ORIENTATION_QUAT|GYRO_ORIENTATION_QUAT} param.
+ * @callback GyroscopeQuatCallback
+ * @param {Quat} quat Quaternion vector corresponding to the gyroscope orientation.
+ * @example
+ * var gyroscope_quat_cb = function(quat) {
+ *     console.log("Gyroscope orientation quaternion is " + quat);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+ * m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_QUAT, gyroscope_quat_cb);
+ */
+
+/**
+ * The callback for the Euler angles of the gyroscope orientation corresponding
+ * to the {@link module:input.GYRO_ORIENTATION_ANGLES|GYRO_ORIENTATION_ANGLES} param.
+ * @callback GyroscopeAnglesCallback
+ * @param {Euler} angles Euler angles corresponding to the gyroscope orientation.
+ * @example
+ * var gyroscope_angles_cb = function(angles) {
+ *     console.log("Gyroscope orientation Euler angles are " + angles);
+ * };
+ * var device = m_input.get_device_by_type_element(m_input.DEVICE_GYRO);
+ * m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_ANGLES, gyroscope_angles_cb);
+ */
+
+/**
  * Device type enum.
  * @typedef {Number} DeviceType
  */
@@ -493,7 +662,7 @@ exports.get_device_by_type_element = m_input.get_device_by_type_element;
 /**
  * Switch triggering of the browser default actions for registered events.
  * @param {Object} device Device object. Use
- * {@link module:input.get_device_by_type_element} to obtain it.
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @param {Boolean} prevent_default Prevent default flag.
  * @method module:input.switch_prevent_default
  */
@@ -505,7 +674,7 @@ exports.switch_prevent_default = function(device, prevent_default) {
 /**
  * Register device. Right now it should be used for DEVICE_HMD.
  * @param {Object} device Device object. Use
- * {@link module:input.get_device_by_type_element} to obtain it.
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @method module:input.register_device
  * @deprecated Not needed anymore.
  */
@@ -517,7 +686,7 @@ exports.register_device = function() {
  * Reset device. The device parameters values return to zero.
  * Right now it should be used for DEVICE_HMD.
  * @param {Object} device Device object. Use
- * {@link module:input.get_device_by_type_element} to obtain it.
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @method module:input.reset_device
  */
 exports.reset_device = function(device) {
@@ -532,7 +701,7 @@ exports.reset_device = function(device) {
 /**
  * Get parameter vector.
  * @param {Object} device Device object. Use
- * {@link module:input.get_device_by_type_element} to obtain it.
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @param {DeviceVectorParameterSync} param Name of the device vector parameter.
  * @param {Float32Array} dest Destination vector.
  * @returns {Float32Array} Destination vector.
@@ -549,7 +718,7 @@ exports.get_vector_param = function(device, param, dest) {
 /**
  * Get parameter value.
  * @param {Object} device Device object. Use
- * {@link module:input.get_device_by_type_element} to obtain it.
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @param {DeviceValueParameterSync} param Name of the device value parameter.
  * @returns {Number|Boolean} Parameter value.
  * @method module:input.get_value_param
@@ -565,12 +734,16 @@ exports.get_value_param = function(device, param) {
 /**
  * Attach callback to the device parameter. It is called when parameter is changed.
  * @param {Object} device Device object. Use
- * {@link module:input.get_device_by_type_element} to obtain it.
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @param {DeviceParameterAsync} param Name of the device parameter.
- * @param {Callback} cb Callback.
+ * @param {MouseLocationCallback|MouseDownWhichCallback|MouseUpWhichCallback|
+ * MouseWheelCallback|KeyboardDownCallback|KeyboardUpCallback|
+ * TouchStartCallback|TouchMoveCallback|TouchEndCallback|
+ * GyroscopeQuatCallback|GyroscopeAnglesCallback} [cb = null] Callback.
  * @method module:input.attach_param_cb
  */
 exports.attach_param_cb = function(device, param, cb) {
+    var cb = cb || null;
     if (device && device.type in ASYNC_PARAMS &&
             ASYNC_PARAMS[device.type].indexOf(param) >= 0)
         return m_input.attach_param_cb(device, param, cb);
@@ -581,12 +754,16 @@ exports.attach_param_cb = function(device, param, cb) {
 /**
  * Detach callback from the device parameter.
  * @param {Object} device Device object. Use
- * {@link module:input.get_device_by_type_element} to obtain it.
+ * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @param {DeviceParameterAsync} param Name of the device parameter.
- * @param {Callback} cb Callback.
+ * @param {MouseLocationCallback|MouseDownWhichCallback|MouseUpWhichCallback|
+ * MouseWheelCallback|KeyboardDownCallback|KeyboardUpCallback|
+ * TouchStartCallback|TouchMoveCallback|TouchEndCallback|
+ * GyroscopeQuatCallback|GyroscopeAnglesCallback} [cb = null] Callback.
  * @method module:input.detach_param_cb
  */
 exports.detach_param_cb = function(device, param, cb) {
+    var cb = cb || null;
     if (device && device.type in ASYNC_PARAMS &&
             ASYNC_PARAMS[device.type].indexOf(param) >= 0)
         return m_input.detach_param_cb(device, param, cb);

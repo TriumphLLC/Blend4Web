@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 16.09.2</title>
+  <title>Управление проектами &mdash; Руководство пользователя Blend4Web 16.10</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.09.2" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.10" href="index.html"/>
         <link rel="next" title="Просмотрщик сцен" href="viewer.html"/>
         <link rel="prev" title="Рабочий процесс" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -88,7 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Управление проектами</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#project-manager">Управление проектами</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#project-manager">Менеджер проектов</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#project-creation-wizard">Мастер создания проектов</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-web-player-application">Создание приложений для Веб-плеера</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#project-settings">Настройки проекта</a></li>
@@ -201,7 +201,7 @@
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
 <li><a class="reference internal" href="#project-management" id="id6">Управление проектами</a><ul>
-<li><a class="reference internal" href="#project-manager" id="id7">Управление проектами</a><ul>
+<li><a class="reference internal" href="#project-manager" id="id7">Менеджер проектов</a><ul>
 <li><a class="reference internal" href="#project-creation-wizard" id="id8">Мастер создания проектов</a></li>
 <li><a class="reference internal" href="#creating-a-web-player-application" id="id9">Создание приложений для Веб-плеера</a></li>
 <li><a class="reference internal" href="#project-information" id="id10">Информация о проекте</a></li>
@@ -249,7 +249,7 @@
 </ul>
 </div></blockquote>
 <div class="section" id="project-manager">
-<span id="id2"></span><h2><a class="toc-backref" href="#id7">Управление проектами</a><a class="headerlink" href="#project-manager" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id7">Менеджер проектов</a><a class="headerlink" href="#project-manager" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Приложение <em>Project Manager</em> доступно из раздела <em>Tools</em> главной страницы SDK. При запуске приложение выводит список из всех проектов, находящихся в установленном SDK.</p>
 <p>Команды для управления проектами находятся в верхней части страницы.</p>
 <blockquote>
@@ -278,11 +278,11 @@
 <p>Команды управления конкретным проектом находятся справа от него</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Some commands may not be available depending on the type of the project.</p>
+<p class="last">Некоторые команды могут быть недоступны в зависимости от типа проекта.</p>
 </div>
 <img alt="_images/project_manager_commands.png" class="align-center" src="_images/project_manager_commands.png" />
 <ol class="arabic">
-<li><p class="first">Компиляция проекта (недоступно для типов проекта WebPlayer JSON и WebPlayer HTML).</p>
+<li><p class="first">Сборка проекта (недоступно для типов проекта WebPlayer JSON и WebPlayer HTML).</p>
 </li>
 <li><p class="first">Проверка отсутствующих или неиспользуемых модулей API (недоступно для типов проекта WebPlayer JSON и WebPlayer HTML).</p>
 <blockquote>
@@ -360,22 +360,22 @@
 </li>
 <li><p class="first">Скопировать скрипт менеджера проектов. Скрипт project.py будет скопирован в директорию проекта.</p>
 </li>
-<li><p class="first">Все файлы проекта будут находиться в одной директории. Предпочтительно использовать для маленьких проектов, таких как уроки и примеры. Для данной опции доступны только проекты типа <code class="docutils literal"><span class="pre">Update</span></code>, <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> и <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code>.</p>
+<li><p class="first">Все файлы проекта будут находиться в одной директории. Предпочтительно использовать для маленьких проектов, таких как уроки и примеры. Для данной опции доступны только проекты типа <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> и <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code>.</p>
 </li>
 <li><p class="first">Тип собираемого проекта. Здесь возможны варианты:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">&#8220;External&#8221; - движок берется из директории &#8220;deploy/apps/common/&#8221;. Компилируются только файлы приложения;</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">External</span></code> - используются файлы движка из каталога <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code>, компилируются только файлы приложения. При сборке проекта папка <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> копируется в директорию проекта;</p>
 </li>
-<li><p class="first">&#8220;Copy&#8221; - движок копируется в директорию собранного приложения. Компилируются только файлы приложения;</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Copy</span></code> - файлы движка прямо копируются в папку приложения из каталога <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code>. Компилируются только файлы приложения;</p>
 </li>
-<li><p class="first">&#8220;Compile&#8221; - исходники движка компилируются вместе со скриптами приложения;</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Compile</span></code> - исходники движка компилируются вместе со скриптами приложения;</p>
 </li>
-<li><p class="first">&#8220;Update&#8221; - заменяется движок в директории проекта. Этот тип доступен только при включении опции <code class="docutils literal"><span class="pre">Bundled</span></code>.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">None</span></code> - движок не копируется в директорию проекта, также менеджер проектов не производит никаких действий при сборке проекта. Разработчик приложения должен самостоятельно производить все необходимые операции;</p>
 </li>
-<li><p class="first">&#8220;Web Player JSON&#8221; - json-файл, находящийся в проекте, запускается при помощи веб-плеера в составе SDK;</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> - json-файл, находящийся в проекте, запускается при помощи веб-плеера в составе SDK;</p>
 </li>
-<li><p class="first">&#8220;Web Player HTML&#8221; - проект состоит из html-файла, внутри которого находятся все необходимые ресурсы.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> - проект состоит из html-файла, внутри которого находятся все необходимые ресурсы.</p>
 </li>
 </ul>
 </div></blockquote>
@@ -578,6 +578,7 @@
 <span id="id5"></span><h2><a class="toc-backref" href="#id13">Расширенное управление проектами</a><a class="headerlink" href="#advanced-project-management" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Расширенное управление проектами используется опытными разработчикам, которым необходима как большая степень гибкости, так и возвожность автоматизировать все рабочие процессы, связанные с разработкой приложений.</p>
 <p>Для расширенного управления проектами следует использовать скрипт <em>project.py</em> и ручное редактирование конфигурационных файлов <em>.b4w_project</em>.</p>
+<p>The <em>project.py</em> script can be found in the <code class="docutils literal"><span class="pre">./apps_dev/</span></code> folder of the Blend4Web SDK directory.</p>
 <div class="section" id="dependencies">
 <h3><a class="toc-backref" href="#id14">Зависимости</a><a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Система управления проектами работает на всех операционных системах, однако для некоторых операций может потребоваться установка дополнительных зависимостей. Проверить, установлены ли необходимые зависимости, можно с помощью команды:</p>
@@ -588,13 +589,19 @@
 <div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">python project.py check_deps</span>
 </pre></div>
 </div>
+<p>Для работы скрипта необходимо установить java и <a class="reference external" href="https://www.java.com/ru/download/help/path.xml">записать ее в переменную среды PATH</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Java по умолчанию входит в Windows-версию SDK. Для Linux и macOS её требуется установить вручную.</p>
+</div>
+<p>При <a class="reference internal" href="developers.html#converter"><span>конверсии ресурсов</span></a> также используется набор внешних приложений, описанных в  <a class="reference internal" href="developers.html#converter-deps"><span>соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="projects-list">
 <h3><a class="toc-backref" href="#id15">Список проектов</a><a class="headerlink" href="#projects-list" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Список всех проектов в SDK доступен посредством следующей команды:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject list
 </pre></div>
 </div>
-<p>Выводит список проектов, находящихся в SDK.</p>
 </div>
 <div class="section" id="project-structure">
 <h3><a class="toc-backref" href="#id16">Структура проекта</a><a class="headerlink" href="#project-structure" title="Ссылка на этот заголовок">¶</a></h3>
@@ -698,7 +705,7 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 <p>Данная команда создаст директорию <em>myproject</em>, в которой будут находиться файлы: <em>myproject.js</em>, <em>myproject.css</em>, <em>myproject_dev.html</em> и <em>.b4w_project</em>.</p>
-<p>Файл .b4w_project будет выглядеть следущим образом:</p>
+<p>Файл .b4w_project будет выглядеть следующим образом:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[info]
 author = Blend4Web
 name = myproject
@@ -743,10 +750,6 @@ remove_exist_ext_dir =
 </pre></div>
 </div>
 <p>Собирает проект в директории <code class="docutils literal"><span class="pre">deploy/apps/myproject</span></code>.</p>
-<div class="admonition note">
-<p class="first admonition-title">Примечание</p>
-<p class="last">Для работы скрипта необходимо установить java и <cite>записать ее в переменную среды PATH &lt;https://www.java.com/en/download/help/path.xml&gt;</cite>.</p>
-</div>
 <p>Доступные опции:</p>
 <ul class="simple">
 <li><p class="first"><code class="docutils literal"><span class="pre">&quot;-a</span> <span class="pre">|</span> <span class="pre">--app&quot;</span></code> (необязательная) указывает на HTML-файл, относительно которого будет собираться приложение для проекта.</p>
@@ -893,7 +896,7 @@ remove_exist_ext_dir =
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-10-03.
+      Обновлено: 2016-10-27.
 
     </p>
   </div>
@@ -949,7 +952,7 @@ remove_exist_ext_dir =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

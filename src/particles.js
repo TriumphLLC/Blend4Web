@@ -341,7 +341,7 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
 
     batch.draw_mode = m_geom.DM_DYNAMIC_TRIANGLES;
     submesh.indices = gen_bb_indices(pcount);
-    submesh.va_common["a_p_bb_vertex"] = gen_bb_vertices(pcount);
+    submesh.va_common["a_p_bb_vertex"] = m_geom.gen_bb_vertices(pcount);
 
     submesh.base_length = positions.length/3;
     var larr = gen_lifetimes(pcount, lifetime, lifetime_random);
@@ -459,20 +459,6 @@ function init_particle_rand(seed) {
             return Math.random();
         }
     }
-}
-
-/**
- * Generate billboard vertices
- */
-function gen_bb_vertices(pcount) {
-    var bbv = [];
-
-    for (var i = 0; i < pcount; i++) {
-        bbv.push(-0.5,-0.5, -0.5,0.5, 0.5,0.5, 0.5,-0.5);
-    }
-
-    var bb_vertices = new Float32Array(bbv);
-    return bb_vertices;
 }
 
 function gen_bb_indices(pcount) {
@@ -712,7 +698,6 @@ exports.prepare_lens_flares = function(submesh) {
 
     var base_length = submesh.base_length;
     var sub_pos = submesh.va_frames[0]["a_position"];
-    var sub_tco = submesh.va_common["a_texcoord"];
 
     var bb_dist_arr = [];
     var bb_vert_arr = [];
@@ -729,7 +714,6 @@ exports.prepare_lens_flares = function(submesh) {
 
     submesh.va_common["a_lf_dist"] = bb_dist_arr;
     submesh.va_common["a_lf_bb_vertex"] = bb_vert_arr;
-    submesh.va_common["a_texcoord"] = sub_tco;
 
     return submesh;
 }
@@ -846,13 +830,10 @@ exports.update_start_pos = function(obj, trans, quats) {
 
 exports.update_particles_submesh = function(submesh, batch, pcount, material) {
 
-    // TODO: remove comment
-    // if (batch.part_use_tbn_quat) {
-        var data = [];
-        for (var i = 0; i < pcount; i++)
-            data.push(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1);
-        submesh.va_common["a_tbn_quat"] = new Float32Array(data);
-    // }
+    var data = [];
+    for (var i = 0; i < pcount; i++)
+        data.push(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1);
+    submesh.va_common["a_tbn_quat"] = new Float32Array(data);
 
     if (batch.part_node_data) {
         var data = [];

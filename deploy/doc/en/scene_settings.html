@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene Settings &mdash; Blend4Web 16.09.2 User Manual</title>
+  <title>Scene Settings &mdash; Blend4Web 16.10 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 User Manual" href="index.html"/>
         <link rel="next" title="Objects" href="objects.html"/>
         <link rel="prev" title="Add-on" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -93,18 +93,21 @@
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Add-on</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Scene Settings</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#render-panel">Render Panel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#development-tools">Development Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shading">Shading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shadows">Shadows</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reflections-and-refractions">Reflections and Refractions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#motion-blur">Motion Blur</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bloom">Bloom</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#color-correction">Color Correction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#glow-materials">Glow Materials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#object-outlining">Object Outlining</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#glow-materials">Glow Materials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anti-aliasing">Anti-Aliasing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anisotropic-filtering">Anisotropic Filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bloom">Bloom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#motion-blur">Motion Blur</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ambient-occlusion-ssao">Ambient Occlusion (SSAO)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#god-rays">God Rays</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#anti-aliasing">Anti-Aliasing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#shadows">Shadows</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#development-server">Development Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#color-correction">Color Correction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#timeline">Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-grass">Dynamic Grass</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#scene-panel">Scene Panel</a><ul>
@@ -127,6 +130,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#environment-lighting">Environment Lighting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mist">Mist</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#procedural-sky">Procedural Sky</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#animation">Animation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#world-export-options">Export Options</a></li>
 </ul>
 </li>
@@ -204,41 +208,45 @@
 <ul class="simple">
 <li><a class="reference internal" href="#scene-settings" id="id4">Scene Settings</a><ul>
 <li><a class="reference internal" href="#render-panel" id="id5">Render Panel</a><ul>
-<li><a class="reference internal" href="#reflections-and-refractions" id="id6">Reflections and Refractions</a></li>
-<li><a class="reference internal" href="#motion-blur" id="id7">Motion Blur</a></li>
-<li><a class="reference internal" href="#bloom" id="id8">Bloom</a></li>
-<li><a class="reference internal" href="#color-correction" id="id9">Color Correction</a></li>
-<li><a class="reference internal" href="#glow-materials" id="id10">Glow Materials</a></li>
-<li><a class="reference internal" href="#object-outlining" id="id11">Object Outlining</a></li>
-<li><a class="reference internal" href="#ambient-occlusion-ssao" id="id12">Ambient Occlusion (SSAO)</a></li>
-<li><a class="reference internal" href="#god-rays" id="id13">God Rays</a></li>
-<li><a class="reference internal" href="#anti-aliasing" id="id14">Anti-Aliasing</a></li>
-<li><a class="reference internal" href="#shadows" id="id15">Shadows</a></li>
-<li><a class="reference internal" href="#development-server" id="id16">Development Server</a></li>
-<li><a class="reference internal" href="#timeline" id="id17">Timeline</a></li>
+<li><a class="reference internal" href="#development-tools" id="id6">Development Tools</a></li>
+<li><a class="reference internal" href="#shading" id="id7">Shading</a></li>
+<li><a class="reference internal" href="#shadows" id="id8">Shadows</a></li>
+<li><a class="reference internal" href="#reflections-and-refractions" id="id9">Reflections and Refractions</a></li>
+<li><a class="reference internal" href="#object-outlining" id="id10">Object Outlining</a></li>
+<li><a class="reference internal" href="#glow-materials" id="id11">Glow Materials</a></li>
+<li><a class="reference internal" href="#anti-aliasing" id="id12">Anti-Aliasing</a></li>
+<li><a class="reference internal" href="#anisotropic-filtering" id="id13">Anisotropic Filtering</a></li>
+<li><a class="reference internal" href="#bloom" id="id14">Bloom</a></li>
+<li><a class="reference internal" href="#motion-blur" id="id15">Motion Blur</a></li>
+<li><a class="reference internal" href="#ambient-occlusion-ssao" id="id16">Ambient Occlusion (SSAO)</a></li>
+<li><a class="reference internal" href="#god-rays" id="id17">God Rays</a></li>
+<li><a class="reference internal" href="#color-correction" id="id18">Color Correction</a></li>
+<li><a class="reference internal" href="#timeline" id="id19">Timeline</a></li>
+<li><a class="reference internal" href="#dynamic-grass" id="id20">Dynamic Grass</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#scene-panel" id="id18">Scene Panel</a><ul>
-<li><a class="reference internal" href="#scene-scene" id="id19">Scene</a></li>
-<li><a class="reference internal" href="#units" id="id20">Units</a></li>
-<li><a class="reference internal" href="#audio" id="id21">Audio</a></li>
-<li><a class="reference internal" href="#logic-editor" id="id22">Logic Editor</a></li>
-<li><a class="reference internal" href="#nla" id="id23">NLA</a></li>
-<li><a class="reference internal" href="#meta-tags" id="id24">Meta Tags</a></li>
-<li><a class="reference internal" href="#physics" id="id25">Physics</a></li>
-<li><a class="reference internal" href="#cluster-batching" id="id26">Cluster Batching</a></li>
-<li><a class="reference internal" href="#objects-selection" id="id27">Objects Selection</a></li>
-<li><a class="reference internal" href="#anchors" id="id28">Anchors</a></li>
-<li><a class="reference internal" href="#export-options" id="id29">Export Options</a></li>
+<li><a class="reference internal" href="#scene-panel" id="id21">Scene Panel</a><ul>
+<li><a class="reference internal" href="#scene-scene" id="id22">Scene</a></li>
+<li><a class="reference internal" href="#units" id="id23">Units</a></li>
+<li><a class="reference internal" href="#audio" id="id24">Audio</a></li>
+<li><a class="reference internal" href="#logic-editor" id="id25">Logic Editor</a></li>
+<li><a class="reference internal" href="#nla" id="id26">NLA</a></li>
+<li><a class="reference internal" href="#meta-tags" id="id27">Meta Tags</a></li>
+<li><a class="reference internal" href="#physics" id="id28">Physics</a></li>
+<li><a class="reference internal" href="#cluster-batching" id="id29">Cluster Batching</a></li>
+<li><a class="reference internal" href="#objects-selection" id="id30">Objects Selection</a></li>
+<li><a class="reference internal" href="#anchors" id="id31">Anchors</a></li>
+<li><a class="reference internal" href="#export-options" id="id32">Export Options</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#world-panel" id="id30">World Panel</a><ul>
-<li><a class="reference internal" href="#preview" id="id31">Preview</a></li>
-<li><a class="reference internal" href="#world" id="id32">World</a></li>
-<li><a class="reference internal" href="#environment-lighting" id="id33">Environment Lighting</a></li>
-<li><a class="reference internal" href="#mist" id="id34">Mist</a></li>
-<li><a class="reference internal" href="#procedural-sky" id="id35">Procedural Sky</a></li>
-<li><a class="reference internal" href="#world-export-options" id="id36">Export Options</a></li>
+<li><a class="reference internal" href="#world-panel" id="id33">World Panel</a><ul>
+<li><a class="reference internal" href="#preview" id="id34">Preview</a></li>
+<li><a class="reference internal" href="#world" id="id35">World</a></li>
+<li><a class="reference internal" href="#environment-lighting" id="id36">Environment Lighting</a></li>
+<li><a class="reference internal" href="#mist" id="id37">Mist</a></li>
+<li><a class="reference internal" href="#procedural-sky" id="id38">Procedural Sky</a></li>
+<li><a class="reference internal" href="#animation" id="id39">Animation</a></li>
+<li><a class="reference internal" href="#world-export-options" id="id40">Export Options</a></li>
 </ul>
 </li>
 </ul>
@@ -250,8 +258,36 @@
 <span id="render-settings"></span><h2><a class="toc-backref" href="#id5">Render Panel</a><a class="headerlink" href="#render-panel" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/render1.png"><img alt="_images/render1.png" class="align-center" src="_images/render1.png" style="width: 100%;" /></a>
 <p>All scene parameters that concern the image rendering are found on this panel.</p>
+<div class="section" id="development-tools">
+<span id="render-development-server"></span><h3><a class="toc-backref" href="#id6">Development Tools</a><a class="headerlink" href="#development-tools" title="Permalink to this headline">¶</a></h3>
+<p>Development Server settings. Described thoroughly in <a class="reference internal" href="addon.html#local-development-server"><span>its own section</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_development_server.png"><img alt="_images/render_development_server.png" class="align-center" src="_images/render_development_server.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="shading">
+<span id="render-shading"></span><h3><a class="toc-backref" href="#id7">Shading</a><a class="headerlink" href="#shading" title="Permalink to this headline">¶</a></h3>
+<p>This panel contains various shading options.</p>
+<a class="reference internal image-reference" href="_images/render_shading.png"><img alt="_images/render_shading.png" class="align-center" src="_images/render_shading.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>Set Recommended Options</em></dt>
+<dd><p class="first">This button is used to achieve maximum consistency between the look of a 3D scene in Blender viewport and in web browser. Pressing this button:</p>
+<ul class="last simple">
+<li>enables <strong>World Space Shading</strong>,</li>
+<li>switches material mode to <strong>GLSL</strong>,</li>
+<li>switches viewport shading mode to <strong>Material</strong> and</li>
+<li>sets the main camera fit to <strong>Vertical</strong>.</li>
+</ul>
+</dd>
+<dt><em>World Space Shading</em></dt>
+<dd>This option turns on and off <strong>World Space Shading</strong> (world space interpretation of lighting data will be used for object shading). Disabled by default.</dd>
+</dl>
+</div>
+<div class="section" id="shadows">
+<span id="render-shadows"></span><h3><a class="toc-backref" href="#id8">Shadows</a><a class="headerlink" href="#shadows" title="Permalink to this headline">¶</a></h3>
+<p>Shadows settings. Described thoroughly in <a class="reference internal" href="lighting.html#shadows"><span>its own section</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_shadows.png"><img alt="_images/render_shadows.png" class="align-center" src="_images/render_shadows.png" style="width: 100%;" /></a>
+</div>
 <div class="section" id="reflections-and-refractions">
-<span id="render-reflections"></span><h3><a class="toc-backref" href="#id6">Reflections and Refractions</a><a class="headerlink" href="#reflections-and-refractions" title="Permalink to this headline">¶</a></h3>
+<span id="render-reflections"></span><h3><a class="toc-backref" href="#id9">Reflections and Refractions</a><a class="headerlink" href="#reflections-and-refractions" title="Permalink to this headline">¶</a></h3>
 <p>Reflection and refraction effect settings.</p>
 <a class="reference internal image-reference" href="_images/render_reflections_and_refractions.png"><img alt="_images/render_reflections_and_refractions.png" class="align-center" src="_images/render_reflections_and_refractions.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -263,58 +299,54 @@
 <dd>Quality settings for the reflection effect. Can be set to <code class="docutils literal"><span class="pre">HIGH</span></code> (the highest reflection quality), <code class="docutils literal"><span class="pre">MEDIUM</span></code> (medium quality) or to <code class="docutils literal"><span class="pre">LOW</span></code> (the lowest quality). Set to <code class="docutils literal"><span class="pre">MEDIUM</span></code> by default.</dd>
 </dl>
 </div>
-<div class="section" id="motion-blur">
-<span id="render-motion-blur"></span><h3><a class="toc-backref" href="#id7">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Permalink to this headline">¶</a></h3>
-<p>Motion blur settings. Described thoroughly <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>in its own section</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_motion_blur.png"><img alt="_images/render_motion_blur.png" class="align-center" src="_images/render_motion_blur.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="bloom">
-<span id="render-bloom"></span><h3><a class="toc-backref" href="#id8">Bloom</a><a class="headerlink" href="#bloom" title="Permalink to this headline">¶</a></h3>
-<p>Bloom effect settings. Described thoroughly in <a class="reference internal" href="postprocessing_effects.html#bloom"><span>its own section</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_bloom.png"><img alt="_images/render_bloom.png" class="align-center" src="_images/render_bloom.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="color-correction">
-<span id="render-color-correction"></span><h3><a class="toc-backref" href="#id9">Color Correction</a><a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h3>
-<p>Color correction settings. Described thoroughly in <a class="reference internal" href="colors.html#color-correction"><span>its own section</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_color_correction.png"><img alt="_images/render_color_correction.png" class="align-center" src="_images/render_color_correction.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="glow-materials">
-<span id="render-glow-materials"></span><h3><a class="toc-backref" href="#id10">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Permalink to this headline">¶</a></h3>
-<p>Glow Material effect settings. Described thoroughly in <a class="reference internal" href="postprocessing_effects.html#glow"><span>its own section</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_glow_materials.png"><img alt="_images/render_glow_materials.png" class="align-center" src="_images/render_glow_materials.png" style="width: 100%;" /></a>
-</div>
 <div class="section" id="object-outlining">
-<span id="render-object-outlining"></span><h3><a class="toc-backref" href="#id11">Object Outlining</a><a class="headerlink" href="#object-outlining" title="Permalink to this headline">¶</a></h3>
+<span id="render-object-outlining"></span><h3><a class="toc-backref" href="#id10">Object Outlining</a><a class="headerlink" href="#object-outlining" title="Permalink to this headline">¶</a></h3>
 <p>Outlining effect settings. Described thoroughly in <a class="reference internal" href="postprocessing_effects.html#outline"><span>its own section</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_object_outlining.png"><img alt="_images/render_object_outlining.png" class="align-center" src="_images/render_object_outlining.png" style="width: 100%;" /></a>
 </div>
+<div class="section" id="glow-materials">
+<span id="render-glow-materials"></span><h3><a class="toc-backref" href="#id11">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Permalink to this headline">¶</a></h3>
+<p>Glow Material effect settings. Described thoroughly in <a class="reference internal" href="postprocessing_effects.html#glow"><span>its own section</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_glow_materials.png"><img alt="_images/render_glow_materials.png" class="align-center" src="_images/render_glow_materials.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="anti-aliasing">
+<span id="render-anti-aliasing"></span><h3><a class="toc-backref" href="#id12">Anti-Aliasing</a><a class="headerlink" href="#anti-aliasing" title="Permalink to this headline">¶</a></h3>
+<p>Anti-Aliasing settings. Described thoroughly in <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>its own section</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_anti_aliasing.png"><img alt="_images/render_anti_aliasing.png" class="align-center" src="_images/render_anti_aliasing.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="anisotropic-filtering">
+<span id="render-anisotropic-filtering"></span><h3><a class="toc-backref" href="#id13">Anisotropic Filtering</a><a class="headerlink" href="#anisotropic-filtering" title="Permalink to this headline">¶</a></h3>
+<p>This parameter can be used to enable or disbale anisotropic filtering and also to set the number of texture samples used for it. By default, anisotropic filtering is disabled.</p>
+<a class="reference internal image-reference" href="_images/render_anisotropic_filtering.png"><img alt="_images/render_anisotropic_filtering.png" class="align-center" src="_images/render_anisotropic_filtering.png" style="width: 100%;" /></a>
+<p>Available values: <code class="docutils literal"><span class="pre">16x</span></code>, <code class="docutils literal"><span class="pre">8x</span></code>, <code class="docutils literal"><span class="pre">4x</span></code>, <code class="docutils literal"><span class="pre">2x</span></code> and <code class="docutils literal"><span class="pre">OFF</span></code> (default value).</p>
+</div>
+<div class="section" id="bloom">
+<span id="render-bloom"></span><h3><a class="toc-backref" href="#id14">Bloom</a><a class="headerlink" href="#bloom" title="Permalink to this headline">¶</a></h3>
+<p>Bloom effect settings. Described thoroughly in <a class="reference internal" href="postprocessing_effects.html#bloom"><span>its own section</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_bloom.png"><img alt="_images/render_bloom.png" class="align-center" src="_images/render_bloom.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="motion-blur">
+<span id="render-motion-blur"></span><h3><a class="toc-backref" href="#id15">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Permalink to this headline">¶</a></h3>
+<p>Motion blur settings. Described thoroughly <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>in its own section</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_motion_blur.png"><img alt="_images/render_motion_blur.png" class="align-center" src="_images/render_motion_blur.png" style="width: 100%;" /></a>
+</div>
 <div class="section" id="ambient-occlusion-ssao">
-<span id="render-ssao"></span><h3><a class="toc-backref" href="#id12">Ambient Occlusion (SSAO)</a><a class="headerlink" href="#ambient-occlusion-ssao" title="Permalink to this headline">¶</a></h3>
+<span id="render-ssao"></span><h3><a class="toc-backref" href="#id16">Ambient Occlusion (SSAO)</a><a class="headerlink" href="#ambient-occlusion-ssao" title="Permalink to this headline">¶</a></h3>
 <p>Screen-space ambient occlusion (SSAO) settings. Described thoroughly in <a class="reference internal" href="postprocessing_effects.html#ssao"><span>its own section</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_ambient_occlusion.png"><img alt="_images/render_ambient_occlusion.png" class="align-center" src="_images/render_ambient_occlusion.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="god-rays">
-<span id="render-god-rays"></span><h3><a class="toc-backref" href="#id13">God Rays</a><a class="headerlink" href="#god-rays" title="Permalink to this headline">¶</a></h3>
+<span id="render-god-rays"></span><h3><a class="toc-backref" href="#id17">God Rays</a><a class="headerlink" href="#god-rays" title="Permalink to this headline">¶</a></h3>
 <p>God Rays effect settings. Described thoroughly in <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>its own section</span></a>.</p>
 <a class="reference internal image-reference" href="_images/render_god_rays.png"><img alt="_images/render_god_rays.png" class="align-center" src="_images/render_god_rays.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="anti-aliasing">
-<span id="render-anti-aliasing"></span><h3><a class="toc-backref" href="#id14">Anti-Aliasing</a><a class="headerlink" href="#anti-aliasing" title="Permalink to this headline">¶</a></h3>
-<p>Anti-Aliasing settings. Described thoroughly in <a class="reference internal" href="postprocessing_effects.html#antialiasing"><span>its own section</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_anti_aliasing.png"><img alt="_images/render_anti_aliasing.png" class="align-center" src="_images/render_anti_aliasing.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="shadows">
-<span id="render-shadows"></span><h3><a class="toc-backref" href="#id15">Shadows</a><a class="headerlink" href="#shadows" title="Permalink to this headline">¶</a></h3>
-<p>Shadows settings. Described thoroughly in <a class="reference internal" href="lighting.html#shadows"><span>its own section</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_shadows.png"><img alt="_images/render_shadows.png" class="align-center" src="_images/render_shadows.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="development-server">
-<span id="render-development-server"></span><h3><a class="toc-backref" href="#id16">Development Server</a><a class="headerlink" href="#development-server" title="Permalink to this headline">¶</a></h3>
-<p>Development Server settings. Described thoroughly in <a class="reference internal" href="addon.html#local-development-server"><span>its own section</span></a>.</p>
-<a class="reference internal image-reference" href="_images/render_development_server.png"><img alt="_images/render_development_server.png" class="align-center" src="_images/render_development_server.png" style="width: 100%;" /></a>
+<div class="section" id="color-correction">
+<span id="render-color-correction"></span><h3><a class="toc-backref" href="#id18">Color Correction</a><a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h3>
+<p>Color correction settings. Described thoroughly in <a class="reference internal" href="colors.html#color-correction"><span>its own section</span></a>.</p>
+<a class="reference internal image-reference" href="_images/render_color_correction.png"><img alt="_images/render_color_correction.png" class="align-center" src="_images/render_color_correction.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="timeline">
-<span id="render-timeline"></span><h3><a class="toc-backref" href="#id17">Timeline</a><a class="headerlink" href="#timeline" title="Permalink to this headline">¶</a></h3>
+<span id="render-timeline"></span><h3><a class="toc-backref" href="#id19">Timeline</a><a class="headerlink" href="#timeline" title="Permalink to this headline">¶</a></h3>
 <p>Timeline settings.</p>
 <a class="reference internal image-reference" href="_images/render_timeline.png"><img alt="_images/render_timeline.png" class="align-center" src="_images/render_timeline.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -326,13 +358,19 @@
 <dd>Number of the frames per second. Set to 24 by default. This parameter only affect the animation playback speed (not the scene itself).</dd>
 </dl>
 </div>
+<div class="section" id="dynamic-grass">
+<span id="render-dynamic-grass"></span><h3><a class="toc-backref" href="#id20">Dynamic Grass</a><a class="headerlink" href="#dynamic-grass" title="Permalink to this headline">¶</a></h3>
+<p>Enables and disables <a class="reference internal" href="particles_instancing.html#particles-grass"><span>dynamic grass</span></a> effect.</p>
+<a class="reference internal image-reference" href="_images/render_dynamic_grass.png"><img alt="_images/render_dynamic_grass.png" class="align-center" src="_images/render_dynamic_grass.png" style="width: 100%;" /></a>
+<p>Possible values: <code class="docutils literal"><span class="pre">ON</span></code>, <code class="docutils literal"><span class="pre">OFF</span></code> and <code class="docutils literal"><span class="pre">AUTO</span></code>. Set to <code class="docutils literal"><span class="pre">AUTO</span></code> by default.</p>
+</div>
 </div>
 <div class="section" id="scene-panel">
-<span id="scene"></span><h2><a class="toc-backref" href="#id18">Scene Panel</a><a class="headerlink" href="#scene-panel" title="Permalink to this headline">¶</a></h2>
+<span id="scene"></span><h2><a class="toc-backref" href="#id21">Scene Panel</a><a class="headerlink" href="#scene-panel" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/scene.png"><img alt="_images/scene.png" class="align-center" src="_images/scene.png" style="width: 100%;" /></a>
 <p>The settings that concern scene behavior, including audio, physics and animation settings, are found on this panel.</p>
 <div class="section" id="scene-scene">
-<span id="id2"></span><h3><a class="toc-backref" href="#id19">Scene</a><a class="headerlink" href="#scene-scene" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3><a class="toc-backref" href="#id22">Scene</a><a class="headerlink" href="#scene-scene" title="Permalink to this headline">¶</a></h3>
 <p>Scene settings.</p>
 <a class="reference internal image-reference" href="_images/scene_scene.png"><img alt="_images/scene_scene.png" class="align-center" src="_images/scene_scene.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -341,12 +379,12 @@
 </dl>
 </div>
 <div class="section" id="units">
-<span id="scene-units"></span><h3><a class="toc-backref" href="#id20">Units</a><a class="headerlink" href="#units" title="Permalink to this headline">¶</a></h3>
+<span id="scene-units"></span><h3><a class="toc-backref" href="#id23">Units</a><a class="headerlink" href="#units" title="Permalink to this headline">¶</a></h3>
 <p>Sets the measurement units used in the scene.</p>
 <a class="reference internal image-reference" href="_images/scene_units.png"><img alt="_images/scene_units.png" class="align-center" src="_images/scene_units.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="audio">
-<span id="scene-audio"></span><h3><a class="toc-backref" href="#id21">Audio</a><a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h3>
+<span id="scene-audio"></span><h3><a class="toc-backref" href="#id24">Audio</a><a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h3>
 <p>Audio settings.</p>
 <a class="reference internal image-reference" href="_images/scene_audio.png"><img alt="_images/scene_audio.png" class="align-center" src="_images/scene_audio.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -383,7 +421,7 @@
 </dl>
 </div>
 <div class="section" id="logic-editor">
-<span id="scene-logic-editor"></span><h3><a class="toc-backref" href="#id22">Logic Editor</a><a class="headerlink" href="#logic-editor" title="Permalink to this headline">¶</a></h3>
+<span id="scene-logic-editor"></span><h3><a class="toc-backref" href="#id25">Logic Editor</a><a class="headerlink" href="#logic-editor" title="Permalink to this headline">¶</a></h3>
 <p>Settings for the use of the logic node trees (created in the <a class="reference internal" href="logic_editor.html#logic-editor"><span>logic editor</span></a>) in the scene. Disabled by default.</p>
 <a class="reference internal image-reference" href="_images/scene_logic_editor.png"><img alt="_images/scene_logic_editor.png" class="align-center" src="_images/scene_logic_editor.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -392,7 +430,7 @@
 </dl>
 </div>
 <div class="section" id="nla">
-<span id="scene-nla"></span><h3><a class="toc-backref" href="#id23">NLA</a><a class="headerlink" href="#nla" title="Permalink to this headline">¶</a></h3>
+<span id="scene-nla"></span><h3><a class="toc-backref" href="#id26">NLA</a><a class="headerlink" href="#nla" title="Permalink to this headline">¶</a></h3>
 <p>Non-Linear Animation playback settings. Disabled by default.</p>
 <a class="reference internal image-reference" href="_images/scene_nla.png"><img alt="_images/scene_nla.png" class="align-center" src="_images/scene_nla.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -401,7 +439,7 @@
 </dl>
 </div>
 <div class="section" id="meta-tags">
-<span id="scene-meta-tags"></span><h3><a class="toc-backref" href="#id24">Meta Tags</a><a class="headerlink" href="#meta-tags" title="Permalink to this headline">¶</a></h3>
+<span id="scene-meta-tags"></span><h3><a class="toc-backref" href="#id27">Meta Tags</a><a class="headerlink" href="#meta-tags" title="Permalink to this headline">¶</a></h3>
 <p>Application&#8217;s meta tags.</p>
 <a class="reference internal image-reference" href="_images/scene_meta_tags.png"><img alt="_images/scene_meta_tags.png" class="align-center" src="_images/scene_meta_tags.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -414,7 +452,7 @@
 </dl>
 </div>
 <div class="section" id="physics">
-<span id="scene-physics"></span><h3><a class="toc-backref" href="#id25">Physics</a><a class="headerlink" href="#physics" title="Permalink to this headline">¶</a></h3>
+<span id="scene-physics"></span><h3><a class="toc-backref" href="#id28">Physics</a><a class="headerlink" href="#physics" title="Permalink to this headline">¶</a></h3>
 <p>Physics settings.</p>
 <a class="reference internal image-reference" href="_images/scene_physics.png"><img alt="_images/scene_physics.png" class="align-center" src="_images/scene_physics.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -423,7 +461,7 @@
 </dl>
 </div>
 <div class="section" id="cluster-batching">
-<span id="scene-batching"></span><h3><a class="toc-backref" href="#id26">Cluster Batching</a><a class="headerlink" href="#cluster-batching" title="Permalink to this headline">¶</a></h3>
+<span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">Cluster Batching</a><a class="headerlink" href="#cluster-batching" title="Permalink to this headline">¶</a></h3>
 <p>This parameter enables the use of cluster batching. It can be used for optimization purposes. This is disabled by default.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -436,7 +474,7 @@
 </dl>
 </div>
 <div class="section" id="objects-selection">
-<span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id27">Objects Selection</a><a class="headerlink" href="#objects-selection" title="Permalink to this headline">¶</a></h3>
+<span id="scene-objects-selection"></span><h3><a class="toc-backref" href="#id30">Objects Selection</a><a class="headerlink" href="#objects-selection" title="Permalink to this headline">¶</a></h3>
 <p>Object selection settings. Objects can be selected both with the API function <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.pick_object">pick_object()</a> and with the <a class="reference internal" href="logic_editor.html#logic-editor"><span>logic nodes</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -449,7 +487,7 @@
 </dl>
 </div>
 <div class="section" id="anchors">
-<span id="scene-anchors"></span><h3><a class="toc-backref" href="#id28">Anchors</a><a class="headerlink" href="#anchors" title="Permalink to this headline">¶</a></h3>
+<span id="scene-anchors"></span><h3><a class="toc-backref" href="#id31">Anchors</a><a class="headerlink" href="#anchors" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="objects.html#objects-anchors"><span>Anchor</span></a> visibility detection settings.</p>
 <a class="reference internal image-reference" href="_images/scene_anchors.png"><img alt="_images/scene_anchors.png" class="align-center" src="_images/scene_anchors.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -458,7 +496,7 @@
 </dl>
 </div>
 <div class="section" id="export-options">
-<span id="scene-export-options"></span><h3><a class="toc-backref" href="#id29">Export Options</a><a class="headerlink" href="#export-options" title="Permalink to this headline">¶</a></h3>
+<span id="scene-export-options"></span><h3><a class="toc-backref" href="#id32">Export Options</a><a class="headerlink" href="#export-options" title="Permalink to this headline">¶</a></h3>
 <p>Scene settings export parameters.</p>
 <a class="reference internal image-reference" href="_images/scene_export_options.png"><img alt="_images/scene_export_options.png" class="align-center" src="_images/scene_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -468,16 +506,16 @@
 </div>
 </div>
 <div class="section" id="world-panel">
-<span id="world-settings"></span><h2><a class="toc-backref" href="#id30">World Panel</a><a class="headerlink" href="#world-panel" title="Permalink to this headline">¶</a></h2>
+<span id="world-settings"></span><h2><a class="toc-backref" href="#id33">World Panel</a><a class="headerlink" href="#world-panel" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/world.png"><img alt="_images/world.png" class="align-center" src="_images/world.png" style="width: 100%;" /></a>
 <p>Environment settings such as settings for sky, mist and such are found on this panel.</p>
 <div class="section" id="preview">
-<span id="world-preview"></span><h3><a class="toc-backref" href="#id31">Preview</a><a class="headerlink" href="#preview" title="Permalink to this headline">¶</a></h3>
+<span id="world-preview"></span><h3><a class="toc-backref" href="#id34">Preview</a><a class="headerlink" href="#preview" title="Permalink to this headline">¶</a></h3>
 <p>Environment preview.</p>
 <a class="reference internal image-reference" href="_images/world_preview.png"><img alt="_images/world_preview.png" class="align-center" src="_images/world_preview.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="world">
-<span id="world-world"></span><h3><a class="toc-backref" href="#id32">World</a><a class="headerlink" href="#world" title="Permalink to this headline">¶</a></h3>
+<span id="world-world"></span><h3><a class="toc-backref" href="#id35">World</a><a class="headerlink" href="#world" title="Permalink to this headline">¶</a></h3>
 <p>Sky settings.</p>
 <a class="reference internal image-reference" href="_images/world_world.png"><img alt="_images/world_world.png" class="align-center" src="_images/world_world.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -493,21 +531,21 @@
 <dd>Sky color at the horizon.</dd>
 <dt><em>Zenith Color</em></dt>
 <dd>Sky color in the zenith.</dd>
-<dt><em>Ambient Color</em></dt>
-<dd>The color of the ambient lighting.</dd>
 <dt><em>Reflect World</em></dt>
 <dd>Render the sky while rendering reflections.</dd>
 <dt><em>Render Only Reflection</em></dt>
 <dd>Render the sky <em>only</em> while rendering reflections.</dd>
+<dt><em>World Background</em></dt>
+<dd>Enables and disables <code class="docutils literal"><span class="pre">World</span> <span class="pre">Background</span></code> option (located under the <code class="docutils literal"><span class="pre">Display</span></code> tab of the <code class="docutils literal"><span class="pre">3D</span> <span class="pre">View</span></code> panel). When this option is activated, background colors are rendered in the viewport window the same way they would be in the engine itself.</dd>
 </dl>
 </div>
 <div class="section" id="environment-lighting">
-<span id="world-environment-lighting"></span><h3><a class="toc-backref" href="#id33">Environment Lighting</a><a class="headerlink" href="#environment-lighting" title="Permalink to this headline">¶</a></h3>
+<span id="world-environment-lighting"></span><h3><a class="toc-backref" href="#id36">Environment Lighting</a><a class="headerlink" href="#environment-lighting" title="Permalink to this headline">¶</a></h3>
 <p>Environment lighting settings. Described thoroughly in <a class="reference internal" href="lighting.html#environment-lighting"><span>their own section</span></a>.</p>
 <a class="reference internal image-reference" href="_images/world_environment_lighting.png"><img alt="_images/world_environment_lighting.png" class="align-center" src="_images/world_environment_lighting.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="mist">
-<span id="world-mist"></span><h3><a class="toc-backref" href="#id34">Mist</a><a class="headerlink" href="#mist" title="Permalink to this headline">¶</a></h3>
+<span id="world-mist"></span><h3><a class="toc-backref" href="#id37">Mist</a><a class="headerlink" href="#mist" title="Permalink to this headline">¶</a></h3>
 <p>Mist settings.</p>
 <a class="reference internal image-reference" href="_images/world_mist.png"><img alt="_images/world_mist.png" class="align-center" src="_images/world_mist.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -528,13 +566,31 @@
 </dl>
 </div>
 <div class="section" id="procedural-sky">
-<span id="world-procedural-sky"></span><h3><a class="toc-backref" href="#id35">Procedural Sky</a><a class="headerlink" href="#procedural-sky" title="Permalink to this headline">¶</a></h3>
+<span id="world-procedural-sky"></span><h3><a class="toc-backref" href="#id38">Procedural Sky</a><a class="headerlink" href="#procedural-sky" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div>Procedural sky settings. Described thoroughly in <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>their own section</span></a>.</div></blockquote>
 <a class="reference internal image-reference" href="_images/world_procedural_sky.png"><img alt="_images/world_procedural_sky.png" class="align-center" src="_images/world_procedural_sky.png" style="width: 100%;" /></a>
 </div>
+<div class="section" id="animation">
+<span id="world-animation"></span><h3><a class="toc-backref" href="#id39">Animation</a><a class="headerlink" href="#animation" title="Permalink to this headline">¶</a></h3>
+<p>Environment animation settings.</p>
+<a class="reference internal image-reference" href="_images/world_animation.png"><img alt="_images/world_animation.png" class="align-center" src="_images/world_animation.png" style="width: 100%;" /></a>
+<dl class="docutils">
+<dt><em>Apply Default Animation</em></dt>
+<dd>If this parameter is enabled, the engine will start playback of the animation assigned to the environment upon loading.</dd>
+<dt><em>Behavior</em></dt>
+<dd><p class="first">Sets the behavior of the default animation. Available options are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Loop</span></code> - the animation will be played repeatedly.</li>
+<li><code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - the animation will be played once.</li>
+<li><code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - the animation will be played once, and then switched back to the first frame.</li>
+</ul>
+<p class="last">This option is only avaliable if the <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> parameter is enabled.</p>
+</dd>
+</dl>
+</div>
 <div class="section" id="world-export-options">
-<span id="id3"></span><h3><a class="toc-backref" href="#id36">Export Options</a><a class="headerlink" href="#world-export-options" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3><a class="toc-backref" href="#id40">Export Options</a><a class="headerlink" href="#world-export-options" title="Permalink to this headline">¶</a></h3>
 <p>Environment parameters export settings.</p>
 <a class="reference internal image-reference" href="_images/world_export_options.png"><img alt="_images/world_export_options.png" class="align-center" src="_images/world_export_options.png" style="width: 100%;" /></a>
 <dl class="docutils">
@@ -565,7 +621,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-10-03.
+      Last updated on 2016-10-27.
 
     </p>
   </div>
@@ -621,7 +677,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

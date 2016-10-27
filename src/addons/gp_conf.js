@@ -22,7 +22,6 @@
  */
 b4w.module["gp_conf"] = function(exports, require) {
 
-var m_cfg       = require("config");
 var m_cont      = require("container");
 var m_ctrl      = require("controls");
 var m_input     = require("input");
@@ -123,7 +122,6 @@ _axes_prev_val[m_input.GMPD_AXIS_8] = -2;
 _axes_prev_val[m_input.GMPD_AXIS_9] = -2;
 _axes_prev_val[m_input.GMPD_AXIS_10] = -2;
 _axes_prev_val[m_input.GMPD_AXIS_11] = -2;
-_axes_prev_val[m_input.GMPD_AXIS_12] = -2;
 
 
 /**

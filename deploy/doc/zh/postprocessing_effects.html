@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>后期处理效果 &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>后期处理效果 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,9 +32,9 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
         <link rel="next" title="立体渲染" href="stereo_rendering.html"/>
-        <link rel="prev" title="Lighting, Shadows and Background" href="lighting.html"/> 
+        <link rel="prev" title="照明、 阴影和背景" href="lighting.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,20 +87,20 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">后期处理效果</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#motion-blur">运动模糊</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#activation">激活</a></li>
@@ -109,7 +109,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#depth-of-field">景深</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">激活</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Additional Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">附加设置</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#screen-space-ambient-occlusion">屏幕空间环境光遮蔽</a><ul>
@@ -146,18 +146,18 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">纹理</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -259,40 +259,50 @@
 </ol>
 </div>
 <div class="section" id="id4">
-<h3>Additional Settings<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<h3>附加设置<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
 <a class="reference internal image-reference" href="_images/effects_dof_settings.png"><img alt="_images/effects_dof_settings.png" class="align-center" src="_images/effects_dof_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
-<dt><em>Focus</em></dt>
-<dd>Sets the focal object. By default, this field is empty.</dd>
-<dt><em>Distance</em></dt>
-<dd>This parameter defines the focal distance. Available only if the <code class="docutils literal"><span class="pre">Focus</span></code> parameter hasn&#8217;t been set beforehand (if the corresponding field is empty). Set to zero by default.</dd>
-<dt><em>Front Start</em></dt>
-<dd><p class="first">This sets the distance (in meters) from the focus to the nearest plane (relative to the camera) behind which blurring effect starts to occur. The default value is 1.0.</p>
-<p class="last">This parameter is available only if the <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> parameter is enabled.</p>
+<dt><em>焦点</em></dt>
+<dd><p class="first last">设置的重点对象。默认情况下，此字段为空。</p>
 </dd>
-<dt><em>Front End</em></dt>
-<dd>This sets the distance from the camera and the neares plane (relative to the camera) behind which blurring effect reaches maximum strength (defined by the <code class="docutils literal"><span class="pre">Power</span></code> value). Default value is 5.0.</dd>
-<dt><em>Rear Start</em></dt>
-<dd><p class="first">This sets the distance from the focus to the furthest plane (relative to the camera) behind which blurring effect starts to occur. The default value is 1.0.</p>
-<p class="last">This parameter is available only if the <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> parameter is enabled.</p>
+<dt><em>距离</em></dt>
+<dd><p class="first last">此参数定义焦距。仅当 <code class="docutils literal"><span class="pre">Focus</span></code> 参数没有预先设置（如果相应的字段为空）有用。默认设置为零。</p>
 </dd>
-<dt><em>Rear End</em></dt>
-<dd>This sets the distance from the camera to the furthest plane (relative to the camera) behind which blurring reaches maximum strength (defined by the <code class="docutils literal"><span class="pre">Power</span></code> value). Default value is 5.0.</dd>
+<dt><em>前端起始</em></dt>
+<dd><p class="first">此选项设置（以米为单位） 焦点到最近的平面到模糊效应开始出现前的距离（相对于相机） 。默认值是 1.0。</p>
+<p class="last">只有启用了 <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> 参数，此参数才可用。</p>
+</dd>
+<dt><em>前端结束</em></dt>
+<dd><p class="first last">这个设置从相机和最近平面 （相对于相机） 背后的模糊效果达到最大强度 （由  <code class="docutils literal"><span class="pre">Power</span></code> 的值定义） 的距离。默认值为 5.0。</p>
+</dd>
+<dt><em>后方开始</em></dt>
+<dd><p class="first">这设置从焦点到最远的平面（相对于相机）的距离，模糊效果开始发生。默认值为1.0.</p>
+<p class="last">只有启用了 <code class="docutils literal"><span class="pre">High</span> <span class="pre">Quality</span> <span class="pre">(Bokeh)</span></code> 参数，此参数才可用。</p>
+</dd>
+<dt><em>后方结束</em></dt>
+<dd><p class="first last">这设置从相机到最远的平面（相对于相机）的距离，模糊达到最大强度（由  <code class="docutils literal"><span class="pre">Power</span></code> 的值定义）。默认值为5.0。</p>
+</dd>
 <dt><em>指数</em></dt>
-<dd>Blurring ratio. The value of this parameter can vary from 0.1 to 10. The default value is 2.0.</dd>
-<dt><em>High Quality (Bokeh)</em></dt>
-<dd><p class="first">This enables high quality rendering of the depth of field effect. Activating this option:</p>
-<ul class="simple">
-<li>Enables bokeh effect and makes available the <code class="docutils literal"><span class="pre">Bokeh</span> <span class="pre">Intensity</span></code> parameter for adjusting the strength of the effect.</li>
-<li>Enables the <code class="docutils literal"><span class="pre">Front</span> <span class="pre">Start</span></code> and <code class="docutils literal"><span class="pre">Rear</span> <span class="pre">Start</span></code> parameters for setting soft transition between the distance from camera where the effect start to occur and the distanse where it reaches its full strength.</li>
-<li>Enables <code class="docutils literal"><span class="pre">Foreground</span> <span class="pre">Blur</span></code> parameter that is described below.</li>
-</ul>
-<p class="last">The parameter is disabled by default.</p>
+<dd><p class="first last">模糊的比率。此参数的值可从 0.1 至 10。默认值为 2.0。</p>
 </dd>
-<dt><em>Bokeh Intensity</em></dt>
-<dd>This value sets the strength of the bokeh effect. It can vary from zero to 1.0. Set to 0.3 by default.</dd>
-<dt><em>Foreground Blur</em></dt>
-<dd>Enabling this option makes the engine to blur the silhouettes of the foreground objects, improving the quality of the effect at the cost of slight performance decrease. Disabled by default.</dd>
+<dt><em>高品质（背景虚化）</em></dt>
+<dd><p class="first">这使得高质量渲染景深效果。激活此选项︰</p>
+<ul class="simple">
+<li><p class="first">启用的散景效果，并使 <code class="docutils literal"><span class="pre">Bokeh</span> <span class="pre">Intensity</span></code> 参数可用来调整影响强度。</p>
+</li>
+<li><p class="first">启用 <code class="docutils literal"><span class="pre">Front</span> <span class="pre">Start</span></code> 和 <code class="docutils literal"><span class="pre">Rear</span> <span class="pre">Start</span></code> 参数设置从相机里的影响开始发生软过渡之间的距离，它达到其全部的力量的距离。</p>
+</li>
+<li><p class="first">启用 <code class="docutils literal"><span class="pre">Foreground</span> <span class="pre">Blur</span></code> 的参数，如下所述。</p>
+</li>
+</ul>
+<p class="last">参数默认被禁用的。</p>
+</dd>
+<dt><em>散景强度</em></dt>
+<dd><p class="first last">此值设置的散景效果的强度。它可以从 0 到 1.0 会发生变化。默认设置为 0.3。</p>
+</dd>
+<dt><em>前景模糊</em></dt>
+<dd><p class="first last">启用此选项使引擎模糊前景物体的轮廓，提高质量的代价是性能略有降低作用。默认为禁用。</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -302,7 +312,7 @@
 <a class="reference internal image-reference" href="_images/effects_ssao.png"><img alt="_images/effects_ssao.png" class="align-center" src="_images/effects_ssao.png" style="width: 50%;" /></a>
 <div class="section" id="id5">
 <h3>激活<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
-<p>激活 <code class="docutils literal"><span class="pre">Render``标签下</span> <span class="pre">``Ambient</span> <span class="pre">Occlusion</span> <span class="pre">SSAO</span></code> 面板，设置  <code class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></code> 参数 <code class="docutils literal"><span class="pre">AUTO`</span> <span class="pre">`或</span> <span class="pre">``ON</span></code> 在``Rander&gt; Shadows``面板。</p>
+<p>Activate the <code class="docutils literal"><span class="pre">Ambient</span> <span class="pre">Occlusion</span> <span class="pre">SSAO</span></code> panel under the <code class="docutils literal"><span class="pre">Render</span></code> tab and set the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></code> parameter to <code class="docutils literal"><span class="pre">AUTO</span></code> or <code class="docutils literal"><span class="pre">ON</span></code>  on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Shadows</span></code> panel.</p>
 </div>
 <div class="section" id="id6">
 <h3>其他设置<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
@@ -485,7 +495,7 @@
         <a href="stereo_rendering.html" class="btn btn-neutral float-right" title="立体渲染" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="lighting.html" class="btn btn-neutral" title="Lighting, Shadows and Background" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="lighting.html" class="btn btn-neutral" title="照明、 阴影和背景" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -495,7 +505,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -551,7 +561,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

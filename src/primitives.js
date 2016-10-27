@@ -76,7 +76,6 @@ function generate_grid(x_subdiv, y_subdiv, x_size, y_size) {
             var y = -y_size + j * delta_y;
 
             positions.push(x, y, 0);
-            // TODO: check (0, 0, 0, 1)
             tbn_quats.push(0, 0, 0, 1);
             texcoords.push(i / (x_subdiv - 1), j / (y_subdiv -1));
 
@@ -506,7 +505,7 @@ exports.generate_billboard = function() {
     var submesh = m_geom.init_submesh("BILLBOARD");
 
     var va_frame = m_util.create_empty_va_frame();
-    va_frame["a_bb_vertex"] = new Float32Array([-0.5,-0.5, -0.5,0.5, 0.5,0.5, 0.5,-0.5]);
+    va_frame["a_bb_vertex"] = m_geom.gen_bb_vertices(1);
 
     submesh.va_frames[0] = va_frame;
     submesh.indices = new Uint32Array([0, 2, 1, 0, 3, 2]);
@@ -642,9 +641,6 @@ exports.generate_uv_sphere = function(segments, rings, size, center,
         va_frame["a_tbn_quat"] = m_util.gen_tbn_quats(normals);
     }
 
-    submesh.va_common["a_influence"] = [];
-    submesh.va_common["a_color"]     = [];
-    submesh.va_common["a_texcoord"]  = [];
     submesh.va_frames[0] = va_frame;
     submesh.indices = indices;
     submesh.base_length = positions.length/3;

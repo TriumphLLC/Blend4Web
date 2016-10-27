@@ -104,7 +104,7 @@ Cycles nodes are only partially supported: in most cases they will not work in B
     |                   | normal vector           |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+
     | Normal            | Used to plug in normal  | Full                       | Average              |
-    | Map [#f2]_        | map                     |                            |                      |
+    | Map [#f1]_        | map                     |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+ 
     | Output            | Outputs the result      | Full                       | Average              |
     |                   | of the node program     |                            |                      |
@@ -147,14 +147,14 @@ Cycles nodes are only partially supported: in most cases they will not work in B
     |                   | with two given vectors  |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+   
     | Vector            | Converts Vertor, Point  | Full                       | Average              |
-    | Transform [#f1]_  | or Normal between       |                            |                      |
+    | Transform [#f2]_  | or Normal between       |                            |                      |
     |                   | World, Camera and       |                            |                      |
     |                   | Object coordinte spaces |                            |                      |
     +-------------------+-------------------------+----------------------------+----------------------+
 
-.. [#f1] If at least one of the internal parameters, ``Space to convert from...`` or ``Space to convert to...`` is set to ``Object``, then any object that uses the material will be considered :ref:`dynamic <static_dynamic_objects>`.
+.. [#f1] The ``Color Space`` parameter of a normal map used with this node should be set to ``Non-Color``. Not doing so may lead to unpredictable results (although it won't crash the engine).
 
-.. [#f2] The ``Color Space`` parameter of a normal map used with this node should be set to ``Non-Color``. Not doing so may lead to unpredictable results (although it won't crash the engine).
+.. [#f2] If at least one of the internal parameters, ``Space to convert from...`` or ``Space to convert to...`` is set to ``Object``, then any object that uses the material will be considered :ref:`dynamic <static_dynamic_objects>`.
 
 |
 

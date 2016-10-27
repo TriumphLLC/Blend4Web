@@ -6,7 +6,6 @@ var m_data    = require("data");
 var m_app     = require("app");
 var m_cfg     = require("config");
 var m_mat     = require("material");
-var m_obj     = require("objects");
 var m_scenes  = require("scenes");
 var m_version = require("version");
 
@@ -71,9 +70,9 @@ function set_stack_material_params() {
 
 function set_node_material_params() {
     var cube_node_value = m_scenes.get_object_by_name("Cube_node_value");
-    m_obj.set_nodemat_value(cube_node_value, ["mat_node_value", "Value"], 20);
+    m_mat.set_nodemat_value(cube_node_value, ["mat_node_value", "Value"], 20);
     var cube_node_rgb = m_scenes.get_object_by_name("Cube_node_rgb");
-    m_obj.set_nodemat_rgb(cube_node_rgb, ["mat_node_rgb", "RGB"], 0, 1, 0);
+    m_mat.set_nodemat_rgb(cube_node_rgb, ["mat_node_rgb", "RGB"], 0, 1, 0);
 }
 
 });

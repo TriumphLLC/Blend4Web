@@ -59,6 +59,8 @@ LIGHT_TEMPLATE = '<span style="color: rgb{}">'
 
 CGC_PATH = "cgc"
 
+MAX_SHOWN_FILE_GRP_ITEMS = 3
+
 _root = None
 _port = None
 _python_path = None
@@ -493,11 +495,11 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
 
                 if engine_type == "webplayer_html":
                     for assets_dir in assets_dirs:
-                        apps = [basename(str(p)) for p in pathlib.Path(join(root,
-                                assets_dir)).glob("*.html")]
+                        apps = [str(p) for p in pathlib.Path(join(root,
+                                assets_dir)).rglob("*.html")]
+
                         for app in apps:
-                            player_apps.append(proj_util.unix_path(join(assets_dir,
-                                    app)))
+                            player_apps.append(proj_util.unix_path(relpath(app, root)))
 
                 elif engine_type == "webplayer_json":
                     for assets_dir in assets_dirs:
@@ -507,9 +509,9 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
                             player_apps.append(proj_util.unix_path(join(assets_dir,
                                     app)))
                 else:
-
                     apps = [basename(str(p)) for p in pathlib.Path(join(root,
                             path)).glob("*.html")]
+
                     for app in apps:
                         dev_apps.append(proj_util.unix_path(join(path, app)))
 
@@ -586,10 +588,10 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
 
                 for file in blend_files:
                     link = proj_util.unix_path(relpath(str(file), root))
-                    content += self.blend_link(link);
+                    content += self.blend_link(link, blend_dir);
 
                 elem_ins["blend_files"] += self.file_group(elem_ins["blend_files"],
-                        root, blend_dir, content);
+                        root, blend_dir, content, len(blend_files));
 
             elem_ins["json_files"] = ""
 
@@ -601,20 +603,20 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
                 content = ""
                 for file in json_files:
                     link = proj_util.unix_path(relpath(str(file), root))
-                    content += self.json_link(link);
+                    content += self.json_link(link, assets_dir);
 
                 elem_ins["json_files"] += self.file_group(elem_ins["json_files"], root,
-                        assets_dir, content);
+                        assets_dir, content, len(json_files));
 
             elem_ins["ops"] = ""
 
             if (proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", None) in
-                    ["external", "copy", "compile", "update"]):
+                    ["external", "copy", "compile", "none"]):
                 elem_ins["ops"] += ('<a href=/project/-p/' +
                         quote(normpath(path), safe="") +
-                        '/compile/ title="Compile project app(s)">compile project</a>')
+                        '/build/ title="Compile project app(s)">build project</a>')
 
-                if proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", None) != 'update':
+                if proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", None) != 'none':
                     elem_ins["ops"] += ('<a href=/project/-p/' +
                             quote(normpath(path), safe="") +
                             '/check_modules/ title="Check project modules">check modules</a>')
@@ -655,17 +657,19 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
         self.write(out_html_str)
 
     def app_link(self, name, link, prefix):
-        return ('<div><a class="spoiler_item" href="/' + link +
+        return ('<div><a target="_blank" class="spoiler_item" href="/' + link +
                 '" title="Run app">' + prefix + ": " + name + '</a></div>')
 
-    def blend_link(self, link):
-        return ('<div><a class="spoiler_item" href="/run_blender/' + link + '" ' +
-                'title="Open in Blender">' + self.shorten(link) + '</a></div>')
+    def blend_link(self, link, dir):
+        link_text = self.shorten(link.replace(dir, "")).lstrip("/")
+        return ('<div><a target="_blank" class="spoiler_item" href="/run_blender/' + link + '" ' +
+                'title="Open in Blender">' + link_text + '</a></div>')
 
-    def json_link(self, link):
-        return ('<div><a class="spoiler_item" ' +
+    def json_link(self, link, dir):
+        link_text = self.shorten(link.replace(dir, "")).lstrip("/")
+        return ('<div><a target="_blank" class="spoiler_item" ' +
                 'href="/apps_dev/viewer/viewer.html?load=../../' + link + '" ' +
-                'title="Open in Viewer">' + self.shorten(link) + '</a></div>')
+                'title="Open in Viewer">' + link_text + '</a></div>')
 
     def shorten(self, s, maxlen=60):
         if len(s) > maxlen:
@@ -673,8 +677,8 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
         else:
             return s
 
-    def file_group(self, s, root, dir, content):
-        if not len(content):
+    def file_group(self, s, root, dir, content, num_items):
+        if not num_items:
             return ""
 
         tpl_html_file = open(join(root, "index_assets", "templates", "spoiler.tmpl"), "r")
@@ -685,7 +689,12 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
 
         header = self.shorten(dir.strip("/ ") + "/", 50)
 
-        html_insertions = dict(id=id, header=header, content=content)
+        if num_items <= MAX_SHOWN_FILE_GRP_ITEMS:
+            html_insertions = dict(id=id, header=header, content=content,
+                    display_show_content="none", display_hide_content="inline")
+        else:
+            html_insertions = dict(id=id, header=header, content=content,
+                    display_show_content="inline", display_hide_content="none")
 
         return string.Template(tpl_html_str).substitute(html_insertions)
 
@@ -848,7 +857,7 @@ class ProjectInfoHandler(tornado.web.RequestHandler):
         engine_type_replacer = {
             "webplayer_html": "WebPlayer HTML",
             "webplayer_json": "WebPlayer JSON",
-            "update": "Update",
+            "none": "none",
             "copy": "Copy",
             "compile": "Compile",
             "external": "External"

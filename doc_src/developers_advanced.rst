@@ -113,7 +113,7 @@ All above mentioned operations can be performed with a single command:
 Building the Add-on
 ===================
 
-Binary Blend4Web addon builds are available for the following platforms: Linux x32/64, OS X x64, Windows x32/64. At the same time users can compile the addon by themselves.
+Binary Blend4Web addon builds are available for the following platforms: Linux x32/64, macOS x64, Windows x32/64. At the same time users can compile the addon by themselves.
 
 To do this Python 3.x (it's better if it's the same version as in Blender) and a C compiler are required. Under Linux it's enough to install the python3-dev and build-essential packages.
 

@@ -1,418 +1,358 @@
 
-Lighting, Shadows and Background
-********************************
+照明、 阴影和背景
+*****************
 
 
-Table of Contents
-^^^^^^^^^^^^^^^^^
+目录
+^^^^
 
-* Lighting, Shadows and Background
+* 照明、 阴影和背景
 
-  * Shading Types
+  * 着色类型
 
-  * Lighting with Light Sources
+  * 用光源照明
 
-    * Light source types
+    * 光源类型
 
-    * Light source setup
+    * 光源设置
 
-  * Environment Lighting (Ambient)
+  * 环境照明（环境）
 
-    * Activation
+    * **激活**
 
-    * Setup
+    * 设置
 
-    * Environment map method
+    * 环境贴图方法
 
-  * Shadows
+  * 阴影
 
-    * Activation
+    * **激活**
 
-    * Setup
+    * 设置
 
   * Background
 
 
-Shading Types
-=============
+着色类型
+========
 
-Lighting (shading) depends on the direction of normal vectors. The
-standard Blender's shading types are supported: "Shading: Flat" (face
-normals are used), "Shading: Smooth" (interpolated vertex normals are
-used) and their combinations.
-
-[图片]
-
-
-
-If the required effect is impossible to achieve with the standard
-tools, you can use the normals editor.
-
-The result of applying different shading types and using the normals
-editor:
+照明（着色）取决于法线矢量的方向。支持标准Blender的阴影类型 ：
+"Shading: Flat" （面法线被使用），"Shading: Smooth" （插值顶点法线被使
+用）以及它们的组合。
 
 [图片]
 
-1. Flat Shading
-
-2. Smooth Shading
-
-3. Smooth Shading + bevel
-
-4. Smooth Shading + bevel + editing normals
 
 
-Lighting with Light Sources
-===========================
+如果使用标准工具没法达到所需的效果，您可以使用 normals editor.
 
-A scene can have multiple (but not less than one) light sources of
-different types.
+不同的阴影类型和使用法线编辑的结果：
+
+[图片]
+
+1. 平面着色
+
+2. 光滑着色
+
+3. 平滑阴影 倒角
+
+4. 平滑阴影 倒角 编辑法线
 
 
-Light source types
-------------------
+用光源照明
+==========
 
-The following light source types are supported:
+一个场景可以有多个（但不小于一个）的不同类型的光源。
+
+
+光源类型
+--------
+
+支持下面的光源类型：
 
 *Point*
-   Light propagates from one point uniformly to all directions with
-   gradual attenuation.
+   光从一个点均匀传播与逐渐衰减四面八方。
 
 *Sun*
-   Light propagates from an infinite plane in one direction without
-   attenuation.
+   光从一个无限平面在一个方向无衰减传播。
 
 *Spot*
-   Light propagates from one point within the angular limit, with
-   gradual attenuation.
+   光从角度限制内的一个点传播时，并逐渐衰减。
 
 *Hemi*
-   Hemispherical. Light propagates from an infinite hemisphere without
-   attenuation.
+   半球形。光线从无限半球传播无衰减。
 
 
-Light source setup
-------------------
+光源设置
+--------
 
-Performed in the "Object Data" tab when a lamp object is selected.
+当选择了一盏灯在 "Object Data" 标签中修改设置。
 
 [图片]
 
 
 
 *Color*
-   Light color. The default value is (1.0, 1.0, 1.0) (i.e. white).
+   灯光颜色。默认值是（1.0，1.0，1.0）（即白色）。
 
 *Energy*
-   Radiation intensity. The default value is 1.0.
+   辐射强度。缺省值为1.0。
 
 *Falloff*
-   Attenuation type. The value is exported but the engine always uses
-   "Inverse Square". It is applicable to the "Point" and "Spot" light
-   source types. The default value is "Inverse Square".
+   衰减型。该值导出，但引擎始终使用 "Inverse Square". 它适用于 "Point"
+   和 "Spot" 光源类型。默认值是 "Inverse Square".
 
 *Distance*
-   Attenuation parameter. It is applicable to the "Point" and "Spot"
-   light source types. The default value is 30.0.
+   衰减参数。它适用于 "Point" 和 "Spot" 光源类型。默认值是25.0。
 
 *Specular*
-   Create specular highlights. Enabled by default.
+   创建镜面高光。默认情况下启用。
 
 *Diffuse*
-   Do diffuse shading. Enabled by default.
+   做漫反射着色。默认情况下启用。
 
 *Spot Shape > Size*
-   Cone angle in degrees. It is applicable to the "Spot" light source
-   type. The default value is 45º.
+   锥角度。它适用于 "Spot" 光源类型。默认值是45度。
 
 *Spot Shape > Blend*
-   Parameter for blurring light spot edges. It is applicable to the
-   "Spot" light source type. The default value is 0.15.
+   模糊光斑边缘参数。它适用于 "Spot" 光源类型。默认值是0.15。
 
 *Dynamic Intensity*
-   Use this light source for calculating the time of day. Applicable
-   only to the "Sun" light source type. Disabled by default.
+   使用该光源，用于计算每天的时间。仅适用于 "Sun" 光源类型。默认情况下
+   禁用。
 
 *Shadow > Shadow*
-   Use this light source for shadow calculation. Should be used when
-   multiple light sources are present. Disabled by default.
+   使用这个光源计算影子。当多个光源存在应该被使用。默认情况下禁用。
 
 *Shadow > Clip Start*
-   This parameter specifies a distance from the light source, below
-   which objects do not generate shadows. Default value is 1.001.
+   此参数指定离光源的距离，低于该值物体不产生阴影的距离。默认值为1.001
+   。
 
 *Shadow > Clip End*
-   This parameter specifies a distance from the light source, beyond
-   which objects do not generate shadows. Default value is 30.002.
+   此参数指定离光源的距离，超出后物体不产生阴影的距离。默认值是30.002
+   。
 
 
-Environment Lighting (Ambient)
-==============================
+环境照明（环境）
+================
 
-The engine supports 3 methods of the environment lighting simulation.
+该引擎支持环境灯光模拟的3种方法。
 
-1. Flat white lighting.
+1. 平白光照明。
 
-2. Hemispherical lighting model in which horizon and zenith colors
-   should be specified. As a result objects are filled with a gradient
-   between these two colors depending on the direction of normals.
+2. 半球形的照明模式，即应当指定视野和天顶的颜色。物体会因为法线和方
+   向 填充这两种颜色组成的梯度色。
 
-3. Lighting using an environment map - so called image-based
-   lighting.
+3. 灯光使用 环境贴图 - 所谓的基于图像的照明。
 
 
-Activation
-----------
+**激活**
+--------
 
-Enable the "Environment Lighting" checkbox on the "World" tab.
+启用 "World" 选项卡上的 "Environment Lighting"  复选框。
 
 [图片]
 
 
-Setup
------
+设置
+----
 
 *World > Environment Lighting > Energy*
-   Environment lighting intensity. The default value is 1.0.
+   环境照明亮度。缺省值为1.0。
 
 *World > Environment Lighting > Environment Color*
-   Selection of the environment lighting simulation method: "White" -
-   flat white lighting, "Sky Color" - hemispherical model, "Sky
-   Texture" - lighting using an environment map. The default value is
-   "White".
+   选择环境照明模拟的方法: "White" - 平照明，"Sky Color" - 半球模型，
+   "Sky Texture" - 照明使用的 环境贴图 。默认值是白色。
 
 *World > Horizon Color* and *World > Zenith Color*
-   If the hemispherical model ("Sky Color") is selected the horizon
-   and zenith colors can be specified by means of the "World > Horizon
-   Color" and "World > Zenith Color" color pickers. It is recommended
-   to activate the "World > Blend Sky" option for better color
-   selection.
+   如果选择了半球模型 ("Sky Color")  可以通过 "World > Horizon Color"
+   和 "World > Zenith Color"  颜色选取器指定的地平线和天顶角变化的颜色
+   。建议以激活 "World > Blend Sky" 选项为更好的颜色选择。
 
 
-Environment map method
-----------------------
+环境贴图方法
+------------
 
-To use an environment map for environment lighting:
+要使用环境贴图进行环境照明：
 
-1. Enable the "Environment Lighting" checkbox on the "World" tab.
+1. 启用 "World" 选项卡上的 "Environment Lighting"  复选框。
 
-2. Select "Environment Lighting > Sky Texture".
+2. 选择 "环境照明>天空Texture"。
 
-3. Go from the "World" tab to the "Texture" tab.
+3. 从 "World" 选项卡转至 "Texture" 标签。
 
-4. Create an environment map, load the corresponding image to it.
+4. 创建 环境贴图，加载相应的图像。
 
-5. For the environment map select "ENVIRONMENT_LIGHTING" or "BOTH"
-   as the "Sky Texture Usage" value on the "Export Options" panel (the
-   "BOTH" option also enables using this texture as a skydome
-   texture).
+5. 对于环境贴图选择 "ENVIRONMENT_LIGHTING" 或 "BOTH" 为 "Export
+   Options" 面板上的 "Sky Texture Usage" 值（"BOTH" 选项，还可以使用该
+   纹理作为 天穹材质).
 
 [图片]
 
 
 
 
-Shadows
-=======
+阴影
+====
 
-Shadows are exceptionally important for rendering the final picture.
-They provide the viewer not only with information about the objects'
-outline but also about their height and relative position, light
-source position and so on.
+阴影对渲染最后的画面格外重要。它们所提供的观看者不仅与有关物体的轮廓的
+信息，也包含他们的高度和相对位置，光源位置等。
 
-Blend4Web implements the following shadow rendering techniques:
-cascaded shadow maps (CSM) and softened shadows (PCF).
+Blend4Web实现以下阴影渲染技术：级联阴影贴图（CSM）和软阴影（PCF）。
 
-Up to 4 (or 3 if SSAO is enabled) light sources can generate shadows
-simultaneously. If *Shadow* parameter is enabled for more than 4 light
-sources, shadows will still be generated only from 4 of them.
+多达4个（或3如果SSAO启用）光源可以同时生成阴影。如果 *阴影* 参数为被超
+过4光源启用，阴影只能从其中4个中生成的。
 
 [图片]
 
 
-Activation
-----------
+**激活**
+--------
 
-1. Enable the "Shadows: Cast" checkbox under the "Object" tab for
-   the objects which **cast** shadows.
+1. 在 "Object" 选项卡下启用 "Shadows: Cast"  复选框为物体 **投射**
+   阴 影 。
 
-2. Enable the "Shadows: Receive" checkbox under the "Object" tab
-   for the objects which **receive** shadows.
+2. 在 "Object" 选项卡下启用 "Shadows: Receive" 复选框为物体 **接收
+   ** 阴影 。
 
-3. Make sure that the "Shadows" option in the "Render" tab has the
-   value "AUTO" or "ON".
+3. 确保在 "Render" 选项卡中的 "Shadows" 选项的值为 "AUTO" 或 "ON"。
 
-注解: Objects, which have transparent materials with a gradient, do
-  not cast shadows.[图片]
+注解: 物体，其中带有 渐变的透明材质, 不投射阴影。[图片]
 
 
 
 
-Setup
------
+设置
+----
 
 *Direction*
-   If there are multiple light sources, it is recommended to specify
-   the exact light source which is used for shadow calculations, by
-   enabling the "Shadow > Shadow" checkbox under the "Object Data" tab
-   for the selected lamp object.
+   如果有多个光源，建议指定用于阴影计算确切的光源，选择灯光物体通过在
+   "Object Data" 面板的 "Shadow > Shadow" 复选框来启用。
 
 *Color*
-   The shadow color is determined by the environment lighting
-   settings.
+   环境照明阴影颜色是由 环境光照 设置确定 。
 
-The following additional settings are located on the "Shadows" panel
-of the "Render" tab:
+下列附加设置位于 "Render" 标签的 "Shadows" 面板上：
 
 [图片]
 
 *Render Shadows*
-   Enables and disables shadow rendering. Can be set to "ON", "OFF"
-   and "AUTO". Set to "AUTO" by default.
+   启用和禁用阴影渲染。可设置 "ON"，"OFF" 和 "AUTO"。默认设置为 "AUTO"
+   。
 
-*Soft Shadows*
-   This option enables smoothing of the shadow maps. Enabled by
-   default.
+*软阴影*
+   此选项使平滑的阴影贴图。默认情况下启用。
 
-*Resolution*
-   Shadow map resolution. The default value is 2048 x 2048px.
+*分辨率*
+   阴影贴图分辨率。默认值为 2048 x 2048px。
 
-*Blur Samples*
-   The number of the samples used for smoothing shadow maps. Available
-   values are 4x, 8x and 16x, with the latter being the default value.
+*采样*
+   用于平滑阴影贴图的样品数目。可用值为 4x, 8x 和 16x, 后者是默认值。
 
 *Self-Shadow Polygon Offset*
-   Coefficient for shifting polygons relative to light source
-   orientation. The default value is 1.
+   相对于光源定向多边形移位系数。默认值是1。
 
 *Self-Shadow Normal Offset*
-   Coefficient for shifting polygons along their normals. The default
-   value is 0.010.
+   沿法线移动多边形系数。默认值是0.010。
 
-The last two parameters can be used to reduce self-shadowing
-artifacts. These artifacts appear for the objects that cast and
-receive shadows at the same time. The "Self-Shadow Polygon Offset"
-parameter is more effective for fighting against artifacts in inner
-areas of polygons while "Self-Shadow Normal Offset" is better for the
-boundary areas. Both these parameters lead to shadow distortions so we
-recommend to set them as low as possible.
+最后两个参数可以用于减少自阴影的瑕疵。这些瑕疵显示在同一时间投射和接收
+阴影的物体。"Self-Shadow Polygon Offset" 参数是更有效的对抗的多边形的
+内部区域瑕疵，虽然' Self-Shadow 法线抵消 ' 是更好地为边界地区。上述两
+个参数导致阴影扭曲，因此，我们建议让他们尽可能低的水平。
 
 [图片]
 
-注解: Shadows from "Point" light sources are generated the same way
-  as from "Spot" light sources and are projected only in one direction
-  specified by the source's "Rotation" parameter.
+注解: 从 "Point" 光源生成的阴影方法与从 "Spot" 光源的相同，预计由源
+  的 "Rotation" 参数指定只在一个方向投影。
 
 
 
 *Enable CSM*
-   Activates the using of cascaded shadows model; reveals additional
-   options. Disabled by default. Won't work if the "Shadow" setting is
-   enabled for more than one light source. "Point" and "Spot" type
-   light sources support only one shadow cascade.
+   激活的级联阴影模型的使用;显示附加选项。默认情况下禁用。如果
+   "Shadow" 设置一个以上的光源启用将无法工作。 "Point" 和 "Spot" 式光
+   源只支持一个阴影级联。
 
-This option allows to choose between the following shadow generation
-models:
+此选项允许下面的阴影生成类型之间进行选择：
 
-* Generic model which uses a single optimized shadow map for the
-  whole scene ("Enable CSM" is turned off).
+* 它使用一个单一的优化阴影贴图为整个场景通用模型 ("Enable CSM" 已关
+  闭 ）。
 
-* Shadow cascades ("Enable CSM" is turned on).
+* 阴影级联 ("Enable CSM" 被接通）。
 
 *Blur Radius*
-   Blur ratio for setting up softened shadows. The default value is 3.
-   Zero value produces hard shadows.
+   设置软化阴影模糊比例。默认值是3。零值会产生硬阴影。
 
 [图片]
 
 
 
-Softened shadows can improve visual quality and realism. They hide the
-jugged edges inevitable when using image-based techniques, that is
-especially noticeable for low-resolution shadow maps. The using of
-softened shadows often allows to decrease resolution without
-substantial quality loss.
+软化的阴影可以提高视觉质量和真实感。使用基于图像的技术，这是尤其明显的
+低分辨率的阴影贴图时，他们隐藏不可避免的齿形的边缘。经常使用软化阴影允
+许降低分辨率没有实质的质量损失。
 
 
-Generic shadows
-~~~~~~~~~~~~~~~
+通用阴影
+~~~~~~~~
 
-This option suits well smaller scenes with a limited number of
-objects. Thanks to optimizations applied for such scenes, one can
-achieve better shadow quality as compared with cascaded shadows. Also,
-this option is simpler and faster for setting up, while using a single
-shadow map greatly improves the performance.
+此选项适合很小场景与数量有限的物体。通过优化应用这样的场景，可以用级联
+阴影达到更好的阴影质量。此外，此选项是简单和快速的设置，而使用单个阴影
+贴图极大地提高了性能。
 
 
-Shadow cascades
-~~~~~~~~~~~~~~~
+级联阴影
+~~~~~~~~
 
-注解: These settings are supported only for "Sun" light sources.
-  Cascades are turned off for other types of light sources.
+注解: 这些设置只支持 "Sun" 光源。级联对其他类型的光源关闭。
 
-In order to provide acceptable shadow quality and to cover
-considerable space at the same time it is required to use multiple
-stages for shadow generation (cascades). Thus, the best quality
-cascades are situated near the observer while the worst quality
-cascades are in the distance. This option suits well middle-to-large
-scenes, e.g. game levels.
+为提供可接受的阴影质量，同时也为覆盖了相当大的空间是需要影子生成 （级
+联） 使用多个阶段。因此，最好的质量级联位于靠近观察者，而最坏的质量级
+联的距离较远。这个选项适合中到大的场景，例如游戏关卡。
 
-When enabled the following extended settings are revealed:
+如果启用下列扩展设置会显示：
 
 [图片]
 
 
 
 *CSM Number*
-   Number of shadow cascades. From 1 to 4 cascades are supported. The
-   default value is 1.
+   阴影级联的数量。从1至4个级联的支持。默认值是1。
 
 *CSM First Cascade Border*
-   First cascade size. The default value is 10.0.
+   第一梯级的大小。默认值是10.0。
 
 *CSM Last Cascade Border*
-   Last cascade size. The default value is 100.0.
+   最后级联大小。默认值是100.0。
 
-The sizes of the intermediate cascades are interpolated between the
-two above-mentioned parameters.
+中间级联的尺寸在两个上述参数之间内插。
 
-注解: When setting up the shadows keep in mind that the bigger the
-  cascade size is, the worse and less detailed are the shadows inside
-  it. On the other hand, reducing the "CSM First Cascade Border"
-  parameter makes the subsequent less detailed cascades closer to the
-  camera and thus more noticeable. Reducing the "CSM Last Cascade
-  Border" parameter forces shadows to disappear at more close distance
-  from the camera. However, when softened shadows are used the overall
-  quality will improve thanks to blurring at the edges.
+注解: 记住当设置阴影时，级联尺寸越大，内部的阴影细节越少越差。另一方
+  面，降 低 "CSM First Cascade Border" 参数使得靠近相机的级联缺乏细节
+  。降低 "CSM Last Cascade Border"  参数强制在靠近相机的距离里阴影消失
+  。然而 ，当使用软阴影时，由于边缘模糊的原因整体质量将得到改善。
 
 [图片]
 
 
 
 *CSM First Cascade Blur Radius*
-   Blur ratio for the first cascade. The default value is 3. Zero
-   value produces hard shadows.
+   模糊比用于第一级联。默认值是3。零值会产生硬阴影。
 
 *CSM Last Cascade Blur Radius*
-   Blur ratio for the last cascade. The default value is 1.5. Zero
-   value produces hard shadows.
+   模糊比用于最后级联。默认值是1.5。零值会产生硬阴影。
 
-The blur radii of the intermediate cascades are interpolated between
-the two above-mentioned parameters.
+中间级联的模糊半径两个上述参数之间内插。
 
-注解: We recommend to start setting up the softened shadows with the
-  first cascade (using "CSM First Cascade Blur Radius") and then
-  proceed to other cascades (using "CSM Last Cascade Blur Radius").
-  Often the last cascade may need less blurring than the first one.
-  This may be needed to prevent the shadows on the last cascade being
-  too faded due to low resolution. This also reduces undesirable self-
-  shadowing artifacts.
+注解: 我们建议开始设置与第一梯级软化阴影（使用 "CSM First Cascade
+  Blur Radius") ，然后进行其他级联（使用 "CSM Last Cascade Blur
+  Radius") 。 通常，最后一个级联可能比第一个需要更少的模糊。这可能是必
+  要的，由于低 分辨率以防止在最后一个级联的阴影太褪色，。这也减少了不
+  良自阴影假象。
 
 *Fade-out Last Cascade*
-   Smooth dying-out of the last cascade. Enabled by default.
+   平滑消失在最后一个级联。默认情况下启用。
 
 *Blend Between Cascades*
-   Smoothing the boundaries between the cascades. Enabled by default.
+   平滑的级联之间的界限。默认情况下启用。
 
 [图片]
 
@@ -422,33 +362,28 @@ the two above-mentioned parameters.
 Background
 ==========
 
-You can change the background in the following ways:
+您可以通过以下方式更改背景：
 
-1. Enable "World > Render Sky", then set the "Horizon Color" and
-   the "Zenith Color" under Blender's "World" tab.
+1. 启用  "World > Render Sky", 然后在Blender的 "World" 选项卡下设置
+   "Horizon Color" 和 "Zenith Color"  。
 
-2. Place the whole scene inside a model (e.g. a cube or a sphere)
-   with its normals directed inside, with a material and an optional
-   texture.
+2. 把整个场景放入一个（例如一个立方体或球体）法线指向内部模型的里面
+   ， 带材料和一个可选的纹理。
 
-3. Place a surface with a material and an optional texture in front
-   of the camera. Parent it to the camera. If required, tweak the
-   distance to this surface, starting and ending clipping planes for
-   the camera.
+3. 在相机前放置一个带一个可选的纹理的材质的面。设置父级为相机。如果
+   需 要，调整到这个表面的距离，相机开始和结束剪切平面。
 
 [图片]
 
-4. Use a skydome.
+4. 使用 skydome.
 
-5. Set up the procedurally generated atmosphere.
+5. 建立程序产生 大气.
 
-6. Set the engine's "background_color" parameter with the
-   "config.set()" method. Please note, that "World > Render Sky" under
-   Blender's "World" tab must be disabled. This value is used as
-   argument for the WebGL "clearColor()" method. For correct results,
-   it's recommended to turn the WebGL context transparency off (the
-   "alpha" parameter). Such the configuration is used by default in
-   the engine's standard web player.
+6. 用 "config.set()" 方法设置引擎的 "background_color" 参数。请注意
+   ， Blender的 "World" 选项卡下的  "World > Render Sky" 必须被禁止。
+   这个 值被用作WebGL的 "clearColor()" 方法的参数。对于正确的结果，建
+   议将 WebGL的背景透明度关闭（"alpha" 参数）。这样的配置在默认情况下
+   引擎的 标准网络播放器使用。
 
          var m_cfg = b4w.require("config");
          var m_main = b4w.require("main");
@@ -459,14 +394,11 @@ You can change the background in the following ways:
 
          m_main.init(...);
 
-7. You can use any HTML content behind the *canvas* element, to
-   which the rendering is performed, as a background. To do this,
-   activate the WebGL context transparency (the "alpha" parameter).
-   Please note, that "World  > Render Sky" under Blender's "World" tab
-   must be disabled. For correct results, it's recommended to set
-   absolutely transparent black background color. Such the
-   configuration is used by default in the scene viewer of Blend4Web
-   SDK.
+7. 您可以在 *canvas* 元素之后使用任何HTML内容，作为背景进行渲染。要
+   做 到这一点，激活WebGL的背景透明度（ "alpha" 参数）。请注意，
+   Blender的 "World" 选项卡下的 "World  > Render Sky" 必须禁止。想要正
+   确的结果， 建议设置完全透明的黑色背景色。这样的配置在Blend4Web SDK
+   的  场景查看 器 默认情况下使用。
 
          var m_cfg = b4w.require("config");
          var m_main = b4w.require("main");

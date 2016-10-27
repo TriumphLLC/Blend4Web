@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-28 15:48+0300\n"
+"POT-Creation-Date: 2016-10-27 10:59+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -81,7 +81,7 @@ msgstr "удалять проекты."
 
 #: ../project_manager.rst:30
 msgid "Project Manager"
-msgstr "Управление проектами"
+msgstr "Менеджер проектов"
 
 #: ../project_manager.rst:32
 msgid ""
@@ -156,15 +156,15 @@ msgstr "Команды управления конкретным проекто�
 
 #: ../project_manager.rst:62
 msgid "Some commands may not be available depending on the type of the project."
-msgstr ""
+msgstr "Некоторые команды могут быть недоступны в зависимости от типа проекта."
 
 #: ../project_manager.rst:67
 msgid ""
-"Compile project (not available for Web Player JSON and Web Player HTML "
+"Build project (not available for Web Player JSON and Web Player HTML "
 "projects)."
 msgstr ""
-"Компиляция проекта (недоступно для типов проекта WebPlayer JSON и "
-"WebPlayer HTML)."
+"Сборка проекта (недоступно для типов проекта WebPlayer JSON и WebPlayer "
+"HTML)."
 
 #: ../project_manager.rst:68
 msgid ""
@@ -381,13 +381,13 @@ msgstr ""
 msgid ""
 "All project files will be located in the same directory. It is preferable"
 " to use this option in small projects, such as lessons and examples. Only"
-" ``Update``, ``Web Player JSON`` and ``Web Player HTML`` project types is"
-" available for this option."
+" ``Web Player JSON`` and ``Web Player HTML`` project types are available "
+"for this option."
 msgstr ""
 "Все файлы проекта будут находиться в одной директории. Предпочтительно "
 "использовать для маленьких проектов, таких как уроки и примеры. Для "
-"данной опции доступны только проекты типа ``Update``, ``Web Player JSON`` "
-"и ``Web Player HTML``."
+"данной опции доступны только проекты типа ``Web Player JSON`` и ``Web "
+"Player HTML``."
 
 #: ../project_manager.rst:139
 msgid "Project’s type. Several options are available:"
@@ -395,48 +395,55 @@ msgstr "Тип собираемого проекта. Здесь возможн�
 
 #: ../project_manager.rst:141
 msgid ""
-"\"External\" - engine will be taken from the \"deploy/apps/common/\" "
-"directory. Only application files will be compiled;"
+"``External`` - the project will use engine files in the "
+"``deploy/apps/common/`` directory, only application files will be "
+"compiled. When the project is deployed, the ``deploy/apps/common/`` "
+"folder will be copied to the project directory;"
 msgstr ""
-"\"External\" - движок берется из директории \"deploy/apps/common/\". "
-"Компилируются только файлы приложения;"
+"``External`` - используются файлы движка из каталога ``deploy/apps/common/``, "
+"компилируются только файлы приложения. При сборке проекта папка "
+"``deploy/apps/common/`` копируется в директорию проекта;"
 
 #: ../project_manager.rst:142
 msgid ""
-"\"Copy\" - engine is copied into the compiled application directory. Only"
-" application files are compiled;"
+"``Copy`` - engine files will be directly copied from the "
+"``deploy/apps/common/`` to the application folder. Only application files"
+" are compiled;"
 msgstr ""
-"\"Copy\" - движок копируется в директорию собранного приложения. "
-"Компилируются только файлы приложения;"
+"``Copy`` - файлы движка прямо копируются в папку приложения из каталога "
+"``deploy/apps/common/``. Компилируются только файлы приложения;"
 
 #: ../project_manager.rst:143
-msgid "\"Compile\" - engine sources are compiled with application scripts;"
+msgid "``Compile`` - engine sources are compiled with application scripts;"
 msgstr ""
-"\"Compile\" - исходники движка компилируются вместе со скриптами "
+"``Compile`` - исходники движка компилируются вместе со скриптами "
 "приложения;"
 
 #: ../project_manager.rst:144
 msgid ""
-"\"Update\" - engine inside the project directory will be replaced. "
-"Available only for ``Bundled`` projects;"
+"``None`` - Project Manager will not copy the engine files to the "
+"application folder, nor will it perform any operations upon building the "
+"application. Application developers will have to manually perform "
+"everything they need;"
 msgstr ""
-"\"Update\" - заменяется движок в директории проекта. Этот тип доступен "
-"только при включении опции ``Bundled``."
+"``None`` - движок не копируется в директорию проекта, также менеджер "
+"проектов не производит никаких действий при сборке проекта. Разработчик "
+"приложения должен самостоятельно производить все необходимые операции;"
 
 #: ../project_manager.rst:145
 msgid ""
-"\"Web Player JSON\" - json-file placed inside the project is run with the"
+"``Web Player JSON`` - json-file placed inside the project is run with the"
 " help of web-player inside SDK;"
 msgstr ""
-"\"Web Player JSON\" - json-файл, находящийся в проекте, запускается при "
+"``Web Player JSON`` - json-файл, находящийся в проекте, запускается при "
 "помощи веб-плеера в составе SDK;"
 
 #: ../project_manager.rst:146
 msgid ""
-"\"Web Player HTML\" - project is packed into single html-file, containing"
+"``Web Player HTML`` - project is packed into single html-file, containing"
 " all required resources."
 msgstr ""
-"\"Web Player HTML\" - проект состоит из html-файла, внутри которого "
+"``Web Player HTML`` - проект состоит из html-файла, внутри которого "
 "находятся все необходимые ресурсы."
 
 #: ../project_manager.rst:148
@@ -873,11 +880,17 @@ msgstr ""
 "*project.py* и ручное редактирование конфигурационных файлов "
 "*.b4w_project*."
 
-#: ../project_manager.rst:361
+#: ../project_manager.rst:360
+msgid ""
+"The *project.py* script can be found in the ``./apps_dev/`` folder of the"
+" Blend4Web SDK directory."
+msgstr ""
+
+#: ../project_manager.rst:363
 msgid "Dependencies"
 msgstr "Зависимости"
 
-#: ../project_manager.rst:363
+#: ../project_manager.rst:365
 msgid ""
 "The project management system works in all operating systems. However, "
 "some operations can require installing additional dependencies. In order "
@@ -888,49 +901,76 @@ msgstr ""
 "дополнительных зависимостей. Проверить, установлены ли необходимые "
 "зависимости, можно с помощью команды:"
 
-#: ../project_manager.rst:369 ../project_manager.rst:632
+#: ../project_manager.rst:371 ../project_manager.rst:636
 msgid "For MS Windows users:"
 msgstr "Для пользователей ОС Windows:"
 
 #: ../project_manager.rst:377
+msgid ""
+"For script operation it's required to install java and  `set the PATH "
+"system variable <https://www.java.com/en/download/help/path.xml>`_."
+msgstr ""
+"Для работы скрипта необходимо установить java и `записать ее в переменную"
+" среды PATH <https://www.java.com/ru/download/help/path.xml>`_."
+
+#: ../project_manager.rst:380
+msgid ""
+"Java is included by default in the Windows version of the SDK. In Linux "
+"and macOS it should be installed manually."
+msgstr ""
+"Java по умолчанию входит в Windows-версию SDK. Для Linux и macOS её "
+"требуется установить вручную."
+
+#: ../project_manager.rst:382
+msgid ""
+":ref:`Resource Converter <converter>` also uses its own set of external "
+"tools that are described in :ref:`another section <converter_deps>`."
+msgstr ""
+"При :ref:`конверсии ресурсов <converter>` также используется набор "
+"внешних приложений, описанных в  :ref:`соответствующем "
+"разделе<converter_deps>`."
+
+#: ../project_manager.rst:385
 msgid "Projects List"
 msgstr "Список проектов"
 
-#: ../project_manager.rst:383
-msgid "Prints list of projects in the SDK."
-msgstr "Выводит список проектов, находящихся в SDK."
-
 #: ../project_manager.rst:387
+msgid ""
+"The list of all projects in the SDK can be viewed with the following "
+"command:"
+msgstr "Список всех проектов в SDK доступен посредством следующей команды:"
+
+#: ../project_manager.rst:395
 msgid "Project Structure"
 msgstr "Структура проекта"
 
-#: ../project_manager.rst:389
+#: ../project_manager.rst:397
 msgid "A typical app developed using the project manager looks as follows:"
 msgstr ""
 "Типовое приложение, разрабатываемая с помощью системы управления "
 "проектами имеет вид:"
 
-#: ../project_manager.rst:416
+#: ../project_manager.rst:424
 msgid "This app consists of 4 different directories."
 msgstr "Как видно, это приложение состоит из 4 различных директорий:"
 
-#: ../project_manager.rst:418
+#: ../project_manager.rst:426
 msgid "apps_dev/myproject. Contains source files of project's apps."
 msgstr "apps_dev/myproject. Содержит исходные файлы приложений проекта."
 
-#: ../project_manager.rst:419
+#: ../project_manager.rst:427
 msgid "blender/myproject. Contains source files of project's scenes."
 msgstr "blender/myproject. Содержит исходные файлы сцен проекта."
 
-#: ../project_manager.rst:420
+#: ../project_manager.rst:428
 msgid "deploy/assets/myproject. Contains exported files of project's scenes."
 msgstr "deploy/assets/myproject. Содержит экспортированные файлы сцен проекта."
 
-#: ../project_manager.rst:421
+#: ../project_manager.rst:429
 msgid "deploy/apps/myproject. Contains exported files of project's scenes."
 msgstr "deploy/apps/myproject. Содержит экспортированные файлы сцен проекта."
 
-#: ../project_manager.rst:423
+#: ../project_manager.rst:431
 msgid ""
 "Additionally, the deploy command can create yet another directory, but "
 "it's usually placed outside of the SDK and its name and path depend on "
@@ -941,11 +981,11 @@ msgstr ""
 "название и расположение зависит от структуры директорий на конечном "
 "сервере."
 
-#: ../project_manager.rst:427
+#: ../project_manager.rst:435
 msgid "``.b4w_project`` Configuration File"
 msgstr "Конфигурационный файл ``.b4w_project``"
 
-#: ../project_manager.rst:429
+#: ../project_manager.rst:437
 msgid ""
 "If you did not use any arguments upon executing the *project.py* script, "
 "then they will be taken from the configuration file."
@@ -953,11 +993,11 @@ msgstr ""
 "Если при запуске скрипта *project.py* не были заданы параметры проекта, "
 "то они берутся из конфигурационного файла."
 
-#: ../project_manager.rst:463
+#: ../project_manager.rst:471
 msgid "Creating a Project"
 msgstr "Создание проекта"
 
-#: ../project_manager.rst:469
+#: ../project_manager.rst:477
 msgid ""
 "This command will create a project with the specified name in the current"
 " directory. By default the project directory will only contain a config "
@@ -967,13 +1007,13 @@ msgstr ""
 "умолчанию в директории проекта будет находиться только конфигурационный "
 "файл."
 
-#: ../project_manager.rst:471 ../project_manager.rst:544
-#: ../project_manager.rst:568 ../project_manager.rst:583
-#: ../project_manager.rst:599
+#: ../project_manager.rst:479 ../project_manager.rst:548
+#: ../project_manager.rst:572 ../project_manager.rst:587
+#: ../project_manager.rst:603
 msgid "Available parameters:"
 msgstr "Доступные опции:"
 
-#: ../project_manager.rst:473
+#: ../project_manager.rst:481
 msgid ""
 "``-A | --copy-app-templates`` (optional) create standard app templates in"
 " the project directory  (*<my_project_name>_dev.html*, "
@@ -983,7 +1023,7 @@ msgstr ""
 "проекта стандартные шаблоны приложения (*<имя проекта>_dev.html*, *<имя "
 "проекта>.js*, *<имя проекта>.css*)."
 
-#: ../project_manager.rst:474
+#: ../project_manager.rst:482
 msgid ""
 "``-B | --bundle`` (optional) all project files will be placed in a single"
 " directory."
@@ -991,7 +1031,7 @@ msgstr ""
 "``-B | --bundle`` (необязательная) все файлы проекта будут размещены в "
 "одной директории."
 
-#: ../project_manager.rst:475
+#: ../project_manager.rst:483
 msgid ""
 "``-C | --author`` (optional) write an author's or a company's name in the"
 " config file."
@@ -999,7 +1039,7 @@ msgstr ""
 "``-C | --author`` (необязательная) записывает в конфигурационный файл имя"
 " автора или компании."
 
-#: ../project_manager.rst:476
+#: ../project_manager.rst:484
 msgid ""
 "``-o | --optimization`` (optional) write the script optimization level in"
 " the config file."
@@ -1007,7 +1047,7 @@ msgstr ""
 "``-o | --optimization`` (необязательная) записывает в конфигурационный "
 "файл тип оптимизации скриптов."
 
-#: ../project_manager.rst:477
+#: ../project_manager.rst:485
 msgid ""
 "``-P | --copy-project-script`` (optional) create a copy of the "
 "*project.py* script in the project directory."
@@ -1015,7 +1055,7 @@ msgstr ""
 "``-P | --copy-project-script`` (необязательная) создает скрипт "
 "*project.py* в директории проекта."
 
-#: ../project_manager.rst:478
+#: ../project_manager.rst:486
 msgid ""
 "``-S | --copy-scene-templates`` (optional) create standard scene "
 "templates in the directories ``deploy/assets/<my_project_name>`` and "
@@ -1027,7 +1067,7 @@ msgstr ""
 "(необязательная) стандартные шаблоны сцены (*<имя проекта>.json/.bin* и "
 "*<имя проекта>.blend* соответственно)."
 
-#: ../project_manager.rst:479
+#: ../project_manager.rst:487
 msgid ""
 "``-T | --title\"`` (optional) write a title in the config file. Upon "
 "building, it will be used inside the ``<title>`` HTML element."
@@ -1035,17 +1075,17 @@ msgstr ""
 "``-T | --title\"`` (необязательная) записывает в конфигурационный файл "
 "заголовок проекта. При сборке он будет добавлен в html-тэг ``<title>``."
 
-#: ../project_manager.rst:480
+#: ../project_manager.rst:488
 msgid "``-t | --engine-type`` (optional) write an engine type in the config file."
 msgstr ""
 "``-t | --engine-type`` (необязательная) записывает в конфигурационный "
 "файл тип собираемого приложения."
 
-#: ../project_manager.rst:482
+#: ../project_manager.rst:490
 msgid "Example:"
 msgstr "Пример:"
 
-#: ../project_manager.rst:488
+#: ../project_manager.rst:496
 msgid ""
 "This command will create a directory named *myproject*, inside which the "
 "following files will be placed: *myproject.js*, *myproject.css*, "
@@ -1055,15 +1095,15 @@ msgstr ""
 " файлы: *myproject.js*, *myproject.css*, *myproject_dev.html* и "
 "*.b4w_project*."
 
-#: ../project_manager.rst:490
+#: ../project_manager.rst:498
 msgid "The .b4w_project file will look like::"
-msgstr "Файл .b4w_project будет выглядеть следущим образом:"
+msgstr "Файл .b4w_project будет выглядеть следующим образом:"
 
-#: ../project_manager.rst:520
+#: ../project_manager.rst:528
 msgid "Developing multiple apps inside a project"
 msgstr "Разработка нескольких приложений в составе проекта"
 
-#: ../project_manager.rst:522
+#: ../project_manager.rst:530
 msgid ""
 "A project can contain multiple apps. This can be provided by listing the "
 "corresponding HTML files in the config file separated with semicolon::"
@@ -1072,23 +1112,15 @@ msgstr ""
 "конфигурационном файле указать соответствующие HTML-файлы через точку с "
 "запятой:"
 
-#: ../project_manager.rst:531
+#: ../project_manager.rst:539
 msgid "Building Projects"
 msgstr "Сборка проекта"
 
-#: ../project_manager.rst:537
+#: ../project_manager.rst:545
 msgid "Builds a project in the ``deploy/apps/myproject`` directory."
 msgstr "Собирает проект в директории ``deploy/apps/myproject``."
 
-#: ../project_manager.rst:541
-msgid ""
-"For script operation it's required to install java and  `set the PATH "
-"system variable <https://www.java.com/en/download/help/path.xml>`_."
-msgstr ""
-"Для работы скрипта необходимо установить java и `записать ее в переменную"
-" среды PATH <https://www.java.com/en/download/help/path.xml>`."
-
-#: ../project_manager.rst:546
+#: ../project_manager.rst:550
 msgid ""
 "``\"-a | --app\"`` (optional) specify an HTML file, relative to which the"
 " project app will be built."
@@ -1096,7 +1128,7 @@ msgstr ""
 "``\"-a | --app\"`` (необязательная) указывает на HTML-файл, относительно "
 "которого будет собираться приложение для проекта."
 
-#: ../project_manager.rst:547
+#: ../project_manager.rst:551
 msgid ""
 "``\"-c | --css-ignore\"`` (optional) add CSS styles to exceptions in "
 "order to not compile them."
@@ -1104,7 +1136,7 @@ msgstr ""
 "``\"-c | --css-ignore\"`` (необязательная) добавляет в исключения стили, "
 "которые не будут скомпилированы."
 
-#: ../project_manager.rst:548
+#: ../project_manager.rst:552
 msgid ""
 "``\"-j | --js-ignore\"`` (optional) add scripts to exceptions in order to"
 " not compile them."
@@ -1112,7 +1144,7 @@ msgstr ""
 "``\"-j | --js-ignore\"`` (необязательная) добавляет в исключения скрипты,"
 " которые не будут скомпилированы."
 
-#: ../project_manager.rst:549
+#: ../project_manager.rst:553
 msgid ""
 "``\"-o | --optimization\"`` (optional) specify the optimization level for"
 " JavaScript files: ``whitespace``, ``simple`` (by default) or "
@@ -1122,7 +1154,7 @@ msgstr ""
 "метода оптимизации js-файлов. Доступные варианты: ``whitespace``, "
 "``simple`` (по умолчанию) и ``advanced``."
 
-#: ../project_manager.rst:550
+#: ../project_manager.rst:554
 msgid ""
 "``\"-t | --engine-type\"`` (optional) define a compilation type for an "
 "app. Four variants are available: *external* (by default), *copy*, "
@@ -1132,15 +1164,15 @@ msgstr ""
 "приложения. Доступны четыре варианта: ``external`` (по умолчанию), "
 "``copy``, ``compile`` и ``update``."
 
-#: ../project_manager.rst:551
+#: ../project_manager.rst:555
 msgid "``\"-v | --version\"`` add version to paths of scripts and styles."
 msgstr "``\"-v | --version\"`` добавляет версию к адресам скриптов и стилей."
 
-#: ../project_manager.rst:553
+#: ../project_manager.rst:557
 msgid "Compiler Requirements"
 msgstr "Требования, накладываемые компилятором:"
 
-#: ../project_manager.rst:555
+#: ../project_manager.rst:559
 msgid ""
 "In the root of the directory the single html file must be stored if "
 "``-a`` option is disabled"
@@ -1148,33 +1180,33 @@ msgstr ""
 "В корне директории должен находится единственный html-файл, если не "
 "указана опция ``-a``."
 
-#: ../project_manager.rst:556
+#: ../project_manager.rst:560
 msgid "Scripts and styles can be stored in the app's root and in the subfolders"
 msgstr ""
 "Скрипты и стили могут находиться как в корне проекта (приложения), так и "
 "во вложенных папках."
 
-#: ../project_manager.rst:560
+#: ../project_manager.rst:564
 msgid "Automatic Re-export"
 msgstr "Автоматический экспорт ресурсов"
 
-#: ../project_manager.rst:566
+#: ../project_manager.rst:570
 msgid "This command will re-export blend files in JSON and HTML formats."
 msgstr "Повторно экспортирует blend-файлы в форматах JSON и HTML."
 
-#: ../project_manager.rst:570
+#: ../project_manager.rst:574
 msgid "``\"-b | --blender-exec\"`` path to the blender executable."
 msgstr "``\"-b | --blender-exec\"`` путь к исполняемому файлу blender."
 
-#: ../project_manager.rst:571 ../project_manager.rst:585
+#: ../project_manager.rst:575 ../project_manager.rst:589
 msgid "``\"-s | --assets\"`` specify directory with scene assets."
 msgstr "``\"-s | --assets\"`` определяет директорию с ресурсами сцены."
 
-#: ../project_manager.rst:575
+#: ../project_manager.rst:579
 msgid "Resource Conversion"
 msgstr "Конвертация ресурсов"
 
-#: ../project_manager.rst:581
+#: ../project_manager.rst:585
 msgid ""
 "Converts external resources (textures, audio and video files) into "
 "alternative formats to ensure cross-browser and cross-platform "
@@ -1184,7 +1216,7 @@ msgstr ""
 " альтернативные форматы для обеспечения кроссбраузерности и "
 "кроссплатформенности."
 
-#: ../project_manager.rst:587
+#: ../project_manager.rst:591
 msgid ""
 "Converting of resources is described in detail in the :ref:`corresponding"
 " section <converter>`."
@@ -1192,17 +1224,17 @@ msgstr ""
 "Более подробно о процессе конвертации ресурсов сказано в "
 ":ref:`соответствующем разделе <converter>`."
 
-#: ../project_manager.rst:591
+#: ../project_manager.rst:595
 msgid "Deploying Projects"
 msgstr "Развертывание проекта"
 
-#: ../project_manager.rst:597
+#: ../project_manager.rst:601
 msgid "Save a project to an external directory together with all dependencies."
 msgstr ""
 "Сохраняет проект во внешнюю директорию со всеми необходимыми "
 "зависимостями."
 
-#: ../project_manager.rst:601
+#: ../project_manager.rst:605
 msgid ""
 "``\"-e | --assets-dest\"`` destination assets directory (\"assets\" by "
 "default)."
@@ -1210,57 +1242,57 @@ msgstr ""
 "``\"-e | --assets-dest\"`` задаёт директорию для файлов ресурсов (по "
 "умолчанию \"assets\")"
 
-#: ../project_manager.rst:602
+#: ../project_manager.rst:606
 msgid "``\"-E | --assets-prefix\"`` assets URL prefix (\"assets\" by default)."
 msgstr ""
 "``\"-E | --assets-prefix\"`` задаёт URL-префикс для файлов ресурсов (по "
 "умолчанию \"assets\")"
 
-#: ../project_manager.rst:603
+#: ../project_manager.rst:607
 msgid "``\"-o | --override\"`` remove directory if it exists."
 msgstr "``\"-o | --override\"`` удаляет директорию, если она существует."
 
-#: ../project_manager.rst:604
+#: ../project_manager.rst:608
 msgid "``\"-s | --assets\"`` override project's assets directory(s)."
 msgstr ""
 "``\"-s | --assets\"`` записывет в конфигурационный файл путь к файлам "
 "ресурсов."
 
-#: ../project_manager.rst:605
+#: ../project_manager.rst:609
 msgid "``\"-t | --engine-type\"`` override project's engine type config."
 msgstr ""
 "``\"-t | --engine-type\"`` (необязательная) записывает в конфигурационный"
 " файл тип движка."
 
-#: ../project_manager.rst:609
+#: ../project_manager.rst:613
 msgid "Remove Project"
 msgstr "Удаление проекта"
 
-#: ../project_manager.rst:615
+#: ../project_manager.rst:619
 msgid ""
 "Removes a project. Removed directories are retrieved from project "
 "configuration file."
 msgstr "Удаляет проект. Удаляемые директории берутся из конфигурационного файла."
 
-#: ../project_manager.rst:619
+#: ../project_manager.rst:623
 msgid "Upgrading Apps for New SDK Versions"
 msgstr "Обновление приложений на новые версии SDK"
 
-#: ../project_manager.rst:621
+#: ../project_manager.rst:625
 msgid "While upgrading for new SDK versions often two problems arise:"
 msgstr ""
 "В процессе обновления на новые версии движка чаще всего возникает две "
 "проблемы:"
 
-#: ../project_manager.rst:623
+#: ../project_manager.rst:627
 msgid "Modules of the new and old versions of the engine do not match."
 msgstr "Несоответствие модулей новой и старой версии движка."
 
-#: ../project_manager.rst:624
+#: ../project_manager.rst:628
 msgid "Old and new engine API do not match."
 msgstr "Несоответствие старых и новых API движка."
 
-#: ../project_manager.rst:626
+#: ../project_manager.rst:630
 msgid ""
 "In order to update the list of modules imported in developer version of "
 "application go to project source directory ``apps_dev/my_project`` and "
@@ -1271,13 +1303,13 @@ msgstr ""
 "приложений ``apps_dev/my_project``. Затем необходимо вызвать скрипт, "
 "генерирующий пути к файлам движка:"
 
-#: ../project_manager.rst:640
+#: ../project_manager.rst:644
 msgid "To run the scripts the Python 3.x needs to be installed in your system."
 msgstr ""
 "Стоит отдельно отметить, что для запуска скриптов требуется интерпретатор"
 " языка Python версии 3.x"
 
-#: ../project_manager.rst:642
+#: ../project_manager.rst:646
 msgid ""
 "The console will print the list of modules - copy them and paste into the"
 " main HTML file:"
@@ -1285,7 +1317,7 @@ msgstr ""
 "В консоли появится список модулей, которые необходимо скопировать и "
 "вставить в главный HTML-файл:"
 
-#: ../project_manager.rst:660
+#: ../project_manager.rst:664
 msgid ""
 "To eliminate API incompatibilities you may require refactoring of your "
 "app. All changes are described in :ref:`release notes <release_notes>`."
@@ -1293,11 +1325,11 @@ msgstr ""
 "Несоответствие API решается рефакторингом кода приложения. Все изменения "
 "подробно описываются в :ref:`замечаниях к релизам <release_notes>`."
 
-#: ../project_manager.rst:664
+#: ../project_manager.rst:668
 msgid "Path to Loaded Application Assets"
 msgstr "Пути к загружаемым ресурсам приложения"
 
-#: ../project_manager.rst:666
+#: ../project_manager.rst:670
 msgid ""
 "To load .json-files you should use ``get_std_assets_path()`` method from "
 "the *config.js* module:"
@@ -1305,7 +1337,7 @@ msgstr ""
 "При загрузке .json-файлов необходимо использовать функцию "
 "``get_std_assets_path()`` из модуля *config.js*:"
 
-#: ../project_manager.rst:672
+#: ../project_manager.rst:676
 msgid ""
 "After building the finished app, the paths to assets will change. Thus, "
 "using ``get_std_assets_path()`` will allow you to avoid problems with "
@@ -1335,4 +1367,16 @@ msgstr ""
 
 #~ msgid "Deploying a JSON project"
 #~ msgstr ""
+
+#~ msgid "Prints list of projects in the SDK."
+#~ msgstr "Выводит список проектов, находящихся в SDK."
+
+#~ msgid ""
+#~ "\"Copy\" - engine is copied into "
+#~ "the compiled application directory. Only "
+#~ "application files are compiled;"
+#~ msgstr ""
+#~ "\"Copy\" - движок копируется в "
+#~ "директорию собранного приложения. Компилируются "
+#~ "только файлы приложения;"
 

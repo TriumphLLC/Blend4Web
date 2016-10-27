@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Objects &mdash; Blend4Web 16.09.2 User Manual</title>
+  <title>Objects &mdash; Blend4Web 16.10 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.10 User Manual" href="index.html"/>
         <link rel="next" title="Meshes" href="meshes.html"/>
         <link rel="prev" title="Scene Settings" href="scene_settings.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -96,7 +96,24 @@
 <li class="toctree-l2"><a class="reference internal" href="#types">Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#static-and-dynamic-objects">Static and Dynamic Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#object-tab">Object Tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#object-tab">Object Tab</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transform-panel">Transform Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#groups-panel">Groups Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#level-of-detail-panel">Level of Detail Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#animation-panel">Animation Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#export-options-panel">Export Options Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rendering-properties-panel">Rendering Properties Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shadows-panel">Shadows Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#billboard-panel">Billboard Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reflections-panel">Reflections Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#selection-and-outlining-panel">Selection and Outlining Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#anchors-panel">Anchors Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meta-tags-panel">Meta Tags Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#relations-panel">Relations Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind-bending-panel">Wind Bending Panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#special-effects-panel">Special Effects Panel</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#physics-tab">Physics Tab</a></li>
 </ul>
 </li>
@@ -256,10 +273,13 @@
 <p>The following is supported for all types of objects: transform, data reference, parent object, group membership and a set of the Blend4Web’s special properties.</p>
 <div class="section" id="object-tab">
 <h3><a class="toc-backref" href="#id6">Object Tab</a><a class="headerlink" href="#object-tab" title="Permalink to this headline">¶</a></h3>
-<a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
+<img alt="_images/object_settings.png" class="align-center" src="_images/object_settings.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<div class="section" id="transform-panel">
+<span id="object-settings-transform"></span><h4>Transform Panel<a class="headerlink" href="#transform-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_transform.png" class="align-center" src="_images/object_settings_transform.png" />
 <dl class="docutils">
 <dt><em>Transform &gt; Location</em></dt>
 <dd>Position coordinates.</dd>
@@ -267,29 +287,43 @@
 <dd>Rotation angles. For the object rotation all available modes can be used (<code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></code>). However only <code class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></code> and <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> are supported for <a class="reference internal" href="animation.html#whole-object-anim"><span>object animation</span></a>.</dd>
 <dt><em>Transform &gt; Scale</em></dt>
 <dd>Scaling. All 3 components (x, y, z) should be the same. Scaling for physics objects is not supported.</dd>
-<dt><em>Relations &gt; Parent</em></dt>
-<dd><p class="first">Reference to the parent object.</p>
-<p>If the parent object is a camera, <code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Alignment</span></code> settings are available.</p>
-<a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
+</dl>
 </div>
-<p class="last">These settings can be used to align the object to an active camera. They are described in the <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>Camera chapter</span></a>.</p>
-</dd>
+<div class="section" id="groups-panel">
+<span id="object-settings-groups"></span><h4>Groups Panel<a class="headerlink" href="#groups-panel" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
 <dt><em>Groups</em></dt>
 <dd>Objects’ groups to which this object belongs.</dd>
 </dl>
-<img alt="_images/object_setup_end.png" class="align-center" src="_images/object_setup_end.png" />
+<img alt="_images/object_settings_groups.png" class="align-center" src="_images/object_settings_groups.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+</div>
+<div class="section" id="level-of-detail-panel">
+<span id="object-settings-lod"></span><h4>Level of Detail Panel<a class="headerlink" href="#level-of-detail-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_lod.png" class="align-center" src="_images/object_settings_lod.png" />
 <dl class="docutils">
 <dt><em>Levels of Detail &gt; LOD Transition Ratio</em></dt>
 <dd>Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object’s bounding sphere radius.</dd>
-<dt><em>Special Effects &gt; Disable Fogging</em></dt>
-<dd>Disable fog for the object.</dd>
-<dt><em>Special Effects &gt; Caustics</em></dt>
-<dd>The object will render caustics effects from the adjacent water.</dd>
+</dl>
+</div>
+<div class="section" id="animation-panel">
+<span id="object-settings-animation"></span><h4>Animation Panel<a class="headerlink" href="#animation-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_animation.png" class="align-center" src="_images/object_settings_animation.png" />
+<dl class="docutils">
+<dt><em>Animation &gt; Apply Default Animation</em></dt>
+<dd>Upon loading into the engine start playback of the animation assigned to the object.</dd>
+<dt><em>Animation &gt; Animation Blending</em></dt>
+<dd>Only for armature objects. Allows blending between skeletal animations.</dd>
+<dt><em>Animation &gt; Behavior</em></dt>
+<dd>Animation behavior when the last frame is reached: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - stop, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - stop and go to the zero frame, <code class="docutils literal"><span class="pre">Loop</span></code> - repeat forever.</dd>
+</dl>
+</div>
+<div class="section" id="export-options-panel">
+<span id="object-settings-export"></span><h4>Export Options Panel<a class="headerlink" href="#export-options-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_export.png" class="align-center" src="_images/object_settings_export.png" />
+<dl class="docutils">
 <dt><em>Export Options &gt; Do Not Export</em></dt>
 <dd>Do not export this object.</dd>
 </dl>
@@ -307,13 +341,11 @@
 <p class="first admonition-title">Note</p>
 <p class="last">The following properties are mutually exclusive: <em>Apply Modifiers</em>, <em>Apply Scale and Modifiers</em>, <em>Export Vertex Animation</em> and <em>Export Shape Keys</em>.</p>
 </div>
+</div>
+<div class="section" id="rendering-properties-panel">
+<span id="object-settings-render"></span><h4>Rendering Properties Panel<a class="headerlink" href="#rendering-properties-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_rendering.png" class="align-center" src="_images/object_settings_rendering.png" />
 <dl class="docutils">
-<dt><em>Animation &gt; Apply Default Animation</em></dt>
-<dd>Upon loading into the engine start playback of the animation assigned to the object.</dd>
-<dt><em>Animation &gt; Animation Blending</em></dt>
-<dd>Only for armature objects. Allows blending between skeletal animations.</dd>
-<dt><em>Animation &gt; Behavior</em></dt>
-<dd>Animation behavior when the last frame is reached: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - stop, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - stop and go to the zero frame, <code class="docutils literal"><span class="pre">Loop</span></code> - repeat forever.</dd>
 <dt><em>Rendering Properties &gt; Hidden</em></dt>
 <dd>An object with this property enabled will be hidden on load.</dd>
 <dt><em>Rendering Properties &gt; Do Not Render</em></dt>
@@ -326,12 +358,38 @@
 <dl class="docutils" id="dynamic-geom">
 <dt><em>Rendering Properties &gt; Dynamic Geometry</em></dt>
 <dd>Allow overriding of the object’s geometry through Blend4Web API.</dd>
+</dl>
+</div>
+<div class="section" id="shadows-panel">
+<span id="object-settings-shadows"></span><h4>Shadows Panel<a class="headerlink" href="#shadows-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_shadows.png" class="align-center" src="_images/object_settings_shadows.png" />
+<dl class="docutils">
 <dt><em>Shadows &gt; Cast</em></dt>
 <dd>The object will cast shadows.</dd>
 <dt><em>Shadows&gt; Cast Only</em></dt>
 <dd>The object will cast shadows but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span></code>.</dd>
 <dt><em>Shadows &gt; Receive</em></dt>
 <dd>The object will receive shadows from other adjacent objects.</dd>
+</dl>
+</div>
+<div class="section" id="billboard-panel">
+<span id="objects-billboarding-properties"></span><h4>Billboard Panel<a class="headerlink" href="#billboard-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_billboard.png" class="align-center" src="_images/object_settings_billboard.png" />
+<dl class="docutils">
+<dt><em>Billboard</em></dt>
+<dd>Use the object as a billboard (i.e. automatically orient relative to the camera).</dd>
+</dl>
+<dl class="docutils" id="billboarding-preserve">
+<dt><em>Billboard &gt; Preserve Global Orientation and Scale</em></dt>
+<dd>Take into account rotation and scale of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the <code class="docutils literal"><span class="pre">Billboard</span></code> checkbox.</dd>
+<dt><em>Billboard &gt; Billboard Type</em></dt>
+<dd>Billboard orientation mode. <code class="docutils literal"><span class="pre">Spherical</span></code> (by default) - the object is always oriented with one side toward the camera, regardless of view angle, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - similar to <code class="docutils literal"><span class="pre">Spherical</span></code>, but rotation is limited to Blender’s world Z axis. Becomes available after enabling Billboard</dd>
+</dl>
+</div>
+<div class="section" id="reflections-panel">
+<span id="object-settings-reflections"></span><h4>Reflections Panel<a class="headerlink" href="#reflections-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_reflections.png" class="align-center" src="_images/object_settings_reflections.png" />
+<dl class="docutils">
 <dt><em>Reflections &gt; Reflexible</em></dt>
 <dd>When enabled the object is reflected in the dynamic mirror surfaces.</dd>
 <dt><em>Reflections &gt; Reflexible Only</em></dt>
@@ -346,12 +404,31 @@
 <dd>When enabled the object surface reflects other objects.</dd>
 <dt><em>Reflections &gt; Reflection Plane</em></dt>
 <dd>Text field for name of an empty object which defines the reflection plane. Becomes available after enabling <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflective</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="selection-and-outlining-panel">
+<span id="object-settings-selection"></span><h4>Selection and Outlining Panel<a class="headerlink" href="#selection-and-outlining-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_selection.png" class="align-center" src="_images/object_settings_selection.png" />
+<dl class="docutils">
 <dt><em>Selection and Outlining &gt; Selectable</em></dt>
 <dd>Enable <a class="reference internal" href="#mesh-selection"><span>object selection</span></a> with the mouse or another input device.</dd>
 <dt><em>Selection and Outlining &gt; Enable Outlining</em></dt>
 <dd>Enable <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow</span></a> for the object.</dd>
 </dl>
-<dl class="docutils" id="objects-meta-tags">
+</div>
+<div class="section" id="anchors-panel">
+<span id="object-settings-anchors"></span><h4>Anchors Panel<a class="headerlink" href="#anchors-panel" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Anchors &gt; Enable Anchor</em></dt>
+<dd><p class="first">This parameter enables interface for adding anchors (2D tags) to objects. Available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only. Described in the <a class="reference internal" href="#objects-anchors"><span>corresponding section</span></a>.</p>
+<a class="last reference internal image-reference" href="_images/objects_enable_anchors.png"><img alt="_images/objects_enable_anchors.png" class="align-center" src="_images/objects_enable_anchors.png" style="width: 100%;" /></a>
+</dd>
+</dl>
+</div>
+<div class="section" id="meta-tags-panel">
+<span id="objects-meta-tags"></span><h4>Meta Tags Panel<a class="headerlink" href="#meta-tags-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_meta_tags.png" class="align-center" src="_images/object_settings_meta_tags.png" />
+<dl class="docutils">
 <dt><em>Meta Tags</em></dt>
 <dd><p class="first">Interface for adding meta tags to the object:</p>
 <dl class="last docutils">
@@ -365,23 +442,41 @@
 <dd>Source type for the description: text or text file.</dd>
 </dl>
 </dd>
-<dt><em>Anchors &gt; Enable Anchor</em></dt>
-<dd><p class="first">This parameter enables interface for adding anchors (2D tags) to objects. Available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only. Described in the <a class="reference internal" href="#objects-anchors"><span>corresponding section</span></a>.</p>
-<a class="last reference internal image-reference" href="_images/objects_enable_anchors.png"><img alt="_images/objects_enable_anchors.png" class="align-center" src="_images/objects_enable_anchors.png" style="width: 100%;" /></a>
+</dl>
+</div>
+<div class="section" id="relations-panel">
+<span id="object-settings-relations"></span><h4>Relations Panel<a class="headerlink" href="#relations-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_relations.png" class="align-center" src="_images/object_settings_relations.png" />
+<dl class="docutils">
+<dt><em>Relations &gt; Parent</em></dt>
+<dd><p class="first">Reference to the parent object.</p>
+<p>If the parent object is a camera, <code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Alignment</span></code> settings are available.</p>
+<a class="reference internal image-reference" href="_images/objects_viewport_alignment.png"><img alt="_images/objects_viewport_alignment.png" class="align-center" src="_images/objects_viewport_alignment.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="last">These settings can be used to align the object to an active camera. They are described in the <a class="reference internal" href="camera.html#camera-viewport-alignment"><span>Camera chapter</span></a>.</p>
 </dd>
+</dl>
+</div>
+<div class="section" id="wind-bending-panel">
+<span id="object-settings-wind"></span><h4>Wind Bending Panel<a class="headerlink" href="#wind-bending-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_wind.png" class="align-center" src="_images/object_settings_wind.png" />
+<dl class="docutils">
 <dt><em>Wind Bending</em></dt>
 <dd>Enables wind bending procedural animation. Thoroughly described at the <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>outdoor rendering</span></a> page.</dd>
 </dl>
-<dl class="docutils" id="objects-billboarding-properties">
-<dt><em>Billboard</em></dt>
-<dd>Use the object as a billboard (i.e. automatically orient relative to the camera).</dd>
+</div>
+<div class="section" id="special-effects-panel">
+<span id="object-settings-fx"></span><h4>Special Effects Panel<a class="headerlink" href="#special-effects-panel" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/object_settings_fx.png" class="align-center" src="_images/object_settings_fx.png" />
+<dl class="docutils">
+<dt><em>Special Effects &gt; Disable Fogging</em></dt>
+<dd>Disable fog for the object.</dd>
+<dt><em>Special Effects &gt; Caustics</em></dt>
+<dd>The object will render caustics effects from the adjacent water.</dd>
 </dl>
-<dl class="docutils" id="billboarding-preserve">
-<dt><em>Billboard &gt; Preserve Global Orientation and Scale</em></dt>
-<dd>Take into account rotation and scale of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the <code class="docutils literal"><span class="pre">Billboard</span></code> checkbox.</dd>
-<dt><em>Billboard &gt; Billboard Type</em></dt>
-<dd>Billboard orientation mode. <code class="docutils literal"><span class="pre">Spherical</span></code> (by default) - the object is always oriented with one side toward the camera, regardless of view angle, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - similar to <code class="docutils literal"><span class="pre">Spherical</span></code>, but rotation is limited to Blender’s world Z axis. Becomes available after enabling Billboard</dd>
-</dl>
+</div>
 </div>
 <div class="section" id="physics-tab">
 <h3><a class="toc-backref" href="#id7">Physics Tab</a><a class="headerlink" href="#physics-tab" title="Permalink to this headline">¶</a></h3>
@@ -710,7 +805,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-10-03.
+      Last updated on 2016-10-27.
 
     </p>
   </div>
@@ -766,7 +861,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

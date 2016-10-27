@@ -40,8 +40,13 @@ var PROPER_EULER_ANGLES_LIST = [XYX, YZY, ZXZ, YXY, ZYZ];
 
 // for internal usage
 var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp1 = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
+var _vec3_tmp4 = new Float32Array(3);
+var _vec3_tmp5 = new Float32Array(3);
+var _vec3_tmp6 = new Float32Array(3);
+var _vec3_tmp7 = new Float32Array(3);
 var _vec4_tmp = new Float32Array(4);
 var _vec4_tmp2 = new Float32Array(4);
 var _mat3_tmp = new Float32Array(9);
@@ -124,6 +129,16 @@ exports.YXZ = YXZ;
 exports.ZYX = ZYX;
 
 exports.INV_CUBE_VIEW_MATRS = INV_CUBE_VIEW_MATRS;
+
+var BYTE_SIZE = 1;
+var SHORT_SIZE = 2;
+var FLOAT_SIZE = 4;
+var INT_SIZE = 4;
+
+exports.BYTE_SIZE = BYTE_SIZE;
+exports.SHORT_SIZE = SHORT_SIZE;
+exports.FLOAT_SIZE = FLOAT_SIZE;
+exports.INT_SIZE = INT_SIZE;
 
 exports.isdef = function(v) {
     return (typeof v != "undefined");
@@ -353,24 +368,13 @@ exports.init_rand_r_seed = function(seed_number, dest) {
  * <p>Translate BLENDER euler to BLENDER quat
  */
 exports.euler_to_quat = function(euler, quat) {
+    // reorder angles from XYZ to ZYX
+    var angles = _vec3_tmp;
+    angles[0] = euler[2];
+    angles[1] = euler[1];
+    angles[2] = euler[0];
 
-    if (!quat)
-        quat = new Float32Array(4);
-
-    var c1 = Math.cos(euler[2]/2);
-    var c2 = Math.cos(-euler[1]/2);
-    var c3 = Math.cos(euler[0]/2);
-
-    var s1 = Math.sin(euler[2]/2);
-    var s2 = Math.sin(-euler[1]/2);
-    var s3 = Math.sin(euler[0]/2);
-
-    // xyz
-    quat[0] = c1 * c2 * s3 + s1 * s2 * c3;
-    quat[1] = s1 * c2 * s3 - c1 * s2 * c3;
-    quat[2] = s1 * c2 * c3 + c1 * s2 * s3;
-    // w
-    quat[3] = c1 * c2 * c3 - s1 * s2 * s3;
+    ordered_angles_to_quat(angles, ZYX, quat);
 
     return quat;
 }
@@ -380,7 +384,8 @@ exports.euler_to_quat = function(euler, quat) {
  * Translate Euler angles in the intrinsic rotation sequence to quaternion
  * Source: Appendix A of http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19770024290.pdf
  */
-exports.ordered_angles_to_quat = function(angles, order, quat){
+exports.ordered_angles_to_quat = ordered_angles_to_quat;
+function ordered_angles_to_quat(angles, order, quat) {
     var alpha   = angles[0];
     var beta    = angles[1];
     var gamma   = angles[2];
@@ -484,7 +489,8 @@ exports.ordered_angles_to_quat = function(angles, order, quat){
  * Source: Appendix A of http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19770024290.pdf
  * quat must be normalized
  */
-exports.quat_to_ordered_angles = function(q, order, angles) {
+exports.quat_to_ordered_angles = quat_to_ordered_angles;
+function quat_to_ordered_angles(q, order, angles) {
     var x = q[0], y = q[1], z = q[2], w = q[3];
 
     switch(order) {
@@ -524,9 +530,20 @@ exports.quat_to_ordered_angles = function(q, order, angles) {
         angles[2] = Math.atan2(2 * (z * w - x * y), 1 - 2 * (y * y + z * z));
         break;
     case YZX:
-        angles[0] = Math.atan2(2 * (y * w - x * z), 1 - 2 * (y * y + z * z));
-        angles[1] = Math.asin(2 * (x * y + z * w));
-        angles[2] = Math.atan2(2 * (x * w - y * z), 1 - 2 * (x * x + z * z));
+        var test = x * y + z * w;
+        if (test > 0.499999) {
+            angles[0] = 0;
+            angles[1] = Math.PI / 2;
+            angles[2] = 2 * Math.atan2(x, w);
+        } else if (test < -0.499999) {
+            angles[0] = 0;
+            angles[1] = -Math.PI / 2;
+            angles[2] = -2 * Math.atan2(x, w);
+        } else {
+            angles[0] = Math.atan2(2 * (y * w - x * z), 1 - 2 * (y * y + z * z));
+            angles[1] = Math.asin(2 * (x * y + z * w));
+            angles[2] = Math.atan2(2 * (x * w - y * z), 1 - 2 * (x * x + z * z));
+        }
         break;
     case ZXY:
         angles[0] = Math.atan2(2 * (z * w - x * y), 1 - 2 * (x * x + z * z));
@@ -544,9 +561,20 @@ exports.quat_to_ordered_angles = function(q, order, angles) {
         angles[2] = Math.atan2(2 * (x * y + z * w), 1 - 2 * (x * x + z * z));
         break;
     case ZYX:
-        angles[0] = Math.atan2(2 * (x * y + z * w), 1 - 2 * (y * y + z * z));
-        angles[1] = Math.asin(2 * (y * w - x * z));
-        angles[2] = Math.atan2(2 * (x * w + y * z), 1 - 2 * (x * x + y * y));
+        var test = y * w - x * z;
+        if (test > 0.499999) {
+            angles[0] = 0;
+            angles[1] = Math.PI / 2;
+            angles[2] = -2 * Math.atan2(z, w);
+        } else if (test < -0.499999) {
+            angles[0] = 0;
+            angles[1] = -Math.PI / 2;
+            angles[2] = 2 * Math.atan2(z, w);
+        } else {
+            angles[0] = Math.atan2(2 * (x * y + z * w), 1 - 2 * (y * y + z * z));
+            angles[1] = Math.asin(2 * (y * w - x * z));
+            angles[2] = Math.atan2(2 * (x * w + y * z), 1 - 2 * (x * x + y * y));
+        }
         break;
     }
     // TODO: add check the orientation is far a singularity.
@@ -599,38 +627,15 @@ exports.euler_to_rotation_matrix = function(euler) {
 
     return matrix;
 }
-/**
- * @see http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
- */
+
+// Engine uses ZYX intrinsic rotation sequence
 exports.quat_to_euler = function(quat, euler) {
-    //var quat = new Float32Array([quat[0], quat[2], quat[1], quat[3]])
-    //var quat_rot = [-0.7071, 0, 0, 0.7071];
-    //var quat = m_quat.multiply(quat_rot, quat, []);
+    var angles = quat_to_ordered_angles(quat, ZYX, _vec3_tmp);
 
-    var qx = quat[0];
-    var qy = quat[1];
-    var qz = quat[2];
-    var qw = quat[3]; // last for glsl
-
-    var qw2 = qw * qw;
-    var qx2 = qx * qx;
-    var qy2 = qy * qy;
-    var qz2 = qz * qz;
-    var test = qx * qy + qz * qw;
-
-    if (test > 0.499999) {
-        euler[0] = 0;
-        euler[1] = 2 * Math.atan2(qx, qw);
-        euler[2] = Math.PI / 2;
-    } else if (test < -0.499999) {
-        euler[0] = 0;
-        euler[1] = -2 * Math.atan2(qx, qw);
-        euler[2] = -Math.PI / 2;
-    } else {
-        euler[0] = Math.atan2(2 * qx * qw - 2 * qy * qz, 1 - 2 * qx2 - 2 * qz2);
-        euler[1] = Math.atan2(2 * qy * qw - 2 * qx * qz, 1 - 2 * qy2 - 2 * qz2);
-        euler[2] = Math.asin (2 * qx * qy + 2 * qz * qw);
-    }
+    // reorder angles from XYZ to ZYX
+    euler[0] = angles[2];
+    euler[1] = angles[1];
+    euler[2] = angles[0];
 
     return euler;
 }
@@ -758,7 +763,7 @@ function blend_arrays(a1, a2, f, dest) {
  */
 exports.unique_id = function() {
     _unique_counter++;
-    return _unique_counter.toString(16);
+    return _unique_counter.toString(10);
 }
 
 
@@ -858,32 +863,6 @@ function get_tbn_quat(normal, tangent, dest) {
         m_quat.rotationTo(AXIS_Y, norm, dest);
 
     return dest;
-}
-
-exports.create_empty_submesh = function(name) {
-
-    var va_common = {
-        "a_influence": new Float32Array(0),
-        "a_color": new Float32Array(0),
-        "a_texcoord": new Float32Array(0)
-    };
-
-    return {
-        name: name,
-        // number of vertices per frame
-        base_length: 0,
-        indices: null,
-        va_frames: [],
-        va_common: va_common,
-        shape_keys: [],
-        submesh_bd: {
-            bb_world : m_bounds.create_bb(),
-            be_world : m_bounds.create_be(),
-            bb_local : m_bounds.create_bb(),
-            be_local : m_bounds.create_be()
-        },
-        instanced_array_data: null
-    };
 }
 
 /**
@@ -1250,7 +1229,7 @@ exports.vectors_multiply_matrix = function(vectors, matrix, new_vectors,
     return new_vectors;
 }
 
-exports.tbn_quats_multiply_quat = function(vectors, quat, new_vectors,
+exports.quats_multiply_quat = function(vectors, quat, new_vectors,
         dest_offset) {
     var dest_offset = dest_offset || 0;
 
@@ -1927,8 +1906,14 @@ exports.cleanup = function() {
     _unique_name_counters = {};
 }
 
-exports.clamp = function(value, min, max) {
-    return Math.min(Math.max(value, min), max);
+exports.clamp = clamp;
+function clamp(value, min, max) {
+    // NOTE: optimized for intensive usage, much faster than Math.min/Math.max
+    if (value < min)
+        value = min;
+    if (value > max)
+        value = max;
+    return value;
 }
 
 /**
@@ -2645,6 +2630,73 @@ function create_non_smi_array() {
     var arr = [{}];
     arr.length = 0;
     return arr;
+}
+
+/**
+ * Converts a float value of range [-1, 1] to a short.
+ */
+exports.float_to_short = function(float_val) {
+    var x = Math.round((float_val + 1) * 32767.5 - 32768);
+    // remove possible negative zero before clamping
+    return clamp(x ? x : 0, -32768, 32767);
+}
+
+/**
+ * Converts a short value of range [-32768, 32767] to a float.
+ */
+exports.short_to_float = function(short_val) {
+    return clamp((short_val + 32768) / 32767.5 - 1, -1, 1);
+}
+
+/**
+ * Converts an unsigned float value of range [0, 1] to an unsigned byte.
+ */
+exports.ufloat_to_ubyte = function(ufloat_val) {
+    return clamp(Math.round(ufloat_val * 255), 0, 255);
+}
+
+/**
+ * Converts an unsigned byte value of range [0, 255] to an unsigned float.
+ */
+exports.ubyte_to_ufloat = function(ubyte_val) {
+    return clamp(ubyte_val / 255, 0, 1);
+}
+
+exports.dist_to_triange = function(point, ver1, ver2, ver3) {
+    var dir_21 = m_vec3.subtract(ver2, ver1, _vec3_tmp);
+    var dir_32 = m_vec3.subtract(ver3, ver2, _vec3_tmp1);
+    var dir_13 = m_vec3.subtract(ver1, ver3, _vec3_tmp2);
+    var dir_p1 = m_vec3.subtract(point, ver1, _vec3_tmp3);
+    var dir_p2 = m_vec3.subtract(point, ver2, _vec3_tmp4);
+    var dir_p3 = m_vec3.subtract(point, ver3, _vec3_tmp5);
+
+    var normal = m_vec3.cross(dir_21, dir_32, _vec3_tmp6);
+
+    if (m_vec3.dot(m_vec3.cross(normal, dir_21, _vec3_tmp7), dir_p1) >= 0 &&
+            m_vec3.dot(m_vec3.cross(normal, dir_32, _vec3_tmp7), dir_p2) >= 0 &&
+            m_vec3.dot(m_vec3.cross(normal, dir_13, _vec3_tmp7), dir_p3) >= 0) {
+        // inside of the triange prism
+        // find distance to plane of the triange
+        var normal_length = m_vec3.length(normal);
+        var ndist = m_vec3.dot(normal, dir_p1);
+        return Math.abs(ndist / normal_length);
+    } else {
+        // outside of the triange prism
+        // find min distance of distances to the 3 edges of the triange
+        var proj_p1_on_21 = m_vec3.scale(dir_21,
+                clamp(m_vec3.dot(dir_21, dir_p1) / m_vec3.length(dir_21), 0, 1), _vec3_tmp7);
+        var dist_to_21 = m_vec3.length(m_vec3.subtract(dir_p1, proj_p1_on_21, _vec3_tmp7));
+
+        var proj_p2_on_32 = m_vec3.scale(dir_32,
+                clamp(m_vec3.dot(dir_32, dir_p2) / m_vec3.length(dir_32), 0, 1), _vec3_tmp7);
+        var dist_to_32 = m_vec3.length(m_vec3.subtract(dir_p2, proj_p2_on_32, _vec3_tmp7));
+
+        var proj_p3_on_13 = m_vec3.scale(dir_13,
+                clamp(m_vec3.dot(dir_13, dir_p3) / m_vec3.length(dir_13), 0, 1), _vec3_tmp7);
+        var dist_to_13 = m_vec3.length(m_vec3.subtract(dir_p3, proj_p3_on_13, _vec3_tmp7));
+
+        return Math.min(Math.min(dist_to_21, dist_to_32), dist_to_13);
+    }
 }
 
 }

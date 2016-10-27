@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>纹理 &mdash; Blend4Web 16.09.2 用户手册</title>
+  <title>纹理 &mdash; Blend4Web 16.10 用户手册</title>
   
 
   
@@ -32,8 +32,8 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.09.2 用户手册" href="index.html"/>
-        <link rel="next" title="Particle System. Fluids" href="particles.html"/>
+    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
+        <link rel="next" title="粒子系统,流体" href="particles.html"/>
         <link rel="prev" title="立体渲染" href="stereo_rendering.html"/> 
 
   
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.09.2
+              v16.10
             </div>
           
         
@@ -87,20 +87,20 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">引擎功能</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a></li>
-<li class="toctree-l1"><a class="reference internal" href="project_manager.html">Project Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">场景预览器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">网络播放器</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">插件</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scene_settings.html">场景设置</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">物体</a></li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a></li>
-<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">Normal Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normal_editor.html">法线编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">相机</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="material_library.html">Material Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">节点材质</a></li>
-<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">Logic Editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">照明、 阴影和背景</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">后期处理效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stereo_rendering.html">立体渲染</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">纹理</a><ul>
@@ -154,24 +154,24 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#special-texture-types">特殊的纹理类型</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#render-to-texture">Render-To-Texture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#render-to-texture">渲染到纹理</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#canvas">画布</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">粒子系统,流体</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">粒子系统.实例化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">动画</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">室外效果</a></li>
 <li class="toctree-l1"><a class="reference internal" href="colors.html">色彩管理</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">音频</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">物理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">对应用程序开发人员</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">团队工作。使用 Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">存在的问题及解决方案</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a></li>
 </ul>
 
           
@@ -243,14 +243,14 @@
 <ol class="arabic">
 <li><p class="first"><code class="docutils literal"><span class="pre">图像或影片</span></code></p>
 <blockquote>
-<div><p>In this case, the texture is defined by an image or a video file. Following file formats are supported:</p>
+<div><p>在这种情况下，纹理是由一个图像或视频文件中定义。下列文件格式支持：</p>
 <blockquote>
 <div><ul class="simple">
 <li><code class="docutils literal"><span class="pre">.PNG</span></code></li>
 <li><code class="docutils literal"><span class="pre">.JPG</span></code></li>
 </ul>
 </div></blockquote>
-<p>It can be used for the following purposes:</p>
+<p>它可用于以下目的：</p>
 <ul class="simple">
 <li><p class="first"><a class="reference internal" href="#diffuse-map"><span>漫射贴图</span></a></p>
 </li>
@@ -314,10 +314,10 @@
 </dl>
 <dl class="docutils" id="index-3">
 <dt><em>贴图 &gt; 坐标</em></dt>
-<dd><p class="first">纹理坐标类型。支持的类型是 <code class="docutils literal"><span class="pre">UV``（使用</span> <span class="pre">UV</span> <span class="pre">映射），``法线</span></code> (直对相机，只供的漫反射贴图，用于创造 <strong>材质捕捉</strong>, <strong>matcap</strong>) 和  <code class="docutils literal"><span class="pre">生成</span></code> 。默认值是 <code class="docutils literal"><span class="pre">生成</span></code> 。</p>
+<dd><p class="first">纹理坐标类型。支持的类型是 <code class="docutils literal"><span class="pre">UV</span></code> （使用 UV 映射），<code class="docutils literal"><span class="pre">法线</span></code> (直对相机，只供的漫反射贴图，用于创造 <strong>材质捕捉</strong>, <strong>matcap</strong>) 和  <code class="docutils literal"><span class="pre">生成</span></code> 。默认值是 <code class="docutils literal"><span class="pre">生成</span></code> 。</p>
 <div class="last admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Blend4Web engine currently supports no more than two UV maps per material. If the material has more than two UV maps, additional maps will be ignored during the export.</p>
+<p class="last">Blend4Web引擎目前支持每个材质不超过两个的UV贴图。如果该材质具有两个以上的UV贴图，附加贴图将在导出期间被忽略。</p>
 </div>
 </dd>
 <dt><em>贴图 &gt; 大小</em></dt>
@@ -329,7 +329,8 @@
 </dl>
 <dl class="docutils" id="texture-disable-compression">
 <dt><em>导出选项 &gt; 禁用压缩</em></dt>
-<dd>Disable texture compression (using <code class="docutils literal"><span class="pre">DDS</span></code> texture format) for this texture. Used in cases when <a class="reference internal" href="developers.html#dds"><span>texture compression</span></a> deteriorates the image quality. For example it&#8217;s recommended to disable compression for mask textures used to mix different parts of materials.</dd>
+<dd><p class="first last">禁用这个纹理的纹理压缩。在 <a class="reference internal" href="developers.html#dds"><span>纹理压缩</span></a> 恶化图像质量情况下使用。例如用于混合材质的不同部分建议禁用压缩遮罩纹理。</p>
+</dd>
 <dt><em>导出选项 &gt; 海岸距离贴图</em></dt>
 <dd><p class="first last">使用在  <a class="reference internal" href="outdoor_rendering.html#outdoor-rendering"><span>室外渲染</span></a>.</p>
 </dd>
@@ -359,7 +360,7 @@
 <dd><p class="first last">对漫反射颜色上的纹理的影响。默认值是 1.0。</p>
 </dd>
 <dt><em>影响 &gt; 混合</em></dt>
-<dd><p class="first last">与材质颜色相互作用的类型 (<code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">漫反射</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>)，或与顶点颜色如果启用了 <code class="docutils literal"><span class="pre">顶点颜色绘制</span></code> 选框。支持以下类型: <code class="docutils literal"><span class="pre">混合``（混合的颜色），``相乘</span></code> （乘以颜色）。默认值是``混合`` 。</p>
+<dd><p class="first last">与材质颜色相互作用的类型 (<code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">漫反射</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>)，或与顶点颜色如果启用了 <code class="docutils literal"><span class="pre">顶点颜色绘制</span></code> 选框。支持以下类型: <code class="docutils literal"><span class="pre">混合</span></code> （混合的颜色），<code class="docutils literal"><span class="pre">相乘</span></code> （乘以颜色）。默认值是 <code class="docutils literal"><span class="pre">混合</span></code> 。</p>
 </dd>
 </dl>
 <span class="target" id="specular-map"></span></div>
@@ -378,7 +379,7 @@
 <dd><p class="first last">对反射光颜色纹理的影响。默认值是 1.0。</p>
 </dd>
 <dt><em>影响 &gt; 混合</em></dt>
-<dd><p class="first last">反射光的颜色与材质的交互作用的类型 (<code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">镜面</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>)。<code class="docutils literal"><span class="pre">混合``（用颜色混合）</span> <span class="pre">是唯一受支持的类型。默认值是</span> <span class="pre">``混合</span></code> 。</p>
+<dd><p class="first last">反射光的颜色与材质的交互作用的类型 (<code class="docutils literal"><span class="pre">材质</span> <span class="pre">&gt;</span> <span class="pre">镜面</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>)。<code class="docutils literal"><span class="pre">混合</span></code> （用颜色混合） 是唯一受支持的类型。默认值是 <code class="docutils literal"><span class="pre">混合</span></code> 。</p>
 </dd>
 </dl>
 <p>出于优化的目的高光贴图可以打包到的漫射纹理的 alpha 通道中。在这种情况下是纹理同时启用  <code class="docutils literal"><span class="pre">漫射</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code>  和 <code class="docutils literal"><span class="pre">镜面</span> <span class="pre">&gt;</span> <span class="pre">颜色</span></code> 复选框。颜色范围被限制在灰色色调。</p>
@@ -389,7 +390,7 @@
 <p>法线贴图用于指定的表面法线 （垂线） 分布为了立体的细节。关于法线信息应存储在纹理空间的坐标。法线贴图不支持在对象空间坐标的烘焙。</p>
 <div class="section" id="id7">
 <h3>激活<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
-<p>Set the <code class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Color</span> <span class="pre">Space</span></code> parameter to <code class="docutils literal"><span class="pre">Non-Color</span></code>.</p>
+<p>设置 <code class="docutils literal"><span class="pre">图像&gt;彩色空间</span></code> 参数到 <code class="docutils literal"><span class="pre">非Color</span></code> 。</p>
 <p>启用 <code class="docutils literal"><span class="pre">纹理</span> <span class="pre">&gt;</span> <span class="pre">影响</span></code> 面板上的 <code class="docutils literal"><span class="pre">几何</span> <span class="pre">&gt;</span> <span class="pre">法线</span></code> 复选框</p>
 </div>
 <div class="section" id="id8">
@@ -650,19 +651,29 @@
 </dl>
 <img alt="_images/canvas_tex.png" class="align-center" src="_images/canvas_tex.png" />
 <div class="section" id="render-to-texture">
-<span id="render-to-texture-scene"></span><h3>Render-To-Texture<a class="headerlink" href="#render-to-texture" title="永久链接至标题">¶</a></h3>
-<p>An image of a 3D scene rendered in real time also can be used as a texture for an object in another scene (&#8220;main&#8221; scene). This technique is known as <cite>render-to-texture</cite> (RTT) and can be activated by following these steps:</p>
+<span id="render-to-texture-scene"></span><h3>渲染到纹理<a class="headerlink" href="#render-to-texture" title="永久链接至标题">¶</a></h3>
+<p>三维场景实时渲染的图像可以用作其他场景（&#8221;主&#8221; 场景）的物体纹理。这种技术被称为渲染到纹理 (RTT)，可以通过以下步骤激活︰</p>
 <ol class="arabic simple">
-<li>Create an additional scene that will be rendered to the texture.</li>
-<li>For convenience, give this scene a unique name.</li>
-<li>Create a <code class="docutils literal"><span class="pre">World</span></code> setting for this scene.</li>
-<li>Add the objects you need to the scene.</li>
-<li>Add a camera to the scene and set it up.</li>
-<li>Then, switch to the main scene.</li>
-<li>Select the target object and create a UV map for it.</li>
-<li>Create a texture that will act as the rendering target.</li>
-<li>Set the <code class="docutils literal"><span class="pre">None</span></code> type for this texture.</li>
-<li>Set the <code class="docutils literal"><span class="pre">UV</span></code> value for the <code class="docutils literal"><span class="pre">Coordinates</span></code> parameter under the <code class="docutils literal"><span class="pre">Mapping</span></code> tab.</li>
+<li><p class="first">创建将被渲染到纹理的附加场景。</p>
+</li>
+<li><p class="first">为方便起见，给这一场景的唯一名称。</p>
+</li>
+<li><p class="first">场景中设置摄像机和光源</p>
+</li>
+<li><p class="first">在3D场景添加你需要的物体：</p>
+</li>
+<li><p class="first">场景中设置摄像机并设置</p>
+</li>
+<li><p class="first">然后，切换到主场景。</p>
+</li>
+<li><p class="first">选择目标物体，并为它创建一个UV贴图。</p>
+</li>
+<li><p class="first">创建一个纹理将作为渲染目标。</p>
+</li>
+<li><p class="first">设置纹理类型为 <code class="docutils literal"><span class="pre">None</span></code></p>
+</li>
+<li><p class="first">对于 <code class="docutils literal"><span class="pre">Mapping</span></code> 选项卡下的 <code class="docutils literal"><span class="pre">Coordinates</span></code> 参数设置 <code class="docutils literal"><span class="pre">UV</span></code> 值。</p>
+</li>
 <li><p class="first">在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源类型</span></code> 菜单中选择 <code class="docutils literal"><span class="pre">场景</span></code> 类型。</p>
 </li>
 <li><p class="first">在 <code class="docutils literal"><span class="pre">导出选项</span> <span class="pre">&gt;</span> <span class="pre">源</span> <span class="pre">ID</span></code> 字段中指定源场景的名称。</p>
@@ -697,7 +708,7 @@
 <span class="nx">m_tex</span><span class="p">.</span><span class="nx">update_canvas_ctx</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;TEXTURE_NAME&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>使用 <code class="docutils literal"><span class="pre">get_canvas_texture_context()</span></code>  来获取上下文-此方法需要的 &#8220;canvas_id&#8221; 标识符应在Blender中定义。当 <cite>与上下文操作 &lt;http://www.w3.org/TR/2014/CR-2dcontext-20140821/&gt;</cite> _,  <code class="docutils literal"><span class="pre">update_canvas_ctx()</span></code>  功能被调用，渲染  &#8220;canvas_id&#8221; 元素的修改。</p>
+<p>使用 <code class="docutils literal"><span class="pre">get_canvas_texture_context()</span></code>  来获取上下文-此方法需要的 &#8220;canvas_id&#8221; 标识符应在Blender中定义。当 <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">与上下文操作</a>,  <code class="docutils literal"><span class="pre">update_canvas_ctx()</span></code>  功能被调用，渲染  &#8220;canvas_id&#8221; 元素的修改。</p>
 <blockquote>
 <div><div class="admonition note">
 <p class="first admonition-title">注解</p>
@@ -715,7 +726,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="particles.html" class="btn btn-neutral float-right" title="Particle System. Fluids" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="particles.html" class="btn btn-neutral float-right" title="粒子系统,流体" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="stereo_rendering.html" class="btn btn-neutral" title="立体渲染" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -728,7 +739,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-03.
+      最后更新于 2016-10-27.
 
     </p>
   </div>
@@ -784,7 +795,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.09.2',
+            VERSION:'v16.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -90,6 +90,7 @@ function display_server_status(result) {
 
 function check_performance() {
     var canvas = document.createElement("canvas");
+    canvas.style.display = "none";
     window.document.body.appendChild(canvas);
     b4w.require("main").init(canvas);
     b4w.require("debug").test_performance(function(time, bw) {
@@ -110,9 +111,12 @@ function check_performance() {
     <header>
         <h2>Blend4Web
             
-            <!--blend4web_pro-->CE<!--blend4web_pro-->
-            16.09.2
+            <!--blend4web_pro--><!--blend4web_pro_lite-->CE<!--blend4web_pro_lite--><!--blend4web_pro-->
+            16.10
             SDK
+            <!--blend4web_pro-->
+            
+            <!--blend4web_pro-->
         </h2>
     </header>
 
@@ -135,10 +139,14 @@ function check_performance() {
                     <td style="width: 50%;"><a href="/project/">Project Manager</a></td>
                     <td style="width: 50%;"><a href="/apps_dev/viewer/viewer.html">Scene Viewer</a></td>
                 </tr>
+                <!--blend4web_pro_lite-->
+                <!--blend4web_ce_lite-->
                 <tr>
                     <td style="width: 50%;"><a href="/apps_dev/code_snippets/code_snippets.html">Code Snippets</a></td>
                     <td style="width: 50%;"><a href="deploy/webglreport/index.html">WebGL Report</a></td>
                 </tr>
+                <!--blend4web_ce_lite-->
+                <!--blend4web_pro_lite-->
             </tbody>
         </table>
         <table>
@@ -162,12 +170,16 @@ function check_performance() {
                     <td><a href="deploy/doc/ru/index.html">читать</a></td>
                     <td><a href="deploy/doc/zh/index.html">读</a></td>
                 </tr>
+                <!--blend4web_pro_lite-->
+                <!--blend4web_ce_lite-->
                 <tr>
                     <td>User Manual, PDF</td>
                     <td><a href="deploy/pub/b4w_manual_en.pdf">read</a></td>
                     <td><a href="deploy/pub/b4w_manual_ru.pdf">читать</a></td>
                     <td>-</td>
                 </tr>
+                <!--blend4web_ce_lite-->
+                <!--blend4web_pro_lite-->
                 <tr>
                     <td>API Reference</td>
                     <td colspan="3"><a href="deploy/api_doc/index.html">read</a></td>
