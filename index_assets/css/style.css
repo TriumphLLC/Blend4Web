@@ -1,70 +1,64 @@
-body {
-    margin: 0;
-    padding: 0;
-}
-
 a {
-    color: rgba(0, 100, 200, 1.0);
-    text-decoration: none;
-    font-size: 16px;
+  color: rgba(0, 100, 200, 1.0);
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 a.spoiler {
-    cursor: pointer;
-    font-size: 12px;
+  font-size: 12px;
 }
 
 a.spoiler_item {
-    cursor: pointer;
-    font-size: 14px;
-    margin: 3px;
+  font-size: 14px;
+  margin: 3px;
 }
 
 .tut a {
-    display: block;
+  display: block;
 }
 
 .tut td {
-    line-height: 25px;
+  line-height: 25px;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 img {
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    display: inline-block;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
 }
 
 h2, h3 {
-    text-align: center;
-    font-family: Open Sans Semibold;
+  text-align: center;
+  font-family: Open Sans Semibold;
 }
 
 h3 {
-    cursor: default;
-    display: inline-block;
+  cursor: default;
+  display: inline-block;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 table.create {
-    width: 80%;
-    border-collapse: collapse;
-    margin-left: auto;
-    margin-right: auto;
+  width: 80%;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 table .doc th,
 table .doc td {
-    height: 50px;
-    width: 25%;
+  height: 50px;
+  width: 25%;
 }
 
 table .projects th,
@@ -136,73 +130,73 @@ table > tbody > tr:nth-child(odd) {
 }
 
 .row {
-    width: 1200px;
-    margin: 20px auto;
+  width: 1200px;
+  margin: 20px auto;
 }
 
 @font-face {
-    font-family: Open Sans Light Italic;
-    src: url(../fonts/Open_Sans/OpenSans-LightItalic.woff);
+  font-family: Open Sans Light Italic;
+  src: url(../fonts/Open_Sans/OpenSans-LightItalic.woff);
 }
 
 @font-face {
-    font-family: Open Sans Light;
-    src: url(../fonts/Open_Sans/OpenSans-Light.woff);
+  font-family: Open Sans Light;
+  src: url(../fonts/Open_Sans/OpenSans-Light.woff);
 }
 
 @font-face {
-    font-family: Open Sans Semibold;
-    src: url(../fonts/Open_Sans/OpenSans-Semibold.woff);
+  font-family: Open Sans Semibold;
+  src: url(../fonts/Open_Sans/OpenSans-Semibold.woff);
 }
 
 span.green {
-    color: green;
-    font-weight: bold;
+  color: green;
+  font-weight: bold;
 }
 
 span.red {
-    color: red;
-    font-weight: bold;
+  color: red;
+  font-weight: bold;
 }
 
 .back {
-    text-align: left;
-    margin: 20px;
+  text-align: left;
+  margin: 20px;
 }
 
 .forward {
-    text-align: right;
-    margin: 20px;
+  text-align: right;
+  margin: 20px;
 }
 
 .console {
-    color: white;
-    background-color: black;
-    padding: 40px;
-    border: 3px solid rgba(78, 16, 175, 0.7);
-    font-family: monospace;
-    font-size: 12pt;
-    height: 100%;
+  color: white;
+  background-color: black;
+  padding: 40px;
+  border: 3px solid rgba(78, 16, 175, 0.7);
+  font-family: monospace;
+  font-size: 12pt;
+  height: 100%;
 }
 
 pre {
-    white-space: pre-wrap;
+  white-space: pre-wrap;
 }
 
 div#sort_name {
-    width: 10px;
-    height: 10px;
-    background-image: url(/index_assets/img/arrow.png);
-    display: inline-block;
-    margin-left: 4px;
+  width: 10px;
+  height: 10px;
+  background-image: url(/index_assets/img/arrow.png);
+  display: inline-block;
+  margin-left: 4px;
 }
 
 div#sort_name.down {
-    background-position: 0 0;
+  background-position: 0 0;
 }
 
 div#sort_name.down {
-    background-position: 0 -10px;
+  background-position: 0 -10px;
 }
 
 div.input_group {
@@ -234,7 +228,8 @@ div.input_group > label.check {
 
 div.input_group > label.check::before {
     content: "";
-    background-image: url(/index_assets/img/check.svg);
+    background-image: url(/index_assets/img/check.png);
+    background-size: 20px 40px;
     background-repeat: no-repeat;
     width: 20px;
     height: 20px;
@@ -251,9 +246,10 @@ div.input_group > label.radio {
 
 div.input_group > label.radio::before {
     content: "";
-    background-image: url(/index_assets/img/radio.svg);
+    background-image: url(/index_assets/img/radio.png);
     width: 22px;
     height: 22px;
+    background-size: 22px 44px;
     padding: 0;
     border: 0;
     border-radius: 0;

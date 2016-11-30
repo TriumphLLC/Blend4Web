@@ -20,8 +20,49 @@ var ENGINE_PAUSE_TIMEOUT = 10000;
 var _canvas_elem = null;
 var _engine_pause_func = null;
 
+var _is_init = false;
+
 
 exports.init = function() {
+    onresize();
+}
+
+function onresize() {
+    if (!_is_init && window.innerWidth >= 768) {
+        init_engine();
+
+        return;
+    }
+
+    if (!_is_init && window.innerWidth < 768) {
+        window.addEventListener("resize", onresize);
+
+        return;
+    }
+
+    if (_is_init && window.innerWidth >= 768) {
+        var cont = m_cont.get_container();
+
+        cont.style.display = "block";
+
+        return;
+    }
+
+    if (_is_init && window.innerWidth < 768) {
+        var cont = m_cont.get_container();
+
+        cont.style.display = "none";
+
+        if (!m_main.is_paused())
+            m_main.pause();
+
+        return;
+    }
+}
+
+function init_engine() {
+    _is_init = true;
+
     m_app.init({
         canvas_container_id: CANVAS_CONTAINER_ID,
         callback: init_cb,
@@ -66,14 +107,11 @@ function loaded_callback(data_id) {
     var canv_repl = document.getElementById(CANVAS_REPLACMENT);
     var cont = m_cont.get_container();
 
-    if (check_user_agent("iPad") || check_user_agent("iPhone"))
-        if (window.innerWidth < 1366)
-            cont.style.width = "99%";
-        else
-            cont.style.width = "94%";
-
     if (canv_repl)
         canv_repl.style.display = "none";
+
+    if (cont)
+        cont.style.display = "block";
 
     _canvas_elem.oncontextmenu = function(e) {
         e.preventDefault();
@@ -96,6 +134,7 @@ function loaded_callback(data_id) {
 
     window.addEventListener("beforeunload", function() {
         _canvas_elem.style.display = "none";
+
         if (canv_repl)
             canv_repl.style.display = "block";
     })
@@ -106,6 +145,9 @@ function loaded_callback(data_id) {
     _canvas_elem.addEventListener("DOMMouseScroll", resume_engine, false);
     _canvas_elem.addEventListener("touchstart", resume_engine, false);
     _canvas_elem.addEventListener("touchmove", resume_engine, false);
+
+    window.removeEventListener("resize", onresize);
+    window.addEventListener("resize", onresize);
 }
 
 function resume_engine() {

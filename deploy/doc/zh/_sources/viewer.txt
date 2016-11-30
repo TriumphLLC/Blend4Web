@@ -94,8 +94,7 @@
    引擎建立日期和时间。在开发者版本显示的页面加载时间。
 
 **场景**
-   The name of the loaded scene. Path to the file pops-up on mouse
-   hover.
+   加载的场景的名称。鼠标悬停时文件路径弹出。
 
 **加载**
    加载进度和时间。

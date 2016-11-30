@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2016-10-05 16:56+0300\n"
-"PO-Revision-Date: 2016-10-11 13:46+0800\n"
+"PO-Revision-Date: 2016-10-29 13:46+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -208,11 +208,11 @@ msgstr ""
 
 #: ../addon.rst:117
 msgid "It should be noted, however, that HTML applications do not support following features:"
-msgstr "应当指出，然而，HTML应用程序不支持以下功能："
+msgstr "应当指出，不论如何，HTML应用程序不支持以下功能："
 
 #: ../addon.rst:119
 msgid ":ref:`Physics <physics>`"
-msgstr ":ref:`Physics <physics>`"
+msgstr ":ref:`物理 <physics>`"
 
 #: ../addon.rst:120
 msgid ":ref:`DDS textures <converter_data_format>`"
@@ -220,7 +220,7 @@ msgstr ":ref:`DDS纹理 <converter_data_format>`"
 
 #: ../addon.rst:121
 msgid ":ref:`min50 textures <converter>`"
-msgstr ":ref:`min50 textures <converter>`"
+msgstr ":ref:`min50 纹理 <converter>`"
 
 #: ../addon.rst:126
 msgid "Export Options"
@@ -841,7 +841,7 @@ msgstr "该 ``Vertex Color Paint`` 启用了网状材料的选择，但网格没
 
 #: ../addon.rst:491
 msgid "Incorrect NLA script, falling back to simple sequential NLA."
-msgstr ""
+msgstr "NLA 脚本错误，回落到简单序列 NLA。"
 
 #: ../addon.rst:494
 #, fuzzy
@@ -850,7 +850,7 @@ msgstr "“名称”节点材料包含节点之间的不正确连接。"
 
 #: ../addon.rst:494
 msgid "The \\\"NAME\\\" node material contains an incorrect link between nodes."
-msgstr "“名称”节点材料包含节点之间的不正确连接。"
+msgstr "\\\"NAME\\\" 节点材料包含节点之间的不正确连接。"
 
 #: ../addon.rst:497
 #, fuzzy
@@ -998,7 +998,7 @@ msgstr "主场景名称不能被其他场景渲染。材料名称已被删除。
 
 #: ../addon.rst:564
 msgid "The NAME action has decimal frames. Converted to integer."
-msgstr ""
+msgstr "操作具有十进制的帧。转换为整数。"
 
 #: ../addon.rst:567
 msgid "The NAME armature modifier has a proxy object as an armature. Modifier removed."
@@ -1047,7 +1047,6 @@ msgid ""
 msgstr "Name对象既有顶点动画和不支持的电枢修改。其结果是，该改性剂已被删除。"
 
 #: ../addon.rst:589
-#, fuzzy
 msgid "The NAME object has the NAME armature modifier. It belongs to a not exported scene. Modifier removed."
 msgstr "该名称 ``Armature`` 修正没有骨架问题，也没有导出。修改删除。"
 

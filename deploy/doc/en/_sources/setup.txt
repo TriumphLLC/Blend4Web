@@ -20,7 +20,7 @@ Authoring 3D scenes is carried out directly in `Blender <http://en.wikipedia.org
 
 Before installation, please download and install the compatible Blender version, according to this `table <https://www.blend4web.com/downloads/>`_.
 
-A current stable version of Blender should be used. It can be downloaded from the `official site <http://www.blender.org/download>`_.
+A current stable version of Blender should be used. It can be downloaded from the `official site <http://www.blender.org/download>`_ or from `Blend4Web site <https://www.blend4web.com/ru/downloads/>`_.
 
 .. image:: src_images/setup/blender_first_run.png
    :align: center
@@ -167,6 +167,23 @@ Before installing a new version of the add-on, you may firstly remove the existi
 #. Restart Blender.
 
 Everything should be working now.
+
+Updating Saved Projects
+-----------------------
+
+After you have updated your SDK (or Add-on), you can import projects that you exported before updating back to the Project Manager. To do this, follow the following instructions:
+
+#. Open Project Manager.
+
+#. Import your projects using the ``Import Project(s)`` button.
+
+#. Reexport projects's ``.blend`` files using the ``re-export scenes`` link.
+
+#. Use the ``check modules`` link for every imported project to make sure there are no missing or unused modules in the program code. If there are, you may try to fix the poblems using the ``Update Modules`` button.
+
+#. Then use ``build`` command to make the build versions of the imported projects work again.
+
+#. The developer version of the projects using ``Copy`` or ``Compile`` engine binding type should also be build to properly work with the new version of the SDK (the developer versions of the projects with other bindning types should work fine without it).
 
 |
 

@@ -35,7 +35,7 @@ var m_util   = require("__util");
  */
 
 /**
- * Set NLA animation frame for the active scene
+ * Set NLA animation frame for the active scene.
  * @method module:nla.set_nla_frame
  * @param {Number} frame NLA animation frame
  */

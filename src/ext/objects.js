@@ -356,5 +356,12 @@ exports.get_outlining_objects = function() {
 
     return m_obj.get_outlining_objects();
 }
+/**
+ * Check if object is dynamic.
+ * @method module:objects.is_dynamic
+ * @param {Object3D} obj Object 3D
+ * @returns {Boolean} Checking result.
+ */
+exports.is_dynamic = m_obj_util.is_dynamic;
 
 }

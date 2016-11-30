@@ -82,6 +82,8 @@ exports.set = function(r, g, b, dest) {
  * @returns {RGB} Destination RGB vector.
  * @alias module:rgb.css_to_rgb
  * @example
+ * var m_rgb = require("rgb");
+ *
  * // #808080 or rgb(128, 128, 128) converted to [0.219, 0.219, 0.219]
  * var rgb_color = m_rgb.css_to_rgb(128, 128, 128);
  */
@@ -103,8 +105,11 @@ exports.css_to_rgb = function(css_red, css_green, css_blue, dest) {
  * @returns {Number[]} Array with CSS colors.
  * @alias module:rgb.rgb_to_css
  * @example
+ * var m_rgb = require("rgb");
+ *
+ * var rgb_color = m_rgb.from_values(0.219, 0.219, 0.219);
  * // [0.219, 0.219, 0.219] converted to [128, 128, 128]
- * var color = m_rgb.rgb_to_css(m_rgb.from_values(0.219, 0.219, 0.219));
+ * var color = m_rgb.rgb_to_css(rgb_color);
  */
 exports.rgb_to_css = function(rgb) {
 
@@ -119,8 +124,11 @@ exports.rgb_to_css = function(rgb) {
  * @returns {String} CSS color hex string.
  * @alias module:rgb.rgb_to_css_hex
  * @example
+ * var m_rgb = require("rgb");
+ *
+ * var rgb_color = m_rgb.from_values(0.219, 0.219, 0.219);
  * // [0.219, 0.219, 0.219] converted to "#808080"
- * var hex_color = m_rgb.rgb_to_css_hex(m_rgb.from_values(0.219, 0.219, 0.219));
+ * var hex_color = m_rgb.rgb_to_css_hex(rgb_color);
  */
 exports.rgb_to_css_hex = function(rgb) {
 
@@ -209,6 +217,8 @@ exports.set = function(r, g, b, a, dest) {
  * @returns {RGBA} Destination RGB vector.
  * @alias module:rgba.css_to_rgba
  * @example
+ * var m_rgba = require("rgba");
+ *
  * // rgba(128, 128, 128, 0.5) converted to [0.219, 0.219, 0.219, 0.5]
  * var rgba_color = m_rgba.css_to_rgba(128, 128, 128, 0.5);
  */
@@ -231,8 +241,11 @@ exports.css_to_rgba = function(css_red, css_green, css_blue, css_alpha, dest) {
  * @returns {Number[]} Array with CSS colors.
  * @alias module:rgba.rgba_to_css
  * @example
+ * var m_rgba = require("rgba");
+ *
+ * var rgba_color = m_rgba.from_values(0.219, 0.219, 0.219, 0.5);
  * // [0.219, 0.219, 0.219, 0.5] converted to [128, 128, 128, 0.5]
- * var color = m_rgba.rgba_to_css(m_rgba.from_values(0.219, 0.219, 0.219, 0.5));
+ * var color = m_rgba.rgba_to_css(rgba_color);
  */
 exports.rgba_to_css = function(rgba) {
 

@@ -2422,9 +2422,9 @@ exports.copy_array = function(a, out) {
  *
  * Both vectors are assumed to be unit length.
  *
- * @param {quat} out the receiving quaternion.
  * @param {vec3} a the initial vector
  * @param {vec3} b the destination vector
+ * @param {quat} out the receiving quaternion.
  * @returns {quat} out
  */
 exports.rotation_to_stable = function(a, b, out) {

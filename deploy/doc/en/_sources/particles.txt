@@ -102,11 +102,11 @@ Emission Settings
 *Emission > Cyclic emission*
     The option enables the cyclic emission mode. It can be used for permanent effects (such as smoke, burning, water splashes). It is recommended to set the ``Emission > Start`` value to zero. Disabled by default.
 
+*Emission > Allow NLA*
+    Activating this option allows particle emission to be controlled by NLA. Enabled by default.
+
 *Emission > Random Delay*
     The option enables a random emission time for particles. Disabled by default.
-
-*Emission > Emit From > Distribution*
-    Emission distribution settings: ``Jittered``, ``Random``, ``Grid``. Ignored by the engine. Internally the engine always uses ``Random`` distribution. The default is ``Jittered``.
 
 
 Direction Settings

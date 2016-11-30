@@ -421,6 +421,65 @@ Internal Parameters
 *Duration*
     Time (in seconds) that the camera will spend being moved to a new location. Set to zero by default (and in this case the camera doesn’t actually move, it simply changes its position). It can be specified manually or as a link to a variable (if the ``Variable`` parameter is enabled).
 
+.. _nla_set_camera_move_style:
+
+Set Camera Move Style
+---------------------
+
+Can be used to change the move style of the selected camera.
+
+.. image:: src_images/logic_editor/logic_editor_set_camera_move_style.png
+    :align: center
+    :width: 100%
+
+Input Parameters
+................
+
+*Previous*
+    Previous node.
+
+Output Parameters
+.................
+
+*Next*
+    Next node.
+
+Internal Parameters
+...................
+
+*Camera*
+    This parameter specifies a camera to which the changes will be applied.
+
+*New Camera Move Style*
+    This parameter specifies the new move style that the camera will use. Four options are available: ``Hover``, ``Eye``, ``Target`` and ``Static``.
+
+The following options are only available if the ``New Camera Move Style`` parameter is not set to ``Static``:
+
+*Translation*
+    Sets the camera translation velocity. This parameter is set to 1.0 by default.
+
+*Rotation*
+    Sets the camera rotation velocity. This parameter is set to 1.0 by default.
+
+*Zoom*
+    Sets the zoom velocity of the camera. Default value is 0.10. Available only if the ``New Camera Move Style`` parameter is set to either ``Hover`` or ``Target``.
+
+The following parameters are used to specify a target or a pivot point of the camera and are available only if the ``New Camera Move Style`` parameter is set to either ``Hover`` or ``Target``:
+
+*Use Object*
+    This parameter enables and disables using a scene object as camera's target or pivot point (depending on the camera type). If it is activated, a text field will appear to specify the object. This parameter is disabled by default.
+
+If the ``Use Object`` parameter is disabled, the following three options become available:
+
+*x*
+    The ``X`` component of the camera's target/pivot pint.
+
+*y*
+    The ``Y`` component of the camera's target/pivot point.
+
+*z*
+    The ``Z`` component of the camera's target/pivot point.
+
 Object
 ======
 

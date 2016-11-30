@@ -39,7 +39,7 @@
             "glow_grow_time": 1,
             "min_glow_value": 0,
             "max_glow_value": 1,
-            "level_name": "under_construction",
+            "level_name": "quest",
             "mouse_over_speaker": "main_menu*Speaker"
         },
         {

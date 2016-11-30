@@ -4,7 +4,6 @@
 
     // uses global _export_directory variable
     function submit_cb() {
-
         var file = "";
         var projects = [];
 

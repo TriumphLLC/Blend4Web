@@ -240,7 +240,7 @@ class B4W_ObjectBillboard(ObjectButtonsPanel, Panel):
         row.prop(obj, "b4w_billboard_geometry", expand=True)
 
 class B4W_ObjectReflections(ObjectButtonsPanel, Panel):
-    bl_label = _("Reflections")
+    bl_label = _("Real-Time Reflections")
     bl_idname = "OBJECT_PT_b4w_reflections"
     bl_options = {'DEFAULT_CLOSED'}
 

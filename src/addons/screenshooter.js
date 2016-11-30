@@ -26,22 +26,31 @@ var m_main = require("main");
 
 /**
  * Take a screenshot and download as screenshot.png image.
+ * @method module:screenshooter.shot
+ * @param {String} [format="image/png"] The MIME image format ("image/png",
+ * "image/jpeg", "image/webp" and so on)
+ * @param {Number} [quality=1.0] Number between 0 and 1 for types: "image/jpeg",
+ * "image/webp"
+ * @example
+ * var m_scrn = require("screenshooter");
+ * m_scrn.shot();
  */
-exports.shot = function() {
+exports.shot = function(format, quality) {
+    format = format || "image/png";
+    quality = quality || 1.0;
 
-    var cb = function(data) {
+    var cb = function(url) {
         var a = window.document.createElement("a");
         document.body.appendChild(a);
-
         a.style.display = "none";
-        a.href = data;
-        a.download = "screenshot.png";
+        a.href = url;
+        a.download = "screenshot." + format.split("/")[1];
         a.click();
 
         document.body.removeChild(a);
     }
 
-    m_main.canvas_data_url(cb);
+    m_main.canvas_data_url(cb, format, quality, true);
 }
 
 };

@@ -403,33 +403,13 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     } else {
         render.aa_quality = "AA_QUALITY_" + bpy_scene["b4w_antialiasing_quality"];
 
-        switch (bpy_scene["b4w_antialiasing_quality"]) {
-        case "LOW":
-            if (render.antialiasing)
-                render.resolution_factor = 1.0;
-            break;
-        case "MEDIUM":
-            if (cfg_def.quality == m_cfg.P_LOW || cfg_def.quality == m_cfg.P_HIGH)
-                render.resolution_factor = 1.0;
-            else if (cfg_def.quality == m_cfg.P_ULTRA)
-                render.resolution_factor = 1.33;
-            break;
-        case "HIGH":
-            if (cfg_def.quality == m_cfg.P_LOW)
-                render.resolution_factor = 1.0;
-            else if (cfg_def.quality == m_cfg.P_HIGH)
-                render.resolution_factor = 1.33;
-            else if (cfg_def.quality == m_cfg.P_ULTRA)
-                render.resolution_factor = 2.0;
-            break;
-        case "NONE":
-            if (cfg_def.quality == m_cfg.P_LOW || cfg_def.quality == m_cfg.P_HIGH)
-                render.resolution_factor = 1.0;
-            else if (cfg_def.quality == m_cfg.P_ULTRA)
-                render.resolution_factor = 2.0;
-            break;
-        }
-        if (cfg_def.quality == m_cfg.P_CUSTOM)
+        if (bpy_scene["b4w_antialiasing_quality"] === "MEDIUM" && cfg_def.quality === m_cfg.P_ULTRA ||
+                bpy_scene["b4w_antialiasing_quality"] === "HIGH" && cfg_def.quality === m_cfg.P_HIGH)
+            render.resolution_factor = 1.33;
+        else if (bpy_scene["b4w_antialiasing_quality"] === "HIGH" && cfg_def.quality === m_cfg.P_ULTRA ||
+                bpy_scene["b4w_antialiasing_quality"] === "NONE" && cfg_def.quality === m_cfg.P_ULTRA)
+            render.resolution_factor = 2.0;
+        else
             render.resolution_factor = 1.0;
 
     }
@@ -865,7 +845,7 @@ function extract_sky_params(world, sun_exist) {
     var sky_params = {};
 
     sky_params.render_sky                  = sky_settings["render_sky"] || sky_settings["procedural_skydome"];
-    sky_params.procedural_skydome          = sky_settings["procedural_skydome"] && sun_exist;
+    sky_params.procedural_skydome          = sky_settings["procedural_skydome"];
     sky_params.use_as_environment_lighting = sky_settings["use_as_environment_lighting"];
     sky_params.sky_color                   = sky_settings["color"];
     sky_params.rayleigh_brightness         = sky_settings["rayleigh_brightness"];
@@ -882,7 +862,7 @@ function extract_sky_params(world, sun_exist) {
 
     if (!sun_exist && sky_settings["procedural_skydome"])
         m_print.warn("There is no sun on the scene. " +
-                          "Procedural sky won't be rendered");
+                          "Procedural sky will use a default sun position.");
 
     return sky_params;
 }
@@ -1394,8 +1374,7 @@ exports.generate_auxiliary_batches = function(scene, graph) {
             break;
 
         case m_subs.SKY:
-            batch = m_batch.create_cube_sky_batch(scene, subs,
-                    subs.procedural_skydome);
+            batch = m_batch.create_cube_sky_batch(scene, subs);
             break;
         case m_subs.LUMINANCE:
             batch = m_batch.create_luminance_batch();
@@ -1731,6 +1710,14 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
             prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
     }
 
+    var cam = subs.camera;
+    if (cam.type == m_cam.TYPE_ORTHO ||
+            cam.type == m_cam.TYPE_ORTHO_ASPECT ||
+            cam.type == m_cam.TYPE_ORTHO_ASYMMETRIC)
+        m_shaders.set_directive(shaders_info, "CAMERA_TYPE", "CAM_TYPE_ORTHO");
+    else
+        m_shaders.set_directive(shaders_info, "CAMERA_TYPE", "CAM_TYPE_PERSP");
+
     if ((batch.type == "SHADOW" || main_type == "COLOR_ID") && !batch.has_nodes)
         return;
 
@@ -1743,7 +1730,6 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     m_shaders.set_directive(shaders_info, "REFLECTION_PASS", "REFL_PASS_NONE");
 
     m_shaders.set_directive(shaders_info, "SSAO_ONLY", 0);
-    m_shaders.set_directive(shaders_info, "INVERT_FRONTFACING", 0);
 
     var wp = sc_render.water_params;
     if (wp) {
@@ -2058,10 +2044,6 @@ function add_object_subs_reflect(subs, obj, graph, is_blend_subs, scene, copy) {
 
             // disable normalmapping in shader for optimization purposes
             m_shaders.set_directive(shaders_info, "TEXTURE_NORM", 0);
-
-            // invert gl_FrontFacing vector for plane reflections
-            if (subs.type == m_subs.MAIN_PLANE_REFLECT)
-                m_shaders.set_directive(shaders_info, "INVERT_FRONTFACING", 1);
 
             if (!m_batch.update_shader(batch)) {
                 if (m_version.type() === "DEBUG") {
@@ -3675,12 +3657,11 @@ function get_water_surface_level(scene, pos_x, pos_y) {
     var waves_length = wp.waves_length;
     var water_level  = wp.water_level;
 
-    var wind_str = m_vec3.length(render.wind);
+    var wind_str = m_vec3.length(render.wind) || 1;
 
     var subs = get_subs(scene, m_subs.MAIN_OPAQUE);
     var time = subs.time;
-    if (wind_str)
-        time *= wind_str;
+    time *= wind_str;
 
     // small waves
     var cellular_coords = _vec2_tmp;
@@ -3760,6 +3741,7 @@ function get_water_surface_level(scene, pos_x, pos_y) {
 
     wave_height += 0.05 * small_waves;
     var cur_water_level = water_level + wave_height;
+
     return cur_water_level;
 }
 

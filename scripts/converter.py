@@ -76,7 +76,7 @@ def check_dependencies(dependencies):
             needed_progs["Libav or FFmpeg"] = True
         elif dep == "identify" or dep == "convert":
             needed_progs["ImageMagick"] = True
-        elif dep == "identify" or dep == "convert":
+        elif dep == "ffprobe":
             needed_progs["FFprobe"] = True
         elif dep == "nvcompress":
             needed_progs["NVIDIA Texture Tools"] = True

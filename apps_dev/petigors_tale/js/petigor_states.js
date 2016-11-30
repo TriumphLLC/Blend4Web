@@ -17,12 +17,15 @@ var m_tsr       = require("tsr");
 // Petigor's states
 var START = 0;
 var STANDING = 1;
-var WAITING = 2;
-var MOVING = 3;
-var MOVING_TO_TARGET = 4;
-var INTERACTING = 5;
-
-var _state_names = ["START", "STANDING", "WAITING", "MOVING", "MOVING_TO_TARGET", "INTERACTING"];
+var MOVING = 2;
+var MOVING_TO_TARGET = 3;
+var INTERACTING = 4;
+var _state_map = {};
+_state_map["START"] = START
+_state_map["STANDING"] = STANDING
+_state_map["MOVING"] = MOVING
+_state_map["MOVING_TO_TARGET"] = MOVING_TO_TARGET
+_state_map["INTERACTING"] = INTERACTING
 
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp1  = new Float32Array(3);
@@ -32,11 +35,10 @@ var _vec4_tmp  = new Float32Array(4);
 var _vec4_tmp2  = new Float32Array(4);
 
 exports.state_id_by_name = function(name) {
-    return _state_names.indexOf(name);
+    return _state_map[name];
 };
 
 exports.STANDING = STANDING;
-exports.WAITING = WAITING;
 exports.MOVING = MOVING;
 exports.MOVING_TO_TARGET = MOVING_TO_TARGET;
 exports.INTERACTING = INTERACTING;
@@ -47,20 +49,30 @@ var _gs = null; // global state variable
 var _tsr = m_tsr.create();
 var _tsr_inv = m_tsr.create();
 
-function translate(obj, elapsed) {
+function translate(obj, target, elapsed, accurate) {
     var trans = _vec3_tmp;
     var cur_dir = _vec3_tmp2;
     var cur_rot_q = _vec4_tmp;
+    var dist = _vec3_tmp3;
 
     m_trans.get_rotation(obj, cur_rot_q);
     m_trans.get_translation(obj, trans);
+    m_vec3.subtract(target, trans, dist);
 
-    m_vec3.transformQuat(m_util.AXIS_MY, cur_rot_q, cur_dir);
-    m_vec3.normalize(cur_dir, cur_dir);
-    m_vec3.normalize(cur_dir, cur_dir);
-    m_vec3.scaleAndAdd(trans, cur_dir, _gs.speed * elapsed, trans);
+    var passed_dist = _gs.speed * elapsed;
 
-    // ray_test fo projecting the position on the surface
+    if (passed_dist * passed_dist < m_vec3.dot(dist, dist)) {
+        if (accurate) {
+            m_vec3.normalize(dist, cur_dir);
+        } else {
+            m_vec3.transformQuat(m_util.AXIS_MY, cur_rot_q, cur_dir);
+            m_vec3.normalize(cur_dir, cur_dir);
+        }
+        m_vec3.scaleAndAdd(trans, cur_dir, passed_dist, trans);
+    } else {
+        trans = target;
+    }
+    // ray_test for projecting the position on the surface
     var ray_test_cb = function (id, hit_fract, obj_hit, hit_time, hit_pos, hit_norm) {
         trans[2] = hit_pos[2];
         m_trans.set_translation_v(obj, trans);
@@ -68,6 +80,10 @@ function translate(obj, elapsed) {
     m_phy.append_ray_test_ext(obj, [0, 0, 0.5], [0, 0, -1], "raytest_floor",
         ray_test_cb, true, false, true, true);
     m_trans.set_translation_v(obj, trans);
+
+    m_vec3.subtract(target, trans, dist);
+    dist[2] = 0;
+    return m_vec3.dot(dist, dist);
 }
 
 function rotate_to_dir(obj, dir_to_dest, elapsed) {
@@ -87,13 +103,12 @@ function rotate_to_dir(obj, dir_to_dest, elapsed) {
     vec_dot = vec_dot > 1 ? 1 : vec_dot < -1 ? -1 : vec_dot;
 
     var angle_to_turn = Math.acos(vec_dot);
-    var angle_ratio = Math.abs(angle_to_turn) / Math.PI * 2/3;
-    var slerp = elapsed / angle_ratio * _gs.speed;
-
-    m_quat.slerp(cur_rot_q, new_rot_q, Math.min(slerp, 1), new_rot_q);
+    var slerp = elapsed * (_gs.speed / _gs.dist_err) / Math.abs(angle_to_turn)*Math.PI/2;
+    slerp = Math.min(slerp, 1);
+    m_quat.slerp(cur_rot_q, new_rot_q, slerp, new_rot_q);
     m_trans.set_rotation_v(obj, new_rot_q);
 
-    return angle_to_turn;
+    return angle_to_turn - angle_to_turn * slerp;
 }
 
 function rotate_to_quat(obj, quat, elapsed) {
@@ -134,10 +149,12 @@ function play_anims(node) {
     var anim = node.payload.anim;
     var inst = node.instances[_gs.ro_sm_node_state.instance_id];
     for (var i = 0; i < anim.length; i++) {
-        var slot_num = inst.anim[anim.name];
-        if (!slot_num)
-            slot_num = anim[i].slot;
-        m_anim.play(obj, null, slot_num);
+        if (inst.anim) {
+            var slot_num = inst.anim[anim.name];
+            if (!slot_num)
+                slot_num = anim[i].slot;
+            m_anim.play(obj, null, slot_num);
+        }
     }
 }
 
@@ -146,12 +163,14 @@ function stop_anims(node, do_not_reset) {
     var anim = node.payload.anim;
     var inst = node.instances[_gs.ro_sm_node_state.instance_id];
     for (var i = 0; i < anim.length; i++) {
-        var slot_num = inst.anim[anim.name];
-        if (!slot_num)
-            slot_num = anim[i].slot;
-        if (!do_not_reset)
-            m_anim.set_frame(obj, 0, slot_num)
-        m_anim.stop(obj, slot_num)
+        if (inst.anim) {
+            var slot_num = inst.anim[anim.name];
+            if (!slot_num)
+                slot_num = anim[i].slot;
+            if (!do_not_reset)
+                m_anim.set_frame(obj, 0, slot_num)
+            m_anim.stop(obj, slot_num)
+        }
     }
 }
 
@@ -164,50 +183,54 @@ function moving_callback(obj, id, pulse) {
     play_anims(node);
 
     var elapsed = m_ctl.get_sensor_value(obj, id, 0);
-    var source = new Float32Array(3);
     var path = inst.path;
-    m_trans.get_translation(_gs.character, source);
 
     if (!path) {
         // path is not found
         _switch_state(STANDING);
         return;
     }
-
-    if (inst.path_point_index >= path.length) {
+    var len = path.length/3;
+    if (inst.path_point_index >= len) {
         if (_gs.dest_rotation) {
-            // the case when should be directed to concrete direction
+            // the case of rotation to concrete direction
             var angle = rotate_to_quat(_gs.character, _gs.dest_rotation, elapsed);
-            if (Math.abs(angle) < 0.05 * Math.PI) {
+            if (Math.abs(angle) < 0.001 * Math.PI) {
                 // rotation is completed
+                _gs.accurate_translation = false;
                 _switch_state(STANDING);
                 return;
             }
         }
         else {
+            _gs.accurate_translation = false;
             _switch_state(STANDING);
             return;
         }
     } else {
-        if (path && path.length && path[inst.path_point_index]) {
-            m_vec3.subtract(source, path[inst.path_point_index], _vec3_tmp1);
-            _vec3_tmp1[2] = 0;
-            var dist_to_targ = m_vec3.len(_vec3_tmp1);
-            var angle_to_targ = rotate_to_dest(_gs.character, path[inst.path_point_index], elapsed);
+        if (path.length && path[inst.path_point_index*3]) {
+            var point = new Float32Array(3);
 
-            if (Math.abs(angle_to_targ) < Math.PI / 4 && dist_to_targ >= _gs.dist_err ||
-                (dist_to_targ < _gs.dist_err && dist_to_targ > 0.02 && inst.path_point_index == path.length-1)
-            ) {
-                translate(_gs.character, elapsed);
-            } else if (Math.abs(angle_to_targ) < 0.1 * Math.PI) {
-                inst.path_point_index++;
-                if (inst.path_point_index >= path.length && !_gs.dest_rotation) {
-                    // translation and rotation are completed
+            point[0] = path[inst.path_point_index * 3];
+            point[1] = path[inst.path_point_index * 3 + 1];
+            point[2] = path[inst.path_point_index * 3 + 2];
+
+            var err2 = _gs.dist_err * _gs.dist_err;
+            var dist_to_targ2 = translate(_gs.character, point, elapsed, _gs.accurate_translation);
+            if (dist_to_targ2 < err2) {
+                _gs.accurate_translation = true;
+                if (inst.path_point_index >= len && !_gs.dest_rotation) {
                     _switch_state(STANDING);
+                    _gs.accurate_translation = false;
                     return;
                 }
+                if (dist_to_targ2 < err2/1000)
+                    inst.path_point_index++;
+            } else {
+                rotate_to_dest(_gs.character, point, elapsed);
             }
         } else {
+            _gs.accurate_translation = false;
             _switch_state(STANDING);
             return;
         }
@@ -222,25 +245,23 @@ function find_path(instance) {
     m_tsr.transform_vec3(_gs.destination, _tsr_inv, _vec3_tmp2);
 
     var island = m_phy.navmesh_get_island(_gs.navmesh_obj, _vec3_tmp1);
-    var path = m_phy.navmesh_find_path(_gs.navmesh_obj, _vec3_tmp1, _vec3_tmp2, island);
+    var options = {
+        "navmesh_island": island
+    }
+    var path_info = m_phy.navmesh_find_path(_gs.navmesh_obj, _vec3_tmp1,
+            _vec3_tmp2, options);
+    var path = path_info["positions"];
+
     if (!path || !path.length) {
         instance.path_point_index = 0;
         return;
     } else
         instance.path_point_index = 1;
 
-    path = [_vec3_tmp1].concat(path);
-
+    var n = path.length/3;
     instance.path = path;
 
-    var positions = new Float32Array(3 * path.length);
-    for (var i = 0; i < path.length; i++) {
-        m_tsr.transform_vec3(path[i], _tsr, path[i]);
-        positions[3 * i] = path[i][0];
-        positions[3 * i + 1] = path[i][1];
-        positions[3 * i + 2] = path[i][2] + 0.18;
-    }
-    _gs.positions = positions;
+    _gs.positions = path;
 }
 
 function prepare_speakers(node, instance_id) {
@@ -276,7 +297,7 @@ function stop_action(node, instance_id) {
     var speakers = inst.action.speakers;
     var manifold_name = inst.action.manifold_name;
     var manifold_owner = node.payload.anim_obj;
-    for (var i in inst.speakers)
+    for (var i in speakers)
         m_sfx.stop(speakers[i]);
     stop_anims(node);
     if (manifold_name && m_ctl.check_sensor_manifold(manifold_owner, manifold_name))
@@ -330,16 +351,6 @@ function init_standing_state(node, instance_id) {
     init_action(node, instance_id, "standing");
 }
 
-function standing_callback(obj, id, pulse) {
-// do nothing for 2 seconds, then play anim (swich to WAITING state)
-    var elapsed = m_ctl.get_sensor_value(obj, id, 0);
-    _gs.standing_time += elapsed;
-
-    if (_gs.standing_time > 2) {
-        _switch_state(WAITING)
-    }
-}
-
 function switch_from_standing(eq, from, old_state, new_state, old_node, new_node, instance_id) {
     if (!eq) {
         stop_action(old_node, instance_id);
@@ -364,20 +375,34 @@ function init(global_state) {
     _gs = global_state;
     _sm = m_sm.state_machine_create();
 
-    m_sm.state_machine_add_state(_sm, START, [STANDING], null, switch_state_callback); // fake state where actually nothing is happening
-    m_sm.state_machine_add_state(_sm, STANDING, [STANDING, WAITING, MOVING, INTERACTING, MOVING_TO_TARGET], null, switch_state_callback, switch_from_standing, switch_to_standing, init_standing_state,
-        {anim_obj: _gs.character_armature, anim: [{slot: m_anim.SLOT_0, name: "petigor_quest_idle", flags: m_anim.AB_CYCLIC}], sound: []});
-    m_sm.state_machine_add_state(_sm, WAITING, [STANDING, WAITING, MOVING, INTERACTING, MOVING_TO_TARGET], null, switch_state_callback, switch_state_callback, switch_state_callback, null,
-        {anim_obj: _gs.character_armature, anim: [{slot: m_anim.SLOT_0, name: "pestel_throwing", flags: m_anim.AB_CYCLIC}], sound: [{name: "voice"}]});
-    m_sm.state_machine_add_state(_sm, MOVING, [STANDING, MOVING, MOVING_TO_TARGET], null, switch_state_callback, switch_from_moving, switch_to_moving, init_moving_state,
-        {anim_obj: _gs.character_armature, anim: [{slot: m_anim.SLOT_0, name: "petigor_quest_walk", flags: m_anim.AB_CYCLIC}], sound: [/*{name: "galop"}*/]});
-    m_sm.state_machine_add_state(_sm, MOVING_TO_TARGET, [STANDING], null, switch_state_callback, switch_from_moving, switch_to_moving, init_moving_state,
-        {anim_obj: _gs.character_armature, anim: [{slot: m_anim.SLOT_0, name: "petigor_quest_walk", flags: m_anim.AB_CYCLIC}], sound: [/*{name: "galop"}*/]});
-    m_sm.state_machine_add_state(_sm, INTERACTING, [STANDING, INTERACTING], null, switch_state_callback, null, null, null, {});
+    // fake state where actually nothing is happening
+    m_sm.state_machine_add_state(_sm, START, [INTERACTING], null, switch_state_callback);
+
+    m_sm.state_machine_add_state(_sm, STANDING, [STANDING, MOVING, INTERACTING,
+        MOVING_TO_TARGET], null, switch_state_callback, switch_from_standing,
+        switch_to_standing, init_standing_state, {anim_obj: _gs.character_armature,
+        anim: [{slot: m_anim.SLOT_0, name: "petigor_quest_idle",
+        flags: m_anim.AB_CYCLIC}], sound: []});
+
+    m_sm.state_machine_add_state(_sm, MOVING, [STANDING, MOVING, MOVING_TO_TARGET],
+        null, switch_state_callback, switch_from_moving, switch_to_moving,
+        init_moving_state, {anim_obj: _gs.character_armature,
+        anim: [{slot: m_anim.SLOT_0, name: "petigor_quest_walk", flags: m_anim.AB_CYCLIC}],
+        sound: [{name: "quest_walking_circle"}]});
+
+    m_sm.state_machine_add_state(_sm, MOVING_TO_TARGET, [STANDING], null,
+        switch_state_callback, switch_from_moving, switch_to_moving, init_moving_state,
+        {anim_obj: _gs.character_armature, anim: [{slot: m_anim.SLOT_0,
+        name: "petigor_quest_walk", flags: m_anim.AB_CYCLIC}],
+        sound: [{name: "quest_walking_circle"}]});
+
+    m_sm.state_machine_add_state(_sm, INTERACTING, [STANDING, INTERACTING], null,
+        switch_state_callback, null, null, null, {});
 
     m_sm.state_machine_validate(_sm);
     _id = m_sm.state_machine_create_instance(_sm);
     m_sm.state_machine_set_start_node(_sm, START, _id);
+
     // The game starts with logic nodes interaction
     _switch_state(INTERACTING);
 }

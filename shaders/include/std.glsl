@@ -187,6 +187,10 @@
 #define SRGB_SIMPLE 1
 #define SRGB_PROPER 2
 
+// CAMERA type
+#define CAM_TYPE_ORTHO 0
+#define CAM_TYPE_PERSP 1
+
 #define M_PI 3.14159265359
 #define M_PI_4 0.785398163
 #define INV_PI 0.318309886

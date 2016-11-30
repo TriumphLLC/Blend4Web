@@ -17,7 +17,7 @@ def get_proj_cfg(proj_dir):
     Get the cfg_parser object from '.b4w_project' file.
     """
     b4w_proj_cfg = configparser.ConfigParser()
-    b4w_proj_cfg.read(join(proj_dir, ".b4w_project"))
+    b4w_proj_cfg.read(join(proj_dir, ".b4w_project"), encoding="utf-8")
 
     return b4w_proj_cfg
 

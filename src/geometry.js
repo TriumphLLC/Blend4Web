@@ -1156,6 +1156,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_skinning_info,
     for (var i = 0; i < frames; i++) {
         var va_frame = create_frame(bsub, base_length, use_tbn_quat, 
                 use_tangent_shading, i);
+
         if (use_shape_keys) {
             var sk_frame = {};
             sk_frame.name = mesh["b4w_shape_keys"][i]["name"];

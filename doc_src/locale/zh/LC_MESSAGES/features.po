@@ -9,13 +9,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2016-04-25 17:26+0300\n"
-"PO-Revision-Date: 2016-04-01 16:26+0800\n"
+"PO-Revision-Date: 2016-10-29 13:48+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.2.0\n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../features.rst:6
 msgid "Features"
@@ -35,8 +37,7 @@ msgstr "数据格式设计，以适应WebGL规格和装载优化"
 
 #: ../features.rst:13
 msgid ""
-"convenient environment for authoring 3D content, provided by the Blender "
-"add-on"
+"convenient environment for authoring 3D content, provided by the Blender add-on"
 msgstr "便捷的制作3D内容环境，通过Blender的插件来完成"
 
 #: ../features.rst:16
@@ -59,8 +60,8 @@ msgstr "渲染到纹理，RTT显示一个场景在另一个场景中和后处理
 
 #: ../features.rst:21
 msgid ""
-"anisotropic filtering, AF for enhancing the quality of surfaces at "
-"oblique viewing angles (standard WebGL extension is used)"
+"anisotropic filtering, AF for enhancing the quality of surfaces at oblique "
+"viewing angles (standard WebGL extension is used)"
 msgstr "各向异性过滤，AF是为提升在倾斜视角时看表面的质量，（要用到标准WebGL扩展）"
 
 #: ../features.rst:22
@@ -69,8 +70,7 @@ msgstr "纹理压缩支持（S3TC / DXT格式）"
 
 #: ../features.rst:23
 msgid ""
-"video textures - video can be loaded and played back, being layered as a "
-"texture"
+"video textures - video can be loaded and played back, being layered as a texture"
 msgstr "视频贴图 - 视频可以加载和播放，作为纹理层"
 
 #: ../features.rst:24
@@ -87,8 +87,8 @@ msgstr "材质的透明性，如果需要的话通过深度排序（Z分级）"
 
 #: ../features.rst:30
 msgid ""
-"enhanced detailing of relief surfaces with textures (parallax offset "
-"mapping method is used)"
+"enhanced detailing of relief surfaces with textures (parallax offset mapping "
+"method is used)"
 msgstr "增强立体表面细节的纹理（视差偏移映射方法）"
 
 #: ../features.rst:31
@@ -173,8 +173,7 @@ msgstr "粒子系统实现效果，比如火，烟，飞溅等"
 
 #: ../features.rst:60
 msgid ""
-"particle system for instancing similar objects: grass, stones, tree "
-"leaves etc"
+"particle system for instancing similar objects: grass, stones, tree leaves etc"
 msgstr "粒子系统的实例存储相似的物体：草，石头，树叶等"
 
 #: ../features.rst:63
@@ -207,8 +206,8 @@ msgstr "运动模糊"
 
 #: ../features.rst:74
 msgid ""
-"anti-aliasing - image edges enhancement (fast approximate anti-aliasing, "
-"FXAA method is used)"
+"anti-aliasing - image edges enhancement (fast approximate anti-aliasing, FXAA "
+"method is used)"
 msgstr "抗锯齿 - 图像边缘增强（快速近似抗锯齿，使用FXAA法）"
 
 #: ../features.rst:75
@@ -245,8 +244,7 @@ msgstr "蒙皮 - 与骨骼系统物体变形"
 
 #: ../features.rst:87
 msgid ""
-"animating location, rotation and scale of objects, cameras and light "
-"sources"
+"animating location, rotation and scale of objects, cameras and light sources"
 msgstr "动画物体，照相机和光源的位置，旋转和缩放"
 
 #: ../features.rst:88
@@ -303,8 +301,8 @@ msgstr "在三维空间中定位声源"
 
 #: ../features.rst:107
 msgid ""
-"Doppler effect for moving objects with a possibility to turn it off and "
-"with space jump compensation"
+"Doppler effect for moving objects with a possibility to turn it off and with "
+"space jump compensation"
 msgstr "移动物体来关闭多普勒效应并用空间跳跃补偿"
 
 #: ../features.rst:108
@@ -320,7 +318,6 @@ msgid "high quality sound looping"
 msgstr "高品质的声音循环"
 
 #: ../features.rst:111
-#, fuzzy
 msgid "randomizing sound parameters to improve loop perception"
 msgstr "随机声音参数，以提高循环感知"
 
@@ -346,8 +343,8 @@ msgstr "物理"
 
 #: ../features.rst:120
 msgid ""
-"rigid body physics - collision detection, realistic movement, gravity, "
-"height detection, torsion"
+"rigid body physics - collision detection, realistic movement, gravity, height "
+"detection, torsion"
 msgstr "刚体物理 - 碰撞检测，真实移动，重力，高度检测，扭转"
 
 #: ../features.rst:121
@@ -388,8 +385,8 @@ msgstr "可视化编程"
 
 #: ../features.rst:136
 msgid ""
-"the Logic Editor tool allows to create interactive apps by constructing "
-"the logic chains from basic blocks"
+"the Logic Editor tool allows to create interactive apps by constructing the "
+"logic chains from basic blocks"
 msgstr "逻辑编辑器工具允许使用基本模块组合逻辑链来创建交互式应用程序"
 
 #: ../features.rst:139
@@ -414,8 +411,7 @@ msgstr "模块结构的源代码"
 
 #: ../features.rst:145
 msgid ""
-"powerful shader preprocessor with modules and functional blocks (nodes) "
-"support"
+"powerful shader preprocessor with modules and functional blocks (nodes) support"
 msgstr "强大的着色器预处理器的模块和功能模块（节点）支持"
 
 #: ../features.rst:146
@@ -433,4 +429,3 @@ msgstr "用户手册和API文档"
 #: ../features.rst:149
 msgid "user interaction - camera, character, actions control"
 msgstr "用户交互 - 摄像头，角色，行为控制"
-

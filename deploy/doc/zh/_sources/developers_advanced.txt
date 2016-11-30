@@ -131,9 +131,8 @@ cc_externs" 标签字段：
 构建插件
 ========
 
-Binary Blend4Web addon builds are available for the following
-platforms: Linux x32/64, macOS x64, Windows x32/64. At the same time
-users can compile the addon by themselves.
+二进制的Blend4Web插件版本是可用于以下平台：Linux的X32 / 64，macOS的
+x64，Windows X32 / 64。同时用户可以自行编译插件。
 
 要做到这一点，Python 3.X（如果它是跟blender相同的版本更好）和C编译器是
 必需的。在Linux下，只需安装python3-dev 和 build-essential 的程序包。
@@ -141,7 +140,7 @@ users can compile the addon by themselves.
 路径相对于库根：
    * 构建脚本："csrc/b4w_bin/build.py"
 
-   * Blend4Web插件： "blender_scripts/addons/blend4web/"
+   * Blend4Web addon: "addons/blend4web/"
 
 该构建过程开始于以下方式：
 

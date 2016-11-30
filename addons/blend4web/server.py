@@ -322,7 +322,7 @@ class B4WOpenProjManager(bpy.types.Operator):
 class B4WPreviewScene(bpy.types.Operator):
     bl_idname = "b4w.preview"
     bl_label = p_("B4W Preview", "Operator")
-    bl_description = _("Preview the current scene in the Viewer")
+    bl_description = _("Preview the current scene in the Blend4Web Viewer")
     bl_options = {"INTERNAL"}
 
     def execute(self, context):
@@ -390,12 +390,17 @@ def correct_resources_path(previewdir):
 
 def copy_resource(resource_path, previewdir):
     abs_path = abspath(join(previewdir, resource_path))
-    file_name = split(resource_path)[-1]
+    filename = os.path.split(abs_path)[1]
+    filename_cl, ext = os.path.splitext(filename)
+    new_file_name = filename_cl
+    new_file_name += "_"
+    new_file_name += hashlib.md5(abs_path.encode()).hexdigest()
+    new_file_name += ext
     res_dir_path = join(previewdir, "resources")
-    new_abs_path = join(res_dir_path, file_name)
+    new_abs_path = join(res_dir_path, new_file_name)
     if os.path.isfile(abs_path):
         shutil.copy(abs_path, new_abs_path)
-    return file_name
+    return new_file_name
 
 def register():
     bpy.app.handlers.scene_update_pre.append(init_server)

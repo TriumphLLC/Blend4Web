@@ -142,9 +142,8 @@
 激活
 ----
 
-Activate the "Ambient Occlusion SSAO" panel under the "Render" tab and
-set the "Render Shadows" parameter to "AUTO" or "ON"  on the "Render >
-Shadows" panel.
+激活 "Render" 标签下 "Ambient Occlusion SSAO" 面板，在 "Render >
+Shadows" 面板设置  "Render Shadows" 到参数  "AUTO" 或 "ON" 。
 
 
 其他设置

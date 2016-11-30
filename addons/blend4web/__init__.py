@@ -17,7 +17,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (16, 10, 0),
+    "version": (16, 11, 0),
     "blender": (2, 78, 0),
     "b4w_format_version": "6.01",
     "location": "File > Import-Export",
@@ -389,14 +389,7 @@ def logic_nodetree_reform(arg):
 
 def init_runtime_addon_data():
     p = bpy.context.user_preferences.addons[__package__].preferences
-    if p.b4w_autodetect_sdk_path == "":
-        sdk = init_validation.detect_sdk()
-        if sdk:
-            p.b4w_autodetect_sdk_path = sdk
-        else:
-            p.b4w_autodetect_sdk_path = ""
-        if not (p.b4w_autodetect_sdk_path == "") and p.b4w_src_path == "":
-                p.b4w_src_path = copy.copy(p.b4w_autodetect_sdk_path)
+    p.b4w_src_path = init_validation.detect_sdk() or "";
 
 def register():
     if not _init_is_ok:

@@ -41,8 +41,9 @@ var m_quat  = require("quat");
 var m_scs   = require("scenes");
 var m_time  = require("time");
 var m_trans = require("transform");
-var m_util  = require("util");
 var m_vec3  = require("vec3");
+var m_print = require("print");
+var m_util  = require("util");
 
 var _ev_tracks = [];
 
@@ -85,36 +86,112 @@ var NPC_MAX_ACTIVITY_DISTANCE = 100;
  * @param {Object3D} graph.obj Animated object ID.
  * @param {Object3D} graph.rig Armature object ID.
  * @param {Object3D} graph.collider Collider object ID which will be used for collision detection.
- * @param {Object3D} graph.empty The corresponding empty object.
  * @param {Number} graph.speed Movement speed.
  * @param {Number} graph.rot_speed Rotation speed.
  * @param {Boolean} graph.random Determines whether the object will perform random moves or not.
  * @param {Number} graph.type NPC movement type (NT_WALKING, NT_FLYING, etc).
  * @method module:npc_ai.new_event_track
- * @cc_externs path delay actions obj collider empty speed random rig
+ * @cc_externs path delay actions obj collider speed random rig
  * @cc_externs type rot_speed max_height min_height
  */
 exports.new_event_track = function(graph) {
 
-    graph.destination      = new Float32Array(3);
-    graph.start            = [];
-    graph.ended            = [];
-    graph.fired            = [];
-    graph.ground_level     = 0;
-    graph.vert_correction  = 0;
-    graph.vert_cor_water   = 0;
-    graph.reached          = true;
-    graph.rotation_mult    = 1.0;
+    var track = init_event_track();
 
-    if (!graph.random) {
-        for (var i = 0; i &lt; graph.path.length; i++) {
-            graph.start[i] = -1; // starting time for current move
-            graph.ended[i] = false;
-            graph.fired[i] = false;
-        }
+    if (typeof graph.obj != "object") {
+        m_print.error("Can't create event track. Wrong object.");
+        return;
     }
 
-    _ev_tracks.push(graph);
+    if (typeof graph.rig != "object") {
+        m_print.error("Can't create event track. Wrong rig object");
+        return;
+    }
+
+    if (typeof graph.collider != "object") {
+        m_print.error("Can't create event track. Wrong collider object");
+        return;
+    }
+
+    track.obj = graph.obj;
+    track.collider = graph.collider;
+    track.rig = graph.rig;
+    m_trans.get_translation(graph.collider, track.base_pos);
+
+    if (typeof graph.actions == "object")
+        track.actions = graph.actions;
+    if (typeof graph.random == "boolean")
+        track.random = graph.random;
+    if (typeof graph.type == "number")
+        track.type = graph.type;
+    if (typeof graph.speed == "number")
+        track.speed = graph.speed;
+    if (typeof graph.rot_speed == "number")
+        track.rot_speed = graph.rot_speed;
+    if (typeof graph.max_height == "number")
+        track.max_height = graph.max_height;
+    if (typeof graph.min_height == "number")
+        track.min_height = graph.min_height;
+
+    if (!track.random) {
+        for (var i = 0; i &lt; graph.path.length; i++) {
+            track.start[i] = -1; // starting time for current move
+            track.ended[i] = false;
+            track.fired[i] = false;
+        }
+        track.path = graph.path;
+        track.delay = graph.delay;
+    }
+
+    // apply all available animations so that they are precached
+    var actions = graph.actions;
+    var cur_anim = m_anim.get_current_anim_name(track.rig)
+    for (var list in actions) {
+        var act_list = actions[list];
+        for (var j = 0; j &lt; act_list.length; j++)
+            m_anim.apply(track.rig, act_list[j]);
+    }
+
+    // restore animation
+    if (cur_anim)
+        m_anim.apply(track.rig, cur_anim);
+
+    _ev_tracks.push(track);
+}
+
+function init_event_track() {
+    return {
+
+        obj: null,
+        rig: null,
+        collider: null,
+        empty: null,
+
+        type: NT_WALKING,
+        state: MS_IDLE,
+
+        actions: {},
+
+        base_pos: new Float32Array(3),
+        destination: new Float32Array(3),
+
+        path:  [],
+        start: [],
+        ended: [],
+        fired: [],
+        delay: [],
+
+        random: true,
+        reached: true,
+        ground_level: 0,
+        vert_correction: 0,
+        vert_cor_water: 0,
+        rotation_mult: 1.0,
+        speed: 1,
+        rot_speed: 0.1,
+        max_height: 0,
+        min_height: 0
+    }
 }
 
 /**
@@ -124,8 +201,7 @@ exports.new_event_track = function(graph) {
 function run_track(elapsed, ev_track) {
 
     var destination = ev_track.destination;
-    var base_pos = _vec3_tmp;
-    m_trans.get_translation(ev_track.empty, base_pos);
+    var base_pos = ev_track.base_pos;
 
     var current_loc = _vec3_tmp_2;
 
@@ -358,9 +434,8 @@ exports.enable_animation = function () {
     var elapsed_cb = function(obj, id, pulse) {
         if (pulse == 1) {
             var elapsed = m_ctl.get_sensor_value(obj, id, 0);
-            for (var i = 0; i &lt; _ev_tracks.length; i++) {
+            for (var i = 0; i &lt; _ev_tracks.length; i++)
                 process_event_track(_ev_tracks[i], elapsed);
-            }
         }
     }
     var elapsed_sensor = m_ctl.create_elapsed_sensor();
@@ -511,7 +586,7 @@ function create_sensors() {
         create_track_ray_sensors(ev_track);
         create_track_collision_sensors(ev_track);
 
-        if (ev_track.rig &amp;&amp; m_anim.get_current_anim_name(ev_track.rig))
+        if (m_anim.get_current_anim_name(ev_track.rig))
             m_anim.play(ev_track.rig);
     }
 }
@@ -579,7 +654,7 @@ function create_track_collision_sensors(ev_track) {
                                                          need_payload);
     function collision_cb(obj, id, pulse) {
         if (pulse == 1) {
-            m_trans.get_translation(ev_track.empty, ev_track.destination);
+            m_vec3.copy(ev_track.base_pos, ev_track.destination);
             ev_track.rotation_mult = 4.0;
 
         } else {
@@ -802,13 +877,13 @@ function dest_anim_correction(ev_track, dest, l_to_p, new_dir) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Oct 27 2016 16:42:34 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:45 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

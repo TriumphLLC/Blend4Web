@@ -14,6 +14,7 @@
 #var PARALLAX 0
 #var CALC_TBN_SPACE 0
 #var USE_TBN_SHADING 0
+#var REFLECTION_PASS REFL_PASS_PLANE
 
 #var TEXTURE_SPEC 0
 #var ALPHA_AS_SPEC 0
@@ -31,7 +32,6 @@
 #var CSM_SECTION3 0
 #var NUM_CAST_LAMPS 0
 #var NUM_LIGHTS 0
-#var INVERT_FRONTFACING 0
 #var WATER_LEVEL 0.0
 #var PROCEDURAL_FOG 0
 #var TEXTURE_BLEND_TYPE TEXTURE_BLEND_TYPE_MIX
@@ -320,7 +320,7 @@ void main(void) {
 #if DOUBLE_SIDED_LIGHTING
     // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
-#if INVERT_FRONTFACING
+#if REFLECTION_PASS == REFL_PASS_PLANE
     if (!gl_FrontFacing)
 #else
     if (gl_FrontFacing)

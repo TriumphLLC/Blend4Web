@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2016-11-25 17:25+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -616,9 +616,10 @@ msgid ""
 "person character. Such character will only have very basic functionality,"
 " but can be set up without any programming."
 msgstr ""
-"Движок Blend4Web также предоставляет возможность быстрой настройки персонажа, "
-"управляемого пользователем от первого лица. Такой персонаж обладает только "
-"самыми основными функциями, но его создание не требует программирования."
+"Движок Blend4Web также предоставляет возможность быстрой настройки "
+"персонажа, управляемого пользователем от первого лица. Такой персонаж "
+"обладает только самыми основными функциями, но его создание не требует "
+"программирования."
 
 #: ../physics.rst:275
 msgid "To set up a basic character, follow these steps:"
@@ -642,22 +643,25 @@ msgstr "Включите для объекта опцию Character."
 
 #: ../physics.rst:280
 msgid "Create a new Camera or select an existing one and set its type to ``Eye``."
-msgstr "Создайте новую камеру или выберите уже имеющуюся, и установите тип камеры ``Eye``."
+msgstr ""
+"Создайте новую камеру или выберите уже имеющуюся, и установите тип камеры"
+" ``Eye``."
 
 #: ../physics.rst:282
 msgid ""
 "Now a basic character with an attached camera will be present in your "
 "scene."
 msgstr ""
-"Теперь в сцене будет присутствовать базовый персонаж с прикреплённой камерой."
+"Теперь в сцене будет присутствовать базовый персонаж с прикреплённой "
+"камерой."
 
 #: ../physics.rst:284
 msgid ""
 "The character can be controlled in mostly the same way as a regular "
 "``Eye`` type camera:"
 msgstr ""
-"Такой персонаж управляется практически так же, как обычная камера "
-"типа ``Eye``:"
+"Такой персонаж управляется практически так же, как обычная камера типа "
+"``Eye``:"
 
 #: ../physics.rst:286
 msgid "WASD keys move the character."
@@ -673,7 +677,9 @@ msgstr ""
 
 #: ../physics.rst:288
 msgid "Pressing the C key toggles fly mode (enabled by default)."
-msgstr "Нажатие клавиши C включает и выключает режим полёта (включён по умолчанию)."
+msgstr ""
+"Нажатие клавиши C включает и выключает режим полёта (включён по "
+"умолчанию)."
 
 #: ../physics.rst:291
 msgid ""
@@ -685,11 +691,318 @@ msgstr ""
 "персонажей больше одного, движок будет использовать первого из них и "
 "игнорировать остальных."
 
+#: ../physics.rst:294
+msgid "Navigation Meshes"
+msgstr "Навигационные меши"
+
 #: ../physics.rst:296
+msgid ""
+"Navigation meshes (commonly abbreviated *navmeshes*) are mesh objects "
+"that are used to make pathfinding simplier by eliminating the need for "
+"additional calculations such as collisions."
+msgstr ""
+"Навигационные меши (*навмеши*) - трёхмерные объекты, используемые для "
+"упрощения построения траекторий, в частности, за счёт ликвидации "
+"дополнительных вычислений, таких как рассчёт столкновений."
+
+#: ../physics.rst:302
+msgid ""
+"In this example (taken from Code Snippets), navigation mesh is used to "
+"build a path through the labyrinth."
+msgstr ""
+"В этом примере (взятом из Code Snippets) навигационный меш используется "
+"для построения пути через лабиринт."
+
+#: ../physics.rst:305
+msgid "Creating Navigation Meshes"
+msgstr "Создание навигационных мешей"
+
+#: ../physics.rst:307
+msgid ""
+"To make a navmesh out of an object, turn on the ``Object Physics`` "
+"parameter on the ``Physics`` panel and select ``Navigation Mesh`` from "
+"the ``Physics Type`` list."
+msgstr ""
+"Чтобы использовать объект в качестве навмеша, активируйте параметр "
+"``Object Physics`` на панели ``Physics`` и выберите ``Navigation Mesh`` "
+"из списка ``Physics Type``."
+
+#: ../physics.rst:313
+msgid ""
+"Navigation meshes can either be created manually or generated "
+"automatically using a specific tool."
+msgstr ""
+"Навигационные меши могут создаваться вручную или генерироваться с помощью"
+" специального инструмента."
+
+#: ../physics.rst:320
+msgid "This tool is native to Blender and not a part of the Blend4Web engine."
+msgstr ""
+"Этот инструмент изначально присутствует в Blender и не является частью "
+"движка Blend4Web."
+
+#: ../physics.rst:322
+msgid ""
+"This Navigation Mesh generation interface can be found on a dedicated "
+"panel under the ``Scene`` tab, but, as this feature is intended for real-"
+"time applications, it only appears if the Engine type is set to "
+"``Blend4Web`` or ``Blender Game`` (Blender Internal, Cycles or any other "
+"rendering engine won’t do)."
+msgstr ""
+"Интерфейс создания навигационных мешей находится на соответствующей "
+"панели вкладки ``Scene``, но так как он предназначен только для "
+"использования в интерактивных приложениях, панель доступна только в том "
+"случае, если выбран тип движка ``Blend4Web`` или ``Blender Game`` (не "
+"Blender Internal, Cycles или любая другая система рендеринга)."
+
+#: ../physics.rst:324
+msgid ""
+"The main tool on this panel is the ``Build Navigation Mesh`` button. As "
+"the title suggests, it is used for building navigation meshes based on "
+"the currently selected object. The navmesh is created as a separate "
+"object placed above the selected object, thus leaving that object intact."
+msgstr ""
+"Главный инструмент, находящийся на этой панели - кнопка ``Build "
+"Navigation Mesh``. Как и предполагает её название, она используется для "
+"генерации навигационных мешей, основанных на выбранном объекте. Навмеш "
+"создаётся как отдельный объект, располагающийся над оригинальным "
+"объектом, который никак не изменяется при генерации."
+
+#: ../physics.rst:326
+msgid ""
+"Aside from this button, the ``Navigation Mesh`` panel offers users "
+"several groups of parameters to fine-tune the navmesh that will be "
+"generated."
+msgstr ""
+"Помимо этой кнопки, на панели ``Navigation Mesh`` также находится "
+"несколько групп параметров для тонкой настройки создаваемых навмешей."
+
+#: ../physics.rst:328
+msgid "``Rasterization`` group of parameters:"
+msgstr "Группа параметров ``Rasterization``:"
+
+#: ../physics.rst:331
+msgid "*Cell Size*"
+msgstr ""
+
+#: ../physics.rst:331
+msgid ""
+"Rasterized cell size. Greater values lead to bigger navmesh polygons. The"
+" highest possible value is 1.0. Default value is 0.3."
+msgstr ""
+"Растеризованный размер клетки. Повышение значения увеличивает размер "
+"полигонов навмеша. Максимальное значение - 1.0. Значение по умолчанию - "
+"0.3."
+
+#: ../physics.rst:334
+msgid "*Cell Height*"
+msgstr ""
+
+#: ../physics.rst:334
+msgid ""
+"Rasterized cell height (the distance between the navmesh and the object "
+"from which it was generated). Default value is 0.2."
+msgstr ""
+"Растеризованная высота клетки (расстояние между навмешем, и объектом, на "
+"котором он основан). Значение по умолчанию - 0.2."
+
+#: ../physics.rst:336
+msgid "``Agent`` group of parameters:"
+msgstr "Группа параметров ``Agent``:"
+
+#: ../physics.rst:339
+msgid "*Height*"
+msgstr ""
+
+#: ../physics.rst:339
+msgid "Minimum height where the agent can still walk. Default value is 2.0."
+msgstr ""
+"Минимальная высота, необходимая агенту для перемещения. Значение п "
+"оумолчанию - 2.0."
+
+#: ../physics.rst:342
+msgid "*Radius*"
+msgstr ""
+
+#: ../physics.rst:342
+msgid "The radius of the agent. Default value is 0.6."
+msgstr "Радиус агента. Значение по умолчанию - 0.6."
+
+#: ../physics.rst:345
+msgid "*Max Slope*"
+msgstr ""
+
+#: ../physics.rst:345
+msgid ""
+"Maximum angle of a slope agent can walk on. Measured in degrees. Default "
+"value is 45."
+msgstr ""
+"Максимальный проходимый угол наклона. Измеряется в градусах, значение по "
+"умолчанию - 45."
+
+#: ../physics.rst:348
+msgid "*Max Climb*"
+msgstr ""
+
+#: ../physics.rst:348
+msgid ""
+"The maximum height between grid cells the agent can climb. Default value "
+"is 0.9."
+msgstr ""
+"Максимальная высота между клетками сетки, на которую может взобраться "
+"агент. Значение по умолчанию - 0.9."
+
+#: ../physics.rst:350
+msgid "``Region`` group of parameters:"
+msgstr "Группа параметров ``Region``:"
+
+#: ../physics.rst:353
+msgid "*Min Region Size*"
+msgstr ""
+
+#: ../physics.rst:353
+msgid ""
+"The minimum size of a region (smaller regions will be deleted). Default "
+"value is 8.0."
+msgstr ""
+"Минимальный размер региона (регионы меньшего размера удаляются). Значение"
+" по умолчанию - 8.0."
+
+#: ../physics.rst:356
+msgid "*Merged Region Size*"
+msgstr ""
+
+#: ../physics.rst:356
+msgid ""
+"The minimum size of a region (smaller regions will be merged). Default "
+"value is 20.0."
+msgstr ""
+"Минимальный размер региона для объединения (регионы меньшего размера "
+"объединяются). Значение по умолчанию - 20.0."
+
+#: ../physics.rst:365
+msgid "*Partitioning*"
+msgstr ""
+
+#: ../physics.rst:359
+msgid "The method used to partition the navigation mesh. Supported methods are:"
+msgstr "Метод разбиения навигационного меша. Поддерживаемые методы:"
+
+#: ../physics.rst:361
+msgid ""
+"``Monotone`` is the fastest method. Using it may generate long thin "
+"polygons."
+msgstr ""
+"``Monotone`` — наиболее быстрый метод. Может генерировать длинные узкие "
+"полигоны."
+
+#: ../physics.rst:363
+msgid ""
+"``Layers`` — a slower, but still reasonably fast method that produces "
+"better triangulations than Monotone partitioning."
+msgstr ""
+"``Layers`` — более сложный, но достаточно быстрый метод, генерирующий "
+"более оптимальные сетки треугольников, чем метод Monotone."
+
+#: ../physics.rst:365
+msgid ""
+"``Watershed`` — classic Recast partitioning method that generates the "
+"nicest tesselation. This option is selected by default."
+msgstr ""
+"``Watershed`` — классический Recast-алгоритм, создающий наилучшие "
+"разбиения. Этот вариант выбран по умолчанию."
+
+#: ../physics.rst:367
+msgid "``Polygonization`` group of parameters:"
+msgstr "Группа параметров ``Polygonization``:"
+
+#: ../physics.rst:370
+msgid "*Max Edge Length*"
+msgstr ""
+
+#: ../physics.rst:370
+msgid "The maximum length of a contour edge. Default value is 12.0."
+msgstr "Максимальная длинна ребра контура. Значение по умолчанию - 12.0."
+
+#: ../physics.rst:373
+msgid "*Max Edge Error*"
+msgstr ""
+
+#: ../physics.rst:373
+msgid ""
+"The maximum error of the distance from the contour to the cells. Default "
+"value is 1.3."
+msgstr "Максимальное отклонение от контуров клеток. Значение по умолчанию - 1.3."
+
+#: ../physics.rst:376
+msgid "*Verts Per Poly*"
+msgstr ""
+
+#: ../physics.rst:376
+msgid "The maximum number of vertices per polygon. Default value is 6."
+msgstr "Максимальное количество вершин на полигон. Значение по умолчанию - 6."
+
+#: ../physics.rst:378
+msgid "``Detail Mesh`` group of parameters:"
+msgstr "Группа параметров ``Detail Mesh``:"
+
+#: ../physics.rst:381
+msgid "*Sample Distance*"
+msgstr ""
+
+#: ../physics.rst:381
+msgid "Detail mesh sample spacing. Default value is 6.0."
+msgstr ""
+"Интервал сэмплирования детализированной полисетки. Значение по умолчанию "
+"- 6.0."
+
+#: ../physics.rst:384
+msgid "*Max Sample Error*"
+msgstr ""
+
+#: ../physics.rst:384
+msgid "Maximum error of the mesh simplification. Default value is 1.00."
+msgstr ""
+"Максимальное отклонение сэмплирования при упрощении детализированной "
+"полисетки. Значение по умолчанию - 1.0."
+
+#: ../physics.rst:387
+msgid "Using Navigation Meshes"
+msgstr "Использование навигационных мешей"
+
+#: ../physics.rst:389
+msgid ""
+"After a navmesh is created, it then can be used in the application for "
+"calculating trajectories between two points. This can be done using two "
+"methods from the :b4wmod:`physics` module, "
+":b4wref:`physics.navmesh_get_island()` and "
+":b4wref:`physics.navmesh_find_path()`. The former is used to retrieve a "
+"link to the current island (closest independent segment of the navmesh), "
+"while the latter returns the actual path in the form of an array of "
+"coordinates."
+msgstr ""
+"После создания навмеша его можно использовать для рассчёта траекторий "
+"между двумя точками. Для этого используются два метода из модуля "
+":b4wmod:`physics`: :b4wref:`physics.navmesh_get_island()` и "
+":b4wref:`physics.navmesh_find_path()`. Первый из них применяется для "
+"получения ссылки на текущий остров (ближайший независимый сегмент "
+"навмеша), а второй — для получения самой траектории (в виде массива "
+"координат)."
+
+#: ../physics.rst:391
+msgid ""
+"An example of using navigation meshes for pathfinding can be viewed in "
+"the :ref:`Code Snippets <code_snippets>` (the corresponding snippet is "
+"named ``Pathfinding``)."
+msgstr ""
+"С примером использования навигационного меша для построения траекторий "
+"можно ознакомиться в приложении :ref:`Code Snippets<code_snippets>` (образец ``Pathfinding``)."
+
+#: ../physics.rst:396
 msgid "Use in Applications"
 msgstr "Особенности использования в приложениях"
 
-#: ../physics.rst:298
+#: ../physics.rst:398
 msgid ""
 "The physics system is implemented in the **uranium.js** module and loaded"
 " separately from the engine's main code. The **uranium.js** module itself"
@@ -707,7 +1020,7 @@ msgstr ""
 "файлы **uranium.js** и **uranium.js.mem** в той же директории, где "
 "расположен исходный код движка, используемого в приложении."
 
-#: ../physics.rst:300
+#: ../physics.rst:400
 msgid ""
 "Another way is to explicitly specify the loading path of the "
 "**uranium.js** module by using the following API method:"
@@ -715,7 +1028,7 @@ msgstr ""
 "В противном случае необходимо указать путь к модулю, используя "
 "конструкцию вида:"
 
-#: ../physics.rst:308
+#: ../physics.rst:408
 msgid ""
 "When applications are developed :ref:`within the SDK "
 "<project_management>`, the path to the physics engine is detected "
@@ -724,7 +1037,7 @@ msgstr ""
 "При разработке приложения :ref:`в составе SDK <project_management>` путь "
 "к физическому движку определяется автоматически."
 
-#: ../physics.rst:310
+#: ../physics.rst:410
 msgid ""
 "If your application does not use physics, we recommend you to turn off "
 "the ``Enable Physics`` flag in the ``Physics`` panel under the scene tab "

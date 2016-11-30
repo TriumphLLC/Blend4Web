@@ -120,8 +120,8 @@ Blend4Web的特殊属性。
 
 
 
-Transform Panel
-~~~~~~~~~~~~~~~
+变换面板
+~~~~~~~~
 
 [图片]
 
@@ -136,8 +136,8 @@ Transform Panel
    缩放。所有3分量（X，Y，Z）应该是相同的。缩放不支持物理物体。
 
 
-Groups Panel
-~~~~~~~~~~~~
+组面板
+~~~~~~
 
 *组*
    物体所属的物体组
@@ -147,8 +147,8 @@ Groups Panel
 
 
 
-Level of Detail Panel
-~~~~~~~~~~~~~~~~~~~~~
+层次细节面板
+~~~~~~~~~~~~
 
 [图片]
 
@@ -158,8 +158,8 @@ Level of Detail Panel
    数。
 
 
-Animation Panel
-~~~~~~~~~~~~~~~
+动画面板
+~~~~~~~~
 
 [图片]
 
@@ -174,8 +174,8 @@ Animation Panel
    跳到零帧，"Loop"  - 永远重复。
 
 
-Export Options Panel
-~~~~~~~~~~~~~~~~~~~~
+导出选项面板
+~~~~~~~~~~~~
 
 [图片]
 
@@ -199,8 +199,8 @@ Export Options Panel
   顶点动 画* 和 *导出形变键* 。
 
 
-Rendering Properties Panel
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+渲染属性面板
+~~~~~~~~~~~~
 
 [图片]
 
@@ -220,8 +220,8 @@ Rendering Properties Panel
    允许通过Blend4Web API来重载物体的几何形状。
 
 
-Shadows Panel
-~~~~~~~~~~~~~
+阴影面板
+~~~~~~~~
 
 [图片]
 
@@ -235,8 +235,8 @@ Shadows Panel
    该物体将接收来自其他相邻物体的阴影。
 
 
-Billboard Panel
-~~~~~~~~~~~~~~~
+广告牌面板
+~~~~~~~~~~
 
 [图片]
 
@@ -253,8 +253,8 @@ Billboard Panel
    轴。启用看板后变得可用。
 
 
-Reflections Panel
-~~~~~~~~~~~~~~~~~
+反射面板
+~~~~~~~~
 
 [图片]
 
@@ -276,8 +276,8 @@ Reflections Panel
    。
 
 
-Selection and Outlining Panel
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+选择和轮廓面板
+~~~~~~~~~~~~~~
 
 [图片]
 
@@ -288,8 +288,8 @@ Selection and Outlining Panel
    启用物体的 外轮廓发光  。
 
 
-Anchors Panel
-~~~~~~~~~~~~~
+锚面板
+~~~~~~
 
 *锚 > 启用锚*
    该参数将启用添加锚（2D标签）到物体的界面。只可用于  "EMPTY" 物体。
@@ -298,8 +298,8 @@ Anchors Panel
    [图片]
 
 
-Meta Tags Panel
-~~~~~~~~~~~~~~~
+元标签面板
+~~~~~~~~~~
 
 [图片]
 
@@ -320,8 +320,8 @@ Meta Tags Panel
       为说明来源类型：文本或文本文件。
 
 
-Relations Panel
-~~~~~~~~~~~~~~~
+关系面板。
+~~~~~~~~~~
 
 [图片]
 
@@ -337,8 +337,8 @@ Relations Panel
    这些设置可被用于将物体对准的主控照相机。参考 相机章节 的描述。
 
 
-Wind Bending Panel
-~~~~~~~~~~~~~~~~~~
+风弯曲面板
+~~~~~~~~~~
 
 [图片]
 
@@ -346,8 +346,8 @@ Wind Bending Panel
    启用风弯曲程序动画。在  室外渲染 页有完整的描述.。
 
 
-Special Effects Panel
-~~~~~~~~~~~~~~~~~~~~~
+特效面板
+~~~~~~~~
 
 [图片]
 

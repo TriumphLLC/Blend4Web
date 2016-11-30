@@ -40,6 +40,11 @@
  */
 
 /**
+ * Constant value matching character state (flying, walking etc).
+ * @typedef {Number} CharacterState
+ */
+
+/**
  * Line set in parametric form
  * @typedef ParametricLine
  * @type {Float32Array(6)}

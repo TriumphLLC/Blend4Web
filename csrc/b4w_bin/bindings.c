@@ -2169,7 +2169,7 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     {
         switch(status) {
         case POS_ERR:
-            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong vertice positions");
+            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong vertices positions");
             break;
         case NOR_ERR:
             PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong normals");

@@ -83,7 +83,7 @@ function state_machine_get_state_id(state_machine, instance_id) {
     if (curnode)
         return curnode.id;
     else
-        return undefined;
+        return null;
 }
 
 exports.machine_state_get_allowed_transition = machine_state_get_allowed_transition;
@@ -92,7 +92,7 @@ function machine_state_get_allowed_transition(state_machine, instance_id) {
     if (state)
         return state.allowed_ids;
     else
-        return undefined
+        return null
 }
 
 exports.state_machine_switch_state = state_machine_switch_state;

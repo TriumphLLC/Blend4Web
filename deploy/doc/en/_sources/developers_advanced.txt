@@ -119,7 +119,7 @@ To do this Python 3.x (it's better if it's the same version as in Blender) and a
 
 Paths relative to the repository root:
     - build script: ``csrc/b4w_bin/build.py``
-    - Blend4Web addon: ``blender_scripts/addons/blend4web/``
+    - Blend4Web addon: ``addons/blend4web/``
 
 The building process is started in the following way:
 

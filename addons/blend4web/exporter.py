@@ -83,7 +83,8 @@ SUPPORTED_NODES = ["NodeFrame", "ShaderNodeMaterial", "ShaderNodeCameraData", \
         "ShaderNodeHairInfo", "ShaderNodeObjectInfo", "ShaderNodeWireframe", \
         "ShaderNodeTangent", "ShaderNodeLayerWeight", "ShaderNodeLightPath", \
         "ShaderNodeAttribute", "ShaderNodeOutputLamp", "ShaderNodeScript", \
-        "ShaderNodeMixShader", "ShaderNodeAddShader", "ShaderNodeNewGeometry"]
+        "ShaderNodeMixShader", "ShaderNodeAddShader", "ShaderNodeNewGeometry", \
+        "ShaderNodeFresnel"]
 
 PARALLAX_HEIGHT_MAP_INPUT_NAME = "Height Map"
 PARALLAX_HEIGHT_MAP_INPUT_NODE = "ShaderNodeTexture"
@@ -178,17 +179,6 @@ class ExportError(Exception):
 
     def __str__(self):
         return "Export error: " + self.component_name + ": " + self.message
-
-class InternalError(Exception):
-    def __init__(self, message=None):
-        self.message = message
-        clean_exported_data()
-
-    def __str__(self):
-        if (self.message):
-            return "B4W internal error: " + self.message
-        else:
-            return "B4W internal error: unknown"
 
 class FileError(Exception):
     def __init__(self, message=None):
@@ -1527,7 +1517,7 @@ def process_object_type(obj, data, curve_as_curve):
     if obj.type != "EMPTY":
         if obj.data is None:
             # broken object data
-            raise InternalError("Object data not available for \"" + obj.name + "\"")
+            raise ExportError("Object data not available.", obj, "Object data is broken")
 
         is_main_metaball = check_main_metaball(obj, data)
         if data is None:
@@ -1828,6 +1818,8 @@ def process_object(obj, is_curve=False, is_hair=False):
         sca = obj.scale
     else:
         sca = [1.0, 1.0, 1.0]
+
+    obj_data["pass_index"] = obj.pass_index
 
     # resolving clean_parent_inverse issue
     if obj.parent:
@@ -2483,6 +2475,7 @@ def process_material(material, uuid = None):
     mat_data["use_transparency"] = material.use_transparency
     mat_data["use_shadeless"] = material.use_shadeless
     mat_data["use_tangent_shading"] = check_material_tangent_shading(material)
+    mat_data["pass_index"] = material.pass_index
 
     mat_data["offset_z"] = round_num(material.offset_z, 2)
 
@@ -2881,13 +2874,14 @@ def check_material_tangent_shading(material):
     return False
 
 def check_tangent_shading_r(source):
-    for node in source.node_tree.nodes:
-        if node.type == "MATERIAL" or node.type == "MATERIAL_EXT":
-            if node.material and node.material.use_tangent_shading:
-                return True
-        elif node.type == "GROUP":
-            if check_tangent_shading_r(node):
-                return True
+    if source.node_tree:
+        for node in source.node_tree.nodes:
+            if node.type == "MATERIAL" or node.type == "MATERIAL_EXT":
+                if node.material and node.material.use_tangent_shading:
+                    return True
+            elif node.type == "GROUP":
+                if check_tangent_shading_r(node):
+                    return True
     return False
 
 def process_mesh_boundings(mesh_bdata, mesh, bounding_data, whole_mesh):
@@ -3549,7 +3543,7 @@ def process_particle(particle):
     # NOTE: it seams only single slot supported
     part_data["texture_slots"] = []
     for slot in particle.texture_slots:
-        if slot and do_export(slot.texture):
+        if slot and slot.texture is not None and do_export(slot.texture):
             slot_data = OrderedDict()
             if slot.texture.type == "NONE" and slot.texture.b4w_source_type == "SCENE":
                 fallback_texture = get_fallback_texture()
@@ -4120,7 +4114,7 @@ def process_node_tree(data, tree_source):
         node_data["name"] = node.name
         node_data["type"] = node.type
 
-        if (node.type == "OUTPUT_MATERIAL" or node.type == "OUTPUT_LAMP"):
+        if (node.type == "OUTPUT_LAMP"):
             continue
 
         process_node_sockets(node_data, "inputs", node.inputs)
@@ -4142,14 +4136,14 @@ def process_node_tree(data, tree_source):
                 node_data["color_layer"] = node.color_layer
             data["uv_vc_key"] += node.color_layer + node_data["color_layer"]
                 
-        if node.type == "UVMAP":
+        elif node.type == "UVMAP":
             if node.outputs["UV"].is_linked:
                 node_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1],  node.uv_map)
             else:
                 node_data["uv_layer"] =  node.uv_map
             data["uv_vc_key"] += node.uv_map + node_data["uv_layer"]
 
-        if node.type == "TEX_COORD":
+        elif node.type == "TEX_COORD":
             if node.outputs["UV"].is_linked:
                 node_data["uv_layer"] = get_uv_layer(_curr_stack["data"][-1],  "")
             else:
@@ -4158,7 +4152,7 @@ def process_node_tree(data, tree_source):
             if node.outputs["Generated"].is_linked:
                 data["use_orco_tex_coord"] = True
 
-        if node.type == "CURVE_VEC" or node.type == "CURVE_RGB":
+        elif node.type == "CURVE_VEC" or node.type == "CURVE_RGB":
             node_data["curve_mapping"] = OrderedDict()
             def extract_loc(point): return list(point.location.to_tuple())
             def extract_handle_type(point): return point.handle_type
@@ -4176,7 +4170,7 @@ def process_node_tree(data, tree_source):
             process_color_ramp(node_data, node.color_ramp)
             node_data["color_ramp"]["interpolation"] = node.color_ramp.interpolation
 
-        if node.type == "GROUP":
+        elif node.type == "GROUP":
             if node.node_tree.name == "B4W_REFRACTION" or node.node_tree.name == "REFRACTION":
                 # NOTE: don't rely on "b4w_render_refractions" scene property here
                 # because it may lead to rendering errors
@@ -4272,6 +4266,20 @@ def process_node_tree(data, tree_source):
             else:
                 node_data["texture"] = None
 
+        elif node.type == "TEX_IMAGE" or node.type == "TEX_ENVIRONMENT":
+            if node.image and do_export(node.image):
+                node_data["image"] = gen_uuid_dict(node.image)
+                process_image(node.image)
+            else:
+                node_data["image"] = None
+
+            node_data["color_space"] = node.color_space
+            node_data["interpolation"] = node.interpolation
+            node_data["projection"] = node.projection
+
+            if node.type == "TEX_IMAGE":
+                node_data["extension"] = node.extension
+
         elif node.type == "VECT_MATH":
             node_data["operation"] = node.operation
 
@@ -4294,6 +4302,9 @@ def process_node_tree(data, tree_source):
                 node_data["uv_map"] =  node.uv_map
             data["uv_vc_key"] += node.uv_map + node_data["uv_map"]
 
+        elif node.type == "BUMP":
+            node_data["invert"] = node.invert
+
         dct["nodes"].append(node_data)
 
     # node tree links
@@ -4302,7 +4313,7 @@ def process_node_tree(data, tree_source):
         if not link.is_valid:
             raise MaterialError("Invalid link found in node material.")
 
-        if link.to_node.type == "OUTPUT_MATERIAL" or link.to_node.type == "OUTPUT_LAMP":
+        if link.to_node.type == "OUTPUT_LAMP":
             continue
 
         link_data = OrderedDict()
@@ -4490,8 +4501,8 @@ def process_particle_dupli_weights(dupli_weights_data, particle):
             weight = particle.dupli_weights[i]
             # when exporting via command line linked particles are exported wrong
             if weight.name == "No object":
-                raise InternalError("Missing particles dupli weights in particle system " \
-                        + particle.name)
+                raise ExportError("Missing particles dupli weights in particle system.",
+                        particle, "Exporting via command line linked particles are exported wrong")
 
             weight_data = OrderedDict()
 

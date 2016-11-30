@@ -72,6 +72,8 @@
  * <dd>Boolean, set the resolution factor for the canvas.
  * <dt>console_verbose
  * <dd>Boolean, print more debug info in the browser console.
+ * <dt> compositing
+ * <dd>Boolean, enable compositing.
  * <dt>dof
  * <dd>Boolean, enable DOF
  * <dt>god_rays
@@ -154,7 +156,7 @@
  * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate
  * @cc_externs antialiasing assets_path assets_dds_available assets_min50_available audio
  * @cc_externs background_color built_in_module_name canvas_resolution_factor
- * @cc_externs console_verbose do_not_load_resources enable_selectable
+ * @cc_externs console_verbose compositing do_not_load_resources enable_selectable
  * @cc_externs enable_outlining media_auto_activation outlining_overview_mode
  * @cc_externs physics_enabled physics_uranium_path physics_calc_fps physics_use_workers
  * @cc_externs precision prevent_caching quality
@@ -238,8 +240,8 @@ exports.reset = m_cfg.reset;
  */
 exports.reset_limits = m_cfg.reset_limits;
 /**
- * Get the path to the assets directory. Can be used when an application
- * is developed inside the SDK.
+ * Get the path to the standard assets directory.
+ * @see https://www.blend4web.com/doc/en/developers.html#loading-application-assets
  * @method module:config.get_std_assets_path
  * @returns {String} Path to assets
  */

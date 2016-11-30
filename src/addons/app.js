@@ -237,6 +237,9 @@ exports.init = function(options) {
         }
     }
 
+    if (quality != m_cfg.P_AUTO)
+        m_cfg.set("quality", quality);
+
     var on_key_pause = function(e) {
         if (e.keyCode == m_ctl.KEY_P) {
             if (m_main.is_paused())
@@ -590,6 +593,9 @@ function get_dest_zoom(obj, value, velocity_zoom, dest_value, dev_fact,
  * @param {HTMLElement} [element=Canvas container element] HTML element to add event listeners to
  * @param {Boolean} [allow_element_exit=false] Continue receiving mouse events
  * even when the mouse is leaving the HTML element
+ * @example 
+ * var m_app = require("app");
+ * m_app.enable_camera_controls();
  */
 
 exports.enable_camera_controls = enable_camera_controls;
@@ -1247,6 +1253,9 @@ function enable_cam_controls_resetting(cam) {
 /**
  * Disable controls for the active camera.
  * @method module:app.disable_camera_controls
+ * @example 
+ * var m_app = require("app");
+ * m_app.disable_camera_controls();
  */
 exports.disable_camera_controls = disable_camera_controls;
 function disable_camera_controls() {

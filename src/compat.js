@@ -41,6 +41,7 @@ exports.NVIDIA_OLD_GPU_CUBEMAP_MAX_SIZE = 256;
 
 var cfg_anim = m_cfg.animation;
 var cfg_def = m_cfg.defaults;
+var cfg_dbg = m_cfg.debug_subs;
 var cfg_ctx = m_cfg.context;
 var cfg_lim = m_cfg.context_limits;
 var cfg_scs = m_cfg.scenes;
@@ -81,6 +82,9 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
             gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
     cfg_lim.max_texture_size = gl.getParameter(gl.MAX_TEXTURE_SIZE);
     cfg_lim.max_viewport_dims = gl.getParameter(gl.MAX_VIEWPORT_DIMS);
+
+    if (cfg_def.webgl2 && !cfg_dbg.enabled)
+        cfg_def.compared_mode_depth = true;
 
     if (!cfg_def.webgl2)
         cfg_def.msaa_samples = 1;
@@ -203,9 +207,10 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_def.quality_aa_method = false;
     }
 
+    // TODO: check mobile Firefox
     if (check_user_agent("UCBrowser") ||
-            (check_user_agent("Chrome") || check_user_agent("Firefox")) && cfg_def.is_mobile_device) {
-        warn("Mobile Firefox, mobile Chrome or UCBrowser detected, disable workers.");
+            check_user_agent("Chrome") && check_user_agent("Nexus") && cfg_def.is_mobile_device) {
+        warn("Mobile Nexus Chrome or UCBrowser detected, disable workers.");
         cfg_phy.use_workers = false;
     }
 

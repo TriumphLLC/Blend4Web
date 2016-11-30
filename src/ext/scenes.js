@@ -119,6 +119,9 @@ exports.get_scenes = function() {
  * Return the active camera object from the active scene.
  * @method module:scenes.get_active_camera
  * @returns {Object3D} Camera object.
+ * @example 
+ * var m_scenes = require("scenes");
+ * var camera = m_scenes.get_active_camera();
  */
 exports.get_active_camera = function() {
     if (!m_scenes.check_active()) {
@@ -134,9 +137,12 @@ exports.get_active_camera = function() {
  * @param {String} name Object name
  * @param {Number} [data_id=0] ID of loaded data
  * @returns {Object3D} Object 3D
+ * @example 
+ * var m_scenes = require("scenes");
+ * var cube = m_scenes.get_object_by_name("Cube");
  */
 exports.get_object_by_name = function(name, data_id) {
-    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_NAME, name, data_id | 0);
+    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_NAME, name, data_id | 0, true);
     if (obj)
         return obj;
     else
@@ -209,6 +215,17 @@ exports.get_object_data_id = function(obj) {
  * @method module:scenes.pick_object
  * @param {Number} x X Canvas coordinate.
  * @param {Number} y Y Canvas coordinate.
+ * @returns {Object3D?} The object under the given coordinates or null.
+ * @example 
+ * var m_cont = require("container");
+ * var m_scenes = require("scenes");
+ *
+ * var canvas_cont = m_cont.get_container();
+ * cont.addEventListener("mousedown", down_cb);
+ * var down_cb = function(event) {
+ *     var obj = m_scenes.pick_object(event.clientX, event.clientY);
+ * }
+ * @returns {Object3D?} The object under the given coordinates or null.
  */
 exports.pick_object = m_obj.pick_object;
 
@@ -216,7 +233,6 @@ exports.pick_object = m_obj.pick_object;
  * Check if the outlining is enabled or not for the object.
  * @method module:scenes.outlining_is_enabled
  * @param {Object3D} obj Object 3D
- * @param {Boolean} value Is enabled?
  * @returns {Boolean} Checking result.
  */
 exports.outlining_is_enabled = function(obj) {
@@ -1042,7 +1058,7 @@ exports.check_object = function(obj) {
  */
 exports.check_object_by_name = function(name, data_id) {
     var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_NAME, name,
-                                  data_id | 0);
+            data_id | 0, true);
     if (obj)
         return true;
     else
@@ -1060,7 +1076,7 @@ exports.check_object_by_name = function(name, data_id) {
 exports.check_object_by_dupli_name = function(empty_name, dupli_name,
         data_id) {
     var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME, empty_name,
-                                  dupli_name, data_id | 0);
+            dupli_name, data_id | 0);
     if (obj)
         return true;
     else
@@ -1076,7 +1092,7 @@ exports.check_object_by_dupli_name = function(empty_name, dupli_name,
  */
 exports.check_object_by_dupli_name_list = function(name_list, data_id) {
     var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST,
-                                  name_list, data_id | 0);
+            name_list, data_id | 0);
     if (obj)
         return true;
     else
@@ -1099,7 +1115,7 @@ exports.get_all_objects = function(type, data_id) {
     if (!data_id && data_id !== 0)
         data_id = m_obj.DATA_ID_ALL;
 
-    return m_obj.get_scene_objs(scene, type, data_id);
+    return m_obj.get_scene_objs_derived(scene, type, data_id);
 }
 
 /**

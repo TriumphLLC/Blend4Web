@@ -3,6 +3,191 @@
 ********
 
 
+v16.11
+======
+
+
+新功能
+------
+
+* Added partial support for materials powered by "Cycles" render
+  nodes. List of currently supported "Cycles" nodes:
+
+     "Material Output" node is similiar to "Output" from "Blender
+     Internal" except it utilizes a shader type input socket.
+     "Surface" node input is the only one currently supported. This
+     node defines material as a physically based rendered (PBR)
+     material.
+
+     "BSDF Diffuse" node is from the "Shader" category. It is
+     responsible for the diffuse component of the material lighting
+     and produces no visible reflections. Node inputs include "Color",
+     "Roughness", "Normal". This node has single shader type output
+     socket.
+
+     "BSDF Glossy" node is from the "Shader" category. It is
+     responsible for the specular component of the material lighting
+     and reflections of the environment. Node inputs include "Color",
+     "Roughness", "Normal". This node has single shader type output
+     socket. The only currently supported specular distribution is
+     GGX. This node automatically enables real-time cube reflections
+     for the object, which uses the material and is not set as
+     reflective. Reflexible environment and objects should be
+     configured according to standard b4w pipeline. Roughness
+     currently does not affect reflections.
+
+     "Mix Shader" node is from the "Shader" category. This node is
+     used to mix outputs of nodes from the "Shader" category. Node
+     inputs include "Fac", which defines mixing ratio, and two
+     "Shader" inputs. This node has single shader type output socket.
+
+     "Fresnel" node is from the "Input" category. This node computes
+     how much light is reflected off a material layer, where the rest
+     will be refracted through the layer. The resulting weight can be
+     used for layering shaders with the "Mix Shader" node. It is
+     dependent on the angle between the surface normal and the viewing
+     direction. Node inputs include "IOR" (index of refraction) and
+     "Normal". This node has single scalar type output socket.
+
+     "Layer Weight" node is from the "Input" category. This node
+     defines a weight typically used for layering shaders with the Mix
+     Shader node. Node inputs include "Blend" and "Normal". Node
+     inputs include "Fresnel" and "Facing".
+
+     Other supported nodes include "Image Texture", "Environment
+     Texture", "Object Info", "Bump".
+
+     Other partially supported nodes include "Texture Coordinate"
+     (*From Dupli* parameter is not supported), "UV Map" (*From Dupli*
+     parameter is not supported), "Geometry" (*Pointness* and
+     *Parametric* outputs are not supported).
+
+     Nodes supported in previous b4w releases, which are used in both
+     "Cycles" and "Blender Internal", will also work fine with new PBR
+     materials. Such nodes include "Color Ramp", "Normal Map", "Camera
+     Data", "Particle Info", "RGB", "Value", nodes from the
+     "Convertor" category (except "Blackbody" and "Wavelength" nodes),
+     nodes from the "Vector" category, nodes from the "Color" category
+     (except "Light Falloff" node).
+
+* 项目管理器改进。
+
+     The project file editor was added. Now CSS, JavaScript, HTML and
+     .b4w_project files can be edited in the Project Manager.
+
+* New first-person (fps) add-on was added.
+
+     The add-on helps to create first person applications easier.
+     There are two main methods in it: enable_fps_controls and
+     disable_fps_controls. The first creates default gamepad and
+     keyboard controls, enables mouse and touch camera movement,
+     enables VR camera rotation if VR mode is enabled. The second
+     disables these controls. There are also other methods in the new
+     add-on: bind_action, set_character_state_changing_cb,
+     set_cam_smooth_factor, set_cam_sensitivity, set_plock_enable_cb,
+     set_plock_disable_cb.
+
+* Improvements with 3D Navigation Mesh.
+
+     Now the navmesh_find_path method of the physics module finds 3d
+     path, it allows us to construct paths on vertical surfaces.
+     Previously, one was only able to construct path on horizontal
+     planes. The parameters of the navmesh_find_path method has been
+     changed. Initialization time of navigation mesh has been reduced.
+     A* algorithm has been improved.
+
+* Blend4Web addon usability improvements.
+
+     Blend4Web SDK Directory field in addon properties has been
+     removed. Now, path to Blend4Web SDK directory resolved
+     automatically.
+
+
+变更
+----
+
+* API changes.
+
+     The parameters of the shot method and the canvas_data_url method
+     have been changed.
+
+     A new function get_camera_angles_dir has been added into the
+     camera module. It allows to get a camera's spherical coordinates
+     from the given direction respresenting the view vector of a
+     camera.
+
+* Simplified Environment Setup.
+
+     Water now uses the default wind when the wind object is absent in
+     a scene. A water object is now always dynamic. Procedural sky
+     uses the default sun direction when a sun object is absent in a
+     scene.
+
+* NPC AI now caches all animation on initialization.
+
+     This slighly increases the loading time but removes real-time
+     delays caused by npc animation.
+
+* The "Fast Preview" button is now available in the Cycles render
+  profile.
+
+* The get_all_objects, get_object_by_name and check_object_by_name
+  methods no longer return the engine's internal meta-objects, which
+  are not intended to use in an application.
+
+
+修复
+----
+
+* Project Manager compatibility with the old build type "update" was
+  added.
+
+* Fixed bug with specific encoding in the Project Manager.
+
+* Fixed bug with the same module names conflicting in the Project
+  Manager.
+
+* Specular shading bug was fixed.
+
+     The bug, which happened when two or more lamps were used for
+     material with the Blinn specular type, was fixed.
+
+* NLA unloading bug was fixed.
+
+     Now all objects belonging to the unloaded scene are removed from
+     NLA.
+
+* Stereo blinking bug was fixed.
+
+     The bug appeared when using motion blur effect.
+
+* Overwriting resources with the same names in temporary directory
+  when using Fast Preview was fixed.
+
+* Fixed Network error while downloading a screenshot.
+
+* Fixed shader crash occuring in some scenes in LOW quality mode.
+
+* Fixed engine crash for scenes without "MESH" objects.
+
+* Fixed the track_to_target method, which previously performed
+  incorrect zoom animation.
+
+* Fixed a rare bug related to empty particle texture slots, which
+  could lead to export crash.
+
+* Fixed rendering of the procedural lines.
+
+* Fixed "Play Animation" logic node bug when animation stopped
+  playing after the first time.
+
+* Fixed crash in navmesh module in web-browsers without support of
+  *indexOf* method for *TypedArray*.
+
+* Fixed silent failure in "Project Manager" during resource
+  converting in case of *ffprobe* missing.
+
+
 v16.10
 ======
 
@@ -10,195 +195,162 @@ v16.10
 新功能
 ------
 
-* Added support for navigation meshes.
+* 增加了导航网格的支持。
 
-     Two methods were added to "physics" module: "navmesh_get_island"
-     for getting closest navmesh segment and "navmesh_find_path" for
-     path finding.
+     有两种方法被添加到 "physics" 模块：为获得最接近导航网格段的
+     "navmesh_get_island" 和为寻路的 "navmesh_find_path" 。
 
-     Two types of paths are available: one path based on centers of
-     triangles, and a more optimal - "pulled string".
+     两种类型的路径是可用的：一条基于三角形中心的路径，和更优化的 -
+     "pulled string"。
 
-     See example in the "Code Snippets" apps.
+     请参见 "代码片段" 应用的例子。
 
-* New logic node "Set Camera Move Style".
+* 新的逻辑节点 "设置相机移动类型" 。
 
-     This node allows changing move styles and velocities of the
-     camera. Target parameters for "Target" and "Hover" camera types
-     can be set as separate coordinates or as a target object.
+     这个节点允许改变的相机的移动方式和速度。为 "Target" 和 "Hover" 照
+     相机类型的目标参数可以设置为单独的坐标或设置目标物体。
 
-* Tangent shading support for edited normals.
+* 切向着色支持编辑法线。
 
-     Tangent shading is now supported for edited normals.
+     切线着色现在支持编辑法线。
 
-* Improved Project Manager usability.
+* 提高项目管理器的可用性。
 
-     Now applications, blend files and project assets open in new
-     browser tabs. Having your Project Manager remain in the same
-     window makes work more efficient.
+     现在的应用，Blend文件和项目资产会在一个新的浏览器卡片中打开。让你
+     的项目管理器留在原来同一个窗口，使工作效率更高。
 
-     "compile project" command was renamed as "build project". This
-     new name is more suited to the nature of this command.
+     "编译项目" 命令改名为 "构建项目"。这个新的名称更适合于该命令的性
+     质。
 
-* New environment texture blend types.
+* 新的环境纹理混合类型。
 
-     Now all texture blend types are supported for environment
-     lighting.
+     现在，所有的纹理混合类型，支持环境照明。
 
-* "Sphere" flag is now supported for "Point" and "Spot" lights.
+* "Sphere" 标志现在支持 "Point" 和 "Spot" 灯。
 
-     This flag allows specifying a distance at which the light's
-     intensity drops to zero.
+     此标志允许，指定的光的强度下降到零的距离。
 
-* Rotated boundings.
+* 旋转的包围框。
 
-     Now rotated bounding boxes are used for frustum culling
-     calculations. Also, rotated bounding ellipsoid is now supported
-     for dynamic objects.
+     现在，旋转边界框用于域剔除计算。此外，旋转椭球体边界框现在支持动
+     态物体。
 
-* "JS Callback" logic node can now be called synchronously.
+* "JS Callback" 逻辑节点现在可以同步调用。
 
-     Return "true" from your callback for freezing nodetree execution
-     in this node and "false" when the node has finished its
-     execution.
+     当回调返回是 "true" 时该节点冻结整个节点树的执行，返回是 "true"
+     时节点完成执行。
 
-* New API methods get_fog_params and set_fog_params.
+* 新的API方法 get_fog_params 和 set_fog_params.
 
-     These methods allow controlling mist in a scene. Fog params
-     contain *fog_intensity*, *fog_depth*, *fog_start* and
-     *fog_height* properties.
+     这些方法允许在一个场景控制薄雾。雾参数包含 *fog_intensity*，
+     *fog_depth*，*fog_start* 和 *fog_height* 属性。
 
-* New API method update.
+* 在新的 API 方法  update.
 
-     This method allows to update anchors positions.
+     这种方法允许更新锚位置。
 
-* Added support for VBO buffers of different types.
+* 增加了对不同类型的VBO缓存的支持。
 
-     Some attributes were changed to be of the type "UNSIGNED BYTE"
-     and "SHORT" instead of "FLOAT" without loss in quality that
-     reduced  total GPU memory cost. This also affects performance and
-     can increase frame rate in some demos. Along with that the size
-     of exported ".bin" files was slightly decreased by changing the
-     export type of vertex colors from "SHORT" to "UNSIGNED BYTE".
+     有些属性被更改为类型 "UNSIGNED BYTE" 和 "SHORT" 而不是 "FLOAT" 无
+     质量损失并降低总GPU内存的消耗。这也会影响性能，可以增加某些演示的
+     帧速率。将导出的顶点色从 "SHORT" 变为 "UNSIGNED BYTE" 类型随着导
+     出的 ".bin" 文件的大小也略下降。
 
-* In "ULTRA" mode the correct SRGB-conversion function is now used
-  instead of a simplified one.
+* 在 "ULTRA" 模式正确的SRGB转换函数现在用来代替一个简化的。
 
-     The effect is mostly notable in dark areas where the simplified
-     function doesn't yield precise colors.
+     效果在暗区比较明显，其中简化函数不产生精确的颜色。
 
-* Added special buttons for enabling/disabling the "World
-  Background" option in 3D VIEW panels.
+* 在 3D VIEW 面板添加了特别的按钮来启用/禁用 "世界背景" 选项。
 
-     These buttons are disposed in the "World" tab and should be used
-     if the "Render Sky" option is set. Enabling the "World
-     Background" shows world colors in the viewport (the same as in
-     the engine).
+     这些按钮布置在 "World" 标签，如果 "Render Sky" 选项已设置应该被使
+     用。启用 "世界背景" 显示在视口中的世界颜色（和在引擎中一样）。
 
 
 变更
 ----
 
-* Refactored projects inside the SDKs.
+* 在SDK内重构项目。
 
-     Now all projects (including tutorials) inside the SDKs follow the
-     standard Project Manager directory hierarchy.
+     现在所有项目（包括教程）在SDK包内遵循标准的项目管理器目录层次结构
+     。
 
-* Removed scenes list from the Viewer app.
+* 从预览器应用程序中删除场景列表。
 
-     The same functionality (browsing and viewing project assets) can
-     be carried out using the Project Manager.
+     同样的功能（浏览和查看项目资产）可以使用项目管理器进行。
 
-* API documentation of the input module has been expanded, examples
-  of using functions have been added.
+* API文档 input 模块已增强，增加了使用功能的示例。
 
-* The number of batches was decreased which optimizes scene
-  rendering.
+* 降低了 batches 数从而优化场景渲染。
 
-     This optimization mostly affects shadows and hair particles. It
-     enhances frame rate in scenes that use this functionality.
+     这种优化主要影响阴影和头发粒子。使用此功能增加了场景的帧速率。
 
-* Now keyboard device is attached to document object by default.
+* 现在，在默认情况下键盘设备连接到文档对象。
 
-* Added "None" as a new Engine Binding Type.
+* 新增 "None" 作为一个新的引擎绑定类型。
 
-     This means the Project Manager will not change your projects
-     during the build phase.
+     这意味着在构建阶段项目管理器不会改变你的项目。
 
-* Removed the "Update" Engine Binding Type.
+* 删除了 "Update" 引擎绑定类型。
 
-     Use the "Copy" Engine Binding Type and the Project Manager's
-     deployment feature to reproduce the same behavior.
+     使用 "Copy" 引擎绑定类型和项目管理器的部署功能做相同事。
 
-* Added light versions of the SDK builds.
+* 新增轻量级的SDK版本。
 
-     Now Blend4Web PRO and Blend4Web CE SDKs have lighter versions
-     available, which do not include demo applications and tutorials.
-     These versions are recommended for users with a slow internet
-     connection.
+     现在Blend4Web PRO和Blend4Web CE的SDK可用轻量版本，其中不包括演示
+     应用程序和教程。这些版本建议给互联网连接速度较慢的用户。
 
-* Depth textures was enabled for the Intel HD Graphics 3000 which
-  allows the use of such effects as shadows, god rays, depth of field
-  and others on this device.
+* 为 Intel HD Graphics 3000 显卡启用深度纹理，它允许在此设备上启用使
+  用 这种效果的阴影，上帝光芒，景深和其他一些特效。
 
-* Now NLA animation takes frame start/end values from *vertex*
-  animation itself.
+* 现在，NLA动画从 *顶点* 动画本身的帧的开始/结束取值。
 
-     This allows having multiple vertex animations controlled by NLA
-     for one object.
+     这使得一个物体的多个顶点动画可由NLA控制。
 
-* Some mobile devices (including IOS) now do not force low quality
-  nodes in materials.
+* 一些移动设备（包括IOS）现在不强制使用低质量的节点材质。
 
-* API documetation for BloomParams has been added. Some parameters
-  have been renamed.
+* AIP文档添加 BloomParams 。一些参数已经改名。
 
-* Changed payload of mouse_click, mouse_move, touch_click and
-  touch_move sensors. Now it's a dictionary, containing absolute
-  coordinates ("coords") for all mentioned above; "which" for mouse
-  click; "gesture" for touch_move.
+* 更改 mouse_click，MOUSE_MOVE，touch_click和TOUCH_MOVE传感器装置。
+  现 在是一个字典，包含绝对坐标（"coords"）对上述所有; "which" 为点击
+  鼠标 ; "gesture" 为TOUCH_MOVE。
 
-* "default_AND_logic_fun" and "default_AND_logic_fun" logic
-  functions are now available in "controls" module.
+* "default_AND_logic_fun" 和 "default_AND_logic_fun" 逻辑函数现在
+  "controls" 模块中可用。
 
-* Removed deprecated scripts for binary module cross-compilation.
+* 删除了二进制模块交叉编译的过时脚本。
 
-* API methods set_nodemat_value, get_nodemat_value, set_nodemat_rgb
-  and get_nodemat_rgb are now deprecated and moved to the material
-  module.
+* API方法 set_nodemat_value, get_nodemat_value, set_nodemat_rgb 和
+  get_nodemat_rgb 已经废弃并移动到 material  模块。
 
 
 修复
 ----
 
-* Fixed the quat_to_euler function.
+* 修正了 quat_to_euler 函数。
 
-* Fixed incorrect behaviour of the "Normal Map" node with non-unit
-  strength parameter.
+* 修复 "法线贴图" 节点用非单元强度参数的不正确的行为。
 
-* Fixed some runtime checks for objects in logic nodes.
+* 修正了在逻辑节点中物体的某些运行时检查。
 
-* Fixed the inability to change a texture on one object (the
-  change_image function) when it is shared between multiple materials.
+* 修正了当多种材质之间共享纹理时无法对一个物体修改纹理 (
+  change_image 函数) 。
 
-* "CookTorr" specular model now looks similar to the one in Blender.
+* "CookTorr" 镜面模式现在看起来跟在Blender中一致。
 
-* "Alpha Sort" materials now behave correctly for non-deep copies of
-  objects.
+* 在非深度复制物体中 "Alpha Sort" 材质现在可以正确地表现。
 
-* Fixed the create_pline_from_point_vec and set_pline_initial_point
-  methods.
+* 修正了 create_pline_from_point_vec 和 set_pline_initial_point 方法
+  。
 
-* Walking characters with a behavior based on the npc_ai module now
-  do not fall underground.
+* 基于 npc_ai 模块行为的行走角色现在不会掉进地底下了。
 
-* Fixed bug when two or more anchors of type "Custom Element" can
-  reference the same element id.
+* 修正了当两个或两个以上锚类型为 "Custom Element" 可以引用同一元素的
+  ID 的错误。
 
-* Fixed reflections for spherical billboards.
+* 修复球面广告牌反射。
 
-* Fixed audio resuming after pausing for the "Background Sound" and
-  the "Positional Sound" speakers in Firefox.
+* 在Firefox修正了在暂停了 "背景声" 和 "位置声" 音箱然后恢复声音出的
+  问 题。
 
 
 v16.09

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 16.10</title>
+  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 16.11</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.10" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.11" href="index.html"/>
         <link rel="next" title="Разработчикам движка" href="developers_advanced.html"/>
         <link rel="prev" title="Физика" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.10
+              v16.11
             </div>
           
         
@@ -131,6 +131,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#code-examples">Примеры кода</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-application-assets">Загрузка медиаресурсов приложения.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-driven-model">Событийная модель</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sensors">Сенсоры</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#example">Пример</a></li>
@@ -207,15 +208,16 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#code-examples" id="id11">Примеры кода</a></li>
-<li><a class="reference internal" href="#event-driven-model" id="id12">Событийная модель</a><ul>
-<li><a class="reference internal" href="#sensors" id="id13">Сенсоры</a></li>
-<li><a class="reference internal" href="#example" id="id14">Пример</a></li>
+<li><a class="reference internal" href="#loading-application-assets" id="id12">Загрузка медиаресурсов приложения.</a></li>
+<li><a class="reference internal" href="#event-driven-model" id="id13">Событийная модель</a><ul>
+<li><a class="reference internal" href="#sensors" id="id14">Сенсоры</a></li>
+<li><a class="reference internal" href="#example" id="id15">Пример</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sdk-file-structure" id="id15">Файловая структура SDK</a></li>
-<li><a class="reference internal" href="#loading-local-resources" id="id16">Загрузка локальных ресурсов</a></li>
-<li><a class="reference internal" href="#quality-profiles" id="id17">Профили качества изображения</a></li>
-<li><a class="reference internal" href="#non-fullscreen-web-apps" id="id18">Специфика неполноэкранных приложений</a></li>
+<li><a class="reference internal" href="#sdk-file-structure" id="id16">Файловая структура SDK</a></li>
+<li><a class="reference internal" href="#loading-local-resources" id="id17">Загрузка локальных ресурсов</a></li>
+<li><a class="reference internal" href="#quality-profiles" id="id18">Профили качества изображения</a></li>
+<li><a class="reference internal" href="#non-fullscreen-web-apps" id="id19">Специфика неполноэкранных приложений</a></li>
 </ul>
 </li>
 </ul>
@@ -476,7 +478,7 @@
 <p><strong>Windows</strong></p>
 <p>Для пользователей ОС Windows нет необходимости устанавливать эти пакеты, так как они уже находятся в составе SDK.</p>
 <p><strong>macOS</strong></p>
-<p>macOS users can install the <a class="reference external" href="http://www.brew.sh/">brew</a> package manager first and then install any missing packages.</p>
+<p>Пользователи mac OS могут установить менеджер пакетов <a class="reference external" href="http://www.brew.sh/">brew</a>, а затем с его помощью установить некоторые недостающие пакеты.</p>
 <p>Перед началом установки пакетов произведите установку библиотек libpng и libjpeg, выполнив следующие команды в консоли:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; brew install libpng
 &gt; brew install libjpeg
@@ -621,29 +623,50 @@
 </li>
 <li><p class="first">Canvas Texture - пример работы с canvas-текстурой</p>
 </li>
+<li><p class="first">Change Image - пример изменения текстуры на лету</p>
+</li>
 <li><p class="first">Custom Anchors - процедурное создание аннотаций</p>
 </li>
 <li><p class="first">Dynamic Geometry - процедурное изменение геометрии</p>
+</li>
+<li><p class="first">Gamepad - пример управления персонажем с помощью геймпада</p>
 </li>
 <li><p class="first">Gyro (Mobile Only) - пример работы с гироскопом мобильных устройств</p>
 </li>
 <li><p class="first">Instancing - копирование объектов сцены</p>
 </li>
+<li><p class="first">Lines - рендеринг процедурных линий</p>
+</li>
 <li><p class="first">Material API - изменение свойств материалов и замена материалов объекта</p>
 </li>
 <li><p class="first">Morphing - использование ключей деформации объекта</p>
 </li>
+<li><p class="first">Multitouch (только для мобильных устройств) - использование мультитач-сенсора</p>
+</li>
+<li><p class="first">Pathfinding - рассчёт пути с использованием навигационного меша</p>
+</li>
 <li><p class="first">Ray Test - использование функционала испускания лучей для определения препятствий</p>
+</li>
+<li><p class="first">Webcam - пример использования потока медиаданных с веб-камеры</p>
 </li>
 </ul>
 </div></blockquote>
-<p>Приложение Code Snippets доступно по пути <code class="docutils literal"><span class="pre">SDK/apps_dev/code_snippets/code_snippets_dev.html</span></code>. Также оно доступно по ссылке из файла <code class="docutils literal"><span class="pre">index.html</span></code> в корне SDK.</p>
+<p>Приложение Code Snippets доступно по пути <code class="docutils literal"><span class="pre">./apps_dev/code_snippets/code_snippets_dev.htm</span></code>. Также оно доступно по ссылке из файла <code class="docutils literal"><span class="pre">index.html</span></code> в корне SDK.</p>
+</div>
+<div class="section" id="loading-application-assets">
+<h2><a class="toc-backref" href="#id12">Загрузка медиаресурсов приложения.</a><a class="headerlink" href="#loading-application-assets" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для упрощения обслуживания проектов и развертывания сервера храните медиаданные приложений (сцены, текстуры, звуки и т.п.) отдельно от прочих файлов проекта (JavaScript, CSS, HTML и пр.). Папка медиаресурсов располагается по адресу <code class="docutils literal"><span class="pre">deploy/assets/my_project</span></code> в каталоге SDK.</p>
+<p>Для загрузки файлов из директории (например, с помощью метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) используйте метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;my_project/my_project.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Такой подход гарантирует, что приложение (как разрабатываемое, так и собранное или развёрнутое) сможет загружать медиаресурсы вне зависимости от того, на какой стадии разработки оно находится.</p>
 </div>
 <div class="section" id="event-driven-model">
-<span id="event-model"></span><h2><a class="toc-backref" href="#id12">Событийная модель</a><a class="headerlink" href="#event-driven-model" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="event-model"></span><h2><a class="toc-backref" href="#id13">Событийная модель</a><a class="headerlink" href="#event-driven-model" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Событийная модель предоставляет унифицированный интерфейс для описания изменения состояний 3D сцены, упрощая обработку событий физики и действий пользователя.</p>
 <div class="section" id="sensors">
-<span id="index-0"></span><h3><a class="toc-backref" href="#id13">Сенсоры</a><a class="headerlink" href="#sensors" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="index-0"></span><h3><a class="toc-backref" href="#id14">Сенсоры</a><a class="headerlink" href="#sensors" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Основным блоком событийной модели является сенсор (sensor). Сенсор является программной сущностью, которая выдаёт на выходе единственное числовое значение, в большинстве случаев это либо 1 (единица), либо 0 (ноль). Некоторые сенсоры также несут полезную нагрузку (payload), которую можно получить в фунции-обработчике множества с помощью соответствующего API. Например, сенсор трассировки лучей (Ray Sensor) предоставляет относительную длину луча пересечения.</p>
 <p id="index-1">Опрос значений сенсоров не доступен пользователю в виде API. Вместо этого, каждый сенсор должен присутствовать в одном или нескольких множествах (sensor manifold). Множество является логическим контейнером, ассоциированным с объектом на сцене. Оно генерирует ответ на определенный набор событий сенсоров в виде вызова функции-обработчика. Для определения множества необходимо иметь следующую информацию (см. также описание функции <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_sensor_manifold">create_sensor_manifold</a> в документации по API):</p>
 <ul class="simple">
@@ -665,7 +688,7 @@
 <p>Более подробно об API, используемых в событийной модели движка, описано в документации модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a>.</p>
 </div>
 <div class="section" id="example">
-<h3><a class="toc-backref" href="#id14">Пример</a><a class="headerlink" href="#example" title="Ссылка на этот заголовок">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">Пример</a><a class="headerlink" href="#example" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поставлена задача озвучить удар бросаемого камня так, чтобы при ударе о различные среды (например, земля и стена) выводился характерный звук. На сцене в Blender&#8217;е имеются ограничивающие меши с физическими материалами, их идентификаторы &#8220;TERRAIN&#8221; и &#8220;WALL&#8221;. На сцене также присутствует бросаемый физический объект с названием &#8220;Stone&#8221;.</p>
 <p>Определим по одному сенсору соударения (Collision Sensor) для каждой среды, по типу издаваемого звука.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// import the modules</span>
@@ -712,13 +735,20 @@
 </div>
 </div>
 <div class="section" id="sdk-file-structure">
-<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id15">Файловая структура SDK</a><a class="headerlink" href="#sdk-file-structure" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id16">Файловая структура SDK</a><a class="headerlink" href="#sdk-file-structure" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="docutils">
+<dt><strong>addons</strong></dt>
+<dd><dl class="first last docutils">
+<dt><strong>blend4web</strong></dt>
+<dd><p class="first last">аддон Blender</p>
+</dd>
+</dl>
+</dd>
 <dt><strong>apps_dev</strong></dt>
-<dd><p class="first">исходный код приложений</p>
+<dd><p class="first">исходный код приложений SDK</p>
 <dl class="last docutils">
 <dt><strong>code_snippets</strong></dt>
-<dd><p class="first">исходные файлы приложения для демонстрации примеров использования API Blend4Web</p>
+<dd><p class="first">исходные файлы приложения Code Snippets</p>
 <dl class="last docutils">
 <dt><strong>scripts</strong></dt>
 <dd><p class="first last">исходные файлы самих примеров использования API Blend4Web</p>
@@ -728,11 +758,35 @@
 <dt><strong>dairy_plant</strong></dt>
 <dd><p class="first last">исходные файлы приложения &#8220;Молочный завод&#8221; (доступно только в SDK Pro)</p>
 </dd>
+<dt><strong>demos_animation</strong></dt>
+<dd><p class="first last">исходные файлы анимационных примеров</p>
+</dd>
+<dt><strong>demos_environment</strong></dt>
+<dd><p class="first last">исходные файлы примеров работы с окружающей средой</p>
+</dd>
+<dt><strong>demos_interactivity</strong></dt>
+<dd><p class="first last">исходные файлы примеров интерактивности</p>
+</dd>
+<dt><strong>demos_materials</strong></dt>
+<dd><p class="first last">исходные файлы примеров материалов</p>
+</dd>
+<dt><strong>demos_media</strong></dt>
+<dd><p class="first last">исходные файлы примеров работы с медиаресурсами</p>
+</dd>
+<dt><strong>demos_particles</strong></dt>
+<dd><p class="first last">исходные файлы примеров работы с частицами</p>
+</dd>
+<dt><strong>demos_physics</strong></dt>
+<dd><p class="first last">исходные файлы примеров работы с физикой</p>
+</dd>
+<dt><strong>demos_postprocessing</strong></dt>
+<dd><p class="first last">исходные файлы примеров работы со спецэффектами</p>
+</dd>
+<dt><strong>farm</strong></dt>
+<dd><p class="first last">исходные файлы приложения &#8220;Ферма&#8221; (доступно только в SDK Pro)</p>
+</dd>
 <dt><strong>fashion</strong></dt>
 <dd><p class="first last">исходные файлы приложения &#8220;Показ мод&#8221; (доступно только в SDK Pro)</p>
-</dd>
-<dt><strong>firstperson</strong></dt>
-<dd><p class="first last">исходные файлы приложения &#8220;Ферма&#8221; (доступно только в SDK Pro)</p>
 </dd>
 <dt><strong>flight</strong></dt>
 <dd><p class="first last">исходные файлы приложения &#8220;Остров&#8221;</p>
@@ -742,6 +796,12 @@
 </dd>
 <dt><strong>project.py</strong></dt>
 <dd><p class="first last">скрипт для разработчиков приложений</p>
+</dd>
+<dt><strong>space_disaster</strong></dt>
+<dd><p class="first last">исходные файлы приложения Space Disaster</p>
+</dd>
+<dt><strong>tutorials</strong></dt>
+<dd><p class="first last">исходные файлы обучающих примеров Blend4Web</p>
 </dd>
 <dt><strong>victory_day_2015</strong></dt>
 <dd><p class="first last">исходные файлы открытки &#8220;День победы 70&#8221;</p>
@@ -759,9 +819,6 @@
 </dd>
 <dt><strong>blender</strong></dt>
 <dd><p class="first last">исходные файлы сцен в формате Blender</p>
-</dd>
-<dt><strong>blender_scripts</strong></dt>
-<dd><p class="first last">экспортер и вспомогательные скрипты для Blender&#8217;а</p>
 </dd>
 <dt><strong>csrc</strong></dt>
 <dd><p class="first last">исходный код бинарной части экспортера движка и других утилит на языке C</p>
@@ -781,18 +838,18 @@
 </dl>
 </dd>
 <dt><strong>assets</strong></dt>
-<dd><p class="first last">загружаемые ресурсы: сцены, текстуры, звуковые файлы</p>
+<dd><p class="first last">медиаданные приложения: сцены, текстуры, звуковые файлы</p>
 </dd>
 <dt><strong>doc</strong></dt>
 <dd><p class="first last">настоящее руководство пользователя в формате HTML, собирается автоматически из <em>doc_src</em></p>
 </dd>
-<dt><strong>globals_detect</strong></dt>
-<dd><p class="first last">вспомогательный код для определения глобальных переменных</p>
-</dd>
-<dt><strong>tutorials</strong></dt>
-<dd><p class="first last">исходные файлы обучающих примеров</p>
+<dt><strong>webglreport</strong></dt>
+<dd><p class="first last">Приложения, выводящее информацию о WebGL</p>
 </dd>
 </dl>
+</dd>
+<dt><strong>distfiles</strong></dt>
+<dd><p class="first last">списки сборщика дистрибутивов</p>
 </dd>
 <dt><strong>doc_src</strong></dt>
 <dd><p class="first last">исходный код настоящего руководства пользователя на языке разметки reST</p>
@@ -804,7 +861,7 @@
 <dd><p class="first last">файлы с текстами лицензионных соглашений</p>
 </dd>
 <dt><strong>Makefile</strong></dt>
-<dd><p class="first last">файл сборки для компиляции движка, приложений, документации, развертывания на удаленном сервере (недоступен в бесплатной версии)</p>
+<dd><p class="first last">файл сборки для компиляции движка, приложений и документации</p>
 </dd>
 <dt><strong>README.rst</strong></dt>
 <dd><p class="first last">файл README</p>
@@ -812,9 +869,6 @@
 <dt><strong>scripts</strong></dt>
 <dd><p class="first">скрипты</p>
 <dl class="last docutils">
-<dt><strong>blend4web.lst</strong>, <strong>blend4web_sdk_free.lst</strong> и <strong>blend4web_sdk_pro.lst</strong> (опционально)</dt>
-<dd><p class="first last">списки файлов для сборки дистрибутивов</p>
-</dd>
 <dt><strong>check_resources.py</strong></dt>
 <dd><p class="first last">скрипт для проверки и сообщения о неиспользуемых ресурсах (изображения и звуки, на которые ссылаются экспотируемые файлы)</p>
 </dd>
@@ -879,8 +933,10 @@
 </dd>
 </dl>
 </dd>
+<dt><strong>tmp</strong></dt>
+<dd>directory for temporary files (e.g. Fast Preview)</dd>
 <dt><strong>tools</strong></dt>
-<dd><p class="first">Различные инструменты для сборки движка, приложений и конвертации ресурсов</p>
+<dd><p class="first">различные инструменты для сборки движка, приложений и конвертации ресурсов</p>
 <dl class="last docutils">
 <dt><strong>converter_utils</strong></dt>
 <dd><p class="first last">сборки утилит для конвертации ресурсов</p>
@@ -912,12 +968,12 @@
 </dl>
 </div>
 <div class="section" id="loading-local-resources">
-<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id16">Загрузка локальных ресурсов</a><a class="headerlink" href="#loading-local-resources" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id17">Загрузка локальных ресурсов</a><a class="headerlink" href="#loading-local-resources" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Рендерер движка является Web-приложением, и его работа происходит при просмотре HTML-файла в браузере. После инициализации происходит загрузка ресурсов (сцен, текстур), которая подчиняется <a class="reference external" href="http://ru.wikipedia.org/wiki/Правило_ограничения_домена">правилу ограничения домена</a>, запрещающему, в частности, загрузку из локальной директории.</p>
 <p>Начиная с версии 15.02, в состав Blend4Web SDK входит <a class="reference internal" href="addon.html#local-development-server"><span>сервер разработки</span></a>, решающий проблему загрузки локальных ресурсов.</p>
 </div>
 <div class="section" id="quality-profiles">
-<span id="quality-settings"></span><h2><a class="toc-backref" href="#id17">Профили качества изображения</a><a class="headerlink" href="#quality-profiles" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="quality-settings"></span><h2><a class="toc-backref" href="#id18">Профили качества изображения</a><a class="headerlink" href="#quality-profiles" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для поддержки различных по функциональности платформ в движке реализовано несколько профилей качества изображения:</p>
 <blockquote>
 <div><ul class="simple">
@@ -955,7 +1011,7 @@
 </div>
 </div>
 <div class="section" id="non-fullscreen-web-apps">
-<span id="canvas-nonfullscreen-coords"></span><h2><a class="toc-backref" href="#id18">Специфика неполноэкранных приложений</a><a class="headerlink" href="#non-fullscreen-web-apps" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="canvas-nonfullscreen-coords"></span><h2><a class="toc-backref" href="#id19">Специфика неполноэкранных приложений</a><a class="headerlink" href="#non-fullscreen-web-apps" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Элемент Canvas, на котором осуществляется рендеринг, может изменять своё местоположение относительно окна браузера. Это может происходить в результате манипуляций, проводимых над DOM-деревом, либо в результате скроллинга страницы, что особенно актуально для неполноэкранных приложений.</p>
 <p>В большинстве случаев это не будет никак сказываться на работе приложения. Однако для событий, связанных с положением курсора мыши или позицией касания на touch-устройстве, возможно получение некорректных результатов. Это происходит, потому что координаты, получаемые из соответствующих событий, принадлежат системе отсчета относительно окна браузера, а движок работает с координатами в системе отсчета именно Canvas элемента (верхний левый угол элемента).</p>
 <ol class="arabic simple">
@@ -1059,7 +1115,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-10-27.
+      Обновлено: 2016-11-29.
 
     </p>
   </div>
@@ -1115,7 +1171,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.10',
+            VERSION:'v16.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

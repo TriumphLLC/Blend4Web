@@ -5,6 +5,7 @@
 ==============================================================================*/
 #var PRECISION highp
 
+#var SHADELESS 0
 #var CAUSTICS 0
 #var CALC_TBN_SPACE 0
 #var MAIN_BEND_COL 0
@@ -16,6 +17,7 @@
 #var PARALLAX 0
 #var WATER_EFFECTS 0
 #var SMAA_JITTER 0
+#var USE_POSITION_CLIP 0
 
 #var NODES 0
 #var AU_QUALIFIER GLSL_IN 
@@ -62,11 +64,7 @@
 ==============================================================================*/
 GLSL_IN vec3 a_position;
 
-#if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP\
-        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
-        || USE_NODE_TEX_COORD_NO || CALC_TBN || TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
 GLSL_IN vec4 a_tbn_quat;
-#endif
 
 #if USE_INSTANCED_PARTCLS
 GLSL_IN vec4 a_part_ts;
@@ -105,7 +103,8 @@ GLSL_IN vec3 a_emitter_center;
 #if VERTEX_ANIM
 GLSL_IN vec3 a_position_next;
 # if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
-        || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO
+        || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO \
+        || USE_NODE_BSDF_BEGIN || USE_NODE_TEX_COORD_RE
 GLSL_IN vec4 a_tbn_quat_next;
 # endif
 #endif
@@ -122,15 +121,12 @@ GLSL_IN vec3 a_color;
 //------------------------------------------------------------------------------
 
 GLSL_OUT vec3 v_pos_world;
-#if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP\
-        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
-        || USE_NODE_TEX_COORD_NO
+
 GLSL_OUT vec3 v_normal;
-#endif
 
 #if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
-        || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION \
-        || SHADOW_USAGE == SHADOW_MAPPING_BLEND
+        || (!SHADELESS && CAUSTICS && WATER_EFFECTS) \
+        || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
 GLSL_OUT vec4 v_pos_view;
 #endif
 
@@ -149,7 +145,6 @@ GLSL_OUT vec3 v_color;
 # endif
 #endif
 
-
 #if SHADOW_USAGE == SHADOW_MAPPING_BLEND
 GLSL_OUT vec4 v_shadow_coord0;
 # if CSM_SECTION1 || NUM_CAST_LAMPS > 1
@@ -164,7 +159,7 @@ GLSL_OUT vec4 v_shadow_coord3;
 #endif
 
 #if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
-        || REFRACTIVE || USE_NODE_B4W_REFRACTION
+        || REFRACTIVE || USE_POSITION_CLIP
 GLSL_OUT vec3 v_tex_pos_clip;
 #endif
 
@@ -190,7 +185,7 @@ const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
                               0.0, 0.0, 0.0, 1.0,
                               0.0);
 #else
-uniform mat3 u_model_tsr;
+uniform PRECISION mat3 u_model_tsr;
 #endif
 
 #if REFLECTION_PASS == REFL_PASS_PLANE
@@ -319,12 +314,15 @@ void main(void) {
 
 #if CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
         || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || !NODES \
-        || USE_TBN_SHADING && CALC_TBN
+        || USE_TBN_SHADING && CALC_TBN || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL \
+        || USE_NODE_TEX_COORD_NO || USE_NODE_TEX_COORD_RE || USE_NODE_LAYER_WEIGHT || USE_NODE_BUMP
     vec3 norm_tbn = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
 #endif
 
 #if CALC_TBN_SPACE || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
-        || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || !NODES
+        || CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || !NODES \
+        || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL || USE_NODE_TEX_COORD_NO \
+        || USE_NODE_TEX_COORD_RE || USE_NODE_LAYER_WEIGHT || USE_NODE_BUMP
     vec3 normal = norm_tbn;
 #else
     vec3 normal = vec3(0.0);
@@ -361,14 +359,16 @@ void main(void) {
 #if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
 
-#if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_NORMAL_MAP \
+# if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_NORMAL_MAP \
         || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE \
-        || TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
+        || TEXTURE_NORM_CO != TEXTURE_COORDS_NONE || USE_NODE_BSDF_BEGIN \
+        || USE_NODE_TEX_COORD_RE || USE_NODE_BUMP
     vec3 norm_tbn_next = qrot(a_tbn_quat_next, vec3(0.0, 1.0, 0.0));
-#endif
+# endif
 
 # if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_NORMAL_MAP \
-        || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
+        || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE || USE_NODE_BSDF_BEGIN \
+        || USE_NODE_BUMP
     normal = mix(normal, norm_tbn_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
 # endif
 # if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE
@@ -448,7 +448,9 @@ void main(void) {
     v_pos_world = world.position;
 
 #if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP\
-        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
+        || USE_NODE_TEX_COORD_NO || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL \
+        || USE_NODE_TEX_COORD_RE || USE_NODE_LAYER_WEIGHT || USE_NODE_BUMP
     v_normal = world.normal;
 #endif
 
@@ -474,8 +476,8 @@ void main(void) {
 #endif
 
 #if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
-        || (WATER_EFFECTS && CAUSTICS) || SHADOW_USAGE == SHADOW_MASK_GENERATION \
-        || SHADOW_USAGE == SHADOW_MAPPING_BLEND
+        || (!SHADELESS && CAUSTICS && WATER_EFFECTS) \
+        || SHADOW_USAGE == SHADOW_MASK_GENERATION || SHADOW_USAGE == SHADOW_MAPPING_BLEND
     v_pos_view = pos_view;
 #endif
 
@@ -486,7 +488,7 @@ void main(void) {
 #endif
 
 #if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
-        || REFRACTIVE || USE_NODE_B4W_REFRACTION
+        || REFRACTIVE || USE_POSITION_CLIP
     v_tex_pos_clip = clip_to_tex(pos_clip);
 #endif
 

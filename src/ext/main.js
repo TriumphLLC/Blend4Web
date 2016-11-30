@@ -91,7 +91,14 @@ var _fps_callback = function() {};
 var _fps_counter = function() {};
 
 var _render_callback = function() {};
-var _canvas_data_url_callback = null;
+var _canvas_data_url_params = {
+    callback: null,
+    format: "image/png",
+    quality: 1.0,
+    blob_url: "",
+    last_auto_revoke: false,
+    curr_auto_revoke: false
+};
 
 var WEBGL_CTX_IDS = ["webgl", "experimental-webgl"];
 var WEBGL2_CTX_IDS = ["webgl2", "experimental-webgl2"];
@@ -429,6 +436,23 @@ function loop() {
         vr_display.submitFrame();
 }
 
+function to_blob(callback, type, quality) {
+    if (!_elem_canvas_webgl)
+        return;
+
+    if (_elem_canvas_webgl.toBlob)
+        _elem_canvas_webgl.toBlob(callback, type, quality);
+    else {
+        var binStr = atob(_elem_canvas_webgl.toDataURL(type, quality).split(',')[1]);
+        var data = new Uint8Array(binStr.length);
+
+        for (var i = 0; i < binStr.length; i++)
+            data[i] = binStr.charCodeAt(i);
+
+        callback(new Blob([data], {type: type || 'image/png'}));
+    }
+}
+
 function frame(timeline, delta) {
     // possible unload between frames
     if (!m_data.is_primary_loaded())
@@ -490,9 +514,19 @@ function frame(timeline, delta) {
     // anchors
     m_anchors.update_visibility();
 
-    if (_canvas_data_url_callback) {
-        _canvas_data_url_callback(_elem_canvas_webgl.toDataURL());
-        _canvas_data_url_callback = null;
+    var cb = _canvas_data_url_params.callback;
+    if (cb) {
+        if (_canvas_data_url_params.last_auto_revoke)
+            URL.revokeObjectURL(_canvas_data_url_params.blob_url);
+
+        to_blob(function(blob) {
+            _canvas_data_url_params.blob_url = URL.createObjectURL(blob);
+            cb(_canvas_data_url_params.blob_url);
+        }, _canvas_data_url_params.format, _canvas_data_url_params.quality);
+
+        _canvas_data_url_params.callback = null;
+        _canvas_data_url_params.format = "image/png";
+        _canvas_data_url_params.quality = 1.0;
     }
 }
 
@@ -563,10 +597,22 @@ exports.reset = function() {
 
 /**
  * Register one-time callback to return DataURL of rendered canvas element.
- * @param {DataURLCallback} callback DataURL callback
+ * @param {BlobURLCallback} callback BlobURL callback.
+ * @param {String} [format="image/png"] The image format ("image/png", "image/jpeg",
+ * "image/webp" and so on).
+ * @param {Number} [quality=1.0] Number between 0 and 1 for types: "image/jpeg",
+ * "image/webp".
+ * @param {Boolean} [auto_revoke=true] Automatically revoke blob object.
+ * If auto_revoke is false then application must revoke blob URL via the following call {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/revokeObjectURL| URL.revokeObjectURL(blobURL)}.
  */
-exports.canvas_data_url = function(callback) {
-    _canvas_data_url_callback = callback;
+exports.canvas_data_url = function(callback, format, quality, auto_revoke) {
+    _canvas_data_url_params.curr_auto_revoke = typeof auto_revoke === "undefined" ?
+            auto_revoke: true;
+
+    _canvas_data_url_params.last_auto_revoke = _canvas_data_url_params.curr_auto_revoke;
+    _canvas_data_url_params.callback = callback;
+    _canvas_data_url_params.format = format || _canvas_data_url_params.format;
+    _canvas_data_url_params.quality = quality || _canvas_data_url_params.quality;
 }
 
 /**

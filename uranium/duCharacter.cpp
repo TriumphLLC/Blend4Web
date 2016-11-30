@@ -152,25 +152,19 @@ void duCharacter::move(btScalar dt)
             // velocity to direction projection
             btVector3 velocityDirProj = velocityDotDir * horDir;
             
-            btScalar damping = fmax(1.f - 2.f * dt, 0.f);
+            btScalar damping = fmax(1.f - 10.f * dt, 0.f);
 
             if (!m_moveDirection[0]) {
                 if (!m_moveDirection[1]) {
-                    if (m_distToWater > m_waterLine) {
-                        // damp both horizontal velocities
-                        linearVelocity[0] = 0.f;
-                        linearVelocity[1] = 0.f;
-                    } else {
-                        // damp horizontal velocities underwater
-                        linearVelocity[0] *= damping;
-                        linearVelocity[1] *= damping;
-                    }
+                    // damp horizontal velocities
+                    linearVelocity[0] *= damping;
+                    linearVelocity[1] *= damping;
                 } else {
                     // damp straight veloctity
                     linearVelocity[0] = velocityDirProj[0];
                     linearVelocity[1] = velocityDirProj[1];
                 }
-            } else if (!m_moveDirection[1]) {
+            } else {
                 // damp side veloctity
                 linearVelocity[0] = velocityDirProj[0];
                 linearVelocity[1] = velocityDirProj[1];
@@ -193,12 +187,12 @@ void duCharacter::move(btScalar dt)
             // apply moving impulse
             btVector3 move_impulse;
             if (m_distToWater < m_waterLine) {
-                move_impulse[2] = walkDirection[2] * 20.f;
+                move_impulse[2] = walkDirection[2] * 30.f;
             } else {
                 move_impulse[2] = btScalar(0.f);
             }
-            move_impulse[0] = walkDirection[0] * 20.f;
-            move_impulse[1] = walkDirection[1] * 20.f;
+            move_impulse[0] = walkDirection[0] * 30.f;
+            move_impulse[1] = walkDirection[1] * 30.f;
             move_impulse /= m_rigidBody->getInvMass();
             m_rigidBody->applyCentralImpulse(move_impulse * dt);
         }

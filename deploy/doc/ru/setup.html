@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Установка и обновление &mdash; Руководство пользователя Blend4Web 16.10</title>
+  <title>Установка и обновление &mdash; Руководство пользователя Blend4Web 16.11</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.10" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.11" href="index.html"/>
         <link rel="next" title="Рабочий процесс" href="workflow.html"/>
         <link rel="prev" title="Возможности движка" href="engine_features.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.10
+              v16.11
             </div>
           
         
@@ -96,6 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#updating">Обновление</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#updating-the-sdk">Обновление SDK</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#updating-the-addon">Обновление аддона</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updating-saved-projects">Обновление сохранённых проектов</a></li>
 </ul>
 </li>
 </ul>
@@ -187,6 +188,7 @@
 <li><a class="reference internal" href="#updating" id="id7">Обновление</a><ul>
 <li><a class="reference internal" href="#updating-the-sdk" id="id8">Обновление SDK</a></li>
 <li><a class="reference internal" href="#updating-the-addon" id="id9">Обновление аддона</a></li>
+<li><a class="reference internal" href="#updating-saved-projects" id="id10">Обновление сохранённых проектов</a></li>
 </ul>
 </li>
 </ul>
@@ -199,7 +201,7 @@
 <span id="getting-started-install-blender"></span><h3><a class="toc-backref" href="#id3">Установка программы Blender</a><a class="headerlink" href="#installing-blender" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Создание 3D сцен осуществляется в графическом пакете <a class="reference external" href="http://ru.wikipedia.org/wiki/Blender">Blender</a>, который является программным продуктом с открытым исходным кодом и распространяется бесплатно.</p>
 <p>Перед установкой необходимо загрузить и установить совместимую версию Blender, согласно <a class="reference external" href="https://www.blend4web.com/downloads/">таблице</a>.</p>
-<p>Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с <a class="reference external" href="http://www.blender.org/download">официального сайта</a>.</p>
+<p>Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с <a class="reference external" href="http://www.blender.org/download">официального сайта</a> или с <a class="reference external" href="https://www.blend4web.com/ru/downloads/">сайта Blend4Web</a>.</p>
 <a class="reference internal image-reference" href="_images/blender_first_run.png"><img alt="_images/blender_first_run.png" class="align-center" src="_images/blender_first_run.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="unpacking-the-archive">
@@ -330,6 +332,24 @@
 </li>
 </ol>
 <p>Теперь всё должно работать.</p>
+</div>
+<div class="section" id="updating-saved-projects">
+<h3><a class="toc-backref" href="#id10">Обновление сохранённых проектов</a><a class="headerlink" href="#updating-saved-projects" title="Ссылка на этот заголовок">¶</a></h3>
+<p>После обновления SDK (или аддона) вы можете импортировать в Менеджер проектов проекты, экспортированные перед началом обновления. Чтобы сделать это, следуйте инструкции:</p>
+<ol class="arabic simple">
+<li><p class="first">Откройте Менеджер проектов.</p>
+</li>
+<li><p class="first">Импортируйте проекты с помощью кнопки <code class="docutils literal"><span class="pre">Import</span> <span class="pre">Project(s)</span></code>.</p>
+</li>
+<li><p class="first">Повторно экспортируйте <code class="docutils literal"><span class="pre">.blend</span></code>-файлы с помощью ссылки <code class="docutils literal"><span class="pre">re-export</span> <span class="pre">scenes</span></code>.</p>
+</li>
+<li><p class="first">Проверьте импортированные проекты на отсутствующие и неиспользуемые модули с помощью ссылки <code class="docutils literal"><span class="pre">check</span> <span class="pre">modules</span></code>. Если такие модули обнаружены, проблему можно попытаться исправить с помощью кнопки <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Modules</span></code>.</p>
+</li>
+<li><p class="first">Затем используйте команду <code class="docutils literal"><span class="pre">build</span></code> для того, чтобы собранные версии импортированных проектов нормально работали с новой версией SDK.</p>
+</li>
+<li><p class="first">Если приложение использует тип привязки движка <code class="docutils literal"><span class="pre">Copy</span></code> или <code class="docutils literal"><span class="pre">Compile</span></code>, то его версию для разработки тоже необходимо собрать перед тем, как использовать с обновленным SDK (версии для разработки проектов с другими типами привязки движка должны нормально работать и без сборки).</p>
+</li>
+</ol>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -357,7 +377,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-10-27.
+      Обновлено: 2016-11-29.
 
     </p>
   </div>
@@ -413,7 +433,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.10',
+            VERSION:'v16.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

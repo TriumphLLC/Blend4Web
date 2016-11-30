@@ -1576,7 +1576,6 @@ function worker_frame() {
         }
 
         _last_abs_time = abstime;
-
     // simulation stage
     } else {
         var sim_time = _du_calc_sim_time(_last_abs_time, _step, _steps);
@@ -1595,7 +1594,8 @@ function worker_frame() {
         }
     }
 
-    self.setTimeout(worker_frame, 1);
+    var delay = _steps ? 0 : 10;
+    self.setTimeout(worker_frame, delay);
 }
 
 /**

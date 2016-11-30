@@ -7,16 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2016-11-23 15:38+0300\n"
 "PO-Revision-Date: 2016-10-04 20:18+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh_CN\n"
-"X-Generator: Poedit 1.8.9\n"
 
 #: ../particles.rst:7
 msgid "Particle System. Fluids"
@@ -28,15 +26,15 @@ msgstr "目录"
 
 #: ../particles.rst:13
 msgid ""
-"The particle system is intended to visualize phenomena which are caused by the "
-"movement of numerous small objects such as smoke, fire, water splashes and "
-"other."
+"The particle system is intended to visualize phenomena which are caused "
+"by the movement of numerous small objects such as smoke, fire, water "
+"splashes and other."
 msgstr "粒子系统旨在可视化现象如由烟、 火、 水溅、 引起的其他无数小物体的运动。"
 
 #: ../particles.rst:21
 msgid ""
-"A particle system requires an emitter - an object which defines the location "
-"and the direction of the outgoing particles flow."
+"A particle system requires an emitter - an object which defines the "
+"location and the direction of the outgoing particles flow."
 msgstr "一个粒子系统要求有发射器-一个物体来定义粒子流的位置和传出的方向。"
 
 #: ../particles.rst:25
@@ -53,12 +51,10 @@ msgstr "添加网格发射器到场景。"
 
 #: ../particles.rst:31
 msgid ""
-"Create a material for particles on the emitter, for example of the ``Halo`` "
-"type. The ``Surface`` material type with a mandatory diffuse texture is also "
-"supported."
-msgstr ""
-"在发射器上创建一个粒子材质，例如 ``Halo`` 类型上。此外支持必要的漫射纹理的 "
-"``Surface`` 材质类型。"
+"Create a material for particles on the emitter, for example of the "
+"``Halo`` type. The ``Surface`` material type with a mandatory diffuse "
+"texture is also supported."
+msgstr "在发射器上创建一个粒子材质，例如 ``Halo`` 类型上。此外支持必要的漫射纹理的 ``Surface`` 材质类型。"
 
 #: ../particles.rst:32
 msgid "Add a particle system on the emitter."
@@ -70,20 +66,20 @@ msgstr "启动引擎播放。有两个选项可供选择："
 
 #: ../particles.rst:35
 msgid ""
-"\"cyclic emission\" - enable the ``Emission > Cyclic emission`` option for the "
-"particle system and the ``Animation > Apply Default Animation`` for the "
-"emitter."
+"\"cyclic emission\" - enable the ``Emission > Cyclic emission`` option "
+"for the particle system and the ``Animation > Apply Default Animation`` "
+"for the emitter."
 msgstr ""
-"\"cyclic emission\" - 对粒子系统启用 ``Emission > Cyclic emission`` 对发射器启"
-"用  ``Animation > Apply Default Animation`` 。"
+"\"cyclic emission\" - 对粒子系统启用 ``Emission > Cyclic emission`` 对发射器启用  "
+"``Animation > Apply Default Animation`` 。"
 
 #: ../particles.rst:36
 msgid ""
-"\"non-cyclic animation\" - enable the ``Animation > Apply Default Animation`` "
-"option for the emitter."
+"\"non-cyclic animation\" - enable the ``Animation > Apply Default "
+"Animation`` option for the emitter."
 msgstr ""
-"\"non-cyclic animation\" -启用发射器的  ``Animation > Apply Default "
-"Animation`` 选项。"
+"\"non-cyclic animation\" -启用发射器的  ``Animation > Apply Default Animation``"
+" 选项。"
 
 #: ../particles.rst:40
 msgid "Recommended Additional Settings"
@@ -95,28 +91,28 @@ msgstr "设置粒子材质 ``Add`` 透明度类型。"
 
 #: ../particles.rst:43
 msgid ""
-"Disable emitter rendering if needed using the ``Particles > Render > Emitter`` "
-"checkbox."
+"Disable emitter rendering if needed using the ``Particles > Render > "
+"Emitter`` checkbox."
 msgstr "如果需要，禁用发射器渲染，使用 ``Particles > Render > Emitter`` 复选框。"
 
 #: ../particles.rst:44
 msgid ""
-"If an emitter is required on a scene use additional materials for it. In this "
-"case select the particles' material in the ``Particles > Render > Material`` "
-"menu on the particles settings panel."
+"If an emitter is required on a scene use additional materials for it. In "
+"this case select the particles' material in the ``Particles > Render > "
+"Material`` menu on the particles settings panel."
 msgstr ""
-"如果一个场景的发射器需要用到额外材质。在这种情况下，在粒子设置的 ``Particles > "
-"Render > Material`` 菜单选择粒子材质。"
+"如果一个场景的发射器需要用到额外材质。在这种情况下，在粒子设置的 ``Particles > Render > Material`` "
+"菜单选择粒子材质。"
 
 #: ../particles.rst:45
 msgid ""
 "If the ``Surface`` material type is used it is required to add a diffuse "
-"texture (normally with the alpha channel) to this material. Select  ``UV`` in "
-"the ``Mapping > Coordinates`` menu.  Make sure that the emitter's mesh has a "
-"UV layer."
+"texture (normally with the alpha channel) to this material. Select  "
+"``UV`` in the ``Mapping > Coordinates`` menu.  Make sure that the "
+"emitter's mesh has a UV layer."
 msgstr ""
-"如果使用了 ``Surface`` 材质类型它需要（通常与alpha通道）添加漫射纹理到该材质。"
-"在  ``Mapping > Coordinates`` 菜单中选择 ``UV`` 。确保发射器的网格有UV层。"
+"如果使用了 ``Surface`` 材质类型它需要（通常与alpha通道）添加漫射纹理到该材质。在  ``Mapping > "
+"Coordinates`` 菜单中选择 ``UV`` 。确保发射器的网格有UV层。"
 
 #: ../particles.rst:52
 msgid "Setup"
@@ -124,10 +120,9 @@ msgstr "设置"
 
 #: ../particles.rst:54
 msgid ""
-"The particle system parameters can be set up under the ``Particles`` tab. "
-"Multiple particle systems per emitter are supported."
-msgstr ""
-"粒子系统参数可以在 ``Particles`` 选项卡下进行设置。支持每个发射多个粒子系统。"
+"The particle system parameters can be set up under the ``Particles`` tab."
+" Multiple particle systems per emitter are supported."
+msgstr "粒子系统参数可以在 ``Particles`` 选项卡下进行设置。支持每个发射多个粒子系统。"
 
 #: ../particles.rst:62
 msgid "Basic Settings"
@@ -147,8 +142,8 @@ msgstr "*设置*"
 
 #: ../particles.rst:68
 msgid ""
-"Reference to the settings datablock of the particle system. The datablock "
-"settings can be shared between different particle systems."
+"Reference to the settings datablock of the particle system. The datablock"
+" settings can be shared between different particle systems."
 msgstr "参照粒子系统的设置数据块。该数据块的设置可以在不同粒子系统之间共享。"
 
 #: ../particles.rst:71
@@ -157,12 +152,12 @@ msgstr "*类型*"
 
 #: ../particles.rst:71
 msgid ""
-"Particle system type: ``Emitter`` or ``Hair``. ``Hair`` particle systems can "
-"be used to create numerous copies of an object (so called instancing). The "
-"default is ``Emitter``."
+"Particle system type: ``Emitter`` or ``Hair``. ``Hair`` particle systems "
+"can be used to create numerous copies of an object (so called "
+"instancing). The default is ``Emitter``."
 msgstr ""
-"粒子系统类型: ``Emitter`` 或 ``Hair``. ``Hair`` 粒子系统可以用于创建许多副本的 "
-"（称为实例化） 的物体。默认值为 ``Emitter``."
+"粒子系统类型: ``Emitter`` 或 ``Hair``. ``Hair`` 粒子系统可以用于创建许多副本的 （称为实例化） 的物体。默认值为"
+" ``Emitter``."
 
 #: ../particles.rst:75
 msgid "*Seed*"
@@ -192,8 +187,8 @@ msgstr "*Emission > Start*"
 
 #: ../particles.rst:88
 msgid ""
-"The first frame after which the emission of particles starts. The default "
-"value is 1.0."
+"The first frame after which the emission of particles starts. The default"
+" value is 1.0."
 msgstr "粒子发射开始的第一帧。缺省值为1.0。"
 
 #: ../particles.rst:91
@@ -202,8 +197,8 @@ msgstr "*Emission > End*"
 
 #: ../particles.rst:91
 msgid ""
-"The last frame after which the emission of particles ends. The default value "
-"is 200.0."
+"The last frame after which the emission of particles ends. The default "
+"value is 200.0."
 msgstr "粒子发射结束的最后一帧。默认值为200.0。"
 
 #: ../particles.rst:94
@@ -228,11 +223,9 @@ msgstr "*Emission > Emit From*"
 
 #: ../particles.rst:100
 msgid ""
-"Emission source type. The following types are supported: ``Verts`` (emit from "
-"vertices), ``Faces`` (emit from polygons). The default is ``Faces``."
-msgstr ""
-"发射源类型。支持以下类型︰ ``Verts`` （从顶点发出），``Faces`` （从多边形发出）。"
-"默认值为 ``Faces``."
+"Emission source type. The following types are supported: ``Verts`` (emit "
+"from vertices), ``Faces`` (emit from polygons). The default is ``Faces``."
+msgstr "发射源类型。支持以下类型︰ ``Verts`` （从顶点发出），``Faces`` （从多边形发出）。默认值为 ``Faces``."
 
 #: ../particles.rst:103
 msgid "*Emission > Cyclic emission*"
@@ -240,34 +233,31 @@ msgstr "*Emission > Cyclic emission*"
 
 #: ../particles.rst:103
 msgid ""
-"The option enables the cyclic emission mode. It can be used for permanent "
-"effects (such as smoke, burning, water splashes). It is recommended to set the "
-"``Emission > Start`` value to zero. Disabled by default."
-msgstr ""
-"该选项启用循环发射模式。它可以用于永久效果 （如烟，燃烧，水溅）。建议设置的 "
-"``Emission > Start`` 的值为零。默认为禁用。"
+"The option enables the cyclic emission mode. It can be used for permanent"
+" effects (such as smoke, burning, water splashes). It is recommended to "
+"set the ``Emission > Start`` value to zero. Disabled by default."
+msgstr "该选项启用循环发射模式。它可以用于永久效果 （如烟，燃烧，水溅）。建议设置的 ``Emission > Start`` 的值为零。默认为禁用。"
 
 #: ../particles.rst:106
+#, fuzzy
+msgid "*Emission > Allow NLA*"
+msgstr "*Emission > End*"
+
+#: ../particles.rst:106
+msgid ""
+"Activating this option allows particle emission to be controlled by NLA. "
+"Enabled by default."
+msgstr ""
+
+#: ../particles.rst:110
 msgid "*Emission > Random Delay*"
 msgstr "*Emission > Random Delay*"
 
-#: ../particles.rst:106
-msgid ""
-"The option enables a random emission time for particles. Disabled by default."
-msgstr "该选项允许启用粒子随机发射时间。默认情况下禁用。"
-
-#: ../particles.rst:110
-msgid "*Emission > Emit From > Distribution*"
-msgstr "*Emission > Emit From > Distribution*"
-
 #: ../particles.rst:109
 msgid ""
-"Emission distribution settings: ``Jittered``, ``Random``, ``Grid``. Ignored by "
-"the engine. Internally the engine always uses ``Random`` distribution. The "
-"default is ``Jittered``."
-msgstr ""
-"发射分布设置：``Jittered``，``Random``，``Grid``。由引擎忽略。在内部，引擎始终"
-"使用 ``Random`` 分布。默认值是 ``Jittered`` 。"
+"The option enables a random emission time for particles. Disabled by "
+"default."
+msgstr "该选项允许启用粒子随机发射时间。默认情况下禁用。"
 
 #: ../particles.rst:113
 msgid "Direction Settings"
@@ -279,8 +269,8 @@ msgstr "*Velocity > Emitter Geometry > Normal*"
 
 #: ../particles.rst:116
 msgid ""
-"Factor influencing the emission along the emitter's mesh normals. The default "
-"value is 1.0."
+"Factor influencing the emission along the emitter's mesh normals. The "
+"default value is 1.0."
 msgstr "沿着发射器的网格法线的发射影响因子。缺省值为1.0。"
 
 #: ../particles.rst:120
@@ -301,11 +291,10 @@ msgstr "*Rotation > Angular Velocity > Mode*"
 
 #: ../particles.rst:126
 msgid ""
-"Mode for particle billboards self-rotating. ``Hair`` particle system supports "
-"all the types of rotation and ``Emitter`` supports only ``Velocity``."
-msgstr ""
-"模式为粒子广告牌的自转。 ``Hair`` 粒子系统支持所有类型的旋转， ``Emitter`` 只支"
-"持 ``Velocity`` 。"
+"Mode for particle billboards self-rotating. ``Hair`` particle system "
+"supports all the types of rotation and ``Emitter`` supports only "
+"``Velocity``."
+msgstr "模式为粒子广告牌的自转。 ``Hair`` 粒子系统支持所有类型的旋转， ``Emitter`` 只支持 ``Velocity`` 。"
 
 #: ../particles.rst:130
 msgid "*Rotation > Angular Velocity > Factor*"
@@ -313,7 +302,8 @@ msgstr "*Rotation > Angular Velocity > Factor*"
 
 #: ../particles.rst:129
 msgid ""
-"Factor of rotation velocity for particle billboards. The default value is 0.0."
+"Factor of rotation velocity for particle billboards. The default value is"
+" 0.0."
 msgstr "粒子广告牌旋转速度的因子。默认值为 0.0。"
 
 #: ../particles.rst:133
@@ -327,11 +317,11 @@ msgstr "*Physics > Type*"
 #: ../particles.rst:140
 msgid ""
 "Physics calculation type: ``No``, ``Newtonian``, ``Keyed``, ``Boids``, "
-"``Fluid``. Ignored by the engine. ``Newtonian`` physics is always used. The "
-"default is ``Newtonian``."
+"``Fluid``. Ignored by the engine. ``Newtonian`` physics is always used. "
+"The default is ``Newtonian``."
 msgstr ""
-"物理计算类型: ``No``, ``Newtonian``, ``Keyed``, ``Boids``, ``Fluid``. 由引擎忽"
-"略。总是用 ``Newtonian`` 。默认值为 ``Newtonian`` 。"
+"物理计算类型: ``No``, ``Newtonian``, ``Keyed``, ``Boids``, ``Fluid``. 由引擎忽略。总是用"
+" ``Newtonian`` 。默认值为 ``Newtonian`` 。"
 
 #: ../particles.rst:143
 msgid "*Physics > Size*"
@@ -370,11 +360,9 @@ msgstr "*Render > Material*"
 #: ../particles.rst:160
 msgid ""
 "Menu for selecting the particle's material. Used for referencing to the "
-"particle' material in case multiple materials are used by the emitter. The "
-"default value is ``Default Material``."
-msgstr ""
-"选择粒子材质的菜单。用于发射器有多个材质的情况下的粒子材质。默认值为 ``Default "
-"Material`` 。"
+"particle' material in case multiple materials are used by the emitter. "
+"The default value is ``Default Material``."
+msgstr "选择粒子材质的菜单。用于发射器有多个材质的情况下的粒子材质。默认值为 ``Default Material`` 。"
 
 #: ../particles.rst:163
 msgid "*Render > Emitter*"
@@ -390,16 +378,16 @@ msgstr "*Render > Type*"
 
 #: ../particles.rst:166
 msgid ""
-"Particle rendering mode: ``None``, ``Halo``, ``Line``, ``Path``, ``Object``, "
-"``Group``, ``Billboard``. The engine supports the ``Object`` and the ``Group`` "
-"modes which are used for objects and groups instancing respectively. Other "
-"modes are ignored. It is recommended to use the ``Billboard`` mode for "
-"convenient display of billboards. The default is ``Halo``."
+"Particle rendering mode: ``None``, ``Halo``, ``Line``, ``Path``, "
+"``Object``, ``Group``, ``Billboard``. The engine supports the ``Object`` "
+"and the ``Group`` modes which are used for objects and groups instancing "
+"respectively. Other modes are ignored. It is recommended to use the "
+"``Billboard`` mode for convenient display of billboards. The default is "
+"``Halo``."
 msgstr ""
-"粒子渲染模式：``None``，``Halo``，``Line``，``Path``，``Object``，``Group``，"
-"``Billboard``。该引擎支持 ``Object`` 和 ``Object`` 和 ``Group`` 分别实例化模"
-"式。其他模式将被忽略。推荐使用 ``Billboard`` 模式，广告牌方便的显示。默认值是 "
-"``Halo`` 。"
+"粒子渲染模式：``None``，``Halo``，``Line``，``Path``，``Object``，``Group``，``Billboard``。该引擎支持"
+" ``Object`` 和 ``Object`` 和 ``Group`` 分别实例化模式。其他模式将被忽略。推荐使用 ``Billboard`` "
+"模式，广告牌方便的显示。默认值是 ``Halo`` 。"
 
 #: ../particles.rst:169
 msgid "*Render > Billboard Align*"
@@ -407,12 +395,12 @@ msgstr "*Render > Billboard Align*"
 
 #: ../particles.rst:169
 msgid ""
-"The way billboards are oriented: ``View`` - follow the camera, ``XY plane``, "
-"``YZ plane``, ``ZX plane`` - align to the corresponding plane (in the world "
-"coordinate system of Blender). The default is ``View``."
+"The way billboards are oriented: ``View`` - follow the camera, ``XY "
+"plane``, ``YZ plane``, ``ZX plane`` - align to the corresponding plane "
+"(in the world coordinate system of Blender). The default is ``View``."
 msgstr ""
-"广告牌的方式取向：``View``  - 按照相机，``XY plane``，``YZ plane``，``ZX "
-"plane``  - 对准相应的平面（在世界坐标搅拌机系统）。默认值是 ``View``。"
+"广告牌的方式取向：``View``  - 按照相机，``XY plane``，``YZ plane``，``ZX plane``  - "
+"对准相应的平面（在世界坐标搅拌机系统）。默认值是 ``View``。"
 
 #: ../particles.rst:178
 msgid "*Render > Tilt*"
@@ -420,8 +408,8 @@ msgstr "*Render > Tilt*"
 
 #: ../particles.rst:172
 msgid ""
-"This group of parameters controls the initial tilt of the billboard planes. It "
-"consists of two parameters:"
+"This group of parameters controls the initial tilt of the billboard "
+"planes. It consists of two parameters:"
 msgstr "这组参数控制初始的广告牌飞机倾斜。它是由两个参数︰"
 
 #: ../particles.rst:175
@@ -430,12 +418,10 @@ msgstr "*角度*"
 
 #: ../particles.rst:175
 msgid ""
-"Rotation angle of the billboard planes. Its value can vary from -1 to 1. The "
-"value of 1 rotates by 180 degrees (i.e. turns the billboard upside down). Set "
-"to zero by default."
-msgstr ""
-"广告牌平面的旋转角度。它的值可以从-1 到 1。旋转 180 度的值为 1 （即颠倒广告"
-"牌）。设置为零，默认情况。"
+"Rotation angle of the billboard planes. Its value can vary from -1 to 1. "
+"The value of 1 rotates by 180 degrees (i.e. turns the billboard upside "
+"down). Set to zero by default."
+msgstr "广告牌平面的旋转角度。它的值可以从-1 到 1。旋转 180 度的值为 1 （即颠倒广告牌）。设置为零，默认情况。"
 
 #: ../particles.rst:178
 msgid "*Random*"
@@ -443,8 +429,8 @@ msgstr "*随机*"
 
 #: ../particles.rst:178
 msgid ""
-"Random variation of tilt. Its value can change from zero to 1 and is set to "
-"zero by default."
+"Random variation of tilt. Its value can change from zero to 1 and is set "
+"to zero by default."
 msgstr "倾斜的随机变化。它的值可以从零到 1 更改，默认情况设置为零 。"
 
 #: ../particles.rst:181
@@ -453,8 +439,8 @@ msgstr "*Render > Dissolve intervals > Fade-in* and *Fade-out*"
 
 #: ../particles.rst:181
 msgid ""
-"Starting and ending intervals (measured in frames) for gradually increasing "
-"and decreasing the particles' transparency."
+"Starting and ending intervals (measured in frames) for gradually "
+"increasing and decreasing the particles' transparency."
 msgstr "开始和结束的时间间隔（以帧测量的）为逐渐增加和减小粒子的透明度。"
 
 #: ../particles.rst:184
@@ -463,11 +449,9 @@ msgstr "*Render > Coordinate System*"
 
 #: ../particles.rst:184
 msgid ""
-"Coordinate system of emitting particles: ``Local`` - use local coordinate "
-"system of the emitter object, ``World`` - use world coordinate system."
-msgstr ""
-"发射粒子的坐标系统：``Local``  - 使用局部坐标发射物体的系统，``World``  - 使用"
-"世界坐标系。"
+"Coordinate system of emitting particles: ``Local`` - use local coordinate"
+" system of the emitter object, ``World`` - use world coordinate system."
+msgstr "发射粒子的坐标系统：``Local``  - 使用局部坐标发射物体的系统，``World``  - 使用世界坐标系。"
 
 #: ../particles.rst:187
 msgid "*Render > Soft Particles*"
@@ -476,11 +460,9 @@ msgstr "*Render > Soft Particles*"
 #: ../particles.rst:187
 msgid ""
 "Support for soft particles, billboards of which smoothly dissolve when "
-"contacting with surfaces. Use the ``Particle Softness`` slider to tweak this "
-"effect."
-msgstr ""
-"支持软粒子，它的广告牌与表面接触时能够消融。使用 ``Particle Softness`` 滑块来调"
-"整这种效果。"
+"contacting with surfaces. Use the ``Particle Softness`` slider to tweak "
+"this effect."
+msgstr "支持软粒子，它的广告牌与表面接触时能够消融。使用 ``Particle Softness`` 滑块来调整这种效果。"
 
 #: ../particles.rst:192
 msgid "Supported Settings for Force Field Influence"
@@ -500,12 +482,12 @@ msgstr "*Field Weights > Wind*"
 
 #: ../particles.rst:198
 msgid ""
-"Wind influence factor. A ``Wind`` force field source should be present (can be "
-"added using ``Add > Force Field``). A particle system is also influenced by "
-"the wind direction and strength. The default value is 1.0."
+"Wind influence factor. A ``Wind`` force field source should be present "
+"(can be added using ``Add > Force Field``). A particle system is also "
+"influenced by the wind direction and strength. The default value is 1.0."
 msgstr ""
-"风的影响因子。``Wind`` 力场源需要存在 （可以  ``Add > Force Field`` 添加使"
-"用）。一个粒子系统也受到风的方向和强度影响。默认值是 1.0。"
+"风的影响因子。``Wind`` 力场源需要存在 （可以  ``Add > Force Field`` "
+"添加使用）。一个粒子系统也受到风的方向和强度影响。默认值是 1.0。"
 
 #: ../particles.rst:202
 msgid "Engine Specific Settings"
@@ -525,14 +507,13 @@ msgstr "粒子系统中的纹理"
 
 #: ../particles.rst:213
 msgid ""
-"Particle systems support both standard and node materials. Supported  material "
-"types are ``Surface`` and ``Halo``. All additional settings of the ``Halo`` "
-"type materials, such as ``Rings``, ``Lines`` and ``Star Tips``, are also "
-"supported."
+"Particle systems support both standard and node materials. Supported  "
+"material types are ``Surface`` and ``Halo``. All additional settings of "
+"the ``Halo`` type materials, such as ``Rings``, ``Lines`` and ``Star "
+"Tips``, are also supported."
 msgstr ""
-"粒子系统支持标准和节点的材质。支持的材质类型包括 ``Surface`` 和 ``Halo``。此外"
-"支持 ``Halo`` 类型的材质，如 ``Rings``, ``Lines`` 和 ``Star Tips``，所有其他设"
-"置。"
+"粒子系统支持标准和节点的材质。支持的材质类型包括 ``Surface`` 和 ``Halo``。此外支持 ``Halo`` 类型的材质，如 "
+"``Rings``, ``Lines`` 和 ``Star Tips``，所有其他设置。"
 
 #: ../particles.rst:216
 msgid "Textures of the Particle's Material"
@@ -540,25 +521,23 @@ msgstr "粒子材质的纹理"
 
 #: ../particles.rst:218
 msgid ""
-"For the ``Surface`` particle's materials it is **required** to have a diffuse "
-"texture (normally with an alpha-channel). In the ``Mapping > Coordinates`` "
-"menu choose the ``UV`` option.  Make sure that the emitter's mesh has a UV "
-"layer."
+"For the ``Surface`` particle's materials it is **required** to have a "
+"diffuse texture (normally with an alpha-channel). In the ``Mapping > "
+"Coordinates`` menu choose the ``UV`` option.  Make sure that the "
+"emitter's mesh has a UV layer."
 msgstr ""
-"``Surface`` 粒子材质它是  **要求** 有漫射纹理 （通常带 alpha 通道）。在 "
-"``Mapping > Coordinates`` 菜单中选择  ``UV``  选项。 请确保发射器的网格有 UV "
-"层。"
+"``Surface`` 粒子材质它是  **要求** 有漫射纹理 （通常带 alpha 通道）。在 ``Mapping > "
+"Coordinates`` 菜单中选择  ``UV``  选项。 请确保发射器的网格有 UV 层。"
 
 #: ../particles.rst:220
 msgid ""
-"For the ``Halo`` particle's materials it is **possible** to use a ``Blend`` "
-"texture with a ``Linear`` gradient. In the ``Mapping > Coordinates`` menu "
-"choose the ``Strand / Particle`` option. It is required to enable ``Ramp`` on "
-"a texture."
+"For the ``Halo`` particle's materials it is **possible** to use a "
+"``Blend`` texture with a ``Linear`` gradient. In the ``Mapping > "
+"Coordinates`` menu choose the ``Strand / Particle`` option. It is "
+"required to enable ``Ramp`` on a texture."
 msgstr ""
-"对于 ``Halo`` 粒子的材质，这是 **可以** 使用 ``Blend`` 纹理一个 ``Linear`` 梯"
-"度。在 ``Mapping > Coordinates`` 菜单中选择 ``Strand / Particle`` 选项。它要求"
-"对纹理启用  ``Ramp``  。"
+"对于 ``Halo`` 粒子的材质，这是 **可以** 使用 ``Blend`` 纹理一个 ``Linear`` 梯度。在 ``Mapping >"
+" Coordinates`` 菜单中选择 ``Strand / Particle`` 选项。它要求对纹理启用  ``Ramp``  。"
 
 #: ../particles.rst:227
 msgid "Textures of Particle Systems"
@@ -566,31 +545,28 @@ msgstr "粒子系统中的纹理"
 
 #: ../particles.rst:229
 msgid ""
-"Textures can also be used for setting up the behavior of particle systems. "
-"Unlike textures for particle materials such textures belong to the particle "
-"system datablock, not to the material datablock. To create a texture for the "
-"particle system it is required to go **from** the ``Particles`` tab to the "
-"``Textures`` tab and then to click the ``New`` button."
+"Textures can also be used for setting up the behavior of particle "
+"systems. Unlike textures for particle materials such textures belong to "
+"the particle system datablock, not to the material datablock. To create a"
+" texture for the particle system it is required to go **from** the "
+"``Particles`` tab to the ``Textures`` tab and then to click the ``New`` "
+"button."
 msgstr ""
-"纹理也可以用于设置粒子系统的行为。与纹理粒子材质不同的是这种纹理属于粒子系统数"
-"据块，不到材质数据块。若要创建纹理的粒子系统，它需要去  **从**  ``Textures`` 选"
-"项卡的 ``Particles`` 选项卡，然后单击新建按钮。"
+"纹理也可以用于设置粒子系统的行为。与纹理粒子材质不同的是这种纹理属于粒子系统数据块，不到材质数据块。若要创建纹理的粒子系统，它需要去  **从**"
+"  ``Textures`` 选项卡的 ``Particles`` 选项卡，然后单击新建按钮。"
 
 #: ../particles.rst:231
 msgid ""
-"The only supported type of textures is ``Blend`` with a ``Linear`` gradient. "
-"``Ramp`` should be enabled on the texture. Up to 4 gradient control points are "
-"supported."
-msgstr ""
-"纹理唯一支持的类型是 ``Blend`` 带 ``Linear`` 梯度。纹理的 ``Ramp`` 应该启用。支"
-"持多达4个梯度控制点。"
+"The only supported type of textures is ``Blend`` with a ``Linear`` "
+"gradient. ``Ramp`` should be enabled on the texture. Up to 4 gradient "
+"control points are supported."
+msgstr "纹理唯一支持的类型是 ``Blend`` 带 ``Linear`` 梯度。纹理的 ``Ramp`` 应该启用。支持多达4个梯度控制点。"
 
 #: ../particles.rst:233
 msgid ""
-"On the ``Influence`` panel choose the parameter which is influenced by the "
-"texture. At the moment the only supported parameter is ``Size``."
-msgstr ""
-"``Influence``  面板上选择参数受纹理的影响。目前唯一支持的参数是 ``Size``."
+"On the ``Influence`` panel choose the parameter which is influenced by "
+"the texture. At the moment the only supported parameter is ``Size``."
+msgstr "``Influence``  面板上选择参数受纹理的影响。目前唯一支持的参数是 ``Size``."
 
 #: ../particles.rst:241
 msgid ""
@@ -600,8 +576,8 @@ msgstr "粒子材质使用渐变纹理和粒子系统的结果︰"
 
 #: ../particles.rst:248
 msgid ""
-"`The original model was taken from here <http://www.blendswap.com/blends/"
-"view/13977>`_"
+"`The original model was taken from here "
+"<http://www.blendswap.com/blends/view/13977>`_"
 msgstr "`原始模型是从这里取得 <http://www.blendswap.com/blends/view/13977>`_"
 
 #: ../particles.rst:3
@@ -611,3 +587,17 @@ msgstr "粒子系统"
 #: ../particles.rst:3
 msgid "fluids"
 msgstr "流体"
+
+#~ msgid "*Emission > Emit From > Distribution*"
+#~ msgstr "*Emission > Emit From > Distribution*"
+
+#~ msgid ""
+#~ "Emission distribution settings: ``Jittered``, "
+#~ "``Random``, ``Grid``. Ignored by the "
+#~ "engine. Internally the engine always "
+#~ "uses ``Random`` distribution. The default "
+#~ "is ``Jittered``."
+#~ msgstr ""
+#~ "发射分布设置：``Jittered``，``Random``，``Grid``。由引擎忽略。在内部，引擎始终使用 "
+#~ "``Random`` 分布。默认值是 ``Jittered`` 。"
+

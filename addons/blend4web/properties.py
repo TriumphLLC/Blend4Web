@@ -2557,7 +2557,7 @@ def add_object_properties():
 
     b4w_reflective = bpy.props.BoolProperty(
         name = _("B4W: reflective"),
-        description = _("The object will receive reflections"),
+        description = _("The object will reflect other objects"),
         default = False,
         update = lambda self,context: add_remove_refl_plane(self),
         options = set()

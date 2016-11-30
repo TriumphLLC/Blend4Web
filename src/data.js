@@ -676,6 +676,7 @@ function prepare_bpy_data(bpy_data, thread, stage, cb_param, cb_finish,
 
     m_reformer.check_bpy_data(bpy_data);
 
+    setup_dds_loading(bpy_data);
     create_bpy_textures(bpy_data, thread);
 
     report_empty_submeshes(bpy_data);
@@ -1159,7 +1160,7 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         if (thread.is_primary)
             if (scene_dst._render.water_params && !has_wind)
                 m_print.warn("Scene \"" + scene_dst.name + "\" has water but has "
-                        + "no wind.");
+                        + "no wind. Using default settings.");
 
         // batching
         var metaobjects = [];
@@ -1216,10 +1217,6 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         if (_primary_scene._render.video_textures.length)
             thread.has_video_textures = true;
 
-    // this must be done after the batches generation because textures
-    // get "use_node_dds" flag in the "generate_main_batches" function
-    setup_dds_loading(bpy_data);
-
     cb_finish(thread, stage);
 }
 
@@ -1269,7 +1266,6 @@ function link_skinned_objs(objects) {
 }
 
 function setup_dds_loading(bpy_data) {
-
     var materials = bpy_data["materials"];
     // check extension for dds
     if (!(cfg_ldr.dds_available || cfg_ldr.pvr_available) || !cfg_def.use_compression) {
@@ -1306,15 +1302,7 @@ function setup_dds_loading(bpy_data) {
                                 texture["type"] != "ENVIRONMENT_MAP" &&
                                 !texture["b4w_shore_dist_map"] &&
                                 image["source"] != "MOVIE";
-
-                if (image._is_compressed) {
-                    image._comp_method = cfg_def.compress_format;
-                    if (cfg_def.compress_format == "dds")
-                        image["filepath"] += ".dds";
-                    else
-                       image["filepath"] = m_assets.split_extension(image["filepath"])[0] + ".pvr";
-               } else
-                    image._comp_method = "";
+                set_image_compress_format(image);
             }
         }
 
@@ -1335,25 +1323,51 @@ function setup_dds_loading(bpy_data) {
                             if (image._is_compressed) {
                                 // it was already marked as dds on previous cycle - so do nothing
                             } else {
-                                image._is_compressed = tex._render.allow_node_dds &&
-                                                !tex["b4w_disable_compression"] &&
-                                                image["source"] != "MOVIE" &&
-                                                tex["type"] != "ENVIRONMENT_MAP";
 
-                                if (image._is_compressed) {
-                                    image._comp_method = cfg_def.compress_format;
-                                    if (cfg_def.compress_format == "dds")
-                                        image["filepath"] += ".dds";
-                                    else
-                                       image["filepath"] = m_assets.split_extension(image["filepath"])[0] + ".pvr";
-                               } else
-                                    image._comp_method = "";
+                                image._is_compressed = !tex["b4w_disable_compression"] &&
+                                                        image["source"] != "MOVIE" &&
+                                                        tex["type"] != "ENVIRONMENT_MAP" &&
+                                                        !check_normal_output(node);
+                                set_image_compress_format(image);
                             }
+                    }
+                } else if (node["type"] == "TEX_IMAGE") {
+                    var image = node["image"];
+                    if (image && !image._is_compressed) {
+                        image._is_compressed = image["source"] != "MOVIE";
+                        set_image_compress_format(image);
+                    }
+                } else if (node["type"] == "TEX_ENVIRONMENT") {
+                    var image = node["image"];
+                    if (image && !image._is_compressed) {
+                        image._is_compressed = false;
+                        set_image_compress_format(image);
                     }
                 }
             }
         }
     }
+}
+
+function check_normal_output(bpy_node) {
+    var outputs = bpy_node["outputs"];
+    for (var i = 0; i < outputs.length; i++) {
+        var output = outputs[i];
+        if (output["is_linked"] && output["identifier"] == "Normal")
+            return true;
+    }
+    return false;
+}
+
+function set_image_compress_format(image) {
+    if (image._is_compressed) {
+        image._comp_method = cfg_def.compress_format;
+        if (cfg_def.compress_format == "dds")
+            image["filepath"] += ".dds";
+        else
+           image["filepath"] = m_assets.split_extension(image["filepath"])[0] + ".pvr";
+   } else
+        image._comp_method = "";
 }
 
 function unset_images_dds(images) {
@@ -1970,6 +1984,15 @@ function process_node_tree(node_tree, storage) {
         // NOTE: Check node["node_group"] for compatibility with older scenes
         if (node["type"] == "GROUP" && node["node_group"])
             make_link_uuid(node, "node_group", storage);
+
+        if ((node["type"] == "TEX_IMAGE" || node["type"] == "TEX_ENVIRONMENT")
+                && node["image"])
+            make_link_uuid(node, "image", storage);
+
+        // HACK: forcing cube reflections for cycles mats with bsdf_glossy
+        //       additional property is checked in m_objects.update_object
+        if (node["type"] == "BSDF_GLOSSY")
+            node_tree._has_bsdf_glossy = true;
     }
 
     var links = node_tree["links"];
@@ -2064,34 +2087,26 @@ function copy_link(from, to) {
             to[prop] = from[prop];
 }
 
-function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) {
+function load_images(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) {
+
     var dir_path = dirname(thread.filepath);
 
-    var images = bpy_data["images"];
-    var img_by_uri = {};
     var image_assets = [];
+    var image_users = {};
 
-    for (var i = 0; i < images.length; i++) {
-        var image = images[i];
-        var uuid = image["uuid"];
+    var textures = m_tex.get_all_textures();
 
-        if (image["source"] === "FILE" || image["source"] === "MOVIE") {
+    for (var i = 0; i < textures.length; i++) {
+        var texture = textures[i];
+        var uuid = texture.img_uuid;
 
-            var tex_users = find_image_users(image, bpy_data["textures"]);
-
-            if (!tex_users.length) {
-                m_print.warn("image ", image["name"], " has no users.");
-                continue;
-            }
-
-            if (tex_users[0]["b4w_shore_dist_map"])
-                continue;
+        if (uuid) {
 
             var image_path = m_util.normpath_preserve_protocol(dir_path + 
-                    image["filepath"]);
-
-            if (image["source"] === "FILE") {
-                if (image._is_compressed)
+                    texture.img_filepath);
+            var image_source = texture.img_source;
+            if (image_source === "FILE") {
+                if (texture.img_is_compressed)
                     var asset_type = m_assets.AT_ARRAYBUFFER;
                 else
                     var asset_type = m_assets.AT_IMAGE_ELEMENT;
@@ -2100,7 +2115,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                 var path_ext_low = head_ext[1].toLowerCase();
 
                 if (!m_assets.check_image_extension(path_ext_low)) {
-                    m_print.error("image ", image["name"], " has unsupported format.");
+                    m_print.error("image ", texture.img_name, " has unsupported format.");
                     continue;
                 }
 
@@ -2112,7 +2127,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                     } else
                         image_path = head_ext[0] + ".min50." + head_ext[1];
                 }
-            } else if (image["source"] === "MOVIE") {
+            } else if (image_source === "MOVIE") {
                 if (!cfg_def.seq_video_fallback) {
                     var head_ext = m_assets.split_extension(image_path);
                     var path_ext_low = head_ext[1].toLowerCase();
@@ -2133,10 +2148,26 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                     image_path = head_ext[0] +".altconv.seq";
                     var asset_type = m_assets.AT_SEQ_VIDEO_ELEMENT;
                 }
+            } else {
+                m_print.error("Image \""+texture.img_name+"\" has unsupported format \""+image_source+"\".");
+                continue;
             }
 
-            image_assets.push({id:uuid, type:asset_type, url:image_path});
-            img_by_uri[uuid] = image;
+            var already_added = false;
+            if (!(uuid in image_users)) {
+                image_users[uuid] = {};
+                if (!(asset_type in image_users[uuid]))
+                    image_users[uuid][asset_type] = [];
+            } else {
+                if (!(asset_type in image_users[uuid]))
+                    image_users[uuid][asset_type] = [];
+                else
+                    already_added = true;
+            }
+            image_users[uuid][asset_type].push(texture);
+
+            if (!already_added)
+                image_assets.push({id:uuid, type:asset_type, url:image_path});
         }
     }
 
@@ -2146,29 +2177,29 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             // process only loaded images
             if (image_data) {
                 var show_path_warning = true;
-                var image = img_by_uri[uri];
-                if (type == m_assets.AT_VIDEO_ELEMENT 
-                        || type == m_assets.AT_SEQ_VIDEO_ELEMENT)
-                    print_video_info(image_data, path, show_path_warning, type);
-                else print_image_info(image_data, path, show_path_warning, image._comp_method);
-
-                var tex_users = find_image_users(image, bpy_data["textures"]);
+                var tex_users = image_users[uri][type];
 
                 for (var i = 0; i < tex_users.length; i++) {
                     var tex_user = tex_users[i];
-                    var filepath = tex_user["image"]["filepath"];
+                    var filepath = tex_user.img_filepath;
                     if (type == m_assets.AT_SEQ_VIDEO_ELEMENT) {
-                        tex_user._render.seq_fps = image_data.fps;
-                        m_tex.update_texture(tex_user._render, image_data.images,
+                        tex_user.seq_fps = image_data.fps;
+                        m_tex.update_texture(tex_user, image_data.images,
                                 "", filepath, thread.id);
                     } else {
-                        m_tex.update_texture(tex_user._render, image_data,
-                                image._comp_method, filepath, thread.id);
-                        if (tex_user._render.source == "ENVIRONMENT_MAP")
+                        m_tex.update_texture(tex_user, image_data,
+                                tex_user.img_comp_method, filepath, thread.id);
+                        if (tex_user.source == "ENVIRONMENT_MAP") {
                             for (var j = 0; j < bpy_data["scenes"].length; j++)
                                 m_scenes.update_world_texture(bpy_data["scenes"][j]);
+                        }
                     }
                 }
+                if (type == m_assets.AT_VIDEO_ELEMENT 
+                        || type == m_assets.AT_SEQ_VIDEO_ELEMENT)
+                    print_video_info(image_data, path, show_path_warning, type);
+                else 
+                    print_image_info(image_data, path, show_path_warning, tex_users[0].img_comp_method);
             }
 
             var rate = ++image_counter / image_assets.length;
@@ -2202,13 +2233,14 @@ function update_scenes_nla(bpy_data, thread, stage, cb_param, cb_finish, cb_set_
 /**
  * Find textures
  */
-function find_image_users(image, textures) {
+function find_image_users(uri) {
 
     var tex_image_users = [];
 
+    var textures = m_tex.get_all_textures();
     for (var i = 0; i < textures.length; i++) {
         var tex = textures[i];
-        if (tex["image"] === image)
+        if (tex.uri === uri)
             tex_image_users.push(tex);
     }
 
@@ -2543,16 +2575,12 @@ function prepare_lod_objects(bpy_objects) {
                 if (bpy_obj["lod_levels"][j + 1])
                     lod_obj.render.lod_dist_max = bpy_obj["lod_levels"][j + 1]["distance"];
                 else {
-                    lod_obj.render.last_lod = true;
                     lod_obj.render.lod_dist_max = m_obj_util.LOD_DIST_MAX_INFINITY;
                     break;
                 }
 
-                prev_lod_obj.render.last_lod = false;
-
                 prev_lod_obj = lod_obj;
             } else {
-                prev_lod_obj.render.last_lod = true;
                 prev_lod_obj.render.lod_dist_max = bpy_obj["lod_levels"][j]["distance"];
                 break;
             }
@@ -2912,28 +2940,26 @@ function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
 
         if (scene._render.water_params) {
 
-            var image = scene._render.water_params.shoremap_image;
+            var shoremap_image = scene._render.water_params.shoremap_image;
 
-            if (image && image["source"] === "FILE") {
-                var uuid = image["uuid"];
+            if (shoremap_image && shoremap_image["source"] === "FILE") {
+                var uuid = shoremap_image["uuid"];
                 var dir_path = dirname(thread.filepath);
                 var image_path = m_util.normpath_preserve_protocol(dir_path + 
-                        image["filepath"]);
+                        shoremap_image["filepath"]);
 
-                if (image._is_compressed)
+                if (shoremap_image._is_compressed)
                     var asset_type = m_assets.AT_ARRAYBUFFER;
                 else
                     var asset_type = m_assets.AT_IMAGE_ELEMENT;
 
                 image_assets.push({id:uuid, type:asset_type, url:image_path});
-                img_by_uri[uuid] = image;
+                img_by_uri[uuid] = shoremap_image;
             }
         }
     }
-
     if (image_assets.length) {
         var asset_cb = function(html_image, uri, type, path) {
-
             if (!html_image) { // image not loaded
                 var image = img_by_uri[uri];
                 for (var i = 0; i < bpy_scenes.length; i++) {
@@ -2950,15 +2976,14 @@ function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
 
             var show_path_warning = true;
             print_image_info(html_image, path, show_path_warning);
-            var image = img_by_uri[uri];
-            var tex_users = find_image_users(image, bpy_data["textures"]);
+            var tex_users = find_image_users(uri);
             for (var i = 0; i < tex_users.length; i++) {
                 var tex_user = tex_users[i];
-                var filepath = tex_user["image"]["filepath"];
+                var filepath = tex_user.filepath;
                 var comp_method = "";
-                if (image._is_compressed)
+                if (shoremap_image._is_compressed)
                     comp_method = filepath.indexOf(".dds") != -1 ? "dds": "pvr";
-                m_tex.update_texture(tex_user._render, html_image,
+                m_tex.update_texture(tex_user, html_image,
                                     comp_method, filepath, thread.id);
             }
 
@@ -2966,8 +2991,8 @@ function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
                 var scene = bpy_scenes[i];
                 if (scene._render.water_params) {
                     var shr_image = scene._render.water_params.shoremap_image;
-                    if (shr_image === image)
-                        update_scene_shore_distance(html_image, image, scene);
+                    if (shr_image === shoremap_image)
+                        update_scene_shore_distance(html_image, shoremap_image, scene);
                 }
             }
         }
@@ -3001,7 +3026,6 @@ function update_scene_shore_distance(html_image, shoremap, scene) {
 
     var arr_size = width * height;
     var shore_distances = new Float32Array(arr_size);
-
     // unpack dist from depth color (g,b channels)
     for (var j = 0; j < arr_size; j++) {
         shore_distances[j] = bit_shift[1] * dist_color[4 * j + 2]
@@ -3076,7 +3100,6 @@ function load_smaa_textures(bpy_data, thread, stage, cb_param, cb_finish,
                 var texture = area_texture
 
             texture.source = "IMAGE";
-            texture.auxilary_texture = true;
 
             var is_dds = path.indexOf(".dds") != -1 ? 1: 0;
             m_tex.update_texture(texture, image_data, is_dds, path, thread.id);
@@ -3477,19 +3500,19 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
             primary_only: true,
             cb_before: load_shoremap
         },
-        "load_textures": {
+        "load_images": {
             priority: m_loader.ASYNC_PRIORITY,
             background_loading: true,
             inputs: ["process_scenes"],
             is_resource: true,
             relative_size: 500,
             primary_only: false,
-            cb_before: load_textures
+            cb_before: load_images
         },
         "update_scenes_nla": {
             priority: m_loader.SYNC_PRIORITY,
             background_loading: false,
-            inputs: ["process_scenes", "load_textures"],
+            inputs: ["process_scenes", "load_images"],
             is_resource: false,
             relative_size: 50,
             primary_only: false,
@@ -3549,7 +3572,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
         "mobile_media_start": {
             priority: m_loader.SYNC_PRIORITY,
             background_loading: false,
-            inputs: ["load_textures", "update_scenes_nla", "load_speakers", "init_logic_nodes"],
+            inputs: ["load_images", "update_scenes_nla", "load_speakers", "init_logic_nodes"],
             is_resource: true,
             relative_size: 5,
             primary_only: false,
@@ -3607,7 +3630,6 @@ exports.unload = function(data_id) {
         m_anchors.cleanup();
         m_anim.cleanup();
         m_sfx.cleanup();
-        m_nla.cleanup();
         m_batch.cleanup();
         m_scenes.cleanup();
         m_loader.cleanup();
@@ -3660,7 +3682,7 @@ exports.unload = function(data_id) {
         for (var i = 0; i < objs.length; i++)
             m_obj.obj_switch_cleanup_flags(objs[i], true, true, true, true);
     }
-
+    m_nla.cleanup(data_id);
     remove_media_controls();
 }
 

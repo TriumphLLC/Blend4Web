@@ -232,7 +232,7 @@ function init_node(snode, logic_script) {
         camera_state: null,
         objects: {},
         anim_name: snode["anim_name"],
-        anim_slot: m_anim.SLOT_0,
+        anim_slot: m_anim.SLOT_ALL,
         parse_json_vars: snode["parse_json_vars"],
         parse_json_paths: snode["parse_json_paths"],
         objects_paths: snode["objects_paths"],
@@ -1553,22 +1553,21 @@ function regstore_handler(node, logic, thread_state, timeline, elapsed, start_ti
 
 function play_anim_handler(node, logic, thread_state, timeline, elapsed, start_time) {
 
-    function check_anim(obj, anim_name) {
-        var status = 0;
+    // return anim slot number for already applied, -1 otherwise
+    function get_slot_by_anim_name(obj, anim_name) {
+        var anim_slot = -1;
         for (var i = 0; i < 8; i++) {
-            var anim_slot = obj.anim_slots[i];
-            if (anim_slot && anim_slot.animation_name) {
-                if (m_anim.strip_baked_suffix(anim_slot.animation_name) == m_anim.strip_baked_suffix(anim_name))
-                    if (status == 0)
-                        status = 1;
+            var anim_slot_obj = obj.anim_slots[i];
+            if (anim_slot_obj && anim_slot_obj.animation_name) {
+                if (m_anim.strip_baked_suffix(anim_slot_obj.animation_name) == m_anim.strip_baked_suffix(anim_name))
+                    if (anim_slot != -1)
+                        anim_slot = i;
                     else
-                        return false;
+                        return -1;
             }
         }
-        if (status == 1)
-            return true;
-        else
-            return false;
+
+        return anim_slot;
     }
 
     switch (logic.state) {
@@ -1601,11 +1600,17 @@ function play_anim_handler(node, logic, thread_state, timeline, elapsed, start_t
             if (node.anim_name == "") {
                 // TODO make check_anim for default animation
                 m_anim.apply_def(node.obj);
-                m_anim.set_behavior(node.obj, behavior, node.anim_slot);
-            } else if (!check_anim(node.obj, node.anim_name)) {
-                node.anim_slot = m_anim.slot_by_anim_type(node.obj, node.anim_name);
-                m_anim.apply(node.obj, null, node.anim_name, node.anim_slot);
-                m_anim.set_behavior(node.obj, behavior, node.anim_slot);
+                m_anim.set_behavior(node.obj, behavior, m_anim.SLOT_ALL);
+            } else {
+                var anim_slot = get_slot_by_anim_name(node.obj, node.anim_name);
+
+                if (anim_slot == -1) {
+                    node.anim_slot = m_anim.slot_by_anim_type(node.obj, node.anim_name);
+                    m_anim.apply(node.obj, null, node.anim_name, node.anim_slot);
+                } else
+                    node.anim_slot = anim_slot;
+
+                m_anim.set_behavior(node.obj, behavior,  node.anim_slot);
             }
 
             // blocking selection

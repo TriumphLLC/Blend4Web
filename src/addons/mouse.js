@@ -301,7 +301,6 @@ function smooth_cb(obj, id, pulse, rot_callback) {
         var elapsed = m_ctl.get_sensor_value(obj, id, 0);
         var rot_x = m_util.smooth(_mouse_delta[0], 0, elapsed, smooth_coeff_mouse());
         var rot_y = m_util.smooth(_mouse_delta[1], 0, elapsed, smooth_coeff_mouse());
-
         _mouse_delta[0] -= rot_x;
         _mouse_delta[1] -= rot_y;
 

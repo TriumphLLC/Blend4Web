@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
 "POT-Creation-Date: 2016-10-21 15:38+0300\n"
-"PO-Revision-Date: 2016-10-07 16:03+0800\n"
+"PO-Revision-Date: 2016-10-29 13:37+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: zh_CN\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../about.rst:5
 msgid "Overview"
@@ -26,38 +28,37 @@ msgstr "什么是 Blend4Web"
 
 #: ../about.rst:14
 msgid ""
-"Blend4Web is a web-oriented 3D engine - a software framework for "
-"authoring and interactive rendering of three-dimensional graphics and "
-"audio in browsers."
+"Blend4Web is a web-oriented 3D engine - a software framework for authoring and interactive rendering of "
+"three-dimensional graphics and audio in browsers."
 msgstr "Blend4Web是一个面向Web的3D引擎 - 是一套在浏览器中进行制作交互式三维渲染图形和声音的软件框架。"
 
 #: ../about.rst:16
 msgid ""
-"The platform is intended for visualizations, presentations, online-shops,"
-" games and other rich internet applications."
+"The platform is intended for visualizations, presentations, online-shops, games and other rich internet "
+"applications."
 msgstr "该平台是用于可视化，演示，在线商店，游戏等丰富的互联网应用。"
 
 #: ../about.rst:18
 msgid ""
-"The Blend4Web framework is integrated tightly with Blender - a 3D "
-"modeling and animation tool (hence the name). The content is rendered by "
-"means of WebGL and other browser technologies, without the use of "
+"The Blend4Web framework is integrated tightly with Blender - a 3D modeling and animation tool (hence the "
+"name). The content is rendered by means of WebGL and other browser technologies, without the use of "
 "plugins."
 msgstr ""
-"三维建模和动画工具（因此得名） - "
-"Blend4Web框架与Blender紧密集成。内容是由WebGL的和其他的浏览器技术渲染而成，**不使用插件** 。"
+"三维建模和动画工具（因此得名） - Blend4Web框架与Blender紧密集成。内容是由WebGL的和其他的浏览器技术渲染而"
+"成，**不使用插件** 。"
 
 #: ../about.rst:20
 msgid ""
-"Technically Blend4Web is a library for web pages, a Blender add-on and "
-"some tools for debugging and optimization."
+"Technically Blend4Web is a library for web pages, a Blender add-on and some tools for debugging and "
+"optimization."
 msgstr "技术上Blend4Web是网页库，Blender插件以及进行调试和优化的一些工具。"
 
 #: ../about.rst:22
 msgid ""
-"The Blend4Web 3D engine has been developed by Triumph LLC employees since"
-" 2010. The engine was first released on March 28 2014."
-msgstr "自2010年以来凯旋有限责任公司（ Triumph LLC）的员工开发了Blend4Web 3D引擎。该引擎首次发布于2014年3月28日。"
+"The Blend4Web 3D engine has been developed by Triumph LLC employees since 2010. The engine was first "
+"released on March 28 2014."
+msgstr ""
+"自2010年以来凯旋有限责任公司（ Triumph LLC）的员工开发了Blend4Web 3D引擎。该引擎首次发布于2014年3月28日。"
 
 #: ../about.rst:30
 msgid "\"About Engines\""
@@ -65,27 +66,26 @@ msgstr "\"关于引擎\""
 
 #: ../about.rst:32
 msgid ""
-"An engine is a separate part of software code which is used by external "
-"applications for implementing the required functionality."
+"An engine is a separate part of software code which is used by external applications for implementing "
+"the required functionality."
 msgstr "引擎是被用于实现所需的功能使用的外部应用程序的软件代码的单独软件部分。"
 
 #: ../about.rst:34
 msgid ""
-"Engine examples are: site engine, blog engine, online shop engine, wiki "
-"engine, search engine, game engine etc. The economical reason for the "
-"existence of software engines is multiple usage of the same "
-"functionality. For example developers may create relatively cheap online "
-"shops or games using one or another engine."
-msgstr "引擎的例子是：网站引擎，博客引擎，网上商店擎，维基引擎，搜索引擎，游戏引擎等。软件引擎存在的经济原因是能多处使用相同的功能。例如开发人员可以用相对便宜的引擎来创建网上商店或游戏。"
+"Engine examples are: site engine, blog engine, online shop engine, wiki engine, search engine, game "
+"engine etc. The economical reason for the existence of software engines is multiple usage of the same "
+"functionality. For example developers may create relatively cheap online shops or games using one or "
+"another engine."
+msgstr ""
+"引擎的例子是：网站引擎，博客引擎，网上商店擎，维基引擎，搜索引擎，游戏引擎等。软件引擎存在的经济原因是能"
+"多处使用相同的功能。例如开发人员可以用相对便宜的引擎来创建网上商店或游戏。"
 
 #: ../about.rst:42
 msgid "Graphics Engine, Game Engine"
 msgstr "图形引擎，游戏引擎"
 
 #: ../about.rst:44
-msgid ""
-"A graphics engine performs special functions in displaying graphics. It "
-"is an intermediary between:"
+msgid "A graphics engine performs special functions in displaying graphics. It is an intermediary between:"
 msgstr "图形引擎执行的显示图形特殊功能。它是介于以下几者之间的："
 
 #: ../about.rst:46
@@ -94,20 +94,20 @@ msgstr "高级别应用部分（游戏逻辑，业务逻辑）和"
 
 #: ../about.rst:47
 msgid ""
-"low-level system part (for example, the graphics library :ref:`WebGL "
-"<about_webgl>` and underlying :ref:`drivers "
-"<about_drivers_video_cards>`)."
+"low-level system part (for example, the graphics library :ref:`WebGL <about_webgl>` and underlying :ref:"
+"`drivers <about_drivers_video_cards>`)."
 msgstr ""
 "低层系统的一部分（例如，图形库的 :ref:`WebGL <about_webgl>` 和 :ref:`drivers "
 "<about_drivers_video_cards>`)."
 
 #: ../about.rst:49
 msgid ""
-"A graphics engine may be combined with the sound system, the physics "
-"engine, the artificial intelligence system, the networking system and the"
-" scene and logic editors producing a **three-dimensional engine** - an "
-"integrated environment for authoring 3D applications."
-msgstr "图形引擎可以结合到音响系统，物理引擎，人工智能系统，网络系统和场景和逻辑编辑然后产生三维引擎--从而成为用于创作3D应用的集成环境。"
+"A graphics engine may be combined with the sound system, the physics engine, the artificial intelligence "
+"system, the networking system and the scene and logic editors producing a **three-dimensional engine** - "
+"an integrated environment for authoring 3D applications."
+msgstr ""
+"图形引擎可以结合到音响系统，物理引擎，人工智能系统，网络系统和场景和逻辑编辑然后产生三维引擎--从而成为用"
+"于创作3D应用的集成环境。"
 
 #: ../about.rst:57
 msgid "What's WebGL"
@@ -115,10 +115,10 @@ msgstr "什么是WebGL"
 
 #: ../about.rst:59
 msgid ""
-"WebGL (Web Graphics Library) is one of the modern browser technologies "
-"which allows authoring 3D graphics applications. In other words WebGL is "
-"\"3D in a browser\"."
-msgstr "WebGL的（Web图形库）是现代浏览器技术，它允许创作3D图形应用程序。换句话说WebGL是 \"浏览器中的3D\" 。"
+"WebGL (Web Graphics Library) is one of the modern browser technologies which allows authoring 3D "
+"graphics applications. In other words WebGL is \"3D in a browser\"."
+msgstr ""
+"WebGL的（Web图形库）是现代浏览器技术，它允许创作3D图形应用程序。换句话说WebGL是 \"浏览器中的3D\" 。"
 
 #: ../about.rst:67
 msgid "WebGL Browsers Support"
@@ -129,9 +129,8 @@ msgid "At the moment WebGL is supported in to a varying degree by all browsers."
 msgstr "现在的WebGL在不同程度上被所有浏览器支持。"
 
 #: ../about.rst:73
-#, fuzzy
 msgid "Desktop Browsers"
-msgstr "浏览器"
+msgstr "桌面浏览器"
 
 #: ../about.rst:75
 msgid "`Chrome <http://www.google.com/chrome>`_"
@@ -154,9 +153,7 @@ msgid "`Safari <http://www.apple.com/safari/>`_ 8+"
 msgstr ""
 
 #: ../about.rst:80
-msgid ""
-"`Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer"
-"/download-ie>`_ 11"
+msgid "`Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer/download-ie>`_ 11"
 msgstr ""
 
 #: ../about.rst:81
@@ -197,8 +194,8 @@ msgstr ""
 
 #: ../about.rst:95
 msgid ""
-"For further details see the :ref:`dedicated section <webgl_support>` in "
-"the Problems and Solutions chapter."
+"For further details see the :ref:`dedicated section <webgl_support>` in the Problems and Solutions "
+"chapter."
 msgstr "有关详细信息请参阅 :ref:`相关章节 <webgl_support>` 在问题和解决方案的篇章。"
 
 #: ../about.rst:102
@@ -214,15 +211,13 @@ msgid "crossplatform, intended for all desktop and embedded systems"
 msgstr "跨平台，适用于所有台式机和嵌入式系统"
 
 #: ../about.rst:106
-msgid ""
-"`open standard <http://en.wikipedia.org/wiki/Open_standard>`_, does not "
-"require licensing fees"
+msgid "`open standard <http://en.wikipedia.org/wiki/Open_standard>`_, does not require licensing fees"
 msgstr "`开放标准  <http://en.wikipedia.org/wiki/Open_standard>`_ ，不要求授权费用"
 
 #: ../about.rst:107
 msgid ""
-"supported by the leading participants of the IT market (Google, Apple, "
-"Microsoft, Nvidia, Samsung, Adobe and others)"
+"supported by the leading participants of the IT market (Google, Apple, Microsoft, Nvidia, Samsung, Adobe "
+"and others)"
 msgstr "由IT市场的主要参与者支持（谷歌，苹果，微软，NVIDIA，三星，Adobe和其他）"
 
 #: ../about.rst:108
@@ -230,9 +225,7 @@ msgid "based on OpenGL which is familiar to developers"
 msgstr "基于OpenGL对开发者来说非常熟悉"
 
 #: ../about.rst:109
-msgid ""
-"can be integrated with other :ref:`browser technologies "
-"<about_browser_tech>`"
+msgid "can be integrated with other :ref:`browser technologies <about_browser_tech>`"
 msgstr "可以与其他 :ref:`浏览器技术 <about_browser_tech>` 集成到一起"
 
 #: ../about.rst:117
@@ -241,13 +234,12 @@ msgstr "什么是Blender"
 
 #: ../about.rst:119
 msgid ""
-"Blender is a popular piece of software for 3D modeling and animation and "
-"is free and open source. Models and scenes which are created in this "
-"software can be displayed, for example, by means of a :ref:`three-"
+"Blender is a popular piece of software for 3D modeling and animation and is free and open source. Models "
+"and scenes which are created in this software can be displayed, for example, by means of a :ref:`three-"
 "dimensional engine <about_graphics_engine>` on a web page."
 msgstr ""
-"Blender是一个流行的软件进行3D建模和动画，是自由和开放源码的。在此软件创建模型和场景的显示相当于 :ref:`三维引擎 "
-"<about_graphics_engine>` 在网页上的展示。"
+"Blender是一个流行的软件进行3D建模和动画，是自由和开放源码的。在此软件创建模型和场景的显示相当于 :ref:`三"
+"维引擎 <about_graphics_engine>` 在网页上的展示。"
 
 #: ../about.rst:122 ../about.rst:127
 msgid "3D Modeling"
@@ -263,8 +255,8 @@ msgstr "典型的工作流程可以包括以下阶段："
 
 #: ../about.rst:133
 msgid ""
-"choosing photos and/or creating concepts and sketches (views from the "
-"front - from the side - from the above) of the future model or scene"
+"choosing photos and/or creating concepts and sketches (views from the front - from the side - from the "
+"above) of the future model or scene"
 msgstr "选择的照片和/或创建的概念和草图来做模型或场景的特征（前视图 - 侧视图 - 顶视图）"
 
 #: ../about.rst:134
@@ -272,9 +264,7 @@ msgid "modeling - a 3D model consisting of polygons is created"
 msgstr "建模 - 3D模型由多边形创建"
 
 #: ../about.rst:135
-msgid ""
-"UV mapping - the model is unwrapped for further overlaying of textures "
-"(flat images)"
+msgid "UV mapping - the model is unwrapped for further overlaying of textures (flat images)"
 msgstr "UV贴图 - 模型被解开铺平后进行的纹理制作（平面图像）"
 
 #: ../about.rst:136
@@ -283,32 +273,28 @@ msgstr "纹理 - 覆盖在3D模型上的肌理"
 
 #: ../about.rst:137
 msgid ""
-"materials setup - materials are assigned for different parts of the model"
-" and tuned (for example, a wooden door with a metal handle)"
+"materials setup - materials are assigned for different parts of the model and tuned (for example, a "
+"wooden door with a metal handle)"
 msgstr "材质设置 - 材料被分配给模型的不同部分和色调（例如，木门与金属柄）"
 
 #: ../about.rst:138
-msgid ""
-"rigging - the controlling elements (\"skeletal bones\") are attached to "
-"the model to animate it"
+msgid "rigging - the controlling elements (\"skeletal bones\") are attached to the model to animate it"
 msgstr "装配 - 控制单元（“骨架骨头”）附着在模型之上控制模型动画"
 
 #: ../about.rst:139
-msgid ""
-"animation - the model is set in motion to visualize actions for example -"
-" of characters"
+msgid "animation - the model is set in motion to visualize actions for example - of characters"
 msgstr "动画 - 让模型的运作动作可视化，比如--角色动画"
 
 #: ../about.rst:140
 msgid ""
-"export - can be performed on any stage to display the 3D model in its "
-"final form, for example, on a web page"
+"export - can be performed on any stage to display the 3D model in its final form, for example, on a web "
+"page"
 msgstr "输出 - 可以在任何阶段来显示3D模型的最终形态，例如，在网页上"
 
 #: ../about.rst:142
 msgid ""
-"In addition, realism improving techniques are often used in the process "
-"of creating 3D models which require additional stages:"
+"In addition, realism improving techniques are often used in the process of creating 3D models which "
+"require additional stages:"
 msgstr "此外，实践中的改善技术经常用于附加在创建3D模型的过程中："
 
 #: ../about.rst:144
@@ -317,21 +303,19 @@ msgstr "创建高精度多边形模型 - 模型的详细版本创建"
 
 #: ../about.rst:145
 msgid ""
-"\"baking\" of a normal map - details from the high-poly model are "
-"transferred to the main model in the form of a special texture (normal "
-"map)"
+"\"baking\" of a normal map - details from the high-poly model are transferred to the main model in the "
+"form of a special texture (normal map)"
 msgstr "“烘焙” 一个法线贴图 - 高多边形模型细节转到主模型的一个特殊纹理中（法线贴图）"
 
 #: ../about.rst:146
 msgid ""
-"creating a specular map - different reflection color and ratio are "
-"assigned to different model parts"
+"creating a specular map - different reflection color and ratio are assigned to different model parts"
 msgstr "创建镜面贴图 - 不同的反射颜色和比率被分配给不同的模型部件"
 
 #: ../about.rst:147
 msgid ""
-"baking environment maps - is performed to visualize the surrounding "
-"environment reflection on the model surface"
+"baking environment maps - is performed to visualize the surrounding environment reflection on the model "
+"surface"
 msgstr "烘焙环境贴图 - 将模型表面周围环境反射记录"
 
 #: ../about.rst:148
@@ -344,12 +328,13 @@ msgstr "物理模拟参数设置 - 粒子，布料"
 
 #: ../about.rst:151
 msgid ""
-"The time required to author 3D models and animation depends on their "
-"complexity and required quality and may vary from 1-2 days (for example a"
-" game item) to 1-2 weeks (for example a detailed aircraft model) and even"
-" to several months (realistic characters with clothing, hair, face sets, "
-"with animation and figure parameters setup)."
-msgstr "创作的3D模型和动画所需的时间取决于它们的复杂性和所需的质量，可能从1-2天不等（例如一个游戏项目）到1-2周（例如详细的飞机模型），甚至数月（现实人物与服装，发型，面部套，动画和特征参数设置）。"
+"The time required to author 3D models and animation depends on their complexity and required quality and "
+"may vary from 1-2 days (for example a game item) to 1-2 weeks (for example a detailed aircraft model) "
+"and even to several months (realistic characters with clothing, hair, face sets, with animation and "
+"figure parameters setup)."
+msgstr ""
+"创作的3D模型和动画所需的时间取决于它们的复杂性和所需的质量，可能从1-2天不等（例如一个游戏项目）到1-2周"
+"（例如详细的飞机模型），甚至数月（现实人物与服装，发型，面部套，动画和特征参数设置）。"
 
 #: ../about.rst:159
 msgid "Browser Technologies"
@@ -357,23 +342,21 @@ msgstr "浏览器技术"
 
 #: ../about.rst:161
 msgid ""
-"Browser is a program for viewing Internet content. At the dawn of "
-"Internet technologies the browser's role was to view text pages with the "
-"inclusion of static images (\"hyper-text\"). Modern browsers are full-"
-"scale platforms for multimedia web applications."
-msgstr "浏览器是一种用于查看网络内容的软件。在互联网技术的初期浏览器的作用是查看文本页面与包含在内的静态图像（“超文本”）。现代浏览器是多媒体网络应用程序完整的平台。"
+"Browser is a program for viewing Internet content. At the dawn of Internet technologies the browser's "
+"role was to view text pages with the inclusion of static images (\"hyper-text\"). Modern browsers are "
+"full-scale platforms for multimedia web applications."
+msgstr ""
+"浏览器是一种用于查看网络内容的软件。在互联网技术的初期浏览器的作用是查看文本页面与包含在内的静态图像（“超"
+"文本”）。现代浏览器是多媒体网络应用程序完整的平台。"
 
 #: ../about.rst:163
 msgid ""
-"Among the already implemented and promising browser features which are "
-"used in :ref:`Blend4Web <about_product>` the following technologies can "
-"be noted:"
+"Among the already implemented and promising browser features which are used in :ref:`Blend4Web "
+"<about_product>` the following technologies can be noted:"
 msgstr "其中在  :ref:`Blend4Web <about_product>`  使用的已经和可能使用的浏览器功能以下技术可以关注："
 
 #: ../about.rst:165
-msgid ""
-"three-dimensional graphics, `WebGL "
-"<https://www.khronos.org/registry/webgl/specs/latest/>`_"
+msgid "three-dimensional graphics, `WebGL <https://www.khronos.org/registry/webgl/specs/latest/>`_"
 msgstr "三维图形, `WebGL <https://www.khronos.org/registry/webgl/specs/latest/>`_"
 
 #: ../about.rst:166
@@ -382,14 +365,12 @@ msgstr "`类型数组 <https://www.khronos.org/registry/typedarray/specs/latest/
 
 #: ../about.rst:167
 msgid ""
-"`Timing control for script-based animations <http://www.w3.org/TR"
-"/animation-timing/>`_ (requestAnimationFrame)"
+"`Timing control for script-based animations <http://www.w3.org/TR/animation-timing/>`_ "
+"(requestAnimationFrame)"
 msgstr "`对于基于脚本的动画时序控制  <http://www.w3.org/TR/animation-timing/>`_ (需要动画帧)"
 
 #: ../about.rst:168
-msgid ""
-"two-dimensional graphics, `HTML Canvas 2D Context "
-"<http://www.w3.org/TR/2dcontext/>`_"
+msgid "two-dimensional graphics, `HTML Canvas 2D Context <http://www.w3.org/TR/2dcontext/>`_"
 msgstr "二维图形, `HTML 画布2D上下文 <http://www.w3.org/TR/2dcontext/>`_"
 
 #: ../about.rst:169
@@ -397,21 +378,15 @@ msgid "sound processing, `Web Audio API <http://www.w3.org/TR/webaudio/>`_"
 msgstr "声音处理, `网络音频API <http://www.w3.org/TR/webaudio/>`_"
 
 #: ../about.rst:170
-msgid ""
-"binary data loading, `XMLHttpRequest Level 2 "
-"<https://www.w3.org/TR/XMLHttpRequest2/>`_"
+msgid "binary data loading, `XMLHttpRequest Level 2 <https://www.w3.org/TR/XMLHttpRequest2/>`_"
 msgstr "二进制数据加载, `XMLHttpRequest Level 2 <http://www.w3.org/TR/XMLHttpRequest/>`_"
 
 #: ../about.rst:171
-msgid ""
-"`Fullscreen <http://dvcs.w3.org/hg/fullscreen/raw-"
-"file/tip/Overview.html>`_"
+msgid "`Fullscreen <http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html>`_"
 msgstr "`全屏 <http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html>`_"
 
 #: ../about.rst:172
-msgid ""
-"`Pointer Lock <http://dvcs.w3.org/hg/pointerlock/raw-"
-"file/default/index.html>`_"
+msgid "`Pointer Lock <http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html>`_"
 msgstr "`指针锁定 <http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html>`_"
 
 #: ../about.rst:173
@@ -432,22 +407,19 @@ msgstr "`可伸缩矢量图形（SVG） <http://www.w3.org/TR/SVG/>`_"
 
 #: ../about.rst:179
 msgid ""
-"safe file access, `File API <http://www.w3.org/TR/FileAPI/>`_, `File API:"
-" Directories and System <http://www.w3.org/TR/file-system-api/>`_"
+"safe file access, `File API <http://www.w3.org/TR/FileAPI/>`_, `File API: Directories and System <http://"
+"www.w3.org/TR/file-system-api/>`_"
 msgstr ""
-"安全文件访问, `文件 API <http://www.w3.org/TR/FileAPI/>`_, `File API: 目录和系统 "
-"<http://www.w3.org/TR/file-system-api/>`_"
+"安全文件访问, `文件 API <http://www.w3.org/TR/FileAPI/>`_, `File API: 目录和系统 <http://www.w3.org/TR/"
+"file-system-api/>`_"
 
 #: ../about.rst:180
 msgid ""
-"real-time communication between browsers, `WebRTC "
-"<http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
+"real-time communication between browsers, `WebRTC <http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
 msgstr "浏览器之间的实时通信, `WebRTC <http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
 
 #: ../about.rst:181
-msgid ""
-"persistent network connection, `The WebSocket API "
-"<http://www.w3.org/TR/websockets/>`_"
+msgid "persistent network connection, `The WebSocket API <http://www.w3.org/TR/websockets/>`_"
 msgstr "持久的网络连接, `WebSocket API <http://www.w3.org/TR/websockets/>`_"
 
 #: ../about.rst:182
@@ -460,28 +432,25 @@ msgstr "交互式图形"
 
 #: ../about.rst:192
 msgid ""
-"Applied to computer graphics the term \"interactive\" means that the user"
-" can interact with a constantly changing image. For example the user can "
-"change the view direction in a 3D scene, move the objects, trigger "
-"animation and carry out other actions normally associated with computer "
-"games."
+"Applied to computer graphics the term \"interactive\" means that the user can interact with a constantly "
+"changing image. For example the user can change the view direction in a 3D scene, move the objects, "
+"trigger animation and carry out other actions normally associated with computer games."
 msgstr ""
-"应用于计算机图形的术语 “交互式” "
-"是指用户可以与不断变化的图像进行交互。例如，用户可以在3D场景改变视线方向，移动对象，触发动画和执行通常与计算机游戏相关的其他动作。"
+"应用于计算机图形的术语 “交互式” 是指用户可以与不断变化的图像进行交互。例如，用户可以在3D场景改变视线方"
+"向，移动对象，触发动画和执行通常与计算机游戏相关的其他动作。"
 
 #: ../about.rst:194
 msgid ""
-"Graphics interactivity is achieved by utilizing a frequent change of "
-"images, so the user action (for example a mouse movement or the pressing "
-"of a key) between frames leads to the image changing in the next frame. "
-"Images must replace each other so frequently that the human eye could not"
-" recognize them individually (at least 30 frames per second)."
-msgstr "图形交互是通过利用图像的频繁变化实现的，所以帧之间的用户动作（例如，鼠标移动或按压一键）导致图像在下一帧中发生变化。图片必须相互替换非常频繁，人眼无法识别它们单独（至少每秒30帧）。"
+"Graphics interactivity is achieved by utilizing a frequent change of images, so the user action (for "
+"example a mouse movement or the pressing of a key) between frames leads to the image changing in the "
+"next frame. Images must replace each other so frequently that the human eye could not recognize them "
+"individually (at least 30 frames per second)."
+msgstr ""
+"图形交互是通过利用图像的频繁变化实现的，所以帧之间的用户动作（例如，鼠标移动或按压一键）导致图像在下一帧"
+"中发生变化。图片必须相互替换非常频繁，人眼无法识别它们单独（至少每秒30帧）。"
 
 #: ../about.rst:196
-msgid ""
-"\"Real-time graphics\" or \"real-time rendering\" are also similar in "
-"meaning to the term."
+msgid "\"Real-time graphics\" or \"real-time rendering\" are also similar in meaning to the term."
 msgstr "“实时图形” 或 “实时渲染”，术语在含义上是相似。"
 
 #: ../about.rst:204
@@ -490,34 +459,32 @@ msgstr "显卡和驱动程序"
 
 #: ../about.rst:206
 msgid ""
-"Interactive graphics is provided by a special-purpose hardware part of "
-"modern computers so called graphics processor which can be implemented as"
-" a discrete device (video card) or as a part of the central processing "
-"unit."
-msgstr "交互图形是由现代计算机一个特殊目的的硬件的一部分的所谓图形处理器可实现为分立装置（视频卡）或中央处理单元的一部分提供的。"
+"Interactive graphics is provided by a special-purpose hardware part of modern computers so called "
+"graphics processor which can be implemented as a discrete device (video card) or as a part of the "
+"central processing unit."
+msgstr ""
+"交互图形是由现代计算机一个特殊目的的硬件的一部分的所谓图形处理器可实现为分立装置（视频卡）或中央处理单元"
+"的一部分提供的。"
 
 #: ../about.rst:208
 msgid ""
-"Main graphics processors vendors for desktop computers are:  - Nvidia "
-"(GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM "
-"(Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are"
-" specified in brackets)."
+"Main graphics processors vendors for desktop computers are:  - Nvidia (GeForce, Quadro), AMD (Radeon), "
+"Intel (HD), for embedded devices - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade "
+"marks are specified in brackets)."
 msgstr ""
-"主要图形处理器厂商的台式电脑:  - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), "
-"嵌入式设备 - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) "
-"(商标在括号中指定)."
+"主要图形处理器厂商的台式电脑:  - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), 嵌入式设备 - ARM "
+"(Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (商标在括号中指定)."
 
 #: ../about.rst:210
 msgid ""
-"Program access to graphics processor resources is carried out via an "
-"intermediate program called driver. It's important for the correct "
-"working of interactive graphics programs to have drivers of the latest "
-"version in the system. Drivers can be installed (or upgraded) from "
-"corresponding websites of graphics processors vendors. See detailed info "
-"in the section :ref:`webgl_not_working`."
+"Program access to graphics processor resources is carried out via an intermediate program called driver. "
+"It's important for the correct working of interactive graphics programs to have drivers of the latest "
+"version in the system. Drivers can be installed (or upgraded) from corresponding websites of graphics "
+"processors vendors. See detailed info in the section :ref:`webgl_not_working`."
 msgstr ""
-"程序访问图形处理器资源，​​通过一个名为驱动中间程序进行。这是非常重要的交互式图形程序正确的工作有最新版本的系统中的驱动程序。驱动可以从相应的图形处理器厂商的网站进行安装（或升级）。"
-" 内容的详细信息 :ref:`webgl_not_working`."
+"程序访问图形处理器资源，​​通过一个名为驱动中间程序进行。这是非常重要的交互式图形程序正确的工作有最新版本的"
+"系统中的驱动程序。驱动可以从相应的图形处理器厂商的网站进行安装（或升级）。 内容的详细信息 :ref:"
+"`webgl_not_working`."
 
 #: ../about.rst:7
 msgid "Blend4Web"
@@ -576,4 +543,3 @@ msgstr "驱动程序"
 
 #~ msgid "Full Support"
 #~ msgstr "全面支持"
-

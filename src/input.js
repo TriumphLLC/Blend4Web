@@ -80,6 +80,7 @@ var HMD_SCREEN_WIDTH = 27;
 var HMD_SCREEN_HEIGHT = 28;
 var HMD_BEVEL_SIZE = 29;
 var MOUSE_LOCATION = 30;
+var MOUSE_LOCATION_PL = 31;
 var MOUSE_DOWN_WHICH = 40;
 var MOUSE_UP_WHICH = 50;
 var MOUSE_WHEEL = 60;
@@ -107,6 +108,7 @@ exports.HMD_SCREEN_HEIGHT = HMD_SCREEN_HEIGHT;
 exports.HMD_BEVEL_SIZE = HMD_BEVEL_SIZE;
 
 exports.MOUSE_LOCATION = MOUSE_LOCATION;
+exports.MOUSE_LOCATION_PL = MOUSE_LOCATION_PL;
 exports.MOUSE_DOWN_WHICH = MOUSE_DOWN_WHICH;
 exports.MOUSE_UP_WHICH = MOUSE_UP_WHICH;
 exports.MOUSE_WHEEL = MOUSE_WHEEL;
@@ -119,47 +121,48 @@ exports.TOUCH_END = TOUCH_END;
 exports.GYRO_ORIENTATION_QUAT = GYRO_ORIENTATION_QUAT;
 exports.GYRO_ORIENTATION_ANGLES = GYRO_ORIENTATION_ANGLES;
 
-exports.GMPD_BUTTON_0 = 0;
-exports.GMPD_BUTTON_1 = 1;
-exports.GMPD_BUTTON_2 = 2;
-exports.GMPD_BUTTON_3 = 3;
-exports.GMPD_BUTTON_4 = 4;
-exports.GMPD_BUTTON_5 = 5;
-exports.GMPD_BUTTON_6 = 6;
-exports.GMPD_BUTTON_7 = 7;
-exports.GMPD_BUTTON_8 = 8;
-exports.GMPD_BUTTON_9 = 9;
-exports.GMPD_BUTTON_10 = 10;
-exports.GMPD_BUTTON_11 = 11;
-exports.GMPD_BUTTON_12 = 12;
-exports.GMPD_BUTTON_13 = 13;
-exports.GMPD_BUTTON_14 = 14;
-exports.GMPD_BUTTON_15 = 15;
-exports.GMPD_BUTTON_16 = 16;
-exports.GMPD_BUTTON_17 = 17;
-exports.GMPD_BUTTON_18 = 18;
-exports.GMPD_BUTTON_19 = 19;
-exports.GMPD_BUTTON_20 = 20;
-exports.GMPD_BUTTON_21 = 21;
-exports.GMPD_BUTTON_22 = 22;
-exports.GMPD_BUTTON_23 = 23;
-exports.GMPD_BUTTON_24 = 24;
-exports.GMPD_BUTTON_25 = 25;
+exports.GMPD_BUTTON_0 = 300;
+exports.GMPD_BUTTON_1 = 301;
+exports.GMPD_BUTTON_2 = 302;
+exports.GMPD_BUTTON_3 = 303;
+exports.GMPD_BUTTON_4 = 304;
+exports.GMPD_BUTTON_5 = 305;
+exports.GMPD_BUTTON_6 = 306;
+exports.GMPD_BUTTON_7 = 307;
+exports.GMPD_BUTTON_8 = 308;
+exports.GMPD_BUTTON_9 = 309;
+exports.GMPD_BUTTON_10 = 310;
+exports.GMPD_BUTTON_11 = 311;
+exports.GMPD_BUTTON_12 = 312;
+exports.GMPD_BUTTON_13 = 313;
+exports.GMPD_BUTTON_14 = 314;
+exports.GMPD_BUTTON_15 = 315;
+exports.GMPD_BUTTON_16 = 316;
+exports.GMPD_BUTTON_17 = 317;
+exports.GMPD_BUTTON_18 = 318;
+exports.GMPD_BUTTON_19 = 319;
+exports.GMPD_BUTTON_20 = 320;
+exports.GMPD_BUTTON_21 = 321;
+exports.GMPD_BUTTON_22 = 322;
+exports.GMPD_BUTTON_23 = 323;
+exports.GMPD_BUTTON_24 = 324;
+exports.GMPD_BUTTON_25 = 325;
 
-exports.GMPD_AXIS_0 = 26;
-exports.GMPD_AXIS_1 = 27;
-exports.GMPD_AXIS_2 = 28;
-exports.GMPD_AXIS_3 = 29;
-exports.GMPD_AXIS_4 = 30;
-exports.GMPD_AXIS_5 = 31;
-exports.GMPD_AXIS_6 = 32;
-exports.GMPD_AXIS_7 = 33;
-exports.GMPD_AXIS_8 = 34;
-exports.GMPD_AXIS_9 = 35;
-exports.GMPD_AXIS_10 = 36;
-exports.GMPD_AXIS_11 = 37;
+exports.GMPD_AXIS_0 = 326;
+exports.GMPD_AXIS_1 = 327;
+exports.GMPD_AXIS_2 = 328;
+exports.GMPD_AXIS_3 = 329;
+exports.GMPD_AXIS_4 = 330;
+exports.GMPD_AXIS_5 = 331;
+exports.GMPD_AXIS_6 = 332;
+exports.GMPD_AXIS_7 = 333;
+exports.GMPD_AXIS_8 = 334;
+exports.GMPD_AXIS_9 = 335;
+exports.GMPD_AXIS_10 = 336;
+exports.GMPD_AXIS_11 = 337;
 
-var GMPD_AXIS_OFFSET = 26;
+var GMPD_AXIS_OFFSET = 326;
+var GMPD_BTNS_OFFSET = 300;
 var HMD_UPDATING_DELAY = 1;
 
 var _quat_tmp = m_quat.create();
@@ -399,17 +402,13 @@ function update_nonwebvr_fov(device) {
     var outer_dist  = (device.width_dist - device.inter_lens_dist) / 2;
     var distor_coef = device.distortion_coefs;
 
-    var bottom_tang = get_distort_fact_radius(distor_coef,
-            bottom_dist / device.screen_to_lens_dist);
+    var bottom_tang = bottom_dist / device.screen_to_lens_dist;
     var bottom_angle = m_util.rad_to_deg(Math.atan(bottom_tang));
-    var top_tang = get_distort_fact_radius(distor_coef,
-            top_dist / device.screen_to_lens_dist);
+    var top_tang = top_dist / device.screen_to_lens_dist;
     var top_angle = m_util.rad_to_deg(Math.atan(top_tang));
-    var inner_tang = get_distort_fact_radius(distor_coef,
-            inner_dist / device.screen_to_lens_dist);
+    var inner_tang = inner_dist / device.screen_to_lens_dist;
     var inner_angle = m_util.rad_to_deg(Math.atan(inner_tang));
-    var outer_tang = get_distort_fact_radius(distor_coef,
-            outer_dist / device.screen_to_lens_dist);
+    var outer_tang = outer_dist / device.screen_to_lens_dist;
     var outer_angle = m_util.rad_to_deg(Math.atan(outer_tang));
 
     // NOTE: 60...I don't know why
@@ -527,6 +526,7 @@ exports.get_vector_param = function(device, param, dest) {
     case HMD_FOV_RIGHT:
         return get_fov(device, "right", dest);
     case MOUSE_LOCATION:
+    case MOUSE_LOCATION_PL:
         dest[0] = device.mouse_location[0];
         dest[1] = device.mouse_location[1];
         return dest;
@@ -608,15 +608,19 @@ exports.set_config = function(device, config, value) {
 }
 
 exports.get_gamepad_btn_value = function(device, btn) {
-    if (btn < device.gamepad_btns.length)
-        return device.gamepad_btns[get_gamepad_btn_key(device, btn)];
+    var real_btn = btn - GMPD_BTNS_OFFSET;
+    if (real_btn < device.gamepad_btns.length)
+        return device.gamepad_btns[get_gamepad_btn_key(device, real_btn) -
+                GMPD_BTNS_OFFSET];
     else
         return false;
 }
 
 exports.get_gamepad_axis_value = function(device, btn) {
+    var real_axis = btn - GMPD_BTNS_OFFSET;
     if (btn - GMPD_AXIS_OFFSET < device.gamepad_axes.length) {
-        return device.gamepad_axes[get_gamepad_btn_key(device, btn) - GMPD_AXIS_OFFSET];
+        return device.gamepad_axes[get_gamepad_btn_key(device, real_axis) -
+                GMPD_AXIS_OFFSET];
     } else
         return 0;
 }
@@ -709,8 +713,8 @@ function update_hmd(device, timeline) {
 function update_gamepad_device(gamepad, device) {
     if (gamepad) {
         for (var i = 0; i < gamepad["buttons"].length; i++)
-            device.gamepad_btns[i] = gamepad["buttons"][i]["pressed"];
-        if (gamepad["axes"] && gamepad["axes"].length <= 12)
+            device.gamepad_btns[i] = gamepad["buttons"][i]["value"];
+        if (gamepad["axes"])
             for (var i = 0; i < gamepad["axes"].length; i++)
                 device.gamepad_axes[i] = gamepad["axes"][i];
     }
@@ -718,7 +722,7 @@ function update_gamepad_device(gamepad, device) {
 
 function clear_gamepad_device(device) {
     for (var i = 0; i < device.gamepad_btns; i++)
-        device.gamepad_btns[i] = false;
+        device.gamepad_btns[i] = 0;
     for (var i = 0; i < device.gamepad_axes.length; i++) {
         device.gamepad_prev_axes[i] = device.gamepad_axes[i];
         device.gamepad_axes[i] = 0;
@@ -739,6 +743,7 @@ exports.attach_param_cb = function(device, param, cb) {
         device.mouse_down_which_cb_list.push(cb);
         break;
     case MOUSE_LOCATION:
+    case MOUSE_LOCATION_PL:
         device.mouse_location_cb_list.push(cb);
         break;
     case MOUSE_UP_WHICH:
@@ -846,6 +851,18 @@ function unregister_event_listener(device, param, cb, force) {
             }
         }
         break;
+    case MOUSE_LOCATION_PL:
+        cb && replace_cb_with_null(device.mouse_location_cb_list, cb);
+        if (force || device.mouse_location_cb_list.every(is_null)) {
+            device.mouse_location_cb_list.length = 0;
+
+            var param_index = device.registered_event_listeners.indexOf(param);
+            if (param_index >= 0) {
+                device.registered_event_listeners.splice(param_index, 1);
+                device.element.removeEventListener("mousemove", pointerlock_cb, false);
+            }
+        }
+        break;
     case MOUSE_UP_WHICH:
         cb && replace_cb_with_null(device.mouse_up_which_cb_list, cb);
         if (force || device.mouse_up_which_cb_list.every(is_null)) {
@@ -947,6 +964,9 @@ function register_event_listener(device, event_name) {
         break;
     case MOUSE_LOCATION:
         device.element.addEventListener("mousemove", mouse_move_cb, false);
+        break;
+    case MOUSE_LOCATION_PL:
+        device.element.addEventListener("mousemove", pointerlock_cb, false);
         break;
     case MOUSE_UP_WHICH:
         if (!is_ios()) {
@@ -1155,6 +1175,47 @@ function mouse_move_cb(event) {
             device.mouse_location_cb_list.splice(i, 1);
 }
 
+function pointerlock_cb(event) {
+    if (_exist_touch) {
+        if (event.sourceCapabilities && event.sourceCapabilities.firesTouchEvents)
+            return;
+        if (event.mozInputSource == 5)
+            return;
+    }
+    var device = get_device_by_type_element(DEVICE_MOUSE, event.currentTarget);
+    update_device(device, event);
+
+    for (var i = 0; i < device.mouse_location_cb_list.length; i++) {
+        var cb = device.mouse_location_cb_list[i];
+        if (cb) {
+            if (typeof event.movementX == "number") {
+                var mx = event.movementX;
+                var my = event.movementY;
+            } else if (typeof event.webkitMovementX == "number") {
+                var mx = event.webkitMovementX;
+                var my = event.webkitMovementY;
+            } else if (typeof event.mozMovementX == "number") {
+                var mx = event.mozMovementX;
+                var my = event.mozMovementY;
+            } else {
+                var mx = 0;
+                var my = 0;
+            }
+            _location[0] = mx;
+            _location[1] = my;
+            cb(_location);
+        }
+    }
+
+    if (device.prevent_default)
+        event.preventDefault();
+
+    // remove unused callbacks
+    for (var i = 0; i < device.mouse_location_cb_list.length; i++)
+        if (!device.mouse_location_cb_list[i])
+            device.mouse_location_cb_list.splice(i, 1);
+}
+
 function mouse_down_cb(event) {
     if (_exist_touch) {
         // optimization for Chrome
@@ -1346,7 +1407,7 @@ exports.get_pressed_gmpd_btn = function(gamepad_id) {
     var device = get_device_by_type_element(type);
     for (var i = 0; i < device.gamepad_btns.length; i++)
         if (device.gamepad_btns[i])
-            return i;
+            return i + GMPD_BTNS_OFFSET;
     return -1;
 }
 
@@ -1395,6 +1456,41 @@ exports.get_first_gmpd_id = function() {
 exports.get_webvr_display = function() {
     var hmd_device = get_device_by_type_element(DEVICE_HMD);
     return hmd_device && hmd_device.webvr_display;
+}
+
+function enable_pointerlock(sensor) {
+    var elem = sensor.element;
+    var pointerlock_change = function() {
+        if (document.pointerLockElement === elem ||
+                document.webkitPointerLockElement === elem ||
+                document.mozPointerLockElement === elem) {
+            sensor.value = 1;
+        } else {
+            sensor.value = 0;
+            document.removeEventListener("pointerlockchange", pointerlock_change, false);
+            document.removeEventListener("webkitpointerlockchange", pointerlock_change, false);
+            document.removeEventListener("mozpointerlockchange", pointerlock_change, false);
+        }
+    }
+
+    document.addEventListener("pointerlockchange", pointerlock_change, false);
+    document.addEventListener("webkitpointerlockchange", pointerlock_change, false);
+    document.addEventListener("mozpointerlockchange", pointerlock_change, false);
+
+    var request_plock = elem.requestPointerLock ||
+            elem.webkitRequestPointerLock || elem.mozRequestPointerLock;
+
+    if (typeof request_plock === "function")
+        request_plock.apply(elem);
+}
+
+exports.activate_pointerlock = function(sensor) {
+    var elem = sensor.element;
+    var request_pointer_lock = function(e) {
+        if (!sensor.value)
+            enable_pointerlock(sensor);
+    }
+    elem.addEventListener("mousedown", request_pointer_lock, false);
 }
 
 }

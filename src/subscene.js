@@ -217,8 +217,8 @@ function init_subs(type) {
         horizon_color: new Float32Array(3),
         zenith_color: new Float32Array(3),
         sky_tex_fac: new Float32Array(4),
-        sun_intensity: new Float32Array([0,0,0]), // affects fog color
-        sun_direction: new Float32Array(3),
+        sun_intensity: new Float32Array(3), // affects fog color
+        sun_direction: new Float32Array([0,0,1]),
         sun_quaternion: new Float32Array(4),
         sky_tex_color: new Float32Array(3),
 
@@ -254,7 +254,6 @@ function init_subs(type) {
         rayleigh_collection_power: 0,
         mie_distribution: 0,
         sky_color: new Float32Array(3),
-        procedural_skydome: false,
 
         // ssao properties
         ssao_hemisphere: 0,
@@ -923,8 +922,6 @@ exports.create_subs_sky = function(wls, num_lights, sky_params, size) {
     subs.mie_collection_power        = sky_params.mie_collection_power;
     subs.mie_distribution            = sky_params.mie_distribution;
 
-    subs.procedural_skydome = sky_params.procedural_skydome ? true : false;
-
     if (wls) {
         subs.horizon_color.set(wls.horizon_color);
         subs.zenith_color.set(wls.zenith_color);
@@ -1166,9 +1163,6 @@ exports.append_draw_data = function(subs, rb) {
 
     var batch = rb.batch;
     var shader = batch.shader;
-
-    // TODO: need to find a better place to switch this flag
-    batch.shader_updated = false;
 
     // remove existing draw data if any
     for (var i = 0; i < subs.draw_data.length; i++) {

@@ -46,7 +46,9 @@ var _vec3_tmp3 = m_vec3.create();
 var _quat_tmp  = m_quat.create();
 var _quat_tmp2 = m_quat.create();
 var _quat_tmp3 = m_quat.create();
+var _quat_tmp4 = m_quat.create();
 
+var _offset_quat = m_quat.create();
 /**
  * HMD behavior enum.
  * @see {@link module:hmd.HMD_NONE_MOUSE_ALL_AXES},
@@ -175,6 +177,7 @@ function process_hmd(control_type, sensor) {
                 var hmd_quat = m_ctl.get_sensor_payload(obj, id, 1);
                 if (hmd_quat) {
                     if (control_type == HMD_ALL_AXES_MOUSE_NONE) {
+                        hmd_quat = m_quat.multiply(_offset_quat, hmd_quat, _quat_tmp4);
                         var up_axis = m_vec3.transformQuat(m_util.AXIS_MY, hmd_quat, _vec3_tmp);
                         m_cam.set_vertical_axis(cam_obj, up_axis);
                         m_trans.set_rotation_v(cam_obj, hmd_quat);
@@ -270,6 +273,24 @@ exports.disable_hmd = function() {
     // TODO: update_transform
     var cam_quat = m_trans.get_rotation(cam_obj, _quat_tmp);
     m_trans.set_rotation_v(cam_obj, cam_quat);
+}
+/**
+ * Set hmd initial rotation quat.
+ * @method module:hmd.set_rotate_quat
+ * @param {Quat} quat Initial rotation quaternion.
+ */
+exports.set_rotate_quat = function(quat) {
+    m_quat.copy(quat, _offset_quat);
+}
+/**
+ * Get hmd initial rotation quat.
+ * @method module:hmd.get_rotate_quat
+ * @param {Quat} dest Initial rotation quaternion.
+ * @return {Quat} dest.
+ */
+exports.get_rotate_quat = function(dest) {
+    m_quat.copy(_offset_quat, dest);
+    return dest;
 }
 
 };

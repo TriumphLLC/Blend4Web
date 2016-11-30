@@ -36,6 +36,8 @@
 
     * 线性到 SRGB和SRGB线性（已取消）
 
+  * Cycles Nodes
+
 着色器节点通过将现有的着色器进行基本变换和批处理，显著地扩展了Blender
 的标准材质的潜力。
 
@@ -49,9 +51,8 @@ Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不�
 建议在实时应用程序中使用。创建非常复杂的材质，尤其是使用大量的
 "Geometry" 和 "Texture" 节点，也不推荐。
 
-Cycles节点仅部分支持：在大多数情况下，他们在Blend4Web工作的方式跟他们
-在Blender的方式也不同。他们也可能不会完全工作，甚至导致使用它们的材质
-无法正常工作。然而，使用Cycles的节点不会在应用程序工作流中导致不稳定。
+The engine also has partial support for some of the Cycles nodes. This
+subject is more thoroughly described in the corresponding chapter.
 
 [1] 这个节点的法线贴图使用的 "Color Space" 参数需要设置为 "Non-
     Color". 如果没设置会引起各种不可预见的效果（尽管不会将引起弄崩溃）
@@ -304,7 +305,7 @@ Cycles节点仅部分支持：在大多数情况下，他们在Blend4Web工作�
 *值*
    插值。
 
-注解: 对于正确的插值，输入``Value`` 必须在 "Edge0" 和 "Edge1" 之间。
+注解: 对于正确的插值，输入 "Value" 必须在 "Edge0" 和 "Edge1" 之间。
 
 
 时间（B4W_TIME）
@@ -420,3 +421,48 @@ Cycles节点仅部分支持：在大多数情况下，他们在Blend4Web工作�
 [图片]
 
 参见: 伽马在节点材质中
+
+
+Cycles Nodes
+============
+
+注解: Cycles node support is an experimental feature that is not yet
+  recommended for using in production enviroment.
+
+The engine support the following "Cycles" nodes:
+
+* "Material Output" (only "Surface" input is supported);
+
+* "BSDF Diffuse";
+
+* "BSDF Glossy" (only "GGX" distribution is supported; the
+  "Roughness" parameter does not influence the reflections);
+
+* "Mix Shader";
+
+* "Fresnel";
+
+* "Layer Weight";
+
+* "Image Texture";
+
+* "Environment Texture";
+
+* "Object Info";
+
+* "Bump".
+
+The following nodes are partially supported:
+
+* "Texture Coordinates" ("From Dupli" parameter is not supported);
+
+* "UV Map" ("From Dupli" parameter is not supported);
+
+* "Geometry" (the "Pointness" and "Parametric" parameters are not
+  supported).
+
+Other "Cycles" nodes will not, in most cases, work in Blend4Web the
+same way they do in Blender. They also might not work at all or even
+cause material in which they are used to work incorrectly. However,
+using these nodes will not cause instabilities in the application
+workflow.

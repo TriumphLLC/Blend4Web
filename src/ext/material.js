@@ -50,8 +50,15 @@ var cfg_def = m_cfg.defaults;
  * @param {String} mat_from_name Source material name
  * @param {Object3D} obj_to Destination Object 3D
  * @param {String} mat_to_name Destination material name
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * var cube_001 = m_scenes.get_object_by_name("Cube.001");
+ * m_mat.inherit_material(cube, "Material", cube_001, "Material.001");
  */
-exports.inherit_material = function(obj_from, mat_from_name, obj_to, 
+exports.inherit_material = function(obj_from, mat_from_name, obj_to,
         mat_to_name) {
 
     if (!m_obj_util.is_dynamic_mesh(obj_to) || !m_obj_util.is_dynamic_mesh(obj_from)) {
@@ -102,6 +109,12 @@ exports.get_materials_names = function(obj) {
  * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {RGBA} color Color+alpha vector
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_mat.set_diffuse_color(cube, "Material", [0.5, 0, 0]);
  */
 exports.set_diffuse_color = function(obj, mat_name, color) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
@@ -170,6 +183,12 @@ exports.get_diffuse_intensity = function(obj, mat_name) {
  * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {RGB} color Color vector
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_mat.set_specular_color(cube, "Material", [0, 0.8, 0]);
  */
 exports.set_specular_color = function(obj, mat_name, color) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
@@ -240,6 +259,12 @@ exports.get_specular_color_factor = function(obj, mat_name) {
  * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} intensity Specular intensity value
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_mat.set_specular_intensity(cube, "Material", 0.7);
  */
 exports.set_specular_intensity = function(obj, mat_name, intensity) {
     if (!check_specular_intensity(obj, mat_name))
@@ -286,6 +311,12 @@ function check_specular_intensity(obj, mat_name) {
  * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} hardness Specular hardness value
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_mat.set_specular_hardness(cube, "Material", 0.8);
  */
 exports.set_specular_hardness = function(obj, mat_name, hardness) {
     if (!check_specular_hardness(obj, mat_name))
@@ -332,6 +363,12 @@ function check_specular_hardness(obj, mat_name) {
  * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} emit_factor Emit factor value
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_mat.set_emit_factor(cube, "Material", 1);
  */
 exports.set_emit_factor = function(obj, mat_name, emit_factor) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
@@ -434,6 +471,12 @@ exports.get_diffuse_color_factor = function(obj, mat_name) {
  * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @param {Number} alpha_factor Alpha factor value
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_mat.set_alpha_factor(cube, "Material", 0.2);
  */
 exports.set_alpha_factor = function(obj, mat_name,
         alpha_factor) {
@@ -584,7 +627,7 @@ exports.get_water_material_params = function(obj, water_mat_name) {
 
 /**
  * Set the material params
- * @method module:material.set_material_params
+ * @method module:material.set_material_extended_params
  * @param {Object3D} obj Object
  * @param {String} mat_name Material name
  * @param {MaterialExtParams} mat_params Material params
@@ -809,6 +852,15 @@ exports.set_water_material_params = function(obj, water_mat_name, water_mat_para
  * @method module:material.set_line_params
  * @param {Object3D} obj Line object
  * @param {LineParams} line_params Line params
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var empty = m_scenes.get_object_by_name("Empty");
+ * m_mat.set_line_params(empty, {
+ *     color: new Float32Array([1.0, 0.0, 0.0, 1.0]),
+ *     width: 5
+ * });
  */
 exports.set_line_params = function(obj, line_params) {
     var batch = m_batch.get_first_batch(obj);
@@ -850,6 +902,12 @@ exports.get_line_params = function(obj) {
  * nested node groups (if any) and the name of the Value node itself. Should
  * have at least 2 elements ["Mat","Node"]
  * @param {Number} value The value to set the Value node to
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_mat.set_nodemat_value(cube, ["Material", "Value"], 20);
  */
 exports.set_nodemat_value = function(obj, name_list, value) {
 
@@ -923,6 +981,12 @@ exports.get_nodemat_value = function(obj, name_list) {
  * @param {Number} r The value to set the red channel of the RGB node to [0..1]
  * @param {Number} g The value to set the green channel of the RGB node to [0..1]
  * @param {Number} b The value to set the blue channel of the RGB node to [0..1]
+ * @example 
+ * var m_mat = require("material");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], 1, 0, 1);
  */
 exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
 

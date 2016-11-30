@@ -131,6 +131,9 @@ exports.get_scenes = function() {
  * Return the active camera object from the active scene.
  * @method module:scenes.get_active_camera
  * @returns {Object3D} Camera object.
+ * @example 
+ * var m_scenes = require("scenes");
+ * var camera = m_scenes.get_active_camera();
  */
 exports.get_active_camera = function() {
     if (!m_scenes.check_active()) {
@@ -146,9 +149,12 @@ exports.get_active_camera = function() {
  * @param {String} name Object name
  * @param {Number} [data_id=0] ID of loaded data
  * @returns {Object3D} Object 3D
+ * @example 
+ * var m_scenes = require("scenes");
+ * var cube = m_scenes.get_object_by_name("Cube");
  */
 exports.get_object_by_name = function(name, data_id) {
-    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_NAME, name, data_id | 0);
+    var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_NAME, name, data_id | 0, true);
     if (obj)
         return obj;
     else
@@ -221,6 +227,17 @@ exports.get_object_data_id = function(obj) {
  * @method module:scenes.pick_object
  * @param {Number} x X Canvas coordinate.
  * @param {Number} y Y Canvas coordinate.
+ * @returns {Object3D?} The object under the given coordinates or null.
+ * @example 
+ * var m_cont = require("container");
+ * var m_scenes = require("scenes");
+ *
+ * var canvas_cont = m_cont.get_container();
+ * cont.addEventListener("mousedown", down_cb);
+ * var down_cb = function(event) {
+ *     var obj = m_scenes.pick_object(event.clientX, event.clientY);
+ * }
+ * @returns {Object3D?} The object under the given coordinates or null.
  */
 exports.pick_object = m_obj.pick_object;
 
@@ -228,7 +245,6 @@ exports.pick_object = m_obj.pick_object;
  * Check if the outlining is enabled or not for the object.
  * @method module:scenes.outlining_is_enabled
  * @param {Object3D} obj Object 3D
- * @param {Boolean} value Is enabled?
  * @returns {Boolean} Checking result.
  */
 exports.outlining_is_enabled = function(obj) {
@@ -1054,7 +1070,7 @@ exports.check_object = function(obj) {
  */
 exports.check_object_by_name = function(name, data_id) {
     var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_NAME, name,
-                                  data_id | 0);
+            data_id | 0, true);
     if (obj)
         return true;
     else
@@ -1072,7 +1088,7 @@ exports.check_object_by_name = function(name, data_id) {
 exports.check_object_by_dupli_name = function(empty_name, dupli_name,
         data_id) {
     var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME, empty_name,
-                                  dupli_name, data_id | 0);
+            dupli_name, data_id | 0);
     if (obj)
         return true;
     else
@@ -1088,7 +1104,7 @@ exports.check_object_by_dupli_name = function(empty_name, dupli_name,
  */
 exports.check_object_by_dupli_name_list = function(name_list, data_id) {
     var obj = m_obj.get_object(m_obj.GET_OBJECT_BY_DUPLI_NAME_LIST,
-                                  name_list, data_id | 0);
+            name_list, data_id | 0);
     if (obj)
         return true;
     else
@@ -1111,7 +1127,7 @@ exports.get_all_objects = function(type, data_id) {
     if (!data_id &amp;&amp; data_id !== 0)
         data_id = m_obj.DATA_ID_ALL;
 
-    return m_obj.get_scene_objs(scene, type, data_id);
+    return m_obj.get_scene_objs_derived(scene, type, data_id);
 }
 
 /**
@@ -1364,13 +1380,13 @@ exports.can_select_objects = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Oct 27 2016 16:42:34 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:45 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

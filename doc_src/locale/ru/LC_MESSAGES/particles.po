@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2016-11-23 15:38+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -269,30 +269,28 @@ msgstr ""
 " ``Emission > Start``. По умолчанию выключено."
 
 #: ../particles.rst:106
-msgid "*Emission > Random Delay*"
+msgid "*Emission > Allow NLA*"
 msgstr ""
 
 #: ../particles.rst:106
+msgid ""
+"Activating this option allows particle emission to be controlled by NLA. "
+"Enabled by default."
+msgstr ""
+"Если эта опция включена, испускание частиц может контролироваться с помощью "
+"NLA. По умолчанию активировано."
+
+#: ../particles.rst:110
+msgid "*Emission > Random Delay*"
+msgstr ""
+
+#: ../particles.rst:109
 msgid ""
 "The option enables a random emission time for particles. Disabled by "
 "default."
 msgstr ""
 "Опция устанавливает случайный характер времени испускания частиц. По "
 "умолчанию выключено."
-
-#: ../particles.rst:110
-msgid "*Emission > Emit From > Distribution*"
-msgstr ""
-
-#: ../particles.rst:109
-msgid ""
-"Emission distribution settings: ``Jittered``, ``Random``, ``Grid``. "
-"Ignored by the engine. Internally the engine always uses ``Random`` "
-"distribution. The default is ``Jittered``."
-msgstr ""
-"Настройки распределения испускания: ``Jittered``, ``Random``, ``Grid``. "
-"Игнорируются движком. Всегда используется случайное распределение "
-"(``Random``). Значение по умолчанию ``Jittered``."
 
 #: ../particles.rst:113
 msgid "Direction Settings"
@@ -676,4 +674,20 @@ msgstr "система частиц"
 #: ../particles.rst:3
 msgid "fluids"
 msgstr "флюиды"
+
+#~ msgid "*Emission > Emit From > Distribution*"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Emission distribution settings: ``Jittered``, "
+#~ "``Random``, ``Grid``. Ignored by the "
+#~ "engine. Internally the engine always "
+#~ "uses ``Random`` distribution. The default "
+#~ "is ``Jittered``."
+#~ msgstr ""
+#~ "Настройки распределения испускания: ``Jittered``,"
+#~ " ``Random``, ``Grid``. Игнорируются движком. "
+#~ "Всегда используется случайное распределение "
+#~ "(``Random``). Значение по умолчанию "
+#~ "``Jittered``."
 

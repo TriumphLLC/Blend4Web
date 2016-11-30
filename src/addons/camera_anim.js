@@ -71,10 +71,11 @@ var _is_camera_stop_rotating = false;
  */
 
 /**
- * Callback to be executed when the camera finishes its zoom animation.
+ * Callback to be executed when the camera finishes its zoom-in animation.
  * See track_to_target() method.
  * @callback TrackToTargetZoomCallback
  */
+
 
 /**
  * Smoothly rotate the EYE camera to make it pointing at the specified
@@ -82,188 +83,105 @@ var _is_camera_stop_rotating = false;
  * pause and zoom back.
  * @param {Object3D} cam_obj Camera object 3D
  * @param {(Object3D|Vec3)} target Target object or target position
- * @param {Number} rot_speed Rotation speed, radians per second
- * @param {Number} zoom_mult Zoom level value
- * @param {Number} zoom_time Time it takes to zoom on the target, seconds
- * @param {Number} zoom_delay Delay before the camera zooms back, seconds
- * @param {TrackToTargetCallback} [callback] Finishing callback
- * @param {TrackToTargetZoomCallback} [zoom_cb] Zoom callback
+ * @param {?Number} [rot_speed=1] Rotation speed, radians per second
+ * @param {?Number} [zoom_mult=2] Zoom level value
+ * @param {?Number} [zoom_time=1] Time it takes to zoom on the target, seconds
+ * @param {?Number} [zoom_delay=1] Delay before the camera zooms back, seconds
+ * @param {?TrackToTargetCallback} track_cb Track finishing callback
+ * @param {?TrackToTargetZoomCallback} zoom_in_cb Zoom-in callback
  */
-exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
-                                    zoom_time, zoom_delay, callback, zoom_cb) {
+exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult, 
+        zoom_time, zoom_delay, track_cb, zoom_in_cb) {
 
     if (!m_cam.is_eye_camera(cam_obj)) {
-        m_print.error("track_to_target(): wrong object");
+        m_print.error("track_to_target(): Wrong camera object or camera move style");
         return;
     }
 
-    if (!cam_obj)
-        return;
-
-    if (!target)
-        return;
-    else if (m_util.is_vector(target))
+    if (m_util.is_vector(target))
         var obj_pos = target;
     else {
-        var obj_pos = _vec3_tmp3;
+        var obj_pos = _vec3_tmp;
         m_trans.get_object_center(target, false, obj_pos);
     }
 
-    var rot_sp  = rot_speed  || 1;
-    var zoom_m  = zoom_mult  || 2;
-    var zoom_t  = zoom_time  || 1;
-    var zoom_d  = zoom_delay || 1;
+    rot_speed  = rot_speed  || 1;
+    zoom_mult  = zoom_mult  || 2;
+    zoom_time  = zoom_time  || 1;
+    zoom_delay  = zoom_delay || 1;
 
-    var def_dir = _vec3_tmp2;
-    def_dir[0]  = 0;
-    def_dir[1]  = -1;
-    def_dir[2]  = 0;
+    var cam_pos = m_trans.get_translation(cam_obj, _vec3_tmp2);
+    var dir_to_target = m_vec3.subtract(obj_pos, cam_pos, _vec3_tmp3);
 
-    var cam_quat   = m_trans.get_rotation(cam_obj);
-    var cam_dir    = m_util.quat_to_dir(cam_quat, def_dir);
-    var cam_angles = m_cam.get_camera_angles(cam_obj, _vec2_tmp);
+    var start_angles = m_cam.get_camera_angles(cam_obj, _vec2_tmp);
+    var finish_angles = m_cam.get_camera_angles_dir(dir_to_target, _vec2_tmp2);
 
-    // direction vector to the target
-    var dir_to_obj = _vec3_tmp;
-    var cam_pos    = m_trans.get_translation(cam_obj);
-    m_vec3.subtract(obj_pos, cam_pos, dir_to_obj);
-    m_vec3.normalize(dir_to_obj, dir_to_obj);
+    var phi_angle = finish_angles[0] - start_angles[0];
+    var theta_angle = finish_angles[1] - start_angles[1];
 
-    // quaternion between current camera vector and new camera vector
-    var rot_quat = m_quat.rotationTo(cam_dir, dir_to_obj, m_quat.create());
+    // calculate arc angle on a unit sphere using the spherical law of cosines
+    var arc_angle = Math.acos(Math.cos(phi_angle) * Math.cos(theta_angle));
+    var rot_time = Math.abs(arc_angle / rot_speed);
 
-    // final quaternion for the camera
-    var quat = _quat4_tmp;
-    m_quat.multiply(rot_quat, cam_quat, quat);
+    var zoom_dist = m_vec3.length(dir_to_target) * (1 - 1 / zoom_mult);
 
-    m_util.correct_cam_quat_up(quat, false);
-
-    // distance to zoom point
-    var sub_vec = _vec3_tmp2;
-    m_vec3.subtract(obj_pos, cam_pos, sub_vec);
-    var zoom_distance = m_vec3.length(sub_vec) * (1 - 1 / zoom_m);
-
-    // destination angles
-    var angle_to_obj_y = Math.asin(dir_to_obj[1]);
-    var angle_to_obj_x =
-                 Math.acos(-dir_to_obj[2] / Math.abs(Math.cos(angle_to_obj_y)));
-
-    if (dir_to_obj[0] > 0)
-        angle_to_obj_x = 2 * Math.PI - angle_to_obj_x;
-
-    // delta rotate angles
-    var angle_x = angle_to_obj_x - cam_angles[0];
-    var angle_y = angle_to_obj_y - cam_angles[1];
-
-    var cam_dir_z = _vec3_tmp3;
-    cam_dir_z[0]  = 0;
-    cam_dir_z[1]  = 0;
-    cam_dir_z[2]  = -1;
-
-    var cam_rot_quat = m_trans.get_rotation(cam_obj);
-    var cam_rot_dir  = m_util.quat_to_dir(cam_rot_quat, cam_dir_z);
-
-    if (cam_rot_dir[1] < 0) {
-        if (cam_dir[1] > 0)
-            angle_y = angle_to_obj_y - Math.PI + cam_angles[1];
-        else
-            angle_y = angle_to_obj_y + Math.PI + cam_angles[1];
-
-        if (angle_x > 0)
-            angle_x = -Math.PI + angle_x;
-        else
-            angle_x = Math.PI + angle_x;
-
-    } else {
-        if(Math.abs(angle_x) > Math.PI)
-            if (angle_x > 0)
-                angle_x = angle_x - 2 * Math.PI;
-            else
-                angle_x = angle_x + 2 * Math.PI;
-    }
-
-    // action conditions
-    var cur_time       = 0;
-    var elapsed        = m_ctl.create_elapsed_sensor();
-    var rot_end_time_x = Math.abs(angle_x / rot_sp);
-    var rot_end_time_y = Math.abs(angle_y / rot_sp);
-    var rot_end_time   =
-        rot_end_time_x > rot_end_time_y ? rot_end_time_x : rot_end_time_y;
-    var zoom_end_time  = rot_end_time + zoom_t;
-    var zoom_end_delay = zoom_end_time + zoom_d;
-    var finish_time    = zoom_end_delay + zoom_t;
-
-    var dest_ang_x   = angle_x;
-    var dest_ang_y   = angle_y;
-    var dest_trans_x = zoom_distance;
 
     var smooth_function = function(x) {
         var f = 6 * x * (1 - x);
         return f;
     }
 
-    var track_cb = function(obj, id, pulse) {
-        if (pulse) {
+    var _start_time = m_time.get_timeline();
+    var _stage = 0;
+    var track_to_target_cb = function(obj, id, pulse) {
+        // NOTE: if move_style was changed during the tracking
+        if (!m_cam.is_eye_camera(obj)) {
+            disable_cb();
+            return;
+        }
 
-            // NOTE: if move_style was changed during the tracking
-            if (!m_cam.is_eye_camera(obj)) {
-                disable_cb();
-                return;
-            }
+        if (pulse == 1) {
+            var curr_time = m_ctl.get_sensor_value(obj, id, 0) - _start_time;
+            var elapsed = m_ctl.get_sensor_value(obj, id, 1);
 
-            var value = m_ctl.get_sensor_value(obj, id, 0);
-            cur_time += value;
+            if (curr_time < rot_time) {
+                var smooth_coeff = smooth_function(curr_time / rot_time);
+                var phi_delta = smooth_coeff * phi_angle * elapsed / rot_time;
+                var theta_delta = smooth_coeff * theta_angle * elapsed / rot_time;
+                m_cam.eye_rotate(cam_obj, phi_delta, theta_delta);
+            } else if (curr_time < rot_time + zoom_time) {
 
-            if (cur_time < rot_end_time) {
-
-                var delta_x = angle_x / rot_end_time * value;
-                var delta_y = angle_y / rot_end_time * value;
-
-                // smoothing
-                var time_ratio = cur_time / rot_end_time;
-                var slerp      = smooth_function(time_ratio);
-
-                delta_x *= slerp;
-                delta_y *= slerp;
-
-                dest_ang_x -= delta_x;
-                dest_ang_y -= delta_y;
-
-                m_cam.eye_rotate(obj, delta_x, delta_y);
-
-            } else if (cur_time < zoom_end_time) {
-
-                if (dest_ang_x) {
-                    m_cam.eye_rotate(obj, dest_ang_x, dest_ang_y);
-                    dest_ang_x = 0;
-
-                    if (zoom_cb)
-                        zoom_cb();
+                if (_stage == 0) {
+                    m_cam.eye_rotate(cam_obj, finish_angles[0], finish_angles[1], true, true);
+                    _stage++;
                 }
 
-                var time_ratio = (cur_time - rot_end_time)/ zoom_t;
-                var delta      = -zoom_distance * value / zoom_t;
-                dest_trans_x  -= delta_x;
-
-                delta *= smooth_function(time_ratio);
-                m_trans.move_local(obj, 0, delta, 0);
-
-            } else if (cur_time < zoom_end_delay) {
-                if (dest_trans_x) {
-                    m_trans.move_local(obj, 0, dest_trans_x, 0);
-                    dest_trans_x = 0;
+                var smooth_coeff = smooth_function(curr_time - rot_time / zoom_time);
+                var delta_dist = smooth_coeff * zoom_dist * elapsed / zoom_time;
+                m_trans.move_local(obj, 0, 0, -delta_dist);
+            } else if (curr_time < rot_time + zoom_time + zoom_delay) {
+                if (_stage <= 1) {
+                    m_cam.eye_rotate(cam_obj, finish_angles[0], finish_angles[1], true, true);
+                    m_cam.eye_set_look_at(cam_obj, cam_pos);
+                    m_trans.move_local(obj, 0, 0, -zoom_dist);
+                    if (zoom_in_cb)
+                        zoom_in_cb();
+                    
+                    _stage++;
                 }
-                // waiting for zoom delay
-
-            } else if (cur_time < finish_time) {
-                var time_ratio = (cur_time - zoom_end_delay)/ zoom_t;
-                var delta      = zoom_distance * value / zoom_t;
-
-                delta *= smooth_function(time_ratio);
-                m_trans.move_local(obj, 0, delta, 0);
-
+            } else if (curr_time < rot_time + zoom_time + zoom_delay + zoom_time) {
+                if (_stage <= 2) {
+                    m_cam.eye_rotate(cam_obj, finish_angles[0], finish_angles[1], true, true);
+                    m_cam.eye_set_look_at(cam_obj, cam_pos);
+                    m_trans.move_local(obj, 0, 0, -zoom_dist);
+                    _stage++;
+                }
+                var smooth_coeff = smooth_function(curr_time - rot_time - zoom_time - zoom_delay / zoom_time);
+                var delta_dist = smooth_coeff * zoom_dist * elapsed / zoom_time;
+                m_trans.move_local(obj, 0, 0, delta_dist);
             } else {
-                m_trans.set_translation_v(obj, cam_pos);
+                m_cam.eye_rotate(cam_obj, finish_angles[0], finish_angles[1], true, true);
+                m_cam.eye_set_look_at(cam_obj, cam_pos);
                 disable_cb();
             }
         }
@@ -271,16 +189,14 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
 
     var disable_cb = function() {
         m_ctl.remove_sensor_manifold(cam_obj, "TRACK_TO_TARGET");
-        if (callback)
-            callback();
+        if (track_cb)
+            track_cb();
     }
 
-    m_ctl.create_sensor_manifold(cam_obj,
-                                "TRACK_TO_TARGET",
-                                m_ctl.CT_CONTINUOUS,
-                                [elapsed],
-                                null,
-                                track_cb);
+    var timeline = m_ctl.create_timeline_sensor();
+    var elapsed = m_ctl.create_elapsed_sensor();
+    m_ctl.create_sensor_manifold(cam_obj, "TRACK_TO_TARGET", m_ctl.CT_CONTINUOUS,
+            [timeline, elapsed], null, track_to_target_cb);
 }
 
 function init_limited_rotation_ratio(obj, limits, auto_rotate_ratio) {
@@ -657,7 +573,8 @@ exports.stop_cam_rotating = function() {
 }
 
 /**
- * Check if the camera is moving.
+ * Check if the camera is being moved by the 
+ * {@link module:camera_anim.move_camera_to_point|move_camera_to_point} function.
  * @method module:camera_anim.is_moving
  * @returns {Boolean} Result of the check: true - when the camera is
  * moving, false - otherwise.
@@ -667,7 +584,8 @@ exports.is_moving = function() {
 }
 
 /**
- * Check if the camera is rotating.
+ * Check if the camera is being rotated by the 
+ * {@link module:camera_anim.rotate_camera|rotate_camera} function.
  * @method module:camera_anim.is_rotating
  * @returns {Boolean} Result of the check: true - when the camera is
  * rotating, false - otherwise.

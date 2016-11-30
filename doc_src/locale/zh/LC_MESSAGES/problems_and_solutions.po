@@ -9,13 +9,15 @@ msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-27 15:59+0300\n"
-"PO-Revision-Date: 2016-10-02 15:43+0800\n"
+"PO-Revision-Date: 2016-10-28 17:33+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../problems_and_solutions.rst:5
 msgid "Problems and Solutions"
@@ -27,11 +29,12 @@ msgstr "目录"
 
 #: ../problems_and_solutions.rst:11
 msgid ""
-"As WebGL is still a relatively new technology, it may not work perfectly "
-"with every combination of software and hardware. This chapter covers "
-"common problems that users of the Blend4Web engine may encounter and "
-"provides solutions for these problems."
-msgstr "WebGL仍然是一个相对较新的技术，可能不完全与软件和硬件的各种组合工作。本章介绍了Blend4Web引擎的用户可能会遇到，并提供了解决这些问题的常见问题。"
+"As WebGL is still a relatively new technology, it may not work perfectly with every "
+"combination of software and hardware. This chapter covers common problems that users "
+"of the Blend4Web engine may encounter and provides solutions for these problems."
+msgstr ""
+"WebGL仍然是一个相对较新的技术，可能不完全与软件和硬件的各种组合工作。本章介绍了"
+"Blend4Web引擎的用户可能会遇到，并提供了解决这些问题的常见问题。"
 
 #: ../problems_and_solutions.rst:16
 msgid "WebGL Support"
@@ -39,9 +42,11 @@ msgstr "WebGL的支持"
 
 #: ../problems_and_solutions.rst:18
 msgid ""
-"If you are using a desktop or laptop computer, your system must have a "
-"GPU that supports DirectX 9.0c and OpenGL 2.1, such as:"
-msgstr "如果您使用的是台式机或笔记本电脑，您的系统必须有一个支持的DirectX 9.0c和OpenGL 2.1的GPU，如："
+"If you are using a desktop or laptop computer, your system must have a GPU that "
+"supports DirectX 9.0c and OpenGL 2.1, such as:"
+msgstr ""
+"如果您使用的是台式机或笔记本电脑，您的系统必须有一个支持的DirectX 9.0c和OpenGL 2.1的"
+"GPU，如："
 
 #: ../problems_and_solutions.rst:20
 msgid "Nvidia GeForce 6xxx series or higher."
@@ -57,9 +62,11 @@ msgstr "英特尔GMA 950或更高。"
 
 #: ../problems_and_solutions.rst:26
 msgid ""
-"If you are using WebGL on a mobile device, please check whether your "
-"device is on the `compatibility list <http://mobilehtml5.org/>`_."
-msgstr "如果您使用的是移动设备上的WebGL，请检查您的设备是否是 `兼容性列表 <http://mobilehtml5.org/>`_。"
+"If you are using WebGL on a mobile device, please check whether your device is on "
+"the `compatibility list <http://mobilehtml5.org/>`_."
+msgstr ""
+"如果您使用的是移动设备上的WebGL，请检查您的设备是否是 `兼容性列表 <http://"
+"mobilehtml5.org/>`_。"
 
 #: ../problems_and_solutions.rst:28
 msgid "You also need to have a web browser that supports WebGL technology."
@@ -103,8 +110,8 @@ msgstr "UC Browser (experimental)"
 
 #: ../problems_and_solutions.rst:41
 msgid ""
-"We also recommend to use the most recent version of the web browser to "
-"avoid compatibility problems."
+"We also recommend to use the most recent version of the web browser to avoid "
+"compatibility problems."
 msgstr "我们也建议使用的最近的web浏览器的版本，以避免兼容性问题。"
 
 #: ../problems_and_solutions.rst:46
@@ -121,12 +128,12 @@ msgstr "请按照 :ref:`webgl_not_working` 章节列出的说明."
 
 #: ../problems_and_solutions.rst:56
 msgid ""
-"*2. The user interface or background is shown but the default scene is "
-"not rendered. At the same time the* http://get.webgl.org/ *site and other"
-" WebGL applications are working correctly.*"
+"*2. The user interface or background is shown but the default scene is not rendered. "
+"At the same time the* http://get.webgl.org/ *site and other WebGL applications are "
+"working correctly.*"
 msgstr ""
-"*2. 用户界面和背景显示但是默认场景没有渲染出来。同时 * http://get.webgl.org/ * 网站和其他 WebGL "
-"应用正常工作.*"
+"*2. 用户界面和背景显示但是默认场景没有渲染出来。同时 * http://get.webgl.org/ * 网站和"
+"其他 WebGL 应用正常工作.*"
 
 #: ../problems_and_solutions.rst:58
 msgid "Possible causes:"
@@ -146,10 +153,12 @@ msgstr "您正在使用不完全支持WebGL的开源驱动。"
 
 #: ../problems_and_solutions.rst:66
 msgid ""
-"For Linux users - due to incomplete OpenGL implementation in open source "
-"drivers at the moment it is recommended to use current versions of "
-"proprietary drivers for Nvidia and AMD video cards."
-msgstr "对于Linux用户 - 由于目前的开源驱动程序不完整的OpenGL实现，建议使用Nvidia和AMD显卡的专用的驱动程序最新版本。"
+"For Linux users - due to incomplete OpenGL implementation in open source drivers at "
+"the moment it is recommended to use current versions of proprietary drivers for "
+"Nvidia and AMD video cards."
+msgstr ""
+"对于Linux用户 - 由于目前的开源驱动程序不完整的OpenGL实现，建议使用Nvidia和AMD显卡的专"
+"用的驱动程序最新版本。"
 
 #: ../problems_and_solutions.rst:68
 msgid "You are using an outdated operating system, such as Windows XP."
@@ -157,12 +166,11 @@ msgstr "您正在使用过时的操作系统，如Windows XP。"
 
 #: ../problems_and_solutions.rst:70
 msgid ""
-"Browser is not set up for loading local resources. In this case, the "
-"problem can be fixed by using local web server. See the "
-":ref:`browser_for_local_loading` section."
+"Browser is not set up for loading local resources. In this case, the problem can be "
+"fixed by using local web server. See the :ref:`browser_for_local_loading` section."
 msgstr ""
-"浏览器没有设置加载本地资源。在这种情况下，这个问题可以通过使用本地网络服务器 是固定的。请参阅 "
-":ref:`browser_for_local_loading` 部分。"
+"浏览器没有设置加载本地资源。在这种情况下，这个问题可以通过使用本地网络服务器 是固定"
+"的。请参阅 :ref:`browser_for_local_loading` 部分。"
 
 #: ../problems_and_solutions.rst:76
 msgid "WebGL Failed to Initialize"
@@ -170,30 +178,30 @@ msgstr "WebGL的无法初始化"
 
 #: ../problems_and_solutions.rst:78
 msgid ""
-"The http://get.webgl.org/ page tells about problems when viewing it in "
-"recent Chrome or Firefox. What can I do?"
-msgstr "使用最近的Chrome或Firefox浏览 http://get.webgl.org/ 页时出现的问题。我能做什么？"
+"The http://get.webgl.org/ page tells about problems when viewing it in recent Chrome "
+"or Firefox. What can I do?"
+msgstr ""
+"使用最近的Chrome或Firefox浏览 http://get.webgl.org/ 页时出现的问题。我能做什么？"
 
 #: ../problems_and_solutions.rst:81
 msgid ""
-"Install the latest updates for your system (for MS Windows see `the guide"
-" <http://support.microsoft.com/kb/311047>`_). In case of MS Windows "
-"install the latest `DirectX runtime <https://www.microsoft.com/en-"
-"us/Download/confirmation.aspx?id=35>`_. Reboot."
+"Install the latest updates for your system (for MS Windows see `the guide <http://"
+"support.microsoft.com/kb/311047>`_). In case of MS Windows install the latest "
+"`DirectX runtime <https://www.microsoft.com/en-us/Download/confirmation.aspx?"
+"id=35>`_. Reboot."
 msgstr ""
-"安装最新的更新，为您的系统（用于MS Windows看 `指南  "
-"<http://support.microsoft.com/kb/311047>`_)。在微软Windows的情况下安装最新的DirectX "
-"`运行 <https://www.microsoft.com/en-us/Download/confirmation.aspx?id=35>`_ "
-"。重启。"
+"安装最新的更新，为您的系统（用于MS Windows看 `指南  <http://support.microsoft.com/"
+"kb/311047>`_)。在微软Windows的情况下安装最新的DirectX `运行 <https://www.microsoft."
+"com/en-us/Download/confirmation.aspx?id=35>`_ 。重启。"
 
 #: ../problems_and_solutions.rst:83
 msgid ""
-"It is recommended to timely update video card drivers. To detect your "
-"video card and its vendor please type **about:gpu** (or **chrome://gpu**)"
-" to the address bar of Chrome browser..."
+"It is recommended to timely update video card drivers. To detect your video card and "
+"its vendor please type **about:gpu** (or **chrome://gpu**) to the address bar of "
+"Chrome browser..."
 msgstr ""
-"建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入 **about:gpu** (或 **chrome://gpu**) "
-"，在Chrome浏览器的地址栏中..."
+"建议及时更新显卡驱动程序。要检测你的显卡和它的供应商，请输入 **about:gpu** (或 "
+"**chrome://gpu**) ，在Chrome浏览器的地址栏中..."
 
 #: ../problems_and_solutions.rst:91
 msgid "or Firefox..."
@@ -213,20 +221,20 @@ msgstr "从开始菜单中选择 ``Run`` 命令"
 
 #: ../problems_and_solutions.rst:105
 msgid ""
-"Type *dxdiag* to the ``Open`` field and press ``Enter`` to open DirectX "
-"Diagnostic Tool"
+"Type *dxdiag* to the ``Open`` field and press ``Enter`` to open DirectX Diagnostic "
+"Tool"
 msgstr "类型输入 dxdiag 给 ``Open`` 字段，然后按 ``Enter`` 打开DirectX诊断工具"
 
 #: ../problems_and_solutions.rst:107
 msgid ""
-"Open the ``Display`` panel. There you can find manufacturer, model and "
-"other information regarding your video card."
-msgstr "打开 ``Display`` 面板。在那里，你可以找到制造商，型号以及关于你的显卡的其他信息。"
+"Open the ``Display`` panel. There you can find manufacturer, model and other "
+"information regarding your video card."
+msgstr ""
+"打开 ``Display`` 面板。在那里，你可以找到制造商，型号以及关于你的显卡的其他信息。"
 
 #: ../problems_and_solutions.rst:115
-#, fuzzy
 msgid "For macOS, you can check System Report."
-msgstr "适用于MacOS X，你可以检查系统报告。"
+msgstr "适用于macOS，你可以检查系统报告。"
 
 #: ../problems_and_solutions.rst:119
 msgid "Select ``About This Mac`` from the ``Apple`` menu."
@@ -242,22 +250,19 @@ msgstr "在 ``Hardware`` 部分中选择 ``显卡/ Displays``。"
 
 #: ../problems_and_solutions.rst:131
 msgid ""
-"Download the drivers from the corresponding support center (for example "
-"`Intel <http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia "
-"<http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI "
-"<http://support.amd.com/en-us/download>`_). Reboot the system after the "
-"drivers are installed."
+"Download the drivers from the corresponding support center (for example `Intel "
+"<http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia <http://www.nvidia.com/"
+"Download/index.aspx>`_, `AMD/ATI <http://support.amd.com/en-us/download>`_). Reboot "
+"the system after the drivers are installed."
 msgstr ""
-"下载驱动程序从相应的支持中心（例如  `Intel "
-"<http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia "
-"<http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI "
-"<http://support.amd.com/en-us/download>`_）。安装驱动程序后，重新启动系统。"
+"下载驱动程序从相应的支持中心（例如  `Intel <http://downloadcenter.intel.com/Default."
+"aspx>`_, `Nvidia <http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI <http://"
+"support.amd.com/en-us/download>`_）。安装驱动程序后，重新启动系统。"
 
 #: ../problems_and_solutions.rst:133
 msgid ""
-"If the measures described above did not help to initialize rendering (or "
-"there is no possibility to update the system) try to change the browser "
-"settings."
+"If the measures described above did not help to initialize rendering (or there is no "
+"possibility to update the system) try to change the browser settings."
 msgstr "如果上述措施没有帮助初始化渲染（或者没办法更新系统）尝试改变浏览器设置。"
 
 #: ../problems_and_solutions.rst:135
@@ -266,12 +271,12 @@ msgstr "*对于Chrome*："
 
 #: ../problems_and_solutions.rst:137
 msgid ""
-"Enter **about:flags** (or **chrome://flags**) into the browser's address "
-"bar, click :file:`Enable` under the :file:`Override software rendering "
-"list` option and restart the browser."
+"Enter **about:flags** (or **chrome://flags**) into the browser's address bar, click :"
+"file:`Enable` under the :file:`Override software rendering list` option and restart "
+"the browser."
 msgstr ""
-"输入  **about:flags** （或者 **chrome://flags**）到浏览器的地址栏中，单击 :file:`Enable` 下 "
-":file:`Override software rendering list` 选项，并重启浏览器。"
+"输入  **about:flags** （或者 **chrome://flags**）到浏览器的地址栏中，单击 :file:"
+"`Enable` 下 :file:`Override software rendering list` 选项，并重启浏览器。"
 
 #: ../problems_and_solutions.rst:147
 msgid "*For Firefox*:"
@@ -279,12 +284,11 @@ msgstr "*对于Firefox*："
 
 #: ../problems_and_solutions.rst:149
 msgid ""
-"Enter **about:config** into the browser's address bar, search for the "
-"``webgl.force-enabled`` parameter and double-click on it to switch from "
-"``false`` to ``true``."
+"Enter **about:config** into the browser's address bar, search for the ``webgl.force-"
+"enabled`` parameter and double-click on it to switch from ``false`` to ``true``."
 msgstr ""
-"输入 **about:config**  到浏览器的地址栏，搜索 ``webgl.force-enabled`` 参数，并在其上双击从 "
-"``false`` 切换到值为 ``True`` 。"
+"输入 **about:config**  到浏览器的地址栏，搜索 ``webgl.force-enabled`` 参数，并在其上"
+"双击从 ``false`` 切换到值为 ``True`` 。"
 
 #: ../problems_and_solutions.rst:156
 msgid "*For Safari*"
@@ -292,11 +296,11 @@ msgstr "*对于Safari浏览器*"
 
 #: ../problems_and_solutions.rst:158
 msgid ""
-"Select ``Preferences`` from Safari menu, select the ``Security`` tab and "
-"make sure that ``Allow WebGL`` checkbox is enabled."
+"Select ``Preferences`` from Safari menu, select the ``Security`` tab and make sure "
+"that ``Allow WebGL`` checkbox is enabled."
 msgstr ""
-"选择 ``Preferences`` 从Safari浏览器菜单中选择 ``Security`` 选项卡，并确保 ``允许WebGL`` "
-"复选框被启用。"
+"选择 ``Preferences`` 从Safari浏览器菜单中选择 ``Security`` 选项卡，并确保 ``允许"
+"WebGL`` 复选框被启用。"
 
 #: ../problems_and_solutions.rst:165
 msgid "More In-Depth Troubleshooting"
@@ -304,15 +308,14 @@ msgstr "更深入的故障排除"
 
 #: ../problems_and_solutions.rst:167
 msgid ""
-"If nothing mentioned above helped you solve the issues you are "
-"experiencing, please visit the Blend4Web `community forum "
-"<https://www.blend4web.com/en/forums/>`_ and leave a message in the `Bug "
-"Report <https://www.blend4web.com/en/forums/forum/17/>`_ thread. Our team"
-" will be sure to help you."
+"If nothing mentioned above helped you solve the issues you are experiencing, please "
+"visit the Blend4Web `community forum <https://www.blend4web.com/en/forums/>`_ and "
+"leave a message in the `Bug Report <https://www.blend4web.com/en/forums/forum/17/>`_ "
+"thread. Our team will be sure to help you."
 msgstr ""
-"如果上面帮您解决您所遇到的问题都没有的话，请访问Blend4Web `社区论坛 "
-"<https://www.blend4web.com/en/forums/>`_ 和 `错误报告中留言 "
-"<https://www.blend4web.com/en/forums/forum/17/>`_ 线程。我们的团队一定会帮助你。"
+"如果上面帮您解决您所遇到的问题都没有的话，请访问Blend4Web `社区论坛 <https://www."
+"blend4web.com/en/forums/>`_ 和 `错误报告中留言 <https://www.blend4web.com/en/forums/"
+"forum/17/>`_ 线程。我们的团队一定会帮助你。"
 
 #: ../problems_and_solutions.rst:172
 msgid "Known Issues"
@@ -324,8 +327,8 @@ msgstr "更新插件时候的问题。"
 
 #: ../problems_and_solutions.rst:176
 msgid ""
-"It’s strongly advised to restart Blender after installing a newer version"
-" of Add-on/SDK."
+"It’s strongly advised to restart Blender after installing a newer version of Add-on/"
+"SDK."
 msgstr "强烈建议安装插件/ SDK的新版本后重新启动Blender。"
 
 #: ../problems_and_solutions.rst:178
@@ -338,29 +341,26 @@ msgstr "在一些平台上的改变纹理过滤。"
 
 #: ../problems_and_solutions.rst:182
 msgid ""
-"An incorrect texture filtering was disabled on iPad and Internet Explorer"
-" for materials with Alpha Clip type of transparency."
-msgstr "在ipad和IE浏览器上屏蔽了一个不正确的纹理滤镜，为了让材质带alpha clip类型的透明类型。"
+"An incorrect texture filtering was disabled on iPad and Internet Explorer for "
+"materials with Alpha Clip type of transparency."
+msgstr ""
+"在ipad和IE浏览器上屏蔽了一个不正确的纹理滤镜，为了让材质带alpha clip类型的透明类型。"
 
 #: ../problems_and_solutions.rst:184
-msgid ""
-"Some devices with Mail GPU require manual WebGL activation in browser "
-"settings."
+msgid "Some devices with Mail GPU require manual WebGL activation in browser settings."
 msgstr "使用Mali GPU的有些设备需要在浏览器设置手动激活的WebGL。"
 
 #: ../problems_and_solutions.rst:186
-#, fuzzy
 msgid ""
-"For the local development server to work on Apple macOS and Blender 2.76,"
-" you may need to install `Python 3.4 "
-"<https://www.python.org/downloads/release/python-343/>`_. This is due to "
-"a bug in Blender https://developer.blender.org/T46623. This bug has been "
-"fixed in Blender 2.76b, so updating it is advised."
+"For the local development server to work on Apple macOS and Blender 2.76, you may "
+"need to install `Python 3.4 <https://www.python.org/downloads/release/python-343/"
+">`_. This is due to a bug in Blender https://developer.blender.org/T46623. This bug "
+"has been fixed in Blender 2.76b, so updating it is advised."
 msgstr ""
-"对于本地开发服务器在苹果OS X和Blender2.76时，您可能需要安装   `Python 3.4 "
-"<https://www.python.org/downloads/release/python-343/>`_.  这是由于在Blender "
-"https://developer.blender.org/T46623 "
-"的错误。此错误已在Blender2.76b修复，所以建议更新Blender。"
+"对于本地开发服务器在苹果 macOS 和Blender2.76时，您可能需要安装   `Python 3.4 "
+"<https://www.python.org/downloads/release/python-343/>`_.  这是由于在Blender https://"
+"developer.blender.org/T46623 的错误。此错误已在Blender2.76b修复，所以建议更新"
+"Blender。"
 
 #: ../problems_and_solutions.rst:188
 msgid "Skeletal animation may work incorrectly while using Nouveau drivers."
@@ -368,34 +368,35 @@ msgstr "使用Nouveau 驱动时骨骼动画可能工作不正确。"
 
 #: ../problems_and_solutions.rst:190
 msgid ""
-"Transparent textures may not render correctly in the IE11 and Microsoft "
-"Edge web browsers and on iPad."
+"Transparent textures may not render correctly in the IE11 and Microsoft Edge web "
+"browsers and on iPad."
 msgstr "透明纹理可能不能够在IE11和微软Edge Web浏览器和iPad上正确显示。"
 
 #: ../problems_and_solutions.rst:192
 msgid ""
-"The problem is relevant for the :ref:`transparent materials "
-"<alpha_blend>`. Image artifacts are visible in the areas where alpha "
-"channel value is close or equal to zero. To fix this issue, it is "
-"recommended to increase the value of the alpha channel until artifact are"
-" no longer visible (increasing it by value from 0.01 to 0.05 should be "
-"enough in the most cases)."
+"The problem is relevant for the :ref:`transparent materials <alpha_blend>`. Image "
+"artifacts are visible in the areas where alpha channel value is close or equal to "
+"zero. To fix this issue, it is recommended to increase the value of the alpha "
+"channel until artifact are no longer visible (increasing it by value from 0.01 to "
+"0.05 should be enough in the most cases)."
 msgstr ""
-"问题是关于 :ref:`transparent materials <alpha_blend>`.  "
-"图像错误在alpha通道值接近或等于零的区域中可见。要解决这个问题，建议增加Alpha通道的值，直到错误不再可见（按价值0.01增加它0.05应足以在大多数情况下）。"
+"问题是关于 :ref:`transparent materials <alpha_blend>`.  图像错误在alpha通道值接近或等"
+"于零的区域中可见。要解决这个问题，建议增加Alpha通道的值，直到错误不再可见（按价值0.01"
+"增加它0.05应足以在大多数情况下）。"
 
 #: ../problems_and_solutions.rst:194
 msgid ""
-"WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series GPUs "
-"with drivers later than 355."
+"WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series GPUs with drivers "
+"later than 355."
 msgstr "WebGL的Linux上的Chromium 崩溃 NVIDIA GeForce 400/500系列GPU与驱动迟于355。"
 
 #: ../problems_and_solutions.rst:196
 msgid ""
-"This issue is caused by incompatibility of Chromium sandbox and NVIDIA's "
-"latest drivers. The solution is to downgrade drivers to the 340xx "
-"version."
-msgstr "此问题是由Chromium沙箱和NVIDIA最新的驱动程序不兼容引起的。解决的办法是降级驱动到340xx版本。"
+"This issue is caused by incompatibility of Chromium sandbox and NVIDIA's latest "
+"drivers. The solution is to downgrade drivers to the 340xx version."
+msgstr ""
+"此问题是由Chromium沙箱和NVIDIA最新的驱动程序不兼容引起的。解决的办法是降级驱动到340xx"
+"版本。"
 
 #: ../problems_and_solutions.rst:198
 msgid "Audio issues."
@@ -403,32 +404,34 @@ msgstr "音频问题。"
 
 #: ../problems_and_solutions.rst:200
 msgid ""
-"Audio doesn't work in some versions of Google Chrome for the \"Background"
-" Music\" speakers in case of HTML export. Currently, speaker type is "
-"automatically changed to \"Background Sound\" as a workaround."
-msgstr "音频不会在谷歌浏览器的某些版本的HTML导出的情况下， “背景音乐”的扬声器不工作。目前，音箱类型将自动更改为“背景声音”作为一种解决方法。"
+"Audio doesn't work in some versions of Google Chrome for the \"Background Music\" "
+"speakers in case of HTML export. Currently, speaker type is automatically changed to "
+"\"Background Sound\" as a workaround."
+msgstr ""
+"音频不会在谷歌浏览器的某些版本的HTML导出的情况下， “背景音乐”的扬声器不工作。目前，音"
+"箱类型将自动更改为“背景声音”作为一种解决方法。"
 
 #: ../problems_and_solutions.rst:202
 msgid ""
-"There is an audio context error when running too many instances (>6) of "
-"b4w engine (for example, many browser tabs or many iframes on one page) "
-"in Google Chrome. The error is prevented by disabling the audio for an "
-"application if the audio context cannot be created for it."
+"There is an audio context error when running too many instances (>6) of b4w engine "
+"(for example, many browser tabs or many iframes on one page) in Google Chrome. The "
+"error is prevented by disabling the audio for an application if the audio context "
+"cannot be created for it."
 msgstr ""
-"运行过多实例的情况下（> "
-"6），当有音频方面的错误B4W引擎（例如，许多浏览器选项卡或在一个页面上的许多内部框架），谷歌浏览器。通过禁用一个应用程序的音频如果音频上下文不能为它创建防止错误。"
+"运行过多实例的情况下（> 6），当有音频方面的错误B4W引擎（例如，许多浏览器选项卡或在一"
+"个页面上的许多内部框架），谷歌浏览器。通过禁用一个应用程序的音频如果音频上下文不能为"
+"它创建防止错误。"
 
 #: ../problems_and_solutions.rst:204
 msgid ""
-"Pausing the audio may not work on such mobile devices as Nexus 6 and "
-"Nexus 9 in Google Chrome 50-52 versions. It should work again in Chrome "
-"53. More info here: "
-"`https://bugs.chromium.org/p/chromium/issues/detail?id=616772 "
-"<https://bugs.chromium.org/p/chromium/issues/detail?id=616772>`_."
+"Pausing the audio may not work on such mobile devices as Nexus 6 and Nexus 9 in "
+"Google Chrome 50-52 versions. It should work again in Chrome 53. More info here: "
+"`https://bugs.chromium.org/p/chromium/issues/detail?id=616772 <https://bugs.chromium."
+"org/p/chromium/issues/detail?id=616772>`_."
 msgstr ""
-"暂停音频可能无法在谷歌浏览器版本50-52 Nexus 6和9的Nexus这样的移动设备上工作。它应该在Chrome53工作，了解详情： "
-"`https://bugs.chromium.org/p/chromium/issues/detail?id=616772 "
-"<https://bugs.chromium.org/p/chromium/issues/detail?id=616772>`_ 。"
+"暂停音频可能无法在谷歌浏览器版本50-52 Nexus 6和9的Nexus这样的移动设备上工作。它应该在"
+"Chrome53工作，了解详情： `https://bugs.chromium.org/p/chromium/issues/detail?"
+"id=616772 <https://bugs.chromium.org/p/chromium/issues/detail?id=616772>`_ 。"
 
 #: ../problems_and_solutions.rst:206
 msgid "QQ Browser doesn't support WebGL at the moment."
@@ -436,41 +439,40 @@ msgstr "QQ浏览器不会在此刻支持WebGL。"
 
 #: ../problems_and_solutions.rst:208
 msgid ""
-"WebGL is unstable and sometimes crashes on Mesa 11.x drivers in "
-"Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can help."
-msgstr "WebGL是不稳定，有时会在Linux的Mesa11.x的驱动程序与英特尔的GPU上崩溃。降级到Mesa10.x的驱动程序可能会有帮助。"
+"WebGL is unstable and sometimes crashes on Mesa 11.x drivers in Linux/Chrome with "
+"Intel GPUs. Downgrading to Mesa 10.x drivers can help."
+msgstr ""
+"WebGL是不稳定，有时会在Linux的Mesa11.x的驱动程序与英特尔的GPU上崩溃。降级到Mesa10.x的"
+"驱动程序可能会有帮助。"
 
 #: ../problems_and_solutions.rst:210
 msgid ""
-"Information about moving fingers on GearVR touch sensor in VR-mode is not"
-" available."
+"Information about moving fingers on GearVR touch sensor in VR-mode is not available."
 msgstr "有关在VR模式上GearVR触摸传感器上移动手指的信息不可用。"
 
 #: ../problems_and_solutions.rst:212
 msgid ""
-"Samsung Internet browser doesn't fire any events about moving fingers on "
-"touch sensor in VR-mode."
+"Samsung Internet browser doesn't fire any events about moving fingers on touch "
+"sensor in VR-mode."
 msgstr "三星的Internet浏览器不在VR模式的触摸传感器上不触发任何移动手指的任何事件。"
 
 #: ../problems_and_solutions.rst:214
 msgid ""
-"Particles emitted by particle systems placed on inactive (hidden) layers "
-"can have their positions set to zero as inactive layers are not updated "
-"by Blender."
-msgstr "由放置在无效（隐藏）层粒子系统发射的粒子可以有自己的位置设为零，作为非活性层不被Blender更新。"
+"Particles emitted by particle systems placed on inactive (hidden) layers can have "
+"their positions set to zero as inactive layers are not updated by Blender."
+msgstr ""
+"由放置在无效（隐藏）层粒子系统发射的粒子可以有自己的位置设为零，作为非活性层不被"
+"Blender更新。"
 
 #: ../problems_and_solutions.rst:216
 msgid ""
-"This problem can be solved by activating layers before exporting a scene "
-"or by simply clicking the layers to make Blender update them."
-msgstr "这个问题可以通过导出一个场景之前或通过简单地点击层激活层以使Blender更新它们来解决。"
+"This problem can be solved by activating layers before exporting a scene or by "
+"simply clicking the layers to make Blender update them."
+msgstr ""
+"这个问题可以通过导出一个场景之前或通过简单地点击层激活层以使Blender更新它们来解决。"
 
 #: ../problems_and_solutions.rst:218
 msgid ""
-"Alpha blending objects are rendered incorrect on the Mali 400 series GPU "
-"by Google Chrome browser."
-msgstr ""
-
-#~ msgid ""
-#~ msgstr ""
-
+"Alpha blending objects are rendered incorrect on the Mali 400 series GPU by Google "
+"Chrome browser."
+msgstr "Mali 400系列的GPU上谷歌Chrome浏览器渲染Alpha混合物体不正确。"

@@ -94,6 +94,8 @@ exports.set = function(r, g, b, dest) {
  * @returns {RGB} Destination RGB vector.
  * @alias module:rgb.css_to_rgb
  * @example
+ * var m_rgb = require("rgb");
+ *
  * // #808080 or rgb(128, 128, 128) converted to [0.219, 0.219, 0.219]
  * var rgb_color = m_rgb.css_to_rgb(128, 128, 128);
  */
@@ -115,8 +117,11 @@ exports.css_to_rgb = function(css_red, css_green, css_blue, dest) {
  * @returns {Number[]} Array with CSS colors.
  * @alias module:rgb.rgb_to_css
  * @example
+ * var m_rgb = require("rgb");
+ *
+ * var rgb_color = m_rgb.from_values(0.219, 0.219, 0.219);
  * // [0.219, 0.219, 0.219] converted to [128, 128, 128]
- * var color = m_rgb.rgb_to_css(m_rgb.from_values(0.219, 0.219, 0.219));
+ * var color = m_rgb.rgb_to_css(rgb_color);
  */
 exports.rgb_to_css = function(rgb) {
 
@@ -131,8 +136,11 @@ exports.rgb_to_css = function(rgb) {
  * @returns {String} CSS color hex string.
  * @alias module:rgb.rgb_to_css_hex
  * @example
+ * var m_rgb = require("rgb");
+ *
+ * var rgb_color = m_rgb.from_values(0.219, 0.219, 0.219);
  * // [0.219, 0.219, 0.219] converted to "#808080"
- * var hex_color = m_rgb.rgb_to_css_hex(m_rgb.from_values(0.219, 0.219, 0.219));
+ * var hex_color = m_rgb.rgb_to_css_hex(rgb_color);
  */
 exports.rgb_to_css_hex = function(rgb) {
 
@@ -221,6 +229,8 @@ exports.set = function(r, g, b, a, dest) {
  * @returns {RGBA} Destination RGB vector.
  * @alias module:rgba.css_to_rgba
  * @example
+ * var m_rgba = require("rgba");
+ *
  * // rgba(128, 128, 128, 0.5) converted to [0.219, 0.219, 0.219, 0.5]
  * var rgba_color = m_rgba.css_to_rgba(128, 128, 128, 0.5);
  */
@@ -243,8 +253,11 @@ exports.css_to_rgba = function(css_red, css_green, css_blue, css_alpha, dest) {
  * @returns {Number[]} Array with CSS colors.
  * @alias module:rgba.rgba_to_css
  * @example
+ * var m_rgba = require("rgba");
+ *
+ * var rgba_color = m_rgba.from_values(0.219, 0.219, 0.219, 0.5);
  * // [0.219, 0.219, 0.219, 0.5] converted to [128, 128, 128, 0.5]
- * var color = m_rgba.rgba_to_css(m_rgba.from_values(0.219, 0.219, 0.219, 0.5));
+ * var color = m_rgba.rgba_to_css(rgba_color);
  */
 exports.rgba_to_css = function(rgba) {
 
@@ -266,13 +279,13 @@ exports.rgba_to_css = function(rgba) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Oct 27 2016 16:42:34 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:45 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

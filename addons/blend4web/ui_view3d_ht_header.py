@@ -29,7 +29,8 @@ def b4w_fast_preview(self, context):
     if addon_prefs.has_valid_sdk_path():
         is_started = server.B4WLocalServer.get_server_status() == server.SUB_THREAD_START_SERV_OK
         
-        if context.scene.render.engine=="BLEND4WEB":
+        if (context.scene.render.engine == "BLEND4WEB" 
+        		or context.scene.render.engine == "CYCLES"):
             self.layout.operator("b4w.preview",
                         text=p_("Fast Preview", "Operator"), icon="ZOOM_ALL")
 

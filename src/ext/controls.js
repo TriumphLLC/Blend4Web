@@ -58,7 +58,7 @@ var m_print = require("__print");
  * @param {?Object3D} obj Object 3D, or null to denote the global object
  * @param {String} id Manifold ID
  * @param {Number} pulse Additional callback condition for CT_TRIGGER or
- * CT_CONTINOUS manifolds: +1 or -1
+ * CT_CONTINUOUS manifolds: +1 or -1
  * @param {*} [param] Callback parameter. The user-defined parameter which is
  * passed to create_sensor_manifold(). Can be used, for example, as a storage
  * object to communicate between different manifolds.
@@ -637,7 +637,7 @@ exports.default_AND_logic_fun = m_ctl.default_AND_logic_fun;
 
 /**
  * Default logic OR function for sensor manifold
- * @const module:controls.default_AND_logic_fun
+ * @const module:controls.default_OR_logic_fun
  */
 exports.default_OR_logic_fun = m_ctl.default_OR_logic_fun;
 
@@ -689,7 +689,7 @@ exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
  * This sensor carries the following {@link module:controls~CollisionPayload|payload}.
  * @method module:controls.create_collision_sensor
  * @param {Object3D} obj_src Collision object.
- * @param {?String} [collision_id="ANY"] Collision ID
+ * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
  * @param {Boolean} [calc_pos_norm=false] Should the sensor return the
  * collision position/normal/distance or not.
  * @returns {Sensor} Sensor object
@@ -727,7 +727,7 @@ exports.create_collision_impulse_sensor = m_ctl.create_collision_impulse_sensor;
  * in object space, e.g. from/to vectors specified in object space.
  * @param {Vec3} from From vector.
  * @param {Vec3} to To vector.
- * @param {String} [collision_id="ANY"] Collision ID to detect intersection with
+ * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
  * @param {Boolean} [is_binary_value=false] Calculate the value of the sensor as
  * a binary (hit/non-hit) instead of hit fraction.
  * @param {Boolean} [calc_pos_norm=false] Calculate hit position/normal
@@ -780,7 +780,24 @@ exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
  * @cc_externs coords
  */
 exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
-
+/**
+ * Create a mouse move pointerlock sensor.
+ * The sensor's value is a number of pixels, the sensor's payload is an object
+ * with useful properties like coordinates
+ * @method module:controls.create_plock_mouse_sensor
+ * @param {HTMLElement} [element=Canvas container element] HTML element
+ * @returns {Sensor} Sensor object
+ * @cc_externs coords
+ */
+exports.create_plock_mouse_sensor = m_ctl.create_plock_mouse_sensor;
+/**
+ * Create a mouse pointerlock sensor.
+ * The sensor's value is a pointerlock state
+ * @method module:controls.create_plock_sensor
+ * @param {HTMLElement} [element=Canvas container element] HTML element
+ * @returns {Sensor} Sensor object
+ */
+exports.create_plock_sensor = m_ctl.create_plock_sensor;
 /**
  * Create a touch movement sensor.
  * The sensor's value is a number of pixels, the sensor's payload is an object
@@ -1007,7 +1024,8 @@ exports.get_sensor_payload = m_ctl.get_sensor_payload;
  * @param {String} id New manifold ID.
  * @param {Number} type Manifold control type (CT_SHOT, CT_TRIGGER etc).
  * @param {Sensor[]} sensors Array of sensors.
- * @param {ManifoldLogicFunction} logic_fun Manifold's logic function.
+ * @param {?ManifoldLogicFunction} logic_fun Manifold's logic function, if null
+ * use default_AND_logic_fun function.
  * @param {ManifoldCallback} callback Manifold's callback.
  * @param {*} [callback_param] Parameter to pass to the manifold's callback
  * (e.g. some state).
@@ -1198,5 +1216,11 @@ exports.unregister_touch_events = function(){
 exports.unregister_device_orientation = function(){
     m_print.error_once("controls.unregister_device_orientation() deprecated");
 };
+/**
+ * Set smooth factor for mouse pointerlock sensor.
+ * @method module:controls.set_plock_smooth_factor
+ * @param {Number} value Set 
+ */
+exports.set_plock_smooth_factor = m_ctl.set_plock_smooth_factor;
 
 }

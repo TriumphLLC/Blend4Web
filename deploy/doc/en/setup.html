@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installing and Updating &mdash; Blend4Web 16.10 User Manual</title>
+  <title>Installing and Updating &mdash; Blend4Web 16.11 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.10 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.11 User Manual" href="index.html"/>
         <link rel="next" title="Workflow" href="workflow.html"/>
         <link rel="prev" title="Engine Features" href="engine_features.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.10
+              v16.11
             </div>
           
         
@@ -96,6 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#updating">Updating</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#updating-the-sdk">Updating the SDK</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#updating-the-addon">Updating the Addon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updating-saved-projects">Updating Saved Projects</a></li>
 </ul>
 </li>
 </ul>
@@ -187,6 +188,7 @@
 <li><a class="reference internal" href="#updating" id="id7">Updating</a><ul>
 <li><a class="reference internal" href="#updating-the-sdk" id="id8">Updating the SDK</a></li>
 <li><a class="reference internal" href="#updating-the-addon" id="id9">Updating the Addon</a></li>
+<li><a class="reference internal" href="#updating-saved-projects" id="id10">Updating Saved Projects</a></li>
 </ul>
 </li>
 </ul>
@@ -199,7 +201,7 @@
 <span id="getting-started-install-blender"></span><h3><a class="toc-backref" href="#id3">Installing Blender</a><a class="headerlink" href="#installing-blender" title="Permalink to this headline">¶</a></h3>
 <p>Authoring 3D scenes is carried out directly in <a class="reference external" href="http://en.wikipedia.org/wiki/Blender_(software)">Blender</a> which is open source software and is distributed free of charge.</p>
 <p>Before installation, please download and install the compatible Blender version, according to this <a class="reference external" href="https://www.blend4web.com/downloads/">table</a>.</p>
-<p>A current stable version of Blender should be used. It can be downloaded from the <a class="reference external" href="http://www.blender.org/download">official site</a>.</p>
+<p>A current stable version of Blender should be used. It can be downloaded from the <a class="reference external" href="http://www.blender.org/download">official site</a> or from <a class="reference external" href="https://www.blend4web.com/ru/downloads/">Blend4Web site</a>.</p>
 <a class="reference internal image-reference" href="_images/blender_first_run.png"><img alt="_images/blender_first_run.png" class="align-center" src="_images/blender_first_run.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="unpacking-the-archive">
@@ -323,6 +325,18 @@
 <li>Restart Blender.</li>
 </ol>
 <p>Everything should be working now.</p>
+</div>
+<div class="section" id="updating-saved-projects">
+<h3><a class="toc-backref" href="#id10">Updating Saved Projects</a><a class="headerlink" href="#updating-saved-projects" title="Permalink to this headline">¶</a></h3>
+<p>After you have updated your SDK (or Add-on), you can import projects that you exported before updating back to the Project Manager. To do this, follow the following instructions:</p>
+<ol class="arabic simple">
+<li>Open Project Manager.</li>
+<li>Import your projects using the <code class="docutils literal"><span class="pre">Import</span> <span class="pre">Project(s)</span></code> button.</li>
+<li>Reexport projects&#8217;s <code class="docutils literal"><span class="pre">.blend</span></code> files using the <code class="docutils literal"><span class="pre">re-export</span> <span class="pre">scenes</span></code> link.</li>
+<li>Use the <code class="docutils literal"><span class="pre">check</span> <span class="pre">modules</span></code> link for every imported project to make sure there are no missing or unused modules in the program code. If there are, you may try to fix the poblems using the <code class="docutils literal"><span class="pre">Update</span> <span class="pre">Modules</span></code> button.</li>
+<li>Then use <code class="docutils literal"><span class="pre">build</span></code> command to make the build versions of the imported projects work again.</li>
+<li>The developer version of the projects using <code class="docutils literal"><span class="pre">Copy</span></code> or <code class="docutils literal"><span class="pre">Compile</span></code> engine binding type should also be build to properly work with the new version of the SDK (the developer versions of the projects with other bindning types should work fine without it).</li>
+</ol>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -350,7 +364,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-10-27.
+      Last updated on 2016-11-29.
 
     </p>
   </div>
@@ -406,7 +420,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.10',
+            VERSION:'v16.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

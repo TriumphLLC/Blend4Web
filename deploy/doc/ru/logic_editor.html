@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Редактор логики &mdash; Руководство пользователя Blend4Web 16.10</title>
+  <title>Редактор логики &mdash; Руководство пользователя Blend4Web 16.11</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.10" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.11" href="index.html"/>
         <link rel="next" title="Освещение, тени и фон" href="lighting.html"/>
         <link rel="prev" title="Нодовые материалы" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.10
+              v16.11
             </div>
           
         
@@ -168,127 +168,133 @@
 <li class="toctree-l4"><a class="reference internal" href="#id28">Внутренние параметры</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#object">Object</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#show-object">Show Object</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-camera-move-style">Set Camera Move Style</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id29">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id30">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id31">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#hide-object">Hide Object</a><ul>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#object">Object</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#show-object">Show Object</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id32">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id33">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id34">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#transform-object">Transform Object</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hide-object">Hide Object</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id35">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id36">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id37">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#move-to">Move To</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transform-object">Transform Object</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id38">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id39">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id40">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">Apply Shape Key</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#move-to">Move To</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id41">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id42">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id43">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#outline">Outline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#apply-shape-key">Apply Shape Key</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id44">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id45">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id46">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">Set Shader Node Param</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#outline">Outline</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id47">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id48">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id49">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#inherit-material">Inherit Material</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-shader-node-param">Set Shader Node Param</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id50">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id51">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id52">Внутренние параметры</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#inherit-material">Inherit Material</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id53">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id54">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id55">Внутренние параметры</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#operations">Operations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#variable-store">Variable Store</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id53">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id54">Выходные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id55">Внутренние параметры</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id56">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id57">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id58">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#string-operation">String Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#math-operation">Math Operation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id59">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id60">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id61">Внутренние параметры</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#string-operation">String Operation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id62">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id63">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id64">Внутренние параметры</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#sound">Sound</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#play-sound">Play Sound</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id62">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id63">Выходные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id64">Внутренние параметры</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#stop-sound">Stop Sound</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id65">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id66">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id67">Внутренние параметры</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#stop-sound">Stop Sound</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id68">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id69">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id70">Внутренние параметры</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#network">Network</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#send-request">Send Request</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id68">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id69">Выходные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id70">Внутренние параметры</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id71">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id72">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id73">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id74">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id75">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id76">Внутренние параметры</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#page-redirect">Page Redirect</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id77">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id78">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id79">Внутренние параметры</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#page-redirect">Page Redirect</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id80">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id81">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id82">Внутренние параметры</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#debug">Debug</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#console-print">Console Print</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id80">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id81">Выходные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id82">Внутренние параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id83">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id84">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id85">Внутренние параметры</a></li>
 </ul>
 </li>
 </ul>
@@ -301,9 +307,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#layout">Layout</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#empty">Empty</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id83">Входные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id84">Выходные параметры</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id85">Внутренние параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id86">Входные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id87">Выходные параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id88">Внутренние параметры</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#reroute">Reroute</a></li>
@@ -370,29 +376,29 @@
            <div itemprop="articleBody">
             
   <div class="section" id="logic-editor">
-<span id="id1"></span><h1><a class="toc-backref" href="#id86">Редактор логики</a><a class="headerlink" href="#logic-editor" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1><a class="toc-backref" href="#id89">Редактор логики</a><a class="headerlink" href="#logic-editor" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-content">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#logic-editor" id="id86">Редактор логики</a><ul>
-<li><a class="reference internal" href="#basics" id="id87">Основы</a></li>
-<li><a class="reference internal" href="#control-flow" id="id88">Control Flow</a></li>
-<li><a class="reference internal" href="#animation" id="id89">Animation</a></li>
-<li><a class="reference internal" href="#camera" id="id90">Camera</a></li>
-<li><a class="reference internal" href="#object" id="id91">Object</a></li>
-<li><a class="reference internal" href="#operations" id="id92">Operations</a></li>
-<li><a class="reference internal" href="#sound" id="id93">Sound</a></li>
-<li><a class="reference internal" href="#network" id="id94">Network</a></li>
-<li><a class="reference internal" href="#debug" id="id95">Debug</a></li>
-<li><a class="reference internal" href="#deprecated" id="id96">Deprecated</a></li>
-<li><a class="reference internal" href="#layout" id="id97">Layout</a></li>
-<li><a class="reference internal" href="#debugging" id="id98">Отладка</a></li>
+<li><a class="reference internal" href="#logic-editor" id="id89">Редактор логики</a><ul>
+<li><a class="reference internal" href="#basics" id="id90">Основы</a></li>
+<li><a class="reference internal" href="#control-flow" id="id91">Control Flow</a></li>
+<li><a class="reference internal" href="#animation" id="id92">Animation</a></li>
+<li><a class="reference internal" href="#camera" id="id93">Camera</a></li>
+<li><a class="reference internal" href="#object" id="id94">Object</a></li>
+<li><a class="reference internal" href="#operations" id="id95">Operations</a></li>
+<li><a class="reference internal" href="#sound" id="id96">Sound</a></li>
+<li><a class="reference internal" href="#network" id="id97">Network</a></li>
+<li><a class="reference internal" href="#debug" id="id98">Debug</a></li>
+<li><a class="reference internal" href="#deprecated" id="id99">Deprecated</a></li>
+<li><a class="reference internal" href="#layout" id="id100">Layout</a></li>
+<li><a class="reference internal" href="#debugging" id="id101">Отладка</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="basics">
-<h2><a class="toc-backref" href="#id87">Основы</a><a class="headerlink" href="#basics" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id90">Основы</a><a class="headerlink" href="#basics" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Визуальное программирование осуществляется путем создания нодового дерева логики в окне нодового редактора. С помощью <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code> можно существенно расширить функциональность сцены, не прибегая при этом к программированию.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_app_example.png"><img alt="_images/logic_editor_app_example.png" class="align-center" src="_images/logic_editor_app_example.png" style="width: 100%;" /></a>
 <p>Для активации логики, на вкладке настроек сцены Blender необходимо установить галочку <code class="docutils literal"><span class="pre">Logic</span> <span class="pre">Editor</span></code> и добавить/выбрать активное нодовое дерево:</p>
@@ -412,7 +418,7 @@
 <p>Ниже перечисленны все доступные ноды.</p>
 </div>
 <div class="section" id="control-flow">
-<h2><a class="toc-backref" href="#id88">Control Flow</a><a class="headerlink" href="#control-flow" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id91">Control Flow</a><a class="headerlink" href="#control-flow" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="entry-point">
 <span id="nla-entry"></span><h3>Entry Point<a class="headerlink" href="#entry-point" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Является точкой начала выполнения скрипта. Использование нескольких точек входа позволяет эмулировать многопоточное выполнение.</p>
@@ -599,7 +605,7 @@
 </div>
 </div>
 <div class="section" id="animation">
-<h2><a class="toc-backref" href="#id89">Animation</a><a class="headerlink" href="#animation" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id92">Animation</a><a class="headerlink" href="#animation" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="play-timeline-and-stop-timeline">
 <span id="nla-play-timeline"></span><h3>Play Timeline и Stop Timeline<a class="headerlink" href="#play-timeline-and-stop-timeline" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяют управлять NLA анимацией. <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Timeline</span></code> проигрывать участок NLA, начиная с кадра, на который указывает маркер. Анимация воспроизводится до следующего маркера, либо до конца шкалы времени сцены, после чего управление переходит к следующей ноде. <code class="docutils literal"><span class="pre">Stop</span> <span class="pre">Timeline</span></code> останавливает воспроизведение.</p>
@@ -745,7 +751,7 @@
 </div>
 </div>
 <div class="section" id="camera">
-<h2><a class="toc-backref" href="#id90">Camera</a><a class="headerlink" href="#camera" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id93">Camera</a><a class="headerlink" href="#camera" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="move-camera">
 <span id="nla-move-camera"></span><h3>Move Camera<a class="headerlink" href="#move-camera" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет перемещать камеру, в том числе с плавной интерполяцией положения.</p>
@@ -784,13 +790,10 @@
 </dl>
 </div>
 </div>
-</div>
-<div class="section" id="object">
-<h2><a class="toc-backref" href="#id91">Object</a><a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="show-object">
-<span id="nla-show-object"></span><h3>Show Object<a class="headerlink" href="#show-object" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Используется для отображения объектов.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_show_object.png"><img alt="_images/logic_editor_show_object.png" class="align-center" src="_images/logic_editor_show_object.png" style="width: 100%;" /></a>
+<div class="section" id="set-camera-move-style">
+<span id="nla-set-camera-move-style"></span><h3>Set Camera Move Style<a class="headerlink" href="#set-camera-move-style" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Используется для задания нового режима перемещения камеры.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_set_camera_move_style.png"><img alt="_images/logic_editor_set_camera_move_style.png" class="align-center" src="_images/logic_editor_set_camera_move_style.png" style="width: 100%;" /></a>
 <div class="section" id="id29">
 <h4>Входные параметры<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -810,16 +813,52 @@
 <div class="section" id="id31">
 <h4>Внутренние параметры<a class="headerlink" href="#id31" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
-<dt><em>Object</em></dt>
-<dd><p class="first last">Объект, который нужно отобразить.</p>
+<dt><em>Camera</em></dt>
+<dd><p class="first last">Камера, режим перемещения которой будет изменён.</p>
+</dd>
+<dt><em>New Camera Move Style</em></dt>
+<dd><p class="first last">Задаёт новый режим перемещения выбранной камеры. Доступно четыре варианта: <code class="docutils literal"><span class="pre">Hover</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Target</span></code> и <code class="docutils literal"><span class="pre">Static</span></code>.</p>
+</dd>
+</dl>
+<p>Следующие параметры недоступны в том случае, если параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> имеет значение <code class="docutils literal"><span class="pre">Static</span></code>:</p>
+<dl class="docutils">
+<dt><em>Translation</em></dt>
+<dd><p class="first last">Задаёт скорость перемещения камеры. Значение по умолчанию - 1.0.</p>
+</dd>
+<dt><em>Rotation</em></dt>
+<dd><p class="first last">Задаёт скорость поворота камеры. Значение по умолчанию - 1.0.</p>
+</dd>
+<dt><em>Zoom</em></dt>
+<dd><p class="first last">Задаёт скорость приближения и удаления камеры. Значение по умолчанию - 0.10. Этот параметр доступен только в том случае, если параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> имеет значение <code class="docutils literal"><span class="pre">Hover</span></code> или <code class="docutils literal"><span class="pre">Target</span></code>.</p>
+</dd>
+</dl>
+<p>Следующие параметры используются для задания цели или точки привязки камеры. Они доступны только если параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> имеет значение <code class="docutils literal"><span class="pre">Hover</span></code> или <code class="docutils literal"><span class="pre">Target</span></code>.</p>
+<dl class="docutils">
+<dt><em>Use Object</em></dt>
+<dd><p class="first last">Эта опция включает и выключает использования объекта сцены в качестве цели или точки привязки камеры (в зависимости от типа камеры). Если опция включена, появлвется текстовове поле для задания объекта. Эта опция деактивирована по умолчанию.</p>
+</dd>
+</dl>
+<p>Если параметр <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Object</span></code> деактивирован, становятся доступны следующие три опции:</p>
+<dl class="docutils">
+<dt><em>x</em></dt>
+<dd><p class="first last"><code class="docutils literal"><span class="pre">X</span></code>-координата цели или точки привязки камеры.</p>
+</dd>
+<dt><em>y</em></dt>
+<dd><p class="first last"><code class="docutils literal"><span class="pre">Y</span></code>-координата цели или точки привязки камеры.</p>
+</dd>
+<dt><em>z</em></dt>
+<dd><p class="first last"><code class="docutils literal"><span class="pre">Z</span></code>-координата цели или точки привязки камеры.</p>
 </dd>
 </dl>
 </div>
 </div>
-<div class="section" id="hide-object">
-<span id="nla-hide-object"></span><h3>Hide Object<a class="headerlink" href="#hide-object" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Используется для скрытия объекта.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_hide_object.png"><img alt="_images/logic_editor_hide_object.png" class="align-center" src="_images/logic_editor_hide_object.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="object">
+<h2><a class="toc-backref" href="#id94">Object</a><a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="show-object">
+<span id="nla-show-object"></span><h3>Show Object<a class="headerlink" href="#show-object" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Используется для отображения объектов.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_show_object.png"><img alt="_images/logic_editor_show_object.png" class="align-center" src="_images/logic_editor_show_object.png" style="width: 100%;" /></a>
 <div class="section" id="id32">
 <h4>Входные параметры<a class="headerlink" href="#id32" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -840,15 +879,15 @@
 <h4>Внутренние параметры<a class="headerlink" href="#id34" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Объект, который нужно скрыть.</p>
+<dd><p class="first last">Объект, который нужно отобразить.</p>
 </dd>
 </dl>
 </div>
 </div>
-<div class="section" id="transform-object">
-<h3>Transform Object<a class="headerlink" href="#transform-object" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Используется для изменения координат, размеров и углов поворота объекта.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_transform_object.png"><img alt="_images/logic_editor_transform_object.png" class="align-center" src="_images/logic_editor_transform_object.png" style="width: 100%;" /></a>
+<div class="section" id="hide-object">
+<span id="nla-hide-object"></span><h3>Hide Object<a class="headerlink" href="#hide-object" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Используется для скрытия объекта.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_hide_object.png"><img alt="_images/logic_editor_hide_object.png" class="align-center" src="_images/logic_editor_hide_object.png" style="width: 100%;" /></a>
 <div class="section" id="id35">
 <h4>Входные параметры<a class="headerlink" href="#id35" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -867,6 +906,35 @@
 </div>
 <div class="section" id="id37">
 <h4>Внутренние параметры<a class="headerlink" href="#id37" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd><p class="first last">Объект, который нужно скрыть.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="transform-object">
+<h3>Transform Object<a class="headerlink" href="#transform-object" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Используется для изменения координат, размеров и углов поворота объекта.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_transform_object.png"><img alt="_images/logic_editor_transform_object.png" class="align-center" src="_images/logic_editor_transform_object.png" style="width: 100%;" /></a>
+<div class="section" id="id38">
+<h4>Входные параметры<a class="headerlink" href="#id38" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd><p class="first last">Предыдущая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id39">
+<h4>Выходные параметры<a class="headerlink" href="#id39" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd><p class="first last">Следующая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id40">
+<h4>Внутренние параметры<a class="headerlink" href="#id40" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd><p class="first last">Объект, который нужно трансформировать.</p>
@@ -902,41 +970,6 @@
 <span id="nla-move-to"></span><h3>Move To<a class="headerlink" href="#move-to" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет перемещать объекты.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_move_to.png"><img alt="_images/logic_editor_move_to.png" class="align-center" src="_images/logic_editor_move_to.png" style="width: 100%;" /></a>
-<div class="section" id="id38">
-<h4>Входные параметры<a class="headerlink" href="#id38" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id39">
-<h4>Выходные параметры<a class="headerlink" href="#id39" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id40">
-<h4>Внутренние параметры<a class="headerlink" href="#id40" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Object</em></dt>
-<dd><p class="first last">Объект, который требуется переместить.</p>
-</dd>
-<dt><em>Destination</em></dt>
-<dd><p class="first last">Цель (объект, источник света, самера и т.п.), к которой перемещается объект. После того, как перемещение завершится, координаты объекта и цели будут совпадать.</p>
-</dd>
-<dt><em>Duration</em></dt>
-<dd><p class="first last">Время (в секундах), которое займёт перемещение. По умолчанию равно нулю (в этом случае объект не движется, а мгновенно перемещается к точке назначения). Может быть задано как в самой ноде, так и с помощью переменной (если активирован параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="apply-shape-key">
-<span id="nla-shape-key"></span><h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Позволяет задать значение параметра Shape Key.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_apply_shape_key.png"><img alt="_images/logic_editor_apply_shape_key.png" class="align-center" src="_images/logic_editor_apply_shape_key.png" style="width: 100%;" /></a>
 <div class="section" id="id41">
 <h4>Входные параметры<a class="headerlink" href="#id41" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -957,21 +990,21 @@
 <h4>Внутренние параметры<a class="headerlink" href="#id43" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
-<dd><p class="first last">Объект, к которому нужно применить трансформацию.</p>
+<dd><p class="first last">Объект, который требуется переместить.</p>
 </dd>
-<dt><em>Shape Key</em></dt>
-<dd><p class="first last">Ключ формы, который нужно применить к объекту.</p>
+<dt><em>Destination</em></dt>
+<dd><p class="first last">Цель (объект, источник света, самера и т.п.), к которой перемещается объект. После того, как перемещение завершится, координаты объекта и цели будут совпадать.</p>
 </dd>
-<dt><em>Value</em></dt>
-<dd><p class="first last">Степень влияния выбранного ключа формы на объект. Значение может быть задано в самой ноде или взято из переменной. Изменяется в пределах от 0 до 1.</p>
+<dt><em>Duration</em></dt>
+<dd><p class="first last">Время (в секундах), которое займёт перемещение. По умолчанию равно нулю (в этом случае объект не движется, а мгновенно перемещается к точке назначения). Может быть задано как в самой ноде, так и с помощью переменной (если активирован параметр <code class="docutils literal"><span class="pre">Variable</span></code>).</p>
 </dd>
 </dl>
 </div>
 </div>
-<div class="section" id="outline">
-<span id="nla-outline"></span><h3>Outline<a class="headerlink" href="#outline" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Позволяет управлять эффектом обводки объекта.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_outline.png"><img alt="_images/logic_editor_outline.png" class="align-center" src="_images/logic_editor_outline.png" style="width: 100%;" /></a>
+<div class="section" id="apply-shape-key">
+<span id="nla-shape-key"></span><h3>Apply Shape Key<a class="headerlink" href="#apply-shape-key" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет задать значение параметра Shape Key.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_apply_shape_key.png"><img alt="_images/logic_editor_apply_shape_key.png" class="align-center" src="_images/logic_editor_apply_shape_key.png" style="width: 100%;" /></a>
 <div class="section" id="id44">
 <h4>Входные параметры<a class="headerlink" href="#id44" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -990,6 +1023,41 @@
 </div>
 <div class="section" id="id46">
 <h4>Внутренние параметры<a class="headerlink" href="#id46" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Object</em></dt>
+<dd><p class="first last">Объект, к которому нужно применить трансформацию.</p>
+</dd>
+<dt><em>Shape Key</em></dt>
+<dd><p class="first last">Ключ формы, который нужно применить к объекту.</p>
+</dd>
+<dt><em>Value</em></dt>
+<dd><p class="first last">Степень влияния выбранного ключа формы на объект. Значение может быть задано в самой ноде или взято из переменной. Изменяется в пределах от 0 до 1.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="outline">
+<span id="nla-outline"></span><h3>Outline<a class="headerlink" href="#outline" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет управлять эффектом обводки объекта.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_outline.png"><img alt="_images/logic_editor_outline.png" class="align-center" src="_images/logic_editor_outline.png" style="width: 100%;" /></a>
+<div class="section" id="id47">
+<h4>Входные параметры<a class="headerlink" href="#id47" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd><p class="first last">Предыдущая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id48">
+<h4>Выходные параметры<a class="headerlink" href="#id48" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd><p class="first last">Следующая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id49">
+<h4>Внутренние параметры<a class="headerlink" href="#id49" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd><p class="first last">Объект, эффект обводки которого требуется настроить.</p>
@@ -1015,24 +1083,24 @@
 <span id="nla-shader-node"></span><h3>Set Shader Node Param<a class="headerlink" href="#set-shader-node-param" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет установить значение одного или нескольких параметров шейдерной ноды. В данный момент поддерживаются ноды <code class="docutils literal"><span class="pre">Value</span></code> и <code class="docutils literal"><span class="pre">RGB</span></code>.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_shader_node_param.png"><img alt="_images/logic_editor_set_shader_node_param.png" class="align-center" src="_images/logic_editor_set_shader_node_param.png" style="width: 100%;" /></a>
-<div class="section" id="id47">
-<h4>Входные параметры<a class="headerlink" href="#id47" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id50">
+<h4>Входные параметры<a class="headerlink" href="#id50" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd><p class="first last">Предыдущая нода.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id48">
-<h4>Выходные параметры<a class="headerlink" href="#id48" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id51">
+<h4>Выходные параметры<a class="headerlink" href="#id51" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd><p class="first last">Следующая нода.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id49">
-<h4>Внутренние параметры<a class="headerlink" href="#id49" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id52">
+<h4>Внутренние параметры<a class="headerlink" href="#id52" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd><p class="first last">Объект, материал которого нужно отредактировать.</p>
@@ -1053,47 +1121,6 @@
 <span id="nla-inherit-material"></span><h3>Inherit Material<a class="headerlink" href="#inherit-material" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет скопировать атрибуты одного материала на другой.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_inherit_material.png"><img alt="_images/logic_editor_inherit_material.png" class="align-center" src="_images/logic_editor_inherit_material.png" style="width: 100%;" /></a>
-<div class="section" id="id50">
-<h4>Входные параметры<a class="headerlink" href="#id50" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id51">
-<h4>Выходные параметры<a class="headerlink" href="#id51" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id52">
-<h4>Внутренние параметры<a class="headerlink" href="#id52" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Source</em></dt>
-<dd><p class="first last">Объект, которому присвоен материал, который требуется скопировать.</p>
-</dd>
-<dt><em>Material</em></dt>
-<dd><p class="first last">Материал, который требуется скопировать.</p>
-</dd>
-<dt><em>Destination</em></dt>
-<dd><p class="first last">Объект, которому требуется присвоить скопированный материал.</p>
-</dd>
-<dt><em>Material</em></dt>
-<dd><p class="first last">Материал, который будет заменен скопированным материалом.</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="section" id="operations">
-<h2><a class="toc-backref" href="#id92">Operations</a><a class="headerlink" href="#operations" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="variable-store">
-<span id="nla-var-store"></span><h3>Variable Store<a class="headerlink" href="#variable-store" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Сохраняет числовое или строковое значение в переменную.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_variable_store.png"><img alt="_images/logic_editor_variable_store.png" class="align-center" src="_images/logic_editor_variable_store.png" style="width: 100%;" /></a>
 <div class="section" id="id53">
 <h4>Входные параметры<a class="headerlink" href="#id53" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -1112,6 +1139,47 @@
 </div>
 <div class="section" id="id55">
 <h4>Внутренние параметры<a class="headerlink" href="#id55" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Source</em></dt>
+<dd><p class="first last">Объект, которому присвоен материал, который требуется скопировать.</p>
+</dd>
+<dt><em>Material</em></dt>
+<dd><p class="first last">Материал, который требуется скопировать.</p>
+</dd>
+<dt><em>Destination</em></dt>
+<dd><p class="first last">Объект, которому требуется присвоить скопированный материал.</p>
+</dd>
+<dt><em>Material</em></dt>
+<dd><p class="first last">Материал, который будет заменен скопированным материалом.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="operations">
+<h2><a class="toc-backref" href="#id95">Operations</a><a class="headerlink" href="#operations" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="variable-store">
+<span id="nla-var-store"></span><h3>Variable Store<a class="headerlink" href="#variable-store" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Сохраняет числовое или строковое значение в переменную.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_variable_store.png"><img alt="_images/logic_editor_variable_store.png" class="align-center" src="_images/logic_editor_variable_store.png" style="width: 100%;" /></a>
+<div class="section" id="id56">
+<h4>Входные параметры<a class="headerlink" href="#id56" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd><p class="first last">Предыдущая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id57">
+<h4>Выходные параметры<a class="headerlink" href="#id57" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd><p class="first last">Следующая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id58">
+<h4>Внутренние параметры<a class="headerlink" href="#id58" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Var. name.</em></dt>
 <dd><p class="first last">Имя переменной. Может быть выбрано из списка переменных либо задано самостоятельно (если включен параметр <code class="docutils literal"><span class="pre">New</span> <span class="pre">variable</span></code>).</p>
@@ -1136,24 +1204,24 @@
 <span id="nla-math"></span><h3>Math Operation<a class="headerlink" href="#math-operation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выполнить математическую операцию и сохранить результат в регистр. Любой из параметров (операндов) может быть либо числовым значением, либо переменной.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_math_operation.png"><img alt="_images/logic_editor_math_operation.png" class="align-center" src="_images/logic_editor_math_operation.png" style="width: 100%;" /></a>
-<div class="section" id="id56">
-<h4>Входные параметры<a class="headerlink" href="#id56" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id59">
+<h4>Входные параметры<a class="headerlink" href="#id59" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd><p class="first last">Предыдущая нода.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id57">
-<h4>Выходные параметры<a class="headerlink" href="#id57" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id60">
+<h4>Выходные параметры<a class="headerlink" href="#id60" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd><p class="first last">Следующая нода.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id58">
-<h4>Внутренние параметры<a class="headerlink" href="#id58" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id61">
+<h4>Внутренние параметры<a class="headerlink" href="#id61" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Operation</em></dt>
 <dd><p class="first">Математическая операция, производимая над операндами. Может иметь один из следующих типов:</p>
@@ -1186,24 +1254,24 @@
 <span id="nla-string"></span><h3>String Operation<a class="headerlink" href="#string-operation" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выполнить операцию над строковыми переменными и сохранить результат в переменную.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_string.png"><img alt="_images/logic_editor_string.png" class="align-center" src="_images/logic_editor_string.png" style="width: 100%;" /></a>
-<div class="section" id="id59">
-<h4>Входные параметры<a class="headerlink" href="#id59" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id62">
+<h4>Входные параметры<a class="headerlink" href="#id62" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd><p class="first last">Предыдущая нода.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id60">
-<h4>Выходные параметры<a class="headerlink" href="#id60" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id63">
+<h4>Выходные параметры<a class="headerlink" href="#id63" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd><p class="first last">Следующая нода.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id61">
-<h4>Внутренние параметры<a class="headerlink" href="#id61" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id64">
+<h4>Внутренние параметры<a class="headerlink" href="#id64" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Operation</em></dt>
 <dd><p class="first">Операция, которую нужно произвести над строками. Может иметь одно из следующих значений:</p>
@@ -1243,43 +1311,11 @@
 </div>
 </div>
 <div class="section" id="sound">
-<h2><a class="toc-backref" href="#id93">Sound</a><a class="headerlink" href="#sound" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id96">Sound</a><a class="headerlink" href="#sound" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="play-sound">
 <span id="nla-play-sound"></span><h3>Play Sound<a class="headerlink" href="#play-sound" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Позволяет воспроизводить звук спикера.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_play_sound.png"><img alt="_images/logic_editor_play_sound.png" class="align-center" src="_images/logic_editor_play_sound.png" style="width: 100%;" /></a>
-<div class="section" id="id62">
-<h4>Входные параметры<a class="headerlink" href="#id62" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id63">
-<h4>Выходные параметры<a class="headerlink" href="#id63" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id64">
-<h4>Внутренние параметры<a class="headerlink" href="#id64" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Speaker</em></dt>
-<dd><p class="first last">Источник звука, который требуется активировать.</p>
-</dd>
-<dt><em>Do Not Wait</em></dt>
-<dd><p class="first last">Если этот параметр активирован, управление будет передано следующей ноде сразу же после того, как началось воспроизведение звука. В противном случае это произойдёт только после того, как звук закончится.</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="stop-sound">
-<span id="nla-stop-sound"></span><h3>Stop Sound<a class="headerlink" href="#stop-sound" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Позволяет останавливать звук спикера.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_stop_sound.png"><img alt="_images/logic_editor_stop_sound.png" class="align-center" src="_images/logic_editor_stop_sound.png" style="width: 100%;" /></a>
 <div class="section" id="id65">
 <h4>Входные параметры<a class="headerlink" href="#id65" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -1300,18 +1336,18 @@
 <h4>Внутренние параметры<a class="headerlink" href="#id67" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Speaker</em></dt>
-<dd><p class="first last">Источник звука, который нужно отключить.</p>
+<dd><p class="first last">Источник звука, который требуется активировать.</p>
+</dd>
+<dt><em>Do Not Wait</em></dt>
+<dd><p class="first last">Если этот параметр активирован, управление будет передано следующей ноде сразу же после того, как началось воспроизведение звука. В противном случае это произойдёт только после того, как звук закончится.</p>
 </dd>
 </dl>
 </div>
 </div>
-</div>
-<div class="section" id="network">
-<h2><a class="toc-backref" href="#id94">Network</a><a class="headerlink" href="#network" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="send-request">
-<span id="nla-send-request"></span><h3>Send Request<a class="headerlink" href="#send-request" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Позволяет отправить HTTP GET запрос на указанный URL и поместить значения полей ответа в переменную.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_send_request.png"><img alt="_images/logic_editor_send_request.png" class="align-center" src="_images/logic_editor_send_request.png" style="width: 100%;" /></a>
+<div class="section" id="stop-sound">
+<span id="nla-stop-sound"></span><h3>Stop Sound<a class="headerlink" href="#stop-sound" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет останавливать звук спикера.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_stop_sound.png"><img alt="_images/logic_editor_stop_sound.png" class="align-center" src="_images/logic_editor_stop_sound.png" style="width: 100%;" /></a>
 <div class="section" id="id68">
 <h4>Входные параметры<a class="headerlink" href="#id68" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -1330,6 +1366,38 @@
 </div>
 <div class="section" id="id70">
 <h4>Внутренние параметры<a class="headerlink" href="#id70" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Speaker</em></dt>
+<dd><p class="first last">Источник звука, который нужно отключить.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="network">
+<h2><a class="toc-backref" href="#id97">Network</a><a class="headerlink" href="#network" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="send-request">
+<span id="nla-send-request"></span><h3>Send Request<a class="headerlink" href="#send-request" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет отправить HTTP GET запрос на указанный URL и поместить значения полей ответа в переменную.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_send_request.png"><img alt="_images/logic_editor_send_request.png" class="align-center" src="_images/logic_editor_send_request.png" style="width: 100%;" /></a>
+<div class="section" id="id71">
+<h4>Входные параметры<a class="headerlink" href="#id71" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd><p class="first last">Предыдущая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id72">
+<h4>Выходные параметры<a class="headerlink" href="#id72" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd><p class="first last">Следующая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id73">
+<h4>Внутренние параметры<a class="headerlink" href="#id73" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Method</em></dt>
 <dd><p class="first">Метод отправки запроса. Может иметь одно из двух значений:</p>
@@ -1373,41 +1441,6 @@
 <span id="nla-json"></span><h3>JSON<a class="headerlink" href="#json" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Используется для кодирования и декодирования сложных JSON-объектов.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_json.png"><img alt="_images/logic_editor_json.png" class="align-center" src="_images/logic_editor_json.png" style="width: 100%;" /></a>
-<div class="section" id="id71">
-<h4>Входные параметры<a class="headerlink" href="#id71" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id72">
-<h4>Выходные параметры<a class="headerlink" href="#id72" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Next</em></dt>
-<dd><p class="first last">Следующая нода.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id73">
-<h4>Внутренние параметры<a class="headerlink" href="#id73" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>JSON</em></dt>
-<dd><p class="first last">Сcылка на JSON-объект, который нужно кодировать или декодировать. По умолчанию имеет значение <code class="docutils literal"><span class="pre">R1</span></code>.</p>
-</dd>
-<dt><em>JSON Operation</em></dt>
-<dd><p class="first last">Операция, которую нужно произвести над JSON-объектом, указанном в параметре <code class="docutils literal"><span class="pre">JSON</span></code>. Может иметь одно из двух значений: <code class="docutils literal"><span class="pre">ENCODE</span></code> кодирует объект, <code class="docutils literal"><span class="pre">PARSE</span></code> декодирует его. Значение по умолчанию - <code class="docutils literal"><span class="pre">ENCODE</span></code>.</p>
-</dd>
-<dt><em>Members</em></dt>
-<dd><p class="first last">Список переменных, которые будут использованы для кодирования или декодирования JSON-объекта (в зависмости от значения параметра <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code>). Имена переменных всегда имеют вид <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> и т.д., а количество переменных может быть настроено.</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="section" id="page-param">
-<span id="nla-page-param"></span><h3>Page Param<a class="headerlink" href="#page-param" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Позволяет сохранить произвольный параметр веб-страницы в выбранной переменной.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_page_param.png"><img alt="_images/logic_editor_page_param.png" class="align-center" src="_images/logic_editor_page_param.png" style="width: 100%;" /></a>
 <div class="section" id="id74">
 <h4>Входные параметры<a class="headerlink" href="#id74" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -1427,6 +1460,41 @@
 <div class="section" id="id76">
 <h4>Внутренние параметры<a class="headerlink" href="#id76" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
+<dt><em>JSON</em></dt>
+<dd><p class="first last">Сcылка на JSON-объект, который нужно кодировать или декодировать. По умолчанию имеет значение <code class="docutils literal"><span class="pre">R1</span></code>.</p>
+</dd>
+<dt><em>JSON Operation</em></dt>
+<dd><p class="first last">Операция, которую нужно произвести над JSON-объектом, указанном в параметре <code class="docutils literal"><span class="pre">JSON</span></code>. Может иметь одно из двух значений: <code class="docutils literal"><span class="pre">ENCODE</span></code> кодирует объект, <code class="docutils literal"><span class="pre">PARSE</span></code> декодирует его. Значение по умолчанию - <code class="docutils literal"><span class="pre">ENCODE</span></code>.</p>
+</dd>
+<dt><em>Members</em></dt>
+<dd><p class="first last">Список переменных, которые будут использованы для кодирования или декодирования JSON-объекта (в зависмости от значения параметра <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code>). Имена переменных всегда имеют вид <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> и т.д., а количество переменных может быть настроено.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="page-param">
+<span id="nla-page-param"></span><h3>Page Param<a class="headerlink" href="#page-param" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет сохранить произвольный параметр веб-страницы в выбранной переменной.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_page_param.png"><img alt="_images/logic_editor_page_param.png" class="align-center" src="_images/logic_editor_page_param.png" style="width: 100%;" /></a>
+<div class="section" id="id77">
+<h4>Входные параметры<a class="headerlink" href="#id77" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd><p class="first last">Предыдущая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id78">
+<h4>Выходные параметры<a class="headerlink" href="#id78" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Next</em></dt>
+<dd><p class="first last">Следующая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id79">
+<h4>Внутренние параметры<a class="headerlink" href="#id79" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
 <dt><em>Param Name</em></dt>
 <dd><p class="first last">Имя параметра веб-страницы.</p>
 </dd>
@@ -1440,34 +1508,6 @@
 <span id="nla-page-redirect"></span><h3>Page Redirect<a class="headerlink" href="#page-redirect" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Служит для перенаправления на другие веб-страницы. По этой причине нода всегда находится в конце логической цепочки и не имеет выходных параметров.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_page_redirect.png"><img alt="_images/logic_editor_page_redirect.png" class="align-center" src="_images/logic_editor_page_redirect.png" style="width: 100%;" /></a>
-<div class="section" id="id77">
-<h4>Входные параметры<a class="headerlink" href="#id77" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Previous</em></dt>
-<dd><p class="first last">Предыдущая нода.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="id78">
-<h4>Выходные параметры<a class="headerlink" href="#id78" title="Ссылка на этот заголовок">¶</a></h4>
-<p>Отсутствуют.</p>
-</div>
-<div class="section" id="id79">
-<h4>Внутренние параметры<a class="headerlink" href="#id79" title="Ссылка на этот заголовок">¶</a></h4>
-<dl class="docutils">
-<dt><em>Url</em></dt>
-<dd><p class="first last">Адрес страницы, которя будет открыта. По умолчанию имеет значение &#8220;<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>&#8221;.</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
-<div class="section" id="debug">
-<h2><a class="toc-backref" href="#id95">Debug</a><a class="headerlink" href="#debug" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="console-print">
-<span id="nla-console-print"></span><h3>Console Print<a class="headerlink" href="#console-print" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Позволяет выводить значения переменных и дополнительную информацию в консоли браузе. Может использоваться для отладки логики.</p>
-<a class="reference internal image-reference" href="_images/logic_editor_console_print.png"><img alt="_images/logic_editor_console_print.png" class="align-center" src="_images/logic_editor_console_print.png" style="width: 100%;" /></a>
 <div class="section" id="id80">
 <h4>Входные параметры<a class="headerlink" href="#id80" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
@@ -1478,14 +1518,42 @@
 </div>
 <div class="section" id="id81">
 <h4>Выходные параметры<a class="headerlink" href="#id81" title="Ссылка на этот заголовок">¶</a></h4>
+<p>Отсутствуют.</p>
+</div>
+<div class="section" id="id82">
+<h4>Внутренние параметры<a class="headerlink" href="#id82" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Url</em></dt>
+<dd><p class="first last">Адрес страницы, которя будет открыта. По умолчанию имеет значение &#8220;<a class="reference external" href="https://www.blend4web.com">https://www.blend4web.com</a>&#8221;.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="debug">
+<h2><a class="toc-backref" href="#id98">Debug</a><a class="headerlink" href="#debug" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="console-print">
+<span id="nla-console-print"></span><h3>Console Print<a class="headerlink" href="#console-print" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Позволяет выводить значения переменных и дополнительную информацию в консоли браузе. Может использоваться для отладки логики.</p>
+<a class="reference internal image-reference" href="_images/logic_editor_console_print.png"><img alt="_images/logic_editor_console_print.png" class="align-center" src="_images/logic_editor_console_print.png" style="width: 100%;" /></a>
+<div class="section" id="id83">
+<h4>Входные параметры<a class="headerlink" href="#id83" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Previous</em></dt>
+<dd><p class="first last">Предыдущая нода.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id84">
+<h4>Выходные параметры<a class="headerlink" href="#id84" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd><p class="first last">Следующая нода.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id82">
-<h4>Внутренние параметры<a class="headerlink" href="#id82" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id85">
+<h4>Внутренние параметры<a class="headerlink" href="#id85" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Message</em></dt>
 <dd><p class="first last">Сообщение, которые будет напечатано в консоли вместе со значениями переменных.</p>
@@ -1498,7 +1566,7 @@
 </div>
 </div>
 <div class="section" id="deprecated">
-<h2><a class="toc-backref" href="#id96">Deprecated</a><a class="headerlink" href="#deprecated" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id99">Deprecated</a><a class="headerlink" href="#deprecated" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="select-deprecated">
 <h3>Select (Deprecated)<a class="headerlink" href="#select-deprecated" title="Ссылка на этот заголовок">¶</a></h3>
 <div class="admonition note">
@@ -1525,29 +1593,29 @@
 </div>
 </div>
 <div class="section" id="layout">
-<h2><a class="toc-backref" href="#id97">Layout</a><a class="headerlink" href="#layout" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id100">Layout</a><a class="headerlink" href="#layout" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="empty">
 <span id="nla-empty"></span><h3>Empty<a class="headerlink" href="#empty" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Простая нода, не выполняющая никаких действий кроме передачи управления следующей ноде. Может применяться для объединения нескольких логических нитей в одну или для того, чтобы сделать логическое дерево более простым для понимания.</p>
 <a class="reference internal image-reference" href="_images/logic_editor_empty.png"><img alt="_images/logic_editor_empty.png" class="align-center" src="_images/logic_editor_empty.png" style="width: 100%;" /></a>
-<div class="section" id="id83">
-<h4>Входные параметры<a class="headerlink" href="#id83" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id86">
+<h4>Входные параметры<a class="headerlink" href="#id86" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Previous</em></dt>
 <dd><p class="first last">Предыдущая нода (либо несколько нод).</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id84">
-<h4>Выходные параметры<a class="headerlink" href="#id84" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id87">
+<h4>Выходные параметры<a class="headerlink" href="#id87" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Next</em></dt>
 <dd><p class="first last">Следующая нода.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="id85">
-<h4>Внутренние параметры<a class="headerlink" href="#id85" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="section" id="id88">
+<h4>Внутренние параметры<a class="headerlink" href="#id88" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Отсутствуют.</p>
 </div>
 </div>
@@ -1563,7 +1631,7 @@
 </div>
 </div>
 <div class="section" id="debugging">
-<span id="nla-debug"></span><h2><a class="toc-backref" href="#id98">Отладка</a><a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="nla-debug"></span><h2><a class="toc-backref" href="#id101">Отладка</a><a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для отладки имеется возможность отключения (muting) нод. Для этого необходимо выделить ноду и нажать горячую клавишу <code class="docutils literal"><span class="pre">M</span></code>. Отключенная нода не выполняется, но при этом передает управление следующей ноде. Если у отключенной ноды имеется несколько выходов, то будет происходить выполнение ветки со стороны выхода отрицательного результата (<code class="docutils literal"><span class="pre">Miss</span></code>, <code class="docutils literal"><span class="pre">False</span></code>).</p>
 </div>
 </div>
@@ -1588,7 +1656,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-10-27.
+      Обновлено: 2016-11-29.
 
     </p>
   </div>
@@ -1644,7 +1712,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.10',
+            VERSION:'v16.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

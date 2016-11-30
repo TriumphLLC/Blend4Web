@@ -32,6 +32,7 @@ var m_assets   = require("__assets");
 /**
  * Texture changing finish callback.
  * @callback TexChangingFinishCallback
+ * @param {Boolean} success Operation result
  */
 
 /**
@@ -99,8 +100,14 @@ exports.reset_video = function(texture_name, data_id) {
  * @see https://www.blend4web.com/doc/en/textures.html#canvas
  * @method module:textures.get_canvas_ctx
  * @param {Object3D} obj Object 3D
- * @param {String} text_name Texture name
+ * @param {String} text_name Texture name specified in Blender
  * @returns {CanvasRenderingContext2D} Canvas texture context
+ * @example 
+ * var m_scenes = require("scenes");
+ * var m_tex = require("textures");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * var ctx = m_tex.get_canvas_ctx(cube, "Texture");
  */
 exports.get_canvas_ctx = function(obj, text_name) {
 
@@ -119,7 +126,13 @@ exports.get_canvas_ctx = function(obj, text_name) {
  * @see https://www.blend4web.com/doc/en/textures.html#canvas
  * @method module:textures.update_canvas_ctx
  * @param {Object3D} obj Object 3D
- * @param {String} text_name Texture name
+ * @param {String} text_name Texture name specified in Blender
+ * @example 
+ * var m_scenes = require("scenes");
+ * var m_tex = require("textures");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_tex.update_canvas_ctx(cube, "Texture");
  */
 exports.update_canvas_ctx = function(obj, text_name) {
 
@@ -136,9 +149,15 @@ exports.update_canvas_ctx = function(obj, text_name) {
  * Update texture image.
  * @method module:textures.change_image
  * @param {Object3D} obj Object 3D
- * @param {String} text_name Texture name
- * @param {String} image_path Path to image
- * @param {TexChangingFinishCallback} [callback] Callback to execute on finished changing
+ * @param {String} text_name Texture name specified in Blender
+ * @param {String} image_path Path to image (relative to the main html file)
+ * @param {TexChangingFinishCallback} [callback] Callback to be executed after changing
+ * @example 
+ * var m_scenes  = require("scenes");
+ * var m_tex = require("textures");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_tex.change_image(cube, "Texture", "./test.png");
  */
 exports.change_image = function(obj, text_name, image_path, callback) {
     callback = callback || function() {};
@@ -152,11 +171,15 @@ exports.change_image = function(obj, text_name, image_path, callback) {
         optional_param: null
     };
     var asset_cb = function(data, iru, type, filepath, optional_param) {
-        if (data)
+        if (data) {
             if (m_textures.change_image(obj, text_name, data))
-                callback();
-            else
+                callback(true);
+            else {
                 m_print.error("Couldn't find texture with this name: " + text_name);
+                callback(false);
+            }
+        } else
+            callback(false);
     }
     m_assets.enqueue([asset], asset_cb, null, null);
 }

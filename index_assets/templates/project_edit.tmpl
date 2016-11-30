@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Edit project source files</title>
+
+<link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png">
+<link rel="shortcut icon" href="/index_assets/img/favicon.ico">
+<link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png">
+
+<link rel="stylesheet" type="text/css" href="/index_assets/css/codemirror/codemirror.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/base.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/project_edit.css">
+
+<script type="text/javascript" src="/index_assets/js/codemirror/codemirror.js"></script>
+<script type="text/javascript" src="/index_assets/js/codemirror/javascript.js"></script>
+<script type="text/javascript" src="/index_assets/js/codemirror/multiplex.js"></script>
+<script type="text/javascript" src="/index_assets/js/codemirror/htmlembedded.js"></script>
+<script type="text/javascript" src="/index_assets/js/codemirror/htmlmixed.js"></script>
+<script type="text/javascript" src="/index_assets/js/codemirror/xml.js"></script>
+<script type="text/javascript" src="/index_assets/js/codemirror/css.js"></script>
+<script type="text/javascript" src="/index_assets/js/codemirror/sublime.js"></script>
+<script type="text/javascript" src="/index_assets/js/codemirror/loadmode.js"></script>
+<script type="text/javascript" src="/index_assets/js/codemirror/properties.js"></script>
+
+<script type="text/javascript" src="/index_assets/js/init.js"></script>
+
+</head>
+
+<body>
+  <h1>Edit project source files</h1>
+  <div class="btns_cont row">
+    <div>
+      <a id="back_to_index" href="/project/" class="btn">
+        <div></div>
+        <span>Back to Projects</span>
+      </a>
+      <a id="help" href="/deploy/doc/en/project_manager.html" class="btn">
+        <div></div>
+        <span>Help</span>
+      </a>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr class="projects">
+        <th>Files</th>
+        <th>Editor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          $content
+        </td>
+        <td>
+          <div>
+            <textarea id="cm_editor"></textarea>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="btns_cont row">
+    <div>
+      <a id="save_file" class="btn">
+        <div></div>
+        <span>Save File</span>
+      </a>
+    </div>
+  </div>
+</body>
+
+</html>

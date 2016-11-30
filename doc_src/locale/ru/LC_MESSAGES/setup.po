@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-27 15:47+0300\n"
+"POT-Creation-Date: 2016-11-24 16:46+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -54,10 +54,12 @@ msgstr ""
 #: ../setup.rst:23
 msgid ""
 "A current stable version of Blender should be used. It can be downloaded "
-"from the `official site <http://www.blender.org/download>`_."
+"from the `official site <http://www.blender.org/download>`_ or from "
+"`Blend4Web site <https://www.blend4web.com/ru/downloads/>`_."
 msgstr ""
 "Должна использоваться текущая стабильная версия Blender. Загрузить "
-"Blender можно с `официального сайта <http://www.blender.org/download>`_."
+"Blender можно с `официального сайта <http://www.blender.org/download>`_ "
+"или с `сайта Blend4Web <https://www.blend4web.com/ru/downloads/>`_."
 
 #: ../setup.rst:31
 msgid "Unpacking the Archive"
@@ -217,9 +219,9 @@ msgid ""
 "updating the SDK, as doing so will completely delete the add-on, "
 "including its files in the SDK."
 msgstr ""
-"Не рекомендуется использовать кнопку ``Remove`` для отключения аддона "
-"при обновлении SDK, так как это приведёт к полному удалению аддона, в "
-"том числе его файлов в SDK."
+"Не рекомендуется использовать кнопку ``Remove`` для отключения аддона при"
+" обновлении SDK, так как это приведёт к полному удалению аддона, в том "
+"числе его файлов в SDK."
 
 #: ../setup.rst:115
 msgid "Unpack the new version of the SDK from the archive."
@@ -336,6 +338,64 @@ msgstr "Нажмите кнопку :file:`Save User Settings`."
 msgid "Everything should be working now."
 msgstr "Теперь всё должно работать."
 
+#: ../setup.rst:172
+msgid "Updating Saved Projects"
+msgstr "Обновление сохранённых проектов"
+
+#: ../setup.rst:174
+msgid ""
+"After you have updated your SDK (or Add-on), you can import projects that"
+" you exported before updating back to the Project Manager. To do this, "
+"follow the following instructions:"
+msgstr ""
+"После обновления SDK (или аддона) вы можете импортировать в Менеджер "
+"проектов проекты, экспортированные перед началом обновления. Чтобы "
+"сделать это, следуйте инструкции:"
+
+#: ../setup.rst:176
+msgid "Open Project Manager."
+msgstr "Откройте Менеджер проектов."
+
+#: ../setup.rst:178
+msgid "Import your projects using the ``Import Project(s)`` button."
+msgstr "Импортируйте проекты с помощью кнопки ``Import Project(s)``."
+
+#: ../setup.rst:180
+msgid "Reexport projects's ``.blend`` files using the ``re-export scenes`` link."
+msgstr ""
+"Повторно экспортируйте ``.blend``-файлы с помощью ссылки ``re-export "
+"scenes``."
+
+#: ../setup.rst:182
+msgid ""
+"Use the ``check modules`` link for every imported project to make sure "
+"there are no missing or unused modules in the program code. If there are,"
+" you may try to fix the poblems using the ``Update Modules`` button."
+msgstr ""
+"Проверьте импортированные проекты на отсутствующие и неиспользуемые "
+"модули с помощью ссылки ``check modules``. Если такие модули обнаружены, "
+"проблему можно попытаться исправить с помощью кнопки ``Update Modules``."
+
+#: ../setup.rst:184
+msgid ""
+"Then use ``build`` command to make the build versions of the imported "
+"projects work again."
+msgstr ""
+"Затем используйте команду ``build`` для того, чтобы собранные версии "
+"импортированных проектов нормально работали с новой версией SDK."
+
+#: ../setup.rst:186
+msgid ""
+"The developer version of the projects using ``Copy`` or ``Compile`` "
+"engine binding type should also be build to properly work with the new "
+"version of the SDK (the developer versions of the projects with other "
+"bindning types should work fine without it)."
+msgstr ""
+"Если приложение использует тип привязки движка ``Copy`` или ``Compile``, "
+"то его версию для разработки тоже необходимо собрать перед тем, как "
+"использовать с обновленным SDK (версии для разработки проектов с другими "
+"типами привязки движка должны нормально работать и без сборки)."
+
 #~ msgid "*To check:*"
 #~ msgstr "*Для проверки:*"
 
@@ -371,12 +431,4 @@ msgstr "Теперь всё должно работать."
 
 #~ msgid "export"
 #~ msgstr "экспорт"
-
-#~ msgid ""
-#~ "We recommend not to use the "
-#~ "``Remove`` button to do this, as "
-#~ "pressing it will completely delete the"
-#~ " add-on, including its files in "
-#~ "the SDK."
-#~ msgstr ""
 

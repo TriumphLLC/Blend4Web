@@ -127,7 +127,7 @@ WebGL的无法初始化
 
 
 
-For macOS, you can check System Report.
+适用于macOS，你可以检查系统报告。
 
 要做到这一点，请按照下列步骤操作：
 
@@ -196,10 +196,9 @@ For macOS, you can check System Report.
 
 * 使用Mali GPU的有些设备需要在浏览器设置手动激活的WebGL。
 
-* For the local development server to work on Apple macOS and
-  Blender 2.76, you may need to install Python 3.4. This is due to a
-  bug in Blender https://developer.blender.org/T46623. This bug has
-  been fixed in Blender 2.76b, so updating it is advised.
+* 对于本地开发服务器在苹果 macOS 和Blender2.76时，您可能需要安装
+  Python 3.4.  这是由于在Blender https://developer.blender.org/T46623
+  的错误。此错误已在Blender2.76b修复，所以建议更新Blender。
 
 * 使用Nouveau 驱动时骨骼动画可能工作不正确。
 
@@ -245,5 +244,4 @@ For macOS, you can check System Report.
      这个问题可以通过导出一个场景之前或通过简单地点击层激活层以使
      Blender更新它们来解决。
 
-* Alpha blending objects are rendered incorrect on the Mali 400
-  series GPU by Google Chrome browser.
+* Mali 400系列的GPU上谷歌Chrome浏览器渲染Alpha混合物体不正确。

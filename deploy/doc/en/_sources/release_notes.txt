@@ -6,6 +6,114 @@ Release Notes
 
 .. index:: release notes
 
+v16.11
+======
+
+New Features
+------------
+
+* Added partial support for materials powered by ``Cycles`` render nodes. List of currently supported ``Cycles`` nodes:
+
+    ``Material Output`` node is similiar to ``Output`` from ``Blender Internal`` except it utilizes a shader type input socket. ``Surface`` node input is the only one currently supported. This node defines material as a physically based rendered (PBR) material.
+
+    ``BSDF Diffuse`` node is from the ``Shader`` category. It is responsible for the diffuse component of the material lighting and produces no visible reflections. Node inputs include ``Color``, ``Roughness``, ``Normal``. This node has single shader type output socket.
+
+    ``BSDF Glossy`` node is from the ``Shader`` category. It is responsible for the specular component of the material lighting and reflections of the environment. Node inputs include ``Color``, ``Roughness``, ``Normal``. This node has single shader type output socket. The only currently supported specular distribution is GGX. This node automatically enables real-time cube reflections for the object, which uses the material and is not set as reflective. Reflexible environment and objects should be configured according to standard b4w pipeline. Roughness currently does not affect reflections.
+
+    ``Mix Shader`` node is from the ``Shader`` category. This node is used to mix outputs of nodes from the ``Shader`` category. Node inputs include ``Fac``, which defines mixing ratio, and two ``Shader`` inputs. This node has single shader type output socket.
+
+    ``Fresnel`` node is from the ``Input`` category. This node computes how much light is reflected off a material layer, where the rest will be refracted through the layer. The resulting weight can be used for layering shaders with the ``Mix Shader`` node. It is dependent on the angle between the surface normal and the viewing direction. Node inputs include ``IOR`` (index of refraction) and ``Normal``. This node has single scalar type output socket.
+
+    ``Layer Weight`` node is from the ``Input`` category. This node defines a weight typically used for layering shaders with the Mix Shader node. Node inputs include ``Blend`` and ``Normal``. Node inputs include ``Fresnel`` and ``Facing``.
+
+    Other supported nodes include ``Image Texture``, ``Environment Texture``, ``Object Info``, ``Bump``.
+
+    Other partially supported nodes include ``Texture Coordinate`` (`From Dupli` parameter is not supported), ``UV Map`` (`From Dupli` parameter is not supported), ``Geometry`` (`Pointness` and `Parametric` outputs are not supported).
+
+    Nodes supported in previous b4w releases, which are used in both ``Cycles`` and ``Blender Internal``, will also work fine with new PBR materials. Such nodes include ``Color Ramp``, ``Normal Map``, ``Camera Data``, ``Particle Info``, ``RGB``, ``Value``, nodes from the ``Convertor`` category (except ``Blackbody`` and ``Wavelength`` nodes), nodes from the ``Vector`` category, nodes from the ``Color`` category (except ``Light Falloff`` node).
+
+* Project Manager improvements.
+
+    The project file editor was added. Now CSS, JavaScript, HTML and .b4w_project files can be edited in the Project Manager.
+
+* New first-person (fps) add-on was added.
+
+    The add-on helps to create first person applications easier. There are two main methods in it: :b4wref:`fps.enable_fps_controls` and :b4wref:`fps.disable_fps_controls`. The first creates default gamepad and keyboard controls, enables mouse and touch camera movement, enables VR camera rotation if VR mode is enabled. The second disables these controls. There are also other methods in the new add-on: :b4wref:`fps.bind_action`, :b4wref:`fps.set_character_state_changing_cb`, :b4wref:`fps.set_cam_smooth_factor`, :b4wref:`fps.set_cam_sensitivity`, :b4wref:`fps.set_plock_enable_cb`, :b4wref:`fps.set_plock_disable_cb`.
+
+* Improvements with 3D Navigation Mesh.
+
+    Now the :b4wref:`physics.navmesh_find_path` method of the :b4wmod:`physics` module finds 3d path, it allows us to construct paths on vertical surfaces. Previously, one was only able to construct path on horizontal planes.
+    The parameters of the :b4wref:`physics.navmesh_find_path` method has been changed.
+    Initialization time of navigation mesh has been reduced.
+    A* algorithm has been improved.
+
+* Blend4Web addon usability improvements.
+
+    Blend4Web SDK Directory field in addon properties has been removed. Now, path to Blend4Web SDK directory resolved automatically.
+
+Changes
+-------
+
+* API changes.
+
+    The parameters of the :b4wref:`screenshooter.shot` method and the :b4wref:`main.canvas_data_url` method have been changed.
+
+    A new function :b4wref:`camera.get_camera_angles_dir` has been added into the :b4wmod:`camera` module. It allows to get a camera's spherical coordinates from the given direction respresenting the view vector of a camera.
+
+* Simplified Environment Setup.
+
+    Water now uses the default wind when the wind object is absent in a scene. A water object is now always dynamic. Procedural sky uses the default sun direction when a sun object is absent in a scene.
+
+* NPC AI now caches all animation on initialization.
+
+    This slighly increases the loading time but removes real-time delays caused by npc animation.
+
+* The ``Fast Preview`` button is now available in the Cycles render profile.
+
+* The :b4wref:`scenes.get_all_objects`, :b4wref:`scenes.get_object_by_name` and :b4wref:`scenes.check_object_by_name` methods no longer return the engine's internal meta-objects, which are not intended to use in an application.
+
+Fixes
+-----
+
+* Project Manager compatibility with the old build type ``update`` was added.
+
+* Fixed bug with specific encoding in the Project Manager.
+
+* Fixed bug with the same module names conflicting in the Project Manager.
+
+* Specular shading bug was fixed.
+
+    The bug, which happened when two or more lamps were used for material with
+    the Blinn specular type, was fixed.
+
+* NLA unloading bug was fixed.
+
+    Now all objects belonging to the unloaded scene are removed from NLA.
+
+* Stereo blinking bug was fixed.
+
+    The bug appeared when using motion blur effect.
+
+* Overwriting resources with the same names in temporary directory when using Fast Preview was fixed.
+
+* Fixed Network error while downloading a screenshot.
+
+* Fixed shader crash occuring in some scenes in LOW quality mode.
+
+* Fixed engine crash for scenes without ``MESH`` objects.
+
+* Fixed the :b4wref:`camera_anim.track_to_target` method, which previously performed incorrect zoom animation.
+
+* Fixed a rare bug related to empty particle texture slots, which could lead to export crash.
+
+* Fixed rendering of the procedural lines.
+
+* Fixed ``Play Animation`` logic node bug when animation stopped playing after the first time.
+
+* Fixed crash in navmesh module in web-browsers without support of `indexOf` method for `TypedArray`.
+
+* Fixed silent failure in ``Project Manager`` during resource converting in case of `ffprobe` missing.
+
 v16.10
 ======
 

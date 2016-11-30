@@ -425,15 +425,17 @@
     #node_in vec2 sp_params
     #node_out float sfactor
 
+    float refrac = sp_params[0];
+    float spec_power = sp_params[1];
     sfactor = _0_0;
     if (lfac.g != _0_0) {
-        if (sp_params[0] < 1.0 || sp_params[1] == _0_0)
+        if (refrac < 1.0 || spec_power == _0_0)
             sfactor = _0_0;
         else {
-            if (sp_params[1] < 100.0)
-                sp_params[1]= sqrt(1.0 / sp_params[1]);
+            if (spec_power < 100.0)
+                spec_power = sqrt(1.0 / spec_power);
             else
-                sp_params[1]= 10.0 / sp_params[1];
+                spec_power = 10.0 / spec_power;
 
             vec3 halfway = normalize(nin_eye_dir + ldir);
 # node_if MAT_USE_TBN_SHADING
@@ -462,12 +464,12 @@
 
                     float g = min(min(a, b), c);
 
-                    float p = sqrt(pow(sp_params[0], 2.0) + pow(vh, 2.0) - _1_0);
+                    float p = sqrt(pow(refrac, 2.0) + pow(vh, 2.0) - _1_0);
                     float f = pow(p - vh, 2.0) / pow(p + vh, 2.0) * (_1_0 
                             + pow(vh * (p + vh) - _1_0, 2.0)/pow(vh * (p - vh) 
                             + _1_0, 2.0));
                     float ang = acos(nh);
-                    sfactor = max(f * g * exp(-pow(ang, 2.0) / (2.0 * pow(sp_params[1], 2.0))), 
+                    sfactor = max(f * g * exp(-pow(ang, 2.0) / (2.0 * pow(spec_power, 2.0))), 
                             _0_0);
                 }
             }

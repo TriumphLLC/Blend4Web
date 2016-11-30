@@ -30,8 +30,11 @@ var _gs = {
     source: new Float32Array(3),
     click: false,
     speed: 1,
-    dist_err: 0.5
+    dist_err: 0.2,
+    accurate_translation: false
 };
+
+var is_debug = m_ver.type() == "DEBUG";
 
 var ASSETS_PATH = m_cfg.get_std_assets_path() + "petigors_tale/";
 
@@ -45,7 +48,9 @@ function init_cb(canvas_elem, success) {
     preloader_cont.style.visibility = "visible"
 
     //HACK: override initialization properties
-    m_cfg.set("srgb_type", "SRGB_PROPER");
+    if (!m_main.detect_mobile())
+        m_cfg.set("srgb_type", "SRGB_PROPER");
+
     m_data.load(ASSETS_PATH + "quest/main_scene_quest.json", load_cb, preloader_cb,
                 true);
 }
@@ -59,7 +64,6 @@ function preloader_cb(percentage) {
 
     if (percentage == 100) {
         remove_preloader();
-
         return;
     }
 }
@@ -171,7 +175,8 @@ function load_cb(id, success) {
     m_lnodes.append_custom_callback("move_to_target", lnodes_move_to_target);
     m_lnodes.append_custom_callback("set_variables", lnodes_set_variables);
     m_pet_state.init(_gs);
-    //m_main.set_render_callback(render_callback)
+    //if (is_debug)
+    //    m_main.set_render_callback(render_callback)
     create_sensors()
 }
 
@@ -188,9 +193,10 @@ function render_callback(delta, timeline) {
 
 exports.init = function() {
     var is_mobile = m_main.detect_mobile();
-    var is_debug = m_ver.type() == "DEBUG";
-
-    var quality = m_cfg.P_HIGH;
+    if (is_mobile)
+        var quality = m_cfg.P_LOW;
+    else
+        var quality = m_cfg.P_HIGH;
 
     m_app.init({
         canvas_container_id: "canvas3d",

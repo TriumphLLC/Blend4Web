@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-10-18 15:16+0300\n"
+"POT-Creation-Date: 2016-11-25 16:42+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -53,17 +53,12 @@ msgstr ""
 
 #: ../node_materials.rst:30
 msgid ""
-"Cycles nodes are only partially supported: in most cases they will not "
-"work in Blend4Web the same way they do in Blender. They also might not "
-"work at all or even cause material in which they are used to work "
-"incorrectly. However, using Cycles nodes will not cause instabilities in "
-"the application workflow."
+"The engine also has partial support for some of the Cycles nodes. This "
+"subject is more thoroughly described in the :ref:`corresponding chapter "
+"<cycles_nodes>`."
 msgstr ""
-"Ноды Cycles поддерживаются ограниченно: в большинстве случаев  они не "
-"будут работать в Blend4Web так же, как они работают в Blender, могут не "
-"работать вообще или даже приводить к некорректной работе материала, в "
-"котором используются. Однако использование нод Cycles не вызовет "
-"нестабильности в работе приложения."
+"Движок также частично поддерживает некоторые ноды Cycles. Более подробно "
+"этот вопрос рассмотрен в :ref:`соответствующей главе <cycles_nodes>`."
 
 #: ../node_materials.rst:36
 msgid "Standard node performance and degree of support is described in the table."
@@ -1047,6 +1042,98 @@ msgstr ""
 #: ../node_materials.rst:516
 msgid ":ref:`gamma_node_materials`"
 msgstr ""
+
+#: ../node_materials.rst:521
+msgid "Cycles Nodes"
+msgstr "Ноды Сycles"
+
+#: ../node_materials.rst:524
+msgid ""
+"Cycles node support is an experimental feature that is not yet "
+"recommended for using in production enviroment."
+msgstr ""
+"Поддержка нод Cycles - экспериментальная возможность, которая на данный "
+"момент не рекомендуется к использованию при разработке серьёзных "
+"приложений."
+
+#: ../node_materials.rst:526
+msgid "The engine support the following ``Cycles`` nodes:"
+msgstr "Движок поддерживает следующие ноды ``Cycles``:"
+
+#: ../node_materials.rst:528
+msgid "``Material Output`` (only ``Surface`` input is supported);"
+msgstr "``Material Output`` (поддерживается только вход ``Surface``);"
+
+#: ../node_materials.rst:530
+msgid "``BSDF Diffuse``;"
+msgstr ""
+
+#: ../node_materials.rst:532
+msgid ""
+"``BSDF Glossy`` (only ``GGX`` distribution is supported; the "
+"``Roughness`` parameter does not influence the reflections);"
+msgstr ""
+"``BSDF Glossy`` (поддерживается только распределение ``GGX``; параметр "
+"``Roughness`` не влияет на отражения);"
+
+#: ../node_materials.rst:534
+msgid "``Mix Shader``;"
+msgstr ""
+
+#: ../node_materials.rst:536
+msgid "``Fresnel``;"
+msgstr ""
+
+#: ../node_materials.rst:538
+msgid "``Layer Weight``;"
+msgstr ""
+
+#: ../node_materials.rst:540
+msgid "``Image Texture``;"
+msgstr ""
+
+#: ../node_materials.rst:542
+msgid "``Environment Texture``;"
+msgstr ""
+
+#: ../node_materials.rst:544
+msgid "``Object Info``;"
+msgstr ""
+
+#: ../node_materials.rst:546
+msgid "``Bump``."
+msgstr ""
+
+#: ../node_materials.rst:548
+msgid "The following nodes are partially supported:"
+msgstr "Следующие ноды поддеживаются частично:"
+
+#: ../node_materials.rst:550
+msgid "``Texture Coordinates`` (``From Dupli`` parameter is not supported);"
+msgstr "``Texture Coordinates`` (параметр ``From Dupli`` не поддерживается);"
+
+#: ../node_materials.rst:552
+msgid "``UV Map`` (``From Dupli`` parameter is not supported);"
+msgstr "``UV Map`` (параметр ``From Dupli`` не поддерживается);"
+
+#: ../node_materials.rst:554
+msgid ""
+"``Geometry`` (the ``Pointness`` and ``Parametric`` parameters are not "
+"supported)."
+msgstr "``Geometry`` (параметры ``Pointness`` и ``Parametric`` не поддерживаются)."
+
+#: ../node_materials.rst:556
+msgid ""
+"Other ``Cycles`` nodes will not, in most cases, work in Blend4Web the "
+"same way they do in Blender. They also might not work at all or even "
+"cause material in which they are used to work incorrectly. However, using"
+" these nodes will not cause instabilities in the application workflow."
+msgstr ""
+"Прочие ноды ``Cycles`` в большинстве случаев не будут работать в "
+"Blend4Web так же, как они работают в Blender. Кроме того, они могут не "
+"работать вообще или даже приводить к некорректной работе материала, в "
+"котором используются. Однако использование таких нод не вызовет "
+"нестабильности в работе приложения."
 
 #: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:170
 msgid "materials"

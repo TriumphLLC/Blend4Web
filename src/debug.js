@@ -759,7 +759,7 @@ exports.nodegraph_to_dot = function(graph, detailed_print) {
             case "TEXTURE_COLOR":
             case "TEXTURE_NORMAL":
                 data_info = "\ntexture: " + attr.data.value.name + "\n(" 
-                        + attr.data.value.image.filepath + ")";
+                        + attr.data.value.img_filepath + ")";
                 break;
             }
 

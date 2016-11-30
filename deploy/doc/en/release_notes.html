@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Release Notes &mdash; Blend4Web 16.10 User Manual</title>
+  <title>Release Notes &mdash; Blend4Web 16.11 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.10 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.11 User Manual" href="index.html"/>
         <link rel="prev" title="Problems and Solutions" href="problems_and_solutions.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.10
+              v16.11
             </div>
           
         
@@ -115,177 +115,183 @@
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#v16-10">v16.10</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-11">v16.11</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#new-features">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changes">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fixes">Fixes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-09">v16.09</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-10">v16.10</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id4">Fixes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-08">v16.08</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-09">v16.09</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id5">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id6">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id7">Fixes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-07">v16.07</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-08">v16.08</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id8">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id9">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id10">Fixes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-06">v16.06</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-07">v16.07</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id11">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id12">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id13">Fixes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-05">v16.05</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-06">v16.06</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id14">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id15">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id16">Fixes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-04">v16.04</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-05">v16.05</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id17">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id18">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id19">Fixes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-03">v16.03</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-04">v16.04</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id20">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id21">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id22">Fixes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#v16-02">v16.02</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v16-03">v16.03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id23">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id24">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id25">Fixes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v16-02">v16.02</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id26">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">Fixes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#known-issues">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v16-01">v16.01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id26">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id27">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id28">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id29">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-12">v15.12</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id30">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id31">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id32">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id33">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id35">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id36">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-11">v15.11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id35">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id36">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id37">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id38">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id38">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id39">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id40">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id41">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-10">v15.10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id40">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id41">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id42">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id43">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id43">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id44">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id46">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-09">v15.09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id45">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id46">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id47">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id48">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id48">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id49">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id50">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id51">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-08">v15.08</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id49">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id50">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id51">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id52">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id52">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id53">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id54">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id55">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-07">v15.07</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id53">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id54">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id55">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id56">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id56">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id57">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id58">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id59">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-06">v15.06</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id57">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id58">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id59">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id60">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id60">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id62">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-05">v15.05</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id62">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id63">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id64">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id65">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id65">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id66">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id67">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id68">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-04">v15.04</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id66">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id67">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id68">Fixes</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#v15-03">v15.03</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id69">New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id70">Changes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id71">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id72">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#v15-03">v15.03</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id72">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id73">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id74">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id75">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-02">v15.02</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id73">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id74">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id75">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id76">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id76">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id77">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id78">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id79">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-01">v15.01</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id77">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id78">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id79">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id80">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id80">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id81">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id82">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id83">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-12">v14.12</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id81">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id82">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id83">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id84">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id84">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id85">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id86">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id87">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-11">v14.11</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id85">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id86">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id87">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id88">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id88">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id89">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id90">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id91">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-10">v14.10</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id89">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id90">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id91">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id92">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id92">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id93">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id94">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id95">Known Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id93">New Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id94">Changes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id95">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id96">Known Issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id96">New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id97">Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id98">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id99">Known Issues</a></li>
 </ul>
 </li>
 </ul>
@@ -333,10 +339,126 @@
             
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="v16-10">
-<span id="index-0"></span><h2>v16.10<a class="headerlink" href="#v16-10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="v16-11">
+<span id="index-0"></span><h2>v16.11<a class="headerlink" href="#v16-11" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="new-features">
 <h3>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Added partial support for materials powered by <code class="docutils literal"><span class="pre">Cycles</span></code> render nodes. List of currently supported <code class="docutils literal"><span class="pre">Cycles</span></code> nodes:</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">Material</span> <span class="pre">Output</span></code> node is similiar to <code class="docutils literal"><span class="pre">Output</span></code> from <code class="docutils literal"><span class="pre">Blender</span> <span class="pre">Internal</span></code> except it utilizes a shader type input socket. <code class="docutils literal"><span class="pre">Surface</span></code> node input is the only one currently supported. This node defines material as a physically based rendered (PBR) material.</p>
+<p><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Diffuse</span></code> node is from the <code class="docutils literal"><span class="pre">Shader</span></code> category. It is responsible for the diffuse component of the material lighting and produces no visible reflections. Node inputs include <code class="docutils literal"><span class="pre">Color</span></code>, <code class="docutils literal"><span class="pre">Roughness</span></code>, <code class="docutils literal"><span class="pre">Normal</span></code>. This node has single shader type output socket.</p>
+<p><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Glossy</span></code> node is from the <code class="docutils literal"><span class="pre">Shader</span></code> category. It is responsible for the specular component of the material lighting and reflections of the environment. Node inputs include <code class="docutils literal"><span class="pre">Color</span></code>, <code class="docutils literal"><span class="pre">Roughness</span></code>, <code class="docutils literal"><span class="pre">Normal</span></code>. This node has single shader type output socket. The only currently supported specular distribution is GGX. This node automatically enables real-time cube reflections for the object, which uses the material and is not set as reflective. Reflexible environment and objects should be configured according to standard b4w pipeline. Roughness currently does not affect reflections.</p>
+<p><code class="docutils literal"><span class="pre">Mix</span> <span class="pre">Shader</span></code> node is from the <code class="docutils literal"><span class="pre">Shader</span></code> category. This node is used to mix outputs of nodes from the <code class="docutils literal"><span class="pre">Shader</span></code> category. Node inputs include <code class="docutils literal"><span class="pre">Fac</span></code>, which defines mixing ratio, and two <code class="docutils literal"><span class="pre">Shader</span></code> inputs. This node has single shader type output socket.</p>
+<p><code class="docutils literal"><span class="pre">Fresnel</span></code> node is from the <code class="docutils literal"><span class="pre">Input</span></code> category. This node computes how much light is reflected off a material layer, where the rest will be refracted through the layer. The resulting weight can be used for layering shaders with the <code class="docutils literal"><span class="pre">Mix</span> <span class="pre">Shader</span></code> node. It is dependent on the angle between the surface normal and the viewing direction. Node inputs include <code class="docutils literal"><span class="pre">IOR</span></code> (index of refraction) and <code class="docutils literal"><span class="pre">Normal</span></code>. This node has single scalar type output socket.</p>
+<p><code class="docutils literal"><span class="pre">Layer</span> <span class="pre">Weight</span></code> node is from the <code class="docutils literal"><span class="pre">Input</span></code> category. This node defines a weight typically used for layering shaders with the Mix Shader node. Node inputs include <code class="docutils literal"><span class="pre">Blend</span></code> and <code class="docutils literal"><span class="pre">Normal</span></code>. Node inputs include <code class="docutils literal"><span class="pre">Fresnel</span></code> and <code class="docutils literal"><span class="pre">Facing</span></code>.</p>
+<p>Other supported nodes include <code class="docutils literal"><span class="pre">Image</span> <span class="pre">Texture</span></code>, <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Texture</span></code>, <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Info</span></code>, <code class="docutils literal"><span class="pre">Bump</span></code>.</p>
+<p>Other partially supported nodes include <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Coordinate</span></code> (<cite>From Dupli</cite> parameter is not supported), <code class="docutils literal"><span class="pre">UV</span> <span class="pre">Map</span></code> (<cite>From Dupli</cite> parameter is not supported), <code class="docutils literal"><span class="pre">Geometry</span></code> (<cite>Pointness</cite> and <cite>Parametric</cite> outputs are not supported).</p>
+<p>Nodes supported in previous b4w releases, which are used in both <code class="docutils literal"><span class="pre">Cycles</span></code> and <code class="docutils literal"><span class="pre">Blender</span> <span class="pre">Internal</span></code>, will also work fine with new PBR materials. Such nodes include <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Ramp</span></code>, <code class="docutils literal"><span class="pre">Normal</span> <span class="pre">Map</span></code>, <code class="docutils literal"><span class="pre">Camera</span> <span class="pre">Data</span></code>, <code class="docutils literal"><span class="pre">Particle</span> <span class="pre">Info</span></code>, <code class="docutils literal"><span class="pre">RGB</span></code>, <code class="docutils literal"><span class="pre">Value</span></code>, nodes from the <code class="docutils literal"><span class="pre">Convertor</span></code> category (except <code class="docutils literal"><span class="pre">Blackbody</span></code> and <code class="docutils literal"><span class="pre">Wavelength</span></code> nodes), nodes from the <code class="docutils literal"><span class="pre">Vector</span></code> category, nodes from the <code class="docutils literal"><span class="pre">Color</span></code> category (except <code class="docutils literal"><span class="pre">Light</span> <span class="pre">Falloff</span></code> node).</p>
+</div></blockquote>
+</li>
+<li><p class="first">Project Manager improvements.</p>
+<blockquote>
+<div><p>The project file editor was added. Now CSS, JavaScript, HTML and .b4w_project files can be edited in the Project Manager.</p>
+</div></blockquote>
+</li>
+<li><p class="first">New first-person (fps) add-on was added.</p>
+<blockquote>
+<div><p>The add-on helps to create first person applications easier. There are two main methods in it: <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.enable_fps_controls">enable_fps_controls</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.disable_fps_controls">disable_fps_controls</a>. The first creates default gamepad and keyboard controls, enables mouse and touch camera movement, enables VR camera rotation if VR mode is enabled. The second disables these controls. There are also other methods in the new add-on: <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.bind_action">bind_action</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_character_state_changing_cb">set_character_state_changing_cb</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_cam_smooth_factor">set_cam_smooth_factor</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_cam_sensitivity">set_cam_sensitivity</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_plock_enable_cb">set_plock_enable_cb</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-fps.html#.set_plock_disable_cb">set_plock_disable_cb</a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Improvements with 3D Navigation Mesh.</p>
+<blockquote>
+<div><p>Now the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path</a> method of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a> module finds 3d path, it allows us to construct paths on vertical surfaces. Previously, one was only able to construct path on horizontal planes.
+The parameters of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path</a> method has been changed.
+Initialization time of navigation mesh has been reduced.
+A* algorithm has been improved.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Blend4Web addon usability improvements.</p>
+<blockquote>
+<div><p>Blend4Web SDK Directory field in addon properties has been removed. Now, path to Blend4Web SDK directory resolved automatically.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="changes">
+<h3>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">API changes.</p>
+<blockquote>
+<div><p>The parameters of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-screenshooter.html#.shot">shot</a> method and the <a class="reference external" href="https://www.blend4web.com/api_doc/module-main.html#.canvas_data_url">canvas_data_url</a> method have been changed.</p>
+<p>A new function <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html#.get_camera_angles_dir">get_camera_angles_dir</a> has been added into the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">camera</a> module. It allows to get a camera&#8217;s spherical coordinates from the given direction respresenting the view vector of a camera.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Simplified Environment Setup.</p>
+<blockquote>
+<div><p>Water now uses the default wind when the wind object is absent in a scene. A water object is now always dynamic. Procedural sky uses the default sun direction when a sun object is absent in a scene.</p>
+</div></blockquote>
+</li>
+<li><p class="first">NPC AI now caches all animation on initialization.</p>
+<blockquote>
+<div><p>This slighly increases the loading time but removes real-time delays caused by npc animation.</p>
+</div></blockquote>
+</li>
+<li><p class="first">The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button is now available in the Cycles render profile.</p>
+</li>
+<li><p class="first">The <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_all_objects">get_all_objects</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.get_object_by_name">get_object_by_name</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-scenes.html#.check_object_by_name">check_object_by_name</a> methods no longer return the engine&#8217;s internal meta-objects, which are not intended to use in an application.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="fixes">
+<h3>Fixes<a class="headerlink" href="#fixes" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Project Manager compatibility with the old build type <code class="docutils literal"><span class="pre">update</span></code> was added.</p>
+</li>
+<li><p class="first">Fixed bug with specific encoding in the Project Manager.</p>
+</li>
+<li><p class="first">Fixed bug with the same module names conflicting in the Project Manager.</p>
+</li>
+<li><p class="first">Specular shading bug was fixed.</p>
+<blockquote>
+<div><p>The bug, which happened when two or more lamps were used for material with
+the Blinn specular type, was fixed.</p>
+</div></blockquote>
+</li>
+<li><p class="first">NLA unloading bug was fixed.</p>
+<blockquote>
+<div><p>Now all objects belonging to the unloaded scene are removed from NLA.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Stereo blinking bug was fixed.</p>
+<blockquote>
+<div><p>The bug appeared when using motion blur effect.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Overwriting resources with the same names in temporary directory when using Fast Preview was fixed.</p>
+</li>
+<li><p class="first">Fixed Network error while downloading a screenshot.</p>
+</li>
+<li><p class="first">Fixed shader crash occuring in some scenes in LOW quality mode.</p>
+</li>
+<li><p class="first">Fixed engine crash for scenes without <code class="docutils literal"><span class="pre">MESH</span></code> objects.</p>
+</li>
+<li><p class="first">Fixed the <a class="reference external" href="https://www.blend4web.com/api_doc/module-camera_anim.html#.track_to_target">track_to_target</a> method, which previously performed incorrect zoom animation.</p>
+</li>
+<li><p class="first">Fixed a rare bug related to empty particle texture slots, which could lead to export crash.</p>
+</li>
+<li><p class="first">Fixed rendering of the procedural lines.</p>
+</li>
+<li><p class="first">Fixed <code class="docutils literal"><span class="pre">Play</span> <span class="pre">Animation</span></code> logic node bug when animation stopped playing after the first time.</p>
+</li>
+<li><p class="first">Fixed crash in navmesh module in web-browsers without support of <cite>indexOf</cite> method for <cite>TypedArray</cite>.</p>
+</li>
+<li><p class="first">Fixed silent failure in <code class="docutils literal"><span class="pre">Project</span> <span class="pre">Manager</span></code> during resource converting in case of <cite>ffprobe</cite> missing.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v16-10">
+<h2>v16.10<a class="headerlink" href="#v16-10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>New Features<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Added support for navigation meshes.</p>
 <blockquote>
@@ -409,8 +531,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="changes">
-<h3>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Refactored projects inside the SDKs.</p>
 <blockquote>
@@ -467,8 +589,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="fixes">
-<h3>Fixes<a class="headerlink" href="#fixes" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>Fixes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed the <a class="reference external" href="https://www.blend4web.com/api_doc/module-util.html#.quat_to_euler">quat_to_euler</a> function.</li>
 <li>Fixed incorrect behaviour of the <code class="docutils literal"><span class="pre">Normal</span> <span class="pre">Map</span></code> node with non-unit strength parameter.</li>
@@ -486,8 +608,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 </div>
 <div class="section" id="v16-09">
 <h2>v16.09<a class="headerlink" href="#v16-09" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
-<h3>New Features<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>New Features<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Web Player improvements.</p>
 <blockquote>
@@ -534,8 +656,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>Changes<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The system for assigning shader directives was refactored. This feature reduces engine loading time and simplify debugging.</li>
 <li>Rendering the anchors was speeded up on some devices by using the &#8220;translate3d&#8221; CSS property.</li>
@@ -544,8 +666,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 <li>The <code class="docutils literal"><span class="pre">Render</span></code> tab panels&#8217; order was rearranged.</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>Fixes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>Fixes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed the bug in the Samsung Internet browser when it hung if there were many anchors in a scene.</li>
 <li>Fixed Web Player &#8220;alpha&#8221; attribute, which didn&#8217;t work.</li>
@@ -562,8 +684,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 </div>
 <div class="section" id="v16-08">
 <h2>v16.08<a class="headerlink" href="#v16-08" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id5">
-<h3>New Features<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>New Features<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Materials <code class="docutils literal"><span class="pre">Tangent</span> <span class="pre">Shading</span></code> option is now supported.</p>
 <blockquote>
@@ -622,8 +744,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>Changes<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Changes<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Depth-of-field (DOF) bokeh effect algorithm improvements.</p>
 <blockquote>
@@ -641,8 +763,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>Fixes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>Fixes<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Inversion vertex group length fix.</p>
 <blockquote>
@@ -670,8 +792,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 </div>
 <div class="section" id="v16-07">
 <h2>v16.07<a class="headerlink" href="#v16-07" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id8">
-<h3>New Features<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>New Features<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Optimized Particle system rendering.</p>
 <blockquote>
@@ -708,8 +830,8 @@ rotated bounding ellipsoid is now supported for dynamic objects.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>Changes<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>Changes<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Color picking optimization.</p>
 <blockquote>
@@ -731,8 +853,8 @@ performance of selection sensor.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>Fixes<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>Fixes<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed the broken Canvas Resolution Factor slider in the Scene Viewer.</li>
 <li>Fixed <code class="docutils literal"><span class="pre">get_matrix</span></code>, <code class="docutils literal"><span class="pre">set_matrix</span></code>, <code class="docutils literal"><span class="pre">get_matrix_rel</span></code>, <code class="docutils literal"><span class="pre">set_matrix_rel</span></code> methods of the <code class="docutils literal"><span class="pre">transform</span></code> module.</li>
@@ -748,8 +870,8 @@ performance of selection sensor.</p>
 </div>
 <div class="section" id="v16-06">
 <h2>v16.06<a class="headerlink" href="#v16-06" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id11">
-<h3>New Features<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>New Features<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Fast Preview improvements.</p>
 <blockquote>
@@ -811,8 +933,8 @@ Note, that this works only when there is a <code class="docutils literal"><span 
 </li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>Changes<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>Changes<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Several material nodes are now using Blender&#8217;s viewport world space.</p>
 <blockquote>
@@ -892,8 +1014,8 @@ method should be used in its stead.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>Fixes<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>Fixes<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed decreased performance in stereo-mode.</li>
 <li>Fixed <code class="docutils literal"><span class="pre">window.screen.orientation.angle</span></code> obfuscation.</li>
@@ -911,8 +1033,8 @@ method should be used in its stead.</p>
 </div>
 <div class="section" id="v16-05">
 <h2>v16.05<a class="headerlink" href="#v16-05" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id14">
-<h3>New Features<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>New Features<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Experimental HMD configurator.</p>
 <blockquote>
@@ -966,8 +1088,8 @@ is the implementation of the new texture functions.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>Changes<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>Changes<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">UI and export usability improvements for objects with no option from the <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span></code> list selected.</p>
 <blockquote>
@@ -1029,8 +1151,8 @@ is the implementation of the new texture functions.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>Fixes<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>Fixes<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Fixed issue with incorrect automatic updates in addon.</p>
 </li>
@@ -1068,8 +1190,8 @@ is the implementation of the new texture functions.</p>
 </div>
 <div class="section" id="v16-04">
 <h2>v16.04<a class="headerlink" href="#v16-04" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id17">
-<h3>New Features<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>New Features<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Support for gamepads and controllers.</p>
 <p>It&#8217;s possible now to use gamepads and controllers as input devices. New functions have been added to work with these devices. The first one is <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_btns_sensor">create_gamepad_btns_sensor</a>. It handles gamepad buttons. The second one is <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html#.create_gamepad_axes_sensor">create_gamepad_axes_sensor</a>. It handles gamepad axes.</p>
@@ -1129,8 +1251,8 @@ object in the world space.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>Changes<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>Changes<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Viewer&#8217;s <code class="docutils literal"><span class="pre">HUD</span> <span class="pre">Info</span></code> now has detailed info on each column.</p>
 </li>
@@ -1145,8 +1267,8 @@ object in the world space.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id19">
-<h3>Fixes<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3>Fixes<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed anchors behavior.</li>
 <li>Fixed a cubemap issue for some old NVIDIA GPUs in Firefox.</li>
@@ -1165,8 +1287,8 @@ object in the world space.</p>
 </div>
 <div class="section" id="v16-03">
 <h2>v16.03<a class="headerlink" href="#v16-03" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id20">
-<h3>New Features<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3>New Features<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Node Logic Editor improvements.</p>
 <blockquote>
@@ -1221,8 +1343,8 @@ For more information see API documentation on the <a class="reference external" 
 </li>
 </ul>
 </div>
-<div class="section" id="id21">
-<h3>Changes<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>Changes<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">API changes.</p>
 <blockquote>
@@ -1263,8 +1385,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id22">
-<h3>Fixes<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id25">
+<h3>Fixes<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed webplayer menu behavior.</li>
 <li>Fixed rare development server crash when the response headers contained a specific date (29Feb).</li>
@@ -1277,8 +1399,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v16-02">
 <h2>v16.02<a class="headerlink" href="#v16-02" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id23">
-<h3>New Features<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>New Features<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Extended support of Emitter type particle systems.</p>
 <blockquote>
@@ -1356,8 +1478,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id24">
-<h3>Changes<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>Changes<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Generate</span> <span class="pre">Shadows</span></code> light source parameter has been renamed to <code class="docutils literal"><span class="pre">Shadow</span></code> and now also enables shadow rendering in the Blender Viewport.</p>
 </li>
@@ -1385,8 +1507,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id25">
-<h3>Fixes<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>Fixes<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Incorrect behavior of the <code class="docutils literal"><span class="pre">canvas_resolution_factor</span></code> engine parameter on Apple iOS devices has been fixed.</li>
 <li>Engine error that occurred in case of absence of the selected object in the <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Object</span></code> and <code class="docutils literal"><span class="pre">Hide</span> <span class="pre">Object</span></code> logic nodes has been fixed.</li>
@@ -1417,8 +1539,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v16-01">
 <h2>v16.01<a class="headerlink" href="#v16-01" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id26">
-<h3>New Features<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id29">
+<h3>New Features<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Line rendering.</p>
 <blockquote>
@@ -1471,8 +1593,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h3>Changes<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id30">
+<h3>Changes<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Using cubic reflections has been simplified.</p>
 <blockquote>
@@ -1509,8 +1631,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id28">
-<h3>Fixes<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3>Fixes<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Positioning and flickering of the particle systems with world coordinates have been fixed.</p>
 </li>
@@ -1543,8 +1665,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id29">
-<h3>Known Issues<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id32">
+<h3>Known Issues<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -1569,8 +1691,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-12">
 <h2>v15.12<a class="headerlink" href="#v15-12" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id30">
-<h3>New Features<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h3>New Features<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Support for shadows from multiple sources.</p>
 <blockquote>
@@ -1638,8 +1760,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id31">
-<h3>Changes<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id34">
+<h3>Changes<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button has been duplicated in the UI low panel.</p>
 <blockquote>
@@ -1658,8 +1780,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id32">
-<h3>Fixes<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id35">
+<h3>Fixes<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Incorrect physics of a copied object has been fixed.</p>
 <blockquote>
@@ -1678,8 +1800,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id33">
-<h3>Known Issues<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id36">
+<h3>Known Issues<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -1707,8 +1829,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-11">
 <h2>v15.11<a class="headerlink" href="#v15-11" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id35">
-<h3>New Features<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id38">
+<h3>New Features<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Initial support of WebGL 2.0 technology.</p>
 <blockquote>
@@ -1772,8 +1894,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id36">
-<h3>Changes<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id39">
+<h3>Changes<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">The <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Cursor</span> <span class="pre">Location</span></code> button has been renamed to <code class="docutils literal"><span class="pre">Look</span> <span class="pre">At</span> <span class="pre">Cursor</span></code>, and its behavior has also been changed.</p>
 <blockquote>
@@ -1814,8 +1936,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id37">
-<h3>Fixes<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id40">
+<h3>Fixes<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Project Manager errors were fixed.</p>
 <blockquote>
@@ -1847,8 +1969,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id38">
-<h3>Known Issues<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id41">
+<h3>Known Issues<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -1876,8 +1998,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-10">
 <h2>v15.10<a class="headerlink" href="#v15-10" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id40">
-<h3>New Features<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id43">
+<h3>New Features<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">New Project Manager features.</p>
 <blockquote>
@@ -1940,8 +2062,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id41">
-<h3>Changes<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id44">
+<h3>Changes<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Project Manager interface has been improved.</p>
 <blockquote>
@@ -1972,8 +2094,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id42">
-<h3>Fixes<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id45">
+<h3>Fixes<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Project Manager errors were fixed.</p>
 </li>
@@ -2009,8 +2131,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id43">
-<h3>Known Issues<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id46">
+<h3>Known Issues<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -2038,8 +2160,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-09">
 <h2>v15.09<a class="headerlink" href="#v15-09" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id45">
-<h3>New Features<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id48">
+<h3>New Features<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Project Management.</p>
 <blockquote>
@@ -2118,8 +2240,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id46">
-<h3>Changes<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id49">
+<h3>Changes<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Add-ons (such as <a class="reference external" href="https://www.blend4web.com/api_doc/module-app.html">app</a>, <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html">mouse</a> and others) are now a part of the compiled engine version:</p>
 <blockquote>
@@ -2191,8 +2313,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id47">
-<h3>Fixes<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id50">
+<h3>Fixes<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><code class="docutils literal"><span class="pre">Render</span> <span class="pre">Above</span> <span class="pre">All</span></code> option now works correctly with node materials.</p>
 </li>
@@ -2233,8 +2355,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id48">
-<h3>Known Issues<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id51">
+<h3>Known Issues<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -2255,8 +2377,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-08">
 <h2>v15.08<a class="headerlink" href="#v15-08" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id49">
-<h3>New Features<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id52">
+<h3>New Features<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Node-based logic editor.</p>
 <blockquote>
@@ -2310,8 +2432,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id50">
-<h3>Changes<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id53">
+<h3>Changes<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Changes in node material editor.</p>
 <blockquote>
@@ -2332,8 +2454,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id51">
-<h3>Fixes<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id54">
+<h3>Fixes<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed a compilation error in the <em>project.py</em> utility when a project is compiled to some external directory.</li>
 <li>Fixed a web server error which could arise due corrupted Windows registry.</li>
@@ -2346,8 +2468,8 @@ as long as they are dynamic.</p>
 <li>Fixed a bug with touch events in the Microsoft Edge browser.</li>
 </ul>
 </div>
-<div class="section" id="id52">
-<h3>Known Issues<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id55">
+<h3>Known Issues<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>In the logic editor, some of looped links are highlighted in red. This issue has only cosmetic effect and can be safely ignored.</li>
 </ul>
@@ -2355,8 +2477,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-07">
 <h2>v15.07<a class="headerlink" href="#v15-07" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id53">
-<h3>New Features<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id56">
+<h3>New Features<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Support for <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Clip</span></code> transparency for node materials.</p>
 <blockquote>
@@ -2423,8 +2545,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id54">
-<h3>Changes<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id57">
+<h3>Changes<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Various usability improvements in the addon interface.</p>
 </li>
@@ -2487,8 +2609,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id55">
-<h3>Fixes<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id58">
+<h3>Fixes<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Fixed a bug with incorrect Canvas element size appeared on the engine&#8217;s startup.</p>
 </li>
@@ -2524,8 +2646,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id56">
-<h3>Known Issues<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id59">
+<h3>Known Issues<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -2554,8 +2676,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-06">
 <h2>v15.06<a class="headerlink" href="#v15-06" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id57">
-<h3>New Features<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id60">
+<h3>New Features<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">New add-on user interface.</p>
 <blockquote>
@@ -2651,8 +2773,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id58">
-<h3>Changes<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id61">
+<h3>Changes<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">New API spec for collision detection and ray casting.</p>
 <blockquote>
@@ -2718,8 +2840,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id59">
-<h3>Fixes<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id62">
+<h3>Fixes<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Fixes in <code class="docutils literal"><span class="pre">screenshooter.js</span></code> addon.</p>
 <blockquote>
@@ -2758,8 +2880,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id60">
-<h3>Known Issues<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id63">
+<h3>Known Issues<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -2778,8 +2900,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-05">
 <h2>v15.05<a class="headerlink" href="#v15-05" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id62">
-<h3>New Features<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id65">
+<h3>New Features<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Glow effect</em>.</p>
 <blockquote>
@@ -2839,8 +2961,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id63">
-<h3>Changes<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id66">
+<h3>Changes<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Reorganized SDK&#8217;s scene list.</em></p>
 <blockquote>
@@ -2888,8 +3010,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id64">
-<h3>Fixes<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id67">
+<h3>Fixes<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The error that led to the wrong height of the description element in module &#8220;anchors.js&#8221; has been fixed.</em></p>
 </li>
@@ -2913,8 +3035,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id65">
-<h3>Known Issues<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id68">
+<h3>Known Issues<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -2926,8 +3048,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-04">
 <h2>v15.04<a class="headerlink" href="#v15-04" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id66">
-<h3>New Features<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id69">
+<h3>New Features<a class="headerlink" href="#id69" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Deformations by using Shape Keys (Morphing).</em></p>
 <blockquote>
@@ -2981,8 +3103,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id67">
-<h3>Changes<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id70">
+<h3>Changes<a class="headerlink" href="#id70" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The API documentation has changed its appearance. Links for quick access to methods and properties were added.</em></p>
 </li>
@@ -3060,8 +3182,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id68">
-<h3>Fixes<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id71">
+<h3>Fixes<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed a bug in the &#8220;anchors.js&#8221; module which caused objects&#8217; descriptions to disappear.</em></p>
 </li>
@@ -3097,8 +3219,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-03">
 <h2>v15.03<a class="headerlink" href="#v15-03" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id69">
-<h3>New Features<a class="headerlink" href="#id69" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id72">
+<h3>New Features<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>New tool for adding annotations to 3D objects.</em></p>
 <blockquote>
@@ -3147,8 +3269,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id70">
-<h3>Changes<a class="headerlink" href="#id70" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id73">
+<h3>Changes<a class="headerlink" href="#id73" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Origin for counting off the camera limits has been changed.</em></p>
 <blockquote>
@@ -3213,8 +3335,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id71">
-<h3>Fixes<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id74">
+<h3>Fixes<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><em>Fixed camera autorotate feature of the web player.</em></li>
 <li><em>Fixed an error related to the fullscreen mode in the Web Player.</em></li>
@@ -3231,8 +3353,8 @@ as long as they are dynamic.</p>
 <li><em>Fixed fog rendering error in some versions of Chrome/Firefox under Windows.</em></li>
 </ul>
 </div>
-<div class="section" id="id72">
-<h3>Known Issues<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id75">
+<h3>Known Issues<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3246,8 +3368,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-02">
 <h2>v15.02<a class="headerlink" href="#v15-02" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id73">
-<h3>New Features<a class="headerlink" href="#id73" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id76">
+<h3>New Features<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The local development server can be run from Blender.</em></p>
 <blockquote>
@@ -3333,8 +3455,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id74">
-<h3>Changes<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id77">
+<h3>Changes<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Now it is possible to add options with the same names via browser address bar.</em></p>
 <blockquote>
@@ -3372,8 +3494,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id75">
-<h3>Fixes<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id78">
+<h3>Fixes<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Corrected behavior of the preloader for the Web Player.</em></p>
 <blockquote>
@@ -3396,8 +3518,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id76">
-<h3>Known Issues<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id79">
+<h3>Known Issues<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3411,8 +3533,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v15-01">
 <h2>v15.01<a class="headerlink" href="#v15-01" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id77">
-<h3>New Features<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id80">
+<h3>New Features<a class="headerlink" href="#id80" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Support for panning on touchscreen devices.</em></p>
 <blockquote>
@@ -3496,8 +3618,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id78">
-<h3>Changes<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id81">
+<h3>Changes<a class="headerlink" href="#id81" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>SDK file hierarchy was simplified.</em></p>
 <blockquote>
@@ -3531,8 +3653,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id79">
-<h3>Fixes<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id82">
+<h3>Fixes<a class="headerlink" href="#id82" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><em>When using &#8220;Panoramic&#8221; camera type in Blender the camera automatically obtains &#8220;Perspective&#8221; type when exported.</em></li>
 <li><em>Fixed bug with &#8220;Target&#8221; camera dragging in rare cases.</em></li>
@@ -3544,8 +3666,8 @@ as long as they are dynamic.</p>
 <li><em>Fixed rendering issue in node materials with ``REFRACTION`` node.</em></li>
 </ul>
 </div>
-<div class="section" id="id80">
-<h3>Known Issues<a class="headerlink" href="#id80" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id83">
+<h3>Known Issues<a class="headerlink" href="#id83" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3564,8 +3686,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-12">
 <h2>v14.12<a class="headerlink" href="#v14-12" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id81">
-<h3>New Features<a class="headerlink" href="#id81" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id84">
+<h3>New Features<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Camera velocity settings are now available.</em></p>
 <blockquote>
@@ -3594,8 +3716,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id82">
-<h3>Changes<a class="headerlink" href="#id82" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id85">
+<h3>Changes<a class="headerlink" href="#id85" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Removed support for deprecated &#8220;UV translation velocity&#8221; texture settings.</em></p>
 <blockquote>
@@ -3631,8 +3753,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id83">
-<h3>Fixes<a class="headerlink" href="#id83" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id86">
+<h3>Fixes<a class="headerlink" href="#id86" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed audio playback error occurred when using NLA.</em></p>
 <blockquote>
@@ -3664,8 +3786,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id84">
-<h3>Known Issues<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id87">
+<h3>Known Issues<a class="headerlink" href="#id87" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3679,8 +3801,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-11">
 <h2>v14.11<a class="headerlink" href="#v14-11" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id85">
-<h3>New Features<a class="headerlink" href="#id85" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id88">
+<h3>New Features<a class="headerlink" href="#id88" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Video textures support.</em></p>
 <blockquote>
@@ -3722,8 +3844,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id86">
-<h3>Changes<a class="headerlink" href="#id86" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id89">
+<h3>Changes<a class="headerlink" href="#id89" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The webplayer&#8217;s &#8220;bg&#8221; parameter is renamed to &#8220;fallback_image&#8221;.</em></p>
 <blockquote>
@@ -3740,8 +3862,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id87">
-<h3>Fixes<a class="headerlink" href="#id87" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id90">
+<h3>Fixes<a class="headerlink" href="#id90" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Normal maps now work with Generated and Normal texture coordinates.</em></p>
 <blockquote>
@@ -3757,8 +3879,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id88">
-<h3>Known Issues<a class="headerlink" href="#id88" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id91">
+<h3>Known Issues<a class="headerlink" href="#id91" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3770,8 +3892,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-10">
 <h2>v14.10<a class="headerlink" href="#v14-10" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id89">
-<h3>New Features<a class="headerlink" href="#id89" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id92">
+<h3>New Features<a class="headerlink" href="#id92" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>A new Web Player.</em></p>
 <blockquote>
@@ -3814,8 +3936,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id90">
-<h3>Changes<a class="headerlink" href="#id90" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id93">
+<h3>Changes<a class="headerlink" href="#id93" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Changed SDK path setting for HTML export.</em></p>
 <blockquote>
@@ -3841,8 +3963,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id91">
-<h3>Fixes<a class="headerlink" href="#id91" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id94">
+<h3>Fixes<a class="headerlink" href="#id94" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed rendering error for HALO materials.</em></p>
 </li>
@@ -3867,8 +3989,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id92">
-<h3>Known Issues<a class="headerlink" href="#id92" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id95">
+<h3>Known Issues<a class="headerlink" href="#id95" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -3885,8 +4007,8 @@ as long as they are dynamic.</p>
 </div>
 <div class="section" id="v14-09">
 <h2>v14.09<a class="headerlink" href="#v14-09" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id93">
-<h3>New Features<a class="headerlink" href="#id93" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id96">
+<h3>New Features<a class="headerlink" href="#id96" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>ABSOLUTE type support for the MATH node.</em></p>
 </li>
@@ -3951,8 +4073,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id94">
-<h3>Changes<a class="headerlink" href="#id94" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id97">
+<h3>Changes<a class="headerlink" href="#id97" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Shadow rendering improved.</em></p>
 <blockquote>
@@ -3982,8 +4104,8 @@ as long as they are dynamic.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id95">
-<h3>Fixes<a class="headerlink" href="#id95" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id98">
+<h3>Fixes<a class="headerlink" href="#id98" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><em>The preloader didn&#8217;t disappear in case of a loading error (texture or sound file).</em></li>
 <li><em>Lagging during scaling and turning on mobile devices is fixed.</em></li>
@@ -3996,8 +4118,8 @@ as long as they are dynamic.</p>
 <li><em>The particle system error when the object being instanced is parented to another object, has been fixed.</em></li>
 </ul>
 </div>
-<div class="section" id="id96">
-<h3>Known Issues<a class="headerlink" href="#id96" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id99">
+<h3>Known Issues<a class="headerlink" href="#id99" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">Problems with updating of the add-on.</p>
 <blockquote>
@@ -4036,7 +4158,7 @@ as long as they are dynamic.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-10-27.
+      Last updated on 2016-11-29.
 
     </p>
   </div>
@@ -4092,7 +4214,7 @@ as long as they are dynamic.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.10',
+            VERSION:'v16.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -15,6 +15,7 @@ deploy_dir =
 apps = 
 css_ignore = 
 engine_type = copy
+ignore = 
 js_ignore = 
 optimization = advanced
 use_physics = True
@@ -22,5 +23,7 @@ use_smaa_textures = False
 version = 
 
 [deploy]
-assets_path_prefix =
+assets_path_dest = assets
+assets_path_prefix = assets
+ignore = 
 override = 

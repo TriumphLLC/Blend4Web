@@ -267,6 +267,8 @@ exports.set_default_directives = function(sinfo) {
 
     set_directive(sinfo, "SRGB", cfg_def.srgb_type);
 
+    set_directive(sinfo, "COMPARED_MODE", cfg_def.compared_mode_depth | 0);
+
     return;
 }
 
@@ -798,7 +800,6 @@ function combine_dir_tokens(type, shaders_info) {
         dirs["GLSL_TEXTURE"] = ["texture"];
         dirs["GLSL_TEXTURE_CUBE"] = ["texture"];
         dirs["GLSL_TEXTURE_PROJ"] = ["textureProj"];
-        dirs["GLSL_SMPLR2D_SHDW"] = ["sampler2DShadow"];
     } else {
         dirs["GLSL1"] = ["1"];
         dirs["GLSL3"] = ["0"];
@@ -813,8 +814,12 @@ function combine_dir_tokens(type, shaders_info) {
         dirs["GLSL_TEXTURE"] = ["texture2D"];
         dirs["GLSL_TEXTURE_CUBE"] = ["textureCube"];
         dirs["GLSL_TEXTURE_PROJ"] = ["texture2DProj"];
-        dirs["GLSL_SMPLR2D_SHDW"] = ["sampler2D"];
     }
+
+    if (cfg_def.compared_mode_depth)
+        dirs["GLSL_SMPLR2D_SHDW"] = ["sampler2DShadow"];
+    else
+        dirs["GLSL_SMPLR2D_SHDW"] = ["sampler2D"];
 
     for (var dirname in dirs) {
         if (dirs[dirname][0].constructor != String)

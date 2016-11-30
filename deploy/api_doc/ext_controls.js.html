@@ -70,7 +70,7 @@ var m_print = require("__print");
  * @param {?Object3D} obj Object 3D, or null to denote the global object
  * @param {String} id Manifold ID
  * @param {Number} pulse Additional callback condition for CT_TRIGGER or
- * CT_CONTINOUS manifolds: +1 or -1
+ * CT_CONTINUOUS manifolds: +1 or -1
  * @param {*} [param] Callback parameter. The user-defined parameter which is
  * passed to create_sensor_manifold(). Can be used, for example, as a storage
  * object to communicate between different manifolds.
@@ -649,7 +649,7 @@ exports.default_AND_logic_fun = m_ctl.default_AND_logic_fun;
 
 /**
  * Default logic OR function for sensor manifold
- * @const module:controls.default_AND_logic_fun
+ * @const module:controls.default_OR_logic_fun
  */
 exports.default_OR_logic_fun = m_ctl.default_OR_logic_fun;
 
@@ -701,7 +701,7 @@ exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
  * This sensor carries the following {@link module:controls~CollisionPayload|payload}.
  * @method module:controls.create_collision_sensor
  * @param {Object3D} obj_src Collision object.
- * @param {?String} [collision_id="ANY"] Collision ID
+ * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
  * @param {Boolean} [calc_pos_norm=false] Should the sensor return the
  * collision position/normal/distance or not.
  * @returns {Sensor} Sensor object
@@ -739,7 +739,7 @@ exports.create_collision_impulse_sensor = m_ctl.create_collision_impulse_sensor;
  * in object space, e.g. from/to vectors specified in object space.
  * @param {Vec3} from From vector.
  * @param {Vec3} to To vector.
- * @param {String} [collision_id="ANY"] Collision ID to detect intersection with
+ * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
  * @param {Boolean} [is_binary_value=false] Calculate the value of the sensor as
  * a binary (hit/non-hit) instead of hit fraction.
  * @param {Boolean} [calc_pos_norm=false] Calculate hit position/normal
@@ -792,7 +792,24 @@ exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
  * @cc_externs coords
  */
 exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
-
+/**
+ * Create a mouse move pointerlock sensor.
+ * The sensor's value is a number of pixels, the sensor's payload is an object
+ * with useful properties like coordinates
+ * @method module:controls.create_plock_mouse_sensor
+ * @param {HTMLElement} [element=Canvas container element] HTML element
+ * @returns {Sensor} Sensor object
+ * @cc_externs coords
+ */
+exports.create_plock_mouse_sensor = m_ctl.create_plock_mouse_sensor;
+/**
+ * Create a mouse pointerlock sensor.
+ * The sensor's value is a pointerlock state
+ * @method module:controls.create_plock_sensor
+ * @param {HTMLElement} [element=Canvas container element] HTML element
+ * @returns {Sensor} Sensor object
+ */
+exports.create_plock_sensor = m_ctl.create_plock_sensor;
 /**
  * Create a touch movement sensor.
  * The sensor's value is a number of pixels, the sensor's payload is an object
@@ -1019,7 +1036,8 @@ exports.get_sensor_payload = m_ctl.get_sensor_payload;
  * @param {String} id New manifold ID.
  * @param {Number} type Manifold control type (CT_SHOT, CT_TRIGGER etc).
  * @param {Sensor[]} sensors Array of sensors.
- * @param {ManifoldLogicFunction} logic_fun Manifold's logic function.
+ * @param {?ManifoldLogicFunction} logic_fun Manifold's logic function, if null
+ * use default_AND_logic_fun function.
  * @param {ManifoldCallback} callback Manifold's callback.
  * @param {*} [callback_param] Parameter to pass to the manifold's callback
  * (e.g. some state).
@@ -1210,6 +1228,12 @@ exports.unregister_touch_events = function(){
 exports.unregister_device_orientation = function(){
     m_print.error_once("controls.unregister_device_orientation() deprecated");
 };
+/**
+ * Set smooth factor for mouse pointerlock sensor.
+ * @method module:controls.set_plock_smooth_factor
+ * @param {Number} value Set 
+ */
+exports.set_plock_smooth_factor = m_ctl.set_plock_smooth_factor;
 
 }
 </code></pre>
@@ -1222,13 +1246,13 @@ exports.unregister_device_orientation = function(){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Oct 27 2016 16:42:34 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:45 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

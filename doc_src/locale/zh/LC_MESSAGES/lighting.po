@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
 "POT-Creation-Date: 2016-09-27 16:51+0300\n"
-"PO-Revision-Date: 2016-10-11 15:30+0800\n"
+"PO-Revision-Date: 2016-10-29 13:38+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -450,7 +450,7 @@ msgstr "下列附加设置位于 ``Render`` 标签的 ``Shadows`` 面板上："
 
 #: ../lighting.rst:218
 msgid "*Render Shadows*"
-msgstr ""
+msgstr "*渲染阴影*"
 
 #: ../lighting.rst:218
 msgid ""
@@ -527,8 +527,8 @@ msgid ""
 "``Spot`` light sources and are projected only in one direction specified "
 "by the source's ``Rotation`` parameter."
 msgstr ""
-"从 ``Point`` 光源生成的阴影方法与从 ``Spot`` 光源的相同，预计由源的"
-" ``Rotation`` 参数指定只在一个方向投影。"
+"从 ``Point`` 光源生成的阴影方法与从 ``Spot`` 光源的相同，预计由源的 "
+"``Rotation`` 参数指定只在一个方向投影。"
 
 #: ../lighting.rst:247
 msgid "*Enable CSM*"

@@ -56,7 +56,7 @@
 ==============================================================================*/
 GLSL_IN vec3 a_position;
 
-#if NUM_NORMALMAPS > 0 && !DYNAMIC
+#if !GENERATED_MESH && (!DYNAMIC || NUM_NORMALMAPS > 0)
 GLSL_IN vec4 a_tbn_quat;
 #endif
 
@@ -71,6 +71,7 @@ GLSL_IN float a_polyindex;
 
 GLSL_OUT vec3 v_eye_dir;
 GLSL_OUT vec3 v_pos_world;
+GLSL_OUT vec3 v_normal;
 
 #if (NUM_NORMALMAPS > 0 || FOAM) && !GENERATED_MESH
 GLSL_OUT vec2 v_texcoord;
@@ -80,10 +81,6 @@ GLSL_OUT vec2 v_texcoord;
 GLSL_OUT vec3 v_tangent;
 GLSL_OUT vec3 v_binormal;
 # endif
-
-#if DYNAMIC || NUM_NORMALMAPS > 0
-GLSL_OUT vec3 v_normal;
-#endif
 
 #if (NUM_NORMALMAPS > 0 || FOAM) && GENERATED_MESH && DYNAMIC
 GLSL_OUT vec3 v_calm_pos_world;
@@ -162,7 +159,7 @@ vec3 extract_shore_params(in vec2 pos) {
 #endif
 
 #if DYNAMIC
-#define SMALL_WAVES_FAC 0.3
+#define SMALL_WAVES_FAC 0.2
 void offset(inout vec3 pos, in float time, in vec3 shore_params) {
 
     // waves far from the shore
@@ -201,10 +198,10 @@ void offset(inout vec3 pos, in float time, in vec3 shore_params) {
 
 #if GENERATED_MESH
     // high resolution geometric noise waves
-    vec2 coords21 = 2.0 * (pos.xy - 0.1  * time);
-    vec2 coords22 = 1.3 * (pos.yx + 0.03 * time);
+    vec2 coords21 = 1.0 * (pos.xy - 0.3  * time);
+    vec2 coords22 = 0.7 * (pos.yx + 0.07 * time);
     float small_waves =
-        cellular2x2(0.5 * coords21).x + cellular2x2(0.5 * coords22).x - 1.0;
+        cellular2x2(coords21).x + cellular2x2(coords22).x - 1.0;
 
 #  if SHORE_PARAMS
     pos.xy += hor_offset;
@@ -257,6 +254,9 @@ void main(void) {
 
 #if DYNAMIC
     float wind_str = length(u_wind);
+    if (wind_str == 0.0) // use default value if there is no wind
+        wind_str = 1.0;
+
     float w_time = u_time;
     w_time *= wind_str;
 
@@ -272,6 +272,7 @@ void main(void) {
     vec3 neighbour1 = world_pos + vec3(0.05, 0.0, 0.0);
     vec3 neighbour2 = world_pos + vec3(0.0, 0.05, 0.0);
 # endif // GENERATED_MESH
+
 # if SHORE_PARAMS
     vec3 shore_params_n1 = extract_shore_params(neighbour1.xy);
     vec3 shore_params_n2 = extract_shore_params(neighbour2.xy);
@@ -287,16 +288,11 @@ void main(void) {
 # if GENERATED_MESH && WATER_EFFECTS
     // Last cascad needs to be flat and a bit lower than others
     if (a_position.z < 0.0) {
-#  if WATER_EFFECTS
         world_pos.z = WATER_LEVEL - 1.0;
-#  else
-        world_pos.z = -1.0;
-#  endif
         neighbour1.z = world_pos.z;
         neighbour2.z = world_pos.z;
     }
-# endif
-
+# endif // GENERATED_MESH
     // calculate all surface vectors based on 3 positions
     vec3 bitangent = normalize(neighbour1 - world_pos);
     vec3 tangent   = normalize(neighbour2 - world_pos);
@@ -306,12 +302,19 @@ void main(void) {
     float up_dot_norm = dot(v_normal, UP_VECTOR);
     float factor = clamp(0.8 - up_dot_norm, 0.0, 1.0);
     v_normal = mix(v_normal, UP_VECTOR, factor);
+#elif !GENERATED_MESH
+    v_normal = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
+#else
+    v_normal = vec3(0.0, 0.0, 1.0);
 #endif // DYNAMIC
 
 #if NUM_NORMALMAPS > 0
 # if !DYNAMIC
+#  if !GENERATED_MESH
     vec3 tangent = qrot(a_tbn_quat, vec3(1.0, 0.0, 0.0));
-    v_normal = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
+#  elif !DYNAMIC
+    vec3 tangent = vec3(1.0, 0.0, 0.0);
+#  endif
 # endif
     v_tangent = tangent;
     v_binormal = cross(v_normal, v_tangent);
@@ -336,6 +339,5 @@ void main(void) {
 #if SHORE_SMOOTHING || REFLECTION_TYPE == REFL_PLANE || REFRACTIVE || !DISABLE_FOG
     v_view_depth = -pos_view.z / u_view_max_depth;
 #endif
-
     gl_Position = pos_clip;
 }

@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
 
-    <title>Project Info</title>
+<meta charset="UTF-8">
 
-    <link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png" />
-    <link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png" />
-    <link rel="shortcut icon" href="/index_assets/img/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png" />
+<title>Project Info</title>
 
-    <link rel="stylesheet" type="text/css" href="/index_assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/index_assets/css/project_create.css">
+<link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png">
+<link rel="shortcut icon" href="/index_assets/img/favicon.ico">
+<link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png">
 
-    <script src="/index_assets/js/create_form.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/index_assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/project_create.css">
+
+<script src="/index_assets/js/create_form.js" type="text/javascript"></script>
+
 </head>
 
 <body>
@@ -26,14 +29,14 @@
                 <tr>
                     <th colspan="2">
                         <a id="back_to_index" href="/project/"><div></div><span>Back to Projects</span></a>
-                        <a id="help" href="/deploy/doc/en/developers.html#create-new-project"><div></div><span>Help</span></a>
+                        <a id="help" href="/deploy/doc/en/project_manager.html#project-information"><div></div><span>Help</span></a>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td class="create">
-                        <h2 title="name">Project Name</h2>
+                        <h2 title="[info] name = ${name}">Project Name</h2>
                     </td>
                     <td class="create">
                         $name
@@ -41,7 +44,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="title">Project Title</h2>
+                        <h2 title="[info] title = ${title}">Project Title</h2>
                     </td>
                     <td class="create">
                         $title
@@ -49,7 +52,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="author">Project Author / Company</h2>
+                        <h2 title="[info] author = ${author}">Project Author / Company</h2>
                     </td>
                     <td class="create">
                         $author
@@ -57,7 +60,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="icon">Project Icon</h2>
+                        <h2 title="[info] icon = ${icon}">Project Icon</h2>
                     </td>
                     <td class="create">
                         $icon
@@ -65,7 +68,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="apps">Applications</h2>
+                        <h2 title="[compile] apps = ...">Applications</h2>
                     </td>
                     <td class="create">
                         $apps
@@ -73,7 +76,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="engine_type">Engine Binding Type</h2>
+                        <h2 title="[compile] engine_type = ...">Engine Binding Type</h2>
                     </td>
                     <td class="create">
                         $engine_type
@@ -105,7 +108,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="build_dir">Build Directory</h2>
+                        <h2 title="[paths] build_dir = ...">Build Directory</h2>
                     </td>
                     <td class="create">
                         $build_dir
@@ -113,7 +116,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="blend_dirs">Blend Directory(s)</h2>
+                        <h2 title="[paths] blend_dirs = ...">Blend Directory(s)</h2>
                     </td>
                     <td class="create">
                         $blend_dirs
@@ -121,7 +124,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="assets_dirs">Assets Directory(s)</h2>
+                        <h2 title="[paths] assets_dirs = ...">Assets Directory(s)</h2>
                     </td>
                     <td class="create">
                         $assets_dirs
@@ -137,7 +140,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="optimization">JavaScript Obfuscation Level</h2>
+                        <h2 title="[compile] optimization = ...">JavaScript Obfuscation Level</h2>
                     </td>
                     <td class="create">
                         $optimization 
@@ -145,7 +148,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="js_ignore">JavaScript Deployment Ignore List</h2>
+                        <h2 title="[compile] js_ignore = ...">JS Compilation Pass-Through List</h2>
                     </td>
                     <td class="create">
                         $js_ignore 
@@ -153,7 +156,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="css_ignore">CSS Compilation Ignore List</h2>
+                        <h2 title="[compile] css_ignore = ...">CSS Compilation Pass-Through List</h2>
                     </td>
                     <td class="create">
                         $css_ignore 
@@ -161,7 +164,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="compilation_ignore">Any Files and Folders Compilation Ignore List</h2>
+                        <h2 title="[compile] ignore = ...">Build Ignore List</h2>
                     </td>
                     <td class="create">
                         $compilation_ignore 
@@ -169,7 +172,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="assets_path_dest">Deployment Assets Directory</h2>
+                        <h2 title="[deploy] assets_path_dest = ...">Deployment Assets Directory</h2>
                     </td>
                     <td class="create">
                         $assets_path_dest 
@@ -177,7 +180,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="assets_path_prefix">Deployment Directory Assets Prefix</h2>
+                        <h2 title="[deploy] assets_path_prefix = ...">Deployment Assets URL Prefix</h2>
                     </td>
                     <td class="create">
                         $assets_path_prefix 
@@ -185,7 +188,7 @@
                 </tr>
                 <tr>
                     <td class="create">
-                        <h2 title="deployment_ignore">Any Files and Folders Deployment Ignore List</h2>
+                        <h2 title="[deploy] ignore = ...">Deployment Ignore List</h2>
                     </td>
                     <td class="create">
                         $deployment_ignore 

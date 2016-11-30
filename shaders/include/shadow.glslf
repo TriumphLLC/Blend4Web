@@ -20,6 +20,8 @@
 #var CSM_SECTION2 0
 #var CSM_SECTION3 0
 
+#var COMPARED_MODE 0
+
 #var POISSON_DISK_NUM NO_SOFT_SHADOWS
 
 /*============================================================================*/
@@ -96,7 +98,7 @@ float calc_poisson_visibility(float poisson_disc_x, float poisson_disc_y,
     if (!is_tex_coords_inside(coords, SINGLE_CASCADE_BORDER_INDENT))
         return 1.0;
 # endif
-#if GLSL3
+#if COMPARED_MODE
     return GLSL_TEXTURE(shadow_map, vec3(coords, shadow_coord.z));
 #else
     return step(shadow_coord.z, GLSL_TEXTURE(shadow_map, coords).r);

@@ -516,7 +516,7 @@ exports.update = function(timeline, delta) {
         var wp = scene._render.water_params;
         if (wp && wp.waves_height > 0.0) {
             var subs = m_scs.get_subs(scene, m_subs.MAIN_OPAQUE);
-            var wind = m_vec3.length(subs.wind);
+            var wind = m_vec3.length(subs.wind) || 1;
             m_ipc.post_msg(_workers[i], m_ipc.OUT_SET_WATER_TIME, subs.time * wind);
         }
     }
@@ -1624,8 +1624,6 @@ exports.append_collision_test = function(obj_src, collision_id, callback,
 
     var body_id_src = phy.body_id;
 
-    var collision_id = collision_id || "ANY";
-
     // no need to add another collision test
     for (var i = 0; i < phy.collision_tests.length; i++) {
         var test = phy.collision_tests[i];
@@ -1852,8 +1850,6 @@ exports.append_ray_test = function(obj, from, to, collision_id, callback,
         autoremove, calc_all_hits, calc_pos_norm, ign_src_rot) {
 
     var id = get_unique_ray_test_id();
-
-    var collision_id = collision_id || "ANY";
 
     var test = {
         id: id,

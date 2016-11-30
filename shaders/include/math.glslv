@@ -8,6 +8,8 @@
 #var REFLECTION_TYPE REFL_NONE
 #var REFRACTIVE 0
 #var SHADOW_USAGE NO_SHADOWS
+#var USE_POSITION_CLIP 0
+#var SOFT_PARTICLES 0
 
 /*============================================================================*/
 
@@ -212,8 +214,8 @@ vertex tbn_norm(in vertex v) {
             normalize(v.shade_tang), normalize(v.binormal), normalize(v.normal), v.color);
 }
 
-#if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
-        || REFRACTIVE || USE_NODE_B4W_REFRACTION
+#if SOFT_PARTICLES || REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
+        || REFRACTIVE || USE_POSITION_CLIP
 vec3 clip_to_tex(vec4 pos_clip) {
     float xc = pos_clip.x;
     float yc = pos_clip.y;

@@ -43,9 +43,16 @@
 
 
     <section>
-        <article><h1>Blend4Web API Reference</h1><p><strong>Adding Modules</strong></p>
+        <article><h1>Blend4Web API Reference</h1><p><strong>Intro</strong></p>
+<p>This API reference is intended for programmers writing Blend4Web applications. It contains information on Blend4Web modules, their methods and members (variables and constants) as well as global <code>b4w</code> methods and type definitions.</p>
+<p>For more general documentation please check out the <a href="https://www.blend4web.com/doc/en/index.html">user manual</a>.</p>
+<p><strong>Using modules</strong></p>
+<p>Use <code>b4w.require(module_name)</code> to import a module into your application.</p>
+<p>Example - printing Blend4Web version using the <code>version</code> module:</p>
+<pre class="prettyprint source"><code>var m_version = b4w.require(&quot;version&quot;);
+console.log(m_version.version_str());</code></pre><p><strong>Adding Custom Modules</strong></p>
 <p>Use <code>b4w.register(module_name, module_body)</code> to create your own modules.</p>
-<p>Example - Registering a Module:</p>
+<p>Example - registering a module:</p>
 <pre class="prettyprint source"><code>// check if the module already exists
 if (b4w.module_check(&quot;my_module&quot;))
     throw &quot;Failed to register my_module&quot;;
@@ -62,37 +69,22 @@ b4w.register(&quot;my_module&quot;, function(exports, require) {
         // use a Blend4Web method
         console.log(&quot;Engine build date: &quot; + m_version.date());
     }
-});</code></pre><p>Example - Using the Registered Module:</p>
+});</code></pre><p>Example - using the registered module:</p>
 <pre class="prettyprint source"><code>// import the module
 var m_my_module = b4w.require(&quot;my_module&quot;);
 
 // use a module's method
-m_my_module.print_build_date();</code></pre><!---
+m_my_module.print_build_date();</code></pre><p><strong>Type System</strong></p>
+<p>The engine API accepts only the types explicitly specified in the reference, however type checking capabilities are limited. Passing parameters with incorrect types may lead to difficult-to-detect errors and/or performance degradation. Cases with multiple allowed types are rare and documented as such.</p>
+<p>In most cases you cannot create objects of the chosen type directly by using the <code>new</code> operator. For such cases the engine provides explicit constructors, e.g use <code>vec3.create()</code> to create 3D vectors.</p>
+<p><strong>Namespaces</strong></p>
+<p>To allow several instances of different Blend4Web applications runnning concurrently the engine provides namespaces. To import a module inside some namespace specify its name as a second param to <code>b4w.require</code> method.</p>
+<p>Example - using two namespaces:</p>
+<pre class="prettyprint source"><code>// import to &quot;namespace1&quot;
+var m_my_mod_ns1 = b4w.require(&quot;my_module&quot;, &quot;namespace1&quot;);
 
-**Type System**
-
-The engine API accepts only the types explicitly specified in the reference.
-Cases with multiple allowed types are documented explicitly. A type of a variable
-can be checked with the following code:
-
-    VAR instanceof TYPE
-
-e.g:
-
-    obj instanceof Object -> true
-
-Keep in mind, that an object may have several ancestors. In such cases the more
-specific type takes precedence.
-
-e.g:
-
-    var vector = new Float32Array(3);
-
-    vector instanceof Object;       // true
-    vector instanceof Float32Array; // true, so the type of the vector is Float32Array
-
-
---></article>
+// import to &quot;namespace2&quot;
+var m_my_mod_ns2 = b4w.require(&quot;my_module&quot;, &quot;namespace2&quot;);</code></pre><p>In most cases it's sufficient to specify a namespace name only for the parent modules of your applications. Namespaces inside these modules will be resolved automatically.</p></article>
     </section>
 
 
@@ -103,13 +95,13 @@ e.g:
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Oct 27 2016 16:42:34 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:45 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

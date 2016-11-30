@@ -455,6 +455,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @param {Float32Array} location List: the horizontal mouse coordinate, the
  * vertical mouse coordinate.
  * @example
+ * var m_input = require("input");
+ * 
  * var mouse_location_cb = function(location) {
  *     console.log("The horizontal location: " + location[0]);
  *     console.log("The vertical location: " + location[1]);
@@ -470,6 +472,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @param {Number} which Number indicates button that was pressed on the mouse
  * (1 -- left button, 2 -- middle button, 3 -- right button).
  * @example
+ * var m_input = require("input");
+ * 
  * var mouse_down_which_cb = function(which) {
  *     console.log("Pressed button: " + which);
  * };
@@ -484,6 +488,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @param {Number} which Number indicates button that was released on the mouse
  * (1 -- left button, 2 -- middle button, 3 -- right button).
  * @example
+ * var m_input = require("input");
+ * 
  * var mouse_up_which_cb = function(which) {
  *     console.log("Released button: " + which);
  * };
@@ -497,6 +503,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @callback MouseWheelCallback
  * @param {Number} delta The vertical mouse scroll amount.
  * @example
+ * var m_input = require("input");
+ * 
  * var mouse_wheel_cb = function(delta) {
  *     console.log("Scroll amount: " + delta);
  * };
@@ -511,6 +519,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @param {Number} key_code Number indicates button that was pressed on the
  * keyboard (use constants KEY_* from module {@link module:controls|controls}).
  * @example
+ * var m_input = require("input");
+ * 
  * var keyboard_down_cb = function(key_code) {
  *     console.log("Pressed keyboard button: " + key_code);
  * };
@@ -525,6 +535,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @param {Number} key_code Number indicates button that was released on the
  * keyboard (use constants KEY_* from module {@link module:controls|controls}).
  * @example
+ * var m_input = require("input");
+ * 
  * var keyboard_up_cb = function(key_code) {
  *     console.log("Released keyboard button: " + key_code);
  * };
@@ -539,6 +551,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @param {Array} touches List of touch objects corresponding to the
  * contacting with the touch surface points.
  * @example
+ * var m_input = require("input");
+ * 
  * var touch_start_cb = function(touches) {
  *     for (var i = 0; i < touches.length; ++i)
  *          console.log("Touch contact " + touches[i].identifier + " has position" +
@@ -555,6 +569,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @param {Array} touches List of touch objects corresponding to the
  * contacting with the touch surface points.
  * @example
+ * var m_input = require("input");
+ * 
  * var touch_move_cb = function(touches) {
  *     for (var i = 0; i < touches.length; ++i)
  *          console.log("Touch contact " + touches[i].identifier + " has position" +
@@ -571,6 +587,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @param {Array} touches List of touch objects corresponding to the
  * contacting with the touch surface points.
  * @example
+ * var m_input = require("input");
+ * 
  * var touch_end_cb = function(touches) {
  *     for (var i = 0; i < touches.length; ++i)
  *          console.log("Touch contact " + touches[i].identifier + " has position" +
@@ -586,6 +604,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @callback GyroscopeQuatCallback
  * @param {Quat} quat Quaternion vector corresponding to the gyroscope orientation.
  * @example
+ * var m_input = require("input");
+ * 
  * var gyroscope_quat_cb = function(quat) {
  *     console.log("Gyroscope orientation quaternion is " + quat);
  * };
@@ -599,6 +619,8 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * @callback GyroscopeAnglesCallback
  * @param {Euler} angles Euler angles corresponding to the gyroscope orientation.
  * @example
+ * var m_input = require("input");
+ * 
  * var gyroscope_angles_cb = function(angles) {
  *     console.log("Gyroscope orientation Euler angles are " + angles);
  * };

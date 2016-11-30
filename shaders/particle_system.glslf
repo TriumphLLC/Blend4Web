@@ -14,10 +14,10 @@
 #var PROCEDURAL_FOG 0
 #var SKY_TEXTURE 0
 #var NORMAL_TEXCOORD 0
-#var USE_VIEW_MATRIX 0
-#var USE_VIEW_MATRIX_INVERSE 0
-#var USE_MODEL_MATRIX 0
-#var USE_MODEL_MATRIX_INVERSE 0
+#var USE_VIEW_TSR 0
+#var USE_VIEW_TSR_INVERSE 0
+#var USE_MODEL_TSR 0
+#var USE_MODEL_TSR_INVERSE 0
 
 #var ALPHA 0
 #var ALPHA_CLIP 0
@@ -36,6 +36,14 @@
 #var CALC_TBN_SPACE 0
 #var USE_TBN_SHADING 0
 #var TEXTURE_COLOR 0
+#var CAMERA_TYPE CAM_TYPE_PERSP
+#var USE_POSITION_CLIP 0
+
+#var USE_DERIVATIVES_EXT 0
+
+# if USE_DERIVATIVES_EXT
+#extension GL_OES_standard_derivatives: enable
+# endif
 
 /*==============================================================================
                                   INCLUDES
@@ -92,6 +100,10 @@ uniform float u_ambient;
 uniform float u_time;
 uniform vec3 u_camera_eye_frag;
 
+#if (USE_NODE_FRESNEL || USE_NODE_LAYER_WEIGHT) && CAMERA_TYPE == CAM_TYPE_ORTHO
+uniform vec3 u_camera_direction;
+#endif
+
 #if USE_NODE_LAMP
 uniform vec3 u_lamp_light_positions[NUM_LAMP_LIGHTS];
 uniform vec3 u_lamp_light_directions[NUM_LAMP_LIGHTS];
@@ -106,18 +118,18 @@ uniform float u_node_values[NUM_VALUES];
 uniform vec3 u_node_rgbs[NUM_RGBS];
 #endif
 
-#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW || USE_VIEW_MATRIX
+#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_VIEW_TSR
 uniform mat3 u_view_tsr_frag;
 #endif
 
-#if USE_VIEW_MATRIX_INVERSE
+#if USE_VIEW_TSR_INVERSE
 uniform mat3 u_view_tsr_inverse;
 #endif
-#if USE_MODEL_MATRIX
+#if USE_MODEL_TSR
 // it's always dynamic object
 uniform mat3 u_model_tsr;
 #endif
-#if USE_MODEL_MATRIX_INVERSE
+#if USE_MODEL_TSR_INVERSE
 uniform mat3 u_model_tsr_inverse;
 #endif
 
@@ -130,6 +142,10 @@ uniform float u_view_max_depth;
 uniform sampler2D u_nodes_texture;
 #endif
 
+#if USE_NODE_OBJECT_INFO
+uniform vec3 u_obj_info;
+#endif
+
 /*==============================================================================
                                 SHADER INTERFACE
 ==============================================================================*/
@@ -137,7 +153,7 @@ uniform sampler2D u_nodes_texture;
 GLSL_IN vec4 v_tangent;
 #endif
 
-#if SOFT_PARTICLES
+#if SOFT_PARTICLES || USE_POSITION_CLIP
 GLSL_IN vec3 v_tex_pos_clip;
 #endif
 
@@ -182,31 +198,7 @@ void main(void) {
     vec4 nout_shadow_factor;
     float nout_alpha;
 
-    mat3 nin_view_tsr              = mat3(0.0);
-
-    mat3 nin_view_tsr_inverse      = mat3(0.0);
-    mat3 nin_model_tsr             = mat3(0.0);
-    mat3 nin_model_tsr_inverse     = mat3(0.0);
-
-#if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW
-    nin_view_tsr = u_view_tsr_frag;
-#endif
-
-#if USE_VIEW_MATRIX_INVERSE
-    nin_view_tsr_inverse = u_view_tsr_inverse;
-#endif
-#if USE_MODEL_MATRIX
-    nin_model_tsr = u_model_tsr;
-#endif
-#if USE_MODEL_MATRIX_INVERSE
-    nin_model_tsr_inverse = u_model_tsr_inverse;
-#endif
-
     nodes_main(eye_dir,
-            nin_view_tsr,
-            nin_view_tsr_inverse,
-            nin_model_tsr,
-            nin_model_tsr_inverse,
             nout_color,
             nout_specular_color,
             nout_normal,

@@ -29,7 +29,7 @@
 ==============================================================================*/
 #var CAUSTICS 0
 #var DOUBLE_SIDED_LIGHTING 0
-#var INVERT_FRONTFACING 0
+#var REFLECTION_PASS REFL_PASS_NONE
 
 #var PARTICLE_BATCH 0
 
@@ -40,7 +40,7 @@
                                    IMPORTS
 ==============================================================================*/
 
-#if USE_NODE_MATERIAL_BEGIN
+#if USE_NODE_MATERIAL_BEGIN || USE_NODE_BSDF_BEGIN
 #include <environment.glslf>
 #endif
 
@@ -189,7 +189,7 @@ vec2 vec_to_uv(vec3 vec)
 
     // NOTE: possible compatibility issues
     // 1 front, 0 back
-#node_if INVERT_FRONTFACING
+#node_if REFLECTION_PASS == REFL_PASS_PLANE
     frontback = (gl_FrontFacing) ? _0_0 : _1_0;
 #node_else
     frontback = (gl_FrontFacing) ? _1_0 : _0_0;
@@ -200,7 +200,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 view_out
 
     //to WebGL view space
-    view_out = -tsr9_transform_dir(nin_view_tsr, nin_eye_dir);
+    view_out = -tsr9_transform_dir(u_view_tsr_frag, nin_eye_dir);
 #endnode
 
 #node GEOMETRY_LO
@@ -210,13 +210,11 @@ vec2 vec_to_uv(vec3 vec)
     local_out[2] = nin_pos_view[2];
 #endnode
 
-
 #node GEOMETRY_GL
     #node_out vec3 global_out
 
-    global_out = vec3(nin_pos_world.r, -nin_pos_world.b, nin_pos_world.g);
+    global_out = vec3(nin_pos_world.r, nin_pos_world.g, nin_pos_world.b);
 #endnode
-
 
 #node NEW_GEOMETRY
     #node_out vec3 position
@@ -344,7 +342,148 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 vec_view
 
     // NOTE: (-) mimic blender behavior
-    vec_view = -tsr9_transform_dir(nin_view_tsr, vec_world);
+    vec_view = -tsr9_transform_dir(u_view_tsr_frag, vec_world);
+#endnode
+
+#node BSDF_BEGIN
+    #node_in vec3 surface
+    #node_in vec3 d_color
+    #node_in float d_roughness
+    #node_in vec3 s_color
+    #node_in float s_roughness
+    #node_in float metalness
+    #node_in vec3 normal_in
+    #node_out vec3 E
+    #node_out vec3 A
+    #node_out vec3 D
+    #node_out vec3 S
+    #node_out vec3 normal
+    #node_out vec4 bsdf_params
+    #node_out vec4 shadow_factor
+    #node_out vec3 s_color_out
+    #node_out float metalness_out
+
+    // diffuse
+    D = d_color;
+    // specular
+    S = s_color;
+
+    normal = normal_in;
+    s_color_out = s_color;
+    metalness_out = metalness;
+
+    // emission
+    E = nin_emit * D;
+
+    // ambient
+    A = nin_ambient * u_environment_energy * get_environment_color(normal);
+    shadow_factor = calc_shadow_factor(D);
+
+    nout_shadow_factor = shadow_factor;
+
+    bsdf_params[0] = d_roughness;
+    bsdf_params[1] = s_roughness;
+    bsdf_params[2] = metalness;
+#endnode
+
+#node BSDF_END
+    #node_in vec4 color_in
+    #node_in vec3 specular_in
+    #node_in vec3 normal
+    #node_in vec3 s_color
+    #node_in float metalness
+
+    nout_color = color_in.rgb + specular_in;
+    // NOTE: using unused variable to pass shader verification
+    normal;
+#endnode
+
+#node BSDF_COMPUTE
+    #node_var MAT_USE_TBN_SHADING 0
+    #node_in vec3 ldir
+    #node_in vec2 lfac
+    #node_in vec3 normal
+    #node_in float norm_fac
+    #node_in vec4 bsdf_params
+    #node_out float lfactor
+    #node_out float sfactor
+
+    vec3 norm = normal;
+    float d_roughness = clamp(bsdf_params[0], _0_0, _1_0);
+    float s_roughness = clamp(bsdf_params[1], _0_0, _1_0);
+    // float s_roughness_sq = s_roughness * s_roughness;
+    float metalness = bsdf_params[2];
+
+    vec3 halfway = normalize(nin_eye_dir + ldir);
+    float dot_nl = (_1_0 - norm_fac) * dot(norm, ldir) + norm_fac;
+    float dot_lh = (_1_0 - norm_fac) * max(dot(ldir, halfway), _0_0) + norm_fac;
+    float dot_nh = (_1_0 - norm_fac) * max(dot(normal, halfway), _0_0) + norm_fac;
+
+    // diffuse OREN_NAYAR
+    lfactor = _0_0;
+    if (lfac.r != _0_0) {
+        if (d_roughness > _0_0) {
+            float nv = max(dot(norm, nin_eye_dir), _0_0);
+            float sigma_sq = d_roughness * d_roughness;
+            float A = _1_0 - _0_5 * (sigma_sq / (sigma_sq + 0.33));
+
+            vec3 l_diff = ldir - dot_nl*norm;
+            vec3 e_diff = nin_eye_dir - nv*norm;
+            // handle normalize() and acos() values which may result to
+            // "undefined behavior"
+            // (noticeable for "mediump" precision, nin_eye_dir.g some mobile devies)
+            if (length(l_diff) == _0_0 || length(e_diff) == _0_0 ||
+                    abs(dot_nl) > _1_0 || abs(nv) > _1_0)
+                // HACK: undefined result of normalize() for this vectors
+                // remove t-multiplier for zero-length vectors
+                lfactor = dot_nl * A;
+            else {
+                float Lit_A = acos(dot_nl);
+                float View_A = acos(nv);
+                vec3 Lit_B = normalize(l_diff);
+                vec3 View_B = normalize(e_diff);
+
+                float a, b;
+                a = max(Lit_A, View_A);
+                b = min(Lit_A, View_A);
+                b *= 0.95;
+
+                float t = max(dot(Lit_B, View_B), _0_0);
+                float B = 0.45 * (sigma_sq / (sigma_sq +  0.09));
+                lfactor = dot_nl * (A + (B * t * sin(a) * tan(b)));
+            }
+        } else
+            lfactor = dot_nl;
+        lfactor = max(lfactor, _0_0);
+    }
+
+    // specular GGX
+    // NOTE: Blender treats roughness as alpha
+    // D
+    float alpha = s_roughness;
+    float alphaSqr = alpha * alpha;
+    float denom = (dot_nh * alphaSqr -  dot_nh) * dot_nh + _1_0;    // 2 mad
+    float D = alphaSqr/(M_PI * denom * denom);
+
+    // F
+    float F_a;
+    float F_b;
+    float dot_lh5 = pow(_1_0-dot_lh, 5.0);
+    F_a = _1_0;
+    F_b = dot_lh5;
+
+    // V
+    float k = alpha / 2.0;
+    float k2 = k * k;
+    float invK2 = _1_0 - k2;
+    float vis = _1_0 / (dot_lh*dot_lh*invK2 + k2);
+    F_a *=vis;
+    F_b *=vis;
+
+    float F0 = mix(0.04, _1_0, metalness);
+    float FV = mix(F_b, F_a, F0);
+
+    sfactor = max(dot_nl * D * FV, _0_0);
 #endnode
 
 #node BSDF_ANISOTROPIC
@@ -365,14 +504,31 @@ vec2 vec_to_uv(vec3 vec)
 #endnode
 
 #node BSDF_DIFFUSE
-    #node_in vec3 color
-    #node_in float roughness
-    #node_in vec3 normal
-    #node_out vec3 vec
-    vec = color;
+    #node_var USE_NORMAL_IN 0
+    #node_in vec3  color_in
+    #node_in float roughness_in
+    #node_in vec3  normal_in
+    #node_out vec3 surface
+    #node_out vec3 d_color
+    #node_out float d_roughness
+    #node_out vec3 s_color
+    #node_out float s_roughness
+    #node_out float metalness
+    #node_out vec3 normal
+
+    d_color = color_in;
+    d_roughness = roughness_in;
+    metalness = _0_0;
+# node_if USE_NORMAL_IN
+    normal = normal_in;
+# node_else
+     normal = nin_normal;
+# node_endif
+
     // NOTE: using unused variable to pass shader verification
-    roughness;
-    normal;
+    surface;
+    s_color;
+    s_roughness;
 #endnode
 
 #node BSDF_GLASS
@@ -389,14 +545,31 @@ vec2 vec_to_uv(vec3 vec)
 #endnode
 
 #node BSDF_GLOSSY
-    #node_in vec3 color
-    #node_in float roughness
-    #node_in vec3 normal
-    #node_out vec3 vec
-    vec = color;
+    #node_var USE_NORMAL_IN 0
+    #node_in vec3  color_in
+    #node_in float roughness_in
+    #node_in vec3  normal_in
+    #node_out vec3 surface
+    #node_out vec3 d_color
+    #node_out float d_roughness
+    #node_out vec3 s_color
+    #node_out float s_roughness
+    #node_out float metalness
+    #node_out vec3 normal
+
+    s_color = color_in;
+    s_roughness = roughness_in;
+    metalness = _1_0;
+# node_if USE_NORMAL_IN
+    normal = normal_in;
+# node_else
+     normal = nin_normal;
+# node_endif
+
     // NOTE: using unused variable to pass shader verification
-    roughness;
-    normal;
+    surface;
+    d_color;
+    d_roughness;
 #endnode
 
 #node BSDF_HAIR
@@ -554,7 +727,7 @@ vec2 vec_to_uv(vec3 vec)
 # node_elif SPACE == NM_OBJECT || SPACE == NM_BLENDER_OBJECT
     normal_out = color.xyz - _0_5;
     normal_out.yz *= -1.0;
-    normal_out = tsr9_transform_dir(nin_model_tsr, normal_out);
+    normal_out = tsr9_transform_dir(u_model_tsr, normal_out);
 
 # node_elif SPACE == NM_WORLD || SPACE == NM_BLENDER_WORLD
     normal_out = color.xyz - _0_5;
@@ -575,35 +748,35 @@ vec2 vec_to_uv(vec3 vec)
 #node_else
 # node_if VECTOR_TYPE == VT_POINT
 #  node_if CONVERT_TYPE == VT_WORLD_TO_CAMERA
-    vec_out = tsr9_transform(nin_view_tsr, vec_in);
+    vec_out = tsr9_transform(u_view_tsr_frag, vec_in);
 #  node_elif CONVERT_TYPE == VT_WORLD_TO_OBJECT
-    vec_out = tsr9_transform(nin_model_tsr_inverse, vec_in);
+    vec_out = tsr9_transform(u_model_tsr_inverse, vec_in);
 #  node_elif CONVERT_TYPE == VT_OBJECT_TO_WORLD
-    vec_out = tsr9_transform(nin_model_tsr, vec_in);
+    vec_out = tsr9_transform(u_model_tsr, vec_in);
 #  node_elif CONVERT_TYPE == VT_OBJECT_TO_CAMERA
-    vec_out = tsr9_transform(nin_model_tsr, vec_in);
-    vec_out = tsr9_transform(nin_view_tsr, vec_out);
+    vec_out = tsr9_transform(u_model_tsr, vec_in);
+    vec_out = tsr9_transform(u_view_tsr_frag, vec_out);
 #  node_elif CONVERT_TYPE == VT_CAMERA_TO_WORLD
-    vec_out = tsr9_transform(nin_view_tsr_inverse, vec_in);
+    vec_out = tsr9_transform(u_view_tsr_inverse, vec_in);
 #  node_elif CONVERT_TYPE == VT_CAMERA_TO_OBJECT
-    vec_out = tsr9_transform(nin_view_tsr_inverse, vec_in);
-    vec_out = tsr9_transform(nin_model_tsr_inverse, vec_out);
+    vec_out = tsr9_transform(u_view_tsr_inverse, vec_in);
+    vec_out = tsr9_transform(u_model_tsr_inverse, vec_out);
 #  node_endif
 # node_else
 #  node_if CONVERT_TYPE == VT_WORLD_TO_CAMERA
-    vec_out = tsr9_transform_dir(nin_view_tsr, vec_in);
+    vec_out = tsr9_transform_dir(u_view_tsr_frag, vec_in);
 #  node_elif CONVERT_TYPE == VT_WORLD_TO_OBJECT
-    vec_out = tsr9_transform_dir(nin_model_tsr_inverse, vec_in);
+    vec_out = tsr9_transform_dir(u_model_tsr_inverse, vec_in);
 #  node_elif CONVERT_TYPE == VT_OBJECT_TO_WORLD
-    vec_out = tsr9_transform_dir(nin_model_tsr, vec_in);
+    vec_out = tsr9_transform_dir(u_model_tsr, vec_in);
 #  node_elif CONVERT_TYPE == VT_OBJECT_TO_CAMERA
-    vec_out = tsr9_transform_dir(nin_model_tsr, vec_in);
-    vec_out = tsr9_transform_dir(nin_view_tsr, vec_out);
+    vec_out = tsr9_transform_dir(u_model_tsr, vec_in);
+    vec_out = tsr9_transform_dir(u_view_tsr_frag, vec_out);
 #  node_elif CONVERT_TYPE == VT_CAMERA_TO_WORLD
-    vec_out = tsr9_transform_dir(nin_view_tsr_inverse, vec_in);
+    vec_out = tsr9_transform_dir(u_view_tsr_inverse, vec_in);
 #  node_elif CONVERT_TYPE == VT_CAMERA_TO_OBJECT
-    vec_out = tsr9_transform_dir(nin_view_tsr_inverse, vec_in);
-    vec_out = tsr9_transform_dir(nin_model_tsr_inverse, vec_out);
+    vec_out = tsr9_transform_dir(u_view_tsr_inverse, vec_in);
+    vec_out = tsr9_transform_dir(u_model_tsr_inverse, vec_out);
 #  node_endif
 # node_endif
 
@@ -840,11 +1013,48 @@ vec2 vec_to_uv(vec3 vec)
 
 #node MIX_SHADER
     #node_in float factor
-    #node_in vec3 color1
-    #node_in vec3 color2
-    #node_out vec3 color
+    #node_in vec3 shader1
+    #node_in vec3 shader2
+    #node_in vec3  d_color1
+    #node_in float d_roughness1
+    #node_in vec3  s_color1
+    #node_in float s_roughness1
+    #node_in float metalness1
+    #node_in vec3  normal1
+    #node_in vec3  d_color2
+    #node_in float d_roughness2
+    #node_in vec3  s_color2
+    #node_in float s_roughness2
+    #node_in float metalness2
+    #node_in vec3  normal2
+    #node_out vec3 shader_out
+    #node_out vec3 d_color_out
+    #node_out float d_roughness_out
+    #node_out vec3 s_color_out
+    #node_out float s_roughness_out
+    #node_out float metalness_out
+    #node_out vec3 normal_out
+
     float clamped_factor = clamp(factor, _0_0, _1_0);
-    color = clamped_factor * color1 + (_1_0 - clamped_factor) * color2;
+
+    d_color_out = mix(d_color1, d_color2, clamped_factor);
+    d_roughness_out = mix(d_roughness1, d_roughness2, clamped_factor);
+    if (metalness1 > _0_0) {
+        if (metalness2 > _0_0) {
+            s_color_out = mix(s_color1, s_color2, clamped_factor);
+            s_roughness_out = mix(s_roughness1, s_roughness2, clamped_factor);
+        }
+        else {
+            s_color_out = s_color1;
+            s_roughness_out =  s_roughness1;
+        }
+    } else {
+        s_color_out = s_color2;
+        s_roughness_out = s_roughness2;
+    }
+
+    metalness_out = mix(metalness1, metalness2, clamped_factor);
+    normal_out = mix(normal1, normal2, clamped_factor);
 #endnode
 
 #node UV_MERGED
@@ -2594,6 +2804,7 @@ reflect_factor;
 #endnode
 
 #node VALUE
+    #node_var VALUE_IND 0
     #node_out float value_out
 
     value_out = u_node_values[VALUE_IND];
@@ -2676,7 +2887,7 @@ reflect_factor;
     #node_in vec3 vec_in2
     #node_out vec3 vec_out
 
-    vec_out = reflect(tsr9_transform_dir(nin_view_tsr_inverse, vec_in1), vec_in2);
+    vec_out = reflect(tsr9_transform_dir(u_view_tsr_inverse, vec_in1), vec_in2);
 #endnode
 
 #node B4W_REFLECT_WORLD
@@ -2816,10 +3027,6 @@ reflect_factor;
 #nodes_global
 
 void nodes_main(in vec3 nin_eye_dir,
-        in mat3 nin_view_tsr,
-        in mat3 nin_view_tsr_inverse,
-        in mat3 nin_model_tsr,
-        in mat3 nin_model_tsr_inverse,
         out vec3 nout_color,
         out vec3 nout_specular_color,
         out vec3 nout_normal,
@@ -2834,14 +3041,16 @@ void nodes_main(in vec3 nin_eye_dir,
     nout_alpha = _0_0;
 
 #if USE_NODE_MATERIAL_BEGIN  || USE_NODE_GEOMETRY_NO \
-        || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO || USE_NODE_NORMAL_MAP
+        || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO || USE_NODE_NORMAL_MAP \
+        || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL || USE_NODE_TEX_COORD_RE \
+        || USE_NODE_LAYER_WEIGHT || USE_NODE_BUMP
 
     vec3 normal = normalize(v_normal);
     vec3 sided_normal = normal;
 # if DOUBLE_SIDED_LIGHTING || USE_NODE_GEOMETRY_NO
     // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
-#if INVERT_FRONTFACING
+#if REFLECTION_PASS == REFL_PASS_PLANE
     if (!gl_FrontFacing)
 #else
     if (gl_FrontFacing)

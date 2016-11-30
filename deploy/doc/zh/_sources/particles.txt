@@ -145,12 +145,12 @@
    该选项启用循环发射模式。它可以用于永久效果 （如烟，燃烧，水溅）。建
    议设置的 "Emission > Start" 的值为零。默认为禁用。
 
+*Emission > Allow NLA*
+   Activating this option allows particle emission to be controlled by
+   NLA. Enabled by default.
+
 *Emission > Random Delay*
    该选项允许启用粒子随机发射时间。默认情况下禁用。
-
-*Emission > Emit From > Distribution*
-   发射分布设置："Jittered"，"Random"，"Grid"。由引擎忽略。在内部，引
-   擎始终使用 "Random" 分布。默认值是 "Jittered" 。
 
 
 方向设置

@@ -541,13 +541,13 @@ def run_init(args):
     if url_params:
         b4w_proj_cfg["url_params"] = csv_str_to_dict(url_params)
 
-    with open(b4w_proj_file, "w") as configfile:
+    with open(b4w_proj_file, "w", encoding="utf-8", newline="\n") as configfile:
         b4w_proj_cfg.write(configfile)
 
     if do_copy_project_script:
         copy_project_script(_base_dir, dev_dir)
 
-    if do_copy_app_templates and not webplayer_proj:
+    if do_copy_app_templates and not webplayer_proj and engine_type != "none":
         copy_app_templates(name, dev_dir, _base_dir, _src_dir, bundle, title)
 
     if do_copy_scene_templates:
@@ -676,7 +676,7 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, bundle, title):
         tpl_js_file = join(tpl_dir, "app_bundle.js")
     else:
         tpl_js_file = join(tpl_dir, "app.js")
-    tpl_js_file_obj = open(tpl_js_file, "r")
+    tpl_js_file_obj = open(tpl_js_file, "r", encoding="utf-8")
     tpl_js_str = tpl_js_file_obj.read()
     tpl_js_file_obj.close()
 
@@ -684,7 +684,7 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, bundle, title):
 
     out_js_str = string.Template(tpl_js_str).substitute(html_insertions)
 
-    out_js_file_obj = open(out_js_file, 'w', encoding="utf-8")
+    out_js_file_obj = open(out_js_file, 'w', encoding="utf-8", newline="\n")
     out_js_file_obj.writelines(out_js_str)
     out_js_file_obj.close()
 
@@ -694,7 +694,7 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, bundle, title):
 
     # HTML
 
-    tpl_html_file = open(join(tpl_dir, "app.html"), "r")
+    tpl_html_file = open(join(tpl_dir, "app.html"), "r", encoding="utf-8")
     tpl_html_str = tpl_html_file.read()
     tpl_html_file.close()
 
@@ -713,7 +713,7 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, bundle, title):
 
     out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
 
-    out_html_file_obj = open(out_html_file, 'w', encoding="utf-8")
+    out_html_file_obj = open(out_html_file, 'w', encoding="utf-8", newline="\n")
     out_html_file_obj.writelines(out_html_str)
     out_html_file_obj.close()
 
@@ -905,7 +905,12 @@ def run_compile(args, dev_proj_path):
 
     ignore.extend(COMP_DEPL_IGNORE)
 
+    # engine type "none"
     if not engine_type:
+        if not get_base_dir(build_proj_path):
+            help_compile("Project must be placed in the sdk directroy")
+            sys.exit(0)
+
         if exists(build_proj_path):
             shutil.rmtree(build_proj_path)
 
@@ -1247,7 +1252,7 @@ def compile_html(**kwargs):
         elif str(i) in js_strs:
             tmp.extend(js_strs[str(i)])
 
-    html_file = open(out_html_file_path, 'w', encoding="utf-8")
+    html_file = open(out_html_file_path, 'w', encoding="utf-8", newline="\n")
     html_file.writelines(tmp)
     html_file.close()
 
@@ -1268,7 +1273,7 @@ def change_assets_path(new_engine_path, assets_path_prefix):
     js_files = list(proj_path_obj.rglob('*.js'))
 
     for js_file in js_files:
-        engine_file = open(str(js_file), "r")
+        engine_file = open(str(js_file), "r", encoding="utf-8")
         file_data = engine_file.read()
         engine_file.close()
 
@@ -1277,7 +1282,7 @@ def change_assets_path(new_engine_path, assets_path_prefix):
 
         new_data = re.sub("(\"|\')(B4W_ASSETS_PATH=)(?!\'|\")(.*?)(\"|\')", "\\1\\2" + assets_path_prefix + "/\\4", file_data)
 
-        engine_file = open(str(js_file), "w")
+        engine_file = open(str(js_file), "w", encoding="utf-8")
         engine_file.write(new_data)
         engine_file.close()
 
@@ -1289,7 +1294,7 @@ def change_b4w_path(new_app_dir):
     html_paths = list(new_app_dir_obj.rglob('*.html'))
 
     for html_path in html_paths:
-        html_file = open(str(html_path), "r")
+        html_file = open(str(html_path), "r", encoding="utf-8")
         file_data = html_file.read()
         html_file.close()
 
@@ -1342,7 +1347,7 @@ def append_externs_items(paths, externs_gen_file):
     for path in paths:
         abs_path = str(path)
 
-        f = open(abs_path, encoding = "utf-8")
+        f = open(abs_path, encoding="utf-8")
         text = f.read()
         f.close()
 
@@ -2152,7 +2157,7 @@ def run_export(args):
         params = get_sdk_ver_params(_base_dir)
         version = params[1]
 
-        with open(ver_path_dst, "w") as f:
+        with open(ver_path_dst, "w", encoding="utf-8") as f:
             f.write("Blend4Web " + version + " PROJECT\n")
 
     if archive:
@@ -2373,7 +2378,7 @@ def remove_mods_from_html(html_file_obj, cur_mods_dict, css=False):
         if not exist:
             tmp.append(line)
 
-    html_file = open(html_file_obj, 'w', encoding="utf-8")
+    html_file = open(html_file_obj, 'w', encoding="utf-8", newline="\n")
     html_file.writelines(tmp)
     html_file.close()
 
@@ -2413,6 +2418,30 @@ def insert_src_modules(html_file_obj, src_modules, first_line):
             for src_module in src_modules:
                 tmp.append('<script type="text/javascript" src="' + src_module + '"></script>\n')
 
-    html_file = open(html_file_obj, 'w', encoding="utf-8")
+    html_file = open(html_file_obj, 'w', encoding="utf-8", newline="\n")
     html_file.writelines(tmp)
     html_file.close()
+
+def get_base_dir(curr_work_dir):
+    curr_dir = curr_work_dir
+
+    while True:
+        try:
+            ver_file_path = os.path.join(curr_dir, "VERSION")
+
+            with open(ver_file_path) as f:
+                lines = f.readlines()
+
+            params = lines[0].split()
+
+            if params[0] == "Blend4Web":
+                return os.path.normpath(curr_dir)
+        except:
+            pass
+
+        up_dir = os.path.normpath(os.path.join(curr_dir, ".."))
+
+        if up_dir == curr_dir:
+            return None
+        else:
+            curr_dir = up_dir

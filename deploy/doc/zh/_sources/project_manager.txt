@@ -16,6 +16,8 @@
 
     * 项目信息
 
+    * Project Editing
+
     * 项目导入
 
     * 项目导出
@@ -28,7 +30,7 @@
 
     * 项目结构
 
-    * ".b4w_project"  配置文件
+    * Project Configuration File (.b4w_project)
 
     * 创建项目
 
@@ -36,7 +38,7 @@
 
     * 构建项目
 
-    * 自动再导出
+    * Automatic Blend File Export
 
     * 资源转换
 
@@ -45,8 +47,6 @@
     * 移除项目
 
     * 应用程序升级新版本的SDK
-
-    * 加载的应用程序资产路径
 
 自版本 15.09，SDK 中包含一种项目管理功能，使它成为可能 ︰
 
@@ -102,8 +102,7 @@ SDK的首页的 *工具* 项中可以运行 *项目管理* 应用 。启动后�
 
 [图片]
 
-1. Build project (not available for Web Player JSON and Web Player
-   HTML projects).
+1. 编译项目 （WebPlayer JSON 和 WebPlayer HTML 项目不可用）。
 
 2. 检查是否缺少或不必要的API模块（WebPlayer JSON 和 WebPlayer HTML
    项 目不可用）。
@@ -114,8 +113,8 @@ SDK的首页的 *工具* 项中可以运行 *项目管理* 应用 。启动后�
       1. 如果一个或多个API模块从项目的文件夹中丢失，将会显示以下信
          息：
 
-         '模块 'module_name' 在 'project_name.html'项目丢失，请包括它
-         或运行  `Update Modules`.`
+         *模块 'module_name' 在 'project_name.html' 项目丢失，请包括它
+         或运行  `Update Modules`.*
 
       [图片]
 
@@ -124,8 +123,8 @@ SDK的首页的 *工具* 项中可以运行 *项目管理* 应用 。启动后�
       2. 如果项目具有未在程序代码的任何地方使用的一个或多个的API模
          块， 将显示以下信息：
 
-         在 `project_name.html` 中的 *不正确的模块 `module_name` ， 请
-         删除它或运行  `Update Modules`.*
+         *在 `project_name.html` 中的 `不正确的模块 `module_name` ，
+         请删除它或运行  `Update Modules`.*
 
       [图片]
 
@@ -134,7 +133,7 @@ SDK的首页的 *工具* 项中可以运行 *项目管理* 应用 。启动后�
       3. 在已检测缺失/不需要的模块没有任何问题的情况下，将显示以下
          信息 ：
 
-      *模块检查完毕。在`module_name.html`. 中检测到没有问题*
+      *模块检查完毕。在 `module_name.html`. 中检测到没有问题*
 
       [图片]
 
@@ -193,44 +192,52 @@ New Project]" 按钮执行。
 
 7. 复制项目管理脚本。Project.py 脚本将复制到项目目录。
 
-8. All project files will be located in the same directory. It is
-   preferable to use this option in small projects, such as lessons
-   and examples. Only "Web Player JSON" and "Web Player HTML" project
-   types are available for this option.
+8. 所有的项目文件将位于相同的目录中。在小项目中最好使用此选项，如课
+   程 和范例。只有 "Web Player JSON" 和 "Web Player HTML" 项目类型可以
+   用 此选项。
 
 9. 项目的类型。有几个选项 ︰
 
-      * "External" - the project will use engine files in the
-        "deploy/apps/common/" directory, only application files will
-        be compiled. When the project is deployed, the
-        "deploy/apps/common/" folder will be copied to the project
-        directory;
+      * "External" - Project Manager will use engine files in the
+        "deploy/apps/common/" directory to run the project.
+
+           When the project is deployed, only application files will
+           be compiled, while the "deploy/apps/common/" folder will be
+           copied to the project directory.
+
+           Use this option if you don't need to change engine files in
+           any way;
 
       * "Copy" - engine files will be directly copied from the
-        "deploy/apps/common/" to the application folder. Only
-        application files are compiled;
+        "deploy/apps/common/" to the application folder.
+
+           When the project is deployed, only application files are
+           compiled, while engine files are left intact (so you cannot
+           modify the engine itself);
 
       * "Compile" - engine sources are compiled with application
-        scripts;
+        scripts.
 
-      * "None" - Project Manager will not copy the engine files to
-        the application folder, nor will it perform any operations
-        upon building the application. Application developers will
-        have to manually perform everything they need;
+           This option can be used to modify the code of the engine
+           itself;
 
-      * "Web Player JSON" - json-file placed inside the project is
-        run with the help of web-player inside SDK;
+      * "None" -项目管理器不会将引擎文件复制到应用程序文件夹，也不将
+        它 执行任何操作生成应用程序。应用程序开发人员将不得不手动执行
+        他们 所需要的一切;
 
-      * "Web Player HTML" - project is packed into single html-file,
-        containing all required resources.
+      * "Web Player JSON" - 项目下的 json 文件通过SDK里的web播放器播
+        放 ；
+
+      * "Web Player HTML" - 项目被打包到单独的 html 文件，包含所有所
+        需 的资源。
 
 10. Javascript 优化级别。
 
-    * "简单"— — 变量的名称替换代码;
+    * "简单" — — 变量的名称替换代码;
 
-    * "先进"— — 进行了代码优化;
+    * "先进" — — 进行了代码优化;
 
-    * "空格"— — 只有空格从代码中移除。
+    * "只空格" — — 只有空格从代码中移除。
 
 11. 网络播放器的URL属性。此选项卡仅当 "Engine Binding Type" 参数设
     置为 "Web Player JSON" 活 "Web Player HTML" 时可用。
@@ -344,8 +351,8 @@ project" 选项。该项目将被导出，打包成一个单一的存档，并�
 *项目图标*
    该项目的图标。
 
-*应用程序*
-   应用程序的主 JSON 文件。
+*Applications*
+   Project applications.
 
 *引擎绑定类型*
    设置项目类型
@@ -357,7 +364,7 @@ project" 选项。该项目将被导出，打包成一个单一的存档，并�
    项目的配置文件。
 
 *构建目录*
-   项目构建文件夹。
+   Project build directory.
 
 *Blend 目录*
    项目的blend文件目录的位置。
@@ -371,14 +378,48 @@ project" 选项。该项目将被导出，打包成一个单一的存档，并�
 *JavaScript 混淆级别*
    Javascript 优化级别。
 
-*JavaScript 编译忽略列表*
-   项目脚本编译中的例外列表。
+*JS Compilation Pass-Through List*
+   The list of pass-through exceptions for the project's JavaScript
+   files compilation.
 
-*CSS 编译忽略列表*
-   项目样式表编译中的例外列表。
+*CSS Compilation Pass-Through List*
+   The list of pass-through exceptions for the project's style sheets
+   compilation.
 
-*部署目录资产前缀*
-   在部署的应用程序的场景资源文件夹。
+*Build Ignore List*
+   The list of exceptions for project's builds.
+
+*Deployment Assets Directory*
+   Directory where assets will be placed for deployed project.
+
+*Deployment Assets URL Prefix*
+   URL path prefix to assets directory inside deployed project as
+   reported by get_std_assets_path().
+
+*Deployment Ignore List*
+   The list of exceptions for project's deploy.
+
+
+Project Editing
+---------------
+
+A simple web-based interface for editing project files is available by
+the "[edit]" link beside the project's title.
+
+[图片]
+
+The left part of the editor window contains a list of all ".html",
+".css" and ".js" files from the project directory
+("./apps_dev/<project_name>"), starting with the main project file
+".b4w_project". The right part contains the content of a currently
+selected project file (no file is selected by default) with
+highlighted syntax.
+
+注解: This interface can only be used to edit files from developer
+  version of a project, but not from the builded version.
+
+The "Save File" button that can be found at the bottom of the page is
+used for saving currently selected project file.
 
 
 项目导入
@@ -442,8 +483,8 @@ project" 选项。该项目将被导出，打包成一个单一的存档，并�
 高级项目管理器使用 *project.py* 脚本并手动编辑  *.b4w_project*  配置文
 件。
 
-The *project.py* script can be found in the "./apps_dev/" folder of
-the Blend4Web SDK directory.
+*Project.py* 脚本可以在 Blend4Web SDK 目录文件夹的  "../apps_dev/" 目
+录下找到。
 
 
 依赖
@@ -460,8 +501,8 @@ the Blend4Web SDK directory.
 
 对于脚本运行它需要安装Java和  设置PATH系统变量.
 
-注解: Java is included by default in the Windows version of the SDK.
-  In Linux and macOS it should be installed manually.
+注解: Java 是默认包含在 Windows 版本的 SDK。在 Linux 和 macOS  它应
+  该手动 安装。
 
 Resource Converter  也使用其自己的描述的外部工具集，在 另外章节 描述.
 
@@ -515,28 +556,31 @@ Resource Converter  也使用其自己的描述的外部工具集，在 另外�
 路径取决于目标服务器上的目录结构。
 
 
-".b4w_project"  配置文件
-------------------------
+Project Configuration File (.b4w_project)
+-----------------------------------------
 
-如果你不使用任何参数执行的 *project.py* 脚本，会得到配置文件。
+Project configuration file includes all necessary information of your
+project, including name, metadata, directories, info for application
+building and deployment.
 
    [info]
-   author =
-   name =
-   title =
+   author = Blend4Web
+   name = myproject
+   title = MyProject
    icon =
 
    [paths]
-   assets_dirs =
-   blend_dirs =
-   blender_exec =
-   build_dir =
+   assets_dirs = deploy/assets/myproject;
+   blend_dirs = blender/myproject;
+   blender_exec = blender
+   build_dir = deploy/apps/myproject
    deploy_dir =
 
    [compile]
    apps =
    css_ignore =
    engine_type = external
+   ignore =
    js_ignore =
    optimization = simple
    use_physics =
@@ -544,9 +588,112 @@ Resource Converter  也使用其自己的描述的外部工具集，在 另外�
    version =
 
    [deploy]
-   assets_path_dest =
-   assets_path_prefix =
-   remove_exist_ext_dir =
+   assets_path_dest = assets
+   assets_path_prefix = assets
+   ignore =
+   override =
+
+This is a standard INI configuration file, which includes sections,
+properties and values.
+
+
+Section "[info]"
+~~~~~~~~~~~~~~~~
+
+Contains project metadata:
+
+*author*
+   该项目的作者或开发商公司的名称。
+
+*name*
+   项目名称
+
+*title*
+   在浏览器中所示的项目标题。
+
+*icon*
+   该项目的图标。
+
+
+Section "[paths]"
+~~~~~~~~~~~~~~~~~
+
+Containts project paths:
+
+*assets_dirs*
+   项目的媒体资产所在的位置目录。
+
+*blend_dirs*
+   项目的blend文件目录的位置。
+
+*blender_exec*
+   Path to Blender executable.
+
+*build_dir*
+   Project build directory.
+
+*deploy_dir*
+   Project deployment directory.
+
+
+Section "[compile]"
+~~~~~~~~~~~~~~~~~~~
+
+*apps*
+   Project applications.
+
+*css_ignore*
+   The list of pass-through exceptions for the project's style sheets
+   compilation.
+
+*engine_type*
+   设置项目类型
+
+*ignore*
+   The list of exceptions for project's builds.
+
+*js_ignore*
+   The list of pass-through exceptions for the project's JavaScript
+   files compilation.
+
+*optimization*
+   Javascript 优化级别。
+
+*use_physics*
+   Indicates whether your project will use physics or not. Default -
+   use physics.
+
+*use_smaa_textures*
+   Indicates whether your project will use SMAA textures or not.
+   Currently unused.
+
+*version*
+   Project version.
+
+
+Section "[deploy]"
+~~~~~~~~~~~~~~~~~~
+
+*assets_path_dest*
+   Directory where assets will be placed for deployed project.
+
+*assets_path_prefix*
+   URL path prefix to assets directory inside deployed project as
+   reported by get_std_assets_path().
+
+*ignore*
+   The list of exceptions for project's deploy.
+
+*override*
+   Replace existing output directory during deployment phase. Use with
+   caution.
+
+
+Section "[url_params]"
+~~~~~~~~~~~~~~~~~~~~~~
+
+Optional section for Web Player projects. Contains URL params used to
+start project applications.
 
 
 创建项目
@@ -595,6 +742,7 @@ Resource Converter  也使用其自己的描述的外部工具集，在 另外�
    author = Blend4Web
    name = myproject
    title = MyProject
+   icon =
 
    [paths]
    assets_dirs = deploy/assets/myproject;
@@ -607,6 +755,7 @@ Resource Converter  也使用其自己的描述的外部工具集，在 另外�
    apps =
    css_ignore =
    engine_type = external
+   ignore =
    js_ignore =
    optimization = simple
    use_physics =
@@ -614,8 +763,10 @@ Resource Converter  也使用其自己的描述的外部工具集，在 另外�
    version =
 
    [deploy]
-   assets_path_prefix =
-   remove_exist_ext_dir =
+   assets_path_dest = assets
+   assets_path_prefix = assets
+   ignore =
+   override =
 
 
 开发一个项目中的多个应用程序
@@ -647,7 +798,7 @@ HTML文件的形式提供:
 * ""-j | --js-ignore"" （可选）添加脚本例外为了不编译它们。
 
 * "“-o | --optimization”" （可选）指定JavaScript文件的优化级别：
-  "whitespace"，"simple``（默认）或 ``advanced"。
+  "whitespace"，"simple" （默认）或 "advanced"。
 
 * ""-t | --engine-type"" （可选）定义的应用程序编译类型。四种型号可
   供 选择： *external* (默认), *copy*, *compile*, *update*.
@@ -661,8 +812,8 @@ HTML文件的形式提供:
 * 脚本和样式可以存储在应用程序的根目录和子文件夹中
 
 
-自动再导出
-----------
+Automatic Blend File Export
+---------------------------
 
    python3 project.py -p myproject reexport
 
@@ -755,15 +906,3 @@ HTML文件的形式提供:
 
 为了消除 API 不兼容性可能需要重构您的应用程序。所有的改变放在了  发行
 说明.
-
-
-加载的应用程序资产路径
-----------------------
-
-要加载.json 文件应从 *config.js* 模块使用 "get_std_assets_path()" 方法
-︰
-
-   m_data.load(m_config.get_std_assets_path() + "example/example.json", load_cb);
-
-完成应用程序构建后，到资产的路径将会改变。因此，使用
-"get_std_assets_path()" 将允许您避免不正确的路径的问题。

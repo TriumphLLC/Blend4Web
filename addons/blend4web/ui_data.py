@@ -354,7 +354,7 @@ class B4W_DATA_PT_lamp(LampPanel, Panel):
         layout.prop(lamp, "type", expand=True)
 
         if lamp.type == "AREA":
-            layout.label(text=_("Area type is not supported"))
+            layout.label(text=_("AREA type is not supported"), icon="ERROR")
         else:
             split = layout.split()
             col = split.column()

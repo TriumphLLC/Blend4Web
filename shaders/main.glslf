@@ -11,18 +11,18 @@
 #var SKY_TEXTURE 0
 #var SKY_COLOR 0
 #var NORMAL_TEXCOORD 0
-#var USE_VIEW_MATRIX 0
-#var USE_VIEW_MATRIX_INVERSE 0
-#var USE_MODEL_MATRIX 0
-#var USE_MODEL_MATRIX_INVERSE 0
+#var USE_VIEW_TSR 0
+#var USE_VIEW_TSR_INVERSE 0
+#var USE_MODEL_TSR 0
+#var USE_MODEL_TSR_INVERSE 0
 #var WATER_EFFECTS 0
 #var USE_FOG 0
 #var CALC_TBN_SPACE 0
-#var MAIN_BEND_COL 0
-#var DETAIL_BEND 0
 #var TEXTURE_NORM_CO TEXTURE_COORDS_NONE
 #var PARALLAX 0
 #var USE_TBN_SHADING 0
+#var CAMERA_TYPE CAM_TYPE_PERSP
+#var USE_POSITION_CLIP 0
 
 #var NODES 0
 #var ALPHA 0
@@ -30,7 +30,6 @@
 #var WETTABLE 0
 #var NUM_VALUES 0
 #var NUM_RGBS 0
-#var WIND_BEND 0
 #var DISABLE_FOG 0
 #var SHADOW_USAGE NO_SHADOWS
 #var NUM_LIGHTS 0
@@ -49,6 +48,12 @@
 
 #var WATER_LEVEL 0.0
 #var POISSON_DISK_NUM NO_SOFT_SHADOWS
+
+#var USE_DERIVATIVES_EXT 0
+
+# if USE_DERIVATIVES_EXT
+#extension GL_OES_standard_derivatives: enable
+# endif
 
 /*==============================================================================
                                   INCLUDES
@@ -71,6 +76,7 @@
 ==============================================================================*/
 
 uniform float u_time;
+uniform vec2 u_texel_size;
 
 #if USE_ENVIRONMENT_LIGHT && SKY_TEXTURE
 uniform samplerCube u_sky_texture;
@@ -99,18 +105,22 @@ uniform vec3 u_sun_direction;
 
 uniform vec3 u_camera_eye_frag;
 
-#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW || USE_VIEW_MATRIX
+#if (USE_NODE_FRESNEL || USE_NODE_LAYER_WEIGHT) && CAMERA_TYPE == CAM_TYPE_ORTHO
+uniform vec3 u_camera_direction;
+#endif
+
+#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE || USE_VIEW_TSR
 uniform mat3 u_view_tsr_frag;
 #endif
 
-#if USE_VIEW_MATRIX_INVERSE
+#if USE_VIEW_TSR_INVERSE
 uniform mat3 u_view_tsr_inverse;
 #endif
-#if USE_MODEL_MATRIX
+#if USE_MODEL_TSR
 // it's always dynamic object
 uniform mat3 u_model_tsr;
 #endif
-#if USE_MODEL_MATRIX_INVERSE
+#if USE_MODEL_TSR_INVERSE
 uniform mat3 u_model_tsr_inverse;
 #endif
 
@@ -202,16 +212,15 @@ uniform vec3 u_node_rgbs[NUM_RGBS];
 uniform sampler2D u_nodes_texture;
 #endif
 
+#if USE_NODE_OBJECT_INFO
+uniform vec3 u_obj_info;
+#endif
+
 /*==============================================================================
                                 SHADER INTERFACE
 ==============================================================================*/
 GLSL_IN vec3 v_pos_world;
-
-#if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP\
-        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
-        || USE_NODE_TEX_COORD_NO
 GLSL_IN vec3 v_normal;
-#endif
 
 #if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO != TEXTURE_COORDS_NONE && PARALLAX) \
         || (!SHADELESS && CAUSTICS && WATER_EFFECTS) \
@@ -241,7 +250,7 @@ GLSL_IN vec4 v_shadow_coord3;
 #endif
 
 #if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
-        || REFRACTIVE || USE_NODE_B4W_REFRACTION
+        || REFRACTIVE || USE_POSITION_CLIP
 GLSL_IN vec3 v_tex_pos_clip;
 #endif
 
@@ -283,37 +292,13 @@ void main(void) {
     vec3 nout_normal;
     vec4 nout_shadow_factor;
     float nout_alpha;
-    mat3 nin_view_tsr              = mat3(0.0);
-
-    mat3 nin_view_tsr_inverse      = mat3(0.0);
-    mat3 nin_model_tsr             = mat3(0.0);
-    mat3 nin_model_tsr_inverse     = mat3(0.0);
-
-#if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW || USE_VIEW_MATRIX
-    nin_view_tsr = u_view_tsr_frag;
-#endif
-
-#if USE_VIEW_MATRIX_INVERSE
-    nin_view_tsr_inverse = u_view_tsr_inverse;
-#endif
-#if USE_MODEL_MATRIX
-    nin_model_tsr = u_model_tsr;
-#endif
-#if USE_MODEL_MATRIX_INVERSE
-    nin_model_tsr_inverse = u_model_tsr_inverse;
-#endif
 
     nodes_main(eye_dir,
-            nin_view_tsr,
-            nin_view_tsr_inverse,
-            nin_model_tsr,
-            nin_model_tsr_inverse,
             nout_color,
             nout_specular_color,
             nout_normal,
             nout_shadow_factor,
             nout_alpha);
-
 
     vec3 color = nout_color;
     float alpha = nout_alpha;
@@ -361,5 +346,6 @@ void main(void) {
 #if ALPHA && !ALPHA_CLIP
     premultiply_alpha(color, alpha);
 #endif
+
     GLSL_OUT_FRAG_COLOR = vec4(color, alpha);
 }

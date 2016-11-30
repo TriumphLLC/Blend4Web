@@ -187,10 +187,12 @@ exports.update_scene = function(scene, is_cyclic, data_id) {
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
         if (obj.nla_events.length) {
+            if (!nla.objects[data_id])
+                nla.objects[data_id] = [];
             for (var j = 0; j < obj.scenes_data.length; j++) {
                 var sd = obj.scenes_data[j];
                 if (sd.scene == scene && sd.obj_has_nla_on_scene)
-                    nla.objects.push(obj);
+                    nla.objects[data_id].push(obj);
             }
             
             remove_inconsistent_nla(obj.nla_events, nla, obj.name);
@@ -456,54 +458,59 @@ function nla_range_end_rewind(nla, timeline) {
 }
 
 function process_nla_objects(nla, curr_frame, elapsed) {
-    for (var i = 0; i < nla.objects.length; i++) {
-        var obj = nla.objects[i];
-        var nla_events = obj.nla_events;
+    for (var k = 0; k < nla.objects.length; k++) {
+        var objs = nla.objects[k];
+        if (!objs)
+            continue;
+        for (var i = 0; i < objs.length; i++) {
+            var obj = objs[i];
+            var nla_events = obj.nla_events;
 
-        // NOTE: allow single-strip speakers to play again
-        for (var j = 0; j < nla_events.length; j++) {
-            var ev = nla_events[j];
-            if (ev.type == "SOUND" 
-                    && curr_frame < (nla.last_frame - CF_FREEZE_EPSILON))
-                ev.scheduled = false;
-        }
+            // NOTE: allow single-strip speakers to play again
+            for (var j = 0; j < nla_events.length; j++) {
+                var ev = nla_events[j];
+                if (ev.type == "SOUND" 
+                        && curr_frame < (nla.last_frame - CF_FREEZE_EPSILON))
+                    ev.scheduled = false;
+            }
 
-        for (var j = 0; j < nla_events.length; j++) {
-            var ev = nla_events[j];
+            for (var j = 0; j < nla_events.length; j++) {
+                var ev = nla_events[j];
 
-            switch (ev.type) {
-            case "CLIP":
-                if (ev.ext_frame_start <= curr_frame && curr_frame < ev.ext_frame_end)
-                    if (!ev.scheduled) {
-                        process_clip_event_start(obj, ev, curr_frame, elapsed);
+                switch (ev.type) {
+                case "CLIP":
+                    if (ev.ext_frame_start <= curr_frame && curr_frame < ev.ext_frame_end)
+                        if (!ev.scheduled) {
+                            process_clip_event_start(obj, ev, curr_frame, elapsed);
 
-                        for (var k = 0; k < nla_events.length; k++)
-                            if (nla_events[k] != ev &&
-                                    nla_events[k].anim_slot == ev.anim_slot)
-                                nla_events[k].scheduled = false;
+                            for (var k = 0; k < nla_events.length; k++)
+                                if (nla_events[k] != ev &&
+                                        nla_events[k].anim_slot == ev.anim_slot)
+                                    nla_events[k].scheduled = false;
 
-                        ev.scheduled = true;
-                    }
+                            ev.scheduled = true;
+                        }
 
-                if (ev.scheduled)
-                    process_clip_event(obj, ev, curr_frame, elapsed);
-
-                break;
-            case "SOUND":
-                if ((curr_frame < (nla.last_frame - CF_FREEZE_EPSILON) || 
-                        nla.last_frame < ev.frame_start) &&
-                        ev.frame_start <= curr_frame && curr_frame < ev.frame_end)
-                    if (!ev.scheduled) {
-                        process_sound_event(obj, ev, curr_frame);
-                        ev.scheduled = true;
-                    }
-
-                if (nla.last_frame < ev.frame_end && ev.frame_end <= curr_frame)
                     if (ev.scheduled)
-                        ev.scheduled = false;
-                break;
-            default:
-                break;
+                        process_clip_event(obj, ev, curr_frame, elapsed);
+
+                    break;
+                case "SOUND":
+                    if ((curr_frame < (nla.last_frame - CF_FREEZE_EPSILON) || 
+                            nla.last_frame < ev.frame_start) &&
+                            ev.frame_start <= curr_frame && curr_frame < ev.frame_end)
+                        if (!ev.scheduled) {
+                            process_sound_event(obj, ev, curr_frame);
+                            ev.scheduled = true;
+                        }
+
+                    if (nla.last_frame < ev.frame_end && ev.frame_end <= curr_frame)
+                        if (ev.scheduled)
+                            ev.scheduled = false;
+                    break;
+                default:
+                    break;
+                }
             }
         }
     }
@@ -709,9 +716,13 @@ function process_sound_event(obj, ev, frame) {
     m_sfx.play(obj, when, duration);
 }
 
-exports.cleanup = function() {
-    _nla_arr.length = 0;
-    _start_time = -1;
+exports.cleanup = function(data_id) {
+    if (data_id == 0) {
+        _nla_arr.length = 0;
+        _start_time = -1;
+    } else
+        for (var i = 0; i < _nla_arr.length; i++)
+            _nla_arr[i].objects[data_id] = null;
 }
 
 /**

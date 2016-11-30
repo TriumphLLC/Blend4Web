@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-10-21 15:38+0300\n"
+"POT-Creation-Date: 2016-11-23 15:38+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -137,8 +137,8 @@ msgid ""
 "compile the addon by themselves."
 msgstr ""
 "Бинарные сборки аддона Blend4Web подготовлены для следующих платформ: "
-"Linux x32/64, macOS x64, Windows x32/64. В то же время пользователи имеют "
-"возможность произвести сборку самостоятельно."
+"Linux x32/64, macOS x64, Windows x32/64. В то же время пользователи имеют"
+" возможность произвести сборку самостоятельно."
 
 #: ../developers_advanced.rst:118
 msgid ""
@@ -159,7 +159,8 @@ msgid "build script: ``csrc/b4w_bin/build.py``"
 msgstr "скрипт сборки: ``csrc/b4w_bin/build.py``"
 
 #: ../developers_advanced.rst:122
-msgid "Blend4Web addon: ``blender_scripts/addons/blend4web/``"
+#, fuzzy
+msgid "Blend4Web addon: ``addons/blend4web/``"
 msgstr "аддон Blend4Web: ``blender_scripts/addons/blend4web/``"
 
 #: ../developers_advanced.rst:124

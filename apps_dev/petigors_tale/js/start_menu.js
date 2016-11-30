@@ -115,7 +115,7 @@ function intro_load_cb(data_id) {
     var camobj = m_scs.get_active_camera();
     m_cam.get_camera_angles(camobj, _default_cam_rot);
 
-    setTimeout(function(){
+    setTimeout(function() {
             var canvas_cont = m_cont.get_container();
             canvas_cont.style.opacity = 1;
         }, 1000);
@@ -393,11 +393,11 @@ function process_screen_click(x, y) {
     if (obj) {
         _selected_obj = obj;
         if (_buttons_info[obj.name]) {
-            var binfo = _buttons_info[obj.name];
+            var level_name = _buttons_info[obj.name].level_name
 
-            if (binfo.level_name) {
+            if (level_name) {
                 cleanup_events();
-                setTimeout(function() {load_level(binfo.level_name)},
+                setTimeout(function() {load_level(level_name)},
                            1000 * m_conf.LEVEL_LOAD_DELAY);
             } else if (!m_main.detect_mobile()) {
                 play_ending_speaker();
@@ -462,18 +462,20 @@ function play_ending_speaker(speaker) {
 }
 
 function load_level(level_name) {
-    var json_path = ASSETS_PATH + level_name + ".json";
-
-    m_data.unload(m_data.DATA_ID_ALL);
-
-    var preloader_cont = document.getElementById("preloader_cont");
-    preloader_cont.style.visibility = "visible"
-    m_data.load(json_path,
-                function(data_id) {
-                    game_main.level_load_cb(data_id, level_name, preloader_cb,
-                                            intro_load_cb, load_level);
-                },
-                preloader_cb, true);
+    if (level_name == "quest")
+        window.open("quest.html","_self");
+    else {
+        m_data.unload(m_data.DATA_ID_ALL);
+        var json_path = ASSETS_PATH + level_name + ".json";
+        var preloader_cont = document.getElementById("preloader_cont");
+        preloader_cont.style.visibility = "visible"
+        m_data.load(json_path,
+                    function(data_id) {
+                        game_main.level_load_cb(data_id, level_name, preloader_cb,
+                                                intro_load_cb, load_level);
+                    },
+                    preloader_cb, true);
+    }
 }
 
 function preloader_cb(percentage) {

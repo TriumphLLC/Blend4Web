@@ -606,7 +606,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
 
                 var depth_slink = create_slink("DEPTH", "u_shadow_map" + index,
                             tex_size, 1, 1, false);
-                if (cfg_def.webgl2) {
+                if (cfg_def.compared_mode_depth) {
                     depth_slink.min_filter = m_tex.TF_LINEAR;
                     depth_slink.mag_filter = m_tex.TF_LINEAR;
                     depth_slink.use_comparison = true;
@@ -742,6 +742,10 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
 
         var slink_grass_map_d = create_slink("DEPTH", "u_grass_map_depth",
                 tex_size, 1, 1, false);
+        if (!cfg_def.webgl2) {
+            slink_grass_map_d.min_filter = m_tex.TF_LINEAR;
+            slink_grass_map_d.mag_filter = m_tex.TF_LINEAR;
+        }
 
         // NOTE: need to be optional?
         var slink_grass_map_c = create_slink("COLOR", "u_grass_map_color",
@@ -2055,8 +2059,9 @@ function make_stereo(graph, sc_render, cam_scene_data, prev_subs) {
                     left_only_edges.push([subs_in, subs_new, slink]);
             });
 
-            for (var i = 0; i < subs.slinks_internal.length; i++)
-                subs_new.slinks_internal[i].parent_slink = subs.slinks_internal[i];
+            if (subs.type !== m_subs.MOTION_BLUR)
+                for (var i = 0; i < subs.slinks_internal.length; i++)
+                    subs_new.slinks_internal[i].parent_slink = subs.slinks_internal[i];
 
             // render order: store source nodes for right eye
             var is_source_node = true;
@@ -2079,6 +2084,12 @@ function make_stereo(graph, sc_render, cam_scene_data, prev_subs) {
         return new_slink;
     }
     subgraph_right = m_graph.clone(subgraph_right, subs_clone_cb, slink_clone_cb);
+
+    m_graph.traverse_edges(subgraph_right, function(node1, node2, slink) {
+        var subs = m_graph.get_node_attr(subgraph_right, node1);
+        if (subs.type === m_subs.MOTION_BLUR)
+            slink.parent_slink = null;
+    });
 
     for (var i = 0; i < removed_subscenes.length; i++)
         m_graph.remove_node(subgraph_right,

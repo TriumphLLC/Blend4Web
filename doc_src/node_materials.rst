@@ -27,7 +27,7 @@ Standard Nodes
 
 Blend4Web supports all standard Blender nodes, but some of them do not work fast enough and are not recommended to use in real time applications. Creating very complex materials, especially using large numbers of ``Geometry`` and ``Texture`` nodes, is also not recommended.
 
-Cycles nodes are only partially supported: in most cases they will not work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using Cycles nodes will not cause instabilities in the application workflow.
+The engine also has partial support for some of the Cycles nodes. This subject is more thoroughly described in the :ref:`corresponding chapter <cycles_nodes>`.
 
 .. _node_performance:
 
@@ -514,4 +514,44 @@ Converts colors from linear space to sRGB or vice versa. This function has been 
 
 
 .. seealso:: :ref:`gamma_node_materials`
+
+.. _cycles_nodes:
+
+Cycles Nodes
+============
+
+.. note::
+    Cycles node support is an experimental feature that is not yet recommended for using in production enviroment.
+
+The engine support the following ``Cycles`` nodes:
+
+* ``Material Output`` (only ``Surface`` input is supported);
+
+* ``BSDF Diffuse``;
+
+* ``BSDF Glossy`` (only ``GGX`` distribution is supported; the ``Roughness`` parameter does not influence the reflections);
+
+* ``Mix Shader``;
+
+* ``Fresnel``;
+
+* ``Layer Weight``;
+
+* ``Image Texture``;
+
+* ``Environment Texture``;
+
+* ``Object Info``;
+
+* ``Bump``.
+
+The following nodes are partially supported:
+
+* ``Texture Coordinates`` (``From Dupli`` parameter is not supported);
+
+* ``UV Map`` (``From Dupli`` parameter is not supported);
+
+* ``Geometry`` (the ``Pointness`` and ``Parametric`` parameters are not supported).
+
+Other ``Cycles`` nodes will not, in most cases, work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using these nodes will not cause instabilities in the application workflow.
 

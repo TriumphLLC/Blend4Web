@@ -107,10 +107,10 @@ function setup_physics_constraints() {
     limits["limit_angle_max_z"] = 0.5;
     limits["limit_angle_min_z"] = -0.5;
 
-    var trans_a = [0,-1.05, 0];
+    var trans_a = [0, 0, -1.05];
     var quat_a = m_quat.create();
 
-    var trans_b = [-3.5, 0.1, -1.6];
+    var trans_b = [-3.5, 1.6, 0.1];
     var quat_b = m_quat.create();
 
     m_phy.apply_constraint("GENERIC_6_DOF_SPRING", dummy_body, trans_a, quat_a,

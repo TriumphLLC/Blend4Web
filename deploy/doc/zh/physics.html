@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物理 &mdash; Blend4Web 16.10 用户手册</title>
+  <title>物理 &mdash; Blend4Web 16.11 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
         <link rel="next" title="对应用程序开发人员" href="developers.html"/>
         <link rel="prev" title="音频" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.10
+              v16.11
             </div>
           
         
@@ -130,6 +130,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#characters">角色</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#character-settings">角色设置</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-character">基本角色</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#navigation-meshes">Navigation Meshes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-navigation-meshes">Creating Navigation Meshes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-navigation-meshes">Using Navigation Meshes</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#use-in-applications">在应用程序中的使用</a></li>
@@ -208,7 +213,12 @@
 <li><a class="reference internal" href="#basic-character" id="id19">基本角色</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#use-in-applications" id="id20">在应用程序中的使用</a></li>
+<li><a class="reference internal" href="#navigation-meshes" id="id20">Navigation Meshes</a><ul>
+<li><a class="reference internal" href="#creating-navigation-meshes" id="id21">Creating Navigation Meshes</a></li>
+<li><a class="reference internal" href="#using-navigation-meshes" id="id22">Using Navigation Meshes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-in-applications" id="id23">在应用程序中的使用</a></li>
 </ul>
 </li>
 </ul>
@@ -431,8 +441,80 @@
 </div>
 </div>
 </div>
+<div class="section" id="navigation-meshes">
+<h2><a class="toc-backref" href="#id20">Navigation Meshes</a><a class="headerlink" href="#navigation-meshes" title="永久链接至标题">¶</a></h2>
+<p>Navigation meshes (commonly abbreviated <em>navmeshes</em>) are mesh objects that are used to make pathfinding simplier by eliminating the need for additional calculations such as collisions.</p>
+<a class="reference internal image-reference" href="_images/physics_pathfinding_example.png"><img alt="_images/physics_pathfinding_example.png" class="align-center" src="_images/physics_pathfinding_example.png" style="width: 100%;" /></a>
+<p>In this example (taken from Code Snippets), navigation mesh is used to build a path through the labyrinth.</p>
+<div class="section" id="creating-navigation-meshes">
+<h3><a class="toc-backref" href="#id21">Creating Navigation Meshes</a><a class="headerlink" href="#creating-navigation-meshes" title="永久链接至标题">¶</a></h3>
+<p>To make a navmesh out of an object, turn on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> parameter on the <code class="docutils literal"><span class="pre">Physics</span></code> panel and select <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> from the <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> list.</p>
+<a class="reference internal image-reference" href="_images/physics_navmesh.png"><img alt="_images/physics_navmesh.png" class="align-center" src="_images/physics_navmesh.png" style="width: 100%;" /></a>
+<p>Navigation meshes can either be created manually or generated automatically using a specific tool.</p>
+<a class="reference internal image-reference" href="_images/physics_navmesh_generator.png"><img alt="_images/physics_navmesh_generator.png" class="align-center" src="_images/physics_navmesh_generator.png" style="width: 100%;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">This tool is native to Blender and not a part of the Blend4Web engine.</p>
+</div>
+<p>This Navigation Mesh generation interface can be found on a dedicated panel under the <code class="docutils literal"><span class="pre">Scene</span></code> tab, but, as this feature is intended for real-time applications, it only appears if the Engine type is set to <code class="docutils literal"><span class="pre">Blend4Web</span></code> or <code class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></code> (Blender Internal, Cycles or any other rendering engine won’t do).</p>
+<p>The main tool on this panel is the <code class="docutils literal"><span class="pre">Build</span> <span class="pre">Navigation</span> <span class="pre">Mesh</span></code> button. As the title suggests, it is used for building navigation meshes based on the currently selected object. The navmesh is created as a separate object placed above the selected object, thus leaving that object intact.</p>
+<p>Aside from this button, the <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> panel offers users several groups of parameters to fine-tune the navmesh that will be generated.</p>
+<p><code class="docutils literal"><span class="pre">Rasterization</span></code> group of parameters:</p>
+<dl class="docutils">
+<dt><em>Cell Size</em></dt>
+<dd>Rasterized cell size. Greater values lead to bigger navmesh polygons. The highest possible value is 1.0. Default value is 0.3.</dd>
+<dt><em>Cell Height</em></dt>
+<dd>Rasterized cell height (the distance between the navmesh and the object from which it was generated). Default value is 0.2.</dd>
+</dl>
+<p><code class="docutils literal"><span class="pre">Agent</span></code> group of parameters:</p>
+<dl class="docutils">
+<dt><em>Height</em></dt>
+<dd>Minimum height where the agent can still walk. Default value is 2.0.</dd>
+<dt><em>Radius</em></dt>
+<dd>The radius of the agent. Default value is 0.6.</dd>
+<dt><em>Max Slope</em></dt>
+<dd>Maximum angle of a slope agent can walk on. Measured in degrees. Default value is 45.</dd>
+<dt><em>Max Climb</em></dt>
+<dd>The maximum height between grid cells the agent can climb. Default value is 0.9.</dd>
+</dl>
+<p><code class="docutils literal"><span class="pre">Region</span></code> group of parameters:</p>
+<dl class="docutils">
+<dt><em>Min Region Size</em></dt>
+<dd>The minimum size of a region (smaller regions will be deleted). Default value is 8.0.</dd>
+<dt><em>Merged Region Size</em></dt>
+<dd>The minimum size of a region (smaller regions will be merged). Default value is 20.0.</dd>
+<dt><em>Partitioning</em></dt>
+<dd><p class="first">The method used to partition the navigation mesh. Supported methods are:</p>
+<p><code class="docutils literal"><span class="pre">Monotone</span></code> is the fastest method. Using it may generate long thin polygons.</p>
+<p><code class="docutils literal"><span class="pre">Layers</span></code> — a slower, but still reasonably fast method that produces better triangulations than Monotone partitioning.</p>
+<p class="last"><code class="docutils literal"><span class="pre">Watershed</span></code> — classic Recast partitioning method that generates the nicest tesselation. This option is selected by default.</p>
+</dd>
+</dl>
+<p><code class="docutils literal"><span class="pre">Polygonization</span></code> group of parameters:</p>
+<dl class="docutils">
+<dt><em>Max Edge Length</em></dt>
+<dd>The maximum length of a contour edge. Default value is 12.0.</dd>
+<dt><em>Max Edge Error</em></dt>
+<dd>The maximum error of the distance from the contour to the cells. Default value is 1.3.</dd>
+<dt><em>Verts Per Poly</em></dt>
+<dd>The maximum number of vertices per polygon. Default value is 6.</dd>
+</dl>
+<p><code class="docutils literal"><span class="pre">Detail</span> <span class="pre">Mesh</span></code> group of parameters:</p>
+<dl class="docutils">
+<dt><em>Sample Distance</em></dt>
+<dd>Detail mesh sample spacing. Default value is 6.0.</dd>
+<dt><em>Max Sample Error</em></dt>
+<dd>Maximum error of the mesh simplification. Default value is 1.00.</dd>
+</dl>
+</div>
+<div class="section" id="using-navigation-meshes">
+<h3><a class="toc-backref" href="#id22">Using Navigation Meshes</a><a class="headerlink" href="#using-navigation-meshes" title="永久链接至标题">¶</a></h3>
+<p>After a navmesh is created, it then can be used in the application for calculating trajectories between two points. This can be done using two methods from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a> module, <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_get_island">navmesh_get_island()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path()</a>. The former is used to retrieve a link to the current island (closest independent segment of the navmesh), while the latter returns the actual path in the form of an array of coordinates.</p>
+<p>An example of using navigation meshes for pathfinding can be viewed in the <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> (the corresponding snippet is named <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
+</div>
+</div>
 <div class="section" id="use-in-applications">
-<span id="using-physics"></span><h2><a class="toc-backref" href="#id20">在应用程序中的使用</a><a class="headerlink" href="#use-in-applications" title="永久链接至标题">¶</a></h2>
+<span id="using-physics"></span><h2><a class="toc-backref" href="#id23">在应用程序中的使用</a><a class="headerlink" href="#use-in-applications" title="永久链接至标题">¶</a></h2>
 <p>物理系统是在 <strong>uranium.js</strong> 模块中实现，并分别从引擎的主要代码加载。<strong>Uranium.js</strong> 模块本身是 <a class="reference external" href="http://bulletphysics.org/">Bullet</a> 物理引擎的修改版，移植在浏览器中工作。为了激活物理系统，这就需要将 <strong>uranium.js</strong> 和 <strong>uranium.js.mem</strong> 文件跟应用程序的源代码放在同一个目录。</p>
 <p>另一个方法是通过使用下面的 API 方法显式指定 <strong>uranium.js</strong> 模块的加载路径 ︰</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
@@ -469,7 +551,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-27.
+      最后更新于 2016-11-29.
 
     </p>
   </div>
@@ -525,7 +607,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.10',
+            VERSION:'v16.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -47,8 +47,7 @@
 #include <color_util.glslf>
 #include <math.glslv>
 
-#define REFL_BUMP 0.001  //How much normal affects reflection displacement
-#define REFR_BUMP 0.0005  //How much normal affects refraction displacement
+#define REFL_BUMP 0.002  //How much normal affects reflection displacement
 
 /*==============================================================================
                                GLOBAL UNIFORMS
@@ -184,6 +183,7 @@ uniform vec3 u_wireframe_edge_color;
 ==============================================================================*/
 GLSL_IN vec3 v_eye_dir;
 GLSL_IN vec3 v_pos_world;
+GLSL_IN vec3 v_normal;
 
 #if (NUM_NORMALMAPS > 0 || FOAM) && !GENERATED_MESH
 GLSL_IN vec2 v_texcoord;
@@ -192,10 +192,6 @@ GLSL_IN vec2 v_texcoord;
 #if NUM_NORMALMAPS > 0
 GLSL_IN vec3 v_tangent;
 GLSL_IN vec3 v_binormal;
-#endif
-
-#if DYNAMIC || NUM_NORMALMAPS > 0
-GLSL_IN vec3 v_normal;
 #endif
 
 #if (NUM_NORMALMAPS > 0 || FOAM) && GENERATED_MESH && DYNAMIC
@@ -303,11 +299,7 @@ void main(void) {
     mat3 tbn_matrix = mat3(v_tangent, v_binormal, v_normal);
 #endif
 
-#if DYNAMIC
     vec3 normal = normalize(v_normal);
-#else
-    vec3 normal = UP_VECTOR;
-#endif
 
 #if DYNAMIC && FOAM
 # if WATER_EFFECTS

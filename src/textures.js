@@ -76,6 +76,7 @@ exports.PART_COLORRAMP_TEXT_SIZE = 128;
 
 var INTERNAL_TEX_TYPES = ["NONE", "NODE_TEX", "SSAO_TEXTURE"];
 
+var _textures_cache = [];
 var _canvas_textures_cache = {};
 var _video_textures_cache = {};
 
@@ -126,7 +127,7 @@ exports.update_canvas_context = function(id, data_id) {
 }
 
 function init_texture() {
-    return {
+    var texture = {
         name: "",
         type: 0,
 
@@ -135,8 +136,6 @@ function init_texture() {
         width: 0,
         height: 0,
         compress_ratio: 1,
-        source_non_color: false,
-        allow_node_dds: true,
 
         source_size: 1024,
         enable_canvas_mipmapping: false,
@@ -175,8 +174,19 @@ function init_texture() {
 
         repeat: true,
 
-        cleanup_gl_data_on_unload: true
+        cleanup_gl_data_on_unload: true,
+
+        img_filepath: "",
+        img_uuid: "",
+        img_source: "",
+        img_name: "",
+        img_is_compressed: false,
+        img_comp_method: "",
+
+        bpy_tex_uuid: ""
     };
+    _textures_cache.push(texture);
+    return texture;
 }
 
 function clone_texture(texture) {
@@ -190,8 +200,6 @@ function clone_texture(texture) {
     texture_new.width = texture.width;
     texture_new.height = texture.height;
     texture_new.compress_ratio = texture.compress_ratio;
-    texture_new.source_non_color = texture.source_non_color;
-    texture_new.allow_node_dds = texture.allow_node_dds;
 
     texture_new.source_size = texture.source_size;
     texture_new.enable_canvas_mipmapping = texture.enable_canvas_mipmapping;
@@ -231,6 +239,13 @@ function clone_texture(texture) {
     texture_new.repeat = texture.repeat;
 
     texture_new.cleanup_gl_data_on_unload = texture.cleanup_gl_data_on_unload;
+
+    texture_new.img_filepath = texture.img_filepath;
+    texture_new.img_uuid = texture.img_uuid;
+    texture_new.img_source = texture.img_source;
+    texture_new.img_name = texture.img_name;
+    texture_new.img_is_compressed = texture.img_is_compressed;
+    texture_new.img_comp_method = texture.img_comp_method;
 
     return texture_new;
 }
@@ -283,7 +298,11 @@ exports.create_texture = function(name, type, use_comparison) {
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
 
-        if (cfg_def.webgl2 && use_comparison)
+        var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
+        _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA,
+                       _gl.UNSIGNED_BYTE, image_data);
+
+        if (cfg_def.compared_mode_depth && use_comparison)
             _gl.texParameterf(w_target, _gl.TEXTURE_COMPARE_MODE,
                     _gl.COMPARE_REF_TO_TEXTURE);
 
@@ -468,6 +487,19 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
     var tex_type = bpy_texture["type"];
     var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
     var texture = init_texture();
+    texture.bpy_uuid = bpy_texture["uuid"];
+
+    var image = bpy_texture["image"];
+
+    if (image) {
+        texture.img_uuid = image["uuid"];
+        texture.img_filepath = image["filepath"];
+        texture.img_source = image["source"];
+        texture.img_name = image["name"];
+        texture.img_is_compressed = image._is_compressed;
+        if (image._is_compressed)
+            texture.img_comp_method = image._comp_method;
+    }
 
     switch (tex_type) {
     case "DATA_TEX2D":
@@ -477,25 +509,20 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
         _gl.bindTexture(w_target, w_texture);
         _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
 
-        if (bpy_texture["image"]) {
-            if (bpy_texture["image"]["colorspace_settings_name"] == "Non-Color")
-                texture.source_non_color = true;
+        if (image && image["source"] == "MOVIE") {
+            texture.is_movie = true;
+            texture.frame_start = bpy_texture["frame_start"];
+            texture.frame_offset = bpy_texture["frame_offset"];
+            texture.frame_duration = bpy_texture["frame_duration"];
+            texture.use_auto_refresh = bpy_texture["use_auto_refresh"];
+            texture.use_cyclic = bpy_texture["use_cyclic"];
+            texture.movie_length = bpy_texture["movie_length"];
+            texture.use_nla = bpy_texture["b4w_nla_video"]
 
-            if (bpy_texture["image"]["source"] == "MOVIE") {
-                texture.is_movie = true;
-                texture.frame_start = bpy_texture["frame_start"];
-                texture.frame_offset = bpy_texture["frame_offset"];
-                texture.frame_duration = bpy_texture["frame_duration"];
-                texture.use_auto_refresh = bpy_texture["use_auto_refresh"];
-                texture.use_cyclic = bpy_texture["use_cyclic"];
-                texture.movie_length = bpy_texture["movie_length"];
-                texture.use_nla = bpy_texture["b4w_nla_video"]
-
-                if (texture.frame_offset != 0)
-                    m_print.warn("Frame offset for texture \"" + bpy_texture["name"] +
-                            "\" has a nonzero value. Can lead to undefined behaviour" +
-                            " for mobile devices.");
-            }
+            if (texture.frame_offset != 0)
+                m_print.warn("Frame offset for texture \"" + bpy_texture["name"] +
+                        "\" has a nonzero value. Can lead to undefined behaviour" +
+                        " for mobile devices.");
         }
         break;
     case "NONE":
@@ -536,6 +563,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
         for (var i = 0; i < 6; i++)
             _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + targets[i]], 0, _gl.RGBA,
                     1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
+
         break;
 
     case "BLEND":
@@ -566,14 +594,8 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
     setup_anisotropic_filtering(bpy_texture, global_af, w_target);
 
     var tex_extension = bpy_texture["extension"];
-    if (tex_extension == "REPEAT" && !bpy_texture["b4w_shore_dist_map"]) {
-        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.REPEAT);
-        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.REPEAT);
-    } else {
+    if (tex_extension != "REPEAT" || bpy_texture["b4w_shore_dist_map"])
         texture.repeat = false;
-        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
-        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
-    }
 
     texture.type = exports.TT_RGBA_INT;
     texture.width = 1;
@@ -800,6 +822,14 @@ function update_texture(texture, image_data, comp_method, filepath, thread_id) {
 
     _gl.bindTexture(w_target, w_texture);
 
+    if (texture.repeat) {
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.REPEAT);
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.REPEAT);
+    } else {
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
+    }
+
     if (image_data.length == 4) {
         var update_color = true;
         var image_data = new Uint8Array([
@@ -942,11 +972,11 @@ function update_texture(texture, image_data, comp_method, filepath, thread_id) {
             }
 
             var w_texture = texture.w_texture;
-            _gl.bindTexture(w_target, w_texture);
             if (!texture.is_movie) {
+                _gl.bindTexture(w_target, w_texture);
                 _gl.generateMipmap(w_target);
+                _gl.bindTexture(w_target, null);
             }
-            _gl.bindTexture(w_target, null);
 
             texture.width = width;
             texture.height = height;
@@ -1261,6 +1291,7 @@ exports.cleanup = function() {
                 _video_textures_cache[data_id][tex].video_file.load();
             }
 
+    _textures_cache.length = 0;
     _canvas_textures_cache = {};
     _video_textures_cache = {};
 }
@@ -1902,6 +1933,10 @@ exports.generate_batch_texure =function (image_data, size) {
 
 exports.reset_mod = function() {
     _gl = null;
+}
+
+exports.get_all_textures = function() {
+    return _textures_cache;
 }
 
 }

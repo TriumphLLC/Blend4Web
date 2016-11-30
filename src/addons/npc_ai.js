@@ -29,8 +29,9 @@ var m_quat  = require("quat");
 var m_scs   = require("scenes");
 var m_time  = require("time");
 var m_trans = require("transform");
-var m_util  = require("util");
 var m_vec3  = require("vec3");
+var m_print = require("print");
+var m_util  = require("util");
 
 var _ev_tracks = [];
 
@@ -73,36 +74,112 @@ var NPC_MAX_ACTIVITY_DISTANCE = 100;
  * @param {Object3D} graph.obj Animated object ID.
  * @param {Object3D} graph.rig Armature object ID.
  * @param {Object3D} graph.collider Collider object ID which will be used for collision detection.
- * @param {Object3D} graph.empty The corresponding empty object.
  * @param {Number} graph.speed Movement speed.
  * @param {Number} graph.rot_speed Rotation speed.
  * @param {Boolean} graph.random Determines whether the object will perform random moves or not.
  * @param {Number} graph.type NPC movement type (NT_WALKING, NT_FLYING, etc).
  * @method module:npc_ai.new_event_track
- * @cc_externs path delay actions obj collider empty speed random rig
+ * @cc_externs path delay actions obj collider speed random rig
  * @cc_externs type rot_speed max_height min_height
  */
 exports.new_event_track = function(graph) {
 
-    graph.destination      = new Float32Array(3);
-    graph.start            = [];
-    graph.ended            = [];
-    graph.fired            = [];
-    graph.ground_level     = 0;
-    graph.vert_correction  = 0;
-    graph.vert_cor_water   = 0;
-    graph.reached          = true;
-    graph.rotation_mult    = 1.0;
+    var track = init_event_track();
 
-    if (!graph.random) {
-        for (var i = 0; i < graph.path.length; i++) {
-            graph.start[i] = -1; // starting time for current move
-            graph.ended[i] = false;
-            graph.fired[i] = false;
-        }
+    if (typeof graph.obj != "object") {
+        m_print.error("Can't create event track. Wrong object.");
+        return;
     }
 
-    _ev_tracks.push(graph);
+    if (typeof graph.rig != "object") {
+        m_print.error("Can't create event track. Wrong rig object");
+        return;
+    }
+
+    if (typeof graph.collider != "object") {
+        m_print.error("Can't create event track. Wrong collider object");
+        return;
+    }
+
+    track.obj = graph.obj;
+    track.collider = graph.collider;
+    track.rig = graph.rig;
+    m_trans.get_translation(graph.collider, track.base_pos);
+
+    if (typeof graph.actions == "object")
+        track.actions = graph.actions;
+    if (typeof graph.random == "boolean")
+        track.random = graph.random;
+    if (typeof graph.type == "number")
+        track.type = graph.type;
+    if (typeof graph.speed == "number")
+        track.speed = graph.speed;
+    if (typeof graph.rot_speed == "number")
+        track.rot_speed = graph.rot_speed;
+    if (typeof graph.max_height == "number")
+        track.max_height = graph.max_height;
+    if (typeof graph.min_height == "number")
+        track.min_height = graph.min_height;
+
+    if (!track.random) {
+        for (var i = 0; i < graph.path.length; i++) {
+            track.start[i] = -1; // starting time for current move
+            track.ended[i] = false;
+            track.fired[i] = false;
+        }
+        track.path = graph.path;
+        track.delay = graph.delay;
+    }
+
+    // apply all available animations so that they are precached
+    var actions = graph.actions;
+    var cur_anim = m_anim.get_current_anim_name(track.rig)
+    for (var list in actions) {
+        var act_list = actions[list];
+        for (var j = 0; j < act_list.length; j++)
+            m_anim.apply(track.rig, act_list[j]);
+    }
+
+    // restore animation
+    if (cur_anim)
+        m_anim.apply(track.rig, cur_anim);
+
+    _ev_tracks.push(track);
+}
+
+function init_event_track() {
+    return {
+
+        obj: null,
+        rig: null,
+        collider: null,
+        empty: null,
+
+        type: NT_WALKING,
+        state: MS_IDLE,
+
+        actions: {},
+
+        base_pos: new Float32Array(3),
+        destination: new Float32Array(3),
+
+        path:  [],
+        start: [],
+        ended: [],
+        fired: [],
+        delay: [],
+
+        random: true,
+        reached: true,
+        ground_level: 0,
+        vert_correction: 0,
+        vert_cor_water: 0,
+        rotation_mult: 1.0,
+        speed: 1,
+        rot_speed: 0.1,
+        max_height: 0,
+        min_height: 0
+    }
 }
 
 /**
@@ -112,8 +189,7 @@ exports.new_event_track = function(graph) {
 function run_track(elapsed, ev_track) {
 
     var destination = ev_track.destination;
-    var base_pos = _vec3_tmp;
-    m_trans.get_translation(ev_track.empty, base_pos);
+    var base_pos = ev_track.base_pos;
 
     var current_loc = _vec3_tmp_2;
 
@@ -346,9 +422,8 @@ exports.enable_animation = function () {
     var elapsed_cb = function(obj, id, pulse) {
         if (pulse == 1) {
             var elapsed = m_ctl.get_sensor_value(obj, id, 0);
-            for (var i = 0; i < _ev_tracks.length; i++) {
+            for (var i = 0; i < _ev_tracks.length; i++)
                 process_event_track(_ev_tracks[i], elapsed);
-            }
         }
     }
     var elapsed_sensor = m_ctl.create_elapsed_sensor();
@@ -499,7 +574,7 @@ function create_sensors() {
         create_track_ray_sensors(ev_track);
         create_track_collision_sensors(ev_track);
 
-        if (ev_track.rig && m_anim.get_current_anim_name(ev_track.rig))
+        if (m_anim.get_current_anim_name(ev_track.rig))
             m_anim.play(ev_track.rig);
     }
 }
@@ -567,7 +642,7 @@ function create_track_collision_sensors(ev_track) {
                                                          need_payload);
     function collision_cb(obj, id, pulse) {
         if (pulse == 1) {
-            m_trans.get_translation(ev_track.empty, ev_track.destination);
+            m_vec3.copy(ev_track.base_pos, ev_track.destination);
             ev_track.rotation_mult = 4.0;
 
         } else {

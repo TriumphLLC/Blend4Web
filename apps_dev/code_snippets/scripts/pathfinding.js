@@ -31,8 +31,7 @@ var _gs = {
     source: new Float32Array(3),
     target: new Float32Array(3),
     speed: 10,
-    interaction: NONE,
-    projecting: false
+    interaction: NONE
 };
 
 var DEBUG = (m_ver.type() == "DEBUG");
@@ -90,27 +89,26 @@ function find_path() {
     var navmesh_island = m_phys.navmesh_get_island(_gs.navmesh_obj, _vec3_tmp1);
     console.timeEnd('get_island');
     console.time('find_path');
-    var path = m_phys.navmesh_find_path(_gs.navmesh_obj, _vec3_tmp1, _vec3_tmp2, navmesh_island);
+    var options = {
+        "navmesh_island": navmesh_island
+    }
+    var path_info = m_phys.navmesh_find_path(_gs.navmesh_obj, _vec3_tmp1,
+            _vec3_tmp2, options);
     console.timeEnd('find_path');
-    if (!path || !path.length)
+    if (!path_info || !path_info["positions"].length)
         return;
+    var path = path_info["positions"];
     m_trans.set_translation_v(_gs.green_marker, _gs.source);
     m_trans.set_translation_v(_gs.red_marker, _gs.target);
+
     m_vec3.copy(_gs.target, _gs.source);
-    path = [_vec3_tmp1].concat(path);
     var num_points = path.length;
 
-    var positions = new Float32Array(3 * num_points);
-    for (var i = 0; i < num_points; i++) {
-        m_tsr.transform_vec3(path[i], _tsr, path[i]);
-        positions[3 * i] = path[i][0];
-        positions[3 * i + 1] = path[i][1];
-        positions[3 * i + 2] = path[i][2];
-    }
-    _gs.path = path;
-    _gs.positions = positions;
-    _gs.current_path_point = 0;
+    for (var i = 0; i < num_points; i++)
+        m_tsr.transform_vectors(path, _tsr, path);
 
+    _gs.path = path;
+    _gs.current_path_point = 0;
 }
 
 var ray_callback = function(id, hit_fract, obj_hit, hit_time, hit_pos, hit_norm) {
@@ -144,7 +142,7 @@ var click_sensor_cb = function(obj, id, pulse) {
     if (xy[0] == 0 && xy[1] == 0 ) {
         var xy = m_ctl.get_sensor_payload(obj, id, 1).coords;
     }
-    _gs.state = !_gs.state;
+
     var pline = m_math.create_pline();
     var camera = m_scenes.get_active_camera()
     m_cam.calc_ray(camera, xy[0], xy[1], pline);
@@ -160,7 +158,9 @@ var move_sensor_cb = function() {
 };
 
 function move(elapsed) {
-    m_vec3.copy(_gs.path[_gs.current_path_point], _vec3_tmp1);
+    m_vec3.set(_gs.path[3 * _gs.current_path_point],
+            _gs.path[3 * _gs.current_path_point + 1],
+            _gs.path[3 * _gs.current_path_point + 2], _vec3_tmp1)
     m_trans.get_translation(_gs.character_obj, _vec3_tmp2);
     m_vec3.subtract(_vec3_tmp1, _vec3_tmp2, _vec3_tmp3);
     var len = m_vec3.length(_vec3_tmp3);
@@ -168,26 +168,13 @@ function move(elapsed) {
     if (len > _gs.speed * elapsed) {
         m_vec3.scaleAndAdd(_vec3_tmp2, _vec3_tmp3, _gs.speed * elapsed, _vec3_tmp3);
         m_trans.set_translation_v(_gs.character_obj, _vec3_tmp3);
-
-        if (!_gs.projecting) {
-            // ray_test fo projecting the position on the surface
-            _gs.projecting = true;
-            var ray_test_cb = function (id, hit_fract, obj_hit, hit_time, hit_pos, hit_norm) {
-                m_trans.get_translation(_gs.character_obj, _vec3_tmp3);
-                _vec3_tmp3[2] = hit_pos[2];
-                m_trans.set_translation_v(_gs.character_obj, _vec3_tmp3);
-                _gs.projecting = false;
-            };
-            m_phys.append_ray_test_ext(_gs.character_obj, [0, 0, 1], [0, 0, -1], "raytest_mesh",
-                ray_test_cb, true, false, true, true);
-        }
     } else {
         _gs.current_path_point++;
     }
 }
 
 var elapsed_sensor_cb = function(obj, id, pulse) {
-    if(_gs.path && _gs.current_path_point < _gs.path.length) {
+    if(_gs.path && (_gs.current_path_point * 3) < _gs.path.length) {
         var elapsed = m_ctl.get_sensor_value(obj, id, 0);
         move(elapsed);
     }
@@ -211,8 +198,8 @@ function create_sensors() {
 
 function render_callback(delta, timeline) {
     var line = m_scenes.get_object_by_name("line");
-    if (_gs.positions) {
-        m_geom.draw_line(line, _gs.positions);
+    if (_gs.path) {
+        m_geom.draw_line(line, _gs.path);
         m_mat.set_line_params(line, {
             color: new Float32Array([1.0, 1.0, 1.0, 1.0]),
             width: 8

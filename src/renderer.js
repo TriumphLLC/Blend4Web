@@ -856,6 +856,12 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
+        case "u_camera_direction":
+            scene_fun = function(gl, loc, subscene, camera) {
+                gl.uniform3fv(loc, camera.direction);
+            }
+            transient_uni = true;
+            break;
 
         case "u_cam_water_depth":
             scene_fun = function(gl, loc, subscene, camera) {
@@ -1789,6 +1795,13 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
+
+        case "u_obj_info":
+            fun = function(gl, loc, obj_render, batch) {
+                gl.uniform3fv(loc, batch.obj_info_params);
+            }
+            transient_uni = true;
+            break;
         default:
             break;
         }
@@ -1847,6 +1860,8 @@ exports.assign_texture_uniforms = function(batch) {
     for (var i = 0; i < textures.length; i++) {
         var tex = textures[i];
         var name = names[i];
+        // NOTE: may cause a bug if textures on different batches sharing
+        // the same shader are out of order
         _gl.uniform1i(shader.uniforms[name], i);
     }
 }

@@ -34,6 +34,12 @@
 
     * 基本角色
 
+  * Navigation Meshes
+
+    * Creating Navigation Meshes
+
+    * Using Navigation Meshes
+
   * 在应用程序中的使用
 
 
@@ -347,6 +353,137 @@ Blend4Web引擎有快速建立用户控制的第一人称角色的选项。这�
 
 注解: 只有一个基本角色可存在于场景中。如果场景中有多个角色，该引擎将
   使用他 们的第一个基本角色，而忽略其他。
+
+
+Navigation Meshes
+=================
+
+Navigation meshes (commonly abbreviated *navmeshes*) are mesh objects
+that are used to make pathfinding simplier by eliminating the need for
+additional calculations such as collisions.
+
+[图片]
+
+In this example (taken from Code Snippets), navigation mesh is used to
+build a path through the labyrinth.
+
+
+Creating Navigation Meshes
+--------------------------
+
+To make a navmesh out of an object, turn on the "Object Physics"
+parameter on the "Physics" panel and select "Navigation Mesh" from the
+"Physics Type" list.
+
+[图片]
+
+Navigation meshes can either be created manually or generated
+automatically using a specific tool.
+
+[图片]
+
+注解: This tool is native to Blender and not a part of the Blend4Web
+  engine.
+
+This Navigation Mesh generation interface can be found on a dedicated
+panel under the "Scene" tab, but, as this feature is intended for
+real-time applications, it only appears if the Engine type is set to
+"Blend4Web" or "Blender Game" (Blender Internal, Cycles or any other
+rendering engine won’t do).
+
+The main tool on this panel is the "Build Navigation Mesh" button. As
+the title suggests, it is used for building navigation meshes based on
+the currently selected object. The navmesh is created as a separate
+object placed above the selected object, thus leaving that object
+intact.
+
+Aside from this button, the "Navigation Mesh" panel offers users
+several groups of parameters to fine-tune the navmesh that will be
+generated.
+
+"Rasterization" group of parameters:
+
+*Cell Size*
+   Rasterized cell size. Greater values lead to bigger navmesh
+   polygons. The highest possible value is 1.0. Default value is 0.3.
+
+*Cell Height*
+   Rasterized cell height (the distance between the navmesh and the
+   object from which it was generated). Default value is 0.2.
+
+"Agent" group of parameters:
+
+*Height*
+   Minimum height where the agent can still walk. Default value is
+   2.0.
+
+*Radius*
+   The radius of the agent. Default value is 0.6.
+
+*Max Slope*
+   Maximum angle of a slope agent can walk on. Measured in degrees.
+   Default value is 45.
+
+*Max Climb*
+   The maximum height between grid cells the agent can climb. Default
+   value is 0.9.
+
+"Region" group of parameters:
+
+*Min Region Size*
+   The minimum size of a region (smaller regions will be deleted).
+   Default value is 8.0.
+
+*Merged Region Size*
+   The minimum size of a region (smaller regions will be merged).
+   Default value is 20.0.
+
+*Partitioning*
+   The method used to partition the navigation mesh. Supported methods
+   are:
+
+   "Monotone" is the fastest method. Using it may generate long thin
+   polygons.
+
+   "Layers" — a slower, but still reasonably fast method that produces
+   better triangulations than Monotone partitioning.
+
+   "Watershed" — classic Recast partitioning method that generates the
+   nicest tesselation. This option is selected by default.
+
+"Polygonization" group of parameters:
+
+*Max Edge Length*
+   The maximum length of a contour edge. Default value is 12.0.
+
+*Max Edge Error*
+   The maximum error of the distance from the contour to the cells.
+   Default value is 1.3.
+
+*Verts Per Poly*
+   The maximum number of vertices per polygon. Default value is 6.
+
+"Detail Mesh" group of parameters:
+
+*Sample Distance*
+   Detail mesh sample spacing. Default value is 6.0.
+
+*Max Sample Error*
+   Maximum error of the mesh simplification. Default value is 1.00.
+
+
+Using Navigation Meshes
+-----------------------
+
+After a navmesh is created, it then can be used in the application for
+calculating trajectories between two points. This can be done using
+two methods from the physics module, navmesh_get_island() and
+navmesh_find_path(). The former is used to retrieve a link to the
+current island (closest independent segment of the navmesh), while the
+latter returns the actual path in the form of an array of coordinates.
+
+An example of using navigation meshes for pathfinding can be viewed in
+the Code Snippets (the corresponding snippet is named "Pathfinding").
 
 
 在应用程序中的使用

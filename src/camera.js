@@ -480,6 +480,7 @@ function init_camera(type) {
         prev_view_proj_matrix : new Float32Array(16),
         sky_vp_inv_matrix     : new Float32Array(16),
 
+        direction                       : new Float32Array(3),
         view_tsr                        : m_tsr.create_ext(),
         view_tsr_inv                    : m_tsr.create_ext(),
         real_view_tsr                   : m_tsr.create_ext(), // for reflections
@@ -945,6 +946,7 @@ function set_view(cam, camobj) {
         update_view_refl_matrix(cam);
         reflect_view_matrix(cam);
         reflect_proj_matrix(cam);
+        m_vec3.transformMat4(trans, cam.view_refl_matrix, trans);
     }
 
     // update view tsr and view zup tsr
@@ -955,7 +957,7 @@ function set_view(cam, camobj) {
     calc_view_proj_inverse(cam);
     calc_sky_vp_inverse(cam);
 
-    m_tsr.copy(camobj.render.world_tsr, cam.world_tsr);
+    m_tsr.set_sep(trans, 1, quat, cam.world_tsr);
 }
 
 /**
@@ -1144,22 +1146,24 @@ function update_camera_transform(obj, cam_scene_data) {
     var render = obj.render;
     var cameras = cam_scene_data.cameras;
 
-    if (!cameras)
-        m_util.panic("Wrong object");
+    var quat = m_tsr.get_quat(render.world_tsr, _quat4_tmp);
+    var view_vector = m_util.quat_to_dir(quat, m_util.AXIS_MZ, _vec3_tmp);
+    var cam_loc = m_tsr.get_trans(render.world_tsr, _vec3_tmp2);
 
     var shadow_cameras = cam_scene_data.shadow_cameras;
     for (var i = 0; i < shadow_cameras.length; i++) {
         var cam = shadow_cameras[i];
-        m_vec3.copy(m_tsr.get_trans_view(render.world_tsr), cam.lod_eye);
+        m_vec3.copy(view_vector, cam.direction);
+        m_tsr.get_trans(render.world_tsr, cam.lod_eye);
     }
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
         set_view(cam, obj);
+        m_vec3.copy(view_vector, cam.direction);
         m_util.extract_frustum_planes(cam.view_proj_matrix, cam.frustum_planes);
         if (cam.dof_object) {
             if (cam.dof_on) {
-                var cam_loc = m_tsr.get_trans_view(render.world_tsr);
-                var obj_loc = m_trans.get_translation(cam.dof_object, _vec3_tmp);
+                var obj_loc = m_trans.get_translation(cam.dof_object, _vec3_tmp3);
                 var dof_dist = m_vec3.dist(cam_loc, obj_loc);
                 cam.dof_distance = dof_dist;
             }

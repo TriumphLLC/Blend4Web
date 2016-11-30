@@ -10,16 +10,17 @@
 #var USE_TBN_SHADING 0
 #var SHADELESS 0
 
-#var USE_VIEW_MATRIX_INVERSE 0
-#var USE_MODEL_MATRIX_INVERSE 0
-#var USE_VIEW_MATRIX 0
-#var USE_MODEL_MATRIX 0
+#var USE_VIEW_TSR_INVERSE 0
+#var USE_MODEL_TSR_INVERSE 0
+#var USE_VIEW_TSR 0
+#var USE_MODEL_TSR 0
 #var USE_ENVIRONMENT_LIGHT 0
 #var SKY_TEXTURE 0
 #var SKY_COLOR 0
-#var CAUSTICS 0
 #var USE_REFRACTION 0
 #var CALC_TBN_SPACE 0
+#var CAMERA_TYPE CAM_TYPE_PERSP
+#var USE_POSITION_CLIP 0
 
 #var USE_REFRACTION_CORRECTION 0
 #var CSM_SECTION1 0
@@ -35,6 +36,11 @@
 #var ALPHA 0
 #var SHADOW_USAGE NO_SHADOWS
 #var POISSON_DISK_NUM NO_SOFT_SHADOWS
+#var USE_DERIVATIVES_EXT 0
+
+# if USE_DERIVATIVES_EXT
+#extension GL_OES_standard_derivatives: enable
+# endif
 
 /*==============================================================================
                                   INCLUDES
@@ -64,18 +70,22 @@ uniform vec4 u_light_color_intensities[NUM_LIGHTS];
 
 uniform vec3 u_camera_eye_frag;
 
-# if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW || USE_VIEW_MATRIX
+#if (USE_NODE_FRESNEL || USE_NODE_LAYER_WEIGHT) && CAMERA_TYPE == CAM_TYPE_ORTHO
+uniform vec3 u_camera_direction;
+#endif
+
+# if REFLECTION_TYPE == REFL_PLANE || USE_VIEW_TSR
 uniform mat3 u_view_tsr_frag;
 # endif
 
-#if USE_VIEW_MATRIX_INVERSE
+#if USE_VIEW_TSR_INVERSE
 uniform mat3 u_view_tsr_inverse;
 #endif
-#if USE_MODEL_MATRIX
+#if USE_MODEL_TSR
 // it's always dynamic object
 uniform mat3 u_model_tsr;
 #endif
-#if USE_MODEL_MATRIX_INVERSE
+#if USE_MODEL_TSR_INVERSE
 uniform mat3 u_model_tsr_inverse;
 #endif
 
@@ -163,17 +173,17 @@ uniform PRECISION sampler2D u_scene_depth;
 uniform sampler2D u_nodes_texture;
 #endif
 
+#if USE_NODE_OBJECT_INFO
+uniform vec3 u_obj_info;
+#endif
+
 /*==============================================================================
                                 SHADER INTERFACE
 ==============================================================================*/
 #if NODES && ALPHA
-//GLSL_IN vec3 v_eye_dir;
 GLSL_IN vec3 v_pos_world;
-
-# if USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO || USE_NODE_NORMAL_MAP \
-        || CAUSTICS || CALC_TBN_SPACE
 GLSL_IN vec3 v_normal;
-# endif
+
 # if CALC_TBN_SPACE
 GLSL_IN vec4 v_tangent;
 # endif
@@ -203,7 +213,7 @@ GLSL_IN vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTION_TYPE == REFL_PLANE || USE_NODE_B4W_REFRACTION
+#if REFLECTION_TYPE == REFL_PLANE || USE_POSITION_CLIP
 GLSL_IN vec3 v_tex_pos_clip;
 #endif
 
@@ -240,39 +250,14 @@ void main(void) {
 
 #if ALPHA
 # if NODES
-    vec3 eye_dir = u_camera_eye_frag - v_pos_world;
-    vec3 nin_eye_dir = normalize(eye_dir);
+    vec3 eye_dir = normalize(u_camera_eye_frag - v_pos_world);
     vec3 nout_color;
     vec3 nout_specular_color;
     vec3 nout_normal;
     vec4 nout_shadow_factor;
     float nout_alpha;
 
-    mat3 nin_view_tsr              = mat3(0.0);
-    mat3 nin_view_tsr_inverse      = mat3(0.0);
-    mat3 nin_model_tsr             = mat3(0.0);
-    mat3 nin_model_tsr_inverse     = mat3(0.0);
-
-
-#  if REFLECTION_TYPE == REFL_PLANE || USE_NODE_GEOMETRY_VW || USE_VIEW_MATRIX
-        nin_view_tsr = u_view_tsr_frag;
-#  endif
-
-#  if USE_VIEW_MATRIX_INVERSE
-    nin_view_tsr_inverse = u_view_tsr_inverse;
-#  endif
-#  if USE_MODEL_MATRIX
-    nin_model_tsr = u_model_tsr;
-#  endif
-#  if USE_MODEL_MATRIX_INVERSE
-    nin_model_tsr_inverse = u_model_tsr_inverse;
-#  endif
-
-    nodes_main(nin_eye_dir,
-            nin_view_tsr,
-            nin_view_tsr_inverse,
-            nin_model_tsr,
-            nin_model_tsr_inverse,
+    nodes_main(eye_dir,
             nout_color,
             nout_specular_color,
             nout_normal,

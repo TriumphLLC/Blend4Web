@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Физика &mdash; Руководство пользователя Blend4Web 16.10</title>
+  <title>Физика &mdash; Руководство пользователя Blend4Web 16.11</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.10" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.11" href="index.html"/>
         <link rel="next" title="Разработчикам приложений" href="developers.html"/>
         <link rel="prev" title="Звук" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.10
+              v16.11
             </div>
           
         
@@ -130,6 +130,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#characters">Персонажи</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#character-settings">Параметры настройки объекта-персонажа</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-character">Базовый персонаж</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#navigation-meshes">Навигационные меши</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-navigation-meshes">Создание навигационных мешей</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-navigation-meshes">Использование навигационных мешей</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#use-in-applications">Особенности использования в приложениях</a></li>
@@ -208,7 +213,12 @@
 <li><a class="reference internal" href="#basic-character" id="id19">Базовый персонаж</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#use-in-applications" id="id20">Особенности использования в приложениях</a></li>
+<li><a class="reference internal" href="#navigation-meshes" id="id20">Навигационные меши</a><ul>
+<li><a class="reference internal" href="#creating-navigation-meshes" id="id21">Создание навигационных мешей</a></li>
+<li><a class="reference internal" href="#using-navigation-meshes" id="id22">Использование навигационных мешей</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-in-applications" id="id23">Особенности использования в приложениях</a></li>
 </ul>
 </li>
 </ul>
@@ -431,8 +441,93 @@
 </div>
 </div>
 </div>
+<div class="section" id="navigation-meshes">
+<h2><a class="toc-backref" href="#id20">Навигационные меши</a><a class="headerlink" href="#navigation-meshes" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Навигационные меши (<em>навмеши</em>) - трёхмерные объекты, используемые для упрощения построения траекторий, в частности, за счёт ликвидации дополнительных вычислений, таких как рассчёт столкновений.</p>
+<a class="reference internal image-reference" href="_images/physics_pathfinding_example.png"><img alt="_images/physics_pathfinding_example.png" class="align-center" src="_images/physics_pathfinding_example.png" style="width: 100%;" /></a>
+<p>В этом примере (взятом из Code Snippets) навигационный меш используется для построения пути через лабиринт.</p>
+<div class="section" id="creating-navigation-meshes">
+<h3><a class="toc-backref" href="#id21">Создание навигационных мешей</a><a class="headerlink" href="#creating-navigation-meshes" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Чтобы использовать объект в качестве навмеша, активируйте параметр <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> на панели <code class="docutils literal"><span class="pre">Physics</span></code> и выберите <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> из списка <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code>.</p>
+<a class="reference internal image-reference" href="_images/physics_navmesh.png"><img alt="_images/physics_navmesh.png" class="align-center" src="_images/physics_navmesh.png" style="width: 100%;" /></a>
+<p>Навигационные меши могут создаваться вручную или генерироваться с помощью специального инструмента.</p>
+<a class="reference internal image-reference" href="_images/physics_navmesh_generator.png"><img alt="_images/physics_navmesh_generator.png" class="align-center" src="_images/physics_navmesh_generator.png" style="width: 100%;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Этот инструмент изначально присутствует в Blender и не является частью движка Blend4Web.</p>
+</div>
+<p>Интерфейс создания навигационных мешей находится на соответствующей панели вкладки <code class="docutils literal"><span class="pre">Scene</span></code>, но так как он предназначен только для использования в интерактивных приложениях, панель доступна только в том случае, если выбран тип движка <code class="docutils literal"><span class="pre">Blend4Web</span></code> или <code class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></code> (не Blender Internal, Cycles или любая другая система рендеринга).</p>
+<p>Главный инструмент, находящийся на этой панели - кнопка <code class="docutils literal"><span class="pre">Build</span> <span class="pre">Navigation</span> <span class="pre">Mesh</span></code>. Как и предполагает её название, она используется для генерации навигационных мешей, основанных на выбранном объекте. Навмеш создаётся как отдельный объект, располагающийся над оригинальным объектом, который никак не изменяется при генерации.</p>
+<p>Помимо этой кнопки, на панели <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> также находится несколько групп параметров для тонкой настройки создаваемых навмешей.</p>
+<p>Группа параметров <code class="docutils literal"><span class="pre">Rasterization</span></code>:</p>
+<dl class="docutils">
+<dt><em>Cell Size</em></dt>
+<dd><p class="first last">Растеризованный размер клетки. Повышение значения увеличивает размер полигонов навмеша. Максимальное значение - 1.0. Значение по умолчанию - 0.3.</p>
+</dd>
+<dt><em>Cell Height</em></dt>
+<dd><p class="first last">Растеризованная высота клетки (расстояние между навмешем, и объектом, на котором он основан). Значение по умолчанию - 0.2.</p>
+</dd>
+</dl>
+<p>Группа параметров <code class="docutils literal"><span class="pre">Agent</span></code>:</p>
+<dl class="docutils">
+<dt><em>Height</em></dt>
+<dd><p class="first last">Минимальная высота, необходимая агенту для перемещения. Значение п оумолчанию - 2.0.</p>
+</dd>
+<dt><em>Radius</em></dt>
+<dd><p class="first last">Радиус агента. Значение по умолчанию - 0.6.</p>
+</dd>
+<dt><em>Max Slope</em></dt>
+<dd><p class="first last">Максимальный проходимый угол наклона. Измеряется в градусах, значение по умолчанию - 45.</p>
+</dd>
+<dt><em>Max Climb</em></dt>
+<dd><p class="first last">Максимальная высота между клетками сетки, на которую может взобраться агент. Значение по умолчанию - 0.9.</p>
+</dd>
+</dl>
+<p>Группа параметров <code class="docutils literal"><span class="pre">Region</span></code>:</p>
+<dl class="docutils">
+<dt><em>Min Region Size</em></dt>
+<dd><p class="first last">Минимальный размер региона (регионы меньшего размера удаляются). Значение по умолчанию - 8.0.</p>
+</dd>
+<dt><em>Merged Region Size</em></dt>
+<dd><p class="first last">Минимальный размер региона для объединения (регионы меньшего размера объединяются). Значение по умолчанию - 20.0.</p>
+</dd>
+<dt><em>Partitioning</em></dt>
+<dd><p class="first">Метод разбиения навигационного меша. Поддерживаемые методы:</p>
+<p><code class="docutils literal"><span class="pre">Monotone</span></code> — наиболее быстрый метод. Может генерировать длинные узкие полигоны.</p>
+<p><code class="docutils literal"><span class="pre">Layers</span></code> — более сложный, но достаточно быстрый метод, генерирующий более оптимальные сетки треугольников, чем метод Monotone.</p>
+<p class="last"><code class="docutils literal"><span class="pre">Watershed</span></code> — классический Recast-алгоритм, создающий наилучшие разбиения. Этот вариант выбран по умолчанию.</p>
+</dd>
+</dl>
+<p>Группа параметров <code class="docutils literal"><span class="pre">Polygonization</span></code>:</p>
+<dl class="docutils">
+<dt><em>Max Edge Length</em></dt>
+<dd><p class="first last">Максимальная длинна ребра контура. Значение по умолчанию - 12.0.</p>
+</dd>
+<dt><em>Max Edge Error</em></dt>
+<dd><p class="first last">Максимальное отклонение от контуров клеток. Значение по умолчанию - 1.3.</p>
+</dd>
+<dt><em>Verts Per Poly</em></dt>
+<dd><p class="first last">Максимальное количество вершин на полигон. Значение по умолчанию - 6.</p>
+</dd>
+</dl>
+<p>Группа параметров <code class="docutils literal"><span class="pre">Detail</span> <span class="pre">Mesh</span></code>:</p>
+<dl class="docutils">
+<dt><em>Sample Distance</em></dt>
+<dd><p class="first last">Интервал сэмплирования детализированной полисетки. Значение по умолчанию - 6.0.</p>
+</dd>
+<dt><em>Max Sample Error</em></dt>
+<dd><p class="first last">Максимальное отклонение сэмплирования при упрощении детализированной полисетки. Значение по умолчанию - 1.0.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="using-navigation-meshes">
+<h3><a class="toc-backref" href="#id22">Использование навигационных мешей</a><a class="headerlink" href="#using-navigation-meshes" title="Ссылка на этот заголовок">¶</a></h3>
+<p>После создания навмеша его можно использовать для рассчёта траекторий между двумя точками. Для этого используются два метода из модуля <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a>: <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_get_island">navmesh_get_island()</a> и <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path()</a>. Первый из них применяется для получения ссылки на текущий остров (ближайший независимый сегмент навмеша), а второй — для получения самой траектории (в виде массива координат).</p>
+<p>С примером использования навигационного меша для построения траекторий можно ознакомиться в приложении <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> (образец <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
+</div>
+</div>
 <div class="section" id="use-in-applications">
-<span id="using-physics"></span><h2><a class="toc-backref" href="#id20">Особенности использования в приложениях</a><a class="headerlink" href="#use-in-applications" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="using-physics"></span><h2><a class="toc-backref" href="#id23">Особенности использования в приложениях</a><a class="headerlink" href="#use-in-applications" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Физическая подсистема реализована в модуле <strong>uranium.js</strong> и загружается отдельно от основного кода движка. Модуль <strong>uranium.js</strong> представляет собой модификацию физического движка <a class="reference external" href="http://bulletphysics.org/">Bullet</a>, портированную для работы в браузерах. Быстрое подключение физической подсистемы можно осуществить, разместив файлы <strong>uranium.js</strong> и <strong>uranium.js.mem</strong> в той же директории, где расположен исходный код движка, используемого в приложении.</p>
 <p>В противном случае необходимо указать путь к модулю, используя конструкцию вида:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
@@ -469,7 +564,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-10-27.
+      Обновлено: 2016-11-29.
 
     </p>
   </div>
@@ -525,7 +620,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.10',
+            VERSION:'v16.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

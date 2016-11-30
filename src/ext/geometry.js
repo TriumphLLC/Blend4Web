@@ -320,9 +320,17 @@ exports.get_shape_key_value = function(obj, key_name) {
  * Draw a line.
  * @method module:geometry.draw_line
  * @param {Object3D} obj Line object
- * @param {Float32Array} positions Line points [X0,Y0,Z0,X1,Y1,Z1...]
- * @param {Boolean} is_split True - draw a splitted line
+ * @param {Float32Array} positions Line points [X0,Y0,Z0,X1,Y1,Z1...] in the 
+ * local space of the given line object.
+ * @param {Boolean} [is_split=false] True - draw a splitted line
  * (points specified in pairs), false - draw continuous line
+ * @example 
+ * var m_geom = require("geometry");
+ * var m_scenes = require("scenes");
+ * 
+ * var empty = m_scenes.get_object_by_name("Empty");
+ * var points = new Float32Array([0, 0, 0, 5, 0, 0, 0, 0, 5, 0, 0, 0]); // draw a triangle
+ * m_geom.draw_line(empty, points);
  */
 exports.draw_line = function(obj, positions, is_split) {
     is_split = is_split || false;

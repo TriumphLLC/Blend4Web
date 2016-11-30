@@ -186,6 +186,7 @@ function change_inputs(e) {
         adv_lev.checked = !is_checked;
         white_lev.disabled = is_checked;
         white_lev.checked = !is_checked;
+        project_copy_app_templates.disabled = is_checked;
 
         change_wp_params();
 

@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
 "POT-Creation-Date: 2016-10-21 15:02+0300\n"
-"PO-Revision-Date: 2016-10-06 19:54+0800\n"
+"PO-Revision-Date: 2016-10-28 17:39+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../viewer.rst:7
 msgid "Scene Viewer"
@@ -34,16 +36,15 @@ msgstr "导航"
 
 #: ../viewer.rst:18
 msgid ""
-"To control the camera hold down a mouse button and move the mouse. "
-"Control can also be performed using the ``W``, ``A``, ``S``, ``D``, "
-"``R``, ``F`` keys: forward, left, back, right, up, down. Arrows and "
-"``numpad`` keys can be used as well. In the ``Target`` camera mode it's "
-"possible to focus on the selected object using the ``Z`` or ``.(dot)`` "
+"To control the camera hold down a mouse button and move the mouse. Control can also be "
+"performed using the ``W``, ``A``, ``S``, ``D``, ``R``, ``F`` keys: forward, left, back, "
+"right, up, down. Arrows and ``numpad`` keys can be used as well. In the ``Target`` "
+"camera mode it's possible to focus on the selected object using the ``Z`` or ``.(dot)`` "
 "keys."
 msgstr ""
-"为了控制摄像机按住鼠标按钮并移动鼠标。也可以控制使用进行 ``W``, ``A``, ``S``, ``D``, ``R``, ``F`` "
-"键：前进，左，后，右，上，下。 箭头和 ``numpad`` 键也可以使用。在 ``Target`` 相机模式有可能集中使用所选物体 ``Z`` "
-"或 ``.(dot)`` 键."
+"为了控制摄像机按住鼠标按钮并移动鼠标。也可以控制使用进行 ``W``, ``A``, ``S``, ``D``, "
+"``R``, ``F`` 键：前进，左，后，右，上，下。 箭头和 ``numpad`` 键也可以使用。在 "
+"``Target`` 相机模式有可能集中使用所选物体 ``Z`` 或 ``.(dot)`` 键."
 
 #: ../viewer.rst:21
 msgid "The Side Panel"
@@ -51,10 +52,11 @@ msgstr "侧面板"
 
 #: ../viewer.rst:23
 msgid ""
-"The side panel consists of three areas: the information board, basic "
-"control buttons and the list of drop-down panels with additional control "
-"elements differentiated by functionality."
-msgstr "侧面板由三个区域组成：信息板，基本控制按钮和下拉面板与功能区分额外的控制元素列表。"
+"The side panel consists of three areas: the information board, basic control buttons "
+"and the list of drop-down panels with additional control elements differentiated by "
+"functionality."
+msgstr ""
+"侧面板由三个区域组成：信息板，基本控制按钮和下拉面板与功能区分额外的控制元素列表。"
 
 #: ../viewer.rst:31
 msgid "Control elements list in top-to-bottom order"
@@ -70,8 +72,7 @@ msgstr "**建立**"
 
 #: ../viewer.rst:37
 msgid ""
-"The engine build date and time. In the developer version this shows the "
-"page load time."
+"The engine build date and time. In the developer version this shows the page load time."
 msgstr "引擎建立日期和时间。在开发者版本显示的页面加载时间。"
 
 #: ../viewer.rst:40
@@ -79,9 +80,8 @@ msgid "**Scene**"
 msgstr "**场景**"
 
 #: ../viewer.rst:40
-#, fuzzy
 msgid "The name of the loaded scene. Path to the file pops-up on mouse hover."
-msgstr "从 ``assets.json`` 文件加载场景名称. 文件路径可以由鼠标悬停弹出。"
+msgstr "加载的场景的名称。鼠标悬停时文件路径弹出。"
 
 #: ../viewer.rst:43
 msgid "**Loaded**"
@@ -101,10 +101,11 @@ msgstr "**首页**"
 
 #: ../viewer.rst:49
 msgid ""
-"Reloads the last scene exported from Blender using the ``Fast Preview`` "
-"button or, if Scene Viewer hasn't been run from Blender, the default "
-"scene is loaded."
-msgstr "用 ``Fast Preview`` 按钮重载Blender导出的最新场景，或者，如果场景浏览器尚未从Blender运行，默认场景被加载。"
+"Reloads the last scene exported from Blender using the ``Fast Preview`` button or, if "
+"Scene Viewer hasn't been run from Blender, the default scene is loaded."
+msgstr ""
+"用 ``Fast Preview`` 按钮重载Blender导出的最新场景，或者，如果场景浏览器尚未从Blender运"
+"行，默认场景被加载。"
 
 #: ../viewer.rst:52
 msgid "**Reset**"
@@ -112,8 +113,8 @@ msgstr "**重置**"
 
 #: ../viewer.rst:52
 msgid ""
-"This button deletes the saved name of the last viewed scene and reloads "
-"the page back to display the default scene."
+"This button deletes the saved name of the last viewed scene and reloads the page back "
+"to display the default scene."
 msgstr "此按钮删除上次查看场景的保存名称和重新加载页面回显示默认场景。"
 
 #: ../viewer.rst:57
@@ -149,9 +150,7 @@ msgid "**Rotate**"
 msgstr "**旋转**"
 
 #: ../viewer.rst:66
-msgid ""
-"Enables and disables camera orbiting the loaded scene. Disabled by "
-"default."
+msgid "Enables and disables camera orbiting the loaded scene. Disabled by default."
 msgstr "启用和禁用相机围绕加载的场景。默认情况下禁用。"
 
 #: ../viewer.rst:69
@@ -173,11 +172,11 @@ msgstr "*概观外轮廓模式*"
 #: ../viewer.rst:81
 msgid ""
 "Turning this option on makes all objects in the scene :ref:`selectable "
-"<mesh_selection>` and enables :ref:`outline animation <outline>` to be "
-"played upon selecting them. This feature is enabled by default."
+"<mesh_selection>` and enables :ref:`outline animation <outline>` to be played upon "
+"selecting them. This feature is enabled by default."
 msgstr ""
-"打开此选项使所有场景中的物体 :ref:`可选择 <mesh_selection>` 并支持要在选择他们时候出现  :ref:`轮廓动画 "
-"<outline>` 。此功能默认情况下启用。"
+"打开此选项使所有场景中的物体 :ref:`可选择 <mesh_selection>` 并支持要在选择他们时候出"
+"现  :ref:`轮廓动画 <outline>` 。此功能默认情况下启用。"
 
 #: ../viewer.rst:84
 msgid "*Auto View Mode*"
@@ -185,10 +184,12 @@ msgstr "*自动浏览模式*"
 
 #: ../viewer.rst:84
 msgid ""
-"Pressing this button will cause Scene Viewer to load every scene from the"
-" ``Scenes`` list within one second of each other. This feature can be "
-"used to check all available content for console errors."
-msgstr "按下这个按钮会导致场景查看器将 ``Scenes`` 列表的每一个场景在一秒钟内加载。此功能可用于检查控制台错误所有可用的内容。"
+"Pressing this button will cause Scene Viewer to load every scene from the ``Scenes`` "
+"list within one second of each other. This feature can be used to check all available "
+"content for console errors."
+msgstr ""
+"按下这个按钮会导致场景查看器将 ``Scenes`` 列表的每一个场景在一秒钟内加载。此功能可用于检"
+"查控制台错误所有可用的内容。"
 
 #: ../viewer.rst:90
 msgid "*Canvas Resolution Factor*"
@@ -196,15 +197,15 @@ msgstr "*画布分辨率因子*"
 
 #: ../viewer.rst:87
 msgid ""
-"This parameter can be used to increase the resolution of a canvas. The "
-"value can vary from 1 to 10. Default value is 1.0 (canvas resolution is "
-"equal to the physical resolution of the Scene Viewer window)."
-msgstr "该参数可用于增加画布的分辨率。该值可以从1到10改变，默认值是1.0（画布分辨率等于场景查看器窗口的物理分辨率）。"
+"This parameter can be used to increase the resolution of a canvas. The value can vary "
+"from 1 to 10. Default value is 1.0 (canvas resolution is equal to the physical "
+"resolution of the Scene Viewer window)."
+msgstr ""
+"该参数可用于增加画布的分辨率。该值可以从1到10改变，默认值是1.0（画布分辨率等于场景查看器"
+"窗口的物理分辨率）。"
 
 #: ../viewer.rst:90
-msgid ""
-"The highest available resolution of a canvas may be limited by a web "
-"browser."
+msgid "The highest available resolution of a canvas may be limited by a web browser."
 msgstr "画布可用的最高分辨率可以通过Web浏览器来限制。"
 
 #: ../viewer.rst:93
@@ -213,10 +214,11 @@ msgstr "*截屏*"
 
 #: ../viewer.rst:93
 msgid ""
-"This button can be used to make screenshots of the Scene Viewer's window."
-" Screenshots are stored in the same folder that web browsers use for "
-"storing downloaded files."
-msgstr "这个按钮可以用来把场景浏览器的窗口的屏幕截图。截图保存在Web浏览器用来存放下载的文件相同的文件夹。"
+"This button can be used to make screenshots of the Scene Viewer's window. Screenshots "
+"are stored in the same folder that web browsers use for storing downloaded files."
+msgstr ""
+"这个按钮可以用来把场景浏览器的窗口的屏幕截图。截图保存在Web浏览器用来存放下载的文件相同"
+"的文件夹。"
 
 #: ../viewer.rst:114
 msgid "*Debug View Modes*"
@@ -224,8 +226,8 @@ msgstr "*调试视图模式*"
 
 #: ../viewer.rst:98
 msgid ""
-"The list of different rendering modes that can be used for debug "
-"purposes. Available modes are:"
+"The list of different rendering modes that can be used for debug purposes. Available "
+"modes are:"
 msgstr "可用于调试目的不同的渲染模式的列表。可用模式包括："
 
 #: ../viewer.rst:100
@@ -234,65 +236,63 @@ msgstr "``NONE``  - 正常渲染模式。这是默认模式。"
 
 #: ../viewer.rst:102
 msgid ""
-"``OPAQUE WIREFRAME`` - the scene is rendered in flat white color with "
-"darker wireframe. The color used for rendering the wireframe can be "
-"adjusted by using the ``Wireframe Edge Color`` parameter."
+"``OPAQUE WIREFRAME`` - the scene is rendered in flat white color with darker wireframe. "
+"The color used for rendering the wireframe can be adjusted by using the ``Wireframe "
+"Edge Color`` parameter."
 msgstr ""
-"``不透明WIREFRAME``  - 将场景渲染成平白色带较深线框。用于渲染线框的颜色可以通过使用 ``Wireframe Edge "
-"Color`` 参数进行调整。"
+"``不透明WIREFRAME``  - 将场景渲染成平白色带较深线框。用于渲染线框的颜色可以通过使用 "
+"``Wireframe Edge Color`` 参数进行调整。"
 
 #: ../viewer.rst:104
 msgid ""
-"``TRANSPARENT WIREFRAME`` - the scene is rendered as in normal mode, but "
-"wireframes are added on top of it. Like in the previous mode, the color "
-"used for rendering the wireframe can be adjusted by using the ``Wireframe"
-" Edge Color`` parameter."
+"``TRANSPARENT WIREFRAME`` - the scene is rendered as in normal mode, but wireframes are "
+"added on top of it. Like in the previous mode, the color used for rendering the "
+"wireframe can be adjusted by using the ``Wireframe Edge Color`` parameter."
 msgstr ""
-"``透明WIREFRAME``  - 场景渲染为正常模式，但线框都在它的上面添加。像在前面的模式中，用于渲染线框的颜色可以通过使用 "
-"``Wireframe Edge Color`` 参数进行调整。"
+"``透明WIREFRAME``  - 场景渲染为正常模式，但线框都在它的上面添加。像在前面的模式中，用于"
+"渲染线框的颜色可以通过使用 ``Wireframe Edge Color`` 参数进行调整。"
 
 #: ../viewer.rst:106
 msgid ""
-"``FRONT BACK VIEW`` - renders front and back sides of the polygons with "
-"different colors."
+"``FRONT BACK VIEW`` - renders front and back sides of the polygons with different "
+"colors."
 msgstr "``正面背面VIEW``  - 多边形的正面和背面渲染成不同颜色。"
 
 #: ../viewer.rst:108
 msgid ""
-"``BOUNDINGS`` - this mode adds wireframe spheres that envelope "
-":ref:`objects <objects>` and :ref:`meshes <meshes>`. The spheres can be "
-"blue (for static objects/meshes) or red (for dynamic objects)."
+"``BOUNDINGS`` - this mode adds wireframe spheres that envelope :ref:`objects <objects>` "
+"and :ref:`meshes <meshes>`. The spheres can be blue (for static objects/meshes) or red "
+"(for dynamic objects)."
 msgstr ""
-"``BOUNDINGS``  - 这种模式增加了线框球来罩着 :ref:`物体 <objects>` 和 :ref:`网格 <meshes>` "
-"。球体可以是蓝色的（静态物体/目）或红色（动态物体）。"
+"``BOUNDINGS``  - 这种模式增加了线框球来罩着 :ref:`物体 <objects>` 和 :ref:`网格 "
+"<meshes>` 。球体可以是蓝色的（静态物体/目）或红色（动态物体）。"
 
 #: ../viewer.rst:110
 msgid ""
-"``CLUSTER VIEW`` - in this view mode, every object in a specific cluster "
-"(used for :ref:`batching <scene_batching>`) is rendered with a specific "
-"color."
+"``CLUSTER VIEW`` - in this view mode, every object in a specific cluster (used for :ref:"
+"`batching <scene_batching>`) is rendered with a specific color."
 msgstr ""
 "``CLUSTER VIEW``  - 在这个视图模式，每个物体在特定的集群中（用在 :ref:`batching "
 "<scene_batching>`) 用特定的颜色渲染。"
 
 #: ../viewer.rst:112
 msgid ""
-"``BATCH VIEW`` - in this view mode, every batch is rendered using a "
-"specific (flat) color. The colors used in rendering can be changed to "
-"randomly generated colors by clicking the ``Change Colors`` button."
+"``BATCH VIEW`` - in this view mode, every batch is rendered using a specific (flat) "
+"color. The colors used in rendering can be changed to randomly generated colors by "
+"clicking the ``Change Colors`` button."
 msgstr ""
-"``BATCH VIEW`` - 在这种视图模式，每一批呈现视图使用一种特定的 （平） "
-"颜色。在呈现时使用的颜色可以更改为随机生成的颜色，通过单击更改颜色按钮。"
+"``BATCH VIEW`` - 在这种视图模式，每一批呈现视图使用一种特定的 （平） 颜色。在呈现时使用"
+"的颜色可以更改为随机生成的颜色，通过单击更改颜色按钮。"
 
 #: ../viewer.rst:114
 msgid ""
-"``RENDER TIME`` - the scene is rendered in different colors to represent "
-"the complexity of various parts of the scene. The lightest parts are "
-"rendered using shades of green, heavier - shades of orange, and the most "
-"resourse-demanding parts of the scene are colored red."
+"``RENDER TIME`` - the scene is rendered in different colors to represent the complexity "
+"of various parts of the scene. The lightest parts are rendered using shades of green, "
+"heavier - shades of orange, and the most resourse-demanding parts of the scene are "
+"colored red."
 msgstr ""
-"``RENDER TIME``  - 场景是场景的不同部分的复杂性用不同颜色来渲染。最轻的部分使用绿色，较重 - "
-"橙色色调，场景中非常消耗资源的部分用红色。"
+"``RENDER TIME``  - 场景是场景的不同部分的复杂性用不同颜色来渲染。最轻的部分使用绿色，较"
+"重 - 橙色色调，场景中非常消耗资源的部分用红色。"
 
 #: ../viewer.rst:117
 msgid "*Change Colors*"
@@ -300,13 +300,13 @@ msgstr "*修改颜色*"
 
 #: ../viewer.rst:117
 msgid ""
-"This button randomly changes the colors that are used in the ``CLUSTER "
-"VIEW`` and ``BATCH VIEW`` rendering modes. This feature is useful in "
-"cases when colors that are picked randomly by the engine are too similar "
-"and make it difficult to distinguish parts of the image."
+"This button randomly changes the colors that are used in the ``CLUSTER VIEW`` and "
+"``BATCH VIEW`` rendering modes. This feature is useful in cases when colors that are "
+"picked randomly by the engine are too similar and make it difficult to distinguish "
+"parts of the image."
 msgstr ""
-"此按钮随机更改在  ``CLUSTER VIEW`` 和 ``BATCH VIEW`` "
-"模式中使用的颜色。在下列情况下此功能非常有用，当由引擎随机挑选的颜色太相似了，使它难以区分图像的部分。"
+"此按钮随机更改在  ``CLUSTER VIEW`` 和 ``BATCH VIEW`` 模式中使用的颜色。在下列情况下此功"
+"能非常有用，当由引擎随机挑选的颜色太相似了，使它难以区分图像的部分。"
 
 #: ../viewer.rst:120
 msgid "*Render Time Threshold (ms)*"
@@ -314,13 +314,12 @@ msgstr "*渲染时间阈值（毫秒）*"
 
 #: ../viewer.rst:120
 msgid ""
-"This parameter sets a \\\"threshold\\\" time for the ``RENDER TIME`` view"
-" mode. If the engine spends more time on rendering a certain object than "
-"the time set by this value, this object will be colored red. The default "
-"value is 1.5 ms."
+"This parameter sets a \\\"threshold\\\" time for the ``RENDER TIME`` view mode. If the "
+"engine spends more time on rendering a certain object than the time set by this value, "
+"this object will be colored red. The default value is 1.5 ms."
 msgstr ""
-"此参数为 ``渲染TIME`` 视图模式设定一个 \\\"threshold\\\" "
-"。如果引擎在一定的物体比设置的这个值花费更多的时间渲染的时候，这个物体会被染成红色。默认值是1.5毫秒。"
+"此参数为 ``渲染TIME`` 视图模式设定一个 \\\"threshold\\\" 。如果引擎在一定的物体比设置的"
+"这个值花费更多的时间渲染的时候，这个物体会被染成红色。默认值是1.5毫秒。"
 
 #: ../viewer.rst:123
 msgid "*Wireframe Edge Color*"
@@ -328,18 +327,18 @@ msgstr "*线框边颜色*"
 
 #: ../viewer.rst:123
 msgid ""
-"This parameter allows you to change the color of the wireframe edges used"
-" in the ``OPAQUE WIREFRAME`` and ``TRANSPARENT WIREFRAME`` view modes."
-msgstr "此参数允许你改变在 ``OPAQUE WIREFRAME`` 和 ``TRANSPARENT WIREFRAME`` 视图模式下使用线框边的颜色。"
+"This parameter allows you to change the color of the wireframe edges used in the "
+"``OPAQUE WIREFRAME`` and ``TRANSPARENT WIREFRAME`` view modes."
+msgstr ""
+"此参数允许你改变在 ``OPAQUE WIREFRAME`` 和 ``TRANSPARENT WIREFRAME`` 视图模式下使用线框"
+"边的颜色。"
 
 #: ../viewer.rst:156
 msgid "*HUD Info*"
 msgstr "*HUD信息*"
 
 #: ../viewer.rst:130
-msgid ""
-"This button shows a list of rendered subscenes and its parameters, "
-"incuding:"
+msgid "This button shows a list of rendered subscenes and its parameters, incuding:"
 msgstr "此按钮显示渲染子场景及其参数的的列表，包含："
 
 #: ../viewer.rst:133
@@ -404,14 +403,14 @@ msgstr "*TOTAL ACTIVE*"
 
 #: ../viewer.rst:154
 msgid ""
-"The number of draw calls in all present subscenes and the time that the "
-"engine spends on rendering them."
+"The number of draw calls in all present subscenes and the time that the engine spends "
+"on rendering them."
 msgstr "所有子场景的绘制调用数和引擎花费在渲染它们的时间。"
 
 #: ../viewer.rst:156
 msgid ""
-"Enabling this parameter may decrease performance of a scene. This option "
-"is disabled by default."
+"Enabling this parameter may decrease performance of a scene. This option is disabled by "
+"default."
 msgstr "启用此参数可能会降低场景的性能。此选项默认为禁用。"
 
 #: ../viewer.rst:159
@@ -420,11 +419,13 @@ msgstr "*GL Debug*"
 
 #: ../viewer.rst:159
 msgid ""
-"This parameter, when activated, causes the engine to process low-level "
-"errors. This can significantly decrease performance. It is disabled when "
-"you start Scene Viewer for the first time, and afterwards, the "
-"application will save the state of this option for the next time."
-msgstr "该参数，当被激活时，使引擎处理低级错误。这可以显著降低性能。当你打开场景浏览器的第一次时它被禁用，设置后，应用程序将保存此选项的状态供下一次使用。"
+"This parameter, when activated, causes the engine to process low-level errors. This can "
+"significantly decrease performance. It is disabled when you start Scene Viewer for the "
+"first time, and afterwards, the application will save the state of this option for the "
+"next time."
+msgstr ""
+"该参数，当被激活时，使引擎处理低级错误。这可以显著降低性能。当你打开场景浏览器的第一次时"
+"它被禁用，设置后，应用程序将保存此选项的状态供下一次使用。"
 
 #: ../viewer.rst:162
 msgid "*Min Capabilities Mode*"
@@ -432,11 +433,13 @@ msgstr "*最小功能模式*"
 
 #: ../viewer.rst:162
 msgid ""
-"This parameter makes Scene Viewer run a loaded scene as if it was running"
-" on a low-end system (on a mobile device, for example). This allows an "
-"artist to find out which materials in the scene may not work as intended "
-"with low-end configuration. Disabled by default."
-msgstr "此参数使场景查看器运行加载场景就好像是在一个低端系统上运行（在移动设备上，例如）。这使得艺术家，可以找出哪些材质场景是在低端配置可能无法正常工作。默认情况下禁用。"
+"This parameter makes Scene Viewer run a loaded scene as if it was running on a low-end "
+"system (on a mobile device, for example). This allows an artist to find out which "
+"materials in the scene may not work as intended with low-end configuration. Disabled by "
+"default."
+msgstr ""
+"此参数使场景查看器运行加载场景就好像是在一个低端系统上运行（在移动设备上，例如）。这使得"
+"艺术家，可以找出哪些材质场景是在低端配置可能无法正常工作。默认情况下禁用。"
 
 #: ../viewer.rst:167
 msgid "Animation"
@@ -444,11 +447,12 @@ msgstr "动画"
 
 #: ../viewer.rst:169
 msgid ""
-"Animation controls. When viewing animated models, you can select an "
-"object and switch its animation with a drop-down menu, switch cyclic "
-"animation mode, stop and resume animation, set the required frame (the "
-"animation should be stopped to do this)."
-msgstr "动画控件。当观看动画模型时可以：选择一个物体，并使用下拉菜单切换的动画，循环切换动画模式，停止播放动画，设置所需的帧（动画应该被停止）。"
+"Animation controls. When viewing animated models, you can select an object and switch "
+"its animation with a drop-down menu, switch cyclic animation mode, stop and resume "
+"animation, set the required frame (the animation should be stopped to do this)."
+msgstr ""
+"动画控件。当观看动画模型时可以：选择一个物体，并使用下拉菜单切换的动画，循环切换动画模"
+"式，停止播放动画，设置所需的帧（动画应该被停止）。"
 
 #: ../viewer.rst:171 ../viewer.rst:216 ../viewer.rst:240 ../viewer.rst:258
 #: ../viewer.rst:292 ../viewer.rst:482
@@ -469,8 +473,8 @@ msgstr "*Stop All*"
 
 #: ../viewer.rst:177
 msgid ""
-"Pressing this button will stop playback of all animations that are "
-"currently being played."
+"Pressing this button will stop playback of all animations that are currently being "
+"played."
 msgstr "按下此按钮将停止当前正在播放的所有动画。"
 
 #: ../viewer.rst:180 ../viewer.rst:243
@@ -487,8 +491,7 @@ msgstr "*动画槽*"
 
 #: ../viewer.rst:183
 msgid ""
-"The list of all animation slots that can be used to apply some animation "
-"to an object."
+"The list of all animation slots that can be used to apply some animation to an object."
 msgstr "可用应用到物体上的动画的所有动画槽的列表。"
 
 #: ../viewer.rst:186
@@ -505,10 +508,10 @@ msgstr "*循环*"
 
 #: ../viewer.rst:189
 msgid ""
-"If this parameter is enabled, the animation will be played repeatedly. If"
-" it isn't, the animation will stop after being played once. Enabled by "
-"default."
-msgstr "如果启用此参数，动画将重复播放。如果不是，动画将被播放一次后停止。默认情况下启用。"
+"If this parameter is enabled, the animation will be played repeatedly. If it isn't, the "
+"animation will stop after being played once. Enabled by default."
+msgstr ""
+"如果启用此参数，动画将重复播放。如果不是，动画将被播放一次后停止。默认情况下启用。"
 
 #: ../viewer.rst:192 ../viewer.rst:219
 msgid "*Range*"
@@ -524,8 +527,7 @@ msgstr "*Status*"
 
 #: ../viewer.rst:195
 msgid ""
-"This value shows the status of the animation, i.e. if it is being played "
-"or stopped."
+"This value shows the status of the animation, i.e. if it is being played or stopped."
 msgstr "这个值示出了动画的状态，即，是它正在播放或停止。"
 
 #: ../viewer.rst:198
@@ -549,9 +551,7 @@ msgid "*Set Frame*"
 msgstr "*Set Frame*"
 
 #: ../viewer.rst:204
-msgid ""
-"Shows the current frame of the animation and can be used to set the "
-"current frame."
+msgid "Shows the current frame of the animation and can be used to set the current frame."
 msgstr "显示出了动画的当前帧和可用于设置当前帧。"
 
 #: ../viewer.rst:207
@@ -559,9 +559,7 @@ msgid "*Skeletal Mix Factor*"
 msgstr "*Skeletal Mix Factor*"
 
 #: ../viewer.rst:207
-msgid ""
-"The factor of mixing different skeletal animations together. Default "
-"value is 1.0."
+msgid "The factor of mixing different skeletal animations together. Default value is 1.0."
 msgstr "不同的骨骼动画混合在一起的因子。默认值是1.0。"
 
 #: ../viewer.rst:212
@@ -570,10 +568,11 @@ msgstr "NLA"
 
 #: ../viewer.rst:214
 msgid ""
-"A tool to control Non-Linear Animation (if it is present in the scene). "
-"For this panel to work, NLA option should be enabled in the scene's "
-"settings."
-msgstr "控制非线性动画的工具（如果它存在于场景）。在这个面板中工作，NLA选项应该在场景的设置中启用。"
+"A tool to control Non-Linear Animation (if it is present in the scene). For this panel "
+"to work, NLA option should be enabled in the scene's settings."
+msgstr ""
+"控制非线性动画的工具（如果它存在于场景）。在这个面板中工作，NLA选项应该在场景的设置中启"
+"用。"
 
 #: ../viewer.rst:219
 msgid "Shows the start and the end frame of the NLA strip."
@@ -596,15 +595,13 @@ msgid "*Playing NLA > Stop*"
 msgstr "*Playing NLA > Stop*"
 
 #: ../viewer.rst:228
-msgid ""
-"This button can be used to stop NLA animation that is currently being "
-"played."
+msgid "This button can be used to stop NLA animation that is currently being played."
 msgstr "这个按钮可以用来停止当前正在播放的NLA动画。"
 
 #: ../viewer.rst:231
 msgid ""
-"If an animation is stopped at the moment, this parameter can be used for "
-"setting a specific frame of NLA animation."
+"If an animation is stopped at the moment, this parameter can be used for setting a "
+"specific frame of NLA animation."
 msgstr "如果动画在此刻被停止，该参数可用于设置NLA动画的特定帧。"
 
 #: ../viewer.rst:236
@@ -613,10 +610,10 @@ msgstr "Shape Keys"
 
 #: ../viewer.rst:238
 msgid ""
-"Shape Keys control. When viewing models that has shape keys, you can "
-"select an object, one of its shape keys and the influence that the key "
-"has on the object."
-msgstr "形变键控制。当查看的模型有形变键，您可以选择一个物体，物体上的形变键和键对物体的影响。"
+"Shape Keys control. When viewing models that has shape keys, you can select an object, "
+"one of its shape keys and the influence that the key has on the object."
+msgstr ""
+"形变键控制。当查看的模型有形变键，您可以选择一个物体，物体上的形变键和键对物体的影响。"
 
 #: ../viewer.rst:243
 msgid "This list contains all scene objects that have Shape Keys."
@@ -636,8 +633,8 @@ msgstr "*设置值*"
 
 #: ../viewer.rst:249
 msgid ""
-"This parameter sets the level of influence of a selected Shape Key on an "
-"object. The value can vary from zero to 1."
+"This parameter sets the level of influence of a selected Shape Key on an object. The "
+"value can vary from zero to 1."
 msgstr "此参数设置的一个物体选定的形变键的影响程度。该值可以从零到1变化。"
 
 #: ../viewer.rst:254
@@ -646,13 +643,13 @@ msgstr "材质"
 
 #: ../viewer.rst:256
 msgid ""
-"Material properties setup. A material can be selected using the drop-down"
-" menu. For now, this feature only supports a limited number of properties"
-" and only stack (non-node) materials applied to dynamic objects (node "
-"materials and static objects are not supported)."
+"Material properties setup. A material can be selected using the drop-down menu. For "
+"now, this feature only supports a limited number of properties and only stack (non-"
+"node) materials applied to dynamic objects (node materials and static objects are not "
+"supported)."
 msgstr ""
-"材质属性设置。可以使用下拉菜单中选择一种材质。现在，这个功能只支持为数有限的属性和只有堆栈 （非节点） 材质应用于动态物体 "
-"（节点材质和静态物体不支持）。"
+"材质属性设置。可以使用下拉菜单中选择一种材质。现在，这个功能只支持为数有限的属性和只有堆"
+"栈 （非节点） 材质应用于动态物体 （节点材质和静态物体不支持）。"
 
 #: ../viewer.rst:261
 msgid "*Material*"
@@ -676,8 +673,8 @@ msgstr "*反射率*"
 
 #: ../viewer.rst:267
 msgid ""
-"This parameter sets the refelctivity factor of a selected material. Its "
-"value is equal to zero by default."
+"This parameter sets the refelctivity factor of a selected material. Its value is equal "
+"to zero by default."
 msgstr "该参数设定所选择的材质的反射率因子。它的值默认等于零。"
 
 #: ../viewer.rst:270
@@ -685,9 +682,7 @@ msgid "*Fresnel*"
 msgstr "*菲涅尔*"
 
 #: ../viewer.rst:270
-msgid ""
-"The power of the Fresnel effect for the reflection. Set to zero by "
-"default."
+msgid "The power of the Fresnel effect for the reflection. Set to zero by default."
 msgstr "为反射菲涅耳效应的幕值。默认设置为零。"
 
 #: ../viewer.rst:273
@@ -704,8 +699,8 @@ msgstr "*视差缩放*"
 
 #: ../viewer.rst:276
 msgid ""
-"The scale parameter of the parallax effect. This value can vary from zero"
-" to 0.1. Default value is 0."
+"The scale parameter of the parallax effect. This value can vary from zero to 0.1. "
+"Default value is 0."
 msgstr "视差效果的缩放参数。这个值可以从零到0.1变化。默认值为0。"
 
 #: ../viewer.rst:279
@@ -714,8 +709,8 @@ msgstr "*视差步幅*"
 
 #: ../viewer.rst:279
 msgid ""
-"The number of steps used for building a parallax surface. The value can "
-"vary from 1 to 30. Default value is 5."
+"The number of steps used for building a parallax surface. The value can vary from 1 to "
+"30. Default value is 5."
 msgstr "用于构建视差表面的步数。值可以从1至30变化，默认值是5。"
 
 #: ../viewer.rst:284
@@ -724,10 +719,12 @@ msgstr "光照"
 
 #: ../viewer.rst:286
 msgid ""
-"Setup for direct lighting parameters. A light source can be selected "
-"using the drop-down menu. Changing color and intensity is supported. "
-"Daytime and sun lighting parameters can also be tweaked on this panel."
-msgstr "设置直接照明参数。可以使用下拉菜单中选择一种光源。支持更改颜色和强度。白天，太阳光照参数也可以在此面板上调整。"
+"Setup for direct lighting parameters. A light source can be selected using the drop-"
+"down menu. Changing color and intensity is supported. Daytime and sun lighting "
+"parameters can also be tweaked on this panel."
+msgstr ""
+"设置直接照明参数。可以使用下拉菜单中选择一种光源。支持更改颜色和强度。白天，太阳光照参数"
+"也可以在此面板上调整。"
 
 #: ../viewer.rst:295
 msgid "*Light*"
@@ -743,14 +740,12 @@ msgstr "*类型*"
 
 #: ../viewer.rst:298
 msgid ""
-"The type of the selected light source. This parameter cannot be changed "
-"in the Scene Viewer."
+"The type of the selected light source. This parameter cannot be changed in the Scene "
+"Viewer."
 msgstr "选择到的光源的类型。此参数不能在场景查看器来改变。"
 
 #: ../viewer.rst:301
-msgid ""
-"The base color of the selected light source. By default, white (1; 1; 1) "
-"is used."
+msgid "The base color of the selected light source. By default, white (1; 1; 1) is used."
 msgstr "所选光源基准颜色。默认情况下，使用了白色 （1; 1; 1）。"
 
 #: ../viewer.rst:304
@@ -759,9 +754,8 @@ msgstr "*粗能量*"
 
 #: ../viewer.rst:304
 msgid ""
-"This parameter sets the integral part of the energy value for the light "
-"source. The value of this parameter can vary from zero to 100. Default "
-"value is 1."
+"This parameter sets the integral part of the energy value for the light source. The "
+"value of this parameter can vary from zero to 100. Default value is 1."
 msgstr "此参数设置为光源的能量值的整数部分。这个参数的值可以从零到100变化，默认值是1。"
 
 #: ../viewer.rst:307
@@ -770,9 +764,8 @@ msgstr "*精确能量*"
 
 #: ../viewer.rst:307
 msgid ""
-"This parameter sets the fractional part of the energy value for the light"
-" source. The value of this parameter can vary from zero to 1. Set to zero"
-" by default."
+"This parameter sets the fractional part of the energy value for the light source. The "
+"value of this parameter can vary from zero to 1. Set to zero by default."
 msgstr "此参数设置为光源的能量值的小数部分。该参数的值可从零到1变化。默认设置为零。"
 
 #: ../viewer.rst:310
@@ -781,9 +774,8 @@ msgstr "*光能*"
 
 #: ../viewer.rst:310
 msgid ""
-"This value is calculated as the sum of the Energy Coarse and Energy "
-"Precise parameters. In case both of them have default values, it will be "
-"equal to 1."
+"This value is calculated as the sum of the Energy Coarse and Energy Precise parameters. "
+"In case both of them have default values, it will be equal to 1."
 msgstr "此值的计算作为粗能量和精确能量参数的总和。如果他们都有默认值，它将会是等于 1。"
 
 #: ../viewer.rst:313
@@ -792,8 +784,8 @@ msgstr "*聚光尺寸*"
 
 #: ../viewer.rst:313
 msgid ""
-"Angle of the light beam emitted by the light source. Default value is 75."
-" This parameter is only available for ``Spot`` type light sources."
+"Angle of the light beam emitted by the light source. Default value is 75. This "
+"parameter is only available for ``Spot`` type light sources."
 msgstr "由光源发射的光束的角度。默认值是75.此参数仅适用于 ``Spot`` 型光源。"
 
 #: ../viewer.rst:316
@@ -802,8 +794,8 @@ msgstr "*聚光混合*"
 
 #: ../viewer.rst:316
 msgid ""
-"This defines the softness of the spotlight edge. Default value is 0.15. "
-"This parameter is also available for ``Spot`` type light sources only."
+"This defines the softness of the spotlight edge. Default value is 0.15. This parameter "
+"is also available for ``Spot`` type light sources only."
 msgstr "这定义了聚光灯边缘的柔和度。默认值为 0.15。此参数也是只可供``Spot`` 类型的光源。"
 
 #: ../viewer.rst:319
@@ -812,15 +804,15 @@ msgstr "*距离*"
 
 #: ../viewer.rst:319
 msgid ""
-"This parameter sets the distance (in meters) from the light source at "
-"which the light emitted by the light source will be half as bright as "
-"defined by the ``Light Energy`` value. Set to 30 by default."
-msgstr "此参数设置从其中由光源发出的光到只有由 ``Light Energy`` 定义的一半明亮的值的距离（米）。默认设置为30。"
+"This parameter sets the distance (in meters) from the light source at which the light "
+"emitted by the light source will be half as bright as defined by the ``Light Energy`` "
+"value. Set to 30 by default."
+msgstr ""
+"此参数设置从其中由光源发出的光到只有由 ``Light Energy`` 定义的一半明亮的值的距离（米）。"
+"默认设置为30。"
 
 #: ../viewer.rst:321
-msgid ""
-"The following parameters are only available for ``Sun`` type light "
-"sources:"
+msgid "The following parameters are only available for ``Sun`` type light sources:"
 msgstr "以下参数仅适用于 ``Sun`` 式光源："
 
 #: ../viewer.rst:328
@@ -857,8 +849,8 @@ msgstr "*最大太阳垂直转角*"
 
 #: ../viewer.rst:340
 msgid ""
-"This parameter sets maximum possible vertical angle for a ``Sun`` type "
-"light source. Default value is 60."
+"This parameter sets maximum possible vertical angle for a ``Sun`` type light source. "
+"Default value is 60."
 msgstr "此参数设置 ``Sun`` 型光源的最大可能的垂直角度。默认值是60。"
 
 #: ../viewer.rst:343
@@ -867,9 +859,11 @@ msgstr "*时间倍数*"
 
 #: ../viewer.rst:343
 msgid ""
-"The value of this parameter defines the speed of the flow of time. "
-"Default value is 1.0 (time flows at the same speed it does in real life)."
-msgstr "此参数的值定义的时间流动的速度。默认值是 1.0 （时间以相同的速度，跟在现实生活中的流动相同）。"
+"The value of this parameter defines the speed of the flow of time. Default value is 1.0 "
+"(time flows at the same speed it does in real life)."
+msgstr ""
+"此参数的值定义的时间流动的速度。默认值是 1.0 （时间以相同的速度，跟在现实生活中的流动相"
+"同）。"
 
 #: ../viewer.rst:346
 msgid "*Horizontal Position*"
@@ -893,16 +887,17 @@ msgstr "环境"
 
 #: ../viewer.rst:356
 msgid ""
-"Setup for ambient lighting parameters. Changing the colors and intensity "
-"of a hemispheric ambient model is supported."
+"Setup for ambient lighting parameters. Changing the colors and intensity of a "
+"hemispheric ambient model is supported."
 msgstr "环境照明参数的设置。支持一个半球的环境模型的颜色和强度的更改。"
 
 #: ../viewer.rst:358
 msgid ""
-"The settings available for ambient lighting setup are the same as the "
-"ones in Blender. They are described in the :ref:`dedicated section "
-"<environment_lighting>`."
-msgstr "可用于环境照明设置跟在Blender中设置一样，在 :ref:`专门章节 <environment_lighting>` 描述。"
+"The settings available for ambient lighting setup are the same as the ones in Blender. "
+"They are described in the :ref:`dedicated section <environment_lighting>`."
+msgstr ""
+"可用于环境照明设置跟在Blender中设置一样，在 :ref:`专门章节 <environment_lighting>` 描"
+"述。"
 
 #: ../viewer.rst:363
 msgid "Shadows"
@@ -910,14 +905,14 @@ msgstr "阴影"
 
 #: ../viewer.rst:365
 msgid ""
-"Setup for shadow parameters, including shadow cascades and shadow edges "
-"softening parameters."
+"Setup for shadow parameters, including shadow cascades and shadow edges softening "
+"parameters."
 msgstr "设置阴影参数，包括阴影级联和阴影边缘柔化参数。"
 
 #: ../viewer.rst:367
 msgid ""
-"The options for setting up shadows are described in the "
-":ref:`corresponding section <shadows>` of this manual."
+"The options for setting up shadows are described in the :ref:`corresponding section "
+"<shadows>` of this manual."
 msgstr "在手册的 :ref:`相应章节 <shadows>` 描述了设置阴影选项"
 
 #: ../viewer.rst:372
@@ -926,16 +921,16 @@ msgstr "天空"
 
 #: ../viewer.rst:374
 msgid ""
-"Setup for dynamic sky parameters such as color, sun light scattering "
-"parameters etc."
+"Setup for dynamic sky parameters such as color, sun light scattering parameters etc."
 msgstr "为动态天空设置参数，如颜色、 太阳光散射参数等。"
 
 #: ../viewer.rst:376
 msgid ""
-"Scene Viewer has access to all Blender parameters used for setting up "
-"procedural sky. These parameters are described in the :ref:`corresponding"
-" section <atmosphere>`."
-msgstr "场景浏览器能够访问用于设置所有Blender的程序天空参数。参数在 :ref:`相应章节 <atmosphere>` 描述。"
+"Scene Viewer has access to all Blender parameters used for setting up procedural sky. "
+"These parameters are described in the :ref:`corresponding section <atmosphere>`."
+msgstr ""
+"场景浏览器能够访问用于设置所有Blender的程序天空参数。参数在 :ref:`相应章节 "
+"<atmosphere>` 描述。"
 
 #: ../viewer.rst:381
 msgid "Sea"
@@ -943,17 +938,19 @@ msgstr "海洋"
 
 #: ../viewer.rst:383
 msgid ""
-"Setup for water rendering parameters, including color transitions by "
-"depth and by distance from the shore, foam and subsurface scattering "
-"parameters, wave dynamics etc."
-msgstr "设置水渲染参数，包括通过深度和距离岸边的颜色过渡，泡沫和次表面散射参数设置、 波动力学等。"
+"Setup for water rendering parameters, including color transitions by depth and by "
+"distance from the shore, foam and subsurface scattering parameters, wave dynamics etc."
+msgstr ""
+"设置水渲染参数，包括通过深度和距离岸边的颜色过渡，泡沫和次表面散射参数设置、 波动力学"
+"等。"
 
 #: ../viewer.rst:385
 msgid ""
-"The settings for water rendering are described in the :ref:`Outdoor "
-"Rendering <water>` chapter. Scene Viewer uses the same settings as the "
-"Blend4Web engine itself."
-msgstr ":ref:`室外渲染 <water>` 章节描述了用于水渲染的设置。场景查看器使用跟 Blend4Web 引擎本身相同的设置。"
+"The settings for water rendering are described in the :ref:`Outdoor Rendering <water>` "
+"chapter. Scene Viewer uses the same settings as the Blend4Web engine itself."
+msgstr ""
+":ref:`室外渲染 <water>` 章节描述了用于水渲染的设置。场景查看器使用跟 Blend4Web 引擎本身"
+"相同的设置。"
 
 #: ../viewer.rst:390
 msgid "Wind"
@@ -965,10 +962,11 @@ msgstr "设置风参数，包括方向和强度。"
 
 #: ../viewer.rst:394
 msgid ""
-"The same parameters as the ones used by Scene Viewer are available in "
-"Blender. These parameters are described in the :ref:`corresponding "
-"chapter <wind>`."
-msgstr "场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 :ref:`相应章节 <wind>` 描述。"
+"The same parameters as the ones used by Scene Viewer are available in Blender. These "
+"parameters are described in the :ref:`corresponding chapter <wind>`."
+msgstr ""
+"场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 :ref:`相应章节 <wind>` 描"
+"述。"
 
 #: ../viewer.rst:399
 msgid "Screen Space Amb Occlus"
@@ -980,8 +978,8 @@ msgstr "环境光遮蔽参数的设置。"
 
 #: ../viewer.rst:403
 msgid ""
-"All available settings are described in the :ref:`Postprocessing Effects "
-"<ssao>` chapter."
+"All available settings are described in the :ref:`Postprocessing Effects <ssao>` "
+"chapter."
 msgstr "所有参数设置在 :ref:`后期效果 <ssao>` 章节."
 
 #: ../viewer.rst:408
@@ -994,8 +992,8 @@ msgstr "黄昏的光线效果参数设置。"
 
 #: ../viewer.rst:412
 msgid ""
-"All parameters for this effect are described in the :ref:`corresponding "
-"section <god_rays>`."
+"All parameters for this effect are described in the :ref:`corresponding section "
+"<god_rays>`."
 msgstr "所有参数设置在 :ref:`相应 <god_rays>` 章节."
 
 #: ../viewer.rst:417
@@ -1008,9 +1006,11 @@ msgstr "泛光效果参数设置。"
 
 #: ../viewer.rst:421
 msgid ""
-"This effect uses the same set of parameters as it does in Blender. It is "
-"described in greater detail in the :ref:`corresponding section <bloom>`."
-msgstr "场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 :ref:`相应章节 <bloom>` 描述。"
+"This effect uses the same set of parameters as it does in Blender. It is described in "
+"greater detail in the :ref:`corresponding section <bloom>`."
+msgstr ""
+"场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 :ref:`相应章节 <bloom>` 描"
+"述。"
 
 #: ../viewer.rst:426
 msgid "Motion Blur"
@@ -1022,10 +1022,11 @@ msgstr "运动模糊效果设置。"
 
 #: ../viewer.rst:430
 msgid ""
-"The parameters for adjusting Motion Blur effect are the same ones that "
-"are used in Blender. They are described in the :ref:`Postprocessing "
-"Effects <motion_blur>` chapter."
-msgstr "场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 :ref:`后期效果 <motion_blur>`  描述。"
+"The parameters for adjusting Motion Blur effect are the same ones that are used in "
+"Blender. They are described in the :ref:`Postprocessing Effects <motion_blur>` chapter."
+msgstr ""
+"场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 :ref:`后期效果 "
+"<motion_blur>`  描述。"
 
 #: ../viewer.rst:435
 msgid "Glow Materials"
@@ -1037,8 +1038,8 @@ msgstr "发光材质的效果设置。"
 
 #: ../viewer.rst:439
 msgid ""
-"The settings used for this effect are described in the "
-":ref:`corresponding section <glow>`."
+"The settings used for this effect are described in the :ref:`corresponding section "
+"<glow>`."
 msgstr "所有参数设置在 :ref:`相应 <glow>` 章节."
 
 #: ../viewer.rst:444
@@ -1059,16 +1060,18 @@ msgstr "颜色校正"
 
 #: ../viewer.rst:455
 msgid ""
-"Setup for color correction parameters, including brightness, contrast, "
-"exposure and saturation."
+"Setup for color correction parameters, including brightness, contrast, exposure and "
+"saturation."
 msgstr "颜色校正参数，包括亮度、 对比度、 曝光和饱和度的设置。"
 
 #: ../viewer.rst:457
 msgid ""
-"The same set of parameters is used for color correction in Blender "
-"itself. The description of these parameters is available in the "
-":ref:`Color Management <color_correction>` chapter."
-msgstr "场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 :ref:`颜色管理 <color_correction>` 描述。"
+"The same set of parameters is used for color correction in Blender itself. The "
+"description of these parameters is available in the :ref:`Color Management "
+"<color_correction>` chapter."
+msgstr ""
+"场景浏览器所使用的的和在Blender中使用的是相同的参数。参数在 :ref:`颜色管理 "
+"<color_correction>` 描述。"
 
 #: ../viewer.rst:462
 msgid "Audio"
@@ -1076,9 +1079,10 @@ msgstr "音频"
 
 #: ../viewer.rst:464
 msgid ""
-"There is a mixing mode switch on the panel. After it is enabled the mixer"
-" interface becomes visible (only for scenes with sound sources)."
-msgstr "在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用于具有声源的场景）。"
+"There is a mixing mode switch on the panel. After it is enabled the mixer interface "
+"becomes visible (only for scenes with sound sources)."
+msgstr ""
+"在面板上的混合模式的切换。启用该功能后，混频器的界面变得可见（仅适用于具有声源的场景）。"
 
 #: ../viewer.rst:473
 msgid "*Mixer*"
@@ -1086,16 +1090,15 @@ msgstr "*混合器*"
 
 #: ../viewer.rst:467
 msgid ""
-"Enables equalizer that shows various parameters (including volume, "
-"frequency, distance, attenuation and others) of the speakers present in "
-"the scene, and allows user to adjust these parameters by using a "
-"numerical keypad. The available parameters and possibilities are "
-"described in greater detail in the :ref:`dedicated section <mixer>` of "
-"the :ref:`Audio chapter <audio>`."
+"Enables equalizer that shows various parameters (including volume, frequency, distance, "
+"attenuation and others) of the speakers present in the scene, and allows user to adjust "
+"these parameters by using a numerical keypad. The available parameters and "
+"possibilities are described in greater detail in the :ref:`dedicated section <mixer>` "
+"of the :ref:`Audio chapter <audio>`."
 msgstr ""
-"使显示各种（包括音量、 频率、 距离、 衰减等） 场景中的参数 "
-"，发言者的均衡器，并允许用户通过使用数字键盘调整这些参数。更详细地介绍了可用的参数和可能性在  :ref:`声音篇 <audio>` 的  "
-":ref:`相应章节 <mixer>` "
+"使显示各种（包括音量、 频率、 距离、 衰减等） 场景中的参数 ，发言者的均衡器，并允许用户"
+"通过使用数字键盘调整这些参数。更详细地介绍了可用的参数和可能性在  :ref:`声音篇 <audio>` "
+"的  :ref:`相应章节 <mixer>` "
 
 #: ../viewer.rst:473
 msgid "This feature is disabled by default."
@@ -1115,8 +1118,7 @@ msgstr "*立体类型*"
 
 #: ../viewer.rst:485
 msgid ""
-"A list of all available stereo rendering modes. As of today, three types "
-"are supported:"
+"A list of all available stereo rendering modes. As of today, three types are supported:"
 msgstr "列表中的所有可用的立体渲染模式。现在来说，支持三种类型︰"
 
 #: ../viewer.rst:487
@@ -1129,9 +1131,11 @@ msgstr "``ANAGLYPH``  - :ref:`立体图 <anaglyph>` 渲染被使用。"
 
 #: ../viewer.rst:491
 msgid ""
-"``HMD`` - rendering for :ref:`Head-Mounted Displays <hmd>` is used. This "
-"option is only available if the system has access to an HMD device."
-msgstr "``HMD`` -  用于 :ref:`头戴式显示设备 <hmd>` 渲染 。如果系统具有访问的 HMD 设备此选项才是可用的。"
+"``HMD`` - rendering for :ref:`Head-Mounted Displays <hmd>` is used. This option is only "
+"available if the system has access to an HMD device."
+msgstr ""
+"``HMD`` -  用于 :ref:`头戴式显示设备 <hmd>` 渲染 。如果系统具有访问的 HMD 设备此选项才是"
+"可用的。"
 
 #: ../viewer.rst:493
 msgid "Default setting is ``NONE``."
@@ -1179,8 +1183,8 @@ msgstr "**每秒计数帧**"
 
 #: ../viewer.rst:525
 msgid ""
-"This is located in the top right corner. It displays the averaged and "
-"rounded value for the last 1.5 seconds."
+"This is located in the top right corner. It displays the averaged and rounded value for "
+"the last 1.5 seconds."
 msgstr "这是位于右上角。这显示最后1.5秒的平均和四舍五入的值。"
 
 #: ../viewer.rst:528
@@ -1189,8 +1193,7 @@ msgstr "**视维**"
 
 #: ../viewer.rst:528
 msgid ""
-"This is located in the top left corner. It displays the viewport "
-"dimensions in pixels."
+"This is located in the top left corner. It displays the viewport dimensions in pixels."
 msgstr "这是位于左上角。它显示像素视口的尺寸。"
 
 #: ../viewer.rst:531
@@ -1199,18 +1202,17 @@ msgstr "**选定的物体和控制物体**"
 
 #: ../viewer.rst:531
 msgid ""
-"This is located in the bottom left corner. It displays the names of "
-"selected and controlled objects. Selecting an object is done with the "
-"mouse. To control the object directly (normally for physics debugging) "
-"press the ``Q`` key and click on the object. The object movement is "
-"performed with the ``W``, ``A``, ``S``, ``D`` keys. To exit the control "
-"mode press the ``Q`` key and click on an empty space. The indicator also "
-"displays the distance to the selected object in Blender units (meters "
-"equivalent)."
+"This is located in the bottom left corner. It displays the names of selected and "
+"controlled objects. Selecting an object is done with the mouse. To control the object "
+"directly (normally for physics debugging) press the ``Q`` key and click on the object. "
+"The object movement is performed with the ``W``, ``A``, ``S``, ``D`` keys. To exit the "
+"control mode press the ``Q`` key and click on an empty space. The indicator also "
+"displays the distance to the selected object in Blender units (meters equivalent)."
 msgstr ""
-"位于左下角。它显示选择和控制物体的名称。物体选择可以用鼠标来执行。要直接控制的物体（通常为物理调试）按 ``Q`` 键并单击物体。物体的移动通过 "
-"``W``, ``A``, ``S``, ``D`` 键执行。要退出控制模式下，按 ``Q`` "
-"键并单击一个空白的地方。该标示也显示所选物体的距离用Blender单位（相当于米）。"
+"位于左下角。它显示选择和控制物体的名称。物体选择可以用鼠标来执行。要直接控制的物体（通常"
+"为物理调试）按 ``Q`` 键并单击物体。物体的移动通过 ``W``, ``A``, ``S``, ``D`` 键执行。要"
+"退出控制模式下，按 ``Q`` 键并单击一个空白的地方。该标示也显示所选物体的距离用Blender单位"
+"（相当于米）。"
 
 #: ../viewer.rst:534
 msgid "**Scene complexity indicator**"
@@ -1218,11 +1220,12 @@ msgstr "**场景复杂度指标**"
 
 #: ../viewer.rst:534
 msgid ""
-"Is located in the top right corner of the rendering area. It displays the"
-" number of vertices, triangles, WebGL draw calls and shaders used in the "
-"main rendering scene (i.e. shadow rendering calls are not included, for "
-"example)."
-msgstr "位于渲染区域的右上角。它显示顶点的数目，三角形，WEBGL绘制调用，并在主渲染场景中使用的着色器（ 阴影渲染调用不包括，例如）。"
+"Is located in the top right corner of the rendering area. It displays the number of "
+"vertices, triangles, WebGL draw calls and shaders used in the main rendering scene (i."
+"e. shadow rendering calls are not included, for example)."
+msgstr ""
+"位于渲染区域的右上角。它显示顶点的数目，三角形，WEBGL绘制调用，并在主渲染场景中使用的着"
+"色器（ 阴影渲染调用不包括，例如）。"
 
 #: ../viewer.rst:537
 msgid "**Video memory indicator**"
@@ -1230,10 +1233,12 @@ msgstr "**显存指标**"
 
 #: ../viewer.rst:537
 msgid ""
-"Is located in the bottom right corner of the rendering area. It displays "
-"the amount of video memory used by geometry, textures, render targets, "
-"and also the total memory usage."
-msgstr "位于渲染区域的右下角。它显示视频存储器的使用的几何形状，纹理，渲染目标的量，并且还总的内存使用情况。"
+"Is located in the bottom right corner of the rendering area. It displays the amount of "
+"video memory used by geometry, textures, render targets, and also the total memory "
+"usage."
+msgstr ""
+"位于渲染区域的右下角。它显示视频存储器的使用的几何形状，纹理，渲染目标的量，并且还总的内"
+"存使用情况。"
 
 #: ../viewer.rst:542
 msgid "**Scene load error indicator**"
@@ -1241,10 +1246,12 @@ msgstr "**场景负载误差指标**"
 
 #: ../viewer.rst:540
 msgid ""
-"Is located under the FPS counter. It shows errors and warnings which "
-"occur during scene load. Red light means errors, yellow - warnings and "
-"green means that the scene was loaded successfully."
-msgstr "位于FPS 计数器下 。它显示在场景加载期间出现的错误和警告。红灯表示错误，黄色-警告和绿色表示场景已成功加载。"
+"Is located under the FPS counter. It shows errors and warnings which occur during scene "
+"load. Red light means errors, yellow - warnings and green means that the scene was "
+"loaded successfully."
+msgstr ""
+"位于FPS 计数器下 。它显示在场景加载期间出现的错误和警告。红灯表示错误，黄色-警告和绿色表"
+"示场景已成功加载。"
 
 #: ../viewer.rst:542
 msgid "Loading errors and warnings can be viewed in the web browser console."
@@ -1256,18 +1263,22 @@ msgstr "**背景透明度指标**"
 
 #: ../viewer.rst:545
 msgid ""
-"Is located in the top right corner of the screen, right below the Scene "
-"Complexity Indicator. This is a debug tool that can be used to find if "
-"the background of a scene is transparent or not. It appears as a small "
-"square with a black and white checkerboard pattern."
-msgstr "位于屏幕的右上角，场景复杂度指标的右下面。这是一个调试工具，可用于以发现一个场景的背景是透明或没有。它显示为一个黑色和白色棋盘图案的小方块。"
+"Is located in the top right corner of the screen, right below the Scene Complexity "
+"Indicator. This is a debug tool that can be used to find if the background of a scene "
+"is transparent or not. It appears as a small square with a black and white checkerboard "
+"pattern."
+msgstr ""
+"位于屏幕的右上角，场景复杂度指标的右下面。这是一个调试工具，可用于以发现一个场景的背景是"
+"透明或没有。它显示为一个黑色和白色棋盘图案的小方块。"
 
 #: ../viewer.rst:547
 msgid ""
-"This indicator is visible only when the background of the application is "
-"transparent. It is shown on the picture above only to give the reader the"
-" general idea of how it will look under real circumstances."
-msgstr "只有当该应用程序的背景为透明时这一指标是可见的。显示在上面的图片只给读者的总体思路，它将如何工作，要根据实际情况。"
+"This indicator is visible only when the background of the application is transparent. "
+"It is shown on the picture above only to give the reader the general idea of how it "
+"will look under real circumstances."
+msgstr ""
+"只有当该应用程序的背景为透明时这一指标是可见的。显示在上面的图片只给读者的总体思路，它将"
+"如何工作，要根据实际情况。"
 
 #: ../viewer.rst:1
 msgid "viewer"
@@ -1275,43 +1286,38 @@ msgstr "预览"
 
 #: ../viewer.rst:71
 msgid "tools"
-msgstr ""
+msgstr "工具"
 
 #: ../viewer.rst:71
 msgid "debug;"
-msgstr ""
+msgstr "调试;"
 
 #: ../viewer.rst:95
-#, fuzzy
 msgid "view"
 msgstr "预览"
 
 #: ../viewer.rst:95
 msgid "wireframe"
-msgstr ""
+msgstr "线框"
 
 #: ../viewer.rst:95
 msgid "boundings"
-msgstr ""
+msgstr "包围"
 
 #: ../viewer.rst:95
 msgid "cluster"
-msgstr ""
+msgstr "簇"
 
 #: ../viewer.rst:95
 msgid "batch"
-msgstr ""
+msgstr "批"
 
 #: ../viewer.rst:95
 msgid "render"
-msgstr ""
+msgstr "渲染"
 
 #~ msgid "Scenes"
 #~ msgstr "场景"
 
-#~ msgid ""
-#~ "A double-level list of the "
-#~ "categories and scenes from the "
-#~ "``assets.json`` file."
+#~ msgid "A double-level list of the categories and scenes from the ``assets.json`` file."
 #~ msgstr "在 ``assets.json`` 文件中的分类和场景的双级列表."
-

@@ -18,6 +18,7 @@
 #var REFLECTION_PASS REFL_PASS_NONE
 #var WORLD_SPACE 0
 #var USE_COLOR_RAMP 0
+#var USE_POSITION_CLIP 0
 
 #var CAUSTICS 0
 #var WIND_BEND 0
@@ -67,7 +68,7 @@ GLSL_OUT vec3 v_eye_dir;
 GLSL_OUT vec4 v_pos_view;
 #endif
 
-#if SOFT_PARTICLES
+#if SOFT_PARTICLES || USE_POSITION_CLIP
 GLSL_OUT vec3 v_tex_pos_clip;
 #endif
 
@@ -234,7 +235,9 @@ void main(void) {
 # endif
 
 # if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
-        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
+        || USE_NODE_TEX_COORD_NO || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL \
+        || USE_NODE_TEX_COORD_RE || USE_NODE_LAYER_WEIGHT
     v_normal = normal;
 # endif
 
@@ -255,14 +258,8 @@ void main(void) {
     v_color = pp.color;
 #endif //NODES
 
-#if SOFT_PARTICLES
-    float xc = pos_clip.x;
-    float yc = pos_clip.y;
-    float wc = pos_clip.w;
-
-    v_tex_pos_clip.x = (xc + wc) / 2.0;
-    v_tex_pos_clip.y = (yc + wc) / 2.0;
-    v_tex_pos_clip.z = wc;
+#if SOFT_PARTICLES || USE_POSITION_CLIP
+    v_tex_pos_clip = clip_to_tex(pos_clip);
 #endif
 
 #if SOFT_PARTICLES || !DISABLE_FOG || NODES

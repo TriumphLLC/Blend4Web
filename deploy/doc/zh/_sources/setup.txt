@@ -24,6 +24,8 @@
 
     * 更新插件
 
+    * Updating Saved Projects
+
 
 安装顺序
 ========
@@ -36,7 +38,8 @@
 
 安装之前，请下载并安装兼容的Blender版本，根据此 表.
 
-应使用当前的稳定版本的Blender。它可以从 官方网站 下载 。
+A current stable version of Blender should be used. It can be
+downloaded from the official site or from Blend4Web site.
 
 [图片]
 
@@ -175,5 +178,33 @@ Blend4Web插件的信息选项卡，然后按 "Remove" 按钮。删除旧版本�
 7. 重新启动Blender。
 
 一切都应该能正常工作了。
+
+
+Updating Saved Projects
+-----------------------
+
+After you have updated your SDK (or Add-on), you can import projects
+that you exported before updating back to the Project Manager. To do
+this, follow the following instructions:
+
+1. Open Project Manager.
+
+2. Import your projects using the "Import Project(s)" button.
+
+3. Reexport projects's ".blend" files using the "re-export scenes"
+   link.
+
+4. Use the "check modules" link for every imported project to make
+   sure there are no missing or unused modules in the program code. If
+   there are, you may try to fix the poblems using the "Update
+   Modules" button.
+
+5. Then use "build" command to make the build versions of the
+   imported projects work again.
+
+6. The developer version of the projects using "Copy" or "Compile"
+   engine binding type should also be build to properly work with the
+   new version of the SDK (the developer versions of the projects with
+   other bindning types should work fine without it).
 
 

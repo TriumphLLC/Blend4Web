@@ -2688,7 +2688,7 @@ function slot_by_anim_type(obj, anim_name) {
         if (get_vertex_anim_by_name(obj, anim_name))
             anim_type = OBJ_ANIM_TYPE_VERTEX;
         else {
-            var pdata = get_particles_data_by_name(obj, name);
+            var pdata = get_particles_data_by_name(obj, anim_name);
             if (pdata && pdata.p_type == "EMITTER")
                 anim_type = OBJ_ANIM_TYPE_PARTICLES;
         }

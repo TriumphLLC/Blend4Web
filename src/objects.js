@@ -78,8 +78,6 @@ exports.GET_OBJECT_BY_DUPLI_NAME_LIST = 2;
 exports.DATA_ID_ALL = DATA_ID_ALL;
 
 exports.update = function(timeline, elapsed) {
-    var armatures = _all_objects["ARMATURE"];
-
     // update outline objects first (no need for processing among other objs)
     for (var i = 0; i < _outline_anim_objs.length; i++) {
         var obj = _outline_anim_objs[i];
@@ -88,6 +86,7 @@ exports.update = function(timeline, elapsed) {
             request_scenes_outline(obj);
     }
 
+    var armatures = _all_objects["ARMATURE"];
     if (!armatures)
         return;
 
@@ -263,6 +262,10 @@ exports.update_object = function(bpy_obj, obj) {
         render.reflective = bpy_obj["b4w_reflective"];
         render.reflection_type = bpy_obj["b4w_reflection_type"];
 
+        // HACK: forcing cube reflections for cycles mats with bsdf_glossy
+        if (!render.reflective)
+            update_bsdf_glossy_reflections(bpy_obj, render);
+
         render.caustics = bpy_obj["b4w_caustics"];
 
         render.wind_bending = bpy_obj["b4w_wind_bending"];
@@ -279,7 +282,6 @@ exports.update_object = function(bpy_obj, obj) {
 
             render.main_bend_col = bpy_obj["b4w_main_bend_stiffness_col"];
             var bnd_st = bpy_obj["b4w_detail_bend_colors"];
-            render.detail_bend_col = {};
             render.detail_bend_col.leaves_stiffness = bnd_st["leaves_stiffness_col"];
             render.detail_bend_col.leaves_phase = bnd_st["leaves_phase_col"];
             render.detail_bend_col.overall_stiffness = bnd_st["overall_stiffness_col"];
@@ -299,7 +301,8 @@ exports.update_object = function(bpy_obj, obj) {
         render.lod_dist_min = 0;
         render.lod_dist_max = m_obj_util.LOD_DIST_MAX_INFINITY;
         render.lod_transition_ratio = bpy_obj["b4w_lod_transition"];
-        render.last_lod = true;
+
+        render.pass_index = bpy_obj["pass_index"];
         break;
 
     case "LINE":
@@ -362,6 +365,31 @@ exports.update_object = function(bpy_obj, obj) {
     }
 
     objects_storage_add(obj);
+}
+
+function update_bsdf_glossy_reflections(bpy_obj, render) {
+    var materials = bpy_obj["data"]["materials"];
+
+    for (var i = 0; i < materials.length; i++) {
+        var mat = materials[i];
+        if (mat["use_nodes"] && check_bsdf_glossy_mat(mat["node_tree"])) {
+            render.reflective = true;
+            render.reflection_type = "CUBE";
+        }
+    }
+}
+
+function check_bsdf_glossy_mat(bpy_node_tree) {
+    if (bpy_node_tree._has_bsdf_glossy) {
+        return true;
+    } else {
+        var nodes = bpy_node_tree["nodes"];
+        for (var j = 0; j < nodes.length; j++)
+            if (nodes[j]["type"] == "GROUP" && check_bsdf_glossy_mat(nodes[j]["node_group"]["node_tree"]))
+               return true;
+    }
+
+    return false;
 }
 
 /**
@@ -702,9 +730,6 @@ function calc_mesh_is_dynamic(bpy_obj, obj) {
     var has_shape_keys = bpy_obj["data"]["b4w_shape_keys"].length > 0;
     var has_dynamic_geometry = bpy_obj["b4w_dynamic_geometry"];
 
-    // lens flares are not strictly required to be dynamic
-    // make them so to prevent possible bugs in the future
-
     return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch
             || is_collision || is_vehicle_part || has_shape_keys
             || is_floater_part || dyn_grass_emitter || is_character
@@ -714,9 +739,17 @@ function calc_mesh_is_dynamic(bpy_obj, obj) {
 function has_dynamic_mat(bpy_obj) {
     var mesh = bpy_obj["data"];
 
+    // lens flares are not strictly required to be dynamic
+    // make them so to prevent possible bugs in the future
+
+    // water should be dynamic for convenience
+    // This allows dynamically adjusting water params
+
     for (var i = 0; i < mesh["materials"].length; i++) {
         var mat = mesh["materials"][i];
 
+        if (mat["b4w_water"])
+            return true;
         if (mat["b4w_lens_flares"])
             return true;
         if (has_dynamic_nodes(mat["node_tree"]))
@@ -748,6 +781,21 @@ function has_dynamic_nodes(node_tree) {
             var output = node["outputs"][0];
             if (output["is_linked"] && (space == "OBJECT" || space == "BLENDER_OBJECT"))
                 return true;
+        }
+        if (node["type"] == "TEX_COORD") {
+            var obj_output = node["outputs"][3];
+            if (obj_output["is_linked"])
+                return true;
+        }
+        if (node["type"] == "OBJECT_INFO") {
+            // TODO: change this implementation to the attributes-based model
+            var loc_output = node["outputs"][0];
+            var obj_ind_output = node["outputs"][1];
+            var rand_output = node["outputs"][3];
+            if (loc_output["is_linked"] || obj_ind_output["is_linked"] ||
+                    rand_output["is_linked"]) {
+                return true;
+            }
         }
     }
 
@@ -1457,21 +1505,21 @@ exports.get_all_objects = function(data_id) {
 exports.get_first_character = function(scene) {
 
     var mesh_objs = _all_objects["MESH"];
+    if (mesh_objs)
+        for (var i = 0; i < mesh_objs.length; i++) {
+            var obj = mesh_objs[i];
 
-    for (var i = 0; i < mesh_objs.length; i++) {
-        var obj = mesh_objs[i];
+            if (!m_phy.is_character(obj))
+                continue;
 
-        if (!m_phy.is_character(obj))
-            continue;
+            var scenes_data = obj.scenes_data;
 
-        var scenes_data = obj.scenes_data;
-
-        for (var j = 0; j < scenes_data.length; j++) {
-            var sc_data = scenes_data[j];
-            if (sc_data.scene == scene)
-                return obj;
+            for (var j = 0; j < scenes_data.length; j++) {
+                var sc_data = scenes_data[j];
+                if (sc_data.scene == scene)
+                    return obj;
+            }
         }
-    }
 
     return null;
 }
@@ -1551,44 +1599,45 @@ exports.obj_switch_cleanup_flags = function(obj, cleanup_tex, cleanup_bufs,
 exports.get_selectable_objects = function() {
     var sel_objects = [];
     var objects = _all_objects["MESH"];
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-        if (obj.render.selectable && obj.bpy_origin)
-            sel_objects.push(obj);
-    }
+    if (objects)
+        for (var i = 0; i < objects.length; i++) {
+            var obj = objects[i];
+            if (obj.render.selectable && obj.bpy_origin)
+                sel_objects.push(obj);
+        }
     return sel_objects;
 }
 
 exports.get_outlining_objects = function() {
     var outlining_objects = [];
     var objects = _all_objects["MESH"];
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-        if (obj.render.outlining && obj.bpy_origin)
-            outlining_objects.push(obj);
-    }
+    if (objects)
+        for (var i = 0; i < objects.length; i++) {
+            var obj = objects[i];
+            if (obj.render.outlining && obj.bpy_origin)
+                outlining_objects.push(obj);
+        }
     return outlining_objects;
 }
 
 exports.get_object = function() {
     var obj_found = null;
-    var obj_name = "";
     var objs = _all_objects["ALL"];
 
+    // NOTE: filter meta is needed only for get_object_by_name, the others with 
+    // the parenting relations already don't work for meta objects
     switch (arguments[0]) {
     case exports.GET_OBJECT_BY_NAME:
-        obj_name = arguments[1];
-        obj_found = get_object_by_name(arguments[1], objs, true, arguments[2]);
+        obj_found = get_object_by_name(arguments[1], objs, true, arguments[2], 
+                arguments[3]);
         break;
     case exports.GET_OBJECT_BY_DUPLI_NAME:
-        obj_name = arguments[2];
         obj_found = get_object_by_dupli_name(arguments[1], arguments[2], objs,
-                                             arguments[3]);
+                arguments[3]);
         break;
     case exports.GET_OBJECT_BY_DUPLI_NAME_LIST:
-        obj_name = arguments[1][arguments[1].length - 1];
-        obj_found = get_object_by_dupli_name_list(arguments[1], objs,
-                                                  arguments[2]);
+        obj_found = get_object_by_dupli_name_list(arguments[1], objs, 
+                arguments[2]);
         break;
     default:
         break;
@@ -1597,14 +1646,14 @@ exports.get_object = function() {
     return obj_found;
 }
 
-function get_object_by_name(name, objects, use_origin_name, data_id) {
+function get_object_by_name(name, objects, use_origin_name, data_id, filter_meta) {
     var obj_found = null;
 
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
         var obj_name = (use_origin_name) ? obj.origin_name : obj.name;
         if (obj_name == name && (obj.render.data_id == data_id 
-                || data_id == DATA_ID_ALL)) {
+                || data_id == DATA_ID_ALL) && (!filter_meta || obj.bpy_origin)) {
             obj_found = obj;
 
             // NOTE: prefer non-duplicated object

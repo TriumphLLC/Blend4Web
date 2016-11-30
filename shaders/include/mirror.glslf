@@ -68,6 +68,31 @@ void apply_mirror(inout vec3 base_color, vec3 eye_dir, vec3 normal,
     base_color = mix(base_color, reflect_color, reflect_factor * r);
 }
 
+vec3 apply_mirror_bsdf(vec3 base_color, vec3 s_color, vec3 eye_dir, vec3 normal,
+                       float metalness, mat3 view_tsr)
+{
+# if REFLECTION_TYPE == REFL_CUBE
+    vec3 eye_reflected = reflect(-eye_dir, normal);
+    vec3 reflect_color = GLSL_TEXTURE_CUBE(u_cube_reflection, eye_reflected).xyz;
+    srgb_to_lin(reflect_color);
+    reflect_color *= s_color;
+# elif REFLECTION_TYPE == REFL_PLANE && REFLECTION_PASS == REFL_PASS_NONE
+    vec3 norm_proj_refl = u_refl_plane.xyz * dot(normal, u_refl_plane.xyz);
+    vec3 normal_offset = normal - norm_proj_refl;
+    vec2 normal_offset_view = tsr9_transform_dir(view_tsr, normal_offset).xy;
+
+    vec2 refl_coord = v_tex_pos_clip.xy/ v_tex_pos_clip.z;
+    refl_coord += normal_offset_view * REFL_BUMP;
+    vec3 reflect_color = GLSL_TEXTURE(u_plane_reflection, refl_coord).rgb;
+    srgb_to_lin(reflect_color);
+    reflect_color *= s_color;
+# else
+    vec3 reflect_color = s_color;
+# endif
+
+    return mix(base_color, reflect_color, metalness);
+}
+
 #endif
 
 #endif

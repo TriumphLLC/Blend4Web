@@ -193,7 +193,7 @@ function init_batch(type) {
         mirror_factor: 0,
         offset_z: 0,
         refr_bump: 0,
-        diffuse_params: new Array(2),
+        diffuse_params: new Float32Array(2),
         specular_params: new Float32Array(3),
         texture_scale: new Float32Array(3),
         specular_color: new Float32Array(3),
@@ -236,7 +236,6 @@ function init_batch(type) {
         // anchor params
         anchor_positions: null,
 
-        part_use_tangent: false,
         part_node_data : null,
 
         node_values: [],
@@ -256,10 +255,10 @@ function init_batch(type) {
         use_be: false,
 
         cleanup_gl_data_on_unload: true,
-        shader_updated: false,
 
         inst_array_state: 0,
-        navmesh: null
+
+        obj_info_params: new Float32Array(3)
     }
 
     // setting default values
@@ -366,7 +365,8 @@ function clone_batch(batch) {
     batch_new.mirror_factor = batch.mirror_factor;
     batch_new.offset_z = batch.offset_z;
     batch_new.refr_bump = batch.refr_bump;
-    batch_new.diffuse_params = batch.diffuse_params.slice();
+    batch_new.diffuse_params[0] = batch.diffuse_params[0];
+    batch_new.diffuse_params[1] = batch.diffuse_params[1];
     m_vec3.copy(batch.specular_params, batch_new.specular_params);
     m_vec3.copy(batch.texture_scale, batch_new.texture_scale);
     m_vec3.copy(batch.specular_color, batch_new.specular_color);
@@ -415,7 +415,6 @@ function clone_batch(batch) {
     if (batch.anchor_positions)
         batch_new.anchor_positions = new Float32Array(batch.anchor_positions);
 
-    batch_new.part_use_tangent = batch.part_use_tangent;
     batch_new.part_node_data = m_util.clone_object_r(batch.part_node_data);
 
     batch_new.node_values = m_util.clone_object_r(batch.node_values);
@@ -433,7 +432,8 @@ function clone_batch(batch) {
     batch_new.use_be = batch.use_be;
 
     batch_new.cleanup_gl_data_on_unload = batch.cleanup_gl_data_on_unload;
-    batch_new.shader_updated = batch.shader_updated;
+
+    batch_new.obj_info_params = batch.obj_info_params;
 
     return batch_new;
 }
@@ -1759,7 +1759,6 @@ function update_batch_material_main(batch, material, update_tex_color) {
 
         if (normalmap0) {
             set_batch_c_attr(batch, "a_tbn_quat");
-            batch.part_use_tangent = true;
             var tex_col = update_tex_color ? [0.5, 0.5, 1, 1] : null;
             var tex = m_textures.get_batch_texture(normalmap0, tex_col);
             append_texture(batch, tex, "u_normalmap0");
@@ -1990,7 +1989,7 @@ function init_water_material(material, batch) {
 
     if (material["b4w_water_shore_smoothing"] && !batch.blend) {
         m_print.warn("Material: \"" + material["name"] + "\" is opaque.",
-                     "Disabling shore smoothing.");
+                     "Disabling water shore smoothing.");
         batch.water_shore_smoothing = false;
     } else
         batch.water_shore_smoothing =
@@ -2114,10 +2113,8 @@ function init_water_material(material, batch) {
         batch.water_detailed_dist  = material["b4w_water_detailed_dist"];
     } else {
         set_batch_c_attr(batch, "a_tbn_quat");
-        if (foam || normalmaps.length) {
+        if (foam || normalmaps.length)
             set_batch_c_attr(batch, "a_texcoord");
-            batch.part_use_tangent = true;
-        }
         set_batch_directive(batch, "GENERATED_MESH", 0);
     }
 
@@ -2319,7 +2316,7 @@ function update_batch_material_nodes(batch, material, shader_type) {
         set_batch_directive(batch, "WETTABLE", 0);
 
     var node_texture = null;
-    var has_material_nodes = false;
+    var has_shading_nodes = false;
     m_graph.traverse(ngraph_proxy.graph, function(node, attr) {
         switch (attr.type) {
         case "UVMAP":
@@ -2359,8 +2356,19 @@ function update_batch_material_nodes(batch, material, shader_type) {
             batch.vertex_colors_usage[name].src[0].mask = mask;
             break;
         case "TEX_COORD_NO":
+        case "TEX_COORD_RE":
         case "GEOMETRY_NO":
+        case "FRESNEL":
+        case "LAYER_WEIGHT":
             set_batch_c_attr(batch, "a_tbn_quat");
+            break;
+
+        case "TEX_COORD_OB":
+             set_batch_directive(batch, "USE_MODEL_TSR_INVERSE", 1);
+             break;
+
+        case "TEX_COORD_WI":
+            set_batch_directive(batch, "USE_POSITION_CLIP", 1);
             break;
 
         case "MATERIAL_BEGIN":
@@ -2369,43 +2377,28 @@ function update_batch_material_nodes(batch, material, shader_type) {
                 set_batch_directive(batch, "USE_TBN_SHADING", 1);
                 if (batch.type != "PARTICLES")
                     set_batch_c_attr(batch, "a_shade_tangs");
-                else
-                    batch.part_use_tangent = true;
             }
             set_batch_c_attr(batch, "a_tbn_quat");
-            has_material_nodes = true;
+            has_shading_nodes = true;
+            break;
+        case "BSDF_BEGIN":
+            has_shading_nodes = true;
+            set_batch_c_attr(batch, "a_tbn_quat");
             break;
         case "TEXTURE_COLOR":
         case "TEXTURE_ENVIRONMENT":
             var name = attr.data.name;
             var tex = attr.data.value;
+            append_texture(batch, tex, name);
 
-            // unsupported texture type, render wasn't created
-            if (!tex._render) {
-                m_print.warn("Wrong texture \"" + attr.data.value["name"] +
-                        "\" in material \"" + material["name"] + "\".")
-                update_batch_material_error(batch, material);
-                return;
-            }
-
-            if (tex._render.allow_node_dds !== false)
-                if (attr.type != "TEXTURE_ENVIRONMENT")
-                    tex._render.allow_node_dds = true;
-                else
-                    tex._render.allow_node_dds = false;
-
-            append_texture(batch, tex._render, name);
             break;
         case "TEXTURE_NORMAL":
         case "B4W_PARALLAX":
             set_batch_directive(batch, "CALC_TBN_SPACE", 1);
             set_batch_c_attr(batch, "a_tbn_quat");
-            batch.part_use_tangent = true;
             var name = attr.data.name;
             var tex = attr.data.value;
-
-            tex._render.allow_node_dds = false;
-            append_texture(batch, tex._render, name);
+            append_texture(batch, tex, name);
 
             break;
         case "NORMAL_MAP":
@@ -2416,11 +2409,10 @@ function update_batch_material_nodes(batch, material, shader_type) {
             switch (space) {
             case m_nodemat.NM_TANGENT:
                 set_batch_directive(batch, "CALC_TBN_SPACE", 1);
-                batch.part_use_tangent = true;
                 break;
             case m_nodemat.NM_OBJECT:
             case m_nodemat.NM_BLENDER_OBJECT:
-                set_batch_directive(batch, "USE_MODEL_MATRIX", 1);
+                set_batch_directive(batch, "USE_MODEL_TSR", 1);
                 break;
             }
             break;
@@ -2436,6 +2428,7 @@ function update_batch_material_nodes(batch, material, shader_type) {
                 m_print.warn("Material \"" + material["name"] + "\" is not blend. " +
                              "Disabling refractions.")
             }
+            set_batch_directive(batch, "USE_POSITION_CLIP", 1);
             break;
         case "VALTORGB":
         case "CURVE_VEC":
@@ -2452,32 +2445,46 @@ function update_batch_material_nodes(batch, material, shader_type) {
             // NOTE: keep synchronized with nodemat.js:append_nmat_node
             switch (conv_type) {
             case m_nodemat.VT_WORLD_TO_OBJECT:
-                 set_batch_directive(batch, "USE_MODEL_MATRIX_INVERSE", 1);
+                 set_batch_directive(batch, "USE_MODEL_TSR_INVERSE", 1);
                  break;
             case m_nodemat.VT_WORLD_TO_CAMERA:
-                 set_batch_directive(batch, "USE_VIEW_MATRIX", 1);
+                 set_batch_directive(batch, "USE_VIEW_TSR", 1);
                  break;
             case m_nodemat.VT_OBJECT_TO_WORLD:
-                 set_batch_directive(batch, "USE_MODEL_MATRIX", 1);
+                 set_batch_directive(batch, "USE_MODEL_TSR", 1);
                  break;
             case m_nodemat.VT_OBJECT_TO_CAMERA:
-                 set_batch_directive(batch, "USE_MODEL_MATRIX", 1);
-                 set_batch_directive(batch, "USE_VIEW_MATRIX", 1);
+                 set_batch_directive(batch, "USE_MODEL_TSR", 1);
+                 set_batch_directive(batch, "USE_VIEW_TSR", 1);
                  break;
             case m_nodemat.VT_CAMERA_TO_WORLD:
-                 set_batch_directive(batch, "USE_VIEW_MATRIX_INVERSE", 1);
+                 set_batch_directive(batch, "USE_VIEW_TSR_INVERSE", 1);
                  break;
             case m_nodemat.VT_CAMERA_TO_OBJECT:
-                 set_batch_directive(batch, "USE_MODEL_MATRIX_INVERSE", 1);
-                 set_batch_directive(batch, "USE_VIEW_MATRIX_INVERSE", 1);
+                 set_batch_directive(batch, "USE_MODEL_TSR_INVERSE", 1);
+                 set_batch_directive(batch, "USE_VIEW_TSR_INVERSE", 1);
                  break;
             }
             break;
+        case "OBJECT_INFO":
+            set_batch_directive(batch, "USE_MODEL_TSR", 1);
+            batch.obj_info_params[1] = material["pass_index"];
+            batch.obj_info_params[2] = Math.random();
+            break;
         case "B4W_VECTOR_VIEW":
-            set_batch_directive(batch, "USE_VIEW_MATRIX", 1);
+        case "GEOMETRY_VW":
+            set_batch_directive(batch, "USE_VIEW_TSR", 1);
             break;
         case "B4W_REFLECT":
-            set_batch_directive(batch, "USE_VIEW_MATRIX_INVERSE", 1);
+            set_batch_directive(batch, "USE_VIEW_TSR_INVERSE", 1);
+            break;
+        case "BUMP":
+            set_batch_c_attr(batch, "a_tbn_quat");
+            if (m_extensions.get_standard_derivatives())
+                set_batch_directive(batch, "USE_DERIVATIVES_EXT", 1);
+            else
+                m_print.warn("\"OES_standard_derivatives\" extension is not available. " +
+                             "Disabling the BUMP node in the \""+material["name"]+"\" material.");
             break;
         }
     });
@@ -2485,7 +2492,7 @@ function update_batch_material_nodes(batch, material, shader_type) {
     if (node_texture)
         append_texture(batch, node_texture, "u_nodes_texture");
 
-    if (!has_material_nodes)
+    if (!has_shading_nodes)
         batch.use_shadeless = true;
 
     var node_elems = batch.shaders_info.node_elements =
@@ -3081,6 +3088,8 @@ function update_batch_render(batch, render) {
     batch.reflexible_only = render.reflexible_only;
     batch.reflective = render.reflective;
 
+    batch.obj_info_params[0] = render.pass_index;
+
     if (render.is_skinning) {
         set_batch_c_attr(batch, "a_influence");
         set_batch_directive(batch, "SKINNED", 1);
@@ -3264,6 +3273,8 @@ function set_batch_c_attr(batch, name) {
 
     if (cattrs.indexOf(name) == -1)
         cattrs.push(name);
+
+    batch.common_attributes = cattrs.sort();
 }
 
 exports.set_batch_directive = set_batch_directive;
@@ -4263,8 +4274,6 @@ function create_object_clusters(bpy_static_objs) {
         render_props.outlining = obj_render.outlining;
         render_props.origin_outlining = obj_render.origin_outlining;
 
-        render_props.outline_anim_settings_default = obj_render.outline_anim_settings_default;
-
         render_props.reflexible = obj_render.reflexible;
         render_props.reflexible_only = obj_render.reflexible_only;
         render_props.reflective = obj_render.reflective;
@@ -4520,7 +4529,8 @@ exports.append_texture = append_texture;
  * @param [name] Uniform name for appended texture
  */
 function append_texture(batch, texture, name) {
-    // NOTE: special one-texture case
+    // NOTE: very bad thing to do because it's not a valid uniform name
+    // see assign_texture_uniforms()
     if (batch.textures.length == 1 && batch.texture_names.length == 0)
         batch.texture_names.push("default0");
 
@@ -4573,11 +4583,6 @@ function update_shader(batch) {
     if (!batch.shaders_info)
         m_util.panic("No shaders info for batch " + batch.name);
 
-    if (batch.shader)
-        var old_shader_id = batch.shader.shader_id;
-    else
-        var old_shader_id = null;
-
     batch.shader = m_shaders.get_compiled_shader(batch.shaders_info);
 
     validate_batch(batch);
@@ -4589,9 +4594,6 @@ function update_shader(batch) {
 
         // also do that in append_texture()
         m_render.assign_texture_uniforms(batch);
-
-        if (batch.shader.shader_id != old_shader_id)
-            batch.shader_updated = true;
 
         return true;
     }
@@ -4994,7 +4996,7 @@ exports.create_god_rays_combine_batch = function(tex_main, tex_god_rays) {
     return batch;
 }
 
-exports.create_cube_sky_batch = function(scene, subs, procedural_skydome) {
+exports.create_cube_sky_batch = function(scene, subs) {
 
     var batch = init_batch("SKY");
 
@@ -5003,7 +5005,7 @@ exports.create_cube_sky_batch = function(scene, subs, procedural_skydome) {
 
     var submesh = m_primitives.generate_cube();
     update_batch_geometry(batch, submesh);
-    if (procedural_skydome) {
+    if (subs.procedural_skydome) {
         apply_shader(batch, "skybox.glslv",
                 "proc_skybox.glslf");
         set_batch_directive(batch, "WATER_EFFECTS", 1);

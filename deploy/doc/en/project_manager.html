@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Project Management &mdash; Blend4Web 16.10 User Manual</title>
+  <title>Project Management &mdash; Blend4Web 16.11 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.10 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.11 User Manual" href="index.html"/>
         <link rel="next" title="Scene Viewer" href="viewer.html"/>
         <link rel="prev" title="Workflow" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.10
+              v16.11
             </div>
           
         
@@ -100,6 +100,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#project-parameters">Project Parameters</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#project-editing">Project Editing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-import">Project Import</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-export">Project Export</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id3">Commands</a></li>
@@ -112,16 +113,22 @@
 <li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#projects-list">Projects List</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-structure">Project Structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#b4w-project-configuration-file"><code class="docutils literal"><span class="pre">.b4w_project</span></code> Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-configuration-file-b4w-project">Project Configuration File (.b4w_project)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section-info">Section <code class="docutils literal"><span class="pre">[info]</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-paths">Section <code class="docutils literal"><span class="pre">[paths]</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-compile">Section <code class="docutils literal"><span class="pre">[compile]</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-deploy">Section <code class="docutils literal"><span class="pre">[deploy]</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#section-url-params">Section <code class="docutils literal"><span class="pre">[url_params]</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-project">Creating a Project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#developing-multiple-apps-inside-a-project">Developing multiple apps inside a project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#building-projects">Building Projects</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#automatic-re-export">Automatic Re-export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automatic-blend-file-export">Automatic Blend File Export</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#resource-conversion">Resource Conversion</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#deploying-projects">Deploying Projects</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#remove-project">Remove Project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#upgrading-apps-for-new-sdk-versions">Upgrading Apps for New SDK Versions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#path-to-loaded-application-assets">Path to Loaded Application Assets</a></li>
 </ul>
 </li>
 </ul>
@@ -205,24 +212,24 @@
 <li><a class="reference internal" href="#project-creation-wizard" id="id8">Project Creation Wizard</a></li>
 <li><a class="reference internal" href="#creating-a-web-player-application" id="id9">Creating a Web Player Application</a></li>
 <li><a class="reference internal" href="#project-information" id="id10">Project Information</a></li>
-<li><a class="reference internal" href="#project-import" id="id11">Project Import</a></li>
-<li><a class="reference internal" href="#project-export" id="id12">Project Export</a></li>
+<li><a class="reference internal" href="#project-editing" id="id11">Project Editing</a></li>
+<li><a class="reference internal" href="#project-import" id="id12">Project Import</a></li>
+<li><a class="reference internal" href="#project-export" id="id13">Project Export</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#advanced-project-management" id="id13">Advanced Project Management</a><ul>
-<li><a class="reference internal" href="#dependencies" id="id14">Dependencies</a></li>
-<li><a class="reference internal" href="#projects-list" id="id15">Projects List</a></li>
-<li><a class="reference internal" href="#project-structure" id="id16">Project Structure</a></li>
-<li><a class="reference internal" href="#b4w-project-configuration-file" id="id17"><code class="docutils literal"><span class="pre">.b4w_project</span></code> Configuration File</a></li>
-<li><a class="reference internal" href="#creating-a-project" id="id18">Creating a Project</a></li>
-<li><a class="reference internal" href="#developing-multiple-apps-inside-a-project" id="id19">Developing multiple apps inside a project</a></li>
-<li><a class="reference internal" href="#building-projects" id="id20">Building Projects</a></li>
-<li><a class="reference internal" href="#automatic-re-export" id="id21">Automatic Re-export</a></li>
-<li><a class="reference internal" href="#resource-conversion" id="id22">Resource Conversion</a></li>
-<li><a class="reference internal" href="#deploying-projects" id="id23">Deploying Projects</a></li>
-<li><a class="reference internal" href="#remove-project" id="id24">Remove Project</a></li>
-<li><a class="reference internal" href="#upgrading-apps-for-new-sdk-versions" id="id25">Upgrading Apps for New SDK Versions</a></li>
-<li><a class="reference internal" href="#path-to-loaded-application-assets" id="id26">Path to Loaded Application Assets</a></li>
+<li><a class="reference internal" href="#advanced-project-management" id="id14">Advanced Project Management</a><ul>
+<li><a class="reference internal" href="#dependencies" id="id15">Dependencies</a></li>
+<li><a class="reference internal" href="#projects-list" id="id16">Projects List</a></li>
+<li><a class="reference internal" href="#project-structure" id="id17">Project Structure</a></li>
+<li><a class="reference internal" href="#project-configuration-file-b4w-project" id="id18">Project Configuration File (.b4w_project)</a></li>
+<li><a class="reference internal" href="#creating-a-project" id="id19">Creating a Project</a></li>
+<li><a class="reference internal" href="#developing-multiple-apps-inside-a-project" id="id20">Developing multiple apps inside a project</a></li>
+<li><a class="reference internal" href="#building-projects" id="id21">Building Projects</a></li>
+<li><a class="reference internal" href="#automatic-blend-file-export" id="id22">Automatic Blend File Export</a></li>
+<li><a class="reference internal" href="#resource-conversion" id="id23">Resource Conversion</a></li>
+<li><a class="reference internal" href="#deploying-projects" id="id24">Deploying Projects</a></li>
+<li><a class="reference internal" href="#remove-project" id="id25">Remove Project</a></li>
+<li><a class="reference internal" href="#upgrading-apps-for-new-sdk-versions" id="id26">Upgrading Apps for New SDK Versions</a></li>
 </ul>
 </li>
 </ul>
@@ -345,13 +352,29 @@
 </li>
 <li><p class="first">Project’s type. Several options are available:</p>
 <blockquote>
-<div><ul class="simple">
-<li><code class="docutils literal"><span class="pre">External</span></code> - the project will use engine files in the <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> directory, only application files will be compiled. When the project is deployed, the <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> folder will be copied to the project directory;</li>
-<li><code class="docutils literal"><span class="pre">Copy</span></code> - engine files will be directly copied from the <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> to the application folder. Only application files are compiled;</li>
-<li><code class="docutils literal"><span class="pre">Compile</span></code> - engine sources are compiled with application scripts;</li>
-<li><code class="docutils literal"><span class="pre">None</span></code> - Project Manager will not copy the engine files to the application folder, nor will it perform any operations upon building the application. Application developers will have to manually perform everything they need;</li>
-<li><code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> - json-file placed inside the project is run with the help of web-player inside SDK;</li>
-<li><code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> - project is packed into single html-file, containing all required resources.</li>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">External</span></code> - Project Manager will use engine files in the <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> directory to run the project.</p>
+<blockquote>
+<div><p>When the project is deployed, only application files will be compiled, while the <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> folder will be copied to the project directory.</p>
+<p>Use this option if you don&#8217;t need to change engine files in any way;</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Copy</span></code> - engine files will be directly copied from the <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> to the application folder.</p>
+<blockquote>
+<div><p>When the project is deployed, only application files are compiled, while engine files are left intact (so you cannot modify the engine itself);</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Compile</span></code> - engine sources are compiled with application scripts.</p>
+<blockquote>
+<div><p>This option can be used to modify the code of the engine itself;</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">None</span></code> - Project Manager will not copy the engine files to the application folder, nor will it perform any operations upon building the application. Application developers will have to manually perform everything they need;</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> - json-file placed inside the project is run with the help of web-player inside SDK;</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> - project is packed into single html-file, containing all required resources.</p>
+</li>
 </ul>
 </div></blockquote>
 </li>
@@ -446,8 +469,8 @@ Here is an example of HTML code that can be used for this:</p>
 <dd>The name of the project&#8217;s author or the title of the developer company.</dd>
 <dt><em>Project Icon</em></dt>
 <dd>The icon of the project.</dd>
-<dt><em>Application</em></dt>
-<dd>Application&#8217;s main JSON file.</dd>
+<dt><em>Applications</em></dt>
+<dd>Project applications.</dd>
 <dt><em>Engine Binding Type</em></dt>
 <dd>The type of the project.</dd>
 <dt><em>Project Path (Development Directory)</em></dt>
@@ -455,7 +478,7 @@ Here is an example of HTML code that can be used for this:</p>
 <dt><em>Project Config</em></dt>
 <dd>Project&#8217;s config file.</dd>
 <dt><em>Build Directory</em></dt>
-<dd>Project build folder.</dd>
+<dd>Project build directory.</dd>
 <dt><em>Blend Directory(s)</em></dt>
 <dd>Directories where project&#8217;s blend files are located.</dd>
 <dt><em>Assets Directory(s)</em></dt>
@@ -464,22 +487,39 @@ Here is an example of HTML code that can be used for this:</p>
 <dd>The list of <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL parameters</span></a> used to start the application.</dd>
 <dt><em>JavaScript Obfuscation Level</em></dt>
 <dd>JavaScript optimization level.</dd>
-<dt><em>JavaScript Compilation Ignore List</em></dt>
-<dd>The list of exceptions for the project&#8217;s script compilation.</dd>
-<dt><em>CSS Compilation Ignore List</em></dt>
-<dd>The list of exceptions for the projects style sheets compilation.</dd>
-<dt><em>Deployment Directory Assets Prefix</em></dt>
-<dd>The scene resource folder in the deployed application.</dd>
+<dt><em>JS Compilation Pass-Through List</em></dt>
+<dd>The list of pass-through exceptions for the project&#8217;s JavaScript files compilation.</dd>
+<dt><em>CSS Compilation Pass-Through List</em></dt>
+<dd>The list of pass-through exceptions for the project&#8217;s style sheets compilation.</dd>
+<dt><em>Build Ignore List</em></dt>
+<dd>The list of exceptions for project&#8217;s builds.</dd>
+<dt><em>Deployment Assets Directory</em></dt>
+<dd>Directory where assets will be placed for deployed project.</dd>
+<dt><em>Deployment Assets URL Prefix</em></dt>
+<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a>.</dd>
+<dt><em>Deployment Ignore List</em></dt>
+<dd>The list of exceptions for project&#8217;s deploy.</dd>
 </dl>
 </div>
 </div>
+<div class="section" id="project-editing">
+<span id="project-edit"></span><h3><a class="toc-backref" href="#id11">Project Editing</a><a class="headerlink" href="#project-editing" title="Permalink to this headline">¶</a></h3>
+<p>A simple web-based interface for editing project files is available by the <code class="docutils literal"><span class="pre">[edit]</span></code> link beside the project&#8217;s title.</p>
+<a class="reference internal image-reference" href="_images/project_manager_edit_project.png"><img alt="_images/project_manager_edit_project.png" class="align-center" src="_images/project_manager_edit_project.png" style="width: 100%;" /></a>
+<p>The left part of the editor window contains a list of all <code class="docutils literal"><span class="pre">.html</span></code>, <code class="docutils literal"><span class="pre">.css</span></code> and <code class="docutils literal"><span class="pre">.js</span></code> files from the project directory (<code class="docutils literal"><span class="pre">./apps_dev/&lt;project_name&gt;</span></code>), starting with the main project file <code class="docutils literal"><span class="pre">.b4w_project</span></code>. The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This interface can only be used to edit files from developer version of a project, but not from the builded version.</p>
+</div>
+<p>The <code class="docutils literal"><span class="pre">Save</span> <span class="pre">File</span></code> button that can be found at the bottom of the page is used for saving currently selected project file.</p>
+</div>
 <div class="section" id="project-import">
-<span id="import-projects"></span><h3><a class="toc-backref" href="#id11">Project Import</a><a class="headerlink" href="#project-import" title="Permalink to this headline">¶</a></h3>
+<span id="import-projects"></span><h3><a class="toc-backref" href="#id12">Project Import</a><a class="headerlink" href="#project-import" title="Permalink to this headline">¶</a></h3>
 <p>Tools for importing projects are available by the <code class="docutils literal"><span class="pre">[Import</span> <span class="pre">Project(s)]</span></code> link.</p>
 <p>Clicking this link opens standard Open File dialog where you can select the project you need to import.</p>
 </div>
 <div class="section" id="project-export">
-<span id="export-projects"></span><h3><a class="toc-backref" href="#id12">Project Export</a><a class="headerlink" href="#project-export" title="Permalink to this headline">¶</a></h3>
+<span id="export-projects"></span><h3><a class="toc-backref" href="#id13">Project Export</a><a class="headerlink" href="#project-export" title="Permalink to this headline">¶</a></h3>
 <p>Project exporting window can be accessed by the <code class="docutils literal"><span class="pre">[Export</span> <span class="pre">Project(s)]</span></code> link.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/project_manager_export.png"><img alt="_images/project_manager_export.png" class="align-center" src="_images/project_manager_export.png" style="width: 100%;" /></a>
@@ -515,12 +555,12 @@ Here is an example of HTML code that can be used for this:</p>
 </div>
 </div>
 <div class="section" id="advanced-project-management">
-<span id="id5"></span><h2><a class="toc-backref" href="#id13">Advanced Project Management</a><a class="headerlink" href="#advanced-project-management" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h2><a class="toc-backref" href="#id14">Advanced Project Management</a><a class="headerlink" href="#advanced-project-management" title="Permalink to this headline">¶</a></h2>
 <p>Advanced project management is used by experienced developers which require more flexibility and need to automate process of project development.</p>
 <p>For advanced project management use the <em>project.py</em> script and manually edit <em>.b4w_project</em> configuration files.</p>
 <p>The <em>project.py</em> script can be found in the <code class="docutils literal"><span class="pre">./apps_dev/</span></code> folder of the Blend4Web SDK directory.</p>
 <div class="section" id="dependencies">
-<h3><a class="toc-backref" href="#id14">Dependencies</a><a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">Dependencies</a><a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
 <p>The project management system works in all operating systems. However, some operations can require installing additional dependencies. In order to check whether all dependencies are met, use the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py check_deps
 </pre></div>
@@ -537,14 +577,14 @@ Here is an example of HTML code that can be used for this:</p>
 <p><a class="reference internal" href="developers.html#converter"><span>Resource Converter</span></a> also uses its own set of external tools that are described in <a class="reference internal" href="developers.html#converter-deps"><span>another section</span></a>.</p>
 </div>
 <div class="section" id="projects-list">
-<h3><a class="toc-backref" href="#id15">Projects List</a><a class="headerlink" href="#projects-list" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">Projects List</a><a class="headerlink" href="#projects-list" title="Permalink to this headline">¶</a></h3>
 <p>The list of all projects in the SDK can be viewed with the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject list
 </pre></div>
 </div>
 </div>
 <div class="section" id="project-structure">
-<h3><a class="toc-backref" href="#id16">Project Structure</a><a class="headerlink" href="#project-structure" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">Project Structure</a><a class="headerlink" href="#project-structure" title="Permalink to this headline">¶</a></h3>
 <p>A typical app developed using the project manager looks as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>blend4web/
     apps_dev/
@@ -578,26 +618,27 @@ Here is an example of HTML code that can be used for this:</p>
 </ol>
 <p>Additionally, the deploy command can create yet another directory, but it&#8217;s usually placed outside of the SDK and its name and path depend on directory structure on the target server.</p>
 </div>
-<div class="section" id="b4w-project-configuration-file">
-<h3><a class="toc-backref" href="#id17"><code class="docutils literal"><span class="pre">.b4w_project</span></code> Configuration File</a><a class="headerlink" href="#b4w-project-configuration-file" title="Permalink to this headline">¶</a></h3>
-<p>If you did not use any arguments upon executing the <em>project.py</em> script, then they will be taken from the configuration file.</p>
+<div class="section" id="project-configuration-file-b4w-project">
+<h3><a class="toc-backref" href="#id18">Project Configuration File (.b4w_project)</a><a class="headerlink" href="#project-configuration-file-b4w-project" title="Permalink to this headline">¶</a></h3>
+<p>Project configuration file includes all necessary information of your project, including name, metadata, directories, info for application building and deployment.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[info]
-author =
-name =
-title =
+author = Blend4Web
+name = myproject
+title = MyProject
 icon =
 
 [paths]
-assets_dirs =
-blend_dirs =
-blender_exec =
-build_dir =
+assets_dirs = deploy/assets/myproject;
+blend_dirs = blender/myproject;
+blender_exec = blender
+build_dir = deploy/apps/myproject
 deploy_dir =
 
 [compile]
 apps =
 css_ignore =
 engine_type = external
+ignore =
 js_ignore =
 optimization = simple
 use_physics =
@@ -605,14 +646,86 @@ use_smaa_textures =
 version =
 
 [deploy]
-assets_path_dest =
-assets_path_prefix =
-remove_exist_ext_dir =
+assets_path_dest = assets
+assets_path_prefix = assets
+ignore =
+override =
 </pre></div>
+</div>
+<p>This is a standard INI configuration file, which includes sections, properties and values.</p>
+<div class="section" id="section-info">
+<h4>Section <code class="docutils literal"><span class="pre">[info]</span></code><a class="headerlink" href="#section-info" title="Permalink to this headline">¶</a></h4>
+<p>Contains project metadata:</p>
+<dl class="docutils">
+<dt><em>author</em></dt>
+<dd>The name of the project&#8217;s author or the title of the developer company.</dd>
+<dt><em>name</em></dt>
+<dd>The name of the project.</dd>
+<dt><em>title</em></dt>
+<dd>Project title as shown in the browser.</dd>
+<dt><em>icon</em></dt>
+<dd>The icon of the project.</dd>
+</dl>
+</div>
+<div class="section" id="section-paths">
+<h4>Section <code class="docutils literal"><span class="pre">[paths]</span></code><a class="headerlink" href="#section-paths" title="Permalink to this headline">¶</a></h4>
+<p>Containts project paths:</p>
+<dl class="docutils">
+<dt><em>assets_dirs</em></dt>
+<dd>Directories where project&#8217;s media assets are located.</dd>
+<dt><em>blend_dirs</em></dt>
+<dd>Directories where project&#8217;s blend files are located.</dd>
+<dt><em>blender_exec</em></dt>
+<dd>Path to Blender executable.</dd>
+<dt><em>build_dir</em></dt>
+<dd>Project build directory.</dd>
+<dt><em>deploy_dir</em></dt>
+<dd>Project deployment directory.</dd>
+</dl>
+</div>
+<div class="section" id="section-compile">
+<h4>Section <code class="docutils literal"><span class="pre">[compile]</span></code><a class="headerlink" href="#section-compile" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>apps</em></dt>
+<dd>Project applications.</dd>
+<dt><em>css_ignore</em></dt>
+<dd>The list of pass-through exceptions for the project&#8217;s style sheets compilation.</dd>
+<dt><em>engine_type</em></dt>
+<dd>The type of the project.</dd>
+<dt><em>ignore</em></dt>
+<dd>The list of exceptions for project&#8217;s builds.</dd>
+<dt><em>js_ignore</em></dt>
+<dd>The list of pass-through exceptions for the project&#8217;s JavaScript files compilation.</dd>
+<dt><em>optimization</em></dt>
+<dd>JavaScript optimization level.</dd>
+<dt><em>use_physics</em></dt>
+<dd>Indicates whether your project will use physics or not. Default - use physics.</dd>
+<dt><em>use_smaa_textures</em></dt>
+<dd>Indicates whether your project will use SMAA textures or not. Currently unused.</dd>
+<dt><em>version</em></dt>
+<dd>Project version.</dd>
+</dl>
+</div>
+<div class="section" id="section-deploy">
+<h4>Section <code class="docutils literal"><span class="pre">[deploy]</span></code><a class="headerlink" href="#section-deploy" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>assets_path_dest</em></dt>
+<dd>Directory where assets will be placed for deployed project.</dd>
+<dt><em>assets_path_prefix</em></dt>
+<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a>.</dd>
+<dt><em>ignore</em></dt>
+<dd>The list of exceptions for project&#8217;s deploy.</dd>
+<dt><em>override</em></dt>
+<dd>Replace existing output directory during deployment phase. Use with caution.</dd>
+</dl>
+</div>
+<div class="section" id="section-url-params">
+<h4>Section <code class="docutils literal"><span class="pre">[url_params]</span></code><a class="headerlink" href="#section-url-params" title="Permalink to this headline">¶</a></h4>
+<p>Optional section for Web Player projects. Contains <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL params</span></a> used to start project applications.</p>
 </div>
 </div>
 <div class="section" id="creating-a-project">
-<h3><a class="toc-backref" href="#id18">Creating a Project</a><a class="headerlink" href="#creating-a-project" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">Creating a Project</a><a class="headerlink" href="#creating-a-project" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init myproject
 </pre></div>
 </div>
@@ -638,6 +751,7 @@ remove_exist_ext_dir =
 author = Blend4Web
 name = myproject
 title = MyProject
+icon =
 
 [paths]
 assets_dirs = deploy/assets/myproject;
@@ -650,6 +764,7 @@ deploy_dir =
 apps =
 css_ignore =
 engine_type = external
+ignore =
 js_ignore =
 optimization = simple
 use_physics =
@@ -657,13 +772,15 @@ use_smaa_textures =
 version =
 
 [deploy]
-assets_path_prefix =
-remove_exist_ext_dir =
+assets_path_dest = assets
+assets_path_prefix = assets
+ignore =
+override =
 </pre></div>
 </div>
 </div>
 <div class="section" id="developing-multiple-apps-inside-a-project">
-<h3><a class="toc-backref" href="#id19">Developing multiple apps inside a project</a><a class="headerlink" href="#developing-multiple-apps-inside-a-project" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id20">Developing multiple apps inside a project</a><a class="headerlink" href="#developing-multiple-apps-inside-a-project" title="Permalink to this headline">¶</a></h3>
 <p>A project can contain multiple apps. This can be provided by listing the corresponding HTML files in the config file separated with semicolon:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="o">...</span>
 <span class="p">[</span><span class="nb">compile</span><span class="p">]</span>
@@ -673,7 +790,7 @@ remove_exist_ext_dir =
 </div>
 </div>
 <div class="section" id="building-projects">
-<h3><a class="toc-backref" href="#id20">Building Projects</a><a class="headerlink" href="#building-projects" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">Building Projects</a><a class="headerlink" href="#building-projects" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject compile
 </pre></div>
 </div>
@@ -693,8 +810,8 @@ remove_exist_ext_dir =
 <li>Scripts and styles can be stored in the app&#8217;s root and in the subfolders</li>
 </ul>
 </div>
-<div class="section" id="automatic-re-export">
-<h3><a class="toc-backref" href="#id21">Automatic Re-export</a><a class="headerlink" href="#automatic-re-export" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="automatic-blend-file-export">
+<h3><a class="toc-backref" href="#id22">Automatic Blend File Export</a><a class="headerlink" href="#automatic-blend-file-export" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject reexport
 </pre></div>
 </div>
@@ -706,7 +823,7 @@ remove_exist_ext_dir =
 </ul>
 </div>
 <div class="section" id="resource-conversion">
-<h3><a class="toc-backref" href="#id22">Resource Conversion</a><a class="headerlink" href="#resource-conversion" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id23">Resource Conversion</a><a class="headerlink" href="#resource-conversion" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject convert_resources
 </pre></div>
 </div>
@@ -718,7 +835,7 @@ remove_exist_ext_dir =
 <p>Converting of resources is described in detail in the <a class="reference internal" href="developers.html#converter"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="deploying-projects">
-<h3><a class="toc-backref" href="#id23">Deploying Projects</a><a class="headerlink" href="#deploying-projects" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id24">Deploying Projects</a><a class="headerlink" href="#deploying-projects" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject deploy DIRECTORY
 </pre></div>
 </div>
@@ -733,14 +850,14 @@ remove_exist_ext_dir =
 </ul>
 </div>
 <div class="section" id="remove-project">
-<h3><a class="toc-backref" href="#id24">Remove Project</a><a class="headerlink" href="#remove-project" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id25">Remove Project</a><a class="headerlink" href="#remove-project" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject remove
 </pre></div>
 </div>
 <p>Removes a project. Removed directories are retrieved from project configuration file.</p>
 </div>
 <div class="section" id="upgrading-apps-for-new-sdk-versions">
-<h3><a class="toc-backref" href="#id25">Upgrading Apps for New SDK Versions</a><a class="headerlink" href="#upgrading-apps-for-new-sdk-versions" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id26">Upgrading Apps for New SDK Versions</a><a class="headerlink" href="#upgrading-apps-for-new-sdk-versions" title="Permalink to this headline">¶</a></h3>
 <p>While upgrading for new SDK versions often two problems arise:</p>
 <ol class="arabic simple">
 <li>Modules of the new and old versions of the engine do not match.</li>
@@ -775,14 +892,6 @@ remove_exist_ext_dir =
 </div>
 <p>To eliminate API incompatibilities you may require refactoring of your app. All changes are described in <a class="reference internal" href="release_notes.html#release-notes"><span>release notes</span></a>.</p>
 </div>
-<div class="section" id="path-to-loaded-application-assets">
-<h3><a class="toc-backref" href="#id26">Path to Loaded Application Assets</a><a class="headerlink" href="#path-to-loaded-application-assets" title="Permalink to this headline">¶</a></h3>
-<p>To load .json-files you should use <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> method from the <em>config.js</em> module:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;example/example.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
-</pre></div>
-</div>
-<p>After building the finished app, the paths to assets will change. Thus, using <code class="docutils literal"><span class="pre">get_std_assets_path()</span></code> will allow you to avoid problems with incorrect paths.</p>
-</div>
 </div>
 </div>
 
@@ -806,7 +915,7 @@ remove_exist_ext_dir =
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-10-27.
+      Last updated on 2016-11-29.
 
     </p>
   </div>
@@ -862,7 +971,7 @@ remove_exist_ext_dir =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.10',
+            VERSION:'v16.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

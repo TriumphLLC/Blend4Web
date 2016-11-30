@@ -25,6 +25,8 @@
  * @local RayTestCallback
  * @local RayTestCallbackPosNorm
  * @local CharacterMoveType
+ * @local NavmeshDistanceCallback
+ * @local NavmeshPathOptions
  */
 b4w.module["physics"] = function(exports, require) {
 
@@ -88,6 +90,32 @@ var cfg_phy = m_cfg.physics;
  * @param {Number} hit_time Time the hit happened.
  * @param {Vec3} hit_pos Hit position in world space
  * @param {Vec3} hit_norm Hit normal in world space
+ */
+
+/**
+ * Configurable options of navmesh path.
+ * @typedef {Object} NavmeshPathOptions
+ * @property {Number} [island=0] ID; see {@link module:physics.navmesh_get_island|physics.navmesh_get_island}
+ * @property {Number} [allowed_distance=Number.MAX_VALUE] Distance limit from
+ * start/target position to navmesh
+ * @property {Boolean} [do_not_pull_string=false] Returns centroids path instead of pulled string
+ * @property {Boolean} [return_normals=false] Return path normals in PathInformation.
+ * @property {NavmeshDistanceCallback} [distance_to_closest] Callback for distance
+ * calculation to determine closest node
+ * @property {NavmeshDistanceCallback} [distance_to_farthest] Callback for distance
+ * calculation to determine farthest node
+ * @cc_externs island allowed_distance do_not_pull_string return_normals
+ * @cc_externs distance_to_closest distance_to_farthest
+ */
+
+/**
+ * Navmesh path information.
+ * @typedef {Object} PathInformation
+ * @property {Float32Array} positions Positions of path points - plane array of 
+ * Vec3-type positions
+ * @property {?Float32Array} normals Normals of path points - plane array of 
+ * Vec3-type normals
+ * @cc_externs positions normals
  */
 
 /**
@@ -684,7 +712,7 @@ exports.set_character_rotation_h = function(obj, angle) {
  * Append a new async collision test to the given object.
  * @method module:physics.append_collision_test
  * @param {Object3D} obj_src Object 3D
- * @param {String} collision_id Collision ID
+ * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
  * @param {CollisionCallback} callback Collision callback
  * @param {Boolean} [calc_pos_norm=false] Pass collision point/normal/distance in callback
  */
@@ -694,6 +722,9 @@ exports.append_collision_test = function(obj_src, collision_id, callback,
         m_print.error("No physics for object " + obj_src.name);
         return;
     }
+
+    collision_id = collision_id || "ANY";
+
     calc_pos_norm = calc_pos_norm || false;
     m_phy.append_collision_test(obj_src, collision_id, callback, calc_pos_norm);
 }
@@ -701,7 +732,7 @@ exports.append_collision_test = function(obj_src, collision_id, callback,
  * Remove the collision test from the given object.
  * @method module:physics.remove_collision_test
  * @param {Object3D} obj Object 3D.
- * @param {?String} collision_id Collision ID.
+ * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
  * @param {CollisionCallback} callback Collision callback.
  */
 exports.remove_collision_test = function(obj, collision_id, callback) {
@@ -710,7 +741,7 @@ exports.remove_collision_test = function(obj, collision_id, callback) {
         return;
     }
 
-    var collision_id = collision_id || "ANY";
+    collision_id = collision_id || "ANY";
 
     m_phy.remove_collision_test(obj, collision_id, callback);
 }
@@ -746,7 +777,7 @@ exports.clear_collision_impulse_test = function(obj) {
  * in object space, e.g. from/to vectors specified in object space.
  * @param {Vec3} from From vector
  * @param {Vec3} to To vector
- * @param {String} collision_id Collision ID, "ANY" for any collision ID
+ * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
  * @param {RayTestCallback} callback Ray Test callback
  * @param {Boolean} [autoremove=false] Automatically remove test after ray casting.
  * @returns {Number} Ray Test ID
@@ -761,6 +792,7 @@ exports.append_ray_test = function(obj_src, from, to, collision_id, callback,
         return;
     }
 
+    collision_id = collision_id || "ANY";
     autoremove = autoremove || false;
 
     var calc_all_hits = false;
@@ -778,7 +810,7 @@ exports.append_ray_test = function(obj_src, from, to, collision_id, callback,
  * in object space, e.g. from/to vectors specified in object space
  * @param {Vec3} from From vector
  * @param {Vec3} to To vector
- * @param {String} collision_id Collision ID, "ANY" for any collision ID
+ * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
  * @param {RayTestCallback|RayTestCallbackPosNorm} callback Ray Test callback
  * @param {Boolean} [autoremove=false] Automatically remove test after ray casting.
  * @param {Boolean} [calc_all_hits=false] Test for all possible objects along the ray or
@@ -798,12 +830,13 @@ exports.append_ray_test_ext = function(obj_src, from, to, collision_id, callback
         return;
     }
 
+    collision_id = collision_id || "ANY";
     autoremove = autoremove || false;
     calc_all_hits = calc_all_hits || false;
     calc_pos_norm = calc_pos_norm || false;
     ign_src_rot = ign_src_rot || false;
 
-    return m_phy.append_ray_test(obj_src, from, to, collision_id, callback, 
+    return m_phy.append_ray_test(obj_src, from, to, collision_id, callback,
             autoremove, calc_all_hits, calc_pos_norm, ign_src_rot);
 }
 /**
@@ -921,20 +954,38 @@ function distance_to_farthest_default(position, centroid, vertex_ids, vertices,
 }
 
 /**
- * Get id of closest island(group) of navmesh
+ * Get the id of a closest navmesh island(group)
  * @method module:physics.navmesh_get_island
  * @param {Object3D} navmesh_obj Navigation mesh object
- * @param {Vec3} position Start position
- * @param {NavmeshDistanceCallback} [distance_to_closest] Callback for distance
- * calculation to determine closest node
+ * @param {Vec3} position Path start position
+ * @param {?NavmeshDistanceCallback} distance_to_closest Callback for distance
+ * calculation to determine the closest node. If null then the default function will 
+ * be used. It calculates the distance from a point to a triangle in the 3D space.
  * @returns {Number} island ID
+ * @example 
+ * var m_phys = require("physics");
+ * var m_scenes = require("scenes");
+ *
+ * var start_point = new Float32Array([5, 2, -7]);
+ * var end_point = new Float32Array([-2, 0, 3]);
+ * var navmesh_obj = m_scenes.get_object_by_name("navmesh");
+ *
+ * var island_id = m_phys.navmesh_get_island(navmesh_obj, start_point);
+ * var path = m_phys.navmesh_find_path(navmesh_obj, start_point, end_point, { island: island_id });
  */
 exports.navmesh_get_island = navmesh_get_island;
 function navmesh_get_island(navmesh_obj, position,
         distance_to_closest) {
     if (!distance_to_closest)
         distance_to_closest = distance_to_closest_default;
+
+    if (!m_phy.obj_has_physics(navmesh_obj)) {
+        m_print.error("No physics for object " + navmesh_obj.name);
+        return;
+    }
+
     var navmesh = navmesh_obj.physics.navmesh;
+
     if (!navmesh) {
         m_print.error(navmesh_obj.name + " is not a navigation mesh object");
         return null;
@@ -943,38 +994,53 @@ function navmesh_get_island(navmesh_obj, position,
 }
 
 /**
- * Find path between start_pos and dest_pos
+ * Find path between start_pos and dest_pos, return flat array containing
+ * positions of path.
  * @method module:physics.navmesh_find_path
  * @param {Object3D} navmesh_obj Navigation mesh object
  * @param {Vec3} start_pos Start position
  * @param {Vec3} dest_pos Target position
- * @param {Number} island ID; see physics.nav_mesh_get_island
- * @param {Number} [allowed_distance] Distance limit from start/target position to navmesh
- * @param {Boolean} [do_not_pull_string] returns centroids path instead of pulled string
- * @param {NavmeshDistanceCallback} [distance_to_closest] Callback for distance
- * calculation to determine closest node
- * @param {NavmeshDistanceCallback} [distance_to_farthest] Callback for distance
- * calculation to determine farthest node
- * @returns {Array} Path - array of Vec3-type elements
+ * @param {NavmeshPathOptions} [options={}] Configurable options of navmesh path
+ * @returns {?PathInformation} Path information or null if path does not exist
+ * @example 
+ * var m_phys = require("physics");
+ * var m_scenes = require("scenes");
+ *
+ * var start_point = new Float32Array([5, 2, -7]);
+ * var end_point = new Float32Array([-2, 0, 3]);
+ * var navmesh_obj = m_scenes.get_object_by_name("navmesh");
+ *
+ * var island_id = m_phys.navmesh_get_island(navmesh_obj, start_point);
+ * var path = m_phys.navmesh_find_path(navmesh_obj, start_point, end_point, { island: island_id });
  */
-exports.navmesh_find_path = function (navmesh_obj, start_pos, dest_pos, island,
-        allowed_distance, do_not_pull_string,
-        distance_to_closest,
-        distance_to_farthest) {
-    if (!do_not_pull_string)
-        do_not_pull_string = false;
-    if (!distance_to_closest)
-        distance_to_closest = distance_to_closest_default;
-    if (!distance_to_farthest)
-        distance_to_farthest = distance_to_farthest_default
-
+exports.navmesh_find_path = function (navmesh_obj, start_pos, dest_pos, options) {
+    if (!m_phy.obj_has_physics(navmesh_obj)) {
+        m_print.error("No physics for object " + navmesh_obj.name);
+        return;
+    }
     var navmesh = navmesh_obj.physics.navmesh;
     if (!navmesh) {
         m_print.error(navmesh_obj.name + " is not a navigation mesh object");
         return null;
     }
-    return m_nmesh.navmesh_find_path(navmesh, start_pos, dest_pos, island, allowed_distance,
-        do_not_pull_string, distance_to_closest, distance_to_farthest);
+    options = options || {};
+    var nav_options = {};
+
+    nav_options.do_not_pull_string = Boolean(options.do_not_pull_string);
+
+    nav_options.distance_to_closest = options.distance_to_closest ||
+            distance_to_closest_default;
+
+    nav_options.distance_to_farthest = options.distance_to_farthest ||
+            distance_to_farthest_default;
+
+    nav_options.island = options.island || 0;
+
+    nav_options.allowed_distance = options.allowed_distance || Number.MAX_VALUE;
+
+    nav_options.return_normals = options.return_normals || false;
+
+    return m_nmesh.navmesh_find_path(navmesh, start_pos, dest_pos, nav_options);
 }
 }
 

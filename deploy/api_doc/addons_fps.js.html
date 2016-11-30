@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: addons/fps.js | Blend4Web API Reference</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: addons/fps.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+
+/**
+ * Add-on for first person applications.
+ * It makes creating FPS applications, binding controls and
+ * controlling character movement easier.
+ * @module fps
+ * @local ChangeStateCallback
+ * @local PlockCallback
+ * @local CharMotionCallback
+ */
+
+b4w.module["fps"] = function(exports, require) {
+
+/**
+ * Function which is called when the given ID state is changed.
+ * @callback ChangeStateCallback
+ * @param {Number} old_state_id Previous state ID.
+ * @param {Number} new_state_id New state ID.
+ */
+
+/**
+ * Function which is called when pointerlock state was changed.
+ * @callback PlockCallback
+ * @param {HTMLElement} elem HTML element, which required pointerlock
+ */
+
+/**
+ * Function which is called when character changes his movement direction.
+ * @callback CharMotionCallback
+ * @param {Number} forw_back Forward/backward direction (can be -1, 1 or 0).
+ * @param {Number} right_left Right/left direction (can be -1, 1 or 0).
+ */
+
+var m_cam   = require("camera");
+var m_ctl   = require("controls");
+var m_phy   = require("physics");
+var m_scs   = require("scenes");
+var m_util  = require("util");
+var m_main  = require("main");
+var m_cont  = require("container");
+var m_input = require("input");
+var m_trans = require("transform");
+var m_const = require("constraints");
+var m_vec3  = require("vec3");
+var m_hmd   = require("hmd");
+var m_print = require("__print");
+
+var AT_PRESSED = 1;
+var AT_RELEASED = 2;
+var AT_CONTINUOUS = 3;
+
+var CS_STAY = 0;
+var CS_WALK = 1;
+var CS_RUN = 2;
+var CS_FLY = 3;
+var CS_CLIMB = 4;
+
+var MOBILE_FORWARD_BTN_ID = "B4W_DEFAULT_BTN_1";
+var MOBILE_BACKWARD_BTN_ID = "B4W_DEFAULT_BTN_2";
+
+var FORWARD_SVG = 'url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyBpZD0ic3ZnMzQwMCIgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTQuMTExbW0iIHdpZHRoPSIxNC4xMTFtbSIgdmVyc2lvbj0iMS4xIiB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHZpZXdCb3g9IjAgMCA0OS45OTk5OTggNDkuOTk5OTk5Ij4gPG1ldGFkYXRhIGlkPSJtZXRhZGF0YTM0MDUiPjxyZGY6UkRGPjxjYzpXb3JrIHJkZjphYm91dD0iIj48ZGM6Zm9ybWF0PmltYWdlL3N2Zyt4bWw8L2RjOmZvcm1hdD48ZGM6dHlwZSByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIi8+PGRjOnRpdGxlLz48L2NjOldvcms+PC9yZGY6UkRGPiA8L21ldGFkYXRhPiA8ZyBpZD0ibGF5ZXIxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIC0xMDAyLjQpIj48cmVjdCBpZD0icmVjdDI0MTI2IiBvcGFjaXR5PSIwLjU0MyIgZmlsbC1vcGFjaXR5PSIuODM2MTEiIGhlaWdodD0iNTAiIHdpZHRoPSI1MCIgeT0iMTAwMi40IiB4PSIwIiBmaWxsPSIjZmZmIi8+PHBhdGggaWQ9InBhdGgyNDEyOCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0ibTM5LjE0MiAxMDMzLjUtMTQuMTQyLTE0LjE0Mi0xNC4xNDIgMTQuMTQyIiBzdHJva2U9IiM2ZTZlNmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+IDwvZz48L3N2Zz4=);';
+
+var DRAG_TOUCH_DELTA_MULT = 4;
+var DRAG_MOUSE_DELTA_MULT = 2;
+var CAM_SMOOTH_CHARACTER_COEFF = 0.2
+var STEP = 1.0;
+var AXIS_THRESHOLD = 0.05;
+var ROT_STEP = 2.5;
+var MIN_VERT_ANG = (-Math.PI + 0.1) / 2;
+var MAX_VERT_ANG = (Math.PI - 0.1) / 2;
+var MULT_SCALE = 200000;
+var GMPD_BTNS_OFFSET = 300;
+var GMPD_AXIS_OFFSET = 326;
+
+var _move_delta = new Float32Array(2);
+var _smooth_factor = 1;
+var _fps_camera_mult = 0.0004;
+var _manifold_counter = 0;
+var _character_sm = null;
+var _plock_sensor = null;
+var _plock_cb = {
+    enable_cb  : null,
+    disable_cb : null
+};
+
+var _vec2_tmp = new Float32Array(2);
+var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
+var _vec3_tmp3 = new Float32Array(3);
+
+function default_rotation_cb(character, rot_x, rot_y) {
+    var camera = m_scs.get_active_camera();
+    m_cam.eye_rotate(camera, rot_x, rot_y);
+    if (character) {
+        var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
+        m_phy.set_character_rotation(character, angles[0], angles[1]);
+    }
+}
+
+function smooth_cb(obj, id, pulse, rot_callback) {
+    if (Math.abs(_move_delta[0]) > 0.01 || Math.abs(_move_delta[1]) > 0.01) {
+        var elapsed = m_ctl.get_sensor_value(obj, id, 0);
+        var rot_x = m_util.smooth(_move_delta[0], 0, elapsed, smooth_coeff());
+        var rot_y = m_util.smooth(_move_delta[1], 0, elapsed, smooth_coeff());
+
+        _move_delta[0] -= rot_x;
+        _move_delta[1] -= rot_y;
+
+        rot_callback(obj, -rot_x * _fps_camera_mult, -rot_y * _fps_camera_mult);
+    }
+}
+
+function set_smooth_factor(value) {
+    _smooth_factor = value;
+}
+
+function set_cam_sensitivity(value) {
+    _fps_camera_mult = value / MULT_SCALE;
+}
+
+function smooth_coeff() {
+    return CAM_SMOOTH_CHARACTER_COEFF * _smooth_factor;
+}
+
+function create_mobile_controls(character, parent_elem) {
+    var forward_btn = document.createElement("div");
+    var go_forward = 0;
+    forward_btn.style.cssText =
+        "position: absolute;" +
+        "left: 10px;" +
+        "bottom: 70px;" +
+        "width: 53px;" +
+        "height: 53px;" +
+        "background-image: " + FORWARD_SVG;
+    forward_btn.setAttribute("id", MOBILE_FORWARD_BTN_ID);
+
+
+    var backwards_btn = document.createElement("div");
+    backwards_btn.style.cssText =
+        "position: absolute;" +
+        "left: 10px;" +
+        "bottom: 10px;" +
+        "width: 53px;" +
+        "height: 53px;" +
+        "background-image: " + FORWARD_SVG +
+        "transform: rotate(180deg);" +
+        "transform-origin: center;";
+    backwards_btn.setAttribute("id", MOBILE_BACKWARD_BTN_ID);
+
+    parent_elem.appendChild(forward_btn);
+    parent_elem.appendChild(backwards_btn);
+}
+
+function check_pointerlock(elem) {
+    var request_plock = elem.requestPointerLock ||
+            elem.webkitRequestPointerLock || elem.mozRequestPointerLock;
+    return typeof request_plock === "function";
+}
+
+function rotate_cam_by_axis(obj, camobj, id, elapsed) {
+    var h_axis = m_ctl.get_sensor_value(obj, id, 1);
+    var v_axis = m_ctl.get_sensor_value(obj, id, 2);
+
+    var rot_step_value = elapsed * ROT_STEP;
+    var vert_axis_val = Math.abs(v_axis) &lt; AXIS_THRESHOLD ? 0 : v_axis;
+    var cam_angls = m_cam.get_camera_angles(camobj, _vec2_tmp);
+    var vert_ang = cam_angls[1] - vert_axis_val * rot_step_value;
+    var hor_axis_val = Math.abs(h_axis) &lt; AXIS_THRESHOLD ? 0 : h_axis;
+    var hor_ang = - hor_axis_val * rot_step_value;
+    vert_ang = m_util.clamp(vert_ang, MIN_VERT_ANG, MAX_VERT_ANG);
+    m_cam.eye_rotate(camobj, hor_ang, vert_ang, false, true);
+    m_phy.set_character_rotation(obj, cam_angls[0] + hor_ang + Math.PI, 0);
+}
+
+function enable_default_rotation(elem, character) {
+    if (check_pointerlock(elem) &amp;&amp; !m_main.detect_mobile()) {
+ 
+        var plock_mouse_sen = m_ctl.create_plock_mouse_sensor(elem);
+        var plock_sen = _plock_sensor ? _plock_sensor : m_ctl.create_plock_sensor(elem);
+        _plock_sensor = plock_sen;
+
+        var fps_plock_logic_func = function(s) {
+            return s[0] &amp;&amp; s[1];
+        }
+
+        var fps_plock_sensors_cb = function(obj, id, pulse) {
+            if (pulse > 0) {
+                var payload = m_ctl.get_sensor_payload(obj, id, 0);
+                default_rotation_cb(obj, -payload.coords[0] * _fps_camera_mult,
+                        -payload.coords[1] * _fps_camera_mult);
+            }
+        }
+        m_ctl.create_sensor_manifold(character, "FPS_PLOCK", 
+                m_ctl.CT_CONTINUOUS, [plock_mouse_sen, plock_sen],
+                fps_plock_logic_func, fps_plock_sensors_cb);
+
+        var fps_act_logic_func = function(s) {
+            return s[0];
+        }
+
+        var fps_act_sensor_cb = function(obj, id, pulse) {
+            if (pulse > 0) {
+                if (_plock_cb.enable_cb)
+                    _plock_cb.enable_cb(elem);
+            } else
+                if (_plock_cb.disable_cb)
+                    _plock_cb.disable_cb(elem);
+        }
+        m_ctl.create_sensor_manifold(null, "FPS_ACTIVATE_PLOCK", 
+                m_ctl.CT_TRIGGER, [plock_sen],
+                fps_act_logic_func, fps_act_sensor_cb);
+
+    } else {
+
+        if (m_main.detect_mobile()) {
+            var move_sen = m_ctl.create_touch_move_sensor("XY", elem);
+            var click_sen = m_ctl.create_touch_click_sensor(elem);
+            var drag_mult = DRAG_TOUCH_DELTA_MULT;
+        } else {
+            var move_sen = m_ctl.create_mouse_move_sensor("XY", elem);
+            var click_sen = m_ctl.create_mouse_click_sensor(elem);
+            var drag_mult = DRAG_MOUSE_DELTA_MULT;
+
+            var camera = m_scs.get_active_camera();
+            var cam_rot_sensor_cb = function(obj, id, pulse) {
+                if (pulse > 0) {
+                    var elapsed = m_ctl.get_sensor_value(obj, id, 0);
+                    rotate_cam_by_axis(obj, camera, id, elapsed);
+                }
+            }
+            var logic_func = function(s) {
+                return Math.abs(s[1]) > AXIS_THRESHOLD || Math.abs(s[2]) > AXIS_THRESHOLD;
+            };
+            var e_s = m_ctl.create_elapsed_sensor();
+            var h_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_2);
+            var v_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_3);
+            m_ctl.create_sensor_manifold(character, "FPS_CAM_ROT", m_ctl.CT_CONTINUOUS,
+                    [e_s, h_axis, v_axis], logic_func, cam_rot_sensor_cb);
+        }
+
+        var move_x = 0;
+        var move_y = 0;
+
+        var press_logic_func = function(s) {
+            return s[0];
+        }
+        var press_sensor_cb = function(obj, id, pulse) {
+            if (pulse == 1) {
+                var payload = m_ctl.get_sensor_payload(obj, id, 0);
+                var coords = payload.coords;
+                move_x = coords[0];
+                move_y = coords[1];
+            }
+        }
+        m_ctl.create_sensor_manifold(null, "FPS_DRAG_PRESS", 
+                m_ctl.CT_SHOT, [click_sen],
+                press_logic_func, press_sensor_cb);
+
+        var move_logic_func = function(s) {
+            return s[0] &amp;&amp; s[1];
+        }
+        var move_sensor_cb = function(obj, id, pulse) {
+            if (pulse == 1) {
+                var payload = m_ctl.get_sensor_payload(obj, id, 0);
+                var coords = payload.coords;
+                _move_delta[0] += (coords[0] - move_x) * drag_mult;
+                _move_delta[1] += (coords[1] - move_y) * drag_mult;
+
+                move_x = coords[0];
+                move_y = coords[1];
+            }
+        }
+        m_ctl.create_sensor_manifold(null, "FPS_DRAG_MOVE", 
+                m_ctl.CT_CONTINUOUS, [move_sen, click_sen],
+                move_logic_func, move_sensor_cb);
+
+        var elapsed = m_ctl.create_elapsed_sensor();
+
+        m_ctl.create_sensor_manifold(character, "FPS_SMOOTH_DRAG", m_ctl.CT_CONTINUOUS,
+            [elapsed], null, smooth_cb, default_rotation_cb);
+    }
+}
+
+function set_characters_camera(character) {
+    var cam_obj = m_scs.get_active_camera();
+    var cam_trans = m_trans.get_translation(cam_obj, _vec3_tmp);
+    var char_trans = m_trans.get_translation(character, _vec3_tmp2);
+    m_vec3.subtract(cam_trans, char_trans, cam_trans);
+    m_const.append_stiff_trans(cam_obj, character, cam_trans);
+    var angles = m_cam.get_camera_angles_char(cam_obj, _vec2_tmp);
+    m_phy.set_character_rotation(character, angles[0], angles[1]);
+}
+
+function register_hmd(elem) {
+    // camera rotation is enabled with HMD
+    m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
+
+    elem.addEventListener("mousedown", function(e) {
+        m_input.request_fullscreen_hmd();
+    }, false);
+}
+
+function create_character_vr_rotate_sensor(character) {
+
+    var e_s = m_ctl.create_elapsed_sensor();
+    var camobj = m_scs.get_active_camera();
+
+    var logic_func = function(s) {return true};
+
+    var sensor_cb = function(obj, id, pulse) {
+        var hor_angle = m_cam.get_camera_angles_char(camobj, _vec2_tmp)[0];
+        m_phy.set_character_rotation(obj, hor_angle /*+ Math.PI*/, 0);
+    }
+    m_ctl.create_sensor_manifold(character, "FPS_CHARECTER_VR_ROT", m_ctl.CT_CONTINUOUS,
+                [e_s], null, sensor_cb);
+}
+
+function check_vr_support() {
+    return m_hmd.check_browser_support() &amp;&amp; !m_main.detect_mobile();
+}
+
+function enable_camera_rotation(elem, character) {
+    if (check_vr_support()) {
+        register_hmd(elem);
+        create_character_vr_rotate_sensor(character);
+    } else {
+        enable_default_rotation(elem, character);
+    }
+}
+
+function enable_movements(elem, character, motion_cb) {
+    var gmpd_id = 0;
+    if (m_main.detect_mobile()) {
+        var parent_elem = elem.parentElement ? elem.parentElement : elem;
+        create_mobile_controls(character, parent_elem);
+    }
+    var sm = init_character_states(character);
+    var move_state = {
+        left: 0,
+        right: 0,
+        forw: 0,
+        back: 0
+    }
+
+    var set_char_state = function(for_back, right_left) {
+        var curr_state = get_state_machine_state(sm).id;
+        if (!for_back &amp;&amp; !right_left)
+            state_machine_switch_state(sm, CS_STAY);
+        else if (curr_state == CS_STAY)
+            state_machine_switch_state(sm, CS_WALK);
+    }
+
+    var move_forward_cb = function(value) {
+        move_state.forw = value;
+        var for_back = move_state.forw + move_state.back;
+        var right_left = move_state.left + move_state.right;
+        m_phy.set_character_move_dir(character, for_back, right_left);
+        if (motion_cb)
+            motion_cb(for_back, right_left);
+        set_char_state(for_back, right_left);
+    }
+    var move_backward_cb = function(value) {
+        value = value > 0.0 ? 1.0 : value;
+        value = value &lt; 0.0 ? -1.0 : value;
+        move_state.back = -value;
+        var for_back = move_state.forw + move_state.back;
+        var right_left = move_state.left + move_state.right;
+        m_phy.set_character_move_dir(character, for_back, right_left);
+        if (motion_cb)
+            motion_cb(for_back, right_left);
+        set_char_state(for_back, right_left);
+    }
+    var move_right_cb = function(value) {
+        value = value > 0.0 ? 1.0 : value;
+        value = value &lt; 0.0 ? -1.0 : value;
+        move_state.right = -value;
+        var for_back = move_state.forw + move_state.back;
+        var right_left = move_state.left + move_state.right;
+        m_phy.set_character_move_dir(character, for_back, right_left);
+        if (motion_cb)
+            motion_cb(for_back, right_left);
+        set_char_state(for_back, right_left);
+    }
+    var move_left_cb = function(value) {
+        move_state.left = value;
+        var for_back = move_state.forw + move_state.back;
+        var right_left = move_state.left + move_state.right;
+        m_phy.set_character_move_dir(character, for_back, right_left);
+        if (motion_cb)
+            motion_cb(for_back, right_left);
+        set_char_state(for_back, right_left);
+    }
+
+    var jump_cb = function(value) {
+        if (value > 0.0)
+            m_phy.character_jump(character);
+    }
+    var change_movestyle = function(value) {
+        if (move_state.forw + move_state.back +
+                move_state.left + move_state.right) {
+            if (value > 0.0)
+                state_machine_switch_state(sm, CS_RUN);
+            else
+                state_machine_switch_state(sm, CS_WALK);
+        } else
+            state_machine_switch_state(sm, CS_STAY);
+    }
+
+    var change_flystyle = function(value) {
+        if (value > 0.0) {
+            var state = get_state_machine_state(_character_sm).id;
+            if (state == CS_WALK)
+                state_machine_switch_state(sm, CS_FLY);
+            else
+                state_machine_switch_state(sm, CS_WALK);
+        }
+    }
+    var forward_sensors_array = [m_ctl.KEY_W, m_input.GMPD_BUTTON_12];
+    var backward_sensors_array = [m_ctl.KEY_S, m_input.GMPD_BUTTON_13];
+    if (m_main.detect_mobile()) {
+        forward_sensors_array.push(MOBILE_FORWARD_BTN_ID);
+        backward_sensors_array.push(MOBILE_BACKWARD_BTN_ID);
+    }
+    bind_action(AT_PRESSED, forward_sensors_array, move_forward_cb);
+    bind_action(AT_PRESSED, backward_sensors_array, move_backward_cb);
+    bind_action(AT_PRESSED, [m_ctl.KEY_D, m_input.GMPD_BUTTON_15], move_right_cb);
+    bind_action(AT_PRESSED, [m_ctl.KEY_A, m_input.GMPD_BUTTON_14], move_left_cb);
+    bind_action(AT_PRESSED, [m_ctl.KEY_SPACE], jump_cb);
+
+    bind_action(AT_CONTINUOUS, [m_input.GMPD_AXIS_0], move_right_cb);
+    bind_action(AT_CONTINUOUS, [m_input.GMPD_AXIS_1], move_backward_cb);
+
+    bind_action(AT_PRESSED, [m_ctl.KEY_SHIFT], change_movestyle);
+    bind_action(AT_PRESSED, [m_ctl.KEY_C], change_flystyle);
+}
+
+function create_state_machine() {
+    return {
+        nodes: [],
+        current_node: null,
+        lock: false
+    }
+}
+
+function state_machine_add_state(state_machine, id, allowed_ids, call_switch,
+        call_before_switch, call_after_switch) {
+    state_machine.nodes.push({
+        id: id,
+        allowed_ids: allowed_ids,
+        call_switch: call_switch,
+        call_before_switch: call_before_switch,
+        call_after_switch: call_after_switch
+    });
+}
+
+function check_state_machine_validation(state_machine) {
+    var names = [];
+    for (var i = 0; i &lt; state_machine.nodes; i++) {
+        var id = state_machine.nodes[i].id;
+        if (names.indexOf(id) >= 0)
+            return false;
+        else
+            names.push(id);
+    }
+    for (var i = 0; i &lt; state_machine.nodes; i++) {
+        var node = state_machine.nodes[i];
+        for (var j = 0; j &lt; node.allowed_ids.length; j++) {
+            if (names.indexOf(node.allowed_ids[j]) &lt; 0)
+                return false;
+        }
+    }
+    return true;
+}
+
+function get_state_machine_node(state_machine, node_id) {
+    var node = null;
+    for (var i = 0; i &lt; state_machine.nodes.length; i++) {
+        if (state_machine.nodes[i].id == node_id) {
+            node = state_machine.nodes[i];
+            break;
+        }
+    }
+    return node;
+}
+
+function set_state_machine_start_node(state_machine, node_id) {
+    var node = get_state_machine_node(state_machine, node_id);
+    state_machine.current_node = node;
+    return node;
+}
+
+function get_state_machine_state(state_machine) {
+    return state_machine.current_node;
+}
+
+function set_state_machine_node_after_cb(state_machine, state_id, callback) {
+    var node = get_state_machine_node(state_machine, state_id);
+    node.call_after_switch = callback;
+}
+
+function set_state_machine_node_before_cb(state_machine, state_id, callback) {
+    var node = get_state_machine_node(state_machine, state_id);
+    node.call_before_switch = callback;
+}
+
+function state_machine_switch_state(state_machine, new_state_id) {
+    if (state_machine.lock) {
+        return false;
+    }
+    var cur_state = get_state_machine_state(state_machine);
+    var old_state_id = cur_state.id;
+    if (cur_state.allowed_ids.indexOf(new_state_id) >= 0) {
+        var before = true;
+        if (cur_state.call_before_switch) {
+            before = cur_state.call_before_switch(old_state_id, new_state_id)
+        }
+        if (before) {
+            set_state_machine_start_node(state_machine, new_state_id);
+            if (cur_state.call_switch)
+                cur_state.call_switch(old_state_id, new_state_id);
+            if (cur_state.call_after_switch)
+                cur_state.call_after_switch(old_state_id, new_state_id);
+            return true
+        }
+    }
+    return false
+}
+
+function init_character_states(character) {
+
+    _character_sm = create_state_machine();
+    var sm = _character_sm;
+
+    var change_state_cb = function(old_state_id, new_state_id) {
+        switch(new_state_id) {
+        case CS_STAY:
+        case CS_WALK:
+            m_phy.set_character_move_type(character, m_phy.CM_WALK);
+            break;
+        case CS_RUN:
+            m_phy.set_character_move_type(character, m_phy.CM_RUN);
+            break;
+        case CS_FLY:
+            m_phy.set_character_move_type(character, m_phy.CM_FLY);
+            break;
+        case CS_CLIMB:
+            m_phy.set_character_move_type(character, m_phy.CM_CLIMB);
+            break;
+        };
+    }
+    state_machine_add_state(sm, CS_STAY, [CS_WALK, CS_FLY, CS_CLIMB], change_state_cb, 
+            null, null);
+    state_machine_add_state(sm, CS_WALK, [CS_RUN, CS_FLY, CS_CLIMB, CS_STAY], change_state_cb, 
+            null, null);
+    state_machine_add_state(sm, CS_RUN, [CS_WALK, CS_FLY, CS_CLIMB, CS_STAY], change_state_cb, 
+            null, null);
+    state_machine_add_state(sm, CS_FLY, [CS_WALK], change_state_cb, 
+            null, null);
+    state_machine_add_state(sm, CS_CLIMB, [CS_WALK, CS_RUN, CS_STAY], change_state_cb, 
+            null, null);
+
+    check_state_machine_validation(sm);
+    set_state_machine_start_node(sm, CS_STAY);
+
+    return _character_sm;
+}
+
+function remove_devices_controls() {
+    for (var i = 0; i &lt; _manifold_counter; i++)
+        m_ctl.remove_sensor_manifold(null, "FPS_USER_CONTROL_ACTION_"
+                + i.toString());
+}
+
+function remove_plock_controls(character, elem) {
+    if (check_pointerlock(elem) &amp;&amp; !m_main.detect_mobile()) {
+        m_ctl.remove_sensor_manifold(character, "FPS_PLOCK");
+        m_ctl.remove_sensor_manifold(null, "FPS_ACTIVATE_PLOCK");
+    }
+}
+
+function remove_drag_controls(character, elem) {
+    if (!check_pointerlock(elem) || m_main.detect_mobile()) {
+        m_ctl.remove_sensor_manifold(character, "FPS_CAM_ROT");
+        m_ctl.remove_sensor_manifold(character, "FPS_DRAG_PRESS");
+        m_ctl.remove_sensor_manifold(character, "FPS_DRAG_MOVE");
+        m_ctl.remove_sensor_manifold(character, "FPS_SMOOTH_DRAG");
+    }
+}
+
+function remove_hmd_controls(character) {
+    if (check_vr_support())
+        m_ctl.remove_sensor_manifold(character, "FPS_CHARECTER_VR_ROT");
+}
+
+function remove_mobile_controls(character, elem) {
+    if (m_main.detect_mobile()) {
+        var forward_btn = document.getElementById(MOBILE_FORWARD_BTN_ID);
+        var backward_btn = document.getElementById(MOBILE_BACKWARD_BTN_ID);
+        if (forward_btn)
+            elem.removeChild(forward_btn);
+        if (backward_btn)
+            elem.removeChild(backward_btn);
+    }
+}
+/**
+ * Character state defining that character is staying.
+ * @const {CharacterState} module:fps.CS_STAY
+ */
+exports.CS_STAY = CS_STAY;
+/**
+ * Character state defining that character is in walk-mode.
+ * @const {CharacterState} module:fps.CS_WALK
+ */
+exports.CS_WALK = CS_WALK;
+/**
+ * CCharacter state defining that character is in run-mode.
+ * @const {CharacterState} module:fps.CS_RUN
+ */
+exports.CS_RUN = CS_RUN;
+/**
+ * Character state defining that character is in fly-mode.
+ * @const {CharacterState} module:fps.CS_FLY
+ */
+exports.CS_FLY = CS_FLY;
+/**
+ * Character state defining that character is in climb-mode.
+ * @const {CharacterState} module:fps.CS_CLIMB
+ */
+exports.CS_CLIMB = CS_CLIMB;
+
+/**
+ * An input type detecting a discrete user action, e.g. button press.
+ * @const module:fps.AT_PRESSED
+ */
+exports.AT_PRESSED = AT_PRESSED;
+/**
+ * An input type detecting a discrete user action, e.g. button release.
+ * @const module:fps.AT_RELEASED
+ */
+exports.AT_RELEASED = AT_RELEASED;
+/**
+ * An input type detecting a continuous user action,
+ * e.g. a held down button, mouse movement, gamepad stick tilt etc.
+ * @const module:fps.AT_CONTINUOUS
+ */
+exports.AT_CONTINUOUS = AT_CONTINUOUS;
+
+/**
+ * Bind action callback to user controls. This allows to set and define an additional
+ * action to an event and set the conditions to when and how the event happens.
+ * @method module:fps.bind_action
+ * @param {Number} action_type Type of action
+ * @param {Array} action_controls Array of sensor types
+ * @param {Function} action_cb Function which applies logic
+ * @example
+ * var m_ctl = require("controls");
+ * var m_fps = require("fps");
+ * var m_input = require("input");
+ *
+ * var action_cb = function(value) {
+ *     console.log(value);
+ * };
+ * // bind custom callback to be executed after pressing the W key or one of the gamepad 
+ * // buttons or after clicking/touching the html element with the "forward_button_id" id
+ * m_fps.bind_action(m_fps.AT_PRESSED, [m_ctl.KEY_W, m_input.GMPD_BUTTON_12,
+ *          "forward_button_id"], action_cb);
+ */
+exports.bind_action = bind_action;
+function bind_action(action_type, action_controls, action_cb) {
+
+    var sensors = [];
+    for (var j = 0; j &lt; action_controls.length; j++) {
+        if (typeof action_controls[j] == "number") {
+            if (action_controls[j] &lt; GMPD_BTNS_OFFSET)
+                sensors.push(m_ctl.create_keyboard_sensor(action_controls[j]));
+            else if (action_controls[j] &lt; GMPD_AXIS_OFFSET)
+                sensors.push(m_ctl.create_gamepad_btn_sensor(action_controls[j]));
+            else
+                sensors.push(m_ctl.create_gamepad_axis_sensor(action_controls[j]));
+        } else if (typeof action_controls[j] == "string") {
+            var control_element = document.getElementById(action_controls[j]);
+            if (control_element) {
+                sensors.push(m_ctl.create_touch_click_sensor(control_element));
+            } else
+                m_print.error("Couldn't find element with " +
+                        action_controls[j] + " ID.");
+        }
+
+    }
+
+    var logic_func = function(s) {
+        return false;
+    }
+    var type = m_ctl.CT_SHOT;
+    var manifold_cb = function(obj, id, pulse, sens_num) {}
+
+    switch(action_type) {
+    case AT_PRESSED:
+        type = m_ctl.CT_TRIGGER;
+        logic_func = function(s) {
+            for (var i = 0; i &lt; s.length; i++)
+                if (s[i])
+                    return true;
+                return false;
+        }
+        manifold_cb = function(obj, id, pulse, sens_num) {
+            if (pulse > 0)
+                action_cb(1.0);
+            else
+                action_cb(0.0);
+        }
+        break;
+    case AT_RELEASED:
+        type = m_ctl.CT_TRIGGER;
+        logic_func = function(s) {
+            for (var i = 0; i &lt; s.length; i++)
+                if (s[i])
+                    return true;
+                return false;
+        }
+        manifold_cb = function(obj, id, pulse, sens_num) {
+            if (pulse &lt; 0)
+                action_cb(1.0);
+            else
+                action_cb(0.0);
+        }
+        break;
+    case AT_CONTINUOUS:
+        type = m_ctl.CT_CONTINUOUS;
+        logic_func = function(s) {
+            for (var i = 0; i &lt; s.length; i++)
+                if (Math.abs(s[i]) > AXIS_THRESHOLD)
+                    return true;
+                return false;
+        }
+        manifold_cb = function(obj, id, pulse, sens_num) {
+            if (pulse > 0) {
+                for (var i = 0; i &lt; sens_num; i++) {
+                    var value = m_ctl.get_sensor_value(obj, id, i);
+                    if (Math.abs(value) > AXIS_THRESHOLD) {
+                        action_cb(value);
+                        return;
+                    }
+                }
+            } else
+                action_cb(0.0);
+        }
+        break;
+    };
+
+    var action_id = "FPS_USER_CONTROL_ACTION_" + _manifold_counter.toString();
+    var sensors_number = sensors.length;
+    m_ctl.create_sensor_manifold(null, action_id, type,
+            sensors, logic_func, manifold_cb, sensors_number);
+    _manifold_counter++;
+}
+/**
+ * Enable FPS controls. This sets default keyboard, gamepad and mouse controls.
+ * VR is also plug-and-play ready.
+ * @method module:fps.enable_fps_controls
+ * @param {Object3D} [character=The result of the {@link module:scenes.get_first_character|get_first_character()} method call] Character
+ * @param {HTMLElement} [elem=Canvas element] HTML element to add event listeners to
+ * @param {CharMotionCallback} [motion_cb] Motion callback function
+ * @example
+ * var m_fps = require("fps");
+ *
+ * var move_cb = function(forw_back, right_left) {
+ *     console.log(forw_back, right_left);  
+ * }
+ * m_fps.enable_fps_controls(null, null, move_cb);
+ */
+exports.enable_fps_controls = function(character, elem, motion_cb) {
+    var character = character || m_scs.get_first_character();
+    var elem = elem || m_cont.get_canvas();
+
+    if (!character)
+        return;
+
+    var motion_cb = motion_cb || null;
+
+    set_characters_camera(character);
+    enable_camera_rotation(elem, character);
+    enable_movements(elem, character, motion_cb);
+}
+/**
+ * Disnable FPS controls.
+ * @method module:fps.disable_fps_controls
+ * @param {Object3D} [character=The result of the {@link module:scenes.get_first_character|get_first_character()} method call] Character
+ * @param {HTMLElement} [elem=Canvas container element] HTML element to add event listeners to
+ * @example
+ * var m_fps = require("fps");
+ * m_fps.disable_fps_controls();
+ */
+exports.disable_fps_controls = function(character, elem) {
+    var character = character || m_scs.get_first_character();
+    var elem = elem || m_cont.get_container();
+
+    if (!character)
+        return;
+
+    remove_devices_controls();
+    remove_plock_controls(character, elem);
+    remove_drag_controls(character, elem);
+    remove_hmd_controls(character);
+    remove_mobile_controls(character, elem);
+}
+/**
+ * Set character state changing callback function.
+ * @method module:fps.set_character_state_changing_cb
+ * @param {Number} state_id State ID
+ * @param {ChangeStateCallback} callback Callback function
+ * @example
+ * var m_fps = require("fps");
+ * var m_scenes = require("scenes");
+ *
+ * var character = m_scenes.get_first_character();
+ * var state_changing_cb = function(old_state_id, new_state_id) {
+ *     console.log(old_state_id, new_state_id);  
+ * }
+ * m_fps.set_character_state_changing_cb(m_fps.CS_WALK, state_changing_cb);
+ */
+exports.set_character_state_changing_cb = function(state_id, callback) {
+    var sm = _character_sm;
+    set_state_machine_node_after_cb(sm, state_id, callback);
+}
+/**
+ * Set character's camera smooth behaviour
+ * @method module:fps.set_cam_smooth_factor
+ * @param {Number} value Smooth factor
+ * @example
+ * var m_fps = require("fps");
+ * m_fps.set_cam_smooth_factor(0.2);
+ */
+exports.set_cam_smooth_factor = function(value) {
+    m_ctl.set_plock_smooth_factor(value);
+    set_smooth_factor(value);
+}
+/**
+ * Set character's camera mouse sensitivity
+ * @method module:fps.set_cam_sensitivity
+ * @param {Number} value Sensitivity
+ * @example
+ * var m_fps = require("fps");
+ * m_fps.set_cam_sensitivity(80);
+ */
+exports.set_cam_sensitivity = set_cam_sensitivity;
+/**
+ * Set pointerlock callback function, which is called when pointerlock is enabled
+ * @method module:fps.set_plock_enable_cb
+ * @param {PlockCallback} callback Callback function
+ * @example
+ * var m_fps = require("fps");
+ *
+ * var cb = function(element) {
+ *     console.log("pointerlock is enabled");  
+ * }
+ * m_fps.set_plock_enable_cb(cb);
+ */
+exports.set_plock_enable_cb = function(callback) {
+    _plock_cb.enable_cb = callback;
+}
+/**
+ * Set pointerlock callback function, which is called when pointerlock is disabled
+ * @method module:fps.set_plock_disable_cb
+ * @param {PlockCallback} callback Callback function
+ * @example
+ * var m_fps = require("fps");
+ *
+ * var cb = function(element) {
+ *     console.log("pointerlock is disabled");  
+ * }
+ * m_fps.set_plock_disable_cb(cb);
+ */
+exports.set_plock_disable_cb = function(callback) {
+    _plock_cb.disable_cb = callback;
+}
+/**
+ * Get character's current state.
+ * @method module:fps.get_character_state
+ * @returns {CharacterState} state Character's current state
+ * var m_fps = require("fps");
+ *
+ * var curr_state = m_fps.get_character_state();
+ * if (curr_state == m_fps.CS_RUN) 
+ *     console.log("Character is running");
+ */
+exports.get_character_state = function() {
+    return get_state_machine_state(_character_sm).id;
+}
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:45 GMT+0300 (MSK))
+    <a href="https://www.blend4web.com">www.blend4web.com</a>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function() {
+    if (window.document.domain != "www.blend4web.com")
+      return;
+
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter24512171 = new Ya.Metrika({
+                    id:24512171,
+                    clickmap:false,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  })();
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/24512171" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -89,8 +89,6 @@ function create_render(type) {
         dof_foreground_blur : false,
         dof_object: null,
 
-        underwater: false,
-
         horizontal_limits: null,
         vertical_limits: null,
         distance_limits: null,
@@ -135,7 +133,6 @@ function create_render(type) {
         dynamic_grass: false,
         do_not_cull: false,
         hide: false,
-        last_lod: false,
         selectable: false,
         origin_selectable: false,
         outlining: false,
@@ -153,7 +150,11 @@ function create_render(type) {
         detail_bending_amp: 0,
         branch_bending_amp: 0,
         main_bend_col: "",
-        detail_bend_col: null,
+        detail_bend_col: {
+            leaves_stiffness: "",
+            leaves_phase: "",
+            overall_stiffness: ""
+        },
         bend_center_only: false,
 
         // billboarding properties
@@ -164,7 +165,6 @@ function create_render(type) {
 
         // animation properties
         frame_factor: 0,
-        time: 0,
         va_frame: 0,
         va_frame_factor: 0,
         max_bones: 0,
@@ -206,7 +206,9 @@ function create_render(type) {
         bcon_local: null,
 
         use_batches_boundings: true,
-        use_be: false
+        use_be: false,
+
+        pass_index: 0
     }
 
     // setting default values
@@ -294,7 +296,6 @@ exports.clone_render = function(render) {
     out.dynamic_grass = render.dynamic_grass;
     out.do_not_cull = render.do_not_cull;
     out.hide = render.hide;
-    out.last_lod = render.last_lod;
     out.selectable = render.selectable;
     out.origin_selectable = render.origin_selectable;
     out.outlining = render.outlining;
@@ -311,6 +312,7 @@ exports.clone_render = function(render) {
     out.detail_bending_amp = render.detail_bending_amp;
     out.branch_bending_amp = render.branch_bending_amp;
     out.main_bend_col = render.main_bend_col;
+    // by link, doesn't matter
     out.detail_bend_col = render.detail_bend_col;
     out.bend_center_only = render.bend_center_only;
 
@@ -320,7 +322,6 @@ exports.clone_render = function(render) {
     out.billboard_spherical = render.billboard_spherical;
 
     out.frame_factor = render.frame_factor;
-    out.time = render.time;
     out.va_frame = render.va_frame;
     out.va_frame_factor = render.va_frame_factor;
     out.max_bones = render.max_bones;
@@ -359,6 +360,9 @@ exports.clone_render = function(render) {
     out.bcon_local = m_util.clone_object_r(render.bcon_local);
 
     out.use_batches_boundings = render.use_batches_boundings;
+    out.use_be = render.use_be;
+
+    out.pass_index = render.pass_index;
 
     return out;
 }
@@ -712,7 +716,7 @@ exports.check_inv_zup_tsr_is_needed = function(obj) {
             var dirs = batches[j].shaders_info.directives;
             for (var k = 0; k < dirs.length; k++) {
                 var dir = dirs[k];
-                if (dir[0] == "USE_MODEL_MATRIX_INVERSE" && dir[1] == "1")
+                if (dir[0] == "USE_MODEL_TSR_INVERSE" && dir[1] == "1")
                     return true;
             }
        }

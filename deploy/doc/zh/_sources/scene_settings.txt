@@ -492,11 +492,10 @@ Anchor 可见性检测设置。
 *只渲染反射*
    在渲染的反射时 *只* 渲染天空。
 
-*World Background*
-   Enables and disables "World Background" option (located under the
-   "Display" tab of the "3D View" panel). When this option is
-   activated, background colors are rendered in the viewport window
-   the same way they would be in the engine itself.
+*世界背景*
+   启用和禁用  "世界背景" （位于   "3D View" 面板下的 "Display" 选项卡
+   ）。当激活此选项，则背景颜色在视区窗口中渲染的方式跟在引擎里面渲染
+   是一样的。
 
 
 天光照明

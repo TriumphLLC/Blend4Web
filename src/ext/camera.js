@@ -61,6 +61,7 @@ var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
 var m_vec4     = require("__vec4");
+var m_quat     = require("__quat");
 
 var cfg_ctl = m_cfg.controls;
 
@@ -68,6 +69,7 @@ var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec4_tmp = new Float32Array(4);
+var _quat_tmp = m_quat.create();
 var _mat3_tmp = new Float32Array(9);
 var _limits_tmp = {};
 var _limits_tmp2 = {};
@@ -1735,6 +1737,36 @@ exports.get_camera_angles_char = function(camobj, dest) {
 
     dest = dest || new Float32Array(2);
     m_cam.get_camera_angles_char(camobj, dest);
+    return dest;
+}
+
+/**
+ * Get the angles of horizontal (azimuth) and vertical (elevation) rotation
+ * (CCW as seen from the rotation axis) of the TARGET/HOVER camera, or the
+ * analogous orientation angles of the EYE camera from the given direction 
+ * representing the view vector of the camera, which up vector is vertically aligned.
+ * @see https://www.blend4web.com/doc/en/camera.html#camera-spherical-coordinates
+ * @method module:camera.get_camera_angles_dir
+ * @param {Vec3} dir Direction representing the view vector of the camera.
+ * @param {?Vec2} [dest=new Float32Array(2);] Destination vector for the camera
+ * angles: [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].
+ * @returns {?Vec2} Destination vector for the camera angles: [phi, theta].
+ * @example
+ * var m_cam = require("camera");
+ * var m_vec3 = require("vec3");
+ *
+ * var view_vec = m_vec3.fromValues(10, 5, -3);
+ * var angles = new Float32Array(2);
+ * m_cam.get_camera_angles_dir(view_vec, angles);
+ * var phi = angles[0], theta = angles[1];
+ */
+exports.get_camera_angles_dir = function(dir, dest) {
+    dest = dest || new Float32Array(2);
+
+    var dir_norm = m_vec3.normalize(dir, _vec3_tmp);
+    var quat = m_util.rotation_to_stable(m_util.AXIS_MZ, dir_norm, _quat_tmp);
+    m_util.correct_cam_quat_up(quat, true);
+    m_cam.get_camera_angles_from_quat(quat, dest);
     return dest;
 }
 

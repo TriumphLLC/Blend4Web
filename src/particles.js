@@ -221,7 +221,6 @@ exports.init_particles_data = function(batch, psystem, pmaterial) {
     if (pmaterial["use_nodes"] && psystem["settings"]["render_type"] == "BILLBOARD") {
         m_batch.set_batch_directive(batch, "NODES", 1);
         m_batch.set_batch_directive(batch, "PARTICLE_BATCH", 1);
-        batch.use_nodes = true;
         batch.has_nodes = true;
     }
 

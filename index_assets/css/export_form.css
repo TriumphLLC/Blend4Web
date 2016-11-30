@@ -1,103 +1,97 @@
 body {
-    padding: 20px;
+  padding: 20px;
 }
 
 h1 {
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    margin-bottom: 20px;
-    color: #002350;
-    font-family: Open Sans Semibold;
-    font-size: 24px;
-    font-weight: normal;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 20px;
+  color: #002350;
+  font-family: Open Sans Semibold;
+  font-size: 24px;
+  font-weight: normal;
 }
 
-
 label {
-    display: inline-block;
-    cursor: pointer;
-    color: rgba(0, 100, 200, 1.0);
-    /*border: 1px solid rgba(0, 100, 200, 0.5);*/
-    border-radius: 5px;
-    /*width: 40px;*/
-    /*height: 40px;*/
-    /*background-image: url(../img/upload.svg);*/
-    /*margin-bottom: 10px;*/
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+  display: inline-block;
+  cursor: pointer;
+  color: rgba(0, 100, 200, 1.0);
+  border-radius: 5px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 label:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 input[type=file] {
-    display: none;
+  display: none;
 }
 
 button {
-    background-color: transparent;
-    border: 0;
-    color: rgba(0, 100, 200, 1.0);
-    font-size: 16px;
-    cursor: pointer;
-    outline: 0;
-    display: block;
-    padding: 0;
-    padding: 10px;
-    border: 1px solid rgba(0, 100, 200, 0.5);
-    border-radius: 5px;
-    display: inline-block;
-    outline: 0;
-    line-height: 22px;
+  background-color: transparent;
+  border: 0;
+  color: rgba(0, 100, 200, 1.0);
+  font-size: 16px;
+  cursor: pointer;
+  outline: 0;
+  display: block;
+  padding: 0;
+  padding: 10px;
+  border: 1px solid rgba(0, 100, 200, 0.5);
+  border-radius: 5px;
+  display: inline-block;
+  outline: 0;
+  line-height: 22px;
 }
 
 button span {
-    font-family: Open Sans Light;
-    font-weight: bold;
+  font-family: Open Sans Light;
+  font-weight: bold;
 }
 
 input[type=text] {
-    border: 1px solid #c4e7f5;
-    border-radius: 4px;
+  border: 1px solid #c4e7f5;
+  border-radius: 4px;
 }
 
 button:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 table .project th, table .project td, th {
-    height: auto;
+  height: auto;
 }
 
 table .project th {
-    padding: 10px;
+  padding: 10px;
 }
 
 div.action_cont {
-    text-align: right;
+  text-align: right;
 }
 
 div.action_cont a {
-    font-family: Open Sans Light;
+  font-family: Open Sans Light;
 }
 
 p.create_hint {
-    text-align: right;
+  text-align: right;
 }
 
 #new_project,
 #help,
 #back_to_index,
 #show_hide_b4w {
-    padding: 10px;
-    border: 1px solid rgba(0, 100, 200, 0.5);
-    border-radius: 5px;
-    display: inline-block;
+  padding: 10px;
+  border: 1px solid rgba(0, 100, 200, 0.5);
+  border-radius: 5px;
+  display: inline-block;
 }
 
 button div,
@@ -106,70 +100,66 @@ label div,
 #back_to_index div,
 #help div,
 #show_hide_b4w div{
-    width: 20px;
-    height: 20px;
-    display: block;
-    float: left;
-    margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  display: block;
+  float: left;
+  margin-right: 5px;
+  background-size: 20px 20px;
 }
 
 button div {
-    background-image: url(../img/apply.svg);
+  background-image: url(../img/apply.png);
 }
 
 label div {
-    background-image: url(../img/upload.svg);
+  background-image: url(../img/upload.png);
 }
 
 #new_project div {
-    background-image: url(../img/new.svg);
+  background-image: url(../img/new.png);
 }
 
 #back_to_index div {
-    background-image: url(../img/back.svg);
+  background-image: url(../img/back.png);
 }
 
 #help div {
-    background-image: url(../img/help.svg);
+  background-image: url(../img/help.png);
 }
 
 #show_hide_b4w div {
-    background-image: url(../img/eye.svg);
+  background-image: url(../img/eye.png);
 }
 
 table {
-    width: 68%;
-    margin: auto;
+  width: 68%;
+  margin: auto;
 }
 
 td {
-    height: auto;
+  height: auto;
 }
-
 
 thead tr:first-child,
 thead tr:first-child th {
-    border: 0;
-    padding-bottom: 10px;
+  border: 0;
+  padding-bottom: 10px;
 }
 
 tbody tr:last-child,
 tbody tr:last-child td {
-    border-bottom: 0;
-    border-left: 0;
-    border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
 }
 
-
 th {
-    font-family: Open Sans Light;
+  font-family: Open Sans Light;
 }
 
 td:first-child {
-    padding: 10px;
-    width: 6%;
-    text-align: center;
+  padding: 10px;
+  width: 6%;
+  text-align: center;
 }
-
-
-

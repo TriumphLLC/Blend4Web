@@ -470,15 +470,35 @@ Currently, this application contains the following examples:
     * Camera Animation - procedural camera animation
     * Camera Move Styles - changing control modes for the camera
     * Canvas Texture - working with canvas textures
+    * Change Image - changing texture images on-the-fly
     * Custom Anchors - creating custom annotations
     * Dynamic Geometry - procedural geometry modification
+    * Gamepad - an example of controlling a character via gamepad
     * Gyro (Mobile Only) - working with mobile devices' gyroscopes
     * Instancing - copying scene objects in runtime
+    * Lines - procedural lines rendering
     * Material API - tweaking material properties and replacing objects' materials
     * Morphing - using shape keys
+    * Multitouch (Mobile Only) - using mobile devices multitouch sensor
+    * Pathfinding - an example of calculating paths and using navigation meshes
     * Ray Test - the usage of raycasting for obstacles detection
+    * Webcam - using media stream from a web camera
 
-The Code Snippets application is available at ``SDK/apps_dev/code_snippets/code_snippets_dev.html``. It can be also run by using a link in the ``index.html`` file located in the SDK root.
+The Code Snippets application is available at ``./apps_dev/code_snippets/code_snippets_dev.html``. It can be also run by using a link in the ``index.html`` file located in the SDK root.
+
+
+Loading Application Assets
+==========================
+
+To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at ``deploy/assets/my_project``.
+
+To load files (e.g by using :b4wref:`data.load()`) from this directory use the :b4wref:`config.get_std_assets_path()` method:
+
+.. code-block:: javascript
+
+    m_data.load(m_config.get_std_assets_path() + "my_project/my_project.json", load_cb);
+
+This way you ensure that your applications will find assets independently of the current development stage (developed, built or deployed).
 
 .. _event_model:
 
@@ -572,11 +592,16 @@ When the "Stone" object collides with any physical material of "TERRAIN" or "WAL
 SDK File Structure
 ==================
 
+
+**addons**
+    **blend4web**
+        Blender addon
+
 **apps_dev**
-    source code of the applications
+    SDK apps source code
 
     **code_snippets**
-        source files of the Blend4Web API usage demonstration application
+        source files of the Code Snippets application
 
         **scripts**
             Blend4Web API usage examples' source files
@@ -584,11 +609,35 @@ SDK File Structure
     **dairy_plant**
         source files of the Dairy Plant demo (available only in SDK Pro)
 
+    **demos_animation**
+        project files of the basic animation demos
+
+    **demos_environment**
+        project files of the basic environment demos
+
+    **demos_interactivity**
+        project files of the basic interactivity demos
+
+    **demos_materials**
+        project files of the basic materials demos
+
+    **demos_media**
+        project files of the basic media demos
+
+    **demos_particles**
+        project files of the basic particles demos
+
+    **demos_physics**
+        project files of the basic physics demos
+
+    **demos_postprocessing**
+        project files of the basic postprocessing demos
+
+    **farm**
+        source files of the Farm demo (available only in SDK Pro)
+
     **fashion**
         source files of the Fashion Show demo (available only in SDK Pro)
-
-    **firstperson**
-        source files of the Farm demo (available only in SDK Pro)
 
     **flight**
         source files of the Island demo
@@ -598,6 +647,12 @@ SDK File Structure
 
     **project.py**
         script for application developers
+
+    **space_disaster**
+        source files of the Space Disaster app
+
+    **tutorials**
+        source files of the Blend4Web tutorials
 
     **victory_day_2015**
         source files of the V-Day 70 greeting card
@@ -613,9 +668,6 @@ SDK File Structure
 
 **blender**
     source files of the Blender scenes
-
-**blender_scripts**
-    exporter and utility scripts for Blender
 
 **csrc**
     source code (in C) of the binary part of the engine exporter and of the other utilities
@@ -633,16 +685,16 @@ SDK File Structure
             Compiled engine files. Shared by all applications from SDK (hence the name).
 
     **assets** 
-        downloadable resources: scenes, textures and sounds
+        application assets: scenes, textures and sounds
 
     **doc**
         the current user manual in HTML format, built automatically from *doc_src*
 
-    **globals_detect**
-        utility code for detecting global variables
+    **webglreport**
+        WebGL report application
 
-    **tutorials**
-        source files for the tutorials
+**distfiles**
+    distribution builder lists
 
 **doc_src**
     source files of the current manual written in reST
@@ -654,16 +706,13 @@ SDK File Structure
     files with license texts
 
 **Makefile**
-    makefile for building the engine, the applications, the documentation and for deploying on a remote server (not available as a free version)
+    makefile for building the engine, the applications, and the documentation
 
 **README.rst**
     README file
 
 **scripts**
     scripts
-
-    **blend4web.lst**, **blend4web_sdk_free.lst** and **blend4web_sdk_pro.lst** (optional)
-        lists of the files for building distributions
 
     **check_resources.py**
         script for checking of and reporting about unused resources (images and sounds referenced by the exported files)
@@ -725,8 +774,11 @@ SDK File Structure
     **libs**
         source code of the libraries
 
+**tmp**
+    directory for temporary files (e.g. Fast Preview)
+
 **tools**
-    Various tools for building the engine, apps or convert resources
+    various tools for building the engine, apps or convert resources
 
     **converter_utils**
         binary builds of the tools for resource conversion

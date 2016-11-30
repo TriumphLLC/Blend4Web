@@ -17,7 +17,7 @@ Local Development Server
 
 Settings for the local development server can be found in :file:`File > User Preferences...` (hot keys :file:`Ctrl-Alt-U`). Here you can change the port number to be used to run the development server (6687 by default), and also enable its launching upon Blender startup. To do this, enable ``Run on Startup`` option in the add-on settings.
 
-.. image:: src_images/setup/server_setup.png
+.. image:: src_images/addon/addon_server_setup.png
    :align: center
    :width: 100%
 

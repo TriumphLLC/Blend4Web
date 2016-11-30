@@ -475,6 +475,79 @@ JS 回调
    或作为一个变量的一个链接（如果是启用了变量的参数）。
 
 
+Set Camera Move Style
+---------------------
+
+Can be used to change the move style of the selected camera.
+
+[图片]
+
+
+输入参数
+~~~~~~~~
+
+*上一个*
+   前一个节点。
+
+
+输出参数
+~~~~~~~~
+
+*下一个*
+   下一个节点。
+
+
+内部参数
+~~~~~~~~
+
+*相机*
+   This parameter specifies a camera to which the changes will be
+   applied.
+
+*New Camera Move Style*
+   This parameter specifies the new move style that the camera will
+   use. Four options are available: "Hover", "Eye", "Target" and
+   "Static".
+
+The following options are only available if the "New Camera Move
+Style" parameter is not set to "Static":
+
+*Translation*
+   Sets the camera translation velocity. This parameter is set to 1.0
+   by default.
+
+*旋转*
+   Sets the camera rotation velocity. This parameter is set to 1.0 by
+   default.
+
+*Zoom*
+   Sets the zoom velocity of the camera. Default value is 0.10.
+   Available only if the "New Camera Move Style" parameter is set to
+   either "Hover" or "Target".
+
+The following parameters are used to specify a target or a pivot point
+of the camera and are available only if the "New Camera Move Style"
+parameter is set to either "Hover" or "Target":
+
+*Use Object*
+   This parameter enables and disables using a scene object as
+   camera's target or pivot point (depending on the camera type). If
+   it is activated, a text field will appear to specify the object.
+   This parameter is disabled by default.
+
+If the "Use Object" parameter is disabled, the following three options
+become available:
+
+*x*
+   The "X" component of the camera's target/pivot pint.
+
+*y*
+   The "Y" component of the camera's target/pivot point.
+
+*z*
+   The "Z" component of the camera's target/pivot point.
+
+
 物体
 ====
 

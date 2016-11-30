@@ -104,7 +104,7 @@ Colors in Blend4Web are always stored in linear space, for more info check
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line124">line 124</a>
+        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line132">line 132</a>
     </li></ul></dd>
     
 
@@ -259,7 +259,7 @@ Colors in Blend4Web are always stored in linear space, for more info check
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line142">line 142</a>
+        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line150">line 150</a>
     </li></ul></dd>
     
 
@@ -576,7 +576,7 @@ Colors in Blend4Web are always stored in linear space, for more info check
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line199">line 199</a>
+        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -591,7 +591,9 @@ Colors in Blend4Web are always stored in linear space, for more info check
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// rgba(128, 128, 128, 0.5) converted to [0.219, 0.219, 0.219, 0.5]
+    <pre class="prettyprint"><code>var m_rgba = require("rgba");
+
+// rgba(128, 128, 128, 0.5) converted to [0.219, 0.219, 0.219, 0.5]
 var rgba_color = m_rgba.css_to_rgba(128, 128, 128, 0.5);</code></pre>
 
 
@@ -808,7 +810,7 @@ var rgba_color = m_rgba.css_to_rgba(128, 128, 128, 0.5);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line158">line 158</a>
+        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line166">line 166</a>
     </li></ul></dd>
     
 
@@ -965,7 +967,7 @@ var rgba_color = m_rgba.css_to_rgba(128, 128, 128, 0.5);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line221">line 221</a>
+        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line234">line 234</a>
     </li></ul></dd>
     
 
@@ -980,8 +982,11 @@ var rgba_color = m_rgba.css_to_rgba(128, 128, 128, 0.5);</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// [0.219, 0.219, 0.219, 0.5] converted to [128, 128, 128, 0.5]
-var color = m_rgba.rgba_to_css(m_rgba.from_values(0.219, 0.219, 0.219, 0.5));</code></pre>
+    <pre class="prettyprint"><code>var m_rgba = require("rgba");
+
+var rgba_color = m_rgba.from_values(0.219, 0.219, 0.219, 0.5);
+// [0.219, 0.219, 0.219, 0.5] converted to [128, 128, 128, 0.5]
+var color = m_rgba.rgba_to_css(rgba_color);</code></pre>
 
 
 </div>
@@ -1220,7 +1225,7 @@ var color = m_rgba.rgba_to_css(m_rgba.from_values(0.219, 0.219, 0.219, 0.5));</c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line178">line 178</a>
+        <a href="ext_rgb.js.html">ext/rgb.js</a>, <a href="ext_rgb.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -1251,13 +1256,13 @@ var color = m_rgba.rgba_to_css(m_rgba.from_values(0.219, 0.219, 0.219, 0.5));</c
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Oct 27 2016 16:42:35 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

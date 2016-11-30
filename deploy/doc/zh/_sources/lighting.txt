@@ -236,7 +236,7 @@ Blend4Web实现以下阴影渲染技术：级联阴影贴图（CSM）和软阴�
 
 [图片]
 
-*Render Shadows*
+*渲染阴影*
    启用和禁用阴影渲染。可设置 "ON"，"OFF" 和 "AUTO"。默认设置为 "AUTO"
    。
 

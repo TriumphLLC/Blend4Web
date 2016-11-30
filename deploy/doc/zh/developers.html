@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>对应用程序开发人员 &mdash; Blend4Web 16.10 用户手册</title>
+  <title>对应用程序开发人员 &mdash; Blend4Web 16.11 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.10 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
         <link rel="next" title="对于引擎开发者" href="developers_advanced.html"/>
         <link rel="prev" title="物理" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.10
+              v16.11
             </div>
           
         
@@ -131,6 +131,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#code-examples">示例代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-application-assets">Loading Application Assets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-driven-model">事件驱动模型</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sensors">传感器</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#example">示例</a></li>
@@ -207,15 +208,16 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#code-examples" id="id11">示例代码</a></li>
-<li><a class="reference internal" href="#event-driven-model" id="id12">事件驱动模型</a><ul>
-<li><a class="reference internal" href="#sensors" id="id13">传感器</a></li>
-<li><a class="reference internal" href="#example" id="id14">示例</a></li>
+<li><a class="reference internal" href="#loading-application-assets" id="id12">Loading Application Assets</a></li>
+<li><a class="reference internal" href="#event-driven-model" id="id13">事件驱动模型</a><ul>
+<li><a class="reference internal" href="#sensors" id="id14">传感器</a></li>
+<li><a class="reference internal" href="#example" id="id15">示例</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sdk-file-structure" id="id15">SDK文件结构</a></li>
-<li><a class="reference internal" href="#loading-local-resources" id="id16">加载本地资源</a></li>
-<li><a class="reference internal" href="#quality-profiles" id="id17">品质配置</a></li>
-<li><a class="reference internal" href="#non-fullscreen-web-apps" id="id18">非全屏Web应用程序</a></li>
+<li><a class="reference internal" href="#sdk-file-structure" id="id16">SDK文件结构</a></li>
+<li><a class="reference internal" href="#loading-local-resources" id="id17">加载本地资源</a></li>
+<li><a class="reference internal" href="#quality-profiles" id="id18">品质配置</a></li>
+<li><a class="reference internal" href="#non-fullscreen-web-apps" id="id19">非全屏Web应用程序</a></li>
 </ul>
 </li>
 </ul>
@@ -478,7 +480,7 @@
 <p><strong>Windows</strong></p>
 <p>用于MS Windows用户来说是不必要安装的，因为它们已经存在于SDK来安装这些软件包。</p>
 <p><strong>macOS</strong></p>
-<p>macOS users can install the <a class="reference external" href="http://www.brew.sh/">brew</a> package manager first and then install any missing packages.</p>
+<p>macOS 用户可以安装  <a class="reference external" href="http://www.brew.sh/">brew</a> 包管理器，然后再安装任何缺失的软件包。</p>
 <p>在安装软件包之前，使用这些命令安装的libpng和libjpeg的库：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; brew install libpng
 &gt; brew install libjpeg
@@ -587,7 +589,7 @@
 <p><code class="docutils literal"><span class="pre">PVRTC</span></code> 是另一种主要在 iOS 设备上使用的纹理压缩格式。在某些情况下它可以产生相同的纹理图像比其他 <code class="docutils literal"><span class="pre">DDS</span></code> 格式的小两倍。</p>
 <p>该格式具有由该引擎支持的两个压缩设置︰ 2-bpp （两位 / 像素） 和 4-bpp （四位 / 像素）。</p>
 <p>因为是 <code class="docutils literal"><span class="pre">DDS</span></code> 格式，纹理压缩算法 <code class="docutils literal"><span class="pre">PVRTC</span></code> 可能会在某些平台上不工作，特别是移动设备，因为使用这种压缩格式需要支持 <code class="docutils literal"><span class="pre">IMG_texture_compression_pvrtc</span></code>  WebGL 扩展。</p>
-<p>The PVRTC library and SDK are available for Windows, Linux and macOS systems alike. Installation packages can be downloaded from the <a class="reference external" href="https://community.imgtec.com/developers/powervr/">Power VR Insider</a> web page.</p>
+<p>PVRTC 库和 SDK，在 Windows、 Linux 和 macOS 系统相似。可以从 <a class="reference external" href="https://community.imgtec.com/developers/powervr/">Power VR Insider</a>  网页下载安装包。</p>
 <p>Blend4Web 引擎使用控制台 PVRTC 工具。若要使用它，你需要的路径添加到路径环境变量，类似于以下内容︰</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span> <span class="o">=</span> &lt;InstallDir&gt;<span class="se">\P</span>VRTexTool<span class="se">\C</span>LI<span class="se">\&lt;</span>PLATFORM&gt;<span class="se">\</span>
 </pre></div>
@@ -624,29 +626,44 @@
 </li>
 <li><p class="first">Canvas Texture -  用帆布质地的工作</p>
 </li>
+<li>Change Image - changing texture images on-the-fly</li>
 <li><p class="first">Custom Anchors -创建自定义的注解</p>
 </li>
 <li><p class="first">Dynamic Geometry -程序几何修改</p>
 </li>
+<li>Gamepad - an example of controlling a character via gamepad</li>
 <li><p class="first">Gyro (Mobile Only) -  与移动设备的陀螺仪工作</p>
 </li>
 <li><p class="first">Instancing - 复制现场运行时对象</p>
 </li>
+<li>Lines - procedural lines rendering</li>
 <li><p class="first">Material API - 调整材质的性能和替换对象的材质</p>
 </li>
 <li><p class="first">Morphing - 利用形状键</p>
 </li>
+<li>Multitouch (Mobile Only) - using mobile devices multitouch sensor</li>
+<li>Pathfinding - an example of calculating paths and using navigation meshes</li>
 <li><p class="first">Ray Test - 光线投射的障碍物检测使用</p>
 </li>
+<li>Webcam - using media stream from a web camera</li>
 </ul>
 </div></blockquote>
-<p>代码片段的应用在 <code class="docutils literal"><span class="pre">SDK/apps_dev/code_snippets/code_snippets_dev.html</span></code>. 它可以通过使用位于SDK根的 <code class="docutils literal"><span class="pre">index.html</span></code> 文件的链接也可以运行。</p>
+<p>The Code Snippets application is available at <code class="docutils literal"><span class="pre">./apps_dev/code_snippets/code_snippets_dev.html</span></code>. It can be also run by using a link in the <code class="docutils literal"><span class="pre">index.html</span></code> file located in the SDK root.</p>
+</div>
+<div class="section" id="loading-application-assets">
+<h2><a class="toc-backref" href="#id12">Loading Application Assets</a><a class="headerlink" href="#loading-application-assets" title="永久链接至标题">¶</a></h2>
+<p>To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at <code class="docutils literal"><span class="pre">deploy/assets/my_project</span></code>.</p>
+<p>To load files (e.g by using <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) from this directory use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a> method:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;my_project/my_project.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This way you ensure that your applications will find assets independently of the current development stage (developed, built or deployed).</p>
 </div>
 <div class="section" id="event-driven-model">
-<span id="event-model"></span><h2><a class="toc-backref" href="#id12">事件驱动模型</a><a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
+<span id="event-model"></span><h2><a class="toc-backref" href="#id13">事件驱动模型</a><a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
 <p>事件驱动模型提供一个通用接口描述的三维场景变化的状态。它简化了加工的物理事件和用户操作。</p>
 <div class="section" id="sensors">
-<span id="index-0"></span><h3><a class="toc-backref" href="#id13">传感器</a><a class="headerlink" href="#sensors" title="永久链接至标题">¶</a></h3>
+<span id="index-0"></span><h3><a class="toc-backref" href="#id14">传感器</a><a class="headerlink" href="#sensors" title="永久链接至标题">¶</a></h3>
 <p>事件驱动模型的基本单元是一个传感器。传感器是一种编程实体和只能是活动的（1，一种）或无效（0，零）。一些传感器可以携带可以在歧管的回调函数与对应的API接收一个有效载荷。例如，光线跟踪传感器（线传感器）提供的交点射线的相对长度。</p>
 <p id="index-1">用户不能直接通过外部 API控制传感器。相反，所有的传感器都必须存在于一个或多个集合-所谓的传感器流形。一个流形是与场景对象相关联的逻辑容器。它通过执行一个回调函数生成一组定义的传感器事件响应。要定义的流形，它须有以下信息 （请参见的 &#8216;controls.create_sensor_manifold&#8217; 功能描述 API 文档） ︰</p>
 <ul class="simple">
@@ -668,7 +685,7 @@
 <p>你可以阅读更多有关在  <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a> 模块文档引擎API。</p>
 </div>
 <div class="section" id="example">
-<h3><a class="toc-backref" href="#id14">示例</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">示例</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
 <p>让我们考虑到 insonify 任务被投掷的石头的影响。不同的媒体 （例如地形和墙）应产生独特的声音影响。有碰撞网格与Blender场景中的物理材质，材质的 id 是&#8221;地形&#8221;和&#8221;墙&#8221;。也是被抛在场景中的物理对象，该对象被命名为&#8221;石头&#8221;。</p>
 <p>让我们定义碰撞传感器的每个介质类型的声音产生。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// import the modules</span>
@@ -715,13 +732,19 @@
 </div>
 </div>
 <div class="section" id="sdk-file-structure">
-<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id15">SDK文件结构</a><a class="headerlink" href="#sdk-file-structure" title="永久链接至标题">¶</a></h2>
+<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id16">SDK文件结构</a><a class="headerlink" href="#sdk-file-structure" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
+<dt><strong>addons</strong></dt>
+<dd><dl class="first last docutils">
+<dt><strong>blend4web</strong></dt>
+<dd>Blender addon</dd>
+</dl>
+</dd>
 <dt><strong>apps_dev</strong></dt>
-<dd><p class="first">应用程序的源代码</p>
+<dd><p class="first">SDK apps source code</p>
 <dl class="last docutils">
 <dt><strong>code_snippets</strong></dt>
-<dd><p class="first">在Blend4Web API使用示范应用的源文件</p>
+<dd><p class="first">source files of the Code Snippets application</p>
 <dl class="last docutils">
 <dt><strong>scripts</strong></dt>
 <dd><p class="first last">Blend4Web API用法示例的源文件</p>
@@ -731,11 +754,27 @@
 <dt><strong>dairy_plant</strong></dt>
 <dd><p class="first last">乳品厂演示源文件（仅适用于SDK专业版）</p>
 </dd>
+<dt><strong>demos_animation</strong></dt>
+<dd>project files of the basic animation demos</dd>
+<dt><strong>demos_environment</strong></dt>
+<dd>project files of the basic environment demos</dd>
+<dt><strong>demos_interactivity</strong></dt>
+<dd>project files of the basic interactivity demos</dd>
+<dt><strong>demos_materials</strong></dt>
+<dd>project files of the basic materials demos</dd>
+<dt><strong>demos_media</strong></dt>
+<dd>project files of the basic media demos</dd>
+<dt><strong>demos_particles</strong></dt>
+<dd>project files of the basic particles demos</dd>
+<dt><strong>demos_physics</strong></dt>
+<dd>project files of the basic physics demos</dd>
+<dt><strong>demos_postprocessing</strong></dt>
+<dd>project files of the basic postprocessing demos</dd>
+<dt><strong>farm</strong></dt>
+<dd><p class="first last">农场演示源文件（仅适用于SDK专业版）</p>
+</dd>
 <dt><strong>fashion</strong></dt>
 <dd><p class="first last">时装秀演示源文件（仅适用于SDK专业版）</p>
-</dd>
-<dt><strong>firstperson</strong></dt>
-<dd><p class="first last">农场演示源文件（仅适用于SDK专业版）</p>
 </dd>
 <dt><strong>flight</strong></dt>
 <dd><p class="first last">岛演示的源文件</p>
@@ -746,6 +785,10 @@
 <dt><strong>project.py</strong></dt>
 <dd><p class="first last">脚本的应用程序开发人员</p>
 </dd>
+<dt><strong>space_disaster</strong></dt>
+<dd>source files of the Space Disaster app</dd>
+<dt><strong>tutorials</strong></dt>
+<dd>source files of the Blend4Web tutorials</dd>
 <dt><strong>victory_day_2015</strong></dt>
 <dd><p class="first last">胜利日70周年贺卡的源文件</p>
 </dd>
@@ -762,9 +805,6 @@
 </dd>
 <dt><strong>blender</strong></dt>
 <dd><p class="first last">Blender的场景源文件</p>
-</dd>
-<dt><strong>blender_scripts</strong></dt>
-<dd><p class="first last">Blender导出和实用工具脚本</p>
 </dd>
 <dt><strong>csrc</strong></dt>
 <dd><p class="first last">源代码（C语言）引擎出口的二进制部分和其他公用设施</p>
@@ -784,19 +824,16 @@
 </dl>
 </dd>
 <dt><strong>assets</strong></dt>
-<dd><p class="first last">可下载的资源：场景，纹理和声音</p>
-</dd>
+<dd>application assets: scenes, textures and sounds</dd>
 <dt><strong>doc</strong></dt>
 <dd><p class="first last">从自动生成的 HTML 格式的当前用户手册 * doc_src *</p>
 </dd>
-<dt><strong>globals_detect</strong></dt>
-<dd><p class="first last">用于检测全局变量实用代码</p>
-</dd>
-<dt><strong>tutorials</strong></dt>
-<dd><p class="first last">在教程源文件</p>
-</dd>
+<dt><strong>webglreport</strong></dt>
+<dd>WebGL report application</dd>
 </dl>
 </dd>
+<dt><strong>distfiles</strong></dt>
+<dd>distribution builder lists</dd>
 <dt><strong>doc_src</strong></dt>
 <dd><p class="first last">当前手册的源文件用reST格式书写</p>
 </dd>
@@ -807,17 +844,13 @@
 <dd><p class="first last">与许可证的文本文件</p>
 </dd>
 <dt><strong>Makefile</strong></dt>
-<dd><p class="first last">生成文件构建引擎、 应用程序、 文件和部署在远程服务器上 （不可作为一个免费的版本）</p>
-</dd>
+<dd>makefile for building the engine, the applications, and the documentation</dd>
 <dt><strong>README.rst</strong></dt>
 <dd><p class="first last">README文件</p>
 </dd>
 <dt><strong>scripts</strong></dt>
 <dd><p class="first">脚本</p>
 <dl class="last docutils">
-<dt><strong>blend4web.lst</strong>, <strong>blend4web_sdk_free.lst</strong> and <strong>blend4web_sdk_pro.lst</strong> (可选)</dt>
-<dd><p class="first last">构建发布文件列表</p>
-</dd>
 <dt><strong>check_resources.py</strong></dt>
 <dd><p class="first last">脚本的检查和未使用的资源报告（图像和声音通过导出的文件中引用）</p>
 </dd>
@@ -882,8 +915,10 @@
 </dd>
 </dl>
 </dd>
+<dt><strong>tmp</strong></dt>
+<dd>directory for temporary files (e.g. Fast Preview)</dd>
 <dt><strong>tools</strong></dt>
-<dd><p class="first">构建引擎，应用程序或转换资源的各种工具</p>
+<dd><p class="first">various tools for building the engine, apps or convert resources</p>
 <dl class="last docutils">
 <dt><strong>converter_utils</strong></dt>
 <dd><p class="first last">二进制构建的工具，资源转换</p>
@@ -915,12 +950,12 @@
 </dl>
 </div>
 <div class="section" id="loading-local-resources">
-<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id16">加载本地资源</a><a class="headerlink" href="#loading-local-resources" title="永久链接至标题">¶</a></h2>
+<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id17">加载本地资源</a><a class="headerlink" href="#loading-local-resources" title="永久链接至标题">¶</a></h2>
 <p>该引擎的渲染器是一个Web应用程序，当你在浏览器中查看HTML文件它就工作。初始化之后，资源（场景，纹理）加载。这个过程是受 <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">同源策略</a> 规则。这条规则特别规定从本地目录加载禁止。</p>
 <p>自15.02版，Blend4Web SDK包括  <a class="reference internal" href="addon.html#local-development-server"><span>开发服务器</span></a> 解决加载本地资源的问题。</p>
 </div>
 <div class="section" id="quality-profiles">
-<span id="quality-settings"></span><h2><a class="toc-backref" href="#id17">品质配置</a><a class="headerlink" href="#quality-profiles" title="永久链接至标题">¶</a></h2>
+<span id="quality-settings"></span><h2><a class="toc-backref" href="#id18">品质配置</a><a class="headerlink" href="#quality-profiles" title="永久链接至标题">¶</a></h2>
 <p>几个质量配置文件，以支持具有不同功能的平台上实现。</p>
 <blockquote>
 <div><ul class="simple">
@@ -958,7 +993,7 @@
 </div>
 </div>
 <div class="section" id="non-fullscreen-web-apps">
-<span id="canvas-nonfullscreen-coords"></span><h2><a class="toc-backref" href="#id18">非全屏Web应用程序</a><a class="headerlink" href="#non-fullscreen-web-apps" title="永久链接至标题">¶</a></h2>
+<span id="canvas-nonfullscreen-coords"></span><h2><a class="toc-backref" href="#id19">非全屏Web应用程序</a><a class="headerlink" href="#non-fullscreen-web-apps" title="永久链接至标题">¶</a></h2>
 <p>画布元件，开始执行渲染时，可改变相对于浏览器窗口的位置。这可能是由于一些操作在DOM树，或者作为页面滚动的结果，特别是用于非全屏web应用。</p>
 <p>在大多数情况下，这将不会影响该应用的任何的性能。然而，涉及到鼠标或触摸位置某些DOM事件可以携带不正确的信息。这是因为从相应的事件中获得的坐标是相对于浏览器窗口的原点测量，同时引擎的工作与Canvas元素本身（它的坐标原点位于左上角）的坐标空间。</p>
 <ol class="arabic simple">
@@ -1062,7 +1097,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-10-27.
+      最后更新于 2016-11-29.
 
     </p>
   </div>
@@ -1118,7 +1153,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.10',
+            VERSION:'v16.11',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

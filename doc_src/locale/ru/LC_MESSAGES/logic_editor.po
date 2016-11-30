@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-16 16:19+0300\n"
+"POT-Creation-Date: 2016-11-25 18:19+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -124,67 +124,67 @@ msgstr ""
 #: ../logic_editor.rst:70 ../logic_editor.rst:98 ../logic_editor.rst:130
 #: ../logic_editor.rst:159 ../logic_editor.rst:202 ../logic_editor.rst:253
 #: ../logic_editor.rst:285 ../logic_editor.rst:330 ../logic_editor.rst:367
-#: ../logic_editor.rst:398 ../logic_editor.rst:439 ../logic_editor.rst:468
-#: ../logic_editor.rst:495 ../logic_editor.rst:545 ../logic_editor.rst:580
-#: ../logic_editor.rst:615 ../logic_editor.rst:654 ../logic_editor.rst:692
-#: ../logic_editor.rst:733 ../logic_editor.rst:778 ../logic_editor.rst:822
-#: ../logic_editor.rst:878 ../logic_editor.rst:910 ../logic_editor.rst:942
-#: ../logic_editor.rst:999 ../logic_editor.rst:1034 ../logic_editor.rst:1066
-#: ../logic_editor.rst:1097 ../logic_editor.rst:1159
+#: ../logic_editor.rst:398 ../logic_editor.rst:436 ../logic_editor.rst:498
+#: ../logic_editor.rst:527 ../logic_editor.rst:554 ../logic_editor.rst:604
+#: ../logic_editor.rst:639 ../logic_editor.rst:674 ../logic_editor.rst:713
+#: ../logic_editor.rst:751 ../logic_editor.rst:792 ../logic_editor.rst:837
+#: ../logic_editor.rst:881 ../logic_editor.rst:937 ../logic_editor.rst:969
+#: ../logic_editor.rst:1001 ../logic_editor.rst:1058 ../logic_editor.rst:1093
+#: ../logic_editor.rst:1125 ../logic_editor.rst:1156 ../logic_editor.rst:1218
 msgid "Input Parameters"
 msgstr "Входные параметры"
 
-#: ../logic_editor.rst:72 ../logic_editor.rst:1074 ../logic_editor.rst:1173
+#: ../logic_editor.rst:72 ../logic_editor.rst:1133 ../logic_editor.rst:1232
 msgid "None."
 msgstr "Отсутствуют."
 
 #: ../logic_editor.rst:75 ../logic_editor.rst:104 ../logic_editor.rst:136
 #: ../logic_editor.rst:165 ../logic_editor.rst:208 ../logic_editor.rst:259
 #: ../logic_editor.rst:291 ../logic_editor.rst:336 ../logic_editor.rst:373
-#: ../logic_editor.rst:404 ../logic_editor.rst:445 ../logic_editor.rst:474
-#: ../logic_editor.rst:501 ../logic_editor.rst:551 ../logic_editor.rst:586
-#: ../logic_editor.rst:621 ../logic_editor.rst:660 ../logic_editor.rst:698
-#: ../logic_editor.rst:739 ../logic_editor.rst:784 ../logic_editor.rst:828
-#: ../logic_editor.rst:884 ../logic_editor.rst:916 ../logic_editor.rst:948
-#: ../logic_editor.rst:1005 ../logic_editor.rst:1040 ../logic_editor.rst:1072
-#: ../logic_editor.rst:1103 ../logic_editor.rst:1165
+#: ../logic_editor.rst:404 ../logic_editor.rst:442 ../logic_editor.rst:504
+#: ../logic_editor.rst:533 ../logic_editor.rst:560 ../logic_editor.rst:610
+#: ../logic_editor.rst:645 ../logic_editor.rst:680 ../logic_editor.rst:719
+#: ../logic_editor.rst:757 ../logic_editor.rst:798 ../logic_editor.rst:843
+#: ../logic_editor.rst:887 ../logic_editor.rst:943 ../logic_editor.rst:975
+#: ../logic_editor.rst:1007 ../logic_editor.rst:1064 ../logic_editor.rst:1099
+#: ../logic_editor.rst:1131 ../logic_editor.rst:1162 ../logic_editor.rst:1224
 msgid "Output Parameters"
 msgstr "Выходные параметры"
 
 #: ../logic_editor.rst:78 ../logic_editor.rst:139 ../logic_editor.rst:211
 #: ../logic_editor.rst:262 ../logic_editor.rst:294 ../logic_editor.rst:339
-#: ../logic_editor.rst:376 ../logic_editor.rst:407 ../logic_editor.rst:448
-#: ../logic_editor.rst:477 ../logic_editor.rst:504 ../logic_editor.rst:554
-#: ../logic_editor.rst:589 ../logic_editor.rst:624 ../logic_editor.rst:663
-#: ../logic_editor.rst:701 ../logic_editor.rst:742 ../logic_editor.rst:787
-#: ../logic_editor.rst:831 ../logic_editor.rst:887 ../logic_editor.rst:919
-#: ../logic_editor.rst:951 ../logic_editor.rst:1008 ../logic_editor.rst:1043
-#: ../logic_editor.rst:1106 ../logic_editor.rst:1168
+#: ../logic_editor.rst:376 ../logic_editor.rst:407 ../logic_editor.rst:445
+#: ../logic_editor.rst:507 ../logic_editor.rst:536 ../logic_editor.rst:563
+#: ../logic_editor.rst:613 ../logic_editor.rst:648 ../logic_editor.rst:683
+#: ../logic_editor.rst:722 ../logic_editor.rst:760 ../logic_editor.rst:801
+#: ../logic_editor.rst:846 ../logic_editor.rst:890 ../logic_editor.rst:946
+#: ../logic_editor.rst:978 ../logic_editor.rst:1010 ../logic_editor.rst:1067
+#: ../logic_editor.rst:1102 ../logic_editor.rst:1165 ../logic_editor.rst:1227
 msgid "*Next*"
 msgstr ""
 
 #: ../logic_editor.rst:78 ../logic_editor.rst:139 ../logic_editor.rst:211
 #: ../logic_editor.rst:262 ../logic_editor.rst:294 ../logic_editor.rst:339
-#: ../logic_editor.rst:376 ../logic_editor.rst:407 ../logic_editor.rst:448
-#: ../logic_editor.rst:477 ../logic_editor.rst:504 ../logic_editor.rst:554
-#: ../logic_editor.rst:589 ../logic_editor.rst:624 ../logic_editor.rst:663
-#: ../logic_editor.rst:701 ../logic_editor.rst:742 ../logic_editor.rst:787
-#: ../logic_editor.rst:831 ../logic_editor.rst:887 ../logic_editor.rst:919
-#: ../logic_editor.rst:951 ../logic_editor.rst:1008 ../logic_editor.rst:1043
-#: ../logic_editor.rst:1106 ../logic_editor.rst:1168
+#: ../logic_editor.rst:376 ../logic_editor.rst:407 ../logic_editor.rst:445
+#: ../logic_editor.rst:507 ../logic_editor.rst:536 ../logic_editor.rst:563
+#: ../logic_editor.rst:613 ../logic_editor.rst:648 ../logic_editor.rst:683
+#: ../logic_editor.rst:722 ../logic_editor.rst:760 ../logic_editor.rst:801
+#: ../logic_editor.rst:846 ../logic_editor.rst:890 ../logic_editor.rst:946
+#: ../logic_editor.rst:978 ../logic_editor.rst:1010 ../logic_editor.rst:1067
+#: ../logic_editor.rst:1102 ../logic_editor.rst:1165 ../logic_editor.rst:1227
 msgid "Next node."
 msgstr "Следующая нода."
 
 #: ../logic_editor.rst:81 ../logic_editor.rst:113 ../logic_editor.rst:142
 #: ../logic_editor.rst:174 ../logic_editor.rst:214 ../logic_editor.rst:265
 #: ../logic_editor.rst:297 ../logic_editor.rst:342 ../logic_editor.rst:379
-#: ../logic_editor.rst:410 ../logic_editor.rst:451 ../logic_editor.rst:480
-#: ../logic_editor.rst:507 ../logic_editor.rst:557 ../logic_editor.rst:592
-#: ../logic_editor.rst:627 ../logic_editor.rst:666 ../logic_editor.rst:704
-#: ../logic_editor.rst:745 ../logic_editor.rst:790 ../logic_editor.rst:834
-#: ../logic_editor.rst:890 ../logic_editor.rst:922 ../logic_editor.rst:954
-#: ../logic_editor.rst:1011 ../logic_editor.rst:1046 ../logic_editor.rst:1077
-#: ../logic_editor.rst:1109 ../logic_editor.rst:1171
+#: ../logic_editor.rst:410 ../logic_editor.rst:448 ../logic_editor.rst:510
+#: ../logic_editor.rst:539 ../logic_editor.rst:566 ../logic_editor.rst:616
+#: ../logic_editor.rst:651 ../logic_editor.rst:686 ../logic_editor.rst:725
+#: ../logic_editor.rst:763 ../logic_editor.rst:804 ../logic_editor.rst:849
+#: ../logic_editor.rst:893 ../logic_editor.rst:949 ../logic_editor.rst:981
+#: ../logic_editor.rst:1013 ../logic_editor.rst:1070 ../logic_editor.rst:1105
+#: ../logic_editor.rst:1136 ../logic_editor.rst:1168 ../logic_editor.rst:1230
 msgid "Internal Parameters"
 msgstr "Внутренние параметры"
 
@@ -211,25 +211,26 @@ msgstr "Позволяет отследить событие выбора как
 #: ../logic_editor.rst:101 ../logic_editor.rst:133 ../logic_editor.rst:162
 #: ../logic_editor.rst:205 ../logic_editor.rst:256 ../logic_editor.rst:288
 #: ../logic_editor.rst:333 ../logic_editor.rst:370 ../logic_editor.rst:401
-#: ../logic_editor.rst:442 ../logic_editor.rst:471 ../logic_editor.rst:498
-#: ../logic_editor.rst:548 ../logic_editor.rst:583 ../logic_editor.rst:618
-#: ../logic_editor.rst:657 ../logic_editor.rst:695 ../logic_editor.rst:736
-#: ../logic_editor.rst:781 ../logic_editor.rst:825 ../logic_editor.rst:881
-#: ../logic_editor.rst:913 ../logic_editor.rst:945 ../logic_editor.rst:1002
-#: ../logic_editor.rst:1037 ../logic_editor.rst:1069 ../logic_editor.rst:1100
-#: ../logic_editor.rst:1162
+#: ../logic_editor.rst:439 ../logic_editor.rst:501 ../logic_editor.rst:530
+#: ../logic_editor.rst:557 ../logic_editor.rst:607 ../logic_editor.rst:642
+#: ../logic_editor.rst:677 ../logic_editor.rst:716 ../logic_editor.rst:754
+#: ../logic_editor.rst:795 ../logic_editor.rst:840 ../logic_editor.rst:884
+#: ../logic_editor.rst:940 ../logic_editor.rst:972 ../logic_editor.rst:1004
+#: ../logic_editor.rst:1061 ../logic_editor.rst:1096 ../logic_editor.rst:1128
+#: ../logic_editor.rst:1159 ../logic_editor.rst:1221
 msgid "*Previous*"
 msgstr ""
 
 #: ../logic_editor.rst:101 ../logic_editor.rst:133 ../logic_editor.rst:162
 #: ../logic_editor.rst:205 ../logic_editor.rst:256 ../logic_editor.rst:288
 #: ../logic_editor.rst:333 ../logic_editor.rst:370 ../logic_editor.rst:401
-#: ../logic_editor.rst:442 ../logic_editor.rst:471 ../logic_editor.rst:498
-#: ../logic_editor.rst:548 ../logic_editor.rst:583 ../logic_editor.rst:618
-#: ../logic_editor.rst:657 ../logic_editor.rst:695 ../logic_editor.rst:736
-#: ../logic_editor.rst:781 ../logic_editor.rst:825 ../logic_editor.rst:881
-#: ../logic_editor.rst:913 ../logic_editor.rst:945 ../logic_editor.rst:1002
-#: ../logic_editor.rst:1037 ../logic_editor.rst:1069 ../logic_editor.rst:1100
+#: ../logic_editor.rst:439 ../logic_editor.rst:501 ../logic_editor.rst:530
+#: ../logic_editor.rst:557 ../logic_editor.rst:607 ../logic_editor.rst:642
+#: ../logic_editor.rst:677 ../logic_editor.rst:716 ../logic_editor.rst:754
+#: ../logic_editor.rst:795 ../logic_editor.rst:840 ../logic_editor.rst:884
+#: ../logic_editor.rst:940 ../logic_editor.rst:972 ../logic_editor.rst:1004
+#: ../logic_editor.rst:1061 ../logic_editor.rst:1096 ../logic_editor.rst:1128
+#: ../logic_editor.rst:1159
 msgid "Previous node."
 msgstr "Предыдущая нода."
 
@@ -263,9 +264,9 @@ msgstr ""
 "Этот параметр передаёт управление следующей ноде в случае, если не выбран"
 " ни один объект из списка."
 
-#: ../logic_editor.rst:116 ../logic_editor.rst:345 ../logic_editor.rst:454
-#: ../logic_editor.rst:483 ../logic_editor.rst:510 ../logic_editor.rst:560
-#: ../logic_editor.rst:595 ../logic_editor.rst:630 ../logic_editor.rst:669
+#: ../logic_editor.rst:116 ../logic_editor.rst:345 ../logic_editor.rst:513
+#: ../logic_editor.rst:542 ../logic_editor.rst:569 ../logic_editor.rst:619
+#: ../logic_editor.rst:654 ../logic_editor.rst:689 ../logic_editor.rst:728
 msgid "*Object*"
 msgstr ""
 
@@ -286,9 +287,11 @@ msgstr ""
 
 #: ../logic_editor.rst:123
 msgid "Make a delay (measured in seconds) before going to the next node."
-msgstr "Позволяет установить задержку (в секундах) перед выполнением следующей ноды."
+msgstr ""
+"Позволяет установить задержку (в секундах) перед выполнением следующей "
+"ноды."
 
-#: ../logic_editor.rst:145 ../logic_editor.rst:601
+#: ../logic_editor.rst:145 ../logic_editor.rst:660
 msgid "*Value*"
 msgstr ""
 
@@ -333,7 +336,7 @@ msgstr ""
 msgid "Condition is false."
 msgstr "Утверждение ложно."
 
-#: ../logic_editor.rst:184 ../logic_editor.rst:846
+#: ../logic_editor.rst:184 ../logic_editor.rst:905
 msgid "*Condition*"
 msgstr ""
 
@@ -367,7 +370,7 @@ msgid ""
 "second."
 msgstr "*Greater Than Or Equal* - первый операнд больше либо равен второму."
 
-#: ../logic_editor.rst:187 ../logic_editor.rst:802 ../logic_editor.rst:849
+#: ../logic_editor.rst:187 ../logic_editor.rst:861 ../logic_editor.rst:908
 msgid "*Operand1*"
 msgstr ""
 
@@ -380,7 +383,7 @@ msgstr ""
 "Может быть задан в самой ноде либо с помощью ссылки на одну из "
 "переменных."
 
-#: ../logic_editor.rst:190 ../logic_editor.rst:805 ../logic_editor.rst:852
+#: ../logic_editor.rst:190 ../logic_editor.rst:864 ../logic_editor.rst:911
 msgid "*Operand2*"
 msgstr ""
 
@@ -561,8 +564,8 @@ msgstr ""
 "NLA-анимации. Если параметр не активирован, нода будет возвращать текущий"
 " кадр таймлайна. Включено по умолчанию."
 
-#: ../logic_editor.rst:303 ../logic_editor.rst:563 ../logic_editor.rst:713
-#: ../logic_editor.rst:808 ../logic_editor.rst:858 ../logic_editor.rst:1052
+#: ../logic_editor.rst:303 ../logic_editor.rst:622 ../logic_editor.rst:772
+#: ../logic_editor.rst:867 ../logic_editor.rst:917 ../logic_editor.rst:1111
 msgid "*Destination*"
 msgstr ""
 
@@ -642,7 +645,7 @@ msgstr ""
 "*Loop* - анимация воспроизводится циклически до тех пор, пока не "
 "остановлена с помощью ноды ``Stop Animation``."
 
-#: ../logic_editor.rst:358 ../logic_editor.rst:896
+#: ../logic_editor.rst:358 ../logic_editor.rst:955
 msgid "*Do Not Wait*"
 msgstr ""
 
@@ -690,7 +693,7 @@ msgstr ""
 "Позволяет перемещать камеру, в том числе с плавной интерполяцией "
 "положения."
 
-#: ../logic_editor.rst:413
+#: ../logic_editor.rst:413 ../logic_editor.rst:451
 msgid "*Camera*"
 msgstr ""
 
@@ -698,7 +701,7 @@ msgstr ""
 msgid "A camera that will be moved."
 msgstr "Камера, которую необходимо переместить."
 
-#: ../logic_editor.rst:416 ../logic_editor.rst:522
+#: ../logic_editor.rst:416 ../logic_editor.rst:581
 msgid "*Location*"
 msgstr ""
 
@@ -718,7 +721,7 @@ msgstr ""
 msgid "The camera will point in the direction of this object after being moved."
 msgstr "Объект, в направлении которого камера будет развёрнута после перемещения."
 
-#: ../logic_editor.rst:422 ../logic_editor.rst:531 ../logic_editor.rst:566
+#: ../logic_editor.rst:422 ../logic_editor.rst:590 ../logic_editor.rst:625
 msgid "*Duration*"
 msgstr ""
 
@@ -735,51 +738,177 @@ msgstr ""
 "или с помощью ссылки на переменную (эта возможность появляется при "
 "активации параметра ``Variable``)."
 
-#: ../logic_editor.rst:425
+#: ../logic_editor.rst:427
+msgid "Set Camera Move Style"
+msgstr ""
+
+#: ../logic_editor.rst:429
+msgid "Can be used to change the move style of the selected camera."
+msgstr "Используется для задания нового режима перемещения камеры."
+
+#: ../logic_editor.rst:451
+msgid "This parameter specifies a camera to which the changes will be applied."
+msgstr "Камера, режим перемещения которой будет изменён."
+
+#: ../logic_editor.rst:454
+msgid "*New Camera Move Style*"
+msgstr ""
+
+#: ../logic_editor.rst:454
+msgid ""
+"This parameter specifies the new move style that the camera will use. "
+"Four options are available: ``Hover``, ``Eye``, ``Target`` and "
+"``Static``."
+msgstr ""
+"Задаёт новый режим перемещения выбранной камеры. Доступно четыре "
+"варианта: ``Hover``, ``Eye``, ``Target`` и ``Static``."
+
+#: ../logic_editor.rst:456
+msgid ""
+"The following options are only available if the ``New Camera Move Style``"
+" parameter is not set to ``Static``:"
+msgstr ""
+"Следующие параметры недоступны в том случае, если параметр ``New Camera "
+"Move Style`` имеет значение ``Static``:"
+
+#: ../logic_editor.rst:459
+msgid "*Translation*"
+msgstr ""
+
+#: ../logic_editor.rst:459
+msgid ""
+"Sets the camera translation velocity. This parameter is set to 1.0 by "
+"default."
+msgstr ""
+"Задаёт скорость перемещения камеры. Значение по умолчанию - 1.0."
+
+#: ../logic_editor.rst:462 ../logic_editor.rst:584
+msgid "*Rotation*"
+msgstr ""
+
+#: ../logic_editor.rst:462
+msgid ""
+"Sets the camera rotation velocity. This parameter is set to 1.0 by "
+"default."
+msgstr "Задаёт скорость поворота камеры. Значение по умолчанию - 1.0."
+
+#: ../logic_editor.rst:465
+msgid "*Zoom*"
+msgstr ""
+
+#: ../logic_editor.rst:465
+msgid ""
+"Sets the zoom velocity of the camera. Default value is 0.10. Available "
+"only if the ``New Camera Move Style`` parameter is set to either "
+"``Hover`` or ``Target``."
+msgstr ""
+"Задаёт скорость приближения и удаления камеры. Значение по умолчанию - "
+"0.10. Этот параметр доступен только в том случае, если параметр ``New "
+"Camera Move Style`` имеет значение ``Hover`` или ``Target``."
+
+#: ../logic_editor.rst:467
+msgid ""
+"The following parameters are used to specify a target or a pivot point of"
+" the camera and are available only if the ``New Camera Move Style`` "
+"parameter is set to either ``Hover`` or ``Target``:"
+msgstr ""
+"Следующие параметры используются для задания цели или точки привязки "
+"камеры. Они доступны только если параметр ``New Camera Move Style`` имеет"
+" значение ``Hover`` или ``Target``."
+
+#: ../logic_editor.rst:470
+msgid "*Use Object*"
+msgstr ""
+
+#: ../logic_editor.rst:470
+msgid ""
+"This parameter enables and disables using a scene object as camera's "
+"target or pivot point (depending on the camera type). If it is activated,"
+" a text field will appear to specify the object. This parameter is "
+"disabled by default."
+msgstr ""
+"Эта опция включает и выключает использования объекта сцены в качестве "
+"цели или точки привязки камеры (в зависимости от типа камеры). Если опция"
+" включена, появлвется текстовове поле для задания объекта. Эта опция "
+"деактивирована по умолчанию."
+
+#: ../logic_editor.rst:472
+msgid ""
+"If the ``Use Object`` parameter is disabled, the following three options "
+"become available:"
+msgstr ""
+"Если параметр ``Use Object`` деактивирован, становятся доступны следующие"
+" три опции:"
+
+#: ../logic_editor.rst:475
+msgid "*x*"
+msgstr ""
+
+#: ../logic_editor.rst:475
+msgid "The ``X`` component of the camera's target/pivot pint."
+msgstr "``X``-координата цели или точки привязки камеры."
+
+#: ../logic_editor.rst:478
+msgid "*y*"
+msgstr ""
+
+#: ../logic_editor.rst:478
+msgid "The ``Y`` component of the camera's target/pivot point."
+msgstr "``Y``-координата цели или точки привязки камеры."
+
+#: ../logic_editor.rst:481
+msgid "*z*"
+msgstr ""
+
+#: ../logic_editor.rst:481
+msgid "The ``Z`` component of the camera's target/pivot point."
+msgstr "``Z``-координата цели или точки привязки камеры."
+
+#: ../logic_editor.rst:484
 msgid "Object"
 msgstr ""
 
-#: ../logic_editor.rst:430
+#: ../logic_editor.rst:489
 msgid "Show Object"
 msgstr ""
 
-#: ../logic_editor.rst:432
+#: ../logic_editor.rst:491
 msgid "Can be used to show 3D objects."
 msgstr "Используется для отображения объектов."
 
-#: ../logic_editor.rst:454
+#: ../logic_editor.rst:513
 msgid "An object to show."
 msgstr "Объект, который нужно отобразить."
 
-#: ../logic_editor.rst:459
+#: ../logic_editor.rst:518
 msgid "Hide Object"
 msgstr ""
 
-#: ../logic_editor.rst:461
+#: ../logic_editor.rst:520
 msgid "Can be used to hide 3D objects."
 msgstr "Используется для скрытия объекта."
 
-#: ../logic_editor.rst:483
+#: ../logic_editor.rst:542
 msgid "An object to hide."
 msgstr "Объект, который нужно скрыть."
 
-#: ../logic_editor.rst:486
+#: ../logic_editor.rst:545
 msgid "Transform Object"
 msgstr ""
 
-#: ../logic_editor.rst:488
+#: ../logic_editor.rst:547
 msgid "Can be used to transform object’s location, size and rotation angles."
 msgstr "Используется для изменения координат, размеров и углов поворота объекта."
 
-#: ../logic_editor.rst:510
+#: ../logic_editor.rst:569
 msgid "An object that needs to be translated."
 msgstr "Объект, который нужно трансформировать."
 
-#: ../logic_editor.rst:519
+#: ../logic_editor.rst:578
 msgid "*Space*"
 msgstr ""
 
-#: ../logic_editor.rst:513
+#: ../logic_editor.rst:572
 msgid ""
 "This parameter defines the coordinate space that will be used to "
 "transform the object. It can have one of the following values:"
@@ -787,11 +916,11 @@ msgstr ""
 "Этот параметр определяет систему координат, которая будет использована "
 "для трансформации объекта. Может принимать одно из следующих значений:"
 
-#: ../logic_editor.rst:515
+#: ../logic_editor.rst:574
 msgid "``World`` - global coordinate space."
 msgstr "``World`` - глобальная система координат."
 
-#: ../logic_editor.rst:516
+#: ../logic_editor.rst:575
 msgid ""
 "``Parent`` - local coordinate system of the parent of the object "
 "specified by the ``Object`` parameter. Parent object's origin point is "
@@ -803,7 +932,7 @@ msgstr ""
 "используется как центр координат, а углы наклона задают направления "
 "координатных осей."
 
-#: ../logic_editor.rst:517
+#: ../logic_editor.rst:576
 msgid ""
 "``Local`` - local coordinate space of the selected object. Similar to the"
 " ``Parent`` coordinate space, but in this case, the origin point of the "
@@ -813,11 +942,11 @@ msgstr ""
 "системой координат родительского объекта, но в данном случае точка "
 "привязки самого объекта используется в качестве начала координат."
 
-#: ../logic_editor.rst:519
+#: ../logic_editor.rst:578
 msgid "Set to ``World`` by default."
 msgstr "Значение по умолчанию - ``World``."
 
-#: ../logic_editor.rst:522
+#: ../logic_editor.rst:581
 msgid ""
 "How the object will move along the ``X``, ``Y`` and ``Z`` axes. By "
 "default, all three parameters are set to zero. Values can be specified in"
@@ -828,11 +957,7 @@ msgstr ""
 "значения равны нулю. Значения могут быть заданы в самой ноде либо с "
 "помощью переменной (если включена опция ``Variable``)."
 
-#: ../logic_editor.rst:525
-msgid "*Rotation*"
-msgstr ""
-
-#: ../logic_editor.rst:525
+#: ../logic_editor.rst:584
 msgid ""
 "Object’s rotation around the ``X``, ``Y`` and ``Z`` axes. All three "
 "values are set to zero by default. Can be specified directly in the node "
@@ -842,11 +967,11 @@ msgstr ""
 "три угла равны нулю. Значения могут быть заданы непосредственно в ноде "
 "или через переменные (в том случае, если включена опция ``Variable``)."
 
-#: ../logic_editor.rst:528
+#: ../logic_editor.rst:587
 msgid "*Scale*"
 msgstr ""
 
-#: ../logic_editor.rst:528
+#: ../logic_editor.rst:587
 msgid ""
 "Object’s size. Can be specified directly or through a variable (if the "
 "``Variable`` parameter is enabled). Set to 1 by default."
@@ -854,7 +979,7 @@ msgstr ""
 "Масштаб объекта. Может быть задан напрямую или с помощью переменной (если"
 " включена опция ``Variable``). По умолчанию равен нулю."
 
-#: ../logic_editor.rst:531
+#: ../logic_editor.rst:590
 msgid ""
 "Time (in seconds) that the transformation will take. It can be specified "
 "both directly or with a variable (to do this, the ``Variable`` parameter "
@@ -864,19 +989,19 @@ msgstr ""
 "напрямую, так и посредством переменной (для этого должна быть включена "
 "опция ``Variable``). По умолчанию равно нулю."
 
-#: ../logic_editor.rst:536
+#: ../logic_editor.rst:595
 msgid "Move To"
 msgstr ""
 
-#: ../logic_editor.rst:538
+#: ../logic_editor.rst:597
 msgid "Can be used to move objects."
 msgstr "Позволяет перемещать объекты."
 
-#: ../logic_editor.rst:560
+#: ../logic_editor.rst:619
 msgid "An object that you need to move."
 msgstr "Объект, который требуется переместить."
 
-#: ../logic_editor.rst:563
+#: ../logic_editor.rst:622
 msgid ""
 "A target (another object or a light source, camera or anything else) to "
 "which the selected object will move. The object’s coordinated will be the"
@@ -886,7 +1011,7 @@ msgstr ""
 "объект. После того, как перемещение завершится, координаты объекта и цели"
 " будут совпадать."
 
-#: ../logic_editor.rst:566
+#: ../logic_editor.rst:625
 msgid ""
 "Time (in seconds) that the object will spend moving to the new location. "
 "By default, this parameter is set to zero (and in this case, the object "
@@ -899,27 +1024,27 @@ msgstr ""
 "назначения). Может быть задано как в самой ноде, так и с помощью "
 "переменной (если активирован параметр ``Variable``)."
 
-#: ../logic_editor.rst:571
+#: ../logic_editor.rst:630
 msgid "Apply Shape Key"
 msgstr ""
 
-#: ../logic_editor.rst:573
+#: ../logic_editor.rst:632
 msgid "Set the Shape Key factor."
 msgstr "Позволяет задать значение параметра Shape Key."
 
-#: ../logic_editor.rst:595
+#: ../logic_editor.rst:654
 msgid "An object that needs to be transformed."
 msgstr "Объект, к которому нужно применить трансформацию."
 
-#: ../logic_editor.rst:598
+#: ../logic_editor.rst:657
 msgid "*Shape Key*"
 msgstr ""
 
-#: ../logic_editor.rst:598
+#: ../logic_editor.rst:657
 msgid "Shape key that will be applied to the object."
 msgstr "Ключ формы, который нужно применить к объекту."
 
-#: ../logic_editor.rst:601
+#: ../logic_editor.rst:660
 msgid ""
 "How much the shape key will influence the object. This value can be set "
 "directly in the node or using a variable. The value should be between 0 "
@@ -929,25 +1054,25 @@ msgstr ""
 "задано в самой ноде или взято из переменной. Изменяется в пределах от 0 "
 "до 1."
 
-#: ../logic_editor.rst:606
+#: ../logic_editor.rst:665
 msgid "Outline"
 msgstr ""
 
-#: ../logic_editor.rst:608
+#: ../logic_editor.rst:667
 msgid "Controls object outlining effect."
 msgstr "Позволяет управлять эффектом обводки объекта."
 
-#: ../logic_editor.rst:630
+#: ../logic_editor.rst:689
 msgid ""
 "Any changes of the outline effect will be applied only to an object "
 "specified by this parameter."
 msgstr "Объект, эффект обводки которого требуется настроить."
 
-#: ../logic_editor.rst:637 ../logic_editor.rst:799 ../logic_editor.rst:843
+#: ../logic_editor.rst:696 ../logic_editor.rst:858 ../logic_editor.rst:902
 msgid "*Operation*"
 msgstr ""
 
-#: ../logic_editor.rst:633
+#: ../logic_editor.rst:692
 msgid ""
 "Specifies an operation that will be done to the object’s outline. This "
 "parameter can have one of the following values:"
@@ -955,23 +1080,23 @@ msgstr ""
 "Операция, которую следует произвести с обводкой объекта. Этот параметр "
 "может принимать одно из следующих значений:"
 
-#: ../logic_editor.rst:635
+#: ../logic_editor.rst:694
 msgid "*PLAY* enables outline animation"
 msgstr "*PLAY* - включает анимацию обводки"
 
-#: ../logic_editor.rst:636
+#: ../logic_editor.rst:695
 msgid "*STOP* disables it"
 msgstr "*STOP* - выключает её"
 
-#: ../logic_editor.rst:637
+#: ../logic_editor.rst:696
 msgid "*INTENSITY* can be used to set intensity of the object’s outline"
 msgstr "*INTENSITY* - позволяет настраивать интенсивность обводки"
 
-#: ../logic_editor.rst:640
+#: ../logic_editor.rst:699
 msgid "*Intensity*"
 msgstr ""
 
-#: ../logic_editor.rst:640
+#: ../logic_editor.rst:699
 msgid ""
 "Outline intensity. This parameter is only available if the ``Operation`` "
 "parameter is set to ``INTENSITY``. The value can be set manually or via "
@@ -982,11 +1107,11 @@ msgstr ""
 "быть задана численно или взята из переменной (для этого нужно "
 "активировать параметр ``Variable``)."
 
-#: ../logic_editor.rst:645
+#: ../logic_editor.rst:704
 msgid "Set Shader Node Param"
 msgstr ""
 
-#: ../logic_editor.rst:647
+#: ../logic_editor.rst:706
 msgid ""
 "Can be used to set the value for the shader node. Currently, only "
 "``Value`` and ``RGB`` nodes are supported."
@@ -994,23 +1119,23 @@ msgstr ""
 "Позволяет установить значение одного или нескольких параметров шейдерной "
 "ноды. В данный момент поддерживаются ноды ``Value`` и ``RGB``."
 
-#: ../logic_editor.rst:669
+#: ../logic_editor.rst:728
 msgid "An object that has material that needs to be edited."
 msgstr "Объект, материал которого нужно отредактировать."
 
-#: ../logic_editor.rst:672 ../logic_editor.rst:710 ../logic_editor.rst:716
+#: ../logic_editor.rst:731 ../logic_editor.rst:769 ../logic_editor.rst:775
 msgid "*Material*"
 msgstr ""
 
-#: ../logic_editor.rst:672
+#: ../logic_editor.rst:731
 msgid "Material that needs to be edited. It should use nodes."
 msgstr "Материал, параметры которого нужно изменить. Должен использовать ноды."
 
-#: ../logic_editor.rst:675
+#: ../logic_editor.rst:734
 msgid "*Node*"
 msgstr ""
 
-#: ../logic_editor.rst:675
+#: ../logic_editor.rst:734
 msgid ""
 "A node that has parameters that can be changed. For now, only ``Value`` "
 "and ``RGB`` nodes are supported."
@@ -1018,11 +1143,11 @@ msgstr ""
 "Нода, параметры которой нужно изменить. На данный момент поддерживаются "
 "только ноды ``Value`` и ``RGB``."
 
-#: ../logic_editor.rst:678
+#: ../logic_editor.rst:737
 msgid "*Parameters*"
 msgstr ""
 
-#: ../logic_editor.rst:678
+#: ../logic_editor.rst:737
 msgid ""
 "Editable parameters of the selected node. They can be set in the node "
 "itself or through the variables (if the ``Variable`` parameter is "
@@ -1033,51 +1158,51 @@ msgstr ""
 "указанных переменных (для этого нужно активировать параметр "
 "``Variable``)."
 
-#: ../logic_editor.rst:683
+#: ../logic_editor.rst:742
 msgid "Inherit Material"
 msgstr ""
 
-#: ../logic_editor.rst:685
+#: ../logic_editor.rst:744
 msgid "Copy attributes from one material to another."
 msgstr "Позволяет скопировать атрибуты одного материала на другой."
 
-#: ../logic_editor.rst:707
+#: ../logic_editor.rst:766
 msgid "*Source*"
 msgstr ""
 
-#: ../logic_editor.rst:707
+#: ../logic_editor.rst:766
 msgid "An object that has a material that will be inherited."
 msgstr "Объект, которому присвоен материал, который требуется скопировать."
 
-#: ../logic_editor.rst:710
+#: ../logic_editor.rst:769
 msgid "The material to inherit."
 msgstr "Материал, который требуется скопировать."
 
-#: ../logic_editor.rst:713
+#: ../logic_editor.rst:772
 msgid "An object that will inherit selected material."
 msgstr "Объект, которому требуется присвоить скопированный материал."
 
-#: ../logic_editor.rst:716
+#: ../logic_editor.rst:775
 msgid "The material that will be replaced by the inherited one."
 msgstr "Материал, который будет заменен скопированным материалом."
 
-#: ../logic_editor.rst:719
+#: ../logic_editor.rst:778
 msgid "Operations"
 msgstr ""
 
-#: ../logic_editor.rst:724
+#: ../logic_editor.rst:783
 msgid "Variable Store"
 msgstr ""
 
-#: ../logic_editor.rst:726
+#: ../logic_editor.rst:785
 msgid "Saves numerical or string value to a variable."
 msgstr "Сохраняет числовое или строковое значение в переменную."
 
-#: ../logic_editor.rst:748
+#: ../logic_editor.rst:807
 msgid "*Var. name.*"
 msgstr ""
 
-#: ../logic_editor.rst:748
+#: ../logic_editor.rst:807
 msgid ""
 "Name of the variable. Can be selected from the list of variables or "
 "specified manually (if the ``New variable`` parameter is enabled)."
@@ -1085,11 +1210,11 @@ msgstr ""
 "Имя переменной. Может быть выбрано из списка переменных либо задано "
 "самостоятельно (если включен параметр ``New variable``)."
 
-#: ../logic_editor.rst:751
+#: ../logic_editor.rst:810
 msgid "*Var. type*"
 msgstr ""
 
-#: ../logic_editor.rst:751
+#: ../logic_editor.rst:810
 msgid ""
 "Variable’s type. This parameter can have one of two values: ``Number`` "
 "(for numerical variables) and ``String`` (for string variables)."
@@ -1097,11 +1222,11 @@ msgstr ""
 "Тип переменной. Может иметь значения ``Number`` (численная переменная) и "
 "``String`` (строковая переменная)."
 
-#: ../logic_editor.rst:754
+#: ../logic_editor.rst:813
 msgid "*New Variable*"
 msgstr ""
 
-#: ../logic_editor.rst:754
+#: ../logic_editor.rst:813
 msgid ""
 "If this parameter is enabled, you can manually input a variable’s name "
 "and not just select one of the variables. This can be used to transfer "
@@ -1111,11 +1236,11 @@ msgstr ""
 "самостоятельно (а не выбрано из списка переменных). Может применяться для"
 " обмена данными с сервером."
 
-#: ../logic_editor.rst:761
+#: ../logic_editor.rst:820
 msgid "*Global*"
 msgstr ""
 
-#: ../logic_editor.rst:757
+#: ../logic_editor.rst:816
 msgid ""
 "Enabling this parameter makes the variable global. Available only if the "
 "``New Variable`` parameter has been enabled."
@@ -1123,11 +1248,11 @@ msgstr ""
 "Включение этого параметра делает переменную глобальной. Доступен только "
 "если выбран параметр ``New Variable``."
 
-#: ../logic_editor.rst:764
+#: ../logic_editor.rst:823
 msgid "*Num./Str.*"
 msgstr ""
 
-#: ../logic_editor.rst:764
+#: ../logic_editor.rst:823
 msgid ""
 "Numeric or string (depending on the ``Var. type`` parameter value) value "
 "of the variable."
@@ -1135,11 +1260,11 @@ msgstr ""
 "Численное либо строковое (в зависимости от значения параметра ``Var. "
 "type``) значение, присваиваемое переменной."
 
-#: ../logic_editor.rst:769
+#: ../logic_editor.rst:828
 msgid "Math Operation"
 msgstr ""
 
-#: ../logic_editor.rst:771
+#: ../logic_editor.rst:830
 msgid ""
 "Perform a math operation and store the result in the variables. Any of "
 "parameters (operands) can be either a numeric value or a variables."
@@ -1148,13 +1273,13 @@ msgstr ""
 "из параметров (операндов) может быть либо числовым значением, либо "
 "переменной."
 
-#: ../logic_editor.rst:793
+#: ../logic_editor.rst:852
 msgid "Mathematical operation. Can have one of the following types:"
 msgstr ""
 "Математическая операция, производимая над операндами. Может иметь один из"
 " следующих типов:"
 
-#: ../logic_editor.rst:795
+#: ../logic_editor.rst:854
 msgid ""
 "*Random* generates random value greater than the first operand and less "
 "than the second."
@@ -1162,23 +1287,23 @@ msgstr ""
 "*Random* - генерация случайной величины больше первого операнда и меньше "
 "второго."
 
-#: ../logic_editor.rst:796
+#: ../logic_editor.rst:855
 msgid "*Add* sums the operands."
 msgstr "*Add* - сумма операндов."
 
-#: ../logic_editor.rst:797
+#: ../logic_editor.rst:856
 msgid "*Multiply* multiplies the operands."
 msgstr "*Multiply* - произведение операндов."
 
-#: ../logic_editor.rst:798
+#: ../logic_editor.rst:857
 msgid "*Subtract* subtracts the second operand from the first."
 msgstr "*Subtract* - разность операндов."
 
-#: ../logic_editor.rst:799
+#: ../logic_editor.rst:858
 msgid "*Divide* divides first operand by the second."
 msgstr "*Divide* - частное операндов."
 
-#: ../logic_editor.rst:802
+#: ../logic_editor.rst:861
 msgid ""
 "First operand. It can be specified in the node or it can be a link to one"
 " of the variables (if the ``Variable`` parameter is enabled)."
@@ -1186,21 +1311,21 @@ msgstr ""
 "Первый операнд. Может представлять собой численное значение либо ссылку "
 "на одну из переменных (в случае, если активирован параметр ``Variable``)."
 
-#: ../logic_editor.rst:805
+#: ../logic_editor.rst:864
 msgid "Second operand. Works the same way as the first."
 msgstr "Второй операнд. Аналогичен первому."
 
-#: ../logic_editor.rst:808
+#: ../logic_editor.rst:867
 msgid ""
 "The result of the operation will be saved in the variable specified by "
 "this parameter."
 msgstr "Переменная, в которую помещается результат операции."
 
-#: ../logic_editor.rst:813
+#: ../logic_editor.rst:872
 msgid "String Operation"
 msgstr ""
 
-#: ../logic_editor.rst:815
+#: ../logic_editor.rst:874
 msgid ""
 "Can be used to perform an operation with two strings and save the result "
 "to a variable."
@@ -1208,7 +1333,7 @@ msgstr ""
 "Выполнить операцию над строковыми переменными и сохранить результат в "
 "переменную."
 
-#: ../logic_editor.rst:837
+#: ../logic_editor.rst:896
 msgid ""
 "An operation that you need to perform with two strings, which can have "
 "one of the following values:"
@@ -1216,11 +1341,11 @@ msgstr ""
 "Операция, которую нужно произвести над строками. Может иметь одно из "
 "следующих значений:"
 
-#: ../logic_editor.rst:839
+#: ../logic_editor.rst:898
 msgid "*Join* - joins two strings into one."
 msgstr "*Join* - объединить первую строку со второй."
 
-#: ../logic_editor.rst:840
+#: ../logic_editor.rst:899
 msgid ""
 "*Find* - writes the index of the first occurrence of the second string in"
 " the first string to the variable. If there is no occurrences, the value "
@@ -1232,13 +1357,13 @@ msgstr ""
 "Следует иметь в виду, что символы строки нумеруются, начиная с нуля, а не"
 " с единицы."
 
-#: ../logic_editor.rst:841
+#: ../logic_editor.rst:900
 msgid ""
 "*Replace* replaces first occurrence of the second string in the first "
 "string with the third one."
 msgstr "*Replace* - найти содержимое второй строки в первой и заменить третьей."
 
-#: ../logic_editor.rst:842
+#: ../logic_editor.rst:901
 msgid ""
 "*Split* splits the first string in two using the first occurrence of the "
 "second string as a splitting mark."
@@ -1246,7 +1371,7 @@ msgstr ""
 "*Split* - разделить первую строку на две части, используя первое "
 "вхождение вторй строки как маркер места разделения."
 
-#: ../logic_editor.rst:843
+#: ../logic_editor.rst:902
 msgid ""
 "*Compare* compares two strings. For this operation, you need to specify a"
 " logical condition. If this condition is met, a value of 1 will be "
@@ -1257,7 +1382,7 @@ msgstr ""
 "требуется определить логическое условие. Если условие выполняется, в "
 "``Destination`` будет будет записана единица, если нет - ноль."
 
-#: ../logic_editor.rst:846
+#: ../logic_editor.rst:905
 msgid ""
 "A logical condition to compare two strings. This parameter is available "
 "only if the ``Operation`` parameter is set to ``Compare``. Works the same"
@@ -1267,19 +1392,19 @@ msgstr ""
 "появляется только если параметр ``Operation`` имеет значение ``Compare``."
 " Аналогично параметру ``Condition`` ноды ``Conditional Jump``."
 
-#: ../logic_editor.rst:849
+#: ../logic_editor.rst:908
 msgid "The first string. Can be specified in the node itself or with a variable."
 msgstr "Первая строка. Может быть задана в самой ноде или с помощью переменной."
 
-#: ../logic_editor.rst:852
+#: ../logic_editor.rst:911
 msgid "The second string. Works the same way as the first."
 msgstr "Вторая строка. Аналогична первой."
 
-#: ../logic_editor.rst:855
+#: ../logic_editor.rst:914
 msgid "*Operand3*"
 msgstr ""
 
-#: ../logic_editor.rst:855
+#: ../logic_editor.rst:914
 msgid ""
 "This parameter is available only if the ``Operation`` parameter is set to"
 " ``Replace``. Can be used to specify the third string, which will replace"
@@ -1289,15 +1414,15 @@ msgstr ""
 "значение ``Replace``. Здесь задаётся строка, которой будет заменена "
 "вторая строка."
 
-#: ../logic_editor.rst:858
+#: ../logic_editor.rst:917
 msgid "A variable to save the operation’s result."
 msgstr "Переменная, в которую будет сохранён результат операции."
 
-#: ../logic_editor.rst:861
+#: ../logic_editor.rst:920
 msgid "*Destination2*"
 msgstr ""
 
-#: ../logic_editor.rst:861
+#: ../logic_editor.rst:920
 msgid ""
 "This parameter is available only if the ``Operation`` parameter is set to"
 " ``Split``. Specifies the variable to save the second half of the string "
@@ -1308,27 +1433,27 @@ msgstr ""
 " имеет значение ``Split``. Определяет переменную, в которую будет "
 "сохранена вторая половина разделённой строки."
 
-#: ../logic_editor.rst:864
+#: ../logic_editor.rst:923
 msgid "Sound"
 msgstr ""
 
-#: ../logic_editor.rst:869
+#: ../logic_editor.rst:928
 msgid "Play Sound"
 msgstr ""
 
-#: ../logic_editor.rst:871
+#: ../logic_editor.rst:930
 msgid "Can be used to play speaker’s sound."
 msgstr "Позволяет воспроизводить звук спикера."
 
-#: ../logic_editor.rst:893 ../logic_editor.rst:925
+#: ../logic_editor.rst:952 ../logic_editor.rst:984
 msgid "*Speaker*"
 msgstr ""
 
-#: ../logic_editor.rst:893
+#: ../logic_editor.rst:952
 msgid "A speaker that will be enabled."
 msgstr "Источник звука, который требуется активировать."
 
-#: ../logic_editor.rst:896
+#: ../logic_editor.rst:955
 msgid ""
 "If this parameter is enabled, the control will pass to the next node "
 "right after sound playback starts. If it isn’t enabled, the control will "
@@ -1338,27 +1463,27 @@ msgstr ""
 "сразу же после того, как началось воспроизведение звука. В противном "
 "случае это произойдёт только после того, как звук закончится."
 
-#: ../logic_editor.rst:901
+#: ../logic_editor.rst:960
 msgid "Stop Sound"
 msgstr ""
 
-#: ../logic_editor.rst:903
+#: ../logic_editor.rst:962
 msgid "Can be used to stop speaker’s sound."
 msgstr "Позволяет останавливать звук спикера."
 
-#: ../logic_editor.rst:925
+#: ../logic_editor.rst:984
 msgid "A speaker that will be turned off."
 msgstr "Источник звука, который нужно отключить."
 
-#: ../logic_editor.rst:928
+#: ../logic_editor.rst:987
 msgid "Network"
 msgstr ""
 
-#: ../logic_editor.rst:933
+#: ../logic_editor.rst:992
 msgid "Send Request"
 msgstr ""
 
-#: ../logic_editor.rst:935
+#: ../logic_editor.rst:994
 msgid ""
 "Send an HTTP GET request to the specified URL and save the respond’s "
 "fields a variable."
@@ -1366,31 +1491,31 @@ msgstr ""
 "Позволяет отправить HTTP GET запрос на указанный URL и поместить значения"
 " полей ответа в переменную."
 
-#: ../logic_editor.rst:962
+#: ../logic_editor.rst:1021
 msgid "*Method*"
 msgstr ""
 
-#: ../logic_editor.rst:957
+#: ../logic_editor.rst:1016
 msgid "Method of the request. Can have one of two values:"
 msgstr "Метод отправки запроса. Может иметь одно из двух значений:"
 
-#: ../logic_editor.rst:959
+#: ../logic_editor.rst:1018
 msgid "*GET* is used to request data from the server."
 msgstr "*GET* - отправляет запрос на получение данных с сервера."
 
-#: ../logic_editor.rst:960
+#: ../logic_editor.rst:1019
 msgid "*POST* is used to send data to the server."
 msgstr "*POST* - отправляет данные на сервер."
 
-#: ../logic_editor.rst:962
+#: ../logic_editor.rst:1021
 msgid "Set to ``GET`` by default."
 msgstr "Значение по умолчанию - ``GET``."
 
-#: ../logic_editor.rst:965 ../logic_editor.rst:1080
+#: ../logic_editor.rst:1024 ../logic_editor.rst:1139
 msgid "*Url*"
 msgstr ""
 
-#: ../logic_editor.rst:965
+#: ../logic_editor.rst:1024
 msgid ""
 "A web address to send request to. Set to “https://www.blend4web.com” by "
 "default."
@@ -1398,23 +1523,23 @@ msgstr ""
 "Адрес, на который следует отправить запрос. По умолчанию имеет значение "
 "\"https://www.blend4web.com\"."
 
-#: ../logic_editor.rst:968
+#: ../logic_editor.rst:1027
 msgid "*Response Params*"
 msgstr ""
 
-#: ../logic_editor.rst:968
+#: ../logic_editor.rst:1027
 msgid "Specifies the variable to save the data received from the server."
 msgstr "Задаёт переменную, в которую будут сохранены данные с сервера."
 
-#: ../logic_editor.rst:971
+#: ../logic_editor.rst:1030
 msgid "The data received from the server should look like this:"
 msgstr "Информация, полученная с сервера, должна иметь следующий вид:"
 
-#: ../logic_editor.rst:982
+#: ../logic_editor.rst:1041
 msgid "*Content-Type*"
 msgstr ""
 
-#: ../logic_editor.rst:982
+#: ../logic_editor.rst:1041
 msgid ""
 "Indicates the media type of the message content. Consists of a type and a"
 " subtype, for example: ``text/plain``. Set to ``Auto`` by default. Can be"
@@ -1424,11 +1549,11 @@ msgstr ""
 "``text/plain``. Значение по умолчанию - ``Auto``. Используется для "
 "переназначения заголовка HTTP-запроса."
 
-#: ../logic_editor.rst:985
+#: ../logic_editor.rst:1044
 msgid "*Request Params*"
 msgstr ""
 
-#: ../logic_editor.rst:985
+#: ../logic_editor.rst:1044
 msgid ""
 "Specifies the variable that contains a JSON object that will be sent to "
 "the server.  Available only if the ``Method`` parameter is set to "
@@ -1438,19 +1563,19 @@ msgstr ""
 "сервер. Этот параметр доступен только если параметр ``Method`` имеет "
 "значение ``POST``. Значение по умолчанию - ``R1``."
 
-#: ../logic_editor.rst:990
+#: ../logic_editor.rst:1049
 msgid "JSON"
 msgstr ""
 
-#: ../logic_editor.rst:992
+#: ../logic_editor.rst:1051
 msgid "This node can be used to encode and decode complex JSON objects."
 msgstr "Используется для кодирования и декодирования сложных JSON-объектов."
 
-#: ../logic_editor.rst:1014
+#: ../logic_editor.rst:1073
 msgid "*JSON*"
 msgstr ""
 
-#: ../logic_editor.rst:1014
+#: ../logic_editor.rst:1073
 msgid ""
 "A link to a JSON object that you need to decode or encode. Set to ``R1`` "
 "by default."
@@ -1458,11 +1583,11 @@ msgstr ""
 "Сcылка на JSON-объект, который нужно кодировать или декодировать. По "
 "умолчанию имеет значение ``R1``."
 
-#: ../logic_editor.rst:1017
+#: ../logic_editor.rst:1076
 msgid "*JSON Operation*"
 msgstr ""
 
-#: ../logic_editor.rst:1017
+#: ../logic_editor.rst:1076
 msgid ""
 "An operation you need to perform with the JSON object specified by the "
 "``JSON`` parameter. Can have one of two values: ``ENCODE`` to encode the "
@@ -1473,11 +1598,11 @@ msgstr ""
 "кодирует объект, ``PARSE`` декодирует его. Значение по умолчанию - "
 "``ENCODE``."
 
-#: ../logic_editor.rst:1020
+#: ../logic_editor.rst:1079
 msgid "*Members*"
 msgstr ""
 
-#: ../logic_editor.rst:1020
+#: ../logic_editor.rst:1079
 msgid ""
 "A list of variables that will be used to either store the decoded data or"
 " to encode a JSON object (depending on the value of the ``JSON "
@@ -1489,33 +1614,33 @@ msgstr ""
 "Operation``). Имена переменных всегда имеют вид ``var0``, ``var1`` и "
 "т.д., а количество переменных может быть настроено."
 
-#: ../logic_editor.rst:1025
+#: ../logic_editor.rst:1084
 msgid "Page Param"
 msgstr ""
 
-#: ../logic_editor.rst:1027
+#: ../logic_editor.rst:1086
 msgid "Allows to store any web page parameter in a given variable."
 msgstr ""
 "Позволяет сохранить произвольный параметр веб-страницы в выбранной "
 "переменной."
 
-#: ../logic_editor.rst:1049
+#: ../logic_editor.rst:1108
 msgid "*Param Name*"
 msgstr ""
 
-#: ../logic_editor.rst:1049
+#: ../logic_editor.rst:1108
 msgid "The name of the web page parameter."
 msgstr "Имя параметра веб-страницы."
 
-#: ../logic_editor.rst:1052
+#: ../logic_editor.rst:1111
 msgid "A variable that will be used to save the parameter."
 msgstr "Переменная, в которую следует сохранить параметр."
 
-#: ../logic_editor.rst:1057
+#: ../logic_editor.rst:1116
 msgid "Page Redirect"
 msgstr ""
 
-#: ../logic_editor.rst:1059
+#: ../logic_editor.rst:1118
 msgid ""
 "Can be used to redirect the browser to another page. This node always "
 "marks the end of the node tree and doesn’t have any output parameters."
@@ -1524,7 +1649,7 @@ msgstr ""
 "всегда находится в конце логической цепочки и не имеет выходных "
 "параметров."
 
-#: ../logic_editor.rst:1080
+#: ../logic_editor.rst:1139
 msgid ""
 "Web address of a page that will be opened. Set to "
 "“https://www.blend4web.com” by default."
@@ -1532,15 +1657,15 @@ msgstr ""
 "Адрес страницы, которя будет открыта. По умолчанию имеет значение "
 "\"https://www.blend4web.com\"."
 
-#: ../logic_editor.rst:1083
+#: ../logic_editor.rst:1142
 msgid "Debug"
 msgstr ""
 
-#: ../logic_editor.rst:1088
+#: ../logic_editor.rst:1147
 msgid "Console Print"
 msgstr ""
 
-#: ../logic_editor.rst:1090
+#: ../logic_editor.rst:1149
 msgid ""
 "This node prints variables’s values and additional text to the web "
 "browser console. It can be used for debug purposes."
@@ -1548,21 +1673,21 @@ msgstr ""
 "Позволяет выводить значения переменных и дополнительную информацию в "
 "консоли браузе. Может использоваться для отладки логики."
 
-#: ../logic_editor.rst:1112
+#: ../logic_editor.rst:1171
 msgid "*Message*"
 msgstr ""
 
-#: ../logic_editor.rst:1112
+#: ../logic_editor.rst:1171
 msgid "A message that will be printed to the console along with the values."
 msgstr ""
 "Сообщение, которые будет напечатано в консоли вместе со значениями "
 "переменных."
 
-#: ../logic_editor.rst:1115
+#: ../logic_editor.rst:1174
 msgid "<variable name>"
 msgstr "<имя переменной>"
 
-#: ../logic_editor.rst:1115
+#: ../logic_editor.rst:1174
 msgid ""
 "A variable that will be printed to the console. By default, a ``Console "
 "Print`` node has one such parameter, but you can add new and delete "
@@ -1573,15 +1698,15 @@ msgstr ""
 "имеется возможность создавать новые и удалять уже существующие (нода "
 "может и не иметь ни одного параметра этого типа)."
 
-#: ../logic_editor.rst:1118
+#: ../logic_editor.rst:1177
 msgid "Deprecated"
 msgstr ""
 
-#: ../logic_editor.rst:1121
+#: ../logic_editor.rst:1180
 msgid "Select (Deprecated)"
 msgstr ""
 
-#: ../logic_editor.rst:1124
+#: ../logic_editor.rst:1183
 msgid ""
 "Deprecated! Isn’t recommended to use. Instead, using a ``Switch Select`` "
 "node is recommended."
@@ -1589,7 +1714,7 @@ msgstr ""
 "Устарел! Не рекомендуется использовать! Взамен следует использовать ноду "
 "``Switch Select``"
 
-#: ../logic_editor.rst:1126
+#: ../logic_editor.rst:1185
 msgid ""
 "It is similar to the ``Select & Play`` node, except the transition "
 "happens instead of animation. This function allows to implement a "
@@ -1601,11 +1726,11 @@ msgstr ""
 "более сложную логику, поскольку появляется возможность распознавания "
 "результата выбора пользователя."
 
-#: ../logic_editor.rst:1129
+#: ../logic_editor.rst:1188
 msgid "Select & Play Timeline (Deprecated)"
 msgstr ""
 
-#: ../logic_editor.rst:1132 ../logic_editor.rst:1140
+#: ../logic_editor.rst:1191 ../logic_editor.rst:1199
 msgid ""
 "Deprecated! Isn’t recommended to use. Instead, using a combination of "
 "``Switch Select`` and ``Play Timeline`` nodes is recommended."
@@ -1613,7 +1738,7 @@ msgstr ""
 "Устарел! Не рекомендуется использовать! Взамен следует использовать "
 "комбинацию нод ``Switch Select`` и ``Play Timeline``."
 
-#: ../logic_editor.rst:1134
+#: ../logic_editor.rst:1193
 msgid ""
 "Wait until the user selects an object (on desktops - with a mouse click, "
 "on mobile devices - with a touch). If the object, which is specified in "
@@ -1627,11 +1752,11 @@ msgstr ""
 "аналогично ноде ``Play Timeline``, если же был выбран любой другой объект"
 " - немедленно передать управление следующей ноде."
 
-#: ../logic_editor.rst:1137
+#: ../logic_editor.rst:1196
 msgid "Select & Play Animation (Deprecated)"
 msgstr ""
 
-#: ../logic_editor.rst:1142
+#: ../logic_editor.rst:1201
 msgid ""
 "Wait until the user selects an object (on desktops - with a mouse click, "
 "on mobile devices - with a touch). If the object, which is specified in "
@@ -1645,15 +1770,15 @@ msgstr ""
 "аналогично ноде ``Play Animation``, если же был выбран любой другой "
 "объект - немедленно передать управление следующей ноде."
 
-#: ../logic_editor.rst:1145
+#: ../logic_editor.rst:1204
 msgid "Layout"
 msgstr ""
 
-#: ../logic_editor.rst:1150
+#: ../logic_editor.rst:1209
 msgid "Empty"
 msgstr ""
 
-#: ../logic_editor.rst:1152
+#: ../logic_editor.rst:1211
 msgid ""
 "This is a simple pass-through node that does not perform any operations "
 "on its own. It can be used to combine several logic threads into one or "
@@ -1664,15 +1789,15 @@ msgstr ""
 "нитей в одну или для того, чтобы сделать логическое дерево более простым "
 "для понимания."
 
-#: ../logic_editor.rst:1162
+#: ../logic_editor.rst:1221
 msgid "Previous node (or several nodes)."
 msgstr "Предыдущая нода (либо несколько нод)."
 
-#: ../logic_editor.rst:1178
+#: ../logic_editor.rst:1237
 msgid "Reroute"
 msgstr ""
 
-#: ../logic_editor.rst:1180
+#: ../logic_editor.rst:1239
 msgid ""
 "Logic Editor also has ``Reroute`` elements, the nodes that don’t do "
 "anything aside from passing the control to the next node or to the next "
@@ -1685,7 +1810,7 @@ msgstr ""
 "применяться для создания циклических структур или для того, чтобы сделать"
 " логическую цепочку более понятной и лёгкой для восприятия."
 
-#: ../logic_editor.rst:1182
+#: ../logic_editor.rst:1241
 msgid ""
 "Unlike the ``Empty`` node, ``Reroute`` element can only handle a single "
 "logic thread."
@@ -1693,7 +1818,7 @@ msgstr ""
 "В отличие от ноды ``Empty``, через элемент ``Reroute`` может проходить "
 "только одна логическая нить."
 
-#: ../logic_editor.rst:1189
+#: ../logic_editor.rst:1248
 msgid ""
 "Output parameter can’t be connected to the same node’s input parameter. "
 "If you need to do this (to make a cycle, for example), you should use "
@@ -1704,11 +1829,11 @@ msgstr ""
 "зациклить выполнение какой-либо операции), следует использовать "
 "``Reroute``."
 
-#: ../logic_editor.rst:1194
+#: ../logic_editor.rst:1253
 msgid "Debugging"
 msgstr "Отладка"
 
-#: ../logic_editor.rst:1196
+#: ../logic_editor.rst:1255
 msgid ""
 "For debugging purposes some nodes inside logic tree can be muted. To do "
 "that select the required node and press the ``M`` key. Muted nodes are "
@@ -1746,4 +1871,14 @@ msgstr ""
 
 #~ msgid "Logic Nodes"
 #~ msgstr "Логические ноды"
+
+#~ msgid ""
+#~ "Sets the camera translation velocity "
+#~ "(measured in meters per second). This"
+#~ " parameter is set to 1.0 by "
+#~ "default."
+#~ msgstr ""
+#~ "Задаёт скорость перемещения камеры (в "
+#~ "метрах в секунду). Значение по умолчанию"
+#~ " - 1.0."
 

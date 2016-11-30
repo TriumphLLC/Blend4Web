@@ -28,6 +28,8 @@
 
   * 示例代码
 
+  * Loading Application Assets
+
   * 事件驱动模型
 
     * 传感器
@@ -337,8 +339,7 @@ transparency (alpha)"  参数 。
 
 **macOS**
 
-macOS users can install the brew package manager first and then
-install any missing packages.
+macOS 用户可以安装  brew 包管理器，然后再安装任何缺失的软件包。
 
 在安装软件包之前，使用这些命令安装的libpng和libjpeg的库：
 
@@ -465,9 +466,8 @@ PVRTC 纹理压缩
 是移动设备，因为使用这种压缩格式需要支持
 "IMG_texture_compression_pvrtc"  WebGL 扩展。
 
-The PVRTC library and SDK are available for Windows, Linux and macOS
-systems alike. Installation packages can be downloaded from the Power
-VR Insider web page.
+PVRTC 库和 SDK，在 Windows、 Linux 和 macOS 系统相似。可以从 Power VR
+Insider  网页下载安装包。
 
 Blend4Web 引擎使用控制台 PVRTC 工具。若要使用它，你需要的路径添加到路
 径环境变量，类似于以下内容︰
@@ -517,22 +517,56 @@ SDK中包含的代码片段应用程序，它演示了如何使用引擎的功�
 
    * Canvas Texture -  用帆布质地的工作
 
+   * Change Image - changing texture images on-the-fly
+
    * Custom Anchors -创建自定义的注解
 
    * Dynamic Geometry -程序几何修改
+
+   * Gamepad - an example of controlling a character via gamepad
 
    * Gyro (Mobile Only) -  与移动设备的陀螺仪工作
 
    * Instancing - 复制现场运行时对象
 
+   * Lines - procedural lines rendering
+
    * Material API - 调整材质的性能和替换对象的材质
 
    * Morphing - 利用形状键
 
+   * Multitouch (Mobile Only) - using mobile devices multitouch
+     sensor
+
+   * Pathfinding - an example of calculating paths and using
+     navigation meshes
+
    * Ray Test - 光线投射的障碍物检测使用
 
-代码片段的应用在 "SDK/apps_dev/code_snippets/code_snippets_dev.html".
-它可以通过使用位于SDK根的 "index.html" 文件的链接也可以运行。
+   * Webcam - using media stream from a web camera
+
+The Code Snippets application is available at
+"./apps_dev/code_snippets/code_snippets_dev.html". It can be also run
+by using a link in the "index.html" file located in the SDK root.
+
+
+Loading Application Assets
+==========================
+
+To simplify project maintanance and server deployment always keep your
+application asset files (exported scenes, textures, sounds, etc)
+separate from other project files (JavaScript, CSS, HTML, etc). Inside
+your SDK this asset directory is located at
+"deploy/assets/my_project".
+
+To load files (e.g by using load()) from this directory use the
+get_std_assets_path() method:
+
+   m_data.load(m_config.get_std_assets_path() + "my_project/my_project.json", load_cb);
+
+This way you ensure that your applications will find assets
+independently of the current development stage (developed, built or
+deployed).
 
 
 事件驱动模型
@@ -635,11 +669,15 @@ id 是"地形"和"墙"。也是被抛在场景中的物理对象，该对象被�
 SDK文件结构
 ===========
 
+**addons**
+   **blend4web**
+      Blender addon
+
 **apps_dev**
-   应用程序的源代码
+   SDK apps source code
 
    **code_snippets**
-      在Blend4Web API使用示范应用的源文件
+      source files of the Code Snippets application
 
       **scripts**
          Blend4Web API用法示例的源文件
@@ -647,11 +685,35 @@ SDK文件结构
    **dairy_plant**
       乳品厂演示源文件（仅适用于SDK专业版）
 
+   **demos_animation**
+      project files of the basic animation demos
+
+   **demos_environment**
+      project files of the basic environment demos
+
+   **demos_interactivity**
+      project files of the basic interactivity demos
+
+   **demos_materials**
+      project files of the basic materials demos
+
+   **demos_media**
+      project files of the basic media demos
+
+   **demos_particles**
+      project files of the basic particles demos
+
+   **demos_physics**
+      project files of the basic physics demos
+
+   **demos_postprocessing**
+      project files of the basic postprocessing demos
+
+   **farm**
+      农场演示源文件（仅适用于SDK专业版）
+
    **fashion**
       时装秀演示源文件（仅适用于SDK专业版）
-
-   **firstperson**
-      农场演示源文件（仅适用于SDK专业版）
 
    **flight**
       岛演示的源文件
@@ -661,6 +723,12 @@ SDK文件结构
 
    **project.py**
       脚本的应用程序开发人员
+
+   **space_disaster**
+      source files of the Space Disaster app
+
+   **tutorials**
+      source files of the Blend4Web tutorials
 
    **victory_day_2015**
       胜利日70周年贺卡的源文件
@@ -676,9 +744,6 @@ SDK文件结构
 
 **blender**
    Blender的场景源文件
-
-**blender_scripts**
-   Blender导出和实用工具脚本
 
 **csrc**
    源代码（C语言）引擎出口的二进制部分和其他公用设施
@@ -696,16 +761,16 @@ SDK文件结构
          已编译引擎文件。从 SDK 的所有应用程序共享的 (因此名称)。
 
    **assets**
-      可下载的资源：场景，纹理和声音
+      application assets: scenes, textures and sounds
 
    **doc**
       从自动生成的 HTML 格式的当前用户手册 * doc_src *
 
-   **globals_detect**
-      用于检测全局变量实用代码
+   **webglreport**
+      WebGL report application
 
-   **tutorials**
-      在教程源文件
+**distfiles**
+   distribution builder lists
 
 **doc_src**
    当前手册的源文件用reST格式书写
@@ -717,18 +782,14 @@ SDK文件结构
    与许可证的文本文件
 
 **Makefile**
-   生成文件构建引擎、 应用程序、 文件和部署在远程服务器上 （不可作为一
-   个免费的版本）
+   makefile for building the engine, the applications, and the
+   documentation
 
 **README.rst**
    README文件
 
 **scripts**
    脚本
-
-   **blend4web.lst**, **blend4web_sdk_free.lst** and
-   **blend4web_sdk_pro.lst** (可选)
-      构建发布文件列表
 
    **check_resources.py**
       脚本的检查和未使用的资源报告（图像和声音通过导出的文件中引用）
@@ -790,8 +851,11 @@ SDK文件结构
    **libs**
       库的源代码
 
+**tmp**
+   directory for temporary files (e.g. Fast Preview)
+
 **tools**
-   构建引擎，应用程序或转换资源的各种工具
+   various tools for building the engine, apps or convert resources
 
    **converter_utils**
       二进制构建的工具，资源转换

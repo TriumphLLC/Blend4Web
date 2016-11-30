@@ -138,9 +138,18 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
 8) All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only ``Web Player JSON`` and ``Web Player HTML`` project types are available for this option.
 9) Project’s type. Several options are available:
 
-    * ``External`` - the project will use engine files in the ``deploy/apps/common/`` directory, only application files will be compiled. When the project is deployed, the ``deploy/apps/common/`` folder will be copied to the project directory;
-    * ``Copy`` - engine files will be directly copied from the ``deploy/apps/common/`` to the application folder. Only application files are compiled;
-    * ``Compile`` - engine sources are compiled with application scripts;
+    * ``External`` - Project Manager will use engine files in the ``deploy/apps/common/`` directory to run the project.
+
+        When the project is deployed, only application files will be compiled, while the ``deploy/apps/common/`` folder will be copied to the project directory.
+    
+        Use this option if you don't need to change engine files in any way;
+
+    * ``Copy`` - engine files will be directly copied from the ``deploy/apps/common/`` to the application folder.
+
+        When the project is deployed, only application files are compiled, while engine files are left intact (so you cannot modify the engine itself);
+    * ``Compile`` - engine sources are compiled with application scripts.
+
+        This option can be used to modify the code of the engine itself;
     * ``None`` - Project Manager will not copy the engine files to the application folder, nor will it perform any operations upon building the application. Application developers will have to manually perform everything they need;
     * ``Web Player JSON`` - json-file placed inside the project is run with the help of web-player inside SDK;
     * ``Web Player HTML`` - project is packed into single html-file, containing all required resources.
@@ -259,8 +268,8 @@ Project Parameters
 *Project Icon*
     The icon of the project.
 
-*Application*
-    Application's main JSON file.
+*Applications*
+    Project applications.
 
 *Engine Binding Type*
     The type of the project.
@@ -272,7 +281,7 @@ Project Parameters
     Project's config file.
 
 *Build Directory*
-    Project build folder.
+    Project build directory.
 
 *Blend Directory(s)*
     Directories where project's blend files are located.
@@ -286,14 +295,41 @@ Project Parameters
 *JavaScript Obfuscation Level*
     JavaScript optimization level.
 
-*JavaScript Compilation Ignore List*
-    The list of exceptions for the project's script compilation.
+*JS Compilation Pass-Through List*
+    The list of pass-through exceptions for the project's JavaScript files compilation.
 
-*CSS Compilation Ignore List*
-    The list of exceptions for the projects style sheets compilation.
+*CSS Compilation Pass-Through List*
+    The list of pass-through exceptions for the project's style sheets compilation.
 
-*Deployment Directory Assets Prefix*
-    The scene resource folder in the deployed application.
+*Build Ignore List*
+    The list of exceptions for project's builds.
+     
+*Deployment Assets Directory*
+    Directory where assets will be placed for deployed project.
+
+*Deployment Assets URL Prefix*
+    URL path prefix to assets directory inside deployed project as reported by :b4wref:`config.get_std_assets_path()`.
+
+*Deployment Ignore List*
+    The list of exceptions for project's deploy.
+
+.. _project_edit:
+
+Project Editing
+---------------
+
+A simple web-based interface for editing project files is available by the ``[edit]`` link beside the project's title.
+
+.. image:: src_images/project_manager/project_manager_edit_project.png
+   :align: center
+   :width: 100%
+
+The left part of the editor window contains a list of all ``.html``, ``.css`` and ``.js`` files from the project directory (``./apps_dev/<project_name>``), starting with the main project file ``.b4w_project``. The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.
+
+.. note::
+    This interface can only be used to edit files from developer version of a project, but not from the builded version.
+
+The ``Save File`` button that can be found at the bottom of the page is used for saving currently selected project file.
 
 .. _import_projects:
 
@@ -431,30 +467,31 @@ This app consists of 4 different directories.
 Additionally, the deploy command can create yet another directory, but it's usually placed outside of the SDK and its name and path depend on directory structure on the target server.
 
 
-``.b4w_project`` Configuration File
------------------------------------
+Project Configuration File (.b4w_project)
+-----------------------------------------
 
-If you did not use any arguments upon executing the *project.py* script, then they will be taken from the configuration file.
+Project configuration file includes all necessary information of your project, including name, metadata, directories, info for application building and deployment.
 
 ::
 
  [info]
- author = 
- name = 
- title = 
+ author = Blend4Web
+ name = myproject
+ title = MyProject
  icon = 
  
  [paths]
- assets_dirs = 
- blend_dirs = 
- blender_exec = 
- build_dir = 
+ assets_dirs = deploy/assets/myproject;
+ blend_dirs = blender/myproject;
+ blender_exec = blender
+ build_dir = deploy/apps/myproject
  deploy_dir = 
  
  [compile]
  apps = 
  css_ignore = 
  engine_type = external
+ ignore = 
  js_ignore = 
  optimization = simple
  use_physics = 
@@ -462,9 +499,103 @@ If you did not use any arguments upon executing the *project.py* script, then th
  version = 
  
  [deploy]
- assets_path_dest =
- assets_path_prefix = 
- remove_exist_ext_dir = 
+ assets_path_dest = assets
+ assets_path_prefix = assets
+ ignore = 
+ override = 
+
+
+This is a standard INI configuration file, which includes sections, properties and values.
+
+Section ``[info]``
+..................
+
+Contains project metadata:
+
+*author*
+    The name of the project's author or the title of the developer company.
+
+*name*
+    The name of the project.
+
+*title*
+    Project title as shown in the browser.
+
+*icon*
+    The icon of the project.
+
+Section ``[paths]``
+...................
+
+Containts project paths:
+
+*assets_dirs*
+    Directories where project's media assets are located.
+
+*blend_dirs*
+    Directories where project's blend files are located.
+
+*blender_exec*
+    Path to Blender executable.
+
+*build_dir*
+    Project build directory.
+
+*deploy_dir*
+    Project deployment directory.
+
+
+Section ``[compile]``
+.....................
+
+*apps*
+    Project applications.
+
+*css_ignore*
+    The list of pass-through exceptions for the project's style sheets compilation.
+
+*engine_type*
+    The type of the project.
+
+*ignore*
+    The list of exceptions for project's builds.
+
+*js_ignore*
+    The list of pass-through exceptions for the project's JavaScript files compilation.
+
+*optimization*
+    JavaScript optimization level.
+
+*use_physics*
+    Indicates whether your project will use physics or not. Default - use physics.
+
+*use_smaa_textures*
+    Indicates whether your project will use SMAA textures or not. Currently unused.
+
+*version*
+    Project version.
+
+
+Section ``[deploy]``
+....................
+
+*assets_path_dest*
+    Directory where assets will be placed for deployed project.
+
+*assets_path_prefix*
+    URL path prefix to assets directory inside deployed project as reported by :b4wref:`config.get_std_assets_path()`.
+
+*ignore*
+    The list of exceptions for project's deploy.
+
+*override*
+    Replace existing output directory during deployment phase. Use with caution.
+
+
+Section ``[url_params]``
+........................
+
+Optional section for Web Player projects. Contains :ref:`URL params <webplayer_attributes>` used to start project applications.
 
 
 Creating a Project
@@ -501,6 +632,7 @@ The .b4w_project file will look like::
  author = Blend4Web
  name = myproject
  title = MyProject
+ icon = 
  
  [paths]
  assets_dirs = deploy/assets/myproject;
@@ -513,6 +645,7 @@ The .b4w_project file will look like::
  apps = 
  css_ignore = 
  engine_type = external
+ ignore = 
  js_ignore = 
  optimization = simple
  use_physics = 
@@ -520,8 +653,10 @@ The .b4w_project file will look like::
  version = 
  
  [deploy]
- assets_path_prefix = 
- remove_exist_ext_dir = 
+ assets_path_dest = assets
+ assets_path_prefix = assets
+ ignore = 
+ override = 
 
 
 Developing multiple apps inside a project
@@ -560,8 +695,8 @@ Compiler Requirements
 * Scripts and styles can be stored in the app's root and in the subfolders
 
 
-Automatic Re-export
--------------------
+Automatic Blend File Export
+---------------------------
 
 .. code-block:: bash
 
@@ -663,14 +798,3 @@ The console will print the list of modules - copy them and paste into the main H
 
 To eliminate API incompatibilities you may require refactoring of your app. All changes are described in :ref:`release notes <release_notes>`.
 
-
-Path to Loaded Application Assets
----------------------------------
-
-To load .json-files you should use ``get_std_assets_path()`` method from the *config.js* module:
-
-.. code-block:: javascript
-
-    m_data.load(m_config.get_std_assets_path() + "example/example.json", load_cb);
-
-After building the finished app, the paths to assets will change. Thus, using ``get_std_assets_path()`` will allow you to avoid problems with incorrect paths.

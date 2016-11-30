@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-21 15:38+0300\n"
-"PO-Revision-Date: 2016-10-11 13:48+0800\n"
+"POT-Creation-Date: 2016-11-23 15:38+0300\n"
+"PO-Revision-Date: 2016-10-29 13:48+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -115,13 +115,12 @@ msgid "Building the Add-on"
 msgstr "构建插件"
 
 #: ../developers_advanced.rst:116
-#, fuzzy
 msgid ""
 "Binary Blend4Web addon builds are available for the following platforms: "
 "Linux x32/64, macOS x64, Windows x32/64. At the same time users can "
 "compile the addon by themselves."
 msgstr ""
-"二进制的Blend4Web插件版本是可用于以下平台：Linux的X32 / 64，Mac OS X版x64，Windows X32 / "
+"二进制的Blend4Web插件版本是可用于以下平台：Linux的X32 / 64，macOS的 x64，Windows X32 / "
 "64。同时用户可以自行编译插件。"
 
 #: ../developers_advanced.rst:118
@@ -142,7 +141,8 @@ msgid "build script: ``csrc/b4w_bin/build.py``"
 msgstr "构建脚本：``csrc/b4w_bin/build.py``"
 
 #: ../developers_advanced.rst:122
-msgid "Blend4Web addon: ``blender_scripts/addons/blend4web/``"
+#, fuzzy
+msgid "Blend4Web addon: ``addons/blend4web/``"
 msgstr "Blend4Web插件： ``blender_scripts/addons/blend4web/``"
 
 #: ../developers_advanced.rst:124

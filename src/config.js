@@ -176,6 +176,8 @@ exports.defaults = {
 
     msaa_samples               : 4,
 
+    compared_mode_depth        : false,
+
     safari_canvas_alpha_hack   : false,
 
     safari_glow_hack           : false,
@@ -612,6 +614,9 @@ function set(prop, value) {
     case "console_verbose":
         exports.defaults.console_verbose = value;
         break;
+    case "compositing":
+        exports.defaults.compositing = value;
+        break;
     case "dof":
         exports.defaults.dof = value;
         break;
@@ -764,6 +769,8 @@ exports.get = function(prop) {
         return exports.defaults.canvas_resolution_factor;
     case "console_verbose":
         return exports.defaults.console_verbose;
+    case "compositing":
+        return exports.defaults.compositing;
     case "dof":
         return exports.defaults.dof;
     case "do_not_load_resources":

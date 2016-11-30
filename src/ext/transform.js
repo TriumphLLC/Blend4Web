@@ -153,6 +153,15 @@ exports.set_translation_obj_rel = function(obj, x, y, z, obj_ref) {
  * @param {Object3D} obj Object 3D
  * @param {Vec3} [dest] Destination vector
  * @returns {Vec3} Destination vector
+ * @example 
+ * var m_scenes = require("scenes");
+ * var m_trans = require("transform");
+ * var m_vec3 = require("vec3");
+ * // precache 3D vector
+ * var _vec3_tmp = m_vec3.create();
+ * // ...
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * var translation = m_trans.get_translation(cube, _vec3_tmp);
  */
 exports.get_translation = function(obj, dest) {
     if (!dest)
@@ -259,6 +268,15 @@ exports.set_rotation_rel_v = function(obj, quat) {
  * @param {Object3D} obj Object 3D
  * @param {Quat} [opt_dest] Destination vector
  * @returns {Quat} Destination vector
+ * @example 
+ * var m_scenes = require("scenes");
+ * var m_trans = require("transform");
+ * var m_quat  = require("quat");
+ * // precache quaternion
+ * var _quat_tmp = m_quat.create();
+ * // ...
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * var rot_quat = m_trans.get_rotation(cube, _quat_tmp);
  */
 exports.get_rotation = function(obj, opt_dest) {
     if (!opt_dest)

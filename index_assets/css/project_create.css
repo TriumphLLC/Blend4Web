@@ -11,7 +11,7 @@ label {
     border-radius: 5px;
     /*width: 40px;*/
     /*height: 40px;*/
-    /*background-image: url(../img/upload.svg);*/
+    /*background-image: url(../img/upload.png);*/
     /*margin-bottom: 10px;*/
 }
 
@@ -140,30 +140,31 @@ label div,
     display: block;
     float: left;
     margin-right: 5px;
+    background-size: 20px 20px;
 }
 
 button div {
-    background-image: url(../img/apply.svg);
+    background-image: url(../img/apply.png);
 }
 
 label div {
-    background-image: url(../img/upload.svg);
+    background-image: url(../img/upload.png);
 }
 
 #new_project div {
-    background-image: url(../img/new.svg);
+    background-image: url(../img/new.png);
 }
 
 #back_to_index div {
-    background-image: url(../img/back.svg);
+    background-image: url(../img/back.png);
 }
 
 #help div {
-    background-image: url(../img/help.svg);
+    background-image: url(../img/help.png);
 }
 
 #show_hide_b4w div {
-    background-image: url(../img/eye.svg);
+    background-image: url(../img/eye.png);
 }
 
 tbody tr:last-child td:last-child,

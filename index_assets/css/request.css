@@ -11,7 +11,7 @@ label {
     border-radius: 5px;
     /*width: 40px;*/
     /*height: 40px;*/
-    /*background-image: url(../img/upload.svg);*/
+    /*background-image: url(../img/upload.png);*/
     /*margin-bottom: 10px;*/
 }
 
@@ -130,24 +130,25 @@ label div,
     width: 20px;
     height: 20px;
     display: block;
+    background-size: 20px 20px;
     float: left;
     margin-right: 5px;
 }
 
 button[type=submit] div {
-    background-image: url(../img/new.svg);
+    background-image: url(../img/new.png);
 }
 
 #new_project div {
-    background-image: url(../img/new.svg);
+    background-image: url(../img/new.png);
 }
 
 #back_to_index div {
-    background-image: url(../img/back.svg);
+    background-image: url(../img/back.png);
 }
 
 #show_hide_b4w div {
-    background-image: url(../img/eye.svg);
+    background-image: url(../img/eye.png);
 }
 
 tbody tr:last-child td:last-child,
@@ -188,9 +189,9 @@ h3 {
 }
 
 #back_to_projects div {
-    background-image: url(../img/back.svg);
+    background-image: url(../img/back.png);
 }
 
 #download div {
-    background-image: url(../img/download.svg);
+    background-image: url(../img/download.png);
 }

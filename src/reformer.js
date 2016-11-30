@@ -1628,6 +1628,10 @@ exports.check_bpy_data = function(bpy_data) {
             mat["diffuse_toon_smooth"] = 0.0;
             report("material", mat, "diffuse_toon_smooth");
         }
+        if (!("pass_index" in mat)) {
+            mat["pass_index"] = 0.0;
+            report("material", mat, "pass_index");
+        }
 
         var texture_slots = mat["texture_slots"];
         for (var j = 0; j < texture_slots.length; j++) {
@@ -2197,6 +2201,11 @@ exports.check_bpy_data = function(bpy_data) {
             report("object", bpy_obj, "b4w_cluster_data");
         }
 
+        if (!("pass_index" in bpy_obj)) {
+            bpy_obj["pass_index"] = 0.0;
+            report("object", bpy_obj, "pass_index");
+        }
+
         if (check_negative_scale(bpy_obj))
             report_raw("negative scale for object \"" + bpy_obj["name"] + "\", can lead to some errors");
 
@@ -2717,7 +2726,8 @@ exports.create_material = function(name) {
             "b4w_halo_stars_min_height": 0
         },
         "node_tree": null,
-        "texture_slots": []
+        "texture_slots": [],
+        "pass_index": 0
     }
 
     return mat;

@@ -174,7 +174,7 @@ Implements procedural animation for the camera.</div>
 
         
             
-<li> <a href="#.track_to_target">track_to_target<span class="signature">(cam_obj, target, rot_speed, zoom_mult, zoom_time, zoom_delay, callback<span class="signature-attributes">opt</span>, zoom_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.track_to_target">track_to_target<span class="signature">(cam_obj, target, rot_speed<span class="signature-attributes">opt, nullable</span>, zoom_mult<span class="signature-attributes">opt, nullable</span>, zoom_time<span class="signature-attributes">opt, nullable</span>, zoom_delay<span class="signature-attributes">opt, nullable</span>, track_cb<span class="signature-attributes">nullable</span>, zoom_in_cb<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></a></li>
 
         
         </ul>
@@ -410,7 +410,7 @@ while the next call will disable auto-rotation.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line321">line 321</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line237">line 237</a>
     </li></ul></dd>
     
 
@@ -520,7 +520,7 @@ possible, false - otherwise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line445">line 445</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line361">line 361</a>
     </li></ul></dd>
     
 
@@ -629,7 +629,7 @@ auto-rotating, false - otherwise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line433">line 433</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line349">line 349</a>
     </li></ul></dd>
     
 
@@ -659,7 +659,8 @@ auto-rotating, false - otherwise.
 <div class="item_description">
 
 <div class="description">
-    Check if the camera is moving.
+    Check if the camera is being moved by the 
+<a href="module-camera_anim.html#.move_camera_to_point">move_camera_to_point</a> function.
 </div>
 
 
@@ -738,7 +739,7 @@ moving, false - otherwise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line643">line 643</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line559">line 559</a>
     </li></ul></dd>
     
 
@@ -768,7 +769,8 @@ moving, false - otherwise.
 <div class="item_description">
 
 <div class="description">
-    Check if the camera is rotating.
+    Check if the camera is being rotated by the 
+<a href="module-camera_anim.html#.rotate_camera">rotate_camera</a> function.
 </div>
 
 
@@ -847,7 +849,7 @@ rotating, false - otherwise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line653">line 653</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line570">line 570</a>
     </li></ul></dd>
     
 
@@ -1124,7 +1126,7 @@ rotating, false - otherwise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line476">line 476</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line392">line 392</a>
     </li></ul></dd>
     
 
@@ -1421,7 +1423,7 @@ rotating, false - otherwise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line566">line 566</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line482">line 482</a>
     </li></ul></dd>
     
 
@@ -1507,7 +1509,7 @@ rotating, false - otherwise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line627">line 627</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line543">line 543</a>
     </li></ul></dd>
     
 
@@ -1593,7 +1595,7 @@ rotating, false - otherwise.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line635">line 635</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line551">line 551</a>
     </li></ul></dd>
     
 
@@ -1615,7 +1617,7 @@ rotating, false - otherwise.
 
     
 
-    <h4 class="name" id=".track_to_target">track_to_target<span class="signature">(cam_obj, target, rot_speed, zoom_mult, zoom_time, zoom_delay, callback<span class="signature-attributes">opt</span>, zoom_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".track_to_target">track_to_target<span class="signature">(cam_obj, target, rot_speed<span class="signature-attributes">opt, nullable</span>, zoom_mult<span class="signature-attributes">opt, nullable</span>, zoom_time<span class="signature-attributes">opt, nullable</span>, zoom_delay<span class="signature-attributes">opt, nullable</span>, track_cb<span class="signature-attributes">nullable</span>, zoom_in_cb<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1653,6 +1655,8 @@ pause and zoom back.
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -1685,6 +1689,10 @@ pause and zoom back.
                 </td>
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Camera object 3D</td>
@@ -1720,6 +1728,10 @@ pause and zoom back.
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last">Target object or target position</td>
         </tr>
@@ -1743,13 +1755,23 @@ pause and zoom back.
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
+                
+                    &lt;nullable><br>
                 
 
                 
                 </td>
             
 
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
             
 
             <td class="description last">Rotation speed, radians per second</td>
@@ -1774,13 +1796,23 @@ pause and zoom back.
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
+                
+                    &lt;nullable><br>
                 
 
                 
                 </td>
             
 
+            
+                <td class="default">
+                
+                    2
+                
+                </td>
             
 
             <td class="description last">Zoom level value</td>
@@ -1805,13 +1837,23 @@ pause and zoom back.
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
+                
+                    &lt;nullable><br>
                 
 
                 
                 </td>
             
 
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
             
 
             <td class="description last">Time it takes to zoom on the target, seconds</td>
@@ -1836,13 +1878,23 @@ pause and zoom back.
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
+                
+                    &lt;nullable><br>
                 
 
                 
                 </td>
             
 
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
             
 
             <td class="description last">Delay before the camera zooms back, seconds</td>
@@ -1852,7 +1904,7 @@ pause and zoom back.
 
         <tr>
             
-                <td class="name"><code>callback</code></td>
+                <td class="name"><code>track_cb</code></td>
             
 
             <td class="type">
@@ -1867,9 +1919,9 @@ pause and zoom back.
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
-                
 
+                
+                    &lt;nullable><br>
                 
 
                 
@@ -1877,15 +1929,19 @@ pause and zoom back.
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last">Finishing callback</td>
+            <td class="description last">Track finishing callback</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>zoom_cb</code></td>
+                <td class="name"><code>zoom_in_cb</code></td>
             
 
             <td class="type">
@@ -1900,9 +1956,9 @@ pause and zoom back.
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
-                
 
+                
+                    &lt;nullable><br>
                 
 
                 
@@ -1910,8 +1966,12 @@ pause and zoom back.
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last">Zoom callback</td>
+            <td class="description last">Zoom-in callback</td>
         </tr>
 
     
@@ -1964,7 +2024,7 @@ pause and zoom back.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line76">line 76</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line77">line 77</a>
     </li></ul></dd>
     
 
@@ -2058,7 +2118,7 @@ or the auto_rotate() method is executed again.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line305">line 305</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line221">line 221</a>
     </li></ul></dd>
     
 
@@ -2145,7 +2205,7 @@ See move_camera_to_point() method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line462">line 462</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line378">line 378</a>
     </li></ul></dd>
     
 
@@ -2232,7 +2292,7 @@ See rotate_camera() method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line552">line 552</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line468">line 468</a>
     </li></ul></dd>
     
 
@@ -2349,7 +2409,7 @@ See track_to_target() method.
 <div class="item_description">
 
 <div class="description">
-    Callback to be executed when the camera finishes its zoom animation.
+    Callback to be executed when the camera finishes its zoom-in animation.
 See track_to_target() method.
 </div>
 
@@ -2435,13 +2495,13 @@ See track_to_target() method.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Oct 27 2016 16:42:34 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:45 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
