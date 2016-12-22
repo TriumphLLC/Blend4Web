@@ -373,7 +373,7 @@ commit, working directory clean".
 
    > git log
 
-Команда "git pull" не всегда приводит в успешной синхронизации.
+Команда "git pull" не всегда приводит к успешной синхронизации.
 Результат команды "git pull" в случае наличия конфликтов:
 
    remote: Counting objects: 11, done.

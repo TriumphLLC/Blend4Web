@@ -15,7 +15,11 @@ table {
 }
 
 table th {
-    width: 50%;
+    width: 67%;
+}
+
+table th:first-child {
+    width: 33%;
 }
 
 table td pre {
@@ -26,7 +30,7 @@ table td pre {
     margin-top: 65px;
     margin-bottom: 30px;
     right: 0;
-    width: 47%;
+    width: 65%;
     word-wrap: normal;
     margin-right: 10px;
     background-color: #f8f8f8;
@@ -39,6 +43,7 @@ table td:first-child pre {
     left: 0;
     margin-left: 10px;
     margin-right: 0;
+    width: 35%;
 }
 
 table td pre.active code {
@@ -93,8 +98,8 @@ div#code_panel {
     visibility: hidden;
     top: 10%;
     bottom: 10%;
-    left: 20%;
-    right: 20%;
+    left: 15%;
+    right: 15%;
     background-color: white;
     overflow: hidden;
     border: 2px solid rgba(150, 150, 150, 0.7);

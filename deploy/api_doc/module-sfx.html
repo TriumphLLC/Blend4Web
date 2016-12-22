@@ -245,11 +245,11 @@ Uses Web Audio API for sound effects and HTML5 audio for background music.</div>
 
         
             
-<li> <a href="#.playrate">playrate<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.playrate">playrate<span class="signature">(obj, playrate)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.playrate">playrate<span class="signature">(obj, playrate)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.playrate">playrate<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
@@ -273,11 +273,11 @@ Uses Web Audio API for sound effects and HTML5 audio for background music.</div>
 
         
             
-<li> <a href="#.speaker_reset_speed">speaker_reset_speed<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.speaker_reset_speed">speaker_reset_speed<span class="signature">(obj, speed, dir<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.speaker_reset_speed">speaker_reset_speed<span class="signature">(obj, speed, dir<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.speaker_reset_speed">speaker_reset_speed<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -2157,175 +2157,6 @@ works independently from the volume API and the volume randomization
 <div class="item_description">
 
 <div class="description">
-    Get volume level.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                    &lt;nullable><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object 3D or null for MASTER volume</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Volume (0..1)
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line188">line 188</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_volume">get_volume<span class="signature">(obj<span class="signature-attributes">nullable</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
     Get duration of the speaker's playback cycle.
 Zero duration means looped or non-ready speaker
 </div>
@@ -2467,6 +2298,175 @@ Zero duration means looped or non-ready speaker
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line384">line 384</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_volume">get_volume<span class="signature">(obj<span class="signature-attributes">nullable</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get volume level.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object 3D or null for MASTER volume</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Volume (0..1)
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
@@ -4320,163 +4320,6 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
     
 
-    <h4 class="name" id=".playrate">playrate<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the speaker playback rate value.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Playback rate
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line113">line 113</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
     <h4 class="name" id=".playrate">playrate<span class="signature">(obj, playrate)</span><span class="type-signature"></span></h4>
 
     
@@ -4614,6 +4457,163 @@ seconds). duration=0 - assign default value according to sound playback length.<
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line103">line 103</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".playrate">playrate<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get the speaker playback rate value.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Playback rate
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -5399,142 +5399,6 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
     
 
-    <h4 class="name" id=".speaker_reset_speed">speaker_reset_speed<span class="signature">(obj)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Make a speaker stride.
-Use before rapid speaker movements to neutralize undesirable doppler effect.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Speaker object.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line178">line 178</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
     <h4 class="name" id=".speaker_reset_speed">speaker_reset_speed<span class="signature">(obj, speed, dir<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"></span></h4>
 
     
@@ -5745,6 +5609,142 @@ to neutralize the undesirable doppler effect.
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line164">line 164</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".speaker_reset_speed">speaker_reset_speed<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Make a speaker stride.
+Use before rapid speaker movements to neutralize undesirable doppler effect.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Speaker object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line178">line 178</a>
     </li></ul></dd>
     
 
@@ -6063,7 +6063,7 @@ to neutralize the undesirable doppler effect.
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:46 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

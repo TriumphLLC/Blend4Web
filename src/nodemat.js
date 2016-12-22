@@ -519,13 +519,13 @@ function split_cycles_output_nodes(graph, mat_name, shader_type) {
         // normal
         m_graph.append_edge(graph, bsdf_begin_id, bsdf_end_id, [4,2]);
 
-        var bsdf_socket_map = {
-            5: ["LIGHTING_APPLY", 10], // translucency_color
-            6: ["LIGHTING_APPLY", 6], // translucency_params
-            7: ["BSDF_END", 3], // reflect_factor
-            8: ["BSDF_END", 4], // specular_alpha
-            9: ["BSDF_END", 5], // alpha_in
-        }
+        // var bsdf_socket_map = {
+        //     // 5: ["LIGHTING_APPLY", 10], // translucency_color
+        //     // 6: ["LIGHTING_APPLY", 6], // translucency_params
+        //     // 7: ["BSDF_END", 3], // reflect_factor
+        //     // 8: ["BSDF_END", 4], // specular_alpha
+        //     // 9: ["BSDF_END", 5], // alpha_in
+        // }
 
         var in_count = m_graph.in_edge_count(graph, node_id);
         var remove_edges_in = [];
@@ -546,20 +546,21 @@ function split_cycles_output_nodes(graph, mat_name, shader_type) {
             // removing/appending edges affects graph traversal
             remove_edges_in.push([in_id, node_id, edge_attr]);
 
-            var dest = bsdf_socket_map[edge_attr[1]]
-            if (dest)
-                switch (dest[0]) {
-                case "BSDF_END":
-                    append_edges_in.push([in_id, bsdf_end_id, [edge_attr[0], dest[1]]]);
-                    break;
-                case "LIGHTING_APPLY":
-                    translucency_edges.push([in_id, [edge_attr[0], dest[1]]]);
-                    break;
-                }
-            else
-                append_edges_in.push([in_id, bsdf_begin_id, edge_attr]);
+            // var dest = bsdf_socket_map[edge_attr[1]]
+            // if (dest)
+            //     switch (dest[0]) {
+            //     case "BSDF_END":
+            //         append_edges_in.push([in_id, bsdf_end_id, [edge_attr[0], dest[1]]]);
+            //         break;
+            //     case "LIGHTING_APPLY":
+            //         translucency_edges.push([in_id, [edge_attr[0], dest[1]]]);
+            //         break;
+            //     }
+            // else
+            append_edges_in.push([in_id, bsdf_begin_id, edge_attr]);
 
-            if (in_node.type == "BSDF_GLOSSY" || in_node.type == "BSDF_DIFFUSE" || in_node.type == "MIX_SHADER") {
+            if (in_node.type == "BSDF_GLOSSY" || in_node.type == "BSDF_DIFFUSE" || in_node.type == "MIX_SHADER"
+                    || in_node.type == "EMISSION") {
                 // d_color
                 append_edges_in.push([in_id, bsdf_begin_id, [1, 1]]);
                 // d_roughness
@@ -572,6 +573,10 @@ function split_cycles_output_nodes(graph, mat_name, shader_type) {
                 append_edges_in.push([in_id, bsdf_begin_id, [5, 5]]);
                 // normal
                 append_edges_in.push([in_id, bsdf_begin_id, [6, 6]]);
+                // e_color
+                append_edges_in.push([in_id, bsdf_begin_id, [7, 7]]);
+                // emission
+                append_edges_in.push([in_id, bsdf_begin_id, [8, 8]]);
 
                 // additional links between all bsdf and shader mixing nodes
                 var mix_shader_nodes = [];
@@ -596,8 +601,10 @@ function split_cycles_output_nodes(graph, mat_name, shader_type) {
                         var mix_in_edge_attr = m_graph.get_edge_attr(graph, mix_in_id, mix_node_id, 0);
                         // not Factor input
                         if (mix_in_edge_attr[1] != 0) {
-                            if (mix_in_node.type == "BSDF_GLOSSY" || mix_in_node.type == "BSDF_DIFFUSE" || mix_in_node.type == "MIX_SHADER") {
-                                var edge_attr_offset = mix_in_edge_attr[1] == 1 ? 3 : 9;
+                            if (mix_in_node.type == "BSDF_GLOSSY" || mix_in_node.type == "BSDF_DIFFUSE" || mix_in_node.type == "MIX_SHADER"
+                                    || mix_in_node.type == "EMISSION") {
+                                // inputs 0-2 standard (Factor, Shader, Shader)
+                                var edge_attr_offset = mix_in_edge_attr[1] == 1 ? 3 : 11;
 
                                 // d_color
                                 append_edges_in.push([mix_in_id, mix_node_id, [1, edge_attr_offset]]);
@@ -611,6 +618,10 @@ function split_cycles_output_nodes(graph, mat_name, shader_type) {
                                 append_edges_in.push([mix_in_id, mix_node_id, [5, edge_attr_offset+4]]);
                                 // normal
                                 append_edges_in.push([mix_in_id, mix_node_id, [6, edge_attr_offset+5]]);
+                                // e_color
+                                append_edges_in.push([mix_in_id, mix_node_id, [7, edge_attr_offset+6]]);
+                                // emission
+                                append_edges_in.push([mix_in_id, mix_node_id, [8, edge_attr_offset+7]]);
                             }
                         }
                     }
@@ -725,6 +736,8 @@ function add_bsdf_subgraph(graph, data, begin_node_id, end_node_id, translucency
 
     link_nlight_edge(graph, begin_node_id, end_node_id, "s_color");
     link_nlight_edge(graph, begin_node_id, end_node_id, "metalness");
+    link_nlight_edge(graph, begin_node_id, end_node_id, "e_color");
+    link_nlight_edge(graph, begin_node_id, end_node_id, "emission");
 
     link_nlight_edge(graph, prev_node_id, end_node_id, "color");
     link_nlight_edge(graph, prev_node_id, end_node_id, "specular");
@@ -906,31 +919,10 @@ function nmat_cleanup_graph(graph) {
     for (var i = 0; i < id_attr.length; i+=2) {
         var id = id_attr[i];
         var attr = id_attr[i+1];
-        if (attr.type == "B4W_PARALLAX") {
+        if (attr.type == "B4W_PARALLAX")
+            process_parallax_texture(graph, id, attr);
 
-            var input_id1 = get_in_edge_by_input_num(graph, id, 1);
-
-            if (input_id1 != -1) {
-
-                // replace edges
-                var input_input_id = m_graph.get_in_edge(graph, input_id1, 0);
-
-                m_graph.remove_edge(graph, input_id1, id, -1);
-                if (input_input_id != -1)
-                    m_graph.remove_edge(graph, input_input_id, input_id1, -1);
-
-                // store texture in node parameters
-                var input1_attr = m_graph.get_node_attr(graph, input_id1);
-                attr.data = input1_attr.data;
-                attr.params[0] = input1_attr.params[0];
-
-                m_graph.remove_node(graph, input_id1);
-            }
-
-            // remove color input
-            attr.inputs.splice(1, 1);
-
-        } else if(attr.type == "REROUTE") {
+        else if(attr.type == "REROUTE") {
             var input_id = m_graph.get_in_edge(graph, id, 0);
             var out_edge_count = m_graph.out_edge_count(graph, id);
             var removed_edges  = [];
@@ -1000,6 +992,27 @@ function nmat_cleanup_graph(graph) {
                 m_graph.remove_edge(graph, removed_edges[j], removed_edges[j+1], -1);
         }
     }
+}
+
+function process_parallax_texture(graph, id, attr) {
+    var input_id1 = get_in_edge_by_input_num(graph, id, 1);
+    if (input_id1 != -1) {
+
+        // steal texture from the input texture node
+        var input1_attr = m_graph.get_node_attr(graph, input_id1);
+        attr.data = input1_attr.data;
+
+        // remove edges
+        m_graph.remove_edge(graph, input_id1, id, -1);
+        if (m_graph.out_edge_count(graph, input_id1) == 0) {
+            var input_input_id = m_graph.get_in_edge(graph, input_id1, 0);
+            if (input_input_id != -1)
+                m_graph.remove_edge(graph, input_input_id, input_id1, -1);
+            m_graph.remove_node(graph, input_id1);
+        }
+    }
+    // remove HeightMap(color) input
+    attr.inputs.splice(1, 1);
 }
 
 function get_in_edge_by_input_num(graph, node, input_num) {
@@ -1673,7 +1686,6 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
     case "BSDF_TOON":
     case "BSDF_VELVET":
     case "SUBSURFACE_SCATTERING":
-    case "EMISSION":
     case "AMBIENT_OCCLUSION":
     case "VOLUME_ABSORPTION":
     case "VOLUME_SCATTER":
@@ -1724,6 +1736,8 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         inputs.push(default_node_inout("s_roughness1", "s_roughness1", 0, shader_input_is_linked));
         inputs.push(default_node_inout("metalness1", "metalness1", 0, shader_input_is_linked));
         inputs.push(default_node_inout("normal1", "normal1", [0, 0, 0], shader_input_is_linked));
+        inputs.push(default_node_inout("e_color1", "e_color1", [0, 0, 0], shader_input_is_linked));
+        inputs.push(default_node_inout("emission1", "emission1", 0, shader_input_is_linked));
 
         inputs.push(default_node_inout("d_color2", "d_color2", [0, 0, 0], shader1_input_is_linked));
         inputs.push(default_node_inout("d_roughness2", "d_roughness2", 0, shader1_input_is_linked));
@@ -1731,6 +1745,8 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
         inputs.push(default_node_inout("s_roughness2", "s_roughness2", 0, shader1_input_is_linked));
         inputs.push(default_node_inout("metalness2", "metalness2", 0, shader1_input_is_linked));
         inputs.push(default_node_inout("normal2", "normal2", [0, 0, 0], shader1_input_is_linked));
+        inputs.push(default_node_inout("e_color2", "e_color2", [0, 0, 0], shader1_input_is_linked));
+        inputs.push(default_node_inout("emission2", "emission2", 0, shader1_input_is_linked))
 
         var shader_output = node_output_by_ident(bpy_node, "Shader");
         var shader_output_is_linked = shader_output.is_linked;
@@ -1740,7 +1756,9 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                    default_node_inout("s_color", "s_color", [0, 0, 0], shader_output_is_linked),
                    default_node_inout("s_roughness", "s_roughness", 0, shader_output_is_linked),
                    default_node_inout("metalness", "metalness", 0, shader_output_is_linked),
-                   default_node_inout("normal", "normal", [0, 0, 0], shader_output_is_linked)];
+                   default_node_inout("normal", "normal", [0, 0, 0], shader_output_is_linked),
+                   default_node_inout("e_color", "e_color", [0, 0, 0], shader_output_is_linked),
+                   default_node_inout("emission", "emission", 0, shader_output_is_linked)];
         break;
     case "OBJECT_INFO":
         inputs = node_inputs_bpy_to_b4w(bpy_node);
@@ -2059,9 +2077,9 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                 data = process_node_group(bpy_node, mat_name, shader_type);
                 break;
             }
-            type = "B4W_PARALLAX";
-            var tex_name = shader_ident("temp_texture");
+            var tex_name = shader_ident("param_B4W_PARALLAX_texture");
             params.push(node_param(tex_name));
+            type = "B4W_PARALLAX";
             break;
         case "B4W_CLAMP":
             if (!validate_custom_node_group(bpy_node, [1], [1])) {
@@ -2612,7 +2630,9 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                    default_node_inout("s_color", "s_color", [0, 0, 0], bsdf_output_is_linked),
                    default_node_inout("s_roughness", "s_roughness", 0, bsdf_output_is_linked),
                    default_node_inout("metalness", "metalness", 0, bsdf_output_is_linked),
-                   default_node_inout("normal", "normal", [0, 0, 0], bsdf_output_is_linked)];
+                   default_node_inout("normal", "normal", [0, 0, 0], bsdf_output_is_linked),
+                   default_node_inout("e_color", "e_color", [0, 0, 0], bsdf_output_is_linked),
+                   default_node_inout("emisson", "emisson", 0, bsdf_output_is_linked)];
         break;
     case "BSDF_GLOSSY":
         inputs = node_inputs_bpy_to_b4w(bpy_node);
@@ -2625,7 +2645,23 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                    default_node_inout("s_color", "s_color", [0, 0, 0], bsdf_output_is_linked),
                    default_node_inout("s_roughness", "s_roughness", 0, bsdf_output_is_linked),
                    default_node_inout("metalness", "metalness", 1, bsdf_output_is_linked),
-                   default_node_inout("normal", "normal", [0, 0, 0], bsdf_output_is_linked)];
+                   default_node_inout("normal", "normal", [0, 0, 0], bsdf_output_is_linked),
+                   default_node_inout("e_color", "e_color", [0, 0, 0], bsdf_output_is_linked),
+                   default_node_inout("emisson", "emisson", 0, bsdf_output_is_linked)];
+        break;
+    case "EMISSION":
+        inputs = node_inputs_bpy_to_b4w(bpy_node);
+        var emission_output = node_output_by_ident(bpy_node, "Emission");
+        var emission_output_is_linked = emission_output.is_linked;
+        outputs = [emission_output,
+                   default_node_inout("d_color", "d_color", [0, 0, 0], emission_output_is_linked),
+                   default_node_inout("d_roughness", "d_roughness", 0, emission_output_is_linked),
+                   default_node_inout("s_color", "s_color", [0, 0, 0], emission_output_is_linked),
+                   default_node_inout("s_roughness", "s_roughness", 0, emission_output_is_linked),
+                   default_node_inout("metalness", "metalness", 1, emission_output_is_linked),
+                   default_node_inout("normal", "normal", [0, 0, 0], emission_output_is_linked),
+                   default_node_inout("e_color", "e_color", [0, 0, 0], emission_output_is_linked),
+                   default_node_inout("emisson", "emisson", 1, emission_output_is_linked)];
         break;
     case "MATH":
         switch (bpy_node["operation"]) {
@@ -2781,7 +2817,9 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                                  default_node_inout("s_color", "s_color", [0, 0, 0], surface_inp_is_linked),
                                  default_node_inout("s_roughness", "s_roughness", 0, surface_inp_is_linked),
                                  default_node_inout("metalness", "metalness", 0, surface_inp_is_linked),
-                                 default_node_inout("normal", "normal", [0, 0, 0], surface_inp_is_linked)];
+                                 default_node_inout("normal", "normal", [0, 0, 0], surface_inp_is_linked),
+                                 default_node_inout("e_color", "e_color", [0, 0, 0], surface_inp_is_linked),
+                                 default_node_inout("emission", "emission", 0, surface_inp_is_linked)];
 
         var bsdf_begin_outputs = [default_node_inout("E", "E", [0, 0, 0], true),
                                   default_node_inout("A", "A", [0, 0, 0], true),
@@ -2792,14 +2830,18 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
                                   // default_node_inout("sp_params", "sp_params", [0, 0], true),
                                   default_node_inout("shadow_factor", "shadow_factor", 0, true),
                                   default_node_inout("s_color", "s_color", [0, 0, 0], true),
-                                  default_node_inout("metalness", "metalness", [0, 0, 0], true)];
+                                  default_node_inout("metalness", "metalness", 0, true),
+                                  default_node_inout("e_color", "e_color", [0, 0, 0], true),
+                                  default_node_inout("emission", "emission", 0, true)];
 
         // BSDF END main inputs/outputs/params
         var bsdf_end_inputs = [default_node_inout("color", "color", [0, 0, 0], true),
                                default_node_inout("specular", "specular", [0, 0, 0], true),
                                default_node_inout("normal", "normal", [0, 0, 0], true),
                                default_node_inout("s_color", "s_color", [0, 0, 0], true),
-                               default_node_inout("metalness", "metalness", [0, 0, 0], true)];
+                               default_node_inout("metalness", "metalness", 0, true),
+                               default_node_inout("e_color", "e_color", [0, 0, 0], true),
+                               default_node_inout("emission", "emission", 0, true)];
         var bsdf_end_outputs = [];
 
         var bsdf_begin_params = [];
@@ -2876,16 +2918,9 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
             var tex_name = shader_ident("param_TEXTURE_texture");
             params.push(node_param(tex_name));
 
-            var tex = m_tex.create_cubemap_texture(bpy_node["name"], 128);
-
-            tex.img_uuid = image["uuid"];
-            tex.img_filepath = image["filepath"];
-            tex.img_source = image["source"];
-            tex.img_name = image["name"];
-            tex.img_is_compressed = image._is_compressed;
+            var tex = m_tex.create_cubemap_texture(128);
             tex.source = "ENVIRONMENT_MAP";
-            if (image._is_compressed)
-                tex.img_comp_method = image._comp_method;
+            m_tex.append_img_info(tex, image);
 
             data = {
                 name: tex_name,
@@ -2928,20 +2963,13 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
             var tex_name = shader_ident("param_TEXTURE_texture");
             params.push(node_param(tex_name));
 
-            var tex = m_tex.create_texture(bpy_node["name"], m_tex.TT_RGBA_INT, false);
-
+            var tex = m_tex.create_texture(m_tex.TT_RGBA_INT, false);
             tex.repeat = bpy_node["extension"] == "REPEAT";
-
-            tex.img_uuid = image["uuid"];
-            tex.img_filepath = image["filepath"];
-            tex.img_source = image["source"];
-            tex.img_name = image["name"];
-            tex.img_is_compressed = image._is_compressed;
             tex.source = "IMAGE";
-            if (image._is_compressed)
-                tex.img_comp_method = image._comp_method;
+            m_tex.append_img_info(tex, image);
 
             data = {
+                bpy_name: bpy_node["name"],
                 name: tex_name,
                 value: tex
             }
@@ -2978,39 +3006,33 @@ function append_nmat_node(graph, bpy_node, output_num, mat_name, shader_type) {
             for (var i = 0; i < 4; ++i) {
                 var input, output1, output2;
 
+                var out1_name = type == "TEXTURE_COLOR"? "Color": "Normal";
+
                 if (i) {
                     input = default_node_inout("Vector" + i, "Vector" + i, [0,0,0], false);
-                    if (type == "TEXTURE_COLOR") {
-                        output1 = default_node_inout("Color" + i, "Color" + i, [0,0,0], false);
-                        output2 = default_node_inout("Value" + i, "Value" + i, 0, false);
-                    }
-                    if (type == "TEXTURE_NORMAL") {
-                        output1 = default_node_inout("Normal" + i, "Normal" + i, [0,0,0], false);
-                        output2 = default_node_inout("Value" + i, "Value" + i, 0, false);
-                    }
+                    output1 = default_node_inout(out1_name + i, out1_name + i, [0,0,0], false);
+                    output2 = default_node_inout("Value" + i, "Value" + i, 0, false);
                 } else {
                     input = node_input_by_ident(bpy_node, "Vector");
-                    if (type == "TEXTURE_COLOR") {
-                        output1 = node_output_by_ident(bpy_node, "Color");
-                        output2 = node_output_by_ident(bpy_node, "Value");
-                    }
-                    if (type == "TEXTURE_NORMAL") {
-                        output1 = node_output_by_ident(bpy_node, "Normal");
-                        output2 = node_output_by_ident(bpy_node, "Value");
-                    }
+                    output1 = node_output_by_ident(bpy_node, out1_name);
+                    output2 = node_output_by_ident(bpy_node, "Value");
                 }
+
                 inputs.push(input);
                 outputs.push(output1);
                 outputs.push(output2);
             }
         }
+        if (type != "TEXTURE_EMPTY") {
+            var tex_name = shader_ident("param_TEXTURE_texture");
+            params.push(node_param(tex_name));
 
-        var tex_name = shader_ident("param_TEXTURE_texture");
-        params.push(node_param(tex_name));
-        var tex = bpy_node["texture"]? bpy_node["texture"]._render: null;
-        data = {
-            name: tex_name,
-            value: tex
+            var tex = bpy_node["texture"]._render;
+            data = {
+                bpy_name: bpy_node["texture"]["name"],
+                name: tex_name,
+                value: tex
+            }
         }
 
         break;
@@ -3998,38 +4020,39 @@ function create_node_textures(nmat_graph) {
         };
     });
     var row = 0;
-    var color_ramp_id = null;
-    var curve_id = null;
+    var col_ramp_data = null;
+    var curve_data = null;
     var length = color_ramp_nodes.length + curves_nodes.length;
     if (color_ramp_nodes.length) {
-        color_ramp_id = m_tex.create_color_ramp_texture(color_ramp_nodes,
+        col_ramp_data = m_tex.extract_col_ramps_data(color_ramp_nodes,
                 m_tex.COLORRAMP_TEXT_SIZE);
         for (var i = 0; i < color_ramp_nodes.length; i++) {
-            color_ramp_nodes[i].dirs.push(["NODE_TEX_ROW", m_shaders.glsl_value((row + 0.5) / 
+            color_ramp_nodes[i].dirs.push(["NODE_TEX_ROW", m_shaders.glsl_value((row + 0.5) /
                     length)]);
             row++;
         }
     }
     if (curves_nodes.length) {
-        curve_id = m_tex.create_vec_curve_texture(curves_nodes,
+        curve_data = m_tex.extract_vec_curves_data(curves_nodes,
                 m_tex.CURVE_NODES_TEXT_SIZE);
         for (var i = 0; i < curves_nodes.length; i++) {
-            curves_nodes[i].dirs.push(["NODE_TEX_ROW", m_shaders.glsl_value((row + 0.5) / 
+            curves_nodes[i].dirs.push(["NODE_TEX_ROW", m_shaders.glsl_value((row + 0.5) /
                     length)]);
             row++;
         }
     }
     var image_data = null;
-    if (color_ramp_id && curve_id) {
-        image_data = new Uint8Array(color_ramp_id.length + curve_id.length);
-        image_data.set(color_ramp_id);
-        image_data.set(curve_id, color_ramp_id.length);
-    } else if (color_ramp_id)
-        image_data = color_ramp_id;
+    if (col_ramp_data && curve_data) {
+        image_data = new Uint8Array(col_ramp_data.length + curve_data.length);
+        image_data.set(col_ramp_data);
+        image_data.set(curve_data, col_ramp_data.length);
+    } else if (col_ramp_data)
+        image_data = col_ramp_data;
     else
-        image_data = curve_id;
+        image_data = curve_data;
+
     if (image_data)
-        var tex = m_tex.generate_batch_texure(image_data, m_tex.CURVE_NODES_TEXT_SIZE);
+        var tex = m_tex.create_color_ramp_texture(image_data, m_tex.CURVE_NODES_TEXT_SIZE);
     else
         var tex = null;
 

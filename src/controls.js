@@ -281,10 +281,15 @@ function update_accumulator(accum) {
         accum.is_updated_keyboard = true;
     }
 
+    if (accum.mouse_state == 1)
+        accum.mouse_state = 2;
+    else if (accum.mouse_state == 3)
+        accum.mouse_state = 0;
+
     accum.wheel_delta = 0;
     accum.mouse_last_x = accum.mouse_curr_x;
     accum.mouse_last_y = accum.mouse_curr_y;
-    accum.downed_keys[0] = false;
+    accum.downed_keys[0] = 0;
 
     accum.touches_last_x.set(accum.touches_curr_x);
     accum.touches_last_y.set(accum.touches_curr_y);
@@ -311,7 +316,7 @@ function get_accumulator(element) {
         element: element,
 
         is_updated_keyboard: true,
-        is_mouse_downed: false,
+        mouse_state: 0,
         is_touch_ended: true,
         // for ST_MOUSE_MOVE sensor
         mouse_last_x: 0,
@@ -425,7 +430,8 @@ function get_accumulator(element) {
         accumulator.mouse_last_y = loc[1];
         accumulator.mouse_curr_x = loc[0];
         accumulator.mouse_curr_y = loc[1];
-        accumulator.is_mouse_downed = true;
+        if (accumulator.mouse_state == 3 || accumulator.mouse_state == 0)
+            accumulator.mouse_state = 1;
         accumulator.which = wd;
     }
 
@@ -490,18 +496,27 @@ function get_accumulator(element) {
     }
 
     accumulator.mouse_up_which_cb = function(wd) {
-        accumulator.is_mouse_downed = false;
+        var device = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE,
+                accumulator.element);
+        var loc = m_input.get_vector_param(device, m_input.MOUSE_LOCATION, _vec2_tmp);
+        accumulator.mouse_last_x = loc[0];
+        accumulator.mouse_last_y = loc[1];
+        accumulator.mouse_curr_x = loc[0];
+        accumulator.mouse_curr_y = loc[1];
+        if (accumulator.mouse_state > 0)
+            accumulator.mouse_state = 3;
+        accumulator.which = wd;
     }
 
     accumulator.mouse_location_cb = function(location) {
-        if (!cfg_dft.ie11_edge_touchscreen_hack || accumulator.is_mouse_downed) {
+        if (!cfg_dft.ie11_edge_touchscreen_hack || accumulator.mouse_state) {
             accumulator.mouse_curr_x = location[0];
             accumulator.mouse_curr_y = location[1];
         }
     }
 
     accumulator.pointerlock_cb = function(location) {
-        if (!cfg_dft.ie11_edge_touchscreen_hack || accumulator.is_mouse_downed) {
+        if (!cfg_dft.ie11_edge_touchscreen_hack || accumulator.mouse_state) {
             accumulator.pointerlock_dx += location[0];
             accumulator.pointerlock_dy += location[1];
         }
@@ -523,12 +538,8 @@ function get_accumulator(element) {
     }
 
     accumulator.keyboard_up_keys_cb = function(key) {
-        if (accumulator.downed_keys[key] == 1)
-            accumulator.downed_keys[key] = 0;
-        else {
-            accumulator.is_updated_keyboard &= false;
-            accumulator.downed_keys[key] = 3;
-        }
+        accumulator.is_updated_keyboard = false;
+        accumulator.downed_keys[key] = 3;
     }
 
     accumulator.touch_start_cb = function(touches) {
@@ -1358,7 +1369,8 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
     case ST_MOUSE_MOVE:
         var accum = get_accumulator(sensor.element);
-        if (!cfg_dft.ie11_edge_touchscreen_hack || accum.is_mouse_downed) {
+        if (!cfg_dft.ie11_edge_touchscreen_hack ||
+                accum.mouse_state == 1 || accum.mouse_state == 2) {
             var delta_x = accum.mouse_curr_x - accum.mouse_last_x;
             var delta_y = accum.mouse_curr_y - accum.mouse_last_y;
 
@@ -1405,7 +1417,7 @@ function update_sensor(sensor, timeline, elapsed) {
         break;
     case ST_MOUSE_CLICK:
         var accum = get_accumulator(sensor.element);
-        sensor_set_value(sensor, accum.is_mouse_downed);
+        sensor_set_value(sensor, (accum.mouse_state > 0) | 0);
         sensor.payload.which = accum.which;
         sensor.payload.coords[0] = accum.mouse_curr_x;
         sensor.payload.coords[1] = accum.mouse_curr_y;
@@ -1414,7 +1426,7 @@ function update_sensor(sensor, timeline, elapsed) {
         var accum = get_accumulator(sensor.element);
         sensor_set_value(sensor, 0);
         if (!sensor.enable_toggle_switch) {
-            if (accum.is_mouse_downed &&
+            if (accum.mouse_state &&
                     accum.mouse_select_data.obj == sensor.source_object)
                 sensor_set_value(sensor, 1);
             else if (!accum.is_touch_ended) {
@@ -1438,7 +1450,7 @@ function update_sensor(sensor, timeline, elapsed) {
         sensor.payload = accum.downed_keys[sensor.key];
         if (sensor.payload == 1 || accum.downed_keys[0] && sensor.key == KEY_SHIFT)
             sensor_set_value(sensor, 1);
-        else if (!sensor.payload || sensor.payload == 3)
+        else if (!sensor.payload)
             sensor_set_value(sensor, 0);
         break;
     case ST_TOUCH_MOVE:

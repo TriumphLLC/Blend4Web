@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>对于引擎开发者 &mdash; Blend4Web 16.11 用户手册</title>
+  <title>对于引擎开发者 &mdash; Blend4Web 16.12 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
         <link rel="next" title="团队工作。使用 Git" href="git_short_manual.html"/>
         <link rel="prev" title="对应用程序开发人员" href="developers.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -295,7 +295,8 @@
 <dd><ul class="first last simple">
 <li><p class="first">构建脚本：<code class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></code></p>
 </li>
-<li>Blend4Web addon: <code class="docutils literal"><span class="pre">addons/blend4web/</span></code></li>
+<li><p class="first">Blend4Web插件： <code class="docutils literal"><span class="pre">addons/blend4web/</span></code></p>
+</li>
 </ul>
 </dd>
 </dl>
@@ -411,7 +412,9 @@
 </tr>
 <tr class="row-odd"><td>TeX Live</td>
 <td>texlive texlive-latex-extra
-texlive-lang-cyrillic</td>
+texlive-lang-cyrillic
+texlive-lang-chinese
+texlive-xetex</td>
 <td><p class="first last">构建说明书（PDF版）</p>
 </td>
 </tr>
@@ -587,8 +590,8 @@ texlive-lang-cyrillic</td>
 <span class="cp">#export skin</span>
 </pre></div>
 </div>
-<p>在``＃import``指令定义了一组声明的包含文件之外，但可以从里面被访问的ID。这里有一个限制，但：这样的id必然是上述地方，其中包括文件链接的地方声明。</p>
-<p>在``＃export``指令定义了一组可以从该文件外部访问的ID。这样的id必然在这个文件中声明。</p>
+<p>在 <code class="docutils literal"><span class="pre">＃import</span></code> 指令定义了一组声明的包含文件之外，但可以从里面被访问的ID。这里有一个限制，但：这样的id必然是上述地方，其中包括文件链接的地方声明。</p>
+<p>在 <code class="docutils literal"><span class="pre">＃export</span></code> 指令定义了一组可以从该文件外部访问的ID。这样的id必然在这个文件中声明。</p>
 <p>因此，它使用的着色器包含文件必须拥有所有必要的连接位置之前，进口的声明，以后它可以使用导出的标识。</p>
 <p>IDS既可以是变量名和函数名。如果没有导入/导出命令中，它在默认情况下认为，包括文件不使用外部声明和内部的人的使用不允许。</p>
 </div>
@@ -815,7 +818,7 @@ FILE_NAME, but never used.</td>
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-11-29.
+      最后更新于 2016-12-22.
 
     </p>
   </div>
@@ -871,7 +874,7 @@ FILE_NAME, but never used.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

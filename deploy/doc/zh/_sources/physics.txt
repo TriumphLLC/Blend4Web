@@ -34,11 +34,11 @@
 
     * 基本角色
 
-  * Navigation Meshes
+  * 导航网格
 
-    * Creating Navigation Meshes
+    * 创建导航网格
 
-    * Using Navigation Meshes
+    * 使用导航网格
 
   * 在应用程序中的使用
 
@@ -135,10 +135,10 @@ ID"  用法的一个示例，检测地形表面的角色位于-草，沙子，�
 
 
 向物体添加物理约束 ("Rigid Body Joint") 可以在 "Object Constraints" 面
-板上执行 。受支持的类型 ("Pivot Type") 是:"Ball", "Hinge", "Cone
+板上执行 。受支持的类型 ("Pivot Type") 是: "Ball", "Hinge", "Cone
 Twist", "Generic 6 DoF". 物理约束可以添加到两个相互作用的物体之一，而
 另一个物体作为 "Target" 。这两个物体可以有静态和/或动态的物理类型。在
-约束 （除外``Ball``) ，可以设置的平移和旋转的限制。
+约束 （除外 "Ball") ，可以设置的平移和旋转的限制。
 
 [图片]
 
@@ -355,135 +355,113 @@ Blend4Web引擎有快速建立用户控制的第一人称角色的选项。这�
   使用他 们的第一个基本角色，而忽略其他。
 
 
-Navigation Meshes
-=================
+导航网格
+========
 
-Navigation meshes (commonly abbreviated *navmeshes*) are mesh objects
-that are used to make pathfinding simplier by eliminating the need for
-additional calculations such as collisions.
-
-[图片]
-
-In this example (taken from Code Snippets), navigation mesh is used to
-build a path through the labyrinth.
-
-
-Creating Navigation Meshes
---------------------------
-
-To make a navmesh out of an object, turn on the "Object Physics"
-parameter on the "Physics" panel and select "Navigation Mesh" from the
-"Physics Type" list.
+导航网格 (通常缩写 *navmeshes*) 是用来消除需要额外计算比如碰撞等使寻路
+更加简便的网格物体。
 
 [图片]
 
-Navigation meshes can either be created manually or generated
-automatically using a specific tool.
+在此示例中 （取自代码片段），导航网格用于生成通过迷宫的路径。
+
+
+创建导航网格
+------------
+
+若要将物体生成 navmesh，打开 "Physics" 面板的 "Object Physics" 参数 ，
+从 "Physics Type" 列表中选择 "Navigation Mesh" 。
 
 [图片]
 
-注解: This tool is native to Blender and not a part of the Blend4Web
-  engine.
+导航网格也可以使用特定的工具手动创建或生成自动。
 
-This Navigation Mesh generation interface can be found on a dedicated
-panel under the "Scene" tab, but, as this feature is intended for
-real-time applications, it only appears if the Engine type is set to
-"Blend4Web" or "Blender Game" (Blender Internal, Cycles or any other
-rendering engine won’t do).
+[图片]
 
-The main tool on this panel is the "Build Navigation Mesh" button. As
-the title suggests, it is used for building navigation meshes based on
-the currently selected object. The navmesh is created as a separate
-object placed above the selected object, thus leaving that object
-intact.
+注解: 此工具是原产于Blender并不是 Blend4Web 引擎的一部分。
 
-Aside from this button, the "Navigation Mesh" panel offers users
-several groups of parameters to fine-tune the navmesh that will be
-generated.
+此导航网格生成接口可以发现专用面板下的 "Scene" 选项卡上，但此功能是为
+了实时应用程序，它仅音引擎类型设置为  "Blend4Web" 或  "Blender Game"
+才显示（Blender内部、 Cycles 或任何其他渲染引擎不会有显示）。
 
-"Rasterization" group of parameters:
+在此面板上的主要工具是  "Build Navigation Mesh" 按钮。正如标题所暗示的
+它用来建设基于当前选定对象的导航网格。Navmesh 是作为一个单独的物体放置
+在所选的物体上面，因此保留该物体创建的。
+
+除了此按钮  "Navigation Mesh" 面板为用户提供了几组参数将生成 navmesh
+进行微调。
+
+"Rasterization" （栅格化）组的参数︰
 
 *Cell Size*
-   Rasterized cell size. Greater values lead to bigger navmesh
-   polygons. The highest possible value is 1.0. Default value is 0.3.
+   栅格化单元格大小。更大的值会导致更大的 navmesh 多边形。最高的可能值
+   是 1.0。默认值为 0.3。
 
 *Cell Height*
-   Rasterized cell height (the distance between the navmesh and the
-   object from which it was generated). Default value is 0.2.
+   栅格单元格高度 （navmesh 和生成它的对象之间的距离）。默认值为 0.2。
 
-"Agent" group of parameters:
+"Agent" 组的参数︰
 
 *Height*
-   Minimum height where the agent can still walk. Default value is
-   2.0.
+   最小高度，代理还能走路。默认值为 2.0。
 
 *Radius*
-   The radius of the agent. Default value is 0.6.
+   代理的半径。默认值为 0.6。
 
 *Max Slope*
-   Maximum angle of a slope agent can walk on. Measured in degrees.
-   Default value is 45.
+   代理能够行走的坡度的最大角度。以度为单位。默认值为 45。
 
 *Max Climb*
-   The maximum height between grid cells the agent can climb. Default
-   value is 0.9.
+   网格单元格之间的最大高度，代理可以爬上。默认值为 0.9。
 
-"Region" group of parameters:
+"Region" 组的参数︰
 
 *Min Region Size*
-   The minimum size of a region (smaller regions will be deleted).
-   Default value is 8.0.
+   一个区域的最小大小 （较小的区域将被删除）。默认值为 8.0 级。
 
 *Merged Region Size*
-   The minimum size of a region (smaller regions will be merged).
-   Default value is 20.0.
+   一个区域的最小大小 （较小的地区，将合并）。默认值为 20.0。
 
 *Partitioning*
-   The method used to partition the navigation mesh. Supported methods
-   are:
+   用于分区导航网格的方法。受支持的方法是︰
 
-   "Monotone" is the fastest method. Using it may generate long thin
-   polygons.
+   "Monotone" 是最快的方法。使用它可以生成细细长长的多边形。
 
-   "Layers" — a slower, but still reasonably fast method that produces
-   better triangulations than Monotone partitioning.
+   "Layers" —  速度较慢，但仍然相当快的方法，可产生更好的三角剖分比单
+   调（Monotone ）分区。
 
-   "Watershed" — classic Recast partitioning method that generates the
-   nicest tesselation. This option is selected by default.
+   "Watershed" — 经典重铸生成最好的剖分分区方法。此选项是默认选中的。
 
-"Polygonization" group of parameters:
+"Polygonization" 组的参数︰
 
 *Max Edge Length*
-   The maximum length of a contour edge. Default value is 12.0.
+   边缘轮廓最大长度。默认值为 12.0。
 
 *Max Edge Error*
-   The maximum error of the distance from the contour to the cells.
-   Default value is 1.3.
+   从轮廓到单元格的距离最大误差。默认值为 1.3。
 
 *Verts Per Poly*
-   The maximum number of vertices per polygon. Default value is 6.
+   每个多边形顶点的最大数目。默认值为 6。
 
-"Detail Mesh" group of parameters:
+"Detail Mesh" 组的参数︰
 
 *Sample Distance*
-   Detail mesh sample spacing. Default value is 6.0.
+   详细信息网格采样间距。默认值是 6.0。
 
 *Max Sample Error*
-   Maximum error of the mesh simplification. Default value is 1.00.
+   最大误差的网格简化算法。默认值为 1.00。
 
 
-Using Navigation Meshes
------------------------
+使用导航网格
+------------
 
-After a navmesh is created, it then can be used in the application for
-calculating trajectories between two points. This can be done using
-two methods from the physics module, navmesh_get_island() and
-navmesh_find_path(). The former is used to retrieve a link to the
-current island (closest independent segment of the navmesh), while the
-latter returns the actual path in the form of an array of coordinates.
+Navmesh 创建后，它然后可用于在应用程序中计算两个点之间的运动轨迹。这可
+以从  physics  模块的两种方法得到 navmesh_get_island() 和
+navmesh_find_path(). 前者用来检索链接到当前的岛 （最接近独立网段的
+navmesh），而后者返回以数组形式的实际路径中的坐标。
 
-An example of using navigation meshes for pathfinding can be viewed in
-the Code Snippets (the corresponding snippet is named "Pathfinding").
+使用导航网格的寻路的例子可以在 代码摘要 (相对应的摘要名字叫
+"Pathfinding").
 
 
 在应用程序中的使用

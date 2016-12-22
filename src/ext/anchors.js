@@ -19,6 +19,7 @@
 /**
  * Anchors are Empty objects assigned in Blender.
  * They are used to project 3D points or HTML elements to the 2D screen.
+ * <p>For more info about anchor configuration check out the {@link https://www.blend4web.com/doc/en/objects.html#anchor-settings|user manual}.
  * @module anchors
  * @local AnchorMoveCallback
  */

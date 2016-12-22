@@ -2377,13 +2377,13 @@ exports.get_edge = function(cam, edge_type) {
     case exports.TYPE_HMD_RIGHT:
         switch (edge_type) {
         case "LEFT":
-            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[3]));
+            return -Math.tan(m_util.deg_to_rad(Math.min(cam.hmd_fov[1], cam.hmd_fov[3])));
         case "RIGHT":
-            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[1]));
+            return Math.tan(m_util.deg_to_rad(Math.min(cam.hmd_fov[1], cam.hmd_fov[3])));
         case "TOP":
-            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[0]));
+            return Math.tan(m_util.deg_to_rad(Math.min(cam.hmd_fov[0], cam.hmd_fov[2])));
         case "BOTTOM":
-            return Math.tan(m_util.deg_to_rad(cam.hmd_fov[2]));
+            return -Math.tan(m_util.deg_to_rad(Math.min(cam.hmd_fov[0], cam.hmd_fov[2])));
         }
         break;
     default:

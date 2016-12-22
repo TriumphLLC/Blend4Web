@@ -186,7 +186,7 @@ function prerender_bundle(bundle, subs) {
         var use_be = obj_render.use_be;
     }
 
-    if (!obj_render.do_not_cull && USE_FRUSTUM_CULLING &&
+    if (!batch.do_not_cull && USE_FRUSTUM_CULLING &&
              is_out_of_frustum(cam.frustum_planes, bs, be, use_be))
         return false;
 
@@ -213,7 +213,17 @@ function is_out_of_frustum(planes, bs, be, use_be) {
 
 function is_lod_visible(obj_render, eye) {
 
-    var center = obj_render.bs_world.center;
+    if (obj_render.type == "STATIC" && obj_render.is_lod) {
+        var center = obj_render.lod_center;
+        var radius = obj_render.lod_radius;
+    } else {
+        // DYNAMIC objects should use bs_world, because it is constantly 
+        // updated unlike the lod_center/lod_radius properties; non-lod objects 
+        // should use bs_world, because the lod_center/lod_radius scheme is a 
+        // culling deoptimization
+        var center = obj_render.bs_world.center;
+        var radius = obj_render.bs_world.radius;
+    }
 
     var dist_min = obj_render.lod_dist_min;
     var dist_max = obj_render.lod_dist_max;
@@ -227,7 +237,7 @@ function is_lod_visible(obj_render, eye) {
         return true;
 
     // additional interval for transition, fixes LOD flickering
-    var tr_int = obj_render.lod_transition_ratio * obj_render.bs_world.radius;
+    var tr_int = obj_render.lod_transition_ratio * radius;
 
     if (dist < (dist_max + tr_int))
         return true;

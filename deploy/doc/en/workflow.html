@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Workflow &mdash; Blend4Web 16.11 User Manual</title>
+  <title>Workflow &mdash; Blend4Web 16.12 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 User Manual" href="index.html"/>
         <link rel="next" title="Project Management" href="project_manager.html"/>
         <link rel="prev" title="Installing and Updating" href="setup.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -88,11 +88,8 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing and Updating</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Workflow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#authoring-scenes">Authoring Scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#displaying-scenes-in-the-viewer">Displaying Scenes in the Viewer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#exporting-scenes">Exporting Scenes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#displaying-scenes-in-the-viewer">Displaying Scenes in the Viewer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#application-development">Application Development</a></li>
 </ul>
 </li>
@@ -173,12 +170,9 @@
 <ul class="simple">
 <li><a class="reference internal" href="#workflow" id="id2">Workflow</a><ul>
 <li><a class="reference internal" href="#authoring-scenes" id="id3">Authoring Scenes</a></li>
-<li><a class="reference internal" href="#exporting-scenes" id="id4">Exporting Scenes</a></li>
-<li><a class="reference internal" href="#displaying-scenes-in-the-viewer" id="id5">Displaying Scenes in the Viewer</a><ul>
-<li><a class="reference internal" href="#example" id="id6">Example</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#application-development" id="id7">Application Development</a></li>
+<li><a class="reference internal" href="#displaying-scenes-in-the-viewer" id="id4">Displaying Scenes in the Viewer</a></li>
+<li><a class="reference internal" href="#exporting-scenes" id="id5">Exporting Scenes</a></li>
+<li><a class="reference internal" href="#application-development" id="id6">Application Development</a></li>
 </ul>
 </li>
 </ul>
@@ -189,9 +183,12 @@ what is the target it&#8217;s always possible to separate the production stage i
 which the bulk of assets and source code is authored.</p>
 <p>When using Blend4Web the workflow is the following:</p>
 <ol class="arabic simple">
+<li>Creating a New Project.</li>
 <li>Authoring 3D scenes in Blender.</li>
-<li>Exporting scenes.</li>
 <li>Running, tweaking and debugging scenes in the Viewer.</li>
+<li>Exporting scenes.</li>
+<li>Application Development.</li>
+<li>Building the project.</li>
 <li>Creating the target application.</li>
 </ol>
 <div class="section" id="authoring-scenes">
@@ -200,15 +197,26 @@ which the bulk of assets and source code is authored.</p>
 should be prepared for working in the engine.</p>
 <p>General recommendations:</p>
 <ol class="arabic simple">
-<li>We strongly recommend to save your blend files in the <code class="docutils literal"><span class="pre">blender/project_name</span></code> directory. Auxiliary files which are not intended for loading in your app (for example, references), should be located there as well.</li>
-<li>Images and media files should be external and located in the <code class="docutils literal"><span class="pre">deploy/assets/project_name</span></code> directory.</li>
+<li>We strongly recommend to save your blend files in the <code class="docutils literal"><span class="pre">projects/project_name/blender</span></code> directory. Auxiliary files which are not intended for loading in your app (for example, references), should be located there as well.</li>
+<li>Images and media files should be external and located in the <code class="docutils literal"><span class="pre">projects/project_name/assets</span></code> directory.</li>
 <li>Files from which you export should contain resources which are actually required in your application (objects, materials, textures, animation etc).</li>
 <li>Scene components should have distinct names. They should not be named &#8220;Cube.001&#8221;, &#8220;Material&#8221; or &#8220;Armature&#8221;.</li>
 <li>We recommend you to practice linking components from other files (libraries).</li>
 </ol>
 </div>
+<div class="section" id="displaying-scenes-in-the-viewer">
+<span id="assets-json"></span><span id="index-0"></span><h2><a class="toc-backref" href="#id4">Displaying Scenes in the Viewer</a><a class="headerlink" href="#displaying-scenes-in-the-viewer" title="Permalink to this headline">¶</a></h2>
+<p>When using the <a class="reference internal" href="addon.html#local-development-server"><span>local development server</span></a>
+it&#8217;s possible to preview current scene using <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button located at the bottom of Blender&#8217;s 3D View window,
+and also on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">-&gt;</span> <span class="pre">Development</span> <span class="pre">Server</span></code> panel in Blender. In this case
+the scene will be exported inside some temporary storage and loaded in the
+Viewer app.</p>
+<p>The other method is using <a class="reference internal" href="addon.html#run-in-viewer"><span>Run in Viewer</span></a> export
+option. In this case the scene will be displayed in the Viewer app
+immediately after the export.</p>
+</div>
 <div class="section" id="exporting-scenes">
-<span id="export-scene"></span><span id="index-0"></span><h2><a class="toc-backref" href="#id4">Exporting Scenes</a><a class="headerlink" href="#exporting-scenes" title="Permalink to this headline">¶</a></h2>
+<span id="export-scene"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id5">Exporting Scenes</a><a class="headerlink" href="#exporting-scenes" title="Permalink to this headline">¶</a></h2>
 <p>The export procedure converts the scene from the Blender format to one of
 the formats used by Blend4Web.</p>
 <a class="reference internal image-reference" href="_images/workflow_export_scheme.png"><img alt="_images/workflow_export_scheme.png" class="align-center" src="_images/workflow_export_scheme.png" style="width: 100%;" /></a>
@@ -224,74 +232,8 @@ operator search menu (available by pressing <code class="docutils literal"><span
 </div>
 <p>Export options are described in detail in the <a class="reference internal" href="addon.html#export-opts"><span>corresponding section</span></a>.</p>
 </div>
-<div class="section" id="displaying-scenes-in-the-viewer">
-<span id="assets-json"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id5">Displaying Scenes in the Viewer</a><a class="headerlink" href="#displaying-scenes-in-the-viewer" title="Permalink to this headline">¶</a></h2>
-<p>When using the <a class="reference internal" href="addon.html#local-development-server"><span>local development server</span></a>
-it&#8217;s possible to preview current scene using <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button,
-located on the <code class="docutils literal"><span class="pre">Scene-&gt;Development</span> <span class="pre">Server</span></code> panel in Blender. In this case
-the scene will be exported inside some temporary storage and loaded in the
-Viewer app.</p>
-<p>The other method is using <a class="reference internal" href="addon.html#run-in-viewer"><span>Run in Viewer</span></a> export
-option. In this case the scene will be displayed in the Viewer app
-immediately after the export.</p>
-<p>For the long-term storage of the scene in the scene list of the viewer, it&#8217;s
-required to manually add the entry to the <code class="docutils literal"><span class="pre">apps_dev/viewer/assets.json</span></code>
-text file. This file is opened automatically in Blender if you are using
-Blend4Web SDK.</p>
-<p>Use the &#8220;Text Editor&#8221; to modify it:</p>
-<img alt="_images/text_editor.png" class="align-center" src="_images/text_editor.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>Then select the <code class="docutils literal"><span class="pre">assets.json</span></code> file in the window to edit it:</p>
-<img alt="_images/assets_json.png" class="align-center" src="_images/assets_json.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>To add a new scene you need to know the category in which it should be
-displayed. The category normally corresponds to the project name and to the
-name of the directory where the corresponding files are stored.</p>
-<div class="section" id="example">
-<h3><a class="toc-backref" href="#id6">Example</a><a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
-<p>For example below you can see a part of <code class="docutils literal"><span class="pre">assets.json</span></code>. In this file there
-are two projects - &#8220;Capri&#8221; and &#8220;Fridge&#8221; each with corresponding scenes:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Capri&quot;</span><span class="p">,</span>
-    <span class="n">items</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Baken&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;capri/props/baken/baken.json&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Terrain&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;capri/landscape/terrain/terrain.json&quot;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">},</span>
-<span class="p">{</span>
-    <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Fridge&quot;</span><span class="p">,</span>
-    <span class="n">items</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Apple&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;fridge/fruits/apple/apple.json&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Mango&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;fridge/fruits/mango/mango.json&quot;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>To add a new scene you can copy and paste a similar scene&#8217;s description to
-the required category and then edit its name and path to the exported file.</p>
-<p>A successfully added scene should appear in the scenes&#8217; list of the viewer
-in the required category</p>
-<a class="reference internal image-reference" href="_images/workflow_viewer_apple.png"><img alt="_images/workflow_viewer_apple.png" class="align-center" src="_images/workflow_viewer_apple.png" style="width: 100%;" /></a>
-</div>
-</div>
 <div class="section" id="application-development">
-<h2><a class="toc-backref" href="#id7">Application Development</a><a class="headerlink" href="#application-development" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Application Development</a><a class="headerlink" href="#application-development" title="Permalink to this headline">¶</a></h2>
 <p>At this stage an application is created. Logic for scene loading and user
 interaction is written using JavaScript. The application developer notes are
 given in the <a class="reference internal" href="developers.html#developers"><span>corresponding section</span></a>.</p>
@@ -318,7 +260,7 @@ given in the <a class="reference internal" href="developers.html#developers"><sp
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-11-29.
+      Last updated on 2016-12-22.
 
     </p>
   </div>
@@ -374,7 +316,7 @@ given in the <a class="reference internal" href="developers.html#developers"><sp
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

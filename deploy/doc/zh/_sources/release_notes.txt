@@ -3,6 +3,128 @@
 ********
 
 
+v16.12
+======
+
+
+新功能
+------
+
+* 项目管理器改进。
+
+     "New File" and "Save As" buttons were added to the project file
+     editor. Also, to simplify navigation, the editor hightlights
+     edited files.
+
+     Project Manager applicaton builder now minifies compiled HTML
+     files to speed-up their loading.
+
+* New "Cycles" material nodes.
+
+     "Emission" node support has been added. This node is from the
+     "Shader" category. It is responsible for the light emitting
+     component of the material. Node inputs include "Color",
+     "Strength". In Blend4Web, materials which use this node only
+     simulate the look of the surface and are not dynamic light
+     sources.
+
+* Improved rendering of LOD objects.
+
+     From now on LOD objects are batched with respect to their LOD
+     distance parameter and their proportions. Thus, the engine
+     renders LOD objects as effectively as possible, trying to keep a
+     reasonable amount of the combined objects at the same time. For
+     tuning this behavior the "LOD Cluster Size Multiplier" parameter
+     was added into the *Scene->Objects Clustering* panel.
+
+* New API methods prefetch and unfetch.
+
+     The first allows preloading resources of a scene (textures,
+     sounds, files of the scene) and caches them. The second allows
+     cleaning up the cache.
+
+* Support for object picking on VR devices.
+
+     The pick_center method has been added. It allows users to get an
+     object in the center of the viewport using the object picking
+     functionality. This method works both for general-purpose and for
+     VR devices.
+
+* Improved add-on interface.
+
+     Now the stand-alone add-on does not show the development server
+     panel. Extended warnings, that the development server is not
+     available on the standalone add-on, have been added.
+
+* Texture caching
+
+     Now all image textures are cached and if a new texture with
+     similar properties is requested, it will be taken from the cache.
+     This results in saving memory and significantly speeds up the
+     change_image method for multiple objects.
+
+
+变更
+----
+
+* Project Manager changes.
+
+     The structure of Project Manager files was upgraded. Now new
+     projects are placed in the "projects" directory. All assets are
+     placed in the project folder.
+
+     Please note that get_std_assets_path() no longer specifies
+     project assets directory within the new file structure. Replace
+     it with the get_assets_path() method.
+
+     The "upgrade file structure" button was added to upgrade the old
+     projects to the new structure.
+
+     Now text inside the project manager editor is indented with
+     spaces instead of tabs.
+
+* Lamp objects of the unsupported AREA type are changed to the type
+  SUN during the export from now on. In this case, a related error
+  message  will be printed in the browser console.
+
+
+修复
+----
+
+* Fixed a bug with video textures on mobile Chrome.
+
+* Fixed a bug with Alpha Sort type of transparency for static
+  objects.
+
+* Fixed a bug with incorrect rendering of materials that use normal
+  mapping.
+
+* Fixed a bug when the LODs of a single object were switched between
+  each other with a very noticeable delay and none of the LODs were
+  rendered at that very moment.
+
+* Fixed a bug with dynamic grass on WebGL 2.0.
+
+* Fixed a bug with Wacom tablet interaction.
+
+* Fixed "Export to different disk is forbidden" message that was
+  showing up when using fast preview.
+
+* Fixed crash during the export of dupli groups without any attached
+  objects
+
+* Alpha values greater than 1.0 are now correctly processed for
+  transparent materials.
+
+* "PARALLAX" node no longer crashes node trees if its input texture
+  has any output nodes apart from the "PARALLAX" node itself.
+
+* Shader node trees are now pre-cleaned during export to get rid of
+  unused nodes.
+
+* Fixed viewport alignment in VR mode.
+
+
 v16.11
 ======
 
@@ -10,182 +132,145 @@ v16.11
 新功能
 ------
 
-* Added partial support for materials powered by "Cycles" render
-  nodes. List of currently supported "Cycles" nodes:
+* 添加了部分支持  "Cycles"  渲染器节点的材质。当前支持的 "Cycles" 节
+  点 的列表︰
 
-     "Material Output" node is similiar to "Output" from "Blender
-     Internal" except it utilizes a shader type input socket.
-     "Surface" node input is the only one currently supported. This
-     node defines material as a physically based rendered (PBR)
-     material.
+     "Material Output" 输出节点是类似于 "Blender Internal" 的
+     "Output"  除了它利用着色器类型输入的插槽。 "Surface" 节点输入是当
+     前唯一被支持的。此节点定义材质，如基于物理模型的渲染 (PBR) 材质。
 
-     "BSDF Diffuse" node is from the "Shader" category. It is
-     responsible for the diffuse component of the material lighting
-     and produces no visible reflections. Node inputs include "Color",
-     "Roughness", "Normal". This node has single shader type output
-     socket.
+     "BSDF Diffuse" 节点是从 "Shader" 类别创建。它负责材质照明的漫反射
+     部分，并产生不可见的反射。节点输入包括 "Color", "Roughness",
+     "Normal". 此节点有一个着色器类型输出插槽。
 
-     "BSDF Glossy" node is from the "Shader" category. It is
-     responsible for the specular component of the material lighting
-     and reflections of the environment. Node inputs include "Color",
-     "Roughness", "Normal". This node has single shader type output
-     socket. The only currently supported specular distribution is
-     GGX. This node automatically enables real-time cube reflections
-     for the object, which uses the material and is not set as
-     reflective. Reflexible environment and objects should be
-     configured according to standard b4w pipeline. Roughness
-     currently does not affect reflections.
+     "BSDF Glossy" 节点出自 "Shader" 类别.它是负责材质照明的镜面反射部
+     分和环境的反射。节点输入包含 "Color", "Roughness", "Normal". 此节
+     点有一个着色器类型输出插槽。现在只支持反射分布类似是GGX。这个节点
+     自动为物体启用实时立方体反射，它使用材质而不是设置为反射。反射环
+     境和物体应根据标准b4w工作流程配置。粗糙度目前不影响反射。
 
-     "Mix Shader" node is from the "Shader" category. This node is
-     used to mix outputs of nodes from the "Shader" category. Node
-     inputs include "Fac", which defines mixing ratio, and two
-     "Shader" inputs. This node has single shader type output socket.
+     "Mix Shader" 节点出自 "Shader" 类别。此节点用于混合从着色类别的输
+     出节点。节点输入包括 "Fac", 定义了两个 "Shader"  输入的混合比。此
+     节点有一个着色器类型输出插槽。
 
-     "Fresnel" node is from the "Input" category. This node computes
-     how much light is reflected off a material layer, where the rest
-     will be refracted through the layer. The resulting weight can be
-     used for layering shaders with the "Mix Shader" node. It is
-     dependent on the angle between the surface normal and the viewing
-     direction. Node inputs include "IOR" (index of refraction) and
-     "Normal". This node has single scalar type output socket.
+     "Fresnel" 节点出自 "Input" 类别。此节点计算多少光反射材质的层，在
+     那里剩余部分会折射通过层。由此产生的权重值可以用于分层着色器在
+     "Mix Shader" 节点。它是依赖于表面法线和查看方向之间的角度。节点输
+     入包括  "IOR" （折射率） 和  "Normal" 。此节点具有一个标量类型输
+     出插槽。
 
-     "Layer Weight" node is from the "Input" category. This node
-     defines a weight typically used for layering shaders with the Mix
-     Shader node. Node inputs include "Blend" and "Normal". Node
-     inputs include "Fresnel" and "Facing".
+     "Layer Weight"  节点出自 "Input"  类别。此节点定义通常用于与混合
+     着色器节点的分层着色器的权重值。节点输入包括 "Blend" 和 "Normal"
+     。节点输出包括 "Fresnel" 和 "Facing".
 
-     Other supported nodes include "Image Texture", "Environment
-     Texture", "Object Info", "Bump".
+     其他受支持的节点包括 "Image Texture", "Environment Texture",
+     "Object Info", "Bump".
 
-     Other partially supported nodes include "Texture Coordinate"
-     (*From Dupli* parameter is not supported), "UV Map" (*From Dupli*
-     parameter is not supported), "Geometry" (*Pointness* and
-     *Parametric* outputs are not supported).
+     其他部分受支持的节点包括 "Texture Coordinate" (*From Dupli* 参数
+     不支持), "UV Map" (*From Dupli* 参数不支持), "Geometry"
+     (*Pointness* 和 *Parametric* 输出不支持).
 
-     Nodes supported in previous b4w releases, which are used in both
-     "Cycles" and "Blender Internal", will also work fine with new PBR
-     materials. Such nodes include "Color Ramp", "Normal Map", "Camera
-     Data", "Particle Info", "RGB", "Value", nodes from the
-     "Convertor" category (except "Blackbody" and "Wavelength" nodes),
-     nodes from the "Vector" category, nodes from the "Color" category
-     (except "Light Falloff" node).
+     节点支持在以前的 b4w 版本，用于 "Cycles" 和 "Blender Internal",
+     也将在新的 PBR 材质里正常工作。此类节点包括 "Color Ramp", "Normal
+     Map", "Camera Data", "Particle Info", "RGB", "Value",节点出自
+     "Convertor" 类别 （除了黑体和波长节点），出自 "Vector" 类别节点，
+     出自 "Color" 类别节点 （除了 "Light Falloff" 节点）。
 
 * 项目管理器改进。
 
-     The project file editor was added. Now CSS, JavaScript, HTML and
-     .b4w_project files can be edited in the Project Manager.
+     添加项目文件编辑器。现在可以在项目管理器中编辑 CSS、 JavaScript、
+     HTML 和.b4w_project 文件。
 
-* New first-person (fps) add-on was added.
+* 新的第一人称 (fps) 插件被添加。
 
-     The add-on helps to create first person applications easier.
-     There are two main methods in it: enable_fps_controls and
-     disable_fps_controls. The first creates default gamepad and
-     keyboard controls, enables mouse and touch camera movement,
-     enables VR camera rotation if VR mode is enabled. The second
-     disables these controls. There are also other methods in the new
-     add-on: bind_action, set_character_state_changing_cb,
+     有助于更容易创建第一人应用程序的插件。有两个主要方法:
+     enable_fps_controls and disable_fps_controls.第一个将创建默认的手
+     柄和键盘控制，启用鼠标和触摸摄像机的运动，如果VR模式启用，启动虚
+     拟摄像机的旋转。第二个禁用这些控件。新的插件里面也有其他一些方法
+     ：bind_action, set_character_state_changing_cb,
      set_cam_smooth_factor, set_cam_sensitivity, set_plock_enable_cb,
      set_plock_disable_cb.
 
-* Improvements with 3D Navigation Mesh.
+* 增强了 3D 导航网格。
 
-     Now the navmesh_find_path method of the physics module finds 3d
-     path, it allows us to construct paths on vertical surfaces.
-     Previously, one was only able to construct path on horizontal
-     planes. The parameters of the navmesh_find_path method has been
-     changed. Initialization time of navigation mesh has been reduced.
-     A* algorithm has been improved.
+     现在  physics  模块的 navmesh_find_path 方法用来发现 3d 路径，它
+     使我们能够构建垂直表面上的路径。以前，只能够建立在水平面上的路径
+     。 navmesh_find_path  方法的参数已被更改。导航网格初始化时间已减
+     少。A* 算法进行了改进。
 
-* Blend4Web addon usability improvements.
+* Blend4Web插件可用性改进。
 
-     Blend4Web SDK Directory field in addon properties has been
-     removed. Now, path to Blend4Web SDK directory resolved
-     automatically.
+     插件中的 Blend4Web SDK 目录属性字段已被删除。现在，Blend4Web SDK
+     目录路径自动解析。
 
 
 变更
 ----
 
-* API changes.
+* API 的变更。
 
-     The parameters of the shot method and the canvas_data_url method
-     have been changed.
+     shot 方法的参数和  canvas_data_url 方法已被更改。
 
-     A new function get_camera_angles_dir has been added into the
-     camera module. It allows to get a camera's spherical coordinates
-     from the given direction respresenting the view vector of a
-     camera.
+     一个新的函数  get_camera_angles_dir 已经添加进 camera 模块。它允
+     许从给定的方向下相机视图矢量得到相机的球面坐标。
 
-* Simplified Environment Setup.
+* 简化的环境设置。
 
-     Water now uses the default wind when the wind object is absent in
-     a scene. A water object is now always dynamic. Procedural sky
-     uses the default sun direction when a sun object is absent in a
-     scene.
+     水现在使用默认风当风物体是没加在场景中。现在水物体永远是动态。太
+     阳物体是缺席在场景中时程序天空使用默认太阳方向。
 
-* NPC AI now caches all animation on initialization.
+* NPC AI现在初始化时缓存所有动画。
 
-     This slighly increases the loading time but removes real-time
-     delays caused by npc animation.
+     这有点增加加载时间，但消除了 npc 动画造成的实时延迟。
 
-* The "Fast Preview" button is now available in the Cycles render
-  profile.
+* "Fast Preview" 按钮现在在 Cycles渲染器面板出现。
 
-* The get_all_objects, get_object_by_name and check_object_by_name
-  methods no longer return the engine's internal meta-objects, which
-  are not intended to use in an application.
+* get_all_objects, get_object_by_name and check_object_by_name 方法
+  不 再返回引擎内部元物体，已经不在应用程序中使用。
 
 
 修复
 ----
 
-* Project Manager compatibility with the old build type "update" was
-  added.
+* 项目管理器与旧的构建类型 "update"  兼容性被添加 。
 
-* Fixed bug with specific encoding in the Project Manager.
+* 在项目管理器中用特定的编码的错误得到修正。
 
-* Fixed bug with the same module names conflicting in the Project
-  Manager.
+* 在项目管理器中相同的模块名称冲突的错误得到修复。
 
-* Specular shading bug was fixed.
+* 镜面着色 bug 修复。
 
-     The bug, which happened when two or more lamps were used for
-     material with the Blinn specular type, was fixed.
+     该 bug发生在当两个或更多的灯被用于 Blinn 镜面型材质，被修复。
 
-* NLA unloading bug was fixed.
+* NLA卸载错误得到修复。
 
-     Now all objects belonging to the unloaded scene are removed from
-     NLA.
+     现在所有属于卸载场景的物体，从NLA移除。
 
-* Stereo blinking bug was fixed.
+* 立体闪烁 bug 修复。
 
-     The bug appeared when using motion blur effect.
+     使用运动模糊效果该 bug 出现。
 
-* Overwriting resources with the same names in temporary directory
-  when using Fast Preview was fixed.
+* 使用快速预览时，在临时文件夹中用相同名字覆盖掉资源的问题被修复。
 
-* Fixed Network error while downloading a screenshot.
+* 下载截图时网络错误得到修复。
 
-* Fixed shader crash occuring in some scenes in LOW quality mode.
+* 修复发生在某些场景中的低质量模式的着色器崩溃。
 
-* Fixed engine crash for scenes without "MESH" objects.
+* 修复场景没有 "MESH" 物体时引擎崩溃。
 
-* Fixed the track_to_target method, which previously performed
-  incorrect zoom animation.
+* 修复 track_to_target  以前执行不正确缩放动画的方法。
 
-* Fixed a rare bug related to empty particle texture slots, which
-  could lead to export crash.
+* 修正了一个罕见有关空粒子纹理插槽，这可能导致导出崩溃。
 
-* Fixed rendering of the procedural lines.
+* 修正了程序线的渲染。
 
-* Fixed "Play Animation" logic node bug when animation stopped
-  playing after the first time.
+* 修复 "Play Animation" 逻辑节点当第一次播放后动画停止。
 
-* Fixed crash in navmesh module in web-browsers without support of
-  *indexOf* method for *TypedArray*.
+* 修复 navmesh 模块没有 'TypedArray' 的  *indexOf* 方法时在 web 浏览
+  器 里崩溃。
 
-* Fixed silent failure in "Project Manager" during resource
-  converting in case of *ffprobe* missing.
+* 修复资源转换时如果 *ffprobe* 找不到 "Project Manager" 会有无声故障
+  。
 
 
 v16.10
@@ -284,7 +369,7 @@ v16.10
 
      这种优化主要影响阴影和头发粒子。使用此功能增加了场景的帧速率。
 
-* 现在，在默认情况下键盘设备连接到文档对象。
+* 现在，在默认情况下键盘设备连接到文档物体。
 
 * 新增 "None" 作为一个新的引擎绑定类型。
 
@@ -658,7 +743,7 @@ v16.07
      on blurred objects. New algorithm can be enabled via "Bokeh"
      property from the camera properties panel in Blender.
 
-* API changes.
+* API 的变更。
 
      The create_simple_preloader method of the preloader module has
      been declared deprecated and will be removed in future releases.
@@ -823,7 +908,7 @@ v16.06
 
 * Now keyboard sensors do not active when using browser shortcuts.
 
-* API changes.
+* API 的变更。
 
      The resize_to_container method of the app module has been
      declared deprecated and will be removed in future releases.
@@ -1013,7 +1098,7 @@ v16.05
 * "Entry Point" logic nodes with the "Run From Script" option
   selected can now be called from API multiple times.
 
-* API changes.
+* API 的变更。
 
      The create_rotation_preloader method  of the preloader module has
      been declared deprecated and will be removed in further releases.
@@ -1300,7 +1385,7 @@ v16.03
 变更
 ----
 
-* API changes.
+* API 的变更。
 
      The enable_controls and disable_controls of app add-on have been
      declared deprecated.

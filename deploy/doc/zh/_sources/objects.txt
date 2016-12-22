@@ -664,9 +664,9 @@ Outlining" 和 "Outline on Select" 选框，那么 "pick_object" 函数调用将
 
 *quat.setAxisAngle*
    四元数是任意相对于任意轴（矢量）的任意角度旋转的另一种表现。从向量
-   的末端来观看时旋转的正方向定义为逆时针。例如
-   :code`quat.setAxisAngle([1, 0, 0], Math.PI/2, quat)`  用四元数对物
-   体相对于X轴旋转了90度（如果从X轴末端查看是逆时针）。
+   的末端来观看时旋转的正方向定义为逆时针。例如 "quat.setAxisAngle([1,
+   0, 0], Math.PI/2, quat)"  用四元数对物体相对于X轴旋转了90度（如果从
+   X轴末端查看是逆时针）。
 
 *quat.slerp*
    四元数球面插值。用于平滑物体的旋转和动画。

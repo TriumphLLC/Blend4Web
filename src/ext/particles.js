@@ -17,8 +17,7 @@
 "use strict";
 
 /**
- * Particles API. Particles emission controlled by
- * {@link module:animation}.
+ * {@link https://www.blend4web.com/doc/en/particles.html|Particle system} API. Please note that particle emission itself is controlled by the {@link module:animation} module.
  * @module particles
  */
 b4w.module["particles"] = function(exports, require) {

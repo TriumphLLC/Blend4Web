@@ -128,7 +128,7 @@ exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
             load_level("level_02");
             break;
         case "level_02":
-            load_level("under_construction");
+            load_level("quest");
             break;
         }
     }

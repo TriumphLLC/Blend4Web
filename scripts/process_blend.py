@@ -214,7 +214,7 @@ def process_html(path):
     if _operation == "report":
         report_blender_warnings(output, blend)
 
-    saved_path = normpath(output.split("B4W Export HTML Path = ")[1].split("\n")[0])
+    saved_path = normpath(output.split("B4W Export HTML Path = ")[1].split("\n")[0].strip("\r"))
 
     if not saved_path == os.path.abspath(path):
         report("ERROR", "[WRONG PATH]", path, blend)

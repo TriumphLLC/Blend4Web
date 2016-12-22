@@ -381,20 +381,20 @@ Physics settings.
 
 .. _scene_batching:
 
-Cluster Batching
-----------------
+Objects Clustering
+------------------
 
-This parameter enables the use of cluster batching. It can be used for optimization purposes. This is disabled by default.
+The setting for object clustering. It can be used for optimization purposes.
 
-.. note::
-    If this parameter is disabled, the engine will try to combine all static objects into one.
-
-.. image:: src_images/scene_settings/scene_cluster_batching.png
+.. image:: src_images/scene_settings/scene_object_clustering.png
    :align: center
    :width: 100%
 
 *Cluster Size*
-    The size of the cluster used for batching (in meters). Set to 30 by default. If this parameter is set to zero, objects will not be combined.
+    The size of the cluster used for batching (in meters). If this parameter is set to zero, the engine will try to combine all objects in the scene. Set to zero by default.
+
+*LOD Cluster Size Multiplier*
+    This parameter is used to subdivide clusters (based on LOD distance specified individually for each object) into smaller ones to make transitions between different levels of detail less noticable. The size of that smaller clusters is defined by object LOD distance multiplied by the value of this parameter. Higher values lead to bigger clusters which increases performance but maked transition between LODs more noticable, while lower values make said transitions less noticable at the cost of decreased performance. Set to 0.5 by default.
 
 .. _scene_objects_selection:
 

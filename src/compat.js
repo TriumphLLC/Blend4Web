@@ -94,7 +94,11 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         if (check_user_agent("Firefox")) {
             warn("Firefox and WebGL 2 detected, applying framebuffer hack, disabling anchor visibility");
             cfg_def.check_framebuffer_hack = true;
-            cfg_def.ff_disable_anchor_vis_hack = true;
+        }
+        if (check_user_agent("Windows") && check_user_agent("Chrome")) {
+            warn("Windows, Chrome and WebGL 2 detected, applying " +
+                    "multisample hack, disabling MSAA.");
+            cfg_def.msaa_samples = 1;
         }
     }
 
@@ -274,6 +278,11 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
             cfg_def.resize_cubemap_canvas_hack = true;
         }
 
+        if (vendor.indexOf("AMD") > -1 && check_user_agent("Windows") && check_user_agent("Chrome")) {
+            warn("AMD, Windows and Chrome detected, applying depth hack");
+            depth_tex_available = false;
+        }
+
         if (renderer.indexOf("PowerVR") > -1) {
             warn("PowerVR series detected, use canvas for resizing. " +
                     "Disable shadows. " +
@@ -363,13 +372,13 @@ function check_user_agent(str) {
 }
 exports.detect_mobile = detect_mobile;
 function detect_mobile() {
-    return navigator.userAgent.match(/Android/i)
+    return navigator.userAgent.match(/Windows Phone/i)
+        ||navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/webOS/i)
         || navigator.userAgent.match(/iPhone/i)
         || navigator.userAgent.match(/iPad/i)
         || navigator.userAgent.match(/iPod/i)
-        || navigator.userAgent.match(/BlackBerry/i)
-        || navigator.userAgent.match(/Windows Phone/i);
+        || navigator.userAgent.match(/BlackBerry/i);
 }
 
 exports.apply_context_alpha_hack = function() {

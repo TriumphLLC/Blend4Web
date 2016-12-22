@@ -65,15 +65,16 @@ latexpdf:
 	@echo "pdflatex finished; the PDF files are in latex."
 	mv latex/b4w_tmp.pdf $(PUBDIR)/b4w_manual_en.pdf
 
-	#rm -r latex/*
+	rm -r latex/*
 
-	#$(SPHINXBUILD) -b latex $(ZHOPT) $(ALLSPHINXOPTS) latex
-	#sed -e "/DeclareUnicodeCharacter/d" latex/b4w_tmp.tex > latex/b4w_tmp.tex~ 
-	#mv latex/b4w_tmp.tex~ latex/b4w_tmp.tex  
-	#@echo "Running LaTeX files through pdflatex..."
-	#make -C latex all-pdf
-	#@echo "pdflatex finished; the PDF files are in latex."
-	#mv latex/b4w_tmp.pdf $(PUBDIR)/b4w_manual_zh.pdf
+	$(SPHINXBUILD) -b latex $(ZHOPT) $(ALLSPHINXOPTS) latex
+	sed -e "/DeclareUnicodeCharacter/d" latex/b4w_tmp.tex > latex/b4w_tmp.tex~
+	mv latex/b4w_tmp.tex~ latex/b4w_tmp.tex
+	@echo "Running XeLaTeX files through xelatex..."
+	sed -i s/pdflatex/xelatex/ latex/Makefile
+	$(MAKE) -C latex all-pdf
+	@echo "xelatex finished; the PDF files are in $(BUILDDIR)/latex."
+	mv latex/b4w_tmp.pdf $(PUBDIR)/b4w_manual_zh.pdf
 
 gettext:
 	$(SPHINXBUILD) -b gettext $(ENOPT) $(I18NSPHINXOPTS) locale -j 4

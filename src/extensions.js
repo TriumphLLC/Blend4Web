@@ -136,8 +136,58 @@ exports.get_standard_derivatives = function() {
  * @methodOf extensions
  */
 exports.get_disjoint_timer_query = function() {
-    var ext = get("EXT_disjoint_timer_query");
-    return ext;
+    if (cfg_def.webgl2)
+        var ext = webgl2_get("EXT_disjoint_timer_query");
+    else
+        var ext = get("EXT_disjoint_timer_query");
+
+    if (ext == null)
+        return ext;
+
+    if (ext.createQueryEXT)
+        var ext_complete = {
+            createQuery: function() {
+                return ext.createQueryEXT();
+            },
+            beginQuery: function(query) {
+                ext.beginQueryEXT(ext.TIME_ELAPSED_EXT, query);
+            },
+            endQuery: function() {
+                ext.endQueryEXT(ext.TIME_ELAPSED_EXT);
+            },
+            getQueryAvailable: function(query) {
+                return ext.getQueryObjectEXT(query, ext.QUERY_RESULT_AVAILABLE_EXT);
+            },
+            getQueryObject: function(query) {
+                return ext.getQueryObjectEXT(query, ext.QUERY_RESULT_EXT);
+            },
+            getDisjoint: function() {
+                return ext.GPU_DISJOINT_EXT;
+            }
+        };
+    else
+        var ext_complete = {
+            createQuery: function() {
+                return _gl.createQuery();
+            },
+            beginQuery: function(query) {
+                _gl.beginQuery(ext.TIME_ELAPSED_EXT, query);
+            },
+            endQuery: function() {
+                _gl.endQuery(ext.TIME_ELAPSED_EXT);
+            },
+            getQueryAvailable: function(query) {
+                return _gl.getQueryParameter(query, _gl.QUERY_RESULT_AVAILABLE);
+            },
+            getQueryObject: function(query) {
+                return _gl.getQueryParameter(query, _gl.QUERY_RESULT);
+            },
+            getDisjoint: function() {
+                return ext.GPU_DISJOINT_EXT;
+            }
+        };
+
+    return ext_complete;
 }
 
 exports.get_instanced_arrays = function() {
@@ -223,6 +273,11 @@ function webgl2_get(name) {
     case "ANGLE_instanced_arrays":
     case "OES_vertex_array_object":
         var ext = _gl;
+        break;
+    case "EXT_disjoint_timer_query":
+        var ext = _gl.getExtension("EXT_disjoint_timer_query") || null;
+        if (!ext)
+            ext = _gl.getExtension("EXT_disjoint_timer_query_webgl2") || null;
         break;
     }
 

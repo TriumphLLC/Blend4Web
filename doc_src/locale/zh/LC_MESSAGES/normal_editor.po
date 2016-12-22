@@ -281,7 +281,7 @@ msgstr "平均"
 msgid ""
 "The ``Average`` button averages the direction of the vertex normals "
 "which was modified."
-msgstr "在``Average``按钮平均值其中被修改的顶点法线的方向。"
+msgstr "在 ``Average`` 按钮平均值其中被修改的顶点法线的方向。"
 
 #: ../normal_editor.rst:170
 msgid ""
@@ -290,7 +290,7 @@ msgid ""
 "vertex and press the ``Average Split`` button."
 msgstr ""
 "结合几个分割顶点法线，为了获得这些法线的平均方向，您只需要选择所需的顶"
-"点，然后按Average Split按钮。"
+"点，然后按 ``Average Split`` 按钮。"
 
 #: ../normal_editor.rst:173
 msgid "Restore"

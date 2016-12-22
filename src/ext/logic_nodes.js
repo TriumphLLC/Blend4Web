@@ -17,7 +17,7 @@
 "use strict";
 
 /**
- * API methods to control logic editor.
+ * API methods to control the {@link https://www.blend4web.com/doc/en/logic_editor.html|Logic Editor}.
  * @module logic_nodes
  */
 b4w.module["logic_nodes"] = function(exports, require) {

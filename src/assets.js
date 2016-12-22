@@ -65,6 +65,10 @@ var _assets_pack_index = 0;
 // deprecated
 var _loaded_assets = {};
 
+var _arraybuffer_cache = {};
+var _img_cache = {};
+var _sound_cache = {};
+var _arraybuffer_sound_cache = {};
 
 function get_built_in_data() {
     if (m_cfg.is_built_in_data())
@@ -188,6 +192,7 @@ exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb, json_rev
             id: elem.id,
             type: elem.type,
             url: elem.url,
+            is_fetch: elem.is_fetch,
             request: elem.request ? elem.request : "GET",
             post_type: elem.post_type ? elem.post_type : null,
             overwrite_header: elem.overwrite_header ? elem.overwrite_header : null,
@@ -279,6 +284,17 @@ function request_assets(queue) {
 }
 
 function request_arraybuffer(asset, response_type) {
+
+    var filepath = asset.url.split("?t=")[0];
+    if (filepath in _arraybuffer_cache) {
+        if (response_type == "json")
+            asset.asset_cb(m_util.clone_object_r(_arraybuffer_cache[filepath]), asset.id, asset.type,
+                    asset.url, asset.param);
+        else
+            asset.asset_cb(_arraybuffer_cache[filepath], asset.id, asset.type,
+                    asset.url, asset.param);
+        return;
+    }
     var bd = get_built_in_data();
     if (bd && asset.url in bd)
         var req = new FakeHttpRequest();
@@ -341,7 +357,11 @@ function request_arraybuffer(asset, response_type) {
                                 return;
                             }
                         }
-
+                        if (asset.is_fetch)
+                            if (response_type == "json")
+                                _arraybuffer_cache[filepath] = m_util.clone_object_r(response);
+                            else
+                                _arraybuffer_cache[filepath] = response;
                         asset.asset_cb(response, asset.id, asset.type, asset.url, asset.param);
                     } else {
                         m_print.error("empty responce when trying to get " + asset.url);
@@ -365,6 +385,13 @@ function request_arraybuffer(asset, response_type) {
 }
 
 function request_audiobuffer(asset) {
+    var filepath = asset.url.split("?t=")[0];
+    if (filepath in _arraybuffer_sound_cache) {
+        asset.asset_cb(_arraybuffer_sound_cache[filepath], asset.id, asset.type,
+                asset.url, asset.param);
+        asset.state = ASTATE_RECEIVED;
+        return;
+    }
     if (asset.request != "GET") {
         m_util.panic("Unsupported request type for audio buffer");
     }
@@ -387,6 +414,10 @@ function request_audiobuffer(asset) {
                         var decode_cb = function(audio_buffer) {
                             asset.asset_cb(audio_buffer, asset.id, asset.type, asset.url, asset.param);
                             asset.state = ASTATE_RECEIVED;
+                            if (asset.is_fetch) {
+                                var filepath = asset.url.split("?t=")[0];
+                                _arraybuffer_sound_cache[filepath] = audio_buffer;
+                            }
                         }
                         var fail_cb = function() {
                             asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
@@ -413,6 +444,12 @@ function request_audiobuffer(asset) {
 }
 
 function request_image(asset) {
+    var filepath = asset.url.split("?t=")[0];
+    if (filepath in _img_cache) {
+        asset.asset_cb(_img_cache[filepath], asset.id, asset.type, asset.url, asset.param);
+        asset.state = ASTATE_RECEIVED;
+        return;
+    }
     if (asset.request != "GET") {
         m_util.panic("Unsupported request type for image element");
     }
@@ -423,6 +460,10 @@ function request_image(asset) {
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(image, asset.id, asset.type, asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
+            if (asset.is_fetch) {
+                var filepath = asset.url.split("?t=")[0];
+                _img_cache[filepath] = image;
+            }
         }
     };
     image.addEventListener("error", function() {
@@ -451,6 +492,13 @@ function request_image(asset) {
 }
 
 function request_audio(asset) {
+    var filepath = asset.url.split("?t=")[0];
+    if (filepath in _sound_cache) {
+        asset.asset_cb(_sound_cache[filepath], asset.id, asset.type,
+                asset.url, asset.param);
+        asset.state = ASTATE_RECEIVED;
+        return;
+    }
     if (asset.request != "GET") {
         m_util.panic("Unsupported request type for audio element");
     }
@@ -462,6 +510,10 @@ function request_audio(asset) {
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(audio, asset.id, asset.type, asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
+            if (asset.is_fetch) {
+                var filepath = asset.url.split("?t=")[0];
+                _sound_cache[filepath] = audio;
+            }
         }
     }, false);
 
@@ -515,19 +567,29 @@ function request_audio(asset) {
 }
 
 function request_video(asset) {
+    var filepath = asset.url.split("?t=")[0];
+    if (filepath in _img_cache) {
+        asset.asset_cb(_img_cache[filepath], asset.id, asset.type, asset.url, asset.param);
+        asset.state = ASTATE_RECEIVED;
+        return;
+    }
     if (asset.request != "GET") {
         m_util.panic("Unsupported request type for video element");
     }
     var video = document.createElement("video");
     video.muted = true;
     // HACK: allow crossOrigin for mobile devices (Android Chrome bug)
-    if (cfg_def.allow_cors || cfg_def.is_mobile_device)
+    if (cfg_def.allow_cors)
         video.crossOrigin = "Anonymous";
     video.addEventListener("loadeddata", function() {
         video.removeEventListener("error", video_error_event, false);
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(video, asset.id, asset.type, asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
+            if (asset.is_fetch) {
+                var filepath = asset.url.split("?t=")[0];
+                _img_cache[filepath] = video;
+            }
         }
     }, false);
 
@@ -574,6 +636,12 @@ function request_video(asset) {
 }
 
 function request_seq_video(asset) {
+    var filepath = asset.url.split("?t=")[0];
+    if (filepath in _img_cache) {
+        asset.asset_cb(_img_cache[filepath], asset.id, asset.type, asset.url, asset.param);
+        asset.state = ASTATE_RECEIVED;
+        return;
+    }
     if (asset.request != "GET") {
         m_util.panic("Unsupported request type for seq video element");
     }
@@ -600,6 +668,10 @@ function request_seq_video(asset) {
     function load_cb(images) { 
         asset.asset_cb(images, asset.id, asset.type, asset.url, asset.param);
         asset.state = ASTATE_RECEIVED;
+        if (asset.is_fetch) {
+            var filepath = asset.url.split("?t=")[0];
+            _img_cache[filepath] = images;
+        }
     }
 
     req.onreadystatechange = function() {
@@ -776,6 +848,13 @@ function debug_queue(queue, opt_log_prefix) {
         m_print.log(opt_log_prefix, state_str);
     else
         m_print.log(state_str);
+}
+
+exports.clear_cache = function() {
+    _arraybuffer_cache = {};
+    _img_cache = {};
+    _sound_cache = {};
+    _arraybuffer_sound_cache = {};
 }
 
 }

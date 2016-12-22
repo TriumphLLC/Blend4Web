@@ -358,7 +358,7 @@ msgid ""
 "and specify its name in the ``Reflection plane`` field of the reflective object."
 msgstr ""
 "对平面的反射， ``Object > Reflections > Type``  属性设置为 ``Plane``。然后，添加一"
-"个空物体用作反射平面，例如通过执行``Add > Empty > Single Arrow``。为方便起见重命"
+"个空物体用作反射平面，例如通过执行 ``Add > Empty > Single Arrow``。为方便起见重命"
 "名，在反射物体 ``Reflection plane`` 字段中指定其名称。"
 
 #: ../materials.rst:167
@@ -575,7 +575,7 @@ msgid ""
 "Blend`` transparency type."
 msgstr ""
 "为了使用这种效果， ``Render > Reflections and Refractions > Refractions`` 面板上选"
-"择``ON`` 或者 ``AUTO`` 。该物体必须具有 ``Alpha Blend`` 透明类型。"
+"择 ``ON`` 或者 ``AUTO`` 。该物体必须具有 ``Alpha Blend`` 透明类型。"
 
 #: ../materials.rst:267
 msgid ":ref:`alpha_blend`"

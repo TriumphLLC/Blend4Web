@@ -18,8 +18,8 @@
 
 /**
  * Head Mounted Devices add-on.
- * Provides support for HMD devices using WebVR API.
- * @see https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API
+ * Provides support for HMD/VR devices using {@link https://w3c.github.io/webvr/|WebVR API}.
+ * <p>For more info about stereo rendering check out the {@link https://www.blend4web.com/doc/en/stereo_rendering.html|user manual}.
  * @module hmd
  */
 
@@ -137,7 +137,8 @@ exports.get_hmd_device = function() {
  * @deprecated Use {@link module:input.reset_device} instead
  */
 exports.reset = function() {
-    m_input.reset_device(m_input.DEVICE_HMD);
+    var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+    m_input.reset_device(device);
 }
 
 function process_hmd(control_type, sensor) {

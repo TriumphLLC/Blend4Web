@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-11-25 16:42+0300\n"
+"POT-Creation-Date: 2016-12-16 17:38+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -1123,6 +1123,10 @@ msgid ""
 msgstr "``Geometry`` (параметры ``Pointness`` и ``Parametric`` не поддерживаются)."
 
 #: ../node_materials.rst:556
+msgid "``Emission`` (does not influence the lighting of the scene)."
+msgstr "``Emission`` (не влияет на освещённость сцены)."
+
+#: ../node_materials.rst:558
 msgid ""
 "Other ``Cycles`` nodes will not, in most cases, work in Blend4Web the "
 "same way they do in Blender. They also might not work at all or even "

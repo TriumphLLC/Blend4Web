@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-10-26 11:31+0300\n"
+"POT-Creation-Date: 2016-12-20 11:45+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -642,36 +642,55 @@ msgid "Allow using physics in the application. Enabled by default."
 msgstr "Использовать физику в приложении. Включено по умолчанию."
 
 #: ../scene_settings.rst:385
-msgid "Cluster Batching"
+msgid "Objects Clustering"
 msgstr ""
 
 #: ../scene_settings.rst:387
 msgid ""
-"This parameter enables the use of cluster batching. It can be used for "
-"optimization purposes. This is disabled by default."
+"The setting for object clustering. It can be used for optimization "
+"purposes."
 msgstr ""
-"Этот параметр активирует использование кластерного батчинга. Может "
-"использоваться для целей оптимизации. По умолчанию выключен."
+"Настройки объединения объектов в кластеры. Может использоваться для целей"
+" оптимизации."
 
-#: ../scene_settings.rst:390
-msgid ""
-"If this parameter is disabled, the engine will try to combine all static "
-"objects into one."
-msgstr ""
-"Если этот параметр деактивирован, движок попытается объединить все "
-"статические объекты в один."
-
-#: ../scene_settings.rst:397
+#: ../scene_settings.rst:394
 msgid "*Cluster Size*"
 msgstr ""
 
+#: ../scene_settings.rst:394
+msgid ""
+"The size of the cluster used for batching (in meters). If this parameter "
+"is set to zero, the engine will try to combine all objects in the scene. "
+"Set to zero by default."
+msgstr ""
+"Размер кластера, применяемого для объединения объектов (в метрах). Если "
+"этот параметр равен нулю, движок будет пытаться объединить все объекты в "
+"сцене. Значение по умолчанию - 0."
+
+#: ../scene_settings.rst:397
+msgid "*LOD Cluster Size Multiplier*"
+msgstr ""
+
 #: ../scene_settings.rst:397
 msgid ""
-"The size of the cluster used for batching (in meters). Set to 30 by "
-"default. If this parameter is set to zero, objects will not be combined."
+"This parameter is used to subdivide clusters (based on LOD distance "
+"specified individually for each object) into smaller ones to make "
+"transitions between different levels of detail less noticable. The size "
+"of that smaller clusters is defined by object LOD distance multiplied by "
+"the value of this parameter. Higher values lead to bigger clusters which "
+"increases performance but maked transition between LODs more noticable, "
+"while lower values make said transitions less noticable at the cost of "
+"decreased performance. Set to 0.5 by default."
 msgstr ""
-"Размер кластера для батчинга (в метрах). Значение по умолчанию - 30. Если"
-" этот параметр равен нулю, объекты не будут объединяться."
+"Этот параметр используется для разбиения кластеров на части (в "
+"зависимости от расстояния LOD, которое настраивается индивидуально для "
+"каждого объекта) для того, чтобы переходы между различными уровнями "
+"детализации были менее заметны. Размеры меньших кластеров определяются на"
+" основании расстояний LOD, умноженных на значение этого параметра. "
+"Высокие значения увеличивают размер кластеров, что повышает "
+"производительность, но делает более заметными переходы между уровнями "
+"детализации. Низкие значения делают переходы менее заметными, но снижают "
+"производительность. Значение по умолчанию - 0.5."
 
 #: ../scene_settings.rst:402
 msgid "Objects Selection"
@@ -854,8 +873,9 @@ msgid ""
 "would be in the engine itself."
 msgstr ""
 "Включает и выключает опцию ``World Background`` (находится на вкладке "
-"``Display`` панели ``3D View``). При включении этой опции цвета окружающей "
-"среды будут отображаться в окне просмотра так же, как в самом движке."
+"``Display`` панели ``3D View``). При включении этой опции цвета "
+"окружающей среды будут отображаться в окне просмотра так же, как в самом "
+"движке."
 
 #: ../scene_settings.rst:507
 msgid "Environment Lighting"
@@ -1024,6 +1044,8 @@ msgid ""
 "This option is only avaliable if the ``Apply Default Animation`` "
 "parameter is enabled."
 msgstr ""
+"Эта опция доступна только при включённом параметре ``Apply Default "
+"Animation``."
 
 #: ../scene_settings.rst:588
 msgid "Environment parameters export settings."
@@ -1069,12 +1091,9 @@ msgstr "сцена"
 #~ msgid "The color of the ambient lighting."
 #~ msgstr "Цвет окружающего освещения."
 
-#~ msgid ""
-#~ "Enables and disables ``World Background`` "
-#~ "option located under the ``Display`` tab"
-#~ " of the ``3D View`` panel."
+#~ msgid "Cluster Batching"
 #~ msgstr ""
-#~ "Включает и выключает опцию ``World "
-#~ "Background`` (находится на вкладке ``Display``"
-#~ " панели ``3D View``)."
+
+#~ msgid "Object Clustering"
+#~ msgstr ""
 

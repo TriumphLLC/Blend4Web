@@ -17,15 +17,27 @@
 from collections import OrderedDict
 import mathutils
 
+import math
+
 _export_uuid_cache = None
 _bpy_uuid_cache = None
-_cluster_size = 30
+_cluster_size = 0
 
 NON_LEAF_NEIGHBOR_MARGIN_HACK = 1.01
 
+NON_LOD_DIAG_SIZE = -1
+
+class Cluster():
+
+    def __init__(self, node):
+        self.bb_indices = node.bb_indices[:]
+        self.center = node.overall_bb.get_center()
+        self.radius = math.sqrt(node.overall_bb.get_squared_diag_len()) / 2
+
 class BoundingBox():
 
-    def __init__(self, min_x, min_y, min_z, max_x, max_y, max_z, name="", uuids_arr=[]):
+    def __init__(self, min_x, min_y, min_z, max_x, max_y, max_z, name="", 
+            uuids_arr=[]):
         self.min_x = min_x
         self.min_y = min_y
         self.min_z = min_z
@@ -75,11 +87,21 @@ class BoundingBox():
         size_z = self.max_z - self.min_z
         return size_x * size_y * size_z 
 
-    def is_above_limit(self):
+    def is_above_limit(self, diag_limit=NON_LOD_DIAG_SIZE):
         size_x = self.max_x - self.min_x
         size_y = self.max_y - self.min_y
         size_z = self.max_z - self.min_z
-        return size_x > _cluster_size or size_y > _cluster_size or size_z > _cluster_size
+        
+        is_above = False
+        
+        if _cluster_size:
+            is_above = is_above or (size_x > _cluster_size or size_y > _cluster_size 
+                    or size_z > _cluster_size)
+
+        if diag_limit != NON_LOD_DIAG_SIZE:
+            is_above = is_above or math.sqrt(self.get_squared_diag_len()) > diag_limit
+
+        return is_above
 
     def get_squared_diag_len(self):
         sizes = self.get_sizes()
@@ -98,10 +120,11 @@ class BoundingBox():
 
 class BoundingKDTree():
 
-    def __init__(self, bboxes=[]):
+    def __init__(self, bboxes=[], lod_max_diag_size=NON_LOD_DIAG_SIZE):
         self.root = None
         self.index_counter = 0
         self.bboxes = bboxes
+        self.lod_max_diag_size = lod_max_diag_size
 
     def get_some_leaf(self):
         if self.is_empty():
@@ -322,7 +345,7 @@ class BoundingKDTree():
                 bb = self.bboxes[index]
                 names.append(bb.name)
 
-    def find_nearest_neighbor(self, node, use_axis_limit=False):
+    def find_nearest_neighbor(self, node, use_limits=False):
         best_match_vol = float("inf")
         best_match_node = None
 
@@ -333,7 +356,7 @@ class BoundingKDTree():
             bb = node.overall_bb.copy()
             bb.expand(node_sibling.overall_bb)
 
-            if not bb.is_above_limit():
+            if not bb.is_above_limit(self.lod_max_diag_size):
                 bb_sq_diag = bb.get_squared_diag_len()
                 best_match_vol = bb_sq_diag
                 best_match_node = node_sibling
@@ -346,12 +369,12 @@ class BoundingKDTree():
                     best_match_vol *= NON_LEAF_NEIGHBOR_MARGIN_HACK
 
         [best_match_node, best_match_vol] = self.test_nearest_node_recoursive(node, 
-                self.root, best_match_node, best_match_vol, use_axis_limit)
+                self.root, best_match_node, best_match_vol, use_limits)
 
         return best_match_node
 
     def test_nearest_node_recoursive(self, node, node_to_test, best_match_node, 
-            best_match_vol, use_axis_limit=False):
+            best_match_vol, use_limits=False):
 
         # don't process the original node
         if node.index == node_to_test.index:
@@ -362,33 +385,33 @@ class BoundingKDTree():
             bb.expand(node_to_test.overall_bb)
 
             # don't process nodes that produce big bboxes (for optimization)
-            if not(use_axis_limit and bb.is_above_limit()):
+            if not(use_limits and bb.is_above_limit(self.lod_max_diag_size)):
                 bb_sq_diag = bb.get_squared_diag_len()
                 if bb_sq_diag < best_match_vol:
                     best_match_vol = bb_sq_diag
                     best_match_node = node_to_test
         else:
-            lb_left = node.calc_diag_lower_bound(node_to_test.left, use_axis_limit)
-            lb_right = node.calc_diag_lower_bound(node_to_test.right, use_axis_limit)
+            lb_left = node.calc_diag_lower_bound(node_to_test.left, use_limits)
+            lb_right = node.calc_diag_lower_bound(node_to_test.right, use_limits)
 
             if lb_left < lb_right:
                 if lb_left < best_match_vol:
                     [best_match_node, best_match_vol] = self.test_nearest_node_recoursive(
                             node, node_to_test.left, best_match_node, 
-                            best_match_vol, use_axis_limit)
+                            best_match_vol, use_limits)
                 if lb_right < best_match_vol:
                     [best_match_node, best_match_vol] = self.test_nearest_node_recoursive(
                             node, node_to_test.right, best_match_node, 
-                            best_match_vol, use_axis_limit)
+                            best_match_vol, use_limits)
             else:
                 if lb_right < best_match_vol:
                     [best_match_node, best_match_vol] = self.test_nearest_node_recoursive(
                             node, node_to_test.right, best_match_node, 
-                            best_match_vol, use_axis_limit)
+                            best_match_vol, use_limits)
                 if lb_left < best_match_vol:
                     [best_match_node, best_match_vol] = self.test_nearest_node_recoursive(
                             node, node_to_test.left, best_match_node, 
-                            best_match_vol, use_axis_limit)
+                            best_match_vol, use_limits)
 
         return [best_match_node, best_match_vol]
 
@@ -491,7 +514,7 @@ class BoundingKDTreeNode():
 
             self.overall_bb = BoundingBox(min_x, min_y, min_z, max_x, max_y, max_z)
 
-    def calc_diag_lower_bound(self, test_node, use_axis_limit=False):
+    def calc_diag_lower_bound(self, test_node, use_limits=False):
         # optimized for intensive use
         bb_src = self.overall_bb
         bb_test = test_node.overall_bb
@@ -519,13 +542,20 @@ class BoundingKDTreeNode():
         else:
             lb_z = bb_sizes[2]
 
+        sq_diag = lb_x * lb_x + lb_y * lb_y + lb_z * lb_z
+
         # prune the branches that produce big bboxes by returning the infinity,
         # so they can't compete with other branches (for optimization)
-        if use_axis_limit:
-            if lb_x > _cluster_size or lb_y > _cluster_size or lb_z > _cluster_size:
+        if use_limits:
+            if _cluster_size and (lb_x > _cluster_size or lb_y > _cluster_size 
+                    or lb_z > _cluster_size):
+                return float("inf")
+
+            diag_lim = self.kdtree.lod_max_diag_size
+            if diag_lim != NON_LOD_DIAG_SIZE and math.sqrt(sq_diag) > diag_lim:
                 return float("inf")
         
-        return lb_x * lb_x + lb_y * lb_y + lb_z * lb_z
+        return sq_diag
 
     def has_children(self):
         # can only have zero or 2 children
@@ -581,7 +611,7 @@ def get_export_datablock(uuid):
 def get_bpy_datablock(uuid):
     return _bpy_uuid_cache and _bpy_uuid_cache[uuid]
 
-def run(export_uuid_cache, bpy_uuid_cache, scene, cluster_size):
+def run(export_uuid_cache, bpy_uuid_cache, scene, cluster_size, lod_cluster_size_mult):
     global _export_uuid_cache
     _export_uuid_cache = export_uuid_cache
     global _bpy_uuid_cache
@@ -589,24 +619,71 @@ def run(export_uuid_cache, bpy_uuid_cache, scene, cluster_size):
     global _cluster_size
     _cluster_size = cluster_size
 
-    bboxes = process_objs_boundings_rec(scene["objects"])
-    kdtree = BoundingKDTree(bboxes)
-    kdtree.build()
+    bboxes_all = process_objs_boundings_rec(scene["objects"])
+    bboxes_lods_groups = separate_lods_bboxes(bboxes_all, lod_cluster_size_mult)
 
-    clusters = make_clusters_from_kd(kdtree)
-    for i in range(len(clusters)):
-        cluster = clusters[i]
-        for index in cluster:
-            bbox = kdtree.bboxes[index]
+    cluster_counter = 0
+    for dist_id in bboxes_lods_groups:
 
-            root_obj = get_export_datablock(bbox.uuids_arr[0])
-            curr_level = root_obj["b4w_cluster_data"]
-            for j in range(1, len(bbox.uuids_arr)):
-                uuid = bbox.uuids_arr[j]
-                if not uuid in curr_level:
-                    curr_level[uuid] = OrderedDict()
-                curr_level = curr_level[uuid]
-            curr_level["cluster_id"] = i
+        # 0 means that non-lods clustering is disabled
+        if _cluster_size == 0 and dist_id == NON_LOD_DIAG_SIZE:
+            continue
+
+        bboxes = bboxes_lods_groups[dist_id]
+
+        kdtree = BoundingKDTree(bboxes, dist_id)
+        kdtree.build()
+
+        clusters = make_clusters_from_kd(kdtree)
+        for i in range(len(clusters)):
+            cluster = clusters[i]
+
+            for index in cluster.bb_indices:
+                bbox = kdtree.bboxes[index]
+
+                root_obj = get_export_datablock(bbox.uuids_arr[0])
+                curr_level = root_obj["b4w_cluster_data"]
+                for j in range(1, len(bbox.uuids_arr)):
+                    uuid = bbox.uuids_arr[j]
+                    if not uuid in curr_level:
+                        curr_level[uuid] = OrderedDict()
+                    curr_level = curr_level[uuid]
+                curr_level["cluster_id"] = cluster_counter
+                curr_level["cluster_center"] = cluster.center
+                curr_level["cluster_radius"] = cluster.radius
+            cluster_counter += 1
+
+def separate_lods_bboxes(bboxes, lod_cluster_size_mult):
+    uuids_to_distances = {}
+
+    for bbox in bboxes:
+
+        obj = get_export_datablock(bbox.uuids_arr[-1])
+        if len(obj["lod_levels"]):
+            dist = obj["lod_levels"][0]["distance"]
+            uuids_to_distances["".join(bbox.uuids_arr)] = dist
+
+            for level in obj["lod_levels"]:
+                if level["object"]:
+                    uuids_to_distances["".join(bbox.uuids_arr[0:-1]) + level["object"]["uuid"]] = dist
+
+
+    bboxes_lods_groups = {NON_LOD_DIAG_SIZE: []}
+    for bbox in bboxes:
+        uuid_key = "".join(bbox.uuids_arr)
+
+        if uuid_key in uuids_to_distances:
+            dist = uuids_to_distances[uuid_key]
+            lod_max_diag_size = dist * lod_cluster_size_mult
+
+            if lod_max_diag_size not in bboxes_lods_groups:
+                bboxes_lods_groups[lod_max_diag_size] = []
+            bboxes_lods_groups[lod_max_diag_size].append(bbox)
+        else:
+            # non-lods
+            bboxes_lods_groups[NON_LOD_DIAG_SIZE].append(bbox)
+
+    return bboxes_lods_groups
 
 def process_objs_boundings_rec(objs_refs, dupli_wmat=mathutils.Matrix.Identity(4), uuids_arr=[]):
     bboxes = []
@@ -640,13 +717,13 @@ def get_obj_wmat_wo_dupli_rec(obj):
     return wmat
 
 def get_b4w_to_bpy_wmat(obj):
-    bpy_loc = [obj["location"][0], -obj["location"][2], obj["location"][1]]
+    bpy_loc = [obj["location"][0], obj["location"][1], obj["location"][2]]
     
     # NOTE: consider uniform scale
     bpy_scale = [obj["scale"][0], obj["scale"][0], obj["scale"][0]]
     
     bpy_quat = [obj["rotation_quaternion"][0], obj["rotation_quaternion"][1], 
-            -obj["rotation_quaternion"][3], obj["rotation_quaternion"][2]]
+            obj["rotation_quaternion"][2], obj["rotation_quaternion"][3]]
 
     mat_loc = mathutils.Matrix.Translation(bpy_loc)
     mat_scale = mathutils.Matrix()
@@ -663,8 +740,8 @@ def get_bpy_world_bb(bpy_mesh, wmat, name, uuids_arr):
 
     coords = [(wmat * v.co) for v in bpy_mesh.vertices]
     coord_x = [co.x for co in coords]
-    coord_y = [co.z for co in coords]
-    coord_z = [-co.y for co in coords]
+    coord_y = [co.y for co in coords]
+    coord_z = [co.z for co in coords]
 
     min_x = min(coord_x)
     min_y = min(coord_y)
@@ -675,7 +752,6 @@ def get_bpy_world_bb(bpy_mesh, wmat, name, uuids_arr):
     max_z = max(coord_z)
 
     bb = BoundingBox(min_x, min_y, min_z, max_x, max_y, max_z, name, uuids_arr)
-
     return bb
 
 def make_clusters_from_kd(kdtree):
@@ -717,7 +793,7 @@ def make_clusters_from_kd(kdtree):
                 elem_b = elem_c
                 elem_ids.append(elem_c.index)
 
-        clusters.append(elem_a.bb_indices)
+        clusters.append(Cluster(elem_a))
         kdtree.remove_node(elem_a)
 
     return clusters
@@ -727,7 +803,7 @@ def extract_one_object_clusters(kdtree):
 
     def filter_cb(kdtree, node, cb_param):
         if not node.has_children():
-            if node.overall_bb.is_above_limit():
+            if node.overall_bb.is_above_limit(kdtree.lod_max_diag_size):
                 cb_param.append(node)
             else:
                 # one bbox per one object before building the clusters
@@ -740,7 +816,7 @@ def extract_one_object_clusters(kdtree):
     cb_param = []
     kdtree.iterate_all_nodes(filter_cb, cb_param)
     for node in cb_param:
-        clusters.append(node.bb_indices)
+        clusters.append(Cluster(node))
         kdtree.remove_node(node)
 
     return clusters

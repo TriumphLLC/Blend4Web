@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>插件 &mdash; Blend4Web 16.11 用户手册</title>
+  <title>插件 &mdash; Blend4Web 16.12 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
         <link rel="next" title="场景设置" href="scene_settings.html"/>
         <link rel="prev" title="网络播放器" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -213,7 +213,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p>如果没有指定的Blend4Web SDK的路径，本地开发服务器无法启动。在这种情况下，相应的消息将被显示，而不是 <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> 按钮。</p>
+<p>If the local development server cannot be launched, the corresponding message will be displayed instead of the <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> button.</p>
 <p>如果服务器无法运行，将显示一条错误消息，说明了原因：</p>
 <img alt="_images/error.png" class="align-center" src="_images/error.png" />
 <p class="last">如果服务器端口已被一些其他的应用程序可能会出现此错误。</p>
@@ -248,7 +248,7 @@
 <h3><a class="toc-backref" href="#id8">JSON</a><a class="headerlink" href="#json" title="永久链接至标题">¶</a></h3>
 <p>导出场景到这种格式会创建一个 <code class="docutils literal"><span class="pre">.json</span></code> （JavaScript对象符号）文件，其中包含所有导出的数据结构和链接到外部资源（图片，声音等等），还有一个 <code class="docutils literal"><span class="pre">.bin</span></code> 文件包含二进制格式的模型数据阵列。</p>
 <p>如果媒体资源被 <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">打包到.blend文件</a>, 他们会在导出过程中解压，并在项目的目录放置在隐藏的 <code class="docutils literal"><span class="pre">../tmp/</span></code> 文件夹中（SDK目录内）。应当注意的是，这样的话文件的名称将被自动地改变，工作的时候可能变得复杂。</p>
-<p>建议将所有资源存储在SDK目录中一个专门的文件夹，它可以被称为``deploy/assets/项目名`` 。</p>
+<p>It is recommended to store all the resources in a dedicated folder inside the SDK directory, it can be called <code class="docutils literal"><span class="pre">projects/project_name/assets</span></code> for example.</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
 <p class="last">按照安全因素考虑，开发服务器只能访问SDK文件夹。如果媒体数据被放置在另一个文件夹，服务器将无法在部署的时候导出（即使是在Blender内工作正常）它。</p>
@@ -797,23 +797,29 @@ to EMPTY.</td>
 <td><p class="first last">扬声器没有附加声音。物体的类型已更改为空。</p>
 </td>
 </tr>
-<tr class="row-odd"><td>The main scene NAME can not be
+<tr class="row-odd"><td>The lamp object &#8220;NAME&#8221; has
+unsupported AREA type. Changed to
+SUN.</td>
+<td>The lamp object &#8220;NAME&#8221; has unsupported
+AREA type. Changed to SUN.</td>
+</tr>
+<tr class="row-even"><td>The main scene NAME can not be
 rendered by another scene. Material
 NAME has been removed.</td>
 <td><p class="first last">主场景名称不能被其他场景渲染。材料名称已被删除。</p>
 </td>
 </tr>
-<tr class="row-even"><td><p class="first last">操作具有十进制的帧。转换为整数。</p>
+<tr class="row-odd"><td><p class="first last">操作具有十进制的帧。转换为整数。</p>
 </td>
 <td><p class="first last">操作具有十进制的帧。转换为整数。</p>
 </td>
 </tr>
-<tr class="row-odd"><td><p class="first last">该 NAME 骨架修改器有一个代理物体作为骨架，修改器被移除。</p>
+<tr class="row-even"><td><p class="first last">该 NAME 骨架修改器有一个代理物体作为骨架，修改器被移除。</p>
 </td>
 <td><p class="first last">一个骨架修改器具有一个代理对象作为骨架。</p>
 </td>
 </tr>
-<tr class="row-even"><td>The NAME armature modifier has no
+<tr class="row-odd"><td>The NAME armature modifier has no
 armature object or it is not
 exported. Modifier removed.</td>
 <td><p class="first last">该名称 <code class="docutils literal"><span class="pre">Armature</span></code> 修正没有骨架问题，也没有导出。修改删除。</p>
@@ -1174,7 +1180,7 @@ is missing for Lens Flare material
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-11-29.
+      最后更新于 2016-12-22.
 
     </p>
   </div>
@@ -1230,7 +1236,7 @@ is missing for Lens Flare material
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

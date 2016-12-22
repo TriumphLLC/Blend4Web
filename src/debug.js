@@ -29,7 +29,9 @@ var m_compat = require("__compat");
 var m_cfg    = require("__config");
 var m_ext    = require("__extensions");
 var m_graph  = require("__graph");
+var m_obj    = require("__objects");
 var m_print  = require("__print");
+var m_scenes = require("__scenes");
 var m_subs   = require("__subscene");
 var m_tex    = require("__textures");
 var m_time   = require("__time");
@@ -149,6 +151,85 @@ exports.show_vbo_garbage_info = function() {
     }
 }
 
+exports.print_batches_stat = function() {
+    var batches_props = {};
+    
+    // properties that don't affect batching
+    var excluded_props = [
+        "bb_local", "bb_world", "be_local", "be_world", "bs_local", "bs_world", 
+        "bufs_data", "id", "attribute_setters", "num_vertices", "num_triangles",
+        "material_names", "shader", "bpy_tex_names"
+    ];
+
+    var static_count = 0;
+    var dynamic_count = 0;
+
+    var objs = m_obj.get_scene_objs(m_scenes.get_main(), "MESH", m_obj.DATA_ID_ALL);
+    for (var i = 0; i < objs.length; i++) {
+        for (var j = 0; j < objs[i].scenes_data.length; j++)
+            for (var k = 0; k < objs[i].scenes_data[j].batches.length; k++) {
+
+                var batch = m_util.clone_object_json(objs[i].scenes_data[j].batches[k]);
+                
+                var shader_pair = batch.shaders_info.vert + "/" + batch.shaders_info.frag;
+                batch["shaders_info.directives"] = batch.shaders_info.directives;
+                batch["shaders_info.node_elements"] = batch.shaders_info.node_elements;
+                delete batch.shaders_info;
+                for (var l = 0; l < excluded_props.length; l++)
+                    delete batch[excluded_props[l]];
+
+                if (objs[i].is_dynamic) {
+                    dynamic_count++;
+                    continue;
+                } else
+                    static_count++;
+
+                if (!(batch.type in batches_props))
+                    batches_props[batch.type] = {}
+
+                if (!(shader_pair in batches_props[batch.type]))
+                    batches_props[batch.type][shader_pair] = {}
+
+                for (var prop in batch) {
+                    if (!(prop in batches_props[batch.type][shader_pair]))
+                        batches_props[batch.type][shader_pair][prop] = [];
+
+                    var str_val = JSON.stringify(batch[prop]);
+                    if (batches_props[batch.type][shader_pair][prop].indexOf(str_val) == -1)
+                        batches_props[batch.type][shader_pair][prop].push(str_val);
+                }
+            }
+    }
+
+    m_print.group("Batches statistics:");
+    m_print.log_raw("STATIC/DYNAMIC count:", static_count + "/" + dynamic_count);
+    m_print.group("STATIC batches diversity:");
+    for (var type in batches_props) {
+        for (var shader_pair in batches_props[type]) {
+
+            var props_array = [];
+            for (var prop in batches_props[type][shader_pair])
+                if (batches_props[type][shader_pair][prop].length > 1)
+                    props_array.push([prop, batches_props[type][shader_pair][prop]])
+
+            props_array.sort(function(a, b) {
+                if (b[1].length != a[1].length)
+                    return b[1].length - a[1].length;
+                return a < b ? -1 : b < a ? 1 : 0;
+            });
+
+            if (props_array.length) {
+                m_print.groupCollapsed(type + " " + shader_pair);
+                for (var i = 0; i < props_array.length; i++)
+                    m_print.log_raw(props_array[i][1].length, props_array[i][0], props_array[i][1]);
+                m_print.groupEnd();
+            }
+        }
+    }
+    m_print.groupEnd();
+    m_print.groupEnd();
+}
+
 /**
  * Get GL error, throw exception if any.
  */
@@ -211,7 +292,7 @@ exports.check_depth_only_issue = function() {
     var framebuffer = _gl.createFramebuffer();
     _gl.bindFramebuffer(_gl.FRAMEBUFFER, framebuffer);
 
-    var texture = m_tex.create_texture("DEBUG", m_tex.TT_DEPTH);
+    var texture = m_tex.create_texture(m_tex.TT_DEPTH, false);
     m_tex.resize(texture, 1, 1);
 
     var w_tex = texture.w_texture;
@@ -351,8 +432,8 @@ function create_render_time_query() {
     var ext = m_ext.get_disjoint_timer_query();
 
     if (ext) {
-        var query = ext.createQueryEXT();
-        ext.beginQueryEXT(ext.TIME_ELAPSED_EXT, query);
+        var query = ext.createQuery();
+        ext.beginQuery(query);
     } else
         var query = performance.now();
 
@@ -404,16 +485,17 @@ function calc_render_time(queries, prev_render_time, end_query) {
 
     if (ext) {
         if (end_query)
-            ext.endQueryEXT(ext.TIME_ELAPSED_EXT);
+            ext.endQuery();
+
         for (var i = 0; i < queries.length; i++) {
             var query = queries[i];
 
-            var available = ext.getQueryObjectEXT(query,
-                    ext.QUERY_RESULT_AVAILABLE_EXT);
-            var disjoint = _gl.getParameter(ext.GPU_DISJOINT_EXT);
+            var available = ext.getQueryAvailable(query);
+
+            var disjoint = _gl.getParameter(ext.getDisjoint());
 
             if (available && !disjoint) {
-                var elapsed = ext.getQueryObjectEXT(query, ext.QUERY_RESULT_EXT);
+                var elapsed = ext.getQueryObject(query);
                 render_time = elapsed / 1000000;
                 if (prev_render_time)
                     render_time = m_util.smooth(render_time,
@@ -630,8 +712,8 @@ exports.assert_cons = function(value, constructor) {
 /**
  * Check whether the two objects have the same structure with proper values.
  */
-exports.assert_structure = assert_structure;
-function assert_structure(obj1, obj2) {
+exports.assert_struct = assert_struct;
+function assert_struct(obj1, obj2) {
 
     if (!is_valid(obj1))
         m_util.panic("Structure assertion failed: invalid first object value");
@@ -701,15 +783,19 @@ function cmp_type(obj1, obj2) {
 }
 
 /**
- * Assert stucture - sequential form.
+ * Assert object stucture - sequential form.
+ * There is no cleanup, so always reload the page.
  */
-exports.assert_structure_seq = function(obj) {
+exports.assert_struct_seq = function(obj) {
     if (!_assert_struct_init)
         _assert_struct_init = true;
     else
-        assert_structure(obj, _assert_struct_last_obj);
+        assert_struct(obj, _assert_struct_last_obj);
 
-    _assert_struct_last_obj = m_util.clone_object_nr(obj);
+    if (obj != null && typeof obj == "object")
+        _assert_struct_last_obj = m_util.clone_object_nr(obj);
+    else
+        _assert_struct_last_obj = obj;
 }
 
 exports.fake_load = function(stageload_cb, interval, start, end, loaded_cb) {

@@ -16,7 +16,7 @@
 
     * 项目信息
 
-    * Project Editing
+    * 项目编辑
 
     * 项目导入
 
@@ -30,7 +30,7 @@
 
     * 项目结构
 
-    * Project Configuration File (.b4w_project)
+    * 项目配置文件（.b4w_project）
 
     * 创建项目
 
@@ -38,7 +38,7 @@
 
     * 构建项目
 
-    * Automatic Blend File Export
+    * 自动 Blend 文件导出
 
     * 资源转换
 
@@ -171,55 +171,48 @@ New Project]" 按钮执行。
 "[Back to Projects]" 按钮可以用来返回到项目管理的主页面，而 "[Help]"
 按钮可以用到访问 帮助文件.
 
-1. 项目名称习惯为 "apps_dev/project_name",
-   "deploy/assets/project_name", "blender/project_name" and
-   "deploy/apps/project_name" 等名称的项目目录。
+1. Project name is used to name project directories such as
+   "projects/project_name", "projects/project_name/assets",
+   "projects/project_name/blender" and "projects/project_name/build".
 
 2. 在浏览器中所示的项目标题。
 
 3. 项目作者的名字。
 
-4. 添加应用程序模板。标准应用程序模板 ︰ html 文件，css 文件，js 文
-   件 将添加到项目目录  "apps_dev/project_name".
+4. Add application templates. Standard application templates: html
+   file, css file, js file will be added to the project directory
+   "projects/project_name".
 
-5. 添加场景模板。标准的 json 文件将添加到
-   "deploy/assets/project_name" 目录;blend文件将添加到
-   "blender/project_name" 目录。
+5. Add scene templates. Standard json file will be added to the
+   "projects/project_name/assets" directory; blend file will be added
+   to the "projects/project_name/blender" directory.
 
-6. 使用材质库。材质库的Blend文件会复制到项目文件夹
-   "blender/project_name"，资产文件复制到 "deploy/assets/project_name"
-   目录。
+6. Use Material Library. Blend files of the material library will
+   be copied to the project directory "projects/project_name/blender",
+   while the asset files will be copied to
+   "projects/project_name/assets" folder.
 
 7. 复制项目管理脚本。Project.py 脚本将复制到项目目录。
 
-8. 所有的项目文件将位于相同的目录中。在小项目中最好使用此选项，如课
-   程 和范例。只有 "Web Player JSON" 和 "Web Player HTML" 项目类型可以
-   用 此选项。
+8. 项目的类型。有几个选项 ︰
 
-9. 项目的类型。有几个选项 ︰
+      * "External"  - 项目管理器将使用引擎文件在
+        "deploy/apps/common/" 目录下运行项目。
 
-      * "External" - Project Manager will use engine files in the
-        "deploy/apps/common/" directory to run the project.
+           当项目部署时，只有应用程序文件将被编译。
+           "deploy/apps/common/" 文件夹将被复制到项目目录。
 
-           When the project is deployed, only application files will
-           be compiled, while the "deploy/apps/common/" folder will be
-           copied to the project directory.
+           如果您不需要以任何方式更改引擎文件使用此选项;
 
-           Use this option if you don't need to change engine files in
-           any way;
+      * "Copy" - 引擎文件将直接从 "deploy/apps/common/" 目录复制到应
+        用 文件夹。
 
-      * "Copy" - engine files will be directly copied from the
-        "deploy/apps/common/" to the application folder.
+           当项目展开时，唯一的应用程序文件进行编译，而引擎文件仍保持
+           不变（所以你不能修改引擎本身）;
 
-           When the project is deployed, only application files are
-           compiled, while engine files are left intact (so you cannot
-           modify the engine itself);
+      * "Compile" -引擎源代码应用程序的脚本一同编译;
 
-      * "Compile" - engine sources are compiled with application
-        scripts.
-
-           This option can be used to modify the code of the engine
-           itself;
+           这个选项可以用于修改引擎本身的代码;
 
       * "None" -项目管理器不会将引擎文件复制到应用程序文件夹，也不将
         它 执行任何操作生成应用程序。应用程序开发人员将不得不手动执行
@@ -231,15 +224,15 @@ New Project]" 按钮执行。
       * "Web Player HTML" - 项目被打包到单独的 html 文件，包含所有所
         需 的资源。
 
-10. Javascript 优化级别。
+9. Javascript 优化级别。
 
-    * "简单" — — 变量的名称替换代码;
+      * "简单" — — 变量的名称替换代码;
 
-    * "先进" — — 进行了代码优化;
+      * "先进" — — 进行了代码优化;
 
-    * "只空格" — — 只有空格从代码中移除。
+      * "只空格" — — 只有空格从代码中移除。
 
-11. 网络播放器的URL属性。此选项卡仅当 "Engine Binding Type" 参数设
+10. 网络播放器的URL属性。此选项卡仅当 "Engine Binding Type" 参数设
     置为 "Web Player JSON" 活 "Web Player HTML" 时可用。
 
     * “显示FPS” 用于显示在玩家的右上角的FPS计数器。
@@ -351,8 +344,8 @@ project" 选项。该项目将被导出，打包成一个单一的存档，并�
 *项目图标*
    该项目的图标。
 
-*Applications*
-   Project applications.
+*应用程序*
+   项目应用程序。
 
 *引擎绑定类型*
    设置项目类型
@@ -364,7 +357,7 @@ project" 选项。该项目将被导出，打包成一个单一的存档，并�
    项目的配置文件。
 
 *构建目录*
-   Project build directory.
+   项目构建目录。
 
 *Blend 目录*
    项目的blend文件目录的位置。
@@ -378,48 +371,50 @@ project" 选项。该项目将被导出，打包成一个单一的存档，并�
 *JavaScript 混淆级别*
    Javascript 优化级别。
 
-*JS Compilation Pass-Through List*
-   The list of pass-through exceptions for the project's JavaScript
-   files compilation.
+*JS编译通过列表*
+   该项目的JavaScript文件汇编直通例外列表。
 
-*CSS Compilation Pass-Through List*
-   The list of pass-through exceptions for the project's style sheets
-   compilation.
+*CSS编译通过列表*
+   该项目的样式表编译直通例外列表。
 
-*Build Ignore List*
-   The list of exceptions for project's builds.
+*构建忽略列表*
+   项目编译中的例外列表。
 
-*Deployment Assets Directory*
-   Directory where assets will be placed for deployed project.
+*部署资产目录*
+   资产将被放置部署项目的目录。
 
-*Deployment Assets URL Prefix*
+*部署资产URL前缀*
    URL path prefix to assets directory inside deployed project as
-   reported by get_std_assets_path().
+   reported by get_assets_path().
 
-*Deployment Ignore List*
-   The list of exceptions for project's deploy.
+*部署忽略列表*
+   项目的部署例外列表。
 
 
-Project Editing
----------------
+项目编辑
+--------
 
-A simple web-based interface for editing project files is available by
-the "[edit]" link beside the project's title.
+简单的基于Web的界面可以编辑项目文件，通过项目的标题旁的 "[编辑]" 链接
+。
 
 [图片]
 
 The left part of the editor window contains a list of all ".html",
 ".css" and ".js" files from the project directory
-("./apps_dev/<project_name>"), starting with the main project file
+("projects/my_project"), starting with the main project file
 ".b4w_project". The right part contains the content of a currently
 selected project file (no file is selected by default) with
 highlighted syntax.
 
-注解: This interface can only be used to edit files from developer
-  version of a project, but not from the builded version.
+注解: 这个界面可以仅用于编辑项目的开发版文件，但不能编辑建建好的版本
+  。
 
-The "Save File" button that can be found at the bottom of the page is
-used for saving currently selected project file.
+New files can be added to the project directory by clicking the "[New
+File]" button.
+
+The "[Save]" and "[Save As...]" buttons that can be found at the
+bottom of the page are used for saving currently selected project
+file.
 
 
 项目导入
@@ -518,62 +513,68 @@ Resource Converter  也使用其自己的描述的外部工具集，在 另外�
 项目结构
 --------
 
-一个典型的应用程序开发中使用项目管理器如下所示展开：
+This is how the structure of a project titled my_project and placed in
+the "./projects" directory in the root of the SDK folder should look:
 
    blend4web/
-       apps_dev/
-           myproject/
-               project.py
+       projects/
+           my_project/
+               assets/
+                   my_project.json
+                   my_project.bin
+               blender/
+                   my_project.blend
+               build/
+                   my_project.html
+                   my_project.min.css
+                   my_project.min.js
                .b4w_project
-               myproject.js
-               myproject.css
-               myproject_dev.html
-       blender/
-           myproject/
-               myproject.blend
-       deploy/
-           apps/
-               myproject/
-                   myproject.js
-                   myproject.css
-                   myproject.html
-           assets/
-               myproject/
-                   myproject.json
-                   myproject.bin
+               my_project.js
+               my_project.css
+               my_project.html
 
-这个应用程序包括4个不同的目录。
+This app consists of 3 different directories.
 
-1. apps_dev/myproject. 包含项目的应用程序的源文件。
+1. my_project/assets. Contains media files (textures and sounds, as
+   well as the ".bin" and ".json" files) of project's scenes.
 
-2. blender/myproject. 包含项目的场景源文件。
+2. my_project/blender. Contains ".blend" files of project's scenes.
 
-3. deploy/assets/myproject. 包含项目的场景导出的文件。
+3. my_project/build. Contains files of the builded application.
 
-4. deploy/apps/myproject. 包含项目的场景导出的文件。
+Project's main file ".b4w_project", as well as the ".js", ".html" and
+".css" files, is placed in the root of the "my_project/" folder.
 
 此外，部署命令可以创建另一个目录中，但它通常放置在 SDK 之外，其名称和
 路径取决于目标服务器上的目录结构。
 
+注解: Starting from the version 16.12, project structure has been
+  changed. Projects that use old structure still do work, but should
+  be considered obsolete. We recommend to use the "update file
+  structure" button to upgrade the structure of such projects to a new
+  one.This button can be found in the "Operations" panel at the right
+  side of the project's entry in the Project Manager list. It is only
+  available for user projects (not for stock ones) that use the
+  obsolete project structure.
 
-Project Configuration File (.b4w_project)
------------------------------------------
 
-Project configuration file includes all necessary information of your
-project, including name, metadata, directories, info for application
-building and deployment.
+项目配置文件（.b4w_project）
+----------------------------
+
+项目配置文件包含项目的所有必要的信息，包括姓名，元数据，目录，应用程序
+创建和部署信息。
 
    [info]
    author = Blend4Web
-   name = myproject
+   name = my_project
    title = MyProject
    icon =
 
    [paths]
-   assets_dirs = deploy/assets/myproject;
-   blend_dirs = blender/myproject;
+   assets_dirs = projects/my_project/assets;
+   blend_dirs = projects/my_project/blender;
    blender_exec = blender
-   build_dir = deploy/apps/myproject
+   build_dir = projects/my_project/build
    deploy_dir =
 
    [compile]
@@ -593,32 +594,31 @@ building and deployment.
    ignore =
    override =
 
-This is a standard INI configuration file, which includes sections,
-properties and values.
+这是一个标准的INI配置文件，其中包含的部分，属性和值。
 
 
-Section "[info]"
-~~~~~~~~~~~~~~~~
+模块 "[info]"
+~~~~~~~~~~~~~
 
-Contains project metadata:
+包含项目的元数据：
 
-*author*
+*作者*
    该项目的作者或开发商公司的名称。
 
-*name*
+*名字*
    项目名称
 
-*title*
+*名称*
    在浏览器中所示的项目标题。
 
-*icon*
+*图标*
    该项目的图标。
 
 
 Section "[paths]"
 ~~~~~~~~~~~~~~~~~
 
-Containts project paths:
+包含项目路径：
 
 *assets_dirs*
    项目的媒体资产所在的位置目录。
@@ -627,90 +627,82 @@ Containts project paths:
    项目的blend文件目录的位置。
 
 *blender_exec*
-   Path to Blender executable.
+   Blender的可执行文件路径。
 
 *build_dir*
-   Project build directory.
+   项目构建目录。
 
 *deploy_dir*
-   Project deployment directory.
+   项目部署的目录。
 
 
 Section "[compile]"
 ~~~~~~~~~~~~~~~~~~~
 
 *apps*
-   Project applications.
+   项目应用程序。
 
 *css_ignore*
-   The list of pass-through exceptions for the project's style sheets
-   compilation.
+   该项目的样式表编译直通例外列表。
 
 *engine_type*
    设置项目类型
 
 *ignore*
-   The list of exceptions for project's builds.
+   项目编译中的例外列表。
 
 *js_ignore*
-   The list of pass-through exceptions for the project's JavaScript
-   files compilation.
+   该项目的JavaScript文件汇编直通例外列表。
 
-*optimization*
+*优化*
    Javascript 优化级别。
 
 *use_physics*
-   Indicates whether your project will use physics or not. Default -
-   use physics.
+   指示您的项目是否使用物理或没有。默认 - 使用物理。
 
 *use_smaa_textures*
-   Indicates whether your project will use SMAA textures or not.
-   Currently unused.
+   指示您的项目是否使用SMAA纹理与否。当前未使用。
 
 *version*
-   Project version.
+   项目版本。
 
 
 Section "[deploy]"
 ~~~~~~~~~~~~~~~~~~
 
 *assets_path_dest*
-   Directory where assets will be placed for deployed project.
+   资产将被放置部署项目的目录。
 
 *assets_path_prefix*
    URL path prefix to assets directory inside deployed project as
-   reported by get_std_assets_path().
+   reported by get_assets_path().
 
 *ignore*
-   The list of exceptions for project's deploy.
+   项目的部署例外列表。
 
 *override*
-   Replace existing output directory during deployment phase. Use with
-   caution.
+   在部署阶段替换现有的输出目录。请谨慎使用。
 
 
 Section "[url_params]"
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Optional section for Web Player projects. Contains URL params used to
-start project applications.
+网络播放器项目的可选部分。 包含 URL 参数 来启动项目应用.
 
 
 创建项目
 --------
 
-   ./project.py init myproject
+   ./project.py init my_project
 
 此命令将创建在当前目录指定名称的项目。默认情况下，项目目录只包括一个配
 置文件。
 
 可用参数：
 
-* "-A | --copy-APP-templates" （可选）创建项目目录的标准应用模板
-  (*<my_project_name>_dev.html*, *<my_project_name>.js*,
-  *<my_project_name>.css*).
-
-* "-B | --bundle" （可选）所有项目文件将被放置在一个单独的目录。
+* "-A | --copy-app-templates" (optional) create standard app
+  templates in the project directory  (*my_project_dev.html*,
+  *my_project.js*, *my_project.css*).
 
 * "-C | --author" （可选）写作者的还是公司的配置文件名。
 
@@ -719,9 +711,10 @@ start project applications.
 * "-P | --copy项目-script" （可选）在项目目录中创建 *project.py* 脚
   本 的副本。
 
-* "-S | --copy-场景templates" （可选）创建目录
-  "deploy/assets/<my_project_name>" 和 "blender/<my_project_name>"
-  (*<my_project_name>.json/.bin* 和 *<my_project_name>.blend* 相应的).
+* "-S | --copy-scene-templates" (optional) create standard scene
+  templates in the directories "projects/my_project/assets" and
+  "projects/my_project/blender" (*my_project.json/.bin* and
+  *my_project.blend* correspondingly).
 
 * "-T | --title"" （可选）写在配置文件的标题。编译时，里面将使用
   "<title>" HTML元素。
@@ -730,25 +723,25 @@ start project applications.
 
 示例：
 
-   ./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
+   ./project.py init -AS -C Blend4Web -o simple -T MyProject -t external my_project
 
-这个命令将创建一个名为 *myproject* 的目录，这里面以下文件将被放置：
-*myproject.js*, *myproject.css*, *myproject_dev.html* 和
-*.b4w_project*.
+This command will create a directory named *my_project*, inside which
+the following files will be placed: *my_project.js*, *my_project.css*,
+*my_project_dev.html* and *.b4w_project*.
 
 该 .b4w_project 文件看起来像:
 
    [info]
    author = Blend4Web
-   name = myproject
+   name = my_project
    title = MyProject
    icon =
 
    [paths]
-   assets_dirs = deploy/assets/myproject;
-   blend_dirs = blender/myproject;
+   assets_dirs = projects/my_project/assets;
+   blend_dirs = projects/my_project/blender;
    blender_exec = blender
-   build_dir = deploy/apps/myproject
+   build_dir = projects/my_project/build
    deploy_dir =
 
    [compile]
@@ -784,9 +777,9 @@ HTML文件的形式提供:
 构建项目
 --------
 
-   python3 project.py -p myproject compile
+   python3 project.py -p my_project compile
 
-构建在 "deploy/apps/myproject" 目录中的项目。
+Builds a project in the "projects/my_project/build" directory.
 
 可用参数：
 
@@ -812,10 +805,10 @@ HTML文件的形式提供:
 * 脚本和样式可以存储在应用程序的根目录和子文件夹中
 
 
-Automatic Blend File Export
----------------------------
+自动 Blend 文件导出
+-------------------
 
-   python3 project.py -p myproject reexport
+   python3 project.py -p my_project reexport
 
 此命令将重新导出混合在 JSON 和 HTML 格式的文件。
 
@@ -829,7 +822,7 @@ Automatic Blend File Export
 资源转换
 --------
 
-   python3 project.py -p myproject convert_resources
+   python3 project.py -p my_project convert_resources
 
 外部资源（纹理，音频和视频文件）转换为另一种格式，以确保跨浏览器和跨平
 台性能。
@@ -844,7 +837,7 @@ Automatic Blend File Export
 部署项目
 --------
 
-   python3 project.py -p myproject deploy DIRECTORY
+   python3 project.py -p my_project deploy DIRECTORY
 
 与所有依赖一起保存了一个项目在外部目录。
 
@@ -864,7 +857,7 @@ Automatic Blend File Export
 移除项目
 --------
 
-   python3 project.py -p myproject remove
+   python3 project.py -p my_project remove
 
 删除的项目。被删除的目录是从项目配置文件检索。
 

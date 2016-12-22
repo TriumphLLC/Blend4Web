@@ -68,7 +68,7 @@ msgid ""
 msgstr ""
 "要使用HMD立体渲染，您需要安装 Oculus 的 `运行时工具 <https://developer.oculus."
 "com/downloads/>`_ (支持两个版本：根目录下的 `chromium_webvr_v1_win64.7z` 和在 "
-"`Deprecated API` 文件夹下的). .  Windows和MacOS的二进制格式版本，可以在Oculus公司"
+"`Deprecated API` 文件夹下的). Windows和MacOS的二进制格式版本，可以在Oculus公司"
 "的网站上找到，而Linux版本应该从源代码进行编译。"
 
 #: ../stereo_rendering.rst:43
@@ -172,7 +172,7 @@ msgstr "纸板（2015年）"
 
 #: ../stereo_rendering.rst:87
 msgid "By default, `Custom` profile is selected."
-msgstr "默认情况下，'Custom` 属性文件被选中。"
+msgstr "默认情况下，`Custom` 属性文件被选中。"
 
 #: ../stereo_rendering.rst:90
 msgid "Rendering Settings"

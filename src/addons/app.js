@@ -806,6 +806,7 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
         var gamepad_id = 0;
 
     var key_w, key_s, key_a, key_d, key_r, key_f, gmpd_btn_6, gmpd_btn_7;
+    var key_up, key_down, key_left, key_right;
     if (!disable_letter_controls) {
         key_w = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
         key_s = m_ctl.create_keyboard_sensor(m_ctl.KEY_S);
@@ -817,14 +818,15 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
                 gamepad_id);
         gmpd_btn_7 = m_ctl.create_gamepad_btn_sensor(m_input.GMPD_BUTTON_7,
                 gamepad_id);
+
+        key_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
+        key_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
+        key_left = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT);
+        key_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT);
     } else
         key_w = key_s = key_a = key_d = key_r = key_f = gmpd_btn_6 =
-                gmpd_btn_7 = m_ctl.create_custom_sensor(0);
-
-    var key_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
-    var key_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
-    var key_left = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT);
-    var key_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT);
+                gmpd_btn_7 = key_up = key_down = key_left = key_right =
+                m_ctl.create_custom_sensor(0);
 
     var lh_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_0, gmpd_indices);
     var lv_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_1, gmpd_indices);

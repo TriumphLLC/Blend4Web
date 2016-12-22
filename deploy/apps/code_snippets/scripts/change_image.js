@@ -77,6 +77,7 @@ function main_canvas_clicked_cb(e) {
 
     var obj = m_scenes.pick_object(x, y);
     if (obj && !_wait_for_image_loading) {
+        _wait_for_image_loading = true;
         switch(m_scenes.get_object_name(obj)) {
         case "Sphere_button_2":
             m_tex.change_image(_world, "lightmap", PATH_TO_IMG_CUBE_2b, change_img_cb);
@@ -99,7 +100,6 @@ function main_canvas_clicked_cb(e) {
         default:
             return;
         }
-        _wait_for_image_loading = true;
     }
 }
 

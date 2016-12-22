@@ -228,7 +228,7 @@ latex_elements = {
 # Additional stuff for the LaTeX preamble.
 'preamble': "\\usepackage[T2A]{fontenc}"+
 "\n\\setkeys{Gin}{width=.80\\textwidth}",
-"inputenc": "\\usepackage[utf8x]{inputenc}",
+"inputenc": "\\usepackage[UTF8]{ctex}",
 "classoptions": ",oneside",
 'babel': '\\usepackage[american]{babel}'
 }

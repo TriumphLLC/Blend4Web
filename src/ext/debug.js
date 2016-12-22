@@ -1182,6 +1182,8 @@ exports.calc_vbo_garbage_byte_size = m_debug.calc_vbo_garbage_byte_size;
 
 exports.show_vbo_garbage_info = m_debug.show_vbo_garbage_info;
 
+exports.print_batches_stat = m_debug.print_batches_stat;
+
 function call(func, name) {
     var decor_func = function() {
         _called_funcs.push(decor_func);

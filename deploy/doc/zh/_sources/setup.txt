@@ -12,9 +12,9 @@
 
     * 安装Blender
 
-    * 解压缩文件归档
-
     * 安装Blend4Web SDK
+
+    * Installing Blend4Web Add-On
 
     * 切换到Blend4Web模式
 
@@ -24,11 +24,29 @@
 
     * 更新插件
 
-    * Updating Saved Projects
+    * 更新保存的项目
 
 
 安装顺序
 ========
+
+There are two versions of the Blend4Web framework: Blend4Web SDK and
+Blend4Web Add-On. In order to decide which one best suits your needs,
+you will need to decide which kinds of applications you are planning
+on developing.
+
+If you plan on using all features that Blend4Web engine has to offer,
+you should install Blend4Web SDK.
+
+If your intention is to develop small-scale projects, or if you are
+planning on using only a limited number of features of the Blend4Web
+engine (the normal editor, for example), you might consider installing
+the Blend4Web Add-On instead.
+
+Note, the Add-On can only export scenes to HTML format and has limited
+functionality. For example, it does not include the project manager,
+example scenes, user manual and other additional resources. However,
+it still has everything you might need to create a simple application.
 
 
 安装Blender
@@ -38,21 +56,17 @@
 
 安装之前，请下载并安装兼容的Blender版本，根据此 表.
 
-A current stable version of Blender should be used. It can be
-downloaded from the official site or from Blend4Web site.
+应使用当前的稳定版本的Blender。它可以从 官方网站 或从  Blend4Web 网站
+下载 。
 
 [图片]
 
 
-解压缩文件归档
---------------
+安装Blend4Web SDK
+-----------------
 
 稳定版作为压缩包发布 ("blend4web_sdk_free_YY_MM.zip" -- 免费 SDK,
 "blend4web_sdk_pro_YY_MM.zip" -- 商业 SDK). 只要在某处解开这个压缩包。
-
-
-安装Blend4Web SDK
------------------
 
 1. 打开Blender。
 
@@ -83,10 +97,40 @@ downloaded from the official site or from Blend4Web site.
 在 "File > Export" 菜单 "Blend4Web (.json)" 和 "Blend4Web (.html)" 选
 项应该出现。
 
-注解: 如果您打算使用只用法线编辑器，你可以考虑安装  Blend4Web 插件
-  而不是 SDK。插件只能导出场景到  HTML格式 和有限功能 (例如，它没有
-  项目管理 ，示例场景，用户手册，等等)，但它仍然拥有一切让你可以创建一
-  个简单的 应用程序。它可以和其他  Blender插件  的安装方式相同。
+
+Installing Blend4Web Add-On
+---------------------------
+
+[图片]
+
+它可以和其他  Blender插件  的安装方式相同。
+
+1. 打开Blender。
+
+2. 打开用户首选项面板  "File > User Preferences...".
+
+3. 打开 "File" 选项卡。
+
+4. Press the "Install From File..." button.
+
+5. Select the archive containing Blend4Web add-on and press
+   "Install From File..." button.
+
+6. 单击  "Save User Settings" 按钮。
+
+7. 重新启动Blender。
+
+8. 打开用户首选项面板  "File > User Preferences...".
+
+9. 打开 "File" 选项卡。
+
+10. Find the Blend4Web Add-on in the list.
+
+11. Check the box on the left side of its title to enable it.
+
+12. 再按一次点击 "Save User Settings" 按钮。
+
+Now, everything should work properly.
 
 
 
@@ -180,31 +224,26 @@ Blend4Web插件的信息选项卡，然后按 "Remove" 按钮。删除旧版本�
 一切都应该能正常工作了。
 
 
-Updating Saved Projects
------------------------
+更新保存的项目
+--------------
 
-After you have updated your SDK (or Add-on), you can import projects
-that you exported before updating back to the Project Manager. To do
-this, follow the following instructions:
+你更新你的 SDK （或插件） 后，您可以导入之前导出的项目更新回项目管理器
+。要执行此操作，请按照以下说明︰
 
-1. Open Project Manager.
+1. 打开项目管理器
 
-2. Import your projects using the "Import Project(s)" button.
+2. 导入您的项目使用 "Import Project(s)" 按钮。
 
-3. Reexport projects's ".blend" files using the "re-export scenes"
-   link.
+3. 重新导出项目的  ".blend" 文件使用  "re-export scenes" 链接。
 
-4. Use the "check modules" link for every imported project to make
-   sure there are no missing or unused modules in the program code. If
-   there are, you may try to fix the poblems using the "Update
-   Modules" button.
+4. 对每个导入的项目使用 "check modules" 链接来确保在程序代码中有没
+   有缺 少或未使用的模块。如果有，你可以试着使用 "Update Modules" 按钮
+   来修 复。
 
-5. Then use "build" command to make the build versions of the
-   imported projects work again.
+5. 然后使用 "build" 命令， 生成版本使导入的项目再次工作。
 
-6. The developer version of the projects using "Copy" or "Compile"
-   engine binding type should also be build to properly work with the
-   new version of the SDK (the developer versions of the projects with
-   other bindning types should work fine without it).
+6. 开发者版本的项目使用 "Copy" 或 "Compile" 引擎绑定类型也可以构建
+   出与 新版本的 SDK一起正常工作 （与其他绑定类型的项目的开发版本没有
+   它也可 以工作）。
 
 

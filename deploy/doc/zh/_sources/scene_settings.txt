@@ -56,7 +56,7 @@
 
     * 物理
 
-    * 簇批量
+    * Objects Clustering
 
     * 选择物体
 
@@ -140,7 +140,7 @@
 [图片]
 
 *反射*
-   反射效果设置。可设置 "ON"，"OFF" 或 "AUTO"。默认设置为``ON``。
+   反射效果设置。可设置 "ON"，"OFF" 或 "AUTO"。默认设置为 "ON"。
 
 *折射*
    折射效果设置。可设置 "ON"，"OFF" 或 "AUTO"。默认设置为 "AUTO" 。
@@ -392,18 +392,29 @@ Meta标签
    允许在应用程序中使用物理。默认情况下启用。
 
 
-簇批量
-------
+Objects Clustering
+------------------
 
-该参数允许使用簇批量。它可用于优化目的。这是默认情况下禁用。
-
-注解: 如果禁用此参数，引擎将尝试将所有静态对象合二为一。
+The setting for object clustering. It can be used for optimization
+purposes.
 
 [图片]
 
 *簇大小*
-   簇的用于批量（米）的尺寸。默认设置为30。如果该参数被设置为零，对象
-   将不会被合并。
+   The size of the cluster used for batching (in meters). If this
+   parameter is set to zero, the engine will try to combine all
+   objects in the scene. Set to zero by default.
+
+*LOD Cluster Size Multiplier*
+   This parameter is used to subdivide clusters (based on LOD distance
+   specified individually for each object) into smaller ones to make
+   transitions between different levels of detail less noticable. The
+   size of that smaller clusters is defined by object LOD distance
+   multiplied by the value of this parameter. Higher values lead to
+   bigger clusters which increases performance but maked transition
+   between LODs more noticable, while lower values make said
+   transitions less noticable at the cost of decreased performance.
+   Set to 0.5 by default.
 
 
 选择物体

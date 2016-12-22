@@ -14,7 +14,7 @@ deploy_dir =
 [compile]
 apps = example.html;
 css_ignore = 
-engine_type = copy
+engine_type = external
 js_ignore = 
 optimization = advanced
 use_physics = False

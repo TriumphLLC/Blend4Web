@@ -475,10 +475,10 @@ JS 回调
    或作为一个变量的一个链接（如果是启用了变量的参数）。
 
 
-Set Camera Move Style
----------------------
+设置相机移动方式
+----------------
 
-Can be used to change the move style of the selected camera.
+可以用来改变所选摄像机的移动方式。
 
 [图片]
 
@@ -501,51 +501,42 @@ Can be used to change the move style of the selected camera.
 ~~~~~~~~
 
 *相机*
-   This parameter specifies a camera to which the changes will be
-   applied.
+   此参数指定的摄像机到的变化将被应用。
 
-*New Camera Move Style*
-   This parameter specifies the new move style that the camera will
-   use. Four options are available: "Hover", "Eye", "Target" and
-   "Static".
+*新相机移动方式*
+   此参数指定相机将使用新的方式。四个选项可用： "Hover", "Eye",
+   "Target" and "Static".
 
-The following options are only available if the "New Camera Move
-Style" parameter is not set to "Static":
+以下选项只是 "New Camera Move Style" 参数未设置为 "Static" 时才可用︰
 
-*Translation*
-   Sets the camera translation velocity. This parameter is set to 1.0
-   by default.
+*变换*
+   设置相机变换速度。默认情况下，此参数设置为 1.0。
 
 *旋转*
-   Sets the camera rotation velocity. This parameter is set to 1.0 by
-   default.
+   设置摄像机的旋转速度。默认情况下，此参数设置为 1.0。
 
-*Zoom*
-   Sets the zoom velocity of the camera. Default value is 0.10.
-   Available only if the "New Camera Move Style" parameter is set to
-   either "Hover" or "Target".
+*放大*
+   设置相机的变焦速度。默认值为 0.10。只有 "New Camera Move Style" 参
+   数设置为 "Hover" 或 "Target" 时才可用。
 
-The following parameters are used to specify a target or a pivot point
-of the camera and are available only if the "New Camera Move Style"
-parameter is set to either "Hover" or "Target":
+以下参数用于指定目标或相机的轴心点和仅在 "New Camera Move Style" 参数
+设置为 "Hover" 或者 "Target" 时才可用︰
 
-*Use Object*
-   This parameter enables and disables using a scene object as
-   camera's target or pivot point (depending on the camera type). If
-   it is activated, a text field will appear to specify the object.
-   This parameter is disabled by default.
+*使用物体*
+   此参数启用和禁用使用场景对象作为相机的目标或轴心点 （取决于相机类型
+   ）。如果它激活，一个文本字段将显示在指定的物体。此参数默认被禁用的
+   。
 
-If the "Use Object" parameter is disabled, the following three options
-become available:
+如果``使用物体``参数被禁用，以下三个选项可用：
 
 *x*
-   The "X" component of the camera's target/pivot pint.
+   相机的目标/轴心点的 "X" 分量。
 
 *y*
-   The "Y" component of the camera's target/pivot point.
+   相机的目标/轴心点的 "Y" 分量。
 
 *z*
-   The "Z" component of the camera's target/pivot point.
+   相机的目标/轴心点的 "Z" 分量。
 
 
 物体
@@ -787,7 +778,7 @@ become available:
 设置着色器节点参数
 ------------------
 
-可用于设置着色器节点的值。目前，只有` *Value`* 和` *RGB`* 节点被支持。
+可用于设置着色器节点的值。目前，只有 "Value" 和 "RGB" 节点被支持。
 
 [图片]
 
@@ -1138,12 +1129,12 @@ RGB节点
 *响应参数*
    指定要保存接收到来自服务器的数据的变量。
 
-注解: 从服务器收到的数据应如下所示 ︰
+注解: The data received from the server should be in the JSON
+  format:
 
      {"var0": 1,
      "var1": 10,
-     "var2": 144,
-     ...
+     "var2": 144
      }
 
 *Content-Type*
@@ -1152,7 +1143,7 @@ RGB节点
 
 *Request Params*
    指定将发送到服务器的包含 JSON 对象的变量。 "Method" 参数设置为
-   "Method" 时才可用。默认值为``R1`` 。
+   "Method" 时才可用。默认值为 "R1" 。
 
 
 JSON
@@ -1188,10 +1179,69 @@ JSON
    "ENCODE" 对  JSON 对象进行编码 和 "PARSE" 进行解码。默认设置为
    "ENCODE" 。
 
-*成员*
-   变量列表，将用于存储数据的解码或编码一个JSON对象（取决于 "JSON
-   Operation" 参数的值）。变量总是有类似 "var0", "var1" 等的名字，他们
-   的数量可以调整。
+*Paths*
+   A list of paths to the variables inside the JSON object. Paths are
+   used to define the inner structure of a JSON object. A path should
+   consist of several identifiers (separated by dots) that serve as a
+   path to a JSON field. If a name of a fragment of the path consists
+   solely of numbers, this name is interpreted as an array index.
+   Paths are created and deleted in conjunction with variables (in the
+   "Variables" list), and one path always corresponds to one variable.
+   This list can be used both to encode and to decode JSON object. By
+   default, the list is empty.
+
+*Variables*
+   A list of variables that will be used to either store the decoded
+   data or to encode a JSON object (depending on the value of the
+   "JSON Operation" parameter). The names and the quantity of the
+   variables can be adjusted manually. This list is also empty by
+   default.
+
+
+Using JSON logic node to encode JSON object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[图片]
+
+The logic node setup at the picture above encodes a JSON object and
+stores it in the "R1" variable. Such a JSON object looks like this:
+
+   {
+       "main":{
+           "part1":7,
+           "part2":12,
+           "part3":"abc"
+       }
+   }
+
+
+Using JSON logic node to decode JSON object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[图片]
+
+The picture above shows a logic node setup that recieves a JSON object
+from the server, stores it in the "R1" variable and then decodes it.
+Such a JSON object looks like this:
+
+   {
+       "a": {
+           "b": 17,
+           "c": "abc"
+       }
+   }
+
+Decoding this JSON object with the "JSON" logic node results in three
+variables named "var0", "var1" and "var2" (you don't have to create
+the variables beforehand) that will contain various parts of the JSON
+object. In this example, the "var1" variable has the value of 17, the
+"var2" variable has the value "abc", while the "var0" variable
+contains the following fragment of the JSON object:
+
+   {
+       "b": 17,
+       "c": "abc"
+   }
 
 
 页面参数
@@ -1221,6 +1271,10 @@ JSON
 
 *参数名称*
    网页参数的名称。
+
+   For example, if this parameter is set to the value of "X_1", then
+   the value of this parameter (if it is present in the URL) will be
+   saved to a variable specified by the "Destination" parameter.
 
 *目标*
    将用来保存参数的变量。

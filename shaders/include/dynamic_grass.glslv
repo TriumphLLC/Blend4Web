@@ -9,6 +9,7 @@
 #var PRECISION highp
 #var DYNAMIC_GRASS 0
 #var BILLBOARD 0
+#var GRASS_TEXTURE_SIZE 1024.0
 
 /*============================================================================*/
 
@@ -36,6 +37,24 @@ vertex infinity_vertex()
     return vertex(vec3(-10000.0), vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
             vec3(0.0), vec3(0.0));
 }
+
+#if GLSL3
+vec4 texture2D_linear(sampler2D texture_sampler, vec2 tex_coord) {
+    float grass_texel_size = 1.0 / GRASS_TEXTURE_SIZE;
+    vec4 x_0_y_0 = GLSL_TEXTURE(texture_sampler, tex_coord);
+    vec4 x_1_y_0 = GLSL_TEXTURE(texture_sampler, tex_coord + vec2(grass_texel_size, 0.0));
+    vec4 x_0_y_1 = GLSL_TEXTURE(texture_sampler, tex_coord + vec2(0.0, grass_texel_size));
+    vec4 x_1_y_1 = GLSL_TEXTURE(texture_sampler, tex_coord + vec2(grass_texel_size, grass_texel_size));
+
+    float a = fract(tex_coord.x * GRASS_TEXTURE_SIZE);
+
+    vec4 x_int_y_0 = mix(x_0_y_0, x_1_y_0, a);
+    vec4 x_int_y_1 = mix(x_0_y_1, x_1_y_1, a);
+
+    float b = fract(tex_coord.y * GRASS_TEXTURE_SIZE);
+    return mix(x_int_y_0, x_int_y_1, b);
+}
+#endif
 
 // Translate grass vertex from local to world space using grass maps
 vertex grass_vertex(vec3 position, vec3 tangent, vec3 shade_tan, vec3 binormal,
@@ -80,8 +99,14 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 shade_tan, vec3 binormal,
     // (DELTA = (HIGH - LOW)) > 0
     float height_delta = grass_map_dim.y - grass_map_dim.x;
     // in world space: HIGH - MAP * DELTA
-    float height = grass_map_dim.y - GLSL_TEXTURE(grass_map_depth, cen_uv_scaled).r *
-            height_delta;
+
+#if GLSL3
+    float height = grass_map_dim.y -
+            (texture2D_linear(grass_map_depth, cen_uv_scaled)).r * height_delta;
+#else
+    float height = grass_map_dim.y -
+            (GLSL_TEXTURE(grass_map_depth, cen_uv_scaled)).r * height_delta;
+#endif
 
     // calculate new center and position
     vec2 pos_cen_delta = position.xy - center.xy;

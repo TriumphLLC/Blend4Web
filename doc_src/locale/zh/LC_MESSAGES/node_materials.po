@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-11-25 16:42+0300\n"
-"PO-Revision-Date: 2016-10-28 17:28+0800\n"
+"POT-Creation-Date: 2016-12-16 17:38+0300\n"
+"PO-Revision-Date: 2016-12-01 17:39+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgid ""
 "The engine also has partial support for some of the Cycles nodes. This "
 "subject is more thoroughly described in the :ref:`corresponding chapter "
 "<cycles_nodes>`."
-msgstr ""
+msgstr "引擎能部分支持某些Cycles节点。本内容的更详尽描述在  :ref:`相应章节 <cycles_nodes>`."
 
 #: ../node_materials.rst:36
 msgid "Standard node performance and degree of support is described in the table."
@@ -950,85 +950,91 @@ msgstr ":ref:`gamma_node_materials`"
 
 #: ../node_materials.rst:521
 msgid "Cycles Nodes"
-msgstr ""
+msgstr "Cycles 节点"
 
 #: ../node_materials.rst:524
 msgid ""
 "Cycles node support is an experimental feature that is not yet "
 "recommended for using in production enviroment."
-msgstr ""
+msgstr "Cycles节点的支持是不建议在生产中使用环境的实验性功能。"
 
 #: ../node_materials.rst:526
 msgid "The engine support the following ``Cycles`` nodes:"
-msgstr ""
+msgstr "引擎支持以下 ``Cycles`` 节点︰"
 
 #: ../node_materials.rst:528
 msgid "``Material Output`` (only ``Surface`` input is supported);"
-msgstr ""
+msgstr "``材质输出``' （只有 ``Surface``  输入支持）;"
 
 #: ../node_materials.rst:530
 msgid "``BSDF Diffuse``;"
-msgstr ""
+msgstr "``BSDF Diffuse``;"
 
 #: ../node_materials.rst:532
 msgid ""
 "``BSDF Glossy`` (only ``GGX`` distribution is supported; the "
 "``Roughness`` parameter does not influence the reflections);"
-msgstr ""
+msgstr "``BSDF Glossy`` (只支持 ``GGX`` 分布;  ``Roughness`` 参数不影响反射);"
 
 #: ../node_materials.rst:534
 msgid "``Mix Shader``;"
-msgstr ""
+msgstr "``Mix Shader``;"
 
 #: ../node_materials.rst:536
 msgid "``Fresnel``;"
-msgstr ""
+msgstr "``Fresnel``;"
 
 #: ../node_materials.rst:538
 msgid "``Layer Weight``;"
-msgstr ""
+msgstr "``Layer Weight``;"
 
 #: ../node_materials.rst:540
 msgid "``Image Texture``;"
-msgstr ""
+msgstr "``Image Texture``;"
 
 #: ../node_materials.rst:542
 msgid "``Environment Texture``;"
-msgstr ""
+msgstr "``Environment Texture``;"
 
 #: ../node_materials.rst:544
 msgid "``Object Info``;"
-msgstr ""
+msgstr "``Object Info``;"
 
 #: ../node_materials.rst:546
 msgid "``Bump``."
-msgstr ""
+msgstr "``Bump``."
 
 #: ../node_materials.rst:548
 msgid "The following nodes are partially supported:"
-msgstr ""
+msgstr "部分支持以下节点︰"
 
 #: ../node_materials.rst:550
 msgid "``Texture Coordinates`` (``From Dupli`` parameter is not supported);"
-msgstr ""
+msgstr "``Texture Coordinates`` (``From Dupli`` 参数不支持);"
 
 #: ../node_materials.rst:552
 msgid "``UV Map`` (``From Dupli`` parameter is not supported);"
-msgstr ""
+msgstr "``UV Map`` (``From Dupli`` 参数不支持);"
 
 #: ../node_materials.rst:554
 msgid ""
 "``Geometry`` (the ``Pointness`` and ``Parametric`` parameters are not "
 "supported)."
-msgstr ""
+msgstr "``Geometry`` (  ``Pointness`` 和 ``Parametric`` 参数不支持)."
 
 #: ../node_materials.rst:556
+msgid "``Emission`` (does not influence the lighting of the scene)."
+msgstr ""
+
+#: ../node_materials.rst:558
 msgid ""
 "Other ``Cycles`` nodes will not, in most cases, work in Blend4Web the "
 "same way they do in Blender. They also might not work at all or even "
 "cause material in which they are used to work incorrectly. However, using"
 " these nodes will not cause instabilities in the application workflow."
 msgstr ""
+"其他 ``Cycles`` "
+"节点在大多数情况下在不会在Blend4Web中跟他们在Blender中一样良好工作。他们不会工作也可能引起材质的不正常显示和工作。但是，使用这些节点不会在应用程序工作流中导致不稳定。"
 
 #: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:170
 msgid "materials"
@@ -1037,19 +1043,4 @@ msgstr "材质"
 #: ../node_materials.rst:1 ../node_materials.rst:26 ../node_materials.rst:170
 msgid "nodes"
 msgstr "节点"
-
-#~ msgid ""
-#~ msgstr "Cycles节点仅部分支持：在大多数情况下，他们在Blend4Web工作的方式跟他们在Blender的方式也不同。他们也可能不会完全工作，甚至导致使用它们的材质无法正常工作。然而，使用Cycles的节点不会在应用程序工作流中导致不稳定。"
-
-#~ msgid ""
-#~ "Other ``Cycles`` nodes will not, in "
-#~ "most cases, work in Blend4Web the "
-#~ "same way they do in Blender. They"
-#~ " also might not work at all or"
-#~ " even cause material in which they"
-#~ " are used to work incorrectly. "
-#~ "However, using Cycles nodes will not "
-#~ "cause instabilities in the application "
-#~ "workflow."
-#~ msgstr ""
 

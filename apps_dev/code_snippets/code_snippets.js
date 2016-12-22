@@ -103,6 +103,10 @@ function init_it() {
                         var text_js_parent   = text_js.parentNode;
 
                         var raw_html = gen_html_code(script.src);
+
+                        var re = new RegExp("get_std_assets_path\\(\\)[\\s\\S]*?\\+[\\s\\S]*?\"code_snippets\\/" 
+                                + script.dataset.scene + "\\/?\"");
+                        response = response.replace(re, "get_assets_path(\"" + script.dataset.scene + "\")");
                         var raw_js   = response + 'b4w.require("' + script.dataset.scene + '").init();';
 
                         var highlighted_html = hljs.highlight('html', raw_html).value;

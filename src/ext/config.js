@@ -52,7 +52,7 @@
  * <dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
  * in order to change this parameter).
  * <dt>assets_path
- * <dd>String, path to assets directory (for get_std_assets_path()).
+ * <dd>String, path to assets directory (for get_assets_path() and get_std_assets_path()).
  * <dt>assets_dds_available
  * <dd>Boolean, allow the engine to use compressed DDS textures.
  * <dt>assets_pvr_available
@@ -240,12 +240,19 @@ exports.reset = m_cfg.reset;
  */
 exports.reset_limits = m_cfg.reset_limits;
 /**
- * Get the path to the standard assets directory.
- * @see https://www.blend4web.com/doc/en/developers.html#loading-application-assets
+ * Get the path to the standard assets directory inside the SDK.
  * @method module:config.get_std_assets_path
  * @returns {String} Path to assets
  */
-exports.get_std_assets_path = m_cfg.get_std_assets_path;
+exports.get_std_assets_path = m_cfg.get_assets_path;
+/**
+ * Get the path to the project's assets directory.
+ * @see https://www.blend4web.com/doc/en/developers.html#loading-application-assets
+ * @method module:config.get_assets_path
+ * @param {String} name Name of the project
+ * @returns {String} Path to assets
+ */
+exports.get_assets_path = m_cfg.get_assets_path;
 
 /**
  * Set the engine's quality profile.

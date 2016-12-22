@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-10-05 16:56+0300\n"
+"POT-Creation-Date: 2016-12-16 15:05+0300\n"
 "PO-Revision-Date: 2016-10-29 13:46+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,8 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.9\n"
 
 #: ../addon.rst:7
 msgid "Add-on"
@@ -33,69 +31,89 @@ msgstr "本地开发服务器"
 
 #: ../addon.rst:18
 msgid ""
-"Settings for the local development server can be found in :file:`File > User Preferences...` (hot keys :file:`Ctrl-"
-"Alt-U`). Here you can change the port number to be used to run the development server (6687 by default), and also "
-"enable its launching upon Blender startup. To do this, enable ``Run on Startup`` option in the add-on settings."
+"Settings for the local development server can be found in :file:`File > "
+"User Preferences...` (hot keys :file:`Ctrl-Alt-U`). Here you can change "
+"the port number to be used to run the development server (6687 by "
+"default), and also enable its launching upon Blender startup. To do this,"
+" enable ``Run on Startup`` option in the add-on settings."
 msgstr ""
-"本地开发服务器的设置中可以在  :file:`File > User Preferences...`  找到 (快捷键 :file:`Ctrl-Alt-U`) 。在这里，您可以"
-"更改端口号被用来运行开发服务器（默认情况下6687），可随Blender启动开启。要做到这一点，在插件上启用 ``Run on "
-"Startup`` 选项运行。"
+"本地开发服务器的设置中可以在  :file:`File > User Preferences...`  找到 (快捷键 :file:`Ctrl-"
+"Alt-U`) 。在这里，您可以更改端口号被用来运行开发服务器（默认情况下6687），可随Blender启动开启。要做到这一点，在插件上启用 "
+"``Run on Startup`` 选项运行。"
 
 #: ../addon.rst:26
-msgid "After changing local development server settings in it required to restart Blender."
+msgid ""
+"After changing local development server settings in it required to "
+"restart Blender."
 msgstr "在改变了本地开发服务器设置后需要重新启动Blender。"
 
 #: ../addon.rst:28
 msgid ""
-"It is possible for the local server to process external requests. To do that enable the option ``Enable External "
-"Requests``."
+"It is possible for the local server to process external requests. To do "
+"that enable the option ``Enable External Requests``."
 msgstr "有可能为本地服务器来处理外部请求。要做到这一点启用 ``Enable External Requests`` 选项 。"
 
 #: ../addon.rst:30
 msgid ""
-"If you chose not to start the server automatically, you can always do it manually: go to the ``Render`` tab and "
-"press the ``Start Server`` button on the ``Development Tools`` panel:"
+"If you chose not to start the server automatically, you can always do it "
+"manually: go to the ``Render`` tab and press the ``Start Server`` button "
+"on the ``Development Tools`` panel:"
 msgstr ""
-"如果您选择不自动启动服务器，你总是可以手动启动：去 ``Render`` 选项卡，然后按 ``Development Server``  面板上的  "
-"``Start Server`` 按钮："
+"如果您选择不自动启动服务器，你总是可以手动启动：去 ``Render`` 选项卡，然后按 ``Development Server``  面板上的"
+"  ``Start Server`` 按钮："
 
 #: ../addon.rst:40
+#, fuzzy
 msgid ""
-"If the path to the Blend4Web SDK is not specified, the local development server cannot be launched. In this case "
-"the corresponding message will be displayed instead of the ``Start Server`` button."
+"If the local development server cannot be launched, the corresponding "
+"message will be displayed instead of the ``Start Server`` button."
 msgstr ""
-"如果没有指定的Blend4Web SDK的路径，本地开发服务器无法启动。在这种情况下，相应的消息将被显示，而不是 ``Start "
-"Server`` 按钮。"
+"如果没有指定的Blend4Web SDK的路径，本地开发服务器无法启动。在这种情况下，相应的消息将被显示，而不是 ``Start Server``"
+" 按钮。"
 
 #: ../addon.rst:42
-msgid "If the server is failed to run, an error message will be shown describing the reason:"
+msgid ""
+"If the server is failed to run, an error message will be shown describing"
+" the reason:"
 msgstr "如果服务器无法运行，将显示一条错误消息，说明了原因："
 
 #: ../addon.rst:47
-msgid "This error can arise if the server port is already used by some other application."
+msgid ""
+"This error can arise if the server port is already used by some other "
+"application."
 msgstr "如果服务器端口已被一些其他的应用程序可能会出现此错误。"
 
 #: ../addon.rst:49
 msgid ""
-"Press the ``SDK Index`` button to open the index web page of the Blend4Web SDK in the browser. This page is "
-"available at http://localhost:6687."
-msgstr "按 ``SDK Index`` 按钮，在浏览器中打开Blend4Web SDK的索引网页。本页面可在 http://localhost:6687 访问。"
+"Press the ``SDK Index`` button to open the index web page of the "
+"Blend4Web SDK in the browser. This page is available at "
+"http://localhost:6687."
+msgstr ""
+"按 ``SDK Index`` 按钮，在浏览器中打开Blend4Web SDK的索引网页。本页面可在 http://localhost:6687 "
+"访问。"
 
 #: ../addon.rst:57
-msgid "As a result, the default browser for your operating system will be launched."
+msgid ""
+"As a result, the default browser for your operating system will be "
+"launched."
 msgstr "然后，对于您的操作系统的默认浏览器将启动。"
 
 #: ../addon.rst:59
-msgid "The ``Project Manager`` button can be used to open :ref:`project manager <project_management>`."
+msgid ""
+"The ``Project Manager`` button can be used to open :ref:`project manager "
+"<project_management>`."
 msgstr "``Project Manager`` 按钮可用于打开 :ref:`项目管理器 <project_management>`."
 
 #: ../addon.rst:61
 msgid ""
-"The ``Fast Preview`` button loads the scene that is currently open in Blender, into the :ref:`viewer <viewer>`."
+"The ``Fast Preview`` button loads the scene that is currently open in "
+"Blender, into the :ref:`viewer <viewer>`."
 msgstr "``Fast Preview`` 按钮加载当前正在Blender打开的场景到 :ref:`查看器 <viewer>`."
 
 #: ../addon.rst:63
-msgid "The server can be stopped by pressing the ``Stop Server`` button. It also stops when Blender is closed."
+msgid ""
+"The server can be stopped by pressing the ``Stop Server`` button. It also"
+" stops when Blender is closed."
 msgstr "服务器可以通过按下 ``Stop Server``  按钮被停止。当Blender被关闭也停止。"
 
 #: ../addon.rst:71
@@ -104,16 +122,17 @@ msgstr "运行浏览器和演示"
 
 #: ../addon.rst:73
 msgid ""
-"The index page contains links for launching the scene viewer and the demo applications. A :ref:`WebGL-capable "
-"browser <browser_webgl_support>` is required to run these apps."
+"The index page contains links for launching the scene viewer and the demo"
+" applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is "
+"required to run these apps."
 msgstr ""
-"索引页包含用于启动场景浏览和演示应用程序的链接。需要一个  :ref:`WebGL-适配浏览器 <browser_webgl_support>` 运行这些"
-"应用程序。"
+"索引页包含用于启动场景浏览和演示应用程序的链接。需要一个  :ref:`WebGL-适配浏览器 <browser_webgl_support>` "
+"运行这些应用程序。"
 
 #: ../addon.rst:83
 msgid ""
-"If the SDK apps are not displayed correctly, or error messages are shown, follow the instructions in the :ref:"
-"`renderer_not_working` section."
+"If the SDK apps are not displayed correctly, or error messages are shown,"
+" follow the instructions in the :ref:`renderer_not_working` section."
 msgstr "如果SDK应用程序显示不正确，或显示错误消息，请按照  :ref:`renderer_not_working` 部分中的说明。"
 
 #: ../addon.rst:88
@@ -121,7 +140,9 @@ msgid "Export Formats"
 msgstr "输出格式"
 
 #: ../addon.rst:90
-msgid "After the scene is finished, you need to convert it into a format supported by the Blend4Web engine."
+msgid ""
+"After the scene is finished, you need to convert it into a format "
+"supported by the Blend4Web engine."
 msgstr "场景制作完成后，需要将其转换成由Blend4Web引擎所支持的格式。"
 
 #: ../addon.rst:92
@@ -134,54 +155,63 @@ msgstr "JSON"
 
 #: ../addon.rst:97
 msgid ""
-"Exporting the scene to this format creates a ``.json`` (JavaScript Object Notation) file that contains all "
-"exported data structures and links to external resources (images, sounds and such), and also a ``.bin`` file that "
-"contains model data arrays in binary format."
+"Exporting the scene to this format creates a ``.json`` (JavaScript Object"
+" Notation) file that contains all exported data structures and links to "
+"external resources (images, sounds and such), and also a ``.bin`` file "
+"that contains model data arrays in binary format."
 msgstr ""
-"导出场景到这种格式会创建一个 ``.json`` （JavaScript对象符号）文件，其中包含所有导出的数据结构和链接到外部资源（图"
-"片，声音等等），还有一个 ``.bin`` 文件包含二进制格式的模型数据阵列。"
+"导出场景到这种格式会创建一个 ``.json`` "
+"（JavaScript对象符号）文件，其中包含所有导出的数据结构和链接到外部资源（图片，声音等等），还有一个 ``.bin`` "
+"文件包含二进制格式的模型数据阵列。"
 
 #: ../addon.rst:99
 msgid ""
-"If media resources are `packed into the .blend file <https://www.blender.org/manual/data_system/introduction."
-"html#pack-and-unpack-data>`_, they will be unpacked during the export and placed in the project's directory "
-"(inside the SDK directory). It should be noted that the names of such files will be automatically changed, which "
-"can complicate working with them."
+"If media resources are `packed into the .blend file "
+"<https://www.blender.org/manual/data_system/introduction.html#pack-and-"
+"unpack-data>`_, they will be unpacked during the export and placed in the"
+" project's directory (inside the SDK directory). It should be noted that "
+"the names of such files will be automatically changed, which can "
+"complicate working with them."
 msgstr ""
-"如果媒体资源被 `打包到.blend文件 <https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-"
-"data>`_, 他们会在导出过程中解压，并在项目的目录放置在隐藏的 ``../tmp/`` 文件夹中（SDK目录内）。应当注意的是，这样的"
-"话文件的名称将被自动地改变，工作的时候可能变得复杂。"
+"如果媒体资源被 `打包到.blend文件 "
+"<https://www.blender.org/manual/data_system/introduction.html#pack-and-"
+"unpack-data>`_, 他们会在导出过程中解压，并在项目的目录放置在隐藏的 ``../tmp/`` "
+"文件夹中（SDK目录内）。应当注意的是，这样的话文件的名称将被自动地改变，工作的时候可能变得复杂。"
 
 #: ../addon.rst:101
+#, fuzzy
 msgid ""
-"It is recommended to store all the resources in a dedicated folder inside the SDK directory, it can be called "
-"``deploy/assets/project_name`` for example."
+"It is recommended to store all the resources in a dedicated folder inside"
+" the SDK directory, it can be called ``projects/project_name/assets`` for"
+" example."
 msgstr "建议将所有资源存储在SDK目录中一个专门的文件夹，它可以被称为``deploy/assets/项目名`` 。"
 
 #: ../addon.rst:104
 msgid ""
-"In accordance with the security measures, the development server can only access the SDK folder. If media data is "
-"placed in another folder, the server won't be able to deploy it during the export (even if it is working correctly "
-"in Blender itself)."
-msgstr ""
-"按照安全因素考虑，开发服务器只能访问SDK文件夹。如果媒体数据被放置在另一个文件夹，服务器将无法在部署的时候导出（即使"
-"是在Blender内工作正常）它。"
+"In accordance with the security measures, the development server can only"
+" access the SDK folder. If media data is placed in another folder, the "
+"server won't be able to deploy it during the export (even if it is "
+"working correctly in Blender itself)."
+msgstr "按照安全因素考虑，开发服务器只能访问SDK文件夹。如果媒体数据被放置在另一个文件夹，服务器将无法在部署的时候导出（即使是在Blender内工作正常）它。"
 
 #: ../addon.rst:106
 msgid ""
-"Paths to the external resources should be relative. If this is not the case,  execute the ``File > External Data > "
-"Make All Paths Relative`` command, or  else problems with opening the file on other computers may occur."
+"Paths to the external resources should be relative. If this is not the "
+"case,  execute the ``File > External Data > Make All Paths Relative`` "
+"command, or  else problems with opening the file on other computers may "
+"occur."
 msgstr ""
-"外部资源路径应该是相对的。如果不是这种情况，执行  ``File > External Data > Make All Paths Relative``  命令，否则在"
-"其他电脑上打开这个项目会有问题。"
+"外部资源路径应该是相对的。如果不是这种情况，执行  ``File > External Data > Make All Paths "
+"Relative``  命令，否则在其他电脑上打开这个项目会有问题。"
 
 #: ../addon.rst:108
 msgid ""
-"This is the main format for complex projects that include multiple scenes and require JavaScript programming. "
-"Project development is further described in the  :ref:`corresponding section <developers>`."
+"This is the main format for complex projects that include multiple scenes"
+" and require JavaScript programming. Project development is further "
+"described in the  :ref:`corresponding section <developers>`."
 msgstr ""
-"这是一个复杂的项目，其中包括多个场景，并且需要JavaScript编程的主要格式。对应的部分项目开发进一步说明在 :ref:"
-"`corresponding section <developers>`."
+"这是一个复杂的项目，其中包括多个场景，并且需要JavaScript编程的主要格式。对应的部分项目开发进一步说明在 "
+":ref:`corresponding section <developers>`."
 
 #: ../addon.rst:111
 msgid "HTML"
@@ -189,25 +219,28 @@ msgstr "HTML"
 
 #: ../addon.rst:113
 msgid ""
-"Exporting the scene to this format pack all scene resources into one file with the HTML extension. This HTML file "
-"contains not only the scene itself, but also textures, sounds, Blend4Web engine and standard :ref:`web player "
-"<web_player>`. A file like this can be executed on any computer and any mobile device that have a web browser with "
-"WebGL support."
+"Exporting the scene to this format pack all scene resources into one file"
+" with the HTML extension. This HTML file contains not only the scene "
+"itself, but also textures, sounds, Blend4Web engine and standard "
+":ref:`web player <web_player>`. A file like this can be executed on any "
+"computer and any mobile device that have a web browser with WebGL "
+"support."
 msgstr ""
-"导出场景到这种格式会打包场景的所有的资源投入到一个文件带HTML扩展。这个HTML文件不仅包含场景本身，而且还材质，声音"
-"Blend4Web引擎和标准 :ref:`web player <web_player>`. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览器的任何移动"
-"设备上执行。"
+"导出场景到这种格式会打包场景的所有的资源投入到一个文件带HTML扩展。这个HTML文件不仅包含场景本身，而且还材质，声音Blend4Web引擎和标准"
+" :ref:`web player <web_player>`. "
+"像这样的文件可以在任何计算机和有支持WebGL的Web浏览器的任何移动设备上执行。"
 
 #: ../addon.rst:115
 msgid ""
-"You can't use HTML files for further development, but you also don't need any additional actions to run them. This "
-"format is useful for developing relatively simple applications of moderate size."
-msgstr ""
-"不能使用HTML文件做进一步的开发，但你也并不需要任何额外的操作来运行它们。这种格式对开发中等规模的相对简单的应用非常"
-"有用。"
+"You can't use HTML files for further development, but you also don't need"
+" any additional actions to run them. This format is useful for developing"
+" relatively simple applications of moderate size."
+msgstr "不能使用HTML文件做进一步的开发，但你也并不需要任何额外的操作来运行它们。这种格式对开发中等规模的相对简单的应用非常有用。"
 
 #: ../addon.rst:117
-msgid "It should be noted, however, that HTML applications do not support following features:"
+msgid ""
+"It should be noted, however, that HTML applications do not support "
+"following features:"
 msgstr "应当指出，不论如何，HTML应用程序不支持以下功能："
 
 #: ../addon.rst:119
@@ -232,12 +265,14 @@ msgstr "*自动保存Blend文件*"
 
 #: ../addon.rst:129
 msgid ""
-"Autosaving the file from which export occurs. **Enabled by default**. Autosaving is performed right after the "
-"export to guarantee conformity between the current blend file and the exported file contents. In addition, the "
-"relative path to the exported file is saved for convenience."
+"Autosaving the file from which export occurs. **Enabled by default**. "
+"Autosaving is performed right after the export to guarantee conformity "
+"between the current blend file and the exported file contents. In "
+"addition, the relative path to the exported file is saved for "
+"convenience."
 msgstr ""
-"自动保存从导出的实际文件。 **默认情况下启用** 。自动保存正在执行的导出之后，以保证目前的混合文件和导出的文件内容之"
-"间的一致性。此外，相对路径导出的文件被保存方便。"
+"自动保存从导出的实际文件。 **默认情况下启用** "
+"。自动保存正在执行的导出之后，以保证目前的混合文件和导出的文件内容之间的一致性。此外，相对路径导出的文件被保存方便。"
 
 #: ../addon.rst:138
 msgid "*Strict Mode*"
@@ -245,14 +280,15 @@ msgstr "*严格模式*"
 
 #: ../addon.rst:138
 msgid ""
-"This mode prevents export if there are any errors or messages for users' attention. This mode is enabled with the "
-"``Strict Mode`` setting in the export menu:"
-msgstr ""
-"这种模式可以防止输出是否有适用于用户的注意力的任何错误或消息。这种模式使能了 ``Strict Mode`` 在导出菜单设置："
+"This mode prevents export if there are any errors or messages for users' "
+"attention. This mode is enabled with the ``Strict Mode`` setting in the "
+"export menu:"
+msgstr "这种模式可以防止输出是否有适用于用户的注意力的任何错误或消息。这种模式使能了 ``Strict Mode`` 在导出菜单设置："
 
 #: ../addon.rst:146
 msgid ""
-"If there are any non-critical errors or messages for users' attention, a dialog window will be show like this:"
+"If there are any non-critical errors or messages for users' attention, a "
+"dialog window will be show like this:"
 msgstr "如果有用户的注意力任何非关键性的错误或消息，一个对话窗口会显示如下："
 
 #: ../addon.rst:155
@@ -261,12 +297,14 @@ msgstr "*输出转换媒体*"
 
 #: ../addon.rst:155
 msgid ""
-"This option is available for HTML export. When this option is enabled, the converted media files of different "
-"formats are written in the HTML file. Using different media files is essential to create cross-browser and cross-"
-"platform applications while using HTML export. These files can be created by the :ref:`converter <converter>`."
+"This option is available for HTML export. When this option is enabled, "
+"the converted media files of different formats are written in the HTML "
+"file. Using different media files is essential to create cross-browser "
+"and cross-platform applications while using HTML export. These files can "
+"be created by the :ref:`converter <converter>`."
 msgstr ""
-"此选项可用于HTML导出。当启用该选项，不同格式的转换后mediafiles都写在HTML文件。使用不同的mediafiles是必不可少的，而"
-"使用HTML导出创造跨浏览器和跨平台的应用程序。这些文件可以由创建 :ref:`转换器 <converter>`."
+"此选项可用于HTML导出。当启用该选项，不同格式的转换后mediafiles都写在HTML文件。使用不同的mediafiles是必不可少的，而使用HTML导出创造跨浏览器和跨平台的应用程序。这些文件可以由创建"
+" :ref:`转换器 <converter>`."
 
 #: ../addon.rst:170
 msgid "*Run in Viewer*"
@@ -278,17 +316,19 @@ msgstr "自动启动场景查看，导出的场景添加到它。"
 
 #: ../addon.rst:168
 msgid ""
-"When using the :ref:`local development server <local_development_server>`, there is a possibility to open the "
-"exported ``.json`` scene in the Scene Viewer. To do this, select any path inside the Blend4Web SDK file structure "
-"upon export."
+"When using the :ref:`local development server "
+"<local_development_server>`, there is a possibility to open the exported "
+"``.json`` scene in the Scene Viewer. To do this, select any path inside "
+"the Blend4Web SDK file structure upon export."
 msgstr ""
-"当使用 :ref:`本地开发服务器  <local_development_server>`, 可以在场景预览器中打开导出的 ``.json`` 文件。要做到这一"
-"点，选择在导出时Blend4Web SDK文件结构中的任何路径。"
+"当使用 :ref:`本地开发服务器  <local_development_server>`, 可以在场景预览器中打开导出的 ``.json`` "
+"文件。要做到这一点，选择在导出时Blend4Web SDK文件结构中的任何路径。"
 
 #: ../addon.rst:170
 msgid ""
-"A directory inside the SDK should be used for export. If not, this option will not be displayed in the menu. Also, "
-"it will not be displayed if the local development server is down."
+"A directory inside the SDK should be used for export. If not, this option"
+" will not be displayed in the menu. Also, it will not be displayed if the"
+" local development server is down."
 msgstr "应该于SDK里面的目录。如果没有，这个选项将不会显示在菜单中。另外，如果本地开发服务器宕机也不会显示。"
 
 #: ../addon.rst:184
@@ -297,20 +337,24 @@ msgstr "初始化错误"
 
 #: ../addon.rst:186
 msgid ""
-"Initialization errors can arise upon installation of the add-on or when a scene is opened in Blender. In this case "
-"a dialog window with the error description is showed."
+"Initialization errors can arise upon installation of the add-on or when a"
+" scene is opened in Blender. In this case a dialog window with the error "
+"description is showed."
 msgstr "可能出现安装的加载项或当一个场景是在Blender打开时初始化错误。在这种情况下，一个对话窗口，显示错误的描述。"
 
 #: ../addon.rst:195 ../addon.rst:234 ../addon.rst:305 ../addon.rst:462
 msgid "Error message"
 msgstr "错误信息"
 
-#: ../addon.rst:195 ../addon.rst:234 ../addon.rst:305 ../addon.rst:462 ../addon.rst:656
+#: ../addon.rst:195 ../addon.rst:234 ../addon.rst:305 ../addon.rst:462
+#: ../addon.rst:660
 msgid "Cause"
 msgstr "原因"
 
 #: ../addon.rst:197
-msgid "Blend4Web initialization error! Add-on is not compatible with the PLATFORM platform."
+msgid ""
+"Blend4Web initialization error! Add-on is not compatible with the "
+"PLATFORM platform."
 msgstr "Blend4Web初始化错误!该Blend4Web插件和该平台不兼容。"
 
 #: ../addon.rst:197
@@ -320,16 +364,19 @@ msgstr "该Blend4Web插件和该平台不兼容。"
 #: ../addon.rst:201
 #, fuzzy
 msgid ""
-"Warning: Blender version mismatch. Blender VER_REQUIRED is recommended for the Blend4Web add-on. Current version "
-"is VER_CURRENT."
+"Warning: Blender version mismatch. Blender VER_REQUIRED is recommended "
+"for the Blend4Web add-on. Current version is VER_CURRENT."
 msgstr ""
-"Warning: Blender version mismatch. Blender VER_REQUIRED is recommended for the Blend4Web addon. Current version is "
-"VER_CURRENT.（Blend4Web initialization error! Addon is not compatible with the PLATFORM platform.）"
+"Warning: Blender version mismatch. Blender VER_REQUIRED is recommended "
+"for the Blend4Web addon. Current version is VER_CURRENT.（Blend4Web "
+"initialization error! Addon is not compatible with the PLATFORM "
+"platform.）"
 
 #: ../addon.rst:201
 msgid ""
-"Warning about possible incompatibility with the current Blender version. It is recommended to use VER_REQUIRED "
-"Blender version. The current version is VER_CURRENT."
+"Warning about possible incompatibility with the current Blender version. "
+"It is recommended to use VER_REQUIRED Blender version. The current "
+"version is VER_CURRENT."
 msgstr "警告有关可能不符合当前Blender的版本号。它建议使用VER_REQUIREDBlender版本。当前的版本是VER_CURRENT。"
 
 #: ../addon.rst:207
@@ -338,8 +385,8 @@ msgstr "不正确的附加目录名。"
 
 #: ../addon.rst:207
 msgid ""
-"Incorrect name of the add-on directory. Add-on structure in the archive has been damaged, or entirety of the "
-"archive has been disrupted."
+"Incorrect name of the add-on directory. Add-on structure in the archive "
+"has been damaged, or entirety of the archive has been disrupted."
 msgstr "插件目录的不正确的名称。在存档附加结构已损坏，或归档的全部被打乱。"
 
 #: ../addon.rst:218
@@ -348,117 +395,125 @@ msgstr "兼容性错误"
 
 #: ../addon.rst:220
 msgid ""
-"Compatibility errors may arise when trying to view a scene in a browser, in the following cases: if version of the "
-"add-on used to export the scene differs from version of the Blend4Web engine which tries to load the scene, or if ."
-"bin file does not correspond to the .json file."
-msgstr ""
-"当试图在浏览器中查看一个场景，在下列情况下兼容性错误可能出现：如果版本的附加用于导出场景不同版本Blend4Web引擎，它尝"
-"试加载的场景，或者.bin文件不对应于.json文件。"
+"Compatibility errors may arise when trying to view a scene in a browser, "
+"in the following cases: if version of the add-on used to export the scene"
+" differs from version of the Blend4Web engine which tries to load the "
+"scene, or if .bin file does not correspond to the .json file."
+msgstr "当试图在浏览器中查看一个场景，在下列情况下兼容性错误可能出现：如果版本的附加用于导出场景不同版本Blend4Web引擎，它尝试加载的场景，或者.bin文件不对应于.json文件。"
 
 #: ../addon.rst:228 ../addon.rst:255
 msgid ""
-"Engine version is too old as compared to version of the add-on with which the scene was exported. The scene will "
-"not be loaded. We recommend you to use the latest versions of the engine and the add-on."
+"Engine version is too old as compared to version of the add-on with which"
+" the scene was exported. The scene will not be loaded. We recommend you "
+"to use the latest versions of the engine and the add-on."
 msgstr "相比版本的插件与该场景被导出引擎版本太旧。场景将不会被加载。我们建议您使用引擎和插件的最新版本。"
 
 #: ../addon.rst:236
 #, fuzzy
 msgid ""
-"JSON version is too old relative to B4W engine: VER_OLD, required: VER_NEW. Reexport scene with the latest B4W add-"
-"on to fix it."
+"JSON version is too old relative to B4W engine: VER_OLD, required: "
+"VER_NEW. Reexport scene with the latest B4W add-on to fix it."
 msgstr ""
-"JSON version is too old relative to B4W engine: VER_OLD, required: VER_NEW. Reexport scene with the latest B4W "
-"addon to fix it.（JSON版本太旧相对于B4W引擎：VER_OLD，要求：VER_NEW。转口场景与最新B4W插件来解决它。）"
+"JSON version is too old relative to B4W engine: VER_OLD, required: "
+"VER_NEW. Reexport scene with the latest B4W addon to fix "
+"it.（JSON版本太旧相对于B4W引擎：VER_OLD，要求：VER_NEW。转口场景与最新B4W插件来解决它。）"
 
 #: ../addon.rst:236
 msgid ""
-"Version of the add-on, with which the scene was exported, is too old: VER_OLD. The engine requires: VER_NEW. The "
-"scene will not be loaded. We recommend you to reexport the scene using the latest version of the add-on. We also "
-"recommend to use the latest version of the engine."
-msgstr ""
-"插件版本，与场景被导出版本相比太旧：VER_OLD。该引擎要求：VER_NEW。场景将不会被加载。我们建议您使用的加载项的最新版"
-"本重新导出场景。我们也建议使用引擎的最新版本。"
+"Version of the add-on, with which the scene was exported, is too old: "
+"VER_OLD. The engine requires: VER_NEW. The scene will not be loaded. We "
+"recommend you to reexport the scene using the latest version of the add-"
+"on. We also recommend to use the latest version of the engine."
+msgstr "插件版本，与场景被导出版本相比太旧：VER_OLD。该引擎要求：VER_NEW。场景将不会被加载。我们建议您使用的加载项的最新版本重新导出场景。我们也建议使用引擎的最新版本。"
 
 #: ../addon.rst:245
 #, fuzzy
 msgid ""
-"JSON version is a bit old relative to B4W engine: VER_OLD, required: VER_NEW. Some compatibility issues can occur. "
-"Reexport scene with the latest B4W add-on to fix it."
+"JSON version is a bit old relative to B4W engine: VER_OLD, required: "
+"VER_NEW. Some compatibility issues can occur. Reexport scene with the "
+"latest B4W add-on to fix it."
 msgstr ""
-"JSON version is a bit old relative to B4W engine: VER_OLD, required: VER_NEW. Some compatibility issues can occur. "
-"Reexport scene with the latest B4W addon to fix it."
+"JSON version is a bit old relative to B4W engine: VER_OLD, required: "
+"VER_NEW. Some compatibility issues can occur. Reexport scene with the "
+"latest B4W addon to fix it."
 
 #: ../addon.rst:245
 msgid ""
-"Version of the add-on, with which the scene was exported, is a bit old: VER_OLD. The engine requires: VER_NEW. The "
-"scene will be loaded as usual, however some errors may occur. We recommend you to reexport the scene using the "
-"latest version of the add-on. We also recommend to use the latest version of the engine."
-msgstr ""
-"插件版本与场景的导出版本，是有点老了：VER_OLD。该引擎要求：VER_NEW。场景将被载入像往常一样，但是可能会出现一些错"
-"误。我们建议您使用的加载项的最新版本重新导出场景。我们也建议使用发动机的最新版本。"
+"Version of the add-on, with which the scene was exported, is a bit old: "
+"VER_OLD. The engine requires: VER_NEW. The scene will be loaded as usual,"
+" however some errors may occur. We recommend you to reexport the scene "
+"using the latest version of the add-on. We also recommend to use the "
+"latest version of the engine."
+msgstr "插件版本与场景的导出版本，是有点老了：VER_OLD。该引擎要求：VER_NEW。场景将被载入像往常一样，但是可能会出现一些错误。我们建议您使用的加载项的最新版本重新导出场景。我们也建议使用发动机的最新版本。"
 
 #: ../addon.rst:255
-msgid "B4W engine version is too old relative to JSON. Can't load the scene. Update your engine version to fix it."
-msgstr "B4W engine version is too old relative to JSON. Can't load the scene. Update your engine version to fix it."
+msgid ""
+"B4W engine version is too old relative to JSON. Can't load the scene. "
+"Update your engine version to fix it."
+msgstr ""
+"B4W engine version is too old relative to JSON. Can't load the scene. "
+"Update your engine version to fix it."
 
 #: ../addon.rst:262
 msgid ""
-"B4W engine version is a bit old relative to JSON. Some compatibility issues can occur. Update your engine version "
-"to fix it."
+"B4W engine version is a bit old relative to JSON. Some compatibility "
+"issues can occur. Update your engine version to fix it."
 msgstr ""
-"B4W engine version is a bit old relative to JSON. Some compatibility issues can occur. Update your engine version "
-"to fix it."
+"B4W engine version is a bit old relative to JSON. Some compatibility "
+"issues can occur. Update your engine version to fix it."
 
 #: ../addon.rst:262
 msgid ""
-"Engine version is a bit old as compared to version of the add-on with which the scene was exported. The scene will "
-"be loaded as usual, however some errors may occur. We recommend you to use the latest versions of the engine and "
-"the add-on."
-msgstr ""
-"相比版本的插件与该场景被导出引擎版本是有点老了。场景将被载入像往常一样，但是可能会出现一些错误。我们建议您使用引擎"
-"和插件的最新版本。"
+"Engine version is a bit old as compared to version of the add-on with "
+"which the scene was exported. The scene will be loaded as usual, however "
+"some errors may occur. We recommend you to use the latest versions of the"
+" engine and the add-on."
+msgstr "相比版本的插件与该场景被导出引擎版本是有点老了。场景将被载入像往常一样，但是可能会出现一些错误。我们建议您使用引擎和插件的最新版本。"
 
 #: ../addon.rst:269
 msgid ""
-"BIN version does not match to JSON version: VER_BIN, required: VER_JSON. Couldn't load the scene. Reexport scene "
-"to fix it."
+"BIN version does not match to JSON version: VER_BIN, required: VER_JSON. "
+"Couldn't load the scene. Reexport scene to fix it."
 msgstr ""
-"BIN version does not match to JSON version: VER_BIN, required: VER_JSON. Couldn't load the scene. Reexport scene "
-"to fix it."
+"BIN version does not match to JSON version: VER_BIN, required: VER_JSON. "
+"Couldn't load the scene. Reexport scene to fix it."
 
 #: ../addon.rst:269
 msgid ""
-"Version of the .bin file is too old relative to .json file: VER_BIN, .json file version is VER_JSON. The scene "
-"will not be loaded. We recommend you to reexport yor scene."
-msgstr ""
-".bin文件的版本太旧相对于.json文件：VER_BIN，.json文件版本VER_JSON。场景将不会被加载。我们建议您再导出侑场景。"
+"Version of the .bin file is too old relative to .json file: VER_BIN, "
+".json file version is VER_JSON. The scene will not be loaded. We "
+"recommend you to reexport yor scene."
+msgstr ".bin文件的版本太旧相对于.json文件：VER_BIN，.json文件版本VER_JSON。场景将不会被加载。我们建议您再导出侑场景。"
 
 #: ../addon.rst:275
 msgid ""
-"BIN version does not match to JSON version: VER_BIN, required: VER_JSON. Some compatibility issues can occur. "
-"Reexport scene to fix it."
+"BIN version does not match to JSON version: VER_BIN, required: VER_JSON. "
+"Some compatibility issues can occur. Reexport scene to fix it."
 msgstr ""
-"BIN version does not match to JSON version: VER_BIN, required: VER_JSON. Some compatibility issues can occur. "
-"Reexport scene to fix it."
+"BIN version does not match to JSON version: VER_BIN, required: VER_JSON. "
+"Some compatibility issues can occur. Reexport scene to fix it."
 
 #: ../addon.rst:275
 msgid ""
-"Version of the .bin file is a bit old relative to .json file: VER_BIN, .json file version is VER_JSON. Some "
-"incompatibility errors can arise. We recommend you to reexport yor scene."
-msgstr ""
-".bin文件的版本有点老相对于.json文件：VER_BIN，.json文件版本VER_JSON。可能会出现一些不兼容的错误。我们建议您再导出侑"
-"场景。"
+"Version of the .bin file is a bit old relative to .json file: VER_BIN, "
+".json file version is VER_JSON. Some incompatibility errors can arise. We"
+" recommend you to reexport yor scene."
+msgstr ".bin文件的版本有点老相对于.json文件：VER_BIN，.json文件版本VER_JSON。可能会出现一些不兼容的错误。我们建议您再导出侑场景。"
 
 #: ../addon.rst:288
 msgid "Critical Export Errors"
 msgstr "关键导出错误"
 
 #: ../addon.rst:290
-msgid "In case of export errors a ``BLEND4WEB EXPORT ERROR`` dialog box describing of the problem appears:"
+msgid ""
+"In case of export errors a ``BLEND4WEB EXPORT ERROR`` dialog box "
+"describing of the problem appears:"
 msgstr "在导出的情况下错误的 ``BLEND4WEB EXPORT ERROR`` 对话框出现描述该问题："
 
 #: ../addon.rst:292
-msgid "``COMPONENT`` - type of component (object, mesh, material, texture etc) that has caused the export error."
+msgid ""
+"``COMPONENT`` - type of component (object, mesh, material, texture etc) "
+"that has caused the export error."
 msgstr "``COMPONENT`` -组件（对象，网格，材质，纹理等），才造成了导出的错误的类型。"
 
 #: ../addon.rst:294
@@ -470,17 +525,18 @@ msgid "``ERROR`` - short description of the occurred problem."
 msgstr "``ERROR`` -在发生问题的简短描述。"
 
 #: ../addon.rst:307
-msgid "Dupli group error; Objects from the GROUP_NAME dupli group on the OBJECT_NAME object cannot be exported"
+msgid ""
+"Dupli group error; Objects from the GROUP_NAME dupli group on the "
+"OBJECT_NAME object cannot be exported"
 msgstr "DUPLI组错误;从OBJECT_NAME对象的GROUP_NAME DUPLI组对象不能导出"
 
 #: ../addon.rst:307
 msgid ""
-"None of the objects in the GROUP_NAME group which were selected for duplication on the OBJECT_NAME object can be "
-"exported. Permission to export at least one object of the group, or to remove the duplication of the group is "
-"required."
-msgstr ""
-"其中没有被选定为重复的OBJECT_NAME对象的GROUP_NAME组中的对象可以被导出。导出许可的组中的至少一个对象，或删除的组的复"
-"制是必需的。"
+"None of the objects in the GROUP_NAME group which were selected for "
+"duplication on the OBJECT_NAME object can be exported. Permission to "
+"export at least one object of the group, or to remove the duplication of "
+"the group is required."
+msgstr "其中没有被选定为重复的OBJECT_NAME对象的GROUP_NAME组中的对象可以被导出。导出许可的组中的至少一个对象，或删除的组的复制是必需的。"
 
 #: ../addon.rst:314
 msgid "Export to different disk is forbidden"
@@ -491,19 +547,23 @@ msgid "Export to a directory located on a different disk is forbidden"
 msgstr "导出到位于不同的磁盘上的目录被禁止"
 
 #: ../addon.rst:317
-msgid "Incompatible objects with a shared mesh; The OBJECT_NAME object has both vertex groups and a shared mesh"
+msgid ""
+"Incompatible objects with a shared mesh; The OBJECT_NAME object has both "
+"vertex groups and a shared mesh"
 msgstr ""
 
 #: ../addon.rst:317
 msgid ""
-"Incompatible objects with a shared mesh. Export of an object with both a shared mesh and vertex groups is not "
-"allowed. Exceptions: export is possible if an object has the ``Apply modifiers``, ``Export vertex animation``, "
-"``Export edited normals``, ``Apply Scale and Modifiers`` options turned on (because in these cases a full copying "
-"of meshes occurs)."
+"Incompatible objects with a shared mesh. Export of an object with both a "
+"shared mesh and vertex groups is not allowed. Exceptions: export is "
+"possible if an object has the ``Apply modifiers``, ``Export vertex "
+"animation``, ``Export edited normals``, ``Apply Scale and Modifiers`` "
+"options turned on (because in these cases a full copying of meshes "
+"occurs)."
 msgstr ""
 "不兼容的对象有一个共享的网格。不允许导出的对象既具有共享网格和顶点组。例外：导出是可能的，如果一个对象具有 ``Apply "
-"modifiers``, ``Export vertex animation``, ``Export edited normals``, ``Apply scale`` 选项打开（因为在这些情况下，网"
-"格的完全复制时）。"
+"modifiers``, ``Export vertex animation``, ``Export edited normals``, "
+"``Apply scale`` 选项打开（因为在这些情况下，网格的完全复制时）。"
 
 #: ../addon.rst:329
 msgid "Incomplete mesh; Material slot is empty"
@@ -518,7 +578,9 @@ msgid "Incomplete vehicle. The NAME vehicle doesn't have any chassis or hull"
 msgstr "非完整车辆。NAME 车辆不具有任何底盘或船体"
 
 #: ../addon.rst:332
-msgid "The modelled NAME vehicle is not complete as it should contain a ``Chassis`` or a ``Hull`` element."
+msgid ""
+"The modelled NAME vehicle is not complete as it should contain a "
+"``Chassis`` or a ``Hull`` element."
 msgstr "模型的 NAME 车辆是不完整的，因为它应该包含一个 ``Chassis`` 或 ``Hull`` 元素。"
 
 #: ../addon.rst:337
@@ -527,7 +589,9 @@ msgid "Incomplete vehicle. The NAME vehicle requires at least one bob"
 msgstr "模拟的NAME车辆是不完整的，因为它应该含有至少一种 ``Bob`` 元件。"
 
 #: ../addon.rst:337
-msgid "The modelled NAME vehicle is not complete as it should contain at least one ``Bob`` element."
+msgid ""
+"The modelled NAME vehicle is not complete as it should contain at least "
+"one ``Bob`` element."
 msgstr "模拟的NAME车辆是不完整的，因为它应该含有至少一种 ``Bob`` 元件。"
 
 #: ../addon.rst:341
@@ -536,7 +600,9 @@ msgid "Incomplete vehicle. The NAME vehicle requires at least one wheel"
 msgstr "模拟的NAME车辆是不完整的，因为它应包含至少一个 ``Wheel`` 元件。"
 
 #: ../addon.rst:341
-msgid "The modelled NAME vehicle is not complete as it should contain at least one ``Wheel`` element."
+msgid ""
+"The modelled NAME vehicle is not complete as it should contain at least "
+"one ``Wheel`` element."
 msgstr "模拟的NAME车辆是不完整的，因为它应包含至少一个 ``Wheel`` 元件。"
 
 #: ../addon.rst:345
@@ -601,7 +667,9 @@ msgid "Incorrect vertex animation; Object has no vertex animation"
 msgstr "对象的顶点动画导出选项，但没有顶点动画。"
 
 #: ../addon.rst:368
-msgid "The object's vertex animation export option is on, but there is no vertex animation."
+msgid ""
+"The object's vertex animation export option is on, but there is no vertex"
+" animation."
 msgstr "对象的顶点动画导出选项，但没有顶点动画。"
 
 #: ../addon.rst:372
@@ -609,7 +677,9 @@ msgid "Incorrect vertex animation; Unbaked \"ANIM_NAME\" vertex animation"
 msgstr ""
 
 #: ../addon.rst:372
-msgid "Vertex animation export is turned on for the mesh, but the ANIM_NAME animation doesn't have any frames."
+msgid ""
+"Vertex animation export is turned on for the mesh, but the ANIM_NAME "
+"animation doesn't have any frames."
 msgstr "顶点动画导出是打开的网格，但ANIM_NAME动画没有任何帧。"
 
 #: ../addon.rst:376
@@ -661,7 +731,9 @@ msgid "Object constraint has no target"
 msgstr ""
 
 #: ../addon.rst:390
-msgid "The ``Target Object`` property for the object constraint (on the ``Object Constraints`` tab) was not set."
+msgid ""
+"The ``Target Object`` property for the object constraint (on the ``Object"
+" Constraints`` tab) was not set."
 msgstr "该 ``Target Object`` 为对象的约束（在 ``Object Constraints`` 选项卡）没有设置。"
 
 #: ../addon.rst:394
@@ -687,33 +759,37 @@ msgstr "粒子系统错误的对象名称。无效DUPLI对象OBJECT_NAME。"
 
 #: ../addon.rst:402
 msgid ""
-"The OBJECT_NAME object which is selected as a particle can not be exported (the ``Do not export`` checkbox is set)."
+"The OBJECT_NAME object which is selected as a particle can not be "
+"exported (the ``Do not export`` checkbox is set)."
 msgstr "被选择作为一个粒子的OBJECT_NAME对象无法导出（在 ``Do not export`` 复选框设置）。"
 
 #: ../addon.rst:406
-msgid "Particle system error; The GROUP_NAME dupli group contains no valid object for export"
+msgid ""
+"Particle system error; The GROUP_NAME dupli group contains no valid "
+"object for export"
 msgstr ""
 
 #: ../addon.rst:406
 msgid ""
-"The GROUP_NAME dupli group which is selected as a particle contains no valid object for export. Either such "
-"objects have the ``Do not export`` checkbox enabled or the types of the objects are unsuitable. Supported object "
-"types: ``MESH``."
+"The GROUP_NAME dupli group which is selected as a particle contains no "
+"valid object for export. Either such objects have the ``Do not export`` "
+"checkbox enabled or the types of the objects are unsuitable. Supported "
+"object types: ``MESH``."
 msgstr ""
-"被选择作为粒子的GROUP_NAME DUPLI组包含导出没有有效的对象。无论这样的对象具有 ``Do not export`` 启用复选框或对象的类"
-"型不适合。支持的对象类型： ``MESH``."
+"被选择作为粒子的GROUP_NAME DUPLI组包含导出没有有效的对象。无论这样的对象具有 ``Do not export`` "
+"启用复选框或对象的类型不适合。支持的对象类型： ``MESH``."
 
 #: ../addon.rst:414
 #, fuzzy
 msgid ""
-"Particle system error. Unsupported render type TYPE for the EMITTER/HAIR particles PSYS_NAME on object NAME. "
-"Particle system removed."
+"Particle system error. Unsupported render type TYPE for the EMITTER/HAIR "
+"particles PSYS_NAME on object NAME. Particle system removed."
 msgstr "粒子系统错误。不支持的渲染类型类型的发射器/发颗粒为对象名PSYS_NAME。粒子系统中删除。"
 
 #: ../addon.rst:414
 msgid ""
-"Particle system error. Unsupported render type TYPE for the EMITTER/HAIR particles PSYS_NAME on object NAME. The "
-"particle system has removed."
+"Particle system error. Unsupported render type TYPE for the EMITTER/HAIR "
+"particles PSYS_NAME on object NAME. The particle system has removed."
 msgstr "粒子系统错误。不支持的渲染类型类型的发射器/发颗粒为对象名PSYS_NAME。粒子系统中删除。"
 
 #: ../addon.rst:420
@@ -721,7 +797,9 @@ msgid "Particle system error; Wrong dupli object type TYPE_NAME"
 msgstr ""
 
 #: ../addon.rst:420
-msgid "An object of unsuitable type is selected for the particle. Supported types: ``MESH``."
+msgid ""
+"An object of unsuitable type is selected for the particle. Supported "
+"types: ``MESH``."
 msgstr "被选择为粒子不适当类型的对象。支持的类型： ``MESH``."
 
 #: ../addon.rst:424
@@ -738,9 +816,12 @@ msgstr ""
 
 #: ../addon.rst:426
 msgid ""
-"The number of edited normals does not match the number of the mesh vertices. Execute ``Clean Up`` or ``Save`` in "
-"the ``B4W Vertex Normals Editor`` panel."
-msgstr "编辑法线的数目不匹配的网格顶点的数量。执行 ``Clean Up`` 或 ``Save`` 在 ``B4W Vertex Normals Editor`` 面板."
+"The number of edited normals does not match the number of the mesh "
+"vertices. Execute ``Clean Up`` or ``Save`` in the ``B4W Vertex Normals "
+"Editor`` panel."
+msgstr ""
+"编辑法线的数目不匹配的网格顶点的数量。执行 ``Clean Up`` 或 ``Save`` 在 ``B4W Vertex Normals "
+"Editor`` 面板."
 
 #: ../addon.rst:431
 msgid "Wrong overridden bounding box; Check the mesh's bounding box values"
@@ -748,18 +829,22 @@ msgstr ""
 
 #: ../addon.rst:431
 msgid ""
-"Wrong dimensions are specified when overriding the mesh's ``BoundingBox``: minimum value is greater than maximum "
-"value for at least one of the dimensions."
+"Wrong dimensions are specified when overriding the mesh's "
+"``BoundingBox``: minimum value is greater than maximum value for at least"
+" one of the dimensions."
 msgstr "错尺寸覆盖网格的时指定 ``BoundingBox``: 最小值为大于尺寸中的至少一个最大值。"
 
 #: ../addon.rst:436
-msgid "Wrong vertex animation vertices count; It doesn't match with the mesh vertices count for \"ANIM_NAME\""
+msgid ""
+"Wrong vertex animation vertices count; It doesn't match with the mesh "
+"vertices count for \"ANIM_NAME\""
 msgstr ""
 
 #: ../addon.rst:436
 msgid ""
-"Vertex animation export is enabled but the number of vertices in the baked ANIM_NAME animation frames does not "
-"match the mesh vertices number. Possible solution is to \"re-bake\" the animation."
+"Vertex animation export is enabled but the number of vertices in the "
+"baked ANIM_NAME animation frames does not match the mesh vertices number."
+" Possible solution is to \"re-bake\" the animation."
 msgstr "顶点动画导出被启用，但顶点在焙烤ANIM_NAME动画帧的数目不匹配网格顶点编号。可能的解决方案是“重新烘焙”的动画。"
 
 #: ../addon.rst:449
@@ -768,12 +853,13 @@ msgstr "非致命导出的错误"
 
 #: ../addon.rst:451
 msgid ""
-"In contrast to the above-listed critical export errors, these errors do not prohibit the export, but can make "
-"scenes displayed incorrectly. These messages can be viewed in the browser console (opens with ``F12``) when a "
-"scene is loaded. The message looks like this:"
+"In contrast to the above-listed critical export errors, these errors do "
+"not prohibit the export, but can make scenes displayed incorrectly. These"
+" messages can be viewed in the browser console (opens with ``F12``) when "
+"a scene is loaded. The message looks like this:"
 msgstr ""
-"在对比上述所列临界导出错误，这些错误不会禁止导出，但可以使显示不正确的场景。这些消息可以在浏览器的控制台中查看（与"
-"打开 ``F12``) 当一个场景被加载。该消息是这样的："
+"在对比上述所列临界导出错误，这些错误不会禁止导出，但可以使显示不正确的场景。这些消息可以在浏览器的控制台中查看（与打开 ``F12``) "
+"当一个场景被加载。该消息是这样的："
 
 #: ../addon.rst:453
 msgid "``B4W EXPORT ERROR: Error message``"
@@ -817,26 +903,34 @@ msgid "Ignoring LODs after empty LOD for the NAME object."
 msgstr ""
 
 #: ../addon.rst:477
-msgid "All LOD objects that follow the empty slot were ignored (in the LOD objects list for the NAME object)."
+msgid ""
+"All LOD objects that follow the empty slot were ignored (in the LOD "
+"objects list for the NAME object)."
 msgstr "按照空槽，所有LOD对象被忽略（在LOD对象列表对象的名称）。"
 
 #: ../addon.rst:481
-msgid "Incomplete mesh NAME; Dynamic grass vertex colors required by material settings"
+msgid ""
+"Incomplete mesh NAME; Dynamic grass vertex colors required by material "
+"settings"
 msgstr ""
 
 #: ../addon.rst:481
 msgid ""
-"The ``Dynamic grass size`` and/or ``Dynamic grass color`` options are used by the special terrain material but the "
-"mesh has no vertex colors with such names."
+"The ``Dynamic grass size`` and/or ``Dynamic grass color`` options are "
+"used by the special terrain material but the mesh has no vertex colors "
+"with such names."
 msgstr ""
-"该 ``Dynamic grass size`` 和/或 ``Dynamic grass color`` 选择所使用的特殊地形材质，但网格没有顶点着色这样的名字。"
+"该 ``Dynamic grass size`` 和/或 ``Dynamic grass color`` "
+"选择所使用的特殊地形材质，但网格没有顶点着色这样的名字。"
 
 #: ../addon.rst:487
 msgid "Incomplete mesh; Material settings require vertex colors"
 msgstr ""
 
 #: ../addon.rst:487
-msgid "The ``Vertex Color Paint`` option is enabled for the mesh material, but the mesh has no vertex color layers."
+msgid ""
+"The ``Vertex Color Paint`` option is enabled for the mesh material, but "
+"the mesh has no vertex color layers."
 msgstr "该 ``Vertex Color Paint`` 启用了网状材料的选择，但网格没有顶点颜色层。"
 
 #: ../addon.rst:491
@@ -889,13 +983,15 @@ msgid "There is no texture in the material texture slot."
 msgstr "有一个在材料的纹理插槽没有纹理"
 
 #: ../addon.rst:509
-msgid "Node material invalid: \\\"NAME\\\". Check sockets compatibility: \\\"FROM_NODE\\\" with \\\"TO_NODE\\\"."
+msgid ""
+"Node material invalid: \\\"NAME\\\". Check sockets compatibility: "
+"\\\"FROM_NODE\\\" with \\\"TO_NODE\\\"."
 msgstr ""
 
 #: ../addon.rst:509
 msgid ""
-"Node material error: the input and output types of the link between the ``FROM_NODE`` and ``TO_NODE`` nodes should "
-"match."
+"Node material error: the input and output types of the link between the "
+"``FROM_NODE`` and ``TO_NODE`` nodes should match."
 msgstr "节点材质错误：之间的联系的输入和输出类型 ``FROM_NODE`` 和 ``TO_NODE`` 节点应该匹配。"
 
 #: ../addon.rst:514
@@ -904,18 +1000,21 @@ msgstr ""
 
 #: ../addon.rst:514
 msgid ""
-"An object named \\\"NAME\\\" is degenerate, e.g. has no polygons. The object's type has been changed to EMPTY."
+"An object named \\\"NAME\\\" is degenerate, e.g. has no polygons. The "
+"object's type has been changed to EMPTY."
 msgstr "名为“NAME”的对象是失效的，比如没有多边形。对象的类型已更改为空。"
 
 #: ../addon.rst:520
 #, fuzzy
-msgid "Object \\\"NAME\\\" has the mesh with shape keys. The property \\\"Relative\\\" of mesh has been enabled."
+msgid ""
+"Object \\\"NAME\\\" has the mesh with shape keys. The property "
+"\\\"Relative\\\" of mesh has been enabled."
 msgstr "名为“NAME”的对象具有按键形状的网格。该网具有“相对”属性，使这是被禁止的。"
 
 #: ../addon.rst:520
 msgid ""
-"An object named \\\"NAME\\\" has a mesh with shape keys. This mesh has the \\\"Relative\\\" property enabled which "
-"is forbidden."
+"An object named \\\"NAME\\\" has a mesh with shape keys. This mesh has "
+"the \\\"Relative\\\" property enabled which is forbidden."
 msgstr "名为“NAME”的对象具有按键形状的网格。该网具有“相对”属性，使这是被禁止的。"
 
 #: ../addon.rst:525
@@ -923,643 +1022,709 @@ msgid "Only 2 UV textures are allowed for a mesh; The mesh has N UVs."
 msgstr ""
 
 #: ../addon.rst:525
-msgid "The engine supports up to 2 UV texture layers for each mesh. The number of UV layers for this mesh is N."
+msgid ""
+"The engine supports up to 2 UV texture layers for each mesh. The number "
+"of UV layers for this mesh is N."
 msgstr "该引擎支持最多2 UV纹理层的每个网格。紫外线层为此目的数目为N."
 
 #: ../addon.rst:529
-msgid "Packed media \\\"FILE_NAME\\\" has not been exported to \\\"CONVERTED_FILE_PATH\\\""
+msgid ""
+"Packed media \\\"FILE_NAME\\\" has not been exported to "
+"\\\"CONVERTED_FILE_PATH\\\""
 msgstr ""
 
 #: ../addon.rst:529
 msgid ""
-"The packed media file \\\"FILE_NAME\\\" cannot be converted to \\\"CONVERTED_FILE_PATH\\\". Please unpack this "
-"file and convert it."
+"The packed media file \\\"FILE_NAME\\\" cannot be converted to "
+"\\\"CONVERTED_FILE_PATH\\\". Please unpack this file and convert it."
 msgstr "填充媒体文件“FILE_NAME”不能被转换为“CONVERTED_FILE_PATH”。请解压缩这个文件，并将其转换。"
 
 #: ../addon.rst:534
 msgid ""
-"Particle system error for \\\"NAME\\\"; The \\\"NAME\\\" vertex color specified in the ``from`` field is missing "
-"in the last of the \\\"OBJECT_NAME\\\" object's vertex colors"
+"Particle system error for \\\"NAME\\\"; The \\\"NAME\\\" vertex color "
+"specified in the ``from`` field is missing in the last of the "
+"\\\"OBJECT_NAME\\\" object's vertex colors"
 msgstr ""
 
 #: ../addon.rst:534
-msgid "The NAME vertex color is specified in the ``from`` field but it's not presented in the OBJECT_NAME emitter."
+msgid ""
+"The NAME vertex color is specified in the ``from`` field but it's not "
+"presented in the OBJECT_NAME emitter."
 msgstr "该名称顶点颜色是在指定 ``from`` 领域，但它没有出现在OBJECT_NAME发射器。"
 
 #: ../addon.rst:540
 msgid ""
-"Particle system error for \\\"NAME\\\"; The \\\"NAME\\\" vertex color specified in the ``to`` field is missing in "
-"the list of the \\\"OBJECT_NAME\\\" object's vertex colors"
+"Particle system error for \\\"NAME\\\"; The \\\"NAME\\\" vertex color "
+"specified in the ``to`` field is missing in the list of the "
+"\\\"OBJECT_NAME\\\" object's vertex colors"
 msgstr ""
 
 #: ../addon.rst:540
 msgid ""
-"The NAME vertex color is specified in the ``to`` field but it is not present in the OBJECT_NAME object which is "
-"selected as a particle."
+"The NAME vertex color is specified in the ``to`` field but it is not "
+"present in the OBJECT_NAME object which is selected as a particle."
 msgstr "这个NAME顶点颜色中指定 ``to`` 场，但它不存在于被选择作为一个粒子的OBJECT_NAME对象。"
 
 #: ../addon.rst:546
 msgid ""
-"Particle system error for \\\"NAME\\\"; The \\\"NAME\\\" vertex color specified in the \"``to`` field is missing "
-"in the \\\"OBJECT_NAME\\\" object (\\\"GROUP_NAME\\\" dupli group)"
+"Particle system error for \\\"NAME\\\"; The \\\"NAME\\\" vertex color "
+"specified in the \"``to`` field is missing in the \\\"OBJECT_NAME\\\" "
+"object (\\\"GROUP_NAME\\\" dupli group)"
 msgstr ""
 
 #: ../addon.rst:546
 msgid ""
-"The NAME vertex color is specified in the ``to`` field but it is not present in the OBJECT_NAME object of the "
-"GROUP_NAME group which is selected as a particle."
+"The NAME vertex color is specified in the ``to`` field but it is not "
+"present in the OBJECT_NAME object of the GROUP_NAME group which is "
+"selected as a particle."
 msgstr "这个NAME顶点颜色中指定 ``to`` 区域，但它不存在于被选择作为一个粒子的GROUP_NAME组的OBJECT_NAME对象。"
 
 #: ../addon.rst:552
 #, fuzzy
-msgid "Particle system error for object \\\"NAME\\\". Invalid dupli object \\\"OBJECT_NAME\\\"."
+msgid ""
+"Particle system error for object \\\"NAME\\\". Invalid dupli object "
+"\\\"OBJECT_NAME\\\"."
 msgstr "粒子系统错误的对象名称。无效DUPLI对象OBJECT_NAME。"
 
 #: ../addon.rst:552
-msgid "Particle system error for the object NAME. Invalid dupli-object OBJECT_NAME."
+msgid ""
+"Particle system error for the object NAME. Invalid dupli-object "
+"OBJECT_NAME."
 msgstr "粒子系统错误的对象名称。无效DUPLI对象OBJECT_NAME。"
 
 #: ../addon.rst:556
-msgid "Sound file is missing in the SPEAKER object \\\"NAME\\\". Converted to EMPTY."
+msgid ""
+"Sound file is missing in the SPEAKER object \\\"NAME\\\". Converted to "
+"EMPTY."
 msgstr ""
 
 #: ../addon.rst:556
-msgid "The speaker has no sound attached. The object's type has been changed to EMPTY."
+msgid ""
+"The speaker has no sound attached. The object's type has been changed to "
+"EMPTY."
 msgstr "扬声器没有附加声音。物体的类型已更改为空。"
 
 #: ../addon.rst:560
-#, fuzzy
-msgid "The main scene NAME can not be rendered by another scene. Material NAME has been removed."
-msgstr "主场景名称不能被其他场景渲染。材料名称已被删除。"
+msgid "The lamp object \\\"NAME\\\" has unsupported AREA type. Changed to SUN."
+msgstr ""
 
-#: ../addon.rst:560
-msgid "The main scene NAME can not be rendered by another scene. The material NAME has been deleted."
+#: ../addon.rst:564
+#, fuzzy
+msgid ""
+"The main scene NAME can not be rendered by another scene. Material NAME "
+"has been removed."
 msgstr "主场景名称不能被其他场景渲染。材料名称已被删除。"
 
 #: ../addon.rst:564
+msgid ""
+"The main scene NAME can not be rendered by another scene. The material "
+"NAME has been deleted."
+msgstr "主场景名称不能被其他场景渲染。材料名称已被删除。"
+
+#: ../addon.rst:568
 msgid "The NAME action has decimal frames. Converted to integer."
 msgstr "操作具有十进制的帧。转换为整数。"
 
-#: ../addon.rst:567
-msgid "The NAME armature modifier has a proxy object as an armature. Modifier removed."
+#: ../addon.rst:571
+msgid ""
+"The NAME armature modifier has a proxy object as an armature. Modifier "
+"removed."
 msgstr "该 NAME 骨架修改器有一个代理物体作为骨架，修改器被移除。"
 
-#: ../addon.rst:567
+#: ../addon.rst:571
 msgid "An armature modifier has a proxy object as an armature."
 msgstr "一个骨架修改器具有一个代理对象作为骨架。"
 
-#: ../addon.rst:571
+#: ../addon.rst:575
 #, fuzzy
-msgid "The NAME armature modifier has no armature object or it is not exported. Modifier removed."
+msgid ""
+"The NAME armature modifier has no armature object or it is not exported. "
+"Modifier removed."
 msgstr "该名称 ``Armature`` 修正没有骨架问题，也没有导出。修改删除。"
 
-#: ../addon.rst:571
-msgid "The NAME ``Armature`` modifier has no armature object or it is not exported. Modifier removed."
+#: ../addon.rst:575
+msgid ""
+"The NAME ``Armature`` modifier has no armature object or it is not "
+"exported. Modifier removed."
 msgstr "该名称 ``Armature`` 修正没有骨架问题，也没有导出。修改删除。"
 
-#: ../addon.rst:577
+#: ../addon.rst:581
 #, fuzzy
 msgid "The NAME curve modifier has no curve object. Modifier removed."
 msgstr "该名称曲线修正没有对象。修改删除。"
 
-#: ../addon.rst:577
+#: ../addon.rst:581
 msgid "The NAME curve modifier has no object. Modifier removed."
 msgstr "该名称曲线修正没有对象。修改删除。"
 
-#: ../addon.rst:580
+#: ../addon.rst:584
 #, fuzzy
 msgid "The NAME curve modifier has unsupported curve object. Modifier removed."
 msgstr "该名称的曲线修饰有不支持的对象。修改删除。"
 
-#: ../addon.rst:580
+#: ../addon.rst:584
 msgid "The NAME curve modifier has unsupported object. Modifier removed."
 msgstr "该名称的曲线修饰有不支持的对象。修改删除。"
 
-#: ../addon.rst:584
+#: ../addon.rst:588
 #, fuzzy
-msgid "The NAME object has the NAME armature modifier and a vertex animation. Modifier removed."
+msgid ""
+"The NAME object has the NAME armature modifier and a vertex animation. "
+"Modifier removed."
 msgstr "该名称 ``Armature`` 修正没有骨架问题，也没有导出。修改删除。"
 
-#: ../addon.rst:584
+#: ../addon.rst:588
 msgid ""
-"The NAME object has both vertex animation and an armature modifier which is not supported. As a result, the "
-"modifier has been removed."
+"The NAME object has both vertex animation and an armature modifier which "
+"is not supported. As a result, the modifier has been removed."
 msgstr "Name对象既有顶点动画和不支持的电枢修改。其结果是，该改性剂已被删除。"
 
-#: ../addon.rst:589
-msgid "The NAME object has the NAME armature modifier. It belongs to a not exported scene. Modifier removed."
+#: ../addon.rst:593
+msgid ""
+"The NAME object has the NAME armature modifier. It belongs to a not "
+"exported scene. Modifier removed."
 msgstr "该名称 ``Armature`` 修正没有骨架问题，也没有导出。修改删除。"
 
-#: ../addon.rst:594
+#: ../addon.rst:598
 #, fuzzy
 msgid "The NAME LAMP node has no lamp object. Material: NAME."
 msgstr "在指定的名字错了对象 ``LAMP`` 节点。"
 
-#: ../addon.rst:594
+#: ../addon.rst:598
 msgid "Wrong object specified in the NAME ``LAMP`` node."
 msgstr "在指定的名字错了对象 ``LAMP`` 节点。"
 
-#: ../addon.rst:597
-msgid "The NAME node is not supported. The NAME material will be rendered without nodes. Material: NAME."
+#: ../addon.rst:601
+msgid ""
+"The NAME node is not supported. The NAME material will be rendered "
+"without nodes. Material: NAME."
 msgstr ""
 
-#: ../addon.rst:597
+#: ../addon.rst:601
 msgid ""
-"The engine does not support the node with this name, and so the node material will be turned off. Often this "
-"happens when Cycles nodes are used."
+"The engine does not support the node with this name, and so the node "
+"material will be turned off. Often this happens when Cycles nodes are "
+"used."
 msgstr "引擎不支持该节点与该名字，并因此节点材料将被关闭。经常出现这种情况时，循环节点使用。"
 
-#: ../addon.rst:602
-msgid "The NAME object has NAME armature modifier which references the wrong group. Modifier removed."
+#: ../addon.rst:606
+msgid ""
+"The NAME object has NAME armature modifier which references the wrong "
+"group. Modifier removed."
 msgstr ""
 
-#: ../addon.rst:602
+#: ../addon.rst:606
 msgid ""
-"An object should be in the same group as an armature, or both these objects should be explicitly present in the "
-"scene."
+"An object should be in the same group as an armature, or both these "
+"objects should be explicitly present in the scene."
 msgstr "一个物体应该是在同一组作为骨架，或两个物体应该明确地出现在场景中。"
 
-#: ../addon.rst:606
+#: ../addon.rst:610
 msgid "TEXTURE_TYPE isn't supported, WORLD_NAME"
 msgstr ""
 
-#: ../addon.rst:606
+#: ../addon.rst:610
 msgid "TEXTURE_TYPE texture type isn't supported for world WORLD_NAME"
 msgstr "不支持TEXTURE_TYPE纹理类型为世界WORLD_NAME"
 
-#: ../addon.rst:609
-msgid "Using B4W_REFRACTION node NODE_NAME with incorrect type of Alpha Blend. Material: NAME."
+#: ../addon.rst:613
+msgid ""
+"Using B4W_REFRACTION node NODE_NAME with incorrect type of Alpha Blend. "
+"Material: NAME."
 msgstr ""
 
-#: ../addon.rst:609
+#: ../addon.rst:613
 msgid ""
-"A node material with incorrect Alpha Blend property is used. ``Alpha sort``, ``Alpha blend`` and ``Add`` are "
-"allowed when using a \"REFRACTION\" node."
+"A node material with incorrect Alpha Blend property is used. ``Alpha "
+"sort``, ``Alpha blend`` and ``Add`` are allowed when using a "
+"\"REFRACTION\" node."
 msgstr "用不正确的透明混合属性节点材质。 ``Alpha sort``, ``Alpha blend`` 和 ``Add`` 使用的是“折射”节点时允许的。"
 
-#: ../addon.rst:614
-msgid "Wind bending: not all vertex colors exist for \\\"NAME\\\". Properties were set to default values."
+#: ../addon.rst:618
+msgid ""
+"Wind bending: not all vertex colors exist for \\\"NAME\\\". Properties "
+"were set to default values."
 msgstr ""
 
-#: ../addon.rst:614
-msgid "Wind bending parameters setup: all specified vertex color layers should exist."
+#: ../addon.rst:618
+msgid ""
+"Wind bending parameters setup: all specified vertex color layers should "
+"exist."
 msgstr "风弯曲参数设置：所有指定的顶点颜色层应该存在。"
 
-#: ../addon.rst:619
+#: ../addon.rst:623
 msgid ""
-"Wind bending: vertex colors weren't properly assigned for \\\"NAME\\\". Properties were set to default values."
+"Wind bending: vertex colors weren't properly assigned for \\\"NAME\\\". "
+"Properties were set to default values."
 msgstr ""
 
-#: ../addon.rst:619
+#: ../addon.rst:623
 msgid ""
-"Wind bending parameters setup: it's required to specify the names of either all vertex color layers (``Main "
-"stiffness (A)``, ``Leaves stiffness (R)``, ``Leaves phase (G)``, ``Overall stiffness (B)``), or of the main one "
-"only (``Main stiffness (A)``), or of none of them."
+"Wind bending parameters setup: it's required to specify the names of "
+"either all vertex color layers (``Main stiffness (A)``, ``Leaves "
+"stiffness (R)``, ``Leaves phase (G)``, ``Overall stiffness (B)``), or of "
+"the main one only (``Main stiffness (A)``), or of none of them."
 msgstr ""
-"风弯曲参数设置：它必须指定或者所有顶点颜色层的名称 (``Main stiffness (A)``, ``Leaves stiffness (R)``, ``Leaves "
-"phase (G)``, ``Overall stiffness (B)``), 或主要的一个唯一的 (``Main stiffness (A)``), 或没有其中之一的。"
+"风弯曲参数设置：它必须指定或者所有顶点颜色层的名称 (``Main stiffness (A)``, ``Leaves stiffness "
+"(R)``, ``Leaves phase (G)``, ``Overall stiffness (B)``), 或主要的一个唯一的 "
+"(``Main stiffness (A)``), 或没有其中之一的。"
 
-#: ../addon.rst:630
+#: ../addon.rst:634
 msgid ""
-"Wrong \"Height Map\" input for the \"NAME\" B4W_PARALLAX node. Only link from the TEXTURE node with a non-empty "
-"texture is allowed."
+"Wrong \"Height Map\" input for the \"NAME\" B4W_PARALLAX node. Only link "
+"from the TEXTURE node with a non-empty texture is allowed."
 msgstr "错误的数据传递给该名称的“高度贴图”输入 ``B4W_PARALLAX`` 节点。只从一个非空的输出 ``TEXTURE`` 节点是允许的。"
 
-#: ../addon.rst:630
+#: ../addon.rst:634
 msgid ""
-"Wrong data were passed to the \"Height Map\" input of the NAME ``B4W_PARALLAX`` node. Only the output from a non-"
-"empty ``TEXTURE`` node is allowed."
+"Wrong data were passed to the \"Height Map\" input of the NAME "
+"``B4W_PARALLAX`` node. Only the output from a non-empty ``TEXTURE`` node "
+"is allowed."
 msgstr "错误的数据传递给该名称的“高度贴图”输入 ``B4W_PARALLAX`` 节点。只从一个非空的输出 ``TEXTURE`` 节点是允许的。"
 
-#: ../addon.rst:635
+#: ../addon.rst:639
 msgid "Wrong texture coordinates type in texture NAME. [Material: NAME.]"
 msgstr ""
 
-#: ../addon.rst:635
-msgid "The following coordinate types are supported for image textures: ``UV``, ``Normal`` and ``Generated``."
+#: ../addon.rst:639
+msgid ""
+"The following coordinate types are supported for image textures: ``UV``, "
+"``Normal`` and ``Generated``."
 msgstr "下列坐标类型的图像纹理支持： ``UV``, ``Normal`` 和 ``Generated``."
 
-#: ../addon.rst:643
+#: ../addon.rst:647
 msgid "Other Messages"
 msgstr "其他消息"
 
-#: ../addon.rst:645
+#: ../addon.rst:649
 msgid ""
-"These messages can be viewed in the browser console (opens with ``F12``) when a scene is loaded. The message looks "
-"like this:"
+"These messages can be viewed in the browser console (opens with ``F12``) "
+"when a scene is loaded. The message looks like this:"
 msgstr "这些消息可以在浏览器的控制台中查看（与打开 ``F12`` 一样) 当一个场景被加载。该消息是这样的："
 
-#: ../addon.rst:647
+#: ../addon.rst:651
 msgid "``B4W EXPORT WARNING: Export message which requires the user's attention``"
 msgstr ""
-"``B4W EXPORT WARNING: Export message which requires the user's attention（B4W EXPORT警告：导出消息，这就需要用户注"
-"意）``"
+"``B4W EXPORT WARNING: Export message which requires the user's "
+"attention（B4W EXPORT警告：导出消息，这就需要用户注意）``"
 
-#: ../addon.rst:656
+#: ../addon.rst:660
 msgid "Error Message"
 msgstr "错误信息"
 
-#: ../addon.rst:658
+#: ../addon.rst:662
 msgid "Missing active camera or wrong active camera object"
 msgstr ""
 
-#: ../addon.rst:658
-msgid "There is no active camera on the scene (``Camera`` property on the ``Scene`` tab)."
+#: ../addon.rst:662
+msgid ""
+"There is no active camera on the scene (``Camera`` property on the "
+"``Scene`` tab)."
 msgstr "在场景中没有激活的(``Camera`` 属性在 ``Scene`` 面板)."
 
-#: ../addon.rst:662
+#: ../addon.rst:666
 msgid "Missing world or wrong active world object"
 msgstr ""
 
-#: ../addon.rst:662
+#: ../addon.rst:666
 msgid "There should be at least one world datablock in the scene."
 msgstr "应该有至少有一个数据块的世界场景中。"
 
-#: ../addon.rst:665
-msgid "NAME particle settings has the NAME texture rendering a scene. It has been replaced by the default texture."
+#: ../addon.rst:669
+msgid ""
+"NAME particle settings has the NAME texture rendering a scene. It has "
+"been replaced by the default texture."
 msgstr ""
 
-#: ../addon.rst:665
+#: ../addon.rst:669
 msgid ""
-"The particle settings datablock NAME contains the texture NAME being used for rendering a scene into. This texture "
-"has been replaced by a default texture."
+"The particle settings datablock NAME contains the texture NAME being used"
+" for rendering a scene into. This texture has been replaced by a default "
+"texture."
 msgstr "粒子设置数据块名称包含被用于渲染场景到纹理名称。此纹理被替换为默认的纹理。"
 
-#: ../addon.rst:670
+#: ../addon.rst:674
 msgid "The action NAME has no fcurves."
 msgstr "动作 NAME 没有f曲线."
 
-#: ../addon.rst:672
-msgid "The \\\"NAME\\\" camera has unsupported PANORAMIC type. Changed to PERSPECTIVE type.\""
+#: ../addon.rst:676
+msgid ""
+"The \\\"NAME\\\" camera has unsupported PANORAMIC type. Changed to "
+"PERSPECTIVE type.\""
 msgstr ""
 
-#: ../addon.rst:672
+#: ../addon.rst:676
 msgid "Panoramic cameras are not supported. Perspective mode is used instead."
 msgstr "不支持全景相机。立体模式来代替。"
 
-#: ../addon.rst:676
-msgid "Unsupported texture type or texture is missing for Lens Flare material \\\"NAME\\\""
+#: ../addon.rst:680
+msgid ""
+"Unsupported texture type or texture is missing for Lens Flare material "
+"\\\"NAME\\\""
 msgstr ""
 
-#: ../addon.rst:676
-msgid "There are no textures on the material or unsupported texture type is used for material \\\"NAME\\\"."
+#: ../addon.rst:680
+msgid ""
+"There are no textures on the material or unsupported texture type is used"
+" for material \\\"NAME\\\"."
 msgstr "不支持的纹理类型或纹理缺少镜头光晕材质 \\\"NAME\\\""
 
-#: ../addon.rst:684
+#: ../addon.rst:688
 msgid "Add-on Translations"
 msgstr "插件翻译"
 
-#: ../addon.rst:686
+#: ../addon.rst:690
 msgid ""
-"There is the possibility to translate the add-on to a language supported by Blender. In order to do this, rename "
-"the file \"empty.po\", which located in the directory SDK/blender_scripts/addons/blend4web/locales, to one of the "
-"names in the following table:"
-msgstr ""
-"还有就是可以翻译插件到Blender所支持的语言。为了做到这一点，重命名文件“empty.po”，它位于目录SDK/blender_scripts/"
-"addons/blend4web/locales,下表中的名称之一："
+"There is the possibility to translate the add-on to a language supported "
+"by Blender. In order to do this, rename the file \"empty.po\", which "
+"located in the directory SDK/blender_scripts/addons/blend4web/locales, to"
+" one of the names in the following table:"
+msgstr "还有就是可以翻译插件到Blender所支持的语言。为了做到这一点，重命名文件“empty.po”，它位于目录SDK/blender_scripts/addons/blend4web/locales,下表中的名称之一："
 
-#: ../addon.rst:691
+#: ../addon.rst:695
 msgid "File name"
 msgstr "文件名"
 
-#: ../addon.rst:691
+#: ../addon.rst:695
 msgid "Language"
 msgstr "语言"
 
-#: ../addon.rst:693
+#: ../addon.rst:697
 msgid "ru_RU.po"
 msgstr ""
 
-#: ../addon.rst:693
+#: ../addon.rst:697
 msgid "Russian"
 msgstr "俄语"
 
-#: ../addon.rst:695
+#: ../addon.rst:699
 msgid "ja_JP.po"
 msgstr ""
 
-#: ../addon.rst:695
+#: ../addon.rst:699
 msgid "Japanese"
 msgstr "日本"
 
-#: ../addon.rst:697
+#: ../addon.rst:701
 msgid "en_US.po"
 msgstr ""
 
-#: ../addon.rst:697
+#: ../addon.rst:701
 msgid "English"
 msgstr "英语"
 
-#: ../addon.rst:699
+#: ../addon.rst:703
 msgid "nl_NL.po"
 msgstr ""
 
-#: ../addon.rst:699
+#: ../addon.rst:703
 msgid "Dutch"
 msgstr "荷兰"
 
-#: ../addon.rst:701
+#: ../addon.rst:705
 msgid "it_IT.po"
 msgstr ""
 
-#: ../addon.rst:701
+#: ../addon.rst:705
 msgid "Italian"
 msgstr "意大利"
 
-#: ../addon.rst:703
+#: ../addon.rst:707
 msgid "de_DE.po"
 msgstr ""
 
-#: ../addon.rst:703
+#: ../addon.rst:707
 msgid "German"
 msgstr "德语"
 
-#: ../addon.rst:705
+#: ../addon.rst:709
 msgid "fi_FI.po"
 msgstr ""
 
-#: ../addon.rst:705
+#: ../addon.rst:709
 msgid "Finnish"
 msgstr "芬兰"
 
-#: ../addon.rst:707
+#: ../addon.rst:711
 msgid "sv_SE.po"
 msgstr ""
 
-#: ../addon.rst:707
+#: ../addon.rst:711
 msgid "Swedish"
 msgstr "瑞典"
 
-#: ../addon.rst:709
+#: ../addon.rst:713
 msgid "fr_FR.po"
 msgstr ""
 
-#: ../addon.rst:709
+#: ../addon.rst:713
 msgid "French"
 msgstr "法国"
 
-#: ../addon.rst:711
+#: ../addon.rst:715
 msgid "es.po"
 msgstr ""
 
-#: ../addon.rst:711
+#: ../addon.rst:715
 msgid "Spanish"
 msgstr "西班牙语"
 
-#: ../addon.rst:713
+#: ../addon.rst:717
 msgid "ca_AD.po"
 msgstr ""
 
-#: ../addon.rst:713
+#: ../addon.rst:717
 msgid "Catalan"
 msgstr "加泰罗尼亚"
 
-#: ../addon.rst:715
+#: ../addon.rst:719
 msgid "cs_CZ.po"
 msgstr ""
 
-#: ../addon.rst:715
+#: ../addon.rst:719
 msgid "Czech"
 msgstr "捷克"
 
-#: ../addon.rst:717
+#: ../addon.rst:721
 msgid "pt_PT.po"
 msgstr ""
 
-#: ../addon.rst:717
+#: ../addon.rst:721
 msgid "Portuguese"
 msgstr "葡萄牙语"
 
-#: ../addon.rst:719
+#: ../addon.rst:723
 msgid "zh_CN.po"
 msgstr ""
 
-#: ../addon.rst:719
+#: ../addon.rst:723
 msgid "Simplified Chinese"
 msgstr "简体中文"
 
-#: ../addon.rst:721
+#: ../addon.rst:725
 msgid "zh_TW.po"
 msgstr ""
 
-#: ../addon.rst:721
+#: ../addon.rst:725
 msgid "Traditional Chinese"
 msgstr "繁体中文"
 
-#: ../addon.rst:723
+#: ../addon.rst:727
 msgid "hr_HR.po"
 msgstr ""
 
-#: ../addon.rst:723
+#: ../addon.rst:727
 msgid "Croatian"
 msgstr "克罗地亚"
 
-#: ../addon.rst:725
+#: ../addon.rst:729
 msgid "sr_RS.po"
 msgstr ""
 
-#: ../addon.rst:725
+#: ../addon.rst:729
 msgid "Serbian"
 msgstr "塞尔维亚"
 
-#: ../addon.rst:727
+#: ../addon.rst:731
 msgid "uk_UA.po"
 msgstr ""
 
-#: ../addon.rst:727
+#: ../addon.rst:731
 msgid "Ukrainian"
 msgstr "乌克兰"
 
-#: ../addon.rst:729
+#: ../addon.rst:733
 msgid "pl_PL.po"
 msgstr ""
 
-#: ../addon.rst:729
+#: ../addon.rst:733
 msgid "Polish"
 msgstr "波兰"
 
-#: ../addon.rst:731
+#: ../addon.rst:735
 msgid "ro_RO.po"
 msgstr ""
 
-#: ../addon.rst:731
+#: ../addon.rst:735
 msgid "Romanian"
 msgstr "罗马尼亚"
 
-#: ../addon.rst:733
+#: ../addon.rst:737
 msgid "ar_EG.po"
 msgstr ""
 
-#: ../addon.rst:733
+#: ../addon.rst:737
 msgid "Arabic"
 msgstr "阿拉伯"
 
-#: ../addon.rst:735
+#: ../addon.rst:739
 msgid "bg_BG.po"
 msgstr ""
 
-#: ../addon.rst:735
+#: ../addon.rst:739
 msgid "Bulgarian"
 msgstr "保加利亚语"
 
-#: ../addon.rst:737
+#: ../addon.rst:741
 msgid "el_GR.po"
 msgstr ""
 
-#: ../addon.rst:737
+#: ../addon.rst:741
 msgid "Greek"
 msgstr "希腊语"
 
-#: ../addon.rst:739
+#: ../addon.rst:743
 msgid "ko_KR.po"
 msgstr ""
 
-#: ../addon.rst:739
+#: ../addon.rst:743
 msgid "Korean"
 msgstr "朝鲜的"
 
-#: ../addon.rst:741
+#: ../addon.rst:745
 msgid "ne_NP.po"
 msgstr ""
 
-#: ../addon.rst:741
+#: ../addon.rst:745
 msgid "Nepali"
 msgstr "尼泊尔"
 
-#: ../addon.rst:743
+#: ../addon.rst:747
 msgid "fa_IR.po"
 msgstr ""
 
-#: ../addon.rst:743
+#: ../addon.rst:747
 msgid "Persian"
 msgstr "波斯语"
 
-#: ../addon.rst:745
+#: ../addon.rst:749
 msgid "id_ID.po"
 msgstr "id_ID.po"
 
-#: ../addon.rst:745
+#: ../addon.rst:749
 msgid "Indonesian"
 msgstr "印度尼西亚"
 
-#: ../addon.rst:747
+#: ../addon.rst:751
 msgid "sr_RS\\@latin.po"
 msgstr ""
 
-#: ../addon.rst:747
+#: ../addon.rst:751
 msgid "Serbian Latin"
 msgstr "塞尔维亚拉丁语"
 
-#: ../addon.rst:749
+#: ../addon.rst:753
 msgid "ky_KG.po"
 msgstr ""
 
-#: ../addon.rst:749
+#: ../addon.rst:753
 msgid "Kyrgyz"
 msgstr "吉尔吉斯"
 
-#: ../addon.rst:751
+#: ../addon.rst:755
 msgid "tr_TR.po"
 msgstr ""
 
-#: ../addon.rst:751
+#: ../addon.rst:755
 msgid "Turkish"
 msgstr "土耳其"
 
-#: ../addon.rst:753
+#: ../addon.rst:757
 msgid "hu_HU.po"
 msgstr ""
 
-#: ../addon.rst:753
+#: ../addon.rst:757
 msgid "Hungarian"
 msgstr "匈牙利"
 
-#: ../addon.rst:755
+#: ../addon.rst:759
 msgid "pt_BR.po"
 msgstr ""
 
-#: ../addon.rst:755
+#: ../addon.rst:759
 msgid "Brazilian Portuguese"
 msgstr "巴西葡萄牙语"
 
-#: ../addon.rst:757
+#: ../addon.rst:761
 msgid "he_IL.po"
 msgstr ""
 
-#: ../addon.rst:757
+#: ../addon.rst:761
 msgid "Hebrew"
 msgstr "希伯来语"
 
-#: ../addon.rst:759
+#: ../addon.rst:763
 msgid "et_EE.po"
 msgstr ""
 
-#: ../addon.rst:759
+#: ../addon.rst:763
 msgid "Estonian"
 msgstr "爱沙尼亚语"
 
-#: ../addon.rst:761
+#: ../addon.rst:765
 msgid "eo.po"
 msgstr ""
 
-#: ../addon.rst:761
+#: ../addon.rst:765
 msgid "Esperanto"
 msgstr "世界语"
 
-#: ../addon.rst:763
+#: ../addon.rst:767
 msgid "es_ES.po"
 msgstr ""
 
-#: ../addon.rst:763
+#: ../addon.rst:767
 msgid "Spanish from Spain"
 msgstr "西班牙西班牙"
 
-#: ../addon.rst:765
+#: ../addon.rst:769
 msgid "am_ET.po"
 msgstr ""
 
-#: ../addon.rst:765
+#: ../addon.rst:769
 msgid "Amharic"
 msgstr "阿姆哈拉语"
 
-#: ../addon.rst:767
+#: ../addon.rst:771
 msgid "uz_UZ.po"
 msgstr ""
 
-#: ../addon.rst:767
+#: ../addon.rst:771
 msgid "Uzbek"
 msgstr "乌兹别克"
 
-#: ../addon.rst:769
+#: ../addon.rst:773
 msgid "uz_UZ\\@cyrillic.po"
 msgstr ""
 
-#: ../addon.rst:769
+#: ../addon.rst:773
 msgid "Uzbek Cyrillic"
 msgstr "乌兹别克西里尔"
 
-#: ../addon.rst:771
+#: ../addon.rst:775
 msgid "hi_IN.po"
 msgstr ""
 
-#: ../addon.rst:771
+#: ../addon.rst:775
 msgid "Hindi"
 msgstr "印地语"
 
-#: ../addon.rst:773
+#: ../addon.rst:777
 msgid "vi_VN.po"
 msgstr ""
 
-#: ../addon.rst:773
+#: ../addon.rst:777
 msgid "Vietnamese"
 msgstr "越南"
 
-#: ../addon.rst:776
+#: ../addon.rst:780
 msgid "Then open this file and edit/translate it."
 msgstr "然后打开该文件并编辑/翻译。"
 
-#: ../addon.rst:778
-msgid "When translations are ready, you may contact us to include them as part of the add-on."
+#: ../addon.rst:782
+msgid ""
+"When translations are ready, you may contact us to include them as part "
+"of the add-on."
 msgstr "当翻译准备好了，你可以与我们联系，将他们作为插件的一部分。"
 
 #: ../addon.rst:3
@@ -1597,3 +1762,4 @@ msgstr "导出"
 #: ../addon.rst:446
 msgid "warnings about export errors"
 msgstr "导出错误警告"
+

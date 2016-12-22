@@ -1027,14 +1027,13 @@ Internal Parameters
     Specifies the variable to save the data received from the server.
 
 .. note::
-    The data received from the server should look like this:
+    The data received from the server should be in the JSON format:
 
     .. code-block:: json
 
         {"var0": 1,
         "var1": 10,
-        "var2": 144,
-        ...
+        "var2": 144
         }
 
 *Content-Type*
@@ -1075,8 +1074,57 @@ Internal Parameters
 *JSON Operation*
     An operation you need to perform with the JSON object specified by the ``JSON`` parameter. Can have one of two values: ``ENCODE`` to encode the JSON object and ``PARSE`` to decode it. Set to ``ENCODE`` by default.
 
-*Members*
-    A list of variables that will be used to either store the decoded data or to encode a JSON object (depending on the value of the ``JSON Operation`` parameter). The variables always have names like ``var0``, ``var1`` and so on, and their quantity can be adjusted.
+*Paths*
+    A list of paths to the variables inside the JSON object. Paths are used to define the inner structure of a JSON object. A path should consist of several identifiers (separated by dots) that serve as a path to a JSON field. If a name of a fragment of the path consists solely of numbers, this name is interpreted as an array index. Paths are created and deleted in conjunction with variables (in the ``Variables`` list), and one path always corresponds to one variable. This list can be used both to encode and to decode JSON object. By default, the list is empty.
+
+*Variables*
+    A list of variables that will be used to either store the decoded data or to encode a JSON object (depending on the value of the ``JSON Operation`` parameter). The names and the quantity of the variables can be adjusted manually. This list is also empty by default.
+
+Using JSON logic node to encode JSON object
+...........................................
+
+.. image:: src_images/logic_editor/logic_editor_json_encode_example.png
+    :align: center
+    :width: 100%
+
+The logic node setup at the picture above encodes a JSON object and stores it in the ``R1`` variable. Such a JSON object looks like this:
+
+.. code-block:: json
+    
+    {
+        "main":{
+            "part1":7,
+            "part2":12,
+            "part3":"abc"
+        }
+    }
+
+Using JSON logic node to decode JSON object
+...........................................
+
+.. image:: src_images/logic_editor/logic_editor_json_decode_example.png
+    :align: center
+    :width: 100%
+
+The picture above shows a logic node setup that recieves a JSON object from the server, stores it in the ``R1`` variable and then decodes it. Such a JSON object looks like this:
+
+.. code-block:: json
+
+    {
+        "a": {
+	    "b": 17,
+            "c": "abc" 
+        } 
+    }
+
+Decoding this JSON object with the ``JSON`` logic node results in three variables named ``var0``, ``var1`` and ``var2`` (you don't have to create the variables beforehand) that will contain various parts of the JSON object. In this example, the ``var1`` variable has the value of 17, the ``var2`` variable has the value "abc", while the ``var0`` variable contains the following fragment of the JSON object:
+
+.. code-block:: json
+
+    {
+        "b": 17,
+        "c": "abc" 
+    } 
 
 .. _nla_page_param:
 
@@ -1106,6 +1154,8 @@ Internal Parameters
 
 *Param Name*
     The name of the web page parameter.
+
+    For example, if this parameter is set to the value of ``X_1``, then the value of this parameter (if it is present in the URL) will be saved to a variable specified by the ``Destination`` parameter.
 
 *Destination*
     A variable that will be used to save the parameter.

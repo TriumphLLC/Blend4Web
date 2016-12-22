@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-10-27 15:59+0300\n"
+"POT-Creation-Date: 2016-12-16 15:05+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -26,12 +26,13 @@ msgstr "Содержание"
 
 #: ../problems_and_solutions.rst:11
 msgid ""
-"As WebGL is still a relatively new technology, it may not work perfectly "
-"with every combination of software and hardware. This chapter covers "
-"common problems that users of the Blend4Web engine may encounter and "
-"provides solutions for these problems."
+"As `WebGL <https://www.blend4web.com/en/technologies/webgl/>`_ is still a"
+" relatively new technology, it may not work perfectly with every "
+"combination of software and hardware. This chapter covers common problems"
+" that users of the Blend4Web engine may encounter and provides solutions "
+"for these problems."
 msgstr ""
-"Поскольку на сегодняшний день WebGL - всё ещё достаточно новая "
+"Поскольку на сегодняшний день `WebGL <https://www.blend4web.com/ru/technologies/webgl/>`_ - всё ещё достаточно новая "
 "технология, она может работать некорректно с некоторыми комбинациями "
 "программного и аппаратного обеспечения. В этой главе перечислены наиболее"
 " распространённые проблемы, с которыми может столкнуться пользователь "
@@ -110,7 +111,11 @@ msgstr "Opera (начиная с версии 12)"
 msgid "UC Browser (experimental)"
 msgstr "UC Browser (экспериментальная поддержка)"
 
-#: ../problems_and_solutions.rst:41
+#: ../problems_and_solutions.rst:40
+msgid "Yandex Browser"
+msgstr ""
+
+#: ../problems_and_solutions.rst:42
 msgid ""
 "We also recommend to use the most recent version of the web browser to "
 "avoid compatibility problems."
@@ -118,19 +123,19 @@ msgstr ""
 "Мы также рекомендуем использовать новейшие версии веб-браузеров для "
 "предотвращения проблем с совместимостью."
 
-#: ../problems_and_solutions.rst:46
+#: ../problems_and_solutions.rst:47
 msgid "Problems Upon Startup"
 msgstr "Проблемы при запуске движка"
 
-#: ../problems_and_solutions.rst:48
+#: ../problems_and_solutions.rst:49
 msgid "*1. The \"Browser could not initialize WebGL\" message is shown*."
 msgstr "*1. Появляется сообщение \"Browser could not initialize WebGL.\"*"
 
-#: ../problems_and_solutions.rst:54
+#: ../problems_and_solutions.rst:55
 msgid "Follow the instructions listed in the :ref:`webgl_not_working` section."
 msgstr "Следует выполнить действия, описанные в разделе :ref:`webgl_not_working`."
 
-#: ../problems_and_solutions.rst:56
+#: ../problems_and_solutions.rst:57
 msgid ""
 "*2. The user interface or background is shown but the default scene is "
 "not rendered. At the same time the* http://get.webgl.org/ *site and other"
@@ -140,25 +145,25 @@ msgstr ""
 " При этом тестовый сайт* http://get.webgl.org/ *и другие WebGL приложения"
 " работают корректно.*"
 
-#: ../problems_and_solutions.rst:58
+#: ../problems_and_solutions.rst:59
 msgid "Possible causes:"
 msgstr "Вероятные причины:"
 
-#: ../problems_and_solutions.rst:60
+#: ../problems_and_solutions.rst:61
 msgid "The engine tries to load resource files which were moved or deleted."
 msgstr ""
 "Файлы ресурсов, которые пытается загрузить движок, были перемещены или "
 "удалены."
 
-#: ../problems_and_solutions.rst:62
+#: ../problems_and_solutions.rst:63
 msgid "You are using the old versions of video drivers."
 msgstr "Используются старые версии драйверов."
 
-#: ../problems_and_solutions.rst:64
+#: ../problems_and_solutions.rst:65
 msgid "You are using open source drivers which do not fully support WebGL."
 msgstr "Используются открытые драйвера, не обеспечивающие поддержку WebGL."
 
-#: ../problems_and_solutions.rst:66
+#: ../problems_and_solutions.rst:67
 msgid ""
 "For Linux users - due to incomplete OpenGL implementation in open source "
 "drivers at the moment it is recommended to use current versions of "
@@ -169,11 +174,11 @@ msgstr ""
 "проприетарные драйверы текущей версии для графических процессоров Nvidia "
 "и AMD."
 
-#: ../problems_and_solutions.rst:68
+#: ../problems_and_solutions.rst:69
 msgid "You are using an outdated operating system, such as Windows XP."
 msgstr "Используется устаревшая операционная система, такая как Windows XP."
 
-#: ../problems_and_solutions.rst:70
+#: ../problems_and_solutions.rst:71
 msgid ""
 "Browser is not set up for loading local resources. In this case, the "
 "problem can be fixed by using local web server. See the "
@@ -183,11 +188,11 @@ msgstr ""
 "проблема может быть решена использованием локального веб-сервера. См. "
 "раздел :ref:`browser_for_local_loading`."
 
-#: ../problems_and_solutions.rst:76
+#: ../problems_and_solutions.rst:77
 msgid "WebGL Failed to Initialize"
 msgstr "Ошибка инициализации WebGL"
 
-#: ../problems_and_solutions.rst:78
+#: ../problems_and_solutions.rst:79
 msgid ""
 "The http://get.webgl.org/ page tells about problems when viewing it in "
 "recent Chrome or Firefox. What can I do?"
@@ -195,7 +200,7 @@ msgstr ""
 "Сайт http://get.webgl.org/ при просмотре в браузерах Chrome или Firefox "
 "последней версии сообщает о проблемах. Что делать?"
 
-#: ../problems_and_solutions.rst:81
+#: ../problems_and_solutions.rst:82
 msgid ""
 "Install the latest updates for your system (for MS Windows see `the guide"
 " <http://support.microsoft.com/kb/311047>`_). In case of MS Windows "
@@ -207,7 +212,7 @@ msgstr ""
 "последнюю версию `DirectX <http://www.microsoft.com/ru-"
 "ru/download/details.aspx?id=35>`_. Перезагрузить систему."
 
-#: ../problems_and_solutions.rst:83
+#: ../problems_and_solutions.rst:84
 msgid ""
 "It is recommended to timely update video card drivers. To detect your "
 "video card and its vendor please type **about:gpu** (or **chrome://gpu**)"
@@ -218,25 +223,25 @@ msgstr ""
 "ввести **about:gpu** (или **chrome://gpu**) в адресную строку браузера "
 "Chrome..."
 
-#: ../problems_and_solutions.rst:91
+#: ../problems_and_solutions.rst:92
 msgid "or Firefox..."
 msgstr "или Firefox..."
 
-#: ../problems_and_solutions.rst:99
+#: ../problems_and_solutions.rst:100
 msgid "For Windows, you can run the DirectX Diagnostic Tool called **dxdiag**."
 msgstr ""
 "Для операционных систем семейства Windows можно воспользоваться средством"
 " диагностики DirectX **dxdiag**."
 
-#: ../problems_and_solutions.rst:101 ../problems_and_solutions.rst:117
+#: ../problems_and_solutions.rst:102 ../problems_and_solutions.rst:118
 msgid "To do it, please follow these steps:"
 msgstr "Для этого выполните следующие действия:"
 
-#: ../problems_and_solutions.rst:103
+#: ../problems_and_solutions.rst:104
 msgid "Select the ``Run`` command from the Start menu"
 msgstr "Выберете команду ``Run`` из стартового меню"
 
-#: ../problems_and_solutions.rst:105
+#: ../problems_and_solutions.rst:106
 msgid ""
 "Type *dxdiag* to the ``Open`` field and press ``Enter`` to open DirectX "
 "Diagnostic Tool"
@@ -244,7 +249,7 @@ msgstr ""
 "В окне ``Open`` введите *dxdiag* и нажмите ``Enter`` чтобы вызвать "
 "утилиту диагностики DirectX"
 
-#: ../problems_and_solutions.rst:107
+#: ../problems_and_solutions.rst:108
 msgid ""
 "Open the ``Display`` panel. There you can find manufacturer, model and "
 "other information regarding your video card."
@@ -252,23 +257,23 @@ msgstr ""
 "Откройте панель ``Display``. Там вы можете найти информацию о "
 "производителе, модели и других параметрах вашей видеокарты."
 
-#: ../problems_and_solutions.rst:115
+#: ../problems_and_solutions.rst:116
 msgid "For macOS, you can check System Report."
 msgstr "В macOS вам следует ознакомиться с System Report."
 
-#: ../problems_and_solutions.rst:119
+#: ../problems_and_solutions.rst:120
 msgid "Select ``About This Mac`` from the ``Apple`` menu."
 msgstr "Выберете ``About This Mac`` из меню ``Apple``."
 
-#: ../problems_and_solutions.rst:121
+#: ../problems_and_solutions.rst:122
 msgid "Click ``System Report`` button."
 msgstr "Нажмите кнопку ``System Report``."
 
-#: ../problems_and_solutions.rst:123
+#: ../problems_and_solutions.rst:124
 msgid "Select ``Graphics/Displays`` in the ``Hardware`` section."
 msgstr "Выберете пункт ``Graphics/Displays`` из раздела ``Hardware``."
 
-#: ../problems_and_solutions.rst:131
+#: ../problems_and_solutions.rst:132
 msgid ""
 "Download the drivers from the corresponding support center (for example "
 "`Intel <http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia "
@@ -283,7 +288,7 @@ msgstr ""
 "<http://support.amd.com/ru-ru/download>`_). После установки драйверов "
 "перезагрузить систему."
 
-#: ../problems_and_solutions.rst:133
+#: ../problems_and_solutions.rst:134
 msgid ""
 "If the measures described above did not help to initialize rendering (or "
 "there is no possibility to update the system) try to change the browser "
@@ -293,11 +298,11 @@ msgstr ""
 "не удается (или нет возможности обновить систему), можно попробовать "
 "изменить настройки браузера."
 
-#: ../problems_and_solutions.rst:135
+#: ../problems_and_solutions.rst:136
 msgid "*For Chrome*:"
 msgstr "*В Chrome*:"
 
-#: ../problems_and_solutions.rst:137
+#: ../problems_and_solutions.rst:138
 msgid ""
 "Enter **about:flags** (or **chrome://flags**) into the browser's address "
 "bar, click :file:`Enable` under the :file:`Override software rendering "
@@ -308,11 +313,11 @@ msgstr ""
 ":file:`Переопределение списка программного рендеринга` (:file:`Override "
 "software rendering list`) и перезапустить браузер."
 
-#: ../problems_and_solutions.rst:147
+#: ../problems_and_solutions.rst:148
 msgid "*For Firefox*:"
 msgstr "*В Firefox*:"
 
-#: ../problems_and_solutions.rst:149
+#: ../problems_and_solutions.rst:150
 msgid ""
 "Enter **about:config** into the browser's address bar, search for the "
 "``webgl.force-enabled`` parameter and double-click on it to switch from "
@@ -322,11 +327,11 @@ msgstr ""
 "``webgl.force-enabled`` и переключить его двойным щелчком мыши из "
 "``false`` в ``true``."
 
-#: ../problems_and_solutions.rst:156
+#: ../problems_and_solutions.rst:157
 msgid "*For Safari*"
 msgstr "*Для Safari*"
 
-#: ../problems_and_solutions.rst:158
+#: ../problems_and_solutions.rst:159
 msgid ""
 "Select ``Preferences`` from Safari menu, select the ``Security`` tab and "
 "make sure that ``Allow WebGL`` checkbox is enabled."
@@ -334,11 +339,11 @@ msgstr ""
 "Выберете пункт ``Preferences`` из меню Safari, затем выберете вкладку "
 "``Security`` и убедитесь, что опция ``Allow WebGL`` включена."
 
-#: ../problems_and_solutions.rst:165
+#: ../problems_and_solutions.rst:166
 msgid "More In-Depth Troubleshooting"
 msgstr "Если ничего не помогло..."
 
-#: ../problems_and_solutions.rst:167
+#: ../problems_and_solutions.rst:168
 msgid ""
 "If nothing mentioned above helped you solve the issues you are "
 "experiencing, please visit the Blend4Web `community forum "
@@ -352,31 +357,31 @@ msgstr ""
 " разделе `\"Ошибки\" <https://www.blend4web.com/ru/forums/forum/8/>`_. "
 "Наша команда сделает всё возможное, чтобы помочь вам."
 
-#: ../problems_and_solutions.rst:172
+#: ../problems_and_solutions.rst:173
 msgid "Known Issues"
 msgstr "Известные проблемы"
 
-#: ../problems_and_solutions.rst:174
+#: ../problems_and_solutions.rst:175
 msgid "Problems with updating of the add-on."
 msgstr "Проблемы с обновлением старых версий аддона."
 
-#: ../problems_and_solutions.rst:176
+#: ../problems_and_solutions.rst:177
 msgid ""
 "It’s strongly advised to restart Blender after installing a newer version"
 " of Add-on/SDK."
 msgstr "Рекомендуется перезагрузка Blender после обновления SDK или аддона."
 
-#: ../problems_and_solutions.rst:178
+#: ../problems_and_solutions.rst:179
 msgid "NVIDIA 331 driver in Linux can cause WebGL errors."
 msgstr ""
 "Драйверы NVIDIA версии 331 в Linux могут приводить к программным ошибкам "
 "WebGL."
 
-#: ../problems_and_solutions.rst:180
+#: ../problems_and_solutions.rst:181
 msgid "Changed texture filtering on some platforms."
 msgstr "Изменение фильтрации текстур на некоторых устройствах."
 
-#: ../problems_and_solutions.rst:182
+#: ../problems_and_solutions.rst:183
 msgid ""
 "An incorrect texture filtering was disabled on iPad and Internet Explorer"
 " for materials with Alpha Clip type of transparency."
@@ -385,7 +390,7 @@ msgstr ""
 "некорректная фильтрация текстур, которые используются материалами с типом"
 " прозрачности *Alpha Clip*."
 
-#: ../problems_and_solutions.rst:184
+#: ../problems_and_solutions.rst:185
 msgid ""
 "Some devices with Mail GPU require manual WebGL activation in browser "
 "settings."
@@ -393,7 +398,7 @@ msgstr ""
 "Некоторые устройства, использующие GPU Mali, требуют принудительного "
 "включения WebGL в настройках браузера."
 
-#: ../problems_and_solutions.rst:186
+#: ../problems_and_solutions.rst:187
 msgid ""
 "For the local development server to work on Apple macOS and Blender 2.76,"
 " you may need to install `Python 3.4 "
@@ -407,13 +412,13 @@ msgstr ""
 "ошибкой Blender https://developer.blender.org/T46623. В Blender 2.76b эта"
 " проблема устранена, поэтому рекомендуем обновиться."
 
-#: ../problems_and_solutions.rst:188
+#: ../problems_and_solutions.rst:189
 msgid "Skeletal animation may work incorrectly while using Nouveau drivers."
 msgstr ""
 "При использовании драйверов Nouveau скелетная анимация может работать "
 "некорректно."
 
-#: ../problems_and_solutions.rst:190
+#: ../problems_and_solutions.rst:191
 msgid ""
 "Transparent textures may not render correctly in the IE11 and Microsoft "
 "Edge web browsers and on iPad."
@@ -421,7 +426,7 @@ msgstr ""
 "В браузерах IE11 и Microsoft Edge, а также на iPad могут некорректно "
 "рендериться текстуры с прозрачностью."
 
-#: ../problems_and_solutions.rst:192
+#: ../problems_and_solutions.rst:193
 msgid ""
 "The problem is relevant for the :ref:`transparent materials "
 "<alpha_blend>`. Image artifacts are visible in the areas where alpha "
@@ -436,7 +441,7 @@ msgstr ""
 "поднимать значение альфа-канала пока артефакты не исчезнут (как правило, "
 "бывает достаточно величин в диапазоне от 0.01 до 0.05)."
 
-#: ../problems_and_solutions.rst:194
+#: ../problems_and_solutions.rst:195
 msgid ""
 "WebGL crashes on Linux Chromium with Nvidia GeForce 400/500 series GPUs "
 "with drivers later than 355."
@@ -444,7 +449,7 @@ msgstr ""
 "Сбой работы WebGL в браузере Chromium под Linux на GPU Nvidia GeForce "
 "серий 400/500 с драйверами версии выше 355."
 
-#: ../problems_and_solutions.rst:196
+#: ../problems_and_solutions.rst:197
 msgid ""
 "This issue is caused by incompatibility of Chromium sandbox and NVIDIA's "
 "latest drivers. The solution is to downgrade drivers to the 340xx "
@@ -454,11 +459,11 @@ msgstr ""
 " Chromium. В качестве решения рекомендуется понизить версию драйверов до "
 "340-х."
 
-#: ../problems_and_solutions.rst:198
+#: ../problems_and_solutions.rst:199
 msgid "Audio issues."
 msgstr "Проблемы со звуком."
 
-#: ../problems_and_solutions.rst:200
+#: ../problems_and_solutions.rst:201
 msgid ""
 "Audio doesn't work in some versions of Google Chrome for the \"Background"
 " Music\" speakers in case of HTML export. Currently, speaker type is "
@@ -469,7 +474,7 @@ msgstr ""
 "качестве решения в настоящий момент тип источника звука автоматически "
 "меняется на \"Background Sound\"."
 
-#: ../problems_and_solutions.rst:202
+#: ../problems_and_solutions.rst:203
 msgid ""
 "There is an audio context error when running too many instances (>6) of "
 "b4w engine (for example, many browser tabs or many iframes on one page) "
@@ -482,7 +487,7 @@ msgstr ""
 "отключив звук в приложении, если для него не может быть создан "
 "аудиоконтекст."
 
-#: ../problems_and_solutions.rst:204
+#: ../problems_and_solutions.rst:205
 msgid ""
 "Pausing the audio may not work on such mobile devices as Nexus 6 and "
 "Nexus 9 in Google Chrome 50-52 versions. It should work again in Chrome "
@@ -496,11 +501,11 @@ msgstr ""
 "`https://bugs.chromium.org/p/chromium/issues/detail?id=616772 "
 "<https://bugs.chromium.org/p/chromium/issues/detail?id=616772>`_."
 
-#: ../problems_and_solutions.rst:206
+#: ../problems_and_solutions.rst:207
 msgid "QQ Browser doesn't support WebGL at the moment."
 msgstr "QQ Browser на данный момент не поддерживает WebGL."
 
-#: ../problems_and_solutions.rst:208
+#: ../problems_and_solutions.rst:209
 msgid ""
 "WebGL is unstable and sometimes crashes on Mesa 11.x drivers in "
 "Linux/Chrome with Intel GPUs. Downgrading to Mesa 10.x drivers can help."
@@ -509,7 +514,7 @@ msgstr ""
 "драйверов Mesa 11.x в Linux/Chrome на видеокартах Intel. Понижение версии"
 " драйверов до 10.х может решить проблему."
 
-#: ../problems_and_solutions.rst:210
+#: ../problems_and_solutions.rst:211
 msgid ""
 "Information about moving fingers on GearVR touch sensor in VR-mode is not"
 " available."
@@ -517,7 +522,7 @@ msgstr ""
 "При использовании тач-сенсора GearVR в VR-режиме недоступна информация о "
 "движениях пальцев."
 
-#: ../problems_and_solutions.rst:212
+#: ../problems_and_solutions.rst:213
 msgid ""
 "Samsung Internet browser doesn't fire any events about moving fingers on "
 "touch sensor in VR-mode."
@@ -525,7 +530,7 @@ msgstr ""
 "Samsung Internet Browser не регистрирует события, связанные с движением "
 "пальцев на тач-сенсоре в режиме VR."
 
-#: ../problems_and_solutions.rst:214
+#: ../problems_and_solutions.rst:215
 msgid ""
 "Particles emitted by particle systems placed on inactive (hidden) layers "
 "can have their positions set to zero as inactive layers are not updated "
@@ -535,7 +540,7 @@ msgstr ""
 "(скрытых) слоях, могут иметь нулевые координаты, т.к. неактивные слои не "
 "обновляются Blender'ом."
 
-#: ../problems_and_solutions.rst:216
+#: ../problems_and_solutions.rst:217
 msgid ""
 "This problem can be solved by activating layers before exporting a scene "
 "or by simply clicking the layers to make Blender update them."
@@ -543,7 +548,7 @@ msgstr ""
 "Проблема может быть решена с помощью активации слоёв перед экспортом или "
 "выбора необходимых слоёв вручную (в этом случае Blender их обновит)."
 
-#: ../problems_and_solutions.rst:218
+#: ../problems_and_solutions.rst:219
 msgid ""
 "Alpha blending objects are rendered incorrect on the Mali 400 series GPU "
 "by Google Chrome browser."

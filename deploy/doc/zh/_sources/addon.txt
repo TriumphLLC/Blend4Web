@@ -57,10 +57,10 @@ Requests" 选项 。
 
 
 
-注解: 如果没有指定的Blend4Web SDK的路径，本地开发服务器无法启动。在
-  这种情 况下，相应的消息将被显示，而不是 "Start Server" 按钮。如果服
-  务器无法 运行，将显示一条错误消息，说明了原因：[图片]如果服务器端口
-  已被一些其 他的应用程序可能会出现此错误。
+注解: If the local development server cannot be launched, the
+  corresponding message will be displayed instead of the "Start
+  Server" button.如果服务器无法运行，将显示一条错误消息，说明了原因：[
+  图片]如果服务器端口已被一些其他的应用程序可能会出现此错误。
 
 按 "SDK Index" 按钮，在浏览器中打开Blend4Web SDK的索引网页。本页面可在
 http://localhost:6687 访问。
@@ -111,8 +111,9 @@ JSON
 录放置在隐藏的 "../tmp/" 文件夹中（SDK目录内）。应当注意的是，这样的话
 文件的名称将被自动地改变，工作的时候可能变得复杂。
 
-建议将所有资源存储在SDK目录中一个专门的文件夹，它可以被称为
-``deploy/assets/项目名`` 。
+It is recommended to store all the resources in a dedicated folder
+inside the SDK directory, it can be called
+"projects/project_name/assets" for example.
 
 注解: 按照安全因素考虑，开发服务器只能访问SDK文件夹。如果媒体数据被
   放置在 另一个文件夹，服务器将无法在部署的时候导出（即使是在Blender内
@@ -496,6 +497,10 @@ player. 像这样的文件可以在任何计算机和有支持WebGL的Web浏览�
 +---------------------------------------+---------------------------------------------+
 | Sound file is missing in the SPEAKER  | 扬声器没有附加声音。物体的类型已更改为空。  |
 | object "NAME". Converted to EMPTY.    |                                             |
++---------------------------------------+---------------------------------------------+
+| The lamp object "NAME" has            | The lamp object "NAME" has unsupported AREA |
+| unsupported AREA type. Changed to     | type. Changed to SUN.                       |
+| SUN.                                  |                                             |
 +---------------------------------------+---------------------------------------------+
 | The main scene NAME can not be        | 主场景名称不能被其他场景渲染。材料名称已被  |
 | rendered by another scene. Material   | 删除。                                      |

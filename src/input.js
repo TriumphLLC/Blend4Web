@@ -971,7 +971,7 @@ function register_event_listener(device, event_name) {
     case MOUSE_UP_WHICH:
         if (!is_ios()) {
             if (device.element != window)
-                device.element.addEventListener("mouseout", mouse_up_cb, false);
+                device.element.addEventListener("mouseout", mouse_out_cb, false);
             device.element.addEventListener("mouseup", mouse_up_cb, false);
         }
         break;
@@ -1248,7 +1248,7 @@ function mouse_down_cb(event) {
 }
 
 function mouse_out_cb(event) {
-    if (!m_cont.is_child(event.relatedTarget))
+    if (!m_cont.is_child(event.relatedTarget) && event.which)
         mouse_up_cb(event);
 }
 

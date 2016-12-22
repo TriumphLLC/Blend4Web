@@ -1435,6 +1435,7 @@ def remove_scenes_props():
     del bpy.types.Scene.b4w_enable_ssao
     del bpy.types.Scene.b4w_ssao_settings
     del bpy.types.Scene.b4w_cluster_size
+    del bpy.types.Scene.b4w_lod_cluster_size_mult
     del bpy.types.Scene.b4w_anisotropic_filtering
     del bpy.types.Scene.b4w_enable_bloom
     del bpy.types.Scene.b4w_bloom_settings
@@ -1810,24 +1811,27 @@ def add_scene_properties():
         options = set()
     )
 
-    b4w_enable_cluster_batching = bpy.props.BoolProperty(
-        name = _("B4W: enable cluster batching"),
-        description = _("Use clustering algorithm for batching"),
-        default = False,
-        options = set()
-    )
-    scene_type.b4w_enable_cluster_batching = b4w_enable_cluster_batching
-
     b4w_cluster_size = bpy.props.FloatProperty(
         name = _("B4W: cluster size"),
-        description = _("Cluster size in meters. Specifies the maximum edge length of a cluster's bounding box."),
-        default = 30.0,
+        description = _("Cluster size in meters. Specifies the maximum edge length of a cluster's bounding box. 0.0 disables non-lods clustering."),
+        default = 0.0,
         min = 0.0,
         soft_max = 1000.0,
         precision = 1,
         options = set()
     )
     scene_type.b4w_cluster_size = b4w_cluster_size
+
+    b4w_lod_cluster_size_mult = bpy.props.FloatProperty(
+        name = _("B4W: LOD cluster size multiplier"),
+        description = _("This coefficient multiplied by the object lod distance specifies the maximum bounding box diagonal of a cluster."),
+        default = 0.5,
+        min = 0.0,
+        soft_max = 2.0,
+        precision = 1,
+        options = set()
+    )
+    scene_type.b4w_lod_cluster_size_mult = b4w_lod_cluster_size_mult
 
     # see also b4w_anisotropic_filtering for texture
     b4w_anisotropic_filtering = bpy.props.EnumProperty(
@@ -2836,7 +2840,7 @@ def add_object_properties():
     obj_type.b4w_lod_transition = bpy.props.FloatProperty(
         name = _("B4W: LOD transition ratio"),
         description = _("LOD transition ratio"),
-        default = 0.01,
+        default = 0.1,
         min = 0.00,
         max = 100,
         soft_min = 0,

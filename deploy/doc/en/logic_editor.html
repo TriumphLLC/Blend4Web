@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Logic Editor &mdash; Blend4Web 16.11 User Manual</title>
+  <title>Logic Editor &mdash; Blend4Web 16.12 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 User Manual" href="index.html"/>
         <link rel="next" title="Lighting, Shadows and Background" href="lighting.html"/>
         <link rel="prev" title="Node Materials" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -274,6 +274,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#id74">Input Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id75">Output Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id76">Internal Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-encode-json-object">Using JSON logic node to encode JSON object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-decode-json-object">Using JSON logic node to decode JSON object</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a><ul>
@@ -1269,12 +1271,11 @@
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>The data received from the server should look like this:</p>
-<div class="last highlight-json"><div class="highlight"><pre><span></span>{&quot;var0&quot;: 1,
-&quot;var1&quot;: 10,
-&quot;var2&quot;: 144,
-...
-}
+<p>The data received from the server should be in the JSON format:</p>
+<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+<span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1311,9 +1312,45 @@
 <dd>A link to a JSON object that you need to decode or encode. Set to <code class="docutils literal"><span class="pre">R1</span></code> by default.</dd>
 <dt><em>JSON Operation</em></dt>
 <dd>An operation you need to perform with the JSON object specified by the <code class="docutils literal"><span class="pre">JSON</span></code> parameter. Can have one of two values: <code class="docutils literal"><span class="pre">ENCODE</span></code> to encode the JSON object and <code class="docutils literal"><span class="pre">PARSE</span></code> to decode it. Set to <code class="docutils literal"><span class="pre">ENCODE</span></code> by default.</dd>
-<dt><em>Members</em></dt>
-<dd>A list of variables that will be used to either store the decoded data or to encode a JSON object (depending on the value of the <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> parameter). The variables always have names like <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> and so on, and their quantity can be adjusted.</dd>
+<dt><em>Paths</em></dt>
+<dd>A list of paths to the variables inside the JSON object. Paths are used to define the inner structure of a JSON object. A path should consist of several identifiers (separated by dots) that serve as a path to a JSON field. If a name of a fragment of the path consists solely of numbers, this name is interpreted as an array index. Paths are created and deleted in conjunction with variables (in the <code class="docutils literal"><span class="pre">Variables</span></code> list), and one path always corresponds to one variable. This list can be used both to encode and to decode JSON object. By default, the list is empty.</dd>
+<dt><em>Variables</em></dt>
+<dd>A list of variables that will be used to either store the decoded data or to encode a JSON object (depending on the value of the <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> parameter). The names and the quantity of the variables can be adjusted manually. This list is also empty by default.</dd>
 </dl>
+</div>
+<div class="section" id="using-json-logic-node-to-encode-json-object">
+<h4>Using JSON logic node to encode JSON object<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="Permalink to this headline">¶</a></h4>
+<a class="reference internal image-reference" href="_images/logic_editor_json_encode_example.png"><img alt="_images/logic_editor_json_encode_example.png" class="align-center" src="_images/logic_editor_json_encode_example.png" style="width: 100%;" /></a>
+<p>The logic node setup at the picture above encodes a JSON object and stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable. Such a JSON object looks like this:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;main&quot;</span><span class="p">:{</span>
+        <span class="nt">&quot;part1&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span>
+        <span class="nt">&quot;part2&quot;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span>
+        <span class="nt">&quot;part3&quot;</span><span class="p">:</span><span class="s2">&quot;abc&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-json-logic-node-to-decode-json-object">
+<h4>Using JSON logic node to decode JSON object<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="Permalink to this headline">¶</a></h4>
+<a class="reference internal image-reference" href="_images/logic_editor_json_decode_example.png"><img alt="_images/logic_editor_json_decode_example.png" class="align-center" src="_images/logic_editor_json_decode_example.png" style="width: 100%;" /></a>
+<p>The picture above shows a logic node setup that recieves a JSON object from the server, stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable and then decodes it. Such a JSON object looks like this:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+        <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Decoding this JSON object with the <code class="docutils literal"><span class="pre">JSON</span></code> logic node results in three variables named <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> and <code class="docutils literal"><span class="pre">var2</span></code> (you don&#8217;t have to create the variables beforehand) that will contain various parts of the JSON object. In this example, the <code class="docutils literal"><span class="pre">var1</span></code> variable has the value of 17, the <code class="docutils literal"><span class="pre">var2</span></code> variable has the value &#8220;abc&#8221;, while the <code class="docutils literal"><span class="pre">var0</span></code> variable contains the following fragment of the JSON object:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+    <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="page-param">
@@ -1338,7 +1375,9 @@
 <h4>Internal Parameters<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Param Name</em></dt>
-<dd>The name of the web page parameter.</dd>
+<dd><p class="first">The name of the web page parameter.</p>
+<p class="last">For example, if this parameter is set to the value of <code class="docutils literal"><span class="pre">X_1</span></code>, then the value of this parameter (if it is present in the URL) will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
+</dd>
 <dt><em>Destination</em></dt>
 <dd>A variable that will be used to save the parameter.</dd>
 </dl>
@@ -1488,7 +1527,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-11-29.
+      Last updated on 2016-12-22.
 
     </p>
   </div>
@@ -1544,7 +1583,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

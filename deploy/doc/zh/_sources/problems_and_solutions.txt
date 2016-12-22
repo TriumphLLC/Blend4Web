@@ -18,9 +18,10 @@
 
   * 已知问题
 
-WebGL仍然是一个相对较新的技术，可能不完全与软件和硬件的各种组合工作。
-本章介绍了Blend4Web引擎的用户可能会遇到，并提供了解决这些问题的常见问
-题。
+As WebGL is still a relatively new technology, it may not work
+perfectly with every combination of software and hardware. This
+chapter covers common problems that users of the Blend4Web engine may
+encounter and provides solutions for these problems.
 
 
 WebGL的支持
@@ -56,6 +57,8 @@ WebGL的支持
    * Opera (v. 12 or higher)
 
    * UC Browser (experimental)
+
+   * Yandex Browser
 
 我们也建议使用的最近的web浏览器的版本，以避免兼容性问题。
 

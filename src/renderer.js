@@ -1294,8 +1294,7 @@ function assign_uniform_setters(shader) {
 
         case "au_center_pos":
             fun = function(gl, loc, obj_render, batch) {
-                // consider zeros by default
-                //gl.uniform3fv(loc, obj_render.center_pos);
+                gl.uniform3fv(loc, obj_render.center_pos);
             }
             transient_uni = true;
             break;
@@ -2072,24 +2071,24 @@ exports.set_draw_methods = function() {
     cfg_def.allow_vao_ext = vao_ext? true: false;
 
     if (inst_arr) {
-        _gl_draw_elems_inst = function(mode, count, type, offset, primcount) {
-            inst_arr.drawElementsInstanced(mode, count, type, offset, primcount);
+        _gl_draw_elems_inst = function(count, type, offset, primcount) {
+            inst_arr.drawElementsInstanced(_gl.TRIANGLES, count, type, offset, primcount);
         };
         _gl_vert_attr_div = function(loc, div) {
             inst_arr.vertexAttribDivisor(loc, div);
         };
-        _gl_draw_array = function(mode, first, count, primcount) {
-            inst_arr.drawArraysInstanced(mode, first, count, primcount);
+        _gl_draw_array = function(first, count, primcount) {
+            inst_arr.drawArraysInstanced(_gl.TRIANGLES, first, count, primcount);
         };
     } else {
-        _gl_draw_elems_inst = function(mode, count, type, offset) {
-            _gl.drawElements(mode, count, type, offset);
+        _gl_draw_elems_inst = function(count, type, offset) {
+            _gl.drawElements(_gl.TRIANGLES, count, type, offset);
         };
         _gl_vert_attr_div = function(loc, div) {
             //pass
         };
-        _gl_draw_array = function(mode, first, count, primcount) {
-            _gl.drawArrays(mode, first, count);
+        _gl_draw_array = function(first, count, primcount) {
+            _gl.drawArrays(_gl.TRIANGLES, first, count);
         };
     }
 
@@ -2103,11 +2102,10 @@ exports.set_draw_methods = function() {
 
             // draw
             if (bufs_data.ibo) {
-                _gl_draw_elems_inst(bufs_data.mode, bufs_data.count,
-                        bufs_data.ibo_type, 0, bufs_data.instance_count);
-            } else
-                _gl_draw_array(bufs_data.mode, 0, bufs_data.count,
+                _gl_draw_elems_inst(bufs_data.count, bufs_data.ibo_type, 0,
                         bufs_data.instance_count);
+            } else
+                _gl_draw_array(0, bufs_data.count, bufs_data.instance_count);
 
             _gl_bind_vertex_array(null);
         }
@@ -2136,11 +2134,10 @@ exports.set_draw_methods = function() {
             // draw
             if (bufs_data.ibo) {
                 _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
-                _gl_draw_elems_inst(bufs_data.mode, bufs_data.count,
-                        bufs_data.ibo_type, 0, bufs_data.instance_count);
-            } else
-                _gl_draw_array(bufs_data.mode, 0, bufs_data.count,
+                _gl_draw_elems_inst(bufs_data.count, bufs_data.ibo_type, 0,
                         bufs_data.instance_count);
+            } else
+                _gl_draw_array(0, bufs_data.count, bufs_data.instance_count);
 
             // cleanup attributes
             for (var i = 0; i < attr_setters.length; i++) {

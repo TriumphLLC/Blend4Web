@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 16.11</title>
+  <title>Параметры сцены &mdash; Руководство пользователя Blend4Web 16.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.11" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="index.html"/>
         <link rel="next" title="Объекты" href="objects.html"/>
         <link rel="prev" title="Аддон" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -118,7 +118,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#nla">NLA</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#meta-tags">Meta Tags</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#physics">Physics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cluster-batching">Cluster Batching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#objects-clustering">Objects Clustering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#objects-selection">Objects Selection</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#anchors">Anchors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#export-options">Export Options</a></li>
@@ -233,7 +233,7 @@
 <li><a class="reference internal" href="#nla" id="id26">NLA</a></li>
 <li><a class="reference internal" href="#meta-tags" id="id27">Meta Tags</a></li>
 <li><a class="reference internal" href="#physics" id="id28">Physics</a></li>
-<li><a class="reference internal" href="#cluster-batching" id="id29">Cluster Batching</a></li>
+<li><a class="reference internal" href="#objects-clustering" id="id29">Objects Clustering</a></li>
 <li><a class="reference internal" href="#objects-selection" id="id30">Objects Selection</a></li>
 <li><a class="reference internal" href="#anchors" id="id31">Anchors</a></li>
 <li><a class="reference internal" href="#export-options" id="id32">Export Options</a></li>
@@ -487,17 +487,16 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="cluster-batching">
-<span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">Cluster Batching</a><a class="headerlink" href="#cluster-batching" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Этот параметр активирует использование кластерного батчинга. Может использоваться для целей оптимизации. По умолчанию выключен.</p>
-<div class="admonition note">
-<p class="first admonition-title">Примечание</p>
-<p class="last">Если этот параметр деактивирован, движок попытается объединить все статические объекты в один.</p>
-</div>
-<a class="reference internal image-reference" href="_images/scene_cluster_batching.png"><img alt="_images/scene_cluster_batching.png" class="align-center" src="_images/scene_cluster_batching.png" style="width: 100%;" /></a>
+<div class="section" id="objects-clustering">
+<span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">Objects Clustering</a><a class="headerlink" href="#objects-clustering" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Настройки объединения объектов в кластеры. Может использоваться для целей оптимизации.</p>
+<a class="reference internal image-reference" href="_images/scene_object_clustering.png"><img alt="_images/scene_object_clustering.png" class="align-center" src="_images/scene_object_clustering.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Cluster Size</em></dt>
-<dd><p class="first last">Размер кластера для батчинга (в метрах). Значение по умолчанию - 30. Если этот параметр равен нулю, объекты не будут объединяться.</p>
+<dd><p class="first last">Размер кластера, применяемого для объединения объектов (в метрах). Если этот параметр равен нулю, движок будет пытаться объединить все объекты в сцене. Значение по умолчанию - 0.</p>
+</dd>
+<dt><em>LOD Cluster Size Multiplier</em></dt>
+<dd><p class="first last">Этот параметр используется для разбиения кластеров на части (в зависимости от расстояния LOD, которое настраивается индивидуально для каждого объекта) для того, чтобы переходы между различными уровнями детализации были менее заметны. Размеры меньших кластеров определяются на основании расстояний LOD, умноженных на значение этого параметра. Высокие значения увеличивают размер кластеров, что повышает производительность, но делает более заметными переходы между уровнями детализации. Низкие значения делают переходы менее заметными, но снижают производительность. Значение по умолчанию - 0.5.</p>
 </dd>
 </dl>
 </div>
@@ -637,7 +636,7 @@
 <li><p class="first"><code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - анимация проигрывается один раз, после чего сбрасывается на нулевой кадр.</p>
 </li>
 </ul>
-<p class="last">This option is only avaliable if the <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> parameter is enabled.</p>
+<p class="last">Эта опция доступна только при включённом параметре <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code>.</p>
 </dd>
 </dl>
 </div>
@@ -674,7 +673,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-11-29.
+      Обновлено: 2016-12-22.
 
     </p>
   </div>
@@ -730,7 +729,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

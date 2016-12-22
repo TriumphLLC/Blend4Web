@@ -34,7 +34,7 @@ DISTS_SDK = dist_ce dist_pro dist_ce_lite dist_pro_lite
 DISTS_SDK_FORCE = dist_force_ce dist_force_pro dist_force_ce_lite dist_force_pro_lite
 
 # exec "VERPREFIX=_new_prefix make -e" to override
-VERPREFIX=_pre
+VERPREFIX=
 VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/'$(VERPREFIX)'/' VERSION`
 
 .PHONY: all

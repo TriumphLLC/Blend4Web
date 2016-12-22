@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installing and Updating &mdash; Blend4Web 16.11 User Manual</title>
+  <title>Installing and Updating &mdash; Blend4Web 16.12 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 User Manual" href="index.html"/>
         <link rel="next" title="Workflow" href="workflow.html"/>
         <link rel="prev" title="Engine Features" href="engine_features.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -88,8 +88,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Installing and Updating</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-blender">Installing Blender</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#unpacking-the-archive">Unpacking the Archive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#installing-blend4web-sdk">Installing Blend4Web SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-blend4web-add-on">Installing Blend4Web Add-On</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#switching-to-blend4web-mode">Switching to Blend4Web Mode</a></li>
 </ul>
 </li>
@@ -180,8 +180,8 @@
 <li><a class="reference internal" href="#installing-and-updating" id="id1">Installing and Updating</a><ul>
 <li><a class="reference internal" href="#installation" id="id2">Installation</a><ul>
 <li><a class="reference internal" href="#installing-blender" id="id3">Installing Blender</a></li>
-<li><a class="reference internal" href="#unpacking-the-archive" id="id4">Unpacking the Archive</a></li>
-<li><a class="reference internal" href="#installing-blend4web-sdk" id="id5">Installing Blend4Web SDK</a></li>
+<li><a class="reference internal" href="#installing-blend4web-sdk" id="id4">Installing Blend4Web SDK</a></li>
+<li><a class="reference internal" href="#installing-blend4web-add-on" id="id5">Installing Blend4Web Add-On</a></li>
 <li><a class="reference internal" href="#switching-to-blend4web-mode" id="id6">Switching to Blend4Web Mode</a></li>
 </ul>
 </li>
@@ -197,6 +197,10 @@
 </div>
 <div class="section" id="installation">
 <h2><a class="toc-backref" href="#id2">Installation</a><a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>There are two versions of the Blend4Web framework: Blend4Web SDK and Blend4Web Add-On. In order to decide which one best suits your needs, you will need to decide which kinds of applications you are planning on developing.</p>
+<p>If you plan on using all features that Blend4Web engine has to offer, you should install Blend4Web SDK.</p>
+<p>If your intention is to develop small-scale projects, or if you are planning on using only a limited number of features of the Blend4Web engine (the normal editor, for example), you might consider installing the <a class="reference internal" href="addon.html#addon"><span>Blend4Web Add-On</span></a> instead.</p>
+<p>Note, the Add-On can only export scenes to <a class="reference internal" href="workflow.html#export-scene"><span>HTML format</span></a> and has limited functionality. For example, it does not include the <a class="reference internal" href="project_manager.html#project-management"><span>project manager</span></a>, example scenes, user manual and other additional resources. However, it still has everything you might need to create a simple application.</p>
 <div class="section" id="installing-blender">
 <span id="getting-started-install-blender"></span><h3><a class="toc-backref" href="#id3">Installing Blender</a><a class="headerlink" href="#installing-blender" title="Permalink to this headline">¶</a></h3>
 <p>Authoring 3D scenes is carried out directly in <a class="reference external" href="http://en.wikipedia.org/wiki/Blender_(software)">Blender</a> which is open source software and is distributed free of charge.</p>
@@ -204,12 +208,9 @@
 <p>A current stable version of Blender should be used. It can be downloaded from the <a class="reference external" href="http://www.blender.org/download">official site</a> or from <a class="reference external" href="https://www.blend4web.com/ru/downloads/">Blend4Web site</a>.</p>
 <a class="reference internal image-reference" href="_images/blender_first_run.png"><img alt="_images/blender_first_run.png" class="align-center" src="_images/blender_first_run.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="unpacking-the-archive">
-<h3><a class="toc-backref" href="#id4">Unpacking the Archive</a><a class="headerlink" href="#unpacking-the-archive" title="Permalink to this headline">¶</a></h3>
-<p>Stable versions of the distribution are available as an archive (<code class="docutils literal"><span class="pre">blend4web_ce_YY_MM.zip</span></code> &#8211; free SDK, <code class="docutils literal"><span class="pre">blend4web_pro_YY_MM.zip</span></code> &#8211; commercial SDK). Simply unpack this archive somewhere.</p>
-</div>
 <div class="section" id="installing-blend4web-sdk">
-<h3><a class="toc-backref" href="#id5">Installing Blend4Web SDK</a><a class="headerlink" href="#installing-blend4web-sdk" title="Permalink to this headline">¶</a></h3>
+<span id="sdk-install"></span><h3><a class="toc-backref" href="#id4">Installing Blend4Web SDK</a><a class="headerlink" href="#installing-blend4web-sdk" title="Permalink to this headline">¶</a></h3>
+<p>Stable versions of the distribution are available as an archive (<code class="docutils literal"><span class="pre">blend4web_ce_YY_MM.zip</span></code> &#8211; free SDK, <code class="docutils literal"><span class="pre">blend4web_pro_YY_MM.zip</span></code> &#8211; commercial SDK). Simply unpack this archive somewhere.</p>
 <ol class="arabic">
 <li><p class="first">Run Blender.</p>
 </li>
@@ -240,12 +241,26 @@
 </ol>
 <p><em>To verify it worked:</em></p>
 <p>In the <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> menu, the <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> and <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> options should appear.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>If you are planning to use only the normal editor, you might consider installing the <a class="reference internal" href="addon.html#addon"><span>Blend4Web addon</span></a> instead of the SDK.</p>
-<p>The addon can only export scenes to <a class="reference internal" href="workflow.html#export-scene"><span>HTML format</span></a> and has limited functionality (for example, it doesn&#8217;t have the <a class="reference internal" href="project_manager.html#project-management"><span>project manager</span></a>, example scenes, user manual and so on), but still it has everything you might need to create a simple application.</p>
-<p class="last">It can be installed the same way as any other <a class="reference external" href="https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon#installation-of-a-3rd-party-add-on">Blender addon</a>.</p>
 </div>
+<div class="section" id="installing-blend4web-add-on">
+<span id="addon-install"></span><h3><a class="toc-backref" href="#id5">Installing Blend4Web Add-On</a><a class="headerlink" href="#installing-blend4web-add-on" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/user_preferences_install_from_file.png"><img alt="_images/user_preferences_install_from_file.png" class="align-center" src="_images/user_preferences_install_from_file.png" style="width: 100%;" /></a>
+<p>It can be installed the same way as any other <a class="reference external" href="https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon#installation-of-a-3rd-party-add-on">Blender addon</a>.</p>
+<ol class="arabic simple">
+<li>Run Blender.</li>
+<li>Open the User Preferences panel <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</li>
+<li>Open the <code class="file docutils literal"><span class="pre">Add-ons</span></code> tab.</li>
+<li>Press the <code class="docutils literal"><span class="pre">Install</span> <span class="pre">From</span> <span class="pre">File...</span></code> button.</li>
+<li>Select the archive containing Blend4Web add-on and press <code class="docutils literal"><span class="pre">Install</span> <span class="pre">From</span> <span class="pre">File...</span></code> button.</li>
+<li>Press the <code class="docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> button.</li>
+<li>Restart Blender.</li>
+<li>Once again, open the User Preferences panel <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</li>
+<li>Open the <code class="file docutils literal"><span class="pre">Add-ons</span></code> tab.</li>
+<li>Find the Blend4Web Add-on in the list.</li>
+<li>Check the box on the left side of its title to enable it.</li>
+<li>Press the <code class="docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> button once again.</li>
+</ol>
+<p>Now, everything should work properly.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -259,7 +274,7 @@
 <div class="section" id="updating">
 <h2><a class="toc-backref" href="#id7">Updating</a><a class="headerlink" href="#updating" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="updating-the-sdk">
-<h3><a class="toc-backref" href="#id8">Updating the SDK</a><a class="headerlink" href="#updating-the-sdk" title="Permalink to this headline">¶</a></h3>
+<span id="sdk-update"></span><h3><a class="toc-backref" href="#id8">Updating the SDK</a><a class="headerlink" href="#updating-the-sdk" title="Permalink to this headline">¶</a></h3>
 <p>Before updating, we recommend to backup all projects in development using the <a class="reference internal" href="project_manager.html#export-projects"><span>project export</span></a> tools.</p>
 <p>To update the SDK, follow these steps:</p>
 <ol class="arabic">
@@ -311,7 +326,7 @@
 <p>After updating is complete, you can import all saved projects using the <a class="reference internal" href="project_manager.html#import-projects"><span>project import</span></a> tools.</p>
 </div>
 <div class="section" id="updating-the-addon">
-<h3><a class="toc-backref" href="#id9">Updating the Addon</a><a class="headerlink" href="#updating-the-addon" title="Permalink to this headline">¶</a></h3>
+<span id="addon-update"></span><h3><a class="toc-backref" href="#id9">Updating the Addon</a><a class="headerlink" href="#updating-the-addon" title="Permalink to this headline">¶</a></h3>
 <p>If you are only using the Blend4Web add-on, follow this instruction instead.</p>
 <p>Before installing a new version of the add-on, you may firstly remove the existing one. To do this, unfold the information tab of the Blend4Web addon and press the <code class="docutils literal"><span class="pre">Remove</span></code> button. Removing the old version is not required before installing a new one, but doing so makes sure there won&#8217;t be any coflicts.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_remove_addon.png"><img alt="_images/user_preferences_remove_addon.png" class="align-center" src="_images/user_preferences_remove_addon.png" style="width: 100%;" /></a>
@@ -327,7 +342,7 @@
 <p>Everything should be working now.</p>
 </div>
 <div class="section" id="updating-saved-projects">
-<h3><a class="toc-backref" href="#id10">Updating Saved Projects</a><a class="headerlink" href="#updating-saved-projects" title="Permalink to this headline">¶</a></h3>
+<span id="projects-update"></span><h3><a class="toc-backref" href="#id10">Updating Saved Projects</a><a class="headerlink" href="#updating-saved-projects" title="Permalink to this headline">¶</a></h3>
 <p>After you have updated your SDK (or Add-on), you can import projects that you exported before updating back to the Project Manager. To do this, follow the following instructions:</p>
 <ol class="arabic simple">
 <li>Open Project Manager.</li>
@@ -364,7 +379,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-11-29.
+      Last updated on 2016-12-22.
 
     </p>
   </div>
@@ -420,7 +435,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

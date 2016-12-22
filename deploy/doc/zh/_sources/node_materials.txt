@@ -36,7 +36,7 @@
 
     * 线性到 SRGB和SRGB线性（已取消）
 
-  * Cycles Nodes
+  * Cycles 节点
 
 着色器节点通过将现有的着色器进行基本变换和批处理，显著地扩展了Blender
 的标准材质的潜力。
@@ -51,8 +51,7 @@ Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不�
 建议在实时应用程序中使用。创建非常复杂的材质，尤其是使用大量的
 "Geometry" 和 "Texture" 节点，也不推荐。
 
-The engine also has partial support for some of the Cycles nodes. This
-subject is more thoroughly described in the corresponding chapter.
+引擎能部分支持某些Cycles节点。本内容的更详尽描述在  相应章节.
 
 [1] 这个节点的法线贴图使用的 "Color Space" 参数需要设置为 "Non-
     Color". 如果没设置会引起各种不可预见的效果（尽管不会将引起弄崩溃）
@@ -423,20 +422,18 @@ subject is more thoroughly described in the corresponding chapter.
 参见: 伽马在节点材质中
 
 
-Cycles Nodes
-============
+Cycles 节点
+===========
 
-注解: Cycles node support is an experimental feature that is not yet
-  recommended for using in production enviroment.
+注解: Cycles节点的支持是不建议在生产中使用环境的实验性功能。
 
-The engine support the following "Cycles" nodes:
+引擎支持以下 "Cycles" 节点︰
 
-* "Material Output" (only "Surface" input is supported);
+* "材质输出"' （只有 "Surface"  输入支持）;
 
 * "BSDF Diffuse";
 
-* "BSDF Glossy" (only "GGX" distribution is supported; the
-  "Roughness" parameter does not influence the reflections);
+* "BSDF Glossy" (只支持 "GGX" 分布;  "Roughness" 参数不影响反射);
 
 * "Mix Shader";
 
@@ -452,17 +449,16 @@ The engine support the following "Cycles" nodes:
 
 * "Bump".
 
-The following nodes are partially supported:
+部分支持以下节点︰
 
-* "Texture Coordinates" ("From Dupli" parameter is not supported);
+* "Texture Coordinates" ("From Dupli" 参数不支持);
 
-* "UV Map" ("From Dupli" parameter is not supported);
+* "UV Map" ("From Dupli" 参数不支持);
 
-* "Geometry" (the "Pointness" and "Parametric" parameters are not
-  supported).
+* "Geometry" (  "Pointness" 和 "Parametric" 参数不支持).
 
-Other "Cycles" nodes will not, in most cases, work in Blend4Web the
-same way they do in Blender. They also might not work at all or even
-cause material in which they are used to work incorrectly. However,
-using these nodes will not cause instabilities in the application
-workflow.
+* "Emission" (does not influence the lighting of the scene).
+
+其他 "Cycles" 节点在大多数情况下在不会在Blend4Web中跟他们在Blender中一
+样良好工作。他们不会工作也可能引起材质的不正常显示和工作。但是，使用这
+些节点不会在应用程序工作流中导致不稳定。

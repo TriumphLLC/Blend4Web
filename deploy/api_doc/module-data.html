@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Data API. Used to load/unload exported json data files.</div>
+            <div class="description">Data API. Used to load/unload exported JSON data files.</div>
         
 
         
@@ -153,7 +153,15 @@
 
         
             
+<li> <a href="#.prefetch">prefetch<span class="signature">(path, loaded_cb<span class="signature-attributes">opt</span>, stageload_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.set_debug_resources_root">set_debug_resources_root<span class="signature">(debug_resources_root)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.unfetch">unfetch<span class="signature">()</span><span class="type-signature"></span></a></li>
 
         
             
@@ -823,6 +831,235 @@ should be executed inside some input event listener.
 
     
 
+    <h4 class="name" id=".prefetch">prefetch<span class="signature">(path, loaded_cb<span class="signature-attributes">opt</span>, stageload_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Preload scene's resources and put them into cache.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Path to JSON file</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>loaded_cb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-data.html#~LoadedCallback">LoadedCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Callback to be executed right after load</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stageload_cb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-data.html#~StageloadCallback">StageloadCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last">Callback to report about the loading progress</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_data.js.html">ext/data.js</a>, <a href="ext_data.js.html#line88">line 88</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
     <h4 class="name" id=".set_debug_resources_root">set_debug_resources_root<span class="signature">(debug_resources_root)</span><span class="type-signature"></span></h4>
 
     
@@ -939,6 +1176,92 @@ the app root, there will be a warning in m_print.
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="ext_data.js.html">ext/data.js</a>, <a href="ext_data.js.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".unfetch">unfetch<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Clear loading cache.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_data.js.html">ext/data.js</a>, <a href="ext_data.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -1452,7 +1775,7 @@ Used to implement loading progress indicators (preloaders).
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Nov 29 2016 10:54:45 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

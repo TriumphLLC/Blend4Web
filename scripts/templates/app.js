@@ -1,7 +1,7 @@
 "use strict"
 
 // register the application module
-b4w.register("${name}_app", function(exports, require) {
+b4w.register("${app_name}_app", function(exports, require) {
 
 // import modules used by the app
 var m_app       = require("app");
@@ -14,7 +14,7 @@ var m_ver       = require("version");
 var DEBUG = (m_ver.type() == "DEBUG");
 
 // automatically detect assets path
-var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "${name}/";
+var APP_ASSETS_PATH = ${assets_path};
 
 /**
  * export the method to initialize the app (called at the bottom of this file)
@@ -55,7 +55,7 @@ function init_cb(canvas_elem, success) {
  * load the scene data
  */
 function load() {
-    m_data.load(APP_ASSETS_PATH + "${name}.json", load_cb, preloader_cb);
+    m_data.load(APP_ASSETS_PATH + "${app_name}.json", load_cb, preloader_cb);
 }
 
 /**
@@ -85,4 +85,4 @@ function load_cb(data_id, success) {
 });
 
 // import the app module and start the app by calling the init method
-b4w.require("${name}_app").init();
+b4w.require("${app_name}_app").init();

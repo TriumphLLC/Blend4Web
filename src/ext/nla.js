@@ -17,8 +17,7 @@
 "use strict";
 
 /**
- * API methods to control non linear animation.
- * @see https://www.blend4web.com/doc/en/nla.html#api
+ * API methods to control {@link https://www.blend4web.com/doc/en/animation.html#non-linear-animation|non linear animation}.
  * @module nla
  * @local NlaFinishCallback
  */

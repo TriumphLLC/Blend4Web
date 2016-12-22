@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>节点材质 &mdash; Blend4Web 16.11 用户手册</title>
+  <title>节点材质 &mdash; Blend4Web 16.12 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
         <link rel="next" title="逻辑编辑器" href="logic_editor.html"/>
         <link rel="prev" title="材质库" href="material_library.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -158,7 +158,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#linear-to-srgb-and-srgb-to-linear-deprecated">线性到 SRGB和SRGB线性（已取消）</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#cycles-nodes">Cycles Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cycles-nodes">Cycles 节点</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logic_editor.html">逻辑编辑器</a></li>
@@ -241,7 +241,7 @@
 <li><a class="reference internal" href="#linear-to-srgb-and-srgb-to-linear-deprecated" id="id38">线性到 SRGB和SRGB线性（已取消）</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#cycles-nodes" id="id39">Cycles Nodes</a></li>
+<li><a class="reference internal" href="#cycles-nodes" id="id39">Cycles 节点</a></li>
 </ul>
 </li>
 </ul>
@@ -251,7 +251,7 @@
 <div class="section" id="standard-nodes">
 <span id="generic-node-materials"></span><h2><a class="toc-backref" href="#id25">标准节点</a><a class="headerlink" href="#standard-nodes" title="永久链接至标题">¶</a></h2>
 <p id="index-1">Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不够快，因此不建议在实时应用程序中使用。创建非常复杂的材质，尤其是使用大量的 <code class="docutils literal"><span class="pre">Geometry</span></code> 和 <code class="docutils literal"><span class="pre">Texture</span></code> 节点，也不推荐。</p>
-<p>The engine also has partial support for some of the Cycles nodes. This subject is more thoroughly described in the <a class="reference internal" href="#cycles-nodes"><span>corresponding chapter</span></a>.</p>
+<p>引擎能部分支持某些Cycles节点。本内容的更详尽描述在  <a class="reference internal" href="#cycles-nodes"><span>相应章节</span></a>.</p>
 <p id="node-performance">标准节点的性能和支持度在表中说明。</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -881,16 +881,18 @@
 </div>
 </div>
 <div class="section" id="cycles-nodes">
-<span id="id23"></span><h2><a class="toc-backref" href="#id39">Cycles Nodes</a><a class="headerlink" href="#cycles-nodes" title="永久链接至标题">¶</a></h2>
+<span id="id23"></span><h2><a class="toc-backref" href="#id39">Cycles 节点</a><a class="headerlink" href="#cycles-nodes" title="永久链接至标题">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">Cycles node support is an experimental feature that is not yet recommended for using in production enviroment.</p>
+<p class="last">Cycles节点的支持是不建议在生产中使用环境的实验性功能。</p>
 </div>
-<p>The engine support the following <code class="docutils literal"><span class="pre">Cycles</span></code> nodes:</p>
+<p>引擎支持以下 <code class="docutils literal"><span class="pre">Cycles</span></code> 节点︰</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Material</span> <span class="pre">Output</span></code> (only <code class="docutils literal"><span class="pre">Surface</span></code> input is supported);</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">材质输出</span></code>&#8216; （只有 <code class="docutils literal"><span class="pre">Surface</span></code>  输入支持）;</p>
+</li>
 <li><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Diffuse</span></code>;</li>
-<li><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Glossy</span></code> (only <code class="docutils literal"><span class="pre">GGX</span></code> distribution is supported; the <code class="docutils literal"><span class="pre">Roughness</span></code> parameter does not influence the reflections);</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">BSDF</span> <span class="pre">Glossy</span></code> (只支持 <code class="docutils literal"><span class="pre">GGX</span></code> 分布;  <code class="docutils literal"><span class="pre">Roughness</span></code> 参数不影响反射);</p>
+</li>
 <li><code class="docutils literal"><span class="pre">Mix</span> <span class="pre">Shader</span></code>;</li>
 <li><code class="docutils literal"><span class="pre">Fresnel</span></code>;</li>
 <li><code class="docutils literal"><span class="pre">Layer</span> <span class="pre">Weight</span></code>;</li>
@@ -899,13 +901,17 @@
 <li><code class="docutils literal"><span class="pre">Object</span> <span class="pre">Info</span></code>;</li>
 <li><code class="docutils literal"><span class="pre">Bump</span></code>.</li>
 </ul>
-<p>The following nodes are partially supported:</p>
+<p>部分支持以下节点︰</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Coordinates</span></code> (<code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> parameter is not supported);</li>
-<li><code class="docutils literal"><span class="pre">UV</span> <span class="pre">Map</span></code> (<code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> parameter is not supported);</li>
-<li><code class="docutils literal"><span class="pre">Geometry</span></code> (the <code class="docutils literal"><span class="pre">Pointness</span></code> and <code class="docutils literal"><span class="pre">Parametric</span></code> parameters are not supported).</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Texture</span> <span class="pre">Coordinates</span></code> (<code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> 参数不支持);</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">UV</span> <span class="pre">Map</span></code> (<code class="docutils literal"><span class="pre">From</span> <span class="pre">Dupli</span></code> 参数不支持);</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Geometry</span></code> (  <code class="docutils literal"><span class="pre">Pointness</span></code> 和 <code class="docutils literal"><span class="pre">Parametric</span></code> 参数不支持).</p>
+</li>
+<li><code class="docutils literal"><span class="pre">Emission</span></code> (does not influence the lighting of the scene).</li>
 </ul>
-<p>Other <code class="docutils literal"><span class="pre">Cycles</span></code> nodes will not, in most cases, work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using these nodes will not cause instabilities in the application workflow.</p>
+<p>其他 <code class="docutils literal"><span class="pre">Cycles</span></code> 节点在大多数情况下在不会在Blend4Web中跟他们在Blender中一样良好工作。他们不会工作也可能引起材质的不正常显示和工作。但是，使用这些节点不会在应用程序工作流中导致不稳定。</p>
 </div>
 </div>
 
@@ -929,7 +935,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-11-29.
+      最后更新于 2016-12-22.
 
     </p>
   </div>
@@ -985,7 +991,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

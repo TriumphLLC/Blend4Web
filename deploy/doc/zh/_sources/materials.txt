@@ -183,9 +183,9 @@
    "Reflective" 选项。
 
    * 对平面的反射， "Object > Reflections > Type"  属性设置为
-     "Plane" 。然后，添加一个空物体用作反射平面，例如通过执行``Add >
-     Empty > Single Arrow``。为方便起见重命名，在反射物体 "Reflection
-     plane" 字段中指定其名称。
+     "Plane" 。然后，添加一个空物体用作反射平面，例如通过执行 "Add >
+     Empty > Single Arrow"。为方便起见重命名，在反射物体 "Reflection
+     plane" 字 段中指定其名称。
 
    * 用方块贴图反射， "Object > Reflections > Type" 属性设置为
      "Cube".
@@ -282,7 +282,7 @@
    "Refraction Bump" 选项设置。默认值为 0.001。
 
    注解: 为了使用这种效果， "Render > Reflections and Refractions >
-     Refractions" 面板上选择``ON`` 或者 "AUTO" 。该物体必须具有 "Alpha
+     Refractions" 面板上选择 "ON" 或者 "AUTO" 。该物体必须具有 "Alpha
      Blend" 透明类型。
 
    参见: 透明

@@ -28,7 +28,7 @@
 
   * 示例代码
 
-  * Loading Application Assets
+  * 加载应用程序资产
 
   * 事件驱动模型
 
@@ -377,8 +377,8 @@ macOS 用户可以安装  brew 包管理器，然后再安装任何缺失的软�
 
    * webm -> m4a
 
-我们推荐使用``ogg``作为基础格式。在这种情况下，跨浏览器的兼容性要求的
-唯一的转换将是``ogg``到``mp4``。输入文件的实例："file_name.ogg"，例如
+我们推荐使用 "ogg" 作为基础格式。在这种情况下，跨浏览器的兼容性要求的
+唯一的转换将是 "ogg" 到 "mp4" 。输入文件的实例："file_name.ogg"，例如
 一个输出文件："file_name.altconv.mp4"。
 
 视频（convert_media）：
@@ -517,56 +517,52 @@ SDK中包含的代码片段应用程序，它演示了如何使用引擎的功�
 
    * Canvas Texture -  用帆布质地的工作
 
-   * Change Image - changing texture images on-the-fly
+   * 更改图像 - 即时更改纹理图像
 
    * Custom Anchors -创建自定义的注解
 
    * Dynamic Geometry -程序几何修改
 
-   * Gamepad - an example of controlling a character via gamepad
+   * 手柄 - 经由手柄控制角色的一个例子
 
    * Gyro (Mobile Only) -  与移动设备的陀螺仪工作
 
    * Instancing - 复制现场运行时对象
 
-   * Lines - procedural lines rendering
+   * 线 - 程序线渲染
 
    * Material API - 调整材质的性能和替换对象的材质
 
    * Morphing - 利用形状键
 
-   * Multitouch (Mobile Only) - using mobile devices multitouch
-     sensor
+   * 多点触控（仅限移动设备） - 使用移动设备的多点触控传感器
 
-   * Pathfinding - an example of calculating paths and using
-     navigation meshes
+   * 寻路 - 计算路径，并使用导航网格的例子
 
    * Ray Test - 光线投射的障碍物检测使用
 
-   * Webcam - using media stream from a web camera
+   * 网络摄像头 - 利用来自Web摄像头的媒体流
 
-The Code Snippets application is available at
-"./apps_dev/code_snippets/code_snippets_dev.html". It can be also run
-by using a link in the "index.html" file located in the SDK root.
+代码片段的应用在 "./apps_dev/code_snippets/code_snippets_dev.html". 它
+可以通过使用位于SDK根的 "index.html" 文件的链接也可以运行。
 
 
-Loading Application Assets
-==========================
+加载应用程序资产
+================
 
 To simplify project maintanance and server deployment always keep your
 application asset files (exported scenes, textures, sounds, etc)
 separate from other project files (JavaScript, CSS, HTML, etc). Inside
 your SDK this asset directory is located at
-"deploy/assets/my_project".
+"projects/my_project/assets".
 
 To load files (e.g by using load()) from this directory use the
-get_std_assets_path() method:
+get_assets_path() method:
 
-   m_data.load(m_config.get_std_assets_path() + "my_project/my_project.json", load_cb);
+   m_data.load(m_config.get_assets_path("my_project") + "loaded_scene.json", load_cb);
 
-This way you ensure that your applications will find assets
-independently of the current development stage (developed, built or
-deployed).
+这样可以确保您的应用程序将独立于目前的开发阶段寻找资产（开发，构建或部
+署）。
 
 
 事件驱动模型
@@ -632,7 +628,7 @@ id 是"地形"和"墙"。也是被抛在场景中的物理对象，该对象被�
    var sensor_impact_wall    = m_controls.create_collision_sensor(stone, "WALL");
 
 传感器添加到阵列。使用 "OR" 逻辑的逻辑功能。放置在回调函数的声音处理的
-代码。创建传感器歧管的“影响”id和``CT_SHOT``类型。
+代码。创建传感器歧管的“影响”id和 "CT_SHOT" 类型。
 
    // array of the sensors
    var impact_sens_array = [sensor_impact_terrain, sensor_impact_wall];
@@ -671,13 +667,13 @@ SDK文件结构
 
 **addons**
    **blend4web**
-      Blender addon
+      Blender插件
 
 **apps_dev**
-   SDK apps source code
+   SDK 应用程序源代码
 
    **code_snippets**
-      source files of the Code Snippets application
+      Code Snippets应用程序的源文件
 
       **scripts**
          Blend4Web API用法示例的源文件
@@ -686,28 +682,28 @@ SDK文件结构
       乳品厂演示源文件（仅适用于SDK专业版）
 
    **demos_animation**
-      project files of the basic animation demos
+      基本的动画演示的项目文件
 
    **demos_environment**
-      project files of the basic environment demos
+      基本的环境演示项目文件
 
    **demos_interactivity**
-      project files of the basic interactivity demos
+      基本交互演示的项目文件
 
    **demos_materials**
-      project files of the basic materials demos
+      基础材质演示项目文件
 
    **demos_media**
-      project files of the basic media demos
+      基本的媒体演示项目文件
 
    **demos_particles**
-      project files of the basic particles demos
+      基本粒子演示项目文件
 
    **demos_physics**
-      project files of the basic physics demos
+      基本的物理演示项目文件
 
    **demos_postprocessing**
-      project files of the basic postprocessing demos
+      基本的后处理演示项目文件
 
    **farm**
       农场演示源文件（仅适用于SDK专业版）
@@ -725,10 +721,10 @@ SDK文件结构
       脚本的应用程序开发人员
 
    **space_disaster**
-      source files of the Space Disaster app
+      空间灾害应用程序的源文件
 
    **tutorials**
-      source files of the Blend4Web tutorials
+      Blend4Web 教程的源文件
 
    **victory_day_2015**
       胜利日70周年贺卡的源文件
@@ -755,22 +751,22 @@ SDK文件结构
       为开发人员API文档（自动构建，基于引擎的源代码）
 
    **apps**
-      用于部署3D应用;目录重复* apps_dev *
+      用于部署3D应用;目录重复 *apps_dev*
 
       **common**
          已编译引擎文件。从 SDK 的所有应用程序共享的 (因此名称)。
 
    **assets**
-      application assets: scenes, textures and sounds
+      应用程序资产︰ 场景、 纹理和声音
 
    **doc**
-      从自动生成的 HTML 格式的当前用户手册 * doc_src *
+      从自动生成的 HTML 格式的当前用户手册 *doc_src*
 
    **webglreport**
-      WebGL report application
+      WebGL 报告应用程序
 
 **distfiles**
-   distribution builder lists
+   构建发布文件列表
 
 **doc_src**
    当前手册的源文件用reST格式书写
@@ -782,8 +778,10 @@ SDK文件结构
    与许可证的文本文件
 
 **Makefile**
-   makefile for building the engine, the applications, and the
-   documentation
+   建立引擎，应用程序和文档的makefile文件
+
+**projects**
+   directory for user projects
 
 **README.rst**
    README文件
@@ -852,7 +850,7 @@ SDK文件结构
       库的源代码
 
 **tmp**
-   directory for temporary files (e.g. Fast Preview)
+   临时文件 （例如快速预览） 目录
 
 **tools**
    various tools for building the engine, apps or convert resources

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Аддон &mdash; Руководство пользователя Blend4Web 16.11</title>
+  <title>Аддон &mdash; Руководство пользователя Blend4Web 16.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.11" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="index.html"/>
         <link rel="next" title="Параметры сцены" href="scene_settings.html"/>
         <link rel="prev" title="Веб-плеер" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -213,7 +213,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p>Если путь к Blend4Web SDK не был указан, запуск локального сервера невозможен. При этом вместо кнопки <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> будет выведено соответствующее сообщение.</p>
+<p>Если запуск локального сервера невозможен, вместо кнопки <code class="docutils literal"><span class="pre">Start</span> <span class="pre">Server</span></code> будет выведено соответствующее сообщение.</p>
 <p>В случае ошибки запуска сервера будет показано окно с описанием причины:</p>
 <img alt="_images/error.png" class="align-center" src="_images/error.png" />
 <p class="last">Чаще всего ошибка возникает из-за того, что указанный серверу адрес уже используется другим приложением.</p>
@@ -248,7 +248,7 @@
 <h3><a class="toc-backref" href="#id8">JSON</a><a class="headerlink" href="#json" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При экспорте в этот формат создаётся файл <code class="docutils literal"><span class="pre">.json</span></code> (JavaScript Object Notation), в котором хранятся экспортируемые структуры данных и ссылки на внешние ресурсы (изображения, звуки и пр.), а также файл <code class="docutils literal"><span class="pre">.bin</span></code>, хранящий массивы данных моделей в бинарном формате.</p>
 <p>Если медиаресурсы <a class="reference external" href="https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data">запакованы в blend-файл</a>, при экспорте они будут извлечены и размещены в каталоге проекта (внутри каталога SDK). При этом таким файлам будут автоматически присвоены имена (отличные от исходных), что может затруднить дальнейшую работу с ними.</p>
-<p>Ресурсы рекомендуется размещать в отдельной директории внутри каталога SDK, например <code class="docutils literal"><span class="pre">deploy/assets/имя_проекта</span></code>.</p>
+<p>It is recommended to store all the resources in a dedicated folder inside the SDK directory, it can be called <code class="docutils literal"><span class="pre">projects/project_name/assets</span></code> for example.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">В соответствии с требованиями безопасности, сервер разработки имеет доступ только к каталогу SDK. Если медиаданные расположены в другом каталоге, сервер не сможет подключить их при экспорте (даже если в самом Blender они работают нормально).</p>
@@ -573,8 +573,8 @@ but has no exported material</td>
 </tr>
 <tr class="row-even"><td>Particle system error; Dupli group
 isn&#8217;t specified</td>
-<td>Particle system error: no group is
-selected as a particle..</td>
+<td><p class="first last">Ошибка системы частиц: не указана группа, использующаяся для генерации частиц.</p>
+</td>
 </tr>
 <tr class="row-odd"><td>Particle system error; Dupli object
 isn&#8217;t specified</td>
@@ -802,24 +802,30 @@ to EMPTY.</td>
 <td><p class="first last">У объекта типа SPEAKER отсутствует звуковой файл. Тип объекта изменён на EMPTY.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>The main scene NAME can not be
+<tr class="row-odd"><td>The lamp object &#8220;NAME&#8221; has
+unsupported AREA type. Changed to
+SUN.</td>
+<td>The lamp object &#8220;NAME&#8221; has unsupported
+AREA type. Changed to SUN.</td>
+</tr>
+<tr class="row-even"><td>The main scene NAME can not be
 rendered by another scene. Material
 NAME has been removed.</td>
 <td><p class="first last">Основная сцена NAME не может отображаться другой сценой. Материал NAME был удален.</p>
 </td>
 </tr>
-<tr class="row-even"><td><p class="first last">Анимация NAME содержит дробные значения кадров. Округлено до целых.</p>
+<tr class="row-odd"><td><p class="first last">Анимация NAME содержит дробные значения кадров. Округлено до целых.</p>
 </td>
 <td><p class="first last">Анимация NAME содержит дробные значения кадров. Округлено до целых.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>The NAME armature modifier has a
+<tr class="row-even"><td>The NAME armature modifier has a
 proxy object as an armature.
 Modifier removed.</td>
 <td><p class="first last">Модификатор арматуры имеет прокси объект в качестве арматуры.</p>
 </td>
 </tr>
-<tr class="row-even"><td>The NAME armature modifier has no
+<tr class="row-odd"><td>The NAME armature modifier has no
 armature object or it is not
 exported. Modifier removed.</td>
 <td><p class="first last">В модификаторе NAME типа <code class="docutils literal"><span class="pre">Armature</span></code> не указан объект, либо объект не экспортируется. Модификатор удален.</p>
@@ -844,19 +850,15 @@ removed.</td>
 <td><p class="first last">В модификаторе NAME типа <code class="docutils literal"><span class="pre">Curve</span></code> указан неподходящий объект. Модификатор удален.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>The NAME object has the NAME
-armature modifier and a vertex
-animation. Modifier removed.</td>
+<tr class="row-odd"><td><p class="first last">Объект NAME использует модификатор арматуры NAME и вертексную анимацию. Модификатор удалён.</p>
+</td>
 <td><p class="first last">Объект NAME имеет вертексную анимацию и арматурный модификатор. Модификатор удален.</p>
 </td>
 </tr>
-<tr class="row-even"><td>The NAME object has the NAME
-armature modifier. It belongs to a
-not exported scene. Modifier
-removed.</td>
-<td>The NAME object has the NAME
-armature modifier. It belongs to a
-not exported scene. Modifier removed.</td>
+<tr class="row-even"><td><p class="first last">В модификаторе NAME типа <code class="docutils literal"><span class="pre">Armature</span></code> не указан объект, либо объект не экспортируется. Модификатор удален.</p>
+</td>
+<td><p class="first last">В модификаторе NAME типа <code class="docutils literal"><span class="pre">Armature</span></code> не указан объект, либо объект не экспортируется. Модификатор удален.</p>
+</td>
 </tr>
 <tr class="row-odd"><td>The NAME LAMP node has no lamp
 object. Material: NAME.</td>
@@ -1144,7 +1146,7 @@ is missing for Lens Flare material
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-11-29.
+      Обновлено: 2016-12-22.
 
     </p>
   </div>
@@ -1200,7 +1202,7 @@ is missing for Lens Flare material
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

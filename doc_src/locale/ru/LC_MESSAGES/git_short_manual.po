@@ -410,7 +410,7 @@ msgid ""
 "The ``git pull`` command does not always lead to a successful "
 "synchronization. The result of ``git pull`` when there are conflicts:"
 msgstr ""
-"Команда ``git pull`` не всегда приводит в успешной синхронизации. "
+"Команда ``git pull`` не всегда приводит к успешной синхронизации. "
 "Результат команды ``git pull`` в случае наличия конфликтов:"
 
 #: ../git_short_manual.rst:367

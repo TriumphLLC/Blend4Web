@@ -611,7 +611,7 @@ msgid ""
 "static_get_rotation()` and :b4wref:`camera.static_set_rotation()` methods. In "
 "these methods, rotation is defined by a quaternion."
 msgstr ""
-"要旋转 ``STATIC`` 类型的相机，您需要使用:b4wref:`camera.static_get_rotation()` "
+"要旋转 ``STATIC`` 类型的相机，您需要使用 :b4wref:`camera.static_get_rotation()` "
 "和 :b4wref:`camera.static_set_rotation()` 方法。在这些方法中，旋转通过一个四元数"
 "来定义。"
 

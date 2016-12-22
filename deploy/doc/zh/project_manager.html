@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>项目管理 &mdash; Blend4Web 16.11 用户手册</title>
+  <title>项目管理 &mdash; Blend4Web 16.12 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
         <link rel="next" title="场景预览器" href="viewer.html"/>
         <link rel="prev" title="工作流程" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -100,7 +100,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#project-parameters">项目参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#project-editing">Project Editing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-editing">项目编辑</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-import">项目导入</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-export">项目导出</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id3">命令</a></li>
@@ -113,8 +113,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#dependencies">依赖</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#projects-list">项目清单</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-structure">项目结构</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#project-configuration-file-b4w-project">Project Configuration File (.b4w_project)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#section-info">Section <code class="docutils literal"><span class="pre">[info]</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-configuration-file-b4w-project">项目配置文件（.b4w_project）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#section-info">模块 <code class="docutils literal"><span class="pre">[info]</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section-paths">Section <code class="docutils literal"><span class="pre">[paths]</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section-compile">Section <code class="docutils literal"><span class="pre">[compile]</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#section-deploy">Section <code class="docutils literal"><span class="pre">[deploy]</span></code></a></li>
@@ -124,7 +124,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-project">创建项目</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#developing-multiple-apps-inside-a-project">开发一个项目中的多个应用程序</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#building-projects">构建项目</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#automatic-blend-file-export">Automatic Blend File Export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automatic-blend-file-export">自动 Blend 文件导出</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#resource-conversion">资源转换</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#deploying-projects">部署项目</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#remove-project">移除项目</a></li>
@@ -212,7 +212,7 @@
 <li><a class="reference internal" href="#project-creation-wizard" id="id8">项目创建向导</a></li>
 <li><a class="reference internal" href="#creating-a-web-player-application" id="id9">创建一个 Web 播放器应用程序</a></li>
 <li><a class="reference internal" href="#project-information" id="id10">项目信息</a></li>
-<li><a class="reference internal" href="#project-editing" id="id11">Project Editing</a></li>
+<li><a class="reference internal" href="#project-editing" id="id11">项目编辑</a></li>
 <li><a class="reference internal" href="#project-import" id="id12">项目导入</a></li>
 <li><a class="reference internal" href="#project-export" id="id13">项目导出</a></li>
 </ul>
@@ -221,11 +221,11 @@
 <li><a class="reference internal" href="#dependencies" id="id15">依赖</a></li>
 <li><a class="reference internal" href="#projects-list" id="id16">项目清单</a></li>
 <li><a class="reference internal" href="#project-structure" id="id17">项目结构</a></li>
-<li><a class="reference internal" href="#project-configuration-file-b4w-project" id="id18">Project Configuration File (.b4w_project)</a></li>
+<li><a class="reference internal" href="#project-configuration-file-b4w-project" id="id18">项目配置文件（.b4w_project）</a></li>
 <li><a class="reference internal" href="#creating-a-project" id="id19">创建项目</a></li>
 <li><a class="reference internal" href="#developing-multiple-apps-inside-a-project" id="id20">开发一个项目中的多个应用程序</a></li>
 <li><a class="reference internal" href="#building-projects" id="id21">构建项目</a></li>
-<li><a class="reference internal" href="#automatic-blend-file-export" id="id22">Automatic Blend File Export</a></li>
+<li><a class="reference internal" href="#automatic-blend-file-export" id="id22">自动 Blend 文件导出</a></li>
 <li><a class="reference internal" href="#resource-conversion" id="id23">资源转换</a></li>
 <li><a class="reference internal" href="#deploying-projects" id="id24">部署项目</a></li>
 <li><a class="reference internal" href="#remove-project" id="id25">移除项目</a></li>
@@ -353,39 +353,37 @@
 </div></blockquote>
 <p><code class="docutils literal"><span class="pre">[Back</span> <span class="pre">to</span> <span class="pre">Projects]</span></code> 按钮可以用来返回到项目管理的主页面，而 <code class="docutils literal"><span class="pre">[Help]</span></code> 按钮可以用到访问 <a class="reference internal" href="#create-new-project"><span>帮助文件</span></a>.</p>
 <ol class="arabic">
-<li><p class="first">项目名称习惯为 &#8220;apps_dev/project_name&#8221;, &#8220;deploy/assets/project_name&#8221;, &#8220;blender/project_name&#8221; and &#8220;deploy/apps/project_name&#8221; 等名称的项目目录。</p>
+<li><p class="first">Project name is used to name project directories such as &#8220;projects/project_name&#8221;, &#8220;projects/project_name/assets&#8221;, &#8220;projects/project_name/blender&#8221; and &#8220;projects/project_name/build&#8221;.</p>
 </li>
 <li><p class="first">在浏览器中所示的项目标题。</p>
 </li>
 <li><p class="first">项目作者的名字。</p>
 </li>
-<li><p class="first">添加应用程序模板。标准应用程序模板 ︰ html 文件，css 文件，js 文件将添加到项目目录  &#8220;apps_dev/project_name&#8221;.</p>
+<li><p class="first">Add application templates. Standard application templates: html file, css file, js file will be added to the project directory &#8220;projects/project_name&#8221;.</p>
 </li>
-<li><p class="first">添加场景模板。标准的 json 文件将添加到 &#8220;deploy/assets/project_name&#8221; 目录;blend文件将添加到 &#8220;blender/project_name&#8221; 目录。</p>
+<li><p class="first">Add scene templates. Standard json file will be added to the &#8220;projects/project_name/assets&#8221; directory; blend file will be added to the &#8220;projects/project_name/blender&#8221; directory.</p>
 </li>
-<li><p class="first">使用材质库。材质库的Blend文件会复制到项目文件夹 &#8220;blender/project_name&#8221;，资产文件复制到 &#8220;deploy/assets/project_name&#8221; 目录。</p>
+<li><p class="first">Use Material Library. Blend files of the material library will be copied to the project directory &#8220;projects/project_name/blender&#8221;, while the asset files will be copied to &#8220;projects/project_name/assets&#8221; folder.</p>
 </li>
 <li><p class="first">复制项目管理脚本。Project.py 脚本将复制到项目目录。</p>
-</li>
-<li><p class="first">所有的项目文件将位于相同的目录中。在小项目中最好使用此选项，如课程和范例。只有 <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> 和 <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> 项目类型可以用此选项。</p>
 </li>
 <li><p class="first">项目的类型。有几个选项 ︰</p>
 <blockquote>
 <div><ul>
-<li><p class="first"><code class="docutils literal"><span class="pre">External</span></code> - Project Manager will use engine files in the <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> directory to run the project.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">External</span></code>  - 项目管理器将使用引擎文件在 <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> 目录下运行项目。</p>
 <blockquote>
-<div><p>When the project is deployed, only application files will be compiled, while the <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> folder will be copied to the project directory.</p>
-<p>Use this option if you don&#8217;t need to change engine files in any way;</p>
+<div><p>当项目部署时，只有应用程序文件将被编译。<code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> 文件夹将被复制到项目目录。</p>
+<p>如果您不需要以任何方式更改引擎文件使用此选项;</p>
 </div></blockquote>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Copy</span></code> - engine files will be directly copied from the <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> to the application folder.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Copy</span></code> - 引擎文件将直接从 <code class="docutils literal"><span class="pre">deploy/apps/common/</span></code> 目录复制到应用文件夹。</p>
 <blockquote>
-<div><p>When the project is deployed, only application files are compiled, while engine files are left intact (so you cannot modify the engine itself);</p>
+<div><p>当项目展开时，唯一的应用程序文件进行编译，而引擎文件仍保持不变（所以你不能修改引擎本身）;</p>
 </div></blockquote>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Compile</span></code> - engine sources are compiled with application scripts.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Compile</span></code> -引擎源代码应用程序的脚本一同编译;</p>
 <blockquote>
-<div><p>This option can be used to modify the code of the engine itself;</p>
+<div><p>这个选项可以用于修改引擎本身的代码;</p>
 </div></blockquote>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">None</span></code> -项目管理器不会将引擎文件复制到应用程序文件夹，也不将它执行任何操作生成应用程序。应用程序开发人员将不得不手动执行他们所需要的一切;</p>
@@ -398,7 +396,8 @@
 </div></blockquote>
 </li>
 <li><p class="first">Javascript 优化级别。</p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li><p class="first">&#8220;简单&#8221; — — 变量的名称替换代码;</p>
 </li>
 <li><p class="first">&#8220;先进&#8221; — — 进行了代码优化;</p>
@@ -406,9 +405,10 @@
 <li><p class="first">&#8220;只空格&#8221; — — 只有空格从代码中移除。</p>
 </li>
 </ul>
+</div></blockquote>
 </li>
 </ol>
-<ol class="arabic simple" id="web-player-params" start="11">
+<ol class="arabic simple" id="web-player-params" start="10">
 <li><p class="first">网络播放器的URL属性。此选项卡仅当 <code class="docutils literal"><span class="pre">Engine</span> <span class="pre">Binding</span> <span class="pre">Type</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> 活 <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> 时可用。</p>
 <ul>
 <li><p class="first">“显示FPS” 用于显示在玩家的右上角的FPS计数器。</p>
@@ -502,8 +502,9 @@
 <dt><em>项目图标</em></dt>
 <dd><p class="first last">该项目的图标。</p>
 </dd>
-<dt><em>Applications</em></dt>
-<dd>Project applications.</dd>
+<dt><em>应用程序</em></dt>
+<dd><p class="first last">项目应用程序。</p>
+</dd>
 <dt><em>引擎绑定类型</em></dt>
 <dd><p class="first last">设置项目类型</p>
 </dd>
@@ -514,7 +515,8 @@
 <dd><p class="first last">项目的配置文件。</p>
 </dd>
 <dt><em>构建目录</em></dt>
-<dd>Project build directory.</dd>
+<dd><p class="first last">项目构建目录。</p>
+</dd>
 <dt><em>Blend 目录</em></dt>
 <dd><p class="first last">项目的blend文件目录的位置。</p>
 </dd>
@@ -527,31 +529,37 @@
 <dt><em>JavaScript 混淆级别</em></dt>
 <dd><p class="first last">Javascript 优化级别。</p>
 </dd>
-<dt><em>JS Compilation Pass-Through List</em></dt>
-<dd>The list of pass-through exceptions for the project&#8217;s JavaScript files compilation.</dd>
-<dt><em>CSS Compilation Pass-Through List</em></dt>
-<dd>The list of pass-through exceptions for the project&#8217;s style sheets compilation.</dd>
-<dt><em>Build Ignore List</em></dt>
-<dd>The list of exceptions for project&#8217;s builds.</dd>
-<dt><em>Deployment Assets Directory</em></dt>
-<dd>Directory where assets will be placed for deployed project.</dd>
-<dt><em>Deployment Assets URL Prefix</em></dt>
-<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a>.</dd>
-<dt><em>Deployment Ignore List</em></dt>
-<dd>The list of exceptions for project&#8217;s deploy.</dd>
+<dt><em>JS编译通过列表</em></dt>
+<dd><p class="first last">该项目的JavaScript文件汇编直通例外列表。</p>
+</dd>
+<dt><em>CSS编译通过列表</em></dt>
+<dd><p class="first last">该项目的样式表编译直通例外列表。</p>
+</dd>
+<dt><em>构建忽略列表</em></dt>
+<dd><p class="first last">项目编译中的例外列表。</p>
+</dd>
+<dt><em>部署资产目录</em></dt>
+<dd><p class="first last">资产将被放置部署项目的目录。</p>
+</dd>
+<dt><em>部署资产URL前缀</em></dt>
+<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a>.</dd>
+<dt><em>部署忽略列表</em></dt>
+<dd><p class="first last">项目的部署例外列表。</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="project-editing">
-<span id="project-edit"></span><h3><a class="toc-backref" href="#id11">Project Editing</a><a class="headerlink" href="#project-editing" title="永久链接至标题">¶</a></h3>
-<p>A simple web-based interface for editing project files is available by the <code class="docutils literal"><span class="pre">[edit]</span></code> link beside the project&#8217;s title.</p>
+<span id="project-edit"></span><h3><a class="toc-backref" href="#id11">项目编辑</a><a class="headerlink" href="#project-editing" title="永久链接至标题">¶</a></h3>
+<p>简单的基于Web的界面可以编辑项目文件，通过项目的标题旁的 <code class="docutils literal"><span class="pre">[编辑]</span></code> 链接。</p>
 <a class="reference internal image-reference" href="_images/project_manager_edit_project.png"><img alt="_images/project_manager_edit_project.png" class="align-center" src="_images/project_manager_edit_project.png" style="width: 100%;" /></a>
-<p>The left part of the editor window contains a list of all <code class="docutils literal"><span class="pre">.html</span></code>, <code class="docutils literal"><span class="pre">.css</span></code> and <code class="docutils literal"><span class="pre">.js</span></code> files from the project directory (<code class="docutils literal"><span class="pre">./apps_dev/&lt;project_name&gt;</span></code>), starting with the main project file <code class="docutils literal"><span class="pre">.b4w_project</span></code>. The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.</p>
+<p>The left part of the editor window contains a list of all <code class="docutils literal"><span class="pre">.html</span></code>, <code class="docutils literal"><span class="pre">.css</span></code> and <code class="docutils literal"><span class="pre">.js</span></code> files from the project directory (<code class="docutils literal"><span class="pre">projects/my_project</span></code>), starting with the main project file <code class="docutils literal"><span class="pre">.b4w_project</span></code>. The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.</p>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">This interface can only be used to edit files from developer version of a project, but not from the builded version.</p>
+<p class="last">这个界面可以仅用于编辑项目的开发版文件，但不能编辑建建好的版本。</p>
 </div>
-<p>The <code class="docutils literal"><span class="pre">Save</span> <span class="pre">File</span></code> button that can be found at the bottom of the page is used for saving currently selected project file.</p>
+<p>New files can be added to the project directory by clicking the <code class="docutils literal"><span class="pre">[New</span> <span class="pre">File]</span></code> button.</p>
+<p>The <code class="docutils literal"><span class="pre">[Save]</span></code> and <code class="docutils literal"><span class="pre">[Save</span> <span class="pre">As...]</span></code> buttons that can be found at the bottom of the page are used for saving currently selected project file.</p>
 </div>
 <div class="section" id="project-import">
 <span id="import-projects"></span><h3><a class="toc-backref" href="#id12">项目导入</a><a class="headerlink" href="#project-import" title="永久链接至标题">¶</a></h3>
@@ -634,57 +642,53 @@
 </div>
 <div class="section" id="project-structure">
 <h3><a class="toc-backref" href="#id17">项目结构</a><a class="headerlink" href="#project-structure" title="永久链接至标题">¶</a></h3>
-<p>一个典型的应用程序开发中使用项目管理器如下所示展开：</p>
+<p>This is how the structure of a project titled my_project and placed in the <code class="docutils literal"><span class="pre">./projects</span></code> directory in the root of the SDK folder should look:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>blend4web/
-    apps_dev/
-        myproject/
-            project.py
+    projects/
+        my_project/
+            assets/
+                my_project.json
+                my_project.bin
+            blender/
+                my_project.blend
+            build/
+                my_project.html
+                my_project.min.css
+                my_project.min.js
             .b4w_project
-            myproject.js
-            myproject.css
-            myproject_dev.html
-    blender/
-        myproject/
-            myproject.blend
-    deploy/
-        apps/
-            myproject/
-                myproject.js
-                myproject.css
-                myproject.html
-        assets/
-            myproject/
-                myproject.json
-                myproject.bin
+            my_project.js
+            my_project.css
+            my_project.html
 </pre></div>
 </div>
-<p>这个应用程序包括4个不同的目录。</p>
+<p>This app consists of 3 different directories.</p>
 <ol class="arabic simple">
-<li><p class="first">apps_dev/myproject. 包含项目的应用程序的源文件。</p>
-</li>
-<li><p class="first">blender/myproject. 包含项目的场景源文件。</p>
-</li>
-<li><p class="first">deploy/assets/myproject. 包含项目的场景导出的文件。</p>
-</li>
-<li><p class="first">deploy/apps/myproject. 包含项目的场景导出的文件。</p>
-</li>
+<li>my_project/assets. Contains media files (textures and sounds, as well as the <code class="docutils literal"><span class="pre">.bin</span></code> and <code class="docutils literal"><span class="pre">.json</span></code> files) of project&#8217;s scenes.</li>
+<li>my_project/blender. Contains <code class="docutils literal"><span class="pre">.blend</span></code> files of project&#8217;s scenes.</li>
+<li>my_project/build. Contains files of the builded application.</li>
 </ol>
+<p>Project&#8217;s main file <code class="docutils literal"><span class="pre">.b4w_project</span></code>, as well as the <code class="docutils literal"><span class="pre">.js</span></code>, <code class="docutils literal"><span class="pre">.html</span></code> and <code class="docutils literal"><span class="pre">.css</span></code> files, is placed in the root of the <code class="docutils literal"><span class="pre">my_project/</span></code> folder.</p>
 <p>此外，部署命令可以创建另一个目录中，但它通常放置在 SDK 之外，其名称和路径取决于目标服务器上的目录结构。</p>
+<div class="admonition note" id="updating-project-structure">
+<p class="first admonition-title">注解</p>
+<p>Starting from the version 16.12, project structure has been changed. Projects that use old structure still do work, but should be considered obsolete. We recommend to use the <code class="docutils literal"><span class="pre">update</span> <span class="pre">file</span> <span class="pre">structure</span></code> button to upgrade the structure of such projects to a new one.</p>
+<p class="last">This button can be found in the <code class="docutils literal"><span class="pre">Operations</span></code> panel at the right side of the project&#8217;s entry in the Project Manager list. It is only available for user projects (not for stock ones) that use the obsolete project structure.</p>
+</div>
 </div>
 <div class="section" id="project-configuration-file-b4w-project">
-<h3><a class="toc-backref" href="#id18">Project Configuration File (.b4w_project)</a><a class="headerlink" href="#project-configuration-file-b4w-project" title="永久链接至标题">¶</a></h3>
-<p>Project configuration file includes all necessary information of your project, including name, metadata, directories, info for application building and deployment.</p>
+<h3><a class="toc-backref" href="#id18">项目配置文件（.b4w_project）</a><a class="headerlink" href="#project-configuration-file-b4w-project" title="永久链接至标题">¶</a></h3>
+<p>项目配置文件包含项目的所有必要的信息，包括姓名，元数据，目录，应用程序创建和部署信息。</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[info]
 author = Blend4Web
-name = myproject
+name = my_project
 title = MyProject
 icon =
 
 [paths]
-assets_dirs = deploy/assets/myproject;
-blend_dirs = blender/myproject;
+assets_dirs = projects/my_project/assets;
+blend_dirs = projects/my_project/blender;
 blender_exec = blender
-build_dir = deploy/apps/myproject
+build_dir = projects/my_project/build
 deploy_dir =
 
 [compile]
@@ -705,28 +709,28 @@ ignore =
 override =
 </pre></div>
 </div>
-<p>This is a standard INI configuration file, which includes sections, properties and values.</p>
+<p>这是一个标准的INI配置文件，其中包含的部分，属性和值。</p>
 <div class="section" id="section-info">
-<h4>Section <code class="docutils literal"><span class="pre">[info]</span></code><a class="headerlink" href="#section-info" title="永久链接至标题">¶</a></h4>
-<p>Contains project metadata:</p>
+<h4>模块 <code class="docutils literal"><span class="pre">[info]</span></code><a class="headerlink" href="#section-info" title="永久链接至标题">¶</a></h4>
+<p>包含项目的元数据：</p>
 <dl class="docutils">
-<dt><em>author</em></dt>
+<dt><em>作者</em></dt>
 <dd><p class="first last">该项目的作者或开发商公司的名称。</p>
 </dd>
-<dt><em>name</em></dt>
+<dt><em>名字</em></dt>
 <dd><p class="first last">项目名称</p>
 </dd>
-<dt><em>title</em></dt>
+<dt><em>名称</em></dt>
 <dd><p class="first last">在浏览器中所示的项目标题。</p>
 </dd>
-<dt><em>icon</em></dt>
+<dt><em>图标</em></dt>
 <dd><p class="first last">该项目的图标。</p>
 </dd>
 </dl>
 </div>
 <div class="section" id="section-paths">
 <h4>Section <code class="docutils literal"><span class="pre">[paths]</span></code><a class="headerlink" href="#section-paths" title="永久链接至标题">¶</a></h4>
-<p>Containts project paths:</p>
+<p>包含项目路径：</p>
 <dl class="docutils">
 <dt><em>assets_dirs</em></dt>
 <dd><p class="first last">项目的媒体资产所在的位置目录。</p>
@@ -735,98 +739,107 @@ override =
 <dd><p class="first last">项目的blend文件目录的位置。</p>
 </dd>
 <dt><em>blender_exec</em></dt>
-<dd>Path to Blender executable.</dd>
+<dd><p class="first last">Blender的可执行文件路径。</p>
+</dd>
 <dt><em>build_dir</em></dt>
-<dd>Project build directory.</dd>
+<dd><p class="first last">项目构建目录。</p>
+</dd>
 <dt><em>deploy_dir</em></dt>
-<dd>Project deployment directory.</dd>
+<dd><p class="first last">项目部署的目录。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="section-compile">
 <h4>Section <code class="docutils literal"><span class="pre">[compile]</span></code><a class="headerlink" href="#section-compile" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>apps</em></dt>
-<dd>Project applications.</dd>
+<dd><p class="first last">项目应用程序。</p>
+</dd>
 <dt><em>css_ignore</em></dt>
-<dd>The list of pass-through exceptions for the project&#8217;s style sheets compilation.</dd>
+<dd><p class="first last">该项目的样式表编译直通例外列表。</p>
+</dd>
 <dt><em>engine_type</em></dt>
 <dd><p class="first last">设置项目类型</p>
 </dd>
 <dt><em>ignore</em></dt>
-<dd>The list of exceptions for project&#8217;s builds.</dd>
+<dd><p class="first last">项目编译中的例外列表。</p>
+</dd>
 <dt><em>js_ignore</em></dt>
-<dd>The list of pass-through exceptions for the project&#8217;s JavaScript files compilation.</dd>
-<dt><em>optimization</em></dt>
+<dd><p class="first last">该项目的JavaScript文件汇编直通例外列表。</p>
+</dd>
+<dt><em>优化</em></dt>
 <dd><p class="first last">Javascript 优化级别。</p>
 </dd>
 <dt><em>use_physics</em></dt>
-<dd>Indicates whether your project will use physics or not. Default - use physics.</dd>
+<dd><p class="first last">指示您的项目是否使用物理或没有。默认 - 使用物理。</p>
+</dd>
 <dt><em>use_smaa_textures</em></dt>
-<dd>Indicates whether your project will use SMAA textures or not. Currently unused.</dd>
+<dd><p class="first last">指示您的项目是否使用SMAA纹理与否。当前未使用。</p>
+</dd>
 <dt><em>version</em></dt>
-<dd>Project version.</dd>
+<dd><p class="first last">项目版本。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="section-deploy">
 <h4>Section <code class="docutils literal"><span class="pre">[deploy]</span></code><a class="headerlink" href="#section-deploy" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>assets_path_dest</em></dt>
-<dd>Directory where assets will be placed for deployed project.</dd>
+<dd><p class="first last">资产将被放置部署项目的目录。</p>
+</dd>
 <dt><em>assets_path_prefix</em></dt>
-<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a>.</dd>
+<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a>.</dd>
 <dt><em>ignore</em></dt>
-<dd>The list of exceptions for project&#8217;s deploy.</dd>
+<dd><p class="first last">项目的部署例外列表。</p>
+</dd>
 <dt><em>override</em></dt>
-<dd>Replace existing output directory during deployment phase. Use with caution.</dd>
+<dd><p class="first last">在部署阶段替换现有的输出目录。请谨慎使用。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="section-url-params">
 <h4>Section <code class="docutils literal"><span class="pre">[url_params]</span></code><a class="headerlink" href="#section-url-params" title="永久链接至标题">¶</a></h4>
-<p>Optional section for Web Player projects. Contains <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL params</span></a> used to start project applications.</p>
+<p>网络播放器项目的可选部分。 包含 <a class="reference internal" href="web_player.html#webplayer-attributes"><span>URL 参数</span></a> 来启动项目应用.</p>
 </div>
 </div>
 <div class="section" id="creating-a-project">
 <h3><a class="toc-backref" href="#id19">创建项目</a><a class="headerlink" href="#creating-a-project" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init myproject
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init my_project
 </pre></div>
 </div>
 <p>此命令将创建在当前目录指定名称的项目。默认情况下，项目目录只包括一个配置文件。</p>
 <p>可用参数：</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">-A</span> <span class="pre">|</span> <span class="pre">--copy-APP-templates</span></code> （可选）创建项目目录的标准应用模板 (<em>&lt;my_project_name&gt;_dev.html</em>, <em>&lt;my_project_name&gt;.js</em>, <em>&lt;my_project_name&gt;.css</em>).</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">-B</span> <span class="pre">|</span> <span class="pre">--bundle</span></code> （可选）所有项目文件将被放置在一个单独的目录。</p>
-</li>
+<li><code class="docutils literal"><span class="pre">-A</span> <span class="pre">|</span> <span class="pre">--copy-app-templates</span></code> (optional) create standard app templates in the project directory  (<em>my_project_dev.html</em>, <em>my_project.js</em>, <em>my_project.css</em>).</li>
 <li><p class="first"><code class="docutils literal"><span class="pre">-C</span> <span class="pre">|</span> <span class="pre">--author</span></code> （可选）写作者的还是公司的配置文件名。</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">-o</span> <span class="pre">|</span> <span class="pre">--optimization</span></code> （可选）写在配置文件中的脚本优化级别。</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">-P</span> <span class="pre">|</span> <span class="pre">--copy项目-script</span></code> （可选）在项目目录中创建 <em>project.py</em> 脚本的副本。</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">-S</span> <span class="pre">|</span> <span class="pre">--copy-场景templates</span></code> （可选）创建目录 <code class="docutils literal"><span class="pre">deploy/assets/&lt;my_project_name&gt;</span></code> 和 <code class="docutils literal"><span class="pre">blender/&lt;my_project_name&gt;</span></code> (<em>&lt;my_project_name&gt;.json/.bin</em> 和 <em>&lt;my_project_name&gt;.blend</em> 相应的).</p>
-</li>
+<li><code class="docutils literal"><span class="pre">-S</span> <span class="pre">|</span> <span class="pre">--copy-scene-templates</span></code> (optional) create standard scene templates in the directories <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code> and <code class="docutils literal"><span class="pre">projects/my_project/blender</span></code> (<em>my_project.json/.bin</em> and <em>my_project.blend</em> correspondingly).</li>
 <li><p class="first"><code class="docutils literal"><span class="pre">-T</span> <span class="pre">|</span> <span class="pre">--title&quot;</span></code> （可选）写在配置文件的标题。编译时，里面将使用  <code class="docutils literal"><span class="pre">&lt;title&gt;</span></code> HTML元素。</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">-t</span> <span class="pre">|</span> <span class="pre">--engine-type</span></code> （可选）写在配置文件中的引擎类型。</p>
 </li>
 </ul>
 <p>示例：</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external my_project
 </pre></div>
 </div>
-<p>这个命令将创建一个名为 <em>myproject</em> 的目录，这里面以下文件将被放置：<em>myproject.js</em>, <em>myproject.css</em>, <em>myproject_dev.html</em> 和 <em>.b4w_project</em>.</p>
+<p>This command will create a directory named <em>my_project</em>, inside which the following files will be placed: <em>my_project.js</em>, <em>my_project.css</em>, <em>my_project_dev.html</em> and <em>.b4w_project</em>.</p>
 <p>该 .b4w_project 文件看起来像:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[info]
 author = Blend4Web
-name = myproject
+name = my_project
 title = MyProject
 icon =
 
 [paths]
-assets_dirs = deploy/assets/myproject;
-blend_dirs = blender/myproject;
+assets_dirs = projects/my_project/assets;
+blend_dirs = projects/my_project/blender;
 blender_exec = blender
-build_dir = deploy/apps/myproject
+build_dir = projects/my_project/build
 deploy_dir =
 
 [compile]
@@ -860,10 +873,10 @@ override =
 </div>
 <div class="section" id="building-projects">
 <h3><a class="toc-backref" href="#id21">构建项目</a><a class="headerlink" href="#building-projects" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject compile
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project compile
 </pre></div>
 </div>
-<p>构建在 <code class="docutils literal"><span class="pre">deploy/apps/myproject</span></code> 目录中的项目。</p>
+<p>Builds a project in the <code class="docutils literal"><span class="pre">projects/my_project/build</span></code> directory.</p>
 <p>可用参数：</p>
 <ul class="simple">
 <li><p class="first"><code class="docutils literal"><span class="pre">“-a</span> <span class="pre">|</span> <span class="pre">--app”</span></code> （可选）指定一个HTML文件，相对于该项目的应用程序将建成。</p>
@@ -888,8 +901,8 @@ override =
 </ul>
 </div>
 <div class="section" id="automatic-blend-file-export">
-<h3><a class="toc-backref" href="#id22">Automatic Blend File Export</a><a class="headerlink" href="#automatic-blend-file-export" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject reexport
+<h3><a class="toc-backref" href="#id22">自动 Blend 文件导出</a><a class="headerlink" href="#automatic-blend-file-export" title="永久链接至标题">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project reexport
 </pre></div>
 </div>
 <p>此命令将重新导出混合在 JSON 和 HTML 格式的文件。</p>
@@ -903,7 +916,7 @@ override =
 </div>
 <div class="section" id="resource-conversion">
 <h3><a class="toc-backref" href="#id23">资源转换</a><a class="headerlink" href="#resource-conversion" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject convert_resources
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project convert_resources
 </pre></div>
 </div>
 <p>外部资源（纹理，音频和视频文件）转换为另一种格式，以确保跨浏览器和跨平台性能。</p>
@@ -916,7 +929,7 @@ override =
 </div>
 <div class="section" id="deploying-projects">
 <h3><a class="toc-backref" href="#id24">部署项目</a><a class="headerlink" href="#deploying-projects" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject deploy DIRECTORY
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project deploy DIRECTORY
 </pre></div>
 </div>
 <p>与所有依赖一起保存了一个项目在外部目录。</p>
@@ -936,7 +949,7 @@ override =
 </div>
 <div class="section" id="remove-project">
 <h3><a class="toc-backref" href="#id25">移除项目</a><a class="headerlink" href="#remove-project" title="永久链接至标题">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject remove
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project remove
 </pre></div>
 </div>
 <p>删除的项目。被删除的目录是从项目配置文件检索。</p>
@@ -1002,7 +1015,7 @@ override =
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-11-29.
+      最后更新于 2016-12-22.
 
     </p>
   </div>
@@ -1058,7 +1071,7 @@ override =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

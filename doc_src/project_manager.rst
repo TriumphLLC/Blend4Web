@@ -128,15 +128,14 @@ The tool for creating new projects is included in the Project Management app and
 
 The ``[Back to Projects]`` button can be used to return to the Project Manager's main page, while the ``[Help]`` button can be used to access the :ref:`Help file <create_new_project>`.
 
-1) Project name is used to name project directories such as "apps_dev/project_name", "deploy/assets/project_name", "blender/project_name" and "deploy/apps/project_name".
+1) Project name is used to name project directories such as "projects/project_name", "projects/project_name/assets", "projects/project_name/blender" and "projects/project_name/build".
 2) Project title as shown in the browser.
 3) Project author’s name.
-4) Add application templates. Standard application templates: html file, css file, js file will be added to the project directory "apps_dev/project_name".
-5) Add scene templates. Standard json file will be added to the "deploy/assets/project_name" directory; blend file will be added to the "blender/project_name" directory.
-6) Use Material Library. Blend files of the material library will be copied to the project directory "blender/project_name", while the asset files will be copied to "deploy/assets/project_name" folder.
+4) Add application templates. Standard application templates: html file, css file, js file will be added to the project directory "projects/project_name".
+5) Add scene templates. Standard json file will be added to the "projects/project_name/assets" directory; blend file will be added to the "projects/project_name/blender" directory.
+6) Use Material Library. Blend files of the material library will be copied to the project directory "projects/project_name/blender", while the asset files will be copied to "projects/project_name/assets" folder.
 7) Copy project manager script. The project.py script will be copied to the project directory.
-8) All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only ``Web Player JSON`` and ``Web Player HTML`` project types are available for this option.
-9) Project’s type. Several options are available:
+8) Project’s type. Several options are available:
 
     * ``External`` - Project Manager will use engine files in the ``deploy/apps/common/`` directory to run the project.
 
@@ -154,7 +153,7 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
     * ``Web Player JSON`` - json-file placed inside the project is run with the help of web-player inside SDK;
     * ``Web Player HTML`` - project is packed into single html-file, containing all required resources.
 
-10) Javascript optimization level.
+9) Javascript optimization level.
 
     * "Simple" - variable names are replaced in the code;
     * "Advanced" - code optimization is performed;
@@ -162,7 +161,7 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
 
 .. _web_player_params:
 
-11) Web Player URL attributes. This tab is available only if ``Engine Binding Type`` parameter is set to ``Web Player JSON`` or ``Web Player HTML``.
+10) Web Player URL attributes. This tab is available only if ``Engine Binding Type`` parameter is set to ``Web Player JSON`` or ``Web Player HTML``.
 
     * "Show FPS" is used to display the FPS counter in the player’s top right corner.
     * "Auto-rotate camera" enables automatic camera rotation just after the scene loads.
@@ -308,7 +307,7 @@ Project Parameters
     Directory where assets will be placed for deployed project.
 
 *Deployment Assets URL Prefix*
-    URL path prefix to assets directory inside deployed project as reported by :b4wref:`config.get_std_assets_path()`.
+    URL path prefix to assets directory inside deployed project as reported by :b4wref:`config.get_assets_path()`.
 
 *Deployment Ignore List*
     The list of exceptions for project's deploy.
@@ -324,12 +323,14 @@ A simple web-based interface for editing project files is available by the ``[ed
    :align: center
    :width: 100%
 
-The left part of the editor window contains a list of all ``.html``, ``.css`` and ``.js`` files from the project directory (``./apps_dev/<project_name>``), starting with the main project file ``.b4w_project``. The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.
+The left part of the editor window contains a list of all ``.html``, ``.css`` and ``.js`` files from the project directory (``projects/my_project``), starting with the main project file ``.b4w_project``. The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.
 
 .. note::
     This interface can only be used to edit files from developer version of a project, but not from the builded version.
 
-The ``Save File`` button that can be found at the bottom of the page is used for saving currently selected project file.
+New files can be added to the project directory by clicking the ``[New File]`` button.
+
+The ``[Save]`` and ``[Save As...]`` buttons that can be found at the bottom of the page are used for saving currently selected project file.
 
 .. _import_projects:
 
@@ -430,41 +431,45 @@ The list of all projects in the SDK can be viewed with the following command:
 Project Structure
 -----------------
 
-A typical app developed using the project manager looks as follows:
+This is how the structure of a project titled my_project and placed in the ``./projects`` directory in the root of the SDK folder should look:
 
 ::
 
     blend4web/
-        apps_dev/
-            myproject/
-                project.py
+        projects/
+            my_project/
+                assets/
+                    my_project.json
+                    my_project.bin
+                blender/
+                    my_project.blend
+                build/
+                    my_project.html
+                    my_project.min.css
+                    my_project.min.js
                 .b4w_project
-                myproject.js
-                myproject.css
-                myproject_dev.html
-        blender/
-            myproject/
-                myproject.blend
-        deploy/
-            apps/
-                myproject/
-                    myproject.js
-                    myproject.css
-                    myproject.html
-            assets/
-                myproject/
-                    myproject.json
-                    myproject.bin
+                my_project.js
+                my_project.css
+                my_project.html
 
 
-This app consists of 4 different directories.
+This app consists of 3 different directories.
 
-#. apps_dev/myproject. Contains source files of project's apps.
-#. blender/myproject. Contains source files of project's scenes.
-#. deploy/assets/myproject. Contains exported files of project's scenes.
-#. deploy/apps/myproject. Contains exported files of project's scenes.
+#. my_project/assets. Contains media files (textures and sounds, as well as the ``.bin`` and ``.json`` files) of project's scenes.
+#. my_project/blender. Contains ``.blend`` files of project's scenes.
+#. my_project/build. Contains files of the builded application.
+
+Project's main file ``.b4w_project``, as well as the ``.js``, ``.html`` and ``.css`` files, is placed in the root of the ``my_project/`` folder.
 
 Additionally, the deploy command can create yet another directory, but it's usually placed outside of the SDK and its name and path depend on directory structure on the target server.
+
+.. _updating_project_structure:
+
+.. note::
+
+    Starting from the version 16.12, project structure has been changed. Projects that use old structure still do work, but should be considered obsolete. We recommend to use the ``update file structure`` button to upgrade the structure of such projects to a new one.
+
+    This button can be found in the ``Operations`` panel at the right side of the project's entry in the Project Manager list. It is only available for user projects (not for stock ones) that use the obsolete project structure.
 
 
 Project Configuration File (.b4w_project)
@@ -476,15 +481,15 @@ Project configuration file includes all necessary information of your project, i
 
  [info]
  author = Blend4Web
- name = myproject
+ name = my_project
  title = MyProject
  icon = 
  
  [paths]
- assets_dirs = deploy/assets/myproject;
- blend_dirs = blender/myproject;
+ assets_dirs = projects/my_project/assets;
+ blend_dirs = projects/my_project/blender;
  blender_exec = blender
- build_dir = deploy/apps/myproject
+ build_dir = projects/my_project/build
  deploy_dir = 
  
  [compile]
@@ -583,7 +588,7 @@ Section ``[deploy]``
     Directory where assets will be placed for deployed project.
 
 *assets_path_prefix*
-    URL path prefix to assets directory inside deployed project as reported by :b4wref:`config.get_std_assets_path()`.
+    URL path prefix to assets directory inside deployed project as reported by :b4wref:`config.get_assets_path()`.
 
 *ignore*
     The list of exceptions for project's deploy.
@@ -603,18 +608,17 @@ Creating a Project
 
 .. code-block:: bash
 
-    ./project.py init myproject
+    ./project.py init my_project
 
 This command will create a project with the specified name in the current directory. By default the project directory will only contain a config file.
 
 Available parameters:
 
-* ``-A | --copy-app-templates`` (optional) create standard app templates in the project directory  (*<my_project_name>_dev.html*, *<my_project_name>.js*, *<my_project_name>.css*).
-* ``-B | --bundle`` (optional) all project files will be placed in a single directory.
+* ``-A | --copy-app-templates`` (optional) create standard app templates in the project directory  (*my_project_dev.html*, *my_project.js*, *my_project.css*).
 * ``-C | --author`` (optional) write an author's or a company's name in the config file.
 * ``-o | --optimization`` (optional) write the script optimization level in the config file.
 * ``-P | --copy-project-script`` (optional) create a copy of the *project.py* script in the project directory.
-* ``-S | --copy-scene-templates`` (optional) create standard scene templates in the directories ``deploy/assets/<my_project_name>`` and ``blender/<my_project_name>`` (*<my_project_name>.json/.bin* and *<my_project_name>.blend* correspondingly).
+* ``-S | --copy-scene-templates`` (optional) create standard scene templates in the directories ``projects/my_project/assets`` and ``projects/my_project/blender`` (*my_project.json/.bin* and *my_project.blend* correspondingly).
 * ``-T | --title"`` (optional) write a title in the config file. Upon building, it will be used inside the ``<title>`` HTML element.
 * ``-t | --engine-type`` (optional) write an engine type in the config file.
 
@@ -622,23 +626,23 @@ Example:
 
 .. code-block:: bash
 
-    ./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
+    ./project.py init -AS -C Blend4Web -o simple -T MyProject -t external my_project
 
-This command will create a directory named *myproject*, inside which the following files will be placed: *myproject.js*, *myproject.css*, *myproject_dev.html* and *.b4w_project*.
+This command will create a directory named *my_project*, inside which the following files will be placed: *my_project.js*, *my_project.css*, *my_project_dev.html* and *.b4w_project*.
 
 The .b4w_project file will look like::
 
  [info]
  author = Blend4Web
- name = myproject
+ name = my_project
  title = MyProject
  icon = 
  
  [paths]
- assets_dirs = deploy/assets/myproject;
- blend_dirs = blender/myproject;
+ assets_dirs = projects/my_project/assets;
+ blend_dirs = projects/my_project/blender;
  blender_exec = blender
- build_dir = deploy/apps/myproject
+ build_dir = projects/my_project/build
  deploy_dir = 
  
  [compile]
@@ -675,9 +679,9 @@ Building Projects
 
 .. code-block:: bash
 
-    python3 project.py -p myproject compile
+    python3 project.py -p my_project compile
 
-Builds a project in the ``deploy/apps/myproject`` directory.
+Builds a project in the ``projects/my_project/build`` directory.
 
 
 Available parameters:
@@ -700,7 +704,7 @@ Automatic Blend File Export
 
 .. code-block:: bash
 
-    python3 project.py -p myproject reexport
+    python3 project.py -p my_project reexport
 
 This command will re-export blend files in JSON and HTML formats.
 
@@ -715,7 +719,7 @@ Resource Conversion
 
 .. code-block:: bash
 
-    python3 project.py -p myproject convert_resources
+    python3 project.py -p my_project convert_resources
 
 Converts external resources (textures, audio and video files) into alternative formats to ensure cross-browser and cross-platform performance.
 
@@ -731,7 +735,7 @@ Deploying Projects
 
 .. code-block:: bash
 
-    python3 project.py -p myproject deploy DIRECTORY
+    python3 project.py -p my_project deploy DIRECTORY
 
 Save a project to an external directory together with all dependencies.
 
@@ -749,7 +753,7 @@ Remove Project
 
 .. code-block:: bash
 
-    python3 project.py -p myproject remove
+    python3 project.py -p my_project remove
 
 Removes a project. Removed directories are retrieved from project configuration file.
 

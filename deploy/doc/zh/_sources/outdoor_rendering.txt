@@ -229,7 +229,10 @@ Blend4Web有几个环境的效果，对创建室外场景非常有用。
 
 为了使用程序浪 "Waves" 选项必须打开。
 
-注解: 只要有 "Wind" 力场在场景中程序浪将工作。
+注解: The direction of procedural waves is derived from a "Wind"
+  force field in the scene.If a scene does not have a "Wind" force
+  field, procedural waves will only move in the default direction
+  which cannot be changed.
 
 [图片]
 

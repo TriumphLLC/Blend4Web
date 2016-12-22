@@ -17,8 +17,9 @@
 "use strict";
 
 /** 
- * {@link TSR} utility routines.
+ * {@link TSR} (translation, scale, rotation} utility routines.
  * @module tsr
+ * @see https://www.blend4web.com/doc/en/objects.html#moving-via-tsr-vectors
  */
 b4w.module["tsr"] = function(exports, require) {
 

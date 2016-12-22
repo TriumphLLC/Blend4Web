@@ -17,7 +17,8 @@
 "use strict";
 
 /**
- * Math functions.
+ * Auxillary math methods. For math methods operating on vectors, matrices or quaternions see the
+ * corresponding modules.
  * @module math
  * @local Plane
  */

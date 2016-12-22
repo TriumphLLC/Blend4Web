@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web. User Manual v16.03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-25 17:25+0300\n"
-"PO-Revision-Date: 2016-10-29 13:47+0800\n"
+"POT-Creation-Date: 2016-12-16 15:05+0300\n"
+"PO-Revision-Date: 2016-12-01 19:43+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -506,7 +506,9 @@ msgid ""
 "conversion required for cross-browser compatibility will be ``ogg`` to "
 "``mp4``. Example of an input file: ``file_name.ogg``, example of an "
 "output file: ``file_name.altconv.mp4``."
-msgstr "我们推荐使用``ogg``作为基础格式。在这种情况下，跨浏览器的兼容性要求的唯一的转换将是``ogg``到``mp4``。输入文件的实例：``file_name.ogg``，例如一个输出文件：``file_name.altconv.mp4``。"
+msgstr ""
+"我们推荐使用 ``ogg`` 作为基础格式。在这种情况下，跨浏览器的兼容性要求的唯一的转换将是 ``ogg`` 到 ``mp4`` "
+"。输入文件的实例：``file_name.ogg``，例如一个输出文件：``file_name.altconv.mp4``。"
 
 #: ../developers.rst:355
 msgid "for video (convert_media):"
@@ -773,7 +775,7 @@ msgstr "Canvas Texture -  用帆布质地的工作"
 
 #: ../developers.rst:473
 msgid "Change Image - changing texture images on-the-fly"
-msgstr ""
+msgstr "更改图像 - 即时更改纹理图像"
 
 #: ../developers.rst:474
 msgid "Custom Anchors - creating custom annotations"
@@ -785,7 +787,7 @@ msgstr "Dynamic Geometry -程序几何修改"
 
 #: ../developers.rst:476
 msgid "Gamepad - an example of controlling a character via gamepad"
-msgstr ""
+msgstr "手柄 - 经由手柄控制角色的一个例子"
 
 #: ../developers.rst:477
 msgid "Gyro (Mobile Only) - working with mobile devices' gyroscopes"
@@ -797,7 +799,7 @@ msgstr "Instancing - 复制现场运行时对象"
 
 #: ../developers.rst:479
 msgid "Lines - procedural lines rendering"
-msgstr ""
+msgstr "线 - 程序线渲染"
 
 #: ../developers.rst:480
 msgid ""
@@ -811,11 +813,11 @@ msgstr "Morphing - 利用形状键"
 
 #: ../developers.rst:482
 msgid "Multitouch (Mobile Only) - using mobile devices multitouch sensor"
-msgstr ""
+msgstr "多点触控（仅限移动设备） - 使用移动设备的多点触控传感器"
 
 #: ../developers.rst:483
 msgid "Pathfinding - an example of calculating paths and using navigation meshes"
-msgstr ""
+msgstr "寻路 - 计算路径，并使用导航网格的例子"
 
 #: ../developers.rst:484
 msgid "Ray Test - the usage of raycasting for obstacles detection"
@@ -823,41 +825,46 @@ msgstr "Ray Test - 光线投射的障碍物检测使用"
 
 #: ../developers.rst:485
 msgid "Webcam - using media stream from a web camera"
-msgstr ""
+msgstr "网络摄像头 - 利用来自Web摄像头的媒体流"
 
 #: ../developers.rst:487
-#, fuzzy
 msgid ""
 "The Code Snippets application is available at "
 "``./apps_dev/code_snippets/code_snippets_dev.html``. It can be also run "
 "by using a link in the ``index.html`` file located in the SDK root."
 msgstr ""
-"代码片段的应用在 ``SDK/apps_dev/code_snippets/code_snippets_dev.html``. "
+"代码片段的应用在 ``./apps_dev/code_snippets/code_snippets_dev.html``. "
 "它可以通过使用位于SDK根的 ``index.html`` 文件的链接也可以运行。"
 
 #: ../developers.rst:491
 msgid "Loading Application Assets"
-msgstr ""
+msgstr "加载应用程序资产"
 
 #: ../developers.rst:493
+#, fuzzy
 msgid ""
 "To simplify project maintanance and server deployment always keep your "
 "application asset files (exported scenes, textures, sounds, etc) separate"
 " from other project files (JavaScript, CSS, HTML, etc). Inside your SDK "
-"this asset directory is located at ``deploy/assets/my_project``."
+"this asset directory is located at ``projects/my_project/assets``."
 msgstr ""
+"为了简化项目维护和服务器部署总是将你的项目文件（的JavaScript，CSS，HTML等）和您的应用程序资源文件（导出的场景，纹理，声音等）分开。你的SDK这里面的资产目录位于"
+" ``deploy/assets/my_project``."
 
 #: ../developers.rst:495
+#, fuzzy
 msgid ""
 "To load files (e.g by using :b4wref:`data.load()`) from this directory "
-"use the :b4wref:`config.get_std_assets_path()` method:"
+"use the :b4wref:`config.get_assets_path()` method:"
 msgstr ""
+"要（通过使用如 :b4wref:`data.load()`)从该目录中加载文件使用 "
+":b4wref:`config.get_std_assets_path()` 方法："
 
 #: ../developers.rst:501
 msgid ""
 "This way you ensure that your applications will find assets independently"
 " of the current development stage (developed, built or deployed)."
-msgstr ""
+msgstr "这样可以确保您的应用程序将独立于目前的开发阶段寻找资产（开发，构建或部署）。"
 
 #: ../developers.rst:506
 msgid "Event-Driven Model"
@@ -971,7 +978,7 @@ msgid ""
 "function. Place the sound processing code in the callback function. "
 "Create the sensor manifold with the \"IMPACT\" id and the ``CT_SHOT`` "
 "type."
-msgstr "传感器添加到阵列。使用 ``OR`` 逻辑的逻辑功能。放置在回调函数的声音处理的代码。创建传感器歧管的“影响”id和``CT_SHOT``类型。"
+msgstr "传感器添加到阵列。使用 ``OR`` 逻辑的逻辑功能。放置在回调函数的声音处理的代码。创建传感器歧管的“影响”id和 ``CT_SHOT`` 类型。"
 
 #: ../developers.rst:587
 msgid ""
@@ -990,18 +997,17 @@ msgstr ""
 msgid "SDK File Structure"
 msgstr "SDK文件结构"
 
-#: ../developers.rst:598 ../developers.rst:769
+#: ../developers.rst:598 ../developers.rst:772
 msgid "**addons**"
 msgstr "**addons**"
 
 #: ../developers.rst:598
-#, fuzzy
 msgid "**blend4web**"
-msgstr "**blender**"
+msgstr "**blend4web**"
 
 #: ../developers.rst:598
 msgid "Blender addon"
-msgstr ""
+msgstr "Blender插件"
 
 #: ../developers.rst:667
 msgid "**apps_dev**"
@@ -1009,18 +1015,17 @@ msgstr "**apps_dev**"
 
 #: ../developers.rst:601
 msgid "SDK apps source code"
-msgstr ""
+msgstr "SDK 应用程序源代码"
 
 #: ../developers.rst:607
 msgid "**code_snippets**"
 msgstr "**code_snippets**"
 
 #: ../developers.rst:604
-#, fuzzy
 msgid "source files of the Code Snippets application"
-msgstr "浏览器应用程序的源文件"
+msgstr "Code Snippets应用程序的源文件"
 
-#: ../developers.rst:607 ../developers.rst:760
+#: ../developers.rst:607 ../developers.rst:763
 msgid "**scripts**"
 msgstr "**scripts**"
 
@@ -1038,21 +1043,19 @@ msgstr "乳品厂演示源文件（仅适用于SDK专业版）"
 
 #: ../developers.rst:613
 msgid "**demos_animation**"
-msgstr ""
+msgstr "**demos_animation**"
 
 #: ../developers.rst:613
-#, fuzzy
 msgid "project files of the basic animation demos"
-msgstr "岛演示的源文件"
+msgstr "基本的动画演示的项目文件"
 
 #: ../developers.rst:616
 msgid "**demos_environment**"
 msgstr ""
 
 #: ../developers.rst:616
-#, fuzzy
 msgid "project files of the basic environment demos"
-msgstr "岛演示的源文件"
+msgstr "基本的环境演示项目文件"
 
 #: ../developers.rst:619
 msgid "**demos_interactivity**"
@@ -1060,45 +1063,39 @@ msgstr ""
 
 #: ../developers.rst:619
 msgid "project files of the basic interactivity demos"
-msgstr ""
+msgstr "基本交互演示的项目文件"
 
 #: ../developers.rst:622
-#, fuzzy
 msgid "**demos_materials**"
-msgstr "**gen_glmatrix.sh**"
+msgstr "**demos_materials**"
 
 #: ../developers.rst:622
-#, fuzzy
 msgid "project files of the basic materials demos"
-msgstr "岛演示的源文件"
+msgstr "基础材质演示项目文件"
 
 #: ../developers.rst:625
 msgid "**demos_media**"
 msgstr ""
 
 #: ../developers.rst:625
-#, fuzzy
 msgid "project files of the basic media demos"
-msgstr "岛演示的源文件"
+msgstr "基本的媒体演示项目文件"
 
 #: ../developers.rst:628
 msgid "**demos_particles**"
 msgstr ""
 
 #: ../developers.rst:628
-#, fuzzy
 msgid "project files of the basic particles demos"
-msgstr "岛演示的源文件"
+msgstr "基本粒子演示项目文件"
 
 #: ../developers.rst:631
-#, fuzzy
 msgid "**demos_physics**"
-msgstr "**memory.sh**"
+msgstr "**demos_physics**"
 
 #: ../developers.rst:631
-#, fuzzy
 msgid "project files of the basic physics demos"
-msgstr "岛演示的源文件"
+msgstr "基本的物理演示项目文件"
 
 #: ../developers.rst:634
 msgid "**demos_postprocessing**"
@@ -1106,12 +1103,11 @@ msgstr ""
 
 #: ../developers.rst:634
 msgid "project files of the basic postprocessing demos"
-msgstr ""
+msgstr "基本的后处理演示项目文件"
 
 #: ../developers.rst:637
-#, fuzzy
 msgid "**farm**"
-msgstr "**src**"
+msgstr "**farm**"
 
 #: ../developers.rst:637
 msgid "source files of the Farm demo (available only in SDK Pro)"
@@ -1150,23 +1146,20 @@ msgid "script for application developers"
 msgstr "脚本的应用程序开发人员"
 
 #: ../developers.rst:652
-#, fuzzy
 msgid "**space_disaster**"
-msgstr "**make_dist.py**"
+msgstr "**space_disaster**"
 
 #: ../developers.rst:652
-#, fuzzy
 msgid "source files of the Space Disaster app"
-msgstr "在Web应用程序播放器的源文件"
+msgstr "空间灾害应用程序的源文件"
 
 #: ../developers.rst:655
 msgid "**tutorials**"
 msgstr "**tutorials**"
 
 #: ../developers.rst:655
-#, fuzzy
 msgid "source files of the Blend4Web tutorials"
-msgstr "在教程源文件"
+msgstr "Blend4Web 教程的源文件"
 
 #: ../developers.rst:658
 msgid "**victory_day_2015**"
@@ -1246,7 +1239,7 @@ msgstr "**apps**"
 msgid ""
 "3D applications intended for deploying; the directory duplicates "
 "*apps_dev*"
-msgstr "用于部署3D应用;目录重复* apps_dev *"
+msgstr "用于部署3D应用;目录重复 *apps_dev*"
 
 #: ../developers.rst:685
 msgid "**common**"
@@ -1263,9 +1256,8 @@ msgid "**assets**"
 msgstr "**assets**"
 
 #: ../developers.rst:688
-#, fuzzy
 msgid "application assets: scenes, textures and sounds"
-msgstr "可下载的资源：场景，纹理和声音"
+msgstr "应用程序资产︰ 场景、 纹理和声音"
 
 #: ../developers.rst:691
 msgid "**doc**"
@@ -1273,27 +1265,23 @@ msgstr "**doc**"
 
 #: ../developers.rst:691
 msgid "the current user manual in HTML format, built automatically from *doc_src*"
-msgstr "从自动生成的 HTML 格式的当前用户手册 * doc_src *"
+msgstr "从自动生成的 HTML 格式的当前用户手册 *doc_src*"
 
 #: ../developers.rst:694
-#, fuzzy
 msgid "**webglreport**"
-msgstr "**webplayer**"
+msgstr "**webglreport**"
 
 #: ../developers.rst:694
-#, fuzzy
 msgid "WebGL report application"
-msgstr "“你好，世界！”应用"
+msgstr "WebGL 报告应用程序"
 
 #: ../developers.rst:697
-#, fuzzy
 msgid "**distfiles**"
-msgstr "**Makefile**"
+msgstr "**distfiles**"
 
 #: ../developers.rst:697
-#, fuzzy
 msgid "distribution builder lists"
-msgstr "发行构建脚本"
+msgstr "构建发布文件列表"
 
 #: ../developers.rst:700
 msgid "**doc_src**"
@@ -1324,274 +1312,280 @@ msgid "**Makefile**"
 msgstr "**Makefile**"
 
 #: ../developers.rst:709
-#, fuzzy
 msgid "makefile for building the engine, the applications, and the documentation"
-msgstr "生成文件构建引擎、 应用程序、 文件和部署在远程服务器上 （不可作为一个免费的版本）"
+msgstr "建立引擎，应用程序和文档的makefile文件"
 
 #: ../developers.rst:712
+#, fuzzy
+msgid "**projects**"
+msgstr "**project.py**"
+
+#: ../developers.rst:712
+msgid "directory for user projects"
+msgstr ""
+
+#: ../developers.rst:715
 msgid "**README.rst**"
 msgstr "**README.rst**"
 
-#: ../developers.rst:712
+#: ../developers.rst:715
 msgid "README file"
 msgstr "README文件"
 
-#: ../developers.rst:715
+#: ../developers.rst:718
 msgid "scripts"
 msgstr "脚本"
 
-#: ../developers.rst:718
+#: ../developers.rst:721
 msgid "**check_resources.py**"
 msgstr "**check_resources.py**"
 
-#: ../developers.rst:718
+#: ../developers.rst:721
 msgid ""
 "script for checking of and reporting about unused resources (images and "
 "sounds referenced by the exported files)"
 msgstr "脚本的检查和未使用的资源报告（图像和声音通过导出的文件中引用）"
 
-#: ../developers.rst:721
+#: ../developers.rst:724
 msgid "**compile_b4w.py**"
 msgstr "**compile_b4w.py**"
 
-#: ../developers.rst:721
+#: ../developers.rst:724
 msgid "script for building engine code and applications"
 msgstr "构建引擎代码和应用程序的脚本"
 
-#: ../developers.rst:724
+#: ../developers.rst:727
 msgid "**converter.py**"
 msgstr "**converter.py**"
 
-#: ../developers.rst:724
+#: ../developers.rst:727
 msgid ""
 "script which halves the texture dimensions, compresses the textures into "
 "the DDS format, converts sound files into mp4 and ogg formats"
 msgstr "脚本减半纹理尺寸，压缩纹理成DDS格式，声音文件转换成MP4和Ogg格式"
 
-#: ../developers.rst:727
+#: ../developers.rst:730
 msgid "**custom_json_encoder.py**"
 msgstr "**custom_json_encoder.py**"
 
-#: ../developers.rst:727
+#: ../developers.rst:730
 msgid "fork of the json Python module, sorts the keys in reverse order"
 msgstr "JSON的Python模块的分支，排序顺序相反的键"
 
-#: ../developers.rst:730
+#: ../developers.rst:733
 msgid "**gen_glmatrix.sh**"
 msgstr "**gen_glmatrix.sh**"
 
-#: ../developers.rst:730
+#: ../developers.rst:733
 msgid ""
 "script for generating the math module based on the source code of "
 "glMatrix 2"
 msgstr "脚本基于glMatrix 2的源代码生成所述数学模块"
 
-#: ../developers.rst:733
+#: ../developers.rst:736
 msgid "**graph.sh**"
 msgstr "**graph.sh**"
 
-#: ../developers.rst:733
+#: ../developers.rst:736
 msgid "SVG generator for the current scene graph, used for debugging rendering"
 msgstr "为当前场景图SVG生成器，用于调试渲染"
 
-#: ../developers.rst:736
+#: ../developers.rst:739
 msgid "**make_dist.py**"
 msgstr "**make_dist.py**"
 
-#: ../developers.rst:736
+#: ../developers.rst:739
 msgid "distributions builder script"
 msgstr "发行构建脚本"
 
-#: ../developers.rst:739
+#: ../developers.rst:742
 msgid "**memory.sh**"
 msgstr "**memory.sh**"
 
-#: ../developers.rst:739
+#: ../developers.rst:742
 msgid "script for checking memory (RAM) and video memory (VRAM)"
 msgstr "脚本，用于检查存储器（RAM）和视频存储器（VRAM）"
 
-#: ../developers.rst:742
+#: ../developers.rst:745
 msgid "**mod_list.py**"
 msgstr "**mod_list.py**"
 
-#: ../developers.rst:742
+#: ../developers.rst:745
 msgid "script for generating the list of modules to use in new applications"
 msgstr "脚本用于生成的模块列表在新的应用程序使用"
 
-#: ../developers.rst:745
+#: ../developers.rst:748
 msgid "**plot.sh**"
 msgstr "**plot.sh**"
 
-#: ../developers.rst:745
+#: ../developers.rst:748
 msgid "debugging information graph builder"
 msgstr "调试信息图形生成器"
 
-#: ../developers.rst:748
+#: ../developers.rst:751
 msgid "**process_blend.py**"
 msgstr "**process_blend.py**"
 
-#: ../developers.rst:748
+#: ../developers.rst:751
 msgid "script for automatic reexport of all scenes from the SDK"
 msgstr "从SDK所有场景自动再导出脚本"
 
-#: ../developers.rst:751
+#: ../developers.rst:754
 msgid "**remove_alpha_channel.sh**"
 msgstr "**remove_alpha_channel.sh**"
 
-#: ../developers.rst:751
+#: ../developers.rst:754
 msgid "script for removing the images' alpha channel"
 msgstr "去除图像的 alpha 通道的脚本"
 
-#: ../developers.rst:754
+#: ../developers.rst:757
 msgid "**screencast.sh**"
 msgstr "**screencast.sh**"
 
-#: ../developers.rst:754
+#: ../developers.rst:757
 msgid "script for screen video recording"
 msgstr "屏幕录像脚本"
 
-#: ../developers.rst:757
+#: ../developers.rst:760
 msgid "**shader_analyzer.py**"
 msgstr "**shader_analyzer.py**"
 
-#: ../developers.rst:757
+#: ../developers.rst:760
 msgid ""
 "script starting the local web server which calculates complexity of the "
 "shaders"
 msgstr "开始其计算着色器的复杂度的本地Web服务器脚本"
 
-#: ../developers.rst:760
+#: ../developers.rst:763
 msgid "**translator.py**"
 msgstr "**translator.py**"
 
-#: ../developers.rst:760
+#: ../developers.rst:763
 msgid "script for building add-on translations"
 msgstr "构建插件翻译脚本"
 
-#: ../developers.rst:763
+#: ../developers.rst:766
 msgid "**shaders**"
 msgstr "**shaders**"
 
-#: ../developers.rst:763
+#: ../developers.rst:766
 msgid "GLSL shaders of the engine"
 msgstr "引擎GLSL着色"
 
-#: ../developers.rst:775
+#: ../developers.rst:778
 msgid "**src**"
 msgstr "**src**"
 
-#: ../developers.rst:766
+#: ../developers.rst:769
 msgid "main source code of the engine's kernel"
 msgstr "引擎的内核的主要源代码"
 
-#: ../developers.rst:769
+#: ../developers.rst:772
 msgid "source code of engine add-ons"
 msgstr "引擎插件的源代码"
 
-#: ../developers.rst:772
+#: ../developers.rst:775
 msgid "**ext**"
 msgstr "**ext**"
 
-#: ../developers.rst:772
+#: ../developers.rst:775
 msgid "source code of the external declarations that form the engine's API"
 msgstr "形成了引擎的API外部声明的源代码"
 
-#: ../developers.rst:775
+#: ../developers.rst:778
 msgid "**libs**"
 msgstr "**libs**"
 
-#: ../developers.rst:775
+#: ../developers.rst:778
 msgid "source code of the libraries"
 msgstr "库的源代码"
 
-#: ../developers.rst:778
-#, fuzzy
+#: ../developers.rst:781
 msgid "**tmp**"
-msgstr "**ext**"
+msgstr "**tmp**"
 
-#: ../developers.rst:778
+#: ../developers.rst:781
 msgid "directory for temporary files (e.g. Fast Preview)"
-msgstr ""
+msgstr "临时文件 （例如快速预览） 目录"
 
-#: ../developers.rst:797
+#: ../developers.rst:800
 msgid "**tools**"
 msgstr "**tools**"
 
-#: ../developers.rst:781
-#, fuzzy
-msgid "various tools for building the engine, apps or convert resources"
-msgstr "构建引擎，应用程序或转换资源的各种工具"
-
 #: ../developers.rst:784
+msgid "various tools for building the engine, apps or convert resources"
+msgstr "various tools for building the engine, apps or convert resources"
+
+#: ../developers.rst:787
 msgid "**converter_utils**"
 msgstr "**converter_utils**"
 
-#: ../developers.rst:784
+#: ../developers.rst:787
 msgid "binary builds of the tools for resource conversion"
 msgstr "二进制构建的工具，资源转换"
 
-#: ../developers.rst:787
+#: ../developers.rst:790
 msgid "**closure-compiler**"
 msgstr "**closure-compiler**"
 
-#: ../developers.rst:787
+#: ../developers.rst:790
 msgid "Google Closure compiler, its externs and their generators"
 msgstr "谷歌闭包编译器，它的扩展和他们的生成器"
 
-#: ../developers.rst:794
+#: ../developers.rst:797
 msgid "**glsl**"
 msgstr "**glsl**"
 
-#: ../developers.rst:791
+#: ../developers.rst:794
 msgid "**compiler**"
 msgstr "**compiler**"
 
-#: ../developers.rst:791
+#: ../developers.rst:794
 msgid "compiler for the engine's GLSL shaders"
 msgstr "编译器为引擎的GLSL着色"
 
-#: ../developers.rst:794
+#: ../developers.rst:797
 msgid "**pegjs**"
 msgstr "**pegjs**"
 
-#: ../developers.rst:794
+#: ../developers.rst:797
 msgid ""
 "grammars of the PEG.js parser generator for implementing the GLSL "
 "preprocessor, and also the script for generating the parser modules from "
 "these grammars"
 msgstr "在PEG.js解析器生成的语法实现了GLSL预处理器，也是脚本从这些生成语法解析器模块"
 
-#: ../developers.rst:797
+#: ../developers.rst:800
 msgid "**yuicompressor**"
 msgstr "**yuicompressor**"
 
-#: ../developers.rst:797
+#: ../developers.rst:800
 msgid "utility for compressing CSS files"
 msgstr "实用压缩CSS文件"
 
-#: ../developers.rst:800
+#: ../developers.rst:803
 msgid "**uranium**"
 msgstr "**uranium**"
 
-#: ../developers.rst:800
+#: ../developers.rst:803
 msgid ""
 "source code and building scripts of the Uranium physics engine (the fork "
 "of Bullet)"
 msgstr "Uranium 物理引擎的源代码和脚本建筑（Bullet的分支）"
 
-#: ../developers.rst:804
+#: ../developers.rst:807
 msgid "**VERSION**"
 msgstr "**VERSION**"
 
-#: ../developers.rst:803
+#: ../developers.rst:806
 msgid "contains the current version of the engine"
 msgstr "包含引擎的当前版本"
 
-#: ../developers.rst:809
+#: ../developers.rst:812
 msgid "Loading Local Resources"
 msgstr "加载本地资源"
 
-#: ../developers.rst:811
+#: ../developers.rst:814
 msgid ""
 "The engine's renderer is a web application and it works when you view an "
 "HTML file in a browser. After initialization the resources (scenes, "
@@ -1602,7 +1596,7 @@ msgstr ""
 "该引擎的渲染器是一个Web应用程序，当你在浏览器中查看HTML文件它就工作。初始化之后，资源（场景，纹理）加载。这个过程是受 `同源策略 "
 "<http://en.wikipedia.org/wiki/Same-origin_policy>`_ 规则。这条规则特别规定从本地目录加载禁止。"
 
-#: ../developers.rst:813
+#: ../developers.rst:816
 msgid ""
 "Since version 15.02, the Blend4Web SDK includes the :ref:`development "
 "server <local_development_server>` to solve the problem of loading local "
@@ -1611,37 +1605,37 @@ msgstr ""
 "自15.02版，Blend4Web SDK包括  :ref:`开发服务器 <local_development_server>` "
 "解决加载本地资源的问题。"
 
-#: ../developers.rst:819
+#: ../developers.rst:822
 msgid "Quality Profiles"
 msgstr "品质配置"
 
-#: ../developers.rst:821
+#: ../developers.rst:824
 msgid ""
 "Several quality profiles are implemented in order to support platforms "
 "with different functionality."
 msgstr "几个质量配置文件，以支持具有不同功能的平台上实现。"
 
-#: ../developers.rst:823
+#: ../developers.rst:826
 msgid ""
 "*low quality* (``P_LOW``) - a range of functions is turned off (such as "
 "shadows, dynamic reflection, postprocessing), the size of textures is "
 "halved when using a release version, anti-aliasing is disabled"
 msgstr "低质量（``P_LOW``） - 功能的范围被关闭（如阴影，动态反映，后处理），纹理的大小采用发行版本时减半，抗锯齿被禁用"
 
-#: ../developers.rst:824
+#: ../developers.rst:827
 msgid ""
 "*high quality* (``P_HIGH``) - all features requested by the scene are "
 "used, the anti-aliasing method is FXAA"
 msgstr "高品质（``P_HIGH``）- 由现场所要求的所有功能的使用，抗锯齿的方法是FXAA"
 
-#: ../developers.rst:825
+#: ../developers.rst:828
 msgid ""
 "*maximum quality* (``P_ULTRA``) - rendering resolution is doubled, "
 "resolution of shadow maps is increased, the anti-aliasing method is FXAA "
 "(uses higher quality settings and works slower)."
 msgstr "最高的质量（``P_ULTRA``） - 渲染分辨率加倍，阴影贴图分辨率的增加，抗锯齿的方法是FXAA（使用更高质量的设置和工作速度较慢）。"
 
-#: ../developers.rst:826
+#: ../developers.rst:829
 msgid ""
 "*custom quality* (``P_CUSTOM``) - any quality parameter can be set to any"
 " possible value. This option is used when you need to set certain quality"
@@ -1651,23 +1645,23 @@ msgstr ""
 "自定义质量（``P_CUSTOM``） - "
 "任何质量参数可以设置为任何可能值。当你需要手动设置一定的质量参数，使用此选项。默认情况下，它使用相同的设置``High``质量配置文件。"
 
-#: ../developers.rst:835
+#: ../developers.rst:838
 msgid ""
 "Switching the quality profiles can be performed in runtime before "
 "initialization of the WebGL context. The default profile is ``P_HIGH``."
 msgstr "切换品质配置可在运行时的WebGL上下文的初始化之前进行。默认的配置文件是``P_HIGH``。"
 
-#: ../developers.rst:846
+#: ../developers.rst:849
 msgid ""
 "Application developers can also set the **quality** parameter upon engine"
 " initialization using the ``app.js`` add-on:"
 msgstr "应用程序开发人员还可以在引擎初始化参数的 ``app.js`` 附加插件时设置 **quality** ："
 
-#: ../developers.rst:862
+#: ../developers.rst:865
 msgid "Non-FullScreen Web Apps"
 msgstr "非全屏Web应用程序"
 
-#: ../developers.rst:864
+#: ../developers.rst:867
 msgid ""
 "The Canvas element, to which the rendering is performed, can change its "
 "position relative to the browser window. This can occur due to some "
@@ -1675,7 +1669,7 @@ msgid ""
 "is especially relevant for non-fullscreen web applications."
 msgstr "画布元件，开始执行渲染时，可改变相对于浏览器窗口的位置。这可能是由于一些操作在DOM树，或者作为页面滚动的结果，特别是用于非全屏web应用。"
 
-#: ../developers.rst:866
+#: ../developers.rst:869
 msgid ""
 "In most cases this will not affect the performance of the app by any "
 "means. However, some DOM events related to mouse cursor or touch position"
@@ -1686,7 +1680,7 @@ msgid ""
 " corner)."
 msgstr "在大多数情况下，这将不会影响该应用的任何的性能。然而，涉及到鼠标或触摸位置某些DOM事件可以携带不正确的信息。这是因为从相应的事件中获得的坐标是相对于浏览器窗口的原点测量，同时引擎的工作与Canvas元素本身（它的坐标原点位于左上角）的坐标空间。"
 
-#: ../developers.rst:868
+#: ../developers.rst:871
 msgid ""
 "If the top left corner of the Canvas element matches the top left corner "
 "of the browser window and is fixed in its position (non-movable) then "
@@ -1698,13 +1692,13 @@ msgstr ""
 "event.clientY 坐标输入事件或  "
 ":b4wref:`mouse.get_coords_x()`/:b4wref:`mouse.get_coords_y()`  方法。"
 
-#: ../developers.rst:882
+#: ../developers.rst:885
 msgid ""
 "In the case of the scrolled browser window, you have to use event.pageX "
 "and event.pageY coordinates."
 msgstr "在滚动浏览器窗口的情况下，你必须使用event.pageX和event.pageY坐标。"
 
-#: ../developers.rst:891
+#: ../developers.rst:894
 msgid ""
 "In the case of more sophisticated manipulations with the Canvas element "
 "(scrolling of the page elements, displacement from the top level corner "
@@ -1716,7 +1710,7 @@ msgstr ""
 "与画布元件更复杂的操作的情况下（在页面的元素的滚动，位移从浏览器窗口的顶层角落，在DOM树的变化）则需要执行正确的坐标转换。为了获得坐标适合在引擎中使用，您可以通过使用"
 " ``container`` 模块的  ``client_to_canvas_coords()``  方法来覆盖它们："
 
-#: ../developers.rst:903
+#: ../developers.rst:906
 msgid ""
 "In order to obtain coordinates in the Canvas space, the engine should "
 "know its position relative to the browser window. However, if this "
@@ -1728,7 +1722,7 @@ msgstr ""
 "为了获得在画布空间坐标，引擎应该知道相对于浏览器窗口的位置。但是，如果此位置的应用程序的工作过程中受到的变化（由于滚动为例），画布位置应重新计算。要自动做到这一点，你可以设置在应用程序初始化"
 " ``track_container_position`` 属性："
 
-#: ../developers.rst:918
+#: ../developers.rst:921
 msgid ""
 "Please note, that this setting can lead to performance degradation in "
 "some browsers (such as Firefox) due to frequent DOM tree accesses. If the"
@@ -1743,7 +1737,7 @@ msgstr ""
 "``track_container_position`` 设置，甚至从 ``container`` 模块使用更低级别的  "
 "``set_canvas_offsets()`` 方法："
 
-#: ../developers.rst:933
+#: ../developers.rst:936
 msgid ""
 "The possibility to scale the whole webpage can lead to Canvas element "
 "displacement on mobile devices. The described decisions are suitable in "
@@ -1759,31 +1753,4 @@ msgstr "传感器"
 #: ../developers.rst:517
 msgid "manifold"
 msgstr "流形"
-
-#~ msgid "source code of the applications"
-#~ msgstr "应用程序的源代码"
-
-#~ msgid "source files of the Blend4Web API usage demonstration application"
-#~ msgstr "在Blend4Web API使用示范应用的源文件"
-
-#~ msgid "**firstperson**"
-#~ msgstr "**firstperson**"
-
-#~ msgid "**blender_scripts**"
-#~ msgstr "**blender_scripts**"
-
-#~ msgid "exporter and utility scripts for Blender"
-#~ msgstr "Blender导出和实用工具脚本"
-
-#~ msgid "**globals_detect**"
-#~ msgstr "**globals_detect**"
-
-#~ msgid "utility code for detecting global variables"
-#~ msgstr "用于检测全局变量实用代码"
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid "lists of the files for building distributions"
-#~ msgstr "构建发布文件列表"
 

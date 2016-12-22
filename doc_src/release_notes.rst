@@ -6,6 +6,88 @@ Release Notes
 
 .. index:: release notes
 
+v16.12
+======
+
+New Features
+------------
+
+* Project Manager improvements.
+
+    ``New File`` and ``Save As`` buttons were added to the project file editor. Also, to simplify navigation, the editor hightlights edited files.
+    
+    Project Manager applicaton builder now minifies compiled HTML files to speed-up their loading.
+
+* New ``Cycles`` material nodes.
+
+    ``Emission`` node support has been added. This node is from the ``Shader`` category. It is responsible for the light emitting component of the material. Node inputs include ``Color``, ``Strength``. In Blend4Web, materials which use this node only simulate the look of the surface and are not dynamic light sources.
+
+* Improved rendering of LOD objects.
+
+    From now on LOD objects are batched with respect to their LOD distance parameter and their proportions. Thus, the engine renders LOD objects
+    as effectively as possible, trying to keep a reasonable amount of the combined objects at the same time. For tuning this behavior the ``LOD Cluster Size Multiplier`` parameter was added into the `Scene->Objects Clustering` panel.
+
+* New API methods :b4wref:`data.prefetch` and :b4wref:`data.unfetch`.
+
+    The first allows preloading resources of a scene (textures, sounds, files of
+    the scene) and caches them. The second allows cleaning up the cache.
+
+* Support for object picking on VR devices.
+
+    The :b4wref:`scenes.pick_center` method has been added. It allows users to get an object in the center of the viewport using the object picking functionality. This method works both for general-purpose and for VR devices.
+
+* Improved add-on interface.
+
+    Now the stand-alone add-on does not show the development server panel.
+    Extended warnings, that the development server is not available on the standalone add-on, have been added.
+
+* Texture caching
+
+    Now all image textures are cached and if a new texture with similar properties is requested, it will be taken from the cache. This results in saving memory and significantly speeds up the :b4wref:`textures.change_image` method for multiple objects.
+
+Changes
+-------
+
+* Project Manager changes.
+
+    The structure of Project Manager files was upgraded. Now new projects are placed in the ``projects`` directory. All assets are placed in the project folder.
+
+    Please note that :b4wref:`config.get_std_assets_path()` no longer specifies project assets directory within the new file structure. Replace it with the :b4wref:`config.get_assets_path()` method.
+ 
+    The ``upgrade file structure`` button was added to :ref:`upgrade the old projects to the new structure <updating_project_structure>`.
+
+    Now text inside the project manager editor is indented with spaces instead of tabs.
+
+* Lamp objects of the unsupported AREA type are changed to the type SUN during the export from now on. In this case, a related error message  will be printed in the browser console. 
+
+Fixes
+-----
+
+* Fixed a bug with video textures on mobile Chrome.
+
+* Fixed a bug with Alpha Sort type of transparency for static objects.
+
+* Fixed a bug with incorrect rendering of materials that use normal mapping.
+
+* Fixed a bug when the LODs of a single object were switched between each other with a very noticeable delay and none of the LODs were rendered at that very moment.
+
+* Fixed a bug with dynamic grass on WebGL 2.0.
+
+* Fixed a bug with Wacom tablet interaction.
+
+* Fixed "Export to different disk is forbidden" message that was showing up when using fast preview.
+
+* Fixed crash during the export of dupli groups without any attached objects
+
+* Alpha values greater than 1.0 are now correctly processed for transparent materials.
+
+* ``PARALLAX`` node no longer crashes node trees if its input texture has any output nodes apart from the ``PARALLAX`` node itself.
+
+* Shader node trees are now pre-cleaned during export to get rid of unused nodes.
+
+* Fixed viewport alignment in VR mode.
+
+
 v16.11
 ======
 

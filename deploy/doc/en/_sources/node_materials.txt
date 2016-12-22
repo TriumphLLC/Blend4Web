@@ -553,5 +553,7 @@ The following nodes are partially supported:
 
 * ``Geometry`` (the ``Pointness`` and ``Parametric`` parameters are not supported).
 
+* ``Emission`` (does not influence the lighting of the scene).
+
 Other ``Cycles`` nodes will not, in most cases, work in Blend4Web the same way they do in Blender. They also might not work at all or even cause material in which they are used to work incorrectly. However, using these nodes will not cause instabilities in the application workflow.
 

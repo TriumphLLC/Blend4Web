@@ -152,7 +152,7 @@ exports.CM_FLY = 3;
  */
 exports.enable_simulation = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.enable_simulation(obj);
@@ -164,7 +164,7 @@ exports.enable_simulation = function(obj) {
  */
 exports.disable_simulation = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.disable_simulation(obj);
@@ -204,7 +204,7 @@ exports.has_dynamic_physics = function(obj) {
  */
 exports.set_gravity = function(obj, gravity) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_gravity(obj, gravity);
@@ -218,7 +218,7 @@ exports.set_gravity = function(obj, gravity) {
  */
 exports.set_transform = function(obj, trans, quat) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_transform(obj, trans, quat);
@@ -231,7 +231,7 @@ exports.set_transform = function(obj, trans, quat) {
  */
 exports.sync_transform = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.sync_transform(obj);
@@ -247,7 +247,7 @@ exports.sync_transform = function(obj) {
  */
 exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.apply_velocity(obj, vx_local, vy_local, vz_local);
@@ -262,7 +262,7 @@ exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
  */
 exports.apply_velocity_world = function(obj, vx, vy, vz) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.apply_velocity_world(obj, vx, vy, vz);
@@ -278,7 +278,7 @@ exports.apply_velocity_world = function(obj, vx, vy, vz) {
  */
 exports.apply_force = function(obj, fx_local, fy_local, fz_local) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.apply_force(obj, fx_local, fy_local, fz_local, false);
@@ -295,7 +295,7 @@ exports.apply_force = function(obj, fx_local, fy_local, fz_local) {
  */
 exports.apply_force_world = function(obj, fx_world, fy_world, fz_world) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.apply_force(obj, fx_world, fy_world, fz_world, true);
@@ -312,7 +312,7 @@ exports.apply_force_world = function(obj, fx_world, fy_world, fz_world) {
  */
 exports.apply_torque = function(obj, tx_local, ty_local, tz_local) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.apply_torque(obj, tx_local, ty_local, tz_local);
@@ -325,7 +325,7 @@ exports.apply_torque = function(obj, tx_local, ty_local, tz_local) {
  */
 exports.vehicle_throttle = function(obj, engine_force) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
 
@@ -343,7 +343,7 @@ exports.vehicle_throttle = function(obj, engine_force) {
  */
 exports.vehicle_throttle_inc = function(obj, engine_force_inc, dir) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
 
@@ -378,7 +378,7 @@ exports.vehicle_throttle_inc = function(obj, engine_force_inc, dir) {
  */
 exports.vehicle_steer = function(obj, steering_value) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
 
@@ -396,7 +396,7 @@ exports.vehicle_steer = function(obj, steering_value) {
  */
 exports.vehicle_steer_inc = function(obj, steering_value_inc, dir) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
 
@@ -431,7 +431,7 @@ exports.vehicle_steer_inc = function(obj, steering_value_inc, dir) {
  */
 exports.vehicle_brake = function(obj, brake_force) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
 
@@ -448,7 +448,7 @@ exports.vehicle_brake = function(obj, brake_force) {
  */
 exports.vehicle_brake_inc = function(obj, brake_force_inc) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
 
@@ -490,7 +490,7 @@ exports.is_vehicle_hull = function(obj) {
  */
 exports.get_vehicle_name = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return null;
     }
     if (m_phy.is_vehicle_chassis(obj) || m_phy.is_vehicle_hull(obj))
@@ -508,7 +508,7 @@ exports.get_vehicle_name = function(obj) {
  */
 exports.get_vehicle_throttle = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return null;
     }
     if (m_phy.is_vehicle_chassis(obj) || m_phy.is_vehicle_hull(obj))
@@ -526,7 +526,7 @@ exports.get_vehicle_throttle = function(obj) {
  */
 exports.get_vehicle_steering = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return null;
     }
     if (m_phy.is_vehicle_chassis(obj) || m_phy.is_vehicle_hull(obj))
@@ -542,7 +542,7 @@ exports.get_vehicle_steering = function(obj) {
  */
 exports.get_vehicle_brake = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return null;
     }
     if (m_phy.is_vehicle_chassis(obj) || m_phy.is_vehicle_hull(obj))
@@ -558,7 +558,7 @@ exports.get_vehicle_brake = function(obj) {
  */
 exports.get_vehicle_speed = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return null;
     }
     if (m_phy.is_vehicle_chassis(obj) || m_phy.is_vehicle_hull(obj))
@@ -584,7 +584,7 @@ exports.is_character = function(obj) {
  */
 exports.set_character_move_dir = function(obj, forw, side) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_character_move_dir(obj, forw, side);
@@ -597,7 +597,7 @@ exports.set_character_move_dir = function(obj, forw, side) {
  */
 exports.set_character_move_type = function(obj, type) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_character_move_type(obj, type);
@@ -611,7 +611,7 @@ exports.set_character_move_type = function(obj, type) {
  */
 exports.set_character_walk_velocity = function(obj, velocity) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_character_walk_velocity(obj, velocity);
@@ -624,7 +624,7 @@ exports.set_character_walk_velocity = function(obj, velocity) {
  */
 exports.set_character_run_velocity = function(obj, velocity) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_character_run_velocity(obj, velocity);
@@ -637,7 +637,7 @@ exports.set_character_run_velocity = function(obj, velocity) {
  */
 exports.set_character_fly_velocity = function(obj, velocity) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_character_fly_velocity(obj, velocity);
@@ -649,7 +649,7 @@ exports.set_character_fly_velocity = function(obj, velocity) {
  */
 exports.character_jump = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.character_jump(obj);
@@ -663,7 +663,7 @@ exports.character_jump = function(obj) {
  */
 exports.character_rotation_inc = function(obj, h_angle, v_angle) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.character_rotation_inc(obj, h_angle, v_angle);
@@ -677,7 +677,7 @@ exports.character_rotation_inc = function(obj, h_angle, v_angle) {
  */
 exports.set_character_rotation = function(obj, angle_h, angle_v) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_character_rotation(obj, angle_h, angle_v);
@@ -690,7 +690,7 @@ exports.set_character_rotation = function(obj, angle_h, angle_v) {
  */
 exports.set_character_rotation_v = function(obj, angle) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_character_rotation_v(obj, angle);
@@ -703,7 +703,7 @@ exports.set_character_rotation_v = function(obj, angle) {
  */
 exports.set_character_rotation_h = function(obj, angle) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.set_character_rotation_h(obj, angle);
@@ -719,7 +719,7 @@ exports.set_character_rotation_h = function(obj, angle) {
 exports.append_collision_test = function(obj_src, collision_id, callback,
         calc_pos_norm) {
     if (!m_phy.obj_has_physics(obj_src)) {
-        m_print.error("No physics for object " + obj_src.name);
+        m_print.error_once("No physics for object " + obj_src.name);
         return;
     }
 
@@ -737,7 +737,7 @@ exports.append_collision_test = function(obj_src, collision_id, callback,
  */
 exports.remove_collision_test = function(obj, collision_id, callback) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
 
@@ -753,7 +753,7 @@ exports.remove_collision_test = function(obj, collision_id, callback) {
  */
 exports.apply_collision_impulse_test = function(obj, callback) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.apply_collision_impulse_test(obj, callback);
@@ -765,7 +765,7 @@ exports.apply_collision_impulse_test = function(obj, callback) {
  */
 exports.clear_collision_impulse_test = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
-        m_print.error("No physics for object " + obj.name);
+        m_print.error_once("No physics for object " + obj.name);
         return;
     }
     m_phy.clear_collision_impulse_test(obj);
@@ -788,7 +788,7 @@ exports.append_ray_test = function(obj_src, from, to, collision_id, callback,
     obj_src = obj_src || null;
 
     if (obj_src != null && !m_phy.obj_has_physics(obj_src)) {
-        m_print.error("No physics for object " + obj_src.name);
+        m_print.error_once("No physics for object " + obj_src.name);
         return;
     }
 
@@ -826,7 +826,7 @@ exports.append_ray_test_ext = function(obj_src, from, to, collision_id, callback
     obj_src = obj_src || null;
 
     if (obj_src != null && !m_phy.obj_has_physics(obj_src)) {
-        m_print.error("No physics for object " + obj_src.name);
+        m_print.error_once("No physics for object " + obj_src.name);
         return;
     }
 
@@ -980,7 +980,7 @@ function navmesh_get_island(navmesh_obj, position,
         distance_to_closest = distance_to_closest_default;
 
     if (!m_phy.obj_has_physics(navmesh_obj)) {
-        m_print.error("No physics for object " + navmesh_obj.name);
+        m_print.error_once("No physics for object " + navmesh_obj.name);
         return;
     }
 
@@ -1015,7 +1015,7 @@ function navmesh_get_island(navmesh_obj, position,
  */
 exports.navmesh_find_path = function (navmesh_obj, start_pos, dest_pos, options) {
     if (!m_phy.obj_has_physics(navmesh_obj)) {
-        m_print.error("No physics for object " + navmesh_obj.name);
+        m_print.error_once("No physics for object " + navmesh_obj.name);
         return;
     }
     var navmesh = navmesh_obj.physics.navmesh;

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 16.11</title>
+  <title>Разработчикам приложений &mdash; Руководство пользователя Blend4Web 16.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.11" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="index.html"/>
         <link rel="next" title="Разработчикам движка" href="developers_advanced.html"/>
         <link rel="prev" title="Физика" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -655,9 +655,9 @@
 </div>
 <div class="section" id="loading-application-assets">
 <h2><a class="toc-backref" href="#id12">Загрузка медиаресурсов приложения.</a><a class="headerlink" href="#loading-application-assets" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для упрощения обслуживания проектов и развертывания сервера храните медиаданные приложений (сцены, текстуры, звуки и т.п.) отдельно от прочих файлов проекта (JavaScript, CSS, HTML и пр.). Папка медиаресурсов располагается по адресу <code class="docutils literal"><span class="pre">deploy/assets/my_project</span></code> в каталоге SDK.</p>
-<p>Для загрузки файлов из директории (например, с помощью метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) используйте метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;my_project/my_project.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
+<p>Для упрощения обслуживания проектов и развертывания сервера храните медиаданные приложений (сцены, текстуры, звуки и т.п.) отдельно от прочих файлов проекта (JavaScript, CSS, HTML и пр.). Папка медиаресурсов располагается по адресу <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code> в каталоге SDK.</p>
+<p>Для загрузки файлов из директории (например, с помощью метода <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) используйте метод <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Такой подход гарантирует, что приложение (как разрабатываемое, так и собранное или развёрнутое) сможет загружать медиаресурсы вне зависимости от того, на какой стадии разработки оно находится.</p>
@@ -862,6 +862,9 @@
 </dd>
 <dt><strong>Makefile</strong></dt>
 <dd><p class="first last">файл сборки для компиляции движка, приложений и документации</p>
+</dd>
+<dt><strong>projects</strong></dt>
+<dd><p class="first last">каталог пользовательских проектов</p>
 </dd>
 <dt><strong>README.rst</strong></dt>
 <dd><p class="first last">файл README</p>
@@ -1115,7 +1118,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-11-29.
+      Обновлено: 2016-12-22.
 
     </p>
   </div>
@@ -1171,7 +1174,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

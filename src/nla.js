@@ -552,7 +552,7 @@ function process_nla_video_textures(timeline, nla, nla_frame) {
 
             // play/pause video
             if (need_play && !is_played)
-                m_tex.play_video(tex.name, tex.vtex_data_id);
+                m_tex.play_video(tex);
             else if (need_play && is_played)
                 need_update = true;
             else if (!need_play && is_played) {
@@ -561,12 +561,12 @@ function process_nla_video_textures(timeline, nla, nla_frame) {
                 if (tex.video_file && video_frame_native < video_frame_clamped)
                     need_update = true;
                 else
-                    m_tex.pause_video(tex.name, tex.vtex_data_id);
+                    m_tex.pause_video(tex);
             }
         }
 
         if (need_set_frame) {
-            m_tex.set_frame_video(tex.name, video_frame_clamped, tex.vtex_data_id);
+            m_tex.set_frame_video(tex, video_frame_clamped);
             if (tex.seq_video)
                 tex.seq_last_discrete_mark = m_tex.seq_video_get_discrete_timemark(tex, timeline);
         } else if (need_update && m_tex.video_update_is_available(tex)) {
@@ -856,7 +856,7 @@ function stop_nla() {
 
         for (var i = 0; i < vtexs.length; i++) {
             var vtex = vtexs[i];
-            m_tex.pause_video(vtex.name, vtex.vtex_data_id);
+            m_tex.pause_video(vtex);
         }
     }
 }

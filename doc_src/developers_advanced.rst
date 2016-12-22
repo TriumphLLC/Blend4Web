@@ -180,6 +180,8 @@ All dependencies are listed in the table below in order of decreasing importance
 +-------------------------------+-------------------------------+----------------------------+
 | TeX Live                      | texlive texlive-latex-extra   | building the manual        |
 |                               | texlive-lang-cyrillic         | (PDF version)              |
+|                               | texlive-lang-chinese          |                            |
+|                               | texlive-xetex                 |                            |
 +-------------------------------+-------------------------------+----------------------------+
 | JSDoc 3                       | installed with NPM            | building the API           |
 |                               | (npm install -g jsdoc)        | documentation              |

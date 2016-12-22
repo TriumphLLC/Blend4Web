@@ -18,6 +18,14 @@
 
 /**
  * Objects API.
+ * <p>Additional topics in the User Manual: {@link
+ * https://www.blend4web.com/doc/en/objects.html#object-transform-api|Object Transform API}, 
+ * {@link https://www.blend4web.com/doc/en/objects.html#get-object-api|Get
+ * Object API}, {@link
+ * https://www.blend4web.com/doc/en/objects.html#object-selection|Object
+ * Selection}, {@link
+ * https://www.blend4web.com/doc/en/objects.html#copying-objects-instancing|Copying
+ * Objects (Instancing)}
  * @module objects
  * @local ObjectMetaTags
  */

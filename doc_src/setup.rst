@@ -11,6 +11,14 @@ Installing and Updating
 Installation
 ============
 
+There are two versions of the Blend4Web framework: Blend4Web SDK and Blend4Web Add-On. In order to decide which one best suits your needs, you will need to decide which kinds of applications you are planning on developing.
+
+If you plan on using all features that Blend4Web engine has to offer, you should install Blend4Web SDK.
+
+If your intention is to develop small-scale projects, or if you are planning on using only a limited number of features of the Blend4Web engine (the normal editor, for example), you might consider installing the :ref:`Blend4Web Add-On <addon>` instead.
+
+Note, the Add-On can only export scenes to :ref:`HTML format <export_scene>` and has limited functionality. For example, it does not include the :ref:`project manager <project_management>`, example scenes, user manual and other additional resources. However, it still has everything you might need to create a simple application.
+
 .. _getting_started_install_blender:
 
 Installing Blender
@@ -26,14 +34,12 @@ A current stable version of Blender should be used. It can be downloaded from th
    :align: center
    :width: 100%
 
-
-Unpacking the Archive
----------------------
-
-Stable versions of the distribution are available as an archive (``blend4web_ce_YY_MM.zip`` -- free SDK, ``blend4web_pro_YY_MM.zip`` -- commercial SDK). Simply unpack this archive somewhere.
+.. _sdk_install:
 
 Installing Blend4Web SDK
 ------------------------
+
+Stable versions of the distribution are available as an archive (``blend4web_ce_YY_MM.zip`` -- free SDK, ``blend4web_pro_YY_MM.zip`` -- commercial SDK). Simply unpack this archive somewhere.
 
 #. Run Blender.
 
@@ -67,17 +73,44 @@ Installing Blend4Web SDK
 
 In the :file:`File > Export` menu, the :file:`Blend4Web (.json)` and :file:`Blend4Web (.html)` options should appear.
 
-.. note::
+.. _addon_install:
 
-    If you are planning to use only the normal editor, you might consider installing the :ref:`Blend4Web addon <addon>` instead of the SDK.
+Installing Blend4Web Add-On
+---------------------------
 
-    The addon can only export scenes to :ref:`HTML format <export_scene>` and has limited functionality (for example, it doesn't have the :ref:`project manager <project_management>`, example scenes, user manual and so on), but still it has everything you might need to create a simple application.
+.. image:: src_images/setup/user_preferences_install_from_file.png
+   :align: center
+   :width: 100%
 
-    It can be installed the same way as any other `Blender addon <https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon#installation-of-a-3rd-party-add-on>`_.
+It can be installed the same way as any other `Blender addon <https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon#installation-of-a-3rd-party-add-on>`_.
 
+#. Run Blender.
+
+#. Open the User Preferences panel :file:`File > User Preferences...`.
+
+#. Open the :file:`Add-ons` tab.
+
+#. Press the ``Install From File...`` button.
+
+#. Select the archive containing Blend4Web add-on and press ``Install From File...`` button.
+
+#. Press the ``Save User Settings`` button.
+
+#. Restart Blender.
+
+#. Once again, open the User Preferences panel :file:`File > User Preferences...`.
+
+#. Open the :file:`Add-ons` tab.
+
+#. Find the Blend4Web Add-on in the list.
+
+#. Check the box on the left side of its title to enable it.
+
+#. Press the ``Save User Settings`` button once again.
+
+Now, everything should work properly.
 
 |
-
 
 Switching to Blend4Web Mode
 ---------------------------
@@ -91,6 +124,8 @@ To reveal the engine settings, select Blend4Web from the upper panel menu:
 
 Updating
 ========
+
+.. _sdk_update:
 
 Updating the SDK
 ----------------
@@ -141,6 +176,8 @@ To update the SDK, follow these steps:
 
 After updating is complete, you can import all saved projects using the :ref:`project import <import_projects>` tools.
 
+.. _addon_update:
+
 Updating the Addon
 -------------------
 
@@ -167,6 +204,8 @@ Before installing a new version of the add-on, you may firstly remove the existi
 #. Restart Blender.
 
 Everything should be working now.
+
+.. _projects_update:
 
 Updating Saved Projects
 -----------------------

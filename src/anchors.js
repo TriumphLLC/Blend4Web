@@ -29,12 +29,15 @@ var m_cam    = require("__camera");
 var m_cfg    = require("__config");
 var m_cont   = require("__container");
 var m_obj    = require("__objects");
+var m_obj_util = require("__obj_util");
 var m_print  = require("__print");
 var m_render = require("__renderer");
 var m_scenes = require("__scenes");
 var m_subs   = require("__subscene");
 var m_time   = require("__time");
+var m_trans  = require("__transform");
 var m_tsr    = require("__tsr");
+var m_vec3   = require("__vec3");
 
 var cfg_def = m_cfg.defaults;
 
@@ -49,6 +52,7 @@ var _pixels           = new Uint8Array(16);
 
 var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
 
 exports.append = function(obj) {
     if (has_anchor_obj(obj))
@@ -515,14 +519,21 @@ exports.update_visibility = function() {
     for (var i = _anchors.length; i--;) {
         var anchor = _anchors[i];
         var obj = anchor.obj;
+        var obj_render = obj.render;
 
         var x = anchor.x;
         var y = anchor.y;
         var depth = anchor.depth;
 
+        var camobj = m_scenes.get_camera(m_scenes.get_main());
+        var center = m_trans.get_translation(obj, _vec3_tmp);
+        var eye = m_trans.get_translation(camobj, _vec3_tmp2);
+        var dist = m_vec3.dist(center, eye);
+
         // optimized order
         if (x < 0 || y < 0 || depth < 0 || depth > 1 || m_scenes.is_hidden(obj) ||
-                x >= canvas_cont.clientWidth || y >= canvas_cont.clientHeight)
+                x >= canvas_cont.clientWidth || y >= canvas_cont.clientHeight ||
+                !is_lod_visible(obj_render, dist))
             var appearance = "out";
         else
             var appearance = "visible";
@@ -595,12 +606,12 @@ function pick_anchor_visibility(anchor) {
 
     // NOTE: very slow
     m_render.read_pixels(anchor_cam.framebuffer, viewport_xy[0], 
-            anchor_cam.height - viewport_xy[1], 2, 2, _pixels); 
+            anchor_cam.height - viewport_xy[1], 2, 2, _pixels);
 
-    if (_pixels[0] + _pixels[4] + _pixels[8] + _pixels[12] == 4 * 255)
+    if (_pixels[5] + _pixels[6] + _pixels[9] + _pixels[10] == 4 * 255)
         return "visible";
     else if (anchor.appearance == "out" || 
-            _pixels[0] + _pixels[4] + _pixels[8] + _pixels[12] == 0)
+            _pixels[5] + _pixels[6] + _pixels[9] + _pixels[10] == 0)
         return "covered";
     else
         return anchor.appearance;
@@ -694,6 +705,21 @@ function check_anchor_coords(anchor, x, y) {
         return true;
     else
         return false;
+}
+
+function is_lod_visible(obj_render, dist) {
+    var dist_min = obj_render.lod_dist_min;
+    var dist_max = obj_render.lod_dist_max;
+    if (dist < dist_min)
+        return false;
+    // for objects with no lods or with infinite lod_dist_max
+    if (dist_max == m_obj_util.LOD_DIST_MAX_INFINITY)
+        return true;
+
+    if (dist < dist_max)
+        return true;
+
+    return false;
 }
 
 }

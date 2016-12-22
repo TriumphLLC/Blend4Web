@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>场景设置 &mdash; Blend4Web 16.11 用户手册</title>
+  <title>场景设置 &mdash; Blend4Web 16.12 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
         <link rel="next" title="物体" href="objects.html"/>
         <link rel="prev" title="插件" href="addon.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -118,7 +118,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#nla">NLA 片段</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#meta-tags">Meta标签</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#physics">物理</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cluster-batching">簇批量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#objects-clustering">Objects Clustering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#objects-selection">选择物体</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#anchors">锚</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#export-options">导出选项</a></li>
@@ -233,7 +233,7 @@
 <li><a class="reference internal" href="#nla" id="id26">NLA 片段</a></li>
 <li><a class="reference internal" href="#meta-tags" id="id27">Meta标签</a></li>
 <li><a class="reference internal" href="#physics" id="id28">物理</a></li>
-<li><a class="reference internal" href="#cluster-batching" id="id29">簇批量</a></li>
+<li><a class="reference internal" href="#objects-clustering" id="id29">Objects Clustering</a></li>
 <li><a class="reference internal" href="#objects-selection" id="id30">选择物体</a></li>
 <li><a class="reference internal" href="#anchors" id="id31">锚</a></li>
 <li><a class="reference internal" href="#export-options" id="id32">导出选项</a></li>
@@ -297,7 +297,7 @@
 <a class="reference internal image-reference" href="_images/render_reflections_and_refractions.png"><img alt="_images/render_reflections_and_refractions.png" class="align-center" src="_images/render_reflections_and_refractions.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>反射</em></dt>
-<dd><p class="first last">反射效果设置。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为``ON``。</p>
+<dd><p class="first last">反射效果设置。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">ON</span></code>。</p>
 </dd>
 <dt><em>折射</em></dt>
 <dd><p class="first last">折射效果设置。可设置 <code class="docutils literal"><span class="pre">ON</span></code>，<code class="docutils literal"><span class="pre">OFF</span></code> 或 <code class="docutils literal"><span class="pre">AUTO</span></code>。默认设置为 <code class="docutils literal"><span class="pre">AUTO</span></code> 。</p>
@@ -487,18 +487,15 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="cluster-batching">
-<span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">簇批量</a><a class="headerlink" href="#cluster-batching" title="永久链接至标题">¶</a></h3>
-<p>该参数允许使用簇批量。它可用于优化目的。这是默认情况下禁用。</p>
-<div class="admonition note">
-<p class="first admonition-title">注解</p>
-<p class="last">如果禁用此参数，引擎将尝试将所有静态对象合二为一。</p>
-</div>
-<a class="reference internal image-reference" href="_images/scene_cluster_batching.png"><img alt="_images/scene_cluster_batching.png" class="align-center" src="_images/scene_cluster_batching.png" style="width: 100%;" /></a>
+<div class="section" id="objects-clustering">
+<span id="scene-batching"></span><h3><a class="toc-backref" href="#id29">Objects Clustering</a><a class="headerlink" href="#objects-clustering" title="永久链接至标题">¶</a></h3>
+<p>The setting for object clustering. It can be used for optimization purposes.</p>
+<a class="reference internal image-reference" href="_images/scene_object_clustering.png"><img alt="_images/scene_object_clustering.png" class="align-center" src="_images/scene_object_clustering.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>簇大小</em></dt>
-<dd><p class="first last">簇的用于批量（米）的尺寸。默认设置为30。如果该参数被设置为零，对象将不会被合并。</p>
-</dd>
+<dd>The size of the cluster used for batching (in meters). If this parameter is set to zero, the engine will try to combine all objects in the scene. Set to zero by default.</dd>
+<dt><em>LOD Cluster Size Multiplier</em></dt>
+<dd>This parameter is used to subdivide clusters (based on LOD distance specified individually for each object) into smaller ones to make transitions between different levels of detail less noticable. The size of that smaller clusters is defined by object LOD distance multiplied by the value of this parameter. Higher values lead to bigger clusters which increases performance but maked transition between LODs more noticable, while lower values make said transitions less noticable at the cost of decreased performance. Set to 0.5 by default.</dd>
 </dl>
 </div>
 <div class="section" id="objects-selection">
@@ -674,7 +671,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-11-29.
+      最后更新于 2016-12-22.
 
     </p>
   </div>
@@ -730,7 +727,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

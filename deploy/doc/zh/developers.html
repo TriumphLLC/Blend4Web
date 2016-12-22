@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>对应用程序开发人员 &mdash; Blend4Web 16.11 用户手册</title>
+  <title>对应用程序开发人员 &mdash; Blend4Web 16.12 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
         <link rel="next" title="对于引擎开发者" href="developers_advanced.html"/>
         <link rel="prev" title="物理" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -131,7 +131,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#code-examples">示例代码</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#loading-application-assets">Loading Application Assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-application-assets">加载应用程序资产</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-driven-model">事件驱动模型</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sensors">传感器</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#example">示例</a></li>
@@ -208,7 +208,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#code-examples" id="id11">示例代码</a></li>
-<li><a class="reference internal" href="#loading-application-assets" id="id12">Loading Application Assets</a></li>
+<li><a class="reference internal" href="#loading-application-assets" id="id12">加载应用程序资产</a></li>
 <li><a class="reference internal" href="#event-driven-model" id="id13">事件驱动模型</a><ul>
 <li><a class="reference internal" href="#sensors" id="id14">传感器</a></li>
 <li><a class="reference internal" href="#example" id="id15">示例</a></li>
@@ -516,7 +516,7 @@
 </ul>
 </dd>
 </dl>
-<p>我们推荐使用``ogg``作为基础格式。在这种情况下，跨浏览器的兼容性要求的唯一的转换将是``ogg``到``mp4``。输入文件的实例：<code class="docutils literal"><span class="pre">file_name.ogg</span></code>，例如一个输出文件：<code class="docutils literal"><span class="pre">file_name.altconv.mp4</span></code>。</p>
+<p>我们推荐使用 <code class="docutils literal"><span class="pre">ogg</span></code> 作为基础格式。在这种情况下，跨浏览器的兼容性要求的唯一的转换将是 <code class="docutils literal"><span class="pre">ogg</span></code> 到 <code class="docutils literal"><span class="pre">mp4</span></code> 。输入文件的实例：<code class="docutils literal"><span class="pre">file_name.ogg</span></code>，例如一个输出文件：<code class="docutils literal"><span class="pre">file_name.altconv.mp4</span></code>。</p>
 <dl class="docutils">
 <dt>视频（convert_media）：</dt>
 <dd><ul class="first last simple">
@@ -626,38 +626,44 @@
 </li>
 <li><p class="first">Canvas Texture -  用帆布质地的工作</p>
 </li>
-<li>Change Image - changing texture images on-the-fly</li>
+<li><p class="first">更改图像 - 即时更改纹理图像</p>
+</li>
 <li><p class="first">Custom Anchors -创建自定义的注解</p>
 </li>
 <li><p class="first">Dynamic Geometry -程序几何修改</p>
 </li>
-<li>Gamepad - an example of controlling a character via gamepad</li>
+<li><p class="first">手柄 - 经由手柄控制角色的一个例子</p>
+</li>
 <li><p class="first">Gyro (Mobile Only) -  与移动设备的陀螺仪工作</p>
 </li>
 <li><p class="first">Instancing - 复制现场运行时对象</p>
 </li>
-<li>Lines - procedural lines rendering</li>
+<li><p class="first">线 - 程序线渲染</p>
+</li>
 <li><p class="first">Material API - 调整材质的性能和替换对象的材质</p>
 </li>
 <li><p class="first">Morphing - 利用形状键</p>
 </li>
-<li>Multitouch (Mobile Only) - using mobile devices multitouch sensor</li>
-<li>Pathfinding - an example of calculating paths and using navigation meshes</li>
+<li><p class="first">多点触控（仅限移动设备） - 使用移动设备的多点触控传感器</p>
+</li>
+<li><p class="first">寻路 - 计算路径，并使用导航网格的例子</p>
+</li>
 <li><p class="first">Ray Test - 光线投射的障碍物检测使用</p>
 </li>
-<li>Webcam - using media stream from a web camera</li>
+<li><p class="first">网络摄像头 - 利用来自Web摄像头的媒体流</p>
+</li>
 </ul>
 </div></blockquote>
-<p>The Code Snippets application is available at <code class="docutils literal"><span class="pre">./apps_dev/code_snippets/code_snippets_dev.html</span></code>. It can be also run by using a link in the <code class="docutils literal"><span class="pre">index.html</span></code> file located in the SDK root.</p>
+<p>代码片段的应用在 <code class="docutils literal"><span class="pre">./apps_dev/code_snippets/code_snippets_dev.html</span></code>. 它可以通过使用位于SDK根的 <code class="docutils literal"><span class="pre">index.html</span></code> 文件的链接也可以运行。</p>
 </div>
 <div class="section" id="loading-application-assets">
-<h2><a class="toc-backref" href="#id12">Loading Application Assets</a><a class="headerlink" href="#loading-application-assets" title="永久链接至标题">¶</a></h2>
-<p>To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at <code class="docutils literal"><span class="pre">deploy/assets/my_project</span></code>.</p>
-<p>To load files (e.g by using <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) from this directory use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a> method:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;my_project/my_project.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
+<h2><a class="toc-backref" href="#id12">加载应用程序资产</a><a class="headerlink" href="#loading-application-assets" title="永久链接至标题">¶</a></h2>
+<p>To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code>.</p>
+<p>To load files (e.g by using <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) from this directory use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a> method:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>This way you ensure that your applications will find assets independently of the current development stage (developed, built or deployed).</p>
+<p>这样可以确保您的应用程序将独立于目前的开发阶段寻找资产（开发，构建或部署）。</p>
 </div>
 <div class="section" id="event-driven-model">
 <span id="event-model"></span><h2><a class="toc-backref" href="#id13">事件驱动模型</a><a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
@@ -700,7 +706,7 @@
 <span class="kd">var</span> <span class="nx">sensor_impact_wall</span>    <span class="o">=</span> <span class="nx">m_controls</span><span class="p">.</span><span class="nx">create_collision_sensor</span><span class="p">(</span><span class="nx">stone</span><span class="p">,</span> <span class="s2">&quot;WALL&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>传感器添加到阵列。使用 <code class="docutils literal"><span class="pre">OR</span></code> 逻辑的逻辑功能。放置在回调函数的声音处理的代码。创建传感器歧管的“影响”id和``CT_SHOT``类型。</p>
+<p>传感器添加到阵列。使用 <code class="docutils literal"><span class="pre">OR</span></code> 逻辑的逻辑功能。放置在回调函数的声音处理的代码。创建传感器歧管的“影响”id和 <code class="docutils literal"><span class="pre">CT_SHOT</span></code> 类型。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// array of the sensors</span>
 <span class="kd">var</span> <span class="nx">impact_sens_array</span> <span class="o">=</span> <span class="p">[</span><span class="nx">sensor_impact_terrain</span><span class="p">,</span> <span class="nx">sensor_impact_wall</span><span class="p">];</span>
 
@@ -737,14 +743,15 @@
 <dt><strong>addons</strong></dt>
 <dd><dl class="first last docutils">
 <dt><strong>blend4web</strong></dt>
-<dd>Blender addon</dd>
+<dd><p class="first last">Blender插件</p>
+</dd>
 </dl>
 </dd>
 <dt><strong>apps_dev</strong></dt>
-<dd><p class="first">SDK apps source code</p>
+<dd><p class="first">SDK 应用程序源代码</p>
 <dl class="last docutils">
 <dt><strong>code_snippets</strong></dt>
-<dd><p class="first">source files of the Code Snippets application</p>
+<dd><p class="first">Code Snippets应用程序的源文件</p>
 <dl class="last docutils">
 <dt><strong>scripts</strong></dt>
 <dd><p class="first last">Blend4Web API用法示例的源文件</p>
@@ -755,21 +762,29 @@
 <dd><p class="first last">乳品厂演示源文件（仅适用于SDK专业版）</p>
 </dd>
 <dt><strong>demos_animation</strong></dt>
-<dd>project files of the basic animation demos</dd>
+<dd><p class="first last">基本的动画演示的项目文件</p>
+</dd>
 <dt><strong>demos_environment</strong></dt>
-<dd>project files of the basic environment demos</dd>
+<dd><p class="first last">基本的环境演示项目文件</p>
+</dd>
 <dt><strong>demos_interactivity</strong></dt>
-<dd>project files of the basic interactivity demos</dd>
+<dd><p class="first last">基本交互演示的项目文件</p>
+</dd>
 <dt><strong>demos_materials</strong></dt>
-<dd>project files of the basic materials demos</dd>
+<dd><p class="first last">基础材质演示项目文件</p>
+</dd>
 <dt><strong>demos_media</strong></dt>
-<dd>project files of the basic media demos</dd>
+<dd><p class="first last">基本的媒体演示项目文件</p>
+</dd>
 <dt><strong>demos_particles</strong></dt>
-<dd>project files of the basic particles demos</dd>
+<dd><p class="first last">基本粒子演示项目文件</p>
+</dd>
 <dt><strong>demos_physics</strong></dt>
-<dd>project files of the basic physics demos</dd>
+<dd><p class="first last">基本的物理演示项目文件</p>
+</dd>
 <dt><strong>demos_postprocessing</strong></dt>
-<dd>project files of the basic postprocessing demos</dd>
+<dd><p class="first last">基本的后处理演示项目文件</p>
+</dd>
 <dt><strong>farm</strong></dt>
 <dd><p class="first last">农场演示源文件（仅适用于SDK专业版）</p>
 </dd>
@@ -786,9 +801,11 @@
 <dd><p class="first last">脚本的应用程序开发人员</p>
 </dd>
 <dt><strong>space_disaster</strong></dt>
-<dd>source files of the Space Disaster app</dd>
+<dd><p class="first last">空间灾害应用程序的源文件</p>
+</dd>
 <dt><strong>tutorials</strong></dt>
-<dd>source files of the Blend4Web tutorials</dd>
+<dd><p class="first last">Blend4Web 教程的源文件</p>
+</dd>
 <dt><strong>victory_day_2015</strong></dt>
 <dd><p class="first last">胜利日70周年贺卡的源文件</p>
 </dd>
@@ -816,7 +833,7 @@
 <dd><p class="first last">为开发人员API文档（自动构建，基于引擎的源代码）</p>
 </dd>
 <dt><strong>apps</strong></dt>
-<dd><p class="first">用于部署3D应用;目录重复* apps_dev *</p>
+<dd><p class="first">用于部署3D应用;目录重复 <em>apps_dev</em></p>
 <dl class="last docutils">
 <dt><strong>common</strong></dt>
 <dd><p class="first last">已编译引擎文件。从 SDK 的所有应用程序共享的 (因此名称)。</p>
@@ -824,16 +841,19 @@
 </dl>
 </dd>
 <dt><strong>assets</strong></dt>
-<dd>application assets: scenes, textures and sounds</dd>
+<dd><p class="first last">应用程序资产︰ 场景、 纹理和声音</p>
+</dd>
 <dt><strong>doc</strong></dt>
-<dd><p class="first last">从自动生成的 HTML 格式的当前用户手册 * doc_src *</p>
+<dd><p class="first last">从自动生成的 HTML 格式的当前用户手册 <em>doc_src</em></p>
 </dd>
 <dt><strong>webglreport</strong></dt>
-<dd>WebGL report application</dd>
+<dd><p class="first last">WebGL 报告应用程序</p>
+</dd>
 </dl>
 </dd>
 <dt><strong>distfiles</strong></dt>
-<dd>distribution builder lists</dd>
+<dd><p class="first last">构建发布文件列表</p>
+</dd>
 <dt><strong>doc_src</strong></dt>
 <dd><p class="first last">当前手册的源文件用reST格式书写</p>
 </dd>
@@ -844,7 +864,10 @@
 <dd><p class="first last">与许可证的文本文件</p>
 </dd>
 <dt><strong>Makefile</strong></dt>
-<dd>makefile for building the engine, the applications, and the documentation</dd>
+<dd><p class="first last">建立引擎，应用程序和文档的makefile文件</p>
+</dd>
+<dt><strong>projects</strong></dt>
+<dd>directory for user projects</dd>
 <dt><strong>README.rst</strong></dt>
 <dd><p class="first last">README文件</p>
 </dd>
@@ -916,7 +939,8 @@
 </dl>
 </dd>
 <dt><strong>tmp</strong></dt>
-<dd>directory for temporary files (e.g. Fast Preview)</dd>
+<dd><p class="first last">临时文件 （例如快速预览） 目录</p>
+</dd>
 <dt><strong>tools</strong></dt>
 <dd><p class="first">various tools for building the engine, apps or convert resources</p>
 <dl class="last docutils">
@@ -1097,7 +1121,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-11-29.
+      最后更新于 2016-12-22.
 
     </p>
   </div>
@@ -1153,7 +1177,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

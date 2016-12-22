@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>物理 &mdash; Blend4Web 16.11 用户手册</title>
+  <title>物理 &mdash; Blend4Web 16.12 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
         <link rel="next" title="对应用程序开发人员" href="developers.html"/>
         <link rel="prev" title="音频" href="audio.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -132,9 +132,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#basic-character">基本角色</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#navigation-meshes">Navigation Meshes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#creating-navigation-meshes">Creating Navigation Meshes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#using-navigation-meshes">Using Navigation Meshes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#navigation-meshes">导航网格</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-navigation-meshes">创建导航网格</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-navigation-meshes">使用导航网格</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#use-in-applications">在应用程序中的使用</a></li>
@@ -213,9 +213,9 @@
 <li><a class="reference internal" href="#basic-character" id="id19">基本角色</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#navigation-meshes" id="id20">Navigation Meshes</a><ul>
-<li><a class="reference internal" href="#creating-navigation-meshes" id="id21">Creating Navigation Meshes</a></li>
-<li><a class="reference internal" href="#using-navigation-meshes" id="id22">Using Navigation Meshes</a></li>
+<li><a class="reference internal" href="#navigation-meshes" id="id20">导航网格</a><ul>
+<li><a class="reference internal" href="#creating-navigation-meshes" id="id21">创建导航网格</a></li>
+<li><a class="reference internal" href="#using-navigation-meshes" id="id22">使用导航网格</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#use-in-applications" id="id23">在应用程序中的使用</a></li>
@@ -278,7 +278,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>向物体添加物理约束 (<code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span> <span class="pre">Joint</span></code>) 可以在 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></code> 面板上执行 。受支持的类型 (<code class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Type</span></code>) 是:<code class="docutils literal"><span class="pre">Ball</span></code>, <code class="docutils literal"><span class="pre">Hinge</span></code>, <code class="docutils literal"><span class="pre">Cone</span> <span class="pre">Twist</span></code>, <code class="docutils literal"><span class="pre">Generic</span> <span class="pre">6</span> <span class="pre">DoF</span></code>. 物理约束可以添加到两个相互作用的物体之一，而另一个物体作为 <code class="docutils literal"><span class="pre">Target</span></code> 。这两个物体可以有静态和/或动态的物理类型。在约束 （除外``Ball``) ，可以设置的平移和旋转的限制。</p>
+<p>向物体添加物理约束 (<code class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span> <span class="pre">Joint</span></code>) 可以在 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></code> 面板上执行 。受支持的类型 (<code class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Type</span></code>) 是: <code class="docutils literal"><span class="pre">Ball</span></code>, <code class="docutils literal"><span class="pre">Hinge</span></code>, <code class="docutils literal"><span class="pre">Cone</span> <span class="pre">Twist</span></code>, <code class="docutils literal"><span class="pre">Generic</span> <span class="pre">6</span> <span class="pre">DoF</span></code>. 物理约束可以添加到两个相互作用的物体之一，而另一个物体作为 <code class="docutils literal"><span class="pre">Target</span></code> 。这两个物体可以有静态和/或动态的物理类型。在约束 （除外 <code class="docutils literal"><span class="pre">Ball</span></code>) ，可以设置的平移和旋转的限制。</p>
 <a class="reference internal image-reference" href="_images/physics_constraints_panel.png"><img alt="_images/physics_constraints_panel.png" class="align-center" src="_images/physics_constraints_panel.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -442,75 +442,88 @@
 </div>
 </div>
 <div class="section" id="navigation-meshes">
-<h2><a class="toc-backref" href="#id20">Navigation Meshes</a><a class="headerlink" href="#navigation-meshes" title="永久链接至标题">¶</a></h2>
-<p>Navigation meshes (commonly abbreviated <em>navmeshes</em>) are mesh objects that are used to make pathfinding simplier by eliminating the need for additional calculations such as collisions.</p>
+<h2><a class="toc-backref" href="#id20">导航网格</a><a class="headerlink" href="#navigation-meshes" title="永久链接至标题">¶</a></h2>
+<p>导航网格 (通常缩写 <em>navmeshes</em>) 是用来消除需要额外计算比如碰撞等使寻路更加简便的网格物体。</p>
 <a class="reference internal image-reference" href="_images/physics_pathfinding_example.png"><img alt="_images/physics_pathfinding_example.png" class="align-center" src="_images/physics_pathfinding_example.png" style="width: 100%;" /></a>
-<p>In this example (taken from Code Snippets), navigation mesh is used to build a path through the labyrinth.</p>
+<p>在此示例中 （取自代码片段），导航网格用于生成通过迷宫的路径。</p>
 <div class="section" id="creating-navigation-meshes">
-<h3><a class="toc-backref" href="#id21">Creating Navigation Meshes</a><a class="headerlink" href="#creating-navigation-meshes" title="永久链接至标题">¶</a></h3>
-<p>To make a navmesh out of an object, turn on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> parameter on the <code class="docutils literal"><span class="pre">Physics</span></code> panel and select <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> from the <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> list.</p>
+<h3><a class="toc-backref" href="#id21">创建导航网格</a><a class="headerlink" href="#creating-navigation-meshes" title="永久链接至标题">¶</a></h3>
+<p>若要将物体生成 navmesh，打开 <code class="docutils literal"><span class="pre">Physics</span></code> 面板的 <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Physics</span></code> 参数 ，从 <code class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></code> 列表中选择 <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> 。</p>
 <a class="reference internal image-reference" href="_images/physics_navmesh.png"><img alt="_images/physics_navmesh.png" class="align-center" src="_images/physics_navmesh.png" style="width: 100%;" /></a>
-<p>Navigation meshes can either be created manually or generated automatically using a specific tool.</p>
+<p>导航网格也可以使用特定的工具手动创建或生成自动。</p>
 <a class="reference internal image-reference" href="_images/physics_navmesh_generator.png"><img alt="_images/physics_navmesh_generator.png" class="align-center" src="_images/physics_navmesh_generator.png" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p class="last">This tool is native to Blender and not a part of the Blend4Web engine.</p>
+<p class="last">此工具是原产于Blender并不是 Blend4Web 引擎的一部分。</p>
 </div>
-<p>This Navigation Mesh generation interface can be found on a dedicated panel under the <code class="docutils literal"><span class="pre">Scene</span></code> tab, but, as this feature is intended for real-time applications, it only appears if the Engine type is set to <code class="docutils literal"><span class="pre">Blend4Web</span></code> or <code class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></code> (Blender Internal, Cycles or any other rendering engine won’t do).</p>
-<p>The main tool on this panel is the <code class="docutils literal"><span class="pre">Build</span> <span class="pre">Navigation</span> <span class="pre">Mesh</span></code> button. As the title suggests, it is used for building navigation meshes based on the currently selected object. The navmesh is created as a separate object placed above the selected object, thus leaving that object intact.</p>
-<p>Aside from this button, the <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> panel offers users several groups of parameters to fine-tune the navmesh that will be generated.</p>
-<p><code class="docutils literal"><span class="pre">Rasterization</span></code> group of parameters:</p>
+<p>此导航网格生成接口可以发现专用面板下的 <code class="docutils literal"><span class="pre">Scene</span></code> 选项卡上，但此功能是为了实时应用程序，它仅音引擎类型设置为  <code class="docutils literal"><span class="pre">Blend4Web</span></code> 或  <code class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></code> 才显示（Blender内部、 Cycles 或任何其他渲染引擎不会有显示）。</p>
+<p>在此面板上的主要工具是  <code class="docutils literal"><span class="pre">Build</span> <span class="pre">Navigation</span> <span class="pre">Mesh</span></code> 按钮。正如标题所暗示的它用来建设基于当前选定对象的导航网格。Navmesh 是作为一个单独的物体放置在所选的物体上面，因此保留该物体创建的。</p>
+<p>除了此按钮  <code class="docutils literal"><span class="pre">Navigation</span> <span class="pre">Mesh</span></code> 面板为用户提供了几组参数将生成 navmesh 进行微调。</p>
+<p><code class="docutils literal"><span class="pre">Rasterization</span></code> （栅格化）组的参数︰</p>
 <dl class="docutils">
 <dt><em>Cell Size</em></dt>
-<dd>Rasterized cell size. Greater values lead to bigger navmesh polygons. The highest possible value is 1.0. Default value is 0.3.</dd>
+<dd><p class="first last">栅格化单元格大小。更大的值会导致更大的 navmesh 多边形。最高的可能值是 1.0。默认值为 0.3。</p>
+</dd>
 <dt><em>Cell Height</em></dt>
-<dd>Rasterized cell height (the distance between the navmesh and the object from which it was generated). Default value is 0.2.</dd>
-</dl>
-<p><code class="docutils literal"><span class="pre">Agent</span></code> group of parameters:</p>
-<dl class="docutils">
-<dt><em>Height</em></dt>
-<dd>Minimum height where the agent can still walk. Default value is 2.0.</dd>
-<dt><em>Radius</em></dt>
-<dd>The radius of the agent. Default value is 0.6.</dd>
-<dt><em>Max Slope</em></dt>
-<dd>Maximum angle of a slope agent can walk on. Measured in degrees. Default value is 45.</dd>
-<dt><em>Max Climb</em></dt>
-<dd>The maximum height between grid cells the agent can climb. Default value is 0.9.</dd>
-</dl>
-<p><code class="docutils literal"><span class="pre">Region</span></code> group of parameters:</p>
-<dl class="docutils">
-<dt><em>Min Region Size</em></dt>
-<dd>The minimum size of a region (smaller regions will be deleted). Default value is 8.0.</dd>
-<dt><em>Merged Region Size</em></dt>
-<dd>The minimum size of a region (smaller regions will be merged). Default value is 20.0.</dd>
-<dt><em>Partitioning</em></dt>
-<dd><p class="first">The method used to partition the navigation mesh. Supported methods are:</p>
-<p><code class="docutils literal"><span class="pre">Monotone</span></code> is the fastest method. Using it may generate long thin polygons.</p>
-<p><code class="docutils literal"><span class="pre">Layers</span></code> — a slower, but still reasonably fast method that produces better triangulations than Monotone partitioning.</p>
-<p class="last"><code class="docutils literal"><span class="pre">Watershed</span></code> — classic Recast partitioning method that generates the nicest tesselation. This option is selected by default.</p>
+<dd><p class="first last">栅格单元格高度 （navmesh 和生成它的对象之间的距离）。默认值为 0.2。</p>
 </dd>
 </dl>
-<p><code class="docutils literal"><span class="pre">Polygonization</span></code> group of parameters:</p>
+<p><code class="docutils literal"><span class="pre">Agent</span></code> 组的参数︰</p>
+<dl class="docutils">
+<dt><em>Height</em></dt>
+<dd><p class="first last">最小高度，代理还能走路。默认值为 2.0。</p>
+</dd>
+<dt><em>Radius</em></dt>
+<dd><p class="first last">代理的半径。默认值为 0.6。</p>
+</dd>
+<dt><em>Max Slope</em></dt>
+<dd><p class="first last">代理能够行走的坡度的最大角度。以度为单位。默认值为 45。</p>
+</dd>
+<dt><em>Max Climb</em></dt>
+<dd><p class="first last">网格单元格之间的最大高度，代理可以爬上。默认值为 0.9。</p>
+</dd>
+</dl>
+<p><code class="docutils literal"><span class="pre">Region</span></code> 组的参数︰</p>
+<dl class="docutils">
+<dt><em>Min Region Size</em></dt>
+<dd><p class="first last">一个区域的最小大小 （较小的区域将被删除）。默认值为 8.0 级。</p>
+</dd>
+<dt><em>Merged Region Size</em></dt>
+<dd><p class="first last">一个区域的最小大小 （较小的地区，将合并）。默认值为 20.0。</p>
+</dd>
+<dt><em>Partitioning</em></dt>
+<dd><p class="first">用于分区导航网格的方法。受支持的方法是︰</p>
+<p><code class="docutils literal"><span class="pre">Monotone</span></code> 是最快的方法。使用它可以生成细细长长的多边形。</p>
+<p><code class="docutils literal"><span class="pre">Layers</span></code> —  速度较慢，但仍然相当快的方法，可产生更好的三角剖分比单调（Monotone ）分区。</p>
+<p class="last"><code class="docutils literal"><span class="pre">Watershed</span></code> — 经典重铸生成最好的剖分分区方法。此选项是默认选中的。</p>
+</dd>
+</dl>
+<p><code class="docutils literal"><span class="pre">Polygonization</span></code> 组的参数︰</p>
 <dl class="docutils">
 <dt><em>Max Edge Length</em></dt>
-<dd>The maximum length of a contour edge. Default value is 12.0.</dd>
+<dd><p class="first last">边缘轮廓最大长度。默认值为 12.0。</p>
+</dd>
 <dt><em>Max Edge Error</em></dt>
-<dd>The maximum error of the distance from the contour to the cells. Default value is 1.3.</dd>
+<dd><p class="first last">从轮廓到单元格的距离最大误差。默认值为 1.3。</p>
+</dd>
 <dt><em>Verts Per Poly</em></dt>
-<dd>The maximum number of vertices per polygon. Default value is 6.</dd>
+<dd><p class="first last">每个多边形顶点的最大数目。默认值为 6。</p>
+</dd>
 </dl>
-<p><code class="docutils literal"><span class="pre">Detail</span> <span class="pre">Mesh</span></code> group of parameters:</p>
+<p><code class="docutils literal"><span class="pre">Detail</span> <span class="pre">Mesh</span></code> 组的参数︰</p>
 <dl class="docutils">
 <dt><em>Sample Distance</em></dt>
-<dd>Detail mesh sample spacing. Default value is 6.0.</dd>
+<dd><p class="first last">详细信息网格采样间距。默认值是 6.0。</p>
+</dd>
 <dt><em>Max Sample Error</em></dt>
-<dd>Maximum error of the mesh simplification. Default value is 1.00.</dd>
+<dd><p class="first last">最大误差的网格简化算法。默认值为 1.00。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="using-navigation-meshes">
-<h3><a class="toc-backref" href="#id22">Using Navigation Meshes</a><a class="headerlink" href="#using-navigation-meshes" title="永久链接至标题">¶</a></h3>
-<p>After a navmesh is created, it then can be used in the application for calculating trajectories between two points. This can be done using two methods from the <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a> module, <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_get_island">navmesh_get_island()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path()</a>. The former is used to retrieve a link to the current island (closest independent segment of the navmesh), while the latter returns the actual path in the form of an array of coordinates.</p>
-<p>An example of using navigation meshes for pathfinding can be viewed in the <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> (the corresponding snippet is named <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
+<h3><a class="toc-backref" href="#id22">使用导航网格</a><a class="headerlink" href="#using-navigation-meshes" title="永久链接至标题">¶</a></h3>
+<p>Navmesh 创建后，它然后可用于在应用程序中计算两个点之间的运动轨迹。这可以从  <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html">physics</a>  模块的两种方法得到 <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_get_island">navmesh_get_island()</a> 和 <a class="reference external" href="https://www.blend4web.com/api_doc/module-physics.html#.navmesh_find_path">navmesh_find_path()</a>. 前者用来检索链接到当前的岛 （最接近独立网段的 navmesh），而后者返回以数组形式的实际路径中的坐标。</p>
+<p>使用导航网格的寻路的例子可以在 <a class="reference internal" href="developers.html#code-snippets"><span>代码摘要</span></a> (相对应的摘要名字叫 <code class="docutils literal"><span class="pre">Pathfinding</span></code>).</p>
 </div>
 </div>
 <div class="section" id="use-in-applications">
@@ -551,7 +564,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-11-29.
+      最后更新于 2016-12-22.
 
     </p>
   </div>
@@ -607,7 +620,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

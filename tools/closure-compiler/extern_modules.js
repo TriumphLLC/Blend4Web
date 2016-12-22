@@ -34,7 +34,13 @@ WebGLRenderingContext.createVertexArray;
 WebGLRenderingContext.deleteVertexArray;
 WebGLRenderingContext.isVertexArray;
 WebGLRenderingContext.TEXTURE_COMPARE_MODE;
-WebGLRenderingContext.COMPARE_REF_TO_TEXTURE
+WebGLRenderingContext.COMPARE_REF_TO_TEXTURE;
+WebGLRenderingContext.createQuery;
+WebGLRenderingContext.beginQuery;
+WebGLRenderingContext.endQuery;
+WebGLRenderingContext.getQueryParameter;
+WebGLRenderingContext.QUERY_RESULT_AVAILABLE;
+WebGLRenderingContext.QUERY_RESULT;
 
 // missing extensions stuff
 var EXTDisjointTimerQuery;

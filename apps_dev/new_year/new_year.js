@@ -491,6 +491,10 @@ function prepare_text(message, context) {
         }
     }
 
+    if (context.measureText(row + word).width > MAX_TEXT_ROW_LENGTH) {
+        text.push(row);
+        row = "";
+    }
     row += word;
     text.push(row);
     if (text.length > NUMBER_OF_END_ROW) {

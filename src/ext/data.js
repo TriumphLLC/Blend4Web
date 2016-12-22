@@ -17,7 +17,7 @@
 "use strict";
 
 /**
- * Data API. Used to load/unload exported json data files.
+ * Data API. Used to load/unload exported JSON data files.
  * @module data
  * @local StageloadCallback
  * @local LoadedCallback
@@ -101,5 +101,18 @@ exports.cleanup = exports.unload;
  * @method module:data.activate_media
  */
 exports.activate_media = m_data.activate_media;
+/**
+ * Preload scene's resources and put them into cache.
+ * @param {String} path Path to JSON file
+ * @param {LoadedCallback} [loaded_cb=null] Callback to be executed right after load
+ * @param {StageloadCallback} [stageload_cb=null] Callback to report about the loading progress
+ * @method module:data.prefetch
+ */
+exports.prefetch = m_data.prefetch;
+/**
+ * Clear loading cache.
+ * @method module:data.unfetch
+ */
+exports.unfetch = m_data.unfetch;
 
 }

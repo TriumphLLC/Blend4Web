@@ -2,7 +2,7 @@
 
 import os, sys
 
-from os.path import join
+from os.path import join, relpath
 
 ROOT_DIR = ".."
 SRC_DIR = "src"
@@ -33,9 +33,11 @@ def gen_module_list(prefix, src_dir):
                 path = join(root, file)
 
                 if prefix:
-                    file_path = os.path.join(prefix, os.path.relpath(path, src_dir))
+                    file_path = join(prefix, relpath(path, src_dir))
                 else:
-                    file_path = os.path.relpath(path, os.path.curdir)
+                    file_path = relpath(path, os.path.curdir)
+
+                file_path = os.path.normpath(file_path)
 
                 if file in LAST_MODULES:
                     last_mods.append(file_path)
@@ -45,11 +47,11 @@ def gen_module_list(prefix, src_dir):
                     first_mods.append(file_path)
                     continue
 
-                if os.path.relpath(path, src_dir).startswith("addons/"):
+                if relpath(path, src_dir).startswith("addons/"):
                     addons.append(file_path)
-                elif os.path.relpath(path, src_dir).startswith("ext/"):
+                elif relpath(path, src_dir).startswith("ext/"):
                     exts.append(file_path)
-                elif os.path.relpath(path, src_dir).startswith("libs/"):
+                elif relpath(path, src_dir).startswith("libs/"):
                     libs.append(file_path)
                 else:
                     modules.append(file_path)

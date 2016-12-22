@@ -22,6 +22,7 @@ import mathutils
 import math
 import os
 import struct
+import configparser
 # import cProfile
 import operator
 import re
@@ -149,6 +150,8 @@ _fallback_material = None
 _fallback_texture = None
 
 _performed_cleanup = False
+
+_proj_util_module = None
 
 _dg_counter = 0
 
@@ -392,8 +395,11 @@ def get_filepath_blend(export_filepath):
         try:
             blend_rel = os.path.relpath(blend_abs, os.path.dirname(json_abs))
         except ValueError as exp:
-            _file_error = exp
-            raise FileError("Export to different disk is forbidden")
+            if _is_fast_preview:
+                blend_rel = blend_abs
+            else:
+                _file_error = exp
+                raise FileError("Export to different disk is forbidden")
 
         return guard_slashes(os.path.normpath(blend_rel))
     else:
@@ -434,7 +440,8 @@ def attach_export_properties(tags):
 def check_dupli_groups(objects, group_number):
     global _dg_counter
     for obj in objects:
-        if obj.dupli_group and obj.dupli_type == "GROUP":
+        if obj.dupli_group and obj.dupli_type == "GROUP" and\
+                hasattr(obj.dupli_group, "objects"):
             _dg_counter += 1
             check_dupli_groups(obj.dupli_group.objects, _dg_counter)
 
@@ -1096,9 +1103,8 @@ def process_scene(scene):
     check_scene_data(scene_data, scene)
     _curr_stack["scenes"].pop()
 
-    if scene.b4w_enable_cluster_batching:
-        clusterer.run(_export_uuid_cache, _bpy_uuid_cache, scene_data, 
-                scene.b4w_cluster_size)
+    clusterer.run(_export_uuid_cache, _bpy_uuid_cache, scene_data, 
+            scene.b4w_cluster_size, scene.b4w_lod_cluster_size_mult)
 
 def get_tags_description(tags):
     if tags.desc_source == "TEXT":
@@ -1648,6 +1654,8 @@ def process_object(obj, is_curve=False, is_hair=False):
 
     obj_data["b4w_cluster_data"] = OrderedDict()
     obj_data["b4w_cluster_data"]["cluster_id"] = -1
+    obj_data["b4w_cluster_data"]["cluster_center"] = None
+    obj_data["b4w_cluster_data"]["cluster_radius"] = 0
 
     # NOTE: give more freedom to objs with edited normals
     obj_data["modifiers"] = []
@@ -2274,7 +2282,14 @@ def process_lamp(lamp):
 
     lamp_data["name"] = lamp.name
     lamp_data["uuid"] = gen_uuid(lamp)
-    lamp_data["type"] = lamp.type
+
+    if lamp.type == "AREA":
+        lamp_data["type"] = "SUN"
+        err("The lamp object \"" + lamp.name + "\" has unsupported AREA type. Changed to SUN.")
+    else:
+        lamp_data["type"] = lamp.type
+
+
     lamp_data["energy"] = round_num(lamp.energy, 3)
     lamp_data["distance"] = round_num(lamp.distance, 3)
 
@@ -2486,7 +2501,7 @@ def process_material(material, uuid = None):
     mat_data["uv_vc_key"] = ""
     # process material links
     if mat_data["use_nodes"]:
-        process_node_tree(mat_data, material)
+        process_node_tree(mat_data, material, False)
     else:
         mat_data["node_tree"] = None
     process_material_texture_slots(mat_data, material)
@@ -3909,7 +3924,7 @@ def process_constraint(cons_data, cons, const_holder_name):
 def process_object_lod_levels(obj):
     """export lods"""
 
-    if obj.type != "MESH":
+    if obj.type != "MESH" and obj.type != "EMPTY":
         return []
 
     lod_levels = obj.lod_levels
@@ -4093,7 +4108,7 @@ def process_object_particle_systems(obj, obj_data):
 
     return psystems_data
 
-def process_node_tree(data, tree_source):
+def process_node_tree(data, tree_source, is_group = False):
     node_tree = tree_source.node_tree
 
     if node_tree == None:
@@ -4333,6 +4348,8 @@ def process_node_tree(data, tree_source):
     # node animation data
     process_animation_data(dct, node_tree, bpy.data.actions)
 
+    cleanup_node_tree_data(dct, is_group)
+
 def validate_node(node):
     if node.bl_idname == "ShaderNodeGroup":
 
@@ -4383,7 +4400,7 @@ def process_node_group(data, node_group):
     ng_data["use_orco_tex_coord"] = False
     ng_data["uv_vc_key"] = ""
     ng_data["uuid"] = gen_uuid(node_group.node_tree)
-    process_node_tree(ng_data, node_group)
+    process_node_tree(ng_data, node_group, True)
 
     data["use_orco_tex_coord"] = data["use_orco_tex_coord"] or ng_data["use_orco_tex_coord"]
     data["uv_vc_key"] += ng_data["uv_vc_key"]
@@ -4391,6 +4408,107 @@ def process_node_group(data, node_group):
     _export_uuid_cache[ng_data["uuid"]] = ng_data
     _bpy_uuid_cache[ng_data["uuid"]] = node_group
     node_group.node_tree["export_done"] = True
+
+def cleanup_node_tree_data(node_tree_data, is_group = False):
+    nodes = node_tree_data["nodes"]
+    links = node_tree_data["links"]
+
+    main_output_conn_nodes = []
+    for node_data in nodes[::-1]:
+        if node_data["type"] == "OUTPUT" or node_data["type"] == "OUTPUT_MATERIAL":
+            main_output_conn_nodes = get_conn_nodes(node_tree_data, node_data["name"])
+            break
+
+    glow_output_conn_nodes = []
+    for node_data in nodes[::-1]:
+        if node_data["type"] == "GROUP" and node_data["node_tree_name"] == "B4W_GLOW_OUTPUT":
+            glow_output_conn_nodes = get_conn_nodes(node_tree_data, node_data["name"])
+            break
+
+    # union two sets of nodes
+    # NOT PYTHONIC WAY, SHOULD BE IMPORVED
+    new_nodes = main_output_conn_nodes
+    for glow_node_data in glow_output_conn_nodes:
+        found = False
+        for new_node_data in new_nodes:
+            if glow_node_data["name"] == new_node_data["name"]:
+                found = True
+                break
+        if not found:
+            new_nodes.append(glow_node_data)
+
+    if is_group:
+        group_output_conn_nodes = []
+        for node_data in nodes[::-1]:
+            if node_data["type"] == "GROUP_OUTPUT":
+                group_output_conn_nodes = get_conn_nodes(node_tree_data, node_data["name"])
+                break
+
+        for group_node_data in group_output_conn_nodes:
+            found = False
+            for new_node_data in new_nodes:
+                if group_node_data["name"] == new_node_data["name"]:
+                    found = True
+                    break
+            if not found:
+                new_nodes.append(group_node_data)
+
+    node_tree_data["nodes"] = new_nodes
+    # remove nodes not connected with outputs
+    cleanup_loose_links(node_tree_data)
+
+def get_conn_nodes(node_tree_data, node_name):
+    visit_state = {};
+    set_unvisited(node_tree_data, visit_state);
+
+    get_conn_nodes_iter(node_tree_data, node_name, visit_state);
+
+    new_nodes = [];
+    for key, value in visit_state.items():
+        if value:
+            new_nodes.append(find_node_by_name(node_tree_data, key))
+
+    return new_nodes
+
+def get_conn_nodes_iter(node_tree_data, node_name, visit_state):
+    links = node_tree_data["links"]
+
+    if not visit_state[node_name]:
+        visit_state[node_name] = True;
+        for in_link_data in get_in_links(node_tree_data, node_name):
+            get_conn_nodes_iter(node_tree_data, in_link_data["from_node"]["name"], visit_state);
+
+def cleanup_loose_links(node_tree_data):
+    nodes = node_tree_data["nodes"]
+    links = node_tree_data["links"]
+
+    # remove half-edges too
+    node_tree_data["links"] = [link_data for link_data in links if find_node_by_name(node_tree_data, link_data["from_node"]["name"]) and find_node_by_name(node_tree_data, link_data["to_node"]["name"])]
+    # for link in links:
+    #     print(link["from_node"]["name"] + " -> " +link["to_node"]["name"])
+
+def get_in_links(node_tree_data, node_name):
+    links = node_tree_data["links"]
+    in_links = []
+    for link_data in links:
+        if link_data["to_node"]["name"] == node_name:
+            in_links.append(link_data)
+
+    return in_links
+
+def find_node_by_name(node_tree_data, node_name):
+    nodes = node_tree_data["nodes"]
+
+    for node_data in nodes:
+        if node_data["name"] == node_name:
+            return node_data
+
+    return None
+
+def set_unvisited(node_tree_data, visit_state):
+    nodes = node_tree_data["nodes"]
+    for node_data in nodes:
+        visit_state[node_data["name"]] = False
 
 def process_world_texture_slots(world_data, world):
     slots = world.texture_slots
@@ -4536,16 +4654,55 @@ def get_default_path(is_html=False):
             return bpy.path.abspath(scene.b4w_export_path_json)
         ext = ".json"
 
-    blend_path = os.path.splitext(bpy.data.filepath)[0]
-    if len(blend_path) == 0:
+    abs_blend_path = os.path.splitext(bpy.data.filepath)[0]
+    if len(abs_blend_path) == 0:
         return "untitled" + ext
+
+    # try to find .b4w_project and detect assets path
+    abs_blend_dir, blend_name = os.path.split(abs_blend_path)
+    curr_abs_dir = abs_blend_dir
+
+    sdk_path = addon_prefs.sdk_path()
+    if addon_prefs.has_valid_sdk_path() and sdk_path in abs_blend_dir:
+        while curr_abs_dir != sdk_path:
+            proj_cfg_path = os.path.join(curr_abs_dir, ".b4w_project")
+            if os.path.isfile(proj_cfg_path):
+                global _proj_util_module
+                if not _proj_util_module:
+                    scripts_path = os.path.join(sdk_path, "scripts", "lib")
+                    f, filename, description = imp.find_module('project_util', [scripts_path])
+                    _proj_util_module = imp.load_module('project_util', f, filename, description)
+
+                proj_cfg = _proj_util_module.get_proj_cfg(curr_abs_dir)
+                proj_blend_dirs = _proj_util_module.proj_cfg_value(proj_cfg,
+                        "paths", "blend_dirs", None) or [""]
+
+                curr_proj_blend_dir = ""
+                for proj_blend_dir in proj_blend_dirs:
+                    abs_proj_blend_dir = os.path.join(sdk_path, proj_blend_dir)
+                    if abs_proj_blend_dir in abs_blend_dir:
+                        curr_proj_blend_dir = os.path.relpath(abs_blend_dir, abs_proj_blend_dir);
+                        break
+
+                proj_assets_dirs = _proj_util_module.proj_cfg_value(proj_cfg,
+                        "paths", "assets_dirs", None) or [""]
+
+                # NOTE: take only first
+                abs_proj_assets_dir = os.path.join(sdk_path, proj_assets_dirs[0])
+                dest_assets_path = os.path.join(abs_proj_assets_dir, curr_proj_blend_dir)
+                while not os.path.isdir(dest_assets_path):
+                    dest_assets_path = os.path.dirname(dest_assets_path)
+
+                return os.path.join(dest_assets_path, blend_name) + ext
+            else:
+                curr_abs_dir = os.path.dirname(curr_abs_dir)
 
     # try to detect standard assets path 
     if addon_prefs.has_valid_sdk_path():
         sdk_blender_path = addon_prefs.sdk_path("blender")
 
         try:
-            rel_filepath = os.path.relpath(blend_path, sdk_blender_path)
+            rel_filepath = os.path.relpath(abs_blend_path, sdk_blender_path)
         except ValueError as exp:
             # different disk
             pass
@@ -4556,7 +4713,7 @@ def get_default_path(is_html=False):
                 if os.path.exists(os.path.dirname(assets_path)):
                     return assets_path + ext
 
-    return blend_path + ext
+    return abs_blend_path + ext
 
 def set_default_path(path, is_html=False):
     if bpy.data.filepath != "":
@@ -4869,7 +5026,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
                     f.write(_main_json_str)
                     f.close()
                         
-                    if self.save_export_path:
+                    if not _is_fast_preview and self.save_export_path:
                         set_default_path(export_filepath)
 
                     print("Scene saved to " + export_filepath)

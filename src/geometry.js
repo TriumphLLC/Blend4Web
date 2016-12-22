@@ -59,10 +59,7 @@ var INFLUENCE_NUM_COMP = 4;
 
 // draw modes
 exports.DM_TRIANGLES         = 10;
-exports.DM_POINTS            = 20;
-exports.DM_DYNAMIC_TRIANGLES = 30;
-exports.DM_DYNAMIC_POINTS    = 40;
-exports.DM_LINES             = 50;
+exports.DM_DYNAMIC_TRIANGLES = 20;
 
 exports.SORT_NUMERIC = 0;
 exports.SORT_STRING = 1;
@@ -306,7 +303,6 @@ function init_bufs_data() {
         ibo_type: 0,
         count: 0,
         pointers: {},
-        mode: 0,
         usage: 0,
         debug_ibo_bytes: 0,
         debug_vbo_bytes: 0,
@@ -386,36 +382,19 @@ function extract_array(bufs_data, name) {
  */
 function update_draw_mode(bufs_data, draw_mode) {
 
-    var mode;
     var usage;
 
     switch (draw_mode) {
     case exports.DM_DEFAULT:
     case exports.DM_TRIANGLES:
-        mode = _gl.TRIANGLES;
-        usage = _gl.STATIC_DRAW;
-        break;
-    case exports.DM_POINTS:
-        mode = _gl.POINTS;
         usage = _gl.STATIC_DRAW;
         break;
     case exports.DM_DYNAMIC_TRIANGLES:
-        mode = _gl.TRIANGLES;
         usage = _gl.DYNAMIC_DRAW;
-        break;
-    case exports.DM_DYNAMIC_POINTS:
-        mode = _gl.POINTS;
-        usage = _gl.DYNAMIC_DRAW;
-        break;
-    case exports.DM_LINES:
-        mode = _gl.LINES;
-        usage = _gl.STATIC_DRAW;
         break;
     default:
         m_util.panic("Wrong draw_mode");
     }
-
-    bufs_data.mode = mode;
     bufs_data.usage = usage;
 
 }
@@ -2542,7 +2521,6 @@ exports.clone_bufs_data = function(bufs_data) {
     out.ibo_type = bufs_data.ibo_type;
     out.count = bufs_data.count;
     out.pointers = m_util.clone_object_r(bufs_data.pointers);
-    out.mode = bufs_data.mode;
     out.usage = bufs_data.usage;
     out.debug_ibo_bytes = bufs_data.debug_ibo_bytes;
     out.debug_vbo_bytes = bufs_data.debug_vbo_bytes;

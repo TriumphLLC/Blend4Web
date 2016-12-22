@@ -17,9 +17,10 @@
 "use strict";
 
 /**
- * API to control dynamic (canvas/video) textures.
+ * API methods to control textures.
  * @module textures
  * @local TexChangingFinishCallback
+ * @see https://www.blend4web.com/doc/en/textures.html
  */
 b4w.module["textures"] = function(exports, require) {
 
@@ -27,6 +28,7 @@ var m_print    = require("__print");
 var m_scenes   = require("__scenes");
 var m_textures = require("__textures");
 var m_obj_util = require("__obj_util");
+var m_util     = require("__util");
 var m_assets   = require("__assets");
 
 /**
@@ -46,14 +48,19 @@ exports.play_video = function(texture_name, data_id) {
     if (!data_id)
         data_id = 0;
 
+    var vtex = m_textures.get_video_texture(texture_name, data_id);
+    if (!vtex) {
+        m_print.error("Texture with name \"" + texture_name + "\" not found!");
+        return;
+    }
+
     var scene = m_scenes.get_active();
-    if (scene["b4w_use_nla"] && m_textures.video_allow_nla(texture_name, data_id)) {
+    if (scene["b4w_use_nla"] && m_textures.video_allow_nla(vtex)) {
         m_print.error("NLA texture can't be controlled directly through API.");
         return;
     }
 
-    if (!m_textures.play_video(texture_name, data_id))
-        m_print.error("Texture with name \"" + texture_name + "\" not found!");
+    m_textures.play_video(vtex)
 }
 
 /**
@@ -66,14 +73,19 @@ exports.pause_video = function(texture_name, data_id) {
     if (!data_id)
         data_id = 0;
 
+    var vtex = m_textures.get_video_texture(texture_name, data_id);
+    if (!vtex) {
+        m_print.error("Texture with name \"" + texture_name + "\" not found!");
+        return;
+    }
+
     var scene = m_scenes.get_active();
-    if (scene["b4w_use_nla"] && m_textures.video_allow_nla(texture_name, data_id)) {
+    if (scene["b4w_use_nla"] && m_textures.video_allow_nla(vtex)) {
         m_print.error("NLA texture can't be controlled directly through API.");
         return;
     }
 
-    if (!m_textures.pause_video(texture_name, data_id))
-        m_print.error("Texture with name \"" + texture_name + "\" not found!");
+    m_textures.pause_video(vtex)
 }
 
 /**
@@ -86,14 +98,19 @@ exports.reset_video = function(texture_name, data_id) {
     if (!data_id)
         data_id = 0;
 
+    var vtex = m_textures.get_video_texture(texture_name, data_id);
+    if (!vtex) {
+        m_print.error("Texture with name \"" + texture_name + "\" not found!");
+        return;
+    }
+
     var scene = m_scenes.get_active();
-    if (scene["b4w_use_nla"] && m_textures.video_allow_nla(texture_name, data_id)) {
+    if (scene["b4w_use_nla"] && m_textures.video_allow_nla(vtex)) {
         m_print.error("NLA texture can't be controlled directly through API.");
         return;
     }
 
-    if (!m_textures.reset_video(texture_name, data_id))
-        m_print.error("Texture with name \"" + texture_name + "\" not found!");
+    m_textures.reset_video(vtex);
 }
 /**
  * Returns canvas texture context.
@@ -135,7 +152,6 @@ exports.get_canvas_ctx = function(obj, text_name) {
  * m_tex.update_canvas_ctx(cube, "Texture");
  */
 exports.update_canvas_ctx = function(obj, text_name) {
-
     if (!m_obj_util.is_mesh(obj))
         m_print.error("Object must be type of mesh.");
     else {
@@ -161,23 +177,30 @@ exports.update_canvas_ctx = function(obj, text_name) {
  */
 exports.change_image = function(obj, text_name, image_path, callback) {
     callback = callback || function() {};
+    var tex = m_textures.get_texture_by_name(obj, text_name);
+    if (!tex) {
+        m_print.error("Couldn't find texture \"" + text_name + "\" in object \"" + obj.name + "\".");
+        callback(false);
+        return;
+    }
+
+    var norm_path = m_util.normpath_preserve_protocol(image_path);
+    if (tex.img_full_filepath == norm_path) {
+        callback(true);
+        return;
+    }
+
     var asset = {
         id: image_path,
         type: m_assets.AT_IMAGE_ELEMENT,
         url: image_path,
-        request: "GET",
-        post_type: null,
-        post_data: null,
-        optional_param: null
+        request: "GET"
     };
-    var asset_cb = function(data, iru, type, filepath, optional_param) {
+
+    var asset_cb = function(data, uri, type, filepath) {
         if (data) {
-            if (m_textures.change_image(obj, text_name, data))
-                callback(true);
-            else {
-                m_print.error("Couldn't find texture with this name: " + text_name);
-                callback(false);
-            }
+            m_textures.change_image(obj, tex, text_name, data, image_path);
+            callback(true);
         } else
             callback(false);
     }

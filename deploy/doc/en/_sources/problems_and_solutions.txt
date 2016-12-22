@@ -8,7 +8,7 @@ Problems and Solutions
     :depth: 3
     :backlinks: entry
 
-As WebGL is still a relatively new technology, it may not work perfectly with every combination of software and hardware. This chapter covers common problems that users of the Blend4Web engine may encounter and provides solutions for these problems.
+As `WebGL <https://www.blend4web.com/en/technologies/webgl/>`_ is still a relatively new technology, it may not work perfectly with every combination of software and hardware. This chapter covers common problems that users of the Blend4Web engine may encounter and provides solutions for these problems.
 
 .. _webgl_support:
 
@@ -37,6 +37,7 @@ The following web browsers support WebGL:
     * Microsoft Edge
     * Opera (v. 12 or higher)
     * UC Browser (experimental)
+    * Yandex Browser
 
 We also recommend to use the most recent version of the web browser to avoid compatibility problems.
 

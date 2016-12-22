@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Редактор логики &mdash; Руководство пользователя Blend4Web 16.11</title>
+  <title>Редактор логики &mdash; Руководство пользователя Blend4Web 16.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.11" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="index.html"/>
         <link rel="next" title="Освещение, тени и фон" href="lighting.html"/>
         <link rel="prev" title="Нодовые материалы" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -274,6 +274,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#id74">Входные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id75">Выходные параметры</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id76">Внутренние параметры</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-encode-json-object">Кодирование объекта JSON с помощью логической ноды JSON.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-decode-json-object">Декодирование объекта JSON с помощью логической ноды JSON.</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#page-param">Page Param</a><ul>
@@ -1418,12 +1420,11 @@
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p>Информация, полученная с сервера, должна иметь следующий вид:</p>
-<div class="last highlight-json"><div class="highlight"><pre><span></span>{&quot;var0&quot;: 1,
-&quot;var1&quot;: 10,
-&quot;var2&quot;: 144,
-...
-}
+<p>Информация, полученная с сервера, должна быть в формате JSON:</p>
+<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+<span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1466,10 +1467,47 @@
 <dt><em>JSON Operation</em></dt>
 <dd><p class="first last">Операция, которую нужно произвести над JSON-объектом, указанном в параметре <code class="docutils literal"><span class="pre">JSON</span></code>. Может иметь одно из двух значений: <code class="docutils literal"><span class="pre">ENCODE</span></code> кодирует объект, <code class="docutils literal"><span class="pre">PARSE</span></code> декодирует его. Значение по умолчанию - <code class="docutils literal"><span class="pre">ENCODE</span></code>.</p>
 </dd>
-<dt><em>Members</em></dt>
-<dd><p class="first last">Список переменных, которые будут использованы для кодирования или декодирования JSON-объекта (в зависмости от значения параметра <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code>). Имена переменных всегда имеют вид <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> и т.д., а количество переменных может быть настроено.</p>
+<dt><em>Paths</em></dt>
+<dd><p class="first last">Список путей к переменным внутри объекта JSON. Пути используются для определения внутренней структуры объекта. Путь должен состоять из нескольких идентификаторов (разделённых точками), указывающих адрес поля JSON. Если имя фрагмента пути состоит только из цифр, такое имя интерпретируется как индекс массива. Пути создаются и удаляются вместе с переменными (в списке <code class="docutils literal"><span class="pre">Variables</span></code>); один путь всегда соответствует одной переменной. Список путей может использоваться как для кодирования, так и для декодирования объектов JSON. По умолчанию список пуст.</p>
+</dd>
+<dt><em>Variables</em></dt>
+<dd><p class="first last">Список переменных, которые будут использованы для кодирования или декодирования JSON-объекта (в зависмости от значения параметра <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code>). Имена и количество переменных могут быть настроены. Этот список также пуст по умолчанию.</p>
 </dd>
 </dl>
+</div>
+<div class="section" id="using-json-logic-node-to-encode-json-object">
+<h4>Кодирование объекта JSON с помощью логической ноды JSON.<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="Ссылка на этот заголовок">¶</a></h4>
+<a class="reference internal image-reference" href="_images/logic_editor_json_encode_example.png"><img alt="_images/logic_editor_json_encode_example.png" class="align-center" src="_images/logic_editor_json_encode_example.png" style="width: 100%;" /></a>
+<p>Логическое дерево на изображении выше кодирует объект JSON и сохраняет его в переменной <code class="docutils literal"><span class="pre">R1</span></code>. Закодированный объект JSON будет иметь следующий вид:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;main&quot;</span><span class="p">:{</span>
+        <span class="nt">&quot;part1&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span>
+        <span class="nt">&quot;part2&quot;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span>
+        <span class="nt">&quot;part3&quot;</span><span class="p">:</span><span class="s2">&quot;abc&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-json-logic-node-to-decode-json-object">
+<h4>Декодирование объекта JSON с помощью логической ноды JSON.<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="Ссылка на этот заголовок">¶</a></h4>
+<a class="reference internal image-reference" href="_images/logic_editor_json_decode_example.png"><img alt="_images/logic_editor_json_decode_example.png" class="align-center" src="_images/logic_editor_json_decode_example.png" style="width: 100%;" /></a>
+<p>Логическое дерево на изображении выше получает объект JSON с сервера, сохраняет его в переменной <code class="docutils literal"><span class="pre">R1</span></code> и декодирует объект. Объект JSON имеет следующий вид:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+        <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>При декодировании объекта JSON в этом примере создаются три переменные (создавать их заранее не требуется) с именами <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> и <code class="docutils literal"><span class="pre">var2</span></code>, которые содержат разные части объекта JSON. В данном случае переменная <code class="docutils literal"><span class="pre">var1</span></code> будет иметь значение, равное 17, переменная <code class="docutils literal"><span class="pre">var2</span></code> будет иметь значение &#8220;abc&#8221;, а переменная <code class="docutils literal"><span class="pre">var0</span></code> будет содержать следующий фрагмент объекта JSON:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+    <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="page-param">
@@ -1496,7 +1534,8 @@
 <h4>Внутренние параметры<a class="headerlink" href="#id79" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Param Name</em></dt>
-<dd><p class="first last">Имя параметра веб-страницы.</p>
+<dd><p class="first">Имя параметра веб-страницы.</p>
+<p class="last">For example, if this parameter is set to the value of <code class="docutils literal"><span class="pre">X_1</span></code>, then the value of this parameter (if it is present in the URL) will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
 </dd>
 <dt><em>Destination</em></dt>
 <dd><p class="first last">Переменная, в которую следует сохранить параметр.</p>
@@ -1656,7 +1695,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-11-29.
+      Обновлено: 2016-12-22.
 
     </p>
   </div>
@@ -1712,7 +1751,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -33,6 +33,8 @@ blender/material_library/glass/clean_glass.blend
 blender/material_library/metal/chrome.blend
 blender/material_library/metal/bronze.blend
 blender/material_library/natural/gypsum.blend
+blender/material_library/natural/ice.blend
+blender/material_library/natural/snow.blend
 blender/material_library/plastic/glossy_plastic.blend
 blender/material_library/plastic/rought_plastic.blend
 
@@ -96,6 +98,10 @@ deploy/assets/material_library/glass/glass_normal.jpg
 deploy/assets/material_library/glass/stack_of_glass_ao.jpg
 deploy/assets/material_library/mask/
 deploy/assets/material_library/natural/gypsum_normal.png
+deploy/assets/material_library/natural/drops_normal.png
+deploy/assets/material_library/natural/ice_matcap.png
+deploy/assets/material_library/natural/snow_normal.png
+deploy/assets/material_library/natural/snow_sparkles.png
 deploy/assets/material_library/plastic/normal_noise.png
 deploy/assets/material_library/promo/gridline.png
 deploy/assets/material_library/textures/

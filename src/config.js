@@ -188,8 +188,6 @@ exports.defaults = {
 
     ie_edge_anchors_floor_hack : false,
 
-    ff_disable_anchor_vis_hack : false,
-
     media_auto_activation      : true,
 
     max_cast_lamps             : 4,
@@ -226,7 +224,8 @@ exports.controls = {
 exports.assets = {
     path: "",
     // relative to engine sources (default value for developer version)
-    path_default: "B4W_ASSETS_PATH=../deploy/assets/",
+    path_default: "B4W_ASSETS_PATH=__JS__/../deploy/assets/",
+    proj_path_default: "B4W_PROJ_ASSETS_PATH=__JS__/../projects/__NAME__/assets/",
     max_requests: 15,
     prevent_caching: true,
     min50_available: false,
@@ -884,10 +883,10 @@ exports.set_paths = function() {
     var cfg_phy = exports.physics;
 
     if (!is_built_in_data() && cfg_pth.shaders_path == "")
-        cfg_pth.shaders_path = js_src_dir() + cfg_pth.shaders_path_default;
+        cfg_pth.shaders_path = js_src_dir() + "/" + cfg_pth.shaders_path_default;
 
     if (cfg_phy.enabled && cfg_phy.uranium_path == "")
-        cfg_phy.uranium_path = js_src_dir() +
+        cfg_phy.uranium_path = js_src_dir() + "/" +
                 cfg_phy.uranium_path_default.replace("B4W_URANIUM_PATH=", "")
 }
 
@@ -900,6 +899,7 @@ function js_src_dir() {
     var src_path = null;
 
     var scripts = document.getElementsByTagName('script');
+
     for (var i = 0; i < scripts.length; i++) {
         var src = scripts[i].src;
 
@@ -925,31 +925,28 @@ function js_src_dir() {
     if (index >= 0)
         src_path = src_path.substring(0, index);
 
-    return src_path.substring(0, src_path.lastIndexOf("/") + 1);
+    return src_path.substring(0, src_path.lastIndexOf("/"));
 }
 
-exports.get_std_assets_path = function() {
+exports.get_assets_path = function(name) {
     var cfg_ass = exports.assets;
 
     if (cfg_ass.path)
         return cfg_ass.path;
-    else {
-        var cfg_ass_def = cfg_ass.path_default.replace("B4W_ASSETS_PATH=", "");
 
-        if (is_app_url(cfg_ass_def))
-            return cfg_ass_def;
-        else
-            return js_src_dir() + cfg_ass_def;
+    var cfg_ass_def = cfg_ass.path_default;
+    var assets_repl_pref = "B4W_ASSETS_PATH=";
+
+    if (name) {
+        cfg_ass_def = cfg_ass.proj_path_default;
+        assets_repl_pref = "B4W_PROJ_ASSETS_PATH=";
+        cfg_ass_def = cfg_ass_def.replace("__NAME__", name);
     }
-}
 
-function is_app_url(path) {
-    if (!path)
-        return false;
+    cfg_ass_def = cfg_ass_def.replace(assets_repl_pref, "");
+    cfg_ass_def = cfg_ass_def.replace("__JS__", js_src_dir());
 
-    var reg = /^(((.*?)\/\/)|(\/))/;
-
-    return reg.test(path);
+    return cfg_ass_def;
 }
 
 }

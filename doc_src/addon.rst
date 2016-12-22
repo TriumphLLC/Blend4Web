@@ -37,7 +37,7 @@ If you chose not to start the server automatically, you can always do it manuall
 
 .. note::
 
-    If the path to the Blend4Web SDK is not specified, the local development server cannot be launched. In this case the corresponding message will be displayed instead of the ``Start Server`` button.
+    If the local development server cannot be launched, the corresponding message will be displayed instead of the ``Start Server`` button.
 
     If the server is failed to run, an error message will be shown describing the reason:
 
@@ -98,7 +98,7 @@ Exporting the scene to this format creates a ``.json`` (JavaScript Object Notati
 
 If media resources are `packed into the .blend file <https://www.blender.org/manual/data_system/introduction.html#pack-and-unpack-data>`_, they will be unpacked during the export and placed in the project's directory (inside the SDK directory). It should be noted that the names of such files will be automatically changed, which can complicate working with them.
 
-It is recommended to store all the resources in a dedicated folder inside the SDK directory, it can be called ``deploy/assets/project_name`` for example.
+It is recommended to store all the resources in a dedicated folder inside the SDK directory, it can be called ``projects/project_name/assets`` for example.
 
 .. note::
     In accordance with the security measures, the development server can only access the SDK folder. If media data is placed in another folder, the server won't be able to deploy it during the export (even if it is working correctly in Blender itself).
@@ -556,6 +556,10 @@ In contrast to the above-listed critical export errors, these errors do not proh
 | Sound file is missing in the        | The speaker has no sound attached. The    |
 | SPEAKER object \"NAME\". Converted  | object's type has been changed to EMPTY.  |
 | to EMPTY.                           |                                           |
++-------------------------------------+-------------------------------------------+
+| The lamp object \"NAME\" has        | The lamp object \"NAME\" has unsupported  |
+| unsupported AREA type. Changed to   | AREA type. Changed to SUN.                |
+| SUN.                                |                                           |
 +-------------------------------------+-------------------------------------------+
 | The main scene NAME can not be      | The main scene NAME can not be rendered   |
 | rendered by another scene. Material | by another scene. The material NAME has   |

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-11-28 15:04+0300\n"
-"PO-Revision-Date: 2016-10-29 18:05+0800\n"
+"POT-Creation-Date: 2016-12-21 14:37+0300\n"
+"PO-Revision-Date: 2016-12-01 17:31+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -105,7 +105,7 @@ msgstr "*导入项目*"
 msgid "Opens the :ref:`project import <import_projects>` dialogue."
 msgstr "打开  :ref:`project import <import_projects>` 对话。"
 
-#: ../project_manager.rst:50 ../project_manager.rst:367
+#: ../project_manager.rst:50 ../project_manager.rst:368
 msgid "*Export Project(s)*"
 msgstr "*导出项目*"
 
@@ -113,7 +113,7 @@ msgstr "*导出项目*"
 msgid "Opens the :ref:`project export <export_projects>` page."
 msgstr "打开 :ref:`project export <export_projects>`  页。 "
 
-#: ../project_manager.rst:53 ../project_manager.rst:361
+#: ../project_manager.rst:53 ../project_manager.rst:362
 msgid "*Hide Stock Projects*"
 msgstr "*隐藏项目*"
 
@@ -123,8 +123,8 @@ msgid ""
 "this command is replaced with the ``Show Stock Projects`` command."
 msgstr "可以用来隐藏项目。如果已经隐藏了此类项目，则此命令替换 ``显示项目`` 命令。"
 
-#: ../project_manager.rst:57 ../project_manager.rst:254
-#: ../project_manager.rst:364
+#: ../project_manager.rst:57 ../project_manager.rst:253
+#: ../project_manager.rst:365
 msgid "*Help*"
 msgstr "*帮助*"
 
@@ -283,46 +283,50 @@ msgstr ""
 "  <create_new_project>`."
 
 #: ../project_manager.rst:131
+#, fuzzy
 msgid ""
 "Project name is used to name project directories such as "
-"\"apps_dev/project_name\", \"deploy/assets/project_name\", "
-"\"blender/project_name\" and \"deploy/apps/project_name\"."
+"\"projects/project_name\", \"projects/project_name/assets\", "
+"\"projects/project_name/blender\" and \"projects/project_name/build\"."
 msgstr ""
 "项目名称习惯为 \"apps_dev/project_name\", \"deploy/assets/project_name\", "
 "\"blender/project_name\" and \"deploy/apps/project_name\" 等名称的项目目录。"
 
-#: ../project_manager.rst:132 ../project_manager.rst:263
-#: ../project_manager.rst:522
+#: ../project_manager.rst:132 ../project_manager.rst:262
+#: ../project_manager.rst:527
 msgid "Project title as shown in the browser."
 msgstr "在浏览器中所示的项目标题。"
 
-#: ../project_manager.rst:133 ../project_manager.rst:382
+#: ../project_manager.rst:133 ../project_manager.rst:383
 msgid "Project author’s name."
 msgstr "项目作者的名字。"
 
 #: ../project_manager.rst:134
+#, fuzzy
 msgid ""
 "Add application templates. Standard application templates: html file, css"
 " file, js file will be added to the project directory "
-"\"apps_dev/project_name\"."
+"\"projects/project_name\"."
 msgstr ""
 "添加应用程序模板。标准应用程序模板 ︰ html 文件，css 文件，js 文件将添加到项目目录  "
 "\"apps_dev/project_name\"."
 
 #: ../project_manager.rst:135
+#, fuzzy
 msgid ""
 "Add scene templates. Standard json file will be added to the "
-"\"deploy/assets/project_name\" directory; blend file will be added to the"
-" \"blender/project_name\" directory."
+"\"projects/project_name/assets\" directory; blend file will be added to "
+"the \"projects/project_name/blender\" directory."
 msgstr ""
 "添加场景模板。标准的 json 文件将添加到 \"deploy/assets/project_name\" 目录;blend文件将添加到 "
 "\"blender/project_name\" 目录。"
 
 #: ../project_manager.rst:136
+#, fuzzy
 msgid ""
 "Use Material Library. Blend files of the material library will be copied "
-"to the project directory \"blender/project_name\", while the asset files "
-"will be copied to \"deploy/assets/project_name\" folder."
+"to the project directory \"projects/project_name/blender\", while the "
+"asset files will be copied to \"projects/project_name/assets\" folder."
 msgstr ""
 "使用材质库。材质库的Blend文件会复制到项目文件夹 \"blender/project_name\"，资产文件复制到 "
 "\"deploy/assets/project_name\" 目录。"
@@ -334,62 +338,47 @@ msgid ""
 msgstr "复制项目管理脚本。Project.py 脚本将复制到项目目录。"
 
 #: ../project_manager.rst:138
-msgid ""
-"All project files will be located in the same directory. It is preferable"
-" to use this option in small projects, such as lessons and examples. Only"
-" ``Web Player JSON`` and ``Web Player HTML`` project types are available "
-"for this option."
-msgstr ""
-"所有的项目文件将位于相同的目录中。在小项目中最好使用此选项，如课程和范例。只有 ``Web Player JSON`` 和 ``Web "
-"Player HTML`` 项目类型可以用此选项。"
-
-#: ../project_manager.rst:139
 msgid "Project’s type. Several options are available:"
 msgstr "项目的类型。有几个选项 ︰"
 
-#: ../project_manager.rst:141
+#: ../project_manager.rst:140
 msgid ""
 "``External`` - Project Manager will use engine files in the "
 "``deploy/apps/common/`` directory to run the project."
-msgstr ""
+msgstr "``External``  - 项目管理器将使用引擎文件在 ``deploy/apps/common/`` 目录下运行项目。"
 
-#: ../project_manager.rst:143
-#, fuzzy
+#: ../project_manager.rst:142
 msgid ""
 "When the project is deployed, only application files will be compiled, "
 "while the ``deploy/apps/common/`` folder will be copied to the project "
 "directory."
-msgstr ""
-"``External``  - 该项目将使用  ``deploy/apps/common/`` "
-"目录中的引擎文件，只有应用程序文件将被编译。当项目部署时， ``deploy/apps/common/`` 文件夹将被复制到项目目录;"
+msgstr "当项目部署时，只有应用程序文件将被编译。``deploy/apps/common/`` 文件夹将被复制到项目目录。"
 
-#: ../project_manager.rst:145
+#: ../project_manager.rst:144
 msgid "Use this option if you don't need to change engine files in any way;"
-msgstr ""
+msgstr "如果您不需要以任何方式更改引擎文件使用此选项;"
 
-#: ../project_manager.rst:147
-#, fuzzy
+#: ../project_manager.rst:146
 msgid ""
 "``Copy`` - engine files will be directly copied from the "
 "``deploy/apps/common/`` to the application folder."
-msgstr "``Copy`` - 引擎文件将直接从 \"deploy/apps/common/\" 目录复制。只有应用程序文件将被编译;"
+msgstr "``Copy`` - 引擎文件将直接从 ``deploy/apps/common/`` 目录复制到应用文件夹。 "
 
-#: ../project_manager.rst:149
+#: ../project_manager.rst:148
 msgid ""
 "When the project is deployed, only application files are compiled, while "
 "engine files are left intact (so you cannot modify the engine itself);"
-msgstr ""
+msgstr "当项目展开时，唯一的应用程序文件进行编译，而引擎文件仍保持不变（所以你不能修改引擎本身）;"
 
-#: ../project_manager.rst:150
-#, fuzzy
+#: ../project_manager.rst:149
 msgid "``Compile`` - engine sources are compiled with application scripts."
 msgstr "``Compile`` -引擎源代码应用程序的脚本一同编译;"
 
-#: ../project_manager.rst:152
+#: ../project_manager.rst:151
 msgid "This option can be used to modify the code of the engine itself;"
-msgstr ""
+msgstr "这个选项可以用于修改引擎本身的代码;"
 
-#: ../project_manager.rst:153
+#: ../project_manager.rst:152
 msgid ""
 "``None`` - Project Manager will not copy the engine files to the "
 "application folder, nor will it perform any operations upon building the "
@@ -399,35 +388,35 @@ msgstr ""
 "``None`` "
 "-项目管理器不会将引擎文件复制到应用程序文件夹，也不将它执行任何操作生成应用程序。应用程序开发人员将不得不手动执行他们所需要的一切;"
 
-#: ../project_manager.rst:154
+#: ../project_manager.rst:153
 msgid ""
 "``Web Player JSON`` - json-file placed inside the project is run with the"
 " help of web-player inside SDK;"
 msgstr "``Web Player JSON`` - 项目下的 json 文件通过SDK里的web播放器播放；"
 
-#: ../project_manager.rst:155
+#: ../project_manager.rst:154
 msgid ""
 "``Web Player HTML`` - project is packed into single html-file, containing"
 " all required resources."
 msgstr "``Web Player HTML`` - 项目被打包到单独的 html 文件，包含所有所需的资源。"
 
-#: ../project_manager.rst:157
+#: ../project_manager.rst:156
 msgid "Javascript optimization level."
 msgstr "Javascript 优化级别。"
 
-#: ../project_manager.rst:159
+#: ../project_manager.rst:158
 msgid "\"Simple\" - variable names are replaced in the code;"
 msgstr "\"简单\" — — 变量的名称替换代码;"
 
-#: ../project_manager.rst:160
+#: ../project_manager.rst:159
 msgid "\"Advanced\" - code optimization is performed;"
 msgstr "\"先进\" — — 进行了代码优化;"
 
-#: ../project_manager.rst:161
+#: ../project_manager.rst:160
 msgid "\"Whitespace Only\" - only whitespaces are removed from the code."
 msgstr "\"只空格\" — — 只有空格从代码中移除。"
 
-#: ../project_manager.rst:165
+#: ../project_manager.rst:164
 msgid ""
 "Web Player URL attributes. This tab is available only if ``Engine Binding"
 " Type`` parameter is set to ``Web Player JSON`` or ``Web Player HTML``."
@@ -435,45 +424,45 @@ msgstr ""
 "网络播放器的URL属性。此选项卡仅当 ``Engine Binding Type`` 参数设置为 ``Web Player JSON`` 活 "
 "``Web Player HTML`` 时可用。"
 
-#: ../project_manager.rst:167
+#: ../project_manager.rst:166
 msgid ""
 "\"Show FPS\" is used to display the FPS counter in the player’s top right"
 " corner."
 msgstr "“显示FPS” 用于显示在玩家的右上角的FPS计数器。"
 
-#: ../project_manager.rst:168
+#: ../project_manager.rst:167
 msgid ""
 "\"Auto-rotate camera\" enables automatic camera rotation just after the "
 "scene loads."
 msgstr "“自动旋转摄像头” 让场景加载后立即自动旋转相机。"
 
-#: ../project_manager.rst:169
+#: ../project_manager.rst:168
 msgid ""
 "\"Disable social network buttons\" disables social networks buttons on "
 "the control panel."
 msgstr "“禁用社交网络按钮” 禁用控制面板上的社交网络按钮。"
 
-#: ../project_manager.rst:170
+#: ../project_manager.rst:169
 msgid "\"Background transparency\" enables transparency for the rendering area."
 msgstr "“背景透明” 启用渲染区域的透明度。"
 
-#: ../project_manager.rst:171
+#: ../project_manager.rst:170
 msgid ""
 "\"Use compressed textures\" enables loading of minified and compressed "
 "textures (in DDS format)."
 msgstr "\"使用压缩纹理\" 使精缩和压缩纹理加载（以DDS格式）。"
 
-#: ../project_manager.rst:176
+#: ../project_manager.rst:175
 msgid "Creating a Web Player Application"
 msgstr "创建一个 Web 播放器应用程序"
 
-#: ../project_manager.rst:178
+#: ../project_manager.rst:177
 msgid ""
 "The main advantage of Web Player applications is the ease of deploying "
 "such applications on a website."
 msgstr "网络播放器应用的主要优点是易于在网站上部署这种应用。"
 
-#: ../project_manager.rst:184
+#: ../project_manager.rst:183
 msgid ""
 "Creating a Web Player application is simple. All you have to do when "
 "creating a new project is select the ``Web Player JSON`` or ``Web Player "
@@ -482,18 +471,18 @@ msgstr ""
 "创建一个Web Player应用程序很简单。所有你需要做的，当创建一个新的项目选择时在引擎绑定类型面板下面选择 ``Web Player "
 "JSON`` 或 ``Web Player HTML`` 选项。"
 
-#: ../project_manager.rst:186
+#: ../project_manager.rst:185
 msgid ""
 "The parameters that are available for a Web Player project are mostly the"
 " same as for any other type of project. The only exception is the group "
 "of parameter known as the Web Player Params."
 msgstr "可用于在Web播放器项目的参数大多是和任何其他类型的项目一样的。唯一的例外是被称为网络播放器PARAMS组参数。"
 
-#: ../project_manager.rst:189
+#: ../project_manager.rst:188
 msgid "Project Settings"
 msgstr "项目设置"
 
-#: ../project_manager.rst:195
+#: ../project_manager.rst:194
 msgid ""
 "This panel is only available if the ``Web Player JSON`` or ``Web Player "
 "HTML`` option has been enabled. The parameters listed here are in essence"
@@ -503,11 +492,11 @@ msgstr ""
 "如果 ``Web Player JSON`` 或 ``Web Player HTML`` "
 "选项已启用，此面板才可用。这里列出的参数在本质上是运行该项目的Web播放器应用程序将使用的URL。"
 
-#: ../project_manager.rst:198
+#: ../project_manager.rst:197
 msgid "Deploying the Project"
 msgstr "部署项目"
 
-#: ../project_manager.rst:200
+#: ../project_manager.rst:199
 msgid ""
 "After you have completed your project, select the ``deploy project`` "
 "option from the ``Operations`` panel on the Project Manager main page. "
@@ -517,7 +506,7 @@ msgstr ""
 "您完成您的项目后，在项目管理器的主页面从 ``Operations`` 面板选择 ``deploy project`` "
 "选项。该项目将被导出，打包成一个单一的存档，并下载到您的网页浏览器存储所有下载文件的文件夹。"
 
-#: ../project_manager.rst:202
+#: ../project_manager.rst:201
 msgid ""
 "To place the project on a webpage, you have to extract this archive and "
 "upload its files (the ``html`` file and the ``assets`` directory) to a "
@@ -526,376 +515,376 @@ msgstr ""
 "若要将项目放在网页上，你必须提取此文档，并用FTP，SSH或由支持的任何其他协议服务上传文件（``html`` 文件和 ``assets`` "
 "目录）发送到Web服务器。"
 
-#: ../project_manager.rst:205
+#: ../project_manager.rst:204
 msgid ""
 "The internal structure of the archive and relative paths to its files "
 "should be retained after uploading the project files to a web server."
 msgstr "将项目文件上传到Web服务器上，应保留对其文件的归档和相关路径的内部结构。"
 
-#: ../project_manager.rst:207
+#: ../project_manager.rst:206
 msgid ""
 "A Web Player HTML application can then be placed on any webpage by using "
 "an ``iframe`` container. Here is an example of HTML code that can be used"
 " for this:"
 msgstr "一个Web播放器的HTML应用程序然后可以使用一个 ``iframe`` 容器放置在任何网页。下面是可以用于此的HTML代码的示例："
 
-#: ../project_manager.rst:222
+#: ../project_manager.rst:221
 msgid ""
 "Deploying a JSON project is performed similarly, but instead of a single "
 "HTML file it uses a combination of the Web Player app and a JSON file "
 "that contains the actual scene."
 msgstr "部署JSON项目也是同样地进行，但不是一个HTML文件，它是使用的Web应用程序播放器，并包含实际场景中的JSON文件的组合。"
 
-#: ../project_manager.rst:239
+#: ../project_manager.rst:238
 msgid "Project Information"
 msgstr "项目信息"
 
-#: ../project_manager.rst:241
+#: ../project_manager.rst:240
 msgid ""
 "This page contains information regarding the selected project and can be "
 "viewed by the ``[info]`` link beside the project's title."
 msgstr "此页包含有关选定项目的信息，可以在该项目的标题旁边的 ``[info]`` 链接查看。"
 
-#: ../project_manager.rst:248 ../project_manager.rst:355
+#: ../project_manager.rst:247 ../project_manager.rst:356
 msgid "Commands"
 msgstr "命令"
 
-#: ../project_manager.rst:251 ../project_manager.rst:358
+#: ../project_manager.rst:250 ../project_manager.rst:359
 msgid "*Back to Projects*"
 msgstr "*回到项目*"
 
-#: ../project_manager.rst:251
+#: ../project_manager.rst:250
 msgid "Returns to the Project Manager's main page."
 msgstr "返回到项目管理的主页面。"
 
-#: ../project_manager.rst:254
+#: ../project_manager.rst:253
 msgid "Opens the :ref:`Help file <project_info>`."
 msgstr "打开  :ref:`帮助文件 <project_info>`."
 
-#: ../project_manager.rst:257 ../project_manager.rst:370
+#: ../project_manager.rst:256 ../project_manager.rst:371
 msgid "Project Parameters"
 msgstr "项目参数"
 
-#: ../project_manager.rst:260
+#: ../project_manager.rst:259
 msgid "*Project Name*"
 msgstr "项目名称"
 
-#: ../project_manager.rst:260 ../project_manager.rst:519
+#: ../project_manager.rst:259 ../project_manager.rst:524
 msgid "The name of the project."
 msgstr "项目名称"
 
-#: ../project_manager.rst:263
+#: ../project_manager.rst:262
 msgid "*Project Title*"
 msgstr "项目的标题。"
 
-#: ../project_manager.rst:266
+#: ../project_manager.rst:265
 msgid "*Project Author / Company*"
 msgstr "*项目作者 / 公司*"
 
-#: ../project_manager.rst:266 ../project_manager.rst:516
+#: ../project_manager.rst:265 ../project_manager.rst:521
 msgid "The name of the project's author or the title of the developer company."
 msgstr "该项目的作者或开发商公司的名称。"
 
-#: ../project_manager.rst:269
+#: ../project_manager.rst:268
 msgid "*Project Icon*"
 msgstr "*项目图标*"
 
-#: ../project_manager.rst:269 ../project_manager.rst:525
+#: ../project_manager.rst:268 ../project_manager.rst:530
 msgid "The icon of the project."
 msgstr "该项目的图标。"
 
-#: ../project_manager.rst:272
-#, fuzzy
+#: ../project_manager.rst:271
 msgid "*Applications*"
 msgstr "*应用程序*"
 
-#: ../project_manager.rst:272 ../project_manager.rst:552
-#, fuzzy
+#: ../project_manager.rst:271 ../project_manager.rst:557
 msgid "Project applications."
-msgstr "编译应用程序。"
+msgstr "项目应用程序。"
 
-#: ../project_manager.rst:275
+#: ../project_manager.rst:274
 msgid "*Engine Binding Type*"
 msgstr "*引擎绑定类型*"
 
-#: ../project_manager.rst:275 ../project_manager.rst:558
+#: ../project_manager.rst:274 ../project_manager.rst:563
 msgid "The type of the project."
 msgstr "设置项目类型"
 
-#: ../project_manager.rst:278
+#: ../project_manager.rst:277
 msgid "*Project Path (Development Directory)*"
 msgstr "*项目路径 （开发目录）*"
 
-#: ../project_manager.rst:278
+#: ../project_manager.rst:277
 msgid "Project's directory."
 msgstr "项目的目录。"
 
-#: ../project_manager.rst:281
+#: ../project_manager.rst:280
 msgid "*Project Config*"
 msgstr "*项目配置*"
 
-#: ../project_manager.rst:281
+#: ../project_manager.rst:280
 msgid "Project's config file."
 msgstr "项目的配置文件。"
 
-#: ../project_manager.rst:284
+#: ../project_manager.rst:283
 msgid "*Build Directory*"
 msgstr "*构建目录*"
 
-#: ../project_manager.rst:284 ../project_manager.rst:542
-#, fuzzy
+#: ../project_manager.rst:283 ../project_manager.rst:547
 msgid "Project build directory."
-msgstr "项目的目录。"
+msgstr "项目构建目录。"
 
-#: ../project_manager.rst:287
+#: ../project_manager.rst:286
 msgid "*Blend Directory(s)*"
 msgstr "*Blend 目录*"
 
-#: ../project_manager.rst:287 ../project_manager.rst:536
+#: ../project_manager.rst:286 ../project_manager.rst:541
 msgid "Directories where project's blend files are located."
 msgstr "项目的blend文件目录的位置。"
 
-#: ../project_manager.rst:290
+#: ../project_manager.rst:289
 msgid "*Assets Directory(s)*"
 msgstr "*资产目录*"
 
-#: ../project_manager.rst:290 ../project_manager.rst:533
+#: ../project_manager.rst:289 ../project_manager.rst:538
 msgid "Directories where project's media assets are located."
 msgstr "项目的媒体资产所在的位置目录。"
 
-#: ../project_manager.rst:293
+#: ../project_manager.rst:292
 msgid "*URL Params*"
 msgstr "*URL 参数*"
 
-#: ../project_manager.rst:293
+#: ../project_manager.rst:292
 msgid ""
 "The list of :ref:`URL parameters <webplayer_attributes>` used to start "
 "the application."
 msgstr ":ref:`URL 参数 <webplayer_attributes>` 列表用来启动应用程序。"
 
-#: ../project_manager.rst:296
+#: ../project_manager.rst:295
 msgid "*JavaScript Obfuscation Level*"
 msgstr "*JavaScript 混淆级别*"
 
-#: ../project_manager.rst:296 ../project_manager.rst:567
+#: ../project_manager.rst:295 ../project_manager.rst:572
 msgid "JavaScript optimization level."
 msgstr "Javascript 优化级别。"
 
-#: ../project_manager.rst:299
-#, fuzzy
+#: ../project_manager.rst:298
 msgid "*JS Compilation Pass-Through List*"
-msgstr "*CSS 编译忽略列表*"
+msgstr "*JS编译通过列表*"
 
-#: ../project_manager.rst:299 ../project_manager.rst:564
-#, fuzzy
+#: ../project_manager.rst:298 ../project_manager.rst:569
 msgid ""
 "The list of pass-through exceptions for the project's JavaScript files "
 "compilation."
-msgstr "项目脚本编译中的例外列表。"
+msgstr "该项目的JavaScript文件汇编直通例外列表。"
 
-#: ../project_manager.rst:302
+#: ../project_manager.rst:301
 msgid "*CSS Compilation Pass-Through List*"
-msgstr ""
+msgstr "*CSS编译通过列表*"
 
-#: ../project_manager.rst:302 ../project_manager.rst:555
-#, fuzzy
+#: ../project_manager.rst:301 ../project_manager.rst:560
 msgid ""
 "The list of pass-through exceptions for the project's style sheets "
 "compilation."
-msgstr "项目样式表编译中的例外列表。"
+msgstr "该项目的样式表编译直通例外列表。"
 
-#: ../project_manager.rst:305
-#, fuzzy
+#: ../project_manager.rst:304
 msgid "*Build Ignore List*"
-msgstr "*构建目录*"
+msgstr "*构建忽略列表*"
 
-#: ../project_manager.rst:305 ../project_manager.rst:561
-#, fuzzy
+#: ../project_manager.rst:304 ../project_manager.rst:566
 msgid "The list of exceptions for project's builds."
-msgstr "项目脚本编译中的例外列表。"
+msgstr "项目编译中的例外列表。"
 
-#: ../project_manager.rst:308
-#, fuzzy
+#: ../project_manager.rst:307
 msgid "*Deployment Assets Directory*"
-msgstr "*资产目录*"
+msgstr "*部署资产目录*"
 
-#: ../project_manager.rst:308 ../project_manager.rst:583
+#: ../project_manager.rst:307 ../project_manager.rst:588
 msgid "Directory where assets will be placed for deployed project."
-msgstr ""
+msgstr "资产将被放置部署项目的目录。"
 
-#: ../project_manager.rst:311
-#, fuzzy
+#: ../project_manager.rst:310
 msgid "*Deployment Assets URL Prefix*"
-msgstr "*部署目录资产前缀*"
+msgstr "*部署资产URL前缀*"
 
-#: ../project_manager.rst:311 ../project_manager.rst:586
+#: ../project_manager.rst:310 ../project_manager.rst:591
+#, fuzzy
 msgid ""
 "URL path prefix to assets directory inside deployed project as reported "
-"by :b4wref:`config.get_std_assets_path()`."
-msgstr ""
+"by :b4wref:`config.get_assets_path()`."
+msgstr ":b4wref:`config.get_std_assets_path()` 所报告的资产目录部署项目中URL路径前缀。"
 
-#: ../project_manager.rst:314
+#: ../project_manager.rst:313
 msgid "*Deployment Ignore List*"
-msgstr ""
+msgstr "*部署忽略列表*"
 
-#: ../project_manager.rst:314 ../project_manager.rst:589
-#, fuzzy
+#: ../project_manager.rst:313 ../project_manager.rst:594
 msgid "The list of exceptions for project's deploy."
-msgstr "项目脚本编译中的例外列表。"
+msgstr "项目的部署例外列表。"
 
-#: ../project_manager.rst:319
-#, fuzzy
+#: ../project_manager.rst:318
 msgid "Project Editing"
-msgstr "项目设置"
+msgstr "项目编辑"
 
-#: ../project_manager.rst:321
-#, fuzzy
+#: ../project_manager.rst:320
 msgid ""
 "A simple web-based interface for editing project files is available by "
 "the ``[edit]`` link beside the project's title."
-msgstr "此页包含有关选定项目的信息，可以在该项目的标题旁边的 ``[info]`` 链接查看。"
+msgstr "简单的基于Web的界面可以编辑项目文件，通过项目的标题旁的 ``[编辑]`` 链接。"
 
-#: ../project_manager.rst:327
+#: ../project_manager.rst:326
+#, fuzzy
 msgid ""
 "The left part of the editor window contains a list of all ``.html``, "
 "``.css`` and ``.js`` files from the project directory "
-"(``./apps_dev/<project_name>``), starting with the main project file "
+"(``projects/my_project``), starting with the main project file "
 "``.b4w_project``. The right part contains the content of a currently "
 "selected project file (no file is selected by default) with highlighted "
 "syntax."
 msgstr ""
+"编辑窗口的左侧部分包含所有 ``.html``，``从项目目录.css`` 和 ``.js`` 文件的列表（``./apps_dev/ "
+"<project_name>``），开始与主体工程文件 ``.b4w_project`` "
+"。右侧包含当前选定的项目文件与高亮的语法内容（没有文件默认情况下选中）。"
 
-#: ../project_manager.rst:330
+#: ../project_manager.rst:329
 msgid ""
 "This interface can only be used to edit files from developer version of a"
 " project, but not from the builded version."
-msgstr ""
+msgstr "这个界面可以仅用于编辑项目的开发版文件，但不能编辑建建好的版本。"
 
-#: ../project_manager.rst:332
+#: ../project_manager.rst:331
+#, fuzzy
 msgid ""
-"The ``Save File`` button that can be found at the bottom of the page is "
-"used for saving currently selected project file."
-msgstr ""
+"New files can be added to the project directory by clicking the ``[New "
+"File]`` button."
+msgstr "这些缺失的模块可以被添加到项目中的 ``Update Modules`` 按钮"
 
-#: ../project_manager.rst:337
+#: ../project_manager.rst:333
+#, fuzzy
+msgid ""
+"The ``[Save]`` and ``[Save As...]`` buttons that can be found at the "
+"bottom of the page are used for saving currently selected project file."
+msgstr "可在页面底部找到了  ``Save File`` 按钮用来保存当前选定的项目文件。"
+
+#: ../project_manager.rst:338
 msgid "Project Import"
 msgstr "项目导入"
 
-#: ../project_manager.rst:339
+#: ../project_manager.rst:340
 msgid ""
 "Tools for importing projects are available by the ``[Import Project(s)]``"
 " link."
 msgstr "导入项目工具是在 ``[Import Project(s)]`` 链接"
 
-#: ../project_manager.rst:341
+#: ../project_manager.rst:342
 msgid ""
 "Clicking this link opens standard Open File dialog where you can select "
 "the project you need to import."
 msgstr "点击该链接会打开标准的文件开启对话框，你可以选择需要导入的项目。"
 
-#: ../project_manager.rst:346
+#: ../project_manager.rst:347
 msgid "Project Export"
 msgstr "项目导出"
 
-#: ../project_manager.rst:348
+#: ../project_manager.rst:349
 msgid ""
 "Project exporting window can be accessed by the ``[Export Project(s)]`` "
 "link."
 msgstr "项目输出窗口可以通过 ``[Export Project(s)]`` 链接访问。"
 
-#: ../project_manager.rst:358
+#: ../project_manager.rst:359
 msgid "Returns to the Project Manager’s main page."
 msgstr "返回到项目管理的主页面。"
 
-#: ../project_manager.rst:361
+#: ../project_manager.rst:362
 msgid ""
 "Hides stock projects. If such projects are already hidden, this command "
 "is replaced with the ``[Show Stock Projects]`` command."
 msgstr "隐藏项目。如果已经隐藏了此类项目，则此命令替换为   ``[显示项目]`` 命令。"
 
-#: ../project_manager.rst:364
+#: ../project_manager.rst:365
 msgid "Shows the Help page."
 msgstr "显示帮助页。"
 
-#: ../project_manager.rst:367
+#: ../project_manager.rst:368
 msgid "Can be used to export selected projects."
 msgstr "可以用来导出所选的项目。"
 
-#: ../project_manager.rst:373
+#: ../project_manager.rst:374
 msgid "*Select*"
 msgstr "*选择*"
 
-#: ../project_manager.rst:373
+#: ../project_manager.rst:374
 msgid "Shows if the project is selected for export."
 msgstr "显示项目是不是选择了要导出。"
 
-#: ../project_manager.rst:376
+#: ../project_manager.rst:377
 msgid "*Name*"
 msgstr "*名字*"
 
-#: ../project_manager.rst:376
+#: ../project_manager.rst:377
 msgid "The name of the project's directory."
 msgstr "该项目的目录的名称。"
 
-#: ../project_manager.rst:379
+#: ../project_manager.rst:380
 msgid "*Title*"
 msgstr "*名称*"
 
-#: ../project_manager.rst:379
+#: ../project_manager.rst:380
 msgid "Project's title."
 msgstr "项目的标题。"
 
-#: ../project_manager.rst:382
+#: ../project_manager.rst:383
 msgid "*Author*"
 msgstr "*作者*"
 
-#: ../project_manager.rst:385
+#: ../project_manager.rst:386
 msgid "*Archive Name*"
 msgstr "*档案名称*"
 
-#: ../project_manager.rst:385
+#: ../project_manager.rst:386
 msgid "The name of an archive to which exported projects are packed."
 msgstr "导出的项目打包的档案名称。"
 
-#: ../project_manager.rst:390
+#: ../project_manager.rst:391
 msgid "Advanced Project Management"
 msgstr "高级项目管理"
 
-#: ../project_manager.rst:392
+#: ../project_manager.rst:393
 msgid ""
 "Advanced project management is used by experienced developers which "
 "require more flexibility and need to automate process of project "
 "development."
 msgstr "高级项目管理器由经验丰富的开发人员使用，在需要更多的灵活性和需要自动化项目开发过程中使用。"
 
-#: ../project_manager.rst:394
+#: ../project_manager.rst:395
 msgid ""
 "For advanced project management use the *project.py* script and manually "
 "edit *.b4w_project* configuration files."
 msgstr "高级项目管理器使用 *project.py* 脚本并手动编辑  *.b4w_project*  配置文件。"
 
-#: ../project_manager.rst:396
+#: ../project_manager.rst:397
 msgid ""
 "The *project.py* script can be found in the ``./apps_dev/`` folder of the"
 " Blend4Web SDK directory."
 msgstr "*Project.py* 脚本可以在 Blend4Web SDK 目录文件夹的  ``../apps_dev/`` 目录下找到。"
 
-#: ../project_manager.rst:399
+#: ../project_manager.rst:400
 msgid "Dependencies"
 msgstr "依赖"
 
-#: ../project_manager.rst:401
+#: ../project_manager.rst:402
 msgid ""
 "The project management system works in all operating systems. However, "
 "some operations can require installing additional dependencies. In order "
 "to check whether all dependencies are met, use the following command:"
 msgstr "项目管理系统在所有操作系统都可用。但是，某些操作可能需要安装附加依赖项。为了检查是否满足所有依赖项，请使用以下命令 ︰"
 
-#: ../project_manager.rst:407 ../project_manager.rst:771
+#: ../project_manager.rst:408 ../project_manager.rst:775
 msgid "For MS Windows users:"
 msgstr "对于MS Windows用户："
 
-#: ../project_manager.rst:413
+#: ../project_manager.rst:414
 msgid ""
 "For script operation it's required to install java and  `set the PATH "
 "system variable <https://www.java.com/en/download/help/path.xml>`_."
@@ -903,13 +892,13 @@ msgstr ""
 "对于脚本运行它需要安装Java和  `设置PATH系统变量 "
 "<https://www.java.com/en/download/help/path.xml>`_."
 
-#: ../project_manager.rst:416
+#: ../project_manager.rst:417
 msgid ""
 "Java is included by default in the Windows version of the SDK. In Linux "
 "and macOS it should be installed manually."
 msgstr "Java 是默认包含在 Windows 版本的 SDK。在 Linux 和 macOS  它应该手动安装。"
 
-#: ../project_manager.rst:418
+#: ../project_manager.rst:419
 msgid ""
 ":ref:`Resource Converter <converter>` also uses its own set of external "
 "tools that are described in :ref:`another section <converter_deps>`."
@@ -917,353 +906,361 @@ msgstr ""
 ":ref:`Resource Converter <converter>`  也使用其自己的描述的外部工具集，在 :ref:`另外章节 "
 "<converter_deps>` 描述."
 
-#: ../project_manager.rst:421
+#: ../project_manager.rst:422
 msgid "Projects List"
 msgstr "项目清单"
 
-#: ../project_manager.rst:423
+#: ../project_manager.rst:424
 msgid ""
 "The list of all projects in the SDK can be viewed with the following "
 "command:"
 msgstr "可以用下面的命令查看的 SDK 中的所有项目列表︰"
 
-#: ../project_manager.rst:431
+#: ../project_manager.rst:432
 msgid "Project Structure"
 msgstr "项目结构"
 
-#: ../project_manager.rst:433
-msgid "A typical app developed using the project manager looks as follows:"
-msgstr "一个典型的应用程序开发中使用项目管理器如下所示展开："
+#: ../project_manager.rst:434
+msgid ""
+"This is how the structure of a project titled my_project and placed in "
+"the ``./projects`` directory in the root of the SDK folder should look:"
+msgstr ""
 
-#: ../project_manager.rst:460
-msgid "This app consists of 4 different directories."
+#: ../project_manager.rst:456
+#, fuzzy
+msgid "This app consists of 3 different directories."
 msgstr "这个应用程序包括4个不同的目录。"
 
-#: ../project_manager.rst:462
-msgid "apps_dev/myproject. Contains source files of project's apps."
-msgstr "apps_dev/myproject. 包含项目的应用程序的源文件。"
+#: ../project_manager.rst:458
+msgid ""
+"my_project/assets. Contains media files (textures and sounds, as well as "
+"the ``.bin`` and ``.json`` files) of project's scenes."
+msgstr ""
 
-#: ../project_manager.rst:463
-msgid "blender/myproject. Contains source files of project's scenes."
-msgstr "blender/myproject. 包含项目的场景源文件。"
-
-#: ../project_manager.rst:464
-msgid "deploy/assets/myproject. Contains exported files of project's scenes."
-msgstr "deploy/assets/myproject. 包含项目的场景导出的文件。"
-
-#: ../project_manager.rst:465
-msgid "deploy/apps/myproject. Contains exported files of project's scenes."
+#: ../project_manager.rst:459
+#, fuzzy
+msgid "my_project/blender. Contains ``.blend`` files of project's scenes."
 msgstr "deploy/apps/myproject. 包含项目的场景导出的文件。"
 
-#: ../project_manager.rst:467
+#: ../project_manager.rst:460
+msgid "my_project/build. Contains files of the builded application."
+msgstr ""
+
+#: ../project_manager.rst:462
+msgid ""
+"Project's main file ``.b4w_project``, as well as the ``.js``, ``.html`` "
+"and ``.css`` files, is placed in the root of the ``my_project/`` folder."
+msgstr ""
+
+#: ../project_manager.rst:464
 msgid ""
 "Additionally, the deploy command can create yet another directory, but "
 "it's usually placed outside of the SDK and its name and path depend on "
 "directory structure on the target server."
 msgstr "此外，部署命令可以创建另一个目录中，但它通常放置在 SDK 之外，其名称和路径取决于目标服务器上的目录结构。"
 
-#: ../project_manager.rst:471
-#, fuzzy
-msgid "Project Configuration File (.b4w_project)"
-msgstr "``.b4w_project``  配置文件"
+#: ../project_manager.rst:470
+msgid ""
+"Starting from the version 16.12, project structure has been changed. "
+"Projects that use old structure still do work, but should be considered "
+"obsolete. We recommend to use the ``update file structure`` button to "
+"upgrade the structure of such projects to a new one."
+msgstr ""
 
-#: ../project_manager.rst:473
+#: ../project_manager.rst:472
+msgid ""
+"This button can be found in the ``Operations`` panel at the right side of"
+" the project's entry in the Project Manager list. It is only available "
+"for user projects (not for stock ones) that use the obsolete project "
+"structure."
+msgstr ""
+
+#: ../project_manager.rst:476
+msgid "Project Configuration File (.b4w_project)"
+msgstr "项目配置文件（.b4w_project）"
+
+#: ../project_manager.rst:478
 msgid ""
 "Project configuration file includes all necessary information of your "
 "project, including name, metadata, directories, info for application "
 "building and deployment."
-msgstr ""
+msgstr "项目配置文件包含项目的所有必要的信息，包括姓名，元数据，目录，应用程序创建和部署信息。"
 
-#: ../project_manager.rst:508
+#: ../project_manager.rst:513
 msgid ""
 "This is a standard INI configuration file, which includes sections, "
 "properties and values."
-msgstr ""
-
-#: ../project_manager.rst:511
-msgid "Section ``[info]``"
-msgstr ""
-
-#: ../project_manager.rst:513
-msgid "Contains project metadata:"
-msgstr ""
+msgstr "这是一个标准的INI配置文件，其中包含的部分，属性和值。"
 
 #: ../project_manager.rst:516
-#, fuzzy
+msgid "Section ``[info]``"
+msgstr "模块 ``[info]``"
+
+#: ../project_manager.rst:518
+msgid "Contains project metadata:"
+msgstr "包含项目的元数据："
+
+#: ../project_manager.rst:521
 msgid "*author*"
 msgstr "*作者*"
 
-#: ../project_manager.rst:519
-#, fuzzy
+#: ../project_manager.rst:524
 msgid "*name*"
 msgstr "*名字*"
 
-#: ../project_manager.rst:522
-#, fuzzy
+#: ../project_manager.rst:527
 msgid "*title*"
 msgstr "*名称*"
 
-#: ../project_manager.rst:525
-#, fuzzy
+#: ../project_manager.rst:530
 msgid "*icon*"
-msgstr "*应用程序*"
+msgstr "*图标*"
 
-#: ../project_manager.rst:528
+#: ../project_manager.rst:533
 msgid "Section ``[paths]``"
 msgstr ""
 
-#: ../project_manager.rst:530
+#: ../project_manager.rst:535
 msgid "Containts project paths:"
-msgstr ""
+msgstr "包含项目路径："
 
-#: ../project_manager.rst:533
+#: ../project_manager.rst:538
 msgid "*assets_dirs*"
 msgstr ""
 
-#: ../project_manager.rst:536
+#: ../project_manager.rst:541
 msgid "*blend_dirs*"
 msgstr ""
 
-#: ../project_manager.rst:539
+#: ../project_manager.rst:544
 msgid "*blender_exec*"
 msgstr ""
 
-#: ../project_manager.rst:539
-#, fuzzy
+#: ../project_manager.rst:544
 msgid "Path to Blender executable."
-msgstr "``“-b | --blender_exec”`` Blender可执行文件的路径。"
+msgstr "Blender的可执行文件路径。"
 
-#: ../project_manager.rst:542
-#, fuzzy
+#: ../project_manager.rst:547
 msgid "*build_dir*"
-msgstr "*构建*"
+msgstr "*build_dir*"
 
-#: ../project_manager.rst:546
+#: ../project_manager.rst:551
 msgid "*deploy_dir*"
 msgstr ""
 
-#: ../project_manager.rst:545
-#, fuzzy
+#: ../project_manager.rst:550
 msgid "Project deployment directory."
-msgstr "项目的目录。"
+msgstr "项目部署的目录。"
 
-#: ../project_manager.rst:549
+#: ../project_manager.rst:554
 msgid "Section ``[compile]``"
 msgstr ""
 
-#: ../project_manager.rst:552
+#: ../project_manager.rst:557
 msgid "*apps*"
 msgstr ""
 
-#: ../project_manager.rst:555
+#: ../project_manager.rst:560
 msgid "*css_ignore*"
 msgstr ""
 
-#: ../project_manager.rst:558
+#: ../project_manager.rst:563
 msgid "*engine_type*"
 msgstr ""
 
-#: ../project_manager.rst:561 ../project_manager.rst:589
+#: ../project_manager.rst:566 ../project_manager.rst:594
 msgid "*ignore*"
 msgstr ""
 
-#: ../project_manager.rst:564
+#: ../project_manager.rst:569
 msgid "*js_ignore*"
 msgstr ""
 
-#: ../project_manager.rst:567
-#, fuzzy
+#: ../project_manager.rst:572
 msgid "*optimization*"
-msgstr "*应用程序*"
+msgstr "*优化*"
 
-#: ../project_manager.rst:570
+#: ../project_manager.rst:575
 msgid "*use_physics*"
 msgstr ""
 
-#: ../project_manager.rst:570
+#: ../project_manager.rst:575
 msgid ""
 "Indicates whether your project will use physics or not. Default - use "
 "physics."
-msgstr ""
+msgstr "指示您的项目是否使用物理或没有。默认 - 使用物理。"
 
-#: ../project_manager.rst:573
+#: ../project_manager.rst:578
 msgid "*use_smaa_textures*"
 msgstr ""
 
-#: ../project_manager.rst:573
+#: ../project_manager.rst:578
 msgid ""
 "Indicates whether your project will use SMAA textures or not. Currently "
 "unused."
-msgstr ""
+msgstr "指示您的项目是否使用SMAA纹理与否。当前未使用。"
 
-#: ../project_manager.rst:577
+#: ../project_manager.rst:582
 msgid "*version*"
 msgstr ""
 
-#: ../project_manager.rst:576
-#, fuzzy
+#: ../project_manager.rst:581
 msgid "Project version."
-msgstr "项目信息"
+msgstr "项目版本。"
 
-#: ../project_manager.rst:580
+#: ../project_manager.rst:585
 msgid "Section ``[deploy]``"
 msgstr ""
 
-#: ../project_manager.rst:583
+#: ../project_manager.rst:588
 msgid "*assets_path_dest*"
 msgstr ""
 
-#: ../project_manager.rst:586
+#: ../project_manager.rst:591
 msgid "*assets_path_prefix*"
 msgstr ""
 
-#: ../project_manager.rst:593
+#: ../project_manager.rst:598
 msgid "*override*"
 msgstr ""
 
-#: ../project_manager.rst:592
+#: ../project_manager.rst:597
 msgid ""
 "Replace existing output directory during deployment phase. Use with "
 "caution."
-msgstr ""
+msgstr "在部署阶段替换现有的输出目录。请谨慎使用。"
 
-#: ../project_manager.rst:596
+#: ../project_manager.rst:601
 msgid "Section ``[url_params]``"
 msgstr ""
 
-#: ../project_manager.rst:598
-#, fuzzy
+#: ../project_manager.rst:603
 msgid ""
 "Optional section for Web Player projects. Contains :ref:`URL params "
 "<webplayer_attributes>` used to start project applications."
-msgstr ":ref:`URL 参数 <webplayer_attributes>` 列表用来启动应用程序。"
+msgstr "网络播放器项目的可选部分。 包含 :ref:`URL 参数 <webplayer_attributes>` 来启动项目应用."
 
-#: ../project_manager.rst:602
+#: ../project_manager.rst:607
 msgid "Creating a Project"
 msgstr "创建项目"
 
-#: ../project_manager.rst:608
+#: ../project_manager.rst:613
 msgid ""
 "This command will create a project with the specified name in the current"
 " directory. By default the project directory will only contain a config "
 "file."
 msgstr "此命令将创建在当前目录指定名称的项目。默认情况下，项目目录只包括一个配置文件。"
 
-#: ../project_manager.rst:610 ../project_manager.rst:683
-#: ../project_manager.rst:707 ../project_manager.rst:722
-#: ../project_manager.rst:738
+#: ../project_manager.rst:615 ../project_manager.rst:687
+#: ../project_manager.rst:711 ../project_manager.rst:726
+#: ../project_manager.rst:742
 msgid "Available parameters:"
 msgstr "可用参数："
 
-#: ../project_manager.rst:612
+#: ../project_manager.rst:617
+#, fuzzy
 msgid ""
 "``-A | --copy-app-templates`` (optional) create standard app templates in"
-" the project directory  (*<my_project_name>_dev.html*, "
-"*<my_project_name>.js*, *<my_project_name>.css*)."
+" the project directory  (*my_project_dev.html*, *my_project.js*, "
+"*my_project.css*)."
 msgstr ""
 "``-A | --copy-APP-templates`` （可选）创建项目目录的标准应用模板 "
 "(*<my_project_name>_dev.html*, *<my_project_name>.js*, "
 "*<my_project_name>.css*)."
 
-#: ../project_manager.rst:613
-msgid ""
-"``-B | --bundle`` (optional) all project files will be placed in a single"
-" directory."
-msgstr "``-B | --bundle`` （可选）所有项目文件将被放置在一个单独的目录。"
-
-#: ../project_manager.rst:614
+#: ../project_manager.rst:618
 msgid ""
 "``-C | --author`` (optional) write an author's or a company's name in the"
 " config file."
 msgstr "``-C | --author`` （可选）写作者的还是公司的配置文件名。"
 
-#: ../project_manager.rst:615
+#: ../project_manager.rst:619
 msgid ""
 "``-o | --optimization`` (optional) write the script optimization level in"
 " the config file."
 msgstr "``-o | --optimization`` （可选）写在配置文件中的脚本优化级别。"
 
-#: ../project_manager.rst:616
+#: ../project_manager.rst:620
 msgid ""
 "``-P | --copy-project-script`` (optional) create a copy of the "
 "*project.py* script in the project directory."
 msgstr "``-P | --copy项目-script`` （可选）在项目目录中创建 *project.py* 脚本的副本。"
 
-#: ../project_manager.rst:617
+#: ../project_manager.rst:621
+#, fuzzy
 msgid ""
 "``-S | --copy-scene-templates`` (optional) create standard scene "
-"templates in the directories ``deploy/assets/<my_project_name>`` and "
-"``blender/<my_project_name>`` (*<my_project_name>.json/.bin* and "
-"*<my_project_name>.blend* correspondingly)."
+"templates in the directories ``projects/my_project/assets`` and "
+"``projects/my_project/blender`` (*my_project.json/.bin* and "
+"*my_project.blend* correspondingly)."
 msgstr ""
 "``-S | --copy-场景templates`` （可选）创建目录 ``deploy/assets/<my_project_name>`` "
 "和 ``blender/<my_project_name>`` (*<my_project_name>.json/.bin* 和 "
 "*<my_project_name>.blend* 相应的)."
 
-#: ../project_manager.rst:618
+#: ../project_manager.rst:622
 msgid ""
 "``-T | --title\"`` (optional) write a title in the config file. Upon "
 "building, it will be used inside the ``<title>`` HTML element."
 msgstr "``-T | --title\"`` （可选）写在配置文件的标题。编译时，里面将使用  ``<title>`` HTML元素。 "
 
-#: ../project_manager.rst:619
+#: ../project_manager.rst:623
 msgid "``-t | --engine-type`` (optional) write an engine type in the config file."
 msgstr "``-t | --engine-type`` （可选）写在配置文件中的引擎类型。"
 
-#: ../project_manager.rst:621
+#: ../project_manager.rst:625
 msgid "Example:"
 msgstr "示例："
 
-#: ../project_manager.rst:627
+#: ../project_manager.rst:631
 msgid ""
-"This command will create a directory named *myproject*, inside which the "
-"following files will be placed: *myproject.js*, *myproject.css*, "
-"*myproject_dev.html* and *.b4w_project*."
+"This command will create a directory named *my_project*, inside which the"
+" following files will be placed: *my_project.js*, *my_project.css*, "
+"*my_project_dev.html* and *.b4w_project*."
 msgstr ""
-"这个命令将创建一个名为 *myproject* 的目录，这里面以下文件将被放置：*myproject.js*, *myproject.css*, "
-"*myproject_dev.html* 和 *.b4w_project*."
 
-#: ../project_manager.rst:629
+#: ../project_manager.rst:633
 msgid "The .b4w_project file will look like::"
 msgstr "该 .b4w_project 文件看起来像::"
 
-#: ../project_manager.rst:663
+#: ../project_manager.rst:667
 msgid "Developing multiple apps inside a project"
 msgstr "开发一个项目中的多个应用程序"
 
-#: ../project_manager.rst:665
+#: ../project_manager.rst:669
 msgid ""
 "A project can contain multiple apps. This can be provided by listing the "
 "corresponding HTML files in the config file separated with semicolon::"
 msgstr "一个项目可以包含多个应用程序。这可以通过用分号分隔的配置文件列表对应的HTML文件的形式提供::"
 
-#: ../project_manager.rst:674
+#: ../project_manager.rst:678
 msgid "Building Projects"
 msgstr "构建项目"
 
-#: ../project_manager.rst:680
-msgid "Builds a project in the ``deploy/apps/myproject`` directory."
+#: ../project_manager.rst:684
+#, fuzzy
+msgid "Builds a project in the ``projects/my_project/build`` directory."
 msgstr "构建在 ``deploy/apps/myproject`` 目录中的项目。"
 
-#: ../project_manager.rst:685
+#: ../project_manager.rst:689
 msgid ""
 "``\"-a | --app\"`` (optional) specify an HTML file, relative to which the"
 " project app will be built."
 msgstr "``“-a | --app”`` （可选）指定一个HTML文件，相对于该项目的应用程序将建成。"
 
-#: ../project_manager.rst:686
+#: ../project_manager.rst:690
 msgid ""
 "``\"-c | --css-ignore\"`` (optional) add CSS styles to exceptions in "
 "order to not compile them."
 msgstr "``\"-c | --css-ignore\"`` （可选）添加CSS样式异常为了不编译它们。"
 
-#: ../project_manager.rst:687
+#: ../project_manager.rst:691
 msgid ""
 "``\"-j | --js-ignore\"`` (optional) add scripts to exceptions in order to"
 " not compile them."
 msgstr "``\"-j | --js-ignore\"`` （可选）添加脚本例外为了不编译它们。"
 
-#: ../project_manager.rst:688
+#: ../project_manager.rst:692
 msgid ""
 "``\"-o | --optimization\"`` (optional) specify the optimization level for"
 " JavaScript files: ``whitespace``, ``simple`` (by default) or "
@@ -1272,7 +1269,7 @@ msgstr ""
 "``“-o | --optimization”`` （可选）指定JavaScript文件的优化级别： "
 "``whitespace``，``simple`` （默认）或 ``advanced``。"
 
-#: ../project_manager.rst:689
+#: ../project_manager.rst:693
 msgid ""
 "``\"-t | --engine-type\"`` (optional) define a compilation type for an "
 "app. Four variants are available: *external* (by default), *copy*, "
@@ -1281,152 +1278,151 @@ msgstr ""
 "``\"-t | --engine-type\"`` （可选）定义的应用程序编译类型。四种型号可供选择： *external* (默认), "
 "*copy*, *compile*, *update*."
 
-#: ../project_manager.rst:690
+#: ../project_manager.rst:694
 msgid "``\"-v | --version\"`` add version to paths of scripts and styles."
 msgstr "``“-v | --version”`` 加版本和脚本和样式的路径。"
 
-#: ../project_manager.rst:692
+#: ../project_manager.rst:696
 msgid "Compiler Requirements"
 msgstr "编译器要求"
 
-#: ../project_manager.rst:694
+#: ../project_manager.rst:698
 msgid ""
 "In the root of the directory the single html file must be stored if "
 "``-a`` option is disabled"
 msgstr "在一个HTML文件必须存放在目录的根目录如果  ``-a`` 选项被禁用"
 
-#: ../project_manager.rst:695
+#: ../project_manager.rst:699
 msgid "Scripts and styles can be stored in the app's root and in the subfolders"
 msgstr "脚本和样式可以存储在应用程序的根目录和子文件夹中"
 
-#: ../project_manager.rst:699
-#, fuzzy
+#: ../project_manager.rst:703
 msgid "Automatic Blend File Export"
-msgstr "自动再导出"
+msgstr "自动 Blend 文件导出"
 
-#: ../project_manager.rst:705
+#: ../project_manager.rst:709
 msgid "This command will re-export blend files in JSON and HTML formats."
 msgstr "此命令将重新导出混合在 JSON 和 HTML 格式的文件。"
 
-#: ../project_manager.rst:709
+#: ../project_manager.rst:713
 msgid "``\"-b | --blender-exec\"`` path to the blender executable."
 msgstr "``“-b | --blender_exec”`` Blender可执行文件的路径。"
 
-#: ../project_manager.rst:710 ../project_manager.rst:724
+#: ../project_manager.rst:714 ../project_manager.rst:728
 msgid "``\"-s | --assets\"`` specify directory with scene assets."
 msgstr "``“-s | --assets”`` 用场景资源指定目录。"
 
-#: ../project_manager.rst:714
+#: ../project_manager.rst:718
 msgid "Resource Conversion"
 msgstr "资源转换"
 
-#: ../project_manager.rst:720
+#: ../project_manager.rst:724
 msgid ""
 "Converts external resources (textures, audio and video files) into "
 "alternative formats to ensure cross-browser and cross-platform "
 "performance."
 msgstr "外部资源（纹理，音频和视频文件）转换为另一种格式，以确保跨浏览器和跨平台性能。"
 
-#: ../project_manager.rst:726
+#: ../project_manager.rst:730
 msgid ""
 "Converting of resources is described in detail in the :ref:`corresponding"
 " section <converter>`."
 msgstr "资源的转换中详细描述在 :ref:`对应部分 <converter>`."
 
-#: ../project_manager.rst:730
+#: ../project_manager.rst:734
 msgid "Deploying Projects"
 msgstr "部署项目"
 
-#: ../project_manager.rst:736
+#: ../project_manager.rst:740
 msgid "Save a project to an external directory together with all dependencies."
 msgstr "与所有依赖一起保存了一个项目在外部目录。"
 
-#: ../project_manager.rst:740
+#: ../project_manager.rst:744
 msgid ""
 "``\"-e | --assets-dest\"`` destination assets directory (\"assets\" by "
 "default)."
 msgstr "``\"-e | --assets-dest\"`` 资产目的地目录（“资产” 默认情况下）。"
 
-#: ../project_manager.rst:741
+#: ../project_manager.rst:745
 msgid "``\"-E | --assets-prefix\"`` assets URL prefix (\"assets\" by default)."
 msgstr "``\"-E | --assets-prefix\"`` 资产网址前缀（默认情况下“资产”）。"
 
-#: ../project_manager.rst:742
+#: ../project_manager.rst:746
 msgid "``\"-o | --override\"`` remove directory if it exists."
 msgstr "``“-o | --override”`` 如果它存在删除目录。"
 
-#: ../project_manager.rst:743
+#: ../project_manager.rst:747
 msgid "``\"-s | --assets\"`` override project's assets directory(s)."
 msgstr "``“-s | --assets”`` 用场景资源指定目录。"
 
-#: ../project_manager.rst:744
+#: ../project_manager.rst:748
 msgid "``\"-t | --engine-type\"`` override project's engine type config."
 msgstr "``-t | --engine-type`` （可选）写在配置文件中的引擎类型。"
 
-#: ../project_manager.rst:748
+#: ../project_manager.rst:752
 msgid "Remove Project"
 msgstr "移除项目"
 
-#: ../project_manager.rst:754
+#: ../project_manager.rst:758
 msgid ""
 "Removes a project. Removed directories are retrieved from project "
 "configuration file."
 msgstr "删除的项目。被删除的目录是从项目配置文件检索。"
 
-#: ../project_manager.rst:758
+#: ../project_manager.rst:762
 msgid "Upgrading Apps for New SDK Versions"
 msgstr "应用程序升级新版本的SDK"
 
-#: ../project_manager.rst:760
+#: ../project_manager.rst:764
 msgid "While upgrading for new SDK versions often two problems arise:"
 msgstr "当升级新的SDK版本往往两个问题就出来了："
 
-#: ../project_manager.rst:762
+#: ../project_manager.rst:766
 msgid "Modules of the new and old versions of the engine do not match."
 msgstr "引擎的新和旧版本的模块不匹配。"
 
-#: ../project_manager.rst:763
+#: ../project_manager.rst:767
 msgid "Old and new engine API do not match."
 msgstr "旧的和新的引擎API不匹配。"
 
-#: ../project_manager.rst:765
+#: ../project_manager.rst:769
 msgid ""
 "In order to update the list of modules imported in developer version of "
 "application go to project source directory ``apps_dev/my_project`` and "
 "execute module list generator script:"
 msgstr "为了更新应用程序的开发者版本导入模块列表转到项目源代码目录 ``apps_dev/my_project`` 和执行模块列表生成脚本："
 
-#: ../project_manager.rst:779
+#: ../project_manager.rst:783
 msgid "To run the scripts the Python 3.x needs to be installed in your system."
 msgstr "要运行的Python 3.x的需要安装在你的系统中的脚本。"
 
-#: ../project_manager.rst:781
+#: ../project_manager.rst:785
 msgid ""
 "The console will print the list of modules - copy them and paste into the"
 " main HTML file:"
 msgstr "控制台将打印模块列表 - 将它们复制并粘贴到主HTML文件："
 
-#: ../project_manager.rst:799
+#: ../project_manager.rst:803
 msgid ""
 "To eliminate API incompatibilities you may require refactoring of your "
 "app. All changes are described in :ref:`release notes <release_notes>`."
 msgstr "为了消除 API 不兼容性可能需要重构您的应用程序。所有的改变放在了  :ref:`发行说明 <release_notes>`."
 
-#~ msgid "Application's main JSON file."
-#~ msgstr "应用程序的主 JSON 文件。"
-
-#~ msgid "Project build folder."
-#~ msgstr "项目构建文件夹。"
-
-#~ msgid "*JavaScript Compilation Ignore List*"
-#~ msgstr "*JavaScript 编译忽略列表*"
-
-#~ msgid "The scene resource folder in the deployed application."
-#~ msgstr "在部署的应用程序的场景资源文件夹。"
-
 #~ msgid ""
 #~ msgstr ""
 
-#~ msgid "Path to Loaded Application Assets"
-#~ msgstr "加载的应用程序资产路径"
+#~ msgid "A typical app developed using the project manager looks as follows:"
+#~ msgstr "一个典型的应用程序开发中使用项目管理器如下所示展开："
+
+#~ msgid "apps_dev/myproject. Contains source files of project's apps."
+#~ msgstr "apps_dev/myproject. 包含项目的应用程序的源文件。"
+
+#~ msgid "blender/myproject. Contains source files of project's scenes."
+#~ msgstr "blender/myproject. 包含项目的场景源文件。"
+
+#~ msgid "deploy/assets/myproject. Contains exported files of project's scenes."
+#~ msgstr "deploy/assets/myproject. 包含项目的场景导出的文件。"
+
+#~ msgid "<my_project_name>/build. Contains files of the builded application."
+#~ msgstr ""
 

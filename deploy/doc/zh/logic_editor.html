@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>逻辑编辑器 &mdash; Blend4Web 16.11 用户手册</title>
+  <title>逻辑编辑器 &mdash; Blend4Web 16.12 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
         <link rel="next" title="照明、 阴影和背景" href="lighting.html"/>
         <link rel="prev" title="节点材质" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -168,7 +168,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#id28">内部参数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#set-camera-move-style">Set Camera Move Style</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-camera-move-style">设置相机移动方式</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id29">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id30">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id31">内部参数</a></li>
@@ -274,6 +274,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#id74">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id75">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id76">内部参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-encode-json-object">Using JSON logic node to encode JSON object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-decode-json-object">Using JSON logic node to decode JSON object</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#page-param">页面参数</a><ul>
@@ -791,8 +793,8 @@
 </div>
 </div>
 <div class="section" id="set-camera-move-style">
-<span id="nla-set-camera-move-style"></span><h3>Set Camera Move Style<a class="headerlink" href="#set-camera-move-style" title="永久链接至标题">¶</a></h3>
-<p>Can be used to change the move style of the selected camera.</p>
+<span id="nla-set-camera-move-style"></span><h3>设置相机移动方式<a class="headerlink" href="#set-camera-move-style" title="永久链接至标题">¶</a></h3>
+<p>可以用来改变所选摄像机的移动方式。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_camera_move_style.png"><img alt="_images/logic_editor_set_camera_move_style.png" class="align-center" src="_images/logic_editor_set_camera_move_style.png" style="width: 100%;" /></a>
 <div class="section" id="id29">
 <h4>输入参数<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h4>
@@ -814,32 +816,41 @@
 <h4>内部参数<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>相机</em></dt>
-<dd>This parameter specifies a camera to which the changes will be applied.</dd>
-<dt><em>New Camera Move Style</em></dt>
-<dd>This parameter specifies the new move style that the camera will use. Four options are available: <code class="docutils literal"><span class="pre">Hover</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Target</span></code> and <code class="docutils literal"><span class="pre">Static</span></code>.</dd>
+<dd><p class="first last">此参数指定的摄像机到的变化将被应用。</p>
+</dd>
+<dt><em>新相机移动方式</em></dt>
+<dd><p class="first last">此参数指定相机将使用新的方式。四个选项可用： <code class="docutils literal"><span class="pre">Hover</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>, <code class="docutils literal"><span class="pre">Target</span></code> and <code class="docutils literal"><span class="pre">Static</span></code>.</p>
+</dd>
 </dl>
-<p>The following options are only available if the <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> parameter is not set to <code class="docutils literal"><span class="pre">Static</span></code>:</p>
+<p>以下选项只是 <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> 参数未设置为 <code class="docutils literal"><span class="pre">Static</span></code> 时才可用︰</p>
 <dl class="docutils">
-<dt><em>Translation</em></dt>
-<dd>Sets the camera translation velocity. This parameter is set to 1.0 by default.</dd>
+<dt><em>变换</em></dt>
+<dd><p class="first last">设置相机变换速度。默认情况下，此参数设置为 1.0。</p>
+</dd>
 <dt><em>旋转</em></dt>
-<dd>Sets the camera rotation velocity. This parameter is set to 1.0 by default.</dd>
-<dt><em>Zoom</em></dt>
-<dd>Sets the zoom velocity of the camera. Default value is 0.10. Available only if the <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> parameter is set to either <code class="docutils literal"><span class="pre">Hover</span></code> or <code class="docutils literal"><span class="pre">Target</span></code>.</dd>
+<dd><p class="first last">设置摄像机的旋转速度。默认情况下，此参数设置为 1.0。</p>
+</dd>
+<dt><em>放大</em></dt>
+<dd><p class="first last">设置相机的变焦速度。默认值为 0.10。只有 <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Hover</span></code> 或 <code class="docutils literal"><span class="pre">Target</span></code> 时才可用。</p>
+</dd>
 </dl>
-<p>The following parameters are used to specify a target or a pivot point of the camera and are available only if the <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> parameter is set to either <code class="docutils literal"><span class="pre">Hover</span></code> or <code class="docutils literal"><span class="pre">Target</span></code>:</p>
+<p>以下参数用于指定目标或相机的轴心点和仅在 <code class="docutils literal"><span class="pre">New</span> <span class="pre">Camera</span> <span class="pre">Move</span> <span class="pre">Style</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Hover</span></code> 或者 <code class="docutils literal"><span class="pre">Target</span></code> 时才可用︰</p>
 <dl class="docutils">
-<dt><em>Use Object</em></dt>
-<dd>This parameter enables and disables using a scene object as camera&#8217;s target or pivot point (depending on the camera type). If it is activated, a text field will appear to specify the object. This parameter is disabled by default.</dd>
+<dt><em>使用物体</em></dt>
+<dd><p class="first last">此参数启用和禁用使用场景对象作为相机的目标或轴心点 （取决于相机类型）。如果它激活，一个文本字段将显示在指定的物体。此参数默认被禁用的。</p>
+</dd>
 </dl>
-<p>If the <code class="docutils literal"><span class="pre">Use</span> <span class="pre">Object</span></code> parameter is disabled, the following three options become available:</p>
+<p>如果``使用物体``参数被禁用，以下三个选项可用：</p>
 <dl class="docutils">
 <dt><em>x</em></dt>
-<dd>The <code class="docutils literal"><span class="pre">X</span></code> component of the camera&#8217;s target/pivot pint.</dd>
+<dd><p class="first last">相机的目标/轴心点的 <code class="docutils literal"><span class="pre">X</span></code> 分量。</p>
+</dd>
 <dt><em>y</em></dt>
-<dd>The <code class="docutils literal"><span class="pre">Y</span></code> component of the camera&#8217;s target/pivot point.</dd>
+<dd><p class="first last">相机的目标/轴心点的 <code class="docutils literal"><span class="pre">Y</span></code> 分量。</p>
+</dd>
 <dt><em>z</em></dt>
-<dd>The <code class="docutils literal"><span class="pre">Z</span></code> component of the camera&#8217;s target/pivot point.</dd>
+<dd><p class="first last">相机的目标/轴心点的 <code class="docutils literal"><span class="pre">Z</span></code> 分量。</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -1072,7 +1083,7 @@
 </div>
 <div class="section" id="set-shader-node-param">
 <span id="nla-shader-node"></span><h3>设置着色器节点参数<a class="headerlink" href="#set-shader-node-param" title="永久链接至标题">¶</a></h3>
-<p>可用于设置着色器节点的值。目前，只有` <cite>Value`</cite> 和` <cite>RGB`</cite> 节点被支持。</p>
+<p>可用于设置着色器节点的值。目前，只有 <code class="docutils literal"><span class="pre">Value</span></code> 和 <code class="docutils literal"><span class="pre">RGB</span></code> 节点被支持。</p>
 <a class="reference internal image-reference" href="_images/logic_editor_set_shader_node_param.png"><img alt="_images/logic_editor_set_shader_node_param.png" class="align-center" src="_images/logic_editor_set_shader_node_param.png" style="width: 100%;" /></a>
 <div class="section" id="id50">
 <h4>输入参数<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h4>
@@ -1409,12 +1420,11 @@
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p>从服务器收到的数据应如下所示 ︰</p>
-<div class="last highlight-json"><div class="highlight"><pre><span></span>{&quot;var0&quot;: 1,
-&quot;var1&quot;: 10,
-&quot;var2&quot;: 144,
-...
-}
+<p>The data received from the server should be in the JSON format:</p>
+<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+<span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1423,7 +1433,7 @@
 <dd><p class="first last">表示信息内容的媒体类型。一个类型和子类型，例如包括：<code class="docutils literal"><span class="pre">text/plain</span></code>。默认设置为 <code class="docutils literal"><span class="pre">Auto</span></code> 。可以用来重新分配HTTP请求的标题。</p>
 </dd>
 <dt><em>Request Params</em></dt>
-<dd><p class="first last">指定将发送到服务器的包含 JSON 对象的变量。 <code class="docutils literal"><span class="pre">Method</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Method</span></code> 时才可用。默认值为``R1`` 。</p>
+<dd><p class="first last">指定将发送到服务器的包含 JSON 对象的变量。 <code class="docutils literal"><span class="pre">Method</span></code> 参数设置为 <code class="docutils literal"><span class="pre">Method</span></code> 时才可用。默认值为 <code class="docutils literal"><span class="pre">R1</span></code> 。</p>
 </dd>
 </dl>
 </div>
@@ -1457,10 +1467,45 @@
 <dt><em>JSON 操作</em></dt>
 <dd><p class="first last">需要对 <code class="docutils literal"><span class="pre">JSON</span></code>  参数所指定的 JSON 对象执行的操作。可以有两个值之一: <code class="docutils literal"><span class="pre">ENCODE</span></code> 对  JSON 对象进行编码 和 <code class="docutils literal"><span class="pre">PARSE</span></code> 进行解码。默认设置为 <code class="docutils literal"><span class="pre">ENCODE</span></code> 。</p>
 </dd>
-<dt><em>成员</em></dt>
-<dd><p class="first last">变量列表，将用于存储数据的解码或编码一个JSON对象（取决于 <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> 参数的值）。变量总是有类似 <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> 等的名字，他们的数量可以调整。</p>
-</dd>
+<dt><em>Paths</em></dt>
+<dd>A list of paths to the variables inside the JSON object. Paths are used to define the inner structure of a JSON object. A path should consist of several identifiers (separated by dots) that serve as a path to a JSON field. If a name of a fragment of the path consists solely of numbers, this name is interpreted as an array index. Paths are created and deleted in conjunction with variables (in the <code class="docutils literal"><span class="pre">Variables</span></code> list), and one path always corresponds to one variable. This list can be used both to encode and to decode JSON object. By default, the list is empty.</dd>
+<dt><em>Variables</em></dt>
+<dd>A list of variables that will be used to either store the decoded data or to encode a JSON object (depending on the value of the <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> parameter). The names and the quantity of the variables can be adjusted manually. This list is also empty by default.</dd>
 </dl>
+</div>
+<div class="section" id="using-json-logic-node-to-encode-json-object">
+<h4>Using JSON logic node to encode JSON object<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="永久链接至标题">¶</a></h4>
+<a class="reference internal image-reference" href="_images/logic_editor_json_encode_example.png"><img alt="_images/logic_editor_json_encode_example.png" class="align-center" src="_images/logic_editor_json_encode_example.png" style="width: 100%;" /></a>
+<p>The logic node setup at the picture above encodes a JSON object and stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable. Such a JSON object looks like this:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;main&quot;</span><span class="p">:{</span>
+        <span class="nt">&quot;part1&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span>
+        <span class="nt">&quot;part2&quot;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span>
+        <span class="nt">&quot;part3&quot;</span><span class="p">:</span><span class="s2">&quot;abc&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-json-logic-node-to-decode-json-object">
+<h4>Using JSON logic node to decode JSON object<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="永久链接至标题">¶</a></h4>
+<a class="reference internal image-reference" href="_images/logic_editor_json_decode_example.png"><img alt="_images/logic_editor_json_decode_example.png" class="align-center" src="_images/logic_editor_json_decode_example.png" style="width: 100%;" /></a>
+<p>The picture above shows a logic node setup that recieves a JSON object from the server, stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable and then decodes it. Such a JSON object looks like this:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+        <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Decoding this JSON object with the <code class="docutils literal"><span class="pre">JSON</span></code> logic node results in three variables named <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> and <code class="docutils literal"><span class="pre">var2</span></code> (you don&#8217;t have to create the variables beforehand) that will contain various parts of the JSON object. In this example, the <code class="docutils literal"><span class="pre">var1</span></code> variable has the value of 17, the <code class="docutils literal"><span class="pre">var2</span></code> variable has the value &#8220;abc&#8221;, while the <code class="docutils literal"><span class="pre">var0</span></code> variable contains the following fragment of the JSON object:</p>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+    <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="page-param">
@@ -1487,7 +1532,8 @@
 <h4>内部参数<a class="headerlink" href="#id79" title="永久链接至标题">¶</a></h4>
 <dl class="docutils">
 <dt><em>参数名称</em></dt>
-<dd><p class="first last">网页参数的名称。</p>
+<dd><p class="first">网页参数的名称。</p>
+<p class="last">For example, if this parameter is set to the value of <code class="docutils literal"><span class="pre">X_1</span></code>, then the value of this parameter (if it is present in the URL) will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
 </dd>
 <dt><em>目标</em></dt>
 <dd><p class="first last">将用来保存参数的变量。</p>
@@ -1647,7 +1693,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-11-29.
+      最后更新于 2016-12-22.
 
     </p>
   </div>
@@ -1703,7 +1749,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

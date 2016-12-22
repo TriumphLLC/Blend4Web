@@ -173,8 +173,8 @@ exports.prepare_rendering = function(scene, scene_main) {
     } else {
         var tex0 = scene._render_to_textures[0];
 
-        var width = tex0._render.source_size;
-        var height = tex0._render.source_size;
+        var width = tex0.source_size;
+        var height = tex0.source_size;
 
         setup_scene_dim(scene, width, height);
 
@@ -367,8 +367,7 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
     render.soft_particles    = check_soft_particles(bpy_mesh_objs);
     render.shore_smoothing   = check_shore_smoothing(bpy_mesh_objs);
     render.dynamic_grass     = check_dynamic_grass(bpy_scene, bpy_mesh_objs);
-    render.color_picking     = !render.hmd_stereo_use && !render.anaglyph_use &&
-                                check_selectable_objects(bpy_scene, bpy_mesh_objs);
+    render.color_picking     = check_selectable_objects(bpy_scene, bpy_mesh_objs);
     render.outline           = check_outlining_objects(bpy_scene, bpy_mesh_objs);
     render.glow_materials    = check_glow_materials(bpy_scene, bpy_mesh_objs);
 
@@ -414,7 +413,7 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
 
     }
     var rtt_sort_fun = function(bpy_tex1, bpy_tex2) {
-        return bpy_tex2._render.source_size - bpy_tex1._render.source_size;
+        return bpy_tex2.source_size - bpy_tex1.source_size;
     }
 
     var rtt_sorted = bpy_scene._render_to_textures.sort(rtt_sort_fun);
@@ -445,11 +444,13 @@ function append_scene(bpy_scene, scene_objects, lamps, bpy_mesh_objs, bpy_empty_
 }
 
 exports.append_scene_vtex = function(scene, textures, data_id) {
-    for (var i = 0; i < textures.length; i++)
-        if (textures[i]._render && textures[i]._render.is_movie) {
-            textures[i]._render.vtex_data_id = data_id;
+    for (var i = 0; i < textures.length; i++) {
+        var tex = textures[i]._render
+        if (tex && tex.is_movie) {
+            tex.vtex_data_id = data_id;
             scene._render.video_textures.push(textures[i]);
         }
+    }
 }
 
 function extract_shadow_params(bpy_scene, lamps, bpy_mesh_objs) {
@@ -1739,7 +1740,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
         m_shaders.set_directive(shaders_info, "WATER_LEVEL", m_shaders.glsl_value(wp.water_level));
     }
 
-    if (subs.caustics && obj_render.caustics) {
+    if (subs.caustics && batch.caustics) {
         m_shaders.set_directive(shaders_info, "CAUSTICS", 1);
 
         var sh_params = sc_render.shadow_params;
@@ -1796,15 +1797,16 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
     if (wls.use_environment_light) {
         m_shaders.set_directive(shaders_info, "USE_ENVIRONMENT_LIGHT", 1);
         if (wls.environment_color == "SKY_TEXTURE") {
-            // it's safe, honestly - it's being checked in the get_world_light_set()
-            var tex = null;
-            if (wls.environment_texture_slot)
-                tex = m_tex.get_batch_texture(wls.environment_texture_slot, false);
-            else if (subs_sky)
-                tex = subs_sky.camera.color_attachment;
+            if (wls.environment_texture_slot) {
+                var bpy_tex = wls.environment_texture_slot["texture"];
+                var tex = m_tex.get_batch_texture(wls.environment_texture_slot);
+                m_batch.append_texture(batch, tex, "u_sky_texture", bpy_tex["name"]);
+            } else if (subs_sky) {
+                var tex = subs_sky.camera.color_attachment;
+                m_batch.append_texture(batch, tex, "u_sky_texture");
+            }
 
             m_shaders.set_directive(shaders_info, "SKY_TEXTURE", 1);
-            m_batch.append_texture(batch, tex, "u_sky_texture");
         } else if (wls.environment_color == "SKY_COLOR")
             m_shaders.set_directive(shaders_info, "SKY_COLOR", 1);
     }
@@ -1875,7 +1877,7 @@ function update_batch_subs(batch, subs, obj, graph, main_type, bpy_scene) {
                     var scene_k = _scenes[k];
                     var rtt = _scenes[k]._render_to_textures;
                     for (var l = 0; l < rtt.length; l++)
-                        if (rtt[l]._render == tex)
+                        if (rtt[l] == tex)
                             m_graph.append_edge_attr(_scenes_graph, scene_k, bpy_scene, null);
                 }
         }
@@ -2781,6 +2783,8 @@ exports.make_frustum_shot = function(cam, subscene, color) {
             [radius, 0, 0], [0, radius, 0], [0, 0, radius],
             render.bs_world.center);
 
+    render.use_batches_boundings = false;
+
     var batch = m_batch.create_shadeless_batch(submesh, color, 0.5);
 
     var rb = m_subs.init_bundle(batch, render);
@@ -3283,6 +3287,7 @@ exports.get_dof_params = function(scene) {
 
     var dof_params = {};
 
+    dof_params.dof_on = subs.camera.dof_on;
     dof_params.dof_distance = subs.camera.dof_distance;
     dof_params.dof_front_start = subs.camera.dof_front_start;
     dof_params.dof_front_end = subs.camera.dof_front_end;
@@ -3292,7 +3297,6 @@ exports.get_dof_params = function(scene) {
     dof_params.dof_bokeh = subs.camera.dof_bokeh;
     dof_params.dof_bokeh_intensity = subs.camera.dof_bokeh_intensity;
     dof_params.dof_object = subs.camera.dof_object;
-
     return dof_params;
 }
 
@@ -3902,7 +3906,7 @@ exports.update = function(timeline, elapsed) {
             // loop and initial reset
             if (current_frame >= end_frame && vtex.use_cyclic
                     || current_frame < start_frame) {
-                m_tex.reset_video(vtex.name, vtex.vtex_data_id);
+                m_tex.reset_video(vtex);
                 if (seq_video)
                     vtex.seq_last_discrete_mark = m_tex.seq_video_get_discrete_timemark(
                             vtex, timeline);
@@ -3911,7 +3915,7 @@ exports.update = function(timeline, elapsed) {
 
             // pause
             if (current_frame >= end_frame && !vtex.use_cyclic) {
-                m_tex.pause_video(vtex.name, vtex.vtex_data_id);
+                m_tex.pause_video(vtex);
                 continue;
             }
 
@@ -4014,21 +4018,6 @@ function optimize_outline_postprocessing(graph, qsubs, outline_mask_subs) {
     // optimize OUTLINE rendering if OUTLINE_MASK is switched off
     if (!outline_mask_subs.do_render && qsubs.type == m_subs.OUTLINE)
         qsubs.draw_outline_flag = 0;
-}
-
-function slink_switch_active(graph, id1, id2, slink, active) {
-    if (slink.active == active)
-        return;
-
-    if (slink.active) {
-        replace_attachment(graph, id1, slink.from, null);
-        replace_texture(graph, id2, slink.to, null);
-    } else {
-        replace_attachment(graph, id1, slink.from, slink.texture);
-        replace_texture(graph, id2, slink.to, slink.texture);
-    }
-
-    slink.active = active;
 }
 
 function replace_attachment(graph, id, type, tex) {

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-10-05 16:56+0300\n"
+"POT-Creation-Date: 2016-12-16 15:05+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -66,18 +66,16 @@ msgid ""
 "on the ``Development Tools`` panel:"
 msgstr ""
 "Если не был настроен автоматический запуск сервера, то его можно "
-"стартовать вручную по кнопке ``Start Server`` во вкладке "
-"``Render``, на панели ``Developement Tools``:"
+"стартовать вручную по кнопке ``Start Server`` во вкладке ``Render``, на "
+"панели ``Developement Tools``:"
 
 #: ../addon.rst:40
 msgid ""
-"If the path to the Blend4Web SDK is not specified, the local development "
-"server cannot be launched. In this case the corresponding message will be"
-" displayed instead of the ``Start Server`` button."
+"If the local development server cannot be launched, the corresponding "
+"message will be displayed instead of the ``Start Server`` button."
 msgstr ""
-"Если путь к Blend4Web SDK не был указан, запуск локального сервера "
-"невозможен. При этом вместо кнопки ``Start Server`` будет выведено "
-"соответствующее сообщение."
+"Если запуск локального сервера невозможен, вместо кнопки ``Start Server`` "
+"будет выведено соответствующее сообщение."
 
 #: ../addon.rst:42
 msgid ""
@@ -206,10 +204,11 @@ msgstr ""
 "работу с ними."
 
 #: ../addon.rst:101
+#, fuzzy
 msgid ""
 "It is recommended to store all the resources in a dedicated folder inside"
-" the SDK directory, it can be called ``deploy/assets/project_name`` for "
-"example."
+" the SDK directory, it can be called ``projects/project_name/assets`` for"
+" example."
 msgstr ""
 "Ресурсы рекомендуется размещать в отдельной директории внутри каталога "
 "SDK, например ``deploy/assets/имя_проекта``."
@@ -415,7 +414,7 @@ msgid "Error message"
 msgstr "Сообщение об ошибке"
 
 #: ../addon.rst:195 ../addon.rst:234 ../addon.rst:305 ../addon.rst:462
-#: ../addon.rst:656
+#: ../addon.rst:660
 msgid "Cause"
 msgstr "Причина"
 
@@ -842,7 +841,7 @@ msgstr ""
 
 #: ../addon.rst:394
 msgid "Particle system error: no group is selected as a particle.."
-msgstr ""
+msgstr "Ошибка системы частиц: не указана группа, использующаяся для генерации частиц."
 
 #: ../addon.rst:397
 msgid "Particle system error; Dupli object isn't specified"
@@ -1240,12 +1239,16 @@ msgstr ""
 "EMPTY."
 
 #: ../addon.rst:560
+msgid "The lamp object \\\"NAME\\\" has unsupported AREA type. Changed to SUN."
+msgstr ""
+
+#: ../addon.rst:564
 msgid ""
 "The main scene NAME can not be rendered by another scene. Material NAME "
 "has been removed."
 msgstr ""
 
-#: ../addon.rst:560
+#: ../addon.rst:564
 msgid ""
 "The main scene NAME can not be rendered by another scene. The material "
 "NAME has been deleted."
@@ -1253,27 +1256,27 @@ msgstr ""
 "Основная сцена NAME не может отображаться другой сценой. Материал NAME "
 "был удален."
 
-#: ../addon.rst:564
+#: ../addon.rst:568
 msgid "The NAME action has decimal frames. Converted to integer."
 msgstr "Анимация NAME содержит дробные значения кадров. Округлено до целых."
 
-#: ../addon.rst:567
+#: ../addon.rst:571
 msgid ""
 "The NAME armature modifier has a proxy object as an armature. Modifier "
 "removed."
 msgstr ""
 
-#: ../addon.rst:567
+#: ../addon.rst:571
 msgid "An armature modifier has a proxy object as an armature."
 msgstr "Модификатор арматуры имеет прокси объект в качестве арматуры."
 
-#: ../addon.rst:571
+#: ../addon.rst:575
 msgid ""
 "The NAME armature modifier has no armature object or it is not exported. "
 "Modifier removed."
 msgstr ""
 
-#: ../addon.rst:571
+#: ../addon.rst:575
 msgid ""
 "The NAME ``Armature`` modifier has no armature object or it is not "
 "exported. Modifier removed."
@@ -1281,31 +1284,33 @@ msgstr ""
 "В модификаторе NAME типа ``Armature`` не указан объект, либо объект не "
 "экспортируется. Модификатор удален."
 
-#: ../addon.rst:577
+#: ../addon.rst:581
 msgid "The NAME curve modifier has no curve object. Modifier removed."
 msgstr ""
 
-#: ../addon.rst:577
+#: ../addon.rst:581
 msgid "The NAME curve modifier has no object. Modifier removed."
 msgstr "В модификаторе NAME типа ``Curve`` не указан объект. Модификатор удален."
 
-#: ../addon.rst:580
+#: ../addon.rst:584
 msgid "The NAME curve modifier has unsupported curve object. Modifier removed."
 msgstr ""
 
-#: ../addon.rst:580
+#: ../addon.rst:584
 msgid "The NAME curve modifier has unsupported object. Modifier removed."
 msgstr ""
 "В модификаторе NAME типа ``Curve`` указан неподходящий объект. "
 "Модификатор удален."
 
-#: ../addon.rst:584
+#: ../addon.rst:588
 msgid ""
 "The NAME object has the NAME armature modifier and a vertex animation. "
 "Modifier removed."
 msgstr ""
+"Объект NAME использует модификатор арматуры NAME и вертексную анимацию. "
+"Модификатор удалён."
 
-#: ../addon.rst:584
+#: ../addon.rst:588
 msgid ""
 "The NAME object has both vertex animation and an armature modifier which "
 "is not supported. As a result, the modifier has been removed."
@@ -1313,8 +1318,7 @@ msgstr ""
 "Объект NAME имеет вертексную анимацию и арматурный модификатор. "
 "Модификатор удален."
 
-#: ../addon.rst:589
-#, fuzzy
+#: ../addon.rst:593
 msgid ""
 "The NAME object has the NAME armature modifier. It belongs to a not "
 "exported scene. Modifier removed."
@@ -1322,21 +1326,21 @@ msgstr ""
 "В модификаторе NAME типа ``Armature`` не указан объект, либо объект не "
 "экспортируется. Модификатор удален."
 
-#: ../addon.rst:594
+#: ../addon.rst:598
 msgid "The NAME LAMP node has no lamp object. Material: NAME."
 msgstr ""
 
-#: ../addon.rst:594
+#: ../addon.rst:598
 msgid "Wrong object specified in the NAME ``LAMP`` node."
 msgstr "В ноде NAME типа ``LAMP`` не указан подходящий объект."
 
-#: ../addon.rst:597
+#: ../addon.rst:601
 msgid ""
 "The NAME node is not supported. The NAME material will be rendered "
 "without nodes. Material: NAME."
 msgstr ""
 
-#: ../addon.rst:597
+#: ../addon.rst:601
 msgid ""
 "The engine does not support the node with this name, and so the node "
 "material will be turned off. Often this happens when Cycles nodes are "
@@ -1346,13 +1350,13 @@ msgstr ""
 "будет отключён. Чаще всего проблемы подобного рода возникают при "
 "использовании нод Cycles."
 
-#: ../addon.rst:602
+#: ../addon.rst:606
 msgid ""
 "The NAME object has NAME armature modifier which references the wrong "
 "group. Modifier removed."
 msgstr ""
 
-#: ../addon.rst:602
+#: ../addon.rst:606
 msgid ""
 "An object should be in the same group as an armature, or both these "
 "objects should be explicitly present in the scene."
@@ -1360,21 +1364,21 @@ msgstr ""
 "Объект должен находиться в той же группе, что и арматура или оба объекта "
 "должны явно присутствовать на сцене."
 
-#: ../addon.rst:606
+#: ../addon.rst:610
 msgid "TEXTURE_TYPE isn't supported, WORLD_NAME"
 msgstr ""
 
-#: ../addon.rst:606
+#: ../addon.rst:610
 msgid "TEXTURE_TYPE texture type isn't supported for world WORLD_NAME"
 msgstr "TEXTURE_TYPE тип текстуры не поддерживается для мира, WORLD_NAME"
 
-#: ../addon.rst:609
+#: ../addon.rst:613
 msgid ""
 "Using B4W_REFRACTION node NODE_NAME with incorrect type of Alpha Blend. "
 "Material: NAME."
 msgstr ""
 
-#: ../addon.rst:609
+#: ../addon.rst:613
 msgid ""
 "A node material with incorrect Alpha Blend property is used. ``Alpha "
 "sort``, ``Alpha blend`` and ``Add`` are allowed when using a "
@@ -1384,13 +1388,13 @@ msgstr ""
 "Blend. Допускается значение ``Alpha sort``, ``Alpha blend`` и ``Add`` при"
 " использовании ноды \"REFRACTION\"."
 
-#: ../addon.rst:614
+#: ../addon.rst:618
 msgid ""
 "Wind bending: not all vertex colors exist for \\\"NAME\\\". Properties "
 "were set to default values."
 msgstr ""
 
-#: ../addon.rst:614
+#: ../addon.rst:618
 msgid ""
 "Wind bending parameters setup: all specified vertex color layers should "
 "exist."
@@ -1398,13 +1402,13 @@ msgstr ""
 "Настройки процедурной анимации деревьев: должны существовать все "
 "указанные слои вертексных цветов."
 
-#: ../addon.rst:619
+#: ../addon.rst:623
 msgid ""
 "Wind bending: vertex colors weren't properly assigned for \\\"NAME\\\". "
 "Properties were set to default values."
 msgstr ""
 
-#: ../addon.rst:619
+#: ../addon.rst:623
 msgid ""
 "Wind bending parameters setup: it's required to specify the names of "
 "either all vertex color layers (``Main stiffness (A)``, ``Leaves "
@@ -1416,13 +1420,13 @@ msgstr ""
 "(R)``, ``Leaves phase (G)``, ``Overall stiffness (B)``), либо только "
 "главного (``Main stiffness (A)``), либо ни одного из них."
 
-#: ../addon.rst:630
+#: ../addon.rst:634
 msgid ""
 "Wrong \"Height Map\" input for the \"NAME\" B4W_PARALLAX node. Only link "
 "from the TEXTURE node with a non-empty texture is allowed."
 msgstr ""
 
-#: ../addon.rst:630
+#: ../addon.rst:634
 msgid ""
 "Wrong data were passed to the \"Height Map\" input of the NAME "
 "``B4W_PARALLAX`` node. Only the output from a non-empty ``TEXTURE`` node "
@@ -1432,11 +1436,11 @@ msgstr ""
 "некорректные данные. Разрешено подавать только выход из ноды типа "
 "``TEXTURE`` с заполненой текстурой."
 
-#: ../addon.rst:635
+#: ../addon.rst:639
 msgid "Wrong texture coordinates type in texture NAME. [Material: NAME.]"
 msgstr ""
 
-#: ../addon.rst:635
+#: ../addon.rst:639
 msgid ""
 "The following coordinate types are supported for image textures: ``UV``, "
 "``Normal`` and ``Generated``."
@@ -1444,11 +1448,11 @@ msgstr ""
 "Для текстур с изображением (image) поддерживаются следующие типы "
 "координат: ``UV``, ``Normal`` и ``Generated``."
 
-#: ../addon.rst:643
+#: ../addon.rst:647
 msgid "Other Messages"
 msgstr "Прочие сообщения"
 
-#: ../addon.rst:645
+#: ../addon.rst:649
 msgid ""
 "These messages can be viewed in the browser console (opens with ``F12``) "
 "when a scene is loaded. The message looks like this:"
@@ -1456,21 +1460,21 @@ msgstr ""
 "Сообщения выводятся в консоли браузера (горячая клавиша ``F12``) при "
 "загрузке сцены. Сообщение имеет вид:"
 
-#: ../addon.rst:647
+#: ../addon.rst:651
 msgid "``B4W EXPORT WARNING: Export message which requires the user's attention``"
 msgstr ""
 "``B4W EXPORT WARNING: Сообщение экспорта, требующее внимания "
 "пользователя``"
 
-#: ../addon.rst:656
+#: ../addon.rst:660
 msgid "Error Message"
 msgstr "Сообщение об ошибке"
 
-#: ../addon.rst:658
+#: ../addon.rst:662
 msgid "Missing active camera or wrong active camera object"
 msgstr ""
 
-#: ../addon.rst:658
+#: ../addon.rst:662
 msgid ""
 "There is no active camera on the scene (``Camera`` property on the "
 "``Scene`` tab)."
@@ -1478,21 +1482,21 @@ msgstr ""
 "На сцене отсутствует активная камера (свойство ``Camera`` на вкладке "
 "``Scene``)."
 
-#: ../addon.rst:662
+#: ../addon.rst:666
 msgid "Missing world or wrong active world object"
 msgstr ""
 
-#: ../addon.rst:662
+#: ../addon.rst:666
 msgid "There should be at least one world datablock in the scene."
 msgstr "На сцене должен быть хотя бы один мир."
 
-#: ../addon.rst:665
+#: ../addon.rst:669
 msgid ""
 "NAME particle settings has the NAME texture rendering a scene. It has "
 "been replaced by the default texture."
 msgstr ""
 
-#: ../addon.rst:665
+#: ../addon.rst:669
 msgid ""
 "The particle settings datablock NAME contains the texture NAME being used"
 " for rendering a scene into. This texture has been replaced by a default "
@@ -1501,29 +1505,29 @@ msgstr ""
 "NAME система частиц имеет NAME текстуру, которая отображает сцену. Эта "
 "текстура была заменена на стандартную."
 
-#: ../addon.rst:670
+#: ../addon.rst:674
 msgid "The action NAME has no fcurves."
 msgstr "В анимации NAME нет ни одного канала."
 
-#: ../addon.rst:672
+#: ../addon.rst:676
 msgid ""
 "The \\\"NAME\\\" camera has unsupported PANORAMIC type. Changed to "
 "PERSPECTIVE type.\""
 msgstr ""
 
-#: ../addon.rst:672
+#: ../addon.rst:676
 msgid "Panoramic cameras are not supported. Perspective mode is used instead."
 msgstr ""
 "Панорамная камера не поддерживается. Будет использована перспективная "
 "камера."
 
-#: ../addon.rst:676
+#: ../addon.rst:680
 msgid ""
 "Unsupported texture type or texture is missing for Lens Flare material "
 "\\\"NAME\\\""
 msgstr ""
 
-#: ../addon.rst:676
+#: ../addon.rst:680
 msgid ""
 "There are no textures on the material or unsupported texture type is used"
 " for material \\\"NAME\\\"."
@@ -1531,11 +1535,11 @@ msgstr ""
 "Текстура для материала Lens Flare с именем \\\"NAME\\\" отсутствует или "
 "имеет неподдерживаемый формат."
 
-#: ../addon.rst:684
+#: ../addon.rst:688
 msgid "Add-on Translations"
 msgstr "Перевод аддона"
 
-#: ../addon.rst:686
+#: ../addon.rst:690
 msgid ""
 "There is the possibility to translate the add-on to a language supported "
 "by Blender. In order to do this, rename the file \"empty.po\", which "
@@ -1547,347 +1551,347 @@ msgstr ""
 "директории: SDK/blender_scripts/addons/blend4web/locales, на одно из "
 "имен, соответствующих таблице:"
 
-#: ../addon.rst:691
+#: ../addon.rst:695
 msgid "File name"
 msgstr "Имя файла"
 
-#: ../addon.rst:691
+#: ../addon.rst:695
 msgid "Language"
 msgstr "Язык"
 
-#: ../addon.rst:693
+#: ../addon.rst:697
 msgid "ru_RU.po"
 msgstr ""
 
-#: ../addon.rst:693
+#: ../addon.rst:697
 msgid "Russian"
 msgstr ""
 
-#: ../addon.rst:695
+#: ../addon.rst:699
 msgid "ja_JP.po"
 msgstr ""
 
-#: ../addon.rst:695
+#: ../addon.rst:699
 msgid "Japanese"
 msgstr ""
 
-#: ../addon.rst:697
+#: ../addon.rst:701
 msgid "en_US.po"
 msgstr ""
 
-#: ../addon.rst:697
+#: ../addon.rst:701
 msgid "English"
 msgstr ""
 
-#: ../addon.rst:699
+#: ../addon.rst:703
 msgid "nl_NL.po"
 msgstr ""
 
-#: ../addon.rst:699
+#: ../addon.rst:703
 msgid "Dutch"
 msgstr ""
 
-#: ../addon.rst:701
+#: ../addon.rst:705
 msgid "it_IT.po"
 msgstr ""
 
-#: ../addon.rst:701
+#: ../addon.rst:705
 msgid "Italian"
 msgstr ""
 
-#: ../addon.rst:703
+#: ../addon.rst:707
 msgid "de_DE.po"
 msgstr ""
 
-#: ../addon.rst:703
+#: ../addon.rst:707
 msgid "German"
 msgstr ""
 
-#: ../addon.rst:705
+#: ../addon.rst:709
 msgid "fi_FI.po"
 msgstr ""
 
-#: ../addon.rst:705
+#: ../addon.rst:709
 msgid "Finnish"
 msgstr ""
 
-#: ../addon.rst:707
+#: ../addon.rst:711
 msgid "sv_SE.po"
 msgstr ""
 
-#: ../addon.rst:707
+#: ../addon.rst:711
 msgid "Swedish"
 msgstr ""
 
-#: ../addon.rst:709
+#: ../addon.rst:713
 msgid "fr_FR.po"
 msgstr ""
 
-#: ../addon.rst:709
+#: ../addon.rst:713
 msgid "French"
 msgstr ""
 
-#: ../addon.rst:711
+#: ../addon.rst:715
 msgid "es.po"
 msgstr ""
 
-#: ../addon.rst:711
+#: ../addon.rst:715
 msgid "Spanish"
 msgstr ""
 
-#: ../addon.rst:713
+#: ../addon.rst:717
 msgid "ca_AD.po"
 msgstr ""
 
-#: ../addon.rst:713
+#: ../addon.rst:717
 msgid "Catalan"
 msgstr ""
 
-#: ../addon.rst:715
+#: ../addon.rst:719
 msgid "cs_CZ.po"
 msgstr ""
 
-#: ../addon.rst:715
+#: ../addon.rst:719
 msgid "Czech"
 msgstr ""
 
-#: ../addon.rst:717
+#: ../addon.rst:721
 msgid "pt_PT.po"
 msgstr ""
 
-#: ../addon.rst:717
+#: ../addon.rst:721
 msgid "Portuguese"
 msgstr ""
 
-#: ../addon.rst:719
+#: ../addon.rst:723
 msgid "zh_CN.po"
 msgstr ""
 
-#: ../addon.rst:719
+#: ../addon.rst:723
 msgid "Simplified Chinese"
 msgstr ""
 
-#: ../addon.rst:721
+#: ../addon.rst:725
 msgid "zh_TW.po"
 msgstr ""
 
-#: ../addon.rst:721
+#: ../addon.rst:725
 msgid "Traditional Chinese"
 msgstr ""
 
-#: ../addon.rst:723
+#: ../addon.rst:727
 msgid "hr_HR.po"
 msgstr ""
 
-#: ../addon.rst:723
+#: ../addon.rst:727
 msgid "Croatian"
 msgstr ""
 
-#: ../addon.rst:725
+#: ../addon.rst:729
 msgid "sr_RS.po"
 msgstr ""
 
-#: ../addon.rst:725
+#: ../addon.rst:729
 msgid "Serbian"
 msgstr ""
 
-#: ../addon.rst:727
+#: ../addon.rst:731
 msgid "uk_UA.po"
 msgstr ""
 
-#: ../addon.rst:727
+#: ../addon.rst:731
 msgid "Ukrainian"
 msgstr ""
 
-#: ../addon.rst:729
+#: ../addon.rst:733
 msgid "pl_PL.po"
 msgstr ""
 
-#: ../addon.rst:729
+#: ../addon.rst:733
 msgid "Polish"
 msgstr ""
 
-#: ../addon.rst:731
+#: ../addon.rst:735
 msgid "ro_RO.po"
 msgstr ""
 
-#: ../addon.rst:731
+#: ../addon.rst:735
 msgid "Romanian"
 msgstr ""
 
-#: ../addon.rst:733
+#: ../addon.rst:737
 msgid "ar_EG.po"
 msgstr ""
 
-#: ../addon.rst:733
+#: ../addon.rst:737
 msgid "Arabic"
 msgstr ""
 
-#: ../addon.rst:735
+#: ../addon.rst:739
 msgid "bg_BG.po"
 msgstr ""
 
-#: ../addon.rst:735
+#: ../addon.rst:739
 msgid "Bulgarian"
 msgstr ""
 
-#: ../addon.rst:737
+#: ../addon.rst:741
 msgid "el_GR.po"
 msgstr ""
 
-#: ../addon.rst:737
+#: ../addon.rst:741
 msgid "Greek"
 msgstr ""
 
-#: ../addon.rst:739
+#: ../addon.rst:743
 msgid "ko_KR.po"
 msgstr ""
 
-#: ../addon.rst:739
+#: ../addon.rst:743
 msgid "Korean"
 msgstr ""
 
-#: ../addon.rst:741
+#: ../addon.rst:745
 msgid "ne_NP.po"
 msgstr ""
 
-#: ../addon.rst:741
+#: ../addon.rst:745
 msgid "Nepali"
 msgstr ""
 
-#: ../addon.rst:743
+#: ../addon.rst:747
 msgid "fa_IR.po"
 msgstr ""
 
-#: ../addon.rst:743
+#: ../addon.rst:747
 msgid "Persian"
 msgstr ""
 
-#: ../addon.rst:745
+#: ../addon.rst:749
 msgid "id_ID.po"
 msgstr ""
 
-#: ../addon.rst:745
+#: ../addon.rst:749
 msgid "Indonesian"
 msgstr ""
 
-#: ../addon.rst:747
+#: ../addon.rst:751
 msgid "sr_RS\\@latin.po"
 msgstr ""
 
-#: ../addon.rst:747
+#: ../addon.rst:751
 msgid "Serbian Latin"
 msgstr ""
 
-#: ../addon.rst:749
+#: ../addon.rst:753
 msgid "ky_KG.po"
 msgstr ""
 
-#: ../addon.rst:749
+#: ../addon.rst:753
 msgid "Kyrgyz"
 msgstr ""
 
-#: ../addon.rst:751
+#: ../addon.rst:755
 msgid "tr_TR.po"
 msgstr ""
 
-#: ../addon.rst:751
+#: ../addon.rst:755
 msgid "Turkish"
 msgstr ""
 
-#: ../addon.rst:753
+#: ../addon.rst:757
 msgid "hu_HU.po"
 msgstr ""
 
-#: ../addon.rst:753
+#: ../addon.rst:757
 msgid "Hungarian"
 msgstr ""
 
-#: ../addon.rst:755
+#: ../addon.rst:759
 msgid "pt_BR.po"
 msgstr ""
 
-#: ../addon.rst:755
+#: ../addon.rst:759
 msgid "Brazilian Portuguese"
 msgstr ""
 
-#: ../addon.rst:757
+#: ../addon.rst:761
 msgid "he_IL.po"
 msgstr ""
 
-#: ../addon.rst:757
+#: ../addon.rst:761
 msgid "Hebrew"
 msgstr ""
 
-#: ../addon.rst:759
+#: ../addon.rst:763
 msgid "et_EE.po"
 msgstr ""
 
-#: ../addon.rst:759
+#: ../addon.rst:763
 msgid "Estonian"
 msgstr ""
 
-#: ../addon.rst:761
+#: ../addon.rst:765
 msgid "eo.po"
 msgstr ""
 
-#: ../addon.rst:761
+#: ../addon.rst:765
 msgid "Esperanto"
 msgstr ""
 
-#: ../addon.rst:763
+#: ../addon.rst:767
 msgid "es_ES.po"
 msgstr ""
 
-#: ../addon.rst:763
+#: ../addon.rst:767
 msgid "Spanish from Spain"
 msgstr ""
 
-#: ../addon.rst:765
+#: ../addon.rst:769
 msgid "am_ET.po"
 msgstr ""
 
-#: ../addon.rst:765
+#: ../addon.rst:769
 msgid "Amharic"
 msgstr ""
 
-#: ../addon.rst:767
+#: ../addon.rst:771
 msgid "uz_UZ.po"
 msgstr ""
 
-#: ../addon.rst:767
+#: ../addon.rst:771
 msgid "Uzbek"
 msgstr ""
 
-#: ../addon.rst:769
+#: ../addon.rst:773
 msgid "uz_UZ\\@cyrillic.po"
 msgstr ""
 
-#: ../addon.rst:769
+#: ../addon.rst:773
 msgid "Uzbek Cyrillic"
 msgstr ""
 
-#: ../addon.rst:771
+#: ../addon.rst:775
 msgid "hi_IN.po"
 msgstr ""
 
-#: ../addon.rst:771
+#: ../addon.rst:775
 msgid "Hindi"
 msgstr ""
 
-#: ../addon.rst:773
+#: ../addon.rst:777
 msgid "vi_VN.po"
 msgstr ""
 
-#: ../addon.rst:773
+#: ../addon.rst:777
 msgid "Vietnamese"
 msgstr ""
 
-#: ../addon.rst:776
+#: ../addon.rst:780
 msgid "Then open this file and edit/translate it."
 msgstr "Затем нужно открыть этот файл и написать перевод аддона."
 
-#: ../addon.rst:778
+#: ../addon.rst:782
 msgid ""
 "When translations are ready, you may contact us to include them as part "
 "of the add-on."

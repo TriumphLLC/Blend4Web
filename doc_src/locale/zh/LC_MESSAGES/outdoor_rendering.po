@@ -7,16 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2016-12-02 10:39+0300\n"
 "PO-Revision-Date: 2016-10-05 20:26+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh_CN\n"
-"X-Generator: Poedit 1.8.9\n"
 
 #: ../outdoor_rendering.rst:5
 msgid "Outdoor Effects"
@@ -28,8 +26,8 @@ msgstr "目录"
 
 #: ../outdoor_rendering.rst:11
 msgid ""
-"Blend4Web has several environmental effects that can be useful for creating "
-"outdoor scenes."
+"Blend4Web has several environmental effects that can be useful for "
+"creating outdoor scenes."
 msgstr "Blend4Web有几个环境的效果，对创建室外场景非常有用。"
 
 #: ../outdoor_rendering.rst:16
@@ -37,15 +35,15 @@ msgid "Water"
 msgstr "水"
 
 #: ../outdoor_rendering.rst:19 ../outdoor_rendering.rst:99
-#: ../outdoor_rendering.rst:173 ../outdoor_rendering.rst:412
-#: ../outdoor_rendering.rst:436
+#: ../outdoor_rendering.rst:173 ../outdoor_rendering.rst:414
+#: ../outdoor_rendering.rst:438
 msgid "Activation"
 msgstr "激活"
 
 #: ../outdoor_rendering.rst:21
 msgid ""
-"For the supposed water material activate the ``Water`` panel option under the "
-"``Material`` tab."
+"For the supposed water material activate the ``Water`` panel option under"
+" the ``Material`` tab."
 msgstr "对于所谓水材质激活 ``Material`` 选项卡下的 ``Water`` 面板选项。"
 
 #: ../outdoor_rendering.rst:29
@@ -58,12 +56,12 @@ msgstr "*透明*"
 
 #: ../outdoor_rendering.rst:32
 msgid ""
-"It is recommended to enable the gradient transparency (set the ``Transparency "
-"> Type`` parameter to the ``Alpha Blend`` value) and to tweak the ``Alpha`` "
-"value."
+"It is recommended to enable the gradient transparency (set the "
+"``Transparency > Type`` parameter to the ``Alpha Blend`` value) and to "
+"tweak the ``Alpha`` value."
 msgstr ""
-"推荐使用渐变透明度 （设置  ``Transparency > Type`` 参数的 ``Alpha Blend`` 值） "
-"和调整的 ``Alpha`` 值。"
+"推荐使用渐变透明度 （设置  ``Transparency > Type`` 参数的 ``Alpha Blend`` 值） 和调整的 "
+"``Alpha`` 值。"
 
 #: ../outdoor_rendering.rst:35
 msgid "*Lighting parameters*"
@@ -71,10 +69,9 @@ msgstr "*灯光参数*"
 
 #: ../outdoor_rendering.rst:35
 msgid ""
-"Lighting parameters for the water material can be set up as described in the :"
-"ref:`material_lighting_params` section."
-msgstr ""
-"水材质照明参数可如 :ref:`material_lighting_params` 章节所描述的进行设置。"
+"Lighting parameters for the water material can be set up as described in "
+"the :ref:`material_lighting_params` section."
+msgstr "水材质照明参数可如 :ref:`material_lighting_params` 章节所描述的进行设置。"
 
 #: ../outdoor_rendering.rst:38
 msgid "Waves Dynamics"
@@ -82,13 +79,13 @@ msgstr "波浪运动"
 
 #: ../outdoor_rendering.rst:40
 msgid ""
-"Ripples on the water are simulated by normal maps with animated UVs (from 0 up "
-"to 4 pieces). For normal map the only shared image is used - the textures "
-"differs only by the ``Mapping > Size`` parameters. The water mesh must have a "
-"UV layer."
+"Ripples on the water are simulated by normal maps with animated UVs (from"
+" 0 up to 4 pieces). For normal map the only shared image is used - the "
+"textures differs only by the ``Mapping > Size`` parameters. The water "
+"mesh must have a UV layer."
 msgstr ""
-"水上的波纹通过法线贴图的动画UV（从0到4个）模拟。对于法线贴图使用了唯一共享的图"
-"像 - 纹理只能由  ``Mapping > Size`` 参数不同来调节。水网格必须有一个UV层。"
+"水上的波纹通过法线贴图的动画UV（从0到4个）模拟。对于法线贴图使用了唯一共享的图像 - 纹理只能由  ``Mapping > Size`` "
+"参数不同来调节。水网格必须有一个UV层。"
 
 #: ../outdoor_rendering.rst:43
 msgid "Surface Wetting"
@@ -96,11 +93,9 @@ msgstr "表面润湿"
 
 #: ../outdoor_rendering.rst:45
 msgid ""
-"Is carried out automatically. To turn the effect on activate the ``Wettable`` "
-"option on the needed materials ``Rendering Options`` panel."
-msgstr ""
-"是自动进行的。要激活效果打开 ``Rendering Options`` 面板 ``Wettable`` 选项上所需"
-"要的材质。"
+"Is carried out automatically. To turn the effect on activate the "
+"``Wettable`` option on the needed materials ``Rendering Options`` panel."
+msgstr "是自动进行的。要激活效果打开 ``Rendering Options`` 面板 ``Wettable`` 选项上所需要的材质。"
 
 #: ../outdoor_rendering.rst:49
 msgid "Reflection and Fresnel Effect"
@@ -108,11 +103,9 @@ msgstr "反射与菲涅尔效应"
 
 #: ../outdoor_rendering.rst:51
 msgid ""
-"For the water material both static and dynamic reflection is supported as well "
-"as the Fresnel effect. See the :ref:`material_mirror` section."
-msgstr ""
-"水材质支持静态和动态的反射以及菲涅耳效应。请参阅：参考 :ref:`material_mirror` "
-"章节."
+"For the water material both static and dynamic reflection is supported as"
+" well as the Fresnel effect. See the :ref:`material_mirror` section."
+msgstr "水材质支持静态和动态的反射以及菲涅耳效应。请参阅：参考 :ref:`material_mirror` 章节."
 
 #: ../outdoor_rendering.rst:59
 msgid "Shoreline Smoothing"
@@ -120,7 +113,8 @@ msgstr "平滑的海岸线"
 
 #: ../outdoor_rendering.rst:61
 msgid ""
-"The effect affects the water near the shoreline - it becomes more transparent."
+"The effect affects the water near the shoreline - it becomes more "
+"transparent."
 msgstr "效果影响海岸线附近水 - 它变得更加透明。"
 
 #: ../outdoor_rendering.rst:64
@@ -137,11 +131,10 @@ msgstr "*水>吸收因子*"
 
 #: ../outdoor_rendering.rst:67
 msgid ""
-"This is the light absorption coefficient for water. The higher it is the more "
-"transparent the water is. This value can vary from 0 to 100. The default value "
-"is 6."
-msgstr ""
-"这是水的吸光系数。越高它是更透明的水。这个值可以从0到100的变化。默认值是6。"
+"This is the light absorption coefficient for water. The higher it is the "
+"more transparent the water is. This value can vary from 0 to 100. The "
+"default value is 6."
+msgstr "这是水的吸光系数。越高它是更透明的水。这个值可以从0到100的变化。默认值是6。"
 
 #: ../outdoor_rendering.rst:71
 msgid "Color Gradient"
@@ -149,12 +142,13 @@ msgstr "颜色渐变"
 
 #: ../outdoor_rendering.rst:72
 msgid ""
-"For color gradient the water material must have a texture with the ``Export "
-"Options > Shore Distance Map`` option enabled. This texture can be generated "
-"using the script for :ref:`baking shoreline parameters <shore_distance_bake>`."
+"For color gradient the water material must have a texture with the "
+"``Export Options > Shore Distance Map`` option enabled. This texture can "
+"be generated using the script for :ref:`baking shoreline parameters "
+"<shore_distance_bake>`."
 msgstr ""
-"对于颜色渐变的水材质必须具有 ``Export Options > Shore Distance Map`` 选项启"
-"用。 该纹理可以通过 :ref:`烘焙海岸线参数  <shore_distance_bake>` 用脚本生成."
+"对于颜色渐变的水材质必须具有 ``Export Options > Shore Distance Map`` 选项启用。 该纹理可以通过 "
+":ref:`烘焙海岸线参数  <shore_distance_bake>` 用脚本生成."
 
 #: ../outdoor_rendering.rst:75
 msgid "*Shallow Water > Color*"
@@ -162,8 +156,8 @@ msgstr "*浅水>颜色*"
 
 #: ../outdoor_rendering.rst:75
 msgid ""
-"This sets the color of shallow water. By default, blue (0.008, 0.222, 0.8) is "
-"used."
+"This sets the color of shallow water. By default, blue (0.008, 0.222, "
+"0.8) is used."
 msgstr "设置浅水的颜色。缺省情况下，蓝（0.008，0.222，0.8）被使用。"
 
 #: ../outdoor_rendering.rst:78
@@ -172,8 +166,8 @@ msgstr "*浅水>因子*"
 
 #: ../outdoor_rendering.rst:78
 msgid ""
-"This sets the mixing factor for the color of shallow water. This value can "
-"vary from 0 to 2, and is set to 1 by default."
+"This sets the mixing factor for the color of shallow water. This value "
+"can vary from 0 to 2, and is set to 1 by default."
 msgstr "设置浅层水的颜色混合的因子。这个值可以从0到2变化，默认设置为1。"
 
 #: ../outdoor_rendering.rst:81
@@ -182,8 +176,8 @@ msgstr "*滨水>颜色*"
 
 #: ../outdoor_rendering.rst:81
 msgid ""
-"This determines the color of the water just at the shore line. By default, "
-"dark blue (0.003, 0.19, 0.57) is used."
+"This determines the color of the water just at the shore line. By "
+"default, dark blue (0.003, 0.19, 0.57) is used."
 msgstr "这个决定在岸边水的颜色。缺省情况下，深蓝色（0.003，0.19，0.57）被使用。"
 
 #: ../outdoor_rendering.rst:84
@@ -194,8 +188,7 @@ msgstr "*滨水>因子*"
 msgid ""
 "This sets the mixing factor for the color of the water just near the "
 "shoreline. This value can vary from 0 to 2, and is set to 0.5 by default."
-msgstr ""
-"设置水在靠近海岸线的颜色混合的因子。这个值可以从0到2变化，默认设定为0.5。"
+msgstr "设置水在靠近海岸线的颜色混合的因子。这个值可以从0到2变化，默认设定为0.5。"
 
 #: ../outdoor_rendering.rst:87
 msgid "Refraction"
@@ -203,11 +196,11 @@ msgstr "折射"
 
 #: ../outdoor_rendering.rst:89
 msgid ""
-"Under the ``Render`` tab in the ``Reflections and Refractions`` panel set the "
-"``Refractions`` option to ``ON`` or ``AUTO``."
+"Under the ``Render`` tab in the ``Reflections and Refractions`` panel set"
+" the ``Refractions`` option to ``ON`` or ``AUTO``."
 msgstr ""
-"在 ``Reflections and Refractions`` 面板 ``Render`` 选项卡中设置 "
-"``Refractions`` 选项 ``ON`` 或 ``AUTO``。"
+"在 ``Reflections and Refractions`` 面板 ``Render`` 选项卡中设置 ``Refractions`` 选项"
+" ``ON`` 或 ``AUTO``。"
 
 #: ../outdoor_rendering.rst:96
 msgid "Foam"
@@ -215,12 +208,10 @@ msgstr "泡沫"
 
 #: ../outdoor_rendering.rst:101
 msgid ""
-"For creating foam add a diffuse texture into the water material slot. Every "
-"RGB channel of this image must contain a BW foam texture in it. Then enable "
-"the ``Water Foam`` panel."
-msgstr ""
-"要生成泡沫就要在水材质槽中加入一个漫射纹理。这个图像中的每个RGB通道必须包含有BW"
-"的泡沫纹理。然后在 ``Water Foam`` 面板启用。"
+"For creating foam add a diffuse texture into the water material slot. "
+"Every RGB channel of this image must contain a BW foam texture in it. "
+"Then enable the ``Water Foam`` panel."
+msgstr "要生成泡沫就要在水材质槽中加入一个漫射纹理。这个图像中的每个RGB通道必须包含有BW的泡沫纹理。然后在 ``Water Foam`` 面板启用。"
 
 #: ../outdoor_rendering.rst:110
 msgid "Setting up the Textures"
@@ -232,8 +223,8 @@ msgstr "*水泡沫> UV频率*"
 
 #: ../outdoor_rendering.rst:113
 msgid ""
-"Oscillation frequency of the animated UV coordinates. The default value is "
-"(1.0, 1.0)."
+"Oscillation frequency of the animated UV coordinates. The default value "
+"is (1.0, 1.0)."
 msgstr "动画UV坐标的振荡频率。默认值是（1.0，1.0）。"
 
 #: ../outdoor_rendering.rst:117
@@ -242,8 +233,8 @@ msgstr "*水泡沫> UV幅度*"
 
 #: ../outdoor_rendering.rst:116
 msgid ""
-"Oscillation amplitude of the animated UV coordinates. The default value is "
-"(1.0, 1.0)."
+"Oscillation amplitude of the animated UV coordinates. The default value "
+"is (1.0, 1.0)."
 msgstr "动画UV坐标的振荡幅度。默认值是（1.0，1.0）。"
 
 #: ../outdoor_rendering.rst:120
@@ -264,11 +255,9 @@ msgstr "焦散和色差"
 
 #: ../outdoor_rendering.rst:129
 msgid ""
-"To create the caustics effect turn on the ``Caustics`` option on the water "
-"material. Also, there has to be at least one ``Sun`` on the scene."
-msgstr ""
-"要建立焦散效果开启水材质的 ``Caustics`` 选项。另外，必须有至少一个 ``Sun`` 在场"
-"景中。"
+"To create the caustics effect turn on the ``Caustics`` option on the "
+"water material. Also, there has to be at least one ``Sun`` on the scene."
+msgstr "要建立焦散效果开启水材质的 ``Caustics`` 选项。另外，必须有至少一个 ``Sun`` 在场景中。"
 
 #: ../outdoor_rendering.rst:136
 msgid "*Scale*"
@@ -308,8 +297,8 @@ msgstr "*水下雾>密度*"
 
 #: ../outdoor_rendering.rst:155
 msgid ""
-"Exponential factor which affects the density and visibility distance. The "
-"default value is 0.06."
+"Exponential factor which affects the density and visibility distance. The"
+" default value is 0.06."
 msgstr "其影响密度和能见距离指数因子。默认值是0.06。"
 
 #: ../outdoor_rendering.rst:157
@@ -318,10 +307,9 @@ msgstr ":ref:`上帝光芒 <god_rays>` 效果设置也可用。"
 
 #: ../outdoor_rendering.rst:161
 msgid ""
-"The ``Rendering Options > Backface Culling`` option must be turned off for the "
-"correct water surface rendering."
-msgstr ""
-"想要正确水面渲染效果必须关闭 ``Rendering Options > Backface Culling``  选项。"
+"The ``Rendering Options > Backface Culling`` option must be turned off "
+"for the correct water surface rendering."
+msgstr "想要正确水面渲染效果必须关闭 ``Rendering Options > Backface Culling``  选项。"
 
 #: ../outdoor_rendering.rst:170
 msgid "Volumetric Waves"
@@ -332,654 +320,667 @@ msgid "To enable procedural waves the ``Waves`` option must be turned on."
 msgstr "为了使用程序浪 ``Waves`` 选项必须打开。"
 
 #: ../outdoor_rendering.rst:178
+#, fuzzy
 msgid ""
-"Procedural waves will work only if a ``Wind`` force field is present in the "
-"scene."
+"The direction of procedural waves is derived from a ``Wind`` force field "
+"in the scene."
 msgstr "只要有 ``Wind`` 力场在场景中程序浪将工作。"
 
-#: ../outdoor_rendering.rst:185 ../outdoor_rendering.rst:418
-#: ../outdoor_rendering.rst:442
+#: ../outdoor_rendering.rst:180
+msgid ""
+"If a scene does not have a ``Wind`` force field, procedural waves will "
+"only move in the default direction which cannot be changed."
+msgstr ""
+
+#: ../outdoor_rendering.rst:187 ../outdoor_rendering.rst:420
+#: ../outdoor_rendering.rst:444
 msgid "Setting up"
 msgstr "设置"
 
-#: ../outdoor_rendering.rst:188
+#: ../outdoor_rendering.rst:190
 msgid "*Wave Height*"
 msgstr "*浪高*"
 
-#: ../outdoor_rendering.rst:188
+#: ../outdoor_rendering.rst:190
 msgid "Wave height can vary from 0 to 5. The default value is 1.0."
 msgstr "波高度可变化从0到5的默认值是1.0。"
 
-#: ../outdoor_rendering.rst:191
+#: ../outdoor_rendering.rst:193
 msgid "*Wave Length*"
 msgstr "*波长度*"
 
-#: ../outdoor_rendering.rst:191
+#: ../outdoor_rendering.rst:193
 msgid "Wave length can vary from 0.01 to 200. The default value is 10.0."
 msgstr "波长可以从0.01至200变化，默认值是10.0。"
 
-#: ../outdoor_rendering.rst:194
+#: ../outdoor_rendering.rst:196
 msgid "*Noise Dist Scale 0*"
 msgstr "*噪音DIST缩放0*"
 
-#: ../outdoor_rendering.rst:194
+#: ../outdoor_rendering.rst:196
 msgid ""
 "This is the size of the first component of the open water waves. This "
 "parameter can vary from 0 to 1. Default value is 0.05."
 msgstr "这是开放水浪的第一组分的大小。这个参数可以从0到1变化，默认值是 0.05。"
 
-#: ../outdoor_rendering.rst:197
+#: ../outdoor_rendering.rst:199
 msgid "*Noise Dist Scale 1*"
 msgstr "*噪音DIST缩放1*"
 
-#: ../outdoor_rendering.rst:197
+#: ../outdoor_rendering.rst:199
 msgid ""
 "This is the size of the second component of the open water waves. This "
 "parameter can vary from 0 to 1. Default value is 0.03."
 msgstr "这是开放的水浪的第二成分的大小。这个参数可以从0到1变化，默认值是0.03。"
 
-#: ../outdoor_rendering.rst:200
+#: ../outdoor_rendering.rst:202
 msgid "*Noise Dist Freq 0*"
 msgstr "*噪声DIST频率0*"
 
-#: ../outdoor_rendering.rst:200
+#: ../outdoor_rendering.rst:202
 msgid ""
-"This sets the frequency of the first component of the open water waves. This "
-"parameter can vary from 0 to 10. Default value is 1.3."
-msgstr ""
-"这将设置开放式水浪的第一部分的频率。这个参数可以从0到10变化，默认值是1.3。"
+"This sets the frequency of the first component of the open water waves. "
+"This parameter can vary from 0 to 10. Default value is 1.3."
+msgstr "这将设置开放式水浪的第一部分的频率。这个参数可以从0到10变化，默认值是1.3。"
 
-#: ../outdoor_rendering.rst:203
+#: ../outdoor_rendering.rst:205
 msgid "*Noise Dist Freq 1*"
 msgstr "*噪声DIST频率1*"
 
-#: ../outdoor_rendering.rst:203
+#: ../outdoor_rendering.rst:205
 msgid ""
-"This sets the frequency of the second component of the open water waves. This "
-"parameter can vary from 0 to 10 and is set to 1 by default."
-msgstr ""
-"这将设置开放水波的第二成分的频率。这个参数可以从0到10变化，并且默认设置为1。"
+"This sets the frequency of the second component of the open water waves. "
+"This parameter can vary from 0 to 10 and is set to 1 by default."
+msgstr "这将设置开放水波的第二成分的频率。这个参数可以从0到10变化，并且默认设置为1。"
 
-#: ../outdoor_rendering.rst:206
+#: ../outdoor_rendering.rst:208
 msgid "*Min Dir Shore Fac*"
 msgstr "*最小Dir 河岸因子*"
 
-#: ../outdoor_rendering.rst:206
+#: ../outdoor_rendering.rst:208
 msgid ""
 "This is the minimum height decrease coefficient of the shore waves. This "
 "parameter can vary from 0 to 1 and is set to 0.4 by default."
-msgstr ""
-"这是在岸边波的最小高度减少系数。这个参数可以从0到1变化，并且默认设定为0.4。"
+msgstr "这是在岸边波的最小高度减少系数。这个参数可以从0到1变化，并且默认设定为0.4。"
 
-#: ../outdoor_rendering.rst:209
+#: ../outdoor_rendering.rst:211
 msgid "*Dir Frequency*"
 msgstr "*Dir频率*"
 
-#: ../outdoor_rendering.rst:209
+#: ../outdoor_rendering.rst:211
 msgid ""
-"This sets the frequency of the rolling of the shore waves. This parameter can "
-"vary from 0 to 10 and is set to 0.5 by default."
-msgstr ""
-"设置靠着岸边的波浪翻滚的频率。这个参数可以从0到10变化，并且默认设定为0.5。"
+"This sets the frequency of the rolling of the shore waves. This parameter"
+" can vary from 0 to 10 and is set to 0.5 by default."
+msgstr "设置靠着岸边的波浪翻滚的频率。这个参数可以从0到10变化，并且默认设定为0.5。"
 
-#: ../outdoor_rendering.rst:212
+#: ../outdoor_rendering.rst:214
 msgid "*Noise Dir Scale*"
 msgstr "*噪音Dir缩放*"
 
-#: ../outdoor_rendering.rst:212
+#: ../outdoor_rendering.rst:214
 msgid ""
-"This specifies the size of the noise for the shore waves. This parameter can "
-"vary from 0 to 1 and is set to 0.05 by default."
+"This specifies the size of the noise for the shore waves. This parameter "
+"can vary from 0 to 1 and is set to 0.05 by default."
 msgstr "设置岸边海浪的噪声大小。这个参数可以从0到1变化，并且默认设置为0.05。"
 
-#: ../outdoor_rendering.rst:215
+#: ../outdoor_rendering.rst:217
 msgid "*Noise Dir Freq*"
 msgstr "*噪音Dir频率*"
 
-#: ../outdoor_rendering.rst:215
+#: ../outdoor_rendering.rst:217
 msgid ""
-"This describes the fequency of the noise for the shore waves. This parameter "
-"can vary from 0 to 1. Default value is 0.07."
+"This describes the fequency of the noise for the shore waves. This "
+"parameter can vary from 0 to 1. Default value is 0.07."
 msgstr "设置岸波的噪音频率。这个参数可以变化从0到1的默认值是0.07。"
 
-#: ../outdoor_rendering.rst:218
+#: ../outdoor_rendering.rst:220
 msgid "*Min Dir Noise Fac*"
 msgstr "*最小 Dir 噪声因子*"
 
-#: ../outdoor_rendering.rst:218
+#: ../outdoor_rendering.rst:220
 msgid ""
-"This is the noise minimum for the shore waves. This parameter can vary from 0 "
-"to 1. Default value is 0.5."
+"This is the noise minimum for the shore waves. This parameter can vary "
+"from 0 to 1. Default value is 0.5."
 msgstr "岸边波浪的最小噪音。这个参数可以从0到1变化，默认值是0.5。"
 
-#: ../outdoor_rendering.rst:221
+#: ../outdoor_rendering.rst:223
 msgid "*Min Dist Fac*"
 msgstr "*最小Dist因子*"
 
-#: ../outdoor_rendering.rst:221
+#: ../outdoor_rendering.rst:223
 msgid ""
-"This sets the minimum coefficient of mixing open water waves. This parameter "
-"can vary from 0 to 1. Default value is 0.2."
+"This sets the minimum coefficient of mixing open water waves. This "
+"parameter can vary from 0 to 1. Default value is 0.2."
 msgstr "这台混合打开水浪的最低系数。这个参数可以从0到1变化，默认值是0.2。"
 
-#: ../outdoor_rendering.rst:224
+#: ../outdoor_rendering.rst:226
 msgid "*Horizontal Factor*"
 msgstr "*水平因子*"
 
-#: ../outdoor_rendering.rst:224
+#: ../outdoor_rendering.rst:226
 msgid ""
-"This coefficient shows how much the shore waves are shifted in the direction "
-"of the shoreline. This parameter can vary from 0 to 10. Default value is 5."
-msgstr ""
-"该系数表明了岸波向海岸线方向移动的程度。这个参数可以从0到10变化，默认值是5。"
+"This coefficient shows how much the shore waves are shifted in the "
+"direction of the shoreline. This parameter can vary from 0 to 10. Default"
+" value is 5."
+msgstr "该系数表明了岸波向海岸线方向移动的程度。这个参数可以从0到10变化，默认值是5。"
 
-#: ../outdoor_rendering.rst:227
+#: ../outdoor_rendering.rst:229
 msgid "Settings for Surface Generation"
 msgstr "地表生成设置"
 
-#: ../outdoor_rendering.rst:230
+#: ../outdoor_rendering.rst:232
 msgid "*Generate Mesh*"
 msgstr "*生成网格*"
 
-#: ../outdoor_rendering.rst:230
+#: ../outdoor_rendering.rst:232
 msgid "This enables a generated surface."
 msgstr "这使得产生的表面。"
 
-#: ../outdoor_rendering.rst:233
+#: ../outdoor_rendering.rst:235
 msgid "*Cascades Number*"
 msgstr "*级联数据*"
 
-#: ../outdoor_rendering.rst:233
+#: ../outdoor_rendering.rst:235
 msgid ""
 "This describes the number of cascades on the generated surface. This "
 "parameter's value can vary from 1 to 20. Default value is 5."
-msgstr ""
-"这个描述所产生的表面上的级联的数量。这个参数的值可以从1至20变化，默认值是5。"
+msgstr "这个描述所产生的表面上的级联的数量。这个参数的值可以从1至20变化，默认值是5。"
 
-#: ../outdoor_rendering.rst:236
+#: ../outdoor_rendering.rst:238
 msgid "*Subdivisions*"
 msgstr "*细分*"
 
-#: ../outdoor_rendering.rst:236
+#: ../outdoor_rendering.rst:238
 msgid ""
-"This is the number of subdivisions in generated mesh. Default value is 64. The "
-"lowes possible value for this parameter is 2, while the highest possible value "
-"is 512."
-msgstr ""
-"这是生成的网格的细分数目。默认值是64。此参数是最低值是2，而最高的可能值是512。"
+"This is the number of subdivisions in generated mesh. Default value is "
+"64. The lowes possible value for this parameter is 2, while the highest "
+"possible value is 512."
+msgstr "这是生成的网格的细分数目。默认值是64。此参数是最低值是2，而最高的可能值是512。"
 
-#: ../outdoor_rendering.rst:240
+#: ../outdoor_rendering.rst:242
 msgid "*Detailed Distance*"
 msgstr "*详细距离*"
 
-#: ../outdoor_rendering.rst:239
+#: ../outdoor_rendering.rst:241
 msgid ""
-"This specifies the maximum distance from the camera to the edge of the last "
-"cascade. The value of this parameter can vary from 1 to 5000. Default value is "
-"1000."
-msgstr ""
-"这指定从相机到最后级联的边的最大距离。这个参数的值可以从1至5000变化，默认值是"
-"1000。"
+"This specifies the maximum distance from the camera to the edge of the "
+"last cascade. The value of this parameter can vary from 1 to 5000. "
+"Default value is 1000."
+msgstr "这指定从相机到最后级联的边的最大距离。这个参数的值可以从1至5000变化，默认值是1000。"
 
-#: ../outdoor_rendering.rst:247
+#: ../outdoor_rendering.rst:249
 msgid "Baking Shoreline Data to Texture"
 msgstr "烘焙海岸线数据到纹理"
 
-#: ../outdoor_rendering.rst:249
-msgid ""
-"On the tools panel (hotkey “T”) under the ``Blend4Web`` tab open the ``Bake "
-"Shore Distance Map`` panel. Set the parameters: maximum distance to shore "
-"(``Maximum Distance``) and the resulting texture size (``Texture Size``). "
-"Select a landscape object (or multiple objects) first, and then - a water "
-"object. Click the ``Bake`` button."
-msgstr ""
-"在 ``Blend4Web`` 选项卡下的工具面板（快捷键 “T”）打开 ``Bake Shore Distance "
-"Map`` 面板。设定参数：到岸最大距离（``最大Distance``），以及最终纹理大小（``纹"
-"理Size``）。选择一个地形物体（或多个物体），然后 - 水物体。点击 ``Bake`` 按钮。"
-
 #: ../outdoor_rendering.rst:251
 msgid ""
-"Depending on the texture size and the number of vertices in the processed "
-"meshes the execution time of the script may vary from a fraction of a second "
-"up to several minutes. Make sure that the texture named ``ShoreDistance`` is "
-"created for the water mesh."
+"On the tools panel (hotkey “T”) under the ``Blend4Web`` tab open the "
+"``Bake Shore Distance Map`` panel. Set the parameters: maximum distance "
+"to shore (``Maximum Distance``) and the resulting texture size (``Texture"
+" Size``). Select a landscape object (or multiple objects) first, and then"
+" - a water object. Click the ``Bake`` button."
 msgstr ""
-"根据所处理的网格中的纹理大小和顶点的数量，脚本的执行时间可能会有所不同从几秒到"
-"几分钟。确保水网格的纹理名 ``ShoreDistance`` 已经创建。"
+"在 ``Blend4Web`` 选项卡下的工具面板（快捷键 “T”）打开 ``Bake Shore Distance Map`` "
+"面板。设定参数：到岸最大距离（``最大Distance``），以及最终纹理大小（``纹理Size``）。选择一个地形物体（或多个物体），然后 - "
+"水物体。点击 ``Bake`` 按钮。"
 
 #: ../outdoor_rendering.rst:253
 msgid ""
-"Upon script execution some system properties are saved in the water material. "
-"Therefore, the scene must be saved after the script has finished working."
+"Depending on the texture size and the number of vertices in the processed"
+" meshes the execution time of the script may vary from a fraction of a "
+"second up to several minutes. Make sure that the texture named "
+"``ShoreDistance`` is created for the water mesh."
+msgstr ""
+"根据所处理的网格中的纹理大小和顶点的数量，脚本的执行时间可能会有所不同从几秒到几分钟。确保水网格的纹理名 ``ShoreDistance`` "
+"已经创建。"
+
+#: ../outdoor_rendering.rst:255
+msgid ""
+"Upon script execution some system properties are saved in the water "
+"material. Therefore, the scene must be saved after the script has "
+"finished working."
 msgstr "脚本执行一些系统属性保存在水材质。因此，该脚本完成工作后，必须保存场景。"
 
-#: ../outdoor_rendering.rst:259
+#: ../outdoor_rendering.rst:261
 msgid "Atmosphere"
 msgstr "大气"
 
-#: ../outdoor_rendering.rst:262
+#: ../outdoor_rendering.rst:264
 msgid "Scattering"
 msgstr "散射"
 
-#: ../outdoor_rendering.rst:264
+#: ../outdoor_rendering.rst:266
 msgid ""
-"Enable ``World > Render Sky``, then activate ``Procedural Sky`` panel under "
-"the World tab. Please note, that if a :ref:`static skydome texture "
+"Enable ``World > Render Sky``, then activate ``Procedural Sky`` panel "
+"under the World tab. Please note, that if a :ref:`static skydome texture "
 "<skydome_texture>` is being used at the same time, it will be replaced."
 msgstr ""
-"启用 ``World > Render Sky``, 然后激活世界标签下  ``Procedural Sky`` 面板。请注"
-"意，如果一 :ref:`静态天穹材质 <skydome_texture>` 同时正在被使用，它将被替换。"
+"启用 ``World > Render Sky``, 然后激活世界标签下  ``Procedural Sky`` 面板。请注意，如果一 "
+":ref:`静态天穹材质 <skydome_texture>` 同时正在被使用，它将被替换。"
 
-#: ../outdoor_rendering.rst:268
+#: ../outdoor_rendering.rst:270
 msgid ""
-"Also, a procedural sky texture can be used to imitate scattered :ref:"
-"`environment lighting <environment_lighting>` similar to the :ref:`static "
-"skydome texture <skydome_texture>`. To do this, enable the ``Procedural Sky > "
-"Use as Environment Lighting`` and ``Environment Lighting > Sky Texture`` "
-"options. If the world texture for environment lighting already exists, it will "
-"be replaced."
+"Also, a procedural sky texture can be used to imitate scattered "
+":ref:`environment lighting <environment_lighting>` similar to the "
+":ref:`static skydome texture <skydome_texture>`. To do this, enable the "
+"``Procedural Sky > Use as Environment Lighting`` and ``Environment "
+"Lighting > Sky Texture`` options. If the world texture for environment "
+"lighting already exists, it will be replaced."
 msgstr ""
-"此外，一个程序的天空纹理可以用来模仿散射  :ref:`环境灯光 "
-"<environment_lighting>` 类似于 :ref:`static skydome texture "
-"<skydome_texture>`。要做到这一点， 启用 ``Procedural Sky > Use as Environment "
-"Lighting`` and ``Environment Lighting > Sky Texture`` 选项。如果世界纹理的环境"
-"照明已经存在，它会被替换。"
+"此外，一个程序的天空纹理可以用来模仿散射  :ref:`环境灯光 <environment_lighting>` 类似于 :ref:`static"
+" skydome texture <skydome_texture>`。要做到这一点， 启用 ``Procedural Sky > Use as "
+"Environment Lighting`` and ``Environment Lighting > Sky Texture`` "
+"选项。如果世界纹理的环境照明已经存在，它会被替换。"
 
-#: ../outdoor_rendering.rst:277
+#: ../outdoor_rendering.rst:279
 msgid "Supported settings:"
 msgstr "支持设置："
 
-#: ../outdoor_rendering.rst:280
+#: ../outdoor_rendering.rst:282
 msgid "*Procedural Sky > Sky Color*"
 msgstr "*程序天空>天空颜色*"
 
-#: ../outdoor_rendering.rst:280
+#: ../outdoor_rendering.rst:282
 msgid "Base sky color. The default value is (0.087, 0.255, 0.6) (blue)."
 msgstr "基础天空的颜色。默认值是（0.087，0.255，0.6）（蓝色）。"
 
-#: ../outdoor_rendering.rst:283
+#: ../outdoor_rendering.rst:285
 msgid "*Procedural Sky > Rayleigh Brightness*"
 msgstr "*程序天空>瑞利亮度*"
 
-#: ../outdoor_rendering.rst:283
+#: ../outdoor_rendering.rst:285
 msgid ""
 "Rayleigh scattering brightness (i.e. scattering on small particles). The "
 "default value is 3.3."
 msgstr "瑞利散射亮度（即小颗粒散射）。默认值是3.3。"
 
-#: ../outdoor_rendering.rst:286
+#: ../outdoor_rendering.rst:288
 msgid "*Procedural Sky > Mie Brightness*"
 msgstr "*程序天空>三重亮度*"
 
-#: ../outdoor_rendering.rst:286
+#: ../outdoor_rendering.rst:288
 msgid ""
-"Mie scattering brightness (i.e. scattering on large particles). The default "
-"value is 0.1."
+"Mie scattering brightness (i.e. scattering on large particles). The "
+"default value is 0.1."
 msgstr "Mie散射亮度（即大颗粒散射）。缺省值为0.1。"
 
-#: ../outdoor_rendering.rst:289
+#: ../outdoor_rendering.rst:291
 msgid "*Procedural Sky > Spot Brightness*"
 msgstr "*程序天空>曝光亮度*"
 
-#: ../outdoor_rendering.rst:289
+#: ../outdoor_rendering.rst:291
 msgid "Sun spot brightness. The default value is 20.0."
 msgstr "Sun SPOT的亮度。默认值是20.0。"
 
-#: ../outdoor_rendering.rst:292
+#: ../outdoor_rendering.rst:294
 msgid "*Procedural Sky > Scatter Strength*"
 msgstr "*程序天空>散射强度*"
 
-#: ../outdoor_rendering.rst:292
+#: ../outdoor_rendering.rst:294
 msgid "Light scattering factor. The default value is 0.2."
 msgstr "光散射系数。默认值是0.2。"
 
-#: ../outdoor_rendering.rst:295
+#: ../outdoor_rendering.rst:297
 msgid "*Procedural Sky > Rayleigh Strength*"
 msgstr "*程序天空>瑞利强度*"
 
-#: ../outdoor_rendering.rst:295
+#: ../outdoor_rendering.rst:297
 msgid "Rayleigh scattering factor. The default value is 0.2."
 msgstr "瑞利散射系数。默认值是0.2。"
 
-#: ../outdoor_rendering.rst:298
+#: ../outdoor_rendering.rst:300
 msgid "*Procedural Sky > Mie Strength*"
 msgstr "*程序天空>三重强度*"
 
-#: ../outdoor_rendering.rst:298
+#: ../outdoor_rendering.rst:300
 msgid "Mie scattering factor. The default value is 0.006."
 msgstr "米氏散射系数。默认值是0.006。"
 
-#: ../outdoor_rendering.rst:301
+#: ../outdoor_rendering.rst:303
 msgid "*Procedural Sky > Rayleigh Collection Power*"
 msgstr "*程序天空>瑞利收集强度*"
 
-#: ../outdoor_rendering.rst:301
+#: ../outdoor_rendering.rst:303
 msgid "Rayleigh scattering exponent. The default value is 0.35."
 msgstr "瑞利散射指数。默认值是0.35。"
 
-#: ../outdoor_rendering.rst:304
+#: ../outdoor_rendering.rst:306
 msgid "*Procedural Sky > Mie Collection Power*"
 msgstr "*程序天空>mie收集强度*"
 
-#: ../outdoor_rendering.rst:304
+#: ../outdoor_rendering.rst:306
 msgid "Mie scattering exponent. The default value is 0.5."
 msgstr "米氏散射指数。默认值是0.5。"
 
-#: ../outdoor_rendering.rst:309
+#: ../outdoor_rendering.rst:311
 msgid "*Procedural Sky > Mie Distribution*"
 msgstr "*程序天空>Mie分布*"
 
-#: ../outdoor_rendering.rst:307
+#: ../outdoor_rendering.rst:309
 msgid "Mie scattering distribution. The default value is 0.4."
 msgstr "米氏散射分布。默认值是0.4。"
 
-#: ../outdoor_rendering.rst:312
+#: ../outdoor_rendering.rst:314
 msgid "Fog"
 msgstr "雾"
 
-#: ../outdoor_rendering.rst:314
+#: ../outdoor_rendering.rst:316
 msgid ""
-"The engine supports standard parameters located on the ``World > Mist`` panel. "
-"Besides this, overriding fog color is possible."
-msgstr ""
-"该引擎支持位于 ``World > Mist`` 面板上的标准参数。除此之外，可能覆盖雾的颜色。"
+"The engine supports standard parameters located on the ``World > Mist`` "
+"panel. Besides this, overriding fog color is possible."
+msgstr "该引擎支持位于 ``World > Mist`` 面板上的标准参数。除此之外，可能覆盖雾的颜色。"
 
-#: ../outdoor_rendering.rst:317
+#: ../outdoor_rendering.rst:319
 msgid "*Mist > Use Custom Color*"
 msgstr "*雾>使用定制颜色*"
 
-#: ../outdoor_rendering.rst:317
+#: ../outdoor_rendering.rst:319
 msgid ""
-"Apply the user-defined fog color instead of ``World > Horizon`` color. Enabled "
-"by default."
+"Apply the user-defined fog color instead of ``World > Horizon`` color. "
+"Enabled by default."
 msgstr "应用用户定义雾的颜色，而不是 ``World > Horizon`` 颜色。默认情况下启用。"
 
-#: ../outdoor_rendering.rst:320
+#: ../outdoor_rendering.rst:322
 msgid "*Mist > Color*"
 msgstr "*雾>颜色*"
 
-#: ../outdoor_rendering.rst:320
+#: ../outdoor_rendering.rst:322
 msgid "Fog color. The default value is (0.5, 0.5, 0.5) (gray)."
 msgstr "雾的颜色。默认值是（0.5，0.5，0.5）（灰色）。"
 
-#: ../outdoor_rendering.rst:322
+#: ../outdoor_rendering.rst:324
 msgid "When a dynamic skydome is used the fog color is defined by the sky color."
 msgstr "当使用动态天穹，雾的颜色是由天空的颜色定义。"
 
-#: ../outdoor_rendering.rst:326
+#: ../outdoor_rendering.rst:328
 msgid "Time of Day"
 msgstr "当日时间"
 
-#: ../outdoor_rendering.rst:328
+#: ../outdoor_rendering.rst:330
 msgid "Enable the ``Dynamic Intensity`` options for the lamp."
 msgstr "启用灯的  ``Dynamic Intensity`` 选项。"
 
-#: ../outdoor_rendering.rst:330
+#: ../outdoor_rendering.rst:332
 msgid ""
-"Time of day can be set by applications via API. Particularly time of day can "
-"be set using the ``Lighting`` interface of the :ref:`Scene viewer <viewer>`."
+"Time of day can be set by applications via API. Particularly time of day "
+"can be set using the ``Lighting`` interface of the :ref:`Scene viewer "
+"<viewer>`."
 msgstr ""
-"一天中的时间可以在应用程序通过API进行设置。一天中的时间可以用 :ref:`场景查看器 "
-"<viewer>` 的 ``Lighting`` 界面来设置。"
+"一天中的时间可以在应用程序通过API进行设置。一天中的时间可以用 :ref:`场景查看器 <viewer>` 的 ``Lighting`` "
+"界面来设置。"
 
-#: ../outdoor_rendering.rst:338
+#: ../outdoor_rendering.rst:340
 msgid "Stars"
 msgstr "星星"
 
-#: ../outdoor_rendering.rst:340
+#: ../outdoor_rendering.rst:342
 msgid "Stars setup is described in the :ref:`material_halo` section."
 msgstr "星的设置描述在 :ref:`material_halo` "
 
-#: ../outdoor_rendering.rst:349
+#: ../outdoor_rendering.rst:351
 msgid "Lens Flare"
 msgstr "镜头光晕"
 
-#: ../outdoor_rendering.rst:355
+#: ../outdoor_rendering.rst:357
 msgid ""
-"This feature can be enabled by the ``Lens Flare`` check-box located in the "
-"``Rendering Options`` of the ``Material`` panel."
-msgstr ""
-"此功能可以通过 ``Lens Flare`` 位于 ``Material`` 面板的 ``渲染Options`` 复选框启用。"
+"This feature can be enabled by the ``Lens Flare`` check-box located in "
+"the ``Rendering Options`` of the ``Material`` panel."
+msgstr "此功能可以通过 ``Lens Flare`` 位于 ``Material`` 面板的 ``渲染Options`` 复选框启用。"
 
-#: ../outdoor_rendering.rst:362
+#: ../outdoor_rendering.rst:364
 msgid ""
-"The effect works only if a ``Sun`` type light source is present in the scene."
+"The effect works only if a ``Sun`` type light source is present in the "
+"scene."
 msgstr "只有场景中存在 ``Sun`` 型光源才会有效果。"
 
-#: ../outdoor_rendering.rst:365
+#: ../outdoor_rendering.rst:367
 msgid "Lens Flare Settings"
 msgstr "镜头光晕设置"
 
-#: ../outdoor_rendering.rst:368
+#: ../outdoor_rendering.rst:370
 msgid "Lens Flare Object"
 msgstr "镜头光晕物体"
 
-#: ../outdoor_rendering.rst:374
-msgid ""
-"Lens Flare object is used for the actual rendering of the effect. In essence, "
-"such an object consists of several planes with each plane containing one "
-"element of the flare. The normal vector of each plane should be pointed in the "
-"``-Y`` direction. Every element can slide across the screen in relation to "
-"camera rotation with the sole exception being the central plane (bright white "
-"\"star\" on the picture above). This plane serves as a center of the lens "
-"flare object and should have a *local* ``Y`` coordinate set to 1."
-msgstr ""
-"镜头眩光物体是用于实际渲染的效果。从本质上说，这样的一个物体由几个平面与每个平"
-"面包含一个耀斑元素。每一平面的法线矢量应指向 “-Y” 方向。每一个元素都可以在屏幕"
-"上滑动和对相机的旋转，唯一的例外是中央平面（明亮的白色的 “星” 在上面的图片）。"
-"这个平面作为镜头眩光物体的中心，应该有一个 *本地* 的 ``Y`` 坐标设置为1。"
-
 #: ../outdoor_rendering.rst:376
 msgid ""
-"The placement and spatial orientation of the object itself are not taken into "
-"account during rendering."
-msgstr "在渲染过程中，物体本身的位置和空间方向没有考虑。"
+"Lens Flare object is used for the actual rendering of the effect. In "
+"essence, such an object consists of several planes with each plane "
+"containing one element of the flare. The normal vector of each plane "
+"should be pointed in the ``-Y`` direction. Every element can slide across"
+" the screen in relation to camera rotation with the sole exception being "
+"the central plane (bright white \"star\" on the picture above). This "
+"plane serves as a center of the lens flare object and should have a "
+"*local* ``Y`` coordinate set to 1."
+msgstr ""
+"镜头眩光物体是用于实际渲染的效果。从本质上说，这样的一个物体由几个平面与每个平面包含一个耀斑元素。每一平面的法线矢量应指向 “-Y” "
+"方向。每一个元素都可以在屏幕上滑动和对相机的旋转，唯一的例外是中央平面（明亮的白色的 “星” "
+"在上面的图片）。这个平面作为镜头眩光物体的中心，应该有一个 *本地* 的 ``Y`` 坐标设置为1。"
 
 #: ../outdoor_rendering.rst:378
+msgid ""
+"The placement and spatial orientation of the object itself are not taken "
+"into account during rendering."
+msgstr "在渲染过程中，物体本身的位置和空间方向没有考虑。"
+
+#: ../outdoor_rendering.rst:380
 msgid ""
 "For lens flare object to work correctly, the ``Disable Frustum Culling`` "
 "option should be activated."
 msgstr "镜头光晕物体要正常工作，``Disable Frustum Culling``  选项应该被激活。"
 
-#: ../outdoor_rendering.rst:380
+#: ../outdoor_rendering.rst:382
 msgid ""
-"An example of such object can be seen, for example, in our **Island** demo."
+"An example of such object can be seen, for example, in our **Island** "
+"demo."
 msgstr "这样的物体的一个例子可以看到，例如，在我们的 **岛** 演示。"
 
-#: ../outdoor_rendering.rst:383
+#: ../outdoor_rendering.rst:385
 msgid "Material Settings"
 msgstr "材质设置"
 
-#: ../outdoor_rendering.rst:385
-msgid ""
-"The material used for the lens flare object should have the ``Alpha Blend`` "
-"transparency type. ``Alpha`` parameter should be set to zero."
-msgstr ""
-"用于镜头光斑物体的材质应当具有  ``Alpha Blend`` 透明度类型。 ``Alpha`` 参数应当"
-"被设置为零。"
-
 #: ../outdoor_rendering.rst:387
+msgid ""
+"The material used for the lens flare object should have the ``Alpha "
+"Blend`` transparency type. ``Alpha`` parameter should be set to zero."
+msgstr "用于镜头光斑物体的材质应当具有  ``Alpha Blend`` 透明度类型。 ``Alpha`` 参数应当被设置为零。"
+
+#: ../outdoor_rendering.rst:389
 msgid ":ref:`Node materials <node_materials>` are not supported."
 msgstr ":ref:`节点材质 <node_materials>` 不被支持。"
 
-#: ../outdoor_rendering.rst:390
+#: ../outdoor_rendering.rst:392
 msgid "Texture Settings"
 msgstr "纹理设置"
 
-#: ../outdoor_rendering.rst:396
+#: ../outdoor_rendering.rst:398
 msgid "An example of texture used to generate Lens Flare effect."
 msgstr "用来产生镜头光斑效果的纹理的例子。"
 
-#: ../outdoor_rendering.rst:398
+#: ../outdoor_rendering.rst:400
 msgid ""
-"The texture used for the Lens Flare object should contain all elements used to "
-"form the shape of the flare in an actual application. The texture image should "
-"use ``Alpha`` channel and influence both ``Color`` and ``Alpha`` values."
+"The texture used for the Lens Flare object should contain all elements "
+"used to form the shape of the flare in an actual application. The texture"
+" image should use ``Alpha`` channel and influence both ``Color`` and "
+"``Alpha`` values."
 msgstr ""
-"用于镜头眩光物体纹理应包含在实际的应用程序的用于形成光斑的形状所有元素。纹理图"
-"像应该使用 ``Alpha`` 通道对 ``Color`` 和 ``Alpha`` 值都有影响。"
+"用于镜头眩光物体纹理应包含在实际的应用程序的用于形成光斑的形状所有元素。纹理图像应该使用 ``Alpha`` 通道对 ``Color`` 和 "
+"``Alpha`` 值都有影响。"
 
-#: ../outdoor_rendering.rst:403
+#: ../outdoor_rendering.rst:405
 msgid "Wind"
 msgstr "风"
 
-#: ../outdoor_rendering.rst:409
+#: ../outdoor_rendering.rst:411
 msgid "Wind strength and direction affect:"
 msgstr "风的强度和方向的影响："
 
-#: ../outdoor_rendering.rst:406
+#: ../outdoor_rendering.rst:408
 msgid ":ref:`grass and tree leaves animation <wind_bending>`"
 msgstr ":ref:`草和树叶的动画 <wind_bending>`"
 
-#: ../outdoor_rendering.rst:407
+#: ../outdoor_rendering.rst:409
 msgid ":ref:`particle system dynamics <particles_force_fields>`"
 msgstr ":ref:`粒子系统动力学 <particles_force_fields>`"
 
-#: ../outdoor_rendering.rst:408
+#: ../outdoor_rendering.rst:410
 msgid ""
-":ref:`water waves rolling frequency <water_volumetric_waves>` (at the moment "
-"only strength is taken into account)"
+":ref:`water waves rolling frequency <water_volumetric_waves>` (at the "
+"moment only strength is taken into account)"
 msgstr ":ref:`水浪翻滚频率 <water_volumetric_waves>` (现在只考虑强度)"
 
-#: ../outdoor_rendering.rst:414
+#: ../outdoor_rendering.rst:416
 msgid "Add a force field object of the ``Wind`` type."
 msgstr "添加 ``Wind`` 类型的力场物体。"
 
-#: ../outdoor_rendering.rst:421
+#: ../outdoor_rendering.rst:423
 msgid "*Direction*"
 msgstr "*方向*"
 
-#: ../outdoor_rendering.rst:421
+#: ../outdoor_rendering.rst:423
 msgid "Direction can be set by rotating the force field object."
 msgstr "方向可以通过旋转力场物体进行设定。"
 
-#: ../outdoor_rendering.rst:425
+#: ../outdoor_rendering.rst:427
 msgid "*Force Fields > Strength*"
 msgstr "*力场>强度*"
 
-#: ../outdoor_rendering.rst:424
+#: ../outdoor_rendering.rst:426
 msgid ""
-"Wind strength. Located under the ``Physics`` tab. The default value is 1.0."
+"Wind strength. Located under the ``Physics`` tab. The default value is "
+"1.0."
 msgstr "风力强度。位于 ``Physics`` 选项卡下。缺省值为1.0。"
 
-#: ../outdoor_rendering.rst:430
+#: ../outdoor_rendering.rst:432
 msgid "Animation of Grass and Tree Leaves"
 msgstr "草和树叶的动画"
 
-#: ../outdoor_rendering.rst:432
+#: ../outdoor_rendering.rst:434
 msgid ""
-"Authoring resources for grass rendering is described in the :ref:"
-"`particles_grass` section."
+"Authoring resources for grass rendering is described in the "
+":ref:`particles_grass` section."
 msgstr ":ref:`particles_grass` 章节讲述了草渲染创作需要的资源。"
 
-#: ../outdoor_rendering.rst:438
+#: ../outdoor_rendering.rst:440
 msgid "Enable the ``Wind Bending`` panel for the grass or tree object."
 msgstr "在 ``Wind Bending`` 面板为草或树物题启用。"
 
-#: ../outdoor_rendering.rst:444
+#: ../outdoor_rendering.rst:446
 msgid ""
-"The interface panel becomes visible after turning on the ``Wind Bending`` "
-"panel."
+"The interface panel becomes visible after turning on the ``Wind Bending``"
+" panel."
 msgstr "打开  ``Wind Bending``  面板后设置面板可见。"
 
-#: ../outdoor_rendering.rst:453
+#: ../outdoor_rendering.rst:455
 msgid "*Main Bending > Angle*"
 msgstr "*主要折弯>角*"
 
-#: ../outdoor_rendering.rst:453
+#: ../outdoor_rendering.rst:455
 msgid ""
 "Angle amplitude of the “main” deviation under the influence of wind (in "
 "degrees). The default value is 10.0."
 msgstr "风的影响（度）下的 “主” 角偏差幅度。默认值是10.0。"
 
-#: ../outdoor_rendering.rst:456
+#: ../outdoor_rendering.rst:458
 msgid "*Main Bending > Frequency*"
 msgstr "*主要弯曲>频率*"
 
-#: ../outdoor_rendering.rst:456
+#: ../outdoor_rendering.rst:458
 msgid ""
-"Frequency of the “main” deviation under the influence of wind. The default "
-"value is 0.25."
+"Frequency of the “main” deviation under the influence of wind. The "
+"default value is 0.25."
 msgstr "风的影响下，“主” 偏差的频率。默认值是0.25。"
 
-#: ../outdoor_rendering.rst:459
+#: ../outdoor_rendering.rst:461
 msgid "*Main Bending > Main Stiffness (A)*"
 msgstr "*主要弯曲>主刚度（A）*"
 
-#: ../outdoor_rendering.rst:459
+#: ../outdoor_rendering.rst:461
 msgid ""
-"Text field for specifying the name of the vertex color layer which contains "
-"the information about the stiffness of the “main” deviation. Can be left empty."
-msgstr ""
-"指定其中包含有关 “主” 偏差的刚度信息的顶点颜色层的名称文本字段。可以留空。"
+"Text field for specifying the name of the vertex color layer which "
+"contains the information about the stiffness of the “main” deviation. Can"
+" be left empty."
+msgstr "指定其中包含有关 “主” 偏差的刚度信息的顶点颜色层的名称文本字段。可以留空。"
 
-#: ../outdoor_rendering.rst:462
+#: ../outdoor_rendering.rst:464
 msgid "*Detail Bending > Amplitude*"
 msgstr "*详细弯曲>振幅*"
 
-#: ../outdoor_rendering.rst:462
+#: ../outdoor_rendering.rst:464
 msgid ""
-"Angle amplitude of the “detail” deviation caused by the influence of wind (in "
-"degrees). The default value is 0.1."
+"Angle amplitude of the “detail” deviation caused by the influence of wind"
+" (in degrees). The default value is 0.1."
 msgstr "在 “细节” 偏差造成的风的影响（度）的角度幅度。缺省值为0.1。"
 
-#: ../outdoor_rendering.rst:465
+#: ../outdoor_rendering.rst:467
 msgid "*Detail Bending > Branch Amplitude*"
 msgstr "*详细折弯>分公司振幅*"
 
-#: ../outdoor_rendering.rst:465
+#: ../outdoor_rendering.rst:467
 msgid ""
-"Angle amplitude of the branch deviation caused by the influence of wind (in "
-"degrees). The default value is 0.3."
+"Angle amplitude of the branch deviation caused by the influence of wind "
+"(in degrees). The default value is 0.3."
 msgstr "由风造成的影响（度）的分支偏差的角度幅度。默认值是0.3。"
 
-#: ../outdoor_rendering.rst:468
+#: ../outdoor_rendering.rst:470
 msgid "*Detail Bending > Bending Frequency*"
 msgstr "*详细弯曲>弯曲次数*"
 
-#: ../outdoor_rendering.rst:468
+#: ../outdoor_rendering.rst:470
 msgid "Detail bending frequency. The default value is 1.0."
 msgstr "弯曲频率的细节。默认值是 1.0。"
 
-#: ../outdoor_rendering.rst:471
+#: ../outdoor_rendering.rst:473
 msgid "*Detail Bending > Leaves Stiffness (R)*"
 msgstr "*详细折弯>叶刚度（R）*"
 
-#: ../outdoor_rendering.rst:471
+#: ../outdoor_rendering.rst:473
 msgid ""
-"Text field for specifying the name of the vertex color layer which contains "
-"the information about the stiffness of leaves. Can be left empty."
+"Text field for specifying the name of the vertex color layer which "
+"contains the information about the stiffness of leaves. Can be left "
+"empty."
 msgstr "指定其中包含有关叶子的刚度信息的顶点颜色层的名称文本字段。可以留空。"
 
-#: ../outdoor_rendering.rst:474
+#: ../outdoor_rendering.rst:476
 msgid "*Detail Bending > Leaves Phase (G)*"
 msgstr "*详细折弯>叶阶段（G）*"
 
-#: ../outdoor_rendering.rst:474
+#: ../outdoor_rendering.rst:476
 msgid ""
-"Text field for specifying the name of the vertex color layer which contains "
-"the information about the phase of leaves deviation. Can be left empty."
+"Text field for specifying the name of the vertex color layer which "
+"contains the information about the phase of leaves deviation. Can be left"
+" empty."
 msgstr "指定其中包含有关叶偏差的相位信息的顶点颜色层的名称文本字段。可以留空。"
 
-#: ../outdoor_rendering.rst:477
+#: ../outdoor_rendering.rst:479
 msgid "*Detail Bending > Overall Stiffness (B)*"
 msgstr "*详细折弯>整体刚度（B）*"
 
-#: ../outdoor_rendering.rst:477
-msgid ""
-"Text field for specifying the name of the vertex color layer which contains "
-"the information about the overall stiffness of leaves. Can be left empty."
-msgstr "指定其中包含有关叶片的整体刚度信息的顶点颜色层的名称文本字段。可以留空。"
-
 #: ../outdoor_rendering.rst:479
 msgid ""
-"Vertex color layers should be present in the mesh if their names are specified."
+"Text field for specifying the name of the vertex color layer which "
+"contains the information about the overall stiffness of leaves. Can be "
+"left empty."
+msgstr "指定其中包含有关叶片的整体刚度信息的顶点颜色层的名称文本字段。可以留空。"
+
+#: ../outdoor_rendering.rst:481
+msgid ""
+"Vertex color layers should be present in the mesh if their names are "
+"specified."
 msgstr "如果指定顶点着色层其名称应该是存在于该网格。"
 
-#: ../outdoor_rendering.rst:242
+#: ../outdoor_rendering.rst:244
 msgid "shoreline data"
 msgstr "海岸线数据"
 
-#: ../outdoor_rendering.rst:242
+#: ../outdoor_rendering.rst:244
 msgid "shoreline"
 msgstr "海岸线"
+
+#~ msgid ""
+#~ "If a scene does not have a "
+#~ "``Wind`` force field, procedural waves "
+#~ "will still work, but their direction "
+#~ "will be defult, and you can't "
+#~ "change that."
+#~ msgstr ""
+

@@ -8,13 +8,15 @@ msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
 "POT-Creation-Date: 2016-11-25 17:25+0300\n"
-"PO-Revision-Date: 2016-10-07 15:43+0800\n"
+"PO-Revision-Date: 2016-12-01 22:48+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: zh\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: ../physics.rst:5
 msgid "Physics"
@@ -30,10 +32,11 @@ msgstr "使用准备"
 
 #: ../physics.rst:14
 msgid ""
-"In order to enable physics on the scene, please use the ``Enable "
-"Physics`` checkbox in the ``Physics`` panel under the scene tab in "
-"Blender."
-msgstr "为了在场景中启用物理，请使用在Blender场景选项卡下 ``Physics`` 面板的 ``Enable Physics`` 复选框。"
+"In order to enable physics on the scene, please use the ``Enable Physics`` "
+"checkbox in the ``Physics`` panel under the scene tab in Blender."
+msgstr ""
+"为了在场景中启用物理，请使用在Blender场景选项卡下 ``Physics`` 面板的 ``Enable "
+"Physics`` 复选框。"
 
 #: ../physics.rst:25
 msgid "Static Physics Type"
@@ -41,56 +44,65 @@ msgstr "静态物理类型"
 
 #: ../physics.rst:27
 msgid ""
-"Can be used to limit the movement of other objects, for example to detect"
-" collisions with a landscape, walls and so on. In the physics settings of"
-" such an object the ``Static`` value (set by default) should be selected "
-"for the ``Physics Type`` option."
+"Can be used to limit the movement of other objects, for example to detect "
+"collisions with a landscape, walls and so on. In the physics settings of such "
+"an object the ``Static`` value (set by default) should be selected for the "
+"``Physics Type`` option."
 msgstr ""
-"可以用来限制其他物体的运动，例如与地形、墙壁碰撞等。在物理学中的此类物体的 ``Static`` 值 （默认设置） 设置应选择  "
-"``Physics Type`` 选项。"
+"可以用来限制其他物体的运动，例如与地形、墙壁碰撞等。在物理学中的此类物体的 "
+"``Static`` 值 （默认设置） 设置应选择  ``Physics Type`` 选项。"
 
 #: ../physics.rst:35
 msgid ""
 "One or multiple physics materials can be assigned to a mesh. Under the "
 "``Material`` tab the ``Special: Collision`` panel must be activated."
-msgstr "一个网格可以分配到一个或多个物理材质。根据  ``Material`` 面板的 ``Special: Collision`` 选项卡必须被激活。"
+msgstr ""
+"一个网格可以分配到一个或多个物理材质。根据  ``Material`` 面板的 ``Special: "
+"Collision`` 选项卡必须被激活。"
 
 #: ../physics.rst:43
 msgid ""
-"The ``Ghost`` option excludes the material from physical interactions but"
-" still notifies the application about the contact with it. An example - "
-"detecting that the character is located on a vertical ladder."
-msgstr "``Ghost`` 选项排除物理相互作用的材质，但仍将通知应用它的接触。示例 - 检测角色坐在垂直梯子上。"
+"The ``Ghost`` option excludes the material from physical interactions but still "
+"notifies the application about the contact with it. An example - detecting that "
+"the character is located on a vertical ladder."
+msgstr ""
+"``Ghost`` 选项排除物理相互作用的材质，但仍将通知应用它的接触。示例 - 检测角色坐"
+"在垂直梯子上。"
 
 #: ../physics.rst:51
 msgid ""
-"The ``Collision ID`` field is intended for detecting collisions with "
-"specific materials and can be left empty. An example of ``Collision ID`` "
-"usage is detecting the landscape surface a character is located on - "
-"grass, sand, wooden coating and so on."
+"The ``Collision ID`` field is intended for detecting collisions with specific "
+"materials and can be left empty. An example of ``Collision ID`` usage is "
+"detecting the landscape surface a character is located on - grass, sand, wooden "
+"coating and so on."
 msgstr ""
-"``Collision ID`` 的字段用于检测与指定的材质碰撞，可以留空。 ``Collision ID``  "
-"用法的一个示例，检测地形表面的角色位于-草，沙子，木制涂层等等。"
+"``Collision ID`` 的字段用于检测与指定的材质碰撞，可以留空。 ``Collision ID``  用"
+"法的一个示例，检测地形表面的角色位于-草，沙子，木制涂层等等。"
 
 #: ../physics.rst:53
 msgid ""
-"The ``Margin`` field allows to customize the width of the zone where mesh"
-" reacts on collisions. This option improves physical collisions "
-"simulation stability."
-msgstr "``Margin`` 字段允许自定义在哪里网格的碰撞区域的宽度。此选项提高了物理碰撞模拟稳定性。"
+"The ``Margin`` field allows to customize the width of the zone where mesh "
+"reacts on collisions. This option improves physical collisions simulation "
+"stability."
+msgstr ""
+"``Margin`` 字段允许自定义在哪里网格的碰撞区域的宽度。此选项提高了物理碰撞模拟稳"
+"定性。"
 
 #: ../physics.rst:55
 msgid ""
-"Also, there are material physics settings in this panel. The following "
-"settings are supported: ``Friction``, ``Elasticity``."
-msgstr "还有，在此面板中有一些材质物理设置。支持以下设置:  ``Friction``, ``Elasticity``."
+"Also, there are material physics settings in this panel. The following settings "
+"are supported: ``Friction``, ``Elasticity``."
+msgstr ""
+"还有，在此面板中有一些材质物理设置。支持以下设置:  ``Friction``, ``Elasticity``."
 
 #: ../physics.rst:57
 msgid ""
 "The ``Collision Group`` field corresponds to the physics group which the "
-"material belongs to. The ``Collision Mask`` field defines all physics "
-"groups with which this material will interact."
-msgstr "``Collision Group`` 字段对应于材质属于的物理组。``Collision Mask`` 字段定义这种材质将与之交互的所有物理组。"
+"material belongs to. The ``Collision Mask`` field defines all physics groups "
+"with which this material will interact."
+msgstr ""
+"``Collision Group`` 字段对应于材质属于的物理组。``Collision Mask`` 字段定义这种"
+"材质将与之交互的所有物理组。"
 
 #: ../physics.rst:62
 msgid "Dynamic Physics Type"
@@ -102,55 +114,58 @@ msgstr "专为刚体运动仿真。"
 
 #: ../physics.rst:72
 msgid ""
-"The ``Object Physics`` checkbox must be enabled under the object's "
-"``Physics`` panel. The ``Collision ID`` field is intended for detecting "
-"collisions with a specific object (for example, for detecting proximity "
-"of a FPS character to different items) and can be left empty."
+"The ``Object Physics`` checkbox must be enabled under the object's ``Physics`` "
+"panel. The ``Collision ID`` field is intended for detecting collisions with a "
+"specific object (for example, for detecting proximity of a FPS character to "
+"different items) and can be left empty."
 msgstr ""
-"``Object Physics`` 复选框必须在物体 ``Physics`` 面板下启用。``Collision ID`` "
-"字段用于检测与特定的物体的碰撞 （例如，用于检测FPS 角色和不同项目接近程度），可以留空。"
+"``Object Physics`` 复选框必须在物体 ``Physics`` 面板下启用。``Collision ID`` 字"
+"段用于检测与特定的物体的碰撞 （例如，用于检测FPS 角色和不同项目接近程度），可以"
+"留空。"
 
 #: ../physics.rst:74
 msgid ""
-"In the physics settings of such an object the ``Rigid Body`` (with "
-"rotations) or ``Dynamic`` (without rotations) values can be selected for "
-"the ``Physics Type`` option. In the ``Collision Bounds`` settings the "
-"collider type can be selected - the supported types are: ``Box``, "
-"``Capsule``, ``Sphere``, ``Cylinder``, ``Cone``. Also, the following "
-"physics parameters can be set: ``Mass``, ``Damping`` - for "
-"``Translation`` and ``Rotation``."
+"In the physics settings of such an object the ``Rigid Body`` (with rotations) "
+"or ``Dynamic`` (without rotations) values can be selected for the ``Physics "
+"Type`` option. In the ``Collision Bounds`` settings the collider type can be "
+"selected - the supported types are: ``Box``, ``Capsule``, ``Sphere``, "
+"``Cylinder``, ``Cone``. Also, the following physics parameters can be set: "
+"``Mass``, ``Damping`` - for ``Translation`` and ``Rotation``."
 msgstr ""
-"在这样一个物体的 ``刚体`` （旋转）或 ``Dynamic`` （不旋转）的值的物理设置可以在  ``Physics Type`` "
-"选项选择。在  ``Collision Bounds``  设置碰撞体类型可以选择 - "
-"支持的类型有：``Box``，``Capsule``，``Sphere``，``Cylinder``，``Cone`` "
-"。同时，下面的物理参数可以设置：``Mass``，``Damping``  - 为 ``Translation`` 和 ``Rotation``。"
+"在这样一个物体的 ``刚体`` （旋转）或 ``Dynamic`` （不旋转）的值的物理设置可以"
+"在  ``Physics Type`` 选项选择。在  ``Collision Bounds``  设置碰撞体类型可以选择 "
+"- 支持的类型有：``Box``，``Capsule``，``Sphere``，``Cylinder``，``Cone`` 。同"
+"时，下面的物理参数可以设置：``Mass``，``Damping``  - 为 ``Translation`` 和 "
+"``Rotation``。"
 
 #: ../physics.rst:76
 msgid ""
-"The ``Collision Group`` field corresponds to the physics group which the "
-"object belongs to."
+"The ``Collision Group`` field corresponds to the physics group which the object "
+"belongs to."
 msgstr "``Collision Group`` 字段对应于物体所属的物理组。"
 
 #: ../physics.rst:78
 msgid ""
-"The ``Collision Mask`` field defines all physics groups with which this "
-"object will interact."
+"The ``Collision Mask`` field defines all physics groups with which this object "
+"will interact."
 msgstr "``Collision Mask`` 字段定义此物体将与之交互的所有物理组。"
 
 #: ../physics.rst:86
 msgid ""
-"``Friction`` and ``Elasticity`` are supported for the material of such an"
-" object. When multiple materials are used on a single mesh, the physics "
+"``Friction`` and ``Elasticity`` are supported for the material of such an "
+"object. When multiple materials are used on a single mesh, the physics "
 "parameters are taken from the first of them."
-msgstr "这类物体的材质支持 ``Friction`` 和 ``Elasticity`` 。当多个材质广泛应用于一个单独的网格时，物理参数取自其中的第一项。"
+msgstr ""
+"这类物体的材质支持 ``Friction`` 和 ``Elasticity`` 。当多个材质广泛应用于一个单独"
+"的网格时，物理参数取自其中的第一项。"
 
 #: ../physics.rst:88
 msgid ""
-"For the camera object the ``Physics Type`` = ``Dynamic`` parameter must "
-"be used, and the ``Object Physics`` checkbox must be enabled."
+"For the camera object the ``Physics Type`` = ``Dynamic`` parameter must be "
+"used, and the ``Object Physics`` checkbox must be enabled."
 msgstr ""
-"因为相机物体 ``Physics Type`` = ``Dynamic`` 参数必须使用，并且必须启用 ``Object Physics`` "
-"复选框。"
+"因为相机物体 ``Physics Type`` = ``Dynamic`` 参数必须使用，并且必须启用 ``Object "
+"Physics`` 复选框。"
 
 #: ../physics.rst:93
 msgid "Constraints"
@@ -158,24 +173,24 @@ msgstr "约束"
 
 #: ../physics.rst:95
 msgid ""
-"Physical constraints are used for limiting the objects' degrees of "
-"freedom."
+"Physical constraints are used for limiting the objects' degrees of freedom."
 msgstr "物理约束用来限制物体的自由度。"
 
 #: ../physics.rst:103
 msgid ""
 "Adding a physical constraint (``Rigid Body Joint``) to the object can be "
-"performed on the ``Object Constraints`` panel. The supported types "
-"(``Pivot Type``) are: ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 "
-"DoF``. A physical constraint can be added to one of the two interacting "
-"objects, while the other object acts as a ``Target``. Both objects can "
-"have a static and/or dynamic physics type. In constraints (except "
-"``Ball``) the translation and rotation limits can be set up."
+"performed on the ``Object Constraints`` panel. The supported types (``Pivot "
+"Type``) are: ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 DoF``. A physical "
+"constraint can be added to one of the two interacting objects, while the other "
+"object acts as a ``Target``. Both objects can have a static and/or dynamic "
+"physics type. In constraints (except ``Ball``) the translation and rotation "
+"limits can be set up."
 msgstr ""
-"向物体添加物理约束 (``Rigid Body Joint``) 可以在 ``Object Constraints`` 面板上执行 。受支持的类型"
-" (``Pivot Type``) 是:``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 "
-"DoF``. 物理约束可以添加到两个相互作用的物体之一，而另一个物体作为 ``Target`` 。这两个物体可以有静态和/或动态的物理类型。在约束"
-" （除外``Ball``) ，可以设置的平移和旋转的限制。"
+"向物体添加物理约束 (``Rigid Body Joint``) 可以在 ``Object Constraints`` 面板上执"
+"行 。受支持的类型 (``Pivot Type``) 是: ``Ball``, ``Hinge``, ``Cone Twist``, "
+"``Generic 6 DoF``. 物理约束可以添加到两个相互作用的物体之一，而另一个物体作为 "
+"``Target`` 。这两个物体可以有静态和/或动态的物理类型。在约束 （除外 ``Ball``) ，"
+"可以设置的平移和旋转的限制。"
 
 #: ../physics.rst:114
 msgid "Wheeled Vehicles"
@@ -183,37 +198,38 @@ msgstr "轮式的车辆"
 
 #: ../physics.rst:116
 msgid ""
-"The model of a vehicle must consist of 6 separate objects - a chassis, 4 "
-"wheels and a steering wheel. The chassis' mesh center should correspond "
-"to the mass center. The centers of the wheels' and the steering wheel's "
-"meshes should be located on the rotation axes. The steering wheel should "
-"be oriented in the local space of coordinates - X - the rotation axis, Y "
-"- to the right and Z - upwards. The object can have any names."
+"The model of a vehicle must consist of 6 separate objects - a chassis, 4 wheels "
+"and a steering wheel. The chassis' mesh center should correspond to the mass "
+"center. The centers of the wheels' and the steering wheel's meshes should be "
+"located on the rotation axes. The steering wheel should be oriented in the "
+"local space of coordinates - X - the rotation axis, Y - to the right and Z - "
+"upwards. The object can have any names."
 msgstr ""
-"车辆的模型必须包含 6 单独的物体 - 机箱、 4 "
-"个轮子和一个方向盘。机箱的网格中心应该对应于质量的中心。车轮对和方向盘的中心网格应位于旋转轴。方向盘应该面向在本地空间的坐标 "
-"-X-旋转轴，Y-向右和 Z-向上。该物体可以具有任何名称。"
+"车辆的模型必须包含 6 单独的物体 - 机箱、 4 个轮子和一个方向盘。机箱的网格中心应"
+"该对应于质量的中心。车轮对和方向盘的中心网格应位于旋转轴。方向盘应该面向在本地空"
+"间的坐标 -X-旋转轴，Y-向右和 Z-向上。该物体可以具有任何名称。"
 
 #: ../physics.rst:124
 msgid ""
-"For all 6 objects: select the ``Part``, specify the same id in the "
-"``Vehicle Name`` field, select the right object type - ``Chassis``, "
-"``Steering Wheel``, ``Back Right Wheel`` and so on. The ``Suspension Rest"
-" Length`` setting is also available for the wheels."
+"For all 6 objects: select the ``Part``, specify the same id in the ``Vehicle "
+"Name`` field, select the right object type - ``Chassis``, ``Steering Wheel``, "
+"``Back Right Wheel`` and so on. The ``Suspension Rest Length`` setting is also "
+"available for the wheels."
 msgstr ""
-"所有的6个物体 ︰ 选择  ``Part``，在 ``Vehicle Name`` 字段中指定相同的 id，选择正确的物体类型- "
-"``Chassis``, ``Steering Wheel``, ``Back Right Wheel`` 等等。 ``Suspension "
-"Rest Length`` 设置对车轮可用。"
+"所有的6个物体 ︰ 选择  ``Part``，在 ``Vehicle Name`` 字段中指定相同的 id，选择正"
+"确的物体类型- ``Chassis``, ``Steering Wheel``, ``Back Right Wheel`` 等等。 "
+"``Suspension Rest Length`` 设置对车轮可用。"
 
 #: ../physics.rst:126
 msgid ""
 "It is necessary to specify a realistic mass for the chassis (because the "
-"default value is only 1 kg). To do this go to the physics settings, "
-"choose the ``Rigid Body`` value for the ``Physics Type`` option and "
-"specify the required value (for example, 1000 kg) in the ``Mass`` field."
+"default value is only 1 kg). To do this go to the physics settings, choose the "
+"``Rigid Body`` value for the ``Physics Type`` option and specify the required "
+"value (for example, 1000 kg) in the ``Mass`` field."
 msgstr ""
-"有必要指定机箱的真实质量 （因为默认值是仅 1 公斤）。做这件事先到物理设置，选择物理类型 ``Rigid Body`` 的 ``Physics "
-"Type`` 选项并指定  ``Mass``  所需的值 （例如，1000 公斤） 字段。 "
+"有必要指定机箱的真实质量 （因为默认值是仅 1 公斤）。做这件事先到物理设置，选择物"
+"理类型 ``Rigid Body`` 的 ``Physics Type`` 选项并指定  ``Mass``  所需的值 （例"
+"如，1000 公斤） 字段。 "
 
 #: ../physics.rst:129
 msgid "Chassis Settings"
@@ -265,10 +281,12 @@ msgstr "*Wheel Friction*"
 
 #: ../physics.rst:147
 msgid ""
-"Friction constant between the wheels and the surface. It should be around"
-" 0.8 for realistic vehicles. But it can be increased significantly to "
-"achieve a better control (1000 and more)."
-msgstr "车轮和表面之间的摩擦系数。现实车辆它应该是 0.8 左右。但是，显著提高它能够实现更好的控制 （1000 和更多）。"
+"Friction constant between the wheels and the surface. It should be around 0.8 "
+"for realistic vehicles. But it can be increased significantly to achieve a "
+"better control (1000 and more)."
+msgstr ""
+"车轮和表面之间的摩擦系数。现实车辆它应该是 0.8 左右。但是，显著提高它能够实现更"
+"好的控制 （1000 和更多）。"
 
 #: ../physics.rst:150
 msgid "*Roll Influence*"
@@ -290,39 +308,42 @@ msgstr "以厘米为单位的最大悬挂行程。"
 
 #: ../physics.rst:155
 msgid ""
-"For the ``Steering Wheel`` it is necessary to specify the maximum "
-"steering angle (``Steering Max``) and the ratio between the turn of the "
-"steering wheel and the turn of the wheels  (``Steering Ratio``). The "
-"maximum steering angle value is specified in revolutions. A single "
-"revolution equals to 360 degrees. Therefore, if ``Steering Max`` is equal"
-" to one and ``Steering Ratio`` is equal to 10, the maximum turn of the "
-"steering wheel will be 360 degrees and the maximum turn of the front "
-"wheels will be 36 degrees."
+"For the ``Steering Wheel`` it is necessary to specify the maximum steering "
+"angle (``Steering Max``) and the ratio between the turn of the steering wheel "
+"and the turn of the wheels  (``Steering Ratio``). The maximum steering angle "
+"value is specified in revolutions. A single revolution equals to 360 degrees. "
+"Therefore, if ``Steering Max`` is equal to one and ``Steering Ratio`` is equal "
+"to 10, the maximum turn of the steering wheel will be 360 degrees and the "
+"maximum turn of the front wheels will be 36 degrees."
 msgstr ""
-"对 ``Steering Wheel`` 必须指定的是方向盘的最大角度 (``Steering Max``) 以及方向盘和轮胎转动之间的比值 "
-"(``Steering Ratio``). 最大方向盘转角设置值为圈。一圈等于360度。因此，如果 ``Steering Max`` 等于一以及 "
-"``Steering Ratio`` 等于10的话，方向盘转360度前轮转36度。"
+"对 ``Steering Wheel`` 必须指定的是方向盘的最大角度 (``Steering Max``) 以及方向盘"
+"和轮胎转动之间的比值 (``Steering Ratio``). 最大方向盘转角设置值为圈。一圈等于360"
+"度。因此，如果 ``Steering Max`` 等于一以及 ``Steering Ratio`` 等于10的话，方向盘"
+"转360度前轮转36度。"
 
 #: ../physics.rst:157
 msgid ""
-"On this stage you can export and load the scene into the engine. We "
-"recommend to create a road surface with a physics material. To choose the"
-" controlled object press the ``Q`` key in the Viewer and select the "
-"chassis. Use the ``W``, ``A``, ``S``, ``D`` keys as controls."
+"On this stage you can export and load the scene into the engine. We recommend "
+"to create a road surface with a physics material. To choose the controlled "
+"object press the ``Q`` key in the Viewer and select the chassis. Use the ``W``, "
+"``A``, ``S``, ``D`` keys as controls."
 msgstr ""
-"在这个时候你可以导出并加载场景到引擎。我们建议您创建一个物理材质的路面。要在查看器中选择控制的物体按 ``Q``  并选择机箱。使用 ``W``,"
-" ``A``, ``S``, ``D`` 用作控件。"
+"在这个时候你可以导出并加载场景到引擎。我们建议您创建一个物理材质的路面。要在查看"
+"器中选择控制的物体按 ``Q``  并选择机箱。使用 ``W``, ``A``, ``S``, ``D`` 用作控"
+"件。"
 
 #: ../physics.rst:159
 msgid ""
-"We can additionally tweak the ``Damping`` of ``Translation`` and "
-"``Rotation``. This will influence the speed and inertia of the vehicle."
-msgstr "此外，我们可以调整 ``Damping`` of ``Translation`` and ``Rotation`` 。这将影响汽车惯性与速度。"
+"We can additionally tweak the ``Damping`` of ``Translation`` and ``Rotation``. "
+"This will influence the speed and inertia of the vehicle."
+msgstr ""
+"此外，我们可以调整 ``Damping`` of ``Translation`` and ``Rotation`` 。这将影响汽"
+"车惯性与速度。"
 
 #: ../physics.rst:161
 msgid ""
-"The friction and elasticity of the road surface material do not influence"
-" the vehicle's behavior."
+"The friction and elasticity of the road surface material do not influence the "
+"vehicle's behavior."
 msgstr "道路路面材质的摩擦和弹性不会影响车辆的行为。"
 
 #: ../physics.rst:166
@@ -331,22 +352,24 @@ msgstr "浮动物体"
 
 #: ../physics.rst:174
 msgid ""
-"In order for the object to float on the water surface (an object with the"
-" ``Water`` material), it is necessary to enable the ``Floater`` panel. "
-"There are two types of floating objects: ``Main Body`` - the floating "
-"object itself and ``Bob`` - an auxiliary bob-object onto which the "
-"buoyancy will be acting. A floating object can have an unlimited number "
-"of ``Bob`` objects. This can be both meshes or ``Empty`` objects."
+"In order for the object to float on the water surface (an object with the "
+"``Water`` material), it is necessary to enable the ``Floater`` panel. There are "
+"two types of floating objects: ``Main Body`` - the floating object itself and "
+"``Bob`` - an auxiliary bob-object onto which the buoyancy will be acting. A "
+"floating object can have an unlimited number of ``Bob`` objects. This can be "
+"both meshes or ``Empty`` objects."
 msgstr ""
-"为了使要浮在水面上 （用 ``Water`` 材质物体） 的物体，就必须使 ``Floater`` 面板启用。有两种类型的浮动物体:  "
-"``Main Body`` - 动物体本身和  ``Bob`` - 辅助bob-物体让漂浮执行。浮动物体可以有无限的多个 ``Bob`` "
-"物体。可以是网格或 ``Empty`` 物体。"
+"为了使要浮在水面上 （用 ``Water`` 材质物体） 的物体，就必须使 ``Floater`` 面板启"
+"用。有两种类型的浮动物体:  ``Main Body`` - 动物体本身和  ``Bob`` - 辅助bob-物体"
+"让漂浮执行。浮动物体可以有无限的多个 ``Bob`` 物体。可以是网格或 ``Empty`` 物体。"
 
 #: ../physics.rst:176
 msgid ""
-"All objects that are part of the same floating object must have the same "
-"name in the ``Floater Name`` field."
-msgstr "相同的浮动物体包含的一部分的所有物体必须 ``Floater Name`` 字段中都具有相同的名称。"
+"All objects that are part of the same floating object must have the same name "
+"in the ``Floater Name`` field."
+msgstr ""
+"相同的浮动物体包含的一部分的所有物体必须 ``Floater Name`` 字段中都具有相同的名"
+"称。"
 
 #: ../physics.rst:179
 msgid "Floating Object Settings"
@@ -366,8 +389,8 @@ msgstr "*Water Linear Damping*"
 
 #: ../physics.rst:185 ../physics.rst:216
 msgid ""
-"Linear velocity damping when the object is on the water surface (or under"
-" water). When the object is not in water, the physics settings are used."
+"Linear velocity damping when the object is on the water surface (or under "
+"water). When the object is not in water, the physics settings are used."
 msgstr "物体在水面上时线速度阻尼 （或水下）。当物体不是在水中时，则使用物理设置。"
 
 #: ../physics.rst:188 ../physics.rst:219
@@ -376,8 +399,8 @@ msgstr "*Water Rotation Damping*"
 
 #: ../physics.rst:188 ../physics.rst:219
 msgid ""
-"Rotation damping when the object is on the water surface (or under "
-"water). When the object is not in water, the physics settings are used."
+"Rotation damping when the object is on the water surface (or under water). When "
+"the object is not in water, the physics settings are used."
 msgstr "物体在水面上时的旋转阻尼 （或水下）。当物体不是在水中时，则使用物理设置。"
 
 #: ../physics.rst:193
@@ -386,13 +409,14 @@ msgstr "浮动交通工具或叫船舶"
 
 #: ../physics.rst:201
 msgid ""
-"Watercrafts use some parameters from the ``Vehicle`` settings and all the"
-" settings which are similar to ``Floater`` setting. It is necessary to "
-"set the ``Part`` type ``Hull`` on the main object. Similar to a floating "
-"object a watercraft requires auxiliary ``Bob`` objects."
+"Watercrafts use some parameters from the ``Vehicle`` settings and all the "
+"settings which are similar to ``Floater`` setting. It is necessary to set the "
+"``Part`` type ``Hull`` on the main object. Similar to a floating object a "
+"watercraft requires auxiliary ``Bob`` objects."
 msgstr ""
-"船舶使用 ``Vehicle`` 设置的一些参数和  ``Floater`` 设置的所有设置。它是必要的主要物体上 ``Part`` 类型的  "
-"``Hull`` 设置 。类似于浮动物体船只需要辅助  ``Bob`` 物体。"
+"船舶使用 ``Vehicle`` 设置的一些参数和  ``Floater`` 设置的所有设置。它是必要的主"
+"要物体上 ``Part`` 类型的  ``Hull`` 设置 。类似于浮动物体船只需要辅助  ``Bob`` 物"
+"体。"
 
 #: ../physics.rst:204
 msgid "Watercraft Settings"
@@ -404,25 +428,29 @@ msgstr "角色"
 
 #: ../physics.rst:230
 msgid ""
-"This feature can be activated by clicking the ``Character`` check-box in "
-"the title of the eponymous tab on the ``Physics`` panel."
-msgstr "这个功能可以通过点击 ``Physics`` 面板上的同名标签的标题 ``Character`` 复选框被激活。"
+"This feature can be activated by clicking the ``Character`` check-box in the "
+"title of the eponymous tab on the ``Physics`` panel."
+msgstr ""
+"这个功能可以通过点击 ``Physics`` 面板上的同名标签的标题 ``Character`` 复选框被激"
+"活。"
 
 #: ../physics.rst:232
 msgid ""
-"From the engine standpoint, the character itself is a proper physical "
-"object that can collide with other physical objects or be influenced by "
-"physical forces such as gravity and buoyant force."
-msgstr "从引擎的角度来看，角色本身是一类适当的物理物体，该物体可以与其他物理物体发生碰撞或受到物理力如重力和浮力的影响。"
+"From the engine standpoint, the character itself is a proper physical object "
+"that can collide with other physical objects or be influenced by physical "
+"forces such as gravity and buoyant force."
+msgstr ""
+"从引擎的角度来看，角色本身是一类适当的物理物体，该物体可以与其他物理物体发生碰撞"
+"或受到物理力如重力和浮力的影响。"
 
 #: ../physics.rst:234
 msgid ""
-"Character object can be easily controlled using several API methods with "
-"a `character` keyword in their names. All such methods reside in the "
-":b4wmod:`physics` API module."
+"Character object can be easily controlled using several API methods with a "
+"`character` keyword in their names. All such methods reside in the :b4wmod:"
+"`physics` API module."
 msgstr ""
-"角色物体可以使用多种API方法，由他们的名字 `character` 关键字容易控制。所有这些方法驻留在 :b4wmod:`physics` "
-"API模块。"
+"角色物体可以使用多种API方法，由他们的名字 `character` 关键字容易控制。所有这些方"
+"法驻留在 :b4wmod:`physics` API模块。"
 
 #: ../physics.rst:237
 msgid "Character Settings"
@@ -440,10 +468,12 @@ msgstr "*Walk Speed*"
 
 #: ../physics.rst:246
 msgid ""
-"This parameter sets the speed of a character walking (measured in meters "
-"per second). The lowest possible value of this parameter is zero, while "
-"the highest is 10."
-msgstr "此参数设定一个角色行走的速度（以米每秒为单位）。这个参数的可能的最低值是零，而最高为10。"
+"This parameter sets the speed of a character walking (measured in meters per "
+"second). The lowest possible value of this parameter is zero, while the highest "
+"is 10."
+msgstr ""
+"此参数设定一个角色行走的速度（以米每秒为单位）。这个参数的可能的最低值是零，而最"
+"高为10。"
 
 #: ../physics.rst:248
 msgid "Its default value is 4."
@@ -455,8 +485,8 @@ msgstr "*Run Speed*"
 
 #: ../physics.rst:251
 msgid ""
-"This is the speed of the character running (measured in meters per "
-"second). Its value can vary from zero to 20."
+"This is the speed of the character running (measured in meters per second). Its "
+"value can vary from zero to 20."
 msgstr "这是奔跑角色（以米每秒为单位测得的）的速度。其值可以从零到20变化。"
 
 #: ../physics.rst:253
@@ -469,8 +499,8 @@ msgstr "*Step Height*"
 
 #: ../physics.rst:256
 msgid ""
-"This is the maximum height of an obstacle that character can overstep (in"
-" meters). The value of this parameter can vary from zero to 1."
+"This is the maximum height of an obstacle that character can overstep (in "
+"meters). The value of this parameter can vary from zero to 1."
 msgstr "这是一个该角色可以超越（米）的障碍最大高度。这个参数的值可以从零到1变化。"
 
 #: ../physics.rst:258
@@ -483,8 +513,8 @@ msgstr "*Jump Strength*"
 
 #: ../physics.rst:261
 msgid ""
-"This parameter sets the strength of the character jumping. Its minimum "
-"value is zero, while its maximum value is 50."
+"This parameter sets the strength of the character jumping. Its minimum value is "
+"zero, while its maximum value is 50."
 msgstr "此参数设置人物跳跃的力量。其最小值是零，而其最大值为50。"
 
 #: ../physics.rst:263
@@ -497,11 +527,13 @@ msgstr "*Waterline*"
 
 #: ../physics.rst:266
 msgid ""
-"This parameter sets up the waterline for the character object. The "
-"waterline is measured from the center of the physical shape of the object"
-" (not the object's mesh). If an object is submerged into the water below "
-"this line, it will float. Its value can vary from -2 to 2."
-msgstr "这个参数设置的角色物体的水线。水线从物体（不是物体的网格）的物理形状的中心测量的。如果物体被浸入水在该线以下的，它会漂浮。其值可以改变从-2到2。"
+"This parameter sets up the waterline for the character object. The waterline is "
+"measured from the center of the physical shape of the object (not the object's "
+"mesh). If an object is submerged into the water below this line, it will float. "
+"Its value can vary from -2 to 2."
+msgstr ""
+"这个参数设置的角色物体的水线。水线从物体（不是物体的网格）的物理形状的中心测量"
+"的。如果物体被浸入水在该线以下的，它会漂浮。其值可以改变从-2到2。"
 
 #: ../physics.rst:268
 msgid "It is set to zero by default."
@@ -513,10 +545,12 @@ msgstr "基本角色"
 
 #: ../physics.rst:273
 msgid ""
-"Blend4Web engine has an option to quickly set up a user-controlled first-"
-"person character. Such character will only have very basic functionality,"
-" but can be set up without any programming."
-msgstr "Blend4Web引擎有快速建立用户控制的第一人称角色的选项。这样的角色将只有非常基本的功能，但也可以没有任何编程的情况下设置。"
+"Blend4Web engine has an option to quickly set up a user-controlled first-person "
+"character. Such character will only have very basic functionality, but can be "
+"set up without any programming."
+msgstr ""
+"Blend4Web引擎有快速建立用户控制的第一人称角色的选项。这样的角色将只有非常基本的"
+"功能，但也可以没有任何编程的情况下设置。"
 
 #: ../physics.rst:275
 msgid "To set up a basic character, follow these steps:"
@@ -528,8 +562,8 @@ msgstr "选择您想要作为一个角色使用一个物体。"
 
 #: ../physics.rst:278
 msgid ""
-"Enable physics for the selected object and set physics type to "
-"``Dynamic`` or ``Rigid Body``."
+"Enable physics for the selected object and set physics type to ``Dynamic`` or "
+"``Rigid Body``."
 msgstr "启用选定物体的物理和物理设置类型到 ``Dynamic`` 或 ``Rigid Body``."
 
 #: ../physics.rst:279
@@ -542,14 +576,13 @@ msgstr "创建一个新的相机或选择一个现有的和其类型设置为 ``
 
 #: ../physics.rst:282
 msgid ""
-"Now a basic character with an attached camera will be present in your "
-"scene."
+"Now a basic character with an attached camera will be present in your scene."
 msgstr "现在，带有摄像头的基本角色将出现在您的场景。"
 
 #: ../physics.rst:284
 msgid ""
-"The character can be controlled in mostly the same way as a regular "
-"``Eye`` type camera:"
+"The character can be controlled in mostly the same way as a regular ``Eye`` "
+"type camera:"
 msgstr "该角色可大致和常规 ``Eye`` 式照相机相同的方式作为进行控制："
 
 #: ../physics.rst:286
@@ -558,8 +591,8 @@ msgstr "WASD键移动角色。"
 
 #: ../physics.rst:287
 msgid ""
-"Camera angles are controlled by arrow keys or moving the mouse while "
-"holding its left button."
+"Camera angles are controlled by arrow keys or moving the mouse while holding "
+"its left button."
 msgstr "摄像头角度由方向键控制或移动鼠标按住左按钮。"
 
 #: ../physics.rst:288
@@ -568,262 +601,278 @@ msgstr "按C键切换飞行模式（默认启用）。"
 
 #: ../physics.rst:291
 msgid ""
-"Only one basic character can be present in the scene. If a scene has "
-"multiple characters, the engine will use the first of them as the basic "
-"character and ignore the others."
-msgstr "只有一个基本角色可存在于场景中。如果场景中有多个角色，该引擎将使用他们的第一个基本角色，而忽略其他。"
+"Only one basic character can be present in the scene. If a scene has multiple "
+"characters, the engine will use the first of them as the basic character and "
+"ignore the others."
+msgstr ""
+"只有一个基本角色可存在于场景中。如果场景中有多个角色，该引擎将使用他们的第一个基"
+"本角色，而忽略其他。"
 
 #: ../physics.rst:294
 msgid "Navigation Meshes"
-msgstr ""
+msgstr "导航网格"
 
 #: ../physics.rst:296
 msgid ""
-"Navigation meshes (commonly abbreviated *navmeshes*) are mesh objects "
-"that are used to make pathfinding simplier by eliminating the need for "
-"additional calculations such as collisions."
+"Navigation meshes (commonly abbreviated *navmeshes*) are mesh objects that are "
+"used to make pathfinding simplier by eliminating the need for additional "
+"calculations such as collisions."
 msgstr ""
+"导航网格 (通常缩写 *navmeshes*) 是用来消除需要额外计算比如碰撞等使寻路更加简便的"
+"网格物体。"
 
 #: ../physics.rst:302
 msgid ""
-"In this example (taken from Code Snippets), navigation mesh is used to "
-"build a path through the labyrinth."
-msgstr ""
+"In this example (taken from Code Snippets), navigation mesh is used to build a "
+"path through the labyrinth."
+msgstr "在此示例中 （取自代码片段），导航网格用于生成通过迷宫的路径。"
 
 #: ../physics.rst:305
 msgid "Creating Navigation Meshes"
-msgstr ""
+msgstr "创建导航网格"
 
 #: ../physics.rst:307
 msgid ""
-"To make a navmesh out of an object, turn on the ``Object Physics`` "
-"parameter on the ``Physics`` panel and select ``Navigation Mesh`` from "
-"the ``Physics Type`` list."
+"To make a navmesh out of an object, turn on the ``Object Physics`` parameter on "
+"the ``Physics`` panel and select ``Navigation Mesh`` from the ``Physics Type`` "
+"list."
 msgstr ""
+"若要将物体生成 navmesh，打开 ``Physics`` 面板的 ``Object Physics`` 参数 ，从 "
+"``Physics Type`` 列表中选择 ``Navigation Mesh`` 。"
 
 #: ../physics.rst:313
 msgid ""
-"Navigation meshes can either be created manually or generated "
-"automatically using a specific tool."
-msgstr ""
+"Navigation meshes can either be created manually or generated automatically "
+"using a specific tool."
+msgstr "导航网格也可以使用特定的工具手动创建或生成自动。"
 
 #: ../physics.rst:320
 msgid "This tool is native to Blender and not a part of the Blend4Web engine."
-msgstr ""
+msgstr "此工具是原产于Blender并不是 Blend4Web 引擎的一部分。"
 
 #: ../physics.rst:322
 msgid ""
-"This Navigation Mesh generation interface can be found on a dedicated "
-"panel under the ``Scene`` tab, but, as this feature is intended for real-"
-"time applications, it only appears if the Engine type is set to "
-"``Blend4Web`` or ``Blender Game`` (Blender Internal, Cycles or any other "
-"rendering engine won’t do)."
+"This Navigation Mesh generation interface can be found on a dedicated panel "
+"under the ``Scene`` tab, but, as this feature is intended for real-time "
+"applications, it only appears if the Engine type is set to ``Blend4Web`` or "
+"``Blender Game`` (Blender Internal, Cycles or any other rendering engine won’t "
+"do)."
 msgstr ""
+"此导航网格生成接口可以发现专用面板下的 ``Scene`` 选项卡上，但此功能是为了实时应"
+"用程序，它仅音引擎类型设置为  ``Blend4Web`` 或  ``Blender Game`` 才显示（Blender"
+"内部、 Cycles 或任何其他渲染引擎不会有显示）。"
 
 #: ../physics.rst:324
 msgid ""
-"The main tool on this panel is the ``Build Navigation Mesh`` button. As "
-"the title suggests, it is used for building navigation meshes based on "
-"the currently selected object. The navmesh is created as a separate "
-"object placed above the selected object, thus leaving that object intact."
+"The main tool on this panel is the ``Build Navigation Mesh`` button. As the "
+"title suggests, it is used for building navigation meshes based on the "
+"currently selected object. The navmesh is created as a separate object placed "
+"above the selected object, thus leaving that object intact."
 msgstr ""
+"在此面板上的主要工具是  ``Build Navigation Mesh`` 按钮。正如标题所暗示的它用来建"
+"设基于当前选定对象的导航网格。Navmesh 是作为一个单独的物体放置在所选的物体上面，"
+"因此保留该物体创建的。"
 
 #: ../physics.rst:326
 msgid ""
-"Aside from this button, the ``Navigation Mesh`` panel offers users "
-"several groups of parameters to fine-tune the navmesh that will be "
-"generated."
+"Aside from this button, the ``Navigation Mesh`` panel offers users several "
+"groups of parameters to fine-tune the navmesh that will be generated."
 msgstr ""
+"除了此按钮  ``Navigation Mesh`` 面板为用户提供了几组参数将生成 navmesh 进行微"
+"调。"
 
 #: ../physics.rst:328
 msgid "``Rasterization`` group of parameters:"
-msgstr ""
+msgstr "``Rasterization`` （栅格化）组的参数︰"
 
 #: ../physics.rst:331
 msgid "*Cell Size*"
-msgstr ""
+msgstr "*Cell Size*"
 
 #: ../physics.rst:331
 msgid ""
-"Rasterized cell size. Greater values lead to bigger navmesh polygons. The"
-" highest possible value is 1.0. Default value is 0.3."
+"Rasterized cell size. Greater values lead to bigger navmesh polygons. The "
+"highest possible value is 1.0. Default value is 0.3."
 msgstr ""
+"栅格化单元格大小。更大的值会导致更大的 navmesh 多边形。最高的可能值是 1.0。默认"
+"值为 0.3。"
 
 #: ../physics.rst:334
-#, fuzzy
 msgid "*Cell Height*"
-msgstr "*Step Height*"
+msgstr "*Cell Height*"
 
 #: ../physics.rst:334
 msgid ""
-"Rasterized cell height (the distance between the navmesh and the object "
-"from which it was generated). Default value is 0.2."
-msgstr ""
+"Rasterized cell height (the distance between the navmesh and the object from "
+"which it was generated). Default value is 0.2."
+msgstr "栅格单元格高度 （navmesh 和生成它的对象之间的距离）。默认值为 0.2。"
 
 #: ../physics.rst:336
 msgid "``Agent`` group of parameters:"
-msgstr ""
+msgstr "``Agent`` 组的参数︰"
 
 #: ../physics.rst:339
-#, fuzzy
 msgid "*Height*"
-msgstr "*Step Height*"
+msgstr "*Height*"
 
 #: ../physics.rst:339
 msgid "Minimum height where the agent can still walk. Default value is 2.0."
-msgstr ""
+msgstr "最小高度，代理还能走路。默认值为 2.0。"
 
 #: ../physics.rst:342
 msgid "*Radius*"
-msgstr ""
+msgstr "*Radius*"
 
 #: ../physics.rst:342
-#, fuzzy
 msgid "The radius of the agent. Default value is 0.6."
-msgstr "它的默认值是4。"
+msgstr "代理的半径。默认值为 0.6。"
 
 #: ../physics.rst:345
 msgid "*Max Slope*"
-msgstr ""
+msgstr "*Max Slope*"
 
 #: ../physics.rst:345
 msgid ""
-"Maximum angle of a slope agent can walk on. Measured in degrees. Default "
-"value is 45."
-msgstr ""
+"Maximum angle of a slope agent can walk on. Measured in degrees. Default value "
+"is 45."
+msgstr "代理能够行走的坡度的最大角度。以度为单位。默认值为 45。"
 
 #: ../physics.rst:348
 msgid "*Max Climb*"
-msgstr ""
+msgstr "*Max Climb*"
 
 #: ../physics.rst:348
 msgid ""
-"The maximum height between grid cells the agent can climb. Default value "
-"is 0.9."
-msgstr ""
+"The maximum height between grid cells the agent can climb. Default value is 0.9."
+msgstr "网格单元格之间的最大高度，代理可以爬上。默认值为 0.9。"
 
 #: ../physics.rst:350
 msgid "``Region`` group of parameters:"
-msgstr ""
+msgstr "``Region`` 组的参数︰"
 
 #: ../physics.rst:353
 msgid "*Min Region Size*"
-msgstr ""
+msgstr "*Min Region Size*"
 
 #: ../physics.rst:353
 msgid ""
-"The minimum size of a region (smaller regions will be deleted). Default "
-"value is 8.0."
-msgstr ""
+"The minimum size of a region (smaller regions will be deleted). Default value "
+"is 8.0."
+msgstr "一个区域的最小大小 （较小的区域将被删除）。默认值为 8.0 级。"
 
 #: ../physics.rst:356
 msgid "*Merged Region Size*"
-msgstr ""
+msgstr "*Merged Region Size*"
 
 #: ../physics.rst:356
 msgid ""
-"The minimum size of a region (smaller regions will be merged). Default "
-"value is 20.0."
-msgstr ""
+"The minimum size of a region (smaller regions will be merged). Default value is "
+"20.0."
+msgstr "一个区域的最小大小 （较小的地区，将合并）。默认值为 20.0。"
 
 #: ../physics.rst:365
 msgid "*Partitioning*"
-msgstr ""
+msgstr "*Partitioning*"
 
 #: ../physics.rst:359
 msgid "The method used to partition the navigation mesh. Supported methods are:"
-msgstr ""
+msgstr "用于分区导航网格的方法。受支持的方法是︰"
 
 #: ../physics.rst:361
 msgid ""
-"``Monotone`` is the fastest method. Using it may generate long thin "
-"polygons."
-msgstr ""
+"``Monotone`` is the fastest method. Using it may generate long thin polygons."
+msgstr "``Monotone`` 是最快的方法。使用它可以生成细细长长的多边形。"
 
 #: ../physics.rst:363
 msgid ""
-"``Layers`` — a slower, but still reasonably fast method that produces "
-"better triangulations than Monotone partitioning."
+"``Layers`` — a slower, but still reasonably fast method that produces better "
+"triangulations than Monotone partitioning."
 msgstr ""
+"``Layers`` —  速度较慢，但仍然相当快的方法，可产生更好的三角剖分比单调"
+"（Monotone ）分区。"
 
 #: ../physics.rst:365
 msgid ""
-"``Watershed`` — classic Recast partitioning method that generates the "
-"nicest tesselation. This option is selected by default."
-msgstr ""
+"``Watershed`` — classic Recast partitioning method that generates the nicest "
+"tesselation. This option is selected by default."
+msgstr "``Watershed`` — 经典重铸生成最好的剖分分区方法。此选项是默认选中的。"
 
 #: ../physics.rst:367
 msgid "``Polygonization`` group of parameters:"
-msgstr ""
+msgstr "``Polygonization`` 组的参数︰"
 
 #: ../physics.rst:370
 msgid "*Max Edge Length*"
-msgstr ""
+msgstr "*Max Edge Length*"
 
 #: ../physics.rst:370
 msgid "The maximum length of a contour edge. Default value is 12.0."
-msgstr ""
+msgstr "边缘轮廓最大长度。默认值为 12.0。"
 
 #: ../physics.rst:373
 msgid "*Max Edge Error*"
-msgstr ""
+msgstr "*Max Edge Error*"
 
 #: ../physics.rst:373
 msgid ""
-"The maximum error of the distance from the contour to the cells. Default "
-"value is 1.3."
-msgstr ""
+"The maximum error of the distance from the contour to the cells. Default value "
+"is 1.3."
+msgstr "从轮廓到单元格的距离最大误差。默认值为 1.3。"
 
 #: ../physics.rst:376
 msgid "*Verts Per Poly*"
-msgstr ""
+msgstr "*Verts Per Poly*"
 
 #: ../physics.rst:376
 msgid "The maximum number of vertices per polygon. Default value is 6."
-msgstr ""
+msgstr "每个多边形顶点的最大数目。默认值为 6。"
 
 #: ../physics.rst:378
 msgid "``Detail Mesh`` group of parameters:"
-msgstr ""
+msgstr "``Detail Mesh`` 组的参数︰"
 
 #: ../physics.rst:381
 msgid "*Sample Distance*"
-msgstr ""
+msgstr "*Sample Distance*"
 
 #: ../physics.rst:381
 msgid "Detail mesh sample spacing. Default value is 6.0."
-msgstr ""
+msgstr "详细信息网格采样间距。默认值是 6.0。"
 
 #: ../physics.rst:384
 msgid "*Max Sample Error*"
-msgstr ""
+msgstr "*Max Sample Error*"
 
 #: ../physics.rst:384
 msgid "Maximum error of the mesh simplification. Default value is 1.00."
-msgstr ""
+msgstr "最大误差的网格简化算法。默认值为 1.00。"
 
 #: ../physics.rst:387
 msgid "Using Navigation Meshes"
-msgstr ""
+msgstr "使用导航网格"
 
 #: ../physics.rst:389
 msgid ""
 "After a navmesh is created, it then can be used in the application for "
-"calculating trajectories between two points. This can be done using two "
-"methods from the :b4wmod:`physics` module, "
-":b4wref:`physics.navmesh_get_island()` and "
-":b4wref:`physics.navmesh_find_path()`. The former is used to retrieve a "
-"link to the current island (closest independent segment of the navmesh), "
-"while the latter returns the actual path in the form of an array of "
-"coordinates."
+"calculating trajectories between two points. This can be done using two methods "
+"from the :b4wmod:`physics` module, :b4wref:`physics.navmesh_get_island()` and :"
+"b4wref:`physics.navmesh_find_path()`. The former is used to retrieve a link to "
+"the current island (closest independent segment of the navmesh), while the "
+"latter returns the actual path in the form of an array of coordinates."
 msgstr ""
+"Navmesh 创建后，它然后可用于在应用程序中计算两个点之间的运动轨迹。这可以从  :"
+"b4wmod:`physics`  模块的两种方法得到 :b4wref:`physics.navmesh_get_island()` 和 :"
+"b4wref:`physics.navmesh_find_path()`. 前者用来检索链接到当前的岛 （最接近独立网"
+"段的 navmesh），而后者返回以数组形式的实际路径中的坐标。"
 
 #: ../physics.rst:391
 msgid ""
-"An example of using navigation meshes for pathfinding can be viewed in "
-"the :ref:`Code Snippets <code_snippets>` (the corresponding snippet is "
-"named ``Pathfinding``)."
+"An example of using navigation meshes for pathfinding can be viewed in the :ref:"
+"`Code Snippets <code_snippets>` (the corresponding snippet is named "
+"``Pathfinding``)."
 msgstr ""
+"使用导航网格的寻路的例子可以在 :ref:`代码摘要 <code_snippets>` (相对应的摘要名字"
+"叫 ``Pathfinding``)."
 
 #: ../physics.rst:396
 msgid "Use in Applications"
@@ -831,46 +880,39 @@ msgstr "在应用程序中的使用"
 
 #: ../physics.rst:398
 msgid ""
-"The physics system is implemented in the **uranium.js** module and loaded"
-" separately from the engine's main code. The **uranium.js** module itself"
-" is a modification of the `Bullet <http://bulletphysics.org/>`_ physics "
-"engine, which is ported to work in browsers. In order to activate the "
-"physics system, it is enough to put the **uranium.js** and "
-"**uranium.js.mem** files in the same directory as the source code of the "
-"application."
+"The physics system is implemented in the **uranium.js** module and loaded "
+"separately from the engine's main code. The **uranium.js** module itself is a "
+"modification of the `Bullet <http://bulletphysics.org/>`_ physics engine, which "
+"is ported to work in browsers. In order to activate the physics system, it is "
+"enough to put the **uranium.js** and **uranium.js.mem** files in the same "
+"directory as the source code of the application."
 msgstr ""
-"物理系统是在 **uranium.js** 模块中实现，并分别从引擎的主要代码加载。**Uranium.js** 模块本身是 `Bullet "
-"<http://bulletphysics.org/>`_ 物理引擎的修改版，移植在浏览器中工作。为了激活物理系统，这就需要将 "
-"**uranium.js** 和 **uranium.js.mem** 文件跟应用程序的源代码放在同一个目录。"
+"物理系统是在 **uranium.js** 模块中实现，并分别从引擎的主要代码加载。**Uranium."
+"js** 模块本身是 `Bullet <http://bulletphysics.org/>`_ 物理引擎的修改版，移植在浏"
+"览器中工作。为了激活物理系统，这就需要将 **uranium.js** 和 **uranium.js.mem** 文"
+"件跟应用程序的源代码放在同一个目录。"
 
 #: ../physics.rst:400
 msgid ""
-"Another way is to explicitly specify the loading path of the "
-"**uranium.js** module by using the following API method:"
-msgstr "另一个方法是通过使用下面的 API 方法显式指定 **uranium.js** 模块的加载路径 ︰"
+"Another way is to explicitly specify the loading path of the **uranium.js** "
+"module by using the following API method:"
+msgstr ""
+"另一个方法是通过使用下面的 API 方法显式指定 **uranium.js** 模块的加载路径 ︰"
 
 #: ../physics.rst:408
 msgid ""
-"When applications are developed :ref:`within the SDK "
-"<project_management>`, the path to the physics engine is detected "
-"automatically."
-msgstr "当开发应用程序 :ref:`使用了SDK <project_management>`, 自动检测到物理引擎的路径。"
+"When applications are developed :ref:`within the SDK <project_management>`, the "
+"path to the physics engine is detected automatically."
+msgstr ""
+"当开发应用程序 :ref:`使用了SDK <project_management>`, 自动检测到物理引擎的路径。"
 
 #: ../physics.rst:410
 msgid ""
-"If your application does not use physics, we recommend you to turn off "
-"the ``Enable Physics`` flag in the ``Physics`` panel under the scene tab "
-"in Blender. It is also possible to forcibly disable loading of the "
-"**uranium.js** module by calling the following method before "
-"initialization of the engine:"
+"If your application does not use physics, we recommend you to turn off the "
+"``Enable Physics`` flag in the ``Physics`` panel under the scene tab in "
+"Blender. It is also possible to forcibly disable loading of the **uranium.js** "
+"module by calling the following method before initialization of the engine:"
 msgstr ""
-"如果您的应用程序不使用物理，我们建议您在Blender场景选项卡中 ``Physics`` 面板下关闭 ``Enable Physics`` "
-"的标志。它也是可以通过调用下面的方法初始化引擎前强行禁用加载 **uranium.js** 模块 ︰"
-
-#~ msgid ""
-#~ "An example of using navigation meshes"
-#~ " for pathfinding can be viewed in "
-#~ "the Code Snippets (the corresponding "
-#~ "snippet is named ``Pathfinding``)."
-#~ msgstr ""
-
+"如果您的应用程序不使用物理，我们建议您在Blender场景选项卡中 ``Physics`` 面板下关"
+"闭 ``Enable Physics`` 的标志。它也是可以通过调用下面的方法初始化引擎前强行禁用加"
+"载 **uranium.js** 模块 ︰"

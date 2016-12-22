@@ -101,7 +101,8 @@ var INV_CUBE_VIEW_MATRS =
 
 var GAMMA = 2.2;
 
-var ZERO_TBN_QUAT_EPSILON = 0.000001;
+// offset > 2/65535 to prevent zeroes when converting to short
+var ZERO_TBN_QUAT_EPSILON = 0.000031;
 
 exports.VEC3_IDENT = VEC3_IDENT;
 exports.QUAT4_IDENT = QUAT4_IDENT;
@@ -1538,7 +1539,8 @@ exports.generate_inv_cubemap_matrices = function() {
 }
 
 /**
- * Calculate id for strongly typed variables (batch, render, ...)
+ * Calculate id for strongly typed variables (batch, render, ...).
+ * init_val parameter is a sort of seed.
  */
 exports.calc_variable_id = function(a, init_val) {
     return hash_code(a, init_val);

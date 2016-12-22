@@ -446,7 +446,7 @@ exports.eye_set_look_at = function(camobj, pos, look_at) {
  * @param {Number} theta Elevation angle in radians.
  * @param {Boolean} [phi_is_abs=false] Performs delta rotation if FALSE, sets 
  * camera's absolute rotation if TRUE.
- * @param {Boolean} [theta_is_abs=false] Performs delta rotation if FLASE, sets 
+ * @param {Boolean} [theta_is_abs=false] Performs delta rotation if FALSE, sets 
  * camera's absolute rotation if TRUE.
  */
 exports.eye_rotate = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {

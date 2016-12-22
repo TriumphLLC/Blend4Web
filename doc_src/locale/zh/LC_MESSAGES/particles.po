@@ -239,9 +239,8 @@ msgid ""
 msgstr "该选项启用循环发射模式。它可以用于永久效果 （如烟，燃烧，水溅）。建议设置的 ``Emission > Start`` 的值为零。默认为禁用。"
 
 #: ../particles.rst:106
-#, fuzzy
 msgid "*Emission > Allow NLA*"
-msgstr "*Emission > End*"
+msgstr ""
 
 #: ../particles.rst:106
 msgid ""

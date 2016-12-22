@@ -1,13 +1,6 @@
 ;(function() {
 
 var INPUTS = {
-    "bundled_app": {
-        "hide": ["proj_ext",
-                 "proj_copy",
-                 "proj_compile",
-                 "proj_none"],
-        "check": ["proj_json"]
-    },
     "json_wp_app": {
         "hide": ["adv_lev",
                  "sim_lev",
@@ -70,10 +63,6 @@ function submit_cb() {
             if (input.checked)
                 form.action += "-P/";
             break;
-        case "project_bundle":
-            if (input.checked)
-                form.action += "-B/";
-            break;
         case "project_engine_type":
             if (input.checked)
                 form.action += "-t/" + val + "/";
@@ -104,28 +93,8 @@ function submit_cb() {
     window.open(form.action,"_self")
 }
 
-function change_bundle_cb(is_checked) {
-    check_input(is_checked, "bundled_app");
-
-    if (is_checked)
-        set_wp_cb(is_checked);
-    else {
-        if (proj_html.checked)
-            set_html_cb(true);
-        else if (proj_json.checked)
-            set_wp_cb(true);
-    }
-}
-
 function set_wp_cb(is_checked) {
     check_input(is_checked, "json_wp_app");
-
-    if (project_bundle.checked) {
-        proj_ext.disabled = true;
-        proj_copy.disabled = true;
-        proj_compile.disabled = true;
-        proj_none.disabled = true;
-    }
 
     if (is_checked)
         change_wp_params(is_checked);
@@ -134,13 +103,6 @@ function set_wp_cb(is_checked) {
 function set_html_cb(is_checked) {
     check_input(is_checked, "html_wp_app");
 
-    if (project_bundle.checked) {
-        proj_ext.disabled = true;
-        proj_copy.disabled = true;
-        proj_compile.disabled = true;
-        proj_none.disabled = true;
-    }
-
     if (is_checked)
         change_wp_params(is_checked);
 }
@@ -148,31 +110,22 @@ function set_html_cb(is_checked) {
 function change_inputs(e) {
     var input_type = e.target.type;
 
-    // check radio and checkbox inputs only
-    if (input_type != "radio" && input_type != "checkbox")
+    // check radio inputs only
+    if (input_type != "radio")
         return;
 
     var input_id = e.target.id;
 
-    // check project_bundle only
-    if (input_type == "checkbox" && input_id != "project_bundle")
+    // optimization levels have no deps
+    if (input_id == "sim_lev" || input_id == "adv_lev" || input_id == "white_lev")
         return;
 
-    // optimization levels have no deps
-    if (input_type == "radio" && (input_id == "sim_lev" ||
-                                  input_id == "adv_lev" ||
-                                  input_id == "white_lev"))
-        return;
+    var is_checked = e.target.checked;
 
     for (var i = _inputs.length; i--;)
         _inputs[i].disabled = false;
 
-    var is_checked = e.target.checked;
-
     switch (input_id) {
-    case "project_bundle":
-        change_bundle_cb(is_checked);
-        break;
     case "proj_html":
         set_wp_cb(is_checked);
         break;
@@ -196,12 +149,6 @@ function change_inputs(e) {
     case "proj_compile":
         if (!sim_lev.checked && !adv_lev.checked && !white_lev.checked)
             sim_lev.checked = true;
-
-        if (project_bundle.checked) {
-            proj_ext.disabled = is_checked;
-            proj_compile.disabled = is_checked;
-            proj_copy.disabled = is_checked;
-        }
 
         change_wp_params();
 

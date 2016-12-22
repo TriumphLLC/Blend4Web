@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-11-24 16:46+0300\n"
+"POT-Creation-Date: 2016-12-16 15:05+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -28,11 +28,56 @@ msgstr "Содержание"
 msgid "Installation"
 msgstr "Установка"
 
-#: ../setup.rst:17
+#: ../setup.rst:14
+msgid ""
+"There are two versions of the Blend4Web framework: Blend4Web SDK and "
+"Blend4Web Add-On. In order to decide which one best suits your needs, you"
+" will need to decide which kinds of applications you are planning on "
+"developing."
+msgstr ""
+"Существуют две версии фреймворка Blend4Web: Blend4Web SDK и аддон Blend4Web. "
+"Какую из них вам следует выбрать для работы, зависит от того, приложения какого "
+"типа вы планируете разрабатывать."
+
+#: ../setup.rst:16
+msgid ""
+"If you plan on using all features that Blend4Web engine has to offer, you"
+" should install Blend4Web SDK."
+msgstr ""
+"Если вы планируете использовать все возможности движка Blend4Web, вам следует "
+"установить Blend4Web SDK."
+
+#: ../setup.rst:18
+msgid ""
+"If your intention is to develop small-scale projects, or if you are "
+"planning on using only a limited number of features of the Blend4Web "
+"engine (the normal editor, for example), you might consider installing "
+"the :ref:`Blend4Web Add-On <addon>` instead."
+msgstr ""
+"Если же вы планируете разрабатывать небольшие проекты или собираетесь "
+"использовать только некоторые возможности движка Blend4Web (например, "
+"редактор нормалей), вы можете использовать :ref:`аддон Blend4Web <addon>` "
+"вместо SDK."
+
+#: ../setup.rst:20
+msgid ""
+"Note, the Add-On can only export scenes to :ref:`HTML format "
+"<export_scene>` and has limited functionality. For example, it does not "
+"include the :ref:`project manager <project_management>`, example scenes, "
+"user manual and other additional resources. However, it still has "
+"everything you might need to create a simple application."
+msgstr ""
+"Обратите внимание, что аддон поддерживает экспорт сцены только в формат :ref:`HTML "
+"<export_scene>` и имеет ограниченные возможности. Например, в нём отсутствует "
+":ref:`менеджер проектов <project_management>`, примеры сцен, документация"
+" и другие дополнительные ресурсы. Тем не менее, аддон располагает всем необходимым для создания простого "
+"приложения."
+
+#: ../setup.rst:25
 msgid "Installing Blender"
 msgstr "Установка программы Blender"
 
-#: ../setup.rst:19
+#: ../setup.rst:27
 msgid ""
 "Authoring 3D scenes is carried out directly in `Blender "
 "<http://en.wikipedia.org/wiki/Blender_(software)>`_ which is open source "
@@ -42,7 +87,7 @@ msgstr ""
 "<http://ru.wikipedia.org/wiki/Blender>`_, который является программным "
 "продуктом с открытым исходным кодом и распространяется бесплатно."
 
-#: ../setup.rst:21
+#: ../setup.rst:29
 msgid ""
 "Before installation, please download and install the compatible Blender "
 "version, according to this `table "
@@ -51,7 +96,7 @@ msgstr ""
 "Перед установкой необходимо загрузить и установить совместимую версию "
 "Blender, согласно `таблице <https://www.blend4web.com/downloads/>`_."
 
-#: ../setup.rst:23
+#: ../setup.rst:31
 msgid ""
 "A current stable version of Blender should be used. It can be downloaded "
 "from the `official site <http://www.blender.org/download>`_ or from "
@@ -61,11 +106,11 @@ msgstr ""
 "Blender можно с `официального сайта <http://www.blender.org/download>`_ "
 "или с `сайта Blend4Web <https://www.blend4web.com/ru/downloads/>`_."
 
-#: ../setup.rst:31
-msgid "Unpacking the Archive"
-msgstr "Распаковка архива"
+#: ../setup.rst:40
+msgid "Installing Blend4Web SDK"
+msgstr "Установка Blend4Web SDK"
 
-#: ../setup.rst:33
+#: ../setup.rst:42
 msgid ""
 "Stable versions of the distribution are available as an archive "
 "(``blend4web_ce_YY_MM.zip`` -- free SDK, ``blend4web_pro_YY_MM.zip`` -- "
@@ -76,35 +121,31 @@ msgstr ""
 "``blend4web_pro_YY_MM.zip`` -- коммерческий SDK). Достаточно распаковать "
 "данный архив в любое место на диске."
 
-#: ../setup.rst:36
-msgid "Installing Blend4Web SDK"
-msgstr "Установка Blend4Web SDK"
-
-#: ../setup.rst:38 ../setup.rst:104 ../setup.rst:157
+#: ../setup.rst:44 ../setup.rst:87 ../setup.rst:139 ../setup.rst:194
 msgid "Run Blender."
 msgstr "Открыть Blender."
 
-#: ../setup.rst:40
+#: ../setup.rst:46 ../setup.rst:89
 msgid "Open the User Preferences panel :file:`File > User Preferences...`."
 msgstr "Вызвать окно пользовательских настроек :file:`File > User Preferences...`."
 
-#: ../setup.rst:42
+#: ../setup.rst:48
 msgid "Open the :file:`File` tab."
 msgstr "Открыть вкладку :file:`File`."
 
-#: ../setup.rst:44
+#: ../setup.rst:50
 msgid "Set the path to the SDK directory in the :file:`Scripts` field."
 msgstr "В поле :file:`Scripts` прописать путь к директории SDK."
 
-#: ../setup.rst:46
+#: ../setup.rst:52
 msgid "Click the :file:`Save User Settings` button."
 msgstr "Нажать :file:`Save User Settings`"
 
-#: ../setup.rst:52 ../setup.rst:130 ../setup.rst:167
+#: ../setup.rst:58 ../setup.rst:99 ../setup.rst:165 ../setup.rst:204
 msgid "Restart Blender."
 msgstr "Перезапустить Blender."
 
-#: ../setup.rst:54
+#: ../setup.rst:60 ../setup.rst:101
 msgid ""
 "Once again, open the User Preferences panel :file:`File > User "
 "Preferences...`."
@@ -112,23 +153,23 @@ msgstr ""
 "Ещё раз вызвать окно пользовательских настроек :file:`File > User "
 "Preferences...`."
 
-#: ../setup.rst:56
+#: ../setup.rst:62 ../setup.rst:91 ../setup.rst:103
 msgid "Open the :file:`Add-ons` tab."
 msgstr "Открыть вкладку :file:`Add-ons`."
 
-#: ../setup.rst:58
+#: ../setup.rst:64
 msgid "Enable the `Blend4Web` add-on."
 msgstr "Активировать аддон `Blend4Web`."
 
-#: ../setup.rst:60
+#: ../setup.rst:66
 msgid "Once again, click the :file:`Save User Settings` button."
 msgstr "Ещё раз нажать :file:`Save User Settings`"
 
-#: ../setup.rst:66
+#: ../setup.rst:72
 msgid "*To verify it worked:*"
 msgstr "*Проверка:*"
 
-#: ../setup.rst:68
+#: ../setup.rst:74
 msgid ""
 "In the :file:`File > Export` menu, the :file:`Blend4Web (.json)` and "
 ":file:`Blend4Web (.html)` options should appear."
@@ -136,29 +177,11 @@ msgstr ""
 "В меню :file:`File > Export` должны появиться опции :file:`Blend4Web "
 "(.json)` и :file:`Blend4Web (.html)`."
 
-#: ../setup.rst:72
-msgid ""
-"If you are planning to use only the normal editor, you might consider "
-"installing the :ref:`Blend4Web addon <addon>` instead of the SDK."
-msgstr ""
-"Если вы используете только редактор нормалей, вы можете использовать "
-":ref:`аддон Blend4Web <addon>` вместо SDK."
+#: ../setup.rst:79
+msgid "Installing Blend4Web Add-On"
+msgstr "Установка аддона Blend4Web"
 
-#: ../setup.rst:74
-msgid ""
-"The addon can only export scenes to :ref:`HTML format <export_scene>` and"
-" has limited functionality (for example, it doesn't have the "
-":ref:`project manager <project_management>`, example scenes, user manual "
-"and so on), but still it has everything you might need to create a simple"
-" application."
-msgstr ""
-"Аддон поддерживает экспорт сцены только в формат :ref:`HTML "
-"<export_scene>` и имеет ограниченные возможности (например, отсутствует "
-":ref:`менеджер проектов <project_management>`, примеры сцен, документация"
-" и пр.), но располагает всем необходимым для создания простого "
-"приложения."
-
-#: ../setup.rst:76
+#: ../setup.rst:85
 msgid ""
 "It can be installed the same way as any other `Blender addon "
 "<https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon"
@@ -168,23 +191,55 @@ msgstr ""
 "<https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon"
 "#installation-of-a-3rd-party-add-on>`_."
 
-#: ../setup.rst:83
+#: ../setup.rst:93
+msgid "Press the ``Install From File...`` button."
+msgstr "Нажать кнопку ``Install From File...``."
+
+#: ../setup.rst:95
+msgid ""
+"Select the archive containing Blend4Web add-on and press ``Install From "
+"File...`` button."
+msgstr ""
+"Выбрать архив, содержащий аддон Blend4Web, и нажать кнопку "
+"``Install From File...``."
+
+#: ../setup.rst:97 ../setup.rst:163
+msgid "Press the ``Save User Settings`` button."
+msgstr "Нажмите кнопку :file:`Save User Settings`."
+
+#: ../setup.rst:105
+msgid "Find the Blend4Web Add-on in the list."
+msgstr "Найдите аддон `Blend4Web` в списке."
+
+#: ../setup.rst:107
+msgid "Check the box on the left side of its title to enable it."
+msgstr "Активируйте его, поставив флажок слева от названия аддона."
+
+#: ../setup.rst:109 ../setup.rst:173
+msgid "Press the ``Save User Settings`` button once again."
+msgstr "Снова нажмите кнопку :file:`Save User Settings`."
+
+#: ../setup.rst:111
+msgid "Now, everything should work properly."
+msgstr "Теперь всё должно работать."
+
+#: ../setup.rst:116
 msgid "Switching to Blend4Web Mode"
 msgstr "Переключение в режим Blend4Web"
 
-#: ../setup.rst:85
+#: ../setup.rst:118
 msgid "To reveal the engine settings, select Blend4Web from the upper panel menu:"
 msgstr "Выберите профиль настроек Blend4Web в выпадающем меню верхней панели:"
 
-#: ../setup.rst:93
+#: ../setup.rst:126
 msgid "Updating"
 msgstr "Обновление"
 
-#: ../setup.rst:96
+#: ../setup.rst:131
 msgid "Updating the SDK"
 msgstr "Обновление SDK"
 
-#: ../setup.rst:98
+#: ../setup.rst:133
 msgid ""
 "Before updating, we recommend to backup all projects in development using"
 " the :ref:`project export <export_projects>` tools."
@@ -193,27 +248,27 @@ msgstr ""
 "разрабатываемых проектов с помощью :ref:`средств экспорта "
 "<export_projects>`."
 
-#: ../setup.rst:100
+#: ../setup.rst:135
 msgid "To update the SDK, follow these steps:"
 msgstr "При обновлении SDK следуйте этой инструкции:"
 
-#: ../setup.rst:102
+#: ../setup.rst:137
 msgid "Download the new version of the SDK."
 msgstr "Загрузите новую версию SDK."
 
-#: ../setup.rst:106 ../setup.rst:159
+#: ../setup.rst:141 ../setup.rst:196
 msgid "Open the ``User Preferences`` window."
 msgstr "Откройте окно ``User Preferences``."
 
-#: ../setup.rst:108 ../setup.rst:134
+#: ../setup.rst:143 ../setup.rst:169
 msgid "Open the ``Add-ons`` panel."
 msgstr "Откройте вкладку :file:`Add-ons`."
 
-#: ../setup.rst:110
+#: ../setup.rst:145
 msgid "Disable ``Blend4Web`` Add-on."
 msgstr "Деактивируйте аддон `Blend4Web`."
 
-#: ../setup.rst:113
+#: ../setup.rst:148
 msgid ""
 "We recommend not to use the ``Remove`` button to disable the Add-on for "
 "updating the SDK, as doing so will completely delete the add-on, "
@@ -223,15 +278,15 @@ msgstr ""
 " обновлении SDK, так как это приведёт к полному удалению аддона, в том "
 "числе его файлов в SDK."
 
-#: ../setup.rst:115
+#: ../setup.rst:150
 msgid "Unpack the new version of the SDK from the archive."
 msgstr "Разархивируйте новую версию SDK."
 
-#: ../setup.rst:118
+#: ../setup.rst:153
 msgid "There are two methods to do this."
 msgstr "Обновление может производиться одним из двух способов."
 
-#: ../setup.rst:120
+#: ../setup.rst:155
 msgid ""
 "Firstly, you can completely delete the SDK folder and, after that, "
 "extract the new version folder, as if you were installing the SDK for the"
@@ -241,7 +296,7 @@ msgstr ""
 "распаковать каталог с новой версией и прописать путь к ней в настройках "
 "Blender, как если бы вы устанавливали SDK с нуля."
 
-#: ../setup.rst:122
+#: ../setup.rst:157
 msgid ""
 "Secondly, you can simply overwrite the outdated SDK files with the new "
 "ones. This method is considered less \"pure\", but in most cases it "
@@ -251,35 +306,27 @@ msgstr ""
 "Этот подход считается менее \"чистым\", но в большинстве случаев не "
 "должен приводить к проблемам."
 
-#: ../setup.rst:124
+#: ../setup.rst:159
 msgid "Open the ``File`` panel in the ``User Preferences`` window."
 msgstr "В окне ``User Preferences`` откройте панель ``File``."
 
-#: ../setup.rst:126
+#: ../setup.rst:161
 msgid "Set the path to the SDK folder in the ``Scripts`` field."
 msgstr "В поле :file:`Scripts` пропишите путь к директории SDK."
 
-#: ../setup.rst:128
-msgid "Press the ``Save User Settings`` button."
-msgstr "Нажмите кнопку :file:`Save User Settings`."
-
-#: ../setup.rst:132
+#: ../setup.rst:167
 msgid "Open the ``User Preferences`` window once again."
 msgstr "Снова откройте окно ``User Preferences``."
 
-#: ../setup.rst:136
+#: ../setup.rst:171
 msgid "Enable ``Blend4Web`` add-on."
 msgstr "Активируйте аддон `Blend4Web`."
 
-#: ../setup.rst:138
-msgid "Press the ``Save User Settings`` button once again."
-msgstr "Снова нажмите кнопку :file:`Save User Settings`."
-
-#: ../setup.rst:140
+#: ../setup.rst:175
 msgid "Check if everything works correctly."
 msgstr "Проверьте, всё ли работает правильно."
 
-#: ../setup.rst:142
+#: ../setup.rst:177
 msgid ""
 "After updating is complete, you can import all saved projects using the "
 ":ref:`project import <import_projects>` tools."
@@ -288,19 +335,19 @@ msgstr ""
 "импортировать с помощью средств :ref:`импорта проектов "
 "<import_projects>`."
 
-#: ../setup.rst:145
+#: ../setup.rst:182
 msgid "Updating the Addon"
 msgstr "Обновление аддона"
 
-#: ../setup.rst:147
+#: ../setup.rst:184
 msgid ""
 "If you are only using the Blend4Web add-on, follow this instruction "
 "instead."
 msgstr ""
 "В том случае, если вы используете только аддон Blend4Web, следуйте этой "
-"интсрукции."
+"инструкции."
 
-#: ../setup.rst:149
+#: ../setup.rst:186
 msgid ""
 "Before installing a new version of the add-on, you may firstly remove the"
 " existing one. To do this, unfold the information tab of the Blend4Web "
@@ -314,7 +361,7 @@ msgstr ""
 "обязательно, но рекомендуется для того, чтобы избежать возможных "
 "конфликтов."
 
-#: ../setup.rst:155
+#: ../setup.rst:192
 msgid ""
 "Download the archive that contains the new version of the add-on, and "
 "save it to any place on your hard drive."
@@ -322,27 +369,27 @@ msgstr ""
 "Загрузите архив, содержащий новую версию аддона, и сохраните его в любом "
 "месте на жёстком диске."
 
-#: ../setup.rst:161
+#: ../setup.rst:198
 msgid "Switch to the ``Add-ons`` panel."
 msgstr "Откройте панель ``Add-ons``."
 
-#: ../setup.rst:163
+#: ../setup.rst:200
 msgid "Install the new version of the add-on from the archive you downloaded."
 msgstr "Установите новую версию аддона из загруженного архива."
 
-#: ../setup.rst:165
+#: ../setup.rst:202
 msgid "Press the ``Save User Settings button``."
 msgstr "Нажмите кнопку :file:`Save User Settings`."
 
-#: ../setup.rst:169
+#: ../setup.rst:206
 msgid "Everything should be working now."
 msgstr "Теперь всё должно работать."
 
-#: ../setup.rst:172
+#: ../setup.rst:211
 msgid "Updating Saved Projects"
 msgstr "Обновление сохранённых проектов"
 
-#: ../setup.rst:174
+#: ../setup.rst:213
 msgid ""
 "After you have updated your SDK (or Add-on), you can import projects that"
 " you exported before updating back to the Project Manager. To do this, "
@@ -352,21 +399,21 @@ msgstr ""
 "проектов проекты, экспортированные перед началом обновления. Чтобы "
 "сделать это, следуйте инструкции:"
 
-#: ../setup.rst:176
+#: ../setup.rst:215
 msgid "Open Project Manager."
 msgstr "Откройте Менеджер проектов."
 
-#: ../setup.rst:178
+#: ../setup.rst:217
 msgid "Import your projects using the ``Import Project(s)`` button."
 msgstr "Импортируйте проекты с помощью кнопки ``Import Project(s)``."
 
-#: ../setup.rst:180
+#: ../setup.rst:219
 msgid "Reexport projects's ``.blend`` files using the ``re-export scenes`` link."
 msgstr ""
 "Повторно экспортируйте ``.blend``-файлы с помощью ссылки ``re-export "
 "scenes``."
 
-#: ../setup.rst:182
+#: ../setup.rst:221
 msgid ""
 "Use the ``check modules`` link for every imported project to make sure "
 "there are no missing or unused modules in the program code. If there are,"
@@ -376,7 +423,7 @@ msgstr ""
 "модули с помощью ссылки ``check modules``. Если такие модули обнаружены, "
 "проблему можно попытаться исправить с помощью кнопки ``Update Modules``."
 
-#: ../setup.rst:184
+#: ../setup.rst:223
 msgid ""
 "Then use ``build`` command to make the build versions of the imported "
 "projects work again."
@@ -384,7 +431,7 @@ msgstr ""
 "Затем используйте команду ``build`` для того, чтобы собранные версии "
 "импортированных проектов нормально работали с новой версией SDK."
 
-#: ../setup.rst:186
+#: ../setup.rst:225
 msgid ""
 "The developer version of the projects using ``Copy`` or ``Compile`` "
 "engine binding type should also be build to properly work with the new "
@@ -431,4 +478,17 @@ msgstr ""
 
 #~ msgid "export"
 #~ msgstr "экспорт"
+
+#~ msgid "Unpacking the Archive"
+#~ msgstr "Распаковка архива"
+
+#~ msgid ""
+#~ "If you are planning to use only"
+#~ " the normal editor, you might "
+#~ "consider installing the :ref:`Blend4Web addon"
+#~ " <addon>` instead of the SDK."
+#~ msgstr ""
+#~ "Если вы используете только редактор "
+#~ "нормалей, вы можете использовать :ref:`аддон"
+#~ " Blend4Web <addon>` вместо SDK."
 

@@ -56,7 +56,7 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
             elif is_waiting_for_shutdown:
                 layout.label(text = _("Stopping server..."))
             else:
-                layout.label(text = _("Development server is down."))
+                layout.label(text = _("Development server is off."))
 
             if allow_actions:
                 if is_started:
@@ -64,7 +64,7 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
                 elif not is_waiting_for_shutdown:
                     layout.operator("b4w.start_server", text=p_("Start Server", "Operator"), icon="PLAY")
             else:
-                layout.label(text = _("Server actions are available in the other Blender instance."))
+                layout.label(text = _("Server is run by another Blender instance."))
 
             if is_started:
                 layout.operator("b4w.open_sdk", text=p_("SDK Index", "Operator"), icon="URL")
@@ -74,7 +74,10 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
                         text=p_("Fast Preview", "Operator"), icon="ZOOM_ALL")
 
         else:
-            layout.label(text = _("Blend4Web SDK was not found."))
+            row = layout.row()
+            row.label(text = _("Development server is unavailable for standalone Blend4Web add-on."))
+            row = layout.row()
+            row.label(text = _("Remove standalone Blend4Web add-on (if installed) and install Blend4Web SDK."))
 
 class B4W_OperatorSetRecommendedOptions(bpy.types.Operator):
     bl_idname = "b4w.set_recommended_options"
@@ -86,7 +89,8 @@ class B4W_OperatorSetRecommendedOptions(bpy.types.Operator):
             if hasattr(scene.render, "use_world_space_shading"):
                 scene.render.use_world_space_shading = True
             scene.game_settings.material_mode = "GLSL"
-            if scene.camera:
+            # can be any object from the scene
+            if scene.camera and scene.camera.type == "CAMERA":
                 scene.camera.data.sensor_fit = "VERTICAL"
 
         for area in bpy.context.screen.areas:

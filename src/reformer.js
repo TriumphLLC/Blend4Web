@@ -2197,7 +2197,11 @@ exports.check_bpy_data = function(bpy_data) {
         }
 
         if (!("b4w_cluster_data" in bpy_obj)) {
-            bpy_obj["b4w_cluster_data"] = { "cluster_id": -1 };
+            bpy_obj["b4w_cluster_data"] = { 
+                "cluster_id": -1,
+                "cluster_center": null,
+                "cluster_radius": 0,
+            };
             report("object", bpy_obj, "b4w_cluster_data");
         }
 

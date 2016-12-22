@@ -351,7 +351,6 @@ function enable_camera_rotation(elem, character) {
 }
 
 function enable_movements(elem, character, motion_cb) {
-    var gmpd_id = 0;
     if (m_main.detect_mobile()) {
         var parent_elem = elem.parentElement ? elem.parentElement : elem;
         create_mobile_controls(character, parent_elem);
@@ -431,7 +430,7 @@ function enable_movements(elem, character, motion_cb) {
     var change_flystyle = function(value) {
         if (value > 0.0) {
             var state = get_state_machine_state(_character_sm).id;
-            if (state == CS_WALK)
+            if (state == CS_WALK || state == CS_STAY)
                 state_machine_switch_state(sm, CS_FLY);
             else
                 state_machine_switch_state(sm, CS_WALK);
@@ -447,12 +446,12 @@ function enable_movements(elem, character, motion_cb) {
     bind_action(AT_PRESSED, backward_sensors_array, move_backward_cb);
     bind_action(AT_PRESSED, [m_ctl.KEY_D, m_input.GMPD_BUTTON_15], move_right_cb);
     bind_action(AT_PRESSED, [m_ctl.KEY_A, m_input.GMPD_BUTTON_14], move_left_cb);
-    bind_action(AT_PRESSED, [m_ctl.KEY_SPACE], jump_cb);
+    bind_action(AT_PRESSED, [m_ctl.KEY_SPACE, m_input.GMPD_BUTTON_1], jump_cb);
 
     bind_action(AT_CONTINUOUS, [m_input.GMPD_AXIS_0], move_right_cb);
     bind_action(AT_CONTINUOUS, [m_input.GMPD_AXIS_1], move_backward_cb);
 
-    bind_action(AT_PRESSED, [m_ctl.KEY_SHIFT], change_movestyle);
+    bind_action(AT_PRESSED, [m_ctl.KEY_SHIFT, m_input.GMPD_BUTTON_7], change_movestyle);
     bind_action(AT_PRESSED, [m_ctl.KEY_C], change_flystyle);
 }
 
@@ -635,7 +634,7 @@ exports.CS_STAY = CS_STAY;
  */
 exports.CS_WALK = CS_WALK;
 /**
- * CCharacter state defining that character is in run-mode.
+ * Character state defining that character is in run-mode.
  * @const {CharacterState} module:fps.CS_RUN
  */
 exports.CS_RUN = CS_RUN;
@@ -674,14 +673,14 @@ exports.AT_CONTINUOUS = AT_CONTINUOUS;
  * @param {Number} action_type Type of action
  * @param {Array} action_controls Array of sensor types
  * @param {Function} action_cb Function which applies logic
- * @example
- * var m_ctl = require("controls");
+ * @example var m_ctl = require("controls");
  * var m_fps = require("fps");
  * var m_input = require("input");
  *
  * var action_cb = function(value) {
  *     console.log(value);
  * };
+ *
  * // bind custom callback to be executed after pressing the W key or one of the gamepad 
  * // buttons or after clicking/touching the html element with the "forward_button_id" id
  * m_fps.bind_action(m_fps.AT_PRESSED, [m_ctl.KEY_W, m_input.GMPD_BUTTON_12,
@@ -691,13 +690,17 @@ exports.bind_action = bind_action;
 function bind_action(action_type, action_controls, action_cb) {
 
     var sensors = [];
+    var enabled_gmpd_isd = m_input.check_enable_gamepad_indices();
     for (var j = 0; j < action_controls.length; j++) {
         if (typeof action_controls[j] == "number") {
             if (action_controls[j] < GMPD_BTNS_OFFSET)
                 sensors.push(m_ctl.create_keyboard_sensor(action_controls[j]));
-            else if (action_controls[j] < GMPD_AXIS_OFFSET)
-                sensors.push(m_ctl.create_gamepad_btn_sensor(action_controls[j]));
-            else
+            else if (action_controls[j] < GMPD_AXIS_OFFSET) {
+                for (var i = 0; i < enabled_gmpd_isd.length; i++) {
+                    var id = enabled_gmpd_isd[i];
+                    sensors.push(m_ctl.create_gamepad_btn_sensor(action_controls[j], id));
+                }
+            } else
                 sensors.push(m_ctl.create_gamepad_axis_sensor(action_controls[j]));
         } else if (typeof action_controls[j] == "string") {
             var control_element = document.getElementById(action_controls[j]);
@@ -783,12 +786,12 @@ function bind_action(action_type, action_controls, action_cb) {
  * @param {Object3D} [character=The result of the {@link module:scenes.get_first_character|get_first_character()} method call] Character
  * @param {HTMLElement} [elem=Canvas element] HTML element to add event listeners to
  * @param {CharMotionCallback} [motion_cb] Motion callback function
- * @example
- * var m_fps = require("fps");
+ * @example var m_fps = require("fps");
  *
  * var move_cb = function(forw_back, right_left) {
  *     console.log(forw_back, right_left);  
  * }
+ *
  * m_fps.enable_fps_controls(null, null, move_cb);
  */
 exports.enable_fps_controls = function(character, elem, motion_cb) {
@@ -805,12 +808,12 @@ exports.enable_fps_controls = function(character, elem, motion_cb) {
     enable_movements(elem, character, motion_cb);
 }
 /**
- * Disnable FPS controls.
+ * Disable FPS controls.
  * @method module:fps.disable_fps_controls
  * @param {Object3D} [character=The result of the {@link module:scenes.get_first_character|get_first_character()} method call] Character
  * @param {HTMLElement} [elem=Canvas container element] HTML element to add event listeners to
- * @example
- * var m_fps = require("fps");
+ * @example var m_fps = require("fps");
+ *
  * m_fps.disable_fps_controls();
  */
 exports.disable_fps_controls = function(character, elem) {
@@ -831,14 +834,14 @@ exports.disable_fps_controls = function(character, elem) {
  * @method module:fps.set_character_state_changing_cb
  * @param {Number} state_id State ID
  * @param {ChangeStateCallback} callback Callback function
- * @example
- * var m_fps = require("fps");
+ * @example var m_fps = require("fps");
  * var m_scenes = require("scenes");
  *
  * var character = m_scenes.get_first_character();
  * var state_changing_cb = function(old_state_id, new_state_id) {
  *     console.log(old_state_id, new_state_id);  
  * }
+ *
  * m_fps.set_character_state_changing_cb(m_fps.CS_WALK, state_changing_cb);
  */
 exports.set_character_state_changing_cb = function(state_id, callback) {
@@ -846,11 +849,11 @@ exports.set_character_state_changing_cb = function(state_id, callback) {
     set_state_machine_node_after_cb(sm, state_id, callback);
 }
 /**
- * Set character's camera smooth behaviour
+ * Set character's camera smooth behavior
  * @method module:fps.set_cam_smooth_factor
  * @param {Number} value Smooth factor
- * @example
- * var m_fps = require("fps");
+ * @example var m_fps = require("fps");
+ *
  * m_fps.set_cam_smooth_factor(0.2);
  */
 exports.set_cam_smooth_factor = function(value) {
@@ -861,8 +864,8 @@ exports.set_cam_smooth_factor = function(value) {
  * Set character's camera mouse sensitivity
  * @method module:fps.set_cam_sensitivity
  * @param {Number} value Sensitivity
- * @example
- * var m_fps = require("fps");
+ * @example var m_fps = require("fps");
+ *
  * m_fps.set_cam_sensitivity(80);
  */
 exports.set_cam_sensitivity = set_cam_sensitivity;
@@ -870,12 +873,11 @@ exports.set_cam_sensitivity = set_cam_sensitivity;
  * Set pointerlock callback function, which is called when pointerlock is enabled
  * @method module:fps.set_plock_enable_cb
  * @param {PlockCallback} callback Callback function
- * @example
- * var m_fps = require("fps");
- *
+ * @example var m_fps = require("fps");
  * var cb = function(element) {
  *     console.log("pointerlock is enabled");  
  * }
+ *
  * m_fps.set_plock_enable_cb(cb);
  */
 exports.set_plock_enable_cb = function(callback) {
@@ -885,12 +887,12 @@ exports.set_plock_enable_cb = function(callback) {
  * Set pointerlock callback function, which is called when pointerlock is disabled
  * @method module:fps.set_plock_disable_cb
  * @param {PlockCallback} callback Callback function
- * @example
- * var m_fps = require("fps");
+ * @example var m_fps = require("fps");
  *
  * var cb = function(element) {
  *     console.log("pointerlock is disabled");  
  * }
+ *
  * m_fps.set_plock_disable_cb(cb);
  */
 exports.set_plock_disable_cb = function(callback) {
@@ -899,10 +901,11 @@ exports.set_plock_disable_cb = function(callback) {
 /**
  * Get character's current state.
  * @method module:fps.get_character_state
- * @returns {CharacterState} state Character's current state
- * var m_fps = require("fps");
+ * @returns {CharacterState} Character's current state
+ * @example var m_fps = require("fps");
  *
  * var curr_state = m_fps.get_character_state();
+ *
  * if (curr_state == m_fps.CS_RUN) 
  *     console.log("Character is running");
  */

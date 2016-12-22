@@ -353,6 +353,8 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float s_roughness
     #node_in float metalness
     #node_in vec3 normal_in
+    #node_in vec3 e_color
+    #node_in float emission
     #node_out vec3 E
     #node_out vec3 A
     #node_out vec3 D
@@ -362,6 +364,8 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec4 shadow_factor
     #node_out vec3 s_color_out
     #node_out float metalness_out
+    #node_out vec3 e_color_out
+    #node_out float emission_out
 
     // diffuse
     D = d_color;
@@ -371,8 +375,10 @@ vec2 vec_to_uv(vec3 vec)
     normal = normal_in;
     s_color_out = s_color;
     metalness_out = metalness;
+    e_color_out = e_color;
+    emission_out = emission;
 
-    // emission
+    // old emission
     E = nin_emit * D;
 
     // ambient
@@ -392,12 +398,21 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec3 normal
     #node_in vec3 s_color
     #node_in float metalness
+    #node_in vec3 e_color
+    #node_in float emission
 
     nout_color = color_in.rgb + specular_in;
+    nout_color = mix(nout_color, e_color, emission);
     // NOTE: using unused variable to pass shader verification
     normal;
 #endnode
 
+// REFERENCES:
+//  microfacet BRDF models:
+//      http://blog.selfshadow.com/publications/s2013-shading-course/
+//
+//  GGX optimization:
+//      http://www.filmicworlds.com/2014/04/21/optimizing-ggx-shaders-with-dotlh/
 #node BSDF_COMPUTE
     #node_var MAT_USE_TBN_SHADING 0
     #node_in vec3 ldir
@@ -515,10 +530,13 @@ vec2 vec_to_uv(vec3 vec)
     #node_out float s_roughness
     #node_out float metalness
     #node_out vec3 normal
+    #node_out vec3 e_color
+    #node_out float emission
 
     d_color = color_in;
     d_roughness = roughness_in;
     metalness = _0_0;
+    emission = _0_0;
 # node_if USE_NORMAL_IN
     normal = normal_in;
 # node_else
@@ -529,6 +547,7 @@ vec2 vec_to_uv(vec3 vec)
     surface;
     s_color;
     s_roughness;
+    e_color;
 #endnode
 
 #node BSDF_GLASS
@@ -556,10 +575,14 @@ vec2 vec_to_uv(vec3 vec)
     #node_out float s_roughness
     #node_out float metalness
     #node_out vec3 normal
+    #node_out vec3 e_color
+    #node_out float emission
+
 
     s_color = color_in;
     s_roughness = roughness_in;
     metalness = _1_0;
+    emission = _0_0;
 # node_if USE_NORMAL_IN
     normal = normal_in;
 # node_else
@@ -657,12 +680,28 @@ vec2 vec_to_uv(vec3 vec)
 #endnode
 
 #node EMISSION
-    #node_in vec3 color
-    #node_in float strength
-    #node_out vec3 vec
-    vec = color;
+    #node_in vec3 color_in
+    #node_in float strength_in
+    #node_out vec3 surface
+    #node_out vec3 d_color
+    #node_out float d_roughness
+    #node_out vec3 s_color
+    #node_out float s_roughness
+    #node_out float metalness
+    #node_out vec3 normal
+    #node_out vec3 e_color
+    #node_out float emission
+
+    e_color = strength_in * color_in;
+    metalness = _0_0;
+    emission = _1_0;
+    normal = nin_normal;
     // NOTE: using unused variable to pass shader verification
-    strength;
+    surface;
+    d_color;
+    d_roughness;
+    s_color;
+    s_roughness;
 #endnode
 
 #node AMBIENT_OCCLUSION
@@ -1021,30 +1060,36 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float s_roughness1
     #node_in float metalness1
     #node_in vec3  normal1
+    #node_in vec3  e_color1
+    #node_in float emission1
     #node_in vec3  d_color2
     #node_in float d_roughness2
     #node_in vec3  s_color2
     #node_in float s_roughness2
     #node_in float metalness2
     #node_in vec3  normal2
-    #node_out vec3 shader_out
-    #node_out vec3 d_color_out
+    #node_in vec3  e_color2
+    #node_in float emission2
+    #node_out vec3  shader_out
+    #node_out vec3  d_color_out
     #node_out float d_roughness_out
-    #node_out vec3 s_color_out
+    #node_out vec3  s_color_out
     #node_out float s_roughness_out
     #node_out float metalness_out
-    #node_out vec3 normal_out
+    #node_out vec3  normal_out
+    #node_out vec3  e_color_out
+    #node_out float emission_out
 
     float clamped_factor = clamp(factor, _0_0, _1_0);
 
     d_color_out = mix(d_color1, d_color2, clamped_factor);
     d_roughness_out = mix(d_roughness1, d_roughness2, clamped_factor);
+
     if (metalness1 > _0_0) {
         if (metalness2 > _0_0) {
             s_color_out = mix(s_color1, s_color2, clamped_factor);
             s_roughness_out = mix(s_roughness1, s_roughness2, clamped_factor);
-        }
-        else {
+        } else {
             s_color_out = s_color1;
             s_roughness_out =  s_roughness1;
         }
@@ -1053,8 +1098,22 @@ vec2 vec_to_uv(vec3 vec)
         s_roughness_out = s_roughness2;
     }
 
+    if (emission1 > _0_0) {
+        if (emission2 > _0_0) {
+            e_color_out = mix(e_color1, e_color2, clamped_factor);
+            // emission_out = mix(emission1, emission2, clamped_factor);
+        } else {
+            e_color_out = e_color1;
+            // emission_out =  emission1;
+        }
+    } else {
+        e_color_out = e_color2;
+        // emission_out = emission2;
+    }
+
     metalness_out = mix(metalness1, metalness2, clamped_factor);
     normal_out = mix(normal1, normal2, clamped_factor);
+    emission_out = mix(emission1, emission2, clamped_factor);
 #endnode
 
 #node UV_MERGED
@@ -3051,7 +3110,7 @@ void nodes_main(in vec3 nin_eye_dir,
     // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
 #if REFLECTION_PASS == REFL_PASS_PLANE
-    if (!gl_FrontFacing)
+    if (gl_FrontFacing == false)
 #else
     if (gl_FrontFacing)
 #endif

@@ -316,7 +316,8 @@ exports.bounding_sphere_transform = function(bs, tsr, bs_new) {
         bs_new = create_bs();
 
     m_tsr.transform_vec3(bs.center, tsr, bs_new.center);
-    bs_new.radius = bs.radius * m_tsr.get_scale(tsr);
+    var scale = m_tsr.get_scale(tsr);
+    bs_new.radius = bs.radius * (scale < 0.0 ? -scale : scale);
 
     return bs_new;
 }

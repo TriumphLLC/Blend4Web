@@ -10,11 +10,9 @@
 
   * 创作场景
 
-  * 导出场景
-
   * 在浏览器显示场景
 
-    * 示例
+  * 导出场景
 
   * 应用程序开发
 
@@ -24,13 +22,19 @@
 
 当使用Blend4Web工作流程如下：
 
-1. 在Blender中创作3D场景。
+1. Creating a New Project.
 
-2. 导出场景。
+2. 在Blender中创作3D场景。
 
 3. 运行，调整，并在浏览器的调试场景。
 
-4. 创建目标应用程序。
+4. 导出场景。
+
+5. Application Development.
+
+6. Building the project.
+
+7. 创建目标应用程序。
 
 
 创作场景
@@ -40,10 +44,13 @@
 
 一般建议：
 
-1. 我们强烈建议将Blend文件保存在 "Blender/项目名称" 目录中。程序中
-   不需 要加载的辅助文件  （例如，引用）等，也该在这个文件夹下。
+1. We strongly recommend to save your blend files in the
+   "projects/project_name/blender" directory. Auxiliary files which
+   are not intended for loading in your app (for example, references),
+   should be located there as well.
 
-2. 图像和媒体文件应该是在外部和位于 "deploy/assets/项目名" 目录。
+2. Images and media files should be external and located in the
+   "projects/project_name/assets" directory.
 
 3. 你将导出的文件应包含实际所需 （对象、 材料、 材质、 动画等） 的
    应用 程序中的资源。
@@ -52,6 +59,19 @@
    "Material" 或者 "Armature".
 
 5. 我们建议您实践从其他文件 （库）来链接组件。
+
+
+在浏览器显示场景
+================
+
+When using the local development server it's possible to preview
+current scene using "Fast Preview" button located at the bottom of
+Blender's 3D View window, and also on the "Render -> Development
+Server" panel in Blender. In this case the scene will be exported
+inside some temporary storage and loaded in the Viewer app.
+
+另一种方法是使用 运行在预览查看器 导出选项。在这种情况下，场景将导出后
+立即显示在预览查看器应用程序。
 
 
 导出场景
@@ -77,77 +97,6 @@ JSON格式，可用于创建各种项目，但它也提供了许多额外的功�
   过程中 发生错误。在导出错误中列出  此表.
 
 导出选项中详细描述在 相应章节.
-
-
-在浏览器显示场景
-================
-
-当使用 本地开发服务器 有可能使用预览当前场景的 "Fast Preview" 按钮，位
-于Blender的 "Scene->Development Server" 面板。在这种情况下，场景将里面
-的一些临时存储被导出并在预览查看器应用程序加载。
-
-另一种方法是使用 运行在预览查看器 导出选项。在这种情况下，场景将导出后
-立即显示在预览查看器应用程序。
-
-如果要长期储存在预览器的场景列表中，它需要手动添加条目到
-"apps_dev/viewer/assets.json" 文本文件。如果您使用的是Blend4Web SDK这
-个文件是自动在Blender打开的。
-
-使用 "文本编辑器"  来修改它 ︰
-
-[图片]
-
-
-
-然后选择 "assets.json" 文件中的窗口进行编辑：
-
-[图片]
-
-
-
-要添加一个新的场景，你需要知道它应该显示的类别。类别通常对应于该项目的
-名称，并到相应的文件存储目录的名称。
-
-
-示例
-----
-
-例如下面你可以看到的 "assets.json" 的一部分。在此文件中有两个项目-
-"Capri" 和 "Fridge"  每个都有相应的场景
-
-   {
-       name: "Capri",
-       items: [
-           {
-               name: "Baken",
-               load_file : "capri/props/baken/baken.json"
-           },
-           {
-               name: "Terrain",
-               load_file : "capri/landscape/terrain/terrain.json"
-           }
-       ]
-   },
-   {
-       name: "Fridge",
-       items: [
-           {
-               name: "Apple",
-               load_file : "fridge/fruits/apple/apple.json"
-           },
-           {
-               name: "Mango",
-               load_file : "fridge/fruits/mango/mango.json"
-           }
-       ]
-   }
-
-要添加一个新的场景，你可以复制和粘贴类似的场景的描述到所需的类别，然后
-修改它的名称和路径导出的文件。
-
-已成功添加的场景应该出现在场景的列表中的查看器中所需的类别中
-
-[图片]
 
 
 应用程序开发

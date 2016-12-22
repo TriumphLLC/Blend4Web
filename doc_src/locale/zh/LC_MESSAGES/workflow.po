@@ -8,16 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-07-22 17:49+0300\n"
+"POT-Creation-Date: 2016-12-16 15:05+0300\n"
 "PO-Revision-Date: 2016-10-01 15:47+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.2.0\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.7\n"
+"Generated-By: Babel 2.3.4\n"
 
 #: ../workflow.rst:5
 msgid "Workflow"
@@ -29,230 +27,213 @@ msgstr "目录"
 
 #: ../workflow.rst:11
 msgid ""
-"Developing any product is a creative process with many participants who have different "
-"skills and experience. However, no matter how complex it is and what is the target it's "
-"always possible to separate the production stage in which the bulk of assets and source "
-"code is authored."
-msgstr ""
-"开发任何产品是一个创造性的过程，需要许多参与者谁拥有不同的技能和经验。然而不论事情是多么的"
-"复杂，是它总是能够分离出许多生产阶段，其中的大部分资产和源代码是创作的目标。"
+"Developing any product is a creative process with many participants who "
+"have different skills and experience. However, no matter how complex it "
+"is and what is the target it's always possible to separate the production"
+" stage in which the bulk of assets and source code is authored."
+msgstr "开发任何产品是一个创造性的过程，需要许多参与者谁拥有不同的技能和经验。然而不论事情是多么的复杂，是它总是能够分离出许多生产阶段，其中的大部分资产和源代码是创作的目标。"
 
 #: ../workflow.rst:17
 msgid "When using Blend4Web the workflow is the following:"
 msgstr "当使用Blend4Web工作流程如下："
 
 #: ../workflow.rst:19
-msgid "Authoring 3D scenes in Blender."
-msgstr "在Blender中创作3D场景。"
+msgid "Creating a New Project."
+msgstr ""
 
 #: ../workflow.rst:20
-msgid "Exporting scenes."
-msgstr "导出场景。"
+msgid "Authoring 3D scenes in Blender."
+msgstr "在Blender中创作3D场景。"
 
 #: ../workflow.rst:21
 msgid "Running, tweaking and debugging scenes in the Viewer."
 msgstr "运行，调整，并在浏览器的调试场景。"
 
 #: ../workflow.rst:22
+msgid "Exporting scenes."
+msgstr "导出场景。"
+
+#: ../workflow.rst:23
+#, fuzzy
+msgid "Application Development."
+msgstr "应用程序开发"
+
+#: ../workflow.rst:24
+msgid "Building the project."
+msgstr ""
+
+#: ../workflow.rst:25
 msgid "Creating the target application."
 msgstr "创建目标应用程序。"
 
-#: ../workflow.rst:27
+#: ../workflow.rst:30
 msgid "Authoring Scenes"
 msgstr "创作场景"
 
-#: ../workflow.rst:29
+#: ../workflow.rst:32
 msgid ""
-"Besides the usual stages such as modeling, texturing, animation etc a scene should be "
-"prepared for working in the engine."
+"Besides the usual stages such as modeling, texturing, animation etc a "
+"scene should be prepared for working in the engine."
 msgstr "除了一般的阶段如建模，贴图，动画等，场景应该在做好在引擎中的准备。"
 
-#: ../workflow.rst:32
+#: ../workflow.rst:35
 msgid "General recommendations:"
 msgstr "一般建议："
 
-#: ../workflow.rst:34
+#: ../workflow.rst:37
+#, fuzzy
 msgid ""
-"We strongly recommend to save your blend files in the ``blender/project_name`` directory. "
-"Auxiliary files which are not intended for loading in your app (for example, references), "
-"should be located there as well."
-msgstr ""
-"我们强烈建议将Blend文件保存在 ``Blender/项目名称`` 目录中。程序中不需要加载的辅助文件  "
-"（例如，引用）等，也该在这个文件夹下。"
+"We strongly recommend to save your blend files in the "
+"``projects/project_name/blender`` directory. Auxiliary files which are "
+"not intended for loading in your app (for example, references), should be"
+" located there as well."
+msgstr "我们强烈建议将Blend文件保存在 ``Blender/项目名称`` 目录中。程序中不需要加载的辅助文件  （例如，引用）等，也该在这个文件夹下。"
 
-#: ../workflow.rst:36
+#: ../workflow.rst:39
+#, fuzzy
 msgid ""
-"Images and media files should be external and located in the ``deploy/assets/"
-"project_name`` directory."
+"Images and media files should be external and located in the "
+"``projects/project_name/assets`` directory."
 msgstr "图像和媒体文件应该是在外部和位于 ``deploy/assets/项目名`` 目录。"
 
-#: ../workflow.rst:38
+#: ../workflow.rst:41
 msgid ""
-"Files from which you export should contain resources which are actually required in your "
-"application (objects, materials, textures, animation etc)."
+"Files from which you export should contain resources which are actually "
+"required in your application (objects, materials, textures, animation "
+"etc)."
 msgstr "你将导出的文件应包含实际所需 （对象、 材料、 材质、 动画等） 的应用程序中的资源。"
 
-#: ../workflow.rst:40
+#: ../workflow.rst:43
 msgid ""
-"Scene components should have distinct names. They should not be named \\\"Cube.001\\\", \\"
-"\"Material\\\" or \\\"Armature\\\"."
+"Scene components should have distinct names. They should not be named "
+"\\\"Cube.001\\\", \\\"Material\\\" or \\\"Armature\\\"."
 msgstr ""
-"场景组件应该有不同的识别名称。他们不应该叫 \\\"Cube.001\\\", \\\"Material\\\" 或者 \\"
-"\"Armature\\\"."
+"场景组件应该有不同的识别名称。他们不应该叫 \\\"Cube.001\\\", \\\"Material\\\" 或者 "
+"\\\"Armature\\\"."
 
-#: ../workflow.rst:42
-msgid "We recommend you to practice linking components from other files (libraries)."
+#: ../workflow.rst:45
+msgid ""
+"We recommend you to practice linking components from other files "
+"(libraries)."
 msgstr "我们建议您实践从其他文件 （库）来链接组件。"
 
-#: ../workflow.rst:50
-msgid "Exporting Scenes"
-msgstr "导出场景"
-
 #: ../workflow.rst:52
-msgid ""
-"The export procedure converts the scene from the Blender format to one of the formats "
-"used by Blend4Web."
-msgstr "导出过程将场景从Blender格式转换为 Blend4Web 所使用的格式之一。"
-
-#: ../workflow.rst:59
-msgid "There are two formats: JSON and HTML."
-msgstr "有两种格式 ︰ JSON 和 HTML。"
-
-#: ../workflow.rst:61
-msgid ""
-"The HTML format is used for simple stand-alone applications, where all the resources are "
-"packed into one HTML file that can then be easily deployed to a web page."
-msgstr ""
-"HTML格式用于简单的单机应用中，所有的资源都打包成可以很容易地部署到一个网页的一个HTML文件。"
-
-#: ../workflow.rst:63
-msgid ""
-"The JSON format can be used for creating such projects as well, but it also offers "
-"numerous extra features making it possible to create complex projects that require "
-"programming. Format differences and export options are described in the :ref:`Export "
-"Formats <export_formats>` chapter."
-msgstr ""
-"JSON格式，可用于创建各种项目，但它也提供了许多额外的功能使得它可以创建需要编程的复杂项目。"
-"格式的不同和导出选项在 :ref:`Export Formats <export_formats>` 一章描述。"
-
-#: ../workflow.rst:65
-msgid ""
-"To export the scene, select ``Blend4Web (.json)`` or ``Blend4Web (.html)`` option from "
-"the ``File > Export`` menu, or type ``b4w export`` in the operator search menu (available "
-"by pressing ``Spacebar``)."
-msgstr ""
-"若要导出场景，请从 ``文件 > 导出`` 菜单选择 ``Blend4Web (.json)`` 或 ``Blend4Web (."
-"html)``  ，或者在操作符搜索菜单（按 ``空格键`` 的时候出现）输入``b4w export`` "
-
-#: ../workflow.rst:70
-msgid ""
-"If the scene uses Blender features not yet supported by the Blend4Web engine, errors may "
-"occur during export. Export errors are listed in :ref:`this table <export_errors>`."
-msgstr ""
-"如果场景使用Blender功能尚不由 Blend4Web 引擎支持，可能会在导出过程中发生错误。在导出错误中"
-"列出  :ref:`此表 <export_errors>`."
-
-#: ../workflow.rst:72
-msgid ""
-"Export options are described in detail in the :ref:`corresponding section <export_opts>`."
-msgstr "导出选项中详细描述在 :ref:`相应章节 <export_opts>`."
-
-#: ../workflow.rst:80
 msgid "Displaying Scenes in the Viewer"
 msgstr "在浏览器显示场景"
 
-#: ../workflow.rst:82
+#: ../workflow.rst:54
+#, fuzzy
 msgid ""
-"When using the :ref:`local development server <local_development_server>` it's possible "
-"to preview current scene using ``Fast Preview`` button, located on the ``Scene-"
-">Development Server`` panel in Blender. In this case the scene will be exported inside "
-"some temporary storage and loaded in the Viewer app."
+"When using the :ref:`local development server <local_development_server>`"
+" it's possible to preview current scene using ``Fast Preview`` button "
+"located at the bottom of Blender's 3D View window, and also on the "
+"``Render -> Development Server`` panel in Blender. In this case the scene"
+" will be exported inside some temporary storage and loaded in the Viewer "
+"app."
 msgstr ""
 "当使用 :ref:`本地开发服务器 <local_development_server>` 有可能使用预览当前场景的 ``Fast "
-"Preview`` 按钮，位于Blender的 ``Scene->Development Server`` 面板。在这种情况下，场景将里面"
-"的一些临时存储被导出并在预览查看器应用程序加载。"
+"Preview`` 按钮，位于Blender的 ``Scene->Development Server`` "
+"面板。在这种情况下，场景将里面的一些临时存储被导出并在预览查看器应用程序加载。"
 
-#: ../workflow.rst:88
+#: ../workflow.rst:60
 msgid ""
-"The other method is using :ref:`Run in Viewer <run_in_viewer>` export option. In this "
-"case the scene will be displayed in the Viewer app immediately after the export."
+"The other method is using :ref:`Run in Viewer <run_in_viewer>` export "
+"option. In this case the scene will be displayed in the Viewer app "
+"immediately after the export."
+msgstr "另一种方法是使用 :ref:`运行在预览查看器 <run_in_viewer>` 导出选项。在这种情况下，场景将导出后立即显示在预览查看器应用程序。"
+
+#: ../workflow.rst:70
+msgid "Exporting Scenes"
+msgstr "导出场景"
+
+#: ../workflow.rst:72
+msgid ""
+"The export procedure converts the scene from the Blender format to one of"
+" the formats used by Blend4Web."
+msgstr "导出过程将场景从Blender格式转换为 Blend4Web 所使用的格式之一。"
+
+#: ../workflow.rst:79
+msgid "There are two formats: JSON and HTML."
+msgstr "有两种格式 ︰ JSON 和 HTML。"
+
+#: ../workflow.rst:81
+msgid ""
+"The HTML format is used for simple stand-alone applications, where all "
+"the resources are packed into one HTML file that can then be easily "
+"deployed to a web page."
+msgstr "HTML格式用于简单的单机应用中，所有的资源都打包成可以很容易地部署到一个网页的一个HTML文件。"
+
+#: ../workflow.rst:83
+msgid ""
+"The JSON format can be used for creating such projects as well, but it "
+"also offers numerous extra features making it possible to create complex "
+"projects that require programming. Format differences and export options "
+"are described in the :ref:`Export Formats <export_formats>` chapter."
 msgstr ""
-"另一种方法是使用 :ref:`运行在预览查看器 <run_in_viewer>` 导出选项。在这种情况下，场景将导"
-"出后立即显示在预览查看器应用程序。"
+"JSON格式，可用于创建各种项目，但它也提供了许多额外的功能使得它可以创建需要编程的复杂项目。格式的不同和导出选项在 :ref:`Export "
+"Formats <export_formats>` 一章描述。"
+
+#: ../workflow.rst:85
+msgid ""
+"To export the scene, select ``Blend4Web (.json)`` or ``Blend4Web "
+"(.html)`` option from the ``File > Export`` menu, or type ``b4w export`` "
+"in the operator search menu (available by pressing ``Spacebar``)."
+msgstr ""
+"若要导出场景，请从 ``文件 > 导出`` 菜单选择 ``Blend4Web (.json)`` 或 ``Blend4Web (.html)``"
+"  ，或者在操作符搜索菜单（按 ``空格键`` 的时候出现）输入``b4w export`` "
+
+#: ../workflow.rst:90
+msgid ""
+"If the scene uses Blender features not yet supported by the Blend4Web "
+"engine, errors may occur during export. Export errors are listed in "
+":ref:`this table <export_errors>`."
+msgstr ""
+"如果场景使用Blender功能尚不由 Blend4Web 引擎支持，可能会在导出过程中发生错误。在导出错误中列出  :ref:`此表 "
+"<export_errors>`."
 
 #: ../workflow.rst:92
 msgid ""
-"For the long-term storage of the scene in the scene list of the viewer, it's required to "
-"manually add the entry to the ``apps_dev/viewer/assets.json`` text file. This file is "
-"opened automatically in Blender if you are using Blend4Web SDK."
-msgstr ""
-"如果要长期储存在预览器的场景列表中，它需要手动添加条目到 ``apps_dev/viewer/assets.json`` "
-"文本文件。如果您使用的是Blend4Web SDK这个文件是自动在Blender打开的。"
+"Export options are described in detail in the :ref:`corresponding section"
+" <export_opts>`."
+msgstr "导出选项中详细描述在 :ref:`相应章节 <export_opts>`."
 
-#: ../workflow.rst:97
-msgid "Use the \\\"Text Editor\\\" to modify it:"
-msgstr "使用 \\\"文本编辑器\\\"  来修改它 ︰"
-
-#: ../workflow.rst:104
-msgid "Then select the ``assets.json`` file in the window to edit it:"
-msgstr "然后选择 ``assets.json`` 文件中的窗口进行编辑："
-
-#: ../workflow.rst:111
-msgid ""
-"To add a new scene you need to know the category in which it should be displayed. The "
-"category normally corresponds to the project name and to the name of the directory where "
-"the corresponding files are stored."
-msgstr ""
-"要添加一个新的场景，你需要知道它应该显示的类别。类别通常对应于该项目的名称，并到相应的文件"
-"存储目录的名称。"
-
-#: ../workflow.rst:117
-msgid "Example"
-msgstr "示例"
-
-#: ../workflow.rst:119
-msgid ""
-"For example below you can see a part of ``assets.json``. In this file there are two "
-"projects - \\\"Capri\\\" and \\\"Fridge\\\" each with corresponding scenes::"
-msgstr ""
-"例如下面你可以看到的 ``assets.json`` 的一部分。在此文件中有两个项目- \\\"Capri\\\" 和 \\"
-"\"Fridge\\\"  每个都有相应的场景 ::"
-
-#: ../workflow.rst:149
-msgid ""
-"To add a new scene you can copy and paste a similar scene's description to the required "
-"category and then edit its name and path to the exported file."
-msgstr ""
-"要添加一个新的场景，你可以复制和粘贴类似的场景的描述到所需的类别，然后修改它的名称和路径导"
-"出的文件。"
-
-#: ../workflow.rst:152
-msgid ""
-"A successfully added scene should appear in the scenes' list of the viewer in the "
-"required category"
-msgstr "已成功添加的场景应该出现在场景的列表中的查看器中所需的类别中"
-
-#: ../workflow.rst:160
+#: ../workflow.rst:96
 msgid "Application Development"
 msgstr "应用程序开发"
 
-#: ../workflow.rst:162
+#: ../workflow.rst:98
 msgid ""
-"At this stage an application is created. Logic for scene loading and user interaction is "
-"written using JavaScript. The application developer notes are given in the :ref:"
-"`corresponding section <developers>`."
+"At this stage an application is created. Logic for scene loading and user"
+" interaction is written using JavaScript. The application developer notes"
+" are given in the :ref:`corresponding section <developers>`."
 msgstr ""
-"在此阶段的应用已经被创建。逻辑场景加载和用户交互使用JavaScript编写。应用程序开发人员笔记中"
-"给出了 :ref:`相应章节  <developers>`."
+"在此阶段的应用已经被创建。逻辑场景加载和用户交互使用JavaScript编写。应用程序开发人员笔记中给出了 :ref:`相应章节  "
+"<developers>`."
 
-#: ../workflow.rst:45
-msgid "export"
-msgstr "导出"
-
-#: ../workflow.rst:75
+#: ../workflow.rst:47
 msgid "viewer"
 msgstr "预览"
 
-#: ../workflow.rst:75
+#: ../workflow.rst:47
 msgid "adding scenes"
 msgstr "添加场景"
+
+#: ../workflow.rst:65
+msgid "export"
+msgstr "导出"
+
+#~ msgid ""
+#~ msgstr "已成功添加的场景应该出现在场景的列表中的查看器中所需的类别中"
+
+#~ msgid "Use the \\\"Text Editor\\\" to modify it:"
+#~ msgstr "使用 \\\"文本编辑器\\\"  来修改它 ︰"
+
+#~ msgid "Then select the ``assets.json`` file in the window to edit it:"
+#~ msgstr "然后选择 ``assets.json`` 文件中的窗口进行编辑："
+
+#~ msgid "Example"
+#~ msgstr "示例"
+
+#~ msgid "Creating a New Project"
+#~ msgstr ""
+

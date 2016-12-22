@@ -85,7 +85,7 @@ exports.create_scheduler = function() {
  */
 exports.create_thread = function(stages, path, loaded_callback, 
         stageload_cb, complete_load_cb, wait_complete_loading, 
-        do_not_load_resources, load_hidden) {
+        do_not_load_resources, load_hidden, is_preloading) {
 
     var scheduler = get_scheduler();
 
@@ -115,7 +115,9 @@ exports.create_thread = function(stages, path, loaded_callback,
         stages_queue: null,
         has_video_textures: false,
         has_background_music: false,
-        init_wa_context: false
+        init_wa_context: false,
+
+        is_preloading: is_preloading
     }
 
     var graph = create_loading_graph(thread.is_primary, stages, 

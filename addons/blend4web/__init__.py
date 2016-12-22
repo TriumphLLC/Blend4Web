@@ -17,7 +17,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (16, 11, 0),
+    "version": (16, 12, 0),
     "blender": (2, 78, 0),
     "b4w_format_version": "6.01",
     "location": "File > Import-Export",

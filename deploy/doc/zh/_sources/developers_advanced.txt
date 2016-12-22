@@ -140,7 +140,7 @@ x64，Windows X32 / 64。同时用户可以自行编译插件。
 路径相对于库根：
    * 构建脚本："csrc/b4w_bin/build.py"
 
-   * Blend4Web addon: "addons/blend4web/"
+   * Blend4Web插件： "addons/blend4web/"
 
 该构建过程开始于以下方式：
 
@@ -194,7 +194,8 @@ x64，Windows X32 / 64。同时用户可以自行编译插件。
 |                                 | sphinx-intl）                   |                              |
 +---------------------------------+---------------------------------+------------------------------+
 | TeX Live                        | texlive texlive-latex-extra     | 构建说明书（PDF版）          |
-|                                 | texlive-lang-cyrillic           |                              |
+|                                 | texlive-lang-cyrillic texlive-  |                              |
+|                                 | lang-chinese texlive-xetex      |                              |
 +---------------------------------+---------------------------------+------------------------------+
 | JSDoc 3                         | 使用 NPM 进行安装 (npm install  | 构建API文档                  |
 |                                 | -g jsdoc)                       |                              |
@@ -371,11 +372,11 @@ Blender内置渲染引擎的纹理绘图类型已被其它三个模块所取代�
 
    #export skin
 
-在``＃import``指令定义了一组声明的包含文件之外，但可以从里面被访问的ID
+在 "＃import" 指令定义了一组声明的包含文件之外，但可以从里面被访问的ID
 。这里有一个限制，但：这样的id必然是上述地方，其中包括文件链接的地方声
 明。
 
-在``＃export``指令定义了一组可以从该文件外部访问的ID。这样的id必然在这
+在 "＃export" 指令定义了一组可以从该文件外部访问的ID。这样的id必然在这
 个文件中声明。
 
 因此，它使用的着色器包含文件必须拥有所有必要的连接位置之前，进口的声明

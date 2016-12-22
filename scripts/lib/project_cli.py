@@ -43,7 +43,6 @@ URANIUM_FILE_NAME      = "uranium.js"
 URANIUM_FILE_NAME_BIN  = "uranium.js.mem"
 SMAA_FILE_NAME_AREA    = "smaa_area_texture.png"
 SMAA_FILE_NAME_SEARCH  = "smaa_search_texture.png"
-SMAA_FILE_NAME_SEARCH  = "smaa_search_texture.png"
 ENGINE_ADV_FILE_NAME   = "b4w.min.js"
 ENGINE_WHITE_FILE_NAME = "b4w.whitespace.min.js"
 ENGINE_SIM_FILE_NAME   = "b4w.simple.min.js"
@@ -184,7 +183,7 @@ def run(argv, base_dir):
         if not proj_path:
             help("Project directory not found")
             sys.exit(1)
-        run_compile(args[1:], proj_path)
+        run_build(args[1:], proj_path)
     elif cmd == "convert_resources" or cmd == "convert-resources":
         if not proj_path:
             help("Project directory not found")
@@ -221,6 +220,11 @@ def run(argv, base_dir):
             help("Project directory not found")
             sys.exit(1)
         run_update_mods(proj_path)
+    elif cmd == "update_file_struct" or cmd == "update-file-struct":
+        if not proj_path:
+            help("Project directory not found")
+            sys.exit(1)
+        run_update_file_struct(args[1:], proj_path)
     else:
         help("Wrong project management command: " + cmd)
         sys.exit(1)
@@ -284,6 +288,9 @@ def run_help(cmd=""):
     elif cmd == "update_modules" or cmd == "update-modules":
         help_update_modules()
         sys.exit(0)
+    elif cmd == "update_file_struct" or cmd == "update-file-struct":
+        help_update_file_struct()
+        sys.exit(0)
     elif cmd == "import":
         help_import()
         sys.exit(0)
@@ -330,6 +337,7 @@ Commands:
     deploy              deploy project
     reexport            reexport project blend files to JSON/HTML
     update-modules      update project app modules
+    update-file-struct  update project file structure
 
 Use 'project.py help COMMAND' to read more about the command and it's arguments.
 """
@@ -362,9 +370,8 @@ def run_init(args):
     Create a Blend4Web project directory structure for the given project.
     """
     try:
-        opts, args = getopt.getopt(args, "C:BASPU:T:t:o:b:h:m",
+        opts, args = getopt.getopt(args, "C:ASPU:T:t:o:b:h:m",
                            ["author=",
-                            "bundle",
                             "copy-app-templates",
                             "copy-scene-templates",
                             "copy-project-script",
@@ -381,7 +388,6 @@ def run_init(args):
 
     author = ""
     title = ""
-    bundle = False
     do_copy_app_templates = False
     do_copy_scene_templates = False
     do_copy_project_script = False
@@ -395,8 +401,6 @@ def run_init(args):
     for o, a in opts:
         if o == "--author" or o == "-C":
             author = a
-        elif o == "--bundle" or o == "-B":
-            bundle = True
         elif o == "--copy-app-templates" or o == "-A":
             do_copy_app_templates = True
         elif o == "--copy-scene-templates" or o == "-S":
@@ -431,15 +435,10 @@ def run_init(args):
 
     webplayer_proj = engine_type in ["webplayer_html", "webplayer_json"]
 
-    if bundle:
-        bundled_msg = "bundled up "
-    else:
-        bundled_msg = ""
-
     if engine_type == "webplayer_json":
-        print("Creating a new " + bundled_msg + "webplayer json project")
+        print("Creating a new webplayer json project")
     elif engine_type == "webplayer_html":
-        print("Creating a new " + bundled_msg + "webplayer html project")
+        print("Creating a new webplayer html project")
     print("")
     print("Name:            ", name)
     if title:
@@ -448,18 +447,21 @@ def run_init(args):
         print("Author (Company):", author)
     print("")
 
-    dev_dir = join(_base_dir, "apps_dev", name)
-
-    if bundle:
-        blender_dir = dev_dir
-        build_dir = dev_dir
-        assets_dir = dev_dir
+    if author == "Blend4Web":
+        dev_dir = join(_base_dir, "apps_dev", name)
     else:
+        dev_dir = join(_base_dir, "projects", name)
+
+    if author == "Blend4Web":
         blender_dir = join(_base_dir, "blender", name)
         build_dir = join(_base_dir, "deploy", "apps", name)
         assets_dir = join(_base_dir, "deploy", "assets", name)
+    else:
+        blender_dir = join(dev_dir, "blender")
+        build_dir = join(dev_dir, "build")
+        assets_dir = join(dev_dir, "assets")
 
-    if webplayer_proj:
+    if webplayer_proj and author == "Blend4Web":
         build_dir = dev_dir
 
     dev_dir_rel = unix_path(relpath(dev_dir, _base_dir))
@@ -471,26 +473,25 @@ def run_init(args):
         print("Directory for source files already exists")
     else:
         print("Creating directory for source files:", dev_dir_rel)
-        os.mkdir(dev_dir)
+        os.makedirs(dev_dir, exist_ok=True)
 
-    if not bundle:
-        if exists(build_dir):
-            print("Directory for compiled files already exists")
-        else:
-            print("Creating directory for compiled files:", build_dir_rel)
-            os.mkdir(build_dir)
+    if exists(build_dir):
+        print("Directory for compiled files already exists")
+    else:
+        print("Creating directory for compiled files:", build_dir_rel)
+        os.mkdir(build_dir)
 
-        if exists(blender_dir):
-            print("Directory for blend files already exists")
-        else:
-            print("Creating directory for blend files:", blender_dir_rel)
-            os.mkdir(blender_dir)
+    if exists(blender_dir):
+        print("Directory for blend files already exists")
+    else:
+        print("Creating directory for blend files:", blender_dir_rel)
+        os.mkdir(blender_dir)
 
-        if exists(assets_dir):
-            print("Directory for exported scenes already exists")
-        else:
-            print("Creating directory for exported scenes:", assets_dir_rel)
-            os.mkdir(assets_dir)
+    if exists(assets_dir):
+        print("Directory for exported scenes already exists")
+    else:
+        print("Creating directory for exported scenes:", assets_dir_rel)
+        os.mkdir(assets_dir)
 
     b4w_proj_file = join(dev_dir, ".b4w_project")
 
@@ -502,6 +503,7 @@ def run_init(args):
             unix_path(relpath(b4w_proj_file, _base_dir)))
 
     b4w_proj_cfg = configparser.ConfigParser()
+
 
     b4w_proj_cfg["info"] = OrderedDict([
         ("author", author),
@@ -548,7 +550,7 @@ def run_init(args):
         copy_project_script(_base_dir, dev_dir)
 
     if do_copy_app_templates and not webplayer_proj and engine_type != "none":
-        copy_app_templates(name, dev_dir, _base_dir, _src_dir, bundle, title)
+        copy_app_templates(name, dev_dir, _base_dir, _src_dir, title, author)
 
     if do_copy_scene_templates:
         copy_scene_templates(name, _base_dir, blender_dir, assets_dir,
@@ -558,45 +560,41 @@ def run_init(args):
         print("Copying material library")
         mat_dir = join(_base_dir, "blender", MAT_DIR_NAME)
         mat_lib_dir = join(blender_dir, MAT_DIR_NAME)
+
         shutil.copytree(mat_dir, mat_lib_dir,
                 ignore=shutil.ignore_patterns("*.blend1", "promo",
                 "material_library.blend", "free_material_library.blend"))
+
         mat_assets = join(_base_dir, "deploy", "assets", MAT_DIR_NAME)
-        if bundle:
-            os.mkdir(join(mat_lib_dir, "textures"))
-            copy_bundled_imgs(mat_assets, join(mat_lib_dir, "textures"))
-            is_bundle = "bundle"
-        else:
-            shutil.copytree(mat_assets, join(assets_dir, MAT_DIR_NAME),
-                    ignore=shutil.ignore_patterns("*.json", "*.bin"))
-            is_bundle = "not_bundle"
+
+        shutil.copytree(mat_assets, join(assets_dir, MAT_DIR_NAME),
+                ignore=shutil.ignore_patterns("*.json", "*.bin"))
+
         print("Changing texture paths in the material library (may take a while)")
         print_flush()
         script_path = join(_base_dir, "scripts", "blender",
-                "cli_change_texture_paths.py")
+                "cli_change_asset_paths.py")
+
         correct_texture_paths(script_path, blender_exec,
-                join(blender_dir, MAT_DIR_NAME), is_bundle)
+                join(blender_dir, MAT_DIR_NAME),
+                mat_assets, join(assets_dir, MAT_DIR_NAME),
+                mat_dir, mat_lib_dir)
 
     print(GREEN + "Project created" + ENDCOL)
 
-def correct_texture_paths(script, blender_exec, mat_dir, bundle):
+def correct_texture_paths(script, blender_exec, mat_dir,
+        source_asset, target_asset, source_blend, target_blend):
     for list_elem in os.listdir(mat_dir):
         abs_path = join(mat_dir, list_elem)
         if os.path.isdir(abs_path):
-            correct_texture_paths(script, blender_exec, abs_path, bundle)
+            correct_texture_paths(script, blender_exec, abs_path,
+                    source_asset, target_asset, source_blend, target_blend)
         elif splitext(abs_path)[-1] == ".blend":
             print("  " + abs_path)
             print_flush()
             subprocess.check_output([blender_exec, "-b", abs_path, "-P",
-                    script, "-o", bundle])
-
-def copy_bundled_imgs(mat_dir, assets_dir):
-    for list_elem in os.listdir(mat_dir):
-        abs_path = join(mat_dir, list_elem)
-        if os.path.isdir(abs_path):
-            copy_bundled_imgs(abs_path, assets_dir)
-        elif (splitext(abs_path)[-1] != ".json" and splitext(abs_path)[-1] != ".bin"):
-            shutil.copy(abs_path, join(assets_dir, list_elem))
+                    script, "--", source_asset, target_asset,
+                    source_blend, target_blend])
 
 def sdk_rel_to_abs(rel_path, base_dir=None):
     """Get absoulte path from the relative to base dir (SDK root)"""
@@ -624,11 +622,11 @@ Create a new project.
         
 Options:
     -C, --author=NAME            author/company name
-    -B, --bundle                 create bundle project: all project files will
-                                 be placed into a single directory
     -A, --copy-app-templates     copy application templates into the project
                                  directories
     -S, --copy-scene-templates   copy scene templates into project directories
+    -m, --materials              copy material library into project directories
+    -U, --url-params             specify url GET params
     -T, --title=NAME             project title (human readable name)
     -t, --engine-type=TYPE       specify b4w engine type: 'external',
                                  'copy', compile'
@@ -637,13 +635,14 @@ Options:
                                  'whitespace', 'simple' or 'advanced'
     -h, --help                   show this help and exit""")
 
-def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, bundle, title):
+def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, title, author):
 
     print("Copying application template files into destination directories:")
 
     # Checks
 
     out_html_file = join(dev_dir, proj_name + ".html")
+
     if exists(out_html_file):
         print("  file " + unix_path(relpath(out_html_file, base_dir)) +
                 " already exists")
@@ -652,6 +651,7 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, bundle, title):
         print("  " + unix_path(relpath(out_html_file, base_dir)))
 
     out_js_file = join(dev_dir, proj_name + ".js")
+
     if exists(out_js_file):
         print("  file " + unix_path(relpath(out_js_file, base_dir)) +
                 " already exists")
@@ -667,20 +667,21 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, bundle, title):
     else:
         print("  " + unix_path(relpath(out_css_file, base_dir)))
 
-
     tpl_dir = join(base_dir, "scripts", "templates")
 
     # JS
 
-    if bundle:
-        tpl_js_file = join(tpl_dir, "app_bundle.js")
-    else:
-        tpl_js_file = join(tpl_dir, "app.js")
+    tpl_js_file = join(tpl_dir, "app.js")
     tpl_js_file_obj = open(tpl_js_file, "r", encoding="utf-8")
     tpl_js_str = tpl_js_file_obj.read()
     tpl_js_file_obj.close()
 
-    html_insertions = dict(name=proj_name)
+    if author == "Blend4Web":
+        assets_path = "m_cfg.get_std_assets_path() + \"" + proj_name + "/\""
+    else:
+        assets_path = "m_cfg.get_assets_path(\"" + proj_name + "\")"
+
+    html_insertions = dict(app_name=proj_name, assets_path=assets_path)
 
     out_js_str = string.Template(tpl_js_str).substitute(html_insertions)
 
@@ -698,18 +699,15 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, bundle, title):
     tpl_html_str = tpl_html_file.read()
     tpl_html_file.close()
 
-    if bundle:
-        scripts = "<script type=\"text/javascript\" src=\"b4w.min.js\"></script>"
-    else:
-        import mod_list
-        scripts = mod_list.gen_code(mod_list.gen_module_list("../../src/", src_dir))
+    import mod_list
+    scripts = mod_list.gen_code(mod_list.gen_module_list("../../src/", src_dir))
 
     if title == "":
         html_title = proj_name
     else:
         html_title = title
 
-    html_insertions = dict(name=proj_name, title=html_title, scripts=scripts)
+    html_insertions = dict(name=proj_name, arg_name=proj_name, title=html_title, scripts=scripts)
 
     out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
 
@@ -818,13 +816,14 @@ Display a list with all available applications.
 Option:
     -h, --help     show this help and exit""")
 
-def run_compile(args, dev_proj_path):
+def run_build(args, dev_proj_path):
     proj_cfg = get_proj_cfg(dev_proj_path)
     default_build_dir = normpath(join(_base_dir, "deploy", "apps", basename(dev_proj_path)))
     conf_build_dir = proj_cfg_value(proj_cfg, "paths", "build_dir", default_build_dir)
     build_proj_path = sdk_rel_to_abs(conf_build_dir)
 
     conf_proj_name = proj_cfg_value(proj_cfg, "info", "name", "")
+    author = proj_cfg_value(proj_cfg, "author", "name", "")
 
     if not conf_proj_name:
         help_compile("Required project name")
@@ -935,7 +934,7 @@ def run_compile(args, dev_proj_path):
     if not len(apps):
         apps = list(Path(dev_proj_path).rglob("*.html"))
     else:
-        apps = [Path(app) for app in apps]
+        apps = [Path(join(dev_proj_path, app)) for app in apps]
 
     check_proj_struct(dev_proj_path, apps)
 
@@ -945,14 +944,26 @@ def run_compile(args, dev_proj_path):
     if len(css_ignore_tmp):
         css_ignore = css_ignore_tmp
 
-    for i in ignore:
-        apps = list(filter(lambda app: not app.as_posix().startswith(normpath(join(dev_proj_path, i))), apps))
+    app_ignore = ignore[:]
+
+    if not author == "Blend4Web":
+        app_ignore.append("blender")
+        app_ignore.append("assets")
+        app_ignore.append("build")
+
+    for i in app_ignore:
+        apps = list(filter(lambda app: not normpath(app.as_posix()).startswith(normpath(join(dev_proj_path, i))), apps))
 
     global _js_cc_params
     _js_cc_params.append("--compilation_level=" + opt_level)
+
+    conf_assets_dirs = proj_cfg_value(proj_cfg, "paths", "assets_dirs", [])
+
     params = {
         "build_proj_path":   build_proj_path,
         "css_ignore":        css_ignore,
+        "conf_assets_dirs":  conf_assets_dirs,
+        "author":            author,
         "dev_proj_path":     dev_proj_path,
         "engine_type":       engine_type,
         "ignore":            ignore,
@@ -971,7 +982,7 @@ def run_compile(args, dev_proj_path):
         if n > 0:
             params["remove_exist_dir"] = False
 
-        compile_app(app, **params)
+        build_app(app, **params)
 
     for f in _temporary_files:
         if exists(f):
@@ -1039,7 +1050,7 @@ def check_proj_struct(dev_proj_path, apps):
             help_compile("Main HTML file must be in the root directory")
             sys.exit(1)
 
-def compile_app(app, **kwargs):
+def build_app(app, **kwargs):
     dev_proj_path     = kwargs["dev_proj_path"]
     build_proj_path   = kwargs["build_proj_path"]
     engine_type       = kwargs["engine_type"]
@@ -1047,15 +1058,21 @@ def compile_app(app, **kwargs):
     use_physics       = kwargs["use_physics"]
     use_smaa_textures = kwargs["use_smaa_textures"]
 
+    copy_ignore = kwargs["ignore"][:]
+
+    if not kwargs["author"] == "Blend4Web":
+        copy_ignore.append("blender")
+        copy_ignore.append("assets")
+
     if kwargs["remove_exist_dir"]:
         if exists(build_proj_path):
             shutil.rmtree(build_proj_path)
         shutil.copytree(dev_proj_path, build_proj_path,
-                ignore=shutil.ignore_patterns(*kwargs["ignore"]))
+                ignore=shutil.ignore_patterns(*copy_ignore))
 
     build_proj_path_obj = Path(build_proj_path)
 
-    html_file  = join(build_proj_path, app.name)
+    html_file  = join(build_proj_path, relpath(app.as_posix(), dev_proj_path))
     css_ignore = []
     js_ignore  = []
 
@@ -1076,23 +1093,29 @@ def compile_app(app, **kwargs):
     for css in filter(lambda x: not "no_compile" in x, parser.css):
         css_dir = normpath(dirname(css["href"]))
 
-        if not css_dir in css_pos or css_pos[css_dir] > css["start_pos"][0]:
-            css_pos[css_dir] = css["start_pos"][0]
+        if not css_dir in css_pos or css_pos[css_dir][0] > css["start_pos"][0]:
+            css_pos[css_dir] = [css["start_pos"][0], css["start_pos"][1]]
 
-    cur_mods_dict = list(filter(lambda x: dirname(normpath(join(dev_proj_path, x["src"]))).startswith(_src_dir), parser.js))
+    cur_mods_dict = list(filter(lambda x: dirname(normpath(join(str(app.parent), x["src"]))).startswith(_src_dir), parser.js))
 
-    engine_pos = cur_mods_dict[0]["start_pos"][0]
+    try:
+        engine_pos = [cur_mods_dict[0]["start_pos"][0], cur_mods_dict[0]["start_pos"][1]]
+    except:
+        engine_pos = None
 
-    cur_js_dict = list(filter(lambda x: not dirname(normpath(join(dev_proj_path, x["src"]))).startswith(_src_dir), parser.js))
+    if engine_pos is None:
+        return
+
+    cur_js_dict = list(filter(lambda x: not dirname(normpath(join(str(app.parent), x["src"]))).startswith(_src_dir), parser.js))
 
     for js in filter(lambda x: not "no_compile" in x, cur_js_dict):
         js_dir = normpath(dirname(js["src"]))
 
-        if not js_dir in js_pos or js_pos[js_dir] > js["start_pos"][0]:
-            js_pos[js_dir] = js["start_pos"][0]
+        if not js_dir in js_pos or js_pos[js_dir][0] > js["start_pos"][0]:
+            js_pos[js_dir] = [js["start_pos"][0], js["start_pos"][1]]
 
-    remove_mods_from_html(html_file, parser.js)
-    remove_mods_from_html(html_file, parser.css, True)
+    remove_mods_from_html(html_file, parser.js, "</script>")
+    remove_mods_from_html(html_file, parser.css)
 
     css_files = list(build_proj_path_obj.rglob('*.css'))
     css_paths = exist_css(parser.css, css_files, build_proj_path)
@@ -1109,6 +1132,7 @@ def compile_app(app, **kwargs):
     params = {
         "app":               app,
         "build_proj_path":   build_proj_path,
+        "conf_assets_dirs":  kwargs["conf_assets_dirs"],
         "css_paths":         css_paths,
         "engine_type":       engine_type,
         "js_paths":          js_paths,
@@ -1123,7 +1147,7 @@ def compile_app(app, **kwargs):
         "version":           kwargs["version"]
     }
 
-    compile_html(**params)
+    build_html(**params)
 
     delete_after_files = kwargs["ignore"]
 
@@ -1159,7 +1183,7 @@ def parse_body(start_body, end_body, src_lines):
 
     return new_body_lines
 
-def compile_html(**kwargs):
+def build_html(**kwargs):
     parser   = kwargs["parser"]
 
     app                = kwargs["app"]
@@ -1204,9 +1228,13 @@ def compile_html(**kwargs):
             new_engine_path = normpath(join(build_proj_path, engine_file_name))
             shutil.copyfile(engine_path, new_engine_path)
 
+        rel_assets_root = "."
+
+        if len(kwargs["conf_assets_dirs"]):
+            rel_assets_root = kwargs["conf_assets_dirs"][0]
+
         if engine_type in ["COMPILE", "COPY"]:
-            assets_rel_path = relpath(join(_base_dir, "deploy", "assets"), build_proj_path)
-            change_assets_path(build_proj_path, assets_rel_path)
+            change_build_assets_prefix(build_proj_path, rel_assets_root)
     else:
         engine_src = join(relpath(_engine_dir, build_proj_path), engine_file_name)
 
@@ -1215,26 +1243,26 @@ def compile_html(**kwargs):
     for parent in css_paths:
         rel = relpath(parent, start=build_proj_path)
 
-        css_strs[str(css_pos[rel])] = \
-            "<link type='text/css' rel='stylesheet' href='" + \
+        css_strs[str(css_pos[rel][0])] = \
+            ['<link type="text/css" rel="stylesheet" href="' + \
             unix_path(normpath(join(rel, app.stem))) + \
-            ".min.css" + suffix + "'/>"
+            '.min.css' + suffix + '">', css_pos[rel][1]]
 
     engine_str = ""
 
     if engine_src:
         engine_str =\
-            "<script type='text/javascript' src='" +\
-            unix_path(engine_src) + suffix + "'></script>"
+            '<script type="text/javascript" src="' +\
+            unix_path(engine_src) + suffix + '"></script>'
 
     js_strs = {}
 
     for parent in js_paths:
         rel = relpath(parent, start=build_proj_path)
 
-        js_strs[str(js_pos[rel])] = \
-            "<script type='text/javascript' src='" +\
-            unix_path(normpath(join(rel, app.stem))) + ".min.js" + suffix + "'></script>"
+        js_strs[str(js_pos[rel][0])] = \
+            ['<script type="text/javascript" src="' +\
+            unix_path(normpath(join(rel, app.stem))) + '.min.js' + suffix + '"></script>', js_pos[rel][1]]
 
     html_file = open(out_html_file_path, encoding="utf-8")
     src_text = html_file.readlines()
@@ -1242,18 +1270,27 @@ def compile_html(**kwargs):
     html_file.close()
     tmp = []
 
-    for i, line in enumerate(src_text, start=2):
-        tmp.append(line)
-
-        if i == engine_pos:
-            tmp.extend(engine_str)
-        elif str(i) in css_strs:
-            tmp.extend(css_strs[str(i)])
-        elif str(i) in js_strs:
-            tmp.extend(js_strs[str(i)])
+    if not engine_pos is None:
+        for i, line in enumerate(src_text, start=1):
+            if i == engine_pos[0]:
+                tmp.append(line[0:engine_pos[1]] + engine_str + line[engine_pos[1]:])
+            elif str(i) in css_strs:
+                tmp.append(line[0:css_strs[str(i)][1]] + css_strs[str(i)][0] + line[css_strs[str(i)][1]:])
+            elif str(i) in js_strs:
+                tmp.append(line[0:js_strs[str(i)][1]] + js_strs[str(i)][0] + line[js_strs[str(i)][1]:])
+            else:
+                tmp.append(line)
 
     html_file = open(out_html_file_path, 'w', encoding="utf-8", newline="\n")
     html_file.writelines(tmp)
+    html_file.close()
+
+    html_file = open(out_html_file_path, 'r', encoding="utf-8", newline="\n")
+    html_text = html_file.read()
+    html_file.close()
+
+    html_file = open(out_html_file_path, 'w', encoding="utf-8", newline="\n")
+    html_file.write(re.sub(r'>\s+<', '><', html_text))
     html_file.close()
 
 def copy_smaa_to_proj_path(proj_path):
@@ -1264,11 +1301,26 @@ def copy_phys_to_proj_path(proj_path):
     shutil.copy(join(_engine_dir, URANIUM_FILE_NAME), proj_path)
     shutil.copy(join(_engine_dir, URANIUM_FILE_NAME_BIN), proj_path)
 
-def change_assets_path(new_engine_path, assets_path_prefix):
-    """
-    Modifies path for assets in standalone application.
-    """
-    # export_proj_path
+def change_build_assets_prefix(build_proj_path, rel_assets_root):
+    proj_path_obj = Path(normpath(build_proj_path))
+    js_files = list(proj_path_obj.rglob('*.js'))
+
+    for js_file in js_files:
+        engine_file = open(str(js_file), "r", encoding="utf-8")
+        file_data = engine_file.read()
+        engine_file.close()
+
+        prefix = unix_path(join(relpath(_base_dir, js_file.parent.as_posix()), "deploy", "assets"))
+        proj_prefix = unix_path(relpath(rel_assets_root, js_file.parent.as_posix()))
+
+        file_data = re.sub("(\"|\')(B4W_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')", r"\1\2" + prefix + r"\/\4", file_data)
+        file_data = re.sub("(\"|\')(B4W_PROJ_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')", r"\1\2" + proj_prefix + r"\/\4", file_data)
+
+        engine_file = open(str(js_file), "w", encoding="utf-8")
+        engine_file.write(file_data)
+        engine_file.close()
+
+def change_deploy_assets_prefix(new_engine_path, assets_path_prefix):
     proj_path_obj = Path(normpath(new_engine_path))
     js_files = list(proj_path_obj.rglob('*.js'))
 
@@ -1280,13 +1332,17 @@ def change_assets_path(new_engine_path, assets_path_prefix):
         if not re.match("^(((.*?)\/\/)|(\/))", assets_path_prefix):
             assets_path_prefix = unix_path(assets_path_prefix)
 
-        new_data = re.sub("(\"|\')(B4W_ASSETS_PATH=)(?!\'|\")(.*?)(\"|\')", "\\1\\2" + assets_path_prefix + "/\\4", file_data)
+        if assets_path_prefix and assets_path_prefix[-1] != "/":
+            assets_path_prefix += "/"
+
+        file_data = re.sub("(\"|\')(B4W_ASSETS_PATH=)(?!\'|\")(.*?)(\"|\')", r"\1\2" + assets_path_prefix + r"\4", file_data)
+        file_data = re.sub("(\"|\')(B4W_PROJ_ASSETS_PATH=)(?!\'|\")(.*?)(\"|\')", r"\1\2" +  assets_path_prefix + r"\4", file_data)
 
         engine_file = open(str(js_file), "w", encoding="utf-8")
-        engine_file.write(new_data)
+        engine_file.write(file_data)
         engine_file.close()
 
-def change_b4w_path(new_app_dir):
+def change_b4w_path(new_app_dir, external=False):
     """
     Modifies path to engine in the standalone application.
     """
@@ -1294,14 +1350,19 @@ def change_b4w_path(new_app_dir):
     html_paths = list(new_app_dir_obj.rglob('*.html'))
 
     for html_path in html_paths:
+        if os.path.samefile(new_app_dir, html_path.parent.as_posix()) and not external:
+            continue
+
         html_file = open(str(html_path), "r", encoding="utf-8")
         file_data = html_file.read()
         html_file.close()
 
-        new_path = unix_path(relpath(join(new_app_dir, "common"),
-                dirname(str(html_path))))
+        new_path = unix_path(relpath(new_app_dir, html_path.parent.as_posix()))
 
-        new_data = re.sub("(src\s*=')([\w/.]*)(b4w.[\w.]*min.js)", "\\1" +
+        if external:
+            new_path = normpath(join(new_path, "common"))
+
+        new_data = re.sub("(src\s*=[\"|\'])([\w/.]*)(b4w.[\w.]*min.js)", "\\1" +
                 new_path + "/\\3", file_data)
 
         html_file = open(str(html_path), "w", encoding="utf-8")
@@ -1758,7 +1819,7 @@ def run_deploy(args, proj_path):
     Deploy project into the external directory with all required files.
     """
     proj_cfg    = get_proj_cfg(proj_path)
-    
+
     proj_name = proj_cfg_value(proj_cfg, "info", "name", basename(proj_path))
     engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type")
 
@@ -1779,6 +1840,7 @@ def run_deploy(args, proj_path):
     deploy_abs_path = None
 
     deploy_rel_path = proj_cfg_value(proj_cfg, "paths", "deploy_dir")
+    author = proj_cfg_value(proj_cfg, "info", "author", "")
 
     if deploy_rel_path:
         deploy_abs_path = normpath(join(_base_dir, deploy_rel_path))
@@ -1849,26 +1911,32 @@ def run_deploy(args, proj_path):
 
     shutil.copytree(build_proj_path, deploy_abs_path,
             ignore=shutil.ignore_patterns(*ignore))
+
     for assets_dir in assets_dirs:
         if exists(assets_dir) and assets_dir != build_proj_path:
-            shutil.copytree(assets_dir, join(deploy_abs_path, assets_path_dest,
-                    relpath(assets_dir, join(_base_dir, "deploy", "assets"))))
+            if relpath(assets_dir, _base_dir).startswith("projects"):
+                shutil.copytree(assets_dir, join(deploy_abs_path, assets_path_dest))
+            else:
+                shutil.copytree(assets_dir, join(deploy_abs_path, assets_path_dest,
+                                                 relpath(assets_dir,
+                                                         join(_base_dir, "deploy", "assets"))))
         else:
             assets_path_prefix = ""
 
-    if engine_type == "external":
-        common_path = normpath(join(_base_dir, "deploy", "apps", "common"))
-        # TODO: copy files according to project configuration
-        shutil.copytree(common_path, join(deploy_abs_path, "common"))
-        change_b4w_path(deploy_abs_path)
-        assets_path_prefix = join("..", assets_path_prefix)
+    if engine_type == "external" or (author != "Blend4Web" and engine_type in ["copy", "compile"]):
+        if engine_type == "external":
+            common_path = normpath(join(_base_dir, "deploy", "apps", "common"))
+            # TODO: copy files according to project configuration
+            shutil.copytree(common_path, join(deploy_abs_path, "common"))
+
+        change_b4w_path(deploy_abs_path, engine_type=="external")
     elif engine_type == "webplayer_json":
         webplayer_path = normpath(join(_base_dir, "deploy", "apps", "webplayer"))
 
         for f in glob.glob(join(webplayer_path, '*.*')):
             shutil.copy(f, deploy_abs_path)
 
-    change_assets_path(deploy_abs_path, assets_path_prefix)
+    change_deploy_assets_prefix(deploy_abs_path, assets_path_prefix)
 
     if archive:
         print("Compressing deployed project")
@@ -2037,7 +2105,7 @@ def run_import(args):
     print(GREEN + "Project imported" + ENDCOL)
 
 def check_sdk_base_dir(path):
-    """Check SDK or Project Bundle directory"""
+    """Check SDK directory"""
 
     params = get_sdk_ver_params(path)
 
@@ -2237,21 +2305,24 @@ def run_check_mods(proj_path):
     proj_cfg = get_proj_cfg(proj_path)
     apps = proj_cfg_value(proj_cfg, "compile", "apps", [])
     ignore = proj_cfg_value(proj_cfg, "compile", "ignore", [])
+    author = proj_cfg_value(proj_cfg, "info", "author", "")
 
     if not len(apps):
         apps = list(Path(proj_path).rglob("*.html"))
     else:
-        apps = [Path(app) for app in apps]
+        apps = [Path(join(proj_path, app)) for app in apps]
 
     ignore = [normpath(join(proj_path, i)) for i in ignore]
 
-    apps = list(filter(lambda app: not app.as_posix() in ignore, apps))
+    if author != "Blend4Web":
+        apps = list(filter(lambda app: not app.as_posix() in ignore, apps))
+        apps = list(filter(lambda app: app.parts[-2] != "build", apps))
+        apps = list(filter(lambda app: app.parts[-2] != "assets", apps))
+        apps = list(filter(lambda app: app.parts[-2] != "blender", apps))
 
     check_proj_struct(proj_path, apps)
 
     from mod_list import gen_module_list
-
-    src_modules = gen_module_list(_src_dir, _src_dir)
 
     engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "external")
 
@@ -2260,21 +2331,19 @@ def run_check_mods(proj_path):
         sys.exit(1)
 
     for app in apps:
+        src_modules = gen_module_list(_src_dir, _src_dir)
         used = []
         unused = []
         parser = HTMLProcessor()
-        src_file = open(normpath(join(proj_path, app.as_posix())), encoding="utf-8")
+        src_file = open(normpath(app.as_posix()), encoding="utf-8")
         src_text = src_file.read()
         src_file.seek(0)
         src_file.close()
         parser.feed(src_text)
-        mods = list(filter(lambda x: normpath(join(proj_path,x["src"])).startswith(_src_dir), parser.js))
 
-        used.extend(list(set(src_modules) -
-                         set([normpath(join(proj_path, x["src"])) for x in mods])))
-
-        unused.extend(list(set([normpath(join(proj_path, x["src"])) for x in mods]) -
-                           set(src_modules)))
+        mods = list(filter(lambda x: normpath(join(str(app.parent), x["src"])).startswith(_src_dir), parser.js))
+        used.extend(list(set(src_modules) - set([normpath(join(str(app.parent), x["src"])) for x in mods])))
+        unused.extend(list(set([normpath(join(str(app.parent), x["src"])) for x in mods]) - set(src_modules)))
 
         is_ok = True
 
@@ -2299,22 +2368,23 @@ def run_update_mods(proj_path):
     proj_cfg = get_proj_cfg(proj_path)
     apps = proj_cfg_value(proj_cfg, "compile", "apps", [])
     ignore = proj_cfg_value(proj_cfg, "compile", "ignore", [])
+    author = proj_cfg_value(proj_cfg, "info", "author", "")
 
     if not len(apps):
         apps = list(Path(proj_path).rglob("*.html"))
     else:
-        apps = [Path(app) for app in apps]
+        apps = [Path(join(proj_path, app)) for app in apps]
 
     ignore = [normpath(join(proj_path, i)) for i in ignore]
 
     apps = list(filter(lambda app: not app.as_posix() in ignore, apps))
 
-    check_proj_struct(proj_path, apps)
+    if author != "Blend4Web":
+        apps = list(filter(lambda app: str(app.relative_to(proj_path).parts[0]) != "build", apps))
+        apps = list(filter(lambda app: str(app.relative_to(proj_path).parts[0]) != "assets", apps))
+        apps = list(filter(lambda app: str(app.relative_to(proj_path).parts[0]) != "blender", apps))
 
     from mod_list import gen_module_list
-
-    src_modules = gen_module_list(relpath(_src_dir, proj_path), _src_dir)
-    src_modules_obj = [Path(normpath(module)) for module in src_modules]
 
     engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "external")
 
@@ -2324,6 +2394,8 @@ def run_update_mods(proj_path):
         sys.exit(1)
 
     for app in apps:
+        src_modules = gen_module_list(relpath(_src_dir, str(app.parent)), _src_dir)
+
         # current html file js with meta info (like start_pos, end_pos)
         cur_js_dict = get_cur_js_dict(normpath(join(proj_path, app.as_posix())))
 
@@ -2331,13 +2403,13 @@ def run_update_mods(proj_path):
         cur_mods_dict = list(filter(lambda x: dirname(normpath(join(proj_path, x["src"]))).startswith(_src_dir), cur_js_dict))
 
         # remove all src modules from html file
-        remove_mods_from_html(normpath(join(proj_path, app.as_posix())), cur_mods_dict)
+        remove_mods_from_html(normpath(app.as_posix()), cur_mods_dict, "</script>")
 
         # get first line for srs sripts
-        first_line = get_first_js_line(cur_mods_dict, normpath(join(proj_path, app.as_posix())))
+        first_line = get_first_js_line(cur_mods_dict, normpath(app.as_posix()))
 
         # insert right src modules
-        insert_src_modules(normpath(join(proj_path, app.as_posix())), src_modules, first_line)
+        insert_src_modules(normpath(app.as_posix()), src_modules, first_line)
 
     print(GREEN, "Update complete.")
 
@@ -2351,11 +2423,11 @@ def get_cur_js_dict(html_file_obj):
 
     return parser.js
 
-def remove_mods_from_html(html_file_obj, cur_mods_dict, css=False):
-    indent = 9
+def remove_mods_from_html(html_file_obj, cur_mods_dict, end_tag=False):
+    indent = 0
 
-    if css:
-        indent = 0
+    if end_tag:
+        indent = len(end_tag)
 
     html_file = open(html_file_obj, encoding="utf-8")
     src_text = html_file.readlines()
@@ -2397,12 +2469,12 @@ def get_start_head_line(html_file_obj):
     parser.feed(src_text)
 
     try:
-        parser.head[0]["end_pos"][0]
+        parser.head[0]["start_pos"][0]
     except:
         help_export("HTML valid error. HTML must contain head tag.")
         sys.exit(1)
 
-    return parser.head[0]["end_pos"][0]
+    return parser.head[0]["start_pos"][0]
 
 def insert_src_modules(html_file_obj, src_modules, first_line):
     html_file = open(html_file_obj, encoding="utf-8")
@@ -2421,6 +2493,102 @@ def insert_src_modules(html_file_obj, src_modules, first_line):
     html_file = open(html_file_obj, 'w', encoding="utf-8", newline="\n")
     html_file.writelines(tmp)
     html_file.close()
+
+def run_update_file_struct(args, proj_path):
+    """Update project structure."""
+
+    try:
+        opts, args = getopt.getopt(args, "hb:",
+                ["help", "blender-exec=", "blender_exec="])
+    except getopt.GetoptError as err:
+        help_reexport("Incorrect command line arguments")
+        sys.exit(1)
+
+    proj_cfg = get_proj_cfg(proj_path)
+
+    blender_exec = proj_cfg_value(proj_cfg, "paths", "blender_exec", "blender")
+
+    for o, a in opts:
+        if o == "--help" or o == "-h":
+            help_update_file_struct()
+            sys.exit(0)
+        elif o == "--blender-exec" or o == "--blender_exec" or o == "-b":
+            blender_exec = a
+
+    new_proj_path = join(_base_dir, "projects", os.path.basename(proj_path))
+
+    if exists(new_proj_path):
+        print(RED, "Target directory exists.", ENDCOL, file=sys.stderr)
+        sys.exit(1)
+
+    print("Updating project file structure")
+    print("Old project directory:", proj_path)
+    print("New project directory:", new_proj_path)
+
+    new_assets_path = join(new_proj_path, "assets")
+    new_blender_path = join(new_proj_path, "blender")
+
+    print("Copy project directory")
+    shutil.copytree(proj_path, new_proj_path)
+
+    proj_cfg = get_proj_cfg(new_proj_path)
+
+    old_assets_paths = proj_cfg_value(proj_cfg, "paths", "assets_dirs", [])
+    old_blender_paths = proj_cfg_value(proj_cfg, "paths", "blend_dirs", [])
+
+    print("Copy assets directory")
+    for old_assets_path in old_assets_paths:
+        old_assets_abs_path = join(_base_dir, old_assets_path)
+        shutil.copytree(old_assets_abs_path, new_assets_path)
+
+    print("Copy blender directory")
+    for old_blender_path in old_blender_paths:
+        old_blender_abs_path = join(_base_dir, old_blender_path)
+        shutil.copytree(old_blender_abs_path, new_blender_path)
+
+    os.makedirs(new_assets_path, exist_ok=True)
+    os.makedirs(new_blender_path, exist_ok=True)
+
+    b4w_proj_file = join(new_proj_path, ".b4w_project")
+
+    proj_cfg["paths"]["assets_dirs"] = os.path.relpath(new_assets_path,
+            _base_dir) + ";"
+    proj_cfg["paths"]["blend_dirs"] = os.path.relpath(new_blender_path,
+            _base_dir) + ";"
+    proj_cfg["paths"]["build_dir"] = os.path.relpath(join(new_proj_path,
+        "build"), _base_dir)
+
+    with open(b4w_proj_file, "w", encoding="utf-8", newline="\n") as configfile:
+        proj_cfg.write(configfile)
+
+    script_path = join(_base_dir, "scripts", "blender", "cli_change_asset_paths.py")
+
+    if len(old_assets_paths) and len(old_blender_paths):
+        print("Changing assets paths (may take a while):")
+        correct_texture_paths(script_path, blender_exec, new_blender_path,
+                              old_assets_paths[0], new_assets_path,
+                              old_blender_paths[0], new_blender_path)
+
+    print(YELLOW + "Please note that m_config.get_std_assets_path() no longer specifies project" + ENDCOL)
+    print(YELLOW + "assets directory within the new file structure." + ENDCOL)
+    print(YELLOW + "Replace it by m_config.get_assets_path(\"PROJECT_NAME\") method." + ENDCOL)
+    print(YELLOW + "Refer to User Manual for more info." + ENDCOL)
+    print()
+
+    print(GREEN + "Update complete" + ENDCOL)
+
+def help_update_file_struct(err=""):
+    if err:
+        help_print_err(err, "update-file-struct")
+    else:
+        print("""\
+Usage: project.py PROJECT... DIRECTORY update-file-struct
+Update project file structure.
+
+Options:
+    -b, --blender-exec   path to blender executable
+    -h, --help   show this help and exit""")
+
 
 def get_base_dir(curr_work_dir):
     curr_dir = curr_work_dir

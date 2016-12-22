@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Application Developers &mdash; Blend4Web 16.11 User Manual</title>
+  <title>For Application Developers &mdash; Blend4Web 16.12 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 User Manual" href="index.html"/>
         <link rel="next" title="For Engine Developers" href="developers_advanced.html"/>
         <link rel="prev" title="Physics" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -630,9 +630,9 @@
 </div>
 <div class="section" id="loading-application-assets">
 <h2><a class="toc-backref" href="#id12">Loading Application Assets</a><a class="headerlink" href="#loading-application-assets" title="Permalink to this headline">¶</a></h2>
-<p>To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at <code class="docutils literal"><span class="pre">deploy/assets/my_project</span></code>.</p>
-<p>To load files (e.g by using <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) from this directory use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a> method:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_std_assets_path</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;my_project/my_project.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
+<p>To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code>.</p>
+<p>To load files (e.g by using <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) from this directory use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a> method:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>This way you ensure that your applications will find assets independently of the current development stage (developed, built or deployed).</p>
@@ -797,6 +797,8 @@
 <dd>files with license texts</dd>
 <dt><strong>Makefile</strong></dt>
 <dd>makefile for building the engine, the applications, and the documentation</dd>
+<dt><strong>projects</strong></dt>
+<dd>directory for user projects</dd>
 <dt><strong>README.rst</strong></dt>
 <dd>README file</dd>
 <dt><strong>scripts</strong></dt>
@@ -1012,7 +1014,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-11-29.
+      Last updated on 2016-12-22.
 
     </p>
   </div>
@@ -1068,7 +1070,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

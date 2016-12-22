@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>工作流程 &mdash; Blend4Web 16.11 用户手册</title>
+  <title>工作流程 &mdash; Blend4Web 16.12 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
         <link rel="next" title="项目管理" href="project_manager.html"/>
         <link rel="prev" title="安装和更新" href="setup.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -88,11 +88,8 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">安装和更新</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">工作流程</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#authoring-scenes">创作场景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#displaying-scenes-in-the-viewer">在浏览器显示场景</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#exporting-scenes">导出场景</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#displaying-scenes-in-the-viewer">在浏览器显示场景</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#example">示例</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#application-development">应用程序开发</a></li>
 </ul>
 </li>
@@ -173,12 +170,9 @@
 <ul class="simple">
 <li><a class="reference internal" href="#workflow" id="id2">工作流程</a><ul>
 <li><a class="reference internal" href="#authoring-scenes" id="id3">创作场景</a></li>
-<li><a class="reference internal" href="#exporting-scenes" id="id4">导出场景</a></li>
-<li><a class="reference internal" href="#displaying-scenes-in-the-viewer" id="id5">在浏览器显示场景</a><ul>
-<li><a class="reference internal" href="#example" id="id6">示例</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#application-development" id="id7">应用程序开发</a></li>
+<li><a class="reference internal" href="#displaying-scenes-in-the-viewer" id="id4">在浏览器显示场景</a></li>
+<li><a class="reference internal" href="#exporting-scenes" id="id5">导出场景</a></li>
+<li><a class="reference internal" href="#application-development" id="id6">应用程序开发</a></li>
 </ul>
 </li>
 </ul>
@@ -186,12 +180,15 @@
 <p>开发任何产品是一个创造性的过程，需要许多参与者谁拥有不同的技能和经验。然而不论事情是多么的复杂，是它总是能够分离出许多生产阶段，其中的大部分资产和源代码是创作的目标。</p>
 <p>当使用Blend4Web工作流程如下：</p>
 <ol class="arabic simple">
+<li>Creating a New Project.</li>
 <li><p class="first">在Blender中创作3D场景。</p>
-</li>
-<li><p class="first">导出场景。</p>
 </li>
 <li><p class="first">运行，调整，并在浏览器的调试场景。</p>
 </li>
+<li><p class="first">导出场景。</p>
+</li>
+<li>Application Development.</li>
+<li>Building the project.</li>
 <li><p class="first">创建目标应用程序。</p>
 </li>
 </ol>
@@ -200,10 +197,8 @@
 <p>除了一般的阶段如建模，贴图，动画等，场景应该在做好在引擎中的准备。</p>
 <p>一般建议：</p>
 <ol class="arabic simple">
-<li><p class="first">我们强烈建议将Blend文件保存在 <code class="docutils literal"><span class="pre">Blender/项目名称</span></code> 目录中。程序中不需要加载的辅助文件  （例如，引用）等，也该在这个文件夹下。</p>
-</li>
-<li><p class="first">图像和媒体文件应该是在外部和位于 <code class="docutils literal"><span class="pre">deploy/assets/项目名</span></code> 目录。</p>
-</li>
+<li>We strongly recommend to save your blend files in the <code class="docutils literal"><span class="pre">projects/project_name/blender</span></code> directory. Auxiliary files which are not intended for loading in your app (for example, references), should be located there as well.</li>
+<li>Images and media files should be external and located in the <code class="docutils literal"><span class="pre">projects/project_name/assets</span></code> directory.</li>
 <li><p class="first">你将导出的文件应包含实际所需 （对象、 材料、 材质、 动画等） 的应用程序中的资源。</p>
 </li>
 <li><p class="first">场景组件应该有不同的识别名称。他们不应该叫 &#8220;Cube.001&#8221;, &#8220;Material&#8221; 或者 &#8220;Armature&#8221;.</p>
@@ -212,8 +207,17 @@
 </li>
 </ol>
 </div>
+<div class="section" id="displaying-scenes-in-the-viewer">
+<span id="assets-json"></span><span id="index-0"></span><h2><a class="toc-backref" href="#id4">在浏览器显示场景</a><a class="headerlink" href="#displaying-scenes-in-the-viewer" title="永久链接至标题">¶</a></h2>
+<p>When using the <a class="reference internal" href="addon.html#local-development-server"><span>local development server</span></a>
+it&#8217;s possible to preview current scene using <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> button located at the bottom of Blender&#8217;s 3D View window,
+and also on the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">-&gt;</span> <span class="pre">Development</span> <span class="pre">Server</span></code> panel in Blender. In this case
+the scene will be exported inside some temporary storage and loaded in the
+Viewer app.</p>
+<p>另一种方法是使用 <a class="reference internal" href="addon.html#run-in-viewer"><span>运行在预览查看器</span></a> 导出选项。在这种情况下，场景将导出后立即显示在预览查看器应用程序。</p>
+</div>
 <div class="section" id="exporting-scenes">
-<span id="export-scene"></span><span id="index-0"></span><h2><a class="toc-backref" href="#id4">导出场景</a><a class="headerlink" href="#exporting-scenes" title="永久链接至标题">¶</a></h2>
+<span id="export-scene"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id5">导出场景</a><a class="headerlink" href="#exporting-scenes" title="永久链接至标题">¶</a></h2>
 <p>导出过程将场景从Blender格式转换为 Blend4Web 所使用的格式之一。</p>
 <a class="reference internal image-reference" href="_images/workflow_export_scheme.png"><img alt="_images/workflow_export_scheme.png" class="align-center" src="_images/workflow_export_scheme.png" style="width: 100%;" /></a>
 <p>有两种格式 ︰ JSON 和 HTML。</p>
@@ -226,60 +230,8 @@
 </div>
 <p>导出选项中详细描述在 <a class="reference internal" href="addon.html#export-opts"><span>相应章节</span></a>.</p>
 </div>
-<div class="section" id="displaying-scenes-in-the-viewer">
-<span id="assets-json"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id5">在浏览器显示场景</a><a class="headerlink" href="#displaying-scenes-in-the-viewer" title="永久链接至标题">¶</a></h2>
-<p>当使用 <a class="reference internal" href="addon.html#local-development-server"><span>本地开发服务器</span></a> 有可能使用预览当前场景的 <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code> 按钮，位于Blender的 <code class="docutils literal"><span class="pre">Scene-&gt;Development</span> <span class="pre">Server</span></code> 面板。在这种情况下，场景将里面的一些临时存储被导出并在预览查看器应用程序加载。</p>
-<p>另一种方法是使用 <a class="reference internal" href="addon.html#run-in-viewer"><span>运行在预览查看器</span></a> 导出选项。在这种情况下，场景将导出后立即显示在预览查看器应用程序。</p>
-<p>如果要长期储存在预览器的场景列表中，它需要手动添加条目到 <code class="docutils literal"><span class="pre">apps_dev/viewer/assets.json</span></code> 文本文件。如果您使用的是Blend4Web SDK这个文件是自动在Blender打开的。</p>
-<p>使用 &#8220;文本编辑器&#8221;  来修改它 ︰</p>
-<img alt="_images/text_editor.png" class="align-center" src="_images/text_editor.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>然后选择 <code class="docutils literal"><span class="pre">assets.json</span></code> 文件中的窗口进行编辑：</p>
-<img alt="_images/assets_json.png" class="align-center" src="_images/assets_json.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>要添加一个新的场景，你需要知道它应该显示的类别。类别通常对应于该项目的名称，并到相应的文件存储目录的名称。</p>
-<div class="section" id="example">
-<h3><a class="toc-backref" href="#id6">示例</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
-<p>例如下面你可以看到的 <code class="docutils literal"><span class="pre">assets.json</span></code> 的一部分。在此文件中有两个项目- &#8220;Capri&#8221; 和 &#8220;Fridge&#8221;  每个都有相应的场景</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Capri&quot;</span><span class="p">,</span>
-    <span class="n">items</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Baken&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;capri/props/baken/baken.json&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Terrain&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;capri/landscape/terrain/terrain.json&quot;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">},</span>
-<span class="p">{</span>
-    <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Fridge&quot;</span><span class="p">,</span>
-    <span class="n">items</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Apple&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;fridge/fruits/apple/apple.json&quot;</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;Mango&quot;</span><span class="p">,</span>
-            <span class="n">load_file</span> <span class="p">:</span> <span class="s2">&quot;fridge/fruits/mango/mango.json&quot;</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>要添加一个新的场景，你可以复制和粘贴类似的场景的描述到所需的类别，然后修改它的名称和路径导出的文件。</p>
-<p>已成功添加的场景应该出现在场景的列表中的查看器中所需的类别中</p>
-<a class="reference internal image-reference" href="_images/workflow_viewer_apple.png"><img alt="_images/workflow_viewer_apple.png" class="align-center" src="_images/workflow_viewer_apple.png" style="width: 100%;" /></a>
-</div>
-</div>
 <div class="section" id="application-development">
-<h2><a class="toc-backref" href="#id7">应用程序开发</a><a class="headerlink" href="#application-development" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">应用程序开发</a><a class="headerlink" href="#application-development" title="永久链接至标题">¶</a></h2>
 <p>在此阶段的应用已经被创建。逻辑场景加载和用户交互使用JavaScript编写。应用程序开发人员笔记中给出了 <a class="reference internal" href="developers.html#developers"><span>相应章节</span></a>.</p>
 </div>
 </div>
@@ -304,7 +256,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-11-29.
+      最后更新于 2016-12-22.
 
     </p>
   </div>
@@ -360,7 +312,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

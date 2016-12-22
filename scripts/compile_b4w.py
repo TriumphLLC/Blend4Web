@@ -375,12 +375,13 @@ def refact_config(app_js=False):
     config_rel_js_file.truncate()
 
     for line in config_js_text:
-        # TODO: refactor hardcoded paths
-        pattern_1 = r'(B4W_ASSETS_PATH=)+(..\/deploy\/assets\/)'
+        pattern_1 = "(\"|\')(B4W_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')"
         pattern_2 = r'(B4W_URANIUM_PATH=)+(..\/deploy\/apps\/common\/uranium.js)'
+        pattern_3 = "(\"|\')(B4W_PROJ_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')"
 
-        line = re.sub(pattern_1, r'\1..\/..\/assets\/', line)
+        line = re.sub(pattern_1, r'\1\2\.\.\/\.\.\/assets\/\4', line)
         line = re.sub(pattern_2, r'\1uranium.js', line)
+        line = re.sub(pattern_3, r'\1\2\.\.\/\.\.\/\3\4', line)
 
         if app_js:
             line = re.sub('B4W_MAIN_MODULE', app_js, line)

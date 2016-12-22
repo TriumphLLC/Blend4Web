@@ -17,7 +17,8 @@
 "use strict";
 
 /**
- * Input device API
+ * Low-level input device API.
+ * For more generic cases use {@link module:controls|sensor-based API}.
  * @module input
  * @local DeviceType
  * @local DeviceVectorParameterSync

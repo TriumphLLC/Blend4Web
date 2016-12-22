@@ -66,7 +66,8 @@ class B4W_OBJECT_PT_levels_of_detail(ObjectButtonsPanel, Panel):
         obj = context.object
         is_mesh = obj.type == "MESH" or obj.type == "FONT" \
                or obj.type == "META" or obj.type == "SURFACE"
-        return (is_mesh and context.object
+        is_empty = obj.type == "EMPTY"
+        return ((is_mesh or is_empty) and context.object
                 and context.scene.render.engine in cls.COMPAT_ENGINES)
 
     def draw(self, context):

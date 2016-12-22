@@ -1,6 +1,6 @@
 "use strict"
 
-b4w.register("custom_anchors_main", function(exports, require) {
+b4w.register("custom_anchors", function(exports, require) {
 
 var m_anchors = require("anchors");
 var m_app     = require("app");
@@ -10,6 +10,8 @@ var m_scs     = require("scenes");
 var m_version = require("version");
 
 var DEBUG = (m_version.type() === "DEBUG");
+
+var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/custom_anchors/";
 
 exports.init = function() {
     m_app.init({
@@ -43,8 +45,7 @@ function init_cb(canvas_elem, success) {
     torus_text.innerHTML = "Torus (Custom Element)";
     document.body.appendChild(torus_text);
 
-    m_data.load(m_cfg.get_std_assets_path() + 
-            "code_snippets/custom_anchors/custom_anchors.json", load_cb);
+    m_data.load(APP_ASSETS_PATH + "custom_anchors.json", load_cb);
 }
 
 function load_cb(data_id) {

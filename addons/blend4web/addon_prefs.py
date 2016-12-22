@@ -81,15 +81,15 @@ class B4WPreferences(AddonPreferences):
             update_available = bpy.app.translations.pgettext_tip(_("Update is available: %s"), "Operator")
             layout.operator("wm.url_open", text=(update_available % \
             (self.b4w_available_for_update_version)), icon='URL').url = DOWNLOADS
-
-        layout.label(text = _("Development Server:"))
-        row = layout.row()
-        row.prop(self, "b4w_server_auto_start", text=_("Run on Startup"))
-        row.prop(self, "b4w_port_number")
-        row.prop(self, "b4w_enable_ext_requests")
-        for m in blend4web.init_mess:
+        if has_valid_sdk_path():
+            layout.label(text = _("Development Server:"))
             row = layout.row()
-            row.label(m, icon="ERROR")
+            row.prop(self, "b4w_server_auto_start", text=_("Run on Startup"))
+            row.prop(self, "b4w_port_number")
+            row.prop(self, "b4w_enable_ext_requests")
+            for m in blend4web.init_mess:
+                row = layout.row()
+                row.label(m, icon="ERROR")
 
 def get_prefs():
     return bpy.context.user_preferences.addons[__package__].preferences

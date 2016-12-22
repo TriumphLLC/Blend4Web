@@ -669,13 +669,16 @@ exports.generate_index = function(num) {
     var submesh = m_geom.init_submesh("INDEX");
 
     var va_frame = m_util.create_empty_va_frame();
-    va_frame["a_index"] = new Float32Array(num);
-    for (var i = 0; i < num; i++)
+    va_frame["a_index"] = new Float32Array(num * 3);
+    var indices = new Uint16Array(num * 3);
+    for (var i = 0; i < num * 3; i++) {
         va_frame["a_index"][i] = i;
+        indices[i] = i;
+    }
 
     submesh.va_frames[0] = va_frame;
-    submesh.indices = new Uint16Array(0);
-    submesh.base_length = num;
+    submesh.indices = indices;
+    submesh.base_length = num * 3;
 
     return submesh;
 }

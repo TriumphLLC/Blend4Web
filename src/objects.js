@@ -288,8 +288,6 @@ exports.update_object = function(bpy_obj, obj) {
         }
        
         render.hide = bpy_obj["b4w_hidden_on_load"];
-        render.do_not_cull = bpy_obj["b4w_do_not_cull"];
-        render.disable_fogging = bpy_obj["b4w_disable_fogging"];
         render.dynamic_geometry = bpy_obj["b4w_dynamic_geometry"];
 
         // assign params for object (bounding) physics simulation
@@ -306,7 +304,6 @@ exports.update_object = function(bpy_obj, obj) {
         break;
 
     case "LINE":
-        render.do_not_cull = true;
         render.bb_local = m_bounds.create_bb();
         render.be_local = m_bounds.create_be();
         render.bb_world = m_bounds.create_bb();
@@ -372,24 +369,18 @@ function update_bsdf_glossy_reflections(bpy_obj, render) {
 
     for (var i = 0; i < materials.length; i++) {
         var mat = materials[i];
-        if (mat["use_nodes"] && check_bsdf_glossy_mat(mat["node_tree"])) {
+        if (mat["use_nodes"] && check_bsdf_type(mat["node_tree"], "BSDF_GLOSSY")) {
             render.reflective = true;
             render.reflection_type = "CUBE";
         }
     }
 }
 
-function check_bsdf_glossy_mat(bpy_node_tree) {
-    if (bpy_node_tree._has_bsdf_glossy) {
+function check_bsdf_type(node_tree, bsdf_type) {
+    if (node_tree._bsdf_types.indexOf(bsdf_type) != -1)
         return true;
-    } else {
-        var nodes = bpy_node_tree["nodes"];
-        for (var j = 0; j < nodes.length; j++)
-            if (nodes[j]["type"] == "GROUP" && check_bsdf_glossy_mat(nodes[j]["node_group"]["node_tree"]))
-               return true;
-    }
-
-    return false;
+    else
+        return false;
 }
 
 /**
@@ -938,7 +929,7 @@ function copy_object(obj, new_name, deep_copy) {
     new_obj.metatags = m_obj_util.copy_object_props_by_value(obj.metatags);
 
     copy_scene_data(obj, new_obj);
-    new_obj.action_anim_cache =m_obj_util.copy_bpy_object_props_by_link(obj.action_anim_cache);
+    new_obj.action_anim_cache = m_obj_util.copy_bpy_object_props_by_link(obj.action_anim_cache);
     
     new_obj.parent = m_obj_util.copy_bpy_object_props_by_link(obj.parent);
     new_obj.parent_is_dupli = obj.parent_is_dupli;
@@ -1011,14 +1002,23 @@ function copy_batches(obj, new_obj, deep_copy) {
 
                 // to create unique batch ID
                 new_batches[j].odd_id_prop = new_obj.uuid;
-                m_batch.update_batch_id(new_batches[j],
-                                        m_batch.calculate_render_id(new_obj.render));
+                m_batch.update_batch_id(new_batches[j]);
             }
 
             m_tex.share_batch_canvas_textures(new_batches);
 
         } else
             new_sc_data.batches = batches;
+
+        for (var j = 0; j < new_sc_data.batches.length; j++)
+            increase_all_tex_num_users(new_sc_data.batches[j])
+    }
+}
+
+function increase_all_tex_num_users(batch) {
+    var textures = batch.textures;
+    for (var i = 0; i < textures.length; i++) {
+        m_tex.increase_num_users(textures[i]);
     }
 }
 
@@ -1566,16 +1566,12 @@ exports.sort_lamps = function(scene) {
     }
 }
 
-exports.obj_switch_cleanup_flags = function(obj, cleanup_tex, cleanup_bufs, 
-        cleanup_shader, cleanup_nodemat) {
+exports.obj_switch_cleanup_flags = function(obj, cleanup_bufs, cleanup_shader,
+                                            cleanup_nodemat) {
     for (var i = 0; i < obj.scenes_data.length; i++) {
         var batches = obj.scenes_data[i].batches;
         for (var j = 0; j < batches.length; j++) {
             var batch = batches[j];
-
-            // tex
-            for (var k = 0; k < batch.textures.length; k++)
-                batch.textures[k].cleanup_gl_data_on_unload = cleanup_tex;
 
             // ibo/vbo buffs
             batch.bufs_data.cleanup_gl_data_on_unload = cleanup_bufs;

@@ -101,6 +101,7 @@ def create_server(root, port, allow_ext_requests, python_path, blender_path, B4W
         (r"/analyze_shader/(.*)$", AnalyzeShaderHandler),
         (r"/get_file_body/(.*)$", GetFileBodyHandler),
         (r"/save_file/(.*)$", SaveFileHandler),
+        (r"/create_file/(.*)$", CreateFileHandler),
         (r"/tests/send_req/?$", TestSendReq),
         (r"/tests/time_of_day/?$", TestTimeOfDay),
         (r"/(.*)$", StaticFileHandlerNoCache,
@@ -256,6 +257,51 @@ class SaveFileHandler(tornado.web.RequestHandler):
         targeted_file.write(body)
         targeted_file.close()
 
+class CreateFileHandler(tornado.web.RequestHandler):
+    def post(self, tail):
+        root = get_sdk_root()
+        file_name = unquote(self.get_argument("file_name", strip=False))
+        proj_path = unquote(self.get_argument("proj_path", strip=False))
+        body = unquote(self.get_argument("body", strip=False))
+        proj_abs_path = normpath(join(root, proj_path))
+        user_path = normpath(join(proj_abs_path, file_name))
+        user_path_parts = pathlib.Path(user_path).parts
+        proj_path_parts = pathlib.Path(proj_abs_path).parts
+        proj_util = get_proj_util_mod(root)
+
+        if len(user_path_parts) <= len(proj_path_parts):
+            self.set_status(400)
+            self.write("Path is outside the directory of the project!")
+
+            return
+
+        if not user_path.startswith(proj_abs_path):
+            self.set_status(400)
+            self.write("Path is outside the directory of the project!")
+
+            return
+
+        if not pathlib.Path(user_path).suffix in [".css", ".js", ".html"]:
+            self.set_status(400)
+            self.write("Only .html, .js and .css files can be saved.")
+
+            return
+
+        if os.path.isfile(user_path):
+            self.set_status(400)
+            self.write("Saving over existing files is not allowed!")
+
+            return
+
+        os.makedirs(str(pathlib.Path(user_path).parent), exist_ok=True)
+
+        targeted_file = open(user_path, "w", encoding="utf-8", newline="\n")
+
+        targeted_file.write(body)
+        targeted_file.close()
+
+        self.write(quote(proj_util.unix_path(relpath(user_path, root)), safe=""))
+
 class AnalyzeShaderHandler(tornado.web.RequestHandler):
     def post(self, tail):
         kind = tail.strip("/? ")
@@ -273,7 +319,7 @@ class AnalyzeShaderHandler(tornado.web.RequestHandler):
         """Process by nvidia cg toolkit"""
 
         if shutil.which(CGC_PATH) is None:
-            raise BaseException("NVIDIA Cg Toolkit isn't found.")
+            raise BaseException("NVIDIA Cg Toolkit not found.")
 
         tmp_in = tempfile.NamedTemporaryFile(mode="w", suffix=".glsl", delete=False)
         tmp_in.write(data_in)
@@ -631,7 +677,7 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
                     show_hidden = False
 
                 elem_ins["blend_files"] += self.file_group(elem_ins["blend_files"],
-                        root, blend_dir, content, show_hidden);
+                        root, proj_util.unix_path(blend_dir), content, show_hidden);
 
             elem_ins["json_files"] = ""
 
@@ -651,12 +697,12 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
                     show_hidden = False
 
                 elem_ins["json_files"] += self.file_group(elem_ins["json_files"], root,
-                        assets_dir, content, show_hidden);
+                        proj_util.unix_path(assets_dir), content, show_hidden);
 
             elem_ins["ops"] = ""
 
             if (proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", None) in
-                    ["external", "copy", "compile", "none"]) and build_dir:
+                    ["external", "copy", "compile"]) and build_dir:
                 elem_ins["ops"] += ('<a href=/project/-p/' +
                         quote(normpath(path), safe="") +
                         '/build/ title="Compile project app(s)">build project</a>')
@@ -678,7 +724,7 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
                     'title="Convert project resources to alternative formats">' +
                     'convert resources</a>')
 
-            if build_dir:
+            if build_dir and proj_util.proj_cfg_value(proj_cfg, "compile", "engine_type", None) != "none":
                 elem_ins["ops"] += ('<a href=/project/-p/' +
                         quote(normpath(path), safe="") +
                         '/deploy/' +
@@ -688,6 +734,18 @@ class ProjectRootHandler(tornado.web.RequestHandler, ProjectManagerCli):
             elem_ins["ops"] += ('<a onclick="show_confirm_window(this);return false;" href=/project/-p/' +
                     quote(normpath(path), safe="") +
                     '/remove/ title="Remove project">remove project</a>')
+
+            if (author != "Blend4Web" and
+                    path.startswith("apps_dev") and
+                    assets_dir != build_dir and
+                    blend_dir != assets_dir):
+
+                elem_ins["ops"] += ('<a href=/project/-p/' +
+                        quote(normpath(path), safe="") +
+                        '/update_file_struct/-b/' +
+                        quote(_blender_path, safe="") +
+                        '/ title="Update file hierarchy and move project contents to projects/ directory.">' +
+                        'update file structure</a>')
 
             table_insert += string.Template(tpl_elem_str).substitute(elem_ins)
 
@@ -833,8 +891,6 @@ class ProjectRequestHandler(tornado.web.RequestHandler, ProjectManagerCli):
 
         self.write(out_html_str)
 
-
-
 class ProjectCreateHandler(tornado.web.RequestHandler):
     def get(self):
         root = get_sdk_root()
@@ -849,12 +905,12 @@ class ProjectCreateHandler(tornado.web.RequestHandler):
 
         self.write(html_str)
 
-
 class ProjectEditHandler(tornado.web.RequestHandler):
     def get(self):
         root = get_sdk_root()
         path = self.request.uri.replace("/project/edit/", "").strip("/? ")
         path = join(root, unquote(path))
+        proj_util = get_proj_util_mod(root)
 
         config_file = list(pathlib.Path(path).rglob(".b4w_project"))
         css_file_list = list(pathlib.Path(path).rglob("*.css"))
@@ -865,10 +921,19 @@ class ProjectEditHandler(tornado.web.RequestHandler):
         config_file.extend(js_file_list)
         config_file.extend(html_file_list)
 
+        if path.startswith(join(root, "projects")):
+            ignore_build = pathlib.Path(join(path, "build")).rglob("*")
+            ignore_assets = pathlib.Path(join(path, "assets")).rglob("*")
+            ignore_blender = pathlib.Path(join(path, "blender")).rglob("*")
+            config_file = list(set(config_file) - set(ignore_build) - set(ignore_assets) - set(ignore_blender))
+
         strs = ""
 
         for f in config_file:
-            strs += '<div data-path="' + quote(str(f), safe="") + '" class="edit_file">' + str(f.relative_to(root)) + '</div>\n'
+            strs += '<div data-path="' + quote(str(f), safe="") + '" class="edit_file">' + proj_util.unix_path(str(f.relative_to(root))) + '</div>\n'
+
+        strs += '<input type="hidden" name="proj_path" id="proj_path" value="' + quote(path, safe="") + '">'
+        strs += '<input type="hidden" name="sdk_path" id="sdk_path" value="' + quote(root, safe="") + '">'
 
         tpl_html_file = open(join(root, "index_assets", "templates", "project_edit.tmpl"), "r", encoding="utf-8")
 
@@ -1082,7 +1147,8 @@ class ConsoleHandler(tornado.websocket.WebSocketHandler):
 
     @classmethod
     def ansi_to_html(cls, text):
-        text = text.replace('[0m', '</span>')
+        text = text.replace('\x1b[0m', '</span>')
+        text = text.replace('\x1b', '')
 
         def single_sub(match):
             argsdict = match.groupdict()
@@ -1096,6 +1162,7 @@ class ConsoleHandler(tornado.websocket.WebSocketHandler):
 
             if bold:
                 return BOLD_TEMPLATE.format(COLOR_DICT[color][1])
+
             return LIGHT_TEMPLATE.format(COLOR_DICT[color][0])
 
         return COLOR_REGEX.sub(single_sub, text)

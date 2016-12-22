@@ -321,7 +321,7 @@ void main(void) {
     // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
 #if REFLECTION_PASS == REFL_PASS_PLANE
-    if (!gl_FrontFacing)
+    if (gl_FrontFacing == false)
 #else
     if (gl_FrontFacing)
 #endif

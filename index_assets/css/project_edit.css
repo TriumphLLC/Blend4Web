@@ -113,6 +113,7 @@ a.btn > span {
   background-image: url(../img/help.png);
 }
 
+#save_file_as div,
 #save_file div {
   background-size: 20px 20px;
   background-image: url(../img/download.png);
@@ -143,4 +144,94 @@ a.btn > span {
 
 #save_file.active:hover {
   text-decoration: underline;
+}
+
+.edit_file.active {
+  font-weight: bold;
+}
+
+#new_file div {
+  background-size: 20px 20px;
+  background-image: url(../img/new.png);
+}
+
+#create_new_file div {
+  background-size: 20px 20px;
+  background-image: url(../img/new.png);
+}
+
+#close_new_file_box div {
+  background-size: 20px 20px;
+  background-image: url(../img/remove.png);
+}
+
+#new_file_box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 200px;
+  background-color: #fff;
+  display: none;
+  margin-left: -200px;
+  margin-top: -100px;
+  z-index: 5;
+}
+
+#new_file_box h3 {
+  font-family: "Open Sans Semibold", sans-serif;
+  text-align: center;
+  line-height: 16px;
+  font-size: 24px;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.input_group {
+  display: block;
+  text-align: center;
+}
+
+.input_group .btn {
+  float: none;
+  display: inline-block;
+}
+
+.input_group:after {
+  clear: both;
+  display: table;
+  content: " ";
+}
+
+#new_file_box input {
+  border: 1px solid #c4e7f5;
+  border-radius: 4px;
+  width: 70%;
+  margin: 0 auto;
+  padding: 2px;
+  display: block;
+  height: 32px;
+  margin-bottom: 32px;
+}
+
+div#body_opacity {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 35, 80, 0.8);
+  display: none;
+  z-index: 4;
+  overflow: hidden;
+}
+
+#file_name_error {
+  color: red;
+  margin: 0;
+  padding: 0;
+  margin-left: 15%;
+  margin-top: -16px;
+  margin-bottom: 16px;
+  height: 16px;
 }

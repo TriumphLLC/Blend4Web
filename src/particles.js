@@ -231,13 +231,16 @@ exports.init_particles_data = function(batch, psystem, pmaterial) {
             tex_slot[0]["texture"]["type"] == "BLEND" &&
             tex_slot[0]["texture"]["use_color_ramp"] &&
             cfg_def.allow_vertex_textures) {
+        var bpy_tex = tex_slot[0]["texture"];
         var image_data = [];
-        m_tex.calc_color_ramp_data(tex_slot[0]["texture"]["color_ramp"],
+        m_tex.calc_color_ramp_data(bpy_tex["color_ramp"],
                 m_tex.PART_COLORRAMP_TEXT_SIZE, image_data);
         image_data = new Uint8Array(image_data.map(function(val) {return m_util.clamp(val * 255,
             0, 255)}));
-        m_batch.append_texture_to_batch(batch, image_data, "u_color_ramp_tex",
-                m_tex.PART_COLORRAMP_TEXT_SIZE);
+
+        var tex = m_tex.create_color_ramp_texture(image_data, m_tex.PART_COLORRAMP_TEXT_SIZE);
+
+        m_batch.append_texture(batch, tex, "u_color_ramp_tex", bpy_tex["name"]);
         m_batch.set_batch_directive(batch, "USE_COLOR_RAMP", 1);
     }
 

@@ -175,7 +175,9 @@ Activation
 To enable procedural waves the ``Waves`` option must be turned on.
 
 .. note::
-    Procedural waves will work only if a ``Wind`` force field is present in the scene.
+    The direction of procedural waves is derived from a ``Wind`` force field in the scene.
+
+    If a scene does not have a ``Wind`` force field, procedural waves will only move in the default direction which cannot be changed.
 
 .. image:: src_images/outdoor_rendering/outdoor_rendering_volumetric_waves.png
    :align: center

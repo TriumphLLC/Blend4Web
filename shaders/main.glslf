@@ -322,11 +322,12 @@ void main(void) {
     if (alpha < 0.5)
         discard;
     alpha = 1.0; // prevent blending with html content
+# else
+    alpha = min(1.0, alpha);
 # endif  // ALPHA CLIP
 #else  // ALPHA
     alpha = 1.0;
 #endif  // ALPHA
-
 
 #if !DISABLE_FOG
 # if WATER_EFFECTS

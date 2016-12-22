@@ -17,9 +17,10 @@
 "use strict";
 
 /**
- * Lights API.
+ * API to control light sources.
  * @module lights
  * @local LightParams
+ * @see https://www.blend4web.com/doc/en/lighting.html#lighting-with-light-sources
  */
 b4w.module["lights"] = function(exports, require) {
 

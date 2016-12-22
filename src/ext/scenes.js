@@ -25,11 +25,13 @@
  * @local SceneMetaTags
  * @local HMDParams
  * @local BloomParams
+ * @local DOFParams
  */
 b4w.module["scenes"] = function(exports, require) {
 
 var m_batch    = require("__batch");
 var m_cam      = require("__camera");
+var m_cont     = require("__container");
 var m_data     = require("__data");
 var m_graph    = require("__graph");
 var m_obj      = require("__objects");
@@ -72,6 +74,32 @@ var m_util     = require("__util");
  * @property {Boolean} key Strength of bloom effect
  * @property {Boolean} edge_lum Bloom edge relative luminance. Bloom is visible above this value.
  * @property {Boolean} blur The amount of blur applied to bloom effect.
+ */
+
+/**
+ * Depth of Field parameters. Readonly properties like the "dof_bokeh" and the 
+ * "dof_object" can be only set beforehand in Blender.
+ * @typedef {Object} DOFParams
+ * @property {Boolean} dof_on Use DOF.
+ * @property {Number} dof_distance The distance to the focal point. Readonly if 
+ * the "dof_object" property is set, which has a higher priority.
+ * @property {Number} dof_front_start The distance in front of the focal point 
+ * where the DOF effect starts. Disabled (has zero value and readonly status) if 
+ * the "dof_bokeh" property is False.
+ * @property {Number} dof_front_end The distance in front of the focal point 
+ * where the DOF effect reaches its maximum power.
+ * @property {Number} dof_rear_start The distance beyond the focal point where 
+ * the DOF effect starts. Disabled (has zero value and readonly status) if the 
+ * "dof_bokeh" property is False.
+ * @property {Number} dof_rear_end The distance beyond the focal point where 
+ * the DOF effect reaches its maximum power.
+ * @property {Number} dof_power The DOF intensity.
+ * @property {Boolean} dof_bokeh Use bokeh DOF (readonly).
+ * @property {Number} dof_bokeh_intensity The brightness of the bokeh DOF effect.
+ * @property {Object3D} dof_object The object which center defines the focal 
+ * point. Controls the "dof_distance" property if set (readonly).
+ * @cc_externs dof_on dof_distance dof_front_start dof_front_end dof_rear_start
+ * @cc_externs dof_rear_end dof_power dof_bokeh dof_bokeh_intensity dof_object
  */
 
 /**
@@ -221,13 +249,41 @@ exports.get_object_data_id = function(obj) {
  * var m_scenes = require("scenes");
  *
  * var canvas_cont = m_cont.get_container();
- * cont.addEventListener("mousedown", down_cb);
+ * canvas_cont.addEventListener("mousedown", down_cb);
  * var down_cb = function(event) {
  *     var obj = m_scenes.pick_object(event.clientX, event.clientY);
  * }
- * @returns {Object3D?} The object under the given coordinates or null.
  */
-exports.pick_object = m_obj.pick_object;
+exports.pick_object = function(x, y) {
+    var main_scene = m_scenes.get_main();
+    if (!main_scene) {
+        m_print.error("No active scene");
+        return null;
+    }
+
+    var subs_stereo = m_scenes.get_subs(main_scene, m_subs.STEREO);
+    if (subs_stereo)
+        if (subs_stereo.enable_hmd_stereo) {
+            m_print.error_once("pick_object() is not available in the stereo rendering mode." +
+                    " Use scenes.pick_center instead.");
+            return pick_center();
+        }
+
+    return m_obj.pick_object(x, y);
+}
+
+/**
+ * Render the color scene and return an object in the viewport center.
+ * @method module:scenes.pick_center
+ * @returns {Object3D?} The object in the viewport center.
+ */
+exports.pick_center = pick_center;
+function pick_center() {
+    var canvas = m_cont.get_canvas();
+    var h = canvas.clientHeight;
+    var w = canvas.clientWidth;
+    return m_obj.pick_object(w / 2, h / 2);
+}
 
 /**
  * Check if the outlining is enabled or not for the object.
@@ -744,7 +800,10 @@ exports.set_sky_params = function(sky_params) {
 /**
  * Get depth-of-field (DOF) params.
  * @method module:scenes.get_dof_params
- * @returns {DOFParams} DOF params
+ * @returns {DOFParams} The object containing DOF parameters.
+ * @example
+ * var m_scenes = require("scenes");
+ * var dof_params = m_scenes.get_dof_params();
  */
 exports.get_dof_params = function() {
     if (!m_scenes.check_active()) {
@@ -762,9 +821,18 @@ exports.get_dof_params = function() {
 /**
  * Set depth-of-field (DOF) params
  * @method module:scenes.set_dof_params
- * @param {DOFParams} dof_params DOF parameters
- * @cc_externs dof_on dof_distance dof_front_start dof_front_end
- * @cc_externs dof_rear_start dof_rear_end dof_power
+ * @param {DOFParams} dof_params The object containing DOF parameters.
+ * @example
+ * var m_scenes = require("scenes");
+ *
+ * // adjusting the front/rear distances
+ * m_scenes.set_dof_params({ dof_front_start: 0, 
+ *         dof_front_end: 2, 
+ *         dof_rear_start: 0, 
+ *         dof_rear_end: 5 });
+ *
+ * // disabling the DOF effect
+ * m_scenes.set_dof_params({ dof_on: false });
  */
 exports.set_dof_params = function(dof_params) {
     if (!m_scenes.check_active()) {
@@ -1293,9 +1361,9 @@ exports.remove_object = function(obj) {
     }
 
     // cleanup only vbo/ibo/vao buffers for deep copied objects
-    m_obj.obj_switch_cleanup_flags(obj, false, obj.render.is_copied_deep, false, false);
+    m_obj.obj_switch_cleanup_flags(obj, obj.render.is_copied_deep, false, false);
     m_data.prepare_object_unloading(obj);
-    m_obj.obj_switch_cleanup_flags(obj, true, true, true, true);
+    m_obj.obj_switch_cleanup_flags(obj, true, true, true);
     m_obj.remove_object(obj);
 }
 /**

@@ -17,7 +17,7 @@
 "use strict";
 
 /**
- * Gamepads add-on.
+ * Gamepads configurator add-on.
  * @module gp_conf
  */
 b4w.module["gp_conf"] = function(exports, require) {

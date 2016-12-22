@@ -490,13 +490,13 @@ The Code Snippets application is available at ``./apps_dev/code_snippets/code_sn
 Loading Application Assets
 ==========================
 
-To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at ``deploy/assets/my_project``.
+To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at ``projects/my_project/assets``.
 
-To load files (e.g by using :b4wref:`data.load()`) from this directory use the :b4wref:`config.get_std_assets_path()` method:
+To load files (e.g by using :b4wref:`data.load()`) from this directory use the :b4wref:`config.get_assets_path()` method:
 
 .. code-block:: javascript
 
-    m_data.load(m_config.get_std_assets_path() + "my_project/my_project.json", load_cb);
+    m_data.load(m_config.get_assets_path("my_project") + "loaded_scene.json", load_cb);
 
 This way you ensure that your applications will find assets independently of the current development stage (developed, built or deployed).
 
@@ -707,6 +707,9 @@ SDK File Structure
 
 **Makefile**
     makefile for building the engine, the applications, and the documentation
+
+**projects**
+    directory for user projects
 
 **README.rst**
     README file

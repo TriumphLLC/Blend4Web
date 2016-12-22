@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Установка и обновление &mdash; Руководство пользователя Blend4Web 16.11</title>
+  <title>Установка и обновление &mdash; Руководство пользователя Blend4Web 16.12</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.11" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="index.html"/>
         <link rel="next" title="Рабочий процесс" href="workflow.html"/>
         <link rel="prev" title="Возможности движка" href="engine_features.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -88,8 +88,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Установка и обновление</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Установка</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-blender">Установка программы Blender</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#unpacking-the-archive">Распаковка архива</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#installing-blend4web-sdk">Установка Blend4Web SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-blend4web-add-on">Установка аддона Blend4Web</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#switching-to-blend4web-mode">Переключение в режим Blend4Web</a></li>
 </ul>
 </li>
@@ -180,8 +180,8 @@
 <li><a class="reference internal" href="#installing-and-updating" id="id1">Установка и обновление</a><ul>
 <li><a class="reference internal" href="#installation" id="id2">Установка</a><ul>
 <li><a class="reference internal" href="#installing-blender" id="id3">Установка программы Blender</a></li>
-<li><a class="reference internal" href="#unpacking-the-archive" id="id4">Распаковка архива</a></li>
-<li><a class="reference internal" href="#installing-blend4web-sdk" id="id5">Установка Blend4Web SDK</a></li>
+<li><a class="reference internal" href="#installing-blend4web-sdk" id="id4">Установка Blend4Web SDK</a></li>
+<li><a class="reference internal" href="#installing-blend4web-add-on" id="id5">Установка аддона Blend4Web</a></li>
 <li><a class="reference internal" href="#switching-to-blend4web-mode" id="id6">Переключение в режим Blend4Web</a></li>
 </ul>
 </li>
@@ -197,6 +197,10 @@
 </div>
 <div class="section" id="installation">
 <h2><a class="toc-backref" href="#id2">Установка</a><a class="headerlink" href="#installation" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Существуют две версии фреймворка Blend4Web: Blend4Web SDK и аддон Blend4Web. Какую из них вам следует выбрать для работы, зависит от того, приложения какого типа вы планируете разрабатывать.</p>
+<p>Если вы планируете использовать все возможности движка Blend4Web, вам следует установить Blend4Web SDK.</p>
+<p>Если же вы планируете разрабатывать небольшие проекты или собираетесь использовать только некоторые возможности движка Blend4Web (например, редактор нормалей), вы можете использовать <a class="reference internal" href="addon.html#addon"><span>аддон Blend4Web</span></a> вместо SDK.</p>
+<p>Обратите внимание, что аддон поддерживает экспорт сцены только в формат <a class="reference internal" href="workflow.html#export-scene"><span>HTML</span></a> и имеет ограниченные возможности. Например, в нём отсутствует <a class="reference internal" href="project_manager.html#project-management"><span>менеджер проектов</span></a>, примеры сцен, документация и другие дополнительные ресурсы. Тем не менее, аддон располагает всем необходимым для создания простого приложения.</p>
 <div class="section" id="installing-blender">
 <span id="getting-started-install-blender"></span><h3><a class="toc-backref" href="#id3">Установка программы Blender</a><a class="headerlink" href="#installing-blender" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Создание 3D сцен осуществляется в графическом пакете <a class="reference external" href="http://ru.wikipedia.org/wiki/Blender">Blender</a>, который является программным продуктом с открытым исходным кодом и распространяется бесплатно.</p>
@@ -204,12 +208,9 @@
 <p>Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с <a class="reference external" href="http://www.blender.org/download">официального сайта</a> или с <a class="reference external" href="https://www.blend4web.com/ru/downloads/">сайта Blend4Web</a>.</p>
 <a class="reference internal image-reference" href="_images/blender_first_run.png"><img alt="_images/blender_first_run.png" class="align-center" src="_images/blender_first_run.png" style="width: 100%;" /></a>
 </div>
-<div class="section" id="unpacking-the-archive">
-<h3><a class="toc-backref" href="#id4">Распаковка архива</a><a class="headerlink" href="#unpacking-the-archive" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Стабильные версии дистрибутива поставляются в виде архива (<code class="docutils literal"><span class="pre">blend4web_ce_YY_MM.zip</span></code> &#8211; бесплатный SDK, <code class="docutils literal"><span class="pre">blend4web_pro_YY_MM.zip</span></code> &#8211; коммерческий SDK). Достаточно распаковать данный архив в любое место на диске.</p>
-</div>
 <div class="section" id="installing-blend4web-sdk">
-<h3><a class="toc-backref" href="#id5">Установка Blend4Web SDK</a><a class="headerlink" href="#installing-blend4web-sdk" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="sdk-install"></span><h3><a class="toc-backref" href="#id4">Установка Blend4Web SDK</a><a class="headerlink" href="#installing-blend4web-sdk" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Стабильные версии дистрибутива поставляются в виде архива (<code class="docutils literal"><span class="pre">blend4web_ce_YY_MM.zip</span></code> &#8211; бесплатный SDK, <code class="docutils literal"><span class="pre">blend4web_pro_YY_MM.zip</span></code> &#8211; коммерческий SDK). Достаточно распаковать данный архив в любое место на диске.</p>
 <ol class="arabic">
 <li><p class="first">Открыть Blender.</p>
 </li>
@@ -240,12 +241,38 @@
 </ol>
 <p><em>Проверка:</em></p>
 <p>В меню <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> должны появиться опции <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> и <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code>.</p>
-<div class="admonition note">
-<p class="first admonition-title">Примечание</p>
-<p>Если вы используете только редактор нормалей, вы можете использовать <a class="reference internal" href="addon.html#addon"><span>аддон Blend4Web</span></a> вместо SDK.</p>
-<p>Аддон поддерживает экспорт сцены только в формат <a class="reference internal" href="workflow.html#export-scene"><span>HTML</span></a> и имеет ограниченные возможности (например, отсутствует <a class="reference internal" href="project_manager.html#project-management"><span>менеджер проектов</span></a>, примеры сцен, документация и пр.), но располагает всем необходимым для создания простого приложения.</p>
-<p class="last">Устанавливается так же, как любой другой <a class="reference external" href="https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon#installation-of-a-3rd-party-add-on">аддон Blender</a>.</p>
 </div>
+<div class="section" id="installing-blend4web-add-on">
+<span id="addon-install"></span><h3><a class="toc-backref" href="#id5">Установка аддона Blend4Web</a><a class="headerlink" href="#installing-blend4web-add-on" title="Ссылка на этот заголовок">¶</a></h3>
+<a class="reference internal image-reference" href="_images/user_preferences_install_from_file.png"><img alt="_images/user_preferences_install_from_file.png" class="align-center" src="_images/user_preferences_install_from_file.png" style="width: 100%;" /></a>
+<p>Устанавливается так же, как любой другой <a class="reference external" href="https://www.blender.org/manual/advanced/scripting/python/addons.html?highlight=install%20addon#installation-of-a-3rd-party-add-on">аддон Blender</a>.</p>
+<ol class="arabic simple">
+<li><p class="first">Открыть Blender.</p>
+</li>
+<li><p class="first">Вызвать окно пользовательских настроек <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</p>
+</li>
+<li><p class="first">Открыть вкладку <code class="file docutils literal"><span class="pre">Add-ons</span></code>.</p>
+</li>
+<li><p class="first">Нажать кнопку <code class="docutils literal"><span class="pre">Install</span> <span class="pre">From</span> <span class="pre">File...</span></code>.</p>
+</li>
+<li><p class="first">Выбрать архив, содержащий аддон Blend4Web, и нажать кнопку <code class="docutils literal"><span class="pre">Install</span> <span class="pre">From</span> <span class="pre">File...</span></code>.</p>
+</li>
+<li><p class="first">Нажмите кнопку <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code>.</p>
+</li>
+<li><p class="first">Перезапустить Blender.</p>
+</li>
+<li><p class="first">Ещё раз вызвать окно пользовательских настроек <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>.</p>
+</li>
+<li><p class="first">Открыть вкладку <code class="file docutils literal"><span class="pre">Add-ons</span></code>.</p>
+</li>
+<li><p class="first">Найдите аддон <cite>Blend4Web</cite> в списке.</p>
+</li>
+<li><p class="first">Активируйте его, поставив флажок слева от названия аддона.</p>
+</li>
+<li><p class="first">Снова нажмите кнопку <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code>.</p>
+</li>
+</ol>
+<p>Теперь всё должно работать.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -259,7 +286,7 @@
 <div class="section" id="updating">
 <h2><a class="toc-backref" href="#id7">Обновление</a><a class="headerlink" href="#updating" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="updating-the-sdk">
-<h3><a class="toc-backref" href="#id8">Обновление SDK</a><a class="headerlink" href="#updating-the-sdk" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="sdk-update"></span><h3><a class="toc-backref" href="#id8">Обновление SDK</a><a class="headerlink" href="#updating-the-sdk" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Перед обновлением рекомендуется создать резервные копии всех разрабатываемых проектов с помощью <a class="reference internal" href="project_manager.html#export-projects"><span>средств экспорта</span></a>.</p>
 <p>При обновлении SDK следуйте этой инструкции:</p>
 <ol class="arabic">
@@ -311,8 +338,8 @@
 <p>После того, как обновление выполнено, сохранённые проекты можно импортировать с помощью средств <a class="reference internal" href="project_manager.html#import-projects"><span>импорта проектов</span></a>.</p>
 </div>
 <div class="section" id="updating-the-addon">
-<h3><a class="toc-backref" href="#id9">Обновление аддона</a><a class="headerlink" href="#updating-the-addon" title="Ссылка на этот заголовок">¶</a></h3>
-<p>В том случае, если вы используете только аддон Blend4Web, следуйте этой интсрукции.</p>
+<span id="addon-update"></span><h3><a class="toc-backref" href="#id9">Обновление аддона</a><a class="headerlink" href="#updating-the-addon" title="Ссылка на этот заголовок">¶</a></h3>
+<p>В том случае, если вы используете только аддон Blend4Web, следуйте этой инструкции.</p>
 <p>Перед установкой новой версии аддона рекомендуется удалить старую. Для этого раскройте информационную панель аддона Blend4Web и нажмите кнопку <code class="docutils literal"><span class="pre">Remove</span></code>. Удаление старой версии аддона перед установкой новой не обязательно, но рекомендуется для того, чтобы избежать возможных конфликтов.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_remove_addon.png"><img alt="_images/user_preferences_remove_addon.png" class="align-center" src="_images/user_preferences_remove_addon.png" style="width: 100%;" /></a>
 <ol class="arabic simple">
@@ -334,7 +361,7 @@
 <p>Теперь всё должно работать.</p>
 </div>
 <div class="section" id="updating-saved-projects">
-<h3><a class="toc-backref" href="#id10">Обновление сохранённых проектов</a><a class="headerlink" href="#updating-saved-projects" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="projects-update"></span><h3><a class="toc-backref" href="#id10">Обновление сохранённых проектов</a><a class="headerlink" href="#updating-saved-projects" title="Ссылка на этот заголовок">¶</a></h3>
 <p>После обновления SDK (или аддона) вы можете импортировать в Менеджер проектов проекты, экспортированные перед началом обновления. Чтобы сделать это, следуйте инструкции:</p>
 <ol class="arabic simple">
 <li><p class="first">Откройте Менеджер проектов.</p>
@@ -377,7 +404,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-11-29.
+      Обновлено: 2016-12-22.
 
     </p>
   </div>
@@ -433,7 +460,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

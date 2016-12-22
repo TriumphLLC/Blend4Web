@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Project Management &mdash; Blend4Web 16.11 User Manual</title>
+  <title>Project Management &mdash; Blend4Web 16.12 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.11 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 16.12 User Manual" href="index.html"/>
         <link rel="next" title="Scene Viewer" href="viewer.html"/>
         <link rel="prev" title="Workflow" href="workflow.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.11
+              v16.12
             </div>
           
         
@@ -334,21 +334,19 @@
 </div></blockquote>
 <p>The <code class="docutils literal"><span class="pre">[Back</span> <span class="pre">to</span> <span class="pre">Projects]</span></code> button can be used to return to the Project Manager&#8217;s main page, while the <code class="docutils literal"><span class="pre">[Help]</span></code> button can be used to access the <a class="reference internal" href="#create-new-project"><span>Help file</span></a>.</p>
 <ol class="arabic">
-<li><p class="first">Project name is used to name project directories such as &#8220;apps_dev/project_name&#8221;, &#8220;deploy/assets/project_name&#8221;, &#8220;blender/project_name&#8221; and &#8220;deploy/apps/project_name&#8221;.</p>
+<li><p class="first">Project name is used to name project directories such as &#8220;projects/project_name&#8221;, &#8220;projects/project_name/assets&#8221;, &#8220;projects/project_name/blender&#8221; and &#8220;projects/project_name/build&#8221;.</p>
 </li>
 <li><p class="first">Project title as shown in the browser.</p>
 </li>
 <li><p class="first">Project author’s name.</p>
 </li>
-<li><p class="first">Add application templates. Standard application templates: html file, css file, js file will be added to the project directory &#8220;apps_dev/project_name&#8221;.</p>
+<li><p class="first">Add application templates. Standard application templates: html file, css file, js file will be added to the project directory &#8220;projects/project_name&#8221;.</p>
 </li>
-<li><p class="first">Add scene templates. Standard json file will be added to the &#8220;deploy/assets/project_name&#8221; directory; blend file will be added to the &#8220;blender/project_name&#8221; directory.</p>
+<li><p class="first">Add scene templates. Standard json file will be added to the &#8220;projects/project_name/assets&#8221; directory; blend file will be added to the &#8220;projects/project_name/blender&#8221; directory.</p>
 </li>
-<li><p class="first">Use Material Library. Blend files of the material library will be copied to the project directory &#8220;blender/project_name&#8221;, while the asset files will be copied to &#8220;deploy/assets/project_name&#8221; folder.</p>
+<li><p class="first">Use Material Library. Blend files of the material library will be copied to the project directory &#8220;projects/project_name/blender&#8221;, while the asset files will be copied to &#8220;projects/project_name/assets&#8221; folder.</p>
 </li>
 <li><p class="first">Copy project manager script. The project.py script will be copied to the project directory.</p>
-</li>
-<li><p class="first">All project files will be located in the same directory. It is preferable to use this option in small projects, such as lessons and examples. Only <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> and <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code> project types are available for this option.</p>
 </li>
 <li><p class="first">Project’s type. Several options are available:</p>
 <blockquote>
@@ -379,14 +377,16 @@
 </div></blockquote>
 </li>
 <li><p class="first">Javascript optimization level.</p>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li>&#8220;Simple&#8221; - variable names are replaced in the code;</li>
 <li>&#8220;Advanced&#8221; - code optimization is performed;</li>
 <li>&#8220;Whitespace Only&#8221; - only whitespaces are removed from the code.</li>
 </ul>
+</div></blockquote>
 </li>
 </ol>
-<ol class="arabic simple" id="web-player-params" start="11">
+<ol class="arabic simple" id="web-player-params" start="10">
 <li>Web Player URL attributes. This tab is available only if <code class="docutils literal"><span class="pre">Engine</span> <span class="pre">Binding</span> <span class="pre">Type</span></code> parameter is set to <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">JSON</span></code> or <code class="docutils literal"><span class="pre">Web</span> <span class="pre">Player</span> <span class="pre">HTML</span></code>.<ul>
 <li>&#8220;Show FPS&#8221; is used to display the FPS counter in the player’s top right corner.</li>
 <li>&#8220;Auto-rotate camera&#8221; enables automatic camera rotation just after the scene loads.</li>
@@ -496,7 +496,7 @@ Here is an example of HTML code that can be used for this:</p>
 <dt><em>Deployment Assets Directory</em></dt>
 <dd>Directory where assets will be placed for deployed project.</dd>
 <dt><em>Deployment Assets URL Prefix</em></dt>
-<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a>.</dd>
+<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a>.</dd>
 <dt><em>Deployment Ignore List</em></dt>
 <dd>The list of exceptions for project&#8217;s deploy.</dd>
 </dl>
@@ -506,12 +506,13 @@ Here is an example of HTML code that can be used for this:</p>
 <span id="project-edit"></span><h3><a class="toc-backref" href="#id11">Project Editing</a><a class="headerlink" href="#project-editing" title="Permalink to this headline">¶</a></h3>
 <p>A simple web-based interface for editing project files is available by the <code class="docutils literal"><span class="pre">[edit]</span></code> link beside the project&#8217;s title.</p>
 <a class="reference internal image-reference" href="_images/project_manager_edit_project.png"><img alt="_images/project_manager_edit_project.png" class="align-center" src="_images/project_manager_edit_project.png" style="width: 100%;" /></a>
-<p>The left part of the editor window contains a list of all <code class="docutils literal"><span class="pre">.html</span></code>, <code class="docutils literal"><span class="pre">.css</span></code> and <code class="docutils literal"><span class="pre">.js</span></code> files from the project directory (<code class="docutils literal"><span class="pre">./apps_dev/&lt;project_name&gt;</span></code>), starting with the main project file <code class="docutils literal"><span class="pre">.b4w_project</span></code>. The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.</p>
+<p>The left part of the editor window contains a list of all <code class="docutils literal"><span class="pre">.html</span></code>, <code class="docutils literal"><span class="pre">.css</span></code> and <code class="docutils literal"><span class="pre">.js</span></code> files from the project directory (<code class="docutils literal"><span class="pre">projects/my_project</span></code>), starting with the main project file <code class="docutils literal"><span class="pre">.b4w_project</span></code>. The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This interface can only be used to edit files from developer version of a project, but not from the builded version.</p>
 </div>
-<p>The <code class="docutils literal"><span class="pre">Save</span> <span class="pre">File</span></code> button that can be found at the bottom of the page is used for saving currently selected project file.</p>
+<p>New files can be added to the project directory by clicking the <code class="docutils literal"><span class="pre">[New</span> <span class="pre">File]</span></code> button.</p>
+<p>The <code class="docutils literal"><span class="pre">[Save]</span></code> and <code class="docutils literal"><span class="pre">[Save</span> <span class="pre">As...]</span></code> buttons that can be found at the bottom of the page are used for saving currently selected project file.</p>
 </div>
 <div class="section" id="project-import">
 <span id="import-projects"></span><h3><a class="toc-backref" href="#id12">Project Import</a><a class="headerlink" href="#project-import" title="Permalink to this headline">¶</a></h3>
@@ -585,53 +586,53 @@ Here is an example of HTML code that can be used for this:</p>
 </div>
 <div class="section" id="project-structure">
 <h3><a class="toc-backref" href="#id17">Project Structure</a><a class="headerlink" href="#project-structure" title="Permalink to this headline">¶</a></h3>
-<p>A typical app developed using the project manager looks as follows:</p>
+<p>This is how the structure of a project titled my_project and placed in the <code class="docutils literal"><span class="pre">./projects</span></code> directory in the root of the SDK folder should look:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>blend4web/
-    apps_dev/
-        myproject/
-            project.py
+    projects/
+        my_project/
+            assets/
+                my_project.json
+                my_project.bin
+            blender/
+                my_project.blend
+            build/
+                my_project.html
+                my_project.min.css
+                my_project.min.js
             .b4w_project
-            myproject.js
-            myproject.css
-            myproject_dev.html
-    blender/
-        myproject/
-            myproject.blend
-    deploy/
-        apps/
-            myproject/
-                myproject.js
-                myproject.css
-                myproject.html
-        assets/
-            myproject/
-                myproject.json
-                myproject.bin
+            my_project.js
+            my_project.css
+            my_project.html
 </pre></div>
 </div>
-<p>This app consists of 4 different directories.</p>
+<p>This app consists of 3 different directories.</p>
 <ol class="arabic simple">
-<li>apps_dev/myproject. Contains source files of project&#8217;s apps.</li>
-<li>blender/myproject. Contains source files of project&#8217;s scenes.</li>
-<li>deploy/assets/myproject. Contains exported files of project&#8217;s scenes.</li>
-<li>deploy/apps/myproject. Contains exported files of project&#8217;s scenes.</li>
+<li>my_project/assets. Contains media files (textures and sounds, as well as the <code class="docutils literal"><span class="pre">.bin</span></code> and <code class="docutils literal"><span class="pre">.json</span></code> files) of project&#8217;s scenes.</li>
+<li>my_project/blender. Contains <code class="docutils literal"><span class="pre">.blend</span></code> files of project&#8217;s scenes.</li>
+<li>my_project/build. Contains files of the builded application.</li>
 </ol>
+<p>Project&#8217;s main file <code class="docutils literal"><span class="pre">.b4w_project</span></code>, as well as the <code class="docutils literal"><span class="pre">.js</span></code>, <code class="docutils literal"><span class="pre">.html</span></code> and <code class="docutils literal"><span class="pre">.css</span></code> files, is placed in the root of the <code class="docutils literal"><span class="pre">my_project/</span></code> folder.</p>
 <p>Additionally, the deploy command can create yet another directory, but it&#8217;s usually placed outside of the SDK and its name and path depend on directory structure on the target server.</p>
+<div class="admonition note" id="updating-project-structure">
+<p class="first admonition-title">Note</p>
+<p>Starting from the version 16.12, project structure has been changed. Projects that use old structure still do work, but should be considered obsolete. We recommend to use the <code class="docutils literal"><span class="pre">update</span> <span class="pre">file</span> <span class="pre">structure</span></code> button to upgrade the structure of such projects to a new one.</p>
+<p class="last">This button can be found in the <code class="docutils literal"><span class="pre">Operations</span></code> panel at the right side of the project&#8217;s entry in the Project Manager list. It is only available for user projects (not for stock ones) that use the obsolete project structure.</p>
+</div>
 </div>
 <div class="section" id="project-configuration-file-b4w-project">
 <h3><a class="toc-backref" href="#id18">Project Configuration File (.b4w_project)</a><a class="headerlink" href="#project-configuration-file-b4w-project" title="Permalink to this headline">¶</a></h3>
 <p>Project configuration file includes all necessary information of your project, including name, metadata, directories, info for application building and deployment.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[info]
 author = Blend4Web
-name = myproject
+name = my_project
 title = MyProject
 icon =
 
 [paths]
-assets_dirs = deploy/assets/myproject;
-blend_dirs = blender/myproject;
+assets_dirs = projects/my_project/assets;
+blend_dirs = projects/my_project/blender;
 blender_exec = blender
-build_dir = deploy/apps/myproject
+build_dir = projects/my_project/build
 deploy_dir =
 
 [compile]
@@ -712,7 +713,7 @@ override =
 <dt><em>assets_path_dest</em></dt>
 <dd>Directory where assets will be placed for deployed project.</dd>
 <dt><em>assets_path_prefix</em></dt>
-<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_std_assets_path">get_std_assets_path()</a>.</dd>
+<dd>URL path prefix to assets directory inside deployed project as reported by <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a>.</dd>
 <dt><em>ignore</em></dt>
 <dd>The list of exceptions for project&#8217;s deploy.</dd>
 <dt><em>override</em></dt>
@@ -726,38 +727,37 @@ override =
 </div>
 <div class="section" id="creating-a-project">
 <h3><a class="toc-backref" href="#id19">Creating a Project</a><a class="headerlink" href="#creating-a-project" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init myproject
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init my_project
 </pre></div>
 </div>
 <p>This command will create a project with the specified name in the current directory. By default the project directory will only contain a config file.</p>
 <p>Available parameters:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">-A</span> <span class="pre">|</span> <span class="pre">--copy-app-templates</span></code> (optional) create standard app templates in the project directory  (<em>&lt;my_project_name&gt;_dev.html</em>, <em>&lt;my_project_name&gt;.js</em>, <em>&lt;my_project_name&gt;.css</em>).</li>
-<li><code class="docutils literal"><span class="pre">-B</span> <span class="pre">|</span> <span class="pre">--bundle</span></code> (optional) all project files will be placed in a single directory.</li>
+<li><code class="docutils literal"><span class="pre">-A</span> <span class="pre">|</span> <span class="pre">--copy-app-templates</span></code> (optional) create standard app templates in the project directory  (<em>my_project_dev.html</em>, <em>my_project.js</em>, <em>my_project.css</em>).</li>
 <li><code class="docutils literal"><span class="pre">-C</span> <span class="pre">|</span> <span class="pre">--author</span></code> (optional) write an author&#8217;s or a company&#8217;s name in the config file.</li>
 <li><code class="docutils literal"><span class="pre">-o</span> <span class="pre">|</span> <span class="pre">--optimization</span></code> (optional) write the script optimization level in the config file.</li>
 <li><code class="docutils literal"><span class="pre">-P</span> <span class="pre">|</span> <span class="pre">--copy-project-script</span></code> (optional) create a copy of the <em>project.py</em> script in the project directory.</li>
-<li><code class="docutils literal"><span class="pre">-S</span> <span class="pre">|</span> <span class="pre">--copy-scene-templates</span></code> (optional) create standard scene templates in the directories <code class="docutils literal"><span class="pre">deploy/assets/&lt;my_project_name&gt;</span></code> and <code class="docutils literal"><span class="pre">blender/&lt;my_project_name&gt;</span></code> (<em>&lt;my_project_name&gt;.json/.bin</em> and <em>&lt;my_project_name&gt;.blend</em> correspondingly).</li>
+<li><code class="docutils literal"><span class="pre">-S</span> <span class="pre">|</span> <span class="pre">--copy-scene-templates</span></code> (optional) create standard scene templates in the directories <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code> and <code class="docutils literal"><span class="pre">projects/my_project/blender</span></code> (<em>my_project.json/.bin</em> and <em>my_project.blend</em> correspondingly).</li>
 <li><code class="docutils literal"><span class="pre">-T</span> <span class="pre">|</span> <span class="pre">--title&quot;</span></code> (optional) write a title in the config file. Upon building, it will be used inside the <code class="docutils literal"><span class="pre">&lt;title&gt;</span></code> HTML element.</li>
 <li><code class="docutils literal"><span class="pre">-t</span> <span class="pre">|</span> <span class="pre">--engine-type</span></code> (optional) write an engine type in the config file.</li>
 </ul>
 <p>Example:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external myproject
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./project.py init -AS -C Blend4Web -o simple -T MyProject -t external my_project
 </pre></div>
 </div>
-<p>This command will create a directory named <em>myproject</em>, inside which the following files will be placed: <em>myproject.js</em>, <em>myproject.css</em>, <em>myproject_dev.html</em> and <em>.b4w_project</em>.</p>
+<p>This command will create a directory named <em>my_project</em>, inside which the following files will be placed: <em>my_project.js</em>, <em>my_project.css</em>, <em>my_project_dev.html</em> and <em>.b4w_project</em>.</p>
 <p>The .b4w_project file will look like:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>[info]
 author = Blend4Web
-name = myproject
+name = my_project
 title = MyProject
 icon =
 
 [paths]
-assets_dirs = deploy/assets/myproject;
-blend_dirs = blender/myproject;
+assets_dirs = projects/my_project/assets;
+blend_dirs = projects/my_project/blender;
 blender_exec = blender
-build_dir = deploy/apps/myproject
+build_dir = projects/my_project/build
 deploy_dir =
 
 [compile]
@@ -791,10 +791,10 @@ override =
 </div>
 <div class="section" id="building-projects">
 <h3><a class="toc-backref" href="#id21">Building Projects</a><a class="headerlink" href="#building-projects" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject compile
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project compile
 </pre></div>
 </div>
-<p>Builds a project in the <code class="docutils literal"><span class="pre">deploy/apps/myproject</span></code> directory.</p>
+<p>Builds a project in the <code class="docutils literal"><span class="pre">projects/my_project/build</span></code> directory.</p>
 <p>Available parameters:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">&quot;-a</span> <span class="pre">|</span> <span class="pre">--app&quot;</span></code> (optional) specify an HTML file, relative to which the project app will be built.</li>
@@ -812,7 +812,7 @@ override =
 </div>
 <div class="section" id="automatic-blend-file-export">
 <h3><a class="toc-backref" href="#id22">Automatic Blend File Export</a><a class="headerlink" href="#automatic-blend-file-export" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject reexport
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project reexport
 </pre></div>
 </div>
 <p>This command will re-export blend files in JSON and HTML formats.</p>
@@ -824,7 +824,7 @@ override =
 </div>
 <div class="section" id="resource-conversion">
 <h3><a class="toc-backref" href="#id23">Resource Conversion</a><a class="headerlink" href="#resource-conversion" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject convert_resources
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project convert_resources
 </pre></div>
 </div>
 <p>Converts external resources (textures, audio and video files) into alternative formats to ensure cross-browser and cross-platform performance.</p>
@@ -836,7 +836,7 @@ override =
 </div>
 <div class="section" id="deploying-projects">
 <h3><a class="toc-backref" href="#id24">Deploying Projects</a><a class="headerlink" href="#deploying-projects" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject deploy DIRECTORY
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project deploy DIRECTORY
 </pre></div>
 </div>
 <p>Save a project to an external directory together with all dependencies.</p>
@@ -851,7 +851,7 @@ override =
 </div>
 <div class="section" id="remove-project">
 <h3><a class="toc-backref" href="#id25">Remove Project</a><a class="headerlink" href="#remove-project" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p myproject remove
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 project.py -p my_project remove
 </pre></div>
 </div>
 <p>Removes a project. Removed directories are retrieved from project configuration file.</p>
@@ -915,7 +915,7 @@ override =
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-11-29.
+      Last updated on 2016-12-22.
 
     </p>
   </div>
@@ -971,7 +971,7 @@ override =
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.11',
+            VERSION:'v16.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

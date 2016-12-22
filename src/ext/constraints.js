@@ -17,7 +17,8 @@
 "use strict";
 
 /**
- * Object constraints API.
+ * Object constraints API. Please note that these constraints are not the same
+ * as those assigned in Blender.
  * @module constraints
  * @local StiffViewportPositioning
  */

@@ -401,11 +401,11 @@ function tex_create_for_slink(slink) {
     switch (slink.from) {
     case "COLOR":
         if (slink.use_renderbuffer) {
-            var tex = m_tex.create_texture("COLOR_RB", slink.multisample ?
+            var tex = m_tex.create_texture(slink.multisample ?
                     m_tex.TT_RB_RGBA_MS : m_tex.TT_RB_RGBA, slink.use_comparison);
             m_tex.resize(tex, size_x, size_y);
         } else {
-            var tex = m_tex.create_texture("COLOR", m_tex.TT_RGBA_INT,
+            var tex = m_tex.create_texture(m_tex.TT_RGBA_INT,
                     slink.use_comparison);
             m_tex.resize(tex, size_x, size_y);
             m_tex.set_filters(tex, slink.min_filter, slink.mag_filter);
@@ -413,19 +413,18 @@ function tex_create_for_slink(slink) {
         return tex;
     case "DEPTH":
         if (slink.use_renderbuffer) {
-            var tex = m_tex.create_texture("DEPTH_RB", slink.multisample ?
+            var tex = m_tex.create_texture(slink.multisample ?
                     m_tex.TT_RB_DEPTH_MS : m_tex.TT_RB_DEPTH,
                     slink.use_comparison);
             m_tex.resize(tex, size_x, size_y);
         } else {
-            var tex = m_tex.create_texture("DEPTH_TEX", m_tex.TT_DEPTH,
-                    slink.use_comparison);
+            var tex = m_tex.create_texture(m_tex.TT_DEPTH, slink.use_comparison);
             m_tex.resize(tex, size_x, size_y);
             m_tex.set_filters(tex, slink.min_filter, slink.mag_filter);
         }
         return tex;
     case "CUBEMAP":
-        var tex = m_tex.create_cubemap_texture("CUBEMAP", size_x);
+        var tex = m_tex.create_cubemap_texture(size_x);
         return tex;
     case "SCREEN":
     case "NONE":
@@ -1199,7 +1198,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
     var last_geom_level = prev_level.slice(0);
 
     // prepare anchor visibility subscene
-    if (!rtt && sc_render.anchor_visibility && !cfg_def.ff_disable_anchor_vis_hack) {
+    if (!rtt && sc_render.anchor_visibility) {
         var cam = m_cam.clone_camera(main_cam, true);
         cam_scene_data.cameras.push(cam);
 
@@ -1840,7 +1839,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
         default:
 
             if (rtt) {
-                var tex0 = render_to_textures[0]._render;
+                var tex0 = render_to_textures[0];
 
                 var slink_rtt = create_slink("COLOR", "OFFSCREEN", 1, 1, 1, true);
                 slink_rtt.texture = tex0;
@@ -1849,7 +1848,7 @@ exports.create_rendering_graph = function(sc_render, cam_scene_data,
                 m_graph.append_edge_attr(graph, curr_level[i], subs_sink, slink_rtt);
 
                 for (var j = 1; j < render_to_textures.length; j++) {
-                    var tex = render_to_textures[j]._render;
+                    var tex = render_to_textures[j];
 
                     var subs_scale = m_subs.create_subs_postprocessing("NONE");
                     m_graph.append_node_attr(graph, subs_scale);

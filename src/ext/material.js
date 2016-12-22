@@ -18,8 +18,7 @@
 
 /**
  * Material API.
- * Containts methods to control parameters of standard materials.
- * The node-based materials are not supported yet.
+ * Containts methods to control parameters of materials.
  * @module material
  * @local LineParams
  */
@@ -112,9 +111,10 @@ exports.get_materials_names = function(obj) {
  * @example 
  * var m_mat = require("material");
  * var m_scenes = require("scenes");
+ * var m_rgba = require("rgba");
  *
  * var cube = m_scenes.get_object_by_name("Cube");
- * m_mat.set_diffuse_color(cube, "Material", [0.5, 0, 0]);
+ * m_mat.set_diffuse_color(cube, "Material", m_rgba.from_values(1.0, 0.0, 0.0, 1.0));
  */
 exports.set_diffuse_color = function(obj, mat_name, color) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
