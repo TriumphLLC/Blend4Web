@@ -206,7 +206,9 @@ exports.defaults = {
 
     shadow_quality             : "16x",
 
-    srgb_type                  : "SRGB_SIMPLE"
+    srgb_type                  : "SRGB_SIMPLE",
+
+    amd_depth_texture_hack     : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);

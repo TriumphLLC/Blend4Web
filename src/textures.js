@@ -330,9 +330,15 @@ function create_texture(type, use_comparison) {
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
 
-        var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
-        _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA,
-                       _gl.UNSIGNED_BYTE, image_data);
+        var format = get_image2d_format(texture);
+        var iformat = get_image2d_iformat(texture);
+        var tex_type = get_image2d_type(texture);
+        if (type == exports.TT_DEPTH)
+            var image_data = null;
+        else
+            var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
+
+        _gl.texImage2D(w_target, 0, iformat, 1, 1, 0, format, tex_type, image_data);
 
         if (cfg_def.compared_mode_depth && use_comparison)
             _gl.texParameterf(w_target, _gl.TEXTURE_COMPARE_MODE,
@@ -1173,7 +1179,10 @@ function get_image2d_iformat(texture) {
         format = cfg_def.webgl2 ? _gl.RGB8 : _gl.RGB;
         break;
     case exports.TT_DEPTH:
-        format = cfg_def.webgl2 ? _gl.DEPTH_COMPONENT24 : _gl.DEPTH_COMPONENT;
+        if (cfg_def.webgl2)
+            format = cfg_def.amd_depth_texture_hack ? _gl.DEPTH_COMPONENT16 : _gl.DEPTH_COMPONENT24;
+        else
+            format = _gl.DEPTH_COMPONENT;
         break;
     default:
         m_util.panic("Wrong texture type");
@@ -1204,8 +1213,10 @@ function get_image2d_type(texture) {
         type = _gl.FLOAT;
         break;
     case exports.TT_DEPTH:
-        //type = _gl.UNSIGNED_SHORT;
-        type = _gl.UNSIGNED_INT;
+        if (cfg_def.amd_depth_texture_hack)
+            type = _gl.UNSIGNED_SHORT;
+        else
+            type = _gl.UNSIGNED_INT;
         break;
     default:
         m_util.panic("Wrong texture type");

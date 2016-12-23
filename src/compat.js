@@ -278,10 +278,9 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
             cfg_def.resize_cubemap_canvas_hack = true;
         }
 
-        if (vendor.indexOf("AMD") > -1 && check_user_agent("Windows") && check_user_agent("Chrome")) {
-            warn("AMD, Windows and Chrome detected, applying depth hack");
-            depth_tex_available = false;
-        }
+        if (renderer.indexOf("AMD") > -1 && check_user_agent("Windows")
+                && check_user_agent("Chrome"))
+            cfg_def.amd_depth_texture_hack = true;
 
         if (renderer.indexOf("PowerVR") > -1) {
             warn("PowerVR series detected, use canvas for resizing. " +

@@ -5249,12 +5249,12 @@ exports.inherit_material = function(obj_from, mat_from_name, obj_to,
 
         if (batch_from && batch_to) {
             batches_found = true;
-            var child_batch = find_batch_material_forked(obj_to, mat_to_name,
+            var forked_batch = find_batch_material_forked(obj_to, mat_to_name,
                 type);
             if (type == "MAIN") {
                 set_material_props(batch_to, batch_from);
-                if (child_batch)
-                    set_material_props(child_batch, batch_from);
+                if (forked_batch)
+                    set_material_props(forked_batch, batch_from);
             }
 
             // inherit textures
@@ -5263,15 +5263,20 @@ exports.inherit_material = function(obj_from, mat_from_name, obj_to,
                 if (BATCH_INHERITED_TEXTURES.indexOf(to_name) !== -1) {
                     var from_index = batch_from.texture_names.indexOf(to_name);
                     if (from_index !== -1) {
-                        batch_to.textures[j] = batch_from.textures[from_index];
+                        var tex = batch_from.textures[from_index];
+                        m_textures.reduce_num_users(batch_to.textures[j]);
+                        batch_to.textures[j] = tex;
+                        m_textures.increase_num_users(tex);
 
                         //inherit textures for child batches
-                        if (child_batch) {
+                        if (forked_batch) {
                             var child_index
-                                = child_batch.texture_names.indexOf(to_name);
-                            if (child_index !== -1)
-                                child_batch.textures[child_index]
-                                    = batch_from.textures[from_index];
+                                = forked_batch.texture_names.indexOf(to_name);
+                            if (child_index !== -1) {
+                                m_textures.reduce_num_users(forked_batch.textures[child_index]);
+                                forked_batch.textures[child_index] = tex;
+                                m_textures.increase_num_users(tex);
+                            }
                         }
                     }
                 }
