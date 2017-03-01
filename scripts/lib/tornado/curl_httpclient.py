@@ -21,7 +21,7 @@ from __future__ import absolute_import, division, print_function, with_statement
 import collections
 import functools
 import logging
-import pycurl
+import pycurl  # type: ignore
 import threading
 import time
 from io import BytesIO
@@ -34,6 +34,7 @@ from tornado.escape import utf8, native_str
 from tornado.httpclient import HTTPResponse, HTTPError, AsyncHTTPClient, main
 
 curl_log = logging.getLogger('tornado.curl_httpclient')
+
 
 class CurlAsyncHTTPClient(AsyncHTTPClient):
     def initialize(self, io_loop, max_clients=10, defaults=None):
@@ -207,9 +208,26 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
                         "callback": callback,
                         "curl_start_time": time.time(),
                     }
-                    self._curl_setup_request(curl, request, curl.info["buffer"],
-                                             curl.info["headers"])
-                    self._multi.add_handle(curl)
+                    try:
+                        self._curl_setup_request(
+                            curl, request, curl.info["buffer"],
+                            curl.info["headers"])
+                    except Exception as e:
+                        # If there was an error in setup, pass it on
+                        # to the callback. Note that allowing the
+                        # error to escape here will appear to work
+                        # most of the time since we are still in the
+                        # caller's original stack frame, but when
+                        # _process_queue() is called from
+                        # _finish_pending_requests the exceptions have
+                        # nowhere to go.
+                        self._free_list.append(curl)
+                        callback(HTTPResponse(
+                            request=request,
+                            code=599,
+                            error=e))
+                    else:
+                        self._multi.add_handle(curl)
 
                 if not started:
                     break
@@ -260,6 +278,9 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
         if curl_log.isEnabledFor(logging.DEBUG):
             curl.setopt(pycurl.VERBOSE, 1)
             curl.setopt(pycurl.DEBUGFUNCTION, self._curl_debug)
+        if hasattr(pycurl,'PROTOCOLS'): # PROTOCOLS first appeared in pycurl 7.19.5 (2014-07-12)
+            curl.setopt(pycurl.PROTOCOLS, pycurl.PROTO_HTTP|pycurl.PROTO_HTTPS)
+            curl.setopt(pycurl.REDIR_PROTOCOLS, pycurl.PROTO_HTTP|pycurl.PROTO_HTTPS)
         return curl
 
     def _curl_setup_request(self, curl, request, buffer, headers):
@@ -286,10 +307,10 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
 
         curl.setopt(pycurl.HEADERFUNCTION,
                     functools.partial(self._curl_header_callback,
-                        headers, request.header_callback))
+                                      headers, request.header_callback))
         if request.streaming_callback:
-            write_function = lambda chunk: self.io_loop.add_callback(
-                request.streaming_callback, chunk)
+            def write_function(chunk):
+                self.io_loop.add_callback(request.streaming_callback, chunk)
         else:
             write_function = buffer.write
         if bytes is str:  # py2
@@ -324,6 +345,15 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
                 credentials = '%s:%s' % (request.proxy_username,
                                          request.proxy_password)
                 curl.setopt(pycurl.PROXYUSERPWD, credentials)
+
+            if (request.proxy_auth_mode is None or
+                    request.proxy_auth_mode == "basic"):
+                curl.setopt(pycurl.PROXYAUTH, pycurl.HTTPAUTH_BASIC)
+            elif request.proxy_auth_mode == "digest":
+                curl.setopt(pycurl.PROXYAUTH, pycurl.HTTPAUTH_DIGEST)
+            else:
+                raise ValueError(
+                    "Unsupported proxy_auth_mode %s" % request.proxy_auth_mode)
         else:
             curl.setopt(pycurl.PROXY, '')
             curl.unsetopt(pycurl.PROXYUSERPWD)
@@ -370,27 +400,39 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
         else:
             raise KeyError('unknown method ' + request.method)
 
-        # Handle curl's cryptic options for every individual HTTP method
-        if request.method == "GET":
-            if request.body is not None:
-                raise ValueError('Body must be None for GET request')
-        elif request.method in ("POST", "PUT") or request.body:
-            if request.body is None:
+        body_expected = request.method in ("POST", "PATCH", "PUT")
+        body_present = request.body is not None
+        if not request.allow_nonstandard_methods:
+            # Some HTTP methods nearly always have bodies while others
+            # almost never do. Fail in this case unless the user has
+            # opted out of sanity checks with allow_nonstandard_methods.
+            if ((body_expected and not body_present) or
+                    (body_present and not body_expected)):
                 raise ValueError(
-                    'Body must not be None for "%s" request'
-                    % request.method)
+                    'Body must %sbe None for method %s (unless '
+                    'allow_nonstandard_methods is true)' %
+                    ('not ' if body_expected else '', request.method))
 
-            request_buffer = BytesIO(utf8(request.body))
+        if body_expected or body_present:
+            if request.method == "GET":
+                # Even with `allow_nonstandard_methods` we disallow
+                # GET with a body (because libcurl doesn't allow it
+                # unless we use CUSTOMREQUEST). While the spec doesn't
+                # forbid clients from sending a body, it arguably
+                # disallows the server from doing anything with them.
+                raise ValueError('Body must be None for GET request')
+            request_buffer = BytesIO(utf8(request.body or ''))
+
             def ioctl(cmd):
                 if cmd == curl.IOCMD_RESTARTREAD:
                     request_buffer.seek(0)
             curl.setopt(pycurl.READFUNCTION, request_buffer.read)
             curl.setopt(pycurl.IOCTLFUNCTION, ioctl)
             if request.method == "POST":
-                curl.setopt(pycurl.POSTFIELDSIZE, len(request.body))
+                curl.setopt(pycurl.POSTFIELDSIZE, len(request.body or ''))
             else:
                 curl.setopt(pycurl.UPLOAD, True)
-                curl.setopt(pycurl.INFILESIZE, len(request.body))
+                curl.setopt(pycurl.INFILESIZE, len(request.body or ''))
 
         if request.auth_username is not None:
             userpwd = "%s:%s" % (request.auth_username, request.auth_password or '')
@@ -404,7 +446,7 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
 
             curl.setopt(pycurl.USERPWD, native_str(userpwd))
             curl_log.debug("%s %s (username: %r)", request.method, request.url,
-                          request.auth_username)
+                           request.auth_username)
         else:
             curl.unsetopt(pycurl.USERPWD)
             curl_log.debug("%s %s", request.method, request.url)
@@ -414,6 +456,9 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
 
         if request.client_key is not None:
             curl.setopt(pycurl.SSLKEY, request.client_key)
+
+        if request.ssl_options is not None:
+            raise ValueError("ssl_options not supported in curl_httpclient")
 
         if threading.activeCount() > 1:
             # libcurl/pycurl is not thread-safe by default.  When multiple threads
@@ -429,11 +474,12 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
             request.prepare_curl_callback(curl)
 
     def _curl_header_callback(self, headers, header_callback, header_line):
-        header_line = native_str(header_line)
+        header_line = native_str(header_line.decode('latin1'))
         if header_callback is not None:
             self.io_loop.add_callback(header_callback, header_line)
         # header_line as returned by curl includes the end-of-line characters.
-        header_line = header_line.strip()
+        # whitespace at the start should be preserved to allow multi-line headers
+        header_line = header_line.rstrip()
         if header_line.startswith("HTTP/"):
             headers.clear()
             try:

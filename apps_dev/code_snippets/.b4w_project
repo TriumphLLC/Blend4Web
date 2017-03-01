@@ -14,9 +14,9 @@ deploy_dir =
 [compile]
 apps = 
 css_ignore = 
-engine_type = external
-js_ignore = scripts/*.js;
-optimization = simple
+engine_type = copy
+js_ignore = scripts/*.js;highlight.pack.js
+optimization = advanced
 use_physics = 
 use_smaa_textures = 
 version = 

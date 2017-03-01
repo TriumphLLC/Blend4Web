@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,6 @@ var m_trans = require("transform");
 var m_tsr   = require("tsr");
 var m_util  = require("util");
 var m_vec3  = require("vec3");
-var m_quat  = require("quat");
 
 var ROTATION_OFFSET = 0.2;
 var ROTATION_LIMITS_EPS = 1E-6;
@@ -51,7 +50,6 @@ var _vec2_tmp2          = new Float32Array(2);
 var _vec3_tmp           = new Float32Array(3);
 var _vec3_tmp2          = new Float32Array(3);
 var _vec3_tmp3          = new Float32Array(3);
-var _quat4_tmp          = new Float32Array(4);
 var _tsr_tmp            = m_tsr.create();
 var _tsr_tmp2           = m_tsr.create();
 var _tsr_tmp3           = m_tsr.create();
@@ -83,12 +81,12 @@ var _is_camera_stop_rotating = false;
  * pause and zoom back.
  * @param {Object3D} cam_obj Camera object 3D
  * @param {(Object3D|Vec3)} target Target object or target position
- * @param {?Number} [rot_speed=1] Rotation speed, radians per second
- * @param {?Number} [zoom_mult=2] Zoom level value
- * @param {?Number} [zoom_time=1] Time it takes to zoom on the target, seconds
- * @param {?Number} [zoom_delay=1] Delay before the camera zooms back, seconds
- * @param {?TrackToTargetCallback} track_cb Track finishing callback
- * @param {?TrackToTargetZoomCallback} zoom_in_cb Zoom-in callback
+ * @param {?number} [rot_speed=1] Rotation speed, radians per second
+ * @param {?number} [zoom_mult=2] Zoom level value
+ * @param {?number} [zoom_time=1] Time it takes to zoom on the target, seconds
+ * @param {?number} [zoom_delay=1] Delay before the camera zooms back, seconds
+ * @param {?TrackToTargetCallback} [track_cb] Track finishing callback
+ * @param {?TrackToTargetZoomCallback} [zoom_in_cb] Zoom-in callback
  */
 exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult, 
         zoom_time, zoom_delay, track_cb, zoom_in_cb) {
@@ -246,9 +244,9 @@ function get_delta_to_limits(obj, angle, limit_left, limit_right, dest) {
  * auto-rotating of the EYE camera around itself.
  * When it is called for the first time, auto-rotation is enabled
  * while the next call will disable auto-rotation.
- * @param {Number} auto_rotate_ratio Rotation speed multiplier
+ * @param {number} auto_rotate_ratio Rotation speed multiplier
  * @param {AutoRotateDisabledCallback} [callback] Callback to be executed when auto-rotation is disabled
- * @param {Boolean} [disable_on_mouse_wheel] Disable camera auto-rotation after mouse scrolling.
+ * @param {boolean} [disable_on_mouse_wheel] Disable camera auto-rotation after mouse scrolling.
  */
 exports.auto_rotate = function(auto_rotate_ratio, callback, disable_on_mouse_wheel) {
 
@@ -365,7 +363,7 @@ exports.auto_rotate = function(auto_rotate_ratio, callback, disable_on_mouse_whe
 /**
  * Check if the camera is auto-rotating.
  * @method module:camera_anim.is_auto_rotate
- * @returns {Boolean} Result of the check: true - when the camera is
+ * @returns {boolean} Result of the check: true - when the camera is
  * auto-rotating, false - otherwise.
  */
 exports.is_auto_rotate = function() {
@@ -378,7 +376,7 @@ exports.is_auto_rotate = function() {
  * Check if auto-rotation is possible for the camera.
  * For example, the STATIC camera cannot be rotated.
  * @method module:camera_anim.check_auto_rotate
- * @returns {Boolean} Result of the check: true - when auto-rotation is
+ * @returns {boolean} Result of the check: true - when auto-rotation is
  * possible, false - otherwise.
  */
 exports.check_auto_rotate = function() {
@@ -401,8 +399,8 @@ exports.check_auto_rotate = function() {
  * Smoothly move the camera to the target point. Intended for STATIC cameras only.
  * @param {(Object3D|tsr)} cam_obj Camera object 3D
  * @param {(Object3D|tsr)} point_obj Target point object 3D
- * @param {Number} cam_lin_speed Camera linear speed, meters per second
- * @param {Number} cam_angle_speed Camera angular speed, radians per second
+ * @param {number} cam_lin_speed Camera linear speed, meters per second
+ * @param {number} cam_angle_speed Camera angular speed, radians per second
  * @param {MoveCameraToPointCallback} [cb] Finishing callback
  */
 exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_angle_speed, cb) {
@@ -490,9 +488,9 @@ exports.move_camera_to_point = function(cam_obj, point_obj, cam_lin_speed, cam_a
 /**
  * Smoothly rotate the camera. Intended for non-STATIC cameras.
  * @param {Object3D} cam_obj Camera object 3D
- * @param {Number} angle_phi Horisontal rotation angle
- * @param {Number} angle_theta Vertical rotation angle
- * @param {Number} [time=1000] Rotation time in ms
+ * @param {number} angle_phi Horisontal rotation angle
+ * @param {number} angle_theta Vertical rotation angle
+ * @param {number} [time=1000] Rotation time in ms
  * @param {RotateCameraCallback} [cb] Finishing callback
  */
 exports.rotate_camera = function(cam_obj, angle_phi, angle_theta, time, cb) {
@@ -576,7 +574,7 @@ exports.stop_cam_rotating = function() {
  * Check if the camera is being moved by the 
  * {@link module:camera_anim.move_camera_to_point|move_camera_to_point} function.
  * @method module:camera_anim.is_moving
- * @returns {Boolean} Result of the check: true - when the camera is
+ * @returns {boolean} Result of the check: true - when the camera is
  * moving, false - otherwise.
  */
 exports.is_moving = function() {
@@ -587,7 +585,7 @@ exports.is_moving = function() {
  * Check if the camera is being rotated by the 
  * {@link module:camera_anim.rotate_camera|rotate_camera} function.
  * @method module:camera_anim.is_rotating
- * @returns {Boolean} Result of the check: true - when the camera is
+ * @returns {boolean} Result of the check: true - when the camera is
  * rotating, false - otherwise.
  */
 exports.is_rotating = function() {

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
  */
 b4w.module["__curve"] = function(exports, require) {
 
-var m_print = require("__print");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
 
@@ -77,7 +76,7 @@ exports.create_spline = function(bpy_obj) {
 
     // render spline to calculate cumulative length of segments
     // required for length--->t translation
-    var points = spline_points(spline, SPLINE_POINTS, []);
+    points = spline_points(spline, SPLINE_POINTS, []);
     var ncoords = spline.is_3d ? 4 : 3;
 
     var clen = new Float32Array(SPLINE_POINTS);
@@ -104,11 +103,11 @@ exports.create_spline = function(bpy_obj) {
  * Generate B-spline open knot vector.
  * @param n Number of control points
  * @param order Order of basis function
- * @param [x] Destination vector
+ * @param [dest] Destination vector
  */
 function gen_open_knot(n, order, dest) {
     if (!dest)
-        var dest = [];
+        dest = [];
 
     var nplusorder = n + order;
     var nplus2 = n + 2;
@@ -129,14 +128,13 @@ function gen_open_knot(n, order, dest) {
  * Generate a B-spline periodic uniform knot vector.
  * @param n Number of control points
  * @param order Order of basis function
- * @param [x] Destination vector
+ * @param [dest] Destination vector
  */
 function gen_periodic_knot(n, order, dest) {
     if (!dest)
-        var dest = [];
+        dest = [];
 
     var nplusorder = n + order;
-    var nplus2 = n + 2;
 
     dest[0] = 0;
 
@@ -160,7 +158,7 @@ function gen_rational_basis(order, t, knot, weights, r) {
     var n = weights.length;
 
     if (!r)
-        var r = new Float32Array(n);
+        r = new Float32Array(n);
 
     var nplusorder = n + order;
 
@@ -221,7 +219,7 @@ function gen_rational_dbasis(order, t, knot, weights, rd) {
     var num = weights.length;
 
     if (!rd)
-        var rd = new Float32Array(num);
+        rd = new Float32Array(num);
 
     var n = new Float32Array(num);
     var d = new Float32Array(num);
@@ -256,9 +254,9 @@ function gen_rational_dbasis(order, t, knot, weights, rd) {
 function gen_basis_d(num, order, t, knot, n, d) {
 
     if (!n)
-        var n = new Float32Array(num);
+        n = new Float32Array(num);
     if (!d)
-        var d = new Float32Array(num);
+        d = new Float32Array(num);
 
     var nplusorder = num + order;
 
@@ -336,7 +334,7 @@ function gen_basis_d(num, order, t, knot, n, d) {
 function spline_points(spline, num, dest) {
 
     if (!dest)
-        var dest = [];
+        dest = [];
 
     var cpoints = spline.cpoints;
     var ncoords = spline.is_3d ? 4 : 3;
@@ -351,7 +349,6 @@ function spline_points(spline, num, dest) {
 
     var t = 0;
     var step = knot[nplusorder-1] / (num-1);
-    var icount = 0;
 
     for (var i = 0; i < num; i++) {
 
@@ -387,9 +384,9 @@ function spline_points(spline, num, dest) {
  */
 exports.spline_point = function(spline, t, dest) {
     if (!dest)
-        var dest = [];
+        dest = [];
 
-    var t = clamped_t(spline, t);
+    t = clamped_t(spline, t);
 
     var cpoints = spline.cpoints;
     var ncoords = spline.is_3d ? 4 : 3;
@@ -434,7 +431,7 @@ function clamped_t(spline, t) {
  */
 exports.spline_derivative = function(spline, t, dest) {
     if (!dest)
-        var dest = [];
+        dest = [];
 
     var cpoints = spline.cpoints;
     var ncoords = spline.is_3d ? 4 : 3;
@@ -541,7 +538,7 @@ function bezier_find_root(t0_so_far, t1_so_far, x_needed, x0, x1, x2, x3, precis
 
     var dx = x - x_needed;
 
-    var precision = precision? precision : 0.01;
+    precision = precision? precision : 0.01;
 
     if (Math.abs(dx) < precision)
         return t;

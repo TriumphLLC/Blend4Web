@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 b4w.module["__hud"] = function(exports, require) {
 
 var m_graph = require("__graph");
-var m_print = require("__print");
 var m_subs  = require("__subscene");
 
 var START_POINT_X = 30;
@@ -117,8 +116,6 @@ function show_debug_info_scene(scene) {
     var sum_rcalls = 0;
     var sum_rtimes = 0;
 
-    var next_slot = 2;
-
     var graph = scene._render.graph;
     m_graph.traverse(graph, function(node, attr) {
         var subs = attr;
@@ -127,7 +124,6 @@ function show_debug_info_scene(scene) {
         if (subs.type == m_subs.SINK)
             return;
 
-        var type = subs.type;
         var size = Math.round(subs.camera.width) + "x" + Math.round(subs.camera.height);
 
         var bundles = 0;
@@ -141,7 +137,7 @@ function show_debug_info_scene(scene) {
             bundles *= 6;
 
         // active/passive
-        var is_active = subs.do_render;
+        var is_active = subs.do_render && !subs.force_do_not_render;
 
         var render_time = is_active ? subs.debug_render_time : 0;
 

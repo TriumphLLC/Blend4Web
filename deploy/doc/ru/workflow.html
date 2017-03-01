@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Рабочий процесс &mdash; Руководство пользователя Blend4Web 16.12</title>
+  <title>Рабочий процесс &mdash; Руководство пользователя Blend4Web 17.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.02" href="index.html"/>
         <link rel="next" title="Управление проектами" href="project_manager.html"/>
         <link rel="prev" title="Установка и обновление" href="setup.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -87,10 +87,16 @@
 <li class="toctree-l1"><a class="reference internal" href="engine_features.html">Возможности движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Установка и обновление</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Рабочий процесс</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#authoring-scenes">Подготовка сцен</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#displaying-scenes-in-the-viewer">Отображение сцен в просмотрщике</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-new-project">Создание нового проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-scenes">Создание сцен</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preparing-a-scene-to-use-in-blend4web">Подготовка трёхмерных сцен в программе Blender.</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#displaying-scenes-in-the-viewer">Отображение сцен в просмотрщике</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#exporting-scenes">Экспорт сцен</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#application-development">Разработка приложения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-building">Сборка проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-deploying">Размещение проекта.</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a></li>
@@ -164,15 +170,21 @@
            <div itemprop="articleBody">
             
   <div class="section" id="workflow">
-<span id="working-process-stages"></span><h1><a class="toc-backref" href="#id2">Рабочий процесс</a><a class="headerlink" href="#workflow" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="working-process-stages"></span><h1><a class="toc-backref" href="#id1">Рабочий процесс</a><a class="headerlink" href="#workflow" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Содержание</p>
 <ul class="simple">
-<li><a class="reference internal" href="#workflow" id="id2">Рабочий процесс</a><ul>
-<li><a class="reference internal" href="#authoring-scenes" id="id3">Подготовка сцен</a></li>
-<li><a class="reference internal" href="#displaying-scenes-in-the-viewer" id="id4">Отображение сцен в просмотрщике</a></li>
-<li><a class="reference internal" href="#exporting-scenes" id="id5">Экспорт сцен</a></li>
-<li><a class="reference internal" href="#application-development" id="id6">Разработка приложения</a></li>
+<li><a class="reference internal" href="#workflow" id="id1">Рабочий процесс</a><ul>
+<li><a class="reference internal" href="#creating-a-new-project" id="id2">Создание нового проекта</a></li>
+<li><a class="reference internal" href="#creating-scenes" id="id3">Создание сцен</a></li>
+<li><a class="reference internal" href="#preparing-a-scene-to-use-in-blend4web" id="id4">Подготовка трёхмерных сцен в программе Blender.</a><ul>
+<li><a class="reference internal" href="#displaying-scenes-in-the-viewer" id="id5">Отображение сцен в просмотрщике</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exporting-scenes" id="id6">Экспорт сцен</a></li>
+<li><a class="reference internal" href="#application-development" id="id7">Разработка приложения</a></li>
+<li><a class="reference internal" href="#project-building" id="id8">Сборка проекта</a></li>
+<li><a class="reference internal" href="#project-deploying" id="id9">Размещение проекта.</a></li>
 </ul>
 </li>
 </ul>
@@ -182,9 +194,9 @@
 <ol class="arabic simple">
 <li><p class="first">Создание нового проекта.</p>
 </li>
-<li><p class="first">Подготовка трёхмерных сцен в программе Blender.</p>
+<li><p class="first">Создание сцен</p>
 </li>
-<li><p class="first">Запуск, настройка и отладка сцены в программе-просмотрщике.</p>
+<li><p class="first">Подготовка трёхмерных сцен в программе Blender.</p>
 </li>
 <li><p class="first">Экспорт сцен.</p>
 </li>
@@ -192,11 +204,31 @@
 </li>
 <li><p class="first">Сборка проекта.</p>
 </li>
-<li><p class="first">Создание целевого веб-приложения.</p>
+<li><p class="first">Размещение проекта.</p>
 </li>
 </ol>
-<div class="section" id="authoring-scenes">
-<span id="id1"></span><h2><a class="toc-backref" href="#id3">Подготовка сцен</a><a class="headerlink" href="#authoring-scenes" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="creating-a-new-project">
+<h2><a class="toc-backref" href="#id2">Создание нового проекта</a><a class="headerlink" href="#creating-a-new-project" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Разумеется, работа над проектом должна начинаться с его создания.</p>
+<p>Наиболее простой способ - использовать <a class="reference internal" href="project_manager.html#project-manager"><span>Менеджер проектов</span></a>. Для того, чтобы создать новый проект, нажмите кнопку Create New Project в верхней части главной страницы менеджера.</p>
+<p>Другой способ - использовать консольную утилиту <em>project.py</em>. Этот подход предоставляет больше возможностей для тонкой настройки проекта и описан <a class="reference internal" href="project_manager.html#creating-a-project"><span>здесь</span></a>.</p>
+</div>
+<div class="section" id="creating-scenes">
+<h2><a class="toc-backref" href="#id3">Создание сцен</a><a class="headerlink" href="#creating-scenes" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Сцены содержатся в blend-файлах. При создании нового проекта менеджер проектов может автоматически создать blend-файл с базовой сценой. Также к проекту можно подключать дополнительные blend-файлы.</p>
+<p>Сцены для Blend4Web создаются почти так же, как сцены для самого Blender. Процесс работы над сценой можно разделить на несколько этапов:</p>
+<ol class="arabic simple">
+<li><p class="first">Создание объектов сцены</p>
+</li>
+<li><p class="first"><a class="reference internal" href="materials.html#materials"><span>Настройка материалов</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="animation.html#animation"><span>Создание анимации</span></a></p>
+</li>
+<li><p class="first"><a class="reference internal" href="logic_editor.html#logic-editor"><span>Создание нодовой логики</span></a> для сцены. Этот этап применим только к движку Blend4Web, но не к самому Blender.</p>
+</li>
+</ol>
+<p>Следует заметить, что не все из этих этапов необходимы при работе над проектом. Простая сцена может не содержать анимации или даже материалов (кроме стандартных).</p>
+<p>Порядок этапов также не задан жёстко и может изменяться в определённых пределах (например, анимировать объект возможно только после его создания, но материал для него может быть создан и загодя).</p>
 <p>Помимо обычных операций по моделированию, текстурированию, анимации и т.д. должна быть осуществлена подготовка сцены для работы в движке.</p>
 <p>Общие рекомендации:</p>
 <ol class="arabic simple">
@@ -212,13 +244,17 @@
 </li>
 </ol>
 </div>
+<div class="section" id="preparing-a-scene-to-use-in-blend4web">
+<h2><a class="toc-backref" href="#id4">Подготовка трёхмерных сцен в программе Blender.</a><a class="headerlink" href="#preparing-a-scene-to-use-in-blend4web" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Помимо обычных операций по моделированию, текстурированию, анимации и т.д. должна быть осуществлена подготовка сцены для работы в движке.</p>
 <div class="section" id="displaying-scenes-in-the-viewer">
-<span id="assets-json"></span><span id="index-0"></span><h2><a class="toc-backref" href="#id4">Отображение сцен в просмотрщике</a><a class="headerlink" href="#displaying-scenes-in-the-viewer" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="assets-json"></span><span id="index-0"></span><h3><a class="toc-backref" href="#id5">Отображение сцен в просмотрщике</a><a class="headerlink" href="#displaying-scenes-in-the-viewer" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При использовании <a class="reference internal" href="addon.html#local-development-server"><span>локального сервера разработки</span></a> возможно сделать предварительный просмотр сцены используя кнопку <code class="docutils literal"><span class="pre">Fast</span> <span class="pre">Preview</span></code>, расположенную в нижней части окна 3D View Blender&#8217;а, а также на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">-&gt;</span> <span class="pre">Development</span> <span class="pre">Server</span></code> в Blender. В этом случае будет произведён автоматический экспорт сцены во временное хранилище с последующей загрузкой в просмотрщике.</p>
 <p>Другой способ - использовать опцию экспорта сцены <a class="reference internal" href="addon.html#run-in-viewer"><span>Run in Viewer</span></a>. В этом случая сцена показывается в просмотрщике сразу после экспорта.</p>
 </div>
+</div>
 <div class="section" id="exporting-scenes">
-<span id="export-scene"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id5">Экспорт сцен</a><a class="headerlink" href="#exporting-scenes" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="export-scene"></span><span id="index-1"></span><h2><a class="toc-backref" href="#id6">Экспорт сцен</a><a class="headerlink" href="#exporting-scenes" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Процедура экспорта преобразует данные сцены из формата, понятного Blender, в формат, понятный Blend4Web.</p>
 <a class="reference internal image-reference" href="_images/workflow_export_scheme.png"><img alt="_images/workflow_export_scheme.png" class="align-center" src="_images/workflow_export_scheme.png" style="width: 100%;" /></a>
 <p>Экспорт может осуществляться в два формата: JSON и HTML.</p>
@@ -232,8 +268,24 @@
 <p>Опции экспорта подробно описаны в <a class="reference internal" href="addon.html#export-opts"><span>соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="application-development">
-<h2><a class="toc-backref" href="#id6">Разработка приложения</a><a class="headerlink" href="#application-development" title="Ссылка на этот заголовок">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Разработка приложения</a><a class="headerlink" href="#application-development" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Этот раздел не актуален проектов типа Web Player HTML и Web Player JSON.</p>
 <p>На этой стадии создаётся приложение, в котором на языке JavaScript пишется логика по загрузке сцены и взаимодействию с ней пользователя. Документация для разработчиков приложений приведена в <a class="reference internal" href="developers.html#developers"><span>соответствующем разделе</span></a>.</p>
+</div>
+<div class="section" id="project-building">
+<h2><a class="toc-backref" href="#id8">Сборка проекта</a><a class="headerlink" href="#project-building" title="Ссылка на этот заголовок">¶</a></h2>
+<p>После того, как работа над проектом завершена, его следует собрать, чтобы иметь возможность использовать проект вне SDK.</p>
+<p>Сборка проекта запускается при нажатии на ссылку <code class="docutils literal"><span class="pre">build</span> <span class="pre">project</span></code> в <a class="reference internal" href="project_manager.html#project-manager"><span>Менеджере проектов</span></a>.</p>
+<p>Также, перед сборкой проекта можно <a class="reference internal" href="developers.html#converter"><span>конвертировать медиаресурсы</span></a>, используемые в проекте, чтобы уменьшить его размер.</p>
+</div>
+<div class="section" id="project-deploying">
+<h2><a class="toc-backref" href="#id9">Размещение проекта.</a><a class="headerlink" href="#project-deploying" title="Ссылка на этот заголовок">¶</a></h2>
+<p>После того, как работа над проектом завершена, проект следует разместить. Размещение проекта осуществляется при нажатии на ссылку <code class="docutils literal"><span class="pre">deploy</span> <span class="pre">project</span></code> в списке команд <code class="docutils literal"><span class="pre">Operations</span></code>, который находится справа от имени проекта в главном окне <a class="reference internal" href="project_manager.html#project-manager"><span>Менеджере проектов</span></a>.</p>
+<p>При нажатии на эту ссылку Менеджер проектов выполняет все операции, необходимые для размещения проекта.</p>
+<p>Размещённый проект имеет форму архива, содержащего все файлы проекта. Этот архив может быть сохранён на жёсткий диск при помощи стандартных средств сохранения файлов в веб-браузере.</p>
+<p>Законченный проект может быть размещён на веб-сервере.</p>
+<p>Для этого следует извлечь файлы проекта из архива, который вы загрузили из Менеджера проектов, и загрузить их на сервер (сохраняя внутренню структуру каталогов) при помощи FTP, SSH или любого другого протокола, поддерживаемого сервером. После этого проект следует разместить на веб-странице, например, при помощи контейнера <code class="docutils literal"><span class="pre">iframe</span></code>.</p>
+<p>Размещение проектов на веб-сервере описано в <a class="reference internal" href="project_manager.html#project-deploy"><span>особом разделе</span></a> главы <a class="reference internal" href="project_manager.html#project-manager"><span>Менеджер проектов</span></a>.</p>
 </div>
 </div>
 
@@ -257,7 +309,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-12-22.
+      Обновлено: 2017-02-28.
 
     </p>
   </div>
@@ -313,7 +365,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

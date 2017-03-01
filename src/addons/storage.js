@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ var _storage = null;
 /**
  * Initialize the application storage.
  * @method module:storage.init
- * @param {String} prefix Storage prefix
+ * @param {string} prefix Storage prefix
  */
 exports.init = init;
 function init(prefix) {
@@ -70,9 +70,9 @@ function init_storage() {
 
 /**
  * Save the value in the local storage.
- * @param {String} key Key
- * @param {String} value Value
- * @param {?String} prefix Storage prefix.
+ * @param {string} key Key
+ * @param {string} value Value
+ * @param {?string} prefix Storage prefix.
  */
 exports.set = function(key, value, prefix) {
     var b4w_st = get_b4w_storage(prefix);
@@ -93,7 +93,7 @@ function set_b4w_storage(b4w_storage, prefix) {
 
 /**
  * Perform local storage cleanup.
- * @param {?String} prefix Storage prefix.
+ * @param {?string} prefix Storage prefix.
  */
 exports.cleanup = function(prefix) {
     delete _storage[prefix? prefix: _prefix];
@@ -101,9 +101,9 @@ exports.cleanup = function(prefix) {
 
 /**
  * Get the value from the local storage.
- * @param {String} key Key
- * @param {?String} prefix Storage prefix.
- * @returns {String} Value
+ * @param {string} key Key
+ * @param {?string} prefix Storage prefix.
+ * @returns {string} Value
  */
 exports.get = function(key, prefix) {
     var b4w_st = get_b4w_storage(prefix);
@@ -115,7 +115,7 @@ exports.get = function(key, prefix) {
 
 /**
  * Print the local storage.
- * @param {?String} prefix Storage prefix.
+ * @param {?string} prefix Storage prefix.
  */
 exports.debug = function(prefix) {
     m_print.log(get_b4w_storage(prefix? prefix: _prefix));

@@ -9,7 +9,6 @@ var m_cam      = require("camera");
 var m_cfg      = require("config");
 var m_cons     = require("constraints");
 var m_cont     = require("container");
-var m_ctl      = require("controls");
 var m_data     = require("data");
 var m_lights   = require("lights");
 var m_main     = require("main");
@@ -60,7 +59,6 @@ var _vec3_tmp4         = new Float32Array(3);
 
 var ZERO_VECTOR        = new Float32Array([0, 0, 0]);
 var SMOKE_OFFSET       = new Float32Array([0, -1, 0]);
-var LIGHT_POINT_OFFSET = new Float32Array([0, 0, -1.2]);
 
 var _vec4_tmp          = new Float32Array(4);
 
@@ -152,9 +150,6 @@ var _replay              = null;
 var _replay_circle       = null;
 var _social_buttons      = null;
 
-var _content             = null;
-var _start_cont_height   = 0;
-var _start_wind_height   = 0;
 var _start_info_height   = 0;
 
 var _preload_cont = null
@@ -1068,6 +1063,7 @@ function preloader_cb(percentage) {
 
 function create_preloader() {
     _preload_cont = document.querySelector("#preloader_container");
+    var main_canvas_container = m_cont.get_container();
 
     var bg_image_container = _preload_cont.querySelector("#bg_image_container");
     var bg_fade_container  = _preload_cont.querySelector("#bg_fade_container");
@@ -1133,10 +1129,6 @@ function on_off_sound() {
 }
 
 function init_container_params() {
-    _content = document.querySelector("#content");
-
-    _start_cont_height = _content.offsetHeight;
-    _start_wind_height = window.innerHeight;
     _start_info_height = _info_container.scrollHeight;
 }
 

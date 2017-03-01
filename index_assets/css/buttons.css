@@ -1,0 +1,94 @@
+.btn.icon {
+  display: block;
+  height: 60px;
+  position: relative;
+  background-color: #3e65c3;
+  border-radius: 3px;
+  float: left;
+  width: 214px;
+}
+
+.btn.icon > .btn_body {
+  padding-right: 64px;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 56px;
+  background-color: #5276cf;
+  border-radius: 3px;
+}
+
+.btn.icon > .btn_body > span {
+  position: absolute;
+  right: 64px;
+  line-height: 1;
+  font-family: 'Open Sans Semibold', sans-serif;
+  color: #fff;
+  bottom: 19px;
+  font-size: 18px;
+  left: 0;
+  text-align: center;
+  font-weight: normal;
+}
+
+.btn.icon > .icon {
+  width: 64px;
+  height: 56px;
+  position: absolute;
+  right: 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.btn {
+  display: block;
+  position: relative;
+  color: #5276cf;
+  width: 220px;
+  height: 48px;
+  border: 2px solid #5276cf;
+  border-radius: 2px;
+  transition: all .2s ease-in-out;
+}
+
+.btn.active:hover {
+  text-decoration: none;
+  color: #fff;
+  background-color: #5276cf;
+}
+
+.btn span {
+  position: absolute;
+  bottom: 13px;
+  left: 0;
+  right: 0;
+  font-family: "Open Sans Semibold", sans-serif;
+  font-size: 18px;
+  line-height: 1;
+  text-align: center;
+  font-weight: normal;
+}
+
+.btn label {
+  width: 100%;
+  height: 100%;
+}
+
+.btn {
+  float: left;
+  margin-right: 8px;
+}
+
+.btn:last-child {
+  margin-right: 0;
+}
+
+.btn_wrapper {
+  display: inline-block;
+}
+
+.btns_cont {
+  text-align: center;
+  margin: 24px 0;
+}

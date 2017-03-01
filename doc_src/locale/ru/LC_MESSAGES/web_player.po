@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-28 14:05+0300\n"
+"POT-Creation-Date: 2017-02-21 14:02+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -278,21 +278,30 @@ msgstr ""
 
 #: ../web_player.rst:123
 msgid ""
-"the ``load`` attribute specifies a wrong path to the JSON file or the "
-"file is corrupt;"
+"The ``load`` :ref:`attribute <webplayer_attributes>` specifies a wrong "
+"path to the JSON file or the file is corrupt."
 msgstr ""
-"атрибутом ``load`` указан неверный путь к JSON файлу или данный файл "
-"неисправен;"
+":ref:`атрибутом <webplayer_attributes>` ``load`` указан неверный путь к JSON "
+"файлу или данный файл неисправен;"
 
 #: ../web_player.rst:131
-msgid "the ``load`` attribute is not found or is void;"
-msgstr "атрибут ``load`` не найден или его значение пустое;"
+msgid ""
+"The ``load`` :ref:`attribute <webplayer_attributes>` is not found or is "
+"void."
+msgstr ":ref:`атрибут <webplayer_attributes>` ``load`` не найден или его "
+"значение пустое;"
 
 #: ../web_player.rst:139
-msgid "WebGL initialization error."
-msgstr "ошибка инициализации WebGL."
+msgid ""
+"WebGL initialization error. Please, look at :ref:`this page "
+"<renderer_not_working>` for the solution."
+msgstr "Ошибка инициализации WebGL. Возможные решения описаны на "
+":ref:`этой странице <renderer_not_working>`."
 
 #: ../web_player.rst:1
 msgid "web player"
 msgstr "веб-плеер"
+
+#~ msgid "WebGL initialization error."
+#~ msgstr "ошибка инициализации WebGL."
 

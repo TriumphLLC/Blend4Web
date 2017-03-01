@@ -384,6 +384,15 @@ Setup for water rendering parameters, including color transitions by depth and b
 
 The settings for water rendering are described in the :ref:`Outdoor Rendering <water>` chapter. Scene Viewer uses the same settings as the Blend4Web engine itself.
 
+.. _viewer_mist:
+
+Mist
+....
+
+Setup for fog parameters.
+
+Scene Viewer uses standard fog rendering settings that are described in the :ref:`dedicated chapter <fog>`.
+
 .. _viewer_wind:
 
 Wind
@@ -392,6 +401,15 @@ Wind
 Setup for wind parameters, including direction and strength.
 
 The same parameters as the ones used by Scene Viewer are available in Blender. These parameters are described in the :ref:`corresponding chapter <wind>`.
+
+.. _viewer_wind_bending:
+
+Wind Bending
+............
+
+Setup for wind bending effect parameters.
+
+The same set of wind bending parameters is available in Blender. It is described in the :ref:`Outdoor Rendering <wind_bending>` chapter.
 
 .. _viewer_ssao:
 

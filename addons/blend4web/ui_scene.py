@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -71,35 +71,6 @@ class B4W_SCENE_PT_unit(SceneButtonsPanel, Panel):
             row = layout.row()
             row.prop(unit, "scale_length", text=_("Scale"))
             row.prop(unit, "use_separate")
-
-class B4W_SCENE_PT_simplify(SceneButtonsPanel, Panel):
-    bl_label = _("Simplify")
-    COMPAT_ENGINES = {'BLENDER_RENDER'}
-
-    def draw_header(self, context):
-        rd = context.scene.render
-        self.layout.prop(rd, "use_simplify", text="")
-
-    def draw(self, context):
-        layout = self.layout
-
-        rd = context.scene.render
-        layout.active = rd.use_simplify
-
-        split = layout.split()
-
-        col = split.column()
-        col.label(text=_("Viewport:"))
-        col.prop(rd, "simplify_subdivision", text=_("Subdivision"))
-        col.prop(rd, "simplify_child_particles", text=_("Child Particles"))
-
-        col = split.column()
-        col.label(text=_("Render:"))
-        col.prop(rd, "simplify_subdivision_render", text=_("Subdivision"))
-        col.prop(rd, "simplify_child_particles_render", text=_("Child Particles"))
-        col.prop(rd, "simplify_shadow_samples", text=_("Shadow Samples"))
-        col.prop(rd, "simplify_ao_sss", text=_("AO and SSS"))
-        col.prop(rd, "use_simplify_triangulate")
 
 class B4W_SceneAudio(SceneButtonsPanel, Panel):
     bl_label = _("Audio")

@@ -437,7 +437,7 @@ def media_conv(path_from, path_to, media_converter, verbose, cut_video, is_video
     if cut_video:
         args += ["-vn"]
     else:
-        if ext_to == ".ogg":
+        if ext_to == ".oga" or ext_to == ".ogv":
             args += ["-acodec", "libvorbis"]
         elif ext_to == ".mp3":
             args += ["-acodec", "mp3"]

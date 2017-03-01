@@ -31,6 +31,9 @@ Project Manager
 
 The *Project Manager* app can be run from the *Tools* section of the SDK’s index page. Upon launching, the app outputs a list of all current projects in the SDK.
 
+.. image:: src_images/project_manager/project_manager_overview.png
+   :align: center
+
 The commands for project management are located at the top of the page.
 
     .. image:: src_images/project_manager/project_manager_actions.png
@@ -53,7 +56,7 @@ The commands for project management are located at the top of the page.
    Can be used to hide stock projects. If such projects are already hidden, this command is replaced with the ``Show Stock Projects`` command.
 
 *Help*
-    Opens the :ref:`Help file <app_building>`.
+    Opens the :ref:`Help file <project_manager>`.
 
 
 Commands for managing a specific project is located at its right.
@@ -96,14 +99,21 @@ Commands for managing a specific project is located at its right.
 
 #. Re-export blend files from the project.
 #. :ref:`Convert media resources. <converter>`
-#. Export and download a project archive.
+#. :ref:`Export and download a project archive <project_deploy>`.
 #. Remove the project.
+#. :ref:`Update file structure <updating_project_structure>`. Available only for the project created with versions of Blend4Web older than 16.12.
 
 .. note::
 
-    All project paths are retrieved from its .b4w_project file.
+    All project paths are retrieved from its :ref:`.b4w_project config file <b4w_config>`.
 
-Beside the project's name, a link to the :ref:`project information page  <project_info>` is located. The application type is also specified there. An application can have one of the following types:
+Beside the project's name are located the links to the 
+
+#. :ref:`project information page  <project_info>`,
+#. :ref:`project file editor <project_edit>` and
+#. :ref:`project configurator <project_config>`. 
+
+The application type is also specified there. An application can have one of the following types:
 
 *Player*
     The application can be played using the Web Player.
@@ -136,12 +146,6 @@ The ``[Back to Projects]`` button can be used to return to the Project Manager's
 6) Use Material Library. Blend files of the material library will be copied to the project directory "projects/project_name/blender", while the asset files will be copied to "projects/project_name/assets" folder.
 7) Copy project manager script. The project.py script will be copied to the project directory.
 8) Project’s type. Several options are available:
-
-    * ``External`` - Project Manager will use engine files in the ``deploy/apps/common/`` directory to run the project.
-
-        When the project is deployed, only application files will be compiled, while the ``deploy/apps/common/`` folder will be copied to the project directory.
-    
-        Use this option if you don't need to change engine files in any way;
 
     * ``Copy`` - engine files will be directly copied from the ``deploy/apps/common/`` to the application folder.
 
@@ -180,7 +184,7 @@ The main advantage of Web Player applications is the ease of deploying such appl
        :align: center
        :width: 100%
 
-Creating a Web Player application is simple. All you have to do when creating a new project is select the ``Web Player JSON`` or ``Web Player HTML`` option under the Engine Binding Type tab.
+Creating a Web Player application is simple. All you have to do when creating a new project is select the ``Web Player JSON`` or ``Web Player HTML`` option under the Application Type tab.
 
 The parameters that are available for a Web Player project are mostly the same as for any other type of project. The only exception is the group of parameter known as the Web Player Params.
 
@@ -193,44 +197,10 @@ Project Settings
 
 This panel is only available if the ``Web Player JSON`` or ``Web Player HTML`` option has been enabled. The parameters listed here are in essence URL attributes that the Web Player application will use while running the project.
 
-Deploying the Project
-.....................
+Project Building and Deploy
+...........................
 
-After you have completed your project, select the ``deploy project`` option from the ``Operations`` panel on the Project Manager main page. The project will be exported, packed into a single archive and downloaded to the folder where your web browser stores all dowloaded files.
-
-To place the project on a webpage, you have to extract this archive and upload its files (the ``html`` file and the ``assets`` directory) to a web server using FTP, SSH or any other protocols supported by the server.
-
-.. note::
-    The internal structure of the archive and relative paths to its files should be retained after uploading the project files to a web server.
-
-A Web Player HTML application can then be placed on any webpage by using an ``iframe`` container.
-Here is an example of HTML code that can be used for this:
-
-.. code-block:: html
-
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>An Example Application</title>
-    </head>
-    <body>
-        <iframe width="800" height="500" allowfullscreen src="/tutorials/examples/web_page_integration/example_scene.html"></iframe>
-    </body>
-    </html>
-
-Deploying a JSON project is performed similarly, but instead of a single HTML file it uses a combination of the Web Player app and a JSON file that contains the actual scene.
-
-.. code-block:: html
-
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Another Example Application</title>
-    </head>
-    <body>
-        <iframe width="800" height="500" allowfullscreen src="/apps/webplayer/webplayer.html?load=/tutorials/examples/web_page_integration/example_scene.json&show_fps"></iframe>
-    </body>
-    </html>
+After the work on a project is completed, it can be built and deployed to a web server. All of this is described in a :ref:`dedicated section <project_deploy>`.
 
 .. _project_info:
 
@@ -323,14 +293,121 @@ A simple web-based interface for editing project files is available by the ``[ed
    :align: center
    :width: 100%
 
-The left part of the editor window contains a list of all ``.html``, ``.css`` and ``.js`` files from the project directory (``projects/my_project``), starting with the main project file ``.b4w_project``. The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.
+The left part of the editor window contains a list of all ``.html``, ``.css`` and ``.js`` files from the project directory (``projects/my_project``). The right part contains the content of a currently selected project file (no file is selected by default) with highlighted syntax.
 
 .. note::
     This interface can only be used to edit files from developer version of a project, but not from the builded version.
 
-New files can be added to the project directory by clicking the ``[New File]`` button.
+New ``.html``, ``.js`` and ``.css`` files can be added to the project directory by clicking the ``[New File]`` button.
 
 The ``[Save]`` and ``[Save As...]`` buttons that can be found at the bottom of the page are used for saving currently selected project file.
+
+.. _project_config:
+
+Project Config
+--------------
+
+This is a web interface that allows the developer to view and change project settings after the project is created.
+
+.. image:: src_images/project_manager/project_manager_config.png
+   :align: center
+   :width: 100%
+
+This page include all settings available during project creation along with some additional parameters. Some of the parameters are read-only (and thus cannot be changed after the project is created).
+
+``Info`` Settings Group
+.......................
+
+*Name*
+    The name of the project.
+
+    This is a read-only parameter.
+
+*Title*
+    Project title as shown in the browser.
+
+*Author*
+    The name of the project's author or the title of the developer company.
+
+*Icon*
+    The icon of the project in the Project Manager.
+
+    The icon can be replaced with the ``Choose File`` button. If an icon is not specified (as it is by default), Blend4Web logo is used.
+
+``Build`` Setting Group
+.......................
+
+*Apps*
+    The list of the project's ``.HTML`` files that are used for compiling applications. Each ``.HTML`` file is considered a separate application.
+
+*Use Physics*
+    Enables and disables adding physics engine files to the project. Can be turned off if the project does not use physics.
+
+    This parameter is always disabled for a WebPlayer HTML type project and always enabled for a WebPlayer JSON type. For other types of projects, it can be set manually.
+
+*Application Type*
+    The type of the project.
+
+    This is a read-only parameter, as projects with different types have different inner structure.
+
+*JavaScript Obfuscation Level*
+    JavaScript optimization level for compiling application.
+
+    This parameter is read-only for the None, WebPlayer HTML and WebPlayer JSON type projects.
+
+*JS Compilation Pass-Through List*
+    The list of pass-through exceptions for the project's JavaScript files compilation.
+
+*CSS Compilation Pass-Through List*
+    The list of pass-through exceptions for the project's CSS files.
+
+*Build Ignore List*
+    The list of exceptions for project's builds.
+
+``Paths`` Setting Group
+.......................
+
+*Developer Project Path*
+    The path to the application for development.
+
+    This is a read-only parameter.
+
+*Build Project Path*
+    The path to the compiled application.
+
+*Blend Directory(s)*
+    Path(s) to the blend file directory(ies).
+
+*Assets Directory(s)*
+    Path(s) to the assets directory(ies).
+
+*Blender Exec*
+    The path to the Blender exacutable file.
+
+*Deployment Path*
+    The path to the folder for project final deployment.
+
+``Deploy`` Setting Group
+........................
+
+*Deployment Assets Directory*
+    Directory where assets will be placed for deployed project.
+
+*Deployment Assets URL Prefix*
+    URL path prefix to assets directory inside deployed project as reported by :b4wref:`config.get_assets_path()`.
+
+*Deployment Ignore List*
+    The list of exceptions for project's deploy.
+
+*Override Deployment Path*
+    Deletes deployment directory, if it already exists.
+
+URL GET Params
+..............
+
+The additional GET parameters for the URL link to the application in the Project Manager interface are specified in this field.
+
+Project setting can be saved by pressing the ``[Save Config]`` button at the bottom of the screen.
 
 .. _import_projects:
 
@@ -385,6 +462,53 @@ Project Parameters
 *Archive Name*
     The name of an archive to which exported projects are packed.
 
+.. _project_deploy:
+
+Deploying the Project
+---------------------
+
+After you have completed your project, select the ``deploy project`` option from the ``Operations`` panel on the Project Manager main page. The project will be exported and packed into a single archive.
+
+.. image:: src_images/project_manager/project_manager_deploying.png
+       :align: center
+       :width: 100%
+
+After that, this archive can then be downloaded by to the folder where your web browser stores all dowloaded files by pressing the ``Download`` button. It should be noted that the process of downloading can take a significant amount of time depending on the size of the archive.
+
+To place the project on a webpage, you have to extract this archive and upload its files to a web server using FTP, SSH or any other protocols supported by the server.
+
+.. note::
+    The internal structure of the archive and relative paths to its files should be retained after uploading the project files to a web server.
+
+A Web Player HTML application can then be placed on any webpage by using an ``iframe`` container.
+Here is an example of HTML code that can be used for this:
+
+.. code-block:: html
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>An Example Application</title>
+    </head>
+    <body>
+        <iframe width="800" height="500" allowfullscreen src="/projects/myproject/myproject.html"></iframe>
+    </body>
+    </html>
+
+Deploying a JSON project is performed similarly, but instead of a single HTML file it uses a combination of the Web Player app and a JSON file that contains the actual scene.
+
+.. code-block:: html
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Another Example Application</title>
+    </head>
+    <body>
+        <iframe width="800" height="500" allowfullscreen src="/myproject/webplayer.html?load=/projects/myproject/myproject.json&show_fps"></iframe>
+    </body>
+    </html>
+
 .. _advanced_project_management:
 
 Advanced Project Management
@@ -394,7 +518,9 @@ Advanced project management is used by experienced developers which require more
 
 For advanced project management use the *project.py* script and manually edit *.b4w_project* configuration files.
 
-The *project.py* script can be found in the ``./apps_dev/`` folder of the Blend4Web SDK directory.
+The *project.py* script can be found in the ``./apps_dev/`` folder of the Blend4Web SDK directory. If the ``Copy Project Management Script`` option has been set while creating the project, the script can also be found in the root folder of the project.
+
+.. _project_deps:
 
 Dependencies
 ------------
@@ -418,6 +544,8 @@ For script operation it's required to install java and  `set the PATH system var
 
 :ref:`Resource Converter <converter>` also uses its own set of external tools that are described in :ref:`another section <converter_deps>`.
 
+.. _project_list:
+
 Projects List
 -------------
 
@@ -427,6 +555,7 @@ The list of all projects in the SDK can be viewed with the following command:
 
     python3 project.py -p myproject list
 
+.. _project_structure:
 
 Project Structure
 -----------------
@@ -471,11 +600,14 @@ Additionally, the deploy command can create yet another directory, but it's usua
 
     This button can be found in the ``Operations`` panel at the right side of the project's entry in the Project Manager list. It is only available for user projects (not for stock ones) that use the obsolete project structure.
 
+.. _b4w_config:
 
 Project Configuration File (.b4w_project)
 -----------------------------------------
 
 Project configuration file includes all necessary information of your project, including name, metadata, directories, info for application building and deployment.
+
+Project configuration file can be edited manually, but a more convenient way is to use :ref:`Project Editing <project_edit>` interface.
 
 ::
 
@@ -500,8 +632,6 @@ Project configuration file includes all necessary information of your project, i
  js_ignore = 
  optimization = simple
  use_physics = 
- use_smaa_textures = 
- version = 
  
  [deploy]
  assets_path_dest = assets
@@ -602,6 +732,7 @@ Section ``[url_params]``
 
 Optional section for Web Player projects. Contains :ref:`URL params <webplayer_attributes>` used to start project applications.
 
+.. _creating_a_project:
 
 Creating a Project
 ------------------
@@ -619,7 +750,7 @@ Available parameters:
 * ``-o | --optimization`` (optional) write the script optimization level in the config file.
 * ``-P | --copy-project-script`` (optional) create a copy of the *project.py* script in the project directory.
 * ``-S | --copy-scene-templates`` (optional) create standard scene templates in the directories ``projects/my_project/assets`` and ``projects/my_project/blender`` (*my_project.json/.bin* and *my_project.blend* correspondingly).
-* ``-T | --title"`` (optional) write a title in the config file. Upon building, it will be used inside the ``<title>`` HTML element.
+* ``-T | --title`` (optional) write a title in the config file. Upon building, it will be used inside the ``<title>`` HTML element.
 * ``-t | --engine-type`` (optional) write an engine type in the config file.
 
 Example:
@@ -673,6 +804,9 @@ A project can contain multiple apps. This can be provided by listing the corresp
  apps = myapp1;myapp2;
  ...
 
+If the ``apps`` field is empty, every ``html`` file in the project directory will be considered an application.
+
+.. _project_build:
 
 Building Projects
 -----------------
@@ -713,6 +847,7 @@ Available parameters:
 * ``"-b | --blender-exec"`` path to the blender executable.
 * ``"-s | --assets"`` specify directory with scene assets.
 
+.. _project_resource_conv:
 
 Resource Conversion
 -------------------
@@ -729,6 +864,7 @@ Available parameters:
 
 Converting of resources is described in detail in the :ref:`corresponding section <converter>`.
 
+.. _project_deploy_cli:
 
 Deploying Projects
 ------------------
@@ -747,6 +883,7 @@ Available parameters:
 * ``"-s | --assets"`` override project's assets directory(s).
 * ``"-t | --engine-type"`` override project's engine type config.
 
+.. _project_remove:
 
 Remove Project
 --------------
@@ -757,6 +894,7 @@ Remove Project
 
 Removes a project. Removed directories are retrieved from project configuration file.
 
+.. _project_sdk_update:
 
 Upgrading Apps for New SDK Versions
 -----------------------------------

@@ -23,6 +23,8 @@ var _touch_attack_cb = null;
 var _touch_move_cb = null;
 var _touch_end_cb = null;
 
+var _vec2_tmp = new Float32Array(2);
+
 exports.init = function(replay_cb, elapsed_sensor, intro_load_cb,
                         preloader_cb, plock_cb, level_name,
                         load_level) {
@@ -236,8 +238,11 @@ exports.setup_touch_controls = function(right_arrow, up_arrow, left_arrow,
 
         for (var i = 0; i < touches.length; i++) {
             var touch = touches[i];
-            var x = touch.clientX;
-            var y = touch.clientY;
+            var client_x = touch.clientX;
+            var client_y = touch.clientY;
+            var canvas_xy = m_cont.client_to_canvas_coords(client_x, client_y, _vec2_tmp);
+            var x = canvas_xy[0];
+            var y = canvas_xy[1];
 
             if (x > w / 2) { // right side of the screen
                 rot_prev_touch[0] = x;
@@ -297,10 +302,13 @@ exports.setup_touch_controls = function(right_arrow, up_arrow, left_arrow,
 
         var touches = event.changedTouches;
 
-        for (var i=0; i < touches.length; i++) {
+        for (var i = 0; i < touches.length; i++) {
             var touch = touches[i];
-            var x = touch.clientX;
-            var y = touch.clientY;
+            var client_x = touch.clientX;
+            var client_y = touch.clientY;
+            var canvas_xy = m_cont.client_to_canvas_coords(client_x, client_y, _vec2_tmp);
+            var x = canvas_xy[0];
+            var y = canvas_xy[1];
 
             if (x > w / 2 && touch.identifier == rot_touch_idx) { // right side of the screen
                 var d_x = rot_prev_touch[0] - x;

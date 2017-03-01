@@ -56,7 +56,7 @@
 
     * 物理
 
-    * Objects Clustering
+    * 物体聚类
 
     * 选择物体
 
@@ -164,6 +164,10 @@
 晕光材质效果设置。  详尽的描述在 自己的章节.
 
 [图片]
+
+注解: For dynamically loaded objects, "AUTO" setting is interpreted
+  as "OFF", if no materials with glow are present in the scene. If you
+  are using dynamic loading, you should set this parameter to "ON".
 
 
 抗锯齿
@@ -392,29 +396,22 @@ Meta标签
    允许在应用程序中使用物理。默认情况下启用。
 
 
-Objects Clustering
-------------------
+物体聚类
+--------
 
-The setting for object clustering. It can be used for optimization
-purposes.
+物体集群的设置。它可用于优化目的。
 
 [图片]
 
 *簇大小*
-   The size of the cluster used for batching (in meters). If this
-   parameter is set to zero, the engine will try to combine all
-   objects in the scene. Set to zero by default.
+   簇的用于批量（尺寸：米）的处理。如果该参数被设置为零，引擎将场景中
+   所有物体合并。默认设置为零。
 
-*LOD Cluster Size Multiplier*
-   This parameter is used to subdivide clusters (based on LOD distance
-   specified individually for each object) into smaller ones to make
-   transitions between different levels of detail less noticable. The
-   size of that smaller clusters is defined by object LOD distance
-   multiplied by the value of this parameter. Higher values lead to
-   bigger clusters which increases performance but maked transition
-   between LODs more noticable, while lower values make said
-   transitions less noticable at the cost of decreased performance.
-   Set to 0.5 by default.
+*LOD簇大小乘数*
+   该参数用于细分簇（基于每个物体指定的LOD距离）到较小的部分使得不同情
+   况的层次细节切换不被引起注意。小簇的大小是由物体的LOD距离乘以这个参
+   数的值定义。较高的值导致更大的簇，提高性能但使得过渡比较明显，而较
+   低的值让转换不被引起注意但是以性能降低为代价。默认设置为0.5。
 
 
 选择物体

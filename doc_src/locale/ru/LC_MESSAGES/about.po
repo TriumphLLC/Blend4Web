@@ -162,9 +162,8 @@ msgstr ""
 " во всех браузерах."
 
 #: ../about.rst:73
-#, fuzzy
 msgid "Desktop Browsers"
-msgstr "браузер"
+msgstr "Браузеры"
 
 #: ../about.rst:75
 msgid "`Chrome <http://www.google.com/chrome>`_"

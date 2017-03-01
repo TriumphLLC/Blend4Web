@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,7 +42,30 @@ for m in b4w_modules:
     exec(blend4web.load_module_script.format(m))
 
 from blend4web.translator import _, p_
-SUPPORTED_TEX_TYPES = {'IMAGE','ENVIRONMENT_MAP','NONE','BLEND'}
+SUPPORTED_PARTICLE_TEX_TYPES = {'BLEND'}
+SUPPORTED_WORLD_TEX_TYPES = {'ENVIRONMENT_MAP'}
+SUPPORTED_MAT_TEX_TYPES = {'IMAGE','ENVIRONMENT_MAP','NONE'}
+
+def check_tex_compatibility(context):
+    tex = context.texture
+
+    if tex.use_nodes:
+        return False
+
+    engine  = context.scene.render.engine
+    idblock = context_tex_datablock(context)
+
+    if (isinstance(idblock, ParticleSettings) and tex.type in
+                                SUPPORTED_PARTICLE_TEX_TYPES):
+        return True
+    elif (isinstance(idblock, Material) and tex.type in
+                                SUPPORTED_MAT_TEX_TYPES):
+        return True
+    elif (isinstance(idblock, World) and tex.type in
+                                SUPPORTED_WORLD_TEX_TYPES):
+        return True
+    else:
+        return False
 
 # common properties for all B4W texture panels
 class TextureButtonsPanel:
@@ -54,17 +77,47 @@ class TextureButtonsPanel:
     @classmethod
     def poll(cls, context):
         tex = context.texture
+        if not tex:
+            return False
         engine = context.scene.render.engine
-        return (tex and tex.type in SUPPORTED_TEX_TYPES and not tex.use_nodes
+        is_compat_tex = check_tex_compatibility(context)
+        return (is_compat_tex
             and context.scene.render.engine in cls.COMPAT_ENGINES)
+
+class TextureErrorPanel(Panel):
+    bl_space_type = 'PROPERTIES'
+    bl_region_type = 'WINDOW'
+    bl_context = "texture"
+    bl_label = _("Preview")
+    COMPAT_ENGINES = ["BLEND4WEB"]
+
+    @classmethod
+    def poll(cls, context):
+
+        tex = context.texture
+        if not tex:
+            return False
+
+        engine = context.scene.render.engine
+        is_compat_tex = check_tex_compatibility(context)
+        return ((not is_compat_tex)
+            and context.scene.render.engine in cls.COMPAT_ENGINES)
+
+    def draw(self, context):
+        layout = self.layout
+        tex = context.texture
+        layout.label(text=_("Texture type is not compatible with current texture context."), icon="ERROR")
 
 class TextureTypePanel(TextureButtonsPanel):
 
     @classmethod
     def poll(cls, context):
         tex = context.texture
+        if not tex:
+            return False
+        is_compat_tex = check_tex_compatibility(context)
         engine = context.scene.render.engine
-        return tex and ((tex.type == cls.tex_type and not tex.use_nodes) and (engine in cls.COMPAT_ENGINES))
+        return (tex.type == cls.tex_type) and is_compat_tex and (engine in cls.COMPAT_ENGINES)
 
 class TextureSlotPanel(TextureButtonsPanel):
 
@@ -74,11 +127,13 @@ class TextureSlotPanel(TextureButtonsPanel):
         if not hasattr(context, "texture_slot"):
             return False
 
+        tex = context.texture
+
         if tex.use_nodes:
             return False
 
         engine = context.scene.render.engine
-        return TextureButtonsPanel.poll(cls, context) and (engine in cls.COMPAT_ENGINES)
+        return TextureButtonsPanel.poll(context) and (engine in cls.COMPAT_ENGINES)
 
 def context_tex_datablock(context):
     idblock = context.material
@@ -114,10 +169,6 @@ class B4W_TEXTURE_PT_preview(TextureButtonsPanel, Panel):
         layout = self.layout
         tex = context.texture
 
-        if not tex.type in SUPPORTED_TEX_TYPES:
-            layout.label(text=_("This texture type is not supported."), icon="ERROR")
-            return False
-
         slot = getattr(context, "texture_slot", None)
         idblock = context_tex_datablock(context)
 
@@ -131,7 +182,7 @@ class B4W_TEXTURE_PT_preview(TextureButtonsPanel, Panel):
             layout.prop(tex, "use_preview_alpha")
 
 
-class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
+class B4W_TEXTURE_PT_mapping(TextureSlotPanel, Panel):
     bl_label = _("Mapping")
 
     @classmethod
@@ -143,16 +194,7 @@ class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
         if not getattr(context, "texture_slot", None):
             return False
 
-        tex = context.texture
-
-        if not tex:
-            return False
-
-        if not tex.type in SUPPORTED_TEX_TYPES:
-            return False
-
-        engine = context.scene.render.engine
-        return (engine in cls.COMPAT_ENGINES)
+        return TextureSlotPanel.poll(context)
 
     def draw(self, context):
         layout = self.layout
@@ -189,8 +231,7 @@ class B4W_TEXTURE_PT_mapping(TextureButtonsPanel, Panel):
             elif texcoord not in {'GLOBAL','NORMAL','STRAND','VIEW'}:
                 layout.label(text=_("This coordinates type is not supported."), icon="ERROR")
 
-            if texcoord in {'ORCO', 'UV', 'GLOBAL', 'NORMAL', 'STRAND'}:
-                layout.column().prop(tex, "scale")
+            layout.column().prop(tex, "scale")
 
 class B4W_TEXTURE_PT_envmap(TextureTypePanel, Panel):
     bl_label = _("Environment Map")
@@ -223,7 +264,7 @@ class B4W_TEXTURE_PT_colors(TextureButtonsPanel, Panel):
         idblock = context_tex_datablock(context)
         return (tex and tex.type == 'BLEND' and
             context.scene.render.engine in cls.COMPAT_ENGINES and
-            (isinstance(idblock, ParticleSettings) or isinstance(idblock, Material)))
+            (isinstance(idblock, ParticleSettings)))
 
     def draw(self, context):
         layout = self.layout
@@ -347,15 +388,13 @@ class B4W_TEXTURE_PT_influence(TextureSlotPanel, Panel):
     @classmethod
     def poll(cls, context):
         idblock = context_tex_datablock(context)
-        if isinstance(idblock, Brush) and not context.sculpt_object:
+        if isinstance(idblock, Brush):
             return False
 
         if not getattr(context, "texture_slot", None):
             return False
 
-        engine = context.scene.render.engine
-        tex = context.texture
-        return (tex and tex.type in SUPPORTED_TEX_TYPES and engine in cls.COMPAT_ENGINES)
+        return TextureSlotPanel.poll(context)
 
     def draw(self, context):
 

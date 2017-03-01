@@ -159,7 +159,6 @@ msgid "build script: ``csrc/b4w_bin/build.py``"
 msgstr "скрипт сборки: ``csrc/b4w_bin/build.py``"
 
 #: ../developers_advanced.rst:122
-#, fuzzy
 msgid "Blend4Web addon: ``addons/blend4web/``"
 msgstr "аддон Blend4Web: ``blender_scripts/addons/blend4web/``"
 
@@ -238,7 +237,7 @@ msgstr ""
 #: ../developers_advanced.rst:387 ../developers_advanced.rst:442
 #: ../developers_advanced.rst:452
 msgid "compiling shaders"
-msgstr "копиляция шейдеров"
+msgstr "компиляция шейдеров"
 
 #: ../developers_advanced.rst:155
 msgid "Java"

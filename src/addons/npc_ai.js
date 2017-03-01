@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
  * Non-player character add-on.
  * Provides animated moves for NPC with a specified behavior.
  * @module npc_ai
+ * @local GraphActions
  */
 b4w.module["npc_ai"] = function(exports, require) {
 
@@ -30,12 +31,12 @@ var m_scs   = require("scenes");
 var m_time  = require("time");
 var m_trans = require("transform");
 var m_vec3  = require("vec3");
+var m_phy   = require("physics");
 var m_print = require("print");
 var m_util  = require("util");
 
 var _ev_tracks = [];
 
-var _mat3_tmp    = new Float32Array(9);
 var _vec3_tmp    = new Float32Array(3);
 var _vec3_tmp_2  = new Float32Array(3);
 var _vec3_tmp_3  = new Float32Array(3);
@@ -46,38 +47,47 @@ var _quat4_tmp_3 = new Float32Array(4);
 
 /**
  * NPC movement type - walking.
- * @const {Number} module:npc_ai.NT_WALKING
+ * @const {number} module:npc_ai.NT_WALKING
  */
 var NT_WALKING  = exports.NT_WALKING  = 10;
 /**
  * NPC movement type - flying.
- * @const {Number} module:npc_ai.NT_FLYING
+ * @const {number} module:npc_ai.NT_FLYING
  */
 var NT_FLYING   = exports.NT_FLYING   = 20;
 /**
  * NPC movement type - swimming.
- * @const {Number} module:npc_ai.NT_SWIMMING
+ * @const {number} module:npc_ai.NT_SWIMMING
  */
 var NT_SWIMMING = exports.NT_SWIMMING = 30;
 
 var MS_IDLE   = 10;
 var MS_MOVING = 20;
 
-var NPC_MAX_ACTIVITY_DISTANCE = 100;
+/**
+ * An object containing actions for every movement type.
+ * @typedef {Object} GraphActions
+ * @property {Array} idle An array of "idle" animations.
+ * @property {Array} move An array of "move" animations.
+ * @property {Array} move_start An array of "move_start" animations.
+ * @property {Array} move_blends An array of "move_blends" animations.
+ * @cc_externs idle move move_start move_blends
+ */
 
 /**
  * Creates a new event track based on a given graph.
  * @param {Object} graph Animation graph with a number of movement params.
  * @param {Array} graph.path A list of [x,y,z] points NPC will be moving around.
- * @param {Number} graph.delay Time delay before each path step.
- * @param {Object3D} graph.actions Actions for every movement type (move, idle, etc).
- * @param {Object3D} graph.obj Animated object ID.
- * @param {Object3D} graph.rig Armature object ID.
- * @param {Object3D} graph.collider Collider object ID which will be used for collision detection.
- * @param {Number} graph.speed Movement speed.
- * @param {Number} graph.rot_speed Rotation speed.
- * @param {Boolean} graph.random Determines whether the object will perform random moves or not.
- * @param {Number} graph.type NPC movement type (NT_WALKING, NT_FLYING, etc).
+ * @param {number} graph.delay Time delay before each path step.
+ * @param {GraphActions} graph.actions Actions for every movement type (move, idle, etc).
+ * @param {Object3D} graph.obj Animated object.
+ * @param {Object3D} graph.rig Armature object.
+ * @param {Object3D} graph.collider Collider object which will be used for 
+ * collision detection. Should be a valid physics object.
+ * @param {number} graph.speed Movement speed.
+ * @param {number} graph.rot_speed Rotation speed.
+ * @param {boolean} graph.random Determines whether the object will perform random moves or not.
+ * @param {number} graph.type NPC movement type (NT_WALKING, NT_FLYING, etc).
  * @method module:npc_ai.new_event_track
  * @cc_externs path delay actions obj collider speed random rig
  * @cc_externs type rot_speed max_height min_height
@@ -92,12 +102,12 @@ exports.new_event_track = function(graph) {
     }
 
     if (typeof graph.rig != "object") {
-        m_print.error("Can't create event track. Wrong rig object");
+        m_print.error("Can't create event track. Wrong rig object.");
         return;
     }
 
-    if (typeof graph.collider != "object") {
-        m_print.error("Can't create event track. Wrong collider object");
+    if (typeof graph.collider != "object" || !m_phy.has_physics(graph.collider)) {
+        m_print.error("Can't create event track. Wrong collider object.");
         return;
     }
 
@@ -178,7 +188,9 @@ function init_event_track() {
         speed: 1,
         rot_speed: 0.1,
         max_height: 0,
-        min_height: 0
+        min_height: 0,
+        max_depth: 0,
+        min_depth: 0
     }
 }
 
@@ -210,7 +222,7 @@ function run_track(elapsed, ev_track) {
         }
 
         if (ev_track.ground_level) {
-            var vert_correction = ev_track.ground_level - cur_height;
+            vert_correction = ev_track.ground_level - cur_height;
             var vert_delta = ev_track.speed * elapsed;
 
             if (vert_correction > vert_delta)
@@ -239,8 +251,6 @@ function run_track(elapsed, ev_track) {
                 var magnitude = ev_track.max_depth - ev_track.min_depth;
             } else
                 var magnitude = ev_track.max_height - ev_track.min_height;
-
-            var rot_speed = ev_track.rot_speed;
 
             destination[0] = Math.random() * 10 - 5 + base_pos[0];
             destination[1] = Math.random() * 10 - 5 + base_pos[1];
@@ -542,7 +552,7 @@ function ground_cb(obj, id, pulse, ev) {
                         ev.vert_correction = 0;
 
                 } else if (id == "CLOSE_WATER") {
-                    ev.vert_cor_water = hit_fract * 100;
+                    ev.vert_cor_water = payload.hit_fract * 100;
 
                     if (ev.vert_cor_water < ev.min_depth)
                         ev.vert_cor_water = -0.02;

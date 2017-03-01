@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -116,7 +116,19 @@ operation_type_enum = [
             ("SUB", _("Subtract"), _("Subtract")),
             ("MUL", _("Multiply"), _("Multiply")),
             ("ADD", _("Add"), _("Add")),
-            ("RAND", _("Random"), _("Random"))
+            ("RAND", _("Random"), _("Random")),
+            ("SIN", _("Sin"), _("Sin")),
+            ("COS", _("Cos"), _("Cos")),
+            ("TAN", _("Tan"), _("Tan")),
+            ("ARCSIN", _("ArcSin"), _("ArcSin")),
+            ("ARCCOS", _("ArcCos"), _("ArcCos")),
+            ("ARCTAN", _("ArcTan"), _("ArcTan")),
+            ("LOG", _("Log"), _("Log")),
+            ("MIN", _("Min"), _("Min")),
+            ("MAX", _("Max"), _("Max")),
+            ("ROUND", _("Round"), _("Round")),
+            ("MOD", _("Mod"), _("Mod")),
+            ("ABS", _("Abs"), _("Abs"))
         ]
 
 string_operation_type_enum = [
@@ -317,6 +329,9 @@ def check_node(node):
             if not ob:
                 all_bad = True
             else:
+                if not ob.b4w_dynamic_geometry:
+                    node.add_error_message(err_msgs, _("Object \"" + ob.name + "\" must have " 
+                            + "\"Dynamic Geometry & Materials\" flag enabled!"))
                 if not str(node.materials_names[name].str) in ob.material_slots:
                     node.add_error_message(err_msgs, _("Material field is not correct!"))
         if all_bad:
@@ -1124,6 +1139,10 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
             item.tree_name = self.id_data.name
             item.node_name = self.name
             item.name = name
+
+        if self.type in ["SHOW", "HIDE"]:
+            self.bools.add()
+            self.bools[-1].name = "ch"
 
         if self.type in ["PLAY_ANIM", "SELECT_PLAY_ANIM", "SELECT", "SPEAKER_PLAY", "PLAY"]:
             self.bools.add()
@@ -2152,6 +2171,8 @@ class B4W_LogicNode(Node, B4W_LogicEditorNode):
 
         elif slot.type == "SHOW" or slot.type == "HIDE":
             self.draw_selector(col, 0, _("Object:"), None, "ob")
+            row = col.row()
+            row.prop(self.bools["ch"], "bool", text = _("Process child objects"))
 
         elif slot.type == "PAGEPARAM":
             row = col.row()

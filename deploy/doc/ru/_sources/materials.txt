@@ -36,6 +36,16 @@
 
     * Дополнительные настройки
 
+  * Методы API для работы с материалами
+
+    * Методы для стандартных материалов
+
+    * Методы для нодовых материалов
+
+  * Наследование материалов
+
+    * Активация
+
 Материалы описывают реакцию поверхности объекта на освещение, а также
 содержат информацию о ее прозрачности, отражающей способности,
 физических и других параметрах.
@@ -102,7 +112,7 @@
 
       [рисунок]
 
-   **Слева:** стандатрное затенение, **справа:** тангенциальное
+   **Слева:** стандартное затенение, **справа:** тангенциальное
    затенение.
 
 *Shading > Double-Sided Lighting*
@@ -433,3 +443,189 @@
 *Halo > Minimum Height*
    Минимальная высота в локальном пространстве объекта, на которой
    видны звезды.
+
+
+Методы API для работы с материалами
+===================================
+
+Все методы API, используемые для настройки материалов, как
+стандартных, так и нодовых, находятся в модуле API material. Все
+методы этого модуля подробно описаны на странице документации API.
+
+Примечание: Методы API могут работать только с материалами, которые
+  используются с динамическими объектами.
+
+
+Методы для стандартных материалов
+---------------------------------
+
+Модуль API material включает методы для управления практически любым
+параметром стандартного материала.
+
+Ниже приводится ряд примеров, демонстрирующих, как модуль API material
+может использоваться для различных операций с материалом объекта:
+
+Получение диффузного цвета объекта:
+
+   var m_scenes    = require("scenes");
+   var m_material  = require("material");
+
+   ...
+
+   var cube = m_scenes.get_object_by_name("Cube");
+
+   var diffuse_color = m_material.get_diffuse_color(cube, "MyMaterial");
+   var diffuse_color_factor = m_material.get_diffuse_color_factor(cube, "MyMaterial");
+   var diffuse_intensity = m_material.get_diffuse_intensity(cube, "MyMaterial");
+
+Получение цвета блика материала:
+
+   var m_scenes    = require("scenes");
+   var m_material  = require("material");
+
+   ...
+
+   var cube = m_scenes.get_object_by_name("Cube");
+
+   var specular_color = m_material.get_specular_color(cube, "MyMaterial");
+   var specular_color_factor = m_material.get_specular_color_factor(cube, "MyMaterial");
+   var specular_hardness = m_material.get_specular_hardness(cube, "MyMaterial");
+   var specular_intensity = m_material.get_specular_intensity(cube, "MyMaterial");
+
+Получение других параметров:
+
+   var m_scenes    = require("scenes");
+   var m_material  = require("material");
+
+   ...
+
+   var cube = m_scenes.get_object_by_name("Cube");
+
+   var emit_factor = m_material.get_emit_factor(cube, "MyMaterial");
+   var alpha_factor = m_material.get_alpha_factor(cube, "MyMaterial");
+   var ambient_factor = m_material.get_ambient_factor(cube, "MyMaterial");
+
+   var extended_parameters = m_material.get_material_extended_params(cube, "MyMaterial");
+
+Установка параметров материала:
+
+   var m_scenes    = require("scenes");
+   var m_material  = require("material");
+   var m_rgba      = require("rgba");
+
+   ...
+
+   var cube = m_scenes.get_object_by_name("Cube");
+
+   m_material.set_diffuse_color(cube, "MyMaterial", m_rgba.from_values(1.0, 0.0, 0.0, 1.0));
+   m_material.set_diffuse_color_factor(cube, "MyMaterial", 0.05);
+   m_material.set_material_extended_params(cube, "MyMaterial", {fresnel: 0,
+                                                                fresnel_factor: 1.25,
+                                                                parallax_scale: 0,
+                                                                parallax_steps: "5.0",
+                                                                reflect_factor: 0});
+
+
+Методы для нодовых материалов
+-----------------------------
+
+На данный момент поддерживаются только ноды типа RGB и Value. Все
+прочие типы не поддерживаются.
+
+Для того, чтобы изменить значение той или иной ноды материала,
+требуется:
+
+* объект, использующий данный материал,
+
+* имя материала,
+
+* имя самой ноды,
+
+* а также имя группы нод, в которую входит данная нода (если есть).
+
+Имя ноды можно узнать (и изменить) в верхней части боковой панели
+справа от главного окна редактора нод.
+
+Примечание: Следует иметь в виду, что главное окно редактора нод не
+  показывает имён нод, только их типы.
+
+[рисунок]
+
+Два следующих примера демонстрируют, как параметры нодового материала
+могут быть настроены с использованием методов API:
+
+Получение параметров нодового материала:
+
+   var m_scenes    = require("scenes");
+   var m_material  = require("material");
+
+   ...
+
+   var cube = m_scene.get_object_by_name("Cube");
+
+   var rgb_node_1 = m_material.get_nodemat_rgb(cube, ["MyMaterial", "MyRGB"]);
+   var rgb_node_2 = m_material.get_nodemat_rgb(cube, ["MyMaterial", "MyRGB_2"]);
+   var value_node = m_material.get_nodemat_value(cube, ["MyMaterial", "MyValue"]);
+
+Установка параметров нодового материала:
+
+   var m_scenes    = require("scenes");
+   var m_material  = require("material");
+
+   ...
+
+   var cube = m_scene.get_object_by_name("Cube");
+
+   m_material.set_nodemat_value(cube, ["MyMaterial", "MyValue"], 0.8);
+   m_material.set_nodemat_rgb(cube, ["MyMaterial", "MyRGB"], 0.7, 0.9, 0.3);
+
+
+Наследование материалов
+=======================
+
+Blend4Web поддерживает динамическую смену материалов. Эта возможность
+очень полезна для т.н. приложений-конфигураторов, где пользователю
+предлагается настроить внешний вид какой-либо модели (одежда, мебель,
+автомобили и т.д.). В случае, если не хватает возможностей API по
+изменению стековых и нодовых материалов, описанных выше, а также
+метода change_texture и простой смены текстур, тогда можно
+воспользоваться наследованием.
+
+Преимуществом наследования является простота и универсальность
+использования, что хорошо подходит, когда нужно довольно сильно
+изменить исходный материал. Также оно доступно как из внешнего API,
+так и в нодовой логике, и подходит одинаково как для нодовых, так и
+для стековых материалов. Недостатком может являться то, что операция
+наследования может быть хуже по производительности, чем другие
+вышеупомянутые методы, что может быть критически важным в ряде
+случаев.
+
+
+Активация
+---------
+
+В наследовании участвуют 2 объекта. Первый - источник, на котором
+находится наследуемый материал, второй - целевой объект, на котором
+требуется произвести замену материала. Оба этих объекта требуют
+выставления опции "Dynamic Geometry & Materials" на панели "Object" в
+разделе "Rendering Properties".
+
+Примечание: После наследования материал на целевом объекте будет
+  выглядеть также как, если бы он был просто назначен на него в самом
+  Blender, т.е. при необходимости на целевом объекте нужно заранее
+  подготовить UV-слои и слои вертексного цвета под все материалы,
+  которые будут на него наследоваться. Для объекта источника это уже
+  необязательно.
+
+При использовании нодовой логики наследование можно осуществить с
+помощью ноды "Object->Inherit Material". В API же для этого существует
+метод inherit_material.
+
+[рисунок]
+
+Если в приложении требуется смена множества разных материалов, то
+хорошим подходом будет создание специального объекта-контейнера. Он
+может представлять собой простой объект типа "Plane", на котором будут
+находится все нужные материалы. При необходимости его можно скрыть на
+самой сцене, выставив на нём настройку "Hidden" или "Do Not Render" на
+панели "Object->Rendering Properties".

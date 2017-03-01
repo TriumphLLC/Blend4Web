@@ -17,17 +17,40 @@ which the bulk of assets and source code is authored.
 When using Blend4Web the workflow is the following:
 
 #. Creating a New Project.
-#. Authoring 3D scenes in Blender.
-#. Running, tweaking and debugging scenes in the Viewer.
+#. Creating Scenes
+#. Preparing a Scene to Use in Blend4Web
 #. Exporting scenes.
 #. Application Development.
-#. Building the project.
-#. Creating the target application.
+#. Project Building.
+#. Project Deploying.
 
-.. _authoring_scenes:
+Creating a New Project
+======================
 
-Authoring Scenes
-================
+The work on a project, of course, should always start with creating it.
+
+The easiest way to create a new project is to use the :ref:`Project Manager <project_manager>`. To do it, press the Create New Project button at the top of the Project Manager’s main window.
+
+The other way is to use the *project.py* command line script, which is more versatile. Working with this script is described :ref:`here <creating_a_project>`.
+
+Creating Scenes
+===============
+
+Scenes are contained in blend files. Project Manager can automatically create a blend file with a basic scene upon creating a new project. Additional blend files can be created and attached to a project.
+
+Scenes for Blend4Web are created in the same manner as the scenes for Blender itself, with only minor differences. The process of working on a scene could be separated into several stages:
+
+#. Modeling the scene objects
+
+#. :ref:`Setting up materials <materials>`
+
+#. :ref:`Animating objects <animation>`
+
+#. :ref:`Creating scene logic <logic_editor>` (this part is exclusive for Blend4Web engine and does not apply to regular Blender scenes)
+
+It should be noted that not every project may require all of these stages. More simple scene might not feature any animations or even any materials aside from the default ones.
+
+The order of the stages is also not strict and can be interchaged to a certain degree (for example, you won't probably animate an object before creating it, but you can create a material for it beforehand).
 
 Besides the usual stages such as modeling, texturing, animation etc a scene
 should be prepared for working in the engine.
@@ -44,12 +67,18 @@ General recommendations:
 
 #. We recommend you to practice linking components from other files (libraries).
 
+Preparing a Scene to Use in Blend4Web
+=====================================
+
+Besides the usual stages such as modeling, texturing, animation etc a scene
+should be prepared for working in the engine.
+
 .. index:: viewer; adding scenes
 
 .. _assets_json:
 
 Displaying Scenes in the Viewer
-===============================
+-------------------------------
 
 When using the :ref:`local development server <local_development_server>`
 it's possible to preview current scene using ``Fast Preview`` button located at the bottom of Blender's 3D View window,
@@ -95,6 +124,33 @@ Export options are described in detail in the :ref:`corresponding section <expor
 Application Development
 =======================
 
+This section only applies to the project types other than Web Player HTML and Web Player JSON.
+
 At this stage an application is created. Logic for scene loading and user
 interaction is written using JavaScript. The application developer notes are
 given in the :ref:`corresponding section <developers>`.
+
+Project Building
+================
+
+After development of a project is completed, it should be built so it can then be used outside of the SDK.
+
+Project building can be performed by clicking the ``build project`` link in the :ref:`Project Manager <project_manager>`.
+
+Before building a project, you might want to :ref:`convert media resources <converter>` used in the project, which can help to minimize its size.
+
+Project Deploying
+=================
+
+After project development is completed, the project can be deployed so it can be used outside of the Blend4Web SDK. Project deployment is performed by clicking the ``deploy project`` link that can be found in the ``Operations`` command list on the right side of the project entry in the main window of the :ref:`Project Manager <project_manager>`.
+
+Clicking this link will cause Project Manager to perform all necessary operations and to deploy the project.
+
+The deployed project has a form of an archive that contains all project files. This archive can be saved to any place on your disc with the use of a standard Save File dialogue in the web browser you are using.
+
+A complete project can be placed on a web server.
+
+To do it, extract the project files from the archive dowloanded from the Project Manager and upload them to your web server (while retaining inner file structure) by means of FTP, SSH or any other file transfer protocol suppored by the server. After doing this, you only need to place the project on a web page using, for example, an ``iframe`` container.
+
+Deploying project to web server is described in a :ref:`dedicated section <project_deploy>` of the :ref:`Project Manager <project_manager>` chapter.
+

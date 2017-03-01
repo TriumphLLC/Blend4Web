@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-12-16 15:05+0300\n"
-"PO-Revision-Date: 2016-10-01 15:47+0800\n"
+"POT-Creation-Date: 2017-02-21 14:02+0300\n"
+"PO-Revision-Date: 2016-12-23 18:26+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,71 +39,137 @@ msgstr "当使用Blend4Web工作流程如下："
 
 #: ../workflow.rst:19
 msgid "Creating a New Project."
-msgstr ""
+msgstr "创建一个新项目"
 
-#: ../workflow.rst:20
-msgid "Authoring 3D scenes in Blender."
+#: ../workflow.rst:20 ../workflow.rst:37
+#, fuzzy
+msgid "Creating Scenes"
+msgstr "添加场景"
+
+#: ../workflow.rst:21 ../workflow.rst:71
+#, fuzzy
+msgid "Preparing a Scene to Use in Blend4Web"
 msgstr "在Blender中创作3D场景。"
-
-#: ../workflow.rst:21
-msgid "Running, tweaking and debugging scenes in the Viewer."
-msgstr "运行，调整，并在浏览器的调试场景。"
 
 #: ../workflow.rst:22
 msgid "Exporting scenes."
 msgstr "导出场景。"
 
 #: ../workflow.rst:23
-#, fuzzy
 msgid "Application Development."
 msgstr "应用程序开发"
 
 #: ../workflow.rst:24
-msgid "Building the project."
+msgid "Project Building."
 msgstr ""
 
 #: ../workflow.rst:25
-msgid "Creating the target application."
-msgstr "创建目标应用程序。"
+msgid "Project Deploying."
+msgstr ""
+
+#: ../workflow.rst:28
+#, fuzzy
+msgid "Creating a New Project"
+msgstr "创建一个新项目"
 
 #: ../workflow.rst:30
-msgid "Authoring Scenes"
-msgstr "创作场景"
+msgid "The work on a project, of course, should always start with creating it."
+msgstr ""
 
 #: ../workflow.rst:32
+msgid ""
+"The easiest way to create a new project is to use the :ref:`Project "
+"Manager <project_manager>`. To do it, press the Create New Project button"
+" at the top of the Project Manager’s main window."
+msgstr ""
+
+#: ../workflow.rst:34
+msgid ""
+"The other way is to use the *project.py* command line script, which is "
+"more versatile. Working with this script is described :ref:`here "
+"<creating_a_project>`."
+msgstr ""
+
+#: ../workflow.rst:39
+msgid ""
+"Scenes are contained in blend files. Project Manager can automatically "
+"create a blend file with a basic scene upon creating a new project. "
+"Additional blend files can be created and attached to a project."
+msgstr ""
+
+#: ../workflow.rst:41
+msgid ""
+"Scenes for Blend4Web are created in the same manner as the scenes for "
+"Blender itself, with only minor differences. The process of working on a "
+"scene could be separated into several stages:"
+msgstr ""
+
+#: ../workflow.rst:43
+msgid "Modeling the scene objects"
+msgstr ""
+
+#: ../workflow.rst:45
+msgid ":ref:`Setting up materials <materials>`"
+msgstr ""
+
+#: ../workflow.rst:47
+msgid ":ref:`Animating objects <animation>`"
+msgstr ""
+
+#: ../workflow.rst:49
+msgid ""
+":ref:`Creating scene logic <logic_editor>` (this part is exclusive for "
+"Blend4Web engine and does not apply to regular Blender scenes)"
+msgstr ""
+
+#: ../workflow.rst:51
+msgid ""
+"It should be noted that not every project may require all of these "
+"stages. More simple scene might not feature any animations or even any "
+"materials aside from the default ones."
+msgstr ""
+
+#: ../workflow.rst:53
+msgid ""
+"The order of the stages is also not strict and can be interchaged to a "
+"certain degree (for example, you won't probably animate an object before "
+"creating it, but you can create a material for it beforehand)."
+msgstr ""
+
+#: ../workflow.rst:55 ../workflow.rst:73
 msgid ""
 "Besides the usual stages such as modeling, texturing, animation etc a "
 "scene should be prepared for working in the engine."
 msgstr "除了一般的阶段如建模，贴图，动画等，场景应该在做好在引擎中的准备。"
 
-#: ../workflow.rst:35
+#: ../workflow.rst:58
 msgid "General recommendations:"
 msgstr "一般建议："
 
-#: ../workflow.rst:37
-#, fuzzy
+#: ../workflow.rst:60
 msgid ""
 "We strongly recommend to save your blend files in the "
 "``projects/project_name/blender`` directory. Auxiliary files which are "
 "not intended for loading in your app (for example, references), should be"
 " located there as well."
-msgstr "我们强烈建议将Blend文件保存在 ``Blender/项目名称`` 目录中。程序中不需要加载的辅助文件  （例如，引用）等，也该在这个文件夹下。"
+msgstr ""
+"我们强烈建议将Blend文件保存在 ``projects/project_name/blender`` 目录中。程序中不需要加载的辅助文件  "
+"（例如，引用）等，也该在这个文件夹下。"
 
-#: ../workflow.rst:39
-#, fuzzy
+#: ../workflow.rst:62
 msgid ""
 "Images and media files should be external and located in the "
 "``projects/project_name/assets`` directory."
-msgstr "图像和媒体文件应该是在外部和位于 ``deploy/assets/项目名`` 目录。"
+msgstr "图像和媒体文件应该是在外部和位于  ``projects/project_name/assets`` 目录。"
 
-#: ../workflow.rst:41
+#: ../workflow.rst:64
 msgid ""
 "Files from which you export should contain resources which are actually "
 "required in your application (objects, materials, textures, animation "
 "etc)."
 msgstr "你将导出的文件应包含实际所需 （对象、 材料、 材质、 动画等） 的应用程序中的资源。"
 
-#: ../workflow.rst:43
+#: ../workflow.rst:66
 msgid ""
 "Scene components should have distinct names. They should not be named "
 "\\\"Cube.001\\\", \\\"Material\\\" or \\\"Armature\\\"."
@@ -111,18 +177,17 @@ msgstr ""
 "场景组件应该有不同的识别名称。他们不应该叫 \\\"Cube.001\\\", \\\"Material\\\" 或者 "
 "\\\"Armature\\\"."
 
-#: ../workflow.rst:45
+#: ../workflow.rst:68
 msgid ""
 "We recommend you to practice linking components from other files "
 "(libraries)."
 msgstr "我们建议您实践从其他文件 （库）来链接组件。"
 
-#: ../workflow.rst:52
+#: ../workflow.rst:81
 msgid "Displaying Scenes in the Viewer"
 msgstr "在浏览器显示场景"
 
-#: ../workflow.rst:54
-#, fuzzy
+#: ../workflow.rst:83
 msgid ""
 "When using the :ref:`local development server <local_development_server>`"
 " it's possible to preview current scene using ``Fast Preview`` button "
@@ -132,38 +197,38 @@ msgid ""
 "app."
 msgstr ""
 "当使用 :ref:`本地开发服务器 <local_development_server>` 有可能使用预览当前场景的 ``Fast "
-"Preview`` 按钮，位于Blender的 ``Scene->Development Server`` "
+"Preview`` 按钮，位于Blender的 ``Render ->Development Server`` "
 "面板。在这种情况下，场景将里面的一些临时存储被导出并在预览查看器应用程序加载。"
 
-#: ../workflow.rst:60
+#: ../workflow.rst:89
 msgid ""
 "The other method is using :ref:`Run in Viewer <run_in_viewer>` export "
 "option. In this case the scene will be displayed in the Viewer app "
 "immediately after the export."
 msgstr "另一种方法是使用 :ref:`运行在预览查看器 <run_in_viewer>` 导出选项。在这种情况下，场景将导出后立即显示在预览查看器应用程序。"
 
-#: ../workflow.rst:70
+#: ../workflow.rst:99
 msgid "Exporting Scenes"
 msgstr "导出场景"
 
-#: ../workflow.rst:72
+#: ../workflow.rst:101
 msgid ""
 "The export procedure converts the scene from the Blender format to one of"
 " the formats used by Blend4Web."
 msgstr "导出过程将场景从Blender格式转换为 Blend4Web 所使用的格式之一。"
 
-#: ../workflow.rst:79
+#: ../workflow.rst:108
 msgid "There are two formats: JSON and HTML."
 msgstr "有两种格式 ︰ JSON 和 HTML。"
 
-#: ../workflow.rst:81
+#: ../workflow.rst:110
 msgid ""
 "The HTML format is used for simple stand-alone applications, where all "
 "the resources are packed into one HTML file that can then be easily "
 "deployed to a web page."
 msgstr "HTML格式用于简单的单机应用中，所有的资源都打包成可以很容易地部署到一个网页的一个HTML文件。"
 
-#: ../workflow.rst:83
+#: ../workflow.rst:112
 msgid ""
 "The JSON format can be used for creating such projects as well, but it "
 "also offers numerous extra features making it possible to create complex "
@@ -173,7 +238,7 @@ msgstr ""
 "JSON格式，可用于创建各种项目，但它也提供了许多额外的功能使得它可以创建需要编程的复杂项目。格式的不同和导出选项在 :ref:`Export "
 "Formats <export_formats>` 一章描述。"
 
-#: ../workflow.rst:85
+#: ../workflow.rst:114
 msgid ""
 "To export the scene, select ``Blend4Web (.json)`` or ``Blend4Web "
 "(.html)`` option from the ``File > Export`` menu, or type ``b4w export`` "
@@ -182,7 +247,7 @@ msgstr ""
 "若要导出场景，请从 ``文件 > 导出`` 菜单选择 ``Blend4Web (.json)`` 或 ``Blend4Web (.html)``"
 "  ，或者在操作符搜索菜单（按 ``空格键`` 的时候出现）输入``b4w export`` "
 
-#: ../workflow.rst:90
+#: ../workflow.rst:119
 msgid ""
 "If the scene uses Blender features not yet supported by the Blend4Web "
 "engine, errors may occur during export. Export errors are listed in "
@@ -191,17 +256,23 @@ msgstr ""
 "如果场景使用Blender功能尚不由 Blend4Web 引擎支持，可能会在导出过程中发生错误。在导出错误中列出  :ref:`此表 "
 "<export_errors>`."
 
-#: ../workflow.rst:92
+#: ../workflow.rst:121
 msgid ""
 "Export options are described in detail in the :ref:`corresponding section"
 " <export_opts>`."
 msgstr "导出选项中详细描述在 :ref:`相应章节 <export_opts>`."
 
-#: ../workflow.rst:96
+#: ../workflow.rst:125
 msgid "Application Development"
 msgstr "应用程序开发"
 
-#: ../workflow.rst:98
+#: ../workflow.rst:127
+msgid ""
+"This section only applies to the project types other than Web Player HTML"
+" and Web Player JSON."
+msgstr ""
+
+#: ../workflow.rst:129
 msgid ""
 "At this stage an application is created. Logic for scene loading and user"
 " interaction is written using JavaScript. The application developer notes"
@@ -210,30 +281,121 @@ msgstr ""
 "在此阶段的应用已经被创建。逻辑场景加载和用户交互使用JavaScript编写。应用程序开发人员笔记中给出了 :ref:`相应章节  "
 "<developers>`."
 
-#: ../workflow.rst:47
+#: ../workflow.rst:134
+msgid "Project Building"
+msgstr ""
+
+#: ../workflow.rst:136
+msgid ""
+"After development of a project is completed, it should be built so it can"
+" then be used outside of the SDK."
+msgstr ""
+
+#: ../workflow.rst:138
+msgid ""
+"Project building can be performed by clicking the ``build project`` link "
+"in the :ref:`Project Manager <project_manager>`."
+msgstr ""
+
+#: ../workflow.rst:140
+msgid ""
+"Before building a project, you might want to :ref:`convert media "
+"resources <converter>` used in the project, which can help to minimize "
+"its size."
+msgstr ""
+
+#: ../workflow.rst:143
+msgid "Project Deploying"
+msgstr ""
+
+#: ../workflow.rst:145
+msgid ""
+"After project development is completed, the project can be deployed so it"
+" can be used outside of the Blend4Web SDK. Project deployment is "
+"performed by clicking the ``deploy project`` link that can be found in "
+"the ``Operations`` command list on the right side of the project entry in"
+" the main window of the :ref:`Project Manager <project_manager>`."
+msgstr ""
+
+#: ../workflow.rst:147
+msgid ""
+"Clicking this link will cause Project Manager to perform all necessary "
+"operations and to deploy the project."
+msgstr ""
+
+#: ../workflow.rst:149
+msgid ""
+"The deployed project has a form of an archive that contains all project "
+"files. This archive can be saved to any place on your disc with the use "
+"of a standard Save File dialogue in the web browser you are using."
+msgstr ""
+
+#: ../workflow.rst:151
+msgid "A complete project can be placed on a web server."
+msgstr ""
+
+#: ../workflow.rst:153
+msgid ""
+"To do it, extract the project files from the archive dowloanded from the "
+"Project Manager and upload them to your web server (while retaining inner"
+" file structure) by means of FTP, SSH or any other file transfer protocol"
+" suppored by the server. After doing this, you only need to place the "
+"project on a web page using, for example, an ``iframe`` container."
+msgstr ""
+
+#: ../workflow.rst:155
+msgid ""
+"Deploying project to web server is described in a :ref:`dedicated section"
+" <project_deploy>` of the :ref:`Project Manager <project_manager>` "
+"chapter."
+msgstr ""
+
+#: ../workflow.rst:76
 msgid "viewer"
 msgstr "预览"
 
-#: ../workflow.rst:47
+#: ../workflow.rst:76
 msgid "adding scenes"
 msgstr "添加场景"
 
-#: ../workflow.rst:65
+#: ../workflow.rst:94
 msgid "export"
 msgstr "导出"
 
+#~ msgid "Authoring 3D scenes in Blender."
+#~ msgstr "在Blender中创作3D场景。"
+
+#~ msgid "Running, tweaking and debugging scenes in the Viewer."
+#~ msgstr "运行，调整，并在浏览器的调试场景。"
+
+#~ msgid "Building the project."
+#~ msgstr "构建项目"
+
+#~ msgid "Creating the target application."
+#~ msgstr "创建目标应用程序。"
+
+#~ msgid "Creating a Scene"
+#~ msgstr "添加场景"
+
+#~ msgid "Authoring Scenes"
+#~ msgstr "创作场景"
+
+#~ msgid "Deploying Project"
+#~ msgstr "构建项目"
+
 #~ msgid ""
-#~ msgstr "已成功添加的场景应该出现在场景的列表中的查看器中所需的类别中"
+#~ "After project development is completed, "
+#~ "the project has to be deployed so"
+#~ " it can be used outside of the"
+#~ " Blend4Web SDK. Project deployment is "
+#~ "performed by clicking the ``deploy "
+#~ "project`` link that can be found "
+#~ "in the ``Operations`` command list on"
+#~ " the right side of the project "
+#~ "entry in the main window of the"
+#~ " :ref:`Project Manager <project_manager>`."
+#~ msgstr ""
 
-#~ msgid "Use the \\\"Text Editor\\\" to modify it:"
-#~ msgstr "使用 \\\"文本编辑器\\\"  来修改它 ︰"
-
-#~ msgid "Then select the ``assets.json`` file in the window to edit it:"
-#~ msgstr "然后选择 ``assets.json`` 文件中的窗口进行编辑："
-
-#~ msgid "Example"
-#~ msgstr "示例"
-
-#~ msgid "Creating a New Project"
+#~ msgid "Deploying Project To A Web Server"
 #~ msgstr ""
 

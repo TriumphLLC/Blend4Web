@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,14 +74,14 @@ exports.create_scheduler = function() {
 /**
  * Create scheduler thread.
  * @param {Object3D} stages Loading stages
- * @param {String} path Path to main .json file
+ * @param {string} path Path to main .json file
  * @param {Function} loaded_callback Callback on all/non-background stages loading
  * @param {Function} stageload_cb Callback on stage loading
  * @param {Function} complete_load_cb Callback on all stages loading (currently it's a low-level service callback)
- * @param {Boolean} wait_complete_loading Perform callback on all or all non-background stages loading
- * @param {Boolean} do_not_load_resources To load or not to load application resources
- * @param {Boolean} load_hidden Hide loaded and disable physics objects
- * @returns {Number} Id of loaded data.
+ * @param {boolean} wait_complete_loading Perform callback on all or all non-background stages loading
+ * @param {boolean} do_not_load_resources To load or not to load application resources
+ * @param {boolean} load_hidden Hide loaded and disable physics objects
+ * @returns {number} Id of loaded data.
  */
 exports.create_thread = function(stages, path, loaded_callback, 
         stageload_cb, complete_load_cb, wait_complete_loading, 
@@ -248,7 +248,7 @@ function init_stage(stage) {
 exports.update_scheduler = function(bpy_data_array) {
     var scheduler = get_scheduler();
 
-    if (!scheduler || is_finished(scheduler))
+    if (!scheduler || is_finished())
         return;
 
     if (scheduler.make_idle_iteration) {
@@ -500,7 +500,7 @@ function stage_finish_cb(thread, stage) {
  * Perform callback for partially loading
  * @param {Object3D} thread Scheduler
  * @param {Object3D} stage Stage object
- * @param {Number} rate Stage load rate
+ * @param {number} rate Stage load rate
  */
 exports.stage_part_finish_cb = stage_part_finish_cb;
 function stage_part_finish_cb(thread, stage, rate) {
@@ -531,7 +531,7 @@ function stage_loading_action(thread, stage, rate) {
 /**
  * Skip certain stage
  * @param {Object3D} thread Scheduler thread
- * @param {String} name Stage name
+ * @param {string} name Stage name
  */
 exports.skip_stage_by_name = function(thread, name) {
     var stage = get_stage_by_name(thread, name);
@@ -585,8 +585,6 @@ function thread_is_finished(thread) {
 
 /**
  * Get primary thread/scene loaded status
- * @param {Object3D} scheduler Scheduler
- * @param {Number} thread_id Thread/scene id
  */
 exports.is_primary_loaded = function(data_id) {
     var scheduler = get_scheduler();

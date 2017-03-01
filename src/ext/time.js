@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,40 +30,40 @@ var m_time = require("__time");
  * engine's timeline.
  * @method module:time.set_timeout
  * @param {timeout_callback} callback Timeout callback
- * @param {Number} time Timeout
- * @returns {Number} Timeout ID
+ * @param {number} time Timeout
+ * @returns {number} Timeout ID
  */
 exports.set_timeout = m_time.set_timeout;
 
 /**
  * Clear the timeout.
  * @method module:time.clear_timeout
- * @param {Number} id Timeout ID
+ * @param {number} id Timeout ID
  */
 exports.clear_timeout = m_time.clear_timeout;
 
 /**
  * Get the engine's timeline (number of seconds after engine's initialization).
  * @method module:time.get_timeline
- * @returns {Number} Timeline
+ * @returns {number} Timeline
  */
 exports.get_timeline = m_time.get_timeline;
 
 /**
  * Animate value.
  * @method module:time.animate
- * @param {Number} from Value to animate from 
- * @param {Number} to Value to animate to
- * @param {Number} timeout Period of time to animate the value
+ * @param {number} from Value to animate from 
+ * @param {number} to Value to animate to
+ * @param {number} timeout Period of time to animate the value
  * @param {anim_callback} anim_cb Animation callback
- * @returns {Number} Animator ID
+ * @returns {number} Animator ID
  */
 exports.animate = m_time.animate;
 
 /**
  * Clear the animation.
  * @method module:time.clear_animation
- * @param {Number} id Animator ID
+ * @param {number} id Animator ID
  */
 exports.clear_animation = m_time.clear_animation;
 

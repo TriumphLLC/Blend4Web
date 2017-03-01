@@ -1,0 +1,126 @@
+table.export {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+th, td {
+  padding: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 60px;
+}
+
+input[type=text] {
+  border: 1px solid rgba(82, 118, 207, 0.2);
+  font-size: 16px;
+  color: #505050;
+  padding: 4px;
+  line-height: 1;
+  outline: 1px solid rgba(82, 118, 207, 0.2);
+  font-family: "Open Sans Light", sans-serif;
+}
+
+input:focus {
+  outline: 2px solid rgba(82, 118, 207, 0.5);
+}
+
+td:first-child {
+  text-align: center;
+}
+
+div.input_group {
+  display: inline-block;
+}
+
+div.input_group > label {
+  display: block;
+  margin: 16px 0;
+}
+
+div.input_group:first-child > label {
+  padding-left: 0;
+}
+
+div.input_group > label > input {
+  float: right;
+  cursor: pointer;
+}
+
+input[type=radio],
+input[type=checkbox] {
+  display: none;
+}
+
+div.input_group > label.check {
+  display: flex;
+}
+
+div.input_group > label.check::before {
+  content: "";
+  background-image: url(/index_assets/img/check.png);
+  background-size: 20px 40px;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+div.input_group > label.changed.check::before {
+  outline: 2px solid #cac729;
+}
+
+.create div.input_group > label.check::before {
+  margin-right: 7px;
+}
+
+div.input_group > label.radio {
+  display: flex;
+}
+
+div.input_group > label.radio::before {
+  content: "";
+  background-image: url(/index_assets/img/radio.png);
+  width: 22px;
+  height: 22px;
+  background-size: 22px 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  margin-right: 7px;
+  padding: 0;
+}
+
+div.input_group > label.changed.radio::before {
+  outline: 2px solid #cac729;
+}
+
+input[type=checkbox]:checked + label.check::before {
+  background-position: 0 -20px;
+}
+
+input[type=radio]:checked + label.radio::before {
+  background-position: 0 -22px;
+}
+
+input[type=checkbox]:disabled + label,
+input[type=radio]:disabled + label {
+  opacity: 0.3;
+  cursor: default;
+  text-decoration: none;
+  display: flex;
+}
+
+label {
+  display: inline-block;
+  cursor: pointer;
+  color: #5276cf;
+  height: 22px;
+  line-height: 22px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn {
+  background-color: transparent;
+  cursor: pointer;
+}

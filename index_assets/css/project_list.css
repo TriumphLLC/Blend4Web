@@ -1,1 +1,131 @@
+table {
+  width: 100%;
+}
 
+input[type=file] {
+  display: none;
+}
+
+input#proj_name {
+  border: 1px solid rgba(82, 118, 207, 0.2);
+  font-size: 16px;
+  color: #505050;
+  padding: 4px;
+  width: 100%;
+  line-height: 1;
+  outline: 1px solid rgba(82, 118, 207, 0.2);
+  font-family: "Open Sans Light", sans-serif;
+  margin-bottom: 32px;
+  margin-top: 16px;
+}
+
+img {
+  height: 100px;
+  box-shadow: 0 0 20px rgba(0,0,0,.2);
+}
+
+th {
+  padding: 16px 0;
+}
+
+td {
+  text-align: center;
+  padding: 8px;
+}
+
+td:last-child {
+  text-align: left;
+  vertical-align: top;
+}
+
+td:last-child a {
+  display: block;
+  line-height: 1.5;
+}
+
+a.spoiler {
+  font-size: 12px;
+}
+
+a.spoiler_item {
+  font-size: 14px;
+  margin: 3px;
+}
+
+#sort_name {
+  width: 10px;
+  height: 10px;
+  background-image: url(/index_assets/img/arrow.png);
+  display: inline-block;
+  margin-left: 4px;
+}
+
+#body_opacity {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(82, 118, 207, .6);
+  display: none;
+  overflow: hidden;
+}
+
+div#confirm_clone_box,
+div#confirm_box {
+  display: none;
+  margin-left: -200px;
+  width: 400px;
+  top: 50%;
+  left: 50%;
+  background-color: #fff;
+  position: absolute;
+  padding: 24px 48px;
+  box-shadow: 0 0 20px #000;
+}
+
+div#confirm_box {
+  height: 176px;
+  margin-top: -88px;
+}
+
+div#confirm_box h2 {
+  margin-bottom: 32px;
+}
+
+div#confirm_clone_box {
+  height: 200px;
+  margin-top: -100px;
+}
+
+.btn {
+  width: 200px;
+}
+
+@media (max-width: 1280px) {
+  h1+.btns_cont {
+    width: 616px;
+    margin: 24px auto;
+  }
+
+  .btn_wrapper > div.btn {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+}
+
+div#confirm_clone_box .btn,
+div#confirm_box .btn {
+  width: 148px;
+}
+
+div#confirm_clone_box .btns_cont,
+div#confirm_box .btns_cont {
+  margin: 0;
+}
+
+.btn label {
+  display: block;
+  height: 48px;
+  cursor: pointer;
+}

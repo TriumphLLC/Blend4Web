@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-12-02 10:39+0300\n"
-"PO-Revision-Date: 2016-10-05 20:26+0800\n"
+"POT-Creation-Date: 2017-02-21 14:02+0300\n"
+"PO-Revision-Date: 2016-12-23 18:07+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -35,8 +35,8 @@ msgid "Water"
 msgstr "水"
 
 #: ../outdoor_rendering.rst:19 ../outdoor_rendering.rst:99
-#: ../outdoor_rendering.rst:173 ../outdoor_rendering.rst:414
-#: ../outdoor_rendering.rst:438
+#: ../outdoor_rendering.rst:173 ../outdoor_rendering.rst:410
+#: ../outdoor_rendering.rst:434
 msgid "Activation"
 msgstr "激活"
 
@@ -320,20 +320,19 @@ msgid "To enable procedural waves the ``Waves`` option must be turned on."
 msgstr "为了使用程序浪 ``Waves`` 选项必须打开。"
 
 #: ../outdoor_rendering.rst:178
-#, fuzzy
 msgid ""
 "The direction of procedural waves is derived from a ``Wind`` force field "
 "in the scene."
-msgstr "只要有 ``Wind`` 力场在场景中程序浪将工作。"
+msgstr "程序波的方向是从场景中的 ``Wind`` 力场的方向一致。"
 
 #: ../outdoor_rendering.rst:180
 msgid ""
 "If a scene does not have a ``Wind`` force field, procedural waves will "
 "only move in the default direction which cannot be changed."
-msgstr ""
+msgstr "如果场景没有 ``Wind`` 力场，程序浪将仅在不能改变的默认的方向移动。"
 
-#: ../outdoor_rendering.rst:187 ../outdoor_rendering.rst:420
-#: ../outdoor_rendering.rst:444
+#: ../outdoor_rendering.rst:187 ../outdoor_rendering.rst:416
+#: ../outdoor_rendering.rst:440
 msgid "Setting up"
 msgstr "设置"
 
@@ -652,7 +651,7 @@ msgstr "*程序天空>mie收集强度*"
 msgid "Mie scattering exponent. The default value is 0.5."
 msgstr "米氏散射指数。默认值是0.5。"
 
-#: ../outdoor_rendering.rst:311
+#: ../outdoor_rendering.rst:309
 msgid "*Procedural Sky > Mie Distribution*"
 msgstr "*程序天空>Mie分布*"
 
@@ -670,37 +669,26 @@ msgid ""
 "panel. Besides this, overriding fog color is possible."
 msgstr "该引擎支持位于 ``World > Mist`` 面板上的标准参数。除此之外，可能覆盖雾的颜色。"
 
-#: ../outdoor_rendering.rst:319
-msgid "*Mist > Use Custom Color*"
-msgstr "*雾>使用定制颜色*"
-
-#: ../outdoor_rendering.rst:319
+#: ../outdoor_rendering.rst:318
 msgid ""
-"Apply the user-defined fog color instead of ``World > Horizon`` color. "
-"Enabled by default."
-msgstr "应用用户定义雾的颜色，而不是 ``World > Horizon`` 颜色。默认情况下启用。"
+"Fog settings are described in the :ref:`Scene Settings <world_mist>` "
+"chapter."
+msgstr ""
 
-#: ../outdoor_rendering.rst:322
-msgid "*Mist > Color*"
-msgstr "*雾>颜色*"
-
-#: ../outdoor_rendering.rst:322
-msgid "Fog color. The default value is (0.5, 0.5, 0.5) (gray)."
-msgstr "雾的颜色。默认值是（0.5，0.5，0.5）（灰色）。"
-
-#: ../outdoor_rendering.rst:324
-msgid "When a dynamic skydome is used the fog color is defined by the sky color."
+#: ../outdoor_rendering.rst:320
+#, fuzzy
+msgid "When a dynamic skydome is used, the fog color is defined by the sky color."
 msgstr "当使用动态天穹，雾的颜色是由天空的颜色定义。"
 
-#: ../outdoor_rendering.rst:328
+#: ../outdoor_rendering.rst:324
 msgid "Time of Day"
 msgstr "当日时间"
 
-#: ../outdoor_rendering.rst:330
+#: ../outdoor_rendering.rst:326
 msgid "Enable the ``Dynamic Intensity`` options for the lamp."
 msgstr "启用灯的  ``Dynamic Intensity`` 选项。"
 
-#: ../outdoor_rendering.rst:332
+#: ../outdoor_rendering.rst:328
 msgid ""
 "Time of day can be set by applications via API. Particularly time of day "
 "can be set using the ``Lighting`` interface of the :ref:`Scene viewer "
@@ -709,39 +697,39 @@ msgstr ""
 "一天中的时间可以在应用程序通过API进行设置。一天中的时间可以用 :ref:`场景查看器 <viewer>` 的 ``Lighting`` "
 "界面来设置。"
 
-#: ../outdoor_rendering.rst:340
+#: ../outdoor_rendering.rst:336
 msgid "Stars"
 msgstr "星星"
 
-#: ../outdoor_rendering.rst:342
+#: ../outdoor_rendering.rst:338
 msgid "Stars setup is described in the :ref:`material_halo` section."
 msgstr "星的设置描述在 :ref:`material_halo` "
 
-#: ../outdoor_rendering.rst:351
+#: ../outdoor_rendering.rst:347
 msgid "Lens Flare"
 msgstr "镜头光晕"
 
-#: ../outdoor_rendering.rst:357
+#: ../outdoor_rendering.rst:353
 msgid ""
 "This feature can be enabled by the ``Lens Flare`` check-box located in "
 "the ``Rendering Options`` of the ``Material`` panel."
 msgstr "此功能可以通过 ``Lens Flare`` 位于 ``Material`` 面板的 ``渲染Options`` 复选框启用。"
 
-#: ../outdoor_rendering.rst:364
+#: ../outdoor_rendering.rst:360
 msgid ""
 "The effect works only if a ``Sun`` type light source is present in the "
 "scene."
 msgstr "只有场景中存在 ``Sun`` 型光源才会有效果。"
 
-#: ../outdoor_rendering.rst:367
+#: ../outdoor_rendering.rst:363
 msgid "Lens Flare Settings"
 msgstr "镜头光晕设置"
 
-#: ../outdoor_rendering.rst:370
+#: ../outdoor_rendering.rst:366
 msgid "Lens Flare Object"
 msgstr "镜头光晕物体"
 
-#: ../outdoor_rendering.rst:376
+#: ../outdoor_rendering.rst:372
 msgid ""
 "Lens Flare object is used for the actual rendering of the effect. In "
 "essence, such an object consists of several planes with each plane "
@@ -756,47 +744,47 @@ msgstr ""
 "方向。每一个元素都可以在屏幕上滑动和对相机的旋转，唯一的例外是中央平面（明亮的白色的 “星” "
 "在上面的图片）。这个平面作为镜头眩光物体的中心，应该有一个 *本地* 的 ``Y`` 坐标设置为1。"
 
-#: ../outdoor_rendering.rst:378
+#: ../outdoor_rendering.rst:374
 msgid ""
 "The placement and spatial orientation of the object itself are not taken "
 "into account during rendering."
 msgstr "在渲染过程中，物体本身的位置和空间方向没有考虑。"
 
-#: ../outdoor_rendering.rst:380
+#: ../outdoor_rendering.rst:376
 msgid ""
 "For lens flare object to work correctly, the ``Disable Frustum Culling`` "
 "option should be activated."
 msgstr "镜头光晕物体要正常工作，``Disable Frustum Culling``  选项应该被激活。"
 
-#: ../outdoor_rendering.rst:382
+#: ../outdoor_rendering.rst:378
 msgid ""
 "An example of such object can be seen, for example, in our **Island** "
 "demo."
 msgstr "这样的物体的一个例子可以看到，例如，在我们的 **岛** 演示。"
 
-#: ../outdoor_rendering.rst:385
+#: ../outdoor_rendering.rst:381
 msgid "Material Settings"
 msgstr "材质设置"
 
-#: ../outdoor_rendering.rst:387
+#: ../outdoor_rendering.rst:383
 msgid ""
 "The material used for the lens flare object should have the ``Alpha "
 "Blend`` transparency type. ``Alpha`` parameter should be set to zero."
 msgstr "用于镜头光斑物体的材质应当具有  ``Alpha Blend`` 透明度类型。 ``Alpha`` 参数应当被设置为零。"
 
-#: ../outdoor_rendering.rst:389
+#: ../outdoor_rendering.rst:385
 msgid ":ref:`Node materials <node_materials>` are not supported."
 msgstr ":ref:`节点材质 <node_materials>` 不被支持。"
 
-#: ../outdoor_rendering.rst:392
+#: ../outdoor_rendering.rst:388
 msgid "Texture Settings"
 msgstr "纹理设置"
 
-#: ../outdoor_rendering.rst:398
+#: ../outdoor_rendering.rst:394
 msgid "An example of texture used to generate Lens Flare effect."
 msgstr "用来产生镜头光斑效果的纹理的例子。"
 
-#: ../outdoor_rendering.rst:400
+#: ../outdoor_rendering.rst:396
 msgid ""
 "The texture used for the Lens Flare object should contain all elements "
 "used to form the shape of the flare in an actual application. The texture"
@@ -806,163 +794,163 @@ msgstr ""
 "用于镜头眩光物体纹理应包含在实际的应用程序的用于形成光斑的形状所有元素。纹理图像应该使用 ``Alpha`` 通道对 ``Color`` 和 "
 "``Alpha`` 值都有影响。"
 
-#: ../outdoor_rendering.rst:405
+#: ../outdoor_rendering.rst:401
 msgid "Wind"
 msgstr "风"
 
-#: ../outdoor_rendering.rst:411
+#: ../outdoor_rendering.rst:407
 msgid "Wind strength and direction affect:"
 msgstr "风的强度和方向的影响："
 
-#: ../outdoor_rendering.rst:408
+#: ../outdoor_rendering.rst:404
 msgid ":ref:`grass and tree leaves animation <wind_bending>`"
 msgstr ":ref:`草和树叶的动画 <wind_bending>`"
 
-#: ../outdoor_rendering.rst:409
+#: ../outdoor_rendering.rst:405
 msgid ":ref:`particle system dynamics <particles_force_fields>`"
 msgstr ":ref:`粒子系统动力学 <particles_force_fields>`"
 
-#: ../outdoor_rendering.rst:410
+#: ../outdoor_rendering.rst:406
 msgid ""
 ":ref:`water waves rolling frequency <water_volumetric_waves>` (at the "
 "moment only strength is taken into account)"
 msgstr ":ref:`水浪翻滚频率 <water_volumetric_waves>` (现在只考虑强度)"
 
-#: ../outdoor_rendering.rst:416
+#: ../outdoor_rendering.rst:412
 msgid "Add a force field object of the ``Wind`` type."
 msgstr "添加 ``Wind`` 类型的力场物体。"
 
-#: ../outdoor_rendering.rst:423
+#: ../outdoor_rendering.rst:419
 msgid "*Direction*"
 msgstr "*方向*"
 
-#: ../outdoor_rendering.rst:423
+#: ../outdoor_rendering.rst:419
 msgid "Direction can be set by rotating the force field object."
 msgstr "方向可以通过旋转力场物体进行设定。"
 
-#: ../outdoor_rendering.rst:427
+#: ../outdoor_rendering.rst:423
 msgid "*Force Fields > Strength*"
 msgstr "*力场>强度*"
 
-#: ../outdoor_rendering.rst:426
+#: ../outdoor_rendering.rst:422
 msgid ""
 "Wind strength. Located under the ``Physics`` tab. The default value is "
 "1.0."
 msgstr "风力强度。位于 ``Physics`` 选项卡下。缺省值为1.0。"
 
-#: ../outdoor_rendering.rst:432
+#: ../outdoor_rendering.rst:428
 msgid "Animation of Grass and Tree Leaves"
 msgstr "草和树叶的动画"
 
-#: ../outdoor_rendering.rst:434
+#: ../outdoor_rendering.rst:430
 msgid ""
 "Authoring resources for grass rendering is described in the "
 ":ref:`particles_grass` section."
 msgstr ":ref:`particles_grass` 章节讲述了草渲染创作需要的资源。"
 
-#: ../outdoor_rendering.rst:440
+#: ../outdoor_rendering.rst:436
 msgid "Enable the ``Wind Bending`` panel for the grass or tree object."
 msgstr "在 ``Wind Bending`` 面板为草或树物题启用。"
 
-#: ../outdoor_rendering.rst:446
+#: ../outdoor_rendering.rst:442
 msgid ""
 "The interface panel becomes visible after turning on the ``Wind Bending``"
 " panel."
 msgstr "打开  ``Wind Bending``  面板后设置面板可见。"
 
-#: ../outdoor_rendering.rst:455
+#: ../outdoor_rendering.rst:451
 msgid "*Main Bending > Angle*"
 msgstr "*主要折弯>角*"
 
-#: ../outdoor_rendering.rst:455
+#: ../outdoor_rendering.rst:451
 msgid ""
 "Angle amplitude of the “main” deviation under the influence of wind (in "
 "degrees). The default value is 10.0."
 msgstr "风的影响（度）下的 “主” 角偏差幅度。默认值是10.0。"
 
-#: ../outdoor_rendering.rst:458
+#: ../outdoor_rendering.rst:454
 msgid "*Main Bending > Frequency*"
 msgstr "*主要弯曲>频率*"
 
-#: ../outdoor_rendering.rst:458
+#: ../outdoor_rendering.rst:454
 msgid ""
 "Frequency of the “main” deviation under the influence of wind. The "
 "default value is 0.25."
 msgstr "风的影响下，“主” 偏差的频率。默认值是0.25。"
 
-#: ../outdoor_rendering.rst:461
+#: ../outdoor_rendering.rst:457
 msgid "*Main Bending > Main Stiffness (A)*"
 msgstr "*主要弯曲>主刚度（A）*"
 
-#: ../outdoor_rendering.rst:461
+#: ../outdoor_rendering.rst:457
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the stiffness of the “main” deviation. Can"
 " be left empty."
 msgstr "指定其中包含有关 “主” 偏差的刚度信息的顶点颜色层的名称文本字段。可以留空。"
 
-#: ../outdoor_rendering.rst:464
+#: ../outdoor_rendering.rst:460
 msgid "*Detail Bending > Amplitude*"
 msgstr "*详细弯曲>振幅*"
 
-#: ../outdoor_rendering.rst:464
+#: ../outdoor_rendering.rst:460
 msgid ""
 "Angle amplitude of the “detail” deviation caused by the influence of wind"
 " (in degrees). The default value is 0.1."
 msgstr "在 “细节” 偏差造成的风的影响（度）的角度幅度。缺省值为0.1。"
 
-#: ../outdoor_rendering.rst:467
+#: ../outdoor_rendering.rst:463
 msgid "*Detail Bending > Branch Amplitude*"
 msgstr "*详细折弯>分公司振幅*"
 
-#: ../outdoor_rendering.rst:467
+#: ../outdoor_rendering.rst:463
 msgid ""
 "Angle amplitude of the branch deviation caused by the influence of wind "
 "(in degrees). The default value is 0.3."
 msgstr "由风造成的影响（度）的分支偏差的角度幅度。默认值是0.3。"
 
-#: ../outdoor_rendering.rst:470
+#: ../outdoor_rendering.rst:466
 msgid "*Detail Bending > Bending Frequency*"
 msgstr "*详细弯曲>弯曲次数*"
 
-#: ../outdoor_rendering.rst:470
+#: ../outdoor_rendering.rst:466
 msgid "Detail bending frequency. The default value is 1.0."
 msgstr "弯曲频率的细节。默认值是 1.0。"
 
-#: ../outdoor_rendering.rst:473
+#: ../outdoor_rendering.rst:469
 msgid "*Detail Bending > Leaves Stiffness (R)*"
 msgstr "*详细折弯>叶刚度（R）*"
 
-#: ../outdoor_rendering.rst:473
+#: ../outdoor_rendering.rst:469
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the stiffness of leaves. Can be left "
 "empty."
 msgstr "指定其中包含有关叶子的刚度信息的顶点颜色层的名称文本字段。可以留空。"
 
-#: ../outdoor_rendering.rst:476
+#: ../outdoor_rendering.rst:472
 msgid "*Detail Bending > Leaves Phase (G)*"
 msgstr "*详细折弯>叶阶段（G）*"
 
-#: ../outdoor_rendering.rst:476
+#: ../outdoor_rendering.rst:472
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the phase of leaves deviation. Can be left"
 " empty."
 msgstr "指定其中包含有关叶偏差的相位信息的顶点颜色层的名称文本字段。可以留空。"
 
-#: ../outdoor_rendering.rst:479
+#: ../outdoor_rendering.rst:475
 msgid "*Detail Bending > Overall Stiffness (B)*"
 msgstr "*详细折弯>整体刚度（B）*"
 
-#: ../outdoor_rendering.rst:479
+#: ../outdoor_rendering.rst:475
 msgid ""
 "Text field for specifying the name of the vertex color layer which "
 "contains the information about the overall stiffness of leaves. Can be "
 "left empty."
 msgstr "指定其中包含有关叶片的整体刚度信息的顶点颜色层的名称文本字段。可以留空。"
 
-#: ../outdoor_rendering.rst:481
+#: ../outdoor_rendering.rst:477
 msgid ""
 "Vertex color layers should be present in the mesh if their names are "
 "specified."
@@ -976,11 +964,18 @@ msgstr "海岸线数据"
 msgid "shoreline"
 msgstr "海岸线"
 
+#~ msgid "*Mist > Use Custom Color*"
+#~ msgstr "*雾>使用定制颜色*"
+
 #~ msgid ""
-#~ "If a scene does not have a "
-#~ "``Wind`` force field, procedural waves "
-#~ "will still work, but their direction "
-#~ "will be defult, and you can't "
-#~ "change that."
-#~ msgstr ""
+#~ "Apply the user-defined fog color "
+#~ "instead of ``World > Horizon`` color."
+#~ " Enabled by default."
+#~ msgstr "应用用户定义雾的颜色，而不是 ``World > Horizon`` 颜色。默认情况下启用。"
+
+#~ msgid "*Mist > Color*"
+#~ msgstr "*雾>颜色*"
+
+#~ msgid "Fog color. The default value is (0.5, 0.5, 0.5) (gray)."
+#~ msgstr "雾的颜色。默认值是（0.5，0.5，0.5）（灰色）。"
 

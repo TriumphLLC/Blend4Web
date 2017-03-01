@@ -38,7 +38,6 @@ b4w.module["constraints"] = function(exports, require) {
 
 var m_cam      = require("__camera");
 var m_cons     = require("__constraints");
-var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
 var m_trans    = require("__transform");
@@ -46,14 +45,14 @@ var m_trans    = require("__transform");
 /**
  * An object that defines positioning for the stiff viewport constraint.
  * @typedef {Object} StiffViewportPositioning
- * @property {Number} [left] Offset from the left edge of the camera's viewport
- * @property {Number} [right] Offset from the right edge of the camera's viewport
- * @property {Number} [top] Offset from the top edge of the camera's viewport
- * @property {Number} [bottom] Offset from the bottom edge of the camera's viewport
- * @property {Number} distance Distance from the camera
+ * @property {number} [left] Offset from the left edge of the camera's viewport
+ * @property {number} [right] Offset from the right edge of the camera's viewport
+ * @property {number} [top] Offset from the top edge of the camera's viewport
+ * @property {number} [bottom] Offset from the bottom edge of the camera's viewport
+ * @property {number} distance Distance from the camera
  * @property {Quat} [rotation] Rotation offset
- * @property {String} [hor_units="widths"] Left/Right offset units: "heights" or "widths"
- * @property {String} [vert_units="heights"] Top/Bottom offset units: "heights" or "widths"
+ * @property {string} [hor_units="widths"] Left/Right offset units: "heights" or "widths"
+ * @property {string} [vert_units="heights"] Top/Bottom offset units: "heights" or "widths"
  * @cc_externs left right top bottom distance rotation hor_units vert_units
  */
 
@@ -69,7 +68,7 @@ var m_trans    = require("__transform");
  * @param {Vec3} offset Offset, in the parent's local space.
  * @param {Quat} [rotation_offset=null] Rotation offset, in the
  * parent's local space.
- * @param {Number} [scale_offset=1] Scale offset, in the parent's local space.
+ * @param {number} [scale_offset=1] Scale offset, in the parent's local space.
  */
 exports.append_stiff = function(obj, target, offset, rotation_offset,
         scale_offset) {
@@ -122,10 +121,10 @@ exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
  * @param {Vec3} offset Offset, in the parent's local space
  * @param {Quat} [rotation_offset] Initial rotation offset, in the
  * parent's local space
- * @param {Number} [clamp_left] Left camera rotation limit, in radians
- * @param {Number} [clamp_right] Right camera rotation limit, in radians
- * @param {Number} [clamp_up] Upward camera rotation limit, in radians
- * @param {Number} [clamp_down] Downward camera rotation limit, in radians
+ * @param {number} [clamp_left] Left camera rotation limit, in radians
+ * @param {number} [clamp_right] Right camera rotation limit, in radians
+ * @param {number} [clamp_up] Upward camera rotation limit, in radians
+ * @param {number} [clamp_down] Downward camera rotation limit, in radians
  */
 exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset,
                                             clamp_left, clamp_right,
@@ -157,7 +156,7 @@ exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset,
  * @param {Object3D} obj Constrained object
  * @param {Object3D} target Target object
  * @param {Vec3} offset Offset, in the parent's local space
- * @param {Number} [softness=0.25] Camera smoothness ratio
+ * @param {number} [softness=0.25] Camera smoothness ratio
  */
 exports.append_semi_soft_cam = function(obj, target, offset, softness) {
 
@@ -272,8 +271,8 @@ exports.append_track = function(obj, target) {
  * @method module:constraints.append_follow
  * @param {Object3D} obj Constrained object
  * @param {(Object3D|Vec3)} target Target object or position vector
- * @param {Number} dist_min Minimum distance
- * @param {Number} dist_max Maximum distance
+ * @param {number} dist_min Minimum distance
+ * @param {number} dist_max Maximum distance
  */
 exports.append_follow = function(obj, target, dist_min, dist_max) {
 
@@ -312,18 +311,6 @@ exports.remove = function(obj) {
         m_cons.remove(obj);
 }
 
-/**
- * Get object's parent object.
- * @method module:constraints.get_parent
- * @param {Object3D} obj Object
- * @returns {?Object3D} Parent object
- * @deprecated use {@link module:objects.get_parent|objects.get_parent} instead.
- */
-exports.get_parent = function(obj) {
-    m_print.error_deprecated("constraints.get_parent", "objects.get_parent");
-    return m_obj_util.get_parent(obj);
-}
-
 }
 </code></pre>
         </article>
@@ -335,13 +322,13 @@ exports.get_parent = function(obj) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Feb 28 2017 15:47:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

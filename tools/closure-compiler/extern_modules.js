@@ -1,4 +1,4 @@
-var b4w;
+var b4w, hljs;
 window.b4w;
 var GLOBAL;
 GLOBAL.b4w;
@@ -9,7 +9,6 @@ b4w.module_check;
 b4w.get_namespace;
 b4w.worker_listeners;
 b4w.worker_namespaces;
-var $;
 
 // missing in closure compiler https://github.com/google/closure-compiler/issues/806
 HTMLLinkElement.prototype.download;
@@ -20,6 +19,7 @@ WebGLRenderingContext.RGB8;
 WebGLRenderingContext.RGBA8;
 WebGLRenderingContext.DEPTH;
 WebGLRenderingContext.DEPTH_COMPONENT24;
+WebGLRenderingContext.DEPTH_COMPONENT32F;
 WebGLRenderingContext.MAX_SAMPLES;
 WebGLRenderingContext.READ_FRAMEBUFFER;
 WebGLRenderingContext.DRAW_FRAMEBUFFER;
@@ -41,6 +41,7 @@ WebGLRenderingContext.endQuery;
 WebGLRenderingContext.getQueryParameter;
 WebGLRenderingContext.QUERY_RESULT_AVAILABLE;
 WebGLRenderingContext.QUERY_RESULT;
+WebGLRenderingContext.FRAMEBUFFER_INCOMPLETE_MULTISAMPLE;
 
 // missing extensions stuff
 var EXTDisjointTimerQuery;
@@ -84,16 +85,15 @@ var VREyeParameters;
 // PositionSensorVRDevice properties
 VREyeParameters.prototype.eyeTranslation;
 VREyeParameters.prototype.currentFieldOfView;
+VREyeParameters.prototype.offset;
+VREyeParameters.prototype.fieldOfView;
+VREyeParameters.prototype.renderWidth;
+VREyeParameters.prototype.renderHeight;
+// NOTE: old unused API
 // VREyeParameters.prototype.minimumFieldOfView;
 // VREyeParameters.prototype.maximumFieldOfView;
 // VREyeParameters.prototype.recommendedFieldOfView;
 // VREyeParameters.prototype.renderRect;
-
-var VRFieldOfView;
-VRFieldOfView.prototype.upDegrees;
-VRFieldOfView.prototype.rightDegrees;
-VRFieldOfView.prototype.downDegrees;
-VRFieldOfView.prototype.leftDegrees;
 
 var PositionSensorVRDevice;
 // PositionSensorVRDevice properties
@@ -148,6 +148,7 @@ VRDisplay.prototype.requestPresent;
 VRDisplay.prototype.exitPresent;
 VRDisplay.prototype.getLayers;
 VRDisplay.prototype.submitFrame;
+VRDisplay.prototype.getFrameData;
 
 var VRLayer;
 // VRLayer properties
@@ -182,20 +183,21 @@ VRPose.prototype.orientation;
 VRPose.prototype.angularVelocity;
 VRPose.prototype.angularAcceleration;
 
-var VREyeParameters;
-// VREyeParameters properties
-VREyeParameters.prototype.offset;
-VREyeParameters.prototype.fieldOfView;
-VREyeParameters.prototype.renderWidth;
-VREyeParameters.prototype.renderHeight;
-
 var VRStageParameters;
 // VRStageParameters properties
 VRStageParameters.prototype.sittingToStandingTransform;
 VRStageParameters.prototype.sizeX;
 VRStageParameters.prototype.sizeZ;
 
+var VRFrameData;
+window.VRFrameData;
+VRFrameData.prototype.leftProjectionMatrix;
+VRFrameData.prototype.rightProjectionMatrix;
+VRFrameData.prototype.leftViewMatrix;
+VRFrameData.prototype.pose;
+
 // indicate touch events.
 UIEvent.prototype.sourceCapabilities;
 Object.prototype.firesTouchEvents;
 Object.prototype.mozInputSource;
+Object.prototype.highlight;

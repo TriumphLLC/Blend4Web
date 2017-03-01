@@ -64,9 +64,6 @@ Generic Settings
 
 *Mapping > Coordinates*
     Texture coordinates type. Supported types are ``UV`` (use UV map), ``Normal`` (use direction at the camera; available only for diffuse maps; used for the creation of **material capture**, **matcap**) and ``Generated``. The default value is ``Generated``.
- 
-    .. note::
-        Blend4Web engine currently supports no more than two UV maps per material. If the material has more than two UV maps, additional maps will be ignored during the export.
 
 *Mapping > Size*
     Scaling the UV map along respective axes. The default values are 1.0.
@@ -503,8 +500,8 @@ The engine also supports the cyclic rendering of scenes to each other.
 
 .. _render_to_texture_canvas:
 
-Canvas
-------
+Canvas textures
+---------------
 
 A <canvas> HTML element can be used as a texture. It can be modified via API.
 

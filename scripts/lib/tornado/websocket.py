@@ -36,17 +36,13 @@ from tornado.iostream import StreamClosedError
 from tornado.log import gen_log, app_log
 from tornado import simple_httpclient
 from tornado.tcpclient import TCPClient
-from tornado.util import _websocket_mask
+from tornado.util import _websocket_mask, PY3
 
-try:
-    from urllib.parse import urlparse # py2
-except ImportError:
-    from urlparse import urlparse # py3
-
-try:
-    xrange  # py2
-except NameError:
-    xrange = range  # py3
+if PY3:
+    from urllib.parse import urlparse  # py2
+    xrange = range
+else:
+    from urlparse import urlparse  # py3
 
 
 class WebSocketError(Exception):
@@ -74,17 +70,22 @@ class WebSocketHandler(tornado.web.RequestHandler):
     http://tools.ietf.org/html/rfc6455.
 
     Here is an example WebSocket handler that echos back all received messages
-    back to the client::
+    back to the client:
 
-      class EchoWebSocket(websocket.WebSocketHandler):
+    .. testcode::
+
+      class EchoWebSocket(tornado.websocket.WebSocketHandler):
           def open(self):
-              print "WebSocket opened"
+              print("WebSocket opened")
 
           def on_message(self, message):
               self.write_message(u"You said: " + message)
 
           def on_close(self):
-              print "WebSocket closed"
+              print("WebSocket closed")
+
+    .. testoutput::
+       :hide:
 
     WebSockets are not standard HTTP connections. The "handshake" is
     HTTP, but after the handshake, the protocol is
@@ -123,8 +124,7 @@ class WebSocketHandler(tornado.web.RequestHandler):
     to accept it before the websocket connection will succeed.
     """
     def __init__(self, application, request, **kwargs):
-        tornado.web.RequestHandler.__init__(self, application, request,
-                                            **kwargs)
+        super(WebSocketHandler, self).__init__(application, request, **kwargs)
         self.ws_connection = None
         self.close_code = None
         self.close_reason = None
@@ -139,16 +139,22 @@ class WebSocketHandler(tornado.web.RequestHandler):
         # Upgrade header should be present and should be equal to WebSocket
         if self.request.headers.get("Upgrade", "").lower() != 'websocket':
             self.set_status(400)
-            self.finish("Can \"Upgrade\" only to \"WebSocket\".")
+            log_msg = "Can \"Upgrade\" only to \"WebSocket\"."
+            self.finish(log_msg)
+            gen_log.debug(log_msg)
             return
 
-        # Connection header should be upgrade. Some proxy servers/load balancers
+        # Connection header should be upgrade.
+        # Some proxy servers/load balancers
         # might mess with it.
         headers = self.request.headers
-        connection = map(lambda s: s.strip().lower(), headers.get("Connection", "").split(","))
+        connection = map(lambda s: s.strip().lower(),
+                         headers.get("Connection", "").split(","))
         if 'upgrade' not in connection:
             self.set_status(400)
-            self.finish("\"Connection\" must be \"Upgrade\".")
+            log_msg = "\"Connection\" must be \"Upgrade\"."
+            self.finish(log_msg)
+            gen_log.debug(log_msg)
             return
 
         # Handle WebSocket Origin naming convention differences
@@ -160,13 +166,14 @@ class WebSocketHandler(tornado.web.RequestHandler):
         else:
             origin = self.request.headers.get("Sec-Websocket-Origin", None)
 
-
         # If there was an origin header, check to make sure it matches
         # according to check_origin. When the origin is None, we assume it
         # did not come from a browser and that it can be passed on.
         if origin is not None and not self.check_origin(origin):
             self.set_status(403)
-            self.finish("Cross origin websockets not allowed")
+            log_msg = "Cross origin websockets not allowed"
+            self.finish(log_msg)
+            gen_log.debug(log_msg)
             return
 
         self.stream = self.request.connection.detach()
@@ -195,12 +202,15 @@ class WebSocketHandler(tornado.web.RequestHandler):
         .. versionchanged:: 3.2
            `WebSocketClosedError` was added (previously a closed connection
            would raise an `AttributeError`)
+
+        .. versionchanged:: 4.3
+           Returns a `.Future` which can be used for flow control.
         """
         if self.ws_connection is None:
             raise WebSocketClosedError()
         if isinstance(message, dict):
             message = tornado.escape.json_encode(message)
-        self.ws_connection.write_message(message, binary=binary)
+        return self.ws_connection.write_message(message, binary=binary)
 
     def select_subprotocol(self, subprotocols):
         """Invoked when a new WebSocket requests specific subprotocols.
@@ -305,6 +315,19 @@ class WebSocketHandler(tornado.web.RequestHandler):
         browsers, since WebSockets are allowed to bypass the usual same-origin
         policies and don't use CORS headers.
 
+        .. warning::
+
+           This is an important security measure; don't disable it
+           without understanding the security implications. In
+           particular, if your authenticatino is cookie-based, you
+           must either restrict the origins allowed by
+           ``check_origin()`` or implement your own XSRF-like
+           protection for websocket connections. See `these
+           <https://www.christian-schneider.net/CrossSiteWebSocketHijacking.html>`_
+           `articles
+           <https://devcenter.heroku.com/articles/websocket-security>`_
+           for more.
+
         To accept all cross-origin traffic (which was the default prior to
         Tornado 4.0), simply override this method to always return true::
 
@@ -319,6 +342,7 @@ class WebSocketHandler(tornado.web.RequestHandler):
                 return parsed_origin.netloc.endswith(".mydomain.com")
 
         .. versionadded:: 4.0
+
         """
         parsed_origin = urlparse(origin)
         origin = parsed_origin.netloc
@@ -350,7 +374,7 @@ class WebSocketHandler(tornado.web.RequestHandler):
             self.ws_connection.on_connection_close()
             self.ws_connection = None
         if not self._on_close_called:
-            self._on_close_called
+            self._on_close_called = True
             self.on_close()
 
     def send_error(self, *args, **kwargs):
@@ -431,7 +455,8 @@ class _PerMessageDeflateCompressor(object):
             self._compressor = None
 
     def _create_compressor(self):
-        return zlib.compressobj(-1, zlib.DEFLATED, -self._max_wbits)
+        return zlib.compressobj(tornado.web.GZipContentEncoding.GZIP_LEVEL,
+                                zlib.DEFLATED, -self._max_wbits)
 
     def compress(self, data):
         compressor = self._compressor or self._create_compressor()
@@ -507,7 +532,8 @@ class WebSocketProtocol13(WebSocketProtocol):
             self._handle_websocket_headers()
             self._accept_connection()
         except ValueError:
-            gen_log.debug("Malformed WebSocket request received", exc_info=True)
+            gen_log.debug("Malformed WebSocket request received",
+                          exc_info=True)
             self._abort()
             return
 
@@ -543,18 +569,19 @@ class WebSocketProtocol13(WebSocketProtocol):
             selected = self.handler.select_subprotocol(subprotocols)
             if selected:
                 assert selected in subprotocols
-                subprotocol_header = "Sec-WebSocket-Protocol: %s\r\n" % selected
+                subprotocol_header = ("Sec-WebSocket-Protocol: %s\r\n"
+                                      % selected)
 
         extension_header = ''
         extensions = self._parse_extensions_header(self.request.headers)
         for ext in extensions:
             if (ext[0] == 'permessage-deflate' and
-                self._compression_options is not None):
+                    self._compression_options is not None):
                 # TODO: negotiate parameters if compression_options
                 # specifies limits.
                 self._create_compressors('server', ext[1])
                 if ('client_max_window_bits' in ext[1] and
-                    ext[1]['client_max_window_bits'] is None):
+                        ext[1]['client_max_window_bits'] is None):
                     # Don't echo an offered client_max_window_bits
                     # parameter with no value.
                     del ext[1]['client_max_window_bits']
@@ -599,7 +626,7 @@ class WebSocketProtocol13(WebSocketProtocol):
         extensions = self._parse_extensions_header(headers)
         for ext in extensions:
             if (ext[0] == 'permessage-deflate' and
-                self._compression_options is not None):
+                    self._compression_options is not None):
                 self._create_compressors('client', ext[1])
             else:
                 raise ValueError("unsupported extension %r", ext)
@@ -655,7 +682,7 @@ class WebSocketProtocol13(WebSocketProtocol):
         frame += data
         self._wire_bytes_out += len(frame)
         try:
-            self.stream.write(frame)
+            return self.stream.write(frame)
         except StreamClosedError:
             self._abort()
 
@@ -672,7 +699,7 @@ class WebSocketProtocol13(WebSocketProtocol):
         if self._compressor:
             message = self._compressor.compress(message)
             flags |= self.RSV1
-        self._write_frame(True, opcode, message, flags=flags)
+        return self._write_frame(True, opcode, message, flags=flags)
 
     def write_ping(self, data):
         """Send ping frame."""
@@ -692,7 +719,7 @@ class WebSocketProtocol13(WebSocketProtocol):
         reserved_bits = header & self.RSV_MASK
         self._frame_opcode = header & self.OPCODE_MASK
         self._frame_opcode_is_control = self._frame_opcode & 0x8
-        if self._decompressor is not None:
+        if self._decompressor is not None and self._frame_opcode != 0:
             self._frame_compressed = bool(reserved_bits & self.RSV1)
             reserved_bits &= ~self.RSV1
         if reserved_bits:
@@ -711,7 +738,8 @@ class WebSocketProtocol13(WebSocketProtocol):
                 if self._masked_frame:
                     self.stream.read_bytes(4, self._on_masking_key)
                 else:
-                    self.stream.read_bytes(self._frame_length, self._on_frame_data)
+                    self.stream.read_bytes(self._frame_length,
+                                           self._on_frame_data)
             elif payloadlen == 126:
                 self.stream.read_bytes(2, self._on_frame_length_16)
             elif payloadlen == 127:
@@ -745,7 +773,8 @@ class WebSocketProtocol13(WebSocketProtocol):
         self._wire_bytes_in += len(data)
         self._frame_mask = data
         try:
-            self.stream.read_bytes(self._frame_length, self._on_masked_frame_data)
+            self.stream.read_bytes(self._frame_length,
+                                   self._on_masked_frame_data)
         except StreamClosedError:
             self._abort()
 
@@ -818,7 +847,8 @@ class WebSocketProtocol13(WebSocketProtocol):
                 self.handler.close_code = struct.unpack('>H', data[:2])[0]
             if len(data) > 2:
                 self.handler.close_reason = to_unicode(data[2:])
-            self.close()
+            # Echo the received close code, if any (RFC 6455 section 5.5.1).
+            self.close(self.handler.close_code)
         elif opcode == 0x9:
             # Ping
             self._write_frame(True, 0xA, data)
@@ -869,6 +899,7 @@ class WebSocketClientConnection(simple_httpclient._HTTPConnection):
         self.read_queue = collections.deque()
         self.key = base64.b64encode(os.urandom(16))
         self._on_message_callback = on_message_callback
+        self.close_code = self.close_reason = None
 
         scheme, sep, rest = request.url.partition(':')
         scheme = {'ws': 'http', 'wss': 'https'}[scheme]
@@ -891,7 +922,7 @@ class WebSocketClientConnection(simple_httpclient._HTTPConnection):
         self.tcp_client = TCPClient(io_loop=io_loop)
         super(WebSocketClientConnection, self).__init__(
             io_loop, None, request, lambda: None, self._on_http_response,
-            104857600, self.tcp_client, 65536)
+            104857600, self.tcp_client, 65536, 104857600)
 
     def close(self, code=None, reason=None):
         """Closes the websocket connection.
@@ -950,7 +981,7 @@ class WebSocketClientConnection(simple_httpclient._HTTPConnection):
 
     def write_message(self, message, binary=False):
         """Sends a message to the WebSocket server."""
-        self.protocol.write_message(message, binary)
+        return self.protocol.write_message(message, binary)
 
     def read_message(self, callback=None):
         """Reads a message from the WebSocket server.
@@ -1004,7 +1035,7 @@ def websocket_connect(url, io_loop=None, callback=None, connect_timeout=None,
     style, the application typically calls
     `~.WebSocketClientConnection.read_message` in a loop::
 
-        conn = yield websocket_connection(loop)
+        conn = yield websocket_connect(url)
         while True:
             msg = yield conn.read_message()
             if msg is None: break

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 b4w.module["__nla"] = function(exports, require) {
 
 var m_anim      = require("__animation");
-var m_cfg       = require("__config");
 var m_obj       = require("__objects");
 var m_obj_util  = require("__obj_util");
 var m_print     = require("__print");
@@ -34,8 +33,6 @@ var m_sfx       = require("__sfx");
 var m_tex       = require("__textures");
 var m_time      = require("__time");
 var m_util      = require("__util");
-
-var cfg_def = m_cfg.defaults;
 
 var _nla_arr = [];
 var _start_time = -1;
@@ -624,33 +621,36 @@ function frame_need_play_video(cf, vtex) {
 /**
  * NOTE: unused
  */
-function pause_scheduled_objects(objects) {
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-        var nla_events = obj.nla_events;
-        for (var j = 0; j < nla_events.length; j++) {
-            var ev = nla_events[j];
-            if (ev.scheduled && !ev.paused) {
-                process_event_pause(obj);
-                ev.paused = true;
-            }
-        }
-    }
-}
+// function pause_scheduled_objects(objects) {
+//     for (var i = 0; i < objects.length; i++) {
+//         var obj = objects[i];
+//         var nla_events = obj.nla_events;
+//         for (var j = 0; j < nla_events.length; j++) {
+//             var ev = nla_events[j];
+//             if (ev.scheduled && !ev.paused) {
+//                 process_event_pause(obj);
+//                 ev.paused = true;
+//             }
+//         }
+//     }
+// }
 
-function resume_scheduled_objects(objects) {
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-        var nla_events = obj.nla_events;
-        for (var j = 0; j < nla_events.length; j++) {
-            var ev = nla_events[j];
-            if (ev.paused) {
-                process_event_resume(obj);
-                ev.paused = false;
-            }
-        }
-    }
-}
+/**
+ * NOTE: unused
+ */
+// function resume_scheduled_objects(objects) {
+//     for (var i = 0; i < objects.length; i++) {
+//         var obj = objects[i];
+//         var nla_events = obj.nla_events;
+//         for (var j = 0; j < nla_events.length; j++) {
+//             var ev = nla_events[j];
+//             if (ev.paused) {
+//                 process_event_resume(obj);
+//                 ev.paused = false;
+//             }
+//         }
+//     }
+// }
 
 function calc_curr_frame_scene(nla, timeline) {
 

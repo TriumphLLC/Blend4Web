@@ -73,7 +73,15 @@ def csv_str_to_dict(s):
             key_val.append("")
         key_vals.append(tuple(key_val))
 
-    return OrderedDict(key_vals)
+    refactered_key_vals = []
+
+    for key_val in key_vals:
+        refactered_key_vals.append(key_val[:2])
+
+    try:
+        return OrderedDict(refactered_key_vals)
+    except:
+        return OrderedDict()
 
 def dict_to_csv_str(d):
     items = []

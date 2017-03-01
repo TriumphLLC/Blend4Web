@@ -8,10 +8,7 @@
  */
  (function($) {
     var ColorPicker = function() {
-        var ids = {},
-        inAction,
-        charMin = 65,
-        visible,
+        var charMin = 65,
         tpl = '<div class="colorpicker"><div class="colorpicker_color"><div><div></div></div></div><div class="colorpicker_hue"><div></div></div><div class="colorpicker_new_color"></div><div class="colorpicker_current_color"></div><div class="colorpicker_hex"><input type="text" maxlength="6" size="6" /></div><div class="colorpicker_rgb_r colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_rgb_g colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_rgb_b colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_hsb_h colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_hsb_s colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_hsb_b colorpicker_field"><input type="text" maxlength="3" size="3" /><span></span></div><div class="colorpicker_submit"></div></div>',
         defaults = {
             eventName: 'click',
@@ -159,8 +156,8 @@
             var moveEvent = ev;
 
             // mobile touch event!
-            if (typeof(event) !== "undefined" && event.touches) {
-                moveEvent = event.touches[0];
+            if (typeof(ev) !== "undefined" && ev.touches) {
+                moveEvent = ev.touches[0];
             }
 
             change.apply(ev.data.cal.data('colorpicker').fields.eq(4).val(parseInt(360 * (150 - Math.max(0, Math.min(150, moveEvent.pageY - ev.data.y))) / 150, 10)).get(0), [ev.data.preview]);
@@ -188,8 +185,8 @@
             var moveEvent = ev;
 
             // mobile touch event!
-            if (typeof(event) !== "undefined" && event.touches) {
-                moveEvent = event.touches[0];
+            if (typeof(ev) !== "undefined" && ev.touches) {
+                moveEvent = ev.touches[0];
             }
 
             change.apply(ev.data.cal.data('colorpicker').fields.eq(6).val(parseInt(100 * (150 - Math.max(0, Math.min(150, (moveEvent.pageY - ev.data.pos.top)))) / 150, 10)).end().eq(5).val(parseInt(100 * (Math.max(0, Math.min(150, (moveEvent.pageX - ev.data.pos.left)))) / 150, 10)).get(0), [ev.data.preview]);
@@ -314,7 +311,7 @@
             return hex;
         },
         HexToRGB = function(hex) {
-            var hex = parseInt(((hex.indexOf('#') > -1) ? hex.substring(1) : hex), 16);
+            hex = parseInt(((hex.indexOf('#') > -1) ? hex.substring(1) : hex), 16);
             return {
                 r: hex >> 16,
                 g: (hex & 0x00FF00) >> 8,
@@ -334,8 +331,6 @@
             var max = Math.max(rgb.r, rgb.g, rgb.b);
             var delta = max - min;
             hsb.b = max;
-            if (max != 0) {
-}
             hsb.s = max != 0 ? 255 * delta / max: 0;
             if (hsb.s != 0) {
                 if (rgb.r == max) {

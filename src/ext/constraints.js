@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ b4w.module["constraints"] = function(exports, require) {
 
 var m_cam      = require("__camera");
 var m_cons     = require("__constraints");
-var m_obj_util = require("__obj_util");
 var m_phy      = require("__physics");
 var m_print    = require("__print");
 var m_trans    = require("__transform");
@@ -34,14 +33,14 @@ var m_trans    = require("__transform");
 /**
  * An object that defines positioning for the stiff viewport constraint.
  * @typedef {Object} StiffViewportPositioning
- * @property {Number} [left] Offset from the left edge of the camera's viewport
- * @property {Number} [right] Offset from the right edge of the camera's viewport
- * @property {Number} [top] Offset from the top edge of the camera's viewport
- * @property {Number} [bottom] Offset from the bottom edge of the camera's viewport
- * @property {Number} distance Distance from the camera
+ * @property {number} [left] Offset from the left edge of the camera's viewport
+ * @property {number} [right] Offset from the right edge of the camera's viewport
+ * @property {number} [top] Offset from the top edge of the camera's viewport
+ * @property {number} [bottom] Offset from the bottom edge of the camera's viewport
+ * @property {number} distance Distance from the camera
  * @property {Quat} [rotation] Rotation offset
- * @property {String} [hor_units="widths"] Left/Right offset units: "heights" or "widths"
- * @property {String} [vert_units="heights"] Top/Bottom offset units: "heights" or "widths"
+ * @property {string} [hor_units="widths"] Left/Right offset units: "heights" or "widths"
+ * @property {string} [vert_units="heights"] Top/Bottom offset units: "heights" or "widths"
  * @cc_externs left right top bottom distance rotation hor_units vert_units
  */
 
@@ -57,7 +56,7 @@ var m_trans    = require("__transform");
  * @param {Vec3} offset Offset, in the parent's local space.
  * @param {Quat} [rotation_offset=null] Rotation offset, in the
  * parent's local space.
- * @param {Number} [scale_offset=1] Scale offset, in the parent's local space.
+ * @param {number} [scale_offset=1] Scale offset, in the parent's local space.
  */
 exports.append_stiff = function(obj, target, offset, rotation_offset,
         scale_offset) {
@@ -110,10 +109,10 @@ exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
  * @param {Vec3} offset Offset, in the parent's local space
  * @param {Quat} [rotation_offset] Initial rotation offset, in the
  * parent's local space
- * @param {Number} [clamp_left] Left camera rotation limit, in radians
- * @param {Number} [clamp_right] Right camera rotation limit, in radians
- * @param {Number} [clamp_up] Upward camera rotation limit, in radians
- * @param {Number} [clamp_down] Downward camera rotation limit, in radians
+ * @param {number} [clamp_left] Left camera rotation limit, in radians
+ * @param {number} [clamp_right] Right camera rotation limit, in radians
+ * @param {number} [clamp_up] Upward camera rotation limit, in radians
+ * @param {number} [clamp_down] Downward camera rotation limit, in radians
  */
 exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset,
                                             clamp_left, clamp_right,
@@ -145,7 +144,7 @@ exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset,
  * @param {Object3D} obj Constrained object
  * @param {Object3D} target Target object
  * @param {Vec3} offset Offset, in the parent's local space
- * @param {Number} [softness=0.25] Camera smoothness ratio
+ * @param {number} [softness=0.25] Camera smoothness ratio
  */
 exports.append_semi_soft_cam = function(obj, target, offset, softness) {
 
@@ -260,8 +259,8 @@ exports.append_track = function(obj, target) {
  * @method module:constraints.append_follow
  * @param {Object3D} obj Constrained object
  * @param {(Object3D|Vec3)} target Target object or position vector
- * @param {Number} dist_min Minimum distance
- * @param {Number} dist_max Maximum distance
+ * @param {number} dist_min Minimum distance
+ * @param {number} dist_max Maximum distance
  */
 exports.append_follow = function(obj, target, dist_min, dist_max) {
 
@@ -298,18 +297,6 @@ exports.append_stiff_viewport = function(obj, camobj, positioning) {
 exports.remove = function(obj) {
     if (obj.constraint)
         m_cons.remove(obj);
-}
-
-/**
- * Get object's parent object.
- * @method module:constraints.get_parent
- * @param {Object3D} obj Object
- * @returns {?Object3D} Parent object
- * @deprecated use {@link module:objects.get_parent|objects.get_parent} instead.
- */
-exports.get_parent = function(obj) {
-    m_print.error_deprecated("constraints.get_parent", "objects.get_parent");
-    return m_obj_util.get_parent(obj);
 }
 
 }

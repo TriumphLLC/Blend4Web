@@ -21,7 +21,7 @@ var _cam_waiting_handle = null;
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas_cont",
+        canvas_container_id: "main_canvas_container",
         callback: init_cb,
         autoresize: true,
         assets_dds_available: !DEBUG,

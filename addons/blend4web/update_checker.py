@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -59,9 +59,9 @@ def check_for_update_callback(arg):
     pref.b4w_available_for_update_version = ""
     check = pref.b4w_check_for_updates
     ver = blend4web.bl_info["version"]
-    b4w_current_version = "%s.%02d.%02d" % (ver[0], ver[1], ver[2])
+    b4w_current_version = "%02d.%02d.%d" % (ver[0], ver[1], ver[2])
     bv = bpy.app.version
-    blender_current_version = "%s.%02d.%02d" % (bv[0], bv[1], bv[2])
+    blender_current_version = "%d.%02d.%d" % (bv[0], bv[1], bv[2])
     if check:
         # uncomment for testing
         # blender_current_version = '2.75'

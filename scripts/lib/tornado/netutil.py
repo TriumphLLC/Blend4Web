@@ -27,7 +27,7 @@ import stat
 from tornado.concurrent import dummy_executor, run_on_executor
 from tornado.ioloop import IOLoop
 from tornado.platform.auto import set_close_exec
-from tornado.util import u, Configurable, errno_from_exception
+from tornado.util import PY3, Configurable, errno_from_exception
 
 try:
     import ssl
@@ -36,26 +36,68 @@ except ImportError:
     ssl = None
 
 try:
-    xrange  # py2
-except NameError:
-    xrange = range  # py3
+    import certifi
+except ImportError:
+    # certifi is optional as long as we have ssl.create_default_context.
+    if ssl is None or hasattr(ssl, 'create_default_context'):
+        certifi = None
+    else:
+        raise
+
+if PY3:
+    xrange = range
 
 if hasattr(ssl, 'match_hostname') and hasattr(ssl, 'CertificateError'):  # python 3.2+
     ssl_match_hostname = ssl.match_hostname
     SSLCertificateError = ssl.CertificateError
 elif ssl is None:
-    ssl_match_hostname = SSLCertificateError = None
+    ssl_match_hostname = SSLCertificateError = None  # type: ignore
 else:
     import backports.ssl_match_hostname
     ssl_match_hostname = backports.ssl_match_hostname.match_hostname
-    SSLCertificateError = backports.ssl_match_hostname.CertificateError
+    SSLCertificateError = backports.ssl_match_hostname.CertificateError  # type: ignore
+
+if hasattr(ssl, 'SSLContext'):
+    if hasattr(ssl, 'create_default_context'):
+        # Python 2.7.9+, 3.4+
+        # Note that the naming of ssl.Purpose is confusing; the purpose
+        # of a context is to authentiate the opposite side of the connection.
+        _client_ssl_defaults = ssl.create_default_context(
+            ssl.Purpose.SERVER_AUTH)
+        _server_ssl_defaults = ssl.create_default_context(
+            ssl.Purpose.CLIENT_AUTH)
+    else:
+        # Python 3.2-3.3
+        _client_ssl_defaults = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        _client_ssl_defaults.verify_mode = ssl.CERT_REQUIRED
+        _client_ssl_defaults.load_verify_locations(certifi.where())
+        _server_ssl_defaults = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        if hasattr(ssl, 'OP_NO_COMPRESSION'):
+            # Disable TLS compression to avoid CRIME and related attacks.
+            # This constant wasn't added until python 3.3.
+            _client_ssl_defaults.options |= ssl.OP_NO_COMPRESSION
+            _server_ssl_defaults.options |= ssl.OP_NO_COMPRESSION
+
+elif ssl:
+    # Python 2.6-2.7.8
+    _client_ssl_defaults = dict(cert_reqs=ssl.CERT_REQUIRED,
+                                ca_certs=certifi.where())
+    _server_ssl_defaults = {}
+else:
+    # Google App Engine
+    _client_ssl_defaults = dict(cert_reqs=None,
+                                ca_certs=None)
+    _server_ssl_defaults = {}
 
 # ThreadedResolver runs getaddrinfo on a thread. If the hostname is unicode,
 # getaddrinfo attempts to import encodings.idna. If this is done at
 # module-import time, the import lock is already held by the main thread,
 # leading to deadlock. Avoid it by caching the idna encoder on the main
 # thread now.
-u('foo').encode('idna')
+u'foo'.encode('idna')
+
+# For undiagnosed reasons, 'latin1' codec may also need to be preloaded.
+u'foo'.encode('latin1')
 
 # These errnos indicate that a non-blocking operation must be retried
 # at a later time.  On most platforms they're the same value, but on
@@ -63,13 +105,14 @@ u('foo').encode('idna')
 _ERRNO_WOULDBLOCK = (errno.EWOULDBLOCK, errno.EAGAIN)
 
 if hasattr(errno, "WSAEWOULDBLOCK"):
-    _ERRNO_WOULDBLOCK += (errno.WSAEWOULDBLOCK,)
+    _ERRNO_WOULDBLOCK += (errno.WSAEWOULDBLOCK,)  # type: ignore
 
 # Default backlog used when calling sock.listen()
 _DEFAULT_BACKLOG = 128
 
+
 def bind_sockets(port, address=None, family=socket.AF_UNSPEC,
-                 backlog=_DEFAULT_BACKLOG, flags=None):
+                 backlog=_DEFAULT_BACKLOG, flags=None, reuse_port=False):
     """Creates listening sockets bound to the given port and address.
 
     Returns a list of socket objects (multiple sockets are returned if
@@ -88,7 +131,14 @@ def bind_sockets(port, address=None, family=socket.AF_UNSPEC,
 
     ``flags`` is a bitmask of AI_* flags to `~socket.getaddrinfo`, like
     ``socket.AI_PASSIVE | socket.AI_NUMERICHOST``.
+
+    ``reuse_port`` option sets ``SO_REUSEPORT`` option for every socket
+    in the list. If your platform doesn't support this option ValueError will
+    be raised.
     """
+    if reuse_port and not hasattr(socket, "SO_REUSEPORT"):
+        raise ValueError("the platform doesn't support SO_REUSEPORT")
+
     sockets = []
     if address == "":
         address = None
@@ -123,6 +173,8 @@ def bind_sockets(port, address=None, family=socket.AF_UNSPEC,
         set_close_exec(sock.fileno())
         if os.name != 'nt':
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        if reuse_port:
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
         if af == socket.AF_INET6:
             # On linux, ipv6 sockets accept ipv4 too by default,
             # but this makes it impossible to bind to both
@@ -283,6 +335,11 @@ class Resolver(Configurable):
         port)`` pair for IPv4; additional fields may be present for
         IPv6). If a ``callback`` is passed, it will be run with the
         result as an argument when it is complete.
+
+        :raises IOError: if the address cannot be resolved.
+
+        .. versionchanged:: 4.4
+           Standardized all implementations to raise `IOError`.
         """
         raise NotImplementedError()
 
@@ -362,8 +419,8 @@ class ThreadedResolver(ExecutorResolver):
        All ``ThreadedResolvers`` share a single thread pool, whose
        size is set by the first one to be created.
     """
-    _threadpool = None
-    _threadpool_pid = None
+    _threadpool = None  # type: ignore
+    _threadpool_pid = None  # type: int
 
     def initialize(self, io_loop=None, num_threads=10):
         threadpool = ThreadedResolver._create_threadpool(num_threads)
@@ -419,7 +476,7 @@ def ssl_options_to_context(ssl_options):
     `~ssl.SSLContext` object.
 
     The ``ssl_options`` dictionary contains keywords to be passed to
-    `ssl.wrap_socket`.  In Python 3.2+, `ssl.SSLContext` objects can
+    `ssl.wrap_socket`.  In Python 2.7.9+, `ssl.SSLContext` objects can
     be used instead.  This function converts the dict form to its
     `~ssl.SSLContext` equivalent, and may be used when a component which
     accepts both forms needs to upgrade to the `~ssl.SSLContext` version
@@ -450,11 +507,11 @@ def ssl_options_to_context(ssl_options):
 def ssl_wrap_socket(socket, ssl_options, server_hostname=None, **kwargs):
     """Returns an ``ssl.SSLSocket`` wrapping the given socket.
 
-    ``ssl_options`` may be either a dictionary (as accepted by
-    `ssl_options_to_context`) or an `ssl.SSLContext` object.
-    Additional keyword arguments are passed to ``wrap_socket``
-    (either the `~ssl.SSLContext` method or the `ssl` module function
-    as appropriate).
+    ``ssl_options`` may be either an `ssl.SSLContext` object or a
+    dictionary (as accepted by `ssl_options_to_context`).  Additional
+    keyword arguments are passed to ``wrap_socket`` (either the
+    `~ssl.SSLContext` method or the `ssl` module function as
+    appropriate).
     """
     context = ssl_options_to_context(ssl_options)
     if hasattr(ssl, 'SSLContext') and isinstance(context, ssl.SSLContext):
@@ -467,4 +524,4 @@ def ssl_wrap_socket(socket, ssl_options, server_hostname=None, **kwargs):
         else:
             return context.wrap_socket(socket, **kwargs)
     else:
-        return ssl.wrap_socket(socket, **dict(context, **kwargs))
+        return ssl.wrap_socket(socket, **dict(context, **kwargs))  # type: ignore

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>For Application Developers &mdash; Blend4Web 16.12 User Manual</title>
+  <title>For Application Developers &mdash; Blend4Web 17.02 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.12 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.02 User Manual" href="index.html"/>
         <link rel="next" title="For Engine Developers" href="developers_advanced.html"/>
         <link rel="prev" title="Physics" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -121,6 +121,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#background-transparency">Background Transparency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#resource-conversion">Resource Conversion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#commands">Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arguments">Arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#data-formats">Data Formats</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dds-texture-compression">DDS Texture Compression</a></li>
@@ -140,7 +142,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#sdk-file-structure">SDK File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#loading-local-resources">Loading Local Resources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-profiles">Quality Profiles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#non-fullscreen-web-apps">Non-FullScreen Web Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-standard-canvas-position-and-orientation">Non-Standard Canvas Position and Orientation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mobile-web-apps">Mobile Web Apps</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
@@ -189,43 +192,46 @@
            <div itemprop="articleBody">
             
   <div class="section" id="for-application-developers">
-<span id="developers"></span><h1><a class="toc-backref" href="#id1">For Application Developers</a><a class="headerlink" href="#for-application-developers" title="Permalink to this headline">¶</a></h1>
+<span id="developers"></span><h1><a class="toc-backref" href="#id2">For Application Developers</a><a class="headerlink" href="#for-application-developers" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#for-application-developers" id="id1">For Application Developers</a><ul>
-<li><a class="reference internal" href="#application-programming" id="id2">Application Programming</a><ul>
-<li><a class="reference internal" href="#hello-world-application" id="id3">&#8220;Hello World!&#8221; application</a></li>
-<li><a class="reference internal" href="#loading-scenes-in-apps" id="id4">Loading Scenes in Apps</a></li>
-<li><a class="reference internal" href="#module-system" id="id5">Module System</a></li>
-<li><a class="reference internal" href="#creating-apps-quickly" id="id6">Creating Apps Quickly</a></li>
+<li><a class="reference internal" href="#for-application-developers" id="id2">For Application Developers</a><ul>
+<li><a class="reference internal" href="#application-programming" id="id3">Application Programming</a><ul>
+<li><a class="reference internal" href="#hello-world-application" id="id4">&#8220;Hello World!&#8221; application</a></li>
+<li><a class="reference internal" href="#loading-scenes-in-apps" id="id5">Loading Scenes in Apps</a></li>
+<li><a class="reference internal" href="#module-system" id="id6">Module System</a></li>
+<li><a class="reference internal" href="#creating-apps-quickly" id="id7">Creating Apps Quickly</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#background-transparency" id="id7">Background Transparency</a></li>
-<li><a class="reference internal" href="#resource-conversion" id="id8">Resource Conversion</a><ul>
-<li><a class="reference internal" href="#dependencies" id="id9">Dependencies</a></li>
-<li><a class="reference internal" href="#data-formats" id="id10">Data Formats</a></li>
+<li><a class="reference internal" href="#background-transparency" id="id8">Background Transparency</a></li>
+<li><a class="reference internal" href="#resource-conversion" id="id9">Resource Conversion</a><ul>
+<li><a class="reference internal" href="#commands" id="id10">Commands</a></li>
+<li><a class="reference internal" href="#arguments" id="id11">Arguments</a></li>
+<li><a class="reference internal" href="#dependencies" id="id12">Dependencies</a></li>
+<li><a class="reference internal" href="#data-formats" id="id13">Data Formats</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#code-examples" id="id11">Code Examples</a></li>
-<li><a class="reference internal" href="#loading-application-assets" id="id12">Loading Application Assets</a></li>
-<li><a class="reference internal" href="#event-driven-model" id="id13">Event-Driven Model</a><ul>
-<li><a class="reference internal" href="#sensors" id="id14">Sensors</a></li>
-<li><a class="reference internal" href="#example" id="id15">Example</a></li>
+<li><a class="reference internal" href="#code-examples" id="id14">Code Examples</a></li>
+<li><a class="reference internal" href="#loading-application-assets" id="id15">Loading Application Assets</a></li>
+<li><a class="reference internal" href="#event-driven-model" id="id16">Event-Driven Model</a><ul>
+<li><a class="reference internal" href="#sensors" id="id17">Sensors</a></li>
+<li><a class="reference internal" href="#example" id="id18">Example</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sdk-file-structure" id="id16">SDK File Structure</a></li>
-<li><a class="reference internal" href="#loading-local-resources" id="id17">Loading Local Resources</a></li>
-<li><a class="reference internal" href="#quality-profiles" id="id18">Quality Profiles</a></li>
-<li><a class="reference internal" href="#non-fullscreen-web-apps" id="id19">Non-FullScreen Web Apps</a></li>
+<li><a class="reference internal" href="#sdk-file-structure" id="id19">SDK File Structure</a></li>
+<li><a class="reference internal" href="#loading-local-resources" id="id20">Loading Local Resources</a></li>
+<li><a class="reference internal" href="#quality-profiles" id="id21">Quality Profiles</a></li>
+<li><a class="reference internal" href="#non-standard-canvas-position-and-orientation" id="id22">Non-Standard Canvas Position and Orientation</a></li>
+<li><a class="reference internal" href="#mobile-web-apps" id="id23">Mobile Web Apps</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="application-programming">
-<span id="app-building"></span><h2><a class="toc-backref" href="#id2">Application Programming</a><a class="headerlink" href="#application-programming" title="Permalink to this headline">¶</a></h2>
+<span id="app-building"></span><h2><a class="toc-backref" href="#id3">Application Programming</a><a class="headerlink" href="#application-programming" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="hello-world-application">
-<h3><a class="toc-backref" href="#id3">&#8220;Hello World!&#8221; application</a><a class="headerlink" href="#hello-world-application" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">&#8220;Hello World!&#8221; application</a><a class="headerlink" href="#hello-world-application" title="Permalink to this headline">¶</a></h3>
 <p>The simplest Blend4Web app may look like this:</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
@@ -248,7 +254,7 @@
 <p>The compiled engine file <code class="docutils literal"><span class="pre">b4w.min.js</span></code> can be copied from the SDK&#8217;s <code class="docutils literal"><span class="pre">deploy/apps/common</span></code> directory and placed in the same directory as the HTML file.</p>
 </div>
 <div class="section" id="loading-scenes-in-apps">
-<h3><a class="toc-backref" href="#id4">Loading Scenes in Apps</a><a class="headerlink" href="#loading-scenes-in-apps" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">Loading Scenes in Apps</a><a class="headerlink" href="#loading-scenes-in-apps" title="Permalink to this headline">¶</a></h3>
 <p>To load a 3D scene you need:</p>
 <ol class="arabic simple">
 <li>Place a <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element on a page for rendering.</li>
@@ -282,7 +288,7 @@
 </div>
 </div>
 <div class="section" id="module-system">
-<h3><a class="toc-backref" href="#id5">Module System</a><a class="headerlink" href="#module-system" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">Module System</a><a class="headerlink" href="#module-system" title="Permalink to this headline">¶</a></h3>
 <p>While the engine gives an app programmer an API in the scale of dozens of modules, it occupies a single <code class="docutils literal"><span class="pre">b4w</span></code> namespace. To call a module’s method import it first with the <code class="docutils literal"><span class="pre">b4w.require()</span></code> function.</p>
 <p>It is possible to register external modules if their names do not collide with already existing modules. A module can be registered with a <code class="docutils literal"><span class="pre">b4w.register()</span></code> call. Check if a module with some name already exists with a <code class="docutils literal"><span class="pre">b4w.module_check()</span></code> call.</p>
 <p>Example:</p>
@@ -312,7 +318,7 @@
 </div>
 </div>
 <div class="section" id="creating-apps-quickly">
-<h3><a class="toc-backref" href="#id6">Creating Apps Quickly</a><a class="headerlink" href="#creating-apps-quickly" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Creating Apps Quickly</a><a class="headerlink" href="#creating-apps-quickly" title="Permalink to this headline">¶</a></h3>
 <p>Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special add-on for the engine called <code class="docutils literal"><span class="pre">app</span></code>:</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
@@ -352,7 +358,7 @@
 </div>
 </div>
 <div class="section" id="background-transparency">
-<h2><a class="toc-backref" href="#id7">Background Transparency</a><a class="headerlink" href="#background-transparency" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">Background Transparency</a><a class="headerlink" href="#background-transparency" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">background_color</span></code> and <code class="docutils literal"><span class="pre">alpha</span></code> parameters are passed to the <a class="reference external" href="https://www.blend4web.com/api_doc/module-m_app.html#.init">init</a> method placed in the load callback function (a function that is called right after the scene is loaded), like this:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span> <span class="p">({</span>
     <span class="nx">alpha</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
@@ -404,7 +410,7 @@
 </div>
 </div>
 <div class="section" id="resource-conversion">
-<span id="converter"></span><h2><a class="toc-backref" href="#id8">Resource Conversion</a><a class="headerlink" href="#resource-conversion" title="Permalink to this headline">¶</a></h2>
+<span id="converter"></span><h2><a class="toc-backref" href="#id9">Resource Conversion</a><a class="headerlink" href="#resource-conversion" title="Permalink to this headline">¶</a></h2>
 <p>Currently, browsers do not fully support all possible media formats, so in order to create cross-browser applications (and also for optimization purposes) we recommend you to use the resource converter.</p>
 <p>To support a wider range of platforms, a Python script (<em>scripts/converter.py</em>) for converting the source files into other formats is included into the distribution.</p>
 <p>There are two ways to run this script.</p>
@@ -427,8 +433,39 @@
 <p>With the -d parameter you can specify the path to a directory in which converting will take place.</p>
 <p>To exclude some directory from resource conversion, it is enough to put a file named <code class="docutils literal"><span class="pre">.b4w_no_conv</span></code> in it. This will not affect conversion in nested directories.</p>
 <p>The <strong>resize_textures</strong> argument is used for decreasing texture resolution for the <strong>LOW</strong> mode.</p>
+<div class="section" id="commands">
+<span id="converter-commands"></span><h3><a class="toc-backref" href="#id10">Commands</a><a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h3>
+<p>Commands for conversion:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">resize_textures</span></code> converts textures to lower resolution.</li>
+<li><code class="docutils literal"><span class="pre">convert_dds</span></code> converts textures to <a class="reference internal" href="#dds"><span>DDS format</span></a>.</li>
+<li><code class="docutils literal"><span class="pre">convert_media</span></code> converts audio and video files to <a class="reference internal" href="#converter-data-format"><span>alternative formats</span></a>.</li>
+</ul>
+<p>Commands for resource cleanup:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">cleanup_textures</span></code> removes low resolution textures generated by the <code class="docutils literal"><span class="pre">resize_textures</span></code> command.</li>
+<li><code class="docutils literal"><span class="pre">cleanup_dds</span></code> removers DDS texture files generated by the <code class="docutils literal"><span class="pre">convert_dds</span></code> command.</li>
+<li><code class="docutils literal"><span class="pre">cleanup_media</span></code> removes audio and video files in alternative formats that were generated by the <code class="docutils literal"><span class="pre">convert_media</span></code> command.</li>
+</ul>
+<p>Commands for image compression:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">compress_png</span></code> compresses PNG files in order to decrease their size. This option requires OptiPNG tool to be installed and set up in the <code class="docutils literal"><span class="pre">PATH</span></code> environment variable.</li>
+</ul>
+<p>Other commands:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">check_dependencies</span></code> checks <a class="reference internal" href="#converter-deps"><span>converter dependencies</span></a></li>
+</ul>
+</div>
+<div class="section" id="arguments">
+<span id="converter-arguments"></span><h3><a class="toc-backref" href="#id11">Arguments</a><a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">-d</span></code>, <code class="docutils literal"><span class="pre">--dir</span> <span class="pre">&lt;dir_path&gt;</span></code> enables using an alternative directory to store converted files. The &lt;dir_path&gt; value specifies the path to this directory.</li>
+<li><code class="docutils literal"><span class="pre">-j</span></code>, <code class="docutils literal"><span class="pre">--jobs</span> <span class="pre">&lt;jobs&gt;</span></code> specifies the number of jobs (threads) to run simultaneously. If this parameter is set to zero or is not specified, the number will be calculated automatically based on the number of CPUs.</li>
+<li><code class="docutils literal"><span class="pre">-v</span></code>, <code class="docutils literal"><span class="pre">--verbose</span></code> enables outputting more information about files that are being converted. For example, when converting textures into DDS format, the script will show progress percentage for every file that is being converted.</li>
+</ul>
+</div>
 <div class="section" id="dependencies">
-<span id="converter-deps"></span><h3><a class="toc-backref" href="#id9">Dependencies</a><a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
+<span id="converter-deps"></span><h3><a class="toc-backref" href="#id12">Dependencies</a><a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
 <p>Please make sure that you have all converter dependencies installed. You can do it with the following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
@@ -496,7 +533,7 @@
 </div>
 </div>
 <div class="section" id="data-formats">
-<span id="converter-data-format"></span><h3><a class="toc-backref" href="#id10">Data Formats</a><a class="headerlink" href="#data-formats" title="Permalink to this headline">¶</a></h3>
+<span id="converter-data-format"></span><h3><a class="toc-backref" href="#id13">Data Formats</a><a class="headerlink" href="#data-formats" title="Permalink to this headline">¶</a></h3>
 <p>The conversion is performed as follows:</p>
 <dl class="docutils">
 <dt>for audio (convert_media):</dt>
@@ -557,7 +594,7 @@
 </pre></div>
 </div>
 </div></blockquote>
-<p class="last">This will tell the engine to load PVRTC textures, if such are present in the <code class="docutils literal"><span class="pre">../assets/</span></code> folder.</p>
+<p class="last">This will tell the engine to load PVRTC textures, if such are present in the <code class="docutils literal"><span class="pre">./assets/</span></code> folder.</p>
 </div>
 <div class="section" id="dds-texture-compression">
 <span id="dds"></span><h4>DDS Texture Compression<a class="headerlink" href="#dds-texture-compression" title="Permalink to this headline">¶</a></h4>
@@ -602,7 +639,7 @@
 </div>
 </div>
 <div class="section" id="code-examples">
-<span id="code-snippets"></span><h2><a class="toc-backref" href="#id11">Code Examples</a><a class="headerlink" href="#code-examples" title="Permalink to this headline">¶</a></h2>
+<span id="code-snippets"></span><h2><a class="toc-backref" href="#id14">Code Examples</a><a class="headerlink" href="#code-examples" title="Permalink to this headline">¶</a></h2>
 <p>The SDK includes the Code Snippets application which demonstrates how to use the engine&#8217;s functionality.</p>
 <p>Currently, this application contains the following examples:</p>
 <blockquote>
@@ -623,13 +660,14 @@
 <li>Multitouch (Mobile Only) - using mobile devices multitouch sensor</li>
 <li>Pathfinding - an example of calculating paths and using navigation meshes</li>
 <li>Ray Test - the usage of raycasting for obstacles detection</li>
+<li>VR - initializing a VR application</li>
 <li>Webcam - using media stream from a web camera</li>
 </ul>
 </div></blockquote>
 <p>The Code Snippets application is available at <code class="docutils literal"><span class="pre">./apps_dev/code_snippets/code_snippets_dev.html</span></code>. It can be also run by using a link in the <code class="docutils literal"><span class="pre">index.html</span></code> file located in the SDK root.</p>
 </div>
 <div class="section" id="loading-application-assets">
-<h2><a class="toc-backref" href="#id12">Loading Application Assets</a><a class="headerlink" href="#loading-application-assets" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id15">Loading Application Assets</a><a class="headerlink" href="#loading-application-assets" title="Permalink to this headline">¶</a></h2>
 <p>To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code>.</p>
 <p>To load files (e.g by using <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) from this directory use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a> method:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
@@ -638,10 +676,10 @@
 <p>This way you ensure that your applications will find assets independently of the current development stage (developed, built or deployed).</p>
 </div>
 <div class="section" id="event-driven-model">
-<span id="event-model"></span><h2><a class="toc-backref" href="#id13">Event-Driven Model</a><a class="headerlink" href="#event-driven-model" title="Permalink to this headline">¶</a></h2>
+<span id="event-model"></span><h2><a class="toc-backref" href="#id16">Event-Driven Model</a><a class="headerlink" href="#event-driven-model" title="Permalink to this headline">¶</a></h2>
 <p>The event-driven model provides a universal interface for describing the 3D scene&#8217;s change of state. It simplifies the processing of physics events and user actions.</p>
 <div class="section" id="sensors">
-<span id="index-0"></span><h3><a class="toc-backref" href="#id14">Sensors</a><a class="headerlink" href="#sensors" title="Permalink to this headline">¶</a></h3>
+<span id="index-0"></span><h3><a class="toc-backref" href="#id17">Sensors</a><a class="headerlink" href="#sensors" title="Permalink to this headline">¶</a></h3>
 <p>The basic unit of the event-driven model is a sensor. A sensor is a programming entity and can only be active (1, one) or inactive (0, zero). Some sensors may carry a payload which can be received in the manifold&#8217;s callback function with corresponding API. For example, the ray-tracing sensor (Ray Sensor) provides the relative length of the intersection ray.</p>
 <p id="index-1">Users cannot directly control sensors via the external API. Instead, all sensors must be present in one or multiple collections - so called sensor manifolds. A manifold is a logic container associated with a scene object. It generates a response to a defined set of sensor events by executing a callback function. To define the manifold it is required to have the following information (see also the API documentation for description of the <code class="docutils literal"><span class="pre">controls.create_sensor_manifold</span></code> function):</p>
 <ul class="simple">
@@ -656,7 +694,7 @@
 <p>You can read more about engine API in the <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a> module documentation.</p>
 </div>
 <div class="section" id="example">
-<h3><a class="toc-backref" href="#id15">Example</a><a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">Example</a><a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
 <p>Let&#8217;s consider the task to insonify the impact of a thrown stone. A distinctive sound should be produced for impacting different media (for example terrain and wall). There are collision meshes with physical materials in the Blender scene, material ids are &#8220;TERRAIN&#8221; and &#8220;WALL&#8221;. There is also a physical object being thrown in the scene, the object is named &#8220;Stone&#8221;.</p>
 <p>Let&#8217;s define a collision sensor for each medium, by the type of the sound produced.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// import the modules</span>
@@ -703,7 +741,7 @@
 </div>
 </div>
 <div class="section" id="sdk-file-structure">
-<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id16">SDK File Structure</a><a class="headerlink" href="#sdk-file-structure" title="Permalink to this headline">¶</a></h2>
+<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id19">SDK File Structure</a><a class="headerlink" href="#sdk-file-structure" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><strong>addons</strong></dt>
 <dd><dl class="first last docutils">
@@ -877,12 +915,12 @@
 </dl>
 </div>
 <div class="section" id="loading-local-resources">
-<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id17">Loading Local Resources</a><a class="headerlink" href="#loading-local-resources" title="Permalink to this headline">¶</a></h2>
+<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id20">Loading Local Resources</a><a class="headerlink" href="#loading-local-resources" title="Permalink to this headline">¶</a></h2>
 <p>The engine&#8217;s renderer is a web application and it works when you view an HTML file in a browser. After initialization the resources (scenes, textures) are loaded. This process is subject to the <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">same-origin policy</a> rule. In particular this rule forbids loading from a local directory.</p>
 <p>Since version 15.02, the Blend4Web SDK includes the <a class="reference internal" href="addon.html#local-development-server"><span>development server</span></a> to solve the problem of loading local resources.</p>
 </div>
 <div class="section" id="quality-profiles">
-<span id="quality-settings"></span><h2><a class="toc-backref" href="#id18">Quality Profiles</a><a class="headerlink" href="#quality-profiles" title="Permalink to this headline">¶</a></h2>
+<span id="quality-settings"></span><h2><a class="toc-backref" href="#id21">Quality Profiles</a><a class="headerlink" href="#quality-profiles" title="Permalink to this headline">¶</a></h2>
 <p>Several quality profiles are implemented in order to support platforms with different functionality.</p>
 <blockquote>
 <div><ul class="simple">
@@ -915,14 +953,14 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="non-fullscreen-web-apps">
-<span id="canvas-nonfullscreen-coords"></span><h2><a class="toc-backref" href="#id19">Non-FullScreen Web Apps</a><a class="headerlink" href="#non-fullscreen-web-apps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="non-standard-canvas-position-and-orientation">
+<span id="non-standard-canvas-pos"></span><h2><a class="toc-backref" href="#id22">Non-Standard Canvas Position and Orientation</a><a class="headerlink" href="#non-standard-canvas-position-and-orientation" title="Permalink to this headline">¶</a></h2>
 <p>The Canvas element, to which the rendering is performed, can change its position relative to the browser window. This can occur due to some manipulations over the DOM tree, or as a result of page scrolling which is especially relevant for non-fullscreen web applications.</p>
 <p>In most cases this will not affect the performance of the app by any means. However, some DOM events related to mouse cursor or touch position may carry incorrect information. This occurs because the coordinates obtained from the corresponding events are measured relative to the origin of the browser window, while the engine works with the coordinate space of the Canvas element itself (its origin is located in the top left corner).</p>
 <ol class="arabic simple">
-<li>If the top left corner of the Canvas element matches the top left corner of the browser window and is fixed in its position (non-movable) then it&#8217;s sufficient to use event.clientX and event.clientY coordinates of the input events or <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a>/<a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> methods.</li>
+<li>If the top left corner of the Canvas element matches the top left corner of the browser window and is fixed in its position (non-movable) then it&#8217;s sufficient to use event.clientX and event.clientY coordinates of the input events or <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> methods.</li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
 
 <span class="c1">// . . .</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
@@ -933,62 +971,86 @@
 <span class="c1">// . . .</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="2">
-<li>In the case of the scrolled browser window, you have to use event.pageX and event.pageY coordinates.</li>
-</ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// . . .</span>
-<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageX</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageY</span><span class="p">;</span>
-<span class="c1">// . . .</span>
-</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
 </div>
-<ol class="arabic simple" start="3">
-<li>In the case of more sophisticated manipulations with the Canvas element (scrolling of the page elements, displacement from the top level corner of the browser window, changes in the DOM-tree) you need to perform correct coordinate conversions. In order to obtain coordinates suitable for use in the engine, you can covert them by using the <code class="docutils literal"><span class="pre">client_to_canvas_coords()</span></code> method of the <code class="docutils literal"><span class="pre">container</span></code> module:</li>
+<ol class="arabic simple" start="2">
+<li>In the case of more sophisticated manipulations with the Canvas element (scrolling of the page elements, displacement from the top level corner of the browser window, changes in the DOM-tree) it&#8217;s needed to obtain properly calculated coordinates. This can be done by using the aforementioned <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> methods with a <code class="docutils literal"><span class="pre">true</span></code> value as a third parameter:</li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+
 <span class="c1">// . . .</span>
-<span class="kd">var</span> <span class="nx">canvas_xy</span> <span class="o">=</span> <span class="nx">m_cont</span><span class="p">.</span><span class="nx">client_to_canvas_coords</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">,</span> <span class="nx">_vec2_tmp</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_x</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_y</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 <span class="c1">// . . .</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<blockquote>
-<div>In order to obtain coordinates in the Canvas space, the engine should know its position relative to the browser window. However, if this position is subjected to changes during the work of the app (due to scrolling for example), the Canvas position should be recalculated. To do this automatically, you can set the <code class="docutils literal"><span class="pre">track_container_position</span></code> property upon app initialization:</div></blockquote>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-        <span class="c1">// . . .</span>
-        <span class="nx">track_container_position</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="c1">// . . .</span>
-    <span class="p">});</span>
-    <span class="c1">// . . .</span>
+<p>Another option in this case is to use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.client_to_canvas_coords">client_to_canvas_coords()</a> method as follows:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// . . .</span>
+<span class="kd">var</span> <span class="nx">coords_xy</span> <span class="o">=</span> <span class="nx">m_cont</span><span class="p">.</span><span class="nx">client_to_canvas_coords</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">,</span> <span class="nx">_vec2_tmp</span><span class="p">);</span>
+<span class="c1">// . . .</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mobile-web-apps">
+<span id="id1"></span><h2><a class="toc-backref" href="#id23">Mobile Web Apps</a><a class="headerlink" href="#mobile-web-apps" title="Permalink to this headline">¶</a></h2>
+<p>An option to scale the whole webpage and change the orientation of a mobile device should be considered when creating user interface for a web application. It is recommended to prevent scaling and keep the aspect ratio of a webpage constant to avoid possible problems. This can be achieved by adding the following meta-tag to the page header:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Sometimes you might need to lock a mobile device to a certain orientation, especially when you don&#8217;t want to make both landscape and portrait interface variants. Since the native screenlock API is experimental and isn&#8217;t widespread, this might be easier to do using CSS rules.</p>
+<p>To keep the orientation in landscape mode only, one can set rotation for the &lt;html&gt; element by 90 degrees in the portrait mode:</p>
+<div class="highlight-css"><div class="highlight"><pre><span></span><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">portrait</span><span class="o">)</span> <span class="p">{</span>
+    <span class="nt">html</span> <span class="p">{</span>
+        <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
+        <span class="nb">width</span><span class="o">:</span> <span class="m">100</span><span class="n">vh</span><span class="p">;</span>
+        <span class="nb">height</span><span class="o">:</span> <span class="m">100</span><span class="n">vw</span><span class="p">;</span>
+        <span class="nb">overflow</span><span class="o">:</span> <span class="nb">hidden</span><span class="p">;</span>
+
+        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+
+        <span class="nb">left</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<blockquote>
-<div>Please note, that this setting can lead to performance degradation in some browsers (such as Firefox) due to frequent DOM tree accesses. If the performance is critical, you can update the Canvas position manually when it is really necessary. To do this, use the <code class="docutils literal"><span class="pre">force_offsets_updating()</span></code> and <code class="docutils literal"><span class="pre">update_canvas_offsets()</span></code> methods instead of the <code class="docutils literal"><span class="pre">track_container_position</span></code> setting, or even the lower-level <code class="docutils literal"><span class="pre">set_canvas_offsets()</span></code> method from the <code class="docutils literal"><span class="pre">container</span></code> module:</div></blockquote>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
-<span class="c1">// . . .</span>
-<span class="nx">m_cont</span><span class="p">.</span><span class="nx">force_offsets_updating</span><span class="p">();</span>
-<span class="c1">// . . .</span>
-<span class="nx">m_cont</span><span class="p">.</span><span class="nx">update_canvas_offsets</span><span class="p">();</span>
-<span class="c1">// . . .</span>
-<span class="nx">m_cont</span><span class="p">.</span><span class="nx">set_canvas_offsets</span><span class="p">(</span><span class="nx">offset_left</span><span class="p">,</span> <span class="nx">offset_top</span><span class="p">);</span>
-<span class="c1">// . . .</span>
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<ol class="arabic simple" start="4">
-<li>The possibility to scale the whole webpage can lead to Canvas element displacement on mobile devices. The described decisions are suitable in this case. However, you can lock scaling at all and thus avoid such problems. It is enough to add the following meta-tag to the page&#8217;s header:</li>
-</ol>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;user-scalable=no&quot;</span><span class="p">&gt;</span>
+<p>Similarly, the CSS rule for the portrait mode only should look like the following:</p>
+<div class="highlight-css"><div class="highlight"><pre><span></span><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">landscape</span><span class="o">)</span> <span class="p">{</span>
+    <span class="nt">html</span> <span class="p">{</span>
+        <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
+        <span class="nb">width</span><span class="o">:</span> <span class="m">100</span><span class="n">vh</span><span class="p">;</span>
+        <span class="nb">height</span><span class="o">:</span> <span class="m">100</span><span class="n">vw</span><span class="p">;</span>
+        <span class="nb">overflow</span><span class="o">:</span> <span class="nb">hidden</span><span class="p">;</span>
+
+        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+
+        <span class="nb">top</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1014,7 +1076,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-12-22.
+      Last updated on 2017-02-28.
 
     </p>
   </div>
@@ -1070,7 +1132,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

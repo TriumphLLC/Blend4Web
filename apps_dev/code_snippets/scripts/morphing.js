@@ -16,7 +16,7 @@ var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/morphing/";
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas_cont",
+        canvas_container_id: "main_canvas_container",
         callback: init_cb,
         show_fps: true,
         autoresize: true,
@@ -63,7 +63,6 @@ function create_interface(obj) {
 }
 
 function create_slider(obj, key_name, slider_name) {
-    
     var slider = init_slider(slider_name);
     var value_label = document.getElementById(slider_name);
     var value = m_geom.get_shape_key_value(obj, key_name);
@@ -141,12 +140,8 @@ function init_slider(name) {
     container.appendChild(slider);
     container.appendChild(value_label);
 
-    var border = document.createElement("div");
-    border.className = "border";
-    border.appendChild(container);
-
     var main_slider_container = document.getElementById("main_sliders_container");
-    main_slider_container.appendChild(border);
+    main_slider_container.appendChild(container);
 
     return slider;
 }

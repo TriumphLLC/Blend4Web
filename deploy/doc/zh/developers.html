@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>对应用程序开发人员 &mdash; Blend4Web 16.12 用户手册</title>
+  <title>对应用程序开发人员 &mdash; Blend4Web 17.02 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.02 用户手册" href="index.html"/>
         <link rel="next" title="对于引擎开发者" href="developers_advanced.html"/>
         <link rel="prev" title="物理" href="physics.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -121,6 +121,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#background-transparency">背景透明</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#resource-conversion">资源转换</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#commands">Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arguments">Arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dependencies">依赖</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#data-formats">数据格式</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#dds-texture-compression">DDS纹理压缩</a></li>
@@ -140,7 +142,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#sdk-file-structure">SDK文件结构</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#loading-local-resources">加载本地资源</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-profiles">品质配置</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#non-fullscreen-web-apps">非全屏Web应用程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-standard-canvas-position-and-orientation">Non-Standard Canvas Position and Orientation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mobile-web-apps">Mobile Web Apps</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a></li>
@@ -189,43 +192,46 @@
            <div itemprop="articleBody">
             
   <div class="section" id="for-application-developers">
-<span id="developers"></span><h1><a class="toc-backref" href="#id1">对应用程序开发人员</a><a class="headerlink" href="#for-application-developers" title="永久链接至标题">¶</a></h1>
+<span id="developers"></span><h1><a class="toc-backref" href="#id2">对应用程序开发人员</a><a class="headerlink" href="#for-application-developers" title="永久链接至标题">¶</a></h1>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">目录</p>
 <ul class="simple">
-<li><a class="reference internal" href="#for-application-developers" id="id1">对应用程序开发人员</a><ul>
-<li><a class="reference internal" href="#application-programming" id="id2">应用程序编程</a><ul>
-<li><a class="reference internal" href="#hello-world-application" id="id3">“你好，世界！”应用</a></li>
-<li><a class="reference internal" href="#loading-scenes-in-apps" id="id4">应用中加载场景</a></li>
-<li><a class="reference internal" href="#module-system" id="id5">模块系统</a></li>
-<li><a class="reference internal" href="#creating-apps-quickly" id="id6">快速创建应用程序</a></li>
+<li><a class="reference internal" href="#for-application-developers" id="id2">对应用程序开发人员</a><ul>
+<li><a class="reference internal" href="#application-programming" id="id3">应用程序编程</a><ul>
+<li><a class="reference internal" href="#hello-world-application" id="id4">“你好，世界！”应用</a></li>
+<li><a class="reference internal" href="#loading-scenes-in-apps" id="id5">应用中加载场景</a></li>
+<li><a class="reference internal" href="#module-system" id="id6">模块系统</a></li>
+<li><a class="reference internal" href="#creating-apps-quickly" id="id7">快速创建应用程序</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#background-transparency" id="id7">背景透明</a></li>
-<li><a class="reference internal" href="#resource-conversion" id="id8">资源转换</a><ul>
-<li><a class="reference internal" href="#dependencies" id="id9">依赖</a></li>
-<li><a class="reference internal" href="#data-formats" id="id10">数据格式</a></li>
+<li><a class="reference internal" href="#background-transparency" id="id8">背景透明</a></li>
+<li><a class="reference internal" href="#resource-conversion" id="id9">资源转换</a><ul>
+<li><a class="reference internal" href="#commands" id="id10">Commands</a></li>
+<li><a class="reference internal" href="#arguments" id="id11">Arguments</a></li>
+<li><a class="reference internal" href="#dependencies" id="id12">依赖</a></li>
+<li><a class="reference internal" href="#data-formats" id="id13">数据格式</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#code-examples" id="id11">示例代码</a></li>
-<li><a class="reference internal" href="#loading-application-assets" id="id12">加载应用程序资产</a></li>
-<li><a class="reference internal" href="#event-driven-model" id="id13">事件驱动模型</a><ul>
-<li><a class="reference internal" href="#sensors" id="id14">传感器</a></li>
-<li><a class="reference internal" href="#example" id="id15">示例</a></li>
+<li><a class="reference internal" href="#code-examples" id="id14">示例代码</a></li>
+<li><a class="reference internal" href="#loading-application-assets" id="id15">加载应用程序资产</a></li>
+<li><a class="reference internal" href="#event-driven-model" id="id16">事件驱动模型</a><ul>
+<li><a class="reference internal" href="#sensors" id="id17">传感器</a></li>
+<li><a class="reference internal" href="#example" id="id18">示例</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sdk-file-structure" id="id16">SDK文件结构</a></li>
-<li><a class="reference internal" href="#loading-local-resources" id="id17">加载本地资源</a></li>
-<li><a class="reference internal" href="#quality-profiles" id="id18">品质配置</a></li>
-<li><a class="reference internal" href="#non-fullscreen-web-apps" id="id19">非全屏Web应用程序</a></li>
+<li><a class="reference internal" href="#sdk-file-structure" id="id19">SDK文件结构</a></li>
+<li><a class="reference internal" href="#loading-local-resources" id="id20">加载本地资源</a></li>
+<li><a class="reference internal" href="#quality-profiles" id="id21">品质配置</a></li>
+<li><a class="reference internal" href="#non-standard-canvas-position-and-orientation" id="id22">Non-Standard Canvas Position and Orientation</a></li>
+<li><a class="reference internal" href="#mobile-web-apps" id="id23">Mobile Web Apps</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="application-programming">
-<span id="app-building"></span><h2><a class="toc-backref" href="#id2">应用程序编程</a><a class="headerlink" href="#application-programming" title="永久链接至标题">¶</a></h2>
+<span id="app-building"></span><h2><a class="toc-backref" href="#id3">应用程序编程</a><a class="headerlink" href="#application-programming" title="永久链接至标题">¶</a></h2>
 <div class="section" id="hello-world-application">
-<h3><a class="toc-backref" href="#id3">“你好，世界！”应用</a><a class="headerlink" href="#hello-world-application" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id4">“你好，世界！”应用</a><a class="headerlink" href="#hello-world-application" title="永久链接至标题">¶</a></h3>
 <p>最简单的应用程序Blend4Web可能是这样的：</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
@@ -248,7 +254,7 @@
 <p>编译引擎文件 <code class="docutils literal"><span class="pre">b4w.min.js</span></code> 可以从SDK的 <code class="docutils literal"><span class="pre">deploy/apps/common</span></code> 目录进行复制，并和HTML文件放置在同一目录中。</p>
 </div>
 <div class="section" id="loading-scenes-in-apps">
-<h3><a class="toc-backref" href="#id4">应用中加载场景</a><a class="headerlink" href="#loading-scenes-in-apps" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id5">应用中加载场景</a><a class="headerlink" href="#loading-scenes-in-apps" title="永久链接至标题">¶</a></h3>
 <p>要加载你需要的3D场景：</p>
 <ol class="arabic simple">
 <li><p class="first">放置一个 <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> 元素到页面进行渲染。</p>
@@ -285,7 +291,7 @@
 </div>
 </div>
 <div class="section" id="module-system">
-<h3><a class="toc-backref" href="#id5">模块系统</a><a class="headerlink" href="#module-system" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id6">模块系统</a><a class="headerlink" href="#module-system" title="永久链接至标题">¶</a></h3>
 <p>虽然引擎赋予应用程序程序员 API 中的几十个模块的规模，它占用单 &#8216;b4w&#8217; 命名空间。调用模块的方法 <code class="docutils literal"><span class="pre">b4w.require()</span></code> 功能首先导入。</p>
 <p>如果他们的名称不与现有的模块冲突能够登记外部模块。模块可以用 <code class="docutils literal"><span class="pre">b4w.register()</span></code> 调用登记。检查是否有一些名称的模块已调用用 <code class="docutils literal"><span class="pre">b4w.module_check()</span></code> 调用。</p>
 <p>示例：</p>
@@ -315,7 +321,7 @@
 </div>
 </div>
 <div class="section" id="creating-apps-quickly">
-<h3><a class="toc-backref" href="#id6">快速创建应用程序</a><a class="headerlink" href="#creating-apps-quickly" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">快速创建应用程序</a><a class="headerlink" href="#creating-apps-quickly" title="永久链接至标题">¶</a></h3>
 <p>从头开始创建一个应用程序可以是一个乏味的任务，特别对于初学者。为了解决这个问题有一个特殊名为 <code class="docutils literal"><span class="pre">app</span></code> 的引擎插件：</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
@@ -355,7 +361,7 @@
 </div>
 </div>
 <div class="section" id="background-transparency">
-<h2><a class="toc-backref" href="#id7">背景透明</a><a class="headerlink" href="#background-transparency" title="永久链接至标题">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">背景透明</a><a class="headerlink" href="#background-transparency" title="永久链接至标题">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">background_color</span></code> 和 <code class="docutils literal"><span class="pre">alpha</span></code> 参数传递到  <a class="reference external" href="https://www.blend4web.com/api_doc/module-m_app.html#.init">init</a> 方法放在加载回调函数中（场景加载后调用的函数），像这样︰</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span> <span class="p">({</span>
     <span class="nx">alpha</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
@@ -407,7 +413,7 @@
 </div>
 </div>
 <div class="section" id="resource-conversion">
-<span id="converter"></span><h2><a class="toc-backref" href="#id8">资源转换</a><a class="headerlink" href="#resource-conversion" title="永久链接至标题">¶</a></h2>
+<span id="converter"></span><h2><a class="toc-backref" href="#id9">资源转换</a><a class="headerlink" href="#resource-conversion" title="永久链接至标题">¶</a></h2>
 <p>目前，浏览器不完全支持所有可能的媒体格式，所以为了创建跨浏览器应用程序（也为优化的目的），我们建议您使用的资源转换器。</p>
 <p>支持更广泛的平台，一个 Python 脚本 (<em>scripts/converter.py</em>) 为将源代码文件转换成其他格式后发布。</p>
 <p>有两种方式来运行此脚本。</p>
@@ -430,8 +436,39 @@
 <p>与-d参数可以指定路径，其中转换将在哪一个目录发生。</p>
 <p>要排除从资源转换的一些目录，它足以把一个文件名为``.b4w_no_conv`` 。这不会影响嵌套目录转换。</p>
 <p><strong>resize_textures</strong> 参数用于为  <strong>LOW</strong> 模式降低纹理分辨率。</p>
+<div class="section" id="commands">
+<span id="converter-commands"></span><h3><a class="toc-backref" href="#id10">Commands</a><a class="headerlink" href="#commands" title="永久链接至标题">¶</a></h3>
+<p>Commands for conversion:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">resize_textures</span></code> converts textures to lower resolution.</li>
+<li><code class="docutils literal"><span class="pre">convert_dds</span></code> converts textures to <a class="reference internal" href="#dds"><span>DDS format</span></a>.</li>
+<li><code class="docutils literal"><span class="pre">convert_media</span></code> converts audio and video files to <a class="reference internal" href="#converter-data-format"><span>alternative formats</span></a>.</li>
+</ul>
+<p>Commands for resource cleanup:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">cleanup_textures</span></code> removes low resolution textures generated by the <code class="docutils literal"><span class="pre">resize_textures</span></code> command.</li>
+<li><code class="docutils literal"><span class="pre">cleanup_dds</span></code> removers DDS texture files generated by the <code class="docutils literal"><span class="pre">convert_dds</span></code> command.</li>
+<li><code class="docutils literal"><span class="pre">cleanup_media</span></code> removes audio and video files in alternative formats that were generated by the <code class="docutils literal"><span class="pre">convert_media</span></code> command.</li>
+</ul>
+<p>Commands for image compression:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">compress_png</span></code> compresses PNG files in order to decrease their size. This option requires OptiPNG tool to be installed and set up in the <code class="docutils literal"><span class="pre">PATH</span></code> environment variable.</li>
+</ul>
+<p>Other commands:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">check_dependencies</span></code> checks <a class="reference internal" href="#converter-deps"><span>converter dependencies</span></a></li>
+</ul>
+</div>
+<div class="section" id="arguments">
+<span id="converter-arguments"></span><h3><a class="toc-backref" href="#id11">Arguments</a><a class="headerlink" href="#arguments" title="永久链接至标题">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">-d</span></code>, <code class="docutils literal"><span class="pre">--dir</span> <span class="pre">&lt;dir_path&gt;</span></code> enables using an alternative directory to store converted files. The &lt;dir_path&gt; value specifies the path to this directory.</li>
+<li><code class="docutils literal"><span class="pre">-j</span></code>, <code class="docutils literal"><span class="pre">--jobs</span> <span class="pre">&lt;jobs&gt;</span></code> specifies the number of jobs (threads) to run simultaneously. If this parameter is set to zero or is not specified, the number will be calculated automatically based on the number of CPUs.</li>
+<li><code class="docutils literal"><span class="pre">-v</span></code>, <code class="docutils literal"><span class="pre">--verbose</span></code> enables outputting more information about files that are being converted. For example, when converting textures into DDS format, the script will show progress percentage for every file that is being converted.</li>
+</ul>
+</div>
 <div class="section" id="dependencies">
-<span id="converter-deps"></span><h3><a class="toc-backref" href="#id9">依赖</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h3>
+<span id="converter-deps"></span><h3><a class="toc-backref" href="#id12">依赖</a><a class="headerlink" href="#dependencies" title="永久链接至标题">¶</a></h3>
 <p>请确保你已经安装了所有的依赖转换器。你可以用下面的命令做到这一点：</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>&gt; python3 &lt;path_to_sdk&gt;/scripts/converter.py check_dependencies
 </pre></div>
@@ -504,7 +541,7 @@
 </div>
 </div>
 <div class="section" id="data-formats">
-<span id="converter-data-format"></span><h3><a class="toc-backref" href="#id10">数据格式</a><a class="headerlink" href="#data-formats" title="永久链接至标题">¶</a></h3>
+<span id="converter-data-format"></span><h3><a class="toc-backref" href="#id13">数据格式</a><a class="headerlink" href="#data-formats" title="永久链接至标题">¶</a></h3>
 <p>如下进行转化：</p>
 <dl class="docutils">
 <dt>音频（convert_media）：</dt>
@@ -566,7 +603,7 @@
 </pre></div>
 </div>
 </div></blockquote>
-<p class="last">这将告诉引擎加载PVRTC纹理，如果这些都存在于 <code class="docutils literal"><span class="pre">../assets/</span></code> 文件夹中。</p>
+<p class="last">这将告诉引擎加载PVRTC纹理，如果这些都存在于 <code class="docutils literal"><span class="pre">./assets/</span></code> 文件夹中。</p>
 </div>
 <div class="section" id="dds-texture-compression">
 <span id="dds"></span><h4>DDS纹理压缩<a class="headerlink" href="#dds-texture-compression" title="永久链接至标题">¶</a></h4>
@@ -613,7 +650,7 @@
 </div>
 </div>
 <div class="section" id="code-examples">
-<span id="code-snippets"></span><h2><a class="toc-backref" href="#id11">示例代码</a><a class="headerlink" href="#code-examples" title="永久链接至标题">¶</a></h2>
+<span id="code-snippets"></span><h2><a class="toc-backref" href="#id14">示例代码</a><a class="headerlink" href="#code-examples" title="永久链接至标题">¶</a></h2>
 <p>SDK中包含的代码片段应用程序，它演示了如何使用引擎的功能。</p>
 <p>目前，这款应用程序包含以下例子：</p>
 <blockquote>
@@ -650,6 +687,7 @@
 </li>
 <li><p class="first">Ray Test - 光线投射的障碍物检测使用</p>
 </li>
+<li>VR - initializing a VR application</li>
 <li><p class="first">网络摄像头 - 利用来自Web摄像头的媒体流</p>
 </li>
 </ul>
@@ -657,19 +695,19 @@
 <p>代码片段的应用在 <code class="docutils literal"><span class="pre">./apps_dev/code_snippets/code_snippets_dev.html</span></code>. 它可以通过使用位于SDK根的 <code class="docutils literal"><span class="pre">index.html</span></code> 文件的链接也可以运行。</p>
 </div>
 <div class="section" id="loading-application-assets">
-<h2><a class="toc-backref" href="#id12">加载应用程序资产</a><a class="headerlink" href="#loading-application-assets" title="永久链接至标题">¶</a></h2>
-<p>To simplify project maintanance and server deployment always keep your application asset files (exported scenes, textures, sounds, etc) separate from other project files (JavaScript, CSS, HTML, etc). Inside your SDK this asset directory is located at <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code>.</p>
-<p>To load files (e.g by using <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>) from this directory use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a> method:</p>
+<h2><a class="toc-backref" href="#id15">加载应用程序资产</a><a class="headerlink" href="#loading-application-assets" title="永久链接至标题">¶</a></h2>
+<p>为了简化项目维护和服务器部署总是将你的项目文件（的JavaScript，CSS，HTML等）和您的应用程序资源文件（导出的场景，纹理，声音等）分开。你的SDK这里面的资产目录位于 <code class="docutils literal"><span class="pre">projects/my_project/assets</span></code>.</p>
+<p>要（通过使用如 <a class="reference external" href="https://www.blend4web.com/api_doc/module-data.html#.load">load()</a>)从该目录中加载文件使用 <a class="reference external" href="https://www.blend4web.com/api_doc/module-config.html#.get_assets_path">get_assets_path()</a> 方法：</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">m_data</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">m_config</span><span class="p">.</span><span class="nx">get_assets_path</span><span class="p">(</span><span class="s2">&quot;my_project&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;loaded_scene.json&quot;</span><span class="p">,</span> <span class="nx">load_cb</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>这样可以确保您的应用程序将独立于目前的开发阶段寻找资产（开发，构建或部署）。</p>
 </div>
 <div class="section" id="event-driven-model">
-<span id="event-model"></span><h2><a class="toc-backref" href="#id13">事件驱动模型</a><a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
+<span id="event-model"></span><h2><a class="toc-backref" href="#id16">事件驱动模型</a><a class="headerlink" href="#event-driven-model" title="永久链接至标题">¶</a></h2>
 <p>事件驱动模型提供一个通用接口描述的三维场景变化的状态。它简化了加工的物理事件和用户操作。</p>
 <div class="section" id="sensors">
-<span id="index-0"></span><h3><a class="toc-backref" href="#id14">传感器</a><a class="headerlink" href="#sensors" title="永久链接至标题">¶</a></h3>
+<span id="index-0"></span><h3><a class="toc-backref" href="#id17">传感器</a><a class="headerlink" href="#sensors" title="永久链接至标题">¶</a></h3>
 <p>事件驱动模型的基本单元是一个传感器。传感器是一种编程实体和只能是活动的（1，一种）或无效（0，零）。一些传感器可以携带可以在歧管的回调函数与对应的API接收一个有效载荷。例如，光线跟踪传感器（线传感器）提供的交点射线的相对长度。</p>
 <p id="index-1">用户不能直接通过外部 API控制传感器。相反，所有的传感器都必须存在于一个或多个集合-所谓的传感器流形。一个流形是与场景对象相关联的逻辑容器。它通过执行一个回调函数生成一组定义的传感器事件响应。要定义的流形，它须有以下信息 （请参见的 &#8216;controls.create_sensor_manifold&#8217; 功能描述 API 文档） ︰</p>
 <ul class="simple">
@@ -691,7 +729,7 @@
 <p>你可以阅读更多有关在  <a class="reference external" href="https://www.blend4web.com/api_doc/module-controls.html">controls</a> 模块文档引擎API。</p>
 </div>
 <div class="section" id="example">
-<h3><a class="toc-backref" href="#id15">示例</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">示例</a><a class="headerlink" href="#example" title="永久链接至标题">¶</a></h3>
 <p>让我们考虑到 insonify 任务被投掷的石头的影响。不同的媒体 （例如地形和墙）应产生独特的声音影响。有碰撞网格与Blender场景中的物理材质，材质的 id 是&#8221;地形&#8221;和&#8221;墙&#8221;。也是被抛在场景中的物理对象，该对象被命名为&#8221;石头&#8221;。</p>
 <p>让我们定义碰撞传感器的每个介质类型的声音产生。</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// import the modules</span>
@@ -738,7 +776,7 @@
 </div>
 </div>
 <div class="section" id="sdk-file-structure">
-<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id16">SDK文件结构</a><a class="headerlink" href="#sdk-file-structure" title="永久链接至标题">¶</a></h2>
+<span id="repo-file-structure"></span><h2><a class="toc-backref" href="#id19">SDK文件结构</a><a class="headerlink" href="#sdk-file-structure" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
 <dt><strong>addons</strong></dt>
 <dd><dl class="first last docutils">
@@ -867,7 +905,8 @@
 <dd><p class="first last">建立引擎，应用程序和文档的makefile文件</p>
 </dd>
 <dt><strong>projects</strong></dt>
-<dd>directory for user projects</dd>
+<dd><p class="first last">用户项目目录</p>
+</dd>
 <dt><strong>README.rst</strong></dt>
 <dd><p class="first last">README文件</p>
 </dd>
@@ -974,12 +1013,12 @@
 </dl>
 </div>
 <div class="section" id="loading-local-resources">
-<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id17">加载本地资源</a><a class="headerlink" href="#loading-local-resources" title="永久链接至标题">¶</a></h2>
+<span id="browser-for-local-loading"></span><h2><a class="toc-backref" href="#id20">加载本地资源</a><a class="headerlink" href="#loading-local-resources" title="永久链接至标题">¶</a></h2>
 <p>该引擎的渲染器是一个Web应用程序，当你在浏览器中查看HTML文件它就工作。初始化之后，资源（场景，纹理）加载。这个过程是受 <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">同源策略</a> 规则。这条规则特别规定从本地目录加载禁止。</p>
 <p>自15.02版，Blend4Web SDK包括  <a class="reference internal" href="addon.html#local-development-server"><span>开发服务器</span></a> 解决加载本地资源的问题。</p>
 </div>
 <div class="section" id="quality-profiles">
-<span id="quality-settings"></span><h2><a class="toc-backref" href="#id18">品质配置</a><a class="headerlink" href="#quality-profiles" title="永久链接至标题">¶</a></h2>
+<span id="quality-settings"></span><h2><a class="toc-backref" href="#id21">品质配置</a><a class="headerlink" href="#quality-profiles" title="永久链接至标题">¶</a></h2>
 <p>几个质量配置文件，以支持具有不同功能的平台上实现。</p>
 <blockquote>
 <div><ul class="simple">
@@ -1016,15 +1055,14 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="non-fullscreen-web-apps">
-<span id="canvas-nonfullscreen-coords"></span><h2><a class="toc-backref" href="#id19">非全屏Web应用程序</a><a class="headerlink" href="#non-fullscreen-web-apps" title="永久链接至标题">¶</a></h2>
+<div class="section" id="non-standard-canvas-position-and-orientation">
+<span id="non-standard-canvas-pos"></span><h2><a class="toc-backref" href="#id22">Non-Standard Canvas Position and Orientation</a><a class="headerlink" href="#non-standard-canvas-position-and-orientation" title="永久链接至标题">¶</a></h2>
 <p>画布元件，开始执行渲染时，可改变相对于浏览器窗口的位置。这可能是由于一些操作在DOM树，或者作为页面滚动的结果，特别是用于非全屏web应用。</p>
 <p>在大多数情况下，这将不会影响该应用的任何的性能。然而，涉及到鼠标或触摸位置某些DOM事件可以携带不正确的信息。这是因为从相应的事件中获得的坐标是相对于浏览器窗口的原点测量，同时引擎的工作与Canvas元素本身（它的坐标原点位于左上角）的坐标空间。</p>
 <ol class="arabic simple">
-<li><p class="first">如果画布元素的左上的角与匹配的浏览器窗口左上的角并且固定在它的位置 （非活动），那么就足以使用 event.clientX 和 event.clientY 坐标输入事件或  <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a>/<a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a>  方法。</p>
-</li>
+<li>If the top left corner of the Canvas element matches the top left corner of the browser window and is fixed in its position (non-movable) then it&#8217;s sufficient to use event.clientX and event.clientY coordinates of the input events or <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> methods.</li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
 
 <span class="c1">// . . .</span>
 <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
@@ -1035,67 +1073,86 @@
 <span class="c1">// . . .</span>
 </pre></div>
 </div>
-<ol class="arabic simple" start="2">
-<li><p class="first">在滚动浏览器窗口的情况下，你必须使用event.pageX和event.pageY坐标。</p>
-</li>
-</ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="c1">// . . .</span>
-<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageX</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">pageY</span><span class="p">;</span>
-<span class="c1">// . . .</span>
-</pre></div>
+<div class="line-block">
+<div class="line"><br /></div>
 </div>
-<ol class="arabic simple" start="3">
-<li><p class="first">与画布元件更复杂的操作的情况下（在页面的元素的滚动，位移从浏览器窗口的顶层角落，在DOM树的变化）则需要执行正确的坐标转换。为了获得坐标适合在引擎中使用，您可以通过使用 <code class="docutils literal"><span class="pre">container</span></code> 模块的  <code class="docutils literal"><span class="pre">client_to_canvas_coords()</span></code>  方法来覆盖它们：</p>
-</li>
+<ol class="arabic simple" start="2">
+<li>In the case of more sophisticated manipulations with the Canvas element (scrolling of the page elements, displacement from the top level corner of the browser window, changes in the DOM-tree) it&#8217;s needed to obtain properly calculated coordinates. This can be done by using the aforementioned <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_x">get_coords_x()</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-mouse.html#.get_coords_y">get_coords_y()</a> methods with a <code class="docutils literal"><span class="pre">true</span></code> value as a third parameter:</li>
 </ol>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_mouse</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;mouse&quot;</span><span class="p">);</span>
+
 <span class="c1">// . . .</span>
-<span class="kd">var</span> <span class="nx">canvas_xy</span> <span class="o">=</span> <span class="nx">m_cont</span><span class="p">.</span><span class="nx">client_to_canvas_coords</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">,</span> <span class="nx">_vec2_tmp</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_x</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">m_mouse</span><span class="p">.</span><span class="nx">get_coords_y</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 <span class="c1">// . . .</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<blockquote>
-<div><p>为了获得在画布空间坐标，引擎应该知道相对于浏览器窗口的位置。但是，如果此位置的应用程序的工作过程中受到的变化（由于滚动为例），画布位置应重新计算。要自动做到这一点，你可以设置在应用程序初始化 <code class="docutils literal"><span class="pre">track_container_position</span></code> 属性：</p>
-</div></blockquote>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-        <span class="c1">// . . .</span>
-        <span class="nx">track_container_position</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="c1">// . . .</span>
-    <span class="p">});</span>
-    <span class="c1">// . . .</span>
+<p>Another option in this case is to use the <a class="reference external" href="https://www.blend4web.com/api_doc/module-container.html#.client_to_canvas_coords">client_to_canvas_coords()</a> method as follows:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">_vec2_tmp</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">// . . .</span>
+<span class="kd">var</span> <span class="nx">coords_xy</span> <span class="o">=</span> <span class="nx">m_cont</span><span class="p">.</span><span class="nx">client_to_canvas_coords</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">,</span> <span class="nx">_vec2_tmp</span><span class="p">);</span>
+<span class="c1">// . . .</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mobile-web-apps">
+<span id="id1"></span><h2><a class="toc-backref" href="#id23">Mobile Web Apps</a><a class="headerlink" href="#mobile-web-apps" title="永久链接至标题">¶</a></h2>
+<p>An option to scale the whole webpage and change the orientation of a mobile device should be considered when creating user interface for a web application. It is recommended to prevent scaling and keep the aspect ratio of a webpage constant to avoid possible problems. This can be achieved by adding the following meta-tag to the page header:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Sometimes you might need to lock a mobile device to a certain orientation, especially when you don&#8217;t want to make both landscape and portrait interface variants. Since the native screenlock API is experimental and isn&#8217;t widespread, this might be easier to do using CSS rules.</p>
+<p>To keep the orientation in landscape mode only, one can set rotation for the &lt;html&gt; element by 90 degrees in the portrait mode:</p>
+<div class="highlight-css"><div class="highlight"><pre><span></span><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">portrait</span><span class="o">)</span> <span class="p">{</span>
+    <span class="nt">html</span> <span class="p">{</span>
+        <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
+        <span class="nb">width</span><span class="o">:</span> <span class="m">100</span><span class="n">vh</span><span class="p">;</span>
+        <span class="nb">height</span><span class="o">:</span> <span class="m">100</span><span class="n">vw</span><span class="p">;</span>
+        <span class="nb">overflow</span><span class="o">:</span> <span class="nb">hidden</span><span class="p">;</span>
+
+        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+
+        <span class="nb">left</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<blockquote>
-<div><p>请注意，此设置可能导致一些浏览器（如Firefox）的性能降低，因频繁DOM树的访问。如果性能是至关重要的，确有必要您可以手动更新画布位置。要做到这一点，使用 <code class="docutils literal"><span class="pre">force_offsets_updating()</span></code> 和 <code class="docutils literal"><span class="pre">update_canvas_offsets()</span></code> 方法代替 <code class="docutils literal"><span class="pre">track_container_position</span></code> 设置，甚至从 <code class="docutils literal"><span class="pre">container</span></code> 模块使用更低级别的  <code class="docutils literal"><span class="pre">set_canvas_offsets()</span></code> 方法：</p>
-</div></blockquote>
-<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">m_cont</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;container&quot;</span><span class="p">);</span>
-<span class="c1">// . . .</span>
-<span class="nx">m_cont</span><span class="p">.</span><span class="nx">force_offsets_updating</span><span class="p">();</span>
-<span class="c1">// . . .</span>
-<span class="nx">m_cont</span><span class="p">.</span><span class="nx">update_canvas_offsets</span><span class="p">();</span>
-<span class="c1">// . . .</span>
-<span class="nx">m_cont</span><span class="p">.</span><span class="nx">set_canvas_offsets</span><span class="p">(</span><span class="nx">offset_left</span><span class="p">,</span> <span class="nx">offset_top</span><span class="p">);</span>
-<span class="c1">// . . .</span>
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<ol class="arabic simple" start="4">
-<li><p class="first">在移动设备上可能存在缩放整个网页会导致Canvas元素被置换。所描述的决定在此情况下是合适的。但是，你可以在锁定缩放，从而避免这样的问题。用以下元标记添加到网页的页眉就足够了：</p>
-</li>
-</ol>
-<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;user-scalable=no&quot;</span><span class="p">&gt;</span>
+<p>Similarly, the CSS rule for the portrait mode only should look like the following:</p>
+<div class="highlight-css"><div class="highlight"><pre><span></span><span class="k">@media</span> <span class="o">(</span><span class="nt">orientation</span> <span class="o">:</span> <span class="nt">landscape</span><span class="o">)</span> <span class="p">{</span>
+    <span class="nt">html</span> <span class="p">{</span>
+        <span class="nb">position</span><span class="o">:</span> <span class="nb">absolute</span><span class="p">;</span>
+        <span class="nb">width</span><span class="o">:</span> <span class="m">100</span><span class="n">vh</span><span class="p">;</span>
+        <span class="nb">height</span><span class="o">:</span> <span class="m">100</span><span class="n">vw</span><span class="p">;</span>
+        <span class="nb">overflow</span><span class="o">:</span> <span class="nb">hidden</span><span class="p">;</span>
+
+        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="n">transform</span><span class="o">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">-90</span><span class="n">deg</span><span class="p">);</span>
+        <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+        <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="o">:</span> <span class="nb">top</span> <span class="nb">left</span><span class="p">;</span>
+
+        <span class="nb">top</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1121,7 +1178,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-12-22.
+      最后更新于 2017-02-28.
 
     </p>
   </div>
@@ -1177,7 +1234,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

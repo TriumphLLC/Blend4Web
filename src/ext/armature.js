@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ var m_print    = require("__print");
  * defined in armature space.
  * @method module:armature.get_bone_tsr
  * @param {Object3D} armobj Armature object
- * @param {String} bone_name Bone name
+ * @param {string} bone_name Bone name
  * @param {TSR} [dest] Destination vector
  * @returns {?TSR} Destination vector
  */
@@ -45,7 +45,7 @@ exports.get_bone_tsr = function(armobj, bone_name, dest) {
     }
 
     if (!dest)
-        var dest = new Float32Array(8);
+        dest = new Float32Array(8);
 
     m_armat.get_bone_tsr(armobj, bone_name, false, false, dest);
     return dest;
@@ -56,7 +56,7 @@ exports.get_bone_tsr = function(armobj, bone_name, dest) {
  * defined in parent bone space.
  * @method module:armature.get_bone_tsr_rel
  * @param {Object3D} armobj Armature object
- * @param {String} bone_name Bone name
+ * @param {string} bone_name Bone name
  * @param {TSR} [dest] Destination vector
  * @returns {?TSR} Destination vector
  */
@@ -70,7 +70,7 @@ exports.get_bone_tsr_rel = function(armobj, bone_name, dest) {
     }
 
     if (!dest)
-        var dest = new Float32Array(8);
+        dest = new Float32Array(8);
 
     m_armat.get_bone_tsr(armobj, bone_name, false, true, dest);
     return dest;
@@ -81,7 +81,7 @@ exports.get_bone_tsr_rel = function(armobj, bone_name, dest) {
  * defined in armature space.
  * @method module:armature.set_bone_tsr
  * @param {Object3D} armobj Armature object
- * @param {String} bone_name Bone name
+ * @param {string} bone_name Bone name
  * @param {TSR} tsr Translation, scale and rotation quaternion
  */
 exports.set_bone_tsr = function(armobj, bone_name, tsr) {
@@ -102,7 +102,7 @@ exports.set_bone_tsr = function(armobj, bone_name, tsr) {
  * defined in parent bone space.
  * @method module:armature.set_bone_tsr_rel
  * @param {Object3D} armobj Armature object
- * @param {String} bone_name Bone name
+ * @param {string} bone_name Bone name
  * @param {TSR} tsr Translation, scale and rotation quaternion
  */
 exports.set_bone_tsr_rel = function(armobj, bone_name, tsr) {

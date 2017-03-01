@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -281,7 +281,6 @@ exports.check_bpy_data = function(bpy_data) {
         worlds.push(world);
     }
 
-    var worlds = bpy_data["worlds"];
     for (var i = 0; i < worlds.length; i++) {
         var world = worlds[i];
 
@@ -775,6 +774,10 @@ exports.check_bpy_data = function(bpy_data) {
             scene["audio_distance_model"] = "INVERSE_CLAMPED";
         }
 
+        if (!("b4w_custom_prop" in scene)) {
+            report("scene", scene, "b4w_custom_prop");
+            scene["b4w_custom_prop"] = null;
+        }
     }
 
     /* object data - meshes */
@@ -850,9 +853,9 @@ exports.check_bpy_data = function(bpy_data) {
                 b_data["caxis_z"] = [0,0,1];
         }
 
-        if (!mesh["uv_textures"]) {
-            report("mesh", mesh, "uv_textures");
-            mesh["uv_textures"] = [];
+        if (!("is_boundings_overridden" in mesh)) {
+            report("mesh", mesh, "is_boundings_overridden");
+            mesh["is_boundings_overridden"] = false;
         }
 
         if (!("b4w_shape_keys" in mesh)) {
@@ -877,6 +880,11 @@ exports.check_bpy_data = function(bpy_data) {
                         "min_z" : mesh["b4w_bounding_box"]["min_z"]
                     }
                 };
+            }
+
+            if (!("uv_layers" in submesh)) {
+                report("submesh", mesh, "uv_layers");
+                submesh["uv_layers"] = mesh["uv_textures"];
             }
 
             if (!("be_ax" in submesh["boundings"]))
@@ -1089,6 +1097,11 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_dof_rear_end" in camera)) {
             camera["b4w_dof_rear_end"] = camera["b4w_dof_rear"];
             report("camera", camera, "b4w_dof_rear_end");
+        }
+
+        if (!("sensor_fit" in camera)) {
+            camera["sensor_fit"] = "VERTICAL";
+            report("camera", camera, "sensor_fit");
         }
     }
 
@@ -2210,6 +2223,11 @@ exports.check_bpy_data = function(bpy_data) {
             report("object", bpy_obj, "pass_index");
         }
 
+        if (!("b4w_custom_prop" in bpy_obj)) {
+            report("object", bpy_obj, "b4w_custom_prop");
+            bpy_obj["b4w_custom_prop"] = null;
+        }
+
         if (check_negative_scale(bpy_obj))
             report_raw("negative scale for object \"" + bpy_obj["name"] + "\", can lead to some errors");
 
@@ -2477,7 +2495,7 @@ function apply_array_modifier(mesh, mod) {
         }
 
         if (mod["use_relative_offset"]) {
-            var bb = mesh["b4w_bounding_box"];
+            var bb = mesh["b4w_boundings"]["bb"];
             dx += (bb["max_x"] - bb["min_x"]) * mod["relative_offset_displace"][0];
             dy += (bb["max_y"] - bb["min_y"]) * mod["relative_offset_displace"][1];
             dz += (bb["max_z"] - bb["min_z"]) * mod["relative_offset_displace"][2];
@@ -2513,8 +2531,6 @@ function apply_curve_modifier(mesh, mod) {
     var tangent_b = new Float32Array(3);
 
     var loc = new Float32Array(3);
-    var nor = new Float32Array(4);
-    var tan = new Float32Array(4);
 
     for (var i = 0; i < mesh["submeshes"].length; i++) {
         var submesh = mesh["submeshes"][i];
@@ -2743,7 +2759,7 @@ exports.create_material = function(name) {
 function mesh_copy(mesh, new_name) {
 
     if (!new_name)
-        var new_name = mesh["name"] + "_COPY";
+        new_name = mesh["name"] + "_COPY";
 
     var materials = mesh["materials"];
     var submeshes = mesh["submeshes"];
@@ -2909,7 +2925,14 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                 report_raw("Logic nodes type \"SELECT_PLAY_ANIM\" is deprecated");
                 break;    
             case "SHOW":
+                if (!snode["bools"])
+                        snode["bools"] = {};
+
+                if (snode["bools"]["ch"] === undefined)
+                    snode["bools"]["ch"] = false;
             case "HIDE":
+                set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
+                break;
             case "SET_SHADER_NODE_PARAM":
             case "INHERIT_MAT":
                 set_bpy_objs_props(snode["objects_paths"], {"b4w_do_not_batch": true});
@@ -3001,6 +3024,59 @@ exports.assign_logic_nodes_object_params = function(bpy_objects, bpy_world, scen
                     snode["floats"]["inp1"] = snode["input1"];
                 if (snode["input2"] != undefined)
                     snode["floats"]["inp2"] = snode["input2"];
+                switch (snode["operation"]) {
+                case "DIV":
+                    snode["operation"] = m_logn.NMO_DIV;
+                    break;
+                case "SUB":
+                    snode["operation"] = m_logn.NMO_SUB;
+                    break;
+                case "MUL":
+                    snode["operation"] = m_logn.NMO_MUL;
+                    break;
+                case "ADD":
+                    snode["operation"] = m_logn.NMO_ADD;
+                    break;
+                case "RAND":
+                    snode["operation"] = m_logn.NMO_RAND;
+                    break;
+                case "SIN":
+                    snode["operation"] = m_logn.NMO_SIN;
+                    break;
+                case "COS":
+                    snode["operation"] = m_logn.NMO_COS;
+                    break;
+                case "TAN":
+                    snode["operation"] = m_logn.NMO_TAN;
+                    break;
+                case "ARCSIN":
+                    snode["operation"] = m_logn.NMO_ARCSIN;
+                    break;
+                case "ARCCOS":
+                    snode["operation"] = m_logn.NMO_ARCCOS;
+                    break;
+                case "ARCTAN":
+                    snode["operation"] = m_logn.NMO_ARCTAN;
+                    break;
+                case "LOG":
+                    snode["operation"] = m_logn.NMO_LOG;
+                    break;
+                case "MIN":
+                    snode["operation"] = m_logn.NMO_MIN;
+                    break;
+                case "MAX":
+                    snode["operation"] = m_logn.NMO_MAX;
+                    break;
+                case "ROUND":
+                    snode["operation"] = m_logn.NMO_ROUND;
+                    break;
+                case "MOD":
+                    snode["operation"] = m_logn.NMO_MOD;
+                    break;
+                case "ABS":
+                    snode["operation"] = m_logn.NMO_ABS;
+                    break;
+                }
                 break;
             case "REGSTORE":
                 if (!snode["floats"])

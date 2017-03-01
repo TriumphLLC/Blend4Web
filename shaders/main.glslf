@@ -194,7 +194,7 @@ uniform float u_mirror_factor;
 uniform vec4 u_refl_plane;
 #endif
 
-#if USE_NODE_LAMP
+#if USE_NODE_LAMP && NUM_LAMP_LIGHTS != 0
 uniform vec3 u_lamp_light_positions[NUM_LAMP_LIGHTS];
 uniform vec3 u_lamp_light_directions[NUM_LAMP_LIGHTS];
 uniform vec3 u_lamp_light_color_intensities[NUM_LAMP_LIGHTS];

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -177,64 +177,70 @@ var _param_list = [{
 /**
  * Check if HMD configurator can be shown.
  * @method module:hmd_conf.check
- * @returns {Boolean} The result of the checking.
+ * @returns {boolean} The result of the checking.
  */
-exports.check = function() {
-    return m_input.can_use_device(m_input.DEVICE_HMD);
+exports.check = check;
+function check() {
+    if (!m_input.can_use_device(m_input.DEVICE_HMD))
+        return false;
+
+    var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
+    var hmd_type = m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE);
+    return (hmd_type & (m_input.HMD_NON_WEBVR | m_input.HMD_WEBVR_MOBILE |
+            m_input.HMD_WEBVR_DESKTOP)) &&
+            !(hmd_type & m_input.HMD_WEBVR1);
 }
 
 /**
  * Show HMD configurator.
  * @method module:hmd_conf.show
- * @param {String} css_class CSS class of HMD configurator element
+ * @param {string} css_class CSS class of HMD configurator element
  */
 exports.show = function(css_class) {
+    if (!check())
+        return;
+
+    var container = m_cont.get_container();
+
     _style = document.createElement("style");
-    _style.innerHTML = "html{-webkit-tap-highlight-color:rgba(0,0,0,0);}input[type=range]:focus{outline:0}input[type=range]::-webkit-slider-runnable-track{width:100%;height:8.4px;cursor:pointer;box-shadow:0 0 10px 0 rgba(50,50,50,1);background:#000;border-radius:1.3px;border:.2px solid #010101}input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px 0 rgba(50,50,50,1);border:1px solid #000;height:36px;width:16px;border-radius:3px;background:#fff;cursor:pointer;-webkit-appearance:none;margin-top:-14px}input[type=range]:focus::-webkit-slider-runnable-track{background:#000}input[type=range]::-moz-range-track{width:100%;height:8.4px;cursor:pointer;box-shadow:0 0 10px 0 rgba(50,50,50,1);background:#000;border-radius:1.3px;border:.2px solid #010101}input[type=range]::-moz-range-thumb{box-shadow:0 0 10px 0 rgba(50,50,50,1);border:1px solid #000;height:36px;width:16px;border-radius:3px;background:#fff;cursor:pointer}input[type=range]::-ms-track{width:100%;height:8.4px;cursor:pointer;background:0 0;border-color:transparent;color:transparent}input[type=range]::-ms-fill-lower{background:#000;border:.2px solid #010101;border-radius:2.6px;box-shadow:0 0 10px 0 rgba(50,50,50,1)}input[type=range]::-ms-fill-upper{background:#000;border:.2px solid #010101;border-radius:2.6px;box-shadow:0 0 10px 0 rgba(50,50,50,1)}input[type=range]::-ms-thumb{box-shadow:0 0 10px 0 rgba(50,50,50,1);border:1px solid #000;height:36px;width:16px;border-radius:3px;background:#fff;cursor:pointer}.text_label,.value_label{display:inline-block;text-decoration:none;height:30px;line-height:28px;position:relative;text-align:center;font-family:Arial;font-size:15px}input[type=range]:focus::-ms-fill-lower{background:#000}input[type=range]:focus::-ms-fill-upper{background:#000}.text_label{float:left;color:#fff;width:auto;padding:0 10px;background-color:#000;border:3px solid #fff;border-radius:15px;box-shadow:0 0 10px 0 rgba(50,50,50,1);margin-right:15px}.input_text,.value_label{border:3px solid #fff;background-color:#000;color:#fff;box-shadow:0 0 10px 0 rgba(50,50,50,1)}.value_label{right:0;width:40px;border-radius:15px;margin-left:15px}.slider{position:relative;cursor:pointer}.border{position:relative;width:100%;height:50px}.input_slider,.input_text{margin:13.8px 0;-webkit-appearance:none;width:50%;position:relative;display:inline-block}.input_text{border-radius:4px;padding-left:4px}.input_slider,_:-moz-tree-row(hover){-webkit-appearance:none;width:50%;margin:-4.8px 0;position:relative;display:inline-block}:root .input_slider,_:-ms-fullscreen{-webkit-appearance:none;width:50%;margin:-2.8px 0;position:relative;display:inline-block}button,select{display:block}button{background-color:#000;color:#fff;width:100px;border:3px solid #fff;text-align:center;font-family:Arial;border-radius:15px;box-shadow:0 0 10px 0 rgba(50,50,50,1);font-size:15px;line-height:30px;margin-right:10px}select{clear:both}";
+    _style.innerHTML = "." + css_class + " input[type=range]::-webkit-slider-runnable-track {width: 100%; height: 8px;cursor: pointer;background-color: #fff;border: 2px solid rgba(98, 98, 98, .2);box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);}." + css_class + " input[type=range]::-webkit-slider-thumb {box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);height: 30px;width: 16px;border-radius: 2px;background-color: #323232;cursor: pointer;margin-top: -13px;-webkit-appearance: none;}";
+
     document.head.appendChild(_style);
 
-    var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
-    if (_is_shown || !device)
+    if (_is_shown)
         return;
     _is_shown = true;
     restore_params();
 
-    var container = m_cont.get_container();
     var mdevice = m_input.get_device_by_type_element(m_input.DEVICE_MOUSE, container);
     m_input.switch_prevent_default(mdevice, false);
     var tdevice = m_input.get_device_by_type_element(m_input.DEVICE_TOUCH, container);
     m_input.switch_prevent_default(tdevice, false);
 
     _hmd_dialog = document.createElement("div");
-    _hmd_dialog.class = css_class;
+    _hmd_dialog.className = css_class;
     container.appendChild(_hmd_dialog);
     _hmd_list = document.createElement("div");
     _hmd_dialog.appendChild(_hmd_list)
 
     _hmd_list.style.cssText =
-            "position: absolute;" +
-            "background-color: #fff;" +
-            "left: 10px;" +
-            "top: 10px;" +
-            "right: 10px;" +
-            "bottom: 10px;" +
-            "bottom: 10px;" +
-            "min-width: 300px;" +
-            "overflow: auto;" +
-            "padding: 10px;" +
-            "border: 1px solid #ddd;" +
-            "border-radius: 4px;" +
-            "bottom: 10px;";
-
+          "background-color: #484848;" +
+          "border: 2px solid rgba(150, 150, 150, 0.7);" +
+          "box-shadow: 0px 0px 10px 0px rgba(150, 150, 150, 0.7);" +
+          "position: relative;" +
+          "width: 524px;" +
+          "padding: 16px;" +
+          "overflow: hidden;";
 
     var select = create_profiles_select();
     _hmd_list.appendChild(select);
 
+    var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
     for (var i = 0; i < _param_list.length; i++) {
-        if (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) !=
-                m_input.HMD_WEBVR_DESKTOP ||
+        if (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) &
+                (m_input.HMD_NON_WEBVR | m_input.HMD_WEBVR_MOBILE) ||
                 !_param_list[i].is_mobile) {
-            var param_cont = create_param(_param_list[i]);
+            var param_cont = create_param(_param_list[i], i);
             _hmd_list.appendChild(param_cont);
         }
     }
@@ -265,20 +271,54 @@ function create_profiles_select() {
     var label = document.createElement("label");
     label.innerHTML = "Profile: ";
     label.className = "text_label";
+
+    label.style.cssText =
+        "background-color: #323232;" +
+        "border: 2px solid rgba(98, 98, 98, .2);" +
+        "border-radius: 2px;" +
+        "width: 120px;" +
+        "height: 30px;" +
+        "display: block;" +
+        "float: left;" +
+        "font-size: 16px;" +
+        "font-weight: normal;" +
+        "color: #fff;" +
+        "cursor: pointer;" +
+        "text-decoration: none;" +
+        "text-align: left;" +
+        "padding-left: 8px;" +
+        "line-height: 28px;" +
+        "margin-bottom: 4px;" +
+        "box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);";
+
     select_cont.appendChild(label);
+
     var select = document.createElement("select");
     select_cont.appendChild(select);
 
-    select_cont.style.cssText =
-        "margin: 20px 0;" +
-        "padding: 10px;";
+    select.style.cssText =
+        "background-color: #323232;" +
+        "border: 2px solid rgba(98, 98, 98, .2);" +
+        "border-radius: 2px;" +
+        "height: 30px;" +
+        "display: block;" +
+        "font-size: 16px;" +
+        "font-weight: normal;" +
+        "color: #fff;" +
+        "cursor: pointer;" +
+        "text-decoration: none;" +
+        "text-align: left;" +
+        "padding-left: 8px;" +
+        "line-height: 28px;" +
+        "margin-bottom: 4px;" +
+        "box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);";
 
     var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
     if (device)
         for (var i in _viewer_profiles) {
             if (_viewer_profiles[i].type == P_COMMON ||
-                    (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) ==
-                    m_input.HMD_WEBVR_DESKTOP ^
+                    (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) &
+                    (m_input.HMD_NON_WEBVR | m_input.HMD_WEBVR_MOBILE) &&
                     _viewer_profiles[i].type == P_MOBILE)) {
                 var option = document.createElement("option");
                 option.value = i;
@@ -312,6 +352,8 @@ function change_select_cb(e){
                 number.disabled = profile !== "custom";
                 number.value = profile_data[name];
             }
+
+            _param_values[name] = profile_data[name];
         }
     }
 }
@@ -387,7 +429,7 @@ function check_rule(rule, ua, screenWidth, screenHeight) {
     return (rule["ua"] && ua.indexOf(rule["ua"]) >= 0) ||
             !rule["ua"] && rule["res"] && rule["res"][0] && rule["res"][1] &&
             Math.min(screenWidth, screenHeight) == Math.min(rule["res"][0], rule["res"][1]) &&
-            Math.max(screenWidth, screenHeight) == Math.max(rule["res"][0], rule["res"][1])
+            Math.max(screenWidth, screenHeight) == Math.max(rule["res"][0], rule["res"][1]);
 }
 
 function find_device_index(dpdb, user_agent, width, height) {
@@ -486,8 +528,8 @@ function update_params() {
             m_input.set_config(device, m_input.HMD_DISTORTION,
                     [_param_values["first_distortion"], _param_values["second_distortion"]]);
 
-            if (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) !=
-                    m_input.HMD_WEBVR_DESKTOP) {
+            if (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) &
+                    (m_input.HMD_NON_WEBVR | m_input.HMD_WEBVR_MOBILE)) {
                 m_input.set_config(device, m_input.HMD_BEVEL_SIZE,
                         _param_values["bevel_size"] * MM_TO_M);
                 m_input.set_config(device, m_input.HMD_SCREEN_WIDTH,
@@ -523,45 +565,83 @@ function change_slider_cb(e) {
     }
 }
 
-function create_param(param) {
+function create_param(param, i) {
     var param_cont = document.createElement("div");
 
     var label_d = document.createElement("label");
     label_d.className = "text_label";
+
+    var margin_right = "8px";
+
+    if (i%2)
+        margin_right = "0";
+
+    label_d.style.cssText =
+        "background-color: #323232;" +
+        "border: 2px solid rgba(98, 98, 98, .2);" +
+        "border-radius: 2px;" +
+        "width: 100%;" +
+        "height: 30px;" +
+        "display: block;" +
+        "font-size: 16px;" +
+        "font-weight: normal;" +
+        "color: #fff;" +
+        "cursor: pointer;" +
+        "text-decoration: none;" +
+        "text-align: left;" +
+        "padding-left: 8px;" +
+        "line-height: 28px;" +
+        "margin-bottom: 4px;" +
+        "box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);";
+
     label_d.textContent = param.label;
     param_cont.appendChild(label_d);
 
     param_cont.style.cssText = 
-        "margin: 20px 0;" +
+        "margin-top: 16px;" +
         "float: left;" +
-        "display: inline-block;" +
-        "width: 50%;" +
-        "border: 1px solid #ddd;" +
+        "width: 240px;" +
+        "margin-right: " + margin_right + ";" +
+        "border-top: 2px solid rgba(98, 98, 98, .4);" +
         "box-sizing: border-box;" +
         "-webkit-box-sizing: border-box;" +
-        "padding: 10px;";
+        "padding-top: 8px;";
 
-    for (var i = 0; i < param.inputs.length; i++) {
-        var input_data = param.inputs[i];
+    for (var j = 0; j < param.inputs.length; j++) {
+        var input_data = param.inputs[j];
         var slider = create_slider(input_data);
         param_cont.appendChild(slider);
     }
+
     return param_cont;
 }
 
 function create_slider(input_data) {
     var container = document.createElement("div");
-    container.style.cssText += "clear: both; margin-bottom: 10px;";
+    container.className = "row";
 
     var input_s = document.createElement("input");
     input_s.className = "input_slider";
+
+    input_s.style.cssText =
+        "-webkit-appearance: none;" +
+        "width: 192px;" +
+        "display: block;" +
+        "float: left;" +
+        "height: 8px;" +
+        "margin-bottom: 16px;" +
+        "margin-top: 16px;" +
+        "box-sizing: border-box;" +
+        "margin-right: 8px;" +
+        "margin-left: 0;";
+
     input_s.setAttribute("id", input_data.id + "_slider");
     input_s.setAttribute("type", "range");
     input_s.setAttribute("min", "0.00");
     input_s.setAttribute("step", input_data.step);
     input_s.setAttribute("value", _param_values[input_data.id]);
     input_s.setAttribute("max", input_data.max);
-    input_s.style.cssText = "float: left;";
+
     container.appendChild(input_s);
 
     var input_d = document.createElement("input");
@@ -573,6 +653,26 @@ function create_slider(input_data) {
     input_d.setAttribute("value", _param_values[input_data.id]);
     input_d.setAttribute("max", input_data.max);
     container.appendChild(input_d);
+    input_d.style.cssText =
+        "background-color: #323232;" +
+        "border: 2px solid rgba(98, 98, 98, .2);" +
+        "border-radius: 2px;" +
+        "width: 40px;" +
+        "height: 30px;" +
+        "display: block;" +
+        "float: left;" +
+        "font-size: 16px;" +
+        "font-weight: normal;" +
+        "color: #fff;" +
+        "cursor: pointer;" +
+        "text-decoration: none;" +
+        "text-align: center;" +
+        "box-sizing: border-box;" +
+        "line-height: 28px;" +
+        "margin-top: 4px;" +
+        "margin-right: 0;" +
+        "margin-left: 0;" +
+        "box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);";
 
     if (m_util.is_ie11()) {
         input_s.onchange = change_slider_cb;
@@ -587,11 +687,16 @@ function create_slider(input_data) {
 
 function create_buttons() {
     var buttons_container = document.createElement("div");
-    var hmd_submit_button = create_button(save_changes, "SAVE");
-    var hmd_cancel_button = create_button(hide, "CANCEL");
-    var hmd_reset_button = create_button(reset, "RESET");
+    var hmd_submit_button = create_button(save_changes, "SAVE", "4px");
+    var hmd_cancel_button = create_button(hide, "CANCEL", "4px");
+    var hmd_reset_button = create_button(reset, "RESET", "0px");
 
-    buttons_container.style.clear = "both";
+    buttons_container.className = "row";
+    buttons_container.style.cssText =
+        "padding-top: 32px;" +
+        "clear: both;" +
+        "box-sizing: border-box;" +
+        "-webkit-box-sizing: border-box;";
 
     buttons_container.appendChild(hmd_submit_button);
     buttons_container.appendChild(hmd_cancel_button);
@@ -614,10 +719,28 @@ function create_buttons() {
     return buttons_container;
 }
 
-function create_button(callback, text_content) {
+function create_button(callback, text_content, margin_right) {
     var button = document.createElement("button");
     button.onclick = callback;
-    button.style.cssText = "display: inline-block;";
+    button.style.cssText =
+        "background-color: #323232;" +
+        "border: 2px solid rgba(98, 98, 98, .2);" +
+        "border-radius: 2px;" +
+        "width: 160px;" +
+        "height: 30px;" +
+        "display: block;" +
+        "float: left;" +
+        "font-size: 16px;" +
+        "font-weight: normal;" +
+        "color: #fff;" +
+        "cursor: pointer;" +
+        "text-decoration: none;" +
+        "text-align: center;" +
+        "padding-left: 8px;" +
+        "line-height: 28px;" +
+        "margin-right:" + margin_right + ";" +
+        "box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);";
+
     button.innerHTML = text_content;
     return button;
 }

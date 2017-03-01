@@ -14,6 +14,7 @@ var m_hmd_conf    = require("hmd_conf");
 var m_input       = require("input");
 var m_main        = require("main");
 var m_scs         = require("scenes");
+var m_screen      = require("screen");
 var m_sfx         = require("sfx");
 var m_storage     = require("storage");
 var m_version     = require("version");
@@ -70,8 +71,11 @@ var _help_info_container;
 var _help_button;
 var _hor_button_section;
 var _selected_object;
+var _stereo_mode;
 
 var _vec2_tmp = new Float32Array(2);
+
+var _pick = m_scs.pick_object;
 
 var _player_buttons = [
     {type: "simple_button", id: "opened_button", callback: open_menu},
@@ -329,7 +333,7 @@ function display_no_webgl_bg() {
         _preloader_container.style.display = "none";
     } else
         report_app_error("Browser could not initialize WebGL", "For more info visit",
-                      "https://www.blend4web.com/doc/en/problems_and_solutions.html")
+                      "https://www.blend4web.com/doc/en/problems_and_solutions.html#problems-upon-startup");
 }
 
 function cache_dom_elems() {
@@ -361,7 +365,7 @@ function add_engine_version() {
 function check_fullscreen() {
     var fullscreen_on_button = document.querySelector("#fullscreen_on_button");
 
-    if (!m_app.check_fullscreen())
+    if (!m_screen.check_fullscreen() && !m_screen.check_fullscreen_hmd())
         fullscreen_on_button.parentElement.removeChild(fullscreen_on_button);
 }
 
@@ -395,10 +399,8 @@ function set_quality_button() {
     }
 }
 
-function set_stereo_button() {
-    var stereo = m_storage.get("stereo") || DEFAULT_STEREO;
-
-    m_storage.set("stereo", stereo);
+function set_stereo_button(stereo) {
+    stereo = stereo || m_storage.get("stereo") || DEFAULT_STEREO;
 
     _stereo_buttons_container.className = "control_panel_button";
 
@@ -411,10 +413,6 @@ function set_stereo_button() {
         break;
     case "HMD":
         _stereo_buttons_container.classList.add("hmd_mode_button");
-
-        if (m_input.can_use_device(m_input.DEVICE_HMD))
-            m_hmd_conf.update();
-
         break;
     }
 }
@@ -433,43 +431,16 @@ function init_control_buttons() {
 
         var elem = document.getElementById(button.id);
 
+        if (!elem)
+            continue;
+
         add_hover_class_to_button(elem);
 
-        switch (button.type) {
-        case "simple_button":
-            if (elem)
-                if (is_touch())
-                    elem.addEventListener("touchend", button.callback);
-                else
-                    elem.addEventListener("mouseup", button.callback);
-            break;
-        case "menu_button":
-            (function(button){
-                if (elem)
-                    if (is_touch())
-                        elem.addEventListener("touchend", function(e) {
-                                  button.callback(e, button);
-                              });
-                    else
-                        elem.addEventListener("mouseup", function(e) {
-                                  button.callback(e, button);
-                              });
-            })(button);
-            break;
-        case "trigger_button":
-            (function(button){
-                if (elem)
-                    if (is_touch())
-                        elem.addEventListener("touchend", function(e) {
-                            button.callback(e);
-                        });
-                    else
-                        elem.addEventListener("mouseup", function(e) {
-                            button.callback(e);
-                        });
-            })(button);
-            break;
-        }
+        (function(button) {
+            m_input.add_click_listener(elem, function(e) {
+                button.callback(e, button);
+            })
+        })(button);
     }
 }
 
@@ -508,7 +479,7 @@ function search_file() {
         } else {
             report_app_error("Please specify a scene to load",
                              "For more info visit",
-                             "https://www.blend4web.com/doc/en/web_player.html");
+                             "https://www.blend4web.com/doc/en/web_player.html#scene-errors");
             return null;
         }
     }
@@ -528,7 +499,7 @@ function open_help() {
     if (is_anim_in_process())
         return;
 
-    if (is_touch())
+    if (m_main.detect_mobile())
         _help_info_container.className = "touch";
     else
         _help_info_container.className = "";
@@ -559,7 +530,7 @@ function add_hover_class_to_button(elem) {
     if (!elem)
         return;
 
-    if (is_touch()) {
+    if (m_main.detect_mobile()) {
         elem.addEventListener("touchstart", function() {
             elem.classList.add("hover");
             clear_deferred_close();
@@ -657,20 +628,20 @@ function enter_fullscreen(e) {
     if (is_anim_in_process())
         return;
 
-    var hmd_device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
-    if (hmd_device &&
-            m_input.get_value_param(hmd_device, m_input.HMD_WEBVR_TYPE) ==
-            m_input.HMD_WEBVR1)
-        m_input.request_fullscreen_hmd();
+    if (!m_screen.check_fullscreen_hmd())
+        m_screen.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb);
     else
-        m_app.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb);
+        m_screen.request_fullscreen_hmd(document.body, fullscreen_cb, fullscreen_cb);
 }
 
 function exit_fullscreen() {
     if (is_anim_in_process())
         return;
 
-    m_app.exit_fullscreen();
+    if (!m_screen.check_fullscreen_hmd())
+        m_screen.exit_fullscreen();
+    else
+        m_screen.exit_fullscreen_hmd();
 }
 
 function fullscreen_cb(e) {
@@ -689,7 +660,7 @@ function update_button(elem) {
     var button = get_button_object_from_id(elem.id);
     var old_callback = button.callback;
 
-    elem.id = button.id =  button.replace_button_id;
+    elem.id = button.id = button.replace_button_id;
     button.replace_button_id = old_elem_id;
 
     if (!check_cursor_position(elem.id))
@@ -880,7 +851,7 @@ function open_menu() {
     if (!_no_social)
         drop_top(vert_elem);
 
-    if (is_touch())
+    if (m_main.detect_mobile())
         document.body.addEventListener("touchmove", deferred_close);
     else {
         _buttons_container.addEventListener("mouseleave", deferred_close);
@@ -894,14 +865,9 @@ function check_anim_end() {
 
         if ((!check_cursor_position("buttons_container") &&
                 is_control_panel_opened()) ||
-                (is_touch() && is_control_panel_opened()))
+                (m_main.detect_mobile() && is_control_panel_opened()))
             deferred_close();
     }
-}
-
-function is_touch() {
-    return !!(("ontouchstart" in window && !isFinite(navigator.maxTouchPoints))
-              || navigator.maxTouchPoints)
 }
 
 function is_anim_in_process() {
@@ -913,17 +879,11 @@ function is_control_panel_opened() {
 }
 
 function disable_opened_button() {
-    if (is_touch())
-        _opened_button.removeEventListener("touchend", open_menu);
-    else
-        _opened_button.removeEventListener("mouseup", open_menu);
+    m_input.remove_click_listener(_opened_button, open_menu);
 }
 
 function enable_opened_button() {
-    if (is_touch())
-        _opened_button.addEventListener("touchend", open_menu);
-    else
-        _opened_button.addEventListener("mouseup", open_menu);
+    m_input.add_click_listener(_opened_button, open_menu);
 }
 
 function deferred_close(e) {
@@ -1006,17 +966,11 @@ function open_qual_menu(e, button) {
         var child_elem = document.getElementById(child_id[i]);
 
         if (!_quality_buttons_container.classList.contains(child_id[i]))
-            if (is_touch())
-                child_elem.addEventListener("touchend", child_cb[i]);
-            else
-                child_elem.addEventListener("mouseup", child_cb[i]);
+            m_input.add_click_listener(child_elem, child_cb[i]);
         else {
             child_elem.className = "active_elem_q";
 
-            if (is_touch())
-                child_elem.addEventListener("touchend", close_qual_menu);
-            else
-                child_elem.addEventListener("mouseup", close_qual_menu);
+            m_input.add_click_listener(child_elem, close_qual_menu);
         }
     }
 
@@ -1047,17 +1001,14 @@ function open_stereo_menu(e, button) {
         if (!child_elem)
             continue;
 
-        if (!_stereo_buttons_container.classList.contains(child_id[i]))
-            if (is_touch())
-                child_elem.addEventListener("touchend", child_cb[i]);
-            else
-                child_elem.addEventListener("mouseup", child_cb[i]);
-        else {
+        if (!_stereo_buttons_container.classList.contains(child_id[i])) {
+            child_elem.className = "qual_button";
+
+            m_input.add_click_listener(child_elem, child_cb[i]);
+        } else {
             child_elem.className = "active_elem_s";
-            if (is_touch())
-                child_elem.addEventListener("touchend", close_stereo_menu);
-            else
-                child_elem.addEventListener("mouseup", close_stereo_menu);
+
+            m_input.add_click_listener(child_elem, close_stereo_menu);
         }
     }
 
@@ -1123,7 +1074,7 @@ function main_canvas_clicked(x, y) {
     if (prev_obj && m_scs.outlining_is_enabled(prev_obj))
         m_scs.clear_outline_anim(prev_obj);
 
-    var obj = m_scs.pick_object(x, y);
+    var obj = _pick(x, y);
     set_selected_object(obj);
 }
 
@@ -1131,7 +1082,7 @@ function loaded_callback(data_id, success) {
     if (!success) {
         report_app_error("Could not load the scene",
                 "For more info visit",
-                "https://www.blend4web.com/doc/en/web_player.html");
+                "https://www.blend4web.com/doc/en/web_player.html#scene-errors");
 
         return;
     }
@@ -1182,14 +1133,7 @@ function check_hmd() {
 
     if (!m_input.can_use_device(m_input.DEVICE_HMD)) {
         hmd_mode_button.parentElement.removeChild(hmd_mode_button);
-
-        return;
     }
-
-    if (m_cfg.get("stereo") != "HMD")
-        return;
-
-    m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_YAW);
 }
 
 function preloader_callback(percentage, load_time) {
@@ -1327,19 +1271,57 @@ function change_quality(qual) {
 
     m_storage.set("quality", quality);
 
-    setTimeout(function() {
-        window.location.reload();
-    }, 100);
+    reload_app();
 }
 
 function change_stereo(stereo) {
-    var cur_stereo = m_cfg.get("stereo");
+    deferred_close();
 
-    if (cur_stereo == stereo)
+    if (_stereo_mode == stereo)
         return;
 
-    m_storage.set("stereo", stereo);
+    switch (stereo) {
+    case "NONE":
+        m_storage.set("stereo", "NONE");
+        if (_stereo_mode == "ANAGLYPH")
+            reload_app()
+        else {
+            m_hmd.disable_hmd();
+            _pick = m_scs.pick_object;
+        }
+        break;
+    case "ANAGLYPH":
+        m_storage.set("stereo", "ANAGLYPH");
+        reload_app()
+        break;
+    case "HMD":
+        m_storage.set("stereo", "NONE");
+        if (_stereo_mode == "NONE") {
+            if (m_input.can_use_device(m_input.DEVICE_HMD))
+                m_hmd_conf.update();
+            if (m_camera_anim.is_auto_rotate()) {
+                stop_camera();
+                update_auto_rotate_button();
+            }
 
+            m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_YAW);
+            _pick = m_scs.pick_center;
+            // Check if app is in fullscreen mode.
+            var fullscreen_button = document.querySelector("#fullscreen_on_button");
+            if (fullscreen_button)
+                enter_fullscreen();
+        } else {
+            m_storage.set("stereo", "NONE");
+            reload_app()
+        }
+        break;
+    }
+
+    _stereo_mode = stereo;
+    set_stereo_button(stereo);
+}
+
+function reload_app() {
     setTimeout(function() {
         window.location.reload();
     }, 100);
@@ -1370,6 +1352,9 @@ function set_quality_config() {
 
 function set_stereo_config() {
     var stereo = m_storage.get("stereo") || DEFAULT_STEREO;
+    _stereo_mode = stereo;
+    if (stereo == "NONE")
+        stereo = "HMD";
 
     m_cfg.set("stereo", stereo);
 }

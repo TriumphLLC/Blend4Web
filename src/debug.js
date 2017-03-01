@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ exports.DV_RENDER_TIME = 7;
 
 /**
  * Setup WebGL context
- * @param ctx webgl context
+ * @param gl webgl context
  */
 exports.setup_context = function(gl) {
     // WebGLRenderingContext.cpp
@@ -86,7 +86,7 @@ exports.setup_context = function(gl) {
         "CONTEXT_LOST_WEBGL"                // 37442
     ];
 
-    for (var i in errors) {
+    for (var i = 0; i < errors.length; i++) {
         var error = errors[i];
         if (error in gl)
             ERRORS[gl[error]] = error;
@@ -192,11 +192,14 @@ exports.print_batches_stat = function() {
 
                 for (var prop in batch) {
                     if (!(prop in batches_props[batch.type][shader_pair]))
-                        batches_props[batch.type][shader_pair][prop] = [];
+                        batches_props[batch.type][shader_pair][prop] = {};
 
                     var str_val = JSON.stringify(batch[prop]);
-                    if (batches_props[batch.type][shader_pair][prop].indexOf(str_val) == -1)
-                        batches_props[batch.type][shader_pair][prop].push(str_val);
+
+                    if (!(str_val in batches_props[batch.type][shader_pair][prop]))
+                        batches_props[batch.type][shader_pair][prop][str_val] = 0;
+
+                    batches_props[batch.type][shader_pair][prop][str_val]++;
                 }
             }
     }
@@ -204,29 +207,55 @@ exports.print_batches_stat = function() {
     m_print.group("Batches statistics:");
     m_print.log_raw("STATIC/DYNAMIC count:", static_count + "/" + dynamic_count);
     m_print.group("STATIC batches diversity:");
-    for (var type in batches_props) {
-        for (var shader_pair in batches_props[type]) {
 
-            var props_array = [];
-            for (var prop in batches_props[type][shader_pair])
-                if (batches_props[type][shader_pair][prop].length > 1)
-                    props_array.push([prop, batches_props[type][shader_pair][prop]])
+    for (var type in batches_props)
+        for (var shader_pair in batches_props[type])
+            print_batches_stat_props(batches_props[type][shader_pair], type, shader_pair);
 
-            props_array.sort(function(a, b) {
-                if (b[1].length != a[1].length)
-                    return b[1].length - a[1].length;
-                return a < b ? -1 : b < a ? 1 : 0;
-            });
-
-            if (props_array.length) {
-                m_print.groupCollapsed(type + " " + shader_pair);
-                for (var i = 0; i < props_array.length; i++)
-                    m_print.log_raw(props_array[i][1].length, props_array[i][0], props_array[i][1]);
-                m_print.groupEnd();
-            }
-        }
-    }
     m_print.groupEnd();
+    m_print.groupEnd();
+}
+
+function print_batches_stat_props(props_dict, type, shader_pair) {
+    var props_array = [];
+    for (var prop in props_dict)
+        if (m_util.get_dict_length(props_dict[prop]) > 1)
+            props_array.push([prop, props_dict[prop]])
+
+    props_array.sort(function(a, b) {
+        var a_len = m_util.get_dict_length(a[1]);
+        var b_len = m_util.get_dict_length(b[1]);
+        if (b_len != a_len)
+            return b_len - a_len;
+        return a < b ? -1 : b < a ? 1 : 0;
+    });
+
+    if (props_array.length) {
+        m_print.groupCollapsed(type + " " + shader_pair);
+        m_print.log_raw("Property different variants (>1) | Property name");
+        for (var i = 0; i < props_array.length; i++) {
+            m_print.groupCollapsed(m_util.get_dict_length(props_array[i][1]), props_array[i][0]);
+            print_batches_stat_props_values(props_array[i][1]);
+        }
+        m_print.groupEnd();
+    }
+}
+
+function print_batches_stat_props_values(values_dict) {
+    m_print.log_raw("Batches count for this property value | Property value");
+
+    var values_array = [];
+    for (var value in values_dict)
+        values_array.push([value, values_dict[value]]);
+
+    values_array.sort(function(a, b) {
+        if (b[1] != a[1])
+            return b[1] - a[1];
+        return a[0] < b[0] ? -1 : b[0] < a[0] ? 1 : 0;
+    });
+
+    for (var j = 0; j < values_array.length; j++)
+        m_print.log_raw(values_array[j][1], values_array[j][0]);
     m_print.groupEnd();
 }
 
@@ -249,7 +278,7 @@ exports.check_gl = function(msg) {
 /**
  * Check status of currently bounded framebuffer object,
  * Print error if framebuffer is incomplete.
- * @returns {Boolean} true if framebuffer complete
+ * @returns {boolean} true if framebuffer complete
  */
 exports.check_bound_fb = function() {
 
@@ -366,8 +395,8 @@ exports.check_ff_cubemap_out_of_memory = function() {
 /**
  * Prints shader text numbered lines and error.
  * @param {WebGLShader} shader Shader object
- * @param {String} shader_id Shader id
- * @param {String} shader_text Shader text
+ * @param {string} shader_id Shader id
+ * @param {string} shader_text Shader text
  */
 exports.report_shader_compiling_error = function(shader, shader_id, shader_text) {
 
@@ -393,9 +422,9 @@ function supply_line_numbers(text) {
 /**
  * Prints shader text numbered lines and error.
  * @param {WebGLProgram} program Shader program object
- * @param {String} shader_id Shader id
- * @param {String} vshader_text Vertex shader text
- * @param {String} fshader_text Fragment shader text
+ * @param {string} shader_id Shader id
+ * @param {string} vshader_text Vertex shader text
+ * @param {string} fshader_text Fragment shader text
  */
 exports.report_shader_linking_error = function(program, shader_id,
         vshader_text, fshader_text) {
@@ -517,7 +546,7 @@ function calc_render_time(queries, prev_render_time, end_query) {
 
 /**
  * Print number of executions per frame.
- * @param {String} Counter ID
+ * @param {string} counter ID
  */
 exports.exec_count = function(counter) {
     if (counter in _exec_counters)
@@ -596,7 +625,7 @@ exports.print_telemetry = function(time) {
     for (var i = 0; i < _telemetry_messages.length; i++) {
         var msg = _telemetry_messages[i];
 
-        var time = msg[0];
+        time = msg[0];
 
         if (time < start_time_ms)
             continue;
@@ -630,7 +659,7 @@ exports.plot_telemetry = function(time) {
     for (var i = 0; i < _telemetry_messages.length; i++) {
         var msg = _telemetry_messages[i];
 
-        var time = msg[0];
+        time = msg[0];
 
         if (time < start_time_ms)
             continue;

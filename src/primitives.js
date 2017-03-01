@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ b4w.module["__primitives"] = function(exports, require) {
 
 var m_cfg   = require("__config");
 var m_geom  = require("__geometry");
-var m_print = require("__print");
 var m_util  = require("__util");
 
 var cfg_def  = m_cfg.defaults;
@@ -446,7 +445,7 @@ function generate_from_quads(verts) {
  */
 exports.generate_frustum = function(corners) {
 
-    var corners = m_util.vectorize(corners, []); 
+    corners = m_util.vectorize(corners, []); 
 
     // TODO: implement simple method to generate frustum geometry
     var quads = [];
@@ -537,21 +536,21 @@ exports.generate_uv_sphere = function(segments, rings, size, center,
         use_smooth, use_wireframe) {
     var submesh = m_geom.init_submesh("UV_SPHERE");
 
-	var x, y;
+    var x, y;
     
     var positions = [];
     var grid_positions = [];
     var indices = [];
 
-	for (y = 0; y <= rings; y++) {
-		for (x = 0; x <= segments; x++) {
+    for (y = 0; y <= rings; y++) {
+        for (x = 0; x <= segments; x++) {
 
-			var u = x / segments;
-			var v = y / rings;
+            var u = x / segments;
+            var v = y / rings;
 
-			var xpos = -size * Math.cos(u * 2*Math.PI) * Math.sin(v * Math.PI);
-			var ypos = size * Math.cos(v * Math.PI);
-			var zpos = size * Math.sin(u * 2*Math.PI) * Math.sin(v * Math.PI);
+            var xpos = -size * Math.cos(u * 2*Math.PI) * Math.sin(v * Math.PI);
+            var ypos = size * Math.cos(v * Math.PI);
+            var zpos = size * Math.sin(u * 2*Math.PI) * Math.sin(v * Math.PI);
 
             // clamp near-zero values to improve TBN smoothing quality
             if (use_smooth) {
@@ -561,22 +560,22 @@ exports.generate_uv_sphere = function(segments, rings, size, center,
                 zpos = (Math.abs(zpos) < edge) ? 0 : zpos;
             }
 
-			grid_positions.push(xpos + center[0], ypos + center[1], 
+            grid_positions.push(xpos + center[0], ypos + center[1], 
                     zpos + center[2]);
-		}
-	}
+        }
+    }
 
     var v_index = 0;
-	for (y = 0; y < rings; y++) {
-		for (x = 0; x < segments; x++) {
+    for (y = 0; y < rings; y++) {
+        for (x = 0; x < segments; x++) {
 
-			var v1 = extract_vec3(grid_positions, (segments+1)*y + x + 1);
-			var v2 = extract_vec3(grid_positions, (segments+1)*y + x);
-			var v3 = extract_vec3(grid_positions, (segments+1)*(y + 1) + x);
-			var v4 = extract_vec3(grid_positions, (segments+1)*(y + 1) + x + 1);
+            var v1 = extract_vec3(grid_positions, (segments+1)*y + x + 1);
+            var v2 = extract_vec3(grid_positions, (segments+1)*y + x);
+            var v3 = extract_vec3(grid_positions, (segments+1)*(y + 1) + x);
+            var v4 = extract_vec3(grid_positions, (segments+1)*(y + 1) + x + 1);
             
             // upper pole
-			if (Math.abs(v1[1]) == (size + center[1])) {
+            if (Math.abs(v1[1]) == (size + center[1])) {
 
                 add_vec3_to_array(v1, positions);
                 add_vec3_to_array(v3, positions);
@@ -590,7 +589,7 @@ exports.generate_uv_sphere = function(segments, rings, size, center,
                 v_index += 3;
 
             // lower pole
-			} else if (Math.abs(v3[1]) == (size + center[1])) {
+            } else if (Math.abs(v3[1]) == (size + center[1])) {
                 add_vec3_to_array(v1, positions);
                 add_vec3_to_array(v2, positions);
                 add_vec3_to_array(v3, positions);
@@ -602,7 +601,7 @@ exports.generate_uv_sphere = function(segments, rings, size, center,
                     indices.push(v_index, v_index+1, v_index+2);
                 v_index += 3;
 
-			} else {
+            } else {
                 add_vec3_to_array(v1, positions);
                 add_vec3_to_array(v2, positions);
                 add_vec3_to_array(v3, positions);
@@ -619,9 +618,9 @@ exports.generate_uv_sphere = function(segments, rings, size, center,
                 }
 
                 v_index += 4;
-			}
-		}
-	}
+            }
+        }
+    }
 
     // construct submesh
 

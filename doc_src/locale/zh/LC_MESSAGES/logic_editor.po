@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-12-16 15:05+0300\n"
-"PO-Revision-Date: 2016-12-01 19:42+0800\n"
+"POT-Creation-Date: 2017-02-28 14:57+0300\n"
+"PO-Revision-Date: 2016-12-23 18:06+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
 "MIME-Version: 1.0\n"
@@ -102,16 +102,16 @@ msgstr "这是该脚本开始的地方。通过使用多个入口点您可以创
 #: ../logic_editor.rst:159 ../logic_editor.rst:202 ../logic_editor.rst:253
 #: ../logic_editor.rst:285 ../logic_editor.rst:330 ../logic_editor.rst:367
 #: ../logic_editor.rst:398 ../logic_editor.rst:436 ../logic_editor.rst:498
-#: ../logic_editor.rst:527 ../logic_editor.rst:554 ../logic_editor.rst:604
-#: ../logic_editor.rst:639 ../logic_editor.rst:674 ../logic_editor.rst:713
-#: ../logic_editor.rst:751 ../logic_editor.rst:792 ../logic_editor.rst:837
-#: ../logic_editor.rst:881 ../logic_editor.rst:937 ../logic_editor.rst:969
-#: ../logic_editor.rst:1001 ../logic_editor.rst:1057 ../logic_editor.rst:1141
-#: ../logic_editor.rst:1175 ../logic_editor.rst:1206 ../logic_editor.rst:1268
+#: ../logic_editor.rst:530 ../logic_editor.rst:560 ../logic_editor.rst:610
+#: ../logic_editor.rst:645 ../logic_editor.rst:680 ../logic_editor.rst:719
+#: ../logic_editor.rst:757 ../logic_editor.rst:798 ../logic_editor.rst:843
+#: ../logic_editor.rst:899 ../logic_editor.rst:955 ../logic_editor.rst:987
+#: ../logic_editor.rst:1019 ../logic_editor.rst:1076 ../logic_editor.rst:1160
+#: ../logic_editor.rst:1194 ../logic_editor.rst:1225 ../logic_editor.rst:1287
 msgid "Input Parameters"
 msgstr "输入参数"
 
-#: ../logic_editor.rst:72 ../logic_editor.rst:1183 ../logic_editor.rst:1282
+#: ../logic_editor.rst:72 ../logic_editor.rst:1202 ../logic_editor.rst:1301
 msgid "None."
 msgstr "空"
 
@@ -119,36 +119,36 @@ msgstr "空"
 #: ../logic_editor.rst:165 ../logic_editor.rst:208 ../logic_editor.rst:259
 #: ../logic_editor.rst:291 ../logic_editor.rst:336 ../logic_editor.rst:373
 #: ../logic_editor.rst:404 ../logic_editor.rst:442 ../logic_editor.rst:504
-#: ../logic_editor.rst:533 ../logic_editor.rst:560 ../logic_editor.rst:610
-#: ../logic_editor.rst:645 ../logic_editor.rst:680 ../logic_editor.rst:719
-#: ../logic_editor.rst:757 ../logic_editor.rst:798 ../logic_editor.rst:843
-#: ../logic_editor.rst:887 ../logic_editor.rst:943 ../logic_editor.rst:975
-#: ../logic_editor.rst:1007 ../logic_editor.rst:1063 ../logic_editor.rst:1147
-#: ../logic_editor.rst:1181 ../logic_editor.rst:1212 ../logic_editor.rst:1274
+#: ../logic_editor.rst:536 ../logic_editor.rst:566 ../logic_editor.rst:616
+#: ../logic_editor.rst:651 ../logic_editor.rst:686 ../logic_editor.rst:725
+#: ../logic_editor.rst:763 ../logic_editor.rst:804 ../logic_editor.rst:849
+#: ../logic_editor.rst:905 ../logic_editor.rst:961 ../logic_editor.rst:993
+#: ../logic_editor.rst:1025 ../logic_editor.rst:1082 ../logic_editor.rst:1166
+#: ../logic_editor.rst:1200 ../logic_editor.rst:1231 ../logic_editor.rst:1293
 msgid "Output Parameters"
 msgstr "输出参数"
 
 #: ../logic_editor.rst:78 ../logic_editor.rst:139 ../logic_editor.rst:211
 #: ../logic_editor.rst:262 ../logic_editor.rst:294 ../logic_editor.rst:339
 #: ../logic_editor.rst:376 ../logic_editor.rst:407 ../logic_editor.rst:445
-#: ../logic_editor.rst:507 ../logic_editor.rst:536 ../logic_editor.rst:563
-#: ../logic_editor.rst:613 ../logic_editor.rst:648 ../logic_editor.rst:683
-#: ../logic_editor.rst:722 ../logic_editor.rst:760 ../logic_editor.rst:801
-#: ../logic_editor.rst:846 ../logic_editor.rst:890 ../logic_editor.rst:946
-#: ../logic_editor.rst:978 ../logic_editor.rst:1010 ../logic_editor.rst:1066
-#: ../logic_editor.rst:1150 ../logic_editor.rst:1215 ../logic_editor.rst:1277
+#: ../logic_editor.rst:507 ../logic_editor.rst:539 ../logic_editor.rst:569
+#: ../logic_editor.rst:619 ../logic_editor.rst:654 ../logic_editor.rst:689
+#: ../logic_editor.rst:728 ../logic_editor.rst:766 ../logic_editor.rst:807
+#: ../logic_editor.rst:852 ../logic_editor.rst:908 ../logic_editor.rst:964
+#: ../logic_editor.rst:996 ../logic_editor.rst:1028 ../logic_editor.rst:1085
+#: ../logic_editor.rst:1169 ../logic_editor.rst:1234 ../logic_editor.rst:1296
 msgid "*Next*"
 msgstr "*下一个*"
 
 #: ../logic_editor.rst:78 ../logic_editor.rst:139 ../logic_editor.rst:211
 #: ../logic_editor.rst:262 ../logic_editor.rst:294 ../logic_editor.rst:339
 #: ../logic_editor.rst:376 ../logic_editor.rst:407 ../logic_editor.rst:445
-#: ../logic_editor.rst:507 ../logic_editor.rst:536 ../logic_editor.rst:563
-#: ../logic_editor.rst:613 ../logic_editor.rst:648 ../logic_editor.rst:683
-#: ../logic_editor.rst:722 ../logic_editor.rst:760 ../logic_editor.rst:801
-#: ../logic_editor.rst:846 ../logic_editor.rst:890 ../logic_editor.rst:946
-#: ../logic_editor.rst:978 ../logic_editor.rst:1010 ../logic_editor.rst:1066
-#: ../logic_editor.rst:1150 ../logic_editor.rst:1215 ../logic_editor.rst:1277
+#: ../logic_editor.rst:507 ../logic_editor.rst:539 ../logic_editor.rst:569
+#: ../logic_editor.rst:619 ../logic_editor.rst:654 ../logic_editor.rst:689
+#: ../logic_editor.rst:728 ../logic_editor.rst:766 ../logic_editor.rst:807
+#: ../logic_editor.rst:852 ../logic_editor.rst:908 ../logic_editor.rst:964
+#: ../logic_editor.rst:996 ../logic_editor.rst:1028 ../logic_editor.rst:1085
+#: ../logic_editor.rst:1169 ../logic_editor.rst:1234 ../logic_editor.rst:1296
 msgid "Next node."
 msgstr "下一个节点。"
 
@@ -156,12 +156,12 @@ msgstr "下一个节点。"
 #: ../logic_editor.rst:174 ../logic_editor.rst:214 ../logic_editor.rst:265
 #: ../logic_editor.rst:297 ../logic_editor.rst:342 ../logic_editor.rst:379
 #: ../logic_editor.rst:410 ../logic_editor.rst:448 ../logic_editor.rst:510
-#: ../logic_editor.rst:539 ../logic_editor.rst:566 ../logic_editor.rst:616
-#: ../logic_editor.rst:651 ../logic_editor.rst:686 ../logic_editor.rst:725
-#: ../logic_editor.rst:763 ../logic_editor.rst:804 ../logic_editor.rst:849
-#: ../logic_editor.rst:893 ../logic_editor.rst:949 ../logic_editor.rst:981
-#: ../logic_editor.rst:1013 ../logic_editor.rst:1069 ../logic_editor.rst:1153
-#: ../logic_editor.rst:1186 ../logic_editor.rst:1218 ../logic_editor.rst:1280
+#: ../logic_editor.rst:542 ../logic_editor.rst:572 ../logic_editor.rst:622
+#: ../logic_editor.rst:657 ../logic_editor.rst:692 ../logic_editor.rst:731
+#: ../logic_editor.rst:769 ../logic_editor.rst:810 ../logic_editor.rst:855
+#: ../logic_editor.rst:911 ../logic_editor.rst:967 ../logic_editor.rst:999
+#: ../logic_editor.rst:1031 ../logic_editor.rst:1088 ../logic_editor.rst:1172
+#: ../logic_editor.rst:1205 ../logic_editor.rst:1237 ../logic_editor.rst:1299
 msgid "Internal Parameters"
 msgstr "内部参数"
 
@@ -186,26 +186,26 @@ msgstr "可用于跟踪物体列表中的任何物体的选择。"
 #: ../logic_editor.rst:101 ../logic_editor.rst:133 ../logic_editor.rst:162
 #: ../logic_editor.rst:205 ../logic_editor.rst:256 ../logic_editor.rst:288
 #: ../logic_editor.rst:333 ../logic_editor.rst:370 ../logic_editor.rst:401
-#: ../logic_editor.rst:439 ../logic_editor.rst:501 ../logic_editor.rst:530
-#: ../logic_editor.rst:557 ../logic_editor.rst:607 ../logic_editor.rst:642
-#: ../logic_editor.rst:677 ../logic_editor.rst:716 ../logic_editor.rst:754
-#: ../logic_editor.rst:795 ../logic_editor.rst:840 ../logic_editor.rst:884
-#: ../logic_editor.rst:940 ../logic_editor.rst:972 ../logic_editor.rst:1004
-#: ../logic_editor.rst:1060 ../logic_editor.rst:1144 ../logic_editor.rst:1178
-#: ../logic_editor.rst:1209 ../logic_editor.rst:1271
+#: ../logic_editor.rst:439 ../logic_editor.rst:501 ../logic_editor.rst:533
+#: ../logic_editor.rst:563 ../logic_editor.rst:613 ../logic_editor.rst:648
+#: ../logic_editor.rst:683 ../logic_editor.rst:722 ../logic_editor.rst:760
+#: ../logic_editor.rst:801 ../logic_editor.rst:846 ../logic_editor.rst:902
+#: ../logic_editor.rst:958 ../logic_editor.rst:990 ../logic_editor.rst:1022
+#: ../logic_editor.rst:1079 ../logic_editor.rst:1163 ../logic_editor.rst:1197
+#: ../logic_editor.rst:1228 ../logic_editor.rst:1290
 msgid "*Previous*"
 msgstr "*上一个*"
 
 #: ../logic_editor.rst:101 ../logic_editor.rst:133 ../logic_editor.rst:162
 #: ../logic_editor.rst:205 ../logic_editor.rst:256 ../logic_editor.rst:288
 #: ../logic_editor.rst:333 ../logic_editor.rst:370 ../logic_editor.rst:401
-#: ../logic_editor.rst:439 ../logic_editor.rst:501 ../logic_editor.rst:530
-#: ../logic_editor.rst:557 ../logic_editor.rst:607 ../logic_editor.rst:642
-#: ../logic_editor.rst:677 ../logic_editor.rst:716 ../logic_editor.rst:754
-#: ../logic_editor.rst:795 ../logic_editor.rst:840 ../logic_editor.rst:884
-#: ../logic_editor.rst:940 ../logic_editor.rst:972 ../logic_editor.rst:1004
-#: ../logic_editor.rst:1060 ../logic_editor.rst:1144 ../logic_editor.rst:1178
-#: ../logic_editor.rst:1209
+#: ../logic_editor.rst:439 ../logic_editor.rst:501 ../logic_editor.rst:533
+#: ../logic_editor.rst:563 ../logic_editor.rst:613 ../logic_editor.rst:648
+#: ../logic_editor.rst:683 ../logic_editor.rst:722 ../logic_editor.rst:760
+#: ../logic_editor.rst:801 ../logic_editor.rst:846 ../logic_editor.rst:902
+#: ../logic_editor.rst:958 ../logic_editor.rst:990 ../logic_editor.rst:1022
+#: ../logic_editor.rst:1079 ../logic_editor.rst:1163 ../logic_editor.rst:1197
+#: ../logic_editor.rst:1228
 msgid "Previous node."
 msgstr "前一个节点。"
 
@@ -235,8 +235,8 @@ msgid ""
 msgstr "如果用户没有选择 ``Switch Select`` 节点中指定的任何物体，这个参数将把控制传递给下一个节点。"
 
 #: ../logic_editor.rst:116 ../logic_editor.rst:345 ../logic_editor.rst:513
-#: ../logic_editor.rst:542 ../logic_editor.rst:569 ../logic_editor.rst:619
-#: ../logic_editor.rst:654 ../logic_editor.rst:689 ../logic_editor.rst:728
+#: ../logic_editor.rst:545 ../logic_editor.rst:575 ../logic_editor.rst:625
+#: ../logic_editor.rst:660 ../logic_editor.rst:695 ../logic_editor.rst:734
 msgid "*Object*"
 msgstr "*物体*"
 
@@ -258,7 +258,7 @@ msgstr "延迟"
 msgid "Make a delay (measured in seconds) before going to the next node."
 msgstr "在去下一个节点之前做一个延迟（以秒计）。"
 
-#: ../logic_editor.rst:145 ../logic_editor.rst:660
+#: ../logic_editor.rst:145 ../logic_editor.rst:666
 msgid "*Value*"
 msgstr "*值*"
 
@@ -296,7 +296,7 @@ msgstr "*假*"
 msgid "Condition is false."
 msgstr "条件是假的。"
 
-#: ../logic_editor.rst:184 ../logic_editor.rst:905
+#: ../logic_editor.rst:184 ../logic_editor.rst:923
 msgid "*Condition*"
 msgstr "*条件*"
 
@@ -330,7 +330,7 @@ msgid ""
 "second."
 msgstr "*Greater Than Or Equal* - 第一个操作数是大于或等于第二个。"
 
-#: ../logic_editor.rst:187 ../logic_editor.rst:861 ../logic_editor.rst:908
+#: ../logic_editor.rst:187 ../logic_editor.rst:879 ../logic_editor.rst:926
 msgid "*Operand1*"
 msgstr "*Operand1*"
 
@@ -340,7 +340,7 @@ msgid ""
 "be specified in the node or can be a link to one of the variables."
 msgstr "逻辑条件的第一个操作数。应该有一个数字值。可以在节点中指定或可以是一个链接到一个变量。"
 
-#: ../logic_editor.rst:190 ../logic_editor.rst:864 ../logic_editor.rst:911
+#: ../logic_editor.rst:190 ../logic_editor.rst:882 ../logic_editor.rst:929
 msgid "*Operand2*"
 msgstr "*Operand2*"
 
@@ -492,8 +492,8 @@ msgid ""
 "frame of the timeline. Enabled by default."
 msgstr "如果启用此参数，则该节点将返回当前动画的帧的 NLA。如果禁用了它，则该节点将返回当前帧的时间线。默认情况下启用。"
 
-#: ../logic_editor.rst:303 ../logic_editor.rst:622 ../logic_editor.rst:772
-#: ../logic_editor.rst:867 ../logic_editor.rst:917 ../logic_editor.rst:1161
+#: ../logic_editor.rst:303 ../logic_editor.rst:628 ../logic_editor.rst:778
+#: ../logic_editor.rst:885 ../logic_editor.rst:935 ../logic_editor.rst:1180
 msgid "*Destination*"
 msgstr "*目标*"
 
@@ -563,7 +563,7 @@ msgid ""
 "``Stop Animation`` node."
 msgstr "*循环*  - 直到它被 ``停止Animation`` 节点停止的动画将被反复播放。"
 
-#: ../logic_editor.rst:358 ../logic_editor.rst:955
+#: ../logic_editor.rst:358 ../logic_editor.rst:973
 msgid "*Do Not Wait*"
 msgstr "*不要等*"
 
@@ -615,7 +615,7 @@ msgstr "*相机*"
 msgid "A camera that will be moved."
 msgstr "将摄像机移动。"
 
-#: ../logic_editor.rst:416 ../logic_editor.rst:581
+#: ../logic_editor.rst:416 ../logic_editor.rst:587
 msgid "*Location*"
 msgstr "*位置*"
 
@@ -633,7 +633,7 @@ msgstr "*目标*"
 msgid "The camera will point in the direction of this object after being moved."
 msgstr "相机将在指向该物体的方向移动。"
 
-#: ../logic_editor.rst:422 ../logic_editor.rst:590 ../logic_editor.rst:625
+#: ../logic_editor.rst:422 ../logic_editor.rst:596 ../logic_editor.rst:631
 msgid "*Duration*"
 msgstr "*持续*"
 
@@ -685,7 +685,7 @@ msgid ""
 "default."
 msgstr "设置相机变换速度。默认情况下，此参数设置为 1.0。"
 
-#: ../logic_editor.rst:462 ../logic_editor.rst:584
+#: ../logic_editor.rst:462 ../logic_editor.rst:590
 msgid "*Rotation*"
 msgstr "*旋转*"
 
@@ -775,45 +775,57 @@ msgstr "可用于显示3D物体。"
 msgid "An object to show."
 msgstr "显示一个物体。"
 
-#: ../logic_editor.rst:518
+#: ../logic_editor.rst:516 ../logic_editor.rst:548
+msgid "*Process child objects*"
+msgstr ""
+
+#: ../logic_editor.rst:516
+msgid "If this parameter is enabled, child objects will be shown as well."
+msgstr ""
+
+#: ../logic_editor.rst:521
 msgid "Hide Object"
 msgstr "隐藏物体"
 
-#: ../logic_editor.rst:520
+#: ../logic_editor.rst:523
 msgid "Can be used to hide 3D objects."
 msgstr "可以用来隐藏三维物体。"
 
-#: ../logic_editor.rst:542
+#: ../logic_editor.rst:545
 msgid "An object to hide."
 msgstr "一个物体隐藏。"
 
-#: ../logic_editor.rst:545
+#: ../logic_editor.rst:548
+msgid "If this parameter is enabled, child objects will be hidden as well."
+msgstr ""
+
+#: ../logic_editor.rst:551
 msgid "Transform Object"
 msgstr "变换物体"
 
-#: ../logic_editor.rst:547
+#: ../logic_editor.rst:553
 msgid "Can be used to transform object’s location, size and rotation angles."
 msgstr "可以用来改变物体的位置，大小和旋转角度。"
 
-#: ../logic_editor.rst:569
+#: ../logic_editor.rst:575
 msgid "An object that needs to be translated."
 msgstr "需要进行变换的物体。"
 
-#: ../logic_editor.rst:578
+#: ../logic_editor.rst:584
 msgid "*Space*"
 msgstr "*空间*"
 
-#: ../logic_editor.rst:572
+#: ../logic_editor.rst:578
 msgid ""
 "This parameter defines the coordinate space that will be used to "
 "transform the object. It can have one of the following values:"
 msgstr "此参数定义将用于转换的物体的坐标空间。它可以具有下列值之一 ︰"
 
-#: ../logic_editor.rst:574
+#: ../logic_editor.rst:580
 msgid "``World`` - global coordinate space."
 msgstr "``World`` - 全局坐标空间。"
 
-#: ../logic_editor.rst:575
+#: ../logic_editor.rst:581
 msgid ""
 "``Parent`` - local coordinate system of the parent of the object "
 "specified by the ``Object`` parameter. Parent object's origin point is "
@@ -823,18 +835,18 @@ msgstr ""
 "``Parent`` - 物体在  ``Object`` "
 "参数中指定的父物体的本地坐标系统。父物体的原点作为坐标的中心，而它的旋转角度定义坐标轴的方向。"
 
-#: ../logic_editor.rst:576
+#: ../logic_editor.rst:582
 msgid ""
 "``Local`` - local coordinate space of the selected object. Similar to the"
 " ``Parent`` coordinate space, but in this case, the origin point of the "
 "object itelf is used as the origin of coordinates."
 msgstr "``Local`` -所选物体的局部坐标空间。类似于 ``Parent`` 坐标空间，但在这种情况下，物体本身的起始点作为坐标原点。"
 
-#: ../logic_editor.rst:578
+#: ../logic_editor.rst:584
 msgid "Set to ``World`` by default."
 msgstr "默认设置为  ``World`` 。"
 
-#: ../logic_editor.rst:581
+#: ../logic_editor.rst:587
 msgid ""
 "How the object will move along the ``X``, ``Y`` and ``Z`` axes. By "
 "default, all three parameters are set to zero. Values can be specified in"
@@ -844,50 +856,50 @@ msgstr ""
 "如何沿着  ``X``, ``Y`` 和 ``Z`` 轴移动物体。默认情况下，所有三个参数设置为零。值可以指定节点本身或通过变量 "
 "（如果启用了变量选项）。"
 
-#: ../logic_editor.rst:584
+#: ../logic_editor.rst:590
 msgid ""
 "Object’s rotation around the ``X``, ``Y`` and ``Z`` axes. All three "
 "values are set to zero by default. Can be specified directly in the node "
 "or through the variables (if the ``Variable`` option is enabled)."
 msgstr "围绕 ``X``, ``Y`` 和 ``Z`` 轴旋转物体。所有的三个值都设置为零，默认情况。可以指定节点中直接或通过变量 （如果启用了变量选项）。"
 
-#: ../logic_editor.rst:587
+#: ../logic_editor.rst:593
 msgid "*Scale*"
 msgstr "*缩放*"
 
-#: ../logic_editor.rst:587
+#: ../logic_editor.rst:593
 msgid ""
 "Object’s size. Can be specified directly or through a variable (if the "
 "``Variable`` parameter is enabled). Set to 1 by default."
 msgstr "物体的大小。可以指定直接或通过一个变量 （如果启用了变量参数）。默认设置为 1。"
 
-#: ../logic_editor.rst:590
+#: ../logic_editor.rst:596
 msgid ""
 "Time (in seconds) that the transformation will take. It can be specified "
 "both directly or with a variable (to do this, the ``Variable`` parameter "
 "should be enabled). Set to zero by default."
 msgstr "变换需要的时间 （以秒为单位）。它可以指定直接或用变量 （若要做到这一点，变量参数应启用）。设置为零，默认情况。"
 
-#: ../logic_editor.rst:595
+#: ../logic_editor.rst:601
 msgid "Move To"
 msgstr "移动到"
 
-#: ../logic_editor.rst:597
+#: ../logic_editor.rst:603
 msgid "Can be used to move objects."
 msgstr "可用于移动物体。"
 
-#: ../logic_editor.rst:619
+#: ../logic_editor.rst:625
 msgid "An object that you need to move."
 msgstr "你需要移动的物体。"
 
-#: ../logic_editor.rst:622
+#: ../logic_editor.rst:628
 msgid ""
 "A target (another object or a light source, camera or anything else) to "
 "which the selected object will move. The object’s coordinated will be the"
 " same as the target’s after the movement is finished."
 msgstr "一个目标（另一个物体或光源，摄像机或其他东西）选择的物体会移动。物体的坐标和目标的运动完成后的将是相同的。"
 
-#: ../logic_editor.rst:625
+#: ../logic_editor.rst:631
 msgid ""
 "Time (in seconds) that the object will spend moving to the new location. "
 "By default, this parameter is set to zero (and in this case, the object "
@@ -898,74 +910,74 @@ msgstr ""
 "该物体将移到新位置花的时间 （以秒为单位）。默认情况下，此参数设置为零 "
 "（和在这种情况下，物体实际上并不移动，它只是改变了其在一个时刻的位置）。它可以设置手动或用变量 （仅当启用了变量参数可用）。"
 
-#: ../logic_editor.rst:630
+#: ../logic_editor.rst:636
 msgid "Apply Shape Key"
 msgstr "应用形状关键"
 
-#: ../logic_editor.rst:632
+#: ../logic_editor.rst:638
 msgid "Set the Shape Key factor."
 msgstr "设置形状关键因素。"
 
-#: ../logic_editor.rst:654
+#: ../logic_editor.rst:660
 msgid "An object that needs to be transformed."
 msgstr "待转化需要的物体。"
 
-#: ../logic_editor.rst:657
+#: ../logic_editor.rst:663
 msgid "*Shape Key*"
 msgstr "*形变关键帧*"
 
-#: ../logic_editor.rst:657
+#: ../logic_editor.rst:663
 msgid "Shape key that will be applied to the object."
 msgstr "形状将被应用到物体的密钥。"
 
-#: ../logic_editor.rst:660
+#: ../logic_editor.rst:666
 msgid ""
 "How much the shape key will influence the object. This value can be set "
 "directly in the node or using a variable. The value should be between 0 "
 "and 1."
 msgstr "多少的形状关键将影响物体。此值可以直接在节点中设置或使用的变量。值应该是 0 和 1 之间。"
 
-#: ../logic_editor.rst:665
+#: ../logic_editor.rst:671
 msgid "Outline"
 msgstr "轮廓"
 
-#: ../logic_editor.rst:667
+#: ../logic_editor.rst:673
 msgid "Controls object outlining effect."
 msgstr "控制物体概述效果。"
 
-#: ../logic_editor.rst:689
+#: ../logic_editor.rst:695
 msgid ""
 "Any changes of the outline effect will be applied only to an object "
 "specified by this parameter."
 msgstr "的轮廓效果的任何更改将只适用于由该参数指定的物体。"
 
-#: ../logic_editor.rst:696 ../logic_editor.rst:858 ../logic_editor.rst:902
+#: ../logic_editor.rst:702 ../logic_editor.rst:876 ../logic_editor.rst:920
 msgid "*Operation*"
 msgstr "*操作*"
 
-#: ../logic_editor.rst:692
+#: ../logic_editor.rst:698
 msgid ""
 "Specifies an operation that will be done to the object’s outline. This "
 "parameter can have one of the following values:"
 msgstr "指定将完成到该物体的轮廓的操作。这个参数可以具有以下值之一："
 
-#: ../logic_editor.rst:694
+#: ../logic_editor.rst:700
 msgid "*PLAY* enables outline animation"
 msgstr "*PLAY* 启用轮廓动画"
 
-#: ../logic_editor.rst:695
+#: ../logic_editor.rst:701
 msgid "*STOP* disables it"
 msgstr "*停止* 禁用它"
 
-#: ../logic_editor.rst:696
+#: ../logic_editor.rst:702
 msgid "*INTENSITY* can be used to set intensity of the object’s outline"
 msgstr "*INTENSITY* 可以用来设置该物体的轮廓强度"
 
-#: ../logic_editor.rst:699
+#: ../logic_editor.rst:705
 msgid "*Intensity*"
 msgstr "*强度*"
 
-#: ../logic_editor.rst:699
+#: ../logic_editor.rst:705
 msgid ""
 "Outline intensity. This parameter is only available if the ``Operation`` "
 "parameter is set to ``INTENSITY``. The value can be set manually or via "
@@ -974,213 +986,272 @@ msgstr ""
 "轮廓强度。如果 ``Operation`` 参数设置为 ``INTENSITY``  时此参数才是可用的。值可以设置手动或通过变量 "
 "（如果启用了变量参数）。"
 
-#: ../logic_editor.rst:704
+#: ../logic_editor.rst:710
 msgid "Set Shader Node Param"
 msgstr "设置着色器节点参数"
 
-#: ../logic_editor.rst:706
+#: ../logic_editor.rst:712
 msgid ""
 "Can be used to set the value for the shader node. Currently, only "
 "``Value`` and ``RGB`` nodes are supported."
 msgstr "可用于设置着色器节点的值。目前，只有 ``Value`` 和 ``RGB`` 节点被支持。"
 
-#: ../logic_editor.rst:728
+#: ../logic_editor.rst:734
 msgid "An object that has material that needs to be edited."
 msgstr "有需要被编辑材质的物体。"
 
-#: ../logic_editor.rst:731 ../logic_editor.rst:769 ../logic_editor.rst:775
+#: ../logic_editor.rst:737 ../logic_editor.rst:775 ../logic_editor.rst:781
 msgid "*Material*"
 msgstr "*材质*"
 
-#: ../logic_editor.rst:731
+#: ../logic_editor.rst:737
 msgid "Material that needs to be edited. It should use nodes."
 msgstr "需要材质进行编辑。它应使用的节点。"
 
-#: ../logic_editor.rst:734
+#: ../logic_editor.rst:740
 msgid "*Node*"
 msgstr "RGB节点"
 
-#: ../logic_editor.rst:734
+#: ../logic_editor.rst:740
 msgid ""
 "A node that has parameters that can be changed. For now, only ``Value`` "
 "and ``RGB`` nodes are supported."
 msgstr "可以改变参数的节点。现在，只有 ``Value`` 和 ``RGB`` 节点被支持。"
 
-#: ../logic_editor.rst:737
+#: ../logic_editor.rst:743
 msgid "*Parameters*"
 msgstr "*参数*"
 
-#: ../logic_editor.rst:737
+#: ../logic_editor.rst:743
 msgid ""
 "Editable parameters of the selected node. They can be set in the node "
 "itself or through the variables (if the ``Variable`` parameter is "
 "enabled)."
 msgstr "可编辑参数的选定节点。在设置时可以在节点本身或通过变量 （如果启用了变量参数）。"
 
-#: ../logic_editor.rst:742
+#: ../logic_editor.rst:748
 msgid "Inherit Material"
 msgstr "继承材质"
 
-#: ../logic_editor.rst:744
+#: ../logic_editor.rst:750
 msgid "Copy attributes from one material to another."
 msgstr "从一个材质拷贝属性到另一个。"
 
-#: ../logic_editor.rst:766
+#: ../logic_editor.rst:772
 msgid "*Source*"
 msgstr "*源*"
 
-#: ../logic_editor.rst:766
+#: ../logic_editor.rst:772
 msgid "An object that has a material that will be inherited."
 msgstr "物体的材质可以被继承。"
 
-#: ../logic_editor.rst:769
+#: ../logic_editor.rst:775
 msgid "The material to inherit."
 msgstr "要继承的材质。"
 
-#: ../logic_editor.rst:772
+#: ../logic_editor.rst:778
 msgid "An object that will inherit selected material."
 msgstr "一个物体，将继承选定的材质。"
 
-#: ../logic_editor.rst:775
+#: ../logic_editor.rst:781
 msgid "The material that will be replaced by the inherited one."
 msgstr "将由继承所替代的材质。"
 
-#: ../logic_editor.rst:778
+#: ../logic_editor.rst:784
 msgid "Operations"
 msgstr "操作"
 
-#: ../logic_editor.rst:783
+#: ../logic_editor.rst:789
 msgid "Variable Store"
 msgstr "变量存储"
 
-#: ../logic_editor.rst:785
+#: ../logic_editor.rst:791
 msgid "Saves numerical or string value to a variable."
 msgstr "保存数字或字符串值的变量。"
 
-#: ../logic_editor.rst:807
+#: ../logic_editor.rst:813
 msgid "*Var. name.*"
 msgstr "*变量名称*"
 
-#: ../logic_editor.rst:807
+#: ../logic_editor.rst:813
 msgid ""
 "Name of the variable. Can be selected from the list of variables or "
 "specified manually (if the ``New variable`` parameter is enabled)."
 msgstr "变量的名称。可以从变量列表中选定或手动指定 (如果 ``New variable`` 参数已启用)。"
 
-#: ../logic_editor.rst:810
+#: ../logic_editor.rst:816
 msgid "*Var. type*"
 msgstr "*变量类型*"
 
-#: ../logic_editor.rst:810
+#: ../logic_editor.rst:816
 msgid ""
 "Variable’s type. This parameter can have one of two values: ``Number`` "
 "(for numerical variables) and ``String`` (for string variables)."
 msgstr "变量的类型。此参数可以有以下两个值之一： ``Number`` （数值变量）和 ``String`` （字符串变量）。"
 
-#: ../logic_editor.rst:813
+#: ../logic_editor.rst:819
 msgid "*New Variable*"
 msgstr "*新变量*"
 
-#: ../logic_editor.rst:813
+#: ../logic_editor.rst:819
 msgid ""
 "If this parameter is enabled, you can manually input a variable’s name "
 "and not just select one of the variables. This can be used to transfer "
 "the data between the application and the server."
 msgstr "如果启用此参数，则可以手动输入变量名称并不只是选择其中一个变量。这可以用于应用程序和服务器之间传输的数据。"
 
-#: ../logic_editor.rst:820
+#: ../logic_editor.rst:826
 msgid "*Global*"
 msgstr "*全局*"
 
-#: ../logic_editor.rst:816
+#: ../logic_editor.rst:822
 msgid ""
 "Enabling this parameter makes the variable global. Available only if the "
 "``New Variable`` parameter has been enabled."
 msgstr "启用此参数可使变量成全局变量。仅当启用了 ``New Variable`` 参数可用。"
 
-#: ../logic_editor.rst:823
+#: ../logic_editor.rst:829
 msgid "*Num./Str.*"
 msgstr "*数/STR*"
 
-#: ../logic_editor.rst:823
+#: ../logic_editor.rst:829
 msgid ""
 "Numeric or string (depending on the ``Var. type`` parameter value) value "
 "of the variable."
 msgstr "数值或字符串（取决于 ``Var. type`` 参数值）的变量的值。"
 
-#: ../logic_editor.rst:828
+#: ../logic_editor.rst:834
 msgid "Math Operation"
 msgstr "数学运算"
 
-#: ../logic_editor.rst:830
+#: ../logic_editor.rst:836
 msgid ""
 "Perform a math operation and store the result in the variables. Any of "
 "parameters (operands) can be either a numeric value or a variables."
 msgstr "执行数学运算，并将结果存储在变量中。任何参数 （操作数） 可以是一个数值或变量。"
 
-#: ../logic_editor.rst:852
+#: ../logic_editor.rst:858
 msgid "Mathematical operation. Can have one of the following types:"
 msgstr "数学运算。可以有以下几种类型："
 
-#: ../logic_editor.rst:854
+#: ../logic_editor.rst:860
 msgid ""
 "*Random* generates random value greater than the first operand and less "
 "than the second."
 msgstr "*随机* 产生比第一操作数大比第二个小的随机值。"
 
-#: ../logic_editor.rst:855
+#: ../logic_editor.rst:861
 msgid "*Add* sums the operands."
 msgstr "*添加* 量操作数相加。"
 
-#: ../logic_editor.rst:856
+#: ../logic_editor.rst:862
 msgid "*Multiply* multiplies the operands."
 msgstr "*乘* 将操作数相乘。"
 
-#: ../logic_editor.rst:857
+#: ../logic_editor.rst:863
 msgid "*Subtract* subtracts the second operand from the first."
 msgstr "*减去* 从所述第一个数中减去第二个操作数。"
 
-#: ../logic_editor.rst:858
+#: ../logic_editor.rst:864
 msgid "*Divide* divides first operand by the second."
 msgstr "*除数* 由第二个把第一个操作数除。"
 
-#: ../logic_editor.rst:861
+#: ../logic_editor.rst:865
+msgid ""
+"*Sin* returns the sine of an angle (measured in radians) defined by the "
+"first operand."
+msgstr ""
+
+#: ../logic_editor.rst:866
+msgid ""
+"*Cos* returns the cosine of an angle (measured in radians) defined by the"
+" first operand"
+msgstr ""
+
+#: ../logic_editor.rst:867
+msgid ""
+"*Tan* returns the tangent of an angle (measured in radians) defined by "
+"the first operand."
+msgstr ""
+
+#: ../logic_editor.rst:868
+msgid "*ArcSin* returns the arcsine value of the first operand."
+msgstr ""
+
+#: ../logic_editor.rst:869
+msgid "*ArcCos* returns the arccosine value of the first operand."
+msgstr ""
+
+#: ../logic_editor.rst:870
+msgid "*ArcTan* returns the arctangent value of the first operand."
+msgstr ""
+
+#: ../logic_editor.rst:871
+msgid ""
+"*Log* returns the logarithmic value of the first operand with the second "
+"operand used as the base."
+msgstr ""
+
+#: ../logic_editor.rst:872
+msgid "*Min* returns the lesser one of the two operands."
+msgstr ""
+
+#: ../logic_editor.rst:873
+msgid "*Max* returns the greater one of the two operands."
+msgstr ""
+
+#: ../logic_editor.rst:874
+msgid "*Round* rounds the first operator."
+msgstr ""
+
+#: ../logic_editor.rst:875
+#, fuzzy
+msgid ""
+"*Mod* returns the remainder after division of the first operand by the "
+"second."
+msgstr "*除数* 由第二个把第一个操作数除。"
+
+#: ../logic_editor.rst:876
+msgid "*Abs* returns the absolute value of the first operand."
+msgstr ""
+
+#: ../logic_editor.rst:879
 msgid ""
 "First operand. It can be specified in the node or it can be a link to one"
 " of the variables (if the ``Variable`` parameter is enabled)."
 msgstr "对于第一个操作数。它可以在节点中指定或它可以链接到一个变量 （如果启用了变量参数）。"
 
-#: ../logic_editor.rst:864
+#: ../logic_editor.rst:882
 msgid "Second operand. Works the same way as the first."
 msgstr "第二操作数。的工作方式与第一个同。"
 
-#: ../logic_editor.rst:867
+#: ../logic_editor.rst:885
 msgid ""
 "The result of the operation will be saved in the variable specified by "
 "this parameter."
 msgstr "该运算的结果将保存在此参数所指定的变量中。"
 
-#: ../logic_editor.rst:872
+#: ../logic_editor.rst:890
 msgid "String Operation"
 msgstr "字符串操作"
 
-#: ../logic_editor.rst:874
+#: ../logic_editor.rst:892
 msgid ""
 "Can be used to perform an operation with two strings and save the result "
 "to a variable."
 msgstr "可以用来执行一个包含两个字符串的操作，并将结果保存到一个变量。"
 
-#: ../logic_editor.rst:896
+#: ../logic_editor.rst:914
 msgid ""
 "An operation that you need to perform with two strings, which can have "
 "one of the following values:"
 msgstr "您需要有两个字符串，其可具有以下值中的一个来执行操作："
 
-#: ../logic_editor.rst:898
+#: ../logic_editor.rst:916
 msgid "*Join* - joins two strings into one."
 msgstr "*加入*  - 连接两个字符串合并为一个。"
 
-#: ../logic_editor.rst:899
+#: ../logic_editor.rst:917
 msgid ""
 "*Find* - writes the index of the first occurrence of the second string in"
 " the first string to the variable. If there is no occurrences, the value "
@@ -1191,19 +1262,19 @@ msgstr ""
 "如果第二个字符串在第一个里面出现就将在第一个里面出现的第二个的索引位置写入变量。如果没有匹配项，则将写入值为-1。应该指出的是，字符串的第一个符号具有索引为"
 " 0，不是 1。"
 
-#: ../logic_editor.rst:900
+#: ../logic_editor.rst:918
 msgid ""
 "*Replace* replaces first occurrence of the second string in the first "
 "string with the third one."
 msgstr "*替换* 用第三个字符串替换第一个字符串中出现的第二个字符串。"
 
-#: ../logic_editor.rst:901
+#: ../logic_editor.rst:919
 msgid ""
 "*Split* splits the first string in two using the first occurrence of the "
 "second string as a splitting mark."
 msgstr "*拆分* 用第二个字符串在第一个字符串中出现位置作为拆分标记将第一个字符串拆成两个"
 
-#: ../logic_editor.rst:902
+#: ../logic_editor.rst:920
 msgid ""
 "*Compare* compares two strings. For this operation, you need to specify a"
 " logical condition. If this condition is met, a value of 1 will be "
@@ -1213,7 +1284,7 @@ msgstr ""
 "*比较* 比较两个字符串。对于此操作，您需要指定一个逻辑条件。如果满足此条件，值为 1 将被输出到 ``Destination`` "
 "变量，如果不是，零将被输出。"
 
-#: ../logic_editor.rst:905
+#: ../logic_editor.rst:923
 msgid ""
 "A logical condition to compare two strings. This parameter is available "
 "only if the ``Operation`` parameter is set to ``Compare``. Works the same"
@@ -1222,34 +1293,34 @@ msgstr ""
 "要比较两个字符串的逻辑条件。只有  ``Operation`` 参数设置为 ``Compare``，此参数才可用。 和  "
 "``Conditional Jump`` 节点的 ``Condition`` 参数相同的工作。"
 
-#: ../logic_editor.rst:908
+#: ../logic_editor.rst:926
 msgid "The first string. Can be specified in the node itself or with a variable."
 msgstr "第一个字符串。可以指定在该节点本身或与一个变量。"
 
-#: ../logic_editor.rst:911
+#: ../logic_editor.rst:929
 msgid "The second string. Works the same way as the first."
 msgstr "第二个字符串。的工作方式与第一个相同。"
 
-#: ../logic_editor.rst:914
+#: ../logic_editor.rst:932
 msgid "*Operand3*"
 msgstr "*操作数3*"
 
-#: ../logic_editor.rst:914
+#: ../logic_editor.rst:932
 msgid ""
 "This parameter is available only if the ``Operation`` parameter is set to"
 " ``Replace``. Can be used to specify the third string, which will replace"
 " the first occurrence of the second one."
 msgstr "只有 ``Operation`` 参数设置为 ``Replace``，此参数才可用。可以用来指定第三个字符串，将替换在第一个中出现的第二个字符串。"
 
-#: ../logic_editor.rst:917
+#: ../logic_editor.rst:935
 msgid "A variable to save the operation’s result."
 msgstr "一个变量来保存操作的结果。"
 
-#: ../logic_editor.rst:920
+#: ../logic_editor.rst:938
 msgid "*Destination2*"
 msgstr "*Destination2*"
 
-#: ../logic_editor.rst:920
+#: ../logic_editor.rst:938
 msgid ""
 "This parameter is available only if the ``Operation`` parameter is set to"
 " ``Split``. Specifies the variable to save the second half of the string "
@@ -1259,107 +1330,106 @@ msgstr ""
 "只有 ``Operation`` 参数设置为  ``Split``，此参数才可用。指定的变量来保存第二个拆分 （第一半将被保存到 "
 "``Destination`` 参数所指定的变量） 的字符串。"
 
-#: ../logic_editor.rst:923
+#: ../logic_editor.rst:941
 msgid "Sound"
 msgstr "声音"
 
-#: ../logic_editor.rst:928
+#: ../logic_editor.rst:946
 msgid "Play Sound"
 msgstr "播放声音"
 
-#: ../logic_editor.rst:930
+#: ../logic_editor.rst:948
 msgid "Can be used to play speaker’s sound."
 msgstr "可以用来播放扬声器的声音。"
 
-#: ../logic_editor.rst:952 ../logic_editor.rst:984
+#: ../logic_editor.rst:970 ../logic_editor.rst:1002
 msgid "*Speaker*"
 msgstr "*扬声器*"
 
-#: ../logic_editor.rst:952
+#: ../logic_editor.rst:970
 msgid "A speaker that will be enabled."
 msgstr "将启用的扬声器。"
 
-#: ../logic_editor.rst:955
+#: ../logic_editor.rst:973
 msgid ""
 "If this parameter is enabled, the control will pass to the next node "
 "right after sound playback starts. If it isn’t enabled, the control will "
 "pass only when the playback is finished."
 msgstr "如果启用此参数，控制将声音开始播放后立即传递到下一个节点。如果未启用它，当播放完成控制只会通过。"
 
-#: ../logic_editor.rst:960
+#: ../logic_editor.rst:978
 msgid "Stop Sound"
 msgstr "停止声音"
 
-#: ../logic_editor.rst:962
+#: ../logic_editor.rst:980
 msgid "Can be used to stop speaker’s sound."
 msgstr "可以用来阻止扬声器的声音。"
 
-#: ../logic_editor.rst:984
+#: ../logic_editor.rst:1002
 msgid "A speaker that will be turned off."
 msgstr "将被关闭的扬声器。"
 
-#: ../logic_editor.rst:987
+#: ../logic_editor.rst:1005
 msgid "Network"
 msgstr "网络"
 
-#: ../logic_editor.rst:992
+#: ../logic_editor.rst:1010
 msgid "Send Request"
 msgstr "发送请求"
 
-#: ../logic_editor.rst:994
+#: ../logic_editor.rst:1012
 msgid ""
 "Send an HTTP GET request to the specified URL and save the respond’s "
 "fields a variable."
 msgstr "将 HTTP GET 请求发送到指定的 URL 和保存响应字段变量。"
 
-#: ../logic_editor.rst:1021
+#: ../logic_editor.rst:1039
 msgid "*Method*"
 msgstr "*方法*"
 
-#: ../logic_editor.rst:1016
+#: ../logic_editor.rst:1034
 msgid "Method of the request. Can have one of two values:"
 msgstr "请求方法。可以有两个值之一："
 
-#: ../logic_editor.rst:1018
+#: ../logic_editor.rst:1036
 msgid "*GET* is used to request data from the server."
 msgstr "*GET* 用来从服务器请求数据。"
 
-#: ../logic_editor.rst:1019
+#: ../logic_editor.rst:1037
 msgid "*POST* is used to send data to the server."
 msgstr "*POST* 被用于将数据发送到服务器。"
 
-#: ../logic_editor.rst:1021
+#: ../logic_editor.rst:1039
 msgid "Set to ``GET`` by default."
 msgstr "默认设置为 ``GET`` 。"
 
-#: ../logic_editor.rst:1024 ../logic_editor.rst:1189
+#: ../logic_editor.rst:1042 ../logic_editor.rst:1208
 msgid "*Url*"
 msgstr "*Url*"
 
-#: ../logic_editor.rst:1024
+#: ../logic_editor.rst:1042
 msgid ""
 "A web address to send request to. Set to “https://www.blend4web.com” by "
 "default."
 msgstr "将请求发送到的 web 地址。默认设置为 “https://www.blend4web.com” 。"
 
-#: ../logic_editor.rst:1027
+#: ../logic_editor.rst:1045
 msgid "*Response Params*"
 msgstr "*响应参数*"
 
-#: ../logic_editor.rst:1027
+#: ../logic_editor.rst:1045
 msgid "Specifies the variable to save the data received from the server."
 msgstr "指定要保存接收到来自服务器的数据的变量。"
 
-#: ../logic_editor.rst:1030
-#, fuzzy
+#: ../logic_editor.rst:1048
 msgid "The data received from the server should be in the JSON format:"
-msgstr "从服务器收到的数据应如下所示 ︰"
+msgstr "从服务器收到的数据应该是JSON格式 ︰"
 
-#: ../logic_editor.rst:1040
+#: ../logic_editor.rst:1059
 msgid "*Content-Type*"
 msgstr "*Content-Type*"
 
-#: ../logic_editor.rst:1040
+#: ../logic_editor.rst:1059
 msgid ""
 "Indicates the media type of the message content. Consists of a type and a"
 " subtype, for example: ``text/plain``. Set to ``Auto`` by default. Can be"
@@ -1368,40 +1438,40 @@ msgstr ""
 "表示信息内容的媒体类型。一个类型和子类型，例如包括：``text/plain``。默认设置为 ``Auto`` "
 "。可以用来重新分配HTTP请求的标题。"
 
-#: ../logic_editor.rst:1043
+#: ../logic_editor.rst:1062
 msgid "*Request Params*"
 msgstr "*Request Params*"
 
-#: ../logic_editor.rst:1043
+#: ../logic_editor.rst:1062
 msgid ""
 "Specifies the variable that contains a JSON object that will be sent to "
 "the server.  Available only if the ``Method`` parameter is set to "
 "``POST``. Default value is ``R1``."
 msgstr "指定将发送到服务器的包含 JSON 对象的变量。 ``Method`` 参数设置为 ``Method`` 时才可用。默认值为 ``R1`` 。"
 
-#: ../logic_editor.rst:1048
+#: ../logic_editor.rst:1067
 msgid "JSON"
 msgstr "JSON"
 
-#: ../logic_editor.rst:1050
+#: ../logic_editor.rst:1069
 msgid "This node can be used to encode and decode complex JSON objects."
 msgstr "此节点可以用于编码和解码复杂的 JSON 对象。"
 
-#: ../logic_editor.rst:1072
+#: ../logic_editor.rst:1091
 msgid "*JSON*"
 msgstr "*JSON*"
 
-#: ../logic_editor.rst:1072
+#: ../logic_editor.rst:1091
 msgid ""
 "A link to a JSON object that you need to decode or encode. Set to ``R1`` "
 "by default."
 msgstr "链接到一个您需要进行解码或编码的 JSON 对象。默认设置为 ``R1`` 。"
 
-#: ../logic_editor.rst:1075
+#: ../logic_editor.rst:1094
 msgid "*JSON Operation*"
 msgstr "*JSON 操作*"
 
-#: ../logic_editor.rst:1075
+#: ../logic_editor.rst:1094
 msgid ""
 "An operation you need to perform with the JSON object specified by the "
 "``JSON`` parameter. Can have one of two values: ``ENCODE`` to encode the "
@@ -1410,11 +1480,11 @@ msgstr ""
 "需要对 ``JSON``  参数所指定的 JSON 对象执行的操作。可以有两个值之一: ``ENCODE`` 对  JSON 对象进行编码 和 "
 "``PARSE`` 进行解码。默认设置为 ``ENCODE`` 。"
 
-#: ../logic_editor.rst:1078
+#: ../logic_editor.rst:1097
 msgid "*Paths*"
-msgstr ""
+msgstr "*Paths*"
 
-#: ../logic_editor.rst:1078
+#: ../logic_editor.rst:1097
 msgid ""
 "A list of paths to the variables inside the JSON object. Paths are used "
 "to define the inner structure of a JSON object. A path should consist of "
@@ -1424,15 +1494,13 @@ msgid ""
 " in conjunction with variables (in the ``Variables`` list), and one path "
 "always corresponds to one variable. This list can be used both to encode "
 "and to decode JSON object. By default, the list is empty."
-msgstr ""
+msgstr "一个JSON对象内部的变量的路径列表。路径是用来定义一个JSON对象的内部结构。路径应该包括几个标识符（用逗号分隔），作为一个JSON字段路径。如果路径的片段的名称仅由数字组成，则该名称将被解释为数组索引。路径的创建和删除跟变量是同时的（变量列表），和一个路径总是对应于一个变量。这个列表可以用来进行编码和解码的JSON对象。默认情况下，列表是空的。"
 
-#: ../logic_editor.rst:1081
-#, fuzzy
+#: ../logic_editor.rst:1100
 msgid "*Variables*"
-msgstr "*新变量*"
+msgstr "*Variables*"
 
-#: ../logic_editor.rst:1081
-#, fuzzy
+#: ../logic_editor.rst:1100
 msgid ""
 "A list of variables that will be used to either store the decoded data or"
 " to encode a JSON object (depending on the value of the ``JSON "
@@ -1440,30 +1508,30 @@ msgid ""
 "be adjusted manually. This list is also empty by default."
 msgstr ""
 "变量列表，将用于存储数据的解码或编码一个JSON对象（取决于 ``JSON Operation`` 参数的值）。变量总是有类似 ``var0``,"
-" ``var1`` 等的名字，他们的数量可以调整。"
+" ``var1`` 等的名字，他们的数量和名称可以调整。默认列表为空。"
 
-#: ../logic_editor.rst:1084
+#: ../logic_editor.rst:1103
 msgid "Using JSON logic node to encode JSON object"
-msgstr ""
+msgstr "使用JSON逻辑节点编码JSON对象"
 
-#: ../logic_editor.rst:1090
+#: ../logic_editor.rst:1109
 msgid ""
 "The logic node setup at the picture above encodes a JSON object and "
 "stores it in the ``R1`` variable. Such a JSON object looks like this:"
-msgstr ""
+msgstr "在图片的逻辑节点设置在 ``R1`` 可 变编码以上JSON对象，并将其存储。这样的JSON对象如下："
 
-#: ../logic_editor.rst:1103
+#: ../logic_editor.rst:1122
 msgid "Using JSON logic node to decode JSON object"
-msgstr ""
+msgstr "使用JSON逻辑节点解码JSON对象"
 
-#: ../logic_editor.rst:1109
+#: ../logic_editor.rst:1128
 msgid ""
 "The picture above shows a logic node setup that recieves a JSON object "
 "from the server, stores it in the ``R1`` variable and then decodes it. "
 "Such a JSON object looks like this:"
-msgstr ""
+msgstr "上图为逻辑节点的设置，从服务器获取JSON对象，并将其存储在 ``R1`` 变量，然后解码。这样的JSON对象如下："
 
-#: ../logic_editor.rst:1120
+#: ../logic_editor.rst:1139
 msgid ""
 "Decoding this JSON object with the ``JSON`` logic node results in three "
 "variables named ``var0``, ``var1`` and ``var2`` (you don't have to create"
@@ -1472,80 +1540,81 @@ msgid ""
 "``var2`` variable has the value \"abc\", while the ``var0`` variable "
 "contains the following fragment of the JSON object:"
 msgstr ""
+"这解码JSON对象的 ``JSON`` 逻辑节点 ``var0``，``var1`` 和 ``var2`` "
+"三个变量命名的结果（你不必事先创建的变量）将包含JSON对象的各个部分。在这个例子中，``var1`` 变量的值是17，则 ``var2`` "
+"变量的值是 \"abc\"，而``var0`` 变量包含JSON对象的以下片段："
 
-#: ../logic_editor.rst:1132
+#: ../logic_editor.rst:1151
 msgid "Page Param"
 msgstr "页面参数"
 
-#: ../logic_editor.rst:1134
+#: ../logic_editor.rst:1153
 msgid "Allows to store any web page parameter in a given variable."
 msgstr "允许在一个给定的变量中存储任何 web 页参数。"
 
-#: ../logic_editor.rst:1158
+#: ../logic_editor.rst:1177
 msgid "*Param Name*"
 msgstr "*参数名称*"
 
-#: ../logic_editor.rst:1156
+#: ../logic_editor.rst:1175
 msgid "The name of the web page parameter."
 msgstr "网页参数的名称。"
 
-#: ../logic_editor.rst:1158
+#: ../logic_editor.rst:1177
 #, fuzzy
 msgid ""
-"For example, if this parameter is set to the value of ``X_1``, then the "
-"value of this parameter (if it is present in the URL) will be saved to a "
-"variable specified by the ``Destination`` parameter."
-msgstr ""
-"只有 ``Operation`` 参数设置为  ``Split``，此参数才可用。指定的变量来保存第二个拆分 （第一半将被保存到 "
-"``Destination`` 参数所指定的变量） 的字符串。"
+"If the parameter specified in this field is presented in the URL, then "
+"its value will be saved to a variable specified by the ``Destination`` "
+"parameter."
+msgstr "例如，如果该参数被设置为的值 ``X_1``，则此参数的（如果它是存在于URL）的值将被保存到由 ``Destination`` 参数中指定的变量。"
 
-#: ../logic_editor.rst:1161
+#: ../logic_editor.rst:1180
 msgid "A variable that will be used to save the parameter."
 msgstr "将用来保存参数的变量。"
 
-#: ../logic_editor.rst:1166
+#: ../logic_editor.rst:1185
 msgid "Page Redirect"
 msgstr "页转到"
 
-#: ../logic_editor.rst:1168
+#: ../logic_editor.rst:1187
 msgid ""
 "Can be used to redirect the browser to another page. This node always "
 "marks the end of the node tree and doesn’t have any output parameters."
 msgstr "可以用来浏览器重定向到另一页。此节点总是标记节点树的结束，并且没有任何输出参数。"
 
-#: ../logic_editor.rst:1189
+#: ../logic_editor.rst:1208
 msgid ""
 "Web address of a page that will be opened. Set to "
 "“https://www.blend4web.com” by default."
 msgstr "将打开的网页的 web 地址。默认设置为 \"https://www.blend4web.com\" 。"
 
-#: ../logic_editor.rst:1192
+#: ../logic_editor.rst:1211
 msgid "Debug"
 msgstr "调试"
 
-#: ../logic_editor.rst:1197
+#: ../logic_editor.rst:1216
 msgid "Console Print"
 msgstr "控制台打印"
 
-#: ../logic_editor.rst:1199
+#: ../logic_editor.rst:1218
 msgid ""
 "This node prints variables’s values and additional text to the web "
 "browser console. It can be used for debug purposes."
 msgstr "此节点打印变量的值和附加的文本到Web浏览器的控制台。它可用于调试目的。"
 
-#: ../logic_editor.rst:1221
+#: ../logic_editor.rst:1240
 msgid "*Message*"
 msgstr "*信息*"
 
-#: ../logic_editor.rst:1221
+#: ../logic_editor.rst:1240
 msgid "A message that will be printed to the console along with the values."
 msgstr "将与值一起打印到控制台的消息。"
 
-#: ../logic_editor.rst:1224
+#: ../logic_editor.rst:1243
 msgid "<variable name>"
 msgstr "<variable name>"
 
-#: ../logic_editor.rst:1224
+#: ../logic_editor.rst:1243
 msgid ""
 "A variable that will be printed to the console. By default, a ``Console "
 "Print`` node has one such parameter, but you can add new and delete "
@@ -1554,21 +1623,21 @@ msgstr ""
 "将打印到控制台的变量。默认情况下，``Console Print`` 节点都有一个这样的参数，但您可以添加新成员和删除现有的 "
 "（节点甚至可能没有这种参数）。"
 
-#: ../logic_editor.rst:1227
+#: ../logic_editor.rst:1246
 msgid "Deprecated"
 msgstr "已过时"
 
-#: ../logic_editor.rst:1230
+#: ../logic_editor.rst:1249
 msgid "Select (Deprecated)"
 msgstr "选择（已过时）"
 
-#: ../logic_editor.rst:1233
+#: ../logic_editor.rst:1252
 msgid ""
 "Deprecated! Isn’t recommended to use. Instead, using a ``Switch Select`` "
 "node is recommended."
 msgstr "已过时！不推荐使用。相反，推荐使用 ``Switch Select`` 节点。"
 
-#: ../logic_editor.rst:1235
+#: ../logic_editor.rst:1254
 msgid ""
 "It is similar to the ``Select & Play`` node, except the transition "
 "happens instead of animation. This function allows to implement a "
@@ -1578,17 +1647,17 @@ msgstr ""
 "它类似于  ``Select & Play`` "
 "节点，除了过渡发生代替动画。这个功能可以实现一个复杂的逻辑，因为在这种情况下，存在这样的可能性，以确定所述用户选择的结果。"
 
-#: ../logic_editor.rst:1238
+#: ../logic_editor.rst:1257
 msgid "Select & Play Timeline (Deprecated)"
 msgstr "选择并播放时间轴（已过时）"
 
-#: ../logic_editor.rst:1241 ../logic_editor.rst:1249
+#: ../logic_editor.rst:1260 ../logic_editor.rst:1268
 msgid ""
 "Deprecated! Isn’t recommended to use. Instead, using a combination of "
 "``Switch Select`` and ``Play Timeline`` nodes is recommended."
 msgstr "已过时！不推荐使用。相反，建议使用 ``Switch Select`` 和 ``Play Timeline`` 节点。"
 
-#: ../logic_editor.rst:1243
+#: ../logic_editor.rst:1262
 msgid ""
 "Wait until the user selects an object (on desktops - with a mouse click, "
 "on mobile devices - with a touch). If the object, which is specified in "
@@ -1599,11 +1668,11 @@ msgstr ""
 "等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果物体，这是在本节点中指定时，选择 - 然后启动类似于 ``Play "
 "Timeline`` 节点动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。"
 
-#: ../logic_editor.rst:1246
+#: ../logic_editor.rst:1265
 msgid "Select & Play Animation (Deprecated)"
 msgstr "选择并播放动画（已过时）"
 
-#: ../logic_editor.rst:1251
+#: ../logic_editor.rst:1270
 msgid ""
 "Wait until the user selects an object (on desktops - with a mouse click, "
 "on mobile devices - with a touch). If the object, which is specified in "
@@ -1614,30 +1683,30 @@ msgstr ""
 "等到用户选择的物体（在桌面上 - 用鼠标点击，移动设备 - 带有触摸）。如果物体，这是在本节点中指定时，选择 - 然后启动类似于  ``Play "
 "Animation`` 节点动画。如果选择了任何其他物体 - 然后立即转移控制到下一个节点。"
 
-#: ../logic_editor.rst:1254
+#: ../logic_editor.rst:1273
 msgid "Layout"
 msgstr "布局"
 
-#: ../logic_editor.rst:1259
+#: ../logic_editor.rst:1278
 msgid "Empty"
 msgstr "空物体"
 
-#: ../logic_editor.rst:1261
+#: ../logic_editor.rst:1280
 msgid ""
 "This is a simple pass-through node that does not perform any operations "
 "on its own. It can be used to combine several logic threads into one or "
 "simply to make the logic node setup easier to read and understand."
 msgstr "这是一个不自身执行任何操作的简单的直通节点。它可以用于多个逻辑线程组合到一个或简单地使逻辑节点设置更容易阅读和理解。"
 
-#: ../logic_editor.rst:1271
+#: ../logic_editor.rst:1290
 msgid "Previous node (or several nodes)."
 msgstr "前一个节点（或多个节点）。"
 
-#: ../logic_editor.rst:1287
+#: ../logic_editor.rst:1306
 msgid "Reroute"
 msgstr "路由"
 
-#: ../logic_editor.rst:1289
+#: ../logic_editor.rst:1308
 msgid ""
 "Logic Editor also has ``Reroute`` elements, the nodes that don’t do "
 "anything aside from passing the control to the next node or to the next "
@@ -1647,24 +1716,24 @@ msgstr ""
 "逻辑编辑器还具有 ``Reroute`` 元素，不从传递控制到下一个节点或者到下一个 ``Reroute`` "
 "元件做任何处理的节点。这样的元件可以用来创建环状的结构，或使节点树更容易阅读和理解。"
 
-#: ../logic_editor.rst:1291
+#: ../logic_editor.rst:1310
 msgid ""
 "Unlike the ``Empty`` node, ``Reroute`` element can only handle a single "
 "logic thread."
 msgstr "不同于 ``Empty`` 节点，``Reroute`` 元素只能处理一个单一的逻辑线程。"
 
-#: ../logic_editor.rst:1298
+#: ../logic_editor.rst:1317
 msgid ""
 "Output parameter can’t be connected to the same node’s input parameter. "
 "If you need to do this (to make a cycle, for example), you should use "
 "``Reroute`` elements."
 msgstr "输出参数不能被连接到相同的节点的输入参数。如果你需要做到这一点（例如做一个循环），你应该使用 ``Reroute`` 元素。"
 
-#: ../logic_editor.rst:1303
+#: ../logic_editor.rst:1322
 msgid "Debugging"
 msgstr "调试中"
 
-#: ../logic_editor.rst:1305
+#: ../logic_editor.rst:1324
 msgid ""
 "For debugging purposes some nodes inside logic tree can be muted. To do "
 "that select the required node and press the ``M`` key. Muted nodes are "

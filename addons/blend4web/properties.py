@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -2445,7 +2445,7 @@ def add_object_properties():
 
     obj_type.b4w_dynamic_geometry = bpy.props.BoolProperty(
         name = _("B4W: dynamic geometry"),
-        description = _("Allow to use geometry update API for given object"),
+        description = _("Allow to use geometry update API and inherit materials for the object"),
         default = False,
         options = set()
     )

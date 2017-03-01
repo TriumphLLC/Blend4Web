@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,6 @@ var m_util      = require("__util");
 var m_vec3      = require("__vec3");
 
 var cfg_ani = m_cfg.animation;
-var cfg_def = m_cfg.defaults;
 var cfg_lim = m_cfg.context_limits;
 
 var LAST_FRAME_EPSILON = 0.000001;
@@ -119,11 +118,15 @@ var AEM_FOG_COLOR       = 7;
 var _frame_info_tmp = new Array(3);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
+var _vec4_tmp = new Float32Array(4);
+var _vec4_tmp2 = new Float32Array(4);
+var _vec4_tmp3 = new Float32Array(4);
+var _vec4_tmp4 = new Float32Array(4);
 var _quat4_tmp = new Float32Array(4);
 var _quat4_tmp2 = new Float32Array(4);
 var _quat4_tmp3 = new Float32Array(4);
+var _quat4_tmp4 = new Float32Array(4);
 var _tsr_tmp = m_tsr.create();
-var _mat4_tmp = new Float32Array(16);
 
 // populated after init_anim()
 var _anim_objs_cache = [];
@@ -267,6 +270,9 @@ function init_anim(obj, slot_num) {
 
         quats: null,
         trans: null,
+
+        bone_space_quats: null,
+        bone_space_trans: null,
 
         skinning_data: [],
 
@@ -457,8 +463,6 @@ function get_actions(obj) {
  *  obj.animation_data.action
  *  spkobj.data.animation_data
  *  obj.data.materials.node_tree.animation_data
- * @param {Object3D} obj Object 3D
- * @returns Default action or null
  */
 function get_default_actions(obj) {
     return obj.def_action_slots.slice();
@@ -778,8 +782,6 @@ function apply_action(obj, name_list, action, slot_num) {
     anim_slot.length = frame_range[1] - frame_range[0];
     anim_slot.current_frame_float = frame_range[0];
 
-    var bones = act_render.bones;
-
     switch (act_render.type) {
     case OBJ_ANIM_TYPE_ARMATURE:
         if (m_obj_util.is_armature(obj)) {
@@ -787,13 +789,15 @@ function apply_action(obj, name_list, action, slot_num) {
 
             var pose_data_frames = get_cached_anim_data(obj, name_list, action);
             if (!pose_data_frames) {
-                var pose_data_frames = calc_pose_data_frames(action,
+                pose_data_frames = calc_pose_data_frames(action,
                                                     obj.render.bone_pointers);
                 cache_anim_data(obj, name_list, action, pose_data_frames);
             }
 
             anim_slot.trans = pose_data_frames.trans;
             anim_slot.quats = pose_data_frames.quats;
+            anim_slot.bone_space_quats = pose_data_frames.bone_space_quats;
+            anim_slot.bone_space_trans = pose_data_frames.bone_space_trans;
 
             init_skinned_objs_data(obj, slot_num, action, pose_data_frames);
         }
@@ -976,8 +980,8 @@ function sync_skeletal_animations(armobj) {
 
     var prev_skel_slot = skeletal_slots[0];
     var prev_skel_anim = anim_slots[prev_skel_slot];
-    var cff = prev_skel_anim.current_frame_float;
-    var cff_int = Math.floor(cff);
+    cff = prev_skel_anim.current_frame_float;
+    cff_int = Math.floor(cff);
 
     prev_skel_anim.current_frame_float = cff_int + frame_factor;
 }
@@ -1122,18 +1126,6 @@ function calc_obj_anim_data(obj, action, tsr) {
         anim_quats.push(tsr.subarray(i*8 + 4, i*8 + 8));
     }
     return {trans: anim_trans, quats: anim_quats};
-}
-
-function is_material_action(action) {
-
-    var act_render = action._render;
-
-    for (var param in act_render.params)
-        if (param.indexOf("nodes") != -1) {
-            return true;
-        }
-
-    return false;
 }
 
 function animate(obj, elapsed, slot_num, force_update) {
@@ -1537,7 +1529,6 @@ function animate_skinned_objs(render, anim_slot, frame, frame_next) {
  */
 function mix_skeletal_animation(obj, elapsed) {
     var render = obj.render;
-
     var mix_factor = render.anim_mix_factor;
 
     var skeletal_slots = render.two_last_skeletal_slots;
@@ -1604,39 +1595,99 @@ function mix_skeletal_animation(obj, elapsed) {
         render.trans_before.set(trans_prev_0);
         render.trans_after.set(trans_next_0);
     } else {
-        for (var i = 0; i < quats_prev_0.length; i+=4) {
-            var quat1 = _quat4_tmp;
-            var quat2 = _quat4_tmp2;
-
-            // init quats_before
-            for (var j = 0; j < 4; j++) {
-                quat1[j] = quats_prev_0[i + j];
-                quat2[j] = quats_prev_1[i + j];
-            }
-
-            m_quat.slerp(quat1, quat2, mix_factor, quat1);
-            // write into buffer
-            for (var j = 0; j < 4; j++)
-                render.quats_before[i + j] = quat1[j];
-
-            // init quats_after
-            for (var j = 0; j < 4; j++) {
-                quat1[j] = quats_next_0[i + j];
-                quat2[j] = quats_next_1[i + j];
-            }
-
-            m_quat.slerp(quat1, quat2, mix_factor, quat1);
-            // write into buffer
-            for (var j = 0; j < 4; j++)
-                render.quats_after[i + j] = quat1[j];
+        var bone_pointers = render.bone_pointers;
+        for (var bone_name in bone_pointers) {
+            var bone_pointer = bone_pointers[bone_name];
+            if (!bone_pointer.parent_bone_ptr)
+                blend_two_anim(render, bone_pointer, skeletal_slot_0, skeletal_slot_1,
+                        frame_0, frame_next_0, frame_1, frame_next_1)
         }
-        m_util.blend_arrays(trans_prev_0, trans_prev_1, mix_factor,
-                            render.trans_before);
-        m_util.blend_arrays(trans_next_0, trans_next_1, mix_factor,
-                            render.trans_after);
     }
     m_trans.update_transform(obj);
     m_armat.update_skinned_renders(obj);
+}
+
+function blend_two_anim(render, bone_pointer, slot_0, slot_1, frame_0, frame_next_0,
+        frame_1, frame_next_1) {
+    var parent_bone_ptr = bone_pointer.parent_bone_ptr;
+    var mix_factor = render.anim_mix_factor;
+
+    var quat1_frame = _quat4_tmp;
+    var quat2_frame = _quat4_tmp2;
+
+    var trans1_frame = _vec4_tmp;
+    var trans2_frame = _vec4_tmp2;
+
+    var quat1_frame_n = _quat4_tmp3;
+    var quat2_frame_n = _quat4_tmp4;
+
+    var trans1_frame_n = _vec4_tmp3;
+    var trans2_frame_n = _vec4_tmp4;
+
+    var i = bone_pointer.bone_index * 4;
+
+    var b_sp_quats0_frame = slot_0.bone_space_quats[frame_0];
+    var b_sp_quats1_frame = slot_1.bone_space_quats[frame_1];
+    var b_sp_trans0_frame = slot_0.bone_space_trans[frame_0];
+    var b_sp_trans1_frame = slot_1.bone_space_trans[frame_1];
+
+    var b_sp_quats0_frame_n = slot_0.bone_space_quats[frame_next_0];
+    var b_sp_quats1_frame_n = slot_1.bone_space_quats[frame_next_1];
+    var b_sp_trans0_frame_n = slot_0.bone_space_trans[frame_next_0];
+    var b_sp_trans1_frame_n = slot_1.bone_space_trans[frame_next_1];
+    // init quats_before and after
+    for (var j = 0; j < 4; j++) {
+        quat1_frame[j] = b_sp_quats0_frame[i + j];
+        quat2_frame[j] = b_sp_quats1_frame[i + j];
+        trans1_frame[j] = b_sp_trans0_frame[i + j];
+        trans2_frame[j] = b_sp_trans1_frame[i + j];
+
+        quat1_frame_n[j] = b_sp_quats0_frame_n[i + j];
+        quat2_frame_n[j] = b_sp_quats1_frame_n[i + j];
+        trans1_frame_n[j] = b_sp_trans0_frame_n[i + j];
+        trans2_frame_n[j] = b_sp_trans1_frame_n[i + j];
+    }
+    // before
+    m_quat.slerp(quat1_frame, quat2_frame, mix_factor, quat1_frame);
+    m_util.blend_arrays(trans1_frame, trans2_frame, mix_factor, trans1_frame);
+
+    m_tsr.set_transcale(trans1_frame, _tsr_tmp);
+    m_tsr.set_quat(quat1_frame, _tsr_tmp);
+    if (parent_bone_ptr)
+        m_tsr.multiply(parent_bone_ptr.tsr_local_pose_b, _tsr_tmp, _tsr_tmp);
+    m_tsr.copy(_tsr_tmp, bone_pointer.tsr_local_pose_b);
+    m_tsr.multiply(_tsr_tmp, bone_pointer.tsr_local_rest_i, _tsr_tmp);
+
+    m_tsr.get_transcale(_tsr_tmp, trans1_frame);
+    m_tsr.get_quat(_tsr_tmp, quat1_frame);
+
+    // after
+    m_quat.slerp(quat1_frame_n, quat2_frame_n, mix_factor, quat1_frame_n);
+    m_util.blend_arrays(trans1_frame_n, trans2_frame_n, mix_factor, trans1_frame_n);
+
+    m_tsr.set_transcale(trans1_frame_n, _tsr_tmp);
+    m_tsr.set_quat(quat1_frame_n, _tsr_tmp);
+    if (parent_bone_ptr)
+        m_tsr.multiply(parent_bone_ptr.tsr_local_pose_a, _tsr_tmp, _tsr_tmp);
+    m_tsr.copy(_tsr_tmp, bone_pointer.tsr_local_pose_a);
+    m_tsr.multiply(_tsr_tmp, bone_pointer.tsr_local_rest_i, _tsr_tmp);
+
+    m_tsr.get_transcale(_tsr_tmp, trans1_frame_n);
+    m_tsr.get_quat(_tsr_tmp, quat1_frame_n);
+
+    for (var j = 0; j < 4; j++) {
+        render.quats_before[i + j] = quat1_frame[j];
+        render.trans_before[i + j] = trans1_frame[j];
+        render.quats_after[i + j] = quat1_frame_n[j];
+        render.trans_after[i + j] = trans1_frame_n[j];
+    }
+
+    var descend_bones_ptrs = bone_pointer.descend_bones_ptrs;
+    for (var j = 0; j < descend_bones_ptrs.length; j++) {
+        var child_bone_pointer = descend_bones_ptrs[j];
+        blend_two_anim(render, child_bone_pointer, slot_0, slot_1, frame_0, frame_next_0,
+            frame_1, frame_next_1)
+    }
 }
 
 function process_mix_factor(obj, elapsed) {
@@ -1669,6 +1720,8 @@ function process_mix_factor(obj, elapsed) {
 function calc_pose_data_frames(action, bone_pointers) {
     var trans_frames = [];
     var quats_frames = [];
+    var bone_space_trans_frames = [];
+    var bone_space_quats_frames = [];
 
     // for every pierced frame setup pose and calc pose data
     var num_pierced = action._render.num_pierced;
@@ -1694,9 +1747,12 @@ function calc_pose_data_frames(action, bone_pointers) {
 
         trans_frames.push(pose_data.trans);
         quats_frames.push(pose_data.quats);
+        bone_space_trans_frames.push(pose_data.bone_space_trans);
+        bone_space_quats_frames.push(pose_data.bone_space_quats);
     }
 
-    return {trans: trans_frames, quats: quats_frames};
+    return {trans: trans_frames, quats: quats_frames,
+        bone_space_trans:bone_space_trans_frames, bone_space_quats:bone_space_quats_frames};
 }
 
 exports.calc_pose_data = calc_pose_data;
@@ -1707,6 +1763,8 @@ function calc_pose_data(bone_pointers) {
 
     var trans = [];
     var quats = [];
+    var bone_space_trans = [];
+    var bone_space_quats = [];
 
     var t = new Float32Array(4);
     var q = new Float32Array(4);
@@ -1715,16 +1773,21 @@ function calc_pose_data(bone_pointers) {
         var bpointer = bone_pointers[bone_name];
 
         calc_pose_bone(bpointer, t, q);
-
         var bone_index = bpointer.bone_index;
+
+        m_tsr.multiply(bpointer.tsr_bone_rest, bpointer.tsr_basis, _tsr_tmp);
+
         for (var i = 0; i < 4; i++) {
             /* quat, tran vec4 */
             var comp_index = 4 * bone_index + i;
             trans[comp_index] = t[i];
             quats[comp_index] = q[i];
+            bone_space_trans[comp_index] = _tsr_tmp[i];
+            bone_space_quats[comp_index] = _tsr_tmp[i + 4];
         }
     }
-    return {trans: trans, quats: quats};
+    return {trans: trans, quats: quats,
+        bone_space_trans: bone_space_trans, bone_space_quats: bone_space_quats};
 }
 
 /**
@@ -1741,7 +1804,6 @@ function calc_skinned_pose_data_frames(armobj_pose_data_frames,
     var armobj_quats_frames = armobj_pose_data_frames.quats;
 
     for (var i = 0; i < armobj_trans_frames.length; i++) {
-        var armobj_pose_data = armobj_pose_data_frames[i];
         var pose_data = extract_skinned_pose_data(armobj_trans_frames[i],
                                                   armobj_quats_frames[i],
                                                   bone_skinning_info);
@@ -1758,9 +1820,6 @@ exports.extract_skinned_pose_data = extract_skinned_pose_data;
 function extract_skinned_pose_data(arm_trans, arm_quats, bone_skinning_info) {
     var trans = [];
     var quats = [];
-
-    var t = new Float32Array(4);
-    var q = new Float32Array(4);
 
     for (var bone_name in bone_skinning_info) {
         var skininfo = bone_skinning_info[bone_name];
@@ -2082,7 +2141,6 @@ function is_object_action(action) {
 function set_tsr_act_channels_mask(fcurves, mask) {
     mask[0] = mask[1] = mask[2] = 0;
     for (var data_path in fcurves) {
-        var channels = fcurves[data_path];
         if (data_path == "location")
             mask[0] = 1;
         else if (data_path == "rotation_quaternion")
@@ -2095,7 +2153,6 @@ function set_tsr_act_channels_mask(fcurves, mask) {
 function set_lamp_act_channels_mask(fcurves, mask) {
     mask[0] = mask[1] = 0;
     for (var data_path in fcurves) {
-        var channels = fcurves[data_path];
         if (data_path == "energy")
             mask[0] = 1;
         else if (data_path == "color")
@@ -2108,7 +2165,6 @@ function set_environment_act_channels_mask(fcurves, mask) {
     mask[AEM_FOG_INTENSITY] = mask[AEM_FOG_DEPTH] = mask[AEM_FOG_START] = 0;
     mask[AEM_FOG_HEIGHT] = mask[AEM_FOG_COLOR] = 0;
     for (var data_path in fcurves) {
-        var channels = fcurves[data_path];
         if (data_path == "light_settings.environment_energy")
             mask[AEM_ENERGY] = 1;
         else if (data_path == "horizon_color")
@@ -2145,8 +2201,6 @@ exports.approximate_curve = function(fcurve, fcurve_bin_data, points, bflags,
     var v2 = new Float32Array(2);
     var v3 = new Float32Array(2);
     var v4 = new Float32Array(2);
-
-    var step = 1 / cfg_ani.frame_steps;
 
     var first_frame = fcurve_bin_data[1];
     var first_frame_value = fcurve_bin_data[2];
@@ -2292,36 +2346,36 @@ function correct_bezpart(v1, v2, v3, v4) {
     var h2 = [];
     var len1, len2, len, fac;
 
-	// calc handle deltas
-	h1[0] = v1[0] - v2[0];
-	h1[1] = v1[1] - v2[1];
+    // calc handle deltas
+    h1[0] = v1[0] - v2[0];
+    h1[1] = v1[1] - v2[1];
 
-	h2[0] = v4[0] - v3[0];
-	h2[1] = v4[1] - v3[1];
+    h2[0] = v4[0] - v3[0];
+    h2[1] = v4[1] - v3[1];
 
-	// calculate distances:
-	// len- span of time between keyframes
-	// len1	- length of handle of start key
-	// len2	- length of handle of end key
-	len = v4[0]- v1[0];
-	len1 = Math.abs(h1[0]);
-	len2 = Math.abs(h2[0]);
+    // calculate distances:
+    // len- span of time between keyframes
+    // len1    - length of handle of start key
+    // len2    - length of handle of end key
+    len = v4[0]- v1[0];
+    len1 = Math.abs(h1[0]);
+    len2 = Math.abs(h2[0]);
 
-	// if the handles have no length, no need to do any corrections
-	if ((len1 + len2) == 0)
-		return;
+    // if the handles have no length, no need to do any corrections
+    if ((len1 + len2) == 0)
+        return;
 
-	// the two handles cross over each other, so force them
-	// apart using the proportion they overlap
-	if (len1 + len2 > len) {
-		fac = len / (len1 + len2);
+    // the two handles cross over each other, so force them
+    // apart using the proportion they overlap
+    if (len1 + len2 > len) {
+        fac = len / (len1 + len2);
 
-		v2[0] = v1[0] - fac * h1[0];
-		v2[1] = v1[1] - fac * h1[1];
+        v2[0] = v1[0] - fac * h1[0];
+        v2[1] = v1[1] - fac * h1[1];
 
-		v3[0] = v4[0] - fac * h2[0];
-		v3[1] = v4[1] - fac * h2[1];
-	}
+        v3[0] = v4[0] - fac * h2[0];
+        v3[1] = v4[1] - fac * h2[1];
+    }
 }
 
 function bezier(x, v1, v2, v3, v4) {
@@ -2545,14 +2599,14 @@ exports.remove_actions = function(data_id) {
 
 exports.apply_to_first_empty_slot = function(obj, name) {
     if (!obj.anim_slots.length) {
-        if (apply(obj, name, SLOT_0))
+        if (apply(obj, null, name, SLOT_0))
             return SLOT_0;
         else
             return -1;
     }
     for (var i = 0; i < obj.anim_slots.length; i++) {
         if (!obj.anim_slots[i]) {
-            if (apply(obj, name, i))
+            if (apply(obj, null, name, i))
                 return i;
             else
                 return -1;

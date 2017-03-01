@@ -151,16 +151,15 @@ uniform float u_node_values[NUM_VALUES];
 # if USE_NODE_RGB
 uniform vec3 u_node_rgbs[NUM_RGBS];
 # endif
-
 # if SHADOW_USAGE == SHADOW_MASK_GENERATION
 #  if POISSON_DISK_NUM != NO_SOFT_SHADOWS
 uniform vec4 u_pcf_blur_radii;
 #  endif
 uniform vec4 u_csm_center_dists;
-uniform GLSL_SMPLR2D_SHDW u_shadow_map0;
-uniform GLSL_SMPLR2D_SHDW u_shadow_map1;
-uniform GLSL_SMPLR2D_SHDW u_shadow_map2;
-uniform GLSL_SMPLR2D_SHDW u_shadow_map3;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map0;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map1;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map2;
+uniform PRECISION GLSL_SMPLR2D_SHDW u_shadow_map3;
 uniform sampler2D u_shadow_mask;
 # endif
 #endif // NODES && ALPHA

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,57 +37,51 @@ b4w.module["physics"] = function(exports, require) {
  * @param {Vec3} centroid Center of current polygon
  * @param {Uint32Array} vertex_ids Indices of polygon vertices
  * @param {Array} vertices Vertex array
- * @param {Number} current_max_distance Current maximum distance
+ * @param {number} current_max_distance Current maximum distance
  */
 
-var m_cfg   = require("__config");
 var m_phy   = require("__physics");
 var m_print = require("__print");
 var m_util  = require("__util");
 var m_nmesh = require("__navmesh");
-var m_vec3  = require("__vec3");
-
-var _vec3_tmp = new Float32Array(3);
-
-var cfg_phy = m_cfg.physics;
 
 /**
  * Collision result callback.
  * @callback CollisionCallback
- * @param {Boolean} result Collision result flag.
+ * @param {boolean} result Collision result flag.
  * @param {?Object3D} coll_obj The target collision object, i.e the object
  * the source object collides with (null for no collision or when this object 
  * is represented by collision material).
  * @param {?Vec3} coll_pos Position of collision point.
  * @param {?Vec3} coll_norm Normal of collision point.
- * @param {?Number} coll_dist Distance between collision points of colliding
+ * @param {?number} coll_dist Distance between collision points of colliding
  * objects.
  */
 
 /**
  * Collision impulse result callback.
  * @callback CollisionImpulseCallback
- * @param {Number} impulse Impulse applied on collision point.
+ * @param {number} impulse Impulse applied on collision point.
  */
 
 /**
  * Ray test callback.
  * @callback RayTestCallback
- * @param {Number} id Ray Test ID
- * @param {Number} hit_fract Fraction of ray length where hit has occured (0-1)
+ * @param {number} id Ray Test ID
+ * @param {number} hit_fract Fraction of ray length where hit has occured (0-1)
  * or -1 if there is no hit anymore
  * @param {?Object3D} obj_hit Hit Object 3D
- * @param {Number} hit_time Time the hit happened.
+ * @param {number} hit_time Time the hit happened.
  */
 
 /**
  * Ray test callback with additional position/normal.
  * @callback RayTestCallbackPosNorm
- * @param {Number} id Ray Test ID
- * @param {Number} hit_fract Fraction of ray length where hit has occured (0-1)
+ * @param {number} id Ray Test ID
+ * @param {number} hit_fract Fraction of ray length where hit has occured (0-1)
  * or -1 if there is no hit anymore
  * @param {?Object3D} obj_hit Hit Object 3D
- * @param {Number} hit_time Time the hit happened.
+ * @param {number} hit_time Time the hit happened.
  * @param {Vec3} hit_pos Hit position in world space
  * @param {Vec3} hit_norm Hit normal in world space
  */
@@ -95,11 +89,11 @@ var cfg_phy = m_cfg.physics;
 /**
  * Configurable options of navmesh path.
  * @typedef {Object} NavmeshPathOptions
- * @property {Number} [island=0] ID; see {@link module:physics.navmesh_get_island|physics.navmesh_get_island}
- * @property {Number} [allowed_distance=Number.MAX_VALUE] Distance limit from
+ * @property {number} [island=0] ID; see {@link module:physics.navmesh_get_island|physics.navmesh_get_island}
+ * @property {number} [allowed_distance=Number.MAX_VALUE] Distance limit from
  * start/target position to navmesh
- * @property {Boolean} [do_not_pull_string=false] Returns centroids path instead of pulled string
- * @property {Boolean} [return_normals=false] Return path normals in PathInformation.
+ * @property {boolean} [do_not_pull_string=false] Returns centroids path instead of pulled string
+ * @property {boolean} [return_normals=false] Return path normals in PathInformation.
  * @property {NavmeshDistanceCallback} [distance_to_closest] Callback for distance
  * calculation to determine closest node
  * @property {NavmeshDistanceCallback} [distance_to_farthest] Callback for distance
@@ -120,8 +114,7 @@ var cfg_phy = m_cfg.physics;
 
 /**
  * Character's type of movement enum. One of CM_*.
- * @typedef CharacterMoveType
- * @type {Number}
+ * @typedef {number} CharacterMoveType
  */
 
 /**
@@ -173,7 +166,7 @@ exports.disable_simulation = function(obj) {
  * Check if the object has any physics
  * @method module:physics.has_physics
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Check result
+ * @returns {boolean} Check result
  */
 exports.has_physics = function(obj) {
     return m_phy.obj_has_physics(obj);
@@ -182,7 +175,7 @@ exports.has_physics = function(obj) {
  * Check if the object has any simulated physics
  * @method module:physics.has_simulated_physics
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Check result
+ * @returns {boolean} Check result
  */
 exports.has_simulated_physics = function(obj) {
     return m_phy.has_simulated_physics(obj);
@@ -191,7 +184,7 @@ exports.has_simulated_physics = function(obj) {
  * Check if the object has dynamic simulated physics
  * @method module:physics.has_dynamic_physics
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Check result
+ * @returns {boolean} Check result
  */
 exports.has_dynamic_physics = function(obj) {
     return m_phy.has_dynamic_physics(obj);
@@ -200,7 +193,7 @@ exports.has_dynamic_physics = function(obj) {
  * Set the object's gravity.
  * @method module:physics.set_gravity
  * @param {Object3D} obj Object 3D
- * @param {Number} gravity Positive object gravity
+ * @param {number} gravity Positive object gravity
  */
 exports.set_gravity = function(obj, gravity) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -241,9 +234,9 @@ exports.sync_transform = function(obj) {
  * Apply velocity to the object (in the local space)
  * @method module:physics.apply_velocity
  * @param {Object3D} obj Object 3D
- * @param {Number} vx_local Vx local space velocity
- * @param {Number} vy_local Vy local space velocity
- * @param {Number} vz_local Vz local space velocity 
+ * @param {number} vx_local Vx local space velocity
+ * @param {number} vy_local Vy local space velocity
+ * @param {number} vz_local Vz local space velocity 
  */
 exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -256,9 +249,9 @@ exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
  * Apply velocity to the object (in the world space)
  * @method module:physics.apply_velocity_world
  * @param {Object3D} obj Object 3D
- * @param {Number} vx Vx world space velocity
- * @param {Number} vy Vy world space velocity
- * @param {Number} vz Vz world space velocity
+ * @param {number} vx Vx world space velocity
+ * @param {number} vy Vy world space velocity
+ * @param {number} vz Vz world space velocity
  */
 exports.apply_velocity_world = function(obj, vx, vy, vz) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -272,9 +265,9 @@ exports.apply_velocity_world = function(obj, vx, vy, vz) {
  * Pass zero values to remove applied force.
  * @method module:physics.apply_force
  * @param {Object3D} obj Object 3D
- * @param {Number} fx_local Fx force in the local space
- * @param {Number} fy_local Fy force in the local space
- * @param {Number} fz_local Fz force in the local space 
+ * @param {number} fx_local Fx force in the local space
+ * @param {number} fy_local Fy force in the local space
+ * @param {number} fz_local Fz force in the local space 
  */
 exports.apply_force = function(obj, fx_local, fy_local, fz_local) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -289,9 +282,9 @@ exports.apply_force = function(obj, fx_local, fy_local, fz_local) {
  * Pass zero values to remove applied force.
  * @method module:physics.apply_force_world
  * @param {Object3D} obj Object 3D
- * @param {Number} fx_world Fx force in the world space
- * @param {Number} fy_world Fy force in the world space
- * @param {Number} fz_world Fz force in the world space 
+ * @param {number} fx_world Fx force in the world space
+ * @param {number} fy_world Fy force in the world space
+ * @param {number} fz_world Fz force in the world space 
  */
 exports.apply_force_world = function(obj, fx_world, fy_world, fz_world) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -306,9 +299,9 @@ exports.apply_force_world = function(obj, fx_world, fy_world, fz_world) {
  * Pass zero values to remove applied torque.
  * @method module:physics.apply_torque
  * @param {Object3D} obj Object 3D
- * @param {Number} tx_local Tx torque
- * @param {Number} ty_local Ty torque
- * @param {Number} tz_local Tz torque
+ * @param {number} tx_local Tx torque
+ * @param {number} ty_local Ty torque
+ * @param {number} tz_local Tz torque
  */
 exports.apply_torque = function(obj, tx_local, ty_local, tz_local) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -321,7 +314,7 @@ exports.apply_torque = function(obj, tx_local, ty_local, tz_local) {
  * Apply throttle to vehicle.
  * @method module:physics.vehicle_throttle
  * @param {Object3D} obj Object 3D
- * @param {Number} engine_force Engine force (-1..1)
+ * @param {number} engine_force Engine force (-1..1)
  */
 exports.vehicle_throttle = function(obj, engine_force) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -338,8 +331,8 @@ exports.vehicle_throttle = function(obj, engine_force) {
  * Increment vehicle throttle.
  * @method module:physics.vehicle_throttle_inc
  * @param {Object3D} obj Object 3D
- * @param {Number} engine_force_inc Engine force increment (0..1)
- * @param {Number} dir Throttling direction -1,0,1
+ * @param {number} engine_force_inc Engine force increment (0..1)
+ * @param {number} dir Throttling direction -1,0,1
  */
 exports.vehicle_throttle_inc = function(obj, engine_force_inc, dir) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -374,7 +367,7 @@ exports.vehicle_throttle_inc = function(obj, engine_force_inc, dir) {
  * Change vehicle steering.
  * @method module:physics.vehicle_steer
  * @param {Object3D} obj Object 3D
- * @param {Number} steering_value Steering value (-1..1)
+ * @param {number} steering_value Steering value (-1..1)
  */
 exports.vehicle_steer = function(obj, steering_value) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -391,8 +384,8 @@ exports.vehicle_steer = function(obj, steering_value) {
  * Increment vehicle steering.
  * @method module:physics.vehicle_steer_inc
  * @param {Object3D} obj Object 3D
- * @param {Number} steering_value_inc Steering value increment (0..1)
- * @param {Number} dir Steering direction -1,0,1
+ * @param {number} steering_value_inc Steering value increment (0..1)
+ * @param {number} dir Steering direction -1,0,1
  */
 exports.vehicle_steer_inc = function(obj, steering_value_inc, dir) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -427,7 +420,7 @@ exports.vehicle_steer_inc = function(obj, steering_value_inc, dir) {
  * Stop the vehicle by applying the brake force.
  * @method module:physics.vehicle_brake
  * @param {Object3D} obj Object 3D
- * @param {Number} brake_force Brake force (0..1)
+ * @param {number} brake_force Brake force (0..1)
  */
 exports.vehicle_brake = function(obj, brake_force) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -444,7 +437,7 @@ exports.vehicle_brake = function(obj, brake_force) {
  * Increment the brake force
  * @method module:physics.vehicle_brake_inc
  * @param {Object3D} obj Object 3D
- * @param {Number} brake_force_inc Brake force increment (-1..1)
+ * @param {number} brake_force_inc Brake force increment (-1..1)
  */
 exports.vehicle_brake_inc = function(obj, brake_force_inc) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -468,7 +461,7 @@ exports.vehicle_brake_inc = function(obj, brake_force_inc) {
  * Check if the given object is a vehicle chassis.
  * @method module:physics.is_vehicle_chassis
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_vehicle_chassis = function(obj) {
     return m_phy.is_vehicle_chassis(obj);
@@ -477,7 +470,7 @@ exports.is_vehicle_chassis = function(obj) {
  * Check if the given object is a vehicle hull.
  * @method module:physics.is_vehicle_hull
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_vehicle_hull = function(obj) {
     return m_phy.is_vehicle_hull(obj);
@@ -486,7 +479,7 @@ exports.is_vehicle_hull = function(obj) {
  * Get the vehicle name.
  * @method module:physics.get_vehicle_name
  * @param {Object3D} obj Object 3D
- * @returns {?String} Vehicle name.
+ * @returns {?string} Vehicle name.
  */
 exports.get_vehicle_name = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -504,7 +497,7 @@ exports.get_vehicle_name = function(obj) {
  * Get the vehicle's throttle value.
  * @method module:physics.get_vehicle_throttle
  * @param {Object3D} obj Object 3D
- * @returns {?Number} Throttle value.
+ * @returns {?number} Throttle value.
  */
 exports.get_vehicle_throttle = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -522,65 +515,71 @@ exports.get_vehicle_throttle = function(obj) {
  * Get the vehicle's steering value.
  * @method module:physics.get_vehicle_steering
  * @param {Object3D} obj Object 3D
- * @returns {Number} Steering value
+ * @returns {number} Steering value
  */
 exports.get_vehicle_steering = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
         m_print.error_once("No physics for object " + obj.name);
-        return null;
+        return 0;
     }
     if (m_phy.is_vehicle_chassis(obj) || m_phy.is_vehicle_hull(obj))
         return obj.vehicle.steering;
     else
         m_print.error("Wrong object");
+
+    return 0;
 }
 /**
  * Get the vehicle's brake force.
  * @method module:physics.get_vehicle_brake
  * @param {Object3D} obj Object 3D
- * @returns {Number} Brake value
+ * @returns {number} Brake value
  */
 exports.get_vehicle_brake = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
         m_print.error_once("No physics for object " + obj.name);
-        return null;
+        return 0;
     }
     if (m_phy.is_vehicle_chassis(obj) || m_phy.is_vehicle_hull(obj))
         return obj.vehicle.brake_force;
     else
         m_print.error("Wrong object");
+
+    return 0;
 }
 /**
  * Get the vehicle speed in km/h.
  * @method module:physics.get_vehicle_speed
  * @param {Object3D} obj Object 3D
- * @returns {Number} Vehicle speed
+ * @returns {number} Vehicle speed
  */
 exports.get_vehicle_speed = function(obj) {
     if (!m_phy.obj_has_physics(obj)) {
         m_print.error_once("No physics for object " + obj.name);
-        return null;
+        return 0;
     }
     if (m_phy.is_vehicle_chassis(obj) || m_phy.is_vehicle_hull(obj))
         return m_phy.get_vehicle_speed(obj);
     else
         m_print.error("Wrong object");
+
+    return 0;
 }
 /**
  * Check if the given object is a character.
  * @method module:physics.is_character
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Check result
+ * @returns {boolean} Check result
  */
 exports.is_character = function(obj) {
-    return m_phy.is_character(obj);
+    return m_phy.has_character_physics(obj);
 }
 /**
  * Move the character in the corresponding direction.
  * @method module:physics.set_character_move_dir
  * @param {Object3D} obj Object 3D
- * @param {Number} forw Apply forward speed
- * @param {Number} side Apply side speed
+ * @param {number} forw Apply forward speed
+ * @param {number} side Apply side speed
  */
 exports.set_character_move_dir = function(obj, forw, side) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -607,7 +606,7 @@ exports.set_character_move_type = function(obj, type) {
  * Set the character's walk speed.
  * @method module:physics.set_character_walk_velocity
  * @param {Object3D} obj Object 3D
- * @param {Number} velocity Walking velocity
+ * @param {number} velocity Walking velocity
  */
 exports.set_character_walk_velocity = function(obj, velocity) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -620,7 +619,7 @@ exports.set_character_walk_velocity = function(obj, velocity) {
  * Set the character's run speed.
  * @method module:physics.set_character_run_velocity
  * @param {Object3D} obj Object 3D
- * @param {Number} velocity Running velocity
+ * @param {number} velocity Running velocity
  */
 exports.set_character_run_velocity = function(obj, velocity) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -633,7 +632,7 @@ exports.set_character_run_velocity = function(obj, velocity) {
  * Set the character's fly speed.
  * @method module:physics.set_character_fly_velocity
  * @param {Object3D} obj Object 3D
- * @param {Number} velocity Flying velocity
+ * @param {number} velocity Flying velocity
  */
 exports.set_character_fly_velocity = function(obj, velocity) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -658,8 +657,8 @@ exports.character_jump = function(obj) {
  * Increment the character rotation
  * @method module:physics.character_rotation_inc
  * @param {Object3D} obj Object 3D
- * @param {Number} h_angle Angle in horizontal plane
- * @param {Number} v_angle Angle in vertical plane
+ * @param {number} h_angle Angle in horizontal plane
+ * @param {number} v_angle Angle in vertical plane
  */
 exports.character_rotation_inc = function(obj, h_angle, v_angle) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -672,8 +671,8 @@ exports.character_rotation_inc = function(obj, h_angle, v_angle) {
  * Set the character rotation in horizontal and vertical planes
  * @method module:physics.set_character_rotation
  * @param {Object3D} obj Object 3D
- * @param {Number} angle_h Angle in horizontal plane
- * @param {Number} angle_v Angle in vertical plane
+ * @param {number} angle_h Angle in horizontal plane
+ * @param {number} angle_v Angle in vertical plane
  */
 exports.set_character_rotation = function(obj, angle_h, angle_v) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -686,7 +685,7 @@ exports.set_character_rotation = function(obj, angle_h, angle_v) {
  * Set the character vertical rotation
  * @method module:physics.set_character_rotation_v
  * @param {Object3D} obj Object 3D
- * @param {Number} angle Angle in vertical plane
+ * @param {number} angle Angle in vertical plane
  */
 exports.set_character_rotation_v = function(obj, angle) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -699,7 +698,7 @@ exports.set_character_rotation_v = function(obj, angle) {
  * Set the character horizontal rotation
  * @method module:physics.set_character_rotation_h
  * @param {Object3D} obj Object 3D
- * @param {Number} angle Angle in horizontal plane
+ * @param {number} angle Angle in horizontal plane
  */
 exports.set_character_rotation_h = function(obj, angle) {
     if (!m_phy.obj_has_physics(obj)) {
@@ -712,9 +711,9 @@ exports.set_character_rotation_h = function(obj, angle) {
  * Append a new async collision test to the given object.
  * @method module:physics.append_collision_test
  * @param {Object3D} obj_src Object 3D
- * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
+ * @param {?string} collision_id Collision ID, pass "ANY" or null for any collision ID.
  * @param {CollisionCallback} callback Collision callback
- * @param {Boolean} [calc_pos_norm=false] Pass collision point/normal/distance in callback
+ * @param {boolean} [calc_pos_norm=false] Pass collision point/normal/distance in callback
  */
 exports.append_collision_test = function(obj_src, collision_id, callback,
         calc_pos_norm) {
@@ -732,7 +731,7 @@ exports.append_collision_test = function(obj_src, collision_id, callback,
  * Remove the collision test from the given object.
  * @method module:physics.remove_collision_test
  * @param {Object3D} obj Object 3D.
- * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
+ * @param {?string} collision_id Collision ID, pass "ANY" or null for any collision ID.
  * @param {CollisionCallback} callback Collision callback.
  */
 exports.remove_collision_test = function(obj, collision_id, callback) {
@@ -773,14 +772,14 @@ exports.clear_collision_impulse_test = function(obj) {
 /**
  * Append a new async ray test.
  * @method module:physics.append_ray_test
- * @param {?Object3D} [obj_src] Source object, pass a non-null value to perform ray casting
+ * @param {?Object3D} obj_src Source object, pass a non-null value to perform ray casting
  * in object space, e.g. from/to vectors specified in object space.
  * @param {Vec3} from From vector
  * @param {Vec3} to To vector
- * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
+ * @param {?string} collision_id Collision ID, pass "ANY" or null for any collision ID.
  * @param {RayTestCallback} callback Ray Test callback
- * @param {Boolean} [autoremove=false] Automatically remove test after ray casting.
- * @returns {Number} Ray Test ID
+ * @param {boolean} [autoremove=false] Automatically remove test after ray casting.
+ * @returns {number} Ray Test ID
  */
 exports.append_ray_test = function(obj_src, from, to, collision_id, callback, 
         autoremove) {
@@ -789,7 +788,7 @@ exports.append_ray_test = function(obj_src, from, to, collision_id, callback,
 
     if (obj_src != null && !m_phy.obj_has_physics(obj_src)) {
         m_print.error_once("No physics for object " + obj_src.name);
-        return;
+        return 0;
     }
 
     collision_id = collision_id || "ANY";
@@ -806,19 +805,19 @@ exports.append_ray_test = function(obj_src, from, to, collision_id, callback,
 /**
  * Append a new async ray test (extended version).
  * @method module:physics.append_ray_test_ext
- * @param {?Object3D} [obj_src] Source object, pass a non-null value to perform ray casting
+ * @param {?Object3D} obj_src Source object, pass a non-null value to perform ray casting
  * in object space, e.g. from/to vectors specified in object space
  * @param {Vec3} from From vector
  * @param {Vec3} to To vector
- * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
+ * @param {?string} collision_id Collision ID, pass "ANY" or null for any collision ID.
  * @param {RayTestCallback|RayTestCallbackPosNorm} callback Ray Test callback
- * @param {Boolean} [autoremove=false] Automatically remove test after ray casting.
- * @param {Boolean} [calc_all_hits=false] Test for all possible objects along the ray or
+ * @param {boolean} [autoremove=false] Automatically remove test after ray casting.
+ * @param {boolean} [calc_all_hits=false] Test for all possible objects along the ray or
  * just for closest object
- * @param {Boolean} [calc_pos_norm=false] Calculate and return hit point's position/normal in
+ * @param {boolean} [calc_pos_norm=false] Calculate and return hit point's position/normal in
  * callback
- * @param {Boolean} [ign_src_rot=false] Ignore rotation of source object
- * @returns {Number} Ray Test ID
+ * @param {boolean} [ign_src_rot=false] Ignore rotation of source object
+ * @returns {number} Ray Test ID
  */
 exports.append_ray_test_ext = function(obj_src, from, to, collision_id, callback, 
         autoremove, calc_all_hits, calc_pos_norm, ign_src_rot) {
@@ -827,7 +826,7 @@ exports.append_ray_test_ext = function(obj_src, from, to, collision_id, callback
 
     if (obj_src != null && !m_phy.obj_has_physics(obj_src)) {
         m_print.error_once("No physics for object " + obj_src.name);
-        return;
+        return 0;
     }
 
     collision_id = collision_id || "ANY";
@@ -842,7 +841,7 @@ exports.append_ray_test_ext = function(obj_src, from, to, collision_id, callback
 /**
  * Remove ray test.
  * @method module:physics.remove_ray_test
- * @param {Number} id Ray Test ID
+ * @param {number} id Ray Test ID
  */
 exports.remove_ray_test = function(id) {
     if (!m_phy.is_ray_test(id)) {
@@ -856,7 +855,7 @@ exports.remove_ray_test = function(id) {
 /**
  * Change from/to vectors for the given ray test.
  * @method module:physics.change_ray_test_from_to
- * @param {Number} id Ray Test ID
+ * @param {number} id Ray Test ID
  * @param {Vec3} from New from vector
  * @param {Vec3} to New to vector
  */
@@ -873,7 +872,7 @@ exports.change_ray_test_from_to = function(id, from, to) {
 /**
  * Apply physics constraint.
  * @method module:physics.apply_constraint
- * @param {String} pivot_type Pivot type
+ * @param {string} pivot_type Pivot type
  * @param {Object3D} obj_a Object 3D A
  * @param {Vec3} trans_a Translation of pivot frame relative to A
  * @param {Quat} quat_a Rotation of pivot frame relative to A
@@ -961,7 +960,7 @@ function distance_to_farthest_default(position, centroid, vertex_ids, vertices,
  * @param {?NavmeshDistanceCallback} distance_to_closest Callback for distance
  * calculation to determine the closest node. If null then the default function will 
  * be used. It calculates the distance from a point to a triangle in the 3D space.
- * @returns {Number} island ID
+ * @returns {number} island ID
  * @example 
  * var m_phys = require("physics");
  * var m_scenes = require("scenes");

@@ -9,10 +9,9 @@ from tornado.log import gen_log, app_log
 from tornado.testing import AsyncHTTPTestCase, gen_test, bind_unused_port, ExpectLog
 from tornado.test.util import unittest
 from tornado.web import Application, RequestHandler
-from tornado.util import u
 
 try:
-    import tornado.websocket
+    import tornado.websocket  # noqa
     from tornado.util import _websocket_mask_python
 except ImportError:
     # The unittest module presents misleading errors on ImportError
@@ -53,7 +52,7 @@ class EchoHandler(TestWebSocketHandler):
 
 class ErrorInOnMessageHandler(TestWebSocketHandler):
     def on_message(self, message):
-        1/0
+        1 / 0
 
 
 class HeaderHandler(TestWebSocketHandler):
@@ -88,6 +87,11 @@ class AsyncPrepareHandler(TestWebSocketHandler):
         self.write_message(message)
 
 
+class PathArgsHandler(TestWebSocketHandler):
+    def open(self, arg):
+        self.write_message(arg)
+
+
 class WebSocketBaseTestCase(AsyncHTTPTestCase):
     @gen.coroutine
     def ws_connect(self, path, compression_options=None):
@@ -106,6 +110,7 @@ class WebSocketBaseTestCase(AsyncHTTPTestCase):
         ws.close()
         yield self.close_future
 
+
 class WebSocketTest(WebSocketBaseTestCase):
     def get_app(self):
         self.close_future = Future()
@@ -119,6 +124,8 @@ class WebSocketTest(WebSocketBaseTestCase):
              dict(close_future=self.close_future)),
             ('/async_prepare', AsyncPrepareHandler,
              dict(close_future=self.close_future)),
+            ('/path_args/(.*)', PathArgsHandler,
+             dict(close_future=self.close_future)),
         ])
 
     def test_http_request(self):
@@ -129,7 +136,7 @@ class WebSocketTest(WebSocketBaseTestCase):
     @gen_test
     def test_websocket_gen(self):
         ws = yield self.ws_connect('/echo')
-        ws.write_message('hello')
+        yield ws.write_message('hello')
         response = yield ws.read_message()
         self.assertEqual(response, 'hello')
         yield self.close(ws)
@@ -158,9 +165,9 @@ class WebSocketTest(WebSocketBaseTestCase):
     @gen_test
     def test_unicode_message(self):
         ws = yield self.ws_connect('/echo')
-        ws.write_message(u('hello \u00e9'))
+        ws.write_message(u'hello \u00e9')
         response = yield ws.read_message()
-        self.assertEqual(response, u('hello \u00e9'))
+        self.assertEqual(response, u'hello \u00e9')
         yield self.close(ws)
 
     @gen_test
@@ -223,7 +230,11 @@ class WebSocketTest(WebSocketBaseTestCase):
         self.assertEqual(ws.close_code, 1001)
         self.assertEqual(ws.close_reason, "goodbye")
         # The on_close callback is called no matter which side closed.
-        yield self.close_future
+        code, reason = yield self.close_future
+        # The client echoed the close code it received to the server,
+        # so the server's close code (returned via close_future) is
+        # the same.
+        self.assertEqual(code, 1001)
 
     @gen_test
     def test_client_close_reason(self):
@@ -243,6 +254,12 @@ class WebSocketTest(WebSocketBaseTestCase):
         self.assertEqual(res, 'hello')
 
     @gen_test
+    def test_path_args(self):
+        ws = yield self.ws_connect('/path_args/hello')
+        res = yield ws.read_message()
+        self.assertEqual(res, 'hello')
+
+    @gen_test
     def test_check_origin_valid_no_path(self):
         port = self.get_http_port()
 
@@ -250,7 +267,7 @@ class WebSocketTest(WebSocketBaseTestCase):
         headers = {'Origin': 'http://127.0.0.1:%d' % port}
 
         ws = yield websocket_connect(HTTPRequest(url, headers=headers),
-            io_loop=self.io_loop)
+                                     io_loop=self.io_loop)
         ws.write_message('hello')
         response = yield ws.read_message()
         self.assertEqual(response, 'hello')
@@ -264,7 +281,7 @@ class WebSocketTest(WebSocketBaseTestCase):
         headers = {'Origin': 'http://127.0.0.1:%d/something' % port}
 
         ws = yield websocket_connect(HTTPRequest(url, headers=headers),
-            io_loop=self.io_loop)
+                                     io_loop=self.io_loop)
         ws.write_message('hello')
         response = yield ws.read_message()
         self.assertEqual(response, 'hello')

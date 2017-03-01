@@ -3,6 +3,8 @@
 /*==============================================================================
                                     VARS
 ==============================================================================*/
+#var PRECISION highp
+
 #var BILLBOARD_ALIGN BILLBOARD_ALIGN_VIEW
 
 #var TEXTURE_NORM_CO TEXTURE_COORDS_NONE
@@ -72,13 +74,11 @@ GLSL_OUT vec4 v_pos_view;
 GLSL_OUT vec3 v_tex_pos_clip;
 #endif
 
-#if NODES
-GLSL_OUT vec3 v_normal;
-#endif
-
 #if HALO_PARTICLES
 GLSL_OUT float v_vertex_random;
 #endif
+
+GLSL_OUT vec3 v_normal;
 
 /*==============================================================================
                                    UNIFORMS
@@ -116,7 +116,7 @@ uniform float u_p_size;
 uniform vec3 u_camera_eye;
 
 #if !WORLD_SPACE || NODES || HALO_PARTICLES
-uniform mat3 u_model_tsr;
+uniform PRECISION mat3 u_model_tsr;
 #endif
 
 #if USE_COLOR_RAMP
@@ -165,8 +165,7 @@ void main(void) {
     vec3 c_pos = pp.position;
 #endif
 
-    vec3 normal = qrot(a_tbn_quat, vec3(0.0, 1.0, 0.0));
-
+    vec3 normal = vec3(0.0, -1.0, 0.0);
 
     if (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW) {
         rotation_angle = pp.angle;
@@ -189,7 +188,6 @@ void main(void) {
         bb_tsr[0] = c_pos;
     }
 
-
     vec3 pos_local = vec3((a_p_bb_vertex[0] * 2.0 - 1.0) * pp.size * u_p_size, 0.0,
             (a_p_bb_vertex[1] * 2.0 - 1.0) * pp.size * u_p_size);
 
@@ -200,7 +198,6 @@ void main(void) {
     vec4 quat_tow = qsetAxisAngle(TOWARD_VECTOR, init_rot_angle + rotation_angle);
     vec3 pos_world = tsr9_transform(bb_tsr, qrot(quat_tow, pos_local));
 
-
     vec4 pos_view = vec4(tsr9_transform(view_tsr, pos_world), 1.0);
     vec4 pos_clip = u_proj_matrix * pos_view;
 
@@ -208,43 +205,42 @@ void main(void) {
     v_vertex_random = bb_random_val;
 #endif
 
-#if NODES
+# if NODES || !PARTICLES_SHADELESS
+    mat3 tsr_rotz = tsr_identity();
+    quat_tow = qsetAxisAngle(TOWARD_VECTOR, rotation_angle);
+    tsr_rotz = tsr_set_quat(quat_tow, tsr_rotz);
+# endif
 
+#if NODES
 # if CALC_TBN_SPACE || !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO \
         || USE_TBN_SHADING
-    vec3 tangent = qrot(a_tbn_quat, vec3(1.0, 0.0, 0.0));
-    vec3 binormal = sign(a_tbn_quat[3]) * cross(normal, tangent);
+    vec3 tangent = vec3(1.0, 0.0, 0.0);
+    vec3 binormal = vec3(0.0, 0.0, 1.0);
 # else
     vec3 tangent = vec3(0.0);
     vec3 binormal = vec3(0.0);
 # endif
 
-    mat3 tsr_rotz = tsr_identity();
-    quat_tow = qsetAxisAngle(TOWARD_VECTOR, rotation_angle);
-    tsr_rotz = tsr_set_quat(quat_tow, tsr_rotz);
     vertex world = to_world(vec3(0.0), vec3(0.0), tangent, vec3(0.0), binormal,
-            vec3(0.0), tsr_multiply(bb_tsr, tsr_rotz));
-
+            normal, tsr_multiply(bb_tsr, tsr_rotz));
 
 # if TEXTURE_NORM_CO != TEXTURE_COORDS_NONE || CALC_TBN_SPACE || USE_TBN_SHADING
     // calculate handedness as described in Math for 3D GP and CG, page 185
-    float m = (dot(cross(normal, world.tangent),
+    float m = (dot(cross(world.normal, world.tangent),
         world.binormal) < 0.0) ? -1.0 : 1.0;
 
     v_tangent = vec4(world.tangent, m);
-# endif
-
-# if !NODES || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
-        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
-        || USE_NODE_TEX_COORD_NO || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL \
-        || USE_NODE_TEX_COORD_RE || USE_NODE_LAYER_WEIGHT
-    v_normal = normal;
 # endif
 
     nodes_main(pp.position, pp.velocity, pp.ang_velocity, pp.age, pp.size,
             a_p_bb_vertex, a_p_data[0]);
 
 #else //NODES
+
+# if !PARTICLES_SHADELESS
+    vertex world = to_world(vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0),
+            normal, tsr_multiply(bb_tsr, tsr_rotz));
+# endif
 
 # if TEXTURE_COLOR
     v_texcoord = a_p_bb_vertex;
@@ -257,6 +253,13 @@ void main(void) {
 # endif
     v_color = pp.color;
 #endif //NODES
+
+#if (!NODES && !PARTICLES_SHADELESS) || USE_NODE_MATERIAL_BEGIN || USE_NODE_GEOMETRY_NO \
+       || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
+       || USE_NODE_TEX_COORD_NO || USE_NODE_BSDF_BEGIN || USE_NODE_FRESNEL \
+       || USE_NODE_TEX_COORD_RE || USE_NODE_LAYER_WEIGHT
+    v_normal = world.normal;
+#endif
 
 #if SOFT_PARTICLES || USE_POSITION_CLIP
     v_tex_pos_clip = clip_to_tex(pos_clip);

@@ -76,12 +76,14 @@ var _chosen_object = null;
 
 var _plock_state = PLS_NONE;
 
+var _hover_offset = false;
+var _drag_offset = false;
 
 /**
  * Callback which allows user to specify whether the camera/character movement
  * is controlled by mouse module or not.
  * @callback UseMouseControlCallback
- * @returns {Boolean} False to disable mouse control of active camera/character
+ * @returns {boolean} False to disable mouse control of active camera/character
  */
 
 /**
@@ -223,7 +225,7 @@ function exit_pointerlock() {
  * Check the pointer lock.
  * @method module:mouse.check_pointerlock
  * @param {HTMLElement} elem Element
- * @returns {Boolean} Check result
+ * @returns {boolean} Check result
  */
 exports.check_pointerlock = function(elem) {
     var request_plock = elem.requestPointerLock ||
@@ -240,10 +242,11 @@ exports.check_pointerlock = function(elem) {
  * @param {HTMLElement} elem Element
  * @param {UseMouseControlCallback} [use_mouse_control_cb] Callback to check the mouse control
  * @param {RotationCallback} [rotation_cb] Callback for camera rotation. If not specified, the default one will be used.
+ * @param {boolean} [relative_canvas=false] Calculate coordinates relative to canvas.
  * @method module:mouse.request_mouse_drag
  */
 exports.request_mouse_drag = request_mouse_drag;
-function request_mouse_drag(elem, use_mouse_control_cb, rotation_cb) {
+function request_mouse_drag(elem, use_mouse_control_cb, rotation_cb, relative_canvas) {
 
     if (_plock_state == PLS_DRAG)
         return;
@@ -253,6 +256,7 @@ function request_mouse_drag(elem, use_mouse_control_cb, rotation_cb) {
 
     _use_mouse_control_cb = use_mouse_control_cb || function() {return true};
     rotation_cb = rotation_cb || default_rotation_cb;
+    _drag_offset = Boolean(relative_canvas);
 
     elem.addEventListener("mousedown", drag_mouse_down_cb, false);
     elem.addEventListener("mouseup",   drag_mouse_up_cb,   false);
@@ -286,18 +290,35 @@ function exit_mouse_drag(elem) {
 function drag_mouse_move_cb(e) {
     if (_use_mouse_control_cb()) {
 
-        _mouse_delta[0] += (e.clientX - _mouse_x) * DRAG_MOUSE_DELTA_MULT;
-        _mouse_delta[1] += (e.clientY - _mouse_y) * DRAG_MOUSE_DELTA_MULT;
+        if (_drag_offset)
+            var coords = m_cont.client_to_element_coords(e.clientX, e.clientY,
+                    e.target, _vec2_tmp);
+        else {
+            var coords = _vec2_tmp;
+            coords[0] = e.clientX;
+            coords[1] = e.clientY;
+        }
+        _mouse_delta[0] += (coords[0] - _mouse_x) * DRAG_MOUSE_DELTA_MULT;
+        _mouse_delta[1] += (coords[1] - _mouse_y) * DRAG_MOUSE_DELTA_MULT;
 
-        _mouse_x = e.clientX;
-        _mouse_y = e.clientY;
+        _mouse_x = coords[0];
+        _mouse_y = coords[1];
     }
     e.preventDefault();
 }
 
 function drag_mouse_down_cb(e) {
-    _mouse_x = e.clientX;
-    _mouse_y = e.clientY;
+    if (_drag_offset)
+        var coords = m_cont.client_to_element_coords(e.clientX, e.clientY,
+                e.target, _vec2_tmp);
+    else {
+        var coords = _vec2_tmp;
+        coords[0] = e.clientX;
+        coords[1] = e.clientY;
+    }
+
+    _mouse_x = coords[0];
+    _mouse_y = coords[1];
 
     e.currentTarget.addEventListener("mousemove", drag_mouse_move_cb, false);
     e.preventDefault();
@@ -331,10 +352,12 @@ function default_rotation_cb(rot_x, rot_y) {
 }
 /**
  * Enable objects outlining by mouse hover.
+ * @param {boolean} [relative_canvas=false] Calculate coordinates relative to canvas.
  * @method module:mouse.enable_mouse_hover_outline
  */
 exports.enable_mouse_hover_outline = enable_mouse_hover_outline;
-function enable_mouse_hover_outline() {
+function enable_mouse_hover_outline(relative_canvas) {
+    _hover_offset = Boolean(relative_canvas);
     if (!m_main.detect_mobile()) {
         var main_canvas = m_cont.get_canvas();
         main_canvas.addEventListener("mousemove", objects_outline);
@@ -356,9 +379,12 @@ function disable_mouse_hover_outline() {
 }
 
 function objects_outline(e) {
-    var canvas_xy = m_cont.client_to_canvas_coords(e.clientX, e.clientY, _vec2_tmp);
+    if (_hover_offset) {
+        var c_coord = m_cont.client_to_canvas_coords(e.clientX, e.clientY, _vec2_tmp);
+        var obj = m_scs.pick_object(c_coord[0], c_coord[1]);
+    } else
+        var obj = m_scs.pick_object(e.clientX, e.clientY);
 
-    var obj = m_scs.pick_object(canvas_xy[0], canvas_xy[1]);
     if (obj) {
         if (m_scs.outlining_is_enabled(obj))
             m_scs.set_outline_intensity(obj, 1);
@@ -372,42 +398,64 @@ function objects_outline(e) {
 /**
  * Get mouse/touch X coordinate.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
- * @param {Boolean} [target_touches=false] Use only those touches that were 
+ * @param {boolean} [target_touches=false] Use only those touches that were 
  * started on the event target element (the targetTouches property).
+ * @param {boolean} [relative_canvas=false] Return coordinates relative to canvas.
  * @method module:mouse.get_coords_x
- * @returns {Number} Client area horizontal coordinate or -1 if not defined
+ * @returns {number} Client area horizontal coordinate or -1 if not defined
  */
 exports.get_coords_x = get_coords_x;
-function get_coords_x(event, target_touches) {
+function get_coords_x(event, target_touches, relative_canvas) {
 
     var touches = target_touches ? event.targetTouches : event.touches;
 
-    if ("clientX" in event)
-        return event.clientX;
-    else if (touches &amp;&amp; "clientX" in touches[0])
-        return touches[0].clientX;
-    else
-        return -1;
+    if (relative_canvas) {
+        if ("clientX" in event &amp;&amp; "clientY" in event)
+            return m_cont.client_to_canvas_coords(event.clientX,
+                    event.clientY, _vec2_tmp)[0];
+        else if (touches &amp;&amp; touches[0] &amp;&amp; "clientX" in touches[0] &amp;&amp; "clientY" in touches[0])
+            return m_cont.client_to_canvas_coords(touches[0].clientX,
+                touches[0].clientY, _vec2_tmp)[0];
+        else
+            return -1;
+    } else
+        if ("clientX" in event)
+            return event.clientX;
+        else if (touches &amp;&amp; touches[0] &amp;&amp; "clientX" in touches[0])
+            return touches[0].clientX;
+        else
+            return -1;
 }
 /**
  * Get mouse/touch Y coordinate.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
- * @param {Boolean} [target_touches=false] Use only those touches that were 
+ * @param {boolean} [target_touches=false] Use only those touches that were 
  * started on the event target element (the targetTouches property).
+ * @param {boolean} [relative_canvas=false] Return coordinates relative to canvas.
  * @method module:mouse.get_coords_y
- * @returns {Number} Client area vertical coordinate or -1 if not defined
+ * @returns {number} Client area vertical coordinate or -1 if not defined
  */
 exports.get_coords_y = get_coords_y;
-function get_coords_y(event, target_touches) {
+function get_coords_y(event, target_touches, relative_canvas) {
 
     var touches = target_touches ? event.targetTouches : event.touches;
 
-    if ("clientY" in event)
-        return event.clientY;
-    else if (touches &amp;&amp; "clientY" in touches[0])
-        return touches[0].clientY;
-    else
-        return -1;
+    if (relative_canvas) {
+        if ("clientX" in event &amp;&amp; "clientY" in event)
+            return m_cont.client_to_canvas_coords(event.clientX,
+                    event.clientY, _vec2_tmp)[1];
+        else if (touches &amp;&amp; touches[0] &amp;&amp; "clientX" in touches[0] &amp;&amp; "clientY" in touches[0])
+            return m_cont.client_to_canvas_coords(touches[0].clientX,
+                    touches[0].clientY, _vec2_tmp)[1];
+        else
+            return -1;
+    } else
+        if ("clientY" in event)
+            return event.clientY;
+        else if (touches &amp;&amp; touches[0] &amp;&amp; "clientY" in touches[0])
+            return touches[0].clientY;
+        else
+            return -1;
 }
 
 function smooth_coeff_mouse() {
@@ -421,7 +469,7 @@ function smooth_coeff_touch() {
 /**
  * Set smooth factor for camera rotation while in pointerlock mode.
  * @method module:mouse.set_plock_smooth_factor
- * @param {Number} value New smooth factor
+ * @param {number} value New smooth factor
  */
 exports.set_plock_smooth_factor = function(value) {
     _smooth_factor = value;
@@ -430,7 +478,7 @@ exports.set_plock_smooth_factor = function(value) {
 /**
  * Get smooth factor for camera rotation while in pointerlock mode.
  * @method module:mouse.get_plock_smooth_factor
- * @returns {Number} Smooth factor
+ * @returns {number} Smooth factor
  */
 exports.get_plock_smooth_factor = function() {
     return _smooth_factor;
@@ -447,13 +495,13 @@ exports.get_plock_smooth_factor = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Feb 28 2017 15:47:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

@@ -58,9 +58,12 @@ exports.init = function(elapsed_sensor, level_conf) {
             var target_val = obelisk_wrapper.num_gems / _level_conf.OBELISK_NUM_GEMS;
             var val = obelisk_wrapper.magic_val;
             var elapsed = m_ctl.get_sensor_value(obj, id, 0);
-            if (val == target_val)
+            var val_diff = val - target_val;
+
+            if (Math.abs(val_diff) <= 0.25 * elapsed) {
+                obelisk_wrapper.magic_val = target_val;
                 return;
-            else if (val < target_val)
+            } else if (val < target_val)
                 obelisk_wrapper.magic_val += 0.25 * elapsed;
             else if (val > target_val)
                 obelisk_wrapper.magic_val -= 0.25 * elapsed;

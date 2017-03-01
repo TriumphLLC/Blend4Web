@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ var m_bounds     = require("__boundings");
 var m_cam        = require("__camera");
 var m_cfg        = require("__config");
 var m_cons       = require("__constraints");
+var m_cont       = require("__container");
 var m_geom       = require("__geometry");
 var m_lights     = require("__lights");
 var m_nla        = require("__nla");
@@ -41,6 +42,7 @@ var m_print      = require("__print");
 var m_primitives = require("__primitives");
 var m_quat       = require("__quat");
 var m_scenes     = require("__scenes");
+var m_subs       = require("__subscene");
 var m_sfx        = require("__sfx");
 var m_trans      = require("__transform");
 var m_tex        = require("__textures");
@@ -147,6 +149,18 @@ exports.update_object = function(bpy_obj, obj) {
     obj.uuid = bpy_obj["uuid"];
     obj.bpy_origin = true;
 
+    // for material inheritance
+    if (bpy_obj["b4w_dynamic_geometry"]) {
+        obj._bpy_obj = bpy_obj;
+
+        for (var i = 0; i < bpy_obj["data"]["materials"].length; i++) {
+            var bpy_mat = bpy_obj["data"]["materials"][i];
+            obj.mat_inheritance_data.original_mat_names.push(bpy_mat["name"]);
+            obj.mat_inheritance_data.bpy_materials.push(bpy_mat);
+            obj.mat_inheritance_data.is_disabled.push(false);
+        }
+    }
+
     prepare_default_actions(bpy_obj, obj);
     bpy_obj._is_dynamic = obj.is_dynamic = calc_is_dynamic(bpy_obj, obj);
     bpy_obj._is_updated = true;
@@ -180,11 +194,15 @@ exports.update_object = function(bpy_obj, obj) {
             category: bpy_obj["b4w_object_tags"]["category"]
         }
 
+    obj.custom_prop = bpy_obj["b4w_custom_prop"]
+
     if (bpy_obj["b4w_viewport_alignment"])
         obj.viewport_alignment = {
             alignment: bpy_obj["b4w_viewport_alignment"]["alignment"],
             distance: bpy_obj["b4w_viewport_alignment"]["distance"]
         }
+
+    render.hide = bpy_obj["b4w_hidden_on_load"];
 
     switch (bpy_obj["type"]) {
     case "ARMATURE":
@@ -193,7 +211,6 @@ exports.update_object = function(bpy_obj, obj) {
         var pose_data = m_anim.calc_pose_data(bone_pointers);
 
         if (bpy_obj["b4w_animation_mixing"]) {
-            var length = pose_data.quats.length;
             render.quats_before = new Float32Array(pose_data.quats);
             render.quats_after  = new Float32Array(pose_data.quats);
             render.trans_before = new Float32Array(pose_data.trans);
@@ -221,6 +238,7 @@ exports.update_object = function(bpy_obj, obj) {
         break;
 
     case "MESH":
+        obj.is_boundings_overridden = bpy_obj["data"]["is_boundings_overridden"];
         render.do_not_render = bpy_obj["b4w_do_not_render"];
         render.bb_original = m_batch.bb_bpy_to_b4w(bpy_obj["data"]["b4w_boundings"]["bb"]);
         render.selectable = cfg_out.outlining_overview_mode || bpy_obj["b4w_selectable"];
@@ -287,7 +305,6 @@ exports.update_object = function(bpy_obj, obj) {
             render.detail_bend_col.overall_stiffness = bnd_st["overall_stiffness_col"];
         }
        
-        render.hide = bpy_obj["b4w_hidden_on_load"];
         render.dynamic_geometry = bpy_obj["b4w_dynamic_geometry"];
 
         // assign params for object (bounding) physics simulation
@@ -325,7 +342,7 @@ exports.update_object = function(bpy_obj, obj) {
         var is_enabled = false;
         for (var i = 0; i < obj.scenes_data.length; i++)
             if (obj.scenes_data[i].scene._sfx) {
-                var is_enabled = true;
+                is_enabled = true;
                 break;
             }
 
@@ -395,7 +412,7 @@ exports.update_world = function(bpy_world, world) {
     bpy_world._is_updated = true;
 
     var render_type = world.type;
-    var render = world.render = m_obj_util.create_render(render_type);
+    world.render = m_obj_util.create_render(render_type);
 
     world.use_default_animation = bpy_world["b4w_use_default_animation"];
     world.anim_behavior_def = m_anim.anim_behavior_bpy_b4w(bpy_world["b4w_anim_behavior"]);
@@ -418,7 +435,7 @@ exports.update_object_relations = function(bpy_obj, obj) {
         var scenes_have_phy = false;
         for (var i = 0; i < obj.scenes_data.length; i++)
             if (obj.scenes_data[i].scene._physics) {
-                var scenes_have_phy = true;
+                scenes_have_phy = true;
                 break;
             }
 
@@ -509,7 +526,7 @@ exports.update_object_relations = function(bpy_obj, obj) {
         }
     }
 
-    if (obj.type == "MESH")
+    if (obj.type == "MESH") {
 
         // apply pose if any
         var bpy_armobj = m_anim.get_bpy_armobj(bpy_obj);
@@ -543,13 +560,13 @@ exports.update_object_relations = function(bpy_obj, obj) {
         }
         if (render.reflective)
             attach_reflection_data(bpy_obj, obj);
+    }
 }
 
 function has_dynamic_physics(obj) {
-    var render = obj.render;
     var phy_set = obj.physics_settings;
 
-    return (obj.is_vehicle || obj.is_floating || m_phy.is_character(obj)) ||
+    return (obj.is_vehicle || obj.is_floating || obj.is_character) ||
            (obj.use_obj_physics && !phy_set.use_ghost && phy_set.mass > 0 &&
            (phy_set.physics_type == "DYNAMIC" || phy_set.physics_type == "RIGID_BODY"));
 }
@@ -874,6 +891,10 @@ exports.get_meta_tags = function(obj) {
     return m_util.clone_object_r(obj.metatags);
 }
 
+exports.get_custom_prop = function(obj) {
+    return obj.custom_prop;
+}
+
 exports.cleanup = function() {
     _color_id_counter = 0;
     _cube_refl_counter = 0;
@@ -919,6 +940,16 @@ function copy_object(obj, new_name, deep_copy) {
 
     new_obj.bpy_origin = obj.bpy_origin;
 
+    // by link
+    new_obj._bpy_obj = obj._bpy_obj;
+
+    new_obj.mat_inheritance_data.original_mat_names 
+            = m_obj_util.copy_bpy_object_props_by_link(obj.mat_inheritance_data.original_mat_names);
+    new_obj.mat_inheritance_data.bpy_materials 
+            = m_obj_util.copy_bpy_object_props_by_link(obj.mat_inheritance_data.bpy_materials);
+    new_obj.mat_inheritance_data.is_disabled 
+            = m_obj_util.copy_bpy_object_props_by_link(obj.mat_inheritance_data.is_disabled); 
+    
     // NOTE: not all props are needed or supported for the copied object
     new_obj.is_dynamic = obj.is_dynamic;
     new_obj.is_hair_dupli = obj.is_hair_dupli;
@@ -927,6 +958,7 @@ function copy_object(obj, new_name, deep_copy) {
 
     new_obj.render = m_obj_util.clone_render(obj.render);
     new_obj.metatags = m_obj_util.copy_object_props_by_value(obj.metatags);
+    new_obj.custom_prop = m_obj_util.copy_object_props_by_value(obj.custom_prop);
 
     copy_scene_data(obj, new_obj);
     new_obj.action_anim_cache = m_obj_util.copy_bpy_object_props_by_link(obj.action_anim_cache);
@@ -1001,7 +1033,8 @@ function copy_batches(obj, new_obj, deep_copy) {
                     m_render.assign_vao(new_batches[j]);
 
                 // to create unique batch ID
-                new_batches[j].odd_id_prop = new_obj.uuid;
+                new_batches[j].odd_id_prop = m_batch.generate_odd_id(
+                        new_batches[j], new_obj.render, new_obj.uuid);
                 m_batch.update_batch_id(new_batches[j]);
             }
 
@@ -1009,16 +1042,6 @@ function copy_batches(obj, new_obj, deep_copy) {
 
         } else
             new_sc_data.batches = batches;
-
-        for (var j = 0; j < new_sc_data.batches.length; j++)
-            increase_all_tex_num_users(new_sc_data.batches[j])
-    }
-}
-
-function increase_all_tex_num_users(batch) {
-    var textures = batch.textures;
-    for (var i = 0; i < textures.length; i++) {
-        m_tex.increase_num_users(textures[i]);
     }
 }
 
@@ -1216,6 +1239,9 @@ exports.update_boundings = function(obj) {
         if (batch.type == "MAIN") {
             var type = m_geom.get_vbo_type_by_attr_name("a_position");
             var vbo_source = m_geom.get_vbo_source_by_type(batch.bufs_data.vbo_source_data, type);
+            if (!vbo_source)
+                continue;
+
             var pos_offset = batch.bufs_data.pointers["a_position"].offset;
             max_x = min_x = vbo_source[pos_offset];
             max_y = min_y = vbo_source[pos_offset + 1];
@@ -1232,6 +1258,9 @@ exports.update_boundings = function(obj) {
 
         var type = m_geom.get_vbo_type_by_attr_name("a_position");
         var vbo_source = m_geom.get_vbo_source_by_type(batch.bufs_data.vbo_source_data, type);
+        if (!vbo_source)
+            continue;
+
         var pos_offset = batch.bufs_data.pointers["a_position"].offset;
         var pos_length = batch.bufs_data.pointers["a_position"].length + pos_offset;
 
@@ -1304,7 +1333,6 @@ exports.update_boundings = function(obj) {
     var s_cen_z = 0.5 * (max_z + min_z);
 
     var c_cen_x = s_cen_x;
-    var c_cen_y = s_cen_y;
     var c_cen_z = s_cen_z;
 
     var s_rad = Math.max(x_width, Math.max(y_width, z_width)) / 2;
@@ -1340,6 +1368,9 @@ exports.update_boundings = function(obj) {
 
             var type = m_geom.get_vbo_type_by_attr_name("a_position");
             var vbo_source = m_geom.get_vbo_source_by_type(batch.bufs_data.vbo_source_data, type);
+            if (!vbo_source)
+                continue;
+
             var pointers = batches[i].bufs_data.pointers;
 
             var pos_offset = pointers["a_position"].offset;
@@ -1488,8 +1519,9 @@ exports.get_scene_objs_derived = function(scene, type, data_id) {
     return objs;
 }
 
-exports.get_all_objects = function(data_id) {
-    var all_objs = _all_objects["ALL"];
+exports.get_all_objects = get_all_objects;
+function get_all_objects(type, data_id) {
+    var all_objs = _all_objects[type] || [];
     if (data_id == DATA_ID_ALL)
         return all_objs;
 
@@ -1509,7 +1541,7 @@ exports.get_first_character = function(scene) {
         for (var i = 0; i < mesh_objs.length; i++) {
             var obj = mesh_objs[i];
 
-            if (!m_phy.is_character(obj))
+            if (!m_phy.has_character_physics(obj))
                 continue;
 
             var scenes_data = obj.scenes_data;
@@ -1524,63 +1556,23 @@ exports.get_first_character = function(scene) {
     return null;
 }
 
-function sort_func(l1, l2) {
-    if (l2.use_diffuse && l2.use_specular &&
-        !(l1.use_diffuse && l1.use_specular))
-        return true;
-    if (!l1.use_diffuse)
-        if(l2.use_diffuse || (!l1.use_specular && l2.use_specular))
-            return true;
-    return false;
-}
-
-// NOTE: sorting for iPAD (need to limit lamps number and preserve most valuable lamps)
-exports.sort_lamps = function(scene) {
-    var lamps = get_scene_objs(scene, "LAMP", DATA_ID_ALL);
-    if (lamps.length != scene._render.num_lamps_added)
-        return;
-
-    var lamp_indexes = [];
-    for (var i = 0; i < lamps.length; i++) {
-        var lamp = lamps[i];
-        var scene_data = m_obj_util.get_scene_data(lamp, scene);
-        lamp_indexes[scene_data.light_index] = i;
-    }
-
-    for (var i = 0; i < lamp_indexes.length - 1; i++) {
-        for (var j = i + 1; j < lamp_indexes.length; j++) {
-            if (sort_func(lamps[lamp_indexes[i]].light,
-                          lamps[lamp_indexes[j]].light)) {
-                var tmp = lamp_indexes[i];
-                lamp_indexes[i] = lamp_indexes[j];
-                lamp_indexes[j] = tmp;
-            }
-        }
-    }
-
-    for (var i = 0; i < lamp_indexes.length; i++) {
-        var lamp = lamps[lamp_indexes[i]];
-        var lamp_sc_data = m_obj_util.get_scene_data(lamp, scene);
-        lamp_sc_data.light_index = i;
-        m_scenes.update_lamp_scene(lamps[lamp_indexes[i]], scene);
-    }
-}
-
-exports.obj_switch_cleanup_flags = function(obj, cleanup_bufs, cleanup_shader,
-                                            cleanup_nodemat) {
+exports.obj_switch_cleanup_flags = obj_switch_cleanup_flags;
+function obj_switch_cleanup_flags(obj, cleanup_bufs, cleanup_shader, cleanup_nodemat) {
     for (var i = 0; i < obj.scenes_data.length; i++) {
         var batches = obj.scenes_data[i].batches;
         for (var j = 0; j < batches.length; j++) {
             var batch = batches[j];
 
             // ibo/vbo buffs
-            batch.bufs_data.cleanup_gl_data_on_unload = cleanup_bufs;
+            if (batch.bufs_data)
+                batch.bufs_data.cleanup_gl_data_on_unload = cleanup_bufs;
 
             // vao batch
             batch.cleanup_gl_data_on_unload = cleanup_bufs;
 
             // shader
-            batch.shader.cleanup_gl_data_on_unload = cleanup_shader;
+            if (batch.shader)
+                batch.shader.cleanup_gl_data_on_unload = cleanup_shader;
 
             // nodemat graph
             if (batch.ngraph_proxy_id !== "") {
@@ -1749,6 +1741,14 @@ exports.pick_object = function(canvas_x, canvas_y) {
         return null;
     }
 
+    var subs_stereo = m_scenes.get_subs(main_scene, m_subs.STEREO);
+    if (subs_stereo)
+        if (subs_stereo.enable_hmd_stereo) {
+            var canvas = m_cont.get_canvas();
+            canvas_x = canvas.clientHeight / 2;
+            canvas_y = canvas.clientWidth / 2;
+        }
+
     var anchor = m_anchors.pick_anchor(canvas_x, canvas_y);
 
     if (anchor)
@@ -1861,6 +1861,288 @@ function objects_storage_remove(obj) {
 
 exports.objects_storage_check = function(obj) {
     return _all_objects[obj.type] && _all_objects[obj.type].indexOf(obj) > -1;
+}
+
+exports.set_hair_particles_wind_bend_params = function(obj) {
+    var render = obj.render;
+    var amp         = render.wind_bending_amp;
+    var main_freq   = render.wind_bending_freq;
+    var detail_freq = render.detail_bending_freq;
+    var detail_amp  = render.detail_bending_amp;
+    var branch_amp  = render.branch_bending_amp;
+
+    var scenes_data = obj.scenes_data;
+    for (var i = 0; i < scenes_data.length; i++) {
+        var batches = scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var batch = batches[j];
+            var bufs_data = batch.bufs_data;
+            var pointers = bufs_data.pointers;
+            var ma_pointer = pointers["au_wind_bending_amp"];
+            var mf_pointer = pointers["au_wind_bending_freq"];
+            var da_pointer = pointers["au_detail_bending_amp"];
+            var df_pointer = pointers["au_detail_bending_freq"];
+            var ba_pointer = pointers["au_branch_bending_amp"];
+
+            if (mf_pointer) {
+                var data = Array.apply(null, Array(mf_pointer.length)).map(function(){return main_freq});
+                m_geom.update_gl_buffer_sub_data(bufs_data, m_geom.VBO_FLOAT, new Float32Array(data), mf_pointer.offset);
+            }
+            if (ma_pointer) {
+                var data = Array.apply(null, Array(ma_pointer.length)).map(function(){return amp});
+                m_geom.update_gl_buffer_sub_data(bufs_data, m_geom.VBO_FLOAT, new Float32Array(data), ma_pointer.offset);
+            }
+            if (da_pointer) {
+                var data = Array.apply(null, Array(da_pointer.length)).map(function(){return detail_amp});
+                m_geom.update_gl_buffer_sub_data(bufs_data, m_geom.VBO_FLOAT, new Float32Array(data), da_pointer.offset);
+            }
+            if (df_pointer) {
+                var data = Array.apply(null, Array(df_pointer.length)).map(function(){return detail_freq});
+                m_geom.update_gl_buffer_sub_data(bufs_data, m_geom.VBO_FLOAT, new Float32Array(data), df_pointer.offset);
+            }
+            if (ba_pointer) {
+                var data = Array.apply(null, Array(ba_pointer.length)).map(function(){return branch_amp});
+                m_geom.update_gl_buffer_sub_data(bufs_data, m_geom.VBO_FLOAT, new Float32Array(data), ba_pointer.offset);
+            }
+        }
+    }
+}
+
+exports.inherit_material = function(obj_from, mat_from_name, obj_to, mat_to_name) {
+
+    // NOTE: temporary backward compatibility for old unreexported INHERIT_MAT nodes
+    if (!obj_from.render.dynamic_geometry || !obj_to.render.dynamic_geometry)
+        return;
+
+    // gather some information before inheritance
+    var main_batch_from = m_batch.find_batch_material(obj_from, mat_from_name, "MAIN");
+    var psys_dict = null;
+    var psys_cb = function(batch) {
+        if (!psys_dict)
+            psys_dict = {}
+        if (batch.particles_data)
+            psys_dict[batch.particles_data.name] = batch.particles_data;
+    }
+    m_batch.iterate_batches_by_mat(obj_to, mat_to_name, psys_cb, "PARTICLES");
+
+    // prepare "to" object
+    var old_link_to_obj = process_inherit_obj_before(obj_to, mat_to_name);
+
+    // prepare materials 
+    var old_bpy_mat_name = process_inherit_bpy_mat_before(obj_from, 
+            mat_from_name, obj_to, mat_to_name);
+
+    var curr_active_scene = m_scenes.get_active();
+    for (var i = 0; i < obj_to.scenes_data.length; i++) {
+        var scene = obj_to.scenes_data[i].scene;
+        m_scenes.set_active(scene);
+
+        var lamps = get_scene_objs(scene, "LAMP", 0);
+        var existed_batches = obj_to.scenes_data[i].batches;
+        obj_to.scenes_data[i].batches = [];
+
+        m_batch.generate_main_batches(scene, [obj_to._bpy_obj], lamps, []);
+        m_batch.create_forked_batches(obj_to, m_scenes.get_graph(scene), scene);
+
+        m_scenes.assign_scene_data_subs(scene, [obj_to]);
+        m_scenes.append_object(scene, obj_to, false, true);
+        obj_to.scenes_data[i].batches.push.apply(obj_to.scenes_data[i].batches, 
+                existed_batches);
+    }
+
+    // revert materials
+    process_inherit_bpy_mat_after(obj_from, mat_from_name, obj_to, old_bpy_mat_name);
+
+    // revert "to" object
+    process_inherit_obj_after(obj_to, old_link_to_obj);
+
+    recover_batch_state(obj_to, mat_to_name, obj_from, psys_dict, main_batch_from);
+
+    m_scenes.set_active(curr_active_scene);
+}
+
+function process_inherit_obj_before(obj_to, mat_to_name) {
+    // delete old batches
+    obj_switch_cleanup_flags(obj_to, true, false, true);
+    var objs = get_all_objects("ALL", DATA_ID_ALL);
+    for (var i = 0; i < objs.length; i++) {
+        var obj = objs[i];
+        if (obj != obj_to)
+            obj_switch_cleanup_flags(obj, false, false, false);
+    }
+
+    m_scenes.remove_object_bundles(obj_to, mat_to_name);
+    for (var i = 0; i < obj_to.scenes_data.length; i++)
+        for (var j = obj_to.scenes_data[i].batches.length - 1; j >= 0; j--) {
+            var batch = obj_to.scenes_data[i].batches[j];
+            if (batch.material_names.length == 0 
+                    || batch.material_names.indexOf(mat_to_name) != -1)
+                obj_to.scenes_data[i].batches.splice(j, 1);
+        }
+    if (m_phy.obj_has_physics(obj_to))
+        m_phy.remove_object(obj_to);
+
+    for (var i = 0; i < objs.length; i++)
+        if (objs[i] != obj_to)
+            obj_switch_cleanup_flags(objs[i], true, true, true);
+
+    //NOTE: copied objects don't have their bpy objects referenced to them;
+    // important for batching
+    var old_link_to_obj = obj_to._bpy_obj._object;
+    obj_to._bpy_obj._object = obj_to;
+    return old_link_to_obj;
+}
+
+function process_inherit_obj_after(obj_to, old_link_to_obj) {
+    obj_to._bpy_obj._object = old_link_to_obj;
+    obj_switch_cleanup_flags(obj_to, true, true, true);
+}
+
+function process_inherit_bpy_mat_before(obj_from, mat_from_name, obj_to, mat_to_name) {
+    var bpy_mat_from_index = obj_from.mat_inheritance_data.original_mat_names.indexOf(mat_from_name);
+    var bpy_mat_to_index = obj_to.mat_inheritance_data.original_mat_names.indexOf(mat_to_name);
+    var bpy_mat_from = obj_from.mat_inheritance_data.bpy_materials[bpy_mat_from_index];
+
+    // store a new material for the object
+    obj_to.mat_inheritance_data.bpy_materials[bpy_mat_to_index] = bpy_mat_from;
+
+    // NOTE: assign proper name to keep it in batch.material_names
+    var old_bpy_mat_name = bpy_mat_from["name"];
+    bpy_mat_from["name"] = mat_to_name;
+
+    // NOTE: override materials on bpy object from the object (needed for copied 
+    // objects, that reference the same bpy objects), prevent excessive batching 
+    // through deleting the corresponding materials
+    for (var i = 0; i < obj_to._bpy_obj["data"]["materials"].length; i++) {
+        obj_to._bpy_obj["data"]["materials"][i] = obj_to.mat_inheritance_data.bpy_materials[i];
+        obj_to.mat_inheritance_data.is_disabled[i] = !(i == bpy_mat_to_index);
+    }
+
+    return old_bpy_mat_name;
+}
+
+function process_inherit_bpy_mat_after(obj_from, mat_from_name, obj_to, old_bpy_mat_name) {
+    // enable all bpy materials
+    for (var i = 0; i < obj_to._bpy_obj["data"]["materials"].length; i++)
+        obj_to.mat_inheritance_data.is_disabled[i] = false;
+
+    // revert old name of the inherited bpy material
+    var bpy_mat_from_index = obj_from.mat_inheritance_data.original_mat_names.indexOf(mat_from_name);
+    var bpy_mat_from = obj_from.mat_inheritance_data.bpy_materials[bpy_mat_from_index];
+    bpy_mat_from["name"] = old_bpy_mat_name;
+}
+
+function recover_batch_state(obj_to, mat_to_name, obj_from, psys_dict, main_batch_from) {
+
+    // update shape keys
+    for (var i = 1; i < obj_to.render.shape_keys_values.length; i++) {
+        var name = obj_to.render.shape_keys_values[i]["name"];
+        var val = obj_to.render.shape_keys_values[i]["value"];
+        m_geom.apply_shape_key(obj_to, name, val);
+    }
+
+    // update animations
+    if (m_anim.is_animated(obj_to))
+        for (var i = 0; i < obj_to.anim_slots.length; i++) {
+            var slot = obj_to.anim_slots[i];
+            if (slot)
+                switch (slot.type) {
+                // update particle emission animations
+                case m_anim.OBJ_ANIM_TYPE_PARTICLES:
+                    var frame = m_anim.get_current_frame_float(obj_to, i);
+                    m_anim.set_frame(obj_to, frame, i);
+                    break;
+
+                // remove old batches from material animations
+                case m_anim.OBJ_ANIM_TYPE_MATERIAL:
+                    if (slot.node_batches)
+                        for (var j = slot.node_batches.length - 1; j >= 0; j--) {
+                            var batch = slot.node_batches[j];
+                            if (batch.material_names.indexOf(mat_to_name) != -1)
+                                slot.node_batches.splice(j, 1);
+                        }
+                    break;
+                }
+        }
+
+    // update particles data
+    if (psys_dict) {
+        var psys_cb = function(batch) {
+            if (batch.particles_data) {
+                var name = batch.particles_data.name;
+                if (psys_dict[name]) {
+                    var need_factor_update = batch.particles_data.count_factor 
+                            != psys_dict[name].count_factor;
+
+                    batch.particles_data = m_util.clone_object_r(psys_dict[name]);
+                    if (need_factor_update)
+                        m_particles.set_factor(obj_to, name, 
+                                batch.particles_data.count_factor);
+                }
+            }
+        }
+        m_batch.iterate_batches_by_mat(obj_to, mat_to_name, psys_cb, "PARTICLES");
+    }
+
+    // update batch properties, that can be changed via API on the source batch
+    if (main_batch_from) {
+        var main_batch_to = m_batch.find_batch_material(obj_to, mat_to_name, "MAIN");
+        if (main_batch_to) {
+            // common stack params
+            main_batch_to.diffuse_color.set(main_batch_from.diffuse_color);
+            main_batch_to.diffuse_intensity = main_batch_from.diffuse_intensity;
+            main_batch_to.diffuse_color_factor = main_batch_from.diffuse_color_factor;
+            main_batch_to.diffuse_params.set(main_batch_from.diffuse_params);
+
+            main_batch_to.specular_color.set(main_batch_from.specular_color);
+            main_batch_to.specular_color_factor = main_batch_from.specular_color_factor;
+            main_batch_to.specular_params.set(main_batch_from.specular_params);
+            main_batch_to.specular_alpha = main_batch_from.specular_alpha;
+
+            main_batch_to.emit = main_batch_from.emit;
+            main_batch_to.ambient = main_batch_from.ambient;
+
+            main_batch_to.alpha_factor = main_batch_from.alpha_factor;
+            main_batch_to.mirror_factor = main_batch_from.mirror_factor;
+            main_batch_to.normal_factor = main_batch_from.normal_factor;
+            main_batch_to.reflect_factor = main_batch_from.reflect_factor;
+            main_batch_to.refr_bump = main_batch_from.refr_bump;
+            main_batch_to.fresnel_params.set(main_batch_from.fresnel_params);
+
+            main_batch_to.parallax_scale = main_batch_from.parallax_scale;
+            main_batch_to.texture_scale.set(main_batch_from.texture_scale);
+
+            main_batch_to.shallow_water_col.set(main_batch_from.shallow_water_col);
+            main_batch_to.shallow_water_col_fac = main_batch_from.shallow_water_col_fac;
+            main_batch_to.shore_water_col.set(main_batch_from.shore_water_col);
+            main_batch_to.shore_water_col_fac = main_batch_from.shore_water_col_fac;
+            main_batch_to.foam_factor = main_batch_from.foam_factor;
+            main_batch_to.water_norm_uv_velocity = main_batch_from.water_norm_uv_velocity;
+
+            // Value/RGB nodes
+            main_batch_to.node_values = m_util.clone_object_r(main_batch_from.node_values);
+            main_batch_to.node_rgbs = m_util.clone_object_r(main_batch_from.node_rgbs);
+        }
+    }
+
+    // transfer possibly changed textures
+    var tex_cb = function(batch) {
+        for (var i = 0; i < batch.bpy_tex_names.length; i++) {
+            var tex_name = batch.bpy_tex_names[i];
+            var tex_to = batch.textures[i];
+
+            if (tex_to.source != "IMAGE" && tex_to.source != "ENVIRONMENT")
+                continue;
+
+            var tex_from = m_tex.get_texture_by_name(obj_from, tex_name);
+            // tex_from can be null if the source object has "do_not_render" flag
+            if (!tex_from || tex_to.img_full_filepath == tex_from.img_full_filepath)
+                continue;
+
+            m_tex.set_texture_by_name(obj_to, tex_name, tex_from);
+        }
+    }
+    m_batch.iterate_batches_by_mat(obj_to, mat_to_name, tex_cb);
 }
 
 }

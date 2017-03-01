@@ -30,12 +30,13 @@ from tornado import httputil
 from tornado import iostream
 from tornado.log import gen_log, app_log
 from tornado import stack_context
-from tornado.util import GzipDecompressor
+from tornado.util import GzipDecompressor, PY3
 
 
 class _QuietException(Exception):
     def __init__(self):
         pass
+
 
 class _ExceptionLoggingContext(object):
     """Used with the ``with`` statement when calling delegate methods to
@@ -52,6 +53,7 @@ class _ExceptionLoggingContext(object):
         if value is not None:
             self.logger.error("Uncaught exception", exc_info=(typ, value, tb))
             raise _QuietException
+
 
 class HTTP1ConnectionParameters(object):
     """Parameters for `.HTTP1Connection` and `.HTTP1ServerConnection`.
@@ -202,7 +204,7 @@ class HTTP1Connection(httputil.HTTPConnection):
                     # 1xx responses should never indicate the presence of
                     # a body.
                     if ('Content-Length' in headers or
-                        'Transfer-Encoding' in headers):
+                            'Transfer-Encoding' in headers):
                         raise httputil.HTTPInputError(
                             "Response code %d cannot have body" % code)
                     # TODO: client delegates will get headers_received twice
@@ -340,7 +342,7 @@ class HTTP1Connection(httputil.HTTPConnection):
                 'Transfer-Encoding' not in headers)
         else:
             self._response_start_line = start_line
-            lines.append(utf8('HTTP/1.1 %s %s' % (start_line[1], start_line[2])))
+            lines.append(utf8('HTTP/1.1 %d %s' % (start_line[1], start_line[2])))
             self._chunking_output = (
                 # TODO: should this use
                 # self._request_start_line.version or
@@ -349,7 +351,7 @@ class HTTP1Connection(httputil.HTTPConnection):
                 # 304 responses have no body (not even a zero-length body), and so
                 # should not have either Content-Length or Transfer-Encoding.
                 # headers.
-                start_line.code != 304 and
+                start_line.code not in (204, 304) and
                 # No need to chunk the output if a Content-Length is specified.
                 'Content-Length' not in headers and
                 # Applications are discouraged from touching Transfer-Encoding,
@@ -357,8 +359,8 @@ class HTTP1Connection(httputil.HTTPConnection):
                 'Transfer-Encoding' not in headers)
             # If a 1.0 client asked for keep-alive, add the header.
             if (self._request_start_line.version == 'HTTP/1.0' and
-                (self._request_headers.get('Connection', '').lower()
-                 == 'keep-alive')):
+                (self._request_headers.get('Connection', '').lower() ==
+                 'keep-alive')):
                 headers['Connection'] = 'Keep-Alive'
         if self._chunking_output:
             headers['Transfer-Encoding'] = 'chunked'
@@ -370,7 +372,14 @@ class HTTP1Connection(httputil.HTTPConnection):
             self._expected_content_remaining = int(headers['Content-Length'])
         else:
             self._expected_content_remaining = None
-        lines.extend([utf8(n) + b": " + utf8(v) for n, v in headers.get_all()])
+        # TODO: headers are supposed to be of type str, but we still have some
+        # cases that let bytes slip through. Remove these native_str calls when those
+        # are fixed.
+        header_lines = (native_str(n) + ": " + native_str(v) for n, v in headers.get_all())
+        if PY3:
+            lines.extend(l.encode('latin1') for l in header_lines)
+        else:
+            lines.extend(header_lines)
         for line in lines:
             if b'\n' in line:
                 raise ValueError('Newline in header: ' + repr(line))
@@ -477,9 +486,11 @@ class HTTP1Connection(httputil.HTTPConnection):
             connection_header = connection_header.lower()
         if start_line.version == "HTTP/1.1":
             return connection_header != "close"
-        elif ("Content-Length" in headers
-              or headers.get("Transfer-Encoding", "").lower() == "chunked"
-              or start_line.method in ("HEAD", "GET")):
+        elif ("Content-Length" in headers or
+              headers.get("Transfer-Encoding", "").lower() == "chunked" or
+              getattr(start_line, 'method', None) in ("HEAD", "GET")):
+            # start_line may be a request or reponse start line; only
+            # the former has a method attribute.
             return connection_header == "keep-alive"
         return False
 
@@ -513,6 +524,12 @@ class HTTP1Connection(httputil.HTTPConnection):
 
     def _read_body(self, code, headers, delegate):
         if "Content-Length" in headers:
+            if "Transfer-Encoding" in headers:
+                # Response cannot contain both Content-Length and
+                # Transfer-Encoding headers.
+                # http://tools.ietf.org/html/rfc7230#section-3.3.3
+                raise httputil.HTTPInputError(
+                    "Response with both Transfer-Encoding and Content-Length")
             if "," in headers["Content-Length"]:
                 # Proxies sometimes cause Content-Length headers to get
                 # duplicated.  If all the values are identical then we can
@@ -523,7 +540,13 @@ class HTTP1Connection(httputil.HTTPConnection):
                         "Multiple unequal Content-Lengths: %r" %
                         headers["Content-Length"])
                 headers["Content-Length"] = pieces[0]
-            content_length = int(headers["Content-Length"])
+
+            try:
+                content_length = int(headers["Content-Length"])
+            except ValueError:
+                # Handles non-integer Content-Length value.
+                raise httputil.HTTPInputError(
+                    "Only integer Content-Length is allowed: %s" % headers["Content-Length"])
 
             if content_length > self._max_body_size:
                 raise httputil.HTTPInputError("Content-Length too long")
@@ -542,7 +565,7 @@ class HTTP1Connection(httputil.HTTPConnection):
 
         if content_length is not None:
             return self._read_fixed_body(content_length, delegate)
-        if headers.get("Transfer-Encoding") == "chunked":
+        if headers.get("Transfer-Encoding", "").lower() == "chunked":
             return self._read_chunked_body(delegate)
         if self.is_client:
             return self._read_body_until_close(delegate)
@@ -556,7 +579,9 @@ class HTTP1Connection(httputil.HTTPConnection):
             content_length -= len(body)
             if not self._write_finished or self.is_client:
                 with _ExceptionLoggingContext(app_log):
-                    yield gen.maybe_future(delegate.data_received(body))
+                    ret = delegate.data_received(body)
+                    if ret is not None:
+                        yield ret
 
     @gen.coroutine
     def _read_chunked_body(self, delegate):
@@ -577,7 +602,9 @@ class HTTP1Connection(httputil.HTTPConnection):
                 bytes_to_read -= len(chunk)
                 if not self._write_finished or self.is_client:
                     with _ExceptionLoggingContext(app_log):
-                        yield gen.maybe_future(delegate.data_received(chunk))
+                        ret = delegate.data_received(chunk)
+                        if ret is not None:
+                            yield ret
             # chunk ends with \r\n
             crlf = yield self.stream.read_bytes(2)
             assert crlf == b"\r\n"
@@ -617,11 +644,14 @@ class _GzipMessageDelegate(httputil.HTTPMessageDelegate):
                 decompressed = self._decompressor.decompress(
                     compressed_data, self._chunk_size)
                 if decompressed:
-                    yield gen.maybe_future(
-                        self._delegate.data_received(decompressed))
+                    ret = self._delegate.data_received(decompressed)
+                    if ret is not None:
+                        yield ret
                 compressed_data = self._decompressor.unconsumed_tail
         else:
-            yield gen.maybe_future(self._delegate.data_received(chunk))
+            ret = self._delegate.data_received(chunk)
+            if ret is not None:
+                yield ret
 
     def finish(self):
         if self._decompressor is not None:

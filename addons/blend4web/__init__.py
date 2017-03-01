@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,15 +17,15 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (16, 12, 1),
+    "version": (17, 2, 0),
     "blender": (2, 78, 0),
-    "b4w_format_version": "6.01",
+    "b4w_format_version": "6.02",
     "location": "File > Import-Export",
     "description": "Tool for interactive 3D visualization on the Internet",
     "warning": "",
     "wiki_url": "https://www.blend4web.com/doc",
     "tracker_url": "https://www.blend4web.com/en/forums/forum/17/",
-    "category": "Import-Export"
+    "category": "Blend4Web"
 }
 
 load_module_script =\
@@ -96,6 +96,7 @@ class B4WInitErrorDialog(bpy.types.Operator):
     bl_idname = "b4w.init_error_dialog"
     bl_label = "Blend4Web initialization error."
     bl_options = {"INTERNAL"}
+    msg = bpy.props.StringProperty()
 
     def execute(self, context):
         return {'FINISHED'}
@@ -107,7 +108,9 @@ class B4WInitErrorDialog(bpy.types.Operator):
 
     def draw(self, context):
         row = self.layout.row()
-        row.label("Incorrect addon directory name.", icon="ERROR")
+        if (self.msg == ""):
+            self.msg = "Incorrect addon directory name."
+        row.label(self.msg, icon="ERROR")
 bpy.utils.register_class(B4WInitErrorDialog)
 
 @bpy.app.handlers.persistent
@@ -382,10 +385,16 @@ def logic_nodetree_reform(arg):
                             node.strings.add()
                             node.strings[-1].name = "inp2"
 
+                    if node.type in ["SHOW", "HIDE"]:
+                        if not "ch" in node.bools:
+                            node.bools.add()
+                            node.bools[-1].name = "ch"
+
                     if node.type == "ENTRYPOINT":
                         if not "js" in node.bools:
                             node.bools.add()
                             node.bools[-1].name = "js"
+
 
 def init_runtime_addon_data():
     p = bpy.context.user_preferences.addons[__package__].preferences

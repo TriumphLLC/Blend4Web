@@ -1,12 +1,51 @@
 #controls_container {
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 170px;
 }
-    #controls_container .button_container {
-        height: auto;
-        margin-bottom: 15px;
-    }
-    #controls_container label {
-        cursor: pointer;
-    }
+
+#controls_container .btn:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  font-family: sans-serif;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+.btn {
+  background-color: #323232;
+  border: 2px solid rgba(98, 98, 98, .2);
+  border-radius: 2px;
+  width: 170px;
+  height: 30px;
+  display: block;
+  float: left;
+  font-size: 16px;
+  font-weight: normal;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: left;
+  padding-left: 8px;
+  line-height: 28px;
+  margin-bottom: 4px;
+  box-shadow: 0px 0px 4px 0px rgba(98, 98, 98, .8);
+  -webkit-transition: opacity .1s ease-in-out;
+  transition: opacity .1s ease-in-out;
+}
+
+.btn.active {
+  background-color: #5276cf;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}

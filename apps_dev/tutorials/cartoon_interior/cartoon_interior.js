@@ -15,7 +15,6 @@ var m_phy       = require("physics");
 var m_preloader = require("preloader");
 var m_scenes    = require("scenes");
 var m_trans     = require("transform");
-var m_util      = require("util");
 var m_version   = require("version");
 
 var m_quat = require("quat");

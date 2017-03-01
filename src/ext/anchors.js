@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,14 +26,13 @@
 b4w.module["anchors"] = function(exports, require) {
 
 var m_anchors = require("__anchors");
-var m_print   = require("__print");
 
 /**
  * The callback for the movement of the anchor.
  * @callback AnchorMoveCallback
- * @param {Number} x X (left) canvas coordinate.
- * @param {Number} y Y (top) canvas coordinate.
- * @param {String} appearance Anchor appearance, one of "visible", "out",
+ * @param {number} x X (left) canvas coordinate.
+ * @param {number} y Y (top) canvas coordinate.
+ * @param {string} appearance Anchor appearance, one of "visible", "out",
  * "covered"
  * @param {Object3D} obj Anchor object.
  * @param {?HtmlElement} anchor Anchor HTML element
@@ -58,7 +57,7 @@ exports.detach_move_cb = m_anchors.detach_move_cb;
  * Check if the given object is an anchor.
  * @method module:anchors.is_anchor
  * @param {Object3D} obj Anchor object.
- * @returns {Boolean} Check result.
+ * @returns {boolean} Check result.
  */
 exports.is_anchor = m_anchors.is_anchor;
 
@@ -66,7 +65,7 @@ exports.is_anchor = m_anchors.is_anchor;
  * Get anchor element ID.
  * @method module:anchors.get_element_id
  * @param {Object3D} obj Anchor object.
- * @returns {String|Boolean} Element ID or FALSE if the given object is not a 
+ * @returns {string|boolean} Element ID or FALSE if the given object is not a 
  * valid anchor.
  */
 exports.get_element_id = m_anchors.get_element_id;

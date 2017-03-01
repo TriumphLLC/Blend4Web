@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,12 +64,14 @@ var _chosen_object = null;
 
 var _plock_state = PLS_NONE;
 
+var _hover_offset = false;
+var _drag_offset = false;
 
 /**
  * Callback which allows user to specify whether the camera/character movement
  * is controlled by mouse module or not.
  * @callback UseMouseControlCallback
- * @returns {Boolean} False to disable mouse control of active camera/character
+ * @returns {boolean} False to disable mouse control of active camera/character
  */
 
 /**
@@ -211,7 +213,7 @@ function exit_pointerlock() {
  * Check the pointer lock.
  * @method module:mouse.check_pointerlock
  * @param {HTMLElement} elem Element
- * @returns {Boolean} Check result
+ * @returns {boolean} Check result
  */
 exports.check_pointerlock = function(elem) {
     var request_plock = elem.requestPointerLock ||
@@ -228,10 +230,11 @@ exports.check_pointerlock = function(elem) {
  * @param {HTMLElement} elem Element
  * @param {UseMouseControlCallback} [use_mouse_control_cb] Callback to check the mouse control
  * @param {RotationCallback} [rotation_cb] Callback for camera rotation. If not specified, the default one will be used.
+ * @param {boolean} [relative_canvas=false] Calculate coordinates relative to canvas.
  * @method module:mouse.request_mouse_drag
  */
 exports.request_mouse_drag = request_mouse_drag;
-function request_mouse_drag(elem, use_mouse_control_cb, rotation_cb) {
+function request_mouse_drag(elem, use_mouse_control_cb, rotation_cb, relative_canvas) {
 
     if (_plock_state == PLS_DRAG)
         return;
@@ -241,6 +244,7 @@ function request_mouse_drag(elem, use_mouse_control_cb, rotation_cb) {
 
     _use_mouse_control_cb = use_mouse_control_cb || function() {return true};
     rotation_cb = rotation_cb || default_rotation_cb;
+    _drag_offset = Boolean(relative_canvas);
 
     elem.addEventListener("mousedown", drag_mouse_down_cb, false);
     elem.addEventListener("mouseup",   drag_mouse_up_cb,   false);
@@ -274,18 +278,35 @@ function exit_mouse_drag(elem) {
 function drag_mouse_move_cb(e) {
     if (_use_mouse_control_cb()) {
 
-        _mouse_delta[0] += (e.clientX - _mouse_x) * DRAG_MOUSE_DELTA_MULT;
-        _mouse_delta[1] += (e.clientY - _mouse_y) * DRAG_MOUSE_DELTA_MULT;
+        if (_drag_offset)
+            var coords = m_cont.client_to_element_coords(e.clientX, e.clientY,
+                    e.target, _vec2_tmp);
+        else {
+            var coords = _vec2_tmp;
+            coords[0] = e.clientX;
+            coords[1] = e.clientY;
+        }
+        _mouse_delta[0] += (coords[0] - _mouse_x) * DRAG_MOUSE_DELTA_MULT;
+        _mouse_delta[1] += (coords[1] - _mouse_y) * DRAG_MOUSE_DELTA_MULT;
 
-        _mouse_x = e.clientX;
-        _mouse_y = e.clientY;
+        _mouse_x = coords[0];
+        _mouse_y = coords[1];
     }
     e.preventDefault();
 }
 
 function drag_mouse_down_cb(e) {
-    _mouse_x = e.clientX;
-    _mouse_y = e.clientY;
+    if (_drag_offset)
+        var coords = m_cont.client_to_element_coords(e.clientX, e.clientY,
+                e.target, _vec2_tmp);
+    else {
+        var coords = _vec2_tmp;
+        coords[0] = e.clientX;
+        coords[1] = e.clientY;
+    }
+
+    _mouse_x = coords[0];
+    _mouse_y = coords[1];
 
     e.currentTarget.addEventListener("mousemove", drag_mouse_move_cb, false);
     e.preventDefault();
@@ -319,10 +340,12 @@ function default_rotation_cb(rot_x, rot_y) {
 }
 /**
  * Enable objects outlining by mouse hover.
+ * @param {boolean} [relative_canvas=false] Calculate coordinates relative to canvas.
  * @method module:mouse.enable_mouse_hover_outline
  */
 exports.enable_mouse_hover_outline = enable_mouse_hover_outline;
-function enable_mouse_hover_outline() {
+function enable_mouse_hover_outline(relative_canvas) {
+    _hover_offset = Boolean(relative_canvas);
     if (!m_main.detect_mobile()) {
         var main_canvas = m_cont.get_canvas();
         main_canvas.addEventListener("mousemove", objects_outline);
@@ -344,9 +367,12 @@ function disable_mouse_hover_outline() {
 }
 
 function objects_outline(e) {
-    var canvas_xy = m_cont.client_to_canvas_coords(e.clientX, e.clientY, _vec2_tmp);
+    if (_hover_offset) {
+        var c_coord = m_cont.client_to_canvas_coords(e.clientX, e.clientY, _vec2_tmp);
+        var obj = m_scs.pick_object(c_coord[0], c_coord[1]);
+    } else
+        var obj = m_scs.pick_object(e.clientX, e.clientY);
 
-    var obj = m_scs.pick_object(canvas_xy[0], canvas_xy[1]);
     if (obj) {
         if (m_scs.outlining_is_enabled(obj))
             m_scs.set_outline_intensity(obj, 1);
@@ -360,42 +386,64 @@ function objects_outline(e) {
 /**
  * Get mouse/touch X coordinate.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
- * @param {Boolean} [target_touches=false] Use only those touches that were 
+ * @param {boolean} [target_touches=false] Use only those touches that were 
  * started on the event target element (the targetTouches property).
+ * @param {boolean} [relative_canvas=false] Return coordinates relative to canvas.
  * @method module:mouse.get_coords_x
- * @returns {Number} Client area horizontal coordinate or -1 if not defined
+ * @returns {number} Client area horizontal coordinate or -1 if not defined
  */
 exports.get_coords_x = get_coords_x;
-function get_coords_x(event, target_touches) {
+function get_coords_x(event, target_touches, relative_canvas) {
 
     var touches = target_touches ? event.targetTouches : event.touches;
 
-    if ("clientX" in event)
-        return event.clientX;
-    else if (touches && "clientX" in touches[0])
-        return touches[0].clientX;
-    else
-        return -1;
+    if (relative_canvas) {
+        if ("clientX" in event && "clientY" in event)
+            return m_cont.client_to_canvas_coords(event.clientX,
+                    event.clientY, _vec2_tmp)[0];
+        else if (touches && touches[0] && "clientX" in touches[0] && "clientY" in touches[0])
+            return m_cont.client_to_canvas_coords(touches[0].clientX,
+                touches[0].clientY, _vec2_tmp)[0];
+        else
+            return -1;
+    } else
+        if ("clientX" in event)
+            return event.clientX;
+        else if (touches && touches[0] && "clientX" in touches[0])
+            return touches[0].clientX;
+        else
+            return -1;
 }
 /**
  * Get mouse/touch Y coordinate.
  * @param {MouseEvent|TouchEvent} event Mouse/touch event
- * @param {Boolean} [target_touches=false] Use only those touches that were 
+ * @param {boolean} [target_touches=false] Use only those touches that were 
  * started on the event target element (the targetTouches property).
+ * @param {boolean} [relative_canvas=false] Return coordinates relative to canvas.
  * @method module:mouse.get_coords_y
- * @returns {Number} Client area vertical coordinate or -1 if not defined
+ * @returns {number} Client area vertical coordinate or -1 if not defined
  */
 exports.get_coords_y = get_coords_y;
-function get_coords_y(event, target_touches) {
+function get_coords_y(event, target_touches, relative_canvas) {
 
     var touches = target_touches ? event.targetTouches : event.touches;
 
-    if ("clientY" in event)
-        return event.clientY;
-    else if (touches && "clientY" in touches[0])
-        return touches[0].clientY;
-    else
-        return -1;
+    if (relative_canvas) {
+        if ("clientX" in event && "clientY" in event)
+            return m_cont.client_to_canvas_coords(event.clientX,
+                    event.clientY, _vec2_tmp)[1];
+        else if (touches && touches[0] && "clientX" in touches[0] && "clientY" in touches[0])
+            return m_cont.client_to_canvas_coords(touches[0].clientX,
+                    touches[0].clientY, _vec2_tmp)[1];
+        else
+            return -1;
+    } else
+        if ("clientY" in event)
+            return event.clientY;
+        else if (touches && touches[0] && "clientY" in touches[0])
+            return touches[0].clientY;
+        else
+            return -1;
 }
 
 function smooth_coeff_mouse() {
@@ -409,7 +457,7 @@ function smooth_coeff_touch() {
 /**
  * Set smooth factor for camera rotation while in pointerlock mode.
  * @method module:mouse.set_plock_smooth_factor
- * @param {Number} value New smooth factor
+ * @param {number} value New smooth factor
  */
 exports.set_plock_smooth_factor = function(value) {
     _smooth_factor = value;
@@ -418,7 +466,7 @@ exports.set_plock_smooth_factor = function(value) {
 /**
  * Get smooth factor for camera rotation while in pointerlock mode.
  * @method module:mouse.get_plock_smooth_factor
- * @returns {Number} Smooth factor
+ * @returns {number} Smooth factor
  */
 exports.get_plock_smooth_factor = function() {
     return _smooth_factor;

@@ -297,8 +297,10 @@ function stop_action(node, instance_id) {
     var speakers = inst.action.speakers;
     var manifold_name = inst.action.manifold_name;
     var manifold_owner = node.payload.anim_obj;
-    for (var i in speakers)
+    for (var i in speakers) {
+        m_sfx.pause(speakers[i])
         m_sfx.stop(speakers[i]);
+    }
     stop_anims(node);
     if (manifold_name && m_ctl.check_sensor_manifold(manifold_owner, manifold_name))
         m_ctl.remove_sensor_manifold(manifold_owner, manifold_name);

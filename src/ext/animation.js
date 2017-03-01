@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,10 +28,8 @@
 b4w.module["animation"] = function(exports, require) {
 
 var m_anim  = require("__animation");
-var m_armat = require("__armature");
 var m_obj_util = require("__obj_util");
 var m_print = require("__print");
-var m_tsr = require("__tsr");
 
 
 /**
@@ -46,20 +44,17 @@ var m_tsr = require("__tsr");
  * @see {@link module:animation.AB_CYCLIC},
  * {@link module:animation.AB_FINISH_RESET},
  * {@link module:animation.AB_FINISH_STOP}
- * @typedef AnimBehavior
- * @type {Number}
+ * @typedef {number} AnimBehavior
  */
 
 /**
  * Animation type enum. One of OBJ_ANIM_TYPE_*.
- * @typedef AnimType
- * @type {Number}
+ * @typedef {number} AnimType
  */
 
 /**
  * Animation slot enum. One of SLOT_*.
- * @typedef AnimSlot
- * @type {Number}
+ * @typedef {number} AnimSlot
  */
 
 /**
@@ -159,6 +154,12 @@ exports.OBJ_ANIM_TYPE_PARTICLES = m_anim.OBJ_ANIM_TYPE_PARTICLES;
 exports.OBJ_ANIM_TYPE_MATERIAL  = m_anim.OBJ_ANIM_TYPE_MATERIAL;
 
 /**
+ * Animation type: static.
+ * @const {AnimType} module:animation.OBJ_ANIM_TYPE_STATIC
+ */
+exports.OBJ_ANIM_TYPE_STATIC    = m_anim.OBJ_ANIM_TYPE_STATIC;
+
+/**
  * Animation behavior: cyclic.
  * @const {AnimBehavior} module:animation.AB_CYCLIC
  */
@@ -174,13 +175,11 @@ exports.AB_FINISH_RESET = m_anim.AB_FINISH_RESET;
  */
 exports.AB_FINISH_STOP = m_anim.AB_FINISH_STOP;
 
-var _tsr_tmp = m_tsr.create();
-
 /**
  * Check if the object is animated.
  * @method module:animation.is_animated
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_animated = function(obj) {
     return m_anim.is_animated(obj);
@@ -190,7 +189,7 @@ exports.is_animated = function(obj) {
  * Return the names of all available animations.
  * @method module:animation.get_anim_names
  * @param {Object3D} obj Object 3D
- * @returns {String[]} Array of animation names.
+ * @returns {string[]} Array of animation names.
  */
 exports.get_anim_names = function(obj) {
     if (!m_anim.obj_is_animatable(obj))
@@ -204,7 +203,7 @@ exports.get_anim_names = function(obj) {
  * @method module:animation.get_current_anim_name
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @returns {?String} Current animation name or null.
+ * @returns {?string} Current animation name or null.
  */
 exports.get_current_anim_name = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -218,7 +217,7 @@ exports.get_current_anim_name = function(obj, slot_num) {
  * Apply the animation to the object.
  * @method module:animation.apply
  * @param {Object3D} obj Object 3D
- * @param {String} name Animation name
+ * @param {string} name Animation name
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number.
  */
 exports.apply = function(obj, name, slot_num) {
@@ -354,7 +353,7 @@ exports.stop = function(obj, slot_num) {
  * @method module:animation.is_play
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_play = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -368,7 +367,7 @@ exports.is_play = function(obj, slot_num) {
  * Set the current frame of the object's animation.
  * @method module:animation.set_frame
  * @param {Object3D} obj Object 3D
- * @param {Number} frame Current frame (float)
+ * @param {number} frame Current frame (float)
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.set_frame = function(obj, frame, slot_num) {
@@ -415,7 +414,7 @@ exports.set_last_frame = function(obj, slot_num) {
  * @method module:animation.get_frame
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @returns {Number} Current frame
+ * @returns {number} Current frame
  */
 exports.get_frame = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -429,7 +428,7 @@ exports.get_frame = function(obj, slot_num) {
  * Set the speed of the object's animation.
  * @method module:animation.set_speed
  * @param {Object3D} obj Object 3D
- * @param {Number} speed Speed (may be negative) (float)
+ * @param {number} speed Speed (may be negative) (float)
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.set_speed = function(obj, speed, slot_num) {
@@ -446,7 +445,7 @@ exports.set_speed = function(obj, speed, slot_num) {
  * @method module:animation.get_speed
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @returns {Number} Animation speed.
+ * @returns {number} Animation speed.
  */
 exports.get_speed = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
@@ -465,7 +464,7 @@ exports.get_speed = function(obj, slot_num) {
  * @method module:animation.get_anim_start_frame
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @returns {Number} Animation start frame or -1 for incorrect object
+ * @returns {number} Animation start frame or -1 for incorrect object
  */
 exports.get_anim_start_frame = function(obj, slot_num) {
     if (m_anim.is_animated(obj)) {
@@ -485,7 +484,7 @@ exports.get_anim_start_frame = function(obj, slot_num) {
  * @method module:animation.get_anim_length
  * @param {Object3D} obj Object 3D
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
- * @returns {Number} Animation length or -1 for incorrect object
+ * @returns {number} Animation length or -1 for incorrect object
  */
 exports.get_anim_length = function(obj, slot_num) {
     if (m_anim.is_animated(obj)) {
@@ -535,8 +534,8 @@ exports.get_behavior = function(obj, slot_num) {
  * In order to disable the smoothing, specify the zero periods.
  * @method module:animation.apply_smoothing
  * @param {Object3D} obj Object 3D
- * @param {Number} [trans_period=0] Translation smoothing period
- * @param {Number} [quat_period=0] Rotation smoothing period
+ * @param {number} [trans_period=0] Translation smoothing period
+ * @param {number} [quat_period=0] Rotation smoothing period
  * @param {AnimSlot} [slot_num = SLOT_0] Animation slot number
  */
 exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
@@ -548,62 +547,19 @@ exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
 /**
  * Convert animation frames to seconds.
  * @method module:animation.frame_to_sec
- * @param {Number} frame Frame number
- * @returns {Number} Number of seconds
+ * @param {number} frame Frame number
+ * @returns {number} Number of seconds
  */
 exports.frame_to_sec = function(frame) {
     return m_anim.frame_to_sec(frame);
 }
 
 /**
- * Get the translation of the armature's bone.
- * @method module:animation.get_bone_translation
- * @param {Object3D} armobj Armature object
- * @param {String} bone_name Bone name
- * @param {Vec3} [dest] Destination vector
- * @deprecated Use {@link module:armature.get_bone_tsr|armature.get_bone_tsr} instead
- */
-exports.get_bone_translation = function(armobj, bone_name, dest) {
-    m_print.error_deprecated("get_bone_translation", "armature.get_bone_tsr");
-    if (!m_obj_util.is_armature(armobj))
-        return null;
-
-    if (!m_armat.check_bone(armobj, bone_name)) {
-        m_print.error("There is no bone: \"", bone_name, "\" in \"", armobj.name, "\".");
-        return null;
-    }
-
-    if (!dest)
-        var dest = new Float32Array(3);
-
-    var tsr = _tsr_tmp;
-    m_armat.get_bone_tsr(armobj, bone_name, false, false, tsr);
-
-    dest[0] = tsr[0];
-    dest[1] = tsr[1];
-    dest[2] = tsr[2];
-
-    return dest;
-}
-
-/**
- * Get the first armature object used for skinning of the given mesh object.
- * @method module:animation.get_first_armature_object
- * @param {Object3D} obj Object 3D
- * @returns {?Object3D} Armature object or null
- * @deprecated Unused
- */
-exports.get_first_armature_object = function(obj) {
-    m_print.error_once("get_first_armature_object() deprecated");
-    return null;
-}
-
-/**
  * Get the slot number of the object to which the animation is assigned.
  * @method module:animation.get_slot_num_by_anim
  * @param {Object3D} obj Object 3D
- * @param {String} anim_name Animation name
- * @returns {?Number} Animation slot number
+ * @param {string} anim_name Animation name
+ * @returns {?number} Animation slot number
  */
 exports.get_slot_num_by_anim = function(obj, anim_name) {
     if (!m_anim.is_animated(obj) || !anim_name)
@@ -630,8 +586,8 @@ exports.get_anim_type = function(obj, slot_num) {
  * Apply the animation to the first available animation slot.
  * @method module:animation.apply_to_first_empty_slot
  * @param {Object3D} obj Object 3D
- * @param {String} name Animation name.
- * @returns {Number} Slot number or -1 if no empty slots found.
+ * @param {string} name Animation name.
+ * @returns {number} Slot number or -1 if no empty slots found.
  */
 exports.apply_to_first_empty_slot = function(obj, name) {
     return m_anim.apply_to_first_empty_slot(obj, name);
@@ -641,7 +597,7 @@ exports.apply_to_first_empty_slot = function(obj, name) {
  * Get the mix factor for the skeletal animations assigned to the last two animation slots.
  * @method module:animation.get_skel_mix_factor
  * @param {Object3D} armobj Armature object.
- * @returns {Number} Mix factor.
+ * @returns {number} Mix factor.
  */
 exports.get_skel_mix_factor = function(armobj) {
     return armobj.render.anim_mix_factor;
@@ -652,8 +608,8 @@ exports.get_skel_mix_factor = function(armobj) {
  * Specify the non-zero time for smooth animation transitions.
  * @method module:animation.set_skel_mix_factor
  * @param {Object3D} armobj Armature object.
- * @param {Number} factor Target animation mix factor.
- * @param {Number} [time=0] Time interval for changing the mix factor from
+ * @param {number} factor Target animation mix factor.
+ * @param {number} [time=0] Time interval for changing the mix factor from
  * the current to the target value.
  */
 exports.set_skel_mix_factor = function(armobj, factor, time) {

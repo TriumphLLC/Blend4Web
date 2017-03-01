@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Редактор логики &mdash; Руководство пользователя Blend4Web 16.12</title>
+  <title>Редактор логики &mdash; Руководство пользователя Blend4Web 17.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.02" href="index.html"/>
         <link rel="next" title="Освещение, тени и фон" href="lighting.html"/>
         <link rel="prev" title="Нодовые материалы" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -883,6 +883,9 @@
 <dt><em>Object</em></dt>
 <dd><p class="first last">Объект, который нужно отобразить.</p>
 </dd>
+<dt><em>Process child objects</em></dt>
+<dd><p class="first last">Если этот параметр включён, объекты-потомки также будут показаны.</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -911,6 +914,9 @@
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd><p class="first last">Объект, который нужно скрыть.</p>
+</dd>
+<dt><em>Process child objects</em></dt>
+<dd><p class="first last">Если этот параметр включён, объекты-потомки также будут скрыты.</p>
 </dd>
 </dl>
 </div>
@@ -1238,6 +1244,30 @@
 </li>
 <li><p class="first"><em>Divide</em> - частное операндов.</p>
 </li>
+<li><p class="first"><em>Sin</em> - синус угла (в радианах), заданного первым операндом.</p>
+</li>
+<li><p class="first"><em>Cos</em> - косинус угла (в радианах), заданного первым операндом.</p>
+</li>
+<li><p class="first"><em>Tan</em> - тангенс угла (в радианах), заданного первым операндом.</p>
+</li>
+<li><p class="first"><em>ArcSin</em> - арксинус значения, заданного первым операндом.</p>
+</li>
+<li><p class="first"><em>ArcCos</em> - арккосинус значения, заданного первым операндом.</p>
+</li>
+<li><p class="first"><em>ArcTan</em> - арктангенс значения, заданного первым операндом.</p>
+</li>
+<li><p class="first"><em>Log</em> - логарифм первого операнда; в качестве базы используется второй операнд.</p>
+</li>
+<li><p class="first"><em>Min</em> - возвращает наименьший из двух операндов.</p>
+</li>
+<li><p class="first"><em>Max</em> - возвращает наибольший из двух операндов.</p>
+</li>
+<li><p class="first"><em>Round</em> - округляет первый операнд.</p>
+</li>
+<li><p class="first"><em>Mod</em> - остаток от деления первого операнда на второй.</p>
+</li>
+<li><p class="first"><em>Abs</em> - значение первого операнда по модулю.</p>
+</li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
@@ -1421,9 +1451,10 @@
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p>Информация, полученная с сервера, должна быть в формате JSON:</p>
-<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-<span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-<span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
+<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1535,7 +1566,7 @@
 <dl class="docutils">
 <dt><em>Param Name</em></dt>
 <dd><p class="first">Имя параметра веб-страницы.</p>
-<p class="last">For example, if this parameter is set to the value of <code class="docutils literal"><span class="pre">X_1</span></code>, then the value of this parameter (if it is present in the URL) will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
+<p class="last">Если параметр с данным именем присутствует в URL-строке, то его значение будет сохранено в переменную, определенную полем <code class="docutils literal"><span class="pre">Destination</span></code>.</p>
 </dd>
 <dt><em>Destination</em></dt>
 <dd><p class="first last">Переменная, в которую следует сохранить параметр.</p>
@@ -1695,7 +1726,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-12-22.
+      Обновлено: 2017-02-28.
 
     </p>
   </div>
@@ -1751,7 +1782,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

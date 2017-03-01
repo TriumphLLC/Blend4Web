@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Просмотрщик сцен &mdash; Руководство пользователя Blend4Web 16.12</title>
+  <title>Просмотрщик сцен &mdash; Руководство пользователя Blend4Web 17.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.02" href="index.html"/>
         <link rel="next" title="Веб-плеер" href="web_player.html"/>
         <link rel="prev" title="Управление проектами" href="project_manager.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -104,7 +104,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#shadows">Shadows</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sky">Sky</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sea">Sea</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mist">Mist</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wind">Wind</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind-bending">Wind Bending</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#screen-space-amb-occlus">Screen Space Amb Occlus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#god-rays">God Rays</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#bloom">Bloom</a></li>
@@ -211,22 +213,24 @@
 <li><a class="reference internal" href="#shadows" id="id15">Shadows</a></li>
 <li><a class="reference internal" href="#sky" id="id16">Sky</a></li>
 <li><a class="reference internal" href="#sea" id="id17">Sea</a></li>
-<li><a class="reference internal" href="#wind" id="id18">Wind</a></li>
-<li><a class="reference internal" href="#screen-space-amb-occlus" id="id19">Screen Space Amb Occlus</a></li>
-<li><a class="reference internal" href="#god-rays" id="id20">God Rays</a></li>
-<li><a class="reference internal" href="#bloom" id="id21">Bloom</a></li>
-<li><a class="reference internal" href="#motion-blur" id="id22">Motion Blur</a></li>
-<li><a class="reference internal" href="#glow-materials" id="id23">Glow Materials</a></li>
-<li><a class="reference internal" href="#depth-of-field" id="id24">Depth of Field</a></li>
-<li><a class="reference internal" href="#color-correction" id="id25">Color correction</a></li>
-<li><a class="reference internal" href="#audio" id="id26">Audio</a></li>
-<li><a class="reference internal" href="#stereo-view" id="id27">Stereo View</a></li>
-<li><a class="reference internal" href="#input-devices" id="id28">Input Devices</a></li>
+<li><a class="reference internal" href="#mist" id="id18">Mist</a></li>
+<li><a class="reference internal" href="#wind" id="id19">Wind</a></li>
+<li><a class="reference internal" href="#wind-bending" id="id20">Wind Bending</a></li>
+<li><a class="reference internal" href="#screen-space-amb-occlus" id="id21">Screen Space Amb Occlus</a></li>
+<li><a class="reference internal" href="#god-rays" id="id22">God Rays</a></li>
+<li><a class="reference internal" href="#bloom" id="id23">Bloom</a></li>
+<li><a class="reference internal" href="#motion-blur" id="id24">Motion Blur</a></li>
+<li><a class="reference internal" href="#glow-materials" id="id25">Glow Materials</a></li>
+<li><a class="reference internal" href="#depth-of-field" id="id26">Depth of Field</a></li>
+<li><a class="reference internal" href="#color-correction" id="id27">Color correction</a></li>
+<li><a class="reference internal" href="#audio" id="id28">Audio</a></li>
+<li><a class="reference internal" href="#stereo-view" id="id29">Stereo View</a></li>
+<li><a class="reference internal" href="#input-devices" id="id30">Input Devices</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#indicators" id="id29">Индикаторы</a></li>
+<li><a class="reference internal" href="#indicators" id="id31">Индикаторы</a></li>
 </ul>
 </li>
 </ul>
@@ -411,7 +415,7 @@
 <dd><p class="first last">Показывает текущий кадр анимации. Может применяться для задания текущего кадра.</p>
 </dd>
 <dt><em>Skeletal Mix Factor</em></dt>
-<dd><p class="first last">Задаёт степень спешивания скелетных анимаций. Значение п оумолчанию - 1.0.</p>
+<dd><p class="first last">Задаёт степень сvешивания скелетных анимаций. Значение п оумолчанию - 1.0.</p>
 </dd>
 </dl>
 </div>
@@ -566,48 +570,58 @@
 <p>Настройка параметров рендеринга воды, включая переходы цвета по глубине и удаленности от берега, параметры пены, подповерхностного рассеивания, динамики волн и т.д.</p>
 <p>Настройки рендеринга воды описаны в главе <a class="reference internal" href="outdoor_rendering.html#water"><span>&#8220;Природные эффекты&#8221;</span></a>. Просмотрщик использует те же настройки, что и сам движок Blend4Web.</p>
 </div>
+<div class="section" id="mist">
+<span id="viewer-mist"></span><h4><a class="toc-backref" href="#id18">Mist</a><a class="headerlink" href="#mist" title="Ссылка на этот заголовок">¶</a></h4>
+<p>Настройка параметров тумана.</p>
+<p>Просмотрщик сцен использует стандартные настройки рендеринга тумана, описанные в <a class="reference internal" href="outdoor_rendering.html#fog"><span>отдельной главе</span></a>.</p>
+</div>
 <div class="section" id="wind">
-<span id="viewer-wind"></span><h4><a class="toc-backref" href="#id18">Wind</a><a class="headerlink" href="#wind" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-wind"></span><h4><a class="toc-backref" href="#id19">Wind</a><a class="headerlink" href="#wind" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров ветра, включая направление и силу.</p>
 <p>В Просмотрщике используется тот же набор параметров, что и в Blender. Эти параметры описаны в <a class="reference internal" href="outdoor_rendering.html#wind"><span>соответствующей главе</span></a>.</p>
 </div>
+<div class="section" id="wind-bending">
+<span id="viewer-wind-bending"></span><h4><a class="toc-backref" href="#id20">Wind Bending</a><a class="headerlink" href="#wind-bending" title="Ссылка на этот заголовок">¶</a></h4>
+<p>Настройка параметров эффекта Wind Bending.</p>
+<p>Аналогичный набор параметров Wind Bending доступен в Blender и описан в главе <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>Природные эффекты</span></a>&#8220;</p>
+</div>
 <div class="section" id="screen-space-amb-occlus">
-<span id="viewer-ssao"></span><h4><a class="toc-backref" href="#id19">Screen Space Amb Occlus</a><a class="headerlink" href="#screen-space-amb-occlus" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-ssao"></span><h4><a class="toc-backref" href="#id21">Screen Space Amb Occlus</a><a class="headerlink" href="#screen-space-amb-occlus" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров взаимного затенения.</p>
 <p>Все доступные настройки описаны в главе <a class="reference internal" href="postprocessing_effects.html#ssao"><span>&#8220;Спецэффекты&#8221;</span></a>.</p>
 </div>
 <div class="section" id="god-rays">
-<span id="viewer-god-rays"></span><h4><a class="toc-backref" href="#id20">God Rays</a><a class="headerlink" href="#god-rays" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-god-rays"></span><h4><a class="toc-backref" href="#id22">God Rays</a><a class="headerlink" href="#god-rays" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров эффекта сумеречных лучей.</p>
 <p>Все параметры этого эффекта описаны в <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="bloom">
-<span id="viewer-bloom"></span><h4><a class="toc-backref" href="#id21">Bloom</a><a class="headerlink" href="#bloom" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-bloom"></span><h4><a class="toc-backref" href="#id23">Bloom</a><a class="headerlink" href="#bloom" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров эффекта глубины резкости камеры.</p>
 <p>Этот эффект использует те же параметры, что и в Blender. Более подробно они описаны в <a class="reference internal" href="postprocessing_effects.html#bloom"><span>соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="motion-blur">
-<span id="viewer-motion-blur"></span><h4><a class="toc-backref" href="#id22">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-motion-blur"></span><h4><a class="toc-backref" href="#id24">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка эффекта размытия изображения при движении.</p>
 <p>Параметры, используемые для настройки эффекта размытия, совпадают с таковыми в Blender. Они описаны в главе <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>&#8220;Спецэффекты&#8221;</span></a>.</p>
 </div>
 <div class="section" id="glow-materials">
-<span id="viewer-glow-materials"></span><h4><a class="toc-backref" href="#id23">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-glow-materials"></span><h4><a class="toc-backref" href="#id25">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка эффекта свечения материалов.</p>
 <p>Настройки этого эффекта описаны в <a class="reference internal" href="postprocessing_effects.html#glow"><span>соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="depth-of-field">
-<span id="viewer-dof"></span><h4><a class="toc-backref" href="#id24">Depth of Field</a><a class="headerlink" href="#depth-of-field" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-dof"></span><h4><a class="toc-backref" href="#id26">Depth of Field</a><a class="headerlink" href="#depth-of-field" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров эффекта глубины резкости камеры.</p>
 <p>Настройки описаны в <a class="reference internal" href="postprocessing_effects.html#dof"><span>соответствующем разделе</span></a>.</p>
 </div>
 <div class="section" id="color-correction">
-<span id="viewer-color"></span><h4><a class="toc-backref" href="#id25">Color correction</a><a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-color"></span><h4><a class="toc-backref" href="#id27">Color correction</a><a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h4>
 <p>Настройка параметров цветовой коррекции, включая яркость, контрастность, экспозицию и насыщенность.</p>
 <p>В самом Blender для цветокоррекции используется такой же набор параметров. Описание этих параметров находится в главе <a class="reference internal" href="colors.html#color-correction"><span>&#8220;Работа с цветом&#8221;</span></a>.</p>
 </div>
 <div class="section" id="audio">
-<span id="viewer-audio"></span><h4><a class="toc-backref" href="#id26">Audio</a><a class="headerlink" href="#audio" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-audio"></span><h4><a class="toc-backref" href="#id28">Audio</a><a class="headerlink" href="#audio" title="Ссылка на этот заголовок">¶</a></h4>
 <p>На панели находится переключатель режима микширования. После включения на сценах со звуковыми источниками появляется интерфейс микшера.</p>
 <dl class="docutils">
 <dt><em>Mixer</em></dt>
@@ -618,7 +632,7 @@
 </dl>
 </div>
 <div class="section" id="stereo-view">
-<span id="id1"></span><h4><a class="toc-backref" href="#id27">Stereo View</a><a class="headerlink" href="#stereo-view" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="id1"></span><h4><a class="toc-backref" href="#id29">Stereo View</a><a class="headerlink" href="#stereo-view" title="Ссылка на этот заголовок">¶</a></h4>
 <p>На панели находится переключатель режима стерео-изображения.</p>
 <p>Доступные параметры:</p>
 <dl class="docutils">
@@ -637,7 +651,7 @@
 </dl>
 </div>
 <div class="section" id="input-devices">
-<span id="viewer-input"></span><h4><a class="toc-backref" href="#id28">Input Devices</a><a class="headerlink" href="#input-devices" title="Ссылка на этот заголовок">¶</a></h4>
+<span id="viewer-input"></span><h4><a class="toc-backref" href="#id30">Input Devices</a><a class="headerlink" href="#input-devices" title="Ссылка на этот заголовок">¶</a></h4>
 <p>На этой панели находятся средства настройки устройств ввода.</p>
 <dl class="docutils">
 <dt><em>Gyroscope use</em></dt>
@@ -652,7 +666,7 @@
 </div>
 </div>
 <div class="section" id="indicators">
-<span id="viewer-indicators"></span><h2><a class="toc-backref" href="#id29">Индикаторы</a><a class="headerlink" href="#indicators" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="viewer-indicators"></span><h2><a class="toc-backref" href="#id31">Индикаторы</a><a class="headerlink" href="#indicators" title="Ссылка на этот заголовок">¶</a></h2>
 <a class="reference internal image-reference" href="_images/viewer_indicators.png"><img alt="_images/viewer_indicators.png" class="align-center" src="_images/viewer_indicators.png" style="width: 100%;" /></a>
 <ol class="arabic">
 <li><dl class="first docutils">
@@ -723,7 +737,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-12-22.
+      Обновлено: 2017-02-28.
 
     </p>
   </div>
@@ -779,7 +793,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

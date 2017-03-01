@@ -29,12 +29,13 @@ import time
 
 from binascii import hexlify
 
+from tornado.concurrent import Future
 from tornado import ioloop
 from tornado.iostream import PipeIOStream
 from tornado.log import gen_log
 from tornado.platform.auto import set_close_exec
 from tornado import stack_context
-from tornado.util import errno_from_exception
+from tornado.util import errno_from_exception, PY3
 
 try:
     import multiprocessing
@@ -42,10 +43,18 @@ except ImportError:
     # Multiprocessing is not available on Google App Engine.
     multiprocessing = None
 
+if PY3:
+    long = int
+
+# Re-export this exception for convenience.
 try:
-    long  # py2
-except NameError:
-    long = int  # py3
+    CalledProcessError = subprocess.CalledProcessError
+except AttributeError:
+    # The subprocess module exists in Google App Engine, but is empty.
+    # This module isn't very useful in that case, but it should
+    # at least be importable.
+    if 'APPENGINE_RUNTIME' not in os.environ:
+        raise
 
 
 def cpu_count():
@@ -58,7 +67,7 @@ def cpu_count():
         pass
     try:
         return os.sysconf("SC_NPROCESSORS_CONF")
-    except ValueError:
+    except (AttributeError, ValueError):
         pass
     gen_log.error("Could not detect number of processors; assuming 1")
     return 1
@@ -135,6 +144,7 @@ def fork_processes(num_processes, max_restarts=100):
         else:
             children[pid] = i
             return None
+
     for i in range(num_processes):
         id = start_child(i)
         if id is not None:
@@ -192,13 +202,19 @@ class Subprocess(object):
       attribute of the resulting Subprocess a `.PipeIOStream`.
     * A new keyword argument ``io_loop`` may be used to pass in an IOLoop.
 
+    The ``Subprocess.STREAM`` option and the ``set_exit_callback`` and
+    ``wait_for_exit`` methods do not work on Windows. There is
+    therefore no reason to use this class instead of
+    ``subprocess.Popen`` on that platform.
+
     .. versionchanged:: 4.1
        The ``io_loop`` argument is deprecated.
+
     """
     STREAM = object()
 
     _initialized = False
-    _waiting = {}
+    _waiting = {}  # type: ignore
 
     def __init__(self, *args, **kwargs):
         self.io_loop = kwargs.pop('io_loop', None) or ioloop.IOLoop.current()
@@ -257,6 +273,33 @@ class Subprocess(object):
         Subprocess.initialize(self.io_loop)
         Subprocess._waiting[self.pid] = self
         Subprocess._try_cleanup_process(self.pid)
+
+    def wait_for_exit(self, raise_error=True):
+        """Returns a `.Future` which resolves when the process exits.
+
+        Usage::
+
+            ret = yield proc.wait_for_exit()
+
+        This is a coroutine-friendly alternative to `set_exit_callback`
+        (and a replacement for the blocking `subprocess.Popen.wait`).
+
+        By default, raises `subprocess.CalledProcessError` if the process
+        has a non-zero exit status. Use ``wait_for_exit(raise_error=False)``
+        to suppress this behavior and return the exit status without raising.
+
+        .. versionadded:: 4.2
+        """
+        future = Future()
+
+        def callback(ret):
+            if ret != 0 and raise_error:
+                # Unfortunately we don't have the original args any more.
+                future.set_exception(CalledProcessError(ret, None))
+            else:
+                future.set_result(ret)
+        self.set_exit_callback(callback)
+        return future
 
     @classmethod
     def initialize(cls, io_loop=None):

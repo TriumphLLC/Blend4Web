@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -79,15 +79,13 @@ def gen_b4w_gr_node(context):
                 item_name = convert_to_camel(group.name)
             yield NodeItem("ShaderNodeGroup", item_name, {"node_tree": "bpy.data.node_groups[%r]" % group.name})
 
-
-################ KEEP THIS STUFF UP TO DATE !!! #############
-class ShaderNewNodeCategory(NodeCategory):
+class ShaderNodeCategoryNew(NodeCategory):
     @classmethod
     def poll(cls, context):
         return (context.space_data.tree_type == 'ShaderNodeTree' and
                 context.scene.render.use_shading_nodes)
 
-class ShaderOldNodeCategory(NodeCategory):
+class ShaderNodeCategory(NodeCategory):
     @classmethod
     def poll(cls, context):
         return (context.space_data.tree_type == 'ShaderNodeTree' and
@@ -174,167 +172,123 @@ def object_shader_nodes_poll(context):
 
 # All standard node categories currently used in nodes.
 
-shader_node_categories = [
+def draw_node_item(self, context):
+    layout = self.layout
+    col = layout.column()
+    for item in self.category.items(context):
+        item.draw(item, col, context)
 
-    # Shader Nodes
-    ShaderOldNodeCategory("SH_INPUT", "Input", items=[
-        NodeItem("ShaderNodeMaterial"),
-        NodeItem("ShaderNodeCameraData"),
-        NodeItem("ShaderNodeLampData"),
-        NodeItem("ShaderNodeValue"),
-        NodeItem("ShaderNodeRGB"),
-        NodeItem("ShaderNodeTexture"),
-        NodeItem("ShaderNodeGeometry"),
-        NodeItem("ShaderNodeExtendedMaterial"),
-        NodeItem("ShaderNodeParticleInfo"),
-        NodeItem("NodeGroupInput", poll=group_input_output_item_poll),
-        ]),
-    ShaderOldNodeCategory("SH_OUTPUT", "Output", items=[
-        NodeItem("ShaderNodeOutput"),
-        NodeItem("NodeGroupOutput", poll=group_input_output_item_poll),
-        ]),
-    ShaderOldNodeCategory("SH_OP_COLOR", "Color", items=[
-        NodeItem("ShaderNodeMixRGB"),
-        NodeItem("ShaderNodeRGBCurve"),
-        NodeItem("ShaderNodeInvert"),
-        NodeItem("ShaderNodeHueSaturation"),
-        NodeItem("ShaderNodeGamma"),
-        ]),
-    ShaderOldNodeCategory("SH_OP_VECTOR", "Vector", items=[
-        NodeItem("ShaderNodeNormal"),
-        NodeItem("ShaderNodeMapping"),
-        NodeItem("ShaderNodeVectorCurve"),
-        NodeItem("ShaderNodeVectorTransform"),
-        NodeItem("ShaderNodeNormalMap"),
-        ]),
-    ShaderOldNodeCategory("SH_CONVERTOR", "Converter", items=[
-        NodeItem("ShaderNodeValToRGB"),
-        NodeItem("ShaderNodeRGBToBW"),
-        NodeItem("ShaderNodeMath"),
-        NodeItem("ShaderNodeVectorMath"),
-        NodeItem("ShaderNodeSqueeze"),
-        NodeItem("ShaderNodeSeparateRGB"),
-        NodeItem("ShaderNodeCombineRGB"),
-        NodeItem("ShaderNodeSeparateHSV"),
-        NodeItem("ShaderNodeCombineHSV"),
-        ]),
-    ShaderOldNodeCategory("SH_GROUP", "Group", items=node_group_items),
-    ShaderOldNodeCategory("SH_LAYOUT", "Layout", items=[
-        NodeItem("NodeFrame"),
-        NodeItem("NodeReroute"),
-        ]),
+def add_menu_cat(tpl, cat):
+    tpl[0].append(cat[0])
+    tpl[2].append(cat[1])
+    tpl[3].append(cat[2])
+    bpy.utils.register_class(cat[1])
+    bpy.utils.register_class(cat[2])
 
-    # New Shader Nodes (Cycles)
-    ShaderNewNodeCategory("SH_NEW_INPUT", "Input", items=[
-        NodeItem("ShaderNodeTexCoord"),
-        NodeItem("ShaderNodeAttribute"),
-        NodeItem("ShaderNodeLightPath"),
-        NodeItem("ShaderNodeFresnel"),
-        NodeItem("ShaderNodeLayerWeight"),
-        NodeItem("ShaderNodeRGB"),
-        NodeItem("ShaderNodeValue"),
-        NodeItem("ShaderNodeTangent"),
-        NodeItem("ShaderNodeNewGeometry"),
-        NodeItem("ShaderNodeWireframe"),
-        NodeItem("ShaderNodeObjectInfo"),
-        NodeItem("ShaderNodeHairInfo"),
-        NodeItem("ShaderNodeParticleInfo"),
-        NodeItem("ShaderNodeCameraData"),
-        NodeItem("ShaderNodeUVMap"),
-        NodeItem("ShaderNodeUVAlongStroke", poll=line_style_shader_nodes_poll),
-        NodeItem("NodeGroupInput", poll=group_input_output_item_poll),
-        ]),
-    ShaderNewNodeCategory("SH_NEW_OUTPUT", "Output", items=[
-        NodeItem("ShaderNodeOutputMaterial", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeOutputLamp", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeOutputWorld", poll=world_shader_nodes_poll),
-        NodeItem("ShaderNodeOutputLineStyle", poll=line_style_shader_nodes_poll),
-        NodeItem("NodeGroupOutput", poll=group_input_output_item_poll),
-        ]),
-    ShaderNewNodeCategory("SH_NEW_SHADER", "Shader", items=[
-        NodeItem("ShaderNodeMixShader"),
-        NodeItem("ShaderNodeAddShader"),
-        NodeItem("ShaderNodeBsdfDiffuse", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBsdfGlossy", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBsdfTransparent", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBsdfRefraction", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBsdfGlass", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBsdfTranslucent", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBsdfAnisotropic", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBsdfVelvet", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBsdfToon", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeSubsurfaceScattering", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeEmission", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBsdfHair", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeBackground", poll=world_shader_nodes_poll),
-        NodeItem("ShaderNodeAmbientOcclusion", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeHoldout", poll=object_shader_nodes_poll),
-        NodeItem("ShaderNodeVolumeAbsorption"),
-        NodeItem("ShaderNodeVolumeScatter"),
-        ]),
-    ShaderNewNodeCategory("SH_NEW_TEXTURE", "Texture", items=[
-        NodeItem("ShaderNodeTexImage"),
-        NodeItem("ShaderNodeTexEnvironment"),
-        NodeItem("ShaderNodeTexSky"),
-        NodeItem("ShaderNodeTexNoise"),
-        NodeItem("ShaderNodeTexWave"),
-        NodeItem("ShaderNodeTexVoronoi"),
-        NodeItem("ShaderNodeTexMusgrave"),
-        NodeItem("ShaderNodeTexGradient"),
-        NodeItem("ShaderNodeTexMagic"),
-        NodeItem("ShaderNodeTexChecker"),
-        NodeItem("ShaderNodeTexBrick"),
-        NodeItem("ShaderNodeTexPointDensity"),
-        ]),
-    ShaderNewNodeCategory("SH_NEW_OP_COLOR", "Color", items=[
-        NodeItem("ShaderNodeMixRGB"),
-        NodeItem("ShaderNodeRGBCurve"),
-        NodeItem("ShaderNodeInvert"),
-        NodeItem("ShaderNodeLightFalloff"),
-        NodeItem("ShaderNodeHueSaturation"),
-        NodeItem("ShaderNodeGamma"),
-        NodeItem("ShaderNodeBrightContrast"),
-        ]),
-    ShaderNewNodeCategory("SH_NEW_OP_VECTOR", "Vector", items=[
-        NodeItem("ShaderNodeMapping"),
-        NodeItem("ShaderNodeBump"),
-        NodeItem("ShaderNodeNormalMap"),
-        NodeItem("ShaderNodeNormal"),
-        NodeItem("ShaderNodeVectorCurve"),
-        NodeItem("ShaderNodeVectorTransform"),
-        ]),
-    ShaderNewNodeCategory("SH_NEW_CONVERTOR", "Converter", items=[
-        NodeItem("ShaderNodeMath"),
-        NodeItem("ShaderNodeValToRGB"),
-        NodeItem("ShaderNodeRGBToBW"),
-        NodeItem("ShaderNodeVectorMath"),
-        NodeItem("ShaderNodeSeparateRGB"),
-        NodeItem("ShaderNodeCombineRGB"),
-        NodeItem("ShaderNodeSeparateXYZ"),
-        NodeItem("ShaderNodeCombineXYZ"),
-        NodeItem("ShaderNodeSeparateHSV"),
-        NodeItem("ShaderNodeCombineHSV"),
-        NodeItem("ShaderNodeWavelength"),
-        NodeItem("ShaderNodeBlackbody"),
-        ]),
-    ShaderNewNodeCategory("SH_NEW_SCRIPT", "Script", items=[
-        NodeItem("ShaderNodeScript"),
-        ]),
-    ShaderNewNodeCategory("SH_NEW_GROUP", "Group", items=node_group_items),
-    ShaderNewNodeCategory("SH_NEW_LAYOUT", "Layout", items=[
-        NodeItem("NodeFrame"),
-        NodeItem("NodeReroute"),
-        ]),
-############# END ### KEEP THIS STUFF UP TO DATE !!! #############
-    ShaderOldNodeCategory("B4W_SHADER_GROUPS", "Blend4Web", items=gen_b4w_gr_node)
-    ]
+def register_menu_cat(tpl, node_cat, insert_before_id):
+    if insert_before_id:
+        ind = find_cat_ind(tpl[0], insert_before_id)
+        tpl[0].insert(ind, node_cat)
+    else:
+        tpl[0].append(node_cat)
+    menu_type = type("NODE_MT_category_" + node_cat.identifier, (bpy.types.Menu,), {
+            "bl_space_type": 'NODE_EDITOR',
+            "bl_label": node_cat.name,
+            "category": node_cat,
+            "poll": node_cat.poll,
+            "draw": draw_node_item,
+            })
+    panel_type = type("NODE_PT_category_" + node_cat.identifier, (bpy.types.Panel,), {
+        "bl_space_type": 'NODE_EDITOR',
+        "bl_region_type": 'TOOLS',
+        "bl_label": node_cat.name,
+        "bl_category": node_cat.name,
+        "category": node_cat,
+        "poll": node_cat.poll,
+        "draw": draw_node_item,
+        })
+
+    tpl[2].append(menu_type)
+    tpl[3].append(panel_type)
+    bpy.utils.register_class(menu_type)
+    bpy.utils.register_class(panel_type)
+    return (menu_type, panel_type)
+
+def unregister_menu_cat(tpl, cat):
+    bpy.utils.unregister_class(cat[1])
+    bpy.utils.unregister_class(cat[2])
+    tpl[0].remove(cat[0])
+    tpl[2].remove(cat[1])
+    tpl[3].remove(cat[2])
+
+def find_cat(cat_list, id):
+    for c in cat_list:
+        if c.identifier == id:
+            return c
+    return None
+
+def find_cat_ind(cat_list, id):
+    for c in range(0, len(cat_list)):
+        if cat_list[c].identifier == id:
+            return c
+    return -1
+
+def remove_orig_cat(id):
+    tpl = nodeitems_utils._node_categories["SHADER"]
+    orig_grp_cat = find_cat(tpl[0], id)
+    menu = getattr(bpy.types, "NODE_MT_category_" + id)
+    panel = getattr(bpy.types, "NODE_PT_category_" + id)
+    cat = (orig_grp_cat, menu, panel)
+    unregister_menu_cat(tpl, cat)
+    return cat
+
+def remove_orig_groups(tpl):
+    global orig_grp_cat_list
+    orig_grp_cat_list = []
+
+    cat = remove_orig_cat("SH_GROUP")
+    orig_grp_cat_list.append(cat)
+    cat = remove_orig_cat("SH_NEW_GROUP")
+    orig_grp_cat_list.append(cat)
+
+def return_orig_group(tpl):
+    global orig_grp_cat_list
+    for c in orig_grp_cat_list:
+        add_menu_cat(tpl, c)
+
+def create_category(cat_type, id, cat_label, insert_before_id, items):
+    tpl = nodeitems_utils._node_categories["SHADER"]
+    node_cat = cat_type(id, cat_label, items=items)
+    menu_type, panel_type = register_menu_cat(tpl, node_cat, insert_before_id)
+    cat = (node_cat, menu_type, panel_type)
+    return cat
 
 def register():
-    nodeitems_utils.unregister_node_categories('SHADER')
-    nodeitems_utils.register_node_categories('SHADER', shader_node_categories)
+    tpl = nodeitems_utils._node_categories["SHADER"]
+
+    # remove original groups
+    remove_orig_groups(tpl)
+
+    # add own categories
+    global cat_list
+    cat_list = []
+    cat = create_category(ShaderNodeCategory, "B4W_SHADER_GROUPS", "Blend4Web", None, gen_b4w_gr_node)
+    cat_list.append(cat)
+    cat = create_category(ShaderNodeCategory, "SH_GROUP", "Group", "SH_LAYOUT", node_group_items)
+    cat_list.append(cat)
+    cat = create_category(ShaderNodeCategoryNew, "B4W_SHADER_NEW_GROUPS", "Blend4Web", None, gen_b4w_gr_node)
+    cat_list.append(cat)
+    cat = create_category(ShaderNodeCategoryNew, "SH_NEW_GROUP", "Group", "SH_NEW_LAYOUT", node_group_items)
+    cat_list.append(cat)
 
 def unregister():
-    nodeitems_utils.unregister_node_categories('SHADER')
+    tpl = nodeitems_utils._node_categories["SHADER"]
 
-    import nodeitems_builtins
-    nodeitems_utils.register_node_categories('SHADER', nodeitems_builtins.shader_node_categories)
+    # remove own categories
+    global cat_list
+    for cat in cat_list:
+        unregister_menu_cat(tpl, cat)
+
+    # return original groups
+    return_orig_group(tpl)
+

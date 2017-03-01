@@ -571,6 +571,9 @@ JS 回调
 *物体*
    显示一个物体。
 
+*Process child objects*
+   If this parameter is enabled, child objects will be shown as well.
+
 
 隐藏物体
 --------
@@ -599,6 +602,9 @@ JS 回调
 
 *物体*
    一个物体隐藏。
+
+*Process child objects*
+   If this parameter is enabled, child objects will be hidden as well.
 
 
 变换物体
@@ -941,6 +947,35 @@ RGB节点
 
    * *除数* 由第二个把第一个操作数除。
 
+   * *Sin* returns the sine of an angle (measured in radians)
+     defined by the first operand.
+
+   * *Cos* returns the cosine of an angle (measured in radians)
+     defined by the first operand
+
+   * *Tan* returns the tangent of an angle (measured in radians)
+     defined by the first operand.
+
+   * *ArcSin* returns the arcsine value of the first operand.
+
+   * *ArcCos* returns the arccosine value of the first operand.
+
+   * *ArcTan* returns the arctangent value of the first operand.
+
+   * *Log* returns the logarithmic value of the first operand with
+     the second operand used as the base.
+
+   * *Min* returns the lesser one of the two operands.
+
+   * *Max* returns the greater one of the two operands.
+
+   * *Round* rounds the first operator.
+
+   * *Mod* returns the remainder after division of the first operand
+     by the second.
+
+   * *Abs* returns the absolute value of the first operand.
+
 *Operand1*
    对于第一个操作数。它可以在节点中指定或它可以链接到一个变量 （如果启
    用了变量参数）。
@@ -1129,12 +1164,12 @@ RGB节点
 *响应参数*
    指定要保存接收到来自服务器的数据的变量。
 
-注解: The data received from the server should be in the JSON
-  format:
+注解: 从服务器收到的数据应该是JSON格式 ︰
 
-     {"var0": 1,
-     "var1": 10,
-     "var2": 144
+     {
+         "var0": 1,
+         "var1": 10,
+         "var2": 144
      }
 
 *Content-Type*
@@ -1180,31 +1215,26 @@ JSON
    "ENCODE" 。
 
 *Paths*
-   A list of paths to the variables inside the JSON object. Paths are
-   used to define the inner structure of a JSON object. A path should
-   consist of several identifiers (separated by dots) that serve as a
-   path to a JSON field. If a name of a fragment of the path consists
-   solely of numbers, this name is interpreted as an array index.
-   Paths are created and deleted in conjunction with variables (in the
-   "Variables" list), and one path always corresponds to one variable.
-   This list can be used both to encode and to decode JSON object. By
-   default, the list is empty.
+   一个JSON对象内部的变量的路径列表。路径是用来定义一个JSON对象的内部
+   结构。路径应该包括几个标识符（用逗号分隔），作为一个JSON字段路径。
+   如果路径的片段的名称仅由数字组成，则该名称将被解释为数组索引。路径
+   的创建和删除跟变量是同时的（变量列表），和一个路径总是对应于一个变
+   量。这个列表可以用来进行编码和解码的JSON对象。默认情况下，列表是空
+   的。
 
 *Variables*
-   A list of variables that will be used to either store the decoded
-   data or to encode a JSON object (depending on the value of the
-   "JSON Operation" parameter). The names and the quantity of the
-   variables can be adjusted manually. This list is also empty by
-   default.
+   变量列表，将用于存储数据的解码或编码一个JSON对象（取决于 "JSON
+   Operation" 参数的值）。变量总是有类似 "var0", "var1" 等的名字，他们
+   的数量和名称可以调整。默认列表为空。
 
 
-Using JSON logic node to encode JSON object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+使用JSON逻辑节点编码JSON对象
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [图片]
 
-The logic node setup at the picture above encodes a JSON object and
-stores it in the "R1" variable. Such a JSON object looks like this:
+在图片的逻辑节点设置在 "R1" 可 变编码以上JSON对象，并将其存储。这样的
+JSON对象如下：
 
    {
        "main":{
@@ -1215,14 +1245,13 @@ stores it in the "R1" variable. Such a JSON object looks like this:
    }
 
 
-Using JSON logic node to decode JSON object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+使用JSON逻辑节点解码JSON对象
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [图片]
 
-The picture above shows a logic node setup that recieves a JSON object
-from the server, stores it in the "R1" variable and then decodes it.
-Such a JSON object looks like this:
+上图为逻辑节点的设置，从服务器获取JSON对象，并将其存储在 "R1" 变量，然
+后解码。这样的JSON对象如下：
 
    {
        "a": {
@@ -1231,12 +1260,10 @@ Such a JSON object looks like this:
        }
    }
 
-Decoding this JSON object with the "JSON" logic node results in three
-variables named "var0", "var1" and "var2" (you don't have to create
-the variables beforehand) that will contain various parts of the JSON
-object. In this example, the "var1" variable has the value of 17, the
-"var2" variable has the value "abc", while the "var0" variable
-contains the following fragment of the JSON object:
+这解码JSON对象的 "JSON" 逻辑节点 "var0"，"var1" 和 "var2" 三个变量命名
+的结果（你不必事先创建的变量）将包含JSON对象的各个部分。在这个例子中，
+"var1" 变量的值是17，则 "var2" 变量的值是 "abc"，而``var0`` 变量包含
+JSON对象的以下片段：
 
    {
        "b": 17,
@@ -1272,9 +1299,9 @@ contains the following fragment of the JSON object:
 *参数名称*
    网页参数的名称。
 
-   For example, if this parameter is set to the value of "X_1", then
-   the value of this parameter (if it is present in the URL) will be
-   saved to a variable specified by the "Destination" parameter.
+   If the parameter specified in this field is presented in the URL,
+   then its value will be saved to a variable specified by the
+   "Destination" parameter.
 
 *目标*
    将用来保存参数的变量。

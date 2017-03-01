@@ -47,8 +47,9 @@ The result of applying various transforms to a camera can be overridden by the
 present camera limits.
 <p>
 <b>API examples for this module</b>: 
-<a href="https://www.blend4web.com/doc/en/camera.html#camera-controls-api">English</a>, 
-<a href="https://www.blend4web.com/doc/ru/camera.html#camera-controls-api">Russian</a>.
+<a href="https://www.blend4web.com/doc/en/camera.html#camera-controls-api">English</a>,
+<a href="https://www.blend4web.com/doc/zh/camera.html#camera-controls-api">中文</a>, 
+<a href="https://www.blend4web.com/doc/ru/camera.html#camera-controls-api">Русский</a>.
 </p></div>
         
 
@@ -169,39 +170,7 @@ present camera limits.
         <ul>
         
             
-<li> <a href="#.apply_distance_limits">apply_distance_limits<span class="signature">(camobj, min, max)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.apply_horizontal_limits">apply_horizontal_limits<span class="signature">(camobj, left_value, right_value, space<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.apply_hover_angle_limits">apply_hover_angle_limits<span class="signature">(camobj, down_angle, up_angle)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.apply_vertical_limits">apply_vertical_limits<span class="signature">(camobj, down_value, up_value, space<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
 <li> <a href="#.calc_ray">calc_ray<span class="signature">(camobj, canvas_x, canvas_y, dest<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"> &rarr; (nullable) {ParametricLine}</span></a></li>
-
-        
-            
-<li> <a href="#.clear_distance_limits">clear_distance_limits<span class="signature">(camobj)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.clear_horizontal_limits">clear_horizontal_limits<span class="signature">(camobj)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.clear_hover_angle_limits">clear_hover_angle_limits<span class="signature">(camobj)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.clear_vertical_limits">clear_vertical_limits<span class="signature">(camobj)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -237,10 +206,6 @@ present camera limits.
 
         
             
-<li> <a href="#.get_cam_dist_limits">get_cam_dist_limits<span class="signature">(camobj, dist<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec2}</span></a></li>
-
-        
-            
 <li> <a href="#.get_camera_angles">get_camera_angles<span class="signature">(camobj, dest<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec2}</span></a></li>
 
         
@@ -253,15 +218,11 @@ present camera limits.
 
         
             
-<li> <a href="#.get_eye">get_eye<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec3}</span></a></li>
+<li> <a href="#.get_eye_distance">get_eye_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
-<li> <a href="#.get_eye_distance">get_eye_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
-
-        
-            
-<li> <a href="#.get_fov">get_fov<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_fov">get_fov<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
@@ -269,31 +230,15 @@ present camera limits.
 
         
             
-<li> <a href="#.get_horizontal_limits">get_horizontal_limits<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec2}</span></a></li>
-
-        
-            
-<li> <a href="#.get_hover_angle_limits">get_hover_angle_limits<span class="signature">(camobj, angles<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec2}</span></a></li>
-
-        
-            
-<li> <a href="#.get_hover_cam_pivot">get_hover_cam_pivot<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec3}</span></a></li>
-
-        
-            
 <li> <a href="#.get_move_style">get_move_style<span class="signature">(camobj)</span><span class="type-signature"> &rarr; (nullable) {CameraMoveStyle}</span></a></li>
 
         
             
-<li> <a href="#.get_ortho_scale">get_ortho_scale<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_ortho_scale">get_ortho_scale<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
-<li> <a href="#.get_pivot">get_pivot<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec3}</span></a></li>
-
-        
-            
-<li> <a href="#.get_stereo_distance">get_stereo_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_stereo_distance">get_stereo_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
@@ -305,15 +250,7 @@ present camera limits.
 
         
             
-<li> <a href="#.get_velocity_params">get_velocity_params<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec3}</span></a></li>
-
-        
-            
 <li> <a href="#.get_vertical_axis">get_vertical_axis<span class="signature">(camobj, dest<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec3}</span></a></li>
-
-        
-            
-<li> <a href="#.get_vertical_limits">get_vertical_limits<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Vec2}</span></a></li>
 
         
             
@@ -321,39 +258,27 @@ present camera limits.
 
         
             
-<li> <a href="#.has_distance_limits">has_distance_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.has_distance_limits">has_distance_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.has_horizontal_limits">has_horizontal_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.has_horizontal_rot_limits">has_horizontal_rot_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.has_horizontal_rot_limits">has_horizontal_rot_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.has_horizontal_trans_limits">has_horizontal_trans_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.has_horizontal_trans_limits">has_horizontal_trans_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.has_vertical_rot_limits">has_vertical_rot_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.has_vertical_limits">has_vertical_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.has_vertical_trans_limits">has_vertical_trans_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.has_vertical_rot_limits">has_vertical_rot_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
-
-        
-            
-<li> <a href="#.has_vertical_trans_limits">has_vertical_trans_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
-
-        
-            
-<li> <a href="#.hover_cam_set_translation">hover_cam_set_translation<span class="signature">(camobj, trans)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.hover_get_distance">hover_get_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.hover_get_distance">hover_get_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
@@ -413,31 +338,27 @@ present camera limits.
 
         
             
-<li> <a href="#.is_eye_camera">is_eye_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_eye_camera">is_eye_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_hover_camera">is_hover_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_hover_camera">is_hover_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_look_up">is_look_up<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_look_up">is_look_up<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_ortho_camera">is_ortho_camera<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_ortho_camera">is_ortho_camera<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_static_camera">is_static_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_static_camera">is_static_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_target_camera">is_target_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
-
-        
-            
-<li> <a href="#.move_pivot">move_pivot<span class="signature">(camobj, trans_h_delta, trans_v_delta)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.is_target_camera">is_target_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
@@ -446,18 +367,6 @@ present camera limits.
         
             
 <li> <a href="#.rotate_camera">rotate_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.rotate_eye_camera">rotate_eye_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.rotate_hover_camera">rotate_hover_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.rotate_target_camera">rotate_target_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -473,31 +382,11 @@ present camera limits.
 
         
             
-<li> <a href="#.set_hover_pivot">set_hover_pivot<span class="signature">(camobj, coords)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.set_look_at">set_look_at<span class="signature">(camobj, eye, target, up<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.set_move_style">set_move_style<span class="signature">(camobj, move_style)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
-
-        
-            
 <li> <a href="#.set_ortho_scale">set_ortho_scale<span class="signature">(camobj, ortho_scale)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.set_pivot">set_pivot<span class="signature">(camobj, coords)</span><span class="type-signature"></span></a></li>
-
-        
-            
 <li> <a href="#.set_stereo_distance">set_stereo_distance<span class="signature">(camobj, conv_dist)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.set_trans_pivot">set_trans_pivot<span class="signature">(camobj, trans, pivot)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -506,10 +395,6 @@ present camera limits.
         
             
 <li> <a href="#.set_velocities">set_velocities<span class="signature">(camobj, velocity)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.set_velocity_params">set_velocity_params<span class="signature">(camobj, velocity)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -533,7 +418,7 @@ present camera limits.
 
         
             
-<li> <a href="#.target_get_distance">target_get_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.target_get_distance">target_get_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
@@ -606,10 +491,6 @@ present camera limits.
         
             
 <li> <a href="#.translate_view">translate_view<span class="signature">(camobj, x, y, angle)</span><span class="type-signature"></span></a></li>
-
-        
-            
-<li> <a href="#.zoom_object">zoom_object<span class="signature">(camobj, obj)</span><span class="type-signature"></span></a></li>
 
         
         </ul>
@@ -739,7 +620,7 @@ present camera limits.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line253">line 253</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line250">line 250</a>
     </li></ul></dd>
     
 
@@ -816,7 +697,7 @@ present camera limits.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line258">line 258</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -893,7 +774,7 @@ present camera limits.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line243">line 243</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -970,7 +851,7 @@ present camera limits.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line248">line 248</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line245">line 245</a>
     </li></ul></dd>
     
 
@@ -993,924 +874,6 @@ present camera limits.
 
     
         <h3 class="subsection-title">Methods</h3>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".apply_distance_limits">apply_distance_limits<span class="signature">(camobj, min, max)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set the distance limits for the TARGET/HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>min</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Minimum distance to target</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>max</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Maximum distance to target</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.target_set_distance_limits">camera.target_set_distance_limits</a>
-or <a href="module-camera.html#.hover_set_distance_limits">camera.hover_set_distance_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2828">line 2828</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".apply_horizontal_limits">apply_horizontal_limits<span class="signature">(camobj, left_value, right_value, space<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set the horizontal angle limits for the TARGET/EYE camera, or the horizontal (X axis)
-translation limits for the HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>left_value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Horizontal left limit</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>right_value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Horizontal right limit</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>space</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Space">Space</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    transform.SPACE_WORLD
-                
-                </td>
-            
-
-            <td class="description last">Space to make clamping relative to (actual for the TARGET/EYE camera).</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.eye_set_horizontal_limits">camera.eye_set_horizontal_limits</a>,
-<a href="module-camera.html#.target_set_horizontal_limits">camera.target_set_horizontal_limits</a>
-or <a href="module-camera.html#.hover_set_horiz_trans_limits">camera.hover_set_horiz_trans_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2907">line 2907</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://www.blend4web.com/doc/en/camera.html#api">https://www.blend4web.com/doc/en/camera.html#api</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".apply_hover_angle_limits">apply_hover_angle_limits<span class="signature">(camobj, down_angle, up_angle)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set the hover angle limits for the HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>down_angle</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Down hover angle limit</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>up_angle</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Up hover angle limit</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.hover_set_vertical_limits">camera.hover_set_vertical_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2810">line 2810</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://www.blend4web.com/doc/en/camera.html#api">https://www.blend4web.com/doc/en/camera.html#api</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".apply_vertical_limits">apply_vertical_limits<span class="signature">(camobj, down_value, up_value, space<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set the vertical angle limits for the TARGET/EYE camera, or the vertical (Z axis)
-translation limits for the HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>down_value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Vertical down limit</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>up_value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Vertical up limit</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>space</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Space">Space</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    transform.SPACE_WORLD
-                
-                </td>
-            
-
-            <td class="description last">Space to make clamping relative to (actual for the TARGET/EYE camera)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.eye_set_vertical_limits">camera.eye_set_vertical_limits</a>,
-<a href="module-camera.html#.target_set_vertical_limits">camera.target_set_vertical_limits</a> or
-<a href="module-camera.html#.hover_set_vert_trans_limits">camera.hover_set_vert_trans_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2771">line 2771</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://www.blend4web.com/doc/en/camera.html#api">https://www.blend4web.com/doc/en/camera.html#api</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
         
             
 <div class="item_container">
@@ -2008,7 +971,7 @@ The origin of the Canvas space is located in the top left corner of the Canvas.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -2043,7 +1006,7 @@ The origin of the Canvas space is located in the top left corner of the Canvas.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -2181,559 +1144,7 @@ The origin of the Canvas space is located in the top left corner of the Canvas.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2101">line 2101</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".clear_distance_limits">clear_distance_limits<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Remove the distance clamping limits from the TARGET camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera object.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.target_set_distance_limits">camera.target_set_distance_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2855">line 2855</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".clear_horizontal_limits">clear_horizontal_limits<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Remove the horizontal clamping limits from the TARGET/EYE/HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera 3D-object.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.target_set_horizontal_limits">camera.target_set_horizontal_limits</a>,
-<a href="module-camera.html#.eye_set_horizontal_limits">camera.eye_set_horizontal_limits</a> or
-<a href="module-camera.html#.hover_set_horiz_trans_limits">camera.hover_set_horiz_trans_limits</a> with passing null as the "limits" argument.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2374">line 2374</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".clear_hover_angle_limits">clear_hover_angle_limits<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Remove the hover angle limits from the HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera object.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2422">line 2422</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".clear_vertical_limits">clear_vertical_limits<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Remove the vertical clamping limits from the TARGET/EYE/HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera 3D-object.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.target_set_vertical_limits">camera.target_set_vertical_limits</a>,
-<a href="module-camera.html#.eye_set_vertical_limits">camera.eye_set_vertical_limits</a> or
-<a href="module-camera.html#.hover_set_vert_trans_limits">camera.hover_set_vert_trans_limits</a> with passing null as the "limits" argument.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2398">line 2398</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2058">line 2058</a>
     </li></ul></dd>
     
 
@@ -2883,7 +1294,7 @@ The origin of the Canvas space is located in the top left corner of the Canvas.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -2963,7 +1374,7 @@ the given axis vector (never with the opposite direction).</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2017">line 2017</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1974">line 1974</a>
     </li></ul></dd>
     
 
@@ -3115,7 +1526,7 @@ the given axis vector (never with the opposite direction).</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -3216,7 +1627,7 @@ the given axis vector (never with the opposite direction).</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line531">line 531</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line528">line 528</a>
     </li></ul></dd>
     
 
@@ -3375,7 +1786,7 @@ the given axis vector (never with the opposite direction).</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -3476,7 +1887,7 @@ the given axis vector (never with the opposite direction).</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line475">line 475</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line472">line 472</a>
     </li></ul></dd>
     
 
@@ -3596,7 +2007,7 @@ the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -3631,7 +2042,7 @@ the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -3666,7 +2077,7 @@ the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -3706,7 +2117,7 @@ camera's absolute rotation if TRUE.</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -3786,7 +2197,7 @@ camera's absolute rotation if TRUE.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line422">line 422</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line419">line 419</a>
     </li></ul></dd>
     
 
@@ -3986,7 +2397,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line506">line 506</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line503">line 503</a>
     </li></ul></dd>
     
 
@@ -4228,7 +2639,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line395">line 395</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line392">line 392</a>
     </li></ul></dd>
     
 
@@ -4421,7 +2832,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line450">line 450</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line447">line 447</a>
     </li></ul></dd>
     
 
@@ -4620,210 +3031,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line354">line 354</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_cam_dist_limits">get_cam_dist_limits<span class="signature">(camobj, dist<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#Vec2">Vec2</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the distance limits of the TARGET/HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dist</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Array of distance limits [distance_max, distance_min].</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Array of distance limits [distance_max, distance_min].
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.hover_get_distance_limits">camera.hover_get_distance_limits</a>
-or <a href="module-camera.html#.target_get_distance_limits">camera.target_get_distance_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2743">line 2743</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line351">line 351</a>
     </li></ul></dd>
     
 
@@ -5041,7 +3249,7 @@ angles: [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1680">line 1680</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1644">line 1644</a>
     </li></ul></dd>
     
 
@@ -5267,7 +3475,7 @@ angles: [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1703">line 1703</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1667">line 1667</a>
     </li></ul></dd>
     
 
@@ -5492,7 +3700,7 @@ angles: [phi, theta], phi: [0, 2Pi], theta: [-Pi, Pi].</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1727">line 1727</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1691">line 1691</a>
     </li></ul></dd>
     
 
@@ -5532,221 +3740,7 @@ var phi = angles[0], theta = angles[1];</code></pre>
 
     
 
-    <h4 class="name" id=".get_eye">get_eye<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#Vec3">Vec3</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the eye point (position) of the camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    vec3.create()
-                
-                </td>
-            
-
-            <td class="description last">Destination eye vector.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination eye vector.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.get_translation">camera.get_translation</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2634">line 2634</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_eye_distance">get_eye_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_eye_distance">get_eye_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -5841,7 +3835,7 @@ var phi = angles[0], theta = angles[1];</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -5881,7 +3875,7 @@ var phi = angles[0], theta = angles[1];</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1823">line 1823</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1787">line 1787</a>
     </li></ul></dd>
     
 
@@ -5903,7 +3897,7 @@ var phi = angles[0], theta = angles[1];</code></pre>
 
     
 
-    <h4 class="name" id=".get_fov">get_fov<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_fov">get_fov<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -5998,7 +3992,7 @@ var phi = angles[0], theta = angles[1];</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -6038,7 +4032,7 @@ var phi = angles[0], theta = angles[1];</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1952">line 1952</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1916">line 1916</a>
     </li></ul></dd>
     
 
@@ -6218,642 +4212,7 @@ var phi = angles[0], theta = angles[1];</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2988">line 2988</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_horizontal_limits">get_horizontal_limits<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#Vec2">Vec2</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the horizontal angle limits of the TARGET/EYE camera (converted to the [0, 2Pi] range), or
-the horizontal translation limits of the HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Camera Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Destination vector for the camera limits: [left, right] rotation or [Min, Max] translation limits.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination vector for the camera limits: [left, right] rotation or [Min, Max] translation limits.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.eye_get_horizontal_limits">camera.eye_get_horizontal_limits</a>,
-<a href="module-camera.html#.target_get_horizontal_limits">camera.target_get_horizontal_limits</a>
-or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_horiz_trans_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2947">line 2947</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://www.blend4web.com/doc/en/camera.html#api">https://www.blend4web.com/doc/en/camera.html#api</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_hover_angle_limits">get_hover_angle_limits<span class="signature">(camobj, angles<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#Vec2">Vec2</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the hover angle limits for the HOVER camera, converted to the [-Pi, 0] range.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>angles</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Destination vector [hover_angle_limits.down, hover_angle_limits.up].</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination vector [hover_angle_limits.down, hover_angle_limits.up].
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.hover_get_vertical_limits">camera.hover_get_vertical_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2720">line 2720</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://www.blend4web.com/doc/en/camera.html#api">https://www.blend4web.com/doc/en/camera.html#api</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_hover_cam_pivot">get_hover_cam_pivot<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#Vec3">Vec3</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the pivot translation of the HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    vec3.create()
-                
-                </td>
-            
-
-            <td class="description last">Destination translation pivot vector.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination translation pivot vector.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.hover_get_pivot">camera.hover_get_pivot</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2611">line 2611</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2211">line 2211</a>
     </li></ul></dd>
     
 
@@ -7010,7 +4369,7 @@ or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_h
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1521">line 1521</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1485">line 1485</a>
     </li></ul></dd>
     
 
@@ -7032,7 +4391,7 @@ or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_h
 
     
 
-    <h4 class="name" id=".get_ortho_scale">get_ortho_scale<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_ortho_scale">get_ortho_scale<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -7127,7 +4486,7 @@ or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_h
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -7167,7 +4526,7 @@ or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_h
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2070">line 2070</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2027">line 2027</a>
     </li></ul></dd>
     
 
@@ -7189,209 +4548,7 @@ or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_h
 
     
 
-    <h4 class="name" id=".get_pivot">get_pivot<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#Vec3">Vec3</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the pivot point of the camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Destination pivot vector.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination pivot vector.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.target_get_pivot">camera.target_get_pivot</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2652">line 2652</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_stereo_distance">get_stereo_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_stereo_distance">get_stereo_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -7486,7 +4643,7 @@ or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_h
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -7526,7 +4683,7 @@ or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_h
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1781">line 1781</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1745">line 1745</a>
     </li></ul></dd>
     
 
@@ -7738,7 +4895,7 @@ or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_h
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1566">line 1566</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1530">line 1530</a>
     </li></ul></dd>
     
 
@@ -7918,223 +5075,7 @@ or <a href="module-camera.html#.hover_get_horiz_trans_limits">camera.hover_get_h
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1641">line 1641</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_velocity_params">get_velocity_params<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#Vec3">Vec3</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the velocity parameters of the camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Camera 3D-object.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    vec3.create()
-                
-                </td>
-            
-
-            <td class="description last">Velocity params [velocity_trans, velocity_rot,
-velocity_zoom].</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Velocity params [velocity_trans, velocity_rot,
-velocity_zoom].
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.get_velocities">camera.get_velocities</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2347">line 2347</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1605">line 1605</a>
     </li></ul></dd>
     
 
@@ -8348,224 +5289,12 @@ velocity_zoom].
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1869">line 1869</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1833">line 1833</a>
     </li></ul></dd>
     
 
     
 
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".get_vertical_limits">get_vertical_limits<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#Vec2">Vec2</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Get the vertical angle limits of the TARGET/EYE camera (converted to the [-Pi, Pi] range), or
-the vertical translation limits of the HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Camera Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Destination vector for the camera limits: [down, up] rotation or [Min, Max] translation limits.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination vector for the camera limits: [down, up] rotation or [Min, Max] translation limits.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Vec2">Vec2</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.eye_get_vertical_limits">camera.eye_get_vertical_limits</a>,
-<a href="module-camera.html#.target_get_vertical_limits">camera.target_get_vertical_limits</a>
-or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_vert_trans_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2866">line 2866</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://www.blend4web.com/doc/en/camera.html#api">https://www.blend4web.com/doc/en/camera.html#api</a></li>
-        </ul>
-    </dd>
     
 
     
@@ -8774,7 +5503,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1932">line 1932</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1896">line 1896</a>
     </li></ul></dd>
     
 
@@ -8796,7 +5525,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
 
     
 
-    <h4 class="name" id=".has_distance_limits">has_distance_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".has_distance_limits">has_distance_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -8891,7 +5620,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -8931,7 +5660,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2201">line 2201</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2158">line 2158</a>
     </li></ul></dd>
     
 
@@ -8953,166 +5682,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
 
     
 
-    <h4 class="name" id=".has_horizontal_limits">has_horizontal_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Check whether the EYE/TARGET camera has any horizontal limits.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera 3D-object.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The result of the checking.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.has_horizontal_rot_limits">camera.has_horizontal_rot_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2250">line 2250</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".has_horizontal_rot_limits">has_horizontal_rot_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".has_horizontal_rot_limits">has_horizontal_rot_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -9207,7 +5777,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -9247,7 +5817,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2239">line 2239</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2180">line 2180</a>
     </li></ul></dd>
     
 
@@ -9269,7 +5839,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
 
     
 
-    <h4 class="name" id=".has_horizontal_trans_limits">has_horizontal_trans_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".has_horizontal_trans_limits">has_horizontal_trans_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -9364,7 +5934,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -9404,7 +5974,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2276">line 2276</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2201">line 2201</a>
     </li></ul></dd>
     
 
@@ -9426,166 +5996,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
 
     
 
-    <h4 class="name" id=".has_vertical_limits">has_vertical_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Check whether the EYE/TARGET camera has any vertical limits.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera 3D-object.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The result of the checking.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.has_vertical_rot_limits">camera.has_vertical_rot_limits</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2223">line 2223</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".has_vertical_rot_limits">has_vertical_rot_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".has_vertical_rot_limits">has_vertical_rot_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -9680,7 +6091,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -9720,7 +6131,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2212">line 2212</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2169">line 2169</a>
     </li></ul></dd>
     
 
@@ -9742,7 +6153,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
 
     
 
-    <h4 class="name" id=".has_vertical_trans_limits">has_vertical_trans_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".has_vertical_trans_limits">has_vertical_trans_limits<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -9837,7 +6248,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -9877,7 +6288,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2266">line 2266</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2191">line 2191</a>
     </li></ul></dd>
     
 
@@ -9899,167 +6310,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
 
     
 
-    <h4 class="name" id=".hover_cam_set_translation">hover_cam_set_translation<span class="signature">(camobj, trans)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set translation for the HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>trans</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Translation vector.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.set_translation">camera.set_translation</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2676">line 2676</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".hover_get_distance">hover_get_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".hover_get_distance">hover_get_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -10154,7 +6405,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -10194,7 +6445,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1213">line 1213</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1210">line 1210</a>
     </li></ul></dd>
     
 
@@ -10408,7 +6659,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1301">line 1301</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1298">line 1298</a>
     </li></ul></dd>
     
 
@@ -10622,7 +6873,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1397">line 1397</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1394">line 1394</a>
     </li></ul></dd>
     
 
@@ -10841,7 +7092,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1195">line 1195</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1192">line 1192</a>
     </li></ul></dd>
     
 
@@ -11055,7 +7306,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1347">line 1347</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1344">line 1344</a>
     </li></ul></dd>
     
 
@@ -11276,7 +7527,7 @@ or <a href="module-camera.html#.hover_get_vert_trans_limits">camera.hover_get_ve
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1253">line 1253</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1250">line 1250</a>
     </li></ul></dd>
     
 
@@ -11396,7 +7647,7 @@ the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -11431,7 +7682,7 @@ the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -11466,7 +7717,7 @@ the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -11506,7 +7757,7 @@ camera's absolute rotation if TRUE.</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -11586,7 +7837,7 @@ camera's absolute rotation if TRUE.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1149">line 1149</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1146">line 1146</a>
     </li></ul></dd>
     
 
@@ -11751,7 +8002,7 @@ camera's absolute rotation if TRUE.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1275">line 1275</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1272">line 1272</a>
     </li></ul></dd>
     
 
@@ -11930,7 +8181,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1371">line 1371</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1368">line 1368</a>
     </li></ul></dd>
     
 
@@ -12096,7 +8347,7 @@ the set_translation() method but uses the camera pivot to perform the translatio
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1176">line 1176</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1173">line 1173</a>
     </li></ul></dd>
     
 
@@ -12275,7 +8526,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1321">line 1321</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1318">line 1318</a>
     </li></ul></dd>
     
 
@@ -12440,7 +8691,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1228">line 1228</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1225">line 1225</a>
     </li></ul></dd>
     
 
@@ -12605,7 +8856,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1089">line 1089</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1086">line 1086</a>
     </li></ul></dd>
     
 
@@ -12765,7 +9016,7 @@ positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1045">line 1045</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1042">line 1042</a>
     </li></ul></dd>
     
 
@@ -12860,7 +9111,7 @@ positions.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -12923,7 +9174,7 @@ positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1421">line 1421</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1418">line 1418</a>
     </li></ul></dd>
     
 
@@ -12945,7 +9196,7 @@ positions.
 
     
 
-    <h4 class="name" id=".is_eye_camera">is_eye_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_eye_camera">is_eye_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -13040,7 +9291,7 @@ positions.
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -13080,7 +9331,7 @@ positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1452">line 1452</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1449">line 1449</a>
     </li></ul></dd>
     
 
@@ -13102,7 +9353,7 @@ positions.
 
     
 
-    <h4 class="name" id=".is_hover_camera">is_hover_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_hover_camera">is_hover_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -13197,7 +9448,7 @@ positions.
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -13237,7 +9488,7 @@ positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1460">line 1460</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1457">line 1457</a>
     </li></ul></dd>
     
 
@@ -13259,7 +9510,7 @@ positions.
 
     
 
-    <h4 class="name" id=".is_look_up">is_look_up<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_look_up">is_look_up<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -13354,7 +9605,7 @@ positions.
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -13394,7 +9645,7 @@ positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1662">line 1662</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1626">line 1626</a>
     </li></ul></dd>
     
 
@@ -13416,7 +9667,7 @@ positions.
 
     
 
-    <h4 class="name" id=".is_ortho_camera">is_ortho_camera<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_ortho_camera">is_ortho_camera<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -13511,7 +9762,7 @@ positions.
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -13551,7 +9802,7 @@ positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2086">line 2086</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2043">line 2043</a>
     </li></ul></dd>
     
 
@@ -13573,7 +9824,7 @@ positions.
 
     
 
-    <h4 class="name" id=".is_static_camera">is_static_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_static_camera">is_static_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -13668,7 +9919,7 @@ positions.
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -13708,7 +9959,7 @@ positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1436">line 1436</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1433">line 1433</a>
     </li></ul></dd>
     
 
@@ -13730,7 +9981,7 @@ positions.
 
     
 
-    <h4 class="name" id=".is_target_camera">is_target_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_target_camera">is_target_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -13825,7 +10076,7 @@ positions.
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -13865,194 +10116,7 @@ positions.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1444">line 1444</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".move_pivot">move_pivot<span class="signature">(camobj, trans_h_delta, trans_v_delta)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Translate the pivot point of the TARGET camera in screen space.
-Translation distance is defined with distance factor between origin and
-pivot points.
-+h from left to right
-+v from down to up
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera 3D-object.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>trans_h_delta</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Delta of the horizontal translation.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>trans_v_delta</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Delta of the vertical translation.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.get_velocities">camera.get_velocities</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2286">line 2286</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1441">line 1441</a>
     </li></ul></dd>
     
 
@@ -14307,7 +10371,7 @@ Returned coordinates are measured in CSS pixels.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2181">line 2181</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2138">line 2138</a>
     </li></ul></dd>
     
 
@@ -14421,7 +10485,7 @@ on the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -14456,7 +10520,7 @@ on the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -14491,7 +10555,7 @@ on the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -14530,7 +10594,7 @@ on the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -14609,7 +10673,7 @@ on the "*_is_abs" parameters.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1583">line 1583</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1547">line 1547</a>
     </li></ul></dd>
     
 
@@ -14620,935 +10684,6 @@ on the "*_is_abs" parameters.
     <dd class="tag-see">
         <ul>
             <li><a href="https://www.blend4web.com/doc/en/camera.html#camera-spherical-coordinates">https://www.blend4web.com/doc/en/camera.html#camera-spherical-coordinates</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".rotate_eye_camera">rotate_eye_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Rotate the EYE camera counterclockwise (CCW) around its origin by the given angles.
-Performs the delta rotation or sets the camera's absolute rotation depending on the "*_is_abs" parameters.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>phi</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Azimuth angle in radians</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>theta</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Elevation angle in radians</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>phi_is_abs</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>theta_is_abs</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.eye_rotate">camera.eye_rotate</a>
-or <a href="module-camera.html#.rotate_camera">camera.rotate_camera</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2454">line 2454</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://www.blend4web.com/doc/en/camera.html#api">https://www.blend4web.com/doc/en/camera.html#api</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".rotate_hover_camera">rotate_hover_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Rotate the HOVER camera around its pivot by the given angles.
-Performs the delta rotation or sets the camera's absolute rotation depending on the "*_is_abs" parameters.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>phi</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Azimuth angle in radians</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>theta</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Elevation angle in radians</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>phi_is_abs</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>theta_is_abs</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.hover_rotate">camera.hover_rotate</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2587">line 2587</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://www.blend4web.com/doc/en/camera.html#api">https://www.blend4web.com/doc/en/camera.html#api</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".rotate_target_camera">rotate_target_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Rotate the TARGET camera counterclockwise (CCW) around its pivot by the given angles.
-Performs the delta rotation or sets the camera's absolute rotation depending on the "*_is_abs" parameters.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>phi</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Azimuth angle in radians</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>theta</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Elevation angle in radians</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>phi_is_abs</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>theta_is_abs</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.target_rotate">camera.target_rotate</a>
-or <a href="module-camera.html#.rotate_camera">camera.rotate_camera</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2481">line 2481</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://www.blend4web.com/doc/en/camera.html#api">https://www.blend4web.com/doc/en/camera.html#api</a></li>
         </ul>
     </dd>
     
@@ -15640,7 +10775,7 @@ or <a href="module-camera.html#.rotate_camera">camera.rotate_camera</a> instead.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -15703,7 +10838,7 @@ or <a href="module-camera.html#.rotate_camera">camera.rotate_camera</a> instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1806">line 1806</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1770">line 1770</a>
     </li></ul></dd>
     
 
@@ -15798,7 +10933,7 @@ or <a href="module-camera.html#.rotate_camera">camera.rotate_camera</a> instead.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -15861,7 +10996,7 @@ or <a href="module-camera.html#.rotate_camera">camera.rotate_camera</a> instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1969">line 1969</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1933">line 1933</a>
     </li></ul></dd>
     
 
@@ -16030,165 +11165,7 @@ or <a href="module-camera.html#.rotate_camera">camera.rotate_camera</a> instead.
     
 
     
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1998">line 1998</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".set_hover_pivot">set_hover_pivot<span class="signature">(camobj, coords)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set the pivot point for the HOVER camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>coords</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Pivot vector.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.hover_set_pivot_translation">camera.hover_set_pivot_translation</a> instead.</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Do not use it anymore</li></ul></dd>
     
 
     
@@ -16202,456 +11179,7 @@ or <a href="module-camera.html#.rotate_camera">camera.rotate_camera</a> instead.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2700">line 2700</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".set_look_at">set_look_at<span class="signature">(camobj, eye, target, up<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Low-level method to set position of the STATIC/EYE camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>eye</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Eye point (position of the camera)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>target</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Target point (point the camera is looking at)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>up</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    util.AXIS_Z
-                
-                </td>
-            
-
-            <td class="description last">Up vector ("up" direction of the camera)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.static_set_look_at">camera.static_set_look_at</a>
-or <a href="module-camera.html#.eye_set_look_at">camera.eye_set_look_at</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2432">line 2432</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".set_move_style">set_move_style<span class="signature">(camobj, move_style)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set movement style (MS_*) for the camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera 3D-object.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>move_style</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#CameraMoveStyle">CameraMoveStyle</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera movement style</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Operation success flag.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.static_setup">camera.static_setup</a> or 
-<a href="module-camera.html#.eye_setup">camera.eye_setup</a> or 
-<a href="module-camera.html#.target_setup">camera.target_setup</a> or 
-<a href="module-camera.html#.hover_setup">camera.hover_setup</a> or 
-<a href="module-camera.html#.hover_setup_rel">camera.hover_setup_rel</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1488">line 1488</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1962">line 1962</a>
     </li></ul></dd>
     
 
@@ -16746,7 +11274,7 @@ or <a href="module-camera.html#.eye_set_look_at">camera.eye_set_look_at</a> inst
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -16809,167 +11337,7 @@ or <a href="module-camera.html#.eye_set_look_at">camera.eye_set_look_at</a> inst
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2038">line 2038</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".set_pivot">set_pivot<span class="signature">(camobj, coords)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set the pivot point for the TARGET camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>coords</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">New pivot vector.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.target_set_trans_pivot">camera.target_set_trans_pivot</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2567">line 2567</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1995">line 1995</a>
     </li></ul></dd>
     
 
@@ -17064,7 +11432,7 @@ or <a href="module-camera.html#.eye_set_look_at">camera.eye_set_look_at</a> inst
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -17127,191 +11495,7 @@ or <a href="module-camera.html#.eye_set_look_at">camera.eye_set_look_at</a> inst
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1757">line 1757</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".set_trans_pivot">set_trans_pivot<span class="signature">(camobj, trans, pivot)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set the translation and the pivot point for the TARGET camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera Object 3D</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>trans</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Translation vector</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>pivot</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Pivot vector</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.target_set_trans_pivot">camera.target_set_trans_pivot</a>
-instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2507">line 2507</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1721">line 1721</a>
     </li></ul></dd>
     
 
@@ -17470,7 +11654,7 @@ camera and its pivot.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1536">line 1536</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1500">line 1500</a>
     </li></ul></dd>
     
 
@@ -17628,167 +11812,7 @@ camera and its pivot.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1620">line 1620</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".set_velocity_params">set_velocity_params<span class="signature">(camobj, velocity)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Set the velocity parameters for the camera.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera 3D-object.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>velocity</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera velocity params (velocity_trans, velocity_rot, velocity_zoom)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.set_velocities">camera.set_velocities</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2327">line 2327</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1584">line 1584</a>
     </li></ul></dd>
     
 
@@ -17946,7 +11970,7 @@ camera and its pivot.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1850">line 1850</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1814">line 1814</a>
     </li></ul></dd>
     
 
@@ -18160,7 +12184,7 @@ camera and its pivot.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line337">line 337</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line334">line 334</a>
     </li></ul></dd>
     
 
@@ -18395,7 +12419,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line294">line 294</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line291">line 291</a>
     </li></ul></dd>
     
 
@@ -18553,7 +12577,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line319">line 319</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line316">line 316</a>
     </li></ul></dd>
     
 
@@ -18745,7 +12769,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line264">line 264</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line261">line 261</a>
     </li></ul></dd>
     
 
@@ -18767,7 +12791,7 @@ keep the existing camera orientation.</td>
 
     
 
-    <h4 class="name" id=".target_get_distance">target_get_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".target_get_distance">target_get_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -18862,7 +12886,7 @@ keep the existing camera orientation.</td>
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -18902,7 +12926,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line716">line 716</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line713">line 713</a>
     </li></ul></dd>
     
 
@@ -19116,7 +13140,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line810">line 810</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line807">line 807</a>
     </li></ul></dd>
     
 
@@ -19268,7 +13292,7 @@ keep the existing camera orientation.</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -19369,7 +13393,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line914">line 914</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line911">line 911</a>
     </li></ul></dd>
     
 
@@ -19590,7 +13614,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line764">line 764</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line761">line 761</a>
     </li></ul></dd>
     
 
@@ -19804,7 +13828,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line971">line 971</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line968">line 968</a>
     </li></ul></dd>
     
 
@@ -19956,7 +13980,7 @@ keep the existing camera orientation.</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -20057,7 +14081,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line858">line 858</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line855">line 855</a>
     </li></ul></dd>
     
 
@@ -20162,7 +14186,7 @@ Translation distance is defined with absolute value of parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -20185,7 +14209,7 @@ Translation distance is defined with absolute value of parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -20248,7 +14272,7 @@ Translation distance is defined with absolute value of parameters.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line994">line 994</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line991">line 991</a>
     </li></ul></dd>
     
 
@@ -20362,7 +14386,7 @@ the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -20397,7 +14421,7 @@ the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -20432,7 +14456,7 @@ the "*_is_abs" parameters.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -20472,7 +14496,7 @@ camera's absolute rotation if TRUE.</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -20552,7 +14576,7 @@ camera's absolute rotation if TRUE.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line621">line 621</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line618">line 618</a>
     </li></ul></dd>
     
 
@@ -20655,7 +14679,7 @@ The result of this operation can be corrected by existing limits.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -20718,7 +14742,7 @@ The result of this operation can be corrected by existing limits.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line693">line 693</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line690">line 690</a>
     </li></ul></dd>
     
 
@@ -20911,7 +14935,7 @@ the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line782">line 782</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line779">line 779</a>
     </li></ul></dd>
     
 
@@ -21104,7 +15128,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line889">line 889</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line886">line 886</a>
     </li></ul></dd>
     
 
@@ -21304,7 +15328,7 @@ disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line945">line 945</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line942">line 942</a>
     </li></ul></dd>
     
 
@@ -21463,7 +15487,7 @@ the set_translation() method but uses the camera pivot to perform the translatio
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line674">line 674</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line671">line 671</a>
     </li></ul></dd>
     
 
@@ -21699,7 +15723,7 @@ point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line650">line 650</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line647">line 647</a>
     </li></ul></dd>
     
 
@@ -21892,7 +15916,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line833">line 833</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line830">line 830</a>
     </li></ul></dd>
     
 
@@ -22057,7 +16081,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line562">line 562</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line559">line 559</a>
     </li></ul></dd>
     
 
@@ -22152,7 +16176,7 @@ Pass null to disable the limits.</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -22215,7 +16239,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1030">line 1030</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1027">line 1027</a>
     </li></ul></dd>
     
 
@@ -22373,7 +16397,7 @@ Pass null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line731">line 731</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line728">line 728</a>
     </li></ul></dd>
     
 
@@ -22471,7 +16495,7 @@ walking/running/driving.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -22494,7 +16518,7 @@ walking/running/driving.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -22517,7 +16541,7 @@ walking/running/driving.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -22580,167 +16604,7 @@ walking/running/driving.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1891">line 1891</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".zoom_object">zoom_object<span class="signature">(camobj, obj)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Zoom the camera to the object.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>camobj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Camera object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-camera.html#.target_zoom_object">camera.target_zoom_object</a> instead.</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line2529">line 2529</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1855">line 1855</a>
     </li></ul></dd>
     
 
@@ -22824,7 +16688,7 @@ The "min" value must be less or equal than the "max" value.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -22847,7 +16711,7 @@ The "min" value must be less or equal than the "max" value.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -22896,7 +16760,7 @@ The "min" value must be less or equal than the "max" value.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line61">line 61</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -23166,7 +17030,7 @@ Set to null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line156">line 156</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -23410,7 +17274,7 @@ Set to null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line231">line 231</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line228">line 228</a>
     </li></ul></dd>
     
 
@@ -23495,7 +17359,7 @@ The limits are converted by engine into the range [0, 2Pi] when set via API.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -23528,7 +17392,7 @@ The limits are converted by engine into the range [0, 2Pi] when set via API.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -23561,7 +17425,7 @@ The limits are converted by engine into the range [0, 2Pi] when set via API.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -23625,7 +17489,7 @@ camera position/orientation, otherwise - in world space (by default).</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line82">line 82</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line79">line 79</a>
     </li></ul></dd>
     
 
@@ -23713,7 +17577,7 @@ The "min" value must be less or equal than the "max" value.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -23736,7 +17600,7 @@ The "min" value must be less or equal than the "max" value.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -23785,7 +17649,7 @@ The "min" value must be less or equal than the "max" value.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line116">line 116</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -23875,7 +17739,7 @@ The "down" value must be greater or equal than the "up" value.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -23898,7 +17762,7 @@ The "down" value must be greater or equal than the "up" value.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -23947,7 +17811,7 @@ The "down" value must be greater or equal than the "up" value.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line94">line 94</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line91">line 91</a>
     </li></ul></dd>
     
 
@@ -24273,7 +18137,7 @@ translation limits. Set to null to disable the limits.</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -24336,7 +18200,7 @@ translation limits. Set to null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line188">line 188</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line185">line 185</a>
     </li></ul></dd>
     
 
@@ -24493,7 +18357,7 @@ current camera position.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -24532,7 +18396,7 @@ limits are clamped to be in range [0, +∞].</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -24571,7 +18435,7 @@ are clamped to be in range [-PI/2, 0].</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -24640,7 +18504,7 @@ intervals and can be zoomed equally in both directions.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line209">line 209</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -24721,7 +18585,7 @@ camera pivot point.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -24745,7 +18609,7 @@ along the Z axis.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -24795,7 +18659,7 @@ along the Z axis.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line126">line 126</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -24985,7 +18849,7 @@ keep the existing camera orientation.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line146">line 146</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -25302,7 +19166,7 @@ null to disable the limits.</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -25365,7 +19229,7 @@ null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line170">line 170</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line167">line 167</a>
     </li></ul></dd>
     
 
@@ -25449,7 +19313,7 @@ null to disable the limits.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -25486,7 +19350,7 @@ null to disable the limits.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -25523,7 +19387,7 @@ null to disable the limits.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -25586,7 +19450,7 @@ null to disable the limits.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line137">line 137</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -25671,7 +19535,7 @@ The limits are converted by engine into the range [-Pi, Pi] when set via API.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -25704,7 +19568,7 @@ The limits are converted by engine into the range [-Pi, Pi] when set via API.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -25737,7 +19601,7 @@ The limits are converted by engine into the range [-Pi, Pi] when set via API.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -25801,7 +19665,7 @@ camera position/orientation, otherwise - in world space (by default).</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line70">line 70</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -25889,7 +19753,7 @@ The "min" value must be less or equal than the "max" value.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -25912,7 +19776,7 @@ The "min" value must be less or equal than the "max" value.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -25961,7 +19825,7 @@ The "min" value must be less or equal than the "max" value.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line106">line 106</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -26000,13 +19864,13 @@ The "min" value must be less or equal than the "max" value.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Feb 28 2017 15:47:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

@@ -104,7 +104,7 @@ uniform mat4 u_proj_matrix;
 #if !DEBUG_SPHERE
 # if WIND_BEND
 uniform vec3 u_wind;
-uniform PRECISION float u_time;
+uniform float u_time;
 #  if BILLBOARD && BILLBOARD_JITTERED
 uniform float u_jitter_amp;
 uniform float u_jitter_freq;

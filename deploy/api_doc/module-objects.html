@@ -143,6 +143,10 @@
 
         
             
+<li> <a href="#.get_custom_prop">get_custom_prop<span class="signature">(obj)</span><span class="type-signature"> &rarr; {*}</span></a></li>
+
+        
+            
 <li> <a href="#.get_dg_parent">get_dg_parent<span class="signature">(obj)</span><span class="type-signature"> &rarr; (nullable) {Object3D}</span></a></li>
 
         
@@ -155,7 +159,7 @@
 
         
             
-<li> <a href="#.get_nodemat_value">get_nodemat_value<span class="signature">(obj, name_list)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_nodemat_value">get_nodemat_value<span class="signature">(obj, name_list)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
@@ -171,39 +175,43 @@
 
         
             
-<li> <a href="#.is_armature">is_armature<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.get_wind_bending_params">get_wind_bending_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {WindBendingParams}</span></a></li>
 
         
             
-<li> <a href="#.is_camera">is_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_armature">is_armature<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_dynamic">is_dynamic<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_camera">is_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_empty">is_empty<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_dynamic">is_dynamic<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_lamp">is_lamp<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_empty">is_empty<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_line">is_line<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_lamp">is_lamp<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_mesh">is_mesh<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_line">is_line<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_speaker">is_speaker<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_mesh">is_mesh<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_world">is_world<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_speaker">is_speaker<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
+
+        
+            
+<li> <a href="#.is_world">is_world<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
@@ -212,6 +220,10 @@
         
             
 <li> <a href="#.set_nodemat_value">set_nodemat_value<span class="signature">(obj, name_list, value)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_wind_bending_params">set_wind_bending_params<span class="signature">(obj, wb_params)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -227,6 +239,10 @@
         
                 
 <li> <a href="#~ObjectMetaTags">ObjectMetaTags</a></li>
+
+            
+                
+<li> <a href="#~WindBendingParams">WindBendingParams</a></li>
 
             
         </ul>
@@ -332,7 +348,7 @@
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -367,7 +383,7 @@
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -468,7 +484,164 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line44">line 44</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line66">line 66</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_custom_prop">get_custom_prop<span class="signature">(obj)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get the Blender-assigned custom property field from the object.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object custom property field
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -625,7 +798,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line261">line 261</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line283">line 283</a>
     </li></ul></dd>
     
 
@@ -782,7 +955,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line33">line 33</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -887,7 +1060,7 @@
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">Array.&lt;string></span>
 
 
             
@@ -1016,7 +1189,7 @@ nested node groups (if any) and the name of the RGB node itself</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line192">line 192</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line214">line 214</a>
     </li></ul></dd>
     
 
@@ -1038,7 +1211,7 @@ nested node groups (if any) and the name of the RGB node itself</td>
 
     
 
-    <h4 class="name" id=".get_nodemat_value">get_nodemat_value<span class="signature">(obj, name_list)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_nodemat_value">get_nodemat_value<span class="signature">(obj, name_list)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -1111,7 +1284,7 @@ nested node groups (if any) and the name of the RGB node itself</td>
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">Array.&lt;string></span>
 
 
             
@@ -1158,7 +1331,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -1200,7 +1373,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line116">line 116</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -1308,7 +1481,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line342">line 342</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line364">line 364</a>
     </li></ul></dd>
     
 
@@ -1465,7 +1638,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line253">line 253</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line275">line 275</a>
     </li></ul></dd>
     
 
@@ -1573,7 +1746,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line333">line 333</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line355">line 355</a>
     </li></ul></dd>
     
 
@@ -1595,7 +1768,164 @@ have at least 2 elements ["Mat","Node"]</td>
 
     
 
-    <h4 class="name" id=".is_armature">is_armature<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".get_wind_bending_params">get_wind_bending_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {WindBendingParams}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get object's wind bending parameters. Object must be dynamic.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Wind Bending parameters
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">WindBendingParams</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line438">line 438</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".is_armature">is_armature<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1690,7 +2020,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -1730,7 +2060,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line277">line 277</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line299">line 299</a>
     </li></ul></dd>
     
 
@@ -1752,7 +2082,7 @@ have at least 2 elements ["Mat","Node"]</td>
 
     
 
-    <h4 class="name" id=".is_camera">is_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_camera">is_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1847,7 +2177,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -1887,7 +2217,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line293">line 293</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line315">line 315</a>
     </li></ul></dd>
     
 
@@ -1909,7 +2239,7 @@ have at least 2 elements ["Mat","Node"]</td>
 
     
 
-    <h4 class="name" id=".is_dynamic">is_dynamic<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_dynamic">is_dynamic<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -2004,7 +2334,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -2044,7 +2374,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line351">line 351</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line373">line 373</a>
     </li></ul></dd>
     
 
@@ -2066,7 +2396,7 @@ have at least 2 elements ["Mat","Node"]</td>
 
     
 
-    <h4 class="name" id=".is_empty">is_empty<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_empty">is_empty<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -2161,7 +2491,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -2201,7 +2531,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line309">line 309</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line331">line 331</a>
     </li></ul></dd>
     
 
@@ -2223,7 +2553,7 @@ have at least 2 elements ["Mat","Node"]</td>
 
     
 
-    <h4 class="name" id=".is_lamp">is_lamp<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_lamp">is_lamp<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -2318,7 +2648,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -2358,7 +2688,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line301">line 301</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line323">line 323</a>
     </li></ul></dd>
     
 
@@ -2380,7 +2710,7 @@ have at least 2 elements ["Mat","Node"]</td>
 
     
 
-    <h4 class="name" id=".is_line">is_line<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_line">is_line<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -2475,7 +2805,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -2515,7 +2845,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line317">line 317</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line339">line 339</a>
     </li></ul></dd>
     
 
@@ -2537,7 +2867,7 @@ have at least 2 elements ["Mat","Node"]</td>
 
     
 
-    <h4 class="name" id=".is_mesh">is_mesh<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_mesh">is_mesh<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -2632,7 +2962,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -2672,7 +3002,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line269">line 269</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line291">line 291</a>
     </li></ul></dd>
     
 
@@ -2694,7 +3024,7 @@ have at least 2 elements ["Mat","Node"]</td>
 
     
 
-    <h4 class="name" id=".is_speaker">is_speaker<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_speaker">is_speaker<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -2789,7 +3119,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -2829,7 +3159,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line285">line 285</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line307">line 307</a>
     </li></ul></dd>
     
 
@@ -2851,7 +3181,7 @@ have at least 2 elements ["Mat","Node"]</td>
 
     
 
-    <h4 class="name" id=".is_world">is_world<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_world">is_world<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -2946,7 +3276,7 @@ have at least 2 elements ["Mat","Node"]</td>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -2986,7 +3316,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line325">line 325</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line347">line 347</a>
     </li></ul></dd>
     
 
@@ -3081,7 +3411,7 @@ have at least 2 elements ["Mat","Node"]</td>
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">Array.&lt;string></span>
 
 
             
@@ -3105,7 +3435,7 @@ nested node groups (if any) and the name of the RGB node itself</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -3128,7 +3458,7 @@ nested node groups (if any) and the name of the RGB node itself</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -3151,7 +3481,7 @@ nested node groups (if any) and the name of the RGB node itself</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -3216,7 +3546,7 @@ nested node groups (if any) and the name of the RGB node itself</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line153">line 153</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -3311,7 +3641,7 @@ nested node groups (if any) and the name of the RGB node itself</td>
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">Array.&lt;string></span>
 
 
             
@@ -3336,7 +3666,7 @@ have at least 2 elements ["Mat","Node"]</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -3401,7 +3731,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line79">line 79</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line101">line 101</a>
     </li></ul></dd>
     
 
@@ -3412,6 +3742,178 @@ have at least 2 elements ["Mat","Node"]</td>
     
 </dl>
 
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".set_wind_bending_params">set_wind_bending_params<span class="signature">(obj, wb_params)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Set object's wind bending parameters. Object must be dynamic.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object 3D</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>wb_params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">WindBendingParams</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Wind Bending parameters</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line397">line 397</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_obj = require("objects");
+var wb_params =
+{
+    angle: 3,
+    main_frequency: 0.25,
+    detail_frequency: 1,
+    detail_amplitude: 0.1,
+    branch_amplitude: 0.3
+};
+m_obj.set_wind_bending_params(obj, wb_params);</code></pre>
 
 
 </div>
@@ -3536,7 +4038,7 @@ have at least 2 elements ["Mat","Node"]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line232">line 232</a>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -3615,7 +4117,7 @@ have at least 2 elements ["Mat","Node"]</td>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -3638,7 +4140,7 @@ have at least 2 elements ["Mat","Node"]</td>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -3661,7 +4163,7 @@ have at least 2 elements ["Mat","Node"]</td>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -3729,6 +4231,227 @@ have at least 2 elements ["Mat","Node"]</td>
 </div>
 
             
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~WindBendingParams">WindBendingParams</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Wind bending params.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>angle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Angle of main wind bending</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>main_frequency</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Frequency of main wind bending</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>detail_frequency</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Frequency of detail wind bending</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>detail_amplitude</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Amplitude of detail wind bending</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>branch_amplitude</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Amplitude of braches wind bending</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_objects.js.html">ext/objects.js</a>, <a href="ext_objects.js.html#line32">line 32</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
     
 
     
@@ -3742,13 +4465,13 @@ have at least 2 elements ["Mat","Node"]</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Feb 28 2017 15:47:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,13 +24,12 @@
  */
 b4w.module["__lights"] = function(exports, require) {
 
-var m_print = require("__print");
 var m_tsr   = require("__tsr");
 var m_util  = require("__util");
 var m_vec3  = require("__vec3");
 
 var _vec3_tmp = new Float32Array(3);
-var _vec3_empty = new Float32Array(3);
+
 /**
  * Create light
  * @param type Light type: POINT, SUN,...
@@ -83,7 +82,6 @@ function init_light(type) {
 
 /**
  * Convert blender lamp object to light
- * @param lamp_obj lamp object
  */
 exports.lamp_to_light = function(bpy_obj, obj) {
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -707,7 +707,7 @@ function register_accum_value(accum, value_name) {
 }
 
 function unregister_accum_value(accum, value_name) {
-    if (!value_name in accum.registered_accum_values)
+    if (!(value_name in accum.registered_accum_values))
         return
     else
         if (accum.registered_accum_values[value_name] > 0) {
@@ -848,6 +848,9 @@ exports.create_gamepad_axis_sensor = function(axis, id) {
     return sensor;
 }
 
+/**
+ * @cc_externs coll_obj coll_pos coll_norm coll_dist
+ */
 exports.create_collision_sensor = function(obj, collision_id,
                                            calc_pos_norm) {
     if (!(obj && m_phy.obj_has_physics(obj))) {
@@ -901,6 +904,9 @@ exports.create_collision_impulse_sensor = function(obj) {
     return sensor;
 }
 
+/**
+ * @cc_externs hit_fract obj_hit hit_time hit_pos hit_norm
+ */
 exports.create_ray_sensor = function(obj_src, from, to, collision_id,
         is_binary_value, calc_pos_norm, ign_src_rot) {
 
@@ -943,6 +949,9 @@ exports.create_ray_sensor = function(obj_src, from, to, collision_id,
     return sensor;
 }
 
+/**
+ * @cc_externs coords which
+ */
 exports.create_mouse_click_sensor = function(element) {
     var sensor = init_sensor(ST_MOUSE_CLICK, element);
     sensor.do_activation = true;
@@ -956,6 +965,9 @@ exports.create_mouse_wheel_sensor = function(element) {
     return sensor;
 }
 
+/**
+ * @cc_externs coords
+ */
 exports.create_mouse_move_sensor = function(axis, element) {
     var sensor = init_sensor(ST_MOUSE_MOVE, element);
     sensor.axis = axis || "XY";
@@ -964,6 +976,9 @@ exports.create_mouse_move_sensor = function(axis, element) {
     return sensor;
 }
 
+/**
+ * @cc_externs coords gesture
+ */
 exports.create_touch_move_sensor = function(axis, element) {
     var sensor = init_sensor(ST_TOUCH_MOVE, element);
     sensor.axis = axis || "XY";
@@ -986,6 +1001,9 @@ exports.create_touch_rotate_sensor = function(element) {
     return sensor;
 }
 
+/**
+ * @cc_externs coords
+ */
 exports.create_touch_click_sensor = function(element) {
     var sensor = init_sensor(ST_TOUCH_CLICK, element);
     sensor.payload = {coords: new Float32Array(2)};
@@ -1166,6 +1184,9 @@ exports.create_callback_sensor = function(callback, value) {
     return sensor;
 }
 
+/**
+ * @cc_externs coords
+ */
 exports.create_plock_mouse_sensor = function(element) {
     var sensor = init_sensor(ST_PLOCK_MOUSE_MOVE, element);
     sensor.payload = {coords: new Float32Array(2)};
@@ -1740,10 +1761,8 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
     if (_objects.indexOf(obj) == -1)
         _objects.push(obj);
 
-    var sensors = manifold.sensors;
-
-    for (var i = 0; i < sensors.length; i++) {
-        var sensor = sensors[i];
+    for (var i = 0; i < manifold.sensors.length; i++) {
+        var sensor = manifold.sensors[i];
         activate_sensor(sensor);
         var sens_ind = _sensors_cache.indexOf(sensor);
         if (sens_ind == -1) {
@@ -1798,6 +1817,7 @@ function activate_sensor(sensor) {
                     sensor.from, sensor.to, sensor.collision_id,
                     sensor.ray_test_cb, false, false, sensor.calc_pos_norm,
                     sensor.ign_src_rot);
+            // TODO: check if the next line is necessary
             sensor.payload.ray_test_id = sensor.ray_test_id;
             break;
         case ST_TIMER:
@@ -1935,8 +1955,8 @@ function remove_sensor_manifold(obj, id) {
     } else {
         // make a copy to ensure reliable results
         var removed_ids = [];
-        for (var id in manifolds)
-            removed_ids.push(id);
+        for (var man_id in manifolds)
+            removed_ids.push(man_id);
 
         for (var i = 0; i < removed_ids.length; i++)
             remove_sensor_manifold(obj, removed_ids[i]);

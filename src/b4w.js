@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,13 +41,12 @@
 
 /**
  * Constant value matching character state (flying, walking etc).
- * @typedef {Number} CharacterState
+ * @typedef {number} CharacterState
  */
 
 /**
  * Line set in parametric form
- * @typedef ParametricLine
- * @type {Float32Array(6)}
+ * @typedef {Float32Array(6)} ParametricLine
 */
 
 /**
@@ -120,18 +119,8 @@
 
 /**
  * Camera movement style enum. One of MS_*.
- * @typedef CameraMoveStyle
- * @type {Number}
+ * @typedef {number} CameraMoveStyle
  * @see {@link module:camera}
- */
-
-/**
- * Coordinate space enum. Designates in which space perform coordinate transformations.
- * @typedef Space
- * @type {Number}
- * @see {@link module:transform.SPACE_LOCAL},
- * {@link module:transform.SPACE_WORLD}
- * @deprecated Not needed anymore.
  */
 
 /**
@@ -142,6 +131,7 @@
 /**
  * Blend4Web global object.
  * @namespace
+ * @suppress {duplicate}
  */
 var b4w = ((typeof b4w === "object") ? b4w : (function(exports) {
 
@@ -163,9 +153,8 @@ exports.cleanup = function(module_id, ns) {
  * This function is passed to the module implementation function and can be used
  * to import additional modules from the same namespace. If you need to import
  * a module from the different namespace use {@link b4w.require}.
- * @typedef b4w~RequireFunction
- * @type {Function}
- * @param {String} module_id Module ID
+ * @typedef {Function} b4w~RequireFunction
+ * @param {string} module_id Module ID
  */
 
 /**
@@ -178,7 +167,7 @@ exports.cleanup = function(module_id, ns) {
 /**
  * Register the module.
  * @method b4w.register
- * @param {String} module_id Module ID
+ * @param {string} module_id Module ID
  * @param {b4w~ModuleFunction} fun Function implementing the module
  */
 exports.register = function(module_id, fun) {
@@ -192,8 +181,8 @@ exports.register = function(module_id, fun) {
 /**
  * Prepare and return the registered module.
  * @method b4w.require
- * @param {String} module_id Module ID
- * @param {String} [ns="__b4w_default"] Namespace for processed modules
+ * @param {string} module_id Module ID
+ * @param {string} [ns="__b4w_default"] Namespace for processed modules
  * @returns {Object3D} Module object
  */
 exports.require = require;
@@ -228,8 +217,8 @@ function require(module_id, ns) {
 /**
  * Check if the module was registered.
  * @method b4w.module_check
- * @param {String} module_id Module ID
- * @returns {Boolean} Check result
+ * @param {string} module_id Module ID
+ * @returns {boolean} Check result
  */
 exports.module_check = function(module_id) {
     if (_module[module_id])
@@ -242,7 +231,7 @@ exports.module_check = function(module_id) {
  * Get a namespace of the current module by it's require function.
  * @method b4w.get_namespace
  * @param {b4w~RequireFunction} mod_ns_require Local require function
- * @returns {String} Namespace.
+ * @returns {string} Namespace.
  */
 exports.get_namespace = function(mod_ns_require) {
     for (var ns in _ns_requires)

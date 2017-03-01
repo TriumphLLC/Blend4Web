@@ -37,6 +37,7 @@
 <script type="text/javascript" src="../../src/lights.js"></script>
 <script type="text/javascript" src="../../src/loader.js"></script>
 <script type="text/javascript" src="../../src/logic_nodes.js"></script>
+<script type="text/javascript" src="../../src/main.js"></script>
 <script type="text/javascript" src="../../src/math.js"></script>
 <script type="text/javascript" src="../../src/navmesh.js"></script>
 <script type="text/javascript" src="../../src/nla.js"></script>
@@ -90,6 +91,7 @@
 <script type="text/javascript" src="../../src/ext/physics.js"></script>
 <script type="text/javascript" src="../../src/ext/rgb.js"></script>
 <script type="text/javascript" src="../../src/ext/scenes.js"></script>
+<script type="text/javascript" src="../../src/ext/screen.js"></script>
 <script type="text/javascript" src="../../src/ext/sfx.js"></script>
 <script type="text/javascript" src="../../src/ext/textures.js"></script>
 <script type="text/javascript" src="../../src/ext/time.js"></script>
@@ -127,21 +129,21 @@
 <script type="text/javascript" src="scripts/multitouch.js" data-name="Multitouch" data-scene="multitouch"></script>
 <script type="text/javascript" src="scripts/pathfinding.js" data-name="Pathfinding" data-scene="pathfinding"></script>
 <script type="text/javascript" src="scripts/raytest.js" data-name="Ray Test" data-scene="raytest"></script>
+<script type="text/javascript" src="scripts/vr.js" data-name="VR" data-scene="vr" data-styles="true"></script>
 <script type="text/javascript" src="scripts/webcam.js" data-name="Webcam" data-scene="webcam"></script>
 <script type="text/javascript" src="code_snippets.js"></script>
-<script type="text/javascript" src="highlight.js"></script>
+<script type="text/javascript" src="highlight.pack.js"></script>
 
 </head>
 
 <body>
-  <div id="canvas_cont" oncontextmenu="return false"></div>
-  <div id="schedule"></div>
-  <div id="interface">
-    <div class="container">
-      <a class="text" id="open_script" target="_blank" style="cursor: pointer;">View Code</a>
-    </div>
-    <div class="container">
-      <a class="text" id="auto_view" target="_self" style="cursor: pointer;">Auto View</a>
+  <div id="main_canvas_container" oncontextmenu="return false"></div>
+  <div id="wrapper" class="active">
+    <div id="schedule"></div>
+    <div id="interface">
+      <a class="btn" id="open_script" target="_blank">View Code</a>
+      <a class="btn" id="auto_view" target="_self">Auto View</a>
+      <a class="btn" id="clone_snippet" target="_self">Make Project</a>
     </div>
   </div>
   <div id="code_panel">
@@ -169,6 +171,17 @@
       </tr>
     </table>
   </div>
+  <div id="clone_panel">
+    <form action="/project/clone_snippet/" method="get" accept-charset="utf-8">
+      <div>
+        <input type="text" name="new_proj_name" id="new_proj_name" required="" placeholder="New project name">
+        <input type="hidden" name="snippet_name" id="snippet_name">
+      </div>
+      <div class="btn" id="close_clone">Cancel</div>
+      <input type="submit" name="Clone" class="btn" value="Make">
+    </form>
+  </div>
+  <div id="top_switcher"><div class="arrow"></div></div>
 </body>
 
 </html>

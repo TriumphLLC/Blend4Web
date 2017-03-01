@@ -35,7 +35,7 @@ var _vec3_tmp = new Float32Array(3);
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas_cont",
+        canvas_container_id: "main_canvas_container",
         callback: init_cb,
         physics_enabled: false,
         alpha: true,

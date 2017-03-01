@@ -120,7 +120,7 @@ Scene Errors
 If the player is used incorrectly it displays the corresponding errors.
 
 
-1) the ``load`` attribute specifies a wrong path to the JSON file or the file is corrupt;
+1) The ``load`` :ref:`attribute <webplayer_attributes>` specifies a wrong path to the JSON file or the file is corrupt. 
 
 .. image:: src_images/web_player/error_wrong_json_path.png
    :align: center
@@ -128,7 +128,7 @@ If the player is used incorrectly it displays the corresponding errors.
 
 |
 
-2) the ``load`` attribute is not found or is void;
+2) The ``load`` :ref:`attribute <webplayer_attributes>` is not found or is void.
 
 .. image:: src_images/web_player/error_not_load_attr.png
    :align: center
@@ -136,7 +136,7 @@ If the player is used incorrectly it displays the corresponding errors.
 
 |
 
-3) WebGL initialization error.
+3) WebGL initialization error. Please, look at :ref:`this page <renderer_not_working>` for the solution.
 
 .. image:: src_images/web_player/error_webgl.png
    :align: center

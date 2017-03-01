@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,34 +54,34 @@ var m_util  = require("__util");
 // http://msdn.microsoft.com/en-us/library/bb943991.aspx/
 var DDS_MAGIC = 0x20534444;
 
-var DDSD_CAPS = 0x1,
-    DDSD_HEIGHT = 0x2,
-    DDSD_WIDTH = 0x4,
-    DDSD_PITCH = 0x8,
-    DDSD_PIXELFORMAT = 0x1000,
-    DDSD_MIPMAPCOUNT = 0x20000,
-    DDSD_LINEARSIZE = 0x80000,
-    DDSD_DEPTH = 0x800000;
+// var DDSD_CAPS = 0x1;
+// var DDSD_HEIGHT = 0x2;
+// var DDSD_WIDTH = 0x4;
+// var DDSD_PITCH = 0x8;
+// var DDSD_PIXELFORMAT = 0x1000;
+var DDSD_MIPMAPCOUNT = 0x20000;
+// var DDSD_LINEARSIZE = 0x80000;
+// var DDSD_DEPTH = 0x800000;
 
-var DDSCAPS_COMPLEX = 0x8,
-    DDSCAPS_MIPMAP = 0x400000,
-    DDSCAPS_TEXTURE = 0x1000;
+// var DDSCAPS_COMPLEX = 0x8;
+// var DDSCAPS_MIPMAP = 0x400000;
+// var DDSCAPS_TEXTURE = 0x1000;
     
-var DDSCAPS2_CUBEMAP = 0x200,
-    DDSCAPS2_CUBEMAP_POSITIVEX = 0x400,
-    DDSCAPS2_CUBEMAP_NEGATIVEX = 0x800,
-    DDSCAPS2_CUBEMAP_POSITIVEY = 0x1000,
-    DDSCAPS2_CUBEMAP_NEGATIVEY = 0x2000,
-    DDSCAPS2_CUBEMAP_POSITIVEZ = 0x4000,
-    DDSCAPS2_CUBEMAP_NEGATIVEZ = 0x8000,
-    DDSCAPS2_VOLUME = 0x200000;
+// var DDSCAPS2_CUBEMAP = 0x200;
+// var DDSCAPS2_CUBEMAP_POSITIVEX = 0x400;
+// var DDSCAPS2_CUBEMAP_NEGATIVEX = 0x800;
+// var DDSCAPS2_CUBEMAP_POSITIVEY = 0x1000;
+// var DDSCAPS2_CUBEMAP_NEGATIVEY = 0x2000;
+// var DDSCAPS2_CUBEMAP_POSITIVEZ = 0x4000;
+// var DDSCAPS2_CUBEMAP_NEGATIVEZ = 0x8000;
+// var DDSCAPS2_VOLUME = 0x200000;
 
-var DDPF_ALPHAPIXELS = 0x1,
-    DDPF_ALPHA = 0x2,
-    DDPF_FOURCC = 0x4,
-    DDPF_RGB = 0x40,
-    DDPF_YUV = 0x200,
-    DDPF_LUMINANCE = 0x20000;
+// var DDPF_ALPHAPIXELS = 0x1;
+// var DDPF_ALPHA = 0x2;
+var DDPF_FOURCC = 0x4;
+// var DDPF_RGB = 0x40;
+// var DDPF_YUV = 0x200;
+// var DDPF_LUMINANCE = 0x20000;
 
 var FOURCC_DXT1 = fourcc_to_int32("DXT1");
 var FOURCC_DXT3 = fourcc_to_int32("DXT3");
@@ -162,7 +162,7 @@ var RGBA_PVRTC_2BPPV1_FORMAT = 3;
  * 4. Use a Uint16Array instead of a Uint8Array.  Another 10% improvement.
  * @author Evan Parker
  * @param {Uint16Array} src The src DXT bits as a Uint16Array.
- * @param {number} srcByteOffset
+ * @param {number} src16Offset
  * @param {number} width
  * @param {number} height
  * @return {Uint16Array} dst
@@ -170,7 +170,6 @@ var RGBA_PVRTC_2BPPV1_FORMAT = 3;
 function dxt_to_rgb_565(src, src16Offset, width, height) {
     var c = new Uint16Array(4);
     var dst = new Uint16Array(width * height);
-    var nWords = (width * height) / 4;
     var m = 0;
     var dstI = 0;
     var i = 0;
@@ -443,7 +442,7 @@ exports.get_width_height = function(arrayBuffer, format) {
 /**
  * Calculate compress ratio for DDS from the given arrayBuffer
  * @param {TypedArray} arrayBuffer Array Buffer containing the DDS files data
- * @param {String} comp_method Compression methos (dds or pvr)
+ * @param {string} comp_method Compression methos (dds or pvr)
  * @returns {number} Compress ratio according to DDS compression variant
  */
 exports.get_compress_ratio = function(arrayBuffer, comp_method) {
@@ -453,11 +452,11 @@ exports.get_compress_ratio = function(arrayBuffer, comp_method) {
         var fourCC = header[OFFSET_PF_FOUR_CC];
         switch(fourCC) {
         case FOURCC_DXT1:
-            var comp_ratio = 6;
+            comp_ratio = 6;
             break;
         case FOURCC_DXT3:
         case FOURCC_DXT5:
-            var comp_ratio = 4;
+            comp_ratio = 4;
             break;
         default:
             m_print.error("Unsupported FourCC code:", int32_to_fourcc(fourCC));
@@ -469,25 +468,25 @@ exports.get_compress_ratio = function(arrayBuffer, comp_method) {
             var pixel_format = header[2];
             switch(pixel_format) {
             case 0:
-                var comp_ratio = 12;
+                comp_ratio = 12;
                 break;
             case 1:
-                var comp_ratio = 16;
+                comp_ratio = 16;
                 break;
             case 2:
-                var comp_ratio = 6;
+                comp_ratio = 6;
                 break;
             case 3:
-                var comp_ratio = 8;
+                comp_ratio = 8;
                 break;
             }
         } else {
             var format_flags = header[4] & 0xff;
             var use_alpha = header[10] > 0;
             if (format_flags == PVRTC_4)
-                var comp_ratio = use_alpha ? 8 : 6;
+                comp_ratio = use_alpha ? 8 : 6;
             else if (format_flags == PVRTC_2)
-                var comp_ratio = use_alpha ? 16 : 12;
+                comp_ratio = use_alpha ? 16 : 12;
         }
     }
     return comp_ratio;

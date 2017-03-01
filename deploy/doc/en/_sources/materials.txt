@@ -363,3 +363,170 @@ Additional Settings
 
 *Halo > Minimum Height*
     Minimum height in the object’s local space at which stars are visible.
+
+.. _material_api:
+
+Material API
+============
+
+All API methods used for setting and changing scene materials, both stack and node, are located in the Material API module. Every method that this module has to offer is thoroughly described in this :b4wmod:`page material` of the API reference.
+
+.. note::
+
+    API methods can only work with materials that are attached to dynamic objects.
+
+Methods for Stack Materials
+---------------------------
+
+The :b4wmod:`material` API module includes methods to control virtually every aspect of a stack material.
+
+Here are several examples of how the material API module can be used to perform various operations with the material of an object:
+
+
+Getting object's diffuse color:
+
+.. code-block:: javascript
+
+    var m_scenes    = require("scenes");
+    var m_material  = require("material");
+
+    ...
+
+    var cube = m_scenes.get_object_by_name("Cube");
+
+    var diffuse_color = m_material.get_diffuse_color(cube, "MyMaterial");
+    var diffuse_color_factor = m_material.get_diffuse_color_factor(cube, "MyMaterial");
+    var diffuse_intensity = m_material.get_diffuse_intensity(cube, "MyMaterial");
+
+Getting object's specular color:
+
+.. code-block:: javascript
+
+    var m_scenes    = require("scenes");
+    var m_material  = require("material");
+
+    ...
+
+    var cube = m_scenes.get_object_by_name("Cube");
+
+    var specular_color = m_material.get_specular_color(cube, "MyMaterial");
+    var specular_color_factor = m_material.get_specular_color_factor(cube, "MyMaterial");
+    var specular_hardness = m_material.get_specular_hardness(cube, "MyMaterial");
+    var specular_intensity = m_material.get_specular_intensity(cube, "MyMaterial");
+
+Getting other parameters:
+
+.. code-block:: javascript
+
+    var m_scenes    = require("scenes");
+    var m_material  = require("material");
+
+    ...
+
+    var cube = m_scenes.get_object_by_name("Cube");
+
+    var emit_factor = m_material.get_emit_factor(cube, "MyMaterial");
+    var alpha_factor = m_material.get_alpha_factor(cube, "MyMaterial");
+    var ambient_factor = m_material.get_ambient_factor(cube, "MyMaterial");
+
+    var extended_parameters = m_material.get_material_extended_params(cube, "MyMaterial");
+
+Setting stack material parameters:
+
+.. code-block:: javascript
+
+    var m_scenes    = require("scenes");
+    var m_material  = require("material");
+    var m_rgba      = require("rgba");
+
+    ...
+
+    var cube = m_scenes.get_object_by_name("Cube");
+
+    m_material.set_diffuse_color(cube, "MyMaterial", m_rgba.from_values(1.0, 0.0, 0.0, 1.0));
+    m_material.set_diffuse_color_factor(cube, "MyMaterial", 0.05);
+    m_material.set_material_extended_params(cube, "MyMaterial", {fresnel: 0,
+                                                                 fresnel_factor: 1.25,
+                                                                 parallax_scale: 0,
+                                                                 parallax_steps: "5.0",
+                                                                 reflect_factor: 0});
+
+Methods for Node Materials
+--------------------------
+
+At the moment, API methods can only affect RGB and Value nodes. Any other type is not supported.
+
+To change the value of a particular material node, you need:
+
+* to get the object that uses this particular material,
+* the name of the material,
+* the name of the node itself
+* and the name of the node group that contains the node (if there is one).
+
+The name of a node can be viewed and changed in the upper part of the side panel at the right of the Node Editor window.
+
+.. note::
+
+    Nodes in the main window of the Node Editor do not show the name of the node, only its type.
+
+.. image:: src_images/materials/material_node_name.png
+   :align: center
+   :width: 100%
+
+These two examples show how the parameters of a node material can be adjusted using API methods.
+
+Getting node material parameters:
+
+.. code-block:: javascript
+
+    var m_scenes    = require("scenes");
+    var m_material  = require("material");
+
+    ...
+
+    var cube = m_scene.get_object_by_name("Cube");
+
+    var rgb_node_1 = m_material.get_nodemat_rgb(cube, ["MyMaterial", "MyRGB"]);
+    var rgb_node_2 = m_material.get_nodemat_rgb(cube, ["MyMaterial", "MyRGB_2"]);
+    var value_node = m_material.get_nodemat_value(cube, ["MyMaterial", "MyValue"]);
+
+Setting node material parameters:
+
+.. code-block:: javascript
+
+    var m_scenes    = require("scenes");
+    var m_material  = require("material");
+
+    ...
+
+    var cube = m_scene.get_object_by_name("Cube");
+
+    m_material.set_nodemat_value(cube, ["MyMaterial", "MyValue"], 0.8);   
+    m_material.set_nodemat_rgb(cube, ["MyMaterial", "MyRGB"], 0.7, 0.9, 0.3);
+
+.. _material_inherit:
+
+Inherit Material
+================
+
+Blend4Web supports dynamic material switching. This feature is exceptionally useful for so-called configurator applications that give a user an opportunity to customize the appearance of a model such as an apparel, a piece of furniture, a car or something else. The Inherit Material feature should be used when API methods for adjusting stack and node materials as well as the :b4wref:`textures.change_texture` method do not suffice.
+
+Inherit Material has the advantage of being flexible and easy to use, which makes it a better choice when you have to significantly alter the source material. It is available for both API scripts and logic nodes, and it can be used for stack and node materials alike. The downside of this feature is the fact that it might not work as fast as other methods described above, which can be critical in some cases.
+
+Activation
+----------
+
+To use Inherit Material, you need two objects. First one of them is the source object that has a material that will be inherited assigned to it. The second one is the target object which has a material that you need to replace. Both object should have the ``Dynamic Geometry & Material`` option enabled (this option can be found under the ``Object`` tab, on the ``Rendering Properties`` panel).
+
+.. note::
+
+    After a material is inherited, it will look exactly the same as if it was simply assigned to the target object in Blender. This means that you might have to manually prepare all UV maps and vertex color layers for every material that will be inherited by the object beforehand. For the source object, this is not necessary.
+
+If you are using Logic Nodes, Inherit Material can be performed with the ``Object->Inherit Material`` node. If you are using API, this can be done with the :b4wref:`materials.inherit_material` method.
+
+.. image:: src_images/materials/material_container.png
+   :align: center
+   :width: 100%
+
+If an application requires many different materials to be changed, it might be a good approach to create a dedicated container object. It can be a simple flat mesh, like a ``Plane`` object, that has every material you might need assigned to it. This object can be hidden from the scene itself by setting the ``Hidden`` or ``Do Not Render`` option on the ``Object->Rendering Properties`` panel.
+

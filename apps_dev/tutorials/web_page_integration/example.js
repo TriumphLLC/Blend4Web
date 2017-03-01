@@ -7,7 +7,6 @@ var m_app      = require("app");
 var m_cfg      = require("config");
 var m_cont     = require("container");
 var m_data     = require("data");
-var m_main     = require("main");
 var m_scs      = require("scenes");
 var m_sfx      = require("sfx");
 var m_version  = require("version");
@@ -53,6 +52,7 @@ function resize() {
 
 function load_cb(root) {
     var letters_arm = m_scs.get_object_by_name('beads_armature');
+    var run_button = document.getElementById("run_button");
 
     m_anim.stop(letters_arm);
 

@@ -15,6 +15,7 @@
 
 <link rel="stylesheet" type="text/css" href="/index_assets/css/codemirror/codemirror.css">
 <link rel="stylesheet" type="text/css" href="/index_assets/css/base.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/buttons.css">
 <link rel="stylesheet" type="text/css" href="/index_assets/css/project_edit.css">
 
 <script type="text/javascript" src="/index_assets/js/codemirror/codemirror.js"></script>
@@ -28,26 +29,15 @@
 <script type="text/javascript" src="/index_assets/js/codemirror/loadmode.js"></script>
 <script type="text/javascript" src="/index_assets/js/codemirror/properties.js"></script>
 
-<script type="text/javascript" src="/index_assets/js/init.js"></script>
-
 </head>
 
 <body>
   <h1>Edit project source files</h1>
   <div class="btns_cont row">
-    <div>
-      <a id="back_to_index" href="/project/" class="btn">
-        <div></div>
-        <span>Back to Projects</span>
-      </a>
-      <a id="new_file" class="btn">
-        <div></div>
-        <span>New File</span>
-      </a>
-      <a id="help" href="/deploy/doc/en/project_manager.html" class="btn">
-        <div></div>
-        <span>Help</span>
-      </a>
+    <div class="btn_wrapper">
+      <a href="/project/" class="btn active"><span>Back to Projects</span></a>
+      <a id="new_file" class="btn active"><span>New File</span></a>
+      <a href="/deploy/doc/en/project_manager.html" class="btn active"><span>Help</span></a>
     </div>
   </div>
   <table>
@@ -71,35 +61,25 @@
     </tbody>
   </table>
   <div class="btns_cont row">
-    <div>
-      <a id="save_file" class="btn">
-        <div></div>
-        <span>Save</span>
-      </a>
-    </div>
-    <div>
-      <a id="save_file_as" class="btn">
-        <div></div>
-        <span>Save As...</span>
-      </a>
+    <div class="btn_wrapper">
+      <a id="save_file" class="btn active"><span>Save</span></a>
+      <a id="save_file_as" class="btn active"><span>Save As...</span></a>
     </div>
   </div>
   <div id="body_opacity"></div>
   <div id="new_file_box">
-    <h3>Specify a file name</h3>
+    <h2>Specify a file name</h2>
     <input type="text" name="new_file_name" id="new_file_name" autofocus>
     <dir id="file_name_error"></dir>
-    <div class="input_group">
-      <a id="close_new_file_box" class="btn">
-        <div></div>
-        <span>Cancel</span>
-      </a>
-      <a id="create_new_file" class="btn">
-        <div></div>
-        <span>Create</span>
-      </a>
+    <div class="btns_cont row">
+      <div class="btn_wrapper">
+        <a id="close_new_file_box" class="btn active"><span>Cancel</span></a>
+        <a id="create_new_file" class="btn active"><span>Create</span></a>
+      </div>
     </div>
   </div>
+
+  <script type="text/javascript" src="/index_assets/js/project_edit.js" async defer></script>
 </body>
 
 </html>

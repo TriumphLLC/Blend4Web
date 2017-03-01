@@ -170,16 +170,25 @@ Rendering Properties Panel
 *Rendering Properties > Do Not Render*
     Disable object rendering (for example useful for a physics object).
 
+    This parameter is not available for ``Empty`` type objects.
+
 *Rendering Properties > Disable Frustum Culling*
     Disable frustum culling optimization.
+
+    This parameter is not available for ``Empty`` type objects.
 
 *Rendering Properties > Force Dynamic Object*
     Force the object to become a :ref:`dynamic object <static_dynamic_objects>`.
 
 .. _dynamic_geom:
 
-*Rendering Properties > Dynamic Geometry*
-    Allow overriding of the object’s geometry through Blend4Web API.
+*Rendering Properties > Dynamic Geometry & Materials*
+    Allows using geometry update API and inherit materials for the object.
+
+*Rendering Properties > Line Rendering*
+    Enables using the object for rendering :ref:`lines <line_rendering>`.
+
+    This parameter is only available for ``Empty`` type objects.
 
 .. _object_settings_shadows:
 
@@ -461,6 +470,8 @@ Use the following methods of the :b4wmod:`transform` module to move objects in t
 
 .. index:: get object
 
+.. _get_object_api:
+
 Get Object API
 ==============
 
@@ -713,5 +724,50 @@ Here :math:`T_x, T_y, T_z` - the components of the translation vector, :math:`S`
 
 This vector can be operated via `tsr` module, as well as via `set_tsr()`/`get_tsr()` methods of the `transform` module.
 
+.. _line_rendering:
 
+Line Rendering
+==============
+
+Blend4Web engine also features an option to render lines defined by sets of points.
+
+.. image:: src_images/objects/objects_line_rendering.png
+   :align: center
+   :width: 100%
+
+API methods used for line rendering itself are located in the :b4wmod:`geometry` module, while the style of a rendered line (i.e. its color and thickness) can be set with the :b4wref:`material.set_line_params()` method of the :b4wmod:`material` module.
+
+To use line rendering, at least one ``Empty`` type object with enabled ``Line Rendering`` option needs to be present in the scene.
+
+To render a line, you first have to :ref:`retrieve a link <get_object_api>` to an ``Empty`` object. The origin point of this object will then be used as a center of coordinates when rendering lines.
+
+The line itself can be rendered by calling the :b4wref:`geometry.draw_line()` API method. Its first parameter is a link to an ``Empty`` object (see above), while the second one is an array of vertices that will be used for building a line. The method is also has a third, optional, parameter, that defines the rendering mode: whether the method will produce a single line or a set of lines defined by pairs of vertices (in the latter case, the total number of vertices should be even).
+
+If an ``Empty`` object is used to render more than one line at a time, only the last one will be visible. To render multiple lines, you will need to use multiple ``Empty`` objects.
+
+The following example shows a part of the coordinate axes object in the picture above rendered using lines:
+
+.. code-block:: javascript
+
+    var m_scenes    = require("scenes");
+    var m_material  = require("material");
+    var m_geometry  = require("geometry");
+    var m_rgba      = require("rgba");
+    ...
+
+    //setting up Empty object for line rendering
+    var line_1 = m_scenes.get_object_by_name("MyEmpty_1");
+    
+    //setting up style parameters for the lines
+    m_material.set_line_params(line_1, { width: 3
+                                         color: m_rgba.from_values(0, 0, 0, 1.0)
+                                        });
+    
+    //coordinates for main axes
+    var points_1 = new Float32Array([0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 5]);
+    
+    //drawing main axes
+    m_geometry.draw_line(line_1, points_1, true);
+    
+This code listing produces only the main axes of the object, because listing all of its elements will make the code long and repetitive. The other elements of the object are drawn it the same way.
 

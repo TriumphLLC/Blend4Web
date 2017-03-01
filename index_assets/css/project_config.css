@@ -1,0 +1,156 @@
+table.config {
+  width: 1200px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 60px;
+}
+
+th {
+  height: auto;
+}
+
+input[type=text] {
+  border: 1px solid rgba(82, 118, 207, 0.2);
+  font-size: 16px;
+  color: #505050;
+  padding: 4px;
+  width: 100%;
+  line-height: 1;
+  outline: 1px solid rgba(82, 118, 207, 0.2);
+  font-family: "Open Sans Light", sans-serif;
+}
+
+input:focus {
+  outline: 2px solid rgba(82, 118, 207, 0.5);
+}
+
+img {
+  box-shadow: 0 0 20px rgba(0,0,0,.2);
+  margin-top: 10px;
+  max-width: 200px;
+}
+
+td:first-child {
+  text-align: right;
+  width: 400px;
+}
+
+td.centered {
+  text-align: center;
+}
+
+.input_group {
+  float: left;
+  margin-right: 16px;
+}
+
+.input_group > label {
+  display: block;
+  margin: 16px 0;
+}
+
+.input_group:first-child > label {
+  padding-left: 0;
+}
+
+.input_group > label > input {
+  float: right;
+  cursor: pointer;
+}
+
+input[type=radio],
+input[type=checkbox] {
+  display: none;
+}
+
+.input_group > label.check {
+  display: flex;
+}
+
+.input_group > label.check::before {
+  content: "";
+  background-image: url(/index_assets/img/check.png);
+  background-size: 20px 40px;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+div.input_group > label.changed.check::before {
+  outline: 2px solid #cac729;
+}
+
+.create div.input_group > label.check::before {
+  margin-right: 7px;
+}
+
+div.input_group > label.radio {
+  display: flex;
+}
+
+div.input_group > label.radio::before {
+  content: "";
+  background-image: url(/index_assets/img/radio.png);
+  width: 22px;
+  height: 22px;
+  background-size: 22px 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  margin-right: 7px;
+  padding: 0;
+}
+
+div.input_group > label.changed.radio::before {
+  outline: 2px solid #cac729;
+}
+
+input[type=checkbox]:checked + label.check::before {
+  background-position: 0 -20px;
+}
+
+input[type=radio]:checked + label.radio::before {
+  background-position: 0 -22px;
+}
+
+input[type=checkbox]:disabled + label,
+input[type=text]:disabled,
+input[type=radio]:disabled + label {
+  opacity: 0.3;
+  cursor: default;
+  text-decoration: none;
+  display: flex;
+}
+
+label {
+  display: inline-block;
+  cursor: pointer;
+  color: #5276cf;
+  height: 22px;
+  line-height: 22px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+#save_config {
+  opacity: 0.4;
+  cursor: default;
+}
+
+#save_config.active {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.webplayer_type h3,
+.custom_type h3 {
+  opacity: 0.3;
+  margin-top: 16px;
+}

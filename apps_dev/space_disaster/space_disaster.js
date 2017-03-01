@@ -23,6 +23,7 @@ var m_preloader = require("preloader");;
 var m_print     = require("print");
 var m_phy       = require("physics");
 var m_scs       = require("scenes");
+var m_screen    = require("screen");
 var m_sfx       = require("sfx");
 var m_tex       = require("textures");
 var m_trans     = require("transform");
@@ -87,7 +88,7 @@ var _dest_z_trans = 0;
 var _start_shake_time = 0;
 var _last_shoot_time = 0;
 var _burst_time = 0;
-var _env_speed = 0;
+// var _env_speed = 0;
 
 var _burst_fire_sensor = m_ctl.create_custom_sensor(0);
 var _shake_sensor = m_ctl.create_custom_sensor(0);
@@ -180,7 +181,7 @@ function load_cb(data_id) {
     // Second way to split screen: use devices
     // var camobj = m_scs.get_active_camera();
     // if (m_input.can_use_device(m_input.DEVICE_HMD))
-    //     m_input.enable_split_screen(camobj);
+    //     m_screen.request_split_screen();
     // else
     //     console.log("HMD device does not avaliable.");
 
@@ -307,7 +308,7 @@ function register_mouse(is_hmd) {
     var container = m_cont.get_container();
     container.addEventListener("click", function(e) {
         // go to VR-mode in case of using HMD (WebVR API 1.0)
-        m_input.request_fullscreen_hmd();
+        m_screen.request_fullscreen_hmd(document.body);
         // shoot
         is_clicked = true;
     })
@@ -439,10 +440,8 @@ function register_cockpit() {
     var cockpit_mesh_obj = _cockpit.cockpit_mesh_obj;
     var camera_asteroids_obj = _cockpit.camera_asteroids_obj;
     var laser_arm = _cockpit.laser_arm;
-    var speaker_alarm = _cockpit.speaker_alarm;
     var crosshair_obj = _cockpit.crosshair_obj;
     var environment_empty = _cockpit.environment_empty;
-    var environment_sphere_obj = _cockpit.environment_sphere_obj;
     var environment_arm = _cockpit.environment_arm;
 
     // cockpit and environment logic
@@ -489,10 +488,10 @@ function register_cockpit() {
                 var environment_sphere_obj = _cockpit.environment_sphere_obj;
                 if (environment_sphere_obj) {
                     var cur_sphere_quat = m_trans.get_rotation(environment_sphere_obj, _quat_tmp);
-                    var pitch_angle = m_util.clamp(_dest_z_trans * COCKPIT_ROT_FACTOR,
+                    pitch_angle = m_util.clamp(_dest_z_trans * COCKPIT_ROT_FACTOR,
                             -Math.PI * COCKPIT_ROT_FACTOR,
                             Math.PI * COCKPIT_ROT_FACTOR) * ENV_SPHERE_ROT_FACTOR;
-                    var pitch_quat = m_quat.setAxisAngle(m_util.AXIS_MX, pitch_angle, _quat_tmp2);
+                    pitch_quat = m_quat.setAxisAngle(m_util.AXIS_MX, pitch_angle, _quat_tmp2);
                     var new_sphere_quat = m_quat.multiply(cur_sphere_quat,
                             pitch_quat, _quat_tmp);
 
@@ -519,17 +518,17 @@ function register_cockpit() {
     }
 
     // environment speed
-    var env_tunnel = _cockpit.environment_tunnel_obj;
-    if (env_tunnel) {
-        var elapsed = m_ctl.create_elapsed_sensor();
-        var env_speed_cb = function(obj, id, pulse) {
-            var elapsed = m_ctl.get_sensor_value(obj, id, 0);
-            _env_speed = m_util.smooth(_asteroid_speed / 50, _env_speed, elapsed, _spawn_delay);
-            m_mat.set_nodemat_value(env_tunnel, ["space_dust", "speed"], _env_speed);
-        }
-        // m_ctl.create_sensor_manifold(null, "ENVIRONMENT_SPEED",
-        //         m_ctl.CT_CONTINUOUS, [elapsed], null, env_speed_cb);
-    }
+    // var env_tunnel = _cockpit.environment_tunnel_obj;
+    // if (env_tunnel) {
+    //     var elapsed = m_ctl.create_elapsed_sensor();
+    //     var env_speed_cb = function(obj, id, pulse) {
+    //         var elapsed = m_ctl.get_sensor_value(obj, id, 0);
+    //         _env_speed = m_util.smooth(_asteroid_speed / 50, _env_speed, elapsed, _spawn_delay);
+    //         m_mat.set_nodemat_value(env_tunnel, ["space_dust", "speed"], _env_speed);
+    //     }
+    //     m_ctl.create_sensor_manifold(null, "ENVIRONMENT_SPEED",
+    //             m_ctl.CT_CONTINUOUS, [elapsed], null, env_speed_cb);
+    // }
 
     // laser stuff
     if (laser_arm && crosshair_obj) {
@@ -553,7 +552,7 @@ function register_cockpit() {
 
             laser_tsr = m_tsr.identity(_tsr_tmp);
             if (laser_dir[0] > -0.45 * MAX_LASER_LENGTH) {
-                var laser_tsr = m_tsr.set_trans(laser_dir, _tsr_tmp);
+                laser_tsr = m_tsr.set_trans(laser_dir, _tsr_tmp);
                 m_armat.set_bone_tsr(laser_arm, "right_laser", laser_tsr);
             } else
                 m_armat.set_bone_tsr(laser_arm, "right_laser", laser_tsr);
@@ -586,13 +585,13 @@ function register_cockpit() {
 
     // video stream
     function get_user_media() {
-        if (Boolean(navigator.getUserMedia))
+        if ("getUserMedia" in navigator)
             return navigator.getUserMedia.bind(navigator);
-        else if (Boolean(navigator.webkitGetUserMedia))
+        else if ("webkitGetUserMedia" in navigator)
             return navigator.webkitGetUserMedia.bind(navigator);
-        else if (Boolean(navigator.mozGetUserMedia))
+        else if ("mozGetUserMedia" in navigator)
             return navigator.mozGetUserMedia.bind(navigator);
-        else if (Boolean(navigator.msGetUserMedia))
+        else if ("msGetUserMedia" in navigator)
             return navigator.msGetUserMedia.bind(navigator);
         else
             return null;
@@ -679,12 +678,10 @@ function register_hmd() {
     var updated_eye_data = false;
 
     var last_hmd_pos = m_vec3.create();
-    var dest_hmd_pos = m_vec3.create();
     var hmd_cb = function(obj, id, pulse) {
         if (pulse > 0) {
             var hmd_pos = m_ctl.get_sensor_payload(obj, id, 1);
 
-            var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
             if (!updated_eye_data) {
                 m_vec3.copy(hmd_pos, last_hmd_pos);
                 updated_eye_data = true;
@@ -804,9 +801,9 @@ function register_asteroids() {
     }
 }
 
-function damage_asteroid(asteroid, damage) {
-    var name = m_scs.get_object_name_hierarchy(asteroid)[0];
-    var dupli_name = m_scs.get_object_name_hierarchy(asteroid)[1];
+function damage_asteroid(asteroid_obj, damage) {
+    var name = m_scs.get_object_name_hierarchy(asteroid_obj)[0];
+    var dupli_name = m_scs.get_object_name_hierarchy(asteroid_obj)[1];
 
     var asteroid = get_asteroid_by_name(name);
     if (asteroid && !asteroid.is_destroyed) {
@@ -868,7 +865,6 @@ function init_asteroid_transform(asteroid) {
     spawn_coord[0] = 0;
     spawn_coord[1] = 1000;
     spawn_coord[2] = 0;
-    var ident_quat = m_quat.identity(_quat_tmp);
     m_trans.set_translation_v(ast_obj, spawn_coord);
 
     var ast_copy_obj = asteroid.ast_copy_obj;
@@ -975,7 +971,7 @@ function register_burst() {
         var ray_test_cb = function(id, hit_fract, obj_hit, hit_time) {
             damage_asteroid(obj_hit, elapsed * LASER_DAMAGE);
         }
-        var id = m_phy.append_ray_test(null, cross_pos, forward,
+        m_phy.append_ray_test(null, cross_pos, forward,
                 "crash", ray_test_cb, true);
     }
 
@@ -1077,7 +1073,7 @@ function start_game() {
             for (var i = 0; i < _asteroid_list.length; i++)
                 init_asteroid_transform(_asteroid_list[i]);
 
-            _env_speed = 0;
+            // _env_speed = 0;
             _asteroid_speed = ASTEROID_DEFAULT_SPEED;
             _spawn_delay = ASTEROID_DEFAULT_SPAWN_DELAY;
             m_ctl.remove_sensor_manifold(cam_obj, "CRASH");

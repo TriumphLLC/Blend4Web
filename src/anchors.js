@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ var m_batch  = require("__batch");
 var m_cam    = require("__camera");
 var m_cfg    = require("__config");
 var m_cont   = require("__container");
+var m_input  = require("__input");
 var m_obj    = require("__objects");
 var m_obj_util = require("__obj_util");
 var m_print  = require("__print");
@@ -55,7 +56,7 @@ var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 
 exports.append = function(obj) {
-    if (has_anchor_obj(obj))
+    if (is_anchor(obj))
         return;
 
     // NOTE: depends on subscene here because not supported for dynamically loaded data
@@ -110,96 +111,97 @@ exports.append = function(obj) {
         add_click_listener();
 }
 
+function onmouseup(e) {
+    if (_is_anim)
+        return;
+
+    if (_is_paused)
+        return;
+
+    var anchor_cont = _clicked_elem;
+
+    if (!anchor_cont)
+        return;
+
+    if (anchor_cont.lastElementChild.style.visibility == "visible") {
+        close_descr();
+
+        _clicked_elem = null;
+
+        return;
+    }
+
+    if (anchor_cont.style.opacity != 1.0)
+        return;
+
+    var anchor_descr = anchor_cont.lastElementChild;
+    var anchor_title = anchor_cont.firstElementChild;
+    var descr_body = anchor_descr.firstElementChild;
+
+    var descr_width = Math.ceil(anchor_descr.getBoundingClientRect().width);
+    var descr_height = Math.ceil(anchor_descr.getBoundingClientRect().height);
+
+    var title_width = Math.ceil(anchor_title.getBoundingClientRect().width);
+    var title_height = Math.ceil(anchor_title.getBoundingClientRect().height);
+
+    anchor_descr.style.position = "absolute";
+    anchor_descr.style.visibility = "visible";
+
+    var width_anim = true;
+    var height_anim = true;
+
+    anchor_title.style.display = "none";
+
+    _is_anim = true
+
+    if (title_width != descr_width)
+        m_time.animate(title_width, descr_width, 200, function(e) {
+            if (e == descr_width) {
+                width_anim = false;
+
+                if (!height_anim)
+                    show_descr();
+            }
+
+            anchor_descr.style.width = e + "px";
+        });
+    else {
+        width_anim = false;
+
+        if (!height_anim)
+            _is_anim = false;
+    }
+
+    if (title_height != descr_height)
+        m_time.animate(title_height, descr_height, 200, function(e) {
+            if (e == descr_height) {
+                height_anim = false;
+
+                if (!width_anim)
+                    show_descr();
+            }
+
+            anchor_descr.style.height = e + "px";
+        });
+    else {
+        height_anim = false;
+
+        if (!width_anim)
+            _is_anim = false;
+    }
+
+    function show_descr() {
+        _is_anim = false;
+        descr_body.style.visibility = "visible";
+    }
+}
+
 function add_click_listener() {
     _in_use = true;
 
     var canvas_cont = m_cont.get_container();
 
-    canvas_cont.addEventListener("mouseup", function(e) {
-        if (_is_anim)
-            return;
-
-        if (_is_paused)
-            return;
-
-        var anchor_cont = _clicked_elem;
-
-        if (!anchor_cont)
-            return;
-
-        if (anchor_cont.lastElementChild.style.visibility == "visible") {
-            close_descr();
-
-            _clicked_elem = null;
-
-            return;
-        }
-
-        if (anchor_cont.style.opacity != 1.0)
-            return;
-
-        var anchor_descr = anchor_cont.lastElementChild;
-        var anchor_title = anchor_cont.firstElementChild;
-        var descr_body   = anchor_descr.firstElementChild;
-        var body_text    = descr_body.innerHTML;
-
-        anchor_descr.style.visibility = "visible";
-
-        var descr_width  = Math.min(parseInt(anchor_descr.style.width) || 200, str_width(body_text) - 24);
-        var descr_height = str_height(body_text, descr_width);
-
-        var width_anim  = true;
-        var height_anim = true;
-
-        var parent_width  = anchor_cont.firstElementChild.offsetWidth - 24;
-        var parent_height = anchor_cont.firstElementChild.offsetHeight - 16;
-
-        anchor_title.style.display = "none";
-
-        _is_anim = true
-
-        m_time.animate(0, descr_width, 200, function(e) {
-            if (e == descr_width) {
-                width_anim = false;
-
-                if (!height_anim)
-                    _is_anim = false;
-
-                if (is_anim)
-                    descr_body.style.visibility = "visible";
-            }
-
-            anchor_descr.style.width = e + "px";
-        });
-
-        m_time.animate(0, descr_height, 200, function(e) {
-            if (e == descr_height) {
-                height_anim = false;
-
-                if (!width_anim)
-                    _is_anim = false;
-
-                if (is_anim)
-                    descr_body.style.visibility = "visible";
-            }
-
-            anchor_descr.style.height = e + "px";
-        });
-
-        function is_anim() {
-            return anchor_descr.style.visibility == "visible" &&
-                   !width_anim &&
-                   !height_anim;
-        }
-    })
-}
-
-function has_anchor_obj(obj) {
-    for (var i = 0; i < _anchors.length; i++)
-        if (_anchors[i].obj == obj)
-            return true;
-
-    return false;
+    canvas_cont.addEventListener("mouseup", onmouseup);
 }
 
 function close_descr() {
@@ -207,6 +209,7 @@ function close_descr() {
     _clicked_elem.firstElementChild.style.display = "";
 
     last_child.style.visibility = "hidden";
+    last_child.style.position = "relative";
     last_child.firstElementChild.style.visibility = "hidden";
 }
 
@@ -214,13 +217,15 @@ function create_annotation(anchor) {
     var obj = anchor.obj;
 
     var canvas_cont = m_cont.get_container();
-    var meta_tags   = m_obj.get_meta_tags(obj);
-    var title_text  = obj.name;
+    var meta_tags = m_obj.get_meta_tags(obj);
+
+    var title_text = obj.name;
+    var descr_text = "";
 
     var anchor_cont_elem = document.createElement("div");
-    var title_wrap_elem  = anchor_cont_elem.cloneNode();
-    var title_elem       = document.createElement("span");
-    var descr_text       = "";
+
+    var title_wrap_elem = anchor_cont_elem.cloneNode(false);
+    var title_elem = document.createElement("span");
 
     add_cont_style(anchor_cont_elem);
     add_title_wrap_style(title_wrap_elem);
@@ -236,6 +241,7 @@ function create_annotation(anchor) {
 
     add_noselect_style(title_elem);
     add_inner_style(title_elem);
+
     title_elem.style.whiteSpace = "nowrap";
 
     title_wrap_elem.appendChild(title_elem);
@@ -255,12 +261,11 @@ function add_title_wrap_style(elem) {
         "border-radius:      20px 20px 20px 0px;" +
         "box-shadow:         0px 0px 10px rgb(180, 180, 200);" +
         "-webkit-box-shadow: 0px 0px 10px rgb(180, 180, 200);" +
-        "font-size:          12px;" +
-        "line-height:        15px;"+
         "opacity:            1.0;" +
+        "box-sizing:         border-box;" +
         "bottom:             0;" +
         "left:               0;" +
-        "padding:            8px 12px;" +
+        "padding:            6px 12px 6px 12px;" +
         "position:           absolute;";
 }
 
@@ -268,8 +273,9 @@ function add_cont_style(elem) {
     // NOTE: transform-style property needed to prevent shaking of the child
     // elements in FF under Linux
     elem.style.cssText +=
-        "position:           absolute;" +
-        "transform-style:    preserve-3d;";
+        "position:        absolute;" +
+        "height:          0;" +
+        "transform-style: preserve-3d;";
 }
 
 function add_inner_style(elem) {
@@ -278,7 +284,7 @@ function add_inner_style(elem) {
         "font-family: Arial;"+
         "font-size:   12px;" +
         "font-weight: bold;" +
-        "line-height: 15px;";
+        "line-height: 1.25;";
 }
 
 function add_descr_style(elem) {
@@ -288,13 +294,11 @@ function add_descr_style(elem) {
         "bottom:             0;" +
         "box-shadow:         0px 0px 10px rgb(180, 180, 200);" +
         "-webkit-box-shadow: 0px 0px 10px rgb(180, 180, 200);" +
-        "font-size:          12px;" +
         "left:               0;"+
-        "line-height:        15px;"+
+        "box-sizing:         border-box;" +
         "opacity:            1.0;" +
-        "overflow:           hidden;" +
-        "padding:            8px 12px;" +
-        "position:           absolute;" +
+        "padding:            6px 12px 6px 12px;" +
+        "position:           relative;" +
         "z-index:            2;";
 }
 
@@ -311,10 +315,10 @@ function add_noselect_style(elem) {
 
 function create_anchor_descr_elem(descr_text, anchor_cont_elem, annotation_max_width) {
     var descr_wrap_elem = document.createElement("div");
-    var descr_elem      = document.createElement("span");
+    var descr_elem = document.createElement("span");
 
     if (annotation_max_width)
-        descr_wrap_elem.style.width = annotation_max_width + "px";
+        descr_wrap_elem.style.maxWidth = annotation_max_width + "px";
 
     add_descr_style(descr_wrap_elem);
     add_inner_style(descr_elem);
@@ -322,12 +326,12 @@ function create_anchor_descr_elem(descr_text, anchor_cont_elem, annotation_max_w
     descr_elem.innerHTML = descr_text;
 
     descr_wrap_elem.style.visibility = "hidden";
-    descr_elem.style.visibility      = "hidden";
+    descr_elem.style.visibility = "hidden";
 
     descr_wrap_elem.appendChild(descr_elem);
     anchor_cont_elem.appendChild(descr_wrap_elem);
 
-    anchor_cont_elem.addEventListener("mousedown", function(e) {
+    m_input.add_click_listener(anchor_cont_elem, function(e) {
         if (_is_anim)
             return;
 
@@ -345,45 +349,6 @@ function create_anchor_descr_elem(descr_text, anchor_cont_elem, annotation_max_w
 
         _clicked_elem = anchor_cont_elem;
     })
-}
-
-function str_width(str) {
-    var descr      = document.createElement("div");
-    var descr_body = document.createElement("span");
-
-    descr_body.innerHTML = str;
-
-    add_inner_style(descr_body);
-    add_descr_style(descr);
-
-    descr.appendChild(descr_body);
-
-    document.body.appendChild(descr);
-    var width = descr.offsetWidth + 1;
-    document.body.removeChild(descr);
-
-    return width;
-}
-
-function str_height(str, width) {
-    var descr      = document.createElement("div");
-    var descr_body = document.createElement("span");
-
-    descr_body.innerHTML = str;
-
-    add_inner_style(descr_body);
-    add_descr_style(descr);
-
-    descr.style.width = width + "px";
-    descr.style.display = "inline-block";
-
-    descr.appendChild(descr_body);
-
-    document.body.appendChild(descr);
-    var height = descr.offsetHeight - 16;
-    document.body.removeChild(descr);
-
-    return height;
 }
 
 function resize_anchor_batch_pos() {
@@ -487,7 +452,7 @@ exports.update = function(force_update) {
 }
 
 // subpixel smoothing works in chrome, safari and QQ by now
-function transform_anchor_el(anchor, left, top, depth) {
+function transform_anchor_el(anchor, left, top) {
     var el = anchor.element;
 
     if (cfg_def.ie_edge_anchors_floor_hack) {
@@ -508,13 +473,16 @@ function transform_anchor_el(anchor, left, top, depth) {
 function anchor_project(anchor, dest) {
     var camobj = m_scenes.get_camera(m_scenes.get_main());
     var trans = m_tsr.get_trans_view(anchor.obj.render.world_tsr);
-    var dest = m_cam.project_point(camobj, trans, dest);
+    m_cam.project_point(camobj, trans, dest);
 
     return dest;
 }
 
 exports.update_visibility = function() {
     var canvas_cont = m_cont.get_container();
+    var active_scene = m_scenes.get_active();
+    var subs_stereo = m_scenes.get_subs(active_scene, m_subs.STEREO);
+    var is_splitscreen = Boolean(subs_stereo && subs_stereo.enable_hmd_stereo);
 
     for (var i = _anchors.length; i--;) {
         var anchor = _anchors[i];
@@ -541,6 +509,9 @@ exports.update_visibility = function() {
         if (anchor.detect_visibility && appearance != "out") {
             appearance = pick_anchor_visibility(anchor);
         }
+
+        if (is_splitscreen)
+            appearance = "out";
 
         // optimization
 
@@ -645,7 +616,8 @@ exports.cleanup = function() {
     _anchors.length = 0;
 }
 
-exports.is_anchor = function(obj) {
+exports.is_anchor = is_anchor;
+function is_anchor(obj) {
     for (var i = 0; i < _anchors.length; i++)
         if (_anchors[i].obj == obj)
             return true;

@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -182,7 +182,7 @@ class B4W_ObjectRenderProps(ObjectButtonsPanel, Panel):
             row = layout.row()
             row.active = not obj.b4w_do_not_render
             row.prop(obj, "b4w_do_not_cull", text=_("Disable Frustum Culling"))
-            row.prop(obj, "b4w_dynamic_geometry", text=_("Dynamic Geometry"))
+            row.prop(obj, "b4w_dynamic_geometry", text=_("Dynamic Geometry & Materials"))
         elif obj.type == "EMPTY":
             row = layout.row()
             row.prop(obj, "b4w_line_renderer", text=_("Line Renderer"))

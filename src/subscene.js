@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,6 @@ var m_util     = require("__util");
 var m_bounds   = require("__boundings");
 
 var cfg_out = m_cfg.outlining;
-var cfg_scs = m_cfg.scenes;
 
 var MAIN_OPAQUE                         = 0;
 var MAIN_BLEND                          = 1;
@@ -139,7 +138,7 @@ exports.create_subs_shadow_cast = function(csm_index, lamp_index, shadow_params,
     case "SPOT":
     case "POINT":
         subs.camera = m_cam.create_camera(m_cam.TYPE_PERSP);
-        var fov  = m_util.rad_to_deg(shadow_params.spot_sizes[lamp_index]);
+        var fov  = shadow_params.spot_sizes[lamp_index];
         var near = shadow_params.clip_start[lamp_index];
         var far  = shadow_params.clip_end[lamp_index];
         m_cam.set_frustum(subs.camera, fov, near, far);
@@ -170,6 +169,7 @@ function init_subs(type) {
         subtype: "",
 
         // rendering flags
+        force_do_not_render: false,
         do_render: false,
         enqueue: false,
         clear_color: false,
@@ -256,15 +256,15 @@ function init_subs(type) {
         sky_color: new Float32Array(3),
 
         // ssao properties
-        ssao_hemisphere: 0,
-        ssao_blur_depth: 0,
+        ssao_hemisphere: false,
+        ssao_blur_depth: false,
         ssao_blur_discard_value: 0,
         ssao_radius_increase: 0,
         ssao_influence: 0,
         ssao_dist_factor: 0,
         ssao_samples: 0,
-        ssao_only: 0,
-        ssao_white: 0,
+        ssao_only: false,
+        ssao_white: false,
 
         // color correction properties
         brightness: 0,
@@ -346,6 +346,8 @@ function init_subs(type) {
 
     subs.distortion_params[2] = 0.5;
     subs.distortion_params[3] = 0.5;
+
+    subs.ssao_samples = 8;
 
     return subs;
 }
@@ -494,9 +496,6 @@ exports.create_subs_glow_combine = function(cam, sc_render) {
  * Create MAIN_* subscene
  * @param main_type "OPAQUE", "BLEND", "REFLECT"
  * @param cam Camera to attach
- * @param scene Scene
- * @param [subs_attach_out] Output subscene (used to provide color/depth/both
- * attachments)
  */
 exports.create_subs_main = function(main_type, cam, opaque_do_clear_depth,
         water_params, num_lights, wfs_params, wls_params, shadow_params, sun_exist) {
@@ -1156,9 +1155,6 @@ exports.subs_label = function(subs) {
     }
 }
 
-/*
- * Returns true if a new draw data was added
- */
 exports.append_draw_data = function(subs, rb) {
 
     var batch = rb.batch;
@@ -1171,8 +1167,10 @@ exports.append_draw_data = function(subs, rb) {
         var bundle_ind = bundles.indexOf(rb);
         if (bundle_ind != -1) {
             bundles.splice(bundle_ind, 1);
-            if (!bundles.length)
+            if (!bundles.length) {
                 subs.draw_data.splice(i, 1);
+                break;
+            }
         }
     }
 

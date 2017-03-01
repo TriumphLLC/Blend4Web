@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,9 +27,9 @@ var m_anchors = require("__anchors");
 var m_cfg     = require("__config");
 var m_data    = require("__data");
 var m_hud     = require("__hud");
-var m_input   = require("__input");
 var m_print   = require("__print");
 var m_scenes  = require("__scenes");
+var m_subs    = require("__subscene");
 var m_time    = require("__time");
 var m_trans   = require("__transform");
 var m_util    = require("__util");
@@ -41,6 +41,7 @@ var _gl          = null;
 var _canvas      = null;
 var _canvas_hud  = null;
 var _canvas_cont = null;
+var _mouse_event_param = {clientX: 0, clientY: 0};
 
 // NOTE: for optimization, to request canvas bounds only once a frame
 var _offsets_updating_needed = false;
@@ -173,11 +174,27 @@ function get_offset_left() {
 }
 
 exports.client_to_canvas_coords = function(client_x, client_y, dest) {
-    if (!dest)
-        dest = new Float32Array(2);
+    return client_to_element_coords(client_x, client_y, _canvas, dest);
+}
 
-    dest[0] = client_x - get_offset_left();
-    dest[1] = client_y - get_offset_top();
+exports.client_to_element_coords = client_to_element_coords;
+function client_to_element_coords(client_x, client_y, element, dest) {
+    if (!cfg_def.ie11_edge_touchscreen_hack) {
+        // NOTE: hacky things.
+        // Autoconvert client_x/client_y to offsetX/offsetY using custom MouseEvent
+        _mouse_event_param.clientX = client_x;
+        _mouse_event_param.clientY = client_y;
+        var event = new MouseEvent("b4w_convert", _mouse_event_param);
+        element.dispatchEvent(event);
+
+        dest[0] = event.offsetX;
+        dest[1] = event.offsetY;
+    } else {
+        // TODO: fix, MouseEvent is not supported by IE
+        dest[0] = client_x;
+        dest[1] = client_y;
+    }
+
     return dest;
 }
 
@@ -242,6 +259,16 @@ exports.find_script = function(src) {
     return null;
 }
 
+function resize_css(canvas_webgl, canvas_hud, width, height) {
+    canvas_webgl.style.width = width + "px";
+    canvas_webgl.style.height = height + "px";
+
+    if (canvas_hud) {
+        canvas_hud.style.width = width + "px";
+        canvas_hud.style.height = height + "px";
+    }
+}
+
 exports.resize = resize;
 function resize(width, height, update_canvas_css) {
     if (!width || !height) {
@@ -255,16 +282,8 @@ function resize(width, height, update_canvas_css) {
 
     var canvas_webgl = get_canvas();
     var canvas_hud   = get_canvas_hud();
-
-    if (update_canvas_css !== false) {
-        canvas_webgl.style.width = width + "px";
-        canvas_webgl.style.height = height + "px";
-
-        if (canvas_hud) {
-            canvas_hud.style.width = width + "px";
-            canvas_hud.style.height = height + "px";
-        }
-    }
+    if (update_canvas_css)
+        resize_css(canvas_webgl, canvas_hud, width, height);
 
     if (canvas_hud) {
         // no HIDPI/resolution factor for HUD canvas
@@ -338,10 +357,24 @@ exports.resize_to_container = function(force) {
     var h = container.clientHeight;
 
     if (force || w != canvas.clientWidth || h != canvas.clientHeight) {
-        var vr_display = cfg_def.stereo === "HMD" && m_input.get_webvr_display();
-        // NOTE: don't resize in case of HMD fullscreen (WebVR API 1.0)
-        if (!vr_display || !vr_display.isPresenting)
-            resize(w, h, true);
+        var old_width = canvas.width;
+        var old_height = canvas.height;
+        var canvas_webgl = get_canvas();
+        var canvas_hud   = get_canvas_hud();
+        resize_css(canvas_webgl, canvas_hud, w, h);
+
+        // NOTE: in case of HMD splited screen, update canvas CSS width/height,
+        // but keep canvas width/height unchangeable
+        if (m_scenes.check_active()) {
+            var active_scene = m_scenes.get_active();
+            var subs_stereo = m_scenes.get_subs(active_scene, m_subs.STEREO);
+            if (subs_stereo && subs_stereo.enable_hmd_stereo) {
+                // restore canvas.width/canvas.height
+                resize(old_width, old_height, false)
+                return;
+            }
+        }
+        resize(w, h, false)
     }
 }
 

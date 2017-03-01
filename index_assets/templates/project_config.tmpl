@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Project Config</title>
+
+<link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png">
+<link rel="shortcut icon" href="/index_assets/img/favicon.ico">
+<link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png">
+
+<link rel="stylesheet" type="text/css" href="/index_assets/css/base.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/project_config.css">
+
+</head>
+
+<body>
+  <h1>Project Config</h1>
+  <div class="btns_cont row">
+    <div class="btn_wrapper">
+      <a id="back_to_index" href="/project/" class="btn active"><span>Back to Projects</span></a>
+      <a id="help" href="/deploy/doc/en/project_manager.html#project-config" class="btn active"><span>Help</span></a>
+    </div>
+  </div>
+  <div class="row">
+    <table class="config">
+      <thead>
+        <tr><td colspan="2" class="centered"><h2>Info</h2></td></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><h3>Name</h3></td>
+          <td><p>$name</p></td>
+        </tr>
+        <tr>
+          <td><h3>Title</h3></td>
+          <td>
+            <input type="text" name="name" id="title" value="${title}">
+          </td>
+        </tr>
+        <tr>
+          <td><h3>Author</h3></td>
+          <td>
+            <input type="text" name="name" id="author" value="${author}">
+          </td>
+        </tr>
+        <tr>
+          <td><h3>Icon</h3></td>
+          <td>
+            <img src="${icon}" title="Click to change app icon">
+            <form action="/project/upload_icon/" enctype="multipart/form-data" method="post" id="form_${name}" onsubmit="submit_cb(this); return false;">
+                <label class="icon" title="">
+                    <input type="file" accept="image/jpeg,image/png" name="proj_icon" id="file_${name}"/>
+                    <input type="hidden" name="proj_name" value="$name">
+                    <input type="hidden" name="proj_path" value="$path">
+                </label>
+            </form>
+            <script type="text/javascript">
+                var req_file = document.getElementById("file_${name}");
+                req_file.addEventListener("change", function() {
+                    var form = document.getElementById("form_$name");
+                    form.submit();
+                });
+            </script>
+          </td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr><td colspan="2" class="centered"><h2>Build</h2></td></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><h3>Apps</h3></td>
+          <td><input type="text" name="apps" id="apps" value="${apps}"></td>
+        </tr>
+        <tr>
+          <td><h3>Use Physics</h3></td>
+          <td>
+            <div class="input_group">
+              <input type="checkbox" id="use_physics" name="use_physics">
+              <label for="use_physics" class="check"></label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><h3>Application Type</h3></td>
+          <td class="create">
+              <div class="custom_type row">
+                <h3>Custom Type</h3>
+                <div class="input_group">
+                  <input type="radio" id="proj_copy" name="project_engine_type" value="copy" disabled>
+                  <label for="proj_copy" class="radio">Copy</label>
+                </div>
+                <div class="input_group">
+                  <input type="radio" id="proj_compile" name="project_engine_type" value="compile" disabled>
+                  <label for="proj_compile" class="radio">Compile</label>
+                </div>
+                <div class="input_group">
+                  <input type="radio" id="proj_none" name="project_engine_type" value="none" disabled>
+                  <label for="proj_none" class="radio">None</label>
+                </div>
+              </div>
+              <div class="webplayer_type row">
+                <h3>WebPlayer Type</h3>
+                <div class="input_group">
+                  <input type="radio" id="proj_json" name="project_engine_type" value="webplayer_json" disabled>
+                  <label for="proj_json" class="radio">Web Player JSON</label>
+                </div>
+                <div class="input_group">
+                  <input type="radio" id="proj_html" name="project_engine_type" value="webplayer_html" disabled>
+                  <label for="proj_html" class="radio">Web Player HTML</label>
+                </div>
+              </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="" rowspan="" headers=""><h3>JavaScript Obfuscation Level</h3></td>
+          <td class="create">
+            <div class="input_group">
+              <input type="radio" id="sim_lev" name="project_opt_level" value="simple">
+              <label for="sim_lev" class="radio">Simple</label>
+            </div>
+            <div class="input_group">
+              <input type="radio" id="adv_lev" name="project_opt_level" value="advanced">
+              <label for="adv_lev" class="radio">Advanced</label>
+            </div>
+            <div class="input_group">
+              <input type="radio" id="white_lev" name="project_opt_level" value="whitespace">
+              <label for="white_lev" class="radio">Whitespace Only</label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><h3>JS Compilation Pass-Through List</h3></td>
+          <td><input type="text" name="js_ignore" id="js_ignore" value="$js_ignore"></td>
+        </tr>
+        <tr>
+          <td><h3>CSS Compilation Pass-Through List</h3></td>
+          <td><input type="text" name="css_ignore" id="css_ignore" value="$css_ignore"></td>
+        </tr>
+        <tr>
+          <td><h3>Build Ignore List</h3></td>
+          <td><input type="text" name="build_ignore" id="build_ignore" value="$build_ignore"></td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr><td colspan="2" class="centered"><h2>Paths</h2></td></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><h3>Developer Project Path</h3></td>
+          <td><p>$path</p></td>
+        </tr>
+        <tr>
+          <td><h3>Build Project Path</h3></td>
+          <td><p>$build_dir</p></td>
+        </tr>
+        <tr>
+          <td><h3>Blend Directory(s)</h3></td>
+          <td><p>$blend_dirs</p></td>
+        </tr>
+        <tr>
+          <td><h3>Assets Directory(s)</h3></td>
+          <td><p>$assets_dirs</p></td>
+        </tr>
+        <tr>
+          <td><h3>Blender Exec</h3></td>
+          <td><input type="text" name="blender_exec" id="blender_exec" value="$blender_exec"></td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr><td colspan="2" class="centered"><h2>Deploy</h2></td></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><h3>Deployment Assets Directory</h3></td>
+          <td><input type="text" name="assets_path_dest" id="assets_path_dest" value="$deploy_assets_path_dest"></td>
+        </tr>
+        <tr>
+          <td><h3>Deployment Assets URL Prefix</h3></td>
+          <td><input type="text" name="assets_path_prefix" id="assets_path_prefix" value="$deploy_assets_path_prefix"></td>
+        </tr>
+        <tr>
+          <td><h3>Deployment Ignore List</h3></td>
+          <td><input type="text" name="ignore" id="ignore" value="$deploy_ignore"></td>
+        </tr>
+      </tbody>
+      <thead>
+      </thead>
+      <tbody>
+        <tr><td colspan="2" class="centered"><h2>URL GET Params</h2></td></tr>
+        <tr>
+          <td></td>
+          <td><input type="text" name="url_params" id="url_params" value="$url_params"></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="btns_cont">
+      <div class="btn_wrapper">
+        <a id="back_to_index" href="/project/" class="btn active"><span>Back to Projects</span></a>
+        <a id="save_config" class="btn"><span>Save Config</span></a>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="conf_project_engine_type" id="conf_project_engine_type" value="${engine_type}">
+  <input type="hidden" name="conf_project_opt_level" id="conf_project_opt_level" value="${opt_level}">
+  <input type="hidden" name="conf_use_physics" id="conf_use_physics" value="${use_physics}">
+  <input type="hidden" name="conf_dev_proj_path" id="conf_dev_proj_path" value="${path}">
+  <input type="hidden" name="conf_build_dir" id="conf_build_dir" value="${build_dir}">
+  <input type="hidden" name="conf_blend_dirs" id="conf_blend_dirs" value="${blend_dirs}">
+  <input type="hidden" name="conf_assets_dirs" id="conf_assets_dirs" value="${assets_dirs}">
+  <input type="hidden" name="conf_blender_exec" id="conf_blender_exec" value="${blender_exec}">
+  <input type="hidden" name="conf_project_apps" id="conf_project_apps" value="${apps}">
+  <input type="hidden" name="conf_js_ignore" id="conf_js_ignore" value="${js_ignore}">
+  <input type="hidden" name="conf_css_ignore" id="conf_css_ignore" value="${css_ignore}">
+  <input type="hidden" name="conf_build_ignore" id="conf_build_ignore" value="${build_ignore}">
+  <input type="hidden" name="conf_author" id="conf_author" value="${author}">
+  <input type="hidden" name="conf_assets_path_dest" id="conf_assets_path_dest" value="${deploy_assets_path_dest}">
+  <input type="hidden" name="conf_assets_path_prefix" id="conf_assets_path_prefix" value="${deploy_assets_path_prefix}">
+  <input type="hidden" name="conf_ignore" id="conf_ignore" value="${deploy_ignore}">
+  <input type="hidden" name="conf_title" id="conf_title" value="${title}">
+  <input type="hidden" name="conf_url_params" id="conf_url_params" value="${url_params}">
+
+  <script src="/index_assets/js/project_config.js" type="text/javascript" charset="utf-8" async defer></script>
+</body>
+
+</html>

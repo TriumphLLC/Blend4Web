@@ -1,58 +1,5 @@
-a {
-  color: rgba(0, 100, 200, 1.0);
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-a.spoiler {
-  font-size: 12px;
-}
-
-a.spoiler_item {
-  font-size: 14px;
-  margin: 3px;
-}
-
-.tut a {
-  display: block;
-}
-
-.tut td {
-  line-height: 25px;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-img {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  display: inline-block;
-}
-
-h2, h3 {
-  text-align: center;
-  font-family: Open Sans Semibold;
-}
-
-h3 {
-  cursor: default;
-  display: inline-block;
-}
-
 table {
   width: 100%;
-  border-collapse: collapse;
-}
-
-table.create {
-  width: 80%;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 table .doc th,
@@ -63,90 +10,18 @@ table .doc td {
 
 table .projects th,
 table .projects td {
-    height: 50px;
+  height: 50px;
 }
 
-p, td, th, form, input {
-    font-family: Open Sans Light;
-    font-size: 16px;
-    color: #002350;
-}
-
-p.create {
-    font-family: Open Sans Bold;
-    margin: 0px;
-}
-
-p.create_hint {
-    font-family: Open Sans Light Italic;
-    font-size: 14px;
-    color: #002350;
-    margin: 0px;
-}
-
-th {
-    font-family: Open Sans Light Italic;
-    height: 100px;
-    border-left: 1px solid rgba(0, 142, 204, 0.2);
-}
-
-tr {
-    border: 1px solid rgba(0, 142, 204, 0.2);
-    border-bottom: 0;
-}
-
-tr:last-child {
-    border-bottom: 1px solid rgba(0, 142, 204, 0.2);
-}
-
-td {
-    height: 100px;
-    border-left: 1px solid rgba(0, 142, 204, 0.2);
-    text-align: center;
-    vertical-align: middle;
-}
-
-td:first-child {
-    padding: 5px;
-    width: 150px;
-}
-
-td.create {
-    height: 0px;
-    width: 50%;
-    font-family: Open Sans Light;
-    text-align: left;
-    vertical-align: middle;
-}
-
-input.create {
-    width: 96%;
-    margin: 5px 0;
-    padding: 2px;
-}
-
-table > tbody > tr:nth-child(odd) {
-    background-color: rgba(0, 72, 165, 0.03);
+th, td {
+  height: 100px;
+  text-align: center;
+  border: 1px solid rgba(82, 118, 207, .2);
 }
 
 .row {
   width: 1200px;
   margin: 20px auto;
-}
-
-@font-face {
-  font-family: Open Sans Light Italic;
-  src: url(../fonts/Open_Sans/OpenSans-LightItalic.woff);
-}
-
-@font-face {
-  font-family: Open Sans Light;
-  src: url(../fonts/Open_Sans/OpenSans-Light.woff);
-}
-
-@font-face {
-  font-family: Open Sans Semibold;
-  src: url(../fonts/Open_Sans/OpenSans-Semibold.woff);
 }
 
 span.green {
@@ -159,116 +34,10 @@ span.red {
   font-weight: bold;
 }
 
-.back {
-  text-align: left;
-  margin: 20px;
+a {
+  font-size: 16px;
 }
 
-.forward {
-  text-align: right;
-  margin: 20px;
-}
-
-.console {
-  color: white;
-  background-color: black;
-  padding: 40px;
-  border: 3px solid rgba(78, 16, 175, 0.7);
-  font-family: monospace;
-  font-size: 12pt;
-  height: 100%;
-}
-
-pre {
-  white-space: pre-wrap;
-}
-
-div#sort_name {
-  width: 10px;
-  height: 10px;
-  background-image: url(/index_assets/img/arrow.png);
-  display: inline-block;
-  margin-left: 4px;
-}
-
-div#sort_name.down {
-  background-position: 0 0;
-}
-
-div#sort_name.down {
-  background-position: 0 -10px;
-}
-
-div.input_group {
-    display: inline-block;
-}
-
-div.input_group > label {
-    display: block;
-    margin: 8px 0;
-}
-
-div.input_group:first-child > label {
-    padding-left: 0;
-}
-
-div.input_group > label > input {
-    float: right;
-    cursor: pointer;
-}
-
-input[type=radio],
-input[type=checkbox] {
-    display: none;
-}
-
-div.input_group > label.check {
-    display: flex;
-}
-
-div.input_group > label.check::before {
-    content: "";
-    background-image: url(/index_assets/img/check.png);
-    background-size: 20px 40px;
-    background-repeat: no-repeat;
-    width: 20px;
-    height: 20px;
-    display: block;
-}
-
-.create div.input_group > label.check::before {
-    margin-right: 7px;
-}
-
-div.input_group > label.radio {
-    display: flex;
-}
-
-div.input_group > label.radio::before {
-    content: "";
-    background-image: url(/index_assets/img/radio.png);
-    width: 22px;
-    height: 22px;
-    background-size: 22px 44px;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    margin-right: 7px;
-    padding: 0;
-}
-
-input[type=checkbox]:checked + label.check::before {
-    background-position: 0 -20px;
-}
-
-input[type=radio]:checked + label.radio::before {
-    background-position: 0 -22px;
-}
-
-input[type=checkbox]:disabled + label,
-input[type=radio]:disabled + label {
-    opacity: 0.3;
-    cursor: default;
-    text-decoration: none;
-    display: flex;
+table:first-of-type > tbody td {
+  border-bottom: 0;
 }

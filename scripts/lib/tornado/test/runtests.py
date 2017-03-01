@@ -8,6 +8,7 @@ import operator
 import textwrap
 import sys
 from tornado.httpclient import AsyncHTTPClient
+from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.netutil import Resolver
 from tornado.options import define, options, add_parse_callback
@@ -28,6 +29,7 @@ TEST_MODULES = [
     'tornado.test.curl_httpclient_test',
     'tornado.test.escape_test',
     'tornado.test.gen_test',
+    'tornado.test.http1connection_test',
     'tornado.test.httpclient_test',
     'tornado.test.httpserver_test',
     'tornado.test.httputil_test',
@@ -35,19 +37,24 @@ TEST_MODULES = [
     'tornado.test.ioloop_test',
     'tornado.test.iostream_test',
     'tornado.test.locale_test',
+    'tornado.test.locks_test',
     'tornado.test.netutil_test',
     'tornado.test.log_test',
     'tornado.test.options_test',
     'tornado.test.process_test',
+    'tornado.test.queues_test',
+    'tornado.test.routing_test',
     'tornado.test.simple_httpclient_test',
     'tornado.test.stack_context_test',
     'tornado.test.tcpclient_test',
+    'tornado.test.tcpserver_test',
     'tornado.test.template_test',
     'tornado.test.testing_test',
     'tornado.test.twisted_test',
     'tornado.test.util_test',
     'tornado.test.web_test',
     'tornado.test.websocket_test',
+    'tornado.test.windows_test',
     'tornado.test.wsgi_test',
 ]
 
@@ -115,12 +122,21 @@ def main():
     # Twisted 15.0.0 triggers some warnings on py3 with -bb.
     warnings.filterwarnings("ignore", category=BytesWarning,
                             module=r"twisted\..*")
+    # The __aiter__ protocol changed in python 3.5.2.
+    # Silence the warning until we can drop 3.5.[01].
+    warnings.filterwarnings("ignore", category=PendingDeprecationWarning,
+                            message=".*legacy __aiter__ protocol")
+    # 3.5.2's PendingDeprecationWarning became a DeprecationWarning in 3.6.
+    warnings.filterwarnings("ignore", category=DeprecationWarning,
+                            message=".*legacy __aiter__ protocol")
 
     logging.getLogger("tornado.access").setLevel(logging.CRITICAL)
 
     define('httpclient', type=str, default=None,
            callback=lambda s: AsyncHTTPClient.configure(
                s, defaults=dict(allow_ipv6=False)))
+    define('httpserver', type=str, default=None,
+           callback=HTTPServer.configure)
     define('ioloop', type=str, default=None)
     define('ioloop_time_monotonic', default=False)
     define('resolver', type=str, default=None,

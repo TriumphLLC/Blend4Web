@@ -41,7 +41,7 @@ var _bones_info = {
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas_cont",
+        canvas_container_id: "main_canvas_container",
         callback: init_cb,
         show_fps: true,
         autoresize: true,

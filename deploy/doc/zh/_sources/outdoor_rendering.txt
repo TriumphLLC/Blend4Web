@@ -229,10 +229,8 @@ Blend4Web有几个环境的效果，对创建室外场景非常有用。
 
 为了使用程序浪 "Waves" 选项必须打开。
 
-注解: The direction of procedural waves is derived from a "Wind"
-  force field in the scene.If a scene does not have a "Wind" force
-  field, procedural waves will only move in the default direction
-  which cannot be changed.
+注解: 程序波的方向是从场景中的 "Wind" 力场的方向一致。如果场景没有
+  "Wind" 力场，程序浪将仅在不能改变的默认的方向移动。
 
 [图片]
 
@@ -380,14 +378,10 @@ Distance Map" 面板。设定参数：到岸最大距离（"最大Distance"）�
 该引擎支持位于 "World > Mist" 面板上的标准参数。除此之外，可能覆盖雾的
 颜色。
 
-*雾>使用定制颜色*
-   应用用户定义雾的颜色，而不是 "World > Horizon" 颜色。默认情况下启用
-   。
+Fog settings are described in the Scene Settings chapter.
 
-*雾>颜色*
-   雾的颜色。默认值是（0.5，0.5，0.5）（灰色）。
-
-当使用动态天穹，雾的颜色是由天空的颜色定义。
+When a dynamic skydome is used, the fog color is defined by the sky
+color.
 
 
 当日时间

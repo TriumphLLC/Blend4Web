@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,212 +65,212 @@ var cfg_def = m_cfg.defaults;
 
 /**
 * Type of the names of the synchronous value parameter of a device.
-* @typedef {Number} DeviceValueParameterSync
+* @typedef {number} DeviceValueParameterSync
 */
 
 /**
  * Type of the names of the asynchronous parameter of a device.
- * @typedef {Number} DeviceParameterAsync
+ * @typedef {number} DeviceParameterAsync
  */
 
 /**
  * HMD type enum. Value of {@link module:input.HMD_WEBVR_TYPE|input.HMD_WEBVR_TYPE}.
- * @typedef {Number} DeviceHMDType
+ * @typedef {number} DeviceHMDType
  */
 
 /**
  * Type of the names of the device config.
- * @typedef {Number} DeviceConfig
+ * @typedef {number} DeviceConfig
  */
 
 /**
  * Gamepad D-pad up button ID.
- * @const {Number} module:input.GMPD_BUTTON_12
+ * @const {number} module:input.GMPD_BUTTON_12
  */
 exports.GMPD_BUTTON_12 = m_input.GMPD_BUTTON_12;
 /**
  * Gamepad D-pad down button ID.
- * @const {Number} module:input.GMPD_BUTTON_13
+ * @const {number} module:input.GMPD_BUTTON_13
  */
 exports.GMPD_BUTTON_13 = m_input.GMPD_BUTTON_13;
 /**
  * Gamepad D-pad right button ID.
- * @const {Number} module:input.GMPD_BUTTON_15
+ * @const {number} module:input.GMPD_BUTTON_15
  */
 exports.GMPD_BUTTON_15 = m_input.GMPD_BUTTON_15;
 /**
  * Gamepad D-pad left button ID.
- * @const {Number} module:input.GMPD_BUTTON_14
+ * @const {number} module:input.GMPD_BUTTON_14
  */
 exports.GMPD_BUTTON_14 = m_input.GMPD_BUTTON_14;
 /**
  * Gamepad face panel up button ID.
- * @const {Number} module:input.GMPD_BUTTON_3
+ * @const {number} module:input.GMPD_BUTTON_3
  */
 exports.GMPD_BUTTON_3 = m_input.GMPD_BUTTON_3;
 /**
  * Gamepad face panel down button ID.
- * @const {Number} module:input.GMPD_BUTTON_0
+ * @const {number} module:input.GMPD_BUTTON_0
  */
 exports.GMPD_BUTTON_0 = m_input.GMPD_BUTTON_0;
 /**
  * Gamepad face panel right button ID.
- * @const {Number} module:input.GMPD_BUTTON_1
+ * @const {number} module:input.GMPD_BUTTON_1
  */
 exports.GMPD_BUTTON_1 = m_input.GMPD_BUTTON_1;
 /**
  * Gamepad face panel left button ID.
- * @const {Number} module:input.GMPD_BUTTON_2
+ * @const {number} module:input.GMPD_BUTTON_2
  */
 exports.GMPD_BUTTON_2 = m_input.GMPD_BUTTON_2;
 /**
  * Gamepad right top shoulder button ID.
- * @const {Number} module:input.GMPD_BUTTON_5
+ * @const {number} module:input.GMPD_BUTTON_5
  */
 exports.GMPD_BUTTON_5 = m_input.GMPD_BUTTON_5;
 /**
  * Gamepad right bottom shoulder button ID.
- * @const {Number} module:input.GMPD_BUTTON_7
+ * @const {number} module:input.GMPD_BUTTON_7
  */
 exports.GMPD_BUTTON_7 = m_input.GMPD_BUTTON_7;
 /**
  * Gamepad left top shoulder button ID.
- * @const {Number} module:input.GMPD_BUTTON_4
+ * @const {number} module:input.GMPD_BUTTON_4
  */
 exports.GMPD_BUTTON_4 = m_input.GMPD_BUTTON_4;
 /**
  * Gamepad left bottom shoulder button ID.
- * @const {Number} module:input.GMPD_BUTTON_6
+ * @const {number} module:input.GMPD_BUTTON_6
  */
 exports.GMPD_BUTTON_6 = m_input.GMPD_BUTTON_6;
 /**
  * Gamepad select/back button ID.
- * @const {Number} module:input.GMPD_BUTTON_8
+ * @const {number} module:input.GMPD_BUTTON_8
  */
 exports.GMPD_BUTTON_8 = m_input.GMPD_BUTTON_8;
 /**
  * Gamepad start/forward button ID.
- * @const {Number} module:input.GMPD_BUTTON_9
+ * @const {number} module:input.GMPD_BUTTON_9
  */
 exports.GMPD_BUTTON_9 = m_input.GMPD_BUTTON_9;
 /**
  * Gamepad left analog button ID.
- * @const {Number} module:input.GMPD_BUTTON_10
+ * @const {number} module:input.GMPD_BUTTON_10
  */
 exports.GMPD_BUTTON_10 = m_input.GMPD_BUTTON_10;
 /**
  * Gamepad right analog button ID.
- * @const {Number} module:input.GMPD_BUTTON_11
+ * @const {number} module:input.GMPD_BUTTON_11
  */
 exports.GMPD_BUTTON_11 = m_input.GMPD_BUTTON_11;
 /**
  * Gamepad main button ID.
- * @const {Number} module:input.GMPD_BUTTON_16
+ * @const {number} module:input.GMPD_BUTTON_16
  */
 exports.GMPD_BUTTON_16 = m_input.GMPD_BUTTON_16;
 /**
  * Gamepad button.
- * @const {Number} module:input.GMPD_BUTTON_17
+ * @const {number} module:input.GMPD_BUTTON_17
  */
 exports.GMPD_BUTTON_17 = m_input.GMPD_BUTTON_17;
 /**
  * Gamepad button.
- * @const {Number} module:input.GMPD_BUTTON_18
+ * @const {number} module:input.GMPD_BUTTON_18
  */
 exports.GMPD_BUTTON_18 = m_input.GMPD_BUTTON_18;
 /**
  * Gamepad button.
- * @const {Number} module:input.GMPD_BUTTON_19
+ * @const {number} module:input.GMPD_BUTTON_19
  */
 exports.GMPD_BUTTON_19 = m_input.GMPD_BUTTON_19;
 /**
  * Gamepad button.
- * @const {Number} module:input.GMPD_BUTTON_20
+ * @const {number} module:input.GMPD_BUTTON_20
  */
 exports.GMPD_BUTTON_20 = m_input.GMPD_BUTTON_20;
 /**
  * Gamepad button.
- * @const {Number} module:input.GMPD_BUTTON_21
+ * @const {number} module:input.GMPD_BUTTON_21
  */
 exports.GMPD_BUTTON_21 = m_input.GMPD_BUTTON_21;
 /**
  * Gamepad button.
- * @const {Number} module:input.GMPD_BUTTON_22
+ * @const {number} module:input.GMPD_BUTTON_22
  */
 exports.GMPD_BUTTON_22 = m_input.GMPD_BUTTON_22;
 /**
  * Gamepad button.
- * @const {Number} module:input.GMPD_BUTTON_23
+ * @const {number} module:input.GMPD_BUTTON_23
  */
 exports.GMPD_BUTTON_23 = m_input.GMPD_BUTTON_23;
 /**
  * Gamepad button.
- * @const {Number} module:input.GMPD_BUTTON_24
+ * @const {number} module:input.GMPD_BUTTON_24
  */
 exports.GMPD_BUTTON_24 = m_input.GMPD_BUTTON_24;
 /**
  * Gamepad button.
- * @const {Number} module:input.GMPD_BUTTON_25
+ * @const {number} module:input.GMPD_BUTTON_25
  */
 exports.GMPD_BUTTON_25 = m_input.GMPD_BUTTON_25;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_0
+ * @const {number} module:input.GMPD_AXIS_0
  */
 exports.GMPD_AXIS_0 = m_input.GMPD_AXIS_0;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_1
+ * @const {number} module:input.GMPD_AXIS_1
  */
 exports.GMPD_AXIS_1 = m_input.GMPD_AXIS_1;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_2
+ * @const {number} module:input.GMPD_AXIS_2
  */
 exports.GMPD_AXIS_2 = m_input.GMPD_AXIS_2;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_3
+ * @const {number} module:input.GMPD_AXIS_3
  */
 exports.GMPD_AXIS_3 = m_input.GMPD_AXIS_3;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_4
+ * @const {number} module:input.GMPD_AXIS_4
  */
 exports.GMPD_AXIS_4 = m_input.GMPD_AXIS_4;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_5
+ * @const {number} module:input.GMPD_AXIS_5
  */
 exports.GMPD_AXIS_5 = m_input.GMPD_AXIS_5;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_6
+ * @const {number} module:input.GMPD_AXIS_6
  */
 exports.GMPD_AXIS_6 = m_input.GMPD_AXIS_6;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_7
+ * @const {number} module:input.GMPD_AXIS_7
  */
 exports.GMPD_AXIS_7 = m_input.GMPD_AXIS_7;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_8
+ * @const {number} module:input.GMPD_AXIS_8
  */
 exports.GMPD_AXIS_8 = m_input.GMPD_AXIS_8;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_9
+ * @const {number} module:input.GMPD_AXIS_9
  */
 exports.GMPD_AXIS_9 = m_input.GMPD_AXIS_9;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_10
+ * @const {number} module:input.GMPD_AXIS_10
  */
 exports.GMPD_AXIS_10 = m_input.GMPD_AXIS_10;
 /**
  * Gamepad axis.
- * @const {Number} module:input.GMPD_AXIS_11
+ * @const {number} module:input.GMPD_AXIS_11
  */
 exports.GMPD_AXIS_11 = m_input.GMPD_AXIS_11;
 
@@ -315,6 +315,12 @@ exports.HMD_NON_WEBVR = m_input.HMD_NON_WEBVR;
  * @const {DeviceHMDType} module:input.HMD_WEBVR1
  */
 exports.HMD_WEBVR1 = m_input.HMD_WEBVR1;
+
+/**
+ * WebVR API 1.1
+ * @const {DeviceHMDType} module:input.HMD_WEBVR1_1
+ */
+exports.HMD_WEBVR1_1 = m_input.HMD_WEBVR1_1;
 
 /**
  * Parameter of HMD eye distance.
@@ -470,7 +476,7 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * The callback for the pressed mouse button corresponding to the
  * {@link module:input.MOUSE_DOWN_WHICH|MOUSE_DOWN_WHICH} param.
  * @callback MouseDownWhichCallback
- * @param {Number} which Number indicates button that was pressed on the mouse
+ * @param {number} which Number indicates button that was pressed on the mouse
  * (1 -- left button, 2 -- middle button, 3 -- right button).
  * @example
  * var m_input = require("input");
@@ -486,7 +492,7 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * The callback for the released mouse button corresponding to the
  * {@link module:input.MOUSE_UP_WHICH|MOUSE_UP_WHICH} param.
  * @callback MouseUpWhichCallback
- * @param {Number} which Number indicates button that was released on the mouse
+ * @param {number} which Number indicates button that was released on the mouse
  * (1 -- left button, 2 -- middle button, 3 -- right button).
  * @example
  * var m_input = require("input");
@@ -502,7 +508,7 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * The callback for the mouse scroll corresponding to the
  * {@link module:input.MOUSE_WHEEL|MOUSE_WHEEL} param.
  * @callback MouseWheelCallback
- * @param {Number} delta The vertical mouse scroll amount.
+ * @param {number} delta The vertical mouse scroll amount.
  * @example
  * var m_input = require("input");
  * 
@@ -517,7 +523,7 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * The callback for the pressed keyboard button corresponding to the
  * {@link module:input.KEYBOARD_DOWN|KEYBOARD_DOWN} param.
  * @callback KeyboardDownCallback
- * @param {Number} key_code Number indicates button that was pressed on the
+ * @param {number} key_code Number indicates button that was pressed on the
  * keyboard (use constants KEY_* from module {@link module:controls|controls}).
  * @example
  * var m_input = require("input");
@@ -533,7 +539,7 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
  * The callback for the released keyboard button corresponding to the
  * {@link module:input.KEYBOARD_UP|KEYBOARD_UP} param.
  * @callback KeyboardUpCallback
- * @param {Number} key_code Number indicates button that was released on the
+ * @param {number} key_code Number indicates button that was released on the
  * keyboard (use constants KEY_* from module {@link module:controls|controls}).
  * @example
  * var m_input = require("input");
@@ -631,7 +637,7 @@ CONF[m_input.DEVICE_HMD] = [m_input.HMD_DISTORTION,
 
 /**
  * Device type enum.
- * @typedef {Number} DeviceType
+ * @typedef {number} DeviceType
  */
 
 /**
@@ -668,7 +674,7 @@ exports.DEVICE_TOUCH = m_input.DEVICE_TOUCH;
  * Check if the device can be used.
  * @method module:input.can_use_device
  * @param {DeviceType} type Device type.
- * @returns {Boolean} Result of the check
+ * @returns {boolean} Result of the check
  */
 exports.can_use_device = m_input.can_use_device;
 
@@ -686,7 +692,7 @@ exports.get_device_by_type_element = m_input.get_device_by_type_element;
  * Switch triggering of the browser default actions for registered events.
  * @param {Object} device Device object. Use
  * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
- * @param {Boolean} prevent_default Prevent default flag.
+ * @param {boolean} prevent_default Prevent default flag.
  * @method module:input.switch_prevent_default
  */
 exports.switch_prevent_default = function(device, prevent_default) {
@@ -696,8 +702,6 @@ exports.switch_prevent_default = function(device, prevent_default) {
 
 /**
  * Register device. Right now it should be used for DEVICE_HMD.
- * @param {Object} device Device object. Use
- * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @method module:input.register_device
  * @deprecated Not needed anymore.
  */
@@ -727,7 +731,7 @@ exports.reset_device = function(device) {
  * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @param {DeviceVectorParameterSync} param Name of the device vector parameter.
  * @param {Float32Array} dest Destination vector.
- * @returns {Float32Array} Destination vector.
+ * @returns {?Float32Array} Destination vector.
  * @method module:input.get_vector_param
  */
 exports.get_vector_param = function(device, param, dest) {
@@ -736,6 +740,7 @@ exports.get_vector_param = function(device, param, dest) {
         return m_input.get_vector_param(device, param, dest);
     else
         m_print.error("device hasn't param: ", param);
+    return null;
 }
 
 /**
@@ -743,7 +748,7 @@ exports.get_vector_param = function(device, param, dest) {
  * @param {Object} device Device object. Use
  * {@link module:input.get_device_by_type_element|input.get_device_by_type_element} to obtain it.
  * @param {DeviceValueParameterSync} param Name of the device value parameter.
- * @returns {Number|Boolean} Parameter value.
+ * @returns {number|boolean|null} Parameter value.
  * @method module:input.get_value_param
  */
 exports.get_value_param = function(device, param) {
@@ -752,6 +757,8 @@ exports.get_value_param = function(device, param) {
         return m_input.get_value_param(device, param);
     else
         m_print.error("device hasn't param: ", param);
+
+    return null;
 }
 
 /**
@@ -766,7 +773,7 @@ exports.get_value_param = function(device, param) {
  * @method module:input.attach_param_cb
  */
 exports.attach_param_cb = function(device, param, cb) {
-    var cb = cb || null;
+    cb = cb || null;
     if (device && device.type in ASYNC_PARAMS &&
             ASYNC_PARAMS[device.type].indexOf(param) >= 0)
         return m_input.attach_param_cb(device, param, cb);
@@ -786,7 +793,7 @@ exports.attach_param_cb = function(device, param, cb) {
  * @method module:input.detach_param_cb
  */
 exports.detach_param_cb = function(device, param, cb) {
-    var cb = cb || null;
+    cb = cb || null;
     if (device && device.type in ASYNC_PARAMS &&
             ASYNC_PARAMS[device.type].indexOf(param) >= 0)
         return m_input.detach_param_cb(device, param, cb);
@@ -802,7 +809,14 @@ exports.set_config = function(device, config, value) {
         m_print.error("device hasn't config: ", config);
 }
 
+/**
+ * Request fullscreen mode.
+ * @method module:input.request_fullscreen_hmd
+ * @deprecated Use {@link module:screen.request_fullscreen_hmd} instead
+ */
 exports.request_fullscreen_hmd = function() {
+    m_print.error_deprecated("request_fullscreen_hmd", "screen.request_fullscreen_hmd");
+
     if (m_scs.check_active()) {
          var cam_obj = m_scs.get_camera(m_scs.get_active());
          if (!cam_obj)
@@ -848,12 +862,15 @@ exports.request_fullscreen_hmd = function() {
  * Enable "split screen" mode.
  * @method module:input.enable_split_screen
  * @param {Object3D} camobj Camera 3D-object.
- * @returns {Boolean} "Split screen" mode is enabled.
+ * @returns {boolean} "Split screen" mode is enabled.
+ * @deprecated Use {@link module:screen.request_split_screen} instead
  */
 exports.enable_split_screen = enable_split_screen;
 function enable_split_screen(camobj) {
+    m_print.error_deprecated("enable_split_screen", "screen.request_split_screen");
+
     var hmd_device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
-    if (!hmd_device || !hmd_device.registered)
+    if (!hmd_device)
         return false;
 
     if (_splited_screen)
@@ -875,7 +892,9 @@ function enable_split_screen(camobj) {
     hmd_params.base_line_factor = 0.5;
     hmd_params.inter_lens_factor = 0.5;
     hmd_params.enable_hmd_stereo = true;
-    if (m_input.get_value_param(m_input.HMD_WEBVR_TYPE) !== m_input.HMD_WEBVR1) {
+    var hmd_type = m_input.get_value_param(hmd_device, m_input.HMD_WEBVR_TYPE)
+    if (hmd_type & (m_input.HMD_NON_WEBVR | m_input.HMD_WEBVR_MOBILE |
+            m_input.HMD_WEBVR_DESKTOP)) {
         hmd_params.distortion_coefs = [
             hmd_device.distortion_coefs[0],
             hmd_device.distortion_coefs[1]
@@ -895,7 +914,6 @@ function enable_split_screen(camobj) {
         if (hmd_device.inter_lens_dist && hmd_device.width_dist && !hmd_device.webvr_hmd_device)
             hmd_params.inter_lens_factor = hmd_device.inter_lens_dist /
                     hmd_device.width_dist;
-
         // NOTE: prevent crash in case of difference of slink's dimensions.
         // For example: "debug" slink ~ 0.5 X 1.0,
         //              "origin" slink ~ distortion_scale * 0.5 X distortion_scale * 1.0
@@ -917,11 +935,14 @@ function enable_split_screen(camobj) {
 /**
  * Disable "split screen" mode.
  * @method module:input.disable_split_screen
- * @returns {Boolean} "Split screen" mode is disabled.
+ * @returns {boolean} "Split screen" mode is disabled.
+ * @deprecated Use {@link module:screen.exit_split_screen} instead
  */
 exports.disable_split_screen = function() {
+    m_print.error_deprecated("disable_split_screen", "screen.exit_split_screen");
+
     var hmd_device = m_input.get_device_by_type_element(m_input.DEVICE_HMD)
-    if (!_splited_screen && (!hmd_device || !hmd_device.registered))
+    if (!_splited_screen || !hmd_device || !hmd_device.registered)
         return false;
 
     // set up non-vr mode
@@ -938,13 +959,11 @@ exports.disable_split_screen = function() {
 /**
  * Set gamepad button key value.
  * @method module:input.set_gamepad_key
- * @param {Number} gamepad_id Connected gamepad number.
- * @param {Number} btn Button or axis identifier.
- * @param {Number} key Button key value.
+ * @param {number} gamepad_id Connected gamepad number.
+ * @param {number} btn Button or axis identifier.
+ * @param {number} key Button key value.
  */
 exports.set_gamepad_key = function(gamepad_id, btn, key) {
-    var gmps_num = check_enable_gamepad_indices().length;
-
     switch(gamepad_id) {
     case 0:
         var type = m_input.DEVICE_GAMEPAD0;
@@ -967,15 +986,15 @@ exports.set_gamepad_key = function(gamepad_id, btn, key) {
 /**
  * Get pressed button key value.
  * @method module:input.get_pressed_gmpd_btn
- * @param {Number} gamepad_id Gamepad identifier (Connected device number 0-3).
- * @returns {Number} Pressed button key value.
+ * @param {number} gamepad_id Gamepad identifier (Connected device number 0-3).
+ * @returns {number} Pressed button key value.
  */
 exports.get_pressed_gmpd_btn = m_input.get_pressed_gmpd_btn;
 /**
  * Get moved axis key value.
  * @method module:input.get_moved_gmpd_axis
- * @param {Number} gamepad_id Gamepad identifier (Connected device number 0-3).
- * @returns {Number} Moved axis key value.
+ * @param {number} gamepad_id Gamepad identifier (Connected device number 0-3).
+ * @returns {number} Moved axis key value.
  */
 exports.get_moved_gmpd_axis = m_input.get_moved_gmpd_axis;
 /**
@@ -994,4 +1013,33 @@ function check_enable_gamepad_indices() {
             indices.push(i);
     return indices;
 }
+
+/**
+ * Register the listener on the click event. Callback is called on right
+ * after click on element (without 300ms delay).
+ * @method module:input.add_click_listener
+ * @param {HTMLElement} element DOM element.
+ * @param {Callback} callback Callback.
+ */
+exports.add_click_listener = function(element, callback) {
+    if (!element || !callback)
+        return;
+
+    m_input.add_click_listener(element, callback);
+}
+
+/**
+ * Unregister the listener registered with
+ * {@link module:input.add_click_listener | input.add_click_listener}.
+ * @method module:input.remove_click_listener
+ * @param {HTMLElement} element DOM element.
+ * @param {Callback} callback Callback.
+ */
+exports.remove_click_listener = function(element, callback) {
+    if (!element || !callback)
+        return;
+
+    m_input.remove_click_listener(element, callback);
+}
+
 }

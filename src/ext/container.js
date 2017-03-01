@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ exports.get_container = m_cont.get_container;
  * Inserts the DOM element to the container.
  * @method module:container.insert_to_container
  * @param {HTMLElement} elem Inserted DOM element.
- * @param {String} stack_order Inserted DOM element stack order (one of "FIRST",
+ * @param {string} stack_order Inserted DOM element stack order (one of "FIRST",
  * "JUST_BEFORE_CANVAS", "JUST_AFTER_CANVAS", "LAST").
  */
 exports.insert_to_container = function(elem, stack_order) {
@@ -71,42 +71,81 @@ exports.insert_to_container = function(elem, stack_order) {
  * Can be useful in case of scrolling/DOM-manipulations, when the canvas 
  * position has been changed.
  * @method module:container.set_canvas_offsets
- * @param {Number} left Left offset for the container
- * @param {Number} top Top offset for the container
+ * @param {number} left Left offset for the container
+ * @param {number} top Top offset for the container
+ * @deprecated Not needed anymore.
  */
-exports.set_canvas_offsets = m_cont.set_canvas_offsets;
+exports.set_canvas_offsets = function(left, top) {
+    m_print.error_once("container.set_canvas_offsets() deprecated. " +
+            "Not needed anymore. Use the container.client_to_canvas_coords method.");
+    return m_cont.set_canvas_offsets(left, top);
+}
 
 /**
  * Update canvas left/top offsets (relative to browser window).
  * Can be useful in case of scrolling/DOM-manipulations, when the canvas 
  * position has been changed.
  * @method module:container.update_canvas_offsets
+ * @deprecated Not needed anymore.
  */
-exports.update_canvas_offsets = m_cont.update_canvas_offsets;
+exports.update_canvas_offsets = function() {
+    m_print.error_once("container.update_canvas_offsets() deprecated. " +
+            "Not needed anymore. Use the container.client_to_canvas_coords method.");
+
+    m_cont.update_canvas_offsets();
+}
 
 /**
  * Convert client(e.clientX/e.clientY) CSS coordinates to CSS coordinates 
  * relative to the Canvas.
  * @method module:container.client_to_canvas_coords
- * @param {Number} x X client coordinate.
- * @param {Number} y Y client coordinate.
- * @param {Vec2} [dest=Float32Array(2)] CSS coordinates relative to the Canvas.
+ * @param {number} x X client coordinate.
+ * @param {number} y Y client coordinate.
+ * @param {Vec2} [dest=Float32Array(2)] Destination vector.
  * @returns {Vec2} CSS coordinates relative to the Canvas.
  */
-exports.client_to_canvas_coords = m_cont.client_to_canvas_coords;
+exports.client_to_canvas_coords = function(x, y, dest) {
+    if (!dest)
+        dest = new Float32Array(2);
+
+    return m_cont.client_to_canvas_coords(x, y, dest);
+}
+
+/**
+ * Convert client(e.clientX/e.clientY) CSS coordinates to CSS coordinates
+ * relative to the HTML element.
+ * @method module:container.client_to_element_coords
+ * @param {number} x X client coordinate.
+ * @param {number} y Y client coordinate.
+ * @param {HtmlElement} element HTML element.
+ * @param {Vec2} [dest=Float32Array(2)] Destination vector.
+ * @returns {Vec2} CSS coordinates relative to the Canvas.
+ */
+exports.client_to_element_coords = function(x, y, element, dest) {
+    if (!dest)
+        dest = new Float32Array(2);
+
+    return m_cont.client_to_element_coords(x, y, element, dest);
+}
 
 /**
  * Update canvas offsets on the next request.
  * @method module:container.force_offsets_updating
+ * @deprecated Not needed anymore.
  */
-exports.force_offsets_updating = m_cont.force_offsets_updating;
+exports.force_offsets_updating = function() {
+    m_print.error_once("container.force_offsets_updating() deprecated. " +
+            "Not needed anymore. Use the container.client_to_canvas_coords method.");
+
+    m_cont.force_offsets_updating();
+}
 
 /**
  * Resize the rendering canvas.
  * @method module:container.resize
- * @param {Number} width New canvas width
- * @param {Number} height New canvas height
- * @param {Boolean} [update_canvas_css=true] Change canvas CSS width/height
+ * @param {number} width New canvas width
+ * @param {number} height New canvas height
+ * @param {boolean} [update_canvas_css=true] Change canvas CSS width/height
  */
 exports.resize = function(width, height, update_canvas_css) {
 
@@ -121,7 +160,7 @@ exports.resize = function(width, height, update_canvas_css) {
 /**
  * Fit canvas elements to match the size of container element.
  * @method module:container.resize_to_container
- * @param {Boolean} [force=false] Resize canvas element even in case of
+ * @param {boolean} [force=false] Resize canvas element even in case of
  * matching of canvas and container size.
  */
 exports.resize_to_container = function(force) {

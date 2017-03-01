@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scene Viewer &mdash; Blend4Web 16.12 User Manual</title>
+  <title>Scene Viewer &mdash; Blend4Web 17.02 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.12 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.02 User Manual" href="index.html"/>
         <link rel="next" title="Web Player" href="web_player.html"/>
         <link rel="prev" title="Project Management" href="project_manager.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -104,7 +104,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#shadows">Shadows</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sky">Sky</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sea">Sea</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mist">Mist</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#wind">Wind</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wind-bending">Wind Bending</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#screen-space-amb-occlus">Screen Space Amb Occlus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#god-rays">God Rays</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#bloom">Bloom</a></li>
@@ -211,22 +213,24 @@
 <li><a class="reference internal" href="#shadows" id="id15">Shadows</a></li>
 <li><a class="reference internal" href="#sky" id="id16">Sky</a></li>
 <li><a class="reference internal" href="#sea" id="id17">Sea</a></li>
-<li><a class="reference internal" href="#wind" id="id18">Wind</a></li>
-<li><a class="reference internal" href="#screen-space-amb-occlus" id="id19">Screen Space Amb Occlus</a></li>
-<li><a class="reference internal" href="#god-rays" id="id20">God Rays</a></li>
-<li><a class="reference internal" href="#bloom" id="id21">Bloom</a></li>
-<li><a class="reference internal" href="#motion-blur" id="id22">Motion Blur</a></li>
-<li><a class="reference internal" href="#glow-materials" id="id23">Glow Materials</a></li>
-<li><a class="reference internal" href="#depth-of-field" id="id24">Depth of Field</a></li>
-<li><a class="reference internal" href="#color-correction" id="id25">Color correction</a></li>
-<li><a class="reference internal" href="#audio" id="id26">Audio</a></li>
-<li><a class="reference internal" href="#stereo-view" id="id27">Stereo View</a></li>
-<li><a class="reference internal" href="#input-devices" id="id28">Input Devices</a></li>
+<li><a class="reference internal" href="#mist" id="id18">Mist</a></li>
+<li><a class="reference internal" href="#wind" id="id19">Wind</a></li>
+<li><a class="reference internal" href="#wind-bending" id="id20">Wind Bending</a></li>
+<li><a class="reference internal" href="#screen-space-amb-occlus" id="id21">Screen Space Amb Occlus</a></li>
+<li><a class="reference internal" href="#god-rays" id="id22">God Rays</a></li>
+<li><a class="reference internal" href="#bloom" id="id23">Bloom</a></li>
+<li><a class="reference internal" href="#motion-blur" id="id24">Motion Blur</a></li>
+<li><a class="reference internal" href="#glow-materials" id="id25">Glow Materials</a></li>
+<li><a class="reference internal" href="#depth-of-field" id="id26">Depth of Field</a></li>
+<li><a class="reference internal" href="#color-correction" id="id27">Color correction</a></li>
+<li><a class="reference internal" href="#audio" id="id28">Audio</a></li>
+<li><a class="reference internal" href="#stereo-view" id="id29">Stereo View</a></li>
+<li><a class="reference internal" href="#input-devices" id="id30">Input Devices</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#indicators" id="id29">Indicators</a></li>
+<li><a class="reference internal" href="#indicators" id="id31">Indicators</a></li>
 </ul>
 </li>
 </ul>
@@ -498,48 +502,58 @@
 <p>Setup for water rendering parameters, including color transitions by depth and by distance from the shore, foam and subsurface scattering parameters, wave dynamics etc.</p>
 <p>The settings for water rendering are described in the <a class="reference internal" href="outdoor_rendering.html#water"><span>Outdoor Rendering</span></a> chapter. Scene Viewer uses the same settings as the Blend4Web engine itself.</p>
 </div>
+<div class="section" id="mist">
+<span id="viewer-mist"></span><h4><a class="toc-backref" href="#id18">Mist</a><a class="headerlink" href="#mist" title="Permalink to this headline">¶</a></h4>
+<p>Setup for fog parameters.</p>
+<p>Scene Viewer uses standard fog rendering settings that are described in the <a class="reference internal" href="outdoor_rendering.html#fog"><span>dedicated chapter</span></a>.</p>
+</div>
 <div class="section" id="wind">
-<span id="viewer-wind"></span><h4><a class="toc-backref" href="#id18">Wind</a><a class="headerlink" href="#wind" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-wind"></span><h4><a class="toc-backref" href="#id19">Wind</a><a class="headerlink" href="#wind" title="Permalink to this headline">¶</a></h4>
 <p>Setup for wind parameters, including direction and strength.</p>
 <p>The same parameters as the ones used by Scene Viewer are available in Blender. These parameters are described in the <a class="reference internal" href="outdoor_rendering.html#wind"><span>corresponding chapter</span></a>.</p>
 </div>
+<div class="section" id="wind-bending">
+<span id="viewer-wind-bending"></span><h4><a class="toc-backref" href="#id20">Wind Bending</a><a class="headerlink" href="#wind-bending" title="Permalink to this headline">¶</a></h4>
+<p>Setup for wind bending effect parameters.</p>
+<p>The same set of wind bending parameters is available in Blender. It is described in the <a class="reference internal" href="outdoor_rendering.html#wind-bending"><span>Outdoor Rendering</span></a> chapter.</p>
+</div>
 <div class="section" id="screen-space-amb-occlus">
-<span id="viewer-ssao"></span><h4><a class="toc-backref" href="#id19">Screen Space Amb Occlus</a><a class="headerlink" href="#screen-space-amb-occlus" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-ssao"></span><h4><a class="toc-backref" href="#id21">Screen Space Amb Occlus</a><a class="headerlink" href="#screen-space-amb-occlus" title="Permalink to this headline">¶</a></h4>
 <p>Setup for ambient occlusion parameters.</p>
 <p>All available settings are described in the <a class="reference internal" href="postprocessing_effects.html#ssao"><span>Postprocessing Effects</span></a> chapter.</p>
 </div>
 <div class="section" id="god-rays">
-<span id="viewer-god-rays"></span><h4><a class="toc-backref" href="#id20">God Rays</a><a class="headerlink" href="#god-rays" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-god-rays"></span><h4><a class="toc-backref" href="#id22">God Rays</a><a class="headerlink" href="#god-rays" title="Permalink to this headline">¶</a></h4>
 <p>Setup for crepuscular ray effect parameters.</p>
 <p>All parameters for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#god-rays"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="bloom">
-<span id="viewer-bloom"></span><h4><a class="toc-backref" href="#id21">Bloom</a><a class="headerlink" href="#bloom" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-bloom"></span><h4><a class="toc-backref" href="#id23">Bloom</a><a class="headerlink" href="#bloom" title="Permalink to this headline">¶</a></h4>
 <p>Setup for bloom effect parameters.</p>
 <p>This effect uses the same set of parameters as it does in Blender. It is described in greater detail in the <a class="reference internal" href="postprocessing_effects.html#bloom"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="motion-blur">
-<span id="viewer-motion-blur"></span><h4><a class="toc-backref" href="#id22">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-motion-blur"></span><h4><a class="toc-backref" href="#id24">Motion Blur</a><a class="headerlink" href="#motion-blur" title="Permalink to this headline">¶</a></h4>
 <p>Motion blur effect settings.</p>
 <p>The parameters for adjusting Motion Blur effect are the same ones that are used in Blender. They are described in the <a class="reference internal" href="postprocessing_effects.html#motion-blur"><span>Postprocessing Effects</span></a> chapter.</p>
 </div>
 <div class="section" id="glow-materials">
-<span id="viewer-glow-materials"></span><h4><a class="toc-backref" href="#id23">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-glow-materials"></span><h4><a class="toc-backref" href="#id25">Glow Materials</a><a class="headerlink" href="#glow-materials" title="Permalink to this headline">¶</a></h4>
 <p>Glow Material effect settings.</p>
 <p>The settings used for this effect are described in the <a class="reference internal" href="postprocessing_effects.html#glow"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="depth-of-field">
-<span id="viewer-dof"></span><h4><a class="toc-backref" href="#id24">Depth of Field</a><a class="headerlink" href="#depth-of-field" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-dof"></span><h4><a class="toc-backref" href="#id26">Depth of Field</a><a class="headerlink" href="#depth-of-field" title="Permalink to this headline">¶</a></h4>
 <p>Setup for depth-of-field effect parameters.</p>
 <p>The parameters are described in the <a class="reference internal" href="postprocessing_effects.html#dof"><span>corresponding chapter</span></a>.</p>
 </div>
 <div class="section" id="color-correction">
-<span id="viewer-color"></span><h4><a class="toc-backref" href="#id25">Color correction</a><a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-color"></span><h4><a class="toc-backref" href="#id27">Color correction</a><a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h4>
 <p>Setup for color correction parameters, including brightness, contrast, exposure and saturation.</p>
 <p>The same set of parameters is used for color correction in Blender itself. The description of these parameters is available in the <a class="reference internal" href="colors.html#color-correction"><span>Color Management</span></a> chapter.</p>
 </div>
 <div class="section" id="audio">
-<span id="viewer-audio"></span><h4><a class="toc-backref" href="#id26">Audio</a><a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-audio"></span><h4><a class="toc-backref" href="#id28">Audio</a><a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h4>
 <p>There is a mixing mode switch on the panel. After it is enabled the mixer interface becomes visible (only for scenes with sound sources).</p>
 <dl class="docutils">
 <dt><em>Mixer</em></dt>
@@ -550,7 +564,7 @@
 </dl>
 </div>
 <div class="section" id="stereo-view">
-<span id="id1"></span><h4><a class="toc-backref" href="#id27">Stereo View</a><a class="headerlink" href="#stereo-view" title="Permalink to this headline">¶</a></h4>
+<span id="id1"></span><h4><a class="toc-backref" href="#id29">Stereo View</a><a class="headerlink" href="#stereo-view" title="Permalink to this headline">¶</a></h4>
 <p>There is a stereoscopic mode switch on the panel.</p>
 <p>Available parameters:</p>
 <dl class="docutils">
@@ -568,7 +582,7 @@
 </dl>
 </div>
 <div class="section" id="input-devices">
-<span id="viewer-input"></span><h4><a class="toc-backref" href="#id28">Input Devices</a><a class="headerlink" href="#input-devices" title="Permalink to this headline">¶</a></h4>
+<span id="viewer-input"></span><h4><a class="toc-backref" href="#id30">Input Devices</a><a class="headerlink" href="#input-devices" title="Permalink to this headline">¶</a></h4>
 <p>This panel contains tools for setting up the input devices.</p>
 <dl class="docutils">
 <dt><em>Gyroscope use</em></dt>
@@ -582,7 +596,7 @@
 </div>
 </div>
 <div class="section" id="indicators">
-<span id="viewer-indicators"></span><h2><a class="toc-backref" href="#id29">Indicators</a><a class="headerlink" href="#indicators" title="Permalink to this headline">¶</a></h2>
+<span id="viewer-indicators"></span><h2><a class="toc-backref" href="#id31">Indicators</a><a class="headerlink" href="#indicators" title="Permalink to this headline">¶</a></h2>
 <a class="reference internal image-reference" href="_images/viewer_indicators.png"><img alt="_images/viewer_indicators.png" class="align-center" src="_images/viewer_indicators.png" style="width: 100%;" /></a>
 <ol class="arabic">
 <li><dl class="first docutils">
@@ -653,7 +667,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-12-22.
+      Last updated on 2017-02-28.
 
     </p>
   </div>
@@ -709,7 +723,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

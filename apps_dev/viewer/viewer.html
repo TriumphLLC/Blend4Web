@@ -43,6 +43,7 @@
     <script type="text/javascript" src="../../src/lights.js"></script>
     <script type="text/javascript" src="../../src/loader.js"></script>
     <script type="text/javascript" src="../../src/logic_nodes.js"></script>
+    <script type="text/javascript" src="../../src/main.js"></script>
     <script type="text/javascript" src="../../src/math.js"></script>
     <script type="text/javascript" src="../../src/navmesh.js"></script>
     <script type="text/javascript" src="../../src/nla.js"></script>
@@ -96,6 +97,7 @@
     <script type="text/javascript" src="../../src/ext/physics.js"></script>
     <script type="text/javascript" src="../../src/ext/rgb.js"></script>
     <script type="text/javascript" src="../../src/ext/scenes.js"></script>
+    <script type="text/javascript" src="../../src/ext/screen.js"></script>
     <script type="text/javascript" src="../../src/ext/sfx.js"></script>
     <script type="text/javascript" src="../../src/ext/textures.js"></script>
     <script type="text/javascript" src="../../src/ext/time.js"></script>
@@ -708,7 +710,7 @@
 
         
         <div data-role="collapsible" data-collapsed="true">
-            <h1>Fog</h1>
+            <h1>Mist</h1>
 
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
@@ -746,16 +748,44 @@
         </div>
 
         <div data-role="collapsible" data-collapsed="true">
+            <h1>Wind Bending</h1>
+
+            <div class="ui-grid-solo">
+                <div id="object_warning" class="warning_information">Warning: section is disabled for static objects.</div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="wind_bending_angle">Angle:</label>
+                    <input id="wind_bending_angle" data-highlight="true" min="0" max="90" value="0" type="range" step="0.05">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="wind_bending_main_frequency">Main Bending Frequency:</label>
+                    <input id="wind_bending_main_frequency" data-highlight="true" min="0" max="5" value="0" type="range" step="0.01">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="wind_bending_detail_amplitude">Detail Bending Amplitude:</label>
+                    <input id="wind_bending_detail_amplitude" data-highlight="true" min="0" max="1" value="0" type="range" step="0.01">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="wind_bending_detail_frequency">Detail Bending Frequency:</label>
+                    <input id="wind_bending_detail_frequency" data-highlight="true" min="0" max="5" value="0" type="range" step="0.01">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="wind_bending_branch_amplitude">Branch Bending Amplitude:</label>
+                    <input id="wind_bending_branch_amplitude" data-highlight="true" min="0" max="1" value="0" type="range" step="0.01">
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
             <h1>Screen Space Amb Occlus</h1>
 
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ssao_quality">
                     <label for="ssao_quality">SSAO quality:</label>
                     <select id="ssao_quality" name="ssao_quality" data-native-menu="false" data-mini="true">
-                        <option value="SSAO_QUALITY_8">8 samples</option>
-                        <option value="SSAO_QUALITY_16">16 samples</option>
-                        <option value="SSAO_QUALITY_24">24 samples</option>
-                        <option value="SSAO_QUALITY_32">32 samples</option>
+                        <option value="8">8 samples</option>
+                        <option value="16">16 samples</option>
+                        <option value="24">24 samples</option>
+                        <option value="32">32 samples</option>
                     </select>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">

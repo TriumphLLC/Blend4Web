@@ -15,19 +15,22 @@
 # under the License.
 from __future__ import absolute_import, division, print_function, with_statement
 
+import gc
 import logging
 import re
 import socket
 import sys
 import traceback
 
-from tornado.concurrent import Future, return_future, ReturnValueIgnoredError
+from tornado.concurrent import Future, return_future, ReturnValueIgnoredError, run_on_executor
 from tornado.escape import utf8, to_unicode
 from tornado import gen
 from tornado.iostream import IOStream
+from tornado.log import app_log
 from tornado import stack_context
 from tornado.tcpserver import TCPServer
-from tornado.testing import AsyncTestCase, LogTrapTestCase, bind_unused_port, gen_test
+from tornado.testing import AsyncTestCase, ExpectLog, LogTrapTestCase, bind_unused_port, gen_test
+from tornado.test.util import unittest
 
 
 try:
@@ -170,6 +173,24 @@ class ReturnFutureTest(AsyncTestCase):
             tb = traceback.extract_tb(sys.exc_info()[2])
             self.assertIn(self.expected_frame, tb)
 
+    @gen_test
+    def test_uncaught_exception_log(self):
+        @gen.coroutine
+        def f():
+            yield gen.moment
+            1/0
+
+        g = f()
+
+        with ExpectLog(app_log,
+                       "(?s)Future.* exception was never retrieved:"
+                       ".*ZeroDivisionError"):
+            yield gen.moment
+            yield gen.moment
+            del g
+            gc.collect()  # for PyPy
+
+
 # The following series of classes demonstrate and test various styles
 # of use, with and without generators and futures.
 
@@ -274,7 +295,7 @@ class GeneratorCapClient(BaseCapClient):
 
 class ClientTestMixin(object):
     def setUp(self):
-        super(ClientTestMixin, self).setUp()
+        super(ClientTestMixin, self).setUp()  # type: ignore
         self.server = CapServer(io_loop=self.io_loop)
         sock, port = bind_unused_port()
         self.server.add_sockets([sock])
@@ -282,7 +303,7 @@ class ClientTestMixin(object):
 
     def tearDown(self):
         self.server.stop()
-        super(ClientTestMixin, self).tearDown()
+        super(ClientTestMixin, self).tearDown()  # type: ignore
 
     def test_callback(self):
         self.client.capitalize("hello", callback=self.stop)
@@ -334,3 +355,81 @@ class DecoratorClientTest(ClientTestMixin, AsyncTestCase, LogTrapTestCase):
 
 class GeneratorClientTest(ClientTestMixin, AsyncTestCase, LogTrapTestCase):
     client_class = GeneratorCapClient
+
+
+@unittest.skipIf(futures is None, "concurrent.futures module not present")
+class RunOnExecutorTest(AsyncTestCase):
+    @gen_test
+    def test_no_calling(self):
+        class Object(object):
+            def __init__(self, io_loop):
+                self.io_loop = io_loop
+                self.executor = futures.thread.ThreadPoolExecutor(1)
+
+            @run_on_executor
+            def f(self):
+                return 42
+
+        o = Object(io_loop=self.io_loop)
+        answer = yield o.f()
+        self.assertEqual(answer, 42)
+
+    @gen_test
+    def test_call_with_no_args(self):
+        class Object(object):
+            def __init__(self, io_loop):
+                self.io_loop = io_loop
+                self.executor = futures.thread.ThreadPoolExecutor(1)
+
+            @run_on_executor()
+            def f(self):
+                return 42
+
+        o = Object(io_loop=self.io_loop)
+        answer = yield o.f()
+        self.assertEqual(answer, 42)
+
+    @gen_test
+    def test_call_with_io_loop(self):
+        class Object(object):
+            def __init__(self, io_loop):
+                self._io_loop = io_loop
+                self.executor = futures.thread.ThreadPoolExecutor(1)
+
+            @run_on_executor(io_loop='_io_loop')
+            def f(self):
+                return 42
+
+        o = Object(io_loop=self.io_loop)
+        answer = yield o.f()
+        self.assertEqual(answer, 42)
+
+    @gen_test
+    def test_call_with_executor(self):
+        class Object(object):
+            def __init__(self, io_loop):
+                self.io_loop = io_loop
+                self.__executor = futures.thread.ThreadPoolExecutor(1)
+
+            @run_on_executor(executor='_Object__executor')
+            def f(self):
+                return 42
+
+        o = Object(io_loop=self.io_loop)
+        answer = yield o.f()
+        self.assertEqual(answer, 42)
+
+    @gen_test
+    def test_call_with_both(self):
+        class Object(object):
+            def __init__(self, io_loop):
+                self._io_loop = io_loop
+                self.__executor = futures.thread.ThreadPoolExecutor(1)
+
+            @run_on_executor(io_loop='_io_loop', executor='_Object__executor')
+            def f(self):
+                return 42
+
+        o = Object(io_loop=self.io_loop)
+        answer = yield o.f()
+        self.assertEqual(answer, 42)

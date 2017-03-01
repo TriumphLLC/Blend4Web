@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,8 +34,8 @@ var m_print    = require("__print");
  * Play sound through the speaker.
  * @method module:sfx.play
  * @param {Object3D} obj Object 3D
- * @param {Number} [when=0] Delay after exec in seconds
- * @param {Number} [duration=0] Duration of the speaker's playback cycle (in
+ * @param {number} [when=0] Delay after exec in seconds
+ * @param {number} [duration=0] Duration of the speaker's playback cycle (in
  * seconds). duration=0 - assign default value according to sound playback length.
  */
 exports.play = function(obj, when, duration) {
@@ -54,20 +54,9 @@ exports.play_def = function(obj) {
 
 /**
  * Check if sound is played through the speaker now.
- * @method module:sfx.is_play
- * @param {Object3D} obj Object 3D
- * @returns {Boolean} Playing state
- * @deprecated Use {@link module:sfx.is_playing|sfx.is_playing} instead.
- */
-exports.is_play = function(obj) {
-    return m_sfx.is_playing(obj);
-}
-
-/**
- * Check if sound is played through the speaker now.
  * @method module:sfx.is_playing
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Playing state
+ * @returns {boolean} Playing state
  */
 exports.is_playing = function(obj) {
     return m_sfx.is_playing(obj);
@@ -105,8 +94,8 @@ exports.resume = function(obj) {
  * Stop the speaker's looping playback.
  * @method module:sfx.loop_stop
  * @param {Object3D} obj Speaker object
- * @param {Number} [when=0] Delay after exec in seconds
- * @param {Boolean} [wait=false] Wait loop until currently played cycle is
+ * @param {number} [when=0] Delay after exec in seconds
+ * @param {boolean} [wait=false] Wait loop until currently played cycle is
  * finished
  */
 exports.loop_stop = function(obj, when, wait) {
@@ -120,7 +109,7 @@ exports.loop_stop = function(obj, when, wait) {
  * Change the speaker playback rate value.
  * @method module:sfx.playrate
  * @param {Object3D} obj Object 3D
- * @param {Number} playrate Playback rate (1.0 - normal speed).
+ * @param {number} playrate Playback rate (1.0 - normal speed).
  */
 exports.playrate = function(obj, playrate) {
     m_sfx.playrate(obj, playrate);
@@ -130,7 +119,7 @@ exports.playrate = function(obj, playrate) {
  * Get the speaker playback rate value.
  * @method module:sfx.playrate
  * @param {Object3D} obj Object 3D
- * @returns {Number} Playback rate
+ * @returns {number} Playback rate
  */
 exports.get_playrate = function(obj) {
     return m_sfx.get_playrate(obj);
@@ -140,7 +129,7 @@ exports.get_playrate = function(obj) {
  * Set cyclic flag.
  * @method module:sfx.cyclic
  * @param {Object3D} obj Speaker object.
- * @param {Boolean} cyclic New cyclic flag value.
+ * @param {boolean} cyclic New cyclic flag value.
  */
 exports.cyclic = function(obj, cyclic) {
     m_sfx.cyclic(obj, cyclic);
@@ -150,7 +139,7 @@ exports.cyclic = function(obj, cyclic) {
  * Check if the cyclic flag is set.
  * @method module:sfx.is_cyclic
  * @param {Object3D} obj Speaker object.
- * @returns {Boolean} Cyclic flag value.
+ * @returns {boolean} Cyclic flag value.
  */
 exports.is_cyclic = function(obj) {
     return m_sfx.is_cyclic(obj);
@@ -160,7 +149,7 @@ exports.is_cyclic = function(obj) {
  * Reset the listener speed.
  * Use before rapid listener movements to neutralize undesirable doppler effect.
  * @method module:sfx.listener_reset_speed
- * @param {Number} speed The listener new speed
+ * @param {number} speed The listener new speed
  * @param {?Float32Array} [dir=null] The listener new direction
  * @deprecated Use {@link module:sfx.listener_stride|sfx.listener_stride} instead
  */
@@ -183,7 +172,7 @@ exports.listener_stride = function() {
  * to neutralize the undesirable doppler effect.
  * @method module:sfx.speaker_reset_speed
  * @param {Object3D} obj Speaker object.
- * @param {Number} speed The speaker's new speed
+ * @param {number} speed The speaker's new speed
  * @param {?Float32Array} [dir=null] The speaker's new direction
  * @deprecated Use {@link module:sfx.speaker_stride|sfx.speaker_stride} instead
  */
@@ -205,7 +194,7 @@ exports.speaker_stride = function(obj) {
  * Get volume level.
  * @method module:sfx.get_volume
  * @param {?Object3D} obj Object 3D or null for MASTER volume
- * @returns {Number} Volume (0..1)
+ * @returns {number} Volume (0..1)
  */
 exports.get_volume = function(obj) {
     if (obj && typeof obj === "object")
@@ -217,7 +206,7 @@ exports.get_volume = function(obj) {
  * Set volume level.
  * @method module:sfx.set_volume
  * @param {?Object3D} obj Object 3D or null for MASTER volume
- * @param {Number} volume Volume (0..1)
+ * @param {number} volume Volume (0..1)
  */
 exports.set_volume = function(obj, volume) {
     if (obj && typeof obj === "object")
@@ -229,8 +218,8 @@ exports.set_volume = function(obj, volume) {
 /**
  * Mute/unmute.
  * @method module:sfx.mute
- * @param {?Object3D} obj Speaker object or null for all of them
- * @param {Boolean} muted New state
+ * @param {?Object3D} obj Speaker object or null to mute the whole scene.
+ * @param {boolean} muted New state
  */
 exports.mute = function(obj, muted) {
     if (obj && typeof obj === "object")
@@ -242,8 +231,8 @@ exports.mute = function(obj, muted) {
 /**
  * Check if the speaker is muted.
  * @method module:sfx.is_muted
- * @param {?Object3D} obj Speaker object or null for all of them.
- * @returns {Boolean} Muted state.
+ * @param {?Object3D} obj Speaker object or null for the whole scene.
+ * @returns {boolean} Muted state.
  */
 exports.is_muted = function(obj) {
     if (obj && typeof obj === "object")
@@ -263,7 +252,7 @@ exports.get_speaker_objects = function() {
 /**
  * Check if there are some active speakers in use or not.
  * @method module:sfx.check_active_speakers
- * @returns {Boolean} Check result
+ * @returns {boolean} Check result
  */
 exports.check_active_speakers = m_sfx.check_active_speakers;
 
@@ -290,8 +279,8 @@ exports.get_compressor_params = function() {
  * works independently from the volume API and the volume randomization
  * @method module:sfx.duck
  * @param {?Object3D} obj Object 3D or null for MASTER
- * @param {Number} value Duck amount.
- * @param {Number} time Time to change volume.
+ * @param {number} value Duck amount.
+ * @param {number} time Time to change volume.
  */
 exports.duck = function(obj, value, time) {
     if (obj && typeof obj === "object")
@@ -317,8 +306,8 @@ exports.unduck = function(obj) {
  * The new playlist starts playing immediately.
  * @method module:sfx.apply_playlist
  * @param {Object3D[]} objs Array of objects.
- * @param {Number} delay Number of seconds between tracks
- * @param {Boolean} random Randomize playback sequence
+ * @param {number} delay Number of seconds between tracks
+ * @param {boolean} random Randomize playback sequence
  */
 exports.apply_playlist = m_sfx.apply_playlist;
 /**
@@ -337,8 +326,8 @@ exports.clear_playlist = m_sfx.clear_playlist;
  * <li>mp4 -> ogg
  * </ul>
  * @method module:sfx.detect_audio_container
- * @param {String} [hint="ogg"] Required container
- * @returns {String} Supported containter or ""
+ * @param {string} [hint="ogg"] Required container
+ * @returns {string} Supported containter or ""
  */
 exports.detect_audio_container = m_sfx.detect_audio_container;
 /**
@@ -351,8 +340,8 @@ exports.detect_audio_container = m_sfx.detect_audio_container;
  * <li>webm -> m4v
  * </ul>
  * @method module:sfx.detect_video_container
- * @param {String} [hint="webm"] Required container
- * @returns {String} Supported containter or ""
+ * @param {string} [hint="webm"] Required container
+ * @returns {string} Supported containter or ""
  */
 exports.detect_video_container = m_sfx.detect_video_container;
 /**
@@ -402,13 +391,13 @@ exports.get_filter_freq_response = m_sfx.get_filter_freq_response;
  * Zero duration means looped or non-ready speaker
  * @method module:sfx.get_volume
  * @param {?Object3D} obj Speaker object.
- * @returns {Number} Duration
+ * @returns {number} Duration
  */
 exports.get_duration = function(obj) {
     if (!obj || !m_obj_util.is_speaker(obj)) {
         m_print.error("Object \"" + (obj ? obj.name : undefined) +
                       "\" is not a valid speaker");
-        return;
+        return 0;
     }
     return m_sfx.get_duration(obj);
 }

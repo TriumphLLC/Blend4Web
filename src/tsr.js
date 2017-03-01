@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@ var ZUP_COS = -ZUP_SIN;
 
 var _vec3_tmp = new Float32Array(3);
 var _quat_tmp = new Float32Array(4);
-var _quat_tmp2 = new Float32Array(4);
 var _mat4_tmp = new Float32Array(16);
 
 exports.create = create;
@@ -256,7 +255,7 @@ exports.to_mat4 = function(tsr, dest) {
     var scale = tsr[3];
     var quat = tsr.subarray(4, 8);
 
-    var mat = m_mat4.fromRotationTranslation(quat, trans, dest);
+    m_mat4.fromRotationTranslation(quat, trans, dest);
 
     for (var i = 0; i < 12; i++)
         dest[i] *= scale;
@@ -409,7 +408,7 @@ exports.transform_vectors = function(vectors, tsr, new_vectors,
         dest_offset) {
 
     if (!dest_offset)
-        var dest_offset = 0;
+        dest_offset = 0;
 
     var len = vectors.length;
 
@@ -456,7 +455,7 @@ exports.transform_dir_vectors = function(vectors, tsr, new_vectors,
         dest_offset) {
 
     if (!dest_offset)
-        var dest_offset = 0;
+        dest_offset = 0;
 
     var len = vectors.length;
 
@@ -525,7 +524,7 @@ exports.transform_tangents = function(vectors, tsr, new_vectors,
         dest_offset) {
 
     if (!dest_offset)
-        var dest_offset = 0;
+        dest_offset = 0;
 
     var len = vectors.length;
 
@@ -573,9 +572,7 @@ exports.transform_quat = function(quat, tsr, new_quat) {
 exports.transform_quats = function(vectors, tsr, new_vectors,
         dest_offset) {
 
-    var dest_offset = dest_offset || 0;
-
-    var len = vectors.length;
+    dest_offset = dest_offset || 0;
 
     var rot_quat = get_quat(tsr, _quat_tmp);
 

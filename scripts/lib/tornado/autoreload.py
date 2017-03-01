@@ -83,7 +83,7 @@ if __name__ == "__main__":
 import functools
 import logging
 import os
-import pkgutil
+import pkgutil  # type: ignore
 import sys
 import traceback
 import types
@@ -100,11 +100,19 @@ try:
 except ImportError:
     signal = None
 
+# os.execv is broken on Windows and can't properly parse command line
+# arguments and executable name if they contain whitespaces. subprocess
+# fixes that behavior.
+# This distinction is also important because when we use execv, we want to
+# close the IOLoop and all its file descriptors, to guard against any
+# file descriptors that were not set CLOEXEC. When execv is not available,
+# we must not close the IOLoop because we want the process to exit cleanly.
+_has_execv = sys.platform != 'win32'
 
 _watched_files = set()
 _reload_hooks = []
 _reload_attempted = False
-_io_loops = weakref.WeakKeyDictionary()
+_io_loops = weakref.WeakKeyDictionary()  # type: ignore
 
 
 def start(io_loop=None, check_time=500):
@@ -119,7 +127,8 @@ def start(io_loop=None, check_time=500):
     _io_loops[io_loop] = True
     if len(_io_loops) > 1:
         gen_log.warning("tornado.autoreload started more than once in the same process")
-    add_reload_hook(functools.partial(io_loop.close, all_fds=True))
+    if _has_execv:
+        add_reload_hook(functools.partial(io_loop.close, all_fds=True))
     modify_times = {}
     callback = functools.partial(_reload_on_update, modify_times)
     scheduler = ioloop.PeriodicCallback(callback, check_time, io_loop=io_loop)
@@ -166,7 +175,7 @@ def _reload_on_update(modify_times):
         # processes restarted themselves, they'd all restart and then
         # all call fork_processes again.
         return
-    for module in sys.modules.values():
+    for module in list(sys.modules.values()):
         # Some modules play games with sys.modules (e.g. email/__init__.py
         # in the standard library), and occasionally this can cause strange
         # failures in getattr.  Just ignore anything that's not an ordinary
@@ -215,10 +224,7 @@ def _reload():
             not os.environ.get("PYTHONPATH", "").startswith(path_prefix)):
         os.environ["PYTHONPATH"] = (path_prefix +
                                     os.environ.get("PYTHONPATH", ""))
-    if sys.platform == 'win32':
-        # os.execv is broken on Windows and can't properly parse command line
-        # arguments and executable name if they contain whitespaces. subprocess
-        # fixes that behavior.
+    if not _has_execv:
         subprocess.Popen([sys.executable] + sys.argv)
         sys.exit(0)
     else:
@@ -238,7 +244,10 @@ def _reload():
             # this error specifically.
             os.spawnv(os.P_NOWAIT, sys.executable,
                       [sys.executable] + sys.argv)
-            sys.exit(0)
+            # At this point the IOLoop has been closed and finally
+            # blocks will experience errors if we allow the stack to
+            # unwind, so just exit uncleanly.
+            os._exit(0)
 
 _USAGE = """\
 Usage:
@@ -280,11 +289,16 @@ def main():
             runpy.run_module(module, run_name="__main__", alter_sys=True)
         elif mode == "script":
             with open(script) as f:
+                # Execute the script in our namespace instead of creating
+                # a new one so that something that tries to import __main__
+                # (e.g. the unittest module) will see names defined in the
+                # script instead of just those defined in this module.
                 global __file__
                 __file__ = script
-                # Use globals as our "locals" dictionary so that
-                # something that tries to import __main__ (e.g. the unittest
-                # module) will see the right things.
+                # If __package__ is defined, imports may be incorrectly
+                # interpreted as relative to this module.
+                global __package__
+                del __package__
                 exec_in(f.read(), globals(), globals())
     except SystemExit as e:
         logging.basicConfig()

@@ -1,94 +1,109 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
 
-    <title>Project Manager</title>
+<meta charset="UTF-8">
 
-    <link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png" />
-    <link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png" />
-    <link rel="shortcut icon" href="/index_assets/img/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png" />
-    <link rel="stylesheet" type="text/css" href="/index_assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/index_assets/css/request.css">
+<title>Project Manager</title>
 
-    <script type="text/javascript">
+<link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png">
+<link rel="shortcut icon" href="/index_assets/img/favicon.ico">
+<link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png">
 
-    var ws = new WebSocket("ws://" + location.host + "/console");
+<link rel="stylesheet" type="text/css" href="/index_assets/css/base.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/request.css">
 
-    var _data_received = false;
+<script type="text/javascript">
 
-    ws.onopen = function() {
-        _data_received = false;
+var ws = new WebSocket("ws://" + location.host + "/console");
 
-        var c = document.getElementById("console");
-        c.innerHTML = "Operation Pending...";
-    };
+var _data_received = false;
 
-    ws.onmessage = function(event) {
-        var c = document.getElementById("console");
+ws.onopen = function() {
+    _data_received = false;
 
-        if (!_data_received) {
-            _data_received = true;
-            c.innerHTML = "";
-        }
+    var c = document.getElementById("console");
+    c.innerHTML = "Operation Pending...";
+};
 
-        c.innerHTML += event.data;
-        window.scrollTo(0, document.body.scrollHeight);
-    };
+ws.onmessage = function(event) {
+    var c = document.getElementById("console");
 
-    ws.onclose = function() {
-        if ("${download_link}") {
-            var row = document.querySelector(".row");
-            var new_row = row.cloneNode();
-            new_row.id = "download";
-            var link = document.createElement("a");
-            var div = document.createElement("div");
-            var span = document.createElement("span");
-            span.appendChild(document.createTextNode("Download"));
+    if (!_data_received) {
+        _data_received = true;
+        c.innerHTML = "";
+    }
 
-            link.appendChild(div);
-            link.appendChild(span);
+    c.innerHTML += event.data;
+    window.scrollTo(0, document.body.scrollHeight);
+};
 
-            link.href = "${download_link}";
-            new_row.appendChild(link);
+ws.onclose = function() {
+    if ("${download_link}") {
+        var request = document.querySelector(".request");
 
-            row.parentElement.appendChild(new_row);
-        } else if ("${update_link}") {
-            var row = document.querySelector(".row");
-            var new_row = row.cloneNode();
-            new_row.id = "download";
-            var link = document.createElement("a");
-            var div = document.createElement("div");
-            var span = document.createElement("span");
-            span.appendChild(document.createTextNode("Update Modules"));
+        var new_btn = request.cloneNode();
+        new_btn.className = "btns_cont row"
 
-            link.appendChild(div);
-            link.appendChild(span);
+        var wrap = request.cloneNode();
+        wrap.className = "btn_wrapper";
 
-            link.href = "${update_link}";
-            new_row.appendChild(link);
+        var link = document.createElement("a");
+        link.className = "btn active";
+        link.href = "${download_link}";
 
-            row.parentElement.appendChild(new_row);
-        }
-    };
+        var span = document.createElement("span");
+        span.appendChild(document.createTextNode("Download"));
 
-    </script>
+        link.appendChild(span);
+        wrap.appendChild(link);
+        new_btn.appendChild(wrap)
+        request.parentElement.appendChild(new_btn);
+    } else if ("${update_link}") {
+        var request = document.querySelector(".request");
+
+        var new_btn = request.cloneNode();
+        new_btn.className = "btns_cont row"
+
+        var wrap = request.cloneNode();
+        wrap.className = "btn_wrapper";
+
+        var link = document.createElement("a");
+        link.className = "btn active";
+        link.href = "${update_link}";
+
+        var span = document.createElement("span");
+        span.appendChild(document.createTextNode("Update Modules"));
+
+        link.appendChild(span);
+        wrap.appendChild(link);
+        new_btn.appendChild(wrap)
+        request.parentElement.appendChild(new_btn);
+    }
+};
+
+</script>
 
 </head>
 
 <body>
-    <h1>Project Manager</h1>
-    <div class="row" id="back_to_projects">
-        <a href="/project/"><div></div><span>Back to Projects</span></a>
+  <h1>Project Manager</h1>
+  <div class="btns_cont row">
+    <div class="btn_wrapper">
+      <a href="/project/" class="btn active"><span>Back to Projects</span></a>
     </div>
-    <div class="row">
-        <h3>Operation Report</h3>
-        <p>Please carefully review the operation results:</p>
-        <div class="console">
-            <pre id="console"></pre>
-        </div>
+  </div>
+  <div class="row request">
+    <h2>Operation Report</h3>
+    <p>Please carefully review the operation results:</p>
+    <div class="console">
+      <pre id="console"></pre>
     </div>
+  </div>
 </body>
+
 </html>

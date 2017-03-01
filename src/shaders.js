@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -183,7 +183,7 @@ exports.set_directive = set_directive;
  * Override existing directive for Shaders Info object.
  * @methodOf shaders
  * @param shaders_info Shaders Info Object
- * @param {String} name Directive name
+ * @param {string} name Directive name
  * @param value Directive value, specify string to set from another directive
  */
 function set_directive(shaders_info, name, value) {
@@ -215,7 +215,7 @@ exports.get_directive = get_directive;
  * Get [directive_name, directive_value] pair.
  * @methodOf shaders
  * @param shaders_info Shaders Info Object
- * @param {String} name Directive name
+ * @param {string} name Directive name
  */
 function get_directive(shaders_info, name) {
     var dirs = shaders_info.directives;
@@ -289,7 +289,6 @@ exports.get_fname = function(sinfo) {
 exports.get_compiled_shader = get_compiled_shader;
 /**
  * Compile, return and cache GL shader object from shader_id
- * @param shader_id JSONified shaders_info object
  * @methodOf shaders
  */
 function get_compiled_shader(shaders_info) {
@@ -398,7 +397,7 @@ function get_interface_variables_count(shader_text, expr) {
     var shader_list = shader_text.split(";");
     var uniforms_list = shader_list.map(function(statement) {
         var r = statement.match(expr);
-        return r && (r[3]? parseInt(r[3]): 1);
+        return r && (r[3]? parseInt(r[3], 10): 1);
     }).filter(function(decl) {
         return decl;
     });
@@ -445,7 +444,7 @@ function check_varyings_in_packing_limits(shader_text) {
         var r = statement.match(expr);
         return r && {
             type: r[2],
-            array_size: (r[4]? parseInt(r[4]): 1)
+            array_size: (r[4]? parseInt(r[4], 10): 1)
         };
     }).filter(function(decl) {
         return decl;
@@ -456,15 +455,16 @@ function check_varyings_in_packing_limits(shader_text) {
 
 function check_uniforms_in_packing_limits(shader_text, buffer, max_uniforms) {
     var shader_list = shader_text.split(";");
-    var variables = shader_list.map(function(statement) {
-        var r = statement.match(UNIFORM_EXPR);
-        return r && {
-            type: r[2],
-            array_size: (r[4]? parseInt(r[4]): 1)
-        };
-    }).filter(function(decl) {
-        return decl;
-    });
+    var variables = [];
+
+    for (var i = 0; i < shader_list.length; i++) {
+        var r = shader_list[i].match(UNIFORM_EXPR);
+        if (r)
+            variables.push({
+                type: r[2],
+                array_size: (r[4]? parseInt(r[4], 10): 1)
+            });
+    }
 
     return check_packing_limits(variables, buffer, max_uniforms);
 }
@@ -725,12 +725,19 @@ function get_shader_ast(dir, filename) {
         var main_text = _shader_texts[filename];
         if (!main_text)
             return null;
-        var ast = require("__gpp_parser").parser.parse(main_text);
+        var ast = get_gpp_parser().parse(main_text);
     }
 
     _shader_ast_cache[cache_id] = ast;
 
     return ast;
+}
+
+/**
+ * @suppress {missingProperties}
+ */
+function get_gpp_parser() {
+    return require("__gpp_parser").parser;
 }
 
 function set_shader_texts(shader_name, shadet_text) {
@@ -1543,8 +1550,6 @@ function preprocess_shader(type, ast, shaders_info) {
     }
 
     function expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result, node_dirs) {
-        var filename = curr_file_stack[curr_file_stack.length - 1];
-
         for (var i = 0; i < tokens.length; i++) {
             var token = tokens[i];
 

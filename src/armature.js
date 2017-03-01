@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,10 @@ function init_bone_pointer() {
         tsr_bone_rest:     m_tsr.create(),
         tsr_bone_pose:     m_tsr.create(),
         tsr_local_rest:    m_tsr.create(),
+        tsr_local_rest_i:  m_tsr.create(),
         tsr_local_pose:    m_tsr.create(),
+        tsr_local_pose_b:   m_tsr.create(),
+        tsr_local_pose_a:   m_tsr.create(),
         tsr_basis:         m_tsr.create(),
         tsr_channel_cache: m_tsr.create(),
 
@@ -89,6 +92,7 @@ function update_object(bpy_armobj, armobj) {
         m_tsr.from_mat4(mat_loc, bpointer.tsr_local_rest);
         m_tsr.from_mat4(mat_bas, bpointer.tsr_basis);
         m_tsr.copy(bpointer.tsr_local_rest, bpointer.tsr_local_pose);
+        m_tsr.invert(bpointer.tsr_local_rest, bpointer.tsr_local_rest_i);
     }
 
     for (var i = 0; i < arm_bones.length; i++) {

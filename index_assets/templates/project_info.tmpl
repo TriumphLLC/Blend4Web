@@ -13,194 +13,194 @@
 <link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
 <link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png">
 
-<link rel="stylesheet" type="text/css" href="/index_assets/css/style.css">
-<link rel="stylesheet" type="text/css" href="/index_assets/css/project_create.css">
-
-<script src="/index_assets/js/create_form.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/index_assets/css/base.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/project_info.css">
 
 </head>
 
 <body>
-    <h1>Project Info</h1>
-
-    <div class="row">
-        <table class="create">
-            <thead>
-                <tr>
-                    <th colspan="2">
-                        <a id="back_to_index" href="/project/"><div></div><span>Back to Projects</span></a>
-                        <a id="help" href="/deploy/doc/en/project_manager.html#project-information"><div></div><span>Help</span></a>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="create">
-                        <h2 title="[info] name = ${name}">Project Name</h2>
-                    </td>
-                    <td class="create">
-                        $name
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[info] title = ${title}">Project Title</h2>
-                    </td>
-                    <td class="create">
-                        $title
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[info] author = ${author}">Project Author / Company</h2>
-                    </td>
-                    <td class="create">
-                        $author
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[info] icon = ${icon}">Project Icon</h2>
-                    </td>
-                    <td class="create">
-                        $icon
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[compile] apps = ...">Applications</h2>
-                    </td>
-                    <td class="create">
-                        $apps
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[compile] engine_type = ...">Engine Binding Type</h2>
-                    </td>
-                    <td class="create">
-                        $engine_type
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="Calculated project size">Size</h2>
-                    </td>
-                    <td class="create">
-                        $size Mb
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2>Project Path (Development Directory)</h2>
-                    </td>
-                    <td class="create">
-                        $path
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2>Project Config</h2>
-                    </td>
-                    <td class="create">
-                        $config_path
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[paths] build_dir = ...">Build Directory</h2>
-                    </td>
-                    <td class="create">
-                        $build_dir
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[paths] blend_dirs = ...">Blend Directory(s)</h2>
-                    </td>
-                    <td class="create">
-                        $blend_dirs
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[paths] assets_dirs = ...">Assets Directory(s)</h2>
-                    </td>
-                    <td class="create">
-                        $assets_dirs
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[url_params]">URL Params</h2>
-                    </td>
-                    <td class="create">
-                        $url_params
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[compile] optimization = ...">JavaScript Obfuscation Level</h2>
-                    </td>
-                    <td class="create">
-                        $optimization 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[compile] js_ignore = ...">JS Compilation Pass-Through List</h2>
-                    </td>
-                    <td class="create">
-                        $js_ignore 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[compile] css_ignore = ...">CSS Compilation Pass-Through List</h2>
-                    </td>
-                    <td class="create">
-                        $css_ignore 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[compile] ignore = ...">Build Ignore List</h2>
-                    </td>
-                    <td class="create">
-                        $compilation_ignore 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[deploy] assets_path_dest = ...">Deployment Assets Directory</h2>
-                    </td>
-                    <td class="create">
-                        $assets_path_dest 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[deploy] assets_path_prefix = ...">Deployment Assets URL Prefix</h2>
-                    </td>
-                    <td class="create">
-                        $assets_path_prefix 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create">
-                        <h2 title="[deploy] ignore = ...">Deployment Ignore List</h2>
-                    </td>
-                    <td class="create">
-                        $deployment_ignore 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="create" colspan=2 style="text-align: center">
-                        <a id="back_to_index" href="/project/"><div></div><span>Back to Projects</span></a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+  <h1>Project Info</h1>
+  <div class="btns_cont row">
+    <div class="btn_wrapper">
+      <a id="back_to_index" href="/project/" class="btn active"><span>Back to Projects</span></a>
+      <a id="edit" href="${config_link}" class="btn active"><span>Config</span></a>
+      <a id="help" href="/deploy/doc/en/project_manager.html#project-information" class="btn active"><span>Help</span></a>
     </div>
+  </div>
+  <div class="row">
+    <table class="info">
+      <tbody>
+          <tr>
+              <td class="create">
+                  <h3 title="[info] name = ${name}">Project Name</h3>
+              </td>
+              <td class="create">
+                  <p>$name</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[info] title = ${title}">Project Title</h3>
+              </td>
+              <td class="create">
+                  <p>$title</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[info] author = ${author}">Project Author / Company</h3>
+              </td>
+              <td class="create">
+                  <p>$author</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[info] icon = ${icon}">Project Icon</h3>
+              </td>
+              <td class="create">
+                  <p>$icon</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[compile] apps = ...">Applications</h3>
+              </td>
+              <td class="create">
+                  <p>$apps</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[compile] engine_type = ...">Application Type</h3>
+              </td>
+              <td class="create">
+                  <p>$engine_type</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="Calculated project size">Size</h3>
+              </td>
+              <td class="create">
+                  <p>$size Mb</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3>Project Path (Development Directory)</h3>
+              </td>
+              <td class="create">
+                  <p>$path</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3>Project Config</h3>
+              </td>
+              <td class="create">
+                  <p>$config_path</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[paths] build_dir = ...">Build Directory</h3>
+              </td>
+              <td class="create">
+                  <p>$build_dir</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[paths] blend_dirs = ...">Blend Directory(s)</h3>
+              </td>
+              <td class="create">
+                  <p>$blend_dirs</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[paths] assets_dirs = ...">Assets Directory(s)</h3>
+              </td>
+              <td class="create">
+                  <p>$assets_dirs</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[url_params]">URL Params</h3>
+              </td>
+              <td class="create">
+                  <p>$url_params</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[compile] optimization = ...">JavaScript Obfuscation Level</h3>
+              </td>
+              <td class="create">
+                  <p>$optimization</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[compile] js_ignore = ...">JS Compilation Pass-Through List</h3>
+              </td>
+              <td class="create">
+                  <p>$js_ignore</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[compile] css_ignore = ...">CSS Compilation Pass-Through List</h3>
+              </td>
+              <td class="create">
+                  <p>$css_ignore</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[compile] ignore = ...">Build Ignore List</h3>
+              </td>
+              <td class="create">
+                  <p>$compilation_ignore</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[deploy] assets_path_dest = ...">Deployment Assets Directory</h3>
+              </td>
+              <td class="create">
+                  <p>$assets_path_dest</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[deploy] assets_path_prefix = ...">Deployment Assets URL Prefix</h3>
+              </td>
+              <td class="create">
+                  <p>$assets_path_prefix</p>
+              </td>
+          </tr>
+          <tr>
+              <td class="create">
+                  <h3 title="[deploy] ignore = ...">Deployment Ignore List</h3>
+              </td>
+              <td class="create">
+                  <p>$deployment_ignore</p>
+              </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="btns_cont row">
+    <div class="btn_wrapper">
+      <a id="back_to_index" href="/project/" class="btn active"><span>Back to Projects</span></a>
+      <a id="help" href="/deploy/doc/en/project_manager.html#project-information" class="btn active"><span>Help</span></a>
+      <a id="edit" href="${config_link}" class="btn active"><span>Config</span></a>
+    </div>
+  </div>
 </body>
+
 </html>

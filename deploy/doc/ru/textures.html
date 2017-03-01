@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Текстуры &mdash; Руководство пользователя Blend4Web 16.12</title>
+  <title>Текстуры &mdash; Руководство пользователя Blend4Web 17.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="index.html"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.02" href="index.html"/>
         <link rel="next" title="Система частиц. Флюиды" href="particles.html"/>
         <link rel="prev" title="Стереоизображение" href="stereo_rendering.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -154,8 +154,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#special-texture-types">Особые типы текстур</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#render-to-texture">Render-To-Texture</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#canvas">Canvas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#render-to-texture">Рендеринг в текстуру</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#canvas-textures">Canvas-текстуры</a></li>
 </ul>
 </li>
 </ul>
@@ -314,11 +314,7 @@
 </dl>
 <dl class="docutils" id="index-3">
 <dt><em>Mapping &gt; Coordinates</em></dt>
-<dd><p class="first">Тип текстурных координат. Поддерживаются <code class="docutils literal"><span class="pre">UV</span></code> (использовать развертку), <code class="docutils literal"><span class="pre">Normal</span></code> (использовать направление на камеру, только для диффузных текстур, применяется для создания материалов в стиле <strong>material capture</strong>, <strong>matcap</strong>) и <code class="docutils literal"><span class="pre">Generated</span></code> (исходные недеформированные координаты объекта). Значение по умолчанию <code class="docutils literal"><span class="pre">Generated</span></code>.</p>
-<div class="last admonition note">
-<p class="first admonition-title">Примечание</p>
-<p class="last">На данный момент Blend4Web поддерживает не более двух UV-карт в одном материале. Если в материале присутствуют дополнительные UV-карты, они не будут экспортированы.</p>
-</div>
+<dd><p class="first last">Тип текстурных координат. Поддерживаются <code class="docutils literal"><span class="pre">UV</span></code> (использовать развертку), <code class="docutils literal"><span class="pre">Normal</span></code> (использовать направление на камеру, только для диффузных текстур, применяется для создания материалов в стиле <strong>material capture</strong>, <strong>matcap</strong>) и <code class="docutils literal"><span class="pre">Generated</span></code> (исходные недеформированные координаты объекта). Значение по умолчанию <code class="docutils literal"><span class="pre">Generated</span></code>.</p>
 </dd>
 <dt><em>Mapping &gt; Size</em></dt>
 <dd><p class="first last">Масштабирование развертки по соответствующим осям. Значения по умолчанию 1.0.</p>
@@ -651,7 +647,7 @@
 </dl>
 <img alt="_images/canvas_tex.png" class="align-center" src="_images/canvas_tex.png" />
 <div class="section" id="render-to-texture">
-<span id="render-to-texture-scene"></span><h3>Render-To-Texture<a class="headerlink" href="#render-to-texture" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="render-to-texture-scene"></span><h3>Рендеринг в текстуру<a class="headerlink" href="#render-to-texture" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Изображение 3D сцены может быть использовано в качестве текстуры на объекте другой (&#8220;главной&#8221;) сцены. Этот приём известен как &#8220;рендеринг в текстуру &#8221;. Для того, чтобы использовать его, выполните следующие действия:</p>
 <ol class="arabic simple">
 <li><p class="first">Создаёте новую сцену, которая будет использоваться для рендеринга в текстуру.</p>
@@ -693,8 +689,8 @@
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="canvas">
-<span id="render-to-texture-canvas"></span><h3>Canvas<a class="headerlink" href="#canvas" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="canvas-textures">
+<span id="render-to-texture-canvas"></span><h3>Canvas-текстуры<a class="headerlink" href="#canvas-textures" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В качестве текстуры используется HTML-элемент &lt;canvas&gt;. Его редактирование осуществляется при помощи API.</p>
 <p>В главной сцене для текстуры целевого объекта выставить тип <code class="docutils literal"><span class="pre">None</span></code>, в поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> указать тип <code class="docutils literal"><span class="pre">Canvas</span></code>. В поле <code class="docutils literal"><span class="pre">Export</span> <span class="pre">Options</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> указать размер текстуры в пикселях.</p>
 <p>Для работы с этими текстурами используется модуль <code class="docutils literal"><span class="pre">textures</span></code>. Пример работы с ним описан ниже.</p>
@@ -739,7 +735,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-12-22.
+      Обновлено: 2017-02-28.
 
     </p>
   </div>
@@ -795,7 +791,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

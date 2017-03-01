@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,9 +40,9 @@ var m_assets = require("__assets");
  * Callback executed after a single asset is loaded.
  * @callback AssetCallback
  * @param {Data} data Loaded data
- * @param {String} uri Data asset ID
- * @param {Number} type Data type
- * @param {String} filepath Data filepath
+ * @param {string} uri Data asset ID
+ * @param {number} type Data type
+ * @param {string} filepath Data filepath
  * @param {*} [optional_param] Optional parameter
  */
 
@@ -54,7 +54,7 @@ var m_assets = require("__assets");
 /**
  * Callback for the progress of loading.
  * @callback ProgressCallback
- * @param {Number} value Loading percentage
+ * @param {number} value Loading percentage
  */
 
 /**

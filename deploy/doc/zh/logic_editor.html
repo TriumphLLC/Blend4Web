@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>逻辑编辑器 &mdash; Blend4Web 16.12 用户手册</title>
+  <title>逻辑编辑器 &mdash; Blend4Web 17.02 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.12 用户手册" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.02 用户手册" href="index.html"/>
         <link rel="next" title="照明、 阴影和背景" href="lighting.html"/>
         <link rel="prev" title="节点材质" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -274,8 +274,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#id74">输入参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id75">输出参数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id76">内部参数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-encode-json-object">Using JSON logic node to encode JSON object</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-decode-json-object">Using JSON logic node to decode JSON object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-encode-json-object">使用JSON逻辑节点编码JSON对象</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-json-logic-node-to-decode-json-object">使用JSON逻辑节点解码JSON对象</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#page-param">页面参数</a><ul>
@@ -883,6 +883,8 @@
 <dt><em>物体</em></dt>
 <dd><p class="first last">显示一个物体。</p>
 </dd>
+<dt><em>Process child objects</em></dt>
+<dd>If this parameter is enabled, child objects will be shown as well.</dd>
 </dl>
 </div>
 </div>
@@ -912,6 +914,8 @@
 <dt><em>物体</em></dt>
 <dd><p class="first last">一个物体隐藏。</p>
 </dd>
+<dt><em>Process child objects</em></dt>
+<dd>If this parameter is enabled, child objects will be hidden as well.</dd>
 </dl>
 </div>
 </div>
@@ -1238,6 +1242,18 @@
 </li>
 <li><p class="first"><em>除数</em> 由第二个把第一个操作数除。</p>
 </li>
+<li><em>Sin</em> returns the sine of an angle (measured in radians) defined by the first operand.</li>
+<li><em>Cos</em> returns the cosine of an angle (measured in radians) defined by the first operand</li>
+<li><em>Tan</em> returns the tangent of an angle (measured in radians) defined by the first operand.</li>
+<li><em>ArcSin</em> returns the arcsine value of the first operand.</li>
+<li><em>ArcCos</em> returns the arccosine value of the first operand.</li>
+<li><em>ArcTan</em> returns the arctangent value of the first operand.</li>
+<li><em>Log</em> returns the logarithmic value of the first operand with the second operand used as the base.</li>
+<li><em>Min</em> returns the lesser one of the two operands.</li>
+<li><em>Max</em> returns the greater one of the two operands.</li>
+<li><em>Round</em> rounds the first operator.</li>
+<li><em>Mod</em> returns the remainder after division of the first operand by the second.</li>
+<li><em>Abs</em> returns the absolute value of the first operand.</li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
@@ -1420,10 +1436,11 @@
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">注解</p>
-<p>The data received from the server should be in the JSON format:</p>
-<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-<span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-<span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
+<p>从服务器收到的数据应该是JSON格式 ︰</p>
+<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1468,15 +1485,17 @@
 <dd><p class="first last">需要对 <code class="docutils literal"><span class="pre">JSON</span></code>  参数所指定的 JSON 对象执行的操作。可以有两个值之一: <code class="docutils literal"><span class="pre">ENCODE</span></code> 对  JSON 对象进行编码 和 <code class="docutils literal"><span class="pre">PARSE</span></code> 进行解码。默认设置为 <code class="docutils literal"><span class="pre">ENCODE</span></code> 。</p>
 </dd>
 <dt><em>Paths</em></dt>
-<dd>A list of paths to the variables inside the JSON object. Paths are used to define the inner structure of a JSON object. A path should consist of several identifiers (separated by dots) that serve as a path to a JSON field. If a name of a fragment of the path consists solely of numbers, this name is interpreted as an array index. Paths are created and deleted in conjunction with variables (in the <code class="docutils literal"><span class="pre">Variables</span></code> list), and one path always corresponds to one variable. This list can be used both to encode and to decode JSON object. By default, the list is empty.</dd>
+<dd><p class="first last">一个JSON对象内部的变量的路径列表。路径是用来定义一个JSON对象的内部结构。路径应该包括几个标识符（用逗号分隔），作为一个JSON字段路径。如果路径的片段的名称仅由数字组成，则该名称将被解释为数组索引。路径的创建和删除跟变量是同时的（变量列表），和一个路径总是对应于一个变量。这个列表可以用来进行编码和解码的JSON对象。默认情况下，列表是空的。</p>
+</dd>
 <dt><em>Variables</em></dt>
-<dd>A list of variables that will be used to either store the decoded data or to encode a JSON object (depending on the value of the <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> parameter). The names and the quantity of the variables can be adjusted manually. This list is also empty by default.</dd>
+<dd><p class="first last">变量列表，将用于存储数据的解码或编码一个JSON对象（取决于 <code class="docutils literal"><span class="pre">JSON</span> <span class="pre">Operation</span></code> 参数的值）。变量总是有类似 <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> 等的名字，他们的数量和名称可以调整。默认列表为空。</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="using-json-logic-node-to-encode-json-object">
-<h4>Using JSON logic node to encode JSON object<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="永久链接至标题">¶</a></h4>
+<h4>使用JSON逻辑节点编码JSON对象<a class="headerlink" href="#using-json-logic-node-to-encode-json-object" title="永久链接至标题">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_encode_example.png"><img alt="_images/logic_editor_json_encode_example.png" class="align-center" src="_images/logic_editor_json_encode_example.png" style="width: 100%;" /></a>
-<p>The logic node setup at the picture above encodes a JSON object and stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable. Such a JSON object looks like this:</p>
+<p>在图片的逻辑节点设置在 <code class="docutils literal"><span class="pre">R1</span></code> 可 变编码以上JSON对象，并将其存储。这样的JSON对象如下：</p>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;main&quot;</span><span class="p">:{</span>
         <span class="nt">&quot;part1&quot;</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span>
@@ -1488,9 +1507,9 @@
 </div>
 </div>
 <div class="section" id="using-json-logic-node-to-decode-json-object">
-<h4>Using JSON logic node to decode JSON object<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="永久链接至标题">¶</a></h4>
+<h4>使用JSON逻辑节点解码JSON对象<a class="headerlink" href="#using-json-logic-node-to-decode-json-object" title="永久链接至标题">¶</a></h4>
 <a class="reference internal image-reference" href="_images/logic_editor_json_decode_example.png"><img alt="_images/logic_editor_json_decode_example.png" class="align-center" src="_images/logic_editor_json_decode_example.png" style="width: 100%;" /></a>
-<p>The picture above shows a logic node setup that recieves a JSON object from the server, stores it in the <code class="docutils literal"><span class="pre">R1</span></code> variable and then decodes it. Such a JSON object looks like this:</p>
+<p>上图为逻辑节点的设置，从服务器获取JSON对象，并将其存储在 <code class="docutils literal"><span class="pre">R1</span></code> 变量，然后解码。这样的JSON对象如下：</p>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
@@ -1499,7 +1518,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Decoding this JSON object with the <code class="docutils literal"><span class="pre">JSON</span></code> logic node results in three variables named <code class="docutils literal"><span class="pre">var0</span></code>, <code class="docutils literal"><span class="pre">var1</span></code> and <code class="docutils literal"><span class="pre">var2</span></code> (you don&#8217;t have to create the variables beforehand) that will contain various parts of the JSON object. In this example, the <code class="docutils literal"><span class="pre">var1</span></code> variable has the value of 17, the <code class="docutils literal"><span class="pre">var2</span></code> variable has the value &#8220;abc&#8221;, while the <code class="docutils literal"><span class="pre">var0</span></code> variable contains the following fragment of the JSON object:</p>
+<p>这解码JSON对象的 <code class="docutils literal"><span class="pre">JSON</span></code> 逻辑节点 <code class="docutils literal"><span class="pre">var0</span></code>，<code class="docutils literal"><span class="pre">var1</span></code> 和 <code class="docutils literal"><span class="pre">var2</span></code> 三个变量命名的结果（你不必事先创建的变量）将包含JSON对象的各个部分。在这个例子中，<code class="docutils literal"><span class="pre">var1</span></code> 变量的值是17，则 <code class="docutils literal"><span class="pre">var2</span></code> 变量的值是 &#8220;abc&#8221;，而``var0`` 变量包含JSON对象的以下片段：</p>
 <div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;b&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
     <span class="nt">&quot;c&quot;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span>
@@ -1533,7 +1552,7 @@
 <dl class="docutils">
 <dt><em>参数名称</em></dt>
 <dd><p class="first">网页参数的名称。</p>
-<p class="last">For example, if this parameter is set to the value of <code class="docutils literal"><span class="pre">X_1</span></code>, then the value of this parameter (if it is present in the URL) will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
+<p class="last">If the parameter specified in this field is presented in the URL, then its value will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
 </dd>
 <dt><em>目标</em></dt>
 <dd><p class="first last">将用来保存参数的变量。</p>
@@ -1693,7 +1712,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-12-22.
+      最后更新于 2017-02-28.
 
     </p>
   </div>
@@ -1749,7 +1768,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

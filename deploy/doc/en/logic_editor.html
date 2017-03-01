@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Logic Editor &mdash; Blend4Web 16.12 User Manual</title>
+  <title>Logic Editor &mdash; Blend4Web 17.02 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.12 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.02 User Manual" href="index.html"/>
         <link rel="next" title="Lighting, Shadows and Background" href="lighting.html"/>
         <link rel="prev" title="Node Materials" href="node_materials.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -818,6 +818,8 @@
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd>An object to show.</dd>
+<dt><em>Process child objects</em></dt>
+<dd>If this parameter is enabled, child objects will be shown as well.</dd>
 </dl>
 </div>
 </div>
@@ -844,6 +846,8 @@
 <dl class="docutils">
 <dt><em>Object</em></dt>
 <dd>An object to hide.</dd>
+<dt><em>Process child objects</em></dt>
+<dd>If this parameter is enabled, child objects will be hidden as well.</dd>
 </dl>
 </div>
 </div>
@@ -1118,6 +1122,18 @@
 <li><em>Multiply</em> multiplies the operands.</li>
 <li><em>Subtract</em> subtracts the second operand from the first.</li>
 <li><em>Divide</em> divides first operand by the second.</li>
+<li><em>Sin</em> returns the sine of an angle (measured in radians) defined by the first operand.</li>
+<li><em>Cos</em> returns the cosine of an angle (measured in radians) defined by the first operand</li>
+<li><em>Tan</em> returns the tangent of an angle (measured in radians) defined by the first operand.</li>
+<li><em>ArcSin</em> returns the arcsine value of the first operand.</li>
+<li><em>ArcCos</em> returns the arccosine value of the first operand.</li>
+<li><em>ArcTan</em> returns the arctangent value of the first operand.</li>
+<li><em>Log</em> returns the logarithmic value of the first operand with the second operand used as the base.</li>
+<li><em>Min</em> returns the lesser one of the two operands.</li>
+<li><em>Max</em> returns the greater one of the two operands.</li>
+<li><em>Round</em> rounds the first operator.</li>
+<li><em>Mod</em> returns the remainder after division of the first operand by the second.</li>
+<li><em>Abs</em> returns the absolute value of the first operand.</li>
 </ul>
 </dd>
 <dt><em>Operand1</em></dt>
@@ -1272,9 +1288,10 @@
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>The data received from the server should be in the JSON format:</p>
-<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-<span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-<span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
+<div class="last highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;var0&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;var1&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="nt">&quot;var2&quot;</span><span class="p">:</span> <span class="mi">144</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -1376,7 +1393,7 @@
 <dl class="docutils">
 <dt><em>Param Name</em></dt>
 <dd><p class="first">The name of the web page parameter.</p>
-<p class="last">For example, if this parameter is set to the value of <code class="docutils literal"><span class="pre">X_1</span></code>, then the value of this parameter (if it is present in the URL) will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
+<p class="last">If the parameter specified in this field is presented in the URL, then its value will be saved to a variable specified by the <code class="docutils literal"><span class="pre">Destination</span></code> parameter.</p>
 </dd>
 <dt><em>Destination</em></dt>
 <dd>A variable that will be used to save the parameter.</dd>
@@ -1527,7 +1544,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-12-22.
+      Last updated on 2017-02-28.
 
     </p>
   </div>
@@ -1583,7 +1600,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

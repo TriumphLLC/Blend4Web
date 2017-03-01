@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,20 +31,31 @@ var m_print = require("__print");
  * Draw the mixer strip.
  * Used by mixer addon.
  * @method module:hud.draw_mixer_strip
+ * @deprecated Use {@link module:screen.draw_mixer_strip} instead
  */
-exports.draw_mixer_strip = m_hud.draw_mixer_strip;
+exports.draw_mixer_strip = function(id, is_active, slot, params, active_param,
+        mute, solo) {
+    m_print.error_deprecated("draw_mixer_strip", "screen.draw_mixer_strip");
+    m_hud.draw_mixer_strip(id, is_active, slot, params, active_param,
+            mute, solo);
+};
 
 /**
  * Plot the array.
  * @method module:hud.plot_array
- * @param {String} header Plot header
- * @param {Number} slot Slot number
+ * @param {string} header Plot header
+ * @param {number} slot Slot number
  * @param {Float32Array} arr Array
- * @param {Number} arg_min Minimum plot argument value
- * @param {Number} arg_max Maximum plot argument value
- * @param {Number} val_min Minimum plot value
- * @param {Number} val_max Maximum plot value
+ * @param {number} arg_min Minimum plot argument value
+ * @param {number} arg_max Maximum plot argument value
+ * @param {number} val_min Minimum plot value
+ * @param {number} val_max Maximum plot value
+ * @deprecated Use {@link module:screen.plot_array} instead
  */
-exports.plot_array = m_hud.plot_array;
+exports.plot_array = function(header, slot, arr, arg_min, arg_max, val_min,
+        val_max) {
+    m_print.error_deprecated("plot_array", "screen.plot_array");
+    m_hud.plot_array(header, slot, arr, arg_min, arg_max, val_min, val_max);
+};
 
 }

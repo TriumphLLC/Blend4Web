@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -284,8 +284,7 @@ function request_assets(queue) {
 }
 
 function request_arraybuffer(asset, response_type) {
-
-    var filepath = asset.url.split("?t=")[0];
+    var filepath = asset.url.split("?v=")[0];
     if (filepath in _arraybuffer_cache) {
         if (response_type == "json")
             asset.asset_cb(m_util.clone_object_r(_arraybuffer_cache[filepath]), asset.id, asset.type,
@@ -385,7 +384,7 @@ function request_arraybuffer(asset, response_type) {
 }
 
 function request_audiobuffer(asset) {
-    var filepath = asset.url.split("?t=")[0];
+    var filepath = asset.url.split("?v=")[0];
     if (filepath in _arraybuffer_sound_cache) {
         asset.asset_cb(_arraybuffer_sound_cache[filepath], asset.id, asset.type,
                 asset.url, asset.param);
@@ -415,7 +414,7 @@ function request_audiobuffer(asset) {
                             asset.asset_cb(audio_buffer, asset.id, asset.type, asset.url, asset.param);
                             asset.state = ASTATE_RECEIVED;
                             if (asset.is_fetch) {
-                                var filepath = asset.url.split("?t=")[0];
+                                var filepath = asset.url.split("?v=")[0];
                                 _arraybuffer_sound_cache[filepath] = audio_buffer;
                             }
                         }
@@ -444,7 +443,7 @@ function request_audiobuffer(asset) {
 }
 
 function request_image(asset) {
-    var filepath = asset.url.split("?t=")[0];
+    var filepath = asset.url.split("?v=")[0];
     if (filepath in _img_cache) {
         asset.asset_cb(_img_cache[filepath], asset.id, asset.type, asset.url, asset.param);
         asset.state = ASTATE_RECEIVED;
@@ -461,7 +460,7 @@ function request_image(asset) {
             asset.asset_cb(image, asset.id, asset.type, asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
             if (asset.is_fetch) {
-                var filepath = asset.url.split("?t=")[0];
+                var filepath = asset.url.split("?v=")[0];
                 _img_cache[filepath] = image;
             }
         }
@@ -492,7 +491,7 @@ function request_image(asset) {
 }
 
 function request_audio(asset) {
-    var filepath = asset.url.split("?t=")[0];
+    var filepath = asset.url.split("?v=")[0];
     if (filepath in _sound_cache) {
         asset.asset_cb(_sound_cache[filepath], asset.id, asset.type,
                 asset.url, asset.param);
@@ -505,13 +504,13 @@ function request_audio(asset) {
     var audio = document.createElement("audio");
     if (cfg_def.allow_cors)
         audio.crossOrigin = "Anonymous";
-    
+
     audio.addEventListener("loadeddata", function() {
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(audio, asset.id, asset.type, asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
             if (asset.is_fetch) {
-                var filepath = asset.url.split("?t=")[0];
+                var filepath = asset.url.split("?v=")[0];
                 _sound_cache[filepath] = audio;
             }
         }
@@ -567,7 +566,7 @@ function request_audio(asset) {
 }
 
 function request_video(asset) {
-    var filepath = asset.url.split("?t=")[0];
+    var filepath = asset.url.split("?v=")[0];
     if (filepath in _img_cache) {
         asset.asset_cb(_img_cache[filepath], asset.id, asset.type, asset.url, asset.param);
         asset.state = ASTATE_RECEIVED;
@@ -587,7 +586,7 @@ function request_video(asset) {
             asset.asset_cb(video, asset.id, asset.type, asset.url, asset.param);
             asset.state = ASTATE_RECEIVED;
             if (asset.is_fetch) {
-                var filepath = asset.url.split("?t=")[0];
+                var filepath = asset.url.split("?v=")[0];
                 _img_cache[filepath] = video;
             }
         }
@@ -625,18 +624,18 @@ function request_video(asset) {
         if (cfg_def.is_mobile_device)
             video.load();
     }
-    
+
     if (cfg_def.mobile_firefox_media_hack) {
         video.autoplay = true;
         video.pause();
     }
-    
+
     // HACK: workaround for some garbage collector bug
     setTimeout(function() {video.some_prop_to_prevent_gc = 1}, 10000);
 }
 
 function request_seq_video(asset) {
-    var filepath = asset.url.split("?t=")[0];
+    var filepath = asset.url.split("?v=")[0];
     if (filepath in _img_cache) {
         asset.asset_cb(_img_cache[filepath], asset.id, asset.type, asset.url, asset.param);
         asset.state = ASTATE_RECEIVED;
@@ -665,11 +664,11 @@ function request_seq_video(asset) {
     }
     req.responseType = "arraybuffer";
 
-    function load_cb(images) { 
+    function load_cb(images) {
         asset.asset_cb(images, asset.id, asset.type, asset.url, asset.param);
         asset.state = ASTATE_RECEIVED;
         if (asset.is_fetch) {
-            var filepath = asset.url.split("?t=")[0];
+            var filepath = asset.url.split("?v=")[0];
             _img_cache[filepath] = images;
         }
     }
@@ -680,7 +679,7 @@ function request_seq_video(asset) {
             if (req.status == 200 || req.status == 0) {
                 var response = req.response;
                 if (response)
-                    parse_seq_video_file(response, load_cb);                    
+                    parse_seq_video_file(response, load_cb);
                 else {
                     asset.asset_cb(null, asset.id, asset.type, asset.url, asset.param);
                     m_print.error("empty responce when trying to get " + asset.url);
@@ -759,7 +758,7 @@ function get_sound_mime_type(file_path) {
     case "mp3":
         mime_type += "/mpeg";
         break;
-    case "m4v":    
+    case "m4v":
     case "mp4":
         mime_type += "/mp4";
         break;

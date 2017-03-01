@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,8 +28,8 @@ var m_input     = require("input");
 var m_storage   = require("storage");
 
 var SVG_BASE64 = "url('data:image/svg+xml;base64,";
-var BLUE_COLOR_REGEXP = new RegExp("#5276cf", "g");
 var BLUE_COLOR = "#5276cf";
+var BLUE_COLOR_REGEXP = new RegExp(BLUE_COLOR, "g");
 var RED_COLOR = "#ff0000";
 var GREEN_COLOR = "#00ff00";
 var GREY_COLOR = "#e6e6e6";
@@ -103,7 +103,6 @@ var _type_wheel_elem = null;
 var _type_pad_elem = null;
 var _device_id_label = null;
 var _tmp_gamepads = [];
-var _prefix = "";
 var _elems = [];
 var _axis_elems = [];
 var _axis_settings_elems = [];
@@ -218,12 +217,12 @@ exports.show = function() {
                     _selected_gamepad_num = j;
                     _gamepad_elem = elem;
                     set_gmpd_config(_selected_gamepad_num);
-                    change_device(elem.dataset.device_type);
+                    change_device(elem.getAttribute("data-device_type"));
                 }
             }
         }
 
-        gamepad_data_elem.addEventListener("click", click_cb, false);
+        m_input.add_click_listener(gamepad_data_elem, click_cb);
     }
     gamepad_data_cnt.appendChild(gamepads_data_container);
 
@@ -302,7 +301,7 @@ exports.show = function() {
     for (var j = 0; j < 4; j++) {
         var sensors = create_axis_sensors(j);
 
-        var logic_func = function() {
+        var axis_logic_func = function() {
             return true;
         }
         var sensor_cb = function(obj, id, pulse) {
@@ -321,7 +320,7 @@ exports.show = function() {
                     change_single_axis_setting_color(obj, id, i);
         }
         m_ctrl.create_sensor_manifold(null, "AXES" + j, m_ctrl.CT_CONTINUOUS,
-                sensors, logic_func, sensor_cb);
+                sensors, axis_logic_func, sensor_cb);
     }
 
     zoom_main_div();
@@ -347,7 +346,7 @@ function change_dual_axis_setting_color(obj, id, num) {
         var delta_x = x - _axes_prev_val[num];
         var delta_y = y - _axes_prev_val[num + 1];
         var elem = _axis_settings_elems[Math.floor(num / 2)];
-        var svg_id = elem.dataset.svgid;
+        var svg_id = elem.getAttribute("data-svgid");
         if (_mode == VIEWER_MODE) {
             if (delta_x || delta_y)
                 elem.style.backgroundImage = SVG_BASE64 + btoa(_svg[svg_id].replace(GREY_COLOR,
@@ -361,7 +360,7 @@ function change_dual_axis_setting_color(obj, id, num) {
                     moved_axis--;
                 _mode = VIEWER_MODE;
                 elem.style.backgroundImage = SVG_BASE64 + btoa(_svg[svg_id])  + "')";
-                var sel_axis = parseFloat(_selected_btn.dataset.key);
+                var sel_axis = parseFloat(_selected_btn.getAttribute("data-key"));
                 m_input.set_gamepad_key(_selected_gamepad_num, sel_axis, moved_axis);
                 m_input.set_gamepad_key(_selected_gamepad_num, sel_axis + 1, moved_axis + 1);
                 _selected_btn = null;
@@ -383,7 +382,7 @@ function change_single_axis_setting_color(obj, id, num) {
     if (_axes_prev_val[num] > -2) {
         var delta_val = val - _axes_prev_val[num];
         var elem = _axis_settings_elems[num];
-        var svg_id = elem.dataset.svgid;
+        var svg_id = elem.getAttribute("data-svgid");
         if (_mode == VIEWER_MODE) {
             if (delta_val)
                 elem.style.backgroundImage = SVG_BASE64 + btoa(_svg[svg_id].replace(GREY_COLOR,
@@ -395,7 +394,7 @@ function change_single_axis_setting_color(obj, id, num) {
             if (moved_axis >= 0) {
                 _mode = VIEWER_MODE;
                 elem.style.backgroundImage = SVG_BASE64 + btoa(_svg[svg_id])  + "')";
-                var sel_axis = parseFloat(_selected_btn.dataset.key);
+                var sel_axis = parseFloat(_selected_btn.getAttribute("data-key"));
                 m_input.set_gamepad_key(_selected_gamepad_num, sel_axis, moved_axis);
                 _selected_btn = null;
                 document.getElementById("action_label").textContent =
@@ -409,13 +408,13 @@ function change_single_axis_setting_color(obj, id, num) {
 
 function set_btn_state(elem, pressed, num) {
     if (_mode == VIEWER_MODE) {
-        if (pressed && elem.dataset.colorstate == "B") {
+        if (pressed && elem.getAttribute("data-colorstate") == "B") {
             var svg = _svg[num];
             elem.style.backgroundImage = SVG_BASE64 + btoa(svg.replace(BLUE_COLOR_REGEXP,
                     GREEN_COLOR))  + "')";
             elem.setAttribute("data-colorstate", "G");
         }
-        if (!pressed && elem.dataset.colorstate != "B") {
+        if (!pressed && elem.getAttribute("data-colorstate") != "B") {
             var svg = _svg[num];
             elem.style.backgroundImage = SVG_BASE64 + btoa(svg)  + "')";
             elem.setAttribute("data-colorstate", "B");
@@ -423,7 +422,7 @@ function set_btn_state(elem, pressed, num) {
     } else {
         var pressed_btn_key = m_input.get_pressed_gmpd_btn(_selected_gamepad_num);
         if (pressed_btn_key >= 0 && _selected_btn && _mode == BTN_EDIT_MODE) {
-            var red_btn_val = _selected_btn.dataset.key;
+            var red_btn_val = _selected_btn.getAttribute("data-key");
             m_input.set_gamepad_key(_selected_gamepad_num, red_btn_val,
                     pressed_btn_key);
             save_config_to_local_mem(red_btn_val, pressed_btn_key);
@@ -808,8 +807,6 @@ function create_wheel_interface(main_div) {
     var wheel_btn_20 = document.createElement("div");
     var wheel_btn_21 = document.createElement("div");
     var wheel_btn_22 = document.createElement("div");
-    var wheel_btn_23 = document.createElement("div");
-    var wheel_btn_24 = document.createElement("div");
     var left_pedal_settings_elem = document.createElement("div");
     var midle_pedal_settings_elem = document.createElement("div");
     var right_pedal_settings_elem = document.createElement("div");
@@ -1156,28 +1153,28 @@ function change_device(type) {
 function append_elems_click_cb(elems, original_color) {
     var click_cb = function(e) {
         var elem = e.target;
-        if(_selected_gamepad_num < 0 || elem.dataset.colorstate == "G")
+        if(_selected_gamepad_num < 0 || elem.getAttribute("data-colorstate") == "G")
                 return;
         if (_mode != VIEWER_MODE) {
-            if (elem.dataset.colorstate == "R") {
+            if (elem.getAttribute("data-colorstate") == "R") {
                 _selected_btn = null;
                 document.getElementById("action_label").textContent =
                         SELECT_BTN_CAPTION;
                 _mode = VIEWER_MODE;
             }
-            if (elem.dataset.colorstate == "B" || elem.dataset.colorstate == "GR") {
-                var svg_num = parseFloat(_selected_btn.dataset.svgid);
+            if (elem.getAttribute("data-colorstate") == "B" || elem.getAttribute("data-colorstate") == "GR") {
+                var svg_num = parseFloat(_selected_btn.getAttribute("data-svgid"));
                 _selected_btn.style.backgroundImage = SVG_BASE64 + btoa(_svg[svg_num])  + "')";
-                _selected_btn.setAttribute("data-colorstate", elem.dataset.colorstate);
+                _selected_btn.setAttribute("data-colorstate", elem.getAttribute("data-colorstate"));
                 _selected_btn = elem;
-                svg_num = parseFloat(elem.dataset.svgid);
+                svg_num = parseFloat(elem.getAttribute("data-svgid"));
                 elem.style.backgroundImage = SVG_BASE64 + btoa(_svg[svg_num].replace(original_color,
                         RED_COLOR))  + "')";
                 elem.setAttribute("data-colorstate", "R");
             }
         } else {
-            var svg_num = parseFloat(elem.dataset.svgid);
-            var mode = elem.dataset.colorstate == "B" ? BTN_EDIT_MODE : AXIS_EDIT_MODE;
+            var svg_num = parseFloat(elem.getAttribute("data-svgid"));
+            var mode = elem.getAttribute("data-colorstate") == "B" ? BTN_EDIT_MODE : AXIS_EDIT_MODE;
             _mode = mode;
             elem.style.backgroundImage = SVG_BASE64 + btoa(_svg[svg_num].replace(original_color,
                     RED_COLOR))  + "')";
@@ -1193,7 +1190,7 @@ function append_elems_click_cb(elems, original_color) {
     }
     for (var i = 0; i < elems.length; i++) {
         var elem = elems[i];
-        elem.addEventListener("click", click_cb, false);
+        m_input.add_click_listener(elem, click_cb);
     }
 }
 

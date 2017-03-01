@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-01 16:56+0300\n"
+"POT-Creation-Date: 2017-02-27 17:49+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -168,15 +168,14 @@ msgid ""
 "color. This can be used for creating anisotropic shading effects."
 msgstr ""
 "При включении этого параметра движок использует тангенциальный вектор "
-"материала (вместо нормального вектора) для рассчёта итогового цвета объекта. "
-"Может применяться для имитации анизотропных поверхностей."
+"материала (вместо нормального вектора) для рассчёта итогового цвета "
+"объекта. Может применяться для имитации анизотропных поверхностей."
 
 #: ../materials.rst:67
 msgid ""
 "**On the left:** standard shading model; **on the right:** tangent "
 "shading model."
-msgstr ""
-"**Слева:** стандатрное затенение, **справа:** тангенциальное затенение."
+msgstr "**Слева:** стандартное затенение, **справа:** тангенциальное затенение."
 
 #: ../materials.rst:71
 msgid "*Shading > Double-Sided Lighting*"
@@ -378,7 +377,7 @@ msgstr ""
 " отражения будут работать только в том случае, если в нодовом дереве "
 "присутствует нода ``Material`` или ``Extended Material``."
 
-#: ../materials.rst:161 ../materials.rst:325
+#: ../materials.rst:161 ../materials.rst:325 ../materials.rst:517
 msgid "Activation"
 msgstr "Активация"
 
@@ -826,7 +825,7 @@ msgstr ""
 msgid "Height range for the fading of stars."
 msgstr "Диапазон высот, на котором происходит затухание яркости звезд."
 
-#: ../materials.rst:364
+#: ../materials.rst:365
 msgid "*Halo > Minimum Height*"
 msgstr ""
 
@@ -835,6 +834,223 @@ msgid "Minimum height in the object’s local space at which stars are visible."
 msgstr ""
 "Минимальная высота в локальном пространстве объекта, на которой видны "
 "звезды."
+
+#: ../materials.rst:370
+msgid "Material API"
+msgstr "Методы API для работы с материалами"
+
+#: ../materials.rst:372
+msgid ""
+"All API methods used for setting and changing scene materials, both stack"
+" and node, are located in the Material API module. Every method that this"
+" module has to offer is thoroughly described in this :b4wmod:`page "
+"material` of the API reference."
+msgstr ""
+"Все методы API, используемые для настройки материалов, как стандартных, "
+"так и нодовых, находятся в модуле API material. Все методы этого модуля "
+"подробно описаны на :b4wmod:`странице material` документации API."
+
+#: ../materials.rst:376
+msgid ""
+"API methods can only work with materials that are attached to dynamic "
+"objects."
+msgstr ""
+"Методы API могут работать только с материалами, которые используются с "
+"динамическими объектами."
+
+#: ../materials.rst:379
+msgid "Methods for Stack Materials"
+msgstr "Методы для стандартных материалов"
+
+#: ../materials.rst:381
+msgid ""
+"The :b4wmod:`material` API module includes methods to control virtually "
+"every aspect of a stack material."
+msgstr ""
+"Модуль API :b4wmod:`material` включает методы для управления практически "
+"любым параметром стандартного материала."
+
+#: ../materials.rst:383
+msgid ""
+"Here are several examples of how the material API module can be used to "
+"perform various operations with the material of an object:"
+msgstr ""
+"Ниже приводится ряд примеров, демонстрирующих, как модуль API material "
+"может использоваться для различных операций с материалом объекта:"
+
+#: ../materials.rst:386
+msgid "Getting object's diffuse color:"
+msgstr "Получение диффузного цвета объекта:"
+
+#: ../materials.rst:401
+msgid "Getting object's specular color:"
+msgstr "Получение цвета блика материала:"
+
+#: ../materials.rst:417
+msgid "Getting other parameters:"
+msgstr "Получение других параметров:"
+
+#: ../materials.rst:434
+msgid "Setting stack material parameters:"
+msgstr "Установка параметров материала:"
+
+#: ../materials.rst:455
+msgid "Methods for Node Materials"
+msgstr "Методы для нодовых материалов"
+
+#: ../materials.rst:457
+msgid ""
+"At the moment, API methods can only affect RGB and Value nodes. Any other"
+" type is not supported."
+msgstr ""
+"На данный момент поддерживаются только ноды типа RGB и Value. Все прочие "
+"типы не поддерживаются."
+
+#: ../materials.rst:459
+msgid "To change the value of a particular material node, you need:"
+msgstr "Для того, чтобы изменить значение той или иной ноды материала, требуется:"
+
+#: ../materials.rst:461
+msgid "to get the object that uses this particular material,"
+msgstr "объект, использующий данный материал,"
+
+#: ../materials.rst:462
+msgid "the name of the material,"
+msgstr "имя материала,"
+
+#: ../materials.rst:463
+msgid "the name of the node itself"
+msgstr "имя самой ноды,"
+
+#: ../materials.rst:464
+msgid "and the name of the node group that contains the node (if there is one)."
+msgstr "а также имя группы нод, в которую входит данная нода (если есть)."
+
+#: ../materials.rst:466
+msgid ""
+"The name of a node can be viewed and changed in the upper part of the "
+"side panel at the right of the Node Editor window."
+msgstr ""
+"Имя ноды можно узнать (и изменить) в "
+"верхней части боковой панели справа от главного окна редактора нод."
+
+#: ../materials.rst:470
+msgid ""
+"Nodes in the main window of the Node Editor do not show the name of the "
+"node, only its type."
+msgstr ""
+"Следует иметь в виду, что главное окно редактора нод не показывает имён "
+"нод, только их типы."
+
+#: ../materials.rst:476
+msgid ""
+"These two examples show how the parameters of a node material can be "
+"adjusted using API methods."
+msgstr ""
+"Два следующих примера демонстрируют, как параметры нодового материала "
+"могут быть настроены с использованием методов API:"
+
+#: ../materials.rst:478
+msgid "Getting node material parameters:"
+msgstr "Получение параметров нодового материала:"
+
+#: ../materials.rst:493
+msgid "Setting node material parameters:"
+msgstr "Установка параметров нодового материала:"
+
+#: ../materials.rst:510
+msgid "Inherit Material"
+msgstr "Наследование материалов"
+
+#: ../materials.rst:512
+msgid ""
+"Blend4Web supports dynamic material switching. This feature is "
+"exceptionally useful for so-called configurator applications that give a "
+"user an opportunity to customize the appearance of a model such as an "
+"apparel, a piece of furniture, a car or something else. The Inherit "
+"Material feature should be used when API methods for adjusting stack and "
+"node materials as well as the :b4wref:`textures.change_texture` method do"
+" not suffice."
+msgstr ""
+"Blend4Web поддерживает динамическую смену материалов. Эта возможность "
+"очень полезна для т.н. приложений-конфигураторов, где пользователю "
+"предлагается настроить внешний вид какой-либо модели (одежда, мебель, "
+"автомобили и т.д.). В случае, если не хватает возможностей API по "
+"изменению стековых и нодовых материалов, описанных выше, а также метода "
+":b4wref:`textures.change_texture` и простой смены текстур, тогда можно "
+"воспользоваться наследованием."
+
+#: ../materials.rst:514
+msgid ""
+"Inherit Material has the advantage of being flexible and easy to use, "
+"which makes it a better choice when you have to significantly alter the "
+"source material. It is available for both API scripts and logic nodes, "
+"and it can be used for stack and node materials alike. The downside of "
+"this feature is the fact that it might not work as fast as other methods "
+"described above, which can be critical in some cases."
+msgstr ""
+"Преимуществом наследования является простота и универсальность "
+"использования, что хорошо подходит, когда нужно довольно сильно изменить "
+"исходный материал. Также оно доступно как из внешнего API, так и в "
+"нодовой логике, и подходит одинаково как для нодовых, так и для стековых "
+"материалов. Недостатком может являться то, что операция наследования "
+"может быть хуже по производительности, чем другие вышеупомянутые методы, "
+"что может быть критически важным в ряде случаев."
+
+#: ../materials.rst:519
+msgid ""
+"To use Inherit Material, you need two objects. First one of them is the "
+"source object that has a material that will be inherited assigned to it. "
+"The second one is the target object which has a material that you need to"
+" replace. Both object should have the ``Dynamic Geometry & Material`` "
+"option enabled (this option can be found under the ``Object`` tab, on the"
+" ``Rendering Properties`` panel)."
+msgstr ""
+"В наследовании участвуют 2 объекта. Первый - источник, на котором "
+"находится наследуемый материал, второй - целевой объект, на котором "
+"требуется произвести замену материала. Оба этих объекта требуют "
+"выставления опции ``Dynamic Geometry & Materials`` на панели ``Object`` в"
+" разделе ``Rendering Properties``."
+
+#: ../materials.rst:523
+msgid ""
+"After a material is inherited, it will look exactly the same as if it was"
+" simply assigned to the target object in Blender. This means that you "
+"might have to manually prepare all UV maps and vertex color layers for "
+"every material that will be inherited by the object beforehand. For the "
+"source object, this is not necessary."
+msgstr ""
+"После наследования материал на целевом объекте будет выглядеть также как,"
+" если бы он был просто назначен на него в самом Blender, т.е. при "
+"необходимости на целевом объекте нужно заранее подготовить UV-слои и слои"
+" вертексного цвета под все материалы, которые будут на него "
+"наследоваться. Для объекта источника это уже необязательно."
+
+#: ../materials.rst:525
+msgid ""
+"If you are using Logic Nodes, Inherit Material can be performed with the "
+"``Object->Inherit Material`` node. If you are using API, this can be done"
+" with the :b4wref:`materials.inherit_material` method."
+msgstr ""
+"При использовании нодовой логики наследование можно осуществить с помощью"
+" ноды ``Object->Inherit Material``. В API же для этого существует метод "
+":b4wref:`materials.inherit_material`."
+
+#: ../materials.rst:531
+msgid ""
+"If an application requires many different materials to be changed, it "
+"might be a good approach to create a dedicated container object. It can "
+"be a simple flat mesh, like a ``Plane`` object, that has every material "
+"you might need assigned to it. This object can be hidden from the scene "
+"itself by setting the ``Hidden`` or ``Do Not Render`` option on the "
+"``Object->Rendering Properties`` panel."
+msgstr ""
+"Если в приложении требуется смена множества разных материалов, то хорошим"
+" подходом будет создание специального объекта-контейнера. Он может "
+"представлять собой простой объект типа ``Plane``, на котором будут "
+"находится все нужные материалы. При необходимости его можно скрыть на "
+"самой сцене, выставив на нём настройку ``Hidden`` или ``Do Not Render`` "
+"на панели ``Object->Rendering Properties``."
 
 #: ../materials.rst:3 ../materials.rst:19 ../materials.rst:73
 #: ../materials.rst:128 ../materials.rst:229 ../materials.rst:271
@@ -921,4 +1137,45 @@ msgstr "гало"
 
 #~ msgid "статическое"
 #~ msgstr ""
+
+#~ msgid "Diffuse color:"
+#~ msgstr ""
+
+#~ msgid "Specular color:"
+#~ msgstr ""
+
+#~ msgid "Other parameters:"
+#~ msgstr "специальные параметры"
+
+#~ msgid "First of all, we have to get a link to an actual scene object."
+#~ msgstr "Прежде всего, необходимо получить ссылку на объект сцены."
+
+#~ msgid "To perform any actions with the material, you need its name."
+#~ msgstr ""
+#~ "Для того, чтобы выполнять какие-либо "
+#~ "действия с материалом, необходимо его "
+#~ "имя."
+
+#~ msgid ""
+#~ "As multiple materials can be attached"
+#~ " to one object, we can use the"
+#~ " :b4wref:`material.get_material_names` method to "
+#~ "retrieve a list of material names. "
+#~ "This list comes in the form of "
+#~ "an array."
+#~ msgstr ""
+#~ "Поскольку объект может использовать несколько"
+#~ " материалов, можно использовать метод "
+#~ ":b4wref:`material.get_material_names`, чтобы получить "
+#~ "список имён всех материалов, назначенных "
+#~ "объекту. Список имеет форму массива."
+
+#~ msgid ""
+#~ "It is advisable to give your "
+#~ "materials unique names, so it will "
+#~ "be easier to work with them."
+#~ msgstr ""
+#~ "Рекомендуется давать материалам осмысленные "
+#~ "имена, чтобы с ними было проще "
+#~ "работать."
 

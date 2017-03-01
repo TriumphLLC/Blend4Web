@@ -308,20 +308,16 @@ Supported settings:
 *Procedural Sky > Mie Distribution*
      Mie scattering distribution. The default value is 0.4.
 
-
+.. _fog:
 
 Fog
 ---
 
 The engine supports standard parameters located on the ``World > Mist`` panel. Besides this, overriding fog color is possible.
 
-*Mist > Use Custom Color*
-    Apply the user-defined fog color instead of ``World > Horizon`` color. Enabled by default.
+Fog settings are described in the :ref:`Scene Settings <world_mist>` chapter.
 
-*Mist > Color*
-    Fog color. The default value is (0.5, 0.5, 0.5) (gray).
-
-When a dynamic skydome is used the fog color is defined by the sky color.
+When a dynamic skydome is used, the fog color is defined by the sky color.
 
 
 Time of Day

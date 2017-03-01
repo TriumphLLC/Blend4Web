@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,13 +38,10 @@ var m_textures = require("__textures");
 var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 var m_ver      = require("__version");
-var m_geom     = require("__geometry");
 
 var m_vec3     = require("__vec3");
 
 var USE_BACKFACE_CULLING = true;
-
-var DEBUG_DISABLE_RENDER_LOCK = false;
 
 // special backgroud color for shadow map
 var SHADOW_BG_COLOR = [1, 1, 1, 1];
@@ -81,7 +78,6 @@ var _vec3_tmp  = new Float32Array(3);
 var _quat_tmp  = m_quat.create();
 var _ivec4_tmp = new Uint8Array(4);
 
-var cfg_ctx = m_cfg.context;
 var cfg_def = m_cfg.defaults;
 
 /**
@@ -119,7 +115,7 @@ exports.setup_context = function(gl) {
  */
 exports.draw = function(subscene) {
 
-    if (!subscene.do_render)
+    if (!subscene.do_render || subscene.force_do_not_render)
         return;
 
     if (subscene.type == m_subs.RESOLVE) {
@@ -156,7 +152,6 @@ function draw_cube_reflection_subs(subscene) {
     var camera           = subscene.camera;
     var color_attachment = camera.color_attachment;
     var w_tex            = color_attachment.w_texture;
-    var v_matrs          = subscene.cube_view_matrices;
 
     // cube reflections are rendered in 6 directions
     for (var i = 0; i < 6; i++) {
@@ -265,9 +260,9 @@ function draw_subs(subscene) {
 
 function setup_scene_uniforms(subs, camera, shader) {
     var transient_sc_uniform_setters = shader.transient_sc_uniform_setters;
-    var j = transient_sc_uniform_setters.length;
-    while (j--) {
-        var setter = transient_sc_uniform_setters[j];
+    var i = transient_sc_uniform_setters.length;
+    while (i--) {
+        var setter = transient_sc_uniform_setters[i];
         setter.fun(_gl, setter.loc, subs, camera);
     }
 
@@ -432,9 +427,9 @@ function draw_bundle(subscene, obj_render, batch, shader) {
             assign_uniform_setters(shader);
 
         var permanent_uniform_setters = shader.permanent_uniform_setters;
-        var i = permanent_uniform_setters.length;
-        while (i--) {
-            var setter = permanent_uniform_setters[i];
+        var j = permanent_uniform_setters.length;
+        while (j--) {
+            var setter = permanent_uniform_setters[j];
             setter.fun(_gl, setter.loc, obj_render, batch);
         }
         shader.need_uniforms_update = false;
@@ -687,7 +682,7 @@ exports.clone_attribute_setters = function(setters) {
             divisor: setter.divisor
         };
 
-        setters_new.push(setter);
+        setters_new.push(setter_new);
     }
     return setters_new;
 }
@@ -1551,12 +1546,6 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_line_points":
-            fun = function(gl, loc, obj_render, batch) {
-                gl.uniform3fv(loc, batch.line_points);
-            }
-            transient_uni = true;
-            break;
 
         // texture factors
         case "u_diffuse_color_factor":
@@ -1857,7 +1846,6 @@ exports.assign_texture_uniforms = function(batch) {
     _gl.useProgram(shader.program);
 
     for (var i = 0; i < textures.length; i++) {
-        var tex = textures[i];
         var name = names[i];
         // NOTE: may cause a bug if textures on different batches sharing
         // the same shader are out of order
@@ -1890,11 +1878,11 @@ exports.read_pixels = read_pixels;
 function read_pixels(framebuffer, x, y, width, height, storage) {
 
     if (!width)
-        var width = 1;
+        width = 1;
     if (!height)
-        var height = 1;
+        height = 1;
     if (!storage)
-        var storage = new Uint8Array(4 * width * height);
+        storage = new Uint8Array(4 * width * height);
     if (storage.length != 4 * width * height)
         m_util.panic("read_pixels(): Wrong storage");
 

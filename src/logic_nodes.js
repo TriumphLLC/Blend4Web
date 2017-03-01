@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +50,6 @@ var m_util   = require("__util");
 var m_vec3   = require("__vec3");
 
 var _vec4_tmp  = new Float32Array(4);
-var _vec4_tmp1 = new Float32Array(4);
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp1 = new Float32Array(3);
 var _vec2_tmp  = new Float32Array(2);
@@ -65,7 +64,6 @@ var UNINITIALIZED  = 0;
 var INITIALIZATION = 1;
 var RUNNING        = 2;
 var STOPPED        = 3;
-var PAUSED         = 4;
 
 /**
  * Node State by type
@@ -99,6 +97,44 @@ exports.NT_STRING = NT_STRING;
  */
 
 /**
+ * Node math operations
+ */
+var NMO_DIV    = 0;
+var NMO_SUB    = 1;
+var NMO_MUL    = 2;
+var NMO_ADD    = 3;
+var NMO_RAND   = 4;
+var NMO_SIN    = 5;
+var NMO_COS    = 6;
+var NMO_TAN    = 7;
+var NMO_ARCSIN = 8;
+var NMO_ARCCOS = 9;
+var NMO_ARCTAN = 10;
+var NMO_LOG    = 11;
+var NMO_MIN    = 12;
+var NMO_MAX    = 13;
+var NMO_ROUND  = 14;
+var NMO_MOD    = 15;
+var NMO_ABS    = 16;
+exports.NMO_DIV    = NMO_DIV;
+exports.NMO_SUB    = NMO_SUB;
+exports.NMO_MUL    = NMO_MUL;
+exports.NMO_ADD    = NMO_ADD;
+exports.NMO_RAND   = NMO_RAND;
+exports.NMO_SIN    = NMO_SIN;
+exports.NMO_COS    = NMO_COS;
+exports.NMO_TAN    = NMO_TAN;
+exports.NMO_ARCSIN = NMO_ARCSIN;
+exports.NMO_ARCCOS = NMO_ARCCOS;
+exports.NMO_ARCTAN = NMO_ARCTAN;
+exports.NMO_LOG    = NMO_LOG;
+exports.NMO_MIN    = NMO_MIN;
+exports.NMO_MAX    = NMO_MAX;
+exports.NMO_ROUND  = NMO_ROUND;
+exports.NMO_MOD    = NMO_MOD;
+exports.NMO_ABS    = NMO_ABS;
+
+/**
  * Node string operations
  */
 var NSO_JOIN    = 0;
@@ -111,12 +147,6 @@ exports.NSO_FIND    = NSO_FIND;
 exports.NSO_REPLACE = NSO_REPLACE;
 exports.NSO_SPLIT   = NSO_SPLIT;
 exports.NSO_COMPARE = NSO_COMPARE;
-
-/**
- * Node json operations
- */
-var NJO_PARSE  = 0;
-var NJO_ENCODE = 1;
 
 /**
  * Node conditions
@@ -207,6 +237,8 @@ var _nodes_handlers = {
 var _logic_arr = [];
 
 var _logic_custom_cb_arr = {};
+
+var _node_ident_counters = {};
 
 function init_node(snode, logic_script) {
 
@@ -422,7 +454,11 @@ function hide_object_handler(node, logic, thread_state, timeline, elapsed, start
         }
         break;
     case RUNNING:
-        m_scs.change_visibility(node.obj, true);
+        var process_child = node.bools["ch"];
+        if (process_child)
+            m_scs.change_visibility_rec(node.obj, true);
+        else
+            m_scs.change_visibility(node.obj, true);
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
@@ -437,7 +473,11 @@ function show_object_handler(node, logic, thread_state, timeline, elapsed, start
         }
         break;
     case RUNNING:
-        m_scs.change_visibility(node.obj, false);
+        var process_child = node.bools["ch"];
+        if (process_child)
+            m_scs.change_visibility_rec(node.obj, false);
+        else
+            m_scs.change_visibility(node.obj, false);
         thread_state.curr_node = node.slot_idx_order;
         break;
     }
@@ -492,7 +532,7 @@ function create_select_sensor(node, logic, thread) {
     }
 
     var select_cb = gen_sel_cb();
-    m_ctl.create_sensor_manifold(obj, "LOGIC_NODES_SELECT_" + node.label, m_ctl.CT_SHOT,
+    m_ctl.create_sensor_manifold(obj, "LOGIC_NODES_SELECT_" + node_ident(node.label), m_ctl.CT_SHOT,
         sel_sensors, m_ctl.default_OR_logic_fun, select_cb, [node, logic, thread]);
 }
 function select_handler(node, logic, thread_state, timeline, elapsed, start_time) {
@@ -568,7 +608,7 @@ function create_switch_select_sensor(node, logic, thread) {
         sel_sensors.push(m_ctl.create_selection_sensor(sel_objs[j], false));
     }
     var select_cb = gen_switch_select_cb();
-    m_ctl.create_sensor_manifold(obj, "LOGIC_NODES_SWITCH_SELECT_" + node.label, m_ctl.CT_SHOT,
+    m_ctl.create_sensor_manifold(obj, "LOGIC_NODES_SWITCH_SELECT_" + node_ident(node.label), m_ctl.CT_SHOT,
         sel_sensors, m_ctl.default_OR_logic_fun, select_cb, [node, logic, thread]);
 }
 
@@ -774,7 +814,7 @@ function inherit_mat_handler(node, logic, thread_state, timeline, elapsed, start
         }
         break;
     case RUNNING:
-        m_batch.inherit_material(node.objects['id0'], node.materials_names['id0'],
+        m_obj.inherit_material(node.objects['id0'], node.materials_names['id0'],
             node.objects['id1'], node.materials_names['id1']);
         thread_state.curr_node = node.slot_idx_order;
         break;
@@ -1117,7 +1157,7 @@ function set_camera_move_style_handler(node, logic, thread_state, timeline, elap
             }
 
             m_cam.setup_target_model(cam, pos, pivot, cam_state.horizontal_limits,
-                    cam_state.vertical_limits, cam_state.dist_limits, cam_state.pivot_limits, cam_state.use_panning);
+                    cam_state.vertical_limits, cam_state.distance_limits, cam_state.pivot_limits, cam_state.use_panning);
             break;
         }
 
@@ -1467,23 +1507,59 @@ function math_handler(node, logic, thread_state, timeline, elapsed, start_time) 
             get_var(node.vars["v2"], logic.variables, thread_state.variables), NT_NUMBER);
         var result = 0;
         switch (node.op) {
-        case "ADD":
+        case NMO_ADD:
             result = val1 + val2;
             break;
-        case "MUL":
+        case NMO_MUL:
             result = val1 * val2;
             break;
-        case "SUB":
+        case NMO_SUB:
             result = val1 - val2;
             break;
-        case "DIV":
+        case NMO_DIV:
             if (val2 == 0)
                 m_util.panic("Division by zero in Logic script");
 
             result = val1 / val2;
             break;
-        case "RAND":
+        case NMO_RAND:
             result = Math.random() * (val2 - val1) + val1;
+            break;
+        case NMO_SIN:
+            result = Math.sin(val1);
+            break;
+        case NMO_COS:
+            result = Math.cos(val1);
+            break;
+        case NMO_TAN:
+            result = Math.tan(val1);
+            break;
+        case NMO_ARCSIN:
+            result = Math.asin(val1);
+            break;
+        case NMO_ARCCOS:
+            result = Math.acos(val1);
+            break;
+        case NMO_ARCTAN:
+            result = Math.atan(val1);
+            break;
+        case NMO_LOG:
+            result = Math.log(val1);
+            break;
+        case NMO_MIN:
+            result = Math.min(val1, val2);
+            break;
+        case NMO_MAX:
+            result = Math.max(val1, val2);
+            break;
+        case NMO_ROUND:
+            result = Math.round(val1);
+            break;
+        case NMO_MOD:
+            result = val1 % val2;
+            break;
+        case NMO_ABS:
+            result = Math.abs(val1);
             break;
         }
 
@@ -1768,7 +1844,7 @@ function json_handler(node, logic, thread_state, timeline, elapsed, start_time) 
             var deep_value = dest_json;
             var src_name = encode_vars[i];
 
-            if (!src_name in src_vars)
+            if (!(src_name in src_vars))
                 continue;
 
             for(var j = 0; j < path_steps.length - 1; j++) {
@@ -1957,7 +2033,7 @@ function prepare_logic(scene, logic) {
 function convert_variable(variable, type) {
     switch (type) {
     case NT_NUMBER:
-        return Boolean(Number(variable)) ? Number(variable) : 0;
+        return Number(variable) ? Number(variable) : 0;
     case NT_STRING:
         return String(variable);
     default: 
@@ -1977,8 +2053,25 @@ function convert_b4w_type(variable) {
     }
 }
 
+/**
+ * Compose unique node identifier based on given node_label.
+ */
+function node_ident(node_label) {
+    if (!_node_ident_counters[node_label])
+        _node_ident_counters[node_label] = 0;
+
+    var name = node_label + "_" + _node_ident_counters[node_label];
+    // remove slash and space symbols
+    name = name.replace(/ /g, "_").replace(/\//g, "_");
+
+    _node_ident_counters[node_label]++;
+
+    return name;
+}
+
 exports.cleanup = function() {
     _logic_arr.length = 0;
     _logic_custom_cb_arr = {};
+    _node_ident_counters = {};
 }
 }

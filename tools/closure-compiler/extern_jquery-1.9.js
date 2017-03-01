@@ -2159,3 +2159,7 @@ jQuery.prototype.wrapAll = function(wrappingElement) {};
  */
 jQuery.prototype.wrapInner = function(arg1) {};
 
+jQuery.prototype.slider = function(arg1) {};
+jQuery.prototype.selectmenu = function(arg1, arg2) {};
+jQuery.prototype.ColorPickerSetColor = function(arg1) {};
+jQuery.prototype.ColorPicker = function(arg1) {};

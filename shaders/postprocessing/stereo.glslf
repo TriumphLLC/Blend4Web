@@ -4,6 +4,8 @@
                                     VARS
 ==============================================================================*/
 #var ANAGLYPH 0
+#var EPSILON 0.000001
+#var DISTOR_SCALE 0.8
 
 /*============================================================================*/
 
@@ -13,6 +15,8 @@
 
 uniform sampler2D u_sampler_left;
 uniform sampler2D u_sampler_right;
+
+uniform vec2 u_texel_size;
 
 /*==============================================================================
                                 SHADER INTERFACE
@@ -32,8 +36,7 @@ uniform vec4 u_distortion_params;
 uniform vec4 u_chromatic_aberration_coefs;
 
 void hmd_distorsion(vec2 texcoord, vec2 center, float size, sampler2D sampler) {
-    vec2 theta = (texcoord - center) * 2.0;
-    theta /= size;
+    vec2 theta = (texcoord - center) * 4.0 * u_texel_size[0] / u_texel_size[1] / size;
     float rsquare = theta.x * theta.x + theta.y * theta.y;
     vec2 rvector = theta * (1.0 + u_distortion_params[0] * rsquare
             + u_distortion_params[1] * rsquare * rsquare);
@@ -41,10 +44,10 @@ void hmd_distorsion(vec2 texcoord, vec2 center, float size, sampler2D sampler) {
 
     if (length(u_chromatic_aberration_coefs) > 0.0) {
         vec2 tc_r = tc * (1.0 + u_chromatic_aberration_coefs[0] +
-                rsquare * u_chromatic_aberration_coefs[1]) + center;
-        vec2 tc_g = tc + center;
+                rsquare * u_chromatic_aberration_coefs[1]) + 0.5;
+        vec2 tc_g = tc + 0.5;
         vec2 tc_b = tc * (1.0 + u_chromatic_aberration_coefs[2] +
-                rsquare * u_chromatic_aberration_coefs[3]) + center;
+                rsquare * u_chromatic_aberration_coefs[3]) + 0.5;
 
         if (clamp(tc_b, 0.0, 1.0) != tc_b) {
             GLSL_OUT_FRAG_COLOR = vec4(0.0);
@@ -57,7 +60,7 @@ void hmd_distorsion(vec2 texcoord, vec2 center, float size, sampler2D sampler) {
             GLSL_OUT_FRAG_COLOR[3] = orig_rgba.w;
         }
     } else {
-        tc = tc * size + center;
+        tc += 0.5;
         if (clamp(tc, 0.0, 1.0) != tc) {
             GLSL_OUT_FRAG_COLOR = vec4(0.0);
         } else {
@@ -101,19 +104,28 @@ void main(void) {
     GLSL_OUT_FRAG_COLOR = vec4(color, lc[3] + rc[3]);
 #else // ANAGLYPH
     if (u_enable_hmd_stereo != 0) {
-        if (v_texcoord[0] < 0.5) {
-            // left eye
-            vec2 texcoord = vec2(2.0 * v_texcoord[0], v_texcoord[1]);
-            vec2 center = vec2(0.5 - (u_distortion_params[3] - 0.5) / 2.0, u_distortion_params[2]);
-            float size = 2.0 * u_distortion_params[3];
-            hmd_distorsion(texcoord, center, size, u_sampler_left);
-        } else {
-            // right eye
-            vec2 texcoord = vec2(2.0 * (v_texcoord[0] - 0.5), v_texcoord[1]);
-            vec2 center = vec2(0.5 + (u_distortion_params[3] - 0.5) / 2.0, u_distortion_params[2]);
-            float size = 2.0 * u_distortion_params[3];
-            hmd_distorsion(texcoord, center, size, u_sampler_right);
-        }
+        if (abs(u_distortion_params[0]) > EPSILON || abs(u_distortion_params[1]) > EPSILON)
+            if (v_texcoord[0] < 0.5) {
+                // left eye
+                vec2 texcoord = vec2(2.0 * v_texcoord[0], v_texcoord[1]);
+                vec2 center = vec2(0.5 - (u_distortion_params[3] - 0.5) / 2.0, u_distortion_params[2]);
+                float size = 2.0 * u_distortion_params[3] * DISTOR_SCALE;
+                hmd_distorsion(texcoord, center, size, u_sampler_left);
+            } else {
+                // right eye
+                vec2 texcoord = vec2(2.0 * (v_texcoord[0] - 0.5), v_texcoord[1]);
+                vec2 center = vec2(0.5 + (u_distortion_params[3] - 0.5) / 2.0, u_distortion_params[2]);
+                float size = 2.0 * u_distortion_params[3] * DISTOR_SCALE;
+                hmd_distorsion(texcoord, center, size, u_sampler_right);
+            }
+        else
+            if (v_texcoord[0] < 0.5) {
+                vec2 texcoord = vec2(2.0 * v_texcoord[0], v_texcoord[1]);
+                GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_sampler_left, texcoord);
+            } else {
+                vec2 texcoord = vec2(2.0 * (v_texcoord[0] - 0.5), v_texcoord[1]);
+                GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_sampler_right, texcoord);
+            }
     } else {
         GLSL_OUT_FRAG_COLOR = GLSL_TEXTURE(u_sampler_left, v_texcoord);
     }

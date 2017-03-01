@@ -10,7 +10,6 @@ var m_cfg       = require("config");
 var m_cont      = require("container");
 var m_data      = require("data");
 var m_main      = require("main");
-var m_preloader = require("preloader");
 var m_scs       = require("scenes");
 var m_sfx       = require("sfx");
 var m_tsr       = require("tsr");
@@ -22,7 +21,6 @@ var DEBUG = (m_version.type() === "DEBUG");
 var PRELOADING = true;
 var CAM_TRACKING_OFFSET = new Float32Array([13, -13, 4.5]);
 var CAM_STAT_POS = new Float32Array([-20, -120, 2]);
-var APPROX_CESSNA_SPEED = 40;
 
 var TS_NONE     = 10;   // initial state
 var TS_FOLLOW   = 20;   // follow the plane with offset
@@ -256,8 +254,6 @@ function mouseover_cb(scene_id, e) {
         return null;
 
     var target     = e.target;
-    var elem       = document.getElementById(scene_id);
-    var parent     = elem.parentElement;
     var glow_hover = document.querySelector('#glow');
 
     if (!glow_hover) {

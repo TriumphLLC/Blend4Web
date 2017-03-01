@@ -589,7 +589,6 @@ msgid "Detailed API module documentation: :b4wmod:`link camera`."
 msgstr "Подробная документация API модуля: :b4wmod:`ссылка camera`."
 
 #: ../camera.rst:355
-#, fuzzy
 msgid ""
 "A camera's position and its spatial orientation are defined by the "
 "control mode. In the ``EYE``, ``TARGET`` and ``HOVER`` modes, control "

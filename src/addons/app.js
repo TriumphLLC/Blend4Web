@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,6 @@
 
 b4w.module["app"] = function(exports, require) {
 
-var m_anim  = require("animation");
 var m_cam   = require("camera");
 var m_cfg   = require("config");
 var m_cons  = require("constraints");
@@ -39,6 +38,7 @@ var m_input = require("input");
 var m_main  = require("main");
 var m_phy   = require("physics");
 var m_print = require("print");
+var m_screen = require("screen");
 var m_scs   = require("scenes");
 var m_trans = require("transform");
 var m_util  = require("util");
@@ -82,7 +82,6 @@ var CAM_SMOOTH_ROT_TRANS_MOUSE = 0.08;
 var CAM_SMOOTH_ROT_TRANS_TOUCH = 0.12;
 
 // Constants used for camera physics
-var COLL_RESPONSE_NORMAL_FACTOR = 0.01;
 var CHAR_HEAD_POSITION          = 0.5;
 
 // NOTE: EPSILON_DELTA << EPSILON_DISTANCE to prevent camera freezing near pivot
@@ -112,7 +111,6 @@ var _vec2_tmp  = new Float32Array(2);
 var _vec2_tmp2 = new Float32Array(2);
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
-var _vec3_tmp3 = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 var _velocity_tmp = {};
 
@@ -122,7 +120,7 @@ var _limits_tmp = {};
  * Application initialization callback.
  * @callback AppInitCallback
  * @param {HTMLElement} canvas Initialized canvas element.
- * @param {Boolean} success Success flag.
+ * @param {boolean} success Success flag.
  */
 
 /**
@@ -131,26 +129,26 @@ var _limits_tmp = {};
  * configuration (see {@link module:config|config} module).
  * In that case they will be applied before engine initialization.
  * @param {Object}   [options={}] Initialization options.
- * @param {String}   [options.canvas_container_id=null] Canvas container ID.
+ * @param {string}   [options.canvas_container_id=null] Canvas container ID.
  * @param {AppInitCallback} [options.callback=function(){}] Initialization callback.
- * @param {Boolean}  [options.error_purge_elements=null] Remove interface
+ * @param {boolean}  [options.error_purge_elements=null] Remove interface
  * elements after error.
- * @param {Boolean}  [options.show_hud_debug_info=false] Show HUD with
+ * @param {boolean}  [options.show_hud_debug_info=false] Show HUD with
  * developer info.
- * @param {Boolean}  [options.show_fps=false] Show FPS counter.
- * @param {String}   [options.fps_elem_id=null] Custom fps counter id.
- * @param {String}   [options.fps_wrapper_id=null] Show FPS wrapper with
+ * @param {boolean}  [options.show_fps=false] Show FPS counter.
+ * @param {string}   [options.fps_elem_id=null] Custom fps counter id.
+ * @param {string}   [options.fps_wrapper_id=null] Show FPS wrapper with
  * current id.
- * @param {Boolean}  [options.report_init_failure=true] Show elements with info
+ * @param {boolean}  [options.report_init_failure=true] Show elements with info
  * about init failure
- * @param {Boolean}  [options.pause_invisible=true] Pause engine simulation if
+ * @param {boolean}  [options.pause_invisible=true] Pause engine simulation if
  * page is not visible (in other tab or minimized).
- * @param {Boolean}  [options.key_pause_enabled=true] Enable key pause
- * @param {Boolean}  [options.autoresize=false] Automatically resize canvas to
+ * @param {boolean}  [options.key_pause_enabled=true] Enable key pause
+ * @param {boolean}  [options.autoresize=false] Automatically resize canvas to
  * match the size of container element.
- * @param {Number}  [options.force_container_ratio=0] Automatically resize
+ * @param {number}  [options.force_container_ratio=0] Automatically resize
  * canvas container height, based on its width and passed ratio value.
- * @param {Boolean} [options.min_capabilities=false] Set min capability mode
+ * @param {boolean} [options.min_capabilities=false] Set min capability mode
  * @cc_externs canvas_container_id callback show_hud_debug_info
  * @cc_externs sfx_mix_mode show_fps fps_elem_id error_purge_elements
  * @cc_externs report_init_failure pause_invisible key_pause_enabled
@@ -203,6 +201,8 @@ exports.init = function(options) {
             break;
         case "track_container_position":
             track_container_position = options.track_container_position;
+            m_print.error_once("track_container_position deprecated. " +
+                    "Not needed anymore. Use the container.client_to_canvas_coords method.");
             break;
         case "fps_wrapper_id":
             fps_wrapper_id = options.fps_wrapper_id;
@@ -410,7 +410,7 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
     if (!m_main.init(canvas_elem, canvas_elem_hud)) {
         if (report_init_failure)
             report_app_error("Browser could not initialize WebGL", "For more info visit",
-                    "https://www.blend4web.com/doc/en/problems_and_solutions.html", purge_elements);
+                    "https://www.blend4web.com/doc/en/problems_and_solutions.html#problems-upon-startup", purge_elements);
         return false;
     }
 
@@ -431,13 +431,14 @@ function create_fps_logger_elem(fps_elem_id, fps_wrapper_id) {
         _fps_logger_elem.innerHTML = 0;
         _fps_logger_elem.style.cssText =
             "position:absolute;" +
-            "top: 23px;" +
+            "font-family: Arial, sans-serif;" +
+            "top: 20px;" +
             "right: 20px;" +
-            "text-shadow: 0px 0px 6px #fff;" +
+            "text-shadow: 0px 0px 6px #000;" +
             "font-size: 40px;" +
             "line-height: 50px;" +
             "font-weight: bold;" +
-            "color: #000;";
+            "color: #fff;";
 
         m_cont.insert_to_container(_fps_logger_elem, "JUST_AFTER_CANVAS");
     }
@@ -461,16 +462,6 @@ function elem_cloned(elem_id) {
     target.parentNode.replaceChild(new_element, target);
 
     return new_element;
-}
-
-/**
- * Fit canvas elements to match the size of container element.
- * @method module:app.resize_to_container
- * @deprecated use {@link module:container.resize_to_container} instead.
- */
-exports.resize_to_container = function() {
-    m_print.error_deprecated("app.resize_to_container", "container.resize_to_container");
-    m_cont.resize_to_container();
 }
 
 exports.set_onclick = function(elem_id, callback) {
@@ -585,13 +576,13 @@ function get_dest_zoom(obj, value, velocity_zoom, dest_value, dev_fact,
  * Assign keyboard and mouse controls to the active camera.
  * (arrow keys, ADSW, wheel and others)
  * @method module:app.enable_camera_controls
- * @param {Boolean} [disable_default_pivot=false] Do not use the possible
+ * @param {boolean} [disable_default_pivot=false] Do not use the possible
  * camera-defined pivot point
- * @param {Boolean} [disable_letter_controls=false] Disable keyboard letter controls
+ * @param {boolean} [disable_letter_controls=false] Disable keyboard letter controls
  * (only arrow keys will be used to control the camera)
- * @param {Boolean} [disable_zoom=false] Disable zoom
- * @param {HTMLElement} [element=Canvas container element] HTML element to add event listeners to
- * @param {Boolean} [allow_element_exit=false] Continue receiving mouse events
+ * @param {boolean} [disable_zoom=false] Disable zoom
+ * @param {HTMLElement} [element] HTML element to add event listeners to. The canvas container will be use by default.
+ * @param {boolean} [allow_element_exit=false] Continue receiving mouse events
  * even when the mouse is leaving the HTML element
  * @example 
  * var m_app = require("app");
@@ -616,15 +607,15 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
 
     switch (m_cam.get_move_style(obj)) {
     case m_cam.MS_TARGET_CONTROLS:
-        var use_pivot = !disable_default_pivot;
+        use_pivot = !disable_default_pivot;
         break;
     case m_cam.MS_EYE_CONTROLS:
-        var character = m_scs.get_first_character();
+        character = m_scs.get_first_character();
         break;
     case m_cam.MS_STATIC:
         return;
     case m_cam.MS_HOVER_CONTROLS:
-        var use_hover = true;
+        use_hover = true;
         break;
     }
 
@@ -834,10 +825,10 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls,
     var rh_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_2, gmpd_indices);
     var rv_axis = m_ctl.create_gamepad_axis_sensor(m_input.GMPD_AXIS_3, gmpd_indices);
 
-    var key_single_logic = null;
-    var key_double_logic = function(s) {
-        return s[0] && (s[1] || s[2]);
-    }
+    // var key_single_logic = null;
+    // var key_double_logic = function(s) {
+    //     return s[0] && (s[1] || s[2]);
+    // }
      var key_triple_logic = function(s) {
         return s[0] && (s[1] || s[2] || s[3]);
     }
@@ -1278,26 +1269,6 @@ function disable_camera_controls() {
 }
 
 /**
- * Set the movement style for the active camera and reload controls assigned by
- * {@link module:app.enable_camera_controls|enable_camera_controls()}.
- * @method module:app.set_camera_move_style
- * @param {CameraMoveStyle} move_style New camera movement style.
- * @deprecated use {@link module:camera.static_setup|camera.static_setup} or 
- * {@link module:camera.eye_setup|camera.eye_setup} or 
- * {@link module:camera.target_setup|camera.target_setup} or 
- * {@link module:camera.hover_setup|camera.hover_setup} or 
- * {@link module:camera.hover_setup_rel|camera.hover_setup_rel} instead.
-
- */
-exports.set_camera_move_style = function(move_style) {
-    m_print.error_deprecated_arr("app.set_camera_move_style", [
-            "camera.static_setup", "camera.eye_setup", "camera.target_setup", 
-            "camera.hover_setup", "camera.hover_setup_rel"]);
-    var camera = m_scs.get_active_camera();
-    m_cam.set_move_style(camera, move_style);
-}
-
-/**
  * Assign some controls to the non-camera object.
  * @param {Object3D} obj Object 3D
  * @param {HTMLElement} [element=Canvas container element] HTML element
@@ -1396,27 +1367,6 @@ exports.disable_object_controls = function(obj) {
 }
 
 /**
- * Enable engine controls.
- * Registers common event listeners for input sensors. If you need different
- * set of event handlers/parameters, register event listeners manually by
- * using register_* functions from {@link module:controls}.
- * @param {Boolean} [allow_element_exit=false] Continue receiving mouse events
- * even when the mouse is leaving the HTML element.
- * @deprecated Not need anymore.
- */
-exports.enable_controls = function(allow_element_exit) {
-    m_print.error_once("app.enable_controls() deprecated");
-}
-
-/**
- * Disable engine controls.
- * @deprecated Not need anymore.
- */
-exports.disable_controls = function() {
-    m_print.error_once("app.disable_controls() deprecated");
-}
-
-/**
  * Enable debug controls:
  * <ul>
  * <li>K - make camera debug shot
@@ -1435,7 +1385,6 @@ exports.enable_debug_controls = function() {
             m_ctl.KEY_T, function() {m_dbg.plot_telemetry();});
 }
 
-exports.request_fullscreen = request_fullscreen;
 /**
  * Request fullscreen mode.
  * Security issues: execute by user event.
@@ -1443,91 +1392,42 @@ exports.request_fullscreen = request_fullscreen;
  * @param {HTMLElement} elem Element
  * @param {FullscreenEnabledCallback} enabled_cb Enabled callback
  * @param {FullscreenDisabledCallback} disabled_cb Disabled callback
+ * @deprecated Use {@link module:screen.request_fullscreen} instead
  */
-function request_fullscreen(elem, enabled_cb, disabled_cb) {
+exports.request_fullscreen = function(elem, enabled_cb, disabled_cb) {
+    m_print.error_deprecated("request_fullscreen", "screen.request_fullscreen");
+    m_screen.request_fullscreen(elem, enabled_cb, disabled_cb);
+};
 
-    enabled_cb = enabled_cb || function() {};
-    disabled_cb = disabled_cb || function() {};
-
-    function on_fullscreen_change() {
-        if (document.fullscreenElement === elem ||
-                document.webkitFullScreenElement === elem ||
-                document.mozFullScreenElement === elem ||
-                document.webkitIsFullScreen ||
-                document.msFullscreenElement === elem) {
-            //m_print.log("Fullscreen enabled");
-            enabled_cb();
-        } else {
-            document.removeEventListener("fullscreenchange",
-                    on_fullscreen_change, false);
-            document.removeEventListener("webkitfullscreenchange",
-                    on_fullscreen_change, false);
-            document.removeEventListener("mozfullscreenchange",
-                    on_fullscreen_change, false);
-            document.removeEventListener("MSFullscreenChange",
-                    on_fullscreen_change, false);
-            //m_print.log("Fullscreen disabled");
-            disabled_cb();
-        }
-    }
-
-    document.addEventListener("fullscreenchange", on_fullscreen_change, false);
-    document.addEventListener("webkitfullscreenchange", on_fullscreen_change, false);
-    document.addEventListener("mozfullscreenchange", on_fullscreen_change, false);
-    document.addEventListener("MSFullscreenChange", on_fullscreen_change, false);
-
-    elem.requestFullScreen = elem.requestFullScreen ||
-            elem.webkitRequestFullScreen || elem.mozRequestFullScreen
-            || elem.msRequestFullscreen;
-    if (elem.requestFullScreen)
-        elem.requestFullScreen();
-    else
-        m_print.error("B4W App: request fullscreen method is not supported");
-}
-
-exports.exit_fullscreen = exit_fullscreen;
 /**
  * Exit fullscreen mode.
  * @method module:app.exit_fullscreen
+ * @deprecated Use {@link module:screen.exit_fullscreen} instead
  */
-function exit_fullscreen() {
+exports.exit_fullscreen = function() {
+    m_print.error_deprecated("exit_fullscreen", "screen.exit_fullscreen");
+    m_screen.exit_fullscreen();
+};
 
-    var exit_fs = document.exitFullscreen || document.webkitExitFullscreen ||
-            document.mozCancelFullScreen || document.msExitFullscreen;
-
-    if (typeof exit_fs != "function")
-        m_print.error("B4W App: exit fullscreen method is not supported");
-
-    exit_fs.apply(document);
-}
-
-exports.check_fullscreen = check_fullscreen;
 /**
  * Check whether fullscreen mode is available.
  * @method module:app.check_fullscreen
- * @returns {Boolean} Result of the check.
+ * @returns {boolean} Result of the check.
+ * @deprecated Use {@link module:screen.check_fullscreen} instead
  */
-function check_fullscreen() {
-
-    var fullscreenEnabled = window.document.fullscreenEnabled ||
-                            window.document.mozFullScreenEnabled ||
-                            window.document.msFullscreenEnabled ||
-                            window.document.webkitFullscreenEnabled;
-
-    if (fullscreenEnabled)
-        return true;
-
-    return false;
-}
+exports.check_fullscreen = function() {
+    m_print.error_deprecated("check_fullscreen", "screen.check_fullscreen");
+    return m_screen.check_fullscreen();
+};
 
 exports.report_app_error = report_app_error;
 /**
  * Report an application error.
  * Creates standard HTML elements with error info and inserts them in the page body.
  * @method module:app.report_app_error
- * @param {String} text_message Message to place on upper element.
- * @param {String} link_message Message to place on bottom element.
- * @param {String} link Link to place on bottom element.
+ * @param {string} text_message Message to place on upper element.
+ * @param {string} link_message Message to place on bottom element.
+ * @param {string} link Link to place on bottom element.
  * @param {HTMLElement[]} purge_elements Array of elements to destroy just before the error
  * elements are inserted.
  */
@@ -1561,7 +1461,7 @@ function report_app_error(text_message, link_message, link, purge_elements) {
 
 /**
  * Retrieve parameters of the page's URL.
- * @param {Boolean} [allow_param_array=false] Create arrays of parameters if they share the same name.
+ * @param {boolean} [allow_param_array=false] Create arrays of parameters if they share the same name.
  * @returns {Object|Null} URL parameters in a key-value format.
  */
 exports.get_url_params = function(allow_param_array) {
@@ -1604,12 +1504,12 @@ exports.get_url_params = function(allow_param_array) {
  * Animate css-property value.
  * @method module:app.css_animate
  * @param {HTMLElement} elem HTML-element.
- * @param {String} prop Animated css-property.
- * @param {Number} from Value from.
- * @param {Number} to Value to.
- * @param {Number} timeout Time for animation.
- * @param {String} [opt_prefix] Prefix of css-property (" scale(", "%" and etc).
- * @param {String} [opt_suffix] Suffix of css-property (" px", "%" and etc).
+ * @param {string} prop Animated css-property.
+ * @param {number} from Value from.
+ * @param {number} to Value to.
+ * @param {number} timeout Time for animation.
+ * @param {string} [opt_prefix] Prefix of css-property (" scale(", "%" and etc).
+ * @param {string} [opt_suffix] Suffix of css-property (" px", "%" and etc).
  * @param {GenericCallback} [opt_callback] Finish callback function.
  */
 exports.css_animate = function(elem, prop, from, to, timeout, opt_prefix, opt_suffix, opt_callback) {
@@ -1653,10 +1553,10 @@ exports.css_animate = function(elem, prop, from, to, timeout, opt_prefix, opt_su
  * Animate html tag attribute.
  * @method module:app.attr_animate
  * @param {HTMLElement} elem HTML-element.
- * @param {String} attr_name Animated attribute name.
- * @param {Number} from Value from.
- * @param {Number} to Value to.
- * @param {Number} timeout Time for animation.
+ * @param {string} attr_name Animated attribute name.
+ * @param {number} from Value from.
+ * @param {number} to Value to.
+ * @param {number} timeout Time for animation.
  * @param {GenericCallback} [opt_callback] Finish callback function.
  */
 exports.attr_animate = function(elem, attr_name, from, to, timeout, opt_callback) {
@@ -1706,14 +1606,14 @@ function animate(elem, from, to, timeout, anim_cb) {
 /**
  * Queue object params.
  * @typedef {Object} QueueObject
- * @property {String} type Animation type.
+ * @property {string} type Animation type.
  * @property {HTMLElement} elem Animated html element.
- * @property {String} prop Animated property.
- * @property {Number} from Initial property value.
- * @property {Number} to Target property value.
- * @property {Number} duration Animation duration in ms.
- * @property {String} [opt_prefix=''] Prefix for the css property.
- * @property {String} [opt_suffix=''] Prefix for the css property.
+ * @property {string} prop Animated property.
+ * @property {number} from Initial property value.
+ * @property {number} to Target property value.
+ * @property {number} duration Animation duration in ms.
+ * @property {string} [opt_prefix=''] Prefix for the css property.
+ * @property {string} [opt_suffix=''] Prefix for the css property.
  * @property {AnimFinishCallback} [cb=function(){}] Animation finish callback.
  */
 
@@ -1769,7 +1669,7 @@ function smooth_coeff_rot_trans_touch() {
 /**
  * Set smooth factor for camera rotation.
  * @method module:app.set_camera_smooth_factor
- * @param {Number} value New smooth factor
+ * @param {number} value New smooth factor
  */
 exports.set_camera_smooth_factor = function(value) {
     _smooth_factor = value;
@@ -1778,7 +1678,7 @@ exports.set_camera_smooth_factor = function(value) {
 /**
  * Get smooth factor for camera rotation.
  * @method module:app.get_camera_smooth_factor
- * @returns {Number} Smooth factor
+ * @returns {number} Smooth factor
  */
 exports.get_camera_smooth_factor = function() {
     return _smooth_factor;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,13 +85,11 @@ function merge_vertices(geometry) {
         face.indices[2] = changes[face.indices[2]];
 
         indices = [face.indices[0], face.indices[1], face.indices[2]];
-        var dup_index = -1;
 
         // If any duplicate vertices are found in a Face3
         // we have to remove the face as nothing can be saved
         for (var n = 0; n < 3; n++) {
             if (indices[n] == indices[(n + 1) % 3]) {
-                dup_index = n;
                 face_indices_to_remove.push(i);
                 break;
             }
@@ -106,9 +104,10 @@ function merge_vertices(geometry) {
     // Use unique set of vertices
     var diff = geometry.vertices.length - unique.length;
     geometry.vertices.length = 0;
-    for (i in unique) {
+
+    for (i = 0; i < unique.length; i++)
         geometry.vertices.push(unique[i])
-    }
+
     return diff;
 
 }
@@ -588,7 +587,7 @@ function update_crucial_on_navmesh(portals, accum_new_apex, new_apex_index,
                     push_vec3(normals_dest, portals[j].normal);
 
                 if (j)
-                    update_accum_mat(interapex_accum_mat, portals[j], portals[j-1], j);
+                    update_accum_mat(interapex_accum_mat, portals[j], portals[j-1]);
             }
         }
     }

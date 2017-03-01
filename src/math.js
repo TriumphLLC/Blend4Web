@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,6 +64,7 @@ exports.calc_pline_point = function(pline, t, dest) {
     dest[0] = pline[0] + pline[3] * t;
     dest[1] = pline[1] + pline[4] * t;
     dest[2] = pline[2] + pline[5] * t;
+    return dest;
 }
 
 exports.calk_average_position = function(points, dest) {
@@ -116,8 +117,8 @@ exports.find_eigenvectors = function(m, err, dest) {
 
     var count = 1;
     while (err <= calc_canonical_mat_error(matrix) && count < MAX_ITER_NUM) {
-        var rot_matrix = find_elem_rotation_matrix(matrix, _mat3_tmp2);
-        var rot_matrix_t = m_mat3.transpose(rot_matrix, _mat3_tmp3);
+        rot_matrix = find_elem_rotation_matrix(matrix, _mat3_tmp2);
+        rot_matrix_t = m_mat3.transpose(rot_matrix, _mat3_tmp3);
         m_mat3.multiply(matrix, rot_matrix_t, _mat3_tmp4);
         m_mat3.multiply(rot_matrix, _mat3_tmp4, matrix);
         m_mat3.multiply(rot_matrix, eigenvectors, eigenvectors);

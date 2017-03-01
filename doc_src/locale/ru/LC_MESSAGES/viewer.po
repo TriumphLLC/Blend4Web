@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-10-21 15:02+0300\n"
+"POT-Creation-Date: 2017-02-21 14:02+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -88,8 +88,8 @@ msgstr "**Scene**"
 #: ../viewer.rst:40
 msgid "The name of the loaded scene. Path to the file pops-up on mouse hover."
 msgstr ""
-"Название загруженной сцены. При "
-"наведении курсора мыши всплывает путь к файлу."
+"Название загруженной сцены. При наведении курсора мыши всплывает путь к "
+"файлу."
 
 #: ../viewer.rst:43
 msgid "**Loaded**"
@@ -514,7 +514,7 @@ msgstr ""
 "остановлена)."
 
 #: ../viewer.rst:171 ../viewer.rst:216 ../viewer.rst:240 ../viewer.rst:258
-#: ../viewer.rst:292 ../viewer.rst:482
+#: ../viewer.rst:292 ../viewer.rst:500
 msgid "Available parameters:"
 msgstr "Доступные параметры:"
 
@@ -632,7 +632,7 @@ msgstr ""
 msgid ""
 "The factor of mixing different skeletal animations together. Default "
 "value is 1.0."
-msgstr "Задаёт степень спешивания скелетных анимаций. Значение п оумолчанию - 1.0."
+msgstr "Задаёт степень сvешивания скелетных анимаций. Значение п оумолчанию - 1.0."
 
 #: ../viewer.rst:212
 msgid "NLA"
@@ -1096,14 +1096,30 @@ msgstr ""
 "Blend4Web."
 
 #: ../viewer.rst:390
-msgid "Wind"
+msgid "Mist"
 msgstr ""
 
 #: ../viewer.rst:392
+msgid "Setup for fog parameters."
+msgstr "Настройка параметров тумана."
+
+#: ../viewer.rst:394
+msgid ""
+"Scene Viewer uses standard fog rendering settings that are described in "
+"the :ref:`dedicated chapter <fog>`."
+msgstr ""
+"Просмотрщик сцен использует стандартные настройки рендеринга тумана, "
+"описанные в :ref:`отдельной главе <fog>`."
+
+#: ../viewer.rst:399
+msgid "Wind"
+msgstr ""
+
+#: ../viewer.rst:401
 msgid "Setup for wind parameters, including direction and strength."
 msgstr "Настройка параметров ветра, включая направление и силу."
 
-#: ../viewer.rst:394
+#: ../viewer.rst:403
 msgid ""
 "The same parameters as the ones used by Scene Viewer are available in "
 "Blender. These parameters are described in the :ref:`corresponding "
@@ -1112,29 +1128,45 @@ msgstr ""
 "В Просмотрщике используется тот же набор параметров, что и в Blender. Эти"
 " параметры описаны в :ref:`соответствующей главе <wind>`."
 
-#: ../viewer.rst:399
+#: ../viewer.rst:408
+msgid "Wind Bending"
+msgstr ""
+
+#: ../viewer.rst:410
+msgid "Setup for wind bending effect parameters."
+msgstr "Настройка параметров эффекта Wind Bending."
+
+#: ../viewer.rst:412
+msgid ""
+"The same set of wind bending parameters is available in Blender. It is "
+"described in the :ref:`Outdoor Rendering <wind_bending>` chapter."
+msgstr ""
+"Аналогичный набор параметров Wind Bending доступен в Blender и описан в "
+"главе :ref:`Природные эффекты <wind_bending>`".
+
+#: ../viewer.rst:417
 msgid "Screen Space Amb Occlus"
 msgstr ""
 
-#: ../viewer.rst:401
+#: ../viewer.rst:419
 msgid "Setup for ambient occlusion parameters."
 msgstr "Настройка параметров взаимного затенения."
 
-#: ../viewer.rst:403
+#: ../viewer.rst:421
 msgid ""
 "All available settings are described in the :ref:`Postprocessing Effects "
 "<ssao>` chapter."
 msgstr "Все доступные настройки описаны в главе :ref:`\"Спецэффекты\" <ssao>`."
 
-#: ../viewer.rst:408
+#: ../viewer.rst:426
 msgid "God Rays"
 msgstr ""
 
-#: ../viewer.rst:410
+#: ../viewer.rst:428
 msgid "Setup for crepuscular ray effect parameters."
 msgstr "Настройка параметров эффекта сумеречных лучей."
 
-#: ../viewer.rst:412
+#: ../viewer.rst:430
 msgid ""
 "All parameters for this effect are described in the :ref:`corresponding "
 "section <god_rays>`."
@@ -1142,15 +1174,15 @@ msgstr ""
 "Все параметры этого эффекта описаны в :ref:`соответствующем разделе "
 "<god_rays>`."
 
-#: ../viewer.rst:417
+#: ../viewer.rst:435
 msgid "Bloom"
 msgstr ""
 
-#: ../viewer.rst:419
+#: ../viewer.rst:437
 msgid "Setup for bloom effect parameters."
 msgstr "Настройка параметров эффекта глубины резкости камеры."
 
-#: ../viewer.rst:421
+#: ../viewer.rst:439
 msgid ""
 "This effect uses the same set of parameters as it does in Blender. It is "
 "described in greater detail in the :ref:`corresponding section <bloom>`."
@@ -1158,15 +1190,15 @@ msgstr ""
 "Этот эффект использует те же параметры, что и в Blender. Более подробно "
 "они описаны в :ref:`соответствующем разделе <bloom>`."
 
-#: ../viewer.rst:426
+#: ../viewer.rst:444
 msgid "Motion Blur"
 msgstr ""
 
-#: ../viewer.rst:428
+#: ../viewer.rst:446
 msgid "Motion blur effect settings."
 msgstr "Настройка эффекта размытия изображения при движении."
 
-#: ../viewer.rst:430
+#: ../viewer.rst:448
 msgid ""
 "The parameters for adjusting Motion Blur effect are the same ones that "
 "are used in Blender. They are described in the :ref:`Postprocessing "
@@ -1176,37 +1208,37 @@ msgstr ""
 "таковыми в Blender. Они описаны в главе :ref:`\"Спецэффекты\" "
 "<motion_blur>`."
 
-#: ../viewer.rst:435
+#: ../viewer.rst:453
 msgid "Glow Materials"
 msgstr ""
 
-#: ../viewer.rst:437
+#: ../viewer.rst:455
 msgid "Glow Material effect settings."
 msgstr "Настройка эффекта свечения материалов."
 
-#: ../viewer.rst:439
+#: ../viewer.rst:457
 msgid ""
 "The settings used for this effect are described in the "
 ":ref:`corresponding section <glow>`."
 msgstr "Настройки этого эффекта описаны в :ref:`соответствующем разделе <glow>`."
 
-#: ../viewer.rst:444
+#: ../viewer.rst:462
 msgid "Depth of Field"
 msgstr ""
 
-#: ../viewer.rst:446
+#: ../viewer.rst:464
 msgid "Setup for depth-of-field effect parameters."
 msgstr "Настройка параметров эффекта глубины резкости камеры."
 
-#: ../viewer.rst:448
+#: ../viewer.rst:466
 msgid "The parameters are described in the :ref:`corresponding chapter <dof>`."
 msgstr "Настройки описаны в :ref:`соответствующем разделе <dof>`."
 
-#: ../viewer.rst:453
+#: ../viewer.rst:471
 msgid "Color correction"
 msgstr ""
 
-#: ../viewer.rst:455
+#: ../viewer.rst:473
 msgid ""
 "Setup for color correction parameters, including brightness, contrast, "
 "exposure and saturation."
@@ -1214,7 +1246,7 @@ msgstr ""
 "Настройка параметров цветовой коррекции, включая яркость, контрастность, "
 "экспозицию и насыщенность."
 
-#: ../viewer.rst:457
+#: ../viewer.rst:475
 msgid ""
 "The same set of parameters is used for color correction in Blender "
 "itself. The description of these parameters is available in the "
@@ -1224,11 +1256,11 @@ msgstr ""
 "параметров. Описание этих параметров находится в главе :ref:`\"Работа с "
 "цветом\" <color_correction>`."
 
-#: ../viewer.rst:462
+#: ../viewer.rst:480
 msgid "Audio"
 msgstr ""
 
-#: ../viewer.rst:464
+#: ../viewer.rst:482
 msgid ""
 "There is a mixing mode switch on the panel. After it is enabled the mixer"
 " interface becomes visible (only for scenes with sound sources)."
@@ -1236,11 +1268,11 @@ msgstr ""
 "На панели находится переключатель режима микширования. После включения на"
 " сценах со звуковыми источниками появляется интерфейс микшера."
 
-#: ../viewer.rst:473
+#: ../viewer.rst:491
 msgid "*Mixer*"
 msgstr ""
 
-#: ../viewer.rst:467
+#: ../viewer.rst:485
 msgid ""
 "Enables equalizer that shows various parameters (including volume, "
 "frequency, distance, attenuation and others) of the speakers present in "
@@ -1256,23 +1288,23 @@ msgstr ""
 "доступные параметры описаны в :ref:`соответствующем разделе <mixer>` "
 "главы :ref:`\"Звук\" <audio>`."
 
-#: ../viewer.rst:473
+#: ../viewer.rst:491
 msgid "This feature is disabled by default."
 msgstr "По умолчанию этот параметр деактивирован."
 
-#: ../viewer.rst:478
+#: ../viewer.rst:496
 msgid "Stereo View"
 msgstr ""
 
-#: ../viewer.rst:480
+#: ../viewer.rst:498
 msgid "There is a stereoscopic mode switch on the panel."
 msgstr "На панели находится переключатель режима стерео-изображения."
 
-#: ../viewer.rst:493
+#: ../viewer.rst:511
 msgid "*Stereo Types*"
 msgstr ""
 
-#: ../viewer.rst:485
+#: ../viewer.rst:503
 msgid ""
 "A list of all available stereo rendering modes. As of today, three types "
 "are supported:"
@@ -1280,15 +1312,15 @@ msgstr ""
 "Список доступных режимов рендеринга стереоизображения. На сегодняшний "
 "день доступно три режима:"
 
-#: ../viewer.rst:487
+#: ../viewer.rst:505
 msgid "``NONE`` - stereo rendering is not used."
 msgstr "``NONE`` - стереорендеринг не используется."
 
-#: ../viewer.rst:489
+#: ../viewer.rst:507
 msgid "``ANAGLYPH`` - :ref:`anaglyph <anaglyph>` rendering is used."
 msgstr "``ANAGLYPH`` - используется :ref:`анаглифное изображение <anaglyph>`."
 
-#: ../viewer.rst:491
+#: ../viewer.rst:509
 msgid ""
 "``HMD`` - rendering for :ref:`Head-Mounted Displays <hmd>` is used. This "
 "option is only available if the system has access to an HMD device."
@@ -1297,51 +1329,51 @@ msgstr ""
 "<hmd>`. Этот режим доступен только в том случае, если соответствующее "
 "устройство подключено к системе."
 
-#: ../viewer.rst:493
+#: ../viewer.rst:511
 msgid "Default setting is ``NONE``."
 msgstr "По умолчанию используется вариант ``NONE``."
 
-#: ../viewer.rst:496
+#: ../viewer.rst:514
 msgid "*HMD Settings*"
 msgstr ""
 
-#: ../viewer.rst:496
+#: ../viewer.rst:514
 msgid "Shows the :ref:`HMD setup window <hmd_settings>`."
 msgstr "Показывает :ref:`окно настроек HMD <hmd_settings>`."
 
-#: ../viewer.rst:501
+#: ../viewer.rst:519
 msgid "Input Devices"
 msgstr ""
 
-#: ../viewer.rst:503
+#: ../viewer.rst:521
 msgid "This panel contains tools for setting up the input devices."
 msgstr "На этой панели находятся средства настройки устройств ввода."
 
-#: ../viewer.rst:506
+#: ../viewer.rst:524
 msgid "*Gyroscope use*"
 msgstr ""
 
-#: ../viewer.rst:506
+#: ../viewer.rst:524
 msgid "Enables the use of the gyroscope in the application. Disabled by default."
 msgstr "Включает использование гироскопов в приложении. По умолчанию отключено."
 
-#: ../viewer.rst:513
+#: ../viewer.rst:531
 msgid "*Gamepad Settings*"
 msgstr ""
 
-#: ../viewer.rst:509
+#: ../viewer.rst:527
 msgid "Clicking this button shows the gamepad settings window."
 msgstr "Вызывает окно настроек геймпадов."
 
-#: ../viewer.rst:518
+#: ../viewer.rst:536
 msgid "Indicators"
 msgstr "Индикаторы"
 
-#: ../viewer.rst:525
+#: ../viewer.rst:543
 msgid "**Frames per second counter**"
 msgstr "**Счетчик количества кадров в секунду**"
 
-#: ../viewer.rst:525
+#: ../viewer.rst:543
 msgid ""
 "This is located in the top right corner. It displays the averaged and "
 "rounded value for the last 1.5 seconds."
@@ -1349,11 +1381,11 @@ msgstr ""
 "Находится в правом верхнем углу. Выводит усредненное и округленное "
 "значение за последние 1,5 секунды."
 
-#: ../viewer.rst:528
+#: ../viewer.rst:546
 msgid "**Viewport dimensions**"
 msgstr "**Размер области рендеринга**"
 
-#: ../viewer.rst:528
+#: ../viewer.rst:546
 msgid ""
 "This is located in the top left corner. It displays the viewport "
 "dimensions in pixels."
@@ -1361,11 +1393,11 @@ msgstr ""
 "Находится в левом верхнем углу. Выводит размер области рендеринга в "
 "пикселах."
 
-#: ../viewer.rst:531
+#: ../viewer.rst:549
 msgid "**Selected object and controlled object**"
 msgstr "**Выбранный объект и контролируемый объект**"
 
-#: ../viewer.rst:531
+#: ../viewer.rst:549
 msgid ""
 "This is located in the bottom left corner. It displays the names of "
 "selected and controlled objects. Selecting an object is done with the "
@@ -1385,11 +1417,11 @@ msgstr ""
 "показывает расстояние до выбранного объекта в единицах Blender'a "
 "(эквивалент метра)."
 
-#: ../viewer.rst:534
+#: ../viewer.rst:552
 msgid "**Scene complexity indicator**"
 msgstr "**Индикатор сложности сцены**"
 
-#: ../viewer.rst:534
+#: ../viewer.rst:552
 msgid ""
 "Is located in the top right corner of the rendering area. It displays the"
 " number of vertices, triangles, WebGL draw calls and shaders used in the "
@@ -1400,11 +1432,11 @@ msgstr ""
 "вершин, треугольников и вызовов отрисовки WebGL на основной рендер-сцене "
 "(т.е. не учитываются, например, вызовы по отрисовке динамических теней)."
 
-#: ../viewer.rst:537
+#: ../viewer.rst:555
 msgid "**Video memory indicator**"
 msgstr "**Индикатор видео-памяти**"
 
-#: ../viewer.rst:537
+#: ../viewer.rst:555
 msgid ""
 "Is located in the bottom right corner of the rendering area. It displays "
 "the amount of video memory used by geometry, textures, render targets, "
@@ -1415,11 +1447,11 @@ msgstr ""
 "рендеринга (render targets), а также суммарное количество занимаемой "
 "памяти."
 
-#: ../viewer.rst:542
+#: ../viewer.rst:560
 msgid "**Scene load error indicator**"
 msgstr "**Индикатор ошибок при загрузке сцены**"
 
-#: ../viewer.rst:540
+#: ../viewer.rst:558
 msgid ""
 "Is located under the FPS counter. It shows errors and warnings which "
 "occur during scene load. Red light means errors, yellow - warnings and "
@@ -1429,15 +1461,15 @@ msgstr ""
 "предупреждения при загрузке сцены. Красный свет означает ошибки, желтый -"
 " предупреждения, зеленый - загрузка сцены прошла успешно."
 
-#: ../viewer.rst:542
+#: ../viewer.rst:560
 msgid "Loading errors and warnings can be viewed in the web browser console."
 msgstr "Ошибки загрузки и предупреждения можно увидеть в консоли браузера."
 
-#: ../viewer.rst:547
+#: ../viewer.rst:565
 msgid "**Background Transparency Indicator**"
 msgstr "**Индикатор прозрачности фона**"
 
-#: ../viewer.rst:545
+#: ../viewer.rst:563
 msgid ""
 "Is located in the top right corner of the screen, right below the Scene "
 "Complexity Indicator. This is a debug tool that can be used to find if "
@@ -1449,7 +1481,7 @@ msgstr ""
 "прозрачен ли фон сцены. Имеет вид небольшого квадрата с чёрно-белым "
 "\"шахматным\" узором."
 
-#: ../viewer.rst:547
+#: ../viewer.rst:565
 msgid ""
 "This indicator is visible only when the background of the application is "
 "transparent. It is shown on the picture above only to give the reader the"
@@ -1473,9 +1505,8 @@ msgid "debug;"
 msgstr ""
 
 #: ../viewer.rst:95
-#, fuzzy
 msgid "view"
-msgstr "просмотрщик"
+msgstr ""
 
 #: ../viewer.rst:95
 msgid "wireframe"
@@ -1498,7 +1529,7 @@ msgid "render"
 msgstr ""
 
 #~ msgid ""
-#~ msgstr ""
+#~ msgstr "Двухуровневый список категорий и сцен из файла ``assets.json``."
 
 #~ msgid "**NLA**"
 #~ msgstr ""
@@ -1532,10 +1563,4 @@ msgstr ""
 
 #~ msgid "Scenes"
 #~ msgstr ""
-
-#~ msgid ""
-#~ "A double-level list of the "
-#~ "categories and scenes from the "
-#~ "``assets.json`` file."
-#~ msgstr "Двухуровневый список категорий и сцен из файла ``assets.json``."
 

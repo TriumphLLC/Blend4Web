@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Содержание &mdash; Руководство пользователя Blend4Web 16.12</title>
+  <title>Содержание &mdash; Руководство пользователя Blend4Web 17.02</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="Об этих документах"
               href="about.html"/>
-    <link rel="top" title="Руководство пользователя Blend4Web 16.12" href="#"/>
+    <link rel="top" title="Руководство пользователя Blend4Web 17.02" href="#"/>
         <link rel="next" title="Общие сведения" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -181,10 +181,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#authoring-scenes">Подготовка сцен</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#displaying-scenes-in-the-viewer">Отображение сцен в просмотрщике</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#creating-a-new-project">Создание нового проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#creating-scenes">Создание сцен</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#preparing-a-scene-to-use-in-blend4web">Подготовка трёхмерных сцен в программе Blender.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#exporting-scenes">Экспорт сцен</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#application-development">Разработка приложения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#project-building">Сборка проекта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#project-deploying">Размещение проекта.</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">Управление проектами</a><ul>
@@ -237,6 +240,7 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#copying-objects-instancing">Копирование объектов (инстансинг)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#quaternions">Кватернионы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#moving-via-tsr-vectors">Перемещение с помощью векторов TSR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#line-rendering">Визуализация линий</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">Меши</a><ul>
@@ -275,6 +279,8 @@
 <li class="toctree-l2"><a class="reference internal" href="materials.html#viewport-properties">Настройки вьюпорта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#engine-specific-parameters">Специальные параметры движка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#halo-materials">Материалы гало (Halo)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#material-api">Методы API для работы с материалами</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#inherit-material">Наследование материалов</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">Библиотека материалов</a><ul>
@@ -412,7 +418,8 @@
 <li class="toctree-l2"><a class="reference internal" href="developers.html#sdk-file-structure">Файловая структура SDK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#loading-local-resources">Загрузка локальных ресурсов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-profiles">Профили качества изображения</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#non-fullscreen-web-apps">Специфика неполноэкранных приложений</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#non-standard-canvas-position-and-orientation">Нестандартное расположение и ориентация элемента Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#mobile-web-apps">Мобильные веб-приложения</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a><ul>
@@ -449,6 +456,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-02">v17.02</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-12">v16.12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-11">v16.11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-10">v16.10</a></li>
@@ -505,7 +513,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Триумф.
-      Обновлено: 2016-12-22.
+      Обновлено: 2017-02-28.
 
     </p>
   </div>
@@ -561,7 +569,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

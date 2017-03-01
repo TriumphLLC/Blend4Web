@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,35 +22,24 @@
  */
 b4w.module["screenshooter"] = function(exports, require) {
 
-var m_main = require("main");
+var m_screen = require("screen");
+var m_print  = require("print");
 
 /**
  * Take a screenshot and download as screenshot.png image.
  * @method module:screenshooter.shot
- * @param {String} [format="image/png"] The MIME image format ("image/png",
+ * @param {string} [format="image/png"] The MIME image format ("image/png",
  * "image/jpeg", "image/webp" and so on)
- * @param {Number} [quality=1.0] Number between 0 and 1 for types: "image/jpeg",
+ * @param {number} [quality=1.0] Number between 0 and 1 for types: "image/jpeg",
  * "image/webp"
  * @example
  * var m_scrn = require("screenshooter");
  * m_scrn.shot();
+ * @deprecated Use {@link module:screen.shot} instead
  */
 exports.shot = function(format, quality) {
-    format = format || "image/png";
-    quality = quality || 1.0;
-
-    var cb = function(url) {
-        var a = window.document.createElement("a");
-        document.body.appendChild(a);
-        a.style.display = "none";
-        a.href = url;
-        a.download = "screenshot." + format.split("/")[1];
-        a.click();
-
-        document.body.removeChild(a);
-    }
-
-    m_main.canvas_data_url(cb, format, quality, true);
+    m_print.error_deprecated("shot", "screen.shot");
+    m_screen.shot(format, quality);
 }
 
 };

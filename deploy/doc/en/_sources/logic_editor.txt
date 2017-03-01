@@ -512,6 +512,9 @@ Internal Parameters
 *Object*
     An object to show.
 
+*Process child objects*
+    If this parameter is enabled, child objects will be shown as well.
+
 .. _nla_hide_object:
 
 Hide Object
@@ -540,6 +543,9 @@ Internal Parameters
 
 *Object*
     An object to hide.
+
+*Process child objects*
+    If this parameter is enabled, child objects will be hidden as well.
 
 Transform Object
 ----------------
@@ -856,6 +862,18 @@ Internal Parameters
     * *Multiply* multiplies the operands.
     * *Subtract* subtracts the second operand from the first.
     * *Divide* divides first operand by the second.
+    * *Sin* returns the sine of an angle (measured in radians) defined by the first operand.
+    * *Cos* returns the cosine of an angle (measured in radians) defined by the first operand
+    * *Tan* returns the tangent of an angle (measured in radians) defined by the first operand.
+    * *ArcSin* returns the arcsine value of the first operand.
+    * *ArcCos* returns the arccosine value of the first operand.
+    * *ArcTan* returns the arctangent value of the first operand.
+    * *Log* returns the logarithmic value of the first operand with the second operand used as the base.
+    * *Min* returns the lesser one of the two operands.
+    * *Max* returns the greater one of the two operands.
+    * *Round* rounds the first operator.
+    * *Mod* returns the remainder after division of the first operand by the second.
+    * *Abs* returns the absolute value of the first operand.
 
 *Operand1*
     First operand. It can be specified in the node or it can be a link to one of the variables (if the ``Variable`` parameter is enabled).
@@ -1031,9 +1049,10 @@ Internal Parameters
 
     .. code-block:: json
 
-        {"var0": 1,
-        "var1": 10,
-        "var2": 144
+        {
+            "var0": 1,
+            "var1": 10,
+            "var2": 144
         }
 
 *Content-Type*
@@ -1155,7 +1174,7 @@ Internal Parameters
 *Param Name*
     The name of the web page parameter.
 
-    For example, if this parameter is set to the value of ``X_1``, then the value of this parameter (if it is present in the URL) will be saved to a variable specified by the ``Destination`` parameter.
+    If the parameter specified in this field is presented in the URL, then its value will be saved to a variable specified by the ``Destination`` parameter.
 
 *Destination*
     A variable that will be used to save the parameter.

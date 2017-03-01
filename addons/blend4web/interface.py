@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -52,6 +52,34 @@ def get_locked_track_constraint(obj, index):
                 return cons
             constraint_index += 1
 
+class B4W_RemoveConstraint(bpy.types.Operator):
+    '''Remove constraint from object or bone'''
+    bl_idname = "b4w.remove_constraint"
+    bl_label = p_("Remove Constraint", "Operator")
+    bl_options = {"INTERNAL"}
+
+    cons_name = bpy.props.StringProperty(name="Constraint")
+
+    def execute(self, context):
+
+        container = context.object
+        bone = context.active_pose_bone
+
+        if bone:
+            container = bone
+
+        constraint = None
+
+        for c in container.constraints:
+            if c.name == self.cons_name:
+                constraint = c
+                break
+
+        if constraint:
+            container.constraints.remove(constraint)
+
+        return {'FINISHED'}
+
 class CustomConstraintsPanel(bpy.types.OBJECT_PT_constraints):
     COMPAT_ENGINES = ['BLEND4WEB']
 
@@ -59,17 +87,43 @@ class CustomConstraintsPanel(bpy.types.OBJECT_PT_constraints):
     def poll(cls, context):
         return render_engine.base_poll(cls,context)
 
-    def draw_constraint(self, context, con):
+    def draw_constraint(self, context, cons):
 
-        if con.type == "LOCKED_TRACK":
+        layout = self.layout
 
-            layout = self.layout
+        if cons.type == "LOCKED_TRACK" and cons.name == "REFLECTION PLANE":
             box = layout.box()
+            box.label(get_translate(_("LOCKED_TRACK constraint reserved for ")) + cons.name)
 
-            box.label(get_translate(_("LOCKED_TRACK constraint reserved for ")) + con.name)
+        elif cons.type == 'RIGID_BODY_JOINT':
+            bpy.types.OBJECT_PT_constraints_new.draw_constraint(self, context, cons)
 
         else:
-            bpy.types.OBJECT_PT_constraints_new.draw_constraint(self, context, con)
+            obj = context.object
+            box = layout.box()
+            box.label(cons.name + get_translate(_(" constraint is not supported.")), icon="ERROR")
+            box.operator("b4w.remove_constraint", text=_("Remove"), icon='PANEL_CLOSE').cons_name = cons.name
+
+class CustomBoneConstraintsPanel(bpy.types.BONE_PT_constraints):
+    COMPAT_ENGINES = ['BLEND4WEB']
+
+    @classmethod
+    def poll(cls, context):
+        return render_engine.base_poll(cls,context)
+
+    def draw_constraint(self, context, cons):
+
+        layout = self.layout
+
+        if cons.type == 'COPY_TRANSFORMS':
+            bpy.types.BONE_PT_constraints_new.draw_constraint(self, context, cons)
+
+        else:
+            obj = context.object
+            box = layout.box()
+            box.label(cons.name + get_translate(_(" constraint is not supported.")), icon="ERROR")
+            box.operator("b4w.remove_constraint", text=_("Remove"), icon='PANEL_CLOSE').cons_name = cons.name
+
 
 def add_remove_refl_plane(obj):
     if obj.b4w_reflection_type == "PLANE" and obj.b4w_reflective:

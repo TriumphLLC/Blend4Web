@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -646,13 +646,10 @@ function update_cons(obj, cons, elapsed) {
         else
             var hor_stride = right - left;
 
-        if (cons.left_edge) {
-            var left = m_cam.get_edge(cam, "LEFT");
+        if (cons.left_edge)
             trans[0] = left + hor_stride * cons.left_right_dist;
-        } else {
-            var right = m_cam.get_edge(cam, "RIGHT");
+        else
             trans[0] = right - hor_stride * cons.left_right_dist;
-        }
 
         if (cons.vert_units == "heights")
             var vert_stride = top - bottom;
@@ -693,7 +690,7 @@ function update_cons(obj, cons, elapsed) {
         break;
     }
 
-    if (obj.render.type == "CAMERA") {
+    if (obj.render.type == "CAMERA" && obj.render.move_style != m_cam.MS_STATIC) {
         var corr_axis = obj.render.vertical_axis;
         if (cons.type == CONS_TYPE_SEMI_STIFF_CAM_OBJ) {
             var p_quat = m_tsr.get_quat_view(cons.obj_parent.render.world_tsr);
@@ -712,7 +709,6 @@ exports.append_stiff_bone_to_obj = function(armobj, obj, bone_name, offset,
         rotation_offset, scale_offset) {
 
     var cons = init_cons(BONE_CONS_TYPE_STIFF_OBJ);
-    var bone_pointer = armobj.render.bone_pointers[bone_name];
 
     cons.bone_name = bone_name;
     cons.target = obj;

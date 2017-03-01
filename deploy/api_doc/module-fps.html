@@ -176,6 +176,14 @@ controlling character movement easier.</div>
         <ul>
         
             
+<li> <a href="#.add_new_state">add_new_state<span class="signature">()</span><span class="type-signature"> &rarr; {CharacterState}</span></a></li>
+
+        
+            
+<li> <a href="#.add_state_to_state_machine">add_state_to_state_machine<span class="signature">(new_state, enabled_transitions, change_state_cb)</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.bind_action">bind_action<span class="signature">(action_type, action_controls, action_cb)</span><span class="type-signature"></span></a></li>
 
         
@@ -184,7 +192,7 @@ controlling character movement easier.</div>
 
         
             
-<li> <a href="#.enable_fps_controls">enable_fps_controls<span class="signature">(character<span class="signature-attributes">opt</span>, elem<span class="signature-attributes">opt</span>, motion_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.enable_fps_controls">enable_fps_controls<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -211,6 +219,10 @@ controlling character movement easier.</div>
 <li> <a href="#.set_plock_enable_cb">set_plock_enable_cb<span class="signature">(callback)</span><span class="type-signature"></span></a></li>
 
         
+            
+<li> <a href="#.state_machine_switch_state">state_machine_switch_state<span class="signature">(state)</span><span class="type-signature"></span></a></li>
+
+        
         </ul>
     
     
@@ -224,6 +236,10 @@ controlling character movement easier.</div>
             
                 
 <li> <a href="#~CharMotionCallback">CharMotionCallback<span class="signature">(forw_back, right_left)</span><span class="type-signature"></span></a></li>
+
+            
+                
+<li> <a href="#~CharRotationCallback">CharRotationCallback<span class="signature">(character, x, y)</span><span class="type-signature"></span></a></li>
 
             
                 
@@ -285,7 +301,7 @@ e.g. a held down button, mouse movement, gamepad stick tilt etc.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line646">line 646</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line687">line 687</a>
     </li></ul></dd>
     
 
@@ -352,7 +368,7 @@ e.g. a held down button, mouse movement, gamepad stick tilt etc.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line636">line 636</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line677">line 677</a>
     </li></ul></dd>
     
 
@@ -419,7 +435,7 @@ e.g. a held down button, mouse movement, gamepad stick tilt etc.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line641">line 641</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line682">line 682</a>
     </li></ul></dd>
     
 
@@ -496,7 +512,7 @@ e.g. a held down button, mouse movement, gamepad stick tilt etc.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line630">line 630</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line671">line 671</a>
     </li></ul></dd>
     
 
@@ -573,7 +589,7 @@ e.g. a held down button, mouse movement, gamepad stick tilt etc.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line625">line 625</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line666">line 666</a>
     </li></ul></dd>
     
 
@@ -650,7 +666,7 @@ e.g. a held down button, mouse movement, gamepad stick tilt etc.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line620">line 620</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line661">line 661</a>
     </li></ul></dd>
     
 
@@ -727,7 +743,7 @@ e.g. a held down button, mouse movement, gamepad stick tilt etc.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line610">line 610</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line651">line 651</a>
     </li></ul></dd>
     
 
@@ -804,7 +820,7 @@ e.g. a held down button, mouse movement, gamepad stick tilt etc.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line615">line 615</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line656">line 656</a>
     </li></ul></dd>
     
 
@@ -827,6 +843,313 @@ e.g. a held down button, mouse movement, gamepad stick tilt etc.
 
     
         <h3 class="subsection-title">Methods</h3>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".add_new_state">add_new_state<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="global.html#CharacterState">CharacterState</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Add new character's state.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Character's new state
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#CharacterState">CharacterState</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line988">line 988</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_fps = require("fps");
+
+var new_state = m_fps.add_new_state();</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".add_state_to_state_machine">add_state_to_state_machine<span class="signature">(new_state, enabled_transitions, change_state_cb)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Add new character's state to its state machine.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>new_state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#CharacterState">CharacterState</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Character's new state</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>enabled_transitions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="global.html#CharacterState">CharacterState</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Enabled transitions to another states</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>change_state_cb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-fps.html#~ChangeStateCallback">ChangeStateCallback</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Callback function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line999">line 999</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_fps = require("fps");
+
+var new_state = m_fps.add_new_state();
+var state_changing_cb = function(old_state_id, new_state_id) {
+    console.log(old_state_id, new_state_id);  
+}
+m_fps.add_state_to_state_machine(new_state, [m_fps.CS_WALK, m_fps.CS_RUN], state_changing_cb);</code></pre>
+
+
+</div>
+</div>
         
             
 <div class="item_container">
@@ -885,7 +1208,7 @@ action to an event and set the conditions to when and how the event happens.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -994,7 +1317,7 @@ action to an event and set the conditions to when and how the event happens.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line653">line 653</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line694">line 694</a>
     </li></ul></dd>
     
 
@@ -1204,7 +1527,7 @@ m_fps.bind_action(m_fps.AT_PRESSED, [m_ctl.KEY_W, m_input.GMPD_BUTTON_12,
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line794">line 794</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line882">line 882</a>
     </li></ul></dd>
     
 
@@ -1233,7 +1556,7 @@ m_fps.disable_fps_controls();</code></pre>
 
     
 
-    <h4 class="name" id=".enable_fps_controls">enable_fps_controls<span class="signature">(character<span class="signature-attributes">opt</span>, elem<span class="signature-attributes">opt</span>, motion_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".enable_fps_controls">enable_fps_controls<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1241,7 +1564,7 @@ m_fps.disable_fps_controls();</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Enable FPS controls. This sets default keyboard, gamepad and mouse controls.
+    Enable FPS controls. This sets keyboard, gamepad and mouse controls.
 VR is also plug-and-play ready.
 </div>
 
@@ -1255,6 +1578,68 @@ VR is also plug-and-play ready.
 
     <h5>Parameters:</h5>
     
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
+
+            <td class="description last">Initialization options.
+                <h6>Properties</h6>
+                
 
 <table class="params">
     <thead>
@@ -1314,14 +1699,14 @@ VR is also plug-and-play ready.
                 </td>
             
 
-            <td class="description last">Character</td>
+            <td class="description last">Character.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>elem</code></td>
+                <td class="name"><code>element</code></td>
             
 
             <td class="type">
@@ -1348,12 +1733,12 @@ VR is also plug-and-play ready.
             
                 <td class="default">
                 
-                    Canvas element
+                    The result of the <a href="module-container.html#.get_canvas">get_canvas()</a> method call
                 
                 </td>
             
 
-            <td class="description last">HTML element to add event listeners to</td>
+            <td class="description last">HTML element to add event listeners to.</td>
         </tr>
 
     
@@ -1387,10 +1772,368 @@ VR is also plug-and-play ready.
             
                 <td class="default">
                 
+                    null
+                
                 </td>
             
 
             <td class="description last">Motion callback function</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>gamepad_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Connected gamepad ID.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>forward_sens</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    [<a href="module-controls.html#.KEY_W">KEY_W</a>, <a href="module-input.html#.GMPD_BUTTON_12">GMPD_BUTTON_12</a>]
+                
+                </td>
+            
+
+            <td class="description last">Array of sensor types used for foward motion.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>backward_sens</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    [<a href="module-controls.html#.KEY_S">KEY_S</a>, <a href="module-input.html#.GMPD_BUTTON_13">GMPD_BUTTON_13</a>]
+                
+                </td>
+            
+
+            <td class="description last">Array of sensor types used for backward motion.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>right_sens</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    [<a href="module-controls.html#.KEY_D">KEY_D</a>, <a href="module-input.html#.GMPD_BUTTON_15">GMPD_BUTTON_15</a>]
+                
+                </td>
+            
+
+            <td class="description last">Array of sensor types used for right motion.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>left_sens</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    [<a href="module-controls.html#.KEY_A">KEY_A</a>, <a href="module-input.html#.GMPD_BUTTON_14">GMPD_BUTTON_14</a>]
+                
+                </td>
+            
+
+            <td class="description last">Array of sensor types used for left motion.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>jump_sens</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    [<a href="module-controls.html#.KEY_SPACE">KEY_SPACE</a>, <a href="module-input.html#.GMPD_BUTTON_1">GMPD_BUTTON_1</a>]
+                
+                </td>
+            
+
+            <td class="description last">Array of sensor types used for jumping.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fly_sens</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;number></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    [<a href="module-controls.html#.KEY_SHIFT">KEY_SHIFT</a>, <a href="module-input.html#.GMPD_BUTTON_7">GMPD_BUTTON_7</a>]
+                
+                </td>
+            
+
+            <td class="description last">Array of sensor types used for flying.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rotation_cb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CharRotationCallback</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Callback for camera rotation. If not specified, the default one will be used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lock_camera</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Parent camera to the character</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1443,7 +2186,7 @@ VR is also plug-and-play ready.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line766">line 766</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line807">line 807</a>
     </li></ul></dd>
     
 
@@ -1464,7 +2207,11 @@ var move_cb = function(forw_back, right_left) {
     console.log(forw_back, right_left);  
 }
 
-m_fps.enable_fps_controls(null, null, move_cb);</code></pre>
+m_fps.enable_fps_controls({
+    character : null,
+    element : null,
+    motion_cb : move_cb
+});</code></pre>
 
 
 </div>
@@ -1562,7 +2309,7 @@ m_fps.enable_fps_controls(null, null, move_cb);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line885">line 885</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line971">line 971</a>
     </li></ul></dd>
     
 
@@ -1644,7 +2391,7 @@ if (curr_state == m_fps.CS_RUN)
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -1707,7 +2454,7 @@ if (curr_state == m_fps.CS_RUN)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line847">line 847</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line933">line 933</a>
     </li></ul></dd>
     
 
@@ -1786,7 +2533,7 @@ m_fps.set_cam_sensitivity(80);</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -1849,7 +2596,7 @@ m_fps.set_cam_sensitivity(80);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line835">line 835</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line921">line 921</a>
     </li></ul></dd>
     
 
@@ -1928,7 +2675,7 @@ m_fps.set_cam_smooth_factor(0.2);</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -2014,7 +2761,7 @@ m_fps.set_cam_smooth_factor(0.2);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line816">line 816</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line904">line 904</a>
     </li></ul></dd>
     
 
@@ -2030,9 +2777,7 @@ m_fps.set_cam_smooth_factor(0.2);</code></pre>
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>var m_fps = require("fps");
-var m_scenes = require("scenes");
 
-var character = m_scenes.get_first_character();
 var state_changing_cb = function(old_state_id, new_state_id) {
     console.log(old_state_id, new_state_id);  
 }
@@ -2162,7 +2907,7 @@ m_fps.set_character_state_changing_cb(m_fps.CS_WALK, state_changing_cb);</code><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line870">line 870</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line956">line 956</a>
     </li></ul></dd>
     
 
@@ -2308,7 +3053,7 @@ m_fps.set_plock_disable_cb(cb);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line856">line 856</a>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line942">line 942</a>
     </li></ul></dd>
     
 
@@ -2329,6 +3074,148 @@ var cb = function(element) {
 }
 
 m_fps.set_plock_enable_cb(cb);</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".state_machine_switch_state">state_machine_switch_state<span class="signature">(state)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Switch character's state.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#CharacterState">CharacterState</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Character's state</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line1020">line 1020</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_fps = require("fps");
+
+m_fps.state_machine_switch_state(m_fps.CS_WALK);</code></pre>
 
 
 </div>
@@ -2396,7 +3283,7 @@ m_fps.set_plock_enable_cb(cb);</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -2419,7 +3306,7 @@ m_fps.set_plock_enable_cb(cb);</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -2554,7 +3441,7 @@ m_fps.set_plock_enable_cb(cb);</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -2577,7 +3464,7 @@ m_fps.set_plock_enable_cb(cb);</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -2641,6 +3528,187 @@ m_fps.set_plock_enable_cb(cb);</code></pre>
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+            
+                
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id="~CharRotationCallback">CharRotationCallback<span class="signature">(character, x, y)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Callback for characters/camera rotation
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>character</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Character</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">rotation around X-axis in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">rotation around Y-axis in radians</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_fps.js.html">addons/fps.js</a>, <a href="addons_fps.js.html#line35">line 35</a>
     </li></ul></dd>
     
 
@@ -2804,13 +3872,13 @@ m_fps.set_plock_enable_cb(cb);</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Feb 28 2017 15:47:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

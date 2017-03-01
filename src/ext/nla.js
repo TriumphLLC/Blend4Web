@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ var m_util   = require("__util");
 /**
  * Set NLA animation frame for the active scene.
  * @method module:nla.set_nla_frame
- * @param {Number} frame NLA animation frame
+ * @param {number} frame NLA animation frame
  */
 exports.set_frame = function(frame) {
     
@@ -52,7 +52,7 @@ exports.set_frame = function(frame) {
 /**
  * Get NLA animation frame from the active scene
  * @method module:nla.get_frame
- * @returns {Number} NLA animation current frame.
+ * @returns {number} NLA animation current frame.
  */
 exports.get_frame = function() {
     return m_nla.get_frame(m_time.get_timeline());
@@ -87,7 +87,7 @@ exports.play = function(callback) {
 /**
  * Check if NLA animation is being run for the active scene
  * @method module:nla.is_play
- * @returns {Boolean} Check result.
+ * @returns {boolean} Check result.
  */
 exports.is_play = function() {
     return m_nla.is_play();
@@ -95,7 +95,7 @@ exports.is_play = function() {
 /**
  * Get NLA animation starting frame for the active scene
  * @method module:nla.get_frame_start
- * @returns {Number} Start frame.
+ * @returns {number} Start frame.
  */
 exports.get_frame_start = function() {
     return m_nla.get_frame_start();
@@ -103,7 +103,7 @@ exports.get_frame_start = function() {
 /**
  * Get NLA animation ending frame for the active scene
  * @method module:nla.get_frame_end
- * @returns {Number} End frame.
+ * @returns {number} End frame.
  */
 exports.get_frame_end = function() {
     return m_nla.get_frame_end();
@@ -111,26 +111,16 @@ exports.get_frame_end = function() {
 /**
  * Check if the current scene is currently NLA animated.
  * @method module:nla.check_nla
- * @returns {Boolean} Check result.
+ * @returns {boolean} Check result.
  */
 exports.check_nla = function() {
     return m_nla.check_nla();
 }
 
 /**
- * Check if the current scene has NLA-scripts
- * @method module:nla.check_nla_scripts
- * @returns {Boolean} Check result.
- * @deprecated use {@link module:nla.check_logic_nodes|nla.check_logic_nodes} instead
- */
-exports.check_nla_scripts = function() {
-    return m_nla.check_logic_nodes();
-}
-
-/**
  * Check if the current scene has logic nodes
  * @method module:nla.check_logic_nodes
- * @returns {Boolean} Check result.
+ * @returns {boolean} Check result.
  */
 exports.check_logic_nodes = function() {
     return m_nla.check_logic_nodes();
@@ -139,8 +129,8 @@ exports.check_logic_nodes = function() {
 /**
  * Play NLA animation for the active scene from start frame to end frame.
  * @method module:nla.set_range
- * @param {Number} start_frame Start NLA animation frame
- * @param {Number} end_frame End NLA animation frame
+ * @param {number} start_frame Start NLA animation frame
+ * @param {number} end_frame End NLA animation frame
  */
 exports.set_range = function(start_frame, end_frame) {
 
@@ -174,7 +164,7 @@ exports.reset_range = function() {
 /**
  * Set cyclic behaviour for the active scene
  * @method module:nla.set_cyclic
- * @param {Boolean} is_cyclic Cyclic behavior.
+ * @param {boolean} is_cyclic Cyclic behavior.
  */
 exports.set_cyclic = function(is_cyclic) {
     if (m_nla.check_logic_nodes()) {

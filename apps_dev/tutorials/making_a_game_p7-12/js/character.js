@@ -209,10 +209,10 @@ function setup_movement(up_arrow, down_arrow, on_ground_sens) {
         }
 
         if (move_dir && island) {
-            if (!m_sfx.is_play(_char_run_spk))
+            if (!m_sfx.is_playing(_char_run_spk))
                 m_sfx.play_def(_char_run_spk);
         } else {
-            if (m_sfx.is_play(_char_run_spk))
+            if (m_sfx.is_playing(_char_run_spk))
                 m_sfx.stop(_char_run_spk);
         }
 
@@ -329,7 +329,7 @@ function setup_attack(touch_attack, elapsed) {
     }
 
     function process_attack_speakers() {
-        if (m_sfx.is_play(_char_run_spk))
+        if (m_sfx.is_playing(_char_run_spk))
             m_sfx.stop(_char_run_spk);
 
         m_sfx.play_def(_char_attack_spk);

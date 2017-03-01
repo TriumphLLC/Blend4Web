@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,11 +39,22 @@ var m_print    = require("__print");
 var m_scenes   = require("__scenes");
 
 /**
- * @typedef ObjectMetaTags
- * @type {Object}
- * @property {String} title The title meta tag.
- * @property {String} description The description meta tag.
- * @property {String} category The category meta tag.
+ * @typedef {Object} ObjectMetaTags
+ * @property {string} title The title meta tag.
+ * @property {string} description The description meta tag.
+ * @property {string} category The category meta tag.
+ */
+
+/**
+ * Wind bending params.
+ * @typedef {Object} WindBendingParams
+ * @property {number} angle Angle of main wind bending
+ * @property {number} main_frequency Frequency of main wind bending
+ * @property {number} detail_frequency Frequency of detail wind bending
+ * @property {number} detail_amplitude Amplitude of detail wind bending
+ * @property {number} branch_amplitude Amplitude of braches wind bending
+ * @cc_externs angle main_frequency detail_frequency
+ * @cc_externs detail_amplitude branch_amplitude
  */
 
 /**
@@ -57,12 +68,23 @@ exports.get_meta_tags = function(obj) {
     if (obj)
         return m_obj.get_meta_tags(obj);
 }
+
+/**
+ * Get the Blender-assigned custom property field from the object.
+ * @method module:objects.get_custom_prop
+ * @param {Object3D} obj Object 3D
+ * @returns {*} Object custom property field
+ */
+exports.get_custom_prop = function(obj) {
+    if (obj)
+        return m_obj.get_custom_prop(obj);
+}
 /**
  * Copy MESH object.
  * @method module:objects.copy
  * @param {Object3D} obj Object 3D
- * @param {String} name New unique object name
- * @param {Boolean} [deep_copy=false] Copy WebGL buffers
+ * @param {string} name New unique object name
+ * @param {boolean} [deep_copy=false] Copy WebGL buffers
  * @returns {Object3D} New object.
  */
 exports.copy = function(obj, name, deep_copy) {
@@ -96,10 +118,10 @@ exports.copy = function(obj, name, deep_copy) {
  * Set value of the Value node in the object's material.
  * @method module:objects.set_nodemat_value
  * @param {Object3D} obj Object 3D
- * @param {String[]} name_list List consisting of the material name, the names of
+ * @param {string[]} name_list List consisting of the material name, the names of
  * nested node groups (if any) and the name of the Value node itself. Should
  * have at least 2 elements ["Mat","Node"]
- * @param {Number} value The value to set the Value node to
+ * @param {number} value The value to set the Value node to
  * @deprecated Use {@link module:material.set_nodemat_value|material.set_nodemat_value} instead
  */
 exports.set_nodemat_value = function(obj, name_list, value) {
@@ -133,10 +155,10 @@ exports.set_nodemat_value = function(obj, name_list, value) {
  * Get value of the Value node in the object's material.
  * @method module:objects.get_nodemat_value
  * @param {Object3D} obj Object 3D
- * @param {String[]} name_list List consisting of the material name, the names of
+ * @param {string[]} name_list List consisting of the material name, the names of
  * nested node groups (if any) and the name of the Value node itself. Should
  * have at least 2 elements ["Mat","Node"]
- * @returns {Number} Value.
+ * @returns {number} Value.
  * @deprecated Use {@link module:material.get_nodemat_value|material.get_nodemat_value} instead
  */
 exports.get_nodemat_value = function(obj, name_list) {
@@ -144,7 +166,7 @@ exports.get_nodemat_value = function(obj, name_list) {
     if (!m_obj_util.is_dynamic_mesh(obj)) {
         m_print.error("The type of the object \"" + obj.name +
             "\" is not \"MESH\" or it is not dynamic.");
-        return null;
+        return 0;
     }
 
     var mat_name = name_list[0];
@@ -152,7 +174,7 @@ exports.get_nodemat_value = function(obj, name_list) {
     if (batch_main === null) {
         m_print.error("Material \"" + mat_name +
                       "\" was not found in the object \"" + obj.name + "\".");
-        return null;
+        return 0;
     }
 
     var ind = m_batch.get_node_ind_by_name_list(batch_main.node_value_inds,
@@ -160,7 +182,7 @@ exports.get_nodemat_value = function(obj, name_list) {
     if (ind === null) {
         m_print.error("Value node \"" + name_list[name_list.length - 1] +
         "\" was not found in the object \"" + obj.name + "\".");
-        return null;
+        return 0;
     }
 
     return m_batch.get_nodemat_value(batch_main, ind);
@@ -170,11 +192,11 @@ exports.get_nodemat_value = function(obj, name_list) {
  * Set color of the RGB node in the object's material.
  * @method module:objects.set_nodemat_rgb
  * @param {Object3D} obj Object 3D
- * @param {String[]} name_list List consisting of the material name, the names of
+ * @param {string[]} name_list List consisting of the material name, the names of
  * nested node groups (if any) and the name of the RGB node itself
- * @param {Number} r The value to set the red channel of the RGB node to [0..1]
- * @param {Number} g The value to set the green channel of the RGB node to [0..1]
- * @param {Number} b The value to set the blue channel of the RGB node to [0..1]
+ * @param {number} r The value to set the red channel of the RGB node to [0..1]
+ * @param {number} g The value to set the green channel of the RGB node to [0..1]
+ * @param {number} b The value to set the blue channel of the RGB node to [0..1]
  * @deprecated Use {@link module:material.set_nodemat_rgb|material.set_nodemat_rgb} instead
  */
 exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
@@ -209,7 +231,7 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
  * Get color of the RGB node in the object's material.
  * @method module:objects.get_nodemat_rgb
  * @param {Object3D} obj Object 3D
- * @param {String[]} name_list List consisting of the material name, the names of
+ * @param {string[]} name_list List consisting of the material name, the names of
  * nested node groups (if any) and the name of the RGB node itself
  * @param {Vec3} [dest] Destination color
  * @returns {RGB} Destination color
@@ -286,7 +308,7 @@ exports.get_dg_parent = m_obj_util.get_dg_parent;
  * Check if the object is a MESH.
  * @method module:objects.is_mesh
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_mesh = m_obj_util.is_mesh;
 
@@ -294,7 +316,7 @@ exports.is_mesh = m_obj_util.is_mesh;
  * Check if the object is an ARMATURE.
  * @method module:objects.is_armature
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_armature = m_obj_util.is_armature;
 
@@ -302,7 +324,7 @@ exports.is_armature = m_obj_util.is_armature;
  * Check if the object is a SPEAKER.
  * @method module:objects.is_speaker
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_speaker = m_obj_util.is_speaker;
 
@@ -310,7 +332,7 @@ exports.is_speaker = m_obj_util.is_speaker;
  * Check if the object is a CAMERA.
  * @method module:objects.is_camera
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_camera = m_obj_util.is_camera;
 
@@ -318,7 +340,7 @@ exports.is_camera = m_obj_util.is_camera;
  * Check if the object is a LAMP.
  * @method module:objects.is_lamp
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_lamp = m_obj_util.is_lamp;
 
@@ -326,7 +348,7 @@ exports.is_lamp = m_obj_util.is_lamp;
  * Check if the object is an EMPTY.
  * @method module:objects.is_empty
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_empty = m_obj_util.is_empty;
 
@@ -334,7 +356,7 @@ exports.is_empty = m_obj_util.is_empty;
  * Check if the object is a LINE.
  * @method module:objects.is_line
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_line = m_obj_util.is_line;
 
@@ -342,7 +364,7 @@ exports.is_line = m_obj_util.is_line;
  * Check if the object is a WORLD.
  * @method module:objects.is_world
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_world = m_obj_util.is_world;
 
@@ -368,8 +390,85 @@ exports.get_outlining_objects = function() {
  * Check if object is dynamic.
  * @method module:objects.is_dynamic
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.is_dynamic = m_obj_util.is_dynamic;
+
+/**
+ * Set object's wind bending parameters. Object must be dynamic.
+ * @param {Object3D} obj Object 3D
+ * @param {WindBendingParams} wb_params Wind Bending parameters
+ * @example
+ * var m_obj = require("objects");
+ * var wb_params =
+ * {
+ *     angle: 3,
+ *     main_frequency: 0.25,
+ *     detail_frequency: 1,
+ *     detail_amplitude: 0.1,
+ *     branch_amplitude: 0.3
+ * };
+ * m_obj.set_wind_bending_params(obj, wb_params);
+ */
+exports.set_wind_bending_params = function(obj, wb_params) {
+
+    if (!m_obj_util.is_dynamic_mesh(obj)) {
+        m_print.error("The type of the object \"" + obj.name +
+            "\" is not \"MESH\" or it is not dynamic.");
+        return;
+    }
+
+    var render = obj.render;
+    if (!render.wind_bending) {
+        m_print.error("The \"" + obj.name + "\" object " +
+            "doesn't have wind bending parameters.");
+        return;
+    }
+
+    if (typeof wb_params.angle == "number") {
+        var amp = m_batch.wb_angle_to_amp(wb_params.angle,
+                render.bb_original, render.world_tsr[3]);
+        render.wind_bending_amp = amp;
+    }
+
+    if (typeof wb_params.main_frequency == "number")
+        render.wind_bending_freq = wb_params.main_frequency;
+
+    if (typeof wb_params.detail_frequency == "number")
+        render.detail_bending_freq = wb_params.detail_frequency;
+
+    if (typeof wb_params.detail_amplitude == "number")
+        render.detail_bending_amp = wb_params.detail_amplitude;
+
+    if (typeof wb_params.branch_amplitude == "number")
+        render.branch_bending_amp = wb_params.branch_amplitude;
+
+    m_obj.set_hair_particles_wind_bend_params(obj);
+}
+
+/**
+ * Get object's wind bending parameters. Object must be dynamic.
+ * @param {Object3D} obj Object 3D
+ * @returns {WindBendingParams} Wind Bending parameters
+ */
+exports.get_wind_bending_params = function(obj) {
+
+    var render = obj.render;
+    if (!m_obj_util.is_dynamic_mesh(obj) || !render.wind_bending)
+        return null;
+
+    var wb_params = {};
+
+    var angle = m_batch.wb_amp_to_angle(render.wind_bending_amp,
+            render.bb_original, render.world_tsr[3]);
+
+    wb_params.angle = angle;
+    wb_params.main_frequency = render.wind_bending_freq;
+    wb_params.detail_frequency = render.detail_bending_freq;
+    wb_params.detail_amplitude = render.detail_bending_amp;
+    wb_params.branch_amplitude = render.branch_bending_amp;
+
+    return wb_params;
+}
 
 }

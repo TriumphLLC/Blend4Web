@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
 
-    <title>Project Manager</title>
+<meta charset="UTF-8">
 
-    <link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png" />
-    <link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png" />
-    <link rel="shortcut icon" href="/index_assets/img/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png" />
-    <link rel="stylesheet" type="text/css" href="/index_assets/css/style.css">
+<title>Project Manager</title>
+
+<link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png">
+<link rel="shortcut icon" href="/index_assets/img/favicon.ico">
+<link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png">
+
+<link rel="stylesheet" type="text/css" href="/index_assets/css/base.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/request_busy.css">
+
 </head>
 
 <body>
-    <h3 class="back"><a href="/project/">Back to Projects</a></h3>
-    <h3>Server is busy</h3> 
-    <div class="row">
-        <p>Server is performing another operation. Please wait until it will be completed and reload the page.</p>
+  <h1>Server is busy</h1>
+  <div class="btns_cont row">
+    <div class="btn_wrapper">
+      <a href="/project/" class="btn active"><span>Back to Projects</span></a>
     </div>
+  </div>
+  <div class="row">
+    <p>Server is performing another operation. Please wait until it will be completed and reload the page.</p>
+  </div>
 </body>
+
 </html>

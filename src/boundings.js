@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,6 @@ var _vec3_tmp4 = new Float32Array(3);
 var _mat3_tmp = new Float32Array(9);
 var _mat3_tmp2 = new Float32Array(9);
 var _mat3_tmp3 = new Float32Array(9);
-var _mat3_tmp4 = new Float32Array(9);
 
 var ELL_EPS = 0.000000001;
 var MATRIX_PRES = 0.0005;
@@ -50,7 +49,7 @@ var MIN_SEMIAXIS_LEN = 0.00000001;
  * improper use may lead to ugly bugs.
  */
 exports.create_bb = create_bb;
-function create_bb(dest) {
+function create_bb() {
     var bb = {
         max_x: 0,
         min_x: 0,
@@ -203,7 +202,7 @@ function bb_from_coords(coords, bb) {
 exports.bounding_box_transform = function(bb, tsr, bb_new) {
 
     if (!bb_new)
-        var bb_new = create_bb();
+        bb_new = create_bb();
 
     var bb_corners = extract_bb_corners(bb, _bb_corners_cache);
 
@@ -614,9 +613,9 @@ function create_be_by_bb(points, use_rotation) {
     m_vec3.transformMat3(_vec3_tmp, scale_mat, _vec3_tmp);
     m_vec3.transformMat3(_vec3_tmp, _mat3_tmp3, _vec3_tmp);
 
-    var max_x = _vec3_tmp[0], min_x = _vec3_tmp[0];
-    var max_y = _vec3_tmp[1], min_y = _vec3_tmp[1];
-    var max_z = _vec3_tmp[2], min_z = _vec3_tmp[2];
+    max_x = _vec3_tmp[0], min_x = _vec3_tmp[0];
+    max_y = _vec3_tmp[1], min_y = _vec3_tmp[1];
+    max_z = _vec3_tmp[2], min_z = _vec3_tmp[2];
 
     for (var i = 3; i < points.length; i = i + 3) {
         _vec3_tmp[0] = points[i];
@@ -646,7 +645,7 @@ function create_be_by_bb(points, use_rotation) {
     _vec3_tmp3[2] = (max_z + min_z) / 2;
     var s_center = _vec3_tmp3;
 
-    var scale_mat = m_mat3.identity(_mat3_tmp2);
+    scale_mat = m_mat3.identity(_mat3_tmp2);
     scale_mat[0] = a;
     scale_mat[4] = b;
     scale_mat[8] = c;

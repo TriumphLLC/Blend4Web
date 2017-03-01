@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,14 +50,15 @@
 b4w.module["controls"] = function(exports, require) {
 
 var m_ctl   = require("__controls");
+var m_phy   = require("__physics");
 var m_print = require("__print");
 
 /**
  * Manifold's callback. It is executed when the manifold generates a pulse.
  * @callback ManifoldCallback
  * @param {?Object3D} obj Object 3D, or null to denote the global object
- * @param {String} id Manifold ID
- * @param {Number} pulse Additional callback condition for CT_TRIGGER or
+ * @param {string} id Manifold ID
+ * @param {number} pulse Additional callback condition for CT_TRIGGER or
  * CT_CONTINUOUS manifolds: +1 or -1
  * @param {*} [param] Callback parameter. The user-defined parameter which is
  * passed to create_sensor_manifold(). Can be used, for example, as a storage
@@ -69,7 +70,7 @@ var m_print = require("__print");
  * result, the manifold changes its internal state and fires the callback.
  * @callback ManifoldLogicFunction
  * @param {Array} s Numeric array with sensor values.
- * @returns {Number} Result of evaluation of the logic expression
+ * @returns {number} Result of evaluation of the logic expression
  */
 /**
  * Collision sensor payload.
@@ -79,16 +80,16 @@ var m_print = require("__print");
  * is represented by collision material).
  * @param {?Vec3} coll_pos Position of collision point.
  * @param {?Vec3} coll_norm Normal of collision point.
- * @param {?Number} coll_dist Distance between collision points of colliding
+ * @param {?number} coll_dist Distance between collision points of colliding
  * objects.
  */
 /**
  * Ray sensor payload.
  * @callback RayPayload
- * @param {Number} hit_fract Fraction of ray length where hit has occured (0-1)
+ * @param {number} hit_fract Fraction of ray length where hit has occured (0-1)
  * or -1 if there is no hit anymore.
  * @param {?Object3D} obj_hit The hit object.
- * @param {Number} hit_time Time the hit happened.
+ * @param {number} hit_time Time the hit happened.
  * @param {Vec3} hit_pos Hit position in world space.
  * @param {Vec3} hit_norm Hit normal in world space.
  */
@@ -644,16 +645,16 @@ exports.default_OR_logic_fun = m_ctl.default_OR_logic_fun;
 /**
  * Create a gamepad button sensor.
  * @method module:controls.create_gamepad_btn_sensor
- * @param {Number} ind Button number
- * @param {Number} [number] Connected gamepad number
+ * @param {number} ind Button number
+ * @param {number} [number] Connected gamepad number
  * @returns {Sensor} Sensor object
  */
 exports.create_gamepad_btn_sensor = m_ctl.create_gamepad_btn_sensor;
 /**
  * Create a gamepad an axis sensor.
  * @method module:controls.create_gamepad_axis_sensor
- * @param {Number} axis Axis number
- * @param {Number} [number] Connected gamepad number
+ * @param {number} axis Axis number
+ * @param {number} [number] Connected gamepad number
  * @returns {Sensor} Sensor object
  */
 exports.create_gamepad_axis_sensor = m_ctl.create_gamepad_axis_sensor;
@@ -662,7 +663,7 @@ exports.create_gamepad_axis_sensor = m_ctl.create_gamepad_axis_sensor;
  * A custom sensor can be controlled manually by using the get_custom_sensor()
  * and set_custom_sensor() methods.
  * @method module:controls.create_custom_sensor
- * @param {Number} value Initial custom sensor value
+ * @param {number} value Initial custom sensor value
  * @returns {Sensor} Sensor object
  */
 exports.create_custom_sensor = m_ctl.create_custom_sensor;
@@ -675,7 +676,7 @@ exports.create_custom_sensor = m_ctl.create_custom_sensor;
  * 2 --- button was pressed at the last frame, and it was pressed at the current frame,
  * 3 --- button was pressed at the last frame, and it wasn't pressed at the current frame.
  * @method module:controls.create_keyboard_sensor
- * @param {Number} key Sensor key KEY_*
+ * @param {number} key Sensor key KEY_*
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
  */
@@ -689,11 +690,10 @@ exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
  * This sensor carries the following {@link module:controls~CollisionPayload|payload}.
  * @method module:controls.create_collision_sensor
  * @param {Object3D} obj_src Collision object.
- * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
- * @param {Boolean} [calc_pos_norm=false] Should the sensor return the
+ * @param {?string} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
+ * @param {boolean} [calc_pos_norm=false] Should the sensor return the
  * collision position/normal/distance or not.
  * @returns {Sensor} Sensor object
- * @cc_externs coll_obj coll_pos coll_norm coll_dist
  */
 exports.create_collision_sensor = function(obj_src, collision_id, calc_pos_norm) {
     collision_id = collision_id || "ANY";
@@ -723,22 +723,26 @@ exports.create_collision_impulse_sensor = m_ctl.create_collision_impulse_sensor;
  * entities.
  * This sensor carries the following {@link module:controls~RayPayload|payload}.
  * @method module:controls.create_ray_sensor
- * @param {Object3D} obj_src Source object, pass a non-null value to perform ray casting
- * in object space, e.g. from/to vectors specified in object space.
+ * @param {?Object3D} obj_src Source object, pass a non-null value to perform 
+ * ray casting in object space, e.g. from/to vectors specified in object space.
  * @param {Vec3} from From vector.
  * @param {Vec3} to To vector.
- * @param {?String} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
- * @param {Boolean} [is_binary_value=false] Calculate the value of the sensor as
+ * @param {?string} [collision_id="ANY"] Collision ID, "ANY" for any collision ID
+ * @param {boolean} [is_binary_value=false] Calculate the value of the sensor as
  * a binary (hit/non-hit) instead of hit fraction.
- * @param {Boolean} [calc_pos_norm=false] Calculate hit position/normal
+ * @param {boolean} [calc_pos_norm=false] Calculate hit position/normal
  * (accessed from payload object).
- * @param {Boolean} [ign_src_rot=false] Ignore any rotation of the source object
+ * @param {boolean} [ign_src_rot=false] Ignore any rotation of the source object
  * during ray casting.
  * @returns {Sensor} Sensor object.
- * @cc_externs hit_fract obj_hit hit_time hit_pos hit_norm
  */
 exports.create_ray_sensor = function(obj_src, from, to, collision_id,
         is_binary_value, calc_pos_norm, ign_src_rot) {
+
+    if (obj_src && !m_phy.obj_has_physics(obj_src)) {
+        m_print.error_once("No physics for object " + obj_src.name);
+        return;
+    }
 
     collision_id = collision_id || "ANY";
     is_binary_value = is_binary_value || false;
@@ -756,7 +760,6 @@ exports.create_ray_sensor = function(obj_src, from, to, collision_id,
  * @method module:controls.create_mouse_click_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
- * @cc_externs coords which
  */
 exports.create_mouse_click_sensor = m_ctl.create_mouse_click_sensor;
 
@@ -774,10 +777,9 @@ exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
  * The sensor's value is a number of pixels, the sensor's payload is an object
  * with useful properties like coordinates
  * @method module:controls.create_mouse_move_sensor
- * @param {String} [axis="XY"] Coordinate(s) to track: "X", "Y", "XY"
- * @param {HTMLElement} [element=Canvas container element] HTML element
+ * @param {string} [axis="XY"] Coordinate(s) to track: "X", "Y", "XY"
+ * @param {HTMLElement} [element] HTML element. The canvas container will be use by default.
  * @returns {Sensor} Sensor object
- * @cc_externs coords
  */
 exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
 /**
@@ -787,7 +789,6 @@ exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
  * @method module:controls.create_plock_mouse_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
- * @cc_externs coords
  */
 exports.create_plock_mouse_sensor = m_ctl.create_plock_mouse_sensor;
 /**
@@ -803,10 +804,9 @@ exports.create_plock_sensor = m_ctl.create_plock_sensor;
  * The sensor's value is a number of pixels, the sensor's payload is an object
  * with useful properties like coordinates
  * @method module:controls.create_touch_move_sensor
- * @param {String} [axis="XY"] Coordinate(s) to track: "X", "Y" or "XY"
- * @param {HTMLElement} [element=Canvas container element] HTML element
+ * @param {string} [axis="XY"] Coordinate(s) to track: "X", "Y" or "XY"
+ * @param {HTMLElement} [element] HTML element. The canvas container will be use by default.
  * @returns {Sensor} Sensor object
- * @cc_externs coords gesture
  */
 exports.create_touch_move_sensor = m_ctl.create_touch_move_sensor;
 
@@ -835,7 +835,6 @@ exports.create_touch_rotate_sensor = m_ctl.create_touch_rotate_sensor;
  * @method module:controls.create_touch_click_sensor
  * @param {HTMLElement} [element=Canvas container element] HTML element
  * @returns {Sensor} Sensor object
- * @cc_externs coords
  */
 exports.create_touch_click_sensor = m_ctl.create_touch_click_sensor;
 
@@ -844,9 +843,9 @@ exports.create_touch_click_sensor = m_ctl.create_touch_click_sensor;
  * The sensor's value is 1 if the object is in motion.
  * @method module:controls.create_motion_sensor
  * @param {Object3D} obj Object 3D
- * @param {Number} [threshold=0.1] Translation velocity threshold,
+ * @param {number} [threshold=0.1] Translation velocity threshold,
  * units (meters) per second
- * @param {Number} [rotation_threshold=0.1] Rotation velocity threshold,
+ * @param {number} [rotation_threshold=0.1] Rotation velocity threshold,
  * radians per second
  * @returns {Sensor} Sensor object
  */
@@ -858,7 +857,7 @@ exports.create_motion_sensor = m_ctl.create_motion_sensor;
  * the threshold.
  * @method module:controls.create_vertical_velocity_sensor
  * @param {Object3D} obj Object 3D
- * @param {Number} [threshold=1.0] Vertical velocity threshold,
+ * @param {number} [threshold=1.0] Vertical velocity threshold,
  * units (meters) per second
  * @returns {Sensor} Sensor object
  */
@@ -914,8 +913,8 @@ exports.create_hmd_position_sensor = m_ctl.create_hmd_position_sensor;
  * The timer's precision depends on FPS, so it is not effective for measuring
  * short intervals.
  * @method module:controls.create_timer_sensor
- * @param {Number} period Timer period, in seconds
- * @param {Boolean} [do_repeat=false] Re-start the timer upon expiration
+ * @param {number} period Timer period, in seconds
+ * @param {boolean} [do_repeat=false] Re-start the timer upon expiration
  * @returns {Sensor} Sensor object
  */
 exports.create_timer_sensor = function(period, do_repeat) {
@@ -926,9 +925,9 @@ exports.create_timer_sensor = function(period, do_repeat) {
  * Reset the timer sensor and set a new period value.
  * @method module:controls.reset_timer_sensor
  * @param {Object3D} obj Object 3D
- * @param {String} manifold_id Object's manifold ID
- * @param {Number} num Sensor's number in the manifold
- * @param {Number} period A new period value for the sensor
+ * @param {string} manifold_id Object's manifold ID
+ * @param {number} num Sensor's number in the manifold
+ * @param {number} period A new period value for the sensor
  */
 exports.reset_timer_sensor = m_ctl.reset_timer_sensor;
 
@@ -952,7 +951,7 @@ exports.create_timeline_sensor = m_ctl.create_timeline_sensor;
  * Create a selection sensor for the object.
  * The sensor's value becomes 1 when the object is selected by the user.
  * @param {Object3D} obj Object 3D
- * @param {Boolean} [enable_toggle_switch=false] If true, reset the sensor
+ * @param {boolean} [enable_toggle_switch=false] If true, reset the sensor
  * (set it to 0) only when another object is selected. If false, reset the
  * sensor when the mouse button/touch is released.
  * @method module:controls.create_selection_sensor
@@ -966,7 +965,7 @@ exports.create_selection_sensor = function(obj, enable_toggle_switch) {
  * Create a callback sensor.
  * The given callback is executed every frame and its return value is copied into the sensor value.
  * @param {SensorCallback} callback A callback which modifies sensor value.
- * @param {Number} [value=0] Initial sensor value.
+ * @param {number} [value=0] Initial sensor value.
  * @method module:controls.create_callback_sensor
  * @returns {Sensor} Sensor object
  */
@@ -978,7 +977,7 @@ exports.create_callback_sensor = function(callback, value) {
  * Set the value of the custom sensor.
  * @method module:controls.set_custom_sensor
  * @param {Sensor} sensor Sensor object
- * @param {Number} value New sensor value
+ * @param {number} value New sensor value
  */
 exports.set_custom_sensor = function(sensor, value) {
     m_ctl.sensor_set_value(sensor, value);
@@ -988,7 +987,7 @@ exports.set_custom_sensor = function(sensor, value) {
  * Get the value of the custom sensor.
  * @method module:controls.get_custom_sensor
  * @param {Sensor} sensor Sensor object
- * @returns {Number} Sensor value
+ * @returns {number} Sensor value
  */
 exports.get_custom_sensor = function(sensor) {
     return sensor.value;
@@ -999,9 +998,9 @@ exports.get_custom_sensor = function(sensor) {
  * identified by its index in the manifold's array of sensors.
  * @method module:controls.get_sensor_value
  * @param {?Object3D} obj Object 3D, or null to denote the global object
- * @param {String} manifold_id Object's manifold ID
- * @param {Number} num Sensor index in manifold's array
- * @returns {Number} Sensor value
+ * @param {string} manifold_id Object's manifold ID
+ * @param {number} num Sensor index in manifold's array
+ * @returns {number} Sensor value
  */
 exports.get_sensor_value = m_ctl.get_sensor_value;
 
@@ -1010,8 +1009,8 @@ exports.get_sensor_value = m_ctl.get_sensor_value;
  * is identified by its index in the manifold's array of sensors.
  * @method module:controls.get_sensor_payload
  * @param {?Object3D} obj Object 3D, or null to denote the global object
- * @param {String} manifold_id Object's manifold ID
- * @param {Number} num Sensor index in manifold's array
+ * @param {string} manifold_id Object's manifold ID
+ * @param {number} num Sensor index in manifold's array
  * @returns {*} Sensor payload
  */
 exports.get_sensor_payload = m_ctl.get_sensor_payload;
@@ -1021,8 +1020,8 @@ exports.get_sensor_payload = m_ctl.get_sensor_payload;
  * @method module:controls.create_sensor_manifold
  * @param {?Object3D} obj Object 3D to attach the manifold to, or null to denote
  * the global object.
- * @param {String} id New manifold ID.
- * @param {Number} type Manifold control type (CT_SHOT, CT_TRIGGER etc).
+ * @param {string} id New manifold ID.
+ * @param {number} type Manifold control type (CT_SHOT, CT_TRIGGER etc).
  * @param {Sensor[]} sensors Array of sensors.
  * @param {?ManifoldLogicFunction} logic_fun Manifold's logic function, if null
  * use default_AND_logic_fun function.
@@ -1034,7 +1033,7 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
                                           logic_fun, callback, callback_param) {
 
     callback_param = callback_param === undefined? null: callback_param;
-    var logic_fun = logic_fun || m_ctl.default_AND_logic_fun;
+    logic_fun = logic_fun || m_ctl.default_AND_logic_fun;
 
     m_ctl.create_sensor_manifold(obj, id, type, sensors, logic_fun, callback,
                                  callback_param);
@@ -1046,9 +1045,9 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
  * @method module:controls.create_kb_sensor_manifold
  * @param {?Object3D} obj Object 3D to attach the manifold to, or null to denote
  * the global object
- * @param {String} id New manifold ID
- * @param {Number} type Manifold control type (CT_SHOT, CT_TRIGGER etc)
- * @param {Number} key Sensor key KEY_*
+ * @param {string} id New manifold ID
+ * @param {number} type Manifold control type (CT_SHOT, CT_TRIGGER etc)
+ * @param {number} key Sensor key KEY_*
  * @param {ManifoldCallback} callback Manifold's callback
  * @param {*} [callback_param] Parameter to pass to the manifold's callback
  * (e.g. some state)
@@ -1068,7 +1067,7 @@ exports.create_kb_sensor_manifold = function(obj, id, type, key,
  * Check whether the object has any manifolds attached.
  * @method module:controls.check_sensor_manifolds
  * @param {?Object3D} obj Object 3D, or null to denote the global object
- * @returns {Boolean} Result of the check
+ * @returns {boolean} Result of the check
  */
 exports.check_sensor_manifolds = function(obj) {
     return m_ctl.check_sensor_manifold(obj, null);
@@ -1078,8 +1077,8 @@ exports.check_sensor_manifolds = function(obj) {
  * Check whether the object has the manifold attached.
  * @method module:controls.check_sensor_manifold
  * @param {?Object3D} obj Object 3D, or null to denote the global object
- * @param {String} id Manifold ID
- * @returns {Boolean} Result of the check
+ * @param {string} id Manifold ID
+ * @returns {boolean} Result of the check
  */
 exports.check_sensor_manifold = m_ctl.check_sensor_manifold;
 
@@ -1088,7 +1087,7 @@ exports.check_sensor_manifold = m_ctl.check_sensor_manifold;
  * @method module:controls.remove_sensor_manifold
  * @param {?Object3D} obj Object 3D to delete the manifold from, or null to denote
  * the global object
- * @param {String} [id=null] ID of the sensor manifold, or null to delete all
+ * @param {string} [id=null] ID of the sensor manifold, or null to delete all
  * manifolds
  */
 exports.remove_sensor_manifold = m_ctl.remove_sensor_manifold;
@@ -1101,125 +1100,9 @@ exports.remove_sensor_manifold = m_ctl.remove_sensor_manifold;
 exports.reset = m_ctl.reset;
 
 /**
- * Add keyboard event listeners (keydown and keyup) to the HTML element.
- * Required for work of keyboard sensors.
- * @param {HTMLElement} element HTML element to add event listeners to
- * @param {Boolean} prevent_default Prevent browsers' default actions for
- * registered events.
- * @method module:controls.register_keyboard_events
- * @deprecated Not needed anymore.
- */
-exports.register_keyboard_events = function(){
-    m_print.error_once("controls.register_keyboard_events() deprecated");
-};
-
-/**
- * Add mouse event listeners (mousedown, mouseup, mousemove and mouseout) to
- * the HTML element. Required for work of mouse click and
- * mouse movement sensors.
- * @param {HTMLElement} element HTML element to add event listeners to
- * @param {Boolean} prevent_default Prevent browser default actions for
- * registered events.
- * @param {Boolean} [allow_element_exit=false] Continue receiving mouse events
- * even when the mouse is leaving the HTML element
- * @method module:controls.register_mouse_events
- * @deprecated Not needed anymore.
- */
-exports.register_mouse_events = function(){
-    m_print.error_once("controls.register_mouse_events() deprecated");
-};
-
-/**
- * Add mouse wheel event listeners (mousewheel and DOMMouseScroll) to
- * the HTML element. Required for work of mouse wheel sensors.
- * @param {HTMLElement} element HTML element to add event listeners to
- * @param {Boolean} prevent_default Prevent browser default actions for
- * registered events.
- * @method module:controls.register_wheel_events
- * @deprecated Not needed anymore.
- */
-exports.register_wheel_events = function(){
-    m_print.error_once("controls.register_wheel_events() deprecated");
-};
-
-/**
- * Add touch event listeners (touchstart and touchmove) to the HTML element.
- * Required for work of touch movement and touch zoom sensors.
- * @param {HTMLElement} element HTML element to add event listeners to
- * @param {Boolean} prevent_default Prevent browser default actions for
- * registered events.
- * @method module:controls.register_touch_events
- * @deprecated Not needed anymore.
- */
-exports.register_touch_events = function(){
-    m_print.error_once("controls.register_touch_events() deprecated");
-};
-
-/**
- * Add device orientation event listener (deviceorientation) to the DOM window.
- * @method module:controls.register_device_orientation
- * @deprecated Not needed anymore.
- */
-exports.register_device_orientation = function(){
-    m_print.error_once("controls.register_device_orientation() deprecated");
-};
-
-/**
- * Remove keyboard event listeners (keydown and keyup) from the HTML element.
- * @param {HTMLElement} element HTML element to remove event listeners from
- * @method module:controls.unregister_keyboard_events
- * @deprecated Not needed anymore.
- */
-exports.unregister_keyboard_events = function(){
-    m_print.error_once("controls.unregister_keyboard_events() deprecated");
-};
-
-/**
- * Remove mouse event listeners (mousedown, mouseup, mousemove and mouseout)
- * from the HTML element.
- * @param {HTMLElement} element HTML element to remove event listeners from
- * @method module:controls.unregister_mouse_events
- * @deprecated Not needed anymore.
- */
-exports.unregister_mouse_events = function(){
-    m_print.error_once("controls.unregister_mouse_events() deprecated");
-};
-
-/**
- * Remove mouse wheel event listeners (mousewheel and DOMMouseScroll) from
- * the HTML element.
- * @param {HTMLElement} element HTML element to remove event listeners from
- * @method module:controls.unregister_wheel_events
- * @deprecated Not needed anymore.
- */
-exports.unregister_wheel_events = function(){
-    m_print.error_once("controls.unregister_wheel_events() deprecated");
-};
-
-/**
- * Remove touch event listeners (touchstart and touchmove) from the HTML
- * element.
- * @param {HTMLElement} element HTML element to remove event listeners from
- * @method module:controls.unregister_touch_events
- * @deprecated Not needed anymore.
- */
-exports.unregister_touch_events = function(){
-    m_print.error_once("controls.unregister_touch_events() deprecated");
-};
-
-/**
- * Remove device orientation event listener (deviceorientation) from
- * the DOM window.
- * @method module:controls.unregister_device_orientation
- * @deprecated Not needed anymore.
- */
-exports.unregister_device_orientation = function(){
-    m_print.error_once("controls.unregister_device_orientation() deprecated");
-};
-/**
  * Set smooth factor for mouse pointerlock sensor.
  * @method module:controls.set_plock_smooth_factor
- * @param {Number} value Set 
+ * @param {number} value Set 
  */
 exports.set_plock_smooth_factor = m_ctl.set_plock_smooth_factor;
 

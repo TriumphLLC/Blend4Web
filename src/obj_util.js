@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,20 +33,12 @@ var m_vec4   = require("__vec4");
 
 var cfg_def = m_cfg.defaults;
 
-var _vec4_tmp   = new Float32Array(4);
-var _quat4_tmp  = new Float32Array(4);
-var _quat4_tmp2 = new Float32Array(4);
-var _tsr_tmp    = m_tsr.create();
-var _tsr_tmp2   = m_tsr.create();
-
-var DEBUG_DISABLE_STATIC_OBJS = false;
-
 var LOD_DIST_MAX_INFINITY = -1;
 exports.LOD_DIST_MAX_INFINITY = LOD_DIST_MAX_INFINITY;
 
 /**
  * Create abstract render
- * @param {String} type "DYNAMIC", "STATIC", "CAMERA", "EMPTY", "NONE"
+ * @param {string} type "DYNAMIC", "STATIC", "CAMERA", "EMPTY", "NONE"
  */
 exports.create_render = create_render;
 function create_render(type) {
@@ -60,7 +52,7 @@ function create_render(type) {
         pivot: new Float32Array(3),
         hover_pivot: new Float32Array(3),
         init_dist: 0,
-        init_top: 0,
+        init_fov: 0,
         is_copied: false,
         is_copied_deep: false,
 
@@ -228,7 +220,7 @@ function clone_render(render) {
     m_vec3.copy(render.pivot, out.pivot);
     m_vec3.copy(render.hover_pivot, out.hover_pivot);
     out.init_dist = render.init_dist;
-    out.init_top = render.init_top;
+    out.init_fov = render.init_fov;
     out.is_copied = render.is_copied;
     out.is_copied_deep = render.is_copied_deep;
 
@@ -385,9 +377,22 @@ function create_object(name, type, origin_name) {
 
         bpy_origin: false,
 
+        // material inheritance requires bpy object for batching
+        _bpy_obj: null, 
+
+        mat_inheritance_data: {
+            // to keep the original mat names after inheritance
+            original_mat_names: [],
+            // needed for inheritance on copied objects, that reference the same bpy object
+            bpy_materials: [],
+            // to prevent a material from participating in batching
+            is_disabled: []
+        },
+
         is_dynamic: false,
         is_hair_dupli: false,
         use_default_animation: false,
+        is_boundings_overridden: false,
         
         render: null,
         constraint: null,
@@ -397,6 +402,7 @@ function create_object(name, type, origin_name) {
         anchor: null,
         field: null,
         metatags: null,
+        custom_prop: null,
 
         scenes_data: [],
         vertex_anim: [],
@@ -658,6 +664,7 @@ exports.update_refl_objects = function (objects, reflection_plane) {
     }
 }
 
+exports.init_scene_data = init_scene_data;
 function init_scene_data(scene) {
     var sc_data = {
         scene: scene,

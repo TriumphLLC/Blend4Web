@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,15 +34,15 @@ var m_assets   = require("__assets");
 /**
  * Texture changing finish callback.
  * @callback TexChangingFinishCallback
- * @param {Boolean} success Operation result
+ * @param {boolean} success Operation result
  */
 
 /**
  * Play video.
  * @see https://www.blend4web.com/doc/en/textures.html#video-texture
  * @method module:textures.play_video
- * @param {String} texture_name Texture name
- * @param {Number} [data_id=0] ID of loaded data
+ * @param {string} texture_name Texture name
+ * @param {number} [data_id=0] ID of loaded data
  */
 exports.play_video = function(texture_name, data_id) {
     if (!data_id)
@@ -66,8 +66,8 @@ exports.play_video = function(texture_name, data_id) {
 /**
  * Pause video.
  * @method module:textures.pause_video
- * @param {String} texture_name Texture name
- * @param {Number} [data_id=0] ID of loaded data
+ * @param {string} texture_name Texture name
+ * @param {number} [data_id=0] ID of loaded data
  */
 exports.pause_video = function(texture_name, data_id) {
     if (!data_id)
@@ -91,8 +91,8 @@ exports.pause_video = function(texture_name, data_id) {
 /**
  * Reset video (considering frame_offset value from Blender).
  * @method module:textures.reset_video
- * @param {String} texture_name Texture name
- * @param {Number} [data_id=0] ID of loaded data
+ * @param {string} texture_name Texture name
+ * @param {number} [data_id=0] ID of loaded data
  */
 exports.reset_video = function(texture_name, data_id) {
     if (!data_id)
@@ -117,7 +117,7 @@ exports.reset_video = function(texture_name, data_id) {
  * @see https://www.blend4web.com/doc/en/textures.html#canvas
  * @method module:textures.get_canvas_ctx
  * @param {Object3D} obj Object 3D
- * @param {String} text_name Texture name specified in Blender
+ * @param {string} text_name Texture name specified in Blender
  * @returns {CanvasRenderingContext2D} Canvas texture context
  * @example 
  * var m_scenes = require("scenes");
@@ -143,7 +143,7 @@ exports.get_canvas_ctx = function(obj, text_name) {
  * @see https://www.blend4web.com/doc/en/textures.html#canvas
  * @method module:textures.update_canvas_ctx
  * @param {Object3D} obj Object 3D
- * @param {String} text_name Texture name specified in Blender
+ * @param {string} text_name Texture name specified in Blender
  * @example 
  * var m_scenes = require("scenes");
  * var m_tex = require("textures");
@@ -152,21 +152,26 @@ exports.get_canvas_ctx = function(obj, text_name) {
  * m_tex.update_canvas_ctx(cube, "Texture");
  */
 exports.update_canvas_ctx = function(obj, text_name) {
-    if (!m_obj_util.is_mesh(obj))
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("Object must be type of mesh.");
-    else {
-        if (m_textures.update_canvas_context_by_object(obj, text_name))
-            return true;
-        m_print.error("Couldn't find canvas texture with this name: " + text_name);
+        return false;
     }
-    return false;
+
+    var tex = m_textures.get_texture_by_name(obj, text_name);
+    if (!tex || tex.source != "CANVAS") {
+        m_print.error("Couldn't find canvas texture \"" + text_name + "\" in object \"" + obj.name + "\".");
+        return false;
+    }
+
+    m_textures.update_texture_canvas(tex);
+    return true;
 }
 /**
- * Update texture image.
+ * Change texture image. Changing video textures is forbidden.
  * @method module:textures.change_image
  * @param {Object3D} obj Object 3D
- * @param {String} text_name Texture name specified in Blender
- * @param {String} image_path Path to image (relative to the main html file)
+ * @param {string} text_name Texture name specified in Blender
+ * @param {string} image_path Path to image (relative to the main html file)
  * @param {TexChangingFinishCallback} [callback] Callback to be executed after changing
  * @example 
  * var m_scenes  = require("scenes");
@@ -180,6 +185,12 @@ exports.change_image = function(obj, text_name, image_path, callback) {
     var tex = m_textures.get_texture_by_name(obj, text_name);
     if (!tex) {
         m_print.error("Couldn't find texture \"" + text_name + "\" in object \"" + obj.name + "\".");
+        callback(false);
+        return;
+    }
+
+    if (tex.is_movie) {
+        m_print.error("Changing video textures is forbidden.");
         callback(false);
         return;
     }
@@ -213,9 +224,10 @@ exports.change_image = function(obj, text_name, image_path, callback) {
  * @returns {Array} Texture names array
  */
 exports.get_texture_names = function(obj) {
-    if (!m_obj_util.is_mesh(obj))
+    if (!m_obj_util.is_mesh(obj)) {
         m_print.error("Object must be type of mesh.");
-    else
+        return [];
+    } else
         return m_textures.get_texture_names(obj);
 }
 

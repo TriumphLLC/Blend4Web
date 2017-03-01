@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ var m_ctl    = require("controls");
 var m_input  = require("input");
 var m_quat   = require("quat");
 var m_scenes = require("scenes");
+var m_screen = require("screen");
 var m_trans  = require("transform");
 var m_util   = require("util");
 var m_vec3   = require("vec3");
@@ -49,14 +50,15 @@ var _quat_tmp3 = m_quat.create();
 var _quat_tmp4 = m_quat.create();
 
 var _offset_quat = m_quat.create();
+var _empty_params = {pivot: m_vec3.create()};
+
 /**
  * HMD behavior enum.
  * @see {@link module:hmd.HMD_NONE_MOUSE_ALL_AXES},
  * {@link module:hmd.HMD_ALL_AXES_MOUSE_NONE},
  * {@link module:hmd.HMD_ROLL_PITCH_MOUSE_YAW},
  * {@link module:hmd.HMD_ALL_AXES_MOUSE_YAW}
- * @typedef HMDBehavior
- * @type {Number}
+ * @typedef {number} HMDBehavior
  */
 
 /**
@@ -100,13 +102,12 @@ exports.enable_hmd = function(control_type) {
     var sensor = null;
     var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
     if (device) {
-        if (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) ==
-                m_input.HMD_WEBVR_DESKTOP
-                || m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) ==
-                        m_input.HMD_WEBVR1)
+        if (m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) &
+                (m_input.HMD_WEBVR_MOBILE | m_input.HMD_WEBVR_DESKTOP | m_input.HMD_WEBVR1))
+            // use state of the WebVR device
             sensor = m_ctl.create_hmd_quat_sensor();
         else
-            // m_input.HMD_WEBVR_TYPE in {m_input.HMD_NON_WEBVR, m_input.HMD_WEBVR_MOBILE}
+            // use gyroscope state
             sensor = m_ctl.create_gyro_quat_sensor();
         process_hmd(control_type, sensor);
     }
@@ -115,30 +116,10 @@ exports.enable_hmd = function(control_type) {
 /**
  * Check if the browser supports WebVR API or it is a mobile version of the browser.
  * @method module:hmd.check_browser_support
- * @return {Boolean} Checking result.
+ * @return {boolean} Checking result.
  */
 exports.check_browser_support = function() {
     return Boolean(m_input.can_use_device(m_input.DEVICE_HMD));
-}
-
-/**
- * Get mounted hmd device.
- * @method module:hmd.get_hmd_device
- * @return {HMDVRDevice} HMD object.
- * @deprecated
- */
-exports.get_hmd_device = function() {
-    return null;
-}
-
-/**
- * Reset the sensors, return position and orientation sensors values to zero.
- * @method module:hmd.reset
- * @deprecated Use {@link module:input.reset_device} instead
- */
-exports.reset = function() {
-    var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
-    m_input.reset_device(device);
 }
 
 function process_hmd(control_type, sensor) {
@@ -148,7 +129,8 @@ function process_hmd(control_type, sensor) {
     var cam_obj = m_scenes.get_active_camera();
     if (!cam_obj)
         return;
-    else
+
+    m_screen.request_split_screen(function() {
         if (!m_cam.is_eye_camera(cam_obj)) {
             _was_target_camera = m_cam.is_target_camera(cam_obj);
             _was_hover_camera = m_cam.is_hover_camera(cam_obj);
@@ -157,24 +139,22 @@ function process_hmd(control_type, sensor) {
             m_cam.eye_setup(cam_obj);
         }
 
-    var elapsed = m_ctl.create_elapsed_sensor();
+        var elapsed = m_ctl.create_elapsed_sensor();
 
-    var updated_eye_data = false;
-    var move_cam_cb = function(obj, id, pulse) {
+        _last_cam_quat = m_trans.get_rotation(cam_obj, _last_cam_quat);
+        m_ctl.create_sensor_manifold(null, "HMD_ROTATE_CAMERA", m_ctl.CT_CONTINUOUS,
+                [elapsed, sensor], null, move_cam_cb);
+    });
+
+    function move_cam_cb(obj, id, pulse) {
         if (pulse > 0) {
             var cam_obj = m_scenes.get_active_camera();
             if (!cam_obj)
                 return;
 
-            // NOTE: init part
-            if (!updated_eye_data && m_input.enable_split_screen(cam_obj)) {
-                _last_cam_quat = m_trans.get_rotation(cam_obj, _last_cam_quat);
-                updated_eye_data = true;
-            }
-
             // NOTE: It is executed every frame.
             // uses _vec3_tmp, _vec3_tmp2, _vec3_tmp3, _quat_tmp, _quat_tmp2
-            if (updated_eye_data && m_cam.is_eye_camera(cam_obj)) {
+            if (m_cam.is_eye_camera(cam_obj)) {
                 var hmd_quat = m_ctl.get_sensor_payload(obj, id, 1);
                 if (hmd_quat) {
                     if (control_type == HMD_ALL_AXES_MOUSE_NONE) {
@@ -248,8 +228,6 @@ function process_hmd(control_type, sensor) {
             }
         }
     }
-    m_ctl.create_sensor_manifold(null, "HMD_ROTATE_CAMERA", m_ctl.CT_CONTINUOUS,
-            [elapsed, sensor], null, move_cam_cb);
 }
 
 /**
@@ -257,17 +235,21 @@ function process_hmd(control_type, sensor) {
  * @method module:hmd.disable_hmd
  */
 exports.disable_hmd = function() {
+    if (!m_ctl.check_sensor_manifold(null, "HMD_ROTATE_CAMERA"))
+        return;
+
     m_ctl.remove_sensor_manifold(null, "HMD_ROTATE_CAMERA");
 
-    m_input.disable_split_screen();
+    m_screen.exit_split_screen();
 
     var cam_obj = m_scenes.get_active_camera();
+    // TODO: add restoring camera's params
     if (_was_target_camera)
-        m_cam.target_setup(cam_obj);
+        m_cam.target_setup(cam_obj, _empty_params);
     else if (_was_hover_camera)
-        m_cam.hover_setup(cam_obj);
+        m_cam.hover_setup(cam_obj, _empty_params);
     else if (_was_static_camera)
-        m_cam.static_setup(cam_obj);
+        m_cam.static_setup(cam_obj, _empty_params);
 
     // correct up camera (non-vr mode)
     m_cam.set_vertical_axis(cam_obj, m_util.AXIS_Z);

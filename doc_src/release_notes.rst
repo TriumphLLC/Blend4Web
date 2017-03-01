@@ -6,6 +6,186 @@ Release Notes
 
 .. index:: release notes
 
+v17.02
+======
+
+New Features
+------------
+
+* Project Manager improvements.
+
+    To simplify project configuration a new visual configurator has been implemented. To configure your project just click on the *[config]* link near the project name on the Project Manager's main page. Project configurator works in a non-destructive way and allows you to change only editable params for the current project.
+
+    The clone project functionality was added.
+
+    JavaScript source maps were added. Source maps allow developer tools located in browsers to display unminified code from minified code with optimized "mapping" between them. To generate source maps specify *-b* flag to *project.py* script when building your project.
+
+* User interface improvements.
+
+    To make the task of creating Blend4Web content more efficient we refined the Blender UI.
+
+    `Render` and `Help` menus have been modified for Blend4Web render engine.
+
+    Messages about unsupported editors have been added.
+
+    'Rigid Body' panel has been removed from View3d tools for Blend4Web render engine.
+
+    Blend4Web credits have been added to the splash screen.
+
+* Further support for materials powered by ``Cycles``.
+
+    Support for ``Displacement`` output has been added. This output is used to easily add bump to material.
+
+    ``Transparent BSDF`` node support has been added. This node is from the ``Shader`` category. It is used to add transparency without refraction, passing straight through the surface, as if there were no geometry there.
+
+* Extended material inheritance.
+
+    The :b4wref:`material.inherit_material` method was greatly improved to support node materials. It requires the source and the target objects to have the ``Dynamic Geometry & Materials`` option (which previously was named ``Dynamic Geometry``) enabled on the ``Object`` panel. This option also means that all UV and vertex color layers are exported to be available to use in any material that is applied to the target object. More information about using this functionality can be found in the :ref:`corresponding chapter <material_inherit>` in the documentation.
+
+* "Code Snippets" improvements.
+
+    The "Make project" button has been added. It is now possible to create new projects based on code snippets. It provides the possibility to use ready-made templates for further development.
+
+* Camera improvements.
+
+    Support for ``Horizontal`` and ``Auto`` camera fits has been added.
+
+* Wind Bending setup API.
+
+    Wind Bending parameters can now be set with :b4wref:`objects.set_wind_bending_params`, and they can be extracted with :b4wref:`objects.get_wind_bending_params`. Note that this API works only with dynamic objects. A special menu for Wind Bending was added to the :ref:`Viewer <viewer>` interface.
+
+* Shadow Blur and reflection quality configuration
+
+    New parameters: ``shadow_blur_samples`` and ``reflection_quality`` have been added to the :b4wmod:`config` module. They can be assigned with the :b4wref:`config.set` method.
+
+* Support for Blend4Web addon customizations.
+
+    To simplify Blend4Web addon customizations a new field *b4w_custom_prop* can be added to Object or Scene datablocks. This option can be exported to Blend4Web format and accessed in runtime by :b4wref:`scenes.get_custom_prop scenes.get_custom_prop` or :b4wref:`objects.get_custom_prop objects.get_custom_prop` methods. An example on how to use this feature can be found in `addons/blend4web/custom_prop_example.py` file in the SDK.
+
+* Changes in the process of exporting UV layers.
+
+    The restriction of 2 UV layers per mesh has been removed. Also, if a UV layer is not specified then the active layer is used instead of the first layer in the list as it was previously. Unused UV layers will not be exported unless the object property ``Dynamic Geometry & Materials`` is enabled.
+
+Changes
+-------
+
+* Project Manager changes.
+
+    "External" engine type was deprecated and replaced by "Copy" type automatically.
+
+* Empty material slots are now correctly exported and do not stop export process.
+
+* Blender addon now resides in an independent addon category named ``Blend4Web``.
+
+* Incompatible textures and constraints now print warnings in Blender UI.
+
+* Skeletal animation blending now works correctly for two animations. This feature is still experimental and API is subject to change.
+
+* Static physical objects now correctly influence a scene when dynamically loaded or unloaded.
+
+* :b4wmod:`fps` addon received several improvements. The :b4wref:`fps.enable_fps_controls` method now has several setup parameters. Refer to API documents for more details.
+
+* API changes.
+
+    The :b4wref:`container.set_canvas_offsets`, :b4wref:`container.update_canvas_offsets`, :b4wref:`container.force_offsets_updating` methods of the :b4wmod:`container` module have been declared deprecated and will be removed in future releases. Use the :b4wref:`container.client_to_canvas_coords` or the :b4wref:`container.client_to_element_coords` methods.
+
+    The :b4wmod:`screen` module has been added.
+
+    The :b4wref:`input.request_fullscreen_hmd`, :b4wref:`input.enable_split_screen`, :b4wref:`input.disable_split_screen`, :b4wref:`app.request_fullscreen`, :b4wref:`app.exit_fullscreen`, :b4wref:`app.check_fullscreen` methods have been declared deprecated. Use :b4wref:`screen.request_fullscreen_hmd` :b4wref:`screen.request_split_screen` :b4wref:`screen.exit_split_screen`, :b4wref:`screen.request_fullscreen`, :b4wref:`screen.exit_fullscreen`, :b4wref:`screen.check_fullscreen` instead.
+
+    The :b4wref:`hud.draw_mixer_strip`, :b4wref:`hud.plot_array`, :b4wref:`screenshooter.shot` methods have been declared deprecated and moved to the :b4wmod:`screen` module. The :b4wmod:`hud`, :b4wmod:`screenshooter` modules have been declared deprecated.
+
+    The :b4wref:`camera.set_hmd_fov` method has been declared deprecated.
+
+    The `util.ground_project_quat` method has been renamed :b4wref:`util.ground_project_cam_quat`.
+
+    The following deprecated methods have been removed: camera.set_move_style, camera.has_vertical_limits, camera.has_horizontal_limits, camera.move_pivot, camera.set_velocity_params, camera.get_velocity_params, camera.clear_horizontal_limits, camera.clear_vertical_limits, camera.clear_hover_angle_limits, camera.set_look_at, camera.rotate_eye_camera, camera.rotate_target_camera, camera.set_trans_pivot, camera.zoom_object, camera.set_pivot, camera.rotate_hover_camera, camera.get_hover_cam_pivot, camera.get_eye, camera.get_pivot, camera.hover_cam_set_translation, camera.set_hover_pivot, camera.get_hover_angle_limits, camera.get_cam_dist_limits, camera.apply_vertical_limits, camera.apply_hover_angle_limits, camera.apply_distance_limits, camera.clear_distance_limits, camera.get_vertical_limits, camera.apply_horizontal_limits, camera.get_horizontal_limits, controls.register_keyboard_events, controls.register_mouse_events, controls.register_wheel_events, controls.register_touch_events, controls.register_device_orientation, controls.unregister_keyboard_events, controls.unregister_mouse_events, controls.unregister_wheel_events, controls.unregister_touch_events, controls.unregister_device_orientation, app.resize_to_container, app.set_camera_move_style, app.enable_controls, app.disable_controls, hmd.get_hmd_device, hmd.reset, animation.get_first_armature_object, animation.get_bone_translation, constraints.get_parent, util.line_plane_intersect, util.is_mesh, util.is_armature, tsr.create_sep, sfx.is_play, scenes.check_object, scenes.get_object_dg_parent, nla.check_nla_scripts, main.resize, main.global_timeline, main.get_canvas_elem.
+
+    The :b4wref:`input.add_click_listener`, :b4wref:`input.remove_click_listener` methods have been added.
+
+* VR mode changes.
+
+    Switching to VR mode can now be done without reloading the application in VR-capable browsers: WebVR-supporting browsers or mobile browsers.
+
+    Camera autorotation is disabled when switching to VR mode.
+
+    Added support for WebVR 1.1.
+
+* The :b4wref:`physics.is_character` method no longer returns ``true`` if physics is disabled in an application.
+
+* The paragraph :ref:`Non-Standard Canvas Position and Orientation <non_standard_canvas_pos>` was rewritten to reflect recent engine changes.
+    
+    Also, the new paragraph :ref:`Mobile Web Apps <mobile_web_apps>` was added to describe some aspects related to the orientation and the scaling of a browser's page.
+
+* The :ref:`Material API <material_api>` paragraph has been added to the user manual. It describes how object materials can be adjusted using API methods from the :b4wmod:`material` module.
+
+* The structure of the ``SSAOParams`` object used in the :b4wref:`scenes.set_ssao_params` and the :b4wref:`scenes.get_ssao_params` methods was changed to be more consistent.
+
+* The :b4wref:`debug.object_distance` method has been declared deprecated, from now on the :b4wref:`transform.distance` method should be used instead.
+
+* The :b4wref:`controls.create_ray_sensor` and the :b4wref:`npc_ai.new_event_track` methods no longer accept a non-physical object as a parameter, which led to engine crash.
+
+* Video textures can no longer be changed via the :b4wref:`textures.change_image` method.
+
+Fixes
+-----
+
+* Fixed bug when anchor description contains not only text nodes.
+
+* Fixed crash for non-valid materials used by ``Emitter`` particle systems.
+
+* Fixed some errors for same-titled linked objects and groups.
+
+* Removed the duplicated ``Simplify`` panel created by Blend4Web in other Render Engines.
+
+* Fixed texture caching with incompatible texture sources.
+
+* Fixed emitter particle normals.
+
+* Fixed Rendering to texture broken in the previous release.
+
+* Several fixes for the :b4wref:`data.prefetch` method.
+
+* Fixed SRGB color correction in ``Ultra`` mode.
+
+* Fixed FPS reducing in iOS browsers.
+
+* Fixed binary loading in case tmp directory doesn't allow execution. This issue was fixed by using standard Blender tmp path, which can be configured.
+
+* More correct extending of node editor `Add` menu.
+
+* assets.json has been removed from all blend files.
+
+* Fixed the reloading of binary module when pressing F8.
+
+* Fixed HMD configurator.
+
+* Fixed bug when the visibility of scene layers in Blender can be changed after export.
+
+* Fixed wrong behavior of video textures in Firefox.
+
+* Fixed shadows and reflections for dynamic grass.
+
+* Fixed shader compilation crash if the LOW quality profile was choosen.
+
+* Fixed object selection and shadows for objects with a node material, which had the Alpha Clip blend mode.
+
+* Fixed the checking of unsupported texture sizes.
+
+* Fixed the overriding bounding volumes functionality for objects with shape keys.
+
+* Fixed the selection and the outlining of LOD objects.
+
+* Fixed engine crash when an object had the Array Modifier applied in Blender.
+
+* Fixed bugs related to the :b4wref:`scenes.set_ssao_params` method.
+
+* The Google Closure Compiler used for compiling the engine's scripts and applications was updated to the newest version. This helped to find and fix several minor bugs.
+
+* Fixed engine crash when applying a shape key to an object with HAIR or EMITTER particle systems.
+
+* Fixed the "Hidden" property for ``EMPTY`` objects used as anchors.
+
 v16.12
 ======
 
@@ -15,7 +195,7 @@ New Features
 * Project Manager improvements.
 
     ``New File`` and ``Save As`` buttons were added to the project file editor. Also, to simplify navigation, the editor hightlights edited files.
-    
+
     Project Manager applicaton builder now minifies compiled HTML files to speed-up their loading.
 
 * New ``Cycles`` material nodes.
@@ -2312,7 +2492,7 @@ New Features
 
     For proper manipulations with mouse cursor and touchscreen devices the engine requires correct 2D Canvas coordinates.
 
-    Details about calculation and use cases of such coordinates are described in the separate :ref:`topic <canvas_nonfullscreen_coords>`.
+    Details about calculation and use cases of such coordinates are described in the separate :ref:`topic <non_standard_canvas_pos>`.
 
     To support this feature the following methods have been added to engine's APIs: ``client_to_canvas_coords()``, ``set_canvas_offsets()``, ``update_canvas_offsets()`` and ``force_offsets_updating()``. Also, there is a new configuration option: ``track_container_position``.
 

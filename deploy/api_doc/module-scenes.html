@@ -160,23 +160,19 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.can_select_objects">can_select_objects<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.can_select_objects">can_select_objects<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.check_object">check_object<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.check_object_by_dupli_name">check_object_by_dupli_name<span class="signature">(empty_name, dupli_name, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.check_object_by_dupli_name">check_object_by_dupli_name<span class="signature">(empty_name, dupli_name, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.check_object_by_dupli_name_list">check_object_by_dupli_name_list<span class="signature">(name_list, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.check_object_by_dupli_name_list">check_object_by_dupli_name_list<span class="signature">(name_list, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
-
-        
-            
-<li> <a href="#.check_object_by_name">check_object_by_name<span class="signature">(name, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.check_object_by_name">check_object_by_name<span class="signature">(name, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
@@ -184,7 +180,7 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_active">get_active<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></a></li>
+<li> <a href="#.get_active">get_active<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></a></li>
 
         
             
@@ -200,11 +196,15 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_cam_water_depth">get_cam_water_depth<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_cam_water_depth">get_cam_water_depth<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
 <li> <a href="#.get_color_correction_params">get_color_correction_params<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="module-scenes.html#~ColorCorrectionParams">module:scenes~ColorCorrectionParams}</span></a></li>
+
+        
+            
+<li> <a href="#.get_custom_prop">get_custom_prop<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></a></li>
 
         
             
@@ -224,7 +224,7 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_fog_params">get_fog_params<span class="signature">()</span><span class="type-signature"> &rarr; {FogParams|Vec4}</span></a></li>
+<li> <a href="#.get_fog_params">get_fog_params<span class="signature">()</span><span class="type-signature"> &rarr; {FogParams}</span></a></li>
 
         
             
@@ -260,15 +260,11 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_object_data_id">get_object_data_id<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_object_data_id">get_object_data_id<span class="signature">(obj)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
-<li> <a href="#.get_object_dg_parent">get_object_dg_parent<span class="signature">(obj)</span><span class="type-signature"> &rarr; (nullable) {Object3D}</span></a></li>
-
-        
-            
-<li> <a href="#.get_object_name">get_object_name<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></a></li>
+<li> <a href="#.get_object_name">get_object_name<span class="signature">(obj)</span><span class="type-signature"> &rarr; {string}</span></a></li>
 
         
             
@@ -276,7 +272,7 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_object_type">get_object_type<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></a></li>
+<li> <a href="#.get_object_type">get_object_type<span class="signature">(obj)</span><span class="type-signature"> &rarr; {string}</span></a></li>
 
         
             
@@ -284,11 +280,11 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_outline_intensity">get_outline_intensity<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_outline_intensity">get_outline_intensity<span class="signature">(obj)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
-<li> <a href="#.get_scenes">get_scenes<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span></a></li>
+<li> <a href="#.get_scenes">get_scenes<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></a></li>
 
         
             
@@ -296,19 +292,19 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_shore_dist">get_shore_dist<span class="signature">(trans, v_dist_mult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_shore_dist">get_shore_dist<span class="signature">(trans, v_dist_mult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
-<li> <a href="#.get_sky_params">get_sky_params<span class="signature">()</span><span class="type-signature"> &rarr; {SkyParams}</span></a></li>
+<li> <a href="#.get_sky_params">get_sky_params<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="module-scenes.html#~SkyParams">module:scenes~SkyParams}</span></a></li>
 
         
             
-<li> <a href="#.get_ssao_params">get_ssao_params<span class="signature">()</span><span class="type-signature"> &rarr; {SSAOParams}</span></a></li>
+<li> <a href="#.get_ssao_params">get_ssao_params<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="module-scenes.html#~SSAOParams">module:scenes~SSAOParams}</span></a></li>
 
         
             
-<li> <a href="#.get_type_mesh_object">get_type_mesh_object<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></a></li>
+<li> <a href="#.get_type_mesh_object">get_type_mesh_object<span class="signature">(obj)</span><span class="type-signature"> &rarr; {string}</span></a></li>
 
         
             
@@ -316,11 +312,11 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.get_water_surface_level">get_water_surface_level<span class="signature">(pos_x, pos_z)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_water_surface_level">get_water_surface_level<span class="signature">(pos_x, pos_y)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
-<li> <a href="#.get_wind_params">get_wind_params<span class="signature">()</span><span class="type-signature"> &rarr; {WindParams}</span></a></li>
+<li> <a href="#.get_wind_params">get_wind_params<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="module-scenes.html#~WindParams">module:scenes~WindParams}</span></a></li>
 
         
             
@@ -332,19 +328,19 @@ use get_active() set_active() to do that.</div>
 
         
             
-<li> <a href="#.is_hidden">is_hidden<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_hidden">is_hidden<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.is_visible">is_visible<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.is_visible">is_visible<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.marker_frame">marker_frame<span class="signature">(name)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.marker_frame">marker_frame<span class="signature">(name)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
-<li> <a href="#.outlining_is_enabled">outlining_is_enabled<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.outlining_is_enabled">outlining_is_enabled<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
@@ -466,6 +462,18 @@ use get_active() set_active() to do that.</div>
 <li> <a href="#~SceneMetaTags">SceneMetaTags</a></li>
 
             
+                
+<li> <a href="#~SkyParams">SkyParams</a></li>
+
+            
+                
+<li> <a href="#~SSAOParams">SSAOParams</a></li>
+
+            
+                
+<li> <a href="#~WindParams">WindParams</a></li>
+
+            
         </ul>
     
     <h2>Detailed Description</h2>
@@ -520,7 +528,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line89">line 89</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line155">line 155</a>
     </li></ul></dd>
     
 
@@ -633,7 +641,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -706,7 +714,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1312">line 1312</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1701">line 1701</a>
     </li></ul></dd>
     
 
@@ -801,7 +809,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -824,7 +832,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -847,7 +855,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -910,7 +918,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line308">line 308</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line404">line 404</a>
     </li></ul></dd>
     
 
@@ -921,6 +929,14 @@ use get_active() set_active() to do that.</div>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+m_scenes.apply_outline_anim(cube, 10, 5, 0);</code></pre>
 
 
 </div>
@@ -1045,7 +1061,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line323">line 323</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line423">line 423</a>
     </li></ul></dd>
     
 
@@ -1058,6 +1074,14 @@ use get_active() set_active() to do that.</div>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+m_scenes.apply_outline_anim_def(cube);</code></pre>
+
+
 </div>
 </div>
         
@@ -1067,7 +1091,7 @@ use get_active() set_active() to do that.</div>
 
     
 
-    <h4 class="name" id=".can_select_objects">can_select_objects<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".can_select_objects">can_select_objects<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1075,7 +1099,7 @@ use get_active() set_active() to do that.</div>
 <div class="item_description">
 
 <div class="description">
-    Check if objects can be selected
+    Check if objects can be selected.
 </div>
 
 
@@ -1113,7 +1137,7 @@ use get_active() set_active() to do that.</div>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -1153,7 +1177,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1402">line 1402</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1808">line 1808</a>
     </li></ul></dd>
     
 
@@ -1166,163 +1190,11 @@ use get_active() set_active() to do that.</div>
 
 
 
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
+    <h5>Example</h5>
     
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
 
-    <h4 class="name" id=".check_object">check_object<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Check the object's availability in the active scene.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Check result
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-scenes.html#.check_object_by_name">scenes.check_object_by_name</a> instead</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1087">line 1087</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
+var objects_selectable = m_scenes.can_select_objects();</code></pre>
 
 
 </div>
@@ -1334,7 +1206,7 @@ use get_active() set_active() to do that.</div>
 
     
 
-    <h4 class="name" id=".check_object_by_dupli_name">check_object_by_dupli_name<span class="signature">(empty_name, dupli_name, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".check_object_by_dupli_name">check_object_by_dupli_name<span class="signature">(empty_name, dupli_name, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1388,7 +1260,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -1423,7 +1295,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -1458,7 +1330,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -1519,7 +1391,7 @@ use get_active() set_active() to do that.</div>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -1559,7 +1431,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1120">line 1120</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1467">line 1467</a>
     </li></ul></dd>
     
 
@@ -1581,7 +1453,7 @@ use get_active() set_active() to do that.</div>
 
     
 
-    <h4 class="name" id=".check_object_by_dupli_name_list">check_object_by_dupli_name_list<span class="signature">(name_list, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".check_object_by_dupli_name_list">check_object_by_dupli_name_list<span class="signature">(name_list, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1635,7 +1507,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">Array.&lt;string></span>
 
 
             
@@ -1670,7 +1542,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -1731,7 +1603,7 @@ use get_active() set_active() to do that.</div>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -1771,7 +1643,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1138">line 1138</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1485">line 1485</a>
     </li></ul></dd>
     
 
@@ -1793,7 +1665,7 @@ use get_active() set_active() to do that.</div>
 
     
 
-    <h4 class="name" id=".check_object_by_name">check_object_by_name<span class="signature">(name, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".check_object_by_name">check_object_by_name<span class="signature">(name, data_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1847,7 +1719,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -1882,7 +1754,7 @@ use get_active() set_active() to do that.</div>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -1943,7 +1815,7 @@ use get_active() set_active() to do that.</div>
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -1983,7 +1855,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1104">line 1104</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1451">line 1451</a>
     </li></ul></dd>
     
 
@@ -2118,7 +1990,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line337">line 337</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line441">line 441</a>
     </li></ul></dd>
     
 
@@ -2131,6 +2003,14 @@ use get_active() set_active() to do that.</div>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+m_scenes.clear_outline_anim(cube);</code></pre>
+
+
 </div>
 </div>
         
@@ -2140,7 +2020,7 @@ use get_active() set_active() to do that.</div>
 
     
 
-    <h4 class="name" id=".get_active">get_active<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id=".get_active">get_active<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -2186,7 +2066,7 @@ use get_active() set_active() to do that.</div>
     </dt>
     <dd>
         
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -2226,7 +2106,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line106">line 106</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -2237,6 +2117,13 @@ use get_active() set_active() to do that.</div>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var current_scene = m_scenes.get_active();</code></pre>
 
 
 </div>
@@ -2334,7 +2221,7 @@ use get_active() set_active() to do that.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line130">line 130</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -2416,7 +2303,7 @@ var camera = m_scenes.get_active_camera();</code></pre>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -2442,7 +2329,7 @@ var camera = m_scenes.get_active_camera();</code></pre>
                 </td>
             
 
-            <td class="description last">Type</td>
+            <td class="description last">Object type.</td>
         </tr>
 
     
@@ -2455,7 +2342,7 @@ var camera = m_scenes.get_active_camera();</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -2556,7 +2443,7 @@ var camera = m_scenes.get_active_camera();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1154">line 1154</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1501">line 1501</a>
     </li></ul></dd>
     
 
@@ -2567,6 +2454,20 @@ var camera = m_scenes.get_active_camera();</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+// get objects of all types
+var scene_object_list = m_scenes.get_all_objects();
+
+// get all MESH objects
+var scene_object_list = m_scenes.get_all_objects("MESH");
+
+// get all SPEAKER objects from the first dynamically loaded scene
+var scene_object_list = m_scenes.get_all_objects("SPEAKER", 1);</code></pre>
 
 
 </div>
@@ -2664,7 +2565,7 @@ var camera = m_scenes.get_active_camera();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line863">line 863</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1191">line 1191</a>
     </li></ul></dd>
     
 
@@ -2677,6 +2578,13 @@ var camera = m_scenes.get_active_camera();</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var bloom_parameters = m_scenes.get_bloom_params();</code></pre>
+
+
 </div>
 </div>
         
@@ -2686,7 +2594,7 @@ var camera = m_scenes.get_active_camera();</code></pre>
 
     
 
-    <h4 class="name" id=".get_cam_water_depth">get_cam_water_depth<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_cam_water_depth">get_cam_water_depth<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -2732,7 +2640,7 @@ var camera = m_scenes.get_active_camera();</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -2772,7 +2680,7 @@ var camera = m_scenes.get_active_camera();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1275">line 1275</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1639">line 1639</a>
     </li></ul></dd>
     
 
@@ -2783,6 +2691,13 @@ var camera = m_scenes.get_active_camera();</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var water_depth = m_scenes.get_cam_water_depth();</code></pre>
 
 
 </div>
@@ -2880,7 +2795,122 @@ var camera = m_scenes.get_active_camera();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line693">line 693</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line956">line 956</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var color_parameters = m_scenes.get_color_correction_params();</code></pre>
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_custom_prop">get_custom_prop<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get the Blender-assigned custom property from the active scene.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Scene custom property
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1686">line 1686</a>
     </li></ul></dd>
     
 
@@ -2988,7 +3018,7 @@ var camera = m_scenes.get_active_camera();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line784">line 784</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1104">line 1104</a>
     </li></ul></dd>
     
 
@@ -3102,7 +3132,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line541">line 541</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line676">line 676</a>
     </li></ul></dd>
     
 
@@ -3113,6 +3143,13 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var environment_colors = m_scenes.get_environment_colors();</code></pre>
 
 
 </div>
@@ -3210,7 +3247,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1245">line 1245</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1606">line 1606</a>
     </li></ul></dd>
     
 
@@ -3221,6 +3258,13 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var character = m_scenes.get_first_character();</code></pre>
 
 
 </div>
@@ -3367,7 +3411,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line585">line 585</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line730">line 730</a>
     </li></ul></dd>
     
 
@@ -3380,6 +3424,14 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var fog_density = new Float32Array(4);
+m_scenes.get_fog_color_density(fog_density);</code></pre>
+
+
 </div>
 </div>
         
@@ -3389,7 +3441,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
 
     
 
-    <h4 class="name" id=".get_fog_params">get_fog_params<span class="signature">()</span><span class="type-signature"> &rarr; {FogParams|<a href="global.html#Vec4">Vec4</a>}</span></h4>
+    <h4 class="name" id=".get_fog_params">get_fog_params<span class="signature">()</span><span class="type-signature"> &rarr; {FogParams}</span></h4>
 
     
 
@@ -3421,8 +3473,8 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
 
 
 <h5>Returns:</h5>
-<ul>
-        <li>
+
+        
 <div class="param-desc">
     Fog params
 </div>
@@ -3440,28 +3492,8 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
 
     </dd>
 </dl>
-</li>
+
     
-        <li>
-<div class="param-desc">
-    Destnation vector
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Vec4">Vec4</a></span>
-
-
-    </dd>
-</dl>
-</li>
-    </ul>
 
 
 
@@ -3495,7 +3527,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line614">line 614</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line766">line 766</a>
     </li></ul></dd>
     
 
@@ -3506,6 +3538,13 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var fog_params = m_scenes.get_fog_params();</code></pre>
 
 
 </div>
@@ -3603,7 +3642,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line896">line 896</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1229">line 1229</a>
     </li></ul></dd>
     
 
@@ -3614,6 +3653,13 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var glow_params = m_scenes.get_glow_material_params();</code></pre>
 
 
 </div>
@@ -3711,7 +3757,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line830">line 830</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1150">line 1150</a>
     </li></ul></dd>
     
 
@@ -3722,6 +3768,13 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var god_ray_params = m_scenes.get_god_rays_params();</code></pre>
 
 
 </div>
@@ -3819,7 +3872,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1369">line 1369</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1762">line 1762</a>
     </li></ul></dd>
     
 
@@ -3830,6 +3883,13 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var motion_blur_params = m_scenes.get_mb_params();</code></pre>
 
 
 </div>
@@ -3927,7 +3987,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1296">line 1296</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1667">line 1667</a>
     </li></ul></dd>
     
 
@@ -3938,6 +3998,13 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var meta_tags = m_scenes.get_meta_tags();</code></pre>
 
 
 </div>
@@ -4003,7 +4070,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -4038,7 +4105,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -4073,7 +4140,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -4174,7 +4241,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line164">line 164</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line239">line 239</a>
     </li></ul></dd>
     
 
@@ -4250,7 +4317,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">Array.&lt;string></span>
 
 
             
@@ -4286,7 +4353,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -4387,7 +4454,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line183">line 183</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line258">line 258</a>
     </li></ul></dd>
     
 
@@ -4463,7 +4530,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -4498,7 +4565,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -4599,7 +4666,7 @@ var dof_params = m_scenes.get_dof_params();</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line146">line 146</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line221">line 221</a>
     </li></ul></dd>
     
 
@@ -4762,7 +4829,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1235">line 1235</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1592">line 1592</a>
     </li></ul></dd>
     
 
@@ -4775,6 +4842,14 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+var object_children = m_scenes.get_object_children(cube);</code></pre>
+
+
 </div>
 </div>
         
@@ -4784,7 +4859,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_object_data_id">get_object_data_id<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_object_data_id">get_object_data_id<span class="signature">(obj)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -4879,7 +4954,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -4919,7 +4994,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line215">line 215</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -4932,163 +5007,12 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
 
 
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
+    <h5>Example</h5>
     
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
 
-    <h4 class="name" id=".get_object_dg_parent">get_object_dg_parent<span class="signature">(obj)</span><span class="type-signature"> &rarr; (nullable) {<a href="global.html#Object3D">Object3D</a>}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Return the object's parent.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object 3D</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Parent object
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use <a href="module-objects.html#.get_dg_parent">objects.get_dg_parent</a> instead</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1223">line 1223</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
+var data_id = m_scenes.get_object_data_id(cube);</code></pre>
 
 
 </div>
@@ -5100,7 +5024,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_object_name">get_object_name<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id=".get_object_name">get_object_name<span class="signature">(obj)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -5195,7 +5119,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -5235,7 +5159,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1173">line 1173</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1530">line 1530</a>
     </li></ul></dd>
     
 
@@ -5246,6 +5170,14 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+var object_name = m_scenes.get_object_name(cube);</code></pre>
 
 
 </div>
@@ -5392,7 +5324,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1187">line 1187</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1548">line 1548</a>
     </li></ul></dd>
     
 
@@ -5405,6 +5337,14 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+var name_hierarchy = m_scenes.get_object_name_hierarchy(cube);</code></pre>
+
+
 </div>
 </div>
         
@@ -5414,7 +5354,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_object_type">get_object_type<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id=".get_object_type">get_object_type<span class="signature">(obj)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -5509,7 +5449,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -5549,7 +5489,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1208">line 1208</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1573">line 1573</a>
     </li></ul></dd>
     
 
@@ -5560,6 +5500,14 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+var object_type = m_scenes.get_object_type(cube);</code></pre>
 
 
 </div>
@@ -5718,7 +5666,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line356">line 356</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line467">line 467</a>
     </li></ul></dd>
     
 
@@ -5731,6 +5679,14 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var outline_color = new Float32Array(3);
+
+m_scenes.get_outline_color(outline_color);</code></pre>
+
+
 </div>
 </div>
         
@@ -5740,7 +5696,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_outline_intensity">get_outline_intensity<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_outline_intensity">get_outline_intensity<span class="signature">(obj)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -5835,7 +5791,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -5875,7 +5831,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line295">line 295</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line385">line 385</a>
     </li></ul></dd>
     
 
@@ -5888,6 +5844,14 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+var outline_intensity = m_scenes.get_outline_intensity(cube);</code></pre>
+
+
 </div>
 </div>
         
@@ -5897,7 +5861,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_scenes">get_scenes<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span></h4>
+    <h4 class="name" id=".get_scenes">get_scenes<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
 
     
 
@@ -5943,7 +5907,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">Array.&lt;string></span>
 
 
     </dd>
@@ -5983,7 +5947,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line117">line 117</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
@@ -5994,6 +5958,13 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var scene_list = m_scenes.get_scenes();</code></pre>
 
 
 </div>
@@ -6091,7 +6062,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line406">line 406</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line521">line 521</a>
     </li></ul></dd>
     
 
@@ -6104,6 +6075,13 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var shadow_params = m_scenes.get_shadow_params();</code></pre>
+
+
 </div>
 </div>
         
@@ -6113,7 +6091,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_shore_dist">get_shore_dist<span class="signature">(trans, v_dist_mult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_shore_dist">get_shore_dist<span class="signature">(trans, v_dist_mult<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -6202,7 +6180,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -6263,7 +6241,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -6303,7 +6281,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1254">line 1254</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1618">line 1618</a>
     </li></ul></dd>
     
 
@@ -6325,7 +6303,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_sky_params">get_sky_params<span class="signature">()</span><span class="type-signature"> &rarr; {SkyParams}</span></h4>
+    <h4 class="name" id=".get_sky_params">get_sky_params<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="module-scenes.html#~SkyParams">SkyParams</a>}</span></h4>
 
     
 
@@ -6371,7 +6349,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">SkyParams</span>
+<span class="param-type"><a href="module-scenes.html#~SkyParams">SkyParams</a></span>
 
 
     </dd>
@@ -6411,7 +6389,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line751">line 751</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1022">line 1022</a>
     </li></ul></dd>
     
 
@@ -6424,6 +6402,13 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var sky_params = m_scenes.get_sky_params();</code></pre>
+
+
 </div>
 </div>
         
@@ -6433,7 +6418,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_ssao_params">get_ssao_params<span class="signature">()</span><span class="type-signature"> &rarr; {SSAOParams}</span></h4>
+    <h4 class="name" id=".get_ssao_params">get_ssao_params<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="module-scenes.html#~SSAOParams">SSAOParams</a>}</span></h4>
 
     
 
@@ -6479,7 +6464,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">SSAOParams</span>
+<span class="param-type"><a href="module-scenes.html#~SSAOParams">SSAOParams</a></span>
 
 
     </dd>
@@ -6519,7 +6504,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line662">line 662</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line822">line 822</a>
     </li></ul></dd>
     
 
@@ -6532,6 +6517,13 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var ssao_params = m_scenes.get_ssao_params();</code></pre>
+
+
 </div>
 </div>
         
@@ -6541,7 +6533,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_type_mesh_object">get_type_mesh_object<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id=".get_type_mesh_object">get_type_mesh_object<span class="signature">(obj)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -6549,7 +6541,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 <div class="item_description">
 
 <div class="description">
-    Return type of mesh object or null.
+    Return render type of mesh object or null.
 </div>
 
 
@@ -6625,7 +6617,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
         
 <div class="param-desc">
-    Render type: "DYNAMIC" or "STATIC".
+    Render type: "DYNAMIC" or "STATIC" or ""(for non meshes).
 </div>
 
 
@@ -6636,7 +6628,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -6676,7 +6668,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1284">line 1284</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1651">line 1651</a>
     </li></ul></dd>
     
 
@@ -6687,6 +6679,14 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var cube = m_scenes.get_object_by_name("Cube");
+var type = m_scenes.get_type_mesh_object(cube);</code></pre>
 
 
 </div>
@@ -6811,7 +6811,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line998">line 998</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1343">line 1343</a>
     </li></ul></dd>
     
 
@@ -6833,7 +6833,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_water_surface_level">get_water_surface_level<span class="signature">(pos_x, pos_z)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_water_surface_level">get_water_surface_level<span class="signature">(pos_x, pos_y)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -6883,7 +6883,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -6900,13 +6900,13 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
         <tr>
             
-                <td class="name"><code>pos_z</code></td>
+                <td class="name"><code>pos_y</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -6916,7 +6916,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
             
 
-            <td class="description last">World z position</td>
+            <td class="description last">World y position</td>
         </tr>
 
     
@@ -6951,7 +6951,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -6991,7 +6991,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line960">line 960</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1302">line 1302</a>
     </li></ul></dd>
     
 
@@ -7004,6 +7004,13 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var water_level = m_scenes.get_water_surface_level(10.3, 15.6);</code></pre>
+
+
 </div>
 </div>
         
@@ -7013,7 +7020,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
 
     
 
-    <h4 class="name" id=".get_wind_params">get_wind_params<span class="signature">()</span><span class="type-signature"> &rarr; {WindParams}</span></h4>
+    <h4 class="name" id=".get_wind_params">get_wind_params<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="module-scenes.html#~WindParams">WindParams</a>}</span></h4>
 
     
 
@@ -7059,7 +7066,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">WindParams</span>
+<span class="param-type"><a href="module-scenes.html#~WindParams">WindParams</a></span>
 
 
     </dd>
@@ -7099,7 +7106,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line931">line 931</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1267">line 1267</a>
     </li></ul></dd>
     
 
@@ -7110,6 +7117,13 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+var wind_parameters = m_scenes.get_wind_params();</code></pre>
 
 
 </div>
@@ -7175,7 +7189,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -7210,7 +7224,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -7311,7 +7325,7 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line200">line 200</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line275">line 275</a>
     </li></ul></dd>
     
 
@@ -7322,6 +7336,13 @@ var cube = m_scenes.get_object_by_name("Cube");</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>m_scenes = require("scenes");
+
+var world_obj = m_scenes.get_world_by_name("World");</code></pre>
 
 
 </div>
@@ -7423,7 +7444,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -7449,7 +7470,7 @@ Supported only for dynamic meshes/empties and lamps.
                 </td>
             
 
-            <td class="description last">Ignore children parameter</td>
+            <td class="description last">Don't hide child objects.</td>
         </tr>
 
     
@@ -7502,7 +7523,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1024">line 1024</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1372">line 1372</a>
     </li></ul></dd>
     
 
@@ -7515,6 +7536,14 @@ Supported only for dynamic meshes/empties and lamps.
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+m_scenes.hide_object(cube); </code></pre>
+
+
 </div>
 </div>
         
@@ -7524,7 +7553,7 @@ Supported only for dynamic meshes/empties and lamps.
 
     
 
-    <h4 class="name" id=".is_hidden">is_hidden<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_hidden">is_hidden<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -7620,7 +7649,7 @@ Supported only for dynamic meshes/empties and lamps.
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -7660,7 +7689,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1060">line 1060</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1416">line 1416</a>
     </li></ul></dd>
     
 
@@ -7673,6 +7702,14 @@ Supported only for dynamic meshes/empties and lamps.
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+var object_is_hidden = m_scenes.is_hidden(cube);</code></pre>
+
+
 </div>
 </div>
         
@@ -7682,7 +7719,7 @@ Supported only for dynamic meshes/empties and lamps.
 
     
 
-    <h4 class="name" id=".is_visible">is_visible<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_visible">is_visible<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -7777,7 +7814,7 @@ Supported only for dynamic meshes/empties and lamps.
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -7817,7 +7854,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1077">line 1077</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1437">line 1437</a>
     </li></ul></dd>
     
 
@@ -7830,6 +7867,14 @@ Supported only for dynamic meshes/empties and lamps.
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+var object_is_visible = m_scenes.is_visible(cube);</code></pre>
+
+
 </div>
 </div>
         
@@ -7839,7 +7884,7 @@ Supported only for dynamic meshes/empties and lamps.
 
     
 
-    <h4 class="name" id=".marker_frame">marker_frame<span class="signature">(name)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".marker_frame">marker_frame<span class="signature">(name)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -7889,7 +7934,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -7934,7 +7979,7 @@ Supported only for dynamic meshes/empties and lamps.
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -7974,7 +8019,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1353">line 1353</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1746">line 1746</a>
     </li></ul></dd>
     
 
@@ -7996,7 +8041,7 @@ Supported only for dynamic meshes/empties and lamps.
 
     
 
-    <h4 class="name" id=".outlining_is_enabled">outlining_is_enabled<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".outlining_is_enabled">outlining_is_enabled<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -8091,7 +8136,7 @@ Supported only for dynamic meshes/empties and lamps.
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -8131,7 +8176,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line272">line 272</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line354">line 354</a>
     </li></ul></dd>
     
 
@@ -8142,6 +8187,14 @@ Supported only for dynamic meshes/empties and lamps.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+var outlining_is_enabled = m_scenes.outlining_is_enabled(cube);</code></pre>
 
 
 </div>
@@ -8239,7 +8292,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line259">line 259</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line341">line 341</a>
     </li></ul></dd>
     
 
@@ -8311,7 +8364,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -8334,7 +8387,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -8419,7 +8472,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line225">line 225</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line307">line 307</a>
     </li></ul></dd>
     
 
@@ -8440,7 +8493,7 @@ var m_scenes = require("scenes");
 var canvas_cont = m_cont.get_container();
 canvas_cont.addEventListener("mousedown", down_cb);
 var down_cb = function(event) {
-    var obj = m_scenes.pick_object(event.clientX, event.clientY);
+    var obj = m_scenes.pick_object(event.offsetX, event.offsetY);
 }</code></pre>
 
 
@@ -8462,7 +8515,7 @@ var down_cb = function(event) {
 
 <div class="description">
     Remove dynamic object from all scenes.
-Removing static physics object doesn't support.
+Removing objects with static physics isn't supported.
 </div>
 
 
@@ -8567,7 +8620,7 @@ Removing static physics object doesn't support.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1333">line 1333</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1722">line 1722</a>
     </li></ul></dd>
     
 
@@ -8578,6 +8631,14 @@ Removing static physics object doesn't support.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+m_scenes.remove_object(cube);</code></pre>
 
 
 </div>
@@ -8639,7 +8700,7 @@ Removing static physics object doesn't support.
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -8702,7 +8763,7 @@ Removing static physics object doesn't support.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line95">line 95</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -8713,6 +8774,13 @@ Removing static physics object doesn't support.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_active("Scene");</code></pre>
 
 
 </div>
@@ -8837,7 +8905,7 @@ Removing static physics object doesn't support.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line881">line 881</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1212">line 1212</a>
     </li></ul></dd>
     
 
@@ -8848,6 +8916,13 @@ Removing static physics object doesn't support.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_bloom_params({ key: 1, edge_lum: 0.5, blur: 4 });</code></pre>
 
 
 </div>
@@ -8972,7 +9047,7 @@ Removing static physics object doesn't support.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line720">line 720</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line985">line 985</a>
     </li></ul></dd>
     
 
@@ -8983,6 +9058,16 @@ Removing static physics object doesn't support.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_color_correction_params({ brightness: 0.2,
+                                       contrast: 0.4,
+                                       exposure: 0.9,
+                                       saturation: 0.5 });</code></pre>
 
 
 </div>
@@ -9107,7 +9192,7 @@ Removing static physics object doesn't support.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line805">line 805</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1125">line 1125</a>
     </li></ul></dd>
     
 
@@ -9195,7 +9280,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -9334,7 +9419,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line555">line 555</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line693">line 693</a>
     </li></ul></dd>
     
 
@@ -9345,6 +9430,17 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_rgb = require("rgb");
+var m_scenes = require("scenes");
+
+var horizon_color = m_rgb.from_values(0.5, 0.1, 0.1);
+var zenith_color = m_rgb.from_values(0.1, 0.1, 0.8);
+
+m_scenes.set_environment_colors(0.8, horizon_color, zenith_color);</code></pre>
 
 
 </div>
@@ -9469,7 +9565,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line600">line 600</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line749">line 749</a>
     </li></ul></dd>
     
 
@@ -9480,6 +9576,13 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_fog_color_density([0.5, 0.5, 0.7, 0.05]);</code></pre>
 
 
 </div>
@@ -9604,7 +9707,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line640">line 640</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line794">line 794</a>
     </li></ul></dd>
     
 
@@ -9615,6 +9718,16 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_fog_params({ fog_intensity: 1,
+                          fog_depth: 25,
+                          fog_start: 5,
+                          fog_height: 0 });</code></pre>
 
 
 </div>
@@ -9739,7 +9852,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line915">line 915</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1251">line 1251</a>
     </li></ul></dd>
     
 
@@ -9874,7 +9987,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line848">line 848</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1171">line 1171</a>
     </li></ul></dd>
     
 
@@ -9885,6 +9998,15 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_god_rays_params({ god_rays_max_ray_length: 1,
+                               god_rays_intensity: 0.7,
+                               god_rays_steps: 10 });</code></pre>
 
 
 </div>
@@ -10009,7 +10131,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line372">line 372</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line487">line 487</a>
     </li></ul></dd>
     
 
@@ -10144,7 +10266,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1384">line 1384</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1780">line 1780</a>
     </li></ul></dd>
     
 
@@ -10155,6 +10277,14 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_mb_params({ mb_factor: 0.1,
+                         mb_decay_threshold: 0.01 });</code></pre>
 
 
 </div>
@@ -10279,7 +10409,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line349">line 349</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line457">line 457</a>
     </li></ul></dd>
     
 
@@ -10290,6 +10420,13 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_outline_color([0.8, 0.2, 0.8]);</code></pre>
 
 
 </div>
@@ -10374,7 +10511,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -10437,7 +10574,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line282">line 282</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line368">line 368</a>
     </li></ul></dd>
     
 
@@ -10448,6 +10585,14 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+m_scenes.set_outline_intensity(cube, 0.4);</code></pre>
 
 
 </div>
@@ -10572,7 +10717,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line464">line 464</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line582">line 582</a>
     </li></ul></dd>
     
 
@@ -10583,6 +10728,25 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_shadow_params({ blend_between_cascades: true,
+                             blur_radii: null,
+                             csm_borders: null,
+                             csm_first_cascade_border: 10,
+                             csm_last_cascade_border: 100,
+                             csm_num: 1,
+                             csm_resolution: 2048,
+                             enable_csm: true,
+                             fade_last_cascade: true,
+                             first_cascade_blur_radius: 3,
+                             last_cascade_blur_radius: 1.5,
+                             self_shadow_normal_offset: 0.01,
+                             self_shadow_polygon_offset: 1 });</code></pre>
 
 
 </div>
@@ -10644,7 +10808,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
             <td class="type">
             
                 
-<span class="param-type">SkyParams</span>
+<span class="param-type"><a href="module-scenes.html#~SkyParams">SkyParams</a></span>
 
 
             
@@ -10707,7 +10871,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line765">line 765</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1039">line 1039</a>
     </li></ul></dd>
     
 
@@ -10718,6 +10882,22 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_sky_params({ rayleigh_brightness: 3.3,
+                          mie_brightness: 0.1,
+                          spot_brightness: 20,
+                          scatter_strength: 0.2,
+                          rayleigh_strength: 0.2,
+                          mie_strength: 0.006,
+                          rayleigh_collection_power: 0.35,
+                          mie_collection_power: 0.5,
+                          mie_distribution: 0.4,
+                          color: [0.3, 0.9, 0.3] });</code></pre>
 
 
 </div>
@@ -10779,7 +10959,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
             <td class="type">
             
                 
-<span class="param-type">SSAOParams</span>
+<span class="param-type"><a href="module-scenes.html#~SSAOParams">SSAOParams</a></span>
 
 
             
@@ -10842,7 +11022,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line676">line 676</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line839">line 839</a>
     </li></ul></dd>
     
 
@@ -10853,6 +11033,21 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_ssao_params({ quality: 16,
+                           radius_increase: 3,
+                           use_hemisphere: true,
+                           use_blur_depth: false,
+                           blur_discard_value: 1,
+                           influence: 0.7,
+                           dist_factor: 0,
+                           ssao_white: false,
+                           ssao_only: false });</code></pre>
 
 
 </div>
@@ -10977,7 +11172,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line980">line 980</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1325">line 1325</a>
     </li></ul></dd>
     
 
@@ -11049,7 +11244,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
             <td class="type">
             
                 
-<span class="param-type">WindParams</span>
+<span class="param-type"><a href="module-scenes.html#~WindParams">WindParams</a></span>
 
 
             
@@ -11112,7 +11307,7 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line945">line 945</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1284">line 1284</a>
     </li></ul></dd>
     
 
@@ -11123,6 +11318,14 @@ m_scenes.set_dof_params({ dof_on: false });</code></pre>
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.set_wind_params({ wind_dir: 90,
+                           wind_strength: 3 });</code></pre>
 
 
 </div>
@@ -11224,7 +11427,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -11250,7 +11453,7 @@ Supported only for dynamic meshes/empties and lamps.
                 </td>
             
 
-            <td class="description last">Ignore children parameter</td>
+            <td class="description last">Don't show child objects.</td>
         </tr>
 
     
@@ -11303,7 +11506,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1042">line 1042</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1394">line 1394</a>
     </li></ul></dd>
     
 
@@ -11314,6 +11517,14 @@ Supported only for dynamic meshes/empties and lamps.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+var cube = m_scenes.get_object_by_name("Cube");
+
+m_scenes.show_object(cube);</code></pre>
 
 
 </div>
@@ -11389,7 +11600,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1012">line 1012</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line1357">line 1357</a>
     </li></ul></dd>
     
 
@@ -11400,6 +11611,13 @@ Supported only for dynamic meshes/empties and lamps.
     
 </dl>
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var m_scenes = require("scenes");
+
+m_scenes.update_scene_materials_params();</code></pre>
 
 
 </div>
@@ -11472,7 +11690,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -11495,7 +11713,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -11518,7 +11736,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -11567,7 +11785,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line55">line 55</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -11629,6 +11847,8 @@ Supported only for dynamic meshes/empties and lamps.
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -11647,12 +11867,20 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
             
 
             
@@ -11670,12 +11898,20 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
             
 
             
@@ -11693,12 +11929,20 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
             
 
             
@@ -11716,12 +11960,20 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
             
 
             
@@ -11765,7 +12017,7 @@ Supported only for dynamic meshes/empties and lamps.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line28">line 28</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -11846,7 +12098,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -11869,7 +12121,7 @@ Supported only for dynamic meshes/empties and lamps.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -11893,7 +12145,7 @@ the "dof_object" property is set, which has a higher priority.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -11918,7 +12170,7 @@ the "dof_bokeh" property is False.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -11942,7 +12194,7 @@ where the DOF effect reaches its maximum power.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -11967,7 +12219,7 @@ the DOF effect starts. Disabled (has zero value and readonly status) if the
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -11991,7 +12243,7 @@ the DOF effect reaches its maximum power.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -12014,7 +12266,7 @@ the DOF effect reaches its maximum power.</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -12037,7 +12289,7 @@ the DOF effect reaches its maximum power.</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -12110,7 +12362,7 @@ point. Controls the "dof_distance" property if set (readonly).</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line63">line 63</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -12190,7 +12442,7 @@ point. Controls the "dof_distance" property if set (readonly).</td>
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -12259,7 +12511,7 @@ point. Controls the "dof_distance" property if set (readonly).</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -12282,7 +12534,7 @@ point. Controls the "dof_distance" property if set (readonly).</td>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -12331,7 +12583,7 @@ point. Controls the "dof_distance" property if set (readonly).</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line45">line 45</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -12411,7 +12663,7 @@ point. Controls the "dof_distance" property if set (readonly).</td>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -12434,7 +12686,7 @@ point. Controls the "dof_distance" property if set (readonly).</td>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -12483,7 +12735,1057 @@ point. Controls the "dof_distance" property if set (readonly).</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line37">line 37</a>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line42">line 42</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~SkyParams">SkyParams</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Procedural Sky Parameters
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>procedural_skydome</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Procedural sky is used (readonly).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_as_environment_lighting</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Procedural sky is used for 
+calculating environment lighting (readonly).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rayleigh_brightness</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Brightness of Rayleigh scattering. 
+Available only if "procedural_skydome" is True.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mie_brightness</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Brightness of Mie scattering. Available 
+only if "procedural_skydome" is True.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>spot_brightness</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Brightness of the sun spot. Available 
+only if "procedural_skydome" is True.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scatter_strength</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The strength of the light scattering. 
+Available only if "procedural_skydome" is True.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rayleigh_strength</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The strength of the Rayleigh 
+scattering. Available only if "procedural_skydome" is True.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mie_strength</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The strength of the Mie scattering. 
+Available only if "procedural_skydome" is True.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rayleigh_collection_power</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Rayleigh collection power. 
+Available only if "procedural_skydome" is True.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mie_collection_power</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Mie collection power. Available 
+only if "procedural_skydome" is True.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mie_distribution</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Mie distribution. Available only if 
+"procedural_skydome" is True.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#RGB">RGB</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The base color of the procedural sky. Available only 
+if "procedural_skydome" is True.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line114">line 114</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~SSAOParams">SSAOParams</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    SSAO Parameters
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>quality</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The number of samples used for calculating SSAO. 
+Must be 8, 16, 24 or 32.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>radius_increase</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The spherical sampling radius multiply factor
+when transferring from the internal sampling ring to the external one.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_hemisphere</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Use hemisphere to calculate SSAO.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>use_blur_depth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Apply edge-preserving blur to SSAO.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>blur_discard_value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Influence of depth difference between samples on blur weight.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>influence</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">How much AO affects the final rendering.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dist_factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">How much AO decreases with distance.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ssao_white</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Turn SSAO white, basically disabling it.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ssao_only</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Only SSAO and not the regular render will be visible.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line95">line 95</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="~WindParams">WindParams</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Wind Parameters
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>wind_dir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The direction of the wind.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>wind_strength</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The strength of the wind.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_scenes.js.html">ext/scenes.js</a>, <a href="ext_scenes.js.html#line147">line 147</a>
     </li></ul></dd>
     
 
@@ -12515,13 +13817,13 @@ point. Controls the "dof_distance" property if set (readonly).</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Feb 28 2017 15:47:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

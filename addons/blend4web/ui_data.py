@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -126,10 +126,15 @@ class B4W_DATA_PT_camera(CameraButtonsPanel, Panel):
         split = layout.split()
 
         col = split.column(align=True)
-        if cam.sensor_fit == 'VERTICAL':
-            col.prop(cam, "sensor_height", text=_("Height"))
+        if cam.sensor_fit == 'AUTO':
+            col.prop(cam, "sensor_width", text="Size")
         else:
-            col.label(text=_("Unsupported sensor type."), icon="ERROR")
+            sub = col.column(align=True)
+            sub.active = cam.sensor_fit == 'HORIZONTAL'
+            sub.prop(cam, "sensor_width", text="Width")
+            sub = col.column(align=True)
+            sub.active = cam.sensor_fit == 'VERTICAL'
+            sub.prop(cam, "sensor_height", text="Height")
 
         col = split.column(align=True)
         col.prop(cam, "sensor_fit", text="")

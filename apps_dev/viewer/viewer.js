@@ -4,11 +4,9 @@ b4w.register("viewer_main", function(exports, require) {
 
 var m_anim     = require("animation");
 var m_app      = require("app");
-var m_assets   = require("assets");
 var m_cam      = require("camera");
 var m_cam_anim = require("camera_anim");
 var m_cfg      = require("config");
-var m_cons     = require("constraints");
 var m_cont     = require("container");
 var m_ctl      = require("controls");
 var m_data     = require("data");
@@ -26,29 +24,23 @@ var m_mat      = require("material");
 var m_nla      = require("nla");
 var m_obj      = require("objects");
 var m_rgb      = require("rgb");
-var m_sshot    = require("screenshooter");
+var m_screen   = require("screen");
 var m_scenes   = require("scenes");
 var m_storage  = require("storage");
 var m_trans    = require("transform");
-var m_util     = require("util");
 var m_version  = require("version");
 
 var m_vec3 = require("vec3");
 
 var DEBUG = (m_version.type() === "DEBUG");
-var AUTO_VIEW_INTERVAL = 1000;
-var AUTO_ROTATE_RATIO  = 0.3;
-var DEFAULT_SCENE     = "misc/logo.json";
-var DEFAULT_NAME      = "Logo";
+var AUTO_ROTATE_RATIO = 0.3;
+var DEFAULT_SCENE = "misc/logo.json";
 
 var TO_RAD = Math.PI/180;
 var TO_DEG = 180/Math.PI;
 
 var DEC_SLIDER = 188;
 var INC_SLIDER = 190;
-
-var ANIM_OBJ_DEFAULT_INDEX = 0;
-var ANIM_NAME_DEFAULT_INDEX = 0;
 
 var _vec2_tmp  = new Float32Array(2);
 var _vec3_tmp  = new Float32Array(3);
@@ -161,13 +153,16 @@ function main_canvas_clicked(x, y) {
         return;
 
     hide_element("material_warning");
-
+    hide_element("object_warning");
     var prev_obj = get_selected_object();
 
     if (prev_obj && m_scenes.outlining_is_enabled(prev_obj))
         m_scenes.clear_outline_anim(prev_obj);
 
-    var obj = m_scenes.pick_object(x, y);
+    if (m_cfg.get("stereo") == "HMD" && m_hmd.check_browser_support())
+        var obj = m_scenes.pick_center();
+    else
+        var obj = m_scenes.pick_object(x, y);
 
     if (obj && m_obj.is_empty(obj))
         return;
@@ -177,7 +172,7 @@ function main_canvas_clicked(x, y) {
     if (obj) {
         _object_selected_callback(obj);
     } else
-        forbid_material_params();
+        forbid_object_params();
 
     set_object_info();
 
@@ -310,6 +305,13 @@ function init_ui() {
     bind_control(set_material_params, "material_fresnel_factor", "number");
     bind_control(set_material_params, "material_parallax_scale", "number");
     bind_control(set_material_params, "material_parallax_steps", "number");
+
+    // materials
+    bind_control(set_wind_bending_params, "wind_bending_angle", "number");
+    bind_control(set_wind_bending_params, "wind_bending_main_frequency", "number");
+    bind_control(set_wind_bending_params, "wind_bending_detail_amplitude", "number");
+    bind_control(set_wind_bending_params, "wind_bending_detail_frequency", "number");
+    bind_control(set_wind_bending_params, "wind_bending_branch_amplitude", "number");
 
     // water_materials
     bind_control(set_water_material_params, "material_name", "string");
@@ -507,7 +509,7 @@ function process_scene(url, call_reset_b4w) {
         var url_elems = url.split("/");
         var name = url_elems[url_elems.length - 1].split(".")[0]
     } else {
-        var url = m_cfg.get_std_assets_path() + DEFAULT_SCENE;
+        url = m_cfg.get_std_assets_path() + DEFAULT_SCENE;
         var name = "Logo";
     }
 
@@ -662,16 +664,16 @@ function display_scene_stats() {
     var texinfo = m_debug.num_textures();
     var rtinfo = m_debug.num_render_targets();
 
-    var mem_geom = Math.round(10 * (gstats.ibo_memory + gstats.vbo_memory)) / 10;
+    var mem_geom = Math.round(10 * (gstats["ibo_memory"] + gstats["vbo_memory"])) / 10;
     var trash_geom = (m_debug.calc_vbo_garbage_byte_size() / Math.pow(1024, 2)).toFixed(1);
-    var mem_tex = Math.round(10 * texinfo.memory) / 10;
-    var mem_rts = Math.round(10 * rtinfo.memory) / 10;
+    var mem_tex = Math.round(10 * texinfo["memory"]) / 10;
+    var mem_rts = Math.round(10 * rtinfo["memory"]) / 10;
     var mem_total = Math.round(10 * (mem_geom + mem_tex + mem_rts)) / 10;
 
     document.getElementById("info_right_down").innerHTML =
         "Geometry: " + mem_geom + " MiB (" + trash_geom + " junk)<br>" +
-        "Textures: " + mem_tex + " MiB (" + texinfo.number + ")<br>" +
-        "RTs: " + mem_rts + " MiB (" + rtinfo.number + ")<br><br>" +
+        "Textures: " + mem_tex + " MiB (" + texinfo["number"] + ")<br>" +
+        "RTs: " + mem_rts + " MiB (" + rtinfo["number"] + ")<br><br>" +
         "Total: " + mem_total + " MiB";
 }
 
@@ -700,6 +702,7 @@ function prepare_scenes() {
         fill_select_options("material_name", mat_names);
         get_material_params(obj, mat_names[0]);
         get_water_material_params(obj, mat_names[0]);
+        get_wind_bending_params(obj);
     };
 
     get_ambient_params();
@@ -727,7 +730,7 @@ function prepare_scenes() {
     get_bloom_params();
     get_glow_material_params();
     check_lighting_params();
-    forbid_material_params();
+    forbid_object_params();
     prepare_debug_params();
 
     var date = new Date(document.getElementById("date").value);
@@ -736,7 +739,6 @@ function prepare_scenes() {
 
 function change_apply_scene_settings(scene_name) {
     m_scenes.set_active(scene_name);
-    var camera = m_scenes.get_active_camera();
 
     // init anim active objects list
     var anim_obj_names = [];
@@ -812,8 +814,6 @@ function change_apply_scene_settings(scene_name) {
 }
 
 function render_callback(elapsed, current_time) {
-    var camera = m_scenes.get_active_camera();
-
     if (_anim_obj) {
         var elem_status = document.getElementById("anim_status");
         var slot_num = parseInt(document.getElementById("anim_slot").value);
@@ -881,19 +881,15 @@ function refresh_quality_ui() {
 
     switch (qual) {
     case m_cfg.P_ULTRA:
-        var quality = "ULTRA";
         var opt_index = 0;
         break;
     case m_cfg.P_HIGH:
-        var quality = "HIGH";
         var opt_index = 1;
         break;
     case m_cfg.P_LOW:
-        var quality = "LOW";
         var opt_index = 2;
         break;
     case m_cfg.P_CUSTOM:
-        var quality = "CUSTOM";
         var opt_index = 3;
         break;
     }
@@ -968,9 +964,9 @@ function refresh_debug_info_ui() {
     $("#show_hud_debug_info").slider("refresh");
 
     if (m_storage.get("enable_gl_debug") == "")
-        var opt_index = 0;
+        opt_index = 0;
     else
-        var opt_index = Number(m_storage.get("enable_gl_debug") === "true");
+        opt_index = Number(m_storage.get("enable_gl_debug") === "true");
     document.getElementById("enable_gl_debug").options[opt_index].selected = true;
     $("#enable_gl_debug").slider("refresh");
 }
@@ -981,7 +977,7 @@ function set_hud_debug_info_and_reload(value) {
 }
 
 function set_enable_gl_debug_and_reload(value) {
-    m_storage.set("enable_gl_debug", value.enable_gl_debug);
+    m_storage.set("enable_gl_debug", value["enable_gl_debug"]);
     window.location.reload();
 }
 
@@ -1060,7 +1056,7 @@ function show_hmd_config(value) {
 }
 
 function set_gyro_cam_rotate_reload(value) {
-    m_storage.set("gyro_use", value.gyro_use);
+    m_storage.set("gyro_use", value["gyro_use"]);
     window.location.reload();
 }
 
@@ -1098,17 +1094,14 @@ function cleanup() {
  * Animation controls
  */
 function anim_play_clicked() {
-
     var anim_name = document.getElementById("animation").value;
     var slot_num = parseInt(document.getElementById("anim_slot").value);
+
     if (anim_name !== "None")
         m_anim.play(_anim_obj, null, slot_num);
-
 }
 
 function anim_stop_clicked() {
-
-    var anim_name = document.getElementById("animation").value;
     var slot_num = parseInt(document.getElementById("anim_slot").value);
     m_anim.stop(_anim_obj, slot_num);
 }
@@ -1169,7 +1162,7 @@ function set_nla_params(value) {
 
     if ("nla_frame_current" in value)
         if (!m_nla.is_play()) {
-            var current = parseInt(value.nla_frame_current);
+            var current = parseInt(value["nla_frame_current"]);
             m_nla.set_frame(current);
         }
 }
@@ -1205,7 +1198,7 @@ function set_animation_params(value) {
         if (!_anim_obj)
             return;
 
-        var slot_num = value.anim_slot;
+        var slot_num = value["anim_slot"];
         update_anim_ui_name(_anim_obj, slot_num);
         update_anim_info(_anim_obj, slot_num);
         update_anim_ui_slots(_anim_obj);
@@ -1213,12 +1206,11 @@ function set_animation_params(value) {
 
     if ("animation" in value) {
         var slot_num = parseInt(document.getElementById("anim_slot").value);
-        var old_anim_name = m_anim.get_current_anim_name(_anim_obj, slot_num);
 
-        if (value.animation == "None")
+        if (value["animation"] == "None")
             m_anim.remove_slot_animation(_anim_obj, slot_num);
         else {
-            m_anim.apply(_anim_obj, value.animation, slot_num);
+            m_anim.apply(_anim_obj, value["animation"], slot_num);
             m_anim.play(_anim_obj, null, slot_num);
         }
 
@@ -1237,13 +1229,13 @@ function set_animation_params(value) {
         // (set_slider called every frame)
         var slot_num = parseInt(document.getElementById("anim_slot").value);
         if (!m_anim.is_play(_anim_obj, slot_num)) {
-            var current = parseInt(value.anim_frame_current);
+            var current = parseInt(value["anim_frame_current"]);
             m_anim.set_frame(_anim_obj, current, slot_num);
         }
     }
 
     if ("anim_mix_factor" in value) {
-        m_anim.set_skel_mix_factor(_anim_obj, value.anim_mix_factor);
+        m_anim.set_skel_mix_factor(_anim_obj, value["anim_mix_factor"]);
     }
 }
 
@@ -1356,11 +1348,9 @@ function update_anim_ui_slots(obj) {
     var anim_type = m_anim.get_anim_type(obj, active_slot);
 
     for (var i = 0; i < anim_slots_elems.length; i++) {
-
-        var anim_type = m_anim.get_anim_type(obj, i);
+        anim_type = m_anim.get_anim_type(obj, i);
         var type_str = get_anim_type_string(anim_type);
 
-        var elem = anim_slots_elems.eq(i);
         var str = i + " (" + type_str + ")";
         $('#anim_slot').children().eq(i).text(str);
     }
@@ -1387,68 +1377,65 @@ function get_ssao_params() {
     }
 
     forbid_params(ssao_param_names, "enable");
-    sel_by_val(document.getElementById("ssao_quality"), ssao["ssao_quality"]);
+    sel_by_val(document.getElementById("ssao_quality"), ssao.quality);
     $("#ssao_quality").selectmenu("refresh");
 
-    var opt_index = Number(ssao["ssao_hemisphere"]);
+    var opt_index = Number(ssao.use_hemisphere);
     document.getElementById("ssao_hemisphere").options[opt_index].selected = true;
     $("#ssao_hemisphere").slider("refresh");
 
-    var opt_index = Number(ssao["ssao_blur_depth"]);
+    opt_index = Number(ssao.use_blur_depth);
     document.getElementById("ssao_blur_depth").options[opt_index].selected = true;
     $("#ssao_blur_depth").slider("refresh");
 
-    set_slider("ssao_blur_discard_value", ssao["blur_discard_value"]);
-    set_slider("ssao_radius_increase", ssao["radius_increase"]);
-    set_slider("ssao_influence", ssao["influence"]);
-    set_slider("ssao_dist_factor", ssao["dist_factor"]);
+    set_slider("ssao_blur_discard_value", ssao.blur_discard_value);
+    set_slider("ssao_radius_increase", ssao.radius_increase);
+    set_slider("ssao_influence", ssao.influence);
+    set_slider("ssao_dist_factor", ssao.dist_factor);
 
-    var opt_index = Number(ssao["ssao_only"]);
+    opt_index = Number(ssao.ssao_only);
     document.getElementById("ssao_only").options[opt_index].selected = true;
     $("#ssao_only").slider("refresh");
 
-    var opt_index = Number(ssao["ssao_white"]);
+    opt_index = Number(ssao.ssao_white);
     document.getElementById("ssao_white").options[opt_index].selected = true;
     $("#ssao_white").slider("refresh");
 }
 
 function set_ssao_params(value) {
-    var ssao = m_scenes.get_ssao_params();
-
     var ssao_params = {};
 
     if ("ssao_quality" in value)
-        ssao_params["ssao_quality"] = get_sel_val(document.getElementById("ssao_quality"));
+        ssao_params.quality = get_sel_val(document.getElementById("ssao_quality")) | 0;
 
     if ("ssao_hemisphere" in value)
-        ssao_params["ssao_hemisphere"] = Number(value.ssao_hemisphere);
+        ssao_params.use_hemisphere = value["ssao_hemisphere"];
 
     if ("ssao_blur_depth" in value)
-        ssao_params["ssao_blur_depth"] = Number(value.ssao_blur_depth);
+        ssao_params.use_blur_depth = value["ssao_blur_depth"];
 
     if ("ssao_blur_discard_value" in value)
-        ssao_params["ssao_blur_discard_value"] = value.ssao_blur_discard_value;
+        ssao_params.blur_discard_value = value["ssao_blur_discard_value"];
 
     if ("ssao_radius_increase" in value)
-        ssao_params["ssao_radius_increase"] = value.ssao_radius_increase;
+        ssao_params.radius_increase = value["ssao_radius_increase"];
 
     if ("ssao_influence" in value)
-        ssao_params["ssao_influence"] = value.ssao_influence;
+        ssao_params.influence = value["ssao_influence"];
 
     if ("ssao_dist_factor" in value)
-        ssao_params["ssao_dist_factor"] = value.ssao_dist_factor;
+        ssao_params.dist_factor = value["ssao_dist_factor"];
 
     if ("ssao_only" in value)
-        ssao_params["ssao_only"] = Number(value.ssao_only);
+        ssao_params.ssao_only = value["ssao_only"];
 
     if ("ssao_white" in value)
-        ssao_params["ssao_white"] = Number(value.ssao_white);
+        ssao_params.ssao_white = value["ssao_white"];
 
     m_scenes.set_ssao_params(ssao_params);
 }
 
 function get_color_correction_params() {
-
     var compos_params = m_scenes.get_color_correction_params();
     var compos_param_names = ["brightness",
                               "contrast",
@@ -1474,7 +1461,7 @@ function set_color_correction_params(value) {
     if (!compos_params)
         return;
 
-    var compos_params = {};
+    compos_params = {};
 
     if ("brightness" in value)
         compos_params["brightness"] = parseFloat(value.brightness);
@@ -1650,9 +1637,9 @@ function get_ambient_params() {
 function set_ambient_params(value) {
     if ("environment_energy" in value || "horizon_color" in value || "zenith_color" in value)
         m_scenes.set_environment_colors(
-            value.environment_energy,
-            value.horizon_color,
-            value.zenith_color);
+            value["environment_energy"],
+            value["horizon_color"],
+            value["zenith_color"]);
 }
 
 function set_debug_params(value) {
@@ -1721,7 +1708,7 @@ function set_render_time_threshold(value) {
 }
 
 function make_screenshot_clicked() {
-    m_sshot.shot();
+    m_screen.shot();
 }
 
 function get_sky_params() {
@@ -1761,34 +1748,34 @@ function set_sky_params(value) {
     var sky_params = {};
 
     if ("sky_color" in value)
-        sky_params["color"] = value.sky_color;
+        sky_params.color = value["sky_color"];
 
     if ("rayleigh_brightness" in value)
-        sky_params["rayleigh_brightness"] = value.rayleigh_brightness;
+        sky_params.rayleigh_brightness = value.rayleigh_brightness;
 
     if ("mie_brightness" in value)
-        sky_params["mie_brightness"] = value.mie_brightness;
+        sky_params.mie_brightness = value.mie_brightness;
 
     if ("spot_brightness" in value)
-        sky_params["spot_brightness"] = value.spot_brightness;
+        sky_params.spot_brightness = value.spot_brightness;
 
     if ("scatter_strength" in value)
-        sky_params["scatter_strength"] = value.scatter_strength;
+        sky_params.scatter_strength = value.scatter_strength;
 
     if ("rayleigh_strength" in value)
-        sky_params["rayleigh_strength"] = value.rayleigh_strength;
+        sky_params.rayleigh_strength = value.rayleigh_strength;
 
     if ("mie_strength" in value)
-        sky_params["mie_strength"] = value.mie_strength;
+        sky_params.mie_strength = value.mie_strength;
 
     if ("rayleigh_collection_power" in value)
-        sky_params["rayleigh_collection_power"] = value.rayleigh_collection_power;
+        sky_params.rayleigh_collection_power = value.rayleigh_collection_power;
 
     if ("mie_collection_power" in value)
-        sky_params["mie_collection_power"] = value.mie_collection_power;
+        sky_params.mie_collection_power = value.mie_collection_power;
 
     if ("mie_distribution" in value)
-        sky_params["mie_distribution"] = value.mie_distribution;
+        sky_params.mie_distribution = value.mie_distribution;
 
     m_scenes.set_sky_params(sky_params);
 }
@@ -1863,6 +1850,55 @@ function set_material_params(value) {
             material_ext_params);
 
     m_scenes.update_scene_materials_params();
+}
+
+function set_wind_bending_params(value) {
+    var obj = get_selected_object();
+
+    if (!obj)
+        return;
+
+    var wb_params = {};
+    if ("wind_bending_angle" in value)
+        wb_params.angle = value["wind_bending_angle"];
+
+    if ("wind_bending_main_frequency" in value)
+        wb_params.main_frequency = value["wind_bending_main_frequency"];
+
+    if ("wind_bending_detail_amplitude" in value)
+        wb_params.detail_amplitude = value["wind_bending_detail_amplitude"];
+
+    if ("wind_bending_detail_frequency" in value)
+        wb_params.detail_frequency = value["wind_bending_detail_frequency"];
+
+    if ("wind_bending_branch_amplitude" in value)
+        wb_params.branch_amplitude = value["wind_bending_branch_amplitude"];
+
+    m_obj.set_wind_bending_params(obj, wb_params);
+}
+
+function get_wind_bending_params(obj) {
+
+    var wb_params = m_obj.get_wind_bending_params(obj);
+
+    var wb_param_names = ["wind_bending_angle",
+                          "wind_bending_main_frequency",
+                          "wind_bending_detail_amplitude",
+                          "wind_bending_detail_frequency",
+                          "wind_bending_branch_amplitude"];
+
+    if (!wb_params) {
+        forbid_params(wb_param_names, "disable");
+        show_element("object_warning");
+        return null;
+    }
+    forbid_params(wb_param_names, "enable");
+
+    set_slider("wind_bending_angle",            wb_params["angle"]);
+    set_slider("wind_bending_main_frequency",   wb_params["main_frequency"]);
+    set_slider("wind_bending_detail_amplitude", wb_params["detail_amplitude"]);
+    set_slider("wind_bending_detail_frequency", wb_params["detail_frequency"]);
+    set_slider("wind_bending_branch_amplitude", wb_params["branch_amplitude"]);
 }
 
 function get_water_material_params(obj, mat_name) {
@@ -1943,6 +1979,10 @@ function get_water_material_params(obj, mat_name) {
 
 function set_water_material_params(value) {
     var obj = get_selected_object();
+
+    if (!obj)
+        return null;
+
     var water_param_names = ["waves_height",
                              "waves_length",
                              "sss_strength",
@@ -1958,9 +1998,6 @@ function set_water_material_params(value) {
                              "dir_min_noise_fac",
                              "dst_min_fac",
                              "waves_hor_fac"];
-
-    if (!obj)
-        return null;
 
     var water_material_params = {};
 
@@ -2123,26 +2160,26 @@ function set_sun_params(value) {
     var sun_params = {};
 
     if ("sun_horizontal_position" in value) {
-        sun_params["hor_position"] = parseFloat(value.sun_horizontal_position);
-        sun_params["vert_position"] = parseFloat(document.getElementById("sun_vertical_position").value);
+        sun_params.hor_position = parseFloat(value["sun_horizontal_position"]);
+        sun_params.vert_position = parseFloat(document.getElementById("sun_vertical_position").value);
     }
 
     if ("sun_vertical_position" in value) {
-        sun_params["hor_position"] = parseFloat(document.getElementById("sun_horizontal_position").value);
-        sun_params["vert_position"] = parseFloat(value.sun_vertical_position);
+        sun_params.hor_position = parseFloat(document.getElementById("sun_horizontal_position").value);
+        sun_params.vert_position = parseFloat(value["sun_vertical_position"]);
     }
 
     m_lights.set_sun_params(sun_params);
 }
 
 function set_max_sun_angle(value) {
-    var angle = parseFloat(value.max_sun_angle);
+    var angle = parseFloat(value["max_sun_angle"]);
     m_lights.set_max_sun_angle(angle);
 }
 
 function set_time_date(value) {
     if ("day_time" in value) {
-        var time = value.day_time;
+        var time = value["day_time"];
         m_lights.set_day_time(time);
     }
     if ("date" in value) {
@@ -2193,7 +2230,7 @@ function check_lighting_params() {
     }
 }
 
-function forbid_material_params() {
+function forbid_object_params() {
     // material
     var material_param_names = ["material_diffuse_color",
                                 "material_name",
@@ -2234,6 +2271,16 @@ function forbid_material_params() {
                    "shore_smoothing"];
 
     forbid_params(water_param_names, "disable");
+
+    // object
+
+    var wb_param_names = ["wind_bending_angle",
+                          "wind_bending_main_frequency",
+                          "wind_bending_detail_amplitude",
+                          "wind_bending_detail_frequency",
+                          "wind_bending_branch_amplitude"];
+
+    forbid_params(wb_param_names, "disable");
 }
 
 function prepare_debug_params() {
@@ -2366,9 +2413,8 @@ function set_god_rays_params(value) {
 }
 
 function set_canvas_resolution_factor(value) {
-
     if ("canvas_rf" in value) {
-        m_cfg.set("canvas_resolution_factor", value.canvas_rf);
+        m_cfg.set("canvas_resolution_factor", value["canvas_rf"]);
         on_resize();
     }
 }
@@ -2428,13 +2474,13 @@ function set_bloom_params(value) {
     var bloom_params = {};
 
     if ("bloom_key" in value) {
-        bloom_params["key"] = value.bloom_key;
+        bloom_params.key = value["bloom_key"];
     }
     if ("bloom_blur" in value) {
-        bloom_params["blur"] = value.bloom_blur;
+        bloom_params.blur = value["bloom_blur"];
     }
     if ("bloom_edge_lum" in value) {
-        bloom_params["edge_lum"] = value.bloom_edge_lum;
+        bloom_params.edge_lum = value["bloom_edge_lum"];
     }
 
     m_scenes.set_bloom_params(bloom_params);

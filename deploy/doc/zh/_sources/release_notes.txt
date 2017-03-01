@@ -3,6 +3,309 @@
 ********
 
 
+v17.02
+======
+
+
+新功能
+------
+
+* 项目管理器改进。
+
+     To simplify project configuration a new visual configurator has
+     been implemented. To configure your project just click on the
+     *[config]* link near the project name on the Project Manager's
+     main page. Project configurator works in a non-destructive way
+     and allows you to change only editable params for the current
+     project.
+
+     The clone project functionality was added.
+
+     JavaScript source maps were added. Source maps allow developer
+     tools located in browsers to display unminified code from
+     minified code with optimized "mapping" between them. To generate
+     source maps specify *-b* flag to *project.py* script when
+     building your project.
+
+* User interface improvements.
+
+     To make the task of creating Blend4Web content more efficient we
+     refined the Blender UI.
+
+     *Render* and *Help* menus have been modified for Blend4Web render
+     engine.
+
+     Messages about unsupported editors have been added.
+
+     'Rigid Body' panel has been removed from View3d tools for
+     Blend4Web render engine.
+
+     Blend4Web credits have been added to the splash screen.
+
+* Further support for materials powered by "Cycles".
+
+     Support for "Displacement" output has been added. This output is
+     used to easily add bump to material.
+
+     "Transparent BSDF" node support has been added. This node is from
+     the "Shader" category. It is used to add transparency without
+     refraction, passing straight through the surface, as if there
+     were no geometry there.
+
+* Extended material inheritance.
+
+     The inherit_material method was greatly improved to support node
+     materials. It requires the source and the target objects to have
+     the "Dynamic Geometry & Materials" option (which previously was
+     named "Dynamic Geometry") enabled on the "Object" panel. This
+     option also means that all UV and vertex color layers are
+     exported to be available to use in any material that is applied
+     to the target object. More information about using this
+     functionality can be found in the corresponding chapter in the
+     documentation.
+
+* "Code Snippets" improvements.
+
+     The "Make project" button has been added. It is now possible to
+     create new projects based on code snippets. It provides the
+     possibility to use ready-made templates for further development.
+
+* Camera improvements.
+
+     Support for "Horizontal" and "Auto" camera fits has been added.
+
+* Wind Bending setup API.
+
+     Wind Bending parameters can now be set with
+     set_wind_bending_params, and they can be extracted with
+     get_wind_bending_params. Note that this API works only with
+     dynamic objects. A special menu for Wind Bending was added to the
+     Viewer interface.
+
+* Shadow Blur and reflection quality configuration
+
+     New parameters: "shadow_blur_samples" and "reflection_quality"
+     have been added to the config module. They can be assigned with
+     the set method.
+
+* Support for Blend4Web addon customizations.
+
+     To simplify Blend4Web addon customizations a new field
+     *b4w_custom_prop* can be added to Object or Scene datablocks.
+     This option can be exported to Blend4Web format and accessed in
+     runtime by scenes.get_custom_prop or objects.get_custom_prop
+     methods. An example on how to use this feature can be found in
+     *addons/blend4web/custom_prop_example.py* file in the SDK.
+
+* Changes in the process of exporting UV layers.
+
+     The restriction of 2 UV layers per mesh has been removed. Also,
+     if a UV layer is not specified then the active layer is used
+     instead of the first layer in the list as it was previously.
+     Unused UV layers will not be exported unless the object property
+     "Dynamic Geometry & Materials" is enabled.
+
+
+变更
+----
+
+* 项目管理器变更。
+
+     "External" engine type was deprecated and replaced by "Copy" type
+     automatically.
+
+* Empty material slots are now correctly exported and do not stop
+  export process.
+
+* Blender addon now resides in an independent addon category named
+  "Blend4Web".
+
+* Incompatible textures and constraints now print warnings in
+  Blender UI.
+
+* Skeletal animation blending now works correctly for two
+  animations. This feature is still experimental and API is subject to
+  change.
+
+* Static physical objects now correctly influence a scene when
+  dynamically loaded or unloaded.
+
+* fps addon received several improvements. The enable_fps_controls
+  method now has several setup parameters. Refer to API documents for
+  more details.
+
+* API 的变更。
+
+     The set_canvas_offsets, update_canvas_offsets,
+     force_offsets_updating methods of the container module have been
+     declared deprecated and will be removed in future releases. Use
+     the client_to_canvas_coords or the client_to_element_coords
+     methods.
+
+     The screen module has been added.
+
+     The request_fullscreen_hmd, enable_split_screen,
+     disable_split_screen, request_fullscreen, exit_fullscreen,
+     check_fullscreen methods have been declared deprecated. Use
+     request_fullscreen_hmd request_split_screen exit_split_screen,
+     request_fullscreen, exit_fullscreen, check_fullscreen instead.
+
+     The draw_mixer_strip, plot_array, shot methods have been declared
+     deprecated and moved to the screen module. The hud, screenshooter
+     modules have been declared deprecated.
+
+     The set_hmd_fov method has been declared deprecated.
+
+     The *util.ground_project_quat* method has been renamed
+     ground_project_cam_quat.
+
+     The following deprecated methods have been removed:
+     camera.set_move_style, camera.has_vertical_limits,
+     camera.has_horizontal_limits, camera.move_pivot,
+     camera.set_velocity_params, camera.get_velocity_params,
+     camera.clear_horizontal_limits, camera.clear_vertical_limits,
+     camera.clear_hover_angle_limits, camera.set_look_at,
+     camera.rotate_eye_camera, camera.rotate_target_camera,
+     camera.set_trans_pivot, camera.zoom_object, camera.set_pivot,
+     camera.rotate_hover_camera, camera.get_hover_cam_pivot,
+     camera.get_eye, camera.get_pivot,
+     camera.hover_cam_set_translation, camera.set_hover_pivot,
+     camera.get_hover_angle_limits, camera.get_cam_dist_limits,
+     camera.apply_vertical_limits, camera.apply_hover_angle_limits,
+     camera.apply_distance_limits, camera.clear_distance_limits,
+     camera.get_vertical_limits, camera.apply_horizontal_limits,
+     camera.get_horizontal_limits, controls.register_keyboard_events,
+     controls.register_mouse_events, controls.register_wheel_events,
+     controls.register_touch_events,
+     controls.register_device_orientation,
+     controls.unregister_keyboard_events,
+     controls.unregister_mouse_events,
+     controls.unregister_wheel_events,
+     controls.unregister_touch_events,
+     controls.unregister_device_orientation, app.resize_to_container,
+     app.set_camera_move_style, app.enable_controls,
+     app.disable_controls, hmd.get_hmd_device, hmd.reset,
+     animation.get_first_armature_object,
+     animation.get_bone_translation, constraints.get_parent,
+     util.line_plane_intersect, util.is_mesh, util.is_armature,
+     tsr.create_sep, sfx.is_play, scenes.check_object,
+     scenes.get_object_dg_parent, nla.check_nla_scripts, main.resize,
+     main.global_timeline, main.get_canvas_elem.
+
+     The add_click_listener, remove_click_listener methods have been
+     added.
+
+* VR mode changes.
+
+     Switching to VR mode can now be done without reloading the
+     application in VR-capable browsers: WebVR-supporting browsers or
+     mobile browsers.
+
+     Camera autorotation is disabled when switching to VR mode.
+
+     Added support for WebVR 1.1.
+
+* The is_character method no longer returns "true" if physics is
+  disabled in an application.
+
+* The paragraph Non-Standard Canvas Position and Orientation was
+  rewritten to reflect recent engine changes.
+
+     Also, the new paragraph Mobile Web Apps was added to describe
+     some aspects related to the orientation and the scaling of a
+     browser's page.
+
+* The Material API paragraph has been added to the user manual. It
+  describes how object materials can be adjusted using API methods
+  from the material module.
+
+* The structure of the "SSAOParams" object used in the
+  set_ssao_params and the get_ssao_params methods was changed to be
+  more consistent.
+
+* The object_distance method has been declared deprecated, from now
+  on the distance method should be used instead.
+
+* The create_ray_sensor and the new_event_track methods no longer
+  accept a non-physical object as a parameter, which led to engine
+  crash.
+
+* Video textures can no longer be changed via the change_image
+  method.
+
+
+修复
+----
+
+* Fixed bug when anchor description contains not only text nodes.
+
+* Fixed crash for non-valid materials used by "Emitter" particle
+  systems.
+
+* Fixed some errors for same-titled linked objects and groups.
+
+* Removed the duplicated "Simplify" panel created by Blend4Web in
+  other Render Engines.
+
+* Fixed texture caching with incompatible texture sources.
+
+* Fixed emitter particle normals.
+
+* Fixed Rendering to texture broken in the previous release.
+
+* Several fixes for the prefetch method.
+
+* Fixed SRGB color correction in "Ultra" mode.
+
+* Fixed FPS reducing in iOS browsers.
+
+* Fixed binary loading in case tmp directory doesn't allow
+  execution. This issue was fixed by using standard Blender tmp path,
+  which can be configured.
+
+* More correct extending of node editor *Add* menu.
+
+* assets.json has been removed from all blend files.
+
+* Fixed the reloading of binary module when pressing F8.
+
+* Fixed HMD configurator.
+
+* Fixed bug when the visibility of scene layers in Blender can be
+  changed after export.
+
+* Fixed wrong behavior of video textures in Firefox.
+
+* Fixed shadows and reflections for dynamic grass.
+
+* Fixed shader compilation crash if the LOW quality profile was
+  choosen.
+
+* Fixed object selection and shadows for objects with a node
+  material, which had the Alpha Clip blend mode.
+
+* Fixed the checking of unsupported texture sizes.
+
+* Fixed the overriding bounding volumes functionality for objects
+  with shape keys.
+
+* Fixed the selection and the outlining of LOD objects.
+
+* Fixed engine crash when an object had the Array Modifier applied
+  in Blender.
+
+* Fixed bugs related to the set_ssao_params method.
+
+* The Google Closure Compiler used for compiling the engine's
+  scripts and applications was updated to the newest version. This
+  helped to find and fix several minor bugs.
+
+* Fixed engine crash when applying a shape key to an object with
+  HAIR or EMITTER particle systems.
+
+* Fixed the "Hidden" property for "EMPTY" objects used as anchors.
+
+
 v16.12
 ======
 
@@ -12,117 +315,93 @@ v16.12
 
 * 项目管理器改进。
 
-     "New File" and "Save As" buttons were added to the project file
-     editor. Also, to simplify navigation, the editor hightlights
-     edited files.
+     "New File" 和 "Save As" 按钮添加到项目文件编辑器。另外，为了简化
+     导航，编辑器高亮显示编辑过的文件。
 
-     Project Manager applicaton builder now minifies compiled HTML
-     files to speed-up their loading.
+     项目管理器的应用构建工具最小化编译的HTML文件，以加快他们的加载。
 
-* New "Cycles" material nodes.
+* 新的 "Cycles" 材质节点。
 
-     "Emission" node support has been added. This node is from the
-     "Shader" category. It is responsible for the light emitting
-     component of the material. Node inputs include "Color",
-     "Strength". In Blend4Web, materials which use this node only
-     simulate the look of the surface and are not dynamic light
-     sources.
+     "Emission" 节点的支持已被添加。此节点是来自 "Shader" 类别。它负责
+     该材质的发光部分。节点输入包括 "Color"，"Strength"。在Blend4Web，
+     使用此节点材质只是模拟的表面的外观和不是动态光源。
 
-* Improved rendering of LOD objects.
+* 改进LOD物体的渲染。
 
-     From now on LOD objects are batched with respect to their LOD
-     distance parameter and their proportions. Thus, the engine
-     renders LOD objects as effectively as possible, trying to keep a
-     reasonable amount of the combined objects at the same time. For
-     tuning this behavior the "LOD Cluster Size Multiplier" parameter
-     was added into the *Scene->Objects Clustering* panel.
+     从现在起的LOD物体通过于它们的LOD距离参数和它们的比例来分批次。这
+     样，引擎尽可能有效地渲染LOD物体，试图保持合理数量的来合并物体。对
+     于调整此行为 "LOD Cluster Size Multiplier" 参数加入到
+     *Scene->Objects Clustering* 面板。
 
-* New API methods prefetch and unfetch.
+* 新的API方法 prefetch 和 unfetch.
 
-     The first allows preloading resources of a scene (textures,
-     sounds, files of the scene) and caches them. The second allows
-     cleaning up the cache.
+     第一个允许预加载场景（纹理，声音，场景文件）的资源，并对其进行缓
+     存。第二允许清理缓存。
 
-* Support for object picking on VR devices.
+* 支持VR设备里的物体选择。
 
-     The pick_center method has been added. It allows users to get an
-     object in the center of the viewport using the object picking
-     functionality. This method works both for general-purpose and for
-     VR devices.
+     pick_center 方法已被添加。它允许用户获取物体中使用物体拾取功能的
+     视口的中心。此方法既可以用于通用目的也能在VR的设备上使用。
 
-* Improved add-on interface.
+* 改进的插件界面。
 
-     Now the stand-alone add-on does not show the development server
-     panel. Extended warnings, that the development server is not
-     available on the standalone add-on, have been added.
+     现在单独的插件不显示开发服务器面板。已添加扩展警告，即开发服务器
+     不可用在独立的插件里。
 
-* Texture caching
+* 纹理缓存
 
-     Now all image textures are cached and if a new texture with
-     similar properties is requested, it will be taken from the cache.
-     This results in saving memory and significantly speeds up the
-     change_image method for multiple objects.
+     现在所有的图像的纹理都被缓存，并且如果请求一个新的纹理具有类似性
+     质的，它将从缓存取出。这导致节省内存和显著加快对多个物体的
+     change_image 方法。
 
 
 变更
 ----
 
-* Project Manager changes.
+* 项目管理器变更。
 
-     The structure of Project Manager files was upgraded. Now new
-     projects are placed in the "projects" directory. All assets are
-     placed in the project folder.
+     项目管理器文件的结构升级。现在，新的项目都放在 "projects" 目录。
+     所有的资产都放在项目文件夹。
 
-     Please note that get_std_assets_path() no longer specifies
-     project assets directory within the new file structure. Replace
-     it with the get_assets_path() method.
+     请注意 get_std_assets_path() 不再指定新的文件结构中项目资产目录。
+     用 get_assets_path()  方法替换。
 
-     The "upgrade file structure" button was added to upgrade the old
-     projects to the new structure.
+     "upgrade file structure" 按钮添加到 升级旧项目到新的结构.
 
-     Now text inside the project manager editor is indented with
-     spaces instead of tabs.
+     现在，项目管理编辑器内的文本缩进用空格代替制表符。
 
-* Lamp objects of the unsupported AREA type are changed to the type
-  SUN during the export from now on. In this case, a related error
-  message  will be printed in the browser console.
+* 不支持的区域类型的灯物体从现在开始导出过程中更改为太阳的类型。在这
+  种 情况下，相关的错误消息，将在浏览器控制台进行打印。
 
 
 修复
 ----
 
-* Fixed a bug with video textures on mobile Chrome.
+* 修正了在移动浏览器的视频纹理错误。
 
-* Fixed a bug with Alpha Sort type of transparency for static
-  objects.
+* 修正了对于静态物体透明的alpha排序类型的错误。
 
-* Fixed a bug with incorrect rendering of materials that use normal
-  mapping.
+* 修正了使用法线贴图材质渲染不正确的错误。
 
-* Fixed a bug when the LODs of a single object were switched between
-  each other with a very noticeable delay and none of the LODs were
-  rendered at that very moment.
+* 修正了一个当单个物体的LOD在进行切换时具有非常明显的延迟和没有LOD在
+  那 个情况下渲染出来。
 
-* Fixed a bug with dynamic grass on WebGL 2.0.
+* 修正了WebGL的2.0动态草的错误。
 
-* Fixed a bug with Wacom tablet interaction.
+* 修正了Wacom数位板互动的错误。
 
-* Fixed "Export to different disk is forbidden" message that was
-  showing up when using fast preview.
+* 修正了使用快速预览时“导出到不同的磁盘被禁止”的信息被显示出来。
 
-* Fixed crash during the export of dupli groups without any attached
-  objects
+* 修正了DUPLI组的导出过程中无任何附加物体时会奔溃。
 
-* Alpha values greater than 1.0 are now correctly processed for
-  transparent materials.
+* 透明材质的大于1.0的Alpha值现在正确地处理。
 
-* "PARALLAX" node no longer crashes node trees if its input texture
-  has any output nodes apart from the "PARALLAX" node itself.
+* "PARALLAX" 节点不再让节点树崩溃，如果其输入纹理有任何输出节点除了
+  "PARALLAX" 节点本身。
 
-* Shader node trees are now pre-cleaned during export to get rid of
-  unused nodes.
+* 着色器节点树现在导出时预清洗，以清除未使用的节点。
 
-* Fixed viewport alignment in VR mode.
+* 修复在VR模式下视口对齐。
 
 
 v16.11

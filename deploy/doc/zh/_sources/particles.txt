@@ -146,8 +146,7 @@
    议设置的 "Emission > Start" 的值为零。默认为禁用。
 
 *Emission > Allow NLA*
-   Activating this option allows particle emission to be controlled by
-   NLA. Enabled by default.
+   激活此选项将允许粒子发射由NLA进行控制。默认情况下启用。
 
 *Emission > Random Delay*
    该选项允许启用粒子随机发射时间。默认情况下禁用。

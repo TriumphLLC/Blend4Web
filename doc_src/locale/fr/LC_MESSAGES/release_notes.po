@@ -2129,11 +2129,11 @@ msgstr ""
 # msgstr ""
 # "Details about calculation and use cases of such coordinates are described
 # in"
-# " the separate :ref:`topic <canvas_nonfullscreen_coords>`."
+# " the separate :ref:`topic <non_standard_canvas_pos>`."
 #: ../release_notes.rst:1025
 msgid ""
 "Тонкости расчета и случаи, когда их необходимо учесть, описаны в "
-"соответствующем :ref:`разделе <canvas_nonfullscreen_coords>` документации."
+"соответствующем :ref:`разделе <non_standard_canvas_pos>` документации."
 msgstr ""
 
 # msgstr ""

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Export Project(s)</title>
+
+<link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png">
+<link rel="shortcut icon" href="/index_assets/img/favicon.ico">
+<link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png">
+
+<link rel="stylesheet" type="text/css" href="/index_assets/css/base.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/project_export.css">
+
+<script type="text/javascript">
+    var _export_directory = "${export_dir}"; 
+</script>
+
+</head>
+
+<body>
+  <h1>Export Project(s)</h1>
+  <div class="btns_cont row">
+    <div class="btn_wrapper">
+      <a id="back_to_index" href="/project/" class="btn active"><span>Back to Projects</span></a>
+      <a id="show_hide_b4w" href="$show_hide_link" class="btn active"><span>$show_hide_text Stock Projects</span></a>
+      <a id="help" href="/deploy/doc/en/project_manager.html#export-projects" class="btn active"><span>Help</span></a>
+    </div>
+  </div>
+  <div class="row">
+    <form name="create_form" action="/project/export/" onsubmit="return false;">
+      <table class="export">
+        <thead>
+          <tr>
+            <th>Select</th>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          $content
+          <tr>
+            <td colspan=4 style="text-align: center">
+               Archive Name: <input type="text" size="15" value="project">.zip
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="btns_cont">
+        <div class="btn_wrapper">
+          <button class="btn active"><span>Export Project(s)</span></button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="/index_assets/js/project_export.js" type="text/javascript" async defer></script>
+</body>
+
+</html>

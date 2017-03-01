@@ -265,7 +265,7 @@ function perform_attack(golem_wrapper) {
     m_vec3.scaleAndAdd(trans, cur_dir, m_conf.GOLEM_ATTACK_DIST, at_pt);
     at_pt[2] += 0.3; // raise attack point a bit
 
-    if (m_sfx.is_play(golem_wrapper.walk_speaker))
+    if (m_sfx.is_playing(golem_wrapper.walk_speaker))
         m_sfx.stop(golem_wrapper.walk_speaker);
 
     m_sfx.play_def(golem_wrapper.attack_speaker);
@@ -367,7 +367,7 @@ function translate(golem_wrapper, elapsed) {
     m_vec3.scaleAndAdd(trans, cur_dir, m_conf.GOLEM_SPEED * elapsed, trans);
     m_trans.set_translation_v(empty, trans);
 
-    if (!m_sfx.is_play(walk_speaker)) {
+    if (!m_sfx.is_playing(walk_speaker)) {
         m_sfx.play_def(walk_speaker);
         m_sfx.cyclic(walk_speaker, true);
     }

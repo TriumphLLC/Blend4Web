@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-09-28 14:05+0300\n"
+"POT-Creation-Date: 2017-02-21 14:02+0300\n"
 "PO-Revision-Date: 2016-10-07 15:25+0800\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Chinese <info [at] blend4web.com>\n"
@@ -15,8 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
-"Language: zh\n"
-"X-Generator: Poedit 1.8.9\n"
 
 #: ../web_player.rst:7
 msgid "Web Player"
@@ -28,8 +26,8 @@ msgstr "目录"
 
 #: ../web_player.rst:13
 msgid ""
-"The web player is a special application for rendering models and scenes in a "
-"demonstration mode."
+"The web player is a special application for rendering models and scenes "
+"in a demonstration mode."
 msgstr "网络播放器是演示模式的特殊应用可以渲染模型和场景。 "
 
 #: ../web_player.rst:17
@@ -46,15 +44,14 @@ msgstr "用法"
 
 #: ../web_player.rst:36
 msgid ""
-"You can copy the directory containing the web player files, namely ``deploy/"
-"apps/webplayer``, from the Blend4Web SDK distribution and deploy it on your "
-"website. You can place the exported scene files on your website and specify "
-"the path to them (absolute or relative) with the ``load`` web player "
-"parameter."
+"You can copy the directory containing the web player files, namely "
+"``deploy/apps/webplayer``, from the Blend4Web SDK distribution and deploy"
+" it on your website. You can place the exported scene files on your "
+"website and specify the path to them (absolute or relative) with the "
+"``load`` web player parameter."
 msgstr ""
-"您可以复制包含网络播放文件的目录，即 ``deploy/apps/webplayer``, 从"
-"Blend4Web SDK分布和您的网站进行部署。您可以将导出的场景文件在您的网站和指定的"
-"路径给他们（绝对或相对）与 ``load`` 网络播放器的参数。"
+"您可以复制包含网络播放文件的目录，即 ``deploy/apps/webplayer``, 从Blend4Web "
+"SDK分布和您的网站进行部署。您可以将导出的场景文件在您的网站和指定的路径给他们（绝对或相对）与 ``load`` 网络播放器的参数。"
 
 #: ../web_player.rst:42
 msgid ""
@@ -68,14 +65,13 @@ msgstr "导航"
 
 #: ../web_player.rst:49
 msgid ""
-"The camera (in the ``Target`` and ``Eye`` modes) is controlled by the mouse "
-"with its button pressed or with the keys: ``W``, ``A``, ``S``, ``D``, ``R``, "
-"``F`` (forward, left, back, right, up, down). The ``numpad`` keys are also "
-"supported."
+"The camera (in the ``Target`` and ``Eye`` modes) is controlled by the "
+"mouse with its button pressed or with the keys: ``W``, ``A``, ``S``, "
+"``D``, ``R``, ``F`` (forward, left, back, right, up, down). The "
+"``numpad`` keys are also supported."
 msgstr ""
-"相机（在 ``Target`` 和 ``Eye`` 模式）由鼠标控制，它的按钮按下或键： ``W``, "
-"``A``, ``S``, ``D``, ``R``, ``F`` (向前，左，后，右，上，下).  ``numpad`` 键"
-"也支持。"
+"相机（在 ``Target`` 和 ``Eye`` 模式）由鼠标控制，它的按钮按下或键： ``W``, ``A``, ``S``, ``D``, "
+"``R``, ``F`` (向前，左，后，右，上，下).  ``numpad`` 键也支持。"
 
 #: ../web_player.rst:55
 msgid "Control Panel"
@@ -153,25 +149,21 @@ msgstr "特殊的属性 ``load`` 用于加载场景，这个属性包含相对�
 
 #: ../web_player.rst:91
 msgid ""
-"in case of a WebGL error the optional ``fallback_image`` attribute is used "
-"to setup the background image instead of 3D content."
-msgstr ""
-"在发生错误的WebGL的可选 ``fallback_image`` 属性用于设置的背景图像，而不是3D内"
-"容。"
+"in case of a WebGL error the optional ``fallback_image`` attribute is "
+"used to setup the background image instead of 3D content."
+msgstr "在发生错误的WebGL的可选 ``fallback_image`` 属性用于设置的背景图像，而不是3D内容。"
 
 #: ../web_player.rst:92
 msgid ""
-"in case of a WebGL error the optional ``fallback_video`` attribute is used "
-"to setup the background video instead of 3D content. Can be used many times "
-"to add more video formats."
-msgstr ""
-"在发生错误的WebGL的可选 ``fallback_video`` 属性用于设置背景视频，而不是3D内"
-"容。可用于多次添加更多的视频格式。"
+"in case of a WebGL error the optional ``fallback_video`` attribute is "
+"used to setup the background video instead of 3D content. Can be used "
+"many times to add more video formats."
+msgstr "在发生错误的WebGL的可选 ``fallback_video`` 属性用于设置背景视频，而不是3D内容。可用于多次添加更多的视频格式。"
 
 #: ../web_player.rst:94
 msgid ""
-"the optional ``show_fps`` attribute is used to display the FPS counter in "
-"the player's top right corner."
+"the optional ``show_fps`` attribute is used to display the FPS counter in"
+" the player's top right corner."
 msgstr "可选 ``show_fps`` 属性是用来显示在玩家的右上角的FPS计数器。"
 
 #: ../web_player.rst:95
@@ -182,19 +174,18 @@ msgstr "可选参数 ``autorotate`` 时，使用了场景加载后使自动相�
 
 #: ../web_player.rst:96
 msgid ""
-"the ``compressed_textures`` optional parameter is used to enable loading of "
-"minified and compressed textures (in DDS format)."
-msgstr ""
-"该 ``compressed_textures`` 可选参数用于启用加载精缩和压缩纹理（在DDS格式）。"
+"the ``compressed_textures`` optional parameter is used to enable loading "
+"of minified and compressed textures (in DDS format)."
+msgstr "该 ``compressed_textures`` 可选参数用于启用加载精缩和压缩纹理（在DDS格式）。"
 
 #: ../web_player.rst:97
 msgid ""
-"the ``compressed_textures_pvr`` optional parameter is used to enable loading "
-"of textures compressed in PVRTC format. This parameter is used with the "
-"``compressed_textures`` parameter."
+"the ``compressed_textures_pvr`` optional parameter is used to enable "
+"loading of textures compressed in PVRTC format. This parameter is used "
+"with the ``compressed_textures`` parameter."
 msgstr ""
-"该 ``compressed_textures_pvr`` 可选参数用于启用加载压缩为PVRTC格式的材质，该"
-"参数用在 ``compressed_textures`` 参数中。"
+"该 ``compressed_textures_pvr`` 可选参数用于启用加载压缩为PVRTC格式的材质，该参数用在 "
+"``compressed_textures`` 参数中。"
 
 #: ../web_player.rst:98
 msgid ""
@@ -210,25 +201,25 @@ msgstr "可选的 ``no_social`` 属性用于在控制面板上禁用社交网络
 
 #: ../web_player.rst:100
 msgid ""
-"the optional ``socials`` attribute is used to selectively enable and disable "
-"social network buttons on the control panel. This attribute should look like "
-"``socials=<...>``, where ``<...>`` is a set of letters corresponding to the "
-"social network buttons you want to enable (``f`` for Facebook, ``v`` for VK, "
-"``t`` for Twitter, ``w`` for Weibo and ``g`` for Google+). The order of "
-"letters sets the order in which the buttons will appear on the screen."
+"the optional ``socials`` attribute is used to selectively enable and "
+"disable social network buttons on the control panel. This attribute "
+"should look like ``socials=<...>``, where ``<...>`` is a set of letters "
+"corresponding to the social network buttons you want to enable (``f`` for"
+" Facebook, ``v`` for VK, ``t`` for Twitter, ``w`` for Weibo and ``g`` for"
+" Google+). The order of letters sets the order in which the buttons will "
+"appear on the screen."
 msgstr ""
-"可选的 ``socials`` 属性用于选择性地启用和禁用控制面板上的社交网络按钮。此属性"
-"应该像 ``socials=<...>``,  其中  ``<...>`` 是一组与您要启用的社交网络按钮字母"
-"（ ``f`` 为Facebook ``v`` 为VK，``t`` 是Twitter的，``w`` 是微博和 ``g`` 是"
-"Google ）。字母顺序设置定义了按钮将出现在屏幕上的顺序。"
+"可选的 ``socials`` 属性用于选择性地启用和禁用控制面板上的社交网络按钮。此属性应该像 ``socials=<...>``,  其中  "
+"``<...>`` 是一组与您要启用的社交网络按钮字母（ ``f`` 为Facebook ``v`` 为VK，``t`` "
+"是Twitter的，``w`` 是微博和 ``g`` 是Google ）。字母顺序设置定义了按钮将出现在屏幕上的顺序。"
 
 #: ../web_player.rst:104
 msgid ""
-"If both ``fallback_image`` and ``fallback_video`` parameters are specified, "
-"the ``fallback_image`` parameter is used."
+"If both ``fallback_image`` and ``fallback_video`` parameters are "
+"specified, the ``fallback_image`` parameter is used."
 msgstr ""
-"如果同时 ``fallback_image`` 和 ``fallback_video`` 参数指定 "
-"``fallback_image`` 参数被使用。"
+"如果同时 ``fallback_image`` 和 ``fallback_video`` 参数指定 ``fallback_image`` "
+"参数被使用。"
 
 #: ../web_player.rst:109
 msgid "Scene Name as Title"
@@ -236,12 +227,12 @@ msgstr "场景名称为标题"
 
 #: ../web_player.rst:111
 msgid ""
-"By default the Web Player has the ``Blend4Web Web Player`` title. Assigning "
-"the meta tag ``title`` on the scene in Blender you can change that value to "
-"something else."
+"By default the Web Player has the ``Blend4Web Web Player`` title. "
+"Assigning the meta tag ``title`` on the scene in Blender you can change "
+"that value to something else."
 msgstr ""
-"默认情况下，网络播放器具有 ``Blend4Web Web Player`` 称号。在Blender的场景中分"
-"配的meta标签 ``title`` ，您可以更改该值为别的东西。"
+"默认情况下，网络播放器具有 ``Blend4Web Web Player`` 称号。在Blender的场景中分配的meta标签 ``title``"
+" ，您可以更改该值为别的东西。"
 
 #: ../web_player.rst:118
 msgid "Scene Errors"
@@ -252,19 +243,29 @@ msgid "If the player is used incorrectly it displays the corresponding errors."
 msgstr "如果播放器使用不当，它会显示相应的错误。"
 
 #: ../web_player.rst:123
+#, fuzzy
 msgid ""
-"the ``load`` attribute specifies a wrong path to the JSON file or the file "
-"is corrupt;"
+"The ``load`` :ref:`attribute <webplayer_attributes>` specifies a wrong "
+"path to the JSON file or the file is corrupt."
 msgstr "在 ``load`` 属性指定一个错误的路径JSON文件或文件已损坏;"
 
 #: ../web_player.rst:131
-msgid "the ``load`` attribute is not found or is void;"
+#, fuzzy
+msgid ""
+"The ``load`` :ref:`attribute <webplayer_attributes>` is not found or is "
+"void."
 msgstr "在 ``load`` 属性未找到或无效的;"
 
 #: ../web_player.rst:139
-msgid "WebGL initialization error."
-msgstr "WebGL的初始化错误。"
+msgid ""
+"WebGL initialization error. Please, look at :ref:`this page "
+"<renderer_not_working>` for the solution."
+msgstr ""
 
 #: ../web_player.rst:1
 msgid "web player"
 msgstr "网络播放器"
+
+#~ msgid "WebGL initialization error."
+#~ msgstr "WebGL的初始化错误。"
+

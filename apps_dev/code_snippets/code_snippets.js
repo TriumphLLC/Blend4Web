@@ -19,19 +19,20 @@ exports.init = function() {
 
 function open_example() {
     var param = m_app.get_url_params();
+    var snippet_name = document.getElementById("snippet_name");
 
     if (param && param["scene"])
         for (var i = 0; i < _scripts.length; i++)
-            if (_scripts[i].dataset.scene == param["scene"]) {
+            if (_scripts[i].dataset["scene"] == param["scene"]) {
                 _curr_index = i;
                 break;
             }
 
-    if (_scripts[_curr_index].dataset.styles) {
+    if (_scripts[_curr_index].dataset["styles"]) {
         var head = document.head;
         var link = document.createElement("link");
 
-        link.id    = _scripts[_curr_index].dataset.scene + ".css";
+        link.id    = _scripts[_curr_index].dataset["scene"] + ".css";
         link.rel   = "stylesheet";
         link.type  = "text/css";
         link.href  = "css/" + link.id;
@@ -40,31 +41,46 @@ function open_example() {
         head.appendChild(link);
     }
 
-    b4w.require(_scripts[_curr_index].dataset.scene).init();
+    snippet_name.value = _scripts[_curr_index].dataset["scene"];
+    b4w.require(_scripts[_curr_index].dataset["scene"]).init();
 }
 
 function init_it() {
     var schedule = document.getElementById("schedule");
+    var clone_panel = document.getElementById("clone_panel");
+    var close_clone = document.getElementById("close_clone");
+    var clone_snippet = document.getElementById("clone_snippet");
+    var top_switcher = document.getElementById("top_switcher");
+    var wrapper = document.getElementById("wrapper");
 
     for (var i = 0; i < _scripts.length; i++) {
-        var container = document.createElement("div");
-
-        container.className = "container";
-
-        var scenes_name = document.createElement("a");
+        var btn = document.createElement("a");
 
         if (i == _curr_index)
-            scenes_name.className = "inv_text";
+            btn.className = "btn active";
         else
-            scenes_name.className = "text";
+            btn.className = "btn";
 
-        scenes_name.textContent = _scripts[i].dataset.name;
-        scenes_name.id = _scripts[i].dataset.scene;
+        btn.textContent = _scripts[i].dataset.name;
+        btn.id = _scripts[i].dataset["scene"];
 
-        container.appendChild(scenes_name);
-        schedule.appendChild(container);
-        scenes_name.href = window.location.href.split("?")[0] + "?scene="+ scenes_name.id;
+        btn.href = window.location.href.split("?")[0] + "?scene=" + btn.id;
+
+        schedule.appendChild(btn);
     }
+
+    clone_snippet.addEventListener("click", function() {
+        clone_panel.classList.toggle("active");
+    })
+
+    close_clone.addEventListener("click", function() {
+        clone_panel.classList.toggle("active");
+    })
+
+    top_switcher.addEventListener("click", function() {
+        this.classList.toggle("active");
+        wrapper.classList.toggle("active");
+    })
 
     var open_script = document.getElementById("open_script");
 
@@ -79,9 +95,6 @@ function init_it() {
         code_panel.style.visibility = "visible";
 
         document.getElementById("code_close").onclick = function(e) {
-            var text_html = document.getElementById("code_text_html");
-            var text_js   = document.getElementById("code_text_js");
-
             code_panel.style.visibility = "hidden";
         }
 
@@ -105,9 +118,9 @@ function init_it() {
                         var raw_html = gen_html_code(script.src);
 
                         var re = new RegExp("get_std_assets_path\\(\\)[\\s\\S]*?\\+[\\s\\S]*?\"code_snippets\\/" 
-                                + script.dataset.scene + "\\/?\"");
-                        response = response.replace(re, "get_assets_path(\"" + script.dataset.scene + "\")");
-                        var raw_js   = response + 'b4w.require("' + script.dataset.scene + '").init();';
+                                + script.dataset["scene"] + "\\/?\"");
+                        response = response.replace(re, "get_assets_path(\"" + script.dataset["scene"] + "\")");
+                        var raw_js   = response + 'b4w.require("' + script.dataset["scene"] + '").init();';
 
                         var highlighted_html = hljs.highlight('html', raw_html).value;
                         var highlighted_js   = hljs.highlight('javascript', raw_js).value;
@@ -153,7 +166,7 @@ function gen_html_code(js) {
     '<html>\n' +
     '    <head>\n' +
     '        <style type="text/css">\n' +
-    '            #canvas_cont {\n' +
+    '            #main_canvas_container {\n' +
     '                position: absolute;\n' +
     '                width: 100%;\n' +
     '                height: 100%;\n' +
@@ -167,7 +180,7 @@ function gen_html_code(js) {
     '    </head>\n' +
     '\n' +
     '    <body>\n' +
-    '        <div id="canvas_cont"></div>\n' +
+    '        <div id="main_canvas_container"></div>\n' +
     '    </body>\n' +
     '\n' +
     '</html>\n' +
@@ -191,7 +204,7 @@ function open_next_scene() {
         return;
 
     window.location.href = window.location.href.split("?")[0]
-                    + "?scene="+ _scripts[_curr_index + 1].dataset.scene + "&autoview=true";
+                    + "?scene="+ _scripts[_curr_index + 1].dataset["scene"] + "&autoview=true";
 }
 
 });

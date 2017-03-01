@@ -1,42 +1,9 @@
-@font-face {
-  font-family: Open Sans Light Italic;
-  src: url(../fonts/Open_Sans/OpenSans-LightItalic.woff);
-}
-
-@font-face {
-  font-family: Open Sans Light;
-  src: url(../fonts/Open_Sans/OpenSans-Light.woff);
-}
-
-@font-face {
-  font-family: Open Sans Semibold;
-  src: url(../fonts/Open_Sans/OpenSans-Semibold.woff);
-}
-
-h1 {
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  margin-bottom: 20px;
-  color: #002350;
-  font-family: "Open Sans Light", sans-serif;
-}
-
 table {
   width: 100%;
-  border-collapse: collapse;
-}
-
-td, th {
-  border: 1px solid rgba(0, 142, 204, .2);
-  vertical-align: middle;
 }
 
 th {
-  font-family: "Open Sans Semibold", sans-serif;
-  font-size: 16px;
   padding: 16px 0;
-  font-weight: normal;
 }
 
 td:first-child {
@@ -55,68 +22,6 @@ td:first-child div {
 
 td:first-child div:hover {
   text-decoration: underline;
-}
-
-a {
-  color: rgb(0, 100, 200);
-  text-decoration: none;
-  cursor: pointer;
-  line-height: 1;
-  font-weight: normal;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-a.btn {
-  font-family: "Open Sans", sans-serif;
-  line-height: 1;
-  padding: 0 10px;
-  border: 1px solid rgba(0, 100, 200, 0.5);
-  border-radius: 5px;
-  display: block;
-  float: left;
-  height: 42px;
-  margin-right: 8px;
-}
-
-a.btn > div {
-  width: 20px;
-  height: 20px;
-  float: left;
-  margin-right: 5px;
-  margin-top: 10px;
-}
-
-a.btn > span {
-  line-height: 40px;
-}
-
-.btns_cont {
-  padding-left: 8px;
-  text-align: center;
-  margin: 20px 0;
-}
-
-.btns_cont > div {
-  display: inline-block;
-}
-
-#back_to_index div {
-  background-size: 20px 20px;
-  background-image: url(../img/back.png);
-}
-
-#help div {
-  background-size: 20px 20px;
-  background-image: url(../img/help.png);
-}
-
-#save_file_as div,
-#save_file div {
-  background-size: 20px 20px;
-  background-image: url(../img/download.png);
 }
 
 .CodeMirror {
@@ -150,21 +55,6 @@ a.btn > span {
   font-weight: bold;
 }
 
-#new_file div {
-  background-size: 20px 20px;
-  background-image: url(../img/new.png);
-}
-
-#create_new_file div {
-  background-size: 20px 20px;
-  background-image: url(../img/new.png);
-}
-
-#close_new_file_box div {
-  background-size: 20px 20px;
-  background-image: url(../img/remove.png);
-}
-
 #new_file_box {
   position: absolute;
   top: 50%;
@@ -173,18 +63,24 @@ a.btn > span {
   height: 200px;
   background-color: #fff;
   display: none;
+  padding: 16px;
   margin-left: -200px;
   margin-top: -100px;
   z-index: 5;
+  padding: 24px 48px;
+  box-shadow: 0 0 20px #000;
 }
 
-#new_file_box h3 {
-  font-family: "Open Sans Semibold", sans-serif;
-  text-align: center;
-  line-height: 16px;
-  font-size: 24px;
-  margin-top: 16px;
-  margin-bottom: 32px;
+#new_file_box h2 {
+  margin-bottom: 16px;
+}
+
+#new_file_box .btn {
+  width: 148px;
+}
+
+#new_file_box .btns_cont {
+  margin: 0;
 }
 
 .input_group {
@@ -204,34 +100,32 @@ a.btn > span {
 }
 
 #new_file_box input {
-  border: 1px solid #c4e7f5;
-  border-radius: 4px;
-  width: 70%;
-  margin: 0 auto;
-  padding: 2px;
-  display: block;
-  height: 32px;
-  margin-bottom: 32px;
+  border: 1px solid rgba(82, 118, 207, 0.2);
+  font-size: 16px;
+  color: #505050;
+  padding: 4px;
+  width: 100%;
+  line-height: 1;
+  outline: 1px solid rgba(82, 118, 207, 0.2);
+  font-family: "Open Sans Light", sans-serif;
 }
 
-div#body_opacity {
+#body_opacity {
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 35, 80, 0.8);
+  background-color: rgba(82, 118, 207, .6);
   display: none;
-  z-index: 4;
   overflow: hidden;
+  z-index: 4;
 }
 
 #file_name_error {
   color: red;
   margin: 0;
   padding: 0;
-  margin-left: 15%;
-  margin-top: -16px;
-  margin-bottom: 16px;
-  height: 16px;
+  height: 32px;
+  line-height: 32px;
 }

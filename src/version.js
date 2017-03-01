@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,18 @@
  */
 "use strict";
 
-if (typeof module == "object" && module.exports) GLOBAL.b4w = {module : {}};
-
 b4w.module["__version"] = function(exports, require) {
 
 var TYPE = "DEBUG";
 var DATE = null;
 var VERSION = null;
+var PREVENT_CACHE = "_b4w_ver_";
 
 exports.version = version;
 function version() {
     if (TYPE == "DEBUG") {
         var d = date();
-        return [parseInt(String(d.getFullYear()).slice(-2)), d.getMonth() + 1];
+        return [parseInt(String(d.getFullYear()).slice(-2), 10), d.getMonth() + 1];
     } else
         return VERSION;
 }
@@ -88,21 +87,21 @@ function date_str() {
     var second = d.getSeconds();
     second = second < 10 ? "0" + String(second) : String(second);
 
-    // UNIX date +%d.%m.%Y\ %H:%M:%S    
+    // UNIX date +%d.%m.%Y\ %H:%M:%S
     var date_str = day + "." + month + "." + year + " " + hour + ":" + 
         minute + ":" + second;
     return date_str;
 }
 
 exports.timestamp = function() {
+    if (TYPE != "DEBUG")
+        return "?v=" + PREVENT_CACHE;
 
     var ts = date_str();
     // remove special symbols
     ts = ts.split(" ").join("").split(":").join("").split(".").join("");
-    ts = "?t=" + ts;
+    ts = "?v=" + ts;
     return ts;
 }
 
 }
-
-if (typeof module == "object" && module.exports) b4w.module["__version"](exports);

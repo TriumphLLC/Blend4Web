@@ -73,7 +73,6 @@ function init_engine() {
         alpha: true,
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,
-        track_container_position: true,
         force_container_ratio: 661 / 316,
         autoresize: true
     });

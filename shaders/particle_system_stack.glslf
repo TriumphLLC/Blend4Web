@@ -159,6 +159,9 @@ GLSL_IN vec4 v_position_world;
 #if USE_TBN_SHADING
 GLSL_IN vec3 v_shade_tang;
 #endif
+
+GLSL_IN vec3 v_normal;
+
 //------------------------------------------------------------------------------
 
 GLSL_OUT vec4 GLSL_OUT_FRAG_COLOR;
@@ -219,7 +222,7 @@ void main(void) {
     
     vec3 E = u_emit * diffuse_color.rgb;
 
-    vec3 normal = vec3(0.0, 0.0, 1.0);
+    vec3 normal = normalize(v_normal);
 
 #   if USE_ENVIRONMENT_LIGHT && !SKY_TEXTURE && SKY_COLOR
         vec3 environment_color = u_environment_energy * get_environment_color(vec3(0.0));
@@ -237,7 +240,7 @@ void main(void) {
     vec3 specular;
     nodes_lighting(E, A, D, S, v_pos_world, normal, eye_dir, spec_params, 
             u_diffuse_params, vec4(1.0), 0.0, vec4(0.0), color, specular);
-        
+
 #  else // !PARTICLES_SHADELESS
         vec3 color = diffuse_color.rgb;
 #  endif // !PARTICLES_SHADELESS

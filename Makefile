@@ -60,9 +60,9 @@ verify_shaders:
 .PHONY: compile_b4w
 compile_b4w:
 	@echo "Compiling b4w javascript"
-	@$(SH) ./scripts/compile_b4w.py -o whitespace
-	@$(SH) ./scripts/compile_b4w.py -o simple
-	@$(SH) ./scripts/compile_b4w.py -o advanced
+	@$(SH) ./scripts/compile_b4w.py -o whitespace -b -w
+	@$(SH) ./scripts/compile_b4w.py -o simple -b -w
+	@$(SH) ./scripts/compile_b4w.py -o advanced -b -w
 
 
 .PHONY: build_projects $(PROJECTS)
@@ -70,7 +70,7 @@ compile_b4w:
 build_projects: $(PROJECTS)
 
 $(PROJECTS):
-	-@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/$@ build -v $(VERSION)
+	-@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/$@ build -v $(VERSION) -w
 
 
 .PHONY: convert_resources
@@ -152,9 +152,6 @@ $(DISTS_SDK_FORCE):
 
 resave:
 	@$(SH) ./$(SCRIPTSDIR)/process_blend.py -jh resave
-
-asan:
-	@$(SH) ./$(SCRIPTSDIR)/asan.py
 
 deploy_website:
 	@$(SH) ./$(APPDIR)/project.py -p $(APPDIR)/website deploy

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,9 +32,8 @@ var _vec3_tmp = new Float32Array(3);
 
 /**
  * Plane represented as vec3 normal and distance to the origin.
- * @typedef Plane
- * @type {Float32Array(4)}
-*/
+ * @typedef {Float32Array(4)} Plane
+ */
 
 /**
  * Get the parametric line.
@@ -63,7 +62,7 @@ exports.create_pline_from_points = function(point1, point2) {
  */
 exports.create_pline_from_point_vec = function(point, vec) {
     var dest = new Float32Array(6);
-    m_math.set_pline_initial_point(dest, point1);
+    m_math.set_pline_initial_point(dest, point);
     m_math.set_pline_directional_vec(dest, vec);
 
     return dest;
@@ -113,17 +112,18 @@ exports.set_pline_directional_vec = m_math.set_pline_directional_vec;
  * @see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
  * Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane
  * @param {Vec3} pn Plane normal.
- * @param {Number} p_dist Plane signed distance from the origin.
+ * @param {number} p_dist Plane signed distance from the origin.
  * @param {ParametricLine} pline Parametric line.
  * @param {Vec3} dest Destination vector.
  * @returns {?Vec3} Intersection point or null if the line is parallel to the plane.
  */
 exports.line_plane_intersect = m_util.line_plane_intersect
 /**
- * Calculate parametric line point.
+ * Get the coordinates of a certain point on the given parametric line.
  * @method module:math.calc_pline_point
  * @param {ParametricLine} pline Parametric line.
- * @param {Number} t Parameter (distance from initial point).
+ * @param {number} t Parameter - distance from the line initial point to a certain point.
+ * @param {?Vec3} [dest=new Float32Array(3);] Destination point.
  * @returns {?Vec3} Destination point.
  */
 exports.calc_pline_point = m_math.calc_pline_point;
@@ -132,7 +132,7 @@ exports.calc_pline_point = m_math.calc_pline_point;
  * @method module:math.point_plane_dist
  * @param {Vec3} point Point.
  * @param {Plane} plane Plane.
- * @returns {Number} Distance.
+ * @returns {number} Distance.
  */
 exports.point_plane_dist = m_math.point_plane_dist;
 }

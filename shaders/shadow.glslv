@@ -172,7 +172,7 @@ const mat3 u_model_tsr = mat3(0.0, 0.0, 0.0,
                               0.0, 0.0, 0.0, 1.0,
                               0.0);
 #else
-uniform mat3 u_model_tsr;
+uniform PRECISION mat3 u_model_tsr;
 #endif
 
 #if SMAA_JITTER
@@ -219,7 +219,7 @@ uniform float u_jitter_amp;
 uniform float u_jitter_freq;
 #endif
 uniform vec3 u_wind;
-uniform float u_time;
+uniform PRECISION float u_time;
 #endif
 
 #if VERTEX_ANIM
@@ -377,11 +377,11 @@ void main(void) {
     model_tsr = bend_jitter_rotate_tsr(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, wcen, model_tsr);
 #  endif
-    vertex world = to_world(position - center, center, vec3(0.0), shade_tangent,
-            vec3(0.0), normal, model_tsr);
+    vertex world = to_world(position - center, center, tangent, shade_tangent,
+            binormal, normal, model_tsr);
     world.center = wcen;
 # else
-    vertex world = to_world(position, center, vec3(0.0), shade_tangent, vec3(0.0),
+    vertex world = to_world(position, center, tangent, shade_tangent, binormal,
             normal, model_tsr);
 # endif
 #endif

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,8 +33,8 @@ var m_util   = require("__util");
  * Extract the vertex array from the object.
  * @method module:geometry.extract_vertex_array
  * @param {Object3D} obj Object 3D
- * @param {String} mat_name Material name
- * @param {String} attrib_name Attribute name (a_position, a_tbn_quat)
+ * @param {string} mat_name Material name
+ * @param {string} attrib_name Attribute name (a_position, a_tbn_quat)
  * @returns {Float32Array|Int16Array|Uint8Array} Vertex array
  */
 exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
@@ -64,7 +64,7 @@ exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
  * Extract the array of triangulated face indices from the given object.
  * @method module:geometry.extract_index_array
  * @param {Object3D} obj Object 3D
- * @param {String} mat_name Material name
+ * @param {string} mat_name Material name
  * @returns {Uint16Array|Uint32Array} Array of triangle indices
  */
 exports.extract_index_array = function(obj, mat_name) {
@@ -94,8 +94,8 @@ exports.extract_index_array = function(obj, mat_name) {
  * Update the vertex array for the given object.
  * @method module:geometry.update_vertex_array
  * @param {Object3D} obj Object 3D
- * @param {String} mat_name Material name
- * @param {String} attrib_name Attribute name (a_position, a_tbn_quat)
+ * @param {string} mat_name Material name
+ * @param {string} attrib_name Attribute name (a_position, a_tbn_quat)
  * @param {Float32Array|Int16Array|Uint8Array} array The new array
  */
 exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
@@ -133,10 +133,10 @@ exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
  * Override geometry for the given object.
  * @method module:geometry.override_geometry
  * @param {Object3D} obj Object 3D
- * @param {String} mat_name Material name
+ * @param {string} mat_name Material name
  * @param {Uint16Array|Uint32Array} ibo_array Array of triangle indices
  * @param {Float32Array} positions_array New vertex positions array
- * @param {Boolean} smooth_normals Enable normals smoothing
+ * @param {boolean} smooth_normals Enable normals smoothing
  */
 exports.override_geometry = function(obj, mat_name, ibo_array,
                                         positions_array, smooth_normals) {
@@ -158,8 +158,8 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
 
     var types = ["MAIN", "SHADOW", "COLOR_ID"];
     for (var i = 0; i < types.length; i++) {
-        var type = types[i];
-        var batch = m_batch.find_batch_material(obj, mat_name, type);
+        var batch_type = types[i];
+        var batch = m_batch.find_batch_material(obj, mat_name, batch_type);
 
         if (batch) {
             var bufs_data = batch.bufs_data;
@@ -249,11 +249,20 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
     }
 }
 /**
- * Apply shape key to the object.
+ * Apply shape key to the object. If the object is supposed to be available for 
+ * selecting (for example, via the {@link module:scenes.pick_object|pick_object} 
+ * method) call the {@link module:objects.update_boundings|update_boundings} method 
+ * after applying a shape key or override object bounding volumes in Blender 
+ * beforehand so that the boundings can contain the object in its largest shape.
  * @method module:geometry.set_shape_key_value
  * @param {Object3D} obj Object 3D
- * @param {String} key_name Shape key name
- * @param {Number} value Shape key value
+ * @param {string} key_name Shape key name
+ * @param {number} value Shape key value
+ * @example var m_geom = require("geometry");
+ * var m_scenes = require("scenes");
+ *
+ * var cube = m_scenes.get_object_by_name("Cube");
+ * m_geom.set_shape_key_value(cube, "Key 1", 0.5);
  */
 exports.set_shape_key_value = function(obj, key_name, value) {
     if (!m_geom.check_shape_keys(obj)) {
@@ -274,7 +283,7 @@ exports.set_shape_key_value = function(obj, key_name, value) {
  * Check if object has got shape keys.
  * @method module:geometry.check_shape_keys
  * @param {Object3D} obj Object 3D
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.check_shape_keys = function(obj) {
     return m_geom.check_shape_keys(obj);
@@ -283,13 +292,13 @@ exports.check_shape_keys = function(obj) {
  * Return all available shape keys names.
  * @method module:geometry.get_shape_keys_names
  * @param {Object3D} obj Object 3D
- * @returns {String[]} Array of animation names
+ * @returns {string[]} Array of animation names
  */
 exports.get_shape_keys_names = function(obj) {
 
     if (!m_geom.check_shape_keys(obj)) {
         m_print.error("Wrong object:", obj.name);
-        return null;
+        return [];
     }
 
     return m_geom.get_shape_keys_names(obj);
@@ -298,19 +307,19 @@ exports.get_shape_keys_names = function(obj) {
  * Return shape key current value.
  * @method module:geometry.get_shape_key_value
  * @param {Object3D} obj Object 3D
- * @param {String} key_name Shape key name
- * @returns {Number} value Shape key value
+ * @param {string} key_name Shape key name
+ * @returns {number} value Shape key value
  */
 exports.get_shape_key_value = function(obj, key_name) {
 
     if (!m_geom.check_shape_keys(obj)) {
         m_print.error("Wrong object:", obj.name);
-        return null;
+        return 0;
     }
 
     if (!m_geom.has_shape_key(obj, key_name)) {
         m_print.error("Wrong key name:", key_name);
-        return null;
+        return 0;
     }
 
     return m_geom.get_shape_key_value(obj, key_name);
@@ -322,7 +331,7 @@ exports.get_shape_key_value = function(obj, key_name) {
  * @param {Object3D} obj Line object
  * @param {Float32Array} positions Line points [X0,Y0,Z0,X1,Y1,Z1...] in the 
  * local space of the given line object.
- * @param {Boolean} [is_split=false] True - draw a splitted line
+ * @param {boolean} [is_split=false] True - draw a splitted line
  * (points specified in pairs), false - draw continuous line
  * @example 
  * var m_geom = require("geometry");

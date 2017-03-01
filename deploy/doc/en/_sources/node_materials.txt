@@ -339,12 +339,6 @@ Output Parameters
     It’s necessary to set the ``Refractions`` option from the ``Render > Reflections and Refractions`` panel to value ``AUTO`` or ``ON``. The object’s transparency type must be set to ``Alpha Blend``.
 .. seealso:: :ref:`alpha_blend`
 
-Output Parameters
-.................
-
-*Color*
-    Output color.
-
 .. _node_replace:
 
 Replace (B4W_REPLACE)
@@ -523,13 +517,17 @@ Cycles Nodes
 .. note::
     Cycles node support is an experimental feature that is not yet recommended for using in production enviroment.
 
+    It should also be noted that using Cycles nodes in Blend4Web will produce images similar, but not identical to the ones created using Cycles renderer itself.
+
 The engine support the following ``Cycles`` nodes:
 
-* ``Material Output`` (only ``Surface`` input is supported);
+* ``Material Output`` (only ``Surface`` and ``Displacement`` inputs are supported);
 
 * ``BSDF Diffuse``;
 
 * ``BSDF Glossy`` (only ``GGX`` distribution is supported; the ``Roughness`` parameter does not influence the reflections);
+
+* ``Transparent BSDF``;
 
 * ``Mix Shader``;
 

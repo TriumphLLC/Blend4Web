@@ -58,6 +58,7 @@ var m_sfx      = require("__sfx");
 var m_shaders  = require("__shaders");
 var m_subs     = require("__subscene");
 var m_textures = require("__textures");
+var m_tsr      = require("__tsr");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
 
@@ -72,8 +73,7 @@ var _test_result = true;
 var _vec2_tmp = new Float32Array(2);
 /**
  * Debug view mode.
- * @typedef DebugViewMode
- * @type {Number}
+ * @typedef {number} DebugViewMode
  */
 
  /**
@@ -84,7 +84,7 @@ var _vec2_tmp = new Float32Array(2);
 /**
  * Loading stage callback.
  * @callback StageloadCallback
- * @param {Number} percentage Loading progress (0-100).
+ * @param {number} percentage Loading progress (0-100).
  */
 
 /**
@@ -167,7 +167,7 @@ exports.physics_stats = function() {
 /**
  * Print object info by physics ID.
  * @method module:debug.physics_id
- * @param {Number} id Physics ID
+ * @param {number} id Physics ID
  */
 exports.physics_id = function(id) {
     m_print.log("O", m_phy.find_obj_by_body_id(id))
@@ -198,7 +198,7 @@ exports.visible_objects = function() {
 
     for (var i = 0; i &lt; main_subscenes.length; i++) {
         var subs_main = main_subscenes[i];
-        var draw_data = subs.draw_data;
+        var draw_data = subs_main.draw_data;
 
         if (!draw_data.length)
             continue;
@@ -264,7 +264,7 @@ exports.visible_objects = function() {
 /**
  * Print debug info for the object with the given name
  * @method module:debug.object_info
- * @param {String} name Object name
+ * @param {string} name Object name
  */
 exports.object_info = function(name) {
     var scene = m_scenes.get_active();
@@ -326,7 +326,7 @@ exports.objects_stat = function() {
 /**
  * Return the number of vertices in the active scene.
  * @method module:debug.num_vertices
- * @returns {Number} The number of vertices.
+ * @returns {number} The number of vertices.
  */
 exports.num_vertices = function() {
 
@@ -365,7 +365,7 @@ exports.num_vertices = function() {
 /**
  * Return the number of all triangles in the active scene.
  * @method module:debug.num_triangles
- * @returns {Number} The number of all triangles.
+ * @returns {number} The number of all triangles.
  */
 exports.num_triangles = function() {
 
@@ -404,7 +404,7 @@ exports.num_triangles = function() {
 /**
  * Return the number of batches in the main scenes.
  * @method module:debug.num_draw_calls
- * @returns {Number} The number of batches.
+ * @returns {number} The number of batches.
  */
 exports.num_draw_calls = function() {
 
@@ -439,7 +439,7 @@ exports.num_draw_calls = function() {
 /**
  * Return the number of compiled shaders.
  * @method module:debug.num_shaders
- * @returns {Number} The number of compiled shaders.
+ * @returns {number} The number of compiled shaders.
  */
 exports.num_shaders = function() {
     var compiled_shaders = m_shaders.get_compiled_shaders();
@@ -580,9 +580,6 @@ exports.num_render_targets = function() {
             continue;
 
         var cam = subs.camera;
-        var c_at = cam.color_attachment;
-        var d_at = cam.depth_attachment;
-
         var subs_textures = [cam.color_attachment, cam.depth_attachment];
         subs_textures.push.apply(subs_textures, subs.textures_internal);
 
@@ -681,7 +678,8 @@ exports.controls_info = m_ctl.debug;
  * @method module:debug.object_distance
  * @param {Object3D} obj The first object.
  * @param {Object3D} obj2 The second object.
- * @returns {Number} Distance.
+ * @returns {number} Distance.
+ * @deprecated use {@link module:transform.distance|transform.distance} instead.
  */
 exports.object_distance = function(obj, obj2) {
     var trans = m_tsr.get_trans_view(obj.render.world_tsr);
@@ -718,7 +716,7 @@ exports.plot_telemetry = m_debug.plot_telemetry;
  * Store the callback function result as a flashback message.
  * @method module:debug.fbres
  * @param {Function} fun fun
- * @param {Number} timeout timeout
+ * @param {number} timeout timeout
  */
 exports.fbres = function(fun, timeout) {
     if (!timeout)
@@ -798,9 +796,15 @@ exports.check_finite = function(o) {
  */
 exports.set_debug_params = function(params) {
     var active_scene = m_scenes.get_active();
-    var subs_debug_view = m_scenes.get_subs(active_scene, m_subs.DEBUG_VIEW);
+    var subs_debug_views = m_scenes.subs_array(active_scene, [m_subs.DEBUG_VIEW]);
 
-    if (subs_debug_view) {
+    if (!subs_debug_views.length) {
+        m_print.error("Debugging is not available on the scene.");
+        return;
+    }
+
+    for (var i = 0; i &lt; subs_debug_views.length; i++) {
+        var subs_debug_view = subs_debug_views[i];
         if (typeof params.debug_view_mode == "number") {
             switch (params.debug_view_mode) {
             case m_debug.DV_NONE:
@@ -825,8 +829,7 @@ exports.set_debug_params = function(params) {
         if (typeof params.wireframe_edge_color == "object")
             m_scenes.set_wireframe_edge_color(subs_debug_view,
                     m_util.f32(params.wireframe_edge_color));
-    } else
-        m_print.error("Debugging is not available on the scene.");
+    }
 }
 
 exports.get_error_quantity = function() {
@@ -844,7 +847,7 @@ exports.clear_errors_warnings = function() {
 /**
  * Print shaders' statistics.
  * @method module:debug.analyze_shaders
- * @param {String} [opt_shader_id_part=""] Shader ID (filename) part.
+ * @param {string} [opt_shader_id_part=""] Shader ID (filename) part.
  */
 exports.analyze_shaders = function(opt_shader_id_part) {
 
@@ -894,9 +897,9 @@ exports.analyze_shaders = function(opt_shader_id_part) {
  * Return stage callback without loading data.
  * @method module:debug.fake_load
  * @param {StageloadCallback} stageload_cb Callback to report about the loading progress
- * @param {Number} [interval=5000] Loading interval
- * @param {Number} [start=0] Start percentage
- * @param {Number} [end=5000] End percentage
+ * @param {number} [interval=5000] Loading interval
+ * @param {number} [start=0] Start percentage
+ * @param {number} [end=5000] End percentage
  * @param {LoadedCallback} [loaded_cb=null] Callback to be executed right after load
  */
 exports.fake_load = m_debug.fake_load;
@@ -1220,7 +1223,7 @@ exports.check_debug_result = function() {
 /**
  * Test code.
  * @method module:debug.test
- * @param {String} test_name Test name
+ * @param {string} test_name Test name
  * @param {CodeTestCallback} callback Callback
  */
 exports.test = function(test_name, callback) {
@@ -1275,7 +1278,7 @@ function eqv(result, exp_result, eps) {
         throw "Wrong expected data type.";
     if (result.length != exp_result.length)
         throw "Wrong expected vector length.";
-    var eps = eps ? eps : EPS;
+    eps = eps ? eps : EPS;
     for (var i = 0; i &lt; result.length; i++)
         if (exp_result[i] > result[i] + eps || exp_result[i] &lt; result[i] - eps)
             throw "Wrong result.";
@@ -1284,7 +1287,7 @@ function eqv(result, exp_result, eps) {
 exports.eqf = function(result, exp_result, eps) {
     if (typeof exp_result != "number")
         throw "Wrong expected data type.";
-    var eps = eps ? eps : EPS;
+    eps = eps ? eps : EPS;
     if (exp_result > result + eps || exp_result &lt; result - eps)
         throw "Wrong result.";
 }
@@ -1317,13 +1320,13 @@ exports.ok = function(exp) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Feb 28 2017 15:47:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

@@ -12,19 +12,19 @@ void srgb_to_lin(inout float color)
 #if SRGB == SRGB_SIMPLE
     color = pow(color, 2.2);
 #elif SRGB == SRGB_PROPER
-    if (color <= 0.04045)
+    if (color < 0.04045)
         color = color / 12.92;
     else
-        color = pow(color + 0.055/1.055, 2.4);
+        color = pow(color * (1.0 / 1.055) + 0.0521327, 2.4);
 #endif
 }
 
 void lin_to_srgb(inout float color)
 {
 #if SRGB == SRGB_SIMPLE
-    color = pow(color, 2.2);
+    color = pow(color, 1.0 / 2.2);
 #elif SRGB == SRGB_PROPER
-    if (color <= 0.00031308)
+    if (color < 0.0031308)
         color = color * 12.92;
     else
         color = 1.055*pow(color, 1.0 / 2.4) - 0.055;

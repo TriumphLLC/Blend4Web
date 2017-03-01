@@ -15,7 +15,16 @@ body {
 
 a {
   background-color: transparent;
+  color: #5276cf;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1;
   -webkit-text-decoration-skip: objects;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 a:active,
@@ -60,4 +69,78 @@ textarea {
   clear: both;
   display: table;
   content: " ";
+}
+
+@font-face {
+  font-family: Open Sans Light Italic;
+  src: url(../fonts/Open_Sans/OpenSans-LightItalic.woff);
+}
+
+@font-face {
+  font-family: Open Sans Light;
+  src: url(../fonts/Open_Sans/OpenSans-Light.woff);
+}
+
+@font-face {
+  font-family: Open Sans Semibold;
+  src: url(../fonts/Open_Sans/OpenSans-Semibold.woff);
+}
+
+@font-face {
+  font-family: Open Sans;
+  src: url(../fonts/Open_Sans/OpenSans-Regular.woff);
+}
+
+h1 {
+  font-family: "Open Sans Semibold", sans-serif;
+  text-align: center;
+  color: #626262;
+  font-size: 28px;
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+h2 {
+  font-family: "Open Sans Semibold", sans-serif;
+  font-weight: normal;
+  color: #626262;
+  font-size: 18px;
+  margin: 0;
+}
+
+h3 {
+  font-family: "Open Sans Semibold", sans-serif;
+  font-weight: normal;
+  color: #626262;
+  font-size: 16px;
+  margin: 0;
+}
+
+p {
+  font-size: 16px;
+  color: #505050;
+  font-family: "Open Sans Light", sans-serif;
+  font-weight: normal;
+}
+
+th {
+  color: #626262;
+  font-size: 16px;
+  font-family: "Open Sans Semibold", sans-serif;
+  border: 1px solid rgba(82, 118, 207, .1);
+}
+
+td {
+  color: #505050;
+  font-size: 16px;
+  font-family: "Open Sans Light", sans-serif;
+  border: 1px solid rgba(82, 118, 207, .1);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgba(82, 118, 207, .04);
 }

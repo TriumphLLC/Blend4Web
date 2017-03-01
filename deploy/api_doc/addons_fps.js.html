@@ -43,8 +43,8 @@ b4w.module["fps"] = function(exports, require) {
 /**
  * Function which is called when the given ID state is changed.
  * @callback ChangeStateCallback
- * @param {Number} old_state_id Previous state ID.
- * @param {Number} new_state_id New state ID.
+ * @param {number} old_state_id Previous state ID.
+ * @param {number} new_state_id New state ID.
  */
 
 /**
@@ -56,8 +56,16 @@ b4w.module["fps"] = function(exports, require) {
 /**
  * Function which is called when character changes his movement direction.
  * @callback CharMotionCallback
- * @param {Number} forw_back Forward/backward direction (can be -1, 1 or 0).
- * @param {Number} right_left Right/left direction (can be -1, 1 or 0).
+ * @param {number} forw_back Forward/backward direction (can be -1, 1 or 0).
+ * @param {number} right_left Right/left direction (can be -1, 1 or 0).
+ */
+
+/**
+ * Callback for characters/camera rotation
+ * @callback CharRotationCallback
+ * @param {Object3D} character Character
+ * @param {number} x rotation around X-axis in radians
+ * @param {number} y rotation around Y-axis in radians
  */
 
 var m_cam   = require("camera");
@@ -68,6 +76,7 @@ var m_util  = require("util");
 var m_main  = require("main");
 var m_cont  = require("container");
 var m_input = require("input");
+var m_screen = require("screen");
 var m_trans = require("transform");
 var m_const = require("constraints");
 var m_vec3  = require("vec3");
@@ -84,6 +93,12 @@ var CS_RUN = 2;
 var CS_FLY = 3;
 var CS_CLIMB = 4;
 
+var CD_NONE = 0;
+var CD_FORWARD = 1;
+var CD_BACKWARD = 2;
+var CD_RIGHT = 3;
+var CD_LEFT = 4;
+
 var MOBILE_FORWARD_BTN_ID = "B4W_DEFAULT_BTN_1";
 var MOBILE_BACKWARD_BTN_ID = "B4W_DEFAULT_BTN_2";
 
@@ -92,7 +107,6 @@ var FORWARD_SVG = 'url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmN
 var DRAG_TOUCH_DELTA_MULT = 4;
 var DRAG_MOUSE_DELTA_MULT = 2;
 var CAM_SMOOTH_CHARACTER_COEFF = 0.2
-var STEP = 1.0;
 var AXIS_THRESHOLD = 0.05;
 var ROT_STEP = 2.5;
 var MIN_VERT_ANG = (-Math.PI + 0.1) / 2;
@@ -111,19 +125,19 @@ var _plock_cb = {
     enable_cb  : null,
     disable_cb : null
 };
+var _rotation_cb = function() {};
+var _curr_gamepad_id = 0;
+var _state_counter = 4;
 
 var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
-var _vec3_tmp3 = new Float32Array(3);
 
 function default_rotation_cb(character, rot_x, rot_y) {
     var camera = m_scs.get_active_camera();
     m_cam.eye_rotate(camera, rot_x, rot_y);
-    if (character) {
-        var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
-        m_phy.set_character_rotation(character, angles[0], angles[1]);
-    }
+    var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
+    m_phy.set_character_rotation(character, angles[0], angles[1]);
 }
 
 function smooth_cb(obj, id, pulse, rot_callback) {
@@ -153,7 +167,7 @@ function smooth_coeff() {
 
 function create_mobile_controls(character, parent_elem) {
     var forward_btn = document.createElement("div");
-    var go_forward = 0;
+
     forward_btn.style.cssText =
         "position: absolute;" +
         "left: 10px;" +
@@ -201,7 +215,7 @@ function rotate_cam_by_axis(obj, camobj, id, elapsed) {
     m_phy.set_character_rotation(obj, cam_angls[0] + hor_ang + Math.PI, 0);
 }
 
-function enable_default_rotation(elem, character) {
+function enable_rotation(elem, character) {
     if (check_pointerlock(elem) &amp;&amp; !m_main.detect_mobile()) {
  
         var plock_mouse_sen = m_ctl.create_plock_mouse_sensor(elem);
@@ -215,7 +229,7 @@ function enable_default_rotation(elem, character) {
         var fps_plock_sensors_cb = function(obj, id, pulse) {
             if (pulse > 0) {
                 var payload = m_ctl.get_sensor_payload(obj, id, 0);
-                default_rotation_cb(obj, -payload.coords[0] * _fps_camera_mult,
+                _rotation_cb(obj, -payload.coords[0] * _fps_camera_mult,
                         -payload.coords[1] * _fps_camera_mult);
             }
         }
@@ -306,16 +320,18 @@ function enable_default_rotation(elem, character) {
         var elapsed = m_ctl.create_elapsed_sensor();
 
         m_ctl.create_sensor_manifold(character, "FPS_SMOOTH_DRAG", m_ctl.CT_CONTINUOUS,
-            [elapsed], null, smooth_cb, default_rotation_cb);
+            [elapsed], null, smooth_cb, _rotation_cb);
     }
 }
 
-function set_characters_camera(character) {
+function set_characters_camera(character, lock_camera) {
     var cam_obj = m_scs.get_active_camera();
-    var cam_trans = m_trans.get_translation(cam_obj, _vec3_tmp);
-    var char_trans = m_trans.get_translation(character, _vec3_tmp2);
-    m_vec3.subtract(cam_trans, char_trans, cam_trans);
-    m_const.append_stiff_trans(cam_obj, character, cam_trans);
+    if (lock_camera) {
+        var cam_trans = m_trans.get_translation(cam_obj, _vec3_tmp);
+        var char_trans = m_trans.get_translation(character, _vec3_tmp2);
+        m_vec3.subtract(cam_trans, char_trans, cam_trans);
+        m_const.append_stiff_trans(cam_obj, character, cam_trans);
+    }
     var angles = m_cam.get_camera_angles_char(cam_obj, _vec2_tmp);
     m_phy.set_character_rotation(character, angles[0], angles[1]);
 }
@@ -324,17 +340,13 @@ function register_hmd(elem) {
     // camera rotation is enabled with HMD
     m_hmd.enable_hmd(m_hmd.HMD_ALL_AXES_MOUSE_NONE);
 
-    elem.addEventListener("mousedown", function(e) {
-        m_input.request_fullscreen_hmd();
-    }, false);
+    m_input.add_click_listener(elem, m_screen.request_fullscreen_hmd);
 }
 
 function create_character_vr_rotate_sensor(character) {
 
     var e_s = m_ctl.create_elapsed_sensor();
     var camobj = m_scs.get_active_camera();
-
-    var logic_func = function(s) {return true};
 
     var sensor_cb = function(obj, id, pulse) {
         var hor_angle = m_cam.get_camera_angles_char(camobj, _vec2_tmp)[0];
@@ -348,7 +360,7 @@ function check_vr_support() {
     var support = m_hmd.check_browser_support() &amp;&amp; !m_main.detect_mobile();
     var device = m_input.get_device_by_type_element(m_input.DEVICE_HMD);
     if (device)
-        support = support &amp;&amp; m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) ==
+        support = support &amp;&amp; m_input.get_value_param(device, m_input.HMD_WEBVR_TYPE) &amp;
                         m_input.HMD_WEBVR1;
     return support;
 }
@@ -358,11 +370,11 @@ function enable_camera_rotation(elem, character) {
         register_hmd(elem);
         create_character_vr_rotate_sensor(character);
     } else {
-        enable_default_rotation(elem, character);
+        enable_rotation(elem, character);
     }
 }
 
-function enable_movements(elem, character, motion_cb) {
+function enable_movements(elem, character, motion_cb, settings) {
     if (m_main.detect_mobile()) {
         var parent_elem = elem.parentElement ? elem.parentElement : elem;
         create_mobile_controls(character, parent_elem);
@@ -374,16 +386,24 @@ function enable_movements(elem, character, motion_cb) {
         forw: 0,
         back: 0
     }
+    var movestyle = -1;
+
+    var move_dir_cd = settings.move_dir_cd;
 
     var set_char_state = function(for_back, right_left) {
         var curr_state = get_state_machine_state(sm).id;
         if (!for_back &amp;&amp; !right_left)
             state_machine_switch_state(sm, CS_STAY);
-        else if (curr_state == CS_STAY)
-            state_machine_switch_state(sm, CS_WALK);
+        else if (curr_state == CS_STAY) {
+            if (movestyle > 0)
+                state_machine_switch_state(sm, CS_RUN);
+            else
+                state_machine_switch_state(sm, CS_WALK);
+        }
     }
 
     var move_forward_cb = function(value) {
+        var for_back_pr = move_state.forw + move_state.back;
         move_state.forw = value;
         var for_back = move_state.forw + move_state.back;
         var right_left = move_state.left + move_state.right;
@@ -391,10 +411,13 @@ function enable_movements(elem, character, motion_cb) {
         if (motion_cb)
             motion_cb(for_back, right_left);
         set_char_state(for_back, right_left);
+        if (move_dir_cd &amp;&amp; for_back_pr != for_back)
+            move_dir_cd(for_back, right_left);
     }
     var move_backward_cb = function(value) {
         value = value > 0.0 ? 1.0 : value;
         value = value &lt; 0.0 ? -1.0 : value;
+        var for_back_pr = move_state.forw + move_state.back;
         move_state.back = -value;
         var for_back = move_state.forw + move_state.back;
         var right_left = move_state.left + move_state.right;
@@ -402,10 +425,13 @@ function enable_movements(elem, character, motion_cb) {
         if (motion_cb)
             motion_cb(for_back, right_left);
         set_char_state(for_back, right_left);
+        if (move_dir_cd &amp;&amp; for_back_pr != for_back)
+            move_dir_cd(for_back, right_left);
     }
     var move_right_cb = function(value) {
         value = value > 0.0 ? 1.0 : value;
         value = value &lt; 0.0 ? -1.0 : value;
+        var right_left_pr = move_state.left + move_state.right;
         move_state.right = -value;
         var for_back = move_state.forw + move_state.back;
         var right_left = move_state.left + move_state.right;
@@ -413,8 +439,11 @@ function enable_movements(elem, character, motion_cb) {
         if (motion_cb)
             motion_cb(for_back, right_left);
         set_char_state(for_back, right_left);
+        if (move_dir_cd &amp;&amp; right_left_pr != right_left)
+            move_dir_cd(for_back, right_left);
     }
     var move_left_cb = function(value) {
+        var right_left_pr = move_state.left + move_state.right;
         move_state.left = value;
         var for_back = move_state.forw + move_state.back;
         var right_left = move_state.left + move_state.right;
@@ -422,6 +451,8 @@ function enable_movements(elem, character, motion_cb) {
         if (motion_cb)
             motion_cb(for_back, right_left);
         set_char_state(for_back, right_left);
+        if (move_dir_cd &amp;&amp; right_left_pr != right_left)
+            move_dir_cd(for_back, right_left);
     }
 
     var jump_cb = function(value) {
@@ -429,12 +460,16 @@ function enable_movements(elem, character, motion_cb) {
             m_phy.character_jump(character);
     }
     var change_movestyle = function(value) {
+        movestyle = value;
         if (move_state.forw + move_state.back +
                 move_state.left + move_state.right) {
             if (value > 0.0)
                 state_machine_switch_state(sm, CS_RUN);
             else
                 state_machine_switch_state(sm, CS_WALK);
+            if (move_dir_cd)
+                move_dir_cd(move_state.forw + move_state.back,
+                        move_state.left + move_state.right);
         } else
             state_machine_switch_state(sm, CS_STAY);
     }
@@ -448,31 +483,36 @@ function enable_movements(elem, character, motion_cb) {
                 state_machine_switch_state(sm, CS_WALK);
         }
     }
-    var forward_sensors_array = [m_ctl.KEY_W, m_input.GMPD_BUTTON_12];
-    var backward_sensors_array = [m_ctl.KEY_S, m_input.GMPD_BUTTON_13];
-    if (m_main.detect_mobile()) {
-        forward_sensors_array.push(MOBILE_FORWARD_BTN_ID);
-        backward_sensors_array.push(MOBILE_BACKWARD_BTN_ID);
-    }
-    bind_action(AT_PRESSED, forward_sensors_array, move_forward_cb);
-    bind_action(AT_PRESSED, backward_sensors_array, move_backward_cb);
-    bind_action(AT_PRESSED, [m_ctl.KEY_D, m_input.GMPD_BUTTON_15], move_right_cb);
-    bind_action(AT_PRESSED, [m_ctl.KEY_A, m_input.GMPD_BUTTON_14], move_left_cb);
-    bind_action(AT_PRESSED, [m_ctl.KEY_SPACE, m_input.GMPD_BUTTON_1], jump_cb);
+    var forward_sens_arr = settings.forward_sens_arr;
+    var backward_sens_arr = settings.backward_sens_arr;
+    var right_sens_arr = settings.right_sens_arr;
+    var left_sens_arr = settings.left_sens_arr;
+    var jump_sens_arr = settings.jump_sens_arr;
+    var run_sens_arr = settings.run_sens_arr;
+    var fly_sens_arr = settings.fly_sens_arr;
+
+    bind_action(AT_PRESSED, forward_sens_arr, move_forward_cb);
+    bind_action(AT_PRESSED, backward_sens_arr, move_backward_cb);
+    bind_action(AT_PRESSED, right_sens_arr, move_right_cb);
+    bind_action(AT_PRESSED, left_sens_arr, move_left_cb);
+    bind_action(AT_PRESSED, jump_sens_arr, jump_cb);
 
     bind_action(AT_CONTINUOUS, [m_input.GMPD_AXIS_0], move_right_cb);
     bind_action(AT_CONTINUOUS, [m_input.GMPD_AXIS_1], move_backward_cb);
 
-    bind_action(AT_PRESSED, [m_ctl.KEY_SHIFT, m_input.GMPD_BUTTON_7], change_movestyle);
-    bind_action(AT_PRESSED, [m_ctl.KEY_C], change_flystyle);
+    bind_action(AT_PRESSED, run_sens_arr, change_movestyle);
+    bind_action(AT_PRESSED, fly_sens_arr, change_flystyle);
 }
 
-function create_state_machine() {
-    return {
-        nodes: [],
-        current_node: null,
-        lock: false
-    }
+function get_state_machine() {
+    if (!_character_sm)
+        _character_sm = {
+            nodes: [],
+            current_node: null,
+            lock: false,
+            last_state: null
+        };
+    return _character_sm;
 }
 
 function state_machine_add_state(state_machine, id, allowed_ids, call_switch,
@@ -537,6 +577,8 @@ function set_state_machine_node_before_cb(state_machine, state_id, callback) {
 }
 
 function state_machine_switch_state(state_machine, new_state_id) {
+
+    state_machine.last_state = new_state_id;
     if (state_machine.lock) {
         return false;
     }
@@ -561,8 +603,7 @@ function state_machine_switch_state(state_machine, new_state_id) {
 
 function init_character_states(character) {
 
-    _character_sm = create_state_machine();
-    var sm = _character_sm;
+    var sm = get_state_machine();
 
     var change_state_cb = function(old_state_id, new_state_id) {
         switch(new_state_id) {
@@ -581,7 +622,7 @@ function init_character_states(character) {
             break;
         };
     }
-    state_machine_add_state(sm, CS_STAY, [CS_WALK, CS_FLY, CS_CLIMB], change_state_cb, 
+    state_machine_add_state(sm, CS_STAY, [CS_WALK, CS_FLY, CS_RUN, CS_CLIMB], change_state_cb, 
             null, null);
     state_machine_add_state(sm, CS_WALK, [CS_RUN, CS_FLY, CS_CLIMB, CS_STAY], change_state_cb, 
             null, null);
@@ -682,7 +723,7 @@ exports.AT_CONTINUOUS = AT_CONTINUOUS;
  * Bind action callback to user controls. This allows to set and define an additional
  * action to an event and set the conditions to when and how the event happens.
  * @method module:fps.bind_action
- * @param {Number} action_type Type of action
+ * @param {number} action_type Type of action
  * @param {Array} action_controls Array of sensor types
  * @param {Function} action_cb Function which applies logic
  * @example var m_ctl = require("controls");
@@ -701,17 +742,17 @@ exports.AT_CONTINUOUS = AT_CONTINUOUS;
 exports.bind_action = bind_action;
 function bind_action(action_type, action_controls, action_cb) {
 
+    if (!action_controls.length)
+        return;
+
     var sensors = [];
-    var enabled_gmpd_isd = m_input.check_enable_gamepad_indices();
     for (var j = 0; j &lt; action_controls.length; j++) {
         if (typeof action_controls[j] == "number") {
             if (action_controls[j] &lt; GMPD_BTNS_OFFSET)
                 sensors.push(m_ctl.create_keyboard_sensor(action_controls[j]));
             else if (action_controls[j] &lt; GMPD_AXIS_OFFSET) {
-                for (var i = 0; i &lt; enabled_gmpd_isd.length; i++) {
-                    var id = enabled_gmpd_isd[i];
-                    sensors.push(m_ctl.create_gamepad_btn_sensor(action_controls[j], id));
-                }
+                sensors.push(m_ctl.create_gamepad_btn_sensor(action_controls[j],
+                        _curr_gamepad_id));
             } else
                 sensors.push(m_ctl.create_gamepad_axis_sensor(action_controls[j]));
         } else if (typeof action_controls[j] == "string") {
@@ -792,32 +833,79 @@ function bind_action(action_type, action_controls, action_cb) {
     _manifold_counter++;
 }
 /**
- * Enable FPS controls. This sets default keyboard, gamepad and mouse controls.
+ * Enable FPS controls. This sets keyboard, gamepad and mouse controls.
  * VR is also plug-and-play ready.
  * @method module:fps.enable_fps_controls
- * @param {Object3D} [character=The result of the {@link module:scenes.get_first_character|get_first_character()} method call] Character
- * @param {HTMLElement} [elem=Canvas element] HTML element to add event listeners to
- * @param {CharMotionCallback} [motion_cb] Motion callback function
+ * @param {Object}   [options={}] Initialization options.
+ * @param {Object3D}   [options.character=The result of the {@link module:scenes.get_first_character|get_first_character()} method call] Character.
+ * @param {HTMLElement} [options.element=The result of the {@link module:container.get_canvas|get_canvas()} method call] HTML element to add event listeners to.
+ * @param {CharMotionCallback}  [options.motion_cb=null] Motion callback function
+ * @param {number}  [options.gamepad_id=0] Connected gamepad ID.
+ * @param {number[]}  [options.forward_sens=[{@link module:controls.KEY_W|KEY_W}, {@link module:input.GMPD_BUTTON_12|GMPD_BUTTON_12}]] Array of sensor types used for foward motion.
+ * @param {number[]}  [options.backward_sens=[{@link module:controls.KEY_S|KEY_S}, {@link module:input.GMPD_BUTTON_13|GMPD_BUTTON_13}]] Array of sensor types used for backward motion.
+ * @param {number[]}  [options.right_sens=[{@link module:controls.KEY_D|KEY_D}, {@link module:input.GMPD_BUTTON_15|GMPD_BUTTON_15}]] Array of sensor types used for right motion.
+ * @param {number[]}  [options.left_sens=[{@link module:controls.KEY_A|KEY_A}, {@link module:input.GMPD_BUTTON_14|GMPD_BUTTON_14}]] Array of sensor types used for left motion.
+ * @param {number[]}  [options.jump_sens=[{@link module:controls.KEY_SPACE|KEY_SPACE}, {@link module:input.GMPD_BUTTON_1|GMPD_BUTTON_1}]] Array of sensor types used for jumping.
+ * @param {number[]}  [options.fly_sens=[{@link module:controls.KEY_SHIFT|KEY_SHIFT}, {@link module:input.GMPD_BUTTON_7|GMPD_BUTTON_7}]] Array of sensor types used for flying.
+ * @param {CharRotationCallback}  [options.rotation_cb] Callback for camera rotation. If not specified, the default one will be used.
+ * @param {boolean} [options.lock_camera=false] Parent camera to the character
+ * @cc_externs character element gamepad_id
+ * @cc_externs forward_sens backward_sens right_sens left_sens
+ * @cc_externs report_init_failure pause_invisible key_pause_enabled
+ * @cc_externs jump_sens fly_sens rotation_cb lock_camera
+ * @cc_externs move_dir_cd motion_cb
  * @example var m_fps = require("fps");
  *
  * var move_cb = function(forw_back, right_left) {
  *     console.log(forw_back, right_left);  
  * }
  *
- * m_fps.enable_fps_controls(null, null, move_cb);
+ * m_fps.enable_fps_controls({
+ *     character : null,
+ *     element : null,
+ *     motion_cb : move_cb
+ * });
  */
-exports.enable_fps_controls = function(character, elem, motion_cb) {
-    var character = character || m_scs.get_first_character();
-    var elem = elem || m_cont.get_canvas();
-
+exports.enable_fps_controls = function(options) {
+    options = options || {lock_camera : true};
+    var character = options.character || m_scs.get_first_character();
     if (!character)
         return;
+    var elem = options.element || m_cont.get_canvas();
+    var motion_cb = options.motion_cb || null;
+    set_curr_gamepad_id(options.gamepad_id || 0);
 
-    var motion_cb = motion_cb || null;
+    var forward_sens_arr = options.forward_sens || [m_ctl.KEY_W, m_input.GMPD_BUTTON_12];
+    var backward_sens_arr = options.backward_sens || [m_ctl.KEY_S, m_input.GMPD_BUTTON_13];
+    var right_sens_arr = options.right_sens || [m_ctl.KEY_D, m_input.GMPD_BUTTON_15];
+    var left_sens_arr = options.left_sens || [m_ctl.KEY_A, m_input.GMPD_BUTTON_14];
+    var jump_sens_arr = options.jump_sens || [m_ctl.KEY_SPACE, m_input.GMPD_BUTTON_1];
+    var run_sens_arr = options.run_sens || [m_ctl.KEY_SHIFT, m_input.GMPD_BUTTON_7];
+    var fly_sens_arr = options.fly_sens || [];
 
-    set_characters_camera(character);
+    if (m_main.detect_mobile()) {
+        forward_sens_arr.push(MOBILE_FORWARD_BTN_ID);
+        backward_sens_arr.push(MOBILE_BACKWARD_BTN_ID);
+    }
+
+    var move_dir_cd = options.move_dir_cd || null;
+
+    var configs = {
+        forward_sens_arr : forward_sens_arr,
+        backward_sens_arr : backward_sens_arr,
+        right_sens_arr : right_sens_arr,
+        left_sens_arr : left_sens_arr,
+        jump_sens_arr : jump_sens_arr,
+        run_sens_arr : run_sens_arr,
+        fly_sens_arr : fly_sens_arr,
+        move_dir_cd: move_dir_cd
+    };
+    _rotation_cb = options.rotation_cb || default_rotation_cb;
+    var lock_camera = options.lock_camera || false;
+
+    set_characters_camera(character, lock_camera);
     enable_camera_rotation(elem, character);
-    enable_movements(elem, character, motion_cb);
+    enable_movements(elem, character, motion_cb, configs);
 }
 /**
  * Disable FPS controls.
@@ -829,8 +917,8 @@ exports.enable_fps_controls = function(character, elem, motion_cb) {
  * m_fps.disable_fps_controls();
  */
 exports.disable_fps_controls = function(character, elem) {
-    var character = character || m_scs.get_first_character();
-    var elem = elem || m_cont.get_container();
+    character = character || m_scs.get_first_character();
+    elem = elem || m_cont.get_container();
 
     if (!character)
         return;
@@ -844,12 +932,10 @@ exports.disable_fps_controls = function(character, elem) {
 /**
  * Set character state changing callback function.
  * @method module:fps.set_character_state_changing_cb
- * @param {Number} state_id State ID
+ * @param {number} state_id State ID
  * @param {ChangeStateCallback} callback Callback function
  * @example var m_fps = require("fps");
- * var m_scenes = require("scenes");
  *
- * var character = m_scenes.get_first_character();
  * var state_changing_cb = function(old_state_id, new_state_id) {
  *     console.log(old_state_id, new_state_id);  
  * }
@@ -863,7 +949,7 @@ exports.set_character_state_changing_cb = function(state_id, callback) {
 /**
  * Set character's camera smooth behavior
  * @method module:fps.set_cam_smooth_factor
- * @param {Number} value Smooth factor
+ * @param {number} value Smooth factor
  * @example var m_fps = require("fps");
  *
  * m_fps.set_cam_smooth_factor(0.2);
@@ -875,7 +961,7 @@ exports.set_cam_smooth_factor = function(value) {
 /**
  * Set character's camera mouse sensitivity
  * @method module:fps.set_cam_sensitivity
- * @param {Number} value Sensitivity
+ * @param {number} value Sensitivity
  * @example var m_fps = require("fps");
  *
  * m_fps.set_cam_sensitivity(80);
@@ -924,6 +1010,82 @@ exports.set_plock_disable_cb = function(callback) {
 exports.get_character_state = function() {
     return get_state_machine_state(_character_sm).id;
 }
+function set_curr_gamepad_id(new_id) {
+    _curr_gamepad_id = new_id;
+}
+/**
+ * Add new character's state.
+ * @method module:fps.add_new_state
+ * @returns {CharacterState} Character's new state
+ * @example var m_fps = require("fps");
+ *
+ * var new_state = m_fps.add_new_state();
+ */
+exports.add_new_state = function() {
+    return _state_counter++;
+}
+/**
+ * Add new character's state to its state machine.
+ * @method module:fps.add_state_to_state_machine
+ * @param {CharacterState} new_state Character's new state
+ * @param {CharacterState[]} enabled_transitions Enabled transitions to another states
+ * @param {ChangeStateCallback} change_state_cb Callback function
+ * @example var m_fps = require("fps");
+ *
+ * var new_state = m_fps.add_new_state();
+ * var state_changing_cb = function(old_state_id, new_state_id) {
+ *     console.log(old_state_id, new_state_id);  
+ * }
+ * m_fps.add_state_to_state_machine(new_state, [m_fps.CS_WALK, m_fps.CS_RUN], state_changing_cb);
+ */
+exports.add_state_to_state_machine = function(new_state, enabled_transitions, change_state_cb) {
+    var sm = get_state_machine();
+    state_machine_add_state(sm, new_state, enabled_transitions, change_state_cb, 
+            null, null);
+    if (!check_state_machine_validation(sm))
+        m_print.error("Incorrect state machine.");
+}
+/**
+ * Switch character's state.
+ * @method module:fps.state_machine_switch_state
+ * @param {CharacterState} state Character's state
+ * @example var m_fps = require("fps");
+ *
+ * m_fps.state_machine_switch_state(m_fps.CS_WALK);
+ */
+exports.state_machine_switch_state = function(state) {
+    var sm = get_state_machine();
+    state_machine_switch_state(sm, state);
+}
+exports.lock_character_state_machine = function() {
+    var sm = get_state_machine();
+    sm.lock = true;
+}
+exports.unlock_character_state_machine = function() {
+    var sm = get_state_machine();
+    sm.lock = false;
+}
+exports.is_state_machine_locked = function() {
+    var sm = get_state_machine();
+    return sm.lock;
+}
+exports.get_last_state = function() {
+    var sm = get_state_machine();
+    return sm.last_state;
+}
+exports.set_rotation_cb = function(rotation_cb) {
+    if (!rotation_cb)
+        _rotation_cb = default_rotation_cb;
+    else
+        _rotation_cb = rotation_cb;
+}
+
+exports.CD_NONE = CD_NONE;
+exports.CD_FORWARD = CD_FORWARD;
+exports.CD_BACKWARD = CD_BACKWARD;
+exports.CD_RIGHT = CD_RIGHT;
+exports.CD_LEFT = CD_LEFT;
+
 };
 </code></pre>
         </article>
@@ -935,13 +1097,13 @@ exports.get_character_state = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Feb 28 2017 15:47:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

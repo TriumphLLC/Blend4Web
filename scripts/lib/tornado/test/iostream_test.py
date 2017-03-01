@@ -7,10 +7,10 @@ from tornado.httputil import HTTPHeaders
 from tornado.log import gen_log, app_log
 from tornado.netutil import ssl_wrap_socket
 from tornado.stack_context import NullContext
+from tornado.tcpserver import TCPServer
 from tornado.testing import AsyncHTTPTestCase, AsyncHTTPSTestCase, AsyncTestCase, bind_unused_port, ExpectLog, gen_test
 from tornado.test.util import unittest, skipIfNonUnix, refusing_port
 from tornado.web import RequestHandler, Application
-import certifi
 import errno
 import logging
 import os
@@ -18,6 +18,14 @@ import platform
 import socket
 import ssl
 import sys
+
+try:
+    from unittest import mock  # type: ignore
+except ImportError:
+    try:
+        import mock  # type: ignore
+    except ImportError:
+        mock = None
 
 
 def _server_ssl_options():
@@ -239,19 +247,22 @@ class TestIOStreamMixin(object):
             # cygwin's errnos don't match those used on native windows python
             self.assertTrue(stream.error.args[0] in _ERRNO_CONNREFUSED)
 
+    @unittest.skipIf(mock is None, 'mock package not present')
     def test_gaierror(self):
-        # Test that IOStream sets its exc_info on getaddrinfo error
+        # Test that IOStream sets its exc_info on getaddrinfo error.
+        # It's difficult to reliably trigger a getaddrinfo error;
+        # some resolvers own't even return errors for malformed names,
+        # so we mock it instead. If IOStream changes to call a Resolver
+        # before sock.connect, the mock target will need to change too.
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         stream = IOStream(s, io_loop=self.io_loop)
         stream.set_close_callback(self.stop)
-        # To reliably generate a gaierror we use a malformed domain name
-        # instead of a name that's simply unlikely to exist (since
-        # opendns and some ISPs return bogus addresses for nonexistent
-        # domains instead of the proper error codes).
-        with ExpectLog(gen_log, "Connect error"):
-            stream.connect(('an invalid domain', 54321), callback=self.stop)
-            self.wait()
-            self.assertTrue(isinstance(stream.error, socket.gaierror), stream.error)
+        with mock.patch('socket.socket.connect',
+                        side_effect=socket.gaierror(errno.EIO, 'boom')):
+            with ExpectLog(gen_log, "Connect error"):
+                stream.connect(('localhost', 80), callback=self.stop)
+                self.wait()
+                self.assertIsInstance(stream.error, socket.gaierror)
 
     def test_read_callback_error(self):
         # Test that IOStream sets its exc_info when a read callback throws
@@ -310,6 +321,7 @@ class TestIOStreamMixin(object):
             def streaming_callback(data):
                 chunks.append(data)
                 self.stop()
+
             def close_callback(data):
                 assert not data, data
                 closed[0] = True
@@ -322,6 +334,31 @@ class TestIOStreamMixin(object):
             self.wait()
             server.close()
             self.wait(condition=lambda: closed[0])
+            self.assertEqual(chunks, [b"1234", b"5678"])
+        finally:
+            server.close()
+            client.close()
+
+    def test_streaming_until_close_future(self):
+        server, client = self.make_iostream_pair()
+        try:
+            chunks = []
+
+            @gen.coroutine
+            def client_task():
+                yield client.read_until_close(streaming_callback=chunks.append)
+
+            @gen.coroutine
+            def server_task():
+                yield server.write(b"1234")
+                yield gen.sleep(0.01)
+                yield server.write(b"5678")
+                server.close()
+
+            @gen.coroutine
+            def f():
+                yield [client_task(), server_task()]
+            self.io_loop.run_sync(f)
             self.assertEqual(chunks, [b"1234", b"5678"])
         finally:
             server.close()
@@ -355,6 +392,7 @@ class TestIOStreamMixin(object):
     def test_future_delayed_close_callback(self):
         # Same as test_delayed_close_callback, but with the future interface.
         server, client = self.make_iostream_pair()
+
         # We can't call make_iostream_pair inside a gen_test function
         # because the ioloop is not reentrant.
         @gen_test
@@ -415,6 +453,18 @@ class TestIOStreamMixin(object):
             client.read_until_close(self.stop)
             data = self.wait()
             self.assertEqual(data, b"234")
+        finally:
+            server.close()
+            client.close()
+
+    @unittest.skipIf(mock is None, 'mock package not present')
+    def test_read_until_close_with_error(self):
+        server, client = self.make_iostream_pair()
+        try:
+            with mock.patch('tornado.iostream.BaseIOStream._try_inline_read',
+                            side_effect=IOError('boom')):
+                with self.assertRaisesRegexp(IOError, 'boom'):
+                    client.read_until_close(self.stop)
         finally:
             server.close()
             client.close()
@@ -534,6 +584,7 @@ class TestIOStreamMixin(object):
         # and IOStream._maybe_add_error_listener.
         server, client = self.make_iostream_pair()
         closed = [False]
+
         def close_callback():
             closed[0] = True
             self.stop()
@@ -754,7 +805,8 @@ class TestIOStreamWebHTTP(TestIOStreamWebMixin, AsyncHTTPTestCase):
 
 class TestIOStreamWebHTTPS(TestIOStreamWebMixin, AsyncHTTPSTestCase):
     def _make_client_iostream(self):
-        return SSLIOStream(socket.socket(), io_loop=self.io_loop)
+        return SSLIOStream(socket.socket(), io_loop=self.io_loop,
+                           ssl_options=dict(cert_reqs=ssl.CERT_NONE))
 
 
 class TestIOStream(TestIOStreamMixin, AsyncTestCase):
@@ -774,7 +826,9 @@ class TestIOStreamSSL(TestIOStreamMixin, AsyncTestCase):
         return SSLIOStream(connection, io_loop=self.io_loop, **kwargs)
 
     def _make_client_iostream(self, connection, **kwargs):
-        return SSLIOStream(connection, io_loop=self.io_loop, **kwargs)
+        return SSLIOStream(connection, io_loop=self.io_loop,
+                           ssl_options=dict(cert_reqs=ssl.CERT_NONE),
+                           **kwargs)
 
 
 # This will run some tests that are basically redundant but it's the
@@ -864,7 +918,7 @@ class TestIOStreamStartTLS(AsyncTestCase):
         yield self.server_send_line(b"250 STARTTLS\r\n")
         yield self.client_send_line(b"STARTTLS\r\n")
         yield self.server_send_line(b"220 Go ahead\r\n")
-        client_future = self.client_start_tls()
+        client_future = self.client_start_tls(dict(cert_reqs=ssl.CERT_NONE))
         server_future = self.server_start_tls(_server_ssl_options())
         self.client_stream = yield client_future
         self.server_stream = yield server_future
@@ -876,14 +930,13 @@ class TestIOStreamStartTLS(AsyncTestCase):
     @gen_test
     def test_handshake_fail(self):
         server_future = self.server_start_tls(_server_ssl_options())
-        client_future = self.client_start_tls(
-            dict(cert_reqs=ssl.CERT_REQUIRED, ca_certs=certifi.where()))
+        # Certificates are verified with the default configuration.
+        client_future = self.client_start_tls(server_hostname="localhost")
         with ExpectLog(gen_log, "SSL Error"):
             with self.assertRaises(ssl.SSLError):
                 yield client_future
         with self.assertRaises((ssl.SSLError, socket.error)):
             yield server_future
-
 
     @unittest.skipIf(not hasattr(ssl, 'create_default_context'),
                      'ssl.create_default_context not present')
@@ -898,9 +951,103 @@ class TestIOStreamStartTLS(AsyncTestCase):
             server_hostname=b'127.0.0.1')
         with ExpectLog(gen_log, "SSL Error"):
             with self.assertRaises(ssl.SSLError):
+                # The client fails to connect with an SSL error.
                 yield client_future
-        with self.assertRaises((ssl.SSLError, socket.error)):
+        with self.assertRaises(Exception):
+            # The server fails to connect, but the exact error is unspecified.
             yield server_future
+
+
+class WaitForHandshakeTest(AsyncTestCase):
+    @gen.coroutine
+    def connect_to_server(self, server_cls):
+        server = client = None
+        try:
+            sock, port = bind_unused_port()
+            server = server_cls(ssl_options=_server_ssl_options())
+            server.add_socket(sock)
+
+            client = SSLIOStream(socket.socket(),
+                                 ssl_options=dict(cert_reqs=ssl.CERT_NONE))
+            yield client.connect(('127.0.0.1', port))
+            self.assertIsNotNone(client.socket.cipher())
+        finally:
+            if server is not None:
+                server.stop()
+            if client is not None:
+                client.close()
+
+    @gen_test
+    def test_wait_for_handshake_callback(self):
+        test = self
+        handshake_future = Future()
+
+        class TestServer(TCPServer):
+            def handle_stream(self, stream, address):
+                # The handshake has not yet completed.
+                test.assertIsNone(stream.socket.cipher())
+                self.stream = stream
+                stream.wait_for_handshake(self.handshake_done)
+
+            def handshake_done(self):
+                # Now the handshake is done and ssl information is available.
+                test.assertIsNotNone(self.stream.socket.cipher())
+                handshake_future.set_result(None)
+
+        yield self.connect_to_server(TestServer)
+        yield handshake_future
+
+    @gen_test
+    def test_wait_for_handshake_future(self):
+        test = self
+        handshake_future = Future()
+
+        class TestServer(TCPServer):
+            def handle_stream(self, stream, address):
+                test.assertIsNone(stream.socket.cipher())
+                test.io_loop.spawn_callback(self.handle_connection, stream)
+
+            @gen.coroutine
+            def handle_connection(self, stream):
+                yield stream.wait_for_handshake()
+                handshake_future.set_result(None)
+
+        yield self.connect_to_server(TestServer)
+        yield handshake_future
+
+    @gen_test
+    def test_wait_for_handshake_already_waiting_error(self):
+        test = self
+        handshake_future = Future()
+
+        class TestServer(TCPServer):
+            def handle_stream(self, stream, address):
+                stream.wait_for_handshake(self.handshake_done)
+                test.assertRaises(RuntimeError, stream.wait_for_handshake)
+
+            def handshake_done(self):
+                handshake_future.set_result(None)
+
+        yield self.connect_to_server(TestServer)
+        yield handshake_future
+
+    @gen_test
+    def test_wait_for_handshake_already_connected(self):
+        handshake_future = Future()
+
+        class TestServer(TCPServer):
+            def handle_stream(self, stream, address):
+                self.stream = stream
+                stream.wait_for_handshake(self.handshake_done)
+
+            def handshake_done(self):
+                self.stream.wait_for_handshake(self.handshake2_done)
+
+            def handshake2_done(self):
+                handshake_future.set_result(None)
+
+        yield self.connect_to_server(TestServer)
+        yield handshake_future
 
 
 @skipIfNonUnix

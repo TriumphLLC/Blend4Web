@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,74 +29,83 @@ b4w.module["__ipc"] = function(exports, require) {
  */
 var _wait_for_loading = true;
 // MAIN <- PHYSICS
-var IN_LOADED                        = exports.IN_LOADED                = 0 ;
-var IN_COLLISION                     = exports.IN_COLLISION             = 1 ;
-var IN_COLLISION_POS_NORM            = exports.IN_COLLISION_POS_NORM    = 2 ;
-var IN_COLLISION_IMPULSE             = exports.IN_COLLISION_IMPULSE     = 3 ;
-var IN_ERROR                         = exports.IN_ERROR                 = 4 ;
-var IN_FBMSG                         = exports.IN_FBMSG                 = 5 ;
-var IN_FLOATER_BOB_TRANSFORM         = exports.IN_FLOATER_BOB_TRANSFORM = 6 ;
-var IN_LOG                           = exports.IN_LOG                   = 7 ;
-var IN_PROP_OFFSET                   = exports.IN_PROP_OFFSET           = 8 ;
-var IN_RAY_HIT                       = exports.IN_RAY_HIT               = 9 ;
-var IN_RAY_HIT_POS_NORM              = exports.IN_RAY_HIT_POS_NORM      = 10;
-var IN_REMOVE_RAY_TEST               = exports.IN_REMOVE_RAY_TEST       = 11;
-var IN_TRANSFORM                     = exports.IN_TRANSFORM             = 12;
-var IN_VEHICLE_SPEED                 = exports.IN_VEHICLE_SPEED         = 13;
-var IN_PING                          = exports.IN_PING                  = 14;
-var IN_FPS                           = exports.IN_FPS                   = 15;
-var IN_DEBUG_STATS                   = exports.IN_DEBUG_STATS           = 16;
+exports.IN_LOADED                = 0 ;
+exports.IN_COLLISION             = 1 ;
+exports.IN_COLLISION_POS_NORM    = 2 ;
+exports.IN_COLLISION_IMPULSE     = 3 ;
+exports.IN_ERROR                 = 4 ;
+exports.IN_FBMSG                 = 5 ;
+exports.IN_FLOATER_BOB_TRANSFORM = 6 ;
+exports.IN_LOG                   = 7 ;
+exports.IN_PROP_OFFSET           = 8 ;
+exports.IN_RAY_HIT               = 9 ;
+exports.IN_RAY_HIT_POS_NORM      = 10;
+exports.IN_REMOVE_RAY_TEST       = 11;
+exports.IN_TRANSFORM             = 12;
+exports.IN_VEHICLE_SPEED         = 13;
+exports.IN_PING                  = 14;
+exports.IN_FPS                   = 15;
+exports.IN_DEBUG_STATS           = 16;
+
+var IN_COLLISION          = exports.IN_COLLISION;
+var IN_COLLISION_POS_NORM = exports.IN_COLLISION_POS_NORM;
+var IN_PROP_OFFSET        = exports.IN_PROP_OFFSET;
+var IN_RAY_HIT            = exports.IN_RAY_HIT;
+var IN_RAY_HIT_POS_NORM   = exports.IN_RAY_HIT_POS_NORM;
+var IN_TRANSFORM          = exports.IN_TRANSFORM;
 
 // MAIN -> PHYSICS
-var OUT_INIT                         = exports.OUT_INIT                         = 100;
-var OUT_ACTIVATE                     = exports.OUT_ACTIVATE                     = 101;
-var OUT_ADD_BOAT_BOB                 = exports.OUT_ADD_BOAT_BOB                 = 102;
-var OUT_ADD_CAR_WHEEL                = exports.OUT_ADD_CAR_WHEEL                = 103;
-var OUT_ADD_FLOATER_BOB              = exports.OUT_ADD_FLOATER_BOB              = 104;
-var OUT_APPEND_BOUNDING_BODY         = exports.OUT_APPEND_BOUNDING_BODY         = 105;
-var OUT_APPEND_BOAT                  = exports.OUT_APPEND_BOAT                  = 106;
-var OUT_APPEND_CAR                   = exports.OUT_APPEND_CAR                   = 107;
-var OUT_APPEND_CHARACTER             = exports.OUT_APPEND_CHARACTER             = 108;
-var OUT_APPEND_COLLISION_TEST        = exports.OUT_APPEND_COLLISION_TEST        = 109;
-var OUT_APPEND_CONSTRAINT            = exports.OUT_APPEND_CONSTRAINT            = 110;
-var OUT_APPEND_FLOATER               = exports.OUT_APPEND_FLOATER               = 111;
-var OUT_APPEND_GHOST_MESH_BODY       = exports.OUT_APPEND_GHOST_MESH_BODY       = 112;
-var OUT_APPEND_STATIC_MESH_BODY      = exports.OUT_APPEND_STATIC_MESH_BODY      = 113;
-var OUT_APPEND_WATER                 = exports.OUT_APPEND_WATER                 = 114;
-var OUT_REMOVE_BODY                  = exports.OUT_REMOVE_BODY                  = 115;
-var OUT_APPLY_CENTRAL_FORCE          = exports.OUT_APPLY_CENTRAL_FORCE          = 116;
-var OUT_APPLY_COLLISION_IMPULSE_TEST = exports.OUT_APPLY_COLLISION_IMPULSE_TEST = 117;
-var OUT_APPLY_TORQUE                 = exports.OUT_APPLY_TORQUE                 = 118;
-var OUT_CHARACTER_JUMP               = exports.OUT_CHARACTER_JUMP               = 119;
-var OUT_CHARACTER_ROTATION_INCREMENT = exports.OUT_CHARACTER_ROTATION_INCREMENT = 120;
-var OUT_CLEAR_COLLISION_IMPULSE_TEST = exports.OUT_CLEAR_COLLISION_IMPULSE_TEST = 121;
-var OUT_DISABLE_SIMULATION           = exports.OUT_DISABLE_SIMULATION           = 122;
-var OUT_ENABLE_SIMULATION            = exports.OUT_ENABLE_SIMULATION            = 123;
-var OUT_PAUSE                        = exports.OUT_PAUSE                        = 124;
-var OUT_APPEND_RAY_TEST              = exports.OUT_APPEND_RAY_TEST              = 125;
-var OUT_REMOVE_RAY_TEST              = exports.OUT_REMOVE_RAY_TEST              = 126;
-var OUT_CHANGE_RAY_TEST_FROM_TO      = exports.OUT_CHANGE_RAY_TEST_FROM_TO      = 127;
-var OUT_REMOVE_COLLISION_TEST        = exports.OUT_REMOVE_COLLISION_TEST        = 128;
-var OUT_REMOVE_CONSTRAINT            = exports.OUT_REMOVE_CONSTRAINT            = 129;
-var OUT_RESUME                       = exports.OUT_RESUME                       = 130;
-var OUT_SET_CHARACTER_FLY_VELOCITY   = exports.OUT_SET_CHARACTER_FLY_VELOCITY   = 131;
-var OUT_SET_CHARACTER_HOR_ROTATION   = exports.OUT_SET_CHARACTER_HOR_ROTATION   = 132;
-var OUT_SET_CHARACTER_MOVE_DIR       = exports.OUT_SET_CHARACTER_MOVE_DIR       = 133;
-var OUT_SET_CHARACTER_MOVE_TYPE      = exports.OUT_SET_CHARACTER_MOVE_TYPE      = 134;
-var OUT_SET_CHARACTER_ROTATION       = exports.OUT_SET_CHARACTER_ROTATION       = 135;
-var OUT_SET_CHARACTER_RUN_VELOCITY   = exports.OUT_SET_CHARACTER_RUN_VELOCITY   = 136;
-var OUT_SET_CHARACTER_VERT_ROTATION  = exports.OUT_SET_CHARACTER_VERT_ROTATION  = 137;
-var OUT_SET_CHARACTER_WALK_VELOCITY  = exports.OUT_SET_CHARACTER_WALK_VELOCITY  = 138;
-var OUT_SET_GRAVITY                  = exports.OUT_SET_GRAVITY                  = 139;
-var OUT_SET_LINEAR_VELOCITY          = exports.OUT_SET_LINEAR_VELOCITY          = 140;
-var OUT_SET_TRANSFORM                = exports.OUT_SET_TRANSFORM                = 141;
-var OUT_SET_WATER_TIME               = exports.OUT_SET_WATER_TIME               = 142;
-var OUT_ADD_WATER_WRAPPER            = exports.OUT_ADD_WATER_WRAPPER            = 143;
-var OUT_UPDATE_BOAT_CONTROLS         = exports.OUT_UPDATE_BOAT_CONTROLS         = 144;
-var OUT_UPDATE_CAR_CONTROLS          = exports.OUT_UPDATE_CAR_CONTROLS          = 145;
-var OUT_PING                         = exports.OUT_PING                         = 146;
-var OUT_DEBUG                        = exports.OUT_DEBUG                        = 147;
-var OUT_UPDATE_WORLD                 = exports.OUT_UPDATE_WORLD                 = 148;
+exports.OUT_INIT                         = 100;
+exports.OUT_ACTIVATE                     = 101;
+exports.OUT_ADD_BOAT_BOB                 = 102;
+exports.OUT_ADD_CAR_WHEEL                = 103;
+exports.OUT_ADD_FLOATER_BOB              = 104;
+exports.OUT_APPEND_BOUNDING_BODY         = 105;
+exports.OUT_APPEND_BOAT                  = 106;
+exports.OUT_APPEND_CAR                   = 107;
+exports.OUT_APPEND_CHARACTER             = 108;
+exports.OUT_APPEND_COLLISION_TEST        = 109;
+exports.OUT_APPEND_CONSTRAINT            = 110;
+exports.OUT_APPEND_FLOATER               = 111;
+exports.OUT_APPEND_GHOST_MESH_BODY       = 112;
+exports.OUT_APPEND_STATIC_MESH_BODY      = 113;
+exports.OUT_APPEND_WATER                 = 114;
+exports.OUT_REMOVE_BODY                  = 115;
+exports.OUT_APPLY_CENTRAL_FORCE          = 116;
+exports.OUT_APPLY_COLLISION_IMPULSE_TEST = 117;
+exports.OUT_APPLY_TORQUE                 = 118;
+exports.OUT_CHARACTER_JUMP               = 119;
+exports.OUT_CHARACTER_ROTATION_INCREMENT = 120;
+exports.OUT_CLEAR_COLLISION_IMPULSE_TEST = 121;
+exports.OUT_DISABLE_SIMULATION           = 122;
+exports.OUT_ENABLE_SIMULATION            = 123;
+exports.OUT_PAUSE                        = 124;
+exports.OUT_APPEND_RAY_TEST              = 125;
+exports.OUT_REMOVE_RAY_TEST              = 126;
+exports.OUT_CHANGE_RAY_TEST_FROM_TO      = 127;
+exports.OUT_REMOVE_COLLISION_TEST        = 128;
+exports.OUT_REMOVE_CONSTRAINT            = 129;
+exports.OUT_RESUME                       = 130;
+exports.OUT_SET_CHARACTER_FLY_VELOCITY   = 131;
+exports.OUT_SET_CHARACTER_HOR_ROTATION   = 132;
+exports.OUT_SET_CHARACTER_MOVE_DIR       = 133;
+exports.OUT_SET_CHARACTER_MOVE_TYPE      = 134;
+exports.OUT_SET_CHARACTER_ROTATION       = 135;
+exports.OUT_SET_CHARACTER_RUN_VELOCITY   = 136;
+exports.OUT_SET_CHARACTER_VERT_ROTATION  = 137;
+exports.OUT_SET_CHARACTER_WALK_VELOCITY  = 138;
+exports.OUT_SET_GRAVITY                  = 139;
+exports.OUT_SET_LINEAR_VELOCITY          = 140;
+exports.OUT_SET_TRANSFORM                = 141;
+exports.OUT_SET_WATER_TIME               = 142;
+exports.OUT_ADD_WATER_WRAPPER            = 143;
+exports.OUT_UPDATE_BOAT_CONTROLS         = 144;
+exports.OUT_UPDATE_CAR_CONTROLS          = 145;
+exports.OUT_PING                         = 146;
+exports.OUT_DEBUG                        = 147;
+exports.OUT_UPDATE_WORLD                 = 148;
+
+var OUT_SET_TRANSFORM = exports.OUT_SET_TRANSFORM;
 
 var _worker_listeners = b4w.worker_listeners;
 var _worker_namespaces = b4w.worker_namespaces;
@@ -194,7 +203,6 @@ var _msg_cache_list = [
 
 
 exports.create_worker = function(path, fallback) {
-
     var worker = {
         is_main: path ? true : false,
         web_worker: null,
@@ -203,10 +211,16 @@ exports.create_worker = function(path, fallback) {
     }
 
     if (fallback) {
+        // require here because it's not availabe in workers
+        // (e.g. due to obfuscation)
+        var m_util = require("__util");
+        var m_cont = require("__container");
+
+
         var web_worker_fallback = {
             addEventListener: function(type, listener, useCapture) {
                 if (type != "message")
-                    panic("Wrong web worker event");
+                    m_util.panic("Wrong web worker event");
 
                 set_fallback_listener(worker.fb_worker_ns, worker.is_main,
                         listener);
@@ -214,7 +228,7 @@ exports.create_worker = function(path, fallback) {
 
             removeEventListener: function(type, listener, useCapture) {
                 if (type != "message")
-                    panic("Wrong web worker event");
+                    m_util.panic("Wrong web worker event");
 
                 set_fallback_listener(worker.fb_worker_ns, worker.is_main, null);
             },
@@ -238,11 +252,6 @@ exports.create_worker = function(path, fallback) {
         worker.web_worker = web_worker_fallback;
 
         if (worker.is_main) {
-            // require here because it's not availabe in workers
-            // (e.g. due to obfuscation)
-            var m_util = require("__util");
-            var m_cont = require("__container");
-
             var main_ns = b4w.get_namespace(require);
             var worker_ns = m_util.unique_name(main_ns + "_worker");
 
@@ -268,7 +277,7 @@ exports.create_worker = function(path, fallback) {
                 }
             } else {
                 // load and register
-                var uranium_js = document.createElement("script");
+                uranium_js = document.createElement("script");
 
                 uranium_js.src = path;
                 uranium_js.defer = "defer";

@@ -20,7 +20,7 @@ var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/canvas_textur
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas_cont",
+        canvas_container_id: "main_canvas_container",
         callback: init_cb,
         show_fps: true,
         physics_enabled: false,

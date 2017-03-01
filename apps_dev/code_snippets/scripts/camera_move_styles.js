@@ -57,7 +57,7 @@ var _default_rot = new Float32Array(4);
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas_cont",
+        canvas_container_id: "main_canvas_container",
         callback: init_cb,
         physics_enabled: false,
         alpha: true,
@@ -120,14 +120,11 @@ function init_interface() {
 }
 
 function create_button(caption) {
-    var button = document.createElement("div");
-    button.className = "button_container";
+    var button = document.createElement("a");
 
-    var label = document.createElement("label");
-    label.className = "text";
-    label.textContent = caption;
+    button.className = "btn";
+    button.innerText = caption;
 
-    button.appendChild(label);
     return button;
 }
 

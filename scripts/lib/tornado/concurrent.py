@@ -16,27 +16,32 @@
 """Utilities for working with threads and ``Futures``.
 
 ``Futures`` are a pattern for concurrent programming introduced in
-Python 3.2 in the `concurrent.futures` package (this package has also
-been backported to older versions of Python and can be installed with
-``pip install futures``).  Tornado will use `concurrent.futures.Future` if
-it is available; otherwise it will use a compatible class defined in this
-module.
+Python 3.2 in the `concurrent.futures` package. This package defines
+a mostly-compatible `Future` class designed for use from coroutines,
+as well as some utility functions for interacting with the
+`concurrent.futures` package.
 """
 from __future__ import absolute_import, division, print_function, with_statement
 
 import functools
 import platform
+import textwrap
 import traceback
 import sys
 
 from tornado.log import app_log
 from tornado.stack_context import ExceptionStackContext, wrap
-from tornado.util import raise_exc_info, ArgReplacer
+from tornado.util import raise_exc_info, ArgReplacer, is_finalizing
 
 try:
     from concurrent import futures
 except ImportError:
     futures = None
+
+try:
+    import typing
+except ImportError:
+    typing = None
 
 
 # Can the garbage collector handle cycles that include __del__ methods?
@@ -44,11 +49,13 @@ except ImportError:
 _GC_CYCLE_FINALIZERS = (platform.python_implementation() == 'CPython' and
                         sys.version_info >= (3, 4))
 
+
 class ReturnValueIgnoredError(Exception):
     pass
 
 # This class and associated code in the future object is derived
 # from the Trollius project, a backport of asyncio to Python 2.x - 3.x
+
 
 class _TracebackLogger(object):
     """Helper to log a traceback upon destruction if not cleared.
@@ -116,8 +123,8 @@ class _TracebackLogger(object):
         self.exc_info = None
         self.formatted_tb = None
 
-    def __del__(self):
-        if self.formatted_tb:
+    def __del__(self, is_finalizing=is_finalizing):
+        if not is_finalizing() and self.formatted_tb:
             app_log.error('Future exception was never retrieved: %s',
                           ''.join(self.formatted_tb).rstrip())
 
@@ -168,6 +175,23 @@ class Future(object):
 
         self._callbacks = []
 
+    # Implement the Python 3.5 Awaitable protocol if possible
+    # (we can't use return and yield together until py33).
+    if sys.version_info >= (3, 3):
+        exec(textwrap.dedent("""
+        def __await__(self):
+            return (yield self)
+        """))
+    else:
+        # Py2-compatible version for use with cython.
+        def __await__(self):
+            result = yield self
+            # StopIteration doesn't take args before py33,
+            # but Cython recognizes the args tuple.
+            e = StopIteration()
+            e.args = (result,)
+            raise e
+
     def cancel(self):
         """Cancel the operation, if possible.
 
@@ -201,6 +225,10 @@ class Future(object):
     def result(self, timeout=None):
         """If the operation succeeded, return its result.  If it failed,
         re-raise its exception.
+
+        This method takes a ``timeout`` argument for compatibility with
+        `concurrent.futures.Future` but it is an error to call it
+        before the `Future` is done, so the ``timeout`` is never used.
         """
         self._clear_tb_log()
         if self._result is not None:
@@ -213,6 +241,10 @@ class Future(object):
     def exception(self, timeout=None):
         """If the operation raised an exception, return the `Exception`
         object.  Otherwise returns None.
+
+        This method takes a ``timeout`` argument for compatibility with
+        `concurrent.futures.Future` but it is an error to call it
+        before the `Future` is done, so the ``timeout`` is never used.
         """
         self._clear_tb_log()
         if self._exc_info is not None:
@@ -289,7 +321,7 @@ class Future(object):
             try:
                 cb(self)
             except Exception:
-                app_log.exception('exception calling callback %r for %r',
+                app_log.exception('Exception in callback %r for %r',
                                   cb, self)
         self._callbacks = None
 
@@ -297,8 +329,8 @@ class Future(object):
     # cycle are never destroyed. It's no longer the case on Python 3.4 thanks to
     # the PEP 442.
     if _GC_CYCLE_FINALIZERS:
-        def __del__(self):
-            if not self._log_traceback:
+        def __del__(self, is_finalizing=is_finalizing):
+            if is_finalizing() or not self._log_traceback:
                 # set_exception() was not called, or result() or exception()
                 # has consumed the exception
                 return
@@ -311,7 +343,7 @@ class Future(object):
 TracebackFuture = Future
 
 if futures is None:
-    FUTURES = Future
+    FUTURES = Future  # type: typing.Union[type, typing.Tuple[type, ...]]
 else:
     FUTURES = (futures.Future, Future)
 
@@ -335,24 +367,43 @@ class DummyExecutor(object):
 dummy_executor = DummyExecutor()
 
 
-def run_on_executor(fn):
+def run_on_executor(*args, **kwargs):
     """Decorator to run a synchronous method asynchronously on an executor.
 
     The decorated method may be called with a ``callback`` keyword
     argument and returns a future.
 
-    This decorator should be used only on methods of objects with attributes
-    ``executor`` and ``io_loop``.
+    The `.IOLoop` and executor to be used are determined by the ``io_loop``
+    and ``executor`` attributes of ``self``. To use different attributes,
+    pass keyword arguments to the decorator::
+
+        @run_on_executor(executor='_thread_pool')
+        def foo(self):
+            pass
+
+    .. versionchanged:: 4.2
+       Added keyword arguments to use alternative attributes.
     """
-    @functools.wraps(fn)
-    def wrapper(self, *args, **kwargs):
-        callback = kwargs.pop("callback", None)
-        future = self.executor.submit(fn, self, *args, **kwargs)
-        if callback:
-            self.io_loop.add_future(future,
-                                    lambda future: callback(future.result()))
-        return future
-    return wrapper
+    def run_on_executor_decorator(fn):
+        executor = kwargs.get("executor", "executor")
+        io_loop = kwargs.get("io_loop", "io_loop")
+
+        @functools.wraps(fn)
+        def wrapper(self, *args, **kwargs):
+            callback = kwargs.pop("callback", None)
+            future = getattr(self, executor).submit(fn, self, *args, **kwargs)
+            if callback:
+                getattr(self, io_loop).add_future(
+                    future, lambda future: callback(future.result()))
+            return future
+        return wrapper
+    if args and kwargs:
+        raise ValueError("cannot combine positional and keyword args")
+    if len(args) == 1:
+        return run_on_executor_decorator(args[0])
+    elif len(args) != 0:
+        raise ValueError("expected 1 argument, got %d", len(args))
+    return run_on_executor_decorator
 
 
 _NO_RESULT = object()
@@ -377,7 +428,9 @@ def return_future(f):
     wait for the function to complete (perhaps by yielding it in a
     `.gen.engine` function, or passing it to `.IOLoop.add_future`).
 
-    Usage::
+    Usage:
+
+    .. testcode::
 
         @return_future
         def future_func(arg1, arg2, callback):
@@ -388,6 +441,8 @@ def return_future(f):
         def caller(callback):
             yield future_func(arg1, arg2)
             callback()
+
+    ..
 
     Note that ``@return_future`` and ``@gen.engine`` can be applied to the
     same function, provided ``@return_future`` appears first.  However,
@@ -450,8 +505,9 @@ def chain_future(a, b):
         assert future is a
         if b.done():
             return
-        if (isinstance(a, TracebackFuture) and isinstance(b, TracebackFuture)
-                and a.exc_info() is not None):
+        if (isinstance(a, TracebackFuture) and
+                isinstance(b, TracebackFuture) and
+                a.exc_info() is not None):
             b.set_exc_info(a.exc_info())
         elif a.exception() is not None:
             b.set_exception(a.exception())

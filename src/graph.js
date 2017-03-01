@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
  */
 b4w.module["__graph"] = function(exports, require) {
 
-var m_print = require("__print");
 var m_util  = require("__util");
 
 var NULL_NODE    = -1;
@@ -44,8 +43,8 @@ exports.TWO_WAY      = TWO_WAY;
 
 /**
  * Create graph using constructor pattern.
- * @param node_or_edge1 Node [ID, ATTR] or Edge [ID1, ID2, ATTR]
- * @param node_or_edge2 ...
+ * Argument params: node_or_edge1 Node [ID, ATTR] or Edge [ID1, ID2, ATTR], 
+ * node_or_edge2 ...
  */
 exports.create = function() {
 
@@ -100,7 +99,7 @@ exports.clone = function(graph, nodes_cb, edges_cb) {
     } else
         var edges = m_util.clone_object_r(graph.edges);
 
-    var graph = {
+    graph = {
         nodes: nodes,
         edges: edges
     };
@@ -517,7 +516,6 @@ function subgraph_node_conn_iter(graph, node_id, visit_state, dir) {
 
 exports.cleanup_loose_edges = cleanup_loose_edges;
 function cleanup_loose_edges(graph) {
-    var nodes = graph.nodes;
     var edges = graph.edges;
 
     for (var i = 0; i < edges.length; i+=3) {
@@ -605,7 +603,7 @@ exports.match = function(graph1, graph2, node_comp, edge_comp) {
     state.t1both_len = state.t1in_len = state.t1out_len = 0;
     state.t2both_len = state.t2in_len = state.t2out_len = 0;
 
-	state.added_node1 = NULL_NODE;
+    state.added_node1 = NULL_NODE;
 
     state.core_1 = Array(n1);
     state.core_2 = Array(n2);
@@ -696,8 +694,8 @@ function match_iter(c1, c2, state) {
     var found = false;
 
     while (!found && state_next_pair(state, _next_pair_cache, n1, n2)) {
-        var n1 = _next_pair_cache[0];
-        var n2 = _next_pair_cache[1];
+        n1 = _next_pair_cache[0];
+        n2 = _next_pair_cache[1];
 
         if (state_is_feasible_pair(state, n1, n2)) {
             var new_state = state_clone(state);
@@ -758,54 +756,54 @@ function state_next_pair(state, next_pair, prev_n1, prev_n2) {
     var out_1 = state.out_1;
     var out_2 = state.out_2;
 
-	if (t1both_len > core_len && t2both_len > core_len) {
+    if (t1both_len > core_len && t2both_len > core_len) {
         while (prev_n1 < n1 && (core_1[prev_n1] != NULL_NODE ||
                 out_1[prev_n1] == 0 || in_1[prev_n1] == 0)) {
             prev_n1++;
             prev_n2 = 0;
         }
-	} else if (t1out_len > core_len && t2out_len > core_len) {
+    } else if (t1out_len > core_len && t2out_len > core_len) {
         while (prev_n1 < n1 && (core_1[prev_n1] != NULL_NODE || out_1[prev_n1] == 0)) {
             prev_n1++;
             prev_n2 = 0;
         }
-	} else if (t1in_len > core_len && t2in_len > core_len) {
+    } else if (t1in_len > core_len && t2in_len > core_len) {
         while (prev_n1 < n1 && (core_1[prev_n1] != NULL_NODE || in_1[prev_n1] == 0)) {
             prev_n1++;
             prev_n2 = 0;
         }
     // NOTE: order is not supported
-	} else if (prev_n1 == 0 && state.order != NULL) {
+    } else if (prev_n1 == 0 && state.order != NULL) {
         var i = 0;
-	    while (i < n1 && core_1[prev_n1 = state.order[i]] != NULL_NODE)
-	        i++;
-	    if (i == n1)
-	        prev_n1 = n1;
-	} else {
+        while (i < n1 && core_1[prev_n1 = state.order[i]] != NULL_NODE)
+            i++;
+        if (i == n1)
+            prev_n1 = n1;
+    } else {
         while (prev_n1 < n1 && core_1[prev_n1] != NULL_NODE) {
             prev_n1++;
             prev_n2 = 0;
         }
-	}
+    }
 
-	if (t1both_len > core_len && t2both_len > core_len) {
+    if (t1both_len > core_len && t2both_len > core_len) {
         while (prev_n2 < n2 && (core_2[prev_n2] != NULL_NODE ||
                 out_2[prev_n2] == 0 || in_2[prev_n2] == 0)) {
             prev_n2++;
         }
-	} else if (t1out_len > core_len && t2out_len > core_len) {
+    } else if (t1out_len > core_len && t2out_len > core_len) {
         while (prev_n2 < n2 && (core_2[prev_n2] != NULL_NODE || out_2[prev_n2] == 0)) {
             prev_n2++;
         }
-	} else if (t1in_len > core_len && t2in_len > core_len) {
+    } else if (t1in_len > core_len && t2in_len > core_len) {
         while (prev_n2 < n2 && (core_2[prev_n2] != NULL_NODE || in_2[prev_n2] == 0)) {
             prev_n2++;
         }
-	} else {
+    } else {
         while (prev_n2 < n2 && core_2[prev_n2] != NULL_NODE) {
             prev_n2++;
         }
-	}
+    }
 
     if (prev_n1 < n1 && prev_n2 < n2) {
         // *pn1, *pn2
@@ -1103,33 +1101,33 @@ function state_add_pair(state, node1, node2) {
 
     var core_len = (++state.core_len);
 
-	state.added_node1 = node1;
+    state.added_node1 = node1;
 
-	if (!in_1[node1]) {
+    if (!in_1[node1]) {
         in_1[node1] = core_len;
-	    state.t1in_len++;
-		if (out_1[node1])
-		    state.t1both_len++;
-	}
-	if (!out_1[node1]) {
+        state.t1in_len++;
+        if (out_1[node1])
+            state.t1both_len++;
+    }
+    if (!out_1[node1]) {
         out_1[node1] = core_len;
-	    state.t1out_len++;
-		if (in_1[node1])
-		    state.t1both_len++;
-	}
+        state.t1out_len++;
+        if (in_1[node1])
+            state.t1both_len++;
+    }
 
-	if (!in_2[node2]) {
+    if (!in_2[node2]) {
         in_2[node2] = core_len;
-	    state.t2in_len++;
-		if (out_2[node2])
-		    state.t2both_len++;
-	}
-	if (!out_2[node2]) {
+        state.t2in_len++;
+        if (out_2[node2])
+            state.t2both_len++;
+    }
+    if (!out_2[node2]) {
         out_2[node2] = core_len;
-	    state.t2out_len++;
-		if (in_2[node2])
-		    state.t2both_len++;
-	}
+        state.t2out_len++;
+        if (in_2[node2])
+            state.t2both_len++;
+    }
 
     core_1[node1] = node2;
     core_2[node2] = node1;
@@ -1139,8 +1137,8 @@ function state_add_pair(state, node1, node2) {
         if (!in_1[other]) {
             in_1[other] = core_len;
             state.t1in_len++;
-		    if (out_1[other])
-		        state.t1both_len++;
+            if (out_1[other])
+                state.t1both_len++;
         }
     }
 
@@ -1149,8 +1147,8 @@ function state_add_pair(state, node1, node2) {
         if (!out_1[other]) {
             out_1[other] = core_len;
             state.t1out_len++;
-		    if (in_1[other])
-		        state.t1both_len++;
+            if (in_1[other])
+                state.t1both_len++;
         }
     }
 
@@ -1159,8 +1157,8 @@ function state_add_pair(state, node1, node2) {
         if (!in_2[other]) {
             in_2[other] = core_len;
             state.t2in_len++;
-		    if (out_2[other])
-		        state.t2both_len++;
+            if (out_2[other])
+                state.t2both_len++;
         }
     }
 
@@ -1169,8 +1167,8 @@ function state_add_pair(state, node1, node2) {
         if (!out_2[other]) {
             out_2[other]=core_len;
             state.t2out_len++;
-		    if (in_2[other])
-		        state.t2both_len++;
+            if (in_2[other])
+                state.t2both_len++;
         }
     }
 }
@@ -1195,46 +1193,46 @@ function state_back_track(state) {
 
     if (state.orig_core_len < core_len) {
         if (in_1[added_node1] == core_len)
-		    in_1[added_node1] = 0;
-	    for (var i = 0; i < in_edge_count(g1, added_node1); i++) {
+            in_1[added_node1] = 0;
+        for (var i = 0; i < in_edge_count(g1, added_node1); i++) {
             var other = get_in_edge(g1, added_node1, i);
-		    if (in_1[other] == core_len)
+            if (in_1[other] == core_len)
                 in_1[other]=0;
-		}
+        }
 
-		if (out_1[added_node1] == core_len)
-		    out_1[added_node1] = 0;
-	    for (var i = 0; i < out_edge_count(g1, added_node1); i++) {
+        if (out_1[added_node1] == core_len)
+            out_1[added_node1] = 0;
+        for (var i = 0; i < out_edge_count(g1, added_node1); i++) {
             var other = get_out_edge(g1, added_node1, i);
-		    if (out_1[other] == core_len)
-			    out_1[other] = 0;
-		}
+            if (out_1[other] == core_len)
+                out_1[other] = 0;
+        }
 
-		var node2 = core_1[added_node1];
+        var node2 = core_1[added_node1];
 
         if (in_2[node2] == core_len)
-		    in_2[node2] = 0;
-	    for (var i = 0; i < in_edge_count(g2, node2); i++) {
+            in_2[node2] = 0;
+        for (var i = 0; i < in_edge_count(g2, node2); i++) {
             var other = get_in_edge(g2, node2, i);
-		    if (in_2[other] == core_len)
-			    in_2[other] = 0;
-		}
+            if (in_2[other] == core_len)
+                in_2[other] = 0;
+        }
 
-		if (out_2[node2] == core_len)
-		    out_2[node2] = 0;
+        if (out_2[node2] == core_len)
+            out_2[node2] = 0;
 
-	    for (var i = 0; i < out_edge_count(g2, node2); i++) {
+        for (var i = 0; i < out_edge_count(g2, node2); i++) {
             var other = get_out_edge(g2, node2, i);
-		    if (out_2[other] == core_len)
-			    out_2[other] = 0;
-		}
+            if (out_2[other] == core_len)
+                out_2[other] = 0;
+        }
 
-	    core_1[added_node1] = NULL_NODE;
-		core_2[node2] = NULL_NODE;
+        core_1[added_node1] = NULL_NODE;
+        core_2[node2] = NULL_NODE;
 
-	    state.core_len = state.orig_core_len;
-		state.added_node1 = NULL_NODE;
-	}
+        state.core_len = state.orig_core_len;
+        state.added_node1 = NULL_NODE;
+    }
 }
 
 function state_clone(state) {
@@ -1259,7 +1257,7 @@ function state_clone(state) {
     new_state.t2out_len = state.t2out_len;
     new_state.t2both_len = state.t2both_len;
 
-	new_state.added_node1 = NULL_NODE;
+    new_state.added_node1 = NULL_NODE;
 
     new_state.core_1 = state.core_1;
     new_state.core_2 = state.core_2;
@@ -1270,7 +1268,7 @@ function state_clone(state) {
 
     new_state.share_count = state.share_count;
 
-	state.share_count[0] += 1;
+    state.share_count[0] += 1;
 
     return new_state;
 }
@@ -1281,7 +1279,6 @@ function state_clone(state) {
  * may create multigraph (multiple edges connecting same nodes)
  */
 exports.replace = function(graph, rnode_ids, new_node_attr) {
-    var nodes = graph.nodes;
     var edges = graph.edges;
 
     var new_node_id = gen_node_id(graph);
@@ -1330,7 +1327,7 @@ exports.reconnect_edges = function(graph, id1, id2, new_id1, new_id2) {
 exports.enforce_acyclic = function(graph, main_node) {
 
     if (!main_node)
-        var main_node = get_sink_nodes(graph)[0];
+        main_node = get_sink_nodes(graph)[0];
     var edges = graph.edges;
     if (!edges.length || edges.indexOf(main_node) == -1)
         return graph;
@@ -1365,7 +1362,7 @@ exports.enforce_acyclic = function(graph, main_node) {
     find_redundant_edges(main_node, graph_data[main_node]);
 
     for (var i = 0; i < wrong_edges.length; i++) {
-            var count = 0;
+            count = 0;
             for (var k = 0; k < edges.length; k=k+3) {
                 if (wrong_edges[i][1] == edges[k + 1] && wrong_edges[i][0] == edges[k])
                     remove_edge(graph, edges[k], edges[k+1], count);

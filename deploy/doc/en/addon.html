@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Add-on &mdash; Blend4Web 16.12 User Manual</title>
+  <title>Add-on &mdash; Blend4Web 17.02 User Manual</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="About these documents"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.12 User Manual" href="index.html"/>
+    <link rel="top" title="Blend4Web 17.02 User Manual" href="index.html"/>
         <link rel="next" title="Scene Settings" href="scene_settings.html"/>
         <link rel="prev" title="Web Player" href="web_player.html"/> 
 
@@ -61,7 +61,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -469,23 +469,12 @@ recommend you to reexport yor scene.</td>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Dupli group error; Objects from
-the GROUP_NAME dupli group on
-the OBJECT_NAME object cannot be
-exported</td>
-<td>None of the objects in the GROUP_NAME
-group which were selected for duplication
-on the OBJECT_NAME object can be
-exported. Permission to export at least
-one object of the group, or to remove the
-duplication of the group is required.</td>
-</tr>
-<tr class="row-odd"><td>Export to different disk is
+<tr class="row-even"><td>Export to different disk is
 forbidden</td>
 <td>Export to a directory located on a
 different disk is forbidden</td>
 </tr>
-<tr class="row-even"><td>Incompatible objects with
+<tr class="row-odd"><td>Incompatible objects with
 a shared mesh; The OBJECT_NAME
 object has both vertex groups and
 a shared mesh</td>
@@ -501,165 +490,38 @@ object has the
 options turned on (because in these cases
 a full copying of meshes occurs).</td>
 </tr>
-<tr class="row-odd"><td>Incomplete mesh; Material slot is
-empty</td>
-<td>Material slot is empty.</td>
-</tr>
-<tr class="row-even"><td>Incomplete vehicle. The NAME
-vehicle doesn&#8217;t have any chassis
-or hull</td>
-<td>The modelled NAME vehicle is not complete
-as it should contain a <code class="docutils literal"><span class="pre">Chassis</span></code> or a
-<code class="docutils literal"><span class="pre">Hull</span></code> element.</td>
-</tr>
-<tr class="row-odd"><td>Incomplete vehicle. The NAME
-vehicle requires at least one bob</td>
-<td>The modelled NAME vehicle is not
-complete as it should contain at least
-one <code class="docutils literal"><span class="pre">Bob</span></code> element.</td>
-</tr>
-<tr class="row-even"><td>Incomplete vehicle. The NAME
-vehicle requires at least one wheel</td>
-<td>The modelled NAME vehicle is not
-complete as it should contain at least
-one <code class="docutils literal"><span class="pre">Wheel</span></code> element.</td>
-</tr>
-<tr class="row-odd"><td>Incorrect mesh; Corrupted file:
-Wrong group indices</td>
-<td>The mesh has vertices assigned to the
-non-existing vertex group.</td>
-</tr>
 <tr class="row-even"><td>Incorrect mesh; Corrupted file:
-Wrong vertice positions</td>
-<td>Corrupted file: incorrect vertex
-coordinate value.</td>
-</tr>
-<tr class="row-odd"><td>Incorrect mesh; Corrupted file:
-Wrong normals</td>
-<td>Corrupted file: incorrect normal value.</td>
-</tr>
-<tr class="row-even"><td>Incorrect mesh; Corrupted file:
-Wrong tangents</td>
-<td>Corrupted file: incorrect tangent value.</td>
-</tr>
-<tr class="row-odd"><td>Incorrect mesh; Corrupted file:
-Wrong texture coordinates</td>
-<td>Corrupted file: incorrect texture
-coordinate value.</td>
-</tr>
-<tr class="row-even"><td>Incorrect mesh; Corrupted file:
-Wrong vertex group weights</td>
-<td>Corrupted file: incorrect vertex group
-weight value.</td>
-</tr>
-</tbody>
-</table>
-<table border="1" class="docutils">
-<colgroup>
-<col width="46%" />
-<col width="54%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>Incorrect mesh; Corrupted file:
 Wrong vertex color values</td>
 <td>Corrupted file: incorrect vertex color
 value.</td>
 </tr>
-<tr class="row-even"><td>Incorrect vertex animation; Object
-has no vertex animation</td>
-<td>The object&#8217;s vertex animation export
-option is on, but there is no vertex
-animation.</td>
-</tr>
-<tr class="row-odd"><td>Incorrect vertex animation; Unbaked
-&#8220;ANIM_NAME&#8221; vertex animation</td>
-<td>Vertex animation export is turned on for
-the mesh, but the ANIM_NAME animation
-doesn&#8217;t have any frames.</td>
-</tr>
-<tr class="row-even"><td>Loading of resources from different
+<tr class="row-odd"><td>Loading of resources from different
 disk is forbidden</td>
 <td>Loading of resources from different disk
 is forbidden.</td>
 </tr>
-<tr class="row-odd"><td>The material has a normal map but
+<tr class="row-even"><td>The material has a normal map but
 doesn&#8217;t have any material nodes</td>
 <td>The node material uses <code class="docutils literal"><span class="pre">Normal</span> <span class="pre">Mapping</span></code>,
 but has no <code class="docutils literal"><span class="pre">Material</span></code> node.</td>
 </tr>
-<tr class="row-even"><td>The mesh has a UV map but has no
+<tr class="row-odd"><td>The mesh has a UV map but has no
 exported material</td>
 <td>The mesh has a UV map layer but has no
 material for export.</td>
 </tr>
-<tr class="row-odd"><td>The mesh has a vertex color layer
+<tr class="row-even"><td>The mesh has a vertex color layer
 but has no exported material</td>
 <td>The mesh has a vertex color layer but has
 no material for export.</td>
 </tr>
-<tr class="row-even"><td>No such file or directory</td>
+<tr class="row-odd"><td>No such file or directory</td>
 <td>The file or directory does not exist.</td>
 </tr>
-<tr class="row-odd"><td>Object constraint has no target</td>
-<td>The <code class="docutils literal"><span class="pre">Target</span> <span class="pre">Object</span></code> property for the
-object constraint (on the
-<code class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></code> tab) was not set.</td>
-</tr>
-<tr class="row-even"><td>Particle system error; Dupli group
-isn&#8217;t specified</td>
-<td>Particle system error: no group is
-selected as a particle..</td>
-</tr>
-<tr class="row-odd"><td>Particle system error; Dupli object
-isn&#8217;t specified</td>
-<td>Particle system error: no object is
-selected as a particle.</td>
-</tr>
-</tbody>
-</table>
-<table border="1" class="docutils">
-<colgroup>
-<col width="46%" />
-<col width="54%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>Particle system error; Dupli object
-OBJECT_NAME doesn&#8217;t export</td>
-<td>The OBJECT_NAME object which is selected
-as a particle can not be exported (the
-<code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code> checkbox is set).</td>
-</tr>
-<tr class="row-even"><td>Particle system error; The
-GROUP_NAME dupli group contains no
-valid object for export</td>
-<td>The GROUP_NAME dupli group which is
-selected as a particle contains no valid
-object for export. Either such objects
-have the <code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code> checkbox
-enabled or the types of the objects are
-unsuitable. Supported object types:
-<code class="docutils literal"><span class="pre">MESH</span></code>.</td>
-</tr>
-<tr class="row-odd"><td>Particle system error. Unsupported
-render type TYPE for the
-EMITTER/HAIR particles PSYS_NAME on
-object NAME. Particle system
-removed.</td>
-<td>Particle system error. Unsupported
-render type TYPE for the EMITTER/HAIR
-particles PSYS_NAME on object NAME. The
-particle system has removed.</td>
-</tr>
-<tr class="row-even"><td>Particle system error; Wrong dupli
-object type TYPE_NAME</td>
-<td>An object of unsuitable type is selected
-for the particle. Supported types:
-<code class="docutils literal"><span class="pre">MESH</span></code>.</td>
-</tr>
-<tr class="row-odd"><td>Permission denied</td>
+<tr class="row-even"><td>Permission denied</td>
 <td>No access rights to the current directory.</td>
 </tr>
-<tr class="row-even"><td>Wrong edited normals count; It
+<tr class="row-odd"><td>Wrong edited normals count; It
 doesn&#8217;t match with the mesh
 vertices count</td>
 <td>The number of edited normals does not
@@ -667,22 +529,13 @@ match the number of the mesh vertices.
 Execute <code class="docutils literal"><span class="pre">Clean</span> <span class="pre">Up</span></code> or <code class="docutils literal"><span class="pre">Save</span></code> in the
 <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Normals</span> <span class="pre">Editor</span></code> panel.</td>
 </tr>
-<tr class="row-odd"><td>Wrong overridden bounding box;
+<tr class="row-even"><td>Wrong overridden bounding box;
 Check the mesh&#8217;s bounding box
 values</td>
 <td>Wrong dimensions are specified when
 overriding the mesh&#8217;s <code class="docutils literal"><span class="pre">BoundingBox</span></code>:
 minimum value is greater than maximum
 value for at least one of the dimensions.</td>
-</tr>
-<tr class="row-even"><td>Wrong vertex animation vertices
-count; It doesn&#8217;t match with the
-mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
-<td>Vertex animation export is enabled but
-the number of vertices in the baked
-ANIM_NAME animation frames does not match
-the mesh vertices number. Possible
-solution is to &#8220;re-bake&#8221; the animation.</td>
 </tr>
 </tbody>
 </table>
@@ -711,27 +564,39 @@ solution is to &#8220;re-bake&#8221; the animation.</td>
 exists. Texture NAME.</td>
 <td>This <code class="docutils literal"><span class="pre">Canvas</span></code> ID already exists.</td>
 </tr>
-<tr class="row-odd"><td>Empty canvas texture ID for texture
+<tr class="row-odd"><td>Dupli group error for object
+OBJECT_NAME. Objects from the
+GROUP_NAME dupli group on the
+OBJECT_NAME object cannot be
+exported</td>
+<td>None of the objects in the GROUP_NAME
+group which were selected for duplication
+on the OBJECT_NAME object can be
+exported. Permission to export at least
+one object of the group, or to remove the
+duplication of the group is required.</td>
+</tr>
+<tr class="row-even"><td>Empty canvas texture ID for texture
 NAME.</td>
 <td><code class="docutils literal"><span class="pre">Canvas</span></code> ID is empty.</td>
 </tr>
-<tr class="row-even"><td>Empty material slot in node
+<tr class="row-odd"><td>Empty material slot in node
 &#8220;NAME&#8221;. Material: &#8220;NAME&#8221;.</td>
 <td>Empty material slot in &#8220;NAME&#8221; node.</td>
 </tr>
-<tr class="row-odd"><td>Environment map in the &#8220;NAME&#8221;
+<tr class="row-even"><td>Environment map in the &#8220;NAME&#8221;
 world texture slot cannot be
 a movie.</td>
 <td>Environment map can not be presented with
 a video file.</td>
 </tr>
-<tr class="row-even"><td>Ignoring LODs after empty LOD for
+<tr class="row-odd"><td>Ignoring LODs after empty LOD for
 the NAME object.</td>
 <td>All LOD objects that follow the empty
 slot were ignored (in the LOD objects
 list for the NAME object).</td>
 </tr>
-<tr class="row-odd"><td>Incomplete mesh NAME; Dynamic grass
+<tr class="row-even"><td>Incomplete mesh NAME; Dynamic grass
 vertex colors required
 by material settings</td>
 <td>The <code class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">size</span></code> and/or
@@ -740,16 +605,85 @@ by the special terrain material but the
 mesh has no vertex colors with such
 names.</td>
 </tr>
-<tr class="row-even"><td>Incomplete mesh; Material settings
+<tr class="row-odd"><td>Incomplete mesh; Material settings
 require vertex colors</td>
 <td>The <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></code> option is
 enabled for the mesh material, but the
 mesh has no vertex color layers.</td>
 </tr>
-<tr class="row-odd"><td>Incorrect NLA script, falling back
+<tr class="row-even"><td>Incorrect NLA script, falling back
 to simple sequential NLA.</td>
-<td>Incorrect NLA script, falling back to
+<td>Incorrect NLA script. Falling back to
 simple sequential NLA.</td>
+</tr>
+<tr class="row-odd"><td>Incorrect vertex animation for mesh
+NAME. Object has no vertex
+animation.</td>
+<td>The object&#8217;s vertex animation export
+option is on, but there is no vertex
+animation.</td>
+</tr>
+<tr class="row-even"><td>Incorrect vertex animation for mesh
+NAME. Unbaked &#8220;ANIM_NAME&#8221; vertex
+animation.</td>
+<td>Vertex animation export is turned on for
+the mesh, but the ANIM_NAME animation
+doesn&#8217;t have any frames.</td>
+</tr>
+<tr class="row-odd"><td>Incorrect mesh NAME;
+Wrong group indices</td>
+<td>The mesh has vertices assigned to the
+non-existing vertex group.</td>
+</tr>
+<tr class="row-even"><td>Incorrect mesh NAME;
+Wrong vertice positions</td>
+<td>Corrupted file: incorrect vertex
+coordinate value.</td>
+</tr>
+<tr class="row-odd"><td>Incorrect mesh NAME;
+Wrong normals</td>
+<td>Corrupted file: incorrect normal value.</td>
+</tr>
+<tr class="row-even"><td>Incorrect mesh NAME;
+Wrong tangents</td>
+<td>Corrupted file: incorrect tangent value.</td>
+</tr>
+<tr class="row-odd"><td>Incorrect mesh NAME;
+Wrong texture coordinates</td>
+<td>Corrupted file: incorrect texture
+coordinate value.</td>
+</tr>
+<tr class="row-even"><td>Incorrect mesh NAME;
+Wrong vertex group weights</td>
+<td>Corrupted file: incorrect vertex group
+weight value.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Incomplete vehicle. The NAME
+vehicle doesn&#8217;t have any chassis
+or hull</td>
+<td>The modelled NAME vehicle is not complete
+as it should contain a <code class="docutils literal"><span class="pre">Chassis</span></code> or a
+<code class="docutils literal"><span class="pre">Hull</span></code> element.</td>
+</tr>
+<tr class="row-even"><td>Incomplete vehicle. The NAME
+vehicle requires at least one bob</td>
+<td>The modelled NAME vehicle is not
+complete as it should contain at least
+one <code class="docutils literal"><span class="pre">Bob</span></code> element.</td>
+</tr>
+<tr class="row-odd"><td>Incomplete vehicle. The NAME
+vehicle requires at least one wheel</td>
+<td>The modelled NAME vehicle is not
+complete as it should contain at least
+one <code class="docutils literal"><span class="pre">Wheel</span></code> element.</td>
 </tr>
 <tr class="row-even"><td>Invalid link found in node
 material. Material: &#8220;NAME&#8221;.</td>
@@ -789,15 +723,13 @@ data. Converted to EMPTY.</td>
 e.g. has no polygons. The object&#8217;s type
 has been changed to EMPTY.</td>
 </tr>
-</tbody>
-</table>
-<table border="1" class="docutils">
-<colgroup>
-<col width="46%" />
-<col width="54%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>Object &#8220;NAME&#8221; has the mesh with
+<tr class="row-odd"><td>Object constraint has no target.
+Check &#8220;CONST_HOLDER_NAME&#8221;.</td>
+<td>The <code class="docutils literal"><span class="pre">Target</span> <span class="pre">Object</span></code> property for the
+object constraint (on the
+<code class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></code> tab) was not set.</td>
+</tr>
+<tr class="row-even"><td>Object &#8220;NAME&#8221; has the mesh with
 shape keys. The property
 &#8220;Relative&#8221; of mesh has been
 enabled.</td>
@@ -806,13 +738,14 @@ shape keys. This mesh has the
 &#8220;Relative&#8221; property enabled which is
 forbidden.</td>
 </tr>
-<tr class="row-even"><td>Only 2 UV textures are allowed for
-a mesh; The mesh has N UVs.</td>
-<td>The engine supports up to 2 UV texture
-layers for each mesh. The number of UV
-layers for this mesh is N.</td>
+<tr class="row-odd"><td>Object &#8220;NAME&#8221; has no data or
+data is broken. Change object type
+to EMPTY.</td>
+<td>An object named &#8220;NAME&#8221; has no mesh or
+mesh is broken. The object&#8217;s type
+has been changed to EMPTY.</td>
 </tr>
-<tr class="row-odd"><td>Packed media &#8220;FILE_NAME&#8221; has not
+<tr class="row-even"><td>Packed media &#8220;FILE_NAME&#8221; has not
 been exported to
 &#8220;CONVERTED_FILE_PATH&#8221;</td>
 <td>The packed media file &#8220;FILE_NAME&#8221;
@@ -820,7 +753,15 @@ cannot be converted to
 &#8220;CONVERTED_FILE_PATH&#8221;. Please unpack
 this file and convert it.</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the <code class="docutils literal"><span class="pre">from</span></code> field is missing in
 the last of the &#8220;OBJECT_NAME&#8221;
@@ -829,7 +770,7 @@ object&#8217;s vertex colors</td>
 the <code class="docutils literal"><span class="pre">from</span></code> field but it&#8217;s not presented
 in the OBJECT_NAME emitter.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the <code class="docutils literal"><span class="pre">to</span></code> field is missing in
 the list of the &#8220;OBJECT_NAME&#8221;
@@ -839,7 +780,7 @@ object&#8217;s vertex colors</td>
 OBJECT_NAME object which is selected as a
 particle.</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the &#8220;<code class="docutils literal"><span class="pre">to</span></code> field is missing in
 the &#8220;OBJECT_NAME&#8221; object
@@ -849,11 +790,65 @@ the &#8220;OBJECT_NAME&#8221; object
 the OBJECT_NAME object of the GROUP_NAME
 group which is selected as a particle.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for object
+<tr class="row-even"><td>Particle system error for object
 &#8220;NAME&#8221;. Invalid dupli object
 &#8220;OBJECT_NAME&#8221;.</td>
 <td>Particle system error for the object
 NAME. Invalid dupli-object OBJECT_NAME.</td>
+</tr>
+<tr class="row-odd"><td>Particle system error. Unsupported
+render type &#8220;TYPE&#8221; for the HAIR
+particles &#8220;NAME&#8221; on object
+&#8220;OBJECT_NAME&#8221;. Particle system
+removed.</td>
+<td>Particle system error. Unsupported
+render type TYPE for the HAIR
+particles PSYS_NAME on object NAME. The
+particle system has removed.</td>
+</tr>
+<tr class="row-even"><td>Particle system error. Unsupported
+render type &#8220;TYPE&#8221; for the EMITTER
+particles &#8220;NAME&#8221; on object
+&#8220;OBJECT_NAME&#8221;. Particle system
+removed.</td>
+<td>Particle system error. Unsupported
+render type TYPE for the EMITTER
+particles PSYS_NAME on object NAME. The
+particle system has removed.</td>
+</tr>
+<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
+Dupli object isn&#8217;t specified.</td>
+<td>Particle system error: no object is
+selected as a particle.</td>
+</tr>
+<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;.
+Dupli group isn&#8217;t specified.</td>
+<td>Particle system error: no group is
+selected as a particle.</td>
+</tr>
+<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
+Wrong dupli object type &#8220;TYPE&#8221;.</td>
+<td>An object of unsuitable type is selected
+for the particle. Supported types:
+<code class="docutils literal"><span class="pre">MESH</span></code>.</td>
+</tr>
+<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;.
+Dupli object &#8220;NAME&#8221; has not been
+exported.</td>
+<td>The NAME object which is selected
+as a particle can not be exported (the
+<code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code> checkbox is set).</td>
+</tr>
+<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;.
+The &#8220;GROUP_NAME&#8221; dupli group
+contains no valid object for export.</td>
+<td>The GROUP_NAME dupli group which is
+selected as a particle contains no valid
+object for export. Either such objects
+have the <code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></code> checkbox
+enabled or the types of the objects are
+unsuitable. Supported object types:
+<code class="docutils literal"><span class="pre">MESH</span></code>.</td>
 </tr>
 <tr class="row-even"><td>Sound file is missing in the
 SPEAKER object &#8220;NAME&#8221;. Converted
@@ -865,32 +860,8 @@ object&#8217;s type has been changed to EMPTY.</td>
 unsupported AREA type. Changed to
 SUN.</td>
 <td>The lamp object &#8220;NAME&#8221; has unsupported
-AREA type. Changed to SUN.</td>
-</tr>
-<tr class="row-even"><td>The main scene NAME can not be
-rendered by another scene. Material
-NAME has been removed.</td>
-<td>The main scene NAME can not be rendered
-by another scene. The material NAME has
-been deleted.</td>
-</tr>
-<tr class="row-odd"><td>The NAME action has decimal frames.
-Converted to integer.</td>
-<td>The NAME action has decimal frames.
-Converted to integer.</td>
-</tr>
-<tr class="row-even"><td>The NAME armature modifier has a
-proxy object as an armature.
-Modifier removed.</td>
-<td>An armature modifier has a proxy object
-as an armature.</td>
-</tr>
-<tr class="row-odd"><td>The NAME armature modifier has no
-armature object or it is not
-exported. Modifier removed.</td>
-<td>The NAME <code class="docutils literal"><span class="pre">Armature</span></code> modifier has no
-armature object or it is not exported.
-Modifier removed.</td>
+AREA type. Lamp type has been changed
+to SUN.</td>
 </tr>
 </tbody>
 </table>
@@ -900,6 +871,31 @@ Modifier removed.</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
+<tr class="row-odd"><td>The main scene NAME can not be
+rendered by another scene. Material
+NAME has been removed.</td>
+<td>The main scene NAME can not be rendered
+by another scene. The material NAME has
+been deleted.</td>
+</tr>
+<tr class="row-even"><td>The NAME action has decimal frames.
+Converted to integer.</td>
+<td>The NAME action has decimal frames, which
+isn&#8217;t supported. Converted to integer.</td>
+</tr>
+<tr class="row-odd"><td>The NAME armature modifier has a
+proxy object as an armature.
+Modifier removed.</td>
+<td>An armature modifier has a proxy object
+as an armature.</td>
+</tr>
+<tr class="row-even"><td>The NAME armature modifier has no
+armature object or it is not
+exported. Modifier removed.</td>
+<td>The NAME <code class="docutils literal"><span class="pre">Armature</span></code> modifier has no
+armature object or it is not exported.
+Modifier removed.</td>
+</tr>
 <tr class="row-odd"><td>The NAME curve modifier has no curve
 object. Modifier removed.</td>
 <td>The NAME curve modifier has no object.
@@ -924,8 +920,10 @@ armature modifier. It belongs to a
 not exported scene. Modifier
 removed.</td>
 <td>The NAME object has the NAME
-armature modifier. It belongs to a
-not exported scene. Modifier removed.</td>
+armature modifier. The armature object in
+this modifier isn&#8217;t specified or belongs
+to a not exported scene. Modifier
+removed.</td>
 </tr>
 <tr class="row-odd"><td>The NAME LAMP node has no lamp
 object. Material: NAME.</td>
@@ -947,8 +945,8 @@ group. Modifier removed.</td>
 an armature, or both these objects should
 be explicitly present in the scene.</td>
 </tr>
-<tr class="row-even"><td>TEXTURE_TYPE isn&#8217;t supported,
-WORLD_NAME</td>
+<tr class="row-even"><td>&#8220;TEXTURE_TYPE&#8221; texture type is not
+supported for world &#8220;NAME&#8221;.</td>
 <td>TEXTURE_TYPE texture type isn&#8217;t supported
 for world WORLD_NAME</td>
 </tr>
@@ -968,6 +966,14 @@ values.</td>
 specified vertex color layers should
 exist.</td>
 </tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<tbody valign="top">
 <tr class="row-odd"><td>Wind bending: vertex colors weren&#8217;t
 properly assigned for &#8220;NAME&#8221;.
 Properties were set to default
@@ -997,6 +1003,24 @@ in texture NAME. [Material: NAME.]</td>
 <td>The following coordinate types are
 supported for image textures: <code class="docutils literal"><span class="pre">UV</span></code>,
 <code class="docutils literal"><span class="pre">Normal</span></code> and <code class="docutils literal"><span class="pre">Generated</span></code>.</td>
+</tr>
+<tr class="row-even"><td>Wrong F-Curve interpolation mode for
+ACTION_NAME. Only BEZIER, LINEAR or
+CONSTANT mode is allowed for F-Curve
+interpolation. Switch to BEZIER.</td>
+<td>The following types are supported for
+action interpolation mode: <code class="docutils literal"><span class="pre">BEZIER</span></code>,
+<code class="docutils literal"><span class="pre">LINEAR</span></code> and <code class="docutils literal"><span class="pre">CONSTANT</span></code>.</td>
+</tr>
+<tr class="row-odd"><td>Wrong vertex animation vertices
+count for mesh NAME. It doesn&#8217;t
+match with the mesh vertices count
+for &#8220;ANIM_NAME&#8221;.</td>
+<td>Vertex animation export is enabled but
+the number of vertices in the baked
+ANIM_NAME animation frames does not match
+the mesh vertices number. Possible
+solution is to &#8220;re-bake&#8221; the animation.</td>
 </tr>
 </tbody>
 </table>
@@ -1042,7 +1066,8 @@ rendering a scene into. This texture has
 been replaced by a default texture.</td>
 </tr>
 <tr class="row-odd"><td>The action NAME has no fcurves.</td>
-<td>The action NAME has no fcurves.</td>
+<td>The action with the name &#8220;NAME&#8221; has no
+fcurves.</td>
 </tr>
 <tr class="row-even"><td>The &#8220;NAME&#8221; camera has unsupported
 PANORAMIC type. Changed to
@@ -1056,6 +1081,16 @@ is missing for Lens Flare material
 <td>There are no textures on the material
 or unsupported texture type is used
 for material &#8220;NAME&#8221;.</td>
+</tr>
+<tr class="row-even"><td>Use of ENVIRONMENT_MAP as diffuse
+color is not supported. Use as
+mirror instead.</td>
+<td>The ENVIRONMENT MAP texture can not be
+used as diffuse color. Disable the
+Diffuse &gt; Color and enable the
+Shading &gt; Mirror option on the
+Textures &gt; Influence panel to use this
+texture as mirror map.</td>
 </tr>
 </tbody>
 </table>
@@ -1227,7 +1262,7 @@ for material &#8220;NAME&#8221;.</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2014-2016, Triumph.
-      Last updated on 2016-12-22.
+      Last updated on 2017-02-28.
 
     </p>
   </div>
@@ -1283,7 +1318,7 @@ for material &#8220;NAME&#8221;.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

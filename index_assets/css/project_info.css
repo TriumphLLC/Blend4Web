@@ -1,0 +1,14 @@
+table.info {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+th, td {
+  padding: 0 8px;
+  height: 60px;
+}
+
+td:first-child {
+  text-align: right;
+  width: 400px;
+}

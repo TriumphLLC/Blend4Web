@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,17 +39,11 @@ var m_vec3     = require("__vec3");
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _quat_tmp = new Float32Array(4);
-var _mat3_tmp  = new Float32Array(9);
 var _tsr_tmp   = m_tsr.create();
 var _tsr_tmp2  = m_tsr.create();
 
 var _elapsed = 0;
 var _update_counter = 0;
-
-// transform in world space
-exports.SPACE_WORLD = 0;
-// transform in local space
-exports.SPACE_LOCAL = 1;
 
 exports.update = function(elapsed) {
     _elapsed = elapsed;
@@ -146,13 +140,13 @@ exports.set_rotation_euler_rel = function(obj, euler) {
 
 exports.get_rotation_euler = function(obj, dest) {
     var quat = get_rotation(obj, _quat_tmp);
-    dest = m_util.quat_to_euler(euler, dest);
+    dest = m_util.quat_to_euler(quat, dest);
     return dest;
 }
 
 exports.get_rotation_euler_rel = function(obj, dest) {
     var quat = get_rotation_rel(obj, _quat_tmp);
-    dest = m_util.quat_to_euler(euler, dest);
+    dest = m_util.quat_to_euler(quat, dest);
     return dest;
 }
 
@@ -381,7 +375,7 @@ function update_transform(obj) {
                 m_scs.schedule_grass_map_update(scene);
                 if (sc_render.shadow_params) {
                     // camera movement only influence csm shadows
-                    if (sc_render.shadow_params.enable_csm)
+                    if (sc_render.shadow_params.enable_csm || sc_render.shadow_params.dynamic_grass_cast)
                         m_scs.schedule_shadow_update(scene);
                     var cam_scene_data = m_obj_util.get_scene_data(obj, scene);
                     var cam_main = cam_scene_data.cameras[0];

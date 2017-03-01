@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Blend4Web Project Manager</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content=" width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="shortcut icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="shortcut icon" sizes="196x196" href="/index_assets/img/favicon_196.png">
+<link rel="shortcut icon" href="/index_assets/img/favicon.ico">
+<link rel="apple-touch-icon" sizes="128x128" href="/index_assets/img/favicon_128.png">
+<link rel="apple-touch-icon-precomposed" sizes="128x128" href="/index_assets/img/favicon_128.png">
+
+<link rel="stylesheet" type="text/css" href="/index_assets/css/base.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/index_assets/css/project_list.css">
+
+</head>
+
+<body>
+  <h1>Project Manager</h1>
+  <div class="btns_cont row">
+    <div class="btn_wrapper">
+      <a id="back_to_index" href="/" class="btn active">
+        <span>Back to Index</span>
+      </a>
+      <a id="new_project" href="/create/" class="btn active">
+        <span>Create New Project</span>
+      </a>
+      <div class="btn active">
+        <form action="/project/import/" enctype="multipart/form-data" method="post">
+          <label for="zip_file">
+            <span>Import Project(s)</span>
+            <input type="file" name="zip_file" id="zip_file">
+          </label>
+        </form>
+      </div>
+      <a id="export_project" href="/export/" class="btn active">
+        <span>Export Project(s)</span>
+      </a>
+      <a id="show_hide_b4w" href="$show_hide_link" class="btn active">
+        <span>$show_hide_text Stock Projects</span>
+      </a>
+      <a id="help" target="_blank" href="/deploy/doc/en/project_manager.html" class="btn active">
+        <span>Help</span>
+      </a>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Icon</th>
+        <th>Project Name / Apps 
+          <a href="$link">
+            <div id="sort_name" class="$sort"></div>
+          </a>
+        </th>
+        <th>Project Directory / Build Directory</th>
+        <th>Blend Files</th>
+        <th>JSON Files</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      $table_insert
+    </tbody>
+  </table>
+  <div id="body_opacity"></div>
+  <div id="confirm_box">
+    <h2>Are you sure that you want to delete the project?</h2>
+    <div class="btns_cont row">
+      <div class="btn_wrapper">
+        <a id="deny_remove" class="btn active">
+          <span>No</span>
+        </a>
+        <a id="allow_remove" href="/project/" class="btn active">
+          <span>Yes</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div id="confirm_clone_box">
+    <h2>Clone project</h2>
+    <div class="row">
+      <input type="text" id="proj_name" name="proj_name" value="" placeholder="New Project Name">
+    </div>
+    <div class="btns_cont row">
+      <div class="btn_wrapper">
+        <a id="deny_clone" class="btn active">
+          <span>Cancel</span>
+        </a>
+        <a id="allow_clone" href="/project/" class="btn active">
+          <span>Clone</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/index_assets/js/project_list.js" async defer></script>
+</body>
+
+</html>

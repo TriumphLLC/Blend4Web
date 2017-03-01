@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
 b4w.module["mixer"] = function(exports, require) {
 
 var m_ctl    = require("controls");
-var m_hud    = require("hud");
 var m_scenes = require("scenes");
+var m_screen = require("screen");
 var m_sfx    = require("sfx");
 var m_util   = require("__util");
 
@@ -520,7 +520,7 @@ function draw() {
 
         var strip = _mixer_strips[i];
 
-        m_hud.draw_mixer_strip(strip.id, i == _active_strip, i % 8,
+        m_screen.draw_mixer_strip(strip.id, i == _active_strip, i % 8,
                 strip.params, strip.active_param, strip.mute, strip.solo);
 
         if (strip.speaker && m_sfx.get_filter_params(strip.speaker)) {
@@ -533,7 +533,7 @@ function draw() {
                 _filter_mag_arr[j] = 20 * Math.log(mag) / Math.LN10;
             }
 
-            m_hud.plot_array("EQ", i % 8, _filter_mag_arr, 20, 20000, -10, 10);
+            m_screen.plot_array("EQ", i % 8, _filter_mag_arr, 20, 20000, -10, 10);
         }
     }
 }

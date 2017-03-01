@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,15 +29,22 @@ b4w.module["main"] = function(exports, require) {
 /**
  * Loop callback.
  * @callback LoopCallback
- * @param {Number} timeline Timeline
- * @param {Number} delta Delta
+ * @param {number} timeline Timeline
+ * @param {number} delta Delta
  */
 
 /**
  * Rendering callback.
  * @callback RenderCallback
- * @param {Number} delta Delta
- * @param {Number} timeline Timeline
+ * @param {number} delta Delta
+ * @param {number} timeline Timeline
+ */
+
+/**
+ * FPS callback
+ * @callback FPSCallback
+ * @param {number} fps_avg Averaged rendering FPS.
+ * @param {number} phy_fps_avg Averaged physics FPS.
  */
 
 var m_anchors   = require("__anchors");
@@ -54,6 +61,7 @@ var m_geom      = require("__geometry");
 var m_input     = require("__input");
 var m_hud       = require("__hud");
 var m_nla       = require("__nla");
+var m_main      = require("__main");
 var m_lnodes    = require("__logic_nodes")
 var m_obj       = require("__objects");
 var m_phy       = require("__physics");
@@ -72,33 +80,15 @@ var m_particles = require("__particles");
 var cfg_ctx = m_cfg.context;
 var cfg_def = m_cfg.defaults;
 
-var _elem_canvas_webgl = null;
-var _elem_canvas_hud = null;
-
 var _last_abs_time = 0;
 var _pause_time = 0;
 var _resume_time = 0;
 var _loop_cb = [];
 
-/**
- * FPS callback
- * @callback FPSCallback
- * @param {Number} fps_avg Averaged rendering FPS.
- * @param {Number} phy_fps_avg Averaged physics FPS.
- */
 var _fps_callback = function() {};
-
 var _fps_counter = function() {};
 
 var _render_callback = function() {};
-var _canvas_data_url_params = {
-    callback: null,
-    format: "image/png",
-    quality: 1.0,
-    blob_url: "",
-    last_auto_revoke: false,
-    curr_auto_revoke: false
-};
 
 var WEBGL_CTX_IDS = ["webgl", "experimental-webgl"];
 var WEBGL2_CTX_IDS = ["webgl2", "experimental-webgl2"];
@@ -147,10 +137,8 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
     setup_clock();
 
-    _elem_canvas_webgl = elem_canvas_webgl;
     if (elem_canvas_hud) {
         m_hud.init(elem_canvas_hud);
-        _elem_canvas_hud = elem_canvas_hud;
     } else {
         // disable features which depend on HUD
         m_cfg.defaults.show_hud_debug_info = false;
@@ -179,7 +167,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
     _gl = gl;
 
-    init_context(_elem_canvas_webgl, _elem_canvas_hud, gl);
+    init_context(elem_canvas_webgl, elem_canvas_hud, gl);
     m_cfg.apply_quality();
     m_compat.set_hardware_defaults(gl, true);
 
@@ -272,26 +260,12 @@ function init_context(canvas, canvas_hud, gl) {
 
     m_sfx.init();
 
+    m_input.init();
+
     _fps_counter = init_fps_counter();
 
     loop();
 }
-
-/**
- * Resize the rendering canvas.
- * @method module:main.resize
- * @param {Number} width New canvas width
- * @param {Number} height New canvas height
- * @param {Boolean} [update_canvas_css=true] Change canvas CSS width/height
- * @deprecated Use {@link module:container.resize|container.resize} instead
- */
-exports.resize = resize;
-function resize(width, height, update_canvas_css) {
-    m_print.error_deprecated("main.resize", "container.resize");
-    
-    m_cont.resize(width, height, update_canvas_css);
-}
-
 
 /**
  * Set the callback for the FPS counter
@@ -334,20 +308,6 @@ function clear_render_callback() {
     _render_callback = function() {};
 }
 
-
-
-
-/**
- * Return the engine's global timeline value
- * @method module:main.global_timeline
- * @returns {Number} Floating-point number of seconds elapsed since the engine start-up
- * @deprecated Use {@link module:time.get_timeline|time.get_timeline} instead
- */
-exports.global_timeline = function() {
-    m_print.error_deprecated("main.global_timeline", "time.get_timeline");
-    return m_time.get_timeline();
-}
-
 exports.pause = pause;
 /**
  * Pause the engine
@@ -382,7 +342,7 @@ exports.resume = function() {
 /**
  * Check if the engine is paused
  * @method module:main.is_paused
- * @returns {Boolean} Paused flag
+ * @returns {boolean} Paused flag
  */
 exports.is_paused = is_paused;
 function is_paused() {
@@ -434,23 +394,6 @@ function loop() {
 
     if (vr_display && vr_display.isPresenting)
         vr_display.submitFrame();
-}
-
-function to_blob(callback, type, quality) {
-    if (!_elem_canvas_webgl)
-        return;
-
-    if (_elem_canvas_webgl.toBlob)
-        _elem_canvas_webgl.toBlob(callback, type, quality);
-    else {
-        var binStr = atob(_elem_canvas_webgl.toDataURL(type, quality).split(',')[1]);
-        var data = new Uint8Array(binStr.length);
-
-        for (var i = 0; i < binStr.length; i++)
-            data[i] = binStr.charCodeAt(i);
-
-        callback(new Blob([data], {type: type || 'image/png'}));
-    }
 }
 
 function frame(timeline, delta) {
@@ -514,20 +457,7 @@ function frame(timeline, delta) {
     // anchors
     m_anchors.update_visibility();
 
-    var cb = _canvas_data_url_params.callback;
-    if (cb) {
-        if (_canvas_data_url_params.last_auto_revoke)
-            URL.revokeObjectURL(_canvas_data_url_params.blob_url);
-
-        to_blob(function(blob) {
-            _canvas_data_url_params.blob_url = URL.createObjectURL(blob);
-            cb(_canvas_data_url_params.blob_url);
-        }, _canvas_data_url_params.format, _canvas_data_url_params.quality);
-
-        _canvas_data_url_params.callback = null;
-        _canvas_data_url_params.format = "image/png";
-        _canvas_data_url_params.quality = 1.0;
-    }
+    m_main.frame();
 }
 
 function init_fps_counter() {
@@ -577,9 +507,6 @@ exports.reset = function() {
     m_time.reset();
     m_sfx.reset();
 
-    _elem_canvas_webgl = null;
-    _elem_canvas_hud = null;
-
     _last_abs_time = 0;
 
     _pause_time = 0;
@@ -598,37 +525,21 @@ exports.reset = function() {
 /**
  * Register one-time callback to return DataURL of rendered canvas element.
  * @param {BlobURLCallback} callback BlobURL callback.
- * @param {String} [format="image/png"] The image format ("image/png", "image/jpeg",
+ * @param {string} [format="image/png"] The image format ("image/png", "image/jpeg",
  * "image/webp" and so on).
- * @param {Number} [quality=1.0] Number between 0 and 1 for types: "image/jpeg",
+ * @param {number} [quality=1.0] Number between 0 and 1 for types: "image/jpeg",
  * "image/webp".
- * @param {Boolean} [auto_revoke=true] Automatically revoke blob object.
+ * @param {boolean} [auto_revoke=true] Automatically revoke blob object.
  * If auto_revoke is false then application must revoke blob URL via the following call {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/revokeObjectURL| URL.revokeObjectURL(blobURL)}.
  */
 exports.canvas_data_url = function(callback, format, quality, auto_revoke) {
-    _canvas_data_url_params.curr_auto_revoke = typeof auto_revoke === "undefined" ?
-            auto_revoke: true;
-
-    _canvas_data_url_params.last_auto_revoke = _canvas_data_url_params.curr_auto_revoke;
-    _canvas_data_url_params.callback = callback;
-    _canvas_data_url_params.format = format || _canvas_data_url_params.format;
-    _canvas_data_url_params.quality = quality || _canvas_data_url_params.quality;
+    m_main.canvas_data_url(callback, format, quality, auto_revoke);
 }
 
-/**
- * Return the main canvas element.
- * @method module:main.get_canvas_elem
- * @returns {HTMLCanvasElement} Canvas element
- * @deprecated Use {@link module:container.get_canvas|container.get_canvas} instead
- */
-exports.get_canvas_elem = function() {
-    m_print.error_deprecated("main.get_canvas_elem", "container.get_canvas");
-    return _elem_canvas_webgl;
-}
 /**
  * Check using device.
  * @method module:main.detect_mobile
- * @returns {Boolean} Checking result.
+ * @returns {boolean} Checking result.
  */
 exports.detect_mobile = function() {
     return m_compat.detect_mobile();

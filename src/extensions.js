@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,8 +48,7 @@ exports.setup_context = function(gl) {
 exports.get_s3tc = function() {
 
     var ext_s3tc = get(       "WEBGL_compressed_texture_s3tc") ||
-                   get("WEBKIT_WEBGL_compressed_texture_s3tc") ||
-                   get(   "MOZ_WEBGL_compressed_texture_s3tc");
+                   get("WEBKIT_WEBGL_compressed_texture_s3tc");
     return ext_s3tc;
 }
 exports.get_pvr = function() {
@@ -68,8 +67,7 @@ exports.get_depth_texture = function() {
         return webgl2_get("WEBGL_depth_texture");
 
     var ext_dtex = get(       "WEBGL_depth_texture") ||
-                   get("WEBKIT_WEBGL_depth_texture") || 
-                   get(   "MOZ_WEBGL_depth_texture");
+                   get("WEBKIT_WEBGL_depth_texture");
     return ext_dtex;
 }
 
@@ -80,8 +78,7 @@ exports.get_depth_texture = function() {
 exports.get_aniso = function() {
 
     var ext_aniso = get(       "EXT_texture_filter_anisotropic") ||
-                    get("WEBKIT_EXT_texture_filter_anisotropic") ||
-                    get(   "MOZ_EXT_texture_filter_anisotropic");
+                    get("WEBKIT_EXT_texture_filter_anisotropic");
     return ext_aniso;
 }
 

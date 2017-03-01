@@ -5,13 +5,15 @@ from __future__ import absolute_import, division, print_function, with_statement
 import base64
 import binascii
 from contextlib import closing
+import copy
 import functools
 import sys
 import threading
 import datetime
 from io import BytesIO
 
-from tornado.escape import utf8
+from tornado.escape import utf8, native_str
+from tornado import gen
 from tornado.httpclient import HTTPRequest, HTTPResponse, _RequestProxy, HTTPError, HTTPClient
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
@@ -21,7 +23,6 @@ from tornado import netutil
 from tornado.stack_context import ExceptionStackContext, NullContext
 from tornado.testing import AsyncHTTPTestCase, bind_unused_port, gen_test, ExpectLog
 from tornado.test.util import unittest, skipOnTravis
-from tornado.util import u
 from tornado.web import Application, RequestHandler, url
 from tornado.httputil import format_timestamp, HTTPHeaders
 
@@ -47,14 +48,18 @@ class PutHandler(RequestHandler):
 
 class RedirectHandler(RequestHandler):
     def prepare(self):
+        self.write('redirects can have bodies too')
         self.redirect(self.get_argument("url"),
                       status=int(self.get_argument("status", "302")))
 
 
 class ChunkHandler(RequestHandler):
+    @gen.coroutine
     def get(self):
         self.write("asdf")
         self.flush()
+        # Wait a bit to ensure the chunks are sent and received separately.
+        yield gen.sleep(0.01)
         self.write("qwer")
 
 
@@ -108,6 +113,15 @@ class AllMethodsHandler(RequestHandler):
 
     get = post = put = delete = options = patch = other = method
 
+
+class SetHeaderHandler(RequestHandler):
+    def get(self):
+        # Use get_arguments for keys to get strings, but
+        # request.arguments for values to get bytes.
+        for k, v in zip(self.get_arguments('k'),
+                        self.request.arguments['v']):
+            self.set_header(k, v)
+
 # These tests end up getting run redundantly: once here with the default
 # HTTPClient implementation, and then again in each implementation's own
 # test suite.
@@ -128,6 +142,7 @@ class HTTPClientCommonTestCase(AsyncHTTPTestCase):
             url("/304_with_content_length", ContentLength304Handler),
             url("/all_methods", AllMethodsHandler),
             url('/patch', PatchHandler),
+            url('/set_header', SetHeaderHandler),
         ], gzip=True)
 
     def test_patch_receives_payload(self):
@@ -178,6 +193,8 @@ class HTTPClientCommonTestCase(AsyncHTTPTestCase):
         sock, port = bind_unused_port()
         with closing(sock):
             def write_response(stream, request_data):
+                if b"HTTP/1." not in request_data:
+                    self.skipTest("requires HTTP/1.x")
                 stream.write(b"""\
 HTTP/1.1 200 OK
 Transfer-Encoding: chunked
@@ -263,7 +280,7 @@ Transfer-Encoding: chunked
                          response.body)
 
     def test_body_encoding(self):
-        unicode_body = u("\xe9")
+        unicode_body = u"\xe9"
         byte_body = binascii.a2b_hex(b"e9")
 
         # unicode string in body gets converted to utf8
@@ -283,7 +300,7 @@ Transfer-Encoding: chunked
         # break anything
         response = self.fetch("/echopost", method="POST", body=byte_body,
                               headers={"Content-Type": "application/blah"},
-                              user_agent=u("foo"))
+                              user_agent=u"foo")
         self.assertEqual(response.headers["Content-Length"], "1")
         self.assertEqual(response.body, byte_body)
 
@@ -300,23 +317,26 @@ Transfer-Encoding: chunked
         chunks = []
 
         def header_callback(header_line):
-            if header_line.startswith('HTTP/'):
+            if header_line.startswith('HTTP/1.1 101'):
+                # Upgrading to HTTP/2
+                pass
+            elif header_line.startswith('HTTP/'):
                 first_line.append(header_line)
             elif header_line != '\r\n':
                 k, v = header_line.split(':', 1)
-                headers[k] = v.strip()
+                headers[k.lower()] = v.strip()
 
         def streaming_callback(chunk):
             # All header callbacks are run before any streaming callbacks,
             # so the header data is available to process the data as it
             # comes in.
-            self.assertEqual(headers['Content-Type'], 'text/html; charset=UTF-8')
+            self.assertEqual(headers['content-type'], 'text/html; charset=UTF-8')
             chunks.append(chunk)
 
         self.fetch('/chunk', header_callback=header_callback,
                    streaming_callback=streaming_callback)
-        self.assertEqual(len(first_line), 1)
-        self.assertRegexpMatches(first_line[0], 'HTTP/1.[01] 200 OK\r\n')
+        self.assertEqual(len(first_line), 1, first_line)
+        self.assertRegexpMatches(first_line[0], 'HTTP/[0-9]\\.[0-9] 200.*\r\n')
         self.assertEqual(chunks, [b'asdf', b'qwer'])
 
     def test_header_callback_stack_context(self):
@@ -327,7 +347,7 @@ Transfer-Encoding: chunked
             return True
 
         def header_callback(header_line):
-            if header_line.startswith('Content-Type:'):
+            if header_line.lower().startswith('content-type:'):
                 1 / 0
 
         with ExceptionStackContext(error_handler):
@@ -352,7 +372,7 @@ Transfer-Encoding: chunked
         # in a plain dictionary or an HTTPHeaders object.
         # Keys must always be the native str type.
         # All combinations should have the same results on the wire.
-        for value in [u("MyUserAgent"), b"MyUserAgent"]:
+        for value in [u"MyUserAgent", b"MyUserAgent"]:
             for container in [dict, HTTPHeaders]:
                 headers = container()
                 headers['User-Agent'] = value
@@ -361,6 +381,32 @@ Transfer-Encoding: chunked
                     resp.body, b"MyUserAgent",
                     "response=%r, value=%r, container=%r" %
                     (resp.body, value, container))
+
+    def test_multi_line_headers(self):
+        # Multi-line http headers are rare but rfc-allowed
+        # http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2
+        sock, port = bind_unused_port()
+        with closing(sock):
+            def write_response(stream, request_data):
+                if b"HTTP/1." not in request_data:
+                    self.skipTest("requires HTTP/1.x")
+                stream.write(b"""\
+HTTP/1.1 200 OK
+X-XSS-Protection: 1;
+\tmode=block
+
+""".replace(b"\n", b"\r\n"), callback=stream.close)
+
+            def accept_callback(conn, address):
+                stream = IOStream(conn, io_loop=self.io_loop)
+                stream.read_until(b"\r\n\r\n",
+                                  functools.partial(write_response, stream))
+            netutil.add_accept_handler(sock, accept_callback, self.io_loop)
+            self.http_client.fetch("http://127.0.0.1:%d/" % port, self.stop)
+            resp = self.wait()
+            resp.rethrow()
+            self.assertEqual(resp.headers['X-XSS-Protection'], "1; mode=block")
+            self.io_loop.remove_handler(sock.fileno())
 
     def test_304_with_content_length(self):
         # According to the spec 304 responses SHOULD NOT include
@@ -435,18 +481,32 @@ Transfer-Encoding: chunked
                               allow_nonstandard_methods=True)
         self.assertEqual(response.body, b'OTHER')
 
-    @gen_test
     def test_body_sanity_checks(self):
-        hello_url = self.get_url('/hello')
-        with self.assertRaises(ValueError) as context:
-            yield self.http_client.fetch(hello_url, body='data')
+        # These methods require a body.
+        for method in ('POST', 'PUT', 'PATCH'):
+            with self.assertRaises(ValueError) as context:
+                resp = self.fetch('/all_methods', method=method)
+                resp.rethrow()
+            self.assertIn('must not be None', str(context.exception))
 
-        self.assertTrue('must be None' in str(context.exception))
+            resp = self.fetch('/all_methods', method=method,
+                              allow_nonstandard_methods=True)
+            self.assertEqual(resp.code, 200)
 
-        with self.assertRaises(ValueError) as context:
-            yield self.http_client.fetch(hello_url, method='POST')
+        # These methods don't allow a body.
+        for method in ('GET', 'DELETE', 'OPTIONS'):
+            with self.assertRaises(ValueError) as context:
+                resp = self.fetch('/all_methods', method=method, body=b'asdf')
+                resp.rethrow()
+            self.assertIn('must be None', str(context.exception))
 
-        self.assertTrue('must not be None' in str(context.exception))
+            # In most cases this can be overridden, but curl_httpclient
+            # does not allow body with a GET at all.
+            if method != 'GET':
+                resp = self.fetch('/all_methods', method=method, body=b'asdf',
+                                  allow_nonstandard_methods=True)
+                resp.rethrow()
+                self.assertEqual(resp.code, 200)
 
     # This test causes odd failures with the combination of
     # curl_httpclient (at least with the version of libcurl available
@@ -459,7 +519,7 @@ Transfer-Encoding: chunked
     # Twisted's reactor does not.  The removeReader call fails and so
     # do all future removeAll calls (which our tests do at cleanup).
     #
-    #def test_post_307(self):
+    # def test_post_307(self):
     #    response = self.fetch("/redirect?status=307&url=/post",
     #                          method="POST", body=b"arg1=foo&arg2=bar")
     #    self.assertEqual(response.body, b"Post arg1: foo, arg2: bar")
@@ -469,6 +529,12 @@ Transfer-Encoding: chunked
                               method="PUT", body=b"hello")
         response.rethrow()
         self.assertEqual(response.body, b"Put body: hello")
+
+    def test_non_ascii_header(self):
+        # Non-ascii headers are sent as latin1.
+        response = self.fetch("/set_header?k=foo&v=%E9")
+        response.rethrow()
+        self.assertEqual(response.headers["Foo"], native_str(u"\u00e9"))
 
 
 class RequestProxyTest(unittest.TestCase):
@@ -541,7 +607,12 @@ class SyncHTTPClientTest(unittest.TestCase):
     def tearDown(self):
         def stop_server():
             self.server.stop()
-            self.server_ioloop.stop()
+            # Delay the shutdown of the IOLoop by one iteration because
+            # the server may still have some cleanup work left when
+            # the client finishes with the response (this is noticable
+            # with http/2, which leaves a Future with an unexamined
+            # StreamClosedError on the loop).
+            self.server_ioloop.add_callback(self.server_ioloop.stop)
         self.server_ioloop.add_callback(stop_server)
         self.server_thread.join()
         self.http_client.close()
@@ -589,5 +660,26 @@ class HTTPRequestTestCase(unittest.TestCase):
     def test_if_modified_since(self):
         http_date = datetime.datetime.utcnow()
         request = HTTPRequest('http://example.com', if_modified_since=http_date)
-        self.assertEqual(request.headers, 
-            {'If-Modified-Since': format_timestamp(http_date)})
+        self.assertEqual(request.headers,
+                         {'If-Modified-Since': format_timestamp(http_date)})
+
+
+class HTTPErrorTestCase(unittest.TestCase):
+    def test_copy(self):
+        e = HTTPError(403)
+        e2 = copy.copy(e)
+        self.assertIsNot(e, e2)
+        self.assertEqual(e.code, e2.code)
+
+    def test_plain_error(self):
+        e = HTTPError(403)
+        self.assertEqual(str(e), "HTTP 403: Forbidden")
+        self.assertEqual(repr(e), "HTTP 403: Forbidden")
+
+    def test_error_with_response(self):
+        resp = HTTPResponse(HTTPRequest('http://example.com/'), 403)
+        with self.assertRaises(HTTPError) as cm:
+            resp.rethrow()
+        e = cm.exception
+        self.assertEqual(str(e), "HTTP 403: Forbidden")
+        self.assertEqual(repr(e), "HTTP 403: Forbidden")

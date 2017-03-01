@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
-    min_format_version         : [6, 1],
+    min_format_version         : [6, 2],
 
     max_fps                    : 10000, // not accurate
 
@@ -164,8 +164,6 @@ exports.defaults = {
 
     loaded_data_version        : [0, 0],
 
-    edge_min_tex_size_hack     : false,
-
     quality_aa_method          : true,
 
     skinning_hack              : false,
@@ -204,11 +202,15 @@ exports.defaults = {
 
     compress_format            : "dds",
 
-    shadow_quality             : "16x",
+    shadow_blur_samples               : "",
+
+    reflection_quality         : "",
 
     srgb_type                  : "SRGB_SIMPLE",
 
-    amd_depth_texture_hack     : false
+    ios_copy_tex_hack          : false,
+
+    depth_16bit_persp_cam_hack : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -264,6 +266,8 @@ exports.hmd_params = {
         chromatic_aberration_coefs : [-0.015, 0.02, 0.025, 0.02]
     },
     "nonwebvr": {
+        distor_scale: 0.8,
+
         inter_lens_dist: 0.064,
         base_line_dist: 0.035,
         screen_to_lens_dist: 0.039,
@@ -340,7 +344,9 @@ exports.context_limits = {
     max_cube_map_texture_size        : 1024,
     max_renderbuffer_size            : 4096,
     max_texture_size                 : 4096,
-    max_viewport_dims                : [4096, 4096]
+    max_viewport_dims                : [4096, 4096],
+
+    depth_bits                       : 24
 }
 exports.context_limits_save = m_util.clone_object_r(exports.context_limits);
 
@@ -722,6 +728,12 @@ function set(prop, value) {
     case "srgb_type":
         exports.defaults.srgb_type = value;
         break;
+    case "shadow_blur_samples":
+        exports.defaults.shadow_blur_samples = value;
+        break;
+    case "reflection_quality":
+        exports.defaults.reflection_quality = value;
+        break;
     default:
         m_print.error("Unknown config property: " + prop);
         break;
@@ -844,6 +856,10 @@ exports.get = function(prop) {
         return exports.defaults.gl_debug;
     case "srgb_type":
         return exports.defaults.srgb_type;
+    case "shadow_blur_samples":
+        return exports.defaults.shadow_blur_samples;
+    case "reflection_quality":
+        return exports.defaults.reflection_quality;
     default:
         m_print.error("Unknown config property: " + prop);
         break;
@@ -868,8 +884,11 @@ exports.reset = function() {
 }
 
 exports.reset_limits = function() {
+    // NOTE: depth_bits is too subtle/hacky to change it manually here
+    var depth_bits = exports.context_limits.depth_bits;
     for (var i in exports.context_limits_save)
         exports.context_limits[i] = exports.context_limits_save[i];
+    exports.context_limits.depth_bits = depth_bits;
 }
 
 exports.is_built_in_data = is_built_in_data;

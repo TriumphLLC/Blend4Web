@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2016 Triumph LLC
+# Copyright (C) 2014-2017 Triumph LLC
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ import bgl
 
 import blend4web
 
-b4w_modules = ["server", "addon_prefs", "translator"]
+b4w_modules = ["server", "addon_prefs", "translator", "render_engine"]
 for m in b4w_modules:
     exec(blend4web.load_module_script.format(m))
 
@@ -71,7 +71,7 @@ class B4W_RenderDevServer(RenderButtonsPanel, bpy.types.Panel):
                 layout.operator("b4w.open_proj_manager",
                         text=p_("Project Manager", "Operator"), icon="URL")
                 layout.operator("b4w.preview",
-                        text=p_("Fast Preview", "Operator"), icon="ZOOM_ALL")
+                        text=p_("Fast Preview", "Operator"), icon_value=render_engine.custom_icons["b4w_icon"].icon_id)
 
         else:
             row = layout.row()

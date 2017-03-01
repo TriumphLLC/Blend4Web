@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,38 +28,37 @@ b4w.module["data"] = function(exports, require) {
  * Data loaded callback.
  * Executed when the data loading process has been completed.
  * @callback LoadedCallback
- * @param {Number} data_id Data ID
- * @param {Boolean} success Load success
+ * @param {number} data_id Data ID
+ * @param {boolean} success Load success
  */
 
 /**
  * Loading stage callback.
  * Used to implement loading progress indicators (preloaders).
  * @callback StageloadCallback
- * @param {Number} percentage Loading progress (0-100).
- * @param {Number} load_time Loading time in ms.
+ * @param {number} percentage Loading progress (0-100).
+ * @param {number} load_time Loading time in ms.
  */
 
 var m_data   = require("__data");
 var m_loader = require("__loader");
-var m_print  = require("__print");
 
 /**
  * Load data from the json file exported from Blender.
  * @method module:data.load
- * @param {String} path Path to JSON file
+ * @param {string} path Path to JSON file
  * @param {LoadedCallback} [loaded_cb=null] Callback to be executed right after load
  * @param {StageloadCallback} [stageload_cb=null] Callback to report about the loading progress
- * @param {Boolean} [wait_complete_loading=false] Wait until all resources are loaded
- * @param {Boolean} [load_hidden=false] Hide loaded and disable physics objects
- * @returns {Number} ID of loaded data.
+ * @param {boolean} [wait_complete_loading=false] Wait until all resources are loaded
+ * @param {boolean} [load_hidden=false] Hide loaded and disable physics objects
+ * @returns {number} ID of loaded data.
  */
 exports.load = m_data.load;
 
 /**
  * Unload the previously loaded data.
  * @method module:data.unload
- * @param {Number} [data_id=0] ID of unloaded data. Unload all data if data_id is zero.
+ * @param {number} [data_id=0] ID of unloaded data. Unload all data if data_id is zero.
  */
 exports.unload = function(data_id) {
     data_id = data_id | 0;
@@ -72,21 +71,21 @@ exports.unload = function(data_id) {
  * Enables the checking of loading paths, so if the resources are not loaded from 
  * the app root, there will be a warning in m_print.
  * @method module:data.set_debug_resources_root
- * @param {String} debug_resources_root App root directory.
+ * @param {string} debug_resources_root App root directory.
  */
 exports.set_debug_resources_root = m_data.set_debug_resources_root;
 
 /**
  * Check if the engine primary data (main scene) is loaded (detect the last loading stage).
  * @method module:data.is_primary_loaded
- * @returns {Boolean} Check result
+ * @returns {boolean} Check result
  */
 exports.is_primary_loaded = m_data.is_primary_loaded;
 
 /**
  * Check if the engine has finished all of the scheduled loading actions.
  * @method module:data.is_idle
- * @returns {Boolean} Check result
+ * @returns {boolean} Check result
  */
 exports.is_idle = m_loader.is_finished;
 
@@ -103,7 +102,7 @@ exports.cleanup = exports.unload;
 exports.activate_media = m_data.activate_media;
 /**
  * Preload scene's resources and put them into cache.
- * @param {String} path Path to JSON file
+ * @param {string} path Path to JSON file
  * @param {LoadedCallback} [loaded_cb=null] Callback to be executed right after load
  * @param {StageloadCallback} [stageload_cb=null] Callback to report about the loading progress
  * @method module:data.prefetch

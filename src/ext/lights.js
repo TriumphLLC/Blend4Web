@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,18 +38,16 @@ var m_vec3     = require("__vec3");
 
 var _sun_pos        = new Float32Array(3);
 var _date           = {};
-var _julian_date    = 0;
 var _max_sun_angle  = 60;
 
 /**
- * @typedef LightParams
- * @type {Object}
- * @property {String} light_type Light type
- * @property {Number} light_energy Light energy
+ * @typedef {Object} LightParams
+ * @property {string} light_type Light type
+ * @property {number} light_energy Light energy
  * @property {RGB} light_color Light color
- * @property {Number} light_spot_blend Blend parameter of SPOT light
- * @property {Number} light_spot_size Size parameter of SPOT light
- * @property {Number} light_distance Light falloff distance for POINT and SPOT
+ * @property {number} light_spot_blend Blend parameter of SPOT light
+ * @property {number} light_spot_size Size parameter of SPOT light
+ * @property {number} light_distance Light falloff distance for POINT and SPOT
  * lights
  * @cc_externs light_type light_energy light_color
  * @cc_externs light_spot_blend light_spot_size light_distance
@@ -59,7 +57,7 @@ var _max_sun_angle  = 60;
  * Get lamp objects.
  * If lamps_type is defined, creates a new array
  * @method module:lights.get_lamps
- * @param {String} [lamps_type] Lamps type ("POINT", "SPOT", "SUN", "HEMI")
+ * @param {string} [lamps_type] Lamps type ("POINT", "SPOT", "SUN", "HEMI")
  * @returns {Object3D[]} Array with lamp objects.
  */
 exports.get_lamps = function(lamps_type) {
@@ -199,7 +197,7 @@ exports.set_day_time = set_day_time;
 /**
  * Set the time of day.
  * @method module:lights.set_day_time
- * @param {Number} time new time (0.0...24.0)
+ * @param {number} time new time (0.0...24.0)
  */
 function set_day_time(time) {
     var scene = m_scenes.get_active();
@@ -228,24 +226,23 @@ function set_day_time(time) {
  * @param {Date} date new date
  */
 exports.set_date = function(date) {
-    _date.y = date.getDate();
+    _date.y = date.getFullYear();
     _date.m = date.getMonth();
-    _date.d = date.getFullYear();
-	if(!_date.y) {
-		m_print.error("There is no year 0 in the Julian system!");
+    _date.d = date.getDate();
+    if(!_date.y) {
+        m_print.error("There is no year 0 in the Julian system!");
         return;
     }
-    if( _date.y == 1582 && date.m == 10 && date.d > 4 && date.d < 15 ) {
+    if( _date.y == 1582 && _date.m == 9 && _date.d > 4 && _date.d < 15 ) {
         m_print.error("The dates 5 through 14 October, 1582, do not exist in the Gregorian system!");
         return;
     }
-    _julian_date = calendar_to_julian(_date);
 }
 
 /**
  * Set the maximum sun angle
  * @method module:lights.set_max_sun_angle
- * @param {Number} angle New angle in degrees (0..90)
+ * @param {number} angle New angle in degrees (0..90)
  */
 exports.set_max_sun_angle = function(angle) {
     _max_sun_angle = Math.min(Math.max(angle, 0), 90);
@@ -310,14 +307,14 @@ exports.get_light_type = get_light_type
  * Get the light type.
  * @method module:lights.get_light_type
  * @param {Object3D} lamp_obj Lamp object.
- * @returns {String} Light type
+ * @returns {string} Light type
  */
 function get_light_type(lamp_obj) {
     if (m_obj_util.is_lamp(lamp_obj))
         return lamp_obj.light.type;
     else
         m_print.error("get_light_type(): Wrong object");
-    return false;
+    return "";
 }
 /**
  * Set the light params.
@@ -369,7 +366,7 @@ exports.set_light_params = function(lamp_obj, light_params) {
  * Get the light energy.
  * @method module:lights.get_light_energy
  * @param {Object3D} lamp_obj Lamp object
- * @returns {Number} Light energy value
+ * @returns {number} Light energy value
  */
 exports.get_light_energy = function(lamp_obj) {
     if (!m_obj_util.is_lamp(lamp_obj)) {
@@ -384,7 +381,7 @@ exports.get_light_energy = function(lamp_obj) {
  * Set the light energy.
  * @method module:lights.set_light_energy
  * @param {Object3D} lamp_obj Lamp object
- * @param {Number} energy Light energy value
+ * @param {number} energy Light energy value
  */
 exports.set_light_energy = function(lamp_obj, energy) {
     if (!m_obj_util.is_lamp(lamp_obj)) {
@@ -434,9 +431,9 @@ exports.set_light_color = function(lamp_obj, color) {
 
 function update_sun_position(time) {
 
-    var day   = _date.d;
-    var month = _date.m;
-    var year  = _date.y;
+    // var day   = _date.d;
+    // var month = _date.m;
+    // var year  = _date.y;
 
     // TODO: Calculate real sun position depending on date
 
@@ -491,10 +488,10 @@ function get_sun_coordinates (jul_date, days) {
     g = m_util.deg_to_rad(g);
 
     // Ecliptic longitude of the Sun
-    var e_longitude = l + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g);
+    // var e_longitude = l + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g);
 
     // Distance of the Sun from the Earth, in astronomical units
-    var r = 1.00014 - 0.01671 * Math.cos(g) - 0.00014 * Math.cos(2 * g);
+    // var r = 1.00014 - 0.01671 * Math.cos(g) - 0.00014 * Math.cos(2 * g);
 
     // Oblique of the ecliptic
     var oblique = 23.439 - 0.0000004 * n;
@@ -507,25 +504,25 @@ function calendar_to_julian(date) {
     var m  = date.m;
     var d  = date.d;
 
-	var jy, ja, jm;			//scratch
+    var jy, ja, jm;            //scratch
 
-	if( m > 2 ) {
-		jy = y;
-		jm = m + 1;
-	} else {
-		jy = y - 1;
-		jm = m + 13;
-	}
+    if( m > 2 ) {
+        jy = y;
+        jm = m + 1;
+    } else {
+        jy = y - 1;
+        jm = m + 13;
+    }
 
-	var intgr = Math.floor( Math.floor(365.25 * jy) +
+    var intgr = Math.floor( Math.floor(365.25 * jy) +
                 Math.floor(30.6001 * jm) + d + 1720995 );
 
-	//check for switch to Gregorian calendar
+    //check for switch to Gregorian calendar
     var gregcal = 15 + 31*( 10 + 12*1582 );
-	if( d + 31 * (m + 12 * y) >= gregcal ) {
-		ja = Math.floor (0.01 * jy);
-		intgr += 2 - ja + Math.floor (0.25 * ja);
-	}
+    if( d + 31 * (m + 12 * y) >= gregcal ) {
+        ja = Math.floor (0.01 * jy);
+        intgr += 2 - ja + Math.floor (0.25 * ja);
+    }
 
     //round to nearest second
     var jd0 = (intgr) * 100000;

@@ -86,11 +86,6 @@ PyMODINIT_FUNC INIT_FUNC_NAME(void)
 /* ************************* DEFINES AND STRUCTURES ************************* */
 
 /**
- * Count of vertex color channels
- */
-#define COL_NUM_COMP 3
-
-/**
  * Errors
  */
 #define NO_ERROR 0
@@ -138,10 +133,9 @@ PyMODINIT_FUNC INIT_FUNC_NAME(void)
 #define NOR_ERR 2
 #define TAN_ERR 3
 #define TCO_ERR 4
-#define TCO2_ERR 5
-#define GRP_ERR 6
-#define COL_ERR 7
-#define SHADE_TNB_ERR 8
+#define GRP_ERR 5
+#define COL_ERR 6
+#define SHADE_TNB_ERR 7
 
 #define VIDEO_CACHE_SIZE 48
 #define MAX_IND_PART_SIZE 9000
@@ -158,7 +152,7 @@ PyMODINIT_FUNC INIT_FUNC_NAME(void)
 struct TBNCalcData {
     float *pos;     /* positions */
     float *nor;     /* normals */
-    float *tco;     /* texture coordinates */
+    float *tco0;     /* texture coordinates */
     float *tan;     /* tangents + binormal signs */
     int vnum;
 };
@@ -177,7 +171,7 @@ struct SubmeshData {
 
     float *tan;
     float *tco;
-    float *tco2;
+    int tco_layers; // number of exported tco layers
 
     float *shade_tangs;
 
@@ -199,8 +193,7 @@ struct MeshData {
     float *nor;
     float *grp;
     float *col;
-    float *tco0;
-    float *tco1;
+    float *tco;
     float *shade_tangs;
     // blender data
     int *origindex; // concordance between poly/loop and tessfaces data
@@ -209,7 +202,7 @@ struct MeshData {
     int groups_num;
     // metadata
     int frames;
-    int uv_layers_count;
+    int tco_exported_count;
     // optimized colors data
     int col_layers_count;
     bool need_vcol_optimization;
@@ -407,8 +400,7 @@ int countlist(const ListBase *listbase)
 /**
  * Returns number of layers of specific type from CustomData object
  */
-int CustomData_number_of_layers(const CustomData *data, int type)
-{
+int CustomData_number_of_layers(const CustomData *data, int type) {
     int i, number = 0;
 
     for (i = 0; i < data->totlayer; i++)
@@ -717,8 +709,7 @@ int get_vertex_group_number(ListBase listbase, char *group_name)
 /**
  * Get vertex colors
  */
-void get_vertex_colors(struct MeshData *mesh_data, Mesh *mesh)
-{
+void get_vertex_colors(struct MeshData *mesh_data, Mesh *mesh) {
     CustomData *ldata = &mesh->ldata;
     CustomDataLayer *layer;
     MLoop *mesh_loop = mesh->mloop;
@@ -728,7 +719,6 @@ void get_vertex_colors(struct MeshData *mesh_data, Mesh *mesh)
     float col_value;
 
     for (i = 0, layer = ldata->layers; i < ldata->totlayer; i++, layer++)
-        // NOTE: process layers of type "vertex color" only
         if (layer->type == CD_MLOOPCOL) {
             layer_data = (MLoopCol *)layer->data;
 
@@ -740,25 +730,21 @@ void get_vertex_colors(struct MeshData *mesh_data, Mesh *mesh)
                     index = (layer_counter * mesh->totvert + mesh_loop[j].v) * 
                             COL_NUM_COMP;
 
-                // NOTE: r, g, b properties have type "char"
-                // NOTE: fill unused channels by zeros for better submeshes joining in weld_submesh()
-                if (mesh_data->channels_presence[layer_counter * 3] > 0)
+                // r, g, b properties have type "char"
+                if (mesh_data->channels_presence[layer_counter * 3] > 0) {
                     col_value = ((256 + layer_data->r) % 256) / 255.0f;
-                else
-                    col_value = 0;
-                mesh_data->col[index] = col_value;
+                    mesh_data->col[index] = col_value;
+                }
 
-                if (mesh_data->channels_presence[layer_counter * 3 + 1] > 0)
+                if (mesh_data->channels_presence[layer_counter * 3 + 1] > 0) {
                     col_value = ((256 + layer_data->g) % 256) / 255.0f;
-                else
-                    col_value = 0;
-                mesh_data->col[index + 1] = col_value;
+                    mesh_data->col[index + 1] = col_value;
+                }
 
-                if (mesh_data->channels_presence[layer_counter * 3 + 2] > 0)
+                if (mesh_data->channels_presence[layer_counter * 3 + 2] > 0) {
                     col_value = ((256 + layer_data->b) % 256) / 255.0f;
-                else
-                    col_value = 0;
-                mesh_data->col[index + 2] = col_value;
+                    mesh_data->col[index + 2] = col_value;
+                }
 
             }
             layer_counter++;
@@ -928,16 +914,16 @@ int combine_groups(struct MeshData *mesh_data, Mesh *mesh, Object *obj,
     return groups_error;
 }
 
-void combine_colors(struct MeshData *mesh_data, Mesh *mesh, int vertex_colors, 
-        Py_buffer *mask_buffer) 
-{
-    int i;
+void combine_colors(struct MeshData *mesh_data, Mesh *mesh, Py_buffer *mask_buffer) {
 
-    if (vertex_colors) {
+    mesh_data->col_layers_count = get_colors_layers_count(mesh);
+
+    if (mesh_data->col_layers_count) {
+        int i;
+
         int total_channels_size;
         char *mask_array = (char *)mask_buffer->buf;
 
-        mesh_data->col_layers_count = get_colors_layers_count(mesh);
         mesh_data->channels_presence = uialloc(mesh_data->col_layers_count * 3);
         for (i = 0; i < mesh_data->col_layers_count; i++) {
             // calculate channels_presence on color layers
@@ -947,7 +933,6 @@ void combine_colors(struct MeshData *mesh_data, Mesh *mesh, int vertex_colors,
         }
         mesh_data->need_vcol_optimization = check_need_vcol_optimization(mesh_data->channels_presence, 
                 mesh_data->col_layers_count);
-        mesh_data->origindex = (int *)custom_data_get_layer(&mesh->fdata, CD_ORIGINDEX);
         
         // NOTE: use origindex (if exist) for better color extraction
         if (mesh_data->origindex != NULL)
@@ -958,9 +943,7 @@ void combine_colors(struct MeshData *mesh_data, Mesh *mesh, int vertex_colors,
                     COL_NUM_COMP;
 
         mesh_data->col = falloc(total_channels_size);
-        for (i = 0; i < total_channels_size; i++)
-            mesh_data->col[i] = 0;
-        
+        memset(mesh_data->col, 0, total_channels_size * sizeof(float));
         get_vertex_colors(mesh_data, mesh);
     }
 }
@@ -1076,73 +1059,64 @@ void set_tangent_buff(float *tan_buff, float *tan_ptr, float nor[3], int index) 
     tan_buff[index * 3 + 2] = z;
 }
 
+float get_exported_tco_count(Mesh *mesh, char *tco_usage) {
+    int i, tco_exported_count = 0;
+    CustomData *ldata = &mesh->ldata;
+    int tco_layers_total = CustomData_number_of_layers(ldata, CD_MLOOPUV);
+
+    for (i = 0; i < tco_layers_total; i++)
+        if (tco_usage[i])
+            tco_exported_count++;
+
+    return tco_exported_count;
+}
+
 void combine_tco(struct MeshData *mesh_data, Mesh *mesh, Object *obj, int mat_index,
-        int tnb_shading)
-{
-    MFace *mface = mesh->mface;
-    MTFace *mtface;
-    CustomData *fdata = &mesh->fdata;
-    CustomDataLayer *layer;
+        Py_buffer *tco_usage_buffer, int tnb_shading) {
+    
+    CustomData *ldata = &mesh->ldata;
+    char *tco_buf = (char *)tco_usage_buffer->buf;
 
-    int i,j, tco_size = 0, shade_tnb_size = 0;
-    int layers_counter = 0, tco_counter;
+    mesh_data->tco_exported_count = get_exported_tco_count(mesh, tco_buf);
 
-    float *curr_tco_buff = NULL;
+    if (mesh_data->tco_exported_count > 0) {
+        CustomDataLayer *layer;
 
-    mesh_data->uv_layers_count = CustomData_number_of_layers(fdata, CD_MTFACE);
+        MLoop *mesh_loop = mesh->mloop;
+        MLoopUV *layer_data;
 
-    if (mesh_data->uv_layers_count > 0) {
-        // NOTE: get tco buffer size
-        for (i = 0, layer = fdata->layers; i < fdata->totlayer; i++, layer++)
-            if (layer->type == CD_MTFACE) {
-                for (j = 0; j < mesh->totface; j++) {
-                    if (mat_index != -1 && mface[j].mat_nr != mat_index)
-                        continue;
-                    if (mface[j].v4) {
-                        tco_size += 8;
-                        shade_tnb_size += 12;
-                    } else {
-                        tco_size += 6;
-                        shade_tnb_size += 9;
+        int i,j, index;
+        int layer_counter = 0, exported_layer_counter = 0;
+
+        int tco_len;
+        // NOTE: use origindex (if exist) for better color extraction
+        if (mesh_data->origindex != NULL)
+            tco_len = mesh_data->tco_exported_count * mesh->totloop * TCO_NUM_COMP;
+        else
+            tco_len = mesh_data->tco_exported_count * mesh->totvert * TCO_NUM_COMP;
+        mesh_data->tco = falloc(tco_len);
+        memset(mesh_data->tco, 0, tco_len * sizeof(float));
+
+        // get tco data
+        for (i = 0, layer = ldata->layers; i < ldata->totlayer; i++, layer++) {
+            if (layer->type == CD_MLOOPUV) {
+                if (tco_buf[layer_counter]) {
+                    layer_data = (MLoopUV *)layer->data;
+
+                    for (j = 0; j < mesh->totloop; j++, layer_data++) {
+                        if (mesh_data->origindex != NULL)
+                            index = (exported_layer_counter * mesh->totloop + j) 
+                                    * TCO_NUM_COMP;
+                        else
+                            index = (exported_layer_counter * mesh->totvert + mesh_loop[j].v) * 
+                                    TCO_NUM_COMP;
+
+                        mesh_data->tco[index] = layer_data->uv[0];
+                        mesh_data->tco[index + 1] = layer_data->uv[1];
                     }
+                    exported_layer_counter++;
                 }
-                break;
-            }
-
-        // NOTE: allocate memory for tco buffers
-        // NOTE: only two layers (UV Maps) supported
-        if (mesh_data->uv_layers_count > 0)
-            mesh_data->tco0 = falloc(tco_size);
-        if (mesh_data->uv_layers_count > 1)
-            mesh_data->tco1 = falloc(tco_size);
-
-        // NOTE: get tco data
-        for (i = 0, layer = fdata->layers; i < fdata->totlayer; i++, layer++) {
-            if (layer->type == CD_MTFACE) {
-                tco_counter = 0;
-                mtface = (MTFace *)layer->data;
-                for (j = 0; j < mesh->totface; j++) {
-
-                    if (mat_index != -1 && mface[j].mat_nr != mat_index)
-                        continue;
-                    if (layers_counter == 0)
-                        curr_tco_buff = mesh_data->tco0;                       
-                    else if (layers_counter == 1)
-                        curr_tco_buff = mesh_data->tco1;
-
-                    curr_tco_buff[tco_counter++] = mtface[j].uv[0][0];
-                    curr_tco_buff[tco_counter++] = mtface[j].uv[0][1];
-                    curr_tco_buff[tco_counter++] = mtface[j].uv[1][0];
-                    curr_tco_buff[tco_counter++] = mtface[j].uv[1][1];
-                    curr_tco_buff[tco_counter++] = mtface[j].uv[2][0];
-                    curr_tco_buff[tco_counter++] = mtface[j].uv[2][1];
-                    if (mface[j].v4) {
-                        curr_tco_buff[tco_counter++] = mtface[j].uv[3][0];
-                        curr_tco_buff[tco_counter++] = mtface[j].uv[3][1];
-                    }
-                }
-                if (++layers_counter == 2)
-                    break;
+                layer_counter++;
             }
         }
     }
@@ -1342,37 +1316,37 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
     MLoop *mloop = mesh->mloop;
 
     int not_done, face_len;
-    int *vcol_indices = NULL;
+    int *vcol_uv_indices = NULL;
 
     float *tri_pos = NULL;
     float *tri_norm = NULL;
-    float *tri_tco0 = NULL;
-    float *tri_tco1 = NULL;
+    float *tri_tco = NULL;
     float *tri_grp = NULL;
     float *tri_col = NULL;
     float *tri_tnb_shad = NULL;
 
     int is_flat = 0;
-    int vnum = 0, vnum_count, tco_count;
+    int vnum = 0, vnum_count;
     int *v_indices = malloc(6 * sizeof(int));
-    int t_indices[] = {0, 1, 2, 0, 2, 3};
 
     int frame_size, tri_frame_size;
     int frame_offset, tri_frame_offset;
     int vert_offset;
     int face_offset = 0;
 
-    int tco_counter = 0;
     int tcoface_offset = 0;
-    int tcovert_offset;
+    int tri_tco_layer_size = 0;
+    int tco_layer_size = 0;
+    int tco_layer_offset = 0, tri_tco_layer_offset = 0;
+    int tco_vert_offset = 0, tri_tco_vert_offset = 0;
 
     int group_size, tri_group_size;
     int group_offset, tri_group_offset;
     int group_vert_offset;
     int group_face_offset = 0;
 
-    int layer_size, tri_layer_size;
-    int layer_offset, tri_layer_offset;
+    int col_layer_size, tri_color_layer_size;
+    int layer_offset, tri_color_layer_offset;
     int color_vert_offset, tri_color_vert_offset;
     int color_face_offset = 0;
     short (*split_normals)[4][3] = NULL;
@@ -1381,9 +1355,9 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
 
     float *no = falloc(3);
 
-    // NOTE: use origindex (if exist) for better color extraction
+    // NOTE: use origindex (if exist) for better color/uv extraction
     if (mesh_data->origindex != NULL)
-        vcol_indices = malloc(6 * sizeof(int));
+        vcol_uv_indices = malloc(6 * sizeof(int));
 
     if (edited_normals || tnb_shading)
         split_normals = custom_data_get_layer(&mesh->fdata, CD_TESSLOOPNORMAL);
@@ -1405,19 +1379,23 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
     tri_group_size = vnum;
 
     // NOTE: use origindex (if exist) for better color extraction
-    if (mesh_data->origindex != NULL)
-        layer_size = mesh->totloop * COL_NUM_COMP;
-    else
-        layer_size = mesh_data->base_length * COL_NUM_COMP;
-        
-    tri_layer_size = vnum * COL_NUM_COMP;
+    if (mesh_data->origindex != NULL) {
+        col_layer_size = mesh->totloop * COL_NUM_COMP;
+        tco_layer_size = mesh->totloop * TCO_NUM_COMP;
+    } else {
+        col_layer_size = mesh_data->base_length * COL_NUM_COMP;
+        tco_layer_size = mesh_data->base_length * TCO_NUM_COMP;
+    }
+
+    tri_color_layer_size = vnum * COL_NUM_COMP;
+    tri_tco_layer_size = vnum * TCO_NUM_COMP;
 
     tri_pos = falloc(vnum * mesh_data->frames * 3);
     tri_norm = falloc(vnum * mesh_data->frames * 3);
-    if (mesh_data->uv_layers_count > 0)
-        tri_tco0 = falloc(vnum * 2);
-    if (mesh_data->uv_layers_count > 1)
-        tri_tco1 = falloc(vnum * 2);
+
+    if (mesh_data->tco_exported_count > 0)
+        tri_tco = falloc(vnum * TCO_NUM_COMP * mesh_data->tco_exported_count);
+    
     if (mesh_data->groups_num > 0)
         tri_grp = falloc(vnum * mesh_data->groups_num);
     if (mesh_data->col_layers_count)
@@ -1438,11 +1416,8 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
             v_indices[4] = mface[i].v3;
             v_indices[5] = mface[i].v4;
             vnum_count = 6;
-            tco_count = 4;
-        } else {
+        } else
             vnum_count = 3;
-            tco_count = 3;
-        }
 
         is_flat = (int)(mesh_data->frames == 1 && !(mface[i].flag & ME_SMOOTH) 
                 && !disab_flat);
@@ -1499,26 +1474,6 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
         }
         face_offset += vnum_count * 3;
 
-        // tco0 
-        if (mesh_data->uv_layers_count > 0) {
-            for (j = 0; j < vnum_count; j++) {
-                tcovert_offset = t_indices[j] * 2;
-                tri_tco0[tco_counter] = mesh_data->tco0[tcoface_offset + 
-                        tcovert_offset];
-                tri_tco0[tco_counter + 1] = mesh_data->tco0[tcoface_offset + 
-                        tcovert_offset + 1];
-                // tco1
-                if (mesh_data->uv_layers_count > 1) {
-                    tri_tco1[tco_counter] = mesh_data->tco1[tcoface_offset + 
-                            tcovert_offset];
-                    tri_tco1[tco_counter + 1] = mesh_data->tco1[tcoface_offset + 
-                            tcovert_offset + 1];
-                }
-                tco_counter += 2;
-            }
-            tcoface_offset += tco_count * 2;
-        }
-
         // vertex groups
         for (j = 0; j < mesh_data->groups_num; j++) {
             tri_group_offset = tri_group_size * j;
@@ -1531,47 +1486,61 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
         }
         group_face_offset += vnum_count;
 
-        // colors layers
-        // NOTE: use origindex (if exist) for better color extraction
+        // NOTE: use origindex (if exist) for better color/uv extraction
         if (mesh_data->origindex != NULL) {
-            vcol_indices = malloc(6 * sizeof(int));
+            vcol_uv_indices = malloc(6 * sizeof(int));
             face_len = mface[i].v4 ? 4 : 3;
 
             for (j = mpoly[mesh_data->origindex[i]].loopstart, not_done = face_len; 
                     not_done; j++) {
                 if (mloop[j].v == mface[i].v1) {
-                    vcol_indices[0] = j;
+                    vcol_uv_indices[0] = j;
                     not_done--;
                 }
                 else if (mloop[j].v == mface[i].v2) {
-                    vcol_indices[1] = j;
+                    vcol_uv_indices[1] = j;
                     not_done--;
                 }
                 else if (mloop[j].v == mface[i].v3) {
-                    vcol_indices[2] = j;
+                    vcol_uv_indices[2] = j;
                     not_done--;
                 }
                 else if (face_len == 4 && mloop[j].v == mface[i].v4) {
-                    vcol_indices[3] = j;
+                    vcol_uv_indices[3] = j;
                     not_done--;
                 }
             }
             if (face_len == 4) {
-                vcol_indices[5] = vcol_indices[3];
-                vcol_indices[3] = vcol_indices[0];
-                vcol_indices[4] = vcol_indices[2];
+                vcol_uv_indices[5] = vcol_uv_indices[3];
+                vcol_uv_indices[3] = vcol_uv_indices[0];
+                vcol_uv_indices[4] = vcol_uv_indices[2];
             }
         } else
-            vcol_indices = v_indices;
+            vcol_uv_indices = v_indices;
 
-        for (j = 0; j < mesh_data->col_layers_count; j++) {
-            tri_layer_offset = tri_layer_size * j;
-            layer_offset = layer_size * j;
+        // texture coordinates
+        for (j = 0; j < mesh_data->tco_exported_count; j++) {
+            tri_tco_layer_offset = tri_tco_layer_size * j;
+            tco_layer_offset = tco_layer_size * j;
             for (k = 0; k < vnum_count; k++) {
-                color_vert_offset = vcol_indices[k] * COL_NUM_COMP;
+                tri_tco_vert_offset = k * TCO_NUM_COMP;
+                tco_vert_offset = vcol_uv_indices[k] * TCO_NUM_COMP;
+                for (l = 0; l < TCO_NUM_COMP; l++)
+                    tri_tco[tri_tco_layer_offset + tcoface_offset + tri_tco_vert_offset + l] 
+                            = mesh_data->tco[tco_layer_offset + tco_vert_offset + l];
+            }
+        }
+        tcoface_offset += vnum_count * TCO_NUM_COMP;
+
+        // colors layers
+        for (j = 0; j < mesh_data->col_layers_count; j++) {
+            tri_color_layer_offset = tri_color_layer_size * j;
+            layer_offset = col_layer_size * j;
+            for (k = 0; k < vnum_count; k++) {
+                color_vert_offset = vcol_uv_indices[k] * COL_NUM_COMP;
                 tri_color_vert_offset = k * COL_NUM_COMP;
                 for (l = 0; l < COL_NUM_COMP; l++)
-                    tri_col[tri_layer_offset + color_face_offset + 
+                    tri_col[tri_color_layer_offset + color_face_offset + 
                             tri_color_vert_offset + l] 
                             = mesh_data->col[layer_offset + color_vert_offset + l];
             }
@@ -1586,19 +1555,16 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
     free(mesh_data->nor);
     free(mesh_data->grp);
     free(mesh_data->col);
-    free(mesh_data->tco0);
-    free(mesh_data->tco1);
+    free(mesh_data->tco);
     free(mesh_data->shade_tangs);
 
     mesh_data->pos = tri_pos;
     mesh_data->nor = tri_norm;
     mesh_data->grp = tri_grp;
     mesh_data->col = tri_col;
-    mesh_data->tco0 = tri_tco0;
-    mesh_data->tco1 = tri_tco1;
+    mesh_data->tco = tri_tco;
     mesh_data->base_length = vnum;
     mesh_data->shade_tangs = tri_tnb_shad;
-
 }
 
 float *optimize_vertex_colors(struct SubmeshData *data, unsigned int *channels_presence) {
@@ -1664,7 +1630,7 @@ void get_tex_coord_cb(const SMikkTSpaceContext *ctx, float fvTexcOut[],
         const int iFace, const int iVert)
 {
     int offset = TCO_NUM_COMP * (iFace*3 + iVert);
-    float *tco = ((struct TBNCalcData*)ctx->m_pUserData)->tco;
+    float *tco = ((struct TBNCalcData*)ctx->m_pUserData)->tco0;
 
     fvTexcOut[0] = tco[offset];
     fvTexcOut[1] = tco[offset+1];
@@ -1688,7 +1654,7 @@ void calc_tang_space(struct TBNCalcData *tbn_data)
     SMikkTSpaceContext ctx;
 
     /* do nothing */
-    if (!tbn_data->tco)
+    if (!tbn_data->tco0)
         return;
 
     in.m_getNumFaces = &get_num_faces_cb;
@@ -1721,9 +1687,10 @@ bool va_store(float *in, float *out, int partitions, int offset, int stride, int
 {
     int i, j, k;
     float val;
+    bool result = true;
 
     if (!in)
-        return true;
+        return result;
 
     for (i = 0; i < partitions; i++)
         for (j = 0; j < vnum; j++)
@@ -1731,11 +1698,16 @@ bool va_store(float *in, float *out, int partitions, int offset, int stride, int
             {
                 val = in[(vnum * i + j) * ncomp + k];
                 if (!isnan(val))
+                {
                     out[stride * j + offset + i * ncomp + k] = val;
+                }
                 else
-                    return false;
+                {
+                    out[stride * j + offset + i * ncomp + k] = 0.0;
+                    result = false;
+                }
             }
-    return true;
+    return result;
 }
 /**
  * Extract output array from shared interleaved input vertex array.
@@ -1760,7 +1732,7 @@ void va_extract(float *in, float *out, int partitions, int offset, int stride, i
  * vnum, frames, grp_num, col_layers, inum must be initialized
  */
 void allocate_submesh(struct SubmeshData *data, int use_normals, int use_tangents,
-                      int use_second_uv, int use_shade_tnb)
+        int use_shade_tnb)
 {
     data->pos = malloc(POS_NUM_COMP * data->frames * data->vnum * sizeof(float));
     if (use_normals)
@@ -1768,18 +1740,15 @@ void allocate_submesh(struct SubmeshData *data, int use_normals, int use_tangent
     else
         data->nor = NULL;
 
-    if (use_tangents) {
+    if (use_tangents)
         data->tan = malloc(TAN_NUM_COMP * data->frames * data->vnum * sizeof(float));
-        data->tco = malloc(TCO_NUM_COMP * data->vnum * sizeof(float));
-        if (use_second_uv)
-            data->tco2 = malloc(TCO_NUM_COMP * data->vnum * sizeof(float));
-        else
-            data->tco2 = NULL;
-    } else {
+    else
         data->tan = NULL;
+
+    if (data->tco_layers)
+        data->tco = malloc(TCO_NUM_COMP * data->tco_layers * data->vnum * sizeof(float));
+    else
         data->tco = NULL;
-        data->tco2 = NULL;
-    }
 
     if (use_shade_tnb)
         data->shade_tangs = malloc(SHADE_TNB_NUM_COMP * data->vnum * sizeof(float));
@@ -1812,7 +1781,6 @@ void free_submesh(struct SubmeshData *data)
     free(data->nor);
     free(data->tan);
     free(data->tco);
-    free(data->tco2);
     free(data->grp);
     free(data->col);
     free(data->indices);
@@ -1935,71 +1903,69 @@ void optimize_faces(int *indices, int ind_len, int vnum)
     free(new_index_list);
 }
 
-int weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
-{
+int weld_submesh(struct SubmeshData *src, struct SubmeshData *dst) {
+
     int i, offset;
-    bool status;
+    bool va_store_status;
 
     /* floats per type - offset */
     int pos_floats = POS_NUM_COMP * src->frames;
     int nor_floats = src->nor ? NOR_NUM_COMP * src->frames : 0;
     int tan_floats = src->tan ? TAN_NUM_COMP * src->frames : 0;
-    int tco_floats = src->tco ? TCO_NUM_COMP : 0;
-    int tco2_floats = src->tco2 ? TCO_NUM_COMP : 0;
+    int tco_floats = src->tco ? TCO_NUM_COMP * src->tco_layers : 0;
     int shade_tnb_floats = src->shade_tangs ? SHADE_TNB_NUM_COMP : 0;
 
     int grp_floats = src->grp ? GRP_NUM_COMP * src->grp_num : 0;
     int col_floats = src->col ? COL_NUM_COMP * src->col_layers : 0;
 
     /* floats per vertex - stride */
-    int fpv = pos_floats + nor_floats + tan_floats + tco_floats + tco2_floats +
-            grp_floats + col_floats + shade_tnb_floats;
+    int fpv = pos_floats + nor_floats + tan_floats + tco_floats + grp_floats 
+            + col_floats + shade_tnb_floats;
 
     float *vdata_in = falloc(fpv * src->vnum);
     float *vdata_out = falloc(fpv * src->vnum);
     int *remap_table = malloc(sizeof(int) * src->vnum);
+    int status = 0;
 
     offset = 0;
-    status = va_store(src->pos, vdata_in, src->frames, offset, fpv, src->vnum, POS_NUM_COMP);
-    if (!status)
-        return POS_ERR;
+    va_store_status = va_store(src->pos, vdata_in, src->frames, offset, fpv, src->vnum, POS_NUM_COMP);
+    if (!va_store_status)
+        status = POS_ERR;
     offset += pos_floats;
-    status = va_store(src->nor, vdata_in, src->frames, offset, fpv, src->vnum, NOR_NUM_COMP);
-    if (!status)
-        return NOR_ERR;
+    va_store_status = va_store(src->nor, vdata_in, src->frames, offset, fpv, src->vnum, NOR_NUM_COMP);
+    if (!va_store_status)
+        status = NOR_ERR;
     offset += nor_floats;
-    status = va_store(src->tan, vdata_in, src->frames, offset, fpv, src->vnum, TAN_NUM_COMP);
-    if (!status)
-        return TAN_ERR;
+    va_store_status = va_store(src->tan, vdata_in, src->frames, offset, fpv, src->vnum, TAN_NUM_COMP);
+    if (!va_store_status)
+        status = TAN_ERR;
     offset += tan_floats;
-    status = va_store(src->tco, vdata_in, 1, offset, fpv, src->vnum, TCO_NUM_COMP);
-    if (!status)
-        return TCO_ERR;
+    va_store_status = va_store(src->tco, vdata_in, src->tco_layers, offset, fpv, src->vnum, TCO_NUM_COMP);
+    if (!va_store_status)
+        status = TCO_ERR;
     offset += tco_floats;
-    status = va_store(src->tco2, vdata_in, 1, offset, fpv, src->vnum, TCO_NUM_COMP);
-    if (!status)
-        return TCO2_ERR;
-    offset += tco2_floats;
-    status = va_store(src->shade_tangs, vdata_in, 1, offset, fpv, src->vnum, SHADE_TNB_NUM_COMP);
-    if (!status)
-        return SHADE_TNB_ERR;
+    va_store_status = va_store(src->shade_tangs, vdata_in, 1, offset, fpv, src->vnum, SHADE_TNB_NUM_COMP);
+    if (!va_store_status)
+        status = SHADE_TNB_ERR;
     offset += shade_tnb_floats;
-    status = va_store(src->grp, vdata_in, src->grp_num, offset, fpv, src->vnum, GRP_NUM_COMP);
-    if (!status)
-        return GRP_ERR;
+    va_store_status = va_store(src->grp, vdata_in, src->grp_num, offset, fpv, src->vnum, GRP_NUM_COMP);
+    if (!va_store_status)
+        status = GRP_ERR;
     offset += grp_floats;
-    status = va_store(src->col, vdata_in, src->col_layers, offset, fpv, src->vnum, COL_NUM_COMP);
-    if (!status)
-        return COL_ERR;
+    va_store_status = va_store(src->col, vdata_in, src->col_layers, offset, fpv, src->vnum, COL_NUM_COMP);
+    if (!va_store_status)
+        status = COL_ERR;
+
     /* store submesh in input array */
     assert(offset + col_floats == fpv);
     dst->vnum = WeldMesh(remap_table, vdata_out, vdata_in, src->vnum, fpv);
     dst->frames = src->frames;
     dst->grp_num = src->grp_num;
     dst->col_layers = src->col_layers;
+    dst->tco_layers = src->tco_layers;
     dst->inum = src->vnum;
 
-    allocate_submesh(dst, nor_floats, tan_floats, tco2_floats, shade_tnb_floats);
+    allocate_submesh(dst, nor_floats, tan_floats, shade_tnb_floats);
     /* extract submesh from output array */
     offset = 0;
     va_extract(vdata_out, dst->pos, dst->frames, offset, fpv, dst->vnum, POS_NUM_COMP);
@@ -2011,12 +1977,9 @@ int weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
     va_extract(vdata_out, dst->tan, dst->frames, offset, fpv, dst->vnum, TAN_NUM_COMP);
 
     offset += tan_floats;
-    va_extract(vdata_out, dst->tco, 1, offset, fpv, dst->vnum, TCO_NUM_COMP);
+    va_extract(vdata_out, dst->tco, src->tco_layers, offset, fpv, dst->vnum, TCO_NUM_COMP);
 
     offset += tco_floats;
-    va_extract(vdata_out, dst->tco2, 1, offset, fpv, dst->vnum, TCO_NUM_COMP);
-
-    offset += tco2_floats;
     va_extract(vdata_out, dst->shade_tangs, 1, offset, fpv, dst->vnum, SHADE_TNB_NUM_COMP);
 
     offset += shade_tnb_floats;
@@ -2033,16 +1996,15 @@ int weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
 
     optimize_faces(dst->indices, dst->inum, dst->vnum);
 
-    return 0;
+    return status;
 }
 
-static PyObject *calc_submesh_empty(void)
-{
+static PyObject *calc_submesh_empty(void) {
     char *empty_str = "";
     PyObject *empty_buff;
     PyObject *result;
 
-    empty_buff = PyByteArray_FromStringAndSize(empty_str,0);
+    empty_buff = PyByteArray_FromStringAndSize(empty_str, 0);
     result = PyDict_New();
 
     PyDict_SetItemString(result, "base_length", PyLong_FromLong(0));
@@ -2050,9 +2012,9 @@ static PyObject *calc_submesh_empty(void)
     PyDict_SetItemString(result, "indices", empty_buff);
     PyDict_SetItemString(result, "position", empty_buff);
     PyDict_SetItemString(result, "normal", empty_buff);
+    PyDict_SetItemString(result, "status", empty_buff);
     PyDict_SetItemString(result, "tangent", empty_buff);
     PyDict_SetItemString(result, "texcoord", empty_buff);
-    PyDict_SetItemString(result, "texcoord2", empty_buff);
     PyDict_SetItemString(result, "color", empty_buff);
     PyDict_SetItemString(result, "group", empty_buff);
     PyDict_SetItemString(result, "shade_tangs", empty_buff);
@@ -2073,7 +2035,7 @@ static PyObject *calc_submesh_empty(void)
  *  tan vertex - XYZS
  *
  * Vertex array format for tco
- * [v0u, v0v, v1u, v1v, v2u, v2v ...]
+ * [v0uv_layer0, v1uv_layer0, ... v0uv_layer1, v1uv_layer1, ...]
  *
  * Vertex array format for grp:
  * [v0gr0, v1gr0, v2gr0, ... v0gr1, v1gr1, v2gr1, ...] 
@@ -2082,8 +2044,8 @@ static PyObject *calc_submesh_empty(void)
  * [v0rgb_layer0, v1rgb_layer0, ... v0rgb_layer1, v1rgb_layer1, ...]
  */
 static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str, 
-        int grp_to_str, int shape_keys)
-{
+        int grp_to_str, int shape_keys) {
+
     struct TBNCalcData tbn_data;
     struct SubmeshData src;
     struct SubmeshData dst;
@@ -2114,7 +2076,7 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
         return result;
 
     nor_needed = mesh_data->nor ? 1 : 0;
-    tan_needed = mesh_data->tco0 ? nor_needed : 0;
+    tan_needed = mesh_data->tco_exported_count ? nor_needed : 0;
 
     if (tan_needed) {
         tan_frames = falloc(TAN_NUM_COMP * mesh_data->base_length * 
@@ -2128,7 +2090,9 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
             tbn_data.vnum = mesh_data->base_length;
             tbn_data.pos = pos;
             tbn_data.nor = nor;
-            tbn_data.tco = mesh_data->tco0;
+
+            // pointer to the whole data, but need only the first layer
+            tbn_data.tco0 = mesh_data->tco;
 
             tbn_data.tan = tan;
 
@@ -2144,8 +2108,8 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     src.nor = mesh_data->nor;
     src.tan = tan_frames;
 
-    src.tco = mesh_data->tco0;
-    src.tco2 = mesh_data->tco1;
+    src.tco = mesh_data->tco;
+    src.tco_layers = mesh_data->tco_exported_count;
 
     src.shade_tangs = mesh_data->shade_tangs;
 
@@ -2165,36 +2129,6 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
         calculate_shape_keys_delta(&src);
 
     status = weld_submesh(&src, &dst);
-    if (status > 0)
-    {
-        switch(status) {
-        case POS_ERR:
-            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong vertices positions");
-            break;
-        case NOR_ERR:
-            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong normals");
-            break;
-        case TAN_ERR:
-            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong tangents");
-            break;
-        case TCO_ERR:
-            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong texture coordinates");
-            break;
-        case TCO2_ERR:
-            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong texture coordinates");
-            break;
-        case GRP_ERR:
-            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong vertex group weights");
-            break;
-        case COL_ERR:
-            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong vertex color values");
-            break;
-        case SHADE_TNB_ERR:
-            PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong shading tangents values");
-            break;
-        }
-        return NULL;
-    }
 
     PyDict_SetItemString(result, "base_length", PyLong_FromLong(dst.vnum));
 
@@ -2205,6 +2139,9 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     bytes_buff = PyByteArray_FromStringAndSize((char *)dst.pos, 
             dst.vnum * dst.frames * POS_NUM_COMP * sizeof(float));
     PyDict_SetItemString(result, "position", bytes_buff);
+
+    bytes_buff = PyByteArray_FromStringAndSize((char *)&status, sizeof(int));
+        PyDict_SetItemString(result, "status", bytes_buff);
 
     if (dst.nor) {
         length = dst.vnum * dst.frames * NOR_NUM_COMP;
@@ -2226,13 +2163,8 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     }
     if (dst.tco) {
         bytes_buff = PyByteArray_FromStringAndSize((char *)dst.tco, 
-                dst.vnum * TCO_NUM_COMP * sizeof(float));
+                dst.tco_layers * dst.vnum * TCO_NUM_COMP * sizeof(float));
         PyDict_SetItemString(result, "texcoord", bytes_buff);
-    }
-    if (dst.tco2) {
-        bytes_buff = PyByteArray_FromStringAndSize((char *)dst.tco2, 
-                dst.vnum * TCO_NUM_COMP * sizeof(float));
-        PyDict_SetItemString(result, "texcoord2", bytes_buff);
     }
     if (dst.grp) {
         length = dst.vnum * mesh_data->groups_num * GRP_NUM_COMP;
@@ -2272,8 +2204,7 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     free(tan_frames);
     free(mesh_data->pos);
     free(mesh_data->nor);
-    free(mesh_data->tco0);
-    free(mesh_data->tco1);
+    free(mesh_data->tco);
     free(mesh_data->grp);
     free(mesh_data->col);
     free(mesh_data->channels_presence);
@@ -2457,6 +2388,7 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
     float scale_matrix[9];
     float max_dot_x, min_dot_x, max_dot_y, min_dot_y, max_dot_z, min_dot_z;
     float a,b,c, max_x = 0, max_y = 0, max_z = 0, min_x = 0, min_y = 0, min_z = 0, r;
+    float x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4;
     MVert *vertices;
     MFace *mface = mesh->mface;
 
@@ -2470,12 +2402,12 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
             if (mat_index != -1 && mface[i].mat_nr != mat_index)
                 continue;
             v1 = mface[i].v1;
-            bdata->max_x = vertices[v1].co[0];
-            bdata->min_x = vertices[v1].co[0];
-            bdata->max_y = vertices[v1].co[1];
-            bdata->min_y = vertices[v1].co[1];
-            bdata->max_z = vertices[v1].co[2];
-            bdata->min_z = vertices[v1].co[2];
+            bdata->max_x = isnan(vertices[v1].co[0]) ? 0.0 : vertices[v1].co[0];
+            bdata->min_x = isnan(vertices[v1].co[0]) ? 0.0 : vertices[v1].co[0];
+            bdata->max_y = isnan(vertices[v1].co[1]) ? 0.0 : vertices[v1].co[1];
+            bdata->min_y = isnan(vertices[v1].co[1]) ? 0.0 : vertices[v1].co[1];
+            bdata->max_z = isnan(vertices[v1].co[2]) ? 0.0 : vertices[v1].co[2];
+            bdata->min_z = isnan(vertices[v1].co[2]) ? 0.0 : vertices[v1].co[2];
             break;
         }
 
@@ -2485,20 +2417,36 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
             v1 = mface[i].v1;
             v2 = mface[i].v2;
             v3 = mface[i].v3;
-            find_max_min_bb(bdata, vertices[v1].co[0], vertices[v1].co[1], vertices[v1].co[2]);
-            find_max_min_bb(bdata, vertices[v2].co[0], vertices[v2].co[1], vertices[v2].co[2]);
-            find_max_min_bb(bdata, vertices[v3].co[0], vertices[v3].co[1], vertices[v3].co[2]);
 
-            average_pos[0] += vertices[v1].co[0] + vertices[v2].co[0] + vertices[v3].co[0];
-            average_pos[1] += vertices[v1].co[1] + vertices[v2].co[1] + vertices[v3].co[1];
-            average_pos[2] += vertices[v1].co[2] + vertices[v2].co[2] + vertices[v3].co[2];
+            x1 = isnan(vertices[v1].co[0]) ? 0.0 : vertices[v1].co[0];
+            y1 = isnan(vertices[v1].co[1]) ? 0.0 : vertices[v1].co[1];
+            z1 = isnan(vertices[v1].co[2]) ? 0.0 : vertices[v1].co[2];
+
+            x2 = isnan(vertices[v2].co[0]) ? 0.0 : vertices[v2].co[0];
+            y2 = isnan(vertices[v2].co[1]) ? 0.0 : vertices[v2].co[1];
+            z2 = isnan(vertices[v2].co[2]) ? 0.0 : vertices[v2].co[2];
+
+            x3 = isnan(vertices[v3].co[0]) ? 0.0 : vertices[v3].co[0];
+            y3 = isnan(vertices[v3].co[1]) ? 0.0 : vertices[v3].co[1];
+            z3 = isnan(vertices[v3].co[2]) ? 0.0 : vertices[v3].co[2];
+
+            find_max_min_bb(bdata, x1, y1, z1);
+            find_max_min_bb(bdata, x2, y2, z2);
+            find_max_min_bb(bdata, x3, y3, z3);
+
+            average_pos[0] += x1 + x2 + x3;
+            average_pos[1] += y1 + y2 + y3;
+            average_pos[2] += z1 + z2 + z3;
             num_vert += 3;
             if (mface[i].v4) {
                 v4 = mface[i].v4;
-                find_max_min_bb(bdata, vertices[v4].co[0], vertices[v4].co[1], vertices[v4].co[2]);
-                average_pos[0] += vertices[v4].co[0];
-                average_pos[1] += vertices[v4].co[1];
-                average_pos[2] += vertices[v4].co[2];
+                x4 = isnan(vertices[v4].co[0]) ? 0.0 : vertices[v4].co[0];
+                y4 = isnan(vertices[v4].co[1]) ? 0.0 : vertices[v4].co[1];
+                z4 = isnan(vertices[v4].co[2]) ? 0.0 : vertices[v4].co[2];
+                find_max_min_bb(bdata, x4, y4, z4);
+                average_pos[0] += x4;
+                average_pos[1] += y4;
+                average_pos[2] += z4;
                 num_vert++;
             }
         }
@@ -2550,9 +2498,9 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
                 else
                     continue;
 
-                x = vertices[v].co[0];
-                y = vertices[v].co[1];
-                z = vertices[v].co[2];
+                x = isnan(vertices[v].co[0]) ? 0.0 : vertices[v].co[0];
+                y = isnan(vertices[v].co[1]) ? 0.0 : vertices[v].co[1];
+                z = isnan(vertices[v].co[2]) ? 0.0 : vertices[v].co[2];
 
                 scen_dist = sqrt(pow(bdata->scen_x - x, 2)
                                + pow(bdata->scen_y - y, 2)
@@ -2624,9 +2572,9 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
         for (i = 0; i < mesh->totface; i++) {
             if (mat_index != -1 && mface[i].mat_nr != mat_index)
                 continue;
-            point[0] = vertices[mface[i].v1].co[0];
-            point[1] = vertices[mface[i].v1].co[1];
-            point[2] = vertices[mface[i].v1].co[2];
+            point[0] = isnan(vertices[mface[i].v1].co[0]) ? 0.0 : vertices[mface[i].v1].co[0];
+            point[1] = isnan(vertices[mface[i].v1].co[1]) ? 0.0 : vertices[mface[i].v1].co[1];
+            point[2] = isnan(vertices[mface[i].v1].co[2]) ? 0.0 : vertices[mface[i].v1].co[2];
             transform_vec3_by_mat3(point, t_mat, point);
 
             max_dot_x = point[0];
@@ -2653,9 +2601,9 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
                 else
                     continue;
 
-                point[0] = vertices[v].co[0];
-                point[1] = vertices[v].co[1];
-                point[2] = vertices[v].co[2];
+                point[0] = isnan(vertices[v].co[0]) ? 0.0 : vertices[v].co[0];
+                point[1] = isnan(vertices[v].co[1]) ? 0.0 : vertices[v].co[1];
+                point[2] = isnan(vertices[v].co[2]) ? 0.0 : vertices[v].co[2];
                 transform_vec3_by_mat3(point, t_mat, point);
                 if (point[0] > max_dot_x)
                     max_dot_x = point[0];
@@ -2691,9 +2639,9 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
         for (i = 0; i < mesh->totface; i++) {
             if (mat_index != -1 && mface[i].mat_nr != mat_index)
                 continue;
-            point[0] = vertices[mface[i].v1].co[0];
-            point[1] = vertices[mface[i].v1].co[1];
-            point[2] = vertices[mface[i].v1].co[2];
+            point[0] = isnan(vertices[mface[i].v1].co[0]) ? 0.0 : vertices[mface[i].v1].co[0];
+            point[1] = isnan(vertices[mface[i].v1].co[1]) ? 0.0 : vertices[mface[i].v1].co[1];
+            point[2] = isnan(vertices[mface[i].v1].co[2]) ? 0.0 : vertices[mface[i].v1].co[2];
             transform_vec3_by_mat3(point, t_mat, point);
             transform_vec3_by_mat3(point, scale_matrix, point);
             transform_vec3_by_mat3(point, mat3_tmp, point);
@@ -2716,9 +2664,9 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
                     v = mface[i].v4;
                 else
                     continue;
-                point[0] = vertices[v].co[0];
-                point[1] = vertices[v].co[1];
-                point[2] = vertices[v].co[2];
+                point[0] = isnan(vertices[v].co[0]) ? 0.0 : vertices[v].co[0];
+                point[1] = isnan(vertices[v].co[1]) ? 0.0 : vertices[v].co[1];
+                point[2] = isnan(vertices[v].co[2]) ? 0.0 : vertices[v].co[2];
                 transform_vec3_by_mat3(point, t_mat, point);
                 transform_vec3_by_mat3(point, scale_matrix, point);
                 transform_vec3_by_mat3(point, mat3_tmp, point);
@@ -2782,10 +2730,10 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh, int mat_index) {
 static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
     unsigned long long mesh_ptr, obj_ptr;
     int mat_index, disab_flat;
-    int vertex_animation, edited_normals, vertex_groups, vertex_colors, shape_keys;
+    int vertex_animation, edited_normals, vertex_groups, shape_keys;
     int tnb_shading;
     int is_degenerate_mesh;
-    Py_buffer mask_buffer;
+    Py_buffer mask_buffer, tco_usage_buffer;
     PyObject *result;
     int groups_error;
     Mesh *mesh;
@@ -2796,23 +2744,23 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
     mesh_data.nor = NULL;
     mesh_data.grp = NULL;
     mesh_data.col = NULL;
-    mesh_data.tco0 = NULL;
-    mesh_data.tco1 = NULL;
+    mesh_data.tco = NULL;
     mesh_data.shade_tangs = NULL;
     mesh_data.origindex = NULL;
     mesh_data.base_length = 0;
     mesh_data.groups_num = 0;
     mesh_data.frames = 1;
-    mesh_data.uv_layers_count = 0;
+    mesh_data.tco_exported_count = 0;
     mesh_data.col_layers_count = 0;
     mesh_data.need_vcol_optimization = false;
     mesh_data.channels_presence = NULL;
     mesh_data.relatives = NULL;
 
 
-    if (!PyArg_ParseTuple(args, "KKiiiiiiiis*i", &mesh_ptr, &obj_ptr, &mat_index,
+    if (!PyArg_ParseTuple(args, "KKiiiiiiis*s*i", &mesh_ptr, &obj_ptr, &mat_index,
             &disab_flat, &vertex_animation, &edited_normals, &shape_keys, 
-            &tnb_shading, &vertex_groups, &vertex_colors, &mask_buffer, &is_degenerate_mesh))
+            &tnb_shading, &vertex_groups, &mask_buffer, &tco_usage_buffer, 
+            &is_degenerate_mesh))
         return NULL;
 
     result = PyDict_New();
@@ -2823,6 +2771,8 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
         mesh = (Mesh *)mesh_ptr;
         obj  = (Object *)obj_ptr;
 
+        mesh_data.origindex = (int *)custom_data_get_layer(&mesh->fdata, CD_ORIGINDEX);
+
         combine_positions_normals(&mesh_data, mesh, obj, vertex_animation,
                 edited_normals, shape_keys);
         groups_error = combine_groups(&mesh_data, mesh, obj, vertex_groups);
@@ -2830,8 +2780,8 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
             PyErr_SetString(PyExc_ValueError, "Corrupted file: Wrong group indices");
             return NULL;
         }
-        combine_colors(&mesh_data, mesh, vertex_colors, &mask_buffer);
-        combine_tco(&mesh_data, mesh, obj, mat_index, false);
+        combine_colors(&mesh_data, mesh, &mask_buffer);
+        combine_tco(&mesh_data, mesh, obj, mat_index, &tco_usage_buffer, false);
         triangulate_mesh(&mesh_data, mesh, mat_index, disab_flat, edited_normals, tnb_shading);
         result = calc_submesh(&mesh_data, 1, 0, shape_keys);
     }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,22 +25,21 @@ b4w.module["preloader"] = function(exports, require) {
 
 var m_cont = require("container");
 
-var PL_CONT_BG_COLOR    = "#000";
+var PL_CONT_BG_COLOR    = "#484848";
 var PL_BAR_BG_COLOR     = "#5276cf";
-var PL_BAR_BORDER_COLOR = "#fff";
+var PL_BAR_BORDER_COLOR = "rgba(150, 150, 150, 0.7)";
 var PL_FONT_COLOR       = "#fff";
 
 var _preloader = {};
 var _canvas_container_elem = null;
-var _pl_container_elem = null;
 
 /**
  * Create a preloader.
  * @param {Object} options Initialization options.
- * @param {String} [options.container_color] The CSS background color of the preloader container.
- * @param {String} [options.bar_color] The CSS background color of the preloader bar.
- * @param {String} [options.frame_color] The CSS color of the preloader frame border.
- * @param {String} [options.font_color] The CSS color of the preloader font.
+ * @param {string} [options.container_color] The CSS background color of the preloader container.
+ * @param {string} [options.bar_color] The CSS background color of the preloader bar.
+ * @param {string} [options.frame_color] The CSS color of the preloader frame border.
+ * @param {string} [options.font_color] The CSS color of the preloader font.
  * @cc_externs container_color bar_color frame_color font_color
  */
 exports.create_preloader = function(options) {
@@ -67,9 +66,9 @@ exports.create_preloader = function(options) {
     }
 
     var pl_cont     = document.createElement("div");
-    var pl_bar      = pl_cont.cloneNode();
-    var pl_frame    = pl_cont.cloneNode();
-    var pl_caption  = pl_cont.cloneNode();
+    var pl_bar      = pl_cont.cloneNode(false);
+    var pl_frame    = pl_cont.cloneNode(false);
+    var pl_caption  = pl_cont.cloneNode(false);
     var canvas_cont = m_cont.get_container();
 
     pl_frame.appendChild(pl_bar);
@@ -93,6 +92,7 @@ exports.create_preloader = function(options) {
         "margin-top: -30px;" +
         "width: 300px;" +
         "height: 28px;" +
+        "box-shadow: 0px 0px 10px 0px " + frame_color + ";" +
         "border: 2px solid " + frame_color + ";";
 
     pl_bar.style.cssText =
@@ -113,6 +113,8 @@ exports.create_preloader = function(options) {
         "text-align: center;" +
         "position: absolute;" +
         "font-size: 16px;" +
+        "font-weight: bold;" +
+        "text-shadow: 0px 0px 6px " + frame_color + ";" +
         "color: " + font_color + ";";
 
     _preloader.bar = pl_bar;
@@ -124,10 +126,10 @@ exports.create_preloader = function(options) {
 /**
  * Create a simple preloader.
  * @param {Object} options Initialization options.
- * @param {String} options.canvas_container_id Canvas container ID.
- * @param {String} [options.background_container_id] Background container ID.
- * @param {String} [options.bg_color] Background color.
- * @param {String} [options.bar_color] Load bar color.
+ * @param {string} options.canvas_container_id Canvas container ID.
+ * @param {string} [options.background_container_id] Background container ID.
+ * @param {string} [options.bg_color] Background color.
+ * @param {string} [options.bar_color] Load bar color.
  * @cc_externs bar_color bg_color background_container_id
  * @cc_externs canvas_container_id preloader_fadeout
  * @deprecated Use custom preloader or {@link module:preloader.create_preloader|preloader.create_preloader}.
@@ -230,12 +232,12 @@ exports.create_simple_preloader = function(options) {
 /**
  * Create a rotation preloader.
  * @param {Object} options Initialization options.
- * @param {String} options.canvas_container_id Canvas container ID.
- * @param {String} [options.background_container_id] Background container ID.
- * @param {String} [options.bg_color] Background color.
- * @param {String} [options.frame_bg_color] Frame background color.
- * @param {String} [options.frame_class] CSS frame class.
- * @param {String} [options.anim_elem_class] Animated element class.
+ * @param {string} options.canvas_container_id Canvas container ID.
+ * @param {string} [options.background_container_id] Background container ID.
+ * @param {string} [options.bg_color] Background color.
+ * @param {string} [options.frame_bg_color] Frame background color.
+ * @param {string} [options.frame_class] CSS frame class.
+ * @param {string} [options.anim_elem_class] Animated element class.
  * @cc_externs frame_bg_color frame_class anim_elem_class
  * @deprecated Use custom preloader or {@link module:preloader.create_preloader|preloader.create_preloader}.
  */
@@ -337,14 +339,14 @@ exports.create_rotation_preloader = function(options) {
 /**
  * Create an advanced preloader.
  * @param {Object} options Initialization options.
- * @param {String} options.canvas_container_id Canvas container ID.
- * @param {String} options.background_container_id Background container ID.
- * @param {String} options.preloader_bar_id Preloader bar ID.
- * @param {String} options.fill_band_id Preloader band ID.
- * @param {String} options.preloader_caption_id Preloader caption ID.
- * @param {String} options.preloader_container_id Preloader container ID.
- * @param {Number} options.img_width Device image width.
- * @param {Number} options.preloader_width Preloader width.
+ * @param {string} options.canvas_container_id Canvas container ID.
+ * @param {string} options.background_container_id Background container ID.
+ * @param {string} options.preloader_bar_id Preloader bar ID.
+ * @param {string} options.fill_band_id Preloader band ID.
+ * @param {string} options.preloader_caption_id Preloader caption ID.
+ * @param {string} options.preloader_container_id Preloader container ID.
+ * @param {number} options.img_width Device image width.
+ * @param {number} options.preloader_width Preloader width.
  * @cc_externs fill_band_id preloader_bar_id preloader_caption_id
  * @cc_externs preloader_container_id img_width preloader_width
  * @deprecated Use custom preloader or {@link module:preloader.create_preloader|preloader.create_preloader}.
@@ -353,7 +355,6 @@ exports.create_advanced_preloader = function(options) {
     var img_width = options.img_width;
     var preloader_width = options.preloader_width;
     var canvas_container_id = options.canvas_container_id;
-    var preloader_container_id = options.preloader_container_id;
 
     var band_width = preloader_width - img_width;
     var ratio = preloader_width / band_width;
@@ -378,7 +379,7 @@ exports.create_advanced_preloader = function(options) {
 
 /**
  * Update the preloader bar status.
- * @param {Number} percentage The new preloader bar percentage
+ * @param {number} percentage The new preloader bar percentage
  */
 exports.update_preloader = function(percentage) {
     _preloader.caption.innerHTML = percentage + "%";

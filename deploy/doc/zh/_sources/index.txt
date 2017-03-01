@@ -36,13 +36,19 @@
 
 * 工作流程
 
-  * 创作场景
+  * Creating a New Project
 
-  * 在浏览器显示场景
+  * Creating Scenes
+
+  * Preparing a Scene to Use in Blend4Web
 
   * 导出场景
 
   * 应用程序开发
+
+  * Project Building
+
+  * Project Deploying
 
 * 项目管理
 
@@ -124,6 +130,8 @@
 
   * 通过TSR矢量移动
 
+  * Line Rendering
+
 * 网格
 
   * 静态和动态网格
@@ -183,6 +191,10 @@
   * 引擎特定参数
 
   * 光晕材质
+
+  * Material API
+
+  * Inherit Material
 
 * 材质库
 
@@ -398,7 +410,9 @@
 
   * 品质配置
 
-  * 非全屏Web应用程序
+  * Non-Standard Canvas Position and Orientation
+
+  * Mobile Web Apps
 
 * 对于引擎开发者
 
@@ -455,6 +469,8 @@
   * 已知问题
 
 * 发布说明
+
+  * v17.02
 
   * v16.12
 

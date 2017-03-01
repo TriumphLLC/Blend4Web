@@ -110,6 +110,10 @@ Glow Material effect settings. Described thoroughly in :ref:`its own section <gl
    :align: center
    :width: 100%
 
+.. note::
+
+    For dynamically loaded objects, ``AUTO`` setting is interpreted as ``OFF``, if no materials with glow are present in the scene. If you are using dynamic loading, you should set this parameter to ``ON``.
+
 .. _render_anti_aliasing:
 
 Anti-Aliasing

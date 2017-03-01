@@ -355,9 +355,8 @@ function main_canvas_mouse_move(e) {
     if (e.preventDefault)
         e.preventDefault();
 
-    var x = e.clientX;
-    var y = e.clientY;
-
+    var x = e.offsetX;
+    var y = e.offsetY;
     _mouse_x = x;
     _mouse_y = y;
 
@@ -377,14 +376,15 @@ function main_canvas_touch(e) {
     var touch = touches[0];
     var x = touch.clientX;
     var y = touch.clientY;
-    process_screen_click(x, y);
+    var canvas_xy = m_cont.client_to_canvas_coords(x, y, _vec2_tmp);
+    process_screen_click(canvas_xy[0], canvas_xy[1]);
 }
 
 function main_canvas_click(e) {
     if (e.preventDefault)
         e.preventDefault();
-    var x = e.clientX;
-    var y = e.clientY;
+    var x = e.offsetX;
+    var y = e.offsetY;
     process_screen_click(x, y);
 }
 
@@ -449,7 +449,7 @@ function load_HQ_elements() {
 function play_ending_speaker(speaker) {
     for (var i = 0; i < _playlist_spks.length; i++) {
         var spk = _playlist_spks[i];
-        if (m_sfx.is_play(spk))
+        if (m_sfx.is_playing(spk))
             m_sfx.duck(spk, 0, 1);
     }
     m_sfx.duck(_intro_spk, 0, 1);

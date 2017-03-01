@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,6 +53,7 @@ function create_particles_data(name, type) {
         time: 0,
         prev_time: -1,
         use_world_space: false,
+        count_factor: 1,
 
         frame_start: 0,
         frame_end: 0,
@@ -117,6 +118,20 @@ exports.obj_has_particles = function(obj) {
         for (var j = 0; j < batches.length; j++)
             if (batches[j].particles_data)
                 return true;
+    }
+
+    return false;
+}
+
+exports.obj_has_psys = function(obj, psys_name) {
+    var scenes_data = obj.scenes_data;
+    for (var i = 0; i < scenes_data.length; i++) {
+        var batches = scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var pdata = batches[j].particles_data;
+            if (pdata && pdata.name == psys_name)
+                return true;
+        }
     }
 
     return false;
@@ -197,17 +212,17 @@ exports.init_particles_data = function(batch, psystem, pmaterial) {
 
         // default 50
         if (hardness < 30) {
-            var alpha_start = 0.5;
-            var alpha_end = 0.9;
+            alpha_start = 0.5;
+            alpha_end = 0.9;
         } else if (hardness < 40) {
-            var alpha_start = 0.1;
-            var alpha_end = 1.0;
+            alpha_start = 0.1;
+            alpha_end = 1.0;
         } else if (hardness < 50) {
-            var alpha_start = 0.0;
-            var alpha_end = 0.8;
+            alpha_start = 0.0;
+            alpha_end = 0.8;
         } else {
-            var alpha_start = 0.0;
-            var alpha_end = 0.5;
+            alpha_start = 0.0;
+            alpha_end = 0.5;
         }
     } else {
         size = psystem["settings"]["particle_size"];
@@ -514,8 +529,8 @@ function distribute_positions_tbn_quats(pcount, emit_from, emitter_submesh) {
                     rand_tbn_quat[i][2], rand_tbn_quat[i][3]);
         }
 
-        var positions = new Float32Array(positions);
-        var tbn_quats = new Float32Array(tbn_quats);
+        positions = new Float32Array(positions);
+        tbn_quats = new Float32Array(tbn_quats);
 
         break;
     case "VOLUME":
@@ -711,8 +726,8 @@ exports.prepare_lens_flares = function(submesh) {
         bb_vert_arr.push(sub_pos[3*i + 2]);
     }
 
-    var bb_dist_arr = new Float32Array(bb_dist_arr);
-    var bb_vert_arr = new Float32Array(bb_vert_arr);
+    bb_dist_arr = new Float32Array(bb_dist_arr);
+    bb_vert_arr = new Float32Array(bb_vert_arr);
 
     submesh.va_common["a_lf_dist"] = bb_dist_arr;
     submesh.va_common["a_lf_bb_vertex"] = bb_vert_arr;
@@ -750,6 +765,23 @@ exports.set_normal_factor = function(obj, psys_name, nfactor) {
     }
 }
 
+exports.get_normal_factor = function(obj, psys_name) {
+    var scenes_data = obj.scenes_data;
+    for (var i = 0; i < scenes_data.length; i++) {
+        var batches = scenes_data[i].batches;
+        for (var j = 0; j < batches.length; j++) {
+            var pdata = batches[j].particles_data;
+
+            if (!pdata || pdata.name != psys_name)
+                continue;
+
+            return pdata.nfactor;
+        }
+    }
+
+    return 0;
+}
+
 exports.set_factor = function(obj, psys_name, factor) {
     var scenes_data = obj.scenes_data;
     for (var i = 0; i < scenes_data.length; i++) {
@@ -760,6 +792,8 @@ exports.set_factor = function(obj, psys_name, factor) {
 
             if (!pdata || pdata.name != psys_name)
                 continue;
+
+            pdata.count_factor = factor;
 
             var delay_attrs = pdata.delay_attrs;
 
@@ -797,7 +831,6 @@ exports.set_factor = function(obj, psys_name, factor) {
             var pointers = pbuf.pointers;
             var pointer = pointers["a_p_data"];
             if (pointer) {
-                var end = 3 * delay_attrs_masked.length;
                 var p_data = pdata.p_data;
                 for (var k = 0; k < p_data.length; k=k+3)
                     p_data[k + 1] = delay_attrs_masked[Math.round(k / 3)];
@@ -838,10 +871,10 @@ exports.update_particles_submesh = function(submesh, batch, pcount, material) {
     submesh.va_common["a_tbn_quat"] = new Float32Array(data);
 
     if (batch.part_node_data) {
-        var data = [];
+        var node_data = [];
         for (var i = 0; i < pcount; i++)
-            data.push(i, i, i, i);
-        submesh.va_common[batch.part_node_data.name] = new Float32Array(data);
+            node_data.push(i, i, i, i);
+        submesh.va_common[batch.part_node_data.name] = new Float32Array(node_data);
     }
 }
 

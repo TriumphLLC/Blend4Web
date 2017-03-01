@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>目录 &mdash; Blend4Web 16.12 用户手册</title>
+  <title>目录 &mdash; Blend4Web 17.02 用户手册</title>
   
 
   
@@ -32,7 +32,7 @@
   
         <link rel="author" title="关于这些文档"
               href="about.html"/>
-    <link rel="top" title="Blend4Web 16.12 用户手册" href="#"/>
+    <link rel="top" title="Blend4Web 17.02 用户手册" href="#"/>
         <link rel="next" title="概述" href="about.html"/> 
 
   
@@ -60,7 +60,7 @@
           
           
             <div class="version">
-              v16.12
+              v17.02
             </div>
           
         
@@ -181,10 +181,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">工作流程</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#authoring-scenes">创作场景</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflow.html#displaying-scenes-in-the-viewer">在浏览器显示场景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#creating-a-new-project">Creating a New Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#creating-scenes">Creating Scenes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#preparing-a-scene-to-use-in-blend4web">Preparing a Scene to Use in Blend4Web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#exporting-scenes">导出场景</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflow.html#application-development">应用程序开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#project-building">Project Building</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html#project-deploying">Project Deploying</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="project_manager.html">项目管理</a><ul>
@@ -237,6 +240,7 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#copying-objects-instancing">复制物体（实例化）</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#quaternions">四元数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#moving-via-tsr-vectors">通过TSR矢量移动</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#line-rendering">Line Rendering</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="meshes.html">网格</a><ul>
@@ -275,6 +279,8 @@
 <li class="toctree-l2"><a class="reference internal" href="materials.html#viewport-properties">视图属性</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#engine-specific-parameters">引擎特定参数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#halo-materials">光晕材质</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#material-api">Material API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#inherit-material">Inherit Material</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="material_library.html">材质库</a><ul>
@@ -412,7 +418,8 @@
 <li class="toctree-l2"><a class="reference internal" href="developers.html#sdk-file-structure">SDK文件结构</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#loading-local-resources">加载本地资源</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-profiles">品质配置</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#non-fullscreen-web-apps">非全屏Web应用程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#non-standard-canvas-position-and-orientation">Non-Standard Canvas Position and Orientation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#mobile-web-apps">Mobile Web Apps</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">对于引擎开发者</a><ul>
@@ -449,6 +456,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">发布说明</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v17-02">v17.02</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-12">v16.12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-11">v16.11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v16-10">v16.10</a></li>
@@ -505,7 +513,7 @@
   <div role="contentinfo">
     <p>
         &copy; 版权所有 2014-2016, Triumph.
-      最后更新于 2016-12-22.
+      最后更新于 2017-02-28.
 
     </p>
   </div>
@@ -561,7 +569,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'v16.12',
+            VERSION:'v17.02',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

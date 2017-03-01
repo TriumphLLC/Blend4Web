@@ -361,6 +361,10 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
         
             
+<li> <a href="#.HMD_WEBVR1_1">HMD_WEBVR1_1</a></li>
+
+        
+            
 <li> <a href="#.HMD_WEBVR_DESKTOP">HMD_WEBVR_DESKTOP</a></li>
 
         
@@ -415,11 +419,15 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
         <ul>
         
             
+<li> <a href="#.add_click_listener">add_click_listener<span class="signature">(element, callback)</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.attach_param_cb">attach_param_cb<span class="signature">(device, param, cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.can_use_device">can_use_device<span class="signature">(type)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.can_use_device">can_use_device<span class="signature">(type)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
@@ -431,11 +439,11 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
         
             
-<li> <a href="#.disable_split_screen">disable_split_screen<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.disable_split_screen">disable_split_screen<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
-<li> <a href="#.enable_split_screen">enable_split_screen<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#.enable_split_screen">enable_split_screen<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></a></li>
 
         
             
@@ -443,23 +451,31 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
         
             
-<li> <a href="#.get_moved_gmpd_axis">get_moved_gmpd_axis<span class="signature">(gamepad_id)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_moved_gmpd_axis">get_moved_gmpd_axis<span class="signature">(gamepad_id)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
-<li> <a href="#.get_pressed_gmpd_btn">get_pressed_gmpd_btn<span class="signature">(gamepad_id)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+<li> <a href="#.get_pressed_gmpd_btn">get_pressed_gmpd_btn<span class="signature">(gamepad_id)</span><span class="type-signature"> &rarr; {number}</span></a></li>
 
         
             
-<li> <a href="#.get_value_param">get_value_param<span class="signature">(device, param)</span><span class="type-signature"> &rarr; {Number|Boolean}</span></a></li>
+<li> <a href="#.get_value_param">get_value_param<span class="signature">(device, param)</span><span class="type-signature"> &rarr; {number|boolean|null}</span></a></li>
 
         
             
-<li> <a href="#.get_vector_param">get_vector_param<span class="signature">(device, param, dest)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+<li> <a href="#.get_vector_param">get_vector_param<span class="signature">(device, param, dest)</span><span class="type-signature"> &rarr; (nullable) {Float32Array}</span></a></li>
 
         
             
-<li> <a href="#.register_device">register_device<span class="signature">(device)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.register_device">register_device<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.remove_click_listener">remove_click_listener<span class="signature">(element, callback)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.request_fullscreen_hmd">request_fullscreen_hmd<span class="signature">()</span><span class="type-signature"></span></a></li>
 
         
             
@@ -613,7 +629,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line621">line 621</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line627">line 627</a>
     </li></ul></dd>
     
 
@@ -690,7 +706,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line627">line 627</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line633">line 633</a>
     </li></ul></dd>
     
 
@@ -767,7 +783,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line639">line 639</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line645">line 645</a>
     </li></ul></dd>
     
 
@@ -844,7 +860,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line633">line 633</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line639">line 639</a>
     </li></ul></dd>
     
 
@@ -921,7 +937,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line645">line 645</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line651">line 651</a>
     </li></ul></dd>
     
 
@@ -959,7 +975,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1036,7 +1052,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1113,7 +1129,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1190,7 +1206,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1267,7 +1283,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1344,7 +1360,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1421,7 +1437,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1498,7 +1514,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1575,7 +1591,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1652,7 +1668,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1729,7 +1745,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1806,7 +1822,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1883,7 +1899,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -1960,7 +1976,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2037,7 +2053,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2114,7 +2130,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2191,7 +2207,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2268,7 +2284,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2345,7 +2361,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2422,7 +2438,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2499,7 +2515,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2576,7 +2592,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2653,7 +2669,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2730,7 +2746,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2807,7 +2823,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2884,7 +2900,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -2961,7 +2977,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3038,7 +3054,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3115,7 +3131,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3192,7 +3208,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3269,7 +3285,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3346,7 +3362,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3423,7 +3439,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3500,7 +3516,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3577,7 +3593,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3654,7 +3670,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3731,7 +3747,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3808,7 +3824,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -3924,7 +3940,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line406">line 406</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line412">line 412</a>
     </li></ul></dd>
     
 
@@ -4001,7 +4017,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line400">line 400</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line406">line 406</a>
     </li></ul></dd>
     
 
@@ -4078,7 +4094,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line316">line 316</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line322">line 322</a>
     </li></ul></dd>
     
 
@@ -4155,7 +4171,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line340">line 340</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line346">line 346</a>
     </li></ul></dd>
     
 
@@ -4232,7 +4248,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line310">line 310</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line316">line 316</a>
     </li></ul></dd>
     
 
@@ -4309,7 +4325,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line303">line 303</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line309">line 309</a>
     </li></ul></dd>
     
 
@@ -4617,7 +4633,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line334">line 334</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line340">line 340</a>
     </li></ul></dd>
     
 
@@ -4694,7 +4710,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line322">line 322</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line328">line 328</a>
     </li></ul></dd>
     
 
@@ -4771,7 +4787,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line328">line 328</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line334">line 334</a>
     </li></ul></dd>
     
 
@@ -4849,6 +4865,83 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line297">line 297</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".HMD_WEBVR1_1">HMD_WEBVR1_1</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    WebVR API 1.1
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="module-input.html#~DeviceHMDType">DeviceHMDType</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line303">line 303</a>
     </li></ul></dd>
     
 
@@ -5156,7 +5249,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line376">line 376</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line382">line 382</a>
     </li></ul></dd>
     
 
@@ -5233,7 +5326,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line370">line 370</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line376">line 376</a>
     </li></ul></dd>
     
 
@@ -5310,7 +5403,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line352">line 352</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line358">line 358</a>
     </li></ul></dd>
     
 
@@ -5390,7 +5483,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line346">line 346</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line352">line 352</a>
     </li></ul></dd>
     
 
@@ -5467,7 +5560,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line358">line 358</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line364">line 364</a>
     </li></ul></dd>
     
 
@@ -5544,7 +5637,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line364">line 364</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line370">line 370</a>
     </li></ul></dd>
     
 
@@ -5621,7 +5714,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line394">line 394</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line400">line 400</a>
     </li></ul></dd>
     
 
@@ -5698,7 +5791,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line388">line 388</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line394">line 394</a>
     </li></ul></dd>
     
 
@@ -5775,7 +5868,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line382">line 382</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line388">line 388</a>
     </li></ul></dd>
     
 
@@ -5798,6 +5891,165 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
     
         <h3 class="subsection-title">Methods</h3>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".add_click_listener">add_click_listener<span class="signature">(element, callback)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Register the listener on the click event. Callback is called on right
+after click on element (without 300ms delay).
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">DOM element.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Callback</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Callback.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line1001">line 1001</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
         
             
 <div class="item_container">
@@ -6039,7 +6291,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line741">line 741</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line748">line 748</a>
     </li></ul></dd>
     
 
@@ -6061,7 +6313,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
     
 
-    <h4 class="name" id=".can_use_device">can_use_device<span class="signature">(type)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".can_use_device">can_use_device<span class="signature">(type)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -6156,7 +6408,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -6196,7 +6448,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line651">line 651</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line657">line 657</a>
     </li></ul></dd>
     
 
@@ -6304,7 +6556,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line965">line 965</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line984">line 984</a>
     </li></ul></dd>
     
 
@@ -6560,7 +6812,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line761">line 761</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line768">line 768</a>
     </li></ul></dd>
     
 
@@ -6582,7 +6834,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
     
 
-    <h4 class="name" id=".disable_split_screen">disable_split_screen<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".disable_split_screen">disable_split_screen<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -6628,7 +6880,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -6656,6 +6908,8 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-screen.html#.exit_split_screen">module:screen.exit_split_screen</a> instead</li></ul></dd>
+    
 
     
 
@@ -6668,7 +6922,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line901">line 901</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line919">line 919</a>
     </li></ul></dd>
     
 
@@ -6690,7 +6944,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
 
     
 
-    <h4 class="name" id=".enable_split_screen">enable_split_screen<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".enable_split_screen">enable_split_screen<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -6785,7 +7039,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     </dt>
     <dd>
         
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -6813,6 +7067,8 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-screen.html#.request_split_screen">module:screen.request_split_screen</a> instead</li></ul></dd>
+    
 
     
 
@@ -6825,7 +7081,7 @@ For more generic cases use <a href="module-controls.html">sensor-based API</a>.<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line831">line 831</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line845">line 845</a>
     </li></ul></dd>
     
 
@@ -7026,7 +7282,7 @@ If device is not available, then return null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line659">line 659</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line665">line 665</a>
     </li></ul></dd>
     
 
@@ -7048,7 +7304,7 @@ If device is not available, then return null.
 
     
 
-    <h4 class="name" id=".get_moved_gmpd_axis">get_moved_gmpd_axis<span class="signature">(gamepad_id)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_moved_gmpd_axis">get_moved_gmpd_axis<span class="signature">(gamepad_id)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -7098,7 +7354,7 @@ If device is not available, then return null.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -7143,7 +7399,7 @@ If device is not available, then return null.
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -7183,7 +7439,7 @@ If device is not available, then return null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line958">line 958</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line977">line 977</a>
     </li></ul></dd>
     
 
@@ -7205,7 +7461,7 @@ If device is not available, then return null.
 
     
 
-    <h4 class="name" id=".get_pressed_gmpd_btn">get_pressed_gmpd_btn<span class="signature">(gamepad_id)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_pressed_gmpd_btn">get_pressed_gmpd_btn<span class="signature">(gamepad_id)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -7255,7 +7511,7 @@ If device is not available, then return null.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -7300,7 +7556,7 @@ If device is not available, then return null.
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
     </dd>
@@ -7340,7 +7596,7 @@ If device is not available, then return null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line951">line 951</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line970">line 970</a>
     </li></ul></dd>
     
 
@@ -7362,7 +7618,7 @@ If device is not available, then return null.
 
     
 
-    <h4 class="name" id=".get_value_param">get_value_param<span class="signature">(device, param)</span><span class="type-signature"> &rarr; {Number|Boolean}</span></h4>
+    <h4 class="name" id=".get_value_param">get_value_param<span class="signature">(device, param)</span><span class="type-signature"> &rarr; {number|boolean|null}</span></h4>
 
     
 
@@ -7481,10 +7737,13 @@ If device is not available, then return null.
     </dt>
     <dd>
         
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 |
 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
+|
+
+<span class="param-type">null</span>
 
 
     </dd>
@@ -7524,7 +7783,7 @@ If device is not available, then return null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line725">line 725</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line730">line 730</a>
     </li></ul></dd>
     
 
@@ -7546,7 +7805,7 @@ If device is not available, then return null.
 
     
 
-    <h4 class="name" id=".get_vector_param">get_vector_param<span class="signature">(device, param, dest)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+    <h4 class="name" id=".get_vector_param">get_vector_param<span class="signature">(device, param, dest)</span><span class="type-signature"> &rarr; (nullable) {Float32Array}</span></h4>
 
     
 
@@ -7728,7 +7987,7 @@ If device is not available, then return null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line708">line 708</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line712">line 712</a>
     </li></ul></dd>
     
 
@@ -7750,7 +8009,7 @@ If device is not available, then return null.
 
     
 
-    <h4 class="name" id=".register_device">register_device<span class="signature">(device)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".register_device">register_device<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -7767,56 +8026,6 @@ If device is not available, then return null.
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>device</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Device object. Use
-<a href="module-input.html#.get_device_by_type_element">input.get_device_by_type_element</a> to obtain it.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -7866,7 +8075,254 @@ If device is not available, then return null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line681">line 681</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line687">line 687</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".remove_click_listener">remove_click_listener<span class="signature">(element, callback)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Unregister the listener registered with
+ input.add_click_listener.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">DOM element.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Callback</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Callback.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line1015">line 1015</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".request_fullscreen_hmd">request_fullscreen_hmd<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Request fullscreen mode.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use <a href="module-screen.html#.request_fullscreen_hmd">module:screen.request_fullscreen_hmd</a> instead</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line796">line 796</a>
     </li></ul></dd>
     
 
@@ -8003,7 +8459,7 @@ Right now it should be used for DEVICE_HMD.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line692">line 692</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line696">line 696</a>
     </li></ul></dd>
     
 
@@ -8075,7 +8531,7 @@ Right now it should be used for DEVICE_HMD.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -8098,7 +8554,7 @@ Right now it should be used for DEVICE_HMD.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -8121,7 +8577,7 @@ Right now it should be used for DEVICE_HMD.
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -8184,7 +8640,7 @@ Right now it should be used for DEVICE_HMD.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line922">line 922</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line943">line 943</a>
     </li></ul></dd>
     
 
@@ -8280,7 +8736,7 @@ Right now it should be used for DEVICE_HMD.
             <td class="type">
             
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -8343,7 +8799,7 @@ Right now it should be used for DEVICE_HMD.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line669">line 669</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line675">line 675</a>
     </li></ul></dd>
     
 
@@ -8384,7 +8840,7 @@ Right now it should be used for DEVICE_HMD.
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -8461,7 +8917,7 @@ Right now it should be used for DEVICE_HMD.
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -8538,7 +8994,7 @@ Right now it should be used for DEVICE_HMD.
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -8615,7 +9071,7 @@ Right now it should be used for DEVICE_HMD.
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -8654,7 +9110,7 @@ Right now it should be used for DEVICE_HMD.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line616">line 616</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line622">line 622</a>
     </li></ul></dd>
     
 
@@ -8692,7 +9148,7 @@ Right now it should be used for DEVICE_HMD.
     <ul>
         <li>
             
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -8947,7 +9403,7 @@ to the <a href="module-input.html#.GYRO_ORIENTATION_ANGLES">GYRO_ORIENTATION_ANG
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line601">line 601</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line607">line 607</a>
     </li></ul></dd>
     
 
@@ -9094,7 +9550,7 @@ to the <a href="module-input.html#.GYRO_ORIENTATION_QUAT">GYRO_ORIENTATION_QUAT<
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line586">line 586</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line592">line 592</a>
     </li></ul></dd>
     
 
@@ -9178,7 +9634,7 @@ m_input.attach_param_cb(device, m_input.GYRO_ORIENTATION_QUAT, gyroscope_quat_cb
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -9242,7 +9698,7 @@ keyboard (use constants KEY_* from module <a href="module-controls.html">control
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line500">line 500</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line506">line 506</a>
     </li></ul></dd>
     
 
@@ -9326,7 +9782,7 @@ m_input.attach_param_cb(device, m_input.KEYBOARD_DOWN, keyboard_down_cb);</code>
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -9390,7 +9846,7 @@ keyboard (use constants KEY_* from module <a href="module-controls.html">control
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line516">line 516</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line522">line 522</a>
     </li></ul></dd>
     
 
@@ -9474,7 +9930,7 @@ m_input.attach_param_cb(device, m_input.KEYBOARD_UP, keyboard_up_cb);</code></pr
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -9538,7 +9994,7 @@ m_input.attach_param_cb(device, m_input.KEYBOARD_UP, keyboard_up_cb);</code></pr
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line453">line 453</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line459">line 459</a>
     </li></ul></dd>
     
 
@@ -9686,7 +10142,7 @@ vertical mouse coordinate.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line436">line 436</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line442">line 442</a>
     </li></ul></dd>
     
 
@@ -9771,7 +10227,7 @@ m_input.attach_param_cb(device, m_input.MOUSE_LOCATION, mouse_location_cb);</cod
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -9835,7 +10291,7 @@ m_input.attach_param_cb(device, m_input.MOUSE_LOCATION, mouse_location_cb);</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line469">line 469</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line475">line 475</a>
     </li></ul></dd>
     
 
@@ -9919,7 +10375,7 @@ m_input.attach_param_cb(device, m_input.MOUSE_UP_WHICH, mouse_up_which_cb);</cod
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">number</span>
 
 
             
@@ -9982,7 +10438,7 @@ m_input.attach_param_cb(device, m_input.MOUSE_UP_WHICH, mouse_up_which_cb);</cod
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line485">line 485</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line491">line 491</a>
     </li></ul></dd>
     
 
@@ -10130,7 +10586,7 @@ contacting with the touch surface points.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line568">line 568</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line574">line 574</a>
     </li></ul></dd>
     
 
@@ -10280,7 +10736,7 @@ contacting with the touch surface points.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line550">line 550</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line556">line 556</a>
     </li></ul></dd>
     
 
@@ -10430,7 +10886,7 @@ contacting with the touch surface points.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line532">line 532</a>
+        <a href="ext_input.js.html">ext/input.js</a>, <a href="ext_input.js.html#line538">line 538</a>
     </li></ul></dd>
     
 
@@ -10472,13 +10928,13 @@ m_input.attach_param_cb(device, m_input.TOUCH_START, touch_start_cb);</code></pr
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-armature.html">armature</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-fps.html">fps</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gp_conf.html">gp_conf</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hmd.html">hmd</a></li><li><a href="module-hmd_conf.html">hmd_conf</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-input.html">input</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-logic_nodes.html">logic_nodes</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-math.html">math</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screen.html">screen</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Blend4Web API Reference (generated by JSDoc 3.4.0 on Thu Dec 22 2016 10:22:27 GMT+0300 (MSK))
+    Blend4Web API Reference (generated by JSDoc 3.4.0 on Tue Feb 28 2017 15:47:46 GMT+0300 (MSK))
     <a href="https://www.blend4web.com">www.blend4web.com</a>
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">

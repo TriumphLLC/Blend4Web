@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Blend4Web 16.08\n"
 "Report-Msgid-Bugs-To: https://www.blend4web.com/en/forums/forum/17/\n"
-"POT-Creation-Date: 2016-12-16 17:38+0300\n"
+"POT-Creation-Date: 2017-02-28 12:12+0300\n"
 "PO-Revision-Date: 2015-08-28 10:55+0300\n"
 "Last-Translator: Blend4Web Team <info [at] blend4web.com>\n"
 "Language-Team: Russian <info [at] blend4web.com>\n"
@@ -458,9 +458,9 @@ msgstr ""
 #: ../node_materials.rst:189 ../node_materials.rst:212
 #: ../node_materials.rst:237 ../node_materials.rst:260
 #: ../node_materials.rst:295 ../node_materials.rst:321
-#: ../node_materials.rst:362 ../node_materials.rst:388
-#: ../node_materials.rst:420 ../node_materials.rst:444
-#: ../node_materials.rst:494
+#: ../node_materials.rst:356 ../node_materials.rst:382
+#: ../node_materials.rst:414 ../node_materials.rst:438
+#: ../node_materials.rst:488
 msgid "Input Parameters"
 msgstr "Входные параметры"
 
@@ -474,9 +474,9 @@ msgstr "Заданный вектор."
 
 #: ../node_materials.rst:195 ../node_materials.rst:278
 #: ../node_materials.rst:304 ../node_materials.rst:332
-#: ../node_materials.rst:343 ../node_materials.rst:371
-#: ../node_materials.rst:401 ../node_materials.rst:425
-#: ../node_materials.rst:473 ../node_materials.rst:500
+#: ../node_materials.rst:365 ../node_materials.rst:395
+#: ../node_materials.rst:419 ../node_materials.rst:467
+#: ../node_materials.rst:494
 msgid "Output Parameters"
 msgstr "Выходные параметры"
 
@@ -653,8 +653,8 @@ msgstr ""
 "Может применяться для наложения кубической карты (cubemap) на объект."
 
 #: ../node_materials.rst:298 ../node_materials.rst:301
-#: ../node_materials.rst:307 ../node_materials.rst:497
-#: ../node_materials.rst:503
+#: ../node_materials.rst:307 ../node_materials.rst:491
+#: ../node_materials.rst:497
 msgid "*Vector*"
 msgstr ""
 
@@ -717,8 +717,8 @@ msgstr "Коэффицент возмущения (сдвига) текстур�
 msgid "The default value is 0.001."
 msgstr "Значение по умолчанию: 0.001."
 
-#: ../node_materials.rst:335 ../node_materials.rst:346
-#: ../node_materials.rst:374 ../node_materials.rst:447
+#: ../node_materials.rst:335 ../node_materials.rst:368
+#: ../node_materials.rst:441
 msgid "*Color*"
 msgstr ""
 
@@ -740,15 +740,11 @@ msgstr ""
 msgid ":ref:`alpha_blend`"
 msgstr ""
 
-#: ../node_materials.rst:346
-msgid "Output color."
-msgstr "Значение выходного цвета."
-
-#: ../node_materials.rst:351
+#: ../node_materials.rst:345
 msgid "Replace (B4W_REPLACE)"
 msgstr ""
 
-#: ../node_materials.rst:353
+#: ../node_materials.rst:347
 msgid ""
 "The node replaces the inputs depending on the working environment (i.e. "
 "Blender viewport or Blend4Web). When working in Blender the ``Color1`` "
@@ -766,7 +762,7 @@ msgstr ""
 "предназначена для отображения во viewport'e одной конструкции нодов, а в "
 "движке - другой."
 
-#: ../node_materials.rst:359
+#: ../node_materials.rst:353
 msgid ""
 "As a rule it is used for normal mapping. Blender’s node materials do not "
 "support a tangent space of coordinates. Therefore, the only possible "
@@ -778,23 +774,23 @@ msgstr ""
 "связи с чем единственный способ корректного отображения карт нормалей во "
 "viewport'e - их подключение внутри нод ``Material``."
 
-#: ../node_materials.rst:365
+#: ../node_materials.rst:359
 msgid "*Color1*"
 msgstr ""
 
-#: ../node_materials.rst:365
+#: ../node_materials.rst:359
 msgid "Node setup that will be visible in the Blender viewport."
 msgstr "Конструкция нод, видимая во вьюпорте Blender'а"
 
-#: ../node_materials.rst:368
+#: ../node_materials.rst:362
 msgid "*Color2*"
 msgstr ""
 
-#: ../node_materials.rst:368
+#: ../node_materials.rst:362
 msgid "Node setup that will be visible in the Blend4Web engine."
 msgstr "Конструкция нод, видимая объекта в движке Blend4Web."
 
-#: ../node_materials.rst:374
+#: ../node_materials.rst:368
 msgid ""
 "Should be connected to the ``Color`` socket of the ``Material`` or "
 "``Extended Material`` node."
@@ -802,46 +798,46 @@ msgstr ""
 "Следует подключать к выходу ``Color`` ноды ``Material`` или ``Extended "
 "Material``."
 
-#: ../node_materials.rst:379
+#: ../node_materials.rst:373
 msgid "Smoothstep (B4W_SMOOTHSTEP)"
 msgstr ""
 
-#: ../node_materials.rst:381
+#: ../node_materials.rst:375
 msgid ""
 "Performs smooth interpolation between two input values based on first "
 "value."
 msgstr "Осуществить мягкую интерполяцию двух значений, исходя из первого значения."
 
-#: ../node_materials.rst:391 ../node_materials.rst:404
-#: ../node_materials.rst:428
+#: ../node_materials.rst:385 ../node_materials.rst:398
+#: ../node_materials.rst:422
 msgid "*Value*"
 msgstr ""
 
-#: ../node_materials.rst:391
+#: ../node_materials.rst:385
 msgid "Value which determines interpolation smoothness."
 msgstr "Значение, на основе которого осуществляется интерполяция."
 
-#: ../node_materials.rst:394
+#: ../node_materials.rst:388
 msgid "*Edge0*"
 msgstr ""
 
-#: ../node_materials.rst:394
+#: ../node_materials.rst:388
 msgid "First interpolation value."
 msgstr "Первое значениe для интерполяции."
 
-#: ../node_materials.rst:398
+#: ../node_materials.rst:392
 msgid "*Edge1*"
 msgstr ""
 
-#: ../node_materials.rst:397
+#: ../node_materials.rst:391
 msgid "Second interpolation value."
 msgstr "Второе значениe для интерполяции."
 
-#: ../node_materials.rst:404
+#: ../node_materials.rst:398
 msgid "Interpolated value."
 msgstr "Сглаженное значение."
 
-#: ../node_materials.rst:407
+#: ../node_materials.rst:401
 msgid ""
 "For the correct interpolation input ``Value`` had to be between ``Edge0``"
 " and ``Edge1``."
@@ -849,11 +845,11 @@ msgstr ""
 "Для корректной интерполяции входное значение ``Value`` должно лежать в "
 "диапазоне между ``Edge0`` и ``Edge1``."
 
-#: ../node_materials.rst:412
+#: ../node_materials.rst:406
 msgid "Time (B4W_TIME)"
 msgstr ""
 
-#: ../node_materials.rst:414
+#: ../node_materials.rst:408
 msgid ""
 "Provides the timeline counting from the engine start (in seconds). Can be"
 " used for animating any parameters in node materials, such as UV "
@@ -863,23 +859,23 @@ msgstr ""
 "использоваться для анимации любых параметров в нодовых материалах - "
 "UV-координат, факторов смешивания, прозрачности и т.п."
 
-#: ../node_materials.rst:422
+#: ../node_materials.rst:416
 msgid "None."
 msgstr "Отсутствуют."
 
-#: ../node_materials.rst:428
+#: ../node_materials.rst:422
 msgid "Time (in seconds) elapsed from the engine startup."
 msgstr "Время (в секундах), прошедшее с момента старта движка."
 
-#: ../node_materials.rst:430
+#: ../node_materials.rst:424
 msgid ":ref:`node_anim`"
 msgstr ""
 
-#: ../node_materials.rst:435
+#: ../node_materials.rst:429
 msgid "Translucency (B4W_TRANSLUCENCY)"
 msgstr ""
 
-#: ../node_materials.rst:437
+#: ../node_materials.rst:431
 msgid ""
 "The node implements a translucency effect (with respect to light sources "
 "only) for thin objects such as cloth, leaves, paper etc. The effect "
@@ -893,7 +889,7 @@ msgstr ""
 "стороны объекта и появление светового пятна непосредственно в том месте, "
 "где должен был находится источник."
 
-#: ../node_materials.rst:447
+#: ../node_materials.rst:441
 msgid ""
 "One-channel texture which defines material heterogeneity - the white "
 "color denotes maximum translucency effect while the black color denotes "
@@ -903,11 +899,11 @@ msgstr ""
 "максимальный эффект просвечивания, черный - его отсутствие. По умолчанию "
 "используется белый."
 
-#: ../node_materials.rst:456
+#: ../node_materials.rst:450
 msgid "*Backside Factor*"
 msgstr ""
 
-#: ../node_materials.rst:450
+#: ../node_materials.rst:444
 msgid ""
 "Material color correction coefficient for the side which is opposite to "
 "the light source. It describes the color richness effect for the "
@@ -917,27 +913,27 @@ msgstr ""
 "стороне. Основан на визуальном эффекте большей насыщенности цвета при "
 "просвечивании."
 
-#: ../node_materials.rst:452
+#: ../node_materials.rst:446
 msgid "*Backside Factor < 1* - brightening"
 msgstr "*Backside Factor < 1* - коррекция в сторону осветления"
 
-#: ../node_materials.rst:453
+#: ../node_materials.rst:447
 msgid "*Backside Factor = 1* - no correction"
 msgstr "*Backside Factor = 1* - без коррекции"
 
-#: ../node_materials.rst:454
+#: ../node_materials.rst:448
 msgid "*Backside Factor > 1* - darkening"
 msgstr "*Backside Factor > 1* - коррекция в сторону затемнения"
 
-#: ../node_materials.rst:456 ../node_materials.rst:470
+#: ../node_materials.rst:450 ../node_materials.rst:464
 msgid "The default value is 1."
 msgstr "Значение по умолчанию: 1."
 
-#: ../node_materials.rst:459
+#: ../node_materials.rst:453
 msgid "*Spot Hardness*"
 msgstr ""
 
-#: ../node_materials.rst:459
+#: ../node_materials.rst:453
 msgid ""
 "Light spot blurring factor. The bigger this value is the smaller is the "
 "spot and the sharper are the spot edges. The default value is 1000."
@@ -945,11 +941,11 @@ msgstr ""
 "Коэффициент размытия светового пятна. При увеличении размеры пятна "
 "уменьшаются, края становятся более резкими. Значение по умолчанию: 1000."
 
-#: ../node_materials.rst:462
+#: ../node_materials.rst:456
 msgid "*Spot Intensity*"
 msgstr ""
 
-#: ../node_materials.rst:462
+#: ../node_materials.rst:456
 msgid ""
 "Light spot intensity. The bigger this value is the brighter is the light "
 "spot. The default value is 1."
@@ -957,27 +953,27 @@ msgstr ""
 "Интенсивность светового пятна. При увеличении становится более ярким. "
 "Значение по умолчанию: 1."
 
-#: ../node_materials.rst:470
+#: ../node_materials.rst:464
 msgid "*Spot Diffuse Factor*"
 msgstr ""
 
-#: ../node_materials.rst:465
+#: ../node_materials.rst:459
 msgid "Material diffuse color influence on the light spot color."
 msgstr "Коэффициент влияния диффузного цвета материала на цвет светового пятна."
 
-#: ../node_materials.rst:467
+#: ../node_materials.rst:461
 msgid "*Spot Diffuse Factor = 0* - the light spot has the diffuse color"
 msgstr "*Spot Diffuse Factor = 0* - световое пятно имеет диффузный цвет"
 
-#: ../node_materials.rst:468
+#: ../node_materials.rst:462
 msgid "*Spot Diffuse Factor = 1* - the light spot color is white"
 msgstr "*Spot Diffuse Factor = 1* - световое пятно имеет белый цвет"
 
-#: ../node_materials.rst:476
+#: ../node_materials.rst:470
 msgid "*Translucency*"
 msgstr ""
 
-#: ../node_materials.rst:476
+#: ../node_materials.rst:470
 msgid ""
 "The output should be connected to the ``Translucency`` input of the "
 "``Extended Material`` node."
@@ -985,7 +981,7 @@ msgstr ""
 "Выход должен быть подключен ко входу ``Translucency`` ноды ``Extended "
 "Material``."
 
-#: ../node_materials.rst:480
+#: ../node_materials.rst:474
 msgid ""
 "This node can work incorrectly, if the :ref:`mesh normals were edited "
 "<normals_editor>`."
@@ -993,11 +989,11 @@ msgstr ""
 "Возможно некорректное поведение ноды, если используются "
 ":ref:`отредактированные нормали <normals_editor>`."
 
-#: ../node_materials.rst:485
+#: ../node_materials.rst:479
 msgid "Vector View (B4W_VECTOR_VIEW)"
 msgstr ""
 
-#: ../node_materials.rst:487
+#: ../node_materials.rst:481
 msgid ""
 "The node transforms a vector into the camera’s space of coordinates. "
 "Transformation is necessary because the engine defines most vectors in "
@@ -1012,19 +1008,19 @@ msgstr ""
 "используется только для различных эффектов и не должен подключаться к "
 "входу ноды ``Material`` или ``Extended Material``."
 
-#: ../node_materials.rst:497
+#: ../node_materials.rst:491
 msgid "Vector coordinates in the world-space."
 msgstr "Вектор в мировой системе координат."
 
-#: ../node_materials.rst:503
+#: ../node_materials.rst:497
 msgid "Vector coordinates in the camera-space."
 msgstr "Вектор в системе координат камеры."
 
-#: ../node_materials.rst:508
+#: ../node_materials.rst:502
 msgid "Linear to SRGB and SRGB to Linear (Deprecated)"
 msgstr "Linear to SRGB и SRGB to Linear (Deprecated)"
 
-#: ../node_materials.rst:510
+#: ../node_materials.rst:504
 msgid ""
 "Converts colors from linear space to sRGB or vice versa. This function "
 "has been declared deprecated since the version 15.04. In the newer "
@@ -1039,15 +1035,15 @@ msgstr ""
 "преобразования из линейного пространства в sRGB - ту же ноду со значением"
 " 0.455."
 
-#: ../node_materials.rst:516
+#: ../node_materials.rst:510
 msgid ":ref:`gamma_node_materials`"
 msgstr ""
 
-#: ../node_materials.rst:521
+#: ../node_materials.rst:515
 msgid "Cycles Nodes"
 msgstr "Ноды Сycles"
 
-#: ../node_materials.rst:524
+#: ../node_materials.rst:518
 msgid ""
 "Cycles node support is an experimental feature that is not yet "
 "recommended for using in production enviroment."
@@ -1056,19 +1052,33 @@ msgstr ""
 "момент не рекомендуется к использованию при разработке серьёзных "
 "приложений."
 
-#: ../node_materials.rst:526
+#: ../node_materials.rst:520
+msgid ""
+"It should also be noted that using Cycles nodes in Blend4Web will produce"
+" images similar, but not identical to the ones created using Cycles "
+"renderer itself."
+msgstr ""
+"Следует также заметить, что при использовании нод Cycles в Blend4Web "
+"конечный результат будет близок к изображению, созданному в самом Cycles,"
+" но всё же не идентичен ему."
+
+#: ../node_materials.rst:522
 msgid "The engine support the following ``Cycles`` nodes:"
 msgstr "Движок поддерживает следующие ноды ``Cycles``:"
 
-#: ../node_materials.rst:528
-msgid "``Material Output`` (only ``Surface`` input is supported);"
-msgstr "``Material Output`` (поддерживается только вход ``Surface``);"
+#: ../node_materials.rst:524
+msgid ""
+"``Material Output`` (only ``Surface`` and ``Displacement`` inputs are "
+"supported);"
+msgstr ""
+"``Material Output`` (поддерживаются только входы ``Surface`` и "
+"``Displacement``);"
 
-#: ../node_materials.rst:530
+#: ../node_materials.rst:526
 msgid "``BSDF Diffuse``;"
 msgstr ""
 
-#: ../node_materials.rst:532
+#: ../node_materials.rst:528
 msgid ""
 "``BSDF Glossy`` (only ``GGX`` distribution is supported; the "
 "``Roughness`` parameter does not influence the reflections);"
@@ -1076,57 +1086,61 @@ msgstr ""
 "``BSDF Glossy`` (поддерживается только распределение ``GGX``; параметр "
 "``Roughness`` не влияет на отражения);"
 
-#: ../node_materials.rst:534
+#: ../node_materials.rst:530
+msgid "``Transparent BSDF``;"
+msgstr ""
+
+#: ../node_materials.rst:532
 msgid "``Mix Shader``;"
 msgstr ""
 
-#: ../node_materials.rst:536
+#: ../node_materials.rst:534
 msgid "``Fresnel``;"
 msgstr ""
 
-#: ../node_materials.rst:538
+#: ../node_materials.rst:536
 msgid "``Layer Weight``;"
 msgstr ""
 
-#: ../node_materials.rst:540
+#: ../node_materials.rst:538
 msgid "``Image Texture``;"
 msgstr ""
 
-#: ../node_materials.rst:542
+#: ../node_materials.rst:540
 msgid "``Environment Texture``;"
 msgstr ""
 
-#: ../node_materials.rst:544
+#: ../node_materials.rst:542
 msgid "``Object Info``;"
 msgstr ""
 
-#: ../node_materials.rst:546
+#: ../node_materials.rst:544
 msgid "``Bump``."
 msgstr ""
 
-#: ../node_materials.rst:548
+#: ../node_materials.rst:546
 msgid "The following nodes are partially supported:"
 msgstr "Следующие ноды поддеживаются частично:"
 
-#: ../node_materials.rst:550
+#: ../node_materials.rst:548
 msgid "``Texture Coordinates`` (``From Dupli`` parameter is not supported);"
 msgstr "``Texture Coordinates`` (параметр ``From Dupli`` не поддерживается);"
 
-#: ../node_materials.rst:552
+#: ../node_materials.rst:550
 msgid "``UV Map`` (``From Dupli`` parameter is not supported);"
 msgstr "``UV Map`` (параметр ``From Dupli`` не поддерживается);"
 
-#: ../node_materials.rst:554
+#: ../node_materials.rst:552
 msgid ""
 "``Geometry`` (the ``Pointness`` and ``Parametric`` parameters are not "
 "supported)."
 msgstr "``Geometry`` (параметры ``Pointness`` и ``Parametric`` не поддерживаются)."
 
-#: ../node_materials.rst:556
+#: ../node_materials.rst:554
 msgid "``Emission`` (does not influence the lighting of the scene)."
 msgstr "``Emission`` (не влияет на освещённость сцены)."
 
-#: ../node_materials.rst:558
+#: ../node_materials.rst:556
 msgid ""
 "Other ``Cycles`` nodes will not, in most cases, work in Blend4Web the "
 "same way they do in Blender. They also might not work at all or even "
@@ -1167,4 +1181,7 @@ msgstr "ноды"
 
 #~ msgid "Vector Transform [#f1]_"
 #~ msgstr ""
+
+#~ msgid "Output color."
+#~ msgstr "Значение выходного цвета."
 

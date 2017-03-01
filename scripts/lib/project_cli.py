@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
+"""Default python exec."""
 
+import datetime
 import configparser
 import getopt
 import glob
 import imp
-import itertools
 import mimetypes
 import os
 import platform
@@ -16,46 +17,61 @@ import sys
 import tempfile
 import zipfile
 
-from os.path import basename, join, normpath, exists, relpath, splitext, isfile, isdir, dirname
+from os.path import (basename, join, normpath, exists, relpath, splitext,
+                     isfile, isdir, dirname)
 from pathlib import Path
 from html.parser import HTMLParser
 from collections import OrderedDict
-
-from project_util import unix_path, get_proj_cfg, proj_cfg_value, cwd_rel_to_abs, cfg_create_list, print_flush, csv_str_to_dict
+from urllib.parse import unquote
+from project_util import (unix_path, get_proj_cfg, proj_cfg_value,
+                          cwd_rel_to_abs, cfg_create_list, print_flush,
+                          csv_str_to_dict)
 
 # console text colors
-GREEN  = '\033[92m'
-BLUE   = '\033[94m'
-RED    = "\033[91m"
+GREEN = '\033[92m'
+BLUE = '\033[96m'
+RED = "\033[91m"
 YELLOW = "\033[93m"
 ENDCOL = "\033[0m"
 
 # default engine type option
-DEFAULT_ENGINE_TYPE_OPT = ""
+DEFAULT_ENGINE_TYPE_OPT = "copy"
 
 # default closure compiler optimization options
 DEFAULT_JS_OPTIMIZATION_OPT = "simple"
 
-DEFAULT_PHYS_USING_OPT = True
-DEFAULT_SMAA_USING_OPT = False
+DEFAULT_BLENDER_EXEC = "blender"
 
-URANIUM_FILE_NAME      = "uranium.js"
-URANIUM_FILE_NAME_BIN  = "uranium.js.mem"
-SMAA_FILE_NAME_AREA    = "smaa_area_texture.png"
-SMAA_FILE_NAME_SEARCH  = "smaa_search_texture.png"
-ENGINE_ADV_FILE_NAME   = "b4w.min.js"
+MOD_DEV_PROJ_NAME = "modern"
+STD_DEV_PROJ_NAME = "standard"
+DEFAULT_PROJ_STRUCT = MOD_DEV_PROJ_NAME
+
+DEFAULT_PHYS_USING_OPT = True
+
+URANIUM_FILE_NAME = "uranium.js"
+URANIUM_FILE_NAME_BIN = "uranium.js.mem"
+ENGINE_ADV_FILE_NAME = "b4w.min.js"
 ENGINE_WHITE_FILE_NAME = "b4w.whitespace.min.js"
-ENGINE_SIM_FILE_NAME   = "b4w.simple.min.js"
+ENGINE_SIM_FILE_NAME = "b4w.simple.min.js"
 
 # ignore these files during compilation/deployment
-COMP_DEPL_IGNORE = ['project.py', '.b4w_project', '.b4w_icon.*']
+COMP_DEPL_IGNORE = ['project.py', '.b4w_project', '.b4w_icon.*', '.map']
 
 MAT_DIR_NAME = "material_library"
+MAT_LIB_DIR_IGNORE = ["*.blend1", "promo", "material_library.blend",
+                      "free_material_library.blend"]
+MAT_LIB_ASSETS_IGNORE = ["*.json", "*.bin"]
 
-_base_dir      = None
-_cc_dir        = None
-_engine_dir    = None
-_src_dir       = None
+PROJ_CONFIG_FILE_NAME = ".b4w_project"
+
+WEBPLAYER_REL_BUILD_PATH = join("deploy", "apps", "webplayer")
+
+_base_dir = None
+_cc_dir = None
+_engine_dir = None
+_src_dir = None
+_std_dev_dir = None
+_mod_dev_dir = None
 
 _js_cc_params = None
 
@@ -64,9 +80,62 @@ _java_exec = "java"
 # files deleted after compile project
 _temporary_files = []
 
+_undeleted_files = []
+
+OPTIMIZATION_DICT = {
+    "advanced": "ADVANCED_OPTIMIZATIONS",
+    "simple": "SIMPLE_OPTIMIZATIONS",
+    "whitespace": "WHITESPACE_ONLY"
+}
+
+OPTIMIZATION_ENGINE_NAME_DICT = {
+    "advanced": ENGINE_ADV_FILE_NAME,
+    "simple": ENGINE_SIM_FILE_NAME,
+    "whitespace": ENGINE_WHITE_FILE_NAME
+}
+
+ENGINE_TYPE_LIST = [
+    "copy",
+    "compile",
+    "webplayer_json",
+    "webplyer_html",
+    "none"
+]
+
+BUILDED_TYPE_LIST = [
+    "copy",
+    "compile"
+]
+
+DEPRECATED_ENGINE_TYPE_LIST = {"update": "none", "external": "copy"}
+
+AVAIL_SNIPPETS_LIST = [
+    "bone_api",
+    "camera_animation",
+    "camera_move_styles",
+    "canvas_texture",
+    "change_image",
+    "custom_anchors",
+    "dynamic_geometry",
+    "gamepad",
+    "gyro",
+    "instancing",
+    "lines",
+    "material_api",
+    "morphing",
+    "multitouch",
+    "pathfinding",
+    "raytest",
+    "webcam",
+    "vr"
+]
+
 
 class HTMLProcessor(HTMLParser):
+    """Default python exec."""
+
     def __init__(self, js_ignore=[], css_ignore=[]):
+        """Constructor."""
         HTMLParser.__init__(self)
 
         self.js = []
@@ -77,6 +146,7 @@ class HTMLProcessor(HTMLParser):
         self.css_ignore = css_ignore
 
     def handle_endtag(self, tag):
+        """Endtag handler."""
         if tag == "script":
             if not self.inline_js:
                 self.js[-1]["end_pos"] = self.getpos()
@@ -86,6 +156,7 @@ class HTMLProcessor(HTMLParser):
             self.head[-1]["end_pos"] = self.getpos()
 
     def handle_starttag(self, tag, attrs):
+        """Starttag handler."""
         if tag == "script":
             script = {}
 
@@ -119,7 +190,8 @@ class HTMLProcessor(HTMLParser):
                     mime_type = mimetypes.guess_type(attr[1])[0]
 
                     link["start_pos"] = self.getpos()
-                    link["end_pos"] = (self.getpos()[0], self.offset + len(self.get_starttag_text()))
+                    link["end_pos"] = (self.getpos()[0], self.offset +
+                                       len(self.get_starttag_text()))
 
                     if mime_type == "text/css":
                         if attr[1] in self.css_ignore:
@@ -129,14 +201,17 @@ class HTMLProcessor(HTMLParser):
         elif tag == "head":
             self.head.append({"start_pos": self.getpos()})
 
+
 def run(argv, base_dir):
+    """Run script."""
     sys.path.append(join(base_dir, "scripts"))
 
     fill_global_paths(base_dir)
 
     try:
-        opts, args = getopt.getopt(argv[1:], "hp:",
-                ["help", "project=", "no-colorama"])
+        opts, args = getopt.getopt(argv[1:], "hp:s:",
+                                   ["help", "project=",
+                                    "snippet=", "no-colorama"])
     except getopt.GetoptError as err:
         # NOTE: no colorama yet
         help("Incorrect command line arguments")
@@ -151,7 +226,10 @@ def run(argv, base_dir):
 
     no_colorama = False
 
+    snippet_name = None
+
     for o, a in opts:
+        # print(args)
         if o == "--help" or o == "-h":
             run_help()
         elif o == "--no-colorama":
@@ -159,6 +237,8 @@ def run(argv, base_dir):
         elif o == "--project" or o == "-p":
             # works for absolute paths too
             proj_path = cwd_rel_to_abs(a)
+        elif o == "--snippet" or o == "-s":
+            snippet_name = a
 
     if not no_colorama:
         import colorama
@@ -167,7 +247,6 @@ def run(argv, base_dir):
     if not len(args):
         help("Specify project management command")
         sys.exit(1)
-
     cmd = args[0]
 
     if cmd == "help":
@@ -179,11 +258,26 @@ def run(argv, base_dir):
         run_init(args[1:])
     elif cmd == "list":
         run_list(args[1:])
+    elif cmd == "config":
+        if not proj_path:
+            help("Project directory not found")
+            sys.exit(1)
+        run_config(args[1:], proj_path)
     elif cmd == "compile" or cmd == "build":
         if not proj_path:
             help("Project directory not found")
             sys.exit(1)
         run_build(args[1:], proj_path)
+    elif cmd == "clone":
+        if not proj_path:
+            help("Project directory not found")
+            sys.exit(1)
+        run_clone(args[1:], proj_path)
+    elif cmd == "clone_snippet":
+        if not snippet_name:
+            help("Snippet not found")
+            sys.exit(1)
+        run_clone_snippet(args[1:], snippet_name)
     elif cmd == "convert_resources" or cmd == "convert-resources":
         if not proj_path:
             help("Project directory not found")
@@ -229,8 +323,10 @@ def run(argv, base_dir):
         help("Wrong project management command: " + cmd)
         sys.exit(1)
 
+
 def fill_global_paths(base_dir):
-    global _base_dir, _curr_work_dir, _cc_dir, _src_dir, _js_cc_params, _engine_dir, _java_exec
+    global _base_dir, _curr_work_dir, _cc_dir, _src_dir, _js_cc_params
+    global _engine_dir, _java_exec, _mod_dev_dir, _std_dev_dir
 
     # sdk base directory
     _base_dir = base_dir
@@ -251,12 +347,21 @@ def fill_global_paths(base_dir):
     js_cc_path = join(_cc_dir, "compiler.jar")
 
     # closure compiler params
-    _js_cc_params = [_java_exec, "-jar", js_cc_path, "--language_in=ECMASCRIPT5"]
+    _js_cc_params = [_java_exec, "-jar", js_cc_path,
+                     "--language_in=ECMASCRIPT5"]
 
     # engine sources directory
     _src_dir = join(base_dir, "src")
 
+    # modern developer directory
+    _mod_dev_dir = join(base_dir, "projects")
+
+    # standard developer directory
+    _std_dev_dir = join(base_dir, "apps_dev")
+
+
 def run_help(cmd=""):
+    """Run console help."""
     if cmd == "":
         # display generic help
         help()
@@ -268,7 +373,7 @@ def run_help(cmd=""):
         help_list()
         sys.exit(0)
     elif cmd == "compile" or cmd == "build":
-        help_compile()
+        help_build()
         sys.exit(0)
     elif cmd == "deploy":
         help_deploy()
@@ -306,15 +411,13 @@ def run_help(cmd=""):
 
 
 def help(err=""):
-    """
-    Display generic help.
-    """
+    """Display generic help."""
     if err:
         help_print_err(err)
     else:
         print("""\
 Blend4Web project management.
-Usage: project.py [-p|--project PROJECT] [--no-colorama] [-h|--help] 
+Usage: project.py [-p|--project PROJECT] [--no-colorama] [-h|--help]
                   [COMMAND] [OPTION]...
 Options:
     -p, --project   path to project
@@ -340,14 +443,12 @@ Commands:
     update-file-struct  update project file structure
 
 Use 'project.py help COMMAND' to read more about the command and it's arguments.
-"""
-        )
+""")
+
 
 def help_print_err(err, subcmd=""):
-    """
-    Print formatted error message and hint for --help option
-    """
-    print("     " + "-"*(len(err)), file=sys.stderr)
+    """Print formatted error message and hint for --help option."""
+    print("     " + "-" * (len(err)), file=sys.stderr)
     print("   ", RED, err, ENDCOL, file=sys.stderr)
     print("     " + "-"*(len(err)), file=sys.stderr)
 
@@ -365,38 +466,38 @@ def help_print_err(err, subcmd=""):
           "-"*(len("   Try './project.py" + subcmd_str + "--help' for more information.")),
           file=sys.stderr)
 
+
 def run_init(args):
-    """
-    Create a Blend4Web project directory structure for the given project.
-    """
+    """Create a Blend4Web project directory structure for the given project."""
     try:
         opts, args = getopt.getopt(args, "C:ASPU:T:t:o:b:h:m",
-                           ["author=",
-                            "copy-app-templates",
-                            "copy-scene-templates",
-                            "copy-project-script",
-                            "url-params=",
-                            "title=",
-                            "engine-type=",
-                            "optimization=",
-                            "blender-exec=",
-                            "help",
-                            "materials"])
+                                   ["author=",
+                                    "copy-app-templates",
+                                    "copy-scene-templates",
+                                    "copy-project-script",
+                                    "url-params=",
+                                    "title=",
+                                    "engine-type=",
+                                    "optimization=",
+                                    "blender-exec=",
+                                    "help",
+                                    "materials"])
     except getopt.GetoptError as err:
         help_init("Incorrect command line arguments")
         sys.exit(1)
 
     author = ""
     title = ""
+    url_params = ""
+
     do_copy_app_templates = False
     do_copy_scene_templates = False
     do_copy_project_script = False
-    url_params = ""
+    do_copy_materials = False
+
     engine_type = DEFAULT_ENGINE_TYPE_OPT
     opt_level = DEFAULT_JS_OPTIMIZATION_OPT
-
-    blender_exec = "blender"
-    copy_materials = False
+    blender_exec = DEFAULT_BLENDER_EXEC
 
     for o, a in opts:
         if o == "--author" or o == "-C":
@@ -418,7 +519,7 @@ def run_init(args):
         elif o == "--blender-exec" or o == "-b":
             blender_exec = a
         elif o == "--materials" or o == "-m":
-            copy_materials = True
+            do_copy_materials = True
         elif o == "--help" or o == "-h":
             help_init()
             sys.exit(0)
@@ -432,8 +533,6 @@ def run_init(args):
     if not name:
         help_init("Please specify project name")
         sys.exit(1)
-
-    webplayer_proj = engine_type in ["webplayer_html", "webplayer_json"]
 
     if engine_type == "webplayer_json":
         print("Creating a new webplayer json project")
@@ -449,20 +548,14 @@ def run_init(args):
 
     if author == "Blend4Web":
         dev_dir = join(_base_dir, "apps_dev", name)
-    else:
-        dev_dir = join(_base_dir, "projects", name)
-
-    if author == "Blend4Web":
         blender_dir = join(_base_dir, "blender", name)
         build_dir = join(_base_dir, "deploy", "apps", name)
         assets_dir = join(_base_dir, "deploy", "assets", name)
     else:
+        dev_dir = join(_base_dir, "projects", name)
         blender_dir = join(dev_dir, "blender")
         build_dir = join(dev_dir, "build")
         assets_dir = join(dev_dir, "assets")
-
-    if webplayer_proj and author == "Blend4Web":
-        build_dir = dev_dir
 
     dev_dir_rel = unix_path(relpath(dev_dir, _base_dir))
     blender_dir_rel = unix_path(relpath(blender_dir, _base_dir))
@@ -470,53 +563,56 @@ def run_init(args):
     assets_dir_rel = unix_path(relpath(assets_dir, _base_dir))
 
     if exists(dev_dir):
-        print("Directory for source files already exists")
+        print(RED, "Project with the '" + name + "' name already exists.", ENDCOL)
+        sys.exit(1)
     else:
         print("Creating directory for source files:", dev_dir_rel)
         os.makedirs(dev_dir, exist_ok=True)
 
-    if exists(build_dir):
-        print("Directory for compiled files already exists")
-    else:
+    if engine_type in BUILDED_TYPE_LIST:
         print("Creating directory for compiled files:", build_dir_rel)
         os.mkdir(build_dir)
-
-    if exists(blender_dir):
-        print("Directory for blend files already exists")
     else:
-        print("Creating directory for blend files:", blender_dir_rel)
-        os.mkdir(blender_dir)
+        build_dir_rel = ""
 
-    if exists(assets_dir):
-        print("Directory for exported scenes already exists")
-    else:
-        print("Creating directory for exported scenes:", assets_dir_rel)
-        os.mkdir(assets_dir)
+    print("Creating directory for blend files:", blender_dir_rel)
+    os.mkdir(blender_dir)
+
+    print("Creating directory for exported scenes:", assets_dir_rel)
+    os.mkdir(assets_dir)
 
     b4w_proj_file = join(dev_dir, ".b4w_project")
 
-    if exists(b4w_proj_file):
-        print("Project settings file already exists")
-        return
-
     print("Creating project settings file:",
-            unix_path(relpath(b4w_proj_file, _base_dir)))
+          unix_path(relpath(b4w_proj_file, _base_dir)))
 
     b4w_proj_cfg = configparser.ConfigParser()
 
+    def_phys = ""
+    assets_path_dest = ""
+    assets_path_prefix = ""
+
+    if engine_type in BUILDED_TYPE_LIST:
+        def_phys = DEFAULT_PHYS_USING_OPT
+
+    if engine_type == "none":
+        def_phys = False
+
+    if engine_type != "none":
+        assets_path_dest = "assets"
+        assets_path_prefix = "assets"
 
     b4w_proj_cfg["info"] = OrderedDict([
         ("author", author),
+        ("icon", ""),
         ("name", name),
-        ("title", title),
-        ("icon", "")
+        ("title", title)
     ])
 
     b4w_proj_cfg["paths"] = OrderedDict([
         ("assets_dirs", cfg_create_list([assets_dir_rel])),
         ("blend_dirs", cfg_create_list([blender_dir_rel])),
-        # it's better not to use blender exec from command line
-        ("blender_exec", "blender"),
+        ("blender_exec", blender_exec),
         ("build_dir", build_dir_rel),
         ("deploy_dir", "")
     ])
@@ -528,14 +624,12 @@ def run_init(args):
         ("ignore", ""),
         ("js_ignore", ""),
         ("optimization", opt_level),
-        ("use_physics", ""),
-        ("use_smaa_textures", ""),
-        ("version", "")
+        ("use_physics", def_phys)
     ])
 
     b4w_proj_cfg["deploy"] = OrderedDict([
-        ("assets_path_dest", "assets"),
-        ("assets_path_prefix", "assets"),
+        ("assets_path_dest", assets_path_dest),
+        ("assets_path_prefix", assets_path_prefix),
         ("ignore", ""),
         ("override", "")
     ])
@@ -547,28 +641,44 @@ def run_init(args):
         b4w_proj_cfg.write(configfile)
 
     if do_copy_project_script:
+        print("Copying project script")
         copy_project_script(_base_dir, dev_dir)
 
-    if do_copy_app_templates and not webplayer_proj and engine_type != "none":
+    ignore_app_template_copying = False
+
+    if engine_type == "webplayer_html":
+        ignore_app_template_copying = True
+        print("App templates not available for 'webplayer html' project")
+
+    if engine_type == "webplayer_json":
+        ignore_app_template_copying = True
+        print("App templates not available for 'webplayer json' project")
+
+    if engine_type == "none":
+        ignore_app_template_copying = True
+        print("App templates not available for 'none' project")
+
+    if do_copy_app_templates and not ignore_app_template_copying:
+        print("Copying app templates")
         copy_app_templates(name, dev_dir, _base_dir, _src_dir, title, author)
 
     if do_copy_scene_templates:
+        print("Copying scene templates")
         copy_scene_templates(name, _base_dir, blender_dir, assets_dir,
-                blender_exec, engine_type)
+                blender_exec, engine_type, dev_dir)
 
-    if copy_materials:
+    if do_copy_materials:
         print("Copying material library")
         mat_dir = join(_base_dir, "blender", MAT_DIR_NAME)
         mat_lib_dir = join(blender_dir, MAT_DIR_NAME)
 
         shutil.copytree(mat_dir, mat_lib_dir,
-                ignore=shutil.ignore_patterns("*.blend1", "promo",
-                "material_library.blend", "free_material_library.blend"))
+                ignore=shutil.ignore_patterns(*MAT_LIB_DIR_IGNORE))
 
         mat_assets = join(_base_dir, "deploy", "assets", MAT_DIR_NAME)
 
         shutil.copytree(mat_assets, join(assets_dir, MAT_DIR_NAME),
-                ignore=shutil.ignore_patterns("*.json", "*.bin"))
+                ignore=shutil.ignore_patterns(*MAT_LIB_ASSETS_IGNORE))
 
         print("Changing texture paths in the material library (may take a while)")
         print_flush()
@@ -582,25 +692,37 @@ def run_init(args):
 
     print(GREEN + "Project created" + ENDCOL)
 
-def correct_texture_paths(script, blender_exec, mat_dir,
-        source_asset, target_asset, source_blend, target_blend):
+
+def correct_texture_paths(script_path, blender_exec, mat_dir,
+                          source_asset, target_asset,
+                          source_blend, target_blend):
     for list_elem in os.listdir(mat_dir):
         abs_path = join(mat_dir, list_elem)
         if os.path.isdir(abs_path):
-            correct_texture_paths(script, blender_exec, abs_path,
-                    source_asset, target_asset, source_blend, target_blend)
+            correct_texture_paths(script_path, blender_exec, abs_path,
+                                  source_asset, target_asset, source_blend,
+                                  target_blend)
         elif splitext(abs_path)[-1] == ".blend":
             print("  " + abs_path)
             print_flush()
-            subprocess.check_output([blender_exec, "-b", abs_path, "-P",
-                    script, "--", source_asset, target_asset,
-                    source_blend, target_blend])
+
+            try:
+                subprocess.check_output([blender_exec, "-b", abs_path, "-P",
+                                        script_path, "--", source_asset,
+                                        target_asset, source_blend,
+                                        target_blend],
+                                        stderr=subprocess.STDOUT)
+            except FileNotFoundError:
+                print(RED, "Blender not found", ENDCOL)
+                sys.exit(1)
+
 
 def sdk_rel_to_abs(rel_path, base_dir=None):
     """Get absoulte path from the relative to base dir (SDK root)"""
     if not base_dir:
         base_dir = _base_dir
     return normpath(join(base_dir, rel_path))
+
 
 def sdk_rel_to_abs_paths(rel_paths, base_dir=None):
     """Get absoulte paths from the relative to base dir (SDK root) ones"""
@@ -628,12 +750,13 @@ Options:
     -m, --materials              copy material library into project directories
     -U, --url-params             specify url GET params
     -T, --title=NAME             project title (human readable name)
-    -t, --engine-type=TYPE       specify b4w engine type: 'external',
-                                 'copy', compile'
+    -t, --engine-type=TYPE       specify b4w engine type: 'copy',
+                                 'compile', 'none'
     -e, --assets-path            specify assets url
     -o, --optimization=TYPE      set JavaScript optimization type: 
                                  'whitespace', 'simple' or 'advanced'
     -h, --help                   show this help and exit""")
+
 
 def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, title, author):
 
@@ -645,7 +768,7 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, title, author):
 
     if exists(out_html_file):
         print("  file " + unix_path(relpath(out_html_file, base_dir)) +
-                " already exists")
+              " already exists")
         return
     else:
         print("  " + unix_path(relpath(out_html_file, base_dir)))
@@ -654,7 +777,7 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, title, author):
 
     if exists(out_js_file):
         print("  file " + unix_path(relpath(out_js_file, base_dir)) +
-                " already exists")
+              " already exists")
         return
     else:
         print("  " + unix_path(relpath(out_js_file, base_dir)))
@@ -662,7 +785,7 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, title, author):
     out_css_file = join(dev_dir, proj_name + ".css")
     if exists(out_css_file):
         print("  file " + unix_path(relpath(out_css_file, base_dir)) +
-                " already exists")
+              " already exists")
         return
     else:
         print("  " + unix_path(relpath(out_css_file, base_dir)))
@@ -700,37 +823,44 @@ def copy_app_templates(proj_name, dev_dir, base_dir, src_dir, title, author):
     tpl_html_file.close()
 
     import mod_list
-    scripts = mod_list.gen_code(mod_list.gen_module_list("../../src/", src_dir))
+    scripts = mod_list.gen_code(mod_list.gen_module_list("../../src/",
+                                src_dir))
 
     if title == "":
         html_title = proj_name
     else:
         html_title = title
 
-    html_insertions = dict(name=proj_name, arg_name=proj_name, title=html_title, scripts=scripts)
+    html_insertions = dict(name=proj_name, arg_name=proj_name,
+                           title=html_title, scripts=scripts)
 
     out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
 
-    out_html_file_obj = open(out_html_file, 'w', encoding="utf-8", newline="\n")
+    out_html_file_obj = open(out_html_file, 'w', encoding="utf-8",
+                             newline="\n")
     out_html_file_obj.writelines(out_html_str)
     out_html_file_obj.close()
 
+
 def copy_scene_templates(proj_name, base_dir, blender_dir, assets_dir,
-        blender_exec, engine_type):
+                         blender_exec, engine_type, dev_dir):
 
     print("Copying scene template files into destination directories:")
 
     blend_tpl = join(base_dir, "scripts", "templates", "scene.blend")
+    logo_tpl = join(base_dir, "scripts", "templates", "logo.png")
     blend = join(blender_dir, proj_name + ".blend")
+    logo = join(assets_dir, "logo.png")
 
     if exists(blend):
         print("  file " + unix_path(relpath(blend, base_dir)) +
-                " already exists")
+              " already exists")
         return
     else:
         print("  " + unix_path(relpath(blend, base_dir)))
 
     shutil.copyfile(blend_tpl, blend)
+    shutil.copyfile(logo_tpl, logo)
 
     if not shutil.which(blender_exec):
         print("  Blender executable is not found")
@@ -751,15 +881,23 @@ def copy_scene_templates(proj_name, base_dir, blender_dir, assets_dir,
 
     if exists(saved_path):
         print("  file " + unix_path(relpath(saved_path, base_dir)) +
-                " already exists")
+              " already exists")
         return
     else:
         print("  " + unix_path(relpath(saved_path, base_dir)))
 
+    script_path = join(_base_dir, "scripts", "blender", "cli_change_asset_paths.py")
+
+    correct_texture_paths(script_path, blender_exec, blender_dir,
+                          blend_tpl, assets_dir,
+                          blend_tpl, blender_dir)
+
     print_flush()
 
     subprocess.check_output([blender_exec, "-b", blend, "-P",
-            reexporter, "--", saved_path])
+                            reexporter, "--", saved_path],
+                            stderr=subprocess.STDOUT)
+
 
 def copy_project_script(base_dir, dev_dir):
     print("Copying project.py script into project directory:")
@@ -769,12 +907,13 @@ def copy_project_script(base_dir, dev_dir):
 
     if exists(proj_out):
         print("  file " + unix_path(relpath(proj_out, base_dir)) +
-                " already exists")
+              " already exists")
         return
     else:
         print("  " + unix_path(relpath(proj_out, base_dir)))
 
     shutil.copy(proj_in, proj_out)
+
 
 def run_list(args):
     try:
@@ -792,8 +931,9 @@ def run_list(args):
 
     for proj_dir in proj_list:
         proj_cfg = get_proj_cfg(proj_dir)
-        print(proj_cfg.get("info", "name"), "->", 
-                unix_path(relpath(proj_dir, _base_dir)))
+        print(proj_cfg.get("info", "name"), "->",
+              unix_path(relpath(proj_dir, _base_dir)))
+
 
 def find_proj_list(base_dir):
     proj_list = []
@@ -804,6 +944,7 @@ def find_proj_list(base_dir):
                 proj_list.append(root)
 
     return proj_list
+
 
 def help_list(err=""):
     if err:
@@ -816,31 +957,278 @@ Display a list with all available applications.
 Option:
     -h, --help     show this help and exit""")
 
-def run_build(args, dev_proj_path):
-    proj_cfg = get_proj_cfg(dev_proj_path)
-    default_build_dir = normpath(join(_base_dir, "deploy", "apps", basename(dev_proj_path)))
-    conf_build_dir = proj_cfg_value(proj_cfg, "paths", "build_dir", default_build_dir)
-    build_proj_path = sdk_rel_to_abs(conf_build_dir)
 
+def check_build_proj_path(build_proj_path):
+    build_proj_path_obj = Path(build_proj_path)
+    base_dir_obj = Path(_base_dir)
+
+    base_dir_parts = base_dir_obj.parts
+    base_dir_parts_len = len(base_dir_parts)
+    build_proj_path_parts = build_proj_path_obj.parts
+    build_proj_path_parts_len = len(build_proj_path_parts)
+
+    if (base_dir_parts_len and
+            build_proj_path_parts_len and
+            build_proj_path_parts_len >= base_dir_parts_len and
+            build_proj_path.startswith(_base_dir) and
+            build_proj_path_parts[base_dir_parts_len - 1] == base_dir_parts[-1]):
+        return
+
+    help_build("Build project path outside from the sdk directory")
+    sys.exit(1)
+
+
+def run_clone_snippet(args, snippet_name):
+    if snippet_name not in AVAIL_SNIPPETS_LIST:
+        help_build("Snippet with current name does not exist")
+        sys.exit(1)
+
+    snippets_abs_path = join(_base_dir, "apps_dev", "code_snippets")
+    proj_cfg = get_proj_cfg(snippets_abs_path)
+    blend_dirs = proj_cfg_value(proj_cfg, "paths", "blend_dirs", [])
+    assets_dirs = proj_cfg_value(proj_cfg, "paths", "assets_dirs", [])
+    blender_exec = proj_cfg_value(proj_cfg, "paths", "blender_exec", "blender")
+
+    if not len(blend_dirs):
+        help_build("You must specify blender dirs in config file")
+        sys.exit(1)
+
+    if not len(assets_dirs):
+        help_build("You must specify assets dirs in config file")
+        sys.exit(1)
+
+    cur_snippet_blend = normpath(join(_base_dir, blend_dirs[0], snippet_name))
+    cur_snippet_assets = normpath(join(_base_dir, assets_dirs[0],
+                                  snippet_name))
+    cur_snippet_js = normpath(join(_base_dir, "apps_dev", "code_snippets",
+                              "scripts", snippet_name + ".js"))
+    cur_snippet_css = normpath(join(_base_dir, "apps_dev", "code_snippets",
+                               "css", snippet_name + ".css"))
+
+    try:
+        opts, args = getopt.getopt(args,
+                                   "hn:b:",
+                                   ["help",
+                                    "new-proj-name=",
+                                    "blender-exec="])
+    except getopt.GetoptError as err:
+        help_build("Incorrect command line arguments")
+        sys.exit(1)
+
+    new_proj_name = None
+
+    for o, a in opts:
+        if o == "--new-proj-name" or o == "-n":
+            new_proj_name = a
+        elif o == "--blender-exec" or o == "-b":
+            blender_exec = a
+        elif o == "--help" or o == "-h":
+            help_clone_snippet()
+            sys.exit(0)
+
+    if not new_proj_name:
+        help_clone_snippet("You must specify new project name")
+        sys.exit(1)
+
+    if not isfile(blender_exec) and not shutil.which(blender_exec):
+        help_clone_snippet("Blender not found")
+        sys.exit(1)
+
+    new_proj_path = join(_base_dir, "projects", new_proj_name)
+
+    if exists(new_proj_path):
+        help_build("Project path already exists")
+        sys.exit(1)
+
+    os.makedirs(new_proj_path)
+
+    if exists(cur_snippet_assets):
+        shutil.copytree(cur_snippet_assets, join(new_proj_path, "assets"))
+
+    if exists(cur_snippet_blend):
+        shutil.copytree(cur_snippet_blend, join(new_proj_path, "blender"))
+
+    if exists(cur_snippet_js):
+        shutil.copy(cur_snippet_js, join(new_proj_path, new_proj_name + ".js"))
+
+    css_lines = [
+        "body {",
+        "  background-color: #fff;",
+        "  margin: 0;",
+        "  overflow: hidden;",
+        "}",
+
+        "#main_canvas_container {",
+        "  position: absolute;",
+        "  left: 0px;",
+        "  top: 0px;",
+        "  width: 100%;",
+        "  height: 100%;",
+        "}"
+    ]
+
+    if exists(cur_snippet_css):
+        css_file = open(cur_snippet_css, "r", encoding="utf-8", newline="\n")
+        css_tmp_lines = css_file.readlines()
+        css_file.close()
+
+        css_lines.extend(css_tmp_lines)
+
+    new_css_file_name = join(new_proj_path, new_proj_name + ".css")
+
+    new_css_file = open(new_css_file_name, "w", encoding="utf-8", newline="\n")
+    new_css_file.writelines(css_lines)
+    new_css_file.close()
+
+    b4w_proj_cfg = configparser.ConfigParser()
+    b4w_proj_file = join(new_proj_path, ".b4w_project")
+
+    b4w_proj_cfg["info"] = OrderedDict([
+        ("author", ""),
+        ("icon", ""),
+        ("name", new_proj_name),
+        ("title", "")
+    ])
+
+    b4w_proj_cfg["paths"] = OrderedDict([
+        ("assets_dirs", unix_path(join("projects", new_proj_name, "assets")) + ";"),
+        ("blend_dirs", unix_path(join("projects", new_proj_name, "blender")) + ";"),
+        ("blender_exec", proj_cfg_value(proj_cfg, "paths", "blender_exec", "blender")),
+        ("build_dir", unix_path(normpath(relpath(join(new_proj_path, "build"), _base_dir)))),
+        ("deploy_dir", "")
+    ])
+
+    b4w_proj_cfg["compile"] = OrderedDict([
+        ("apps", ""),
+        ("css_ignore", ""),
+        ("engine_type", "copy"),
+        ("ignore", ""),
+        ("js_ignore", ""),
+        ("optimization", "simple"),
+        ("use_physics", True)
+    ])
+
+    b4w_proj_cfg["deploy"] = OrderedDict([
+        ("assets_path_dest", "assets"),
+        ("assets_path_prefix", "assets"),
+        ("ignore", ""),
+        ("override", "")
+    ])
+
+    with open(b4w_proj_file, "w", encoding="utf-8", newline="\n") as configfile:
+        b4w_proj_cfg.write(configfile)
+
+    out_html_file = join(new_proj_path, new_proj_name + ".html")
+
+    tpl_dir = join(_base_dir, "scripts", "templates")
+    tpl_html_file = open(join(tpl_dir, "app.html"), "r", encoding="utf-8")
+    tpl_html_str = tpl_html_file.read()
+    tpl_html_file.close()
+
+    import mod_list
+    scripts = mod_list.gen_code(mod_list.gen_module_list("../../src/", join(_base_dir, "src")))
+
+    assets_path = "m_cfg.get_assets_path(\"" + new_proj_name + "\")"
+    html_insertions = dict(name=new_proj_name, assets_path=assets_path, scripts=scripts, title="")
+
+    out_html_str = string.Template(tpl_html_str).substitute(html_insertions)
+
+    out_html_file_obj = open(out_html_file, 'w', encoding="utf-8", newline="\n")
+    out_html_file_obj.writelines(out_html_str)
+    out_html_file_obj.close()
+
+    js_file = open(join(new_proj_path, new_proj_name + ".js"), 'r', encoding="utf-8", newline="\n")
+    js_lines = js_file.readlines()
+    js_file.close()
+
+    tmp_js_lines = []
+
+    for line in js_lines:
+        line = re.sub("b4w\.register\(\"" + snippet_name, "b4w.register(\"" + new_proj_name, line)
+        line = re.sub("APP_ASSETS_PATH *=(.*?);", "APP_ASSETS_PATH = m_cfg.get_assets_path(\"" + new_proj_name + "\");", line)
+        tmp_js_lines.append(line)
+
+    tmp_js_lines.append("b4w.require(\""+ new_proj_name + "\").init();")
+
+    js_file = open(join(new_proj_path, new_proj_name + ".js"), 'w', encoding="utf-8", newline="\n")
+    js_file.writelines(tmp_js_lines)
+    js_file.close()
+
+    script_path = join(_base_dir, "scripts", "blender", "cli_change_asset_paths.py")
+
+    if cur_snippet_blend and cur_snippet_assets:
+        print("Changing assets paths (may take a while):")
+        correct_texture_paths(script_path, blender_exec, join(new_proj_path, "blender"),
+                              cur_snippet_assets, join(new_proj_path, "assets"),
+                              cur_snippet_blend, join(new_proj_path, "blender"))
+
+    print(GREEN + "Snippet cloning finished" + ENDCOL)
+    sys.exit(0)
+
+def run_clone(args, dev_proj_path):
+    proj_struct = get_proj_struct(dev_proj_path)
+
+    if proj_struct != MOD_DEV_PROJ_NAME:
+        help_build("Old project structure")
+        sys.exit(1)
+
+    try:
+        new_proj_name = args[0].strip()
+    except:
+        help_build("You must specify new project name")
+        sys.exit(1)
+
+    new_proj_path = join(_base_dir, "projects", new_proj_name)
+
+    if not new_proj_path.startswith(_base_dir):
+        help_build("Build project path outside from the sdk directory")
+        sys.exit(1)
+
+    if exists(new_proj_path):
+        help_build("Project path already exists")
+        sys.exit(1)
+
+    shutil.copytree(dev_proj_path, new_proj_path)
+
+    proj_cfg = get_proj_cfg(new_proj_path)
+
+    proj_cfg["info"]["name"] = new_proj_name
+    proj_cfg["paths"]["assets_dirs"] = unix_path(join("projects", new_proj_name, "assets"))
+    proj_cfg["paths"]["blend_dirs"] = unix_path(join("projects", new_proj_name, "blender"))
+    proj_cfg["paths"]["build_dir"] = unix_path(join("projects", new_proj_name, "build"))
+
+    b4w_proj_file = list(Path(new_proj_path).glob(".b4w_project"))[0].as_posix()
+
+    with open(b4w_proj_file, "w", encoding="utf-8", newline="\n") as configfile:
+        proj_cfg.write(configfile)
+
+    print(GREEN + "Project cloning finished" + ENDCOL)
+    sys.exit(0)
+
+def run_build(args, dev_proj_path):
+    # standard or modern project structure
+    proj_struct = get_proj_struct(dev_proj_path)
+    proj_cfg = get_proj_cfg(dev_proj_path)
     conf_proj_name = proj_cfg_value(proj_cfg, "info", "name", "")
-    author = proj_cfg_value(proj_cfg, "author", "name", "")
 
     if not conf_proj_name:
-        help_compile("Required project name")
+        help_build("Required project name. Please, specify project name in the '.b4w_project' file.")
         sys.exit(1)
 
     proj_name = conf_proj_name
 
-    conf_engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", DEFAULT_ENGINE_TYPE_OPT)
-    engine_type = get_engine_type(conf_engine_type)
+    default_build_proj_path = get_build_proj_path(proj_name, proj_struct)
+    conf_build_proj_path = proj_cfg_value(proj_cfg, "paths", "build_dir", default_build_proj_path)
+
+    build_proj_path = sdk_rel_to_abs(conf_build_proj_path)
+
+    conf_engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "none")
+    engine_type = conf_engine_type
 
     conf_opt_level = proj_cfg_value(proj_cfg, "compile", "optimization", DEFAULT_JS_OPTIMIZATION_OPT)
-    opt_level = get_opt_level(conf_opt_level)
-
-    version = proj_cfg_value(proj_cfg, "compile", "version", "")
+    opt_level = conf_opt_level
 
     use_physics = proj_cfg_value(proj_cfg, "compile", "use_physics", DEFAULT_PHYS_USING_OPT)
-    use_smaa_textures = proj_cfg_value(proj_cfg, "compile", "use_smaa_textures", DEFAULT_SMAA_USING_OPT)
 
     apps = proj_cfg_value(proj_cfg, "compile", "apps", [])
 
@@ -848,9 +1236,11 @@ def run_build(args, dev_proj_path):
     css_ignore = proj_cfg_value(proj_cfg, "compile", "css_ignore", [])
     ignore = proj_cfg_value(proj_cfg, "compile", "ignore", [])
 
+    version = ""
+
     try:
         opts, args = getopt.getopt(args,
-                            "ht:o:a:v:j:c:i:fm",
+                            "ht:o:a:v:j:c:i:fbw",
                            ["help",
                             "engine-type=",
                             "engine_type=",
@@ -864,23 +1254,25 @@ def run_build(args, dev_proj_path):
                             "ignore=",
                             "use-physics",
                             "use_physics",
-                            "use-smaa-textures"
-                            "use_smaa_textures"])
+                            "use-source-map",
+                            "show-warn"])
     except getopt.GetoptError as err:
-        help_compile("Incorrect command line arguments")
+        help_build("Incorrect command line arguments")
         sys.exit(1)
 
     apps_tmp = []
     js_ignore_tmp = []
     css_ignore_tmp = []
     ignore_tmp = []
+    use_source_map = False
+    show_warn = False
 
     # NOTE: underscores are only for compatibility, remove ASAP
     for o, a in opts:
         if o == "--engine-type" or o == "--engine_type" or o == "-t":
-            engine_type = get_engine_type(a)
+            engine_type = a
         elif o == "--optimization" or o == "-o":
-            opt_level = get_opt_level(a)
+            opt_level = a
         elif o == "--app" or o == "-a":
             apps_tmp.append(cwd_rel_to_abs(a))
         elif o == "--version" or o == "-v":
@@ -893,39 +1285,48 @@ def run_build(args, dev_proj_path):
             ignore_tmp.append(a)
         elif o == "--use-physics" or o == "--use_physics" or o == "-f":
             use_physics = a
-        elif o == "--use-smaa-textures" or o == "--use_smaa_textures" or o == "-m":
-            use_smaa_textures = a
+        elif o == "--use-source-map" or o == "-b":
+            use_source_map = True
+        elif o == "--show-warn" or o == "-w":
+            show_warn = True
         elif o == "--help" or o == "-h":
-            help_compile()
+            help_build()
             sys.exit(0)
+
+    engine_type = check_engine_type(engine_type)
+
+    if engine_type == "external":
+        engine_type = "copy"
+
+    if (engine_type and engine_type in ENGINE_TYPE_LIST
+            and not engine_type in BUILDED_TYPE_LIST):
+        help_build("Build option not available for the current type project")
+        sys.exit(1)
+
+    check_build_proj_path(build_proj_path)
 
     if len(ignore_tmp):
         ignore = ignore_tmp
 
     ignore.extend(COMP_DEPL_IGNORE)
 
-    # engine type "none"
-    if not engine_type:
-        if not get_base_dir(build_proj_path):
-            help_compile("Project must be placed in the sdk directroy")
-            sys.exit(0)
+    print(GREEN + "Building project" + ENDCOL + ": " + BLUE + proj_name + ENDCOL)
 
+    if engine_type == "none":
         if exists(build_proj_path):
             shutil.rmtree(build_proj_path)
 
         shutil.copytree(dev_proj_path, build_proj_path,
                 ignore=shutil.ignore_patterns(*ignore))
 
+        print("-"*(len("Project building finished")))
         print(GREEN + "Project building finished" + ENDCOL)
+        print("-"*(len("Project building finished")))
 
         return
 
-    if engine_type in ["WEBPLAYER_JSON", "WEBPLAYER_HTML"]:
-        help_compile("Compile option not available")
-        sys.exit(1)
-
-    if engine_type in ["COMPILE", "EXTERNAL", "COPY"] and not _java_exec:
-        help_compile("Project's engine type requires Java")
+    if engine_type in BUILDED_TYPE_LIST and not _java_exec:
+        help_build("Project's engine type requires Java")
         sys.exit(1)
 
     if len(apps_tmp):
@@ -933,8 +1334,30 @@ def run_build(args, dev_proj_path):
 
     if not len(apps):
         apps = list(Path(dev_proj_path).rglob("*.html"))
+        print("    " + "-"*(len("'apps' field in project config is empty, detecting apps html-files automatically")))
+        print("    " + YELLOW + "'apps' field in project config is empty, detecting apps html-files automatically" + ENDCOL)
+        print("    " + "-"*(len("'apps' field in project config is empty, detecting apps html-files automatically")))
     else:
         apps = [Path(join(dev_proj_path, app)) for app in apps]
+        html_apps = list(set(Path(dev_proj_path).rglob("*.html")) -
+                         set(apps) -
+                         set(Path(join(dev_proj_path, "build")).rglob("*.html")) -
+                         set([Path(join(dev_proj_path, i)) for i in ignore]))
+
+        for html_app in html_apps:
+            parser = parse_html_file(html_app.as_posix())
+            cur_js_dict = list(filter(lambda x: not dirname(normpath(join(str(html_app.parent), x["src"]))).startswith(_src_dir), parser.js))
+
+            for js in cur_js_dict:
+                _undeleted_files.append(normpath(join(build_proj_path, relpath(html_app.parent.as_posix(), dev_proj_path), js["src"])))
+
+            for css in parser.css:
+                _undeleted_files.append(normpath(join(build_proj_path, relpath(html_app.parent.as_posix(), dev_proj_path), css["href"])))
+
+    if proj_struct == MOD_DEV_PROJ_NAME:
+        apps = list(set(apps) - set(Path(join(dev_proj_path, "build")).rglob("*.html")) -
+                                set(Path(join(dev_proj_path, "assets")).rglob("*.html")) -
+                                set(Path(join(dev_proj_path, "modern")).rglob("*.html")))
 
     check_proj_struct(dev_proj_path, apps)
 
@@ -946,7 +1369,7 @@ def run_build(args, dev_proj_path):
 
     app_ignore = ignore[:]
 
-    if not author == "Blend4Web":
+    if proj_struct == MOD_DEV_PROJ_NAME:
         app_ignore.append("blender")
         app_ignore.append("assets")
         app_ignore.append("build")
@@ -955,7 +1378,77 @@ def run_build(args, dev_proj_path):
         apps = list(filter(lambda app: not normpath(app.as_posix()).startswith(normpath(join(dev_proj_path, i))), apps))
 
     global _js_cc_params
-    _js_cc_params.append("--compilation_level=" + opt_level)
+    _js_cc_params.append("--compilation_level=" + OPTIMIZATION_DICT[opt_level])
+
+    _js_cc_params.append("--jscomp_off=checkTypes")
+    _js_cc_params.append("--jscomp_off=nonStandardJsDocs")
+    _js_cc_params.append("--jscomp_off=reportUnknownTypes")
+
+    if not show_warn:
+        _js_cc_params.append("--warning_level=QUIET")
+        _js_cc_params.append("--jscomp_off=checkVars")
+        _js_cc_params.append("--jscomp_off=accessControls")
+        _js_cc_params.append("--jscomp_off=ambiguousFunctionDecl")
+        _js_cc_params.append("--jscomp_off=checkEventfulObjectDisposal")
+        _js_cc_params.append("--jscomp_off=checkRegExp")
+        _js_cc_params.append("--jscomp_off=const")
+        _js_cc_params.append("--jscomp_off=constantProperty")
+        _js_cc_params.append("--jscomp_off=deprecated")
+        _js_cc_params.append("--jscomp_off=deprecatedAnnotations")
+        _js_cc_params.append("--jscomp_off=duplicateMessage")
+        _js_cc_params.append("--jscomp_off=es3")
+        _js_cc_params.append("--jscomp_off=es5Strict")
+        _js_cc_params.append("--jscomp_off=externsValidation")
+        _js_cc_params.append("--jscomp_off=fileoverviewTags")
+        _js_cc_params.append("--jscomp_off=functionParams")
+        _js_cc_params.append("--jscomp_off=globalThis")
+        _js_cc_params.append("--jscomp_off=internetExplorerChecks")
+        _js_cc_params.append("--jscomp_off=misplacedTypeAnnotation")
+        _js_cc_params.append("--jscomp_off=missingPolyfill")
+        _js_cc_params.append("--jscomp_off=missingProperties")
+        _js_cc_params.append("--jscomp_off=missingReturn")
+        _js_cc_params.append("--jscomp_off=msgDescriptions")
+        _js_cc_params.append("--jscomp_off=newCheckTypes")
+        _js_cc_params.append("--jscomp_off=suspiciousCode")
+        _js_cc_params.append("--jscomp_off=strictModuleDepCheck")
+        _js_cc_params.append("--jscomp_off=typeInvalidation")
+        _js_cc_params.append("--jscomp_off=undefinedNames")
+        _js_cc_params.append("--jscomp_off=undefinedVars")
+        _js_cc_params.append("--jscomp_off=unknownDefines")
+        _js_cc_params.append("--jscomp_off=unusedLocalVariables")
+        _js_cc_params.append("--jscomp_off=uselessCode")
+    else:
+        _js_cc_params.append("--jscomp_warning=checkVars")
+        _js_cc_params.append("--jscomp_warning=accessControls")
+        _js_cc_params.append("--jscomp_warning=ambiguousFunctionDecl")
+        _js_cc_params.append("--jscomp_warning=checkEventfulObjectDisposal")
+        _js_cc_params.append("--jscomp_warning=checkRegExp")
+        _js_cc_params.append("--jscomp_warning=const")
+        _js_cc_params.append("--jscomp_warning=constantProperty")
+        _js_cc_params.append("--jscomp_warning=deprecated")
+        _js_cc_params.append("--jscomp_warning=deprecatedAnnotations")
+        _js_cc_params.append("--jscomp_warning=duplicateMessage")
+        _js_cc_params.append("--jscomp_warning=es3")
+        _js_cc_params.append("--jscomp_warning=es5Strict")
+        _js_cc_params.append("--jscomp_warning=externsValidation")
+        _js_cc_params.append("--jscomp_warning=fileoverviewTags")
+        _js_cc_params.append("--jscomp_warning=functionParams")
+        _js_cc_params.append("--jscomp_warning=globalThis")
+        _js_cc_params.append("--jscomp_warning=internetExplorerChecks")
+        _js_cc_params.append("--jscomp_warning=misplacedTypeAnnotation")
+        _js_cc_params.append("--jscomp_warning=missingPolyfill")
+        _js_cc_params.append("--jscomp_warning=missingProperties")
+        _js_cc_params.append("--jscomp_warning=missingReturn")
+        _js_cc_params.append("--jscomp_warning=msgDescriptions")
+        _js_cc_params.append("--jscomp_warning=newCheckTypes")
+        _js_cc_params.append("--jscomp_warning=suspiciousCode")
+        _js_cc_params.append("--jscomp_warning=strictModuleDepCheck")
+        _js_cc_params.append("--jscomp_warning=typeInvalidation")
+        _js_cc_params.append("--jscomp_warning=undefinedNames")
+        _js_cc_params.append("--jscomp_warning=undefinedVars")
+        _js_cc_params.append("--jscomp_warning=unknownDefines")
+        _js_cc_params.append("--jscomp_warning=unusedLocalVariables")
+        _js_cc_params.append("--jscomp_warning=uselessCode")
 
     conf_assets_dirs = proj_cfg_value(proj_cfg, "paths", "assets_dirs", [])
 
@@ -963,7 +1456,7 @@ def run_build(args, dev_proj_path):
         "build_proj_path":   build_proj_path,
         "css_ignore":        css_ignore,
         "conf_assets_dirs":  conf_assets_dirs,
-        "author":            author,
+        "proj_struct":       proj_struct,
         "dev_proj_path":     dev_proj_path,
         "engine_type":       engine_type,
         "ignore":            ignore,
@@ -971,12 +1464,10 @@ def run_build(args, dev_proj_path):
         "opt_level":         opt_level,
         "proj_name":         proj_name,
         "remove_exist_dir":  True,
+        "use_source_map":    use_source_map,
         "use_physics":       use_physics,
-        "use_smaa_textures": use_smaa_textures,
         "version":           version
     }
-
-    print(GREEN + "Building project" + ENDCOL + ": " + BLUE + proj_name + ENDCOL)
 
     for n, app in enumerate(apps):
         if n > 0:
@@ -985,56 +1476,63 @@ def run_build(args, dev_proj_path):
         build_app(app, **params)
 
     for f in _temporary_files:
-        if exists(f):
+        if exists(f) and f not in _undeleted_files:
             os.remove(f)
 
     print(GREEN + "Project building finished" + ENDCOL)
 
-def get_engine_type(option_str):
-    """
-    Get engine type string from config/command line option
-    """
-    if option_str == "copy":
-        return "COPY"
-    elif option_str == "compile":
-        return "COMPILE"
-    elif option_str == "external":
-        return "EXTERNAL"
-    elif option_str == "wp_json":
-        return "WEBPLAYER_JSON"
-    elif option_str == "wp_html":
-        return "WEBPLAYER_HTML"
-    elif not option_str or option_str == "none":
-        return ""
-    else:
-        help_compile("Incorrect engine type option")
-        sys.exit(1)
+def check_engine_type(engine_type):
+    if engine_type in ENGINE_TYPE_LIST:
+        return engine_type
 
-def get_opt_level(option_str):
-    """
-    Get optimization level string from config/command line option
-    """
-    if option_str == "simple":
-        return "SIMPLE_OPTIMIZATIONS"
-    elif option_str == "advanced":
-        return "ADVANCED_OPTIMIZATIONS"
-    elif option_str == "whitespace":
-        return "WHITESPACE_ONLY"
-    else:
-        help_compile("Incorrect optimization option")
-        sys.exit(1)
+    if engine_type in DEPRECATED_ENGINE_TYPE_LIST:
+        print("-"*(len("'" + engine_type + "' engine type is deprecated and replaced by '" + DEPRECATED_ENGINE_TYPE_LIST[engine_type] + "' type")))
+        print(YELLOW + "'" + engine_type + "' engine type is deprecated and replaced by '" + DEPRECATED_ENGINE_TYPE_LIST[engine_type] + "' type" + ENDCOL)
+        print("-"*(len("'" + engine_type + "' engine type is deprecated and replaced by '" + DEPRECATED_ENGINE_TYPE_LIST[engine_type] + "' type")))
+        return DEPRECATED_ENGINE_TYPE_LIST[engine_type]
+
+    if not engine_type:
+        print("-"*(len("Empty engine type is replaced by 'none' type")))
+        print(YELLOW + "Empty engine type is replaced by 'none' type" + ENDCOL)
+        print("-"*(len("Empty engine type is replaced by 'none' type")))
+        return "none"
+
+    help_build("Incorrect engine type - " + engine_type)
+    sys.exit(1)
+
+
+def get_build_proj_path(proj_name, proj_struct):
+    if proj_struct == MOD_DEV_PROJ_NAME:
+        return normpath(join(_base_dir, "projects", proj_name, "build"))
+
+    if proj_struct == STD_DEV_PROJ_NAME:
+        return normpath(join(_base_dir, "deploy", "apps", proj_name))
+
+    help_build("Unsupported project structure")
+    sys.exit(1)
+
+
+def get_proj_struct(dev_proj_path):
+    if normpath(dev_proj_path).startswith(_mod_dev_dir):
+        return MOD_DEV_PROJ_NAME
+
+    if normpath(dev_proj_path).startswith(_std_dev_dir):
+        return STD_DEV_PROJ_NAME
+
+    return DEFAULT_PROJ_STRUCT
+
 
 def check_proj_struct(dev_proj_path, apps):
     """
     Checks project structure.
     """
     if not len(apps):
-        help_compile("Project must contain only one HTML file in the root directory")
+        help_build("Project must contain only one HTML file in the root directory")
         sys.exit(1)
 
     for app in apps:
         if not isfile(join(dev_proj_path, str(app))):
-            help_compile(app.name + " HTML file does not exist")
+            help_build(app.name + " HTML file does not exist")
             sys.exit(1)
 
     files = []
@@ -1047,8 +1545,14 @@ def check_proj_struct(dev_proj_path, apps):
 
     for app in apps:
         if not normpath(join(dev_proj_path, str(app))) in files:
-            help_compile("Main HTML file must be in the root directory")
+            help_build("Main HTML file must be in the root directory")
             sys.exit(1)
+
+def is_abs(src):
+    return (src.startswith("https://") or
+            src.startswith("http://") or
+            src.startswith("//"))
+
 
 def build_app(app, **kwargs):
     dev_proj_path     = kwargs["dev_proj_path"]
@@ -1056,11 +1560,11 @@ def build_app(app, **kwargs):
     engine_type       = kwargs["engine_type"]
     opt_level         = kwargs["opt_level"]
     use_physics       = kwargs["use_physics"]
-    use_smaa_textures = kwargs["use_smaa_textures"]
+    use_source_map    = kwargs["use_source_map"]
 
     copy_ignore = kwargs["ignore"][:]
 
-    if not kwargs["author"] == "Blend4Web":
+    if kwargs["proj_struct"] == MOD_DEV_PROJ_NAME:
         copy_ignore.append("blender")
         copy_ignore.append("assets")
 
@@ -1073,6 +1577,7 @@ def build_app(app, **kwargs):
     build_proj_path_obj = Path(build_proj_path)
 
     html_file  = join(build_proj_path, relpath(app.as_posix(), dev_proj_path))
+
     css_ignore = []
     js_ignore  = []
 
@@ -1086,7 +1591,6 @@ def build_app(app, **kwargs):
     js_ignore = [relpath(js.as_posix(), build_proj_path) for js in js_ignore]
 
     parser = parse_html_file(html_file, js_ignore, css_ignore)
-
     css_pos = {}
     js_pos = {}
 
@@ -1096,7 +1600,7 @@ def build_app(app, **kwargs):
         if not css_dir in css_pos or css_pos[css_dir][0] > css["start_pos"][0]:
             css_pos[css_dir] = [css["start_pos"][0], css["start_pos"][1]]
 
-    cur_mods_dict = list(filter(lambda x: dirname(normpath(join(str(app.parent), x["src"]))).startswith(_src_dir), parser.js))
+    cur_mods_dict = list(filter(lambda x: not is_abs(x["src"]) and dirname(normpath(join(str(app.parent), unix_path(x["src"])))).startswith(_src_dir), parser.js))
 
     try:
         engine_pos = [cur_mods_dict[0]["start_pos"][0], cur_mods_dict[0]["start_pos"][1]]
@@ -1104,9 +1608,15 @@ def build_app(app, **kwargs):
         engine_pos = None
 
     if engine_pos is None:
+        for js in parser.js:
+            _undeleted_files.append(join(build_proj_path, relpath(normpath(join(str(app.parent), js["src"])), dev_proj_path)))
+
+        for css in parser.css:
+            _undeleted_files.append(join(build_proj_path, relpath(normpath(join(str(app.parent), css["href"])), dev_proj_path)))
+
         return
 
-    cur_js_dict = list(filter(lambda x: not dirname(normpath(join(str(app.parent), x["src"]))).startswith(_src_dir), parser.js))
+    cur_js_dict = list(filter(lambda x: not is_abs(x["src"]) and not dirname(normpath(join(str(app.parent), unix_path(x["src"])))).startswith(_src_dir), parser.js))
 
     for js in filter(lambda x: not "no_compile" in x, cur_js_dict):
         js_dir = normpath(dirname(js["src"]))
@@ -1114,20 +1624,20 @@ def build_app(app, **kwargs):
         if not js_dir in js_pos or js_pos[js_dir][0] > js["start_pos"][0]:
             js_pos[js_dir] = [js["start_pos"][0], js["start_pos"][1]]
 
-    remove_mods_from_html(html_file, parser.js, "</script>")
-    remove_mods_from_html(html_file, parser.css)
+    remove_mods_from_html(html_file, parser.js, "</script>", False)
+    remove_mods_from_html(html_file, parser.css, False, False)
 
     css_files = list(build_proj_path_obj.rglob('*.css'))
-    css_paths = exist_css(parser.css, css_files, build_proj_path)
+    css_paths = exist_css(parser.css, css_files, normpath(join(html_file, "..")))
 
     if len(css_paths):
         compile_css(css_paths, app.stem)
 
     js_files = list(build_proj_path_obj.rglob('*.js'))
-    js_paths = exist_js(parser.js, js_files, build_proj_path)
+    js_paths = exist_js(parser.js, js_files, normpath(join(html_file, "..")))
 
     if len(js_paths):
-        compile_js(js_paths, app.stem, opt_level, engine_type)
+        compile_js(js_paths, app.stem, opt_level, engine_type, use_source_map, dev_proj_path, build_proj_path)
 
     params = {
         "app":               app,
@@ -1142,7 +1652,6 @@ def build_app(app, **kwargs):
         "css_pos":           css_pos,
         "engine_pos":        engine_pos,
         "use_physics":       use_physics,
-        "use_smaa_textures": use_smaa_textures,
         "opt_level":         opt_level,
         "version":           kwargs["version"]
     }
@@ -1184,64 +1693,68 @@ def parse_body(start_body, end_body, src_lines):
     return new_body_lines
 
 def build_html(**kwargs):
-    parser   = kwargs["parser"]
+    parser = kwargs["parser"]
 
-    app                = kwargs["app"]
-    build_proj_path    = kwargs["build_proj_path"]
-    css_paths          = kwargs["css_paths"]
-    engine_type        = kwargs["engine_type"]
-    engine_pos         = kwargs["engine_pos"]
-    js_paths           = kwargs["js_paths"]
+    app = kwargs["app"]
+    build_proj_path = kwargs["build_proj_path"]
+    css_paths = kwargs["css_paths"]
+    engine_type = kwargs["engine_type"]
+    engine_pos = kwargs["engine_pos"]
+    js_paths = kwargs["js_paths"]
     out_html_file_path = kwargs["html_file"]
-    css_pos            = kwargs["css_pos"]
-    js_pos             = kwargs["js_pos"]
-    opt_level          = kwargs["opt_level"]
-    use_physics        = kwargs["use_physics"]
-    use_smaa_textures  = kwargs["use_smaa_textures"]
+    css_pos = kwargs["css_pos"]
+    js_pos = kwargs["js_pos"]
+    opt_level = kwargs["opt_level"]
+    use_physics = kwargs["use_physics"]
+    version = kwargs["version"]
 
     suffix = ""
 
-    if kwargs["version"]:
-        suffix = "?v=" + kwargs["version"]
+    if not version:
+        version = datetime.datetime.now().strftime("%d%m%Y%H%M%S")
 
-    print_wrapper(out_html_file_path)
+    suffix = "?v=" + version
 
-    if opt_level == "ADVANCED_OPTIMIZATIONS":
-        engine_file_name = ENGINE_ADV_FILE_NAME
-    elif opt_level == "SIMPLE_OPTIMIZATIONS":
-        engine_file_name = ENGINE_SIM_FILE_NAME
-    elif opt_level == "WHITESPACE_ONLY":
-        engine_file_name = ENGINE_WHITE_FILE_NAME
+    print("    " + "-"*(len(relpath(out_html_file_path, _base_dir)) + len("Processing: ")))
+    print_wrapper(relpath(out_html_file_path, _base_dir))
+    print("    " + "-"*(len(relpath(out_html_file_path, _base_dir)) + len("Processing: ")))
+
+    engine_file_name = OPTIMIZATION_ENGINE_NAME_DICT[opt_level]
 
     engine_path = normpath(join(_engine_dir, engine_file_name))
-    engine_src  = False
+    engine_src = False
 
-    if engine_type != "EXTERNAL":
+    if engine_type == "external":
+        engine_type = "copy"
+
+    if use_physics:
+        copy_phys_to_proj_path(build_proj_path);
+
+    if engine_type == "copy":
+        engine_src = engine_file_name
+        new_engine_path = normpath(join(build_proj_path, engine_file_name))
+        shutil.copyfile(engine_path, new_engine_path)
+
+    rel_assets_root = "."
+
+    if len(kwargs["conf_assets_dirs"]):
+        rel_assets_root = kwargs["conf_assets_dirs"][0]
+
+    if engine_type in ["compile", "copy"]:
+        change_build_assets_prefix(build_proj_path, rel_assets_root)
+
+        if engine_type == "compile":
+            change_build_version(build_proj_path, False, version, js_paths)
+        else:
+            change_build_version(build_proj_path, engine_file_name, version, False)
+
         if use_physics:
-            copy_phys_to_proj_path(build_proj_path);
-
-        if use_smaa_textures:
-            copy_smaa_to_proj_path(build_proj_path);
-
-        if engine_type == "COPY":
-            engine_src = engine_file_name
-            new_engine_path = normpath(join(build_proj_path, engine_file_name))
-            shutil.copyfile(engine_path, new_engine_path)
-
-        rel_assets_root = "."
-
-        if len(kwargs["conf_assets_dirs"]):
-            rel_assets_root = kwargs["conf_assets_dirs"][0]
-
-        if engine_type in ["COMPILE", "COPY"]:
-            change_build_assets_prefix(build_proj_path, rel_assets_root)
-    else:
-        engine_src = join(relpath(_engine_dir, build_proj_path), engine_file_name)
+            change_uranium_mem_path(build_proj_path, version)
 
     css_strs = {}
 
     for parent in css_paths:
-        rel = relpath(parent, start=build_proj_path)
+        rel = relpath(parent, start=join(out_html_file_path, ".."))
 
         css_strs[str(css_pos[rel][0])] = \
             ['<link type="text/css" rel="stylesheet" href="' + \
@@ -1253,12 +1766,12 @@ def build_html(**kwargs):
     if engine_src:
         engine_str =\
             '<script type="text/javascript" src="' +\
-            unix_path(engine_src) + suffix + '"></script>'
+            unix_path(join(relpath(build_proj_path, start=join(out_html_file_path, "..")), engine_src)) + suffix + '"></script>'
 
     js_strs = {}
 
     for parent in js_paths:
-        rel = relpath(parent, start=build_proj_path)
+        rel = relpath(parent, start=join(out_html_file_path, ".."))
 
         js_strs[str(js_pos[rel][0])] = \
             ['<script type="text/javascript" src="' +\
@@ -1290,16 +1803,35 @@ def build_html(**kwargs):
     html_file.close()
 
     html_file = open(out_html_file_path, 'w', encoding="utf-8", newline="\n")
-    html_file.write(re.sub(r'>\s+<', '><', html_text))
+    html_file.write(re.sub(r'>\s+<', '> <', html_text))
     html_file.close()
-
-def copy_smaa_to_proj_path(proj_path):
-    shutil.copy(join(_engine_dir, SMAA_FILE_NAME_AREA), proj_path)
-    shutil.copy(join(_engine_dir, SMAA_FILE_NAME_SEARCH), proj_path)
 
 def copy_phys_to_proj_path(proj_path):
     shutil.copy(join(_engine_dir, URANIUM_FILE_NAME), proj_path)
     shutil.copy(join(_engine_dir, URANIUM_FILE_NAME_BIN), proj_path)
+
+def change_build_version(build_proj_path, engine_file_name, version, js_paths=False):
+    processed_files = []
+
+    if engine_file_name:
+        processed_files.append(join(build_proj_path, engine_file_name))
+
+    if js_paths:
+        for i in js_paths.values():
+            processed_files.extend(i)
+
+        processed_files = [i.strip(".js") + ".min.js" for i in processed_files]
+
+    for path in processed_files:
+        processed_file = open(path, "r", encoding="utf-8")
+        file_data = processed_file.read()
+        processed_file.close()
+
+        file_data = re.sub("_b4w_ver_.*?([\'|\"])", str(version) + r"\1",  file_data)
+
+        processed_file = open(path, "w", encoding="utf-8")
+        processed_file.write(file_data)
+        processed_file.close()
 
 def change_build_assets_prefix(build_proj_path, rel_assets_root):
     proj_path_obj = Path(normpath(build_proj_path))
@@ -1311,7 +1843,8 @@ def change_build_assets_prefix(build_proj_path, rel_assets_root):
         engine_file.close()
 
         prefix = unix_path(join(relpath(_base_dir, js_file.parent.as_posix()), "deploy", "assets"))
-        proj_prefix = unix_path(relpath(rel_assets_root, js_file.parent.as_posix()))
+        prefix = prefix.replace("../deploy/", "")
+        proj_prefix = unix_path(relpath(join(_base_dir, rel_assets_root), js_file.parent.as_posix()))
 
         file_data = re.sub("(\"|\')(B4W_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')", r"\1\2" + prefix + r"\/\4", file_data)
         file_data = re.sub("(\"|\')(B4W_PROJ_ASSETS_PATH=__JS__\/)(?!\'|\")(.*?)(\"|\')", r"\1\2" + proj_prefix + r"\/\4", file_data)
@@ -1342,7 +1875,8 @@ def change_deploy_assets_prefix(new_engine_path, assets_path_prefix):
         engine_file.write(file_data)
         engine_file.close()
 
-def change_b4w_path(new_app_dir, external=False):
+
+def change_b4w_path(new_app_dir):
     """
     Modifies path to engine in the standalone application.
     """
@@ -1350,7 +1884,7 @@ def change_b4w_path(new_app_dir, external=False):
     html_paths = list(new_app_dir_obj.rglob('*.html'))
 
     for html_path in html_paths:
-        if os.path.samefile(new_app_dir, html_path.parent.as_posix()) and not external:
+        if os.path.samefile(new_app_dir, html_path.parent.as_posix()):
             continue
 
         html_file = open(str(html_path), "r", encoding="utf-8")
@@ -1358,9 +1892,6 @@ def change_b4w_path(new_app_dir, external=False):
         html_file.close()
 
         new_path = unix_path(relpath(new_app_dir, html_path.parent.as_posix()))
-
-        if external:
-            new_path = normpath(join(new_path, "common"))
 
         new_data = re.sub("(src\s*=[\"|\'])([\w/.]*)(b4w.[\w.]*min.js)", "\\1" +
                 new_path + "/\\3", file_data)
@@ -1390,7 +1921,9 @@ def compile_css(css_paths, file_name):
         css_adv_params.append("-o")
         css_adv_params.append(output_css_path)
 
-        print_wrapper(output_css_path)
+        print("    " + "-"*(len(relpath(output_css_path, _base_dir)) + len("Processing: ")))
+        print_wrapper(relpath(output_css_path, _base_dir))
+        print("    " + "-"*(len(relpath(output_css_path, _base_dir)) + len("Processing: ")))
 
         print_flush()
 
@@ -1430,39 +1963,35 @@ def append_externs_items(paths, externs_gen_file):
         for func in function_names:
             externs_gen_file.write("Object.prototype." + func + ";\n")
 
-def compile_js(js_paths, file_name, opt_level, engine_type):
+def compile_js(js_paths, file_name, opt_level, engine_type, use_source_map, dev_proj_path, build_proj_path):
     # engine compiler path
+
     ENGINE_CP = [sys.executable,
             normpath(join(_base_dir, "scripts", "compile_b4w.py"))]
 
     # closure compiler externs
-    if opt_level == "ADVANCED_OPTIMIZATIONS":
+    if opt_level == "advanced" or opt_level == "simple":
         EXTERNS = [normpath(join(_cc_dir, "extern_modules.js")),
                    normpath(join(_cc_dir, "extern_jquery-1.9.js")),
-                   normpath(join(_cc_dir, "w3c_dom1.js")),
                    normpath(join(_cc_dir, "extern_fullscreen.js")),
                    normpath(join(_cc_dir, "extern_gl-matrix.js")),
                    normpath(join(_cc_dir, "extern_pointerlock.js"))]
 
     for parent in js_paths:
-        if engine_type == "COMPILE":
+        if engine_type == "compile":
             ENGINE_CP.extend(["--external-js=" + join(_src_dir, "b4w.js")])
             ENGINE_CP.extend(["--external-js=" +
                               i for i in get_used_modules(js_paths[parent])])
             ENGINE_CP.extend(["--external-js=" + i for i in js_paths[parent]])
             ENGINE_CP.extend(["-d", join(parent, file_name + ".min.js")])
+            ENGINE_CP.append("--optimization=" + OPTIMIZATION_ENGINE_NAME_DICT[opt_level])
 
-            if opt_level == "ADVANCED_OPTIMIZATIONS":
-                ENGINE_CP.append("--optimization=advanced")
-            elif opt_level == "WHITESPACE_ONLY":
-                ENGINE_CP.append("--optimization=whitespace")
-
-            proc = subprocess.Popen(ENGINE_CP, stdout=subprocess.PIPE, 
+            proc = subprocess.Popen(ENGINE_CP, stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT, universal_newlines=True)
 
             print_flush()
 
-            print(proc.communicate()[0])
+            print(proc.communicate()[0].strip("\n"))
         else:
             prepared_src_js = ["--js=" + x for x in js_paths[parent]]
 
@@ -1472,7 +2001,7 @@ def compile_js(js_paths, file_name, opt_level, engine_type):
 
             externs_gen_file = None
 
-            if opt_level == "ADVANCED_OPTIMIZATIONS":
+            if opt_level == "advanced" or opt_level == "simple":
                 apps_dir = join(_base_dir, "apps_dev")
 
                 externs_gen_file = tempfile.NamedTemporaryFile(mode="r+", suffix=".js", delete=False)
@@ -1497,11 +2026,17 @@ def compile_js(js_paths, file_name, opt_level, engine_type):
 
                 js_adv_params.extend(prepared_src_ext)
 
+            if use_source_map:
+                js_adv_params.append("--create_source_map=" + output_js_path + ".map")
+                js_adv_params.append("--source_map_format=V3")
+
             js_adv_params.extend(prepared_src_js)
             js_adv_params.append(
                 "--js_output_file=" + output_js_path)
 
-            print_wrapper(output_js_path)
+            print("    " + "-"*(len(relpath(output_js_path, _base_dir)) + len("Processing: ")))
+            print_wrapper(relpath(output_js_path, _base_dir))
+            print("    " + "-"*(len(relpath(output_js_path, _base_dir)) + len("Processing: ")))
 
             # NOTE: fixes deadlocks on windows
             proc = subprocess.Popen(js_adv_params, stdout=subprocess.PIPE,
@@ -1521,6 +2056,23 @@ def compile_js(js_paths, file_name, opt_level, engine_type):
                     os.remove(externs_gen_file.name)
                 except:
                     print("File ", externs_gen_file.name, " not found")
+
+            if use_source_map:
+                source_map_file = open(output_js_path + ".map")
+                source_map_text = source_map_file.read()
+                source_map_file.close()
+                src_paths = ["/" + relpath(join(dev_proj_path, relpath(i, build_proj_path)), _base_dir) for i in js_paths[parent]]
+
+                new_source_map_text = re.sub("(\"sources\":)\[.*\]", r"\1" + str(src_paths).replace('\'', '"'), source_map_text)
+
+                source_map_file = open(output_js_path + ".map", "w")
+                source_map_file.write(new_source_map_text)
+                source_map_file.close()
+
+                if exists(output_js_path):
+                    output_js_file = open(output_js_path, "a")
+                    output_js_file.write("//# sourceMappingURL=/" + relpath(output_js_path + ".map", _base_dir))
+                    output_js_file.close()
 
         for js in js_paths[parent]:
             _temporary_files.append(js)
@@ -1567,7 +2119,8 @@ def check_file_modules(module, module_names, reserved_mods, pattern_1):
     if not module in module_names:
         return
 
-    reserved_mods.append(module_names[module])
+    if not module_names[module] in reserved_mods:
+        reserved_mods.append(module_names[module])
 
     with open(module_names[module]) as parent_module:
         par_mod_text = parent_module.read()
@@ -1660,7 +2213,7 @@ def get_missing_progs(dependencies):
             missing_progs.append(dep)
     return missing_progs
 
-def help_compile(err=""):
+def help_build(err=""):
     if err:
         help_print_err(err, "build")
     else:
@@ -1670,13 +2223,36 @@ Build the project's application(s).
 
 Options:
     -a, --app=APP             specify source application html file
+    -b, --source-map          use source map
     -c, --css-ignore          skip css file
     -j, --js-ignore           skip js file
     -i, --ignore              skip any file
-    -o, --optimization=TYPE   set javaScript optimization type
-    -t, --engine-type=TYPE    specify b4w engine type (external, copy, compile)
+    -o, --optimization=TYPE   set JavaScript optimization type
     -v, --version             add version to js and css urls
     -h, --help                show this help and exit""")
+
+def help_clone_snippet(err=""):
+    if err:
+        help_print_err(err, "clone-snippet")
+    else:
+        print("""\
+Usage: project.py [-s|--snippet-name SNIPPET_NAME] clone-snippet [OPTION]...
+Create new project based on the snippet.
+
+Options:
+    -n, --new-proj-name=NEW_PROJECT_NAME    specify new project name
+    -b, --blender-exec=BLENDER_EXEC_PATH    path to blender executable
+    -h, --help                              show this help and exit""")
+
+def run_config(args, proj_path):
+    config_file = join(proj_path, PROJ_CONFIG_FILE_NAME)
+
+    if not exists(config_file):
+        help_convert_resources("Config file does not exist.")
+
+    proj_cfg = get_proj_cfg(proj_path)
+
+    print(proj_cfg_value(proj_cfg, "paths", "assets_dirs", []))
 
 def run_convert_resources(args, proj_path):
     try:
@@ -1819,6 +2395,7 @@ def run_deploy(args, proj_path):
     Deploy project into the external directory with all required files.
     """
     proj_cfg    = get_proj_cfg(proj_path)
+    proj_struct = get_proj_struct(proj_path)
 
     proj_name = proj_cfg_value(proj_cfg, "info", "name", basename(proj_path))
     engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type")
@@ -1888,8 +2465,20 @@ def run_deploy(args, proj_path):
     ignore.extend(COMP_DEPL_IGNORE)
 
     if not isdir(build_proj_path):
-        help_deploy("Build project directory does not exist")
-        sys.exit(1)
+        if proj_struct == STD_DEV_PROJ_NAME:
+            help_deploy("Build project directory does not exist")
+            sys.exit(1)
+        elif proj_struct == MOD_DEV_PROJ_NAME:
+            abs_wp_build_path = join(_base_dir, WEBPLAYER_REL_BUILD_PATH)
+
+            if not exists(abs_wp_build_path):
+                help_deploy("You must have built webplayer app")
+                sys.exit(1)
+
+            build_proj_path = assets_dirs[0]
+        else:
+            help_deploy("Unknown project structure")
+            sys.exit(1)
 
     if not deploy_abs_path:
         help_deploy("You must specify deploy directory")
@@ -1909,8 +2498,17 @@ def run_deploy(args, proj_path):
     else:
         archive = None
 
-    shutil.copytree(build_proj_path, deploy_abs_path,
-            ignore=shutil.ignore_patterns(*ignore))
+    if engine_type == "webplayer_html":
+        html_files = list(Path(build_proj_path).rglob("*.html"))
+
+        if len(html_files):
+            os.makedirs(join(deploy_abs_path, Path(build_proj_path).stem), exist_ok=True)
+
+        for html_file in html_files:
+            shutil.copy(join(build_proj_path, html_file.as_posix()), deploy_abs_path)
+    else:
+        shutil.copytree(build_proj_path, deploy_abs_path,
+                ignore=shutil.ignore_patterns(*ignore))
 
     for assets_dir in assets_dirs:
         if exists(assets_dir) and assets_dir != build_proj_path:
@@ -1923,13 +2521,11 @@ def run_deploy(args, proj_path):
         else:
             assets_path_prefix = ""
 
-    if engine_type == "external" or (author != "Blend4Web" and engine_type in ["copy", "compile"]):
-        if engine_type == "external":
-            common_path = normpath(join(_base_dir, "deploy", "apps", "common"))
-            # TODO: copy files according to project configuration
-            shutil.copytree(common_path, join(deploy_abs_path, "common"))
+    if engine_type == "external":
+        engine_type = "copy"
 
-        change_b4w_path(deploy_abs_path, engine_type=="external")
+    if author != "Blend4Web" and engine_type in ["copy", "compile"]:
+        change_b4w_path(deploy_abs_path)
     elif engine_type == "webplayer_json":
         webplayer_path = normpath(join(_base_dir, "deploy", "apps", "webplayer"))
 
@@ -1957,8 +2553,6 @@ Options:
     -E, --assets-prefix     assets URL prefix ("assets" by default)
     -o, --override          remove deploy dir if it exists
     -s, --assets            override project's assets directory(s)
-    -t, --engine-type=TYPE  override project's engine type config
-                            (external, copy, compile)
     -h, --help              display this help and exit""")
 
 def run_check_deps(args):
@@ -2027,15 +2621,20 @@ def run_import(args):
         if not check_sdk_base_dir(input_base_dir):
             help_import("Invalid imported project directory")
             sys.exit(1)
-
     elif guess_zip(input_base_path):
         tmpdir_obj = tempfile.TemporaryDirectory()
         tmpdir = tmpdir_obj.name
 
         print("Extracting project archive")
-        z = zipfile.ZipFile(input_base_path, "r")
-        z.extractall(path=tmpdir)
+        print_flush()
 
+        try:
+            z = zipfile.ZipFile(input_base_path, "r")
+        except zipfile.BadZipFile as err:
+            print(RED, err, ENDCOL, file=sys.stderr)
+            sys.exit(1)
+
+        z.extractall(path=tmpdir)
         tmpdir_files = [join(tmpdir, f) for f in os.listdir(tmpdir)]
 
         input_base_dir = None
@@ -2053,6 +2652,7 @@ def run_import(args):
         sys.exit(1)
 
     proj_list = find_proj_list(input_base_dir)
+
     for proj_path in proj_list:
 
         proj_path_dst = join(_base_dir, relpath(proj_path, input_base_dir))
@@ -2102,13 +2702,18 @@ def run_import(args):
                 print("Copy assets directory:", relpath(assets_dir, input_base_dir))
                 shutil.copytree(assets_dir, assets_dir_dst)
 
+        engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "copy")
+
+        if engine_type in ["copy", "compile", "external"]:
+            print("Check moodules in the '", basename(proj_path),"' project.")
+            run_check_mods(proj_path_dst)
+
     print(GREEN + "Project imported" + ENDCOL)
 
 def check_sdk_base_dir(path):
     """Check SDK directory"""
 
     params = get_sdk_ver_params(path)
-
     if params[0] == "Blend4Web":
         return True
     else:
@@ -2120,7 +2725,12 @@ def get_sdk_ver_params(path):
     with open(ver_file_path) as f:
         lines = f.readlines()
 
+    if not len(lines):
+        print(RED, "SDK archive is damaged", ENDCOL, file=sys.stderr)
+        sys.exit(1)
+
     params = lines[0].split()
+
     return params
 
 def help_import(err=""):
@@ -2169,16 +2779,15 @@ def run_export(args):
         base_dir_dst = path_dst
         archive = False
 
-    proj_names = args
+    proj_paths = [normpath(join(_base_dir, unquote(i))) for i in args]
 
     proj_list = find_proj_list(_base_dir)
 
     for proj_path in proj_list:
-
         proj_cfg = get_proj_cfg(proj_path)
         proj_name = proj_cfg_value(proj_cfg, "info", "name", basename(proj_path))
 
-        if not proj_name in proj_names:
+        if not proj_path in proj_paths:
             continue
 
         print("Exporting project:", proj_name)
@@ -2324,7 +2933,7 @@ def run_check_mods(proj_path):
 
     from mod_list import gen_module_list
 
-    engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "external")
+    engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "none")
 
     if not engine_type in ["external", "compile", "copy"]:
         help("Incorrect engine type; use 'external', 'copy' or 'compile'")
@@ -2341,9 +2950,9 @@ def run_check_mods(proj_path):
         src_file.close()
         parser.feed(src_text)
 
-        mods = list(filter(lambda x: normpath(join(str(app.parent), x["src"])).startswith(_src_dir), parser.js))
-        used.extend(list(set(src_modules) - set([normpath(join(str(app.parent), x["src"])) for x in mods])))
-        unused.extend(list(set([normpath(join(str(app.parent), x["src"])) for x in mods]) - set(src_modules)))
+        mods = list(filter(lambda x: not is_abs(x["src"]) and normpath(join(str(app.parent), unix_path(x["src"]))).startswith(_src_dir), parser.js))
+        used.extend(list(set(src_modules) - set([normpath(join(str(app.parent), unix_path(x["src"]))) for x in mods])))
+        unused.extend(list(set([normpath(join(str(app.parent), unix_path(x["src"]))) for x in mods]) - set(src_modules)))
 
         is_ok = True
 
@@ -2386,7 +2995,7 @@ def run_update_mods(proj_path):
 
     from mod_list import gen_module_list
 
-    engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "external")
+    engine_type = proj_cfg_value(proj_cfg, "compile", "engine_type", "none")
 
     # check right engine type
     if not engine_type in ["external", "compile", "copy"]:
@@ -2400,7 +3009,7 @@ def run_update_mods(proj_path):
         cur_js_dict = get_cur_js_dict(normpath(join(proj_path, app.as_posix())))
 
         # current html file modules with meta info (like start_pos, end_pos)
-        cur_mods_dict = list(filter(lambda x: dirname(normpath(join(proj_path, x["src"]))).startswith(_src_dir), cur_js_dict))
+        cur_mods_dict = list(filter(lambda x: not is_abs(x["src"]) and dirname(normpath(join(proj_path, unix_path(x["src"])))).startswith(_src_dir), cur_js_dict))
 
         # remove all src modules from html file
         remove_mods_from_html(normpath(app.as_posix()), cur_mods_dict, "</script>")
@@ -2423,7 +3032,7 @@ def get_cur_js_dict(html_file_obj):
 
     return parser.js
 
-def remove_mods_from_html(html_file_obj, cur_mods_dict, end_tag=False):
+def remove_mods_from_html(html_file_obj, cur_mods_dict, end_tag=False, strip=True):
     indent = 0
 
     if end_tag:
@@ -2435,17 +3044,32 @@ def remove_mods_from_html(html_file_obj, cur_mods_dict, end_tag=False):
     html_file.close()
     tmp = []
 
+    ziped_cur_mods_dict = {}
+
+    for i in cur_mods_dict:
+        ziped_cur_mods_dict[i["start_pos"][0]] = []
+
+    for i in cur_mods_dict:
+        ziped_cur_mods_dict[i["start_pos"][0]].append(i)
+
+    for i in ziped_cur_mods_dict:
+        if len(ziped_cur_mods_dict[i]) > 1:
+            ziped_cur_mods_dict[i] = sorted(ziped_cur_mods_dict[i], key=lambda x: x["start_pos"][1], reverse=True)
+
     for i, line in enumerate(src_text):
         exist = False
 
-        for cur_mod_dict in cur_mods_dict:
-            if cur_mod_dict["start_pos"][0] == i + 1 and not "no_compile" in cur_mod_dict:
-                exist = True
-                new_line = line.replace(line[cur_mod_dict["start_pos"][1]:
-                                             cur_mod_dict["end_pos"][1] + indent], "")
-                tmp.append(new_line)
+        if i + 1 in ziped_cur_mods_dict and not "no_compile" in ziped_cur_mods_dict[i + 1][0]:
+            new_line = line
+            exist = True
 
-                break
+            for j in ziped_cur_mods_dict[i + 1]:
+                new_line = new_line.replace(line[j["start_pos"][1]:j["end_pos"][1] + indent], "")
+
+            if strip:
+                tmp.append(new_line.strip("\n"))
+            else:
+                tmp.append(new_line)
 
         if not exist:
             tmp.append(line)
@@ -2588,6 +3212,22 @@ Update project file structure.
 Options:
     -b, --blender-exec   path to blender executable
     -h, --help   show this help and exit""")
+
+
+def change_uranium_mem_path(build_proj_path, version):
+    uranium_path = join(build_proj_path, URANIUM_FILE_NAME)
+
+    uranium_file = open(uranium_path, "r")
+    uranium_file_data = uranium_file.read()
+    uranium_file.close()
+
+    regexp_pattern = r"uranium.js.mem"
+
+    uranium_file_data = re.sub(regexp_pattern, r"uranium.js.mem?v=" + str(version), uranium_file_data)
+
+    uranium_file = open(uranium_path, "w")
+    uranium_file.write(uranium_file_data)
+    uranium_file.close()
 
 
 def get_base_dir(curr_work_dir):

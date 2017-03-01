@@ -31,6 +31,8 @@
 /*==============================================================================
                                     VARS
 ==============================================================================*/
+#var PRECISION highp
+
 #var SMAA_PASS SMAA_RESOLVE
 #var AA_METHOD AA_METHOD_SMAA_LOW
 
@@ -38,7 +40,7 @@
 
 #include <std.glsl>
 
-uniform vec2 u_texel_size;
+uniform PRECISION vec2 u_texel_size;
 
 /*==============================================================================
                                 SHADER INTERFACE

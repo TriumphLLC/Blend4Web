@@ -1,19 +1,2 @@
-Object.prototype.requestFullScreen;
-Object.prototype.webkitRequestFullScreen;
-Object.prototype.mozRequestFullScreen;
-Object.prototype.msRequestFullscreen;
-
-Object.prototype.exitFullscreen;
-Object.prototype.webkitExitFullscreen;
-Object.prototype.mozCancelFullScreen;
-Object.prototype.msExitFullscreen;
-
-Object.prototype.fullscreenElement;
-Object.prototype.webkitFullScreenElement;
-Object.prototype.mozFullScreenElement;
-Object.prototype.webkitIsFullScreen;
-Object.prototype.msFullscreenElement;
-
-Object.prototype.fullscreenEnabled;
-Object.prototype.mozFullScreenEnabled;
+//NOTE: other properties are supported in gcc by default, this is the missing one
 Object.prototype.webkitFullscreenEnabled;

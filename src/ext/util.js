@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,13 +23,11 @@
 b4w.module["util"] = function(exports, require) {
 
 var m_compat   = require("__compat");
-var m_obj_util = require("__obj_util");
 var m_print    = require("__print");
 var m_quat     = require("__quat");
 var m_util     = require("__util");
 var m_vec3     = require("__vec3");
 
-var _pline_tmp = new Float32Array(6);
 /**
  * X-axis vector.
  * @const {Vec3} module:util.AXIS_X
@@ -63,8 +61,7 @@ exports.AXIS_MZ = new Float32Array([ 0, 0,-1]);
 
 /**
  * Rotation sequence enum.
- * @typedef RotationSequence
- * @type {Number}
+ * @typedef {number} RotationSequence
  */
 
 /**
@@ -130,7 +127,7 @@ exports.ZYX = m_util.ZYX;
 
 /**
  * Create a new Float32Array.
- * @param {Number | Array | TypedArray} param Constructor param
+ * @param {number|Array|TypedArray} param Constructor param
  * @returns {Float32Array} New Float32Array.
  */
 exports.f32 = function(param) {
@@ -141,14 +138,14 @@ exports.f32 = function(param) {
 /**
  * Abort the program if assertion is false.
  * @method module:util.assert
- * @param {Boolean} Boolean expression result
+ * @param {boolean} Boolean expression result
  */
 exports.assert = m_util.assert;
 
 /**
  * Search for object in array.
  * @method module:util.keyfind
- * @param {String} key Key
+ * @param {string} key Key
  * @param {*} value Value
  * @param {Object[]} array Array of objects.
  * @returns {Object[]} Array of found objects.
@@ -158,7 +155,7 @@ exports.keyfind = m_util.keyfind;
 /**
  * Search for object in array.
  * @method module:util.keysearch
- * @param {String} key Key.
+ * @param {string} key Key.
  * @param {*} value Value.
  * @param {Array} array Array of objects.
  * @returns {?Object} First found object or null.
@@ -211,7 +208,7 @@ exports.ordered_angles_to_quat = function(angles, order, quat) {
  * @method module:util.quat_to_ordered_angles
  * @param {Quat} quat Quaternion vector.
  * @param {RotationSequence} order Intrinsic rotation sequence.
- * @param {Euler} euler Destination Euler angles vector. Euler angles have the same order as
+ * @param {Euler} angles Destination Euler angles vector. Euler angles have the same order as
  * the intrinsic rotation sequence.
  * @returns {Euler} Euler angles vector.
  */
@@ -239,18 +236,18 @@ exports.quat_to_euler = function(quat, euler) {
 /**
  * Get sign of the number.
  * @method module:util.sign
- * @param {Number} value Input value
- * @returns {Number} -1,0,1 for negative, zero or positive number accordingly
+ * @param {number} value Input value
+ * @returns {number} -1,0,1 for negative, zero or positive number accordingly
  */
 exports.sign = m_util.sign;
 
 /**
  * Clamp the number.
  * @method module:util.clamp
- * @param {Number} value Input value
- * @param {Number} min Lower bound
- * @param {Number} max Upper bound
- * @returns {Number} Clamped value
+ * @param {number} value Input value
+ * @param {number} min Lower bound
+ * @param {number} max Upper bound
+ * @returns {number} Clamped value
  */
 exports.clamp = m_util.clamp;
 
@@ -266,12 +263,12 @@ exports.quat_to_dir = m_util.quat_to_dir;
 
 /**
  * Project camera quaternion rotation on a horizontal plane.
- * @method module:util.ground_project_quat
+ * @method module:util.ground_project_cam_quat
  * @param {Quat} quat Source quaternion.
  * @param {Quat} dest Destination quaternion.
  * @returns {Quat} Destination quaternion.
  */
-exports.ground_project_quat = function(quat, dest) {
+exports.ground_project_cam_quat = function(quat, dest) {
     return m_util.quat_project(quat, m_util.AXIS_MZ, m_util.AXIS_Z, m_util.AXIS_Y, dest);
 }
 
@@ -314,11 +311,11 @@ exports.hash_code = m_util.hash_code;
 /**
  * Perform exponential smoothing.
  * @method module:util.smooth
- * @param {Number} curr Current value.
- * @param {Number} last Last smoothed value.
- * @param {Number} delta Time delta.
- * @param {Number} pariod Mean lifetime for avaraging.
- * @returns {Number} Smoothed value
+ * @param {number} curr Current value.
+ * @param {number} last Last smoothed value.
+ * @param {number} delta Time delta.
+ * @param {number} period Mean lifetime for averaging.
+ * @returns {number} Smoothed value
  */
 exports.smooth = m_util.smooth;
 
@@ -338,8 +335,8 @@ exports.smooth_v = m_util.smooth_v;
  * Check if object is a vector.
  * @method module:util.is_vector
  * @param {Object} o Object
- * @param {Number} [dimension=0] Dimension, allow any if not specified
- * @returns {Boolean} Check result
+ * @param {number} [dimension=0] Dimension, allow any if not specified
+ * @returns {boolean} Check result
  */
 exports.is_vector = m_util.is_vector;
 
@@ -347,7 +344,7 @@ exports.is_vector = m_util.is_vector;
  * Correct the camera quaternion rotation.
  * @method module:util.correct_cam_quat_up
  * @param {Quat} quat Quaternion to correct
- * @param {Boolean} up_only Disable upside-down camera view
+ * @param {boolean} up_only Disable upside-down camera view
  */
 exports.correct_cam_quat_up = m_util.correct_cam_quat_up;
 
@@ -358,105 +355,56 @@ exports.random_from_array = m_util.random_from_array;
 exports.horizontal_direction = m_util.horizontal_direction;
 
 /**
- * Calculate intersection point of a line and a plane.
- * @method module:util.line_plane_intersect
- * @see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
- * Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane
- * @param {Vec3} pn Plane normal.
- * @param {Number} p_dist Plane signed distance from the origin.
- * @param {Vec3} lp Point belonging to the line.
- * @param {Vec3} l_dir Line direction.
- * @param {Vec3} dest Destination vector.
- * @returns {?Vec3} Intersection point or null if the line is parallel to the plane.
- * @deprecated use {@link module:math.line_plane_intersect|math.line_plane_intersect} instead.
- */
-exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
-    m_print.error_deprecated("util.line_plane_intersect", "math.line_plane_intersect");
-    _pline_tmp[0] = lp[0];
-    _pline_tmp[1] = lp[1];
-    _pline_tmp[2] = lp[2];
-
-    _pline_tmp[3] = l_dir[0];
-    _pline_tmp[4] = l_dir[1];
-    _pline_tmp[5] = l_dir[2];
-    return m_util.line_plane_intersect(pn, p_dist, _pline_tmp, dest);
-}
-
-/**
- * Check if object is of type MESH
- * @method module:util.is_mesh
- * @param {Object3D} obj Object 3D
- * @returns {Boolean} Check result
- * @deprecated use {@link module:objects.is_mesh|objects.is_mesh} instead.
- */
-exports.is_mesh = function(obj) {
-    m_print.error_deprecated("util.is_mesh", "objects.is_mesh");
-    return m_obj_util.is_mesh(obj);
-}
-
-/**
- * Check if object is of type ARMATURE
- * @method module:util.is_armature
- * @param {Object3D} obj Object 3D
- * @returns {Boolean} Check result
- * @deprecated use {@link module:objects.is_armature|objects.is_armature} instead.
- */
-exports.is_armature = function(obj) {
-    m_print.error_deprecated("util.is_armature", "objects.is_armature");
-    return m_obj_util.is_armature(obj);
-}
-
-/**
  * Convert radian angle into range [0, 2PI)
  * @method module:util.angle_wrap_0_2pi
- * @param {Number} angle Angle in radians
- * @returns {Number} Converted angle
+ * @param {number} angle Angle in radians
+ * @returns {number} Converted angle
  */
 exports.angle_wrap_0_2pi = m_util.angle_wrap_0_2pi;
 
 /**
  * Convert radian angle into custom range [from, to)
  * @method module:util.angle_wrap_periodic
- * @param {Number} angle Angle in radians
- * @param {Number} from Value from in radians
- * @param {Number} to Value to in radians
- * @returns {Number} Converted angle
+ * @param {number} angle Angle in radians
+ * @param {number} from Value from in radians
+ * @param {number} to Value to in radians
+ * @returns {number} Converted angle
  */
 exports.angle_wrap_periodic = m_util.angle_wrap_periodic;
 
 /**
  * Smooth step function.
  * @method module:util.smooth_step
- * @param {Number} t Input value.
- * @param {Number} min Min clamping value.
- * @param {Number} max Max clamping value.
- * @returns {Number} Result value.
+ * @param {number} t Input value.
+ * @param {number} min Min clamping value.
+ * @param {number} max Max clamping value.
+ * @returns {number} Result value.
  */
 exports.smooth_step = m_util.smooth_step;
 
 /**
  * Linear interpolation function.
  * @method module:util.lerp
- * @param {Number} t Input value.
- * @param {Number} from Start interpolation value.
- * @param {Number} to End interpolation value.
- * @returns {Number} Result value.
+ * @param {number} t Input value.
+ * @param {number} from Start interpolation value.
+ * @param {number} to End interpolation value.
+ * @returns {number} Result value.
  */
 exports.lerp = m_util.lerp;
 
 /**
  * Convert degrees to radians.
  * @method module:util.deg_to_rad
- * @param {Number} degrees Angle in degrees.
- * @returns {Number} Angle in radians.
+ * @param {number} degrees Angle in degrees.
+ * @returns {number} Angle in radians.
  */
 exports.deg_to_rad = m_util.deg_to_rad;
 
 /**
  * Convert radians to degrees.
  * @method module:util.rad_to_deg
- * @param {Number} radians Angle in radians.
- * @returns {Number} Angle in degrees.
+ * @param {number} radians Angle in radians.
+ * @returns {number} Angle in degrees.
  */
 exports.rad_to_deg = m_util.rad_to_deg;
 /**
@@ -471,7 +419,7 @@ exports.dir_to_quat = m_util.dir_to_quat;
 
 /**
  * Check if Internet Explorer 11 is using.
- * @returns {Boolean} Check result.
+ * @returns {boolean} Check result.
  */
 exports.is_ie11 = m_compat.is_ie11;
 

@@ -238,13 +238,6 @@ Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不�
 参见: 透明
 
 
-输出参数
-~~~~~~~~
-
-*Color*
-   输出颜色。
-
-
 替换（B4W_REPLACE）
 -------------------
 
@@ -425,15 +418,21 @@ Blend4Web支持所有标准的Blender节点，但他们中的一些工作的不�
 Cycles 节点
 ===========
 
-注解: Cycles节点的支持是不建议在生产中使用环境的实验性功能。
+注解: Cycles节点的支持是不建议在生产中使用环境的实验性功能。It
+  should also be noted that using Cycles nodes in Blend4Web will
+  produce images similar, but not identical to the ones created using
+  Cycles renderer itself.
 
 引擎支持以下 "Cycles" 节点︰
 
-* "材质输出"' （只有 "Surface"  输入支持）;
+* "Material Output" (only "Surface" and "Displacement" inputs are
+  supported);
 
 * "BSDF Diffuse";
 
 * "BSDF Glossy" (只支持 "GGX" 分布;  "Roughness" 参数不影响反射);
+
+* "Transparent BSDF";
 
 * "Mix Shader";
 
@@ -457,7 +456,7 @@ Cycles 节点
 
 * "Geometry" (  "Pointness" 和 "Parametric" 参数不支持).
 
-* "Emission" (does not influence the lighting of the scene).
+* "Emission" (不会影响场景中的打灯效果).
 
 其他 "Cycles" 节点在大多数情况下在不会在Blend4Web中跟他们在Blender中一
 样良好工作。他们不会工作也可能引起材质的不正常显示和工作。但是，使用这

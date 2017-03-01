@@ -29,7 +29,7 @@ exports.init = function() {
     m_app.init({
         autoresize: true,
         callback: init_cb,
-        canvas_container_id: "canvas_cont",
+        canvas_container_id: "main_canvas_container",
         physics_enabled: true,
         show_fps: true,
         assets_dds_available: !DEBUG,

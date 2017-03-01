@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2016 Triumph LLC
+ * Copyright (C) 2014-2017 Triumph LLC
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,6 +89,7 @@ var _play_media_btn = null;
 var _play_media_bkg = null;
 var _canvas_container_z_index = 0;
 var _media_data_init = false;
+var _init_media = null;
 
 var SECONDARY_LOAD_TYPES_DISABLED = ["LAMP", "CAMERA"];
 var ADD_PHY_TYPES = ["MESH", "CAMERA", "EMPTY"];
@@ -343,8 +344,6 @@ function prepare_bindata(bpy_data, thread, stage, cb_param, cb_finish,
 
     var is_le = m_util.check_endians();
 
-    var headers = get_header(bin_data);
-
     prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le, B4W_HEADER_OFFSET);
     prepare_bindata_psystems(bin_data, bin_offsets, objects, is_le, B4W_HEADER_OFFSET);
     prepare_bindata_actions(bin_data, bin_offsets, actions, is_le, B4W_HEADER_OFFSET);
@@ -371,7 +370,6 @@ function check_bin_data_version(bin_data, bpy_data) {
 }
 
 function get_header(bin_data) {
-    var has_data = new Uint8Array(bin_data, 0, 4);
     var major_version = new Uint32Array(bin_data, 4, 1)[0];
     var minor_version = new Uint32Array(bin_data, 8, 1)[0];
     return [major_version, minor_version];
@@ -421,6 +419,16 @@ function prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le, b4w_off
             }
 
             setup_tbn_quat(meshes[i], submeshes[j]);
+
+            // NOTE: temporary backward compatibility
+            if ("texcoord2" in submeshes[j]) {
+                var texcoord_combined = new Float32Array(
+                        submeshes[j]["texcoord"].length + submeshes[j]["texcoord2"].length);
+                texcoord_combined.set(submeshes[j]["texcoord"]);
+                texcoord_combined.set(submeshes[j]["texcoord2"], submeshes[j]["texcoord"].length);
+                submeshes[j]["texcoord"] = texcoord_combined;
+                delete submeshes[j]["texcoord2"];
+            }
         }
     }
 }
@@ -466,7 +474,7 @@ function setup_tbn_quat(mesh, submesh) {
                     var quat2 = m_util.get_tbn_quat(normal2, tangent2, _quat_tmp2);
 
                     var inv_quat1 = m_quat.invert(quat1, _quat_tmp);
-                    var delta_quat = m_quat.multiply(quat2, quat1, _quat_tmp);
+                    var delta_quat = m_quat.multiply(quat2, inv_quat1, _quat_tmp);
                 } else {
                     var delta_quat = m_quat.rotationTo(normal1, normal2, _quat_tmp);
                 }
@@ -621,7 +629,7 @@ function extract_bindata_uchar(bin_data, offset, length) {
     var arr = new Float32Array(length);
     var dataview = new DataView(bin_data);
     for (var i = 0; i < length; i++)
-        arr[i] = dataview.getUint8(offset + i * m_util.BYTE_SIZE, true) / 255;
+        arr[i] = dataview.getUint8(offset + i * m_util.BYTE_SIZE) / 255;
     return arr;
 }
 
@@ -660,22 +668,6 @@ function report_empty_submeshes(bpy_data) {
     }
 }
 
-function report_odd_uvs(meshes) {
-    for (var i = 0; i < meshes.length; i++) {
-        var mesh = meshes[i];
-        var materials = mesh["materials"];
-        var submeshes = mesh["submeshes"];
-
-        if (!materials.length) {
-            // Unnecessary uv maps
-            if(mesh["uv_textures"].length)
-                m_print.warn("mesh \"" + mesh["name"]
-                             + "\" has a UV map but has no exported material.");
-
-        }
-    }
-}
-
 function prepare_bpy_data(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
@@ -687,7 +679,6 @@ function prepare_bpy_data(bpy_data, thread, stage, cb_param, cb_finish,
     create_bpy_textures(bpy_data, thread);
 
     report_empty_submeshes(bpy_data);
-    report_odd_uvs(bpy_data["meshes"]);
 
     create_special_materials(bpy_data);
     assign_default_material(bpy_data);
@@ -730,26 +721,29 @@ function preload_sounds(bpy_data, thread, stage, cb_param, cb_finish,
         }
         var sound_path = m_util.normpath_preserve_protocol(
                         dir_path + speaker["sound"]["filepath"]);
-        var head_ext = m_assets.split_extension(sound_path);
-        var path_ext_low = head_ext[1].toLowerCase();
-        var ext = m_sfx.detect_audio_container(path_ext_low);
-
         add_sound_path(sound_assets, uuid, asset_type, sound_path,
                 thread.is_preloading);
     }
+    var pack_cb = function() {
+        cb_finish(thread, stage);
+    }
     if (sound_assets.length)
-        m_assets.enqueue(sound_assets, function(){}, function(){});
+        m_assets.enqueue(sound_assets, function(){}, pack_cb);
+    else
+        cb_finish(thread, stage);
 }
 
 function create_bpy_textures(bpy_data, thread) {
     var dir_path = dirname(thread.filepath);
-    var textures = bpy_data["textures"];
+    var bpy_textures = bpy_data["textures"];
     var global_af = get_global_anisotropic_filtering(bpy_data, thread);
-    for (var i = 0; i < textures.length; i++) {
+    for (var i = 0; i < bpy_textures.length; i++) {
+        var bpy_tex = bpy_textures[i];
         // NOTE: disable offscreen rendering for secondary loaded data
-        if ((!thread.is_primary) && (textures[i]["b4w_source_type"] == "SCENE"))
-            textures[i]["b4w_source_id"] = "";  
-        m_tex.create_texture_bpy(textures[i], global_af, bpy_data["scenes"], thread.id, dir_path);
+        if ((!thread.is_primary) && (bpy_tex["b4w_source_type"] == "SCENE"))
+            bpy_tex["b4w_source_id"] = "";
+        var tex = m_tex.create_texture_bpy(bpy_tex, global_af, bpy_data["scenes"], thread.id, dir_path);
+        bpy_tex._render = tex;
     }
 }
 
@@ -841,10 +835,23 @@ function prepare_bpy_worlds(bpy_data, thread) {
     for (var i = 0; i < bpy_data["scenes"].length; i++) {
         var bpy_scene = bpy_data["scenes"][i];
         var bpy_world = bpy_scene["world"];
-
         if (!bpy_world._scenes)
             bpy_world._scenes = [];
         bpy_world._scenes.push(thread.is_primary ? bpy_scene : _primary_scene);
+    }
+
+    // drop worlds without scene users
+    var removed_worlds = [];
+    for (var i = 0; i < bpy_data["worlds"].length; i++) {
+        var world = bpy_data["worlds"][i];
+        if (!world._scenes)
+            removed_worlds.push(world);
+    }
+
+    for (var i = 0; i < removed_worlds.length; i++) {
+        var world = removed_worlds[i];
+        var ind = bpy_data["worlds"].indexOf(world);
+        bpy_data["worlds"].splice(ind,1);
     }
 }
 
@@ -1047,7 +1054,7 @@ function process_bpy_objects_hierarchy(bpy_data, thread) {
         if (dg_group) {
             var objects = dg_group["objects"];
             for (var j = 0; j < objects.length; j++) {
-                var dg_obj = objects[j];
+                dg_obj = objects[j];
                 dg_obj._is_hair_dupli = true;
                 _all_objects_cache[thread.id].push(dg_obj);
             }
@@ -1122,7 +1129,7 @@ function process_objects(bpy_data, thread, stage, cb_param, cb_finish,
     var bpy_worlds = bpy_data["worlds"];
     create_objects_from_bpy(bpy_data, bpy_objects, thread.id);
     create_world_objects_from_bpy(bpy_data, bpy_worlds, thread.id);
-    var objects = m_obj.get_all_objects(thread.id);
+    var objects = m_obj.get_all_objects("ALL", thread.id);
 
     // update new objects (after creating - for making links beetween 
     // objects: parenting, duplication, ...)
@@ -1168,7 +1175,7 @@ function create_objects_from_bpy(bpy_data, bpy_objects, data_id) {
     // create new objects
     for (var i = 0; i < bpy_objects.length; i++) {
         var bpy_obj = bpy_objects[i];
-        
+
         var obj = m_obj_util.create_object(bpy_obj["name"], bpy_obj["type"], 
                 bpy_obj["origin_name"]);
         
@@ -1209,13 +1216,31 @@ function create_world_objects_from_bpy(bpy_data, bpy_worlds, data_id) {
 
 function calc_light_index(bpy_data, data_id) {
     for (var i = 0; i < bpy_data["scenes"].length; i++) {
-        var scene = bpy_data["scenes"][i];
-        var lamps_counter = 0;
-        var scene_objs = m_obj.get_scene_objs(scene, "LAMP", data_id);
-        for (var j = 0; j < scene_objs.length; j++) {
-            var obj = scene_objs[j];
-            var sc_data = m_obj_util.get_scene_data(obj, scene);
-            sc_data.light_index = lamps_counter++;
+        var scene = bpy_data["scenes"][i]; 
+        var lamps = m_obj.get_scene_objs(scene, "LAMP", data_id);
+
+        var lamp_indexes = new Array(lamps.length);
+        for (var j = 0; j < lamps.length; j++)
+            lamp_indexes[j] = j;
+
+        lamp_indexes.sort(function(a, b) {
+            var l1 = lamps[a].light;
+            var l2 = lamps[b].light;
+            if (l2.use_diffuse && l2.use_specular &&
+                !(l1.use_diffuse && l1.use_specular))
+                return 1;
+            if (!l1.use_diffuse)
+                if(l2.use_diffuse || (!l1.use_specular && l2.use_specular))
+                    return 1;
+            return 0;
+        });
+
+        // NOTE: sort lamps due to lamp limit (need to preserve most valuable), 
+        // sorting mainly for iPADs
+        for (var j = 0; j < lamp_indexes.length; j++) {
+            var lamp = lamps[lamp_indexes[j]];
+            var lamp_sc_data = m_obj_util.get_scene_data(lamp, scene);
+            lamp_sc_data.light_index = j;
         }
     }
 }
@@ -1244,7 +1269,6 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         // var bpy_scene_objs = get_bpy_cache_scene(thread.id, scene_dst, "ALL");
         var bpy_mesh_objs = get_bpy_cache_scene(thread.id, scene_dst, "MESH");
         var bpy_empty_objs = get_bpy_cache_scene(thread.id, scene_dst, "EMPTY");
-        var bpy_world_objs = get_bpy_cache_scene(thread.id, scene_dst, "WORLD");
 
         if (thread.is_primary)
             m_scenes.append_scene(scene_dst, scene_objs, lamps, bpy_mesh_objs, 
@@ -1299,14 +1323,14 @@ function process_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         }
 
         // original and meta objects both
-        var scene_objs = m_obj.get_scene_objs(scene_dst, "ALL", thread.id);
+        scene_objs = m_obj.get_scene_objs(scene_dst, "ALL", thread.id);
         m_scenes.assign_scene_data_subs(scene_dst, scene_objs, lamps);
 
         // update boundings for shape keys objs
         // and props for zup tsrs
         for (var j = 0; j < scene_objs.length; j++) {
             var obj = scene_objs[j];
-            if (obj.render.use_shape_keys)
+            if (obj.render.use_shape_keys && !obj.is_boundings_overridden)
                 m_obj.update_boundings(obj);
 
             if (m_obj_util.check_inv_zup_tsr_is_needed(obj))
@@ -1394,13 +1418,13 @@ function setup_dds_loading(bpy_data) {
                 continue;
 
             var image = texture["image"];
-            if (image && !image._is_compressed) {
-                var is_compressed = !texture["b4w_disable_compression"] &&
-                                !texture_slot["use_map_normal"] &&
-                                texture["type"] != "ENVIRONMENT_MAP" &&
-                                !texture["b4w_shore_dist_map"] &&
-                                image["source"] != "MOVIE";
-                set_image_compress_format(image, is_compressed);
+            if (image && !image._comp_method) {
+                var use_compression = !texture["b4w_disable_compression"] &&
+                                      !texture_slot["use_map_normal"] &&
+                                      texture["type"] != "ENVIRONMENT_MAP" &&
+                                      !texture["b4w_shore_dist_map"] &&
+                                      image["source"] != "MOVIE";
+                set_image_compress_format(image, use_compression);
             }
         }
 
@@ -1411,27 +1435,27 @@ function setup_dds_loading(bpy_data) {
 
             for (var j = 0; j < nodes.length; j++) {
                 var node = nodes[j];
-                var is_compressed = false;
+                var use_compression = false;
 
                 if (node["type"] == "TEXTURE") {
                     var tex = node["texture"];
                     if (tex) {
                         var image = tex["image"];
-                        if (image && !image._is_compressed)
-                            is_compressed = !tex["b4w_disable_compression"] &&
-                                                tex["image"]["source"] != "MOVIE" &&
-                                                tex["type"] != "ENVIRONMENT_MAP" &&
-                                                !check_normal_output(node);
+                        if (image && !image._comp_method)
+                            use_compression = !tex["b4w_disable_compression"] &&
+                                              tex["image"]["source"] != "MOVIE" &&
+                                              tex["type"] != "ENVIRONMENT_MAP" &&
+                                              !check_normal_output(node);
                     }
                 } else if (node["type"] == "TEX_IMAGE") {
                     var image = node["image"];
-                    if (image && !image._is_compressed)
-                        is_compressed = image["source"] != "MOVIE";
+                    if (image && !image._comp_method)
+                        use_compression = image["source"] != "MOVIE";
                 } else if (node["type"] == "TEX_ENVIRONMENT") {
-                    is_compressed = false;
+                    use_compression = false;
                 }
-                if (image && !image._is_compressed)
-                    set_image_compress_format(image, is_compressed);
+                if (image && !image._comp_method)
+                    set_image_compress_format(image, use_compression);
             }
         }
     }
@@ -1447,15 +1471,13 @@ function check_normal_output(bpy_node) {
     return false;
 }
 
-function set_image_compress_format(image, is_compressed) {
+function set_image_compress_format(image, use_compression) {
     if (image["filepath"].indexOf(".dds") > -1) {
         // dds texture was used in blender - so just mark it as dds
         // this is mostly a debug feature, so s3tc ext check is not performed
-        image._is_compressed = true;
         image._comp_method = "dds";
     } else {
-        image._is_compressed = is_compressed;
-        if (is_compressed) {
+        if (use_compression) {
             // check: load texture as usual or as dds; then if needed mark it as dds and adjust filepath
             image._comp_method = cfg_def.compress_format;
             if (cfg_def.compress_format == "dds") {
@@ -1474,7 +1496,6 @@ function unset_images_dds(images) {
         var use_dds = Boolean(image["source"] == "FILE" &&
                               image["filepath"].indexOf(".dds") > -1 &&
                               cfg_def.compress_format == "dds")
-        image._is_compressed = use_dds;
         if (use_dds)
             image._comp_method = "dds";
         else
@@ -2155,10 +2176,12 @@ function gen_datablocks_storage(bpy_data) {
 }
 
 function make_link_uuid(storage, prop, uuid_storage) {
-    var entity_new = uuid_storage[storage[prop]["uuid"]];
-    if (!entity_new)
-        m_print.error("Dangling link found:", prop, storage);
-    storage[prop] = entity_new;
+    if (storage[prop]) {
+        var entity_new = uuid_storage[storage[prop]["uuid"]];
+        if (!entity_new)
+            m_print.error("Dangling link found:", prop, storage);
+        storage[prop] = entity_new;
+    }
 }
 
 function make_link_name(storage, property, search_here) {
@@ -2201,7 +2224,7 @@ function load_images(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) 
             var image_source = image["source"];
 
             if (image_source === "FILE") {
-                if (image._is_compressed)
+                if (image._comp_method)
                     var asset_type = m_assets.AT_ARRAYBUFFER;
                 else
                     var asset_type = m_assets.AT_IMAGE_ELEMENT;
@@ -2210,7 +2233,7 @@ function load_images(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) 
                 var path_ext_low = head_ext[1].toLowerCase();
 
                 if (!m_assets.check_image_extension(path_ext_low)) {
-                    m_print.error("image ", image, " has unsupported format.");
+                    m_print.error("image \"" + image["name"] + "\" has unsupported format or broken path.");
                     continue;
                 }
 
@@ -2248,15 +2271,14 @@ function load_images(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) 
                 continue;
             }
 
-            if (!thread.is_preloading) {
-                if (!(uuid in image_users)) 
-                    image_users[uuid] = [];
+            if (!(uuid in image_users)) 
+                image_users[uuid] = [];
 
-                for (var j = 0; j < textures.length; j++) {
-                    var texture = textures[j];
-                    if (texture.img_uuid == uuid && texture.img_comp_method == image._comp_method) {
-                        image_users[uuid].push(texture);
-                    }
+            for (var j = 0; j < textures.length; j++) {
+                var texture = textures[j];
+                if (texture.img_uuid == uuid && texture.img_comp_method == image._comp_method
+                        || thread.is_preloading) {
+                    image_users[uuid].push(texture);
                 }
             }
 
@@ -2281,7 +2303,6 @@ function load_images(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) 
                     var tex_users = image_users[uri];
                     for (var i = 0; i < tex_users.length; i++) {
                         var tex_user = tex_users[i];
-                        var filepath = tex_user.img_filepath;
                         if (type == m_assets.AT_SEQ_VIDEO_ELEMENT) {
                             tex_user.seq_fps = image_data.fps;
                             m_tex.update_texture(tex_user, image_data.images, thread.id);
@@ -2365,7 +2386,7 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
     var sound_assets = [];
     var spks_by_uuid = {};
 
-    var objects = m_obj.get_all_objects(thread.id);
+    var objects = m_obj.get_all_objects("ALL", thread.id);
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
 
@@ -2552,18 +2573,6 @@ function prepare_bpy_lods(bpy_data) {
             var bpy_obj = scene_objs[j];
             prepare_bpy_obj_lods(scene_objs, bpy_obj, null, added_objs,
                     removed_objs);
-
-            var dupli_group = bpy_obj["dupli_group"];
-            if (dupli_group) {
-                var dg_objects = dupli_group["objects"];
-
-                for (var k = 0; k < dg_objects.length; k++) {
-                    var dg_obj = dg_objects[k];
-
-                    prepare_bpy_obj_lods(dg_objects, dg_obj, bpy_obj,
-                            added_objs, removed_objs);
-                }
-            }
         }
 
         for (var j = 0; j < removed_objs.length; j++)
@@ -2575,9 +2584,6 @@ function prepare_bpy_lods(bpy_data) {
 }
 
 function prepare_bpy_obj_lods(container, lod_parent_bpy, dg_parent_bpy, added_objs, removed_objs) {
-
-    if (!(lod_parent_bpy["lod_levels"] && lod_parent_bpy["lod_levels"].length))
-        return;
 
     var lods_num = lod_parent_bpy["lod_levels"].length;
 
@@ -2607,6 +2613,16 @@ function prepare_bpy_obj_lods(container, lod_parent_bpy, dg_parent_bpy, added_ob
         removed_objs.push(lod_obj);
 
         lod["object"] = lod_obj_new;
+    }
+    var dupli_group = lod_parent_bpy["dupli_group"];
+    if (dupli_group) {
+        var dg_objects = dupli_group["objects"];
+        for (var k = 0; k < dg_objects.length; k++) {
+            var dg_obj = dg_objects[k];
+
+            prepare_bpy_obj_lods(dg_objects, dg_obj, lod_parent_bpy,
+                    added_objs, removed_objs);
+        }
     }
 }
 
@@ -2687,6 +2703,7 @@ function prepare_lod_objects(bpy_objects) {
             var bpy_lod_obj = bpy_obj["lod_levels"][j]["object"];
 
             if (bpy_lod_obj) {
+
                 var lod_obj = bpy_lod_obj._object;
                 lod_obj.render.is_lod = true;
                 // inherit transition ratio from the first LOD
@@ -2974,19 +2991,28 @@ function remove_bpy_object(remobj, bpy_scenes) {
             var bpy_obj = bpy_objs[j];
 
             var dupli_group = bpy_obj["dupli_group"];
-            if (dupli_group) {
-                var dg_objects = dupli_group["objects"];
-
-                obj_index = dg_objects.indexOf(remobj);
-                if (obj_index > -1)
-                    dg_objects.splice(obj_index, 1);
-            }
+            if (dupli_group)
+                remove_obj_from_dupli_group_r(remobj, dupli_group);
         }
 
         // from scene
         var obj_index = bpy_objs.indexOf(remobj);
         if (obj_index > -1)
             bpy_objs.splice(obj_index, 1);
+    }
+}
+
+function remove_obj_from_dupli_group_r(remobj, dupli_group) {
+    var dg_objects = dupli_group["objects"];
+    var obj_index = dg_objects.indexOf(remobj);
+    if (obj_index > -1)
+        dg_objects.splice(obj_index, 1);
+
+    for (var i = 0; i < dg_objects.length; i++) {
+        var bpy_obj = dg_objects[i];
+        dupli_group = bpy_obj["dupli_group"];
+        if (dupli_group)
+            remove_obj_from_dupli_group_r(remobj, dupli_group);
     }
 }
 
@@ -3071,7 +3097,7 @@ function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
                 var image_path = m_util.normpath_preserve_protocol(dir_path + 
                         shoremap_image["filepath"]);
 
-                if (shoremap_image._is_compressed)
+                if (shoremap_image._comp_method)
                     var asset_type = m_assets.AT_ARRAYBUFFER;
                 else
                     var asset_type = m_assets.AT_IMAGE_ELEMENT;
@@ -3177,7 +3203,6 @@ function load_smaa_textures(bpy_data, thread, stage, cb_param, cb_finish,
 
     var smaa_images = [];
 
-    var dir_path = dirname(thread.filepath);
     var asset_type = m_assets.AT_IMAGE_ELEMENT;
 
     var search_texture_path = m_cfg.paths.smaa_search_texture_path;
@@ -3288,9 +3313,8 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
         var scene = obj_data[obj_counter].scene;
         var sc_data = m_obj_util.get_scene_data(obj, scene);
 
-        m_scenes.append_object(scene, obj, false);
-        if (obj.anchor && !scene._render.hmd_stereo_use &&
-                !scene._render.anaglyph_use)
+        m_scenes.append_object(scene, obj);
+        if (obj.anchor && !scene._render.anaglyph_use)
             m_anchors.append(obj);
         var rate = ++cb_param.obj_counter / obj_data.length;
 
@@ -3332,19 +3356,8 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
     } else
         m_scenes.update_scene_permanent_uniforms(_primary_scene);
 
-    var objects = m_obj.get_all_objects(thread.id);
+    var objects = m_obj.get_all_objects("ALL", thread.id);
     m_obj.update_objects_dynamics(objects);
-
-    // remove unused batches
-    for (var k = 0; k < objects.length; k++) {
-        var obj = objects[k];
-        for (var i = 0; i < obj.scenes_data.length; i++) {
-            var batches = obj.scenes_data[i].batches;
-            for (var j = 0; j < batches.length; j++)
-                if (batches[j].shader == null)
-                    batches.splice(j--, 1);
-        }
-    }
 
     cb_finish(thread, stage);
 }
@@ -3426,9 +3439,7 @@ function create_media_controls(bpy_data, cb_finish, thread, stage) {
 
     _play_media_bkg.appendChild(_play_media_btn);
 
-    _play_media_btn.addEventListener("click", init_media, false);
-
-    function init_media() {
+    _init_media = function() {
 
         if (thread.has_video_textures) {
             m_tex.play();
@@ -3452,12 +3463,15 @@ function create_media_controls(bpy_data, cb_finish, thread, stage) {
         remove_media_controls();
         cb_finish(thread, stage);
     }
+
+    m_input.add_click_listener(_play_media_btn, _init_media);
 }
 
 function remove_media_controls() {
     if (_play_media_btn) {
         var canvas_container = _canvas.parentElement;
         canvas_container.style.zIndex = _canvas_container_z_index;
+        m_input.remove_click_listener(_play_media_btn, _init_media);
         _play_media_bkg.removeChild(_play_media_btn);
         canvas_container.removeChild(_play_media_bkg);
         _play_media_bkg = null;
@@ -3735,8 +3749,8 @@ exports.unload = function(data_id) {
     // not even started loading
     // NOTE: data_id = 0 always allowed to unload
     var scheduler = m_loader.get_scheduler();
-    if (!scheduler || !scheduler.threads.length || data_id
-            && !m_loader.thread_is_finished(scheduler.threads[data_id])) {
+    if (!scheduler || !scheduler.threads.length || 
+            !m_loader.thread_is_finished(scheduler.threads[data_id])) {
         m_print.error("Unable to unload data!");
         return;
     }
@@ -3778,7 +3792,7 @@ exports.unload = function(data_id) {
         m_anim.remove_actions(data_id);
 
         // mark all objects
-        var objs = m_obj.get_all_objects(m_obj.DATA_ID_ALL);
+        var objs = m_obj.get_all_objects("ALL", m_obj.DATA_ID_ALL);
         for (var i = 0; i < objs.length; i++) {
             var obj = objs[i];
             // keep WebGL data for objects that will stay on the scene
@@ -3787,7 +3801,7 @@ exports.unload = function(data_id) {
         }
 
         // unload 
-        var objs = m_obj.get_all_objects(data_id);
+        objs = m_obj.get_all_objects("ALL", data_id);
         for (var i = objs.length - 1; i >= 0; i--) {
             var obj = objs[i];
             prepare_object_unloading(obj);
@@ -3795,7 +3809,7 @@ exports.unload = function(data_id) {
         }
 
         // revert flags
-        var objs = m_obj.get_all_objects(m_obj.DATA_ID_ALL);
+        objs = m_obj.get_all_objects("ALL", m_obj.DATA_ID_ALL);
         for (var i = 0; i < objs.length; i++)
             m_obj.obj_switch_cleanup_flags(objs[i], true, true, true);
     }
