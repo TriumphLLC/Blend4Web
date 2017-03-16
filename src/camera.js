@@ -127,7 +127,7 @@ exports.camera_object_to_camera = function(bpy_camobj, camobj) {
         // NOTE: expect some issues with camera sensor fit
         var fov = camobj_data["angle"];
         
-        if (cfg_def.depth_16bit_persp_cam_hack) {
+        if (cfg_def.amd_depth_hack) {
             var near = camobj_data["clip_start"];
             var far = camobj_data["clip_end"];
             

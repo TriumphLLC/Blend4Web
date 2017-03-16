@@ -179,7 +179,7 @@ exports.client_to_canvas_coords = function(client_x, client_y, dest) {
 
 exports.client_to_element_coords = client_to_element_coords;
 function client_to_element_coords(client_x, client_y, element, dest) {
-    if (!cfg_def.ie11_edge_touchscreen_hack) {
+    if (!cfg_def.ie11_edge_mouseoffset_hack) {
         // NOTE: hacky things.
         // Autoconvert client_x/client_y to offsetX/offsetY using custom MouseEvent
         _mouse_event_param.clientX = client_x;

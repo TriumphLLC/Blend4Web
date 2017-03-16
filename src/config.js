@@ -186,6 +186,8 @@ exports.defaults = {
 
     ie_edge_anchors_floor_hack : false,
 
+    ie11_edge_mouseoffset_hack : false,
+
     media_auto_activation      : true,
 
     max_cast_lamps             : 4,
@@ -210,7 +212,7 @@ exports.defaults = {
 
     ios_copy_tex_hack          : false,
 
-    depth_16bit_persp_cam_hack : false
+    amd_depth_hack             : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);

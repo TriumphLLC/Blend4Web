@@ -1208,10 +1208,7 @@ function get_image2d_type(texture) {
         type = _gl.FLOAT;
         break;
     case exports.TT_DEPTH:
-        if (cfg_lim.depth_bits == 16)
-            type = _gl.UNSIGNED_SHORT;
-        else
-            type = _gl.UNSIGNED_INT;
+        type = cfg_def.amd_depth_hack ? _gl.UNSIGNED_SHORT: _gl.UNSIGNED_INT;
         break;
     default:
         m_util.panic("Wrong texture type");

@@ -82,12 +82,8 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
     cfg_lim.max_texture_size = gl.getParameter(gl.MAX_TEXTURE_SIZE);
     cfg_lim.max_viewport_dims = gl.getParameter(gl.MAX_VIEWPORT_DIMS);
 
-    // NOTE: don't use gl.getParameter(gl.DEPTH_BITS), because:
-    // - 32 can lead to differ format between textures(max native 24bit) and 
-    // renderbuffers(32bit);
-    // - 24 under WebGL 1 leads to crash on IE11
-    // - 16 can lead to depth bugs due to the camera range settings
-    cfg_lim.depth_bits = 24;
+    // NOTE: don't use gl.getParameter(gl.DEPTH_BITS)
+    cfg_lim.depth_bits = cfg_def.webgl2 ? 24 : 16;
 
     if (cfg_def.webgl2 && !cfg_dbg.enabled)
         cfg_def.compared_mode_depth = true;
@@ -118,11 +114,6 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
             check_user_agent("Firefox")) {
         warn("Firefox detected, disabling multisample");
         cfg_def.msaa_samples = 1;
-    }
-
-    if (is_ie11()) {
-        warn("IE11 detected, use 16 bit depth.");
-        cfg_lim.depth_bits = 16;
     }
 
     m_render.set_draw_methods();
@@ -235,6 +226,12 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_phy.use_workers = false;
     }
 
+    if (check_user_agent("Firefox") && check_user_agent("Windows")) {
+        warn("Firefox and Windows detected, use 16 bit depth.");
+        cfg_lim.depth_bits = 16;
+        cfg_def.amd_depth_hack = true;
+    }
+
     // NOTE: check compatibility for particular device
     var rinfo = m_ext.get_renderer_info();
     if (rinfo) {
@@ -244,8 +241,9 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
 
         if (renderer.indexOf("AMD") > -1 && check_user_agent("Windows") 
                 && check_user_agent("Chrome") && !(is_ie11() || check_user_agent("Edge"))) {
-            warn("AMD, Windows and Chrome detected, use 16 bit depth.");
+            warn("AMD, Windows and Chrome detected, use 16 bit depth and applying depth hack.");
             cfg_lim.depth_bits = 16;
+            cfg_def.amd_depth_hack = true;
         }
 
         if (vendor.indexOf("ARM") > -1 && mali_4x_re.test(renderer)) {
@@ -359,8 +357,10 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_def.ie11_edge_touchscreen_hack = true;
     }
 
-    if (is_ie11() || check_user_agent("Edge"))
+    if (is_ie11() || check_user_agent("Edge")) {
         cfg_def.ie_edge_anchors_floor_hack = true;
+        cfg_def.ie11_edge_mouseoffset_hack = true;
+    }
 
     if (detect_mobile() && check_user_agent("Firefox")) {
         m_print.log("Mobile firefox detected. Applying autoplay media hack."
@@ -370,9 +370,6 @@ exports.set_hardware_defaults = function(gl, print_warnings) {
         cfg_lim.max_texture_size = 4096;
         cfg_lim.max_cube_map_texture_size = 4096;
     }
-
-    if (cfg_lim.depth_bits == 16)
-        cfg_def.depth_16bit_persp_cam_hack = true;
 }
 
 exports.check_user_agent = check_user_agent;
