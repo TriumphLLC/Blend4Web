@@ -82,6 +82,7 @@ var m_print = require("__print");
  * @param {?Vec3} coll_norm Normal of collision point.
  * @param {?number} coll_dist Distance between collision points of colliding
  * objects.
+ * @cc_externs coll_obj coll_pos coll_norm coll_dist
  */
 /**
  * Ray sensor payload.
@@ -92,6 +93,7 @@ var m_print = require("__print");
  * @param {number} hit_time Time the hit happened.
  * @param {Vec3} hit_pos Hit position in world space.
  * @param {Vec3} hit_norm Hit normal in world space.
+ * @cc_externs hit_fract obj_hit hit_time hit_pos hit_norm
  */
 /**
  * Special callback for callback-sensor. It's executed every frame and

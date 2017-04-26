@@ -56,6 +56,7 @@ var m_nmesh = require("__navmesh");
  * @param {?Vec3} coll_norm Normal of collision point.
  * @param {?number} coll_dist Distance between collision points of colliding
  * objects.
+ * @cc_externs coll_obj coll_pos coll_norm coll_dist
  */
 
 /**
@@ -72,6 +73,7 @@ var m_nmesh = require("__navmesh");
  * or -1 if there is no hit anymore
  * @param {?Object3D} obj_hit Hit Object 3D
  * @param {number} hit_time Time the hit happened.
+ * @cc_externs hit_fract obj_hit hit_time
  */
 
 /**
@@ -84,6 +86,7 @@ var m_nmesh = require("__navmesh");
  * @param {number} hit_time Time the hit happened.
  * @param {Vec3} hit_pos Hit position in world space
  * @param {Vec3} hit_norm Hit normal in world space
+ * @cc_externs hit_fract obj_hit hit_time hit_pos hit_norm
  */
 
 /**
